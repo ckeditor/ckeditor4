@@ -59,7 +59,11 @@ var CKCONSOLE = (function() {
 			container = that.container = fromHtml( '<div class="ckconsole cke_reset_all"></div>' );
 			CKEDITOR.document.getBody().append( container );
 
-			var link = fromHtml( '<link rel="stylesheet" href="' + CKEDITOR.getUrl( 'dev/console/console.css' ) + '">' );
+			var link = new CKEDITOR.dom.element( 'link' );
+			link.setAttributes( {
+				rel: 'stylesheet',
+				href: CKEDITOR.getUrl( 'dev/console/console.css' )
+			} );
 			CKEDITOR.document.getHead().append( link );
 		}
 
@@ -206,13 +210,13 @@ var CKCONSOLE = (function() {
 	}
 
 	var editorPanelTpl = new CKEDITOR.template(
-			'<section class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header" onmousedown="return false">Editor: {name}</h1></section>'
+			'<div class="ckconsole_editor_panel"><h1 class="ckconsole_header ckconsole_editor_header" onmousedown="return false">Editor: {name}</h1></div>'
 		),
 		panelTpl = new CKEDITOR.template(
-			'<section class="ckconsole_panel ckconsole_folded">' +
+			'<div class="ckconsole_panel ckconsole_folded">' +
 				'<h1 class="ckconsole_header ckconsole_panel_header" onmousedown="return false">{header}</h1>' +
 				'{content}' +
-			'</section>'
+			'</div>'
 		),
 		logItemTpl = new CKEDITOR.template(
 			'<li class="ckconsole_log_item ckconsole_fresh_log_item"><time datetime="{time}" class="ckconsole_time">{time}</time> <code>{msg}</code></li>'
