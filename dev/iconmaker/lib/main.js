@@ -65,7 +65,7 @@
 
 			// If size is non-standard, check if a new directory needs to be created.
 			// Determine size directory, i.e. icons/32
-			dirName = path.join( path.dirname( iconPath ), size != DEFAULT_SIZE ? '' + size : '' ),
+			dirName = path.join( path.dirname( iconPath ), size != DEFAULT_SIZE ? 'hidpi' : '' ),
 			fileName = path.basename( iconPath );
 
 		// Update icon path because dirName may have changed.
