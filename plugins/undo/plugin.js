@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Undo/Redo system for saving shapshot for document modification
+ * @fileOverview Undo/Redo system for saving a shapshot for document modification
  *		and other recordable changes.
  */
 
@@ -110,7 +110,7 @@
 			}
 
 			/**
-			 * Reset undo stack.
+			 * Resets the undo stack.
 			 *
 			 * @member CKEDITOR.editor
 			 */
@@ -123,12 +123,12 @@
 			};
 
 			/**
-			 * Amend the top of undo stack (last undo image) with the current DOM changes.
+			 * Amends the top of the undo stack (last undo image) with the current DOM changes.
 			 *
 			 *		function() {
 			 *			editor.fire( 'saveSnapshot' );
 			 *			editor.document.body.append(...);
-			 *			// Make new changes following the last undo snapshot part of it.
+			 *			// Makes new changes following the last undo snapshot a part of it.
 			 *			editor.fire( 'updateSnapshot' );
 			 *			..
 			 *		}
@@ -143,15 +143,15 @@
 			} );
 
 			/**
-			 * Lock manager to prevent any save/update operations.
+			 * Locks the undo manager to prevent any save/update operations.
 			 *
-			 * It's convenient to lock manager before doing DOM operations
-			 * that shouldn't be recored (e.g. auto paragraphing).
+			 * It is convenient to lock the undo manager before performing DOM operations
+			 * that should not be recored (e.g. auto paragraphing).
 			 *
 			 * See {@link CKEDITOR.plugins.undo.UndoManager#lock} for more details.
 			 *
-			 * **Note:** In order to unlock the Undo Manager {@link #unlockSnapshot} has to be fired
-			 * number of times `lockSnapshot` has been fired.
+			 * **Note:** In order to unlock the undo manager, {@link #unlockSnapshot} has to be fired
+			 * the same number of times that `lockSnapshot` has been fired.
 			 *
 			 * @since 4.0
 			 * @event lockSnapshot
@@ -161,7 +161,7 @@
 			editor.on( 'lockSnapshot', undoManager.lock, undoManager );
 
 			/**
-			 * Unlock manager and update latest snapshot.
+			 * Unlocks the undo manager and updates the latest snapshot.
 			 *
 			 * @since 4.0
 			 * @event unlockSnapshot
@@ -175,7 +175,7 @@
 	CKEDITOR.plugins.undo = {};
 
 	/**
-	 * Undo snapshot which represents the current document status.
+	 * Undoes the snapshot which represents the current document status.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.undo.Image
@@ -241,9 +241,9 @@
 	};
 
 	/**
-	 * Main logic for Redo/Undo feature.
+	 * Main logic for the Redo/Undo feature.
 	 *
-	 * **Note:** This class isn't accessible from the global scope.
+	 * **Note:** This class is not accessible from the global scope.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.undo.UndoManager
@@ -259,19 +259,21 @@
 
 	UndoManager.prototype = {
 		/**
-		 * When `locked` property is not `null` manager is locked, so
+		 * When `locked` property is not `null`, the undo manager is locked, so
 		 * operations like `save` or `update` are forbidden.
 		 *
-		 * Manager can be locked/unlocked by {@link #lock} and {@link #unlock} methods.
+		 * The manager can be locked/unlocked by the {@link #lock} and {@link #unlock} methods.
 		 *
 		 * @private
 		 * @property {Object} [locked=null]
 		 */
 
 		/**
-		 * Process undo system regard keystrikes.
+		 * Handles keystroke support for the undo manager. It is called whenever a keystroke that
+		 * can change the editor contents is pressed.
+		 *
 		 * @param {Number} keystroke The key code.
-		 * @param {Boolean} isCharacter If `true` it is character ('a', '1', '&', ...), otherwise it is remove key (delete or backspace).
+		 * @param {Boolean} isCharacter If `true`, it is a character ('a', '1', '&', ...). Otherwise it is the remove key (*Delete* or *Backspace*).
 		 */
 		type: function( keystroke, isCharacter ) {
 			// Create undo snap for every different modifier key.
@@ -354,7 +356,7 @@
 		},
 
 		/**
-		 * Reset the undo stack.
+		 * Resets the undo stack.
 		 */
 		reset: function() {
 			// Remember last pressed key.
@@ -379,7 +381,7 @@
 		},
 
 		/**
-		 * Reset all states about typing.
+		 * Resets all typing variables.
 		 *
 		 * @see #type
 		 */
@@ -399,7 +401,7 @@
 		},
 
 		/**
-		 * Save a snapshot of document image for later retrieve.
+		 * Saves a snapshot of the document image for later retrieval.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			// Do not change snapshots stack when locked.
@@ -518,25 +520,25 @@
 		},
 
 		/**
-		 * Check the current redo state.
+		 * Checks the current redo state.
 		 *
-		 * @returns {Boolean} Whether the document has previous state to retrieve.
+		 * @returns {Boolean} Whether the document has a previous state to retrieve.
 		 */
 		redoable: function() {
 			return this.enabled && this.hasRedo;
 		},
 
 		/**
-		 * Check the current undo state.
+		 * Checks the current undo state.
 		 *
-		 * @returns {Boolean} Whether the document has future state to restore.
+		 * @returns {Boolean} Whether the document has a future state to restore.
 		 */
 		undoable: function() {
 			return this.enabled && this.hasUndo;
 		},
 
 		/**
-		 * Perform undo on current index.
+		 * Performs undo on current index.
 		 */
 		undo: function() {
 			if ( this.undoable() ) {
@@ -551,7 +553,7 @@
 		},
 
 		/**
-		 * Perform redo on current index.
+		 * Performs redo on current index.
 		 */
 		redo: function() {
 			if ( this.redoable() ) {
@@ -571,7 +573,7 @@
 		},
 
 		/**
-		 * Update the last snapshot of the undo stack with the current editor content.
+		 * Updates the last snapshot of the undo stack with the current editor content.
 		 */
 		update: function() {
 			// Do not change snapshots stack is locked.
@@ -580,13 +582,14 @@
 		},
 
 		/**
-		 * Lock the snapshot stack to prevent any save/update operations, and additionally
-		 * update the tip snapshot with the DOM changes during the locked period when necessary,
-		 * after the {@link #unlock} method is called.
+		 * Locks the snapshot stack to prevent any save/update operations and when necessary,
+		 * updates the tip of the snapshot stack with the DOM changes introduced during the
+		 * locked period, after the {@link #unlock} method is called.
 		 *
-		 * It's mainly used for ensure any DOM operations that shouldn't be recorded (e.g. auto paragraphing).
+		 * It is mainly used to ensure any DOM operations that should not be recorded
+		 * (e.g. auto paragraphing) are not added to the stack.
 		 *
-		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the Undo Manager.
+		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the undo manager.
 		 *
 		 * @since 4.0
 		 */
@@ -607,7 +610,7 @@
 		},
 
 		/**
-		 * Unlock the snapshot stack and check to amend the last snapshot.
+		 * Unlocks the snapshot stack and checks to amend the last snapshot.
 		 *
 		 * See {@link #lock} for more details.
 		 *
@@ -630,7 +633,7 @@
 })();
 
 /**
- * The number of undo steps to be saved. The higher this setting value the more
+ * The number of undo steps to be saved. The higher value is set, the more
  * memory is used for it.
  *
  *		config.undoStackSize = 50;
@@ -641,7 +644,7 @@
 
 /**
  * Fired when the editor is about to save an undo snapshot. This event can be
- * fired by plugins and customizations to make the editor saving undo snapshots.
+ * fired by plugins and customizations to make the editor save undo snapshots.
  *
  * @event saveSnapshot
  * @member CKEDITOR.editor
@@ -650,7 +653,7 @@
 
 /**
  * Fired before an undo image is to be taken. An undo image represents the
- * editor state at some point. It's saved into an undo store, so the editor is
+ * editor state at some point. It is saved into the undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
  *
  * @since 3.5.3
@@ -662,7 +665,7 @@
 
 /**
  * Fired after an undo image is taken. An undo image represents the
- * editor state at some point. It's saved into an undo store, so the editor is
+ * editor state at some point. It is saved into the undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
  *
  * @since 3.5.3
@@ -673,14 +676,14 @@
  */
 
 /**
- * Fired when the content of the editor changed.
+ * Fired when the content of the editor is changed.
  *
  * Due to performance reasons, it is not verified if the content really changed.
- * The editor instead watches several editing actions that usually result on
- * changes. Therefore, this event may be fired when no changes happen on some
- * cases or even get fired twice.
+ * The editor instead watches several editing actions that usually result in
+ * changes. This event may thus in some cases be fired when no changes happen
+ * or may even get fired twice.
  *
- * If it is important not to get change event too often you should compare the
+ * If it is important not to get the change event too often, you should compare the
  * previous and the current editor content inside the event listener.
  *
  * @since 4.2

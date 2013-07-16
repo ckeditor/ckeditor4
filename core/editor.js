@@ -415,8 +415,8 @@
 			 * Indicates the human-readable title of this editor. Although this is a read-only property,
 			 * it can be initialized with {@link CKEDITOR.config#title}.
 			 *
-			 * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name editor.name}
-			 * which identifies the instance in {@link CKEDITOR#instances} literal.
+			 * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name editor.name}
+			 * which identifies the instance in the {@link CKEDITOR#instances} literal.
 			 *
 			 * @since 4.2
 			 * @readonly
@@ -658,9 +658,9 @@
 		},
 
 		/**
-		 * Attaches editor to form to call {@link #updateElement} before form submit.
+		 * Attaches the editor to a form to call {@link #updateElement} before form submission.
 		 * This method is called by both creators ({@link CKEDITOR#replace replace} and
-		 * {@link CKEDITOR#inline inline}) so there is no reason to call it manually.
+		 * {@link CKEDITOR#inline inline}), so there is no reason to call it manually.
 		 *
 		 * @private
 		 */
@@ -1170,7 +1170,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Sets whether the editable should have the focus when editor is loading for the first time.
+ * Sets whether an editable element should have focus when the editor is loading for the first time.
  *
  *		config.startupFocus = true;
  *
@@ -1180,24 +1180,24 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
  /**
  * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
- * tooltips and impacts on various accessibility aspects, e.g. it is commonly used by screen readers
- * for distinguishing editor instances and for navigation. Accepted values are string or `false`.
+ * tooltips and impacts various accessibility aspects, e.g. it is commonly used by screen readers
+ * for distinguishing editor instances and for navigation. Accepted values are a string or `false`.
  *
- * **Note:** When `config.title` set globally, the same value will be applied to all editor instances
- * loaded with this config. This may have a critical impact on several accessibility aspects.
+ * **Note:** When `config.title` is set globally, the same value will be applied to all editor instances
+ * loaded with this config. This may severely affect accessibility as screen reader users will be unable
+ * to distinguish particular editor instances and navigate between them.
  *
- * **Note:** Setting `config.title = false` may also have a critical impact on
- * several accessibility aspects.
+ * **Note:** Setting `config.title = false` may also impair accessibility in a similar way.
  *
- * **Note:** Please don't confuse this property with {@link CKEDITOR.editor#name}
- * which identifies the instance in {@link CKEDITOR#instances} literal.
+ * **Note:** Please do not confuse this property with {@link CKEDITOR.editor#name}
+ * which identifies the instance in the {@link CKEDITOR#instances} literal.
  *
- *		// Set title to 'My WYSIWYG editor.'. The original title of the element (if any)
+ *		// Sets the title to 'My WYSIWYG editor.'. The original title of the element (if it exists)
  *		// will be restored once the editor instance is destroyed.
  *		config.title = 'My WYSIWYG editor.';
  *
- *		// Don't touch the title. If the element already has a title, it remains untouched.
- *		// Also if there is no title attribute, nothing new will be added.
+ *		// Do not touch the title. If the element already has a title, it remains unchanged.
+ *		// Also if no title attribute exists, nothing new will be added.
  *		config.title = false;
  *
  * @since 4.2
@@ -1210,8 +1210,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Sets listeners on editor's events.
  *
- * **Note:** This property can be set only in `config` object passed directly
- * to the {@link CKEDITOR#replace}, {@link CKEDITOR#inline} and other creators.
+ * **Note:** This property can only be set in the `config` object passed directly
+ * to {@link CKEDITOR#replace}, {@link CKEDITOR#inline}, and other creators.
  *
  *		CKEDITOR.replace( 'editor1', {
  *			on: {
@@ -1230,8 +1230,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * The outer most element in the DOM tree in which the editable element resides, it's provided
- * by the concrete editor creator after editor UI is created and is not subjected to
+ * The outermost element in the DOM tree in which the editable element resides. It is provided
+ * by a specific editor creator after editor UI is created and is not intended to
  * be modified.
  *
  *		var editor = CKEDITOR.instances.editor1;

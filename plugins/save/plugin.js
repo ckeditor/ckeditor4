@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Save plugin.
+ * @fileOverview The Save plugin.
  */
 
 (function() {
@@ -55,7 +55,8 @@
 })();
 
 /**
- * Fired when user clicks on save button. This event allows overwrite default save button behavior.
+ * Fired when the user clicks the Save button on the editor toolbar.
+ * This event allows to overwrite the default Save button behavior.
  *
  * @since 4.2
  * @event save

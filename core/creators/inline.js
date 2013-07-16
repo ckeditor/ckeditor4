@@ -15,9 +15,9 @@
 	 *		...
 	 *		CKEDITOR.inline( 'content' );
 	 *
-	 * It is also possible to create inline editor from textarea element. If you do so
-	 * an additional `div` with editable content will be created directly after the
-	 * `textarea` element and that `textarea` element will be hidden.
+	 * It is also possible to create an inline editor from the `<textarea>` element.
+	 * If you do so, an additional `<div>` element with editable content will be created
+	 * directly after the `<textarea>` element and the `<textarea>` element will be hidden.
 	 *
 	 * @param {Object/String} element The DOM element or its ID.
 	 * @param {Object} [instanceConfig] The specific configurations to apply to this editor instance.
@@ -109,7 +109,7 @@
 	};
 
 	/**
-	 * Call {@link CKEDITOR#inline} with all page elements with
+	 * Calls {@link CKEDITOR#inline} for all page elements with
 	 * `contenteditable` attribute set to `true`.
 	 *
 	 */
@@ -144,8 +144,8 @@
 })();
 
 /**
- * Avoid creating editor automatically on element which has attribute
- * `contenteditable` set to the value `true`.
+ * Disables creating the inline editor automatically for elements with
+ * `contenteditable` attribute set to the `true`.
  *
  *		CKEDITOR.disableAutoInline = true;
  *
