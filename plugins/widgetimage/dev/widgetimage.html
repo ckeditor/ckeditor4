@@ -11,6 +11,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script src="../../../dev/console/console.js"></script>
 	<script src="../../../dev/console/focusconsole.js"></script>
 	<script src="../../widget/dev/console.js"></script>
+	<script>
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			CKEDITOR.tools.enableHtml5Elements( document );
+	</script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 	<meta name="ckeditor-sample-name" content="Widget image">
 	<meta name="ckeditor-sample-group" content="Plugins">
