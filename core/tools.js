@@ -1093,6 +1093,29 @@
 					scheduled = lastOutput = 0;
 				}
 			};
+		},
+
+		/**
+		 * Enable HTML5 elements for older browsers (IE8) in passed document.
+		 *
+		 * In IE8 this method can be also executed on document fragment.
+		 *
+		 * **Note:** This method has to be used in the `<head>` section of the document.
+		 *
+		 * @since 4.3
+		 * @param {Document/DocumentFragment} doc
+		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
+		 */
+		enableHtml5Elements: function( doc, withAppend ) {
+			var els = 'abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video'.split( ',' ),
+				i = els.length,
+				el;
+
+			while ( i-- ) {
+				el = doc.createElement( els[ i ] );
+				if ( withAppend )
+					doc.appendChild( el );
+			}
 		}
 	};
 })();

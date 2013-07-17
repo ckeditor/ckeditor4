@@ -299,5 +299,24 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		var el = this.$.querySelector( selector );
 
 		return el ? new CKEDITOR.dom.element( el ) : null;
+	},
+
+	/**
+	 * IE8 only method. It returns document fragment which has all HTML5 elements enabled.
+	 *
+	 * @since 4.3
+	 * @private
+	 * @returns DocumentFragment
+	 */
+	_getHtml5ShivFrag: function() {
+		var $frag = this.getCustomData( 'html5ShivFrag' );
+
+		if ( !$frag ) {
+			$frag = this.$.createDocumentFragment();
+			CKEDITOR.tools.enableHtml5Elements( $frag, true );
+			this.setCustomData( 'html5ShivFrag', $frag );
+		}
+
+		return $frag;
 	}
 });

@@ -408,17 +408,29 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {String} html The HTML to be set for this element.
 	 * @returns {String} The inserted HTML.
 	 */
-	setHtml: (function() {
-		var standard = function( html ) {
-			return ( this.$.innerHTML = html );
-		};
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+	setHtml: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ?
 			// old IEs throws error on HTML manipulation (through the "innerHTML" property)
 			// on the element which resides in an DTD invalid position,  e.g. <span><div></div></span>
 			// fortunately it can be worked around with DOM manipulation.
-			return function( html ) {
-				try { return standard.call( this, html ); }
+			function( html ) {
+				try {
+					var $ = this.$;
+
+					// Fix the case when setHtml is called on detached element.
+					// HTML5 shiv used for document in which this element was created
+					// won't affect that detached element. So get document fragment with
+					// all HTML5 elements enabled and set innerHTML while this element is appended to it.
+					if ( this.getParent() )
+						return ( $.innerHTML = html );
+					else {
+						var $frag = this.getDocument()._getHtml5ShivFrag();
+						$frag.appendChild( $ );
+						$.innerHTML = html;
+						$frag.removeChild( $ );
+
+						return html;
+					}
+				}
 				catch ( e ) {
 					this.$.innerHTML = '';
 
@@ -426,15 +438,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 					temp.$.innerHTML = html;
 
 					var children = temp.getChildren();
-					while( children.count() )
+					while ( children.count() )
 						this.append( children.getItem( 0 ) );
 
 					return html;
 				}
-			};
-		} else
-			return standard;
-	})(),
+			}
+		:
+			function( html ) {
+				return ( this.$.innerHTML = html );
+			},
 
 	/**
 	 * Sets the element contents as plain text.
