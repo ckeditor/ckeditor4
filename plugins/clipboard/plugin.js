@@ -679,7 +679,7 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
 
@@ -701,8 +701,6 @@
 					editable.append( pastebin );
 					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
 					pastebin.addClass( 'cke_editable' );
-					// Compensate position of offsetParent.
-					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
