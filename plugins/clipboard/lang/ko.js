@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ko', {
 	cut: '잘라내기',
 	cutError: '브라우저의 보안설정때문에 잘라내기 기능을 실행할 수 없습니다. 키보드 명령을 사용하십시요. (Ctrl/Cmd+X).',
 	paste: '붙여넣기',
-	pasteArea: 'Paste Area', // MISSING
+	pasteArea: '범위 붙여넣기',
 	pasteMsg: '키보드의 (<STRONG>Ctrl/Cmd+V</STRONG>) 를 이용해서 상자안에 붙여넣고 <STRONG>OK</STRONG> 를 누르세요.',
 	securityMsg: '브러우저 보안 설정으로 인해, 클립보드의 자료를 직접 접근할 수 없습니다. 이 창에 다시 붙여넣기 하십시오.',
 	title: '붙여넣기'

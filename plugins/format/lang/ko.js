@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'ko', {
 	label: '포맷',
 	panelTitle: '포맷',
 	tag_address: 'Address',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: '기본 (DIV)',
 	tag_h1: 'Heading 1',
 	tag_h2: 'Heading 2',
 	tag_h3: 'Heading 3',

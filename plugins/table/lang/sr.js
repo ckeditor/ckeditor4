@@ -44,19 +44,19 @@ CKEDITOR.plugins.setLang( 'table', 'sr', {
 		deleteColumn: 'Обриши колоне'
 	},
 	columns: 'Kолона',
-	deleteTable: 'Delete Table', // MISSING
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	deleteTable: 'Обриши таблу',
+	headers: 'Поглавља',
+	headersBoth: 'Оба',
+	headersColumn: 'Прва колона',
 	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	headersRow: 'Први ред',
+	invalidBorder: 'Величина ивице треба да буде цифра.',
+	invalidCellPadding: 'Пуњење ћелије треба да буде позитивна цифра.',
+	invalidCellSpacing: 'Размак ћелије треба да буде позитивна цифра.',
+	invalidCols: 'Број колона треба да буде цифра већа од 0.',
+	invalidHeight: 'Висина табеле треба да буде цифра.',
+	invalidRows: 'Број реда треба да буде цифра већа од 0.',
+	invalidWidth: 'Ширина табеле треба да буде цифра.',
 	menu: 'Особине табеле',
 	row: {
 		menu: 'Row',
@@ -65,10 +65,10 @@ CKEDITOR.plugins.setLang( 'table', 'sr', {
 		deleteRow: 'Обриши редове'
 	},
 	rows: 'Редова',
-	summary: 'Summary', // MISSING
+	summary: 'Резиме',
 	title: 'Особине табеле',
 	toolbar: 'Табела',
 	widthPc: 'процената',
 	widthPx: 'пиксела',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'јединица ширине'
 });

@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'pt', {
 	label: 'Formato',
 	panelTitle: 'Formato',
 	tag_address: 'Endereço',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: 'Normal (DIV)',
 	tag_h1: 'Título 1',
 	tag_h2: 'Título 2',
 	tag_h3: 'Título 3',

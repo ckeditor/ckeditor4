@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'ko', {
-	confirmCleanup: 'The text you want to paste seems to be copied from Word. Do you want to clean it before pasting?', // MISSING
-	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
+	confirmCleanup: '붙여 넣기 할 텍스트는 MS Word에서 복사 한 것입니다. 붙여 넣기 전에 MS Word 포멧을 삭제 하시겠습니까?',
+	error: '내부 오류로 붙여 넣은 데이터를 정리 할 수 없습니다.',
 	title: 'MS Word 형식에서 붙여넣기',
 	toolbar: 'MS Word 형식에서 붙여넣기'
 });

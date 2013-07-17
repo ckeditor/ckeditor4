@@ -3,6 +3,6 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'bidi', 'ko', {
-	ltr: 'Text direction from left to right', // MISSING
-	rtl: 'Text direction from right to left' // MISSING
+	ltr: '택스트 방향이 왼쪽에서 오른쪽으로 ',
+	rtl: '택스트 방향이 오른쪽에서 왼쪽으로'
 });

@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'pl', {
-	title: 'Wstaw nowy paragraf'
+	title: 'Wstaw nowy akapit'
 });

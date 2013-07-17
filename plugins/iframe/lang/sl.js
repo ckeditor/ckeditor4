@@ -3,9 +3,9 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'sl', {
-	border: 'Show frame border', // MISSING
-	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
-	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame' // MISSING
+	border: 'Pokaži mejo okvira',
+	noUrl: 'Prosimo, vnesite iframe URL',
+	scrolling: 'Omogoči scrollbars',
+	title: 'IFrame Lastnosti',
+	toolbar: 'IFrame'
 });

@@ -3,6 +3,6 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pagebreak', 'ar', {
-	alt: 'Page Break', // MISSING
+	alt: 'فاصل الصفحة',
 	toolbar: 'إدخال صفحة جديدة'
 });

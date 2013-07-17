@@ -36,10 +36,10 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		editorHelp: '按 ALT+0 获得帮助',
 
 		browseServer: '浏览服务器',
-		url: '源文件',
+		url: 'URL',
 		protocol: '协议',
 		upload: '上传',
-		uploadSubmit: '上传到服务器上',
+		uploadSubmit: '上传到服务器',
 		image: '图象',
 		flash: 'Flash',
 		form: '表单',
@@ -50,7 +50,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		hiddenField: '隐藏域',
 		button: '按钮',
 		select: '列表/菜单',
-		imageButton: '图像域',
+		imageButton: '图像按钮',
 		notSet: '<没有设置>',
 		id: 'ID',
 		name: '名称',
@@ -58,7 +58,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		langDirLtr: '从左到右 (LTR)',
 		langDirRtl: '从右到左 (RTL)',
 		langCode: '语言代码',
-		longDescr: '详细说明地址',
+		longDescr: '详细说明 URL',
 		cssClass: '样式类名称',
 		advisoryTitle: '标题',
 		cssStyle: '行内样式',
@@ -66,11 +66,11 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cancel: '取消',
 		close: '关闭',
 		preview: '预览',
-		resize: '拖拽以改变尺寸',
+		resize: '拖拽以改变大小',
 		generalTab: '常规',
 		advancedTab: '高级',
 		validateNumberFailed: '需要输入数字格式',
-		confirmNewPage: '当前文档内容未保存,是否确认新建文档？',
+		confirmNewPage: '当前文档内容未保存，是否确认新建文档？',
 		confirmCancel: '部分修改尚未保存，是否确认关闭对话框？',
 		options: '选项',
 		target: '目标窗口',
@@ -94,12 +94,12 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		invalidValue	: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',
-		invalidCssLength: '该字段必须为合式的CSS长度值，包括单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
-		invalidHtmlLength: '该字段必须为合式的HTML长度值，包括单位(px 或 %)',
-		invalidInlineStyle: '内联样式必须为格式是以分号分隔的一个或多个“属性名 : 属性值”',
-		cssLengthTooltip: '该字段必须为合式的CSS长度值，包括单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
+		invalidCssLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
+		invalidHtmlLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 HTML 长度单位(px 或 %)',
+		invalidInlineStyle: '内联样式必须为格式是以分号分隔的一个或多个“属性名 : 属性值”。',
+		cssLengthTooltip: '输入一个表示像素值的数字，或加上一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)。',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, 不可用</span>'
+		unavailable: '%1<span class="cke_accessibility">，不可用</span>'
 	}
 };

@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'ko' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: '도움이 필요하시면 ALT 0 을 누르세요',
 
 		browseServer: '서버 보기',
 		url: 'URL',
@@ -64,19 +64,19 @@ CKEDITOR.lang[ 'ko' ] = {
 		cssStyle: 'Style',
 		ok: '예',
 		cancel: '아니오',
-		close: 'Close', // MISSING
+		close: '닫기',
 		preview: '미리보기',
-		resize: 'Resize', // MISSING
+		resize: '크기 조절',
 		generalTab: 'General', // MISSING
 		advancedTab: '자세히',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
+		validateNumberFailed: '이 값은 숫자가 아닙니다.',
+		confirmNewPage: '저장하지 않은 모든 변경사항은 유실됩니다. 정말로 새로운 페이지를 부르겠습니까?',
+		confirmCancel: '몇몇개의 옵션이 바꼈습니다. 정말로 창을 닫으시겠습니까?',
+		options: '옵션',
 		target: '타겟',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
+		targetNew: '새로운 창 (_blank)',
+		targetTop: '최상위 창 (_top)',
+		targetSelf: '같은 창 (_self)',
 		targetParent: 'Parent Window (_parent)', // MISSING
 		langDirLTR: '왼쪽에서 오른쪽 (LTR)',
 		langDirRTL: '오른쪽에서 왼쪽 (RTL)',
@@ -91,9 +91,9 @@ CKEDITOR.lang[ 'ko' ] = {
 		alignTop: '위',
 		alignMiddle: '중간',
 		alignBottom: '아래',
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		invalidValue	: '잘못된 값.',
+		invalidHeight: '높이는 숫자여야 합니다.',
+		invalidWidth: '넓이는 숫자여야 합니다.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

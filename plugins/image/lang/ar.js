@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'image', 'ar', {
 	upload: 'رفع',
 	urlMissing: 'عنوان مصدر الصورة مفقود',
 	vSpace: 'تباعد عمودي',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'الإطار يجب أن يكون عددا',
+	validateHSpace: 'HSpace يجب أن يكون عدداً.',
+	validateVSpace: 'VSpace يجب أن يكون عدداً.'
 });

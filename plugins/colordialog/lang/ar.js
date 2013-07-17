@@ -4,8 +4,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'ar', {
 	clear: 'مسح',
-	highlight: 'إلقاء الضوء',
-	options: 'Color Options', // MISSING
-	selected: 'مُختار',
-	title: 'اختر لون'
+	highlight: 'تحديد',
+	options: 'اختيارات الألوان',
+	selected: 'اللون المختار',
+	title: 'اختر اللون'
 });

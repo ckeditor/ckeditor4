@@ -27,13 +27,13 @@ CKEDITOR.lang[ 'ar' ] = {
 	dir: 'rtl',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'محرر النص الغني',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'إضغط على ALT + 0 للحصول على المساعدة.',
 
 		browseServer: 'تصفح',
 		url: 'الرابط',
@@ -53,7 +53,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		imageButton: 'زر صورة',
 		notSet: '<بدون تحديد>',
 		id: 'الرقم',
-		name: 'الاسم',
+		name: 'إسم',
 		langDir: 'إتجاه النص',
 		langDirLtr: 'اليسار لليمين (LTR)',
 		langDirRtl: 'اليمين لليسار (RTL)',
@@ -66,7 +66,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		cancel: 'إلغاء الأمر',
 		close: 'أغلق',
 		preview: 'استعراض',
-		resize: 'اسحب لتغيير الحجم',
+		resize: 'تغيير الحجم',
 		generalTab: 'عام',
 		advancedTab: 'متقدم',
 		validateNumberFailed: 'لايوجد نتيجة',
@@ -74,10 +74,10 @@ CKEDITOR.lang[ 'ar' ] = {
 		confirmCancel: 'بعض الخيارات قد تغيرت. هل أنت متأكد من إغلاق مربع النص؟',
 		options: 'خيارات',
 		target: 'هدف الرابط',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetNew: 'نافذة جديدة',
+		targetTop: 'النافذة الأعلى',
+		targetSelf: 'داخل النافذة',
+		targetParent: 'النافذة الأم',
 		langDirLTR: 'اليسار لليمين (LTR)',
 		langDirRTL: 'اليمين لليسار (RTL)',
 		styles: 'نمط',
@@ -91,13 +91,13 @@ CKEDITOR.lang[ 'ar' ] = {
 		alignTop: 'أعلى',
 		alignMiddle: 'وسط',
 		alignBottom: 'أسفل',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'قيمة غير مفبولة.',
 		invalidHeight: 'الارتفاع يجب أن يكون عدداً.',
 		invalidWidth: 'العرض يجب أن يكون عدداً.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'قيمة الخانة المخصصة لـ "%1" يجب أن تكون رقما موجبا، باستخدام أو من غير استخدام وحدة CSS قياس مقبولة (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidHtmlLength: 'قيمة الخانة المخصصة لـ "%1" يجب أن تكون رقما موجبا، باستخدام أو من غير استخدام وحدة HTML قياس مقبولة (px or %).',
+		invalidInlineStyle: 'قيمة الخانة المخصصة لـ  Inline Style يجب أن تختوي على مجموع واحد أو أكثر بالشكل التالي: "name : value", مفصولة بفاصلة منقزطة.',
+		cssLengthTooltip: 'أدخل رقما للقيمة بالبكسل أو رقما بوحدة CSS مقبولة (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, غير متاح</span>'

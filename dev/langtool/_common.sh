@@ -46,6 +46,6 @@ fi
 cd ../..
 
 
-plugins=( about basicstyles bidi blockquote clipboard colorbutton colordialog contextmenu div docprops elementspath fakeobjects find flash font format forms horizontalrule iframe image indent justify link list liststyle maximize newpage pagebreak pastefromword pastetext preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar undo )
+plugins=( about basicstyles bidi blockquote clipboard colorbutton colordialog contextmenu div docprops elementspath fakeobjects find flash font format forms horizontalrule iframe image indent justify link list liststyle magicline maximize newpage pagebreak pastefromword pastetext preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar undo )
 plugins_dialogs=( a11yhelp specialchar )
 

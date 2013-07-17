@@ -11,7 +11,7 @@
 
 (function() {
 	CKEDITOR.plugins.add( 'magicline', {
-		lang: 'en,pl', // %REMOVE_LINE_CORE%
+		lang: 'ar,bg,ca,cs,cy,de,el,en,eo,es,eu,fa,fi,fr,fr-ca,gl,hr,hu,id,it,ja,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 		init: initPlugin
 	});
 

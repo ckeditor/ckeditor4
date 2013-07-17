@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'sr-latn', {
 	label: 'Format',
 	panelTitle: 'Format',
 	tag_address: 'Adresa',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: 'Normalno (DIV)',
 	tag_h1: 'Naslov 1',
 	tag_h2: 'Naslov 2',
 	tag_h3: 'Naslov 3',

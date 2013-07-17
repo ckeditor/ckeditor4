@@ -3,9 +3,9 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'ko', {
-	border: 'Show frame border', // MISSING
-	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
-	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame' // MISSING
+	border: '프레임 테두리 표시',
+	noUrl: 'iframe 대응 URL을 입력해주세요.',
+	scrolling: '스크롤바 사용',
+	title: 'IFrame 속성',
+	toolbar: 'IFrame'
 });

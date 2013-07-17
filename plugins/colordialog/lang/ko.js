@@ -3,9 +3,9 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'ko', {
-	clear: 'Clear', // MISSING
-	highlight: 'Highlight', // MISSING
-	options: 'Color Options', // MISSING
-	selected: 'Selected Color', // MISSING
-	title: 'Select color' // MISSING
+	clear: '제거',
+	highlight: '하이라이트',
+	options: '색상 옵션',
+	selected: '색상 선택됨',
+	title: '색상 선택'
 });

@@ -11,12 +11,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		name: 'Genel',
 		items: [
 			{
-			name: 'Araç Çubuğu Editörü',
+			name: 'Düzenleyici Araç Çubuğu',
 			legend: 'Araç çubuğunda gezinmek için ${toolbarFocus} basın. TAB ve SHIFT-TAB ile önceki ve sonraki araç çubuğu grubuna taşıyın. SAĞ OK veya SOL OK ile önceki ve sonraki bir araç çubuğu düğmesini hareket ettirin. SPACE tuşuna basın veya araç çubuğu düğmesini etkinleştirmek için ENTER tuşna basın.'
 		},
 
 			{
-			name: 'Dialog Editörü',
+			name: 'Diyalog Düzenleyici',
 			legend: 'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.'
 		},
 
@@ -41,10 +41,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		items: [
 			{
 			name: 'Komutu geri al',
-			legend: '${undo} basın'
+			legend: '$(undo)\'ya basın'
 		},
 			{
-			name: ' Tekrar komutu uygula',
+			name: 'Komutu geri al',
 			legend: '${redo} basın'
 		},
 			{
@@ -68,16 +68,16 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			legend: '${toolbarCollapse} basın'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Önceki komut alanına odaklan',
+			legend: 'Düzeltme imleçinden önce, en yakın uzaktaki alana erişmek için ${accessPreviousSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Sonraki komut alanına odaklan',
+			legend: 'Düzeltme imleçinden sonra, en yakın uzaktaki alana erişmek için ${accessNextSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
 		},
 			{
 			name: 'Erişilebilirlik Yardımı',
-			legend: '${a11yHelp} basın'
+			legend: '${a11yHelp}\'e basın'
 		}
 		]
 	}

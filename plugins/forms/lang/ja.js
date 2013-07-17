@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		type: 'タイプ',
 		typeText: 'テキスト',
 		typePass: 'パスワード入力',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'メール',
+		typeSearch: '検索',
+		typeTel: '電話番号',
 		typeUrl: 'URL'
 	}
 });

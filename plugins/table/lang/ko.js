@@ -45,18 +45,18 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 	},
 	columns: '세로줄',
 	deleteTable: '표 삭제',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	headers: '해더',
+	headersBoth: '모두',
+	headersColumn: '첫 열',
 	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	headersRow: '첫 행',
+	invalidBorder: '테두리 크기는 숫자여야 합니다.',
+	invalidCellPadding: '셀 안쪽의 여백은 0 이상이어야 합니다.',
+	invalidCellSpacing: '셀 간격은 0 이상이어야 합니다.',
+	invalidCols: '행 번호는 0보다 큰 숫자여야 합니다.',
+	invalidHeight: '표 높이는 숫자여야 합니다.',
+	invalidRows: '행 번호는 0보다 큰 숫자여야 합니다.',
+	invalidWidth: '표의 폭은 숫자여야 합니다.',
 	menu: '표 설정',
 	row: {
 		menu: '행(Row)',
@@ -65,10 +65,10 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 		deleteRow: '가로줄 삭제'
 	},
 	rows: '가로줄',
-	summary: 'Summary', // MISSING
+	summary: '요약',
 	title: '표 설정',
 	toolbar: '표',
 	widthPc: '퍼센트',
 	widthPx: '픽셀',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: '폭 단위'
 });

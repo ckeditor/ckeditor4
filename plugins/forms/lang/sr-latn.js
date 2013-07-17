@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		type: 'Tip',
 		typeText: 'Tekst',
 		typePass: 'Lozinka',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Pretraži',
+		typeTel: 'Broj telefona',
 		typeUrl: 'URL'
 	}
 });

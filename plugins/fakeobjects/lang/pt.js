@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'fakeobjects', 'pt', {
 	anchor: ' Inserir/Editar Âncora',
 	flash: 'Animação Flash',
-	hiddenfield: 'Campo Escondido',
+	hiddenfield: 'Campo Ocultado',
 	iframe: 'IFrame',
-	unknown: 'Objeto desconhecido'
+	unknown: 'Objeto Desconhecido'
 });

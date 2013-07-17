@@ -3,7 +3,7 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sl', {
-	acccessKey: 'Vstopno geslo',
+	acccessKey: 'Dostopno Geslo',
 	advanced: 'Napredno',
 	advisoryContentType: 'Predlagani tip vsebine (content-type)',
 	advisoryTitle: 'Predlagani naslov',
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	popupStatusBar: 'Vrstica stanja',
 	popupToolbar: 'Orodna vrstica',
 	popupTop: 'Lega na vrhu',
-	rel: 'Relationship', // MISSING
+	rel: 'Odnos',
 	selectAnchor: 'Izberi zaznamek',
 	styles: 'Slog',
 	tabIndex: 'Številka tabulatorja',

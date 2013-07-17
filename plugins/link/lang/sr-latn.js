@@ -11,11 +11,11 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 		toolbar: 'Unesi/izmeni sidro',
 		menu: 'Osobine sidra',
 		title: 'Osobine sidra',
-		name: 'Ime sidra',
-		errorName: 'Unesite ime sidra',
-		remove: 'Remove Anchor'
+		name: 'Naziv sidra',
+		errorName: 'Unesite naziv sidra',
+		remove: 'Ukloni sidro'
 	},
-	anchorId: 'Po Id-ju elementa',
+	anchorId: 'Po Id-u elementa',
 	anchorName: 'Po nazivu sidra',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Stylesheet klase',
@@ -40,12 +40,12 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	popupLeft: 'Od leve ivice ekrana (px)',
 	popupLocationBar: 'Lokacija',
 	popupMenuBar: 'Kontekstni meni',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'Promenljive veličine',
 	popupScrollBars: 'Scroll bar',
 	popupStatusBar: 'Statusna linija',
 	popupToolbar: 'Toolbar',
 	popupTop: 'Od vrha ekrana (px)',
-	rel: 'Relationship', // MISSING
+	rel: 'Odnos',
 	selectAnchor: 'Odaberi sidro',
 	styles: 'Stil',
 	tabIndex: 'Tab indeks',

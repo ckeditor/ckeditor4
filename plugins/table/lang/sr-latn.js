@@ -44,19 +44,19 @@ CKEDITOR.plugins.setLang( 'table', 'sr-latn', {
 		deleteColumn: 'Obriši kolone'
 	},
 	columns: 'Kolona',
-	deleteTable: 'Delete Table', // MISSING
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	deleteTable: 'Izbriši tabelu',
+	headers: 'Zaglavlja',
+	headersBoth: 'Oba',
+	headersColumn: 'Prva kolona',
 	headersNone: 'None',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	headersRow: 'Prvi red',
+	invalidBorder: 'Veličina okvira mora biti broj.',
+	invalidCellPadding: 'Padding polja mora biti pozitivan broj.',
+	invalidCellSpacing: 'Razmak između ćelija mora biti pozitivan broj.',
+	invalidCols: 'Broj kolona mora biti broj veći od 0.',
+	invalidHeight: 'Visina tabele mora biti broj.',
+	invalidRows: 'Broj redova mora biti veći od 0.',
+	invalidWidth: 'Širina tabele mora biti broj.',
 	menu: 'Osobine tabele',
 	row: {
 		menu: 'Row',
@@ -65,10 +65,10 @@ CKEDITOR.plugins.setLang( 'table', 'sr-latn', {
 		deleteRow: 'Obriši redove'
 	},
 	rows: 'Redova',
-	summary: 'Summary', // MISSING
+	summary: 'Sažetak',
 	title: 'Osobine tabele',
 	toolbar: 'Tabela',
 	widthPc: 'procenata',
 	widthPx: 'piksela',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'jedinica za širinu'
 });

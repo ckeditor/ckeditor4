@@ -3,6 +3,6 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pagebreak', 'ko', {
-	alt: 'Page Break', // MISSING
-	toolbar: 'Insert Page Break for Printing' // MISSING
+	alt: '패이지 나누기',
+	toolbar: '인쇄시 페이지 나누기 삽입'
 });

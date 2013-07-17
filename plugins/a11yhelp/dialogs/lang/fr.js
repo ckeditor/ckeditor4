@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
-	title: 'Instructions pour l\'accessibilité',
-	contents: 'Contenu de l\'aide. Pour fermer ce dialogue, appuyez sur la touche ESC (Echappement).',
+	title: 'Instructions d\'accessibilité',
+	contents: 'Contenu de l\'aide. Pour fermer ce dialogue, appuyez sur la touche Ech (Echappement).',
 	legend: [
 		{
 		name: 'Général',
@@ -16,23 +16,23 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 		},
 
 			{
-			name: 'Dialogue de léditeur',
+			name: 'Dialogue de l\'éditeur',
 			legend: 'A l\'intérieur d\'un dialogue, appuyer sur la touche TAB pour naviguer jusqu\'au champ de dalogue suivant, appuyez sur les touches SHIFT + TAB pour revenir au champ précédent, appuyez sur la touche ENTRER pour soumettre le dialogue, appuyer sur la touche ESC pour annuler le dialogue. Pour les dialogues avec plusieurs pages d\'onglets, appuyer sur ALT + F10 pour naviguer jusqu\'à la liste des onglets. Puis se déplacer vers l\'onglet suivant avec la touche TAB ou FLECHE DROITE. Se déplacer vers l\'onglet précédent avec les touches SHIFT + TAB ou FLECHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRER pour sélectionner la page de l\'onglet.'
 		},
 
 			{
 			name: 'Menu contextuel de l\'éditeur',
-			legend: 'Appuyer sur ${contextMenu} ou entrer le RACCOURCI CLAVIER pour ouvrir le menu contextuel. Puis se déplacer vers l\'option suivante du menu avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'option précédente avec les touches  SHIFT+TAB ou FLECHE HAUT. appuyer sur la BARRE D\'ESPACE ou la touche ENTREE pour sélectionner l\'option du menu. Oovrir le sous-menu de l\'option courante avec la BARRE D\'ESPACE ou les touches ENTREE ou FLECHE DROITE. Revenir à l\'élément de menu parent avec les touches ESC ou FLECHE GAUCHE. Fermer le menu contextuel avec ESC.'
+			legend: 'Appuyer sur ${contextMenu} ou entrer le RACCOURCI CLAVIER pour ouvrir le menu contextuel. Puis se déplacer vers l\'option suivante du menu avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'option précédente avec les touches  SHIFT+TAB ou FLECHE HAUT. appuyer sur la BARRE D\'ESPACE ou la touche ENTREE pour sélectionner l\'option du menu. Oovrir le sous-menu de l\'option courante avec la BARRE D\'ESPACE ou les touches ENTREE ou FLECHE DROITE. Revenir à l\'élément de menu parent avec les touches Ech ou FLECHE GAUCHE. Fermer le menu contextuel avec Ech.'
 		},
 
 			{
-			name: 'Zone de liste en menu déroulant de l\'éditeur',
-			legend: 'A l\'intérieur d\'une liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'élément précédent de la liste avec les touches SHIFT + TAB ou FLECHE HAUT. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'option dans la liste. Appuyer sur ESC pour fermer le menu déroulant.'
+			name: 'Zone de liste de l\'éditeur',
+			legend: 'Dans la liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'élément précédent de la liste avec les touches MAJ + TAB ou FLECHE HAUT. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'option dans la liste. Appuyer sur ESC pour fermer le menu déroulant.'
 		},
 
 			{
-			name: 'Barre d\'emplacement des éléments de léditeur',
-			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de léditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLECHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches SHIFT+TAB ou FLECHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'élément dans l\'éditeur.'
+			name: 'Barre d\'emplacement des éléments de l\'éditeur',
+			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de l\'éditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLECHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches MAJ+TAB ou FLECHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'élément dans l\'éditeur.'
 		}
 		]
 	},
@@ -40,11 +40,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 		name: 'Commandes',
 		items: [
 			{
-			name: ' Commande défaire',
+			name: ' Annuler la commande',
 			legend: 'Appuyer sur ${undo}'
 		},
 			{
-			name: ' Commande refaire',
+			name: 'Refaire la commande',
 			legend: 'Appuyer sur ${redo}'
 		},
 			{
@@ -68,12 +68,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			legend: 'Appuyer sur ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Accéder à la précédente commande d\'espace de mise au point',
+			legend: 'Appuyez sur ${accessPreviousSpace} pour accéder à l\'espace hors d\'atteinte le plus proche avant le caret, par exemple: deux éléments HR adjacents. Répétez la combinaison de touches pour atteindre les espaces de mise au point distants.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Accès à la prochaine commande de l\'espace de mise au point',
+			legend: 'Appuyez sur ${accessNextSpace} pour accéder au plus proche espace de mise au point hors d\'atteinte après le caret, par exemple: deux éléments HR adjacents. répétez la combinaison de touches pour atteindre les espace de mise au point distants.'
 		},
 			{
 			name: ' Aide Accessibilité',

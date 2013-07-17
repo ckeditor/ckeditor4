@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Palavra-chave',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Pesquisar',
+		typeTel: 'Numero de telefone',
 		typeUrl: 'URL'
 	}
 });

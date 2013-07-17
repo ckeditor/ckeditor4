@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'templates', 'sl', {
 	button: 'Predloge',
 	emptyListMsg: '(Ni pripravljenih predlog)',
 	insertOption: 'Zamenjaj trenutno vsebino',
-	options: 'Template Options', // MISSING
+	options: 'Možnosti Predloge',
 	selectPromptMsg: 'Izberite predlogo, ki jo želite odpreti v urejevalniku<br>(trenutna vsebina bo izgubljena):',
 	title: 'Vsebinske predloge'
 });
