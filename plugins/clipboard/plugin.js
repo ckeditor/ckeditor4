@@ -660,7 +660,8 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902;
+				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
+				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
@@ -679,7 +680,7 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
 			pastebin.setAttribute( 'id', 'cke_pastebin' );
 
@@ -688,6 +689,7 @@
 				pastebin.appendBogus();
 
 			var containerOffset = 0,
+				offsetParent,
 				win = doc.getWindow();
 
 			// Seems to be the only way to avoid page scroll in Fx 3.x.
@@ -701,8 +703,19 @@
 					editable.append( pastebin );
 					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
 					pastebin.addClass( 'cke_editable' );
+
 					// Compensate position of offsetParent.
-					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
+					if ( !editable.is( 'body' ) ) {
+						// We're not able to get offsetParent from pastebin (body element), so check whether
+						// its parent (editable) is positioned.
+						if ( editable.getComputedStyle( 'position' ) != 'static' )
+							offsetParent = editable;
+						// And if not - safely get offsetParent from editable.
+						else
+							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+
+						containerOffset = offsetParent.getDocumentPosition().y;
+					}
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
@@ -739,6 +752,12 @@
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
+			// Webkit fill fire blur on editable when moving selection to
+			// pastebin (if body is used). Cancel it because it causes incorrect
+			// selection lock in case of inline editor.
+			if ( CKEDITOR.env.webkit )
+				blurListener = editable.once( 'blur', cancel, null, null, -100 );
+
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
@@ -750,7 +769,7 @@
 			// this selection will be restored. We overwrite stored selection, so it's restored
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
-				var blurListener = editable.once( 'blur', function( evt ) {
+				blurListener = editable.once( 'blur', function( evt ) {
 					editor.lockSelection( selPastebin );
 				} );
 			}
