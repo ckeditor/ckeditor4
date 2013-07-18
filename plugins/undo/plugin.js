@@ -575,11 +575,17 @@
 
 		/**
 		 * Updates the last snapshot of the undo stack with the current editor content.
+		 *
+		 * @param {CKEDITOR.plugins.undo.Image} [newImage] The image which will replace the current one.
+		 * If not set defaults to image taken from editor.
 		 */
-		update: function() {
+		update: function( newImage ) {
 			// Do not change snapshots stack is locked.
 			if ( this.locked )
 				return;
+
+			if ( !newImage )
+				newImage = new Image( this.editor );
 
 			var i = this.index,
 				snapshots = this.snapshots;
@@ -589,8 +595,9 @@
 			while ( i > 0 && this.currentImage.equalsContent( snapshots[ i - 1 ] ) )
 				i -= 1;
 
-			snapshots.splice( i, this.index - i + 1, ( this.currentImage = new Image( this.editor ) ) );
+			snapshots.splice( i, this.index - i + 1, newImage );
 			this.index = i;
+			this.currentImage = newImage;
 		},
 
 		/**
@@ -632,12 +639,13 @@
 			if ( this.locked ) {
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
-					var updateImage = this.locked.update;
+					var updateImage = this.locked.update,
+						newImage = new Image( this.editor );
 
 					this.locked = null;
 
-					if ( updateImage && !updateImage.equalsContent( new Image( this.editor ) ) )
-						this.update();
+					if ( updateImage && !updateImage.equalsContent( newImage ) )
+						this.update( newImage );
 				}
 			}
 		}
