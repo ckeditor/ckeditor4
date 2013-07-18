@@ -704,9 +704,7 @@
 					pastebin.addClass( 'cke_editable' );
 
 					// Compensate position of offsetParent.
-					if ( editable.is( 'body' ) )
-						offsetParent = editable;
-					else {
+					if ( !editable.is( 'body' ) ) {
 						// We're not able to get offsetParent from pastebin (body element), so check whether
 						// its parent (editable) is positioned.
 						if ( editable.getComputedStyle( 'position' ) != 'static' )
@@ -714,8 +712,9 @@
 						// And if not - safely get offsetParent from editable.
 						else
 							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+
+						containerOffset = offsetParent.getDocumentPosition().y;
 					}
-					containerOffset = offsetParent.getDocumentPosition().y;
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
