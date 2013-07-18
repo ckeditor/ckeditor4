@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	popupStatusBar: 'ステータスバー',
 	popupToolbar: 'ツールバー',
 	popupTop: '上端からの座標で指定',
-	rel: 'Relationship', // MISSING
+	rel: '関連リンク',
 	selectAnchor: 'アンカーを選択',
 	styles: 'スタイルシート',
 	tabIndex: 'タブインデックス',

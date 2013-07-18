@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		type: '종류',
 		typeText: '문자열',
 		typePass: '비밀번호',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: '이메일',
+		typeSearch: '검색',
+		typeTel: '전화번호',
 		typeUrl: 'URL'
 	}
 });

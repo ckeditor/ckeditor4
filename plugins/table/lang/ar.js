@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'ar', {
 	toolbar: 'جدول',
 	widthPc: 'بالمئة',
 	widthPx: 'بكسل',
-	widthUnit: 'width unit' // MISSING
+	widthUnit: 'وحدة العرض'
 });

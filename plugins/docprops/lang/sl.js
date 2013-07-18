@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	bgFixed: 'Nepremično ozadje',
 	bgImage: 'URL slike za ozadje',
 	charset: 'Kodna tabela',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'Srednjeevropsko',
 	charsetCR: 'Cirilica',
 	charsetCT: 'Tradicionalno Kitajsko (Big5)',
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	charsetKR: 'Korejsko',
 	charsetOther: 'Druga kodna tabela',
 	charsetTR: 'Turško',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Zahodnoevropsko',
 	chooseColor: 'Izberi',
-	design: 'Design', // MISSING
+	design: 'Oblika',
 	docTitle: 'Naslov strani',
 	docType: 'Glava tipa dokumenta',
 	docTypeOther: 'Druga glava tipa dokumenta',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sl', {
 	metaDescription: 'Opis strani',
 	metaKeywords: 'Ključne besede (ločene z vejicami)',
 	other: '<drug>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Tole je<strong>primer besedila</strong>. Uporabljate <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Lastnosti dokumenta',
 	txtColor: 'Barva besedila',
 	xhtmlDec: 'Vstavi XHTML deklaracije'

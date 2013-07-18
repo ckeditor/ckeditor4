@@ -7,9 +7,9 @@ CKEDITOR.plugins.setLang( 'image', 'sr', {
 	alt: 'Алтернативни текст',
 	border: 'Оквир',
 	btnUpload: 'Пошаљи на сервер',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	button2Img: 'Да ли желите да промените одабрану слику дугмета као једноставну слику?',
 	hSpace: 'HSpace',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Да ли желите да промените одабрану слику у слику дугмета?',
 	infoTab: 'Инфо слике',
 	linkTab: 'Линк',
 	lockRatio: 'Закључај однос',
@@ -18,9 +18,9 @@ CKEDITOR.plugins.setLang( 'image', 'sr', {
 	title: 'Особине слика',
 	titleButton: 'Особине дугмета са сликом',
 	upload: 'Пошаљи',
-	urlMissing: 'Image source URL is missing.', // MISSING
+	urlMissing: 'Недостаје УРЛ слике.',
 	vSpace: 'VSpace',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Ивица треба да буде цифра.',
+	validateHSpace: 'HSpace треба да буде цифра.',
+	validateVSpace: 'VSpace треба да буде цифра.'
 });

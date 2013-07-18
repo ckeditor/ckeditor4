@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'colordialog', 'sl', {
 	clear: 'Počisti',
 	highlight: 'Poudarjeno',
-	options: 'Color Options', // MISSING
+	options: 'Barvne Možnosti',
 	selected: 'Izbrano',
 	title: 'Izberi barvo'
 });

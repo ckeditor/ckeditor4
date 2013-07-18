@@ -27,18 +27,18 @@ CKEDITOR.lang[ 'sl' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Bogat Urejevalnik Besedila',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Pritisnite ALT 0 za pomoč',
 
 		browseServer: 'Prebrskaj na strežniku',
 		url: 'URL',
 		protocol: 'Protokol',
-		upload: 'Prenesi',
+		upload: 'Naloži',
 		uploadSubmit: 'Pošlji na strežnik',
 		image: 'Slika',
 		flash: 'Flash',
@@ -49,35 +49,35 @@ CKEDITOR.lang[ 'sl' ] = {
 		textarea: 'Vnosno območje',
 		hiddenField: 'Skrito polje',
 		button: 'Gumb',
-		select: 'Spustni seznam',
-		imageButton: 'Gumb s sliko',
-		notSet: '<ni postavljen>',
+		select: 'Spustno Polje',
+		imageButton: 'Slikovni Gumb',
+		notSet: '<ni določen>',
 		id: 'Id',
 		name: 'Ime',
 		langDir: 'Smer jezika',
 		langDirLtr: 'Od leve proti desni (LTR)',
 		langDirRtl: 'Od desne proti levi (RTL)',
-		langCode: 'Oznaka jezika',
+		langCode: 'Koda Jezika',
 		longDescr: 'Dolg opis URL-ja',
 		cssClass: 'Razred stilne predloge',
 		advisoryTitle: 'Predlagani naslov',
 		cssStyle: 'Slog',
 		ok: 'V redu',
 		cancel: 'Prekliči',
-		close: 'Close', // MISSING
+		close: 'Zapri',
 		preview: 'Predogled',
 		resize: 'Potegni za spremembo velikosti',
 		generalTab: 'Splošno',
 		advancedTab: 'Napredno',
 		validateNumberFailed: 'Ta vrednost ni število.',
-		confirmNewPage: 'Vse neshranjene spremembe te vsebine bodo izgubljene. Ali gotovo želiš naložiti novo stran?',
-		confirmCancel: 'Nekaj možnosti je bilo spremenjenih. Ali gotovo želiš zapreti okno?',
+		confirmNewPage: 'Vse neshranjene spremembe te vsebine bodo izgubljene. Ali res želite naložiti novo stran?',
+		confirmCancel: 'Nekaj možnosti je bilo spremenjenih. Ali res želite zapreti okno?',
 		options: 'Možnosti',
 		target: 'Cilj',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetNew: 'Novo Okno (_blank)',
+		targetTop: 'Vrhovno Okno (_top)',
+		targetSelf: 'Enako Okno (_self)',
+		targetParent: 'Matično Okno (_parent)',
 		langDirLTR: 'Od leve proti desni (LTR)',
 		langDirRTL: 'Od desne proti levi (RTL)',
 		styles: 'Slog',
@@ -91,13 +91,13 @@ CKEDITOR.lang[ 'sl' ] = {
 		alignTop: 'Na vrh',
 		alignMiddle: 'V sredino',
 		alignBottom: 'Na dno',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Neveljavna vrednost.',
 		invalidHeight: 'Višina mora biti število.',
 		invalidWidth: 'Širina mora biti število.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Vrednost določena za "%1" polje mora biti pozitivna številka z ali brez veljavne CSS enote za merjenje (px, %, in, cm, mm, em, ex, pt, ali pc).',
+		invalidHtmlLength: 'Vrednost določena za "%1" polje mora biti pozitivna številka z ali brez veljavne HTML enote za merjenje (px ali %).',
+		invalidInlineStyle: 'Vrednost določena za inline slog mora biti sestavljena iz ene ali več tork (tuples) z obliko "ime : vrednost", ločenih z podpičji.',
+		cssLengthTooltip: 'Vnesite številko za vrednost v slikovnih pikah (pixels) ali številko z veljavno CSS enoto (px, %, in, cm, mm, em, ex, pt, ali pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nedosegljiv</span>'

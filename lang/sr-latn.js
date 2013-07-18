@@ -27,7 +27,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Bogati uređivač teksta',
 
 	// Common messages and labels.
 	common: {
@@ -64,19 +64,19 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		cssStyle: 'Stil',
 		ok: 'OK',
 		cancel: 'Otkaži',
-		close: 'Close', // MISSING
+		close: 'Zatvori',
 		preview: 'Izgled stranice',
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Opšte',
 		advancedTab: 'Napredni tagovi',
-		validateNumberFailed: 'This value is not a number.', // MISSING
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
+		validateNumberFailed: 'Ova vrednost nije broj.',
+		confirmNewPage: 'Nesačuvane promene ovog sadržaja će biti izgubljene. Jeste li sigurni da želita da učitate novu stranu?',
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
+		options: 'Opcije',
 		target: 'Meta',
-		targetNew: 'New Window (_blank)', // MISSING
+		targetNew: 'Novi prozor (_blank)',
 		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
+		targetSelf: 'Isti prozor (_self)',
 		targetParent: 'Parent Window (_parent)', // MISSING
 		langDirLTR: 'S leva na desno (LTR)',
 		langDirRTL: 'S desna na levo (RTL)',
@@ -92,8 +92,8 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dole',
 		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		invalidHeight: 'Visina mora biti broj.',
+		invalidWidth: 'Širina mora biti broj.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

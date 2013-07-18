@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'image', 'sl', {
 	upload: 'Pošlji',
 	urlMissing: 'Manjka vir (URL) slike.',
 	vSpace: 'Navpični razmik',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	validateBorder: 'Meja mora biti celo število.',
+	validateHSpace: 'HSpace mora biti celo število.',
+	validateVSpace: 'VSpace mora biti celo število.'
 });

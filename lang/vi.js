@@ -27,7 +27,7 @@ CKEDITOR.lang[ 'vi' ] = {
 	dir: 'ltr',
 
 	// ARIA description.
-	editor: 'Bộ soạn thảo',
+	editor: 'Bộ soạn thảo văn bản có định dạng',
 
 	// Common messages and labels.
 	common: {
@@ -35,7 +35,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'Nhấn ALT + 0 để được giúp đỡ',
 
-		browseServer: 'Duyệt trên máy chủ',
+		browseServer: 'Duyệt máy chủ',
 		url: 'URL',
 		protocol: 'Giao thức',
 		upload: 'Tải lên',

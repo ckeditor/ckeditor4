@@ -33,19 +33,19 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	noAnchors: '(Нема доступних сидра)',
 	noEmail: 'Откуцајте адресу електронске поште',
 	noUrl: 'Унесите УРЛ линка',
-	other: '<other>', // MISSING
+	other: '<друго>',
 	popupDependent: 'Зависно (Netscape)',
 	popupFeatures: 'Могућности искачућег прозора',
 	popupFullScreen: 'Приказ преко целог екрана (ИE)',
 	popupLeft: 'Од леве ивице екрана (пиксела)',
 	popupLocationBar: 'Локација',
 	popupMenuBar: 'Контекстни мени',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'Величина се мења',
 	popupScrollBars: 'Скрол бар',
 	popupStatusBar: 'Статусна линија',
 	popupToolbar: 'Toolbar',
 	popupTop: 'Од врха екрана (пиксела)',
-	rel: 'Relationship', // MISSING
+	rel: 'Однос',
 	selectAnchor: 'Одабери сидро',
 	styles: 'Стил',
 	tabIndex: 'Таб индекс',

@@ -8,16 +8,16 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	bgImage: 'Caminho para a Imagem de Fundo',
 	charset: 'Codificação de Caracteres',
 	charsetASCII: 'ASCII',
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
+	charsetCE: 'Europa Central',
+	charsetCR: 'Cirílico',
+	charsetCT: 'Chinês Traditional (Big5)',
+	charsetGR: 'Grego',
+	charsetJP: 'Japonês',
+	charsetKR: 'Coreano',
 	charsetOther: 'Outra Codificação de Caracteres',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
+	charsetTR: 'Turco',
+	charsetUN: 'Unicode (UTF-8)',
+	charsetWE: 'Europa Ocidental',
 	chooseColor: 'Choose',
 	design: 'Design', // MISSING
 	docTitle: 'Título da Página',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	metaDescription: 'Descrição do Documento',
 	metaKeywords: 'Palavras de Indexação do Documento (separadas por virgula)',
 	other: '<outro>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>Isto é algum <strong>texto amostra</strong>. Está a usar o <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Propriedades do Documento',
 	txtColor: 'Cor do Texto',
 	xhtmlDec: 'Incluir Declarações XHTML'

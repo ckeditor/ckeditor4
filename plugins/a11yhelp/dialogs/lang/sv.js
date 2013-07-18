@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		items: [
 			{
 			name: 'Editor verktygsfält',
-			legend: 'Tryck på $ {toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT-TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck Space eller ENTER för att aktivera knappen i verktygsfältet.'
+			legend: 'Tryck på ${toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT-TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck Space eller ENTER för att aktivera knappen i verktygsfältet.'
 		},
 
 			{
@@ -68,8 +68,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 			legend: 'Tryck på ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Gå till föregående fokus plats',
+			legend: 'Tryck på ${accessPreviousSpace} för att gå till närmast onåbarara utrymme före markören, exempel: två intilliggande HR element. Repetera tangentkombinationen för att gå till nästa.'
 		},
 			{
 			name: 'Tillgå nästa fokuskommandots utrymme',

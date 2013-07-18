@@ -96,7 +96,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'cy', {
 	otilde: 'Llythyren o fach Lladinaidd gyda thild',
 	ouml: 'Llythyren o fach Lladinaidd gyda didolnod',
 	divide: 'Arwydd rhannu',
-	oslash: 'Llyth',
+	oslash: 'Llythyren o fach Lladinaidd gyda strôc',
 	ugrave: 'Llythyren u fach Lladinaidd gydag acen ddisgynedig',
 	uacute: 'Llythyren u fach Lladinaidd gydag acen ddyrchafedig',
 	ucirc: 'Llythyren u fach Lladinaidd gydag acen grom',

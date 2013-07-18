@@ -4,80 +4,80 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'Navodila Dostopnosti',
+	contents: 'Vsebina Pomoči. Če želite zapreti to pogovorno okno pritisnite ESC.',
 	legend: [
 		{
 		name: 'Splošno',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'Urejevalna Orodna Vrstica',
+			legend: 'Pritisnite ${toolbarFocus} za pomik v orodno vrstico. Z TAB in SHIFT-TAB se pomikate na naslednjo in prejšnjo skupino orodne vrstice. Z DESNO PUŠČICO ali LEVO PUŠČICO se pomikate na naslednji in prejšnji gumb orodne vrstice. Pritisnite SPACE ali ENTER, da aktivirate gumb orodne vrstice.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: 'Urejevalno Pogovorno Okno',
+			legend: 'Znotraj pogovornega okna, pritisnite tipko TAB za pomik na naslednjo pogovorno polje, pritisnite SHIFT + TAB za pomik v prejšnje polje, pritisnite tipko ENTER za predložitev pogovornega okna, pritisnite tipko ESC, da prekličete okno. Za okna, ki imajo več zavihkov, pritisnite ALT + F10, da pojdete na seznam zavihkov. Na naslednji zavihek se premaknete s tipko TAB ali DESNO PUŠČICO. Z SHIFT + TAB ali LEVO PUŠČICO pa se premaknete na prejšnji zavihek. Pritisnite tipko SPACE ali ENTER za izbiro zavihka.'
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'Urejevalni Kontekstni Meni',
+			legend: 'Pritisnite ${contextMenu} ali APPLICATION KEY, da odprete kontekstni meni. Nato se premaknite na naslednjo možnost menija s tipko TAB ali PUŠČICA DOL. Premakniti se na prejšnjo možnost z SHIFT + TAB ali PUŠČICA GOR. Pritisnite SPACE ali ENTER za izbiro možnosti menija. Odprite podmeni trenutne možnosti menija s tipko SPACE ali ENTER ali DESNA PUŠČICA. Vrnite se na matični element menija s tipko ESC ali LEVA PUŠČICA. Zaprite kontekstni meni z ESC.'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'Urejevalno Seznamsko Polje',
+			legend: 'Znotraj seznama, se premaknete na naslednji element seznama s tipko TAB ali PUŠČICO DOL. Z SHIFT + TAB ali PUŠČICO GOR se premaknete na prejšnji element seznama. Pritisnite tipko SPACE ali ENTER za izbiro elementa. Pritisnite tipko ESC, da zaprete seznam.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Urejevalna vrstica poti elementa',
+			legend: 'Pritisnite ${elementsPathFocus} za pomikanje po vrstici elementnih poti. S TAB ali DESNA PUŠČICA se premaknete na naslednji gumb elementa. Z SHIFT + TAB ali LEVO PUŠČICO se premaknete na prejšnji gumb elementa. Pritisnite SPACE ali ENTER za izbiro elementa v urejevalniku.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Ukazi',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Razveljavi ukaz',
+			legend: 'Pritisnite ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Ponovi ukaz',
+			legend: 'Pritisnite ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Krepki ukaz',
+			legend: 'Pritisnite ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Ležeči ukaz',
+			legend: 'Pritisnite ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Poudarni ukaz',
+			legend: 'Pritisnite ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Ukaz povezave',
+			legend: 'Pritisnite ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Skrči Orodno Vrstico Ukaz',
+			legend: 'Pritisnite ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Dostop do prejšnjega ukaza ostrenja',
+			legend: 'Pritisnite ${accessPreviousSpace} za dostop do najbližjega nedosegljivega osredotočenega prostora pred strešico, npr.: dva sosednja HR elementa. Ponovite kombinacijo tipk, da dosežete oddaljene osredotočene prostore.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Dostop do naslednjega ukaza ostrenja',
+			legend: 'Pritisnite ${accessNextSpace} za dostop do najbližjega nedosegljivega osredotočenega prostora po strešici, npr.: dva sosednja HR elementa. Ponovite kombinacijo tipk, da dosežete oddaljene osredotočene prostore.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Pomoč Dostopnosti',
+			legend: 'Pritisnite ${a11yHelp}'
 		}
 		]
 	}

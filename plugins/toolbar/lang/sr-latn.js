@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sr-latn', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Suzi alatnu traku',
+	toolbarExpand: 'Proširi alatnu traku',
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Clipboard/Undo',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sr-latn', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Alatne trake'
 });

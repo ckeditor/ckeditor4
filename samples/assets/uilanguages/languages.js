@@ -35,6 +35,7 @@ var CKEDITOR_LANGS = (function() {
 		hi: 'Hindi',
 		hr: 'Croatian',
 		hu: 'Hungarian',
+		id: 'Indonesian',
 		is: 'Icelandic',
 		it: 'Italian',
 		ja: 'Japanese',

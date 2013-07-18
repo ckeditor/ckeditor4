@@ -27,7 +27,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 
 			{
 			name: 'Lista w edytorze',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'W polu listy możesz przechodzić do następnego elementu za pomocą klawisza TAB lub STRZAŁKI W DÓŁ. Poprzedni element osiągniesz za pomocą SHIFT+TAB lub STRZAŁKI W GÓRĘ. Za pomocą SPACJI lub ENTERA wybierzesz daną opcję z listy, a za pomocą klawisza ESC opuścisz listę.'
 		},
 
 			{

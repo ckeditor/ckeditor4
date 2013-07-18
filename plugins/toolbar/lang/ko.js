@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'ko', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: '툴바 삭제',
+	toolbarExpand: '확장 툴바',
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Clipboard/Undo',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ko', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: '편집자용 툴바들'
 });

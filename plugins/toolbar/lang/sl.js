@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Skrči Orodno Vrstico',
+	toolbarExpand: 'Razširi Orodno Vrstico',
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Clipboard/Undo',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Urejevalnik orodne vrstice'
 });

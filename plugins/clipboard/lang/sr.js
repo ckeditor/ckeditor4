@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr', {
 	cut: 'Исеци',
 	cutError: 'Сигурносна подешавања Вашег претраживача не дозвољавају операције аутоматског исецања текста. Молимо Вас да користите пречицу са тастатуре (Ctrl/Cmd+X).',
 	paste: 'Залепи',
-	pasteArea: 'Paste Area', // MISSING
+	pasteArea: 'Залепи зону',
 	pasteMsg: 'Молимо Вас да залепите унутар доње површине користећи тастатурну пречицу (<STRONG>Ctrl/Cmd+V</STRONG>) и да притиснете <STRONG>OK</STRONG>.',
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+	securityMsg: 'Због сигурносних подешавања претраживача, едитор не може да приступи оставу. Требате да га поново залепите у овом прозору.',
 	title: 'Залепи'
 });

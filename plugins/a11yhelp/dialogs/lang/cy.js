@@ -27,7 +27,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 
 			{
 			name: 'Blwch Rhestr y Golygydd',
-			legend: 'Tu mewn rhestr-bocs, ewch i\'r eitem rhestr nesaf gyda TAB neu\'r SAETH I LAWR. Symudwch i restr eitem flaenorol gyda SHIFT + TAB neu SAETH I FYNY. Pwyswch SPACE neu ENTER i ddewis yr opsiwn o\'r rhestr. Pwyswch ESC i gau\'r rhestr.'
+			legend: 'Tu mewn y blwch rhestr, ewch i\'r eitem rhestr nesaf gyda TAB neu\'r SAETH I LAWR. Symudwch i restr eitem flaenorol gyda SHIFT + TAB neu SAETH I FYNY. Pwyswch SPACE neu ENTER i ddewis yr opsiwn o\'r rhestr. Pwyswch ESC i gau\'r rhestr.'
 		},
 
 			{

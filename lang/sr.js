@@ -64,15 +64,15 @@ CKEDITOR.lang[ 'sr' ] = {
 		cssStyle: 'Стил',
 		ok: 'OK',
 		cancel: 'Oткажи',
-		close: 'Close', // MISSING
+		close: 'Затвори',
 		preview: 'Изглед странице',
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Опште',
 		advancedTab: 'Напредни тагови',
-		validateNumberFailed: 'This value is not a number.', // MISSING
+		validateNumberFailed: 'Ова вредност није цигра.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
-		options: 'Options', // MISSING
+		options: 'Опције',
 		target: 'Meтa',
 		targetNew: 'New Window (_blank)', // MISSING
 		targetTop: 'Topmost Window (_top)', // MISSING
