@@ -287,3 +287,21 @@
  * @cfg {Array} [indentClasses=null]
  * @member CKEDITOR.config
  */
+
+/**
+ * The size in {@link CKEDITOR.config#indentUnit indentation units} of each indentation step.
+ *
+ *		config.indentOffset = 4;
+ *
+ * @cfg {Number} [indentOffset=40]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * The unit used for {@link CKEDITOR.config#indentOffset indentation offset}.
+ *
+ *		config.indentUnit = 'em';
+ *
+ * @cfg {String} [indentUnit='px']
+ * @member CKEDITOR.config
+ */
