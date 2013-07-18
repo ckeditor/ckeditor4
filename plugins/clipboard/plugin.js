@@ -660,7 +660,8 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902;
+				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
+				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
@@ -751,6 +752,12 @@
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
+			// Webkit fill fire blur on editable when moving selection to
+			// pastebin (if body is used). Cancel it because it causes incorrect
+			// selection lock in case of inline editor.
+			if ( CKEDITOR.env.webkit )
+				blurListener = editable.once( 'blur', cancel, null, null, -100 );
+
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
@@ -762,7 +769,7 @@
 			// this selection will be restored. We overwrite stored selection, so it's restored
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
-				var blurListener = editable.once( 'blur', function( evt ) {
+				blurListener = editable.once( 'blur', function( evt ) {
 					editor.lockSelection( selPastebin );
 				} );
 			}
