@@ -480,6 +480,7 @@
 			this.locked = 0;
 
 			this.index = image.index;
+			this.currentImage = this.snapshots[ this.index ];
 
 			// Update current image with the actual editor
 			// content, since actualy content may differ from
@@ -577,8 +578,19 @@
 		 */
 		update: function() {
 			// Do not change snapshots stack is locked.
-			if ( !this.locked )
-				this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
+			if ( this.locked )
+				return;
+
+			var i = this.index,
+				snapshots = this.snapshots;
+
+			// Find all previous snapshots made for the same content (which differ
+			// only by selection) and replace all of them with the current image.
+			while ( i > 0 && this.currentImage.equalsContent( snapshots[ i - 1 ] ) )
+				i -= 1;
+
+			snapshots.splice( i, this.index - i + 1, ( this.currentImage = new Image( this.editor ) ) );
+			this.index = i;
 		},
 
 		/**
