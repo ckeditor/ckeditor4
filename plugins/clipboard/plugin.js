@@ -688,6 +688,7 @@
 				pastebin.appendBogus();
 
 			var containerOffset = 0,
+				offsetParent,
 				win = doc.getWindow();
 
 			// Seems to be the only way to avoid page scroll in Fx 3.x.
@@ -701,6 +702,20 @@
 					editable.append( pastebin );
 					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
 					pastebin.addClass( 'cke_editable' );
+
+					// Compensate position of offsetParent.
+					if ( editable.is( 'body' ) )
+						offsetParent = editable;
+					else {
+						// We're not able to get offsetParent from pastebin (body element), so check whether
+						// its parent (editable) is positioned.
+						if ( editable.getComputedStyle( 'position' ) != 'static' )
+							offsetParent = editable;
+						// And if not - safely get offsetParent from editable.
+						else
+							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+					}
+					containerOffset = offsetParent.getDocumentPosition().y;
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
