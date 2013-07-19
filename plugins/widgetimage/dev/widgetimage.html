@@ -138,6 +138,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							}
 						};
 					}
+				},
+				pluginsLoaded: function( evt ) {
+					evt.editor.addCommand( 'deleteImageWidget', {
+						exec: function( editor ) {
+							editor.widgets.del( editor.widgets.focused );
+						}
+					} );
+
+					evt.editor.addMenuItem( 'deleteImageWidget', {
+						command: 'deleteImageWidget',
+						label: 'Delete image',
+						group: 'image'
+					} );
+
+					evt.editor.widgets.on( 'instanceCreated', function( evt ) {
+						evt.data.on( 'contextmenu', function( evt ) {
+							evt.data.deleteImageWidget = CKEDITOR.TRISTATE_OFF;
+						} );
+					} );
 				}
 			}
 		} );
