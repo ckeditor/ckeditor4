@@ -54,7 +54,7 @@
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
 		}
-	});
+	} );
 
 	/**
 	 * @class CKEDITOR.plugins.widget.repository
@@ -269,7 +269,7 @@
 		 * been initialzed on it yet.
 		 *
 		 * @param {CKEDITOR.dom.element} element
-		 * @param {String/CKEDITOR.plugins.widget.definition} widget Name of a widget type or a widget definition.
+		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget type or a widget definition.
 		 * Widget definition should be previously registered by {@link CKEDITOR.plugins.widget.repository#add}.
 		 * @param startupData Widget's startup data (has precedence over defaults one).
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or null if there's no widget for given element.
@@ -608,6 +608,7 @@
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
 				} );
+
 				okListener = dialog.on( 'ok', function() {
 					// Commit dialog's fields, but prevent from
 					// firing data event for every field. Fire only one,
