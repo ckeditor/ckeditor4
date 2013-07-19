@@ -345,7 +345,7 @@
 							id: 'cmbAlign',
 							type: 'select',
 							requiredContent: 'table[align]',
-							'default': '',
+							'default': 'center',
 							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
@@ -354,14 +354,42 @@
 								[ editor.lang.common.alignRight, 'right' ]
 								],
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
-							},
-							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'align', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'align' );
-							}
+									var dir=selectedTable.getStyle('margin-right');
+									var esq=selectedTable.getStyle('margin-left');
+									var value='';
+									if (dir=='3pt' && esq=='auto') value='right';
+									else if (dir=='auto' && esq=='auto') value='center';
+									else if (dir=='auto' && esq=='3pt') value='left';	
+									else if (dir=='auto' && esq=='1.18in') value='recuo';
+									this.setValue( value );
+								},
+								commit: function( data, selectedTable ) {
+									var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
+									if ( this.getValue() )
+										switch (this.getValue()){
+											case 'left': 
+												styles.updateStyle('margin-left','3pt');
+												styles.updateStyle('margin-right','auto');
+												break;
+											case 'recuo': 
+												styles.updateStyle('margin-left','1.18in');
+												styles.updateStyle('margin-right','auto');
+												break;
+											case 'center':
+												styles.updateStyle('margin-left','auto');
+												styles.updateStyle('margin-right','auto');
+												break;
+											case 'right':
+												styles.updateStyle('margin-left','auto');
+												styles.updateStyle('margin-right','3pt');
+												break;														
+										}													
+									else {
+										selectedTable.removeAttribute( 'align' );
+									  //styles.updateStyle('margin-left');
+									  //styles.updateStyle('margin-right');
+									}
+								}
 						}
 						]
 					},
@@ -521,21 +549,6 @@
 								for ( var i = captionElement.count() - 1; i >= 0; i-- )
 									captionElement.getItem( i ).remove();
 							}
-						}
-					},
-						{
-						type: 'text',
-						id: 'txtSummary',
-						requiredContent: 'table[summary]',
-						label: editor.lang.table.summary,
-						setup: function( selectedTable ) {
-							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
-						},
-						commit: function( data, selectedTable ) {
-							if ( this.getValue() )
-								selectedTable.setAttribute( 'summary', this.getValue() );
-							else
-								selectedTable.removeAttribute( 'summary' );
 						}
 					}
 					]

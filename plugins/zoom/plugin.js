@@ -87,6 +87,7 @@ CKEDITOR.plugins.add( 'zoom',
 				}	
 				this.setValue(CKEDITOR.config.zoom,CKEDITOR.config.zoom+' %' );
 				this.lastValue=value;
+				editor.fire('selectionChange');
 			},
 			onClick : function( value )
 			{
@@ -95,12 +96,10 @@ CKEDITOR.plugins.add( 'zoom',
 			  	var hdnCookie = document.getElementById('hdnInfraPrefixoCookie');			  	
 			  	var prefixoCookie = hdnCookie.value;
  			  	infraCriarCookie(prefixoCookie+'_zoom_editor',value,365);
- 			  	var current=CKEDITOR.currentInstance;
-			  	for (inst in CKEDITOR.instances) {
-						this.apply(CKEDITOR.instances[inst]);
-						//CKEDITOR.instances[inst].fire('contentDom');
+ 			  	for (inst in CKEDITOR.instances) {
+						this.apply(CKEDITOR.instances[inst]);						
 					}
-			  	//current.fire('contentDom');
+			  	
 				}
 			}
 		});

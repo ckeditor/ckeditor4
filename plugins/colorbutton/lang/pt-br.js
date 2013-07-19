@@ -4,7 +4,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'pt-br', {
 	auto: 'Automático',
-	bgColorTitle: 'Cor do Plano de Fundo',
+	bgColorTitle: 'Realce do texto',
 	colors: {
 		'000': 'Preto',
 		'800000': 'Foquete',
