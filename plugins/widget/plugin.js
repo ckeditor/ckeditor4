@@ -52,6 +52,7 @@
 
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
+			setupContextMenu( editor );
 		}
 	});
 
@@ -1118,6 +1119,18 @@
 		}
 	}
 
+	function setupContextMenu( editor ) {
+		if ( !editor.contextMenu )
+			return;
+
+		editor.contextMenu.addListener( function( element ) {
+			var widget = editor.widgets.getByElement( element, true );
+
+			if ( widget )
+				return widget.fire( 'contextmenu', {} );
+		} );
+	}
+
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
 	// * pasting handling,
@@ -1874,6 +1887,15 @@
   * @member CKEDITOR.plugins.widget
   * @param data
   * @param {CKEDITOR.dom.element} data.element The double clicked element.
+  */
+
+ /**
+  * Event fired when context menu is opened for a widget.
+  *
+  * @event contextmenu
+  * @member CKEDITOR.plugins.widget
+  * @param data The object contaning context menu options to be added
+  * for this widget. See {@link CKEDITOR.plugins.contextMenu#addListener}.
   */
 
 /**

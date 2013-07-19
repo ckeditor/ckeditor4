@@ -9,9 +9,16 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 	// Make sure the base class (CKEDITOR.menu) is loaded before it (#3318).
 	onLoad: function() {
+		/**
+		 * @class
+		 * @extends CKEDITOR.menu
+		 */
 		CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
 			base: CKEDITOR.menu,
 
+			/**
+			 * @constructor
+			 */
 			$: function( editor ) {
 				this.base.call( this, editor, {
 					panel: {
