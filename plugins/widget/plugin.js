@@ -1128,7 +1128,7 @@
 			var widget = editor.widgets.getByElement( element, true );
 
 			if ( widget )
-				return widget.fire( 'contextmenu', {} );
+				return widget.fire( 'contextMenu', {} );
 		} );
 	}
 
@@ -1893,7 +1893,7 @@
  /**
   * Event fired when context menu is opened for a widget.
   *
-  * @event contextmenu
+  * @event contextMenu
   * @member CKEDITOR.plugins.widget
   * @param data The object contaning context menu options to be added
   * for this widget. See {@link CKEDITOR.plugins.contextMenu#addListener}.
