@@ -16,9 +16,11 @@
 				dialog: 'widgetimg',
 				button: 'Image',
 				template:
-					'<figure class="caption" data-widget="image">' +
-						'<img alt="" src="" /><figcaption>caption...</figcaption>' +
+					'<figure class="caption" data-widget="img">' +
+						'<img alt="" src="" />' +
+						'<figcaption>Caption</figcaption>' +
 					'</figure>',
+
 				allowedContent: 'figure(!caption)[!data-widget]{float}; figcaption',
 
 				parts: {
@@ -38,54 +40,67 @@
 					this.parts.image.removeStyle( 'float' );
 					this.setData( 'floatStyle', floatStyle );
 
-					this.on( 'getOutput', function( evt ) {
-						downcastWidgetElement( evt.data, this );
-					} );
-
-					this.on( 'dialog', function( evt ) {
-						// We'll handle editing here.
-						evt.cancel();
-
-						// var dialog = evt.data,
-						// 	widget = this,
-						// 	okListener;
-
-						// dialog.customImageElement = this.parts.image;
-
-						// dialog.once( 'show', function() {
-						// 	dialog.setValueOf( 'info', 'cmbAlign', widget.data.floatStyle );
-						// 	dialog.hidePage( 'Link' );
-						// } );
-
-						// okListener = dialog.once( 'ok', function() {
-						// 	widget.setData( 'floatStyle', dialog.getValueOf( 'info', 'cmbAlign' ) );
-						// 	widget.parts.image.removeStyle( 'float' );
-						// } );
-
-						// dialog.once( 'hide', function() {
-						// 	okListener.removeListener();
-						// 	dialog.showPage( 'Link' );
-						// } );
-					} );
+					// Detect whether widget has caption.
+					this.setData( 'hasCaption', !!this.parts.caption );
 				},
 
 				data: function() {
-					this.wrapper.setStyle( 'float', this.data.floatStyle );
+					var hasCaption = this.data.hasCaption,
+						widget = this;
+
+					// Caption was present, but now caption is removed.
+					if ( widget.element.is( 'figure' ) && !hasCaption ) {
+						// Destroy this widget.
+						editor.widgets.destroy( widget );
+
+						// Unwrap <img> from figure.
+						widget.parts.image.replace( widget.element );
+
+						// From now on <img> is "the widget".
+						widget.parts.image.setAttribute( 'data-widget' )
+
+						// Create a new widget without <figcaption>.
+						widget = editor.widgets.initOn( widget.parts.image, 'img', widget.data );
+					}
+
+					// There was no caption, but the caption is added.
+					else if ( this.element.is( 'img' ) && hasCaption ) {
+						// Destroy this widget.
+						editor.widgets.destroy( widget );
+
+						// Create new <figure> from widget template.
+						var figure = CKEDITOR.dom.element.createFromHtml( widget.template.output(), editor.document );
+
+						// Re replace <img> with new <figure>.
+						figure.replace( widget.element );
+
+						// Use old <img> instead of the one from the template,
+						// so we won't lose additional attributes.
+						widget.element.replace( figure.findOne( 'img' ) );
+
+						// Create a new widget with <figcaption>.
+						widget = editor.widgets.initOn( figure, 'img', widget.data );
+					}
+
+					widget.wrapper.setStyle( 'float', widget.data.floatStyle );
 				},
 
 				upcast: function( el ) {
 					if ( el.name == 'img' )
-						return upcastElement( el );
+						return upcastElement( el, this );
 				},
 
-				downcasts: {
-					captionedImage: function( el ) {
-						var img = el.getFirst( 'img' );
+				downcast: function( el ) {
+					// Get first <img> from <figure> or directly <img>
+					// depending on the presence of the caption.
+					var img = el.getFirst( 'img' ) || el,
 
-						downcastWidgetElement( el, this, img );
+						// Get <figcaption> from <figure>.
+						figcaption = el.getFirst( 'figcaption' );
 
-						return img;
-					}
+					downcastWidgetElement( img, this, figcaption );
+
+					return img;
 				}
 			} );
 
@@ -93,48 +108,43 @@
 		}
 	} );
 
-	function upcastElement( el ) {
+	function upcastElement( img ) {
 		// Check whether <img> has data-caption attribute.
-		var caption = el.attributes[ 'data-caption' ];
+		var caption = img.attributes[ 'data-caption' ];
 
 		// If there's no data-caption, turn <img> into widget.
 		if ( !caption )
-			return el;
+			return img;
 
 		// If data-caption is set, wrap <img> into <figure>.
-		var figure = el.wrapWith( new CKEDITOR.htmlParser.element( 'figure', { 'class': 'caption' } ) );
+		var figure = img.wrapWith( new CKEDITOR.htmlParser.element( 'figure', { 'class': 'caption' } ) );
 
 		// Append <caption> with data-caption to the <figure>.
 		figure.add( CKEDITOR.htmlParser.fragment.fromHtml( caption, 'figcaption' ) );
 
 		// Remove data-caption attribute as it's no longer necessary.
-		delete el.attributes[ 'data-caption' ];
+		delete img.attributes[ 'data-caption' ];
 
 		return figure;
 	}
 
-	function downcastWidgetElement( element, widget, downcastTo ) {
-		// if ( !downcastTo )
-		// 	downcastTo = element;
+	function downcastWidgetElement( img, widget, figcaption ) {
+		var attrs = img.attributes,
+			caption = figcaption ? figcaption.getHtml() : null;
 
-		// var attrs = downcastTo.attributes;
+		// Downcasting caption: copy content to data-caption attribute if
+		// caption exists.
+		if ( caption )
+			attrs[ 'data-caption' ] = caption;
 
-		// // Downcasting to image - copy caption's content to data-caption attribute.
-		// if ( downcastTo.name == 'img' ) {
-		// 	var caption = element.getFirst( 'figcaption' );
+		// Add float style to the downcasted element.
+		var floatStyle = widget.data.floatStyle;
 
-		// 	// Something could happen that caption was removed. However,
-		// 	// this was a widget, so it still should be.
-		// 	attrs[ 'data-caption' ] = caption ? caption.getHtml() : '';
-		// }
-
-		// // Add float style to the downcasted element.
-		// var floatStyle = widget.data.floatStyle;
-		// if ( floatStyle ) {
-		// 	var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
-		// 	styles[ 'float' ] = floatStyle;
-		// 	attrs.style = CKEDITOR.tools.writeCssText( styles );
-		// }
+		if ( floatStyle ) {
+			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
+			styles[ 'float' ] = floatStyle;
+			attrs.style = CKEDITOR.tools.writeCssText( styles );
+		}
 	}
 
 })();

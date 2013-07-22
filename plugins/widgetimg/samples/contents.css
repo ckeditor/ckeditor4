@@ -1,4 +1,9 @@
+hr {
+	clear:both;
+}
+
 figure.caption {
+	text-align: center;
 	border: solid 1px #ccc;
 	border-radius: 2px;
 	background: rgba(0,0,0,0.05);

@@ -15,15 +15,14 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				id: 'info',
 				elements: [
 					{
-						id: 'caption',
+						id: 'hasCaption',
 						type: 'checkbox',
-						label: 'Caption',
-						'default': '',
-						setup: function( element ) {
-							// this.setValue( element.getAttribute( 'checked' ) );
+						label: 'Captioned image',
+						setup: function( widget ) {
+							this.setValue( widget.data.hasCaption );
 						},
-						commit: function( data ) {
-							//
+						commit: function( widget ) {
+							widget.setData( 'hasCaption', this.getValue() );
 						}
 					}
 				]
