@@ -53,6 +53,12 @@
 					// Read image ALT attribute.
 					this.setData( 'alt', image.getAttribute( 'alt' ) );
 
+					// Read width from either attribute or style.
+					this.setData( 'width', getDimension( image, 'width' ) );
+
+					// Read height from either attribute or style.
+					this.setData( 'height', getDimension( image, 'height' ) );
+
 					this.on( 'getOutput', function( evt ) {
 						downcastWidgetElement( evt.data, this );
 					} );
@@ -160,4 +166,45 @@
 
 		return el;
 	}
+
+	// Checks for width or height value, either an attribute or style.
+	// Returned value depends on what is set:
+	// 	* For "123%"    ->   "123%"
+	// 	* For "123px"   ->   "123"
+	// 	* For "123"     ->   "123"
+	// 	* For ""        ->   "" (empty string)
+	// @param {CKEDITOR.dom.element} el
+	// @param {String} dimension
+	// @returns {String}
+	var getDimension = (function() {
+		// RegExp: 123, 123px, 123%
+		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i;
+
+		// Checks for valid width or height. If the value is relative ("%"),
+		// the "%" character is preserved. Otherwise, only the number is preserved.
+		// @param {String} size
+		// @param {String} default
+		function checkDimension( size ) {
+			if ( !size )
+				return;
+
+			var match = size.match( regexGetSize );
+
+			if ( !match )
+				return;
+
+			// Preserve "%" in value. It is allowed.
+			if ( match[ 2 ] == '%' )
+				match[ 1 ] += '%';
+
+			return match[ 1 ];
+		}
+
+		// Check for an attribute:      <img src="foo.png" width="100" />
+		// Then check for style:        <img src="foo.png" style="width:100px" />
+		// If no dimension specified:   Return an empty string "".
+		return function( el, dimension ) {
+			return checkDimension( el.getAttribute( dimension ) ) || checkDimension( el.getStyle( dimension ) ) || '';
+		};
+	})();
 })();
