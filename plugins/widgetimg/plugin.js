@@ -23,7 +23,7 @@
 
 				allowedContent: 'figure(!caption)[!data-widget]{float};' +
 					'figcaption;' +
-					'img[alt,!src,data-widget]',
+					'img[alt,!src,data-widget,data-caption]{float}',
 
 				parts: {
 					image: 'img',
