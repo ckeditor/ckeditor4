@@ -23,7 +23,7 @@
 
 				allowedContent: 'figure(!caption)[!data-widget]{float};' +
 					'figcaption;' +
-					'img[!src,alt,data-widget,data-caption]{float,width,height}',
+					'img[!src,alt,data-widget,data-caption,width,height]{float,width,height}',
 
 				parts: {
 					image: 'img',
@@ -37,27 +37,32 @@
 				init: function() {
 					var image = this.parts.image;
 
-					// Read float style from figure/image and remove it from these elements.
+					// Read initial float style from figure/image and then remove it.
 					// This style will be set on wrapper in #data listener.
-					var align = this.element.getStyle( 'float' ) || image.getStyle( 'float' );
+					this.setData( 'align', this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none' );
 					this.element.removeStyle( 'float' );
 					image.removeStyle( 'float' );
-					this.setData( 'align', align || 'none' );
 
-					// Detect whether widget has caption.
+					// Initially, detect whether widget has caption.
 					this.setData( 'hasCaption', !!this.parts.caption );
 
-					// Read image SRC attribute.
+					// Read initial image SRC attribute.
 					this.setData( 'src', image.getAttribute( 'src' ) );
 
-					// Read image ALT attribute.
+					// Read initial image ALT attribute.
 					this.setData( 'alt', image.getAttribute( 'alt' ) );
 
-					// Read width from either attribute or style.
+					// Read initial width from either attribute or style.
 					this.setData( 'width', getDimension( image, 'width' ) );
 
-					// Read height from either attribute or style.
+					// Read initial height from either attribute or style.
 					this.setData( 'height', getDimension( image, 'height' ) );
+
+					// Once initial width and height are read, purge
+					// styles. This widget converts style-driven dimensions to
+					// attribute-driven values.
+					image.removeStyle( 'width' );
+					image.removeStyle( 'height' );
 
 					this.on( 'getOutput', function( evt ) {
 						downcastWidgetElement( evt.data, this );
@@ -117,6 +122,17 @@
 
 					// Set float style of the wrapper.
 					widget.wrapper.setStyle( 'float', widget.data.align );
+
+					// Clean up dimensions coming from the dialog.
+					// As dimensions can be either "123", "123px", "123%" or "",
+					// only "123%" value is stored with the unit.
+					cleanDimensionsUp( widget.data );
+
+					// Set dimensions of the image according to gathered data.
+					setDimensions( widget.parts.image, {
+						width: widget.data.width,
+						height: widget.data.height
+					} );
 				},
 
 				upcast: function( el ) {
@@ -167,44 +183,60 @@
 		return el;
 	}
 
-	// Checks for width or height value, either an attribute or style.
-	// Returned value depends on what is set:
+	// Cleans the values of width or height passed along with widget data,
+	// according to the following formatting rules:
+	//
 	// 	* For "123%"    ->   "123%"
 	// 	* For "123px"   ->   "123"
 	// 	* For "123"     ->   "123"
 	// 	* For ""        ->   "" (empty string)
+	//
+	// @param {Object} data
+	var cleanDimensionsUp = (function() {
+
+		// RegExp: 123, 123px, 123%
+		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
+			dimensions = { 'width': 1, 'height': 1 };
+
+		return function( data ) {
+			for ( var dim in dimensions ) {
+				if ( !data[ dim ] )
+					data[ dim ] = '';
+				else {
+					var match = data[ dim ].match( regexGetSize );
+
+					if ( !match )
+						data[ dim ] = '';
+					else
+						// Preserve "%" in value. It is allowed.
+						data[ dim ] = match[ 1 ] + ( match[ 2 ] == '%' ? '%' : '' );
+				}
+			}
+		};
+	})();
+
+	// Returns width or height value, either an attribute or style.
+	// Values are cleaned up in "data" event (see: init).
+	//
+	// 	1. Check for an attribute:      <img src="foo.png" width="100" />
+	// 	2. Then check for style:        <img src="foo.png" style="width:100px" />
+	// 	3. If no dimension specified:   Return an empty string "".
+	//
 	// @param {CKEDITOR.dom.element} el
 	// @param {String} dimension
 	// @returns {String}
-	var getDimension = (function() {
-		// RegExp: 123, 123px, 123%
-		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i;
+	function getDimension( el, dimension ) {
+		return el.getAttribute( dimension ) || el.getStyle( dimension );
+	}
 
-		// Checks for valid width or height. If the value is relative ("%"),
-		// the "%" character is preserved. Otherwise, only the number is preserved.
-		// @param {String} size
-		// @param {String} default
-		function checkDimension( size ) {
-			if ( !size )
-				return;
-
-			var match = size.match( regexGetSize );
-
-			if ( !match )
-				return;
-
-			// Preserve "%" in value. It is allowed.
-			if ( match[ 2 ] == '%' )
-				match[ 1 ] += '%';
-
-			return match[ 1 ];
+	// @param {CKEDITOR.dom.element} el
+	// @param {Object} values
+	function setDimensions( el, values ) {
+		for ( var v in values ) {
+			if ( values[ v ] )
+				el.setAttribute( v, values[ v ] );
+			else
+				el.removeAttribute( v );
 		}
-
-		// Check for an attribute:      <img src="foo.png" width="100" />
-		// Then check for style:        <img src="foo.png" style="width:100px" />
-		// If no dimension specified:   Return an empty string "".
-		return function( el, dimension ) {
-			return checkDimension( el.getAttribute( dimension ) ) || checkDimension( el.getStyle( dimension ) ) || '';
-		};
-	})();
+	}
 })();
