@@ -21,7 +21,9 @@
 						'<figcaption>Caption</figcaption>' +
 					'</figure>',
 
-				allowedContent: 'figure(!caption)[!data-widget]{float}; figcaption',
+				allowedContent: 'figure(!caption)[!data-widget]{float};' +
+					'figcaption;' +
+					'img[alt,!src,data-widget]',
 
 				parts: {
 					image: 'img',
@@ -33,15 +35,28 @@
 				},
 
 				init: function() {
+					var image = this.parts.image;
+
 					// Read float style from figure/image and remove it from these elements.
 					// This style will be set on wrapper in #data listener.
-					var floatStyle = this.element.getStyle( 'float' ) || this.parts.image.getStyle( 'float' );
+					var floatStyle = this.element.getStyle( 'float' ) || image.getStyle( 'float' );
 					this.element.removeStyle( 'float' );
-					this.parts.image.removeStyle( 'float' );
+					image.removeStyle( 'float' );
 					this.setData( 'floatStyle', floatStyle );
+
+					this.on( 'getOutput', function( evt ) {
+						console.log( 'getOutput' );
+						downcastWidgetElement( evt.data, this );
+					} );
 
 					// Detect whether widget has caption.
 					this.setData( 'hasCaption', !!this.parts.caption );
+
+					// Read image SRC attribute.
+					this.setData( 'src', image.getAttribute( 'src' ) );
+
+					// Read image ALT attribute.
+					this.setData( 'alt', image.getAttribute( 'alt' ) );
 				},
 
 				data: function() {
@@ -57,7 +72,7 @@
 						widget.parts.image.replace( widget.element );
 
 						// From now on <img> is "the widget".
-						widget.parts.image.setAttribute( 'data-widget' )
+						widget.parts.image.setAttribute( 'data-widget', 'img' );
 
 						// Create a new widget without <figcaption>.
 						widget = editor.widgets.initOn( widget.parts.image, 'img', widget.data );
@@ -78,10 +93,21 @@
 						// so we won't lose additional attributes.
 						widget.element.replace( figure.findOne( 'img' ) );
 
+						// Make sure <img> no longer has the "data-widget" attribute.
+						widget.element.removeAttribute( 'data-widget' );
+
 						// Create a new widget with <figcaption>.
 						widget = editor.widgets.initOn( figure, 'img', widget.data );
 					}
 
+					// Set src attribute of the image.
+					widget.parts.image.setAttribute( 'src', widget.data.src );
+					widget.parts.image.data( 'cke-saved-src', widget.data.src );
+
+					// Set alt attribute of the image.
+					widget.parts.image.setAttribute( 'alt', widget.data.alt );
+
+					// Set float style of the wrapper.
 					widget.wrapper.setStyle( 'float', widget.data.floatStyle );
 				},
 
@@ -91,16 +117,7 @@
 				},
 
 				downcast: function( el ) {
-					// Get first <img> from <figure> or directly <img>
-					// depending on the presence of the caption.
-					var img = el.getFirst( 'img' ) || el,
-
-						// Get <figcaption> from <figure>.
-						figcaption = el.getFirst( 'figcaption' );
-
-					downcastWidgetElement( img, this, figcaption );
-
-					return img;
+					return downcastWidgetElement( el, this );
 				}
 			} );
 
@@ -128,23 +145,17 @@
 		return figure;
 	}
 
-	function downcastWidgetElement( img, widget, figcaption ) {
-		var attrs = img.attributes,
-			caption = figcaption ? figcaption.getHtml() : null;
-
-		// Downcasting caption: copy content to data-caption attribute if
-		// caption exists.
-		if ( caption )
-			attrs[ 'data-caption' ] = caption;
+	function downcastWidgetElement( el, widget ) {
+		var attrs = el.attributes,
+			floatStyle = widget.data.floatStyle;
 
 		// Add float style to the downcasted element.
-		var floatStyle = widget.data.floatStyle;
-
 		if ( floatStyle ) {
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
-			styles[ 'float' ] = floatStyle;
+			styles.float = floatStyle;
 			attrs.style = CKEDITOR.tools.writeCssText( styles );
 		}
-	}
 
+		return el;
+	}
 })();

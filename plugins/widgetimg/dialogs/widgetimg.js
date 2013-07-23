@@ -15,6 +15,29 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				id: 'info',
 				elements: [
 					{
+						id: 'txtSrc',
+						type: 'text',
+						label: 'URL',
+						setup: function( widget ) {
+							this.setValue( widget.data.src );
+						},
+						commit: function( widget ) {
+							widget.setData( 'src', this.getValue() );
+						},
+						validate: CKEDITOR.dialog.validate.notEmpty( 'URL is missing' )
+					},
+					{
+						id: 'txtAlt',
+						type: 'text',
+						label: 'Alternative text',
+						setup: function( widget ) {
+							this.setValue( widget.data.alt );
+						},
+						commit: function( widget ) {
+							widget.setData( 'alt', this.getValue() );
+						}
+					},
+					{
 						id: 'hasCaption',
 						type: 'checkbox',
 						label: 'Captioned image',
