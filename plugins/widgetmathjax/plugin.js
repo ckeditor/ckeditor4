@@ -10,13 +10,13 @@ CKEDITOR.plugins.add( 'widgetmathjax', {
 	requires: 'widget,dialog',
 
 	// Let CKEditor know about the plugin icon.
-	icons: 'widgetmath',
+	icons: 'widgetmathjax',
 
 	onLoad: function() {
 	},
 
 	init: function( editor ) {
-		editor.widgets.add( 'widgetmathjax', {
+		editor.widgets.add( 'mathjax', {
 			// This is an "inline" widget. It defaults to "block".
 			inline: true,
 
@@ -24,7 +24,7 @@ CKEDITOR.plugins.add( 'widgetmathjax', {
 			dialog: 'widgetmathjax',
 
 			// Let the Widget System create the toolbar button automatically.
-			button: 'Math',
+			button: 'MathJax',
 
 			// The HTML template used for new widgets creation.
 			template: '<script type="math/tex">{text}</script>',
