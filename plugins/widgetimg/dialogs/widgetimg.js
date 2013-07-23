@@ -15,7 +15,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				id: 'info',
 				elements: [
 					{
-						id: 'txtSrc',
+						id: 'src',
 						type: 'text',
 						label: 'URL',
 						setup: function( widget ) {
@@ -27,7 +27,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						validate: CKEDITOR.dialog.validate.notEmpty( 'URL is missing' )
 					},
 					{
-						id: 'txtAlt',
+						id: 'alt',
 						type: 'text',
 						label: 'Alternative text',
 						setup: function( widget ) {
@@ -38,7 +38,25 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						}
 					},
 					{
-						id: 'hasCaption',
+						type: 'hbox',
+						id: 'alignment',
+						children: [
+							{
+								id: 'align',
+								type: 'radio',
+								items: [ [ 'Left', 'left' ], [ 'None', 'none' ], [ 'Right', 'right' ] ],
+								label: 'Alignment',
+								setup: function( widget ) {
+									this.setValue( widget.data.align );
+								},
+								commit: function( widget ) {
+									widget.setData( 'align', this.getValue() );
+								}
+							},
+						]
+					},
+					{
+						id: 'caption',
 						type: 'checkbox',
 						label: 'Captioned image',
 						setup: function( widget ) {

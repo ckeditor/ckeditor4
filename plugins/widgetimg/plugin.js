@@ -23,7 +23,7 @@
 
 				allowedContent: 'figure(!caption)[!data-widget]{float};' +
 					'figcaption;' +
-					'img[alt,!src,data-widget,data-caption]{float}',
+					'img[!src,alt,data-widget,data-caption]{float,width,height}',
 
 				parts: {
 					image: 'img',
@@ -39,15 +39,10 @@
 
 					// Read float style from figure/image and remove it from these elements.
 					// This style will be set on wrapper in #data listener.
-					var floatStyle = this.element.getStyle( 'float' ) || image.getStyle( 'float' );
+					var align = this.element.getStyle( 'float' ) || image.getStyle( 'float' );
 					this.element.removeStyle( 'float' );
 					image.removeStyle( 'float' );
-					this.setData( 'floatStyle', floatStyle );
-
-					this.on( 'getOutput', function( evt ) {
-						console.log( 'getOutput' );
-						downcastWidgetElement( evt.data, this );
-					} );
+					this.setData( 'align', align || 'none' );
 
 					// Detect whether widget has caption.
 					this.setData( 'hasCaption', !!this.parts.caption );
@@ -57,6 +52,10 @@
 
 					// Read image ALT attribute.
 					this.setData( 'alt', image.getAttribute( 'alt' ) );
+
+					this.on( 'getOutput', function( evt ) {
+						downcastWidgetElement( evt.data, this );
+					} );
 				},
 
 				data: function() {
@@ -96,6 +95,9 @@
 						// Make sure <img> no longer has the "data-widget" attribute.
 						widget.element.removeAttribute( 'data-widget' );
 
+						// Preserve data-widget-keep-attr attribute.
+						figure.setAttribute( 'data-widget-keep-attr', 1 );
+
 						// Create a new widget with <figcaption>.
 						widget = editor.widgets.initOn( figure, 'img', widget.data );
 					}
@@ -108,7 +110,7 @@
 					widget.parts.image.setAttribute( 'alt', widget.data.alt );
 
 					// Set float style of the wrapper.
-					widget.wrapper.setStyle( 'float', widget.data.floatStyle );
+					widget.wrapper.setStyle( 'float', widget.data.align );
 				},
 
 				upcast: function( el ) {
@@ -147,12 +149,12 @@
 
 	function downcastWidgetElement( el, widget ) {
 		var attrs = el.attributes,
-			floatStyle = widget.data.floatStyle;
+			align = widget.data.align;
 
 		// Add float style to the downcasted element.
-		if ( floatStyle ) {
+		if ( align && align != 'none' ) {
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
-			styles.float = floatStyle;
+			styles.float = align;
 			attrs.style = CKEDITOR.tools.writeCssText( styles );
 		}
 
