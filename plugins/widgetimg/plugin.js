@@ -23,7 +23,7 @@
 
 				allowedContent: 'figure(!caption)[!data-widget]{float};' +
 					'figcaption;' +
-					'img[!src,alt,data-widget,data-caption,width,height]{float,width,height}',
+					'img[!src,alt,data-widget,width,height]{float,width,height}',
 
 				parts: {
 					image: 'img',
@@ -137,7 +137,7 @@
 
 				upcast: function( el ) {
 					if ( el.name == 'img' )
-						return upcastElement( el, this );
+						return el;
 				},
 
 				downcast: function( el ) {
@@ -148,26 +148,6 @@
 			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
 		}
 	} );
-
-	function upcastElement( img ) {
-		// Check whether <img> has data-caption attribute.
-		var caption = img.attributes[ 'data-caption' ];
-
-		// If there's no data-caption, turn <img> into widget.
-		if ( !caption )
-			return img;
-
-		// If data-caption is set, wrap <img> into <figure>.
-		var figure = img.wrapWith( new CKEDITOR.htmlParser.element( 'figure', { 'class': 'caption' } ) );
-
-		// Append <caption> with data-caption to the <figure>.
-		figure.add( CKEDITOR.htmlParser.fragment.fromHtml( caption, 'figcaption' ) );
-
-		// Remove data-caption attribute as it's no longer necessary.
-		delete img.attributes[ 'data-caption' ];
-
-		return figure;
-	}
 
 	function downcastWidgetElement( el, widget ) {
 		var attrs = el.attributes,

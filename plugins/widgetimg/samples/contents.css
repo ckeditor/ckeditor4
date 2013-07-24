@@ -1,5 +1,6 @@
-hr {
+h2 {
 	clear:both;
+	border-bottom: 1px dotted #aaa;
 }
 
 figure.caption {
