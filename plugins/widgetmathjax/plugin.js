@@ -57,7 +57,7 @@ CKEDITOR.plugins.add( 'widgetmathjax', {
 
 			// Check the elements that need to be converted to widgets.
 			upcast: function( el ) {
-				console.log( el.name );
+				//console.log( el.name );
 				return el.name == 'script';
 			}
 		} );
