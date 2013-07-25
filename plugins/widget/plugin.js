@@ -614,6 +614,9 @@
 				if ( !that.fire( 'dialog', dialog ) )
 					return;
 
+				// Make widget accessible beyond setup and commit.
+				dialog._.widget = that;
+
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
 				} );
