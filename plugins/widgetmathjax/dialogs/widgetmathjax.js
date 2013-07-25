@@ -9,6 +9,10 @@
 
 CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
+	var mathjaxLoadedHandler = CKEDITOR.tools.addFunction( function() {
+		console.log( "mathjaxLoadedHandler" );
+	} );
+
 	return {
 		title: 'Edit TeX/MathML',
 		minWidth: 350,
@@ -23,10 +27,10 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 						'default': '$$y = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$',
 						label: 'Equation in TeX or MathML',
 						onLoad: function( widget ) {
-							this.getInputElement().setAttribute( "onkeyup", "CKEDITOR.document.getById( 'cke_mathjax_preview' ).getFrameDocument().getWindow().$.Preview.Update( this.value );" );
-							setTimeout( function () {
-								CKEDITOR.document.getById( 'cke_mathjax_preview' ).getFrameDocument().getWindow().$.Preview.Update( '$$y = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$' );
-							}, 1500 );
+							var that = this;
+							this.getInputElement().on( 'keyup', function () {
+								CKEDITOR.document.getById( 'cke_mathjax_preview' ).getFrameDocument().getWindow().$.Preview.Update( that.getInputElement().getValue() );
+							} );
 						},
 					},
 					{
@@ -37,8 +41,9 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 							var config = editor.config,
 								backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
 								//backgroundColorStyle = 'red',
-								doc = CKEDITOR.document.getById( 'cke_mathjax_preview' ).getFrameDocument(),
-								iframeHtml = '' +
+								doc = CKEDITOR.document.getById( 'cke_mathjax_preview' ).getFrameDocument();
+
+							var iframeHtml = '' +
 								'<!DOCTYPE html>' +
 								'<html>' +
 								'<head>' +
@@ -67,16 +72,10 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 										'oldText: null,' +
 										'newText: null,' +
 
-										'Init: function () {' +
+										'Init: function ( text ) {' +
 											'this.preview = document.getElementById(\'MathPreview\');' +
 											'this.buffer = document.getElementById(\'MathBuffer\');' +
-										'},' +
-
-										'SwapBuffers: function () {' +
-											'var buffer = this.preview, preview = this.buffer;' +
-											'this.buffer = buffer; this.preview = preview;' +
-											'buffer.style.visibility = \'hidden\'; buffer.style.position = \'absolute\';' +
-											'preview.style.position = \'\'; preview.style.visibility = \'\';' +
+											'this.Update( text );' +
 										'},' +
 
 										'Update: function ( text ) {' +
@@ -86,6 +85,7 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 										'},' +
 
 										'CreatePreview: function () {' +
+											'window.parent.CKEDITOR.tools.callFunction(' + this.mathjaxLoadedHandler + ',window);' +
 											'Preview.timeout = null;' +
 											'if (this.mjRunning) return;' +
 											'if (this.newText === this.oldText) return;' +
@@ -99,7 +99,10 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
 										'PreviewDone: function () {' +
 											'this.mjRunning = false;' +
-											'this.SwapBuffers();' +
+											'this.preview.innerHTML = this.buffer.innerHTML;' +
+											'var body = document.body,' +
+												'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+											'console.log( height );' +
 										'}' +
 
 									'};' +
@@ -107,7 +110,7 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 									'Preview.callback = MathJax.Callback([\'CreatePreview\',Preview]);' +
 									'Preview.callback.autoReset = true;' +
 
-									'Preview.Init();' +
+									'Preview.Init( \'$$y = {-b \\\\pm \\\\sqrt{b^2-4ac} \\\\over 2a}$$\' );' +
 									'</script>' +
 								'</body>' +
 								'</html>';
