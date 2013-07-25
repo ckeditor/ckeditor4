@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'cy', {
 	options: 'Opsiynau',
 	optionsTab: 'Opsiynau',
 	title: 'Gwirio\'r Sillafu Wrth Deipio',
-	toggle: 'Togl SCAYT'
+	toggle: 'Togl SCAYT',
+	noSuggestions: 'No suggestion'
 });

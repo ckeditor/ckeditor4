@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'sk', {
 	options: 'Možnosti',
 	optionsTab: 'Možnosti',
 	title: 'Kontrola pravopisu počas písania',
-	toggle: 'Prepnúť KPPP (Kontrola pravopisu počas písania)'
+	toggle: 'Prepnúť KPPP (Kontrola pravopisu počas písania)',
+	noSuggestions: 'No suggestion'// MISSING
 });

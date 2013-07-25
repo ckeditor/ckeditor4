@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'eo', {
 	options: 'Opcioj',
 	optionsTab: 'Opcioj',
 	title: 'OrtografiKontrolado Dum Vi Tajpas (OKDVT)',
-	toggle: 'Baskuligi OKDVT'
+	toggle: 'Baskuligi OKDVT',
+	noSuggestions: 'No suggestion'
 });

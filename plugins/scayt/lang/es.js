@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'es', {
 	options: 'Opciones',
 	optionsTab: 'Opciones',
 	title: 'Comprobar Ortografía Mientras Escribe',
-	toggle: 'Cambiar Corrector'
+	toggle: 'Cambiar Corrector',
+	noSuggestions: 'No suggestion'
 });

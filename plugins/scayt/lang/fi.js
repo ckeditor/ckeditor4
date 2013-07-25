@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'fi', {
 	options: 'Asetukset',
 	optionsTab: 'Asetukset',
 	title: 'Oikolue kirjoitettaessa',
-	toggle: 'Vaihda oikoluku kirjoittaessa tilaa'
+	toggle: 'Vaihda oikoluku kirjoittaessa tilaa',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'pl', {
 	options: 'Opcje',
 	optionsTab: 'Opcje',
 	title: 'Sprawdź pisownię podczas pisania (SCAYT)',
-	toggle: 'Przełącz SCAYT'
+	toggle: 'Przełącz SCAYT',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'sl', {
 	options: 'Možnosti',
 	optionsTab: 'Možnosti',
 	title: 'Črkovanje med tipkanjem',
-	toggle: 'Preklopi SCAYT'
+	toggle: 'Preklopi SCAYT',
+	noSuggestions: 'No suggestion'// MISSING
 });

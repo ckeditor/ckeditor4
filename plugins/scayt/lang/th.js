@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'th', {
 	options: 'Options', // MISSING
 	optionsTab: 'Options', // MISSING
 	title: 'Spell Check As You Type', // MISSING
-	toggle: 'Toggle SCAYT' // MISSING
+	toggle: 'Toggle SCAYT',// MISSING
+	noSuggestions: 'No suggestion' // MISSING
 });

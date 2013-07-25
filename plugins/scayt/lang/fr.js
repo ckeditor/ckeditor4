@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'fr', {
 	options: 'Options',
 	optionsTab: 'Options',
 	title: 'Vérification de l\'Orthographe en Cours de Frappe (SCAYT)',
-	toggle: 'Activer/Désactiver SCAYT'
+	toggle: 'Activer/Désactiver SCAYT',
+	noSuggestions: 'No suggestion'
 });

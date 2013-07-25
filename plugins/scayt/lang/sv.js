@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'sv', {
 	options: 'Inställningar',
 	optionsTab: 'Inställningar',
 	title: 'Stavningskontroll medan du skriver',
-	toggle: 'Växla SCAYT'
+	toggle: 'Växla SCAYT',
+	noSuggestions: 'No suggestion'// MISSING
 });

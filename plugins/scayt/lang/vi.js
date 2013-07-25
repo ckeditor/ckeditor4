@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'vi', {
 	options: 'Tùy chọn',
 	optionsTab: 'Tùy chọn',
 	title: 'Kiểm tra chính tả ngay khi gõ chữ (SCAYT)',
-	toggle: 'Bật tắt SCAYT'
+	toggle: 'Bật tắt SCAYT',
+	noSuggestions: 'No suggestion'// MISSING
 });

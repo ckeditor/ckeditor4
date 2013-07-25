@@ -107,8 +107,8 @@
 							// Rules that are valid
 							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
 
-						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
-
+						cachedDefinitions =  LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) ;
+						//cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
 						editor.getStylesSet = function( callback ) {
 							if ( cachedDefinitions )
 								return callback( cachedDefinitions );

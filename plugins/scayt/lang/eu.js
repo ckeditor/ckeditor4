@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'eu', {
 	options: 'Aukerak',
 	optionsTab: 'Aukerak',
 	title: 'Ortografia Zuzenketa Idatzi Ahala (SCAYT)',
-	toggle: 'SCAYT aldatu'
+	toggle: 'SCAYT aldatu',
+	noSuggestions: 'No suggestion'
 });

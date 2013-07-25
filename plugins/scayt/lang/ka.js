@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ka', {
 	options: 'პარამეტრები',
 	optionsTab: 'პარამეტრები',
 	title: 'მართლწერის შემოწმება კრეფისას',
-	toggle: 'SCAYT-ის გადართვა'
+	toggle: 'SCAYT-ის გადართვა',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'pt-br', {
 	options: 'Opções',
 	optionsTab: 'Opções',
 	title: 'Correção ortográfica durante a digitação',
-	toggle: 'Ativar/desativar correção ortográfica durante a digitação'
+	toggle: 'Ativar/desativar correção ortográfica durante a digitação',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'et', {
 	options: 'Valikud',
 	optionsTab: 'Valikud',
 	title: 'Õigekirjakontroll kirjutamise ajal',
-	toggle: 'SCAYT sisse/välja lülitamine'
+	toggle: 'SCAYT sisse/välja lülitamine',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'it', {
 	options: 'Opzioni',
 	optionsTab: 'Opzioni',
 	title: 'Controllo Ortografico Mentre Scrivi',
-	toggle: 'Inverti abilitazione SCOMS'
+	toggle: 'Inverti abilitazione SCOMS',
+	noSuggestions: 'No suggestion'
 });

@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'he', {
 	options: 'אפשרויות',
 	optionsTab: 'אפשרויות',
 	title: 'בדיקת איות בזמן כתיבה (SCAYT)',
-	toggle: 'שינוי SCAYT'
+	toggle: 'שינוי SCAYT',
+	noSuggestions: 'No suggestion'
 });

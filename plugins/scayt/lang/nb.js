@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'nb', {
 	options: 'Valg',
 	optionsTab: 'Valg',
 	title: 'Stavekontroll mens du skriver',
-	toggle: 'Veksle SCAYT'
+	toggle: 'Veksle SCAYT',
+	noSuggestions: 'No suggestion'
 });

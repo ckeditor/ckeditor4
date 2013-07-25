@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'el', {
 	options: 'Επιλογές',
 	optionsTab: 'Επιλογές',
 	title: 'Spell Check As You Type', // MISSING
-	toggle: 'Toggle SCAYT' // MISSING
+	toggle: 'Toggle SCAYT', // MISSING
+	noSuggestions: 'No suggestion'
 });

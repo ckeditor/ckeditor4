@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'lt', {
 	options: 'Parametrai',
 	optionsTab: 'Parametrai',
 	title: 'Tikrinti klaidas kai rašoma',
-	toggle: 'Perjungti SCAYT'
+	toggle: 'Perjungti SCAYT',
+	noSuggestions: 'No suggestion'
 });

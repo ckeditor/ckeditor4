@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'zh-cn', {
 	options: '选项',
 	optionsTab: '选项',
 	title: '即时拼写检查',
-	toggle: '暂停/启用即时拼写检查'
+	toggle: '暂停/启用即时拼写检查',
+	noSuggestions: 'No suggestion'// MISSING
 });

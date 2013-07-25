@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'fo', {
 	options: 'Uppseting',
 	optionsTab: 'Uppseting',
 	title: 'Kanna stavseting, meðan tú skrivar',
-	toggle: 'Toggle SCAYT'
+	toggle: 'Toggle SCAYT',
+	noSuggestions: 'No suggestion'
 });

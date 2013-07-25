@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'en-gb', {
 	options: 'Options',
 	optionsTab: 'Options',
 	title: 'Spell Check As You Type',
-	toggle: 'Toggle SCAYT'
+	toggle: 'Toggle SCAYT',
+	noSuggestions: 'No suggestion'
 });

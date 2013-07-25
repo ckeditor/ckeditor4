@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ku', {
 	options: 'ههڵبژارده',
 	optionsTab: 'ههڵبژارده',
 	title: 'پشکنینی نووسه لهکاتی نووسین',
-	toggle: 'گۆڕینی SCAYT'
+	toggle: 'گۆڕینی SCAYT',
+	noSuggestions: 'No suggestion'
 });

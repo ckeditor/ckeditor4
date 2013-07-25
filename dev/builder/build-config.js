@@ -4,7 +4,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moono',
+	skin: 'moonocolor',
 	ignore: [
 		'dev',
 		'README.md',
@@ -17,6 +17,7 @@ var CKBUILDER_CONFIG = {
 	plugins: {
 		a11yhelp: 1,
 		about: 1,
+		autogrow: 1,
 		basicstyles: 1,
 		bidi: 0,
 		blockquote: 1,
@@ -43,6 +44,7 @@ var CKBUILDER_CONFIG = {
 		indent: 1,
 		justify: 1,
 		link: 0,
+		linksei: 1,
 		list: 1,
 		liststyle: 1,
 		magicline: 1,
@@ -57,6 +59,7 @@ var CKBUILDER_CONFIG = {
 		resize: 0,
 		save: 1,
 		selectall: 1,
+		sharedspace: 1,
 		showblocks: 1,
 		showborders: 1,
 		smiley: 0,
@@ -69,6 +72,7 @@ var CKBUILDER_CONFIG = {
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
-		wysiwygarea: 1
+		wysiwygarea: 1,
+		zoom: 1
 	}
 };

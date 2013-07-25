@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'fa', {
 	options: 'گزینهها',
 	optionsTab: 'گزینهها',
 	title: 'بررسی املای تایپ شما',
-	toggle: 'ضامن SCAYT'
+	toggle: 'ضامن SCAYT',
+	noSuggestions: 'No suggestion'
 });

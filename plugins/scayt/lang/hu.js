@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'hu', {
 	options: 'Beállítások',
 	optionsTab: 'Beállítások',
 	title: 'Helyesírás ellenőrzés gépelés közben',
-	toggle: 'SCAYT kapcsolása'
+	toggle: 'SCAYT kapcsolása',
+	noSuggestions: 'No suggestion'
 });

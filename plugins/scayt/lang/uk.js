@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'uk', {
 	options: 'Опції',
 	optionsTab: 'Опції',
 	title: 'Перефірка орфографії по мірі набору',
-	toggle: 'Перемкнути SCAYT'
+	toggle: 'Перемкнути SCAYT',
+	noSuggestions: 'No suggestion'// MISSING
 });

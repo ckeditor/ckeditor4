@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ru', {
 	options: 'Настройки',
 	optionsTab: 'Параметры',
 	title: 'Проверка орфографии по мере ввода (SCAYT)',
-	toggle: 'Переключить SCAYT'
+	toggle: 'Переключить SCAYT',
+	noSuggestions: 'Нет вариантов'
 });

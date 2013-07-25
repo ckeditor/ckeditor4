@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'cs', {
 	options: 'Nastavení',
 	optionsTab: 'Nastavení',
 	title: 'Kontrola pravopisu během psaní (SCAYT)',
-	toggle: 'Vypínač SCAYT'
+	toggle: 'Vypínač SCAYT',
+	noSuggestions: 'No suggestion'
 });

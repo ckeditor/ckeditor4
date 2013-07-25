@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ja', {
 	options: 'オプション',
 	optionsTab: 'オプション',
 	title: 'スペルチェック設定(SCAYT)',
-	toggle: 'SCAYT切替'
+	toggle: 'SCAYT切替',
+	noSuggestions: 'No suggestion'
 });

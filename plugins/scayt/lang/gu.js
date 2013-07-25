@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'gu', {
 	options: 'વિકલ્પો',
 	optionsTab: 'વિકલ્પો',
 	title: 'ટાઈપ કરતા સ્પેલ તપાસો',
-	toggle: 'SCAYT ટોગલ'
+	toggle: 'SCAYT ટોગલ',
+	noSuggestions: 'No suggestion'
 });

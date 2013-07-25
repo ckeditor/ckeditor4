@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'ug', {
 	options: 'تاللانما',
 	optionsTab: 'تاللانما',
 	title: 'شۇئان ئىملا تەكشۈر',
-	toggle: 'شۇئان ئىملا تەكشۈرۈشنى ۋاقىتلىق توختات/قوزغات'
+	toggle: 'شۇئان ئىملا تەكشۈرۈشنى ۋاقىتلىق توختات/قوزغات',
+	noSuggestions: 'No suggestion'// MISSING
 });

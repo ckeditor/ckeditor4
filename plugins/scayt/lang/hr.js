@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'hr', {
 	options: 'Opcije',
 	optionsTab: 'Opcije',
 	title: 'Provjeri pravopis tijekom tipkanja (SCAYT)',
-	toggle: 'Omoguću/Onemogući SCAYT'
+	toggle: 'Omoguću/Onemogući SCAYT',
+	noSuggestions: 'No suggestion'
 });

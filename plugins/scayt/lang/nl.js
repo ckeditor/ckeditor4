@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'nl', {
 	options: 'Opties',
 	optionsTab: 'Opties',
 	title: 'Controleer de spelling tijdens het typen',
-	toggle: 'SCAYT in/uitschakelen'
+	toggle: 'SCAYT in/uitschakelen',
+	noSuggestions: 'No suggestion'
 });

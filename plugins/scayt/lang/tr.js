@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'tr', {
 	options: 'Seçenekler',
 	optionsTab: 'Seçenekler',
 	title: 'Girmiş olduğunuz kelime denetimi',
-	toggle: 'SCAYT\'ı değiştir'
+	toggle: 'SCAYT\'ı değiştir', 
+	noSuggestions: 'No suggestion'// MISSING
 });

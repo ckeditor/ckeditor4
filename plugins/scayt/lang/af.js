@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'af', {
 	options: 'Opsies',
 	optionsTab: 'Opsies',
 	title: 'Speltoets terwyl u tik',
-	toggle: 'SCAYT wissel aan/af'
+	toggle: 'SCAYT wissel aan/af',
+	noSuggestions: 'No suggestion'
 });

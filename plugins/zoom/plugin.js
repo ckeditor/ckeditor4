@@ -30,7 +30,7 @@ CKEDITOR.plugins.add( 'zoom',
 			modes:{wysiwyg:1,source:1 },
 			panel :
 			{				
-				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
+				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss )
 			},
 
 			init : function()

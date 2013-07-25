@@ -29,5 +29,6 @@ CKEDITOR.plugins.setLang( 'scayt', 'lv', {
 	options: 'Uzstādījumi',
 	optionsTab: 'Uzstādījumi',
 	title: 'Pārbaudīt gramatiku rakstot',
-	toggle: 'Pārslēgt SCAYT'
+	toggle: 'Pārslēgt SCAYT',
+	noSuggestions: 'No suggestion'
 });
