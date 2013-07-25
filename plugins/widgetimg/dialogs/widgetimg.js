@@ -64,14 +64,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 	// 	* Register mouseover and mouseout event listeners for UI manipulations.
 	// 	* Register click event listeners for buttons.
 	var onLoadLockReset = (function() {
-		// Fills width and height fields with the original dimensions of the
-		// image (stored in widget#data since widget#init).
-		function reset() {
-			var data = this.widget.data;
-			widthField.setValue( data.initWidth );
-			heightField.setValue( data.initHeight );
-		}
-
 		return function() {
 			var dialog = this.getDialog();
 
@@ -100,8 +92,13 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			if ( resetButton ) {
 				dialog.addFocusable( resetButton, 5 );
 
+				// Fills width and height fields with the original dimensions of the
+				// image (stored in widget#data since widget#init).
 				resetButton.on( 'click', function( evt ) {
-					reset.call( this );
+					var data = this.widget.data;
+					widthField.setValue( data.initWidth );
+					heightField.setValue( data.initHeight );
+
 					evt.data && evt.data.preventDefault();
 				}, this );
 
