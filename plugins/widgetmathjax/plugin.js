@@ -67,7 +67,53 @@
 
 				// Check the elements that need to be converted to widgets.
 				upcast: function( el ) {
-					return el.name == 'span' && hasClass( el, 'math-tex' );
+					if ( !( el.name == 'span' && hasClass( el, 'math-tex' ) ) )
+						return false;
+
+					var source = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} );
+					source.children =  el.children;
+
+					var iFrameLoaded = 0;
+
+					var writeToIFrameHandler = CKEDITOR.tools.addFunction( function ( elem ) {
+						if( iFrameLoaded )
+							return;
+						iFrameLoaded = 1;
+
+						var iframeHtml = '' +
+							'<!DOCTYPE html>' +
+							'<html>' +
+							'<head>' +
+								'<meta charset="utf-8">' +
+								'<script type="text/x-mathjax-config">' +
+									'MathJax.Hub.Config( {' +
+										'showMathMenu: false,' +
+										'messageStyle: "none"' +
+									'} );' +
+								'</script>' +
+							'</head>' +
+							'<body>' +
+							'$$' + source.getHtml() + '$$' +
+							'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
+							'</script>' +
+							'</body>' +
+							'</html>';
+
+						var el = new CKEDITOR.dom.element( elem)
+						el.getFrameDocument().write( iframeHtml );
+					} );
+
+					var iFrame = new CKEDITOR.htmlParser.element( 'iframe', { 'onload': 'window.parent.CKEDITOR.tools.callFunction( ' + writeToIFrameHandler + ', this )'} );
+
+					el.children = [ source, iFrame ];
+
+					return el;
+				},
+
+				downcast: function( el ) {
+					el.children = el.children[0].children;
+
+					return el;
 				}
 			} );
 
