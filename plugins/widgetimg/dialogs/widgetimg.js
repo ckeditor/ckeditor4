@@ -47,15 +47,15 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 	// Registers alignment radios as dialog focusables.
 	// This enabled TAB-based navigation for those elements.
 	function onLoadAlignment() {
-		var dialog = this.getDialog(),
-			radio = this.getChild( 0 );
+		// var dialog = this.getDialog(),
+		// 	radio = this.getChild( 0 );
 
-		if ( radio ) {
-			var radioButtons = radio._.children;
+		// if ( radio ) {
+		// 	var radioButtons = radio._.children;
 
-			for ( var i = 0; i < radioButtons.length; i++ )
-				dialog.addFocusable( radioButtons[ i ].getElement(), 6 + i )
-		}
+		// 	for ( var i = 0; i < radioButtons.length; i++ )
+		// 		dialog.addFocusable( radioButtons[ i ].getElement(), 6 + i )
+		// }
 	}
 
 	// Set-up function for lock and reset buttons:
