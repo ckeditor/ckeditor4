@@ -58,6 +58,8 @@
 					// Read initial height from either attribute or style.
 					this.setData( 'height', getDimension( image, 'height' ) );
 
+					updateInitialDimensions.call( this, image, true );
+
 					// Once initial width and height are read, purge
 					// styles. This widget converts style-driven dimensions to
 					// attribute-driven values.
@@ -113,12 +115,16 @@
 						widget = editor.widgets.initOn( figure, 'img', widget.data );
 					}
 
+					var image = widget.parts.image;
+
+					updateInitialDimensions.call( this, image );
+
 					// Set src attribute of the image.
-					widget.parts.image.setAttribute( 'src', widget.data.src );
-					widget.parts.image.data( 'cke-saved-src', widget.data.src );
+					image.setAttribute( 'src', widget.data.src );
+					image.data( 'cke-saved-src', widget.data.src );
 
 					// Set alt attribute of the image.
-					widget.parts.image.setAttribute( 'alt', widget.data.alt );
+					image.setAttribute( 'alt', widget.data.alt );
 
 					// Set float style of the wrapper.
 					widget.wrapper.setStyle( 'float', widget.data.align );
@@ -129,7 +135,7 @@
 					cleanDimensionsUp( widget.data );
 
 					// Set dimensions of the image according to gathered data.
-					setDimensions( widget.parts.image, {
+					setDimensions( image, {
 						width: widget.data.width,
 						height: widget.data.height
 					} );
@@ -217,6 +223,27 @@
 				el.setAttribute( v, values[ v ] );
 			else
 				el.removeAttribute( v );
+		}
+	}
+
+	function updateInitialDimensions( image, immediate ) {
+		var widget = this;
+
+		function updateData( image ) {
+			// Set initial width of the DOM element.
+			this.setData( 'initWidth', image.$.width );
+
+			// Set initial height of the DOM element.
+			this.setData( 'initHeight', image.$.height );
+		}
+
+		if ( immediate )
+			updateData.call( widget, image );
+		else {
+			image.on( 'load', function( evt ) {
+				evt.removeListener();
+				updateData.call( widget, this );
+			} );
 		}
 	}
 })();

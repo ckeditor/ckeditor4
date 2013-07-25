@@ -29,17 +29,100 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				resetButtonId: resetButtonId
 			} ),
 
-		doc, editor,
-		lockButton, resetButton;
+		doc,
+		lockButton, resetButton, widthField, heightField;
+
+	// Validates dimension. Allowed values are:
+	// "123%", "123px", "123", "" (empty string)
+	function validateDimension() {
+		var match = this.getValue().match( regexGetSizeOrEmpty ),
+			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
+
+		if ( !isValid )
+			alert( 'Invalid value!' );
+
+		return isValid;
+	}
+
+	// Registers alignment radios as dialog focusables.
+	// This enabled TAB-based navigation for those elements.
+	function onLoadAlignment() {
+		var dialog = this.getDialog(),
+			radio = this.getChild( 0 );
+
+		if ( radio ) {
+			var radioButtons = radio._.children;
+
+			for ( var i = 0; i < radioButtons.length; i++ )
+				dialog.addFocusable( radioButtons[ i ].getElement(), 6 + i )
+		}
+	}
+
+	// Set-up function for lock and reset buttons:
+	// 	* Adds lock and reset buttons to focusables. Check if button exist first
+	// 	  because it may be disabled e.g. due to ACF restrictions.
+	// 	* Register mouseover and mouseout event listeners for UI manipulations.
+	// 	* Register click event listeners for buttons.
+	var onLoadLockReset = (function() {
+		// Fills width and height fields with the original dimensions of the
+		// image (stored in widget#data since widget#init).
+		function reset() {
+			var data = this.widget.data;
+			widthField.setValue( data.initWidth );
+			heightField.setValue( data.initHeight );
+		}
+
+		return function() {
+			var dialog = this.getDialog();
+
+			// Create references to lock and reset buttons for this dialog instance.
+			lockButton = doc.getById( lockButtonId );
+			resetButton = doc.getById( resetButtonId );
+
+			// Activate (Un)LockRatio button
+			if ( lockButton ) {
+				dialog.addFocusable( lockButton, 4 );
+
+				lockButton.on( 'click', function( evt ) {
+					// TODO
+				}, this.getDialog() );
+
+				lockButton.on( 'mouseover', function() {
+					this.addClass( 'cke_btn_over' );
+				}, lockButton );
+
+				lockButton.on( 'mouseout', function() {
+					this.removeClass( 'cke_btn_over' );
+				}, lockButton );
+			}
+
+			// Activate the reset size button.
+			if ( resetButton ) {
+				dialog.addFocusable( resetButton, 5 );
+
+				resetButton.on( 'click', function( evt ) {
+					reset.call( this );
+					evt.data && evt.data.preventDefault();
+				}, this );
+
+				resetButton.on( 'mouseover', function() {
+					this.addClass( 'cke_btn_over' );
+				}, resetButton );
+
+				resetButton.on( 'mouseout', function() {
+					this.removeClass( 'cke_btn_over' );
+				}, resetButton );
+			}
+		};
+	})();
 
 	return {
 		title: 'Edit image',
 		minWidth: 250,
 		minHeight: 100,
 		onLoad: function() {
-			// Create references to document and editor for this dialog instance.
-			doc = this._.element.getDocument(),
-			editor = this._.editor;
+			// Create a "global" reference to the document for this dialog instance.
+			doc = this._.element.getDocument();
 		},
 		contents: [
 			{
@@ -49,6 +132,13 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						id: 'src',
 						type: 'text',
 						label: 'URL',
+						onChange: function() {
+							// Reset dimensions when URL is changed.
+							// Applying old dimensions to the new image which may
+							// have a different aspect ratio doesn't make sense.
+							widthField.setValue( '' );
+							heightField.setValue( '' );
+						},
 						setup: function( widget ) {
 							this.setValue( widget.data.src );
 						},
@@ -79,6 +169,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								id: 'width',
 								label: 'Width',
 								validate: validateDimension,
+								onLoad: function() {
+									widthField = this;
+								},
 								setup: function( widget ) {
 									this.setValue( widget.data.width );
 								},
@@ -92,6 +185,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								width: '45px',
 								label: 'Height',
 								validate: validateDimension,
+								onLoad: function() {
+									heightField = this;
+								},
 								setup: function( widget ) {
 									this.setValue( widget.data.height );
 								},
@@ -103,7 +199,13 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								id: 'lock',
 								type: 'html',
 								style: lockResetStyle,
-								onLoad: lockResetOnLoad,
+								onLoad: onLoadLockReset,
+								setup: function( widget ) {
+									// At the moment there's no other way to pass
+									// the widget to the onLoad function than saving
+									// it when setup is called.
+									this.widget = widget;
+								},
 								html: lockResetHtml
 							}
 						]
@@ -111,7 +213,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 					{
 						type: 'hbox',
 						id: 'alignment',
-						onLoad: alignmentOnLoad,
+						onLoad: onLoadAlignment,
 						children: [
 							{
 								id: 'align',
@@ -145,83 +247,4 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			}
 		]
 	};
-
-	function validateDimension() {
-		var match = this.getValue().match( regexGetSizeOrEmpty ),
-			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
-
-		if ( !isValid )
-			alert( 'Invalid value!' );
-
-		return isValid;
-	}
-
-	function alignmentOnLoad( el ) {
-		var dialog = this.getDialog(),
-			radio = this.getChild( 0 );
-
-		if ( radio ) {
-			var radioButtons = radio._.children;
-
-			for ( var i = 0; i < radioButtons.length; i++ )
-				dialog.addFocusable( radioButtons[ i ].getElement(), 6 + i )
-		}
-	}
-
-	// Add lock and reset buttons to focusables.
-	// Check if button exist first be cause it may be disabled
-	// e.g. due to ACF restrictions.
-	function lockResetOnLoad() {
-		var dialog = this.getDialog();
-
-		// Create references to lock and reset buttons for this dialog instance.
-		lockButton = doc.getById( lockButtonId );
-		resetButton = doc.getById( resetButtonId );
-
-		// Activate (Un)LockRatio button
-		if ( lockButton ) {
-			dialog.addFocusable( lockButton, 4 );
-
-			lockButton.on( 'click', function( evt ) {
-				// var locked = switchLockRatio( this ),
-				// 	oImageOriginal = this.originalElement,
-				// 	width = this.getValueOf( 'info', 'txtWidth' );
-
-				// if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' && width ) {
-				// 	var height = oImageOriginal.$.height / oImageOriginal.$.width * width;
-				// 	if ( !isNaN( height ) ) {
-				// 		this.setValueOf( 'info', 'txtHeight', Math.round( height ) );
-				// 		updatePreview( this );
-				// 	}
-				// }
-				// evt.data && evt.data.preventDefault();
-			}, this.getDialog() );
-
-			lockButton.on( 'mouseover', function() {
-				this.addClass( 'cke_btn_over' );
-			}, lockButton );
-
-			lockButton.on( 'mouseout', function() {
-				this.removeClass( 'cke_btn_over' );
-			}, lockButton );
-		}
-
-		// Activate the reset size button.
-		if ( resetButton ) {
-			dialog.addFocusable( resetButton, 5 );
-
-			resetButton.on( 'click', function( evt ) {
-				// resetSize( this );
-				evt.data && evt.data.preventDefault();
-			}, this.getDialog() );
-
-			resetButton.on( 'mouseover', function() {
-				this.addClass( 'cke_btn_over' );
-			}, resetButton );
-
-			resetButton.on( 'mouseout', function() {
-				this.removeClass( 'cke_btn_over' );
-			}, resetButton );
-		}
-	}
 } );
