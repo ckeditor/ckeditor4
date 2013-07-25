@@ -29,7 +29,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				resetButtonId: resetButtonId
 			} ),
 
-		doc,
+		doc, widget,
+		domWidth, domHeight,
+		preLoadedWidth, preLoadedHeight, srcChanged,
 		lockButton, resetButton, widthField, heightField;
 
 	// Validates dimension. Allowed values are:
@@ -95,9 +97,19 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				// Fills width and height fields with the original dimensions of the
 				// image (stored in widget#data since widget#init).
 				resetButton.on( 'click', function( evt ) {
-					var data = this.widget.data;
-					widthField.setValue( data.initWidth );
-					heightField.setValue( data.initHeight );
+					// If there's a new image loaded, reset button should revert
+					// cached dimensions of pre-loaded DOM element.
+					if ( srcChanged ) {
+						widthField.setValue( preLoadedWidth );
+						heightField.setValue( preLoadedHeight );
+					}
+
+					// If the old image remains, reset button should revert
+					// dimensions as loaded when the dialog was first shown.
+					else {
+						widthField.setValue( domWidth );
+						heightField.setValue( domHeight );
+					}
 
 					evt.data && evt.data.preventDefault();
 				}, this );
@@ -120,6 +132,15 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		onLoad: function() {
 			// Create a "global" reference to the document for this dialog instance.
 			doc = this._.element.getDocument();
+
+		},
+		onShow: function() {
+			// Create a "global" reference to edited widget.
+			widget = this._.widget;
+		},
+		onHide: function() {
+			// Reset tmp variables.
+			preLoadedWidth = preLoadedHeight = srcChanged = false;
 		},
 		contents: [
 			{
@@ -130,11 +151,45 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						type: 'text',
 						label: 'URL',
 						onChange: function() {
-							// Reset dimensions when URL is changed.
-							// Applying old dimensions to the new image which may
-							// have a different aspect ratio doesn't make sense.
-							widthField.setValue( '' );
-							heightField.setValue( '' );
+						},
+						onKeyup: function() {
+							var value = this.getValue();
+
+							// Remember that src is different than default.
+							if ( value !== widget.data.src ) {
+								// Update dimensions of the image once it's preloaded.
+								widget.loadImage( value, function( image, width, height ) {
+									// There was problem loading the image.
+									if ( !image )
+										return;
+
+									// Fill width field with the width of the new image.
+									widthField.setValue( width );
+
+									// Fill height field with the height of the new image.
+									heightField.setValue( height );
+
+									// Cache the new width.
+									preLoadedWidth = width;
+
+									// Cache the new height.
+									preLoadedHeight = height;
+								} );
+
+								srcChanged = true;
+							}
+
+							// Roll back dimensions when restoring default src.
+							else if ( srcChanged ) {
+								// Restore width field with cached width.
+								widthField.setValue( domWidth );
+
+								// Restore height field with cached height.
+								heightField.setValue( domHeight );
+
+								// Src equals default one back again.
+								srcChanged = false;
+							}
 						},
 						setup: function( widget ) {
 							this.setValue( widget.data.src );
@@ -171,9 +226,15 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								},
 								setup: function( widget ) {
 									this.setValue( widget.data.width );
+
+									// This width is used when resetting size.
+									domWidth = widget.data.domWidth;
 								},
 								commit: function( widget ) {
 									widget.setData( 'width', this.getValue() );
+
+									if ( srcChanged )
+										widget.setData( 'domWidth', preLoadedWidth );
 								}
 							},
 							{
@@ -187,9 +248,15 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								},
 								setup: function( widget ) {
 									this.setValue( widget.data.height );
+
+									// This height is used when resetting size.
+									domHeight = widget.data.domHeight;
 								},
 								commit: function( widget ) {
 									widget.setData( 'height', this.getValue() );
+
+									if ( srcChanged )
+										widget.setData( 'domHeight', preLoadedHeight );
 								}
 							},
 							{

@@ -58,17 +58,23 @@
 					// Read initial height from either attribute or style.
 					this.setData( 'height', getDimension( image, 'height' ) );
 
-					updateInitialDimensions.call( this, image, true );
+					// Read initial DOM width of the element.
+					this.setData( 'domWidth', image.$.width );
 
-					// Once initial width and height are read, purge
-					// styles. This widget converts style-driven dimensions to
-					// attribute-driven values.
+					// Read initial DOM height of the element.
+					this.setData( 'domHeight', image.$.height );
+
+					// Once initial width and height are read, purge styles.
+					// This widget converts dimensions to attributes.
 					image.removeStyle( 'width' );
 					image.removeStyle( 'height' );
 
 					this.on( 'getOutput', function( evt ) {
 						downcastWidgetElement( evt.data, this );
 					} );
+
+					// A function for loading images.
+					this.loadImage = preLoader( editor, this );
 				},
 
 				data: function() {
@@ -117,8 +123,6 @@
 
 					var image = widget.parts.image;
 
-					updateInitialDimensions.call( this, image );
-
 					// Set src attribute of the image.
 					image.setAttribute( 'src', widget.data.src );
 					image.data( 'cke-saved-src', widget.data.src );
@@ -129,16 +133,12 @@
 					// Set float style of the wrapper.
 					widget.wrapper.setStyle( 'float', widget.data.align );
 
-					// Clean up dimensions coming from the dialog.
 					// As dimensions can be either "123", "123px", "123%" or "",
 					// only "123%" value is stored with the unit.
-					cleanDimensionsUp( widget.data );
+					sanitizeDimensions( this );
 
 					// Set dimensions of the image according to gathered data.
-					setDimensions( image, {
-						width: widget.data.width,
-						height: widget.data.height
-					} );
+					setDimensions( this );
 				},
 
 				upcast: function( el ) {
@@ -172,19 +172,22 @@
 	// Cleans the values of width or height passed along with widget data,
 	// according to the following formatting rules:
 	//
-	// 	* For "123%"    ->   "123%"
-	// 	* For "123px"   ->   "123"
-	// 	* For "123"     ->   "123"
-	// 	* For ""        ->   "" (empty string)
+	// 	1.  "123%" -> "123%"
+	// 	2. "123px" -> "123"
+	// 	3.   "123" -> "123"
+	// 	4.      "" -> "" (empty string)
 	//
-	// @param {Object} data
-	var cleanDimensionsUp = (function() {
+	// @param {CKEDITOR.plugins.widget} widget
+	var sanitizeDimensions = (function() {
 
 		// RegExp: 123, 123px, 123%
 		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
-			dimensions = { 'width': 1, 'height': 1 };
+			dimensions = { 'width': 1, 'height': 1 },
+			data;
 
-		return function( data ) {
+		return function( widget ) {
+			data = widget.data;
+
 			for ( var dim in dimensions ) {
 				if ( !data[ dim ] )
 					data[ dim ] = '';
@@ -204,9 +207,9 @@
 	// Returns width or height value, either an attribute or style.
 	// Values are cleaned up in "data" event (see: init).
 	//
-	// 	1. Check for an attribute:      <img src="foo.png" width="100" />
-	// 	2. Then check for style:        <img src="foo.png" style="width:100px" />
-	// 	3. If no dimension specified:   Return an empty string "".
+	// 	1.    Check for an attribute: <img src="foo.png" width="100" />
+	// 	2.      Then check for style: <img src="foo.png" style="width:100px" />
+	// 	3. If no dimension specified: Return an empty string "".
 	//
 	// @param {CKEDITOR.dom.element} el
 	// @param {String} dimension
@@ -215,35 +218,62 @@
 		return el.getAttribute( dimension ) || el.getStyle( dimension );
 	}
 
-	// @param {CKEDITOR.dom.element} el
-	// @param {Object} values
-	function setDimensions( el, values ) {
-		for ( var v in values ) {
-			if ( values[ v ] )
-				el.setAttribute( v, values[ v ] );
+	// Sets width and height of the widget image according to
+	// current widget data.
+	//
+	// @param {CKEDITOR.plugins.widget} widget
+	function setDimensions( widget ) {
+		var dimensions = CKEDITOR.tools.extend( {}, widget.data, false, { width: 1, height: 1 } ),
+			image = widget.parts.image;
+
+		for ( var d in dimensions ) {
+			if ( dimensions[ d ] )
+				image.setAttribute( d, dimensions[ d ] );
 			else
-				el.removeAttribute( v );
+				image.removeAttribute( d );
 		}
 	}
 
-	function updateInitialDimensions( image, immediate ) {
-		var widget = this;
+	// Creates a function that pre-loads images. The callback function passes
+	// [image, width, height] or null if loading failed.
+	//
+	// @param {CKEDITOR.editor} editor
+	// @param {CKEDITOR.plugins.widget} widget
+	// @returns {Function}
+	function preLoader( editor, widget ) {
+		var image = editor.document.createElement( 'img' ),
+			listeners = [];
 
-		function updateData( image ) {
-			// Set initial width of the DOM element.
-			this.setData( 'initWidth', image.$.width );
-
-			// Set initial height of the DOM element.
-			this.setData( 'initHeight', image.$.height );
+		function addListener( event, callback ) {
+			listeners.push( image.once( event, function( evt ) {
+				removeListeners();
+				callback( evt );
+			} ) );
 		}
 
-		if ( immediate )
-			updateData.call( widget, image );
-		else {
-			image.on( 'load', function( evt ) {
-				evt.removeListener();
-				updateData.call( widget, this );
+		function removeListeners() {
+			var l;
+
+			while ( ( l = listeners.pop() ) )
+				l.removeListener();
+		}
+
+		// @param {String} src.
+		// @param {Function} callback.
+		return function( src, callback ) {
+			addListener( 'load', function() {
+				callback( image, image.$.width, image.$.height );
 			} );
-		}
+
+			addListener( 'error', function() {
+				callback( null );
+			} );
+
+			addListener( 'abort', function() {
+				callback( null );
+			} );
+
+			image.setAttribute( 'src', src );
+		};
 	}
 })();
