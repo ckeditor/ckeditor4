@@ -16,10 +16,8 @@
 	}
 
 	CKEDITOR.plugins.add( 'widgetmathjax', {
-		// Require the "widget" plugin, which provides the Widget System and its API.
 		requires: 'widget,dialog',
 
-		// Let CKEditor know about the plugin icon.
 		icons: 'widgetmathjax',
 
 		onLoad: function() {
@@ -30,16 +28,13 @@
 				// This is an "inline" widget. It defaults to "block".
 				inline: true,
 
-				// We have a dialog to edit this widget, so here we set its name.
 				dialog: 'widgetmathjax',
 
-				// Let the Widget System create the toolbar button automatically.
 				button: 'MathJax',
 
-				// The HTML template used for new widgets creation.
-				template: '<span class="math-tex">{text}</script>',
-
 				allowedContent: 'span(math-tex)',
+
+				template: '<span class="math-tex">{text}</script>',
 
 				// The default data used to fill the above template.
 				defaults: function() {
@@ -73,39 +68,9 @@
 					var source = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} );
 					source.children =  el.children;
 
-					var iFrameLoaded = 0;
+					var framedMathJax = new CKEDITOR.plugins.mathjax.FramedMathJax();
 
-					var writeToIFrameHandler = CKEDITOR.tools.addFunction( function ( elem ) {
-						if( iFrameLoaded )
-							return;
-						iFrameLoaded = 1;
-
-						var iframeHtml = '' +
-							'<!DOCTYPE html>' +
-							'<html>' +
-							'<head>' +
-								'<meta charset="utf-8">' +
-								'<script type="text/x-mathjax-config">' +
-									'MathJax.Hub.Config( {' +
-										'showMathMenu: false,' +
-										'messageStyle: "none"' +
-									'} );' +
-								'</script>' +
-							'</head>' +
-							'<body>' +
-							'$$' + source.getHtml() + '$$' +
-							'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
-							'</script>' +
-							'</body>' +
-							'</html>';
-
-						var el = new CKEDITOR.dom.element( elem)
-						el.getFrameDocument().write( iframeHtml );
-					} );
-
-					var iFrame = new CKEDITOR.htmlParser.element( 'iframe', { 'onload': 'window.parent.CKEDITOR.tools.callFunction( ' + writeToIFrameHandler + ', this )'} );
-
-					el.children = [ source, iFrame ];
+					el.children = [ source, framedMathJax.toParserElement() ];
 
 					return el;
 				},
@@ -121,4 +86,117 @@
 			CKEDITOR.dialog.add( 'widgetmathjax', this.path + 'dialogs/widgetmathjax.js' );
 		}
 	} );
+
+	CKEDITOR.plugins.mathjax = {};
+
+	CKEDITOR.plugins.mathjax.FramedMathJax = function () {
+		var mathjaxLoadedHandler = CKEDITOR.tools.addFunction( function() {
+			console.log( "mathjaxLoadedHandler" );
+		} );
+
+		var id = CKEDITOR.tools.getNextId();
+
+		function srcAttribute () {
+			return 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();';
+		}
+
+		function addSlashes ( string ) {
+			return string.replace(/\\/g, '\\\\').
+				replace(/\u0008/g, '\\b').
+				replace(/\t/g, '\\t').
+				replace(/\n/g, '\\n').
+				replace(/\f/g, '\\f').
+				replace(/\r/g, '\\r').
+				replace(/'/g, '\\\'').
+				replace(/"/g, '\\"');
+		}
+
+		function createContent () {
+			return '' +
+				'<!DOCTYPE html>' +
+				'<html>' +
+				'<head>' +
+					'<meta charset="utf-8">' +
+					'<script type="text/x-mathjax-config">' +
+						'MathJax.Hub.Config( {' +
+							'showMathMenu: false,' +
+							'messageStyle: "none"' +
+						'} );' +
+					'</script>' +
+					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
+					'</script>' +
+				'</head>' +
+				'<body>' +
+				'<div id="MathPreview"></div>' +
+				'<div id="MathBuffer" style="visibility:hidden;"><div>' +
+					'<script>' +
+					// Refresh script based on MathJax sample:
+					// http://cdn.mathjax.org/mathjax/latest/test/sample-dynamic-2.html
+					'var Preview = {' +
+						'preview: null,' +
+						'buffer: null,' +
+
+						'timeout: null,' +
+						'mjRunning: false,' +
+						'oldText: null,' +
+						'newText: null,' +
+
+						'Init: function ( text ) {' +
+							'this.preview = document.getElementById(\'MathPreview\');' +
+							'this.buffer = document.getElementById(\'MathBuffer\');' +
+							'this.Update( text );' +
+						'},' +
+
+						'Update: function ( text ) {' +
+							'this.newText = text;' +
+							'if (this.timeout) {clearTimeout(this.timeout)}' +
+							'this.timeout = setTimeout(this.callback,150);' +
+						'},' +
+
+						'CreatePreview: function () {' +
+							//'window.parent.CKEDITOR.tools.callFunction(' + this.mathjaxLoadedHandler + ',window);' +
+							'Preview.timeout = null;' +
+							'if (this.mjRunning) return;' +
+							'if (this.newText === this.oldText) return;' +
+							'this.buffer.innerHTML = this.oldText = this.newText;' +
+							'this.mjRunning = true;' +
+							'MathJax.Hub.Queue(' +
+								'[\'Typeset\',MathJax.Hub,this.buffer],' +
+								'[\'PreviewDone\',this]' +
+							');' +
+						'},' +
+
+						'PreviewDone: function () {' +
+							'this.mjRunning = false;' +
+							'this.preview.innerHTML = this.buffer.innerHTML;' +
+							'var body = document.body,' +
+								'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+							'console.log( height );' +
+						'}' +
+
+					'};' +
+
+					'Preview.callback = MathJax.Callback([\'CreatePreview\',Preview]);' +
+					'Preview.callback.autoReset = true;' +
+
+					'Preview.Init( \'$$y = {-b \\\\pm \\\\sqrt{b^2-4ac} \\\\over 2a}$$\' );' +
+					'</script>' +
+				'</body>' +
+				'</html>';
+		}
+
+		return {
+			toParserElement: function () {
+				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute() } );
+			},
+
+			toHtml: function () {
+				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" />';
+			},
+
+			update: function( value ) {
+				CKEDITOR.document.getById( id ).getFrameDocument().getWindow().$.Preview.Update( value );
+			}
+		};
+	}
 })();
