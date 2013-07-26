@@ -90,11 +90,25 @@
 	CKEDITOR.plugins.mathjax = {};
 
 	CKEDITOR.plugins.mathjax.FramedMathJax = function () {
-		var mathjaxLoadedHandler = CKEDITOR.tools.addFunction( function() {
-			console.log( "mathjaxLoadedHandler" );
-		} );
 
-		var id = CKEDITOR.tools.getNextId();
+		var doc, win, buffer, preview, value, oldValue,
+			isRunning = false,
+			isInit = false,
+			id = CKEDITOR.tools.getNextId(),
+
+			loadedHandler = CKEDITOR.tools.addFunction( function() {
+				doc = CKEDITOR.document.getById( id ).getFrameDocument();
+				win = doc.getWindow();
+				preview = doc.getById( 'MathPreview' );
+				buffer = doc.getById( 'MathBuffer' );
+				isInit = true;
+		} ),
+			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
+				console.log( "updateDoneHandler" );
+				isRunning: false;
+			// 'this.preview.innerHTML = this.buffer.innerHTML;' +
+			// 	'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+		} );
 
 		function srcAttribute () {
 			return 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();';
@@ -112,8 +126,7 @@
 		}
 
 		function createContent () {
-			return '' +
-				'<!DOCTYPE html>' +
+			return '<!DOCTYPE html>' +
 				'<html>' +
 				'<head>' +
 					'<meta charset="utf-8">' +
@@ -122,65 +135,31 @@
 							'showMathMenu: false,' +
 							'messageStyle: "none"' +
 						'} );' +
+						'function getCKE() {' +
+							'if( typeof window.parent.CKEDITOR == "object" ) {' +
+								'return window.parent.CKEDITOR;' +
+							'} else {' +
+								'return window.parent.parent.CKEDITOR;' +
+							'};' +
+						'};' +
+						'function update() {' +
+							'MathJax.Hub.Queue(' +
+								'[\'Typeset\',MathJax.Hub,this.buffer],' +
+								'function done () {' +
+									'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
+								'}' +
+							');' +
+						'};' +
+						'MathJax.Hub.Queue( function () {' +
+							'getCKE().tools.callFunction(' + loadedHandler + ');' +
+						'} );' +
 					'</script>' +
 					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
 					'</script>' +
 				'</head>' +
 				'<body>' +
-				'<div id="MathPreview"></div>' +
-				'<div id="MathBuffer" style="visibility:hidden;"><div>' +
-					'<script>' +
-					// Refresh script based on MathJax sample:
-					// http://cdn.mathjax.org/mathjax/latest/test/sample-dynamic-2.html
-					'var Preview = {' +
-						'preview: null,' +
-						'buffer: null,' +
-
-						'timeout: null,' +
-						'mjRunning: false,' +
-						'oldText: null,' +
-						'newText: null,' +
-
-						'Init: function ( text ) {' +
-							'this.preview = document.getElementById(\'MathPreview\');' +
-							'this.buffer = document.getElementById(\'MathBuffer\');' +
-							'this.Update( text );' +
-						'},' +
-
-						'Update: function ( text ) {' +
-							'this.newText = text;' +
-							'if (this.timeout) {clearTimeout(this.timeout)}' +
-							'this.timeout = setTimeout(this.callback,150);' +
-						'},' +
-
-						'CreatePreview: function () {' +
-							//'window.parent.CKEDITOR.tools.callFunction(' + this.mathjaxLoadedHandler + ',window);' +
-							'Preview.timeout = null;' +
-							'if (this.mjRunning) return;' +
-							'if (this.newText === this.oldText) return;' +
-							'this.buffer.innerHTML = this.oldText = this.newText;' +
-							'this.mjRunning = true;' +
-							'MathJax.Hub.Queue(' +
-								'[\'Typeset\',MathJax.Hub,this.buffer],' +
-								'[\'PreviewDone\',this]' +
-							');' +
-						'},' +
-
-						'PreviewDone: function () {' +
-							'this.mjRunning = false;' +
-							'this.preview.innerHTML = this.buffer.innerHTML;' +
-							'var body = document.body,' +
-								'height = Math.max( body.scrollHeight, body.offsetHeight );' +
-							'console.log( height );' +
-						'}' +
-
-					'};' +
-
-					'Preview.callback = MathJax.Callback([\'CreatePreview\',Preview]);' +
-					'Preview.callback.autoReset = true;' +
-
-					'Preview.Init( \'$$y = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$\' );' +
-					'</script>' +
+					'<div id="MathPreview"></div>' +
+					'<div id="MathBuffer" style="visibility:hidden;"><div>' +
 				'</body>' +
 				'</html>';
 		}
@@ -195,7 +174,13 @@
 			},
 
 			update: function( value ) {
-				CKEDITOR.document.getById( id ).getFrameDocument().getWindow().$.Preview.Update( value );
+				this.value = value;
+
+				if(!isInit)
+					return;
+
+				isRunning = true;
+				CKEDITOR.document.getById( id ).getFrameDocument().getWindow().$.Update( value );
 			}
 		};
 	}

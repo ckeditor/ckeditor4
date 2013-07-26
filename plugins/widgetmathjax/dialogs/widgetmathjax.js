@@ -26,10 +26,17 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 						label: 'Equation in TeX or MathML',
 						onLoad: function( widget ) {
 							var that = this;
+
+							// var timeout: null;
+							// this.newText = text;
+							// if (this.timeout)
+							// 	clearTimeout(this.timeout);
+
+							// this.timeout = setTimeout(this.callback,150);
 							this.getInputElement().on( 'keyup', function () {
 								preview.update( that.getInputElement().getValue() );
 							} );
-						},
+						}
 					},
 					{
 						id: 'preview',
