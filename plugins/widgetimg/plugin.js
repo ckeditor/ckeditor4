@@ -273,7 +273,7 @@
 				callback( null );
 			} );
 
-			image.setAttribute( 'src', src );
+			image.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 		};
 	}
 })();
