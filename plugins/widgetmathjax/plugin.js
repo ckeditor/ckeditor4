@@ -8,11 +8,11 @@
 (function() {
 
 	function hasClass( el, className ) {
-		if ( ! el.attributes.class ) {
+		if ( ! el.attributes[ 'class' ] ) {
 			return false;
 		}
 		var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', '' );
-		return regex.test( el.attributes.class );
+		return regex.test( el.attributes[ 'class' ] );
 	}
 
 	CKEDITOR.plugins.add( 'widgetmathjax', {
@@ -179,7 +179,7 @@
 					'Preview.callback = MathJax.Callback([\'CreatePreview\',Preview]);' +
 					'Preview.callback.autoReset = true;' +
 
-					'Preview.Init( \'$$y = {-b \\\\pm \\\\sqrt{b^2-4ac} \\\\over 2a}$$\' );' +
+					'Preview.Init( \'$$y = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$\' );' +
 					'</script>' +
 				'</body>' +
 				'</html>';
