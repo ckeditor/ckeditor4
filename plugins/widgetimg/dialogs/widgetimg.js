@@ -125,6 +125,13 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		};
 	})();
 
+	function toggleDimensions( enable ) {
+		var method = enable ? 'enable' : 'disable';
+
+		widthField[ method ]();
+		heightField[ method ]();
+	}
+
 	return {
 		title: 'Edit image',
 		minWidth: 250,
@@ -155,10 +162,15 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						onKeyup: function() {
 							var value = this.getValue();
 
+							toggleDimensions( false );
+
 							// Remember that src is different than default.
 							if ( value !== widget.data.src ) {
 								// Update dimensions of the image once it's preloaded.
 								widget.loadImage( value, function( image, width, height ) {
+									// Re-enable width and height fields.
+									toggleDimensions( true );
+
 									// There was problem loading the image.
 									if ( !image )
 										return;
@@ -181,6 +193,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 
 							// Roll back dimensions when restoring default src.
 							else if ( srcChanged ) {
+								// Re-enable width and height fields.
+								toggleDimensions( true );
+
 								// Restore width field with cached width.
 								widthField.setValue( domWidth );
 
@@ -189,6 +204,11 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 
 								// Src equals default one back again.
 								srcChanged = false;
+							}
+
+							else {
+								// Re-enable width and height fields.
+								toggleDimensions( true );
 							}
 						},
 						setup: function( widget ) {

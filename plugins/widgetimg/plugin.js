@@ -37,6 +37,9 @@
 				init: function() {
 					var image = this.parts.image;
 
+					// A function for loading images.
+					this.loadImage = preLoader( editor, this );
+
 					// Read initial float style from figure/image and then remove it.
 					// This style will be set on wrapper in #data listener.
 					this.setData( 'align', this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none' );
@@ -58,23 +61,38 @@
 					// Read initial height from either attribute or style.
 					this.setData( 'height', getDimension( image, 'height' ) );
 
-					// Read initial DOM width of the element.
-					this.setData( 'domWidth', image.$.width );
+					// TODO: easier way to do this? Remove attrs?
+					// To know the original dimensions of the image in IE<9,
+					// load the image once again.
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+						// Load the image once again and read **real** dimensions.
+						this.loadImage( this.data.src, function( image, width, height ) {
+							// Read initial DOM width of the image.
+							this.setData( 'domWidth', width );
 
-					// Read initial DOM height of the element.
-					this.setData( 'domHeight', image.$.height );
+							// Read initial DOM height of the image.
+							this.setData( 'domHeight', height );
+						}, this );
+					}
+
+					// Modern browsers provide read-only naturalWidth/Height properties.
+					else {
+						// Read initial DOM width of the image from naturalWidth.
+						this.setData( 'domWidth', image.$.naturalWidth );
+
+						// Read initial DOM height of the image from naturalHeight.
+						this.setData( 'domHeight', image.$.naturalHeight );
+					}
 
 					// Once initial width and height are read, purge styles.
 					// This widget converts dimensions to attributes.
 					image.removeStyle( 'width' );
 					image.removeStyle( 'height' );
 
+					// Setup getOutput listener to downcast the widget.
 					this.on( 'getOutput', function( evt ) {
 						downcastWidgetElement( evt.data, this );
 					} );
-
-					// A function for loading images.
-					this.loadImage = preLoader( editor, this );
 				},
 
 				data: function() {
@@ -260,9 +278,9 @@
 
 		// @param {String} src.
 		// @param {Function} callback.
-		return function( src, callback ) {
+		return function( src, callback, scope ) {
 			addListener( 'load', function() {
-				callback( image, image.$.width, image.$.height );
+				callback.call( scope, image, image.$.width, image.$.height );
 			} );
 
 			addListener( 'error', function() {
