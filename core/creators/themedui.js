@@ -70,11 +70,17 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *
 	 *		// Selectively replace <textarea> elements, based on custom assertions.
 	 *		CKEDITOR.replaceAll( function( textarea, config ) {
-	 *			// Custom code to evaluate the replace, returning false
-	 *			// if it must not be done.
-	 *			// It also passes the "config" parameter, so the
-	 *			// developer can customize the instance.
+	 *			// An assertion function that needs to be evaluated for the <textarea>
+	 *			// to be replaced. It must explicitely return "false" to ignore a
+	 *			// specific <textarea>.
+	 *			// You can also customize the editor instance by having the function
+	 *			// modify the "config" parameter.
 	 *		} );
+	 * 
+	 * @param {String} [className] The `<textarea>` class name.
+	 * @param {Function} [function] An assertion function that must return `true` for a `<textarea>`
+	 * to be replaced with the editor. If the function returns `false`, the `<textarea>` element
+	 * will not be replaced.
 	 */
 	CKEDITOR.replaceAll = function() {
 		var textareas = document.getElementsByTagName( 'textarea' );
