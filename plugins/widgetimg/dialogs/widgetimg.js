@@ -125,66 +125,62 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 	// 	  because it may be disabled e.g. due to ACF restrictions.
 	// 	* Register mouseover and mouseout event listeners for UI manipulations.
 	// 	* Register click event listeners for buttons.
-	var onLoadLockReset = (function() {
-		return function() {
-			var dialog = this.getDialog();
+	function onLoadLockReset() {
+		var dialog = this.getDialog();
 
-			// Create references to lock and reset buttons for this dialog instance.
-			lockButton = doc.getById( lockButtonId );
-			resetButton = doc.getById( resetButtonId );
+		function setupMouseClasses( el ) {
+			el.on( 'mouseover', function() {
+				this.addClass( 'cke_btn_over' );
+			}, el );
 
-			// Activate (Un)LockRatio button
-			if ( lockButton ) {
-				dialog.addFocusable( lockButton, 4 );
+			el.on( 'mouseout', function() {
+				this.removeClass( 'cke_btn_over' );
+			}, el );
+		}
 
-				lockButton.on( 'click', function( evt ) {
-					toggleLockDimensions();
-					evt.data && evt.data.preventDefault();
-				}, this.getDialog() );
+		// Create references to lock and reset buttons for this dialog instance.
+		lockButton = doc.getById( lockButtonId );
+		resetButton = doc.getById( resetButtonId );
 
-				lockButton.on( 'mouseover', function() {
-					this.addClass( 'cke_btn_over' );
-				}, lockButton );
+		// Activate (Un)LockRatio button
+		if ( lockButton ) {
+			dialog.addFocusable( lockButton, 4 );
 
-				lockButton.on( 'mouseout', function() {
-					this.removeClass( 'cke_btn_over' );
-				}, lockButton );
-			}
+			lockButton.on( 'click', function( evt ) {
+				toggleLockDimensions();
+				evt.data && evt.data.preventDefault();
+			}, this.getDialog() );
 
-			// Activate the reset size button.
-			if ( resetButton ) {
-				dialog.addFocusable( resetButton, 5 );
+			setupMouseClasses( lockButton );
+		}
 
-				// Fills width and height fields with the original dimensions of the
-				// image (stored in widget#data since widget#init).
-				resetButton.on( 'click', function( evt ) {
-					// If there's a new image loaded, reset button should revert
-					// cached dimensions of pre-loaded DOM element.
-					if ( srcChanged ) {
-						widthField.setValue( preLoadedWidth );
-						heightField.setValue( preLoadedHeight );
-					}
+		// Activate the reset size button.
+		if ( resetButton ) {
+			dialog.addFocusable( resetButton, 5 );
 
-					// If the old image remains, reset button should revert
-					// dimensions as loaded when the dialog was first shown.
-					else {
-						widthField.setValue( domWidth );
-						heightField.setValue( domHeight );
-					}
+			// Fills width and height fields with the original dimensions of the
+			// image (stored in widget#data since widget#init).
+			resetButton.on( 'click', function( evt ) {
+				// If there's a new image loaded, reset button should revert
+				// cached dimensions of pre-loaded DOM element.
+				if ( srcChanged ) {
+					widthField.setValue( preLoadedWidth );
+					heightField.setValue( preLoadedHeight );
+				}
 
-					evt.data && evt.data.preventDefault();
-				}, this );
+				// If the old image remains, reset button should revert
+				// dimensions as loaded when the dialog was first shown.
+				else {
+					widthField.setValue( domWidth );
+					heightField.setValue( domHeight );
+				}
 
-				resetButton.on( 'mouseover', function() {
-					this.addClass( 'cke_btn_over' );
-				}, resetButton );
+				evt.data && evt.data.preventDefault();
+			}, this );
 
-				resetButton.on( 'mouseout', function() {
-					this.removeClass( 'cke_btn_over' );
-				}, resetButton );
-			}
-		};
-	})();
+			setupMouseClasses( resetButton );
+		}
+	}
 
 	function toggleLockDimensions( enable ) {
 		// No locking if there's no radio (i.e. ACF).
