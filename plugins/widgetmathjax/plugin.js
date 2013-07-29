@@ -68,7 +68,8 @@
 					var source = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} );
 					source.children =  el.children;
 
-					var framedMathJax = new CKEDITOR.plugins.mathjax.FramedMathJax();
+					var framedMathJax = new CKEDITOR.plugins.mathjax.FramedMathJax( editor );
+					framedMathJax.setValue( el.children[0].value );
 
 					el.children = [ source, framedMathJax.toParserElement() ];
 
@@ -89,31 +90,45 @@
 
 	CKEDITOR.plugins.mathjax = {};
 
-	CKEDITOR.plugins.mathjax.FramedMathJax = function () {
+	CKEDITOR.plugins.mathjax.FramedMathJax = function ( editor ) {
 
-		var doc, win, buffer, preview, value, oldValue,
+		var iFrame, doc, win, buffer, preview, value, newValue,
 			isRunning = false,
 			isInit = false,
 			id = CKEDITOR.tools.getNextId(),
 
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
-				doc = CKEDITOR.document.getById( id ).getFrameDocument();
+				iFrame = editor.document.getById( id );
+				if ( !iFrame )
+					iFrame = CKEDITOR.document.getById( id );
+
+				doc = iFrame.getFrameDocument();
 				win = doc.getWindow();
-				preview = doc.getById( 'MathPreview' );
-				buffer = doc.getById( 'MathBuffer' );
+				preview = doc.getById( 'preview' );
+				buffer = doc.getById( 'buffer' );
 				isInit = true;
+
+				if( newValue )
+					update();
 		} ),
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
-				console.log( "updateDoneHandler" );
-				isRunning: false;
-			// 'this.preview.innerHTML = this.buffer.innerHTML;' +
-			// 	'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+				preview.setHtml( buffer.getHtml() );
+				// 	'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+				if( value != newValue )
+					update();
+				else
+					isRunning = false;
 		} );
+		function update() {
+			isRunning = true;
 
+			value = newValue;
+			buffer.setHtml( value );
+			win.$.update( value );
+		}
 		function srcAttribute () {
 			return 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();';
 		}
-
 		function addSlashes ( string ) {
 			return string.replace(/\\/g, '\\\\').
 				replace(/\u0008/g, '\\b').
@@ -124,7 +139,6 @@
 				replace(/'/g, '\\\'').
 				replace(/"/g, '\\"');
 		}
-
 		function createContent () {
 			return '<!DOCTYPE html>' +
 				'<html>' +
@@ -158,29 +172,25 @@
 					'</script>' +
 				'</head>' +
 				'<body>' +
-					'<div id="MathPreview"></div>' +
-					'<div id="MathBuffer" style="visibility:hidden;"><div>' +
+					'<div id="preview"></div>' +
+					'<div id="buffer" style="visibility:hidden;"><div>' +
 				'</body>' +
 				'</html>';
 		}
-
 		return {
 			toParserElement: function () {
 				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute() } );
 			},
-
 			toHtml: function () {
 				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" />';
 			},
-
-			update: function( value ) {
-				this.value = value;
+			setValue: function( value ) {
+				newValue = value;
 
 				if(!isInit)
 					return;
 
-				isRunning = true;
-				CKEDITOR.document.getById( id ).getFrameDocument().getWindow().$.Update( value );
+				update();
 			}
 		};
 	}
