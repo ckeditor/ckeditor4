@@ -189,41 +189,6 @@
 		return el;
 	}
 
-	// Cleans the values of width or height passed along with widget data,
-	// according to the following formatting rules:
-	//
-	// 	1.  "123%" -> "123%"
-	// 	2. "123px" -> "123"
-	// 	3.   "123" -> "123"
-	// 	4.      "" -> "" (empty string)
-	//
-	// @param {CKEDITOR.plugins.widget} widget
-	var sanitizeDimensions = (function() {
-
-		// RegExp: 123, 123px, 123%
-		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
-			dimensions = { width: 1, height: 1 },
-			data;
-
-		return function( widget ) {
-			data = widget.data;
-
-			for ( var dim in dimensions ) {
-				if ( !data[ dim ] )
-					data[ dim ] = '';
-				else {
-					var match = data[ dim ].match( regexGetSize );
-
-					if ( !match )
-						data[ dim ] = '';
-					else
-						// Preserve "%" in value. It is allowed.
-						data[ dim ] = match[ 1 ] + ( match[ 2 ] == '%' ? '%' : '' );
-				}
-			}
-		};
-	})();
-
 	// Sets width and height of the widget image according to
 	// current widget data.
 	//
