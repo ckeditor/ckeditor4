@@ -440,6 +440,22 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				this.attributes[ 'class' ] = classes;
 			else
 				delete this.attributes[ 'class' ];
+		},
+
+		/**
+		 * Checkes whether this element has a class name.
+		 *
+		 * @since 4.3
+		 * @param {String} className The class name to be checked.
+		 * @returns {Boolean} Whether this element has a `className`.
+		 */
+		hasClass: function( className ) {
+			var classes = this.attributes[ 'class' ];
+
+			if ( !classes )
+				return false;
+
+			return ( new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' ) ).test( classes );
 		}
 	} );
 
