@@ -310,7 +310,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 					{
 						type: 'hbox',
 						widths: [ '25%', '25%', '50%' ],
-						requiredContent: 'img{width,height}',
+						requiredContent: 'img[width,height]',
 						children: [
 							{
 								type: 'text',

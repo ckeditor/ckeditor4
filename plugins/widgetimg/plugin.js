@@ -23,7 +23,11 @@
 
 				allowedContent: 'figure(!caption)[!data-widget]{float};' +
 					'figcaption;' +
-					'img[!src,alt,data-widget,width,height]{float,width,height}',
+					'img[!src,alt,data-widget,width,height]{float}',
+
+				contentTransformations: [
+					[ 'img[width]: sizeToAttribute' ]
+				],
 
 				parts: {
 					image: 'img',
@@ -74,11 +78,6 @@
 						if ( height )
 							this.setData( 'domHeight', height );
 					}, this );
-
-					// Once initial width and height are read, purge styles.
-					// This widget converts dimensions to attributes.
-					image.removeStyle( 'width' );
-					image.removeStyle( 'height' );
 
 					// Setup getOutput listener to downcast the widget.
 					this.on( 'getOutput', function( evt ) {
@@ -141,10 +140,6 @@
 
 					// Set float style of the wrapper.
 					widget.wrapper.setStyle( 'float', widget.data.align );
-
-					// As dimensions can be either "123", "123px", "123%" or "",
-					// only "123%" value is stored with the unit.
-					sanitizeDimensions( this );
 
 					// Set dimensions of the image according to gathered data.
 					setDimensions( this );
