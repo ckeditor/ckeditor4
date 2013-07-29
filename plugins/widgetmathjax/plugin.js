@@ -126,6 +126,9 @@
 			buffer.setHtml( value );
 			win.$.update( value );
 		}
+		function getStyle() {
+			return 'border:0;overflow:hidden';
+		}
 		function srcAttribute () {
 			return 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();';
 		}
@@ -179,10 +182,10 @@
 		}
 		return {
 			toParserElement: function () {
-				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute() } );
+				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute(), 'style': getStyle() } );
 			},
 			toHtml: function () {
-				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" />';
+				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" style="' + getStyle() + '" />';
 			},
 			setValue: function( value ) {
 				newValue = value;
