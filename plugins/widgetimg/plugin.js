@@ -64,25 +64,16 @@
 					// TODO: easier way to do this? Remove attrs?
 					// To know the original dimensions of the image in IE<9,
 					// load the image once again.
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-						// Load the image once again and read **real** dimensions.
-						this.loadImage( this.data.src, function( image, width, height ) {
-							// Read initial DOM width of the image.
+					// Load the image once again and read **real** dimensions.
+					this.loadImage( this.data.src, function( image, width, height ) {
+						// Read initial DOM width of the image.
+						if ( width )
 							this.setData( 'domWidth', width );
 
-							// Read initial DOM height of the image.
+						// Read initial DOM height of the image.
+						if ( height )
 							this.setData( 'domHeight', height );
-						}, this );
-					}
-
-					// Modern browsers provide read-only naturalWidth/Height properties.
-					else {
-						// Read initial DOM width of the image from naturalWidth.
-						this.setData( 'domWidth', image.$.naturalWidth );
-
-						// Read initial DOM height of the image from naturalHeight.
-						this.setData( 'domHeight', image.$.naturalHeight );
-					}
+					}, this );
 
 					// Once initial width and height are read, purge styles.
 					// This widget converts dimensions to attributes.
@@ -200,7 +191,7 @@
 
 		// RegExp: 123, 123px, 123%
 		var regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
-			dimensions = { 'width': 1, 'height': 1 },
+			dimensions = { width: 1, height: 1 },
 			data;
 
 		return function( widget ) {
