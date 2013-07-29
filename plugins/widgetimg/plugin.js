@@ -65,20 +65,6 @@
 					// Read initial height from either attribute or style.
 					this.setData( 'height', image.getAttribute( 'height' ) || '' );
 
-					// TODO: easier way to do this? Remove attrs?
-					// To know the original dimensions of the image in IE<9,
-					// load the image once again.
-					// Load the image once again and read **real** dimensions.
-					this.loadImage( this.data.src, function( image, width, height ) {
-						// Read initial DOM width of the image.
-						if ( width )
-							this.setData( 'domWidth', width );
-
-						// Read initial DOM height of the image.
-						if ( height )
-							this.setData( 'domHeight', height );
-					}, this );
-
 					// Setup getOutput listener to downcast the widget.
 					this.on( 'getOutput', function( evt ) {
 						downcastWidgetElement( evt.data, this );

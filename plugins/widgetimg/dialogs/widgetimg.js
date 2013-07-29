@@ -29,10 +29,19 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 				resetButtonId: resetButtonId
 			} ),
 
-		doc, widget,
+		// Global variables referring to the dialog's context.
+		doc, widget, image,
+
+		// Global variables holding the original size of the image.
 		domWidth, domHeight,
+
+		// Global variables related to image pre-loading.
 		preLoadedWidth, preLoadedHeight, srcChanged,
+
+		// Global variables related to size locking.
 		lockRatio, userDefinedLock,
+
+		// Global variables referring to dialog fields and elements.
 		lockButton, resetButton, widthField, heightField;
 
 	// Validates dimension. Allowed values are:
@@ -210,12 +219,18 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			// Create a "global" reference to edited widget.
 			widget = this._.widget;
 
-			// Reset size-related tmp variables.
-			preLoadedWidth = preLoadedHeight = srcChanged = false;
+			// Create a "global" reference to widget's image.
+			image = widget.parts.image;
 
-			// Reset lock-related tmp variables.
-			userDefinedLock = false;
-			lockRatio = true;
+			// Reset global variables.
+			preLoadedWidth = preLoadedHeight = srcChanged =
+				userDefinedLock = lockRatio = false;
+
+			// Get the natural width of the image.
+			domWidth = image.$.naturalWidth;
+
+			// Get the natural height of the image.
+			domHeight = image.$.naturalHeight;
 
 			// Determine image ratio lock on startup. Delayed, waiting for
 			// fields to be filled with setup functions.
@@ -324,15 +339,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								},
 								setup: function( widget ) {
 									this.setValue( widget.data.width );
-
-									// This width is used when resetting size.
-									domWidth = widget.data.domWidth;
 								},
 								commit: function( widget ) {
 									widget.setData( 'width', this.getValue() );
-
-									if ( srcChanged )
-										widget.setData( 'domWidth', preLoadedWidth );
 								}
 							},
 							{
@@ -347,15 +356,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								},
 								setup: function( widget ) {
 									this.setValue( widget.data.height );
-
-									// This height is used when resetting size.
-									domHeight = widget.data.domHeight;
 								},
 								commit: function( widget ) {
 									widget.setData( 'height', this.getValue() );
-
-									if ( srcChanged )
-										widget.setData( 'domHeight', preLoadedHeight );
 								}
 							},
 							{
