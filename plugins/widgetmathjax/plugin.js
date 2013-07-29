@@ -183,7 +183,7 @@
 					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
 					'</script>' +
 				'</head>' +
-				'<body style="padding:0px;margin:0px;">' +
+				'<body style="padding:0px;margin:0px;background:transparent">' +
 					'<span id="preview"></span>' +
 					'<span id="buffer" style="display:none;"></span>' +
 				'</body>' +
@@ -191,10 +191,10 @@
 		}
 		return {
 			toParserElement: function () {
-				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute(), 'style': getStyle(), 'scrolling': 'no',  'frameborder':'0' } );
+				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute(), 'style': getStyle(), 'scrolling': 'no',  'frameborder':'0', 'allowTransparency': true } );
 			},
 			toHtml: function () {
-				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" style="' + getStyle() + '" scrolling="no" frameborder="0" />';
+				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" style="' + getStyle() + '" scrolling="no" frameborder="0" allowTransparency="true" />';
 			},
 			setValue: function( value ) {
 				newValue = value;
