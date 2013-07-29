@@ -113,7 +113,14 @@
 		} ),
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
 				preview.setHtml( buffer.getHtml() );
-				// 	'height = Math.max( body.scrollHeight, body.offsetHeight );' +
+
+				var height = Math.max( doc.$.body.offsetHeight, doc.$.documentElement.offsetHeight ),
+					width = Math.max( preview.$.offsetWidth, doc.$.body.scrollWidth );
+
+				iFrame.setStyle( 'height', height + 'px' );
+				iFrame.setStyle( 'width', width + 'px' );
+				iFrame.setStyle( 'display','inline' );
+
 				if( value != newValue )
 					update();
 				else
@@ -124,10 +131,12 @@
 
 			value = newValue;
 			buffer.setHtml( value );
+			iFrame.setStyle( 'height', '0px' );
+			iFrame.setStyle( 'width', '0px' );
 			win.$.update( value );
 		}
 		function getStyle() {
-			return 'border:0;overflow:hidden';
+			return 'border:0;width:0px;height:0px;';
 		}
 		function srcAttribute () {
 			return 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();';
@@ -174,23 +183,23 @@
 					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
 					'</script>' +
 				'</head>' +
-				'<body>' +
-					'<div id="preview"></div>' +
-					'<div id="buffer" style="visibility:hidden;"><div>' +
+				'<body style="padding:0px;margin:0px;">' +
+					'<span id="preview"></span>' +
+					'<span id="buffer" style="display:none;"></span>' +
 				'</body>' +
 				'</html>';
 		}
 		return {
 			toParserElement: function () {
-				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute(), 'style': getStyle() } );
+				return new CKEDITOR.htmlParser.element( 'iframe', { 'id': id, 'src': srcAttribute(), 'style': getStyle(), 'scrolling': 'no',  'frameborder':'0' } );
 			},
 			toHtml: function () {
-				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" style="' + getStyle() + '" />';
+				return '<iframe id="'+ id + '" src="' + srcAttribute() + '" style="' + getStyle() + '" scrolling="no" frameborder="0" />';
 			},
 			setValue: function( value ) {
 				newValue = value;
 
-				if(!isInit)
+				if(!isInit || isRunning)
 					return;
 
 				update();

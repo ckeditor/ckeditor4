@@ -9,7 +9,7 @@
 
 CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
-	var sample = '$$y = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$',
+	var sample = '\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)',
 		preview = new CKEDITOR.plugins.mathjax.FramedMathJax( editor );
 
 	return {
