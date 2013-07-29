@@ -16,14 +16,14 @@
 				dialog: 'widgetimg',
 				button: 'Image',
 				template:
-					'<figure class="caption" data-widget="img">' +
+					'<figure class="caption">' +
 						'<img alt="" src="" />' +
 						'<figcaption>Caption</figcaption>' +
 					'</figure>',
 
-				allowedContent: 'figure(!caption)[!data-widget]{float};' +
+				allowedContent: 'figure(!caption){float};' +
 					'figcaption;' +
-					'img[!src,alt,data-widget,width,height]{float}',
+					'img[!src,alt,width,height]{float}',
 
 				contentTransformations: [
 					[ 'img[width]: sizeToAttribute' ]
@@ -131,23 +131,53 @@
 					setDimensions( this );
 				},
 
-				upcast: function( el ) {
-					if ( el.name == 'img' )
-						return el;
-				},
+				upcast: upcastWidgetElement,
 
-				downcast: function( el ) {
-					return downcastWidgetElement( el, this );
-				}
+				downcast: downcastWidgetElement
 			} );
 
 			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
 		}
 	} );
 
-	function downcastWidgetElement( el, widget ) {
+	var upcastWidgetElement = (function() {
+			var regexPercent = /^\s*(\d+\%)\s*$/i,
+				dimensions = { width:1,height:1 };
+
+		// Removes width and height attributes expressed with %.
+		// @param {CKEDITOR.htmlParser.element} el
+		function cleanDimensionsUp( el ) {
+			for ( var d in dimensions ) {
+				var dimension = el.attributes[ d ];
+
+				if ( dimension && dimension.match( regexPercent ) )
+					delete el.attributes[ d ];
+			}
+		}
+
+		// Creates widgets from all <img> and <figure class="caption">.
+		// @param {CKEDITOR.htmlParser.element} el
+		return function( el ) {
+			var name = el.name,
+				image;
+
+			if ( name == 'img' )
+				image = el;
+			else if ( name == 'figure' && el.hasClass( 'caption' ) )
+				image = el.getFirst( 'img' );
+
+			if ( !image )
+				return;
+
+			cleanDimensionsUp( image );
+
+			return el;
+		};
+	})();
+
+	function downcastWidgetElement( el ) {
 		var attrs = el.attributes,
-			align = widget.data.align;
+			align = this.data.align;
 
 		// Add float style to the downcasted element.
 		if ( align && align != 'none' ) {
