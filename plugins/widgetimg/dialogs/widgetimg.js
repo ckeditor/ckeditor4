@@ -47,20 +47,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		return isValid;
 	}
 
-	// Registers alignment radios as dialog focusables.
-	// This enabled TAB-based navigation for those elements.
-	function onLoadAlignment() {
-		// var dialog = this.getDialog(),
-		// 	radio = this.getChild( 0 );
-
-		// if ( radio ) {
-		// 	var radioButtons = radio._.children;
-
-		// 	for ( var i = 0; i < radioButtons.length; i++ )
-		// 		dialog.addFocusable( radioButtons[ i ].getElement(), 6 + i )
-		// }
-	}
-
 	function onChangeDimension() {
 		if ( !lockRatio )
 			return;
@@ -390,7 +376,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 					{
 						type: 'hbox',
 						id: 'alignment',
-						onLoad: onLoadAlignment,
 						children: [
 							{
 								id: 'align',
