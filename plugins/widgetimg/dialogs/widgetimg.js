@@ -7,8 +7,8 @@
 
 CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 
-	// RegExp: 123, 123px, 123%, empty string ""
-	var regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
+	// RegExp: 123, 123px, empty string ""
+	var regexGetSizeOrEmpty = /(^\s*(\d+)(px)?\s*$)|^$/i,
 
 		lockButtonId = CKEDITOR.tools.getNextId(),
 		resetButtonId = CKEDITOR.tools.getNextId(),
@@ -45,7 +45,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		lockButton, resetButton, widthField, heightField;
 
 	// Validates dimension. Allowed values are:
-	// "123%", "123px", "123", "" (empty string)
+	// "123px", "123", "" (empty string)
 	function validateDimension() {
 		var match = this.getValue().match( regexGetSizeOrEmpty ),
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
