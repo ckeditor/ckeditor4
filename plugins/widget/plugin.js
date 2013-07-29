@@ -839,7 +839,9 @@
 				}
 			},
 			allowedContent: widgetDef.allowedContent,
-			requiredContent: widgetDef.requiredContent
+			requiredContent: widgetDef.requiredContent,
+			contentForms: widgetDef.contentForms,
+			contentTransformations: widgetDef.contentTransformations
 		} );
 	}
 
