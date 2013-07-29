@@ -455,7 +455,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			if ( !classes )
 				return false;
 
-			return ( new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' ) ).test( classes );
+			return ( new RegExp( '(?:^|\\s)' + className + '(?=\\s|$)' ) ).test( classes );
 		}
 	} );
 
