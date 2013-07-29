@@ -60,10 +60,10 @@
 					this.setData( 'alt', image.getAttribute( 'alt' ) );
 
 					// Read initial width from either attribute or style.
-					this.setData( 'width', getDimension( image, 'width' ) );
+					this.setData( 'width', image.getAttribute( 'width' ) || '' );
 
 					// Read initial height from either attribute or style.
-					this.setData( 'height', getDimension( image, 'height' ) );
+					this.setData( 'height', image.getAttribute( 'height' ) || '' );
 
 					// TODO: easier way to do this? Remove attrs?
 					// To know the original dimensions of the image in IE<9,
@@ -207,20 +207,6 @@
 			}
 		};
 	})();
-
-	// Returns width or height value, either an attribute or style.
-	// Values are cleaned up in "data" event (see: init).
-	//
-	// 	1.    Check for an attribute: <img src="foo.png" width="100" />
-	// 	2.      Then check for style: <img src="foo.png" style="width:100px" />
-	// 	3. If no dimension specified: Return an empty string "".
-	//
-	// @param {CKEDITOR.dom.element} el
-	// @param {String} dimension
-	// @returns {String}
-	function getDimension( el, dimension ) {
-		return el.getAttribute( dimension ) || el.getStyle( dimension );
-	}
 
 	// Sets width and height of the widget image according to
 	// current widget data.
