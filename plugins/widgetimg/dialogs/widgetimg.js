@@ -32,6 +32,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		// Global variables referring to the dialog's context.
 		doc, widget, image,
 
+		// Global variable referring to this dialog's image pre-loader.
+		preLoader,
+
 		// Global variables holding the original size of the image.
 		domWidth, domHeight,
 
@@ -54,6 +57,47 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			alert( 'Invalid value!' );
 
 		return isValid;
+	}
+
+	// Creates a function that pre-loads images. The callback function passes
+	// [image, width, height] or null if loading failed.
+	//
+	// @returns {Function}
+	function createPreLoader() {
+		var image = doc.createElement( 'img' ),
+			listeners = [];
+
+		function addListener( event, callback ) {
+			listeners.push( image.once( event, function( evt ) {
+				removeListeners();
+				callback( evt );
+			} ) );
+		}
+
+		function removeListeners() {
+			var l;
+
+			while ( ( l = listeners.pop() ) )
+				l.removeListener();
+		}
+
+		// @param {String} src.
+		// @param {Function} callback.
+		return function( src, callback, scope ) {
+			addListener( 'load', function() {
+				callback.call( scope, image, image.$.width, image.$.height );
+			} );
+
+			addListener( 'error', function() {
+				callback( null );
+			} );
+
+			addListener( 'abort', function() {
+				callback( null );
+			} );
+
+			image.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
+		};
 	}
 
 	function onChangeDimension() {
@@ -214,6 +258,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			// Create a "global" reference to the document for this dialog instance.
 			doc = this._.element.getDocument();
 
+			preLoader = createPreLoader();
 		},
 		onShow: function() {
 			// Create a "global" reference to edited widget.
@@ -256,7 +301,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 							// Remember that src is different than default.
 							if ( value !== widget.data.src ) {
 								// Update dimensions of the image once it's preloaded.
-								widget.loadImage( value, function( image, width, height ) {
+								preLoader( value, function( image, width, height ) {
 									// Re-enable width and height fields.
 									toggleDimensions( true );
 

@@ -41,9 +41,6 @@
 				init: function() {
 					var image = this.parts.image;
 
-					// A function for loading images.
-					this.loadImage = preLoader( editor, this );
-
 					// Read initial float style from figure/image and then remove it.
 					// This style will be set on wrapper in #data listener.
 					this.setData( 'align', this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none' );
@@ -203,48 +200,5 @@
 			else
 				image.removeAttribute( d );
 		}
-	}
-
-	// Creates a function that pre-loads images. The callback function passes
-	// [image, width, height] or null if loading failed.
-	//
-	// @param {CKEDITOR.editor} editor
-	// @param {CKEDITOR.plugins.widget} widget
-	// @returns {Function}
-	function preLoader( editor, widget ) {
-		var image = editor.document.createElement( 'img' ),
-			listeners = [];
-
-		function addListener( event, callback ) {
-			listeners.push( image.once( event, function( evt ) {
-				removeListeners();
-				callback( evt );
-			} ) );
-		}
-
-		function removeListeners() {
-			var l;
-
-			while ( ( l = listeners.pop() ) )
-				l.removeListener();
-		}
-
-		// @param {String} src.
-		// @param {Function} callback.
-		return function( src, callback, scope ) {
-			addListener( 'load', function() {
-				callback.call( scope, image, image.$.width, image.$.height );
-			} );
-
-			addListener( 'error', function() {
-				callback( null );
-			} );
-
-			addListener( 'abort', function() {
-				callback( null );
-			} );
-
-			image.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
-		};
 	}
 })();
