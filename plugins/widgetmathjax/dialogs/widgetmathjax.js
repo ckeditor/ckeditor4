@@ -1,18 +1,16 @@
 /**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 'use strict';
-
-
 
 CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
 	var preview;
 
 	return {
-		title: 'Edit TeX/MathML',
+		title: 'Edit TeX',
 		minWidth: 350,
 		minHeight: 100,
 		contents: [
@@ -22,7 +20,7 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 					{
 						id: 'equation',
 						type: 'textarea',
-						label: 'Equation in TeX or MathML',
+						label: 'Mathematics in TeX',
 						onLoad: function( widget ) {
 							var that = this;
 
@@ -42,11 +40,11 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 						type: 'html',
 						html:'' +
 							'<div style="width:100%;text-align:center;">' +
-								'<iframe style="border:0;width:0px;height:0px;" scrolling="no" frameborder="0" />' +
+								'<iframe style="border:0;width:0;height:0;" scrolling="no" frameborder="0" />' +
 							'</div>',
 						onLoad: function( widget ) {
 							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
-							preview = new CKEDITOR.plugins.mathjax.FramedMathJax( editor, iFrame );
+							preview = new CKEDITOR.plugins.mathjax.FrameWrapper( editor, iFrame );
 						},
 						setup: function( widget ) {
 							preview.setValue( widget.data.math );
