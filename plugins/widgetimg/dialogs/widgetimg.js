@@ -434,8 +434,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								id: 'align',
 								type: 'radio',
 								items: [
-									[ 'Left', 'left' ],
 									[ 'None', 'none' ],
+									[ 'Left', 'left' ],
+									[ 'Center', 'center' ],
 									[ 'Right', 'right' ] ],
 								label: 'Alignment',
 								setup: function( widget ) {
