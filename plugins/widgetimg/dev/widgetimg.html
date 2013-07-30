@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Widget img &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<script src="../../../dev/console/console.js"></script>
+	<script src="../../../dev/console/focusconsole.js"></script>
+	<script src="../../widget/dev/console.js"></script>
+	<script>
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			CKEDITOR.tools.enableHtml5Elements( document );
+	</script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Widget img">
+	<meta name="ckeditor-sample-group" content="Plugins">
+	<meta name="ckeditor-sample-description" content="Widget img showcase.">
+	<meta name="ckeditor-sample-isnew" content="1">
+
+	<style>
+
+		body {
+			font-size: 13px;
+		}
+		.editable {
+			padding: 20px;
+			border: 2px solid #dfdfdf;
+			overflow: auto;
+		}
+
+		body p {
+			line-height: 1.8em;
+		}
+
+		/* Reset some styles from sample.css */
+		.cke_editable.cke_editable_inline
+		{
+			cursor: auto;
+		}
+		.cke_editable.cke_editable_inline.cke_focus
+		{
+			box-shadow: none;
+			background: inherit;
+			cursor: auto;
+		}
+
+	</style>
+	<link href="contents.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Widget img
+	</h1>
+
+	<h2>Default widget configuration</h2>
+
+	<textarea id="editor1" cols="10" rows="10">
+		<h1>Apollo 11</h1>
+
+		<figure class="caption" style="float: right">
+			<img alt="Saturn V carrying Apollo 11" src="../../../samples/assets/sample.jpg" />
+			<figcaption>Saturn V carrying Apollo 11</figcaption>
+		</figure>
+
+		<p><strong>Apollo 11</strong>&nbsp;was the&nbsp;spaceflight&nbsp;that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a>&nbsp;and&nbsp;<a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the&nbsp;Moon&nbsp;on July 20, 1969, at 14:47:53. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC. Armstrong spent about two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command spacecraft&nbsp;alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+		<figure class="caption" style="float: left">
+			<img alt="Maserati GranTurismo" src="assets/maserati.jpg" style="width: 300px" />
+			<figcaption>Maserati GranTurismo</figcaption>
+		</figure>
+
+		<p>Launched by a&nbsp;Saturn V&nbsp;rocket from&nbsp;Kennedy Space Center&nbsp;in&nbsp;Merritt Island, Florida&nbsp;on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s&nbsp;Apollo program. The Apollo&nbsp;spacecraft&nbsp;had three parts: aCommand Module&nbsp;with a cabin for the three astronauts which was the only part which landed back on Earth; a&nbsp;Service Module&nbsp;which supported the Command Module with propulsion, electrical power, oxygen and water; and a&nbsp;Lunar Module&nbsp;for landing on the Moon. After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the&nbsp;Sea of Tranquility. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the&nbsp;Pacific Ocean&nbsp;on July 24.</p>
+
+		<p>Broadcast on live TV <strong>(see&nbsp;YouTube Video Widget Sample)</strong> to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as &quot;one small step for [a] man, one giant leap for mankind.&quot; <strong>(see&nbsp;Quotation Widget Sample)</strong> Apollo 11 effectively ended the Space Race&nbsp;and fulfilled a national goal proposed in 1961 by the late U.S. President&nbsp;John F. Kennedy&nbsp;in a speech before the&nbsp;United States Congress, &quot;before this decade is out, of landing a man on the Moon and returning him safely to the Earth.&quot;</p>
+
+		<img alt="Maserati GranTurismo" src="assets/maserati.jpg" height="200" />
+
+		<p>After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the <a href="http://en.wikipedia.org/wiki/Mare_Tranquillitatis" title="Mare Tranquillitatis">Sea of Tranquility</a>. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the <a href="http://en.wikipedia.org/wiki/Pacific_Ocean" title="Pacific Ocean">Pacific Ocean</a> on July 24.</p>
+
+		<p>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></p>
+	</textarea>
+
+	<script>
+
+		CKEDITOR.disableAutoInline = true;
+
+		CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'widgetimg',
+			height: 400,
+			removePlugins: 'image,forms',
+			contentsCss: [ '../../../contents.css', 'contents.css' ],
+		} );
+
+		CKCONSOLE.create( 'widget', { editor: 'editor1' } );
+		CKCONSOLE.create( 'focus', { editor: 'editor1' } );
+
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
