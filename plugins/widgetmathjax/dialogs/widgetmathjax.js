@@ -9,8 +9,7 @@
 
 CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
-	var sample = '\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)',
-		preview = new CKEDITOR.plugins.mathjax.FramedMathJax( editor );
+	var preview;
 
 	return {
 		title: 'Edit TeX/MathML',
@@ -23,28 +22,31 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 					{
 						id: 'equation',
 						type: 'textarea',
-						'default': sample,
 						label: 'Equation in TeX or MathML',
 						onLoad: function( widget ) {
 							var that = this;
 
-							// var timeout: null;
-							// this.newText = text;
-							// if (this.timeout)
-							// 	clearTimeout(this.timeout);
-
-							// this.timeout = setTimeout(this.callback,150);
 							this.getInputElement().on( 'keyup', function () {
 								preview.setValue( that.getInputElement().getValue() );
 							} );
+						},
+						setup: function( widget ) {
+							this.setValue( widget.data.math );
+						},
+						commit: function( widget ) {
+							widget.setData( 'math', this.getValue() );
 						}
 					},
 					{
 						id: 'preview',
 						type: 'html',
-						html: '<div style="width:100%;text-align:center">' + preview.toHtml() + '</div>',
+						html: '<div style="width:100%;text-align:center;"><iframe style="border:0;width:0px;height:0px;" /></div>',
 						onLoad: function( widget ) {
-							preview.setValue( sample );
+							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
+							preview = new CKEDITOR.plugins.mathjax.FramedMathJax( editor, iFrame );
+						},
+						setup: function( widget ) {
+							preview.setValue( widget.data.math );
 						}
 					}
 				]
