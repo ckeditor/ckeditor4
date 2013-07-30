@@ -101,21 +101,35 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 	}
 
 	function onChangeDimension() {
+		// If ratio is un-locked, then we don't care what's next.
 		if ( !lockRatio )
 			return;
 
 		var value = this.getValue();
 
-		if ( !value || value === '0' )
+		// No reason to auto-scale or unlock if the field is empty.
+		if ( !value )
+			return;
+
+		// If the value of the field is invalid (e.g. with %), unlock ratio.
+		if ( !value.match( regexGetSizeOrEmpty ) )
+			toggleLockDimensions( false );
+
+		// No automatic re-scale when dimension is '0'.
+		if ( value === '0' )
 			return;
 
 		var isWidth = this.id == 'width';
 
+		// If changing width, then auto-scale height.
 		if ( isWidth )
 			value = Math.round( domHeight * ( value / domWidth ) );
+
+		// If changing height, then auto-scale width.
 		else
 			value = Math.round( domWidth * ( value / domHeight ) );
 
+		// If the value is a number, apply it to the other field.
 		if ( !isNaN( value ) )
 			( isWidth ? heightField : widthField ).setValue( value );
 	}
@@ -183,13 +197,13 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 	}
 
 	function toggleLockDimensions( enable ) {
-		// No locking if there's no radio (i.e. ACF).
+		// No locking if there's no radio (i.e. due to ACF).
 		if ( !lockButton )
 			return;
 
 		// Check image ratio and original image ratio, but respecting user's
 		// preference. This is performed when a new image is pre-loaded
-		// but not if user manually locked the ratio.
+		// but not if user already manually locked the ratio.
 		if ( enable == 'check' && !userDefinedLock ) {
 			var width = widthField.getValue(),
 				height = heightField.getValue(),
@@ -219,6 +233,8 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 
 			var width = widthField.getValue();
 
+			// Automatically adjust height to width to match
+			// the original ratio (based on dom- dimensions).
 			if ( lockRatio && width ) {
 				var height = domHeight / domWidth * width;
 
@@ -235,8 +251,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			var icon = lockButton.getChild( 0 );
 			icon.setHtml( lockRatio ? CKEDITOR.env.ie ? '\u25A0' : '\u25A3' : CKEDITOR.env.ie ? '\u25A1' : '\u25A2' );
 		}
-
-		// console.log( 'toggleLockDimensions, wanted:', enable, 'is:', lockRatio );
 	}
 
 	function toggleDimensions( enable ) {
@@ -254,6 +268,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			// Create a "global" reference to the document for this dialog instance.
 			doc = this._.element.getDocument();
 
+			// Create a pre-loader used for determining dimensions of new images.
 			preLoader = createPreLoader();
 		},
 		onShow: function() {
