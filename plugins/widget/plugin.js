@@ -1267,7 +1267,8 @@
 							if ( !retElement )
 								retElement = widgetElement;
 
-							attrs = retElement.attributes;
+							// Clean up widget element's attributes.
+							attrs = widgetElement.attributes;
 
 							delete attrs[ 'data-widget-data' ];
 
