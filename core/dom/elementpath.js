@@ -3,54 +3,60 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+'use strict';
+
 (function() {
+
+	var pathBlockLimitElements = {},
+		pathBlockElements = {},
+		tag,
+		DTD_BLOCK = CKEDITOR.dtd.$block;
+
 	// Elements that are considered the "Block limit" in an element path.
-	var pathBlockLimitElements = {};
-	for ( var tag in CKEDITOR.dtd.$blockLimit ) {
+	for ( tag in CKEDITOR.dtd.$blockLimit ) {
 		// Exclude from list roots.
 		if ( !( tag in CKEDITOR.dtd.$list ) )
 			pathBlockLimitElements[ tag ] = 1;
 	}
 
 	// Elements that are considered the "End level Block" in an element path.
-	var pathBlockElements = {};
-	for ( tag in CKEDITOR.dtd.$block ) {
+	for ( tag in DTD_BLOCK ) {
 		// Exclude block limits, and empty block element, e.g. hr.
 		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
 			pathBlockElements[ tag ] = 1;
 	}
 
 	// Check if an element contains any block element.
-	var checkHasBlock = function( element ) {
-			var childNodes = element.getChildren();
+	function checkHasBlock( element ) {
+		var childNodes = element.getChildren();
 
-			for ( var i = 0, count = childNodes.count(); i < count; i++ ) {
-				var child = childNodes.getItem( i );
+		for ( var i = 0, count = childNodes.count(); i < count; i++ ) {
+			var child = childNodes.getItem( i );
 
-				if ( child.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$block[ child.getName() ] )
-					return true;
-			}
+			if ( child.type == CKEDITOR.NODE_ELEMENT && DTD_BLOCK[ child.getName() ] )
+				return true;
+		}
 
-			return false;
-		};
+		return false;
+	}
 
 	/**
 	 * Retrieve the list of nodes walked from the start node up to the editable element of the editor.
 	 *
 	 * @class
-	 * @constructor Creates a element path class instance.
+	 * @constructor Creates an element path class instance.
 	 * @param {CKEDITOR.dom.element} startNode From which the path should start.
-	 * @param {CKEDITOR.dom.element} root To which element the path should stop, default to the body element.
+	 * @param {CKEDITOR.dom.element} root To which element the path should stop, defaults to the `body` element.
 	 */
 	CKEDITOR.dom.elementPath = function( startNode, root ) {
-		var block = null;
-		var blockLimit = null;
-		var elements = [];
+		var block = null,
+			blockLimit = null,
+			elements = [],
+			e = startNode,
+			elementName;
 
 		// Backward compact.
 		root = root || startNode.getDocument().getBody();
-
-		var e = startNode;
 
 		do {
 			if ( e.type == CKEDITOR.NODE_ELEMENT ) {
@@ -65,7 +71,7 @@
 						continue;
 				}
 
-				var elementName = e.getName();
+				elementName = e.getName();
 
 				if ( !blockLimit ) {
 					if ( !block && pathBlockElements[ elementName ] )
@@ -95,6 +101,7 @@
 		 *
 		 * This means a first, splittable block in elements path.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
 		 */
 		this.block = block;
@@ -102,13 +109,15 @@
 		/**
 		 * See the {@link CKEDITOR.dtd#$blockLimit} description.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
 		 */
 		this.blockLimit = blockLimit;
 
 		/**
-		 * The root of the elements path - `startNode` argument passed to class constructor or a `body` element.
+		 * The root of the elements path - `root` argument passed to class constructor or a `body` element.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
 		 */
 		this.root = root;
@@ -116,9 +125,17 @@
 		/**
 		 * An array of elements (from `startNode` to `root`) in the path.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element[]}
 		 */
 		this.elements = elements;
+
+		/**
+		 * The last element of the elements path - `startNode` or its parent.
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.dom.element} lastElement
+		 */
 	};
 
 })();
@@ -152,8 +169,8 @@ CKEDITOR.dom.elementPath.prototype = {
 	 *
 	 * @param {String/Array/Function/Object/CKEDITOR.dom.element} query The criteria that can be
 	 * either a tag name, list (array and object) of tag names, element or an node evaluator function.
-	 * @param {Boolean} excludeRoot Not taking path root element into consideration.
-	 * @param {Boolean} fromTop Search start from the topmost element instead of bottom.
+	 * @param {Boolean} [excludeRoot] Not taking path root element into consideration.
+	 * @param {Boolean} [fromTop] Search start from the topmost element instead of bottom.
 	 * @returns {CKEDITOR.dom.element} The first matched dom element or `null`.
 	 */
 	contains: function( query, excludeRoot, fromTop ) {
