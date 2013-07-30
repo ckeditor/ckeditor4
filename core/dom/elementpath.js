@@ -71,27 +71,31 @@
 						continue;
 				}
 
-				elementName = e.getName();
+				if ( e.equals( root ) )
+					break;
 
 				if ( !blockLimit ) {
+					elementName = e.getName();
+
 					if ( !block && pathBlockElements[ elementName ] )
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
 						// End level DIV is considered as the block, if no block is available. (#525)
-						// But it must NOT be as the root element.
-						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) )
+						// But it must NOT be the root element (checked above).
+						if ( !block && elementName == 'div' && !checkHasBlock( e ) )
 							block = e;
 						else
 							blockLimit = e;
 					}
 				}
-
-				if ( e.equals( root ) )
-					break;
 			}
 		}
 		while ( ( e = e.getParent() ) );
+
+		// Block limit defaults to root.
+		if ( !blockLimit )
+			blockLimit = root;
 
 		/**
 		 * First non-empty block element which:
