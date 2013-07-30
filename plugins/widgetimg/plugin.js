@@ -143,10 +143,10 @@
 					image.setAttribute( 'alt', widget.data.alt );
 
 					// Set float style of the wrapper.
-					setAlign( this );
+					setAlign( widget );
 
 					// Set dimensions of the image according to gathered data.
-					setDimensions( this );
+					setDimensions( widget );
 				},
 
 				upcast: upcastWidgetElement,
