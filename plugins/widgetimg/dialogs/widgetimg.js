@@ -422,12 +422,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								type: 'html',
 								style: lockResetStyle,
 								onLoad: onLoadLockReset,
-								setup: function( widget ) {
-									// At the moment there's no other way to pass
-									// the widget to the onLoad function than saving
-									// it when setup is called.
-									this.widget = widget;
-								},
 								html: lockResetHtml
 							}
 						]
