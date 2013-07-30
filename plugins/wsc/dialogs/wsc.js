@@ -895,7 +895,7 @@ function __constructLangSelectbox(languageGroup) {
 
 	var that = this,
 		o_arr = [],
-		priorLang ="en_US",
+		priorLang ="pt_BR",
 		priorLangTitle = "",
 		currLang = NS.selectingLang;
 

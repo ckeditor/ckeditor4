@@ -226,7 +226,7 @@
 			// Override Image.equals method avoid CK snapshot module to add SCAYT markup to snapshots. (#5546)
 			var undoImagePrototype = CKEDITOR.plugins.undo.Image.prototype;
 
-			undoImagePrototype.equalsContent = CKEDITOR.tools.override( undoImagePrototype.equalsContent, function( org ) {
+			undoImagePrototype.equals = CKEDITOR.tools.override( undoImagePrototype.equals, function( org ) {
 				return function( otherImage ) {
 					var thisContents = this.contents,
 						otherContents = otherImage.contents;

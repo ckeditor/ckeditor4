@@ -1,4 +1,4 @@
-"Moono" Skin
+﻿"Moono" Skin
 ====================
 
 This skin has been chosen for the **default skin** of CKEditor 4.x, elected from the CKEditor

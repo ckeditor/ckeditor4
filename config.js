@@ -63,6 +63,7 @@ CKEDITOR.editorConfig = function( config ) {
 		//'templates,' +
 		'toolbar,' +
 		'undo,' +
+		'wsc,' +
 		'wysiwygarea';
 	config.keystrokes=[
 		                 	[ CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' ],
