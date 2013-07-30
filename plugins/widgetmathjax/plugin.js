@@ -6,15 +6,6 @@
 'use strict';
 
 (function() {
-
-	function hasClass( el, className ) {
-		if ( ! el.attributes[ 'class' ] ) {
-			return false;
-		}
-		var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', '' );
-		return regex.test( el.attributes[ 'class' ] );
-	}
-
 	CKEDITOR.plugins.add( 'widgetmathjax', {
 		requires: 'widget,dialog',
 
@@ -54,7 +45,7 @@
 					this.element.getChild( 0 ).setHtml( this.data.math );
 				},
 				upcast: function( el ) {
-					if ( !( el.name == 'span' && hasClass( el, 'math-tex' ) ) )
+					if ( !( el.name == 'span' && el.hasClass( 'math-tex' ) ) )
 						return false;
 
 					var source = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} );
