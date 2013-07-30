@@ -40,7 +40,10 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 					{
 						id: 'preview',
 						type: 'html',
-						html: '<div style="width:100%;text-align:center;"><iframe style="border:0;width:0px;height:0px;" /></div>',
+						html:'' +
+							'<div style="width:100%;text-align:center;">' +
+								'<iframe style="border:0;width:0px;height:0px;" scrolling="no" frameborder="0" />' +
+							'</div>',
 						onLoad: function( widget ) {
 							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
 							preview = new CKEDITOR.plugins.mathjax.FramedMathJax( editor, iFrame );

@@ -26,7 +26,7 @@
 
 				template: '<span class="math-tex">' +
 					'<span style="display:none;">{math}</span>' +
-					'<iframe style="border:0;width:0px;height:0px;" />' +
+					'<iframe style="border:0;width:0px;height:0px;" scrolling="no" frameborder="0" />' +
 				'</span>',
 
 				defaults: function() {
@@ -51,7 +51,11 @@
 					var source = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} );
 					source.children =  el.children;
 
-					var iframe = new CKEDITOR.htmlParser.element( 'iframe', { 'style': 'border:0;width:0px;height:0px;' } );
+					var iframe = new CKEDITOR.htmlParser.element( 'iframe', {
+						'style': 'border:0;width:0px;height:0px;',
+						'scrolling': 'no',
+						'frameborder': '0'
+					} );
 
 					el.children = [ source, iframe ];
 
@@ -74,13 +78,11 @@
 
 	CKEDITOR.plugins.mathjax.FramedMathJax = function ( editor, iFrame ) {
 
-		var doc, win, buffer, preview, value, newValue,
+		var doc, buffer, preview, value, newValue,
 			isRunning = false,
 			isInit = false,
 
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
-				doc = iFrame.getFrameDocument();
-				win = doc.getWindow();
 				preview = doc.getById( 'preview' );
 				buffer = doc.getById( 'buffer' );
 				isInit = true;
@@ -104,14 +106,6 @@
 					isRunning = false;
 		} );
 
-		iFrame.setAttributes( {
-			'src': 'javascript:document.write( \'' + encodeURIComponent( addSlashes( createContent() ) ) +'\' );document.close();',
-			'style': 'border:0;width:0px;height:0px;',
-			'scrolling': 'no',
-			'frameborder': 0,
-			'allowTransparency': true
-		} );
-
 		function update() {
 			isRunning = true;
 
@@ -119,18 +113,15 @@
 			buffer.setHtml( value );
 			iFrame.setStyle( 'height', '0px' );
 			iFrame.setStyle( 'width', '0px' );
-			win.$.update( value );
+			doc.getWindow().$.update( value );
 		}
-		function addSlashes ( string ) {
-			return string.replace(/\\/g, '\\\\').
-				replace(/\u0008/g, '\\b').
-				replace(/\t/g, '\\t').
-				replace(/\n/g, '\\n').
-				replace(/\f/g, '\\f').
-				replace(/\r/g, '\\r').
-				replace(/'/g, '\\\'').
-				replace(/"/g, '\\"');
-		}
+
+		iFrame.setAttribute( 'allowTransparency', true );
+
+		doc = iFrame.getFrameDocument();
+		doc.write( createContent() );
+
+
 		function createContent () {
 			return '<!DOCTYPE html>' +
 				'<html>' +
@@ -163,7 +154,7 @@
 					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">' +
 					'</script>' +
 				'</head>' +
-				'<body style="padding:0px;margin:0px;background:transparent">' +
+				'<body style="padding:0;margin:0;background:transparent;overflow:hidden;">' +
 					'<span id="preview"></span>' +
 					'<span id="buffer" style="display:none;"></span>' +
 				'</body>' +
@@ -173,10 +164,8 @@
 			setValue: function( value ) {
 				newValue = value;
 
-				if(!isInit || isRunning)
-					return;
-
-				update();
+				if(isInit && !isRunning)
+					update();
 			}
 		};
 	}
