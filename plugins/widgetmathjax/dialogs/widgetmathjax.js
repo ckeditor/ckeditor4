@@ -26,15 +26,19 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 							var that = this;
 
 							this.getInputElement().on( 'keyup', function() {
-								preview.setValue( that.getInputElement().getValue() );
+								// Add \( and \) for preview.
+								preview.setValue( '\\(' + that.getInputElement().getValue() + '\\)' );
 							} );
 						},
 						setup: function( widget ) {
-							this.setValue( widget.data.math );
+							var math = widget.data.math;
+							// Remove \( and \).
+							this.setValue( math.substring( 2, math.length - 2 ) );
 						},
 
 						commit: function( widget ) {
-							widget.setData( 'math', this.getValue() );
+							// Add \( and \) to make TeX be parsed by MathJax by default.
+							widget.setData( 'math', '\\(' + this.getValue() + '\\)' );
 						}
 					},
 					{
