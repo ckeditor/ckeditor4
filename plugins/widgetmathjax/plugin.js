@@ -32,6 +32,7 @@
 				},
 
 				init: function() {
+					console.log( this.wrapper.getOuterHtml() );
 					this.setData( { math: this.element.getText() } );
 					this.frame = new CKEDITOR.plugins.mathjax.frameWrapper( editor, this.element.getChild( 1 ) );
 				},
