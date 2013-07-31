@@ -23,8 +23,8 @@
 
 				template:
 					'<span class="math-tex">' +
-						'<span style="display:none;">{math}</span>' +
-						'<iframe style="border:0;width:0;height:0;" scrolling="no" frameborder="0" />' +
+						'<span style="display:none">{math}</span>' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" />' +
 					'</span>',
 
 				defaults: {
@@ -46,9 +46,9 @@
 					if ( !( el.name == 'span' && el.hasClass( 'math-tex' ) ) )
 						return false;
 
-					var hidden = new CKEDITOR.htmlParser.element( 'span', { 'style': 'display:none;'} ),
+					var hidden = new CKEDITOR.htmlParser.element( 'span', { style: 'display:none' } ),
 						iframe = new CKEDITOR.htmlParser.element( 'iframe', {
-							style: 'border:0;width:0;height:0;',
+							style: 'border:0;width:0;height:0',
 							scrolling: 'no',
 							frameborder: 0
 						} );
@@ -138,9 +138,9 @@
 					'</script>' +
 					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>' +
 				'</head>' +
-				'<body style="padding:0;margin:0;background:transparent;overflow:hidden;">' +
+				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 					'<span id="preview"></span>' +
-					'<span id="buffer" style="display:none;"></span>' +
+					'<span id="buffer" style="display:none"></span>' +
 				'</body>' +
 				'</html>';
 
