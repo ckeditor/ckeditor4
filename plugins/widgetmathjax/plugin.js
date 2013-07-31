@@ -19,7 +19,7 @@
 
 				button: 'MathJax',
 
-				allowedContent: 'span(math-tex)',
+				allowedContent: 'span(!math-tex)',
 
 				template:
 					'<span class="math-tex">' +
