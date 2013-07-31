@@ -23,48 +23,44 @@
 
 				template:
 					'<span class="math-tex">' +
-						'<span style="display:none">{math}</span>' +
 						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" />' +
 					'</span>',
+
+				parts: {
+					iframe: 'iframe'
+				},
 
 				defaults: {
 					math: '\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)'
 				},
 
 				init: function() {
-					this.setData( { math: this.element.getText() } );
-					this.frame = new CKEDITOR.plugins.mathjax.frameWrapper( editor, this.element.getChild( 1 ) );
+					this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( editor, this.parts.iframe );
 				},
 
 				data: function() {
-					this.frame.setValue( this.data.math );
-					this.element.getChild( 0 ).setHtml( this.data.math );
+					this.frameWrapper.setValue( this.data.math );
 				},
 
 				upcast: function( el ) {
 					if ( !( el.name == 'span' && el.hasClass( 'math-tex' ) ) )
 						return false;
 
-					var hidden = new CKEDITOR.htmlParser.element( 'span', { style: 'display:none' } ),
-						iframe = new CKEDITOR.htmlParser.element( 'iframe', {
-							style: 'border:0;width:0;height:0',
-							scrolling: 'no',
-							frameborder: 0
-						} );
+					el.attributes[ 'data-widget-data' ] = JSON.stringify( {
+						math: el.children[ 0 ].value
+					} );
 
-					// Hide TeX into hidden span
-					el.children[ 0 ].wrapWith( hidden );
-					// and add iFrame as a second child.
-					el.add( iframe );
+					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
+						style: 'border:0;width:0;height:0',
+						scrolling: 'no',
+						frameborder: 0
+					} ) );
 
 					return el;
 				},
 
 				downcast: function( el ) {
-					// Remove iFrame
-					el.children[ 1 ].remove();
-					// and move Tex to main element.
-					el.children[ 0 ].replaceWithChildren();
+					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.text( this.data.math ) );
 
 					return el;
 				}

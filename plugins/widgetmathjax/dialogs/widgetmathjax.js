@@ -21,16 +21,18 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 						id: 'equation',
 						type: 'textarea',
 						label: 'Mathematics in TeX',
+
 						onLoad: function( widget ) {
 							var that = this;
 
-							this.getInputElement().on( 'keyup', function () {
+							this.getInputElement().on( 'keyup', function() {
 								preview.setValue( that.getInputElement().getValue() );
 							} );
 						},
 						setup: function( widget ) {
 							this.setValue( widget.data.math );
 						},
+
 						commit: function( widget ) {
 							widget.setData( 'math', this.getValue() );
 						}
@@ -38,14 +40,16 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 					{
 						id: 'preview',
 						type: 'html',
-						html:'' +
+						html:
 							'<div style="width:100%;text-align:center;">' +
 								'<iframe style="border:0;width:0;height:0;" scrolling="no" frameborder="0" />' +
 							'</div>',
+
 						onLoad: function( widget ) {
 							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
-							preview = new CKEDITOR.plugins.mathjax.FrameWrapper( editor, iFrame );
+							preview = new CKEDITOR.plugins.mathjax.frameWrapper( editor, iFrame );
 						},
+
 						setup: function( widget ) {
 							preview.setValue( widget.data.math );
 						}
