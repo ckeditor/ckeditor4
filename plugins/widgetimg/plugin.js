@@ -34,6 +34,10 @@
 						match: isCenterWrapper,
 						styles: 'text-align'
 					},
+					p: {
+						match: isCenterWrapper,
+						styles: 'text-align'
+					},
 					figcaption: true
 				},
 
@@ -231,13 +235,15 @@
 			// Parse element styles. Styles will be extended.
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
 
-			// If centering, wrap downcasted element into a <p>.
+			// If centering, wrap downcasted element.
 			if ( align == 'center' ) {
-				el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', { 'style': 'text-align:center' } ) );
+				// Wrappers for <img> and <figure> are <p> and <div>, respectively.
+				el = el.wrapWith( new CKEDITOR.htmlParser.element( el.name == 'img' ? 'p' : 'div', {
+					'style': 'text-align:center'
+				} ) );
 
-				// This is to override possible display:block on images.
-				if ( !this.data.hasCaption )
-					styles.display = 'inline-block';
+				// This is to override possible display:block on element.
+				styles.display = 'inline-block';
 			}
 
 			// If left/right/none, add float style to the downcasted element.
@@ -252,15 +258,11 @@
 		return el;
 	}
 
-	// Checks whether an element is a valid centering wrapper
-	// for this widget type.
+	// Checks whether an element is a valid centering wrapper.
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	// @returns {Boolean}
 	function isCenterWrapper( el ) {
-		if ( el.name != 'div' )
-			return false;
-
 		var children = el.children;
 
 		// Centering div can have only one child.
@@ -273,13 +275,15 @@
 		if ( !styles[ 'text-align' ] || styles[ 'text-align' ] != 'center' )
 			return false;
 
-		var child = el.getFirst(),
+		var child = children[ 0 ],
 			childName = child.name;
 
-		// The only child of can be <img> or <figure> with "caption" class.
-		if ( childName == 'img' )
+		// The only child of <p> can be <img>.
+		if ( el.name == 'p' && childName == 'img' )
 			return true;
-		else if ( childName == 'figure' && child.hasClass( 'caption' ) )
+
+		// The only child of <div> can be <figure> with "caption" class
+		else if ( el.name == 'div' && childName == 'figure' && child.hasClass( 'caption' ) )
 			return true;
 
 		return false;
