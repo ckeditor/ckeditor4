@@ -148,7 +148,8 @@
 
 			iFrame.setStyles( {
 				height: 0,
-				width: 0
+				width: 0,
+				'vertical-align': 'middle'
 			} );
 
 			doc.getWindow().$.update( value );
