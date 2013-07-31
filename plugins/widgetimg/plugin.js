@@ -51,37 +51,41 @@
 				},
 
 				init: function() {
-					var image = this.parts.image;
+					var image = this.parts.image,
+						data = {
+							// Initially, detect whether widget has caption.
+							hasCaption: !!this.parts.caption,
+
+							// Read initial image SRC attribute.
+							src: image.getAttribute( 'src' ),
+
+							// Read initial image ALT attribute.
+							alt: image.getAttribute( 'alt' ),
+
+							// Read initial width from either attribute or style.
+							width: image.getAttribute( 'width' ) || '',
+
+							// Read initial height from either attribute or style.
+							height: image.getAttribute( 'height' ) || ''
+						};
 
 					// If element was marked as centered when upcasting, update
 					// the alignment both visually and in widget data (will call setAlign).
 					if ( this.element.data( 'cke-centered' ) ) {
 						this.element.data( 'cke-centered', false );
-						this.setData( 'align', 'center' );
+						data.align = 'center';
 					}
 
 					// Otherwise, read initial float style from figure/image and
 					// then remove it. This style will be set on wrapper in #data listener.
 					else {
-						this.setData( 'align', this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none' );
+						data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
 						this.element.removeStyle( 'float' );
 						image.removeStyle( 'float' );
 					}
 
-					// Initially, detect whether widget has caption.
-					this.setData( 'hasCaption', !!this.parts.caption );
-
-					// Read initial image SRC attribute.
-					this.setData( 'src', image.getAttribute( 'src' ) );
-
-					// Read initial image ALT attribute.
-					this.setData( 'alt', image.getAttribute( 'alt' ) );
-
-					// Read initial width from either attribute or style.
-					this.setData( 'width', image.getAttribute( 'width' ) || '' );
-
-					// Read initial height from either attribute or style.
-					this.setData( 'height', image.getAttribute( 'height' ) || '' );
+					// Set collected data.
+					this.setData( data );
 
 					// Setup getOutput listener to downcast the widget.
 					this.on( 'getOutput', function( evt ) {
