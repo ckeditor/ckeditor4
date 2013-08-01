@@ -22,7 +22,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<textarea id="editor1" cols="10" rows="10">
 		<h1>Apollo 11</h1>
 
-		<div style="background:red;">
+		<div style="background:red;color:blue">
 			<p><strong>Apollo 11</strong>&nbsp;was the&nbsp;spaceflight&nbsp;that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a>&nbsp;and&nbsp;<a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a> <span class="math-tex">\(x = {-b \pm \sqrt{b^2-4ac} \over 2a}\)</span>. Armstrong became the first to step onto the lunar surface 6 hours later. Armstrong spent about two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission,&nbsp;Michael Collins, piloted the&nbsp;command spacecraft&nbsp;alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
 		</div>
 
@@ -33,10 +33,20 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	<script>
 
+		CKEDITOR.stylesSet.add('my_custom_style', [
+			{ name: 'My Custom Block', element: 'h1', styles: { color: 'blue'} }
+		]);
+
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'widgetmathjax',
 			removePlugins: 'iframe',
-			height: 350
+			height: 350,
+			allowedContent: true,
+			coreStyles_superscript: {
+				element: 'h1',
+				style: { 'color': 'blue' },
+				overrides: 'h1'
+			}
 		} );
 
 	</script>

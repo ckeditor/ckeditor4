@@ -78,6 +78,8 @@
 			doc = iFrame.getFrameDocument(),
 			isRunning = false,
 			isInit = false,
+			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
+			style = '',
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
 				preview = doc.getById( 'preview' );
 				buffer = doc.getById( 'buffer' );
@@ -102,42 +104,58 @@
 					update();
 				else
 					isRunning = false;
-			} ),
-			content = '<!DOCTYPE html>' +
-				'<html>' +
-				'<head>' +
-					'<meta charset="utf-8">' +
-					'<script type="text/x-mathjax-config">' +
-						'MathJax.Hub.Config( {' +
-							'showMathMenu: false,' +
-							'messageStyle: "none"' +
-						'} );' +
-						'function getCKE() {' +
-							'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
-								'return window.parent.CKEDITOR;' +
-							'} else {' +
-								'return window.parent.parent.CKEDITOR;' +
+			} );
+
+		// copy styles from iFrame to body inside iFrame
+		for (var i = 0; i < stylesToCopy.length; i++) {
+			var key = stylesToCopy[i],
+				value = iFrame.getComputedStyle( key );
+			if( value )
+				style += key + ': ' + value + ';';
+		};
+
+		iFrame.setAttribute( 'allowTransparency', true );
+
+		doc.write( '<!DOCTYPE html>' +
+			'<html>' +
+			'<head>' +
+				'<meta charset="utf-8">' +
+				'<style type="text/css">' +
+					'span#preview {' +
+						style +
+					'}' +
+				'</style>' +
+				'<script type="text/x-mathjax-config">' +
+					'MathJax.Hub.Config( {' +
+						'showMathMenu: false,' +
+						'messageStyle: "none"' +
+					'} );' +
+					'function getCKE() {' +
+						'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
+							'return window.parent.CKEDITOR;' +
+						'} else {' +
+							'return window.parent.parent.CKEDITOR;' +
+						'}' +
+					'}' +
+					'function update() {' +
+						'MathJax.Hub.Queue(' +
+							'[\'Typeset\',MathJax.Hub,this.buffer],' +
+							'function() {' +
+								'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
 							'}' +
-						'}' +
-						'function update() {' +
-							'MathJax.Hub.Queue(' +
-								'[\'Typeset\',MathJax.Hub,this.buffer],' +
-								'function() {' +
-									'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
-								'}' +
-							');' +
-						'}' +
-						'MathJax.Hub.Queue( function() {' +
-							'getCKE().tools.callFunction(' + loadedHandler + ');' +
-						'} );' +
-					'</script>' +
-					'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>' +
-				'</head>' +
-				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
-					'<span id="preview"></span>' +
-					'<span id="buffer" style="display:none"></span>' +
-				'</body>' +
-				'</html>';
+						');' +
+					'}' +
+					'MathJax.Hub.Queue( function() {' +
+						'getCKE().tools.callFunction(' + loadedHandler + ');' +
+					'} );' +
+				'</script>' +
+				'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>' +
+			'</head>' +
+			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+				'<span id="preview"></span>' +
+				'<span id="buffer" style="display:none"></span>' +
+			'</body>' +
+			'</html>' );
 
 		function update() {
 			isRunning = true;
@@ -154,10 +172,6 @@
 
 			doc.getWindow().$.update( value );
 		}
-
-		iFrame.setAttribute( 'allowTransparency', true );
-
-		doc.write( content );
 
 		return {
 			setValue: function( value ) {
