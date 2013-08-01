@@ -46,7 +46,7 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 						type: 'html',
 						html:
 							'<div style="width:100%;text-align:center;">' +
-								'<iframe style="border:0;width:0;height:0;" scrolling="no" frameborder="0" />' +
+								'<iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" />' +
 							'</div>',
 
 						onLoad: function( widget ) {
