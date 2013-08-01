@@ -7,13 +7,16 @@
 
 (function() {
 
+	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/latest\/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+
 	CKEDITOR.plugins.add( 'widgetmathjax', {
 		requires: 'widget,dialog',
 
 		icons: 'widgetmathjax',
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex';
+			var cls = editor.config.mathJaxClass || 'math-tex',
+				libSrc = cdn;
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -70,6 +73,10 @@
 			} );
 
 			CKEDITOR.dialog.add( 'widgetmathjax', this.path + 'dialogs/widgetmathjax.js' );
+
+			editor.on( 'contentPreview', function( evt ) {
+				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/g, '<script src="' + libSrc + '"><\/script><\/head>' );
+			} );
 		}
 	} );
 
@@ -81,8 +88,6 @@
 			doc = iFrame.getFrameDocument(),
 			isRunning = false,
 			isInit = false,
-			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
-			style = '',
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
 				preview = doc.getById( 'preview' );
 				buffer = doc.getById( 'buffer' );
@@ -107,7 +112,10 @@
 					update();
 				else
 					isRunning = false;
-			} );
+			} ),
+			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
+			style = '',
+			libSrc = cdn;
 
 		// copy styles from iFrame to body inside iFrame
 		for (var i = 0; i < stylesToCopy.length; i++) {
@@ -152,7 +160,7 @@
 						'getCKE().tools.callFunction(' + loadedHandler + ');' +
 					'} );' +
 				'</script>' +
-				'<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>' +
+				'<script src="' + libSrc + '"></script>' +
 			'</head>' +
 			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 				'<span id="preview"></span>' +
