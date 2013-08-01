@@ -24,6 +24,8 @@
 
 				button: 'MathJax',
 
+				mask: true,
+
 				allowedContent: 'span(!' + cls + ')',
 
 				template:
