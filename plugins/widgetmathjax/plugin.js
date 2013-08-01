@@ -6,12 +6,15 @@
 'use strict';
 
 (function() {
+
 	CKEDITOR.plugins.add( 'widgetmathjax', {
 		requires: 'widget,dialog',
 
 		icons: 'widgetmathjax',
 
 		init: function( editor ) {
+			var cls = editor.config.mathJaxClass || 'math-tex';
+
 			editor.widgets.add( 'mathjax', {
 				inline: true,
 
@@ -19,10 +22,10 @@
 
 				button: 'MathJax',
 
-				allowedContent: 'span(!math-tex)',
+				allowedContent: 'span(!' + cls + ')',
 
 				template:
-					'<span class="math-tex">' +
+					'<span class="' + cls + '">' +
 						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" />' +
 					'</span>',
 
@@ -43,7 +46,7 @@
 				},
 
 				upcast: function( el ) {
-					if ( !( el.name == 'span' && el.hasClass( 'math-tex' ) ) )
+					if ( !( el.name == 'span' && el.hasClass( cls ) ) )
 						return false;
 
 					el.attributes[ 'data-widget-data' ] = JSON.stringify( {
