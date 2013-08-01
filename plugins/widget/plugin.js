@@ -219,7 +219,6 @@
 
 			widget.wrapper.remove();
 			this.destroy( widget, true );
-			this.editor.fire( 'saveSnapshot' );
 		},
 
 		/**
@@ -335,18 +334,11 @@
 				newInstances = [],
 				instance;
 
-			// Since locking and unlocking snasphot isn't a lightweight operation
-			// lock it here so all '(un)lockSnapshot' events (which will be fired in Widget constructors)
-			// will be ignored.
-			this.editor.fire( 'lockSnapshot' );
-
 			for ( var i = newWidgets.count(); i--; ) {
 				instance = this.initOn( newWidgets.getItem( i ).getFirst( isWidgetElement2 ) );
 				if ( instance )
 					newInstances.push( instance );
 			}
-
-			this.editor.fire( 'unlockSnapshot' );
 
 			return newInstances;
 		},
@@ -376,9 +368,6 @@
 				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
 					return wrapper;
 
-				// Lock snapshot during making changes to DOM.
-				this.editor.fire( 'lockSnapshot' );
-
 				// If attribute isn't already set (e.g. for pasted widget), set it.
 				if ( !element.hasAttribute( 'data-widget-keep-attr' ) )
 					element.data( 'widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
@@ -392,8 +381,6 @@
 				if ( element.getParent( true ) )
 					wrapper.replace( element );
 				element.appendTo( wrapper );
-
-				this.editor.fire( 'unlockSnapshot' );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
 				widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
@@ -524,9 +511,6 @@
 
 		widgetsRepo.fire( 'instanceCreated', this );
 
-		// Lock snapshot during making changed to DOM.
-		editor.fire( 'lockSnapshot' );
-
 		setupWidget( this, widgetDef );
 
 		this.init && this.init();
@@ -538,9 +522,6 @@
 		} );
 
 		setupWidgetData( this, startupData );
-
-		// Unlock snapshot after we've done all changes.
-		editor.fire( 'unlockSnapshot' );
 
 		// If at some point (e.g. in #data listener) widget
 		// hasn't been destroyed - fire #ready.
@@ -1229,14 +1210,8 @@
 
 		editor.on( 'dataReady', function() {
 			// Clean up all widgets loaded from snapshot.
-			if ( snapshotLoaded ) {
-				// By locking and unlocking we'll updated snapshot loaded
-				// a moment ago. We need that because entire wrapper
-				// will be rebuilt and e.g. widget id will be modified.
-				editor.fire( 'lockSnapshot' );
+			if ( snapshotLoaded )
 				cleanUpAllWidgetElements( widgetsRepo, editor.editable() );
-				editor.fire( 'unlockSnapshot' );
-			}
 			snapshotLoaded = 0;
 
 			// Some widgets were destroyed on contentDomUnload,
