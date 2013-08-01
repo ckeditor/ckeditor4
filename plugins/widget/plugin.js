@@ -1162,6 +1162,8 @@
 	}
 
 	function setFocusedEditable( widgetsRepo, widget, editableElement, offline ) {
+		widgetsRepo.editor.fire( 'lockSnapshot' );
+
 		if ( editableElement ) {
 			widgetsRepo.widgetHoldingFocusedEditable = widget;
 			widget.focusedEditable = editableElement;
@@ -1181,6 +1183,8 @@
 			widgetsRepo.widgetHoldingFocusedEditable = null;
 			widgetsRepo.editor.setActiveFilter( null );
 		}
+
+		widgetsRepo.editor.fire( 'unlockSnapshot' );
 	}
 
 	function setupContextMenu( editor ) {
@@ -1597,6 +1601,8 @@
 				var focusedChanged = widgetsRepo.focused !== focused,
 					widget;
 
+				widgetsRepo.editor.fire( 'lockSnapshot' );
+
 				if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
 					blurWidget( widgetsRepo, widget );
 				}
@@ -1618,6 +1624,8 @@
 					currentlySelected.push( widget );
 					widget.setSelected( true );
 				}
+
+				widgetsRepo.editor.fire( 'unlockSnapshot' );
 			}
 		};
 	}

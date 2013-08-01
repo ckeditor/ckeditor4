@@ -14,7 +14,7 @@
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var undoManager = new UndoManager( editor );
+			var undoManager = editor.undoManager = new UndoManager( editor );
 
 			var undoCommand = editor.addCommand( 'undo', {
 				exec: function() {
