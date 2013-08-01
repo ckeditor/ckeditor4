@@ -12,6 +12,12 @@
 	CKEDITOR.plugins.add( 'widget', {
 		onLoad: function() {
 			CKEDITOR.addCss(
+				'.cke_widget_wrapper{' +
+					'position:relative' +
+				'}' +
+				'.cke_widget_inline{' +
+					'display:inline-block' +
+				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
 					'outline:2px solid yellow;' +
 					'cursor:default' +
@@ -42,6 +48,13 @@
 				'}'+
 				'img.cke_widget_drag_handler{' +
 					'cursor:move' +
+				'}' +
+				'.cke_widget_mask{' +
+					'position:absolute;' +
+					'top:0;' +
+					'left:0;' +
+					'width:100%;' +
+					'height:100%' +
 				'}'
 			);
 		},
@@ -1026,9 +1039,9 @@
 			tabindex: -1,
 			'data-widget-wrapper': 1,
 			'data-cke-filter': 'off',
-			style: 'position:relative' + ( inlineWidget ? ';display:inline-block' : '' ),
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
-			'class': 'cke_widget_wrapper cke_widget_new'
+			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
+				( inlineWidget ? 'inline' : 'block' )
 		};
 	}
 
@@ -1756,18 +1769,18 @@
 		}
 	}
 
-	/* TMP
 	function setupMask( widget ) {
-		// When initialized for the first time.
-		if ( widget.needsMask ) {
-			var img = CKEDITOR.dom.element.createFromHtml(
-				'<img src="' + transparentImageData + '" ' +
-				'style="position:absolute;width:100%;height:100%;top:0;left:0;" draggable="false">', widget.editor.document );
+		if ( !widget.mask )
+			return;
 
-			img.appendTo( widget.wrapper );
-		}
+		var img = new CKEDITOR.dom.element( 'img', widget.editor.document );
+		img.setAttributes( {
+			src: transparentImageData,
+			'class': 'cke_widget_mask'
+		} );
+		widget.wrapper.append( img );
+		widget.mask = img;
 	}
-	*/
 
 	// Replace parts object containing:
 	// partName => selector pairs
@@ -1790,8 +1803,8 @@
 		setupWrapper( widget );
 		setupParts( widget );
 		setupEditables( widget );
+		setupMask( widget );
 		setupDragHandler( widget );
-		// setupMask( widget );
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
 		widget.element.addClass( 'cke_widget_element' );
