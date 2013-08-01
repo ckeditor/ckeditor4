@@ -291,9 +291,14 @@
 				// This class will be removed by widget constructor to avoid locking snapshot twice.
 				if ( wrapper.hasClass( 'cke_widget_new' ) ) {
 					var widget = new Widget( this, this._.nextId++, element, widgetDef, startupData );
-					this.instances[ widget.id ] = widget;
 
-					return widget;
+					// Widget could be destroyed when initializing it.
+					if ( widget.isInited() ) {
+						this.instances[ widget.id ] = widget;
+
+						return widget;
+					} else
+						return null;
 				}
 
 				// Widget already has been initialized, so try to widget by element
@@ -371,7 +376,7 @@
 				wrapper.setAttributes( getWrapperAttributes( widget.inline ) );
 
 				// Replace element unless it is a detached one.
-				if ( element.getParent() )
+				if ( element.getParent( true ) )
 					wrapper.replace( element );
 				element.appendTo( wrapper );
 
@@ -513,18 +518,21 @@
 
 		this.init && this.init();
 
-		setupWidgetData( this, startupData );
-
 		// Finally mark widget as inited and non-editable.
 		this.wrapper.setAttributes( {
 			'data-widget-wrapper-inited': 1,
 			contenteditable: false
 		} );
 
+		setupWidgetData( this, startupData );
+
 		// Unlock snapshot after we've done all changes.
 		editor.fire( 'unlockSnapshot' );
 
-		this.fire( 'ready' );
+		// If at some point (e.g. in #data listener) widget
+		// hasn't been destroyed - fire #ready.
+		if ( this.isInited() )
+			this.fire( 'ready' );
 	}
 
 	Widget.prototype = {
@@ -549,11 +557,11 @@
 			}
 
 			if ( !offline ) {
+				if ( this.element.getAttribute( 'data-widget-keep-attr' ) == '0' )
+					this.element.removeAttribute( 'data-widget' );
 				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-keep-attr' ] );
 				this.element.removeClass( 'cke_widget_element' );
-				this.wrapper.removeAttributes( [ 'contenteditable', 'data-widget-id', 'data-widget-wrapper-inited' ] );
-				this.wrapper.addClass( 'cke_widget_new' );
-				this.dragHandlerContainer.remove();
+				this.element.replace( this.wrapper );
 			}
 
 			this.wrapper = null;
@@ -828,14 +836,73 @@
 				else if ( widgetDef.template ) {
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
-						instance;
+						instance,
+						wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
+						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
+						editWasCanceled = true;
 
-					var wrapper = editor.widgets.wrapElement( element, widgetDef.name );
-					editor.insertElement( wrapper );
+					// Append wrapper to a temporary document. This will unify the environment
+					// in which #data listeners work when creating and editing widget.
+					temp.append( wrapper );
 					instance = editor.widgets.initOn( element, widgetDef );
 
-					instance.focus();
+					// Instance could be destroyed during initialization.
+					// In this case finalize creation if some new widget
+					// was left in temporary document fragment.
+					if ( !instance ) {
+						finalizeCreation();
+						return;
+					}
+
+					// Listen on edit to finalize widget insertion.
+					//
+					// * If dialog was set, then insert widget after dialog was successfully saved or destroy this
+					// temporary instance.
+					// * If dialog wasn't set and edit wasn't canceled, insert widget.
+					var editListener = instance.once( 'edit', function( evt ) {
+						editWasCanceled = false;
+
+						if ( evt.data.dialog ) {
+							instance.once( 'dialog', function( evt ) {
+								var dialog = evt.data,
+									okListener,
+									cancelListener;
+
+								okListener = dialog.once( 'ok', finalizeCreation );
+
+								cancelListener = dialog.once( 'cancel', function() {
+									editor.widgets.destroy( instance, true );
+								} );
+
+								dialog.once( 'hide', function() {
+									okListener.removeListener();
+									cancelListener.removeListener();
+								} );
+							} );
+						}
+						// Dialog hasn't been set, so insert widget now.
+						else
+							finalizeCreation();
+					}, null, null, 999 );
+
 					instance.edit();
+
+					// Remove listener in case someone canceled it before this
+					// listener was executed.
+					editListener.removeListener();
+
+					// In case edit was canceled - finalize creation here which should happen anyway (just without
+					// initial edit).
+					if ( editWasCanceled )
+						finalizeCreation();
+				}
+
+				function finalizeCreation() {
+					var wrapper = temp.getFirst();
+					if ( wrapper && isWidgetWrapper2( wrapper ) ) {
+						editor.insertElement( wrapper );
+						editor.widgets.getByElement( wrapper ).focus();
+					}
 				}
 			},
 			allowedContent: widgetDef.allowedContent,
