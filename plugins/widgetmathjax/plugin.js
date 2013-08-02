@@ -15,7 +15,10 @@
 		icons: 'widgetmathjax',
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex';
+			var cls = editor.config.mathJaxClass || 'math-tex',
+
+				// In Firefox src must exist and be different than about:blank to emit load event
+				ffHack = CKEDITOR.env.gecko?'src="javascript:true;"':'';
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -30,7 +33,7 @@
 
 				template:
 					'<span class="' + cls + '">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" />' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" ' + ffHack + ' />' +
 					'</span>',
 
 				parts: {
@@ -85,8 +88,7 @@
 
 	CKEDITOR.plugins.mathjax.frameWrapper = function( editor, iFrame ) {
 
-		var buffer, preview, value, newValue,
-			doc = iFrame.getFrameDocument(),
+		var buffer, preview, value, newValue, doc,
 			isRunning = false,
 			isInit = false,
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
@@ -117,56 +119,71 @@
 			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
 			style = '';
 
-		// copy styles from iFrame to body inside iFrame
-		for (var i = 0; i < stylesToCopy.length; i++) {
-			var key = stylesToCopy[i],
-				value = iFrame.getComputedStyle( key );
-			if( value )
-				style += key + ': ' + value + ';';
-		};
+		try {
+			loadDocument();
+		} catch ( e ) {
+			// If you create widget using dialog iFrame has
+			// now document at the beginning so we should wait for it
+			iFrame.once( 'load', function() {
+				loadDocument();
+			} );
+		}
 
-		iFrame.setAttribute( 'allowTransparency', true );
+		function loadDocument() {
+			doc = iFrame.getFrameDocument();
 
-		doc.write( '<!DOCTYPE html>' +
-			'<html>' +
-			'<head>' +
-				'<meta charset="utf-8">' +
-				'<style type="text/css">' +
-					'span#preview {' +
-						style +
-					'}' +
-				'</style>' +
-				'<script type="text/x-mathjax-config">' +
-					'MathJax.Hub.Config( {' +
-						'showMathMenu: false,' +
-						'messageStyle: "none"' +
-					'} );' +
-					'function getCKE() {' +
-						'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
-							'return window.parent.CKEDITOR;' +
-						'} else {' +
-							'return window.parent.parent.CKEDITOR;' +
+			// copy styles from iFrame to body inside iFrame
+			for (var i = 0; i < stylesToCopy.length; i++) {
+				var key = stylesToCopy[i],
+					value = iFrame.getComputedStyle( key );
+				if( value )
+					style += key + ': ' + value + ';';
+			}
+
+			iFrame.setAttribute( 'allowTransparency', true );
+
+			doc.write( '<!DOCTYPE html>' +
+				'<html>' +
+				'<head>' +
+					'<meta charset="utf-8">' +
+					'<style type="text/css">' +
+						'span#preview {' +
+							style +
 						'}' +
-					'}' +
-					'function update() {' +
-						'MathJax.Hub.Queue(' +
-							'[\'Typeset\',MathJax.Hub,this.buffer],' +
-							'function() {' +
-								'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
+					'</style>' +
+					'<script type="text/x-mathjax-config">' +
+						'MathJax.Hub.Config( {' +
+							'showMathMenu: false,' +
+							'messageStyle: "none"' +
+						'} );' +
+						'function getCKE() {' +
+							'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
+								'return window.parent.CKEDITOR;' +
+							'} else {' +
+								'return window.parent.parent.CKEDITOR;' +
 							'}' +
-						');' +
-					'}' +
-					'MathJax.Hub.Queue( function() {' +
-						'getCKE().tools.callFunction(' + loadedHandler + ');' +
-					'} );' +
-				'</script>' +
-				'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
-			'</head>' +
-			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
-				'<span id="preview"></span>' +
-				'<span id="buffer" style="display:none"></span>' +
-			'</body>' +
-			'</html>' );
+						'}' +
+						'function update() {' +
+							'MathJax.Hub.Queue(' +
+								'[\'Typeset\',MathJax.Hub,this.buffer],' +
+								'function() {' +
+									'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
+								'}' +
+							');' +
+						'}' +
+						'MathJax.Hub.Queue( function() {' +
+							'getCKE().tools.callFunction(' + loadedHandler + ');' +
+						'} );' +
+					'</script>' +
+					'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+				'</head>' +
+				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+					'<span id="preview"></span>' +
+					'<span id="buffer" style="display:none"></span>' +
+				'</body>' +
+				'</html>' );
+		}
+
 
 		function update() {
 			isRunning = true;
