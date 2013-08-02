@@ -79,8 +79,9 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 			return true;
 		}
 
-		// Make the "enabled" state as basis.
-		this.enable();
+		// Make the "enabled" state a default for commands enabled from start.
+		if ( !this.startDisabled )
+			this.enable();
 
 		if ( this.fire( 'refresh', { editor: editor, path: path } ) === false )
 			return true;

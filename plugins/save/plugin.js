@@ -10,6 +10,7 @@
 (function() {
 	var saveCmd = {
 		readOnly: 1,
+		startDisabled: true,
 
 		exec: function( editor ) {
 			if ( editor.fire( 'save' ) ) {

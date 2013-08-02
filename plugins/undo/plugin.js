@@ -23,6 +23,7 @@
 						this.fire( 'afterUndo' );
 					}
 				},
+				startDisabled: true,
 				canUndo: false
 			} );
 
@@ -33,6 +34,7 @@
 						this.fire( 'afterRedo' );
 					}
 				},
+				startDisabled: true,
 				canUndo: false
 			} );
 
