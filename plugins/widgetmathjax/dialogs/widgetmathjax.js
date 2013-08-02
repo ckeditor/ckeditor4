@@ -30,10 +30,13 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 								preview.setValue( '\\(' + that.getInputElement().getValue() + '\\)' );
 							} );
 						},
+
 						setup: function( widget ) {
-							var math = widget.data.math;
 							// Remove \( and \).
-							this.setValue( math.substring( 2, math.length - 2 ) );
+							var math = widget.data.math,
+								begin = math.indexOf( '\\(' ) + 2,
+								end = math.lastIndexOf( '\\)' );
+							this.setValue( math.substring( begin, end ) );
 						},
 
 						commit: function( widget ) {
