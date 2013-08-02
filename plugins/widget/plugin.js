@@ -621,11 +621,17 @@
 							evt.cancel();
 						}, null, null, 0 );
 
+					// Create snapshot preceeding snapshot with changed widget...
+					// TODO it should not be required, but it is and I found similar
+					// code in dialog#ok listener in dialog/plugin.js.
+					that.editor.fire( 'saveSnapshot' );
 					dialog.commitContent( that );
 
 					dataListener.removeListener();
-					if ( dataChanged )
+					if ( dataChanged ) {
 						that.fire( 'data', that.data );
+						that.editor.fire( 'saveSnapshot' );
+					}
 				} );
 
 				dialog.once( 'hide', function() {
@@ -862,7 +868,8 @@
 									okListener,
 									cancelListener;
 
-								okListener = dialog.once( 'ok', finalizeCreation );
+								// Finalize creation AFTER (20) new data was set.
+								okListener = dialog.once( 'ok', finalizeCreation, null, null, 20 );
 
 								cancelListener = dialog.once( 'cancel', function() {
 									editor.widgets.destroy( instance, true );
