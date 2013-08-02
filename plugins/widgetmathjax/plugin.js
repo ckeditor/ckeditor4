@@ -17,23 +17,19 @@
 		init: function( editor ) {
 			var cls = editor.config.mathJaxClass || 'math-tex',
 
-				// In Firefox src must exist and be different than about:blank to emit load event
-				ffHack = CKEDITOR.env.gecko?'src="javascript:true;"':'';
+				// In Firefox src must exist and be different than about:blank to emit load event.
+				ffHack = CKEDITOR.env.gecko ? 'src="javascript:true;"' : '';
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
-
 				dialog: 'widgetmathjax',
-
 				button: 'MathJax',
-
 				mask: true,
-
 				allowedContent: 'span(!' + cls + ')',
 
 				template:
 					'<span class="' + cls + '">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" ' + ffHack + ' />' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" ' + ffHack + ' />' +
 					'</span>',
 
 				parts: {
@@ -56,6 +52,7 @@
 					if ( !( el.name == 'span' && el.hasClass( cls ) ) )
 						return false;
 
+					//TODO Widget API method to save widget.data.
 					el.attributes[ 'data-widget-data' ] = JSON.stringify( {
 						math: el.children[ 0 ].value
 					} );
@@ -63,7 +60,8 @@
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
 						style: 'border:0;width:0;height:0',
 						scrolling: 'no',
-						frameborder: 0
+						frameborder: 0,
+						allowTransparency: true
 					} ) );
 
 					return el;
@@ -115,32 +113,37 @@
 					update();
 				else
 					isRunning = false;
-			} ),
-			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
-			style = '';
-
-		try {
-			loadDocument();
-		} catch ( e ) {
-			// If you create widget using dialog iFrame has
-			// now document at the beginning so we should wait for it
-			iFrame.once( 'load', function() {
-				loadDocument();
 			} );
+
+		// If you create widget, using dialog, iFrame has
+		// no document at the beginning so we should wait for it.
+		if( hasFrameDocument( iFrame ) )
+			loadDocument();
+		else
+			iFrame.once( 'load', loadDocument );
+
+		function hasFrameDocument( iFrame ) {
+			try {
+				iFrame.getFrameDocument();
+				return true;
+			} catch ( e ) {
+				return false;
+			}
 		}
 
 		function loadDocument() {
+			var stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
+				style = '';
+
 			doc = iFrame.getFrameDocument();
 
-			// copy styles from iFrame to body inside iFrame
-			for (var i = 0; i < stylesToCopy.length; i++) {
-				var key = stylesToCopy[i],
+			// Copy styles from iFrame to body inside iFrame.
+			for ( var i = 0; i < stylesToCopy.length; i++ ) {
+				var key = stylesToCopy[ i ],
 					value = iFrame.getComputedStyle( key );
 				if( value )
 					style += key + ': ' + value + ';';
 			}
-
-			iFrame.setAttribute( 'allowTransparency', true );
 
 			doc.write( '<!DOCTYPE html>' +
 				'<html>' +
