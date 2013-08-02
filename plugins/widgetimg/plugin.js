@@ -35,43 +35,6 @@
 					}
 				},
 
-				// Data listener overrides the shared one.
-				data: CKEDITOR.tools.override( widgetDef.data, function( originalData ) {
-					return function() {
-						var widget = this;
-
-						// There was no caption, but the caption is to be added.
-						if ( widget.data.hasCaption ) {
-							console.log( 'adding caption to inline' );
-
-							// Destroy this widget.
-							editor.widgets.destroy( widget );
-
-							// Create new <figure> from widget template.
-							var figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
-
-							// Re replace <img> with new <figure>.
-							figure.replace( widget.element );
-
-							// Use old <img> instead of the one from the template,
-							// so we won't lose additional attributes.
-							widget.element.replace( figure.findOne( 'img' ) );
-
-							// Make sure <img> no longer has the "data-widget" attribute.
-							widget.element.removeAttribute( 'data-widget' );
-
-							// Preserve data-widget-keep-attr attribute.
-							figure.setAttribute( 'data-widget-keep-attr', 1 );
-
-							// Create a new widget with <figcaption>.
-							var widget = editor.widgets.initOn( figure, 'img', widget.data );
-						}
-
-						// Call the original "data" implementation.
-						originalData.apply( widget, arguments );
-					};
-				} ),
-
 				// This widget is inline.
 				inline: true,
 
@@ -104,33 +67,6 @@
 						styles: 'text-align'
 					}
 				},
-
-				// Data listener overrides the shared one.
-				data: CKEDITOR.tools.override( widgetDef.data, function( originalData ) {
-					return function() {
-						var widget = this;
-
-						// The caption was present, but now it's to be removed.
-						if ( !widget.data.hasCaption ) {
-							console.log( 'removing caption from block' );
-
-							// Destroy this widget.
-							editor.widgets.destroy( widget );
-
-							// Unwrap <img> from figure.
-							widget.parts.image.replace( widget.element );
-
-							// From now on <img> is "the widget".
-							widget.parts.image.setAttribute( 'data-widget', 'img' );
-
-							// Create a new widget without <figcaption>.
-							widget = editor.widgets.initOn( widget.parts.image, 'imginline', widget.data );
-						}
-
-						// Call the original "data" implementation.
-						originalData.apply( widget, arguments );
-					};
-				} ),
 
 				// This widget has an editable caption.
 				editables: {
@@ -179,6 +115,12 @@
 		data: function() {
 			var image = this.parts.image;
 
+			this.shiftState( {
+				element: this.element,
+				stateBefore: this.oldData,
+				stateAfter: this.data
+			} );
+
 			// Set src attribute of the image.
 			image.setAttribute( 'src', this.data.src );
 			image.data( 'cke-saved-src', this.data.src );
@@ -186,11 +128,11 @@
 			// Set alt attribute of the image.
 			image.setAttribute( 'alt', this.data.alt );
 
-			// Set float style of the wrapper.
-			setAlign( this );
-
 			// Set dimensions of the image according to gathered data.
 			setDimensions( this );
+
+			// Cache current data.
+			this.oldData = CKEDITOR.tools.extend( {}, this.data );
 		},
 
 		// The name of this widget's dialog.
@@ -201,6 +143,98 @@
 
 		// Widget downcasting.
 		downcast: downcastWidgetElement
+	};
+
+	CKEDITOR.plugins.widgetimg = {
+		stateShifter: function( editor ) {
+			var useDiv = editor.config.enterMode != CKEDITOR.ENTER_P,
+				// Order matters!
+				stateShiftables = [ 'hasCaption', 'align' ],
+
+				// Atomic procedures, one per state variable.
+				stateActions = {
+					align: function( data ) {
+						setAlign( data.element, getValue( data.stateAfter, 'align' ) );
+					},
+					hasCaption:	function( data ) {
+						var before = getValue( data.stateBefore, 'hasCaption' ),
+							after = getValue( data.stateAfter, 'hasCaption' ),
+
+							element = data.element,
+							stateBefore = data.stateBefore,
+							stateAfter = data.stateAfter;
+
+						// There was no caption, but the caption is to be added.
+						if ( after ) {
+							// Create new <figure> from widget template.
+							var figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
+
+							// Clean align on old <img>.
+							setAlign( element, 'none' );
+
+							// Preserve alignment from old <img>.
+							setAlign( figure, stateBefore.align );
+
+							// Replace old <img> with new <figure>.
+							figure.replace( element );
+
+							// Use old <img> instead of the one from the template,
+							// so we won't lose additional attributes.
+							element.replace( figure.findOne( 'img' ) );
+
+							// Update widget's element.
+							data.element = figure;
+						}
+
+						// The caption was present, but now it's to be removed.
+						else {
+							// Unwrap <img> from figure.
+							var img = element.findOne( 'img' );
+
+							// Preserve alignment from block widget.
+							if ( stateBefore.align == stateAfter.align )
+								setAlign( img, stateBefore.align );
+
+							// Replace <figure> with <img>.
+							img.replace( element );
+
+							// Update widget's element.
+							data.element = img;
+						}
+					}
+				},
+				name;
+
+			function setAlign( element, align ) {
+				if ( align == 'center' ) {
+					element.setStyle( 'display', 'inline-block' );
+					element.removeStyle( 'float' );
+				} else {
+					element.removeStyle( 'display' );
+
+					if ( align == 'none' )
+						element.removeStyle( 'float' );
+					else
+						element.setStyle( 'float', align );
+				}
+			}
+
+			function getValue( state, name ) {
+				return state && state[ name ] !== undefined ? state[ name ] : null;
+			}
+
+			return function( data ) {
+				var stateBefore = data.stateBefore,
+					stateAfter = data.stateAfter;
+
+				for ( var i = 0; i < stateShiftables.length; i++ ) {
+					name = stateShiftables[ i ];
+
+					if ( stateBefore && stateAfter[ name ] != stateBefore[ name ] )
+						stateActions[ name ]( data );
+				}
+			};
+		}
 	};
 
 	// Initializes the widget.
@@ -243,6 +277,8 @@
 
 		// Set collected data.
 		this.setData( data );
+
+		this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
 
 		// Setup getOutput listener to downcast the widget.
 		this.on( 'getOutput', function( evt ) {
@@ -393,33 +429,6 @@
 				image.setAttribute( d, dimensions[ d ] );
 			else
 				image.removeAttribute( d );
-		}
-	}
-
-	// Sets the alignment according to widget data.
-	// This method takes care of the alignment during editor's lifetime.
-	// For output alignment, see "downcastWidgetElement" method.
-	//
-	// @param {CKEDITOR.plugins.widget} widget
-	function setAlign( widget ) {
-		var align = widget.data.align,
-			wrapper = widget.wrapper,
-			image = widget.parts.image;
-
-		// For **internal purposes**, center the image inside of widget wrapper.
-		// The real wrapper for centering is created while downcasting.
-		if ( align == 'center' ) {
-			widget.element.setStyle( 'display', 'inline-block' );
-			wrapper.setStyle( 'text-align', 'center' );
-			wrapper.removeStyle( 'float' );
-		}
-
-		// When setting alignment left/right/none, clean-up centering
-		// mess (if any) and use float property on wrapper element.
-		else {
-			widget.element.removeStyle( 'display' );
-			wrapper.removeStyle( 'text-align' );
-			wrapper.setStyle( 'float', align );
 		}
 	}
 })();
