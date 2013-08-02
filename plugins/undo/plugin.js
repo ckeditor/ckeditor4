@@ -23,7 +23,6 @@
 						this.fire( 'afterUndo' );
 					}
 				},
-				state: CKEDITOR.TRISTATE_DISABLED,
 				canUndo: false
 			} );
 
@@ -34,7 +33,6 @@
 						this.fire( 'afterRedo' );
 					}
 				},
-				state: CKEDITOR.TRISTATE_DISABLED,
 				canUndo: false
 			} );
 
