@@ -7,7 +7,7 @@
 
 (function() {
 
-	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/latest\/MathJax.js?config=TeX-AMS_HTML';
+	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
 
 	CKEDITOR.plugins.add( 'widgetmathjax', {
 		requires: 'widget,dialog',
