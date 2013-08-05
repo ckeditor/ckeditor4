@@ -28,7 +28,7 @@
 				allowedContent: 'span(!' + cls + ')',
 
 				template:
-					'<span class="' + cls + '">' +
+					'<span class="' + cls + '" style="display:inline-block">' +
 						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" ' + ffHack + ' />' +
 					'</span>',
 
@@ -57,6 +57,12 @@
 						math: el.children[ 0 ].value
 					} );
 
+					// Add style display:inline-block.
+					if ( el.attributes[ 'style' ] )
+						el.attributes[ 'style' ] = el.attributes[ 'style' ] + ";display:inline-block";
+					else
+						el.attributes[ 'style' ] = "display:inline-block";
+
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
 						style: 'border:0;width:0;height:0',
 						scrolling: 'no',
@@ -69,6 +75,14 @@
 
 				downcast: function( el ) {
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.text( this.data.math ) );
+
+					// Remove style display:inline-block.
+					if ( el.attributes[ 'style' ] == "display:inline-block" )
+						delete el.attributes[ 'style' ];
+					else {
+						var end = el.attributes[ 'style' ].lastIndexOf( ';display:inline-block' );
+						el.attributes[ 'style' ] = el.attributes[ 'style' ].substring( 0, end );
+					}
 
 					return el;
 				}
