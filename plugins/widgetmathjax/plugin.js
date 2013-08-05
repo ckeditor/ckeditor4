@@ -110,6 +110,8 @@
 
 				if ( newValue )
 					update();
+
+				iFrame.fire( 'MathJaxLoaded' );
 			} ),
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
 				preview.setHtml( buffer.getHtml() );
@@ -123,11 +125,29 @@
 					display: 'inline'
 				} );
 
+				iFrame.fire( 'MathJaxUpdateDone' );
+
 				if ( value != newValue )
 					update();
 				else
 					isRunning = false;
 			} );
+
+		function update() {
+			isRunning = true;
+
+			value = newValue;
+
+			buffer.setHtml( value );
+
+			iFrame.setStyles( {
+				height: 0,
+				width: 0,
+				'vertical-align': 'middle'
+			} );
+
+			doc.getWindow().$.update( value );
+		}
 
 		// If you create widget, using dialog, iFrame has
 		// no document at the beginning so we should wait for it.
@@ -199,23 +219,6 @@
 					'<span id="buffer" style="display:none"></span>' +
 				'</body>' +
 				'</html>' );
-		}
-
-
-		function update() {
-			isRunning = true;
-
-			value = newValue;
-
-			buffer.setHtml( value );
-
-			iFrame.setStyles( {
-				height: 0,
-				width: 0,
-				'vertical-align': 'middle'
-			} );
-
-			doc.getWindow().$.update( value );
 		}
 
 		return {
