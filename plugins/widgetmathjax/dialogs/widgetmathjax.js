@@ -54,7 +54,7 @@ CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
 
 						onLoad: function( widget ) {
 							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
-							preview = new CKEDITOR.plugins.mathjax.frameWrapper( editor, iFrame );
+							preview = new CKEDITOR.plugins.mathjax.frameWrapper( iFrame, editor.config.mathJaxLib );
 						},
 
 						setup: function( widget ) {

@@ -41,7 +41,7 @@
 				},
 
 				init: function() {
-					this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( editor, this.parts.iframe );
+					this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor.config.mathJaxLib );
 				},
 
 				data: function() {
@@ -98,7 +98,7 @@
 
 	CKEDITOR.plugins.mathjax = {};
 
-	CKEDITOR.plugins.mathjax.frameWrapper = function( editor, iFrame ) {
+	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, libSrc ) {
 
 		var buffer, preview, value, newValue, doc,
 			isRunning = false,
@@ -192,7 +192,7 @@
 							'getCKE().tools.callFunction(' + loadedHandler + ');' +
 						'} );' +
 					'</script>' +
-					'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+					'<script src="' + ( libSrc || cdn ) + '"></script>' +
 				'</head>' +
 				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 					'<span id="preview"></span>' +
