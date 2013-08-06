@@ -217,7 +217,7 @@
 		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
 	}
 
-	function updateCommandsContext( editor, path, filterChange ) {
+	function updateCommandsContext( editor, path, forceRefresh ) {
 		var command,
 			name,
 			commands = editor.commands;
@@ -225,7 +225,7 @@
 		for ( name in commands ) {
 			command = commands[ name ];
 
-			if ( filterChange || command.contextSensitive )
+			if ( forceRefresh || command.contextSensitive )
 				command.refresh( editor, path );
 		}
 	}
