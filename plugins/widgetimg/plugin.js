@@ -260,11 +260,6 @@
 								data.destroy();
 								data.element = deWrapFromCentering( element );
 							}
-
-							// Set styles of the element corresponding with the new align.
-							// Avoid setting align for <figure>. Wrapper will handle this.
-							if ( !hasCaptionAfter )
-								setElementAlign( data.element, alignAfter );
 						}
 
 						// Alignment remains.
