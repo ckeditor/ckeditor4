@@ -20,71 +20,10 @@
 
 		init: function( editor ) {
 			// Register the inline widget.
-			editor.widgets.add( 'imginline', CKEDITOR.tools.extend( {
-				// Widget-specific rules for Allowed Content Filter.
-				allowedContent: {
-					img: {
-						attributes: '!src,alt,width,height',
-						styles: 'float'
-					},
-
-					// A rule for centering wrapper.
-					p: {
-						match: createCenterCheckFunction(),
-						styles: 'text-align'
-					}
-				},
-
-				// This widget is inline.
-				inline: true,
-
-				// Parts of this widget.
-				parts: { image: 'img' },
-
-				// Template of the widget: plain image.
-				template: templateInline,
-
-				// Widget upcasting.
-				upcast: createUpcastFunction()
-			}, widgetDef ) );
+			editor.widgets.add( 'imginline', imgInline );
 
 			// Register the block widget.
-			editor.widgets.add( 'img', CKEDITOR.tools.extend( {
-				// Widget-specific rules for Allowed Content Filter.
-				allowedContent: {
-					figcaption: true,
-					figure: {
-						classes: '!caption',
-						styles: 'float,display'
-					},
-					img: {
-						attributes: '!src,alt,width,height'
-					},
-
-					// A rule for centering wrapper.
-					div: {
-						match: createCenterCheckFunction( true ),
-						styles: 'text-align'
-					}
-				},
-
-				// This widget has an editable caption.
-				editables: {
-					caption: 'figcaption'
-				},
-
-				// Parts of this widget: image and caption.
-				parts: {
-					image: 'img',
-					caption: 'figcaption'
-				},
-
-				// Template of the widget: figure with image and caption.
-				template: template,
-
-				// Widget upcasting.
-				upcast: createUpcastFunction( true )
-			}, widgetDef ) );
+			editor.widgets.add( 'imgblock', imgBlock );
 
 			// Add the command for this plugin.
 			editor.addCommand( 'widgetImg', {
@@ -106,81 +45,271 @@
 	} );
 
 	// Default definition shared across widgets.
-	var widgetDef = {
-		// This widget converts style-driven dimensions to attributes.
-		contentTransformations: [
-			[ 'img[width]: sizeToAttribute' ]
-		],
+	var definition = {
+			// This widget converts style-driven dimensions to attributes.
+			contentTransformations: [
+				[ 'img[width]: sizeToAttribute' ]
+			],
 
-		data: function() {
-			var image = this.parts.image;
+			data: function() {
+				var widget = this,
+					editor = widget.editor,
+					stateBefore = widget.oldData,
+					stateAfter = widget.data;
 
-			this.shiftState( {
-				element: this.element,
-				stateBefore: this.oldData,
-				stateAfter: this.data
-			} );
+				widget.shiftState( {
+					element: widget.element,
+					stateBefore: stateBefore,
+					stateAfter: stateAfter,
 
-			// Set src attribute of the image.
-			image.setAttribute( 'src', this.data.src );
-			image.data( 'cke-saved-src', this.data.src );
+					// Destroy the widget.
+					destroy: function( inline ) {
+						if ( this.destroyed )
+							return;
 
-			// Set alt attribute of the image.
-			image.setAttribute( 'alt', this.data.alt );
+						editor.widgets.destroy( widget );
 
-			// Set dimensions of the image according to gathered data.
-			setDimensions( this );
+						this.destroyed = true;
+					},
 
-			// Cache current data.
-			this.oldData = CKEDITOR.tools.extend( {}, this.data );
+					// Create a new widget. This widget will be either captioned
+					// non-captioned, block or inline according to what is the
+					// new state of the widget.
+					init: function( element ) {
+						if ( this.destroyed ) {
+							var name = 'img' + ( stateAfter.hasCaption || stateAfter.align == 'center' ? 'block' : 'inline' );
+
+							widget = editor.widgets.initOn( element, name, widget.data );
+						} else {
+							// Set styles of the wrapper corresponding with widget's align.
+							setWrapperAlign( widget );
+						}
+					}
+				} );
+
+				// Get the <img> from the widget. As widget may have been
+				// re-initialized, this may be a totally different <img>.
+				var image = widget.parts.image;
+
+				// Set src attribute of the image.
+				image.setAttribute( 'src', widget.data.src );
+				image.data( 'cke-saved-src', widget.data.src );
+
+				// Set alt attribute of the image.
+				image.setAttribute( 'alt', widget.data.alt );
+
+				// Set dimensions of the image according to gathered data.
+				setDimensions( widget );
+
+				// Cache current data.
+				widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
+			},
+
+			// The name of this widget's dialog.
+			dialog: 'widgetimg',
+
+			// Initialization of this widget.
+			init: function() {
+				var image = this.parts.image,
+					data = {
+						// Check whether widget has caption.
+						hasCaption: !!this.parts.caption,
+
+						// Read initial image SRC attribute.
+						src: image.getAttribute( 'src' ),
+
+						// Read initial image ALT attribute.
+						alt: image.getAttribute( 'alt' ),
+
+						// Read initial width from either attribute or style.
+						width: image.getAttribute( 'width' ) || '',
+
+						// Read initial height from either attribute or style.
+						height: image.getAttribute( 'height' ) || ''
+					};
+
+				// If element was marked as centered when upcasting, update
+				// the alignment both visually and in widget data (will call setElementAlign).
+				if ( this.element.data( 'cke-centered' ) ) {
+					this.element.data( 'cke-centered', false );
+					data.align = 'center';
+				}
+
+				// Otherwise, read initial float style from figure/image and
+				// then remove it. This style will be set on wrapper in #data listener.
+				else {
+					data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
+					this.element.removeStyle( 'float' );
+					image.removeStyle( 'float' );
+				}
+
+				// Set collected data.
+				this.setData( data );
+
+				// Create shift stater for this widget.
+				this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
+
+				// Setup getOutput listener to downcast the widget.
+				this.on( 'getOutput', function( evt ) {
+					downcastWidgetElement( evt.data, this );
+				} );
+			},
+
+			// Widget downcasting.
+			downcast: downcastWidgetElement
 		},
 
-		// The name of this widget's dialog.
-		dialog: 'widgetimg',
+		imgInline = CKEDITOR.tools.extend( {
+			// Widget-specific rules for Allowed Content Filter.
+			allowedContent: {
+				img: {
+					attributes: '!src,alt,width,height',
+					styles: 'float'
+				}
+			},
 
-		// Initialization of this widget.
-		init: initWidget,
+			// This widget is inline.
+			inline: true,
 
-		// Widget downcasting.
-		downcast: downcastWidgetElement
-	};
+			// Parts of this widget.
+			parts: { image: 'img' },
+
+			// Template of the widget: plain image.
+			template: templateInline,
+
+			// Widget upcasting.
+			upcast: createUpcastFunction()
+		}, definition ),
+
+		imgBlock = CKEDITOR.tools.extend( {
+			// Widget-specific rules for Allowed Content Filter.
+			allowedContent: {
+				figcaption: true,
+				figure: {
+					classes: '!caption',
+					styles: 'float,display'
+				},
+				img: {
+					attributes: '!src,alt,width,height'
+				},
+
+				// A rule for centering wrapper.
+				div: {
+					match: isCenterWrapper,
+					styles: 'text-align'
+				},
+
+				// Yet another rule for centering wrapper.
+				p: {
+					match: isCenterWrapper,
+					styles: 'text-align'
+				}
+			},
+
+			// This widget has an editable caption.
+			editables: {
+				caption: 'figcaption'
+			},
+
+			// Parts of this widget: image and caption.
+			parts: {
+				image: 'img',
+				caption: 'figcaption'
+			},
+
+			// Template of the widget: figure with image and caption.
+			template: template,
+
+			// Widget upcasting.
+			upcast: createUpcastFunction( true )
+		}, definition );
 
 	CKEDITOR.plugins.widgetimg = {
 		stateShifter: function( editor ) {
-			var useDiv = editor.config.enterMode != CKEDITOR.ENTER_P,
-				// Order matters!
+			// Tag name used for centering non-captioned widgets.
+			var centerElement = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div',
+
+				// The order that stateActions get executed. It matters!
 				stateShiftables = [ 'hasCaption', 'align' ],
 
 				// Atomic procedures, one per state variable.
 				stateActions = {
 					align: function( data ) {
-						setAlign( data.element, getValue( data.stateAfter, 'align' ) );
+						var stateBefore = data.stateBefore,
+							stateAfter = data.stateAfter,
+							alignBefore = getValue( stateBefore, 'align' ),
+							alignAfter = getValue( stateAfter, 'align' ),
+							hasCaptionBefore = getValue( stateBefore, 'hasCaption' ),
+							hasCaptionAfter = getValue( stateAfter, 'hasCaption' ),
+							element = data.element;
+
+						// Clean the alignment first.
+						setElementAlign( element, 'none' );
+
+						// Alignment changed.
+						if ( stateChanged( data, 'align' ) ) {
+							// Changed align to "center" (non-captioned).
+							if ( alignAfter == 'center' && !hasCaptionAfter ) {
+								data.destroy();
+								data.element = wrapInCentering( element );
+							}
+
+							// Changed align to "non-center" from "center"
+							// while caption has been removed.
+							if ( !stateChanged( data, 'hasCaption' ) && !hasCaptionAfter && alignBefore == 'center' && alignAfter != 'center' ) {
+								data.destroy();
+								data.element = deWrapFromCentering( element );
+							}
+						}
+
+						// Alignment remains.
+						else {
+							// Caption removed while align was "center".
+							if ( alignAfter == 'center' && stateChanged( data, 'hasCaption' ) && !hasCaptionAfter ) {
+								data.destroy();
+								data.element = wrapInCentering( element );
+							}
+						}
+
+						// Set styles of the element corresponding with the new align.
+						setElementAlign( data.element, alignAfter );
+
 					},
 					hasCaption:	function( data ) {
 						var before = getValue( data.stateBefore, 'hasCaption' ),
-							after = getValue( data.stateAfter, 'hasCaption' ),
+							after = getValue( data.stateAfter, 'hasCaption' );
 
-							element = data.element,
+						// This action is for real state change only.
+						if ( !stateChanged( data, 'hasCaption' ) )
+							return;
+
+						var element = data.element,
 							stateBefore = data.stateBefore,
 							stateAfter = data.stateAfter;
 
+						// Switching hasCaption always destroys the widget.
+						data.destroy( after );
+
 						// There was no caption, but the caption is to be added.
 						if ( after ) {
+							// Get <img>.
+							var img = element.findOne( 'img' ) || element;
+
 							// Create new <figure> from widget template.
 							var figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
 
 							// Clean align on old <img>.
-							setAlign( element, 'none' );
+							setElementAlign( img, 'none' );
 
 							// Preserve alignment from old <img>.
-							setAlign( figure, stateBefore.align );
+							setElementAlign( figure, stateBefore.align );
 
 							// Replace old <img> with new <figure>.
 							figure.replace( element );
 
 							// Use old <img> instead of the one from the template,
 							// so we won't lose additional attributes.
-							element.replace( figure.findOne( 'img' ) );
+							img.replace( figure.findOne( 'img' ) );
 
 							// Update widget's element.
 							data.element = figure;
@@ -191,9 +320,9 @@
 							// Unwrap <img> from figure.
 							var img = element.findOne( 'img' );
 
-							// Preserve alignment from block widget.
-							if ( stateBefore.align == stateAfter.align )
-								setAlign( img, stateBefore.align );
+							// // Preserve alignment from block widget.
+							// if ( stateBefore.align == stateAfter.align )
+							// 	setElementAlign( img, stateBefore.align );
 
 							// Replace <figure> with <img>.
 							img.replace( element );
@@ -205,22 +334,38 @@
 				},
 				name;
 
-			function setAlign( element, align ) {
-				if ( align == 'center' ) {
-					element.setStyle( 'display', 'inline-block' );
-					element.removeStyle( 'float' );
-				} else {
-					element.removeStyle( 'display' );
-
-					if ( align == 'none' )
-						element.removeStyle( 'float' );
-					else
-						element.setStyle( 'float', align );
-				}
-			}
-
 			function getValue( state, name ) {
 				return state && state[ name ] !== undefined ? state[ name ] : null;
+			}
+
+			function stateChanged( data, name ) {
+				if ( !data.stateBefore )
+					return false;
+				else
+					return data.stateBefore[ name ] !== data.stateAfter[ name ];
+			}
+
+			function wrapInCentering( element ) {
+				// When widget gets centered. Wrapper must be created.
+				// Create new <p|div> with text-align:center.
+				var center = new CKEDITOR.dom.element( centerElement, editor.document );
+
+				// Centering wrapper is.. centering.
+				center.setStyle( 'text-align', 'center' );
+
+				// Wrap element into centering wrapper.
+				center.replace( element );
+				element.move( center );
+
+				return center;
+			}
+
+			function deWrapFromCentering( element ) {
+				var img = element.findOne( 'img' );
+
+				img.replace( element );
+
+				return img;
 			}
 
 			return function( data ) {
@@ -230,60 +375,40 @@
 				for ( var i = 0; i < stateShiftables.length; i++ ) {
 					name = stateShiftables[ i ];
 
-					if ( stateBefore && stateAfter[ name ] != stateBefore[ name ] )
-						stateActions[ name ]( data );
+					// if ( stateBefore && stateAfter[ name ] != stateBefore[ name ] )
+					stateActions[ name ]( data );
 				}
+
+				data.init( data.element );
 			};
 		}
 	};
 
-	// Initializes the widget.
-	function initWidget() {
-		var image = this.parts.image,
-			data = {
-				// Check whether widget has caption.
-				hasCaption: !!this.parts.caption,
+	function setElementAlign( element, align ) {
+		if ( align in { center:1,none:1 } )
+			element.removeStyle( 'float' );
+		else
+			element.setStyle( 'float', align );
+	}
 
-				// Read initial image SRC attribute.
-				src: image.getAttribute( 'src' ),
+	function setWrapperAlign( widget ) {
+		var wrapper = widget.wrapper,
+			align = widget.data.align;
 
-				// Read initial image ALT attribute.
-				alt: image.getAttribute( 'alt' ),
+		if ( align == 'center' ) {
+			if ( !widget.inline )
+				wrapper.setStyle( 'text-align', 'center' );
 
-				// Read initial width from either attribute or style.
-				width: image.getAttribute( 'width' ) || '',
+			wrapper.removeStyle( 'float' );
+		} else {
+			if ( !widget.inline )
+				wrapper.removeStyle( 'text-align' );
 
-				// Read initial height from either attribute or style.
-				height: image.getAttribute( 'height' ) || ''
-			};
-
-		// If element was marked as centered when upcasting, update
-		// the alignment both visually and in widget data (will call setAlign).
-		if ( this.element.data( 'cke-centered' ) ) {
-			this.element.data( 'cke-centered', false );
-			data.align = 'center';
+			if ( align == 'none' )
+				wrapper.removeStyle( 'float' );
+			else
+				wrapper.setStyle( 'float', align );
 		}
-
-		// Otherwise, read initial float style from figure/image and
-		// then remove it. This style will be set on wrapper in #data listener.
-		else {
-			data.align = this.element.getStyle( 'float' ) ||
-				image.getStyle( 'float' ) ||
-				'none';
-
-			this.element.removeStyle( 'float' );
-			image.removeStyle( 'float' );
-		}
-
-		// Set collected data.
-		this.setData( data );
-
-		this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
-
-		// Setup getOutput listener to downcast the widget.
-		this.on( 'getOutput', function( evt ) {
-			downcastWidgetElement( evt.data, this );
-		} );
 	}
 
 	// Creates widgets from all <img> and <figure class="caption">.
@@ -291,17 +416,43 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function createUpcastFunction( isBlock ) {
 		var regexPercent = /^\s*(\d+\%)\s*$/i,
-			dimensions = { width:1,height:1 },
-			isCenterWrapper = createCenterCheckFunction( isBlock );
+			dimensions = { width:1,height:1 };
 
-		function upcastElement( el ) {
+		function upcastElement( el, isBlock, isCenter ) {
 			var name = el.name,
 				image;
 
-			if ( isBlock && name == 'figure' && el.hasClass( 'caption' ) )
-				image = el.getFirst( 'img' );
+			// Block widget to be upcasted.
+			if ( isBlock ) {
+				// If a center wrapper is found.
+				if ( isCenter ) {
+					// So the element is:
+					// 	<div style="text-align:center"><figure></figure></div>.
+					// Centering is done by widget.wrapper in such case. Hence, replace
+					// centering wrapper with figure.
+					// The other case is:
+					// 	<p style="text-align:center"><img></p>.
+					// Then <p> takes charge of <figure> and nothing is to be changed.
+					if ( name == 'div' ) {
+						var figure = el.getFirst( 'figure' );
+						el.replaceWith( figure );
+						el = figure;
+					}
 
-			else if ( !isBlock && name == 'img' )
+					// Mark the element as centered, so widget.data.align
+					// can be correctly populated on init.
+					el.attributes[ 'data-cke-centered' ] = true;
+
+					image = el.getFirst( 'img' );
+				}
+
+				// No center wrapper has been found.
+				else if ( name == 'figure' && el.hasClass( 'caption' ) )
+					image = el.getFirst( 'img' );
+			}
+
+			// Inline widget from plain img.
+			else if ( name == 'img' )
 				image = el;
 
 			if ( !image )
@@ -320,22 +471,8 @@
 		}
 
 		return function( el ) {
-			// Replace this centering wrapper with its first-child.
-			// During editor lifetime, widget centering is based on
-			// widget.wrapper (see "setAlign"). It will be restored
-			// on downcast.
-			if ( isCenterWrapper( el ) ) {
-				var child = el.getFirst();
-
-				el.replaceWith( child );
-
-				// Mark this widget element as centered. As the
-				// centering wrapper is gowne now, this will
-				// be used to set internal centering when initing the widget.
-				child.attributes[ 'data-cke-centered' ] = true;
-
-				return upcastElement( child );
-			}
+			if ( isBlock )
+				return upcastElement( el, true, isCenterWrapper( el ) );
 
 			// Basically upcast the element if there is no special
 			// wrapper around.
@@ -379,42 +516,33 @@
 		return el;
 	}
 
-	function createCenterCheckFunction( isBlock ) {
-		return function( el ) {
-			// For a block widget, wrapper must be <div>.
-			if ( isBlock && el.name != 'div' )
-				return false;
-
-			// For an inline widget, wrapper must be <div>.
-			else if ( !isBlock && el.name != 'p' )
-				return false;
-
-			var children = el.children;
-
-			// Centering div can have only one child.
-			if ( children.length !== 1 )
-				return false;
-
-			var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '' );
-
-			// Centering div got to be... centering.
-			if ( !styles[ 'text-align' ] || styles[ 'text-align' ] != 'center' )
-				return false;
-
-			var child = children[ 0 ],
-				childName = child.name;
-
-			// The only child of <div> can be <figure> with "caption" class
-			if ( isBlock && childName == 'figure' && child.hasClass( 'caption' ) )
-				return true;
-
-			// The only child of <p> can be <img>.
-			else if ( !isBlock && childName == 'img' )
-				return true;
-
+	function isCenterWrapper( el ) {
+		// Wrapper must be either <div> or <p>.
+		if ( !( el.name in { div:1,p:1 } ) )
 			return false;
-		};
-	}
+
+		var children = el.children;
+
+		// Centering wrapper can have only one child.
+		if ( children.length !== 1 )
+			return false;
+
+		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '' );
+
+		// Centering wrapper got to be... centering.
+		if ( !styles[ 'text-align' ] || styles[ 'text-align' ] != 'center' )
+			return false;
+
+		var child = children[ 0 ],
+			childName = child.name;
+
+		// The only child of centering wrapper can be <figure> with
+		// class="caption" or plain <img>.
+		if ( childName == 'img' || ( childName == 'figure' && child.hasClass( 'caption' ) ) )
+			return true;
+
+		return false;
+	};
 
 	// Sets width and height of the widget image according to
 	// current widget data.
