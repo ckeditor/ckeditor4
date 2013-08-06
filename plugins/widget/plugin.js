@@ -523,9 +523,9 @@
 
 		setupWidgetData( this, startupData );
 
-		// If at some point (e.g. in #data listener) widget
-		// hasn't been destroyed - fire #ready.
-		if ( this.isInited() )
+		// If at some point (e.g. in #data listener) widget hasn't been destroyed
+		// and widget is already attached to document then fire #ready.
+		if ( this.isInited() && editor.editable().contains( this.wrapper ) )
 			this.fire( 'ready' );
 	}
 
@@ -902,7 +902,11 @@
 					var wrapper = temp.getFirst();
 					if ( wrapper && isWidgetWrapper2( wrapper ) ) {
 						editor.insertElement( wrapper );
-						editor.widgets.getByElement( wrapper ).focus();
+
+						var widget = editor.widgets.getByElement( wrapper );
+						// Fire postponed #ready event.
+						widget.fire( 'ready' );
+						widget.focus();
 					}
 				}
 			},
@@ -1878,7 +1882,18 @@
  */
 
 /**
- * Event fired when widget is ready (fully initialized).
+ * Event fired when widget is ready (fully initialized). This event is fired after:
+ *
+ * * {@link #init} is called,
+ * * first {@link #data} event is fired,
+ * * widget is attached to document.
+ *
+ * Therefore, in case of widget creation with command which opens dialog, this event
+ * will be delayed after dialog is closed and widget is finally inserted into document.
+ *
+ * **Note**: if your widget does not use automatic dialog binding (i.e. you open the dialog manually)
+ * or other situation occurs in which widget wrapper is not attached to document at the time when it is
+ * initialized, you need to take care of firing {@link #ready} yourself.
  *
  * @event ready
  * @member CKEDITOR.plugins.widget
