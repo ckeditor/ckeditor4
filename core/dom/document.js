@@ -272,10 +272,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * Wrapper for `querySelectorAll`. Returns a list of elements within this document that match
 	 * specified `selector`.
 	 *
-	 * **Notes:**
-	 *
-	 *	* Not available in IE7.
-	 *	* Returned list is not a live collection (like a result of native `querySelectorAll`).
+	 * **Note:** returned list is not a live collection (like a result of native `querySelectorAll`).
 	 *
 	 * @since 4.3
 	 * @param {String} selector
@@ -288,8 +285,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	/**
 	 * Wrapper for `querySelector`. Returns first element within this document that matches
 	 * specified `selector`.
-	 *
-	 * **Note:** not available in IE7.
 	 *
 	 * @since 4.3
 	 * @param {String} selector
