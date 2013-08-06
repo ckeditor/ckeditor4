@@ -119,7 +119,7 @@
 						src: image.getAttribute( 'src' ),
 
 						// Read initial image ALT attribute.
-						alt: image.getAttribute( 'alt' ),
+						alt: image.getAttribute( 'alt' ) || '',
 
 						// Read initial width from either attribute or style.
 						width: image.getAttribute( 'width' ) || '',
@@ -260,6 +260,11 @@
 								data.destroy();
 								data.element = deWrapFromCentering( element );
 							}
+
+							// Set styles of the element corresponding with the new align.
+							// Avoid setting align for <figure>. Wrapper will handle this.
+							if ( !hasCaptionAfter )
+								setElementAlign( data.element, alignAfter );
 						}
 
 						// Alignment remains.
@@ -270,10 +275,6 @@
 								data.element = wrapInCentering( element );
 							}
 						}
-
-						// Set styles of the element corresponding with the new align.
-						setElementAlign( data.element, alignAfter );
-
 					},
 					hasCaption:	function( data ) {
 						var before = getValue( data.stateBefore, 'hasCaption' ),
@@ -292,11 +293,12 @@
 
 						// There was no caption, but the caption is to be added.
 						if ( after ) {
-							// Get <img>.
-							var img = element.findOne( 'img' ) || element;
+							// Get <img> from element. As element may be either
+							// <img> or centering <p>, consider it now.
+							var img = element.findOne( 'img' ) || element,
 
-							// Create new <figure> from widget template.
-							var figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
+								// Create new <figure> from widget template.
+								figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
 
 							// Clean align on old <img>.
 							setElementAlign( img, 'none' );
@@ -319,10 +321,6 @@
 						else {
 							// Unwrap <img> from figure.
 							var img = element.findOne( 'img' );
-
-							// // Preserve alignment from block widget.
-							// if ( stateBefore.align == stateAfter.align )
-							// 	setElementAlign( img, stateBefore.align );
 
 							// Replace <figure> with <img>.
 							img.replace( element );
@@ -368,6 +366,13 @@
 				return img;
 			}
 
+			function setElementAlign( element, align ) {
+				if ( align in { center:1,none:1 } )
+					element.removeStyle( 'float' );
+				else
+					element.setStyle( 'float', align );
+			}
+
 			return function( data ) {
 				var stateBefore = data.stateBefore,
 					stateAfter = data.stateAfter;
@@ -383,13 +388,6 @@
 			};
 		}
 	};
-
-	function setElementAlign( element, align ) {
-		if ( align in { center:1,none:1 } )
-			element.removeStyle( 'float' );
-		else
-			element.setStyle( 'float', align );
-	}
 
 	function setWrapperAlign( widget ) {
 		var wrapper = widget.wrapper,
@@ -494,14 +492,11 @@
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
 
 			// If centering, wrap downcasted element.
+			// Wrappers for <img> and <figure> are <p> and <div>, respectively.
 			if ( align == 'center' ) {
-				// Wrappers for <img> and <figure> are <p> and <div>, respectively.
 				el = el.wrapWith( new CKEDITOR.htmlParser.element( el.name == 'img' ? 'p' : 'div', {
 					'style': 'text-align:center'
 				} ) );
-
-				// This is to override possible display:block on element.
-				styles.display = 'inline-block';
 			}
 
 			// If left/right/none, add float style to the downcasted element.
