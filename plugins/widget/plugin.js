@@ -1139,7 +1139,14 @@
 		sourceWidget.wrapper.remove();
 		editor.widgets.destroy( sourceWidget, true );
 
+		// Create snapshot for the removed widget.
+		editor.fire( 'saveSnapshot' );
+
+		// Lock snapshot while pasting to merge those changes with the previous snapshot.
+		// This way we are grouping all changes done by moveWidget into one snapshot.
+		editor.fire( 'lockSnapshot' );
 		editor.execCommand( 'paste', widgetHtml );
+		editor.fire( 'unlockSnapshot' );
 	}
 
 	function onEditableKey( widget, keyCode ) {
@@ -1238,6 +1245,8 @@
 		} );
 
 		editor.on( 'afterPaste', function() {
+			editor.fire( 'lockSnapshot' );
+
 			// Init is enough (no clean up needed),
 			// because inserted widgets were cleaned up by toHtml.
 			var newInstances = widgetsRepo.initOnAll();
@@ -1245,6 +1254,8 @@
 			// If just a widget was pasted and nothing more focus it.
 			if ( processedWidgetOnly && newInstances.length == 1 )
 				newInstances[ 0 ].focus();
+
+			editor.fire( 'unlockSnapshot' );
 		} );
 
 		// Set flag so dataReady will know that additional
@@ -1401,6 +1412,11 @@
 				// Something went wrong... maybe someone is dragging widgets between editors/windows/tabs/browsers/frames.
 				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
 					return;
+
+				// Save the snapshot with the state before moving widget.
+				// TODO unfortunately at this stage widget is not focused any more so
+				// undoing will not select widget which was moved.
+				editor.fire( 'saveSnapshot' );
 
 				moveSelectionToDropPosition( editor, evt );
 
