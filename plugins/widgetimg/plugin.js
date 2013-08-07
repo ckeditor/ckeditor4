@@ -29,6 +29,11 @@
 			editor.addCommand( 'widgetImg', {
 				exec: function() {
 					var focused = editor.widgets.focused;
+
+					if ( focused && focused.name in { imginline:1,imgblock:1 } )
+						focused.edit();
+					else
+						editor.execCommand( 'widgetImginline' );
 				}
 			} );
 

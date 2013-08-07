@@ -449,7 +449,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						]
 					},
 					{
-						id: 'caption',
+						id: 'hasCaption',
 						type: 'checkbox',
 						label: 'Captioned image',
 						setup: function( widget ) {
