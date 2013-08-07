@@ -15,10 +15,7 @@
 		icons: 'widgetmathjax',
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex',
-
-				// In Firefox src must exist and be different than about:blank to emit load event.
-				ffHack = CKEDITOR.env.gecko ? 'src="javascript:true;"' : '';
+			var cls = editor.config.mathJaxClass || 'math-tex';
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -29,7 +26,7 @@
 
 				template:
 					'<span class="' + cls + '" style="display:inline-block">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" ' + ffHack + ' />' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" />' +
 					'</span>',
 
 				parts: {
@@ -41,11 +38,15 @@
 				},
 
 				init: function() {
-					this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor.config.mathJaxLib );
+					this.once( 'ready', function () {
+						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor.config.mathJaxLib );
+						this.frameWrapper.setValue( this.data.math );
+					} );
 				},
 
 				data: function() {
-					this.frameWrapper.setValue( this.data.math );
+					if ( this.frameWrapper )
+						this.frameWrapper.setValue( this.data.math );
 				},
 
 				upcast: function( el ) {
@@ -100,7 +101,8 @@
 
 	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, libSrc ) {
 
-		var buffer, preview, value, newValue, doc,
+		var buffer, preview, value, newValue,
+			doc = iFrame.getFrameDocument(),
 			isRunning = false,
 			isInit = false,
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
@@ -111,7 +113,7 @@
 				if ( newValue )
 					update();
 
-				iFrame.fire( 'MathJaxLoaded' );
+				iFrame.fire( 'mathJaxLoaded' );
 			} ),
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
 				preview.setHtml( buffer.getHtml() );
@@ -125,13 +127,23 @@
 					display: 'inline'
 				} );
 
-				iFrame.fire( 'MathJaxUpdateDone' );
+				iFrame.fire( 'mathJaxUpdateDone' );
 
 				if ( value != newValue )
 					update();
 				else
 					isRunning = false;
-			} );
+			} ),
+			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
+			style = '';
+
+		// Copy styles from iFrame to body inside iFrame.
+		for ( var i = 0; i < stylesToCopy.length; i++ ) {
+			var key = stylesToCopy[ i ],
+				value = iFrame.getComputedStyle( key );
+			if ( value )
+				style += key + ': ' + value + ';';
+		}
 
 		function update() {
 			isRunning = true;
@@ -149,77 +161,46 @@
 			doc.getWindow().$.update( value );
 		}
 
-		// If you create widget, using dialog, iFrame has
-		// no document at the beginning so we should wait for it.
-		if( hasFrameDocument( iFrame ) )
-			loadDocument();
-		else
-			iFrame.once( 'load', loadDocument );
-
-		function hasFrameDocument( iFrame ) {
-			try {
-				iFrame.getFrameDocument();
-				return true;
-			} catch ( e ) {
-				return false;
-			}
-		}
-
-		function loadDocument() {
-			var stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
-				style = '';
-
-			doc = iFrame.getFrameDocument();
-
-			// Copy styles from iFrame to body inside iFrame.
-			for ( var i = 0; i < stylesToCopy.length; i++ ) {
-				var key = stylesToCopy[ i ],
-					value = iFrame.getComputedStyle( key );
-				if( value )
-					style += key + ': ' + value + ';';
-			}
-
-			doc.write( '<!DOCTYPE html>' +
-				'<html>' +
-				'<head>' +
-					'<meta charset="utf-8">' +
-					'<style type="text/css">' +
-						'span#preview {' +
-							style +
+		doc.write( '<!DOCTYPE html>' +
+			'<html>' +
+			'<head>' +
+				'<meta charset="utf-8">' +
+				'<style type="text/css">' +
+					'span#preview {' +
+						style +
+					'}' +
+				'</style>' +
+				'<script type="text/x-mathjax-config">' +
+					'MathJax.Hub.Config( {' +
+						'showMathMenu: false,' +
+						'messageStyle: "none"' +
+					'} );' +
+					'function getCKE() {' +
+						'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
+							'return window.parent.CKEDITOR;' +
+						'} else {' +
+							'return window.parent.parent.CKEDITOR;' +
 						'}' +
-					'</style>' +
-					'<script type="text/x-mathjax-config">' +
-						'MathJax.Hub.Config( {' +
-							'showMathMenu: false,' +
-							'messageStyle: "none"' +
-						'} );' +
-						'function getCKE() {' +
-							'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
-								'return window.parent.CKEDITOR;' +
-							'} else {' +
-								'return window.parent.parent.CKEDITOR;' +
+					'}' +
+					'function update() {' +
+						'MathJax.Hub.Queue(' +
+							'[\'Typeset\',MathJax.Hub,this.buffer],' +
+							'function() {' +
+								'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
 							'}' +
-						'}' +
-						'function update() {' +
-							'MathJax.Hub.Queue(' +
-								'[\'Typeset\',MathJax.Hub,this.buffer],' +
-								'function() {' +
-									'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
-								'}' +
-							');' +
-						'}' +
-						'MathJax.Hub.Queue( function() {' +
-							'getCKE().tools.callFunction(' + loadedHandler + ');' +
-						'} );' +
-					'</script>' +
-					'<script src="' + ( libSrc || cdn ) + '"></script>' +
-				'</head>' +
-				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
-					'<span id="preview"></span>' +
-					'<span id="buffer" style="display:none"></span>' +
-				'</body>' +
-				'</html>' );
-		}
+						');' +
+					'}' +
+					'MathJax.Hub.Queue( function() {' +
+						'getCKE().tools.callFunction(' + loadedHandler + ');' +
+					'} );' +
+				'</script>' +
+				'<script src="' + ( libSrc || cdn ) + '"></script>' +
+			'</head>' +
+			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+				'<span id="preview"></span>' +
+				'<span id="buffer" style="display:none"></span>' +
+			'</body>' +
+			'</html>' );
 
 		return {
 			setValue: function( value ) {
