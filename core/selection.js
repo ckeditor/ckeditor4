@@ -327,6 +327,9 @@
 				if ( found )
 					editor.getSelection().selectRanges( [ range ] );
 
+				// Save the state before removing selected element.
+				editor.fire( 'saveSnapshot' );
+
 				evt.selected.remove();
 
 				// Haven't found any editable space before removing element,

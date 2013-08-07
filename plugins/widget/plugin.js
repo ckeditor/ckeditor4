@@ -1678,6 +1678,12 @@
 
 		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
 
+		// Save snapshot with the current state.
+		editor.fire( 'saveSnapshot' );
+
+		// Ignore copybin.
+		editor.fire( 'lockSnapshot' );
+
 		editor.editable().append( copybin );
 
 		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
@@ -1699,8 +1705,12 @@
 			listener1.removeListener();
 			listener2.removeListener();
 
-			if ( isCut )
+			editor.fire( 'unlockSnapshot' );
+
+			if ( isCut ) {
 				widget.repository.del( widget );
+				editor.fire( 'saveSnapshot' );
+			}
 		}, 0 );
 	}
 
