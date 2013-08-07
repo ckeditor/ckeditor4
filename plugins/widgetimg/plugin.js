@@ -62,6 +62,8 @@
 					stateBefore = widget.oldData,
 					stateAfter = widget.data;
 
+				// Convert the internal form of the widget
+				// from the old state to the new one.
 				widget.shiftState( {
 					element: widget.element,
 					stateBefore: stateBefore,
@@ -74,21 +76,23 @@
 
 						editor.widgets.destroy( widget );
 
+						// Mark widget was destroyed.
 						this.destroyed = true;
 					},
 
-					// Create a new widget. This widget will be either captioned
-					// non-captioned, block or inline according to what is the
-					// new state of the widget.
 					init: function( element ) {
+						// Create a new widget. This widget will be either captioned
+						// non-captioned, block or inline according to what is the
+						// new state of the widget.
 						if ( this.destroyed ) {
 							var name = 'img' + ( stateAfter.hasCaption || stateAfter.align == 'center' ? 'block' : 'inline' );
-
 							widget = editor.widgets.initOn( element, name, widget.data );
-						} else {
-							// Set styles of the wrapper corresponding with widget's align.
-							setWrapperAlign( widget );
 						}
+
+						// If now widget was destroyed just update wrapper's alignment.
+						// According to the new state.
+						else
+							setWrapperAlign( widget );
 					}
 				} );
 
@@ -98,6 +102,8 @@
 
 				// Set src attribute of the image.
 				image.setAttribute( 'src', widget.data.src );
+
+				// This internal is required by the editor.
 				image.data( 'cke-saved-src', widget.data.src );
 
 				// Set alt attribute of the image.
@@ -167,6 +173,7 @@
 		imgInline = CKEDITOR.tools.extend( {
 			// Widget-specific rules for Allowed Content Filter.
 			allowedContent: {
+				// This widget needs <img>.
 				img: {
 					attributes: '!src,alt,width,height',
 					styles: 'float'
@@ -189,22 +196,27 @@
 		imgBlock = CKEDITOR.tools.extend( {
 			// Widget-specific rules for Allowed Content Filter.
 			allowedContent: {
+				// This widget needs <figcaption>.
 				figcaption: true,
+
+				// This widget needs <figure>.
 				figure: {
 					classes: '!caption',
 					styles: 'float,display'
 				},
+
+				// This widget needs <img>.
 				img: {
 					attributes: '!src,alt,width,height'
 				},
 
-				// A rule for centering wrapper.
+				// This widget may need <div> centering wrapper.
 				div: {
 					match: isCenterWrapper,
 					styles: 'text-align'
 				},
 
-				// Yet another rule for centering wrapper.
+				// This widget may need <p> centering wrapper.
 				p: {
 					match: isCenterWrapper,
 					styles: 'text-align'
@@ -263,7 +275,7 @@
 							// while caption has been removed.
 							if ( !stateChanged( data, 'hasCaption' ) && !hasCaptionAfter && alignBefore == 'center' && alignAfter != 'center' ) {
 								data.destroy();
-								data.element = deWrapFromCentering( element );
+								data.element = unwrapFromCentering( element );
 							}
 						}
 
@@ -358,7 +370,7 @@
 				return center;
 			}
 
-			function deWrapFromCentering( element ) {
+			function unwrapFromCentering( element ) {
 				var img = element.findOne( 'img' );
 
 				img.replace( element );
@@ -425,11 +437,11 @@
 				// If a center wrapper is found.
 				if ( isCenter ) {
 					// So the element is:
-					// 	<div style="text-align:center"><figure></figure></div>.
+					// 		<div style="text-align:center"><figure></figure></div>.
 					// Centering is done by widget.wrapper in such case. Hence, replace
 					// centering wrapper with figure.
 					// The other case is:
-					// 	<p style="text-align:center"><img></p>.
+					// 		<p style="text-align:center"><img></p>.
 					// Then <p> takes charge of <figure> and nothing is to be changed.
 					if ( name == 'div' ) {
 						var figure = el.getFirst( 'figure' );
@@ -438,7 +450,7 @@
 					}
 
 					// Mark the element as centered, so widget.data.align
-					// can be correctly populated on init.
+					// can be correctly filled on init.
 					el.attributes[ 'data-cke-centered' ] = true;
 
 					image = el.getFirst( 'img' );
