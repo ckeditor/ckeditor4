@@ -249,6 +249,8 @@
 				// The order that stateActions get executed. It matters!
 				shiftables = [ 'hasCaption', 'align' ],
 
+				editable = editor.editable(),
+
 				// Atomic procedures, one per state variable.
 				stateActions = {
 					align: function( data, oldValue, newValue ) {
@@ -308,11 +310,8 @@
 								// Create new <figure> from widget template.
 								figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
 
-							// Insert new new <figure> before old element.
-							insertElement( figure, element );
-
-							// Remove old element from DOM.
-							element.remove();
+							// Replace element with <figure>.
+							replaceSafely( figure, element );
 
 							// Use old <img> instead of the one from the template,
 							// so we won't lose additional attributes.
@@ -355,10 +354,10 @@
 					styles: { 'text-align': 'center' }
 				} );
 
-				// Insert centering wrapper before the element.
-				insertElement( center, element );
+				// Replace element with centering wrapper.
+				replaceSafely( center, element );
 
-				// Move element into centering wrapper so it's wrapped.
+				// Append element into centering wrapper.
 				element.move( center );
 
 				return center;
@@ -372,13 +371,22 @@
 				return img;
 			}
 
-			function insertElement( element, oldElement ) {
-				// Create a range that corresponds with old element's position.
-				var range = editor.createRange();
-				range.moveToPosition( oldElement, CKEDITOR.POSITION_BEFORE_START );
+			function replaceSafely( replacing, replaced ) {
+				if ( replaced.getParent() ) {
+					// Create a range that corresponds with old element's position.
+					var range = editor.createRange();
 
-				// Insert element wrapper at range position.
-				editor.editable().insertElementIntoRange( element, range );
+					// Move the range before old element.
+					range.moveToPosition( replaced, CKEDITOR.POSITION_BEFORE_START );
+
+					// Insert element at range position.
+					editable.insertElementIntoRange( replacing, range );
+
+					// Remove old element.
+					replaced.remove();
+				}
+				else
+					replacing.replace( replaced );
 			}
 
 			return function( data ) {
@@ -505,7 +513,7 @@
 
 			// If centering, wrap downcasted element.
 			// Wrappers for <img> and <figure> are <p> and <div>, respectively.
-			if ( align == 'center' ) {
+			if ( align == 'center' && el.name != 'p' ) {
 				var name = el.name == 'img' ? 'p' : 'div';
 
 				el = el.wrapWith( new CKEDITOR.htmlParser.element( name, {
