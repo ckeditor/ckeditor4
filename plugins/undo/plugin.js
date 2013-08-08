@@ -42,7 +42,7 @@
 				[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
 				[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
 				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ]
-				] );
+			] );
 
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );

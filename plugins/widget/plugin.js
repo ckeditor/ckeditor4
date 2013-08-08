@@ -1663,7 +1663,9 @@
 	// WIDGET helpers ---------------------------------------------------------
 	//
 
-	var transparentImageData = 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D';
+	var transparentImageData = 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D',
+		// LEFT, RIGHT, UP, DOWN, DEL, BACKSPACE - unblock default fake sel handlers.
+		keystrokesNotBlockedByWidget = { 37:1,38:1,39:1,40:1,8:1,46:1 };
 
 	function cancel( evt ) {
 		evt.cancel();
@@ -1841,6 +1843,10 @@
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
 			}
+			// Pass chosen keystrokes to other plugins or default fake sel handlers.
+			// Pass all CTRL keystrokes.
+			else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) )
+				return;
 
 			return false;
 		}, null, null, 999 );

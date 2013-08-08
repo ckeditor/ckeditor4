@@ -282,24 +282,8 @@
 		delete editor._.hiddenSelectionContainer;
 	}
 
-	function addFakeSelectionKeystrokeHandlers( sel, editor, element, handlers ) {
-		// Add default handlers (left, up, right, down).
-		handlers = CKEDITOR.tools.extend( getFakeSelectionDefaultKeystrokeHandlers(), handlers || {}, true );
-
-		editor._.fakeSelectionKeyListener = editor.editable().attachListener( editor.editable(), 'keydown', function( evt ) {
-			var handler = handlers[ evt.data.getKeystroke() ],
-				ret;
-
-			if ( handler ) {
-				ret = handler( { editor: editor, selected: element, selection: sel, keyEvent: evt } );
-				if ( ret === false )
-					evt.data.preventDefault();
-			}
-		}, null, null, -100 );
-	}
-
-	// Get object containing keystroke handlers for fake selection.
-	var getFakeSelectionDefaultKeystrokeHandlers = (function() {
+	// Object containing keystroke handlers for fake selection.
+	var fakeSelectionDefaultKeystrokeHandlers = (function() {
 		function leave( right ) {
 			return function( evt ) {
 				var range = evt.editor.createRange();
@@ -350,15 +334,13 @@
 		var leaveLeft = leave(),
 			leaveRight = leave( 1 );
 
-		return function() {
-			return {
-				37: leaveLeft,		// LEFT
-				38: leaveLeft,		// UP
-				39: leaveRight,		// RIGHT
-				40: leaveRight,		// DOWN
-				8: del(),			// BACKSPACE
-				46: del( 1 )		// DELETE
-			};
+		return {
+			37: leaveLeft,		// LEFT
+			38: leaveLeft,		// UP
+			39: leaveRight,		// RIGHT
+			40: leaveRight,		// DOWN
+			8: del(),			// BACKSPACE
+			46: del( 1 )		// DELETE
 		};
 	})();
 
@@ -678,14 +660,6 @@
 			delete editor._.fakeSelection;
 			delete editor._.hiddenSelectionContainer;
 
-			var listener = editor._.fakeSelectionKeyListener;
-			if ( listener ) {
-				// In inline editor setData keeps editable element, so we need to detach listener.
-				if ( editor.editable().isInline() )
-					listener.removeListener();
-				delete editor._.fakeSelectionKeyListener;
-			}
-
 			editor.selectionChange( 1 );
 		} );
 		// When loaded data are ready check whether hidden selection container was not loaded.
@@ -718,6 +692,15 @@
 			editor.unlockSelection();
 		});
 
+		editor.on( 'key', function( evt ) {
+			var sel = editor.getSelection();
+			if ( !sel.isFake )
+				return;
+
+			var handler = fakeSelectionDefaultKeystrokeHandlers[ evt.data.keyCode ];
+			if ( handler )
+				return handler( { editor: editor, selected: sel.getSelectedElement(), selection: sel, keyEvent: evt } );
+		} );
 	});
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
@@ -1681,11 +1664,6 @@
 				if ( this.rev == editor._.fakeSelection.rev ) {
 					delete editor._.fakeSelection;
 
-					if ( ( listener = editor._.fakeSelectionKeyListener ) ) {
-						listener.removeListener();
-						delete editor._.fakeSelectionKeyListener;
-					}
-
 					removeHiddenSelectionContainer( editor );
 				}
 				// TODO after #9786 use commented out lines instead of console.log.
@@ -1985,10 +1963,8 @@
 		 * displayed to the user.
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be "selected".
-		 * @param definition The fake selection definition.
-		 * @param definition.keystrokeHandlers List of `keystroke code => listener` pairs.
 		 */
-		fake: function( element, definition ) {
+		fake: function( element ) {
 			var editor = this.root.editor;
 
 			hideSelection( editor );
@@ -2015,8 +1991,6 @@
 
 			// Save this selection, so it can be returned by editor.getSelection().
 			editor._.fakeSelection = this;
-
-			addFakeSelectionKeystrokeHandlers( this, editor, element, definition && definition.keystrokeHandlers );
 
 			// Fire selectionchange, just like a normal selection.
 			this.root.fire( 'selectionchange' );
