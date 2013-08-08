@@ -59,18 +59,18 @@
 			data: function() {
 				var widget = this,
 					editor = widget.editor,
-					stateBefore = widget.oldData,
-					stateAfter = widget.data;
+					oldState = widget.oldData,
+					newState = widget.data;
 
 				// Convert the internal form of the widget
 				// from the old state to the new one.
 				widget.shiftState( {
 					element: widget.element,
-					stateBefore: stateBefore,
-					stateAfter: stateAfter,
+					oldState: oldState,
+					newState: newState,
 
 					// Destroy the widget.
-					destroy: function( inline ) {
+					destroy: function() {
 						if ( this.destroyed )
 							return;
 
@@ -85,7 +85,7 @@
 						// non-captioned, block or inline according to what is the
 						// new state of the widget.
 						if ( this.destroyed ) {
-							var name = 'img' + ( stateAfter.hasCaption || stateAfter.align == 'center' ? 'block' : 'inline' );
+							var name = 'img' + ( newState.hasCaption || newState.align == 'center' ? 'block' : 'inline' );
 							widget = editor.widgets.initOn( element, name, widget.data );
 						}
 
@@ -247,33 +247,28 @@
 			var centerElement = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div',
 
 				// The order that stateActions get executed. It matters!
-				stateShiftables = [ 'hasCaption', 'align' ],
+				shiftables = [ 'hasCaption', 'align' ],
 
 				// Atomic procedures, one per state variable.
 				stateActions = {
-					align: function( data ) {
-						var stateBefore = data.stateBefore,
-							stateAfter = data.stateAfter,
-							alignBefore = getValue( stateBefore, 'align' ),
-							alignAfter = getValue( stateAfter, 'align' ),
-							hasCaptionBefore = getValue( stateBefore, 'hasCaption' ),
-							hasCaptionAfter = getValue( stateAfter, 'hasCaption' ),
+					align: function( data, oldValue, newValue ) {
+						var hasCaptionAfter = data.newState.hasCaption,
 							element = data.element;
 
 						// Clean the alignment first.
 						setElementAlign( element, 'none' );
 
 						// Alignment changed.
-						if ( stateChanged( data, 'align' ) ) {
+						if ( changed( data, 'align' ) ) {
 							// Changed align to "center" (non-captioned).
-							if ( alignAfter == 'center' && !hasCaptionAfter ) {
+							if ( newValue == 'center' && !hasCaptionAfter ) {
 								data.destroy();
 								data.element = wrapInCentering( element );
 							}
 
 							// Changed align to "non-center" from "center"
 							// while caption has been removed.
-							if ( !stateChanged( data, 'hasCaption' ) && !hasCaptionAfter && alignBefore == 'center' && alignAfter != 'center' ) {
+							if ( !changed( data, 'hasCaption' ) && !hasCaptionAfter && oldValue == 'center' && newValue != 'center' ) {
 								data.destroy();
 								data.element = unwrapFromCentering( element );
 							}
@@ -282,29 +277,26 @@
 						// Alignment remains.
 						else {
 							// Caption removed while align was "center".
-							if ( alignAfter == 'center' && stateChanged( data, 'hasCaption' ) && !hasCaptionAfter ) {
+							if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
 								data.destroy();
 								data.element = wrapInCentering( element );
 							}
 						}
 					},
-					hasCaption:	function( data ) {
-						var before = getValue( data.stateBefore, 'hasCaption' ),
-							after = getValue( data.stateAfter, 'hasCaption' );
-
+					hasCaption:	function( data, oldValue, newValue ) {
 						// This action is for real state change only.
-						if ( !stateChanged( data, 'hasCaption' ) )
+						if ( !changed( data, 'hasCaption' ) )
 							return;
 
 						var element = data.element,
-							stateBefore = data.stateBefore,
-							stateAfter = data.stateAfter;
+							oldState = data.oldState,
+							newState = data.newState;
 
 						// Switching hasCaption always destroys the widget.
-						data.destroy( after );
+						data.destroy();
 
 						// There was no caption, but the caption is to be added.
-						if ( after ) {
+						if ( newValue ) {
 							// Get <img> from element. As element may be either
 							// <img> or centering <p>, consider it now.
 							var img = element.findOne( 'img' ) || element,
@@ -316,7 +308,7 @@
 							setElementAlign( img, 'none' );
 
 							// Preserve alignment from old <img>.
-							setElementAlign( figure, stateBefore.align );
+							setElementAlign( figure, oldState.align );
 
 							// Insert new new <figure> before old element.
 							insertElement( figure, element );
@@ -344,18 +336,17 @@
 							data.element = img;
 						}
 					}
-				},
-				name;
+				};
 
 			function getValue( state, name ) {
 				return state && state[ name ] !== undefined ? state[ name ] : null;
 			}
 
-			function stateChanged( data, name ) {
-				if ( !data.stateBefore )
+			function changed( data, name ) {
+				if ( !data.oldState )
 					return false;
 				else
-					return data.stateBefore[ name ] !== data.stateAfter[ name ];
+					return data.oldState[ name ] !== data.newState[ name ];
 			}
 
 			function wrapInCentering( element ) {
@@ -400,14 +391,17 @@
 			}
 
 			return function( data ) {
-				var stateBefore = data.stateBefore,
-					stateAfter = data.stateAfter;
+				var oldState = data.oldState,
+					newState = data.newState,
+					name;
 
-				for ( var i = 0; i < stateShiftables.length; i++ ) {
-					name = stateShiftables[ i ];
+				// Iterate over possible state variables.
+				for ( var i = 0; i < shiftables.length; i++ ) {
+					name = shiftables[ i ];
 
-					// if ( stateBefore && stateAfter[ name ] != stateBefore[ name ] )
-					stateActions[ name ]( data );
+					stateActions[ name ]( data,
+						oldState ? oldState[ name ] : null,
+						newState[ name ] );
 				}
 
 				data.init( data.element );
@@ -494,15 +488,16 @@
 			return el;
 		}
 
-		return function( el ) {
-			if ( isBlock )
-				return upcastElement( el, true, isCenterWrapper( el ) );
-
-			// Basically upcast the element if there is no special
-			// wrapper around.
-			else
-				return upcastElement( el );
-		};
+		return isBlock ?
+				function( el ) {
+					return upcastElement( el, true, isCenterWrapper( el ) );
+				}
+			:
+				function( el ) {
+					// Basically upcast the element if there is no special
+					// wrapper around.
+					return upcastElement( el );
+				};
 	}
 
 	// Transforms the widget to the external format according to
@@ -570,7 +565,7 @@
 	//
 	// @param {CKEDITOR.plugins.widget} widget
 	function setDimensions( widget ) {
-		var dimensions = CKEDITOR.tools.extend( {}, widget.data, false, { width: 1, height: 1 } ),
+		var dimensions = CKEDITOR.tools.extend( {}, widget.data, false, { width:1,height:1 } ),
 			image = widget.parts.image;
 
 		for ( var d in dimensions ) {
