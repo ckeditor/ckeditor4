@@ -318,8 +318,11 @@
 							// Preserve alignment from old <img>.
 							setElementAlign( figure, stateBefore.align );
 
-							// Replace old <img> with new <figure>.
-							figure.replace( element );
+							// Insert new new <figure> before old element.
+							insertElement( figure, element );
+
+							// Remove old element from DOM.
+							element.remove();
 
 							// Use old <img> instead of the one from the template,
 							// so we won't lose additional attributes.
@@ -358,13 +361,15 @@
 			function wrapInCentering( element ) {
 				// When widget gets centered. Wrapper must be created.
 				// Create new <p|div> with text-align:center.
-				var center = new CKEDITOR.dom.element( centerElement, editor.document );
+				var center = editor.document.createElement( centerElement, {
+					// Centering wrapper is.. centering.
+					styles: { 'text-align': 'center' }
+				} );
 
-				// Centering wrapper is.. centering.
-				center.setStyle( 'text-align', 'center' );
+				// Insert centering wrapper before the element.
+				insertElement( center, element );
 
-				// Wrap element into centering wrapper.
-				center.replace( element );
+				// Move element into centering wrapper so it's wrapped.
 				element.move( center );
 
 				return center;
@@ -376,6 +381,15 @@
 				img.replace( element );
 
 				return img;
+			}
+
+			function insertElement( element, oldElement ) {
+				// Create a range that corresponds with old element's position.
+				var range = editor.createRange();
+				range.moveToPosition( oldElement, CKEDITOR.POSITION_BEFORE_START );
+
+				// Insert element wrapper at range position.
+				editor.editable().insertElementIntoRange( element, range );
 			}
 
 			function setElementAlign( element, align ) {
