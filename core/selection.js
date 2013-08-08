@@ -298,6 +298,7 @@
 		}, null, null, -100 );
 	}
 
+	// Get object containing keystroke handlers for fake selection.
 	var getFakeSelectionDefaultKeystrokeHandlers = (function() {
 		function leave( right ) {
 			return function( evt ) {
@@ -351,20 +352,22 @@
 
 		return function() {
 			return {
-				'37': leaveLeft,	// LEFT
-				'38': leaveLeft,	// UP
-				'39': leaveRight,	// RIGHT
-				'40': leaveRight,	// DOWN
-				'8': del(),			// BACKSPACE
-				'46': del( 1 )		// DELETE
+				37: leaveLeft,		// LEFT
+				38: leaveLeft,		// UP
+				39: leaveRight,		// RIGHT
+				40: leaveRight,		// DOWN
+				8: del(),			// BACKSPACE
+				46: del( 1 )		// DELETE
 			};
 		};
 	})();
 
 	var editableEval = CKEDITOR.dom.walker.editable();
 
+	// Handle left, right, delete and backspace keystrokes next to non-editable elements
+	// by faking selection on them.
 	function getOnKeyDownListener( editor ) {
-		var keystrokes = { '37':1,'39':1,'8':1,'46':1 };
+		var keystrokes = { 37:1,39:1,8:1,46:1 };
 
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke();
