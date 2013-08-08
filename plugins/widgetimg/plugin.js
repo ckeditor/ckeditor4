@@ -140,7 +140,7 @@
 					};
 
 				// If element was marked as centered when upcasting, update
-				// the alignment both visually and in widget data (will call setElementAlign).
+				// the alignment both visually and in widget data.
 				if ( this.element.data( 'cke-centered' ) ) {
 					this.element.data( 'cke-centered', false );
 					data.align = 'center';
@@ -255,32 +255,36 @@
 						var hasCaptionAfter = data.newState.hasCaption,
 							element = data.element;
 
-						// Clean the alignment first.
-						setElementAlign( element, 'none' );
-
 						// Alignment changed.
 						if ( changed( data, 'align' ) ) {
-							// Changed align to "center" (non-captioned).
-							if ( newValue == 'center' && !hasCaptionAfter ) {
-								data.destroy();
-								data.element = wrapInCentering( element );
-							}
+							// No caption in the new state.
+							if ( !hasCaptionAfter ) {
+								// Changed to "center" (non-captioned).
+								if ( newValue == 'center' ) {
+									data.destroy();
+									data.element = wrapInCentering( element );
+								}
 
-							// Changed align to "non-center" from "center"
-							// while caption has been removed.
-							if ( !changed( data, 'hasCaption' ) && !hasCaptionAfter && oldValue == 'center' && newValue != 'center' ) {
-								data.destroy();
-								data.element = unwrapFromCentering( element );
+								// Changed to "non-center" from "center" while caption removed.
+								if ( !changed( data, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
+									data.destroy();
+									data.element = unwrapFromCentering( element );
+								}
 							}
 						}
 
-						// Alignment remains.
-						else {
-							// Caption removed while align was "center".
-							if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
-								data.destroy();
-								data.element = wrapInCentering( element );
-							}
+						// Alignment remains and "center" removed caption.
+						else if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
+							data.destroy();
+							data.element = wrapInCentering( element );
+						}
+
+						// Finally set display for figure.
+						if ( element.is( 'figure' ) ) {
+							if ( newValue == 'center' )
+								element.setStyle( 'display', 'inline-block' );
+							else
+								element.removeStyle( 'display' );
 						}
 					},
 					hasCaption:	function( data, oldValue, newValue ) {
@@ -303,12 +307,6 @@
 
 								// Create new <figure> from widget template.
 								figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
-
-							// Clean align on old <img>.
-							setElementAlign( img, 'none' );
-
-							// Preserve alignment from old <img>.
-							setElementAlign( figure, oldState.align );
 
 							// Insert new new <figure> before old element.
 							insertElement( figure, element );
@@ -381,13 +379,6 @@
 
 				// Insert element wrapper at range position.
 				editor.editable().insertElementIntoRange( element, range );
-			}
-
-			function setElementAlign( element, align ) {
-				if ( align in { center:1,none:1 } )
-					element.removeStyle( 'float' );
-				else
-					element.setStyle( 'float', align );
 			}
 
 			return function( data ) {
@@ -515,13 +506,15 @@
 			// If centering, wrap downcasted element.
 			// Wrappers for <img> and <figure> are <p> and <div>, respectively.
 			if ( align == 'center' ) {
-				el = el.wrapWith( new CKEDITOR.htmlParser.element( el.name == 'img' ? 'p' : 'div', {
+				var name = el.name == 'img' ? 'p' : 'div';
+
+				el = el.wrapWith( new CKEDITOR.htmlParser.element( name, {
 					'style': 'text-align:center'
 				} ) );
 			}
 
-			// If left/right/none, add float style to the downcasted element.
-			else
+			// If left/right, add float style to the downcasted element.
+			else if ( align in { left:1,right:1 } )
 				styles.float = align;
 
 			// Update element styles.
