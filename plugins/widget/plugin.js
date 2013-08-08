@@ -36,12 +36,13 @@
 				'.cke_widget_drag_handler_container{' +
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
-					'height:' + DRAG_HANDLER_SIZE + 'px;' +
-					'display:none;' +
+					'height:0;' +
 					'opacity:0.75;' +
+					'transition:height 0s 0.2s' + // Delay hiding drag handler.
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_drag_handler_container{' +
-					'display:block' +
+					'height:' + DRAG_HANDLER_SIZE + 'px;' +
+					'transition:none' +
 				'}' +
 				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
