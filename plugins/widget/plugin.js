@@ -1299,17 +1299,22 @@
 				}
 				else if ( upcasts.length ) {
 					var upcast, upcasted,
+						data,
 						i = 0,
 						l = upcasts.length;
 
 					for ( ; i < l; ++i ) {
 						upcast = upcasts[ i ];
+						data = {};
 
-						if ( ( upcasted = upcast[ 0 ]( element ) ) ) {
+						if ( ( upcasted = upcast[ 0 ]( element, data ) ) ) {
 							// If upcast function returned element, upcast this one.
 							// It can be e.g. a new element wrapping the original one.
 							if ( upcasted instanceof CKEDITOR.htmlParser.element )
 								element = upcasted;
+
+							// Set initial data attr with data from upcast method.
+							element.attributes[ 'data-widget-data' ] = JSON.stringify( data );
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
