@@ -159,11 +159,6 @@
 
 				// Create shift stater for this widget.
 				this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
-
-				// Setup getOutput listener to downcast the widget.
-				this.on( 'getOutput', function( evt ) {
-					downcastWidgetElement( evt.data, this );
-				} );
 			},
 
 			// Widget downcasting.
