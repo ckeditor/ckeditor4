@@ -308,8 +308,6 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 						id: 'src',
 						type: 'text',
 						label: 'URL',
-						onChange: function() {
-						},
 						onKeyup: function() {
 							var value = this.getValue();
 
