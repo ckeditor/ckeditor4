@@ -49,14 +49,11 @@
 						this.frameWrapper.setValue( this.data.math );
 				},
 
-				upcast: function( el ) {
+				upcast: function( el, data ) {
 					if ( !( el.name == 'span' && el.hasClass( cls ) ) )
 						return false;
 
-					//TODO Widget API method to save widget.data.
-					el.attributes[ 'data-widget-data' ] = JSON.stringify( {
-						math: el.children[ 0 ].value
-					} );
+					data.math = el.children[ 0 ].value;
 
 					// Add style display:inline-block.
 					if ( el.attributes[ 'style' ] )
@@ -78,11 +75,9 @@
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.text( this.data.math ) );
 
 					// Remove style display:inline-block.
-					if ( el.attributes[ 'style' ] == "display:inline-block" )
+					el.attributes[ 'style' ] = el.attributes[ 'style' ].replace( /display:\s?inline-block;?$/, '' );
+					if ( el.attributes[ 'style' ] == "" ) {
 						delete el.attributes[ 'style' ];
-					else {
-						var end = el.attributes[ 'style' ].lastIndexOf( ';display:inline-block' );
-						el.attributes[ 'style' ] = el.attributes[ 'style' ].substring( 0, end );
 					}
 
 					return el;
