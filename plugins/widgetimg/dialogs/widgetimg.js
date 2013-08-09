@@ -119,15 +119,19 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 		if ( value === '0' )
 			return;
 
-		var isWidth = this.id == 'width';
+		var isWidth = this.id == 'width',
+			// If dialog opened for the new image, domWidth and domHeight
+			// will be empty. Use dimensions from pre-loader in such case instead.
+			width = domWidth || preLoadedWidth,
+			height = domHeight || preLoadedHeight;
 
 		// If changing width, then auto-scale height.
 		if ( isWidth )
-			value = Math.round( domHeight * ( value / domWidth ) );
+			value = Math.round( height * ( value / width ) );
 
 		// If changing height, then auto-scale width.
 		else
-			value = Math.round( domWidth * ( value / domHeight ) );
+			value = Math.round( width * ( value / height ) );
 
 		// If the value is a number, apply it to the other field.
 		if ( !isNaN( value ) )
@@ -282,9 +286,11 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 			preLoadedWidth = preLoadedHeight = srcChanged =
 				userDefinedLock = lockRatio = false;
 
+			// TODO: IE8
 			// Get the natural width of the image.
 			domWidth = image.$.naturalWidth;
 
+			// TODO: IE8
 			// Get the natural height of the image.
 			domHeight = image.$.naturalHeight;
 
@@ -318,7 +324,7 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 
 									// There was problem loading the image. Unlock ratio.
 									if ( !image )
-										return toggleLockDimensions( false );;
+										return toggleLockDimensions( false );
 
 									// Fill width field with the width of the new image.
 									widthField.setValue( width );
@@ -339,7 +345,9 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								srcChanged = true;
 							}
 
-							// Roll back dimensions when restoring default src.
+							// Value is the same as in widget data but is was
+							// modified back in time. Roll back dimensions when restoring
+							// default src.
 							else if ( srcChanged ) {
 								// Re-enable width and height fields.
 								toggleDimensions( true );
@@ -354,6 +362,8 @@ CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
 								srcChanged = false;
 							}
 
+							// Value is the same as in widget data and it hadn't
+							// been modified.
 							else {
 								// Re-enable width and height fields.
 								toggleDimensions( true );
