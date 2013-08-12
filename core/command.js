@@ -83,6 +83,10 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		if ( !this.startDisabled )
 			this.enable();
 
+		// Disable commands which shouldn't be enabled in this mode.
+		if ( this.modes && !this.modes[ editor.mode ] )
+			this.disable();
+
 		if ( this.fire( 'refresh', { editor: editor, path: path } ) === false )
 			return true;
 
