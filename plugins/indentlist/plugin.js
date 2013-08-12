@@ -114,7 +114,7 @@
 			database = this.database,
 			context = this.context;
 
-		function indentList( listNode ) {
+		function indent( listNode ) {
 			// Our starting and ending points of the range might be inside some blocks under a list item...
 			// So before playing with the iterator, we need to expand the block to include the list items.
 			var startContainer = range.startContainer,
@@ -271,7 +271,7 @@
 			}
 
 			if ( nearestListBlock )
-				return indentList( nearestListBlock );
+				return indent( nearestListBlock );
 		}
 		return 0;
 	}
