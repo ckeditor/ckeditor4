@@ -223,7 +223,7 @@ CKEDITOR.dtd = (function() {
 		 *
 		 * **Note:** As an exception `<li>` is not considered as a block limit, as it's generally used as a text block.
 		 */
-		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
+		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figcaption:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
 
 		/**
 		 * List of elements that contain character data.
