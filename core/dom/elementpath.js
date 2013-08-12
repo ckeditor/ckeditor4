@@ -77,7 +77,11 @@
 				if ( !blockLimit ) {
 					elementName = e.getName();
 
-					if ( !block && pathBlockElements[ elementName ] )
+					// First editable element becomes a block limit, because it cannot be split.
+					if ( e.getAttribute( 'contenteditable' ) == 'true' )
+						blockLimit = e;
+					// "Else" because element cannot be both - block and block levelimit.
+					else if ( !block && pathBlockElements[ elementName ] )
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
