@@ -677,17 +677,17 @@
 
 						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
 						// it was cancelled, prevent submitting the form.
-						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
+						if ( evt && editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
 							evt.data.preventDefault();
 					}
 					form.on( 'submit', onSubmit );
 
 					// Setup the submit function because it doesn't fire the
 					// "submit" event.
-					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
+					if ( !form.$.submit.nodeName ) {
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-							return function( evt ) {
-								onSubmit( new CKEDITOR.dom.event( evt ) );
+							return function() {
+								onSubmit();
 
 								// For IE, the DOM submit function is not a
 								// function, so we need third check.
