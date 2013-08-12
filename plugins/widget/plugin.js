@@ -643,20 +643,6 @@
 		},
 
 		/**
-		 * Gets widget's output element.
-		 *
-		 * @param {CKEDITOR.htmlParser.element} [element] Widget element
-		 * which may be returned as output after being cleaned up.
-		 * @returns {CKEDITOR.htmlParser.element}
-		 */
-		getOutput: function( element ) {
-			if ( !element )
-				element = CKEDITOR.htmlParser.fragment.fromHtml( this.element.getOuterHtml() ).children[ 0 ];
-
-			return this.fire( 'getOutput', element );
-		},
-
-		/**
 		 * Initializes nested editable.
 		 *
 		 * @param {String} editableName The nested editable name.
@@ -1346,7 +1332,7 @@
 							var widgetElement = element.getFirst( isWidgetElement ),
 								retElement = widget._.downcastFn ?
 									widget._.downcastFn.call( widget, widgetElement ) :
-									widget.getOutput( widgetElement );
+									widgetElement;
 
 							if ( !retElement )
 								retElement = widgetElement;
@@ -1906,15 +1892,6 @@
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 })();
-
-/**
- * Event fired before {@link #method-getOutput} method returns data.
- * It allows additional modifications to the returned element.
- *
- * @event getOutput
- * @member CKEDITOR.plugins.widget
- * @param {CKEDITOR.htmlParser.element} data The element that will be returned.
- */
 
 /**
  * Event fired when widget is ready (fully initialized). This event is fired after:
