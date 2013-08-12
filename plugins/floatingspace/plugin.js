@@ -58,6 +58,7 @@
 				// Change the current mode and update float space position accordingly.
 				function changeMode( newMode ) {
 					var editorPos = editable.getDocumentPosition();
+
 					switch ( newMode ) {
 						case 'top':
 							updatePos( 'absolute', 'top', editorPos.y - spaceHeight - dockedOffsetY );
@@ -103,25 +104,58 @@
 					layout( evt );
 					return;
 				}
-				// Pin the space element while page scrolls down to pull it off the view port.
-				else if ( mode == 'top' && spaceRect.top < pinnedOffsetY )
+
+				// +------------------------ Viewport -+ \
+				// |                                   |  |-> floatSpaceDockedOffsetY
+				// | ................................. | /
+				// |                                   |
+				// |   +------ Space -+                |
+				// |   |              |                |
+				// |   +--------------+                |
+				// |   +------------------ Editor -+   |
+				// |   |                           |   |
+				//
+				if ( spaceHeight + dockedOffsetY <= editorRect.top )
+					changeMode( 'top' );
+
+				//     +- - - - - - - - -  Editor -+
+				//     |                           |
+				// +------------------------ Viewport -+ \
+				// |   |                           |   |  |-> floatSpacePinnedOffsetY
+				// | ................................. | /
+				// |   +------ Space -+            |   |
+				// |   |              |            |   |
+				// |   +--------------+            |   |
+				// |   |                           |   |
+				//
+				//                  OR
+				//
+				//     |                           |
+				//     |                           |
+				//     + - - - - - - - - - Editor -+
+				// +------------------------ Viewport -+ \
+				// |                                   |  |-> floatSpacePinnedOffsetY
+				// | ................................. | /
+				// |   +------ Space -+                |
+				// |   |              |                |
+				// |   +--------------+                |
+				//
+				else if ( spaceHeight + pinnedOffsetY <= editorRect.bottom || editorRect.bottom - dockedOffsetY <= 0  )
 					changeMode( 'pin' );
-				else if ( mode == 'pin' ) {
-					// Restore into docked top from pin.
-					if ( editorRect.top > dockedOffsetY + spaceHeight )
-						changeMode( 'top' );
-					// Docked the space below editable when page scrolls down and the space masks
-					// the final few lines of the content.
-					else if ( editorRect.bottom - spaceRect.bottom < spaceHeight )
-						changeMode( 'bottom' );
-				} else if ( mode == 'bottom' ) {
-					// Jump to top mode. ( with pin mode skipped)
-					if ( editorRect.top > dockedOffsetY + spaceHeight )
-						changeMode( 'top' );
-					// Restore into pin mode from docked bottom.
-					else if ( editorRect.bottom > 2 * spaceHeight + pinnedOffsetY )
-						changeMode( 'pin' );
-				}
+
+				//     +- - - - - - - - -  Editor -+
+				//     |                           |
+				// +------------------------ Viewport -+ \
+				// |   |                           |   |  |-> floatSpacePinnedOffsetY
+				// | ................................. | /
+				// |   |                           |   |
+				// |   +---------------------------+   |
+				// |   +------ Space -+                |
+				// |   |              |                |
+				// |   +--------------+                |
+				//
+				else
+					changeMode( 'bottom' );
 
 				var viewRect = win.getViewPaneSize();
 				var mid = viewRect.width / 2;
@@ -269,12 +303,14 @@
 
 			editor.on( 'focus', function( evt ) {
 				layout( evt );
+				editor.on( 'change', layout );
 				win.on( 'scroll', layout );
 				win.on( 'resize', layout );
 			});
 
 			editor.on( 'blur', function() {
 				floatSpace.hide();
+				editor.removeListener( 'change', layout );
 				win.removeListener( 'scroll', layout );
 				win.removeListener( 'resize', layout );
 			});
