@@ -683,9 +683,6 @@
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
 				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
-
-				// Fill nested editable with bogus, so it is visible when empty.
-				!CKEDITOR.env.ie && editable.appendBogus();
 			}
 		},
 
