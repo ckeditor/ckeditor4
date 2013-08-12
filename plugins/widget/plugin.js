@@ -366,12 +366,12 @@
 
 				// Do not wrap already wrapped element.
 				wrapper = element.getParent();
-				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'widget-wrapper' ) )
+				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.data( 'cke-widget-wrapper' ) )
 					return wrapper;
 
 				// If attribute isn't already set (e.g. for pasted widget), set it.
-				if ( !element.hasAttribute( 'data-widget-keep-attr' ) )
-					element.data( 'widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
+				if ( !element.hasAttribute( 'data-cke-widget-keep-attr' ) )
+					element.data( 'cke-widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
 				if ( widgetName )
 					element.data( 'widget', widgetName );
 
@@ -389,12 +389,12 @@
 					return null;
 
 				wrapper = element.parent;
-				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-widget-wrapper' ] )
+				if ( wrapper && wrapper.type == CKEDITOR.NODE_ELEMENT && wrapper.attributes[ 'data-cke-widget-wrapper' ] )
 					return wrapper;
 
 				// If attribute isn't already set (e.g. for pasted widget), set it.
-				if ( !( 'data-widget-keep-attr' in element.attributes ) )
-					element.attributes[ 'data-widget-keep-attr' ] = element.attributes[ 'data-widget' ] ? 1 : 0;
+				if ( !( 'data-cke-widget-keep-attr' in element.attributes ) )
+					element.attributes[ 'data-cke-widget-keep-attr' ] = element.attributes[ 'data-widget' ] ? 1 : 0;
 				if ( widgetName )
 					element.attributes[ 'data-widget' ] = widgetName;
 
@@ -518,7 +518,7 @@
 
 		// Finally mark widget as inited and non-editable.
 		this.wrapper.setAttributes( {
-			'data-widget-wrapper-inited': 1,
+			'data-cke-widget-wrapper-inited': 1,
 			contenteditable: false
 		} );
 
@@ -552,9 +552,9 @@
 			}
 
 			if ( !offline ) {
-				if ( this.element.getAttribute( 'data-widget-keep-attr' ) == '0' )
+				if ( this.element.data( 'cke-widget-keep-attr' ) == '0' )
 					this.element.removeAttribute( 'data-widget' );
-				this.element.removeAttributes( [ 'data-widget-data', 'data-widget-keep-attr' ] );
+				this.element.removeAttributes( [ 'data-cke-widget-data', 'data-cke-widget-keep-attr' ] );
 				this.element.removeClass( 'cke_widget_element' );
 				this.element.replace( this.wrapper );
 			}
@@ -577,7 +577,7 @@
 
 			if ( !offline ) {
 				editable.removeClass( 'cke_widget_editable' );
-				editable.removeAttributes( [ 'contenteditable', 'data-widget-editable' ] );
+				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable' ] );
 			}
 
 			delete this.editables[ editableName ];
@@ -658,7 +658,7 @@
 
 				editable.setAttributes( {
 					contenteditable: 'true',
-					'data-widget-editable': editableName
+					'data-cke-widget-editable': editableName
 				} );
 				editable.addClass( 'cke_widget_editable' );
 				// This class may be left when d&ding widget which
@@ -679,7 +679,7 @@
 		 * @returns {Boolean}
 		 */
 		isInited: function() {
-			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-widget-wrapper-inited' ) );
+			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-cke-widget-wrapper-inited' ) );
 		},
 
 		/**
@@ -706,7 +706,7 @@
 		 *		this.data.align; // -> 'right'
 		 *		this.data.opened; // -> false
 		 *
-		 * Set values are stored in {@link #element}'s attribute (`data-widget-data`),
+		 * Set values are stored in {@link #element}'s attribute (`data-cke-widget-data`),
 		 * in JSON string, so therefore {@link #property-data} should contain
 		 * only serializable data.
 		 *
@@ -937,7 +937,7 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		var parent = el.parent;
-		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-widget-wrapper' ] )
+		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] )
 			parent.replaceWith( el );
 	}
 
@@ -1003,7 +1003,7 @@
 		if ( !node || node.equals( guard ) )
 			return null;
 
-		if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget-editable' ) )
+		if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' ) )
 			return node;
 
 		return getNestedEditable( guard, node.getParent() );
@@ -1013,7 +1013,7 @@
 		return {
 			// tabindex="-1" means that it can receive focus by code.
 			tabindex: -1,
-			'data-widget-wrapper': 1,
+			'data-cke-widget-wrapper': 1,
 			'data-cke-filter': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
@@ -1072,12 +1072,12 @@
 
 	// @param {CKEDITOR.htmlParser.element}
 	function isWidgetWrapper( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-widget-wrapper' ];
+		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-cke-widget-wrapper' ];
 	}
 
 	// @param {CKEDITOR.dom.element}
 	function isWidgetWrapper2( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget-wrapper' );
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
 	}
 
 	function moveSelectionToDropPosition( editor, dropEvt ) {
@@ -1171,7 +1171,7 @@
 			widget.focusedEditable = editableElement;
 			editableElement.addClass( 'cke_widget_editable_focused' );
 
-			var editableName = editableElement.data( 'widget-editable' ),
+			var editableName = editableElement.data( 'cke-widget-editable' ),
 				filter = createEditableFilter.call( widgetsRepo, widget.name, editableName,
 					widgetsRepo.registered[ widget.name ].editables[ editableName].allowedContent );
 
@@ -1247,7 +1247,7 @@
 		editor.on( 'loadSnapshot', function( evt ) {
 			// Primitive but sufficient check which will prevent from executing
 			// heavier cleanUpAllWidgetElements if not needed.
-			if ( ( /data-widget/ ).test( evt.data ) )
+			if ( ( /data-cke-widget/ ).test( evt.data ) )
 				snapshotLoaded = 1;
 
 			widgetsRepo.destroyAll( true );
@@ -1263,7 +1263,7 @@
 			evt.data.dataValue.forEach( function( element ) {
 				// Wrapper found - find widget element, add it to be
 				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
-				if ( 'data-widget-wrapper' in element.attributes ) {
+				if ( 'data-cke-widget-wrapper' in element.attributes ) {
 					element = element.getFirst( isWidgetElement );
 
 					if ( element )
@@ -1297,7 +1297,7 @@
 								element = upcasted;
 
 							// Set initial data attr with data from upcast method.
-							element.attributes[ 'data-widget-data' ] = JSON.stringify( data );
+							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
@@ -1325,8 +1325,8 @@
 					var attrs;
 
 					// Wrapper.
-					if ( 'data-widget-id' in element.attributes ) {
-						var widget = widgetsRepo.instances[ element.attributes[ 'data-widget-id' ] ];
+					if ( 'data-cke-widget-id' in element.attributes ) {
+						var widget = widgetsRepo.instances[ element.attributes[ 'data-cke-widget-id' ] ];
 
 						if ( widget ) {
 							var widgetElement = element.getFirst( isWidgetElement ),
@@ -1337,15 +1337,10 @@
 							if ( !retElement )
 								retElement = widgetElement;
 
-							// Clean up widget element's attributes.
+							// If widget did not have data-cke-widget attribute before upcasting remove it.
 							attrs = widgetElement.attributes;
-
-							delete attrs[ 'data-widget-data' ];
-
-							// If widget did not have data-widget attribute before upcasting remove it.
-							if ( attrs[ 'data-widget-keep-attr' ] != '1' )
+							if ( attrs[ 'data-cke-widget-keep-attr' ] != '1' )
 								delete attrs[ 'data-widget' ];
-							delete attrs[ 'data-widget-keep-attr' ];
 
 							return retElement;
 						}
@@ -1353,9 +1348,8 @@
 						return false;
 					}
 					// Nested editable.
-					else if ( 'data-widget-editable' in element.attributes ) {
+					else if ( 'data-cke-widget-editable' in element.attributes ) {
 						attrs = element.attributes;
-						delete attrs[ 'data-widget-editable' ];
 						delete attrs[ 'contenteditable' ];
 						element.removeClass( 'cke_widget_editable' );
 					}
@@ -1439,7 +1433,7 @@
 				mouseDownOnDragHandler = 0; // Reset.
 
 				// Ignore mousedown on drag and drop handler.
-				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-widget-drag-handler' ) ) {
+				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
 					mouseDownOnDragHandler = 1;
 					return;
 				}
@@ -1749,7 +1743,7 @@
 		img.setAttributes( {
 			draggable: 'true',
 			'class': 'cke_widget_drag_handler',
-			'data-widget-drag-handler': '1',
+			'data-cke-widget-drag-handler': '1',
 			src: transparentImageData,
 			width: DRAG_HANDLER_SIZE,
 			height: DRAG_HANDLER_SIZE
@@ -1858,7 +1852,7 @@
 	}
 
 	function setupWidgetData( widget, startupData ) {
-		var widgetDataAttr = widget.element.data( 'widget-data' );
+		var widgetDataAttr = widget.element.data( 'cke-widget-data' );
 
 		if ( widgetDataAttr )
 			widget.setData( JSON.parse( widgetDataAttr ) );
@@ -1878,11 +1872,11 @@
 	function setupWrapper( widget ) {
 		// Retrieve widget wrapper. Assign an id to it.
 		var wrapper = widget.wrapper = widget.element.getParent();
-		wrapper.setAttribute( 'data-widget-id', widget.id );
+		wrapper.setAttribute( 'data-cke-widget-id', widget.id );
 	}
 
 	function writeDataToElement( widget ) {
-		widget.element.data( 'widget-data', JSON.stringify( widget.data ) );
+		widget.element.data( 'cke-widget-data', JSON.stringify( widget.data ) );
 	}
 
 	//
