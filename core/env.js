@@ -181,11 +181,11 @@ if ( !CKEDITOR.env ) {
 			env.ie9Compat = version == 9;
 			env.ie8Compat = version == 8;
 			env.ie7Compat = version == 7;
-			env.ie6Compat = version < 7 || env.quirks;
+			env.ie6Compat = version < 7 || (env.quirks && version != 10);
 
 			/**
 			 * Indicates that CKEditor is running in an IE6-like environment, which
-			 * includes IE6 itself as well as IE7 and IE8 in Quirks Mode.
+			 * includes IE6 itself as well as IE7, IE8 and IE9 in Quirks Mode.
 			 *
 			 * @deprecated
 			 * @property {Boolean} ie6Compat
