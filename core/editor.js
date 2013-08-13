@@ -312,8 +312,10 @@
 
 	// ##### END: Config Privates
 
+	// Set config related properties.
 	function onConfigLoaded( editor ) {
-		// Set config related properties.
+		var config = editor.config;
+
 		/**
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 *
@@ -323,7 +325,7 @@
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
 		editor.readOnly = !!(
-			editor.config.readOnly || (
+			config.readOnly || (
 				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
 						editor.element.is( 'textarea' ) ?
 								editor.element.hasAttribute( 'disabled' )
@@ -359,12 +361,15 @@
 		 * @readonly
 		 * @property {Number} [=0]
 		 */
-		editor.tabIndex = editor.config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
+		editor.tabIndex = config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
+
+		editor.enterMode = editor._.defaultEnterMode = validateEnterMode( editor, config.enterMode );
+		editor.shiftEnterMode = editor._.defaultShiftEnterMode = validateEnterMode( editor, config.shiftEnterMode );
 
 		// Set CKEDITOR.skinName. Note that it is not possible to have
 		// different skins on the same page, so the last one to set it "wins".
-		if ( editor.config.skin )
-			CKEDITOR.skinName = editor.config.skin;
+		if ( config.skin )
+			CKEDITOR.skinName = config.skin;
 
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
@@ -633,6 +638,11 @@
 			return true;
 		}
 		return false;
+	}
+
+	// Always returns ENTER_BR in case of blockless editor.
+	function validateEnterMode( editor, enterMode ) {
+		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
@@ -1138,15 +1148,47 @@
 		 *		editor.setActiveFilter( filter );
 		 *
 		 * @since 4.3
-		 * @param {CKEDITOR.filter} filter Filter instance or `null` to reset to the default one.
+		 * @param {CKEDITOR.filter} filter Filter instance or a falsy value (e.g. `null`) to reset to the default one.
 		 */
 		setActiveFilter: function( filter ) {
-			if ( filter === null )
+			if ( !filter )
 				filter = this.filter;
 
 			if ( this.activeFilter !== filter ) {
 				this.activeFilter = filter;
 				this.fire( 'activeFilterChange' );
+			}
+		},
+
+		/**
+		 * Sets current enter modes ({@link #enterMode} and {@link #shiftEnterMode}). Fires {@link @enterModeChange} event.
+		 *
+		 * Prior to CKEditor 4.3 enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
+		 * and {@link CKEDITOR.config#shiftEnterMode}. Since 4.3 these options are sources of initial
+		 * {@link #enterMode} and {@link #shiftEnterMode} values. Thanks to this method it's possible to change
+		 * enter modes during runtime.
+		 *
+		 * **Note:** Since CKEditor 4.3 you should check {@link #enterMode} and {@link #shiftEnterMode} instead of
+		 * {@link CKEDITOR.config#enterMode} and {@link CKEDITOR.config#shiftEnterMode}.
+		 *
+		 * **Note:** In case of blockless editor (inline editor based on element which cannot contain block elements
+		 * &ndash; see {@link CKEDITOR.editor#blockless}) only {@link CKEDITOR#ENTER_BR} is a valid enter mode. Therefore
+		 * this method will not allow to set other values.
+		 *
+		 * @since 4.3
+		 * @param {Number} enterMode One of {@link CKEDITOR#ENTER_P}, {@link CKEDITOR#ENTER_DIV}, {@link CKEDITOR#ENTER_BR}.
+		 * Pass falsy value (e.g. `null`) to reset enter mode to default value.
+		 * @param {Number} shiftEnterMode See `enterMode` argument.
+		 */
+		setEnterMode: function( enterMode, shiftEnterMode ) {
+			// Validate passed modes or use default ones (validated on init).
+			enterMode = enterMode ? validateEnterMode( this, enterMode ) : this._.defaultEnterMode;
+			shiftEnterMode = shiftEnterMode ? validateEnterMode( this, shiftEnterMode ) : this._.defaultShiftEnterMode;
+
+			if ( this.enterMode != enterMode || this.shiftEnterMode != shiftEnterMode ) {
+				this.enterMode = enterMode;
+				this.shiftEnterMode = shiftEnterMode;
+				this.fire( 'enterModeChange' );
 			}
 		}
 	});
