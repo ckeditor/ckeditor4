@@ -14,11 +14,80 @@
 	 */
 	CKEDITOR.lang = {
 		/**
-		 * The list of languages available in the editor core.
+		 * The list of languages available in the editor core with the language reading direction.
 		 *
-		 *		alert( CKEDITOR.lang.en ); // 1
+		 * Possible values are "rtl" for Right-To-Left languages (like Arabic) and
+		 * "ltr" for Left-To-Right languages (like English).
+		 *
+		 *		alert( CKEDITOR.lang.en ); // 'ltr'
 		 */
-		languages: { 'af':1,'ar':1,'bg':1,'bn':1,'bs':1,'ca':1,'cs':1,'cy':1,'da':1,'de':1,'el':1,'en-au':1,'en-ca':1,'en-gb':1,'en':1,'eo':1,'es':1,'et':1,'eu':1,'fa':1,'fi':1,'fo':1,'fr-ca':1,'fr':1,'gl':1,'gu':1,'he':1,'hi':1,'hr':1,'hu':1,'id':1,'is':1,'it':1,'ja':1,'ka':1,'km':1,'ko':1,'ku':1,'lt':1,'lv':1,'mk':1,'mn':1,'ms':1,'nb':1,'nl':1,'no':1,'pl':1,'pt-br':1,'pt':1,'ro':1,'ru':1,'si':1,'sk':1,'sl':1,'sq':1,'sr-latn':1,'sr':1,'sv':1,'th':1,'tr':1,'ug':1,'uk':1,'vi':1,'zh-cn':1,'zh':1 },
+		languages: {
+			'af': 'ltr',
+			'ar': 'rtl',
+			'bg': 'ltr',
+			'bn': 'ltr',
+			'bs': 'ltr',
+			'ca': 'ltr',
+			'cs': 'ltr',
+			'cy': 'ltr',
+			'da': 'ltr',
+			'de': 'ltr',
+			'el': 'ltr',
+			'en-au': 'ltr',
+			'en-ca': 'ltr',
+			'en-gb': 'ltr',
+			'en': 'ltr',
+			'eo': 'ltr',
+			'es': 'ltr',
+			'et': 'ltr',
+			'eu': 'ltr',
+			'fa': 'rtl',
+			'fi': 'ltr',
+			'fo': 'ltr',
+			'fr-ca': 'ltr',
+			'fr': 'ltr',
+			'gl': 'ltr',
+			'gu': 'ltr',
+			'he': 'rtl',
+			'hi': 'ltr',
+			'hr': 'ltr',
+			'hu': 'ltr',
+			'id': 'ltr',
+			'is': 'ltr',
+			'it': 'ltr',
+			'ja': 'ltr',
+			'ka': 'ltr',
+			'km': 'ltr',
+			'ko': 'ltr',
+			'ku': 'rtl',
+			'lt': 'ltr',
+			'lv': 'ltr',
+			'mk': 'ltr',
+			'mn': 'ltr',
+			'ms': 'ltr',
+			'nb': 'ltr',
+			'nl': 'ltr',
+			'no': 'ltr',
+			'pl': 'ltr',
+			'pt-br': 'ltr',
+			'pt': 'ltr',
+			'ro': 'ltr',
+			'ru': 'ltr',
+			'si': 'ltr',
+			'sk': 'ltr',
+			'sl': 'ltr',
+			'sq': 'ltr',
+			'sr-latn': 'ltr',
+			'sr': 'ltr',
+			'sv': 'ltr',
+			'th': 'ltr',
+			'tr': 'ltr',
+			'ug': 'rtl',
+			'uk': 'ltr',
+			'vi': 'ltr',
+			'zh-cn': 'ltr',
+			'zh': 'ltr'
+		},
 
 		/**
 		 * Loads a specific language file, or auto detect it. A callback is
@@ -41,6 +110,7 @@
 
 			if ( !this[ languageCode ] ) {
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), function() {
+					this[ languageCode ].dir = CKEDITOR.lang.languages[ languageCode ];
 					callback( languageCode, this[ languageCode ] );
 				}, this );
 			} else
