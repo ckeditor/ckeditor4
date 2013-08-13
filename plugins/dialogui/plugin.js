@@ -481,6 +481,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, outerDefinition, htmlList, 'a', null, {
 					style: elementDefinition.style,
 					href: 'javascript:void(0)',
+					onClick: 'return false', // #9958
 					title: elementDefinition.label,
 					hidefocus: 'true',
 					'class': elementDefinition[ 'class' ],
