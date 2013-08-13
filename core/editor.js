@@ -677,8 +677,12 @@
 
 						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
 						// it was cancelled, prevent submitting the form.
-						if ( evt && editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
+						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
+							// When user press save button event (evt) is undefined (see save plugin).
+							// This method works because it throws error so originalSubmit won't be called.
+							// Also because of hack there is try-cache in save plugin so error won't be shown.
 							evt.data.preventDefault();
+						}
 					}
 					form.on( 'submit', onSubmit );
 
