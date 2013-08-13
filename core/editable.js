@@ -184,7 +184,7 @@
 				beforeInsert( this );
 
 				var editor = this.editor,
-					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.config.enterMode,
+					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.enterMode,
 					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
 					tools = CKEDITOR.tools;
 
@@ -234,7 +234,7 @@
 				beforeInsert( this );
 
 				var editor = this.editor,
-					enterMode = editor.config.enterMode,
+					enterMode = editor.enterMode,
 					selection = editor.getSelection(),
 					ranges = selection.getRanges(),
 					elementName = element.getName(),
@@ -759,7 +759,7 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.config.enterMode;
+			enterMode = editor.enterMode;
 
 		if ( CKEDITOR.env.gecko ) {
 			// v3: check if this is needed.
@@ -801,7 +801,7 @@
 			if ( !walker.checkForward() ||
 			     testRng.checkStartOfBlock() && testRng.checkEndOfBlock() ) {
 
-				var fixedBlock = range.fixBlock( true, editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+				var fixedBlock = range.fixBlock( true, editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 				// For IE, we should remove any filler node which was introduced before.
 				if ( CKEDITOR.env.ie ) {
@@ -1259,7 +1259,7 @@
 				path = range.startPath();
 
 				// Auto paragraphing.
-				if ( !nodeData.isBlock && ( fixBlock = autoParagraphTag( that.editor.config ) ) && !path.block && path.blockLimit && path.blockLimit.equals( range.root ) ) {
+				if ( !nodeData.isBlock && ( fixBlock = autoParagraphTag( that.editor ) ) && !path.block && path.blockLimit && path.blockLimit.equals( range.root ) ) {
 					fixBlock = doc.createElement( fixBlock );
 					!CKEDITOR.env.ie && fixBlock.appendBogus();
 					range.insertNode( fixBlock );
@@ -1412,8 +1412,8 @@
 		// HELPERS ------------------------------------------------------------
 		//
 
-		function autoParagraphTag( config ) {
-			return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+		function autoParagraphTag( editor ) {
+			return ( editor.enterMode != CKEDITOR.ENTER_BR && editor.config.autoParagraph !== false ) ? editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 		}
 
 		function checkIfElement( node ) {
