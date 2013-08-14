@@ -860,7 +860,7 @@
 			if ( selected ) {
 				walkerRng = range.clone();
 				walkerRng.collapse();
-				walkerRng.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
+				walkerRng.setEndAt( selected, CKEDITOR.POSITION_AFTER_END );
 				walker = new CKEDITOR.dom.walker( walkerRng );
 				walker.guard = guard( walker, 1 );
 				selected = 0;
