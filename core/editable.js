@@ -783,10 +783,7 @@
 
 		// When we're in block enter mode, a new paragraph will be established
 		// to encapsulate inline contents inside editable. (#3657)
-		if ( editor.config.autoParagraph !== false &&
-		     enterMode != CKEDITOR.ENTER_BR && range.collapsed &&
-		     editable.equals( blockLimit ) && !path.block ) {
-
+		if ( shouldAutoParagraph( editor, path.block, blockLimit ) && range.collapsed ) {
 			var testRng = range.clone();
 			testRng.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 			var walker = new CKEDITOR.dom.walker( testRng );
@@ -930,6 +927,13 @@
 		return null;
 	}
 
+	// Whether in given context (pathBlock, pathBlockLimit and editor settings)
+	// editor should automatically wrap inline contents with blocks.
+	function shouldAutoParagraph( editor, pathBlock, pathBlockLimit ) {
+		return editor.config.autoParagraph !== false &&
+			editor.enterMode != CKEDITOR.ENTER_BR &&
+			editor.editable().equals( pathBlockLimit ) && !pathBlock;
+	}
 
 	// Matching an empty paragraph at the end of document.
 	var emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
@@ -1259,7 +1263,7 @@
 				path = range.startPath();
 
 				// Auto paragraphing.
-				if ( !nodeData.isBlock && ( fixBlock = autoParagraphTag( that.editor ) ) && !path.block && path.blockLimit && path.blockLimit.equals( range.root ) ) {
+				if ( !nodeData.isBlock && shouldAutoParagraph( that.editor, path.block, path.blockLimit ) && ( fixBlock = autoParagraphTag( that.editor ) ) ) {
 					fixBlock = doc.createElement( fixBlock );
 					!CKEDITOR.env.ie && fixBlock.appendBogus();
 					range.insertNode( fixBlock );
