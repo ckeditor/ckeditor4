@@ -80,7 +80,7 @@
 					return;
 
 				// Show up the space on focus gain.
-				evt.name == 'focus' && floatSpace.show();
+				evt && evt.name == 'focus' && floatSpace.show();
 
 				// Reset the horizontal position for below measurement.
 				floatSpace.removeStyle( 'left' );
@@ -286,10 +286,14 @@
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
 		if ( topHtml ) {
 			var floatSpace = body.append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( CKEDITOR.tools.extend({
-				topId: editor.ui.spaceId( 'top' ),
-				content: topHtml,
-				style: 'display:none;z-index:' + ( editor.config.baseFloatZIndex - 1 )
-			}, vars ) ) ) );
+					topId: editor.ui.spaceId( 'top' ),
+					content: topHtml,
+					style: 'display:none;z-index:' + ( editor.config.baseFloatZIndex - 1 )
+				}, vars ) ) ) ),
+
+				// Use event buffers to reduce CPU load when tons of events are fired.
+				changeBuffer = CKEDITOR.tools.eventsBuffer( 500, layout ),
+				uiBuffer = CKEDITOR.tools.eventsBuffer( 100, layout );
 
 			// There's no need for the floatSpace to be selectable.
 			floatSpace.unselectable();
@@ -303,21 +307,21 @@
 
 			editor.on( 'focus', function( evt ) {
 				layout( evt );
-				editor.on( 'change', layout );
-				win.on( 'scroll', layout );
-				win.on( 'resize', layout );
+				editor.on( 'change', changeBuffer.input );
+				win.on( 'scroll', uiBuffer.input );
+				win.on( 'resize', uiBuffer.input );
 			});
 
 			editor.on( 'blur', function() {
 				floatSpace.hide();
-				editor.removeListener( 'change', layout );
-				win.removeListener( 'scroll', layout );
-				win.removeListener( 'resize', layout );
+				editor.removeListener( 'change', changeBuffer.input );
+				win.removeListener( 'scroll', uiBuffer.input );
+				win.removeListener( 'resize', uiBuffer.input );
 			});
 
 			editor.on( 'destroy', function() {
-				win.removeListener( 'scroll', layout );
-				win.removeListener( 'resize', layout );
+				win.removeListener( 'scroll', uiBuffer.input );
+				win.removeListener( 'resize', uiBuffer.input );
 				floatSpace.clearCustomData();
 				floatSpace.remove();
 			});
