@@ -1012,6 +1012,68 @@
 			}
 
 			return !!domain;
+		},
+
+		/**
+		 * Buffers `input` events (or just normal calls)
+		 * and triggers `output` not more often than `minInterval`.
+		 *
+		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *			console.log( 'foo!' );
+		 *		} );
+		 *
+		 *		buffer.input();
+		 *		// 'foo!' logged immediately
+		 *		buffer.input();
+		 *		// nothing logged
+		 *		buffer.input();
+		 *		// nothing logged
+		 *		// ... after 200ms single 'foo!' will be logged
+		 *
+		 * Can be easily used with event:
+		 *
+		 *		var buffer = CKEDITOR.tools.eventsBuffer( 200, function() {
+		 *			console.log( 'foo!' );
+		 *		} );
+		 *
+		 *		editor.on( 'key', buffer.input );
+		 *		// Note: there's no need to bind buffer as a context.
+		 *
+		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
+		 * @param {Function} output Function that will be executed as `output`.
+		 */
+		eventsBuffer: function( minInterval, output ) {
+			var scheduled,
+				lastOutput = 0;
+
+			function triggerOutput() {
+				lastOutput = ( new Date() ).getTime();
+				scheduled = false;
+				output();
+			}
+
+			return {
+				input: function() {
+					if ( scheduled )
+						return;
+
+					var diff = ( new Date() ).getTime() - lastOutput;
+
+					// If less than minInterval passed after last check,
+					// schedule next for minInterval after previous one.
+					if ( diff < minInterval )
+						scheduled = setTimeout( triggerOutput, minInterval - diff );
+					else
+						triggerOutput();
+				},
+
+				reset: function() {
+					if ( scheduled )
+						clearTimeout( scheduled );
+
+					scheduled = lastOutput = 0;
+				}
+			};
 		}
 	};
 })();
