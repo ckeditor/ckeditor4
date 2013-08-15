@@ -289,7 +289,10 @@
 					// optimized. (#3100,#5436,#8950)
 					if ( isBlock ) {
 
-						var next = lastElement.getNext( isNotEmpty );
+						// Find next, meaningful element.
+						var next = lastElement.getNext( function( node ) {
+							return isNotEmpty( node ) && !isBogus( node );
+						} );
 
 						if ( next && next.type == CKEDITOR.NODE_ELEMENT &&
 						     next.is( CKEDITOR.dtd.$block ) ) {
@@ -849,6 +852,8 @@
 		};
 	}
 
+	var isBogus = CKEDITOR.dom.walker.bogus();
+
 	// Check if the entire table/list contents is selected.
 	function getSelectedTableList( sel ) {
 		var selected,
@@ -856,8 +861,6 @@
 			editable = sel.root,
 			path = range.startPath(),
 			structural = { table:1,ul:1,ol:1,dl:1 };
-
-		var isBogus = CKEDITOR.dom.walker.bogus();
 
 		if ( path.contains( structural ) ) {
 			function guard( forwardGuard ) {
