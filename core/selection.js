@@ -1551,24 +1551,25 @@
 			var self = this;
 
 			var node = CKEDITOR.tools.tryThese(
-			// Is it native IE control type selection?
-			function() {
-				return self.getNative().createRange().item( 0 );
-			},
-			// Figure it out by checking if there's a single enclosed
-			// node of the range.
-			function() {
-				var range = self.getRanges()[ 0 ],
-					enclosed, selected;
+				// Is it native IE control type selection?
+				function() {
+					return self.getNative().createRange().item( 0 );
+				},
+				// Figure it out by checking if there's a single enclosed
+				// node of the range.
+				function() {
+					var range = self.getRanges()[ 0 ],
+						enclosed, selected;
 
-				// Check first any enclosed element, e.g. <ul>[<li><a href="#">item</a></li>]</ul>
-				for ( var i = 2; i && !( ( enclosed = range.getEnclosedNode() ) && ( enclosed.type == CKEDITOR.NODE_ELEMENT ) && styleObjectElements[ enclosed.getName() ] && ( selected = enclosed ) ); i-- ) {
-					// Then check any deep wrapped element, e.g. [<b><i><img /></i></b>]
-					range.shrink( CKEDITOR.SHRINK_ELEMENT );
+					// Check first any enclosed element, e.g. <ul>[<li><a href="#">item</a></li>]</ul>
+					for ( var i = 2; i && !( ( enclosed = range.getEnclosedNode() ) && ( enclosed.type == CKEDITOR.NODE_ELEMENT ) && styleObjectElements[ enclosed.getName() ] && ( selected = enclosed ) ); i-- ) {
+						// Then check any deep wrapped element, e.g. [<b><i><img /></i></b>]
+						range.shrink( CKEDITOR.SHRINK_ELEMENT );
+					}
+
+					return selected && selected.$;
 				}
-
-				return selected.$;
-			});
+			);
 
 			return cache.selectedElement = ( node ? new CKEDITOR.dom.element( node ) : null );
 		},
