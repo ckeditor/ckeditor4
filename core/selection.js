@@ -1558,7 +1558,7 @@
 				// Figure it out by checking if there's a single enclosed
 				// node of the range.
 				function() {
-					var range = self.getRanges()[ 0 ],
+					var range = self.getRanges()[ 0 ].clone(),
 						enclosed, selected;
 
 					// Check first any enclosed element, e.g. <ul>[<li><a href="#">item</a></li>]</ul>
