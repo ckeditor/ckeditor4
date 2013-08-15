@@ -1130,11 +1130,12 @@
 
 			// Rule 4.
 			// Move range into the previous block.
-			while ( ( previous = getRangePrevious( range ) ) && checkIfElement( previous ) && previous.isBlockBoundary() &&
-			// Check if previousNode was parent of range's startContainer before deleteContents.
-			startPath.contains( previous ) ) {
+			while (
+				( previous = getRangePrevious( range ) ) && checkIfElement( previous ) && previous.isBlockBoundary() &&
+				// Check if previousNode was parent of range's startContainer before deleteContents.
+				startPath.contains( previous )
+			)
 				range.moveToPosition( previous, CKEDITOR.POSITION_BEFORE_END );
-			}
 
 			// Rule 5.
 			mergeAncestorElementsOfSelectionEnds( range, that.blockLimit, startPath, endPath );
@@ -1371,9 +1372,8 @@
 
 			if ( bogusNeededBlocks ) {
 				// Bring back all block bogus nodes.
-				while ( ( node = bogusNeededBlocks.pop() ) ) {
+				while ( ( node = bogusNeededBlocks.pop() ) )
 					node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
-				}
 			}
 
 			// Eventually merge identical inline elements.
@@ -1471,7 +1471,7 @@
 					if ( !allowed )
 						lastNotAllowed = nodeIndex;
 
-					nodesData.push({
+					nodesData.push( {
 						isElement: 1,
 						isLineBreak: lineBreak,
 						isBlock: node.isBlockBoundary(),
@@ -1479,7 +1479,7 @@
 						node: node,
 						name: nodeName,
 						allowed: allowed
-					});
+					} );
 
 					lineBreak = 0;
 					blockSibling = 0;
@@ -1582,16 +1582,16 @@
 			walkerRange.setEndAt( blockLimit, CKEDITOR.POSITION_BEFORE_END );
 			walker = new CKEDITOR.dom.walker( walkerRange );
 
-			if ( ( nextNode = walker.next() ) // Find next source node
-			&& checkIfElement( nextNode ) // which is an element
-			&& blockMergedTags[ nextNode.getName() ] // that can be merged.
-			&& ( previousNode = nextNode.getPrevious() ) // Take previous one
-			&& checkIfElement( previousNode ) // which also has to be an element.
-			&& !previousNode.getParent().equals( range.startContainer ) // Fail if caret is on the same level.
-			// This means that caret is between these nodes.
-			&& startPath.contains( previousNode ) // Elements path of start of selection has
-			&& endPath.contains( nextNode ) // to contain prevNode and vice versa.
-			&& nextNode.isIdentical( previousNode ) ) // Check if elements are identical.
+			if ( ( nextNode = walker.next() )							// Find next source node
+				&& checkIfElement( nextNode )							// which is an element
+				&& blockMergedTags[ nextNode.getName() ]				// that can be merged.
+				&& ( previousNode = nextNode.getPrevious() )			// Take previous one
+				&& checkIfElement( previousNode )						// which also has to be an element.
+				&& !previousNode.getParent().equals( range.startContainer ) // Fail if caret is on the same level.
+																		// This means that caret is between these nodes.
+				&& startPath.contains( previousNode )					// Elements path of start of selection has
+				&& endPath.contains( nextNode )							// to contain prevNode and vice versa.
+				&& nextNode.isIdentical( previousNode ) )				// Check if elements are identical.
 			{
 				// Merge blocks and repeat.
 				nextNode.moveChildren( previousNode );
@@ -1607,9 +1607,9 @@
 			var succeedingNode = range.endContainer.getChild( range.endOffset ),
 				precedingNode = range.endContainer.getChild( range.endOffset - 1 );
 
-			if ( succeedingNode ) {
+			if ( succeedingNode )
 				remove( succeedingNode, nodesData[ nodesData.length - 1 ] );
-			}
+
 			if ( precedingNode && remove( precedingNode, nodesData[ 0 ] ) ) {
 				// If preceding <br> was removed - move range left.
 				range.setEnd( range.endContainer, range.endOffset - 1 );
@@ -1655,9 +1655,9 @@
 		function stripBlockTagIfSingleLine( dataWrapper ) {
 			var block, children;
 
-			if ( dataWrapper.getChildCount() == 1 && // Only one node bein inserted.
-			checkIfElement( block = dataWrapper.getFirst() ) && // And it's an element.
-			block.is( stripSingleBlockTags ) ) // That's <p> or <div> or header.
+			if ( dataWrapper.getChildCount() == 1 &&					// Only one node bein inserted.
+				checkIfElement( block = dataWrapper.getFirst() ) &&		// And it's an element.
+				block.is( stripSingleBlockTags ) )						// That's <p> or <div> or header.
 			{
 				// Check children not containing block.
 				children = block.getElementsByTag( '*' );
