@@ -645,15 +645,18 @@
 		/**
 		 * Initializes nested editable.
 		 *
+		 * **Note**: only elements from {@link CKEDITOR.dtd#$editable} may become editables.
+		 *
 		 * @param {String} editableName The nested editable name.
 		 * @param {String} selector CSS selector used to find editable element inside widget wrapper.
 		 * @param {CKEDITOR.filter.allowedContentRules} [filterRules] Allowed Content Rules
 		 * which will be used to restrict content and features allowed in nested editable.
+		 * @returns {Boolean} Whether editable was successfully initialized.
 		 */
 		initEditable: function( editableName, selector, filterRules ) {
 			var editable = this.wrapper.findOne( selector );
 
-			if ( editable ) {
+			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
 				this.editables[ editableName ] = editable;
 
 				editable.setAttributes( {
@@ -669,7 +672,11 @@
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
 				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
+
+				return true;
 			}
+
+			return false;
 		},
 
 		/**
@@ -1759,14 +1766,14 @@
 	}
 
 	function setupEditables( widget ) {
-		if ( !widget.editables )
-			return;
-
 		var editableName,
 			editableCfg,
 			definedEditables = widget.editables;
 
 		widget.editables = {};
+
+		if ( !widget.editables )
+			return;
 
 		for ( editableName in definedEditables ) {
 			editableCfg = definedEditables[ editableName ];

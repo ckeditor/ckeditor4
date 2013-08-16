@@ -233,7 +233,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of elements that are accepted as inline editing hosts.
 		 */
-		$editable: { address:1,article:1,aside:1,blockquote:1,body:1,details:1,div:1,fieldset:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,nav:1,p:1,pre:1,section:1 },
+		$editable: { address:1,article:1,aside:1,blockquote:1,body:1,details:1,div:1,fieldset:1,figcaption:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,nav:1,p:1,pre:1,section:1 },
 
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
