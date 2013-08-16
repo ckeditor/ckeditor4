@@ -159,6 +159,10 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			var element = this,
 				originalName, name;
 
+			// Do not process elements with data-cke-processor attribute set to off.
+			if ( element.attributes[ 'data-cke-processor' ] == 'off' )
+				return true;
+
 			// Filtering if it's the root node.
 			if ( !element.parent )
 				filter.onRoot( element );
