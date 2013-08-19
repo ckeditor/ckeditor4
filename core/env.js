@@ -181,7 +181,7 @@ if ( !CKEDITOR.env ) {
 			env.ie9Compat = version == 9;
 			env.ie8Compat = version == 8;
 			env.ie7Compat = version == 7;
-			env.ie6Compat = version < 7 || (env.quirks && version != 10);
+			env.ie6Compat = version < 7 || (env.quirks && version < 10);
 
 			/**
 			 * Indicates that CKEditor is running in an IE6-like environment, which
