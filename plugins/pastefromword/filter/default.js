@@ -371,6 +371,8 @@
 						element.children = [];
 						for ( var j = 0, num = children.length; j < num; j++ )
 							element.add( children[ j ] );
+
+						children = element.children;
 					}
 				}
 
