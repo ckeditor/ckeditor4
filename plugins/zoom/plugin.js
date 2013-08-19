@@ -87,7 +87,7 @@ CKEDITOR.plugins.add( 'zoom',
 				}	
 				this.setValue(CKEDITOR.config.zoom,CKEDITOR.config.zoom+' %' );
 				this.lastValue=value;
-				editor.fire('selectionChange');
+				//editor.fire('selectionChange');
 			},
 			onClick : function( value )
 			{

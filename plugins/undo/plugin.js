@@ -578,7 +578,11 @@
 		 * @since 4.0
 		 */
 		lock: function() {
-			if ( !this.locked ) {
+		// Increase the level of lock.
+			if (this.locked)
+				this.locked.level++;
+
+			else {
 				var imageBefore = new Image( this.editor );
 
 				// If current editor content matches the tip of snapshot stack,
@@ -588,9 +592,7 @@
 
 				this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
 			}
-			// Increase the level of lock.
-			else
-				this.locked.level++;
+			
 		},
 
 		/**

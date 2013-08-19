@@ -351,7 +351,8 @@
 								[ editor.lang.common.notSet, '' ],
 								[ editor.lang.common.alignLeft, 'left' ],
 								[ editor.lang.common.alignCenter, 'center' ],
-								[ editor.lang.common.alignRight, 'right' ]
+								[ editor.lang.common.alignRight, 'right' ],
+								[ 'Recuo','recuo']
 								],
 							setup: function( selectedTable ) {
 									var dir=selectedTable.getStyle('margin-right');

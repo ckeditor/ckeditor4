@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'find', 'pt-br', {
 	findOptions: 'Opções',
 	findWhat: 'Procurar por:',
 	matchCase: 'Coincidir Maiúsculas/Minúsculas',
-	matchCyclic: 'Coincidir cíclico',
+	matchCyclic: 'Todo o texto',
 	matchWord: 'Coincidir a palavra inteira',
 	notFoundMsg: 'O texto especificado não foi encontrado.',
 	replace: 'Substituir',

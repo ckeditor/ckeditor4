@@ -3,5 +3,5 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'showblocks', 'pt-br', {
-	toolbar: 'Mostrar blocos de código'
+	toolbar: 'Exibir/Ocultar'
 });

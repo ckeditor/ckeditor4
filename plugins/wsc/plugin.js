@@ -6,6 +6,7 @@
 /**
  * @fileOverview Spell checker.
  */
+CKEDITOR.config.wsc_removeGlobalVariable = true;
 
 // Register a plugin named "wsc".
 CKEDITOR.plugins.add( 'wsc', {
@@ -21,7 +22,7 @@ CKEDITOR.plugins.add( 'wsc', {
 	},
 	init: function( editor ) {
 		var commandName = 'checkspell';
-
+		
 		var strNormalDialog = 'dialogs/wsc.js',
 			strIeDialog = 'dialogs/wsc_ie.js',
 			strDialog;
