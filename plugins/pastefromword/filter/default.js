@@ -962,8 +962,8 @@
 					// Remove full paths from links to anchors.
 					a: function( element ) {
 						var attrs = element.attributes;
-						if ( CKEDITOR.env.webkit && attrs.href && attrs.href.match( /file:\/\/\/[\S]+#/i ) )
-							attrs.href = attrs.href.replace( /file:\/\/\/[^#]+/i, '' );
+						if ( attrs.href && attrs.href.match( /^file:\/\/\/[\S]+#/i ) )
+							attrs.href = attrs.href.replace( /^file:\/\/\/[^#]+/i, '' );
 					},
 
 					'cke:listbullet': function( element ) {
