@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -595,9 +595,19 @@ CKEDITOR.dom.range = function( root ) {
 				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
 					child = startContainer.getChild( startOffset );
 
+					// If cursor is after last child startOffset will be equal
+					// number of children and getChild( startOffset ) will return null.
+					if ( !child && startContainer.getChildCount() == startOffset ) {
+						child = startContainer.getChild( startOffset - 1 );
+
+						if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious() && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+							startContainer = child;
+							startOffset = child.getLength();
+						}
+					}
 					// In this case, move the start information to that text
 					// node.
-					if ( child && child.type == CKEDITOR.NODE_TEXT && startOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+					else if ( child && child.type == CKEDITOR.NODE_TEXT && startOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
 						startContainer = child;
 						startOffset = 0;
 					}
