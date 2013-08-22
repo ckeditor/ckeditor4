@@ -125,8 +125,6 @@
 			widgetDef.repository = this;
 			widgetDef.definition = widgetDef;
 
-			// Clone config too.
-			widgetDef.config = CKEDITOR.tools.prototypedCopy( widgetDef.config );
 			widgetDef._ = widgetDef._ || {};
 
 			this.editor.fire( 'widgetDefinition', widgetDef );
@@ -495,8 +493,8 @@
 
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
-				// Cache choosen fn.
-				downcastFn: widgetDef.downcast || widgetDef.config.downcast && widgetDef.downcasts[ widgetDef.config.downcast ]
+				downcastFn: ( widgetDef.downcast && typeof widgetDef.downcast == 'string' ) ?
+					widgetDef.downcasts[ widgetDef.downcast ] : widgetDef.downcast
 			}
 		}, true );
 
@@ -909,20 +907,21 @@
 	}
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
-		// Single rule which is automatically activated.
-		if ( widgetDef.upcast )
-			return widgetsRepo._.upcasts.push( [ widgetDef.upcast, widgetDef.name ] );
+		var upcast = widgetDef.upcast,
+			upcasts;
 
-		var upcasts = widgetDef.config.upcasts;
-
-		if ( !upcasts )
+		if ( !upcast )
 			return;
 
-		// Multiple rules.
-		upcasts = upcasts.split( ',' );
-
-		while ( upcasts.length )
-			widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
+		// Multiple upcasts defined in string.
+		if ( typeof upcast == 'string' ) {
+			upcasts = upcast.split( ',' );
+			while ( upcasts.length )
+				widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
+		}
+		// Single rule which is automatically activated.
+		else
+			widgetsRepo._.upcasts.push( [ upcast, widgetDef.name ] );
 	}
 
 	function blurWidget( widgetsRepo, widget ) {

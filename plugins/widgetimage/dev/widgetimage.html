@@ -168,8 +168,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' ) {
-						evt.data.config.upcasts = 'captionedImage';
-						evt.data.config.downcast = 'captionedImage';
+						evt.data.upcast = 'captionedImage';
+						evt.data.downcast = 'captionedImage';
 						evt.data.allowedContent = 'img[data-caption,data-widget]';
 						evt.data.editables = {
 							caption: {
@@ -187,8 +187,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			on: {
 				widgetDefinition: function( evt ) {
 					if ( evt.data.name == 'image' ) {
-						evt.data.config.upcasts = 'image';
-						evt.data.config.downcast = 'captionedImage';
+						evt.data.upcast = 'image';
+						evt.data.downcast = 'captionedImage';
 						evt.data.allowedContent = 'img[data-caption,data-widget]';
 						evt.data.editables = {
 							caption: {
