@@ -687,6 +687,7 @@
 					form.on( 'submit', onSubmit );
 
 					function isFunction( f ) {
+						// For IE8 typeof fun == object so we cannot use it.
 						return !!( f && f.call && f.apply );
 					};
 
