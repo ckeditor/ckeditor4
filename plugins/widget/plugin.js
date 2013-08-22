@@ -355,11 +355,12 @@
 		 */
 		wrapElement: function( element, widgetName ) {
 			var wrapper = null,
-				widget;
+				widgetDef,
+				isInline;
 
 			if ( element instanceof CKEDITOR.dom.element ) {
-				widget = this.registered[ widgetName || element.data( 'widget' ) ];
-				if ( !widget )
+				widgetDef = this.registered[ widgetName || element.data( 'widget' ) ];
+				if ( !widgetDef )
 					return null;
 
 				// Do not wrap already wrapped element.
@@ -373,8 +374,10 @@
 				if ( widgetName )
 					element.data( 'widget', widgetName );
 
-				wrapper = new CKEDITOR.dom.element( widget.inline ? 'span' : 'div' );
-				wrapper.setAttributes( getWrapperAttributes( widget.inline ) );
+				isInline = isWidgetInline( widgetDef, element.getName() );
+
+				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
+				wrapper.setAttributes( getWrapperAttributes( isInline ) );
 
 				// Replace element unless it is a detached one.
 				if ( element.getParent( true ) )
@@ -382,8 +385,8 @@
 				element.appendTo( wrapper );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
-				widget = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
-				if ( !widget )
+				widgetDef = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+				if ( !widgetDef )
 					return null;
 
 				wrapper = element.parent;
@@ -396,7 +399,9 @@
 				if ( widgetName )
 					element.attributes[ 'data-widget' ] = widgetName;
 
-				wrapper = new CKEDITOR.htmlParser.element( widget.inline ? 'span' : 'div', getWrapperAttributes( widget.inline ) );
+				isInline = isWidgetInline( widgetDef, element.name );
+
+				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
 
 				var parent = element.parent,
 					index;
@@ -452,6 +457,8 @@
 			 * @property {Number}
 			 */
 			id: id,
+
+			inline: element.getParent().getName() == 'span',
 
 			/**
 			 * Widget's main element.
@@ -1074,6 +1081,11 @@
 	// @param {CKEDITOR.dom.element}
 	function isWidgetElement2( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
+	}
+
+	// Whether for this definition and element widget should be created in inline or block mode.
+	function isWidgetInline( widgetDef, elementName ) {
+		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
 	}
 
 	// @param {CKEDITOR.htmlParser.element}

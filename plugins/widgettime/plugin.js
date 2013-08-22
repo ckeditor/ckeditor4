@@ -26,9 +26,6 @@ CKEDITOR.plugins.add( 'widgettime', {
 	init: function( editor ) {
 		// Register the widget with a unique name "time".
 		editor.widgets.add( 'time', {
-			// This is an "inline" widget. It defaults to "block".
-			inline: true,
-
 			// We have a dialog to edit this widget, so here we set its name.
 			dialog: 'widgettime',
 
