@@ -85,7 +85,7 @@
 
 				return function( evt ) {
 					// #10112 Do not fail on editable-less editor.
-					if ( !editable && !( editable = editor.editable() ) )
+					if ( !( editable = editor.editable() ) )
 						return;
 
 					// Show up the space on focus gain.
