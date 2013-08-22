@@ -686,9 +686,15 @@
 					}
 					form.on( 'submit', onSubmit );
 
-					// Setup the submit function because it doesn't fire the
-					// "submit" event.
-					if ( !form.$.submit.nodeName ) {
+					function isFunction( f ) {
+						return !!( f && f.call && f.apply );
+					};
+
+					// Check if there is no element/elements <input name="submit">.
+					// If they are we can to nothing.
+					if ( isFunction( form.$.submit ) ) {
+						// Setup the submit function because it doesn't fire the
+						// "submit" event.
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
 							return function() {
 								onSubmit();
