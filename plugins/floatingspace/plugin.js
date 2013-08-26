@@ -50,7 +50,7 @@
 			layout = (function() {
 				// Mode indicates the vertical aligning mode.
 				var mode, editable,
-					spaceRect, editorRect, spaceHeight, pageScrollX,
+					spaceRect, editorRect, viewRect, spaceHeight, pageScrollX,
 
 					// Allow minor adjustments of the float space from custom configs.
 					dockedOffsetX = config.floatSpaceDockedOffsetX || 0,
@@ -102,6 +102,7 @@
 					// http://help.dottoro.com/ljgupwlp.php
 					spaceRect = floatSpace.getClientRect();
 					editorRect = editable.getClientRect();
+					viewRect = win.getViewPaneSize();
 					spaceHeight = spaceRect.height;
 					pageScrollX = scrollOffset( 'left' );
 
@@ -136,8 +137,10 @@
 					// |   |              |            |   |
 					// |   +--------------+            |   |
 					// |   |                           |   |
+					// |   +---------------------------+   |
+					// +-----------------------------------+
 					//
-					else if ( 2 * spaceHeight + pinnedOffsetY <= editorRect.bottom )
+					else if ( spaceHeight + dockedOffsetY > viewRect.height - editorRect.bottom )
 						changeMode( 'pin' );
 
 					//     +- - - - - - - - -  Editor -+
@@ -145,9 +148,9 @@
 					// +------------------------ Viewport -+ \
 					// |   |                           |   |  |-> floatSpacePinnedOffsetY
 					// | ................................. | /
-					// |   |                           |   | \
-					// |   |                           |   |  |-> 2 * spaceHeight
-					// |   +---------------------------+   | /
+					// |   |                           |   |
+					// |   |                           |   |
+					// |   +---------------------------+   |
 					// |   +------ Space -+                |
 					// |   |              |                |
 					// |   +--------------+                |
@@ -155,8 +158,7 @@
 					else
 						changeMode( 'bottom' );
 
-					var viewRect = win.getViewPaneSize(),
-						mid = viewRect.width / 2,
+					var mid = viewRect.width / 2,
 						alignSide =
 								( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) ?
 										( editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left' )
