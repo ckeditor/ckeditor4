@@ -3,6 +3,8 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2.1
 
+* [#9816](http://dev.ckeditor.com/ticket/9816): Floating toolbar does not reposition vertically in several cases.
+
 ## CKEditor 4.2
 
 **Important Notes:**
