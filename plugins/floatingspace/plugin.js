@@ -137,19 +137,7 @@
 					// |   +--------------+            |   |
 					// |   |                           |   |
 					//
-					//                  OR
-					//
-					//     |                           |
-					//     |                           |
-					//     + - - - - - - - - - Editor -+
-					// +------------------------ Viewport -+ \
-					// |                                   |  |-> floatSpacePinnedOffsetY
-					// | ................................. | /
-					// |   +------ Space -+                |
-					// |   |              |                |
-					// |   +--------------+                |
-					//
-					else if ( 2 * spaceHeight + pinnedOffsetY <= editorRect.bottom || editorRect.bottom - dockedOffsetY <= 0  )
+					else if ( 2 * spaceHeight + pinnedOffsetY <= editorRect.bottom )
 						changeMode( 'pin' );
 
 					//     +- - - - - - - - -  Editor -+
