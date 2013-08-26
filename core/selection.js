@@ -693,6 +693,9 @@
 		});
 
 		editor.on( 'key', function( evt ) {
+			if ( editor.mode != 'wysiwyg' )
+				return;
+
 			var sel = editor.getSelection();
 			if ( !sel.isFake )
 				return;
