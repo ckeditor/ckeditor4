@@ -838,33 +838,66 @@
 		var isBogus = CKEDITOR.dom.walker.bogus();
 
 		if ( path.contains( structural ) ) {
-			// Enlarging the start boundary.
+			function guard( forwardGuard ) {
+				return function( node, isWalkOut ) {
+					// Save the encountered node as selected if going down the DOM structure
+					// and the node is structured element.
+					if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
+						selected = node;
+
+					// Stop the walker when either traversing another non-empty node at the same
+					// DOM level as in previous step.
+					// NOTE: When going forwards, stop if encountered a bogus.
+					if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) )
+						return false;
+				};
+			}
+
+			// Clone the original range.
 			var walkerRng = range.clone();
+
+			// Enlarge the range: X<ul><li>[Y]</li></ul>X => [X<ul><li>]Y</li></ul>X
 			walkerRng.collapse( 1 );
 			walkerRng.setStartAt( editable, CKEDITOR.POSITION_AFTER_START );
 
-			var walker = new CKEDITOR.dom.walker( walkerRng ),
-				// Check the range is at the inner boundary of the structural element.
-				guard = function( walker, isEnd ) {
-					return function( node, isWalkOut ) {
-						if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
-							selected = node;
+			// Create a new walker.
+			var walker = new CKEDITOR.dom.walker( walkerRng );
 
-						if ( isNotEmpty( node ) && !isWalkOut && !( isEnd && isBogus( node ) ) )
-							return false;
-					};
-				};
+			// Assign a new guard to the walker.
+			walker.guard = guard();
 
-			walker.guard = guard( walker );
+			// Go backwards checking for selected structural node.
 			walker.checkBackward();
+
+			// If there's a selected structured element when checking backwards,
+			// then check the same forwards.
 			if ( selected ) {
+				// Clone the original range.
 				walkerRng = range.clone();
+
+				// Enlarge the range (assuming <ul> is selected element from guard):
+				//
+				// 	   X<ul><li>[Y]</li></ul>X    =>    X<ul><li>Y[</li></ul>]X
+				//
+				// If the walker went deeper down DOM than a while ago when traversing
+				// backwards, then it doesn't make sense: an element must be selected
+				// symmetrically. By placing range end **after previously selected node**,
+				// we make sure we don't go no deeper in DOM when going forwards.
 				walkerRng.collapse();
-				walkerRng.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
+				walkerRng.setEndAt( selected, CKEDITOR.POSITION_AFTER_END );
+
+				// Create a new walker.
 				walker = new CKEDITOR.dom.walker( walkerRng );
-				walker.guard = guard( walker, 1 );
-				selected = 0;
+
+				// Assign a new guard to the walker.
+				walker.guard = guard( true );
+
+				// Reset selected node.
+				selected = false;
+
+				// Go forwards checking for selected structural node.
 				walker.checkForward();
+
 				return selected;
 			}
 		}
