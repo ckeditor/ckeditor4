@@ -595,7 +595,7 @@ CKEDITOR.dom.range = function( root ) {
 				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
 					child = startContainer.getChild( startOffset );
 
-					// If cursor is after last child startOffset will be equal
+					// If range starts after last child startOffset will be equal
 					// number of children and getChild( startOffset ) will return null.
 					if ( !child && startContainer.getChildCount() == startOffset ) {
 						child = startContainer.getChild( startOffset - 1 );
