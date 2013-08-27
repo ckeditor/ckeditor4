@@ -157,6 +157,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
 					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
+        
 				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
 				if ( rtl && ( corner == 1 || corner == 4 ) )
 					left += offsetParent.$.offsetWidth;
@@ -365,20 +366,47 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
-
 						this.focus();
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
 						this._.editor.fire( 'panelShow', this );
-					}, 0, this );
-				}, CKEDITOR.env.air ? 200 : 0, this );
-				this.visible = 1;
 
+            if(CKEDITOR.config.disableMenuDrag){
+              this.setDragOff();
+            }else{
+              this.setDragOn();
+            }
+					}, 0, this );
+
+
+				}, CKEDITOR.env.air ? 200 : 0, this );
+
+				this.visible = 1;
 				if ( this.onShow )
 					this.onShow.call( this );
 
 			},
+      getFrameBody: function(cfg){
+        var t = cfg || this._; 
+        if(t && t.iframe && t.iframe.$){
+          var el   = t.iframe.$;
+          return el.contentDocument || el.contentWindow;
+        }
+      },
+      setDragOn: function(){
+        var body = this.getFrameBody();
+        if(body && body.ondragstart){
+          body.ondragstart = null;
+        }
+      },
+      setDragOff: function(){
+        var body = this.getFrameBody();
+        if(body && !body.ondragstart){
+          body.ondragstart = function(){return false;}
+        }
+    
+      },
 
 			/**
 			 * Restores last focused element or simply focus panel window.
