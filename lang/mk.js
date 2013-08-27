@@ -4,8 +4,8 @@
  */
 
 /**
-* @fileOverview 
-*/
+ * @fileOverview
+ */
 
 /**#@+
    @type String
@@ -17,14 +17,6 @@
  * @namespace
  */
 CKEDITOR.lang[ 'mk' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr', // MISSING
-
 	// ARIA description.
 	editor: 'Rich Text Editor', // MISSING
 
