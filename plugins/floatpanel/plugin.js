@@ -368,17 +368,16 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					CKEDITOR.tools.setTimeout( function() {
 						this.focus();
 
+            if(this._.definition && this._.definition.preventDrag){
+              this.setDragOff();
+            }else{//Required since we turn the event off.
+              this.setDragOn();
+            }
+            
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
 						this._.editor.fire( 'panelShow', this );
-
-            if(CKEDITOR.config.disableMenuDrag){
-              this.setDragOff();
-            }else{
-              this.setDragOn();
-            }
 					}, 0, this );
-
 
 				}, CKEDITOR.env.air ? 200 : 0, this );
 
@@ -387,25 +386,17 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					this.onShow.call( this );
 
 			},
-      getFrameBody: function(cfg){
-        var t = cfg || this._; 
-        if(t && t.iframe && t.iframe.$){
-          var el   = t.iframe.$;
-          return el.contentDocument || el.contentWindow;
-        }
-      },
       setDragOn: function(){
-        var body = this.getFrameBody();
-        if(body && body.ondragstart){
-          body.ondragstart = null;
+        var body = this._.iframe.getFrameDocument().getBody();
+        if(body && body.$ && body.$.ondragstart){
+          body.$.ondragstart = null;
         }
       },
       setDragOff: function(){
-        var body = this.getFrameBody();
-        if(body && !body.ondragstart){
-          body.ondragstart = function(){return false;}
+        var body = this._.iframe.getFrameDocument().getBody();
+        if(body && body.$ && !body.$.ondragstart){
+          body.$.ondragstart =  function(){return false;};
         }
-    
       },
 
 			/**

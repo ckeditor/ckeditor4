@@ -44,6 +44,7 @@ CKEDITOR.plugins.add( 'format', {
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,
+        preventDrag: true,
 				attributes: { 'aria-label': lang.panelTitle }
 			},
 
