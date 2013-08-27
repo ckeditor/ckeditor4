@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 * [#9330](http://dev.ckeditor.com/ticket/9330): Fixed pasting anchors from MS Word.
 * [#8103](http://dev.ckeditor.com/ticket/8103): Fixed pasting nested lists from MS Word.
+* [#9958](http://dev.ckeditor.com/ticket/9958): Press ok button will trigger onbeforeunload event in popup-dialog on ie9.
 * [#10662](http://dev.ckeditor.com/ticket/10662): Fixed styles from Styles drop-down list not registered to the ACF in case when [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is used.
 * [#9654](http://dev.ckeditor.com/ticket/9654): Problems with IE10 Quirks mode.
 * [#9816](http://dev.ckeditor.com/ticket/9816): Floating toolbar does not reposition vertically in several cases.
