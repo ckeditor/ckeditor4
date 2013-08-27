@@ -461,7 +461,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var element = this.getElement();
 
 					(function() {
-						element.on( 'click', me.click, me );
+						element.on( 'click', function( evt ) {
+							me.click();
+							// #9958
+							evt.data.preventDefault();
+						} );
 
 						element.on( 'keydown', function( evt ) {
 							if ( evt.data.getKeystroke() in { 32:1 } ) {
@@ -481,7 +485,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, outerDefinition, htmlList, 'a', null, {
 					style: elementDefinition.style,
 					href: 'javascript:void(0)',
-					onClick: 'return false', // #9958
 					title: elementDefinition.label,
 					hidefocus: 'true',
 					'class': elementDefinition[ 'class' ],
