@@ -952,21 +952,20 @@
 					},
 
 					// Migrate basic style formats to editor configured ones.
-					'b': elementMigrateFilter( config[ 'coreStyles_bold' ] ),
-					'i': elementMigrateFilter( config[ 'coreStyles_italic' ] ),
-					'u': elementMigrateFilter( config[ 'coreStyles_underline' ] ),
-					's': elementMigrateFilter( config[ 'coreStyles_strike' ] ),
-					'sup': elementMigrateFilter( config[ 'coreStyles_superscript' ] ),
-					'sub': elementMigrateFilter( config[ 'coreStyles_subscript' ] ),
-					// Editor doesn't support anchor with content currently (#3582),
-					// drop such anchors with content preserved.
-					'a': function( element ) {
+					b: elementMigrateFilter( config[ 'coreStyles_bold' ] ),
+					i: elementMigrateFilter( config[ 'coreStyles_italic' ] ),
+					u: elementMigrateFilter( config[ 'coreStyles_underline' ] ),
+					s: elementMigrateFilter( config[ 'coreStyles_strike' ] ),
+					sup: elementMigrateFilter( config[ 'coreStyles_superscript' ] ),
+					sub: elementMigrateFilter( config[ 'coreStyles_subscript' ] ),
+
+					// Remove full paths from links to anchors.
+					a: function( element ) {
 						var attrs = element.attributes;
-						if ( attrs && !attrs.href && attrs.name )
-							delete element.name;
-						else if ( CKEDITOR.env.webkit && attrs.href && attrs.href.match( /file:\/\/\/[\S]+#/i ) )
-							attrs.href = attrs.href.replace( /file:\/\/\/[^#]+/i, '' );
+						if ( attrs.href && attrs.href.match( /^file:\/\/\/[\S]+#/i ) )
+							attrs.href = attrs.href.replace( /^file:\/\/\/[^#]+/i, '' );
 					},
+
 					'cke:listbullet': function( element ) {
 						if ( element.getAncestor( /h\d/ ) && !config.pasteFromWordNumberedHeadingToList )
 							delete element.name;
