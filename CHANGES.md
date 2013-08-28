@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2.1
 
+* [#10689](http://dev.ckeditor.com/ticket/10689): Save toolbar button saves only first instance.
 * [#10368](http://dev.ckeditor.com/ticket/10368): Move language reading direction definition ("dir") from main language file to core.
 * [#9330](http://dev.ckeditor.com/ticket/9330): Fixed pasting anchors from MS Word.
 * [#8103](http://dev.ckeditor.com/ticket/8103): Fixed pasting nested lists from MS Word.
