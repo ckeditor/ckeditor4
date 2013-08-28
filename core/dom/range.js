@@ -630,9 +630,18 @@ CKEDITOR.dom.range = function( root ) {
 					if ( endContainer.type == CKEDITOR.NODE_ELEMENT ) {
 						child = endContainer.getChild( endOffset );
 
+						if ( !child && endContainer.getChildCount() == endOffset ) {
+							child = endContainer.getChild( endOffset - 1 );
+
+							if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious() && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+								endContainer = child;
+								endOffset = child.getLength();
+							}
+						}
+
 						// In this case, move the start information to that
 						// text node.
-						if ( child && child.type == CKEDITOR.NODE_TEXT && endOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+						else if ( child && child.type == CKEDITOR.NODE_TEXT && endOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
 							endContainer = child;
 							endOffset = 0;
 						}
