@@ -691,8 +691,9 @@
 						return !!( f && f.call && f.apply );
 					};
 
-					// Check if there is no element/elements <input name="submit">.
-					// If they are we can to nothing.
+					// Check if there is no element/elements input with name == "submit".
+					// If they exists they will overwrite form submit function (form.$.submit).
+					// If form.$.submit is overwritten we can not do anything with it.
 					if ( isFunction( form.$.submit ) ) {
 						// Setup the submit function because it doesn't fire the
 						// "submit" event.
