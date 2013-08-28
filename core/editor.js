@@ -680,7 +680,7 @@
 						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
 							// When user press save button event (evt) is undefined (see save plugin).
 							// This method works because it throws error so originalSubmit won't be called.
-							// Also because of hack there is try-cache in save plugin so error won't be shown.
+							// Also this error won't be shown because it will be caught in save plugin.
 							evt.data.preventDefault();
 						}
 					}
