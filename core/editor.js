@@ -703,7 +703,7 @@
 								// For IE, the DOM submit function is not a
 								// function, so we need third check.
 								if ( originalSubmit.apply )
-									originalSubmit.apply( this, arguments );
+									originalSubmit.apply( this );
 								else
 									originalSubmit();
 							};
