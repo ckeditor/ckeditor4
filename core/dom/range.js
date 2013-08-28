@@ -573,101 +573,81 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: function( normalized ) {
-			var startContainer = this.startContainer,
-				endContainer = this.endContainer;
-
-			var startOffset = this.startOffset,
-				endOffset = this.endOffset;
-
-			var collapsed = this.collapsed;
-
-			var child, previous;
+			var collapsed = this.collapsed,
+				bmStart = {
+					container: this.startContainer,
+					offset: this.startOffset
+				},
+				bmEnd = {
+					container: this.endContainer,
+					offset: this.endOffset
+				};
 
 			// If there is no range then get out of here.
 			// It happens on initial load in Safari #962 and if the editor it's
 			// hidden also in Firefox
-			if ( !startContainer || !endContainer )
+			if ( !bmStart.container || !bmEnd.container )
 				return { start: 0, end: 0 };
 
+			// Normalize range.
 			if ( normalized ) {
-				// Find out if the start is pointing to a text node that will
-				// be normalized.
-				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-					child = startContainer.getChild( startOffset );
+				normalize( bmStart );
 
-					// If range starts after last child startOffset will be equal
-					// number of children and getChild( startOffset ) will return null.
-					if ( !child && startContainer.getChildCount() == startOffset ) {
-						child = startContainer.getChild( startOffset - 1 );
+				if ( !collapsed )
+					normalize( bmEnd );
+			}
+
+			return {
+				start: bmStart.container.getAddress( normalized ),
+				end: collapsed ? null : bmEnd.container.getAddress( normalized ),
+				startOffset: bmStart.offset,
+				endOffset: bmEnd.offset,
+				normalized: normalized,
+				collapsed: collapsed,
+				is2: true // It's a createBookmark2 bookmark.
+			}
+
+			// Normalize start or end of range.
+			// limit is ranges start or ranges end.
+			function normalize( limit ) {
+				var child, previous,
+					container = limit.container,
+					offset = limit.offset;
+
+				// Find out if the limit is pointing to a text node that will be normalized.
+				if ( container.type == CKEDITOR.NODE_ELEMENT ) {
+					child = container.getChild( offset );
+
+					// If ranges limit is after last child offset will be equal number of children
+					// and getChild( offset ) will return null.
+					if ( !child && container.getChildCount() == offset ) {
+						child = container.getChild( offset - 1 );
 
 						if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious() && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-							startContainer = child;
-							startOffset = child.getLength();
+							container = child;
+							offset = child.getLength();
 						}
 					}
-					// In this case, move the start information to that text
-					// node.
-					else if ( child && child.type == CKEDITOR.NODE_TEXT && startOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-						startContainer = child;
-						startOffset = 0;
+					// In this case, move the limit information to that text node.
+					else if ( child && child.type == CKEDITOR.NODE_TEXT && offset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+						container = child;
+						offset = 0;
 					}
 
 					// Get the normalized offset.
 					if ( child && child.type == CKEDITOR.NODE_ELEMENT )
-						startOffset = child.getIndex( 1 );
+						offset = child.getIndex( 1 );
 				}
 
-				// Normalize the start.
-				while ( startContainer.type == CKEDITOR.NODE_TEXT && ( previous = startContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
-					startContainer = previous;
-					startOffset += previous.getLength();
+				// Normalize.
+				while ( container.type == CKEDITOR.NODE_TEXT && ( previous = container.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
+					container = previous;
+					offset += previous.getLength();
 				}
 
-				// Process the end only if not normalized.
-				if ( !collapsed ) {
-					// Find out if the start is pointing to a text node that
-					// will be normalized.
-					if ( endContainer.type == CKEDITOR.NODE_ELEMENT ) {
-						child = endContainer.getChild( endOffset );
-
-						if ( !child && endContainer.getChildCount() == endOffset ) {
-							child = endContainer.getChild( endOffset - 1 );
-
-							if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious() && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-								endContainer = child;
-								endOffset = child.getLength();
-							}
-						}
-
-						// In this case, move the start information to that
-						// text node.
-						else if ( child && child.type == CKEDITOR.NODE_TEXT && endOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-							endContainer = child;
-							endOffset = 0;
-						}
-
-						// Get the normalized offset.
-						if ( child && child.type == CKEDITOR.NODE_ELEMENT )
-							endOffset = child.getIndex( 1 );
-					}
-
-					// Normalize the end.
-					while ( endContainer.type == CKEDITOR.NODE_TEXT && ( previous = endContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
-						endContainer = previous;
-						endOffset += previous.getLength();
-					}
-				}
+				limit.container = container;
+				limit.offset = offset;
 			}
-
-			return {
-				start: startContainer.getAddress( normalized ),
-				end: collapsed ? null : endContainer.getAddress( normalized ),
-				startOffset: startOffset,
-				endOffset: endOffset,
-				normalized: normalized,
-				collapsed: collapsed,
-				is2: true // It's a createBookmark2 bookmark.
-			};
 		},
 
 		/**
