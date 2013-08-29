@@ -607,8 +607,7 @@ CKEDITOR.dom.range = function( root ) {
 				is2: true // It's a createBookmark2 bookmark.
 			}
 
-			// Normalize start or end of range.
-			// limit is ranges start or ranges end.
+			// Normalize start or end of range. The limit is either start or end of the range.
 			function normalize( limit ) {
 				var child, previous,
 					container = limit.container,
