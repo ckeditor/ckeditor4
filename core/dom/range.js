@@ -573,6 +573,10 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: (function() {
+			function isPreviousText( node, offset ) {
+				return offset > 0 && node && node.type == CKEDITOR.NODE_TEXT && node.getPrevious() && node.getPrevious().type == CKEDITOR.NODE_TEXT;
+			}
+
 			// Normalize the range. The limit is either start or end of the range.
 			// If there are several text nodes in a row, this function moves range boundary from the
 			// element to a text node and updates the offset. As a result, it looks like text nodes
@@ -586,19 +590,45 @@ CKEDITOR.dom.range = function( root ) {
 				if ( container.type == CKEDITOR.NODE_ELEMENT ) {
 					child = container.getChild( offset );
 
-					// If ranges limit is after last child offset will be equal number of children
-					// and getChild( offset ) will return null.
-					if ( !child && container.getChildCount() == offset ) {
-						child = container.getChild( offset - 1 );
+					// If the limit of the range is after last child, offset will be equal
+					// the number of children so getChild( offset ) becomes null.
+					// In such case, move the limit to the end of the child.
+					// Before:
+					//		            ____ <p> is the container. Offset is 2.
+					//		           |
+					//		<p>        |</p>
+					//		   Foo, Bar         // Two text-node children.
+					//
+					// After:
+					//		            ____ "Bar" becomes the container. Offset is 3.
+					//		           |
+					//		<p>        |</p>
+					//		   Foo, Bar|
+					//
+					if ( !child ) {
+						child = container.getLast();
 
-						if ( child && child.type == CKEDITOR.NODE_TEXT && child.getPrevious() && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+						if ( isPreviousText( child, offset ) ) {
 							container = child;
 							offset = child.getLength();
 						}
 					}
 
-					// In this case, move the limit information to that text node.
-					else if ( child && child.type == CKEDITOR.NODE_TEXT && offset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
+					// In this case, move the limit information to the beginning of
+					// that text node.
+					// Before:
+					//		         ____ <p> is the container. Offset is 1.
+					//		        |
+					//		<p>     |   </p>
+					//		   Foo, Bar         // Two text-node children.
+					//
+					// After:
+					//		         ____ "Bar" becomes the container. Offset is 0.
+					//		        |
+					//		<p>     |   </p>
+					//		   Foo, |Bar
+					//
+					else if ( isPreviousText( child, offset ) ) {
 						container = child;
 						offset = 0;
 					}
