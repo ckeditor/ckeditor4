@@ -560,7 +560,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @param {Boolean} [normalized] Indicates that the bookmark must
 		 * normalized. When normalized, the successive text nodes are
-		 * considered a single node. To sucessful load a normalized
+		 * considered a single node. To successful load a normalized
 		 * bookmark, the DOM tree must be also normalized before calling
 		 * {@link #moveToBookmark}.
 		 * @returns {Object} An object representing the bookmark.
@@ -573,7 +573,10 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: (function() {
-			// Normalize start or end of range. The limit is either start or end of the range.
+			// Normalize the range. The limit is either start or end of the range.
+			// If there are several text nodes in a row, this function moves range boundary from the
+			// element to a text node and updates the offset. As a result, it looks like text nodes
+			// were glued together into a bigger one, and the range refers to it.
 			function normalize( limit ) {
 				var child, previous,
 					container = limit.container,
