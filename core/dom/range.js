@@ -572,41 +572,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.normalized
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
-		createBookmark2: function( normalized ) {
-			var collapsed = this.collapsed,
-				bmStart = {
-					container: this.startContainer,
-					offset: this.startOffset
-				},
-				bmEnd = {
-					container: this.endContainer,
-					offset: this.endOffset
-				};
-
-			// If there is no range then get out of here.
-			// It happens on initial load in Safari #962 and if the editor it's
-			// hidden also in Firefox
-			if ( !bmStart.container || !bmEnd.container )
-				return { start: 0, end: 0 };
-
-			// Normalize range.
-			if ( normalized ) {
-				normalize( bmStart );
-
-				if ( !collapsed )
-					normalize( bmEnd );
-			}
-
-			return {
-				start: bmStart.container.getAddress( normalized ),
-				end: collapsed ? null : bmEnd.container.getAddress( normalized ),
-				startOffset: bmStart.offset,
-				endOffset: bmEnd.offset,
-				normalized: normalized,
-				collapsed: collapsed,
-				is2: true // It's a createBookmark2 bookmark.
-			}
-
+		createBookmark2: (function() {
 			// Normalize start or end of range. The limit is either start or end of the range.
 			function normalize( limit ) {
 				var child, previous,
@@ -627,6 +593,7 @@ CKEDITOR.dom.range = function( root ) {
 							offset = child.getLength();
 						}
 					}
+
 					// In this case, move the limit information to that text node.
 					else if ( child && child.type == CKEDITOR.NODE_TEXT && offset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
 						container = child;
@@ -647,7 +614,43 @@ CKEDITOR.dom.range = function( root ) {
 				limit.container = container;
 				limit.offset = offset;
 			}
-		},
+
+			return function( normalized ) {
+				var collapsed = this.collapsed,
+					bmStart = {
+						container: this.startContainer,
+						offset: this.startOffset
+					},
+					bmEnd = {
+						container: this.endContainer,
+						offset: this.endOffset
+					};
+
+				// If there is no range then get out of here.
+				// It happens on initial load in Safari #962 and if the editor it's
+				// hidden also in Firefox
+				if ( !bmStart.container || !bmEnd.container )
+					return { start: 0, end: 0 };
+
+				// Normalize range.
+				if ( normalized ) {
+					normalize( bmStart );
+
+					if ( !collapsed )
+						normalize( bmEnd );
+				}
+
+				return {
+					start: bmStart.container.getAddress( normalized ),
+					end: collapsed ? null : bmEnd.container.getAddress( normalized ),
+					startOffset: bmStart.offset,
+					endOffset: bmEnd.offset,
+					normalized: normalized,
+					collapsed: collapsed,
+					is2: true // It's a createBookmark2 bookmark.
+				};
+			}
+		})(),
 
 		/**
 		 * Moves this range to the given bookmark. See {@link #createBookmark} and {@link #createBookmark2}.
