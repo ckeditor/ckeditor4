@@ -33,7 +33,7 @@
 	CKEDITOR.htmlParser.filter = CKEDITOR.tools.createClass( {
 		/**
 		 * @constructor Creates a filter class instance.
-		 * @param {CKEDITOR.htmlParser.filterRules} [rules]
+		 * @param {CKEDITOR.htmlParser.filterRulesDefinition} [rules]
 		 */
 		$: function( rules ) {
 			/**
@@ -45,12 +45,59 @@
 			 */
 			this.id = CKEDITOR.tools.getNextNumber();
 
-			this._ = {
-				elementNames: [],
-				attributeNames: [],
-				elements: { $length: 0 },
-				attributes: { $length: 0 }
-			};
+			/**
+			 * Rules for element names.
+			 *
+			 * @property {CKEDITOR.htmlParser.filterRulesGroup}
+			 * @readonly
+			 */
+			this.elementNameRules = new filterRulesGroup();
+
+			/**
+			 * Rules for attribute names.
+			 *
+			 * @property {CKEDITOR.htmlParser.filterRulesGroup}
+			 * @readonly
+			 */
+			this.attributeNameRules = new filterRulesGroup();
+
+			/**
+			 * Hash of elementName => {@link CKEDITOR.htmlParser.filterRulesGroup rules for elements}.
+			 *
+			 * @readonly
+			 */
+			this.elementsRules = {};
+
+			/**
+			 * Hash of attributeName => {@link CKEDITOR.htmlParser.filterRulesGroup rules for attributes}.
+			 *
+			 * @readonly
+			 */
+			this.attributesRules = {};
+
+			/**
+			 * Rules for text nodes.
+			 *
+			 * @property {CKEDITOR.htmlParser.filterRulesGroup}
+			 * @readonly
+			 */
+			this.textRules = new filterRulesGroup();
+
+			/**
+			 * Rules for comment nodes.
+			 *
+			 * @property {CKEDITOR.htmlParser.filterRulesGroup}
+			 * @readonly
+			 */
+			this.commentRules = new filterRulesGroup();
+
+			/**
+			 * Rules for a root node.
+			 *
+			 * @property {CKEDITOR.htmlParser.filterRulesGroup}
+			 * @readonly
+			 */
+			this.rootRules = new filterRulesGroup();
 
 			if ( rules )
 				this.addRules( rules, 10 );
@@ -60,7 +107,7 @@
 			/**
 			 * Add rules to this filter.
 			 *
-			 * @param {CKEDITOR.htmlParser.filterRules} rules Object containing filter rules.
+			 * @param {CKEDITOR.htmlParser.filterRulesDefinition} rules Object containing filter rules.
 			 * @param {Object/Number} [options] Object containing rules' options or a priority
 			 * (for a backward compatibility with CKEditor versions up to 4.2.x).
 			 * @param {Number} [options.priority=10] The priority of a rule.
@@ -84,25 +131,32 @@
 					options = {};
 
 				// Add the elementNames.
-				addItemsToList( this._.elementNames, rules.elementNames, priority );
+				if ( rules.elementNames)
+					this.elementNameRules.addMany( rules.elementNames, priority, options );
 
 				// Add the attributeNames.
-				addItemsToList( this._.attributeNames, rules.attributeNames, priority );
+				if ( rules.attributeNames )
+					this.attributeNameRules.addMany( rules.attributeNames, priority, options );
 
 				// Add the elements.
-				addNamedItems( this._.elements, rules.elements, priority );
+				if ( rules.elements )
+					addNamedRules( this.elementsRules, rules.elements, priority, options );
 
 				// Add the attributes.
-				addNamedItems( this._.attributes, rules.attributes, priority );
+				if ( rules.attributes )
+					addNamedRules( this.attributesRules, rules.attributes, priority, options );
 
 				// Add the text.
-				this._.text = transformNamedItem( this._.text, rules.text, priority ) || this._.text;
+				if ( rules.text )
+					this.textRules.add( rules.text, priority, options );
 
 				// Add the comment.
-				this._.comment = transformNamedItem( this._.comment, rules.comment, priority ) || this._.comment;
+				if ( rules.comment )
+					this.commentRules.add( rules.comment, priority, options );
 
 				// Add root node rules.
-				this._.root = transformNamedItem( this._.root, rules.root, priority ) || this._.root;
+				if ( rules.root )
+					this.rootRules.add( rules.root, priority, options );
 			},
 
 			/**
@@ -115,39 +169,36 @@
 			},
 
 			onElementName: function( name ) {
-				return filterName( name, this._.elementNames );
+				return this.elementNameRules.execOnName( name );
 			},
 
 			onAttributeName: function( name ) {
-				return filterName( name, this._.attributeNames );
+				return this.attributeNameRules.execOnName( name );
 			},
 
 			onText: function( text ) {
-				var textFilter = this._.text;
-				return textFilter ? textFilter.filter( text ) : text;
+				return this.textRules.exec( text );
 			},
 
 			onComment: function( commentText, comment ) {
-				var textFilter = this._.comment;
-				return textFilter ? textFilter.filter( commentText, comment ) : commentText;
+				return this.commentRules.exec( commentText, comment );
 			},
 
 			onRoot: function( element ) {
-				var rootFilter = this._.root;
-				return rootFilter ? rootFilter.filter( element ) : element;
+				return this.rootRules.exec( element );
 			},
 
 			onElement: function( element ) {
 				// We must apply filters set to the specific element name as
-				// well as those set to the generic $ name. So, add both to an
+				// well as those set to the generic ^/$ name. So, add both to an
 				// array and process them in a small loop.
-				var filters = [ this._.elements[ '^' ], this._.elements[ element.name ], this._.elements.$ ],
-					filter, ret;
+				var rulesGroups = [ this.elementsRules[ '^' ], this.elementsRules[ element.name ], this.elementsRules.$ ],
+					rulesGroup, ret;
 
 				for ( var i = 0; i < 3; i++ ) {
-					filter = filters[ i ];
-					if ( filter ) {
-						ret = filter.filter( element, this );
+					rulesGroup = rulesGroups[ i ];
+					if ( rulesGroup ) {
+						ret = rulesGroup.exec( element, this );
 
 						if ( ret === false )
 							return null;
@@ -173,143 +224,176 @@
 			},
 
 			onAttribute: function( element, name, value ) {
-				var filter = this._.attributes[ name ];
+				var rulesGroup = this.attributesRules[ name ];
 
-				if ( filter ) {
-					var ret = filter.filter( value, element, this );
-
-					if ( ret === false )
-						return false;
-
-					if ( typeof ret != 'undefined' )
-						return ret;
-				}
-
+				if ( rulesGroup )
+					return rulesGroup.exec( value, element, this );
 				return value;
 			}
 		}
 	} );
 
-	function filterName( name, filters ) {
-		var i = 0,
-			len = filters.length,
-			filter;
-
-		for ( ; name && i < len; i++ ) {
-			filter = filters[ i ];
-			name = name.replace( filter[ 0 ], filter[ 1 ] );
-		}
-		return name;
+	/**
+	 * Class grouping filter rules for one subject (like element or attribute names).
+	 *
+	 * @class
+	 */
+	function filterRulesGroup() {
+		/**
+		 * Array of objects containing rule, priority and options.
+		 *
+		 * @property {Object[]}
+		 * @readonly
+		 */
+		this.rules = [];
 	}
 
-	function addItemsToList( list, items, priority ) {
-		if ( typeof items == 'function' )
-			items = [ items ];
+	CKEDITOR.htmlParser.filterRulesGroup = filterRulesGroup;
 
-		var i, j,
-			listLength = list.length,
-			itemsLength = items && items.length;
+	filterRulesGroup.prototype = {
+		/**
+		 * Adds specified rule to this group.
+		 *
+		 * @param {Function/Array} rule Function for function based rule or [ pattern, replacement ] array for
+		 * rule applicable to names.
+		 * @param {Number} priority
+		 * @param options
+		 */
+		add: function( rule, priority, options ) {
+			this.rules.splice( this.findIndex( priority ), 0, {
+				value: rule,
+				priority: priority,
+				options: options
+			} );
+		},
 
-		if ( itemsLength ) {
-			// Find the index to insert the items at.
-			for ( i = 0; i < listLength && list[ i ].pri <= priority; i++ ) {
-				/*jsl:pass*/
+		/**
+		 * Adds specified rules to this group.
+		 *
+		 * @param {Array} rules Array of rules - see {@link #add}.
+		 * @param {Number} priority
+		 * @param options
+		 */
+		addMany: function( rules, priority, options ) {
+			var args = [ this.findIndex( priority ), 0 ];
+
+			for ( var i = 0, len = rules.length; i < len; i++ ) {
+				args.push( {
+					value: rules[ i ],
+					priority: priority,
+					options: options
+				} );
 			}
 
-			// Add all new items to the list at the specific index.
-			for ( j = itemsLength - 1; j >= 0; j-- ) {
-				var item = items[ j ];
-				if ( item ) {
-					item.pri = priority;
-					list.splice( i, 0, item );
+			this.rules.splice.apply( this.rules, args );
+		},
+
+		/**
+		 * Finds an index at which rule with given priority should be inserted.
+		 *
+		 * @param {Number} priority
+		 * @returns {Number} Index.
+		 */
+		findIndex: function( priority ) {
+			var rules = this.rules,
+				len = rules.length,
+				i = len - 1;
+
+			// Search from the end, because usually rules will be added with default priority, so
+			// we will be able to stop loop quickly.
+			while ( i >= 0 && priority < rules[ i ].priority )
+				i--;
+
+			return i + 1;
+		},
+
+		/**
+		 * Executes this rules group on given value. Applicable only if function based rules were added.
+		 *
+		 * All arguments passed to this function will be forwarded to rules' functions.
+		 *
+		 * @param {CKEDITOR.htmlParser.node/CKEDITOR.htmlParser.fragment/String} currentValue The value to be filtered.
+		 * @returns {CKEDITOR.htmlParser.node/CKEDITOR.htmlParser.fragment/String} Filtered value.
+		 */
+		exec: function( currentValue ) {
+			var isNode = currentValue instanceof CKEDITOR.htmlParser.node || currentValue instanceof CKEDITOR.htmlParser.fragment,
+				args = Array.prototype.slice.apply( arguments ),
+				rules = this.rules,
+				len = rules.length,
+				orgType, orgName, ret, i;
+
+			for ( i = 0; i < len; i++ ) {
+				// Backup the node info before filtering.
+				if ( isNode ) {
+					orgType = currentValue.type;
+					orgName = currentValue.name;
 				}
-			}
-		}
-	}
 
-	function addNamedItems( hashTable, items, priority ) {
-		if ( items ) {
-			for ( var name in items ) {
-				var current = hashTable[ name ];
+				ret = rules[ i ].value.apply( null, args );
 
-				hashTable[ name ] = transformNamedItem( current, items[ name ], priority );
-
-				if ( !current )
-					hashTable.$length++;
-			}
-		}
-	}
-
-	function transformNamedItem( current, item, priority ) {
-		if ( item ) {
-			item.pri = priority;
-
-			if ( current ) {
-				// If the current item is not an Array, transform it.
-				if ( !current.splice ) {
-					if ( current.pri > priority )
-						current = [ item, current ];
-					else
-						current = [ current, item ];
-
-					current.filter = callItems;
-				} else
-					addItemsToList( current, item, priority );
-
-				return current;
-			} else {
-				item.filter = item;
-				return item;
-			}
-		}
-	}
-
-	// Invoke filters sequentially on the array, break the iteration
-	// when it doesn't make sense to continue anymore.
-	function callItems( currentEntry ) {
-		var isNode = currentEntry instanceof CKEDITOR.htmlParser.node || currentEntry instanceof CKEDITOR.htmlParser.fragment,
-			args = Array.prototype.slice.apply( arguments ),
-			len = this.length,
-			orgType, orgName, item, ret, i;
-
-		for ( i = 0; i < len; i++ ) {
-			// Backup the node info before filtering.
-			if ( isNode ) {
-				orgType = currentEntry.type;
-				orgName = currentEntry.name;
-			}
-
-			item = this[ i ];
-			ret = item.apply( null, args );
-
-			if ( ret === false )
-				return ret;
-
-			// We're filtering node (element/fragment).
-			if ( isNode ) {
-				// No further filtering if it's not anymore
-				// fitable for the subsequent filters.
-				if ( ret && ( ret.name != orgName || ret.type != orgType ) )
+				if ( ret === false )
 					return ret;
-			}
-			// Filtering value (nodeName/textValue/attrValue).
-			else {
-				// No further filtering if it's not any more values.
-				if ( typeof ret != 'string' )
-					return ret;
+
+				// We're filtering node (element/fragment).
+				if ( isNode ) {
+					// No further filtering if it's not anymore
+					// fitable for the subsequent filters.
+					if ( ret && ( ret.name != orgName || ret.type != orgType ) )
+						return ret;
+				}
+				// Filtering value (nodeName/textValue/attrValue).
+				else {
+					// No further filtering if it's not any more values.
+					if ( typeof ret != 'string' )
+						return ret;
+				}
+
+				// Update currentValue and corresponding argument in args array.
+				// Updated values will be used in next for-loop step.
+				if ( ret != undefined )
+					args[ 0 ] = currentValue = ret;
 			}
 
-			// Update currentEntry and corresponding argument in args array.
-			// Updated values will be used in next for-loop step.
-			if ( ret != undefined )
-				args[ 0 ] = currentEntry = ret;
+			return currentValue;
+		},
+
+		/**
+		 * Executes this rules group on name. Applicable only if filter rules for names were added.
+		 *
+		 * @param {String} currentName The name to be filtered.
+		 * @returns {String} Filtered name.
+		 */
+		execOnName: function( currentName ) {
+			var i = 0,
+				rules = this.rules,
+				len = rules.length,
+				rule;
+
+			for ( ; currentName && i < len; i++ ) {
+				rule = rules[ i ];
+				currentName = currentName.replace( rule.value[ 0 ], rule.value[ 1 ] );
+			}
+
+			return currentName;
 		}
+	};
 
-		return currentEntry;
+	function addNamedRules( rulesGroups, newRules, priority, options ) {
+		var ruleName, rulesGroup;
+
+		for ( ruleName in newRules ) {
+			rulesGroup = rulesGroups[ ruleName ];
+
+			if ( !rulesGroup )
+				rulesGroup = rulesGroups[ ruleName ] = new filterRulesGroup();
+
+			rulesGroup.add( newRules[ ruleName ], priority, options );
+		}
 	}
+
 })();
 
 /**
- * @class CKEDITOR.htmlParser.filterRules
+ * @class CKEDITOR.htmlParser.filterRulesDefinition
  * @abstract
  */

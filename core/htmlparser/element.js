@@ -155,17 +155,19 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * {@link #filterChildren} that it has to repeat filter on current
 		 * position in parent's children array.
 		 */
-		filter: function( filter ) {
+		filter: function( filter, context ) {
 			var element = this,
 				originalName, name;
 
+			context = element.updateContext( context );
+
 			// Do not process elements with data-cke-processor attribute set to off.
-			if ( element.attributes[ 'data-cke-processor' ] == 'off' )
+			if ( context.off )
 				return true;
 
 			// Filtering if it's the root node.
 			if ( !element.parent )
-				filter.onRoot( element );
+				filter.onRoot( element, context );
 
 			while ( true ) {
 				originalName = element.name;
@@ -461,6 +463,31 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				return false;
 
 			return ( new RegExp( '(?:^|\\s)' + className + '(?=\\s|$)' ) ).test( classes );
+		},
+
+		updateContext: function( ctx ) {
+			var changes = [];
+
+			if ( !ctx ) {
+				ctx = {
+					off: false,
+					nonEditable: false
+				};
+			}
+
+			if ( !ctx.off && this.attributes[ 'data-cke-processor' ] == 'off' )
+				changes.push( 'off', true );
+
+			if ( !ctx.nonEditable && this.attributes[ 'contenteditable' ] == 'false' )
+				changes.push( 'nonEditable', true );
+
+			if ( changes.length ) {
+				ctx = CKEDITOR.tools.copy( ctx );
+				for ( var i = 0; i < changes.length; i += 2 )
+					ctx[ changes[ i ] ] = changes[ i + 1 ];
+			}
+
+			return ctx;
 		}
 	} );
 
