@@ -582,6 +582,7 @@
 
 			if ( !offline ) {
 				editable.removeClass( 'cke_widget_editable' );
+				editable.removeClass( 'cke_widget_editable_focused' );
 				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable' ] );
 			}
 
@@ -1028,6 +1029,7 @@
 			tabindex: -1,
 			'data-cke-widget-wrapper': 1,
 			'data-cke-filter': 'off',
+			'data-cke-processor': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
 				( inlineWidget ? 'inline' : 'block' )
@@ -1273,6 +1275,8 @@
 
 		var upcasts = widgetsRepo._.upcasts;
 
+		// Listen after ACF (so data are filtered),
+		// but before dataProcessor.dataFilter was applied (so we can secure widgets' internals).
 		editor.on( 'toHtml', function( evt ) {
 			var toBeWrapped = [],
 				toBe,
@@ -1335,45 +1339,52 @@
 			// Used to determine whether only widget was pasted.
 			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
 				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
-		}, null, null, 10 );
+		}, null, null, 8 );
 
-		editor.dataProcessor.htmlFilter.addRules( {
-			elements: {
-				$: function( element ) {
-					var attrs;
+		// Listen after dataProcessor.htmlFilter and ACF were applied
+		// so wrappers securing widgets' contents are removed after all filtering was done.
+		editor.on( 'toDataFormat', function( evt ) {
+			var toBeDowncasted = [],
+				toBe, widget, widgetElement, retElement, attrs;
 
-					// Wrapper.
-					if ( 'data-cke-widget-id' in element.attributes ) {
-						var widget = widgetsRepo.instances[ element.attributes[ 'data-cke-widget-id' ] ];
+			evt.data.dataValue.forEach( function( element ) {
+				var attrs = element.attributes;
 
-						if ( widget ) {
-							var widgetElement = element.getFirst( isWidgetElement ),
-								retElement = widget._.downcastFn ?
-									widget._.downcastFn.call( widget, widgetElement ) :
-									widgetElement;
+				// Wrapper.
+				if ( 'data-cke-widget-id' in attrs )
+					toBeDowncasted.push( element );
+				// Nested editable.
+				else if ( 'data-cke-widget-editable' in attrs ) {
+					delete attrs[ 'contenteditable' ];
+					delete attrs[ 'data-cke-widget-editable' ];
+					element.removeClass( 'cke_widget_editable' );
+					element.removeClass( 'cke_widget_editable_focused' );
+				}
+			}, CKEDITOR.NODE_ELEMENT );
 
-							if ( !retElement )
-								retElement = widgetElement;
+			while ( ( toBe = toBeDowncasted.pop() ) ) {
+				widget = widgetsRepo.instances[ toBe.attributes[ 'data-cke-widget-id' ] ];
 
-							// If widget did not have data-cke-widget attribute before upcasting remove it.
-							attrs = widgetElement.attributes;
-							if ( attrs[ 'data-cke-widget-keep-attr' ] != '1' )
-								delete attrs[ 'data-widget' ];
+				if ( widget ) {
+					widgetElement = toBe.getFirst( isWidgetElement );
+					retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
 
-							return retElement;
-						}
+					// Returned element always defaults to widgetElement.
+					if ( !retElement )
+						retElement = widgetElement;
 
-						return false;
-					}
-					// Nested editable.
-					else if ( 'data-cke-widget-editable' in element.attributes ) {
-						attrs = element.attributes;
-						delete attrs[ 'contenteditable' ];
-						element.removeClass( 'cke_widget_editable' );
-					}
+					// If widget did not have data-cke-widget attribute before upcasting remove it.
+					attrs = widgetElement.attributes;
+					if ( attrs[ 'data-cke-widget-keep-attr' ] != '1' )
+						delete attrs[ 'data-widget' ];
+					delete attrs[ 'data-cke-widget-data' ];
+					delete attrs[ 'data-cke-widget-keep-attr' ];
+					widgetElement.removeClass( 'cke_widget_element' );
+
+					toBe.replaceWith( retElement );
 				}
 			}
-		} );
+		}, null, null, 13 );
 
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
