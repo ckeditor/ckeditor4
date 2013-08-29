@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2.1
 
+* [#10301](http://dev.ckeditor.com/ticket/10301): [IE9-10] - Undo fails after 3+ consecutive paste actions with JS Error.
 * [#10689](http://dev.ckeditor.com/ticket/10689): Save toolbar button saves only first instance.
 * [#10368](http://dev.ckeditor.com/ticket/10368): Move language reading direction definition ("dir") from main language file to core.
 * [#9330](http://dev.ckeditor.com/ticket/9330): Fixed pasting anchors from MS Word.
