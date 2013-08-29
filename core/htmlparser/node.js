@@ -141,6 +141,10 @@
 		 */
 		getIndex: function() {
 			return CKEDITOR.tools.indexOf( this.parent.children, this );
+		},
+
+		getFilterContext: function( context ) {
+			return context || {};
 		}
 	};
 })();

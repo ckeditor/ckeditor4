@@ -168,27 +168,27 @@
 				node.filter( this );
 			},
 
-			onElementName: function( name ) {
-				return this.elementNameRules.execOnName( name );
+			onElementName: function( context, name ) {
+				return this.elementNameRules.execOnName( context, name );
 			},
 
-			onAttributeName: function( name ) {
-				return this.attributeNameRules.execOnName( name );
+			onAttributeName: function( context, name ) {
+				return this.attributeNameRules.execOnName( context, name );
 			},
 
-			onText: function( text ) {
-				return this.textRules.exec( text );
+			onText: function( context, text ) {
+				return this.textRules.exec( context, text );
 			},
 
-			onComment: function( commentText, comment ) {
-				return this.commentRules.exec( commentText, comment );
+			onComment: function( context, commentText, comment ) {
+				return this.commentRules.exec( context, commentText, comment );
 			},
 
-			onRoot: function( element ) {
-				return this.rootRules.exec( element );
+			onRoot: function( context, element ) {
+				return this.rootRules.exec( context, element );
 			},
 
-			onElement: function( element ) {
+			onElement: function( context, element ) {
 				// We must apply filters set to the specific element name as
 				// well as those set to the generic ^/$ name. So, add both to an
 				// array and process them in a small loop.
@@ -198,13 +198,13 @@
 				for ( var i = 0; i < 3; i++ ) {
 					rulesGroup = rulesGroups[ i ];
 					if ( rulesGroup ) {
-						ret = rulesGroup.exec( element, this );
+						ret = rulesGroup.exec( context, element, this );
 
 						if ( ret === false )
 							return null;
 
 						if ( ret && ret != element )
-							return this.onNode( ret );
+							return this.onNode( context, ret );
 
 						// The non-root element has been dismissed by one of the filters.
 						if ( element.parent && !element.name )
@@ -215,19 +215,19 @@
 				return element;
 			},
 
-			onNode: function( node ) {
+			onNode: function( context, node ) {
 				var type = node.type;
 
-				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( node ) :
-					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( node.value ) ) :
-					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( node.value ) ) : null;
+				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( context, node ) :
+					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( context, node.value ) ) :
+					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( context, node.value ) ) : null;
 			},
 
-			onAttribute: function( element, name, value ) {
+			onAttribute: function( context, element, name, value ) {
 				var rulesGroup = this.attributesRules[ name ];
 
 				if ( rulesGroup )
-					return rulesGroup.exec( value, element, this );
+					return rulesGroup.exec( context, value, element, this );
 				return value;
 			}
 		}
@@ -315,12 +315,13 @@
 		 * @param {CKEDITOR.htmlParser.node/CKEDITOR.htmlParser.fragment/String} currentValue The value to be filtered.
 		 * @returns {CKEDITOR.htmlParser.node/CKEDITOR.htmlParser.fragment/String} Filtered value.
 		 */
-		exec: function( currentValue ) {
+		exec: function( context, currentValue ) {
 			var isNode = currentValue instanceof CKEDITOR.htmlParser.node || currentValue instanceof CKEDITOR.htmlParser.fragment,
-				args = Array.prototype.slice.apply( arguments ),
+				// Splice '1' to remove context, which we don't want to pass to filter rules.
+				args = Array.prototype.slice.call( arguments, 1 ),
 				rules = this.rules,
 				len = rules.length,
-				orgType, orgName, ret, i;
+				orgType, orgName, ret, i, rule;
 
 			for ( i = 0; i < len; i++ ) {
 				// Backup the node info before filtering.
@@ -329,29 +330,32 @@
 					orgName = currentValue.name;
 				}
 
-				ret = rules[ i ].value.apply( null, args );
+				rule = rules[ i ];
+				if ( isRuleApplicable( context, rule ) ) {
+					ret = rule.value.apply( null, args );
 
-				if ( ret === false )
-					return ret;
-
-				// We're filtering node (element/fragment).
-				if ( isNode ) {
-					// No further filtering if it's not anymore
-					// fitable for the subsequent filters.
-					if ( ret && ( ret.name != orgName || ret.type != orgType ) )
+					if ( ret === false )
 						return ret;
-				}
-				// Filtering value (nodeName/textValue/attrValue).
-				else {
-					// No further filtering if it's not any more values.
-					if ( typeof ret != 'string' )
-						return ret;
-				}
 
-				// Update currentValue and corresponding argument in args array.
-				// Updated values will be used in next for-loop step.
-				if ( ret != undefined )
-					args[ 0 ] = currentValue = ret;
+					// We're filtering node (element/fragment).
+					if ( isNode ) {
+						// No further filtering if it's not anymore
+						// fitable for the subsequent filters.
+						if ( ret && ( ret.name != orgName || ret.type != orgType ) )
+							return ret;
+					}
+					// Filtering value (nodeName/textValue/attrValue).
+					else {
+						// No further filtering if it's not any more values.
+						if ( typeof ret != 'string' )
+							return ret;
+					}
+
+					// Update currentValue and corresponding argument in args array.
+					// Updated values will be used in next for-loop step.
+					if ( ret != undefined )
+						args[ 0 ] = currentValue = ret;
+				}
 			}
 
 			return currentValue;
@@ -363,7 +367,7 @@
 		 * @param {String} currentName The name to be filtered.
 		 * @returns {String} Filtered name.
 		 */
-		execOnName: function( currentName ) {
+		execOnName: function( context, currentName ) {
 			var i = 0,
 				rules = this.rules,
 				len = rules.length,
@@ -371,7 +375,8 @@
 
 			for ( ; currentName && i < len; i++ ) {
 				rule = rules[ i ];
-				currentName = currentName.replace( rule.value[ 0 ], rule.value[ 1 ] );
+				if ( isRuleApplicable( context, rule ) )
+					currentName = currentName.replace( rule.value[ 0 ], rule.value[ 1 ] );
 			}
 
 			return currentName;
@@ -389,6 +394,11 @@
 
 			rulesGroup.add( newRules[ ruleName ], priority, options );
 		}
+	}
+
+	function isRuleApplicable( context, rule ) {
+		// Do not apply rule if context is nonEditable and rule doesn't have applyToNonEditable option.
+		return !context.nonEditable || rule.options.applyToNonEditable;
 	}
 
 })();

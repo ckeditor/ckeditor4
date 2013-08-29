@@ -46,8 +46,8 @@
 		 * been removed. This is an information for {@link CKEDITOR.htmlParser.element#filterChildren}
 		 * that it has to repeat filter on current position in parent's children array.
 		 */
-		filter: function( filter ) {
-			if ( !( this.value = filter.onText( this.value, this ) ) ) {
+		filter: function( filter, context ) {
+			if ( !( this.value = filter.onText( context, this.value, this ) ) ) {
 				this.remove();
 				return false;
 			}

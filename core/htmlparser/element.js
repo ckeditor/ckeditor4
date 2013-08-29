@@ -159,7 +159,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			var element = this,
 				originalName, name;
 
-			context = element.updateContext( context );
+			context = element.getFilterContext( context );
 
 			// Do not process elements with data-cke-processor attribute set to off.
 			if ( context.off )
@@ -167,19 +167,19 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			// Filtering if it's the root node.
 			if ( !element.parent )
-				filter.onRoot( element, context );
+				filter.onRoot( context, element );
 
 			while ( true ) {
 				originalName = element.name;
 
-				if ( !( name = filter.onElementName( originalName ) ) ) {
+				if ( !( name = filter.onElementName( context, originalName ) ) ) {
 					this.remove();
 					return false;
 				}
 
 				element.name = name;
 
-				if ( !( element = filter.onElement( element ) ) ) {
+				if ( !( element = filter.onElement( context, element ) ) ) {
 					this.remove();
 					return false;
 				}
@@ -225,7 +225,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				// because it iterates with for-in loop even over properties
 				// created during its run.
 				while ( true ) {
-					if ( !( newAttrName = filter.onAttributeName( a ) ) ) {
+					if ( !( newAttrName = filter.onAttributeName( context, a ) ) ) {
 						delete attributes[ a ];
 						break;
 					} else if ( newAttrName != a ) {
@@ -237,7 +237,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				}
 
 				if ( newAttrName ) {
-					if ( ( value = filter.onAttribute( element, newAttrName, value ) ) === false )
+					if ( ( value = filter.onAttribute( context, element, newAttrName, value ) ) === false )
 						delete attributes[ newAttrName ];
 					else
 						attributes[ newAttrName ] = value;
@@ -245,7 +245,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			}
 
 			if ( !element.isEmpty )
-				this.filterChildren( filter );
+				this.filterChildren( filter, false, context );
 
 			return true;
 		},
@@ -465,7 +465,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			return ( new RegExp( '(?:^|\\s)' + className + '(?=\\s|$)' ) ).test( classes );
 		},
 
-		updateContext: function( ctx ) {
+		getFilterContext: function( ctx ) {
 			var changes = [];
 
 			if ( !ctx ) {
@@ -489,7 +489,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			return ctx;
 		}
-	} );
+	}, true );
 
 	function nameCondition( condition ) {
 		return function( el ) {
