@@ -3,17 +3,37 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+'use strict';
+
 (function() {
 	/**
-	 * TODO
+	 * Filter is a configurable tool for transforming and filtering {@link CKEDITOR.htmlParser.node nodes}.
+	 * It is mainly used during data processing phase which is done not on real DOM nodes,
+	 * but on their simplified form represented by {@link CKEDITOR.htmlParser.node} class and its subclasses.
+	 *
+	 *		var filter = new CKEDITOR.htmlParser.filter( {
+	 *			text: function( value ) {
+	 *				return '@' + value + '@';
+	 *			},
+	 *			elements: {
+	 *				p: function( element ) {
+	 *					element.attributes.foo = '1';
+	 *				}
+	 *			}
+	 *		} );
+	 *
+	 *		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<p>Foo<b>bar!</b></p>' ),
+	 *			writer = new CKEDITOR.htmlParser.basicWriter();
+	 *		filter.applyTo( fragment );
+	 *		fragment.writeHtml( writer );
+	 *		writer.getHtml(); // '<p foo="1">@Foo@<b>@bar!@</b></p>'
 	 *
 	 * @class
-	 * @todo we need examples...
 	 */
-	CKEDITOR.htmlParser.filter = CKEDITOR.tools.createClass({
+	CKEDITOR.htmlParser.filter = CKEDITOR.tools.createClass( {
 		/**
 		 * @constructor Creates a filter class instance.
-		 * @todo param
+		 * @param {CKEDITOR.htmlParser.filterRules} [rules]
 		 */
 		$: function( rules ) {
 			/**
@@ -38,14 +58,30 @@
 
 		proto: {
 			/**
-			 * Add rules to this filter
+			 * Add rules to this filter.
 			 *
-			 * @param rules Object containing filter rules.
-			 * @param {Number} [priority=10]
+			 * @param {CKEDITOR.htmlParser.filterRules} rules Object containing filter rules.
+			 * @param {Object/Number} [options] Object containing rules' options or a priority
+			 * (for a backward compatibility with CKEditor versions up to 4.2.x).
+			 * @param {Number} [options.priority=10] The priority of a rule.
+			 * @param {Boolean} [options.applyToNonEditable=false] Whether to apply rule to non-editable
+			 * elements and their descendants too.
 			 */
-			addRules: function( rules, priority ) {
+			addRules: function( rules, options ) {
+				var priority;
+
+				// Backward compatibility.
+				if ( typeof options == 'number' )
+					priority = options;
+				// New version - try reading from options.
+				else if ( options && ( 'priority' in options ) )
+					priority = options.priority;
+
+				// Defaults.
 				if ( typeof priority != 'number' )
 					priority = 10;
+				if ( typeof options != 'object' )
+					options = {};
 
 				// Add the elementNames.
 				addItemsToList( this._.elementNames, rules.elementNames, priority );
@@ -131,7 +167,9 @@
 			onNode: function( node ) {
 				var type = node.type;
 
-				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( node ) : type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( node.value ) ) : type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( node.value ) ) : null;
+				return type == CKEDITOR.NODE_ELEMENT ? this.onElement( node ) :
+					type == CKEDITOR.NODE_TEXT ? new CKEDITOR.htmlParser.text( this.onText( node.value ) ) :
+					type == CKEDITOR.NODE_COMMENT ? new CKEDITOR.htmlParser.comment( this.onComment( node.value ) ) : null;
 			},
 
 			onAttribute: function( element, name, value ) {
@@ -150,11 +188,15 @@
 				return value;
 			}
 		}
-	});
+	} );
 
 	function filterName( name, filters ) {
-		for ( var i = 0; name && i < filters.length; i++ ) {
-			var filter = filters[ i ];
+		var i = 0,
+			len = filters.length,
+			filter;
+
+		for ( ; name && i < len; i++ ) {
+			filter = filters[ i ];
 			name = name.replace( filter[ 0 ], filter[ 1 ] );
 		}
 		return name;
@@ -225,17 +267,20 @@
 	// Invoke filters sequentially on the array, break the iteration
 	// when it doesn't make sense to continue anymore.
 	function callItems( currentEntry ) {
-		var isNode = currentEntry.type || currentEntry instanceof CKEDITOR.htmlParser.fragment;
+		var isNode = currentEntry instanceof CKEDITOR.htmlParser.node || currentEntry instanceof CKEDITOR.htmlParser.fragment,
+			args = Array.prototype.slice.apply( arguments ),
+			len = this.length,
+			orgType, orgName, item, ret, i;
 
-		for ( var i = 0; i < this.length; i++ ) {
+		for ( i = 0; i < len; i++ ) {
 			// Backup the node info before filtering.
 			if ( isNode ) {
-				var orgType = currentEntry.type,
-					orgName = currentEntry.name;
+				orgType = currentEntry.type;
+				orgName = currentEntry.name;
 			}
 
-			var item = this[ i ],
-				ret = item.apply( window, arguments );
+			item = this[ i ];
+			ret = item.apply( null, args );
 
 			if ( ret === false )
 				return ret;
@@ -244,32 +289,27 @@
 			if ( isNode ) {
 				// No further filtering if it's not anymore
 				// fitable for the subsequent filters.
-				if ( ret && ( ret.name != orgName || ret.type != orgType ) ) {
+				if ( ret && ( ret.name != orgName || ret.type != orgType ) )
 					return ret;
-				}
 			}
 			// Filtering value (nodeName/textValue/attrValue).
 			else {
-				// No further filtering if it's not
-				// any more values.
+				// No further filtering if it's not any more values.
 				if ( typeof ret != 'string' )
 					return ret;
 			}
 
-			ret != undefined && ( currentEntry = ret );
+			// Update currentEntry and corresponding argument in args array.
+			// Updated values will be used in next for-loop step.
+			if ( ret != undefined )
+				args[ 0 ] = currentEntry = ret;
 		}
 
 		return currentEntry;
 	}
 })();
 
-// "entities" plugin
-/*
-{
-	text : function( text )
-	{
-		// TODO : Process entities.
-		return text.toUpperCase();
-	}
-};
-*/
+/**
+ * @class CKEDITOR.htmlParser.filterRules
+ * @abstract
+ */
