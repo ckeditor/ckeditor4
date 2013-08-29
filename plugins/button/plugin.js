@@ -34,7 +34,7 @@
 
 
 	template += '>&nbsp;</span>' +
-		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label">{label}</span>' +
+		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label" aria-hidden="false">{label}</span>' +
 		'{arrowHtml}' +
 		'</a>';
 
