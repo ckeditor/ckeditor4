@@ -1070,7 +1070,7 @@
 				}
 			};
 
-		filter.addRules({
+		filter.addRules( {
 			elements: {
 				h1: squashHeader,
 				h2: squashHeader,
@@ -1102,7 +1102,7 @@
 						return false;
 
 					// Remove all attributes.
-					delete element.attributes;
+					element.attributes = [];
 
 					// Pass brs.
 					if ( initialName == 'br' )
@@ -1140,7 +1140,10 @@
 					return element;
 				}
 			}
-		});
+		}, {
+			// Apply this filter to every element.
+			applyToNonEditable: true
+		} );
 
 		return filter;
 	}
