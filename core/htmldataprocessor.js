@@ -19,7 +19,18 @@
 
 		this.editor = editor;
 
+		/**
+		 * Data filter used when processing input by {@link #toHtml}.
+		 *
+		 * @property {CKEDITOR.htmlParser.filter}
+		 */
 		this.dataFilter = dataFilter = new CKEDITOR.htmlParser.filter();
+
+		/**
+		 * HTML filter used when processing output by {@link #toDataFormat}.
+		 *
+		 * @property {CKEDITOR.htmlParser.filter}
+		 */
 		this.htmlFilter = htmlFilter = new CKEDITOR.htmlParser.filter();
 
 		/**
@@ -29,10 +40,12 @@
 		 */
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
-		dataFilter.addRules( defaultDataFilterRules );
-		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ) );
-		htmlFilter.addRules( defaultHtmlFilterRules );
-		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ) );
+		dataFilter.addRules( defaultDataFilterRulesEditableOnly );
+		dataFilter.addRules( defaultDataFilterRulesForAll, { applyToNonEditable: true } );
+		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ), { applyToNonEditable: true } );
+		htmlFilter.addRules( defaultHtmlFilterRulesEditableOnly );
+		htmlFilter.addRules( defaultHtmlFilterRulesForAll, { applyToNonEditable: true } );
+		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ), { applyToNonEditable: true } );
 
 		editor.on( 'toHtml', function( evt ) {
 			var evtData = evt.data,
@@ -469,16 +482,25 @@
 		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
 	}
 
-	var dtd = CKEDITOR.dtd;
+	var dtd = CKEDITOR.dtd,
+		// Define orders of table elements.
+		tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
+		// List of all block elements.
+		blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$blockLimit, dtd.$block );
 
-	// Define orders of table elements.
-	var tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
+	//
+	// DATA filter rules ------------------------------------------------------
+	//
 
-	// List of all block elements.
-	var blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$blockLimit, dtd.$block );
+	var defaultDataFilterRulesEditableOnly = {
+		elements: {
+			input: protectReadOnly,
+			textarea: protectReadOnly
+		}
+	};
 
-	var defaultDataFilterRules = {
-		elements: {},
+	// These rules will also be applied to non-editable content.
+	var defaultDataFilterRulesForAll = {
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
 			// active in the editing area (IE|WebKit).
@@ -486,7 +508,49 @@
 		]
 	};
 
-	var defaultHtmlFilterRules = {
+	// Disable form elements editing mode provided by some browsers. (#5746)
+	function protectReadOnly( element ) {
+		var attrs = element.attributes;
+
+		// We should flag that the element was locked by our code so
+		// it'll be editable by the editor functions (#6046).
+		if ( attrs.contenteditable != 'false' )
+			attrs[ 'data-cke-editable' ] = attrs.contenteditable ? 'true' : 1;
+
+		attrs.contenteditable = 'false';
+	}
+
+	//
+	// HTML filter rules ------------------------------------------------------
+	//
+
+	var defaultHtmlFilterRulesEditableOnly = {
+		elements: {
+			embed: function( element ) {
+				var parent = element.parent;
+
+				// If the <embed> is child of a <object>, copy the width
+				// and height attributes from it.
+				if ( parent && parent.name == 'object' ) {
+					var parentWidth = parent.attributes.width,
+						parentHeight = parent.attributes.height;
+					if ( parentWidth )
+						element.attributes.width = parentWidth;
+					if ( parentHeight )
+						element.attributes.height = parentHeight;
+				}
+			},
+
+			// Remove empty link but not empty anchor. (#3829)
+			a: function( element ) {
+				if ( !( element.children.length || element.attributes.name || element.attributes[ 'data-cke-saved-name' ] ) )
+					return false;
+			}
+		}
+	};
+
+	// These rules will also be applied to non-editable content.
+	var defaultHtmlFilterRulesForAll = {
 		elementNames: [
 			// Remove the "cke:" namespace prefix.
 			[ ( /^cke:/ ), '' ],
@@ -530,7 +594,7 @@
 			table: function( element ) {
 					// Clone the array as it would become empty during the sort call.
 					var children = element.children.slice( 0 );
-					children.sort( function ( node1, node2 ) {
+					children.sort( function( node1, node2 ) {
 						var index1, index2;
 
 						// Compare in the predefined order.
@@ -547,33 +611,14 @@
 						}
 
 						return index1 > index2 ? 1 : -1;
-					});
+					} );
 			},
 
-			embed: function( element ) {
-				var parent = element.parent;
-
-				// If the <embed> is child of a <object>, copy the width
-				// and height attributes from it.
-				if ( parent && parent.name == 'object' ) {
-					var parentWidth = parent.attributes.width,
-						parentHeight = parent.attributes.height;
-					parentWidth && ( element.attributes.width = parentWidth );
-					parentHeight && ( element.attributes.height = parentHeight );
-				}
-			},
 			// Restore param elements into self-closing.
 			param: function( param ) {
 				param.children = [];
 				param.isEmpty = true;
 				return param;
-			},
-
-			// Remove empty link but not empty anchor.(#3829)
-			a: function( element ) {
-				if ( !( element.children.length || element.attributes.name || element.attributes[ 'data-cke-saved-name' ] ) ) {
-					return false;
-				}
 			},
 
 			// Remove dummy span in webkit.
@@ -594,7 +639,8 @@
 
 			style: function( element ) {
 				var child = element.children[ 0 ];
-				child && child.value && ( child.value = CKEDITOR.tools.trim( child.value ) );
+				if ( child && child.value )
+					child.value = CKEDITOR.tools.trim( child.value );
 
 				if ( !element.attributes.type )
 					element.attributes.type = 'text/css';
@@ -608,7 +654,10 @@
 
 				// Transfer data-saved title to title tag.
 				titleText.value = element.attributes[ 'data-cke-title' ] || '';
-			}
+			},
+
+			input: unprotectReadyOnly,
+			textarea: unprotectReadyOnly
 		},
 
 		attributes: {
@@ -622,24 +671,14 @@
 	if ( CKEDITOR.env.ie ) {
 		// IE outputs style attribute in capital letters. We should convert
 		// them back to lower case, while not hurting the values (#5930)
-		defaultHtmlFilterRules.attributes.style = function( value, element ) {
+		defaultHtmlFilterRulesForAll.attributes.style = function( value, element ) {
 			return value.replace( /(^|;)([^\:]+)/g, function( match ) {
 				return match.toLowerCase();
-			});
+			} );
 		};
 	}
 
-	function protectReadOnly( element ) {
-		var attrs = element.attributes;
-
-		// We should flag that the element was locked by our code so
-		// it'll be editable by the editor functions (#6046).
-		if ( attrs.contenteditable != "false" )
-			attrs[ 'data-cke-editable' ] = attrs.contenteditable ? 'true' : 1;
-
-		attrs.contenteditable = "false";
-	}
-
+	// Disable form elements editing mode provided by some browsers. (#5746)
 	function unprotectReadyOnly( element ) {
 		var attrs = element.attributes;
 		switch ( attrs[ 'data-cke-editable' ] ) {
@@ -651,11 +690,10 @@
 				break;
 		}
 	}
-	// Disable form elements editing mode provided by some browsers. (#5746)
-	for ( var i in { input:1,textarea:1 } ) {
-		defaultDataFilterRules.elements[ i ] = protectReadOnly;
-		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
-	}
+
+	//
+	// Preprocessor filters ---------------------------------------------------
+	//
 
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
 		protectAttributeRegex = /\s(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
