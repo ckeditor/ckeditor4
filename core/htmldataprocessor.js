@@ -264,9 +264,8 @@
 
 				if ( !next && isBlockBoundary( br.parent ) )
 					append( br.parent, createFiller( isOutput ) );
-				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) ) {
-					insertBefore( next, createFiller( isOutput ) );
-				}
+				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) )
+					createFiller( isOutput ).insertBefore( next );
 			};
 		}
 
@@ -286,7 +285,7 @@
 			{
 				// We need to separate tail NBSP out of a text node, for later removal.
 				if ( match.index ) {
-					insertBefore( node, new CKEDITOR.htmlParser.text( node.value.substring( 0, match.index ) ) );
+					( new CKEDITOR.htmlParser.text( node.value.substring( 0, match.index ) ) ).insertBefore( node );
 					node.value = match[ 0 ];
 				}
 
@@ -334,8 +333,8 @@
 							bogus.push( node );
 						// Convert the filler into appropriate form.
 						else {
-							insertAfter( node, createFiller( isOutput ) );
-							removeFromParent( node );
+							createFiller( isOutput ).insertAfter( node );
+							node.remove()
 						}
 					}
 
@@ -345,7 +344,7 @@
 
 			// Now remove all bogus collected from above.
 			for ( var i = 0 ; i < bogus.length ; i++ )
-				removeFromParent( bogus[ i ] );
+				bogus[ i ].remove();
 		}
 
 		// Judge whether it's an empty block that requires a filler node.
@@ -433,31 +432,6 @@
 						 node.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT );
 	}
 
-	function insertAfter( node, insertion ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		children.splice( index + 1, 0, insertion );
-		var next = node.next;
-		node.next = insertion;
-		insertion.previous = node;
-		insertion.parent = node.parent;
-		insertion.next = next;
-	}
-
-	function insertBefore( node, insertion ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		children.splice( index, 0, insertion );
-		var prev = node.previous;
-		node.previous = insertion;
-		insertion.next = node;
-		insertion.parent = node.parent;
-		if ( prev ) {
-			insertion.previous = prev;
-			prev.next = insertion;
-		}
-	}
-
 	function append( parent, node ) {
 		var last = parent.children[ parent.children.length -1 ];
 		parent.children.push( node );
@@ -468,18 +442,8 @@
 		}
 	}
 
-	function removeFromParent( node ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		var previous = node.previous, next = node.next;
-		previous && ( previous.next = next );
-		next && ( next.previous = previous );
-		children.splice( index, 1 );
-	}
-
 	function getNodeIndex( node ) {
-		var parent = node.parent;
-		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
+		return node.parent ? node.getIndex() : -1;
 	}
 
 	var dtd = CKEDITOR.dtd,
