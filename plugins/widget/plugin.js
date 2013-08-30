@@ -521,18 +521,17 @@
 
 		this.init && this.init();
 
-		// Finally mark widget as inited and non-editable.
-		this.wrapper.setAttributes( {
-			'data-cke-widget-wrapper-inited': 1,
-			contenteditable: false
-		} );
+		// Finally mark widget as inited.
+		this.inited = true;
 
 		setupWidgetData( this, startupData );
 
 		// If at some point (e.g. in #data listener) widget hasn't been destroyed
 		// and widget is already attached to document then fire #ready.
-		if ( this.isInited() && editor.editable().contains( this.wrapper ) )
+		if ( this.isInited() && editor.editable().contains( this.wrapper ) ) {
+			this.ready = true;
 			this.fire( 'ready' );
+		}
 	}
 
 	Widget.prototype = {
@@ -692,7 +691,16 @@
 		 * @returns {Boolean}
 		 */
 		isInited: function() {
-			return !!( this.wrapper && this.wrapper.hasAttribute( 'data-cke-widget-wrapper-inited' ) );
+			return !!( this.wrapper && this.inited );
+		},
+
+		/**
+		 * TODO
+		 *
+		 * @returns {Boolean}
+		 */
+		isReady: function() {
+			return this.isInited() && this.ready;
 		},
 
 		/**
@@ -902,6 +910,7 @@
 
 						var widget = editor.widgets.getByElement( wrapper );
 						// Fire postponed #ready event.
+						widget.ready = true;
 						widget.fire( 'ready' );
 						widget.focus();
 					}
@@ -1027,9 +1036,9 @@
 		return {
 			// tabindex="-1" means that it can receive focus by code.
 			tabindex: -1,
+			contenteditable: 'false',
 			'data-cke-widget-wrapper': 1,
 			'data-cke-filter': 'off',
-			'data-cke-processor': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
 				( inlineWidget ? 'inline' : 'block' )
@@ -1341,48 +1350,56 @@
 				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
+		var toBeDowncasted = [];
+
+		editor.dataProcessor.htmlFilter.addRules( {
+			elements: {
+				'^': function( element ) {
+					var attrs = element.attributes,
+						widget, widgetElement;
+
+					// Wrapper.
+					// Perform first part of downcasting (cleanup) and cache widgets,
+					// because after applying DP's filter all data-cke-* attributes will be gone.
+					if ( 'data-cke-widget-id' in attrs ) {
+						widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
+						if ( widget ) {
+							widgetElement = element.getFirst( isWidgetElement );
+							toBeDowncasted.push( {
+								wrapper: element,
+								element: widgetElement,
+								widget: widget
+							} );
+
+							// If widget did not have data-cke-widget attribute before upcasting remove it.
+							if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
+								delete widgetElement.attributes[ 'data-widget' ];
+						}
+					}
+					// Nested editable.
+					if ( 'data-cke-widget-editable' in attrs )
+						delete attrs[ 'contenteditable' ];
+				}
+			}
+		}, {
+			applyToNonEditable: true
+		} );
+
 		// Listen after dataProcessor.htmlFilter and ACF were applied
 		// so wrappers securing widgets' contents are removed after all filtering was done.
 		editor.on( 'toDataFormat', function( evt ) {
-			var toBeDowncasted = [],
-				toBe, widget, widgetElement, retElement, attrs;
-
-			evt.data.dataValue.forEach( function( element ) {
-				var attrs = element.attributes;
-
-				// Wrapper.
-				if ( 'data-cke-widget-id' in attrs )
-					toBeDowncasted.push( element );
-				// Nested editable.
-				else if ( 'data-cke-widget-editable' in attrs ) {
-					delete attrs[ 'contenteditable' ];
-					delete attrs[ 'data-cke-widget-editable' ];
-					element.removeClass( 'cke_widget_editable' );
-					element.removeClass( 'cke_widget_editable_focused' );
-				}
-			}, CKEDITOR.NODE_ELEMENT );
+			var toBe, widget, widgetElement, retElement;
 
 			while ( ( toBe = toBeDowncasted.pop() ) ) {
-				widget = widgetsRepo.instances[ toBe.attributes[ 'data-cke-widget-id' ] ];
+				widget = toBe.widget;
+				widgetElement = toBe.element;
+				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
 
-				if ( widget ) {
-					widgetElement = toBe.getFirst( isWidgetElement );
-					retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+				// Returned element always defaults to widgetElement.
+				if ( !retElement )
+					retElement = widgetElement;
 
-					// Returned element always defaults to widgetElement.
-					if ( !retElement )
-						retElement = widgetElement;
-
-					// If widget did not have data-cke-widget attribute before upcasting remove it.
-					attrs = widgetElement.attributes;
-					if ( attrs[ 'data-cke-widget-keep-attr' ] != '1' )
-						delete attrs[ 'data-widget' ];
-					delete attrs[ 'data-cke-widget-data' ];
-					delete attrs[ 'data-cke-widget-keep-attr' ];
-					widgetElement.removeClass( 'cke_widget_element' );
-
-					toBe.replaceWith( retElement );
-				}
+				toBe.wrapper.replaceWith( retElement );
 			}
 		}, null, null, 13 );
 
