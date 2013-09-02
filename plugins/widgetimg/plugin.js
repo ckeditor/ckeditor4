@@ -12,7 +12,9 @@
 				'<img alt="" src="" />' +
 				'<figcaption>Caption</figcaption>' +
 			'</figure>',
-		templateInline = '<img alt="" src="" />';
+		templateInline = '<img alt="" src="" />',
+		templateResizer = '<span class="cke_widgetimg_resizer"></span>',
+		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper"></span>';
 
 	CKEDITOR.plugins.add( 'widgetimg', {
 		requires: 'widget,dialog',
@@ -22,17 +24,33 @@
 			CKEDITOR.addCss( '.cke_widgetimg_resizer{' +
 				'display:none;' +
 				'position:absolute;' +
-				'right:2px;' +
 				'bottom:2px;' +
-				'cursor:se-resize;' +
 				'width: 0px;' +
 				'height: 0px;' +
 				'border-style:solid;' +
+			'}' +
+			'.cke_widgetimg_resizer_wrapper{' +
+				'position:relative;' +
+				'display:inline-block;' +
+				'line-height:0;' +
+			'}' +
+			'.cke_widgetimg_resizer.cke_resizer_left{' +
+				'left:2px;' +
+				'border-width:10px 0 0 10px;' +
+				'border-color:transparent transparent transparent #ccc;' +
+				'box-shadow: -1px 1px 0px #777;' +
+				'-moz-box-shadow: -1px 1px 0px #777;' +
+				'-webkit-box-shadow: -1px 1px 0px #777;' +
+				'cursor:sw-resize;' +
+			'}' +
+			'.cke_widgetimg_resizer.cke_resizer_right{' +
+				'right:2px;' +
 				'border-width:0 0 10px 10px;' +
 				'border-color:transparent transparent #ccc transparent;' +
 				'box-shadow: 1px 1px 0px #777;' +
 				'-moz-box-shadow: 1px 1px 0px #777;' +
 				'-webkit-box-shadow: 1px 1px 0px #777;' +
+				'cursor:se-resize;' +
 			'}' +
 			'.cke_widget_wrapper:hover .cke_widgetimg_resizer{display:block;}' );
 		},
@@ -601,37 +619,83 @@
 	// Defines all features related to drag-driven image
 	// resizing.
 	function setupResizer( widget ) {
-		var resizer = CKEDITOR.dom.element.createFromHtml( '<span class="cke_widgetimg_resizer"></span>' ),
-			doc = widget.editor.document;
+		var doc = widget.editor.document,
+			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer ),
+			dir = 1;
 
-		resizer.appendTo( widget.wrapper );
+		if ( !widget.inline ) {
+			var resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
+			widget.parts.image.appendTo( resizeWrapper );
+			resizer.appendTo( resizeWrapper );
+			resizeWrapper.appendTo( widget.element, true );
+		} else
+			resizer.appendTo( widget.wrapper );
 
+		// Calculate values of size variables and mouse
+		// offsets. Start observing mousemove.
 		resizer.on( 'mousedown', function( evt ) {
 			var pageOffset = evt.data.getPageOffset(),
 				image = widget.parts.image,
+
+				// The x-coordinate of the mouse when button gets pressed.
 				startX = pageOffset.x,
+
+				// The initial dimensions and aspect ratio of the image.
 				startWidth = image.$.clientWidth,
 				startHeight = image.$.clientHeight,
 				ratio = startWidth / startHeight,
 
 				moveOffset, newWidth, newHeight, updateData,
 
-				moveListener = doc.on( 'mousemove', function( evt ) {
-					moveOffset = evt.data.getPageOffset();
-					newWidth = startWidth + moveOffset.x - startX;
-					newHeight = 0 | newWidth / ratio;
+				// Mousemove listener is removed on mouseup.
+				moveListener = doc.on( 'mousemove', onMouseMove );
 
-					if ( newWidth >= 0 && newHeight >= 0 ) {
-						image.setAttribute( 'width', newWidth );
-						image.setAttribute( 'height', newHeight );
-						updateData = true;
-					}
-				} );
+			function onMouseMove( evt ) {
+				moveOffset = evt.data.getPageOffset();
 
-			doc.once( 'mouseup', function() {
+				// Dir can be either 1 or -1. For right-aligned images, we need to
+				// subtract the difference to get proper width. Without it,
+				// resizer starts working the opposite way.
+				newWidth = startWidth + dir * ( moveOffset.x - startX );
+
+				newHeight = 0 | newWidth / ratio;
+
+				// Don't update attributes if negative.
+				if ( newWidth >= 0 && newHeight >= 0 ) {
+					image.setAttributes( { width: newWidth, height: newHeight } );
+					updateData = true;
+				} else
+					updateData = false;
+			}
+
+			function onMouseUp( evt ) {
 				moveListener.removeListener();
 				updateData && widget.setData( { width: newWidth, height: newHeight } );
-			} );
+			}
+
+			// If editor is framed, stop resizing if the pointer goes out of
+			// an iframe and the mouse button gets released.
+			if ( !doc.equals( CKEDITOR.document ) )
+				CKEDITOR.document.once( 'mouseup', onMouseUp );
+
+			// Clean up the mousemove listener. Update widget
+			// data if valid.
+			doc.once( 'mouseup', onMouseUp );
+		} );
+
+		// Change the position of the widget resizer when data changes.
+		// It's not only for UI but also for the algorithm because it must be
+		// slightly different according to alignment.
+		widget.on( 'data', function() {
+			if ( widget.data.align == 'right' ) {
+				resizer.removeClass( 'cke_resizer_right' );
+				resizer.addClass( 'cke_resizer_left' );
+				dir = -1;
+			} else {
+				resizer.removeClass( 'cke_resizer_left' );
+				resizer.addClass( 'cke_resizer_right' );
+				dir = 1;
+			}
 		} );
 	}
 })();
