@@ -18,6 +18,24 @@
 		requires: 'widget,dialog',
 		icons: 'widgetimg',
 
+		onLoad: function( editor ) {
+			CKEDITOR.addCss( '.cke_widgetimg_resizer{' +
+				'display:none;' +
+				'position:absolute;' +
+				'right:2px;' +
+				'bottom:2px;' +
+				'cursor:se-resize;' +
+				'width: 0px;' +
+				'height: 0px;' +
+				'border-style:solid;' +
+				'border-width:0 0 10px 10px;' +
+				'border-color:transparent transparent #ccc transparent;' +
+				'box-shadow: 1px 1px 0px #777;' +
+				'-moz-box-shadow: 1px 1px 0px #777;' +
+				'-webkit-box-shadow: 1px 1px 0px #777;' +
+			'}' +
+			'.cke_widget_wrapper:hover .cke_widgetimg_resizer{display:block;}' );
+		},
 		init: function( editor ) {
 			// Register the inline widget.
 			editor.widgets.add( 'imginline', imgInline );
@@ -154,8 +172,16 @@
 					image.removeStyle( 'float' );
 				}
 
+				// Get rid of extra vertical space when there's no caption.
+				// It will improve the look of the resizer.
+				if ( !data.hasCaption )
+					this.wrapper.setStyle( 'line-height', '0' );
+
 				// Set collected data.
 				this.setData( data );
+
+				// Setup dynamic image resizing with mouse.
+				setupResizer( this );
 
 				// Create shift stater for this widget.
 				this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
@@ -570,5 +596,42 @@
 			else
 				image.removeAttribute( d );
 		}
+	}
+
+	// Defines all features related to drag-driven image
+	// resizing.
+	function setupResizer( widget ) {
+		var resizer = CKEDITOR.dom.element.createFromHtml( '<span class="cke_widgetimg_resizer"></span>' ),
+			doc = widget.editor.document;
+
+		resizer.appendTo( widget.wrapper );
+
+		resizer.on( 'mousedown', function( evt ) {
+			var pageOffset = evt.data.getPageOffset(),
+				image = widget.parts.image,
+				startX = pageOffset.x,
+				startWidth = image.$.clientWidth,
+				startHeight = image.$.clientHeight,
+				ratio = startWidth / startHeight,
+
+				moveOffset, newWidth, newHeight, updateData,
+
+				moveListener = doc.on( 'mousemove', function( evt ) {
+					moveOffset = evt.data.getPageOffset();
+					newWidth = startWidth + moveOffset.x - startX;
+					newHeight = 0 | newWidth / ratio;
+
+					if ( newWidth >= 0 && newHeight >= 0 ) {
+						image.setAttribute( 'width', newWidth );
+						image.setAttribute( 'height', newHeight );
+						updateData = true;
+					}
+				} );
+
+			doc.once( 'mouseup', function() {
+				moveListener.removeListener();
+				updateData && widget.setData( { width: newWidth, height: newHeight } );
+			} );
+		} );
 	}
 })();
