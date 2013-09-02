@@ -165,16 +165,28 @@
 		 * is suitable for using in the WYSIWYG editable.
 		 *
 		 * @param {String} data The raw data.
-		 * @param {String} [context] The tag name of a context element within which
+		 * @param {Object} [options] The options object.
+		 * @param {String} [options.context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
-		 * @param {Boolean} [fixForBody] Whether to trigger the auto paragraph for non-block contents.
-		 * @param {Boolean} [dontFilter] Do not filter data with {@link CKEDITOR.filter}.
+		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
+		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter}.
 		 * @returns {String}
 		 */
-		toHtml: function( data, context, fixForBody, dontFilter ) {
-			var editor = this.editor;
+		toHtml: function( data, options, fixForBody, dontFilter ) {
+			var editor = this.editor,
+				context;
+
+			// Typeof null == 'object', so check truthiness of options too.
+			if ( options && typeof options == 'object' ) {
+				context = options.context;
+				fixForBody = options.fixForBody;
+				dontFilter = options.dontFilter;
+			}
+			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
+			else
+				context = options;
 
 			// Fall back to the editable as context if not specified.
 			if ( !context && context !== null )
