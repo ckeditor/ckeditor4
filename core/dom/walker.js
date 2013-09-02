@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -503,6 +503,31 @@
 
 	var isIgnored = CKEDITOR.dom.walker.ignored();
 
+	function isEmpty( node ) {
+		var i = 0,
+			l = node.getChildCount();
+
+		for ( ; i < l; ++i ) {
+			if ( !isIgnored( node.getChild( i ) ) )
+				return false;
+		}
+		return true;
+	}
+
+	function filterTextContainers( dtd ) {
+		var hash = {},
+			name;
+
+		for ( name in dtd ) {
+			if ( CKEDITOR.dtd[ name ][ '#' ] )
+				hash[ name ] = 1;
+		}
+		return hash;
+	}
+
+	// Block elements which can contain text nodes (without ul, ol, dl, etc.).
+	var dtdTextBlock = filterTextContainers( CKEDITOR.dtd.$block );
+
 	function isEditable( node ) {
 		// Skip temporary elements, bookmarks and whitespaces.
 		if ( isIgnored( node ) )
@@ -511,12 +536,18 @@
 		if ( node.type == CKEDITOR.NODE_TEXT )
 			return true;
 
-		if ( node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$intermediate ) ) {
-			// If it is a block, it needs to be non-editable (special case - see above).
-			return node.is( CKEDITOR.dtd.$block ) ? node.getAttribute( 'contenteditable' ) == 'false' : true;
+		if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+			// All inline and non-editable elements are valid editable places.
+			// Note: non-editable block has to be treated differently (should be selected entirely).
+			if ( node.is( CKEDITOR.dtd.$inline ) || node.getAttribute( 'contenteditable' ) == 'false' )
+				return true;
+
+			// Empty blocks are editable on IE.
+			if ( CKEDITOR.env.ie && node.is( dtdTextBlock ) && isEmpty( node ) )
+				return true;
 		}
 
-		// Skip all other nodes (etc. comments and intermediate elements).
+		// Skip all other nodes.
 		return false;
 	}
 
@@ -527,9 +558,10 @@
 	 * This includes:
 	 *
 	 * * text nodes (but not whitespaces),
-	 * * non-block, non-intermediate elements (see {@link CKEDITOR.dtd#$intermediate}),
+	 * * inline elements,
 	 * * non-editable blocks (special case - such blocks cannot be containers nor
-	 * siblings, they need to be selected entirely).
+	 * siblings, they need to be selected entirely),
+	 * * empty blocks which can contain text (IE only).
 	 *
 	 * @since 4.3
 	 * @static

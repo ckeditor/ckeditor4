@@ -344,8 +344,6 @@
 		};
 	})();
 
-	var editableEval = CKEDITOR.dom.walker.editable();
-
 	// Handle left, right, delete and backspace keystrokes next to non-editable elements
 	// by faking selection on them.
 	function getOnKeyDownListener( editor ) {
@@ -366,7 +364,7 @@
 			if ( ranges.length != 1 || !range.collapsed )
 				return;
 
-			var next = range[ keystroke < 38 ? 'getPreviousNode' : 'getNextNode' ]( editableEval );
+			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
 				editor.getSelection().fake( next );

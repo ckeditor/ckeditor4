@@ -370,7 +370,11 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 
-	var isBogus = CKEDITOR.dom.walker.bogus();
+	var isBogus = CKEDITOR.dom.walker.bogus(),
+		nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
+		editableEval = CKEDITOR.dom.walker.editable(),
+		notIgnoredEval = CKEDITOR.dom.walker.ignored( true );
+
 	// Evaluator for CKEDITOR.dom.element::checkBoundaryOfElement, reject any
 	// text node and non-empty elements unless it's being bookmark text.
 	function elementBoundaryEval( checkStart ) {
@@ -392,9 +396,20 @@ CKEDITOR.dom.range = function( root ) {
 		};
 	}
 
-	var nbspRegExp = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
-		editableEval = CKEDITOR.dom.walker.editable(),
-		notIgnoredEval = CKEDITOR.dom.walker.ignored( true );
+	function getNextEditableNode( isNext ) {
+		return function() {
+			var first;
+
+			return this[ isNext ? 'getNextNode' : 'getPreviousNode' ]( function( node ) {
+				// Cache first not ignorable node.
+				if ( !first && notIgnoredEval( node ) )
+					first = node;
+
+				// Return true if found editable node, but not a bogus next to start of our lookup (first != bogus).
+				return editableEval( node ) && !( isBogus( node ) && node.equals( first ) );
+			} );
+		};
+	}
 
 	CKEDITOR.dom.range.prototype = {
 		/**
@@ -2095,16 +2110,15 @@ CKEDITOR.dom.range = function( root ) {
 			if ( !element.is( CKEDITOR.dtd.$block ) )
 				found = 1;
 			else {
-				// Look for first node that fulfills eval function
-				// and place range next to it.
-				sibling = range[ isMoveToEnd ? 'getNextNode' : 'getPreviousNode' ]( editableEval );
+				// Look for first node that fulfills eval function and place range next to it.
+				sibling = range[ isMoveToEnd ? 'getNextEditableNode' : 'getPreviousEditableNode' ]();
 				if ( sibling ) {
 					found = 1;
 
 					// Special case - eval accepts block element only if it's a non-editable block,
 					// which we want to select, not place collapsed selection next to it (which browsers
 					// can't handle).
-					if ( sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( CKEDITOR.dtd.$block ) ) {
+					if ( sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( CKEDITOR.dtd.$block ) && sibling.getAttribute( 'contenteditable' ) == 'false' ) {
 						range.setStartAt( sibling, CKEDITOR.POSITION_BEFORE_START );
 						range.setEndAt( sibling, CKEDITOR.POSITION_AFTER_END );
 					}
@@ -2189,6 +2203,25 @@ CKEDITOR.dom.range = function( root ) {
 
 			return container.getChild( this.endOffset - 1 ) || container;
 		},
+
+		/**
+		 * Gets next node which can be a container of a selection.
+		 * This methods mimics a behavior of right/left arrow keys in case of
+		 * collapsed selection. It does not return an exact position (with offset) though,
+		 * but just a selection's container.
+		 *
+		 * Note: use this method on a collapsed range.
+		 *
+		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
+		 */
+		getNextEditableNode: getNextEditableNode( 1 ),
+
+		/**
+		 * See {@link #getNextEditableNode}.
+		 *
+		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
+		 */
+		getPreviousEditableNode: getNextEditableNode(),
 
 		/**
 		 * Scrolls the start of current range into view.
