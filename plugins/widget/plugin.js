@@ -433,6 +433,7 @@
 
 	CKEDITOR.event.implementOn( Repository.prototype );
 
+
 	/**
 	 * @class CKEDITOR.plugins.widget
 	 * @mixins CKEDITOR.event
@@ -653,15 +654,16 @@
 		 * **Note**: only elements from {@link CKEDITOR.dtd#$editable} may become editables.
 		 *
 		 * @param {String} editableName The nested editable name.
-		 * @param {String} selector CSS selector used to find editable element inside widget wrapper.
-		 * @param {CKEDITOR.filter.allowedContentRules} [filterRules] Allowed Content Rules
-		 * which will be used to restrict content and features allowed in nested editable.
-		 * @returns {Boolean} Whether editable was successfully initialized.
+		 * @param {CKEDITOR.plugins.widget.nestedEditableDefinition} definition The definition of nested editable.
+		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
-		initEditable: function( editableName, selector, filterRules ) {
-			var editable = this.wrapper.findOne( selector );
+		initEditable: function( editableName, definition ) {
+			var editable = this.wrapper.findOne( definition.selector );
 
 			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
+				editable = new NestedEditable( this.editor, editable, {
+					filter: createEditableFilter.call( this.repository, this.name, editableName, definition )
+				} );
 				this.editables[ editableName ] = editable;
 
 				editable.setAttributes( {
@@ -795,6 +797,39 @@
 	};
 
 	CKEDITOR.event.implementOn( Widget.prototype );
+
+
+	/**
+	 * Wrapper class for editable elements inside widgets.
+	 *
+	 * Don't use directly. Use {@link CKEDITOR.plugins.widget.definition#editables} or
+	 * {@link CKEDITOR.plugins.widget#initEditable}.
+	 *
+	 * @class CKEDITOR.plugins.widget.nestedEditable
+	 * @extends CKEDITOR.dom.element
+	 * @constructor
+	 * @param {CKEDITOR.editor} editor
+	 * @param {CKEDITOR.dom.element} element
+	 * @param config
+	 * @param {CKEDITOR.filter} [config.filter]
+	 */
+	function NestedEditable( editor, element, config ) {
+		// Call the base constructor.
+		CKEDITOR.dom.element.call( this, element.$ );
+		this.editor = editor;
+		this.filter = config.filter;
+	}
+
+	NestedEditable.prototype = CKEDITOR.tools.extend( CKEDITOR.tools.prototypedCopy( CKEDITOR.dom.element.prototype ), {
+		setData: function( data ) {
+			var data = this.editor.dataProcessor.toHtml( data, this.getName() );
+			this.setHtml( data );
+		},
+
+		getData: function() {
+			return this.getHtml();
+		}
+	} );
 
 
 	//
@@ -997,11 +1032,11 @@
 	//
 	// @param {String} widgetName
 	// @param {String} editableName
-	// @param {CKEDITOR.filter.allowedContentRules} rules
+	// @param {CKEDITOR.plugins.widget.nestedEditableDefinition} editableDefinition The nested editable definition.
 	// @returns {CKEDITOR.filter} Filter instance or `null` if rules are not defined.
 	// @context CKEDITOR.plugins.widget.repository
-	function createEditableFilter( widgetName, editableName, rules ) {
-		if ( !rules )
+	function createEditableFilter( widgetName, editableName, editableDefinition ) {
+		if ( !editableDefinition.allowedContent )
 			return null;
 
 		var editables = this._.filters[ widgetName ];
@@ -1012,7 +1047,7 @@
 		var filter = editables[ editableName ];
 
 		if ( !filter )
-			editables[ editableName ] = filter = new CKEDITOR.filter( rules );
+			editables[ editableName ] = filter = new CKEDITOR.filter( editableDefinition.allowedContent );
 
 		return filter;
 	}
@@ -1196,16 +1231,15 @@
 		widgetsRepo.editor.fire( 'lockSnapshot' );
 
 		if ( editableElement ) {
+			var editableName = editableElement.data( 'cke-widget-editable' ),
+				editableInstance = widget.editables[ editableName ];
+
 			widgetsRepo.widgetHoldingFocusedEditable = widget;
-			widget.focusedEditable = editableElement;
+			widget.focusedEditable = editableInstance;
 			editableElement.addClass( 'cke_widget_editable_focused' );
 
-			var editableName = editableElement.data( 'cke-widget-editable' ),
-				filter = createEditableFilter.call( widgetsRepo, widget.name, editableName,
-					widgetsRepo.registered[ widget.name ].editables[ editableName].allowedContent );
-
-			if ( filter )
-				widgetsRepo.editor.setActiveFilter( filter );
+			if ( editableInstance.filter )
+				widgetsRepo.editor.setActiveFilter( editableInstance.filter );
 		} else {
 			if ( !offline )
 				widget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
@@ -1806,7 +1840,7 @@
 
 	function setupEditables( widget ) {
 		var editableName,
-			editableCfg,
+			editableDef,
 			definedEditables = widget.editables;
 
 		widget.editables = {};
@@ -1815,8 +1849,8 @@
 			return;
 
 		for ( editableName in definedEditables ) {
-			editableCfg = definedEditables[ editableName ];
-			widget.initEditable( editableName, typeof editableCfg == 'string' ? editableCfg : editableCfg.selector );
+			editableDef = definedEditables[ editableName ];
+			widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
 		}
 	}
 
@@ -1931,6 +1965,7 @@
 
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
+	Widget.nestedEditable = NestedEditable;
 })();
 
 /**
