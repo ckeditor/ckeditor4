@@ -680,6 +680,10 @@
 				editable.on( 'focus', onEditableFocus, this );
 				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
 
+				// Finally, process editable's data. This data wasn't processed when loading
+				// editor's data, becuase they need to be processed separately, with its own filters and settings.
+				editable.setData( editable.getHtml() );
+
 				return true;
 			}
 
@@ -1417,8 +1421,13 @@
 						}
 					}
 					// Nested editable.
-					if ( 'data-cke-widget-editable' in attrs )
+					if ( 'data-cke-widget-editable' in attrs ) {
 						delete attrs[ 'contenteditable' ];
+
+						// Replace nested editable's content with its output data.
+						var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
+						element.setHtml( editable.getData() );
+					}
 				}
 			}
 		}, {

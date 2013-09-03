@@ -387,6 +387,19 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
+		 * Sets this element's inner HTML.
+		 *
+		 * @since 4.3
+		 * @param {String} html
+		 */
+		setHtml: function( html ) {
+			var children = this.children = CKEDITOR.htmlParser.fragment.fromHtml( html ).children;
+
+			for ( var i = 0, l = children.length; i < l; ++i )
+				children[ i ].parent = this;
+		},
+
+		/**
 		 * Gets this element's outer HTML.
 		 *
 		 * @since 4.3
