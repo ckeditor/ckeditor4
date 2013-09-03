@@ -13,8 +13,8 @@
 				'<figcaption>Caption</figcaption>' +
 			'</figure>',
 		templateInline = '<img alt="" src="" />',
-		templateResizer = '<span class="cke_widgetimg_resizer"></span>',
-		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper"></span>';
+		templateResizer = '<span class="cke_widgetimg_resizer">&#8203;</span>',
+		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper">&#8203;</span>';
 
 	CKEDITOR.plugins.add( 'widgetimg', {
 		requires: 'widget,dialog',
@@ -546,6 +546,15 @@
 		var attrs = el.attributes,
 			align = this.data.align;
 
+		// De-wrap the image from resize handle wrapper.
+		// Only block widgets have one.
+		if ( !this.inline ) {
+			var resizeWrapper = el.getFirst( 'span' ),
+				img = resizeWrapper.getFirst( 'img' );
+
+			resizeWrapper.replaceWith( img );
+		}
+
 		if ( align && align != 'none' ) {
 			// Parse element styles. Styles will be extended.
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
@@ -625,6 +634,7 @@
 
 		if ( !widget.inline ) {
 			var resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
+
 			widget.parts.image.appendTo( resizeWrapper );
 			resizer.appendTo( resizeWrapper );
 			resizeWrapper.appendTo( widget.element, true );
