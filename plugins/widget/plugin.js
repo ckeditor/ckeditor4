@@ -1394,61 +1394,66 @@
 				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
-		var toBeDowncasted = [],
+		var downcastingSessions = {},
 			nestedEditableScope = false;
 
-		editor.dataProcessor.htmlFilter.addRules( {
-			elements: {
-				'^': function( element ) {
-					var attrs = element.attributes,
-						widget, widgetElement;
+		editor.on( 'toDataFormat', function( evt ) {
+			// To avoid conflicts between htmlDP#toDF calls done at the same time
+			// (e.g. nestedEditable#getData called during downcasting some widget)
+			// mark every toDataFormat event chain with the downcasting session id.
+			var id = CKEDITOR.tools.getNextNumber(),
+				toBeDowncasted = [];
+			evt.data.downcastingSessionId = id;
+			downcastingSessions[ id ] = toBeDowncasted;
 
-					// Wrapper.
-					// Perform first part of downcasting (cleanup) and cache widgets,
-					// because after applying DP's filter all data-cke-* attributes will be gone.
-					if ( 'data-cke-widget-id' in attrs ) {
-						widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
-						if ( widget ) {
-							widgetElement = element.getFirst( isWidgetElement );
-							toBeDowncasted.push( {
-								wrapper: element,
-								element: widgetElement,
-								widget: widget
-							} );
+			evt.data.dataValue.forEach( function( element ) {
+				var attrs = element.attributes,
+					widget, widgetElement;
 
-							// If widget did not have data-cke-widget attribute before upcasting remove it.
-							if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
-								delete widgetElement.attributes[ 'data-widget' ];
-						}
-					}
-					// Nested editable.
-					else if ( 'data-cke-widget-editable' in attrs ) {
-						delete attrs[ 'contenteditable' ];
+				// Wrapper.
+				// Perform first part of downcasting (cleanup) and cache widgets,
+				// because after applying DP's filter all data-cke-* attributes will be gone.
+				if ( 'data-cke-widget-id' in attrs ) {
+					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
+					if ( widget ) {
+						widgetElement = element.getFirst( isWidgetElement );
+						toBeDowncasted.push( {
+							wrapper: element,
+							element: widgetElement,
+							widget: widget
+						} );
 
-						nestedEditableScope = true;
-
-						// Replace nested editable's content with its output data.
-						var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
-						element.setHtml( editable.getData() );
-
-						nestedEditableScope = false;
+						// If widget did not have data-cke-widget attribute before upcasting remove it.
+						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
+							delete widgetElement.attributes[ 'data-widget' ];
 					}
 				}
-			}
-		}, {
-			applyToNonEditable: true
-		} );
+				// Nested editable.
+				else if ( 'data-cke-widget-editable' in attrs ) {
+					delete attrs[ 'contenteditable' ];
+
+					// Replace nested editable's content with its output data.
+					var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
+					element.setHtml( editable.getData() );
+
+					// Don't check children - there won't be next wrapper or nested editable which we
+					// should process in this session.
+					return false;
+				}
+			}, CKEDITOR.NODE_ELEMENT );
+		}, null, null, 8 );
 
 		// Listen after dataProcessor.htmlFilter and ACF were applied
 		// so wrappers securing widgets' contents are removed after all filtering was done.
 		editor.on( 'toDataFormat', function( evt ) {
-			var toBe, widget, widgetElement, retElement;
-
-			// Don't start downcasting when toDataFormat was called for one of editables.
-			if ( nestedEditableScope )
+			// Ignore some unmarked sessions.
+			if ( !evt.data.downcastingSessionId )
 				return;
 
-			while ( ( toBe = toBeDowncasted.pop() ) ) {
+			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
+				toBe, widget, widgetElement, retElement;
+
+			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
