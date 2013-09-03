@@ -146,25 +146,6 @@
 			this.allow( defaultRules.join( ' ' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
-
-			//
-			// Add filter listeners to toHTML and toDataFormat events.
-			//
-
-			// Filter incoming "data".
-			// Add element filter before htmlDataProcessor.dataFilter
-			// when purifying input data to correct html.
-			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				if ( this.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
-					editor.fire( 'dataFiltered' );
-			}, this, null, 6 );
-
-			// Transform outcoming "data".
-			// Add element filter after htmlDataProcessor.htmlFilter
-			// when preparing output data HTML.
-			this._.toDataFormatListener = editor.on( 'toDataFormat', function( evt ) {
-				this.applyTo( evt.data.dataValue, false, true );
-			}, this, null, 11 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -277,6 +258,9 @@
 		 * @returns {Boolean} Whether some part of the `fragment` was removed by the filter.
 		 */
 		applyTo: function( fragment, toHtml, transformOnly ) {
+			if ( this.disabled )
+				return false;
+
 			var toBeRemoved = [],
 				rules = !transformOnly && this._.rules,
 				transformations = this._.transformations,
@@ -404,10 +388,6 @@
 		 */
 		disable: function() {
 			this.disabled = true;
-			if ( this._.toHtmlListener )
-				this._.toHtmlListener.removeListener();
-			if ( this._.toDataFormatListener )
-				this._.toDataFormatListener.removeListener();
 		},
 
 		/**

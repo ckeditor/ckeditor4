@@ -117,6 +117,15 @@
 			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( editor.config ) );
 		}, null, null, 5 );
 
+		// Filter incoming "data".
+		// Add element filter before htmlDataProcessor.dataFilter when purifying input data to correct html.
+		editor.on( 'toHtml', function( evt ) {
+			var filter = evt.data.filter || editor.filter;
+
+			if ( filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
+				editor.fire( 'dataFiltered' );
+		}, null, null, 6 );
+
 		editor.on( 'toHtml', function( evt ) {
 			evt.data.dataValue.filterChildren( that.dataFilter, true );
 		}, null, null, 10 );
@@ -142,6 +151,14 @@
 		editor.on( 'toDataFormat', function( evt ) {
 			evt.data.dataValue.filterChildren( that.htmlFilter, true );
 		}, null, null, 10 );
+
+		// Transform outcoming "data".
+		// Add element filter after htmlDataProcessor.htmlFilter when preparing output data HTML.
+		editor.on( 'toDataFormat', function( evt ) {
+			var filter = evt.data.filter || editor.filter;
+
+			filter.applyTo( evt.data.dataValue, false, true );
+		}, null, null, 11 );
 
 		editor.on( 'toDataFormat', function( evt ) {
 			var data = evt.data.dataValue,
@@ -171,18 +188,22 @@
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
 		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
-		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter}.
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using {@link CKEDITOR.editor#filter default filter},
+		 * passed instance will be used to filter the content.
+		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
+		 * will be still applied).
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
 			var editor = this.editor,
-				context;
+				context, filter;
 
 			// Typeof null == 'object', so check truthiness of options too.
 			if ( options && typeof options == 'object' ) {
 				context = options.context;
 				fixForBody = options.fixForBody;
 				dontFilter = options.dontFilter;
+				filter = options.filter;
 			}
 			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
 			else
@@ -196,7 +217,8 @@
 				dataValue: data,
 				context: context,
 				fixForBody: fixForBody,
-				dontFilter: !!dontFilter
+				dontFilter: dontFilter,
+				filter: filter
 			} ).dataValue;
 		},
 
@@ -204,11 +226,15 @@
 		 * See {@link CKEDITOR.dataProcessor#toDataFormat}.
 		 *
 		 * @param {String} html
+		 * @param {Object} [options] The options object.
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using {@link CKEDITOR.editor#filter default filter},
+		 * passed instance will be used to apply content transformations to the content.
 		 * @returns {String}
 		 */
-		toDataFormat: function( html ) {
+		toDataFormat: function( html, options ) {
 			return this.editor.fire( 'toDataFormat', {
-				dataValue: html
+				dataValue: html,
+				filter: options && options.filter
 			} ).dataValue;
 		}
 	};
@@ -856,6 +882,7 @@
  * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} The `context` argument.
  * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} The `fixForBody` argument.
  * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
+ * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `filter` argument.
  */
 
 /**
