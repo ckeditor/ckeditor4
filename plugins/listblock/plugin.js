@@ -224,7 +224,13 @@ CKEDITOR.plugins.add( 'listblock', {
 						}
 					}
 					else {
+						var scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
+
 						this.element.focus();
+
+						// #10623 - restore the viewport's scroll position after focusing list element.
+						if ( CKEDITOR.env.webkit )
+							CKEDITOR.document[ CKEDITOR.env.webkit ? 'getBody' : 'getDocumentElement' ]().$.scrollTop = scrollTop;
 					}
 
 					selected && setTimeout( function() {
