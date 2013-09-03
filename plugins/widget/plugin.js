@@ -822,12 +822,18 @@
 
 	NestedEditable.prototype = CKEDITOR.tools.extend( CKEDITOR.tools.prototypedCopy( CKEDITOR.dom.element.prototype ), {
 		setData: function( data ) {
-			var data = this.editor.dataProcessor.toHtml( data, { context: this.getName() } );
+			var data = this.editor.dataProcessor.toHtml( data, {
+				context: this.getName(),
+				filter: this.filter
+			} );
 			this.setHtml( data );
 		},
 
 		getData: function() {
-			return this.getHtml();
+			return this.editor.dataProcessor.toDataFormat( this.getHtml(), {
+				context: this.getName(),
+				filter: this.filter
+			} );
 		}
 	} );
 

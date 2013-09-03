@@ -145,7 +145,7 @@
 
 		editor.on( 'toDataFormat', function( evt ) {
 			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				evt.data.dataValue, editor.editable().getName(), getFixBodyTag( editor.config ) );
+				evt.data.dataValue, evt.data.context, getFixBodyTag( editor.config ) );
 		}, null, null, 5 );
 
 		editor.on( 'toDataFormat', function( evt ) {
@@ -227,14 +227,30 @@
 		 *
 		 * @param {String} html
 		 * @param {Object} [options] The options object.
+		 * @param {String} [options.context] The tag name of a context element within which
+		 * the input is to be processed, default to be the editable element.
 		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using {@link CKEDITOR.editor#filter default filter},
 		 * passed instance will be used to apply content transformations to the content.
 		 * @returns {String}
 		 */
 		toDataFormat: function( html, options ) {
+			var context, filter;
+
+			// Do not shorten this to `options && options.xxx`, because
+			// falsy `options` will be passed instead of undefined.
+			if ( options ) {
+				context = options.context;
+				filter = options.filter;
+			}
+
+			// Fall back to the editable as context if not specified.
+			if ( !context && context !== null )
+				context = this.editor.editable().getName();
+
 			return this.editor.fire( 'toDataFormat', {
 				dataValue: html,
-				filter: options && options.filter
+				filter: filter,
+				context: context
 			} ).dataValue;
 		}
 	};
