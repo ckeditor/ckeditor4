@@ -1394,7 +1394,8 @@
 				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
-		var toBeDowncasted = [];
+		var toBeDowncasted = [],
+			nestedEditableScope = false;
 
 		editor.dataProcessor.htmlFilter.addRules( {
 			elements: {
@@ -1421,12 +1422,16 @@
 						}
 					}
 					// Nested editable.
-					if ( 'data-cke-widget-editable' in attrs ) {
+					else if ( 'data-cke-widget-editable' in attrs ) {
 						delete attrs[ 'contenteditable' ];
+
+						nestedEditableScope = true;
 
 						// Replace nested editable's content with its output data.
 						var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
 						element.setHtml( editable.getData() );
+
+						nestedEditableScope = false;
 					}
 				}
 			}
@@ -1438,6 +1443,10 @@
 		// so wrappers securing widgets' contents are removed after all filtering was done.
 		editor.on( 'toDataFormat', function( evt ) {
 			var toBe, widget, widgetElement, retElement;
+
+			// Don't start downcasting when toDataFormat was called for one of editables.
+			if ( nestedEditableScope )
+				return;
 
 			while ( ( toBe = toBeDowncasted.pop() ) ) {
 				widget = toBe.widget;
