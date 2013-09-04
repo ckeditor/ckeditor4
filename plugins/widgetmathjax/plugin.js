@@ -38,7 +38,7 @@
 				},
 
 				init: function() {
-					this.once( 'ready', function () {
+					this.once( 'ready', function() {
 						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor.config.mathJaxLib );
 						this.frameWrapper.setValue( this.data.math );
 					} );
@@ -51,15 +51,16 @@
 
 				upcast: function( el, data ) {
 					if ( !( el.name == 'span' && el.hasClass( cls ) ) )
-						return false;
+						return;
 
 					data.math = el.children[ 0 ].value;
 
 					// Add style display:inline-block.
-					if ( el.attributes[ 'style' ] )
-						el.attributes[ 'style' ] = el.attributes[ 'style' ] + ";display:inline-block";
+					var attrs = el.attributes;
+					if ( attrs.style )
+						attrs.style += ';display:inline-block';
 					else
-						el.attributes[ 'style' ] = "display:inline-block";
+						attrs.style = 'display:inline-block';
 
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
 						style: 'border:0;width:0;height:0',
@@ -75,10 +76,10 @@
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.text( this.data.math ) );
 
 					// Remove style display:inline-block.
-					el.attributes[ 'style' ] = el.attributes[ 'style' ].replace( /display:\s?inline-block;?$/, '' );
-					if ( el.attributes[ 'style' ] == "" ) {
-						delete el.attributes[ 'style' ];
-					}
+					var attrs = el.attributes;
+					attrs.style = attrs.style.replace( /display:\s?inline-block;?$/, '' );
+					if ( attrs.style == '' )
+						delete attrs.style;
 
 					return el;
 				}
@@ -87,7 +88,8 @@
 			CKEDITOR.dialog.add( 'widgetmathjax', this.path + 'dialogs/widgetmathjax.js' );
 
 			editor.on( 'contentPreview', function( evt ) {
-				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/, '<script src="' + ( editor.config.mathJaxLib || cdn ) + '"><\/script><\/head>' );
+				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
+					'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"><\/script><\/head>' );
 			} );
 		}
 	} );
