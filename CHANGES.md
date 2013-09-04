@@ -14,6 +14,7 @@ CKEditor 4 Changelog
 * [#9816](http://dev.ckeditor.com/ticket/9816): Floating toolbar does not reposition vertically in several cases.
 * [#10646](http://dev.ckeditor.com/ticket/10646): Removing selected sub-list or nested table with *Backspace/Delete* removes parent element.
 * [#10623](http://dev.ckeditor.com/ticket/10623): [WebKit] Page is scrolled when opening a combo.
+* [#10004](http://dev.ckeditor.com/ticket/10004): [ChromeVox] Button names are not announced.
 
 ## CKEditor 4.2
 
