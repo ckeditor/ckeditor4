@@ -209,7 +209,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of block elements, like `<p>` or `<div>`.
 		 */
-		$block: X( { audio:1,dd:1,dt:1,li:1,video:1 }, FO, DFO ),
+		$block: X( { audio:1,dd:1,dt:1,figcaption:1,li:1,video:1 }, FO, DFO ),
 
 		/**
 		 * List of elements that contain other blocks, in which block-level operations should be limited,
