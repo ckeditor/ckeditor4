@@ -9,7 +9,8 @@
 	var DTD = CKEDITOR.dtd,
 		copy = CKEDITOR.tools.copy,
 		trim = CKEDITOR.tools.trim,
-		TEST_VALUE = 'cke-test';
+		TEST_VALUE = 'cke-test',
+		enterModeTags = ',p,br,div'.split( ',' );
 
 	/**
 	 * Highly configurable class which implements input data filtering mechanisms
@@ -28,10 +29,11 @@
 	 * configuration option.
 	 *
 	 * **Note**: Filter rules will be extended with the following elements
-	 * depending on the {@link CKEDITOR.config#enterMode} setting:
+	 * depending on the {@link CKEDITOR.config#enterMode} and
+	 * {@link CKEDITOR.config#shiftEnterMode} settings:
 	 *
-	 *	* `'p br'` &ndash; for {@link CKEDITOR#ENTER_P},
-	 *	* `'div br'` &ndash; for {@link CKEDITOR#ENTER_DIV},
+	 *	* `'p'` &ndash; for {@link CKEDITOR#ENTER_P},
+	 *	* `'div'` &ndash; for {@link CKEDITOR#ENTER_DIV},
 	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
 	 * **Read more** about the Advanced Content Filter in [guides](#!/guide/dev_advanced_content_filter).
@@ -94,20 +96,6 @@
 		 */
 		this.editor = null;
 
-		/**
-		 * Enter mode used by the filter when deciding how to strip disallowed elements.
-		 *
-		 * For editor filter it will be set to {@link CKEDITOR.config#enterMode} unless this
-		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor &mdash; in this case
-		 * {@link CKEDITOR#ENTER_BR} will be forced.
-		 *
-		 * For the standalone filter by default it will be set to {@link CKEDITOR#ENTER_P}.
-		 *
-		 * @readonly
-		 * @property {Number} [=CKEDITOR.ENTER_P]
-		 */
-		this.enterMode = CKEDITOR.ENTER_P;
-
 		this._ = {
 			// Optimized allowed content rules.
 			rules: {},
@@ -120,8 +108,7 @@
 			var editor = this.editor = editorOrRules;
 			this.customConfig = true;
 
-			var allowedContent = editor.config.allowedContent,
-				enterMode;
+			var allowedContent = editor.config.allowedContent
 
 			// Disable filter completely by setting config.allowedContent = true.
 			if ( allowedContent === true ) {
@@ -132,20 +119,11 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			// Force ENTER_BR for blockless editable.
-			this.enterMode = enterMode = ( editor.blockless ? CKEDITOR.ENTER_BR : editor.config.enterMode );
-
-			var defaultRules = [ 'br' ],
-				shiftEnterMode = editor.blockless ? CKEDITOR.ENTER_BR : editor.config.shiftEnterMode;
-
-			if ( enterMode == CKEDITOR.ENTER_P || shiftEnterMode == CKEDITOR.ENTER_P )
-				defaultRules.push( 'p' );
-			if ( enterMode == CKEDITOR.ENTER_DIV || shiftEnterMode == CKEDITOR.ENTER_DIV )
-				defaultRules.push( 'div' );
-
-			this.allow( defaultRules.join( ' ' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
+
+			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
+			this.allow( [ enterModeTags[ editor.enterMode ], enterModeTags[ editor.shiftEnterMode ] ].join( ' ' ), 'default', 1 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -255,9 +233,11 @@
 		 * @param {Boolean} [toHtml] Set to `true` if the filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
 		 * will not be filtered with allowed content rules.
+		 * @param {Number} [enterMode] Enter mode used by the filter when deciding how to strip disallowed element.
+		 * Defaults to {@link CKEDITOR.editor#enter} for a editor's filter or to {@link CKEDITOR#ENTER_P} for standalone filter.
 		 * @returns {Boolean} Whether some part of the `fragment` was removed by the filter.
 		 */
-		applyTo: function( fragment, toHtml, transformOnly ) {
+		applyTo: function( fragment, toHtml, transformOnly, enterMode ) {
 			if ( this.disabled )
 				return false;
 
@@ -300,7 +280,7 @@
 
 			var node, element, check,
 				toBeChecked = [],
-				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
+				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( node = toBeRemoved.pop() ) ) {

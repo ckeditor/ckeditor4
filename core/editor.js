@@ -382,7 +382,6 @@
 		// Documented in dataprocessor.js.
 		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
 
-		// Documented in filter.js.
 		// Set activeFilter directly to avoid firing event.
 		editor.filter = editor.activeFilter = new CKEDITOR.filter( editor );
 
