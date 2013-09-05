@@ -347,8 +347,10 @@
 					}
 
 					// Get the HTML version of the data.
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data, {
+						// Always process editor's data with the main filter.
+						filter: editor.filter
+					} );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -465,8 +467,10 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data );
+					data = editor.dataProcessor.toDataFormat( data, {
+						// Always process editor's data with the main filter.
+						filter: editor.filter
+					} );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;

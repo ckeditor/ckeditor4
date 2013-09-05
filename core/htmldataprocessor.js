@@ -120,7 +120,7 @@
 		// Filter incoming "data".
 		// Add element filter before htmlDataProcessor.dataFilter when purifying input data to correct html.
 		editor.on( 'toHtml', function( evt ) {
-			var filter = evt.data.filter || editor.filter;
+			var filter = evt.data.filter || editor.activeFilter;
 
 			if ( filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
 				editor.fire( 'dataFiltered' );
@@ -155,7 +155,7 @@
 		// Transform outcoming "data".
 		// Add element filter after htmlDataProcessor.htmlFilter when preparing output data HTML.
 		editor.on( 'toDataFormat', function( evt ) {
-			var filter = evt.data.filter || editor.filter;
+			var filter = evt.data.filter || editor.activeFilter;
 
 			filter.applyTo( evt.data.dataValue, false, true );
 		}, null, null, 11 );
@@ -188,7 +188,7 @@
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
 		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
-		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using {@link CKEDITOR.editor#filter default filter},
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#activeFilter active filter},
 		 * passed instance will be used to filter the content.
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
 		 * will be still applied).
@@ -229,7 +229,7 @@
 		 * @param {Object} [options] The options object.
 		 * @param {String} [options.context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
-		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using {@link CKEDITOR.editor#filter default filter},
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#activeFilter active filter},
 		 * passed instance will be used to apply content transformations to the content.
 		 * @returns {String}
 		 */
