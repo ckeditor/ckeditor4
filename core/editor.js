@@ -1174,6 +1174,10 @@
 		 *		var filter = new CKEDITOR.filter( 'p strong em br' );
 		 *		editor.setActiveFilter( filter );
 		 *
+		 * If new filter does not allow tags required by default enter modes ({@link CKEDITOR.config#enterMode} and
+		 * {@link CKEDITOR.config#shiftEnterMode}), then current enter modes ({@link #enterMode} and {@link #shiftEnterMode})
+		 * will be downgraded to other values.
+		 *
 		 * @since 4.3
 		 * @param {CKEDITOR.filter} filter Filter instance or a falsy value (e.g. `null`) to reset to the default one.
 		 */
@@ -1201,12 +1205,21 @@
 		 * {@link #enterMode} and {@link #shiftEnterMode} values. Thanks to this method it's possible to change
 		 * enter modes during runtime.
 		 *
-		 * **Note:** Since CKEditor 4.3 you should check {@link #enterMode} and {@link #shiftEnterMode} instead of
-		 * {@link CKEDITOR.config#enterMode} and {@link CKEDITOR.config#shiftEnterMode}.
+		 * This method should not be used to configure editor &ndash; use {@link CKEDITOR.config#enterMode} and
+		 * {@link CKEDITOR.config#shiftEnterMode} instead. This method should be used only to dynamically change
+		 * enter mode during runtime based on selection changes (e.g. when selection is moved into the `<pre>` element).
+		 * Keep in mind that changed enter mode may be overwritten by other plugin/feature when it decided that
+		 * the changed context requires this.
+		 *
+		 * **Note:** Since CKEditor 4.3 plugins authors should check {@link #enterMode} and {@link #shiftEnterMode}
+		 * instead of {@link CKEDITOR.config#enterMode} and {@link CKEDITOR.config#shiftEnterMode}.
 		 *
 		 * **Note:** In case of blockless editor (inline editor based on element which cannot contain block elements
 		 * &ndash; see {@link CKEDITOR.editor#blockless}) only {@link CKEDITOR#ENTER_BR} is a valid enter mode. Therefore
 		 * this method will not allow to set other values.
+		 *
+		 * **Note:** Changing the {@link #activeFilter active filter} may cuase enter mode change if default enter modes
+		 * are not allowed by the new filter.
 		 *
 		 * @since 4.3
 		 * @param {Number} enterMode One of {@link CKEDITOR#ENTER_P}, {@link CKEDITOR#ENTER_DIV}, {@link CKEDITOR#ENTER_BR}.
