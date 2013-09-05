@@ -123,7 +123,7 @@
 		editor.on( 'toHtml', function( evt ) {
 			var filter = evt.data.filter || editor.activeFilter;
 
-			if ( filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
+			if ( filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter, evt.data.enterMode ) )
 				editor.fire( 'dataFiltered' );
 		}, null, null, 6 );
 
