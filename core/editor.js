@@ -644,6 +644,34 @@
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
 
+	// Returns first enter mode allowed by the passed filter.
+	// Modes are checked in p, div, br order. If none of tags
+	// is allowed function will return ENTER_BR.
+	var firstAllowedEnterMode = (function() {
+		var enterModeTags = [ 'p', 'div', 'br' ],
+			enterModes = {
+				p: CKEDITOR.ENTER_P,
+				div: CKEDITOR.ENTER_DIV,
+				br: CKEDITOR.ENTER_BR
+			};
+
+		return function( filter, reverse ) {
+			var tags = enterModeTags.slice(),
+				tag;
+
+			// If not reverse order, reverse array so we can pop() from it.
+			if ( !reverse )
+				tags = tags.reverse();
+
+			while ( ( tag = tags.pop() ) ) {
+				if ( filter.check( tag ) )
+					return enterModes[ tag ];
+			}
+
+			return CKEDITOR.ENTER_BR;
+		};
+	})();
+
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
@@ -1156,6 +1184,12 @@
 			if ( this.activeFilter !== filter ) {
 				this.activeFilter = filter;
 				this.fire( 'activeFilterChange' );
+
+				// Reseted active filter to the main one - reset enter modes too.
+				if ( filter === this.filter )
+					this.setEnterMode( null, null );
+				else
+					this.setEnterMode( firstAllowedEnterMode( filter ), firstAllowedEnterMode( filter, true ) );
 			}
 		},
 
