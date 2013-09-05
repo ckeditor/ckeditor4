@@ -363,8 +363,8 @@
 		 */
 		editor.tabIndex = config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
 
-		editor.enterMode = editor._.defaultEnterMode = validateEnterMode( editor, config.enterMode );
-		editor.shiftEnterMode = editor._.defaultShiftEnterMode = validateEnterMode( editor, config.shiftEnterMode );
+		editor.activeEnterMode = editor.enterMode = validateEnterMode( editor, config.enterMode );
+		editor.activeShiftEnterMode = editor.shiftEnterMode = validateEnterMode( editor, config.shiftEnterMode );
 
 		// Set CKEDITOR.skinName. Note that it is not possible to have
 		// different skins on the same page, so the last one to set it "wins".
@@ -643,34 +643,6 @@
 	function validateEnterMode( editor, enterMode ) {
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
-
-	// Returns first enter mode allowed by the passed filter.
-	// Modes are checked in p, div, br order. If none of tags
-	// is allowed function will return ENTER_BR.
-	var firstAllowedEnterMode = (function() {
-		var enterModeTags = [ 'p', 'div', 'br' ],
-			enterModes = {
-				p: CKEDITOR.ENTER_P,
-				div: CKEDITOR.ENTER_DIV,
-				br: CKEDITOR.ENTER_BR
-			};
-
-		return function( filter, reverse ) {
-			var tags = enterModeTags.slice(),
-				tag;
-
-			// If not reverse order, reverse array so we can pop() from it.
-			if ( !reverse )
-				tags = tags.reverse();
-
-			while ( ( tag = tags.pop() ) ) {
-				if ( filter.check( tag ) )
-					return enterModes[ tag ];
-			}
-
-			return CKEDITOR.ENTER_BR;
-		};
-	})();
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
@@ -1191,9 +1163,9 @@
 
 				// Reseted active filter to the main one - reset enter modes too.
 				if ( filter === this.filter )
-					this.setEnterMode( null, null );
+					this.setActiveEnterMode( null, null );
 				else
-					this.setEnterMode( firstAllowedEnterMode( filter ), firstAllowedEnterMode( filter, true ) );
+					this.setActiveEnterMode( filter.getAllowedEnterMode(), filter.getAllowedEnterMode( true ) );
 			}
 		},
 
@@ -1226,15 +1198,15 @@
 		 * Pass falsy value (e.g. `null`) to reset enter mode to default value.
 		 * @param {Number} shiftEnterMode See `enterMode` argument.
 		 */
-		setEnterMode: function( enterMode, shiftEnterMode ) {
+		setActiveEnterMode: function( enterMode, shiftEnterMode ) {
 			// Validate passed modes or use default ones (validated on init).
-			enterMode = enterMode ? validateEnterMode( this, enterMode ) : this._.defaultEnterMode;
-			shiftEnterMode = shiftEnterMode ? validateEnterMode( this, shiftEnterMode ) : this._.defaultShiftEnterMode;
+			enterMode = enterMode ? validateEnterMode( this, enterMode ) : this.enterMode;
+			shiftEnterMode = shiftEnterMode ? validateEnterMode( this, shiftEnterMode ) : this.shiftEnterMode;
 
-			if ( this.enterMode != enterMode || this.shiftEnterMode != shiftEnterMode ) {
-				this.enterMode = enterMode;
-				this.shiftEnterMode = shiftEnterMode;
-				this.fire( 'enterModeChange' );
+			if ( this.activeEnterMode != enterMode || this.activeShiftEnterMode != shiftEnterMode ) {
+				this.activeEnterMode = enterMode;
+				this.activeShiftEnterMode = shiftEnterMode;
+				this.fire( 'activeEnterModeChange' );
 			}
 		}
 	});

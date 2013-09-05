@@ -828,7 +828,8 @@
 		setData: function( data ) {
 			var data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
-				filter: this.filter
+				filter: this.filter,
+				enterMode: this.filter ? this.filter.getAllowedEnterMode() : this.editor.enterMode
 			} );
 			this.setHtml( data );
 		},
@@ -836,7 +837,8 @@
 		getData: function() {
 			return this.editor.dataProcessor.toDataFormat( this.getHtml(), {
 				context: this.getName(),
-				filter: this.filter
+				filter: this.filter,
+				enterMode: this.filter ? this.filter.getAllowedEnterMode() : this.editor.enterMode
 			} );
 		}
 	} );

@@ -348,8 +348,9 @@
 
 					// Get the HTML version of the data.
 					data = editor.dataProcessor.toHtml( data, {
-						// Always process editor's data with the main filter.
-						filter: editor.filter
+						// Always process editor's data with the main filter and enter mode.
+						filter: editor.filter,
+						enterMode: editor.enterMode
 					} );
 
 					if ( fullPage ) {
@@ -468,8 +469,9 @@
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
 					data = editor.dataProcessor.toDataFormat( data, {
-						// Always process editor's data with the main filter.
-						filter: editor.filter
+						// Always process editor's data with the main filter and enter mode.
+						filter: editor.filter,
+						enterMode: editor.enterMode
 					} );
 
 					if ( xmlDeclaration )

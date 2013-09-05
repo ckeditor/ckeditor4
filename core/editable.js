@@ -184,7 +184,7 @@
 				beforeInsert( this );
 
 				var editor = this.editor,
-					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.enterMode,
+					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode,
 					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
 					tools = CKEDITOR.tools;
 
@@ -234,7 +234,7 @@
 				beforeInsert( this );
 
 				var editor = this.editor,
-					enterMode = editor.enterMode,
+					enterMode = editor.activeEnterMode,
 					selection = editor.getSelection(),
 					ranges = selection.getRanges(),
 					elementName = element.getName(),
@@ -324,8 +324,9 @@
 			setData: function( data, isSnapshot ) {
 				if ( !isSnapshot ) {
 					data = this.editor.dataProcessor.toHtml( data, {
-						// Always use main filter when processing editor's data.
-						filter: this.editor.filter
+						// Always use the main filter and enter mode when processing editor's data.
+						filter: this.editor.filter,
+						enterMode: this.editor.enterMode
 					} );
 				}
 
@@ -341,8 +342,9 @@
 
 				if ( !isSnapshot ) {
 					data = this.editor.dataProcessor.toDataFormat( data, {
-						// Always use main filter when processing editor's data.
-						filter: this.editor.filter
+						// Always use the main filter and enter mode when processing editor's data.
+						filter: this.editor.filter,
+						enterMode: this.editor.enterMode
 					} );
 				}
 
@@ -770,7 +772,7 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.enterMode;
+			enterMode = editor.activeEnterMode;
 
 		if ( CKEDITOR.env.gecko ) {
 			// v3: check if this is needed.
@@ -809,7 +811,7 @@
 			if ( !walker.checkForward() ||
 			     testRng.checkStartOfBlock() && testRng.checkEndOfBlock() ) {
 
-				var fixedBlock = range.fixBlock( true, editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+				var fixedBlock = range.fixBlock( true, editor.activeEnterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 				// For IE, we should remove any filler node which was introduced before.
 				if ( CKEDITOR.env.ie ) {
@@ -942,7 +944,7 @@
 	// editor should automatically wrap inline contents with blocks.
 	function shouldAutoParagraph( editor, pathBlock, pathBlockLimit ) {
 		return editor.config.autoParagraph !== false &&
-			editor.enterMode != CKEDITOR.ENTER_BR &&
+			editor.activeEnterMode != CKEDITOR.ENTER_BR &&
 			editor.editable().equals( pathBlockLimit ) && !pathBlock;
 	}
 
@@ -1432,7 +1434,7 @@
 		//
 
 		function autoParagraphTag( editor ) {
-			return ( editor.enterMode != CKEDITOR.ENTER_BR && editor.config.autoParagraph !== false ) ? editor.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+			return ( editor.activeEnterMode != CKEDITOR.ENTER_BR && editor.config.autoParagraph !== false ) ? editor.activeEnterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 		}
 
 		function checkIfElement( node ) {

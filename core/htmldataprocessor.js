@@ -114,7 +114,8 @@
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( editor.config ) );
+			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
+				data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( evtData.enterMode, editor.config.autoParagraph ) );
 		}, null, null, 5 );
 
 		// Filter incoming "data".
@@ -145,7 +146,7 @@
 
 		editor.on( 'toDataFormat', function( evt ) {
 			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				evt.data.dataValue, evt.data.context, getFixBodyTag( editor.config ) );
+				evt.data.dataValue, evt.data.context, getFixBodyTag( evt.data.enterMode, editor.config.autoParagraph ) );
 		}, null, null, 5 );
 
 		editor.on( 'toDataFormat', function( evt ) {
@@ -192,11 +193,12 @@
 		 * passed instance will be used to filter the content.
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
 		 * will be still applied).
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#activeEnterMode}.
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
 			var editor = this.editor,
-				context, filter;
+				context, filter, enterMode;
 
 			// Typeof null == 'object', so check truthiness of options too.
 			if ( options && typeof options == 'object' ) {
@@ -204,6 +206,7 @@
 				fixForBody = options.fixForBody;
 				dontFilter = options.dontFilter;
 				filter = options.filter;
+				enterMode = options.enterMode;
 			}
 			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
 			else
@@ -218,7 +221,8 @@
 				context: context,
 				fixForBody: fixForBody,
 				dontFilter: dontFilter,
-				filter: filter
+				filter: filter,
+				enterMode: enterMode || editor.activeEnterMode
 			} ).dataValue;
 		},
 
@@ -231,16 +235,18 @@
 		 * the input is to be processed, default to be the editable element.
 		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#activeFilter active filter},
 		 * passed instance will be used to apply content transformations to the content.
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#activeEnterMode}.
 		 * @returns {String}
 		 */
 		toDataFormat: function( html, options ) {
-			var context, filter;
+			var context, filter, enterMode;
 
 			// Do not shorten this to `options && options.xxx`, because
 			// falsy `options` will be passed instead of undefined.
 			if ( options ) {
 				context = options.context;
 				filter = options.filter;
+				enterMode = options.enterMode;
 			}
 
 			// Fall back to the editable as context if not specified.
@@ -250,7 +256,8 @@
 			return this.editor.fire( 'toDataFormat', {
 				dataValue: html,
 				filter: filter,
-				context: context
+				context: context,
+				enterMode: enterMode || this.editor.activeEnterMode
 			} ).dataValue;
 		}
 	};
@@ -440,8 +447,8 @@
 		return rules;
 	}
 
-	function getFixBodyTag( config ) {
-		return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+	function getFixBodyTag( enterMode, autoParagraph ) {
+		return ( enterMode != CKEDITOR.ENTER_BR && autoParagraph !== false ) ? enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 	}
 
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.

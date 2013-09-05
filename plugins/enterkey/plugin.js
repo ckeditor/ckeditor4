@@ -72,7 +72,7 @@
 						style = block.getAttribute( 'style' ),
 						dirLoose = blockGrandParent.getDirection( 1 ) != orgDir,
 
-						enterMode = editor.config.enterMode,
+						enterMode = editor.enterMode,
 						needsBlock = enterMode != CKEDITOR.ENTER_BR || dirLoose || style || className,
 
 						child;
@@ -484,7 +484,7 @@
 		// On SHIFT+ENTER:
 		// 1. We want to enforce the mode to be respected, instead
 		// of cloning the current block. (#77)
-		return enter( editor, editor.shiftEnterMode, 1 );
+		return enter( editor, editor.activeShiftEnterMode, 1 );
 	}
 
 	function enter( editor, mode, forceMode ) {
@@ -495,9 +495,9 @@
 			return;
 
 		if ( !mode )
-			mode = editor.enterMode;
+			mode = editor.activeEnterMode;
 
-		// TODO this should be handled by setting editor.enterMode on selection change.
+		// TODO this should be handled by setting editor.activeEnterMode on selection change.
 		// Check path block specialities:
 		// 1. Cannot be a un-splittable element, e.g. table caption;
 		var path = editor.elementPath();

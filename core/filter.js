@@ -234,7 +234,7 @@
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
 		 * will not be filtered with allowed content rules.
 		 * @param {Number} [enterMode] Enter mode used by the filter when deciding how to strip disallowed element.
-		 * Defaults to {@link CKEDITOR.editor#enter} for a editor's filter or to {@link CKEDITOR#ENTER_P} for standalone filter.
+		 * Defaults to {@link CKEDITOR.editor#activeEnterMode} for a editor's filter or to {@link CKEDITOR#ENTER_P} for standalone filter.
 		 * @returns {Boolean} Whether some part of the `fragment` was removed by the filter.
 		 */
 		applyTo: function( fragment, toHtml, transformOnly, enterMode ) {
@@ -280,7 +280,7 @@
 
 			var node, element, check,
 				toBeChecked = [],
-				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ];
+				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.activeEnterMode : CKEDITOR.ENTER_P ) ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( node = toBeRemoved.pop() ) ) {
@@ -650,7 +650,39 @@
 				this._.cachedChecks[ cacheKey ] = result;
 
 			return result;
-		}
+		},
+
+		/**
+		 * Returns first enter mode allowed by the filter rules. Modes are checked in `p`, `div`, `br` order.
+		 * If none of tags is allowed this method will return {@link CKEDITOR#ENTER_BR}.
+		 *
+		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).
+		 * @returns {Number} Allowed enter mode.
+		 */
+		getAllowedEnterMode: (function() {
+			var enterModeTags = [ 'p', 'div', 'br' ],
+				enterModes = {
+					p: CKEDITOR.ENTER_P,
+					div: CKEDITOR.ENTER_DIV,
+					br: CKEDITOR.ENTER_BR
+				};
+
+			return function( reverse ) {
+				var tags = enterModeTags.slice(),
+					tag;
+
+				// If not reverse order, reverse array so we can pop() from it.
+				if ( !reverse )
+					tags = tags.reverse();
+
+				while ( ( tag = tags.pop() ) ) {
+					if ( this.check( tag ) )
+						return enterModes[ tag ];
+				}
+
+				return CKEDITOR.ENTER_BR;
+			};
+		})()
 	};
 
 	// Apply ACR to an element
