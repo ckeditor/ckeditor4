@@ -481,14 +481,10 @@
 		headerTagRegex = /^h[1-6]$/;
 
 	function shiftEnter( editor ) {
-		// Only effective within document.
-		if ( editor.mode != 'wysiwyg' )
-			return;
-
 		// On SHIFT+ENTER:
 		// 1. We want to enforce the mode to be respected, instead
 		// of cloning the current block. (#77)
-		return enter( editor, editor.config.shiftEnterMode, 1 );
+		return enter( editor, editor.shiftEnterMode, 1 );
 	}
 
 	function enter( editor, mode, forceMode ) {
@@ -499,26 +495,16 @@
 			return;
 
 		if ( !mode )
-			mode = editor.config.enterMode;
+			mode = editor.enterMode;
 
+		// TODO this should be handled by setting editor.enterMode on selection change.
 		// Check path block specialities:
 		// 1. Cannot be a un-splittable element, e.g. table caption;
-		// 2. Must not be the editable element itself. (blockless)
 		var path = editor.elementPath();
 		if ( !path.isContextFor( 'p' ) ) {
 			mode = CKEDITOR.ENTER_BR;
 			forceMode = 1;
 		}
-
-		// Downgrade P/DIV mode to BR if adequate element is not allowed by current filter.
-		if ( mode != CKEDITOR.ENTER_BR && !editor.activeFilter.check( mode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) {
-			mode = CKEDITOR.ENTER_BR;
-			forceMode = 1;
-		}
-
-		// Block enter completely if even BR is not allowed.
-		if ( mode == CKEDITOR.ENTER_BR && !editor.activeFilter.check( 'br' ) )
-			return;
 
 		editor.fire( 'saveSnapshot' ); // Save undo step.
 
