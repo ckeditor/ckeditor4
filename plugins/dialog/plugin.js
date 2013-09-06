@@ -368,13 +368,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}, this, null, 0 );
 
 		this.on( 'cancel', function( evt ) {
-			iterContents( function( item ) {
-				if ( item.isChanged() ) {
-					if ( !confirm( editor.lang.common.confirmCancel ) )
-						evt.data.hide = false;
-					return true;
-				}
-			});
+			if (!editor.config.ignoreConfirmCancel) {		
+				iterContents( function( item ) {
+					if ( item.isChanged() ) {
+						if ( !confirm( editor.lang.common.confirmCancel ) )
+							evt.data.hide = false;
+						return true;
+					}
+				});
+			}
 		}, this, null, 0 );
 
 		this.parts.close.on( 'click', function( evt ) {
