@@ -5,12 +5,12 @@
 
 'use strict';
 
-CKEDITOR.plugins.add( 'widgettime', {
+CKEDITOR.plugins.add( 'time', {
 	// Require the "widget" plugin, which provides the Widget System and its API.
 	requires: 'widget,dialog',
 
 	// Let CKEditor know about the plugin icon.
-	icons: 'widgettime',
+	icons: 'time',
 
 	onLoad: function() {
 		// Styles used for widget editing. Do this "onLoad" because it should be
@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'widgettime', {
 		// Register the widget with a unique name "time".
 		editor.widgets.add( 'time', {
 			// We have a dialog to edit this widget, so here we set its name.
-			dialog: 'widgettime',
+			dialog: 'time',
 
 			// Let the Widget System create the toolbar button automatically.
 			button: 'Time',
@@ -69,6 +69,6 @@ CKEDITOR.plugins.add( 'widgettime', {
 		} );
 
 		// Register the editing dialog.
-		CKEDITOR.dialog.add( 'widgettime', this.path + 'dialogs/widgettime.js' );
+		CKEDITOR.dialog.add( 'time', this.path + 'dialogs/time.js' );
 	}
 } );

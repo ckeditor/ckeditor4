@@ -81,13 +81,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.disableAutoInline = true;
 
 		CKEDITOR.replace( 'editor1', {
-			extraPlugins: 'widgettime',
+			extraPlugins: 'time',
 			height: 350,
 			contentsCss: [ '../../../contents.css', 'contents.css' ]
 		} );
 
 		CKEDITOR.inline( 'editor2', {
-			extraPlugins: 'sourcedialog,widgettime'
+			extraPlugins: 'sourcedialog,time'
 		} );
 
 		CKCONSOLE.create( 'widget', { editor: 'editor1' } );

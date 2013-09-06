@@ -121,7 +121,6 @@
 			// Create prototyped copy of original widget defintion, so we won't modify it.
 			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
-			widgetDef.commandName = 'widget' + CKEDITOR.tools.capitalize( name );
 			widgetDef.repository = this;
 			widgetDef.definition = widgetDef;
 
@@ -859,10 +858,10 @@
 
 			// Create button if defined.
 			widgetButton = widget.button;
-			if ( widgetButton ) {
-				editor.ui.addButton && editor.ui.addButton( 'Widget' + CKEDITOR.tools.capitalize( widget.name ), {
+			if ( widgetButton && editor.ui.addButton ) {
+				editor.ui.addButton( CKEDITOR.tools.capitalize( widget.name, true ), {
 					label: widgetButton,
-					command: widget.commandName,
+					command: widget.name,
 					toolbar: 'insert,10'
 				} );
 			}
@@ -874,7 +873,7 @@
 	// @param editor
 	// @param {CKEDITOR.plugins.widget.registeredDefinition} widgetDef
 	function addWidgetCommand( editor, widgetDef ) {
-		editor.addCommand( widgetDef.commandName, {
+		editor.addCommand( widgetDef.name, {
 			exec: function() {
 				var focused = editor.widgets.focused;
 				// If a widget of the same type is focused, start editing.

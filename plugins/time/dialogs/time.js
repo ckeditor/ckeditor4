@@ -5,7 +5,7 @@
 
 'use strict';
 
-CKEDITOR.dialog.add( 'widgettime', function( editor ) {
+CKEDITOR.dialog.add( 'time', function( editor ) {
 	return {
 		title: 'Edit Time',
 		minWidth: 250,

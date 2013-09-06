@@ -5,9 +5,9 @@
 
 'use strict';
 
-CKEDITOR.plugins.add( 'widgetquote', {
+CKEDITOR.plugins.add( 'quote', {
 	requires: 'widget',
-	icons: 'widgetquote',
+	icons: 'quote',
 
 	onLoad: function() {
 		CKEDITOR.addCss(

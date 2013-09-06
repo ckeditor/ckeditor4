@@ -117,10 +117,11 @@
 		 * Turns the first letter of a string to upper-case.
 		 *
 		 * @param {String} str
+		 * @param {Boolean} [keepCase] Keep the case of 2nd to last letter.
 		 * @returns {String}
 		 */
-		capitalize: function( str ) {
-			return str.charAt( 0 ).toUpperCase() + str.substring( 1 ).toLowerCase();
+		capitalize: function( str, keepCase ) {
+			return str.charAt( 0 ).toUpperCase() + ( keepCase ? str.slice( 1 ) : str.slice( 1 ).toLowerCase() );
 		},
 
 		/**
