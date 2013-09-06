@@ -962,6 +962,15 @@
 					}
 				}
 			},
+
+			refresh: function( editor, path ) {
+				// Disable widgets' commands inside nested editables -
+				// check if blockLimit is a nested editable or a descendant of any.
+				this.setState( getNestedEditable( editor.editable(), path.blockLimit ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
+			},
+			// A hack to force command refreshing on context change.
+			context: 'div',
+
 			allowedContent: widgetDef.allowedContent,
 			requiredContent: widgetDef.requiredContent,
 			contentForms: widgetDef.contentForms,
@@ -1072,7 +1081,7 @@
 		if ( !node || node.equals( guard ) )
 			return null;
 
-		if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' ) )
+		if ( isNestedEditable2( node ) )
 			return node;
 
 		return getNestedEditable( guard, node.getParent() );
@@ -1153,6 +1162,11 @@
 	// @param {CKEDITOR.dom.element}
 	function isWidgetWrapper2( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
+	}
+
+	// @param {CKEDITOR.dom.element}
+	function isNestedEditable2( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
 	}
 
 	function moveSelectionToDropPosition( editor, dropEvt ) {
