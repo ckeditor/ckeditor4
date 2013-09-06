@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'magicline', 'ja', {
-	title: 'ここに段落を挿入'
+CKEDITOR.plugins.setLang( 'magicline', 'et', {
+	title: 'Sisesta siia lõigu tekst'
 });

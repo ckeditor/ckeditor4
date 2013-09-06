@@ -4,40 +4,40 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'id', {
 	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
-	accessSameDomain: 'Same domain', // MISSING
+	accessAlways: 'Selalu',
+	accessNever: 'Tidak Pernah',
+	accessSameDomain: 'Domain yang sama',
 	alignAbsBottom: 'Abs Bottom', // MISSING
 	alignAbsMiddle: 'Abs Middle', // MISSING
 	alignBaseline: 'Dasar',
 	alignTextTop: 'Text Top', // MISSING
-	bgcolor: 'Background color', // MISSING
-	chkFull: 'Allow Fullscreen', // MISSING
+	bgcolor: 'Warna Latar Belakang',
+	chkFull: 'Izinkan Layar Penuh',
 	chkLoop: 'Loop', // MISSING
 	chkMenu: 'Enable Flash Menu', // MISSING
-	chkPlay: 'Auto Play', // MISSING
+	chkPlay: 'Mainkan Otomatis',
 	flashvars: 'Variables for Flash', // MISSING
 	hSpace: 'HSpace', // MISSING
 	properties: 'Flash Properties', // MISSING
-	propertiesTab: 'Properties', // MISSING
-	quality: 'Quality', // MISSING
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
+	propertiesTab: 'Properti',
+	quality: 'Kualitas',
+	qualityAutoHigh: 'Tinggi Otomatis',
+	qualityAutoLow: 'Rendah Otomatis',
+	qualityBest: 'Terbaik',
+	qualityHigh: 'Tinggi',
+	qualityLow: 'Rendah',
+	qualityMedium: 'Sedang',
 	scale: 'Scale', // MISSING
-	scaleAll: 'Show all', // MISSING
+	scaleAll: 'Perlihatkan semua',
 	scaleFit: 'Exact Fit', // MISSING
-	scaleNoBorder: 'No Border', // MISSING
+	scaleNoBorder: 'Tanpa Batas',
 	title: 'Flash Properties', // MISSING
-	vSpace: 'VSpace', // MISSING
-	validateHSpace: 'HSpace must be a number.', // MISSING
-	validateSrc: 'URL must not be empty.', // MISSING
-	validateVSpace: 'VSpace must be a number.', // MISSING
+	vSpace: 'VSpace',
+	validateHSpace: 'HSpace harus sebuah angka',
+	validateSrc: 'URL tidak boleh kosong',
+	validateVSpace: 'VSpace harus sebuah angka',
 	windowMode: 'Window mode', // MISSING
 	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	windowModeTransparent: 'Transparan',
+	windowModeWindow: 'Jendela'
 });

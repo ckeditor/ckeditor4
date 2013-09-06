@@ -27,7 +27,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'ヘルプは ALT 0 を押してください',
 
-		browseServer: 'サーバーブラウザー',
+		browseServer: 'サーバブラウザ',
 		url: 'URL',
 		protocol: 'プロトコル',
 		upload: 'アップロード',
@@ -66,10 +66,10 @@ CKEDITOR.lang[ 'ja' ] = {
 		confirmCancel: 'オプション設定を変更しました。ダイアログを閉じてもよろしいでしょうか？',
 		options: 'オプション',
 		target: 'ターゲット',
-		targetNew: '新しいウィンドウ (_空白)',
-		targetTop: '最上部ウィンドウ (_トップ)',
-		targetSelf: '同じウィンドウ (_同一)',
-		targetParent: '親ウィンドウ (_親)',
+		targetNew: '新しいウインドウ (_blank)',
+		targetTop: '最上部ウィンドウ (_top)',
+		targetSelf: '同じウィンドウ (_self)',
+		targetParent: '親ウィンドウ (_parent)',
 		langDirLTR: '左から右 (LTR)',
 		langDirRTL: '右から左 (RTL)',
 		styles: 'スタイル',

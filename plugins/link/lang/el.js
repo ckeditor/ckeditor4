@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'el', {
 	acccessKey: 'Συντόμευση',
-	advanced: 'Για προχωρημένους',
+	advanced: 'Για Προχωρημένους',
 	advisoryContentType: 'Ενδεικτικός Τύπος Περιεχομένου',
 	advisoryTitle: 'Ενδεικτικός Τίτλος',
 	anchor: {
@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	anchorName: 'Βάσει του Ονόματος της άγκυρας',
 	charset: 'Κωδικοποίηση Χαρακτήρων Προσαρτημένης Πηγής',
 	cssClasses: 'Stylesheet Classes',
-	emailAddress: 'Διεύθυνση e-mail',
+	emailAddress: 'Διεύθυνση E-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',
 	id: 'Id',
@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	popupToolbar: 'Εργαλειοθήκη',
 	popupTop: 'Θέση Πάνω',
 	rel: 'Σχέση',
-	selectAnchor: 'Επιλέξτε μια άγκυρα',
+	selectAnchor: 'Επιλέξτε μια Άγκυρα',
 	styles: 'Μορφή',
 	tabIndex: 'Σειρά Μεταπήδησης',
 	target: 'Παράθυρο Προορισμού',
@@ -60,6 +60,6 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	toUrl: 'URL',
 	toolbar: 'Σύνδεσμος',
 	type: 'Τύπος Συνδέσμου',
-	unlink: 'Αφαίρεση Συνδέσμου (Link)',
-	upload: 'Ανέβασμα'
+	unlink: 'Αφαίρεση Συνδέσμου',
+	upload: 'Αποστολή'
 });

@@ -69,7 +69,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		},
 			{
 			name: 'Gå till föregående fokus plats',
-			legend: 'Tryck på ${accessPreviousSpace} för att gå till närmast onåbarara utrymme före markören, exempel: två intilliggande HR element. Repetera tangentkombinationen för att gå till nästa.'
+			legend: 'Tryck på ${accessPreviousSpace} för att gå till närmast onåbara utrymme före markören, exempel: två intilliggande HR element. Repetera tangentkombinationen för att gå till nästa.'
 		},
 			{
 			name: 'Tillgå nästa fokuskommandots utrymme',

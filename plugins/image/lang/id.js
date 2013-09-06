@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'image', 'id', {
 	titleButton: 'Image Button Properties', // MISSING
 	upload: 'Unggah',
 	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'VSpace', // MISSING
+	vSpace: 'VSpace',
 	validateBorder: 'Border must be a whole number.', // MISSING
 	validateHSpace: 'HSpace must be a whole number.', // MISSING
 	validateVSpace: 'VSpace must be a whole number.' // MISSING

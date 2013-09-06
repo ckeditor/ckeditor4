@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Europa Ocidental',
 	chooseColor: 'Choose',
-	design: 'Design', // MISSING
+	design: 'Desenho',
 	docTitle: 'Título da Página',
 	docType: 'Tipo de Cabeçalho do Documento',
 	docTypeOther: 'Outro Tipo de Cabeçalho do Documento',

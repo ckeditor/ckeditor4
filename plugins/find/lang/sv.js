@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'sv', {
 	find: 'Sök',
-	findOptions: 'Find Options',
+	findOptions: 'Sökalternativ',
 	findWhat: 'Sök efter:',
 	matchCase: 'Skiftläge',
 	matchCyclic: 'Matcha cykliska',

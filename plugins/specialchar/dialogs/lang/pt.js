@@ -5,30 +5,30 @@
 
 CKEDITOR.plugins.setLang( 'specialchar', 'pt', {
 	euro: 'Símbolo do Euro',
-	lsquo: 'Aspas simples pra Esquerda',
-	rsquo: 'Aspas simples pra Direita',
-	ldquo: 'Aspas duplas pra Esquerda',
-	rdquo: 'Aspas duplas pra Direita',
+	lsquo: 'Aspa esquerda simples',
+	rsquo: 'Aspa direita simples',
+	ldquo: 'Aspa esquerda dupla',
+	rdquo: 'Aspa direita dupla',
 	ndash: 'Travessão Simples',
 	mdash: 'Travessão Longo',
 	iexcl: 'Ponto de exclamação invertido',
 	cent: 'Símbolo do Cêntimo',
 	pound: 'Símbolo da Libra',
-	curren: 'Símbolo da Moeda',
+	curren: 'Símbolo de Moeda',
 	yen: 'Símbolo do Iene',
 	brvbar: 'Barra quebrada',
 	sect: 'Símbolo de Secção',
 	uml: 'Trema',
 	copy: 'Símbolo dos Direitos de Autor',
 	ordf: 'Indicador ordinal feminino',
-	laquo: 'Aspas ângulo duplo pra Esquerda',
+	laquo: 'Aspa esquerda ângulo duplo',
 	not: 'Não Símbolo',
 	reg: 'Símbolo de Registado',
 	macr: 'Mácron',
 	deg: 'Símbolo de Grau',
 	sup2: 'Expoente 2',
 	sup3: 'Expoente 3',
-	acute: 'Acento Agudo',
+	acute: 'Acento agudo',
 	micro: 'Símbolo de Micro',
 	para: 'Símbolo de Parágrafo',
 	middot: 'Ponto do Meio',
@@ -110,16 +110,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'pt', {
 	'374': 'Letra maiúscula latina Y com circunflexo',
 	'373': 'Letra minúscula latina w com circunflexo',
 	'375': 'Letra minúscula latina y com circunflexo',
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
+	sbquo: 'Aspa Simples inferior-9',
+	'8219': 'Aspa Simples superior invertida-9',
+	bdquo: 'Aspa Duplas inferior-9',
 	hellip: 'Elipse Horizontal ',
 	trade: 'Símbolo de Marca Registada',
-	'9658': 'Black right-pointing pointer', // MISSING
+	'9658': 'Ponteiro preto direito',
 	bull: 'Marca',
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
+	rarr: 'Seta para a direita',
+	rArr: 'Seta dupla para a direita',
+	hArr: 'Seta dupla direita esquerda',
+	diams: 'Naipe diamante preto',
 	asymp: 'Quase igual a '
 });
