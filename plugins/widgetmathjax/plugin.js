@@ -39,7 +39,7 @@
 
 				init: function() {
 					this.once( 'ready', function() {
-						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor.config.mathJaxLib );
+						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor );
 						this.frameWrapper.setValue( this.data.math );
 					} );
 				},
@@ -96,7 +96,7 @@
 
 	CKEDITOR.plugins.mathjax = {};
 
-	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, libSrc ) {
+	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
 
 		var buffer, preview, value, newValue,
 			doc = iFrame.getFrameDocument(),
@@ -118,11 +118,15 @@
 				var height = Math.max( doc.$.body.offsetHeight, doc.$.documentElement.offsetHeight ),
 					width = Math.max( preview.$.offsetWidth, doc.$.body.scrollWidth );
 
+				editor.fire( 'lockSnapshot' );
+
 				iFrame.setStyles( {
 					height: height + 'px',
 					width: width + 'px',
 					display: 'inline'
 				} );
+
+				editor.fire( 'unlockSnapshot' );
 
 				iFrame.fire( 'mathJaxUpdateDone' );
 
@@ -149,11 +153,15 @@
 
 			buffer.setHtml( value );
 
+			editor.fire( 'lockSnapshot' );
+
 			iFrame.setStyles( {
 				height: 0,
 				width: 0,
 				'vertical-align': 'middle'
 			} );
+
+			editor.fire( 'unlockSnapshot' );
 
 			doc.getWindow().$.update( value );
 		}
@@ -191,7 +199,7 @@
 						'getCKE().tools.callFunction(' + loadedHandler + ');' +
 					'} );' +
 				'</script>' +
-				'<script src="' + ( libSrc || cdn ) + '"></script>' +
+				'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
 			'</head>' +
 			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 				'<span id="preview"></span>' +
