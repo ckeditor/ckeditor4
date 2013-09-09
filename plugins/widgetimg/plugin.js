@@ -629,8 +629,7 @@
 	// resizing.
 	function setupResizer( widget ) {
 		var doc = widget.editor.document,
-			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer ),
-			dir = 1;
+			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
 
 		if ( !widget.inline ) {
 			var resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
@@ -647,31 +646,126 @@
 			var pageOffset = evt.data.getPageOffset(),
 				image = widget.parts.image,
 
+				// "factor" can be either 1 or -1. I.e.: For right-aligned images, we need to
+				// subtract the difference to get proper width, etc. Without "factor",
+				// resizer starts working the opposite way.
+				factor = widget.data.align == 'right' ? -1 : 1,
+
 				// The x-coordinate of the mouse when button gets pressed.
 				startX = pageOffset.x,
+				startY = pageOffset.y,
 
 				// The initial dimensions and aspect ratio of the image.
 				startWidth = image.$.clientWidth,
 				startHeight = image.$.clientHeight,
 				ratio = startWidth / startHeight,
 
-				moveOffset, newWidth, newHeight, updateData,
-
 				// Mousemove listener is removed on mouseup.
-				moveListener = doc.on( 'mousemove', onMouseMove );
+				moveListener = doc.on( 'mousemove', onMouseMove ),
 
+				moveOffset, newWidth, newHeight, updateData,
+				moveDiffX, moveDiffY, moveRatio;
+
+			// Calculate with first, and then adjust height, preserving ratio.
+			function adjustToX() {
+				newWidth = startWidth + factor * moveDiffX;
+				newHeight = 0 | newWidth / ratio;
+			}
+
+			// Calculate height first, and then adjust width, preserving ratio.
+			function adjustToY() {
+				newHeight = startHeight - moveDiffY;
+				newWidth = 0 | newHeight * ratio;
+			}
+
+			// This is how variables refer to the geometry.
+			// Note: x corresponds to moveOffset, this is the position of mouse
+			// Note: o corresponds to [startX, startY].
+			//
+			// 	+--------------+--------------+
+			// 	|              |              |
+			// 	|      I       |      II      |
+			// 	|              |              |
+			// 	+------------- o -------------+ _ _ _
+			// 	|              |              |      ^
+			// 	|      VI      |     III      |      | moveDiffY
+			// 	|              |         x _ _ _ _ _ v
+			// 	+--------------+---------|----+
+			// 	               |         |
+			// 	                <------->
+			// 	                moveDiffX
 			function onMouseMove( evt ) {
 				moveOffset = evt.data.getPageOffset();
 
-				// Dir can be either 1 or -1. For right-aligned images, we need to
-				// subtract the difference to get proper width. Without it,
-				// resizer starts working the opposite way.
-				newWidth = startWidth + dir * ( moveOffset.x - startX );
+				// This is how far the mouse is from the point the button was pressed.
+				moveDiffX = moveOffset.x - startX;
+				moveDiffY = startY - moveOffset.y;
 
-				newHeight = 0 | newWidth / ratio;
+				// This is the aspect ratio of the move difference.
+				moveRatio = Math.abs( moveDiffX / moveDiffY );
 
-				// Don't update attributes if negative.
-				if ( newWidth >= 0 && newHeight >= 0 ) {
+				// Left, center or none-aligned widget.
+				if ( factor == 1 ) {
+					if ( moveDiffX <= 0 ) {
+						// Case: IV.
+						if ( moveDiffY <= 0 )
+							adjustToX();
+
+						// Case: I.
+						else {
+							if ( moveRatio >= ratio )
+								adjustToX();
+							else
+								adjustToY();
+						}
+					} else {
+						// Case: III.
+						if ( moveDiffY <= 0 ) {
+							if ( moveRatio >= ratio )
+								adjustToY();
+							else
+								adjustToX();
+						}
+
+						// Case: II.
+						else
+							adjustToY();
+					}
+				}
+
+				// Right-aligned widget. It mirrors behaviours, so I becomes II,
+				// IV becomes III and vice-versa.
+				else {
+					if ( moveDiffX <= 0 ) {
+						// Case: IV.
+						if ( moveDiffY <= 0 ) {
+							if ( moveRatio >= ratio )
+								adjustToY();
+							else
+								adjustToX();
+						}
+
+						// Case: I.
+						else
+							adjustToY();
+					} else {
+						// Case: III.
+						if ( moveDiffY <= 0 )
+							adjustToX();
+
+						// Case: II.
+						else {
+							if ( moveRatio >= ratio )
+								adjustToX();
+							else
+								adjustToY();
+						}
+					}
+				}
+
+				// Don't update attributes if less than 10.
+				// This is to prevent images to visually disappear.
+				if ( newWidth >= 10 && newHeight >= 10 ) {
 					image.setAttributes( { width: newWidth, height: newHeight } );
 					updateData = true;
 				} else
@@ -694,17 +788,13 @@
 		} );
 
 		// Change the position of the widget resizer when data changes.
-		// It's not only for UI but also for the algorithm because it must be
-		// slightly different according to alignment.
 		widget.on( 'data', function() {
 			if ( widget.data.align == 'right' ) {
 				resizer.removeClass( 'cke_resizer_right' );
 				resizer.addClass( 'cke_resizer_left' );
-				dir = -1;
 			} else {
 				resizer.removeClass( 'cke_resizer_left' );
 				resizer.addClass( 'cke_resizer_right' );
-				dir = 1;
 			}
 		} );
 	}
