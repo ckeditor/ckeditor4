@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -21,14 +21,17 @@
 		'</div>' );
 
 	CKEDITOR.plugins.add( 'sharedspace', {
-		afterInit: function( editor ) {
-			var spaces = editor.config.sharedSpaces;
+		init: function( editor ) {
+			// Create toolbars on #loaded (like themed creator), but do that
+			// with higher priority to block the default scenario.
+			editor.on( 'loaded', function() {
+				var spaces = editor.config.sharedSpaces;
 
-			if ( spaces ) {
-				for ( var spaceName in spaces ) {
-					create( editor, spaceName, spaces[ spaceName ] );
+				if ( spaces ) {
+					for ( var spaceName in spaces )
+						create( editor, spaceName, spaces[ spaceName ] );
 				}
-			}
+			}, null, null, 9 );
 		}
 	});
 

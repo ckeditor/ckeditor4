@@ -1,11 +1,11 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'format', {
 	requires: 'richcombo',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		if ( editor.blockless )
 			return;
@@ -119,7 +119,7 @@ CKEDITOR.config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
 /**
  * The style definition to be used to apply the `'Normal'` format.
  *
- *		config.format_p = { element : 'p', attributes : { 'class' : 'normalPara' } };
+ *		config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
  *
  * @cfg {Object} [format_p={ element: 'p' }]
  * @member CKEDITOR.config
@@ -129,7 +129,7 @@ CKEDITOR.config.format_p = { element: 'p' };
 /**
  * The style definition to be used to apply the `'Normal (DIV)'` format.
  *
- *		config.format_div = { element : 'div', attributes : { 'class' : 'normalDiv' } };
+ *		config.format_div = { element: 'div', attributes: { 'class': 'normalDiv' } };
  *
  * @cfg {Object} [format_div={ element: 'div' }]
  * @member CKEDITOR.config
@@ -149,7 +149,7 @@ CKEDITOR.config.format_pre = { element: 'pre' };
 /**
  * The style definition to be used to apply the `'Address'` format.
  *
- * config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
+ *		config.format_address = { element: 'address', attributes: { 'class': 'styledAddress' } };
  *
  * @cfg {Object} [format_address={ element: 'address' }]
  * @member CKEDITOR.config

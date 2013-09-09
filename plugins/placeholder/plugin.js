@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -14,6 +14,7 @@
 		requires: 'dialog',
 		lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,he,hr,it,ku,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'placeholder', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			CKEDITOR.addCss( '.cke_placeholder' +
 				'{' +

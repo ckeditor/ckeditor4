@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,14 +18,6 @@
  * @namespace
  */
 CKEDITOR.lang[ 'et' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Rikkalik tekstiredaktor',
 
@@ -91,7 +83,7 @@ CKEDITOR.lang[ 'et' ] = {
 		alignTop: 'Üles',
 		alignMiddle: 'Keskele',
 		alignBottom: 'Alla',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Vigane väärtus.',
 		invalidHeight: 'Kõrgus peab olema number.',
 		invalidWidth: 'Laius peab olema number.',
 		invalidCssLength: '"%1" välja jaoks määratud väärtus peab olema positiivne täisarv CSS ühikuga (px, %, in, cm, mm, em, ex, pt või pc) või ilma.',

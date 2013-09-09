@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /*
@@ -312,7 +312,7 @@ CKEDITOR.skin.chameleon = (function() {
 //			'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
 //			'textcolor,textfield-rtl,textfield,uicolor,underline,undo-rtl,undo,unlink' ).split( ',' );
 //
-//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+//		var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) );
 //
 //		for ( var i = 0; i < icons.length; i++ ) {
 //			CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -118,7 +118,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		input && input.removeAttribute( 'aria-invalid' );
 	}
 
-	var templateSource = '<div class="cke_reset_all {editorId} {editorDialogClass}' +
+	var templateSource = '<div class="cke_reset_all {editorId} {editorDialogClass} {hidpi}' +
 		'" dir="{langDir}"' +
 		' lang="{langCode}"' +
 		' role="dialog"' +
@@ -151,7 +151,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
 			editorDialogClass: 'cke_editor_' + editor.name.replace( /\./g, '\\.' ) + '_dialog',
-			closeTitle: editor.lang.common.close
+			closeTitle: editor.lang.common.close,
+			hidpi: CKEDITOR.env.hidpi ? 'cke_hidpi' : ''
 		}));
 
 		// TODO: Change this to getById(), so it'll support custom templates.

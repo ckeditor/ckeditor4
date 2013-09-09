@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -45,11 +45,15 @@
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = [ editor.lang.editor, editor.name ].join( ',' ),
+				var frameLabel = editor.title,
 					frameDesc = editor.lang.common.editorHelp;
 
-				if ( CKEDITOR.env.ie )
-					frameLabel += ', ' + frameDesc;
+				if ( frameLabel ) {
+					if ( CKEDITOR.env.ie )
+						frameLabel += ', ' + frameDesc;
+
+					iframe.setAttribute( 'title', frameLabel );
+				}
 
 				var labelId = CKEDITOR.tools.getNextId(),
 					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
@@ -63,8 +67,7 @@
 				});
 
 				iframe.setAttributes({
-					'aria-describedby' : labelId,
-					title: frameLabel,
+					'aria-describedby': labelId,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				});
@@ -178,10 +181,6 @@
 				}
 			});
 		}
-
-		// Gecko needs a key event to 'wake up' editing when the document is
-		// empty. (#3864, #5781)
-		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
@@ -313,8 +312,12 @@
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
-				if ( isSnapshot )
+				if ( isSnapshot ) {
 					this.setHtml( data );
+					// Fire dataReady for the consistency with inline editors
+					// and because it makes sense. (#10370)
+					editor.fire( 'dataReady' );
+				}
 				else {
 					this._.isLoadingData = true;
 					editor._.dataStore = { id:1 };
@@ -517,42 +520,6 @@
 			setTimeout( function() {
 			editor.resetDirty();
 		}, 0 );
-	}
-
-	function activateEditing( editor ) {
-		if ( editor.readOnly )
-			return;
-
-		var win = editor.window,
-			doc = editor.document,
-			body = doc.getBody(),
-			bodyFirstChild = body.getFirst(),
-			bodyChildsNum = body.getChildren().count();
-
-		if ( !bodyChildsNum || bodyChildsNum == 1 && bodyFirstChild.type == CKEDITOR.NODE_ELEMENT && bodyFirstChild.hasAttribute( '_moz_editor_bogus_node' ) ) {
-			restoreDirty( editor );
-
-			// Memorize scroll position to restore it later (#4472).
-			var hostDocument = CKEDITOR.document;
-			var hostDocumentElement = hostDocument.getDocumentElement();
-			var scrollTop = hostDocumentElement.$.scrollTop;
-			var scrollLeft = hostDocumentElement.$.scrollLeft;
-
-			// Simulating keyboard character input by dispatching a keydown of white-space text.
-			var keyEventSimulate = doc.$.createEvent( "KeyEvents" );
-			keyEventSimulate.initKeyEvent( 'keypress', true, true, win.$, false, false, false, false, 0, 32 );
-			doc.$.dispatchEvent( keyEventSimulate );
-
-			if ( scrollTop != hostDocumentElement.$.scrollTop || scrollLeft != hostDocumentElement.$.scrollLeft )
-				hostDocument.getWindow().$.scrollTo( scrollLeft, scrollTop );
-
-			// Restore the original document status by placing the cursor before a bogus br created (#5021).
-			bodyChildsNum && body.getFirst().remove();
-			doc.getBody().appendBogus();
-			var nativeRange = editor.createRange();
-			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
-			nativeRange.select();
-		}
 	}
 
 	function iframeCssFixes() {

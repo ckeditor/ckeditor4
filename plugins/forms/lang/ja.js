@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ja', {
 	button: {
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		type: 'タイプ',
 		typeText: 'テキスト',
 		typePass: 'パスワード入力',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'メール',
+		typeSearch: '検索',
+		typeTel: '電話番号',
 		typeUrl: 'URL'
 	}
 });

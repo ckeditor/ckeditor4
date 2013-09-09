@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'cy', {
@@ -96,7 +96,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'cy', {
 	otilde: 'Llythyren o fach Lladinaidd gyda thild',
 	ouml: 'Llythyren o fach Lladinaidd gyda didolnod',
 	divide: 'Arwydd rhannu',
-	oslash: 'Llyth',
+	oslash: 'Llythyren o fach Lladinaidd gyda strôc',
 	ugrave: 'Llythyren u fach Lladinaidd gydag acen ddisgynedig',
 	uacute: 'Llythyren u fach Lladinaidd gydag acen ddyrchafedig',
 	ucirc: 'Llythyren u fach Lladinaidd gydag acen grom',

@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ko', {
 	acccessKey: '엑세스 키',
@@ -40,7 +40,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	popupLeft: '왼쪽 위치',
 	popupLocationBar: '주소표시줄',
 	popupMenuBar: '메뉴바',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: '크기 조절 가능',
 	popupScrollBars: '스크롤바',
 	popupStatusBar: '상태바',
 	popupToolbar: '툴바',

@@ -1,14 +1,14 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ru', {
-	euro: 'Евро',
-	lsquo: 'Left single quotation mark', // MISSING
-	rsquo: 'Right single quotation mark', // MISSING
-	ldquo: 'Left double quotation mark', // MISSING
-	rdquo: 'Right double quotation mark', // MISSING
+	euro: 'Знак евро',
+	lsquo: 'Левая одинарная кавычка',
+	rsquo: 'Правая одинарная кавычка',
+	ldquo: 'Левая двойная кавычка',
+	rdquo: 'Левая двойная кавычка',
 	ndash: 'Среднее тире',
 	mdash: 'Длинное тире',
 	iexcl: 'перевёрнутый восклицательный знак',
@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ru', {
 	sect: 'Знак параграфа',
 	uml: 'Умлаут',
 	copy: 'Знак охраны авторского права',
-	ordf: 'Feminine ordinal indicator', // MISSING
+	ordf: 'Указатель окончания женского рода ...ая',
 	laquo: 'Левая кавычка-«ёлочка»',
 	not: 'Отрицание',
 	reg: 'Знак охраны смежных прав\\t',
@@ -40,86 +40,86 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ru', {
 	frac12: 'Одна вторая',
 	frac34: 'Три четвёртых',
 	iquest: 'Перевёрнутый вопросительный знак',
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
-	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
-	Iacute: 'Latin capital letter I with acute accent', // MISSING
-	Icirc: 'Latin capital letter I with circumflex', // MISSING
-	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
-	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
-	Oacute: 'Latin capital letter O with acute accent', // MISSING
-	Ocirc: 'Latin capital letter O with circumflex', // MISSING
-	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
+	Agrave: 'Латинская заглавная буква А с апострофом',
+	Aacute: 'Латинская заглавная буква A с ударением',
+	Acirc: 'Латинская заглавная буква А с циркумфлексом',
+	Atilde: 'Латинская заглавная буква А с тильдой',
+	Auml: 'Латинская заглавная буква А с тремой',
+	Aring: 'Латинская заглавная буква А с кольцом над ней',
+	AElig: 'Латинская большая буква Æ',
+	Ccedil: 'Латинская заглавная буква C с седилью',
+	Egrave: 'Латинская заглавная буква Е с апострофом',
+	Eacute: 'Латинская заглавная буква Е с ударением',
+	Ecirc: 'Латинская заглавная буква Е с циркумфлексом',
+	Euml: 'Латинская заглавная буква Е с тремой',
+	Igrave: 'Латинская заглавная буква I с апострофом',
+	Iacute: 'Латинская заглавная буква I с ударением',
+	Icirc: 'Латинская заглавная буква I с циркумфлексом',
+	Iuml: 'Латинская заглавная буква I с тремой',
+	ETH: 'Латинская большая буква Eth',
+	Ntilde: 'Латинская заглавная буква N с тильдой',
+	Ograve: 'Латинская заглавная буква O с апострофом',
+	Oacute: 'Латинская заглавная буква O с ударением',
+	Ocirc: 'Латинская заглавная буква O с циркумфлексом',
+	Otilde: 'Латинская заглавная буква O с тильдой',
+	Ouml: 'Латинская заглавная буква O с тремой',
 	times: 'Знак умножения',
-	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
-	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
-	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
-	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
-	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
-	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
-	eacute: 'Latin small letter e with acute accent', // MISSING
-	ecirc: 'Latin small letter e with circumflex', // MISSING
-	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
-	iacute: 'Latin small letter i with acute accent', // MISSING
-	icirc: 'Latin small letter i with circumflex', // MISSING
-	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
-	oacute: 'Latin small letter o with acute accent', // MISSING
-	ocirc: 'Latin small letter o with circumflex', // MISSING
-	otilde: 'Latin small letter o with tilde', // MISSING
-	ouml: 'Latin small letter o with diaeresis', // MISSING
+	Oslash: 'Латинская большая перечеркнутая O',
+	Ugrave: 'Латинская заглавная буква U с апострофом',
+	Uacute: 'Латинская заглавная буква U с ударением',
+	Ucirc: 'Латинская заглавная буква U с циркумфлексом',
+	Uuml: 'Латинская заглавная буква U с тремой',
+	Yacute: 'Латинская заглавная буква Y с ударением',
+	THORN: 'Латинская заглавная буква Thorn',
+	szlig: 'Знак диеза',
+	agrave: 'Латинская маленькая буква a с апострофом',
+	aacute: 'Латинская маленькая буква a с ударением',
+	acirc: 'Латинская маленькая буква a с циркумфлексом',
+	atilde: 'Латинская маленькая буква a с тильдой',
+	auml: 'Латинская маленькая буква a с тремой',
+	aring: 'Латинская маленькая буква a с кольцом',
+	aelig: 'Латинская маленькая буква æ',
+	ccedil: 'Латинская маленькая буква с с седилью',
+	egrave: 'Латинская маленькая буква е с апострофом',
+	eacute: 'Латинская маленькая буква е с ударением',
+	ecirc: 'Латинская маленькая буква е с циркумфлексом',
+	euml: 'Латинская маленькая буква е с тремой',
+	igrave: 'Латинская маленькая буква i с апострофом',
+	iacute: 'Латинская маленькая буква i с ударением',
+	icirc: 'Латинская маленькая буква i с циркумфлексом',
+	iuml: 'Латинская маленькая буква i с тремой',
+	eth: 'Латинская маленькая буква eth',
+	ntilde: 'Латинская маленькая буква n с тильдой',
+	ograve: 'Латинская маленькая буква o с апострофом',
+	oacute: 'Латинская маленькая буква o с ударением',
+	ocirc: 'Латинская маленькая буква o с циркумфлексом',
+	otilde: 'Латинская маленькая буква o с тильдой',
+	ouml: 'Латинская маленькая буква o с тремой',
 	divide: 'Знак деления',
-	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
-	uacute: 'Latin small letter u with acute accent', // MISSING
-	ucirc: 'Latin small letter u with circumflex', // MISSING
-	uuml: 'Latin small letter u with diaeresis', // MISSING
-	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
-	yuml: 'Latin small letter y with diaeresis', // MISSING
-	OElig: 'Latin capital ligature OE', // MISSING
-	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
+	oslash: 'Латинская строчная перечеркнутая o',
+	ugrave: 'Латинская маленькая буква u с апострофом',
+	uacute: 'Латинская маленькая буква u с ударением',
+	ucirc: 'Латинская маленькая буква u с циркумфлексом',
+	uuml: 'Латинская маленькая буква u с тремой',
+	yacute: 'Латинская маленькая буква y с ударением',
+	thorn: 'Латинская маленькая буква thorn',
+	yuml: 'Латинская маленькая буква y с тремой',
+	OElig: 'Латинская прописная лигатура OE',
+	oelig: 'Латинская строчная лигатура oe',
+	'372': 'Латинская заглавная буква W с циркумфлексом',
+	'374': 'Латинская заглавная буква Y с циркумфлексом',
+	'373': 'Латинская маленькая буква w с циркумфлексом',
+	'375': 'Латинская маленькая буква y с циркумфлексом',
+	sbquo: 'Нижняя одинарная кавычка',
+	'8219': 'Правая одинарная кавычка',
+	bdquo: 'Левая двойная кавычка',
 	hellip: 'Горизонтальное многоточие',
 	trade: 'Товарный знак',
-	'9658': 'Black right-pointing pointer', // MISSING
+	'9658': 'Черный указатель вправо',
 	bull: 'Маркер списка',
 	rarr: 'Стрелка вправо',
 	rArr: 'Двойная стрелка вправо',
 	hArr: 'Двойная стрелка влево-вправо',
-	diams: 'Black diamond suit', // MISSING
+	diams: 'Черный ромб',
 	asymp: 'Примерно равно'
 });

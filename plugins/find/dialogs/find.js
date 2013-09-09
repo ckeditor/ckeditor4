@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -518,7 +518,12 @@
 				resizable: CKEDITOR.DIALOG_RESIZE_NONE,
 				minWidth: 350,
 				minHeight: 170,
-				buttons: [ CKEDITOR.dialog.cancelButton ], // Cancel button only.
+				buttons: [
+					// Close button only.
+					CKEDITOR.dialog.cancelButton( editor, {
+						label: editor.lang.common.close
+					} )
+				],
 				contents: [
 					{
 					id: 'find',

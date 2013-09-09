@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -461,7 +461,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var element = this.getElement();
 
 					(function() {
-						element.on( 'click', me.click, me );
+						element.on( 'click', function( evt ) {
+							me.click();
+							// #9958
+							evt.data.preventDefault();
+						} );
 
 						element.on( 'keydown', function( evt ) {
 							if ( evt.data.getKeystroke() in { 32:1 } ) {

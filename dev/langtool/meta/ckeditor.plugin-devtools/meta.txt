@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 devTools.title = Label for the Element Information tooltip displayed by the Developer Tools plugin.
 devTools.dialogName = Label for the Dialog window name field displayed by the Developer Tools plugin.

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -135,7 +135,15 @@
 			// Force ENTER_BR for blockless editable.
 			this.enterMode = enterMode = ( editor.blockless ? CKEDITOR.ENTER_BR : editor.config.enterMode );
 
-			this.allow( 'br ' + ( enterMode == CKEDITOR.ENTER_P ? 'p' : enterMode == CKEDITOR.ENTER_DIV ? 'div' : '' ), 'default', 1 );
+			var defaultRules = [ 'br' ],
+				shiftEnterMode = editor.blockless ? CKEDITOR.ENTER_BR : editor.config.shiftEnterMode;
+
+			if ( enterMode == CKEDITOR.ENTER_P || shiftEnterMode == CKEDITOR.ENTER_P )
+				defaultRules.push( 'p' );
+			if ( enterMode == CKEDITOR.ENTER_DIV || shiftEnterMode == CKEDITOR.ENTER_DIV )
+				defaultRules.push( 'div' );
+
+			this.allow( defaultRules.join( ' ' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
 

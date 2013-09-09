@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sv', {
 	acccessKey: 'Behörighetsnyckel',
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	anchorId: 'efter objektid',
 	anchorName: 'efter ankarnamn',
 	charset: 'Teckenuppställning',
-	cssClasses: 'Stylesheet class',
+	cssClasses: 'Stilmall',
 	emailAddress: 'E-postadress',
 	emailBody: 'Innehåll',
 	emailSubject: 'Ämne',
@@ -55,7 +55,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	targetPopup: '<popup-fönster>',
 	targetPopupName: 'Popup-fönstrets namn',
 	title: 'Länk',
-	toAnchor: 'Ankare i sidan',
+	toAnchor: 'Länk till ankare i texten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
 	toolbar: 'Infoga/Redigera länk',

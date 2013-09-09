@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
@@ -22,17 +22,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 
 			{
 			name: 'Контекстное меню',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: 'Нажмите ${contextMenu} или клавишу APPLICATION, чтобы открыть контекстное меню. Затем перейдите к следующему пункту меню с помощью TAB или стрелкой "ВНИЗ". Переход к предыдущей опции - SHIFT+TAB или стрелкой "ВВЕРХ". Нажмите SPACE, или ENTER, чтобы задействовать опцию меню. Открыть подменю текущей опции - SPACE или ENTER или стрелкой "ВПРАВО". Возврат к родительскому пункту меню - ESC или стрелкой "ВЛЕВО". Закрытие контекстного меню - ESC.'
 		},
 
 			{
 			name: 'Редактор списка',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Внутри окна списка, переход к следующему пункту списка - TAB или стрелкой "ВНИЗ". Переход к предыдущему пункту списка - SHIFT + TAB или стрелкой "ВВЕРХ". Нажмите SPACE, или ENTER, чтобы задействовать опцию списка. Нажмите ESC, чтобы закрыть окно списка.'
 		},
 
 			{
 			name: 'Путь к элементу',
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Нажмите ${elementsPathFocus}, чтобы перейти к панели пути элементов. Переход к следующей кнопке элемента - TAB или стрелкой "ВПРАВО". Переход к предыдущей кнопку - SHIFT+TAB или стрелкой "ВЛЕВО". Нажмите SPACE, или ENTER, чтобы выбрать элемент в редакторе.'
 		}
 		]
 	},
@@ -68,11 +68,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 			legend: 'Нажмите ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Команды доступа к предыдущему фокусному пространству',
+			legend: 'Нажмите ${accessPreviousSpace}, чтобы обратиться к ближайшему недостижимому фокусному пространству перед символом "^", например: два смежных HR элемента. Повторите комбинацию клавиш, чтобы достичь отдаленных фокусных пространств.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
+			name: 'Команды доступа к следующему фокусному пространству',
 			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
 		},
 			{

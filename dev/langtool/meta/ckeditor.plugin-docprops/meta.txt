@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 bgColor = Label for the Background Color field of the Document Properties plugin dialog window.
 bgFixed = Label for the Non-scrolling (Fixed) Background field of the Document Properties plugin dialog window.

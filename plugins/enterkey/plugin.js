@@ -1,13 +1,10 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
-		// TODO: should not depend on a particular format plugin.
-		requires: 'indent',
-
 		init: function( editor ) {
 			editor.addCommand( 'enter', { modes:{wysiwyg:1 },
 				editorFocus: false,
@@ -48,13 +45,188 @@
 			var atBlockStart = range.checkStartOfBlock(),
 				atBlockEnd = range.checkEndOfBlock(),
 				path = editor.elementPath( range.startContainer ),
-				block = path.block;
+				block = path.block,
+
+				// Determine the block element to be used.
+				blockTag = ( mode == CKEDITOR.ENTER_DIV ? 'div' : 'p' ),
+
+				newBlock;
 
 			// Exit the list when we're inside an empty list item block. (#5376)
 			if ( atBlockStart && atBlockEnd ) {
 				// Exit the list when we're inside an empty list item block. (#5376)
 				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
-					editor.execCommand( 'outdent' );
+					var blockParent = block.getParent(),
+						blockGrandParent = blockParent.getParent(),
+
+						firstChild = !block.hasPrevious(),
+						lastChild = !block.hasNext(),
+
+						selection = editor.getSelection(),
+						bookmarks = selection.createBookmarks(),
+
+						orgDir = block.getDirection( 1 ),
+						className = block.getAttribute( 'class' ),
+						style = block.getAttribute( 'style' ),
+						dirLoose = blockGrandParent.getDirection( 1 ) != orgDir,
+
+						enterMode = editor.config.enterMode,
+						needsBlock = enterMode != CKEDITOR.ENTER_BR || dirLoose || style || className,
+
+						child;
+
+					if ( blockGrandParent.is( 'li' ) ) {
+
+						// If block is the first or the last child of the parent
+						// list, degrade it and move to the outer list:
+						// before the parent list if block is first child and after
+						// the parent list if block is the last child, respectively.
+						//
+						//  <ul>                         =>      <ul>
+						//      <li>                     =>          <li>
+						//          <ul>                 =>              <ul>
+						//              <li>x</li>       =>                  <li>x</li>
+						//              <li>^</li>       =>              </ul>
+						//          </ul>                =>          </li>
+						//      </li>                    =>          <li>^</li>
+						//  </ul>                        =>      </ul>
+						//
+						//                              AND
+						//
+						//  <ul>                         =>      <ul>
+						//      <li>                     =>          <li>^</li>
+						//          <ul>                 =>          <li>
+						//              <li>^</li>       =>              <ul>
+						//              <li>x</li>       =>                  <li>x</li>
+						//          </ul>                =>              </ul>
+						//      </li>                    =>          </li>
+						//  </ul>                        =>      </ul>
+
+						if ( firstChild || lastChild )
+							block[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockGrandParent );
+
+						// If the empty block is neither first nor last child
+						// then split the list and the block as an element
+						// of outer list.
+						//
+						//                              =>      <ul>
+						//                              =>          <li>
+						//  <ul>                        =>              <ul>
+						//      <li>                    =>                  <li>x</li>
+						//          <ul>                =>              </ul>
+						//              <li>x</li>      =>          </li>
+						//              <li>^</li>      =>          <li>^</li>
+						//              <li>y</li>      =>          <li>
+						//          </ul>               =>              <ul>
+						//      </li>                   =>                  <li>y</li>
+						//  </ul>                       =>              </ul>
+						//                              =>          </li>
+						//                              =>      </ul>
+
+						else
+							block.breakParent( blockGrandParent );
+					}
+
+					else if ( !needsBlock ) {
+						block.appendBogus();
+
+						// If block is the first or last child of the parent
+						// list, move all block's children out of the list:
+						// before the list if block is first child and after the list
+						// if block is the last child, respectively.
+						//
+						//  <ul>                       =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//  </ul>                      =>      ^
+						//
+						//                            AND
+						//
+						//  <ul>                       =>      ^
+						//      <li>^</li>             =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//  </ul>                      =>      </ul>
+
+						if ( firstChild || lastChild ) {
+							while ( ( child = block[ firstChild ? 'getFirst' : 'getLast' ]() ) )
+								child[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockParent );
+						}
+
+						// If the empty block is neither first nor last child
+						// then split the list and put all the block contents
+						// between two lists.
+						//
+						//  <ul>                       =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//      <li>y</li>             =>      ^
+						//  </ul>                      =>      <ul>
+						//                             =>          <li>y</li>
+						//                             =>      </ul>
+
+						else {
+							block.breakParent( blockParent );
+
+							while ( ( child = block.getLast() ) )
+								child.insertAfter( blockParent );
+						}
+
+						block.remove();
+					} else {
+						// Use <div> block for ENTER_BR and ENTER_DIV.
+						newBlock = doc.createElement( mode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+
+						if ( dirLoose )
+							newBlock.setAttribute( 'dir', orgDir );
+
+						style && newBlock.setAttribute( 'style', style );
+						className && newBlock.setAttribute( 'class', className );
+
+						// Move all the child nodes to the new block.
+						block.moveChildren( newBlock );
+
+						// If block is the first or last child of the parent
+						// list, move it out of the list:
+						// before the list if block is first child and after the list
+						// if block is the last child, respectively.
+						//
+						//  <ul>                       =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//      <li>^</li>             =>      </ul>
+						//  </ul>                      =>      <p>^</p>
+						//
+						//                            AND
+						//
+						//  <ul>                       =>      <p>^</p>
+						//      <li>^</li>             =>      <ul>
+						//      <li>x</li>             =>          <li>x</li>
+						//  </ul>                      =>      </ul>
+
+						if ( firstChild || lastChild )
+							newBlock[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockParent );
+
+						// If the empty block is neither first nor last child
+						// then split the list and put the new block between
+						// two lists.
+						//
+						//                             =>       <ul>
+						//     <ul>                    =>           <li>x</li>
+						//         <li>x</li>          =>       </ul>
+						//         <li>^</li>          =>       <p>^</p>
+						//         <li>y</li>          =>       <ul>
+						//     </ul>                   =>           <li>y</li>
+						//                             =>       </ul>
+
+						else {
+							block.breakParent( blockParent );
+							newBlock.insertAfter( blockParent );
+						}
+
+						block.remove();
+					}
+
+					selection.selectBookmarks( bookmarks );
+
 					return;
 				}
 
@@ -81,9 +253,6 @@
 					return;
 				}
 			}
-
-			// Determine the block element to be used.
-			var blockTag = ( mode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
 			// Split the range.
 			var splitInfo = range.splitBlock( blockTag );
@@ -139,7 +308,7 @@
 				if ( nextBlock )
 					range.moveToElementEditStart( nextBlock );
 			} else {
-				var newBlock, newBlockDir;
+				var newBlockDir;
 
 				if ( previousBlock ) {
 					// Do not enter this block if it's a header tag, or we are in

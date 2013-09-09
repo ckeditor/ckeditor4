@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
@@ -22,12 +22,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 
 			{
 			name: 'تەھرىرلىگۈچ تىل مۇھىت تىزىملىكى',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: '${contextMenu} ياكى ئەپ كۇنۇپكىسىدا تىل مۇھىت تىزىملىكىنى ئاچىدۇ. ئاندىن TAB ياكى ئاستى يا ئوق كۇنۇپكىسىدا كېيىنكى تىزىملىك تۈرىگە يۆتكەيدۇ؛ SHIFT+TAB ياكى ئۈستى يا ئوق كۇنۇپكىسىدا ئالدىنقى تىزىملىك تۈرىگە يۆتكەيدۇ. بوشلۇق ياكى ENTER كۇنۇپكىسىدا تىزىملىك تۈرىنى تاللايدۇ. بوشلۇق، ENTER ياكى ئوڭ يا ئوق كۇنۇپكىسىدا تارماق تىزىملىكنى ئاچىدۇ. قايتىش تىزىملىكىگە ESC ياكى سول يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. ESC كۇنۇپكىسىدا تىل مۇھىت تىزىملىكى تاقىلىدۇ.'
 		},
 
 			{
 			name: 'تەھرىرلىگۈچ تىزىمى',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'تىزىم قۇتىسىدا، كېيىنكى تىزىم تۈرىگە يۆتكەشتە  TAB ياكى ئاستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. ئالدىنقى تىزىم تۈرىگە يۆتكەشتە  SHIFT + TAB ياكى ئۈستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. بوشلۇق ياكى ENTER كۇنۇپكىسىدا تىزىم تۈرىنى تاللايدۇ.ESC كۇنۇپكىسىدا تىزىم قۇتىسىنى يىغىدۇ.'
 		},
 
 			{
@@ -68,12 +68,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 			legend: '${toolbarCollapse} نى بېسىڭ'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'ئالدىنقى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق',
+			legend: '${accessPreviousSpace} بېسىپ ^ بەلگىسىگە ئەڭ يېقىن زىيارەت قىلغىلى بولمايدىغان فوكۇس نۇقتا رايونىنىڭ ئالدىنى زىيارەت قىلىدۇ، مەسىلەن: ئۆز ئارا قوشنا ئىككى HR ئېلېمېنت. بۇ بىرىكمە كۇنۇپكا تەكرارلانسا يىراقتىكى فوكۇس نۇقتا رايونىغا يەتكىلى بولىدۇ.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'كېيىنكى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق',
+			legend: '${accessNextSpace} بېسىپ ^ بەلگىسىگە ئەڭ يېقىن زىيارەت قىلغىلى بولمايدىغان فوكۇس نۇقتا رايونىنىڭ كەينىنى زىيارەت قىلىدۇ، مەسىلەن: ئۆز ئارا قوشنا ئىككى HR ئېلېمېنت. بۇ بىرىكمە كۇنۇپكا تەكرارلانسا يىراقتىكى فوكۇس نۇقتا رايونىغا يەتكىلى بولىدۇ.'
 		},
 			{
 			name: 'توسالغۇسىز لايىھە چۈشەندۈرۈشى',

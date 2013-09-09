@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'th', {
 	confirmCleanup: 'ข้อความที่คุณต้องการวางลงไปเป็นข้อความที่คัดลอกมาจากโปรแกรมไมโครซอฟท์เวิร์ด คุณต้องการล้างค่าข้อความดังกล่าวก่อนวางลงไปหรือไม่?',

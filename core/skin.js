@@ -1,10 +1,10 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.skin} class, which is used to manage skin parts.
+ * @fileOverview Defines the {@link CKEDITOR.skin} class that is used to manage skin parts.
  */
 
 (function() {
@@ -26,7 +26,7 @@
 	 */
 	CKEDITOR.skin = {
 		/**
-		 * Returns the root path of the skin directory.
+		 * Returns the root path to the skin directory.
 		 *
 		 * @method
 		 * @todo
@@ -34,17 +34,17 @@
 		path: getConfigPath,
 
 		/**
-		 * Load a skin part onto the page, do nothing if the part is already loaded.
+		 * Loads a skin part into the page. Does nothing if the part has already been loaded.
 		 *
 		 * **Note:** The "editor" part is always auto loaded upon instance creation,
-		 * thus this function is mainly used to **lazy load** other part of the skin
-		 * which don't have to present until been requested.
+		 * thus this function is mainly used to **lazy load** other parts of the skin
+		 * that do not have to be displayed until requested.
 		 *
 		 *		// Load the dialog part.
 		 *		editor.skin.loadPart( 'dialog' );
 		 *
-		 * @param {String} part Name of skin part CSS file resides in the skin directory.
-		 * @param {Function} fn The provided callback function which is invoked after part is loaded.
+		 * @param {String} part The name of the skin part CSS file that resides in the skin directory.
+		 * @param {Function} fn The provided callback function which is invoked after the part is loaded.
 		 */
 		loadPart: function( part, fn ) {
 			if ( CKEDITOR.skin.name != getName() ) {
@@ -56,7 +56,7 @@
 		},
 
 		/**
-		 * Retrieve the real URL of a (CSS) skin part.
+		 * Retrieves the real URL of a (CSS) skin part.
 		 *
 		 * @param {String} part
 		 */
@@ -65,7 +65,7 @@
 		},
 
 		/**
-		 * List of registered icons. To add new icons to this list, use {@link #addIcon}.
+		 * The list of registered icons. To add new icons to this list, use {@link #addIcon}.
 		 */
 		icons: {},
 
@@ -73,35 +73,41 @@
 		 * Registers an icon.
 		 *
 		 * @param {String} name The icon name.
-		 * @param {String} path The path to reach the icon image file.
+		 * @param {String} path The path to the icon image file.
 		 * @param {Number} [offset] The vertical offset position of the icon, if
 		 * available inside a strip image.
+		 * @param {String} [bgsize] The value of the CSS "background-size" property to
+		 * use for this icon
 		 */
-		addIcon: function( name, path, offset ) {
+		addIcon: function( name, path, offset, bgsize ) {
 			name = name.toLowerCase();
 			if ( !this.icons[ name ] ) {
 				this.icons[ name ] = {
 					path: path,
-					offset: offset || 0
+					offset: offset || 0,
+					bgsize : bgsize || '16px'
 				};
 			}
 		},
 
 		/**
-		 * Get the CSS background styles to be used to render an specific icon.
+		 * Gets the CSS background styles to be used to render a specific icon.
 		 *
 		 * @param {String} name The icon name, as registered with {@link #addIcon}.
 		 * @param {Boolean} [rtl] Indicates that the RTL version of the icon is
 		 * to be used, if available.
-		 * @param {String} [overridePath] The path to reach the icon image file. It
+		 * @param {String} [overridePath] The path to the icon image file. It
 		 * overrides the path defined by the named icon, if available, and is
 		 * used if the named icon was not registered.
 		 * @param {Number} [overrideOffset] The vertical offset position of the
 		 * icon. It overrides the offset defined by the named icon, if
 		 * available, and is used if the named icon was not registered.
+		 * @param {String} [overrideBgsize] The value of the CSS "background-size" property
+		 * to use for the icon. It overrides the value defined by the named icon,
+		 * if available, and is used if the named icon was not registered.
 		 */
-		getIconStyle: function( name, rtl, overridePath, overrideOffset ) {
-			var icon, path, offset;
+		getIconStyle: function( name, rtl, overridePath, overrideOffset, overrideBgsize ) {
+			var icon, path, offset, bgsize;
 
 			if ( name ) {
 				name = name.toLowerCase();
@@ -116,9 +122,10 @@
 
 			path = overridePath || ( icon && icon.path ) || '';
 			offset = overrideOffset || ( icon && icon.offset );
+			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;' );
+				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
 		}
 	};
 
@@ -160,19 +167,26 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
-		/**
+		/** Gets the color of the editor user interface.
+		 *
+		 *		CKEDITOR.instances.editor1.getUiColor();
+		 *
 		 * @method
 		 * @member CKEDITOR.editor
-		 * @todo
+		 * @returns {String} uiColor The editor UI color or `undefined` if the UI color is not set.
 		 */
 		getUiColor: function() {
 			return this.uiColor;
 		},
 
-		/**
+		/** Sets the color of the editor user interface. This method accepts a color value in
+		 * hexadecimal notation, with a `#` character (e.g. #ffffff).
+		 * 
+		 * 		CKEDITOR.instances.editor1.setUiColor( '#ff00ff' );
+		 * 
 		 * @method
 		 * @member CKEDITOR.editor
-		 * @todo
+		 * @param {String} color The desired editor UI color in hexadecimal notation.
 		 */
 		setUiColor: function( color ) {
 			var uiStyle = getStylesheet( CKEDITOR.document );
@@ -271,28 +285,28 @@
 })();
 
 /**
- * List of file names, with each one matches a browser agent string cited from
- * {@link CKEDITOR.env}, the corresponding skin part file will be loaded in addition
+ * The list of file names matching the browser user agent string from
+ * {@link CKEDITOR.env}. This is used to load the skin part file in addition
  * to the "main" skin file for a particular browser.
  *
- * **Note:** For each of the defined skin parts must have
- * the corresponding CSS file with the same name as UA inside of
+ * **Note:** For each of the defined skin parts the corresponding
+ * CSS file with the same name as the user agent must exist inside
  * the skin directory.
  *
  * @property ua
  * @todo type?
  */
 
- /**
-  * Current skin name.
-  *
-  * @property {String} name
-  * @todo
-  */
+/**
+ * The name of the skin that is currently used.
+ *
+ * @property {String} name
+ * @todo
+ */
 
 /**
- * The editor skin name. Note that is is not possible to have editors with
- * different skin settings in the same page. In such case, just one of the
+ * The editor skin name. Note that it is not possible to have editors with
+ * different skin settings in the same page. In such case just one of the
  * skins will be used for all editors.
  *
  * This is a shortcut to {@link CKEDITOR#skinName}.
@@ -310,12 +324,12 @@
  */
 
 /**
- * A function that support the chameleon (skin color switch) feature, providing
- * the skin colors styles update to be apply in runtime.
+ * A function that supports the chameleon (skin color switch) feature, providing
+ * the skin color style updates to be applied in runtime.
  *
- * **Note:** the embedded `$color` variable is to be substituted by a concrete UI color.
+ * **Note:** The embedded `$color` variable is to be substituted with a specific UI color.
  *
  * @method chameleon
- * @param {String} editor The editor instance upon color changes impact.
- * @param {String} part Name of the skin part where the color changes take place.
+ * @param {String} editor The editor instance that the color changes apply to.
+ * @param {String} part The name of the skin part where the color changes take place.
  */

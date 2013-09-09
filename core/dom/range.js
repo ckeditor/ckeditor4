@@ -1,6 +1,6 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -560,7 +560,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @param {Boolean} [normalized] Indicates that the bookmark must
 		 * normalized. When normalized, the successive text nodes are
-		 * considered a single node. To sucessful load a normalized
+		 * considered a single node. To successful load a normalized
 		 * bookmark, the DOM tree must be also normalized before calling
 		 * {@link #moveToBookmark}.
 		 * @returns {Object} An object representing the bookmark.
@@ -572,84 +572,118 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.normalized
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
-		createBookmark2: function( normalized ) {
-			var startContainer = this.startContainer,
-				endContainer = this.endContainer;
+		createBookmark2: (function() {
+			function isPreviousText( node, offset ) {
+				return offset > 0 && node && node.type == CKEDITOR.NODE_TEXT && node.getPrevious() && node.getPrevious().type == CKEDITOR.NODE_TEXT;
+			}
 
-			var startOffset = this.startOffset,
-				endOffset = this.endOffset;
+			// Normalize the range. The limit is either start or end of the range.
+			// If there are several text nodes in a row, this function moves range boundary from the
+			// element to a text node and updates the offset. As a result, it looks like text nodes
+			// were glued together into a bigger one, and the range refers to it.
+			function normalize( limit ) {
+				var child, previous,
+					container = limit.container,
+					offset = limit.offset;
 
-			var collapsed = this.collapsed;
+				// Find out if the limit is pointing to a text node that will be normalized.
+				if ( container.type == CKEDITOR.NODE_ELEMENT ) {
+					child = container.getChild( offset );
 
-			var child, previous;
+					// If the limit of the range is after last child, offset will be equal
+					// the number of children so getChild( offset ) becomes null.
+					// In such case, move the limit to the end of the child.
+					// Before:
+					//		            ____ <p> is the container. Offset is 2.
+					//		           |
+					//		<p>        |</p>
+					//		   Foo, Bar         // Two text-node children.
+					//
+					// After:
+					//		            ____ "Bar" becomes the container. Offset is 3.
+					//		           |
+					//		<p>        |</p>
+					//		   Foo, Bar|
+					//
+					if ( !child ) {
+						child = container.getLast();
 
-			// If there is no range then get out of here.
-			// It happens on initial load in Safari #962 and if the editor it's
-			// hidden also in Firefox
-			if ( !startContainer || !endContainer )
-				return { start: 0, end: 0 };
+						if ( isPreviousText( child, offset ) ) {
+							container = child;
+							offset = child.getLength();
+						}
+					}
 
-			if ( normalized ) {
-				// Find out if the start is pointing to a text node that will
-				// be normalized.
-				if ( startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-					child = startContainer.getChild( startOffset );
-
-					// In this case, move the start information to that text
-					// node.
-					if ( child && child.type == CKEDITOR.NODE_TEXT && startOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-						startContainer = child;
-						startOffset = 0;
+					// In this case, move the limit information to the beginning of
+					// that text node.
+					// Before:
+					//		         ____ <p> is the container. Offset is 1.
+					//		        |
+					//		<p>     |   </p>
+					//		   Foo, Bar         // Two text-node children.
+					//
+					// After:
+					//		         ____ "Bar" becomes the container. Offset is 0.
+					//		        |
+					//		<p>     |   </p>
+					//		   Foo, |Bar
+					//
+					else if ( isPreviousText( child, offset ) ) {
+						container = child;
+						offset = 0;
 					}
 
 					// Get the normalized offset.
 					if ( child && child.type == CKEDITOR.NODE_ELEMENT )
-						startOffset = child.getIndex( 1 );
+						offset = child.getIndex( 1 );
 				}
 
-				// Normalize the start.
-				while ( startContainer.type == CKEDITOR.NODE_TEXT && ( previous = startContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
-					startContainer = previous;
-					startOffset += previous.getLength();
+				// Normalize.
+				while ( container.type == CKEDITOR.NODE_TEXT && ( previous = container.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
+					container = previous;
+					offset += previous.getLength();
 				}
 
-				// Process the end only if not normalized.
-				if ( !collapsed ) {
-					// Find out if the start is pointing to a text node that
-					// will be normalized.
-					if ( endContainer.type == CKEDITOR.NODE_ELEMENT ) {
-						child = endContainer.getChild( endOffset );
-
-						// In this case, move the start information to that
-						// text node.
-						if ( child && child.type == CKEDITOR.NODE_TEXT && endOffset > 0 && child.getPrevious().type == CKEDITOR.NODE_TEXT ) {
-							endContainer = child;
-							endOffset = 0;
-						}
-
-						// Get the normalized offset.
-						if ( child && child.type == CKEDITOR.NODE_ELEMENT )
-							endOffset = child.getIndex( 1 );
-					}
-
-					// Normalize the end.
-					while ( endContainer.type == CKEDITOR.NODE_TEXT && ( previous = endContainer.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
-						endContainer = previous;
-						endOffset += previous.getLength();
-					}
-				}
+				limit.container = container;
+				limit.offset = offset;
 			}
 
-			return {
-				start: startContainer.getAddress( normalized ),
-				end: collapsed ? null : endContainer.getAddress( normalized ),
-				startOffset: startOffset,
-				endOffset: endOffset,
-				normalized: normalized,
-				collapsed: collapsed,
-				is2: true // It's a createBookmark2 bookmark.
-			};
-		},
+			return function( normalized ) {
+				var collapsed = this.collapsed,
+					bmStart = {
+						container: this.startContainer,
+						offset: this.startOffset
+					},
+					bmEnd = {
+						container: this.endContainer,
+						offset: this.endOffset
+					};
+
+				// If there is no range then get out of here.
+				// It happens on initial load in Safari #962 and if the editor it's
+				// hidden also in Firefox
+				if ( !bmStart.container || !bmEnd.container )
+					return { start: 0, end: 0 };
+
+				// Normalize range.
+				if ( normalized ) {
+					normalize( bmStart );
+
+					if ( !collapsed )
+						normalize( bmEnd );
+				}
+
+				return {
+					start: bmStart.container.getAddress( normalized ),
+					end: collapsed ? null : bmEnd.container.getAddress( normalized ),
+					startOffset: bmStart.offset,
+					endOffset: bmEnd.offset,
+					normalized: normalized,
+					collapsed: collapsed,
+					is2: true // It's a createBookmark2 bookmark.
+				};
+			}
+		})(),
 
 		/**
 		 * Moves this range to the given bookmark. See {@link #createBookmark} and {@link #createBookmark2}.
