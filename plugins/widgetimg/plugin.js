@@ -14,7 +14,7 @@
 			'</figure>',
 		templateInline = '<img alt="" src="" />',
 		templateResizer = '<span class="cke_widgetimg_resizer">&#8203;</span>',
-		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper">&#8203;</span>';
+		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper"></span>';
 
 	CKEDITOR.plugins.add( 'widgetimg', {
 		requires: 'widget,dialog',
@@ -43,7 +43,7 @@
 				'line-height:0;' +
 			'}' +
 			// Bottom-left corner style of the resizer.
-			'.cke_widgetimg_resizer.cke_resizer_right{' +
+			'.cke_widgetimg_resizer.cke_widgetimg_resizer_left{' +
 				'right:auto;' +
 				'left:2px;' +
 				'border-width:10px 0 0 10px;' +
@@ -633,11 +633,16 @@
 			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
 
 		if ( !widget.inline ) {
-			var resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
+			var resizeWrapper = widget.element.getFirst();
 
-			widget.parts.image.appendTo( resizeWrapper );
-			resizer.appendTo( resizeWrapper );
-			resizeWrapper.appendTo( widget.element, true );
+			// If there's no resizer wrapper (i.e. coming from paste), create one.
+			if ( !resizeWrapper.is( 'span' ) ) {
+				resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
+
+				widget.parts.image.appendTo( resizeWrapper );
+				resizer.appendTo( resizeWrapper );
+				resizeWrapper.appendTo( widget.element, true );
+			}
 		} else
 			resizer.appendTo( widget.wrapper );
 
@@ -790,7 +795,7 @@
 
 		// Change the position of the widget resizer when data changes.
 		widget.on( 'data', function() {
-			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_resizer_right' );
+			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_widgetimg_resizer_left' );
 		} );
 	}
 })();
