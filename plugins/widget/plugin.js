@@ -1853,6 +1853,11 @@
 	// Similar to hack in selection.js#~620.
 	// @context widget
 	function onEditableFocus() {
+		// Gecko does not support 'DOMFocusIn' event on which we unlock selection
+		// in selection.js to prevent selection locking when entering nested editables.
+		if ( CKEDITOR.env.gecko )
+			this.editor.unlockSelection();
+
 		this.editor.forceNextSelectionCheck();
 		this.editor.selectionChange( 1 );
 	}
