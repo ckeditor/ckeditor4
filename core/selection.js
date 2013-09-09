@@ -41,6 +41,10 @@
 
 		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
+			// Cache the active element, which we'll eventually lose on Webkit.
+			if ( CKEDITOR.env.webkit )
+				this._.previousActive = this.document.getActive();
+
 			this._.selectionPreviousPath = currentPath;
 			this.fire( 'selectionChange', { selection: sel, path: currentPath } );
 		}
@@ -399,7 +403,8 @@
 
 			var isInline = editable.isInline();
 
-			var restoreSel;
+			var restoreSel,
+				lastSel;
 
 			// Give the editable an initial selection on first focus,
 			// put selection at a consistent position at the start
@@ -422,7 +427,13 @@
 			}
 
 			// Plays the magic here to restore/save dom selection on editable focus/blur.
-			editable.attachListener( editable, 'focus', function() {
+			editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusIn' : 'focus', function() {
+				// On Webkit we use DOMFocusIn which is fired more often than focus - e.g. when moving from main editable
+				// to nested editable (or the opposite). Unlock selection all, but restore only when it was locked
+				// for the same active element, what will e.g. mean restoring after displaying dialog.
+				if ( restoreSel && CKEDITOR.env.webkit )
+					restoreSel = editor._.previousActive && editor._.previousActive.equals( doc.getActive() );
+
 				editor.unlockSelection( restoreSel );
 				restoreSel = 0;
 			}, null, null, -1 );
@@ -436,11 +447,9 @@
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
 			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
-				var lastSel;
 				// Save a cloned version of current selection.
 				function saveSel() {
 					lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
-
 					lastSel.lock();
 				}
 
@@ -451,15 +460,13 @@
 				else
 					editable.attachListener( editor, 'selectionCheck', saveSel, null, null, -1 );
 
-				editable.attachListener( editable, 'blur', function() {
+				// Lock the selection and mark it to be restored.
+				// On Webkit we use DOMFocusOut which is fired more often than blur. I.e. it will also be
+				// fired when nested editable is blurred.
+				editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusOut' : 'blur', function() {
 					editor.lockSelection( lastSel );
 					restoreSel = 1;
 				}, null, null, -1 );
-
-				// Avoid locking selection when moving focus to inner editables.
-				editable.attachListener( editable, 'DOMFocusIn', function() {
-					editor.unlockSelection();
-				});
 
 				// Disable selection restoring when clicking in.
 				editable.attachListener( editable, 'mousedown', function() {
@@ -594,7 +601,10 @@
 			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
 			// Always fire the selection change on focus gain.
-			editable.attachListener( editable, 'focus', function() {
+			// On Webkit do this on DOMFocusIn, because the selection is unlocked on it too and
+			// we need synchronization between those listeners to not lost cached editor._.previousActive property
+			// (which is updated on selectionCheck).
+			editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusIn' : 'focus', function() {
 				editor.forceNextSelectionCheck();
 				editor.selectionChange( 1 );
 			});
@@ -814,12 +824,12 @@
 	 * @returns {Boolean} `true` if selection was locked.
 	 */
 	CKEDITOR.editor.prototype.lockSelection = function( sel ) {
-			sel = sel || this.getSelection( 1 );
-			if ( sel.getType() != CKEDITOR.SELECTION_NONE ) {
-				!sel.isLocked && sel.lock();
-				this._.savedSelection = sel;
-				return true;
-			}
+		sel = sel || this.getSelection( 1 );
+		if ( sel.getType() != CKEDITOR.SELECTION_NONE ) {
+			!sel.isLocked && sel.lock();
+			this._.savedSelection = sel;
+			return true;
+		}
 		return false;
 	};
 

@@ -1858,8 +1858,12 @@
 		if ( CKEDITOR.env.gecko )
 			this.editor.unlockSelection();
 
-		this.editor.forceNextSelectionCheck();
-		this.editor.selectionChange( 1 );
+		// We don't need to force selectionCheck on Webkit, because on Webkit
+		// we do that on DOMFocusIn in selection.js.
+		if ( !CKEDITOR.env.webkit ) {
+			this.editor.forceNextSelectionCheck();
+			this.editor.selectionChange( 1 );
+		}
 	}
 
 	// Position drag handler according to the widget's element position.

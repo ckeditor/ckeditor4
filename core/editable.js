@@ -47,7 +47,8 @@
 				// [Webkit] When DOM focus is inside of nested contenteditable elements,
 				// apply focus on the main editable will compromise it's text selection.
 				if ( CKEDITOR.env.webkit && !this.hasFocus ) {
-					active = this.getDocument().getActive();
+					// Restore focus on element which we cached (on selectionCheck) as previously active.
+					active = this.editor._.previousActive || this.getDocument().getActive();
 					if ( this.contains( active ) ) {
 						active.focus();
 						return;
