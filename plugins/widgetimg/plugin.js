@@ -85,10 +85,11 @@
 			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
 		},
 		afterInit: function( editor ) {
-			var align = { left:1,right:1,center:1,block:1 };
+			var align = { left:1,right:1,center:1,block:1 },
+				integrate = alignCommandIntegrator( editor );
 
-			for ( var name in align )
-				setupAlignCommand( editor, name );
+			for ( var value in align )
+				integrate( value );
 		}
 	} );
 
@@ -812,58 +813,68 @@
 	// plugin's commands (execution and refreshment).
 	// @param {CKEDITOR.editor} editor
 	// @param {String} value 'left', 'right', 'center' or 'block'
-	function setupAlignCommand( editor, value ) {
-		var command = editor.getCommand( 'justify' + value );
+	function alignCommandIntegrator( editor ) {
+		var execCallbacks = [];
 
-		// Most likely, the justify plugin isn't loaded.
-		if ( !command )
-			return;
+		// Returns a selected widget, if of the type specific for this plugin.
+		// @returns {CKEDITOR.plugins.widget}
+		function getSelectedWidget() {
+			var widget = editor.widgets.focused;
 
-		if ( value in { right:1,left:1,center:1 } ) {
-			command.on( 'exec', function( evt ) {
-				var widget = getSelectedWidget( editor ),
-					align;
+			if ( widget && widget.name in { imginline:1,imgblock:1 } )
+				return widget;
 
-				if ( widget && widget.name in { imginline:1,imgblock:1 } ) {
-					widget.setData( { align: value } );
-					evt.cancel();
-				}
-			} );
+			return null;
 		}
 
-		command.on( 'refresh', function( evt ) {
-			var widget = getSelectedWidget( editor ),
-				allowed = { right:1,left:1,center:1 },
-				align;
+		return function( value ) {
+			var command = editor.getCommand( 'justify' + value );
 
-			if ( !widget )
+			// Most likely, the justify plugin isn't loaded.
+			if ( !command )
 				return;
 
-			align = widget.data.align;
+			// This command will be manually refreshed along with
+			// other commands after exec.
+			execCallbacks.push( function() {
+				command.refresh( editor, editor.elementPath() );
+			} );
 
-			this.setState(
-				( align == value ) ?
-						CKEDITOR.TRISTATE_ON
-					:
-						( value in allowed ) ?
-								CKEDITOR.TRISTATE_OFF
-							:
-								CKEDITOR.TRISTATE_DISABLED );
+			if ( value in { right:1,left:1,center:1 } ) {
+				command.on( 'exec', function( evt ) {
+					var widget = getSelectedWidget();
 
-			evt.cancel();
-		} );
-	}
+					if ( widget && widget.name in { imginline:1,imgblock:1 } ) {
+						widget.setData( { align: value } );
 
-	// Returns a currently selected widget, if of the type
-	// specific for this plugin.
-	// @param {CKEDITOR.editor} editor
-	// @returns {CKEDITOR.plugins.widget}
-	function getSelectedWidget( editor ) {
-		var widget = editor.widgets.focused;
+						// Once the widget changed its align, all the align commands
+						// must be refreshed: the event is to be cancelled.
+						for ( var i = execCallbacks.length; i--; )
+							execCallbacks[ i ].call();
 
-		if ( widget && widget.name in { imginline:1,imgblock:1 } )
-			return widget;
+						evt.cancel();
+					}
+				} );
+			}
 
-		return null;
+			command.on( 'refresh', function( evt ) {
+				var widget = getSelectedWidget(),
+					allowed = { right:1,left:1,center:1 };
+
+				if ( !widget )
+					return;
+
+				this.setState(
+					( widget.data.align == value ) ?
+							CKEDITOR.TRISTATE_ON
+						:
+							( value in allowed ) ?
+									CKEDITOR.TRISTATE_OFF
+								:
+									CKEDITOR.TRISTATE_DISABLED );
+
+				evt.cancel();
+			} );
+		};
 	}
 })();
