@@ -13,7 +13,8 @@
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
-					'position:relative' +
+					'position:relative;' +
+					'outline:none' +
 				'}' +
 				'.cke_widget_inline{' +
 					'display:inline-block' +
