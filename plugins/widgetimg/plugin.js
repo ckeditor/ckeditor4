@@ -632,6 +632,8 @@
 		var doc = widget.editor.document,
 			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
 
+		// Inline widgets don't need a resizer wrapper as an image spans
+		// the entire widget.
 		if ( !widget.inline ) {
 			var resizeWrapper = widget.element.getFirst();
 
