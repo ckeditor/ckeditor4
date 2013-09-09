@@ -112,7 +112,7 @@
 						editorFocus: false
 					} );
 
-					var eventsList = { contentDom:1,selectionChange:1,insertElement:1,mode:1 };//removido key:1
+					var eventsList = { contentDom:1,selectionChange:1,insertElement:1,mode:1,afterZoom:1 };//removido key:1
 					for ( var eventName in eventsList ) {
 						editor.on( eventName, function( evt ) {
 							// Some time is required for insertHtml, and it gives other events better performance as well.
