@@ -637,8 +637,7 @@
 	// resizing.
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
-		var doc = widget.editor.document,
-			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
+		var resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
 
 		// Inline widgets don't need a resizer wrapper as an image spans
 		// the entire widget.
@@ -656,31 +655,54 @@
 		} else
 			resizer.appendTo( widget.wrapper );
 
-		// Calculate values of size variables and mouse
-		// offsets. Start observing mousemove.
+		// Calculate values of size variables and mouse offsets.
+		// Start observing mousemove.
 		resizer.on( 'mousedown', function( evt ) {
-			var pageOffset = evt.data.getPageOffset(),
-				image = widget.parts.image,
+			var image = widget.parts.image,
 
 				// "factor" can be either 1 or -1. I.e.: For right-aligned images, we need to
 				// subtract the difference to get proper width, etc. Without "factor",
 				// resizer starts working the opposite way.
 				factor = widget.data.align == 'right' ? -1 : 1,
 
-				// The x-coordinate of the mouse when button gets pressed.
-				startX = pageOffset.x,
-				startY = pageOffset.y,
+				// The x-coordinate of the mouse relative to the screen
+				// when button gets pressed.
+				startX = evt.data.$.screenX,
+				startY = evt.data.$.screenY,
 
 				// The initial dimensions and aspect ratio of the image.
 				startWidth = image.$.clientWidth,
 				startHeight = image.$.clientHeight,
 				ratio = startWidth / startHeight,
 
-				// Mousemove listener is removed on mouseup.
-				moveListener = doc.on( 'mousemove', onMouseMove ),
+				moveListeners = [],
 
-				moveOffset, newWidth, newHeight, updateData,
+				nativeEvt, newWidth, newHeight, updateData,
 				moveDiffX, moveDiffY, moveRatio;
+
+			// Mousemove listeners are removed on mouseup.
+			attachToDocuments( 'mousemove', onMouseMove, moveListeners );
+
+			// Clean up the mousemove listener. Update widget data if valid.
+			attachToDocuments( 'mouseup', onMouseUp );
+
+			// Attaches an event to a global document if inline editor.
+			// Additionally, if framed, also attaches the same event to iframe's document.
+			function attachToDocuments( name, callback, collection ) {
+				var doc = widget.editor.document,
+					globalDoc = CKEDITOR.document,
+					listeners = [];
+
+				if ( !doc.equals( globalDoc ) )
+					listeners.push( globalDoc.on( name, callback ) );
+
+				listeners.push( doc.on( name, callback ) );
+
+				if ( collection ) {
+					for ( var i = listeners.length; i--; )
+						collection.push( listeners.pop() );
+				}
+			}
 
 			// Calculate with first, and then adjust height, preserving ratio.
 			function adjustToX() {
@@ -711,11 +733,11 @@
 			// 	                <------->
 			// 	                moveDiffX
 			function onMouseMove( evt ) {
-				moveOffset = evt.data.getPageOffset();
+				nativeEvt = evt.data.$;
 
 				// This is how far the mouse is from the point the button was pressed.
-				moveDiffX = moveOffset.x - startX;
-				moveDiffY = startY - moveOffset.y;
+				moveDiffX = nativeEvt.screenX - startX;
+				moveDiffY = startY - nativeEvt.screenY;
 
 				// This is the aspect ratio of the move difference.
 				moveRatio = Math.abs( moveDiffX / moveDiffY );
@@ -789,18 +811,17 @@
 			}
 
 			function onMouseUp( evt ) {
-				moveListener.removeListener();
-				updateData && widget.setData( { width: newWidth, height: newHeight } );
+				var l;
+
+				while ( ( l = moveListeners.pop() ) )
+					l.removeListener();
+
+				if ( updateData )
+					widget.setData( { width: newWidth, height: newHeight } );
+
+				// Don't update data twice or more.
+				updateData = false;
 			}
-
-			// If editor is framed, stop resizing if the pointer goes out of
-			// an iframe and the mouse button gets released.
-			if ( !doc.equals( CKEDITOR.document ) )
-				CKEDITOR.document.once( 'mouseup', onMouseUp );
-
-			// Clean up the mousemove listener. Update widget
-			// data if valid.
-			doc.once( 'mouseup', onMouseUp );
 		} );
 
 		// Change the position of the widget resizer when data changes.
