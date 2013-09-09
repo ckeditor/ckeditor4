@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'vi', {
@@ -9,117 +9,117 @@ CKEDITOR.plugins.setLang( 'specialchar', 'vi', {
 	rsquo: 'Dấu ngoặc đơn phải',
 	ldquo: 'Dấu ngoặc đôi trái',
 	rdquo: 'Dấu ngoặc đôi phải',
-	ndash: 'En dash', // MISSING
-	mdash: 'Em dash', // MISSING
-	iexcl: 'Inverted exclamation mark', // MISSING
-	cent: 'Cent sign', // MISSING
-	pound: 'Pound sign', // MISSING
-	curren: 'Currency sign', // MISSING
-	yen: 'Yen sign', // MISSING
-	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
-	copy: 'Copyright sign', // MISSING
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
-	not: 'Not sign', // MISSING
-	reg: 'Registered sign', // MISSING
-	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
-	micro: 'Micro sign', // MISSING
-	para: 'Pilcrow sign', // MISSING
-	middot: 'Middle dot', // MISSING
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
-	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'Right-pointing double angle quotation mark', // MISSING
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
-	iquest: 'Inverted question mark', // MISSING
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
-	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
-	Iacute: 'Latin capital letter I with acute accent', // MISSING
-	Icirc: 'Latin capital letter I with circumflex', // MISSING
-	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
-	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
-	Oacute: 'Latin capital letter O with acute accent', // MISSING
-	Ocirc: 'Latin capital letter O with circumflex', // MISSING
-	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
-	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
-	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
-	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
-	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
-	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
-	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
-	eacute: 'Latin small letter e with acute accent', // MISSING
-	ecirc: 'Latin small letter e with circumflex', // MISSING
-	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
-	iacute: 'Latin small letter i with acute accent', // MISSING
-	icirc: 'Latin small letter i with circumflex', // MISSING
-	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
-	oacute: 'Latin small letter o with acute accent', // MISSING
-	ocirc: 'Latin small letter o with circumflex', // MISSING
-	otilde: 'Latin small letter o with tilde', // MISSING
-	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
-	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
-	uacute: 'Latin small letter u with acute accent', // MISSING
-	ucirc: 'Latin small letter u with circumflex', // MISSING
-	uuml: 'Latin small letter u with diaeresis', // MISSING
-	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
-	yuml: 'Latin small letter y with diaeresis', // MISSING
-	OElig: 'Latin capital ligature OE', // MISSING
-	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
+	ndash: 'Gạch ngang tiếng anh',
+	mdash: 'Gạch ngang Em',
+	iexcl: 'Chuyển đổi dấu chấm than',
+	cent: 'Ký tự tiền Mỹ',
+	pound: 'Ký tự tiền Anh',
+	curren: 'Ký tự tiền tệ',
+	yen: 'Ký tự tiền Yên Nhật',
+	brvbar: 'Thanh hỏng',
+	sect: 'Ký tự khu vực',
+	uml: 'Dấu tách đôi',
+	copy: 'Ký tự bản quyền',
+	ordf: 'Phần chỉ thị giống cái',
+	laquo: 'Chọn dấu ngoặc đôi trái',
+	not: 'Không có ký tự',
+	reg: 'Ký tự đăng ký',
+	macr: 'Dấu nguyên âm dài',
+	deg: 'Ký tự độ',
+	sup2: 'Chữ trồi lên trên dạng 2',
+	sup3: 'Chữ trồi lên trên dạng 3',
+	acute: 'Dấu trọng âm',
+	micro: 'Ký tự micro',
+	para: 'Ký tự đoạn văn',
+	middot: 'Dấu chấm tròn',
+	cedil: 'Dấu móc lưới',
+	sup1: 'Ký tự trồi lên cấp 1',
+	ordm: 'Ký tự biểu hiện giống đực',
+	raquo: 'Chọn dấu ngoặc đôi phải',
+	frac14: 'Tỉ lệ một phần tư',
+	frac12: 'Tỉ lệ một nửa',
+	frac34: 'Tỉ lệ ba phần tư',
+	iquest: 'Chuyển đổi dấu chấm hỏi',
+	Agrave: 'Ký tự la-tinh viết hoa A với dấu huyền',
+	Aacute: 'Ký tự la-tinh viết hoa A với dấu sắc',
+	Acirc: 'Ký tự la-tinh viết hoa A với dấu mũ',
+	Atilde: 'Ký tự la-tinh viết hoa A với dấu ngã',
+	Auml: 'Ký tự la-tinh viết hoa A với dấu hai chấm trên đầu',
+	Aring: 'Ký tự la-tinh viết hoa A với biểu tượng vòng tròn trên đầu',
+	AElig: 'Ký tự la-tinh viết hoa của Æ',
+	Ccedil: 'Ký tự la-tinh viết hoa C với dấu móc bên dưới',
+	Egrave: 'Ký tự la-tinh viết hoa E với dấu huyền',
+	Eacute: 'Ký tự la-tinh viết hoa E với dấu sắc',
+	Ecirc: 'Ký tự la-tinh viết hoa E với dấu mũ',
+	Euml: 'Ký tự la-tinh viết hoa E với dấu hai chấm trên đầu',
+	Igrave: 'Ký tự la-tinh viết hoa I với dấu huyền',
+	Iacute: 'Ký tự la-tinh viết hoa I với dấu sắc',
+	Icirc: 'Ký tự la-tinh viết hoa I với dấu mũ',
+	Iuml: 'Ký tự la-tinh viết hoa I với dấu hai chấm trên đầu',
+	ETH: 'Viết hoa của ký tự Eth',
+	Ntilde: 'Ký tự la-tinh viết hoa N với dấu ngã',
+	Ograve: 'Ký tự la-tinh viết hoa O với dấu huyền',
+	Oacute: 'Ký tự la-tinh viết hoa O với dấu sắc',
+	Ocirc: 'Ký tự la-tinh viết hoa O với dấu mũ',
+	Otilde: 'Ký tự la-tinh viết hoa O với dấu ngã',
+	Ouml: 'Ký tự la-tinh viết hoa O với dấu hai chấm trên đầu',
+	times: 'Ký tự phép toán nhân',
+	Oslash: 'Ký tự la-tinh viết hoa A với dấu ngã xuống',
+	Ugrave: 'Ký tự la-tinh viết hoa U với dấu huyền',
+	Uacute: 'Ký tự la-tinh viết hoa U với dấu sắc',
+	Ucirc: 'Ký tự la-tinh viết hoa U với dấu mũ',
+	Uuml: 'Ký tự la-tinh viết hoa U với dấu hai chấm trên đầu',
+	Yacute: 'Ký tự la-tinh viết hoa Y với dấu sắc',
+	THORN: 'Phần viết hoa của ký tự Thorn',
+	szlig: 'Ký tự viết nhỏ la-tinh của chữ s',
+	agrave: 'Ký tự la-tinh thường với dấu huyền',
+	aacute: 'Ký tự la-tinh thường với dấu sắc',
+	acirc: 'Ký tự la-tinh thường với dấu mũ',
+	atilde: 'Ký tự la-tinh thường với dấu ngã',
+	auml: 'Ký tự la-tinh thường với dấu hai chấm trên đầu',
+	aring: 'Ký tự la-tinh viết thường với biểu tượng vòng tròn trên đầu',
+	aelig: 'Ký tự la-tinh viết thường của æ',
+	ccedil: 'Ký tự la-tinh viết thường của c với dấu móc bên dưới',
+	egrave: 'Ký tự la-tinh viết thường e với dấu huyền',
+	eacute: 'Ký tự la-tinh viết thường e với dấu sắc',
+	ecirc: 'Ký tự la-tinh viết thường e với dấu mũ',
+	euml: 'Ký tự la-tinh viết thường e với dấu hai chấm trên đầu',
+	igrave: 'Ký tự la-tinh viết thường i với dấu huyền',
+	iacute: 'Ký tự la-tinh viết thường i với dấu sắc',
+	icirc: 'Ký tự la-tinh viết thường i với dấu mũ',
+	iuml: 'Ký tự la-tinh viết thường i với dấu hai chấm trên đầu',
+	eth: 'Ký tự la-tinh viết thường của eth',
+	ntilde: 'Ký tự la-tinh viết thường n với dấu ngã',
+	ograve: 'Ký tự la-tinh viết thường o với dấu huyền',
+	oacute: 'Ký tự la-tinh viết thường o với dấu sắc',
+	ocirc: 'Ký tự la-tinh viết thường o với dấu mũ',
+	otilde: 'Ký tự la-tinh viết thường o với dấu ngã',
+	ouml: 'Ký tự la-tinh viết thường o với dấu hai chấm trên đầu',
+	divide: 'Ký hiệu phép tính chia',
+	oslash: 'Ký tự la-tinh viết thường o với dấu ngã',
+	ugrave: 'Ký tự la-tinh viết thường u với dấu huyền',
+	uacute: 'Ký tự la-tinh viết thường u với dấu sắc',
+	ucirc: 'Ký tự la-tinh viết thường u với dấu mũ',
+	uuml: 'Ký tự la-tinh viết thường u với dấu hai chấm trên đầu',
+	yacute: 'Ký tự la-tinh viết thường y với dấu sắc',
+	thorn: 'Ký tự la-tinh viết thường của chữ thorn',
+	yuml: 'Ký tự la-tinh viết thường y với dấu hai chấm trên đầu',
+	OElig: 'Ký tự la-tinh viết hoa gạch nối OE',
+	oelig: 'Ký tự la-tinh viết thường gạch nối OE',
+	'372': 'Ký tự la-tinh viết hoa W với dấu mũ',
+	'374': 'Ký tự la-tinh viết hoa Y với dấu mũ',
+	'373': 'Ký tự la-tinh viết thường w với dấu mũ',
+	'375': 'Ký tự la-tinh viết thường y với dấu mũ',
+	sbquo: 'Dấu ngoặc đơn thấp số-9',
+	'8219': 'Dấu ngoặc đơn đảo ngược số-9',
+	bdquo: 'Gấp đôi dấu ngoặc đơn số-9',
+	hellip: 'Tĩnh dược chiều ngang',
+	trade: 'Ký tự thương hiệu',
+	'9658': 'Ký tự trỏ về hướng bên phải màu đen',
+	bull: 'Ký hiệu',
+	rarr: 'Mũi tên hướng bên phải',
+	rArr: 'Mũi tên hướng bên phải dạng đôi',
+	hArr: 'Mũi tên hướng bên trái dạng đôi',
+	diams: 'Ký hiệu hình thoi',
+	asymp: 'Gần bằng với'
 });

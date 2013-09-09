@@ -677,22 +677,34 @@
 
 						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
 						// it was cancelled, prevent submitting the form.
-						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false )
+						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
+							// When user press save button event (evt) is undefined (see save plugin).
+							// This method works because it throws error so originalSubmit won't be called.
+							// Also this error won't be shown because it will be caught in save plugin.
 							evt.data.preventDefault();
+						}
 					}
 					form.on( 'submit', onSubmit );
 
-					// Setup the submit function because it doesn't fire the
-					// "submit" event.
-					if ( !form.$.submit.nodeName && !form.$.submit.length ) {
+					function isFunction( f ) {
+						// For IE8 typeof fun == object so we cannot use it.
+						return !!( f && f.call && f.apply );
+					};
+
+					// Check if there is no element/elements input with name == "submit".
+					// If they exists they will overwrite form submit function (form.$.submit).
+					// If form.$.submit is overwritten we can not do anything with it.
+					if ( isFunction( form.$.submit ) ) {
+						// Setup the submit function because it doesn't fire the
+						// "submit" event.
 						form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-							return function( evt ) {
-								onSubmit( new CKEDITOR.dom.event( evt ) );
+							return function() {
+								onSubmit();
 
 								// For IE, the DOM submit function is not a
 								// function, so we need third check.
 								if ( originalSubmit.apply )
-									originalSubmit.apply( this, arguments );
+									originalSubmit.apply( this );
 								else
 									originalSubmit();
 							};

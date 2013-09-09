@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'id', {
 	alertUrl: 'Mohon tulis URL gambar',
@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'image', 'id', {
 	titleButton: 'Image Button Properties', // MISSING
 	upload: 'Unggah',
 	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'VSpace', // MISSING
+	vSpace: 'VSpace',
 	validateBorder: 'Border must be a whole number.', // MISSING
 	validateHSpace: 'HSpace must be a whole number.', // MISSING
 	validateVSpace: 'VSpace must be a whole number.' // MISSING

@@ -18,14 +18,6 @@
  * @namespace
  */
 CKEDITOR.lang[ 'ru' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Визуальный текстовый редактор',
 
@@ -49,7 +41,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		textarea: 'Многострочное текстовое поле',
 		hiddenField: 'Скрытое поле',
 		button: 'Кнопка',
-		select: 'Список выбора',
+		select: 'Выпадающий список',
 		imageButton: 'Кнопка-изображение',
 		notSet: '<не указано>',
 		id: 'Идентификатор',
@@ -88,9 +80,9 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignLeft: 'По левому краю',
 		alignRight: 'По правому краю',
 		alignCenter: 'По центру',
-		alignTop: 'По верху',
-		alignMiddle: 'По середине',
-		alignBottom: 'По низу',
+		alignTop: 'Поверху',
+		alignMiddle: 'Посередине',
+		alignBottom: 'Понизу',
 		invalidValue	: 'Недопустимое значение.',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',

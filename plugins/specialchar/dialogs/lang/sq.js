@@ -23,7 +23,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Left-pointing double angle quotation mark', // MISSING
 	not: 'Nuk ka shenjë',
-	reg: 'Registered sign', // MISSING
+	reg: 'Shenja e të regjistruarit',
 	macr: 'Macron',
 	deg: 'Shenja e shkallës',
 	sup2: 'Super-skripta dy',
@@ -118,7 +118,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	'9658': 'Black right-pointing pointer', // MISSING
 	bull: 'Pulla',
 	rarr: 'Shigjeta djathtas',
-	rArr: 'Rightwards double arrow', // MISSING
+	rArr: 'Shenja të dyfishta djathtas',
 	hArr: 'Shigjeta e dyfishë majtas-djathtas',
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Gati e barabar me'

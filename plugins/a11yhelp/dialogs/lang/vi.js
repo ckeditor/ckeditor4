@@ -27,56 +27,56 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 
 			{
 			name: 'Hộp danh sách trình biên tập',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Trong một danh sách chọn, di chuyển đối tượng tiếp theo với phím Tab hoặc phím mũi tên hướng xuống. Di chuyển đến đối tượng trước đó bằng cách nhấn tổ hợp phím Shift+Tab hoặc mũi tên hướng lên. Phím khoảng cách hoặc phím Enter để chọn các tùy chọn trong danh sách. Nhấn phím Esc để đóng lại danh sách chọn.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Thanh đường dẫn các đối tượng',
+			legend: 'Nhấn ${elementsPathFocus} để điều hướng các đối tượng trong thanh đường dẫn. Di chuyển đến đối tượng tiếp theo bằng phím Tab hoặc phím mũi tên bên phải. Di chuyển đến đối tượng trước đó bằng tổ hợp phím Shift+Tab hoặc phím mũi tên bên trái. Nhấn phím khoảng cách hoặc Enter để chọn đối tượng trong trình soạn thảo.'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Lệnh',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'Làm lại lện',
+			legend: 'Ấn ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Làm lại lệnh',
+			legend: 'Ấn ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Lệnh in đậm',
+			legend: 'Ấn ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Lệnh in nghiêng',
+			legend: 'Ấn ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Lệnh gạch dưới',
+			legend: 'Ấn ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
+			name: 'Lệnh liên kết',
 			legend: 'Nhấn ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
+			name: 'Lệnh hiển thị thanh công cụ',
 			legend: 'Nhấn${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Truy cập đến lệnh tập trung vào khoảng cách trước đó',
+			legend: 'Ấn ${accessPreviousSpace} để truy cập đến phần tập trung khoảng cách sau phần còn sót lại của khoảng cách gần nhất vốn không tác động đến được , thí dụ: hai yếu tố điều chỉnh HR. Lặp lại các phím kết họep này để vươn đến phần khoảng cách.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Truy cập phần đối tượng lệnh khoảng trống',
+			legend: 'Ấn ${accessNextSpace} để truy cập đến phần tập trung khoảng cách sau phần còn sót lại của khoảng cách gần nhất vốn không tác động đến được , thí dụ: hai yếu tố điều chỉnh HR. Lặp lại các phím kết họep này để vươn đến phần khoảng cách.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
+			name: 'Trợ giúp liên quan',
 			legend: 'Nhấn ${a11yHelp}'
 		}
 		]

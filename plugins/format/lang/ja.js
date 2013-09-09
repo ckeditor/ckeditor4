@@ -3,8 +3,8 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'ja', {
-	label: 'フォーマット',
-	panelTitle: 'フォーマット',
+	label: '書式',
+	panelTitle: '段落の書式',
 	tag_address: 'アドレス',
 	tag_div: '標準 (DIV)',
 	tag_h1: '見出し 1',

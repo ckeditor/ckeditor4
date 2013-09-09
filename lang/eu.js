@@ -18,14 +18,6 @@
  * @namespace
  */
 CKEDITOR.lang[ 'eu' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Testu Aberastuko Editorea',
 

@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'font', 'ja', {
 	fontSize: {
 		label: 'サイズ',
 		voiceLabel: 'フォントサイズ',
-		panelTitle: 'サイズ'
+		panelTitle: 'フォントサイズ'
 	},
 	label: 'フォント',
 	panelTitle: 'フォント',

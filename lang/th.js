@@ -18,14 +18,6 @@
  * @namespace
  */
 CKEDITOR.lang[ 'th' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Rich Text Editor', // MISSING
 
@@ -70,8 +62,8 @@ CKEDITOR.lang[ 'th' ] = {
 		generalTab: 'ทั่วไป',
 		advancedTab: 'ขั้นสูง',
 		validateNumberFailed: 'ค่านี้ไม่ใช่ตัวเลข',
-		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmNewPage: 'การเปลี่ยนแปลงใดๆ ในเนื้อหานี้ ที่ไม่ได้ถูกบันทึกไว้ จะสูญหายทั้งหมด คุณแน่ใจว่าจะเรียกหน้าใหม่?',
+		confirmCancel: 'ตัวเลือกบางตัวมีการเปลี่ยนแปลง คุณแน่ใจว่าจะปิดกล่องโต้ตอบนี้?',
 		options: 'ตัวเลือก',
 		target: 'การเปิดหน้าลิงค์',
 		targetNew: 'หน้าต่างใหม่ (_blank)',

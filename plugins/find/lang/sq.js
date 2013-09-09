@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'find', 'sq', {
 	find: 'Gjej',
 	findOptions: 'Gjejë Alternativat',
 	findWhat: 'Gjej çka:',
-	matchCase: 'Match case', // MISSING
+	matchCase: 'Rasti i përputhjes',
 	matchCyclic: 'Përputh ciklikun',
 	matchWord: 'Përputh fjalën e tërë',
 	notFoundMsg: 'Teksti i caktuar nuk mundej të gjendet.',

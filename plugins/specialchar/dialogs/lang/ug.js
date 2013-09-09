@@ -95,7 +95,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	ocirc: 'Latin small letter o with circumflex', // MISSING
 	otilde: 'Latin small letter o with tilde', // MISSING
 	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
+	divide: 'بۆلۈش بەلگىسى',
 	oslash: 'Latin small letter o with stroke', // MISSING
 	ugrave: 'Latin small letter u with grave accent', // MISSING
 	uacute: 'Latin small letter u with acute accent', // MISSING
@@ -114,7 +114,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	'8219': 'Single high-reversed-9 quotation mark', // MISSING
 	bdquo: 'Double low-9 quotation mark', // MISSING
 	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
+	trade: 'خەتلەتكەن تاۋار ماركىسى بەلگىسى',
 	'9658': 'Black right-pointing pointer', // MISSING
 	bull: 'Bullet', // MISSING
 	rarr: 'ئوڭ يا ئوق',
