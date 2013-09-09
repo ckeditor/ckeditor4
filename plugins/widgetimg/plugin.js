@@ -765,7 +765,7 @@
 
 				// Don't update attributes if less than 10.
 				// This is to prevent images to visually disappear.
-				if ( newWidth >= 10 && newHeight >= 10 ) {
+				if ( newWidth >= 15 && newHeight >= 15 ) {
 					image.setAttributes( { width: newWidth, height: newHeight } );
 					updateData = true;
 				} else
