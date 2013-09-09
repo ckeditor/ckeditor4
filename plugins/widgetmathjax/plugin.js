@@ -89,10 +89,32 @@
 
 			editor.on( 'contentPreview', function( evt ) {
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
-					'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"><\/script><\/head>' );
+					'<script src="' + ( getAbsolutePath( editor.config.mathJaxLib ) || cdn ) + '"><\/script><\/head>' );
 			} );
 		}
 	} );
+
+	function getAbsolutePath( path ) {
+		if ( isRalativePath( path ) ) {
+			// Webkit bug: Avoid requesting with original file name (MIME type)
+			//  which will stop browser from interpreting resources from same URL.
+			var suffixIndex = path.lastIndexOf( '.' ),
+				suffix = suffixIndex == -1 ? '' : path.substring( suffixIndex, path.length );
+
+			suffix && ( path = path.substring( 0, suffixIndex ) );
+
+			var temp = window.document.createElement( 'img' );
+			temp.src = path;
+			return temp.src + suffix;
+		}
+		else
+			return path;
+	}
+
+	function isRalativePath( path ) {
+		return path.charAt(0) != "#" && path.charAt(0) != "/" &&
+			( path.indexOf("//") == -1  || path.indexOf("//") > path.indexOf("#") || path.indexOf("//") > path.indexOf("?") );
+	}
 
 	CKEDITOR.plugins.mathjax = {};
 
