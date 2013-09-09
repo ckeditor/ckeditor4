@@ -83,6 +83,12 @@
 
 			// Add the dialog associated with both widgets.
 			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
+		},
+		afterInit: function( editor ) {
+			var align = { left:1,right:1,center:1,block:1 };
+
+			for ( var name in align )
+				setupAlignCommand( editor, name );
 		}
 	} );
 
@@ -628,6 +634,7 @@
 
 	// Defines all features related to drag-driven image
 	// resizing.
+	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
 		var doc = widget.editor.document,
 			resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
@@ -799,5 +806,64 @@
 		widget.on( 'data', function() {
 			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_widgetimg_resizer_left' );
 		} );
+	}
+
+	// Integrates widget alignment setting with justify
+	// plugin's commands (execution and refreshment).
+	// @param {CKEDITOR.editor} editor
+	// @param {String} value 'left', 'right', 'center' or 'block'
+	function setupAlignCommand( editor, value ) {
+		var command = editor.getCommand( 'justify' + value );
+
+		// Most likely, the justify plugin isn't loaded.
+		if ( !command )
+			return;
+
+		if ( value in { right:1,left:1,center:1 } ) {
+			command.on( 'exec', function( evt ) {
+				var widget = getSelectedWidget( editor ),
+					align;
+
+				if ( widget && widget.name in { imginline:1,imgblock:1 } ) {
+					widget.setData( { align: value } );
+					evt.cancel();
+				}
+			} );
+		}
+
+		command.on( 'refresh', function( evt ) {
+			var widget = getSelectedWidget( editor ),
+				allowed = { right:1,left:1,center:1 },
+				align;
+
+			if ( !widget )
+				return;
+
+			align = widget.data.align;
+
+			this.setState(
+				( align == value ) ?
+						CKEDITOR.TRISTATE_ON
+					:
+						( value in allowed ) ?
+								CKEDITOR.TRISTATE_OFF
+							:
+								CKEDITOR.TRISTATE_DISABLED );
+
+			evt.cancel();
+		} );
+	}
+
+	// Returns a currently selected widget, if of the type
+	// specific for this plugin.
+	// @param {CKEDITOR.editor} editor
+	// @returns {CKEDITOR.plugins.widget}
+	function getSelectedWidget( editor ) {
+		var widget = editor.widgets.focused;
+
+		if ( widget && widget.name in { imginline:1,imgblock:1 } )
+			return widget;
+
+		return null;
 	}
 })();
