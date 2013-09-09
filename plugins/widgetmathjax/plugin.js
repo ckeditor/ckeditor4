@@ -95,6 +95,9 @@
 	} );
 
 	function getAbsolutePath( path ) {
+		if ( !path )
+			return path;
+
 		if ( isRalativePath( path ) ) {
 			// Webkit bug: Avoid requesting with original file name (MIME type)
 			//  which will stop browser from interpreting resources from same URL.
