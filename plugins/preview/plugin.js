@@ -90,11 +90,6 @@
 				doc.open();
 				doc.write( eventData.dataValue );
 				doc.close();
-
-				// Chrome will need this to show the embedded. (#8016)
-				CKEDITOR.env.webkit && setTimeout( function() {
-					doc.body.innerHTML += '';
-				}, 0 );
 			}
 
 			return true;
