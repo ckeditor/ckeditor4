@@ -636,7 +636,8 @@
 	// Defines all features related to drag-driven image resizing.
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
-		var doc = widget.editor.document,
+		var editor = widget.editor,
+			doc = editor.document,
 			resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_widgetimg_resizer' );
@@ -684,6 +685,9 @@
 				nativeEvt, newWidth, newHeight, updateData,
 				moveDiffX, moveDiffY, moveRatio;
 
+			// Save the undo snapshot first: before resizing.
+			editor.fire( 'saveSnapshot' );
+
 			// Mousemove listeners are removed on mouseup.
 			attachToDocuments( 'mousemove', onMouseMove, moveListeners );
 
@@ -693,8 +697,7 @@
 			// Attaches an event to a global document if inline editor.
 			// Additionally, if framed, also attaches the same event to iframe's document.
 			function attachToDocuments( name, callback, collection ) {
-				var doc = widget.editor.document,
-					globalDoc = CKEDITOR.document,
+				var globalDoc = CKEDITOR.document,
 					listeners = [];
 
 				if ( !doc.equals( globalDoc ) )
@@ -820,8 +823,12 @@
 				while ( ( l = moveListeners.pop() ) )
 					l.removeListener();
 
-				if ( updateData )
+				if ( updateData ) {
 					widget.setData( { width: newWidth, height: newHeight } );
+
+					// Save another undo snapshot: after resizing.
+					editor.fire( 'saveSnapshot' );
+				}
 
 				// Don't update data twice or more.
 				updateData = false;
