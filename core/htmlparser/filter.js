@@ -111,7 +111,7 @@
 			 * @param {Object/Number} [options] Object containing rules' options or a priority
 			 * (for a backward compatibility with CKEditor versions up to 4.2.x).
 			 * @param {Number} [options.priority=10] The priority of a rule.
-			 * @param {Boolean} [options.applyToNonEditable=false] Whether to apply rule to non-editable
+			 * @param {Boolean} [options.applyToAll=false] Whether to apply rule to non-editable
 			 * elements and their descendants too.
 			 */
 			addRules: function( rules, options ) {
@@ -397,8 +397,8 @@
 	}
 
 	function isRuleApplicable( context, rule ) {
-		// Do not apply rule if context is nonEditable and rule doesn't have applyToNonEditable option.
-		return !context.nonEditable || rule.options.applyToNonEditable;
+		// Do not apply rule if context is nonEditable and rule doesn't have applyToAll option.
+		return !context.nonEditable || rule.options.applyToAll;
 	}
 
 })();

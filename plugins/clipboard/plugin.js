@@ -1142,7 +1142,7 @@
 			}
 		}, {
 			// Apply this filter to every element.
-			applyToNonEditable: true
+			applyToAll: true
 		} );
 
 		return filter;

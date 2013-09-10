@@ -41,11 +41,11 @@
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
 		dataFilter.addRules( defaultDataFilterRulesEditableOnly );
-		dataFilter.addRules( defaultDataFilterRulesForAll, { applyToNonEditable: true } );
-		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ), { applyToNonEditable: true } );
+		dataFilter.addRules( defaultDataFilterRulesForAll, { applyToAll: true } );
+		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ), { applyToAll: true } );
 		htmlFilter.addRules( defaultHtmlFilterRulesEditableOnly );
-		htmlFilter.addRules( defaultHtmlFilterRulesForAll, { applyToNonEditable: true } );
-		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ), { applyToNonEditable: true } );
+		htmlFilter.addRules( defaultHtmlFilterRulesForAll, { applyToAll: true } );
+		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ), { applyToAll: true } );
 
 		editor.on( 'toHtml', function( evt ) {
 			var evtData = evt.data,
