@@ -53,6 +53,7 @@
 			'}' +
 			'.cke_widget_wrapper:hover .cke_widgetimg_resizer{display:block;}' );
 		},
+
 		init: function( editor ) {
 			// Register the inline widget.
 			editor.widgets.add( 'imginline', imgInline );
@@ -82,6 +83,7 @@
 			// Add the dialog associated with both widgets.
 			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
 		},
+
 		afterInit: function( editor ) {
 			var align = { left:1,right:1,center:1,block:1 },
 				integrate = alignCommandIntegrator( editor );
@@ -142,14 +144,14 @@
 				// re-initialized, this may be a totally different <img>.
 				var image = widget.parts.image;
 
-				// Set src attribute of the image.
-				image.setAttribute( 'src', widget.data.src );
+				image.setAttributes( {
+					src: widget.data.src,
 
-				// This internal is required by the editor.
-				image.data( 'cke-saved-src', widget.data.src );
+					// This internal is required by the editor.
+					'data-cke-saved-src': widget.data.src,
 
-				// Set alt attribute of the image.
-				image.setAttribute( 'alt', widget.data.alt );
+					alt: widget.data.alt
+				} );
 
 				// Set dimensions of the image according to gathered data.
 				setDimensions( widget );
@@ -635,7 +637,7 @@
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
 		var doc = widget.editor.document,
-			resizer = new CKEDITOR.dom.element( 'span', doc );
+			resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_widgetimg_resizer' );
 		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
@@ -643,10 +645,9 @@
 		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.
 		if ( !widget.inline ) {
 			var oldResizeWrapper = widget.element.getFirst(),
-				resizeWrapper = new CKEDITOR.dom.element( 'span', doc );
+				resizeWrapper = doc.createElement( 'span' );
 
 			resizeWrapper.addClass( 'cke_widgetimg_resizer_wrapper' );
-
 			resizeWrapper.append( widget.parts.image );
 			resizeWrapper.append( resizer );
 			widget.element.append( resizeWrapper, true );
@@ -869,12 +870,12 @@
 					var widget = getSelectedWidget();
 
 					if ( widget && widget.name in { imginline:1,imgblock:1 } ) {
-						widget.setData( { align: value } );
+						widget.setData( 'align', value );
 
 						// Once the widget changed its align, all the align commands
 						// must be refreshed: the event is to be cancelled.
 						for ( var i = execCallbacks.length; i--; )
-							execCallbacks[ i ].call();
+							execCallbacks[ i ]();
 
 						evt.cancel();
 					}
