@@ -12,7 +12,7 @@
 	CKEDITOR.plugins.add( 'widgetmathjax', {
 		requires: 'widget,dialog',
 
-		icons: 'widgetmathjax',
+		icons: 'mathjax',
 
 		init: function( editor ) {
 			var cls = editor.config.mathJaxClass || 'math-tex';
