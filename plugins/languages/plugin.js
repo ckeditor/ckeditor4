@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Languages plugin
+ * @fileOverview Languages plugin.
  */
 (function() {
 	
@@ -21,28 +21,28 @@
 			var languagesConfigString = editor.config.languages,
 				items = {},
 				parts,
-				curLanguageId, // 2-letter lanugage identifier
+				curLanguageId, // 2-letter lanugage identifier.
 				i;
 	
-			// parse languagesConfigString, and create items entry for each lang
+			// Parse languagesConfigString, and create items entry for each lang.
 			for ( i = 0 ; i < languagesConfigString.length ; i++ ) {
-				parts = languagesConfigString[i].split( ':' );
+				parts = languagesConfigString[ i ].split( ':' );
 				curLanguageId = parts[ 0 ];
 				
 				items[ 'language_' + curLanguageId ] = {
 					label: parts[ 1 ],
 					group: languagesButtonsGroup,
 					order: i,
-					// tells if this language is left-to-right oriented (default: true)
+					// Tells if this language is left-to-right oriented (default: true).
 					ltr: ( parts.length < 3 || String( parts[ 2 ] ).toLowerCase() != 'rtl' ),
-					// style property will be assigned after object initialization
+					// Style property will be assigned after object initialization.
 					style: null,
 					onClick: function() {
 						editor.applyStyle( this.style );
 					}
 				};
 				
-				// init style property
+				// Init style property.
 				items[ 'language_' + curLanguageId ].style = new CKEDITOR.style( {
 					element: 'span',
 					attributes: {
@@ -52,7 +52,7 @@
 				} );
 			}
 			
-			// initialize group/button
+			// Initialize group/button.
 			editor.addMenuGroup( languagesButtonsGroup, 1 );
 			editor.addMenuItems( items );
 			
@@ -74,11 +74,11 @@
 				}
 			} );
 			
-			// exposes items variable for testing purposes // %REMOVE_LINE%
+			// Exposes items variable for testing purposes. // %REMOVE_LINE%
 			this.testOnly_items = items; // %REMOVE_LINE%
 		}
 	});
 	
-	// assign default configuration
+	// Assign default configuration.
 	CKEDITOR.config.languages = CKEDITOR.config.languages ? CKEDITOR.config.languages : [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
 }());
