@@ -37,7 +37,7 @@
 					// style property will be assigned after object initialization
 					style: null,
 					onClick: function() {
-						this.style.apply( editor.document );
+						editor.applyStyle( this.style );
 					}
 				};
 				
