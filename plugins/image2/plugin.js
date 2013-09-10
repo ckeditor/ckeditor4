@@ -15,6 +15,7 @@
 		templateInline = '<img alt="" src="" />';
 
 	CKEDITOR.plugins.add( 'image2', {
+		lang: 'en', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
 		icons: 'image2',
 		hidpi: true,
@@ -76,7 +77,7 @@
 
 			// Add toolbar button for this plugin.
 			editor.ui.addButton && editor.ui.addButton( 'image2', {
-				label: 'Image',
+				label: editor.lang.common.image,
 				command: 'image2',
 				toolbar: 'insert,10'
 			} );
@@ -642,6 +643,7 @@
 			resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_image2_resizer' );
+		resizer.setAttribute( 'title', editor.lang.image2.resizer );
 		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
 
 		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.

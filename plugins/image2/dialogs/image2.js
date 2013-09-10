@@ -13,16 +13,19 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		lockButtonId = CKEDITOR.tools.getNextId(),
 		resetButtonId = CKEDITOR.tools.getNextId(),
 
+		lang = editor.lang.image2,
+		commonLang = editor.lang.common,
+
 		lockResetStyle = 'margin-top:18px;width:40px;height:20px;',
 		lockResetHtml = new CKEDITOR.template(
 			'<div>' +
-				'<a href="javascript:void(0)" tabindex="-1" title="Lock ratio" class="cke_btn_locked" id="{lockButtonId}" role="checkbox">' +
+				'<a href="javascript:void(0)" tabindex="-1" title="' + lang.lockRatio + '" class="cke_btn_locked" id="{lockButtonId}" role="checkbox">' +
 					'<span class="cke_icon"></span>' +
-					'<span class="cke_label">Lock ratio</span>' +
+					'<span class="cke_label">' + lang.lockRatio + '</span>' +
 				'</a>' +
 
-				'<a href="javascript:void(0)" tabindex="-1" title="Reset size" class="cke_btn_reset" id="{resetButtonId}" role="button">' +
-					'<span class="cke_label">Reset size</span>' +
+				'<a href="javascript:void(0)" tabindex="-1" title="' + lang.resetSize + '" class="cke_btn_reset" id="{resetButtonId}" role="button">' +
+					'<span class="cke_label">' + lang.resetSize + '</span>' +
 				'</a>' +
 			'</div>' ).output( {
 				lockButtonId: lockButtonId,
@@ -54,7 +57,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
 		if ( !isValid )
-			alert( 'Invalid value!' );
+			alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] );
 
 		return isValid;
 	}
@@ -265,7 +268,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 	}
 
 	return {
-		title: 'Edit image',
+		title: lang.title,
 		minWidth: 250,
 		minHeight: 100,
 		onLoad: function() {
@@ -307,7 +310,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 					{
 						id: 'src',
 						type: 'text',
-						label: 'URL',
+						label: commonLang.url,
 						onKeyup: function() {
 							var value = this.getValue();
 
@@ -373,12 +376,12 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						commit: function( widget ) {
 							widget.setData( 'src', this.getValue() );
 						},
-						validate: CKEDITOR.dialog.validate.notEmpty( 'URL is missing' )
+						validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
 					},
 					{
 						id: 'alt',
 						type: 'text',
-						label: 'Alternative text',
+						label: lang.alt,
 						setup: function( widget ) {
 							this.setValue( widget.data.alt );
 						},
@@ -395,7 +398,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								type: 'text',
 								width: '45px',
 								id: 'width',
-								label: 'Width',
+								label: commonLang.width,
 								validate: validateDimension,
 								onKeyUp: onChangeDimension,
 								onLoad: function() {
@@ -412,7 +415,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								type: 'text',
 								id: 'height',
 								width: '45px',
-								label: 'Height',
+								label: commonLang.height,
 								validate: validateDimension,
 								onKeyUp: onChangeDimension,
 								onLoad: function() {
@@ -446,7 +449,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 									[ 'Left', 'left' ],
 									[ 'Center', 'center' ],
 									[ 'Right', 'right' ] ],
-								label: 'Alignment',
+								label: commonLang.align,
 								setup: function( widget ) {
 									this.setValue( widget.data.align );
 								},
@@ -459,7 +462,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 					{
 						id: 'hasCaption',
 						type: 'checkbox',
-						label: 'Captioned image',
+						label: lang.captioned,
 						setup: function( widget ) {
 							this.setValue( widget.data.hasCaption );
 						},
