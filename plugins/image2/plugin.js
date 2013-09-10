@@ -17,6 +17,7 @@
 	CKEDITOR.plugins.add( 'image2', {
 		requires: 'widget,dialog',
 		icons: 'image2',
+		hidpi: true,
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss( '.cke_image2_resizer{' +
