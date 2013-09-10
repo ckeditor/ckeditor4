@@ -80,5 +80,5 @@
 	});
 	
 	// Assign default configuration.
-	CKEDITOR.config.languages = CKEDITOR.config.languages ? CKEDITOR.config.languages : [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
+	CKEDITOR.config.languages = CKEDITOR.config.languages || [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
 }());
