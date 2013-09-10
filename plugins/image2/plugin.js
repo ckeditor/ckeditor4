@@ -66,9 +66,9 @@
 			// Add the command for this plugin.
 			editor.addCommand( 'image2', {
 				exec: function() {
-					var focused = editor.widgets.focused;
+					var focused = getFocusedWidget( editor );
 
-					if ( focused && focused.name in { image2inline:1,image2block:1 } )
+					if ( focused )
 						focused.edit();
 					else
 						editor.execCommand( 'image2inline' );
@@ -96,9 +96,9 @@
 				// Show the menu item in the context menu when a widget
 				// is focused.
 				editor.contextMenu.addListener( function() {
-					var focused = editor.widgets.focused;
+					var focused = getFocusedWidget( editor );
 
-					if ( focused && focused.name in { image2inline:1,image2block:1 } )
+					if ( focused )
 						return { image2: CKEDITOR.TRISTATE_OFF };
 
 					return null;
@@ -874,17 +874,6 @@
 	function alignCommandIntegrator( editor ) {
 		var execCallbacks = [];
 
-		// Returns a selected widget, if of the type specific for this plugin.
-		// @returns {CKEDITOR.plugins.widget}
-		function getSelectedWidget() {
-			var widget = editor.widgets.focused;
-
-			if ( widget && widget.name in { image2inline:1,image2block:1 } )
-				return widget;
-
-			return null;
-		}
-
 		return function( value ) {
 			var command = editor.getCommand( 'justify' + value );
 
@@ -900,9 +889,9 @@
 
 			if ( value in { right:1,left:1,center:1 } ) {
 				command.on( 'exec', function( evt ) {
-					var widget = getSelectedWidget();
+					var widget = getFocusedWidget( editor );
 
-					if ( widget && widget.name in { image2inline:1,image2block:1 } ) {
+					if ( widget ) {
 						widget.setData( 'align', value );
 
 						// Once the widget changed its align, all the align commands
@@ -916,7 +905,7 @@
 			}
 
 			command.on( 'refresh', function( evt ) {
-				var widget = getSelectedWidget(),
+				var widget = getFocusedWidget( editor ),
 					allowed = { right:1,left:1,center:1 };
 
 				if ( !widget )
@@ -934,5 +923,18 @@
 				evt.cancel();
 			} );
 		};
+	}
+
+	// Returns the focused widget, if of the type specific for this plugin.
+	// If no widget is focused, `null` is returned.
+	// @param {CKEDITOR.editor}
+	// @returns {CKEDITOR.plugins.widget}
+	function getFocusedWidget( editor ) {
+		var widget = editor.widgets.focused;
+
+		if ( widget && widget.name in { image2inline:1,image2block:1 } )
+			return widget;
+
+		return null;
 	}
 })();
