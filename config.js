@@ -37,6 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'indentlist,' +
 		'indentblock,' +
 		'justify,' +
+		'languages,' +
 		'link,' +
 		'list,' +
 		'liststyle,' +
@@ -65,6 +66,8 @@ CKEDITOR.editorConfig = function( config ) {
 		'toolbar,' +
 		'undo,' +
 		'wysiwygarea';
+	
+	CKEDITOR.config.languages = [ 'fr:French', 'es:Spanish', 'it:Italian', 'ar:Arabish:rtl' ];
 	// %REMOVE_END%
 };
 
