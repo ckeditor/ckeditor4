@@ -12,9 +12,7 @@
 				'<img alt="" src="" />' +
 				'<figcaption>Caption</figcaption>' +
 			'</figure>',
-		templateInline = '<img alt="" src="" />',
-		templateResizer = '<span class="cke_widgetimg_resizer">&#8203;</span>',
-		templateResizerWrapper = '<span class="cke_widgetimg_resizer_wrapper"></span>';
+		templateInline = '<img alt="" src="" />';
 
 	CKEDITOR.plugins.add( 'widgetimg', {
 		requires: 'widget,dialog',
@@ -633,27 +631,32 @@
 		}
 	}
 
-	// Defines all features related to drag-driven image
-	// resizing.
+	// Defines all features related to drag-driven image resizing.
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
-		var resizer = CKEDITOR.dom.element.createFromHtml( templateResizer );
+		var doc = widget.editor.document,
+			resizer = new CKEDITOR.dom.element( 'span', doc );
 
-		// Inline widgets don't need a resizer wrapper as an image spans
-		// the entire widget.
+		resizer.addClass( 'cke_widgetimg_resizer' );
+		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
+
+		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.
 		if ( !widget.inline ) {
-			var resizeWrapper = widget.element.getFirst();
+			var oldResizeWrapper = widget.element.getFirst(),
+				resizeWrapper = new CKEDITOR.dom.element( 'span', doc );
 
-			// If there's no resizer wrapper (i.e. coming from paste), create one.
-			if ( !resizeWrapper.is( 'span' ) ) {
-				resizeWrapper = CKEDITOR.dom.element.createFromHtml( templateResizerWrapper );
+			resizeWrapper.addClass( 'cke_widgetimg_resizer_wrapper' );
 
-				widget.parts.image.appendTo( resizeWrapper );
-				resizer.appendTo( resizeWrapper );
-				resizeWrapper.appendTo( widget.element, true );
-			}
+			resizeWrapper.append( widget.parts.image );
+			resizeWrapper.append( resizer );
+			widget.element.append( resizeWrapper, true );
+
+			// Remove the old wrapper which could came from e.g. pasted HTML
+			// and which could be corrupted (e.g. resizer span has been lost).
+			if ( oldResizeWrapper.is( 'span' ) )
+				oldResizeWrapper.remove();
 		} else
-			resizer.appendTo( widget.wrapper );
+			widget.wrapper.append( resizer );
 
 		// Calculate values of size variables and mouse offsets.
 		// Start observing mousemove.
