@@ -9,7 +9,7 @@
 
 	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
 
-	CKEDITOR.plugins.add( 'widgetmathjax', {
+	CKEDITOR.plugins.add( 'mathjax', {
 		requires: 'widget,dialog',
 
 		icons: 'mathjax',
@@ -19,7 +19,7 @@
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
-				dialog: 'widgetmathjax',
+				dialog: 'mathjax',
 				button: 'MathJax',
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
@@ -85,7 +85,7 @@
 				}
 			} );
 
-			CKEDITOR.dialog.add( 'widgetmathjax', this.path + 'dialogs/widgetmathjax.js' );
+			CKEDITOR.dialog.add( 'mathjax', this.path + 'dialogs/mathjax.js' );
 
 			editor.on( 'contentPreview', function( evt ) {
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,

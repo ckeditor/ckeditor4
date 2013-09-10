@@ -5,7 +5,7 @@
 
 'use strict';
 
-CKEDITOR.dialog.add( 'widgetmathjax', function( editor ) {
+CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 
 	var preview;
 
