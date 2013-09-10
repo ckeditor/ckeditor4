@@ -82,6 +82,29 @@
 				toolbar: 'insert,10'
 			} );
 
+			// Integrate the plugin with context menus.
+			if ( editor.contextMenu ) {
+				editor.addMenuGroup( 'image2', 10 );
+
+				// Define a menu item for the plguin.
+				editor.addMenuItem( 'image2', {
+					label: editor.lang.image2.menu,
+					command: 'image2',
+					group: 'image2'
+				} );
+
+				// Show the menu item in the context menu when a widget
+				// is focused.
+				editor.contextMenu.addListener( function() {
+					var focused = editor.widgets.focused;
+
+					if ( focused && focused.name in { image2inline:1,image2block:1 } )
+						return { image2: CKEDITOR.TRISTATE_OFF };
+
+					return null;
+				} );
+			}
+
 			// Add the dialog associated with both widgets.
 			CKEDITOR.dialog.add( 'image2', this.path + 'dialogs/image2.js' );
 		},
