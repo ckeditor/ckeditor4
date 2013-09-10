@@ -75,8 +75,8 @@ CKEDITOR.dom.range = function( root ) {
 	this.endOffset = null;
 
 	/**
-	 * Indicates that this is a collapsed range. A collapsed range has it's
-	 * start and end boudaries at the very same point so nothing is contained
+	 * Indicates that this is a collapsed range. A collapsed range has its
+	 * start and end boundaries at the very same point so nothing is contained
 	 * in it.
 	 *
 	 *		var range = new CKEDITOR.dom.range( editor.document );
@@ -489,16 +489,16 @@ CKEDITOR.dom.range = function( root ) {
 		 * in the range boundaries. The advantage of it is that it is possible to
 		 * handle DOM mutations when moving back to the bookmark.
 		 *
-		 * **Note:** the inclusion of nodes in the DOM is a design choice and
+		 * **Note:** The inclusion of nodes in the DOM is a design choice and
 		 * should not be changed as there are other points in the code that may be
 		 * using those nodes to perform operations.
 		 *
 		 * @param {Boolean} [serializable] Indicates that the bookmark nodes
-		 * must contain ids, which can be used to restore the range even
-		 * when these nodes suffer mutations (like a clonation or `innerHTML` change).
+		 * must contain IDs, which can be used to restore the range even
+		 * when these nodes suffer mutations (like cloning or `innerHTML` change).
 		 * @returns {Object} And object representing a bookmark.
-		 * @returns {CKEDITOR.dom.node/String} return.startNode Node or element id.
-		 * @returns {CKEDITOR.dom.node/String} return.endNode Node or element id.
+		 * @returns {CKEDITOR.dom.node/String} return.startNode Node or element ID.
+		 * @returns {CKEDITOR.dom.node/String} return.endNode Node or element ID.
 		 * @returns {Boolean} return.serializable
 		 * @returns {Boolean} return.collapsed
 		 */
@@ -559,9 +559,9 @@ CKEDITOR.dom.range = function( root ) {
 		 * remain stable after its creation.
 		 *
 		 * @param {Boolean} [normalized] Indicates that the bookmark must
-		 * normalized. When normalized, the successive text nodes are
-		 * considered a single node. To successful load a normalized
-		 * bookmark, the DOM tree must be also normalized before calling
+		 * be normalized. When normalized, the successive text nodes are
+		 * considered a single node. To successfully load a normalized
+		 * bookmark, the DOM tree must also be normalized before calling
 		 * {@link #moveToBookmark}.
 		 * @returns {Object} An object representing the bookmark.
 		 * @returns {Array} return.start Start container's address (see {@link CKEDITOR.dom.node#getAddress}).
