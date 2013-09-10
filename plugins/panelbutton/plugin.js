@@ -36,13 +36,6 @@ CKEDITOR.plugins.add( 'panelbutton', {
 			 * @constructor
 			 */
 			$: function( definition ) {
-				// Store/Restore a copy of the panel definition to allow switching toolbars 
-				if ( definition.panel ) { 
-					definition.storedPanel = definition.panel; 
-				} else {
-					definition.panel = definition.storedPanel;
-				}
-
 				// We don't want the panel definition in this object.
 				var panelDefinition = definition.panel || {};
 				delete definition.panel;
