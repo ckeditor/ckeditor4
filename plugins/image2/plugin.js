@@ -14,12 +14,12 @@
 			'</figure>',
 		templateInline = '<img alt="" src="" />';
 
-	CKEDITOR.plugins.add( 'widgetimg', {
+	CKEDITOR.plugins.add( 'image2', {
 		requires: 'widget,dialog',
-		icons: 'widgetimg',
+		icons: 'image2',
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_widgetimg_resizer{' +
+			CKEDITOR.addCss( '.cke_image2_resizer{' +
 				'display:none;' +
 				'position:absolute;' +
 				'bottom:2px;' +
@@ -35,13 +35,13 @@
 				'-webkit-box-shadow: 1px 1px 0px #777;' +
 				'cursor:se-resize;' +
 			'}' +
-			'.cke_widgetimg_resizer_wrapper{' +
+			'.cke_image2_resizer_wrapper{' +
 				'position:relative;' +
 				'display:inline-block;' +
 				'line-height:0;' +
 			'}' +
 			// Bottom-left corner style of the resizer.
-			'.cke_widgetimg_resizer.cke_widgetimg_resizer_left{' +
+			'.cke_image2_resizer.cke_image2_resizer_left{' +
 				'right:auto;' +
 				'left:2px;' +
 				'border-width:10px 0 0 10px;' +
@@ -51,37 +51,37 @@
 				'-webkit-box-shadow: -1px 1px 0px #777;' +
 				'cursor:sw-resize;' +
 			'}' +
-			'.cke_widget_wrapper:hover .cke_widgetimg_resizer{display:block;}' );
+			'.cke_widget_wrapper:hover .cke_image2_resizer{display:block;}' );
 		},
 
 		init: function( editor ) {
 			// Register the inline widget.
-			editor.widgets.add( 'imginline', imgInline );
+			editor.widgets.add( 'image2inline', image2inline );
 
 			// Register the block widget.
-			editor.widgets.add( 'imgblock', imgBlock );
+			editor.widgets.add( 'image2block', image2block );
 
 			// Add the command for this plugin.
-			editor.addCommand( 'widgetImg', {
+			editor.addCommand( 'image2', {
 				exec: function() {
 					var focused = editor.widgets.focused;
 
-					if ( focused && focused.name in { imginline:1,imgblock:1 } )
+					if ( focused && focused.name in { image2inline:1,image2block:1 } )
 						focused.edit();
 					else
-						editor.execCommand( 'widgetImginline' );
+						editor.execCommand( 'image2inline' );
 				}
 			} );
 
 			// Add toolbar button for this plugin.
-			editor.ui.addButton && editor.ui.addButton( 'WidgetImg', {
+			editor.ui.addButton && editor.ui.addButton( 'image2', {
 				label: 'Image',
-				command: 'widgetImg',
+				command: 'image2',
 				toolbar: 'insert,10'
 			} );
 
 			// Add the dialog associated with both widgets.
-			CKEDITOR.dialog.add( 'widgetimg', this.path + 'dialogs/widgetimg.js' );
+			CKEDITOR.dialog.add( 'image2', this.path + 'dialogs/image2.js' );
 		},
 
 		afterInit: function( editor ) {
@@ -94,7 +94,7 @@
 	} );
 
 	// Default definition shared across widgets.
-	var definition = {
+	var image2 = {
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
 				[ 'img[width]: sizeToAttribute' ]
@@ -129,7 +129,7 @@
 						// non-captioned, block or inline according to what is the
 						// new state of the widget.
 						if ( this.destroyed ) {
-							var name = 'img' + ( newState.hasCaption || newState.align == 'center' ? 'block' : 'inline' );
+							var name = 'image2' + ( newState.hasCaption || newState.align == 'center' ? 'block' : 'inline' );
 							widget = editor.widgets.initOn( element, name, widget.data );
 						}
 
@@ -161,7 +161,7 @@
 			},
 
 			// The name of this widget's dialog.
-			dialog: 'widgetimg',
+			dialog: 'image2',
 
 			// Initialization of this widget.
 			init: function() {
@@ -210,14 +210,14 @@
 				setupResizer( this );
 
 				// Create shift stater for this widget.
-				this.shiftState = CKEDITOR.plugins.widgetimg.stateShifter( this.editor );
+				this.shiftState = CKEDITOR.plugins.image2.stateShifter( this.editor );
 			},
 
 			// Widget downcasting.
 			downcast: downcastWidgetElement
 		},
 
-		imgInline = CKEDITOR.tools.extend( {
+		image2inline = CKEDITOR.tools.extend( {
 			// Widget-specific rules for Allowed Content Filter.
 			allowedContent: {
 				// This widget needs <img>.
@@ -238,9 +238,9 @@
 
 			// Widget upcasting.
 			upcast: createUpcastFunction()
-		}, definition ),
+		}, image2 ),
 
-		imgBlock = CKEDITOR.tools.extend( {
+		image2block = CKEDITOR.tools.extend( {
 			// Widget-specific rules for Allowed Content Filter.
 			allowedContent: {
 				// This widget needs <figcaption>.
@@ -286,9 +286,9 @@
 
 			// Widget upcasting.
 			upcast: createUpcastFunction( true )
-		}, definition );
+		}, image2 );
 
-	CKEDITOR.plugins.widgetimg = {
+	CKEDITOR.plugins.image2 = {
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
 			var centerElement = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div',
@@ -640,7 +640,7 @@
 			doc = editor.document,
 			resizer = doc.createElement( 'span' );
 
-		resizer.addClass( 'cke_widgetimg_resizer' );
+		resizer.addClass( 'cke_image2_resizer' );
 		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
 
 		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.
@@ -648,7 +648,7 @@
 			var oldResizeWrapper = widget.element.getFirst(),
 				resizeWrapper = doc.createElement( 'span' );
 
-			resizeWrapper.addClass( 'cke_widgetimg_resizer_wrapper' );
+			resizeWrapper.addClass( 'cke_image2_resizer_wrapper' );
 			resizeWrapper.append( widget.parts.image );
 			resizeWrapper.append( resizer );
 			widget.element.append( resizeWrapper, true );
@@ -837,7 +837,7 @@
 
 		// Change the position of the widget resizer when data changes.
 		widget.on( 'data', function() {
-			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_widgetimg_resizer_left' );
+			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_image2_resizer_left' );
 		} );
 	}
 
@@ -853,7 +853,7 @@
 		function getSelectedWidget() {
 			var widget = editor.widgets.focused;
 
-			if ( widget && widget.name in { imginline:1,imgblock:1 } )
+			if ( widget && widget.name in { image2inline:1,image2block:1 } )
 				return widget;
 
 			return null;
@@ -876,7 +876,7 @@
 				command.on( 'exec', function( evt ) {
 					var widget = getSelectedWidget();
 
-					if ( widget && widget.name in { imginline:1,imgblock:1 } ) {
+					if ( widget && widget.name in { image2inline:1,image2block:1 } ) {
 						widget.setData( 'align', value );
 
 						// Once the widget changed its align, all the align commands

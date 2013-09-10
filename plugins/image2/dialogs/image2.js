@@ -5,7 +5,7 @@
 
 'use strict';
 
-CKEDITOR.dialog.add( 'widgetimg', function( editor ) {
+CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 	// RegExp: 123, 123px, empty string ""
 	var regexGetSizeOrEmpty = /(^\s*(\d+)(px)?\s*$)|^$/i,
