@@ -10,7 +10,7 @@
 		copy = CKEDITOR.tools.copy,
 		trim = CKEDITOR.tools.trim,
 		TEST_VALUE = 'cke-test',
-		enterModeTags = ',p,br,div'.split( ',' );
+		enterModeTags = [ '', 'p', 'br', 'div' ];
 
 	/**
 	 * Highly configurable class which implements input data filtering mechanisms
@@ -123,7 +123,7 @@
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
 
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
-			this.allow( [ enterModeTags[ editor.enterMode ], enterModeTags[ editor.shiftEnterMode ] ].join( ' ' ), 'default', 1 );
+			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {

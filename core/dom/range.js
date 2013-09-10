@@ -396,11 +396,11 @@ CKEDITOR.dom.range = function( root ) {
 		};
 	}
 
-	function getNextEditableNode( isNext ) {
+	function getNextEditableNode( isPrevious ) {
 		return function() {
 			var first;
 
-			return this[ isNext ? 'getNextNode' : 'getPreviousNode' ]( function( node ) {
+			return this[ isPrevious ? 'getPreviousNode' : 'getNextNode' ]( function( node ) {
 				// Cache first not ignorable node.
 				if ( !first && notIgnoredEval( node ) )
 					first = node;
@@ -2214,14 +2214,14 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
 		 */
-		getNextEditableNode: getNextEditableNode( 1 ),
+		getNextEditableNode: getNextEditableNode(),
 
 		/**
 		 * See {@link #getNextEditableNode}.
 		 *
 		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
 		 */
-		getPreviousEditableNode: getNextEditableNode(),
+		getPreviousEditableNode: getNextEditableNode( 1 ),
 
 		/**
 		 * Scrolls the start of current range into view.
