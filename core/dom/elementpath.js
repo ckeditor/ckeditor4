@@ -9,8 +9,7 @@
 
 	var pathBlockLimitElements = {},
 		pathBlockElements = {},
-		tag,
-		DTD_BLOCK = CKEDITOR.dtd.$block;
+		tag;
 
 	// Elements that are considered the "Block limit" in an element path.
 	for ( tag in CKEDITOR.dtd.$blockLimit ) {
@@ -20,7 +19,7 @@
 	}
 
 	// Elements that are considered the "End level Block" in an element path.
-	for ( tag in DTD_BLOCK ) {
+	for ( tag in CKEDITOR.dtd.$block ) {
 		// Exclude block limits, and empty block element, e.g. hr.
 		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
 			pathBlockElements[ tag ] = 1;
@@ -33,7 +32,7 @@
 		for ( var i = 0, count = childNodes.count(); i < count; i++ ) {
 			var child = childNodes.getItem( i );
 
-			if ( child.type == CKEDITOR.NODE_ELEMENT && DTD_BLOCK[ child.getName() ] )
+			if ( child.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$block[ child.getName() ] )
 				return true;
 		}
 
