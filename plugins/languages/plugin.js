@@ -29,7 +29,7 @@
 				parts = languagesConfigString[ i ].split( ':' );
 				curLanguageId = parts[ 0 ];
 				
-				items[ 'language_' + curLanguageId ] = {
+				items[ curLanguageId ] = {
 					label: parts[ 1 ],
 					group: languagesButtonsGroup,
 					order: i,
@@ -43,11 +43,11 @@
 				};
 				
 				// Init style property.
-				items[ 'language_' + curLanguageId ].style = new CKEDITOR.style( {
+				items[ curLanguageId ].style = new CKEDITOR.style( {
 					element: 'span',
 					attributes: {
 						lang: curLanguageId,
-						dir: items[ 'language_' + curLanguageId ].ltr ? 'ltr' : 'rtl'
+						dir: items[ curLanguageId ].ltr ? 'ltr' : 'rtl'
 					}
 				} );
 			}
