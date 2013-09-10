@@ -15,6 +15,7 @@
 	CKEDITOR.plugins.add( 'languages', {
 		hidpi: true,
 		requires: [ 'menubutton' ],
+		icons: 'languages',
 		init: function( editor ) {
 			
 			var languagesConfigString = editor.config.languages,
@@ -61,7 +62,6 @@
 				toolbar: toolbarGroup + ',' + toolbarOrder,
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_languages',
-				icon: this.path + 'icons/languages.png',
 				onMenu: function() {
 					var activeItems = {};
 					
