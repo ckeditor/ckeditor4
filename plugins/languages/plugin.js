@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'languages', {
 		hidpi: true,
-		requires: [ 'menubutton' ],
+		requires: 'menubutton',
 		icons: 'languages',
 		init: function( editor ) {
 			
