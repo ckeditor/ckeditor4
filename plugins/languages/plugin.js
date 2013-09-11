@@ -13,6 +13,7 @@
 	CKEDITOR.plugins.add( 'languages', {
 		hidpi: true,
 		requires: 'menubutton',
+		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'languages',
 		init: function( editor ) {
 
@@ -55,8 +56,7 @@
 			editor.addMenuItems( items );
 
 			editor.ui.add( 'Languages', CKEDITOR.UI_MENUBUTTON, {
-				label: 'Language',
-				title: 'Language',
+				label: editor.lang.languages.toolbarLabel,
 				toolbar: 'bidi,30',
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_languages',
