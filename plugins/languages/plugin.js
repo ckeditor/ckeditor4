@@ -11,10 +11,10 @@
 	var languagesButtonsGroup = 'languages';
 
 	CKEDITOR.plugins.add( 'languages', {
-		hidpi: true,
 		requires: 'menubutton',
 		lang: 'en', // %REMOVE_LINE_CORE%
-		icons: 'languages',
+		icons: 'languages', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 
 			var languagesConfigStrings = ( editor.config.languages || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
