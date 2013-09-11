@@ -54,6 +54,9 @@
 					if ( !( el.name == 'span' && el.hasClass( cls ) ) )
 						return;
 
+					if ( el.children.length > 1 || el.children[ 0 ].type != CKEDITOR.NODE_TEXT )
+						return;
+
 					data.math = el.children[ 0 ].value;
 
 					// Add style display:inline-block.
