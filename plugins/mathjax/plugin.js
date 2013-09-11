@@ -10,6 +10,7 @@
 	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
 
 	CKEDITOR.plugins.add( 'mathjax', {
+		lang: 'en', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
 
 		icons: 'mathjax',

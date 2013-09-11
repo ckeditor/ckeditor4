@@ -7,10 +7,11 @@
 
 CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 
-	var preview;
+	var preview,
+		lang = editor.lang.mathjax;
 
 	return {
-		title: 'Edit TeX',
+		title: lang.title,
 		minWidth: 350,
 		minHeight: 100,
 		contents: [
@@ -20,7 +21,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 					{
 						id: 'equation',
 						type: 'textarea',
-						label: 'Mathematics in TeX',
+						label: lang.texEquation,
 
 						onLoad: function( widget ) {
 							var that = this;
