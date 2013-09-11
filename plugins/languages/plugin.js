@@ -82,12 +82,12 @@
 
 /**
  * Specifies list of languages available in plugin. Each entry should be string in following format: '<countryCode>:<countryDisplayedLabel>[:<textDirection>]' where:
- * 		countryCode - language code passed to lang attribute in ISO 639 format. Codes can be found at http://www.loc.gov/standards/iso639-2/php/English_list.php
- *		countryDisplayedLabel - this string displayed as a label in dropdown
- *		textDirection - optional - one of following values 'rtl' or 'ltr', indicating text direction. By default ltr.
+ * * _countryCode_ - language code passed to lang attribute in ISO 639 format. Codes can be found at http://www.loc.gov/standards/iso639-2/php/English_list.php
+ * * _countryDisplayedLabel_ - this string displayed as a label in dropdown
+ * * _textDirection_ - optional - one of following values `rtl` or `ltr`, indicating text direction. By default ltr.
  *
  *		config.languages = [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
  *
- * @cfg {Boolean} [languages]
+ * @cfg {Boolean} [languages = [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ]]
  * @member CKEDITOR.config
  */
