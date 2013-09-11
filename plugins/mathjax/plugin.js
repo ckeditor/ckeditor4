@@ -21,7 +21,7 @@
 			editor.widgets.add( 'mathjax', {
 				inline: true,
 				dialog: 'mathjax',
-				button: 'MathJax',
+				button: editor.lang.mathjax.button,
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
 
