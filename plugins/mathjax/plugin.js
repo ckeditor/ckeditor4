@@ -27,7 +27,7 @@
 
 				template:
 					'<span class="' + cls + '" style="display:inline-block">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" />' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true"></iframe>' +
 					'</span>',
 
 				parts: {
