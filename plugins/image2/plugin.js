@@ -297,7 +297,10 @@
 
 			// This widget has an editable caption.
 			editables: {
-				caption: 'figcaption'
+				caption: {
+					selector: 'figcaption',
+					allowedContent: 'br em strong sub sup u; a[!href]'
+				}
 			},
 
 			// Parts of this widget: image and caption.
