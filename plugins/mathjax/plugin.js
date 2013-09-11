@@ -12,7 +12,6 @@
 	CKEDITOR.plugins.add( 'mathjax', {
 		lang: 'en', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
-
 		icons: 'mathjax',
 
 		init: function( editor ) {
@@ -39,6 +38,9 @@
 				},
 
 				init: function() {
+					// Wait for ready because on some browsers iFrame will not
+					// have document element until it is put into document.
+					// This is a problem when you crate widget using dialog.
 					this.once( 'ready', function() {
 						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor );
 						this.frameWrapper.setValue( this.data.math );
@@ -59,7 +61,7 @@
 
 					data.math = el.children[ 0 ].value;
 
-					// Add style display:inline-block.
+					// Add style display:inline-block to have proper height of widget wrapper and mask.
 					var attrs = el.attributes;
 					if ( attrs.style )
 						attrs.style += ';display:inline-block';
@@ -89,8 +91,10 @@
 				}
 			} );
 
+			// Add dialog.
 			CKEDITOR.dialog.add( 'mathjax', this.path + 'dialogs/mathjax.js' );
 
+			// Add MathJax script to page preview.
 			editor.on( 'contentPreview', function( evt ) {
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
 					'<script src="' + ( CKEDITOR.getUrl( editor.config.mathJaxLib ) || cdn ) + '"><\/script><\/head>' );
@@ -100,12 +104,29 @@
 
 	CKEDITOR.plugins.mathjax = {};
 
+	/**
+	 * FrameWrapper is responsible for communication with MathJax and
+	 * iFrame. It let you create visual mathematics using setValue method.
+	 *
+	 * @class CKEDITOR.plugins.mathjax.frameWrapper
+	 *
+	 * @param {CKEDITOR.dom.element} iFrame iFrame to be wrapped.
+	 * @param {CKEDITOR.editor} editor Editor instance.
+	 *
+	 * @private
+	 */
 	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
 
 		var buffer, preview, value, newValue,
 			doc = iFrame.getFrameDocument(),
-			isRunning = false,
+
+			// Is MathJax loaded and ready to work.
 			isInit = false,
+
+			// Is MathJax parsing Tex.
+			isRunning = false,
+
+			// Function called when MathJax is loaded.
 			loadedHandler = CKEDITOR.tools.addFunction( function() {
 				preview = doc.getById( 'preview' );
 				buffer = doc.getById( 'buffer' );
@@ -114,8 +135,11 @@
 				if ( newValue )
 					update();
 
+				// Private! For test usage only.
 				iFrame.fire( 'mathJaxLoaded' );
 			} ),
+
+			// Function called when MathJax finish his job.
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
 				preview.setHtml( buffer.getHtml() );
 
@@ -132,6 +156,7 @@
 
 				editor.fire( 'unlockSnapshot' );
 
+				// Private! For test usage only.
 				iFrame.fire( 'mathJaxUpdateDone' );
 
 				if ( value != newValue )
@@ -150,6 +175,7 @@
 				style += key + ': ' + value + ';';
 		}
 
+		// Run MathJax parsing Tex.
 		function update() {
 			isRunning = true;
 
@@ -167,6 +193,7 @@
 
 			editor.fire( 'unlockSnapshot' );
 
+			// Run MathJax.
 			doc.getWindow().$.update( value );
 		}
 
@@ -180,10 +207,14 @@
 					'}' +
 				'</style>' +
 				'<script type="text/x-mathjax-config">' +
+
+					// MathJax configuration, disable messages.
 					'MathJax.Hub.Config( {' +
 						'showMathMenu: false,' +
 						'messageStyle: "none"' +
 					'} );' +
+
+					// Get main CKEDITOR form parent.
 					'function getCKE() {' +
 						'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
 							'return window.parent.CKEDITOR;' +
@@ -191,6 +222,9 @@
 							'return window.parent.parent.CKEDITOR;' +
 						'}' +
 					'}' +
+
+					// Run MathJax.Hub with is actual parser and call callback function after that.
+					// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
 					'function update() {' +
 						'MathJax.Hub.Queue(' +
 							'[\'Typeset\',MathJax.Hub,this.buffer],' +
@@ -199,19 +233,34 @@
 							'}' +
 						');' +
 					'}' +
+
+					// Run MathJax for the first time, when the script is loaded.
+					// Callback function will be called then it's done.
 					'MathJax.Hub.Queue( function() {' +
 						'getCKE().tools.callFunction(' + loadedHandler + ');' +
 					'} );' +
 				'</script>' +
+
+				// Load MathJax lib.
 				'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
 			'</head>' +
 			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 				'<span id="preview"></span>' +
+
+				// Render everything here and after that copy it to the preview.
 				'<span id="buffer" style="display:none"></span>' +
 			'</body>' +
 			'</html>' );
 
 		return {
+			/**
+			 * Set TeX value to iFrame. This function will run parsing.
+			 *
+			 * @member CKEDITOR.plugins.mathjax.frameWrapper
+			 *
+			 * @param {String} value TeX string.
+			 *
+			 */
 			setValue: function( value ) {
 				newValue = value;
 
@@ -221,3 +270,27 @@
 		};
 	}
 })();
+
+/**
+ * With this configuration you can use local MathJax
+ * library or different than default CDN.
+ *
+ * Remember that this mast be full or absolute path.
+ *
+ * @cfg {String} [mathJaxLib='http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * With this configuration you can use different than default
+ * class for widgets span. If us set
+ *
+ *		config.mathJaxClass = 'my-math';
+ *
+ * Then code bellow will be recognized as a widget.
+ *
+ *		<span class='my-math'>\( \sqrt{4} = 2 \)</span>
+ *
+ * @cfg {String} [mathJaxClass='math-tex']
+ * @member CKEDITOR.config
+ */
