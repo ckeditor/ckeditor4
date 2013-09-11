@@ -5,18 +5,22 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2.1
 
-* [#10301](http://dev.ckeditor.com/ticket/10301): [IE9-10] - Undo fails after 3+ consecutive paste actions with JS Error.
-* [#10689](http://dev.ckeditor.com/ticket/10689): Save toolbar button saves only first instance.
-* [#10368](http://dev.ckeditor.com/ticket/10368): Move language reading direction definition ("dir") from main language file to core.
+Fixed Issues:
+
+* [#10301](http://dev.ckeditor.com/ticket/10301): [IE9-10] Undo fails after 3+ consecutive paste actions with a JavaScript error.
+* [#10689](http://dev.ckeditor.com/ticket/10689): Save toolbar button saves only the first editor instance.
+* [#10368](http://dev.ckeditor.com/ticket/10368): Move language reading direction definition (`dir`) from main language file to core.
 * [#9330](http://dev.ckeditor.com/ticket/9330): Fixed pasting anchors from MS Word.
 * [#8103](http://dev.ckeditor.com/ticket/8103): Fixed pasting nested lists from MS Word.
-* [#9958](http://dev.ckeditor.com/ticket/9958): Press ok button will trigger onbeforeunload event in popup-dialog on ie9.
-* [#10662](http://dev.ckeditor.com/ticket/10662): Fixed styles from Styles drop-down list not registered to the ACF in case when [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is used.
-* [#9654](http://dev.ckeditor.com/ticket/9654): Problems with IE10 Quirks mode.
+* [#9958](http://dev.ckeditor.com/ticket/9958): [IE9] Pressing the "OK" button will trigger the `onbeforeunload` event in the popup dialog.
+* [#10662](http://dev.ckeditor.com/ticket/10662): Fixed styles from the Styles drop-down list not registering to the ACF in case when the [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is used.
+* [#9654](http://dev.ckeditor.com/ticket/9654): Problems with Internet Explorer 10 Quirks Mode.
 * [#9816](http://dev.ckeditor.com/ticket/9816): Floating toolbar does not reposition vertically in several cases.
-* [#10646](http://dev.ckeditor.com/ticket/10646): Removing selected sub-list or nested table with *Backspace/Delete* removes parent element.
-* [#10623](http://dev.ckeditor.com/ticket/10623): [WebKit] Page is scrolled when opening a combo.
+* [#10646](http://dev.ckeditor.com/ticket/10646): Removing a selected sublist or nested table with *Backspace/Delete* removes the parent element.
+* [#10623](http://dev.ckeditor.com/ticket/10623): [WebKit] Page is scrolled when opening a drop-down list.
 * [#10004](http://dev.ckeditor.com/ticket/10004): [ChromeVox] Button names are not announced.
+* [#10731](http://dev.ckeditor.com/ticket/10731): [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin breaks cloning of editor configuration.
+* It is now possible to set per instance [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin configuration instead of setting the configuration globally.
 
 ## CKEditor 4.2
 
@@ -77,6 +81,7 @@ Fixed Issues:
 * [#10510](http://dev.ckeditor.com/ticket/10510): Introduced unique voice labels to differentiate between different editor instances.
 * [#9945](http://dev.ckeditor.com/ticket/9945): [iOS] Scrolling not possible on iPad.
 * [#10389](http://dev.ckeditor.com/ticket/10389): Fixed: Invalid HTML in the "Text and Table" template.
+* [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin user interface was changed to match CKEditor 4 style.
 
 ## CKEditor 4.1.1
 
