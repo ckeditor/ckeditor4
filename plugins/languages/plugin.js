@@ -17,7 +17,7 @@
 		icons: 'languages',
 		init: function( editor ) {
 
-			var languagesConfigStrings = ( editor.config.languages || [ 'fr:French', 'es:Spanish', 'ar:Arabic:rtl' ] ),
+			var languagesConfigStrings = ( editor.config.languages || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
 				items = {},
 				parts,
 				curLanguageId, // 2-letter lanugage identifier.
@@ -91,8 +91,8 @@
  * 	indicating the reading direction for the language text direction. Defaults
  * 	to `ltr`.
  *
- *		config.languages = [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
+ *		config.languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
  *
- * @cfg {Array} [languages = [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ]]
+ * @cfg {Array} [languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
  * @member CKEDITOR.config
  */
