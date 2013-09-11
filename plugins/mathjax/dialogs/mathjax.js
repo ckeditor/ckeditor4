@@ -21,7 +21,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 					{
 						id: 'equation',
 						type: 'textarea',
-						label: lang.texEquation,
+						label: lang.dialogInput,
 
 						onLoad: function( widget ) {
 							var that = this;
@@ -44,6 +44,22 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 							// Add \( and \) to make TeX be parsed by MathJax by default.
 							widget.setData( 'math', '\\(' + this.getValue() + '\\)' );
 						}
+					},
+					{
+						id: 'documentation',
+						type: 'html',
+						html:
+							'<style type="text/css">' +
+							'.cke_mathjax_doc' +
+							'{' +
+								'cursor:pointer !important;' +
+								'color:#00B2CE !important;' +
+								'text-decoration:underline !important;' +
+							'}' +
+							'</style>' +
+							'<div style="width:100%;text-align:right;margin:-8px 0 10px">' +
+								'<a class="cke_mathjax_doc" href="' + lang.docUrl + '" target="_black">' + lang.docLabel + '</a>' +
+							'</div>',
 					},
 					{
 						id: 'preview',
