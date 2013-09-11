@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'mathjax', 'en', {
 	title: 'Mathematics in TeX',
-	button: 'MathJax',
+	button: 'Math',
 	texEquation: 'Mathematics in TeX'
 } );
