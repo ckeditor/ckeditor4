@@ -79,18 +79,17 @@
 }());
 
 /**
- * Specifies list of languages available in plugin. Each entry should be string
- * in following format:
+ * Specifies the list of languages available in the languages plugin. Each entry
+ * should be a string in the following format:
  *
- *		<countryCode>:<countryDisplayedLabel>[:<textDirection>]
+ *		<languageCode>:<languageLabel>[:<textDirection>]
  *
- * * _countryCode_ &ndash;  language code passed to lang attribute in ISO 639 format.
- *	Codes can be found at http://www.loc.gov/standards/iso639-2/php/English_list.php
- * * _countryDisplayedLabel_ &ndash;  this string displayed as a label in dropdown
- * * _textDirection_ &ndash;  optional &ndash;  one of following values `rtl` or `ltr`,
- * 	indicating text direction. By default it's `ltr`.
- *
- * For example:
+ * * _languageCode_: language code used for the lang attribute in ISO 639 format.
+ * 	Codes can be found at http://www.loc.gov/standards/iso639-2/php/English_list.php.
+ * * _languageLabel_: label to show for this language in the list.
+ * * _textDirection_: (optional) one of following values `rtl` or `ltr`,
+ * 	indicating the reading direction for the language text direction. Defaults
+ * 	to `ltr`.
  *
  *		config.languages = [ 'fr:French', 'de:Spanish', 'ar:Arabic:rtl' ];
  *
