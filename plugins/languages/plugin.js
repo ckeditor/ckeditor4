@@ -8,9 +8,7 @@
  */
 (function() {
 
-	var languagesButtonsGroup = 'languages',
-		toolbarOrder = 30,
-		toolbarGroup = 'bidi';
+	var languagesButtonsGroup = 'languages';
 
 	CKEDITOR.plugins.add( 'languages', {
 		hidpi: true,
@@ -59,7 +57,7 @@
 			editor.ui.add( 'Languages', CKEDITOR.UI_MENUBUTTON, {
 				label: 'Language',
 				title: 'Language',
-				toolbar: toolbarGroup + ',' + toolbarOrder,
+				toolbar: 'bidi,30',
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_languages',
 				onMenu: function() {
