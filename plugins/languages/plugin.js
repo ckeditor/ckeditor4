@@ -56,7 +56,7 @@
 			editor.addMenuItems( items );
 
 			editor.ui.add( 'Languages', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.languages.toolbarLabel,
+				label: editor.lang.languages.button,
 				toolbar: 'bidi,30',
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_languages',

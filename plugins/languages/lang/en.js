@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'languages', 'en', {
-	toolbarLabel: 'Languages'
+	button: 'Set language'
 } );
