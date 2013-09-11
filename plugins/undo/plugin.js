@@ -14,7 +14,7 @@
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var undoManager = new UndoManager( editor );
+			var undoManager = editor.undoManager = new UndoManager( editor );
 
 			var undoCommand = editor.addCommand( 'undo', {
 				exec: function() {
@@ -23,7 +23,7 @@
 						this.fire( 'afterUndo' );
 					}
 				},
-				state: CKEDITOR.TRISTATE_DISABLED,
+				startDisabled: true,
 				canUndo: false
 			} );
 
@@ -34,7 +34,7 @@
 						this.fire( 'afterRedo' );
 					}
 				},
-				state: CKEDITOR.TRISTATE_DISABLED,
+				startDisabled: true,
 				canUndo: false
 			} );
 
@@ -42,7 +42,7 @@
 				[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
 				[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
 				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ]
-				] );
+			] );
 
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
@@ -480,6 +480,7 @@
 			this.locked = 0;
 
 			this.index = image.index;
+			this.currentImage = this.snapshots[ this.index ];
 
 			// Update current image with the actual editor
 			// content, since actualy content may differ from
@@ -574,11 +575,29 @@
 
 		/**
 		 * Updates the last snapshot of the undo stack with the current editor content.
+		 *
+		 * @param {CKEDITOR.plugins.undo.Image} [newImage] The image which will replace the current one.
+		 * If not set defaults to image taken from editor.
 		 */
-		update: function() {
+		update: function( newImage ) {
 			// Do not change snapshots stack is locked.
-			if ( !this.locked )
-				this.snapshots.splice( this.index, 1, ( this.currentImage = new Image( this.editor ) ) );
+			if ( this.locked )
+				return;
+
+			if ( !newImage )
+				newImage = new Image( this.editor );
+
+			var i = this.index,
+				snapshots = this.snapshots;
+
+			// Find all previous snapshots made for the same content (which differ
+			// only by selection) and replace all of them with the current image.
+			while ( i > 0 && this.currentImage.equalsContent( snapshots[ i - 1 ] ) )
+				i -= 1;
+
+			snapshots.splice( i, this.index - i + 1, newImage );
+			this.index = i;
+			this.currentImage = newImage;
 		},
 
 		/**
@@ -620,12 +639,13 @@
 			if ( this.locked ) {
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
-					var updateImage = this.locked.update;
+					var updateImage = this.locked.update,
+						newImage = new Image( this.editor );
 
 					this.locked = null;
 
-					if ( updateImage && !updateImage.equalsContent( new Image( this.editor ) ) )
-						this.update();
+					if ( updateImage && !updateImage.equalsContent( newImage ) )
+						this.update( newImage );
 				}
 			}
 		}

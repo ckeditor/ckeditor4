@@ -19,7 +19,18 @@
 
 		this.editor = editor;
 
+		/**
+		 * Data filter used when processing input by {@link #toHtml}.
+		 *
+		 * @property {CKEDITOR.htmlParser.filter}
+		 */
 		this.dataFilter = dataFilter = new CKEDITOR.htmlParser.filter();
+
+		/**
+		 * HTML filter used when processing output by {@link #toDataFormat}.
+		 *
+		 * @property {CKEDITOR.htmlParser.filter}
+		 */
 		this.htmlFilter = htmlFilter = new CKEDITOR.htmlParser.filter();
 
 		/**
@@ -29,10 +40,12 @@
 		 */
 		this.writer = new CKEDITOR.htmlParser.basicWriter();
 
-		dataFilter.addRules( defaultDataFilterRules );
-		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ) );
-		htmlFilter.addRules( defaultHtmlFilterRules );
-		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ) );
+		dataFilter.addRules( defaultDataFilterRulesEditableOnly );
+		dataFilter.addRules( defaultDataFilterRulesForAll, { applyToAll: true } );
+		dataFilter.addRules( createBogusAndFillerRules( editor, 'data' ), { applyToAll: true } );
+		htmlFilter.addRules( defaultHtmlFilterRulesEditableOnly );
+		htmlFilter.addRules( defaultHtmlFilterRulesForAll, { applyToAll: true } );
+		htmlFilter.addRules( createBogusAndFillerRules( editor, 'html' ), { applyToAll: true } );
 
 		editor.on( 'toHtml', function( evt ) {
 			var evtData = evt.data,
@@ -101,8 +114,16 @@
 
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( editor.config ) );
+			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
+				data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( evtData.enterMode, editor.config.autoParagraph ) );
 		}, null, null, 5 );
+
+		// Filter incoming "data".
+		// Add element filter before htmlDataProcessor.dataFilter when purifying input data to correct html.
+		editor.on( 'toHtml', function( evt ) {
+			if ( evt.data.filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter, evt.data.enterMode ) )
+				editor.fire( 'dataFiltered' );
+		}, null, null, 6 );
 
 		editor.on( 'toHtml', function( evt ) {
 			evt.data.dataValue.filterChildren( that.dataFilter, true );
@@ -123,12 +144,18 @@
 
 		editor.on( 'toDataFormat', function( evt ) {
 			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				evt.data.dataValue, editor.editable().getName(), getFixBodyTag( editor.config ) );
+				evt.data.dataValue, evt.data.context, getFixBodyTag( evt.data.enterMode, editor.config.autoParagraph ) );
 		}, null, null, 5 );
 
 		editor.on( 'toDataFormat', function( evt ) {
 			evt.data.dataValue.filterChildren( that.htmlFilter, true );
 		}, null, null, 10 );
+
+		// Transform outcoming "data".
+		// Add element filter after htmlDataProcessor.htmlFilter when preparing output data HTML.
+		editor.on( 'toDataFormat', function( evt ) {
+			evt.data.filter.applyTo( evt.data.dataValue, false, true );
+		}, null, null, 11 );
 
 		editor.on( 'toDataFormat', function( evt ) {
 			var data = evt.data.dataValue,
@@ -152,16 +179,34 @@
 		 * is suitable for using in the WYSIWYG editable.
 		 *
 		 * @param {String} data The raw data.
-		 * @param {String} [context] The tag name of a context element within which
+		 * @param {Object} [options] The options object.
+		 * @param {String} [options.context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
-		 * @param {Boolean} [fixForBody] Whether to trigger the auto paragraph for non-block contents.
-		 * @param {Boolean} [dontFilter] Do not filter data with {@link CKEDITOR.filter}.
+		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
+		 * passed instance will be used to filter the content.
+		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
+		 * will be still applied).
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
 		 * @returns {String}
 		 */
-		toHtml: function( data, context, fixForBody, dontFilter ) {
-			var editor = this.editor;
+		toHtml: function( data, options, fixForBody, dontFilter ) {
+			var editor = this.editor,
+				context, filter, enterMode;
+
+			// Typeof null == 'object', so check truthiness of options too.
+			if ( options && typeof options == 'object' ) {
+				context = options.context;
+				fixForBody = options.fixForBody;
+				dontFilter = options.dontFilter;
+				filter = options.filter;
+				enterMode = options.enterMode;
+			}
+			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
+			else
+				context = options;
 
 			// Fall back to the editable as context if not specified.
 			if ( !context && context !== null )
@@ -171,7 +216,9 @@
 				dataValue: data,
 				context: context,
 				fixForBody: fixForBody,
-				dontFilter: !!dontFilter
+				dontFilter: dontFilter,
+				filter: filter || editor.filter,
+				enterMode: enterMode || editor.enterMode
 			} ).dataValue;
 		},
 
@@ -179,11 +226,34 @@
 		 * See {@link CKEDITOR.dataProcessor#toDataFormat}.
 		 *
 		 * @param {String} html
+		 * @param {Object} [options] The options object.
+		 * @param {String} [options.context] The tag name of a context element within which
+		 * the input is to be processed, default to be the editable element.
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
+		 * passed instance will be used to apply content transformations to the content.
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enteMode}.
 		 * @returns {String}
 		 */
-		toDataFormat: function( html ) {
+		toDataFormat: function( html, options ) {
+			var context, filter, enterMode;
+
+			// Do not shorten this to `options && options.xxx`, because
+			// falsy `options` will be passed instead of undefined.
+			if ( options ) {
+				context = options.context;
+				filter = options.filter;
+				enterMode = options.enterMode;
+			}
+
+			// Fall back to the editable as context if not specified.
+			if ( !context && context !== null )
+				context = this.editor.editable().getName();
+
 			return this.editor.fire( 'toDataFormat', {
-				dataValue: html
+				dataValue: html,
+				filter: filter || this.editor.filter,
+				context: context,
+				enterMode: enterMode || this.editor.enterMode
 			} ).dataValue;
 		}
 	};
@@ -251,9 +321,8 @@
 
 				if ( !next && isBlockBoundary( br.parent ) )
 					append( br.parent, createFiller( isOutput ) );
-				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) ) {
-					insertBefore( next, createFiller( isOutput ) );
-				}
+				else if ( isBlockBoundary( next ) && previous && !isBlockBoundary( previous ) )
+					createFiller( isOutput ).insertBefore( next );
 			};
 		}
 
@@ -273,7 +342,7 @@
 			{
 				// We need to separate tail NBSP out of a text node, for later removal.
 				if ( match.index ) {
-					insertBefore( node, new CKEDITOR.htmlParser.text( node.value.substring( 0, match.index ) ) );
+					( new CKEDITOR.htmlParser.text( node.value.substring( 0, match.index ) ) ).insertBefore( node );
 					node.value = match[ 0 ];
 				}
 
@@ -321,8 +390,8 @@
 							bogus.push( node );
 						// Convert the filler into appropriate form.
 						else {
-							insertAfter( node, createFiller( isOutput ) );
-							removeFromParent( node );
+							createFiller( isOutput ).insertAfter( node );
+							node.remove()
 						}
 					}
 
@@ -332,7 +401,7 @@
 
 			// Now remove all bogus collected from above.
 			for ( var i = 0 ; i < bogus.length ; i++ )
-				removeFromParent( bogus[ i ] );
+				bogus[ i ].remove();
 		}
 
 		// Judge whether it's an empty block that requires a filler node.
@@ -374,8 +443,8 @@
 		return rules;
 	}
 
-	function getFixBodyTag( config ) {
-		return ( config.enterMode != CKEDITOR.ENTER_BR && config.autoParagraph !== false ) ? config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
+	function getFixBodyTag( enterMode, autoParagraph ) {
+		return ( enterMode != CKEDITOR.ENTER_BR && autoParagraph !== false ) ? enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' : false;
 	}
 
 	// Regex to scan for &nbsp; at the end of blocks, which are actually placeholders.
@@ -420,31 +489,6 @@
 						 node.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT );
 	}
 
-	function insertAfter( node, insertion ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		children.splice( index + 1, 0, insertion );
-		var next = node.next;
-		node.next = insertion;
-		insertion.previous = node;
-		insertion.parent = node.parent;
-		insertion.next = next;
-	}
-
-	function insertBefore( node, insertion ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		children.splice( index, 0, insertion );
-		var prev = node.previous;
-		node.previous = insertion;
-		insertion.next = node;
-		insertion.parent = node.parent;
-		if ( prev ) {
-			insertion.previous = prev;
-			prev.next = insertion;
-		}
-	}
-
 	function append( parent, node ) {
 		var last = parent.children[ parent.children.length -1 ];
 		parent.children.push( node );
@@ -455,30 +499,29 @@
 		}
 	}
 
-	function removeFromParent( node ) {
-		var children = node.parent.children;
-		var index = CKEDITOR.tools.indexOf( children, node );
-		var previous = node.previous, next = node.next;
-		previous && ( previous.next = next );
-		next && ( next.previous = previous );
-		children.splice( index, 1 );
-	}
-
 	function getNodeIndex( node ) {
-		var parent = node.parent;
-		return parent ? CKEDITOR.tools.indexOf( parent.children, node ) : -1;
+		return node.parent ? node.getIndex() : -1;
 	}
 
-	var dtd = CKEDITOR.dtd;
+	var dtd = CKEDITOR.dtd,
+		// Define orders of table elements.
+		tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
+		// List of all block elements.
+		blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$blockLimit, dtd.$block );
 
-	// Define orders of table elements.
-	var tableOrder = [ 'caption', 'colgroup', 'col', 'thead', 'tfoot', 'tbody' ];
+	//
+	// DATA filter rules ------------------------------------------------------
+	//
 
-	// List of all block elements.
-	var blockLikeTags = CKEDITOR.tools.extend( {}, dtd.$blockLimit, dtd.$block );
+	var defaultDataFilterRulesEditableOnly = {
+		elements: {
+			input: protectReadOnly,
+			textarea: protectReadOnly
+		}
+	};
 
-	var defaultDataFilterRules = {
-		elements: {},
+	// These rules will also be applied to non-editable content.
+	var defaultDataFilterRulesForAll = {
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
 			// active in the editing area (IE|WebKit).
@@ -486,7 +529,49 @@
 		]
 	};
 
-	var defaultHtmlFilterRules = {
+	// Disable form elements editing mode provided by some browsers. (#5746)
+	function protectReadOnly( element ) {
+		var attrs = element.attributes;
+
+		// We should flag that the element was locked by our code so
+		// it'll be editable by the editor functions (#6046).
+		if ( attrs.contenteditable != 'false' )
+			attrs[ 'data-cke-editable' ] = attrs.contenteditable ? 'true' : 1;
+
+		attrs.contenteditable = 'false';
+	}
+
+	//
+	// HTML filter rules ------------------------------------------------------
+	//
+
+	var defaultHtmlFilterRulesEditableOnly = {
+		elements: {
+			embed: function( element ) {
+				var parent = element.parent;
+
+				// If the <embed> is child of a <object>, copy the width
+				// and height attributes from it.
+				if ( parent && parent.name == 'object' ) {
+					var parentWidth = parent.attributes.width,
+						parentHeight = parent.attributes.height;
+					if ( parentWidth )
+						element.attributes.width = parentWidth;
+					if ( parentHeight )
+						element.attributes.height = parentHeight;
+				}
+			},
+
+			// Remove empty link but not empty anchor. (#3829)
+			a: function( element ) {
+				if ( !( element.children.length || element.attributes.name || element.attributes[ 'data-cke-saved-name' ] ) )
+					return false;
+			}
+		}
+	};
+
+	// These rules will also be applied to non-editable content.
+	var defaultHtmlFilterRulesForAll = {
 		elementNames: [
 			// Remove the "cke:" namespace prefix.
 			[ ( /^cke:/ ), '' ],
@@ -530,7 +615,7 @@
 			table: function( element ) {
 					// Clone the array as it would become empty during the sort call.
 					var children = element.children.slice( 0 );
-					children.sort( function ( node1, node2 ) {
+					children.sort( function( node1, node2 ) {
 						var index1, index2;
 
 						// Compare in the predefined order.
@@ -547,33 +632,14 @@
 						}
 
 						return index1 > index2 ? 1 : -1;
-					});
+					} );
 			},
 
-			embed: function( element ) {
-				var parent = element.parent;
-
-				// If the <embed> is child of a <object>, copy the width
-				// and height attributes from it.
-				if ( parent && parent.name == 'object' ) {
-					var parentWidth = parent.attributes.width,
-						parentHeight = parent.attributes.height;
-					parentWidth && ( element.attributes.width = parentWidth );
-					parentHeight && ( element.attributes.height = parentHeight );
-				}
-			},
 			// Restore param elements into self-closing.
 			param: function( param ) {
 				param.children = [];
 				param.isEmpty = true;
 				return param;
-			},
-
-			// Remove empty link but not empty anchor.(#3829)
-			a: function( element ) {
-				if ( !( element.children.length || element.attributes.name || element.attributes[ 'data-cke-saved-name' ] ) ) {
-					return false;
-				}
 			},
 
 			// Remove dummy span in webkit.
@@ -594,7 +660,8 @@
 
 			style: function( element ) {
 				var child = element.children[ 0 ];
-				child && child.value && ( child.value = CKEDITOR.tools.trim( child.value ) );
+				if ( child && child.value )
+					child.value = CKEDITOR.tools.trim( child.value );
 
 				if ( !element.attributes.type )
 					element.attributes.type = 'text/css';
@@ -608,7 +675,10 @@
 
 				// Transfer data-saved title to title tag.
 				titleText.value = element.attributes[ 'data-cke-title' ] || '';
-			}
+			},
+
+			input: unprotectReadyOnly,
+			textarea: unprotectReadyOnly
 		},
 
 		attributes: {
@@ -622,24 +692,14 @@
 	if ( CKEDITOR.env.ie ) {
 		// IE outputs style attribute in capital letters. We should convert
 		// them back to lower case, while not hurting the values (#5930)
-		defaultHtmlFilterRules.attributes.style = function( value, element ) {
+		defaultHtmlFilterRulesForAll.attributes.style = function( value, element ) {
 			return value.replace( /(^|;)([^\:]+)/g, function( match ) {
 				return match.toLowerCase();
-			});
+			} );
 		};
 	}
 
-	function protectReadOnly( element ) {
-		var attrs = element.attributes;
-
-		// We should flag that the element was locked by our code so
-		// it'll be editable by the editor functions (#6046).
-		if ( attrs.contenteditable != "false" )
-			attrs[ 'data-cke-editable' ] = attrs.contenteditable ? 'true' : 1;
-
-		attrs.contenteditable = "false";
-	}
-
+	// Disable form elements editing mode provided by some browsers. (#5746)
 	function unprotectReadyOnly( element ) {
 		var attrs = element.attributes;
 		switch ( attrs[ 'data-cke-editable' ] ) {
@@ -651,11 +711,10 @@
 				break;
 		}
 	}
-	// Disable form elements editing mode provided by some browsers. (#5746)
-	for ( var i in { input:1,textarea:1 } ) {
-		defaultDataFilterRules.elements[ i ] = protectReadOnly;
-		defaultHtmlFilterRules.elements[ i ] = unprotectReadyOnly;
-	}
+
+	//
+	// Preprocessor filters ---------------------------------------------------
+	//
 
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
 		protectAttributeRegex = /\s(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
@@ -842,6 +901,7 @@
  * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toHtml} The `context` argument.
  * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} The `fixForBody` argument.
  * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
+ * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `filter` argument.
  */
 
 /**

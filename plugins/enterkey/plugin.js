@@ -6,26 +6,28 @@
 (function() {
 	CKEDITOR.plugins.add( 'enterkey', {
 		init: function( editor ) {
-			editor.addCommand( 'enter', { modes:{wysiwyg:1 },
+			editor.addCommand( 'enter', {
+				modes: { wysiwyg:1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					enter( editor );
 				}
-			});
+			} );
 
-			editor.addCommand( 'shiftEnter', { modes:{wysiwyg:1 },
+			editor.addCommand( 'shiftEnter', {
+				modes: { wysiwyg:1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					shiftEnter( editor );
 				}
-			});
+			} );
 
 			editor.setKeystroke( [
 				[ 13, 'enter' ],
 				[ CKEDITOR.SHIFT + 13, 'shiftEnter' ]
-				] );
+			] );
 		}
-	});
+	} );
 
 	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
 		bookmark = CKEDITOR.dom.walker.bookmark();
@@ -70,7 +72,7 @@
 						style = block.getAttribute( 'style' ),
 						dirLoose = blockGrandParent.getDirection( 1 ) != orgDir,
 
-						enterMode = editor.config.enterMode,
+						enterMode = editor.enterMode,
 						needsBlock = enterMode != CKEDITOR.ENTER_BR || dirLoose || style || className,
 
 						child;
@@ -479,14 +481,10 @@
 		headerTagRegex = /^h[1-6]$/;
 
 	function shiftEnter( editor ) {
-		// Only effective within document.
-		if ( editor.mode != 'wysiwyg' )
-			return false;
-
 		// On SHIFT+ENTER:
 		// 1. We want to enforce the mode to be respected, instead
 		// of cloning the current block. (#77)
-		return enter( editor, editor.config.shiftEnterMode, 1 );
+		return enter( editor, editor.activeShiftEnterMode, 1 );
 	}
 
 	function enter( editor, mode, forceMode ) {
@@ -494,14 +492,14 @@
 
 		// Only effective within document.
 		if ( editor.mode != 'wysiwyg' )
-			return false;
+			return;
 
 		if ( !mode )
-			mode = editor.config.enterMode;
+			mode = editor.activeEnterMode;
 
+		// TODO this should be handled by setting editor.activeEnterMode on selection change.
 		// Check path block specialities:
 		// 1. Cannot be a un-splittable element, e.g. table caption;
-		// 2. Must not be the editable element itself. (blockless)
 		var path = editor.elementPath();
 		if ( !path.isContextFor( 'p' ) ) {
 			mode = CKEDITOR.ENTER_BR;
@@ -516,8 +514,6 @@
 			enterBlock( editor, mode, null, forceMode );
 
 		editor.fire( 'saveSnapshot' );
-
-		return true;
 	}
 
 	function getRange( editor ) {

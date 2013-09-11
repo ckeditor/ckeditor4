@@ -492,11 +492,13 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @since 4.1
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 */
-		filter: function( filter ) {
-			// Apply the root filter.
-			filter.onRoot( this );
+		filter: function( filter, context ) {
+			context = this.getFilterContext( context );
 
-			this.filterChildren( filter );
+			// Apply the root filter.
+			filter.onRoot( context, this );
+
+			this.filterChildren( filter, false, context );
 		},
 
 		/**
@@ -509,7 +511,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
-		filterChildren: function( filter, filterRoot ) {
+		filterChildren: function( filter, filterRoot, context ) {
 			// If this element's children were already filtered
 			// by current filter, don't filter them 2nd time.
 			// This situation may occur when filtering bottom-up
@@ -519,9 +521,11 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( this.childrenFilteredBy == filter.id )
 				return;
 
+			context = this.getFilterContext( context );
+
 			// Filtering root if enforced.
 			if ( filterRoot && !this.parent )
-				filter.onRoot( this );
+				filter.onRoot( context, this );
 
 			this.childrenFilteredBy = filter.id;
 
@@ -529,7 +533,7 @@ CKEDITOR.htmlParser.fragment = function() {
 			for ( var i = 0; i < this.children.length; i++ ) {
 				// Stay in place if filter returned false, what means
 				// that node has been removed.
-				if ( this.children[ i ].filter( filter ) === false )
+				if ( this.children[ i ].filter( filter, context ) === false )
 					i--;
 			}
 		},
@@ -560,12 +564,14 @@ CKEDITOR.htmlParser.fragment = function() {
 		 * @param {Boolean} [filterRoot] Whether to apply the "root" filter rule specified in the `filter`.
 		 */
 		writeChildrenHtml: function( writer, filter, filterRoot ) {
+			var context = this.getFilterContext();
+
 			// Filtering root if enforced.
 			if ( filterRoot && !this.parent && filter )
-				filter.onRoot( this );
+				filter.onRoot( context, this );
 
 			if ( filter )
-				this.filterChildren( filter );
+				this.filterChildren( filter, false, context );
 
 			for ( var i = 0, children = this.children, l = children.length; i < l; i++ )
 				children[ i ].writeHtml( writer );
@@ -588,13 +594,18 @@ CKEDITOR.htmlParser.fragment = function() {
 		 *
 		 * @since 4.1
 		 * @param {Function} callback Function to be executed on every node.
+		 * **Since 4.3** if `callback` returned `false` descendants of current node will be ignored.
 		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
 		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
 		 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
 		 */
 		forEach: function( callback, type, skipRoot ) {
 			if ( !skipRoot && ( !type || this.type == type ) )
-				callback( this );
+				var ret = callback( this );
+
+			// Do not filter children if callback returned false.
+			if ( ret === false )
+				return;
 
 			var children = this.children,
 				node,
@@ -608,6 +619,10 @@ CKEDITOR.htmlParser.fragment = function() {
 				else if ( !type || node.type == type )
 					callback( node );
 			}
+		},
+
+		getFilterContext: function( context ) {
+			return context || {};
 		}
 	};
 })();

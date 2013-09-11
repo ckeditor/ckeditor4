@@ -347,8 +347,7 @@
 					}
 
 					// Get the HTML version of the data.
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -424,10 +423,7 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 						bootstrapCode +=
 							'<script id="cke_shimscrpt">' +
-								'(function(){' +
-									'var e="abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video".split(","),i=e.length;' +
-									'while(i--){document.createElement(e[i])}' +
-								'})()' +
+								'window.parent.CKEDITOR.tools.enableHtml5Elements(document)' +
 							'</script>';
 					}
 
@@ -468,8 +464,7 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data );
+					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;

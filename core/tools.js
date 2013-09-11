@@ -117,10 +117,11 @@
 		 * Turns the first letter of a string to upper-case.
 		 *
 		 * @param {String} str
+		 * @param {Boolean} [keepCase] Keep the case of 2nd to last letter.
 		 * @returns {String}
 		 */
-		capitalize: function( str ) {
-			return str.charAt( 0 ).toUpperCase() + str.substring( 1 ).toLowerCase();
+		capitalize: function( str, keepCase ) {
+			return str.charAt( 0 ).toUpperCase() + ( keepCase ? str.slice( 1 ) : str.slice( 1 ).toLowerCase() );
 		},
 
 		/**
@@ -336,6 +337,20 @@
 		 */
 		htmlEncodeAttr: function( text ) {
 			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+		},
+
+		/**
+		 * Replace HTML entities previously encoded by
+		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
+		 * representation.
+		 *
+		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&gt;a &quot; b &lt;' ); // '<a " b >'
+		 *
+		 * @param {String} text The text to be decoded.
+		 * @returns {String} The decoded text.
+		 */
+		htmlDecodeAttr: function( text ) {
+			return text.replace( /&quot;/g, '"' ).replace( /&lt;/g, '<' ).replace( /&gt;/g, '>' );
 		},
 
 		/**
@@ -1079,6 +1094,29 @@
 					scheduled = lastOutput = 0;
 				}
 			};
+		},
+
+		/**
+		 * Enable HTML5 elements for older browsers (IE8) in passed document.
+		 *
+		 * In IE8 this method can be also executed on document fragment.
+		 *
+		 * **Note:** This method has to be used in the `<head>` section of the document.
+		 *
+		 * @since 4.3
+		 * @param {Document/DocumentFragment} doc
+		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
+		 */
+		enableHtml5Elements: function( doc, withAppend ) {
+			var els = 'abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video'.split( ',' ),
+				i = els.length,
+				el;
+
+			while ( i-- ) {
+				el = doc.createElement( els[ i ] );
+				if ( withAppend )
+					doc.appendChild( el );
+			}
 		}
 	};
 })();

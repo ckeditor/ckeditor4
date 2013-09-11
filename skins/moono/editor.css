@@ -21,7 +21,7 @@ other files.
 @import url("mainui.css");
 
 /* Styles all "panels", which are the floating elements that appear when
-   opening toolbar combos, menu buttons, context menus, etc. */ 
+   opening toolbar combos, menu buttons, context menus, etc. */
 @import url("panel.css");
 
 /* Styles the color panel displayed by the color buttons. */

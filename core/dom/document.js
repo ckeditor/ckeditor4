@@ -266,5 +266,52 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 
 		this.$.write( html );
 		this.$.close();
+	},
+
+	/**
+	 * Wrapper for `querySelectorAll`. Returns a list of elements within this document that match
+	 * specified `selector`.
+	 *
+	 * **Note:** returned list is not a live collection (like a result of native `querySelectorAll`).
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.nodeList}
+	 */
+	find: function( selector ) {
+		return new CKEDITOR.dom.nodeList( this.$.querySelectorAll( selector ) );
+	},
+
+	/**
+	 * Wrapper for `querySelector`. Returns first element within this document that matches
+	 * specified `selector`.
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	findOne: function( selector ) {
+		var el = this.$.querySelector( selector );
+
+		return el ? new CKEDITOR.dom.element( el ) : null;
+	},
+
+	/**
+	 * IE8 only method. It returns document fragment which has all HTML5 elements enabled.
+	 *
+	 * @since 4.3
+	 * @private
+	 * @returns DocumentFragment
+	 */
+	_getHtml5ShivFrag: function() {
+		var $frag = this.getCustomData( 'html5ShivFrag' );
+
+		if ( !$frag ) {
+			$frag = this.$.createDocumentFragment();
+			CKEDITOR.tools.enableHtml5Elements( $frag, true );
+			this.setCustomData( 'html5ShivFrag', $frag );
+		}
+
+		return $frag;
 	}
 });

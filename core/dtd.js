@@ -209,10 +209,10 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of block elements, like `<p>` or `<div>`.
 		 */
-		$block: X( { audio:1,dd:1,dt:1,li:1,video:1 }, FO, DFO ),
+		$block: X( { audio:1,dd:1,dt:1,figcaption:1,li:1,video:1 }, FO, DFO ),
 
 		/**
-		 * List of elements that contains other blocks, in which block-level operations should be limited,
+		 * List of elements that contain other blocks, in which block-level operations should be limited,
 		 * this property is not intended to be checked directly, use {@link CKEDITOR.dom.elementPath#blockLimit} instead.
 		 *
 		 * Some examples of editor behaviors that are impacted by block limits:
@@ -223,7 +223,7 @@ CKEDITOR.dtd = (function() {
 		 *
 		 * **Note:** As an exception `<li>` is not considered as a block limit, as it's generally used as a text block.
 		 */
-		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
+		$blockLimit: { article:1,aside:1,audio:1,body:1,caption:1,details:1,dir:1,div:1,dl:1,fieldset:1,figcaption:1,figure:1,footer:1,form:1,header:1,hgroup:1,menu:1,nav:1,ol:1,section:1,table:1,td:1,th:1,tr:1,ul:1,video:1 },
 
 		/**
 		 * List of elements that contain character data.
@@ -233,7 +233,7 @@ CKEDITOR.dtd = (function() {
 		/**
 		 * List of elements that are accepted as inline editing hosts.
 		 */
-		$editable: { address:1,article:1,aside:1,blockquote:1,body:1,details:1,div:1,fieldset:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,nav:1,p:1,pre:1,section:1 },
+		$editable: { address:1,article:1,aside:1,blockquote:1,body:1,details:1,div:1,fieldset:1,figcaption:1,footer:1,form:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,header:1,hgroup:1,nav:1,p:1,pre:1,section:1 },
 
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.

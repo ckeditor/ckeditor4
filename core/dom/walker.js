@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -308,7 +308,7 @@
 	 * @todo
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
-		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames || {} ) : CKEDITOR.dtd.$block;
+		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block;
 
 		// Don't consider floated formatting as block boundary, fall back to dtd check in that case. (#6297)
 		return this.getComputedStyle( 'float' ) == 'none' && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
@@ -447,18 +447,139 @@
 		};
 	};
 
+	/**
+	 * Whether the to-be-evaluated node is a temporary element
+	 * (element with `data-cke-temp` attribute) or its child.
+	 *
+	 * @since 4.3
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * temporary element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.temp = function( isReject ) {
+		return function( node ) {
+			if ( node.type != CKEDITOR.NODE_ELEMENT )
+				node = node.getParent();
+
+			var isTemp = node && node.hasAttribute( 'data-cke-temp' );
+
+			return !!( isReject ^ isTemp );
+		};
+	};
+
 	var tailNbspRegex = /^[\t\r\n ]*(?:&nbsp;|\xa0)$/,
 		isWhitespaces = CKEDITOR.dom.walker.whitespaces(),
 		isBookmark = CKEDITOR.dom.walker.bookmark(),
+		isTemp = CKEDITOR.dom.walker.temp(),
 		toSkip = function( node ) {
-			return isBookmark( node ) || isWhitespaces( node ) || node.type == CKEDITOR.NODE_ELEMENT && node.getName() in CKEDITOR.dtd.$inline && !( node.getName() in CKEDITOR.dtd.$empty );
+			return isBookmark( node ) ||
+				isWhitespaces( node ) ||
+				node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$inline ) && !node.is( CKEDITOR.dtd.$empty );
 		};
+
+	/**
+	 * Whether the to-be-evaluated node should be ignored in terms of "editability".
+	 *
+	 * This includes:
+	 *
+	 * * whitespaces (see {@link CKEDITOR.dom.walker.whitespaces}),
+	 * * bookmarks (see {@link CKEDITOR.dom.walker.bookmark}),
+	 * * temporary elements (see {@link CKEDITOR.dom.walker.temp}).
+	 *
+	 * @since 4.3
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * ignored element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.ignored = function( isReject ) {
+		return function( node ) {
+			var isIgnored = isWhitespaces( node ) || isBookmark( node ) || isTemp( node );
+
+			return !!( isReject ^ isIgnored );
+		};
+	};
+
+	var isIgnored = CKEDITOR.dom.walker.ignored();
+
+	function isEmpty( node ) {
+		var i = 0,
+			l = node.getChildCount();
+
+		for ( ; i < l; ++i ) {
+			if ( !isIgnored( node.getChild( i ) ) )
+				return false;
+		}
+		return true;
+	}
+
+	function filterTextContainers( dtd ) {
+		var hash = {},
+			name;
+
+		for ( name in dtd ) {
+			if ( CKEDITOR.dtd[ name ][ '#' ] )
+				hash[ name ] = 1;
+		}
+		return hash;
+	}
+
+	// Block elements which can contain text nodes (without ul, ol, dl, etc.).
+	var dtdTextBlock = filterTextContainers( CKEDITOR.dtd.$block );
+
+	function isEditable( node ) {
+		// Skip temporary elements, bookmarks and whitespaces.
+		if ( isIgnored( node ) )
+			return false;
+
+		if ( node.type == CKEDITOR.NODE_TEXT )
+			return true;
+
+		if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+			// All inline and non-editable elements are valid editable places.
+			// Note: non-editable block has to be treated differently (should be selected entirely).
+			if ( node.is( CKEDITOR.dtd.$inline ) || node.getAttribute( 'contenteditable' ) == 'false' )
+				return true;
+
+			// Empty blocks are editable on IE.
+			if ( CKEDITOR.env.ie && node.is( dtdTextBlock ) && isEmpty( node ) )
+				return true;
+		}
+
+		// Skip all other nodes.
+		return false;
+	}
+
+	/**
+	 * Whether the to-be-evaluated node can be a container or a sibling
+	 * of selection end.
+	 *
+	 * This includes:
+	 *
+	 * * text nodes (but not whitespaces),
+	 * * inline elements,
+	 * * non-editable blocks (special case - such blocks cannot be containers nor
+	 * siblings, they need to be selected entirely),
+	 * * empty blocks which can contain text (IE only).
+	 *
+	 * @since 4.3
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * ignored element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.editable = function( isReject ) {
+		return function( node ) {
+			return !!( isReject ^ isEditable( node ) );
+		};
+	};
 
 	/**
 	 * Check if there's a filler node at the end of an element, and return it.
 	 *
 	 * @member CKEDITOR.dom.element
-	 * @returns {Boolean}
+	 * @returns {CKEDITOR.dom.node/Boolean} Bogus node or `false`.
 	 */
 	CKEDITOR.dom.element.prototype.getBogus = function() {
 		// Bogus are not always at the end, e.g. <p><a>text<br /></a></p> (#7070).
