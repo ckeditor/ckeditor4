@@ -17,7 +17,7 @@
 		icons: 'languages',
 		init: function( editor ) {
 
-			var languagesConfigStrings = (editor.config.languages || [ 'fr:French', 'es:Spanish', 'ar:Arabic:rtl' ]),
+			var languagesConfigStrings = ( editor.config.languages || [ 'fr:French', 'es:Spanish', 'ar:Arabic:rtl' ] ),
 				items = {},
 				parts,
 				curLanguageId, // 2-letter lanugage identifier.
