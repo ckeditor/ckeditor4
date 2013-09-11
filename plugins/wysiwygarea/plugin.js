@@ -347,11 +347,7 @@
 					}
 
 					// Get the HTML version of the data.
-					data = editor.dataProcessor.toHtml( data, {
-						// Always process editor's data with the main filter and enter mode.
-						filter: editor.filter,
-						enterMode: editor.enterMode
-					} );
+					data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -468,11 +464,7 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					data = editor.dataProcessor.toDataFormat( data, {
-						// Always process editor's data with the main filter and enter mode.
-						filter: editor.filter,
-						enterMode: editor.enterMode
-					} );
+					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;

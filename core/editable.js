@@ -329,13 +329,8 @@
 			 * @see CKEDITOR.editor#setData
 			 */
 			setData: function( data, isSnapshot ) {
-				if ( !isSnapshot ) {
-					data = this.editor.dataProcessor.toHtml( data, {
-						// Always use the main filter and enter mode when processing editor's data.
-						filter: this.editor.filter,
-						enterMode: this.editor.enterMode
-					} );
-				}
+				if ( !isSnapshot )
+					data = this.editor.dataProcessor.toHtml( data );
 
 				this.setHtml( data );
 				this.editor.fire( 'dataReady' );
@@ -347,13 +342,8 @@
 			getData: function( isSnapshot ) {
 				var data = this.getHtml();
 
-				if ( !isSnapshot ) {
-					data = this.editor.dataProcessor.toDataFormat( data, {
-						// Always use the main filter and enter mode when processing editor's data.
-						filter: this.editor.filter,
-						enterMode: this.editor.enterMode
-					} );
-				}
+				if ( !isSnapshot )
+					data = this.editor.dataProcessor.toDataFormat( data );
 
 				return data;
 			},
@@ -1218,7 +1208,10 @@
 			data = that.editor.dataProcessor.toHtml( data, {
 				context: null,
 				fixForBody: false,
-				dontFilter: that.dontFilter
+				dontFilter: that.dontFilter,
+				// Use the current, contextual settings.
+				filter: that.editor.activeFilter,
+				enterMode: that.editor.activeEnterMode
 			} );
 
 

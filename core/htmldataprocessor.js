@@ -121,9 +121,7 @@
 		// Filter incoming "data".
 		// Add element filter before htmlDataProcessor.dataFilter when purifying input data to correct html.
 		editor.on( 'toHtml', function( evt ) {
-			var filter = evt.data.filter || editor.activeFilter;
-
-			if ( filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter, evt.data.enterMode ) )
+			if ( evt.data.filter.applyTo( evt.data.dataValue, true, evt.data.dontFilter, evt.data.enterMode ) )
 				editor.fire( 'dataFiltered' );
 		}, null, null, 6 );
 
@@ -156,9 +154,7 @@
 		// Transform outcoming "data".
 		// Add element filter after htmlDataProcessor.htmlFilter when preparing output data HTML.
 		editor.on( 'toDataFormat', function( evt ) {
-			var filter = evt.data.filter || editor.activeFilter;
-
-			filter.applyTo( evt.data.dataValue, false, true );
+			evt.data.filter.applyTo( evt.data.dataValue, false, true );
 		}, null, null, 11 );
 
 		editor.on( 'toDataFormat', function( evt ) {
@@ -189,11 +185,11 @@
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
 		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
-		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#activeFilter active filter},
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
 		 * passed instance will be used to filter the content.
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
 		 * will be still applied).
-		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#activeEnterMode}.
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
@@ -221,8 +217,8 @@
 				context: context,
 				fixForBody: fixForBody,
 				dontFilter: dontFilter,
-				filter: filter,
-				enterMode: enterMode || editor.activeEnterMode
+				filter: filter || editor.filter,
+				enterMode: enterMode || editor.enterMode
 			} ).dataValue;
 		},
 
@@ -233,9 +229,9 @@
 		 * @param {Object} [options] The options object.
 		 * @param {String} [options.context] The tag name of a context element within which
 		 * the input is to be processed, default to be the editable element.
-		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#activeFilter active filter},
+		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
 		 * passed instance will be used to apply content transformations to the content.
-		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#activeEnterMode}.
+		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enteMode}.
 		 * @returns {String}
 		 */
 		toDataFormat: function( html, options ) {
@@ -255,9 +251,9 @@
 
 			return this.editor.fire( 'toDataFormat', {
 				dataValue: html,
-				filter: filter,
+				filter: filter || this.editor.filter,
 				context: context,
-				enterMode: enterMode || this.editor.activeEnterMode
+				enterMode: enterMode || this.editor.enterMode
 			} ).dataValue;
 		}
 	};
