@@ -66,8 +66,7 @@
 					var activeItems = {};
 
 					for ( var prop in items ) {
-						if ( items.hasOwnProperty( prop ) )
-							activeItems[ prop ] = CKEDITOR.TRISTATE_ON;
+						activeItems[ prop ] = CKEDITOR.TRISTATE_ON;
 					}
 
 					return  activeItems;
