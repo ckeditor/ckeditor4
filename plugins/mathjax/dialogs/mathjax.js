@@ -49,16 +49,10 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 						id: 'documentation',
 						type: 'html',
 						html:
-							'<style type="text/css">' +
-							'.cke_mathjax_doc' +
-							'{' +
-								'cursor:pointer !important;' +
-								'color:#00B2CE !important;' +
-								'text-decoration:underline !important;' +
-							'}' +
-							'</style>' +
 							'<div style="width:100%;text-align:right;margin:-8px 0 10px">' +
-								'<a class="cke_mathjax_doc" href="' + lang.docUrl + '" target="_black">' + lang.docLabel + '</a>' +
+								'<a class="cke_mathjax_doc" href="' + lang.docUrl + '" target="_black" style="cursor:pointer;color:#00B2CE;text-decoration:underline">' +
+									lang.docLabel +
+								'</a>' +
 							'</div>',
 					},
 					{
