@@ -367,7 +367,8 @@
 
 						var element = data.element,
 							oldState = data.oldState,
-							newState = data.newState;
+							newState = data.newState,
+							img;
 
 						// Switching hasCaption always destroys the widget.
 						data.destroy();
@@ -376,10 +377,10 @@
 						if ( newValue ) {
 							// Get <img> from element. As element may be either
 							// <img> or centering <p>, consider it now.
-							var img = element.findOne( 'img' ) || element,
+							img = element.findOne( 'img' ) || element;
 
-								// Create new <figure> from widget template.
-								figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
+							// Create new <figure> from widget template.
+							var figure = CKEDITOR.dom.element.createFromHtml( template, editor.document );
 
 							// Replace element with <figure>.
 							replaceSafely( figure, element );
@@ -395,7 +396,7 @@
 						// The caption was present, but now it's to be removed.
 						else {
 							// Unwrap <img> from figure.
-							var img = element.findOne( 'img' );
+							img = element.findOne( 'img' );
 
 							// Replace <figure> with <img>.
 							img.replace( element );
@@ -603,7 +604,7 @@
 
 			// If left/right, add float style to the downcasted element.
 			else if ( align in { left:1,right:1 } )
-				styles.float = align;
+				styles[ 'float' ] = align;
 
 			// Update element styles.
 			if ( !CKEDITOR.tools.isEmpty( styles ) )
@@ -639,7 +640,7 @@
 			return true;
 
 		return false;
-	};
+	}
 
 	// Sets width and height of the widget image according to
 	// current widget data.

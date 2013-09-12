@@ -208,13 +208,16 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		if ( !lockButton )
 			return;
 
+		var width, height;
+
 		// Check image ratio and original image ratio, but respecting user's
 		// preference. This is performed when a new image is pre-loaded
 		// but not if user already manually locked the ratio.
 		if ( enable == 'check' && !userDefinedLock ) {
-			var width = widthField.getValue(),
-				height = heightField.getValue(),
-				domRatio = preLoadedWidth * 1000 / preLoadedHeight,
+			width = widthField.getValue();
+			height = heightField.getValue();
+
+			var	domRatio = preLoadedWidth * 1000 / preLoadedHeight,
 				ratio = width * 1000 / height;
 
 			lockRatio = false;
@@ -238,12 +241,12 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			userDefinedLock = true;
 			lockRatio = !lockRatio;
 
-			var width = widthField.getValue();
+			width = widthField.getValue();
 
 			// Automatically adjust height to width to match
 			// the original ratio (based on dom- dimensions).
 			if ( lockRatio && width ) {
-				var height = domHeight / domWidth * width;
+				height = domHeight / domWidth * width;
 
 				if ( !isNaN( height ) )
 					heightField.setValue( Math.round( height ) );
@@ -456,7 +459,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								commit: function( widget ) {
 									widget.setData( 'align', this.getValue() );
 								}
-							},
+							}
 						]
 					},
 					{
