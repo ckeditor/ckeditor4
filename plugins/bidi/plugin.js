@@ -221,9 +221,6 @@
 
 			var lang = editor.lang.bidi;
 
-			if ( editor.ui.addToolbarGroup )
-				editor.ui.addToolbarGroup( 'bidi', 'align', 'paragraph' );
-
 			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
 			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 20 );
 
