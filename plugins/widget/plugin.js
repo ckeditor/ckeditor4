@@ -419,16 +419,11 @@
 			}
 
 			return wrapper;
-		}
+		},
 
-		// %REMOVE_START%
 		// Expose for tests.
-		,
-		getNestedEditable: getNestedEditable,
-
-		createEditableFilter: createEditableFilter
-
-		// %REMOVE_END%
+		_tests_getNestedEditable: getNestedEditable,
+		_tests_createEditableFilter: createEditableFilter
 	};
 
 	CKEDITOR.event.implementOn( Repository.prototype );
