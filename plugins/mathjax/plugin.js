@@ -109,12 +109,11 @@
 	 * FrameWrapper is responsible for communication with MathJax and
 	 * iFrame. It let you create visual mathematics using setValue method.
 	 *
+	 * @private
 	 * @class CKEDITOR.plugins.mathjax.frameWrapper
-	 *
+	 * @constructor Creates a class instance.
 	 * @param {CKEDITOR.dom.element} iFrame iFrame to be wrapped.
 	 * @param {CKEDITOR.editor} editor Editor instance.
-	 *
-	 * @private
 	 */
 	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
 
@@ -224,7 +223,7 @@
 						'}' +
 					'}' +
 
-					// Run MathJax.Hub with is actual parser and call callback function after that.
+					// Run MathJax.Hub with its actual parser and call callback function after that.
 					// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
 					'function update() {' +
 						'MathJax.Hub.Queue(' +
@@ -257,10 +256,7 @@
 			/**
 			 * Set TeX value to iFrame. This function will run parsing.
 			 *
-			 * @member CKEDITOR.plugins.mathjax.frameWrapper
-			 *
 			 * @param {String} value TeX string.
-			 *
 			 */
 			setValue: function( value ) {
 				newValue = value;
@@ -276,7 +272,7 @@
  * With this configuration you can use local MathJax
  * library or different than default CDN.
  *
- * Remember that this mast be full or absolute path.
+ * Remember that this must be full or absolute path.
  *
  * @cfg {String} [mathJaxLib='http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML']
  * @member CKEDITOR.config
@@ -290,7 +286,7 @@
  *
  * Then code bellow will be recognized as a widget.
  *
- *		<span class='my-math'>\( \sqrt{4} = 2 \)</span>
+ *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
  *
  * @cfg {String} [mathJaxClass='math-tex']
  * @member CKEDITOR.config
