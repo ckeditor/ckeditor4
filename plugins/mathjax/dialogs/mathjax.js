@@ -53,7 +53,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 								'<a class="cke_mathjax_doc" href="' + lang.docUrl + '" target="_black" style="cursor:pointer;color:#00B2CE;text-decoration:underline">' +
 									lang.docLabel +
 								'</a>' +
-							'</div>',
+							'</div>'
 					},
 					{
 						id: 'preview',
