@@ -32,9 +32,7 @@
 				'right:2px;' +
 				'border-width:0 0 10px 10px;' +
 				'border-color:transparent transparent #ccc transparent;' +
-				'box-shadow: 1px 1px 0px #777;' +
-				'-moz-box-shadow: 1px 1px 0px #777;' +
-				'-webkit-box-shadow: 1px 1px 0px #777;' +
+				CKEDITOR.tools.cssVendorPrefix( 'box-shadow', '1px 1px 0px #777', true ) + ';' +
 				'cursor:se-resize;' +
 			'}' +
 			'.cke_image2_resizer_wrapper{' +
@@ -48,9 +46,7 @@
 				'left:2px;' +
 				'border-width:10px 0 0 10px;' +
 				'border-color:transparent transparent transparent #ccc;' +
-				'box-shadow: -1px 1px 0px #777;' +
-				'-moz-box-shadow: -1px 1px 0px #777;' +
-				'-webkit-box-shadow: -1px 1px 0px #777;' +
+				CKEDITOR.tools.cssVendorPrefix( 'box-shadow', '-1px 1px 0px #777', true ) + ';' +
 				'cursor:sw-resize;' +
 			'}' +
 			'.cke_widget_wrapper:hover .cke_image2_resizer{display:block;}' );
