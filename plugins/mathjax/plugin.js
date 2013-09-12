@@ -84,7 +84,7 @@
 
 					// Remove style display:inline-block.
 					var attrs = el.attributes;
-					attrs.style = attrs.style.replace( /display:\s?inline-block;?$/, '' );
+					attrs.style = attrs.style.replace( /display:\s?inline-block;?\s?/, '' );
 					if ( attrs.style == '' )
 						delete attrs.style;
 
