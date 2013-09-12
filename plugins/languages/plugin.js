@@ -6,6 +6,9 @@
 /**
  * @fileOverview Languages plugin.
  */
+
+'use strict';
+
 (function() {
 
 	var languagesButtonsGroup = 'languages';
@@ -15,8 +18,8 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'languages', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
-		init: function( editor ) {
 
+		init: function( editor ) {
 			var languagesConfigStrings = ( editor.config.languages || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
 				items = {},
 				parts,
@@ -27,21 +30,14 @@
 			editor.addCommand( 'language_apply', {
 				allowedContent: 'span[lang,dir]',
 				name: 'language_apply',
-				/**
-				 * Applies language markup for selected code.
-				 * @private
-				 * @param	{CKEDITOR.editor}	editor
-				 * @param	{String}			language code which should be applied
-				 */
 				exec: function( editor, languageId ) {
-					if ( items[ languageId ] ) {
+					if ( items[ languageId ] )
 						editor.applyStyle( items[ languageId ].style );
-					}
 				}
 			} );
 
 			// Parse languagesConfigStrings, and create items entry for each lang.
-			for ( i = 0 ; i < languagesConfigStrings.length ; i++ ) {
+			for ( i = 0; i < languagesConfigStrings.length; i++ ) {
 				parts = languagesConfigStrings[ i ].split( ':' );
 				curLanguageId = parts[ 0 ];
 
@@ -81,18 +77,17 @@
 				onMenu: function() {
 					var activeItems = {};
 
-					for ( var prop in items ) {
+					for ( var prop in items )
 						activeItems[ prop ] = CKEDITOR.TRISTATE_ON;
-					}
 
-					return  activeItems;
+					return activeItems;
 				}
 			} );
 
 			// Exposes items variable for testing purposes. // %REMOVE_LINE%
 			this.testOnly_items = items; // %REMOVE_LINE%
 		}
-	});
+	} );
 
 }());
 
