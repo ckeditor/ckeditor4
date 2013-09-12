@@ -23,6 +23,23 @@
 				curLanguageId, // 2-letter lanugage identifier.
 				i;
 
+			// registers command
+			editor.addCommand( 'language_apply', {
+				allowedContent: 'span[lang,dir]',
+				name: 'language_apply',
+				/**
+				 * Applies language markup for selected code.
+				 * @private
+				 * @param	{CKEDITOR.editor}	editor
+				 * @param	{String}			language code which should be applied
+				 */
+				exec: function( editor, languageId ) {
+					if ( items[ languageId ] ) {
+						editor.applyStyle( items[ languageId ].style );
+					}
+				}
+			} );
+
 			// Parse languagesConfigStrings, and create items entry for each lang.
 			for ( i = 0 ; i < languagesConfigStrings.length ; i++ ) {
 				parts = languagesConfigStrings[ i ].split( ':' );
@@ -30,6 +47,7 @@
 
 				items[ curLanguageId ] = {
 					label: parts[ 1 ],
+					langId: curLanguageId,
 					group: languagesButtonsGroup,
 					order: i,
 					// Tells if this language is left-to-right oriented (default: true).
@@ -37,7 +55,7 @@
 					// Style property will be assigned after object initialization.
 					style: null,
 					onClick: function() {
-						editor.applyStyle( this.style );
+						editor.getCommand( 'language_apply' ).exec( this.langId );
 					}
 				};
 
@@ -90,6 +108,8 @@
  * * _textDirection_: (optional) one of following values `rtl` or `ltr`,
  * 	indicating the reading direction for the language text direction. Defaults
  * 	to `ltr`.
+ *
+ * For example:
  *
  *		config.languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
  *
