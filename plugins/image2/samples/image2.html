@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Widget image2 &mdash; CKEditor Sample</title>
+	<title>New Image plugin &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
 	<script>
@@ -13,30 +13,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.tools.enableHtml5Elements( document );
 	</script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
-	<meta name="ckeditor-sample-name" content="Widget image2">
+	<meta name="ckeditor-sample-name" content="New Image plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
-	<meta name="ckeditor-sample-description" content="Widget image showcase.">
+	<meta name="ckeditor-sample-description" content="Using the new Image plugin to insert captioned images and adjust their dimensions.">
 	<meta name="ckeditor-sample-isnew" content="1">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Widget image2
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; New Image plugin
 	</h1>
 
 	<div class="description">
 		<p>
-			This editor is using the <strong>Image2</strong> plugin that brings a new experience into CKEditor image editing.
-			Based on the <strong>Widgets Feature</strong>, it implements a dynamic <em>click-and-drag</em> resizing and easy captioning of the images.
+			This editor is using the new <strong>Image</strong> (<code>image2</code>) plugin, which implements a dynamic <em>click-and-drag</em> resizing
+			and easy captioning of the images.
 		</p>
 		<p>
 			To use the new plugin, include it in <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraPlugins">config.extraPlugins</a></code>
-			configuration parameter while removing the old one with
+			parameter and remove the old one (<code>image</code>) with
 			<code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removePlugins">config.removePlugins</a></code> (with dependencies).
 		</p>
 <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>', {
-	extraPlugins: 'image2',
-	removePlugins: 'image,forms'
+	<strong>extraPlugins: 'image2',</strong>
+	<strong>removePlugins: 'image,forms'</strong>
 } );
 </pre>
 	</div>
