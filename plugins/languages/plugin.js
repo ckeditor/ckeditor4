@@ -11,7 +11,9 @@
 
 (function() {
 
-	var languagesButtonsGroup = 'languages';
+	var languagesButtonsGroup = 'languages',
+		allowedContent = 'span[!lang,!dir]',
+		requiredContent = 'span[lang,dir]';
 
 	CKEDITOR.plugins.add( 'languages', {
 		requires: 'menubutton',
@@ -26,10 +28,10 @@
 				curLanguageId, // 2-letter lanugage identifier.
 				i;
 
-			// registers command
-			editor.addCommand( 'language_apply', {
-				allowedContent: 'span[lang,dir]',
-				name: 'language_apply',
+			// Registers command.
+			editor.addCommand( 'language', {
+				allowedContent: allowedContent,
+				requiredContent: requiredContent,
 				exec: function( editor, languageId ) {
 					if ( items[ languageId ] )
 						editor.applyStyle( items[ languageId ].style );
@@ -51,7 +53,7 @@
 					// Style property will be assigned after object initialization.
 					style: null,
 					onClick: function() {
-						editor.getCommand( 'language_apply' ).exec( this.langId );
+						editor.execCommand( 'language', this.langId );
 					}
 				};
 
@@ -71,6 +73,11 @@
 
 			editor.ui.add( 'Languages', CKEDITOR.UI_MENUBUTTON, {
 				label: editor.lang.languages.button,
+				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
+				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }
+				// Set feature's properties directly on button.
+				allowedContent: allowedContent,
+				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_languages',
@@ -83,9 +90,6 @@
 					return activeItems;
 				}
 			} );
-
-			// Exposes items variable for testing purposes. // %REMOVE_LINE%
-			this.testOnly_items = items; // %REMOVE_LINE%
 		}
 	} );
 
