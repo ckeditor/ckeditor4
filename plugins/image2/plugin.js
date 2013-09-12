@@ -606,7 +606,7 @@
 				styles.float = align;
 
 			// Update element styles.
-			if ( CKEDITOR.tools.objectKeys( styles ).length )
+			if ( !CKEDITOR.tools.isEmpty( styles ) )
 				attrs.style = CKEDITOR.tools.writeCssText( styles );
 		}
 
