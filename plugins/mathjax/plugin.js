@@ -13,6 +13,7 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
 		icons: 'mathjax',
+		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			var cls = editor.config.mathJaxClass || 'math-tex';
