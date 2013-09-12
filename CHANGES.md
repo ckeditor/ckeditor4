@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3 beta
 
+* [#7987](https://dev.ckeditor.com/ticket/7987): Implement Language toolbar button to support WCAG 3.1.2 Language of Parts.
 * [#10708](http://dev.ckeditor.com/ticket/10708): New smileys.
 
 ## CKEditor 4.2.1
