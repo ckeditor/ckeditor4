@@ -98,7 +98,7 @@
 			// Add MathJax script to page preview.
 			editor.on( 'contentPreview', function( evt ) {
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
-					'<script src="' + ( CKEDITOR.getUrl( editor.config.mathJaxLib ) || cdn ) + '"><\/script><\/head>' );
+					'<script src="' + ( editor.config.mathJaxLib ? CKEDITOR.getUrl( editor.config.mathJaxLib ) : cdn ) + '"><\/script><\/head>' );
 			} );
 		}
 	} );
