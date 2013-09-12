@@ -85,7 +85,7 @@
 					// Remove style display:inline-block.
 					var attrs = el.attributes;
 					attrs.style = attrs.style.replace( /display:\s?inline-block;?\s?/, '' );
-					if ( attrs.style == '' )
+					if ( attrs.style === '' )
 						delete attrs.style;
 
 					return el;
@@ -170,9 +170,9 @@
 		// Copy styles from iFrame to body inside iFrame.
 		for ( var i = 0; i < stylesToCopy.length; i++ ) {
 			var key = stylesToCopy[ i ],
-				value = iFrame.getComputedStyle( key );
-			if ( value )
-				style += key + ': ' + value + ';';
+				val = iFrame.getComputedStyle( key );
+			if ( val )
+				style += key + ': ' + val + ';';
 		}
 
 		// Run MathJax parsing Tex.
@@ -265,7 +265,7 @@
 					update();
 			}
 		};
-	}
+	};
 })();
 
 /**

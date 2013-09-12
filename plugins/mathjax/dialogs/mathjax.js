@@ -75,5 +75,5 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 				]
 			}
 		]
-	}
+	};
 } );
