@@ -826,7 +826,7 @@
 
 	NestedEditable.prototype = CKEDITOR.tools.extend( CKEDITOR.tools.prototypedCopy( CKEDITOR.dom.element.prototype ), {
 		setData: function( data ) {
-			var data = this.editor.dataProcessor.toHtml( data, {
+			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
 				enterMode: this.filter ? this.filter.getAllowedEnterMode() : this.editor.enterMode
