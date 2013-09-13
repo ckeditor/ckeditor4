@@ -304,8 +304,11 @@
 	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 };
 
 	/**
+	 * Checks whether element is displayed as a block.
+	 *
 	 * @member CKEDITOR.dom.element
-	 * @todo
+	 * @param [custoNodeNames]
+	 * @returns {Boolean}
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
 		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block;
@@ -315,8 +318,12 @@
 	};
 
 	/**
+	 * Returns a function which checks whether the node is a block boundary.
+	 * See {@link CKEDITOR.dom.element#isBlockBoundary}.
+	 *
 	 * @static
-	 * @todo
+	 * @param customNodeNames
+	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.blockBoundary = function( customNodeNames ) {
 		return function( node, type ) {
@@ -333,7 +340,7 @@
 	};
 
 	/**
-	 * Whether the to-be-evaluated node is a bookmark node OR bookmark node
+	 * Returns a function which checks whether the node is a bookmark node OR bookmark node
 	 * inner contents.
 	 *
 	 * @static
@@ -359,7 +366,7 @@
 	};
 
 	/**
-	 * Whether the node is a text node containing only whitespaces characters.
+	 * Returns a function which checks whether the node is a text node containing only whitespaces characters.
 	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
@@ -379,7 +386,7 @@
 	};
 
 	/**
-	 * Whether the node is invisible in wysiwyg mode.
+	 * Returns a function which checks whether the node is invisible in wysiwyg mode.
 	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
@@ -410,11 +417,12 @@
 	};
 
 	/**
+	 * Returns a function which checks whether node's type is equal to passed one.
+	 *
 	 * @static
 	 * @param {Number} type
 	 * @param {Boolean} [isReject=false]
 	 * @returns {Function}
-	 * @todo
 	 */
 	CKEDITOR.dom.walker.nodeType = function( type, isReject ) {
 		return function( node ) {
@@ -423,10 +431,12 @@
 	};
 
 	/**
+	 * Returns a function which checks whether node is a bogus (filler) node from
+	 * contenteditable element's point of view.
+	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
 	 * @returns {Function}
-	 * @todo
 	 */
 	CKEDITOR.dom.walker.bogus = function( isReject ) {
 		function nonEmpty( node ) {
@@ -448,7 +458,7 @@
 	};
 
 	/**
-	 * Whether the to-be-evaluated node is a temporary element
+	 * Returns a function which checks whether node is a temporary element
 	 * (element with `data-cke-temp` attribute) or its child.
 	 *
 	 * @since 4.3
@@ -479,13 +489,13 @@
 		};
 
 	/**
-	 * Whether the to-be-evaluated node should be ignored in terms of "editability".
+	 * Returns a function which checks whether node should be ignored in terms of "editability".
 	 *
 	 * This includes:
 	 *
-	 * * whitespaces (see {@link CKEDITOR.dom.walker.whitespaces}),
-	 * * bookmarks (see {@link CKEDITOR.dom.walker.bookmark}),
-	 * * temporary elements (see {@link CKEDITOR.dom.walker.temp}).
+	 * * whitespaces (see {@link CKEDITOR.dom.walker#whitespaces}),
+	 * * bookmarks (see {@link CKEDITOR.dom.walker#bookmark}),
+	 * * temporary elements (see {@link CKEDITOR.dom.walker#temp}).
 	 *
 	 * @since 4.3
 	 * @static
@@ -552,7 +562,7 @@
 	}
 
 	/**
-	 * Whether the to-be-evaluated node can be a container or a sibling
+	 * Returns a function which checks whether node can be a container or a sibling
 	 * of selection end.
 	 *
 	 * This includes:
@@ -576,7 +586,7 @@
 	};
 
 	/**
-	 * Check if there's a filler node at the end of an element, and return it.
+	 * Checks if there's a filler node at the end of an element, and returns it.
 	 *
 	 * @member CKEDITOR.dom.element
 	 * @returns {CKEDITOR.dom.node/Boolean} Bogus node or `false`.

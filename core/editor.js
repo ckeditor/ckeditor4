@@ -1170,7 +1170,7 @@
 		},
 
 		/**
-		 * Sets current enter modes ({@link #enterMode} and {@link #shiftEnterMode}). Fires {@link @enterModeChange} event.
+		 * Sets current enter modes ({@link #enterMode} and {@link #shiftEnterMode}). Fires {@link #activeEnterModeChange} event.
 		 *
 		 * Prior to CKEditor 4.3 enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
 		 * and {@link CKEDITOR.config#shiftEnterMode}. Since 4.3 these options are sources of initial
@@ -1179,11 +1179,12 @@
 		 *
 		 * This method should not be used to configure editor &ndash; use {@link CKEDITOR.config#enterMode} and
 		 * {@link CKEDITOR.config#shiftEnterMode} instead. This method should be used only to dynamically change
-		 * enter mode during runtime based on selection changes (e.g. when selection is moved into the `<pre>` element).
+		 * enter mode during runtime based on selection changes (e.g. when selection is moved into the <code>&lt;pre&gt;</code> element).
 		 * Keep in mind that changed enter mode may be overwritten by other plugin/feature when it decided that
 		 * the changed context requires this.
 		 *
-		 * **Note:** Since CKEditor 4.3 plugins authors should check {@link #enterMode} and {@link #shiftEnterMode}
+		 * **Note:** Since CKEditor 4.3 plugins' authors should check {@link #activeEnterMode} and {@link #activeShiftEnterMode}
+		 * (or their static versions {@link #enterMode} and {@link #shiftEnterMode} depending on a context)
 		 * instead of {@link CKEDITOR.config#enterMode} and {@link CKEDITOR.config#shiftEnterMode}.
 		 *
 		 * **Note:** In case of blockless editor (inline editor based on element which cannot contain block elements
@@ -1195,7 +1196,7 @@
 		 *
 		 * @since 4.3
 		 * @param {Number} enterMode One of {@link CKEDITOR#ENTER_P}, {@link CKEDITOR#ENTER_DIV}, {@link CKEDITOR#ENTER_BR}.
-		 * Pass falsy value (e.g. `null`) to reset enter mode to default value.
+		 * Pass falsy value (e.g. `null`) to reset enter mode to the default value ({@link #enterMode} and/or {@link #shiftEnterMode}).
 		 * @param {Number} shiftEnterMode See `enterMode` argument.
 		 */
 		setActiveEnterMode: function( enterMode, shiftEnterMode ) {
@@ -1388,7 +1389,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * The active filter instance. This instance will be used to make a decision which
  * commands, buttons and other {@link CKEDITOR.feature features} can be enabled.
  *
- * By default it equals {@link #filter}, but can be changed by {@link setActiveFilter}.
+ * By default it equals {@link #filter}, but can be changed by {@link #setActiveFilter}.
  *
  *		editor.on( 'activeFilterChange', function() {
  *			if ( editor.activeFilter.check( 'cite' ) )
@@ -1400,6 +1401,52 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @since 4.3
  * @readonly
  * @property {CKEDITOR.filter} activeFilter
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} enterMode
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} activeEnterMode
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} shiftEnterMode
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} activeShiftEnterMode
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @event activeFilterChange
+ */
+
+/**
+ * TODO.
+ *
+ * @since 4.3
+ * @event activeEnterModeChange
  */
 
 /**

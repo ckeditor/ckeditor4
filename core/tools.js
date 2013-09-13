@@ -1104,7 +1104,7 @@
 		 * **Note:** This method has to be used in the `<head>` section of the document.
 		 *
 		 * @since 4.3
-		 * @param {Document/DocumentFragment} doc
+		 * @param {Object} doc Native `Document` or `DocumentFragment` in which elements will be enabled.
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
 		enableHtml5Elements: function( doc, withAppend ) {

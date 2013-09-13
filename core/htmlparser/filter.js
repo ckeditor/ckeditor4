@@ -236,7 +236,7 @@
 	/**
 	 * Class grouping filter rules for one subject (like element or attribute names).
 	 *
-	 * @class
+	 * @class CKEDITOR.htmlParser.filterRulesGroup
 	 */
 	function filterRulesGroup() {
 		/**

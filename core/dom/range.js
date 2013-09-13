@@ -2212,14 +2212,16 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * Note: use this method on a collapsed range.
 		 *
-		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
+		 * @since 4.3
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.text}
 		 */
 		getNextEditableNode: getNextEditableNode(),
 
 		/**
 		 * See {@link #getNextEditableNode}.
 		 *
-		 * @returns {CKEDITOR.node.element/CKEDITOR.node.text}
+		 * @since 4.3
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.text}
 		 */
 		getPreviousEditableNode: getNextEditableNode( 1 ),
 
