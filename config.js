@@ -37,7 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'indentlist,' +
 		'indentblock,' +
 		'justify,' +
-		'languages,' +
+		'language,' +
 		'link,' +
 		'list,' +
 		'liststyle,' +

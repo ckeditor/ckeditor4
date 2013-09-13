@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'languages', 'en', {
+CKEDITOR.plugins.setLang( 'language', 'en', {
 	button: 'Set language'
 } );
