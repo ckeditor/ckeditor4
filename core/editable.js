@@ -321,7 +321,7 @@
 					// Put the clone into a particular range.
 					// Save the last **successfully inserted** element reference
 					// so we can make the selection later.
-					if ( this.insertElementIntoRange( clone, range ) && !lastElement );
+					if ( this.insertElementIntoRange( clone, range ) && !lastElement )
 						lastElement = clone;
 				}
 
