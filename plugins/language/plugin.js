@@ -91,8 +91,7 @@
 			} );
 		}
 	} );
-
-}());
+})();
 
 /**
  * Specifies the list of languages available in the language plugin. Each entry
@@ -111,6 +110,6 @@
  *
  *		config.language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
  *
- * @cfg {Array} [languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
+ * @cfg {Array} [language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
  * @member CKEDITOR.config
  */
