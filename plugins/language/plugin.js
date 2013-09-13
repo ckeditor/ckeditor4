@@ -24,7 +24,7 @@
 			var languagesConfigStrings = ( editor.config.language_list || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
 				items = {},
 				parts,
-				curLanguageId, // 2-letter lanugage identifier.
+				curLanguageId, // 2-letter language identifier.
 				i;
 
 			// Registers command.
