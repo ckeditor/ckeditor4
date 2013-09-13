@@ -6,6 +6,8 @@ CKEditor 4 Changelog
 * [#10664](http://dev.ckeditor.com/ticket/10664): MathJax widget.
 * [#7987](https://dev.ckeditor.com/ticket/7987): Implement Language toolbar button to support WCAG 3.1.2 Language of Parts.
 * [#10708](http://dev.ckeditor.com/ticket/10708): New smileys.
+* [#10659](http://dev.ckeditor.com/ticket/10659): New Image plugin.
+* [#9764](http://dev.ckeditor.com/ticket/9764): Widgets feature.
 
 ## CKEditor 4.2.1
 
