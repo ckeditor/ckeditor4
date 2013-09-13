@@ -48,7 +48,7 @@
 					group: 'language',
 					order: i,
 					// Tells if this language is left-to-right oriented (default: true).
-					ltr: ( String( parts[ 2 ] ).toLowerCase() != 'rtl' ),
+					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
 					// Style property will be assigned after object initialization.
 					style: null,
 					onClick: function() {
