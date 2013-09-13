@@ -11,21 +11,20 @@
 
 (function() {
 
-	var languagesButtonsGroup = 'languages',
-		allowedContent = 'span[!lang,!dir]',
+	var allowedContent = 'span[!lang,!dir]',
 		requiredContent = 'span[lang,dir]';
 
-	CKEDITOR.plugins.add( 'languages', {
+	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
 		lang: 'en', // %REMOVE_LINE_CORE%
-		icons: 'languages', // %REMOVE_LINE_CORE%
+		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var languagesConfigStrings = ( editor.config.languages || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
+			var languagesConfigStrings = ( editor.config.language_list || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
 				items = {},
 				parts,
-				curLanguageId, // 2-letter lanugage identifier.
+				curLanguageId, // 2-letter language identifier.
 				i;
 
 			// Registers command.
@@ -46,10 +45,10 @@
 				items[ curLanguageId ] = {
 					label: parts[ 1 ],
 					langId: curLanguageId,
-					group: languagesButtonsGroup,
+					group: 'language',
 					order: i,
 					// Tells if this language is left-to-right oriented (default: true).
-					ltr: ( String( parts[ 2 ] ).toLowerCase() != 'rtl' ),
+					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
 					// Style property will be assigned after object initialization.
 					style: null,
 					onClick: function() {
@@ -68,11 +67,11 @@
 			}
 
 			// Initialize group/button.
-			editor.addMenuGroup( languagesButtonsGroup, 1 );
+			editor.addMenuGroup( 'language', 1 );
 			editor.addMenuItems( items );
 
-			editor.ui.add( 'Languages', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.languages.button,
+			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
+				label: editor.lang.language.button,
 				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
 				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }
 				// Set feature's properties directly on button.
@@ -80,7 +79,7 @@
 				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
 				modes: { wysiwyg: 1 },
-				className: 'cke_button_languages',
+				className: 'cke_button_language',
 				onMenu: function() {
 					var activeItems = {};
 
@@ -92,11 +91,10 @@
 			} );
 		}
 	} );
-
-}());
+})();
 
 /**
- * Specifies the list of languages available in the languages plugin. Each entry
+ * Specifies the list of languages available in the language plugin. Each entry
  * should be a string in the following format:
  *
  *		<languageCode>:<languageLabel>[:<textDirection>]
@@ -110,8 +108,8 @@
  *
  * For example:
  *
- *		config.languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
+ *		config.language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
  *
- * @cfg {Array} [languages = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
+ * @cfg {Array} [language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
  * @member CKEDITOR.config
  */
