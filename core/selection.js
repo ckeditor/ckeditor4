@@ -382,18 +382,6 @@
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
 
-		/**
-		 * @event selectionChange
-		 *
-		 * @member CKEDITOR.editor
- 		 * @param {CKEDITOR.editor} editor This editor instance.
- 		 * @param data
- 		 * @param {CKEDITOR.dom.selection} data.selection
- 		 * @param {CKEDITOR.dom.elementPath} data.path
-		 */
-		// TODO uncomment this after finishing works or just remove...
-		// editor.define( 'selectionChange', { errorProof:1 } );
-
 		editor.on( 'contentDom', function() {
 			var doc = editor.document,
 				outerDoc = CKEDITOR.document,
@@ -2129,6 +2117,22 @@
 	};
 
 })();
+
+
+/**
+ * Fired when selection inside editor has been changed. Note that this event
+ * is fired only when selection's start element (container of a selecion start)
+ * changes, not on every possible selection change. Thanks to that `selectionChange`
+ * is fired less frequently, but on every context
+ * (the {@link CKEDITOR.editor#elementPath elements path} holding selection's start) change.
+ *
+ * @event selectionChange
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {CKEDITOR.dom.selection} data.selection
+ * @param {CKEDITOR.dom.elementPath} data.path
+ */
 
 /**
  * Selection's revision. This value is incremented every time new
