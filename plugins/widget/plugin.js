@@ -727,11 +727,11 @@
 		 */
 
 		/**
-		* The template used to create this widget.
-		*
-		* @readonly
-		* @property {CKEDITOR.template} template
-		*/
+		 * The template used to create this widget.
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.template} template
+		 */
 
 		widgetsRepo.fire( 'instanceCreated', this );
 
