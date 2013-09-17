@@ -5,7 +5,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Mathematics &mdash; CKEditor Sample</title>
+	<title>Mathematical Formulas &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
@@ -19,31 +19,38 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Mathematics
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Mathematical Formulas
 	</h1>
 
 	<div class="description">
-		<p>This sample shows usage of mathematical plugin. You can create or modify equations using TeX. TeX will be automatically replaced by widget when you put it <code>&lt;span class="math-tex"&gt;</code>.</p>
-		<p>The output of the editor will be plain TeX with <a href="http://www.mathjax.org/">MathJax</a> delimiters: <code>\(</code> and <code>\)</code>, as in the code below:</p>
+		<p>
+			This sample shows the usage of the CKEditor mathematical plugin that introduces a MathJax widget. You can now use it to create or modify equations using TeX.
+		</p>
+		<p>
+			TeX content will be automatically replaced by a widget when you put it in a <code>&lt;span class="math-tex"&gt;</code> element. You can also add new equations by using the <strong>Math</strong> toolbar button and entering TeX content in the plugin dialog window. After you click <strong>OK</strong>, a widget will be inserted into the editor content.
+		</p>
+		<p>
+			The output of the editor will be plain TeX with <a href="http://www.mathjax.org/">MathJax</a> delimiters: <code>\(</code> and <code>\)</code>, as in the code below:
+		</p>
 <pre class="samples">
 &lt;span class="math-tex"&gt;\( \sqrt{1} + (1)^2 = 2 \)&lt;/span&gt;
 </pre>
-		<p>To transform TeX into visual equation on target website the <a href="http://docs.mathjax.org/en/latest/start.html">MathJax script</a> must be included on it.</p>
+		<p>
+			To transform TeX into a visual equation, a page must include the <a href="http://docs.mathjax.org/en/latest/start.html">MathJax script</a>.
+		</p>
+		<p>
+			In order to use the new plugin, include it in the <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraPlugins">config.extraPlugins</a></code> configuration setting.
+		</p>
+<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>', {
+	<strong>extraPlugins: 'mathjax'</strong>
+} );
+</pre>
 	</div>
 
 	<textarea id="editor1" cols="10" rows="10">
 
-		<p>The following equations are represented in the HTML source code as LaTeX expressions.</p>
-
-		<h1>The Cauchy-Schwarz Inequality</h1>
-
-		<p><span class="math-tex">\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)</span></p>
-
-		<h1>The probability of getting <span class="math-tex">\(k\)</span> heads when flipping <span class="math-tex">\(n\)</span> coins is</h1>
-
-		<p><span class="math-tex">\(P(E) = {n \choose k} p^k (1-p)^{ n-k} \)</span></p>
-
-		<p>Finally, while display equations look good for a page of samples, the ability to mix math and text in a paragraph is also important. This expression <span class="math-tex">\(\sqrt{3x-1}+(1+x)^2\)</span> is an example of an inline equation.  As you see, MathJax equations can be used this way as well, without unduly disturbing the spacing between lines.</p>
+		&lt;p&gt;The following equations are represented in the HTML source code as LaTeX expressions.&lt;/p&gt;&lt;h1&gt;The Cauchy-Schwarz Inequality&lt;/h1&gt;&lt;p&gt;&lt;span class=&quot;math-tex&quot;&gt;\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)&lt;/span&gt;&lt;/p&gt;&lt;h1&gt;The probability of getting &lt;span class=&quot;math-tex&quot;&gt;\(k\)&lt;/span&gt; heads when flipping &lt;span class=&quot;math-tex&quot;&gt;\(n\)&lt;/span&gt; coins is&lt;/h1&gt;&lt;p&gt;&lt;span class=&quot;math-tex&quot;&gt;\(P(E) = {n \choose k} p^k (1-p)^{ n-k} \)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Finally, while displaying equations is useful for demonstration purposes, the ability to mix math and text in a paragraph is also important. This expression &lt;span class=&quot;math-tex&quot;&gt;\(\sqrt{3x-1}+(1+x)^2\)&lt;/span&gt; is an example of an inline equation.  As you see, MathJax equations can be used this way as well, without disturbing the spacing between the lines.&lt;/p&gt;
 
 	</textarea>
 	<script>
