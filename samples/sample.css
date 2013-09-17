@@ -52,8 +52,9 @@ abbr
 	font-size: 10px;
 	font-weight: bold;
 	padding: 1px 4px;
-	margin: 0 0 0 3px;
+	margin: 0 0 0 5px;
 	color: #fff;
+	float: right;
 
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -74,7 +75,7 @@ abbr
 .beta
 {
 	background: #18C0DF;
-	border: 1px solid #1792B9;
+	border: 1px solid #19AAD8;
 	text-shadow: 0 1px 0 #048CAD;
 	font-style: italic;
 
