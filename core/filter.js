@@ -653,7 +653,7 @@
 		},
 
 		/**
-		 * Returns first enter mode allowed by the filter rules. Modes are checked in `p`, `div`, `br` order.
+		 * Returns first enter mode allowed by this filter rules. Modes are checked in `p`, `div`, `br` order.
 		 * If none of tags is allowed this method will return {@link CKEDITOR#ENTER_BR}.
 		 *
 		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).

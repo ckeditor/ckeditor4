@@ -332,10 +332,18 @@
 		},
 
 		/**
-		 * Gets widget instance by element which may be widget's wrapper or any of its descendants.
+		 * Finds a widget instance which contains given element. The element will be the {@link CKEDITOR.plugins.widget#wrapper wrapper}
+		 * of the returned widget or a descendant of this {@link CKEDITOR.plugins.widget#wrapper wrapper}.
 		 *
-		 * @param {CKEDITOR.dom.element} element
-		 * @param {Boolean} [checkWrapperOnly] If `true` method will only check if passed `element` equals widget wrapper.
+		 *		editor.widgets.getByElement( someWidget.wrapper ); // -> someWidget
+		 *		editor.widgets.getByElement( someWidget.parts.caption ); // -> someWidget
+		 *
+		 *		// Check wrapper only:
+		 *		editor.widgets.getByElement( someWidget.wrapper, true ); // -> someWidget
+		 *		editor.widgets.getByElement( someWidget.parts.caption, true ); // -> null
+		 *
+		 * @param {CKEDITOR.dom.element} element The element to be checked.
+		 * @param {Boolean} [checkWrapperOnly] If `true` method won't check wrappers' descendants.
 		 * @returns {CKEDITOR.plugins.widget} Widget instance or `null`.
 		 */
 		getByElement: function( element, checkWrapperOnly ) {
@@ -628,10 +636,10 @@
 			inline: element.getParent().getName() == 'span',
 
 			/**
-			 * Widget's main element.
+			 * The widget element &ndash; element on which widget was initialized.
 			 *
 			 * @readonly
-			 * @property {CKEDITOR.dom.element}
+			 * @property {CKEDITOR.dom.element} element
 			 */
 			element: element,
 
@@ -727,10 +735,20 @@
 		 */
 
 		/**
-		 * The template used to create this widget.
+		 * The template which will be used to create a new widget element (when widget's command is executed).
+		 * It will be populated with a {@link #defaults default values}.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.template} template
+		 */
+
+		/**
+		 * The widget wrapper &ndash; a non-editable `div` or `span` element (depending on {@link #inline})
+		 * which is a parent of {@link #element} and widget's compontents like the drag handler and the {@link #mask}.
+		 * It is the outermost widget's element.
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
 		widgetsRepo.fire( 'instanceCreated', this );
@@ -2545,9 +2563,9 @@
  */
 
 /**
- * The template used to create a new widget element (when widget's command is executed).
- * This string is populated with a {@link #defaults default values} by using
- * the {@link CKEDITOR.template}.
+ * The template which will be used to create a new widget element (when widget's command is executed).
+ * This string is populated with a {@link #defaults default values} by using the {@link CKEDITOR.template} format.
+ * Therefore it has to be a valid {@link CKEDITOR.template} argument.
  *
  * @property {String} template
  */
