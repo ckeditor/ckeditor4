@@ -46,25 +46,42 @@ abbr
 	cursor: pointer;
 }
 
-.new
+.new, .beta
 {
-	background: #FF7E00;
-	border: 1px solid #DA8028;
-	color: #fff;
+	text-transform: uppercase;
 	font-size: 10px;
 	font-weight: bold;
 	padding: 1px 4px;
-	text-shadow: 0 1px 0 #C97626;
-	text-transform: uppercase;
-	margin: 0 0 0 3px;
+	margin: 0 0 0 5px;
+	color: #fff;
+	float: right;
 
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+}
+
+.new
+{
+	background: #FF7E00;
+	border: 1px solid #DA8028;
+	text-shadow: 0 1px 0 #C97626;
 
 	-moz-box-shadow: 0 2px 3px 0 #FFA54E inset;
 	-webkit-box-shadow: 0 2px 3px 0 #FFA54E inset;
 	box-shadow: 0 2px 3px 0 #FFA54E inset;
+}
+
+.beta
+{
+	background: #18C0DF;
+	border: 1px solid #19AAD8;
+	text-shadow: 0 1px 0 #048CAD;
+	font-style: italic;
+
+	-moz-box-shadow: 0 2px 3px 0 #50D4FD inset;
+	-webkit-box-shadow: 0 2px 3px 0 #50D4FD inset;
+	box-shadow: 0 2px 3px 0 #50D4FD inset;
 }
 
 h1.samples
