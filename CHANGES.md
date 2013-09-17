@@ -1,28 +1,28 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.3 beta
+## CKEditor 4.3 Beta
 
 New Features:
 
-* [#9764](http://dev.ckeditor.com/ticket/9764): Widgets system.
-  * [Widget plugin](http://ckeditor.com/addon/widget) introducing [Widgets API](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget).
-  * New [`editor.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-enterMode) and [`editor.shiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-shiftEnterMode) properties &ndash; a normalized version of [`config.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) and [`config.shiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-shiftEnterMode).
-  * Dynamic editor settings. Starting from CKEditor 4.3 beta enter modes and ACF filter may be changed dynamically (for example when caret was placed in an element in which editor features should be adjusted). Depending on a feature dynamic or static settings have to be checked.
-      * dynamic enter modes &ndash; [`editor.setActiveEnterMode` method](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setActiveEnterMode), [`editor.activeEnterModeChange` event](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-activeEnterModeChange) and two properties: [`editor.activeEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeEnterMode) and [`editor.activeShiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeShiftEnterMode).
-      * dynamic ACF filter &ndash; [`editor.setActiveFilter` method](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setActiveFilter), [`editor.activeFilterChange` event](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-activeFilterChange) and [`editor.activeFilter` property](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeFilter).
-  * "Fake" selection was introduced which makes it possible to virtually select any element when the real selection is hidden. See [`selection.fake`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-fake).
-  * Default `htmlParser.filter` rules are not applied to non-editable elements (elements with `contenteditable` attribute set to `false` and their descendants) any more. To add a rule which will be applied to all elements you need to pass additional argument to [filter.addRules](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter-method-addRules).
+* [#9764](http://dev.ckeditor.com/ticket/9764): Widget System.
+  * [Widget plugin](http://ckeditor.com/addon/widget) introducing the [Widget API](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget).
+  * New [`editor.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-enterMode) and [`editor.shiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-shiftEnterMode) properties &ndash; normalized versions of [`config.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) and [`config.shiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-shiftEnterMode).
+  * Dynamic editor settings. Starting from CKEditor 4.3 Beta, *Enter* mode values and [content filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) instances may be changed dynamically (for example when the caret was placed in an element in which editor features should be adjusted). When you are implementing a new editor feature, you should base its behavior on [dynamic](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeEnterMode) or [static](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-enterMode) *Enter* mode values depending on whether this feature works in selection context or globally on editor content.
+      * Dynamic *Enter* mode values &ndash; [`editor.setActiveEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setActiveEnterMode) method, [`editor.activeEnterModeChange`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-activeEnterModeChange) event, and two properties: [`editor.activeEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeEnterMode) and [`editor.activeShiftEnterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeShiftEnterMode).
+      * Dynamic content filter instances &ndash; [`editor.setActiveFilter`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setActiveFilter) method, [`editor.activeFilterChange`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-activeFilterChange) event, and [`editor.activeFilter`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-activeFilter) property.
+  * "Fake" selection was introduced. It makes it possible to virtually select any element when the real selection remains hidden. See the  [`selection.fake`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-fake) method.
+  * Default [`htmlParser.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied to non-editable elements (elements with `contenteditable` attribute set to `false` and their descendants) anymore. To add a rule which will be applied to all elements you need to pass an additional argument to the [filter.addRules](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter-method-addRules) method.
   * Dozens of new methods were introduced &ndash; most interesting ones:
       * [`document.find`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.document-method-find),
       * [`document.findOne`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.document-method-findOne),
       * [`editable.insertElementIntoRange`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertElementIntoRange),
       * [`range.moveToClosestEditablePosition`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-moveToClosestEditablePosition),
-      * new methods for [`htmlParser.node`](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.node) and [`htmlParser.element`](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.element).
-* [#10659](http://dev.ckeditor.com/ticket/10659): New Image plugin &ndash; introduces integrated image captions and an option to center images.
-* [#10664](http://dev.ckeditor.com/ticket/10664): MathJax widget.
-* [#7987](https://dev.ckeditor.com/ticket/7987): Implement Language toolbar button to support WCAG 3.1.2 Language of Parts.
-* [#10708](http://dev.ckeditor.com/ticket/10708): New smileys.
+      * New methods for [`htmlParser.node`](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.node) and [`htmlParser.element`](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.element).
+* [#10659](http://dev.ckeditor.com/ticket/10659): New [Enhanced Image](http://ckeditor.com/addon/image2) plugin that introduces a widget with integrated image captions, an option to center images, and dynamic "click and drag" resizing.
+* [#10664](http://dev.ckeditor.com/ticket/10664): New [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin that introduces the MathJax widget.
+* [#7987](https://dev.ckeditor.com/ticket/7987): New [Language](http://ckeditor.com/addon/language) plugin that implements Language toolbar button to support [WCAG 3.1.2 Language of Parts](http://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html).
+* [#10708](http://dev.ckeditor.com/ticket/10708): New [smileys](http://ckeditor.com/addon/smiley).
 
 ## CKEditor 4.2.1
 
