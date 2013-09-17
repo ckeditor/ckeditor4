@@ -96,7 +96,7 @@
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates widgets repository instance. Note that the widget plugin automatically
 	 * creates repository instance which is available under the {@link CKEDITOR.editor#widgets} property.
-	 * @param {CKEDITOR.editor} The editor instance for which repository will be created.
+	 * @param {CKEDITOR.editor} editor The editor instance for which repository will be created.
 	 */
 	function Repository( editor ) {
 		/**
@@ -428,7 +428,7 @@
 		 * If this method is called on {@link CKEDITOR.htmlParser.element}, then it will
 		 * also take care of fixing DOM after wrapping (wrapper may not be allowed in element's parent).
 		 *
-		 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The widget element to be wrapped.
+		 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} element The widget element to be wrapped.
 		 * @param {String} [widgetName] Name of the widget definition. Defaults to element's `data-widget`
 		 * attribute value.
 		 * @returns {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The wrapper element or `null` if
@@ -726,6 +726,12 @@
 		 * @property {CKEDITOR.plugins.widget.repository} repository
 		 */
 
+		/**
+		* The template used to create this widget.
+		*
+		* @readonly
+		* @property {CKEDITOR.template} template
+		*/
 
 		widgetsRepo.fire( 'instanceCreated', this );
 
