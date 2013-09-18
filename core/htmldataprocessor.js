@@ -178,6 +178,13 @@
 		 * Processes the input (potentially malformed) HTML to a purified form which
 		 * is suitable for using in the WYSIWYG editable.
 		 *
+		 * This method fires the {@link CKEDITOR.editor#toHtml} event which makes it possible
+		 * to hook into the process at various stages.
+		 *
+		 * **Note:** Since CKEditor 4.3 the signature of this method changed and all options
+		 * are now grouped in one `options` object. Previously `context`, `fixForBody` and `dontFilter`
+		 * were passed separately.
+		 *
 		 * @param {String} data The raw data.
 		 * @param {Object} [options] The options object.
 		 * @param {String} [options.context] The tag name of a context element within which
@@ -224,6 +231,9 @@
 
 		/**
 		 * See {@link CKEDITOR.dataProcessor#toDataFormat}.
+		 *
+		 * This method fires the {@link CKEDITOR.editor#toDataFormat} event which makes it possible
+		 * to hook into the process at various steps.
 		 *
 		 * @param {String} html
 		 * @param {Object} [options] The options object.
@@ -886,11 +896,18 @@
  *		{@link CKEDITOR.htmlParser.fragment} {@link CKEDITOR.htmlParser.element}.
  *	* 5-9: Data is available in the parsed format, but {@link CKEDITOR.htmlDataProcessor#dataFilter}
  *		is not applied yet.
- *	* 10: Data is filtered with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
+ *	* 6: Data is filtered with the {CKEDITOR.filter content filter}.
+ *	* 10: Data is processed with {@link CKEDITOR.htmlDataProcessor#dataFilter}.
  *	* 10-14: Data is available in the parsed format and {@link CKEDITOR.htmlDataProcessor#dataFilter}
  *		has already been applied.
  *	* 15: Data is written back to an HTML string.
  *	* 15-*: Data is available in an HTML string.
+ *
+ * For example to be able to process parsed, but not yet filtered data add listener this way:
+ *
+ *		editor.on( 'toHtml', function( evt) {
+ *			evt.data.dataValue; // -> CKEDITOR.htmlParser.fragment instance
+ *		}, null, null, 7 );
  *
  * @since 4.1
  * @event toHtml
@@ -902,13 +919,34 @@
  * @param {Boolean} data.fixForBody See {@link CKEDITOR.htmlDataProcessor#toHtml} The `fixForBody` argument.
  * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
  * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `filter` argument.
+ * @param {Boolean} data.enterMode See {@link CKEDITOR.htmlDataProcessor#toHtml} The `enterMode` argument.
  */
 
 /**
  * This event is fired when {@link CKEDITOR.htmlDataProcessor} is converting
  * internal HTML to output data HTML.
  *
- * See {@link #toHtml} event documentation for more details.
+ * By adding listeners with different priorities it is possible
+ * to process input HTML on different stages:
+ *
+ *	* 1-4: Data is available in the original string format.
+ *	* 5: Data is initially filtered with regexp patterns and parsed to
+ *		{@link CKEDITOR.htmlParser.fragment} {@link CKEDITOR.htmlParser.element}.
+ *	* 5-9: Data is available in the parsed format, but {@link CKEDITOR.htmlDataProcessor#htmlFilter}
+ *		is not applied yet.
+ *	* 10: Data is filtered with {@link CKEDITOR.htmlDataProcessor#htmlFilter}.
+ *  * 11: Data is filtered with the {CKEDITOR.filter content filter} (on output the content filter makes
+ *		only transformations, without filtering).
+ *	* 10-14: Data is available in the parsed format and {@link CKEDITOR.htmlDataProcessor#htmlFilter}
+ *		has already been applied.
+ *	* 15: Data is written back to an HTML string.
+ *	* 15-*: Data is available in an HTML string.
+ *
+ * For example to be able to process parsed and already processed data add listener this way:
+ *
+ *		editor.on( 'toDataFormat', function( evt) {
+ *			evt.data.dataValue; // -> CKEDITOR.htmlParser.fragment instance
+ *		}, null, null, 12 );
  *
  * @since 4.1
  * @event toDataFormat
@@ -916,5 +954,8 @@
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {String/CKEDITOR.htmlParser.fragment/CKEDITOR.htmlParser.element} data.dataValue Output data to be prepared.
+ * @param {String} data.context See {@link CKEDITOR.htmlDataProcessor#toDataFormat} The `context` argument.
+ * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toDataFormat} The `filter` argument.
+ * @param {Boolean} data.enterMode See {@link CKEDITOR.htmlDataProcessor#toDataFormat} The `enterMode` argument.
  */
 
