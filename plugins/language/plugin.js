@@ -32,8 +32,10 @@
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
 				exec: function( editor, languageId ) {
-					if ( items[ languageId ] )
-						editor.applyStyle( items[ languageId ].style );
+					var item = items[ languageId ];
+
+					if ( item )
+						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				}
 			} );
 
