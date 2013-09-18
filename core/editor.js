@@ -218,6 +218,12 @@
 	}
 
 	function updateCommandsContext( editor, path, forceRefresh ) {
+		// Commands cannot be refreshed without a path. In edge cases
+		// it may happen that there's no selection when this function is executed.
+		// For example when active filter is changed in #10877.
+		if ( !path )
+			return;
+
 		var command,
 			name,
 			commands = editor.commands;
