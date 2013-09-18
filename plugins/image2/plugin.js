@@ -11,7 +11,8 @@
 		templateBlock = '<figure class="caption">' +
 				template +
 				'<figcaption>Caption</figcaption>' +
-			'</figure>';
+			'</figure>',
+		regexPercent = /^\s*(\d+\%)\s*$/i;
 
 	CKEDITOR.plugins.add( 'image2', {
 		lang: 'en', // %REMOVE_LINE_CORE%
@@ -463,8 +464,7 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function upcastWidgetElement( el ) {
-		var regexPercent = /^\s*(\d+\%)\s*$/i,
-			dimensions = { width:1,height:1 },
+		var dimensions = { width:1,height:1 },
 			name = el.name,
 			image;
 
