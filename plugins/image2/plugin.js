@@ -566,18 +566,18 @@
 		if ( children.length !== 1 )
 			return false;
 
-		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '' );
-
-		// Centering wrapper got to be... centering.
-		if ( !styles[ 'text-align' ] || styles[ 'text-align' ] != 'center' )
-			return false;
-
 		var child = children[ 0 ],
 			childName = child.name;
 
 		// The only child of centering wrapper can be <figure> with
 		// class="caption" or plain <img>.
-		if ( childName == 'img' || ( childName == 'figure' && child.hasClass( 'caption' ) ) )
+		if ( childName != 'img' && !( childName == 'figure' && child.hasClass( 'caption' ) ) )
+			return false;
+
+		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '' );
+
+		// Centering wrapper got to be... centering.
+		if ( styles[ 'text-align' ] == 'center' )
 			return true;
 
 		return false;
