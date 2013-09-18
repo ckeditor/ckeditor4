@@ -588,7 +588,8 @@
 	//
 	// @param {CKEDITOR.plugins.widget} widget
 	function setDimensions( widget ) {
-		var dimensions = CKEDITOR.tools.extend( {}, widget.data, false, { width:1,height:1 } ),
+		var data = widget.data,
+			dimensions = { width: data.width, height: data.height },
 			image = widget.parts.image;
 
 		for ( var d in dimensions ) {
