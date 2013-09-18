@@ -103,6 +103,12 @@
 	var image2 = {
 		// Widget-specific rules for Allowed Content Filter.
 		allowedContent: {
+			// This widget may need <div> centering wrapper.
+			div: {
+				match: isCenterWrapper,
+				styles: 'text-align'
+			},
+
 			// This widget needs <figcaption>.
 			figcaption: true,
 
@@ -116,12 +122,6 @@
 			img: {
 				attributes: '!src,alt,width,height',
 				styles: 'float'
-			},
-
-			// This widget may need <div> centering wrapper.
-			div: {
-				match: isCenterWrapper,
-				styles: 'text-align'
 			},
 
 			// This widget may need <p> centering wrapper.
