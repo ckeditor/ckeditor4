@@ -63,7 +63,7 @@
 				toolbar: 'insert,10'
 			} );
 
-			// Integrate the plugin with context menus.
+			// Register context menu option for editing widget.
 			if ( editor.contextMenu ) {
 				editor.addMenuGroup( 'image2', 10 );
 
@@ -71,16 +71,6 @@
 					label: editor.lang.image2.menu,
 					command: 'image2',
 					group: 'image2'
-				} );
-
-				// Show the menu item in the context menu when a widget is focused.
-				editor.contextMenu.addListener( function() {
-					var focused = getFocusedWidget( editor );
-
-					if ( focused )
-						return { image2: CKEDITOR.TRISTATE_OFF };
-
-					return null;
 				} );
 			}
 
@@ -248,6 +238,11 @@
 			setupResizer( this );
 
 			this.shiftState = CKEDITOR.plugins.image2.stateShifter( this.editor );
+
+			// Add widget editing option to its context menu.
+			this.on( 'contextMenu', function( evt ) {
+				evt.data.image2 = CKEDITOR.TRISTATE_OFF;
+			} );
 		},
 
 		upcast: upcastWidgetElement,
