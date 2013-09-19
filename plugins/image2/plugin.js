@@ -67,15 +67,13 @@
 			if ( editor.contextMenu ) {
 				editor.addMenuGroup( 'image2', 10 );
 
-				// Define a menu item for the plguin.
 				editor.addMenuItem( 'image2', {
 					label: editor.lang.image2.menu,
 					command: 'image2',
 					group: 'image2'
 				} );
 
-				// Show the menu item in the context menu when a widget
-				// is focused.
+				// Show the menu item in the context menu when a widget is focused.
 				editor.contextMenu.addListener( function() {
 					var focused = getFocusedWidget( editor );
 
@@ -86,7 +84,6 @@
 				} );
 			}
 
-			// Add the dialog associated with both widgets.
 			CKEDITOR.dialog.add( 'image2', this.path + 'dialogs/image2.js' );
 		},
 
@@ -99,7 +96,7 @@
 		}
 	} );
 
-	// Default definition shared across widgets.
+	// Image2 widget definition.
 	var image2 = {
 		// Widget-specific rules for Allowed Content Filter.
 		allowedContent: {
@@ -108,22 +105,15 @@
 				match: isCenterWrapper,
 				styles: 'text-align'
 			},
-
-			// This widget needs <figcaption>.
 			figcaption: true,
-
-			// This widget needs <figure>.
 			figure: {
 				classes: '!caption',
 				styles: 'float,display'
 			},
-
-			// This widget needs <img>.
 			img: {
 				attributes: '!src,alt,width,height',
 				styles: 'float'
 			},
-
 			// This widget may need <p> centering wrapper.
 			p: {
 				match: isCenterWrapper,
@@ -144,7 +134,6 @@
 			}
 		},
 
-		// Parts of this widget.
 		parts: {
 			image: 'img',
 			caption: 'figcaption'
@@ -162,8 +151,7 @@
 				oldState = widget.oldData,
 				newState = widget.data;
 
-			// Convert the internal form of the widget
-			// from the old state to the new one.
+			// Convert the internal form of the widget from the old state to the new one.
 			widget.shiftState( {
 				element: widget.element,
 				oldState: oldState,
@@ -208,11 +196,7 @@
 				}
 			} );
 
-			// Get the <img> from the widget. As widget may have been
-			// re-initialized, this may be a totally different <img>.
-			var image = widget.parts.image;
-
-			image.setAttributes( {
+			widget.parts.image.setAttributes( {
 				src: widget.data.src,
 
 				// This internal is required by the editor.
@@ -228,23 +212,13 @@
 			widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
 		},
 
-		// Initialization of this widget.
 		init: function() {
 			var image = this.parts.image,
 				data = {
-					// Check whether widget has caption.
 					hasCaption: !!this.parts.caption,
-
-					// Read initial image SRC attribute.
 					src: image.getAttribute( 'src' ),
-
-					// Read initial image ALT attribute.
 					alt: image.getAttribute( 'alt' ) || '',
-
-					// Read initial width from either attribute or style.
 					width: image.getAttribute( 'width' ) || '',
-
-					// Read initial height from either attribute or style.
 					height: image.getAttribute( 'height' ) || ''
 				};
 
@@ -268,20 +242,15 @@
 			if ( !data.hasCaption )
 				this.wrapper.setStyle( 'line-height', '0' );
 
-			// Set collected data.
 			this.setData( data );
 
 			// Setup dynamic image resizing with mouse.
 			setupResizer( this );
 
-			// Create shift stater for this widget.
 			this.shiftState = CKEDITOR.plugins.image2.stateShifter( this.editor );
 		},
 
-		// Widget upcasting.
 		upcast: upcastWidgetElement,
-
-		// Widget downcasting.
 		downcast: downcastWidgetElement
 	};
 
@@ -334,6 +303,7 @@
 								element.removeStyle( 'display' );
 						}
 					},
+
 					hasCaption:	function( data, oldValue, newValue ) {
 						// This action is for real state change only.
 						if ( !changed( data, 'hasCaption' ) )
@@ -371,8 +341,6 @@
 						else {
 							// Unwrap <img> from figure.
 							img = element.findOne( 'img' );
-
-							// Replace <figure> with <img>.
 							img.replace( element );
 
 							// Update widget's element.
@@ -396,14 +364,11 @@
 				// When widget gets centered. Wrapper must be created.
 				// Create new <p|div> with text-align:center.
 				var center = doc.createElement( centerElement, {
-					// Centering wrapper is.. centering.
 					styles: { 'text-align': 'center' }
 				} );
 
 				// Replace element with centering wrapper.
 				replaceSafely( center, element );
-
-				// Append element into centering wrapper.
 				element.move( center );
 
 				return center;
@@ -419,13 +384,10 @@
 
 			function replaceSafely( replacing, replaced ) {
 				if ( replaced.getParent() ) {
-					// Create a range that corresponds with old element's position.
 					var range = editor.createRange();
 
-					// Move the range before old element.
+					// Move the range before old element and insert element into it.
 					range.moveToPosition( replaced, CKEDITOR.POSITION_BEFORE_START );
-
-					// Insert element at range position.
 					editable.insertElementIntoRange( replacing, range );
 
 					// Remove old element.
@@ -526,8 +488,7 @@
 		return el;
 	}
 
-	// Transforms the widget to the external format according to
-	// the current configuration.
+	// Transforms the widget to the external format according to the current configuration.
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function downcastWidgetElement( el ) {
@@ -544,7 +505,6 @@
 		}
 
 		if ( align && align != 'none' ) {
-			// Parse element styles. Styles will be extended.
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
 
 			// If centering, wrap downcasted element.
@@ -597,8 +557,7 @@
 		return false;
 	}
 
-	// Sets width and height of the widget image according to
-	// current widget data.
+	// Sets width and height of the widget image according to current widget data.
 	//
 	// @param {CKEDITOR.plugins.widget} widget
 	function setDimensions( widget ) {
@@ -615,6 +574,7 @@
 	}
 
 	// Defines all features related to drag-driven image resizing.
+	//
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
 		var editor = widget.editor,
@@ -643,7 +603,6 @@
 			widget.wrapper.append( resizer );
 
 		// Calculate values of size variables and mouse offsets.
-		// Start observing mousemove.
 		resizer.on( 'mousedown', function( evt ) {
 			var image = widget.parts.image,
 
@@ -883,6 +842,7 @@
 
 	// Returns the focused widget, if of the type specific for this plugin.
 	// If no widget is focused, `null` is returned.
+	//
 	// @param {CKEDITOR.editor}
 	// @returns {CKEDITOR.plugins.widget}
 	function getFocusedWidget( editor ) {
