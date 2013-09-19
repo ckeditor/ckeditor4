@@ -573,76 +573,56 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: (function() {
-			function isPreviousText( node, offset ) {
-				return offset > 0 && node && node.type == CKEDITOR.NODE_TEXT && node.getPrevious() && node.getPrevious().type == CKEDITOR.NODE_TEXT;
+			// Returns true for limit anchored in element and placed between text nodes.
+			//
+			//               v
+			// <p>[text node] [text node]</p> -> true
+			//
+			//    v
+			// <p> [text node]</p> -> false
+			//
+			//              v
+			// <p>[text node][text node]</p> -> false (limit is anchored in text node)
+			function betweenTextNodes( container, offset ) {
+				// Not anchored in element or limit is on the edge.
+				if ( container.type != CKEDITOR.NODE_ELEMENT || offset == 0 || offset == container.getChildCount() )
+					return 0;
+
+				return container.getChild( offset - 1 ).type == CKEDITOR.NODE_TEXT &&
+					container.getChild( offset ).type == CKEDITOR.NODE_TEXT;
 			}
 
-			// Normalize the range. The limit is either start or end of the range.
-			// If there are several text nodes in a row, this function moves range boundary from the
-			// element to a text node and updates the offset. As a result, it looks like text nodes
-			// were glued together into a bigger one, and the range refers to it.
+			// Sums lengths of all preceding text nodes.
+			function getLengthOfPrecedingTextNodes( node ) {
+				var sum = 0;
+
+				while ( ( node = node.getPrevious() ) && node.type == CKEDITOR.NODE_TEXT )
+					sum += node.getLength();
+
+				return sum;
+			}
+
 			function normalize( limit ) {
-				var child, previous,
-					container = limit.container,
+				var container = limit.container,
 					offset = limit.offset;
 
-				// Find out if the limit is pointing to a text node that will be normalized.
-				if ( container.type == CKEDITOR.NODE_ELEMENT ) {
-					child = container.getChild( offset );
-
-					// If the limit of the range is after last child, offset will be equal
-					// the number of children so getChild( offset ) becomes null.
-					// In such case, move the limit to the end of the child.
-					// Before:
-					//		            ____ <p> is the container. Offset is 2.
-					//		           |
-					//		<p>        |</p>
-					//		   Foo, Bar         // Two text-node children.
-					//
-					// After:
-					//		            ____ "Bar" becomes the container. Offset is 3.
-					//		           |
-					//		<p>        |</p>
-					//		   Foo, Bar|
-					//
-					if ( !child ) {
-						child = container.getLast();
-
-						if ( isPreviousText( child, offset ) ) {
-							container = child;
-							offset = child.getLength();
-						}
-					}
-
-					// In this case, move the limit information to the beginning of
-					// that text node.
-					// Before:
-					//		         ____ <p> is the container. Offset is 1.
-					//		        |
-					//		<p>     |   </p>
-					//		   Foo, Bar         // Two text-node children.
-					//
-					// After:
-					//		         ____ "Bar" becomes the container. Offset is 0.
-					//		        |
-					//		<p>     |   </p>
-					//		   Foo, |Bar
-					//
-					else if ( isPreviousText( child, offset ) ) {
-						container = child;
-						offset = 0;
-					}
-
-					// Get the normalized offset.
-					if ( child && child.type == CKEDITOR.NODE_ELEMENT )
-						offset = child.getIndex( 1 );
+				// If limit is between text nodes move it to the end of preceding one,
+				// because they will be merged.
+				if ( betweenTextNodes( container, offset ) ) {
+					container = container.getChild( offset - 1 );
+					offset = container.getLength();
 				}
 
-				// Normalize.
-				while ( container.type == CKEDITOR.NODE_TEXT && ( previous = container.getPrevious() ) && previous.type == CKEDITOR.NODE_TEXT ) {
-					container = previous;
-					offset += previous.getLength();
-				}
+				// Now, if limit is anchored in element and has at least two nodes before it,
+				// it may happen that some of them will be merged. Normalize the offset
+				// by setting it to normalized index of its preceding node.
+				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 1 )
+					offset = container.getChild( offset - 1 ).getIndex( true ) + 1;
+
+				// The last step - fix the offset inside text node by adding
+				// lengths of preceding text nodes which will be merged with container.
+				if ( container.type == CKEDITOR.NODE_TEXT )
+					offset += getLengthOfPrecedingTextNodes( container );
 
 				limit.container = container;
 				limit.offset = offset;
@@ -659,13 +639,6 @@ CKEDITOR.dom.range = function( root ) {
 						offset: this.endOffset
 					};
 
-				// If there is no range then get out of here.
-				// It happens on initial load in Safari #962 and if the editor it's
-				// hidden also in Firefox
-				if ( !bmStart.container || !bmEnd.container )
-					return { start: 0, end: 0 };
-
-				// Normalize range.
 				if ( normalized ) {
 					normalize( bmStart );
 
