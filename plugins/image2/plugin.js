@@ -163,7 +163,7 @@
 						return;
 
 					// Remember whether widget was focused before destroyed.
-					if ( getFocusedWidget( editor ) == widget )
+					if ( editor.widgets.focused == widget )
 						this.focused = true;
 
 					editor.widgets.destroy( widget );
