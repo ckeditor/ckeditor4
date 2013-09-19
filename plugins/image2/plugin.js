@@ -174,6 +174,10 @@
 					if ( this.destroyed )
 						return;
 
+					// Remember whether widget was focused before destroyed.
+					if ( getFocusedWidget( editor ) == widget )
+						this.focused = true;
+
 					editor.widgets.destroy( widget );
 
 					// Mark widget was destroyed.
@@ -184,8 +188,18 @@
 					// Create a new widget. This widget will be either captioned
 					// non-captioned, block or inline according to what is the
 					// new state of the widget.
-					if ( this.destroyed )
+					if ( this.destroyed ) {
 						widget = editor.widgets.initOn( element, 'image2', widget.data );
+
+						// The focus must be transferred from the old one (destroyed)
+						// to the new one (just created).
+						if ( this.focused ) {
+							widget.focus();
+							delete this.focused;
+						}
+
+						delete this.destroyed;
+					}
 
 					// If now widget was destroyed just update wrapper's alignment.
 					// According to the new state.
