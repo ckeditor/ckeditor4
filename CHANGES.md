@@ -5,6 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10831](http://dev.ckeditor.com/ticket/10831): Image2: Merged `image2inline` and `image2block` into `image2` widget.
+
 ## CKEditor 4.3 Beta
 
 New Features:
