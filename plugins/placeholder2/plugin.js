@@ -79,7 +79,7 @@
 
 			var dataFilter = editor.dataProcessor && editor.dataProcessor.dataFilter,
 				widgetRepo = editor.widgets,
-				placeholderReplaceRegex = /\[\[[^\]]+\]\]/g;
+				placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
 			dataFilter.addRules({
 				text: function( text ) {
