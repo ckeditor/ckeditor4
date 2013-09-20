@@ -38,6 +38,25 @@ CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 						},
 						commit: function( widget ) {
 							widget.setData( 'name', this.getValue() );
+						},
+						onLoad: function( e ) {
+							this.getInputElement().on( 'keydown', function( e ) {
+
+								var keyEvent = e.data,
+									// keys disabled (unless shift is pressed)
+									excludedKeyCodes = [
+										219, // [ - open square bracket
+										221 // ] - close square bracket
+									];
+
+								// checking if key is not on list of blocked keys, shift cant be
+								// pressed, because it's making curly then - which are allowed
+								if ( keyEvent.$.shiftKey == false && excludedKeyCodes.indexOf( keyEvent.getKey() ) !== -1 ) {
+									keyEvent.preventDefault();
+								}
+
+								return;
+							} );
 						}
 					}
 				]
