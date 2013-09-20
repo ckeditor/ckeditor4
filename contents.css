@@ -89,7 +89,8 @@ img.left
 	padding: 5px;
 }
 
-img:hover
+/* #10868: We use :not() selector to exclude IE8, which crashes on img:hover style. */
+:not(.ie8) img:hover
 {
 	opacity: .9;
 	filter: alpha(opacity = 90);
