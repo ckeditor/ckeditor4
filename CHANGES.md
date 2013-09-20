@@ -30,6 +30,12 @@ New Features:
 * [#7987](https://dev.ckeditor.com/ticket/7987): New [Language](http://ckeditor.com/addon/language) plugin that implements Language toolbar button to support [WCAG 3.1.2 Language of Parts](http://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html).
 * [#10708](http://dev.ckeditor.com/ticket/10708): New [smileys](http://ckeditor.com/addon/smiley).
 
+## CKEditor 4.2.2
+
+Fixed Issues:
+
+* [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10847](http://dev.ckeditor.com/ticket/10847), [#10842](http://dev.ckeditor.com/ticket/10842).
+
 ## CKEditor 4.2.1
 
 Fixed Issues:
