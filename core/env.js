@@ -28,7 +28,7 @@ if ( !CKEDITOR.env ) {
 			 *
 			 * @property {Boolean}
 			 */
-			ie: eval( '/*@cc_on!@*/false' ),
+			ie: ( agent.indexOf( 'trident/' ) > -1 ),
 			// Use eval to preserve conditional comment when compiling with Google Closure Compiler (#93).
 
 			/**
@@ -141,7 +141,7 @@ if ( !CKEDITOR.env ) {
 		 *
 		 * @property {Boolean}
 		 */
-		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.opera );
+		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.opera && !env.ie );
 
 		/**
 		 * Indicates that CKEditor is running in Chrome.
