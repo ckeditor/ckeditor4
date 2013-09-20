@@ -37,12 +37,18 @@
 				// Widget code.
 				button: editor.lang.placeholder2.button,
 				dialog: 'placeholder2',
-				template: '<span contenteditable="false" data-ckeplaceholder="1">__placeholder-name__</span>',
+
+				/**
+				 * @todo: mostlikely we'll have to adjust this template a little bit, but at
+				 * the end it might so happen, that we'll need to fake some wrapping span or
+				 * sth like that
+				 */
+				template: '<span contenteditable="false" data-ckeplaceholder="1">[[]]</span>',
 
 				upcast: function( element, data ) {
-					if ( element.name == 'span' && element.attributes[ 'data-ckeplaceholder' ] ) {
+					if ( element.name == 'span' && element.attributes[ 'data-ckeplaceholder' ] )
 						return true;
-					}
+
 					return false;
 				},
 
@@ -62,9 +68,8 @@
 
 				data: function( data ) {
 					// change text node only when placeholder name was changed
-					if ( this.data.name != this.element.getText() ) {
+					if ( this.data.name != this.element.getText() )
 						this.element.setText( '[[' + this.data.name + ']]' );
-					}
 				}
 
 			} );
@@ -83,7 +88,6 @@
 						// creating widget code
 						var widgetWrapper = null,
 							innerElement = new CKEDITOR.htmlParser.element( 'span' );
-							//innerElement = new CKEDITOR.htmlParser.element( 'i' );
 						// inner element gets decorated with extra attrs in wrapElement() method
 
 						// adds placeholder identifier as innertext
