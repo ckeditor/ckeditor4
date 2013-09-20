@@ -73,21 +73,24 @@ hr
 	border-top: 1px solid #ccc;
 }
 
-img.right {
+img.right
+{
 	border: 1px solid #ccc;
 	float: right;
 	margin-left: 15px;
 	padding: 5px;
 }
 
-img.left {
+img.left
+{
 	border: 1px solid #ccc;
 	float: left;
 	margin-right: 15px;
 	padding: 5px;
 }
 
-img:hover {
+img:hover
+{
 	opacity: .9;
 	filter: alpha(opacity = 90);
 }
@@ -98,6 +101,7 @@ pre
 	word-wrap: break-word; /* IE7 */
 }
 
-.marker {
+.marker
+{
 	background-color: Yellow;
 }
