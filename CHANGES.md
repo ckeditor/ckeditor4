@@ -5,6 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10847](http://dev.ckeditor.com/ticket/10847), [#10842](http://dev.ckeditor.com/ticket/10842).
+
 ## CKEditor 4.2.1
 
 Fixed Issues:
