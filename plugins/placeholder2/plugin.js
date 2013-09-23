@@ -62,7 +62,6 @@
 			editor.dataProcessor.dataFilter.addRules( {
 				text: function( text ) {
 					return text.replace( placeholderReplaceRegex, function( match ) {
-
 						// creating widget code
 						var widgetWrapper = null,
 							innerElement = new CKEDITOR.htmlParser.element( 'span' );
