@@ -9,10 +9,13 @@
  *
  */
 
+'use strict';
+
 CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 
 	var lang = editor.lang.placeholder2,
-		generalLabel = editor.lang.common.generalTab;
+		generalLabel = editor.lang.common.generalTab,
+		validNameRegex = /^[^\[\]\<\>]+$/;
 
 	return {
 		title: lang.title,
@@ -32,29 +35,12 @@ CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 						label: lang.name,
 						'default': '',
 						required: true,
-						validate: CKEDITOR.dialog.validate.notEmpty( lang.nameMissing ),
+						validate: CKEDITOR.dialog.validate.regex( validNameRegex, lang.invalidName ),
 						setup: function( widget ) {
 							this.setValue( widget.data.name );
 						},
 						commit: function( widget ) {
 							widget.setData( 'name', this.getValue() );
-						},
-						onLoad: function( e ) {
-							this.getInputElement().on( 'keydown', function( e ) {
-								var keyEvent = e.data,
-									// keys disabled (unless shift is pressed)
-									excludedKeyCodes = [
-										219, // [ - open square bracket
-										221 // ] - close square bracket
-									];
-
-								// checking if key is not on list of blocked keys, but allow with
-								// shift pressed, because it's making curly then - which are allowed
-								if ( keyEvent.$.shiftKey == false && excludedKeyCodes.indexOf( keyEvent.getKey() ) !== -1 )
-									keyEvent.preventDefault();
-
-								return;
-							} );
 						}
 					}
 				]
