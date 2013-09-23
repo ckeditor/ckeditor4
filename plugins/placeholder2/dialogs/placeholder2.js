@@ -41,7 +41,6 @@ CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 						},
 						onLoad: function( e ) {
 							this.getInputElement().on( 'keydown', function( e ) {
-
 								var keyEvent = e.data,
 									// keys disabled (unless shift is pressed)
 									excludedKeyCodes = [
@@ -49,11 +48,10 @@ CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 										221 // ] - close square bracket
 									];
 
-								// checking if key is not on list of blocked keys, shift cant be
-								// pressed, because it's making curly then - which are allowed
-								if ( keyEvent.$.shiftKey == false && excludedKeyCodes.indexOf( keyEvent.getKey() ) !== -1 ) {
+								// checking if key is not on list of blocked keys, but allow with
+								// shift pressed, because it's making curly then - which are allowed
+								if ( keyEvent.$.shiftKey == false && excludedKeyCodes.indexOf( keyEvent.getKey() ) !== -1 )
 									keyEvent.preventDefault();
-								}
 
 								return;
 							} );
