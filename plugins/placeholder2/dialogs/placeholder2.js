@@ -29,10 +29,10 @@ CKEDITOR.dialog.add( 'placeholder2', function( editor ) {
 						id: 'name',
 						type: 'text',
 						style: 'width: 100%;',
-						label: lang.text,
+						label: lang.name,
 						'default': '',
 						required: true,
-						validate: CKEDITOR.dialog.validate.notEmpty( lang.textMissing ),
+						validate: CKEDITOR.dialog.validate.notEmpty( lang.nameMissing ),
 						setup: function( widget ) {
 							this.setValue( widget.data.name );
 						},

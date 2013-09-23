@@ -6,10 +6,10 @@
 CKEDITOR.plugins.setLang( 'placeholder2', 'en', {
 	button: 'Add placeholder',
 	defaultName: 'DEFAULT_PLACEHOLDER_NAME',
-	
+
 	title: 'Placeholder Properties',
 	toolbar: 'Create Placeholder',
-	text: 'Placeholder Text',
+	name: 'Placeholder Name',
 	edit: 'Edit Placeholder',
-	textMissing: 'The placeholder must contain text.'
+	nameMissing: 'The placeholder must contain name.'
 });
