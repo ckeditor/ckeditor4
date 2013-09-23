@@ -9,9 +9,9 @@
  *
  */
 
-(function() {
-	'use strict';
+'use strict';
 
+(function() {
 	CKEDITOR.plugins.add( 'placeholder2', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
@@ -43,8 +43,7 @@
 
 				init: function() {
 					// note that placeholder markup characters are stripped for the name
-					var curText = this.element.getText();
-					this.setData( 'name', curText.slice( 2, -2 ) );
+					this.setData( 'name', this.element.getText().slice( 2, -2 ) );
 				},
 
 				data: function( data ) {
@@ -57,7 +56,6 @@
 		},
 
 		afterInit: function( editor ) {
-
 			var widgetRepo = editor.widgets,
 				placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
