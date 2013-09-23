@@ -552,7 +552,8 @@
 					}
 
 					// It's much simpler for IE8+, we just need to reselect the reported range.
-					if ( CKEDITOR.env.version > 7 ) {
+					// This hack does not work on IE>=11 because there's no old selection&range APIs.
+					if ( CKEDITOR.env.version > 7 && CKEDITOR.env.version < 11 ) {
 						html.on( 'mousedown', function( evt ) {
 							if ( evt.data.getTarget().is( 'html' ) ) {
 								// Limit the text selection mouse move inside of editable. (#9715)
