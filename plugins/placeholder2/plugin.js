@@ -10,12 +10,6 @@
  */
 
 (function() {
-
-	/**
-	 * @todo: change name data-ckeplaceholder to data-cke-placeholder
-	 *
-	 */
-
 	'use strict';
 
 	CKEDITOR.plugins.add( 'placeholder2', {
@@ -50,7 +44,7 @@
 				init: function() {
 					// note that placeholder markup characters are stripped for the name
 					var curText = this.element.getText();
-					this.setData( 'name', curText.slice(2, -2) );
+					this.setData( 'name', curText.slice( 2, -2 ) );
 				},
 
 				data: function( data ) {
@@ -67,7 +61,7 @@
 			var widgetRepo = editor.widgets,
 				placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
-			editor.dataProcessor.dataFilter.addRules({
+			editor.dataProcessor.dataFilter.addRules( {
 				text: function( text ) {
 					return text.replace( placeholderReplaceRegex, function( match ) {
 
@@ -83,10 +77,9 @@
 						// return outerhtml of widget wrapper so it will be placed
 						// as replacement
 						return widgetWrapper.getOuterHtml();
-					});
+					} );
 				}
-			});
-
+			} );
 		}
 	} );
 
