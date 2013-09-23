@@ -18,8 +18,6 @@
 
 	'use strict';
 
-	var placeholders = [];
-
 	CKEDITOR.plugins.add( 'placeholder2', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
@@ -32,8 +30,8 @@
 
 			// put ur init code here
 			editor.widgets.add( 'placeholder2', {
-				allowedContent: 'span[!contenteditable,!data-ckeplaceholder,class]',
-				requiredContent: 'span[contenteditable,data-ckeplaceholder]',
+				allowedContent: 'span[!data-ckeplaceholder,class]',
+				requiredContent: 'span[data-ckeplaceholder]',
 				// Widget code.
 				button: editor.lang.placeholder2.button,
 				dialog: 'placeholder2',
@@ -43,7 +41,7 @@
 				 * the end it might so happen, that we'll need to fake some wrapping span or
 				 * sth like that
 				 */
-				template: '<span contenteditable="false" data-ckeplaceholder="1">[[]]</span>',
+				template: '<span data-ckeplaceholder="1">[[]]</span>',
 
 				upcast: function( element, data ) {
 					if ( element.name == 'span' && element.attributes[ 'data-ckeplaceholder' ] )
@@ -63,7 +61,7 @@
 				init: function() {
 					// note that placeholder markup characters are stripped for the name
 					var curText = this.element.getText();
-					this.setData( 'name', curText.substring( 2, curText.length - 2 ) );
+					this.setData( 'name', curText.slice(2, -2) );
 				},
 
 				data: function( data ) {
@@ -77,11 +75,10 @@
 
 		afterInit: function( editor ) {
 
-			var dataFilter = editor.dataProcessor && editor.dataProcessor.dataFilter,
-				widgetRepo = editor.widgets,
+			var widgetRepo = editor.widgets,
 				placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
-			dataFilter.addRules({
+			editor.dataProcessor.dataFilter.addRules({
 				text: function( text ) {
 					return text.replace( placeholderReplaceRegex, function( match ) {
 
@@ -93,7 +90,6 @@
 						// adds placeholder identifier as innertext
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
 						widgetWrapper = widgetRepo.wrapElement( innerElement, 'placeholder2' );
-
 
 						// return outerhtml of widget wrapper so it will be placed
 						// as replacement
