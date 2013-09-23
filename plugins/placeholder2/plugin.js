@@ -30,25 +30,14 @@
 
 			// put ur init code here
 			editor.widgets.add( 'placeholder2', {
-				allowedContent: 'span[!data-ckeplaceholder,class]',
-				requiredContent: 'span[data-ckeplaceholder]',
+				allowedContent: 'span[class]',
+				requiredContent: 'span',
 				// Widget code.
 				button: editor.lang.placeholder2.button,
 				dialog: 'placeholder2',
-
-				/**
-				 * @todo: mostlikely we'll have to adjust this template a little bit, but at
-				 * the end it might so happen, that we'll need to fake some wrapping span or
-				 * sth like that
-				 */
-				template: '<span data-ckeplaceholder="1">[[]]</span>',
-
-				upcast: function( element, data ) {
-					if ( element.name == 'span' && element.attributes[ 'data-ckeplaceholder' ] )
-						return true;
-
-					return false;
-				},
+				// we need to have wrapping element, otherwise there are issues in
+				// add dialog
+				template: '<span>[[]]</span>',
 
 				defaults: {
 					name: editor.lang.placeholder2.defaultName
