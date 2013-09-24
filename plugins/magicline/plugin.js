@@ -459,12 +459,23 @@
 	// Gets the closest parent node that belongs to triggers group.
 	function getAscendantTrigger( that ) {
 		var node = that.element,
-			trigger;
+			widgets = that.editor.widgets;
 
 		if ( node && isHtml( node ) ) {
-			return ( trigger = node.getAscendant( that.triggers, true ) ) &&
-				!trigger.contains( that.editable ) &&
-				!trigger.equals( that.editable ) ? trigger : null;
+			var trigger = node.getAscendant( that.triggers, true );
+
+			if ( trigger && !trigger.contains( that.editable ) && !trigger.equals( that.editable ) ) {
+				if ( widgets ) {
+					var widget = widgets.getByElement( trigger );
+
+					if ( widget && widget.wrapper.is( that.triggers ) )
+						return widget.wrapper;
+					else
+						return null;
+				} else
+					return trigger;
+			} else
+				return null;
 		}
 
 		return null;
