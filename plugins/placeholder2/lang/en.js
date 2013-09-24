@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'placeholder2', 'en', {
 	title: 'Placeholder Properties',
 	toolbar: 'Create Placeholder',
 	name: 'Placeholder Name',
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ].'
+	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >'
 });
