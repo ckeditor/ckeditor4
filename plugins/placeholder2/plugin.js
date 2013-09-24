@@ -49,6 +49,9 @@
 				}
 
 			} );
+
+			// Registers styles for placeholder widget frame.
+			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder2"]{background-color: #ffff00;}' );
 		},
 
 		afterInit: function( editor ) {
