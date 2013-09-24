@@ -969,7 +969,7 @@
 	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
 	function isPositioned( element ) {
-		return !!{ absolute:1,fixed:1,relative:1 }[ element.getComputedStyle( 'position' ) ];
+		return !!{ absolute:1,fixed:1 }[ element.getComputedStyle( 'position' ) ];
 	}
 
 	// Is text node?
@@ -1059,6 +1059,7 @@
 		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
 			return !( isEmptyTextNode( node ) || isComment( node ) );
 		});
+
 
 		// There's no edge node. Abort.
 		if ( !edgeNode ) {
