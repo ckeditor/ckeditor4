@@ -459,21 +459,33 @@
 	// Gets the closest parent node that belongs to triggers group.
 	function getAscendantTrigger( that ) {
 		var node = that.element,
-			widgets = that.editor.widgets;
+			widgets = that.editor.widgets,
+			widget, trigger;
 
 		if ( node && isHtml( node ) ) {
-			var trigger = node.getAscendant( that.triggers, true );
+			trigger = node.getAscendant( that.triggers, true );
 
+			// If trigger is an element, neither editable nor editable's ascendant.
 			if ( trigger && !trigger.contains( that.editable ) && !trigger.equals( that.editable ) ) {
-				if ( widgets ) {
-					var widget = widgets.getByElement( trigger );
+				// Check in an element belongs to a widget.
+				if ( widgets && ( widget = widgets.getByElement( trigger ) ) ) {
+					// Magicline works within nested editables as
+					// within editor's editable.
+					if ( inNestedEditable( trigger, widget ) )
+						return trigger;
 
-					if ( widget && widget.wrapper.is( that.triggers ) )
+					// If element belongs to widget, but not to
+					// any nested editable, widget's wrapper is the trigger.
+					else if ( widget.wrapper.is( that.triggers ) )
 						return widget.wrapper;
+
+					// If widget wrapper is not a valid trigger,
+					// no line will be shown.
 					else
 						return null;
-				} else
-					return trigger;
+				}
+
+				return trigger;
 			} else
 				return null;
 		}
@@ -506,6 +518,21 @@
 
 	function inBetween( val, lower, upper ) {
 		return val > lower && val < upper;
+	}
+
+	// Checks whether an element belongs to some of widget's
+	// nested editables.
+	function inNestedEditable( element, widget ) {
+		var editables = widget.editables;
+
+		if ( !editables )
+			return false;
+
+		for ( var e in editables )
+			if ( editables[ e ].contains( element ) )
+				return true;
+
+		return false;
 	}
 
 	// Access space line consists of a few elements (spans):
