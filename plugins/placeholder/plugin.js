@@ -50,7 +50,7 @@
 
 			} );
 
-			// Registers styles for placeholder widget frame.
+			// Register styles for placeholder widget frame.
 			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder"]{background-color: #ffff00;}' );
 		},
 
@@ -64,7 +64,6 @@
 						// Creating widget code.
 						var widgetWrapper = null,
 							innerElement = new CKEDITOR.htmlParser.element( 'span' );
-						// Inner element gets decorated with extra attrs in wrapElement() method.
 
 						// Adds placeholder identifier as innertext.
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
