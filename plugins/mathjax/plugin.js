@@ -20,7 +20,10 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex';
+			var cls = editor.config.mathJaxClass || 'math-tex',
+
+				// In Firefox src must exist and be different than about:blank to emit load event.
+				ffHack = CKEDITOR.env.gecko ? 'src="javascript:true;"' : '';
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -31,7 +34,7 @@
 
 				template:
 					'<span class="' + cls + '" style="display:inline-block">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true"></iframe>' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" ' + ffHack + '></iframe>' +
 					'</span>',
 
 				parts: {
@@ -68,17 +71,25 @@
 
 					// Add style display:inline-block to have proper height of widget wrapper and mask.
 					var attrs = el.attributes;
+
 					if ( attrs.style )
 						attrs.style += ';display:inline-block';
 					else
 						attrs.style = 'display:inline-block';
 
-					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
+					//
+					var iframeAttr = {
 						style: 'border:0;width:0;height:0',
 						scrolling: 'no',
 						frameborder: 0,
 						allowTransparency: true
-					} ) );
+					}
+
+					// In Firefox src must exist and be different than about:blank to emit load event.
+					if ( CKEDITOR.env.gecko )
+						iframeAttr.src = 'javascript:true;';
+
+					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe',  iframeAttr ) );
 
 					return el;
 				},
@@ -148,8 +159,22 @@
 
 			// Function called when MathJax finish his job.
 			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
+
+				// Copy styles from iFrame to body inside iFrame.
+				var stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ];
+
+				for ( var i = 0; i < stylesToCopy.length; i++ ) {
+					var key = stylesToCopy[ i ],
+						val = iFrame.getComputedStyle( key );
+					if ( val ) {
+						preview.setStyle( key, val );
+					}
+				}
+
+				// Set preview content.
 				preview.setHtml( buffer.getHtml() );
 
+				// Set iFrame dimensions.
 				var height = Math.max( doc.$.body.offsetHeight, doc.$.documentElement.offsetHeight ),
 					width = Math.max( preview.$.offsetWidth, doc.$.body.scrollWidth );
 
@@ -166,20 +191,72 @@
 				// Private! For test usage only.
 				iFrame.fire( 'mathJaxUpdateDone' );
 
+				// If value changed in the meantime update it again.
 				if ( value != newValue )
 					update();
 				else
 					isRunning = false;
-			} ),
-			stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ],
-			style = '';
+			} );
 
-		// Copy styles from iFrame to body inside iFrame.
-		for ( var i = 0; i < stylesToCopy.length; i++ ) {
-			var key = stylesToCopy[ i ],
-				val = iFrame.getComputedStyle( key );
-			if ( val )
-				style += key + ': ' + val + ';';
+		iFrame.on( 'load', load );
+
+		load();
+
+		function load() {
+			doc = iFrame.getFrameDocument();
+
+			if( doc.getById( 'preview' ) )
+				return;
+
+			doc.write( '<!DOCTYPE html>' +
+						'<html>' +
+						'<head>' +
+							'<meta charset="utf-8">' +
+							'<script type="text/x-mathjax-config">' +
+
+								// MathJax configuration, disable messages.
+								'MathJax.Hub.Config( {' +
+									'showMathMenu: false,' +
+									'messageStyle: "none"' +
+								'} );' +
+
+								// Get main CKEDITOR form parent.
+								'function getCKE() {' +
+									'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
+										'return window.parent.CKEDITOR;' +
+									'} else {' +
+										'return window.parent.parent.CKEDITOR;' +
+									'}' +
+								'}' +
+
+								// Run MathJax.Hub with its actual parser and call callback function after that.
+								// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
+								'function update() {' +
+									'MathJax.Hub.Queue(' +
+										'[ \'Typeset\', MathJax.Hub,this.buffer ],' +
+										'function() {' +
+											'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
+										'}' +
+									');' +
+								'}' +
+
+								// Run MathJax for the first time, when the script is loaded.
+								// Callback function will be called then it's done.
+								'MathJax.Hub.Queue( function() {' +
+									'getCKE().tools.callFunction(' + loadedHandler + ');' +
+								'} );' +
+							'</script>' +
+
+							// Load MathJax lib.
+							'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+						'</head>' +
+						'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+							'<span id="preview"></span>' +
+
+							// Render everything here and after that copy it to the preview.
+							'<span id="buffer" style="display:none"></span>' +
+						'</body>' +
+						'</html>' );
 		}
 
 		// Run MathJax parsing Tex.
@@ -203,61 +280,6 @@
 			// Run MathJax.
 			doc.getWindow().$.update( value );
 		}
-
-		doc.write( '<!DOCTYPE html>' +
-			'<html>' +
-			'<head>' +
-				'<meta charset="utf-8">' +
-				'<style type="text/css">' +
-					'span#preview {' +
-						style +
-					'}' +
-				'</style>' +
-				'<script type="text/x-mathjax-config">' +
-
-					// MathJax configuration, disable messages.
-					'MathJax.Hub.Config( {' +
-						'showMathMenu: false,' +
-						'messageStyle: "none"' +
-					'} );' +
-
-					// Get main CKEDITOR form parent.
-					'function getCKE() {' +
-						'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
-							'return window.parent.CKEDITOR;' +
-						'} else {' +
-							'return window.parent.parent.CKEDITOR;' +
-						'}' +
-					'}' +
-
-					// Run MathJax.Hub with its actual parser and call callback function after that.
-					// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
-					'function update() {' +
-						'MathJax.Hub.Queue(' +
-							'[\'Typeset\',MathJax.Hub,this.buffer],' +
-							'function() {' +
-								'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
-							'}' +
-						');' +
-					'}' +
-
-					// Run MathJax for the first time, when the script is loaded.
-					// Callback function will be called then it's done.
-					'MathJax.Hub.Queue( function() {' +
-						'getCKE().tools.callFunction(' + loadedHandler + ');' +
-					'} );' +
-				'</script>' +
-
-				// Load MathJax lib.
-				'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
-			'</head>' +
-			'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
-				'<span id="preview"></span>' +
-
-				// Render everything here and after that copy it to the preview.
-				'<span id="buffer" style="display:none"></span>' +
-			'</body>' +
-			'</html>' );
 
 		return {
 			/**
