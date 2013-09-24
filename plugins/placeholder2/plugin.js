@@ -24,8 +24,6 @@
 
 			// put ur init code here
 			editor.widgets.add( 'placeholder2', {
-				allowedContent: 'span[class]',
-				requiredContent: 'span',
 				// Widget code.
 				button: editor.lang.placeholder2.button,
 				dialog: 'placeholder2',
@@ -47,9 +45,7 @@
 				},
 
 				data: function( data ) {
-					// change text node only when placeholder name was changed
-					if ( this.data.name != this.element.getText() )
-						this.element.setText( '[[' + this.data.name + ']]' );
+					this.element.setText( '[[' + this.data.name + ']]' );
 				}
 
 			} );
