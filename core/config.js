@@ -330,17 +330,16 @@ CKEDITOR.config = {
 		CKEDITOR.CTRL + 73, // CTRL+I
 		CKEDITOR.CTRL + 85 // CTRL+U
 	],
-	
+
 	/**
-	 * Indicates whether the user is prompted with prompt "Some of the options have been changed. Are you sure to close the dialog?" 
-	 * in the case where the the user cancels a dialog where a value has changed.
-	 * The default is false (to do the prompt), set to true to not have a popup shown to verify dialog cancels.
-	 * 
-	 * 	config.ignoreConfirmCancel = true;
-	 * 
-	 * @cfg 
+	 * Tells if user shouln't be asked to confirm close, if any dialog field was modified.
+	 * By default it's {{{false}}} meaning that user will get the popup, if {{{true}}} information will not be shown.
+	 *
+	 *		config.ignoreConfirmCancel = true;
+	 *
+	 * @cfg {Boolean} [=false]
 	 */
-	ignoreConfirmCancel = false	
+	ignoreConfirmCancel: true
 };
 
 /**
