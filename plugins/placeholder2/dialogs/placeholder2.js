@@ -5,7 +5,7 @@
  */
 
 /**
- * @fileOverview Definition for placeholder plugin dialog
+ * @fileOverview Definition for placeholder plugin dialog.
  *
  */
 

@@ -19,16 +19,16 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			// register dialog
+			// Register dialog.
 			CKEDITOR.dialog.add( 'placeholder2', this.path + 'dialogs/placeholder2.js' );
 
-			// put ur init code here
+			// Put ur init code here.
 			editor.widgets.add( 'placeholder2', {
 				// Widget code.
 				button: editor.lang.placeholder2.button,
 				dialog: 'placeholder2',
-				// we need to have wrapping element, otherwise there are issues in
-				// add dialog
+				// We need to have wrapping element, otherwise there are issues in
+				// add dialog.
 				template: '<span>[[]]</span>',
 
 				defaults: {
@@ -40,7 +40,7 @@
 				},
 
 				init: function() {
-					// note that placeholder markup characters are stripped for the name
+					// Note that placeholder markup characters are stripped for the name.
 					this.setData( 'name', this.element.getText().slice( 2, -2 ) );
 				},
 
@@ -58,17 +58,17 @@
 			editor.dataProcessor.dataFilter.addRules( {
 				text: function( text ) {
 					return text.replace( placeholderReplaceRegex, function( match ) {
-						// creating widget code
+						// Creating widget code.
 						var widgetWrapper = null,
 							innerElement = new CKEDITOR.htmlParser.element( 'span' );
-						// inner element gets decorated with extra attrs in wrapElement() method
+						// Inner element gets decorated with extra attrs in wrapElement() method.
 
-						// adds placeholder identifier as innertext
+						// Adds placeholder identifier as innertext.
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
 						widgetWrapper = widgetRepo.wrapElement( innerElement, 'placeholder2' );
 
-						// return outerhtml of widget wrapper so it will be placed
-						// as replacement
+						// Return outerhtml of widget wrapper so it will be placed
+						// as replacement.
 						return widgetWrapper.getOuterHtml();
 					} );
 				}
