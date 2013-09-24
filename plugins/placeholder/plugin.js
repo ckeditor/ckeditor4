@@ -5,34 +5,34 @@
  */
 
 /**
- * @fileOverview The "placeholder2" plugin.
+ * @fileOverview The "placeholder" plugin.
  *
  */
 
 'use strict';
 
 (function() {
-	CKEDITOR.plugins.add( 'placeholder2', {
+	CKEDITOR.plugins.add( 'placeholder', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
-		icons: 'placeholder2', // %REMOVE_LINE_CORE%
+		icons: 'placeholder', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			// Register dialog.
-			CKEDITOR.dialog.add( 'placeholder2', this.path + 'dialogs/placeholder2.js' );
+			CKEDITOR.dialog.add( 'placeholder', this.path + 'dialogs/placeholder.js' );
 
 			// Put ur init code here.
-			editor.widgets.add( 'placeholder2', {
+			editor.widgets.add( 'placeholder', {
 				// Widget code.
-				button: editor.lang.placeholder2.button,
-				dialog: 'placeholder2',
+				button: editor.lang.placeholder.button,
+				dialog: 'placeholder',
 				// We need to have wrapping element, otherwise there are issues in
 				// add dialog.
 				template: '<span>[[]]</span>',
 
 				defaults: {
-					name: editor.lang.placeholder2.defaultName
+					name: editor.lang.placeholder.defaultName
 				},
 
 				downcast: function( widgetElement ) {
@@ -51,7 +51,7 @@
 			} );
 
 			// Registers styles for placeholder widget frame.
-			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder2"]{background-color: #ffff00;}' );
+			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder"]{background-color: #ffff00;}' );
 		},
 
 		afterInit: function( editor ) {
@@ -68,7 +68,7 @@
 
 						// Adds placeholder identifier as innertext.
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
-						widgetWrapper = widgetRepo.wrapElement( innerElement, 'placeholder2' );
+						widgetWrapper = widgetRepo.wrapElement( innerElement, 'placeholder' );
 
 						// Return outerhtml of widget wrapper so it will be placed
 						// as replacement.
