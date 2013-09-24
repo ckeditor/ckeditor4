@@ -2624,7 +2624,7 @@
  *
  * @property {Boolean} inline
  */
- 
+
 /**
  * The label for the widget toolbar button.
  *
@@ -2635,9 +2635,9 @@
  * 		editor.widgets.add( 'simplebox', {
  * 			button: editor.lang.simplebox.title
  * 		} );
- * 
+ *
  * @property {String} button
- */ 
+ */
 
 /**
  * This is an abstract class that describes the definition of a widget's nested editable.
