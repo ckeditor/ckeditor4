@@ -333,13 +333,13 @@ CKEDITOR.config = {
 
 	/**
 	 * Tells if user shouln't be asked to confirm close, if any dialog field was modified.
-	 * By default it's {{{false}}} meaning that user will get the popup, if {{{true}}} information will not be shown.
+	 * By default it's `false` meaning that user will get the popup, if `true` information will not be shown.
 	 *
 	 *		config.ignoreConfirmCancel = true;
 	 *
 	 * @cfg {Boolean} [=false]
 	 */
-	ignoreConfirmCancel: true
+	ignoreConfirmCancel: false
 };
 
 /**
