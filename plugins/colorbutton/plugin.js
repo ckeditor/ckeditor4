@@ -39,6 +39,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),
+          preventDrag: true,
 					attributes: { role: 'listbox', 'aria-label': lang.panelTitle }
 				},
 
