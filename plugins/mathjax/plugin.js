@@ -20,10 +20,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex',
-
-				// In Firefox src must exist and be different than about:blank to emit load event.
-				ffHack = CKEDITOR.env.gecko ? 'src="javascript:true;"' : '';
+			var cls = editor.config.mathJaxClass || 'math-tex';
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -34,7 +31,7 @@
 
 				template:
 					'<span class="' + cls + '" style="display:inline-block">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" ' + ffHack + '></iframe>' +
+						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" src="' + CKEDITOR.plugins.mathjax.fixSrc + '"></iframe>' +
 					'</span>',
 
 				parts: {
@@ -77,19 +74,15 @@
 					else
 						attrs.style = 'display:inline-block';
 
-					//
-					var iframeAttr = {
+
+
+					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
 						style: 'border:0;width:0;height:0',
 						scrolling: 'no',
 						frameborder: 0,
-						allowTransparency: true
-					}
-
-					// In Firefox src must exist and be different than about:blank to emit load event.
-					if ( CKEDITOR.env.gecko )
-						iframeAttr.src = 'javascript:true;';
-
-					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe',  iframeAttr ) );
+						allowTransparency: true,
+						src: CKEDITOR.plugins.mathjax.fixSrc
+					} ) );
 
 					return el;
 				},
@@ -119,6 +112,25 @@
 	} );
 
 	CKEDITOR.plugins.mathjax = {};
+
+	/**
+	 * Variable to fix problems with iFrame. This variable is global
+	 * because it is used in both widget and dialog.
+	 *
+	 * @private
+	 */
+	CKEDITOR.plugins.mathjax.fixSrc =
+	 	// In Firefox src must exist and be different than about:blank to emit load event.
+		CKEDITOR.env.gecko ? 'javascript:true' :
+		// Support for custom document.domain in IE.
+		CKEDITOR.env.ie ? 'javascript:' +
+						'void((function(){' + encodeURIComponent(
+							'document.open();' +
+							'(' + CKEDITOR.tools.fixDomain + ')();' +
+							'document.close();'
+						) + '})())' :
+		// In Chrome src must be undefined to emit load event.
+						'javascript:void(0)';
 
 	/**
 	 * FrameWrapper is responsible for communication between the MathJax library
