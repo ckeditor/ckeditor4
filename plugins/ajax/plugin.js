@@ -87,6 +87,28 @@
 				return async ? '' : getResponseFn( xhr );
 			};
 
+		var post = function( url, data, callback, getResponseFn ) {
+			var xhr = createXMLHttpRequest();
+
+			if ( !xhr )
+				return null;
+
+			data = JSON.stringify( data );
+
+			// Copy-pasted. Dunno if works :D
+			xhr.open( 'POST', url, true );
+
+			xhr.onreadystatechange = function() {
+				if ( xhr.readyState == 4 ) {
+					callback( getResponseFn( xhr ) );
+					xhr = null;
+				}
+			};
+
+			xhr.setRequestHeader( 'Content-type', 'application/json' );
+			xhr.send( data );
+		};
+
 		return {
 			/**
 			 * Loads data from an URL as plain text.
@@ -109,6 +131,10 @@
 			 */
 			load: function( url, callback ) {
 				return load( url, callback, getResponseText );
+			},
+
+			post: function( url, data, callback ) {
+				return post( url, data, callback, getResponseText );
 			},
 
 			/**
