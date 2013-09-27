@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Snippet &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Snippet
+	</h1>
+
+	<textarea id="editor1" cols="10" rows="10">
+
+<p>A bit of JS:</p>
+<pre><code class="language-js">
+CKEDITOR.<strong>replace</strong>( 'editor2', {
+	<em>allowedContent</em>: 'h1 h2 h3 p blockquote strong em;'
+} );
+</code></pre>
+
+<p>A bit of WTF:</p>
+<pre><code>
+moo(); <strong>// Why not cow?</strong>
+</code></pre>
+
+	</textarea>
+
+	<script>
+
+		CKEDITOR.replace( 'editor1', {
+			plugins: 'wysiwygarea,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+			height: 350,
+			snippet_langs: {
+				js: 'JavaScript',
+				php: 'PHP',
+				python: 'Python',
+				bash: 'Bash',
+				cb: 'Cobol',
+				lol: 'Brainfuck'
+			}
+		} );
+
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
