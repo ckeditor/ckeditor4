@@ -1,0 +1,71 @@
+       TODO - List of things to do as of 2005/01/29
+
+Suggestions for things to add are welcome, if you have a feature request you
+can either post it to the forums:
+
+http://qbnz.com/highlighter/forum.php
+
+Or to the feature request tracker:
+
+http://sourceforge.net/tracker/?group_id=114997&atid=670234
+
+
+  TODO for version 1.0.8.x
+
+- Rework the load_from_file method and the one for getting a file extension,
+  as documented in the source.
+- use analogous vars to $next_comment_regexp_pos for more GeSHi structures,
+  should reduce number of functions called and hence improve performance
+- make a set of default colours which can be used in the language files.
+  this way we can give languages a uniform look and maybe even add "themes"
+- Get better coverage in our coderepo
+- README / INSTALL / ... file for phpdoc integration => take geshi-doc.*?
+- rework HARDQUOTE + styles, currently this is a bit of a mess imo (milian)
+- Allow per-keywordgroup AutoCaps/NoCaps
+- Complete API to support latest features
+    set_number_style ($key missing)
+    set_string_style ($key missing)
+    set_case_keywords (support for per_keywordgroup AutoCaps)
+
+
+  TODO for version 1.2.0
+
+- Rewrite engine to use remove/replace method (will hopefully almost
+  eliminate the need for regular expressions except for numbers/methods
+  etc). This will also assist for making different output formats [DONE]
+- "Intelligent" output format - eg if the user doesn't want lines to
+  wrap and wants line numbers don't use <ol>, use the <table> method
+  instead. (This saves on output)
+- Clear split between "public" and "private" methods [DONE]
+- PHP5 version
+- "Themes" for styles - basically pre-made stylesheets that can be used
+  to highlight code of any language in a similar manner [DONE]
+- "Dialects" for languages - eg php4, php5. One master language definition
+  file, and a bunch of "specialised" dialect files for each language
+  Ability to specify a "specialised" dialect as default? [DONE]
+- Look at load/memory usage and try to reduce
+- Make tabs into tab-stops like a normal editor [DONE]
+- Ability to add more than one multiline comment or string [DONE]
+- Ability to specify that strings cannot be multiline [DONE]
+- Create a "wrapper" class for ultra-easy use
+- Code written in a style that conforms to a phpdoc utility [DONE, PEAR]
+- Dig functions/methods out of code and where they are called make an internal
+  link back to their definition
+
+
+  TODO for version 2.0.0
+
+- Support for multiple output formats (XHTML, XML, PDF, RTF etc) [DONE IN 1.2]
+- Support for auto-indent/code "beautifing"
+- Option for "Lite" highlighting - aims for speed and low server load
+- "Intelligent" highlighting inside comments, and ability to highlight
+  source in multiple languages at once (eg PHP+HTML) [DONE IN 1.2]
+- Perhaps a script on the GeSHi site that would map urls to appropriate
+  definitions and relocate the user? (eg, java documentation is
+  structured in such a way that urls are not able to be used with GeSHi.
+  Instead the URL could become:
+  http://qbnz.com/highlighter/redirect.php?lang=java&kw=KeyWord
+  and that script would redirect to the correct location.
+  [BETTER FIX IN 1.2]
+
+              $Id: TODO 1725 2008-08-08 11:56:36Z benbe $
