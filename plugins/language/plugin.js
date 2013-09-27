@@ -19,9 +19,36 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+		/**
+		 * @param	{CKEDITOR.editor} editor
+		 * @returns	{CKEDITOR.dom.element|null}	- first matching language indicator if any found, null otherwise
+		 */
+		getCurrentLangIndicator: function( editor ) {
+
+			// IE8: upon initialization if there is no path elementPath() returns null
+			if ( !editor.elementPath() )
+				return null;
+
+			var ret = null,
+				activePath = editor.elementPath().elements,
+				i = 0,
+				pathMember;
+
+			for ( ; i < activePath.length; i++ ) {
+				pathMember = activePath[i];
+
+				if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) ) {
+					ret = pathMember;
+				}
+			}
+
+			return ret;
+		},
 
 		init: function( editor ) {
 			var languagesConfigStrings = ( editor.config.language_list || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
+				plugin = this,
+				lang = editor.lang.language,
 				items = {},
 				parts,
 				curLanguageId, // 2-letter language identifier.
@@ -68,12 +95,28 @@
 				} );
 			}
 
+			// Remove language indicator button.
+			items['lang-remove'] = {
+				label: lang.remove,
+				group: 'language',
+				state: CKEDITOR.TRISTATE_DISABLED,
+				order: items.length,
+				ltr: null,
+				style: null,
+				onClick: function() {
+					var currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
+
+					if ( currentLanguagedElement )
+						editor.execCommand( 'language', currentLanguagedElement.getAttribute( 'lang' ) );
+				}
+			};
+
 			// Initialize group/button.
 			editor.addMenuGroup( 'language', 1 );
 			editor.addMenuItems( items );
 
 			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.language.button,
+				label: lang.button,
 				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
 				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }
 				// Set feature's properties directly on button.
@@ -83,14 +126,36 @@
 				modes: { wysiwyg: 1 },
 				className: 'cke_button_language',
 				onMenu: function() {
-					var activeItems = {};
+					var activeItems = {},
+						currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
 
 					for ( var prop in items )
-						activeItems[ prop ] = CKEDITOR.TRISTATE_ON;
+						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+
+					activeItems['lang-remove'] = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+					if ( currentLanguagedElement )
+						activeItems[ currentLanguagedElement.getAttribute('lang') ] = CKEDITOR.TRISTATE_ON;
 
 					return activeItems;
 				}
 			} );
+
+			editor.on( 'instanceReady', function() {
+				var toolbarButton = editor.ui.get( 'language' );
+
+				// Toolbar button events.
+				if ( toolbarButton ) {
+
+					editor.on( 'elementsPathUpdate', function( ev ) {
+						toolbarButton.setState( plugin.getCurrentLangIndicator( ev.editor ) ?
+							CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+						return;
+					} );
+
+				}
+			} );
+
 		}
 	} );
 })();

@@ -4,5 +4,6 @@
  */
 
 CKEDITOR.plugins.setLang( 'language', 'en', {
-	button: 'Set language'
+	button: 'Set language',
+	remove: 'Remove formatting'
 } );
