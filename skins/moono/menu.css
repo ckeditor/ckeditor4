@@ -141,7 +141,6 @@ Special outer level classes used in this file:
 }
 
 .cke_menubutton_on {
-	/* for modern browsers it works perfectly: background: rgba(0,0,0,0.05); */
 	background: #F6F6F6;
 	box-shadow:inset 0 0 9px rgba(0,0,0,0.25);
 }
