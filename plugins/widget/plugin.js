@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/**
+ * @fileOverview [Widget](http://ckeditor.com/addon/widget) plugin.
+ */
+
 'use strict';
 
 (function() {
@@ -63,15 +67,15 @@
 
 		beforeInit: function( editor ) {
 			/**
-			 * Instance of widgets repository. It contains all
+			 * An instance of widget repository. It contains all
 			 * {@link CKEDITOR.plugins.widget.repository#registered registered widget definitions} and
 			 * {@link CKEDITOR.plugins.widget.repository#instances initialized instances}.
 			 *
 			 *		editor.widgets.add( 'someName', {
-			 *			// widget definition...
+			 *			// Widget definition...
 			 *		} );
 			 *
-			 *		editor.widgets.registered.someName; // -> widget definition
+			 *		editor.widgets.registered.someName; // -> Widget definition
 			 *
 			 * @since 4.3
 			 * @readonly
@@ -88,15 +92,15 @@
 	} );
 
 	/**
-	 * Widgets repository. It keeps track off all {@link #registered registered widget definitions} and
-	 * {@link #instances initialized instances}. Instance of the repository is available under
-	 * {@link CKEDITOR.editor#widgets} property.
+	 * Widget repository. It keeps track of all {@link #registered registered widget definitions} and
+	 * {@link #instances initialized instances}. An instance of the repository is available under
+	 * the {@link CKEDITOR.editor#widgets} property.
 	 *
 	 * @class CKEDITOR.plugins.widget.repository
 	 * @mixins CKEDITOR.event
-	 * @constructor Creates widgets repository instance. Note that the widget plugin automatically
-	 * creates repository instance which is available under the {@link CKEDITOR.editor#widgets} property.
-	 * @param {CKEDITOR.editor} editor The editor instance for which repository will be created.
+	 * @constructor Creates a widget repository instance. Note that the widget plugin automatically
+	 * creates a repository instance which is available under the {@link CKEDITOR.editor#widgets} property.
+	 * @param {CKEDITOR.editor} editor The editor instance for which the repository will be created.
 	 */
 	function Repository( editor ) {
 		/**
@@ -108,23 +112,23 @@
 		this.editor = editor;
 
 		/**
-		 * Hash of registered widget definitions (definition name => {@link CKEDITOR.plugins.widget.definition}).
+		 * A hash of registered widget definitions (definition name => {@link CKEDITOR.plugins.widget.definition}).
 		 *
-		 * To register definition use the {@link #add} method.
+		 * To register a definition use the {@link #add} method.
 		 *
 		 * @readonly
 		 */
 		this.registered = {};
 
 		/**
-		 * Object containing initialized widget instances (widget id => {@link CKEDITOR.plugins.widget}).
+		 * An object containing initialized widget instances (widget id => {@link CKEDITOR.plugins.widget}).
 		 *
 		 * @readonly
 		 */
 		this.instances = {};
 
 		/**
-		 * Array of selected widget instances.
+		 * An array of selected widget instances.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.plugins.widget[]} selected
@@ -137,7 +141,7 @@
 		 *
 		 *		editor.on( 'selectionChange', function() {
 		 *			if ( editor.widgets.focused ) {
-		 *				// do something when focused widget...
+		 *				// Do something when a widget is focused...
 		 *			}
 		 *		} );
 		 *
@@ -147,7 +151,7 @@
 		this.focused = null;
 
 		/**
-		 * Widget instance which holds the nested editable which is currently focused.
+		 * The widget instance that contains the nested editable which is currently focused.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.plugins.widget} widgetHoldingFocusedEditable
@@ -177,17 +181,17 @@
 		MIN_SELECTION_CHECK_INTERVAL: 500,
 
 		/**
-		 * Minimum interval between widgets checks.
+		 * Minimum interval between widget checks.
 		 *
 		 * @private
 		 */
 		MIN_WIDGETS_CHECK_INTERVAL: 1000,
 
 		/**
-		 * Adds widget definition to the repository. Fires the {@link CKEDITOR.editor#widgetDefinition} event
-		 * which allows to modify widget definition which is going to be registered.
+		 * Adds a widget definition to the repository. Fires the {@link CKEDITOR.editor#widgetDefinition} event
+		 * which allows to modify the widget definition which is going to be registered.
 		 *
-		 * @param {String} name Name of the widget definition.
+		 * @param {String} name The name of the widget definition.
 		 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget definition.
 		 * @returns {CKEDITOR.plugins.widget.definition}
 		 */
@@ -218,7 +222,7 @@
 		},
 
 		/**
-		 * Checks selection to update widgets states (selection and focus).
+		 * Checks the selection to update widget states (selection and focus).
 		 *
 		 * This method is triggered by the {@link #event-checkSelection} event.
 		 */
@@ -251,8 +255,8 @@
 		},
 
 		/**
-		 * Checks if all widgets instances are still present in DOM.
-		 * Destroys those which are not.
+		 * Checks if all widget instances are still present in the DOM.
+		 * Destroys those instances that are not present.
 		 *
 		 * This method is triggered by the {@link #event-checkWidgets} event.
 		 */
@@ -275,7 +279,7 @@
 		},
 
 		/**
-		 * Removes the widget from the editor and moves selection to the closest
+		 * Removes the widget from the editor and moves the selection to the closest
 		 * editable position if the widget was focused before.
 		 *
 		 * @param {CKEDITOR.plugins.widget} widget The widget instance to be deleted.
@@ -303,8 +307,8 @@
 		 * Destroys the widget instance.
 		 *
 		 * @param {CKEDITOR.plugins.widget} widget The widget instance to be destroyed.
-		 * @param {Boolean} [offline] Whether widget is offline (detached from DOM tree) &ndash;
-		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
+		 * @param {Boolean} [offline] Whether the widget is offline (detached from the DOM tree) &mdash;
+		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
 		destroy: function( widget, offline ) {
 			if ( this.widgetHoldingFocusedEditable === widget )
@@ -316,10 +320,10 @@
 		},
 
 		/**
-		 * Destroys all widgets instances.
+		 * Destroys all widget instances.
 		 *
-		 * @param {Boolean} [offline] Whether widgets are offline (detached from DOM tree) -
-		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
+		 * @param {Boolean} [offline] Whether the widgets are offline (detached from the DOM tree) &mdash;
+		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
 		destroyAll: function( offline ) {
 			var instances = this.instances,
@@ -332,7 +336,7 @@
 		},
 
 		/**
-		 * Finds a widget instance which contains given element. The element will be the {@link CKEDITOR.plugins.widget#wrapper wrapper}
+		 * Finds a widget instance which contains a given element. The element will be the {@link CKEDITOR.plugins.widget#wrapper wrapper}
 		 * of the returned widget or a descendant of this {@link CKEDITOR.plugins.widget#wrapper wrapper}.
 		 *
 		 *		editor.widgets.getByElement( someWidget.wrapper ); // -> someWidget
@@ -343,8 +347,8 @@
 		 *		editor.widgets.getByElement( someWidget.parts.caption, true ); // -> null
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be checked.
-		 * @param {Boolean} [checkWrapperOnly] If `true` method won't check wrappers' descendants.
-		 * @returns {CKEDITOR.plugins.widget} Widget instance or `null`.
+		 * @param {Boolean} [checkWrapperOnly] If set to `true`, the method will not check wrappers' descendants.
+		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null`.
 		 */
 		getByElement: function( element, checkWrapperOnly ) {
 			if ( !element )
@@ -362,14 +366,15 @@
 		},
 
 		/**
-		 * Initializes widget on given element if widget hasn't been initialized on it yet.
+		 * Initializes a widget on a given element if the widget has not been initialized on it yet.
 		 *
-		 * @param {CKEDITOR.dom.element} element The future's widget element.
-		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget definition or a widget definition.
-		 * Widget definition should be previously registered by {@link CKEDITOR.plugins.widget.repository#add}.
-		 * @param startupData Widget's startup data (has precedence over defaults one).
-		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null` if widget could not be initialized on
-		 * given element.
+		 * @param {CKEDITOR.dom.element} element The future widget element.
+		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget or a widget definition.
+		 * The widget definition should be previously registered by using the
+		 * {@link CKEDITOR.plugins.widget.repository#add} method.
+		 * @param startupData Widget startup data (has precedence over default one).
+		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null` if a widget could not be initialized on
+		 * a given element.
 		 */
 		initOn: function( element, widgetDef, startupData ) {
 			if ( !widgetDef )
@@ -410,9 +415,9 @@
 
 		/**
 		 * Initializes widgets on all elements which were wrapped by {@link #wrapElement} and
-		 * haven't been initialized yet.
+		 * have not been initialized yet.
 		 *
-		 * @param {CKEDITOR.dom.element} [container=editor.editable()] Container which will be checked for not
+		 * @param {CKEDITOR.dom.element} [container=editor.editable()] The container which will be checked for not
 		 * initialized widgets. Defaults to editor's {@link CKEDITOR.editor#editable editable} element.
 		 * @returns {CKEDITOR.plugins.widget[]} Array of widget instances which have been initialized.
 		 */
@@ -431,16 +436,16 @@
 		},
 
 		/**
-		 * Wraps element with a widget's non-editable container.
+		 * Wraps an element with a widget's non-editable container.
 		 *
-		 * If this method is called on {@link CKEDITOR.htmlParser.element}, then it will
-		 * also take care of fixing DOM after wrapping (wrapper may not be allowed in element's parent).
+		 * If this method is called on an {@link CKEDITOR.htmlParser.element}, then it will
+		 * also take care of fixing the DOM after wrapping (the wrapper may not be allowed in element's parent).
 		 *
 		 * @param {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} element The widget element to be wrapped.
-		 * @param {String} [widgetName] Name of the widget definition. Defaults to element's `data-widget`
+		 * @param {String} [widgetName] The name of the widget definition. Defaults to element's `data-widget`
 		 * attribute value.
 		 * @returns {CKEDITOR.dom.element/CKEDITOR.htmlParser.element} The wrapper element or `null` if
-		 * widget definition of this name is not registered.
+		 * the widget definition of this name is not registered.
 		 */
 		wrapElement: function( element, widgetName ) {
 			var wrapper = null,
@@ -518,14 +523,14 @@
 	CKEDITOR.event.implementOn( Repository.prototype );
 
 	/**
-	 * Event fired when widget instance is created, but before it is fully initialized.
+	 * An event fired when a widget instance is created, but before it is fully initialized.
 	 *
 	 * @event instanceCreated
 	 * @param {CKEDITOR.plugins.widget} data The widget instance.
 	 */
 
 	/**
-	 * Event fired when widget instance was destroyed.
+	 * An event fired when a widget instance was destroyed.
 	 *
 	 * See also {@link CKEDITOR.plugins.widget#event-destroy}.
 	 *
@@ -534,15 +539,15 @@
 	 */
 
 	/**
-	 * Event fired to trigger selection check.
+	 * An event fired to trigger the selection check.
 	 *
-	 * See {@link #method-checkSelection} method.
+	 * See the {@link #method-checkSelection} method.
 	 *
 	 * @event checkSelection
 	 */
 
 	/**
-	 * Event fired to trigger widgets check.
+	 * An event fired to trigger the widgets check.
 	 *
 	 * See {@link #method-checkWidgets} method.
 	 *
@@ -551,19 +556,19 @@
 
 
 	/**
-	 * Instance of a widget. Together with {@link CKEDITOR.plugins.widget.repository} these
-	 * two classes create core of the Widgets System.
+	 * An instance of a widget. Together with {@link CKEDITOR.plugins.widget.repository} these
+	 * two classes constitute the core of the Widget System.
 	 *
-	 * Note that neither repository nor widget instances can be created using their constructors.
-	 * Repository instance is automatically set up by the widget plugin and is accessible under
-	 * {@link CKEDITOR.editor#widgets} and widget instances are created and destroyed by the repository.
+	 * Note that neither the repository nor the widget instances can be created by using their constructors.
+	 * A repository instance is automatically set up by the Widget plugin and is accessible under
+	 * {@link CKEDITOR.editor#widgets}, while widget instances are created and destroyed by the repository.
 	 *
 	 * To create a widget, first you need to {@link CKEDITOR.plugins.widget.repository#add register} its
 	 * {@link CKEDITOR.plugins.widget.definition definition}:
 	 *
 	 *		editor.widgets.add( 'simplebox', {
 	 *			upcast: function( element ) {
-	 *				// Defines which elements will become a widgets.
+	 *				// Defines which elements will become widgets.
 	 *				if ( element.hasClass( 'simplebox' ) )
 	 *					return true;
 	 *			},
@@ -572,17 +577,17 @@
 	 *			}
 	 *		} );
 	 *
-	 * Once widget definition is registered widgets will be automatically
+	 * Once the widget definition is registered, widgets will be automatically
 	 * created when loading data:
 	 *
 	 *		editor.setData( '<div class="simplebox">foo</div>', function() {
-	 *			console.log( editor.widgets.instances ); // -> object containing one instance
+	 *			console.log( editor.widgets.instances ); // -> An object containing one instance.
 	 *		} );
 	 *
-	 * It is also possible to create instances during runtime using command
-	 * (if {@link CKEDITOR.plugins.widget.definition#template} was defined):
+	 * It is also possible to create instances during runtime by using a command
+	 * (if a {@link CKEDITOR.plugins.widget.definition#template} property was defined):
 	 *
-	 *		// You can executed automatically defined command to
+	 *		// You can execute an automatically defined command to
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
@@ -596,14 +601,14 @@
 	 * @class CKEDITOR.plugins.widget
 	 * @mixins CKEDITOR.event
 	 * @extends CKEDITOR.plugins.widget.definition
-	 * @constructor Creates widget class instance. Do not use it directly, but instead initialize widgets
-	 * using {@link CKEDITOR.plugins.widget.repository#initOn} method or by the upcasting system.
+	 * @constructor Creates an instance of the widget class. Do not use it directly, but instead initialize widgets
+	 * by using the {@link CKEDITOR.plugins.widget.repository#initOn} method or by the upcasting system.
 	 * @param {CKEDITOR.plugins.widget.repository} widgetsRepo
-	 * @param {Number} id Unique id of this widget instance.
+	 * @param {Number} id Unique ID of this widget instance.
 	 * @param {CKEDITOR.dom.element} element The widget element.
 	 * @param {CKEDITOR.plugins.widget.definition} widgetDef Widget's registered definition.
-	 * @param [startupData] Widget's initial data. This data object will overwrite default data and
-	 * data loaded from DOM.
+	 * @param [startupData] Initial widget data. This data object will overwrite the default data and
+	 * the data loaded from the DOM.
 	 */
 	function Widget( widgetsRepo, id, element, widgetDef, startupData ) {
 		var editor = widgetsRepo.editor;
@@ -619,7 +624,7 @@
 			editor: editor,
 
 			/**
-			 * This widget's unique (per editor instance) id.
+			 * This widget's unique (per editor instance) ID.
 			 *
 			 * @readonly
 			 * @property {Number}
@@ -636,7 +641,7 @@
 			inline: element.getParent().getName() == 'span',
 
 			/**
-			 * The widget element &ndash; element on which widget was initialized.
+			 * The widget element &mdash; the element on which the widget was initialized.
 			 *
 			 * @readonly
 			 * @property {CKEDITOR.dom.element} element
@@ -646,17 +651,17 @@
 			/**
 			 * Widget's data object.
 			 *
-			 * Data can only be set by the {@link #setData} method.
-			 * Changes made to data fire {@link #event-data} event.
+			 * The data can only be set by using the {@link #setData} method.
+			 * Changes made to the data fire the {@link #event-data} event.
 			 *
 			 * @readonly
 			 */
 			data: CKEDITOR.tools.extend( {}, typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults ),
 
 			/**
-			 * Is data ready. Set to `true` when data from all sources
-			 * ({@link CKEDITOR.plugins.widget.definition#defaults}, set
-			 * in {@link #init} method, loaded from widget's element and startup data coming from constructor)
+			 * Indicates if a widget is data-ready. Set to `true` when data from all sources
+			 * ({@link CKEDITOR.plugins.widget.definition#defaults}, set in the
+			 * {@link #init} method, loaded from the widget's element and startup data coming from the constructor)
 			 * are finally loaded. This is immediately followed by the first {@link #event-data}.
 			 *
 			 * @readonly
@@ -664,29 +669,29 @@
 			dataReady: false,
 
 			/**
-			 * Whether widget instance was initialized. This means that:
+			 * Whether a widget instance was initialized. This means that:
 			 *
-			 * * instance was created,
-			 * * its properties were set,
-			 * * the `init` method was executed.
+			 * * An instance was created,
+			 * * Its properties were set,
+			 * * The `init` method was executed.
 			 *
-			 * **Note**: The first {@link #event-data} event could not be fired yet what
-			 * means that widget's DOM wasn't setup yet. Wait for {@link #event-ready} event
-			 * to be notified when widget is fully initialized and ready.
+			 * **Note**: The first {@link #event-data} event could not be fired yet which
+			 * means that the widget's DOM has not been set up yet. Wait for the {@link #event-ready}
+			 * event to be notified when a widget is fully initialized and ready.
 			 *
-			 * **Note**: Use the {@link #isInited} method to check whether widget is initialized and
-			 * wasn't destroyed.
+			 * **Note**: Use the {@link #isInited} method to check whether a widget is initialized and
+			 * has not been destroyed.
 			 *
 			 * @readonly
 			 */
 			inited: false,
 
 			/**
-			 * Whether widget instance is ready. This means that widget is {@link #inited} and
-			 * that its DOM was finally setup.
+			 * Whether a widget instance is ready. This means that the widget is {@link #inited} and
+			 * that its DOM was finally set up.
 			 *
-			 * **Note:** Use the {@link #isReady} method to check whether widget is ready and
-			 * wasn't destroyed.
+			 * **Note:** Use the {@link #isReady} method to check whether a widget is ready and
+			 * has not been destroyed.
 			 *
 			 * @readonly
 			 */
@@ -696,7 +701,7 @@
 			edit: Widget.prototype.edit,
 
 			/**
-			 * Nested editable element which currently holds focus.
+			 * The nested editable element which is currently focused.
 			 *
 			 * @readonly
 			 * @property {CKEDITOR.plugins.widget.nestedEditable}
@@ -711,10 +716,10 @@
 		}, true );
 
 		/**
-		 * Object of widget's component elements.
+		 * An object of widget component elements.
 		 *
-		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts}
-		 * one `partName => element` pair is added to this object during widget initialization.
+		 * For every `partName => selector` pair in {@link CKEDITOR.plugins.widget.definition#parts},
+		 * one `partName => element` pair is added to this object during the widget initialization.
 		 *
 		 * @readonly
 		 * @property {Object} parts
@@ -728,24 +733,24 @@
 		 */
 
 		/**
-		 * Link to the widgets repository by which this instance was created.
+		 * Link to the widget repository which created this instance.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.plugins.widget.repository} repository
 		 */
 
 		/**
-		 * The template which will be used to create a new widget element (when widget's command is executed).
-		 * It will be populated with a {@link #defaults default values}.
+		 * The template which will be used to create a new widget element (when the widget's command is executed).
+		 * It will be populated with {@link #defaults default values}.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.template} template
 		 */
 
 		/**
-		 * The widget wrapper &ndash; a non-editable `div` or `span` element (depending on {@link #inline})
-		 * which is a parent of {@link #element} and widget's compontents like the drag handler and the {@link #mask}.
-		 * It is the outermost widget's element.
+		 * The widget wrapper &mdash; a non-editable `div` or `span` element (depending on {@link #inline})
+		 * which is a parent of the {@link #element} and widget compontents like the drag handler and the {@link #mask}.
+		 * It is the outermost widget element.
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.dom.element} wrapper
@@ -776,10 +781,10 @@
 		 *
 		 * Use {@link CKEDITOR.plugins.widget.repository#destroy} when possible instead of this method.
 		 *
-		 * This method fires {#event-destroy} event.
+		 * This method fires the {#event-destroy} event.
 		 *
-		 * @param {Boolean} [offline] Whether widget is offline (detached from DOM tree) -
-		 * in this case DOM (attributes, classes, etc.) will not be cleaned up.
+		 * @param {Boolean} [offline] Whether a widget is offline (detached from the DOM tree) &mdash;
+		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
 		destroy: function( offline ) {
 			var editor = this.editor;
@@ -803,7 +808,7 @@
 		},
 
 		/**
-		 * Destroys nested editable.
+		 * Destroys a nested editable.
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
@@ -827,10 +832,10 @@
 		/**
 		 * Starts widget editing.
 		 *
-		 * This method fires {@link CKEDITOR.plugins.widget#event-edit} event
-		 * which may be cancelled in order to prevent from opening dialog.
+		 * This method fires the {@link CKEDITOR.plugins.widget#event-edit} event
+		 * which may be cancelled in order to prevent it from opening a dialog window.
 		 *
-		 * Dialog name is obtained from event's data `dialog` property or
+		 * The dialog window name is obtained from the event's data `dialog` property or
 		 * from {@link CKEDITOR.plugins.widget.definition#dialog}.
 		 */
 		edit: function() {
@@ -887,12 +892,12 @@
 		},
 
 		/**
-		 * Initializes nested editable.
+		 * Initializes a nested editable.
 		 *
-		 * **Note**: only elements from {@link CKEDITOR.dtd#$editable} may become editables.
+		 * **Note**: Only elements from {@link CKEDITOR.dtd#$editable} may become editables.
 		 *
 		 * @param {String} editableName The nested editable name.
-		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of nested editable.
+		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
 		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
 		initEditable: function( editableName, definition ) {
@@ -929,7 +934,7 @@
 		},
 
 		/**
-		 * Checks if widget has already been initialized and hasn't been destroyed.
+		 * Checks if a widget has already been initialized and has not been destroyed yet.
 		 *
 		 * See {@link #inited} for more details.
 		 *
@@ -940,7 +945,7 @@
 		},
 
 		/**
-		 * Checks if widget is ready and hasn't been destroyed.
+		 * Checks if a widget is ready and has not been destroyed yet.
 		 *
 		 * See {@link #property-ready} for more details.
 		 *
@@ -951,7 +956,7 @@
 		},
 
 		/**
-		 * Focuses widget by selecting it.
+		 * Focuses a widget by selecting it.
 		 */
 		focus: function() {
 			var sel = this.editor.getSelection();
@@ -964,8 +969,8 @@
 		},
 
 		/**
-		 * Sets widget value(s) in {@link #property-data} object.
-		 * If given value(s) modifies current ones {@link #event-data} event is fired.
+		 * Sets widget value(s) in the {@link #property-data} object.
+		 * If the given value(s) modifies current ones, the {@link #event-data} event is fired.
 		 *
 		 *		this.setData( 'align', 'left' );
 		 *		this.data.align; // -> 'left'
@@ -975,7 +980,7 @@
 		 *		this.data.opened; // -> false
 		 *
 		 * Set values are stored in {@link #element}'s attribute (`data-cke-widget-data`),
-		 * in JSON string, so therefore {@link #property-data} should contain
+		 * in a JSON string, therefore {@link #property-data} should contain
 		 * only serializable data.
 		 *
 		 * @param {String/Object} keyOrData
@@ -1013,9 +1018,9 @@
 		},
 
 		/**
-		 * Changes widget's focus state. This method is executed automatically after
-		 * widget has been focused by the {@link #method-focus} method or selection was moved
-		 * out of widget.
+		 * Changes the widget's focus state. This method is executed automatically after
+		 * a widget has been focused by the {@link #method-focus} method or a selection was moved
+		 * out of the widget.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
@@ -1027,9 +1032,9 @@
 		},
 
 		/**
-		 * Changes widget's select state. This method is executed automatically after
-		 * widget has been selected by the {@link #method-focus} method or selection was moved
-		 * out of widget.
+		 * Changes the widget's select state. This method is executed automatically after
+		 * a widget has been selected by the {@link #method-focus} method or the selection
+		 * was moved out of widget.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
@@ -1044,18 +1049,18 @@
 	CKEDITOR.event.implementOn( Widget.prototype );
 
 	/**
-	 * Event fired when widget is ready (fully initialized). This event is fired after:
+	 * An event fired when a widget is ready (fully initialized). This event is fired after:
 	 *
 	 * * {@link #init} is called,
-	 * * first {@link #event-data} event is fired,
-	 * * widget is attached to the document.
+	 * * The first {@link #event-data} event is fired,
+	 * * A widget is attached to the document.
 	 *
-	 * Therefore, in case of widget creation with command which opens dialog, this event
-	 * will be delayed after dialog is closed and widget is finally inserted into document.
+	 * Therefore, in case of widget creation with a command which opens a dialog window, this event
+	 * will be delayed after the dialog window is closed and the widget is finally inserted into the document.
 	 *
-	 * **Note**: if your widget does not use automatic dialog binding (i.e. you open the dialog manually)
-	 * or other situation occurs in which widget wrapper is not attached to document at the time when it is
-	 * initialized, you need to take care of firing {@link #event-ready} yourself.
+	 * **Note**: If your widget does not use automatic dialog window binding (i.e. you open the dialog window manually)
+	 * or another situation in which the widget wrapper is not attached to document at the time when it is
+	 * initialized occurs, you need to take care of firing {@link #event-ready} yourself.
 	 *
 	 * See also {@link #property-ready} and {@link #property-inited} properties, and
 	 * {@link #isReady} and {@link #isInited} methods.
@@ -1064,14 +1069,14 @@
 	 */
 
 	/**
-	 * Event fired when widget is about to be destroyed, but before it is
+	 * An event fired when a widget is about to be destroyed, but before it is
 	 * fully torn down.
 	 *
 	 * @event destroy
 	 */
 
 	/**
-	 * Event fired when widget is focused.
+	 * An event fired when a widget is focused.
 	 *
 	 * Widget can be focused by executing {@link #method-focus}.
 	 *
@@ -1079,45 +1084,45 @@
 	 */
 
 	/**
-	 * Event fired when widget is blurred.
+	 * An event fired when a widget is blurred.
 	 *
 	 * @event blur
 	 */
 
 	/**
-	 * Event fired when widget is selected.
+	 * An event fired when a widget is selected.
 	 *
 	 * @event select
 	 */
 
 	/**
-	 * Event fired when widget is deselected.
+	 * An event fired when a widget is deselected.
 	 *
 	 * @event deselect
 	 */
 
 	/**
-	 * Event fired by {@link #method-edit}. It can be canceled
-	 * in order to stop default action (opening dialog).
+	 * An event fired by the {@link #method-edit} method. It can be cancelled
+	 * in order to stop the default action (opening a dialog window).
 	 *
 	 * @event edit
 	 * @param data
 	 * @param {String} data.dialog Defaults to {@link CKEDITOR.plugins.widget.definition#dialog}
-	 * and can be changed or set by listener.
+	 * and can be changed or set by the listener.
 	 */
 
 	/**
-	 * Event fired when dialog for widget editing is opened.
-	 * This event can be canceled in order to handle editing dialog in a custom manner.
+	 * An event fired when a dialog window for widget editing is opened.
+	 * This event can be cancelled in order to handle the editing dialog in a custom manner.
 	 *
 	 * @event dialog
-	 * @param {CKEDITOR.dialog} data The opened dialog instance.
+	 * @param {CKEDITOR.dialog} data The opened dialog window instance.
 	 */
 
 	/**
-	 * Event fired when key is pressed on focused widget.
-	 * This event is forwarded from {@link CKEDITOR.editor#key} event and
-	 * has the ability to block editor's keystrokes if it is canceled.
+	 * An event fired when a key is pressed on a focused widget.
+	 * This event is forwarded from the {@link CKEDITOR.editor#key} event and
+	 * has the ability to block editor keystrokes if it is cancelled.
 	 *
 	 * @event key
 	 * @param data
@@ -1125,7 +1130,7 @@
 	 */
 
 	/**
-	 * Event fired when widget is double clicked.
+	 * An event fired when a widget is double clicked.
 	 *
 	 * @event doubleclick
 	 * @param data
@@ -1133,7 +1138,7 @@
 	 */
 
 	/**
-	 * Event fired when context menu is opened for a widget.
+	 * An event fired when the context menu is opened for a widget.
 	 *
 	 * @event contextMenu
 	 * @param data The object contaning context menu options to be added
@@ -1141,7 +1146,7 @@
 	 */
 
 	/**
-	 * Event fired when widget's data changed. See the {@link #setData} method and the {@link #property-data} property.
+	 * An event fired when the widget data changed. See the {@link #setData} method and the {@link #property-data} property.
 	 *
 	 * @event data
 	 */
@@ -1149,9 +1154,9 @@
 
 
 	/**
-	 * Wrapper class for editable elements inside widgets.
+	 * The wrapper class for editable elements inside widgets.
 	 *
-	 * Don't use directly. Use {@link CKEDITOR.plugins.widget.definition#editables} or
+	 * Do not use directly. Use {@link CKEDITOR.plugins.widget.definition#editables} or
 	 * {@link CKEDITOR.plugins.widget#initEditable}.
 	 *
 	 * @class CKEDITOR.plugins.widget.nestedEditable
@@ -1171,8 +1176,8 @@
 
 	NestedEditable.prototype = CKEDITOR.tools.extend( CKEDITOR.tools.prototypedCopy( CKEDITOR.dom.element.prototype ), {
 		/**
-		 * Sets the editable data. Data will be passed through the {@link CKEDITOR.editor#dataProcessor}
-		 * and the {@link CKEDITOR.editor#filter}. This ensures that data was filtered and prepared to be
+		 * Sets the editable data. The data will be passed through the {@link CKEDITOR.editor#dataProcessor}
+		 * and the {@link CKEDITOR.editor#filter}. This ensures that the data was filtered and prepared to be
 		 * edited like the {@link CKEDITOR.editor#method-setData editor data}.
 		 *
 		 * @param {String} data
@@ -1187,7 +1192,7 @@
 		},
 
 		/**
-		 * Gets the editable data. Like the {@link #setData} this method will process and filter the data.
+		 * Gets the editable data. Like {@link #setData}, this method will process and filter the data.
 		 *
 		 * @returns {String}
 		 */
@@ -2391,7 +2396,7 @@
 })();
 
 /**
- * Fired when widget definition is registered by the {@link CKEDITOR.plugins.widget.repository#add} method.
+ * An event fired when a widget definition is registered by the {@link CKEDITOR.plugins.widget.repository#add} method.
  * It is possible to modify the definition being registered.
  *
  * @event widgetDefinition
@@ -2403,10 +2408,10 @@
  * This is an abstract class that describes the definition of a widget.
  * It is a type of {@link CKEDITOR.plugins.widget.repository#add} method's second argument.
  *
- * Widget instances inherits from registered widget definitions, although not in a prototypal way.
+ * Widget instances inherit from registered widget definitions, although not in a prototypal way.
  * They are simply extended with corresponding widget definitions. Note that not all properties of
- * widget definition become properties of a widget. Some, like {@link #data} or {@link #edit}, become
- * a widget's events listeners.
+ * the widget definition become properties of a widget. Some, like {@link #data} or {@link #edit}, become
+ * widget's events listeners.
  *
  * @class CKEDITOR.plugins.widget.definition
  * @abstract
@@ -2421,11 +2426,11 @@
  */
 
 /**
- * The method executed while initializing widget, after widget instance
- * is created, but before it is ready. It's executed before the first
+ * The method executed while initializing a widget, after a widget instance
+ * is created, but before it is ready. It is executed before the first
  * {@link CKEDITOR.plugins.widget#event-data} is fired so it is common to
- * use `init` method to populate widget data with information loaded from
- * DOM, like for exmaple:
+ * use the `init` method to populate widget data with information loaded from
+ * the DOM, like for exmaple:
  *
  *		init: function() {
  *			this.setData( 'width', this.element.getStyle( 'width' ) );
@@ -2438,18 +2443,18 @@
  */
 
 /**
- * The function to be used to upcast element to this widget or a
- * comma separated list of upcast methods from the {@link #upcasts} object.
+ * The function to be used to upcast an element to this widget or a
+ * comma-separated list of upcast methods from the {@link #upcasts} object.
  *
- * The upcast function **is not** executed in a widget context (because widget
- * does not yet exist) and two arguments are passed:
+ * The upcast function **is not** executed in the widget context (because the widget
+ * does not exist yet) and two arguments are passed:
  *
- * * `element` ({@link CKEDITOR.htmlParser.element}) The element to be checked.
- * * `data` (`Object`) The object which can be extended with data which will be then passed to widget.
+ * * `element` ({@link CKEDITOR.htmlParser.element}) &ndash; The element to be checked.
+ * * `data` (`Object`) &ndash; The object which can be extended with data which will then be passed to the widget.
  *
- * Element will be upcasted if function returned `true` or an instance of
- * {@link CKEDITOR.htmlParser.element} if upcasting meant DOM structure changes
- * (in this case widget will be initialized on the returned element).
+ * An element will be upcasted if a function returned `true` or an instance of
+ * a {@link CKEDITOR.htmlParser.element} if upcasting meant DOM structure changes
+ * (in this case the widget will be initialized on the returned element).
  *
  * @property {String/Function} upcast
  */
@@ -2460,7 +2465,7 @@
  *
  * In most cases it is appropriate to use {@link #upcast} directly,
  * because majority of widgets need just one method.
- * However, in some cases widget author may want to expose more than one variant
+ * However, in some cases the widget author may want to expose more than one variant
  * and then this property may be used.
  *
  *		upcasts: {
@@ -2486,13 +2491,13 @@
 
 /**
  * The function to be used to downcast this widget or
- * a name of a downcast option from the {@link #downcasts} object.
+ * a name of the downcast option from the {@link #downcasts} object.
  *
  * The downcast funciton will be executed in the {@link CKEDITOR.plugins.widget} context
  * and with `widgetElement` ({@link CKEDITOR.htmlParser.element}) argument which is
  * the widget's main element.
  *
- * Function may return an instance of {@CKEDITOR.htmlParser.node} class if widget
+ * The function may return an instance of the {@CKEDITOR.htmlParser.node} class if the widget
  * needs to be downcasted to a different node than the widget's main element.
  *
  * @property {String/Function} downcast
@@ -2504,21 +2509,21 @@
  *
  * In most cases it is appropriate to use {@link #downcast} directly,
  * because majority of widgets have just one variant of downcasting (or none at all).
- * However, in some cases widget author may want to expose more than one variant
+ * However, in some cases the widget author may want to expose more than one variant
  * and then this property may be used.
  *
  *		downcasts: {
- *			// This downcast may transform widget into figure element.
+ *			// This downcast may transform the widget into the figure element.
  *			figure: function() {
  *				// ...
  *			},
- *			// This downcast may transform widget into image element with data-* attrs.
+ *			// This downcast may transform the widget into the image element with data-* attributes.
  *			image: function() {
  *				// ...
  *			}
  *		}
  *
- *		// Then, widget user may choose one of downcast options when setting up his editor.
+ *		// Then, the widget user may choose one of the downcast options when setting up his editor.
  *		editor.on( 'widgetDefinition', function( evt ) {
  *			if ( evt.data.name == 'image' )
  * 				evt.data.downcast = 'figure';
@@ -2528,50 +2533,50 @@
  */
 
 /**
- * If set it will be added as the {@link CKEDITOR.plugins.widget#event-edit} event listener.
- * This means that it will be executed when widget is being edited.
- * See the {@link CKEDITOR.plugins.widget#method-edit}.
+ * If set, it will be added as the {@link CKEDITOR.plugins.widget#event-edit} event listener.
+ * This means that it will be executed when a widget is being edited.
+ * See the {@link CKEDITOR.plugins.widget#method-edit} method.
  *
  * @property {Function} edit
  */
 
 /**
- * If set it will be added as the {@link CKEDITOR.plugins.widget#event-data} event listener.
- * This means that it will be executed every time {@link CKEDITOR.plugins.widget#property-data widget data} changes.
+ * If set, it will be added as the {@link CKEDITOR.plugins.widget#event-data} event listener.
+ * This means that it will be executed every time the {@link CKEDITOR.plugins.widget#property-data widget data} changes.
  *
  * @property {Function} data
  */
 
 /**
- * The method to be executed when widget's commands is executed in order to insert new widget
+ * The method to be executed when the widget's command is executed in order to insert a new widget
  * (widget of this type is not focused). If not defined, then the default action will be
  * performed which means that:
  *
- * * instance of a widget will be created in a detached {@link CKEDITOR.dom.documentFragment document fragment},
- * * {@link CKEDITOR.plugins.widget#method-edit} will be called to trigger widget editing,
- * * widget element will be inserted into DOM.
+ * * An instance of the widget will be created in a detached {@link CKEDITOR.dom.documentFragment document fragment},
+ * * The {@link CKEDITOR.plugins.widget#method-edit} method will be called to trigger widget editing,
+ * * The widget element will be inserted into DOM.
  *
  * @property {Function} insert
  */
 
 /**
- * The name of a dialog which will be opened on {@link CKEDITOR.plugins.widget#method-edit}.
- * If not defined, then {@link CKEDITOR.plugins.widget#method-edit} won't perform any action and
- * widget's command will insert a new widget without opening a dialog first.
+ * The name of a dialog window which will be opened on {@link CKEDITOR.plugins.widget#method-edit}.
+ * If not defined, then the {@link CKEDITOR.plugins.widget#method-edit} method will not perform any action and
+ * widget's command will insert a new widget without opening a dialog window first.
  *
  * @property {String} dialog
  */
 
 /**
- * The template which will be used to create a new widget element (when widget's command is executed).
- * This string is populated with a {@link #defaults default values} by using the {@link CKEDITOR.template} format.
+ * The template which will be used to create a new widget element (when the widget's command is executed).
+ * This string is populated with {@link #defaults default values} by using the {@link CKEDITOR.template} format.
  * Therefore it has to be a valid {@link CKEDITOR.template} argument.
  *
  * @property {String} template
  */
 
 /**
- * The data object which will be used to populate a newly created widget data.
+ * The data object which will be used to populate the data of a newly created widget.
  * See {@link CKEDITOR.plugins.widget#property-data}.
  *
  *		defaults: {
@@ -2583,7 +2588,7 @@
  */
 
 /**
- * Object containing definitions of widget compoments (part name => CSS selector).
+ * An object containing definitions of widget components (part name => CSS selector).
  *
  *		parts: {
  *			image: 'img',
@@ -2594,7 +2599,7 @@
  */
 
 /**
- * Object containing definitions of nested editables (editable name => {@link CKEDITOR.plugins.widget.nestedEditable.definition}).
+ * An object containing definitions of nested editables (editable name => {@link CKEDITOR.plugins.widget.nestedEditable.definition}).
  *
  *		editables: {
  *			header: 'h1',
@@ -2608,19 +2613,19 @@
  */
 
 /**
- * If set to `true` widget's element will be covered with a transparent mask.
- * This will prevent from its content being clickable, what's important in case
- * of special elements like embeded Flash or iframes, which generate separate "context".
+ * If set to `true`, the widget's element will be covered with a transparent mask.
+ * This will prevent its content from being clickable, which matters in case
+ * of special elements like embedded Flash or iframes that generate a separate "context".
  *
  * @property {Boolean} mask
  */
 
 /**
- * If set to `true/false` it will force widget being an inline or a block widget.
- * If not set widget's type will be determined from the widget element.
+ * If set to `true/false`, it will force the widget to be either an inline or a block widget.
+ * If not set, the widget type will be determined from the widget element.
  *
- * Widget's type influences whether block (`div`) or inline (`span`) element is used
- * for a wrapper.
+ * Widget type influences whether a block (`div`) or an inline (`span`) element is used
+ * for the wrapper.
  *
  * @property {Boolean} inline
  */
@@ -2644,8 +2649,8 @@
  * It is a type of values in the {@link CKEDITOR.plugins.widget.definition#editables} object.
  *
  * In the simplest case the definition is a string which is a CSS selector used to
- * find an element which will become a nested editable inside the widget. Note that
- * widget element can be a nested editable too.
+ * find an element that will become a nested editable inside the widget. Note that
+ * the widget element can be a nested editable, too.
  *
  * In the more advanced case a definition is an object with a required `selector` property.
  *
@@ -2670,8 +2675,8 @@
 /**
  * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
  * which will be used to limit the content allowed in this nested editable.
- * This option is similar to {@link CKEDITOR.config#allowedContent} using which
- * one can limit the editor data.
+ * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
+ * use it to limit the editor features available in the nested editable.
  *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
  */

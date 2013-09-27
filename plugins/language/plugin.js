@@ -1,10 +1,10 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview Languages plugin.
+ * @fileOverview [Language](http://ckeditor.com/addon/language) plugin.
  */
 
 'use strict';
@@ -94,22 +94,22 @@
 })();
 
 /**
- * Specifies the list of languages available in the language plugin. Each entry
+ * Specifies the list of languages available in the
+ * [Language](http://ckeditor.com/addon/language) plugin. Each entry
  * should be a string in the following format:
  *
  *		<languageCode>:<languageLabel>[:<textDirection>]
  *
- * * _languageCode_: language code used for the lang attribute in ISO 639 format.
- * 	Codes can be found at http://www.loc.gov/standards/iso639-2/php/English_list.php.
- * * _languageLabel_: label to show for this language in the list.
- * * _textDirection_: (optional) one of following values `rtl` or `ltr`,
- * 	indicating the reading direction for the language text direction. Defaults
- * 	to `ltr`.
+ * * _languageCode_: The language code used for the `lang` attribute in ISO 639 format.
+ * 	Language codes can be found [here](http://www.loc.gov/standards/iso639-2/php/English_list.php).
+ * 	You can use both 2-letter ISO-639-1 codes and 3-letter ISO-639-2 codes, though
+ * 	for consistency it is recommended to stick to ISO-639-1 2-letter codes.
+ * * _languageLabel_: The label to show for this language in the list.
+ * * _textDirection_: (optional) One of the following values: `rtl` or `ltr`,
+ * 	indicating the reading direction of the language. Defaults to `ltr`.
  *
- * For example:
+ *		config.language_list = [ 'he:Hebrew:rtl', 'pt:Portuguese', 'de:German' ];
  *
- *		config.language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ];
- *
- * @cfg {Array} [language_list = [ 'ar:Arabic:rtl', 'fr:French', 'de:Spanish' ]]
+ * @cfg {Array} [language_list = [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ]]
  * @member CKEDITOR.config
  */

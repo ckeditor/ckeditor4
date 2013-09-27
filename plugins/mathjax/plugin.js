@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/**
+ * @fileOverview [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin.
+ */
+
 'use strict';
 
 (function() {
@@ -106,14 +110,17 @@
 	CKEDITOR.plugins.mathjax = {};
 
 	/**
-	 * FrameWrapper is responsible for communication with MathJax and
-	 * iFrame. It let you create visual mathematics using setValue method.
+	 * FrameWrapper is responsible for communication between the MathJax library
+	 * and the `iframe` element that is used for rendering mathematical formulas
+	 * inside the editor.
+	 * It lets you create visual mathematics by using the
+	 * {@link CKEDITOR.plugins.mathjax.frameWrapper#setValue setValue} method.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.mathjax.frameWrapper
 	 * @constructor Creates a class instance.
-	 * @param {CKEDITOR.dom.element} iFrame iFrame to be wrapped.
-	 * @param {CKEDITOR.editor} editor Editor instance.
+	 * @param {CKEDITOR.dom.element} iFrame The `iframe` element to be wrapped.
+	 * @param {CKEDITOR.editor} editor The editor instance.
 	 */
 	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
 
@@ -254,7 +261,10 @@
 
 		return {
 			/**
-			 * Set TeX value to iFrame. This function will run parsing.
+			 * Sets the TeX value to be displayed in the `iframe` element inside
+			 * the editor. This function will activate the MathJax
+			 * library which interprets TeX expressions and converts them into
+			 * their representation that is displayed in the editor.
 			 *
 			 * @param {String} value TeX string.
 			 */
@@ -269,22 +279,27 @@
 })();
 
 /**
- * With this configuration you can use local MathJax
- * library or different than default CDN.
+ * Sets the path to the MathJax library. It can be both a local
+ * resource and a location different than the default CDN.
  *
- * Remember that this must be full or absolute path.
+ * Please note that this must be a full or absolute path.
+ *
+ *		config.mathJaxLib = 'http:\/\/example.com\/libs\/MathJax.js';
  *
  * @cfg {String} [mathJaxLib='http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML']
  * @member CKEDITOR.config
  */
 
 /**
- * With this configuration you can use different than default
- * class for widgets span. If us set
+ * Sets the default class for `span` elements that will be
+ * converted into [Mathematical Formulas](http://ckeditor.com/addon/mathjax)
+ * widgets.
+ *
+ * If you set it to the following:
  *
  *		config.mathJaxClass = 'my-math';
  *
- * Then code bellow will be recognized as a widget.
+ * The code below will be recognized as a Mathematical Formulas widget.
  *
  *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
  *
