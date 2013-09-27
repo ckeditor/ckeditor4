@@ -19,12 +19,11 @@
 	};
 
 	CKEDITOR.plugins.add( 'snippet', {
-		requires: 'widget',
+		requires: 'widget,ajax',
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss( '.cke_snippet_bar {' +
 				'background: #eee;' +
-				'border-top: 1px solid #ccc;' +
 				'line-height: 45px;' +
 				'padding: 0 20px;' +
 				'text-align: right;' +
@@ -34,14 +33,16 @@
 			'}' +
 			'.cke_snippet_wrapper > pre {' +
 				'background: #fafafa;' +
-				'border-top: 1px solid #ddd;' +
+				'border-top: 1px solid #ccc;' +
+				'border-bottom: 1px solid #ccc;' +
 				'margin: 0;' +
 				'padding: 10px;' +
 			'}'	);
 		},
 
 		init: function( editor ) {
-			var langs = editor.config.snippet_langs || defaults;
+			var langs = editor.config.snippet_langs || defaults,
+				path = CKEDITOR.getUrl( this.path );
 
 			editor.widgets.add( 'snippet', {
 				allowedContent: 'pre; code(*)',
@@ -68,7 +69,8 @@
 				init: function() {
 					appendSettingsBar( this );
 					appendLanguagesSel( this, langs );
-					appendSaveBtn( this );
+					appendSaveBtn( this, path );
+					appendFancyView( this );
 				},
 
 				data: function() {
@@ -103,14 +105,11 @@
 
 				// Downcasts to <pre><code [class="language-*"]>...</code></pre>
 				downcast: function( el ) {
-					var pre = el.getFirst( 'pre' ),
-						code = new CKEDITOR.htmlParser.element( 'code' );
-
-
 					var pre = CKEDITOR.htmlParser.fragment.fromHtml( this.editables.pre.getData(), 'pre' ),
 						code = new CKEDITOR.htmlParser.element( 'code' );
 
 					code.children = pre.children;
+
 					for ( var i = 0; i < code.children.length; ++i )
 						code.children[ i ].parent = code;
 
@@ -136,15 +135,29 @@
 
 	function appendSettingsBar( widget, langs ) {
 		var editor = widget.editor,
-			doc = editor.document,
-			bar = doc.createElement( 'div', {
-				attributes: {
-					'class': 'cke_snippet_bar'
-				}
-			} );
+			doc = editor.document;
 
-		widget.bar = bar;
-		bar.appendTo( widget.element );
+		widget.bar = doc.createElement( 'div', {
+			attributes: {
+				'class': 'cke_snippet_bar'
+			}
+		} );
+
+		function showBar() {
+			widget.bar.show();
+		}
+
+		function hideBar() {
+			widget.bar.hide();
+		}
+
+		// widget.on( 'focus', showBar );
+		// widget.editables.pre.on( 'focus', showBar );
+		// widget.on( 'blur', hideBar );
+		// widget.editables.pre.on( 'blur', hideBar );
+
+		// widget.bar.hide();
+		widget.bar.appendTo( widget.element );
 	}
 
 	function appendLanguagesSel( widget, langs ) {
@@ -175,19 +188,39 @@
 		widget.langSel.appendTo( widget.bar );
 	}
 
-	function appendSaveBtn( widget ) {
+	function appendSaveBtn( widget, path ) {
 		var editor = widget.editor,
 			doc = editor.document;
 
 		widget.saveBtn = doc.createElement( 'button', {
 			attributes: {
-				type: 'button',
-				disabled: 'disabled'
+				type: 'button'
 			}
 		} );
 
 		widget.saveBtn.setHtml( '<strong>Unicorns!</strong>' );
 		widget.saveBtn.appendTo( widget.bar, true );
+		widget.saveBtn.on( 'click', function() {
+			CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', {
+				lang: widget.data.lang,
+				html: widget.editables.pre.getData()
+			}, function( data ) {
+				widget.fancyView.setHtml( data );
+			} );
+		} );
+	}
+
+	function appendFancyView( widget ) {
+		var editor = widget.editor,
+			doc = editor.document;
+
+		widget.fancyView = doc.createElement( 'div', {
+			attributes: {
+				class: 'cke_snippet_fancyview'
+			}
+		} );
+
+		widget.fancyView.appendTo( widget.element, true );
 	}
 
 	function enableMouseInBar( editor ) {

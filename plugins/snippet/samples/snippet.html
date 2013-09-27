@@ -18,7 +18,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<textarea id="editor1" cols="10" rows="10">
 
 <p>A bit of JS:</p>
-<pre><code class="language-js">
+<pre><code class="language-javascript">
 CKEDITOR.<strong>replace</strong>( 'editor2', {
 	<em>allowedContent</em>: 'h1 h2 h3 p blockquote strong em;'
 } );
@@ -34,15 +34,11 @@ moo(); <strong>// Why not cow?</strong>
 	<script>
 
 		CKEDITOR.replace( 'editor1', {
-			plugins: 'wysiwygarea,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
 			height: 350,
 			snippet_langs: {
-				js: 'JavaScript',
-				php: 'PHP',
-				python: 'Python',
-				bash: 'Bash',
-				cb: 'Cobol',
-				lol: 'Brainfuck'
+				javascript: 'JavaScript',
+				php: 'PHP'
 			}
 		} );
 
