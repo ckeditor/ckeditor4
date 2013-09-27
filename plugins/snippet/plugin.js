@@ -30,6 +30,8 @@
 				'text-align: right;' +
 				'height: 45px;' +
 			'}' +
+			'.cke_snippet_wrapper {' +
+			'}' +
 			'.cke_snippet_wrapper > pre {' +
 				'background: #fafafa;' +
 				'border-top: 1px solid #ddd;' +
@@ -47,7 +49,7 @@
 				editables: {
 					pre: {
 						selector: 'pre',
-						allowedContent: 'strong em'
+						allowedContent: {}
 					}
 				},
 
@@ -59,8 +61,14 @@
 					pre: 'pre'
 				},
 
+				template: '<div class="cke_snippet_wrapper">' +
+						'<pre><code></code></pre>' +
+					'</div>',
+
 				init: function() {
-					appendSettingsBar( this, langs );
+					appendSettingsBar( this );
+					appendLanguagesSel( this, langs );
+					appendSaveBtn( this );
 				},
 
 				data: function() {
@@ -133,32 +141,53 @@
 				attributes: {
 					'class': 'cke_snippet_bar'
 				}
-			} ),
-			langSel = doc.createElement( 'select' ),
-			option;
+			} );
 
-		appendLangSelOption( doc, langSel, '', 'Plain text' );
-
-		for ( var l in langs )
-			appendLangSelOption( doc, langSel, l, langs[ l ] );
-
-		langSel.on( 'change', function( evt ) {
-			widget.setData( 'lang', langSel.getValue() );
-		} );
-
-		widget.langSel = langSel;
-
-		langSel.appendTo( bar );
+		widget.bar = bar;
 		bar.appendTo( widget.element );
 	}
 
-	function appendLangSelOption( doc, langSel, value, text ) {
-		var option = doc.createElement( 'option', {
-			attributes: { value: value }
+	function appendLanguagesSel( widget, langs ) {
+		var editor = widget.editor,
+			doc = editor.document,
+			option;
+
+		function appendLangSelOption( value, text ) {
+			var option = doc.createElement( 'option', {
+				attributes: { value: value }
+			} );
+
+			option.setText( text );
+			option.appendTo( widget.langSel );
+		}
+
+		widget.langSel = doc.createElement( 'select' );
+
+		appendLangSelOption( '', 'Plain text' );
+
+		for ( var l in langs )
+			appendLangSelOption( l, langs[ l ] );
+
+		widget.langSel.on( 'change', function( evt ) {
+			widget.setData( 'lang', widget.langSel.getValue() );
 		} );
 
-		option.setText( text );
-		option.appendTo( langSel );
+		widget.langSel.appendTo( widget.bar );
+	}
+
+	function appendSaveBtn( widget ) {
+		var editor = widget.editor,
+			doc = editor.document;
+
+		widget.saveBtn = doc.createElement( 'button', {
+			attributes: {
+				type: 'button',
+				disabled: 'disabled'
+			}
+		} );
+
+		widget.saveBtn.setHtml( '<strong>Unicorns!</strong>' );
+		widget.saveBtn.appendTo( widget.bar, true );
 	}
 
 	function enableMouseInBar( editor ) {
