@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10910](http://dev.ckeditor.com/ticket/10910): Fixed error thrown on Internet Explorer 9 in Compatibility Mode.
 * [#10868](http://dev.ckeditor.com/ticket/10868): Prevent from Internet Explorer 8 crashing when applying a cite style.
 * [#10915](http://dev.ckeditor.com/ticket/10915): CSS filter in Kama skin pull request.
 * [#10914](http://dev.ckeditor.com/ticket/10914): Plugins indentlist and indentblock included into building config.
