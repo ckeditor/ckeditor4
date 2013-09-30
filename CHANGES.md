@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10868](http://dev.ckeditor.com/ticket/10868): Prevent from Internet Explorer 8 crashing when applying a cite style.
 * [#10915](http://dev.ckeditor.com/ticket/10915): CSS filter in Kama skin pull request.
 * [#10914](http://dev.ckeditor.com/ticket/10914): Plugins indentlist and indentblock included into building config.
 * [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10847](http://dev.ckeditor.com/ticket/10847), [#10842](http://dev.ckeditor.com/ticket/10842).
