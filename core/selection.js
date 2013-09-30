@@ -1204,18 +1204,8 @@
 								endIndex = index - 1;
 							else if ( position < 0 )
 								startIndex = index + 1;
-							else {
-								// IE9 report wrong measurement with compareEndPoints when range anchors between two BRs.
-								// e.g. <p>text<br />^<br /></p> (#7433)
-								if ( CKEDITOR.env.ie9Compat && child.tagName == 'BR' ) {
-									// "Fall back" to w3c selection.
-									var sel = doc.defaultView.getSelection();
-									return {
-										container: sel[ start ? 'anchorNode' : 'focusNode' ],
-										offset: sel[ start ? 'anchorOffset' : 'focusOffset' ] };
-								} else
-									return { container: parent, offset: getNodeIndex( child ) };
-							}
+							else
+								return { container: parent, offset: getNodeIndex( child ) };
 						}
 
 						// All childs are text nodes,
