@@ -370,7 +370,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			// Determine image ratio lock on startup. Delayed, waiting for
 			// fields to be filled with setup functions.
 			setTimeout( function() {
-				toggleLockDimensions( 'check' );
+				toggleLockDimensions( true );
 			} );
 		},
 		contents: [
