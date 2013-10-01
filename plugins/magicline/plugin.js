@@ -529,7 +529,7 @@
 			return false;
 
 		for ( var e in editables )
-			if ( editables[ e ].contains( element ) )
+			if ( editables[ e ].contains( element ) || editables[ e ].equals( element ) )
 				return true;
 
 		return false;
@@ -1363,10 +1363,17 @@
 			that.debug.groupStart( 'expandEngine' ); // %REMOVE_LINE%
 
 			var startElement = that.element,
-				upper, lower, trigger;
+				widgets = that.editor.widgets,
+				upper, lower, trigger, widget;
 
 			if ( !isHtml( startElement ) || startElement.contains( that.editable ) ) {
 				that.debug.logEnd( 'ABORT. No start element, or start element contains editable.' ); // %REMOVE_LINE%
+				return null;
+			}
+
+			// Stop searching if in non-editable part of the widget.
+			if ( widgets && ( widget = widgets.getByElement( startElement ) ) &&
+				!inNestedEditable( startElement, widget ) ) {
 				return null;
 			}
 
