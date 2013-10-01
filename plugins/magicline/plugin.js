@@ -1003,6 +1003,10 @@
 		return isPositioned( element ) || isFloated( element );
 	}
 
+	function isFakeSel( element ) {
+		return !!element.data( 'cke-hidden-sel' );
+	}
+
 	// Isn't node of NODE_COMMENT type?
 	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
@@ -1096,8 +1100,7 @@
 		// Edge node according to bottomTrigger.
 		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
 			return !( isEmptyTextNode( node ) || isComment( node ) );
-		});
-
+		} );
 
 		// There's no edge node. Abort.
 		if ( !edgeNode ) {
@@ -1117,7 +1120,7 @@
 		//	\-> Edge node is floated, etc.
 		//
 		// Edge node *must be* a valid trigger at this stage as well.
-		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) ) {
+		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) || isFakeSel( edgeNode ) ) {
 			that.debug.logEnd( 'ABORT. Invalid edge node.' ); // %REMOVE_LINE%
 			return null;
 		}
