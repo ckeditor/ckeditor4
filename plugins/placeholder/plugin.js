@@ -30,7 +30,7 @@
 			// Put ur init code here.
 			editor.widgets.add( 'placeholder', {
 				// Widget code.
-				button: editor.lang.placeholder.button,
+				button: editor.lang.placeholder.toolbar,
 				dialog: 'placeholder',
 				// We need to have wrapping element, otherwise there are issues in
 				// add dialog.
