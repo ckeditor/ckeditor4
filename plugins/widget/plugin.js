@@ -2497,7 +2497,7 @@
  * and with `widgetElement` ({@link CKEDITOR.htmlParser.element}) argument which is
  * the widget's main element.
  *
- * The function may return an instance of the {@CKEDITOR.htmlParser.node} class if the widget
+ * The function may return an instance of the {@link CKEDITOR.htmlParser.node} class if the widget
  * needs to be downcasted to a different node than the widget's main element.
  *
  * @property {String/Function} downcast
@@ -2637,9 +2637,9 @@
  *			button: 'Create a simple box'
  *		} );
  *
- * 		editor.widgets.add( 'simplebox', {
- * 			button: editor.lang.simplebox.title
- * 		} );
+ *		editor.widgets.add( 'simplebox', {
+ *			button: editor.lang.simplebox.title
+ *		} );
  *
  * @property {String} button
  */
