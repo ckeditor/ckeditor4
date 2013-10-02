@@ -460,31 +460,24 @@
 	// Gets the closest parent node that belongs to triggers group.
 	function getAscendantTrigger( that ) {
 		var node = that.element,
-			widgets = that.editor.widgets,
-			widget, trigger;
+			trigger;
 
 		if ( node && isHtml( node ) ) {
 			trigger = node.getAscendant( that.triggers, true );
 
 			// If trigger is an element, neither editable nor editable's ascendant.
 			if ( trigger && !trigger.contains( that.editable ) && !trigger.equals( that.editable ) ) {
-				// Check in an element belongs to a widget.
-				if ( widgets && ( widget = widgets.getByElement( trigger ) ) ) {
-					// Magicline works within nested editables as
-					// within editor's editable.
-					if ( inNestedEditable( trigger, widget ) )
-						return trigger;
+				// Check for closest editable limit.
+				var limit = getClosestEditableLimit( trigger, true );
 
-					// If element belongs to widget, but not to
-					// any nested editable, widget's wrapper is the trigger.
-					else if ( widget.wrapper.is( that.triggers ) )
-						return widget.wrapper;
-
-					// If widget wrapper is not a valid trigger,
-					// no line will be shown.
-					else
-						return null;
-				}
+				// Trigger in nested editable area.
+				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
+					return trigger
+				// Trigger in non-editable area.
+				else if ( limit.is( that.triggers ) )
+					return limit;
+				else
+					return null;
 
 				return trigger;
 			} else
@@ -521,25 +514,27 @@
 		return val > lower && val < upper;
 	}
 
-	// Checks whether an element belongs to some of widget's
-	// nested editables.
-	function inNestedEditable( element ) {
+	// Returns the closest ancestor that has contenteditable attribute.
+	// Such ancestor is the limit of (non-)editable DOM branch that element
+	// belongs to. This method omits editor editable.
+	function getClosestEditableLimit( element, includeSelf ) {
+		if ( element.data( 'cke-editable' ) )
+				return null;
+
+		if ( !includeSelf )
+			element = element.getParent();
+
 		while ( element ) {
 			if ( element.data( 'cke-editable' ) )
-				break;
+				return null;
 
-			if ( isNestedEditable( element ) )
-				return true;
+			if ( element.hasAttribute( 'contenteditable' ) )
+				return element;
 
 			element = element.getParent();
 		}
 
-		return false;
-	}
-
-	// Checks whether an element is a widget nested editable.
-	function isNestedEditable( element ) {
-		return element.data( 'cke-widget-editable' );
+		return null;
 	}
 
 	// Access space line consists of a few elements (spans):
@@ -902,7 +897,8 @@
 				}
 
 				return function( editor ) {
-					var selected = editor.getSelection().getStartElement();
+					var selected = editor.getSelection().getStartElement(),
+						limit;
 
 					// (#9833) Go down to the closest non-inline element in DOM structure
 					// since inline elements don't participate in in magicline.
@@ -919,9 +915,9 @@
 						return;
 
 					// Executing the command directly in nested editable should
-					// access space before/after widget.
-					if ( isNestedEditable( selected ) )
-						selected = editor.widgets.getByElement( selected ).wrapper;
+					// access space before/after it.
+					if ( ( limit = getClosestEditableLimit( selected ) ) && limit.getAttribute( 'contenteditable' ) == 'false' )
+						selected = limit;
 
 					// That holds element from mouse. Replace it with the
 					// element under the caret.
@@ -1378,15 +1374,14 @@
 			that.debug.groupStart( 'expandEngine' ); // %REMOVE_LINE%
 
 			var startElement = that.element,
-				widgets = that.editor.widgets,
-				upper, lower, trigger, widget;
+				upper, lower, trigger;
 
 			if ( !isHtml( startElement ) || startElement.contains( that.editable ) ) {
 				that.debug.logEnd( 'ABORT. No start element, or start element contains editable.' ); // %REMOVE_LINE%
 				return null;
 			}
 
-			// Stop searching if in non-editable part of the widget.
+			// Stop searching if element is in non-editable branch of DOM.
 			if ( startElement.isReadOnly() )
 				return null;
 
