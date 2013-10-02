@@ -20,7 +20,7 @@
 
 		onLoad: function() {
 			// Register styles for placeholder widget frame.
-			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder"]{background-color:#ff0}' );
+			CKEDITOR.addCss( '.cke_placeholder{background-color:#ff0}' );
 		},
 
 		init: function( editor ) {
@@ -34,7 +34,7 @@
 				dialog: 'placeholder',
 				// We need to have wrapping element, otherwise there are issues in
 				// add dialog.
-				template: '<span>[[]]</span>',
+				template: '<span class="cke_placeholder">[[]]</span>',
 
 				defaults: {
 					name: editor.lang.placeholder.defaultName
@@ -65,7 +65,9 @@
 					return text.replace( placeholderReplaceRegex, function( match ) {
 						// Creating widget code.
 						var widgetWrapper = null,
-							innerElement = new CKEDITOR.htmlParser.element( 'span' );
+							innerElement = new CKEDITOR.htmlParser.element( 'span', {
+								'class': 'cke_placeholder'
+							} );
 
 						// Adds placeholder identifier as innertext.
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
