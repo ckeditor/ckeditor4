@@ -47,6 +47,9 @@
 					// have document element until it is put into document.
 					// This is a problem when you crate widget using dialog.
 					this.once( 'ready', function() {
+						if( CKEDITOR.env.ie )
+							this.parts.iframe.setAttribute( 'src', CKEDITOR.plugins.mathjax.fixSrc );
+
 						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor );
 						this.frameWrapper.setValue( this.data.math );
 					} );
@@ -73,8 +76,6 @@
 						attrs.style += ';display:inline-block';
 					else
 						attrs.style = 'display:inline-block';
-
-
 
 					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
 						style: 'border:0;width:0;height:0',
@@ -220,6 +221,9 @@
 			if( doc.getById( 'preview' ) )
 				return;
 
+			if( CKEDITOR.env.ie )
+				iFrame.removeAttribute( 'src' );
+
 			doc.write( '<!DOCTYPE html>' +
 						'<html>' +
 						'<head>' +
@@ -245,7 +249,7 @@
 								// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
 								'function update() {' +
 									'MathJax.Hub.Queue(' +
-										'[ \'Typeset\', MathJax.Hub,this.buffer ],' +
+										'[ \'Typeset\', MathJax.Hub, this.buffer ],' +
 										'function() {' +
 											'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
 										'}' +
