@@ -522,17 +522,23 @@
 
 	// Checks whether an element belongs to some of widget's
 	// nested editables.
-	function inNestedEditable( element, widget ) {
-		var editables = widget.editables;
+	function inNestedEditable( element ) {
+		while ( element ) {
+			if ( element.data( 'cke-editable' ) )
+				break;
 
-		if ( !editables )
-			return false;
-
-		for ( var e in editables )
-			if ( editables[ e ].contains( element ) || editables[ e ].equals( element ) )
+			if ( isNestedEditable( element ) )
 				return true;
 
+			element = element.getParent();
+		}
+
 		return false;
+	}
+
+	// Checks whether an element is a widget nested editable.
+	function isNestedEditable( element ) {
+		return element.data( 'cke-widget-editable' );
 	}
 
 	// Access space line consists of a few elements (spans):
@@ -910,6 +916,11 @@
 					// We must avoid such pathological cases.
 					if ( !selected || selected.equals( that.editable ) || selected.contains( that.editable ) )
 						return;
+
+					// Executing the command directly in nested editable should
+					// access space before/after widget.
+					if ( isNestedEditable( selected ) )
+						selected = editor.widgets.getByElement( selected ).wrapper;
 
 					// That holds element from mouse. Replace it with the
 					// element under the caret.
@@ -1375,10 +1386,8 @@
 			}
 
 			// Stop searching if in non-editable part of the widget.
-			if ( widgets && ( widget = widgets.getByElement( startElement ) ) &&
-				!inNestedEditable( startElement, widget ) ) {
+			if ( startElement.isReadOnly() )
 				return null;
-			}
 
 			trigger = verticalSearch( that,
 				function( current, startElement ) {
