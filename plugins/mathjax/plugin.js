@@ -47,6 +47,8 @@
 					// have document element until it is put into document.
 					// This is a problem when you crate widget using dialog.
 					this.once( 'ready', function() {
+						// Src attribute must be recreated to fix custom domain error after undo
+						// (see iFrame.removeAttribute( 'src' ) in frameWrapper.load).
 						if( CKEDITOR.env.ie )
 							this.parts.iframe.setAttribute( 'src', CKEDITOR.plugins.mathjax.fixSrc );
 
@@ -221,6 +223,9 @@
 			if( doc.getById( 'preview' ) )
 				return;
 
+			// Because of IE9 bug in a src attribute can not be javascript
+			// when you undo (#10930). If you have iFrame with javascript in src
+			// and call insertBefore on such element then IE9 will see crash.
 			if( CKEDITOR.env.ie )
 				iFrame.removeAttribute( 'src' );
 
