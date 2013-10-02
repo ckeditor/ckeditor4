@@ -46,8 +46,14 @@
 				'cursor:sw-resize;' +
 				'background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEhSURBVCiRjZM9T8JQGIUfDLksZXHyJ7QwGAfjIIijrv4GESSw6c6uGx8tLatxcjNx9AMcCINhIP0XLmWhy+tArbG9oCe5y7l58p68515EhMS5l7/VzogICb3YrldxvGHSjzWbTtjS+GeXF9WPevV8LQhowU9gfFQ6RCm1EXwCRsBO5N3Mfb9Va7YIw3AjeGK7Xgl4Buy571/VGk2CYLExahYgWoRZKZfNWqNJsEhDSqlfCTIiIrv7BwDkcorlMh0vnzcYdDu8jd9xvCGz6WQ18VtayDAY9LoULatTLBRKwF5qohbqdyla1i1wDWwDd0CY1RJRbLffo2CZTgTBqqpT0PcYx34djQCO+akq1loQVtu2Xc8EHlOXItL+x6N+SH6GL2Lgwvlb1fOiAAAAAElFTkSuQmCC);' +
 			'}' +
-			'.cke_widget_wrapper:hover .cke_image2_resizer_wrapper{outline:1px dashed #777}' +
-			'.cke_widget_wrapper:hover .cke_image2_resizer{display:block}' );
+			'.cke_widget_wrapper:hover .cke_image2_resizer_wrapper,' +
+			'.cke_widget_wrapper.cke_image2_resizing .cke_image2_resizer_wrapper {' +
+				'outline:1px dashed #777' +
+			'}' +
+			'.cke_widget_wrapper:hover .cke_image2_resizer,' +
+			'.cke_widget_wrapper.cke_image2_resizing .cke_image2_resizer {' +
+				'display:block' +
+			'}' );
 		},
 
 		init: function( editor ) {
@@ -623,8 +629,11 @@
 			// Clean up the mousemove listener. Update widget data if valid.
 			attachToDocuments( 'mouseup', onMouseUp );
 
-			// The entire editable will have the special cursor.
+			// The entire editable will have the special cursor while resizing goes on.
 			editable.addClass( cursorClass );
+
+			// This is to keep custom styles on wrapper while resizing goes on.
+			widget.wrapper.addClass( 'cke_image2_resizing' );
 
 			// Attaches an event to a global document if inline editor.
 			// Additionally, if framed, also attaches the same event to iframe's document.
@@ -764,6 +773,9 @@
 
 				// Restore default cursor by removing special class.
 				editable.removeClass( cursorClass );
+
+				// Remove fancy styles of wrapper when mouse button is released.
+				widget.wrapper.removeClass( 'cke_image2_resizing' );
 
 				// Don't update data twice or more.
 				updateData = false;
