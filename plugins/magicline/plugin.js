@@ -86,7 +86,8 @@
 				editable: editable,
 				inInlineMode: editable.isInline(),
 				doc: doc,
-				win: win
+				win: win,
+				hotNode: null
 			}, true );
 
 			// This is the boundary of the editor. For inline the boundary is editable itself.
