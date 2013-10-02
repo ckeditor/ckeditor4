@@ -18,6 +18,11 @@
 		icons: 'placeholder', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
+		onLoad: function() {
+			// Register styles for placeholder widget frame.
+			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder"]{background-color:#ff0}' );
+		},
+
 		init: function( editor ) {
 			// Register dialog.
 			CKEDITOR.dialog.add( 'placeholder', this.path + 'dialogs/placeholder.js' );
@@ -49,9 +54,6 @@
 				}
 
 			} );
-
-			// Register styles for placeholder widget frame.
-			CKEDITOR.addCss( '.cke_widget_wrapper *[data-widget="placeholder"]{background-color: #ffff00;}' );
 		},
 
 		afterInit: function( editor ) {
