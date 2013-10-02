@@ -612,7 +612,7 @@
 				startHeight = image.$.clientHeight,
 				ratio = startWidth / startHeight,
 
-				moveListeners = [],
+				listeners = [],
 
 				// A class applied to editable during resizing.
 				cursorClass = 'cke_image2_s' + ( !~factor ? 'w' : 'e' ),
@@ -624,10 +624,10 @@
 			editor.fire( 'saveSnapshot' );
 
 			// Mousemove listeners are removed on mouseup.
-			attachToDocuments( 'mousemove', onMouseMove, moveListeners );
+			attachToDocuments( 'mousemove', onMouseMove, listeners );
 
 			// Clean up the mousemove listener. Update widget data if valid.
-			attachToDocuments( 'mouseup', onMouseUp );
+			attachToDocuments( 'mouseup', onMouseUp, listeners );
 
 			// The entire editable will have the special cursor while resizing goes on.
 			editable.addClass( cursorClass );
@@ -761,7 +761,7 @@
 			function onMouseUp( evt ) {
 				var l;
 
-				while ( ( l = moveListeners.pop() ) )
+				while ( ( l = listeners.pop() ) )
 					l.removeListener();
 
 				if ( updateData ) {
