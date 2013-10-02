@@ -36,10 +36,6 @@
 				// add dialog.
 				template: '<span class="cke_placeholder">[[]]</span>',
 
-				defaults: {
-					name: editor.lang.placeholder.defaultName
-				},
-
 				downcast: function() {
 					return new CKEDITOR.htmlParser.text( '[[' + this.data.name + ']]' );
 				},

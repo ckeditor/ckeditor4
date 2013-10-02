@@ -5,7 +5,6 @@
 
 CKEDITOR.plugins.setLang( 'placeholder', 'en', {
 	button: 'Add placeholder',
-	defaultName: 'DEFAULT_PLACEHOLDER_NAME',
 	title: 'Placeholder Properties',
 	toolbar: 'Create Placeholder',
 	name: 'Placeholder Name',
