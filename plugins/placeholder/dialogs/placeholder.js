@@ -12,7 +12,6 @@
 'use strict';
 
 CKEDITOR.dialog.add( 'placeholder', function( editor ) {
-
 	var lang = editor.lang.placeholder,
 		generalLabel = editor.lang.common.generalTab,
 		validNameRegex = /^[^\[\]\<\>]+$/;

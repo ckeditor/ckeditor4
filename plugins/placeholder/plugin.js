@@ -40,7 +40,7 @@
 					name: editor.lang.placeholder.defaultName
 				},
 
-				downcast: function( widgetElement ) {
+				downcast: function() {
 					return new CKEDITOR.htmlParser.text( '[[' + this.data.name + ']]' );
 				},
 
@@ -52,13 +52,11 @@
 				data: function( data ) {
 					this.element.setText( '[[' + this.data.name + ']]' );
 				}
-
 			} );
 		},
 
 		afterInit: function( editor ) {
-			var widgetRepo = editor.widgets,
-				placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
+			var placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
 			editor.dataProcessor.dataFilter.addRules( {
 				text: function( text ) {
@@ -71,7 +69,7 @@
 
 						// Adds placeholder identifier as innertext.
 						innerElement.add( new CKEDITOR.htmlParser.text( match ) );
-						widgetWrapper = widgetRepo.wrapElement( innerElement, 'placeholder' );
+						widgetWrapper = editor.widgets.wrapElement( innerElement, 'placeholder' );
 
 						// Return outerhtml of widget wrapper so it will be placed
 						// as replacement.
