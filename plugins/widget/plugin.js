@@ -2194,7 +2194,7 @@
 				widget.repository.del( widget );
 				editor.fire( 'saveSnapshot' );
 			}
-		}, 0 );
+		}, 10 ); // Use 10ms, so Chrome (@Mac) will be able to grab the content.
 	}
 
 	// [IE] Force keeping focus because IE sometimes forgets to fire focus on main editable
