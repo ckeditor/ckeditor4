@@ -222,14 +222,11 @@
 			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
 			if ( current ) {
-				// Clean up the current block's effects on holder.
-				holder.removeAttributes( current.attributes );
 				current.hide();
 			}
 
 			this._.currentBlock = block;
 
-			holder.setAttributes( block.attributes );
 			CKEDITOR.fire( 'ariaWidget', holder );
 
 			// Reset the focus index, so it will always go into the first one.
