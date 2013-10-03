@@ -982,6 +982,9 @@ CKEDITOR.dom.range = function( root ) {
 							enlargeable = container;
 					}
 
+					// Ensures that enlargeable can be indeed enlarged, if not it will be nulled.
+					enlargeable = getValidEnlargeable( enlargeable );
+
 					while ( enlargeable || sibling ) {
 						if ( enlargeable && !sibling ) {
 							// If we reached the common ancestor, mark the flag
@@ -1094,7 +1097,7 @@ CKEDITOR.dom.range = function( root ) {
 						}
 
 						if ( enlargeable )
-							enlargeable = enlargeable.getParent();
+							enlargeable = getValidEnlargeable( enlargeable.getParent() );
 					}
 
 					// Process the end boundary. This is basically the same
@@ -1225,7 +1228,7 @@ CKEDITOR.dom.range = function( root ) {
 						}
 
 						if ( enlargeable )
-							enlargeable = enlargeable.getParent();
+							enlargeable = getValidEnlargeable( enlargeable.getParent() );
 					}
 
 					// If the common ancestor can be enlarged by both boundaries, then include it also.
@@ -1320,6 +1323,13 @@ CKEDITOR.dom.range = function( root ) {
 					// one and we're expanding list item contents
 					if ( tailBr )
 						this.setEndAfter( tailBr );
+			}
+
+			// Ensures that returned element can be enlarged by selection, null otherwise.
+			// @param {CKEDITOR.dom.element} enlargeable
+			// @returns {CKEDITOR.dom.element/null}
+			function getValidEnlargeable( enlargeable ) {
+				return enlargeable && enlargeable.type == CKEDITOR.NODE_ELEMENT && enlargeable.hasAttribute( 'contenteditable' ) ? null : enlargeable;
 			}
 		},
 
