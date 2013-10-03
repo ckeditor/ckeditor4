@@ -212,16 +212,9 @@
 					height: image.getAttribute( 'height' ) || ''
 				};
 
-			// If element was marked as centered when upcasting, update
-			// the alignment both visually and in widget data.
-			if ( this.element.data( 'cke-centered' ) ) {
-				this.element.data( 'cke-centered', false );
-				data.align = 'center';
-			}
-
-			// Otherwise, read initial float style from figure/image and
+			// Read initial float style from figure/image and
 			// then remove it. This style will be set on wrapper in #data listener.
-			else {
+			if ( !data.align ) {
 				data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
 				this.element.removeStyle( 'float' );
 				image.removeStyle( 'float' );
@@ -434,7 +427,7 @@
 	// Creates widgets from all <img> and <figure class="caption">.
 	//
 	// @param {CKEDITOR.htmlParser.element} el
-	function upcastWidgetElement( el ) {
+	function upcastWidgetElement( el, data ) {
 		var dimensions = { width:1,height:1 },
 			name = el.name,
 			image;
@@ -453,9 +446,7 @@
 				el = figure;
 			}
 
-			// Mark the element as centered, so widget.data.align
-			// can be correctly filled on init.
-			el.attributes[ 'data-cke-centered' ] = true;
+			data.align = 'center';
 
 			image = el.getFirst( 'img' );
 		}
