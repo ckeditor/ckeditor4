@@ -284,18 +284,19 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			width = widthField.getValue();
 			height = heightField.getValue();
 
-			var	domRatio = preLoadedWidth * 1000 / preLoadedHeight,
-				ratio = width * 1000 / height;
-
 			lockRatio = false;
 
 			// Lock ratio, if there is no width and no height specified.
 			if ( !width && !height )
 				lockRatio = true;
 
-			// Lock ratio if there is at least width or height specified,
-			// and the old ratio that matches the new one.
-			else if ( !isNaN( domRatio + ratio ) && Math.round( domRatio ) == Math.round( ratio ) )
+			// Lock ratio if there's only one dimension specified.
+			else if ( !!width ^ !!height )
+				lockRatio = true;
+
+			// Lock ratio if there are width and height specified, and their ratio matches the original one.
+			// This comparison is a reversal of what is done when one dimensions changes.
+			else if ( !isNaN( width + height ) && Math.round( width / preLoadedWidth * preLoadedHeight ) == height )
 				lockRatio = true;
 		}
 
@@ -356,21 +357,20 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			image = widget.parts.image;
 
 			// Reset global variables.
-			preLoadedWidth = preLoadedHeight = srcChanged =
-				userDefinedLock = lockRatio = false;
+			srcChanged = userDefinedLock = lockRatio = false;
 
 			// TODO: IE8
 			// Get the natural width of the image.
-			domWidth = image.$.naturalWidth;
+			preLoadedWidth = domWidth = image.$.naturalWidth;
 
 			// TODO: IE8
 			// Get the natural height of the image.
-			domHeight = image.$.naturalHeight;
+			preLoadedHeight = domHeight = image.$.naturalHeight;
 
 			// Determine image ratio lock on startup. Delayed, waiting for
 			// fields to be filled with setup functions.
 			setTimeout( function() {
-				toggleLockDimensions( true );
+				toggleLockDimensions( 'check' );
 			} );
 		},
 		contents: [
