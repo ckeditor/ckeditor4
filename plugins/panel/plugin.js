@@ -262,10 +262,8 @@
 		$: function( blockHolder, blockDefinition ) {
 			this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
 				attributes: {
-					'tabIndex': -1,
-					'class': 'cke_panel_block',
-					'role': 'presentation',
-					'tabindex': 0
+					'tabindex': -1,
+					'class': 'cke_panel_block'
 				},
 				styles: {
 					display: 'none'
@@ -276,16 +274,12 @@
 			if ( blockDefinition )
 				CKEDITOR.tools.extend( this, blockDefinition );
 
-
 			// Set the a11y attributes of this element ...
 			this.element.setAttributes( {
+				'role': this.attributes.role || 'presentation',
 				'aria-label': this.attributes[ 'aria-label' ],
 				'title': this.attributes.title || this.attributes[ 'aria-label' ]
 			} );
-
-			// ...  and remove them from being set in the panel main element.
-			delete this.attributes[ 'aria-label' ];
-			delete this.attributes.title;
 
 			this.keys = {};
 
