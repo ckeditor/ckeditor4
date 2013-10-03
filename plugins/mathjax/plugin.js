@@ -29,13 +29,10 @@
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
 
-				template:
-					'<span class="' + cls + '" style="display:inline-block">' +
-						'<iframe style="border:0;width:0;height:0" scrolling="no" frameborder="0" allowTransparency="true" src="' + CKEDITOR.plugins.mathjax.fixSrc + '"></iframe>' +
-					'</span>',
+				template: '<span class="' + cls + '" style="display:inline-block" data-cke-survive="true"></span>',
 
 				parts: {
-					iframe: 'iframe'
+					span: 'span'
 				},
 
 				defaults: {
@@ -43,6 +40,21 @@
 				},
 
 				init: function() {
+					var iframe = this.parts.span.getChild( 0 );
+
+					// Check if span contains iframe and create it otherwise.
+					if ( !iframe || iframe.type != CKEDITOR.NODE_ELEMENT || iframe.getName() != 'iframe' ) {
+						iframe = new CKEDITOR.dom.element( 'iframe' );
+						iframe.setAttributes( {
+							style: 'border:0;width:0;height:0',
+							scrolling: 'no',
+							frameborder: 0,
+							allowTransparency: true,
+							src: CKEDITOR.plugins.mathjax.fixSrc
+						} );
+						this.parts.span.append( iframe );
+					}
+
 					// Wait for ready because on some browsers iFrame will not
 					// have document element until it is put into document.
 					// This is a problem when you crate widget using dialog.
@@ -50,9 +62,9 @@
 						// Src attribute must be recreated to fix custom domain error after undo
 						// (see iFrame.removeAttribute( 'src' ) in frameWrapper.load).
 						if( CKEDITOR.env.ie )
-							this.parts.iframe.setAttribute( 'src', CKEDITOR.plugins.mathjax.fixSrc );
+							iframe.setAttribute( 'src', CKEDITOR.plugins.mathjax.fixSrc );
 
-						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( this.parts.iframe, editor );
+						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( iframe, editor );
 						this.frameWrapper.setValue( this.data.math );
 					} );
 				},
@@ -79,13 +91,10 @@
 					else
 						attrs.style = 'display:inline-block';
 
-					el.children[ 0 ].replaceWith( new CKEDITOR.htmlParser.element( 'iframe', {
-						style: 'border:0;width:0;height:0',
-						scrolling: 'no',
-						frameborder: 0,
-						allowTransparency: true,
-						src: CKEDITOR.plugins.mathjax.fixSrc
-					} ) );
+					// Add attribute to prevent deleting empty span in data processing.
+					attrs['data-cke-survive'] = 'true';
+
+					el.children[ 0 ].remove();
 
 					return el;
 				},
@@ -110,6 +119,12 @@
 			editor.on( 'contentPreview', function( evt ) {
 				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
 					'<script src="' + ( editor.config.mathJaxLib ? CKEDITOR.getUrl( editor.config.mathJaxLib ) : cdn ) + '"><\/script><\/head>' );
+			} );
+
+			editor.on( 'paste', function( evt ) {
+				// Firefox does remove iFrame elements from pasted content so this event do the same on other browsers.
+				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
+				evt.data.dataValue = evt.data.dataValue.replace(/(<iframe(.)*\/iframe>)/ig, "");
 			} );
 		}
 	} );
