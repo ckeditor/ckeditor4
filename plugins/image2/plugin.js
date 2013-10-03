@@ -618,7 +618,9 @@
 				// The initial dimensions and aspect ratio of the image.
 				startWidth = image.$.clientWidth,
 				startHeight = image.$.clientHeight,
-				ratio = startWidth / startHeight,
+				naturalWidth = image.$.naturalWidth,
+				naturalHeight = image.$.naturalHeight,
+				ratio = naturalWidth / naturalHeight,
 
 				listeners = [],
 
@@ -663,13 +665,13 @@
 			// Calculate with first, and then adjust height, preserving ratio.
 			function adjustToX() {
 				newWidth = startWidth + factor * moveDiffX;
-				newHeight = 0 | newWidth / ratio;
+				newHeight = Math.round( newWidth / ratio );
 			}
 
 			// Calculate height first, and then adjust width, preserving ratio.
 			function adjustToY() {
 				newHeight = startHeight - moveDiffY;
-				newWidth = 0 | newHeight * ratio;
+				newWidth = Math.round( newHeight * ratio );
 			}
 
 			// This is how variables refer to the geometry.

@@ -294,9 +294,19 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			else if ( !!width ^ !!height )
 				lockRatio = true;
 
-			// Lock ratio if there are width and height specified, and their ratio matches the original one.
-			// This comparison is a reversal of what is done when one dimensions changes.
-			else if ( !isNaN( width + height ) && Math.round( width / preLoadedWidth * preLoadedHeight ) == height )
+			// Lock ratio if there are width and height specified, and their ratio
+			// matches the original one. This comparison is a reversal of what is done
+			// when one dimensions changes, i.e. when manually changing value in the dialog
+			// or dynamically scaling with mouse.
+			//
+			// The reason for two alternative comparisons is that the rounding can come from
+			// both dimensions, e.g. there are two cases:
+			//
+			// 	- height is computed as a rounded relation of the real height and the value of width,
+			//	- width is computed as a rounded relation of the real width and the value of heigh.
+			else if ( !isNaN( width + height ) &&
+				( Math.round( width / preLoadedWidth * preLoadedHeight ) == height ||
+				Math.round( height / preLoadedHeight * preLoadedWidth ) == width ) )
 				lockRatio = true;
 		}
 
