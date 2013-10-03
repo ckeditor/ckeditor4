@@ -1291,8 +1291,7 @@
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 						instance,
 						wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
-						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
-						editWasCanceled = true;
+						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );
 
 					// Append wrapper to a temporary document. This will unify the environment
 					// in which #data listeners work when creating and editing widget.
@@ -1313,8 +1312,6 @@
 					// temporary instance.
 					// * If dialog wasn't set and edit wasn't canceled, insert widget.
 					var editListener = instance.once( 'edit', function( evt ) {
-						editWasCanceled = false;
-
 						if ( evt.data.dialog ) {
 							instance.once( 'dialog', function( evt ) {
 								var dialog = evt.data,
@@ -1344,11 +1341,6 @@
 					// Remove listener in case someone canceled it before this
 					// listener was executed.
 					editListener.removeListener();
-
-					// In case edit was canceled - finalize creation here which should happen anyway (just without
-					// initial edit).
-					if ( editWasCanceled )
-						finalizeCreation();
 				}
 
 				function finalizeCreation() {
