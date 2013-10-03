@@ -46,12 +46,8 @@
 				'left:-5px;' +
 				'cursor:sw-resize;' +
 			'}' +
-			'.cke_widget_wrapper:hover .cke_image2_resizer_wrapper,' +
-			'.cke_widget_wrapper.cke_image2_resizing .cke_image2_resizer_wrapper {' +
-				'outline:1px dashed #777' +
-			'}' +
 			'.cke_widget_wrapper:hover .cke_image2_resizer,' +
-			'.cke_widget_wrapper.cke_image2_resizing .cke_image2_resizer {' +
+			'.cke_image2_resizer.cke_image2_resizing{' +
 				'display:block' +
 			'}' );
 		},
@@ -632,8 +628,8 @@
 			// The entire editable will have the special cursor while resizing goes on.
 			editable.addClass( cursorClass );
 
-			// This is to keep custom styles on wrapper while resizing goes on.
-			widget.wrapper.addClass( 'cke_image2_resizing' );
+			// This is to always keep the resizer element visible while resizing.
+			resizer.addClass( 'cke_image2_resizing' );
 
 			// Attaches an event to a global document if inline editor.
 			// Additionally, if framed, also attaches the same event to iframe's document.
@@ -774,8 +770,8 @@
 				// Restore default cursor by removing special class.
 				editable.removeClass( cursorClass );
 
-				// Remove fancy styles of wrapper when mouse button is released.
-				widget.wrapper.removeClass( 'cke_image2_resizing' );
+				// This is to bring back the regular behaviour of the resizer.
+				resizer.removeClass( 'cke_image2_resizing' );
 
 				// Don't update data twice or more.
 				updateData = false;
