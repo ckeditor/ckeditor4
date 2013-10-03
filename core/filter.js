@@ -656,20 +656,26 @@
 		 * Returns first enter mode allowed by this filter rules. Modes are checked in `p`, `div`, `br` order.
 		 * If none of tags is allowed this method will return {@link CKEDITOR#ENTER_BR}.
 		 *
+		 * @since 4.3
+		 * @param {Number} defaultMode The default mode which will be checked as the first one.
 		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).
 		 * @returns {Number} Allowed enter mode.
 		 */
 		getAllowedEnterMode: (function() {
-			var enterModeTags = [ 'p', 'div', 'br' ],
+			var tagsToCheck = [ 'p', 'div', 'br' ],
 				enterModes = {
 					p: CKEDITOR.ENTER_P,
 					div: CKEDITOR.ENTER_DIV,
 					br: CKEDITOR.ENTER_BR
 				};
 
-			return function( reverse ) {
-				var tags = enterModeTags.slice(),
+			return function( defaultMode, reverse ) {
+				var tags = tagsToCheck.slice(),
 					tag;
+
+				// Check the default mode first.
+				if ( this.check( enterModeTags[ defaultMode ] ) )
+					return defaultMode;
 
 				// If not reverse order, reverse array so we can pop() from it.
 				if ( !reverse )
