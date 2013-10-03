@@ -370,7 +370,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.on( 'cancel', function( evt ) {
 			iterContents( function( item ) {
 				if ( item.isChanged() ) {
-					if ( !editor.config.ignoreConfirmCancel && !confirm( editor.lang.common.confirmCancel ) )
+					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) )
 						evt.data.hide = false;
 					return true;
 				}
@@ -3120,10 +3120,10 @@ CKEDITOR.plugins.add( 'dialog', {
  * Tells if user shouln't be asked to confirm close, if any dialog field was modified.
  * By default it's `false` meaning that user will get the popup, if `true` information will not be shown.
  *
- *		config.ignoreConfirmCancel = true;
+ *		config.dialog_noConfirmCancel = true;
  *
  * @since 4.2.2
- * @cfg {Boolean} [=false]
+ * @cfg {Boolean} [dialog_noConfirmCancel=false]
  * @member CKEDITOR.config
  */
 
