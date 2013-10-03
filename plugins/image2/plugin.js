@@ -21,18 +21,18 @@
 		hidpi: true,
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_image2_resizer{' +
+			CKEDITOR.addCss(
+			'.cke_editable.cke_image2_sw, .cke_editable.cke_image2_sw *{cursor:sw-resize !important}' +
+			'.cke_editable.cke_image2_se, .cke_editable.cke_image2_se *{cursor:se-resize !important}' +
+			'.cke_image2_resizer{' +
 				'display:none;' +
 				'position:absolute;' +
-				'bottom:2px;' +
-				'width: 0px;' +
-				'height: 0px;' +
-				'border-style:solid;' +
-				// Bottom-right corner style of the resizer.
-				'right:2px;' +
-				'border-width:0 0 10px 10px;' +
-				'border-color:transparent transparent #ccc transparent;' +
-				CKEDITOR.tools.cssVendorPrefix( 'box-shadow', '1px 1px 0px #777', true ) + ';' +
+				'width:10px;' +
+				'height:10px;' +
+				'bottom:-5px;' +
+				'right:-5px;' +
+				'background:#000;' +
+				'outline:1px solid #fff;' +
 				'cursor:se-resize;' +
 			'}' +
 			'.cke_image2_resizer_wrapper{' +
@@ -43,13 +43,13 @@
 			// Bottom-left corner style of the resizer.
 			'.cke_image2_resizer.cke_image2_resizer_left{' +
 				'right:auto;' +
-				'left:2px;' +
-				'border-width:10px 0 0 10px;' +
-				'border-color:transparent transparent transparent #ccc;' +
-				CKEDITOR.tools.cssVendorPrefix( 'box-shadow', '-1px 1px 0px #777', true ) + ';' +
+				'left:-5px;' +
 				'cursor:sw-resize;' +
 			'}' +
-			'.cke_widget_wrapper:hover .cke_image2_resizer{display:block;}' );
+			'.cke_widget_wrapper:hover .cke_image2_resizer,' +
+			'.cke_image2_resizer.cke_image2_resizing{' +
+				'display:block' +
+			'}' );
 		},
 
 		init: function( editor ) {
@@ -564,6 +564,7 @@
 	// @param {CKEDITOR.plugins.widget} widget
 	function setupResizer( widget ) {
 		var editor = widget.editor,
+			editable = editor.editable(),
 			doc = editor.document,
 			resizer = doc.createElement( 'span' );
 
@@ -607,7 +608,10 @@
 				startHeight = image.$.clientHeight,
 				ratio = startWidth / startHeight,
 
-				moveListeners = [],
+				listeners = [],
+
+				// A class applied to editable during resizing.
+				cursorClass = 'cke_image2_s' + ( !~factor ? 'w' : 'e' ),
 
 				nativeEvt, newWidth, newHeight, updateData,
 				moveDiffX, moveDiffY, moveRatio;
@@ -616,10 +620,16 @@
 			editor.fire( 'saveSnapshot' );
 
 			// Mousemove listeners are removed on mouseup.
-			attachToDocuments( 'mousemove', onMouseMove, moveListeners );
+			attachToDocuments( 'mousemove', onMouseMove, listeners );
 
 			// Clean up the mousemove listener. Update widget data if valid.
-			attachToDocuments( 'mouseup', onMouseUp );
+			attachToDocuments( 'mouseup', onMouseUp, listeners );
+
+			// The entire editable will have the special cursor while resizing goes on.
+			editable.addClass( cursorClass );
+
+			// This is to always keep the resizer element visible while resizing.
+			resizer.addClass( 'cke_image2_resizing' );
 
 			// Attaches an event to a global document if inline editor.
 			// Additionally, if framed, also attaches the same event to iframe's document.
@@ -747,7 +757,7 @@
 			function onMouseUp( evt ) {
 				var l;
 
-				while ( ( l = moveListeners.pop() ) )
+				while ( ( l = listeners.pop() ) )
 					l.removeListener();
 
 				if ( updateData ) {
@@ -756,6 +766,12 @@
 					// Save another undo snapshot: after resizing.
 					editor.fire( 'saveSnapshot' );
 				}
+
+				// Restore default cursor by removing special class.
+				editable.removeClass( cursorClass );
+
+				// This is to bring back the regular behaviour of the resizer.
+				resizer.removeClass( 'cke_image2_resizing' );
 
 				// Don't update data twice or more.
 				updateData = false;
