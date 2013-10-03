@@ -372,7 +372,7 @@
 		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget or a widget definition.
 		 * The widget definition should be previously registered by using the
 		 * {@link CKEDITOR.plugins.widget.repository#add} method.
-		 * @param startupData Widget startup data (has precedence over default one).
+		 * @param [startupData] Widget startup data (has precedence over default one).
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null` if a widget could not be initialized on
 		 * a given element.
 		 */
