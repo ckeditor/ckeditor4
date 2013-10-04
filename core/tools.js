@@ -224,7 +224,7 @@
 		 * @returns {Boolean} `true` if the object is an Array, otherwise `false`.
 		 */
 		isArray: function( object ) {
-			return ( !!object && object instanceof Array );
+			return Object.prototype.toString.call( object ) == '[object Array]';
 		},
 
 		/**
