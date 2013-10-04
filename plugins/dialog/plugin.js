@@ -3117,12 +3117,12 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Tells if user shouln't be asked to confirm close, if any dialog field was modified.
- * By default it's `false` meaning that user will get the popup, if `true` information will not be shown.
+ * Tells if user should not be asked to confirm close, if any dialog field was modified.
+ * By default it is set to `false` meaning that the confirmation dialog will be shown.
  *
  *		config.dialog_noConfirmCancel = true;
  *
- * @since 4.2.2
+ * @since 4.3
  * @cfg {Boolean} [dialog_noConfirmCancel=false]
  * @member CKEDITOR.config
  */
