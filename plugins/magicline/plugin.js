@@ -17,12 +17,6 @@
 
 	// Activates the box inside of an editor.
 	function initPlugin( editor ) {
-
-		var enterBehaviors = {};
-		enterBehaviors[ CKEDITOR.ENTER_BR ] = 'br';
-		enterBehaviors[ CKEDITOR.ENTER_P ] = 'p';
-		enterBehaviors[ CKEDITOR.ENTER_DIV ] = 'div';
-
 		// Configurables
 		var config = editor.config,
 			triggerOffset = config.magicline_triggerOffset || 30,
@@ -30,7 +24,6 @@
 			that = {
 				// Global stuff is being initialized here.
 				editor: editor,
-				enterBehavior: enterBehaviors[ enterMode ], 		// A tag which is to be inserted by the magicline.
 				enterMode: enterMode,
 				triggerOffset: triggerOffset,
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
@@ -279,15 +272,15 @@
 
 			// Revert magicline hot node on undo/redo.
 			editor.on( 'loadSnapshot', function( event ) {
-				var elements = editor.document.getElementsByTag( that.enterBehavior ),
+				var elements = doc.find( 'p,br,div' ),
 					element;
 
 				for ( var i = elements.count(); i--; ) {
-					if ( ( element = elements.getItem( i ) ).hasAttribute( 'data-cke-magicline-hot' ) ) {
+					if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
 						// Restore hotNode
 						that.hotNode = element;
 						// Restore last access direction
-						that.lastCmdDirection = element.getAttribute( 'data-cke-magicline-dir' ) === 'true' ? true : false;
+						that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
 						break;
 					}
 				}
@@ -360,6 +353,9 @@
 		env = CKEDITOR.env,
 		dtd = CKEDITOR.dtd,
 
+		// Global object associating enter modes with elements.
+		enterElements = {},
+
 		// Constant values, types and so on.
 		EDGE_TOP = 128,
 		EDGE_BOTTOM = 64,
@@ -383,6 +379,10 @@
 		CSS_COMMON = 'width:0px;height:0px;padding:0px;margin:0px;display:block;' + 'z-index:9999;color:#fff;position:absolute;font-size: 0px;line-height:0px;',
 		CSS_TRIANGLE = CSS_COMMON + 'border-color:transparent;display:block;border-style:solid;',
 		TRIANGLE_HTML = '<span>' + WHITE_SPACE + '</span>';
+
+	enterElements[ CKEDITOR.ENTER_BR ] = 'br';
+	enterElements[ CKEDITOR.ENTER_P ] = 'p';
+	enterElements[ CKEDITOR.ENTER_DIV ] = 'div';
 
 	function areSiblings( that, upper, lower ) {
 		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( function( node ) {
@@ -519,7 +519,7 @@
 	// belongs to. This method omits editor editable.
 	function getClosestEditableLimit( element, includeSelf ) {
 		if ( element.data( 'cke-editable' ) )
-				return null;
+			return null;
 
 		if ( !includeSelf )
 			element = element.getParent();
@@ -799,9 +799,19 @@
 
 		// In other cases a regular element is used.
 		else {
-			accessNode = new newElement( that.enterBehavior, that.doc );
+			// Use the enterMode of editable's limit or editor's
+			// enter mode if not in nested editable.
+			var limit = getClosestEditableLimit( that.element, true ),
 
-			if ( that.enterMode != CKEDITOR.ENTER_BR ) {
+				// This is an enter mode for the context. We cannot use
+				// editor.activeEnterMode because the focused nested editable will
+				// have a different enterMode as editor but magicline will be inserted
+				// directly into editor's editable.
+				enterMode = limit && limit.data( 'cke-enter-mode' ) || that.enterMode;
+
+			accessNode = new newElement( enterElements[ enterMode ], that.doc );
+
+			if ( !accessNode.is( 'br' ) ) {
 				var dummy = that.doc.createText( WHITE_SPACE );
 				dummy.appendTo( accessNode );
 			}
