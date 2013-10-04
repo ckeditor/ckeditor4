@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3
 
+New Features:
+
+* [#10028](http://dev.ckeditor.com/ticket/10028): New option [`config.dialog_noConfirmCancel`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-dialog_noConfirmCancel).
+
 Fixed Issues:
 
 * [#10612](http://dev.ckeditor.com/ticket/10612): Internet Explorer 11 compatibility issues.
