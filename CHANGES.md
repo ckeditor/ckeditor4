@@ -14,6 +14,7 @@ Fixed Issues:
 * [#10831](http://dev.ckeditor.com/ticket/10831): Image2: Merged `image2inline` and `image2block` into `image2` widget.
 * [#10835](http://dev.ckeditor.com/ticket/10835): Image2: Improved visibility of the resize handler.
 * [#10836](http://dev.ckeditor.com/ticket/10836): Image2: Preserve custom mouse cursor while resizing the image.
+* [#10881](http://dev.ckeditor.com/ticket/10881): Various improvements to *Enter* key behaviour in nested editables.
 
 ## CKEditor 4.3 Beta
 
