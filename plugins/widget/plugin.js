@@ -823,7 +823,7 @@
 			if ( !offline ) {
 				editable.removeClass( 'cke_widget_editable' );
 				editable.removeClass( 'cke_widget_editable_focused' );
-				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable' ] );
+				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-enter-mode' ] );
 			}
 
 			delete this.editables[ editableName ];
@@ -911,7 +911,8 @@
 
 				editable.setAttributes( {
 					contenteditable: 'true',
-					'data-cke-widget-editable': editableName
+					'data-cke-widget-editable': editableName,
+					'data-cke-enter-mode': editable.enterMode
 				} );
 				editable.addClass( 'cke_widget_editable' );
 				// This class may be left when d&ding widget which
@@ -1171,7 +1172,15 @@
 		// Call the base constructor.
 		CKEDITOR.dom.element.call( this, element.$ );
 		this.editor = editor;
-		this.filter = config.filter;
+		var filter = this.filter = config.filter;
+
+		// If blockless editable - always use BR mode.
+		if ( !CKEDITOR.dtd[ this.getName() ].p )
+			this.enterMode = this.shiftEnterMode = CKEDITOR.ENTER_BR;
+		else {
+			this.enterMode = filter ? filter.getAllowedEnterMode( editor.enterMode ) : editor.enterMode;
+			this.shiftEnterMode = filter ? filter.getAllowedEnterMode( editor.shiftEnterMode, true ) : editor.shiftEnterMode;
+		}
 	}
 
 	NestedEditable.prototype = CKEDITOR.tools.extend( CKEDITOR.tools.prototypedCopy( CKEDITOR.dom.element.prototype ), {
@@ -1186,7 +1195,7 @@
 			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
-				enterMode: this.filter ? this.filter.getAllowedEnterMode() : this.editor.enterMode
+				enterMode: this.enterMode
 			} );
 			this.setHtml( data );
 		},
@@ -1200,10 +1209,40 @@
 			return this.editor.dataProcessor.toDataFormat( this.getHtml(), {
 				context: this.getName(),
 				filter: this.filter,
-				enterMode: this.filter ? this.filter.getAllowedEnterMode() : this.editor.enterMode
+				enterMode: this.enterMode
 			} );
 		}
 	} );
+
+	/**
+	 * The editor instance.
+	 *
+	 * @readonly
+	 * @property {CKEDITOR.editor} editor
+	 */
+
+	/**
+	 * The filter instance if allowed content rules were defined.
+	 *
+	 * @readonly
+	 * @property {CKEDITOR.filter} filter
+	 */
+
+	/**
+	 * The enter mode active in this editable.
+	 * It is determined from editable's name (whether it is a blockless editable),
+	 * its allowed content rules (if defined) and the default editor's mode.
+	 *
+	 * @readonly
+	 * @property {Number} enterMode
+	 */
+
+	/**
+	 * The shift enter move active in this editable.
+	 *
+	 * @readonly
+	 * @property {Number} shiftEnterMode
+	 */
 
 
 	//
@@ -1616,7 +1655,9 @@
 	}
 
 	function setFocusedEditable( widgetsRepo, widget, editableElement, offline ) {
-		widgetsRepo.editor.fire( 'lockSnapshot' );
+		var editor = widgetsRepo.editor;
+
+		editor.fire( 'lockSnapshot' );
 
 		if ( editableElement ) {
 			var editableName = editableElement.data( 'cke-widget-editable' ),
@@ -1627,17 +1668,19 @@
 			editableElement.addClass( 'cke_widget_editable_focused' );
 
 			if ( editableInstance.filter )
-				widgetsRepo.editor.setActiveFilter( editableInstance.filter );
+				editor.setActiveFilter( editableInstance.filter );
+			editor.setActiveEnterMode( editableInstance.enterMode, editableInstance.shiftEnterMode );
 		} else {
 			if ( !offline )
 				widget.focusedEditable.removeClass( 'cke_widget_editable_focused' );
 
 			widget.focusedEditable = null;
 			widgetsRepo.widgetHoldingFocusedEditable = null;
-			widgetsRepo.editor.setActiveFilter( null );
+			editor.setActiveFilter( null );
+			editor.setActiveEnterMode( null, null );
 		}
 
-		widgetsRepo.editor.fire( 'unlockSnapshot' );
+		editor.fire( 'unlockSnapshot' );
 	}
 
 	function setupContextMenu( editor ) {

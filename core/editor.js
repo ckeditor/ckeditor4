@@ -1168,7 +1168,10 @@
 				if ( filter === this.filter )
 					this.setActiveEnterMode( null, null );
 				else
-					this.setActiveEnterMode( filter.getAllowedEnterMode(), filter.getAllowedEnterMode( true ) );
+					this.setActiveEnterMode(
+						filter.getAllowedEnterMode( this.enterMode ),
+						filter.getAllowedEnterMode( this.shiftEnterMode, true )
+					);
 			}
 		},
 
