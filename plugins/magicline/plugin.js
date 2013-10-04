@@ -29,7 +29,7 @@
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
-				tabuList: [ 'data-widget-wrapper' ].concat( config.magicline_tabuList || [] ),
+				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
 				triggers: config.magicline_everywhere ? DTD_BLOCK : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
 			},
 			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
@@ -1021,10 +1021,6 @@
 		return isPositioned( element ) || isFloated( element );
 	}
 
-	function isFakeSel( element ) {
-		return !!element.data( 'cke-hidden-sel' );
-	}
-
 	// Isn't node of NODE_COMMENT type?
 	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
@@ -1138,7 +1134,7 @@
 		//	\-> Edge node is floated, etc.
 		//
 		// Edge node *must be* a valid trigger at this stage as well.
-		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) || isFakeSel( edgeNode ) ) {
+		if ( !isHtml( edgeNode ) || isFlowBreaker( edgeNode ) || !isTrigger( that, edgeNode ) ) {
 			that.debug.logEnd( 'ABORT. Invalid edge node.' ); // %REMOVE_LINE%
 			return null;
 		}
