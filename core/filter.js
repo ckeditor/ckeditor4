@@ -670,6 +670,7 @@
 				};
 
 			return function( defaultMode, reverse ) {
+				// Clone the array first.
 				var tags = tagsToCheck.slice(),
 					tag;
 
