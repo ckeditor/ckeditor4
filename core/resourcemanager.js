@@ -144,6 +144,8 @@ CKEDITOR.resourceManager.prototype = {
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
 
+			// If "fileName" is not provided, we assume that it may be available
+			// in "path". Try to extract it in this case.
 			if ( !fileName ) {
 				path = path.replace( /[^\/]+$/, function( match ) {
 					fileName = match;
@@ -153,6 +155,9 @@ CKEDITOR.resourceManager.prototype = {
 
 			this.externals[ name ] = {
 				dir: path,
+
+				// Use the default file name if there is no "fileName" and it
+				// was not found in "path".
 				file: fileName || ( this.fileName + '.js' )
 			};
 		}
