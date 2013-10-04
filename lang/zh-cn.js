@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'zh-cn' ] = {
 	// ARIA description.
 	editor: '所见即所得编辑器',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

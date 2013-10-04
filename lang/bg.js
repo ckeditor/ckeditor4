@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'bg' ] = {
 	// ARIA description.
 	editor: 'Текстов редактор за форматиран текст',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

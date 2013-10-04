@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'sl' ] = {
 	// ARIA description.
 	editor: 'Bogat Urejevalnik Besedila',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

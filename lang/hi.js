@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'hi' ] = {
 	// ARIA description.
 	editor: 'रिच टेक्स्ट एडिटर',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
@@ -63,7 +64,7 @@ CKEDITOR.lang[ 'hi' ] = {
 		advancedTab: 'ऍड्वान्स्ड',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
 		options: 'Options', // MISSING
 		target: 'टार्गेट',
 		targetNew: 'New Window (_blank)', // MISSING

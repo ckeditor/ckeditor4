@@ -19,6 +19,7 @@
 CKEDITOR.lang[ 'sq' ] = {
 	// ARIA description.
 	editor: 'Redaktues i Pasur Teksti',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

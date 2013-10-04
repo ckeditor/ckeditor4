@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'lt' ] = {
 	// ARIA description.
 	editor: 'Pilnas redaktorius',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

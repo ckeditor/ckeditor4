@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'cy' ] = {
 	// ARIA description.
 	editor: 'Golygydd Testun Cyfoethog',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
