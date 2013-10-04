@@ -336,6 +336,54 @@
 		},
 
 		/**
+		 * Finalizes a process of widget creation. This includes:
+		 *
+		 * * inserting widget element into editor,
+		 * * marking widget instance as ready (see {@link CKEDITOR.plugins.widget#event-ready}),
+		 * * focusing widget instance.
+		 *
+		 * This method is used by the default widget's command and is called
+		 * after widget's dialog (if set) is closed. It may also be used in a
+		 * customized process of widget creation and insertion.
+		 *
+		 *		widget.once( 'edit', function() {
+		 *			// Finalize creation only of not ready widgets.
+		 *			if ( widget.isReady() )
+		 *				return;
+		 *
+		 *			// Cancel edit event to prevent automatic widget insertion.
+		 *			evt.cancel();
+		 *
+		 *			CustomDialog.open( widget.data, function saveCallback( savedData ) {
+		 *				// Cache the container, because widget may be destroyed while saving data,
+		 *				// if this process will require some deep transformations.
+		 *				var container = widget.wrapper.getParent();
+		 *
+		 *				widget.setData( savedData );
+		 *
+		 *				// Widget will be retrieved from container and inserted into editor.
+		 *				editor.widgets.finalizeCreation( container );
+		 *			} );
+		 *		} );
+		 *
+		 * @param {CKEDITOR.dom.element/CKEDITOR.dom.documentFragment} container The element
+		 * or document fragment which contains widget wrapper. The container is used, so before
+		 * finalizing creation the widget can be freely transformed (even destroyed and reinitialized).
+		 */
+		finalizeCreation: function( container ) {
+			var wrapper = container.getFirst();
+			if ( wrapper && isWidgetWrapper2( wrapper ) ) {
+				this.editor.insertElement( wrapper );
+
+				var widget = this.getByElement( wrapper );
+				// Fire postponed #ready event.
+				widget.ready = true;
+				widget.fire( 'ready' );
+				widget.focus();
+			}
+		},
+
+		/**
 		 * Finds a widget instance which contains a given element. The element will be the {@link CKEDITOR.plugins.widget#wrapper wrapper}
 		 * of the returned widget or a descendant of this {@link CKEDITOR.plugins.widget#wrapper wrapper}.
 		 *
@@ -1103,8 +1151,9 @@
 	 */
 
 	/**
-	 * An event fired by the {@link #method-edit} method. It can be cancelled
-	 * in order to stop the default action (opening a dialog window).
+	 * An event fired by the {@link #method-edit} method. It can be canceled
+	 * in order to stop the default action (opening a dialog window and/or
+	 * {@link CKEDITOR.plugins.widget.repository#finalizeCreation finalizing widget creation}).
 	 *
 	 * @event edit
 	 * @param data
@@ -1291,8 +1340,7 @@
 						element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 						instance,
 						wrapper = editor.widgets.wrapElement( element, widgetDef.name ),
-						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() ),
-						editWasCanceled = true;
+						temp = new CKEDITOR.dom.documentFragment( wrapper.getDocument() );
 
 					// Append wrapper to a temporary document. This will unify the environment
 					// in which #data listeners work when creating and editing widget.
@@ -1313,8 +1361,6 @@
 					// temporary instance.
 					// * If dialog wasn't set and edit wasn't canceled, insert widget.
 					var editListener = instance.once( 'edit', function( evt ) {
-						editWasCanceled = false;
-
 						if ( evt.data.dialog ) {
 							instance.once( 'dialog', function( evt ) {
 								var dialog = evt.data,
@@ -1344,24 +1390,10 @@
 					// Remove listener in case someone canceled it before this
 					// listener was executed.
 					editListener.removeListener();
-
-					// In case edit was canceled - finalize creation here which should happen anyway (just without
-					// initial edit).
-					if ( editWasCanceled )
-						finalizeCreation();
 				}
 
 				function finalizeCreation() {
-					var wrapper = temp.getFirst();
-					if ( wrapper && isWidgetWrapper2( wrapper ) ) {
-						editor.insertElement( wrapper );
-
-						var widget = editor.widgets.getByElement( wrapper );
-						// Fire postponed #ready event.
-						widget.ready = true;
-						widget.fire( 'ready' );
-						widget.focus();
-					}
+					editor.widgets.finalizeCreation( temp );
 				}
 			},
 
