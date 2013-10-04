@@ -153,7 +153,7 @@ CKEDITOR.resourceManager.prototype = {
 
 			this.externals[ name ] = {
 				dir: path,
-				file: fileName || this.fileName
+				file: fileName || ( this.fileName + '.js' )
 			};
 		}
 	},
