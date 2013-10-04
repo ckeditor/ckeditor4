@@ -10,6 +10,7 @@ New Features:
 Fixed Issues:
 
 * [#10612](http://dev.ckeditor.com/ticket/10612): Internet Explorer 11 compatibility issues.
+* [#10862](http://dev.ckeditor.com/ticket/10862): Placeholder plugin was rewritten as a widget in order to fix it.
 * [#10831](http://dev.ckeditor.com/ticket/10831): Image2: Merged `image2inline` and `image2block` into `image2` widget.
 * [#10835](http://dev.ckeditor.com/ticket/10835): Image2: Improved visibility of the resize handler.
 * [#10836](http://dev.ckeditor.com/ticket/10836): Image2: Preserve custom mouse cursor while resizing the image.
