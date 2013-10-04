@@ -140,13 +140,19 @@ Special outer level classes used in this file:
 	filter: alpha(opacity=30);
 }
 
-.cke_menubutton_on {
-	background: #F6F6F6;
-	box-shadow:inset 0 0 9px rgba(0,0,0,0.25);
+.cke_menubutton_on
+{
+	border: 1px solid #dedede;
+	background-color: #f2f2f2;
+
+	-moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+	-webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
+	box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
-.cke_menubutton_on .cke_menubutton_icon{
-	background: #D7D8D7;
+.cke_menubutton_on .cke_menubutton_icon
+{
+	padding-right: 3px;
 }
 
 .cke_menubutton:hover,
