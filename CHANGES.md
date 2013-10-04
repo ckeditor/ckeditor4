@@ -5,7 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#10666](http://dev.ckeditor.com/ticket/10666): Fixed tools.isArray not working cross frame.
+* [#10913](http://dev.ckeditor.com/ticket/10913): Fixed CKEDITOR.plugins.addExternal not handling paths including file name specified.
+* [#10666](http://dev.ckeditor.com/ticket/10666): Fixed CKEDITOR.tools.isArray not working cross frame.
 * [#10910](http://dev.ckeditor.com/ticket/10910): Fixed error thrown on Internet Explorer 9 in Compatibility Mode.
 * [#10868](http://dev.ckeditor.com/ticket/10868): Prevent from Internet Explorer 8 crashing when applying a cite style.
 * [#10915](http://dev.ckeditor.com/ticket/10915): CSS filter in Kama skin pull request.
