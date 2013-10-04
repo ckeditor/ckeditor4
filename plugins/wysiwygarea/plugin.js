@@ -180,6 +180,15 @@
 					}, 0 );
 				}
 			});
+		} else if ( CKEDITOR.env.webkit ) {
+			// Fix problem with disappearing cursor in Chrome 30 (#10945).
+			var html = doc.getDocumentElement();
+
+			html.on( 'mousedown', function( evt ) {
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					editor.editable().focus();
+				}
+			} );
 		}
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
