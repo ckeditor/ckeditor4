@@ -124,7 +124,7 @@
 			editor.on( 'paste', function( evt ) {
 				// Firefox does remove iFrame elements from pasted content so this event do the same on other browsers.
 				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
-				evt.data.dataValue = evt.data.dataValue.replace(/(<iframe(.)*\/iframe>)/ig, "");
+				evt.data.dataValue = evt.data.dataValue.replace(/(<iframe.*?\/iframe>)/ig, "");
 			} );
 		}
 	} );
