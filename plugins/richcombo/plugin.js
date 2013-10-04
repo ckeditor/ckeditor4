@@ -119,13 +119,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				var id = 'cke_' + this.id;
 				var clickFn = CKEDITOR.tools.addFunction( function( el ) {
-
-				// Restore locked selection in Opera.
-				if ( selLocked ) {
-					editor.unlockSelection( 1 );
-					selLocked = 0;
-				}
-
+					// Restore locked selection in Opera.
+					if ( selLocked ) {
+						editor.unlockSelection( 1 );
+						selLocked = 0;
+					}
 					instance.execute( el );
 				}, this );
 
@@ -251,12 +249,16 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					me._.on = 1;
 
-					me.editorFocus && editor.focus();
+					me.editorFocus && !editor.focusManager.hasFocus && editor.focus();
 
 					if ( me.onOpen )
 						me.onOpen();
 
-					list.focus( !list.multiSelect && me.getValue() );
+					// The "panelShow" event is fired assinchronously, after the
+					// onShow method call.
+					editor.once( 'panelShow', function() {
+						list.focus( !list.multiSelect && me.getValue() );
+					} );
 				};
 
 				panel.onHide = function( preventOnClose ) {

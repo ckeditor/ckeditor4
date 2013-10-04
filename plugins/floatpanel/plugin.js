@@ -363,10 +363,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
 
-					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
-
+						// Focus the panel frame first, so blur gets fired.
 						this.focus();
+
+						// Focus the block now.
+						block.element.focus();
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -377,7 +379,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( this.onShow )
 					this.onShow.call( this );
-
 			},
 
 			/**
