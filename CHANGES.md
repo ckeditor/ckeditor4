@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#10945](http://dev.ckeditor.com/ticket/10945): Click with mouse inside editor does not show the caret, but user is able to enter text.
+* [#10945](http://dev.ckeditor.com/ticket/10945): Fixed: click with mouse inside editor does not show the caret in Chrome.
 * [#10912](http://dev.ckeditor.com/ticket/10912): Prevent default action when content of a non-editable link is clicked.
 * [#10913](http://dev.ckeditor.com/ticket/10913): Fixed CKEDITOR.plugins.addExternal not handling paths including file name specified.
 * [#10666](http://dev.ckeditor.com/ticket/10666): Fixed CKEDITOR.tools.isArray not working cross frame.
