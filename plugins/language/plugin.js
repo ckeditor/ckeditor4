@@ -21,7 +21,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		/**
 		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, null otherwise.
+		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, `null` otherwise.
 		 * @member CKEDITOR.plugins.language
 		 */
 		getCurrentLangIndicator: function( editor ) {
@@ -37,7 +37,7 @@
 				return null;
 
 			for ( ; i < activePath.length; i++ ) {
-				pathMember = activePath[i];
+				pathMember = activePath[ i ];
 
 				if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
 					ret = pathMember;
@@ -148,7 +148,7 @@
 
 				// Toolbar button events.
 				if ( toolbarButton )
-					editor.on( 'elementsPathUpdate', function( ev ) {
+					editor.on( 'selectionChange', function( ev ) {
 						toolbarButton.setState( plugin.getCurrentLangIndicator( ev.editor ) ?
 							CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 						return;
