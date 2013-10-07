@@ -20,20 +20,21 @@
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		/**
-		 * @param	{CKEDITOR.editor} editor
-		 * @returns	{CKEDITOR.dom.element/null}	- first matching language indicator if any found, null otherwise
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, null otherwise.
 		 * @member CKEDITOR.plugins.language
 		 */
 		getCurrentLangIndicator: function( editor ) {
 
-			// IE8: upon initialization if there is no path elementPath() returns null.
-			if ( !editor.elementPath() )
-				return null;
-
 			var ret = null,
-				activePath = editor.elementPath().elements,
+				elementPath = editor.elementPath(),
+				activePath = elementPath && elementPath.elements,
 				i = 0,
 				pathMember;
+
+			// IE8: upon initialization if there is no path elementPath() returns null.
+			if ( !elementPath )
+				return null;
 
 			for ( ; i < activePath.length; i++ ) {
 				pathMember = activePath[i];
