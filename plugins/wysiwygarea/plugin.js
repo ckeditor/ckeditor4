@@ -180,6 +180,12 @@
 					}, 0 );
 				}
 			});
+		} else if ( CKEDITOR.env.webkit ) {
+			// Fix problem with cursor not appearing in Chrome when clicking below the body (#10945).
+			doc.getDocumentElement().on( 'mousedown', function( evt ) {
+				if ( evt.data.getTarget().is( 'html' ) )
+					editor.editable().focus();
+			} );
 		}
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
