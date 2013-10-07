@@ -19,6 +19,7 @@
 CKEDITOR.lang[ 'ug' ] = {
 	// ARIA description.
 	editor: 'تەھرىرلىگۈچ',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

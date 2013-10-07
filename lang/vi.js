@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'vi' ] = {
 	// ARIA description.
 	editor: 'Bộ soạn thảo văn bản có định dạng',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

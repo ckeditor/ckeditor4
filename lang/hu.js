@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'hu' ] = {
 	// ARIA description.
 	editor: 'HTML szerkesztő',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

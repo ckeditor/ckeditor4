@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'eu' ] = {
 	// ARIA description.
 	editor: 'Testu Aberastuko Editorea',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

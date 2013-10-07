@@ -19,6 +19,7 @@
 CKEDITOR.lang[ 'ku' ] = {
 	// ARIA description.
 	editor: 'سەرنووسەی دەقی بە پیت',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

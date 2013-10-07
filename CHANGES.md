@@ -34,6 +34,7 @@ Fixed Issues:
 * [#10004](http://dev.ckeditor.com/ticket/10004): [ChromeVox] Button names are not announced.
 * [#10731](http://dev.ckeditor.com/ticket/10731): [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin breaks cloning of editor configuration.
 * It is now possible to set per instance [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin configuration instead of setting the configuration globally.
+* [#10753](http://dev.ckeditor.com/ticket/10753): The floating toolbar on inline instances how have a dedicated accessibility label.
 
 ## CKEditor 4.2
 
