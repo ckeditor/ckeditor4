@@ -26,7 +26,7 @@
 		 */
 		getCurrentLangIndicator: function( editor ) {
 
-			// IE8: upon initialization if there is no path elementPath() returns null
+			// IE8: upon initialization if there is no path elementPath() returns null.
 			if ( !editor.elementPath() )
 				return null;
 
@@ -132,10 +132,10 @@
 					for ( var prop in items )
 						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
 
-					activeItems['lang-remove'] = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+					activeItems[ 'lang-remove' ] = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 					if ( currentLanguagedElement )
-						activeItems[ currentLanguagedElement.getAttribute('lang') ] = CKEDITOR.TRISTATE_ON;
+						activeItems[ currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
 
 					return activeItems;
 				}
