@@ -97,9 +97,9 @@
 			}
 
 			// Remove language indicator button.
-			items[ 'lang-remove' ] = {
+			items.language_remove = {
 				label: lang.remove,
-				group: 'language',
+				group: 'language_remove',
 				state: CKEDITOR.TRISTATE_DISABLED,
 				order: items.length,
 				ltr: null,
@@ -112,8 +112,9 @@
 				}
 			};
 
-			// Initialize group/button.
+			// Initialize groups for menu.
 			editor.addMenuGroup( 'language', 1 );
+			editor.addMenuGroup( 'language_remove' ); // Group order is skipped intentionally, it will be placed at the end.
 			editor.addMenuItems( items );
 
 			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
@@ -133,7 +134,7 @@
 					for ( var prop in items )
 						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
 
-					activeItems[ 'lang-remove' ] = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+					activeItems.language_remove = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 					if ( currentLanguagedElement )
 						activeItems[ currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
