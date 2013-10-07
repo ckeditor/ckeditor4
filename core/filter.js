@@ -280,7 +280,7 @@
 
 			var node, element, check,
 				toBeChecked = [],
-				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.activeEnterMode : CKEDITOR.ENTER_P ) ];
+				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( node = toBeRemoved.pop() ) ) {
