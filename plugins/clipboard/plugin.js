@@ -381,9 +381,9 @@
 				editor.contextMenu.addListener( function( element, selection ) {
 					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
-						cut: stateFromNamedCommand( 'Cut' ),
-						copy: stateFromNamedCommand( 'Copy' ),
-						paste: stateFromNamedCommand( 'Paste' )
+						cut: stateFromNamedCommand( 'cut' ),
+						copy: stateFromNamedCommand( 'copy' ),
+						paste: stateFromNamedCommand( 'paste' )
 					};
 				});
 			}
@@ -904,22 +904,22 @@
 			if ( editor.mode != 'wysiwyg' )
 				return;
 
-			var pasteState = stateFromNamedCommand( 'Paste' );
+			var pasteState = stateFromNamedCommand( 'paste' );
 
-			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'Cut' ) );
-			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'Copy' ) );
+			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'cut' ) );
+			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'copy' ) );
 			editor.getCommand( 'paste' ).setState( pasteState );
 			editor.fire( 'pasteState', pasteState );
 		}
 
 		function stateFromNamedCommand( command ) {
-			if ( inReadOnly && command in { Paste:1,Cut:1 } )
+			if ( inReadOnly && command in { paste:1,cut:1 } )
 				return CKEDITOR.TRISTATE_DISABLED;
 
-			if ( command == 'Paste' )
+			if ( command == 'paste' )
 				return CKEDITOR.TRISTATE_OFF;
 
-			// Cut, Copy - check if the selection is not empty.
+			// Cut, copy - check if the selection is not empty.
 			var sel = editor.getSelection(),
 				ranges = sel.getRanges(),
 				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
