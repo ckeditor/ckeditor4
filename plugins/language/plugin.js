@@ -21,7 +21,8 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		/**
 		 * @param	{CKEDITOR.editor} editor
-		 * @returns	{CKEDITOR.dom.element|null}	- first matching language indicator if any found, null otherwise
+		 * @returns	{CKEDITOR.dom.element/null}	- first matching language indicator if any found, null otherwise
+		 * @member CKEDITOR.plugins.language
 		 */
 		getCurrentLangIndicator: function( editor ) {
 
@@ -37,9 +38,8 @@
 			for ( ; i < activePath.length; i++ ) {
 				pathMember = activePath[i];
 
-				if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) ) {
+				if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
 					ret = pathMember;
-				}
 			}
 
 			return ret;
@@ -96,7 +96,7 @@
 			}
 
 			// Remove language indicator button.
-			items['lang-remove'] = {
+			items[ 'lang-remove' ] = {
 				label: lang.remove,
 				group: 'language',
 				state: CKEDITOR.TRISTATE_DISABLED,
@@ -145,15 +145,12 @@
 				var toolbarButton = editor.ui.get( 'language' );
 
 				// Toolbar button events.
-				if ( toolbarButton ) {
-
+				if ( toolbarButton )
 					editor.on( 'elementsPathUpdate', function( ev ) {
 						toolbarButton.setState( plugin.getCurrentLangIndicator( ev.editor ) ?
 							CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 						return;
 					} );
-
-				}
 			} );
 
 		}
