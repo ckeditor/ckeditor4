@@ -400,6 +400,11 @@
 	}
 
 	function placeCursorInCell( cell, placeAtEnd ) {
+		// Fixing "Unspecified error" thrown in IE10 by resetting
+		// selection the dirty and shameful way (#10308).
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
+			CKEDITOR.document.focus();
+
 		var range = new CKEDITOR.dom.range( cell.getDocument() );
 		if ( !range[ 'moveToElementEdit' + ( placeAtEnd ? 'End' : 'Start' ) ]( cell ) ) {
 			range.selectNodeContents( cell );
