@@ -364,7 +364,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
 
 					CKEDITOR.tools.setTimeout( function() {
-						var scrollTop = CKEDITOR.document.getWindow().getScrollPosition().y;
+						var scrollTop = CKEDITOR.env.webkit && CKEDITOR.document.getWindow().getScrollPosition().y;
 
 						// Focus the panel frame first, so blur gets fired.
 						this.focus();
