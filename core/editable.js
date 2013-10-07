@@ -514,13 +514,15 @@
 				// Pass this configuration to styles system.
 				this.setCustomData( 'cke_includeReadonly', !editor.config.disableReadonlyStyling );
 
-				// Prevent the browser opening read-only links. (#6032)
-				this.attachListener( this, 'click', function( ev ) {
-					ev = ev.data;
-					var target = ev.getTarget();
-					if ( target.is( 'a' ) && ev.$.button != 2 && target.isReadOnly() )
-						ev.preventDefault();
-				});
+				// Prevent the browser opening read-only links. (#6032 & #10912)
+				this.attachListener( this, 'click', function( evt ) {
+					evt = evt.data;
+
+					var link = new CKEDITOR.dom.elementPath( evt.getTarget(), this ).contains( 'a' );
+
+					if ( link && evt.$.button != 2 && link.isReadOnly() )
+						evt.preventDefault();
+				} );
 
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
