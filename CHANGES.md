@@ -16,6 +16,7 @@ Fixed Issues:
 * [#10914](http://dev.ckeditor.com/ticket/10914): Plugins indentlist and indentblock included into building config.
 * [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10847](http://dev.ckeditor.com/ticket/10847), [#10842](http://dev.ckeditor.com/ticket/10842).
 * [#10951](http://dev.ckeditor.com/ticket/10951): Reviewed and optimized the focus handling on panels (combo, menu-buttons, color buttons and context menu) to enhance accessibility. Fixed [#10705](http://dev.ckeditor.com/ticket/10705), [#10706](http://dev.ckeditor.com/ticket/10706) and [#10707](http://dev.ckeditor.com/ticket/10707).
+* [#10704](http://dev.ckeditor.com/ticket/10704): Fixed a JAWS issue with the Select Color dialog title not being announced.
 
 ## CKEditor 4.2.1
 
