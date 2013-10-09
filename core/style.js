@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+'use strict';
+
 /**
  * Registers a function to be called whenever the selection position changes in the
  * editing area. The current state is passed to the function. The possible
@@ -772,37 +774,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var endNode = bookmark.endNode,
 				me = this;
 
-			// Find out the style ancestor that needs to be broken down at startNode
-			// and endNode.
-			function breakNodes() {
-				var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
-					endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
-					breakStart = null,
-					breakEnd = null;
-				for ( var i = 0; i < startPath.elements.length; i++ ) {
-					var element = startPath.elements[ i ];
-
-					if ( element == startPath.block || element == startPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakStart = element;
-				}
-				for ( i = 0; i < endPath.elements.length; i++ ) {
-					element = endPath.elements[ i ];
-
-					if ( element == endPath.block || element == endPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakEnd = element;
-				}
-
-				if ( breakEnd )
-					endNode.breakParent( breakEnd );
-				if ( breakStart )
-					startNode.breakParent( breakStart );
-			}
 			breakNodes();
 
 			// Now, do the DFS walk.
@@ -832,6 +803,38 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		range.moveToBookmark( bookmark );
+
+		// Find out the style ancestor that needs to be broken down at startNode
+		// and endNode.
+		function breakNodes() {
+			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+				endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
+				breakStart = null,
+				breakEnd = null;
+			for ( var i = 0; i < startPath.elements.length; i++ ) {
+				var element = startPath.elements[ i ];
+
+				if ( element == startPath.block || element == startPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element ) )
+					breakStart = element;
+			}
+			for ( i = 0; i < endPath.elements.length; i++ ) {
+				element = endPath.elements[ i ];
+
+				if ( element == endPath.block || element == endPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element ) )
+					breakEnd = element;
+			}
+
+			if ( breakEnd )
+				endNode.breakParent( breakEnd );
+			if ( breakStart )
+				startNode.breakParent( breakStart );
+		}
 	}
 
 	function applyObjectStyle( range ) {
