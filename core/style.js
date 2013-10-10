@@ -436,6 +436,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return unstylable;
 	}
 
+	var posPrecedingIdenticalContained =
+			CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED,
+		posFollowingIdenticalContained =
+			CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED;
+
 	function applyInlineStyle( range ) {
 		var document = range.document;
 
@@ -526,11 +531,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( !nodeName ||
 				     ( dtd[ nodeName ] && !nodeIsNoStyle &&
 				       ( !nodeIsReadonly || includeReadonly ) &&
-				       ( currentNode.getPosition( lastNode ) |
-				         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-				         CKEDITOR.POSITION_IS_CONTAINED ) ==
-				       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-				         CKEDITOR.POSITION_IS_CONTAINED ) &&
+				       ( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained &&
 				       ( !def.childRule || def.childRule( currentNode ) ) ) ) {
 					var currentParent = currentNode.getParent();
 
@@ -546,11 +547,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						// only if it is entirely inside the range.
 						if ( !styleRange &&
 						     ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
-						       ( currentNode.getPosition( lastNode ) |
-						         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-						         CKEDITOR.POSITION_IS_CONTAINED ) ==
-						       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-						         CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
+						       ( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained ) ) {
 							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
@@ -569,13 +566,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// to the range, otherwise apply the style immediately.
 							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) &&
 							        ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
-							        ( parentNode.getPosition( firstNode ) |
-							          CKEDITOR.POSITION_FOLLOWING |
-							          CKEDITOR.POSITION_IDENTICAL |
-							          CKEDITOR.POSITION_IS_CONTAINED ) ==
-							        ( CKEDITOR.POSITION_FOLLOWING +
-							          CKEDITOR.POSITION_IDENTICAL +
-							          CKEDITOR.POSITION_IS_CONTAINED ) &&
+							        ( parentNode.getPosition( firstNode ) | posFollowingIdenticalContained ) == posFollowingIdenticalContained &&
 							        ( !def.childRule || def.childRule( parentNode ) ) ) {
 								includedNode = parentNode;
 							}
