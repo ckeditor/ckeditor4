@@ -36,7 +36,11 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				resetButtonId: resetButtonId
 			} ),
 
-		checkHasNaturalRatio = CKEDITOR.plugins.image2.checkHasNaturalRatio,
+		helpers = CKEDITOR.plugins.image2,
+
+		// Functions inherited from image2 plugin.
+		checkHasNaturalRatio = helpers.checkHasNaturalRatio,
+		getNatural = helpers.getNatural,
 
 		// Global variables referring to the dialog's context.
 		doc, widget, image,
@@ -54,7 +58,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		lockRatio, userDefinedLock,
 
 		// Global variables referring to dialog fields and elements.
-		lockButton, resetButton, widthField, heightField;
+		lockButton, resetButton, widthField, heightField,
+
+		natural;
 
 	// Validates dimension. Allowed values are:
 	// "123px", "123", "" (empty string)
@@ -342,13 +348,14 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			// Reset global variables.
 			srcChanged = userDefinedLock = lockRatio = false;
 
-			// TODO: IE8
-			// Get the natural width of the image.
-			preLoadedWidth = domWidth = image.$.naturalWidth;
+			// Natural dimensions of the image.
+			natural = getNatural( image );
 
-			// TODO: IE8
+			// Get the natural width of the image.
+			preLoadedWidth = domWidth = natural.width;
+
 			// Get the natural height of the image.
-			preLoadedHeight = domHeight = image.$.naturalHeight;
+			preLoadedHeight = domHeight = natural.height;
 		},
 		contents: [
 			{
