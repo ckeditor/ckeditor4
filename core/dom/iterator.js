@@ -98,63 +98,15 @@
 			// Indicats that the current element in the loop is the last one.
 			var isLast;
 
-			// Indicate at least one of the range boundaries is inside a preformat block.
-			var touchPre;
-
 			// Instructs to cleanup remaining BRs.
 			var removePreviousBr, removeLastBr;
 
 			// This is the first iteration. Let's initialize it.
-			if ( !this._.started ) {
-				range = this.range.clone();
+			if ( !this._.started )
+				range = startIterator.call( this );
 
-				// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
-				range.shrink( CKEDITOR.NODE_ELEMENT, true );
-
-				touchPre = range.endContainer.hasAscendant( 'pre', true ) || range.startContainer.hasAscendant( 'pre', true );
-
-				range.enlarge( this.forceBrBreak && !touchPre || !this.enlargeBr ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
-
-				if ( !range.collapsed ) {
-					var walker = new CKEDITOR.dom.walker( range.clone() ),
-						ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( true, true );
-					// Avoid anchor inside bookmark inner text.
-					walker.evaluator = ignoreBookmarkTextEvaluator;
-					this._.nextNode = walker.next();
-					// TODO: It's better to have walker.reset() used here.
-					walker = new CKEDITOR.dom.walker( range.clone() );
-					walker.evaluator = ignoreBookmarkTextEvaluator;
-					var lastNode = walker.previous();
-					this._.lastNode = lastNode.getNextSourceNode( true );
-
-					// We may have an empty text node at the end of block due to [3770].
-					// If that node is the lastNode, it would cause our logic to leak to the
-					// next block.(#3887)
-					if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
-						var testRange = this.range.clone();
-						testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
-						if ( testRange.checkEndOfBlock() ) {
-							var path = new CKEDITOR.dom.elementPath( testRange.endContainer, testRange.root );
-							var lastBlock = path.block || path.blockLimit;
-							this._.lastNode = lastBlock.getNextSourceNode( true );
-						}
-					}
-
-					// Probably the document end is reached, we need a marker node.
-					if ( !this._.lastNode ) {
-						this._.lastNode = this._.docEndMarker = range.document.createText( '' );
-						this._.lastNode.insertAfter( lastNode );
-					}
-
-					// Let's reuse this variable.
-					range = null;
-				}
-
-				this._.started = 1;
-			}
-
-			var currentNode = this._.nextNode;
-			lastNode = this._.lastNode;
+			var currentNode = this._.nextNode,
+				lastNode = this._.lastNode;
 
 			this._.nextNode = null;
 			while ( currentNode ) {
@@ -353,6 +305,60 @@
 			return block;
 		}
 	};
+
+	// @context CKEDITOR.dom.iterator
+	// @returns Collapsed range which will be reused when during furter processing.
+	function startIterator() {
+		var range = this.range.clone(),
+			// Indicate at least one of the range boundaries is inside a preformat block.
+			touchPre;
+
+		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
+
+		touchPre = range.endContainer.hasAscendant( 'pre', true ) || range.startContainer.hasAscendant( 'pre', true );
+
+		range.enlarge( this.forceBrBreak && !touchPre || !this.enlargeBr ? CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS : CKEDITOR.ENLARGE_BLOCK_CONTENTS );
+
+		if ( !range.collapsed ) {
+			var walker = new CKEDITOR.dom.walker( range.clone() ),
+				ignoreBookmarkTextEvaluator = CKEDITOR.dom.walker.bookmark( true, true );
+			// Avoid anchor inside bookmark inner text.
+			walker.evaluator = ignoreBookmarkTextEvaluator;
+			this._.nextNode = walker.next();
+			// TODO: It's better to have walker.reset() used here.
+			walker = new CKEDITOR.dom.walker( range.clone() );
+			walker.evaluator = ignoreBookmarkTextEvaluator;
+			var lastNode = walker.previous();
+			this._.lastNode = lastNode.getNextSourceNode( true );
+
+			// We may have an empty text node at the end of block due to [3770].
+			// If that node is the lastNode, it would cause our logic to leak to the
+			// next block.(#3887)
+			if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
+				var testRange = this.range.clone();
+				testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );
+				if ( testRange.checkEndOfBlock() ) {
+					var path = new CKEDITOR.dom.elementPath( testRange.endContainer, testRange.root ),
+						lastBlock = path.block || path.blockLimit;
+					this._.lastNode = lastBlock.getNextSourceNode( true );
+				}
+			}
+
+			// Probably the document end is reached, we need a marker node.
+			if ( !this._.lastNode ) {
+				this._.lastNode = this._.docEndMarker = range.document.createText( '' );
+				this._.lastNode.insertAfter( lastNode );
+			}
+
+			// Let's reuse this variable.
+			range = null;
+		}
+
+		this._.started = 1;
+
+		return range;
+	}
 
 	/**
 	 * Creates {CKEDITOR.dom.iterator} instance for this range.
