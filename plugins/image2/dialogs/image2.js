@@ -277,7 +277,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		if ( !lockButton )
 			return;
 
-		if ( enable ) {
+		if ( typeof enable == 'boolean' ) {
 			// If user explicitly wants to decide whether
 			// to lock or not, don't do anything.
 			if ( userDefinedLock )
@@ -288,12 +288,11 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// Undefined. User changed lock value.
 		else {
-			var width, height;
+			var width = widthField.getValue(),
+				height;
 
 			userDefinedLock = true;
 			lockRatio = !lockRatio;
-
-			width = widthField.getValue();
 
 			// Automatically adjust height to width to match
 			// the original ratio (based on dom- dimensions).
