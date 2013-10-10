@@ -210,25 +210,16 @@
 		},
 
 		init: function() {
-			var image = this.parts.image,
-
-				clientWidth = image.$.clientWidth,
-				clientHeight = image.$.clientHeight,
-				naturalWidth = image.$.naturalWidth,
-				naturalHeight = image.$.naturalHeight,
-
+			var helpers = CKEDITOR.plugins.image2,
+				image = this.parts.image,
 				data = {
 					hasCaption: !!this.parts.caption,
 					src: image.getAttribute( 'src' ),
 					alt: image.getAttribute( 'alt' ) || '',
 					width: image.getAttribute( 'width' ) || '',
-					height: image.getAttribute( 'height' ) || ''
+					height: image.getAttribute( 'height' ) || '',
+					lock: helpers.checkHasNaturalRatio( image )
 				};
-
-			// Check if current dimensions of the image match
-			// the natural ones.
-			data.lock = Math.round( clientWidth / naturalWidth * naturalHeight ) == clientHeight ||
-				Math.round( clientHeight / naturalHeight * naturalWidth ) == clientWidth;
 
 			// Read initial float style from figure/image and
 			// then remove it. This style will be set on wrapper in #data listener.
@@ -248,7 +239,7 @@
 			// Setup dynamic image resizing with mouse.
 			setupResizer( this );
 
-			this.shiftState = CKEDITOR.plugins.image2.stateShifter( this.editor );
+			this.shiftState = helpers.stateShifter( this.editor );
 
 			// Add widget editing option to its context menu.
 			this.on( 'contextMenu', function( evt ) {
@@ -424,6 +415,20 @@
 
 				data.init( data.element );
 			};
+		},
+
+		// Checks whether current ratio of the image match the natural one.
+		// by comparing dimensions.
+		// @param {CKEDITOR.dom.element} image
+		checkHasNaturalRatio: function( image ) {
+			var $ = image.$;
+
+			// The reason for two alternative comparisons is that the rounding can come from
+			// both dimensions, e.g. there are two cases:
+			// 	1. height is computed as a rounded relation of the real height and the value of width,
+			//	2. width is computed as a rounded relation of the real width and the value of heigh.
+			return Math.round( $.clientWidth / $.naturalWidth * $.naturalHeight ) == $.clientHeight ||
+				Math.round( $.clientHeight / $.naturalHeight * $.naturalWidth ) == $.clientWidth;
 		}
 	};
 
