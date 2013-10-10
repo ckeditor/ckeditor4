@@ -211,6 +211,12 @@
 
 		init: function() {
 			var image = this.parts.image,
+
+				clientWidth = image.$.clientWidth,
+				clientHeight = image.$.clientHeight,
+				naturalWidth = image.$.naturalWidth,
+				naturalHeight = image.$.naturalHeight,
+
 				data = {
 					hasCaption: !!this.parts.caption,
 					src: image.getAttribute( 'src' ),
@@ -218,6 +224,11 @@
 					width: image.getAttribute( 'width' ) || '',
 					height: image.getAttribute( 'height' ) || ''
 				};
+
+			// Check if current dimensions of the image match
+			// the natural ones.
+			data.lock = Math.round( clientWidth / naturalWidth * naturalHeight ) == clientHeight ||
+				Math.round( clientHeight / naturalHeight * naturalWidth ) == clientWidth;
 
 			// Read initial float style from figure/image and
 			// then remove it. This style will be set on wrapper in #data listener.
