@@ -8,6 +8,8 @@
  * File overview: DOM iterator, which iterates over list items, lines and paragraphs.
  */
 
+'use strict';
+
 (function() {
 	/**
 	 * Represents iterator class.
