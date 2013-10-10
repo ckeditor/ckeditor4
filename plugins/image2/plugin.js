@@ -634,9 +634,7 @@
 				// The initial dimensions and aspect ratio of the image.
 				startWidth = image.$.clientWidth,
 				startHeight = image.$.clientHeight,
-				naturalWidth = image.$.naturalWidth,
-				naturalHeight = image.$.naturalHeight,
-				ratio = naturalWidth / naturalHeight,
+				ratio = startWidth / startHeight,
 
 				listeners = [],
 
