@@ -483,6 +483,12 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								type: 'html',
 								style: lockResetStyle,
 								onLoad: onLoadLockReset,
+								setup: function( widget ) {
+									toggleLockDimensions( widget.data.lock );
+								},
+								commit: function( widget ) {
+									widget.setData( 'lock', lockRatio );
+								},
 								html: lockResetHtml
 							}
 						]
