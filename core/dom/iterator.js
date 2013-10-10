@@ -12,12 +12,23 @@
 
 (function() {
 	/**
-	 * Represents iterator class.
+	 * Represents iterator class. It can be used to iterate
+	 * over all elements (or even text nodes in case of {@link #enlargeBr} set to `false`)
+	 * which establish "paragraph-like" spaces within passed range.
+	 *
+	 *		// <h1>[foo</h1><p>bar]</p>
+	 *		var iterator = range.createIterator();
+	 *		iterator.getNextParagraph(); // h1 element
+	 *		iterator.getNextParagraph(); // p element
+	 *
+	 *		// <ul><li>[foo</li><li>bar]</li>
+	 *		// With enforceRealBlocks set to false iterator will return two list item elements.
+	 *		// With enforceRealBlocks set to true iterator will return two paragraphs and the DOM will be changed to:
+	 *		// <ul><li><p>foo</p></li><li><p>bar</p></li>
 	 *
 	 * @class CKEDITOR.dom.iterator
 	 * @constructor Creates an iterator class instance.
 	 * @param {CKEDITOR.dom.range} range
-	 * @todo
 	 */
 	function iterator( range ) {
 		if ( arguments.length < 1 )
@@ -26,8 +37,23 @@
 		this.range = range;
 		this.forceBrBreak = 0;
 
-		// Whether include <br>s into the enlarged range.(#3730).
+		// (#3730).
+		/**
+		 * Whether include `<br>`s into the enlarged range. Should be
+		 * set to `false` when using iterator in {@link CKEDITOR#ENTER_BR} mode.
+		 *
+		 * @property {Boolean} [enlargeBr=true]
+		 */
 		this.enlargeBr = 1;
+
+		/**
+		 * Whether iterator should create transformable block
+		 * if the current one contains text and it cannot be transformed.
+		 * For example new blocks will be established in elements like
+		 * `<li>` or `<td>`.
+		 *
+		 * @property {Boolean} [enforceRealBlocks=false]
+		 */
 		this.enforceRealBlocks = 0;
 
 		this._ || ( this._ = {} );
@@ -51,7 +77,10 @@
 
 	iterator.prototype = {
 		/**
-		 * @todo
+		 * Returns next paragraph-like element or `null` if reached the end of range.
+		 *
+		 * @param {String} [blockTag='p'] Name of a block element which will be established by
+		 * iterator in block-less elements (see {@link #enforceRealBlocks}).
 		 */
 		getNextParagraph: function( blockTag ) {
 			blockTag = blockTag || 'p';
