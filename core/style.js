@@ -441,6 +441,41 @@ CKEDITOR.STYLE_OBJECT = 3;
 		posFollowingIdenticalContained =
 			CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED;
 
+	// Checks if the current node can be a child of the style element.
+	function checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, includeReadonly ) {
+		return !nodeName ||
+			(
+				dtd[ nodeName ] && !nodeIsNoStyle && includeReadonly &&
+				checkPositionAndRule( currentNode, lastNode, def, posPrecedingIdenticalContained )
+			);
+	}
+
+	// Check if the style element can be a child of the current
+	// node parent or if the element is not defined in the DTD.
+	function checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) {
+		return currentParent &&
+			( ( currentParent.getDtd() || CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
+			( !def.parentRule || def.parentRule( currentParent ) );
+	}
+
+	function checkIfStartsRange( nodeName, currentNode, lastNode ) {
+		return (
+			!nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
+			( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained
+		);
+	}
+
+	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
+		var nodeType = currentNode.type;
+		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() )
+	}
+
+	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
+	function checkPositionAndRule( nodeA, nodeB, def, posBitFlags ) {
+		return ( nodeA.getPosition( nodeB ) | posBitFlags ) == posBitFlags &&
+			( !def.childRule || def.childRule( nodeA ) );
+	}
+
 	function applyInlineStyle( range ) {
 		var document = range.document;
 
@@ -481,8 +516,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 		range.trim();
 
-		// Get the first node to be processed and the last, which concludes the
-		// processing.
+		// Get the first node to be processed and the last, which concludes the processing.
 		var boundaryNodes = range.createBookmark(),
 			firstNode = boundaryNodes.startNode,
 			lastNode = boundaryNodes.endNode,
@@ -517,8 +551,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				currentNode = null;
 				applyStyle = true;
 			} else {
-				var nodeType = currentNode.type,
-					nodeName = nodeType == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
+				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
 					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
@@ -528,35 +561,24 @@ CKEDITOR.STYLE_OBJECT = 3;
 				}
 
 				// Check if the current node can be a child of the style element.
-				if ( !nodeName ||
-				     ( dtd[ nodeName ] && !nodeIsNoStyle &&
-				       ( !nodeIsReadonly || includeReadonly ) &&
-				       ( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained &&
-				       ( !def.childRule || def.childRule( currentNode ) ) ) ) {
+				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, !nodeIsReadonly || includeReadonly ) ) {
 					var currentParent = currentNode.getParent();
 
 					// Check if the style element can be a child of the current
 					// node parent or if the element is not defined in the DTD.
-					if ( currentParent &&
-					     ( ( currentParent.getDtd() ||
-					         CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
-					     ( !def.parentRule || def.parentRule( currentParent ) ) ) {
+					if ( checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) ) {
 						// This node will be part of our range, so if it has not
 						// been started, place its start right before the node.
 						// In the case of an element node, it will be included
 						// only if it is entirely inside the range.
-						if ( !styleRange &&
-						     ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
-						       ( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained ) ) {
+						if ( !styleRange && checkIfStartsRange( nodeName, currentNode, lastNode ) ) {
 							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
 
 						// Non element nodes, readonly elements, or empty
 						// elements can be added completely to the range.
-						if ( nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly ||
-						     ( nodeType == CKEDITOR.NODE_ELEMENT &&
-						       !currentNode.getChildCount() ) ) {
+						if ( checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
@@ -564,10 +586,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
 							// to the range, otherwise apply the style immediately.
-							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) &&
-							        ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
-							        ( parentNode.getPosition( firstNode ) | posFollowingIdenticalContained ) == posFollowingIdenticalContained &&
-							        ( !def.childRule || def.childRule( parentNode ) ) ) {
+							while (
+								( applyStyle = !includedNode.getNext( notBookmark ) ) &&
+								( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
+								checkPositionAndRule( parentNode, firstNode, def, posFollowingIdenticalContained )
+							) {
 								includedNode = parentNode;
 							}
 
