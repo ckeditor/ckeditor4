@@ -191,7 +191,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// If the value of the field is invalid (e.g. with %), unlock ratio.
 		if ( !value.match( regexGetSizeOrEmpty ) )
-			toggleLockDimensions( false );
+			toggleLockRatio( false );
 
 		// No automatic re-scale when dimension is '0'.
 		if ( value === '0' )
@@ -243,7 +243,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			dialog.addFocusable( lockButton, 4 );
 
 			lockButton.on( 'click', function( evt ) {
-				toggleLockDimensions();
+				toggleLockRatio();
 				evt.data && evt.data.preventDefault();
 			}, this.getDialog() );
 
@@ -278,7 +278,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		}
 	}
 
-	function toggleLockDimensions( enable ) {
+	function toggleLockRatio( enable ) {
 		// No locking if there's no radio (i.e. due to ACF).
 		if ( !lockButton )
 			return;
@@ -458,7 +458,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								style: lockResetStyle,
 								onLoad: onLoadLockReset,
 								setup: function( widget ) {
-									toggleLockDimensions( widget.data.lock );
+									toggleLockRatio( widget.data.lock );
 								},
 								commit: function( widget ) {
 									widget.setData( 'lock', lockRatio );
