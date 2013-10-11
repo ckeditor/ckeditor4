@@ -2335,6 +2335,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					}
 				});
 
+				// Completes this object with everything we have in the
+				// definition.
+				CKEDITOR.tools.extend( this, elementDefinition );
+
 				// Register the object as a tab focus if it can be included.
 				if ( this.keyboardFocusable ) {
 					this.tabIndex = elementDefinition.tabIndex || 0;
@@ -2344,10 +2348,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						dialog._.currentFocusIndex = me.focusIndex;
 					});
 				}
-
-				// Completes this object with everything we have in the
-				// definition.
-				CKEDITOR.tools.extend( this, elementDefinition );
 			},
 
 			/**

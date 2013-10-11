@@ -383,6 +383,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							html = [],
 							commonAttributes = { 'class': 'cke_dialog_ui_radio_item', 'aria-labelledby': this._.labelId },
 							commonName = elementDefinition.id ? elementDefinition.id + '_radio' : CKEDITOR.tools.getNextId() + '_radio';
+
 						for ( var i = 0; i < elementDefinition.items.length; i++ ) {
 							var item = elementDefinition.items[ i ],
 								title = item[ 2 ] !== undefined ? item[ 2 ] : item[ 0 ],
@@ -412,6 +413,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 							if ( typeof inputDefinition.inputStyle != 'undefined' )
 								inputDefinition.style = inputDefinition.inputStyle;
+
+							// Make inputs of radio type focusable (#10866).
+							inputDefinition.keyboardFocusable = true;
 
 							children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
 							inputHtml.push( ' ' );
@@ -1158,9 +1162,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					}
 					return null;
 				}
-			},
-
-			keyboardFocusable: true
+			}
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.file */
