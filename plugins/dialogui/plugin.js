@@ -394,8 +394,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 					var inputHtmlList = [],
 						html = [],
-						commonAttributes = { 'class': 'cke_dialog_ui_radio_item', 'aria-labelledby': this._.labelId },
-						commonName = elementDefinition.id ? elementDefinition.id + '_radio' : CKEDITOR.tools.getNextId() + '_radio';
+						commonName = ( elementDefinition.id ? elementDefinition.id : CKEDITOR.tools.getNextId() ) + '_radio';
 
 					for ( var i = 0; i < elementDefinition.items.length; i++ ) {
 						var item = elementDefinition.items[ i ],
