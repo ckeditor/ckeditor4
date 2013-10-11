@@ -535,12 +535,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 * Gets the closest ancestor node of this node, specified by its name.
 	 *
 	 *		// Suppose we have the following HTML structure:
-	 *		// <div id="outer"><div id="inner"><p><b>Some text</b></p></div></div>
+	 *		// <div id="outer" data-myattr="foo"><div id="inner"><p><b>Some text</b></p></div></div>
 	 *		// If node == <b>
 	 *		ascendant = node.getAscendant( 'div' );				// ascendant == <div id="inner">
 	 *		ascendant = node.getAscendant( 'b' );				// ascendant == null
 	 *		ascendant = node.getAscendant( 'b', true );			// ascendant == <b>
 	 *		ascendant = node.getAscendant( { div:1,p:1 } );		// Searches for the first 'div' or 'p': ascendant == <div id="inner">
+	 * 		ascendant = node.getAscendant( 'div[data-myattr]' ) // ascendant == <div id="outer" data-myattr="foo">
 	 *
 	 * @since 3.6.1
 	 * @param {String} reference The name of the ancestor node to search or
@@ -551,13 +552,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 */
 	getAscendant: function( reference, includeSelf ) {
 		var $ = this.$,
-			name;
+			name,
+			hasAttributes = false,
+			attributeName = null,
+			reAttr = /^(.*)\[(.+)\]$/;
 
 		if ( !includeSelf )
 			$ = $.parentNode;
+			
+		if ( typeof reference  == 'string' && reAttr.test( reference ) )
+		{
+			var res = reAttr.exec(reference);
+			reference = res[1];
+			attributeName = res[2];
+			hasAttributes = true;
+		}
 
 		while ( $ ) {
-			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference : name in reference ) ) )
+			
+			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference && ( !hasAttributes || ( $.getAttribute && $.getAttribute(attributeName) !== null ) ) : name in reference ) ) )
 				return new CKEDITOR.dom.node( $ );
 
 			try {
