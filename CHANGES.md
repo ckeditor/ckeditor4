@@ -5,15 +5,15 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#10028](http://dev.ckeditor.com/ticket/10028): New option [`config.dialog_noConfirmCancel`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-dialog_noConfirmCancel).
+* [#10028](http://dev.ckeditor.com/ticket/10028): New [`config.dialog_noConfirmCancel`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-dialog_noConfirmCancel) configuration option that eliminates the need to confirm closing of a dialog window when the user changed any of its fields.
 
 Fixed Issues:
 
 * [#10612](http://dev.ckeditor.com/ticket/10612): Internet Explorer 11 compatibility issues.
-* [#10862](http://dev.ckeditor.com/ticket/10862): Placeholder plugin was rewritten as a widget in order to fix it.
-* [#10831](http://dev.ckeditor.com/ticket/10831): Image2: Merged `image2inline` and `image2block` into `image2` widget.
-* [#10835](http://dev.ckeditor.com/ticket/10835): Image2: Improved visibility of the resize handler.
-* [#10836](http://dev.ckeditor.com/ticket/10836): Image2: Preserve custom mouse cursor while resizing the image.
+* [#10862](http://dev.ckeditor.com/ticket/10862): [Placeholder](http://ckeditor.com/addon/placeholder) plugin was rewritten as a widget in order to fix it.
+* [#10831](http://dev.ckeditor.com/ticket/10831): [Enhanced Image](http://ckeditor.com/addon/image2): Merged `image2inline` and `image2block` into `image2` widget.
+* [#10835](http://dev.ckeditor.com/ticket/10835): [Enhanced Image](http://ckeditor.com/addon/image2): Improved visibility of the resize handle.
+* [#10836](http://dev.ckeditor.com/ticket/10836): [Enhanced Image](http://ckeditor.com/addon/image2): Preserve custom mouse cursor while resizing the image.
 * [#10881](http://dev.ckeditor.com/ticket/10881): Various improvements to *Enter* key behaviour in nested editables.
 
 ## CKEditor 4.3 Beta
