@@ -20,6 +20,7 @@
 CKEDITOR.lang[ 'gu' ] = {
 	// ARIA description.
 	editor: 'રીચ ટેક્ષ્ત્ એડીટર',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {

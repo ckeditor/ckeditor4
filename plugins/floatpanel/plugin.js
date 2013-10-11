@@ -366,10 +366,18 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
 
-					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
+						var scrollTop = CKEDITOR.env.webkit && CKEDITOR.document.getWindow().getScrollPosition().y;
 
+						// Focus the panel frame first, so blur gets fired.
 						this.focus();
+
+						// Focus the block now.
+						block.element.focus();
+
+						// #10623, #10951 - restore the viewport's scroll position after focusing list element.
+						if ( CKEDITOR.env.webkit )
+							CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -380,7 +388,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( this.onShow )
 					this.onShow.call( this );
-
 			},
 
 			/**

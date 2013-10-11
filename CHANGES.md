@@ -43,13 +43,19 @@ New Features:
 
 Fixed Issues:
 
+* [#10308](http://dev.ckeditor.com/ticket/10308): Fixed: unspecified Error when deleting a row in Internet Explorer 10.
+* [#10945](http://dev.ckeditor.com/ticket/10945): Fixed: click with mouse inside editor does not show the caret in Chrome.
+* [#10912](http://dev.ckeditor.com/ticket/10912): Prevent default action when content of a non-editable link is clicked.
 * [#10913](http://dev.ckeditor.com/ticket/10913): Fixed CKEDITOR.plugins.addExternal not handling paths including file name specified.
 * [#10666](http://dev.ckeditor.com/ticket/10666): Fixed CKEDITOR.tools.isArray not working cross frame.
 * [#10910](http://dev.ckeditor.com/ticket/10910): Fixed error thrown on Internet Explorer 9 in Compatibility Mode.
 * [#10868](http://dev.ckeditor.com/ticket/10868): Prevent from Internet Explorer 8 crashing when applying a cite style.
 * [#10915](http://dev.ckeditor.com/ticket/10915): CSS filter in Kama skin pull request.
 * [#10914](http://dev.ckeditor.com/ticket/10914): Plugins indentlist and indentblock included into building config.
-* [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10847](http://dev.ckeditor.com/ticket/10847), [#10842](http://dev.ckeditor.com/ticket/10842).
+* [#10812](http://dev.ckeditor.com/ticket/10812): Fixed range#createBookmark2 incorrectly normalizing offsets. This bug was causing many issues: [#10850](http://dev.ckeditor.com/ticket/10850), [#10842](http://dev.ckeditor.com/ticket/10842).
+* [#10951](http://dev.ckeditor.com/ticket/10951): Reviewed and optimized the focus handling on panels (combo, menu-buttons, color buttons and context menu) to enhance accessibility. Fixed [#10705](http://dev.ckeditor.com/ticket/10705), [#10706](http://dev.ckeditor.com/ticket/10706) and [#10707](http://dev.ckeditor.com/ticket/10707).
+* [#10704](http://dev.ckeditor.com/ticket/10704): Fixed a JAWS issue with the Select Color dialog title not being announced.
+* [#10753](http://dev.ckeditor.com/ticket/10753): The floating toolbar on inline instances how have a dedicated accessibility label.
 
 ## CKEditor 4.2.1
 
