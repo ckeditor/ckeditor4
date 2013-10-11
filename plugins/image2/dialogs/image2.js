@@ -283,7 +283,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		},
 		onShow: function() {
 			// Create a "global" reference to edited widget.
-			widget = this._.widget;
+			widget = this.widget;
 
 			// Create a "global" reference to widget's image.
 			image = widget.parts.image;
