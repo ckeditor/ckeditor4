@@ -130,9 +130,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 						var html = [],
 							requiredClass = elementDefinition.required ? ' cke_required' : '';
-						if ( elementDefinition.labelLayout != 'horizontal' )
-						html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ( _.inputId ? ' for="' + _.inputId + '"' : '' ), ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + ' role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
-						else {
+						if ( elementDefinition.labelLayout != 'horizontal' ) {
+							html.push(
+								'<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"',
+									( _.inputId ? ' for="' + _.inputId + '"' : '' ),
+									( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
+									elementDefinition.label,
+								'</label>',
+								'<div class="cke_dialog_ui_labeled_content"',
+									( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
+									' role="radiogroup" aria-labelledby="' + _.labelId + '">',
+									contentHtml.call( this, dialog, elementDefinition ),
+								'</div>' );
+						} else {
 							var hboxDefinition = {
 								type: 'hbox',
 								widths: elementDefinition.widths,
