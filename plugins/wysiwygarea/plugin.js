@@ -179,12 +179,20 @@
 						}
 					}, 0 );
 				}
-			});
-		} else if ( CKEDITOR.env.webkit ) {
-			// Fix problem with cursor not appearing in Chrome when clicking below the body (#10945).
+			} );
+		}
+
+		// Fix problem with cursor not appearing in Chrome and IE11 when clicking below the body (#10945, #10906).
+		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
 			doc.getDocumentElement().on( 'mousedown', function( evt ) {
-				if ( evt.data.getTarget().is( 'html' ) )
-					editor.editable().focus();
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					if ( CKEDITOR.env.ie ) {
+						setTimeout( function() {
+							editor.editable().focus();
+						}, 0 );
+					} else
+						editor.editable().focus();
+				}
 			} );
 		}
 
