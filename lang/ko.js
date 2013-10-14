@@ -19,7 +19,7 @@
  */
 CKEDITOR.lang[ 'ko' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: '리치 텍스트 편집기',
 	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
@@ -70,7 +70,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		targetNew: '새로운 창 (_blank)',
 		targetTop: '최상위 창 (_top)',
 		targetSelf: '같은 창 (_self)',
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetParent: '부모 창 (_parent)',
 		langDirLTR: '왼쪽에서 오른쪽 (LTR)',
 		langDirRTL: '오른쪽에서 왼쪽 (RTL)',
 		styles: 'Style',
@@ -93,6 +93,6 @@ CKEDITOR.lang[ 'ko' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, 사용할 수 없음</span>'
 	}
 };

@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 	form: {
 		title: 'Ιδιότητες Φόρμας',
 		menu: 'Ιδιότητες Φόρμας',
-		action: 'Δράση',
+		action: 'Ενέργεια',
 		method: 'Μέθοδος',
 		encoding: 'Κωδικοποίηση'
 	},
@@ -43,7 +43,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		btnModify: 'Τροποποίηση',
 		btnUp: 'Πάνω',
 		btnDown: 'Κάτω',
-		btnSetValue: 'Προεπιλογή',
+		btnSetValue: 'Θέση ως προεπιλογή',
 		btnDelete: 'Διαγραφή'
 	},
 	textarea: {
@@ -62,7 +62,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		typePass: 'Κωδικός',
 		typeEmail: 'Email',
 		typeSearch: 'Αναζήτηση',
-		typeTel: 'Τηλέφωνο ',
+		typeTel: 'Αριθμός Τηλεφώνου',
 		typeUrl: 'URL'
 	}
 });

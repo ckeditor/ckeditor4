@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pagebreak', 'el', {
 	alt: 'Αλλαγή Σελίδας',
-	toolbar: 'Εισαγωγή τέλους σελίδας'
+	toolbar: 'Εισαγωγή Τέλους Σελίδας για Εκτύπωση'
 });

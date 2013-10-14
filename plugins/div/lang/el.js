@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'div', 'el', {
 	IdInputLabel: 'Id',
 	advisoryTitleInputLabel: 'Ενδεικτικός Τίτλος',
-	cssClassInputLabel: 'Stylesheet Classes',
+	cssClassInputLabel: 'Κλάσεις Φύλλων Στυλ',
 	edit: 'Επεξεργασία Div',
 	inlineStyleInputLabel: 'Στυλ Εν Σειρά',
 	langDirLTRLabel: 'Αριστερά προς Δεξιά (LTR)',
@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'div', 'el', {
 	languageCodeInputLabel: 'Κωδικός Γλώσσας',
 	remove: 'Διαγραφή Div',
 	styleSelectLabel: 'Μορφή',
-	title: 'Δημιουργεία Div',
-	toolbar: 'Δημιουργεία Div'
+	title: 'Δημιουργία Div',
+	toolbar: 'Δημιουργία Div'
 });

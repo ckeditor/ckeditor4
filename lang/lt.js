@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		alignTop: 'Viršūnę',
 		alignMiddle: 'Vidurį',
 		alignBottom: 'Apačią',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Neteisinga reikšmė.',
 		invalidHeight: 'Aukštis turi būti nurodytas skaičiais.',
 		invalidWidth: 'Plotis turi būti nurodytas skaičiais.',
 		invalidCssLength: 'Reikšmė nurodyta "%1" laukui, turi būti teigiamas skaičius su arba be tinkamo CSS matavimo vieneto (px, %, in, cm, mm, em, ex, pt arba pc).',

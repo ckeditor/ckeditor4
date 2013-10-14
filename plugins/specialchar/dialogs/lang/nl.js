@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'nl', {
 	sup2: 'Superscript twee',
 	sup3: 'Superscript drie',
 	acute: 'Accent aigu',
-	micro: 'Mico-teken',
+	micro: 'Micro-teken',
 	para: 'Alinea-teken',
 	middot: 'Halfhoge punt',
 	cedil: 'Cedille',

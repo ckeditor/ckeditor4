@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'el', {
-	title: 'Εισάγετε παράγραφο εδώ '
+	title: 'Εισάγετε παράγραφο εδώ'
 });

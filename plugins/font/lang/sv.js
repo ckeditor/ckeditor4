@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'font', 'sv', {
 	fontSize: {
 		label: 'Storlek',
 		voiceLabel: 'Teckenstorlek',
-		panelTitle: 'Storlek'
+		panelTitle: 'Teckenstorlek'
 	},
 	label: 'Typsnitt',
 	panelTitle: 'Typsnitt',

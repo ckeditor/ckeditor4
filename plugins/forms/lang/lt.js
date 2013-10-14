@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		type: 'Tipas',
 		typeText: 'Tekstas',
 		typePass: 'Slaptažodis',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'El. paštas',
+		typeSearch: 'Paieška',
+		typeTel: 'Telefono numeris',
 		typeUrl: 'Nuoroda'
 	}
 });

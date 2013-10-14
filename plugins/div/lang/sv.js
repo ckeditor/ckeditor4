@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'div', 'sv', {
 	cssClassInputLabel: 'Stilmallar',
 	edit: 'Redigera Div',
 	inlineStyleInputLabel: 'Inline Style',
-	langDirLTRLabel: 'Vänster till Höger (LTR)',
+	langDirLTRLabel: 'Vänster till höger (LTR)',
 	langDirLabel: 'Språkriktning',
 	langDirRTLLabel: 'Höger till vänster (RTL)',
 	languageCodeInputLabel: ' Språkkod',

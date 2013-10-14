@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'justify', 'el', {
 	block: 'Πλήρης Στοίχιση',
-	center: 'Στοίχιση στο Κέντρο',
+	center: 'Στο Κέντρο',
 	left: 'Στοίχιση Αριστερά',
 	right: 'Στοίχιση Δεξιά'
 });

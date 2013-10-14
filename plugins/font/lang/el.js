@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'el', {
 	fontSize: {
 		label: 'Μέγεθος',
-		voiceLabel: 'Μέγεθος γραμματοσειράς',
+		voiceLabel: 'Μέγεθος Γραμματοσειράς',
 		panelTitle: 'Μέγεθος Γραμματοσειράς'
 	},
 	label: 'Γραμματοσειρά',
