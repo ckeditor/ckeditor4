@@ -53,6 +53,7 @@
 				items = {},
 				parts,
 				curLanguageId, // 2-letter language identifier.
+				languageButtonId, // Will store button namespaced identifier, like "language_en".
 				i;
 
 			// Registers command.
@@ -60,7 +61,7 @@
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
 				exec: function( editor, languageId ) {
-					var item = items[ languageId ];
+					var item = items[ 'language_' + languageId ];
 
 					if ( item )
 						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
@@ -71,8 +72,9 @@
 			for ( i = 0; i < languagesConfigStrings.length; i++ ) {
 				parts = languagesConfigStrings[ i ].split( ':' );
 				curLanguageId = parts[ 0 ];
+				languageButtonId = 'language_' + curLanguageId;
 
-				items[ curLanguageId ] = {
+				items[ languageButtonId ] = {
 					label: parts[ 1 ],
 					langId: curLanguageId,
 					group: 'language',
@@ -87,11 +89,11 @@
 				};
 
 				// Init style property.
-				items[ curLanguageId ].style = new CKEDITOR.style( {
+				items[ languageButtonId ].style = new CKEDITOR.style( {
 					element: 'span',
 					attributes: {
 						lang: curLanguageId,
-						dir: items[ curLanguageId ].ltr ? 'ltr' : 'rtl'
+						dir: items[ languageButtonId ].ltr ? 'ltr' : 'rtl'
 					}
 				} );
 			}
@@ -137,7 +139,7 @@
 					activeItems.language_remove = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 					if ( currentLanguagedElement )
-						activeItems[ currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
+						activeItems[ 'language_' + currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
 
 					return activeItems;
 				}
