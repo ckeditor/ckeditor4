@@ -199,8 +199,6 @@
 			// Create prototyped copy of original widget definition, so we won't modify it.
 			widgetDef = CKEDITOR.tools.prototypedCopy( widgetDef );
 			widgetDef.name = name;
-			widgetDef.repository = this;
-			widgetDef.definition = widgetDef;
 
 			widgetDef._ = widgetDef._ || {};
 
@@ -756,6 +754,22 @@
 			 */
 			focusedEditable: null,
 
+			/**
+			 * The widget definition from which this instance was created.
+			 *
+			 * @readonly
+			 * @property {CKEDITOR.plugins.widget.definition} definition
+			 */
+			definition: widgetDef,
+
+			/**
+			 * Link to the widget repository which created this instance.
+			 *
+			 * @readonly
+			 * @property {CKEDITOR.plugins.widget.repository} repository
+			 */
+			repository: widgetsRepo,
+
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				downcastFn: ( widgetDef.downcast && typeof widgetDef.downcast == 'string' ) ?
@@ -771,20 +785,6 @@
 		 *
 		 * @readonly
 		 * @property {Object} parts
-		 */
-
-		/**
-		 * The widget definition from which this instance was created.
-		 *
-		 * @readonly
-		 * @property {CKEDITOR.plugins.widget.definition} definition
-		 */
-
-		/**
-		 * Link to the widget repository which created this instance.
-		 *
-		 * @readonly
-		 * @property {CKEDITOR.plugins.widget.repository} repository
 		 */
 
 		/**
