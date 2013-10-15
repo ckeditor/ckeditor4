@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<title>Magicfinger &mdash; CKEditor Sample</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Magicfinger
+	</h1>
+
+	<textarea id="editor1" cols="10" rows="10">
+		<table border="1" cellpadding="1" cellspacing="1" style="width: 100%; ">
+			<tbody>
+				<tr>
+					<td>This table</td>
+					<td>is the</td>
+					<td>very first</td>
+					<td>element of the document.</td>
+				</tr>
+				<tr>
+					<td>We are still</td>
+					<td>able to acces</td>
+					<td>the space before it.</td>
+					<td>
+					<table border="1" cellpadding="1" cellspacing="1" style="width: 100%; ">
+						<tbody>
+							<tr>
+								<td>This table is inside of a cell of another table.</td>
+							</tr>
+							<tr>
+								<td>We can type&nbsp;either before or after it though.</td>
+							</tr>
+						</tbody>
+					</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>Two succesive horizontal lines (<tt>HR</tt> tags). We can access the space in between:</p>
+
+		<hr />
+		<hr />
+		<ol>
+			<li>This numbered list...</li>
+			<li>...is a neighbour of a horizontal line...</li>
+			<li>...and another list.</li>
+		</ol>
+
+		<ul>
+			<li>We can type between the lists...</li>
+			<li>...thanks to <strong>Magicline</strong>.</li>
+		</ul>
+
+		<p>Lorem ipsum dolor sit amet dui. Morbi vel turpis. Nullam et leo. Etiam rutrum, urna tellus dui vel tincidunt mattis egestas, justo fringilla vel, massa. Phasellus.</p>
+
+		<p>Quisque iaculis, dui lectus varius vitae, tortor. Proin lacus. Pellentesque ac lacus. Aenean nonummy commodo nec, pede. Etiam blandit risus elit.</p>
+
+		<p>Ut pretium. Vestibulum rutrum in, adipiscing elit. Sed in quam in purus sem vitae pede. Pellentesque bibendum, urna sem vel risus. Vivamus posuere metus. Aliquam gravida iaculis nisl. Nam enim. Aliquam erat ac lacus tellus ac felis.</p>
+
+		<div style="padding: 10px; background: #ddd; text-align: center;">
+		<p>This text is wrapped in a&nbsp;<tt>DIV</tt>&nbsp;element. We can type after this element though.</p>
+		</div>
+	</textarea>
+
+	<script>
+
+		CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'magicfinger',
+			height: 450,
+			removePlugins: 'magicline',
+			contentsCss: [ '../../../contents.css' ]
+		} );
+
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
