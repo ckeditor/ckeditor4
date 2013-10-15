@@ -136,6 +136,12 @@
 						var style = styles[ name ],
 							type = style.type;
 
+						// Check if that style is enabled in activeFilter.
+						if ( !editor.activeFilter.check( style ) ) {
+							this.hideItem( name );
+							continue;
+						}
+
 						// Check if block styles are applicable.
 						if ( type == CKEDITOR.STYLE_BLOCK && !elementPath.isContextFor( style.element ) ) {
 							this.hideItem( name );

@@ -227,6 +227,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		/**
 		 * Whether this style can be applied at the element path.
+		 * This method does not check if style is permitted in {@link CKEDITOR.editor#activeFilter activeFilter}.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
