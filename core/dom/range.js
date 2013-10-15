@@ -1409,6 +1409,10 @@ CKEDITOR.dom.range = function( root ) {
 					if ( shrinkOnBlockBoundary === false && node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
 						return false;
 
+					// Stop shrinking when encountering an editable border.
+					if ( node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'contenteditable' ) )
+						return false;
+
 					if ( !movingOut && node.type == CKEDITOR.NODE_ELEMENT )
 						currentElement = node;
 
