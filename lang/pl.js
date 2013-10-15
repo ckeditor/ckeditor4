@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'pl' ] = {
 	// ARIA description.
 	editor: 'Edytor tekstu sformatowanego',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Panel edytora tekstu sformatowanego',
 
 	// Common messages and labels.
 	common: {

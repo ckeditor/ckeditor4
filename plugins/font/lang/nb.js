@@ -5,8 +5,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'nb', {
 	fontSize: {
 		label: 'Størrelse',
-		voiceLabel: 'Font Størrelse',
-		panelTitle: 'Størrelse'
+		voiceLabel: 'Skriftstørrelse',
+		panelTitle: 'Skriftstørrelse'
 	},
 	label: 'Skrift',
 	panelTitle: 'Skrift',

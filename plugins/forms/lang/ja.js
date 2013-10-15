@@ -12,31 +12,31 @@ CKEDITOR.plugins.setLang( 'forms', 'ja', {
 		typeRst: 'リセット'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'チェックボックス プロパティ',
-		radioTitle: 'ラジオボタン プロパティ',
+		checkboxTitle: 'チェックボックスのプロパティ',
+		radioTitle: 'ラジオボタンのプロパティ',
 		value: '値',
 		selected: '選択済み'
 	},
 	form: {
-		title: 'フォーム プロパティ',
-		menu: 'フォーム プロパティ',
-		action: 'アクション',
-		method: 'メソッド',
-		encoding: 'エンコーディング'
+		title: 'フォームのプロパティ',
+		menu: 'フォームのプロパティ',
+		action: 'アクション (action)',
+		method: 'メソッド (method)',
+		encoding: 'エンコード方式 (encoding)'
 	},
 	hidden: {
 		title: '不可視フィールド プロパティ',
-		name: '名前',
-		value: '値'
+		name: '名前 (name)',
+		value: '値 (value)'
 	},
 	select: {
-		title: '選択フィールド プロパティ',
+		title: '選択フィールドのプロパティ',
 		selectInfo: '情報',
 		opAvail: '利用可能なオプション',
 		value: '選択項目値',
 		size: 'サイズ',
 		lines: '行',
-		chkMulti: '複数項目選択を許可',
+		chkMulti: '複数選択を許可',
 		opText: '選択項目名',
 		opValue: '値',
 		btnAdd: '追加',

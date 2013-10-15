@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'cs' ] = {
 	// ARIA description.
 	editor: 'Textový editor',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Panel textového editoru',
 
 	// Common messages and labels.
 	common: {

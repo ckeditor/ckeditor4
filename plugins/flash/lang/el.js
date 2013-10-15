@@ -36,7 +36,7 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	validateHSpace: 'Το HSpace πρέπει να είναι αριθμός.',
 	validateSrc: 'Εισάγετε την τοποθεσία (URL) του υπερσυνδέσμου (Link)',
 	validateVSpace: 'Το VSpace πρέπει να είναι αριθμός.',
-	windowMode: 'Τρόπος λειτουργίας παραθύρου.',
+	windowMode: 'Τρόπος λειτουργίας παραθύρου',
 	windowModeOpaque: 'Συμπαγές',
 	windowModeTransparent: 'Διάφανο',
 	windowModeWindow: 'Παράθυρο'

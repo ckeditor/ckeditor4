@@ -21,5 +21,5 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
 	type: 'Typ',
 	upperAlpha: 'Alpha versaler (A, B, C, D, E, etc.)',
 	upperRoman: 'Romerska versaler (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	validateStartNumber: 'Listans startnummer måste vara ett heltal.'
 });
