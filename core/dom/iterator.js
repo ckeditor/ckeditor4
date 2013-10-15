@@ -83,12 +83,6 @@
 		 * iterator in block-less elements (see {@link #enforceRealBlocks}).
 		 */
 		getNextParagraph: function( blockTag ) {
-			blockTag = blockTag || 'p';
-
-			// Block-less range should be checked first.
-			if ( !CKEDITOR.dtd[ this.range.root.getName() ][ blockTag ] )
-				return null;
-
 			// The block element to be returned.
 			var block;
 
@@ -100,6 +94,27 @@
 
 			// Instructs to cleanup remaining BRs.
 			var removePreviousBr, removeLastBr;
+
+			blockTag = blockTag || 'p';
+
+			// We're iterating over nested editable.
+			if ( this._.nestedEditable ) {
+				// Get next block from nested iterator and returns it if was found.
+				block = this._.nestedEditable.iterator.getNextParagraph( blockTag );
+				if ( block )
+					return block;
+
+				// No block in nested iterator means that we reached the end of the nested editable.
+				// Try to find next nested editable or get back to parent (this) iterator.
+				if ( startNestedEditableIterator( this, this._.nestedEditable.container, this._.nestedEditable.element ) )
+					return this._.nestedEditable.iterator.getNextParagraph( blockTag );
+				else
+					this._.nestedEditable = null;
+			}
+
+			// Block-less range should be checked first.
+			if ( !this.range.root.getDtd()[ blockTag ] )
+				return null;
 
 			// This is the first iteration. Let's initialize it.
 			if ( !this._.started )
@@ -120,12 +135,22 @@
 				var includeNode = ( currentNode.type != CKEDITOR.NODE_ELEMENT ),
 					continueFromSibling = 0;
 
-				// If it is an element node, let's check if it can be part of the
-				// range.
+				// If it is an element node, let's check if it can be part of the range.
 				if ( !includeNode ) {
 					var nodeName = currentNode.getName();
 
-					if ( currentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
+					// Non-editable block was found - return it and move to processing
+					// its nested editables if they exist.
+					if ( CKEDITOR.dtd.$block[ nodeName ] && currentNode.getAttribute( 'contenteditable' ) == 'false' ) {
+						block = currentNode;
+
+						// Setup iterator for first of nested editables.
+						// If there's no editable, then algorithm will move to next element after current block.
+						startNestedEditableIterator( this, block );
+
+						// Gets us straight to the end of getParagraph() because block variable is set.
+						break;
+					} else if ( currentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
 						// <br> boundaries must be part of the range. It will
 						// happen only if ForceBrBreak.
 						if ( nodeName == 'br' )
@@ -298,9 +323,8 @@
 			// Get a reference for the next element. This is important because the
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
-			if ( !this._.nextNode ) {
+			if ( !this._.nextNode )
 				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : getNextSourceNode( block, 1, lastNode );
-			}
 
 			return block;
 		}
@@ -358,6 +382,56 @@
 		this._.started = 1;
 
 		return range;
+	}
+
+	// Does a nested editables lookup inside editablesContainer.
+	// If previousEditable is set will start lookup from the next editable in container.
+	function getNestedEditableIn( editablesContainer, previousEditable ) {
+			// According to w3c spec elements will always be returned in document order.
+		var nestedEditables = editablesContainer.find( '[contenteditable=true]' ),
+			count = nestedEditables.count(),
+			i = 0,
+			editable;
+
+		// Move 'i' to first editable after previousEditable.
+		if ( previousEditable ) {
+			while ( i < count && !nestedEditables.getItem( i ).equals( previousEditable ) )
+				++i;
+			++i;
+		}
+
+		for ( ; i < count; ++i ) {
+			editable = nestedEditables.getItem( i );
+			if ( isIterableEditable( editable ) )
+				return editable;
+		}
+
+		return null;
+	}
+
+	// Checkes whether we can iterate over this editable.
+	function isIterableEditable( editable ) {
+		// Reject blockless editables.
+		return editable.getDtd().p;
+	}
+
+	// Looks for a first nested editable after previousEditable (if passed) and creates
+	// nested iterator for it.
+	function startNestedEditableIterator( parentIterator, editablesContainer, previousEditable ) {
+		var editable = getNestedEditableIn( editablesContainer, previousEditable );
+		if ( !editable )
+			return 0;
+
+		var range = new CKEDITOR.dom.range( editable );
+		range.selectNodeContents( editable );
+
+		parentIterator._.nestedEditable = {
+			element: editable,
+			container: editablesContainer,
+			iterator: range.createIterator()
+		};
+
+		return 1;
 	}
 
 	/**
