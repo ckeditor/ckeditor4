@@ -442,12 +442,21 @@ CKEDITOR.STYLE_OBJECT = 3;
 			CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED;
 
 	// Checks if the current node can be a child of the style element.
-	function checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, includeReadonly ) {
-		return !nodeName ||
-			(
-				dtd[ nodeName ] && !nodeIsNoStyle && includeReadonly &&
-				checkPositionAndRule( currentNode, lastNode, def, posPrecedingIdenticalContained )
-			);
+	function checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) {
+		// Style can be applied to text node.
+		if ( !nodeName )
+			return 1;
+
+		// Style definitely cannot be applied if DTD or data-nostyle do not allow.
+		if ( !dtd[ nodeName ] || nodeIsNoStyle  )
+			return 0;
+
+		// Non-editable element cannot be styled is we shouldn't include readonly elements.
+		if ( nodeIsReadonly && !includeReadonly  )
+			return 0;
+
+		// Check that we haven't passed lastNode yet and that style's childRule allows this style on current element.
+		return checkPositionAndRule( currentNode, lastNode, def, posPrecedingIdenticalContained );
 	}
 
 	// Check if the style element can be a child of the current
@@ -555,13 +564,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
 					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
+				// Skip bookmarks.
 				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}
 
 				// Check if the current node can be a child of the style element.
-				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, !nodeIsReadonly || includeReadonly ) ) {
+				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) ) {
 					var currentParent = currentNode.getParent();
 
 					// Check if the style element can be a child of the current
