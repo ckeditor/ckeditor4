@@ -425,10 +425,18 @@
 		var range = new CKEDITOR.dom.range( editable );
 		range.selectNodeContents( editable );
 
+		var iterator = range.createIterator();
+		// This setting actually does not change anything in this case,
+		// because entire range contents is selected, so there're no <br>s to be included.
+		// But it seems right to copy it too.
+		iterator.enlargeBr = parentIterator.enlargeBr;
+		// Inherit configuration from parent iterator.
+		iterator.enforceRealBlocks = parentIterator.enforceRealBlocks;
+
 		parentIterator._.nestedEditable = {
 			element: editable,
 			container: editablesContainer,
-			iterator: range.createIterator()
+			iterator: iterator
 		};
 
 		return 1;
