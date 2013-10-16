@@ -30,19 +30,24 @@
 		 * Initializes searching for elements with every mousemove event fired.
 		 */
 		start: function() {
-			var editor = this.editor,
+			var that = this,
+				editor = this.editor,
+				doc = this.doc,
 				x, y;
 
-			// Searching starting from element from point on mousemove.
-			// TODO: eventsBuffer here, right?
-			this.listener = this.editable.attachListener( this.target, 'mousemove', function( evt ) {
-				if ( editor.readOnly || editor.mode != 'wysiwyg' )
-					return;
+			var moveBuffer = CKEDITOR.tools.eventsBuffer( 50, function() {
+					if ( editor.readOnly || editor.mode != 'wysiwyg' )
+						return;
 
+					that.find( new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) ), x, y );
+				} );
+
+			// Searching starting from element from point on mousemove.
+			this.listener = this.editable.attachListener( this.target, 'mousemove', function( evt ) {
 				x = evt.data.$.clientX;
 				y = evt.data.$.clientY;
 
-				this.find( new CKEDITOR.dom.element( this.doc.$.elementFromPoint( x, y ) ), x, y );
+				moveBuffer.input();
 			}, this );
 		},
 
