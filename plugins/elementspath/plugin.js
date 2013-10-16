@@ -65,17 +65,15 @@
 	} );
 
 	function initElementsPath( editor, bottomSpaceData ) {
-		var spaceId = editor.ui.spaceId( 'path' );
-		var spaceElement;
-		var getSpaceElement = function() {
+		var spaceId = editor.ui.spaceId( 'path' ),
+			spaceElement,
+			getSpaceElement = function() {
 				if ( !spaceElement )
 					spaceElement = CKEDITOR.document.getById( spaceId );
 				return spaceElement;
-			};
-
-		var idBase = 'cke_elementspath_' + CKEDITOR.tools.getNextNumber() + '_';
-
-		editor._.elementsPath = { idBase: idBase, filters: [] };
+			},
+			idBase = 'cke_elementspath_' + CKEDITOR.tools.getNextNumber() + '_',
+			privateContext = editor._.elementsPath = { idBase: idBase, filters: [] };
 
 		bottomSpaceData.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementspath.eleLabel + '</span>' +
 			'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
@@ -87,7 +85,7 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var element = editor._.elementsPath.list[ elementIndex ];
+			var element = privateContext.list[ elementIndex ];
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
@@ -100,46 +98,46 @@
 			editor.focus();
 		}
 
-		var onClickHanlder = CKEDITOR.tools.addFunction( onClick );
-		editor._.elementsPath.onClick = onClick;
+		privateContext.onClick = onClick;
 
-		var onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
-			var idBase = editor._.elementsPath.idBase,
-				element;
+		var onClickHanlder = CKEDITOR.tools.addFunction( onClick ),
+			onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
+				var idBase = privateContext.idBase,
+					element;
 
-			ev = new CKEDITOR.dom.event( ev );
+				ev = new CKEDITOR.dom.event( ev );
 
-			var rtl = editor.lang.dir == 'rtl';
-			switch ( ev.getKeystroke() ) {
-				case rtl ? 39:
-					37 : // LEFT-ARROW
-				case 9: // TAB
-					element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
-					if ( !element )
-						element = CKEDITOR.document.getById( idBase + '0' );
-					element.focus();
-					return false;
+				var rtl = editor.lang.dir == 'rtl';
+				switch ( ev.getKeystroke() ) {
+					case rtl ? 39:
+						37 : // LEFT-ARROW
+					case 9: // TAB
+						element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
+						if ( !element )
+							element = CKEDITOR.document.getById( idBase + '0' );
+						element.focus();
+						return false;
 
-				case rtl ? 37:
-					39 : // RIGHT-ARROW
-				case CKEDITOR.SHIFT + 9: // SHIFT + TAB
-					element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
-					if ( !element )
-						element = CKEDITOR.document.getById( idBase + ( editor._.elementsPath.list.length - 1 ) );
-					element.focus();
-					return false;
+					case rtl ? 37:
+						39 : // RIGHT-ARROW
+					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
+						element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
+						if ( !element )
+							element = CKEDITOR.document.getById( idBase + ( privateContext.list.length - 1 ) );
+						element.focus();
+						return false;
 
-				case 27: // ESC
-					editor.focus();
-					return false;
+					case 27: // ESC
+						editor.focus();
+						return false;
 
-				case 13: // ENTER	// Opera
-				case 32: // SPACE
-					onClick( elementIndex );
-					return false;
-			}
-			return true;
-		} );
+					case 13: // ENTER	// Opera
+					case 32: // SPACE
+						onClick( elementIndex );
+						return false;
+				}
+				return true;
+			} );
 
 		editor.on( 'selectionChange', function( ev ) {
 			var env = CKEDITOR.env,
@@ -147,8 +145,8 @@
 				selection = ev.data.selection,
 				element = selection.getStartElement(),
 				html = [],
-				elementsList = editor._.elementsPath.list = [],
-				filters = editor._.elementsPath.filters;
+				elementsList = privateContext.list = [],
+				filters = privateContext.filters;
 
 			while ( element ) {
 				var ignore = 0,
@@ -200,7 +198,7 @@
 
 		function empty() {
 			spaceElement && spaceElement.setHtml( emptyHtml );
-			delete editor._.elementsPath.list;
+			delete privateContext.list;
 		}
 
 		editor.on( 'readOnly', empty );
