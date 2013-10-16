@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+ /**
+ * @fileOverview Fingering like a boss.
+ */
+
 'use strict';
 
 (function() {
@@ -51,7 +55,6 @@
 							if ( el.getPrevious( isStaticElement ) )
 								return el.getAddress();
 						},
-
 
 						'is block and has block after': function( el ) {
 							if ( !el.is( CKEDITOR.dtd.$block ) )
@@ -109,9 +112,9 @@
 
 					// DEV only.
 					for ( m in this.matches ) {
-						match = this.doc.getByAddress( this.matches[ m ] )
+						match = this.doc.getByAddress( this.matches[ m ] );
 						match.addClass( 'cke_matched' );
-						matched.push( match )
+						matched.push( match );
 					}
 				}
 			}, this );
@@ -122,7 +125,7 @@
 				this.listener.removeListener();
 		},
 
-		search: function( el ) {
+		search: function( el, x, y ) {
 			this.matches = [];
 
 			this.traverseSearch( el );
