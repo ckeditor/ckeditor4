@@ -11,7 +11,35 @@
 
 (function() {
 
+	// DEV only.
 	CKEDITOR.addCss( '.cke_matched { outline: 2px dashed red } ' );
+
+	/**
+	 * The space is before specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_BEFORE = 0;
+
+	/**
+	 * The space is after specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_AFTER = 1;
+
+	/**
+	 * The space is inside of specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_IN = 2;
 
 	CKEDITOR.plugins.add( 'magicfinger', {
 		lang: 'en', // %REMOVE_LINE_CORE%
@@ -30,8 +58,12 @@
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
-							if ( !el.getPrevious( isStaticElement ) )
-								return el.getAddress();
+							if ( !el.getPrevious( isStaticElement ) ) {
+								return {
+									element: el,
+									relation: CKEDITOR.REL_BEFORE
+								};
+							}
 						},
 
 						'is block and last child': function( el ) {
@@ -42,29 +74,10 @@
 								return;
 
 							if ( !el.getNext( isStaticElement ) )
-								return el.getAddress();
-						},
-
-						'is block and has block before': function( el ) {
-							if ( !el.is( CKEDITOR.dtd.$block ) )
-								return;
-
-							if ( el.is( CKEDITOR.dtd.$listItem ) )
-								return;
-
-							if ( el.getPrevious( isStaticElement ) )
-								return el.getAddress();
-						},
-
-						'is block and has block after': function( el ) {
-							if ( !el.is( CKEDITOR.dtd.$block ) )
-								return;
-
-							if ( el.is( CKEDITOR.dtd.$listItem ) )
-								return;
-
-							if ( el.getNext( isStaticElement ) )
-								return el.getAddress();
+								return {
+									element: el,
+									relation: CKEDITOR.REL_ATER
+								};
 						}
 					}
 				} ).start();
@@ -75,7 +88,7 @@
 	// DEV only.
 	var matched = [];
 
-	function finder( editor, def ) {
+	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editor.editable(),
@@ -86,7 +99,7 @@
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
 
-	finder.prototype = {
+	Finder.prototype = {
 		start: function() {
 			var editor = this.editor,
 				x, y, el, old;
@@ -112,7 +125,7 @@
 
 					// DEV only.
 					for ( m in this.matches ) {
-						match = this.doc.getByAddress( this.matches[ m ] );
+						match = this.matches[ m ].element;
 						match.addClass( 'cke_matched' );
 						matched.push( match );
 					}
@@ -130,27 +143,27 @@
 
 			this.traverseSearch( el );
 			this.pixelSearch();
-		}
-	};
+		},
 
-	finder.prototype.traverseSearch = function( el ) {
-		var l, match;
+		traverseSearch: function( el ) {
+			var l, match;
 
-		do {
-			if ( isStaticElement( el ) ) {
-				// Collect all addresses yielded by lookups for that element.
-				for ( l in this.lookups ) {
-					match = this.lookups[ l ]( el );
+			do {
+				if ( isStaticElement( el ) ) {
+					// Collect all addresses yielded by lookups for that element.
+					for ( l in this.lookups ) {
+						match = this.lookups[ l ]( el );
 
-					if ( match )
-						this.matches.push( match );
+						if ( match )
+							this.matches.push( match );
+					}
 				}
-			}
-		} while ( !isLimit( el ) && ( el = el.getParent() ) )
-	};
+			} while ( !isLimit( el ) && ( el = el.getParent() ) )
+		},
 
-	finder.prototype.pixelSearch = function( el, x, y ) {
-		// TODO: import some logic of expandFilter (engine).
+		pixelSearch: function( el, x, y ) {
+			// TODO: import some logic of expandFilter (engine).
+		}
 	};
 
 	var floats = { left:1,right:1,center:1 },
@@ -177,6 +190,6 @@
 	}
 
 	CKEDITOR.plugins.magicfinger = {
-		finder: finder
+		finder: Finder
 	};
 })();
