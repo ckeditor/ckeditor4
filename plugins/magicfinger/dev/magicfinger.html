@@ -16,7 +16,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</h1>
 
 	<textarea id="editor1" cols="10" rows="10">
-		<table border="1" cellpadding="1" cellspacing="1" style="width: 100%; ">
+		<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; ">
 			<tbody>
 				<tr>
 					<td>This table</td>
@@ -28,8 +28,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					<td>We are still</td>
 					<td>able to acces</td>
 					<td>the space before it.</td>
-					<td>
-					<table border="1" cellpadding="1" cellspacing="1" style="width: 100%; ">
+					<td style="padding: 25px">
+					<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; ">
 						<tbody>
 							<tr>
 								<td>This table is inside of a cell of another table.</td>
@@ -48,13 +48,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		<hr />
 		<hr />
-		<ol>
+		<ol style="width: 300px">
 			<li>This numbered list...</li>
 			<li>...is a neighbour of a horizontal line...</li>
 			<li>...and another list.</li>
 		</ol>
 
-		<ul>
+		<ul style="width: 450px">
 			<li>We can type between the lists...</li>
 			<li>...thanks to <strong>Magicline</strong>.</li>
 		</ul>
@@ -65,14 +65,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		<p>Ut pretium. Vestibulum rutrum in, adipiscing elit. Sed in quam in purus sem vitae pede. Pellentesque bibendum, urna sem vel risus. Vivamus posuere metus. Aliquam gravida iaculis nisl. Nam enim. Aliquam erat ac lacus tellus ac felis.</p>
 
-		<div style="padding: 10px; background: #ddd; text-align: center;">
+		<div style="padding: 10px; text-align: center;">
 		<p>This text is wrapped in a&nbsp;<tt>DIV</tt>&nbsp;element. We can type after this element though.</p>
 		</div>
 	</textarea>
 
 	<script>
 
-		CKEDITOR.addCss( '.cke_matched { outline: 2px dashed red } ' );
+		CKEDITOR.addCss(
+			'.cke_matched { outline: 3px dashed red }' +
+			'body * { outline: 1px solid #eee }'
+		);
 
 		var matched = [];
 
@@ -80,6 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			extraPlugins: 'magicfinger',
 			height: 450,
 			removePlugins: 'magicline',
+			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],
 			on: {
 				contentDom: function() {
