@@ -51,7 +51,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<ol style="width: 300px">
 			<li>This numbered list...</li>
 			<li>...is a neighbour of a horizontal line...</li>
-			<li>...and another list.</li>
+			<li style="padding: 20px;">
+				<ol>
+					<li>Nested list!</li>
+				</ol>
+			</li>
 		</ol>
 
 		<ul style="width: 450px">
@@ -65,7 +69,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		<p>Ut pretium. Vestibulum rutrum in, adipiscing elit. Sed in quam in purus sem vitae pede. Pellentesque bibendum, urna sem vel risus. Vivamus posuere metus. Aliquam gravida iaculis nisl. Nam enim. Aliquam erat ac lacus tellus ac felis.</p>
 
-		<div style="padding: 10px; text-align: center;">
+		<div id="last" style="padding: 10px; text-align: center;">
 		<p>This text is wrapped in a&nbsp;<tt>DIV</tt>&nbsp;element. We can type after this element though.</p>
 		</div>
 	</textarea>
@@ -73,11 +77,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<script>
 
 		CKEDITOR.addCss(
-			'.cke_matched { outline: 3px dashed red }' +
+			'.cke_matched_before { outline: 2px dashed red }' +
+			'.cke_matched_after { outline: 2px dashed blue }' +
 			'body * { outline: 1px solid #eee }'
 		);
 
-		var matched = [];
+		var marked = [];
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'magicfinger',
@@ -94,40 +99,33 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						// Those are DEV. Naive to show the concept.
 						lookups: {
 							'is block and first child': function( el ) {
-								if ( !el.is( CKEDITOR.dtd.$block ) )
-									return;
-
 								if ( el.is( CKEDITOR.dtd.$listItem ) )
 									return;
 
-								if ( !el.getPrevious( isStatic ) )
-									return CKEDITOR.REL_BEFORE;
-							},
-
-							'is block and last child': function( el ) {
-								if ( !el.is( CKEDITOR.dtd.$block ) )
-									return;
-
-								if ( el.is( CKEDITOR.dtd.$listItem ) )
-									return;
-
-								if ( !el.getNext( isStatic ) )
-									return CKEDITOR.REL_ATER;
+								if ( el.is( CKEDITOR.dtd.$block ) )
+									return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
 							}
 						},
 
-						onFind: function( matches ) {
+						onFind: function( relations ) {
 							// DEV only.
 							var m, match;
 
-							while ( ( m = matched.pop() ) )
-								m.removeClass( 'cke_matched' );
+							while ( ( m = marked.pop() ) ) {
+								m.removeClass( 'cke_matched_after' );
+								m.removeClass( 'cke_matched_before' );
+							}
 
 							// DEV only.
-							for ( m in matches ) {
-								match = matches[ m ].element;
-								match.addClass( 'cke_matched' );
-								matched.push( match );
+							for ( m in relations ) {
+								match = relations[ m ];
+
+								if ( match.relation & CKEDITOR.REL_BEFORE )
+									match.element.addClass( 'cke_matched_before' );
+								else if ( match.relation & CKEDITOR.REL_AFTER )
+									match.element.addClass( 'cke_matched_after' );
+
+								marked.push( match.element );
 							}
 						}
 					} ).start();

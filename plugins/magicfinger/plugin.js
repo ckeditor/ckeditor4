@@ -17,7 +17,8 @@
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editor.editable(),
-			doc: editor.document
+			doc: editor.document,
+			win: editor.window
 		}, def, true );
 
 		this.inline = this.editable.isInline();
@@ -30,7 +31,7 @@
 		 */
 		start: function() {
 			var editor = this.editor,
-				x, y, el, old;
+				x, y;
 
 			// Searching starting from element from point on mousemove.
 			// TODO: eventsBuffer here, right?
@@ -40,13 +41,8 @@
 
 				x = evt.data.$.clientX;
 				y = evt.data.$.clientY;
-				el = this.doc.$.elementFromPoint( x, y );
 
-				if ( el != old ) {
-					this.find( new CKEDITOR.dom.element( el ), x, y );
-
-					old = el;
-				}
+				this.find( new CKEDITOR.dom.element( this.doc.$.elementFromPoint( x, y ) ), x, y );
 			}, this );
 		},
 
@@ -65,7 +61,9 @@
 			this.relations = {};
 
 			this.traverseSearch( el );
-			this.pixelSearch();
+
+			if ( !isNaN( x + y ) )
+				this.pixelSearch( el, x, y );
 
 			this.onFind( this.relations );
 		},
@@ -74,23 +72,75 @@
 			return this.relations;
 		},
 
-		traverseSearch: function( el ) {
-			var l, rel, uid;
+		traverseSearch: (function() {
+			var cached;
 
-			do {
-				if ( isStatic( el ) ) {
-					// Collect all addresses yielded by lookups for that element.
-					for ( l in this.lookups ) {
-						if ( ( rel = this.lookups[ l ]( el ) ) )
-							storeRelation( el, rel, this.relations );
+			return function( el ) {
+				if ( el.equals( cached ) )
+					return;
+
+				var l, rel, uid;
+
+				// Go down DOM towards root (or limit).
+				do {
+					if ( isStatic( el ) ) {
+						// Collect all addresses yielded by lookups for that element.
+						for ( l in this.lookups ) {
+
+							if ( ( rel = this.lookups[ l ]( el ) ) )
+								storeRelation( el, rel, this.relations );
+						}
 					}
-				}
-			} while ( !isLimit( el ) && ( el = el.getParent() ) )
-		},
+				} while ( !isLimit( el ) && ( el = el.getParent() ) )
 
-		pixelSearch: function( el, x, y ) {
-			// TODO: import some logic of expandFilter (engine).
-		}
+				cached = el;
+			}
+		})(),
+
+		pixelSearch: (function() {
+			function isFound( found, el ) {
+				if ( !( found && found != el.$ ) )
+					return;
+
+				found = new CKEDITOR.dom.element( found );
+
+				if ( isStatic( found ) )
+					return found;
+				else
+					return;
+			}
+
+			return function( el, x, y ) {
+				var yUp = y,
+					yDown = y,
+					paneHeight = this.win.getViewPaneSize().height,
+
+					found, neg, pos;
+
+				// Iterate until elements are found or coordinates are out of the viewport.
+				while ( !( neg && pos ) && yDown < paneHeight && yUp > 0 ) {
+
+					if ( !neg ) {
+						if ( ( found = isFound( this.doc.$.elementFromPoint( x, yUp ), el ) ) )
+							neg = found;
+					}
+
+					if ( !pos ) {
+						if ( ( found = isFound( this.doc.$.elementFromPoint( x, yDown ), el ) ) )
+							pos = found;
+					}
+
+					yUp -= 2;
+					yDown += 2;
+				}
+
+				if ( neg )
+					this.traverseSearch( neg );
+
+				if ( pos )
+					this.traverseSearch( pos );
+			}
+		})()
 	};
 
 	function storeRelation( el, rel, relations ) {
