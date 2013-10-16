@@ -388,6 +388,7 @@
 	// If previousEditable is set will start lookup from the next editable in container.
 	function getNestedEditableIn( editablesContainer, previousEditable ) {
 			// According to w3c spec elements will always be returned in document order.
+			// We need to check later whether the editable is not nested inside another one.
 		var nestedEditables = editablesContainer.find( '[contenteditable=true]' ),
 			count = nestedEditables.count(),
 			i = 0,
@@ -402,7 +403,7 @@
 
 		for ( ; i < count; ++i ) {
 			editable = nestedEditables.getItem( i );
-			if ( isIterableEditable( editable ) )
+			if ( isIterableEditable( editable ) && isImmediateEditable( editablesContainer, editable ) )
 				return editable;
 		}
 
@@ -413,6 +414,16 @@
 	function isIterableEditable( editable ) {
 		// Reject blockless editables.
 		return editable.getDtd().p;
+	}
+
+	// Checks whether it isn't an editable nested inside another nested editable.
+	function isImmediateEditable( container, editable ) {
+		var ancestor = editable.getParent();
+
+		while ( !ancestor.hasAttribute( 'contenteditable' ) )
+			ancestor = ancestor.getParent();
+
+		return container.equals( ancestor );
 	}
 
 	// Looks for a first nested editable after previousEditable (if passed) and creates
