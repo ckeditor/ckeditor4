@@ -93,7 +93,8 @@
 			},
 
 			onStateUpdate: function( status ) {
-				return editor.activeFilter.check( style ) ? status : CKEDITOR.TRISTATE_DISABLED;
+				if ( !editor.activeFilter.check( style ) )
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			},
 		});
 	}

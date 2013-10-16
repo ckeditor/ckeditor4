@@ -198,11 +198,11 @@
 
 						state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
 
+						this.setState( state );
+
 						// Let plugin to disable button.
 						if ( this.onStateUpdate )
-							state = this.onStateUpdate( state );
-
-						this.setState( state );
+							this.onStateUpdate( state );
 					}
 				}
 

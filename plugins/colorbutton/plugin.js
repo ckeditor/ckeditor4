@@ -62,8 +62,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 32 ] = 'click'; // SPACE
 				},
 
-				onStateUpdate: function( status ) {
-					return editor.activeFilter.check( style ) ? status : CKEDITOR.TRISTATE_DISABLED;
+				onStateUpdate: function( state ) {
+					if ( !editor.activeFilter.check( style ) )
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},
 
 				// The automatic colorbox should represent the real color (#6010)
