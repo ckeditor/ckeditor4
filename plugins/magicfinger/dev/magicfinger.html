@@ -100,12 +100,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 								if ( el.is( CKEDITOR.dtd.$listItem ) )
 									return;
 
-								if ( !el.getPrevious( isStatic ) ) {
-									return {
-										element: el,
-										relation: CKEDITOR.REL_BEFORE
-									};
-								}
+								if ( !el.getPrevious( isStatic ) )
+									return CKEDITOR.REL_BEFORE;
 							},
 
 							'is block and last child': function( el ) {
@@ -116,10 +112,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									return;
 
 								if ( !el.getNext( isStatic ) )
-									return {
-										element: el,
-										relation: CKEDITOR.REL_ATER
-									};
+									return CKEDITOR.REL_ATER;
 							}
 						},
 
