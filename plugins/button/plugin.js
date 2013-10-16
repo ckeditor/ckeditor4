@@ -196,7 +196,13 @@
 						// Restore saved button state.
 						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
-						this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
+						state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
+
+						// Let plugin to disable button.
+						if ( this.onStateUpdate )
+							state = this.onStateUpdate( state );
+
+						this.setState( state );
 					}
 				}
 
@@ -205,10 +211,12 @@
 						modeStates[ editor.mode ] = this._.state;
 				}, this );
 
+				// Update status when activeFilter, mode or readOnly changes.
+				editor.on( 'activeFilterChange', updateState, this );
 				editor.on( 'mode', updateState, this );
-
 				// If this button is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );
+
 			} else if ( command ) {
 				// Get the command instance.
 				command = editor.getCommand( command );
