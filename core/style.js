@@ -609,11 +609,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 						}
 					} else
 						applyStyle = true;
-				} else
+				}
+				// Style isn't applicable to current element, so apply style to
+				// range ending at previously chosen position, or nowhere if we haven't
+				// yet started styleRange.
+				else
 					applyStyle = true;
 
 				// Get the next node to be processed.
-				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly && !includeReadonly );
+				// If we're currently on a non-editable element or non-styleable element,
+				// then we'll be moved to current node's sibling (or even further), so we'll
+				// avoid messing up its content.
+				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly );
 			}
 
 			// Apply the style if we have something to which apply it.
