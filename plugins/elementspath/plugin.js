@@ -101,6 +101,7 @@
 		}
 
 		var onClickHanlder = CKEDITOR.tools.addFunction( onClick );
+		editor._.elementsPath.onClick = onClick;
 
 		var onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
 			var idBase = editor._.elementsPath.idBase,
