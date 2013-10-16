@@ -11,82 +11,7 @@
 
 (function() {
 
-	// DEV only.
-	CKEDITOR.addCss( '.cke_matched { outline: 2px dashed red } ' );
-
-	/**
-	 * The space is before specified element.
-	 *
-	 * @readonly
-	 * @property {Number} [=0]
-	 * @member CKEDITOR
-	 */
-	CKEDITOR.REL_BEFORE = 0;
-
-	/**
-	 * The space is after specified element.
-	 *
-	 * @readonly
-	 * @property {Number} [=1]
-	 * @member CKEDITOR
-	 */
-	CKEDITOR.REL_AFTER = 1;
-
-	/**
-	 * The space is inside of specified element.
-	 *
-	 * @readonly
-	 * @property {Number} [=2]
-	 * @member CKEDITOR
-	 */
-	CKEDITOR.REL_IN = 2;
-
-	CKEDITOR.plugins.add( 'magicfinger', {
-		lang: 'en', // %REMOVE_LINE_CORE%
-
-		init: function( editor ) {
-			// At the moment Magicfinger is always on. Still the final implementation
-			// may start and finish on demand, i.e. when drag and drop.
-			editor.on( 'contentDom', function() {
-				var finder = new CKEDITOR.plugins.magicfinger.finder( editor, {
-					// Those are DEV. Naive to show the concept.
-					lookups: {
-						'is block and first child': function( el ) {
-							if ( !el.is( CKEDITOR.dtd.$block ) )
-								return;
-
-							if ( el.is( CKEDITOR.dtd.$listItem ) )
-								return;
-
-							if ( !el.getPrevious( isStaticElement ) ) {
-								return {
-									element: el,
-									relation: CKEDITOR.REL_BEFORE
-								};
-							}
-						},
-
-						'is block and last child': function( el ) {
-							if ( !el.is( CKEDITOR.dtd.$block ) )
-								return;
-
-							if ( el.is( CKEDITOR.dtd.$listItem ) )
-								return;
-
-							if ( !el.getNext( isStaticElement ) )
-								return {
-									element: el,
-									relation: CKEDITOR.REL_ATER
-								};
-						}
-					}
-				} ).start();
-			}, this );
-		}
-	} );
-
-	// DEV only.
-	var matched = [];
+	CKEDITOR.plugins.add( 'magicfinger' );
 
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
@@ -100,6 +25,9 @@
 	}
 
 	Finder.prototype = {
+		/**
+		 * Initializes searching for elements with every mousemove event fired.
+		 */
 		start: function() {
 			var editor = this.editor,
 				x, y, el, old;
@@ -115,41 +43,38 @@
 				el = this.doc.$.elementFromPoint( x, y );
 
 				if ( el != old ) {
+					this.find( new CKEDITOR.dom.element( el ), x, y );
+
 					old = el;
-					this.search( new CKEDITOR.dom.element( el ), x, y );
-
-					// DEV only.
-					var m, match;
-					while ( ( m = matched.pop() ) )
-						m.removeClass( 'cke_matched' );
-
-					// DEV only.
-					for ( m in this.matches ) {
-						match = this.matches[ m ].element;
-						match.addClass( 'cke_matched' );
-						matched.push( match );
-					}
 				}
 			}, this );
 		},
 
+		/**
+		 * Stops observing mouse events.
+		 */
 		stop: function() {
 			if ( this.listener )
 				this.listener.removeListener();
 		},
 
-		search: function( el, x, y ) {
+		/**
+		 * Feeds searching algorithms with element and mouse.
+		 */
+		find: function( el, x, y ) {
 			this.matches = [];
 
 			this.traverseSearch( el );
 			this.pixelSearch();
+
+			this.onFind( this.matches );
 		},
 
 		traverseSearch: function( el ) {
 			var l, match;
 
 			do {
-				if ( isStaticElement( el ) ) {
+				if ( isStatic( el ) ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
 						match = this.lookups[ l ]( el );
@@ -185,11 +110,41 @@
 		return isElement( node ) && node.getAttribute( 'contenteditable' ) == 'true';
 	}
 
-	function isStaticElement( node ) {
+	function isStatic( node ) {
 		return isElement( node ) && !isFloated( node ) && !isPositioned( node );
 	}
 
 	CKEDITOR.plugins.magicfinger = {
-		finder: Finder
+		finder: Finder,
+
+		// Global helpers.
+		isStatic: isStatic
 	};
 })();
+
+/**
+ * The space is before specified element.
+ *
+ * @readonly
+ * @property {Number} [=0]
+ * @member CKEDITOR
+ */
+CKEDITOR.REL_BEFORE = 0;
+
+/**
+ * The space is after specified element.
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.REL_AFTER = 1;
+
+/**
+ * The space is inside of specified element.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.REL_IN = 2;

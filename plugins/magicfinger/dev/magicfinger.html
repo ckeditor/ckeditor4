@@ -72,11 +72,70 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 	<script>
 
+		CKEDITOR.addCss( '.cke_matched { outline: 2px dashed red } ' );
+
+		var matched = [];
+
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'magicfinger',
 			height: 450,
 			removePlugins: 'magicline',
-			contentsCss: [ '../../../contents.css' ]
+			contentsCss: [ '../../../contents.css' ],
+			on: {
+				contentDom: function() {
+					var helpers = CKEDITOR.plugins.magicfinger,
+						isStatic = helpers.isStatic;
+
+					var finder = new helpers.finder( this, {
+						// Those are DEV. Naive to show the concept.
+						lookups: {
+							'is block and first child': function( el ) {
+								if ( !el.is( CKEDITOR.dtd.$block ) )
+									return;
+
+								if ( el.is( CKEDITOR.dtd.$listItem ) )
+									return;
+
+								if ( !el.getPrevious( isStatic ) ) {
+									return {
+										element: el,
+										relation: CKEDITOR.REL_BEFORE
+									};
+								}
+							},
+
+							'is block and last child': function( el ) {
+								if ( !el.is( CKEDITOR.dtd.$block ) )
+									return;
+
+								if ( el.is( CKEDITOR.dtd.$listItem ) )
+									return;
+
+								if ( !el.getNext( isStatic ) )
+									return {
+										element: el,
+										relation: CKEDITOR.REL_ATER
+									};
+							}
+						},
+
+						onFind: function( matches ) {
+							// DEV only.
+							var m, match;
+
+							while ( ( m = matched.pop() ) )
+								m.removeClass( 'cke_matched' );
+
+							// DEV only.
+							for ( m in matches ) {
+								match = matches[ m ].element;
+								match.addClass( 'cke_matched' );
+								matched.push( match );
+							}
+						}
+					} ).start();
+				}
+			}
 		} );
 
 	</script>
