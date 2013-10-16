@@ -90,7 +90,11 @@
 					// If no styles match, just empty it.
 					this.setValue( '', defaultLabel );
 				}, this );
-			}
+			},
+
+			onStateUpdate: function( status ) {
+				return editor.activeFilter.check( style ) ? status : CKEDITOR.TRISTATE_DISABLED;
+			},
 		});
 	}
 
