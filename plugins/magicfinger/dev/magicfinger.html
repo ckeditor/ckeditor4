@@ -78,7 +78,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 		CKEDITOR.addCss(
 			'.cke_matched_before { outline: 2px dashed red }' +
-			'.cke_matched_after { outline: 2px dashed blue }' +
+			'.cke_matched_after { outline: 2px dashed green }' +
+			'.cke_matched_before.cke_matched_after { outline: 2px dashed blue }' +
 			'body * { outline: 1px solid #eee }'
 		);
 
@@ -122,7 +123,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 								if ( match.relation & CKEDITOR.REL_BEFORE )
 									match.element.addClass( 'cke_matched_before' );
-								else if ( match.relation & CKEDITOR.REL_AFTER )
+
+								if ( match.relation & CKEDITOR.REL_AFTER )
 									match.element.addClass( 'cke_matched_after' );
 
 								marked.push( match.element );
