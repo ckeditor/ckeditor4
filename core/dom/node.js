@@ -434,7 +434,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *
 	 *		var node = editor.document.getBody().getFirst();
 	 *		var parent = node.getParent();
-	 *		alert( node.getName() ); // 'body'
+	 *		alert( parent.getName() ); // 'body'
 	 *
 	 * @param {Boolean} [allowFragmentParent=false] Consider also parent node that is of
 	 * fragment type {@link CKEDITOR#NODE_DOCUMENT_FRAGMENT}.
@@ -446,7 +446,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * @todo
+	 * Returns array containing node parents and node itself. By default nodes are in _descending_ order.
+	 *
+	 *		// Assuming that body has paragraph as first child.
+	 *		var node = editor.document.getBody().getFirst();
+	 *		var parents = node.getParents();
+	 *		alert( parents[0].getName() + ',' + parents[2].getName() ); // 'html,p'
+	 *
+	 * @param {Boolean} [closerFirst=false] Determines order of returned nodes.
+	 * @returns {Array} Returns array of {@link CKEDITOR.dom.node}.
 	 */
 	getParents: function( closerFirst ) {
 		var node = this;
