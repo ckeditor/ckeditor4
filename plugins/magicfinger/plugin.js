@@ -62,25 +62,27 @@
 		 * Feeds searching algorithms with element and mouse.
 		 */
 		find: function( el, x, y ) {
-			this.matches = [];
+			this.relations = {};
 
 			this.traverseSearch( el );
 			this.pixelSearch();
 
-			this.onFind( this.matches );
+			this.onFind( this.relations );
+		},
+
+		getRelations: function() {
+			return this.relations;
 		},
 
 		traverseSearch: function( el ) {
-			var l, match;
+			var l, rel, uid;
 
 			do {
 				if ( isStatic( el ) ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
-						match = this.lookups[ l ]( el );
-
-						if ( match )
-							this.matches.push( match );
+						if ( ( rel = this.lookups[ l ]( el ) ) )
+							storeRelation( el, rel, this.relations );
 					}
 				}
 			} while ( !isLimit( el ) && ( el = el.getParent() ) )
@@ -90,6 +92,43 @@
 			// TODO: import some logic of expandFilter (engine).
 		}
 	};
+
+	function storeRelation( el, rel, relations ) {
+		var alt;
+
+		// Normalization to avoid duplicates:
+		// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
+		if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
+			mergeRelation( alt, CKEDITOR.REL_BEFORE, relations );
+			rel ^= CKEDITOR.REL_AFTER;
+		}
+
+		// Normalization to avoid duplicates:
+		// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
+		if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
+			mergeRelation( alt, CKEDITOR.REL_BEFORE, relations );
+			rel ^= CKEDITOR.REL_INSIDE;
+		}
+
+		mergeRelation( el, rel, relations );
+	}
+
+	function mergeRelation( el, rel, relations ) {
+		var uid = el.getUniqueId();
+
+		if ( uid in relations )
+			relations[ uid ].relation |= rel;
+		else {
+			relations[ uid ] = {
+				element: el,
+				relation: rel
+			};
+		}
+	}
+
+	function isRelation( rel, flag ) {
+		return ( rel & flag ) == flag;
+	}
 
 	var floats = { left:1,right:1,center:1 },
 		positions = { absolute:1,fixed:1,relative:1 };
@@ -129,7 +168,7 @@
  * @property {Number} [=0]
  * @member CKEDITOR
  */
-CKEDITOR.REL_BEFORE = 0;
+CKEDITOR.REL_BEFORE = 1;
 
 /**
  * The space is after specified element.
@@ -138,7 +177,7 @@ CKEDITOR.REL_BEFORE = 0;
  * @property {Number} [=1]
  * @member CKEDITOR
  */
-CKEDITOR.REL_AFTER = 1;
+CKEDITOR.REL_AFTER = 2;
 
 /**
  * The space is inside of specified element.
@@ -147,4 +186,4 @@ CKEDITOR.REL_AFTER = 1;
  * @property {Number} [=2]
  * @member CKEDITOR
  */
-CKEDITOR.REL_IN = 2;
+CKEDITOR.REL_INSIDE = 4;
