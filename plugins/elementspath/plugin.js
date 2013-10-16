@@ -88,7 +88,7 @@
 
 		function onClick( elementIndex ) {
 			var element = editor._.elementsPath.list[ elementIndex ];
-			if ( element.equals( editor.editable() ) ) {
+			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
 				range.select();
