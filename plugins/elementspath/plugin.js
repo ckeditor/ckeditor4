@@ -88,6 +88,8 @@
 			var element = privateContext.list[ elementIndex ];
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
+				// Reset call will take care of removing hiddenSelectionContainer.
+				editor.getSelection().reset();
 				range.selectNodeContents( element );
 				range.select();
 			} else
