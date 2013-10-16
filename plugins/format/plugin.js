@@ -97,6 +97,18 @@ CKEDITOR.plugins.add( 'format', {
 						this.setValue( '' );
 					}
 				}, this );
+			},
+
+			onOpen: function() {
+				this.showAll();
+				for ( var name in styles ) {
+					var style = styles[ name ];
+
+					// Check if that style is enabled in activeFilter.
+					if ( !editor.activeFilter.check( style ) ) {
+						this.hideItem( name );
+					}
+				}
 			}
 		});
 	}
