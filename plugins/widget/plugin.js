@@ -93,6 +93,7 @@
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
+			registerElementsPathFilters( editor );
 		}
 	} );
 
@@ -1766,6 +1767,30 @@
 		'$'
 	);
 
+	// Registers filters for elementspath plugin, they allow us to override names
+	// displayed in path with values from definitions.
+	function registerElementsPathFilters( editor ) {
+		var pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
+
+		if ( pathFilters )
+			pathFilters.push( function( element, name ) {
+
+				var isWidgetWrapper = element.data( 'cke-widget-wrapper' ) == '1',
+					editableName = element.data( 'cke-widget-editable' );
+
+				// If element is widget wrapper or has widget editable name assigned.
+				if ( isWidgetWrapper || editableName ) {
+
+					var widgetDefinition = editor.widgets.getByElement( element ).definition;
+
+					if ( isWidgetWrapper )
+						return widgetDefinition.pathName || name;
+					else
+						return widgetDefinition.editables[ editableName ].pathName || name;
+				}
+			} );
+	}
+
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
 	// * pasting handling,
@@ -2840,4 +2865,10 @@
  * use it to limit the editor features available in the nested editable.
  *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
+ */
+
+/**
+ * Nested editable name displayed in elements path.
+ *
+ * @property {String} pathName
  */
