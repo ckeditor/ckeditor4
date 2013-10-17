@@ -106,7 +106,7 @@
 
 				// No block in nested iterator means that we reached the end of the nested editable.
 				// Try to find next nested editable or get back to parent (this) iterator.
-				if ( startNestedEditableIterator( this, this._.nestedEditable.container, this._.nestedEditable.element ) )
+				if ( startNestedEditableIterator( this, this._.nestedEditable.container, this._.nestedEditable.remaining ) )
 					return this._.nestedEditable.iterator.getNextParagraph( blockTag );
 				else
 					this._.nestedEditable = null;
@@ -385,24 +385,18 @@
 	}
 
 	// Does a nested editables lookup inside editablesContainer.
-	// If previousEditable is set will start lookup from the next editable in container.
-	function getNestedEditableIn( editablesContainer, previousEditable ) {
-		var nestedEditables = findNestedEditables( editablesContainer ),
-			count = nestedEditables.length,
-			i = 0,
-			editable;
+	// If remainingEditables is set will lookup inside this array.
+	// @param {CKEDITOR.dom.element} editablesContainer
+	// @param {CKEDITOR.dom.element[]} [remainingEditables]
+	function getNestedEditableIn( editablesContainer, remainingEditables ) {
+		if ( remainingEditables == undefined )
+			remainingEditables = findNestedEditables( editablesContainer );
 
-		// Move 'i' to first editable after previousEditable.
-		if ( previousEditable ) {
-			while ( i < count && !nestedEditables[ i ].equals( previousEditable ) )
-				++i;
-			++i;
-		}
+		var editable;
 
-		for ( ; i < count; ++i ) {
-			editable = nestedEditables[ i ];
+		while ( ( editable = remainingEditables.shift() ) ) {
 			if ( isIterableEditable( editable ) )
-				return editable;
+				return { element: editable, remaining: remainingEditables };
 		}
 
 		return null;
@@ -433,13 +427,13 @@
 
 	// Looks for a first nested editable after previousEditable (if passed) and creates
 	// nested iterator for it.
-	function startNestedEditableIterator( parentIterator, editablesContainer, previousEditable ) {
-		var editable = getNestedEditableIn( editablesContainer, previousEditable );
+	function startNestedEditableIterator( parentIterator, editablesContainer, remainingEditables ) {
+		var editable = getNestedEditableIn( editablesContainer, remainingEditables );
 		if ( !editable )
 			return 0;
 
-		var range = new CKEDITOR.dom.range( editable );
-		range.selectNodeContents( editable );
+		var range = new CKEDITOR.dom.range( editable.element );
+		range.selectNodeContents( editable.element );
 
 		var iterator = range.createIterator();
 		// This setting actually does not change anything in this case,
@@ -450,8 +444,9 @@
 		iterator.enforceRealBlocks = parentIterator.enforceRealBlocks;
 
 		parentIterator._.nestedEditable = {
-			element: editable,
+			element: editable.element,
 			container: editablesContainer,
+			remaining: editable.remaining,
 			iterator: iterator
 		};
 
