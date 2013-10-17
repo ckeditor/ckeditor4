@@ -378,6 +378,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.state = state;
 			},
 
+			getState: function() {
+				return this._.state;
+			},
+
 			enable: function() {
 				if ( this._.state == CKEDITOR.TRISTATE_DISABLED )
 					this.setState( this._.lastState );

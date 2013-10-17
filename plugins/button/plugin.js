@@ -315,6 +315,13 @@
 		},
 
 		/**
+		 * @todo
+		 */
+		getState: function( state ) {
+			return this._.state;
+		},
+
+		/**
 		 * Returns this button's {@link CKEDITOR.feature} instance.
 		 *
 		 * It may be this button instance if it has at least one of

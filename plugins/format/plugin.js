@@ -77,14 +77,9 @@ CKEDITOR.plugins.add( 'format', {
 				editor.on( 'selectionChange', function( ev ) {
 
 					var currentTag = this.getValue(),
-						elementPath = ev.data.path,
-						isEnabled = !editor.readOnly && elementPath.isContextFor( 'p' );
+						elementPath = ev.data.path;
 
-					// Disable the command when selection path is "blockless".
-					this[ isEnabled ? 'enable' : 'disable' ]();
-
-					if ( isEnabled ) {
-
+					if ( this.getState() != CKEDITOR.TRISTATE_DISABLED ) {
 						for ( var tag in styles ) {
 							if ( styles[ tag ].checkActive( elementPath ) ) {
 								if ( tag != currentTag )
@@ -109,6 +104,14 @@ CKEDITOR.plugins.add( 'format', {
 						this.hideItem( name );
 					}
 				}
+			},
+
+			onStateUpdate: function( state ) {
+				for ( var name in styles ) {
+					if ( editor.activeFilter.check( styles[ name ] ) )
+						return;
+				}
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		});
 	}

@@ -155,6 +155,21 @@
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
 				},
 
+				onStateUpdate: function( state ) {
+					var selection = editor.getSelection(),
+						element = selection.getSelectedElement(),
+						elementPath = editor.elementPath( element );
+
+					for ( var name in styles ) {
+						var style = styles[ name ],
+							type = style.type;
+
+						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+							return;
+					}
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				},
+
 				// Force a reload of the data
 				reset: function() {
 					if ( combo ) {
