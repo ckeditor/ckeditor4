@@ -570,6 +570,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 					continue;
 				}
 
+				// Find all nested editables of a non-editable block and apply this style inside them.
+				if ( nodeIsReadonly && includeReadonly && CKEDITOR.dtd.$block[ nodeName ] )
+					applyStyleOnNestedEditables.call( this, currentNode );
+
 				// Check if the current node can be a child of the style element.
 				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) ) {
 					var currentParent = currentNode.getParent();
@@ -857,6 +861,35 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( breakStart )
 				startNode.breakParent( breakStart );
 		}
+	}
+
+	// Apply style to nested editables inside editablesContainer.
+	// @param {CKEDITOR.dom.element} editablesContainer
+	// @context CKEDITOR.style
+	function applyStyleOnNestedEditables( editablesContainer ) {
+		var editables = editablesContainer.find( '[contenteditable=true]' ),
+			editable,
+			count = editables.count(),
+			i = 0,
+			range = count && new CKEDITOR.dom.range( editablesContainer.getDocument() );
+
+		for ( ; i < count; ++i ) {
+			editable = editables.getItem( i );
+			if ( isImmediateEditable( editablesContainer, editable ) ) {
+				range.selectNodeContents( editable );
+				applyInlineStyle.call( this, range );
+			}
+		}
+	}
+
+	// Checks whether it isn't an editable nested inside another nested editable.
+	function isImmediateEditable( container, editable ) {
+		var ancestor = editable.getParent();
+
+		while ( !ancestor.hasAttribute( 'contenteditable' ) )
+			ancestor = ancestor.getParent();
+
+		return container.equals( ancestor );
 	}
 
 	function applyObjectStyle( range ) {
