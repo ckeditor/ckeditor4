@@ -154,7 +154,8 @@
 				elementsChain = selection.getStartElement().getParents(),
 				chainLength = elementsChain.length;
 
-			for ( var j = 0; j < chainLength; j++ ) {
+			// Starts iteration from body element, skipping html.
+			for ( var j = 1; j < chainLength; j++ ) {
 				var element = elementsChain[ j ],
 					ignore = 0;
 
@@ -187,7 +188,7 @@
 				}
 			}
 
-			for ( var iterationLimit = elementsList.length-1, index = 0; index < iterationLimit; index++ ) {
+			for ( var iterationLimit = elementsList.length, index = 0; index < iterationLimit; index++ ) {
 				name = namesList[ index ];
 				var label = editor.lang.elementspath.eleTitle.replace( /%1/, name ),
 					item = pathItemTpl.output( {
