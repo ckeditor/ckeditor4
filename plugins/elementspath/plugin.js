@@ -145,14 +145,25 @@
 			var env = CKEDITOR.env,
 				editable = editor.editable(),
 				selection = ev.data.selection,
-				element = selection.getStartElement(),
 				html = [],
 				elementsList = privateContext.list = [],
-				filters = privateContext.filters;
+				namesList = [],
+				filters = privateContext.filters,
+				isContentEditable = true,
+				name,
+				elementsChain = selection.getStartElement().getParents(),
+				chainLength = elementsChain.length;
 
-			while ( element ) {
-				var ignore = 0,
-					name;
+			for ( var j = 0; j < chainLength; j++ ) {
+				var element = elementsChain[ j ],
+					ignore = 0;
+
+				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
+					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
+
+				// Widget wrappers are exception here and should be displayed.
+				if ( !isContentEditable && element.getAttribute( 'data-cke-widget-wrapper' ) != '1' )
+					ignore = 1;
 
 				if ( element.data( 'cke-display-name' ) )
 					name = element.data( 'cke-display-name' );
@@ -171,10 +182,15 @@
 				}
 
 				if ( !ignore ) {
-					var index = elementsList.push( element ) - 1,
-						label = editor.lang.elementspath.eleTitle.replace( /%1/, name );
+					elementsList.unshift( element );
+					namesList.unshift( name );
+				}
+			}
 
-					var item = pathItemTpl.output({
+			for ( var iterationLimit = elementsList.length-1, index = 0; index < iterationLimit; index++ ) {
+				name = namesList[ index ];
+				var label = editor.lang.elementspath.eleTitle.replace( /%1/, name ),
+					item = pathItemTpl.output( {
 						id: idBase + index,
 						label: label,
 						text: name,
@@ -183,14 +199,8 @@
 						keyDownFn: onKeyDownHandler,
 						clickFn: onClickHanlder
 					} );
-					html.unshift( item );
 
-				}
-
-				if ( element.equals( editable ) )
-					break;
-
-				element = element.getParent();
+				html.unshift( item );
 			}
 
 			var space = getSpaceElement();
