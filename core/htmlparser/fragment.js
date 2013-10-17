@@ -613,10 +613,10 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			var children = this.children,
 				node,
-				i = 0,
-				l = children.length;
+				i = 0;
 
-			for ( ; i < l; i++ ) {
+			// We do not cache the size, because the list of nodes may be changed by the callback.
+			for ( ; i < children.length; i++ ) {
 				node = children[ i ];
 				if ( node.type == CKEDITOR.NODE_ELEMENT )
 					node.forEach( callback, type );

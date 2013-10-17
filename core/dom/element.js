@@ -1868,6 +1868,50 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		removeTmpId();
 
 		return found ? new CKEDITOR.dom.element( found ) : null;
+	},
+
+	/**
+	 * Execute callback on each node (of given type) in this document fragment.
+	 *
+	 *		var elDiv = CKEDITOR.dom.element.createFromHtml( '<div><p>foo<b>bar</b>bom</p></div>' );
+	 *		elDiv.forEach( function( node ) {
+	 *			console.log( node );
+	 *		} );
+	 *		// Will log:
+	 *		// 1. <div> element,
+	 *		// 2. <p> element,
+	 *		// 3. "foo" text node,
+	 *		// 4. <b> element,
+	 *		// 5. "bar" text node,
+	 *		// 6. "bom" text node.
+	 *
+	 * @since 4.3
+	 * @param {Function} callback Function to be executed on every node.
+	 * If `callback` returned `false` descendants of current node will be ignored.
+	 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
+	 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
+	 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
+	 */
+	forEach: function( callback, type, skipRoot ) {
+		if ( !skipRoot && ( !type || this.type == type ) )
+				var ret = callback( this );
+
+		// Do not filter children if callback returned false.
+		if ( ret === false )
+			return;
+
+		var children = this.getChildren(),
+			node,
+			i = 0;
+
+		// We do not cache the size, because the live list of nodes may be changed by the callback.
+		for ( ; i < children.count(); i++ ) {
+			node = children.getItem( i );
+			if ( node.type == CKEDITOR.NODE_ELEMENT )
+				node.forEach( callback, type );
+			else if ( !type || node.type == type )
+				callback( node );
+		}
 	}
 });
 
