@@ -87,6 +87,44 @@
 		},
 
 		/**
+		 * Stores given relation in a collection. Processes the relation
+		 * to normalize and avoid duplicates.
+		 *
+		 * @param {CKEDITOR.dom.element} el Element of the relation.
+		 * @param {Number} rel Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
+		 */
+		store: (function() {
+			function merge( el, rel, relations ) {
+				var uid = el.getUniqueId();
+
+				if ( uid in relations )
+					relations[ uid ].relation |= rel;
+				else
+					relations[ uid ] = { element: el, relation: rel };
+			}
+
+			return function( el, rel ) {
+				var alt;
+
+				// Normalization to avoid duplicates:
+				// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
+				if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
+					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
+					rel ^= CKEDITOR.REL_AFTER;
+				}
+
+				// Normalization to avoid duplicates:
+				// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
+				if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
+					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
+					rel ^= CKEDITOR.REL_INSIDE;
+				}
+
+				merge( el, rel, this.relations );
+			}
+		})(),
+
+		/**
 		 * Traverses DOM tree down towards root checking all ancestors
 		 * with lookup rules avoiding duplicates. Stores positive relations
 		 * in `relations` object.
@@ -115,7 +153,7 @@
 						for ( l in this.lookups ) {
 
 							if ( ( rel = this.lookups[ l ]( el ) ) )
-								storeRelation( el, rel, this.relations );
+								this.store( el, rel );
 						}
 					}
 				} while ( !isLimit( el ) && ( el = el.getParent() ) )
@@ -196,45 +234,13 @@
 		})()
 	};
 
-	// Stores given relation in a collection. Processes the relation
-	// to normalize and avoid duplicates.
-	// @param {CKEDITOR.dom.element} el Element of the relation.
-	// @param {Number} rel Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
-	// @param {Object} relations A collection of relations where `rel` is to be stored.
-	var storeRelation = (function() {
-		function merge( el, rel, relations ) {
-			var uid = el.getUniqueId();
+	function Locator( editor, def ) {
 
-			if ( uid in relations )
-				relations[ uid ].relation |= rel;
-			else {
-				relations[ uid ] = {
-					element: el,
-					relation: rel
-				};
-			}
-		}
+	}
 
-		return function( el, rel, relations ) {
-			var alt;
+	Locator.prototype = {
 
-			// Normalization to avoid duplicates:
-			// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
-			if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
-				merge( alt, CKEDITOR.REL_BEFORE, relations );
-				rel ^= CKEDITOR.REL_AFTER;
-			}
-
-			// Normalization to avoid duplicates:
-			// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
-			if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
-				merge( alt, CKEDITOR.REL_BEFORE, relations );
-				rel ^= CKEDITOR.REL_INSIDE;
-			}
-
-			merge( el, rel, relations );
-		}
-	})();
+	};
 
 	function isRelation( rel, flag ) {
 		return ( rel & flag ) == flag;
@@ -265,6 +271,7 @@
 
 	CKEDITOR.plugins.magicfinger = {
 		finder: Finder,
+		locator: Locator,
 
 		// Global helpers.
 		isStatic: isStatic
