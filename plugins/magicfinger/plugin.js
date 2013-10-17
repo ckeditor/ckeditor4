@@ -74,7 +74,7 @@
 			if ( !isNaN( x + y ) )
 				this.pixelSearch( el, x, y );
 
-			this.onFind( this.relations );
+			this.onFind( this.relations, x, y );
 		},
 
 		/**
@@ -276,15 +276,68 @@
 	};
 
 	function Locator( editor, def ) {
-
+		CKEDITOR.tools.extend( this, def, {
+			editor: editor
+		}, true );
 	}
 
 	Locator.prototype = {
+		locate: function( relation, rel ) {
+			var sib, fn;
 
+			if ( !isNaN( rel.y ) )
+				return rel.y;
+
+			// Return the middle point between siblings.
+			if ( isRelation( rel, CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER ) ) {
+				relation.elementRect = relation.element.getClientRect();
+
+				fn = relationFn( rel );
+				sib = relation.element[ fn ]();
+
+				if ( sib ) {
+					relation.siblingRect = sib.getClientRect();
+
+					if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
+						relation.y = ( relation.siblingRect.bottom + relation.elementRect.top ) / 2;
+
+					if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
+						relation.y = ( relation.elementRect.bottom + relation.siblingRect.top ) / 2;
+				}
+
+				// If there's no sibling, use the edge of an element.
+				else {
+					if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
+						relation.y = relation.elementRect.top;
+
+					if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
+						relation.y = relation.elementRect.bottom;
+				}
+			}
+
+			// The middle point of the element.
+			else
+				return relation.y = ( relation.elementRect.top + relation.elementRect.bottom ) / 2;
+
+			return relation.y;
+		},
+
+		distance: function( rel, y ) {
+			return Math.absolute( this.locate( rel ) - y );
+		}
 	};
 
 	function isRelation( rel, flag ) {
-		return ( rel & flag ) == flag;
+		return rel & flag;
+	}
+
+	function relationFn( rel ) {
+		if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
+			return 'getPrevious';
+		else if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
+			return 'getNext';
+		else
+			return 'Cow says moo!';
 	}
 
 	var floats = { left:1,right:1,center:1 },

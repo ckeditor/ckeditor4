@@ -83,7 +83,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'body * { outline: 1px solid #eee }'
 		);
 
-		var marked = [];
+		var marked = [],
+			lines = [];
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'magicfinger',
@@ -94,7 +95,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			on: {
 				contentDom: function() {
 					var helpers = CKEDITOR.plugins.magicfinger,
-						isStatic = helpers.isStatic;
+						isStatic = helpers.isStatic,
+						editable = this.editable();
+
+					var locator = new helpers.locator( this, {
+
+					} );
 
 					var finder = new helpers.finder( this, {
 						// Those are DEV. Naive to show the concept.
@@ -108,27 +114,49 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							}
 						},
 
-						onFind: function( relations ) {
+						onFind: function( relations, x, y ) {
 							// DEV only.
 							var m, match;
 
-							while ( ( m = marked.pop() ) ) {
-								m.removeClass( 'cke_matched_after' );
-								m.removeClass( 'cke_matched_before' );
-							}
+							// var relY = y + this.win.getScrollPosition().y,
 
-							// DEV only.
+							locator.locate( relations, x, y );
+
+							while ( ( m = lines.pop() ) )
+								m.remove();
+
 							for ( m in relations ) {
-								match = relations[ m ];
+								for ( var i = relations[ m ].locations.length; i--; ) {
+									var line = CKEDITOR.dom.element.createFromHtml(
+										'<div style="height:0px;border-top:1px solid red;position:absolute;left:0px;right:0px;top:' +
+											relations[ m ].locations[ i ].y +
+										'px;">' +
+											'&nbsp;' +
+										'</div>'
+									);
 
-								if ( match.relation & CKEDITOR.REL_BEFORE )
-									match.element.addClass( 'cke_matched_before' );
-
-								if ( match.relation & CKEDITOR.REL_AFTER )
-									match.element.addClass( 'cke_matched_after' );
-
-								marked.push( match.element );
+									line.appendTo( editable );
+									lines.push( line );
+								}
 							}
+
+							// while ( ( m = marked.pop() ) ) {
+							// 	m.removeClass( 'cke_matched_after' );
+							// 	m.removeClass( 'cke_matched_before' );
+							// }
+
+							// // DEV only.
+							// for ( m in relations ) {
+							// 	match = relations[ m ];
+
+							// 	if ( match.relation & CKEDITOR.REL_BEFORE )
+							// 		match.element.addClass( 'cke_matched_before' );
+
+							// 	if ( match.relation & CKEDITOR.REL_AFTER )
+							// 		match.element.addClass( 'cke_matched_after' );
+
+							// 	marked.push( match.element );
+							// }
 						}
 					} ).start();
 				}
