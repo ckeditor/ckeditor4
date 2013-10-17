@@ -156,13 +156,13 @@
 				},
 
 				onStateUpdate: function( state ) {
-					var selection = editor.getSelection(),
-						element = selection.getSelectedElement(),
-						elementPath = editor.elementPath( element );
+					var elementPath = editor.elementPath();
+
+					if ( !elementPath )
+						return;
 
 					for ( var name in styles ) {
-						var style = styles[ name ],
-							type = style.type;
+						var style = styles[ name ];
 
 						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
 							return;

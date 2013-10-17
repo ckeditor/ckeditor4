@@ -106,8 +106,13 @@ CKEDITOR.plugins.add( 'format', {
 			},
 
 			onStateUpdate: function( state ) {
+				var elementPath = editor.elementPath();
+
+				if ( !elementPath )
+						return;
+
 				// Check if element path contains 'p' element.
-				if( !editor.elementPath().isContextFor( 'p' ) ) {
+				if( !elementPath.isContextFor( 'p' ) ) {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 					return;
 				}
