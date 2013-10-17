@@ -867,29 +867,34 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @param {CKEDITOR.dom.element} editablesContainer
 	// @context CKEDITOR.style
 	function applyStyleOnNestedEditables( editablesContainer ) {
-		var editables = editablesContainer.find( '[contenteditable=true]' ),
+		var editables = findNestedEditables( editablesContainer ),
 			editable,
-			count = editables.count(),
+			l = editables.length,
 			i = 0,
-			range = count && new CKEDITOR.dom.range( editablesContainer.getDocument() );
+			range = l && new CKEDITOR.dom.range( editablesContainer.getDocument() );
 
-		for ( ; i < count; ++i ) {
-			editable = editables.getItem( i );
-			if ( isImmediateEditable( editablesContainer, editable ) ) {
-				range.selectNodeContents( editable );
-				applyInlineStyle.call( this, range );
-			}
+		for ( ; i < l; ++i ) {
+			editable = editables[ i ];
+			range.selectNodeContents( editable );
+			applyInlineStyle.call( this, range );
 		}
 	}
 
-	// Checks whether it isn't an editable nested inside another nested editable.
-	function isImmediateEditable( container, editable ) {
-		var ancestor = editable.getParent();
+	// Finds nested editables within container. Does not return
+	// editables nested in another editable (twice).
+	function findNestedEditables( container ) {
+		var editables = [];
 
-		while ( !ancestor.hasAttribute( 'contenteditable' ) )
-			ancestor = ancestor.getParent();
+		container.forEach( function( element ) {
+			var ce = element.getAttribute( 'contenteditable' );
 
-		return container.equals( ancestor );
+			if ( ce == 'true' ) {
+				editables.push( element );
+				return false; // Skip children.
+			}
+		}, CKEDITOR.NODE_ELEMENT, true );
+
+		return editables;
 	}
 
 	function applyObjectStyle( range ) {
