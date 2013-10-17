@@ -196,38 +196,45 @@
 		})()
 	};
 
-	function storeRelation( el, rel, relations ) {
-		var alt;
+	// Stores given relation in a collection. Processes the relation
+	// to normalize and avoid duplicates.
+	// @param {CKEDITOR.dom.element} el Element of the relation.
+	// @param {Number} rel Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
+	// @param {Object} relations A collection of relations where `rel` is to be stored.
+	var storeRelation = (function() {
+		function merge( el, rel, relations ) {
+			var uid = el.getUniqueId();
 
-		// Normalization to avoid duplicates:
-		// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
-		if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
-			mergeRelation( alt, CKEDITOR.REL_BEFORE, relations );
-			rel ^= CKEDITOR.REL_AFTER;
+			if ( uid in relations )
+				relations[ uid ].relation |= rel;
+			else {
+				relations[ uid ] = {
+					element: el,
+					relation: rel
+				};
+			}
 		}
 
-		// Normalization to avoid duplicates:
-		// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
-		if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
-			mergeRelation( alt, CKEDITOR.REL_BEFORE, relations );
-			rel ^= CKEDITOR.REL_INSIDE;
+		return function( el, rel, relations ) {
+			var alt;
+
+			// Normalization to avoid duplicates:
+			// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
+			if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
+				merge( alt, CKEDITOR.REL_BEFORE, relations );
+				rel ^= CKEDITOR.REL_AFTER;
+			}
+
+			// Normalization to avoid duplicates:
+			// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
+			if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
+				merge( alt, CKEDITOR.REL_BEFORE, relations );
+				rel ^= CKEDITOR.REL_INSIDE;
+			}
+
+			merge( el, rel, relations );
 		}
-
-		mergeRelation( el, rel, relations );
-	}
-
-	function mergeRelation( el, rel, relations ) {
-		var uid = el.getUniqueId();
-
-		if ( uid in relations )
-			relations[ uid ].relation |= rel;
-		else {
-			relations[ uid ] = {
-				element: el,
-				relation: rel
-			};
-		}
-	}
+	})();
 
 	function isRelation( rel, flag ) {
 		return ( rel & flag ) == flag;
