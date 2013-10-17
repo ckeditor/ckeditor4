@@ -88,6 +88,12 @@
 
 				// Go down DOM towards root (or limit).
 				do {
+					uid = el.$[ 'data-cke-expando' ];
+
+					// This element was already visited and checked.
+					if ( uid && uid in this.relations )
+						continue;
+
 					if ( isStatic( el ) ) {
 						// Collect all addresses yielded by lookups for that element.
 						for ( l in this.lookups ) {
