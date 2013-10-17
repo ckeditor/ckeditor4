@@ -684,13 +684,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// Move the contents of the range to the style element.
 					styleRange.extractContents().appendTo( styleNode );
 
-					// Here we do some cleanup, removing all duplicated
-					// elements from the style element.
-					removeFromInsideElement.call( this, styleNode );
-
 					// Insert it into the range position (it is collapsed after
 					// extractContents.
 					styleRange.insertNode( styleNode );
+
+					// Here we do some cleanup, removing all duplicated
+					// elements from the style element.
+					removeFromInsideElement.call( this, styleNode );
 
 					// Let's merge our new style with its neighbors, if possible.
 					styleNode.mergeSiblings();
@@ -1162,19 +1162,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 			attribs = def.attributes,
 			styles = def.styles,
 			overrides = getOverrides( this ),
-			innerElements = element.getElementsByTag( this.element );
+			innerElements = element.getElementsByTag( this.element ),
+			element;
 
-		for ( var i = innerElements.count(); --i >= 0; )
-			removeFromElement.call( this, innerElements.getItem( i ) );
+		for ( var i = innerElements.count(); --i >= 0; ) {
+			element = innerElements.getItem( i );
+
+			// Do not remove elements which are read only (e.g. duplicates inside widgets).
+			if ( !element.isReadOnly() )
+				removeFromElement.call( this, element );
+		}
 
 		// Now remove any other element with different name that is
 		// defined to be overriden.
 		for ( var overrideElement in overrides ) {
 			if ( overrideElement != this.element ) {
 				innerElements = element.getElementsByTag( overrideElement );
+
 				for ( i = innerElements.count() - 1; i >= 0; i-- ) {
-					var innerElement = innerElements.getItem( i );
-					removeOverrides( innerElement, overrides[ overrideElement ] );
+					element = innerElements.getItem( i );
+
+					// Do not remove elements which are read only (e.g. duplicates inside widgets).
+					if ( !element.isReadOnly() )
+						removeOverrides( innerElement, overrides[ element ] );
 				}
 			}
 		}
