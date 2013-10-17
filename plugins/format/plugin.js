@@ -78,18 +78,17 @@ CKEDITOR.plugins.add( 'format', {
 					var currentTag = this.getValue(),
 						elementPath = ev.data.path;
 
-					if ( this.getState() != CKEDITOR.TRISTATE_DISABLED ) {
-						for ( var tag in styles ) {
-							if ( styles[ tag ].checkActive( elementPath ) ) {
-								if ( tag != currentTag )
-									this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
-								return;
-							}
+					for ( var tag in styles ) {
+						if ( styles[ tag ].checkActive( elementPath ) ) {
+							if ( tag != currentTag )
+								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
+							return;
 						}
-
-						// If no styles match, just empty it.
-						this.setValue( '' );
 					}
+
+					// If no styles match, just empty it.
+					this.setValue( '' );
+
 				}, this );
 			},
 
