@@ -387,23 +387,21 @@
 	// Does a nested editables lookup inside editablesContainer.
 	// If previousEditable is set will start lookup from the next editable in container.
 	function getNestedEditableIn( editablesContainer, previousEditable ) {
-			// According to w3c spec elements will always be returned in document order.
-			// We need to check later whether the editable is not nested inside another one.
-		var nestedEditables = editablesContainer.find( '[contenteditable=true]' ),
-			count = nestedEditables.count(),
+		var nestedEditables = findNestedEditables( editablesContainer ),
+			count = nestedEditables.length,
 			i = 0,
 			editable;
 
 		// Move 'i' to first editable after previousEditable.
 		if ( previousEditable ) {
-			while ( i < count && !nestedEditables.getItem( i ).equals( previousEditable ) )
+			while ( i < count && !nestedEditables[ i ].equals( previousEditable ) )
 				++i;
 			++i;
 		}
 
 		for ( ; i < count; ++i ) {
-			editable = nestedEditables.getItem( i );
-			if ( isIterableEditable( editable ) && isImmediateEditable( editablesContainer, editable ) )
+			editable = nestedEditables[ i ];
+			if ( isIterableEditable( editable ) )
 				return editable;
 		}
 
@@ -416,14 +414,21 @@
 		return editable.getDtd().p;
 	}
 
-	// Checks whether it isn't an editable nested inside another nested editable.
-	function isImmediateEditable( container, editable ) {
-		var ancestor = editable.getParent();
+	// Finds nested editables within container. Does not return
+	// editables nested in another editable (twice).
+	function findNestedEditables( container ) {
+		var editables = [];
 
-		while ( !ancestor.hasAttribute( 'contenteditable' ) )
-			ancestor = ancestor.getParent();
+		container.forEach( function( element ) {
+			var ce = element.getAttribute( 'contenteditable' );
 
-		return container.equals( ancestor );
+			if ( ce == 'true' ) {
+				editables.push( element );
+				return false; // Skip children.
+			}
+		}, CKEDITOR.NODE_ELEMENT, true );
+
+		return editables;
 	}
 
 	// Looks for a first nested editable after previousEditable (if passed) and creates
