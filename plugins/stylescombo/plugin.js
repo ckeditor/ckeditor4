@@ -136,26 +136,13 @@
 						var style = styles[ name ],
 							type = style.type;
 
-						// Check if that style is enabled in activeFilter.
-						if ( !editor.activeFilter.check( style ) ) {
+						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+							counter[ type ]++;
+						else
 							this.hideItem( name );
-							continue;
-						}
 
-						// Check if block styles are applicable.
-						if ( type == CKEDITOR.STYLE_BLOCK && !elementPath.isContextFor( style.element ) ) {
-							this.hideItem( name );
-							continue;
-						}
-
-						if ( style.checkActive( elementPath ) )
+						if ( type != CKEDITOR.STYLE_BLOCK && style.checkActive( elementPath ) )
 							this.mark( name );
-						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( elementPath ) ) {
-							this.hideItem( name );
-							counter[ type ]--;
-						}
-
-						counter[ type ]++;
 					}
 
 					if ( !counter[ CKEDITOR.STYLE_BLOCK ] )

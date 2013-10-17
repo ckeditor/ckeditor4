@@ -227,20 +227,24 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		/**
 		 * Whether this style can be applied at the element path.
-		 * This method does not check if style is permitted in {@link CKEDITOR.editor#activeFilter activeFilter}.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
+		 * @param {CKEDITOR.filter} activeFilter
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
-		checkApplicable: function( elementPath ) {
+		checkApplicable: function( elementPath, activeFilter ) {
+
+			if ( activeFilter && !activeFilter.check( this ) )
+				return false;
+
 			switch ( this.type ) {
-				case CKEDITOR.STYLE_OBJECT:
-					return !!elementPath.contains( this.element );
+				case CKEDITOR.STYLE_INLINE:
+					return true;
 				case CKEDITOR.STYLE_BLOCK:
 					return !!elementPath.blockLimit.getDtd()[ this.element ];
+				case CKEDITOR.STYLE_OBJECT:
+					return !!elementPath.contains( this.element );
 			}
-
-			return true;
 		},
 
 		/**
