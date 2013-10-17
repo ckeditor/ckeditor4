@@ -161,8 +161,8 @@
 				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
 					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
 
-				// Widget wrappers are exception here and should be displayed.
-				if ( !isContentEditable && element.getAttribute( 'data-cke-widget-wrapper' ) != '1' )
+				// If elem is non-contenteditable, but it's not the element which specifies it - then should be ignored.
+				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) )
 					ignore = 1;
 
 				if ( element.data( 'cke-display-name' ) )
