@@ -217,11 +217,11 @@
 			return function( el, x, y ) {
 				var paneHeight = this.win.getViewPaneSize().height,
 
-					neg = iterate( this.doc.$, el.$, x, y, -2, function( y ) {
+					neg = iterate( this.doc.$, el.$, x, y, -1, function( y ) {
 							return y > 0;
 						} ),
 
-					pos = iterate( this.doc.$, el.$, x, y, 2, function( y ) {
+					pos = iterate( this.doc.$, el.$, x, y, 1, function( y ) {
 							return y < paneHeight;
 						} );
 
