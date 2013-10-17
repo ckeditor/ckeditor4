@@ -48,7 +48,7 @@
 				y = evt.data.$.clientY;
 
 				moveBuffer.input();
-			}, this );
+			} );
 		},
 
 		/**
@@ -181,6 +181,13 @@
 						return !!( el.compareDocumentPosition( found ) & 16 );
 					};
 
+			// Iterates pixel-by-pixel from starting coordinates, moving by defined
+			// step and getting elementFromPoint in every iteration. Iteration stops when:
+			//  * A valid element is found.
+			//  * Condition function returns false (i.e. reached boundaries of viewport).
+			//  * No element is found (i.e. coordinates out of viewport).
+			//  * Element found is ascendant of starting element.
+			//
 			// @param {Object} doc Native DOM document.
 			// @param {Object} el Native DOM element.
 			// @param {Number} xStart Horizontal starting coordinate to use.
@@ -217,19 +224,53 @@
 			return function( el, x, y ) {
 				var paneHeight = this.win.getViewPaneSize().height,
 
+					// Try to find an element iterating *up* from the starting point.
 					neg = iterate( this.doc.$, el.$, x, y, -1, function( y ) {
 							return y > 0;
 						} ),
 
+					// Try to find an element iterating *down* from the starting point.
 					pos = iterate( this.doc.$, el.$, x, y, 1, function( y ) {
 							return y < paneHeight;
 						} );
 
-				if ( neg )
+				if ( neg ) {
 					this.traverseSearch( neg );
 
-				if ( pos )
+					// Iterate towards DOM root until neg is a direct child of el.
+					while ( !neg.getParent().equals( el ) )
+						neg = neg.getParent();
+				}
+
+				if ( pos ) {
 					this.traverseSearch( pos );
+
+					// Iterate towards DOM root until pos is a direct child of el.
+					while ( !pos.getParent().equals( el ) )
+						pos = pos.getParent();
+				}
+
+				// Iterate forwards starting from neg and backwards from
+				// pos to harvest all children of el between those elements.
+				// Stop when neg and pos meet each other or there's none of them.
+				// TODO (?) reduce number of hops forwards/backwards.
+				while ( neg || pos ) {
+					if ( neg )
+						neg = neg.getNext( isStatic );
+
+					if ( !neg || neg.equals( pos ) )
+						break;
+
+					this.traverseSearch( neg );
+
+					if ( pos )
+						pos = pos.getPrevious( isStatic );
+
+					if ( !pos || pos.equals( neg ) )
+						break;
+
+					this.traverseSearch( pos );
+				}
 			}
 		})()
 	};
