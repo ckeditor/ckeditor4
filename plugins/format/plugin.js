@@ -75,7 +75,6 @@ CKEDITOR.plugins.add( 'format', {
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
-
 					var currentTag = this.getValue(),
 						elementPath = ev.data.path;
 
@@ -107,6 +106,13 @@ CKEDITOR.plugins.add( 'format', {
 			},
 
 			onStateUpdate: function( state ) {
+				// Check if element path contains 'p' element.
+				if( !editor.elementPath().isContextFor( 'p' ) ) {
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+					return;
+				}
+
+				// Check if there is any available style.
 				for ( var name in styles ) {
 					if ( editor.activeFilter.check( styles[ name ] ) )
 						return;
