@@ -134,41 +134,58 @@
 		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
 		 */
 		pixelSearch: (function() {
-			function isFound( found, el ) {
-				if ( !( found && found != el.$ ) )
-					return;
+			var contains = CKEDITOR.env.ie || CKEDITOR.env.webkit ?
+					function( el, found ) {
+						return el.contains( found );
+					}
+				:
+					function( el, found ) {
+						return !!( el.compareDocumentPosition( found ) & 16 );
+					};
 
-				found = new CKEDITOR.dom.element( found );
+			// @param {Object} doc Native DOM document.
+			// @param {Object} el Native DOM element.
+			// @param {Number} xStart Horizontal starting coordinate to use.
+			// @param {Number} yStart Vertical starting coordinate to use.
+			// @param {Number} step Step of the algorithm.
+			// @param {Function} condition A condition relative to current vertical coordinate.
+			function iterate( doc, el, xStart, yStart, step, condition ) {
+				var y = yStart,
+					found;
 
-				if ( isStatic( found ) )
-					return found;
-				else
-					return;
+				while ( condition( y ) ) {
+					y += step;
+
+					found = doc.elementFromPoint( xStart, y );
+
+					// Nothing found. This is crazy. Abort.
+					if ( !found )
+						return;
+
+					// Still in the same element.
+					if ( found == el )
+						continue;
+
+					// Reached the edge of an element and found an ancestor.
+					if ( !contains( el, found ) )
+						return;
+
+					// Found a valid element. Stop iterating.
+					if ( isStatic( ( found = new CKEDITOR.dom.element( found ) ) ) )
+						return found;
+				}
 			}
 
 			return function( el, x, y ) {
-				var yUp = y,
-					yDown = y,
-					paneHeight = this.win.getViewPaneSize().height,
+				var paneHeight = this.win.getViewPaneSize().height,
 
-					found, neg, pos;
+					neg = iterate( this.doc.$, el.$, x, y, -2, function( y ) {
+							return y > 0;
+						} ),
 
-				// Iterate until elements are found or coordinates are out of the viewport.
-				while ( !( neg && pos ) && yDown < paneHeight && yUp > 0 ) {
-
-					if ( !neg ) {
-						if ( ( found = isFound( this.doc.$.elementFromPoint( x, yUp ), el ) ) )
-							neg = found;
-					}
-
-					if ( !pos ) {
-						if ( ( found = isFound( this.doc.$.elementFromPoint( x, yDown ), el ) ) )
-							pos = found;
-					}
-
-					yUp -= 2;
-					yDown += 2;
-				}
+					pos = iterate( this.doc.$, el.$, x, y, 2, function( y ) {
+							return y < paneHeight;
+						} );
 
 				if ( neg )
 					this.traverseSearch( neg );
