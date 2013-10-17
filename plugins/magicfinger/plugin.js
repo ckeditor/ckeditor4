@@ -61,6 +61,10 @@
 
 		/**
 		 * Feeds searching algorithms with element and mouse.
+		 *
+		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
+		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
+		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
 		 */
 		find: function( el, x, y ) {
 			this.relations = {};
@@ -73,10 +77,22 @@
 			this.onFind( this.relations );
 		},
 
+		/**
+		 * Returns relations found by the finder.
+		 *
+		 * @returns {Object} An object containing relations.
+		 */
 		getRelations: function() {
 			return this.relations;
 		},
 
+		/**
+		 * Traverses DOM tree down towards root checking all ancestors
+		 * with lookup rules avoiding duplicates. Stores positive relations
+		 * in `relations` object.
+		 *
+		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
+		 */
 		traverseSearch: (function() {
 			var cached;
 
@@ -108,6 +124,15 @@
 			}
 		})(),
 
+		/**
+		 * Iterates vertically pixel-by-pixel within given element starting
+		 * from given coordinates, searching for elements in the neighbourhood.
+		 * Once an element is found it is processed by `traverseSearch`.
+		 *
+		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
+		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
+		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
+		 */
 		pixelSearch: (function() {
 			function isFound( found, el ) {
 				if ( !( found && found != el.$ ) )
