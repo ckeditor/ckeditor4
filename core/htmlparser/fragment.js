@@ -46,7 +46,7 @@ CKEDITOR.htmlParser.fragment = function() {
 
 	function isRemoveEmpty( node ) {
 		// Keep marked element event if it is empty.
-		if ( node.attributes[ 'data-cke-survive' ] === 'true' )
+		if ( node.attributes[ 'data-cke-survive' ] )
 			return false;
 
 		// Empty link is to be removed when empty but not anchor. (#7894)
