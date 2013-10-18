@@ -728,6 +728,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Minimize the result range to exclude empty text nodes. (#5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
+
+		// Get inside the remaining element if range.shrink( TEXT ) has failed because of non-editable elements inside.
+		// E.g. range.shrink( TEXT ) will not get inside:
+		// [<b><i contenteditable="false">x</i></b>]
+		// but range.shrink( ELEMENT ) will.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
 	}
 
 	function removeInlineStyle( range ) {
@@ -827,6 +833,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		range.moveToBookmark( bookmark );
+		// See the comment for range.shrink in applyInlineStyle.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
 
 		// Find out the style ancestor that needs to be broken down at startNode
 		// and endNode.
