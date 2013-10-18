@@ -236,6 +236,11 @@
 			this.on( 'contextMenu', function( evt ) {
 				evt.data.image2 = CKEDITOR.TRISTATE_OFF;
 			} );
+
+			// Pass the reference to this widget to the dialog.
+			this.on( 'dialog', function( evt ) {
+				evt.data.widget = this;
+			}, this );
 		},
 
 		upcast: upcastWidgetElement,
