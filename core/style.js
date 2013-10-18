@@ -883,8 +883,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		for ( ; i < l; ++i ) {
 			editable = editables[ i ];
-			range.selectNodeContents( editable );
-			applyInlineStyle.call( this, range );
+			// Check if style is allowed by this editable's ACF.
+			if ( checkIfAllowedInEditable( editable, this ) ) {
+				range.selectNodeContents( editable );
+				applyInlineStyle.call( this, range );
+			}
 		}
 	}
 
@@ -903,6 +906,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}, CKEDITOR.NODE_ELEMENT, true );
 
 		return editables;
+	}
+
+	// Checks if style is allowed in this editable.
+	function checkIfAllowedInEditable( editable, style ) {
+		var filter = CKEDITOR.filter.instances[ editable.data( 'cke-filter' ) ];
+
+		return filter ? filter.check( style ) : 1;
 	}
 
 	function applyObjectStyle( range ) {
