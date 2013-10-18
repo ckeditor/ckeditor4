@@ -43,7 +43,7 @@
 					var iframe = this.parts.span.getChild( 0 );
 
 					// Check if span contains iframe and create it otherwise.
-					if ( !iframe || iframe.type != CKEDITOR.NODE_ELEMENT || iframe.getName() != 'iframe' ) {
+					if ( !iframe || iframe.type != CKEDITOR.NODE_ELEMENT || !iframe.is( 'iframe' ) ) {
 						iframe = new CKEDITOR.dom.element( 'iframe' );
 						iframe.setAttributes( {
 							style: 'border:0;width:0;height:0',
@@ -61,7 +61,7 @@
 					this.once( 'ready', function() {
 						// Src attribute must be recreated to fix custom domain error after undo
 						// (see iFrame.removeAttribute( 'src' ) in frameWrapper.load).
-						if( CKEDITOR.env.ie )
+						if ( CKEDITOR.env.ie )
 							iframe.setAttribute( 'src', CKEDITOR.plugins.mathjax.fixSrc );
 
 						this.frameWrapper = new CKEDITOR.plugins.mathjax.frameWrapper( iframe, editor );
@@ -92,7 +92,7 @@
 						attrs.style = 'display:inline-block';
 
 					// Add attribute to prevent deleting empty span in data processing.
-					attrs['data-cke-survive'] = 1;
+					attrs[ 'data-cke-survive' ] = 1;
 
 					el.children[ 0 ].remove();
 
@@ -126,7 +126,7 @@
 				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
 				var regex = new RegExp( '<span[^>]*?' + cls + '.*?<\/span>', 'ig' );
 				evt.data.dataValue = evt.data.dataValue.replace( regex, function( match ) {
-					return  match.replace(/(<iframe.*?\/iframe>)/i, "");
+					return  match.replace( /(<iframe.*?\/iframe>)/i, '' );
 				} );
 			} );
 		}
@@ -141,7 +141,7 @@
 	 * @private
 	 */
 	CKEDITOR.plugins.mathjax.fixSrc =
-	 	// In Firefox src must exist and be different than about:blank to emit load event.
+		// In Firefox src must exist and be different than about:blank to emit load event.
 		CKEDITOR.env.gecko ? 'javascript:true' :
 		// Support for custom document.domain in IE.
 		CKEDITOR.env.ie ? 'javascript:' +
@@ -206,9 +206,8 @@
 				for ( var i = 0; i < stylesToCopy.length; i++ ) {
 					var key = stylesToCopy[ i ],
 						val = iFrame.getComputedStyle( key );
-					if ( val ) {
+					if ( val )
 						preview.setStyle( key, val );
-					}
 				}
 
 				// Set preview content.
@@ -249,13 +248,13 @@
 		function load() {
 			doc = iFrame.getFrameDocument();
 
-			if( doc.getById( 'preview' ) )
+			if ( doc.getById( 'preview' ) )
 				return;
 
 			// Because of IE9 bug in a src attribute can not be javascript
 			// when you undo (#10930). If you have iFrame with javascript in src
 			// and call insertBefore on such element then IE9 will see crash.
-			if( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie )
 				iFrame.removeAttribute( 'src' );
 
 			doc.write( '<!DOCTYPE html>' +
@@ -320,7 +319,7 @@
 			buffer.setHtml( value );
 
 			// Set loading indicator.
-			preview.setHtml( '<img src=' + CKEDITOR.plugins.mathjax.loadingIcon + ' alt=' + editor.lang.mathjax.loading +'>' );
+			preview.setHtml( '<img src=' + CKEDITOR.plugins.mathjax.loadingIcon + ' alt=' + editor.lang.mathjax.loading + '>' );
 
 			iFrame.setStyles( {
 				height: '16px',
