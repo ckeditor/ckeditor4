@@ -414,9 +414,7 @@
 		var editables = [];
 
 		container.forEach( function( element ) {
-			var ce = element.getAttribute( 'contenteditable' );
-
-			if ( ce == 'true' ) {
+			if ( element.getAttribute( 'contenteditable' ) == 'true' ) {
 				editables.push( element );
 				return false; // Skip children.
 			}
