@@ -16,6 +16,7 @@ Fixed Issues:
 * [#10836](http://dev.ckeditor.com/ticket/10836): [Enhanced Image](http://ckeditor.com/addon/image2): Preserve custom mouse cursor while resizing the image.
 * [#10881](http://dev.ckeditor.com/ticket/10881): Various improvements to *Enter* key behaviour in nested editables.
 * [#10879](http://dev.ckeditor.com/ticket/10879): Remove format should not leak from nested editable.
+* [#10877](http://dev.ckeditor.com/ticket/10877): Fixed: WebSpellChecker fails to apply changes if nested editable was focused.
 
 ## CKEditor 4.3 Beta
 
