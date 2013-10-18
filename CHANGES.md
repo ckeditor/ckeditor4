@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10430](http://dev.ckeditor.com/ticket/10430): Unresolved dependence of image plugin if forms plugin.
 * [#10937](http://dev.ckeditor.com/ticket/10937): MathJax widget improvements:
   * loading indicator,
   * IE8 support,
