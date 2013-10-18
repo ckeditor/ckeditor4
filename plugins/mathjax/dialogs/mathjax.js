@@ -60,7 +60,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 						type: 'html',
 						html:
 							'<div style="width:100%;text-align:center;">' +
-								'<iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true"></iframe>' +
+								'<iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true" src="' + CKEDITOR.plugins.mathjax.fixSrc + '"></iframe>' +
 							'</div>',
 
 						onLoad: function( widget ) {

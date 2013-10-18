@@ -5,6 +5,14 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10937](http://dev.ckeditor.com/ticket/10937): MathJax widget improvements:
+  * loading indicator,
+  * IE8 support,
+  * apply paragraph changes (like font color change) to iframe,
+  * FF and IE9 clipboard fixes,
+  * fix same origin policy issue,
+  * fix undo bug,
+  * fix minor bugs,
 * [#10028](http://dev.ckeditor.com/ticket/10028): New [`config.dialog_noConfirmCancel`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-dialog_noConfirmCancel) configuration option that eliminates the need to confirm closing of a dialog window when the user changed any of its fields.
 
 Fixed Issues:

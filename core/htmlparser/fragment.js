@@ -45,6 +45,10 @@ CKEDITOR.htmlParser.fragment = function() {
 	var rootDtd = CKEDITOR.tools.extend( {}, { html:1 }, CKEDITOR.dtd.html, CKEDITOR.dtd.body, CKEDITOR.dtd.head, { style:1,script:1 } );
 
 	function isRemoveEmpty( node ) {
+		// Keep marked element event if it is empty.
+		if ( node.attributes[ 'data-cke-survive' ] )
+			return false;
+
 		// Empty link is to be removed when empty but not anchor. (#7894)
 		return node.name == 'a' && node.attributes.href || CKEDITOR.dtd.$removeEmpty[ node.name ];
 	}
