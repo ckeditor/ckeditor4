@@ -29,7 +29,7 @@
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
 
-				template: '<span class="' + cls + '" style="display:inline-block" data-cke-survive="true"></span>',
+				template: '<span class="' + cls + '" style="display:inline-block" data-cke-survive=1></span>',
 
 				parts: {
 					span: 'span'
@@ -92,7 +92,7 @@
 						attrs.style = 'display:inline-block';
 
 					// Add attribute to prevent deleting empty span in data processing.
-					attrs['data-cke-survive'] = 'true';
+					attrs['data-cke-survive'] = 1;
 
 					el.children[ 0 ].remove();
 
