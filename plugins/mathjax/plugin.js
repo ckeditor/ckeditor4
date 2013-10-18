@@ -158,7 +158,7 @@
 	 *
 	 * @private
 	 */
-	CKEDITOR.plugins.mathjax.loadingIcon = CKEDITOR.plugins.get( 'mathjax' ).path + 'icons/loader.gif',
+	CKEDITOR.plugins.mathjax.loadingIcon = CKEDITOR.plugins.get( 'mathjax' ).path + 'images/loader.gif',
 
 	/**
 	 * FrameWrapper is responsible for communication between the MathJax library
