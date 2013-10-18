@@ -770,6 +770,8 @@
 			 */
 			repository: widgetsRepo,
 
+			draggable: widgetDef.draggable !== false,
+
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
 				downcastFn: ( widgetDef.downcast && typeof widgetDef.downcast == 'string' ) ?
@@ -2309,6 +2311,9 @@
 	}
 
 	function setupDragHandler( widget ) {
+		if ( !widget.draggable )
+			return;
+
 		var editor = widget.editor,
 			img = new CKEDITOR.dom.element( 'img', editor.document ),
 			container = new CKEDITOR.dom.element( 'span', editor.document );
@@ -2425,9 +2430,11 @@
 		if ( widgetDef.edit )
 			widget.on( 'edit', widgetDef.edit );
 
-		widget.on( 'data', function() {
-			positionDragHandler( widget );
-		}, null, null, 999 );
+		if ( widget.draggable ) {
+			widget.on( 'data', function() {
+				positionDragHandler( widget );
+			}, null, null, 999 );
+		}
 	}
 
 	function setupWidgetData( widget, startupData ) {
@@ -2714,6 +2721,13 @@
  *		} );
  *
  * @property {String} button
+ */
+
+/**
+ * Whether widget should be draggable. Defaults to `true`.
+ * If set to `false` drag handler will not be displayed when hovering widget.
+ *
+ * @property {Boolean} draggable
  */
 
 /**
