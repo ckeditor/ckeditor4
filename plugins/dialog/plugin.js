@@ -238,6 +238,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
+			wasDisabled: [],
 
 			// Initialize the tab and page map.
 			tabs: {},
@@ -837,6 +838,24 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
+			this.foreach( function( obj ) {
+				if ( obj.requiredContent && !this._.editor.activeFilter.check( obj.requiredContent ) ) {
+					this._.wasDisabled[ obj.domId ] = !obj.isEnabled();
+					obj.disable();
+				} else if ( this._.wasDisabled[ obj.domId ] )
+					obj.disable();
+				else
+					obj.enable();
+			} );
+
+			for ( var i in definition.contents ) {
+				var requiredContent = definition.contents[ i ].requiredContent;
+				if( requiredContent && !this._.editor.activeFilter.check( requiredContent ) )
+					this._.tabs[ definition.contents[ i ].id ][ 0 ].addClass( 'cke_dialog_tab_disabled' );
+				else
+					this._.tabs[ definition.contents[ i ].id ][ 0 ].removeClass( 'cke_dialog_tab_disabled' );
+			}
+
 			CKEDITOR.tools.setTimeout( function() {
 				this.layout();
 				resizeWithWindow( this );
@@ -1113,6 +1132,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( this._.currentTabId == id )
 				return;
 
+			var tabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id ),
+				requiredContent = this.definition.contents[ tabIndex ].requiredContent;
+
+			if( requiredContent && !this._.editor.activeFilter.check( requiredContent ) )
+				return;
+
 			// Returning true means that the event has been canceled
 			if ( this.fire( 'selectPage', { page: id, currentPage: this._.currentTabId } ) === true )
 				return;
@@ -1144,7 +1169,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				selected[ 1 ].show();
 
 			this._.currentTabId = id;
-			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
+			this._.currentTabIndex = tabIndex;
 		},
 
 		/**
