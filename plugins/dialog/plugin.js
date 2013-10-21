@@ -839,6 +839,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this._.hasFocus = false;
 
 			this.foreach( function( obj ) {
+				if( !obj.getInputElement() )
+					return;
+
 				if ( obj.requiredContent && !this._.editor.activeFilter.check( obj.requiredContent ) ) {
 					this._.wasDisabled[ obj.domId ] = !obj.isEnabled();
 					obj.disable();
@@ -849,11 +852,19 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			} );
 
 			for ( var i in definition.contents ) {
-				var requiredContent = definition.contents[ i ].requiredContent;
+				if( !definition.contents[ i ] )
+					continue;
+
+				var tab = this._.tabs[ definition.contents[ i ].id ],
+					requiredContent = definition.contents[ i ].requiredContent;
+
+				if( !tab )
+					continue;
+
 				if( requiredContent && !this._.editor.activeFilter.check( requiredContent ) )
-					this._.tabs[ definition.contents[ i ].id ][ 0 ].addClass( 'cke_dialog_tab_disabled' );
+					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
 				else
-					this._.tabs[ definition.contents[ i ].id ][ 0 ].removeClass( 'cke_dialog_tab_disabled' );
+					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
 			}
 
 			CKEDITOR.tools.setTimeout( function() {
