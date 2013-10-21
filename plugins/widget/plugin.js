@@ -1781,10 +1781,11 @@
 				// If element is widget wrapper or has widget editable name assigned.
 				if ( isWidgetWrapper || editableName ) {
 
-					var widgetDefinition = editor.widgets.getByElement( element ).definition;
+					var widget = editor.widgets.getByElement( element ),
+						widgetDefinition = widget.definition;
 
 					if ( isWidgetWrapper )
-						return widgetDefinition.pathName || name;
+						return widgetDefinition.pathName || widget.element.getName();
 					else
 						return widgetDefinition.editables[ editableName ].pathName || name;
 				}
