@@ -301,20 +301,27 @@
 	// table-row-group, table-header-group, table-footer-group, table-row,
 	// table-column-group, table-column, table-cell, table-caption, or whose node
 	// name is hr, br (when enterMode is br only) is a block boundary.
-	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 };
+	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
+		outOfFlowPositions = { absolute:1,fixed:1 };
 
 	/**
 	 * Checks whether element is displayed as a block.
 	 *
 	 * @member CKEDITOR.dom.element
-	 * @param [custoNodeNames]
+	 * @param [customNodeNames] Custom list of nodes which will extend
+	 * default {@link CKEDITOR.dtd#$block} list.
 	 * @returns {Boolean}
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
-		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block;
+		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block,
+			// Whether element is in normal page flow. Floated or positioned elements are out of page flow.
+			// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (#6297)
+			inPageFlow = this.getComputedStyle( 'float' ) == 'none' && !( this.getComputedStyle( 'position' ) in outOfFlowPositions );
 
-		// Don't consider floated formatting as block boundary, fall back to dtd check in that case. (#6297)
-		return this.getComputedStyle( 'float' ) == 'none' && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] || nodeNameMatches[ this.getName() ];
+		if ( inPageFlow && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] )
+			return true;
+
+		return !!nodeNameMatches[ this.getName() ];
 	};
 
 	/**
