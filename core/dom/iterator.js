@@ -59,6 +59,23 @@
 		this._ || ( this._ = {} );
 	}
 
+	/**
+	 * Default iterator's filter. It is set only for nested iterators.
+	 *
+	 * @since 4.3
+	 * @readonly
+	 * @property {CKEDITOR.filter} filter
+	 */
+
+	/**
+	 * Iterator's active filter. It is set by the {@link #getNextParagraph} method
+	 * when it enters nested editable.
+	 *
+	 * @since 4.3
+	 * @readonly
+	 * @property {CKEDITOR.filter} activeFilter
+	 */
+
 	var beginWhitespaceRegex = /^[\r\n\t ]+$/,
 		// Ignore bookmark nodes.(#3783)
 		bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true ),
@@ -101,14 +118,22 @@
 			if ( this._.nestedEditable ) {
 				// Get next block from nested iterator and returns it if was found.
 				block = this._.nestedEditable.iterator.getNextParagraph( blockTag );
-				if ( block )
+				if ( block ) {
+					// Inherit activeFilter from the nested iterator.
+					this.activeFilter = this._.nestedEditable.iterator.activeFilter;
 					return block;
+				}
 
 				// No block in nested iterator means that we reached the end of the nested editable.
+				// Reset the active filter to the default filter (or undefined if this iterator didn't have it).
+				this.activeFilter = this.filter;
+
 				// Try to find next nested editable or get back to parent (this) iterator.
-				if ( startNestedEditableIterator( this, this._.nestedEditable.container, this._.nestedEditable.remaining ) )
+				if ( startNestedEditableIterator( this, this._.nestedEditable.container, this._.nestedEditable.remaining ) ) {
+					// Inherit activeFilter from the nested iterator.
+					this.activeFilter = this._.nestedEditable.iterator.activeFilter;
 					return this._.nestedEditable.iterator.getNextParagraph( blockTag );
-				else
+				} else
 					this._.nestedEditable = null;
 			}
 
@@ -440,6 +465,11 @@
 		iterator.enlargeBr = parentIterator.enlargeBr;
 		// Inherit configuration from parent iterator.
 		iterator.enforceRealBlocks = parentIterator.enforceRealBlocks;
+
+		// Set the activeFilter (which can be overriden when this iteator will start nested iterator)
+		// and the default filter, which will make it possible to reset to
+		// current iterator's activeFilter after leaving nested editable.
+		iterator.activeFilter = iterator.filter = CKEDITOR.filter.instances[ editable.element.data( 'cke-filter' ) ];
 
 		parentIterator._.nestedEditable = {
 			element: editable.element,
