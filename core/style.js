@@ -913,6 +913,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return filter ? filter.check( style ) : 1;
 	}
 
+	// Checks if style is allowed by iterator's active filter.
+	function checkIfAllowedByIterator( iterator, style ) {
+		return iterator.activeFilter ? iterator.activeFilter.check( style ) : 1;
+	}
+
 	function applyObjectStyle( range ) {
 		// Selected or parent element. (#9651)
 		var start = range.getEnclosedNode() || range.getCommonAncestor( false, true ),
@@ -965,7 +970,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			newBlock;
 
 		while ( ( block = iterator.getNextParagraph() ) ) {
-			if ( !block.isReadOnly() ) {
+			if ( !block.isReadOnly() && checkIfAllowedByIterator( iterator, this ) ) {
 				newBlock = getElement( this, doc, block );
 				replaceBlock( block, newBlock );
 			}
