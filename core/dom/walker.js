@@ -313,15 +313,15 @@
 	 * @returns {Boolean}
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
-		var nodeNameMatches = customNodeNames ? CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$block, customNodeNames ) : CKEDITOR.dtd.$block,
-			// Whether element is in normal page flow. Floated or positioned elements are out of page flow.
-			// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (#6297)
-			inPageFlow = this.getComputedStyle( 'float' ) == 'none' && !( this.getComputedStyle( 'position' ) in outOfFlowPositions );
+		// Whether element is in normal page flow. Floated or positioned elements are out of page flow.
+		// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (#6297)
+		var inPageFlow = this.getComputedStyle( 'float' ) == 'none' && !( this.getComputedStyle( 'position' ) in outOfFlowPositions );
 
 		if ( inPageFlow && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] )
 			return true;
 
-		return !!nodeNameMatches[ this.getName() ];
+		// Either in $block or in customNodeNames if defined.
+		return !!( this.is( CKEDITOR.dtd.$block ) || customNodeNames && this.is( customNodeNames ) );
 	};
 
 	/**
