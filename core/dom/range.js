@@ -1254,10 +1254,28 @@ CKEDITOR.dom.range = function( root ) {
 					var walker = new CKEDITOR.dom.walker( walkerRange ),
 						blockBoundary, // The node on which the enlarging should stop.
 						tailBr, // In case BR as block boundary.
-						notBlockBoundary = CKEDITOR.dom.walker.blockBoundary(
-						( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br:1 } : null ),
+						notBlockBoundary = CKEDITOR.dom.walker.blockBoundary( ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br:1 } : null ),
+						inNonEditable = null,
 						// Record the encountered 'blockBoundary' for later use.
 						boundaryGuard = function( node ) {
+							// We should not check contents of non-editable elements. It may happen
+							// that inline widget has display:table child which should not block range#enlarge.
+							// When encoutered non-editable element...
+							if ( node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'false' ) {
+								if ( inNonEditable ) {
+									// ... in which we already were, reset it (because we're leaving it) and return.
+									if ( inNonEditable.equals( node ) ) {
+										inNonEditable = null;
+										return;
+									}
+								// ... which we're entering, remember it but check it (no return).
+								} else
+									inNonEditable = node;
+							}
+							// When we are in non-editable element, do not check if current node is a block boundary.
+							else if ( inNonEditable )
+								return;
+
 							var retval = notBlockBoundary( node );
 							if ( !retval )
 								blockBoundary = node;
