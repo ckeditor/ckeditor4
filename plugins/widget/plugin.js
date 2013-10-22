@@ -2793,6 +2793,12 @@
  */
 
 /**
+ * Widget name displayed in elements path.
+ *
+ * @property {String} pathName
+ */
+
+/**
  * If set to `true`, the widget's element will be covered with a transparent mask.
  * This will prevent its content from being clickable, which matters in case
  * of special elements like embedded Flash or iframes that generate a separate "context".
