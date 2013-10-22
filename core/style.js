@@ -126,7 +126,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection() );
+		if ( style.checkApplicable( this.elementPath() ) )
+			applyStyleOnSelection.call( style, this.getSelection() );
 	};
 
 	/**
@@ -136,7 +137,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection(), 1 );
+		if ( style.checkApplicable( this.elementPath() ) )
+			applyStyleOnSelection.call( style, this.getSelection(), 1 );
 	};
 
 	CKEDITOR.style.prototype = {
