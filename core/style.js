@@ -230,8 +230,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
 		checkApplicable: function( elementPath ) {
-			if ( this.type == CKEDITOR.STYLE_OBJECT )
-				return elementPath.contains( this.element );
+			switch ( this.type ) {
+				case CKEDITOR.STYLE_OBJECT:
+					return !!elementPath.contains( this.element );
+				case CKEDITOR.STYLE_BLOCK:
+					return !!elementPath.blockLimit.getDtd()[ this.element ];
+			}
 
 			return true;
 		},
