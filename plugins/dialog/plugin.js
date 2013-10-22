@@ -838,30 +838,36 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
-			this.foreach( function( obj ) {
-				if( !obj.getInputElement() )
-					return;
-
-				if ( obj.requiredContent && !this._.editor.activeFilter.check( obj.requiredContent ) ) {
-					this._.wasDisabled[ obj.domId ] = !obj.isEnabled();
-					obj.disable();
-				} else if ( this._.wasDisabled[ obj.domId ] )
-					obj.disable();
-				else
-					obj.enable();
-			} );
-
 			for ( var i in definition.contents ) {
 				if( !definition.contents[ i ] )
 					continue;
 
-				var tab = this._.tabs[ definition.contents[ i ].id ],
-					requiredContent = definition.contents[ i ].requiredContent;
+				var content = definition.contents[ i ],
+					tab = this._.tabs[ content.id ],
+					requiredContent = content.requiredContent,
+					enableElements = 0;
 
 				if( !tab )
 					continue;
 
-				if( requiredContent && !this._.editor.activeFilter.check( requiredContent ) )
+				for ( var j in this._.contents[ content.id ] ) {
+					var elem = this._.contents[ content.id ][ j ];
+
+					if( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
+						continue;
+
+					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
+						this._.wasDisabled[ elem.domId ] = !elem.isEnabled();
+						elem.disable();
+					} else if ( this._.wasDisabled[ elem.domId ] ) {
+						elem.disable();
+					} else {
+						elem.enable();
+						enableElements++;
+					}
+				}
+
+				if( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
 					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
 				else
 					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
@@ -1143,10 +1149,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( this._.currentTabId == id )
 				return;
 
-			var tabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id ),
-				requiredContent = this.definition.contents[ tabIndex ].requiredContent;
-
-			if( requiredContent && !this._.editor.activeFilter.check( requiredContent ) )
+			if( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
 				return;
 
 			// Returning true means that the event has been canceled
@@ -1180,7 +1183,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				selected[ 1 ].show();
 
 			this._.currentTabId = id;
-			this._.currentTabIndex = tabIndex;
+			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
 		},
 
 		/**
