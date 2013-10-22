@@ -163,19 +163,20 @@
 				var element = elementsChain[ j ],
 					ignore = 0;
 
-				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
-					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
-
-				// If elem is non-contenteditable, but it's not the element which specifies it - then should be ignored.
-				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) )
-					ignore = 1;
-
 				if ( element.data( 'cke-display-name' ) )
 					name = element.data( 'cke-display-name' );
 				else if ( element.data( 'cke-real-element-type' ) )
 					name = element.data( 'cke-real-element-type' );
 				else
 					name = element.getName();
+
+				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
+					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
+
+				// If elem is non-contenteditable, and it's not specifying contenteditable
+				// attribute - then elem should be ignored.
+				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) )
+					ignore = 1;
 
 				for ( var i = 0; i < filters.length; i++ ) {
 					var ret = filters[ i ]( element, name );
