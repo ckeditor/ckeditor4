@@ -394,8 +394,8 @@
 				}
 			}
 
-			// Probably the document end is reached, we need a marker node.
-			if ( !this._.lastNode ) {
+			// The end of document or range.root was reached, so we need a marker node inside.
+			if ( !this._.lastNode || !range.root.contains( this._.lastNode ) ) {
 				this._.lastNode = this._.docEndMarker = range.document.createText( '' );
 				this._.lastNode.insertAfter( lastNode );
 			}
