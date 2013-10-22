@@ -451,7 +451,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		// Assuming that body has paragraph as first child.
 	 *		var node = editor.document.getBody().getFirst();
 	 *		var parents = node.getParents();
-	 *		alert( parents[0].getName() + ',' + parents[2].getName() ); // 'html,p'
+	 *		alert( parents[ 0 ].getName() + ',' + parents[ 2 ].getName() ); // 'html,p'
 	 *
 	 * @param {Boolean} [closerFirst=false] Determines order of returned nodes.
 	 * @returns {Array} Returns array of {@link CKEDITOR.dom.node}.
