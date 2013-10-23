@@ -16,7 +16,7 @@
 		exec: function( editor ) {
 			var state = editor.getCommand( 'blockquote' ).state,
 				selection = editor.getSelection(),
-				range = selection && selection.getRanges( true )[ 0 ];
+				range = selection && selection.getRanges()[ 0 ];
 
 			if ( !range )
 				return;

@@ -134,7 +134,7 @@
 				return;
 
 			var bookmarks = selection.createBookmarks(),
-				ranges = selection.getRanges( true );
+				ranges = selection.getRanges();
 
 			var cssClassName = this.cssClassName,
 				iterator, block;
@@ -147,6 +147,9 @@
 				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
 				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
+					if ( block.isReadOnly() )
+						continue;
+
 					block.removeAttribute( 'align' );
 					block.removeStyle( 'text-align' );
 

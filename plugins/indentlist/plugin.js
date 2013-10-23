@@ -225,7 +225,7 @@
 		}
 
 		var selection = editor.getSelection(),
-			ranges = selection && selection.getRanges( 1 ),
+			ranges = selection && selection.getRanges(),
 			iterator = ranges.createIterator(),
 			range;
 
