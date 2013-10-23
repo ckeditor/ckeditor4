@@ -232,7 +232,10 @@
 				editor.fire( 'unlockSnapshot' );
 
 				// Private! For test usage only.
-				iFrame.fire( 'mathJaxUpdateDone' );
+				// Call mathJaxUpdateDone asynchronously with delay because of IE9.
+				setTimeout( function() {
+					iFrame.fire( 'mathJaxUpdateDone' );
+				}, 100 );
 
 				// If value changed in the meantime update it again.
 				if ( value != newValue )
