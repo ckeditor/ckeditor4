@@ -60,11 +60,16 @@
 			editor.addCommand( 'language', {
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
+				contextSensitive: true,
 				exec: function( editor, languageId ) {
 					var item = items[ 'language_' + languageId ];
 
 					if ( item )
 						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
+				},
+				refresh: function( editor, path ) {
+					this.setState( plugin.getCurrentLangIndicator( editor ) ?
+						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				}
 			} );
 
@@ -127,8 +132,7 @@
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
-				modes: { wysiwyg: 1 },
-				className: 'cke_button_language',
+				command: 'language',
 				onMenu: function() {
 					var activeItems = {},
 						currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
@@ -144,19 +148,6 @@
 					return activeItems;
 				}
 			} );
-
-			editor.on( 'instanceReady', function() {
-				var toolbarButton = editor.ui.get( 'language' );
-
-				// Toolbar button events.
-				if ( toolbarButton )
-					editor.on( 'selectionChange', function( ev ) {
-						toolbarButton.setState( plugin.getCurrentLangIndicator( ev.editor ) ?
-							CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-						return;
-					} );
-			} );
-
 		}
 	} );
 })();
