@@ -2414,8 +2414,8 @@
 				return; // Do not preventDefault.
 			}
 			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL keystrokes.
-			else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) )
+			// Pass all CTRL/ALT keystrokes.
+			else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) || ( CKEDITOR.ALT & keyCode ) )
 				return;
 
 			return false;
