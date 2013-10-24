@@ -19,28 +19,25 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
+
 		/**
 		 * @param {CKEDITOR.editor} editor
 		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, `null` otherwise.
 		 * @member CKEDITOR.plugins.language
 		 */
 		getCurrentLangIndicator: function( editor ) {
-
-			var ret = null,
-				elementPath = editor.elementPath(),
+			var elementPath = editor.elementPath(),
 				activePath = elementPath && elementPath.elements,
-				i = 0,
-				pathMember;
+				pathMember, ret;
 
 			// IE8: upon initialization if there is no path elementPath() returns null.
-			if ( !elementPath )
-				return null;
+			if ( elementPath ) {
+				for ( var i = 0; i < activePath.length; i++ ) {
+					pathMember = activePath[ i ];
 
-			for ( ; i < activePath.length; i++ ) {
-				pathMember = activePath[ i ];
-
-				if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
-					ret = pathMember;
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+						ret = pathMember;
+				}
 			}
 
 			return ret;
@@ -86,8 +83,6 @@
 					order: i,
 					// Tells if this language is left-to-right oriented (default: true).
 					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
-					// Style property will be assigned after object initialization.
-					style: null,
 					onClick: function() {
 						editor.execCommand( 'language', this.langId );
 					}
@@ -109,8 +104,6 @@
 				group: 'language_remove',
 				state: CKEDITOR.TRISTATE_DISABLED,
 				order: items.length,
-				ltr: null,
-				style: null,
 				onClick: function() {
 					var currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
 
