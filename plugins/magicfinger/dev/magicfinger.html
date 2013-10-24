@@ -83,8 +83,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'body * { outline: 1px solid #eee }'
 		);
 
-		var marked = [],
-			lines = [];
+		var lineRepo = [];
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'magicfinger',
@@ -97,6 +96,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					var helpers = CKEDITOR.plugins.magicfinger,
 						isStatic = helpers.isStatic,
 						editable = this.editable();
+
+					var liner = new helpers.liner( this, {
+
+					} );
 
 					var locator = new helpers.locator( this, {
 					} );
@@ -116,29 +119,17 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						onFind: function( relations, x, y ) {
 							locator.locateAll( relations );
 
-							var l, match;
+							var locations = locator.locations,
+								l;
 
-							var scrollY = this.win.getScrollPosition().y;
-
-							while ( ( l = lines.pop() ) )
-								l.remove();
-
-							var locations = locator.locations;
+							liner.prepare();
 
 							for ( var l in locations ) {
-								for ( var j in locations[ l ] ) {
-									var line = CKEDITOR.dom.element.createFromHtml(
-										'<div style="height:0px;border-top:1px solid red;position:absolute;left:0px;right:0px;top:' +
-											locations[ l ][ j ] +
-										'px;">' +
-											'&nbsp;' +
-										'</div>'
-									);
-
-									line.appendTo( editable );
-									lines.push( line );
-								}
+								for ( var j in locations[ l ] )
+									liner.showLine( relations[ l ], locations[ l ][ j ] )
 							}
+
+							liner.cleanup();
 						}
 					} ).start();
 				}

@@ -292,7 +292,7 @@
 			var rel, uid;
 
 			function locateSibling( rel, type ) {
-				var sib = rel.element[ CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
+				var sib = rel.element[ type === CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
 
 				// Return the middle point between siblings.
 				if ( sib ) {
@@ -348,6 +348,178 @@
 		}
 	};
 
+	function Liner( editor, def ) {
+		CKEDITOR.tools.extend( this, {
+			editor: editor,
+			editable: editor.editable(),
+			doc: editor.document,
+			win: editor.window,
+			container: CKEDITOR.document.getBody()
+		}, def, true );
+
+		this.hidden = {};
+		this.visible = {};
+
+		this.updateEditorRect();
+
+		CKEDITOR.document.getWindow().on( 'resize', this.updateEditorRect, this );
+		editor.on( 'resize', this.updateEditorRect, this );
+		editor.on( 'mode', this.removeAll, this );
+		// this.win.on( 'scroll', this.updateEditorRect, this );
+
+		editor.on( 'destroy', this.removeAll );
+	}
+
+	var trCss = {
+			display: 'block',
+			width: '0px',
+			height: '0px',
+			padding: '0px',
+			margin: '0px',
+			'border-color': 'transparent',
+			'border-style': 'solid',
+			position: 'absolute',
+			top: '-6px'
+		},
+
+		lineCss = {
+			height: '0px',
+			'border-top': '1px dashed red',
+			position: 'absolute'
+		},
+
+		lineTpl = new CKEDITOR.template(
+			'<div style="{lineCss}">' +
+				'<span style="{trCssLeft}">&nbsp;</span>' +
+				'<span style="{trCssRight}">&nbsp;</span>' +
+			'</div>' ).output( {
+				lineCss: CKEDITOR.tools.writeCssText( lineCss ),
+				trCssLeft: CKEDITOR.tools.writeCssText( CKEDITOR.tools.extend( {}, trCss, {
+					left: '0px',
+					'border-left-color': 'red',
+					'border-width': '6px 0 6px 6px'
+				} ) ),
+				trCssRight: CKEDITOR.tools.writeCssText( CKEDITOR.tools.extend( {}, trCss, {
+					right: '0px',
+					'border-right-color': 'red',
+					'border-width': '6px 6px 6px 0'
+				} ) )
+		} );
+
+	Liner.prototype = {
+		removeAll: function() {
+			var line;
+
+			for ( line in this.hidden )
+				line.remove();
+
+			for ( line in this.visisble )
+				line.remove();
+
+			this.hidden = {};
+			this.visible = {};
+		},
+
+		hideLine: function( line ) {
+			var uid = line.getUniqueId();
+
+			line.hide();
+
+			this.hidden[ uid ] = line;
+			delete this.visible[ uid ];
+		},
+
+		showLine: function( rel, loc ) {
+			var line, l;
+
+			// Search for any visible line of a different hash first.
+			// It's faster to re-position visible line than to show it.
+			for ( l in this.visible ) {
+				if ( this.visible[ l ].getCustomData( 'hash' ) !== this.hash ) {
+					line = this.visible[ l ];
+					break;
+				}
+			}
+
+			// Search for any hidden line of a different hash.
+			if ( !line ) {
+				for ( l in this.hidden ) {
+					if ( this.hidden[ l ].getCustomData( 'hash' ) !== this.hash ) {
+						line = this.hidden[ l ];
+
+						line.show();
+						delete this.hidden[ l ];
+
+						break;
+					}
+				}
+			}
+
+			// If no line available, add the new one.
+			if ( !line )
+				line = this.addLine();
+
+			// Mark the line with current hash.
+			line.setCustomData( 'hash', this.hash );
+
+			// Mark the line as visible.
+			this.visible[ line.getUniqueId() ] = line;
+
+			this.positionLine( line, rel, loc );
+		},
+
+		positionLine: function( line, rel, loc ) {
+			var rectLeft = this.rect.left,
+				rectTop = this.rect.top,
+				rectWidth = this.rect.width,
+
+				styles = {};
+
+			// Line should be between two elements.
+			if ( rel.siblingRect )
+				styles.width = Math.max( rel.siblingRect.width, rel.elementRect.width );
+
+			// Line is relative to a single element.
+			else
+				styles.width = rel.elementRect.width;
+
+			styles.left = rectLeft + rel.elementRect.left;
+			styles.top = this.rect.top + loc + 'px';
+
+			for ( var style in styles )
+				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
+
+			line.setStyles( styles );
+		},
+
+		addLine: function() {
+			var line = CKEDITOR.dom.element.createFromHtml( lineTpl );
+
+			line.appendTo( this.container );
+
+			return line;
+		},
+
+		cleanup: function() {
+			var line;
+
+			for ( var l in this.visible ) {
+				line = this.visible[ l ];
+
+				if ( line.getCustomData( 'hash' ) !== this.hash )
+					this.hideLine( line );
+			}
+		},
+
+		prepare: function() {
+			this.hash = Math.random().toString( 36 ).substring( 7 );
+		},
+
+		updateEditorRect: function() {
+			this.rect = this.win.getFrame().getClientRect();
+		}
+	};
+
 	function is( type, flag ) {
 		return type & flag;
 	}
@@ -378,6 +550,7 @@
 	CKEDITOR.plugins.magicfinger = {
 		finder: Finder,
 		locator: Locator,
+		liner: Liner,
 
 		// Global helpers.
 		isStatic: isStatic
