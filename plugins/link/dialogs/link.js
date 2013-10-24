@@ -1236,9 +1236,11 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
 					// Short mailto link text view (#5736).
 					element.setHtml( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ] );
+
+					// We changed the content, so need to select it again.
+					selection.selectElement( element );
 				}
 
-				selection.selectElement( element );
 				delete this._.selectedElement;
 			}
 		},
