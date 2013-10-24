@@ -94,33 +94,33 @@
 		 * @param {Number} rel Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
 		 */
 		store: (function() {
-			function merge( el, rel, relations ) {
+			function merge( el, type, relations ) {
 				var uid = el.getUniqueId();
 
 				if ( uid in relations )
-					relations[ uid ].relation |= rel;
+					relations[ uid ].type |= type;
 				else
-					relations[ uid ] = { element: el, relation: rel };
+					relations[ uid ] = { element: el, type: type };
 			}
 
-			return function( el, rel ) {
+			return function( el, type ) {
 				var alt;
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
-				if ( isRelation( rel, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
+				if ( is( type, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
 					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
-					rel ^= CKEDITOR.REL_AFTER;
+					type ^= CKEDITOR.REL_AFTER;
 				}
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
-				if ( isRelation( rel, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
+				if ( is( type, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
 					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
-					rel ^= CKEDITOR.REL_INSIDE;
+					type ^= CKEDITOR.REL_INSIDE;
 				}
 
-				merge( el, rel, this.relations );
+				merge( el, type, this.relations );
 			}
 		})(),
 
@@ -138,7 +138,7 @@
 				if ( el.equals( cached ) )
 					return;
 
-				var l, rel, uid;
+				var l, type, uid;
 
 				// Go down DOM towards root (or limit).
 				do {
@@ -152,8 +152,8 @@
 						// Collect all addresses yielded by lookups for that element.
 						for ( l in this.lookups ) {
 
-							if ( ( rel = this.lookups[ l ]( el ) ) )
-								this.store( el, rel );
+							if ( ( type = this.lookups[ l ]( el ) ) )
+								this.store( el, type );
 						}
 					}
 				} while ( !isLimit( el ) && ( el = el.getParent() ) )
@@ -282,7 +282,15 @@
 	}
 
 	Locator.prototype = {
+		/**
+		 * Localizes Y coordinate for all types of every single relation and stores
+		 * them in the object.
+		 *
+		 * @param {Object} relations Relations returned from Finder.
+		 */
 		locateAll: (function() {
+			var rel, uid;
+
 			function locateSibling( rel, type ) {
 				var sib = rel.element[ CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
 
@@ -306,48 +314,42 @@
 			}
 
 			return function( relations ) {
-				var rel, uid;
-
 				this.locations = {};
 
 				for ( uid in relations ) {
 					rel = relations[ uid ];
 					rel.elementRect = rel.element.getClientRect();
 
-					if ( isRelation( rel.relation, CKEDITOR.REL_BEFORE ) )
+					if ( is( rel.type, CKEDITOR.REL_BEFORE ) )
 						this.store( uid, CKEDITOR.REL_BEFORE, locateSibling( rel, CKEDITOR.REL_BEFORE ) );
 
-					if ( isRelation( rel.relation, CKEDITOR.REL_AFTER ) )
+					if ( is( rel.type, CKEDITOR.REL_AFTER ) )
 						this.store( uid, CKEDITOR.REL_AFTER, locateSibling( rel, CKEDITOR.REL_AFTER ) );
 
 					// The middle point of the element.
-					if ( isRelation( rel.relation, CKEDITOR.REL_INSIDE ) )
+					if ( is( rel.type, CKEDITOR.REL_INSIDE ) )
 						this.store( uid, CKEDITOR.REL_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
 				}
 			};
 		})(),
 
-		store: function( uid, rel, y ) {
+		/**
+		 * Stores the location in a collection.
+		 *
+		 * @param {Number} uid Unique identifier of the relation.
+		 * @param {Number} type One of `CKEDITOR.REL_BEFORE`, `CKEDITOR.REL_AFTER` and `CKEDITOR.REL_INSIDE`.
+		 * @param {Number} y Vertical position of the relation.
+		 */
+		store: function( uid, type, y ) {
 			if ( !this.locations[ uid ] )
 				this.locations[ uid ] = {};
 
-			this.locations[ uid ][ rel ] = y;
-		},
-
-		distance: function( rel, y ) {
-			return Math.absolute( this.locate( rel ) - y );
+			this.locations[ uid ][ type ] = y;
 		}
 	};
 
-	function isRelation( rel, flag ) {
-		return rel & flag;
-	}
-
-	function relationFn( rel ) {
-		if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
-			return 'getPrevious';
-		else if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
-			return 'getNext';
+	function is( type, flag ) {
+		return type & flag;
 	}
 
 	var floats = { left:1,right:1,center:1 },
