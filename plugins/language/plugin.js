@@ -42,7 +42,7 @@
 						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				},
 				refresh: function( editor, path ) {
-					this.setState( plugin.getCurrentLangIndicator( editor ) ?
+					this.setState( plugin.getCurrentLangElement( editor ) ?
 						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				}
 			} );
@@ -82,7 +82,7 @@
 				state: CKEDITOR.TRISTATE_DISABLED,
 				order: items.length,
 				onClick: function() {
-					var currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
+					var currentLanguagedElement = plugin.getCurrentLangElement( editor );
 
 					if ( currentLanguagedElement )
 						editor.execCommand( 'language', currentLanguagedElement.getAttribute( 'lang' ) );
@@ -105,7 +105,7 @@
 				command: 'language',
 				onMenu: function() {
 					var activeItems = {},
-						currentLanguagedElement = plugin.getCurrentLangIndicator( editor );
+						currentLanguagedElement = plugin.getCurrentLangElement( editor );
 
 					for ( var prop in items )
 						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
@@ -121,11 +121,12 @@
 		},
 
 		/**
+		 * Gets the first language element for the current editor selection.
 		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, `null` otherwise.
+		 * @returns {CKEDITOR.dom.element} The language element, if any.
 		 * @member CKEDITOR.plugins.language
 		 */
-		getCurrentLangIndicator: function( editor ) {
+		getCurrentLangElement: function( editor ) {
 			var elementPath = editor.elementPath(),
 				activePath = elementPath && elementPath.elements,
 				pathMember, ret;
