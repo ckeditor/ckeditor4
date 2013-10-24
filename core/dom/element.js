@@ -1871,10 +1871,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Execute callback on each node (of given type) in this document fragment.
+	 * Traverse the DOM of this element (inclusive), executing a callback for
+	 * each node.
 	 *
-	 *		var elDiv = CKEDITOR.dom.element.createFromHtml( '<div><p>foo<b>bar</b>bom</p></div>' );
-	 *		elDiv.forEach( function( node ) {
+	 *		var element = CKEDITOR.dom.element.createFromHtml( '<div><p>foo<b>bar</b>bom</p></div>' );
+	 *		element.forEach( function( node ) {
 	 *			console.log( node );
 	 *		} );
 	 *		// Will log:
@@ -1887,10 +1888,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *
 	 * @since 4.3
 	 * @param {Function} callback Function to be executed on every node.
-	 * If `callback` returned `false` descendants of current node will be ignored.
+	 * 	If `callback` returns `false` descendants of the node will be ignored.
 	 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
-	 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
-	 * @param {Boolean} [skipRoot] Don't execute `callback` on this fragment.
+	 * @param {Number} [type] If specified `callback` will be executed only on
+	 * 	nodes of this type.
+	 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
 	 */
 	forEach: function( callback, type, skipRoot ) {
 		if ( !skipRoot && ( !type || this.type == type ) )
