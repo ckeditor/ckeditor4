@@ -143,8 +143,17 @@
 
 
 		editor.on( 'toDataFormat', function( evt ) {
+			var data = evt.data.dataValue;
+
+			// #10854 - we need to strip leading blockless <br> which FF adds
+			// automatically when editable contains only non-editable content.
+			// We do that for every browser (so it's a constant behavior) and
+			// not in BR mode, in which chance of valid leading blockless <br> is higher.
+			if ( evt.data.enterMode != CKEDITOR.ENTER_BR )
+				data = data.replace( /^<br(?: ?\/)?>/i, '' );
+
 			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				evt.data.dataValue, evt.data.context, getFixBodyTag( evt.data.enterMode, editor.config.autoParagraph ) );
+				data, evt.data.context, getFixBodyTag( evt.data.enterMode, editor.config.autoParagraph ) );
 		}, null, null, 5 );
 
 		editor.on( 'toDataFormat', function( evt ) {
