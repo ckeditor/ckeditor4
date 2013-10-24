@@ -142,6 +142,9 @@
 
 				// Go down DOM towards root (or limit).
 				do {
+					if ( isLimit( el ) )
+						break;
+
 					uid = el.$[ 'data-cke-expando' ];
 
 					// This element was already visited and checked.
@@ -156,7 +159,7 @@
 								this.store( el, type );
 						}
 					}
-				} while ( !isLimit( el ) && ( el = el.getParent() ) )
+				} while ( ( el = el.getParent() ) )
 
 				cached = el;
 			}
@@ -196,7 +199,7 @@
 			// @param {Function} condition A condition relative to current vertical coordinate.
 			function iterate( doc, el, xStart, yStart, step, condition ) {
 				var y = yStart,
-					found;
+					found, uid;
 
 				while ( condition( y ) ) {
 					y += step;
@@ -354,20 +357,29 @@
 			editable: editor.editable(),
 			doc: editor.document,
 			win: editor.window,
-			container: CKEDITOR.document.getBody()
+			container: CKEDITOR.document.getBody(),
+			containerWin: CKEDITOR.document.getWindow()
 		}, def, true );
 
 		this.hidden = {};
 		this.visible = {};
 
-		this.updateEditorRect();
+		this.inline = this.editable.isInline();
 
-		CKEDITOR.document.getWindow().on( 'resize', this.updateEditorRect, this );
-		editor.on( 'resize', this.updateEditorRect, this );
-		editor.on( 'mode', this.removeAll, this );
-		// this.win.on( 'scroll', this.updateEditorRect, this );
+		if ( !this.inline )
+			this.frame = this.win.getFrame();
 
-		editor.on( 'destroy', this.removeAll );
+		this.queryViewport();
+
+		this.containerWin.on( 	'resize', 	this.queryViewport, this );
+		this.containerWin.on( 	'scroll', 	this.queryViewport, this );
+		editor.on( 				'resize', 	this.queryViewport, this );
+
+		this.containerWin.on( 	'resize', 	this.hideVisible, this );
+		this.win.on( 			'scroll', 	this.hideVisible, this );
+
+		editor.on( 				'mode', 	this.removeAll, this );
+		editor.on( 				'destroy', 	this.removeAll, this );
 	}
 
 	var trCss = {
@@ -408,16 +420,17 @@
 
 	Liner.prototype = {
 		removeAll: function() {
-			var line;
+			var l;
 
-			for ( line in this.hidden )
-				line.remove();
+			for ( l in this.hidden ) {
+				this.hidden[ l ].remove();
+				delete this.hidden[ l ];
+			}
 
-			for ( line in this.visisble )
-				line.remove();
-
-			this.hidden = {};
-			this.visible = {};
+			for ( l in this.visible ) {
+				this.visible[ l ].remove();
+				delete this.visible[ l ];
+			}
 		},
 
 		hideLine: function( line ) {
@@ -427,6 +440,11 @@
 
 			this.hidden[ uid ] = line;
 			delete this.visible[ uid ];
+		},
+
+		hideVisible: function() {
+			for ( var l in this.visible )
+				this.hideLine( this.visible[ l ] );
 		},
 
 		showLine: function( rel, loc ) {
@@ -469,11 +487,7 @@
 		},
 
 		positionLine: function( line, rel, loc ) {
-			var rectLeft = this.rect.left,
-				rectTop = this.rect.top,
-				rectWidth = this.rect.width,
-
-				styles = {};
+			var styles = {};
 
 			// Line should be between two elements.
 			if ( rel.siblingRect )
@@ -483,8 +497,15 @@
 			else
 				styles.width = rel.elementRect.width;
 
-			styles.left = rectLeft + rel.elementRect.left;
-			styles.top = this.rect.top + loc + 'px';
+			if ( this.inline ) {
+				styles.left = rel.elementRect.left;
+				styles.top = loc + this.scrollY;
+			} else {
+				var rectLeft = this.rect.left;
+
+				styles.left = rectLeft + rel.elementRect.left;
+				styles.top = this.rect.top + this.scrollY + loc;
+			}
 
 			for ( var style in styles )
 				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
@@ -515,8 +536,13 @@
 			this.hash = Math.random().toString( 36 ).substring( 7 );
 		},
 
-		updateEditorRect: function() {
-			this.rect = this.win.getFrame().getClientRect();
+		queryViewport: function( event ) {
+			console.log( 'queryViewport', this, this.inline, this.editor.name, event && event.name );
+			this.scrollY = this.containerWin.getScrollPosition().y
+
+			if ( !this.inline ) {
+				this.rect = this.frame.getClientRect();
+			}
 		}
 	};
 
