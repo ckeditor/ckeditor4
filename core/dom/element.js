@@ -1888,10 +1888,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *
 	 * @since 4.3
 	 * @param {Function} callback Function to be executed on every node.
-	 * 	If `callback` returns `false` descendants of the node will be ignored.
+	 * If `callback` returns `false` descendants of the node will be ignored.
 	 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
 	 * @param {Number} [type] If specified `callback` will be executed only on
-	 * 	nodes of this type.
+	 * nodes of this type.
 	 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
 	 */
 	forEach: function( callback, type, skipRoot ) {
