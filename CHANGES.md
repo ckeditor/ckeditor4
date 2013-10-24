@@ -29,6 +29,7 @@ Fixed Issues:
 * [#10879](http://dev.ckeditor.com/ticket/10879): Remove format should not leak from nested editable.
 * [#10877](http://dev.ckeditor.com/ticket/10877): Fixed: WebSpellChecker fails to apply changes if nested editable was focused.
 * [#10870](http://dev.ckeditor.com/ticket/10870): Fixed: `paste` command is not being disabled when clipboard is empty any more.
+* [#10866](http://dev.ckeditor.com/ticket/10866): Fixed: Broken *Tab* key navigation in the Image2 dialog.
 
 ## CKEditor 4.3 Beta
 
