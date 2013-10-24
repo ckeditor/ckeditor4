@@ -99,7 +99,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						editable = this.editable();
 
 					var locator = new helpers.locator( this, {
-
 					} );
 
 					var finder = new helpers.finder( this, {
@@ -115,21 +114,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						},
 
 						onFind: function( relations, x, y ) {
-							// DEV only.
-							var m, match;
+							locator.locateAll( relations );
 
-							// var relY = y + this.win.getScrollPosition().y,
+							var l, match;
 
-							locator.locate( relations, x, y );
+							var scrollY = this.win.getScrollPosition().y;
 
-							while ( ( m = lines.pop() ) )
-								m.remove();
+							while ( ( l = lines.pop() ) )
+								l.remove();
 
-							for ( m in relations ) {
-								for ( var i = relations[ m ].locations.length; i--; ) {
+							var locations = locator.locations;
+
+							for ( var l in locations ) {
+								for ( var j in locations[ l ] ) {
 									var line = CKEDITOR.dom.element.createFromHtml(
 										'<div style="height:0px;border-top:1px solid red;position:absolute;left:0px;right:0px;top:' +
-											relations[ m ].locations[ i ].y +
+											locations[ l ][ j ] +
 										'px;">' +
 											'&nbsp;' +
 										'</div>'
@@ -139,24 +139,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									lines.push( line );
 								}
 							}
-
-							// while ( ( m = marked.pop() ) ) {
-							// 	m.removeClass( 'cke_matched_after' );
-							// 	m.removeClass( 'cke_matched_before' );
-							// }
-
-							// // DEV only.
-							// for ( m in relations ) {
-							// 	match = relations[ m ];
-
-							// 	if ( match.relation & CKEDITOR.REL_BEFORE )
-							// 		match.element.addClass( 'cke_matched_before' );
-
-							// 	if ( match.relation & CKEDITOR.REL_AFTER )
-							// 		match.element.addClass( 'cke_matched_after' );
-
-							// 	marked.push( match.element );
-							// }
 						}
 					} ).start();
 				}

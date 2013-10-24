@@ -74,7 +74,7 @@
 			if ( !isNaN( x + y ) )
 				this.pixelSearch( el, x, y );
 
-			this.onFind( this.relations, x, y );
+			this.onFind && this.onFind( this.relations, x, y );
 		},
 
 		/**
@@ -282,44 +282,56 @@
 	}
 
 	Locator.prototype = {
-		locate: function( relation, rel ) {
-			var sib, fn;
+		locateAll: (function() {
+			function locateSibling( rel, type ) {
+				var sib = rel.element[ CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
 
-			if ( !isNaN( rel.y ) )
-				return rel.y;
-
-			// Return the middle point between siblings.
-			if ( isRelation( rel, CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER ) ) {
-				relation.elementRect = relation.element.getClientRect();
-
-				fn = relationFn( rel );
-				sib = relation.element[ fn ]();
-
+				// Return the middle point between siblings.
 				if ( sib ) {
-					relation.siblingRect = sib.getClientRect();
+					rel.siblingRect = sib.getClientRect();
 
-					if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
-						relation.y = ( relation.siblingRect.bottom + relation.elementRect.top ) / 2;
-
-					if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
-						relation.y = ( relation.elementRect.bottom + relation.siblingRect.top ) / 2;
+					if ( type == CKEDITOR.REL_BEFORE )
+						return ( rel.siblingRect.bottom + rel.elementRect.top ) / 2;
+					else
+						return ( rel.elementRect.bottom + rel.siblingRect.top ) / 2;
 				}
 
 				// If there's no sibling, use the edge of an element.
 				else {
-					if ( isRelation( rel, CKEDITOR.REL_BEFORE ) )
-						relation.y = relation.elementRect.top;
-
-					if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
-						relation.y = relation.elementRect.bottom;
+					if ( type == CKEDITOR.REL_BEFORE )
+						return rel.elementRect.top;
+					else
+						return rel.elementRect.bottom;
 				}
 			}
 
-			// The middle point of the element.
-			else
-				return relation.y = ( relation.elementRect.top + relation.elementRect.bottom ) / 2;
+			return function( relations ) {
+				var rel, uid;
 
-			return relation.y;
+				this.locations = {};
+
+				for ( uid in relations ) {
+					rel = relations[ uid ];
+					rel.elementRect = rel.element.getClientRect();
+
+					if ( isRelation( rel.relation, CKEDITOR.REL_BEFORE ) )
+						this.store( uid, CKEDITOR.REL_BEFORE, locateSibling( rel, CKEDITOR.REL_BEFORE ) );
+
+					if ( isRelation( rel.relation, CKEDITOR.REL_AFTER ) )
+						this.store( uid, CKEDITOR.REL_AFTER, locateSibling( rel, CKEDITOR.REL_AFTER ) );
+
+					// The middle point of the element.
+					if ( isRelation( rel.relation, CKEDITOR.REL_INSIDE ) )
+						this.store( uid, CKEDITOR.REL_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
+				}
+			};
+		})(),
+
+		store: function( uid, rel, y ) {
+			if ( !this.locations[ uid ] )
+				this.locations[ uid ] = {};
+
+			this.locations[ uid ][ rel ] = y;
 		},
 
 		distance: function( rel, y ) {
@@ -336,8 +348,6 @@
 			return 'getPrevious';
 		else if ( isRelation( rel, CKEDITOR.REL_AFTER ) )
 			return 'getNext';
-		else
-			return 'Cow says moo!';
 	}
 
 	var floats = { left:1,right:1,center:1 },
