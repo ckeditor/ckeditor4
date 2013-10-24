@@ -238,7 +238,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			contents: {},
 			buttons: {},
 			accessKeyMap: {},
-			wasDisabled: [],
 
 			// Initialize the tab and page map.
 			tabs: {},
@@ -857,9 +856,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						continue;
 
 					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
-						this._.wasDisabled[ elem.domId ] = !elem.isEnabled();
-						elem.disable();
-					} else if ( this._.wasDisabled[ elem.domId ] ) {
 						elem.disable();
 					} else {
 						elem.enable();
