@@ -20,29 +20,6 @@
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
-		/**
-		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, `null` otherwise.
-		 * @member CKEDITOR.plugins.language
-		 */
-		getCurrentLangIndicator: function( editor ) {
-			var elementPath = editor.elementPath(),
-				activePath = elementPath && elementPath.elements,
-				pathMember, ret;
-
-			// IE8: upon initialization if there is no path elementPath() returns null.
-			if ( elementPath ) {
-				for ( var i = 0; i < activePath.length; i++ ) {
-					pathMember = activePath[ i ];
-
-					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
-						ret = pathMember;
-				}
-			}
-
-			return ret;
-		},
-
 		init: function( editor ) {
 			var languagesConfigStrings = ( editor.config.language_list || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
 				plugin = this,
@@ -141,6 +118,29 @@
 					return activeItems;
 				}
 			} );
+		},
+
+		/**
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {CKEDITOR.dom.element/null} First matching language indicator if any found, `null` otherwise.
+		 * @member CKEDITOR.plugins.language
+		 */
+		getCurrentLangIndicator: function( editor ) {
+			var elementPath = editor.elementPath(),
+				activePath = elementPath && elementPath.elements,
+				pathMember, ret;
+
+			// IE8: upon initialization if there is no path elementPath() returns null.
+			if ( elementPath ) {
+				for ( var i = 0; i < activePath.length; i++ ) {
+					pathMember = activePath[ i ];
+
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+						ret = pathMember;
+				}
+			}
+
+			return ret;
 		}
 	} );
 })();
