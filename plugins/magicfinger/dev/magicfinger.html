@@ -143,7 +143,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			'.cke_editable * { outline: 1px solid #eee }'
 		);
 
-		function onContentDom() {
+		function callback() {
 			var helpers = CKEDITOR.plugins.magicfinger;
 			var liner = new helpers.liner( this );
 			var locator = new helpers.locator( this );
@@ -162,12 +162,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 					locator.locateAll( relations );
 
 					var locations = locator.locations,
-						l;
+						l, j;
 
 					liner.prepare();
 
-					for ( var l in locations ) {
-						for ( var j in locations[ l ] )
+					for ( l in locations ) {
+						for ( j in locations[ l ] )
 							liner.showLine( relations[ l ], locations[ l ][ j ] )
 					}
 
@@ -185,7 +185,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],
 			on: {
-				contentDom: onContentDom
+				contentDom: callback
 			}
 		} );
 
@@ -195,7 +195,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],
 			on: {
-				contentDom: onContentDom
+				contentDom: callback
 			}
 		} );
 

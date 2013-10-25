@@ -352,9 +352,11 @@
 	};
 
 	function Liner( editor, def ) {
+		var editable = editor.editable();
+
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
-			editable: editor.editable(),
+			editable: editable,
 			doc: editor.document,
 			win: editor.window,
 			container: CKEDITOR.document.getBody(),
@@ -364,22 +366,40 @@
 		this.hidden = {};
 		this.visible = {};
 
-		this.inline = this.editable.isInline();
+		this.inline = editable.isInline();
 
 		if ( !this.inline )
 			this.frame = this.win.getFrame();
 
 		this.queryViewport();
 
-		this.containerWin.on( 	'resize', 	this.queryViewport, this );
-		this.containerWin.on( 	'scroll', 	this.queryViewport, this );
-		editor.on( 				'resize', 	this.queryViewport, this );
+		editable.attachListener( this.containerWin, 'resize', function() {
+			this.queryViewport();
+		}, this );
 
-		this.containerWin.on( 	'resize', 	this.hideVisible, this );
-		this.win.on( 			'scroll', 	this.hideVisible, this );
+		editable.attachListener( this.containerWin, 'scroll', function() {
+			this.queryViewport();
+		}, this );
 
-		editor.on( 				'mode', 	this.removeAll, this );
-		editor.on( 				'destroy', 	this.removeAll, this );
+		editable.attachListener( this.containerWin, 'resize', function() {
+			this.hideVisible();
+		}, this );
+
+		editable.attachListener( this.win, 'scroll', function() {
+			this.hideVisible();
+		}, this );
+
+		editor.on( 'resize', function() {
+			this.queryViewport();
+		}, this );
+
+		editor.on( 'mode', function() {
+			this.removeAll();
+		}, this );
+
+		editor.on( 'destroy', function() {
+			this.removeAll();
+		}, this );
 	}
 
 	var trCss = {
@@ -501,9 +521,7 @@
 				styles.left = rel.elementRect.left;
 				styles.top = loc + this.scrollY;
 			} else {
-				var rectLeft = this.rect.left;
-
-				styles.left = rectLeft + rel.elementRect.left;
+				styles.left = this.rect.left + rel.elementRect.left;
 				styles.top = this.rect.top + this.scrollY + loc;
 			}
 
@@ -537,12 +555,10 @@
 		},
 
 		queryViewport: function( event ) {
-			console.log( 'queryViewport', this, this.inline, this.editor.name, event && event.name );
 			this.scrollY = this.containerWin.getScrollPosition().y
 
-			if ( !this.inline ) {
+			if ( !this.inline )
 				this.rect = this.frame.getClientRect();
-			}
 		}
 	};
 
