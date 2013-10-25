@@ -194,7 +194,7 @@
 					update();
 
 				// Private! For test usage only.
-				iFrame.fire( 'mathJaxLoaded' );
+				CKEDITOR.fire( 'mathJaxLoaded', iFrame );
 			} ),
 
 			// Function called when MathJax finish his job.
@@ -232,10 +232,7 @@
 				editor.fire( 'unlockSnapshot' );
 
 				// Private! For test usage only.
-				// Call mathJaxUpdateDone asynchronously with delay because of IE9.
-				setTimeout( function() {
-					iFrame.fire( 'mathJaxUpdateDone' );
-				}, 100 );
+				CKEDITOR.fire( 'mathJaxUpdateDone', iFrame );
 
 				// If value changed in the meantime update it again.
 				if ( value != newValue )
