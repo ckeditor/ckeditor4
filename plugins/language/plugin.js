@@ -22,18 +22,28 @@
 
 		init: function( editor ) {
 			var languagesConfigStrings = ( editor.config.language_list || [ 'ar:Arabic:rtl', 'fr:French', 'es:Spanish' ] ),
+				plugin = this,
+				lang = editor.lang.language,
 				items = {},
 				parts,
 				curLanguageId, // 2-letter language identifier.
+				languageButtonId, // Will store button namespaced identifier, like "language_en".
 				i;
 
 			// Registers command.
 			editor.addCommand( 'language', {
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
+				contextSensitive: true,
 				exec: function( editor, languageId ) {
-					if ( items[ languageId ] )
-						editor.applyStyle( items[ languageId ].style );
+					var item = items[ 'language_' + languageId ];
+
+					if ( item )
+						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
+				},
+				refresh: function( editor, path ) {
+					this.setState( plugin.getCurrentLangElement( editor ) ?
+						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				}
 			} );
 
@@ -41,54 +51,97 @@
 			for ( i = 0; i < languagesConfigStrings.length; i++ ) {
 				parts = languagesConfigStrings[ i ].split( ':' );
 				curLanguageId = parts[ 0 ];
+				languageButtonId = 'language_' + curLanguageId;
 
-				items[ curLanguageId ] = {
+				items[ languageButtonId ] = {
 					label: parts[ 1 ],
 					langId: curLanguageId,
 					group: 'language',
 					order: i,
 					// Tells if this language is left-to-right oriented (default: true).
 					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
-					// Style property will be assigned after object initialization.
-					style: null,
 					onClick: function() {
 						editor.execCommand( 'language', this.langId );
 					}
 				};
 
 				// Init style property.
-				items[ curLanguageId ].style = new CKEDITOR.style( {
+				items[ languageButtonId ].style = new CKEDITOR.style( {
 					element: 'span',
 					attributes: {
 						lang: curLanguageId,
-						dir: items[ curLanguageId ].ltr ? 'ltr' : 'rtl'
+						dir: items[ languageButtonId ].ltr ? 'ltr' : 'rtl'
 					}
 				} );
 			}
 
-			// Initialize group/button.
+			// Remove language indicator button.
+			items.language_remove = {
+				label: lang.remove,
+				group: 'language_remove',
+				state: CKEDITOR.TRISTATE_DISABLED,
+				order: items.length,
+				onClick: function() {
+					var currentLanguagedElement = plugin.getCurrentLangElement( editor );
+
+					if ( currentLanguagedElement )
+						editor.execCommand( 'language', currentLanguagedElement.getAttribute( 'lang' ) );
+				}
+			};
+
+			// Initialize groups for menu.
 			editor.addMenuGroup( 'language', 1 );
+			editor.addMenuGroup( 'language_remove' ); // Group order is skipped intentionally, it will be placed at the end.
 			editor.addMenuItems( items );
 
 			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.language.button,
+				label: lang.button,
 				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
 				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }
 				// Set feature's properties directly on button.
 				allowedContent: allowedContent,
 				requiredContent: requiredContent,
 				toolbar: 'bidi,30',
-				modes: { wysiwyg: 1 },
-				className: 'cke_button_language',
+				command: 'language',
 				onMenu: function() {
-					var activeItems = {};
+					var activeItems = {},
+						currentLanguagedElement = plugin.getCurrentLangElement( editor );
 
 					for ( var prop in items )
-						activeItems[ prop ] = CKEDITOR.TRISTATE_ON;
+						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+
+					activeItems.language_remove = currentLanguagedElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+					if ( currentLanguagedElement )
+						activeItems[ 'language_' + currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
 
 					return activeItems;
 				}
 			} );
+		},
+
+		/**
+		 * Gets the first language element for the current editor selection.
+		 * @param {CKEDITOR.editor} editor
+		 * @returns {CKEDITOR.dom.element} The language element, if any.
+		 * @member CKEDITOR.plugins.language
+		 */
+		getCurrentLangElement: function( editor ) {
+			var elementPath = editor.elementPath(),
+				activePath = elementPath && elementPath.elements,
+				pathMember, ret;
+
+			// IE8: upon initialization if there is no path elementPath() returns null.
+			if ( elementPath ) {
+				for ( var i = 0; i < activePath.length; i++ ) {
+					pathMember = activePath[ i ];
+
+					if ( !ret && pathMember.getName() == 'span' && pathMember.hasAttribute( 'dir' ) && pathMember.hasAttribute( 'lang' ) )
+						ret = pathMember;
+				}
+			}
+
+			return ret;
 		}
 	} );
 })();
