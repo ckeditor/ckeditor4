@@ -433,8 +433,6 @@
 			display: 'block',
 			width: '0px',
 			height: '0px',
-			padding: '0px',
-			margin: '0px',
 			'border-color': 'transparent',
 			'border-style': 'solid',
 			position: 'absolute',
@@ -444,11 +442,12 @@
 		lineCss = {
 			height: '0px',
 			'border-top': '1px dashed red',
-			position: 'absolute'
+			position: 'absolute',
+			'z-index': 9999
 		},
 
 		lineTpl = new CKEDITOR.template(
-			'<div style="{lineCss}">' +
+			'<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineCss}">' +
 				'<span style="{trCssLeft}">&nbsp;</span>' +
 				'<span style="{trCssRight}">&nbsp;</span>' +
 			'</div>' ).output( {
@@ -538,7 +537,8 @@
 		},
 
 		getStyle: function( rel, loc ) {
-			var styles = {};
+			var styles = {},
+				hdiff;
 
 			// Line should be between two elements.
 			if ( rel.siblingRect )
@@ -547,17 +547,37 @@
 			else
 				styles.width = rel.elementRect.width;
 
-			if ( this.inline ) {
+			// Let's calculate the vertical position of the line.
+			if ( this.inline )
+				styles.top = loc + this.scroll.y;
+			else
+				styles.top = this.rect.top + this.scroll.y + loc;
+
+			// Check if line would be vertically out of the viewport.
+			if ( styles.top - this.scroll.y < this.rect.top || styles.top - this.scroll.y > this.rect.bottom )
+				return false;
+
+			// Now let's calculate the horizontal alignment (left and width).
+			if ( this.inline )
 				styles.left = rel.elementRect.left;
-				styles.top = loc + this.scrollY;
-			} else {
-				styles.left = this.rect.left + rel.elementRect.left;
-				styles.top = this.rect.top + this.scrollY + loc;
+			else {
+				if ( rel.elementRect.left > 0 )
+					styles.left = this.rect.left + rel.elementRect.left;
+
+				// H-scroll case. Left edge of element may be out of viewport.
+				else {
+					styles.width += rel.elementRect.left;
+					styles.left = this.rect.left;
+				}
+
+				// H-scroll case. Right edge of element may be out of viewport.
+				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.viewPane.width ) ) > 0 ) {
+					styles.width -= hdiff;
+				}
 			}
 
-			// The line would be out of the viewport with such styles.
-			if ( styles.top - this.scrollY < this.rect.top || styles.top - this.scrollY > this.rect.bottom )
-				return false;
+			// Finally include horizontal scroll of the global window.
+			styles.left += this.scroll.x;
 
 			// Append 'px' to style values.
 			for ( var style in styles )
@@ -590,7 +610,8 @@
 		},
 
 		queryViewport: function( event ) {
-			this.scrollY = this.containerWin.getScrollPosition().y
+			this.scroll = this.containerWin.getScrollPosition();
+			this.viewPane = this.win.getViewPaneSize();
 
 			if ( this.inline )
 				this.rect = this.editable.getClientRect();
