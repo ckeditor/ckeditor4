@@ -21,6 +21,7 @@
 			win: editor.window
 		}, def, true );
 
+		this.frame = this.win.getFrame();
 		this.inline = this.editable.isInline();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
@@ -48,6 +49,10 @@
 				y = evt.data.$.clientY;
 
 				moveBuffer.input();
+			} );
+
+			this.editable.attachListener( this.inline ? this.editable : this.frame, 'mouseout', function( evt ) {
+				moveBuffer.reset();
 			} );
 		},
 
@@ -142,9 +147,6 @@
 
 				// Go down DOM towards root (or limit).
 				do {
-					if ( isLimit( el ) )
-						break;
-
 					uid = el.$[ 'data-cke-expando' ];
 
 					// This element was already visited and checked.
@@ -159,7 +161,7 @@
 								this.store( el, type );
 						}
 					}
-				} while ( ( el = el.getParent() ) )
+				} while ( !isLimit( el ) && ( el = el.getParent() ) && !el.equals( this.editable ) )
 
 				cached = el;
 			}
@@ -298,7 +300,7 @@
 				var sib = rel.element[ type === CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
 
 				// Return the middle point between siblings.
-				if ( sib ) {
+				if ( sib && isStatic( sib ) ) {
 					rel.siblingRect = sib.getClientRect();
 
 					if ( type == CKEDITOR.REL_BEFORE )
@@ -387,6 +389,17 @@
 
 		editable.attachListener( this.win, 'scroll', function() {
 			this.hideVisible();
+		}, this );
+
+		editable.attachListener( this.inline ? editable : this.frame, 'mouseout', function( evt ) {
+			var x = evt.data.$.clientX,
+				y = evt.data.$.clientY;
+
+			this.queryViewport();
+
+			// Check if mouse is out of the element.
+			if ( x <= this.rect.left || x >= this.rect.right || y <= this.rect.top || y >= this.rect.bottom )
+				this.hideVisible();
 		}, this );
 
 		editor.on( 'resize', function() {
@@ -557,7 +570,9 @@
 		queryViewport: function( event ) {
 			this.scrollY = this.containerWin.getScrollPosition().y
 
-			if ( !this.inline )
+			if ( this.inline )
+				this.rect = this.editable.getClientRect();
+			else
 				this.rect = this.frame.getClientRect();
 		}
 	};
