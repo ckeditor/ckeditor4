@@ -588,7 +588,7 @@
 
 			// Append 'px' to style values.
 			for ( var style in styles )
-				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
+				styles[ style ] = CKEDITOR.tools.cssLength( Math.round( styles[ style ] ) );
 
 			return styles;
 		},
