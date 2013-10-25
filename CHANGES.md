@@ -33,6 +33,7 @@ Fixed Issues:
 * [#10870](http://dev.ckeditor.com/ticket/10870): Fixed: `paste` command is not being disabled when clipboard is empty any more.
 * [#10866](http://dev.ckeditor.com/ticket/10866): Fixed: Broken *Tab* key navigation in the Image2 dialog.
 * [#10854](http://dev.ckeditor.com/ticket/10854): Fixed: Firefox prepends `<br>` to `<body>`, so it is stripped by the HTML data processor.
+* [#10823](http://dev.ckeditor.com/ticket/10823): Fixed: Link plugin does not work with non-editable content.
 
 ## CKEditor 4.3 Beta
 
