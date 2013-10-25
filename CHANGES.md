@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.2.3
 
+Fixed Issues:
+
+* [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: loading external jQuery when opening adapter sample from file.
+
 ## CKEditor 4.2.2
 
 Fixed Issues:
