@@ -159,6 +159,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				},
 
 				onFind: function( relations, x, y ) {
+					// console.log( relations );
+
 					locator.locateAll( relations );
 
 					var locations = locator.locations,
@@ -173,7 +175,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 					liner.cleanup();
 				}
-			} ).start();
+			}, liner.visible ).start();
 		}
 
 		CKEDITOR.disableAutoInline = true;

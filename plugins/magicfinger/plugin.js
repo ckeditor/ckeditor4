@@ -13,7 +13,7 @@
 
 	CKEDITOR.plugins.add( 'magicfinger' );
 
-	function Finder( editor, def ) {
+	function Finder( editor, def, lines ) {
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editor.editable(),
@@ -21,6 +21,7 @@
 			win: editor.window
 		}, def, true );
 
+		this.lines = lines;
 		this.frame = this.win.getFrame();
 		this.inline = this.editable.isInline();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
@@ -199,14 +200,14 @@
 			// @param {Number} yStart Vertical starting coordinate to use.
 			// @param {Number} step Step of the algorithm.
 			// @param {Function} condition A condition relative to current vertical coordinate.
-			function iterate( doc, el, xStart, yStart, step, condition ) {
+			function iterate( el, xStart, yStart, step, condition ) {
 				var y = yStart,
 					found, uid;
 
 				while ( condition( y ) ) {
 					y += step;
 
-					found = doc.elementFromPoint( xStart, y );
+					found = this.doc.$.elementFromPoint( xStart, y );
 
 					// Nothing found. This is crazy. Abort.
 					if ( !found )
@@ -216,9 +217,18 @@
 					if ( found == el )
 						continue;
 
+
 					// Reached the edge of an element and found an ancestor.
-					if ( !contains( el, found ) )
+					if ( !contains( el, found ) ) {
+						// If the algorithm found a line (or line's child), try again.
+						if ( found[ 'data-cke-expando' ] in this.lines ||
+							found.parentNode[ 'data-cke-expando' ] in this.lines ) {
+							y += step;
+							continue;
+						}
+
 						return;
+					}
 
 					// Found a valid element. Stop iterating.
 					if ( isStatic( ( found = new CKEDITOR.dom.element( found ) ) ) )
@@ -230,12 +240,12 @@
 				var paneHeight = this.win.getViewPaneSize().height,
 
 					// Try to find an element iterating *up* from the starting point.
-					neg = iterate( this.doc.$, el.$, x, y, -1, function( y ) {
+					neg = iterate.call( this, el.$, x, y, -1, function( y ) {
 							return y > 0;
 						} ),
 
 					// Try to find an element iterating *down* from the starting point.
-					pos = iterate( this.doc.$, el.$, x, y, 1, function( y ) {
+					pos = iterate.call( this, el.$, x, y, 1, function( y ) {
 							return y < paneHeight;
 						} );
 
