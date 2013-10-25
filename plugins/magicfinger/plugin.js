@@ -13,7 +13,7 @@
 
 	CKEDITOR.plugins.add( 'magicfinger' );
 
-	function Finder( editor, def, lines ) {
+	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editor.editable(),
@@ -21,7 +21,6 @@
 			win: editor.window
 		}, def, true );
 
-		this.lines = lines;
 		this.frame = this.win.getFrame();
 		this.inline = this.editable.isInline();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
@@ -202,33 +201,38 @@
 			// @param {Function} condition A condition relative to current vertical coordinate.
 			function iterate( el, xStart, yStart, step, condition ) {
 				var y = yStart,
+					tryouts = 0,
 					found, uid;
 
 				while ( condition( y ) ) {
 					y += step;
 
+					// If we try and we try, and still nothing's found, let's end
+					// that party.
+					if ( ++tryouts == 25 )
+						return;
+
 					found = this.doc.$.elementFromPoint( xStart, y );
 
-					// Nothing found. This is crazy. Abort.
+					// Nothing found. This is crazy... but...
+					// It might be that a line, which is in different document,
+					// covers that pixel (elementFromPoint is doc-sensitive).
+					// Better let's have another try.
 					if ( !found )
-						return;
-
-					// Still in the same element.
-					if ( found == el )
 						continue;
 
-
-					// Reached the edge of an element and found an ancestor.
-					if ( !contains( el, found ) ) {
-						// If the algorithm found a line (or line's child), try again.
-						if ( found[ 'data-cke-expando' ] in this.lines ||
-							found.parentNode[ 'data-cke-expando' ] in this.lines ) {
-							y += step;
-							continue;
-						}
-
-						return;
+					// Still in the same element.
+					else if ( found == el ) {
+						tryouts = 0;
+						continue;
 					}
+
+					// Reached the edge of an element and found an ancestor or...
+					// A line, that covers that pixel. Better let's have another try.
+					else if ( !contains( el, found ) )
+						continue;
+
+					tryouts = 0;
 
 					// Found a valid element. Stop iterating.
 					if ( isStatic( ( found = new CKEDITOR.dom.element( found ) ) ) )
