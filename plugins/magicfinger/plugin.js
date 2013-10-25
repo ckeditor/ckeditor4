@@ -114,14 +114,14 @@
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
-				if ( is( type, CKEDITOR.REL_AFTER ) && ( alt = el.getNext() ) ) {
+				if ( is( type, CKEDITOR.REL_AFTER ) && isStatic( alt = el.getNext() ) ) {
 					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
 					type ^= CKEDITOR.REL_AFTER;
 				}
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
-				if ( is( type, CKEDITOR.REL_INSIDE ) && ( alt = el.getFirst() ) ) {
+				if ( is( type, CKEDITOR.REL_INSIDE ) && isStatic( alt = el.getFirst() ) ) {
 					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
 					type ^= CKEDITOR.REL_INSIDE;
 				}
