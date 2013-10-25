@@ -418,8 +418,8 @@
 			if ( x <= this.rect.left || x >= this.rect.right || y <= this.rect.top || y >= this.rect.bottom )
 				this.hideVisible();
 
-			// Check if mouse is out of the vieport.
-			if ( x <= 0 || x >= this.viewPane.width || y <= 0 || y >= this.viewPane.height )
+			// Check if mouse is out of the top-window vieport.
+			if ( x <= 0 || x >= this.containerWinPane.width || y <= 0 || y >= this.containerWinPane.height )
 				this.hideVisible();
 		}, this );
 
@@ -502,6 +502,7 @@
 
 		showLine: function( rel, loc ) {
 			var styles, line, l;
+
 
 			// No style means that line would be out of viewport.
 			if ( !( styles = this.getStyle( rel, loc ) ) )
@@ -619,6 +620,7 @@
 		queryViewport: function( event ) {
 			this.scroll = this.containerWin.getScrollPosition();
 			this.viewPane = this.win.getViewPaneSize();
+			this.containerWinPane = this.containerWin.getViewPaneSize();
 
 			if ( this.inline )
 				this.rect = this.editable.getClientRect();
