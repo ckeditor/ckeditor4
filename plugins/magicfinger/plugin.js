@@ -147,6 +147,9 @@
 
 				// Go down DOM towards root (or limit).
 				do {
+					if ( el.equals( this.editable ) )
+						return;
+
 					uid = el.$[ 'data-cke-expando' ];
 
 					// This element was already visited and checked.
@@ -161,7 +164,7 @@
 								this.store( el, type );
 						}
 					}
-				} while ( !isLimit( el ) && ( el = el.getParent() ) && !el.equals( this.editable ) )
+				} while ( !isLimit( el ) && ( el = el.getParent() ) )
 
 				cached = el;
 			}
