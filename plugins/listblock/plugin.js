@@ -144,6 +144,17 @@ CKEDITOR.plugins.add( 'listblock', {
 					this.element.getDocument().getById( this._.items[ value ] ).setStyle( 'display', 'none' );
 				},
 
+				getItemElements: function() {
+					var doc = this.element.getDocument();
+						items = this._.items,
+						ret = [];
+
+					for ( var value in items )
+						ret.push ( doc.getById( items[ value ] ) );
+
+					return ret;
+				},
+
 				showAll: function() {
 					var items = this._.items,
 						groups = this._.groups,

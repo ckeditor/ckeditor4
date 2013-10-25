@@ -347,6 +347,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.list.showAll();
 			},
 
+			getItemElements: function() {
+				return this._.list.getItemElements();
+			},
+
 			add: function( value, html, text ) {
 				this._.items[ value ] = text || value;
 				this._.list.add( value, html, text );
