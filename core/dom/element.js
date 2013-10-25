@@ -253,6 +253,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @todo
 	 */
 	appendBogus: function() {
+		if ( !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
+			return;
+
 		var lastChild = this.getLast();
 
 		// Ignore empty/spaces text.

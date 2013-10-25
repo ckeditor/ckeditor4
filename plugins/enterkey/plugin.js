@@ -356,8 +356,7 @@
 					}
 				}
 
-				if ( !CKEDITOR.env.ie )
-					newBlock.appendBogus();
+				newBlock.appendBogus();
 
 				if ( !newBlock.getParent() )
 					range.insertNode( newBlock );
@@ -445,8 +444,8 @@
 				range.deleteContents();
 				range.insertNode( lineBreak );
 
-				// IE has different behavior regarding position.
-				if ( CKEDITOR.env.ie )
+				// Old IEs have different behavior regarding position.
+				if ( !CKEDITOR.env.needsBrFiller )
 					range.setStartAt( lineBreak, CKEDITOR.POSITION_AFTER_END );
 				else {
 					// A text node is required by Gecko only to make the cursor blink.
