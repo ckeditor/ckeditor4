@@ -147,12 +147,12 @@ CKEDITOR.plugins.add( 'listblock', {
 				getItemElements: function() {
 					var doc = this.element.getDocument();
 						items = this._.items,
-						ret = [];
+						elements = [];
 
 					for ( var value in items )
-						ret.push ( doc.getById( items[ value ] ) );
+						elements.push( doc.getById( items[ value ] ) );
 
-					return ret;
+					return elements;
 				},
 
 				showAll: function() {
