@@ -411,8 +411,12 @@
 
 			this.queryViewport();
 
-			// Check if mouse is out of the element.
+			// Check if mouse is out of the element (iframe/editable).
 			if ( x <= this.rect.left || x >= this.rect.right || y <= this.rect.top || y >= this.rect.bottom )
+				this.hideVisible();
+
+			// Check if mouse is out of the vieport.
+			if ( x <= 0 || x >= this.viewPane.width || y <= 0 || y >= this.viewPane.height )
 				this.hideVisible();
 		}, this );
 
