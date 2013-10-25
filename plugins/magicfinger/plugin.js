@@ -495,7 +495,11 @@
 		},
 
 		showLine: function( rel, loc ) {
-			var line, l;
+			var styles, line, l;
+
+			// No style means that line would be out of viewport.
+			if ( !( styles = this.getStyle( rel, loc ) ) )
+				return;
 
 			// Search for any visible line of a different hash first.
 			// It's faster to re-position visible line than to show it.
@@ -530,16 +534,15 @@
 			// Mark the line as visible.
 			this.visible[ line.getUniqueId() ] = line;
 
-			this.positionLine( line, rel, loc );
+			line.setStyles( styles );
 		},
 
-		positionLine: function( line, rel, loc ) {
+		getStyle: function( rel, loc ) {
 			var styles = {};
 
 			// Line should be between two elements.
 			if ( rel.siblingRect )
 				styles.width = Math.max( rel.siblingRect.width, rel.elementRect.width );
-
 			// Line is relative to a single element.
 			else
 				styles.width = rel.elementRect.width;
@@ -552,10 +555,15 @@
 				styles.top = this.rect.top + this.scrollY + loc;
 			}
 
+			// The line would be out of the viewport with such styles.
+			if ( styles.top - this.scrollY < this.rect.top || styles.top - this.scrollY > this.rect.bottom )
+				return false;
+
+			// Append 'px' to style values.
 			for ( var style in styles )
 				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
 
-			line.setStyles( styles );
+			return styles;
 		},
 
 		addLine: function() {
