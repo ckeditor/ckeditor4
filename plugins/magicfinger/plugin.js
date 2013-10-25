@@ -379,7 +379,7 @@
 			doc: editor.document,
 			win: editor.window,
 			container: CKEDITOR.document.getBody(),
-			containerWin: CKEDITOR.document.getWindow()
+			winTop: CKEDITOR.document.getWindow()
 		}, def, true );
 
 		this.hidden = {};
@@ -392,15 +392,15 @@
 
 		this.queryViewport();
 
-		editable.attachListener( this.containerWin, 'resize', function() {
+		editable.attachListener( this.winTop, 'resize', function() {
 			this.queryViewport();
 		}, this );
 
-		editable.attachListener( this.containerWin, 'scroll', function() {
+		editable.attachListener( this.winTop, 'scroll', function() {
 			this.queryViewport();
 		}, this );
 
-		editable.attachListener( this.containerWin, 'resize', function() {
+		editable.attachListener( this.winTop, 'resize', function() {
 			this.hideVisible();
 		}, this );
 
@@ -419,7 +419,7 @@
 				this.hideVisible();
 
 			// Check if mouse is out of the top-window vieport.
-			if ( x <= 0 || x >= this.containerWinPane.width || y <= 0 || y >= this.containerWinPane.height )
+			if ( x <= 0 || x >= this.winTopPane.width || y <= 0 || y >= this.winTopPane.height )
 				this.hideVisible();
 		}, this );
 
@@ -557,12 +557,12 @@
 
 			// Let's calculate the vertical position of the line.
 			if ( this.inline )
-				styles.top = loc + this.scroll.y;
+				styles.top = loc + this.winTopScroll.y;
 			else
-				styles.top = this.rect.top + this.scroll.y + loc;
+				styles.top = this.rect.top + this.winTopScroll.y + loc;
 
 			// Check if line would be vertically out of the viewport.
-			if ( styles.top - this.scroll.y < this.rect.top || styles.top - this.scroll.y > this.rect.bottom )
+			if ( styles.top - this.winTopScroll.y < this.rect.top || styles.top - this.winTopScroll.y > this.rect.bottom )
 				return false;
 
 			// Now let's calculate the horizontal alignment (left and width).
@@ -579,13 +579,13 @@
 				}
 
 				// H-scroll case. Right edge of element may be out of viewport.
-				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.viewPane.width ) ) > 0 ) {
+				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.winPane.width ) ) > 0 ) {
 					styles.width -= hdiff;
 				}
 			}
 
 			// Finally include horizontal scroll of the global window.
-			styles.left += this.scroll.x;
+			styles.left += this.winTopScroll.x;
 
 			// Append 'px' to style values.
 			for ( var style in styles )
@@ -618,9 +618,9 @@
 		},
 
 		queryViewport: function( event ) {
-			this.scroll = this.containerWin.getScrollPosition();
-			this.viewPane = this.win.getViewPaneSize();
-			this.containerWinPane = this.containerWin.getViewPaneSize();
+			this.winPane = this.win.getViewPaneSize();
+			this.winTopScroll = this.winTop.getScrollPosition();
+			this.winTopPane = this.winTop.getViewPaneSize();
 
 			if ( this.inline )
 				this.rect = this.editable.getClientRect();
