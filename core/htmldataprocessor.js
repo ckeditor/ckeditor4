@@ -150,7 +150,7 @@
 			// We do that for every browser (so it's a constant behavior) and
 			// not in BR mode, in which chance of valid leading blockless <br> is higher.
 			if ( evt.data.enterMode != CKEDITOR.ENTER_BR )
-				data = data.replace( /^<br(?: ?\/)?>/i, '' );
+				data = data.replace( /^<br *\/?>/i, '' );
 
 			evt.data.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
 				data, evt.data.context, getFixBodyTag( evt.data.enterMode, editor.config.autoParagraph ) );
