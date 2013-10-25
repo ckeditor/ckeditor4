@@ -1965,7 +1965,7 @@
 			var cache = this._.cache;
 
 			// Caches a range than holds the element.
-			var range = new CKEDITOR.dom.range( element.getDocument() );
+			var range = new CKEDITOR.dom.range( this.root );
 			range.setStartBefore( element );
 			range.setEndAfter( element );
 			cache.ranges = new CKEDITOR.dom.rangeList( range );

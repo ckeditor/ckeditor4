@@ -252,7 +252,7 @@ CKEDITOR.plugins.link = {
 		if ( selectedElement && selectedElement.is( 'a' ) )
 			return selectedElement;
 
-		var range = selection.getRanges( true )[ 0 ];
+		var range = selection.getRanges()[ 0 ];
 
 		if ( range ) {
 			range.shrink( CKEDITOR.SHRINK_TEXT );

@@ -1057,9 +1057,12 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				element = null;
 
 			// Fill in all the relevant fields if there's already one link selected.
-			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) )
-				selection.selectElement( element );
-			else
+			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
+				// Don't change selection if some element is already selected.
+				// For example - don't destroy fake selection.
+				if ( !selection.getSelectedElement() )
+					selection.selectElement( element );
+			} else
 				element = null;
 
 			this.setupContent( parseLink.apply( this, [ editor, element ] ) );
@@ -1202,7 +1205,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			attributes.href = attributes[ 'data-cke-saved-href' ];
 
 			if ( !this._.selectedElement ) {
-				var range = selection.getRanges( 1 )[ 0 ];
+				var range = selection.getRanges()[ 0 ];
 
 				// Use link URL as text with a collapsed cursor.
 				if ( range.collapsed ) {
@@ -1233,9 +1236,11 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
 					// Short mailto link text view (#5736).
 					element.setHtml( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ] );
+
+					// We changed the content, so need to select it again.
+					selection.selectElement( element );
 				}
 
-				selection.selectElement( element );
 				delete this._.selectedElement;
 			}
 		},
