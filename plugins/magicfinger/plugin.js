@@ -636,11 +636,11 @@
 				this.hideLine( this.visible[ l ] );
 		},
 
-		showLine: function( uid, type, callback ) {
+		showLine: function( location, callback ) {
 			var styles, line, l;
 
 			// No style means that line would be out of viewport.
-			if ( !( styles = this.getStyle( uid, type ) ) )
+			if ( !( styles = this.getStyle( location.uid, location.type ) ) )
 				return;
 
 			// Search for any visible line of a different hash first.

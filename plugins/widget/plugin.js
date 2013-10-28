@@ -1949,7 +1949,7 @@
 				} ),
 				locator: new magicfinger.locator( editor ),
 				liner: new magicfinger.liner( editor )
-			} );
+			}, true );
 		} );
 	}
 
@@ -2480,9 +2480,9 @@
 			} );
 		} else {
 			img.on( 'mousedown', function( evt ) {
-				var min, range, listener,
-					locations, sorted, buffer,
-					x, y;
+				var listeners = [],
+					locations, sorted, buffer, range,
+					i, x, y;
 
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
@@ -2496,8 +2496,8 @@
 
 						liner.prepare( relations, locations );
 
-						for ( var i = 0; i < sorted.length; i++ ) {
-							liner.showLine( sorted[ i ].uid, sorted[ i ].type, function( line ) {
+						for ( i = 0; i < sorted.length; i++ ) {
+							liner.showLine( sorted[ i ], function( line ) {
 								line.setStyle( 'opacity', !i ? 1 : .2 );
 							} );
 						}
@@ -2505,9 +2505,9 @@
 						liner.cleanup();
 					} );
 
-					listener = editable.on( 'mousemove', onMouseMove );
-
-					editable.once( 'mouseup', onMouseUp );
+					listeners.push( editable.on( 'mousemove', onMouseMove ) );
+					listeners.push( editable.once( 'mouseup', onMouseUp ) );
+					listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp ) );
 				} );
 
 				function onMouseMove( evt ) {
@@ -2517,27 +2517,30 @@
 				}
 
 				function onMouseUp( evt ) {
-					// Stop observing mousemove events.
-					listener.removeListener();
+					var l;
+
+					// Stop observing events.
+					while ( ( l = listeners.pop() ) )
+						l.removeListener();
 
 					buffer.reset();
 
-					// Detach widget from DOM.
-					widget.wrapper.remove();
+					if ( sorted && sorted.length ) {
+						// Detach widget from DOM.
+						widget.wrapper.remove();
 
-					// Retrieve range for the closest location.
-					range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
+						// Retrieve range for the closest location.
+						range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
 
-					// Attach widget at the place determined by range.
-					editable.insertElementIntoRange( widget.wrapper, range );
+						// Attach widget at the place determined by range.
+						editable.insertElementIntoRange( widget.wrapper, range );
+					}
 
 					// Clean-up custom cursor for editable.
 					editable.removeClass( 'cke_widget_dragging' );
 
 					// Clean-up all remaining lines.
 					liner.removeAll();
-
-					evt.data.preventDefault();
 				}
 
 				evt.data.preventDefault();
