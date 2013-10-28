@@ -250,10 +250,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * @todo
+	 * Appends a `<br>` filler element to this element if the filler is not present already.
+	 * By default filler is appended only if {@link CKEDITOR.env#needsBrFiller} is `true`,
+	 * however when `force` is set to `true` filler will be appended regardless of the environment.
+	 *
+	 * @param {Boolean} [force] Append filler regardless of the environment.
 	 */
-	appendBogus: function() {
-		if ( !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
+	appendBogus: function( force ) {
+		if ( !force && !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
 			return;
 
 		var lastChild = this.getLast();

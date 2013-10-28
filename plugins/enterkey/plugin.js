@@ -130,7 +130,7 @@
 					}
 
 					else if ( !needsBlock ) {
-						block.appendBogus();
+						block.appendBogus( true );
 
 						// If block is the first or last child of the parent
 						// list, move all block's children out of the list:
