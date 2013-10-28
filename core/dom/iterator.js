@@ -339,8 +339,8 @@
 			if ( removeLastBr ) {
 				var lastChild = block.getLast();
 				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && lastChild.getName() == 'br' ) {
-					// Take care not to remove the block expanding <br> in non-IE browsers.
-					if ( CKEDITOR.env.ie || lastChild.getPrevious( bookmarkGuard ) || lastChild.getNext( bookmarkGuard ) )
+					// Remove br filler on browser which do not need it.
+					if ( !CKEDITOR.env.needsBrFiller || lastChild.getPrevious( bookmarkGuard ) || lastChild.getNext( bookmarkGuard ) )
 						lastChild.remove();
 				}
 			}
