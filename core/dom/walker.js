@@ -451,7 +451,7 @@
 		}
 
 		return function( node ) {
-			var isBogus = !CKEDITOR.env.ie ? node.is && node.is( 'br' ) : node.getText && tailNbspRegex.test( node.getText() );
+			var isBogus = CKEDITOR.env.needsBrFiller ? node.is && node.is( 'br' ) : node.getText && tailNbspRegex.test( node.getText() );
 
 			if ( isBogus ) {
 				var parent = node.getParent(),
@@ -560,7 +560,7 @@
 				return true;
 
 			// Empty blocks are editable on IE.
-			if ( CKEDITOR.env.ie && node.is( dtdTextBlock ) && isEmpty( node ) )
+			if ( !CKEDITOR.env.needsBrFiller && node.is( dtdTextBlock ) && isEmpty( node ) )
 				return true;
 		}
 
@@ -606,7 +606,7 @@
 		}
 		while ( toSkip( tail ) )
 
-		if ( tail && ( !CKEDITOR.env.ie ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
+		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
 			return tail;
 		}
 		return false;
