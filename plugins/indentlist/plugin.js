@@ -221,6 +221,9 @@
 				}
 			}
 
+			if ( newList )
+				editor.fire( 'domInvalidated' );
+
 			return true;
 		}
 

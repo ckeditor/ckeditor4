@@ -2817,3 +2817,14 @@
  *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
  */
+
+ /**
+ * The event fired when DOM changes and some data needs to be refresh because of this.
+ * Originally this event have been created to tell {@link CKEDITOR.plugins.widget.repository widget repository}
+ * that some widget might need refresh after list operation (like change list type or indent list).
+ *
+ * @since 4.3
+ * @event domInvalidated
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */

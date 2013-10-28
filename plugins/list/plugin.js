@@ -291,6 +291,8 @@
 				listsCreated.push( child );
 		}
 		newList.listNode.replace( groupObj.root );
+
+		editor.fire( 'domInvalidated' );
 	}
 
 	var headerTagRegex = /^h[1-6]$/;
@@ -443,6 +445,8 @@
 		compensateBrs();
 
 		docFragment.replace( groupObj.root );
+
+		editor.fire( 'domInvalidated' );
 	}
 
 	function listCommand( name, type ) {
