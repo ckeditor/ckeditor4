@@ -1948,7 +1948,11 @@
 					}
 				} ),
 				locator: new magicfinger.locator( editor ),
-				liner: new magicfinger.liner( editor )
+				liner: new magicfinger.liner( editor, {
+					lineCss: {
+						cursor: 'move'
+					}
+				} )
 			}, true );
 		} );
 	}

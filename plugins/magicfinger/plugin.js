@@ -738,6 +738,9 @@
 
 			line.appendTo( this.container );
 
+			if ( this.lineCss )
+				line.setStyles( this.lineCss );
+
 			return line;
 		},
 
