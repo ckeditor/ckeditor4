@@ -1747,7 +1747,7 @@
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
 			evt.data.dataValue = evt.data.dataValue.replace(
-				/^(?:<div id="cke_copybin">)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/div>)?$/,
+				/^(?:<div(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/div>)?$/,
 				'$1'
 			);
 		} );
@@ -2231,11 +2231,21 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			copybin = new CKEDITOR.dom.element( 'div', editor.document );
+			copybin = new CKEDITOR.dom.element( 'div', editor.document ),
+			editorDocElement = editor.document.$.documentElement,
+			scrollTop = editorDocElement.scrollTop;
 
-		copybin.setAttributes( {
-			id: 'cke_copybin'
+		copybin.setAttribute( 'id', 'cke_copybin' );
+
+		// Position copybin element outside current viewport.
+		copybin.setStyles( {
+			position: 'absolute',
+			top: editor.document.getWindow().getScrollPosition().y + 10 + 'px',
+			width: '1px',
+			height: '1px'
 		} );
+
+		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
 
 		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
 
@@ -2258,10 +2268,14 @@
 		range.select();
 
 		setTimeout( function() {
+
 			copybin.remove();
 
 			if ( !isCut )
 				widget.focus();
+
+			// Restoring original scrollTop position.
+			editorDocElement.scrollTop = scrollTop;
 
 			listener1.removeListener();
 			listener2.removeListener();
