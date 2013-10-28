@@ -1747,7 +1747,7 @@
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
 			evt.data.dataValue = evt.data.dataValue.replace(
-				/^(?:<div(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/div>)?$/,
+				/^(?:<(?:div|span)(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/(?:div|span)>)?$/,
 				'$1'
 			);
 		} );
@@ -2231,7 +2231,7 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			copybin = new CKEDITOR.dom.element( 'div', editor.document ),
+			copybin = new CKEDITOR.dom.element( editor.blockless ? 'span' : 'div', editor.document ),
 			editorDocElement = editor.document.$.documentElement,
 			scrollTop = editorDocElement.scrollTop;
 
