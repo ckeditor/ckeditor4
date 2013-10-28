@@ -301,9 +301,8 @@
 					};
 
 					node = walker.next();
-					if ( node && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'ul', 'ol' ) ) {
-						( CKEDITOR.env.ie ? doc.createText( '\xa0' ) : doc.createElement( 'br' ) ).insertBefore( node );
-					}
+					if ( node && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'ul', 'ol' ) )
+						( CKEDITOR.env.needsBrFiller ? doc.createElement( 'br' ) : doc.createText( '\xa0' ) ).insertBefore( node );
 				}
 
 				// Move the selection to the end block.

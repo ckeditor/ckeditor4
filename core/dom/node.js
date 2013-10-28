@@ -686,7 +686,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			break;
 		}
 
-		if ( !CKEDITOR.env.ie && !CKEDITOR.env.opera ) {
+		if ( CKEDITOR.env.needsBrFiller ) {
 			child = this.$.lastChild;
 
 			if ( child && child.type == 1 && child.nodeName.toLowerCase() == 'br' ) {
