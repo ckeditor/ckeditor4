@@ -838,7 +838,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this._.hasFocus = false;
 
 			for ( var i in definition.contents ) {
-				if( !definition.contents[ i ] )
+				if ( !definition.contents[ i ] )
 					continue;
 
 				var content = definition.contents[ i ],
@@ -846,13 +846,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					requiredContent = content.requiredContent,
 					enableElements = 0;
 
-				if( !tab )
+				if ( !tab )
 					continue;
 
 				for ( var j in this._.contents[ content.id ] ) {
 					var elem = this._.contents[ content.id ][ j ];
 
-					if( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
+					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
 						continue;
 
 					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
@@ -863,7 +863,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					}
 				}
 
-				if( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
+				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
 					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
 				else
 					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
@@ -1145,7 +1145,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( this._.currentTabId == id )
 				return;
 
-			if( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
+			if ( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
 				return;
 
 			// Returning true means that the event has been canceled
