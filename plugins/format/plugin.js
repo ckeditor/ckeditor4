@@ -104,7 +104,7 @@ CKEDITOR.plugins.add( 'format', {
 				}
 			},
 
-			onStateUpdate: function( state ) {
+			refresh: function() {
 				var elementPath = editor.elementPath();
 
 				if ( !elementPath )

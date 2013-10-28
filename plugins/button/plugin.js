@@ -201,8 +201,8 @@
 						this.setState( state );
 
 						// Let plugin to disable button.
-						if ( this.onStateUpdate )
-							this.onStateUpdate( state );
+						if ( this.refresh )
+							this.refresh();
 					}
 				}
 

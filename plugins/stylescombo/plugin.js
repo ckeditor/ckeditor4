@@ -155,7 +155,7 @@
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
 				},
 
-				onStateUpdate: function( state ) {
+				refresh: function() {
 					var elementPath = editor.elementPath();
 
 					if ( !elementPath )

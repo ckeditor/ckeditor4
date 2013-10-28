@@ -62,7 +62,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 32 ] = 'click'; // SPACE
 				},
 
-				onStateUpdate: function( state ) {
+				refresh: function() {
 					if ( !editor.activeFilter.check( style ) )
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},
