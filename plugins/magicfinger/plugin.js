@@ -56,6 +56,7 @@
 	Finder.prototype = {
 		/**
 		 * Initializes searching for elements with every mousemove event fired.
+		 * @param {Function} [callback] Function passed to {@link #find}.
 		 */
 		start: function( callback ) {
 			var that = this,
@@ -92,17 +93,15 @@
 		stop: function() {
 			if ( this.listener )
 				this.listener.removeListener();
-
-			if ( this.onStop )
-				this.onStop();
 		},
 
 		/**
-		 * Feeds searching algorithms with element and mouse.
+		 * Feeds searching algorithms with element and mouse, collecting relations.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
 		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
+		 * @param {Function} [callback] Function executed when relations were found.
 		 */
 		find: function( el, x, y, callback ) {
 			this.relations = {};
@@ -115,6 +114,12 @@
 			callback && callback( this.relations, x, y );
 		},
 
+		/**
+		 * Collects all elements from editable's DOM tree and runs lookups
+		 * for every one of them, collecting relations.
+		 *
+		 * @param {Function} [callback] Function executed when relations were found.
+		 */
 		findAll: function( callback ) {
 			this.relations = {};
 
@@ -153,14 +158,13 @@
 		},
 
 		/**
-		 * Returns relations found by the finder.
+		 * Returns a range representing the relation, according to its element
+		 * and type.
 		 *
-		 * @returns {Object} An object containing relations.
+		 * @param {Number} uid Unique identifier of the relation.
+		 * @param {Number} type Type of the relation.
+		 * @returns {CKEDITOR.dom.range} Range representing the relation.
 		 */
-		getRelations: function() {
-			return this.relations;
-		},
-
 		getRange: (function() {
 			var where = {};
 
@@ -178,7 +182,7 @@
 		})(),
 
 		/**
-		 * Stores given relation in a collection. Processes the relation
+		 * Stores given relation in {@link #relations} object. Processes the relation
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
@@ -216,9 +220,9 @@
 		})(),
 
 		/**
-		 * Traverses DOM tree down towards root checking all ancestors
-		 * with lookup rules avoiding duplicates. Stores positive relations
-		 * in `relations` object.
+		 * Traverses DOM tree towards root, checking all ancestors
+		 * with lookup rules, avoiding duplicates. Stores positive relations
+		 * in {@link #relations} object.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 */
@@ -259,7 +263,7 @@
 		/**
 		 * Iterates vertically pixel-by-pixel within given element starting
 		 * from given coordinates, searching for elements in the neighbourhood.
-		 * Once an element is found it is processed by `traverseSearch`.
+		 * Once an element is found it is processed by {@link #traverseSearch}.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
@@ -394,7 +398,8 @@
 		 * Localizes Y coordinate for all types of every single relation and stores
 		 * them in the object.
 		 *
-		 * @param {Object} relations Relations returned from Finder.
+		 * @param {Object} relations {@link Finder#relations}.
+		 * @returns {Object} {@link #locations}.
 		 */
 		locateAll: (function() {
 			var rel, uid;
@@ -443,6 +448,14 @@
 			};
 		})(),
 
+		/**
+		 * Calculates distances from every location to given vertical coordinate
+		 * and sorts locations according to that distance.
+		 *
+		 * @param {Number} y The vertical coordinate used for sorting, used as a reference.
+		 * @param {Number} [howMany] Determines the number "closest locations" to be returned.
+		 * @returns {Array} Sorted, array representation of {@link #locations}.
+		 */
 		getSorted: (function() {
 			var locations, sorted,
 				dist, uid, type, i;
@@ -481,15 +494,6 @@
 				return sorted.slice( 0, howMany );
 			};
 		})(),
-
-		forEach: function( callback ) {
-			var uid, type;
-
-			for ( uid in this.locations ) {
-				for ( type in this.locations[ uid ] )
-					callback( uid, type );
-			}
-		},
 
 		/**
 		 * Stores the location in a collection.
@@ -608,6 +612,9 @@
 		} );
 
 	Liner.prototype = {
+		/**
+		 * Permanently removes all lines (both hidden and visible) from DOM.
+		 */
 		removeAll: function() {
 			var l;
 
@@ -622,6 +629,11 @@
 			}
 		},
 
+		/**
+		 * Hides a given line.
+		 *
+		 * @param {CKEDITOR.dom.element} line The line to be hidden.
+		 */
 		hideLine: function( line ) {
 			var uid = line.getUniqueId();
 
@@ -631,11 +643,21 @@
 			delete this.visible[ uid ];
 		},
 
+		/**
+		 * Hides all visible lines.
+		 */
 		hideVisible: function() {
 			for ( var l in this.visible )
 				this.hideLine( this.visible[ l ] );
 		},
 
+		/**
+		 * Shows a line at given location.
+		 *
+		 * @param {Object} location Location object containing unique identifier of the relation
+		 * and its type. Usually returned by {@link Locator#getSorted}.
+		 * @param {Function} [callback] A callback to be called once the line is shown.
+		 */
 		showLine: function( location, callback ) {
 			var styles, line, l;
 
@@ -681,6 +703,14 @@
 			callback && callback( line );
 		},
 
+		/**
+		 * Creates style set to be used by the line, representing a particular
+		 * relation (location).
+		 *
+		 * @param {Number} uid Unique identifier of the relation.
+		 * @param {Number} type Type of the relation.
+		 * @returns {Object} An object containing styles.
+		 */
 		getStyle: function( uid, type ) {
 			var rel = this.relations[ uid ],
 				loc = this.locations[ uid ][ type ],
@@ -733,6 +763,11 @@
 			return styles;
 		},
 
+		/**
+		 * Adds a new line to DOM.
+		 *
+		 * @returns {CKEDITOR.dom.element} A brand-new line.
+		 */
 		addLine: function() {
 			var line = CKEDITOR.dom.element.createFromHtml( lineTpl );
 
@@ -744,6 +779,28 @@
 			return line;
 		},
 
+		/**
+		 * Assigns an unique hash to the instance that is later utilized
+		 * to tell unwanted lines from new ones. This method **must** be called
+		 * before a new set of relations is to be visualized so {@link #cleanup}
+		 * eventually hides obsolete lines. This is because lines
+		 * are re-used between {@link #showLine} calls and the number of
+		 * necessary ones may vary according to the number of relations.
+		 *
+		 * @param {Object} relations {@link Finder#relations}.
+		 * @param {Object} locations {@link Locator#locations}.
+		 */
+		prepare: function( relations, locations ) {
+			this.relations = relations;
+			this.locations = locations;
+			this.hash = Math.random().toString( 36 ).substring( 7 );
+		},
+
+		/**
+		 * Hides all visible lines that don't belong to current hash
+		 * and no-longer represent relations (locations).
+		 * See also: {@link #prepare}.
+		 */
 		cleanup: function() {
 			var line;
 
@@ -755,13 +812,11 @@
 			}
 		},
 
-		prepare: function( relations, locations ) {
-			this.relations = relations;
-			this.locations = locations;
-			this.hash = Math.random().toString( 36 ).substring( 7 );
-		},
-
-		queryViewport: function( event ) {
+		/**
+		 * Queries dimensions of the viewport, editable, frame etc.
+		 * that are used for correct positioning of the line.
+		 */
+		queryViewport: function() {
 			this.winPane = this.win.getViewPaneSize();
 			this.winTopScroll = this.winTop.getScrollPosition();
 			this.winTopPane = this.winTop.getViewPaneSize();
