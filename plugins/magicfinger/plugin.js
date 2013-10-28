@@ -13,6 +13,33 @@
 
 	CKEDITOR.plugins.add( 'magicfinger' );
 
+	/**
+	 * The space is before specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_BEFORE = 1;
+
+	/**
+	 * The space is after specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_AFTER = 2;
+
+	/**
+	 * The space is inside of specified element.
+	 *
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.REL_INSIDE = 4;
+
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
@@ -30,7 +57,7 @@
 		/**
 		 * Initializes searching for elements with every mousemove event fired.
 		 */
-		start: function() {
+		start: function( callback ) {
 			var that = this,
 				editor = this.editor,
 				doc = this.doc,
@@ -41,6 +68,8 @@
 						return;
 
 					that.find( new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) ), x, y );
+
+					callback && callback( that.relations, x, y );
 				} );
 
 			// Searching starting from element from point on mousemove.
@@ -81,8 +110,6 @@
 
 			if ( !isNaN( x + y ) )
 				this.pixelSearch( el, x, y );
-
-			this.onFind && this.onFind( this.relations, x, y );
 		},
 
 		/**
@@ -94,12 +121,28 @@
 			return this.relations;
 		},
 
+		getRange: (function() {
+			var where = {};
+
+			where[ CKEDITOR.REL_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
+			where[ CKEDITOR.REL_AFTER ] = CKEDITOR.POSITION_AFTER_END;
+			where[ CKEDITOR.REL_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
+
+			return function( uid, type ) {
+				var range = this.editor.createRange();
+
+				range.moveToPosition( this.relations[ uid ].element, where[ type ] );
+
+				return range;
+			};
+		})(),
+
 		/**
 		 * Stores given relation in a collection. Processes the relation
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
-		 * @param {Number} rel Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
+		 * @param {Number} type Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
 		 */
 		store: (function() {
 			function merge( el, type, relations ) {
@@ -355,6 +398,8 @@
 					if ( is( rel.type, CKEDITOR.REL_INSIDE ) )
 						this.store( uid, CKEDITOR.REL_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
 				}
+
+				return this.locations;
 			};
 		})(),
 
@@ -366,7 +411,7 @@
 				return Math.abs( y - locations[ uid ][ type ] );
 			}
 
-			return function( x, y, howMany ) {
+			return function( y ) {
 				locations = this.locations;
 				minUid = minType = min = dist = null;
 
@@ -390,10 +435,6 @@
 					return { uid: minUid, type: minType };
 			};
 		})(),
-
-		getRange: function( location ) {
-			// TODO: Returns range
-		},
 
 		/**
 		 * Stores the location in a collection.
@@ -540,7 +581,7 @@
 				this.hideLine( this.visible[ l ] );
 		},
 
-		showLine: function( uid, type ) {
+		showLine: function( uid, type, callback ) {
 			var styles, line, l;
 
 			// No style means that line would be out of viewport.
@@ -581,6 +622,8 @@
 			this.visible[ line.getUniqueId() ] = line;
 
 			line.setStyles( styles );
+
+			callback && callback( line );
 		},
 
 		getStyle: function( uid, type ) {
@@ -708,30 +751,3 @@
 		isStatic: isStatic
 	};
 })();
-
-/**
- * The space is before specified element.
- *
- * @readonly
- * @property {Number} [=0]
- * @member CKEDITOR
- */
-CKEDITOR.REL_BEFORE = 1;
-
-/**
- * The space is after specified element.
- *
- * @readonly
- * @property {Number} [=1]
- * @member CKEDITOR
- */
-CKEDITOR.REL_AFTER = 2;
-
-/**
- * The space is inside of specified element.
- *
- * @readonly
- * @property {Number} [=2]
- * @member CKEDITOR
- */
-CKEDITOR.REL_INSIDE = 4;
