@@ -62,6 +62,9 @@
 		stop: function() {
 			if ( this.listener )
 				this.listener.removeListener();
+
+			if ( this.onStop )
+				this.onStop();
 		},
 
 		/**
@@ -355,6 +358,43 @@
 			};
 		})(),
 
+		getClosest: (function() {
+			var locations, minUid, minType, min,
+				dist, uid, type;
+
+			function distance( uid, type, y ) {
+				return Math.abs( y - locations[ uid ][ type ] );
+			}
+
+			return function( x, y, howMany ) {
+				locations = this.locations;
+				minUid = minType = min = dist = null;
+
+				for ( uid in locations ) {
+					for ( type in locations[ uid ] ) {
+						dist = distance( uid, type, y );
+
+						if ( !minUid ) {
+							minUid = uid;
+							minType = type;
+							min = dist;
+						} else if ( dist < min ) {
+							minUid = uid;
+							minType = type;
+							min = dist;
+						}
+					}
+				}
+
+				if ( minUid )
+					return { uid: minUid, type: minType };
+			};
+		})(),
+
+		getRange: function( location ) {
+			// TODO: Returns range
+		},
+
 		/**
 		 * Stores the location in a collection.
 		 *
@@ -366,7 +406,7 @@
 			if ( !this.locations[ uid ] )
 				this.locations[ uid ] = {};
 
-			this.locations[ uid ][ type ] = y;
+			this.locations[ uid ][ type ] = Math.round( y );
 		}
 	};
 
@@ -423,15 +463,15 @@
 				this.hideVisible();
 		}, this );
 
-		editor.on( 'resize', function() {
+		editable.attachListener( editor, 'resize', function() {
 			this.queryViewport();
 		}, this );
 
-		editor.on( 'mode', function() {
+		editable.attachListener( editor, 'mode', function() {
 			this.removeAll();
 		}, this );
 
-		editor.on( 'destroy', function() {
+		editable.attachListener( editor, 'destroy', function() {
 			this.removeAll();
 		}, this );
 	}
@@ -500,12 +540,11 @@
 				this.hideLine( this.visible[ l ] );
 		},
 
-		showLine: function( rel, loc ) {
+		showLine: function( uid, type ) {
 			var styles, line, l;
 
-
 			// No style means that line would be out of viewport.
-			if ( !( styles = this.getStyle( rel, loc ) ) )
+			if ( !( styles = this.getStyle( uid, type ) ) )
 				return;
 
 			// Search for any visible line of a different hash first.
@@ -544,8 +583,10 @@
 			line.setStyles( styles );
 		},
 
-		getStyle: function( rel, loc ) {
-			var styles = {},
+		getStyle: function( uid, type ) {
+			var rel = this.relations[ uid ],
+				loc = this.locations[ uid ][ type ],
+				styles = {},
 				hdiff;
 
 			// Line should be between two elements.
@@ -589,7 +630,7 @@
 
 			// Append 'px' to style values.
 			for ( var style in styles )
-				styles[ style ] = CKEDITOR.tools.cssLength( Math.round( styles[ style ] ) );
+				styles[ style ] = CKEDITOR.tools.cssLength( styles[ style ] );
 
 			return styles;
 		},
@@ -613,7 +654,9 @@
 			}
 		},
 
-		prepare: function() {
+		prepare: function( relations, locations ) {
+			this.relations = relations;
+			this.locations = locations;
 			this.hash = Math.random().toString( 36 ).substring( 7 );
 		},
 
