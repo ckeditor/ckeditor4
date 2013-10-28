@@ -848,8 +848,8 @@
 
 				var fixedBlock = range.fixBlock( true, editor.activeEnterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
-				// For IE, we should remove any filler node which was introduced before.
-				if ( CKEDITOR.env.ie ) {
+				// For IE<11, we should remove any filler node which was introduced before.
+				if ( !CKEDITOR.env.needsBrFiller ) {
 					var first = fixedBlock.getFirst( isNotEmpty );
 					if ( first && isNbsp( first ) ) {
 						first.remove();
@@ -1323,7 +1323,7 @@
 					fixBlock = doc.createElement( fixBlock );
 					fixBlock.appendBogus();
 					range.insertNode( fixBlock );
-					if ( !CKEDITOR.env.ie && ( bogus = fixBlock.getBogus() ) )
+					if ( CKEDITOR.env.needsBrFiller && ( bogus = fixBlock.getBogus() ) )
 						bogus.remove();
 					range.moveToPosition( fixBlock, CKEDITOR.POSITION_BEFORE_END );
 				}
@@ -1427,8 +1427,12 @@
 
 			if ( bogusNeededBlocks ) {
 				// Bring back all block bogus nodes.
-				while ( ( node = bogusNeededBlocks.pop() ) )
-					node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
+				while ( ( node = bogusNeededBlocks.pop() ) ) {
+					if ( CKEDITOR.env.needsBrFiller )
+						node.appendBogus();
+					else
+						node.append( range.document.createText( '\u00a0' ) );
+				}
 			}
 
 			// Eventually merge identical inline elements.
