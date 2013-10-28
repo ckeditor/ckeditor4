@@ -1775,19 +1775,21 @@
 		if ( pathFilters )
 			pathFilters.push( function( element, name ) {
 
-				var isWidgetWrapper = element.data( 'cke-widget-wrapper' ) == '1',
+				var isWidgetWrapper = isWidgetWrapper2( element ),
 					editableName = element.data( 'cke-widget-editable' );
 
 				// If element is widget wrapper or has widget editable name assigned.
 				if ( isWidgetWrapper || editableName ) {
 
-					var widget = editor.widgets.getByElement( element ),
-						widgetDefinition = widget.definition;
+					var widget = editor.widgets.getByElement( element );
+
+					if ( !widget )
+						return ;
 
 					if ( isWidgetWrapper )
-						return widgetDefinition.pathName || widget.element.getName();
+						return widget.definition.pathName || widget.element.getName();
 					else
-						return widgetDefinition.editables[ editableName ].pathName || name;
+						return widget.definition.editables[ editableName ].pathName || name;
 				}
 			} );
 	}
