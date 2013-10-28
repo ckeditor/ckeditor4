@@ -59,8 +59,7 @@
 		init: function( editor ) {
 			editor._.elementsPath = {
 				idBase: 'cke_elementspath_' + CKEDITOR.tools.getNextNumber() + '_',
-				filters: [],
-				onClick: null
+				filters: []
 			};
 
 			editor.on( 'uiSpace', function( event ) {
@@ -78,8 +77,8 @@
 					spaceElement = CKEDITOR.document.getById( spaceId );
 				return spaceElement;
 			},
-			privateContext = editor._.elementsPath,
-			idBase = privateContext.idBase;
+			elementsPath = editor._.elementsPath,
+			idBase = elementsPath.idBase;
 
 		bottomSpaceData.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementspath.eleLabel + '</span>' +
 			'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
@@ -91,7 +90,7 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var element = privateContext.list[ elementIndex ];
+			var element = elementsPath.list[ elementIndex ];
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
@@ -104,11 +103,11 @@
 			editor.focus();
 		}
 
-		privateContext.onClick = onClick;
+		elementsPath.onClick = onClick;
 
 		var onClickHanlder = CKEDITOR.tools.addFunction( onClick ),
 			onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
-				var idBase = privateContext.idBase,
+				var idBase = elementsPath.idBase,
 					element;
 
 				ev = new CKEDITOR.dom.event( ev );
@@ -129,7 +128,7 @@
 					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
 						element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
 						if ( !element )
-							element = CKEDITOR.document.getById( idBase + ( privateContext.list.length - 1 ) );
+							element = CKEDITOR.document.getById( idBase + ( elementsPath.list.length - 1 ) );
 						element.focus();
 						return false;
 
@@ -150,9 +149,9 @@
 				editable = editor.editable(),
 				selection = ev.data.selection,
 				html = [],
-				elementsList = privateContext.list = [],
+				elementsList = elementsPath.list = [],
 				namesList = [],
-				filters = privateContext.filters,
+				filters = elementsPath.filters,
 				isContentEditable = true,
 				name,
 				elementsChain = selection.getStartElement().getParents(),
@@ -216,7 +215,7 @@
 
 		function empty() {
 			spaceElement && spaceElement.setHtml( emptyHtml );
-			delete privateContext.list;
+			delete elementsPath.list;
 		}
 
 		editor.on( 'readOnly', empty );
