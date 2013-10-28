@@ -67,9 +67,10 @@
 					if ( editor.readOnly || editor.mode != 'wysiwyg' )
 						return;
 
-					that.find( new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) ), x, y );
-
-					callback && callback( that.relations, x, y );
+					that.find(
+						new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) ),
+						x, y,
+						callback );
 				} );
 
 			// Searching starting from element from point on mousemove.
@@ -103,13 +104,52 @@
 		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
 		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
 		 */
-		find: function( el, x, y ) {
+		find: function( el, x, y, callback ) {
 			this.relations = {};
 
 			this.traverseSearch( el );
 
 			if ( !isNaN( x + y ) )
 				this.pixelSearch( el, x, y );
+
+			callback && callback( this.relations, x, y );
+		},
+
+		findAll: function( callback ) {
+			this.relations = {};
+
+			var all = this.editable.getElementsByTag( '*' ),
+				i = 0,
+				el, uid, type, l;
+
+			while ( ( el = all.getItem( i++ ) ) ) {
+				uid = el.getUniqueId();
+
+				// This element was already visited and checked.
+				if ( uid && uid in this.relations )
+					continue;
+
+				// Don't consider editable, as it might be inline,
+				// and i.e. checking it's siblings is pointless.
+				if ( el.equals( this.editable ) )
+					continue;
+
+				// Don't visit non-editable internals, for example widget's
+				// guts (above wrapper, below nested). Still check editable limits,
+				// as they are siblings with editable contents.
+				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() )
+					continue;
+
+				if ( isStatic( el ) ) {
+					// Collect all addresses yielded by lookups for that element.
+					for ( l in this.lookups ) {
+						if ( ( type = this.lookups[ l ]( el ) ) )
+							this.store( el, type );
+					}
+				}
+			}
+
+			callback && callback( this.relations );
 		},
 
 		/**
@@ -193,14 +233,14 @@
 
 				// Go down DOM towards root (or limit).
 				do {
-					if ( el.equals( this.editable ) )
-						return;
-
 					uid = el.$[ 'data-cke-expando' ];
 
 					// This element was already visited and checked.
 					if ( uid && uid in this.relations )
 						continue;
+
+					if ( el.equals( this.editable ) )
+						return;
 
 					if ( isStatic( el ) ) {
 						// Collect all addresses yielded by lookups for that element.
@@ -403,38 +443,53 @@
 			};
 		})(),
 
-		getClosest: (function() {
-			var locations, minUid, minType, min,
-				dist, uid, type;
+		getSorted: (function() {
+			var locations, sorted,
+				dist, uid, type, i;
 
-			function distance( uid, type, y ) {
+			function distance( y ) {
 				return Math.abs( y - locations[ uid ][ type ] );
 			}
 
-			return function( y ) {
+			return function( y, howMany ) {
 				locations = this.locations;
-				minUid = minType = min = dist = null;
+				sorted = [];
 
 				for ( uid in locations ) {
 					for ( type in locations[ uid ] ) {
-						dist = distance( uid, type, y );
+						dist = distance( y );
 
-						if ( !minUid ) {
-							minUid = uid;
-							minType = type;
-							min = dist;
-						} else if ( dist < min ) {
-							minUid = uid;
-							minType = type;
-							min = dist;
+						// An array is empty.
+						if ( !sorted.length )
+							sorted.push( { uid: uid, type: type, dist: dist } )
+						else {
+							// Sort the array on fly when it's populated.
+							for ( i = 0; i < sorted.length; i++ ) {
+								if ( dist < sorted[ i ].dist ) {
+									sorted.splice( i, 0, { uid: uid, type: type, dist: dist } );
+									break;
+								}
+							}
+
+							// Nothing was inserted, push to the end.
+							if ( i == sorted.length - 1 )
+								sorted.push( { uid: uid, type: type, dist: dist } );
 						}
 					}
 				}
 
-				if ( minUid )
-					return { uid: minUid, type: minType };
+				return sorted.slice( 0, howMany );
 			};
 		})(),
+
+		forEach: function( callback ) {
+			var uid, type;
+
+			for ( uid in this.locations ) {
+				for ( type in this.locations[ uid ] )
+					callback( uid, type );
+			}
+		},
 
 		/**
 		 * Stores the location in a collection.

@@ -1929,12 +1929,21 @@
 			CKEDITOR.tools.extend( widgetsRepo, {
 				finder: new magicfinger.finder( editor, {
 					lookups: {
-						'is block but not list item': function( el ) {
+						'is block but not list item, not in nested editable': function( el ) {
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
-							if ( el.is( CKEDITOR.dtd.$block ) )
-								return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
+							if ( !el.is( CKEDITOR.dtd.$block ) )
+								return;
+
+							while ( el ) {
+								if ( isNestedEditable2( el ) )
+									return;
+
+								el = el.getParent();
+							}
+
+							return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
 						}
 					}
 				} ),
@@ -2471,40 +2480,53 @@
 			} );
 		} else {
 			img.on( 'mousedown', function( evt ) {
-				var min, uid, type, range;
+				var min, range, listener,
+					locations, sorted, buffer,
+					x, y;
 
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
 
-				finder.start( function( relations, x, y ) {
-					var locations = locator.locateAll( relations );
+				// Harvest all possible relations and display some closest.
+				finder.findAll( function( relations ) {
+					buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
+						locations = locator.locateAll( relations );
 
-					min = locator.getClosest( y );
+						sorted = locator.getSorted( y, 3 );
 
-					liner.prepare( relations, locations );
+						liner.prepare( relations, locations );
 
-					for ( uid in locations ) {
-						for ( type in locations[ uid ] ) {
-							liner.showLine( uid, type, function( line ) {
-								if ( min.uid == uid && min.type == type )
-									line.setStyle( 'opacity', '1' );
-								else
-									line.setStyle( 'opacity', '.1' );
-							} )
+						for ( var i = 0; i < sorted.length; i++ ) {
+							liner.showLine( sorted[ i ].uid, sorted[ i ].type, function( line ) {
+								line.setStyle( 'opacity', !i ? 1 : .2 );
+							} );
 						}
-					}
 
-					liner.cleanup();
+						liner.cleanup();
+					} );
+
+					listener = editable.on( 'mousemove', onMouseMove );
+
+					editable.once( 'mouseup', onMouseUp );
 				} );
 
-				editable.once( 'mouseup', function( evt ) {
-					finder.stop();
+				function onMouseMove( evt ) {
+					x = evt.data.$.clientX;
+					y = evt.data.$.clientY;
+					buffer.input();
+				}
+
+				function onMouseUp( evt ) {
+					// Stop observing mousemove events.
+					listener.removeListener();
+
+					buffer.reset();
 
 					// Detach widget from DOM.
 					widget.wrapper.remove();
 
 					// Retrieve range for the closest location.
-					range = finder.getRange( min.uid, min.type );
+					range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
 
 					// Attach widget at the place determined by range.
 					editable.insertElementIntoRange( widget.wrapper, range );
@@ -2516,7 +2538,7 @@
 					liner.removeAll();
 
 					evt.data.preventDefault();
-				} );
+				}
 
 				evt.data.preventDefault();
 			} );
