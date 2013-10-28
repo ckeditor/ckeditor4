@@ -116,11 +116,6 @@
 						activeItems[ 'language_' + currentLanguagedElement.getAttribute( 'lang' ) ] = CKEDITOR.TRISTATE_ON;
 
 					return activeItems;
-				},
-
-				onStateUpdate: function( status ) {
-					if ( !editor.activeFilter.check( requiredContent ) )
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
 			} );
 		},
