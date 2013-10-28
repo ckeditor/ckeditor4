@@ -15,6 +15,7 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		lang: 'en', // %REMOVE_LINE_CORE%
+		requires: 'magicfinger',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -66,6 +67,9 @@
 					'width:100%;' +
 					'height:100%;' +
 					'display:block' +
+				'}' +
+				'.cke_editable.cke_widget_dragging {' +
+					'cursor:move !important' +
 				'}'
 			);
 		},
@@ -1875,7 +1879,8 @@
 	}
 
 	function setupDragAndDrop( widgetsRepo ) {
-		var editor = widgetsRepo.editor;
+		var editor = widgetsRepo.editor,
+			magicfinger = CKEDITOR.plugins.magicfinger;
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
@@ -1918,6 +1923,23 @@
 					setTimeout( moveWidget, 0, editor, sourceWidget );
 				else
 					moveWidget( editor, sourceWidget );
+			} );
+
+			// Register Magicfinger's utilities as properties of repo.
+			CKEDITOR.tools.extend( widgetsRepo, {
+				finder: new magicfinger.finder( editor, {
+					lookups: {
+						'is block but not list item': function( el ) {
+							if ( el.is( CKEDITOR.dtd.$listItem ) )
+								return;
+
+							if ( el.is( CKEDITOR.dtd.$block ) )
+								return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
+						}
+					}
+				} ),
+				locator: new magicfinger.locator( editor ),
+				liner: new magicfinger.liner( editor )
 			} );
 		} );
 	}
@@ -2419,8 +2441,13 @@
 			return;
 
 		var editor = widget.editor,
+			editable = editor.editable(),
 			img = new CKEDITOR.dom.element( 'img', editor.document ),
-			container = new CKEDITOR.dom.element( 'span', editor.document );
+			container = new CKEDITOR.dom.element( 'span', editor.document ),
+
+			finder = widget.repository.finder,
+			locator = widget.repository.locator,
+			liner = widget.repository.liner;
 
 		container.setAttributes( {
 			'class': 'cke_reset cke_widget_drag_handler_container',
@@ -2429,7 +2456,6 @@
 		} );
 
 		img.setAttributes( {
-			draggable: 'true',
 			'class': 'cke_reset cke_widget_drag_handler',
 			'data-cke-widget-drag-handler': '1',
 			src: transparentImageData,
@@ -2438,9 +2464,63 @@
 			height: DRAG_HANDLER_SIZE
 		} );
 
-		img.on( 'dragstart', function( evt ) {
-			evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
-		} );
+		if ( widget.inline ) {
+			img.draggable = 'true'
+			img.on( 'dragstart', function( evt ) {
+				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
+			} );
+		} else {
+			img.on( 'mousedown', function( evt ) {
+				var min, uid, type, range;
+
+				// Let's have the "dragging cursor" over entire editable.
+				editable.addClass( 'cke_widget_dragging' );
+
+				finder.start( function( relations, x, y ) {
+					var locations = locator.locateAll( relations );
+
+					min = locator.getClosest( y );
+
+					liner.prepare( relations, locations );
+
+					for ( uid in locations ) {
+						for ( type in locations[ uid ] ) {
+							liner.showLine( uid, type, function( line ) {
+								if ( min.uid == uid && min.type == type )
+									line.setStyle( 'opacity', '1' );
+								else
+									line.setStyle( 'opacity', '.1' );
+							} )
+						}
+					}
+
+					liner.cleanup();
+				} );
+
+				editable.once( 'mouseup', function( evt ) {
+					finder.stop();
+
+					// Detach widget from DOM.
+					widget.wrapper.remove();
+
+					// Retrieve range for the closest location.
+					range = finder.getRange( min.uid, min.type );
+
+					// Attach widget at the place determined by range.
+					editable.insertElementIntoRange( widget.wrapper, range );
+
+					// Clean-up custom cursor for editable.
+					editable.removeClass( 'cke_widget_dragging' );
+
+					// Clean-up all remaining lines.
+					liner.removeAll();
+
+					evt.data.preventDefault();
+				} );
+
+				evt.data.preventDefault();
+			} );
+		}
 
 		container.append( img );
 		widget.wrapper.append( container );
