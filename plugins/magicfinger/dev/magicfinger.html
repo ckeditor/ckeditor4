@@ -207,26 +207,22 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 						if ( el.is( CKEDITOR.dtd.$block ) )
 							return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
 					}
-				},
-
-				onFind: function( relations, x, y ) {
-					// console.log( relations );
-
-					locator.locateAll( relations );
-
-					var locations = locator.locations,
-						l, j;
-
-					liner.prepare();
-
-					for ( l in locations ) {
-						for ( j in locations[ l ] )
-							liner.showLine( relations[ l ], locations[ l ][ j ] )
-					}
-
-					liner.cleanup();
 				}
-			} ).start();
+			} ).start( function( relations, x, y ) {
+				locator.locateAll( relations );
+
+				var locations = locator.locations,
+					uid, type;
+
+				liner.prepare( relations, locations );
+
+				for ( uid in locations ) {
+					for ( type in locations[ uid ] )
+						liner.showLine( uid, type )
+				}
+
+				liner.cleanup();
+			} );
 		}
 
 		CKEDITOR.disableAutoInline = true;
