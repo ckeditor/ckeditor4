@@ -227,13 +227,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		/**
 		 * Whether this style can be applied at the element path.
+		 * If `filter` is put as a second parameter the function
+		 * will also check the style in terms of the filter.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
-		 * @param {CKEDITOR.filter} filter
+		 * @param {CKEDITOR.filter} [filter]
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
 		checkApplicable: function( elementPath, filter ) {
-
 			if ( filter && !filter.check( this ) )
 				return false;
 
