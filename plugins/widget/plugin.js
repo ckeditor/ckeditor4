@@ -1730,6 +1730,8 @@
 		} );
 	}
 
+	var pasteReplaceRegex = /^(?:<(?:div|span)(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/(?:div|span)>)?$/;
+
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
 	// * pasting handling,
@@ -1747,7 +1749,7 @@
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
 			evt.data.dataValue = evt.data.dataValue.replace(
-				/^(?:<(?:div|span)(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/(?:div|span)>)?$/,
+				pasteReplaceRegex,
 				'$1'
 			);
 		} );
