@@ -1983,14 +1983,15 @@
 				widget = widgetsRepo.getByElement( target );
 				mouseDownOnDragHandler = 0; // Reset.
 
-				// Ignore mousedown on drag and drop handler.
-				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
-					mouseDownOnDragHandler = 1;
-					return;
-				}
-
 				// Widget was clicked, but not editable nested in it.
 				if ( widget ) {
+					// Ignore mousedown on drag and drop handler if the widget is inline.
+					// Block widgets are handled by Magicfinger.
+					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
+						mouseDownOnDragHandler = 1;
+						return;
+					}
+
 					if ( !getNestedEditable( widget.wrapper, target ) ) {
 						evt.data.preventDefault();
 						if ( !CKEDITOR.env.ie )
@@ -2504,7 +2505,7 @@
 					buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 						locations = locator.locateAll( relations );
 
-						sorted = locator.getSorted( y, 2 );
+						sorted = locator.getSorted( y, 1 );
 
 						if ( sorted.length ) {
 							liner.prepare( relations, locations );
@@ -2513,18 +2514,18 @@
 						}
 					} );
 
-					listeners.push( editable.on( 'mousemove', onMouseMove ) );
-					listeners.push( editable.once( 'mouseup', onMouseUp ) );
-					listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp ) );
+					listeners.push( editable.on( 'mousemove', onMove ) );
+					listeners.push( editor.document.once( 'mouseup', onUp ) );
+					listeners.push( CKEDITOR.document.once( 'mouseup', onUp ) );
 				} );
 
-				function onMouseMove( evt ) {
+				function onMove( evt ) {
 					x = evt.data.$.clientX;
 					y = evt.data.$.clientY;
 					buffer.input();
 				}
 
-				function onMouseUp( evt ) {
+				function onUp( evt ) {
 					var l;
 
 					// Stop observing events.
@@ -2533,7 +2534,7 @@
 
 					buffer.reset();
 
-					if ( sorted && sorted.length ) {
+					if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 						// Detach widget from DOM.
 						widget.wrapper.remove();
 
@@ -2550,8 +2551,6 @@
 					// Clean-up all remaining lines.
 					liner.hideVisible();
 				}
-
-				evt.data.preventDefault();
 			} );
 		}
 
