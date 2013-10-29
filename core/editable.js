@@ -873,14 +873,14 @@
 				}
 
 				selectionUpdateNeeded = 1;
+
+				// Cancel this selection change in favor of the next (correct). (#6811)
+				evt.cancel();
 			}
 		}
 
-		if ( selectionUpdateNeeded ) {
+		if ( selectionUpdateNeeded )
 			range.select();
-			// Cancel this selection change in favor of the next (correct). (#6811)
-			evt.cancel();
-		}
 	}
 
 	function blockInputClick( evt ) {
