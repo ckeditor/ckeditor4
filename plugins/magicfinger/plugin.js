@@ -516,19 +516,20 @@
 
 						// An array is empty.
 						if ( !sorted.length )
-							sorted.push( { uid: uid, type: type, dist: dist } )
+							sorted.push( { uid: +uid, type: type, dist: dist } )
 						else {
 							// Sort the array on fly when it's populated.
 							for ( i = 0; i < sorted.length; i++ ) {
 								if ( dist < sorted[ i ].dist ) {
-									sorted.splice( i, 0, { uid: uid, type: type, dist: dist } );
+									sorted.splice( i, 0, { uid: +uid, type: type, dist: dist } );
 									break;
 								}
 							}
 
-							// Nothing was inserted, push to the end.
-							if ( i < sorted.length )
-								sorted.push( { uid: uid, type: type, dist: dist } );
+							// Nothing was inserted, so the distance is bigger than
+							// any of already calculated: push to the end.
+							if ( i == sorted.length )
+								sorted.push( { uid: +uid, type: type, dist: dist } );
 						}
 					}
 				}
