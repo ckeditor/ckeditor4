@@ -2505,15 +2505,15 @@
 				editable.addClass( 'cke_widget_dragging' );
 
 				// Harvest all possible relations and display some closest.
-				finder.findAll( function( relations ) {
+				finder.greedySearch( function( relations ) {
 					var x, y,
 						locations;
 
 					buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
-						locations = locator.locateAll( relations );
+						locations = locator.locate( relations );
 
 						// There's only a single line displayed for D&D.
-						sorted = locator.getSorted( y, 1 );
+						sorted = locator.sort( y, 1 );
 
 						if ( sorted.length ) {
 							liner.prepare( relations, locations );

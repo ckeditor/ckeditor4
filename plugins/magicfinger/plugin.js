@@ -58,23 +58,29 @@
 		 * Initializes searching for elements with every mousemove event fired.
 		 * To stop searching use {@link #stop}.
 		 *
-		 * @param {Function} [callback] Function passed to {@link #find}.
+		 * @param {Function} [callback] Function executed on every iteration.
 		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		start: function( callback ) {
 			var that = this,
 				editor = this.editor,
 				doc = this.doc,
-				x, y;
+				el, x, y;
 
 			var moveBuffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 					if ( editor.readOnly || editor.mode != 'wysiwyg' )
 						return;
 
-					that.find(
-						new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) ),
-						x, y,
-						callback );
+					that.relations = {};
+
+					el = new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) );
+
+					that.traverseSearch( el );
+
+					if ( !isNaN( x + y ) )
+						that.pixelSearch( el, x, y );
+
+					callback && callback( that.relations, x, y );
 				} );
 
 			// Searching starting from element from point on mousemove.
@@ -98,71 +104,6 @@
 		stop: function() {
 			if ( this.listener )
 				this.listener.removeListener();
-		},
-
-		/**
-		 * Feeds searching algorithms ({@link #traverseSearch} and {@link #pixelSearch})
-		 * with element and mouse coordinates, collecting relations.
-		 *
-		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
-		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
-		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
-		 * @param {Function} [callback] Function executed when relations were found.
-		 * @member CKEDITOR.plugins.magicfinger.finder
-		 */
-		find: function( el, x, y, callback ) {
-			this.relations = {};
-
-			this.traverseSearch( el );
-
-			if ( !isNaN( x + y ) )
-				this.pixelSearch( el, x, y );
-
-			callback && callback( this.relations, x, y );
-		},
-
-		/**
-		 * Unline {@link #find}, it collects **all** elements from editable's DOM tree
-		 * and runs lookups for every one of them, collecting relations.
-		 *
-		 * @param {Function} [callback] Function executed when relations were found.
-		 * @member CKEDITOR.plugins.magicfinger.finder
-		 */
-		findAll: function( callback ) {
-			this.relations = {};
-
-			var all = this.editable.getElementsByTag( '*' ),
-				i = 0,
-				el, uid, type, l;
-
-			while ( ( el = all.getItem( i++ ) ) ) {
-				uid = el.getUniqueId();
-
-				// This element was already visited and checked.
-				if ( uid && uid in this.relations )
-					continue;
-
-				// Don't consider editable, as it might be inline,
-				// and i.e. checking it's siblings is pointless.
-				if ( el.equals( this.editable ) )
-					continue;
-
-				// Don't visit non-editable internals, for example widget's
-				// guts (above wrapper, below nested). Still check editable limits,
-				// as they are siblings with editable contents.
-				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() )
-					continue;
-
-				if ( isStatic( el ) ) {
-					// Collect all addresses yielded by lookups for that element.
-					for ( l in this.lookups ) {
-						if ( ( type = this.lookups[ l ]( el ) ) )
-							this.store( el, type );
-					}
-				}
-			}
-
-			callback && callback( this.relations );
 		},
 
 		/**
@@ -396,13 +337,57 @@
 					this.traverseSearch( pos );
 				}
 			}
-		})()
+		})(),
+
+		/**
+		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
+		 * and runs lookups for every one of them, collecting relations.
+		 *
+		 * @param {Function} [callback] Function executed when relations were found.
+		 * @member CKEDITOR.plugins.magicfinger.finder
+		 */
+		greedySearch: function( callback ) {
+			this.relations = {};
+
+			var all = this.editable.getElementsByTag( '*' ),
+				i = 0,
+				el, uid, type, l;
+
+			while ( ( el = all.getItem( i++ ) ) ) {
+				uid = el.getUniqueId();
+
+				// This element was already visited and checked.
+				if ( uid && uid in this.relations )
+					continue;
+
+				// Don't consider editable, as it might be inline,
+				// and i.e. checking it's siblings is pointless.
+				if ( el.equals( this.editable ) )
+					continue;
+
+				// Don't visit non-editable internals, for example widget's
+				// guts (above wrapper, below nested). Still check editable limits,
+				// as they are siblings with editable contents.
+				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() )
+					continue;
+
+				if ( isStatic( el ) ) {
+					// Collect all addresses yielded by lookups for that element.
+					for ( l in this.lookups ) {
+						if ( ( type = this.lookups[ l ]( el ) ) )
+							this.store( el, type );
+					}
+				}
+			}
+
+			callback && callback( this.relations );
+		}
 
 		/**
 		 * Relations express elements in DOM that match user-defined {@link #lookups}.
 		 * Every relation has its own `type` that determines whether
 		 * it refers to the space before, after or inside of `element`.
-		 * This object stores relations found by {@link #find} or {@link #findAll}, structured
+		 * This object stores relations found by {@link #traverseSearch} or {@link #greedySearch}, structured
 		 * in the following way:
 		 *
 		 *		relations: {
@@ -457,7 +442,7 @@
 		 * @returns {Object} {@link #locations}.
 		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
-		locateAll: (function() {
+		locate: (function() {
 			var rel, uid;
 
 			function locateSibling( rel, type ) {
@@ -513,7 +498,7 @@
 		 * @returns {Array} Sorted, array representation of {@link #locations}.
 		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
-		getSorted: (function() {
+		sort: (function() {
 			var locations, sorted,
 				dist, uid, type, i;
 
@@ -734,7 +719,7 @@
 		 * Shows a line at given location.
 		 *
 		 * @param {Object} location Location object containing unique identifier of the relation
-		 * and its type. Usually returned by {@link CKEDITOR.plugins.magicfinger.locator#getSorted}.
+		 * and its type. Usually returned by {@link CKEDITOR.plugins.magicfinger.locator#sort}.
 		 * @param {Function} [callback] A callback to be called once the line is shown.
 		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
