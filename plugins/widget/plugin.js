@@ -68,7 +68,7 @@
 					'height:100%;' +
 					'display:block' +
 				'}' +
-				'.cke_editable.cke_widget_dragging {' +
+				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
 					'cursor: url( ' + this.path + 'images/handle.png' + '), move !important' +
 				'}'
 			);
