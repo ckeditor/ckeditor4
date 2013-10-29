@@ -14,31 +14,31 @@
 	CKEDITOR.plugins.add( 'magicfinger' );
 
 	/**
-	 * The space is before specified element.
+	 * Determines a position relative to an element in DOM (before).
 	 *
 	 * @readonly
 	 * @property {Number} [=0]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.REL_BEFORE = 1;
+	CKEDITOR.MAGICFINGER_BEFORE = 1;
 
 	/**
-	 * The space is after specified element.
+	 * Determines a position relative to an element in DOM (after).
 	 *
 	 * @readonly
 	 * @property {Number} [=1]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.REL_AFTER = 2;
+	CKEDITOR.MAGICFINGER_AFTER = 2;
 
 	/**
-	 * The space is inside of specified element.
+	 * Determines a position relative to an element in DOM (inside).
 	 *
 	 * @readonly
 	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.REL_INSIDE = 4;
+	CKEDITOR.MAGICFINGER_INSIDE = 4;
 
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
@@ -177,9 +177,9 @@
 		getRange: (function() {
 			var where = {};
 
-			where[ CKEDITOR.REL_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
-			where[ CKEDITOR.REL_AFTER ] = CKEDITOR.POSITION_AFTER_END;
-			where[ CKEDITOR.REL_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
+			where[ CKEDITOR.MAGICFINGER_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
+			where[ CKEDITOR.MAGICFINGER_AFTER ] = CKEDITOR.POSITION_AFTER_END;
+			where[ CKEDITOR.MAGICFINGER_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
 
 			return function( uid, type ) {
 				var range = this.editor.createRange();
@@ -212,17 +212,17 @@
 				var alt;
 
 				// Normalization to avoid duplicates:
-				// CKEDITOR.REL_AFTER becomes CKEDITOR.REL_BEFORE of el.getNext().
-				if ( is( type, CKEDITOR.REL_AFTER ) && isStatic( alt = el.getNext() ) ) {
-					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
-					type ^= CKEDITOR.REL_AFTER;
+				// CKEDITOR.MAGICFINGER_AFTER becomes CKEDITOR.MAGICFINGER_BEFORE of el.getNext().
+				if ( is( type, CKEDITOR.MAGICFINGER_AFTER ) && isStatic( alt = el.getNext() ) ) {
+					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
+					type ^= CKEDITOR.MAGICFINGER_AFTER;
 				}
 
 				// Normalization to avoid duplicates:
-				// CKEDITOR.REL_INSIDE becomes CKEDITOR.REL_BEFORE of el.getFirst().
-				if ( is( type, CKEDITOR.REL_INSIDE ) && isStatic( alt = el.getFirst() ) ) {
-					merge( alt, CKEDITOR.REL_BEFORE, this.relations );
-					type ^= CKEDITOR.REL_INSIDE;
+				// CKEDITOR.MAGICFINGER_INSIDE becomes CKEDITOR.MAGICFINGER_BEFORE of el.getFirst().
+				if ( is( type, CKEDITOR.MAGICFINGER_INSIDE ) && isStatic( alt = el.getFirst() ) ) {
+					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
+					type ^= CKEDITOR.MAGICFINGER_INSIDE;
 				}
 
 				merge( el, type, this.relations );
@@ -410,7 +410,7 @@
 		 *			Number: {
 		 *				// Element of this relation.
 		 *				element: {@link CKEDITOR.dom.element}
-		 *				// Conjunction of CKEDITOR.REL_BEFORE, CKEDITOR.REL_AFTER and CKEDITOR.REL_INSIDE.
+		 *				// Conjunction of CKEDITOR.MAGICFINGER_BEFORE, CKEDITOR.MAGICFINGER_AFTER and CKEDITOR.MAGICFINGER_INSIDE.
 		 *				type: Number
 		 *			},
 		 *			...
@@ -424,15 +424,15 @@
 		/**
 		 * A set of user-defined functions used by Finder to check if an element
 		 * is a valid relation, belonging to {@link #relations}.
-		 * When the criterion is met, lookup returns a logical conjunction of CKEDITOR.REL_BEFORE, CKEDITOR.REL_AFTER
-		 * or CKEDITOR.REL_INSIDE.
+		 * When the criterion is met, lookup returns a logical conjunction of CKEDITOR.MAGICFINGER_BEFORE, CKEDITOR.MAGICFINGER_AFTER
+		 * or CKEDITOR.MAGICFINGER_INSIDE.
 		 *
 		 * Lookups are passed along with Finder's definition.
 		 *
 		 *		lookups: {
 		 *			'some lookup': function( el ) {
 		 *				if ( someCondition )
-		 *					return CKEDITOR.REL_BEFORE;
+		 *					return CKEDITOR.MAGICFINGER_BEFORE;
 		 *			},
 		 *			...
 		 *		}
@@ -461,13 +461,13 @@
 			var rel, uid;
 
 			function locateSibling( rel, type ) {
-				var sib = rel.element[ type === CKEDITOR.REL_BEFORE ? 'getPrevious' : 'getNext' ]();
+				var sib = rel.element[ type === CKEDITOR.MAGICFINGER_BEFORE ? 'getPrevious' : 'getNext' ]();
 
 				// Return the middle point between siblings.
 				if ( sib && isStatic( sib ) ) {
 					rel.siblingRect = sib.getClientRect();
 
-					if ( type == CKEDITOR.REL_BEFORE )
+					if ( type == CKEDITOR.MAGICFINGER_BEFORE )
 						return ( rel.siblingRect.bottom + rel.elementRect.top ) / 2;
 					else
 						return ( rel.elementRect.bottom + rel.siblingRect.top ) / 2;
@@ -475,7 +475,7 @@
 
 				// If there's no sibling, use the edge of an element.
 				else {
-					if ( type == CKEDITOR.REL_BEFORE )
+					if ( type == CKEDITOR.MAGICFINGER_BEFORE )
 						return rel.elementRect.top;
 					else
 						return rel.elementRect.bottom;
@@ -489,15 +489,15 @@
 					rel = relations[ uid ];
 					rel.elementRect = rel.element.getClientRect();
 
-					if ( is( rel.type, CKEDITOR.REL_BEFORE ) )
-						this.store( uid, CKEDITOR.REL_BEFORE, locateSibling( rel, CKEDITOR.REL_BEFORE ) );
+					if ( is( rel.type, CKEDITOR.MAGICFINGER_BEFORE ) )
+						this.store( uid, CKEDITOR.MAGICFINGER_BEFORE, locateSibling( rel, CKEDITOR.MAGICFINGER_BEFORE ) );
 
-					if ( is( rel.type, CKEDITOR.REL_AFTER ) )
-						this.store( uid, CKEDITOR.REL_AFTER, locateSibling( rel, CKEDITOR.REL_AFTER ) );
+					if ( is( rel.type, CKEDITOR.MAGICFINGER_AFTER ) )
+						this.store( uid, CKEDITOR.MAGICFINGER_AFTER, locateSibling( rel, CKEDITOR.MAGICFINGER_AFTER ) );
 
 					// The middle point of the element.
-					if ( is( rel.type, CKEDITOR.REL_INSIDE ) )
-						this.store( uid, CKEDITOR.REL_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
+					if ( is( rel.type, CKEDITOR.MAGICFINGER_INSIDE ) )
+						this.store( uid, CKEDITOR.MAGICFINGER_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
 				}
 
 				return this.locations;
@@ -556,7 +556,7 @@
 		 * Stores the location in a collection.
 		 *
 		 * @param {Number} uid Unique identifier of the relation.
-		 * @param {Number} type One of `CKEDITOR.REL_BEFORE`, `CKEDITOR.REL_AFTER` and `CKEDITOR.REL_INSIDE`.
+		 * @param {Number} type One of `CKEDITOR.MAGICFINGER_BEFORE`, `CKEDITOR.MAGICFINGER_AFTER` and `CKEDITOR.MAGICFINGER_INSIDE`.
 		 * @param {Number} y Vertical position of the relation.
 		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */

@@ -1943,7 +1943,7 @@
 								el = el.getParent();
 							}
 
-							return CKEDITOR.REL_BEFORE | CKEDITOR.REL_AFTER;
+							return CKEDITOR.MAGICFINGER_BEFORE | CKEDITOR.MAGICFINGER_AFTER;
 						}
 					}
 				} ),
