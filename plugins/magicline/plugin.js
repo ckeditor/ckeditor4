@@ -231,7 +231,10 @@
 
 					clearTimeout( scrollTimeout );
 					scrollTimeout = setTimeout( function() {
-						that.hiddenMode = 0;
+						// Don't leave hidden mode until mouse remains pressed and
+						// scroll is being used, i.e. when dragging something.
+						if ( !that.mouseDown )
+							that.hiddenMode = 0;
 						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 					}, 50 );
 
@@ -249,6 +252,7 @@
 
 				that.line.detach();
 				that.hiddenMode = 1;
+				that.mouseDown = 1;
 
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
@@ -258,6 +262,7 @@
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
 			editable.attachListener( win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
+				that.mouseDown = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			});
 
