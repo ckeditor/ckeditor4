@@ -69,7 +69,7 @@
 					'display:block' +
 				'}' +
 				'.cke_editable.cke_widget_dragging {' +
-					'cursor:move !important' +
+					'cursor: url( ' + this.path + 'images/handle.png' + '), move !important' +
 				'}'
 			);
 		},
@@ -1950,7 +1950,7 @@
 				locator: new magicfinger.locator( editor ),
 				liner: new magicfinger.liner( editor, {
 					lineStyle: {
-						cursor: 'move',
+						cursor: 'url( ' + editor.plugins.widget.path + 'images/handle.png' + '), move !important',
 						'border-top-color': '#ccc'
 					},
 					lineVisibleStyle: CKEDITOR.tools.cssVendorPrefix( 'transition', 'all 0.2s ease' ),
@@ -2495,6 +2495,9 @@
 					listeners = [],
 					sorted, buffer;
 
+				// Make container invisible to improve UX.
+				container.hide();
+
 				// This will change DOM, save undo snapshot.
 				editor.fire( 'saveSnapshot' );
 
@@ -2557,6 +2560,9 @@
 						// DOM structure has been altered, save undo snapshot.
 						editor.fire( 'saveSnapshot' );
 					}
+
+					// As D&D is over, make the container visible back again.
+					container.show();
 
 					// Clean-up custom cursor for editable.
 					editable.removeClass( 'cke_widget_dragging' );
