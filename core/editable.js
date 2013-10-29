@@ -827,19 +827,9 @@
 			selectionUpdateNeeded;
 
 		if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) ) {
-			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
-			var pathBlock = path.block || path.blockLimit || path.root,
-				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
-
-			// Check some specialities of the current path block:
-			// 1. It is really displayed as block; (#7221)
-			// 2. It doesn't end with one inner block; (#7467)
-			// 3. It doesn't have bogus br yet.
-			if ( pathBlock && pathBlock.isBlockBoundary() &&
-				!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
-				!pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
-
-				pathBlock.appendBogus();
+			var blockNeedsFiller = needsBrFiller( selection, path );
+			if ( blockNeedsFiller ) {
+				blockNeedsFiller.appendBogus();
 				// IE tends to place selection after appended bogus, so we need to
 				// select the original range (placed before bogus).
 				selectionUpdateNeeded = CKEDITOR.env.ie;
@@ -881,6 +871,29 @@
 
 		if ( selectionUpdateNeeded )
 			range.select();
+	}
+
+	// Checks whether current selection requires br filler to be appended.
+	// @returns Block which needs filler or falsy value.
+	function needsBrFiller( selection, path ) {
+		// Fake selection does not need filler, because it is fake.
+		if ( selection.isFake )
+			return 0;
+
+		// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
+		var pathBlock = path.block || path.blockLimit,
+			lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
+
+		// Check some specialities of the current path block:
+		// 1. It is really displayed as block; (#7221)
+		// 2. It doesn't end with one inner block; (#7467)
+		// 3. It doesn't have bogus br yet.
+		if (
+			pathBlock && pathBlock.isBlockBoundary() &&
+			!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
+			!pathBlock.is( 'pre' ) && !pathBlock.getBogus()
+		)
+			return pathBlock;
 	}
 
 	function blockInputClick( evt ) {
