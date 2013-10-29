@@ -141,7 +141,7 @@
 						else
 							this.hideItem( name );
 
-						if ( type != CKEDITOR.STYLE_BLOCK && style.checkActive( elementPath ) )
+						if ( style.checkActive( elementPath ) )
 							this.mark( name );
 					}
 
