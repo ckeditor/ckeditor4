@@ -239,13 +239,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return false;
 
 			switch ( this.type ) {
-				case CKEDITOR.STYLE_INLINE:
-					return true;
-				case CKEDITOR.STYLE_BLOCK:
-					return !!elementPath.blockLimit.getDtd()[ this.element ];
 				case CKEDITOR.STYLE_OBJECT:
 					return !!elementPath.contains( this.element );
+				case CKEDITOR.STYLE_BLOCK:
+					return !!elementPath.blockLimit.getDtd()[ this.element ];
 			}
+
+			return true;
 		},
 
 		/**
