@@ -218,7 +218,9 @@
 					alt: image.getAttribute( 'alt' ) || '',
 					width: image.getAttribute( 'width' ) || '',
 					height: image.getAttribute( 'height' ) || '',
-					lock: helpers.checkHasNaturalRatio( image )
+
+					// Lock ratio is on by default (#10833).
+					lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 				};
 
 			// Read initial float style from figure/image and
