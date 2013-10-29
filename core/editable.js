@@ -807,12 +807,10 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.activeEnterMode;
+			enterMode = editor.activeEnterMode,
+			selectionUpdateNeeded;
 
-		if ( CKEDITOR.env.gecko ) {
-			// v3: check if this is needed.
-			// activateEditing( editor );
-
+		if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) ) {
 			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
 			var pathBlock = path.block || path.blockLimit || path.root,
 				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
@@ -826,6 +824,9 @@
 				!pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
 
 				pathBlock.appendBogus();
+				// IE tends to place selection after appended bogus, so we need to
+				// select the original range (placed before bogus).
+				selectionUpdateNeeded = CKEDITOR.env.ie;
 			}
 		}
 
@@ -851,15 +852,18 @@
 				// For IE<11, we should remove any filler node which was introduced before.
 				if ( !CKEDITOR.env.needsBrFiller ) {
 					var first = fixedBlock.getFirst( isNotEmpty );
-					if ( first && isNbsp( first ) ) {
+					if ( first && isNbsp( first ) )
 						first.remove();
-					}
 				}
 
-				range.select();
-				// Cancel this selection change in favor of the next (correct).  (#6811)
-				evt.cancel();
+				selectionUpdateNeeded = 1;
 			}
+		}
+
+		if ( selectionUpdateNeeded ) {
+			range.select();
+			// Cancel this selection change in favor of the next (correct). (#6811)
+			evt.cancel();
 		}
 	}
 
