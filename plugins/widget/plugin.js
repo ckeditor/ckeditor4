@@ -263,17 +263,27 @@
 			if ( this.editor.mode != 'wysiwyg' )
 				return;
 
-			var toBeDestroyed = [],
-				editable = this.editor.editable(),
+			var editable = this.editor.editable(),
 				instances = this.instances,
-				id;
+				i, count, wrapper;
 
 			if ( !editable )
 				return;
 
-			for ( id in instances ) {
-				if ( !editable.contains( instances[ id ].wrapper ) )
-					this.destroy( instances[ id ], true );
+			for ( i in instances ) {
+				if ( !editable.contains( instances[ i ].wrapper ) )
+					this.destroy( instances[ i ], true );
+			}
+
+			var wrappers = editable.find( '.cke_widget_wrapper' );
+
+			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
+				wrapper = wrappers.getItem( i );
+
+				if( !this.getByElement( wrapper ) ) {
+					wrapper.addClass( 'cke_widget_new' );
+					this.initOn( wrapper.findOne( '.cke_widget_element' ) );
+				}
 			}
 		},
 
@@ -2172,6 +2182,8 @@
 		editor.on( 'contentDomUnload', buffer.reset );
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
+
+		editor.on( 'domInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
 	}
 
 	// Helper for coordinating which widgets should be
