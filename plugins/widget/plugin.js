@@ -426,7 +426,7 @@
 		 * Initializes a widget on a given element if the widget has not been initialized on it yet.
 		 *
 		 * @param {CKEDITOR.dom.element} element The future widget element.
-		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget or a widget definition.
+		 * @param {String/CKEDITOR.plugins.widget.definition} [widgetDef] Name of a widget or a widget definition.
 		 * The widget definition should be previously registered by using the
 		 * {@link CKEDITOR.plugins.widget.repository#add} method.
 		 * @param [startupData] Widget startup data (has precedence over default one).
