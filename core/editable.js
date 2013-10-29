@@ -587,6 +587,8 @@
 						evt.preventDefault();
 				} );
 
+				var backspaceOrDelete = { 8:1,46:1 };
+
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
 				this.attachListener( editor, 'key', function( evt ) {
@@ -596,7 +598,7 @@
 					var keyCode = evt.data.keyCode, isHandled;
 
 					// Backspace OR Delete.
-					if ( keyCode in { 8:1,46:1 } ) {
+					if ( keyCode in backspaceOrDelete ) {
 						var sel = editor.getSelection(),
 							selected,
 							range = sel.getRanges()[ 0 ],
@@ -677,6 +679,20 @@
 
 					return !isHandled;
 				} );
+
+				// On IE>=11 we need to fill blockless editable with <br> if it was deleted.
+				if ( editor.blockless && CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) {
+					this.attachListener( this, 'keyup', function( evt ) {
+						if ( evt.data.getKeystroke() in backspaceOrDelete && !this.getFirst( isNotEmpty ) ) {
+							this.appendBogus();
+
+							// Set the selection before bogus, because IE tends to put it after.
+							var range = editor.createRange();
+							range.moveToPosition( this, CKEDITOR.POSITION_AFTER_START );
+							range.select();
+						}
+					} );
+				}
 
 				this.attachListener( this, 'dblclick', function( evt ) {
 					if ( editor.readOnly )
