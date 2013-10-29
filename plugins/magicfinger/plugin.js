@@ -510,6 +510,28 @@
 		}
 	};
 
+	var tipCss = {
+			display: 'block',
+			width: '0px',
+			height: '0px',
+			'border-color': 'transparent',
+			'border-style': 'solid',
+			position: 'absolute',
+			top: '-6px'
+		},
+
+		lineCss = {
+			height: '0px',
+			'border-top': '1px dashed red',
+			position: 'absolute',
+			'z-index': 9999
+		},
+
+		lineTpl = '<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineCss}">' +
+				'<span style="{tipCssLeft}">&nbsp;</span>' +
+				'<span style="{tipCssRight}">&nbsp;</span>' +
+			'</div>'
+
 	function Liner( editor, def ) {
 		var editable = editor.editable();
 
@@ -574,42 +596,27 @@
 		editable.attachListener( editor, 'destroy', function() {
 			this.removeAll();
 		}, this );
-	}
 
-	var trCss = {
-			display: 'block',
-			width: '0px',
-			height: '0px',
-			'border-color': 'transparent',
-			'border-style': 'solid',
-			position: 'absolute',
-			top: '-6px'
-		},
-
-		lineCss = {
-			height: '0px',
-			'border-top': '1px dashed red',
-			position: 'absolute',
-			'z-index': 9999
-		},
-
-		lineTpl = new CKEDITOR.template(
-			'<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineCss}">' +
-				'<span style="{trCssLeft}">&nbsp;</span>' +
-				'<span style="{trCssRight}">&nbsp;</span>' +
-			'</div>' ).output( {
-				lineCss: CKEDITOR.tools.writeCssText( lineCss ),
-				trCssLeft: CKEDITOR.tools.writeCssText( CKEDITOR.tools.extend( {}, trCss, {
+		this.lineTpl = new CKEDITOR.template( lineTpl ).output( {
+			lineCss: CKEDITOR.tools.writeCssText(
+				CKEDITOR.tools.extend( {}, lineCss, this.lineCss, true )
+			),
+			tipCssLeft: CKEDITOR.tools.writeCssText(
+				CKEDITOR.tools.extend( {}, tipCss, {
 					left: '0px',
 					'border-left-color': 'red',
 					'border-width': '6px 0 6px 6px'
-				} ) ),
-				trCssRight: CKEDITOR.tools.writeCssText( CKEDITOR.tools.extend( {}, trCss, {
+				}, this.tipCss, this.tipCssLeft, true )
+			),
+			tipCssRight: CKEDITOR.tools.writeCssText(
+				CKEDITOR.tools.extend( {}, tipCss, {
 					right: '0px',
 					'border-right-color': 'red',
 					'border-width': '6px 6px 6px 0'
-				} ) )
+				}, this.tipCss, this.tipCssRight, true )
+			)
 		} );
+	}
 
 	Liner.prototype = {
 		/**
@@ -769,12 +776,9 @@
 		 * @returns {CKEDITOR.dom.element} A brand-new line.
 		 */
 		addLine: function() {
-			var line = CKEDITOR.dom.element.createFromHtml( lineTpl );
+			var line = CKEDITOR.dom.element.createFromHtml( this.lineTpl );
 
 			line.appendTo( this.container );
-
-			if ( this.lineCss )
-				line.setStyles( this.lineCss );
 
 			return line;
 		},

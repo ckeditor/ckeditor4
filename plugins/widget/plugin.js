@@ -1950,7 +1950,14 @@
 				locator: new magicfinger.locator( editor ),
 				liner: new magicfinger.liner( editor, {
 					lineCss: {
-						cursor: 'move'
+						cursor: 'move',
+						'border-top-color': '#000'
+					},
+					tipCssLeft: {
+						'border-left-color': '#000'
+					},
+					tipCssRight: {
+						'border-right-color': '#000',
 					}
 				} )
 			}, true );
