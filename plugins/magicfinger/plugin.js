@@ -485,7 +485,7 @@
 							}
 
 							// Nothing was inserted, push to the end.
-							if ( i == sorted.length - 1 )
+							if ( i < sorted.length )
 								sorted.push( { uid: uid, type: type, dist: dist } );
 						}
 					}
@@ -506,7 +506,7 @@
 			if ( !this.locations[ uid ] )
 				this.locations[ uid ] = {};
 
-			this.locations[ uid ][ type ] = Math.round( y );
+			this.locations[ uid ][ type ] = y;
 		}
 	};
 
@@ -799,7 +799,7 @@
 		prepare: function( relations, locations ) {
 			this.relations = relations;
 			this.locations = locations;
-			this.hash = Math.random().toString( 36 ).substring( 7 );
+			this.hash = Math.random();
 		},
 
 		/**

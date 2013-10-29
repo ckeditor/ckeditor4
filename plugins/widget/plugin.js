@@ -2493,9 +2493,7 @@
 					locator = widget.repository.locator,
 					liner = widget.repository.liner,
 					listeners = [],
-
-					locations, sorted, buffer, range,
-					x, y;
+					sorted, buffer;
 
 				// This will change DOM, save undo snapshot.
 				editor.fire( 'saveSnapshot' );
@@ -2505,9 +2503,13 @@
 
 				// Harvest all possible relations and display some closest.
 				finder.findAll( function( relations ) {
+					var x, y,
+						locations;
+
 					buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 						locations = locator.locateAll( relations );
 
+						// There's only a single line displayed for D&D.
 						sorted = locator.getSorted( y, 1 );
 
 						if ( sorted.length ) {
@@ -2517,16 +2519,21 @@
 						}
 					} );
 
-					listeners.push( editable.on( 'mousemove', onMove ) );
+					// Cache mouse position so it is re-used in events buffer.
+					listeners.push( editable.on( 'mousemove', function( evt ) {
+						x = evt.data.$.clientX;
+						y = evt.data.$.clientY;
+						buffer.input();
+					} ) );
+
+					// Mouseup means "drop". This is when the widget is being detached
+					// from DOM and placed at range determined by the line (location).
 					listeners.push( editor.document.once( 'mouseup', onUp ) );
+
+					// Mouseup may occur when user hovers the line, which belongs to
+					// the outer document. This is, of course, a valid listener too.
 					listeners.push( CKEDITOR.document.once( 'mouseup', onUp ) );
 				} );
-
-				function onMove( evt ) {
-					x = evt.data.$.clientX;
-					y = evt.data.$.clientY;
-					buffer.input();
-				}
 
 				function onUp( evt ) {
 					var l;
@@ -2542,7 +2549,7 @@
 						widget.wrapper.remove();
 
 						// Retrieve range for the closest location.
-						range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
+						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
 
 						// Attach widget at the place determined by range.
 						editable.insertElementIntoRange( widget.wrapper, range );
