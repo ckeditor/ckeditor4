@@ -520,16 +520,16 @@
 			top: '-6px'
 		},
 
-		lineCss = {
+		lineStyle = {
 			height: '0px',
 			'border-top': '1px dashed red',
 			position: 'absolute',
 			'z-index': 9999
 		},
 
-		lineTpl = '<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineCss}">' +
-				'<span style="{tipCssLeft}">&nbsp;</span>' +
-				'<span style="{tipCssRight}">&nbsp;</span>' +
+		lineTpl = '<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineStyle}">' +
+				'<span style="{tipLeftStyle}">&nbsp;</span>' +
+				'<span style="{tipRightStyle}">&nbsp;</span>' +
 			'</div>'
 
 	function Liner( editor, def ) {
@@ -598,22 +598,22 @@
 		}, this );
 
 		this.lineTpl = new CKEDITOR.template( lineTpl ).output( {
-			lineCss: CKEDITOR.tools.writeCssText(
-				CKEDITOR.tools.extend( {}, lineCss, this.lineCss, true )
+			lineStyle: CKEDITOR.tools.writeCssText(
+				CKEDITOR.tools.extend( {}, lineStyle, this.lineStyle, true )
 			),
-			tipCssLeft: CKEDITOR.tools.writeCssText(
+			tipLeftStyle: CKEDITOR.tools.writeCssText(
 				CKEDITOR.tools.extend( {}, tipCss, {
 					left: '0px',
 					'border-left-color': 'red',
 					'border-width': '6px 0 6px 6px'
-				}, this.tipCss, this.tipCssLeft, true )
+				}, this.tipCss, this.tipLeftStyle, true )
 			),
-			tipCssRight: CKEDITOR.tools.writeCssText(
+			tipRightStyle: CKEDITOR.tools.writeCssText(
 				CKEDITOR.tools.extend( {}, tipCss, {
 					right: '0px',
 					'border-right-color': 'red',
 					'border-width': '6px 6px 6px 0'
-				}, this.tipCss, this.tipCssRight, true )
+				}, this.tipCss, this.tipRightStyle, true )
 			)
 		} );
 	}
@@ -643,6 +643,9 @@
 		 */
 		hideLine: function( line ) {
 			var uid = line.getUniqueId();
+
+			for ( var s in this.lineVisibleStyle )
+				line.removeStyle( s );
 
 			line.hide();
 
@@ -686,10 +689,8 @@
 				for ( l in this.hidden ) {
 					if ( this.hidden[ l ].getCustomData( 'hash' ) !== this.hash ) {
 						line = this.hidden[ l ];
-
 						line.show();
 						delete this.hidden[ l ];
-
 						break;
 					}
 				}
@@ -706,6 +707,7 @@
 			this.visible[ line.getUniqueId() ] = line;
 
 			line.setStyles( styles );
+			line.setStyles( this.lineVisibleStyle );
 
 			callback && callback( line );
 		},

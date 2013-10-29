@@ -1949,15 +1949,16 @@
 				} ),
 				locator: new magicfinger.locator( editor ),
 				liner: new magicfinger.liner( editor, {
-					lineCss: {
+					lineStyle: {
 						cursor: 'move',
-						'border-top-color': '#000'
+						'border-top-color': '#ccc'
 					},
-					tipCssLeft: {
-						'border-left-color': '#000'
+					lineVisibleStyle: CKEDITOR.tools.cssVendorPrefix( 'transition', 'all 0.2s ease' ),
+					tipLeftStyle: {
+						'border-left-color': '#ccc'
 					},
-					tipCssRight: {
-						'border-right-color': '#000',
+					tipRightStyle: {
+						'border-right-color': '#ccc'
 					}
 				} )
 			}, true );
@@ -2493,7 +2494,7 @@
 			img.on( 'mousedown', function( evt ) {
 				var listeners = [],
 					locations, sorted, buffer, range,
-					i, x, y;
+					x, y;
 
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
@@ -2503,17 +2504,13 @@
 					buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 						locations = locator.locateAll( relations );
 
-						sorted = locator.getSorted( y, 3 );
+						sorted = locator.getSorted( y, 2 );
 
-						liner.prepare( relations, locations );
-
-						for ( i = 0; i < sorted.length; i++ ) {
-							liner.showLine( sorted[ i ], function( line ) {
-								line.setStyle( 'opacity', !i ? 1 : .2 );
-							} );
+						if ( sorted.length ) {
+							liner.prepare( relations, locations );
+							liner.showLine( sorted[ 0 ] );
+							liner.cleanup();
 						}
-
-						liner.cleanup();
 					} );
 
 					listeners.push( editable.on( 'mousemove', onMouseMove ) );
@@ -2551,7 +2548,7 @@
 					editable.removeClass( 'cke_widget_dragging' );
 
 					// Clean-up all remaining lines.
-					liner.removeAll();
+					liner.hideVisible();
 				}
 
 				evt.data.preventDefault();
