@@ -2465,11 +2465,7 @@
 		var editor = widget.editor,
 			editable = editor.editable(),
 			img = new CKEDITOR.dom.element( 'img', editor.document ),
-			container = new CKEDITOR.dom.element( 'span', editor.document ),
-
-			finder = widget.repository.finder,
-			locator = widget.repository.locator,
-			liner = widget.repository.liner;
+			container = new CKEDITOR.dom.element( 'span', editor.document );
 
 		container.setAttributes( {
 			'class': 'cke_reset cke_widget_drag_handler_container',
@@ -2493,9 +2489,16 @@
 			} );
 		} else {
 			img.on( 'mousedown', function( evt ) {
-				var listeners = [],
+				var finder = widget.repository.finder,
+					locator = widget.repository.locator,
+					liner = widget.repository.liner,
+					listeners = [],
+
 					locations, sorted, buffer, range,
 					x, y;
+
+				// This will change DOM, save undo snapshot.
+				editor.fire( 'saveSnapshot' );
 
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
@@ -2543,6 +2546,9 @@
 
 						// Attach widget at the place determined by range.
 						editable.insertElementIntoRange( widget.wrapper, range );
+
+						// DOM structure has been altered, save undo snapshot.
+						editor.fire( 'saveSnapshot' );
 					}
 
 					// Clean-up custom cursor for editable.

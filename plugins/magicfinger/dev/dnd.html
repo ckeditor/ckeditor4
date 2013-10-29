@@ -13,6 +13,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			CKEDITOR.tools.enableHtml5Elements( document );
 	</script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../image2/samples/contents.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
@@ -68,11 +69,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			</li>
 		</ol>
 
-
-		<figure class="caption" style="float:right"><img alt="Saturn V" src="../../image2/samples/assets/image1.jpg" width="200" />
+		<figure class="caption"><img alt="Saturn V" src="../../image2/samples/assets/image1.jpg" width="100" />
 			<figcaption>Roll out of Saturn V on launch pad</figcaption>
 		</figure>
-
 
 		<ul style="width: 450px">
 			<li>We can type between the lists...</li>
@@ -99,11 +98,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			contentsCss: [ '../../../contents.css', '../../image2/samples/contents.css' ]
 		} );
 
-		CKEDITOR.replace( 'editor2', {
+		CKEDITOR.inline( 'editor2', {
 			extraPlugins: 'image2',
 			height: 450,
-			removePlugins: 'image,forms',
-			contentsCss: [ '../../../contents.css', '../../image2/samples/contents.css' ]
+			removePlugins: 'image,forms'
 		} );
 
 	</script>
