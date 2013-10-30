@@ -351,15 +351,9 @@
 
 			var all = this.editable.getElementsByTag( '*' ),
 				i = 0,
-				el, uid, type, l;
+				el, type, l;
 
 			while ( ( el = all.getItem( i++ ) ) ) {
-				uid = el.getUniqueId();
-
-				// This element was already visited and checked.
-				if ( uid && uid in this.relations )
-					continue;
-
 				// Don't consider editable, as it might be inline,
 				// and i.e. checking it's siblings is pointless.
 				if ( el.equals( this.editable ) )
