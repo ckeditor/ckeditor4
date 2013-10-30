@@ -898,7 +898,7 @@
 	}
 
 	var floats = { left:1,right:1,center:1 },
-		positions = { absolute:1,fixed:1,relative:1 };
+		positions = { absolute:1,fixed:1 };
 
 	function isElement( node ) {
 		return node && node.type == CKEDITOR.NODE_ELEMENT;
