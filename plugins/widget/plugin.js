@@ -69,7 +69,7 @@
 					'display:block' +
 				'}' +
 				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
-					'cursor: url( ' + this.path + 'images/handle.png' + '), move !important' +
+					'cursor: move !important' +
 				'}'
 			);
 		},
@@ -1950,7 +1950,7 @@
 				locator: new magicfinger.locator( editor ),
 				liner: new magicfinger.liner( editor, {
 					lineStyle: {
-						cursor: 'url( ' + editor.plugins.widget.path + 'images/handle.png' + '), move !important',
+						cursor: 'move !important',
 						'border-top-color': '#666'
 					},
 					tipLeftStyle: {
