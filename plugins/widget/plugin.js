@@ -2256,7 +2256,9 @@
 			// absolutely positioned element.
 		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
 			copybin = doc.createElement( copybinName ),
-			copybinContainer = doc.createElement( copybinName );
+			copybinContainer = doc.createElement( copybinName ),
+			// IE8 always jumps to the end of document.
+			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 		copybinContainer.setAttribute( 'id', 'cke_copybin' );
 
@@ -2284,12 +2286,20 @@
 		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
 			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
 
+		if ( needsScrollHack ) {
+			var docElement = doc.getDocumentElement().$,
+				scrollTop = docElement.scrollTop;
+		}
+
 		// Once the clone of the widget is inside of copybin, select
 		// the entire contents. This selection will be copied by the
 		// native browser's clipboard system.
 		var range = editor.createRange();
 		range.selectNodeContents( copybin );
 		range.select();
+
+		if ( needsScrollHack )
+			docElement.scrollTop = scrollTop;
 
 		setTimeout( function() {
 			// [IE] Focus widget before removing copybin to avoid scroll jump.
