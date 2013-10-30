@@ -2547,9 +2547,6 @@
 					buffer.reset();
 
 					if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
-						// Detach widget from DOM.
-						widget.wrapper.remove();
-
 						// Retrieve range for the closest location.
 						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
 
