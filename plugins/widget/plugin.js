@@ -2187,7 +2187,9 @@
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 
-		editor.on( 'contentDomInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
+		editor.on( 'contentDomInvalidated', function() {
+			widgetsRepo.fire( 'checkWidgets' );
+		} );
 	}
 
 	// Helper for coordinating which widgets should be
