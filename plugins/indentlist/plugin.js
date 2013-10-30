@@ -222,7 +222,7 @@
 			}
 
 			if ( newList )
-				editor.fire( 'domInvalidated' );
+				editor.fire( 'contentDomInvalidated' );
 
 			return true;
 		}

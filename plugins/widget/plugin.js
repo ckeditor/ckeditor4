@@ -2183,7 +2183,7 @@
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 
-		editor.on( 'domInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
+		editor.on( 'contentDomInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
 	}
 
 	// Helper for coordinating which widgets should be
@@ -2836,7 +2836,7 @@
  * that some widget might need refresh after list operation (like change list type or indent list).
  *
  * @since 4.3
- * @event domInvalidated
+ * @event contentDomInvalidated
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  */

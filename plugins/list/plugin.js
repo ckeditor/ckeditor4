@@ -292,7 +292,7 @@
 		}
 		newList.listNode.replace( groupObj.root );
 
-		editor.fire( 'domInvalidated' );
+		editor.fire( 'contentDomInvalidated' );
 	}
 
 	var headerTagRegex = /^h[1-6]$/;
@@ -446,7 +446,7 @@
 
 		docFragment.replace( groupObj.root );
 
-		editor.fire( 'domInvalidated' );
+		editor.fire( 'contentDomInvalidated' );
 	}
 
 	function listCommand( name, type ) {
