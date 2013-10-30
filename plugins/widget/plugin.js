@@ -1730,7 +1730,20 @@
 		} );
 	}
 
-	var pasteReplaceRegex = /^(?:<(?:div|span)(?:\s*style\=\"[^"]+")? id="cke_copybin"(?:\s*style\=\"[^"]+")?>)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/(?:div|span)>)?$/;
+	// And now we've got two problems - original problem and RegExp.
+	// Some softeners:
+	// * FF tends to copy all blocks up to the copybin container.
+	// * IE tends to copy only the copybin, without its container.
+	// * We use spans on IE and blockless editors, but divs in other cases.
+	var pasteReplaceRegex = new RegExp(
+		'^' +
+		'(?:<(?:div|span)(?: id="cke_copybin")?>)?' +
+			'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
+				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
+			'(?:</(?:div|span)>)?' +
+		'(?:</(?:div|span)>)?' +
+		'$'
+	);
 
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
@@ -2233,18 +2246,21 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			copybin = new CKEDITOR.dom.element( editor.blockless ? 'span' : 'div', editor.document ),
-			editorDocElement = editor.document.$.documentElement,
-			scrollTop = editorDocElement.scrollTop;
+			doc = editor.document,
+			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
+			// absolutely positioned element.
+			copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+			copybin = doc.createElement( copybinName ),
+			copybinContainer = doc.createElement( copybinName );
 
-		copybin.setAttribute( 'id', 'cke_copybin' );
+		copybinContainer.setAttribute( 'id', 'cke_copybin' );
 
 		// Position copybin element outside current viewport.
 		copybin.setStyles( {
 			position: 'absolute',
-			top: editor.document.getWindow().getScrollPosition().y + 10 + 'px',
 			width: '1px',
-			height: '1px'
+			height: '1px',
+			overflow: 'hidden'
 		} );
 
 		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
@@ -2257,7 +2273,8 @@
 		// Ignore copybin.
 		editor.fire( 'lockSnapshot' );
 
-		editor.editable().append( copybin );
+		copybinContainer.append( copybin );
+		editor.editable().append( copybinContainer );
 
 		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
 			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
@@ -2270,14 +2287,11 @@
 		range.select();
 
 		setTimeout( function() {
-
-			copybin.remove();
-
+			// [IE] Focus widget before removing copybin to avoid scroll jump.
 			if ( !isCut )
 				widget.focus();
 
-			// Restoring original scrollTop position.
-			editorDocElement.scrollTop = scrollTop;
+			copybinContainer.remove();
 
 			listener1.removeListener();
 			listener2.removeListener();
