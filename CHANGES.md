@@ -36,6 +36,7 @@ Fixed Issues:
 * [#10854](http://dev.ckeditor.com/ticket/10854): Fixed: Firefox prepends `<br>` to `<body>`, so it is stripped by the HTML data processor.
 * [#10823](http://dev.ckeditor.com/ticket/10823): Fixed: Link plugin does not work with non-editable content.
 * [#10828](http://dev.ckeditor.com/ticket/10828): Magicline integration with widgets system.
+* [#10865](http://dev.ckeditor.com/ticket/10865): Improved hiding copybin, so copying widgets works smoothly.
 
 ## CKEditor 4.3 Beta
 
