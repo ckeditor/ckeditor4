@@ -2497,9 +2497,6 @@
 				// This will change DOM, save undo snapshot.
 				editor.fire( 'saveSnapshot' );
 
-				// Make container invisible to improve UX.
-				container.hide();
-
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
 
