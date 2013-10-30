@@ -270,6 +270,7 @@
 			if ( !editable )
 				return;
 
+			// Remove widgets which have no corresponding elements in DOM.
 			for ( i in instances ) {
 				if ( !editable.contains( instances[ i ].wrapper ) )
 					this.destroy( instances[ i ], true );
@@ -277,10 +278,13 @@
 
 			var wrappers = editable.find( '.cke_widget_wrapper' );
 
+			// Create widgets on existing wrappers if they do not exists.
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
 
 				if ( !this.getByElement( wrapper, true ) ) {
+					// Add cke_widget_new class because otherwise
+					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
 					this.initOn( wrapper.getFirst( isWidgetElement2 ) );
 				}
