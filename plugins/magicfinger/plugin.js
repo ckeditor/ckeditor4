@@ -697,9 +697,6 @@
 		hideLine: function( line ) {
 			var uid = line.getUniqueId();
 
-			for ( var s in this.lineVisibleStyle )
-				line.removeStyle( s );
-
 			line.hide();
 
 			this.hidden[ uid ] = line;
@@ -763,7 +760,6 @@
 			this.visible[ line.getUniqueId() ] = line;
 
 			line.setStyles( styles );
-			line.setStyles( this.lineVisibleStyle );
 
 			callback && callback( line );
 		},

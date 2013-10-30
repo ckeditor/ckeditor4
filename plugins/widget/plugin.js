@@ -1951,14 +1951,13 @@
 				liner: new magicfinger.liner( editor, {
 					lineStyle: {
 						cursor: 'url( ' + editor.plugins.widget.path + 'images/handle.png' + '), move !important',
-						'border-top-color': '#ccc'
+						'border-top-color': '#666'
 					},
-					lineVisibleStyle: CKEDITOR.tools.cssVendorPrefix( 'transition', 'all 0.2s ease' ),
 					tipLeftStyle: {
-						'border-left-color': '#ccc'
+						'border-left-color': '#666'
 					},
 					tipRightStyle: {
-						'border-right-color': '#ccc'
+						'border-right-color': '#666'
 					}
 				} )
 			}, true );
