@@ -1730,6 +1730,21 @@
 		} );
 	}
 
+	// And now we've got two problems - original problem and RegExp.
+	// Some softeners:
+	// * FF tends to copy all blocks up to the copybin container.
+	// * IE tends to copy only the copybin, without its container.
+	// * We use spans on IE and blockless editors, but divs in other cases.
+	var pasteReplaceRegex = new RegExp(
+		'^' +
+		'(?:<(?:div|span)(?: id="cke_copybin")?>)?' +
+			'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
+				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
+			'(?:</(?:div|span)>)?' +
+		'(?:</(?:div|span)>)?' +
+		'$'
+	);
+
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
 	// * pasting handling,
@@ -1747,7 +1762,7 @@
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
 			evt.data.dataValue = evt.data.dataValue.replace(
-				/^(?:<div id="cke_copybin">)?<span [^>]*data-cke-copybin-start="1"[^>]*>.?<\/span>([\s\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?<\/span>(?:<\/div>)?$/,
+				pasteReplaceRegex,
 				'$1'
 			);
 		} );
@@ -2231,11 +2246,31 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			copybin = new CKEDITOR.dom.element( 'div', editor.document );
+			doc = editor.document;
 
-		copybin.setAttributes( {
-			id: 'cke_copybin'
+		// We're still handling previous copy/cut.
+		if ( doc.getById( 'cke_copybin' ) )
+			return;
+
+			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
+			// absolutely positioned element.
+		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+			copybin = doc.createElement( copybinName ),
+			copybinContainer = doc.createElement( copybinName ),
+			// IE8 always jumps to the end of document.
+			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+		copybinContainer.setAttribute( 'id', 'cke_copybin' );
+
+		// Position copybin element outside current viewport.
+		copybin.setStyles( {
+			position: 'absolute',
+			width: '1px',
+			height: '1px',
+			overflow: 'hidden'
 		} );
+
+		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
 
 		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
 
@@ -2245,10 +2280,16 @@
 		// Ignore copybin.
 		editor.fire( 'lockSnapshot' );
 
-		editor.editable().append( copybin );
+		copybinContainer.append( copybin );
+		editor.editable().append( copybinContainer );
 
 		var listener1 = editor.on( 'selectionChange', cancel, null, null, 0 ),
 			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
+
+		if ( needsScrollHack ) {
+			var docElement = doc.getDocumentElement().$,
+				scrollTop = docElement.scrollTop;
+		}
 
 		// Once the clone of the widget is inside of copybin, select
 		// the entire contents. This selection will be copied by the
@@ -2257,11 +2298,15 @@
 		range.selectNodeContents( copybin );
 		range.select();
 
-		setTimeout( function() {
-			copybin.remove();
+		if ( needsScrollHack )
+			docElement.scrollTop = scrollTop;
 
+		setTimeout( function() {
+			// [IE] Focus widget before removing copybin to avoid scroll jump.
 			if ( !isCut )
 				widget.focus();
+
+			copybinContainer.remove();
 
 			listener1.removeListener();
 			listener2.removeListener();
@@ -2272,7 +2317,7 @@
 				widget.repository.del( widget );
 				editor.fire( 'saveSnapshot' );
 			}
-		}, 10 ); // Use 10ms, so Chrome (@Mac) will be able to grab the content.
+		}, 100 ); // Use 100ms, so Chrome (@Mac) will be able to grab the content.
 	}
 
 	// [IE] Force keeping focus because IE sometimes forgets to fire focus on main editable
