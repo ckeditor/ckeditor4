@@ -2482,11 +2482,19 @@
 		} );
 
 		if ( widget.inline ) {
-			img.draggable = 'true'
+			img.draggable = 'true';
 			img.on( 'dragstart', function( evt ) {
 				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
 			} );
 		} else {
+			// Quite frankly, I got no better idea how to prevent IE8 from
+			// starting native D&D there. So... tadaaa.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				img.on( 'dragstart', function( evt ) {
+					evt.data.preventDefault();
+				} );
+			}
+
 			img.on( 'mousedown', function( evt ) {
 				var finder = widget.repository.finder,
 					locator = widget.repository.locator,
