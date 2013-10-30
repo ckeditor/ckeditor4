@@ -2543,9 +2543,6 @@
 
 					buffer.reset();
 
-					// As D&D is over, make the container visible back again.
-					container.show();
-
 					if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 						// Retrieve range for the closest location.
 						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
