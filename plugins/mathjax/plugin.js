@@ -194,7 +194,7 @@
 					update();
 
 				// Private! For test usage only.
-				iFrame.fire( 'mathJaxLoaded' );
+				CKEDITOR.fire( 'mathJaxLoaded', iFrame );
 			} ),
 
 			// Function called when MathJax finish his job.
@@ -232,7 +232,7 @@
 				editor.fire( 'unlockSnapshot' );
 
 				// Private! For test usage only.
-				iFrame.fire( 'mathJaxUpdateDone' );
+				CKEDITOR.fire( 'mathJaxUpdateDone', iFrame );
 
 				// If value changed in the meantime update it again.
 				if ( value != newValue )
