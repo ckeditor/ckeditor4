@@ -2494,11 +2494,11 @@
 					listeners = [],
 					sorted, buffer;
 
-				// Make container invisible to improve UX.
-				container.hide();
-
 				// This will change DOM, save undo snapshot.
 				editor.fire( 'saveSnapshot' );
+
+				// Make container invisible to improve UX.
+				container.hide();
 
 				// Let's have the "dragging cursor" over entire editable.
 				editable.addClass( 'cke_widget_dragging' );
@@ -2546,6 +2546,9 @@
 
 					buffer.reset();
 
+					// As D&D is over, make the container visible back again.
+					container.show();
+
 					if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 						// Retrieve range for the closest location.
 						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
@@ -2556,9 +2559,6 @@
 						// DOM structure has been altered, save undo snapshot.
 						editor.fire( 'saveSnapshot' );
 					}
-
-					// As D&D is over, make the container visible back again.
-					container.show();
 
 					// Clean-up custom cursor for editable.
 					editable.removeClass( 'cke_widget_dragging' );
