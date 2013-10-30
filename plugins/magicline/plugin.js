@@ -246,7 +246,7 @@
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			editable.attachListener( win, 'mousedown', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -260,7 +260,7 @@
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			editable.attachListener( win, 'mouseup', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
 				that.mouseDown = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
@@ -356,6 +356,7 @@
 		newElement = CKEDITOR.dom.element,
 		newElementFromHtml = newElement.createFromHtml,
 		env = CKEDITOR.env,
+		env_ie8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9,
 		dtd = CKEDITOR.dtd,
 
 		// Global object associating enter modes with elements.
