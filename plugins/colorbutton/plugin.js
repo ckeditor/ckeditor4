@@ -70,6 +70,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						path = editor.elementPath( block ),
 						color;
 
+					if ( !path )
+						return;
+
 					// Find the closest block element.
 					block = path.block || path.blockLimit || editor.document.getBody();
 
