@@ -587,6 +587,8 @@
 						evt.preventDefault();
 				} );
 
+				var backspaceOrDelete = { 8:1,46:1 };
+
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
 				this.attachListener( editor, 'key', function( evt ) {
@@ -596,7 +598,7 @@
 					var keyCode = evt.data.keyCode, isHandled;
 
 					// Backspace OR Delete.
-					if ( keyCode in { 8:1,46:1 } ) {
+					if ( keyCode in backspaceOrDelete ) {
 						var sel = editor.getSelection(),
 							selected,
 							range = sel.getRanges()[ 0 ],
@@ -677,6 +679,20 @@
 
 					return !isHandled;
 				} );
+
+				// On IE>=11 we need to fill blockless editable with <br> if it was deleted.
+				if ( editor.blockless && CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) {
+					this.attachListener( this, 'keyup', function( evt ) {
+						if ( evt.data.getKeystroke() in backspaceOrDelete && !this.getFirst( isNotEmpty ) ) {
+							this.appendBogus();
+
+							// Set the selection before bogus, because IE tends to put it after.
+							var range = editor.createRange();
+							range.moveToPosition( this, CKEDITOR.POSITION_AFTER_START );
+							range.select();
+						}
+					} );
+				}
 
 				this.attachListener( this, 'dblclick', function( evt ) {
 					if ( editor.readOnly )
@@ -807,25 +823,16 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.activeEnterMode;
+			enterMode = editor.activeEnterMode,
+			selectionUpdateNeeded;
 
-		if ( CKEDITOR.env.gecko ) {
-			// v3: check if this is needed.
-			// activateEditing( editor );
-
-			// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
-			var pathBlock = path.block || path.blockLimit || path.root,
-				lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
-
-			// Check some specialities of the current path block:
-			// 1. It is really displayed as block; (#7221)
-			// 2. It doesn't end with one inner block; (#7467)
-			// 3. It doesn't have bogus br yet.
-			if ( pathBlock && pathBlock.isBlockBoundary() &&
-				!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
-				!pathBlock.is( 'pre' ) && !pathBlock.getBogus() ) {
-
-				pathBlock.appendBogus();
+		if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) ) {
+			var blockNeedsFiller = needsBrFiller( selection, path );
+			if ( blockNeedsFiller ) {
+				blockNeedsFiller.appendBogus();
+				// IE tends to place selection after appended bogus, so we need to
+				// select the original range (placed before bogus).
+				selectionUpdateNeeded = CKEDITOR.env.ie;
 			}
 		}
 
@@ -848,19 +855,45 @@
 
 				var fixedBlock = range.fixBlock( true, editor.activeEnterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
 
-				// For IE, we should remove any filler node which was introduced before.
-				if ( CKEDITOR.env.ie ) {
+				// For IE<11, we should remove any filler node which was introduced before.
+				if ( !CKEDITOR.env.needsBrFiller ) {
 					var first = fixedBlock.getFirst( isNotEmpty );
-					if ( first && isNbsp( first ) ) {
+					if ( first && isNbsp( first ) )
 						first.remove();
-					}
 				}
 
-				range.select();
-				// Cancel this selection change in favor of the next (correct).  (#6811)
+				selectionUpdateNeeded = 1;
+
+				// Cancel this selection change in favor of the next (correct). (#6811)
 				evt.cancel();
 			}
 		}
+
+		if ( selectionUpdateNeeded )
+			range.select();
+	}
+
+	// Checks whether current selection requires br filler to be appended.
+	// @returns Block which needs filler or falsy value.
+	function needsBrFiller( selection, path ) {
+		// Fake selection does not need filler, because it is fake.
+		if ( selection.isFake )
+			return 0;
+
+		// Ensure bogus br could help to move cursor (out of styles) to the end of block. (#7041)
+		var pathBlock = path.block || path.blockLimit,
+			lastNode = pathBlock && pathBlock.getLast( isNotEmpty );
+
+		// Check some specialities of the current path block:
+		// 1. It is really displayed as block; (#7221)
+		// 2. It doesn't end with one inner block; (#7467)
+		// 3. It doesn't have bogus br yet.
+		if (
+			pathBlock && pathBlock.isBlockBoundary() &&
+			!( lastNode && lastNode.type == CKEDITOR.NODE_ELEMENT && lastNode.isBlockBoundary() ) &&
+			!pathBlock.is( 'pre' ) && !pathBlock.getBogus()
+		)
+			return pathBlock;
 	}
 
 	function blockInputClick( evt ) {
@@ -1321,9 +1354,9 @@
 				// Auto paragraphing.
 				if ( !nodeData.isBlock && shouldAutoParagraph( that.editor, path.block, path.blockLimit ) && ( fixBlock = autoParagraphTag( that.editor ) ) ) {
 					fixBlock = doc.createElement( fixBlock );
-					!CKEDITOR.env.ie && fixBlock.appendBogus();
+					fixBlock.appendBogus();
 					range.insertNode( fixBlock );
-					if ( !CKEDITOR.env.ie && ( bogus = fixBlock.getBogus() ) )
+					if ( CKEDITOR.env.needsBrFiller && ( bogus = fixBlock.getBogus() ) )
 						bogus.remove();
 					range.moveToPosition( fixBlock, CKEDITOR.POSITION_BEFORE_END );
 				}
@@ -1427,8 +1460,12 @@
 
 			if ( bogusNeededBlocks ) {
 				// Bring back all block bogus nodes.
-				while ( ( node = bogusNeededBlocks.pop() ) )
-					node.append( CKEDITOR.env.ie ? range.document.createText( '\u00a0' ) : range.document.createElement( 'br' ) );
+				while ( ( node = bogusNeededBlocks.pop() ) ) {
+					if ( CKEDITOR.env.needsBrFiller )
+						node.appendBogus();
+					else
+						node.append( range.document.createText( '\u00a0' ) );
+				}
 			}
 
 			// Eventually merge identical inline elements.

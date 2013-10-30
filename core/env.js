@@ -289,6 +289,24 @@ if ( !CKEDITOR.env ) {
 		env.hidpi = window.devicePixelRatio >= 2;
 
 		/**
+		 * Indicates that CKEditor is running in a browser which uses a bogus
+		 * `<br>` filler in order to correctly display caret in empty blocks.
+		 *
+		 * @since 4.3
+		 * @property {Boolean}
+		 */
+		env.needsBrFiller = env.gecko || env.webkit || ( env.ie && version > 10 );
+
+		/**
+		 * Indicates that CKEditor is running in a browser which needs a
+		 * non-breaking space filler in order to correctly display caret in empty blocks.
+		 *
+		 * @since 4.3
+		 * @property {Boolean}
+		 */
+		env.needsNbspFiller = env.ie && version < 11;
+
+		/**
 		 * A CSS class that denotes the browser where CKEditor runs and is appended
 		 * to the HTML element that contains the editor. It makes it easier to apply
 		 * browser-specific styles to editor instances.

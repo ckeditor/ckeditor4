@@ -1660,8 +1660,7 @@ CKEDITOR.dom.range = function( root ) {
 			this.extractContents().appendTo( fixedBlock );
 			fixedBlock.trim();
 
-			if ( !CKEDITOR.env.ie )
-				fixedBlock.appendBogus();
+			fixedBlock.appendBogus();
 
 			this.insertNode( fixedBlock );
 
@@ -1722,7 +1721,7 @@ CKEDITOR.dom.range = function( root ) {
 					// In Gecko, the last child node must be a bogus <br>.
 					// Note: bogus <br> added under <ul> or <ol> would cause
 					// lists to be incorrectly rendered.
-					if ( !CKEDITOR.env.ie && !startBlock.is( 'ul', 'ol' ) )
+					if ( !startBlock.is( 'ul', 'ol' ) )
 						startBlock.appendBogus();
 				}
 			}

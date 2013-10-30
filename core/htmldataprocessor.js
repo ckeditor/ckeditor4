@@ -290,12 +290,13 @@
 	//
 	// Various forms of the filler:
 	// In output HTML: Filler should be consistently &NBSP; <BR> at the end of block is always considered as bogus.
-	// In Wysiwyg HTML: Browser dependent - Filler is either BR for non-IE, or &NBSP; for IE, <BR> is NEVER considered as bogus for IE.
+	// In Wysiwyg HTML: Browser dependent - see env.needsBrFiller. Either BR for when needsBrFiller is true, or &NBSP; otherwise.
+	// <BR> is NEVER considered as bogus when needsBrFiller is true.
 	function createBogusAndFillerRules( editor, type ) {
 		function createFiller( isOutput ) {
-			return isOutput || CKEDITOR.env.ie ?
-			       new CKEDITOR.htmlParser.text( '\xa0' ) :
-			       new CKEDITOR.htmlParser.element( 'br', { 'data-cke-bogus': 1 } );
+			return isOutput || CKEDITOR.env.needsNbspFiller ?
+				new CKEDITOR.htmlParser.text( '\xa0' ) :
+				new CKEDITOR.htmlParser.element( 'br', { 'data-cke-bogus': 1 } );
 		}
 
 		// This text block filter, remove any bogus and create the filler on demand.
@@ -348,8 +349,8 @@
 		// Determinate whether this node is potentially a bogus node.
 		function maybeBogus( node, atBlockEnd ) {
 
-			// BR that's not from IE DOM, except for a EOL marker.
-			if ( !( isOutput && CKEDITOR.env.ie ) &&
+			// BR that's not from IE<11 DOM, except for a EOL marker.
+			if ( !( isOutput && !CKEDITOR.env.needsBrFiller ) &&
 					 node.type == CKEDITOR.NODE_ELEMENT && node.name == 'br' &&
 					 !node.attributes[ 'data-cke-eol' ] )
 				return true;
@@ -365,8 +366,8 @@
 					node.value = match[ 0 ];
 				}
 
-				// From IE DOM, at the end of a text block, or before block boundary.
-				if ( CKEDITOR.env.ie && isOutput && ( !atBlockEnd || node.parent.name in textBlockTags ) )
+				// From IE<11 DOM, at the end of a text block, or before block boundary.
+				if ( !CKEDITOR.env.needsBrFiller && isOutput && ( !atBlockEnd || node.parent.name in textBlockTags ) )
 					return true;
 
 				// From the output.
@@ -426,13 +427,13 @@
 		// Judge whether it's an empty block that requires a filler node.
 		function isEmptyBlockNeedFiller( block ) {
 
-			// DO NOT fill empty editable in IE.
-			if ( !isOutput && CKEDITOR.env.ie && block.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+			// DO NOT fill empty editable in IE<11.
+			if ( !isOutput && !CKEDITOR.env.needsBrFiller && block.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
 				return false;
 
 			// 1. For IE version >=8,  empty blocks are displayed correctly themself in wysiwiyg;
 			// 2. For the rest, at least table cell and list item need no filler space. (#6248)
-			if ( !isOutput && CKEDITOR.env.ie &&
+			if ( !isOutput && !CKEDITOR.env.needsBrFiller &&
 					 ( document.documentMode > 7 ||
 						 block.name in CKEDITOR.dtd.tr ||
 						 block.name in CKEDITOR.dtd.$listItem ) ) {

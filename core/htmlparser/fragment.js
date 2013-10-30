@@ -431,8 +431,7 @@ CKEDITOR.htmlParser.fragment = function() {
 		// Parse it.
 		parser.parse( fragmentHtml );
 
-		// Send all pending BRs except one, which we consider a unwanted bogus. (#5293)
-		sendPendingBRs( !CKEDITOR.env.ie && 1 );
+		sendPendingBRs();
 
 		// Close all pending nodes, make sure return point is properly restored.
 		while ( currentNode != root )

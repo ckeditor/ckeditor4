@@ -28,7 +28,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 			if ( isInsertMode ) {
 				editor = this.getParentEditor();
 				element = editor.document.createElement( 'form' );
-				!CKEDITOR.env.ie && element.append( editor.document.createElement( 'br' ) );
+				element.appendBogus();
 			}
 
 			if ( isInsertMode )

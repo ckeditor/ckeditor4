@@ -147,8 +147,7 @@
 							var row = tbody.append( makeElement( 'tr' ) );
 							for ( var j = 0; j < cols; j++ ) {
 								var cell = row.append( makeElement( 'td' ) );
-								if ( !CKEDITOR.env.ie )
-									cell.append( makeElement( 'br' ) );
+								cell.appendBogus();
 							}
 						}
 					}

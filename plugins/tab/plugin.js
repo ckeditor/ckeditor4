@@ -58,7 +58,7 @@
 
 							for ( var i = 0, count = cells.length; i < count; i++ ) {
 								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
-								!CKEDITOR.env.ie && newCell.appendBogus();
+								newCell.appendBogus();
 							}
 
 							resultRange.moveToElementEditStart( newRow );

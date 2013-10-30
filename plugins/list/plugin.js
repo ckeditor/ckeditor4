@@ -142,7 +142,7 @@
 					// If the next block is an <li> with another list tree as the first
 					// child, we'll need to append a filler (<br>/NBSP) or the list item
 					// wouldn't be editable. (#6724)
-					if ( !currentListItem.getChildCount() && CKEDITOR.env.ie && !( doc.$.documentMode > 7 ) )
+					if ( !currentListItem.getChildCount() && CKEDITOR.env.needsNbspFiller && !( doc.$.documentMode > 7 ) )
 						currentListItem.append( doc.createText( '\xa0' ) );
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
@@ -194,18 +194,23 @@
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
-						var last = currentListItem.getLast();
-						if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.getAttribute( 'type' ) == '_moz' ) {
-							last.remove();
+						var last;
+
+						// Remove bogus <br> if this browser uses them.
+						if ( CKEDITOR.env.needsBrFiller ) {
+							last = currentListItem.getLast();
+							if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.is( 'br' ) )
+								last.remove();
 						}
 
-						if ( !( last = currentListItem.getLast( nonEmpty ) && last.type == CKEDITOR.NODE_ELEMENT && last.getName() in CKEDITOR.dtd.$block ) ) {
+						// If the last element is not a block, append <br> to separate merged list items.
+						last = currentListItem.getLast( nonEmpty );
+						if ( !( last && last.type == CKEDITOR.NODE_ELEMENT && last.is( CKEDITOR.dtd.$block ) ) )
 							currentListItem.append( doc.createElement( 'br' ) );
-						}
 					}
 
 					var currentListItemName = currentListItem.$.nodeName.toLowerCase();
-					if ( !CKEDITOR.env.ie && ( currentListItemName == 'div' || currentListItemName == 'p' ) )
+					if ( currentListItemName == 'div' || currentListItemName == 'p' )
 						currentListItem.appendBogus();
 					retval.append( currentListItem );
 					rootNode = null;
