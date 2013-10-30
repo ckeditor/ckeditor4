@@ -280,9 +280,9 @@
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
 
-				if ( !this.getByElement( wrapper ) ) {
+				if ( !this.getByElement( wrapper, true ) ) {
 					wrapper.addClass( 'cke_widget_new' );
-					this.initOn( wrapper.findOne( '.cke_widget_element' ) );
+					this.initOn( wrapper.getFirst( isWidgetElement2 ) );
 				}
 			}
 		},
