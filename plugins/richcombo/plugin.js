@@ -170,13 +170,12 @@ CKEDITOR.plugins.add( 'richcombo', {
 					this.setValue( '' );
 
 					// Let plugin to disable button.
-					if ( this.refresh )
+					if ( state != CKEDITOR.TRISTATE_DISABLED && this.refresh )
 						this.refresh();
 				}
 
 				// Update status when activeFilter, mode or readOnly changes.
 				editor.on( 'activeFilterChange', updateState, this );
-				editor.on( 'selectionChange', updateState, this );
 				editor.on( 'mode', updateState, this );
 				// If this combo is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );

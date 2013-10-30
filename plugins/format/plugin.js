@@ -78,6 +78,8 @@ CKEDITOR.plugins.add( 'format', {
 					var currentTag = this.getValue(),
 						elementPath = ev.data.path;
 
+					this.refresh();
+
 					for ( var tag in styles ) {
 						if ( styles[ tag ].checkActive( elementPath ) ) {
 							if ( tag != currentTag )
