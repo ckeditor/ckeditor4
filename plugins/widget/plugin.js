@@ -2553,8 +2553,17 @@
 						// Retrieve range for the closest location.
 						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
 
+						// Reset the fake selection, which will be invalidated by insertElementIntoRange.
+						// This avoids a situation when getSelection() still returns a fake selection made
+						// on widget which in the meantime has been moved to other place. That could cause
+						// an error thrown e.g. by saveSnapshot or stateUpdater.
+						editor.getSelection().reset();
+
 						// Attach widget at the place determined by range.
 						editable.insertElementIntoRange( widget.wrapper, range );
+
+						// Focus again the dropped widget.
+						widget.focus();
 
 						// DOM structure has been altered, save undo snapshot.
 						editor.fire( 'saveSnapshot' );
