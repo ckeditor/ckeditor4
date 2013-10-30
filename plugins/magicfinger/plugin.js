@@ -643,7 +643,7 @@
 			this.removeAll();
 		}, this );
 
-		editable.attachListener( editor, 'destroy', function() {
+		editor.on( 'destroy', function() {
 			this.removeAll();
 		}, this );
 
