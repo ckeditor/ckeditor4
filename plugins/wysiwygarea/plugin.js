@@ -186,12 +186,10 @@
 		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
 			doc.getDocumentElement().on( 'mousedown', function( evt ) {
 				if ( evt.data.getTarget().is( 'html' ) ) {
-					if ( CKEDITOR.env.ie ) {
-						setTimeout( function() {
-							editor.editable().focus();
-						}, 0 );
-					} else
+					// IE needs this timeout. Webkit does not, but it does not cause problems too.
+					setTimeout( function() {
 						editor.editable().focus();
+					} );
 				}
 			} );
 		}
