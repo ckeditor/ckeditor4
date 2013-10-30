@@ -2246,10 +2246,15 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			doc = editor.document,
+			doc = editor.document;
+
+		// We're still handling previous copy/cut.
+		if ( doc.getById( 'cke_copybin' ) )
+			return;
+
 			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
 			// absolutely positioned element.
-			copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
 			copybin = doc.createElement( copybinName ),
 			copybinContainer = doc.createElement( copybinName );
 
