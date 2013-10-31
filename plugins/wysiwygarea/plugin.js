@@ -179,12 +179,19 @@
 						}
 					}, 0 );
 				}
-			});
-		} else if ( CKEDITOR.env.webkit ) {
-			// Fix problem with cursor not appearing in Chrome when clicking below the body (#10945).
+			} );
+		}
+
+		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
+		// Fix for older IEs (8-10 and QM) is placed inside selection.js.
+		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
 			doc.getDocumentElement().on( 'mousedown', function( evt ) {
-				if ( evt.data.getTarget().is( 'html' ) )
-					editor.editable().focus();
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					// IE needs this timeout. Webkit does not, but it does not cause problems too.
+					setTimeout( function() {
+						editor.editable().focus();
+					} );
+				}
 			} );
 		}
 
