@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: loading external jQuery when opening adapter sample from file.
+* [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening color palette.
 
 ## CKEditor 4.2.2
 
