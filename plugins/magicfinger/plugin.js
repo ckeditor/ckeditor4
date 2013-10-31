@@ -154,14 +154,14 @@
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.MAGICFINGER_AFTER becomes CKEDITOR.MAGICFINGER_BEFORE of el.getNext().
-				if ( is( type, CKEDITOR.MAGICFINGER_AFTER ) && isStatic( alt = el.getNext() ) ) {
+				if ( is( type, CKEDITOR.MAGICFINGER_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible() ) {
 					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
 					type ^= CKEDITOR.MAGICFINGER_AFTER;
 				}
 
 				// Normalization to avoid duplicates:
 				// CKEDITOR.MAGICFINGER_INSIDE becomes CKEDITOR.MAGICFINGER_BEFORE of el.getFirst().
-				if ( is( type, CKEDITOR.MAGICFINGER_INSIDE ) && isStatic( alt = el.getFirst() ) ) {
+				if ( is( type, CKEDITOR.MAGICFINGER_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible() ) {
 					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
 					type ^= CKEDITOR.MAGICFINGER_INSIDE;
 				}
@@ -365,7 +365,7 @@
 				if ( !el.hasAttribute( 'contenteditable' ) && el.isReadOnly() )
 					continue;
 
-				if ( isStatic( el ) ) {
+				if ( isStatic( el ) && el.isVisible() ) {
 					// Collect all addresses yielded by lookups for that element.
 					for ( l in this.lookups ) {
 						if ( ( type = this.lookups[ l ]( el ) ) )
