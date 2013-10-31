@@ -53,6 +53,13 @@
 		},
 
 		init: function( editor ) {
+
+			// Adapts configuration from original image plugin. Should be removed
+			// when we'll rename image2 to image.
+			var config = editor.config;
+			config.filebrowserImage2BrowseUrl = config.filebrowserImageBrowseUrl;
+			config.filebrowserImage2UploadUrl = config.filebrowserImageUploadUrl;
+
 			// Register the widget.
 			editor.widgets.add( 'image2', image2 );
 
