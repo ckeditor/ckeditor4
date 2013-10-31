@@ -619,6 +619,11 @@
 		 */
 		lock: function() {
 			if ( !this.locked ) {
+				// Make a contents image. Don't include bookmarks, because:
+				// * we don't compare them,
+				// * there's a chance that DOM has been changed since
+				// locked (e.g. fake) selection was made, so createBookmark2 could fail.
+				// http://dev.ckeditor.com/ticket/11027#comment:3
 				var imageBefore = new Image( this.editor, true );
 
 				// If current editor content matches the tip of snapshot stack,
