@@ -2482,7 +2482,7 @@
 		} );
 
 		if ( widget.inline ) {
-			img.draggable = 'true';
+			img.setAttribute( 'draggable', 'true' );
 			img.on( 'dragstart', function( evt ) {
 				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
 			} );
