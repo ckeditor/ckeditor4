@@ -837,6 +837,38 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
+			for ( var i in definition.contents ) {
+				if ( !definition.contents[ i ] )
+					continue;
+
+				var content = definition.contents[ i ],
+					tab = this._.tabs[ content.id ],
+					requiredContent = content.requiredContent,
+					enableElements = 0;
+
+				if ( !tab )
+					continue;
+
+				for ( var j in this._.contents[ content.id ] ) {
+					var elem = this._.contents[ content.id ][ j ];
+
+					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
+						continue;
+
+					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
+						elem.disable();
+					} else {
+						elem.enable();
+						enableElements++;
+					}
+				}
+
+				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
+					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
+				else
+					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
+			}
+
 			CKEDITOR.tools.setTimeout( function() {
 				this.layout();
 				resizeWithWindow( this );
@@ -1111,6 +1143,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		selectPage: function( id ) {
 			if ( this._.currentTabId == id )
+				return;
+
+			if ( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
 				return;
 
 			// Returning true means that the event has been canceled

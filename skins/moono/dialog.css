@@ -301,6 +301,12 @@ a.cke_dialog_tab_selected:hover
 	padding: 2px 6px;
 }
 
+a.cke_dialog_tab_disabled
+{
+	color: #bababa;
+	cursor: default;
+}
+
 /* The .cke_single_page class is appended to the dialog outer element in case
    of dialogs that has no tabs. */
 .cke_single_page .cke_dialog_tabs

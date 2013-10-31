@@ -226,12 +226,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Whether this style can be applied at the element path.
+		 * Whether this style can be applied at the specified elements-path.
 		 *
-		 * @param {CKEDITOR.dom.elementPath} elementPath
+		 * @param {CKEDITOR.dom.elementPath} elementPath The elements-path to
+		 * 	check the style against.
+		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
+		 * 	checked against this filter as well.
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
-		checkApplicable: function( elementPath ) {
+		checkApplicable: function( elementPath, filter ) {
+			if ( filter && !filter.check( this ) )
+				return false;
+
 			switch ( this.type ) {
 				case CKEDITOR.STYLE_OBJECT:
 					return !!elementPath.contains( this.element );
