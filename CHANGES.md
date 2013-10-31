@@ -20,6 +20,7 @@ New Features:
   * fix undo bug,
   * fix minor bugs,
 * [#10028](http://dev.ckeditor.com/ticket/10028): New [`config.dialog_noConfirmCancel`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-dialog_noConfirmCancel) configuration option that eliminates the need to confirm closing of a dialog window when the user changed any of its fields.
+* [#10848](http://dev.ckeditor.com/ticket/10848): Integrate remaining plugins (style, format, font, color, language and indent ) with active filter.
 
 Fixed Issues:
 
