@@ -537,10 +537,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		]
 	};
 
-	if ( !editor.config.filebrowserImage2BrowseUrl ) {
-		// It goes all the way to button#browse, and takes it out of array.
-		ret.contents[0].elements[0].children[0].children.pop();
-	}
+	if ( !editor.config.filebrowserImage2BrowseUrl )
+		// Replaces hbox (which should contain button#browse but is hidden) with text control.
+		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
 
 	return ret;
 } );
