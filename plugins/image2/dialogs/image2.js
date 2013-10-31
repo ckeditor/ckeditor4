@@ -103,6 +103,69 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		};
 	}
 
+	// This function updates width and height fields once the
+	// "src" field is altered. Along with dimensions, also the
+	// dimensions lock is adjusted.
+	function onChangeSrc() {
+		var value = this.getValue();
+
+		toggleDimensions( false );
+
+		// Remember that src is different than default.
+		if ( value !== widget.data.src ) {
+			// Update dimensions of the image once it's preloaded.
+			preLoader( value, function( image, width, height ) {
+				// Re-enable width and height fields.
+				toggleDimensions( true );
+
+				// There was problem loading the image. Unlock ratio.
+				if ( !image )
+					return toggleLockDimensions( false );
+
+				// Fill width field with the width of the new image.
+				widthField.setValue( width );
+
+				// Fill height field with the height of the new image.
+				heightField.setValue( height );
+
+				// Cache the new width.
+				preLoadedWidth = width;
+
+				// Cache the new height.
+				preLoadedHeight = height;
+
+				// Check for new lock value if image exist.
+				toggleLockDimensions( 'check' );
+			} );
+
+			srcChanged = true;
+		}
+
+		// Value is the same as in widget data but is was
+		// modified back in time. Roll back dimensions when restoring
+		// default src.
+		else if ( srcChanged ) {
+			// Re-enable width and height fields.
+			toggleDimensions( true );
+
+			// Restore width field with cached width.
+			widthField.setValue( domWidth );
+
+			// Restore height field with cached height.
+			heightField.setValue( domHeight );
+
+			// Src equals default one back again.
+			srcChanged = false;
+		}
+
+		// Value is the same as in widget data and it hadn't
+		// been modified.
+		else {
+			// Re-enable width and height fields.
+			toggleDimensions( true );
+		}
+	}
+
 	function onChangeDimension() {
 		// If ratio is un-locked, then we don't care what's next.
 		if ( !lockRatio )
@@ -324,65 +387,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 										id: 'src',
 										type: 'text',
 										label: commonLang.url,
-										onKeyup: function() {
-											var value = this.getValue();
-
-											toggleDimensions( false );
-
-											// Remember that src is different than default.
-											if ( value !== widget.data.src ) {
-												// Update dimensions of the image once it's preloaded.
-												preLoader( value, function( image, width, height ) {
-													// Re-enable width and height fields.
-													toggleDimensions( true );
-
-													// There was problem loading the image. Unlock ratio.
-													if ( !image )
-														return toggleLockDimensions( false );
-
-													// Fill width field with the width of the new image.
-													widthField.setValue( width );
-
-													// Fill height field with the height of the new image.
-													heightField.setValue( height );
-
-													// Cache the new width.
-													preLoadedWidth = width;
-
-													// Cache the new height.
-													preLoadedHeight = height;
-
-													// Check for new lock value if image exist.
-													toggleLockDimensions( 'check' );
-												} );
-
-												srcChanged = true;
-											}
-
-											// Value is the same as in widget data but is was
-											// modified back in time. Roll back dimensions when restoring
-											// default src.
-											else if ( srcChanged ) {
-												// Re-enable width and height fields.
-												toggleDimensions( true );
-
-												// Restore width field with cached width.
-												widthField.setValue( domWidth );
-
-												// Restore height field with cached height.
-												heightField.setValue( domHeight );
-
-												// Src equals default one back again.
-												srcChanged = false;
-											}
-
-											// Value is the same as in widget data and it hadn't
-											// been modified.
-											else {
-												// Re-enable width and height fields.
-												toggleDimensions( true );
-											}
-										},
+										onKeyup: onChangeSrc,
+										onChange: onChangeSrc,
 										setup: function( widget ) {
 											this.setValue( widget.data.src );
 										},
