@@ -2565,12 +2565,12 @@
 						// Attach widget at the place determined by range.
 						editable.insertElementIntoRange( widget.wrapper, range );
 
-						// Focus again the dropped widget.
-						widget.focus();
-
 						// DOM structure has been altered, save undo snapshot.
 						editor.fire( 'saveSnapshot' );
 					}
+
+					// Focus again the dropped widget.
+					widget.focus();
 
 					// Clean-up custom cursor for editable.
 					editable.removeClass( 'cke_widget_dragging' );
