@@ -700,6 +700,21 @@
 		},
 
 		/**
+		 * Shows a given line.
+		 *
+		 * @param {CKEDITOR.dom.element} line The line to be shown.
+		 * @member CKEDITOR.plugins.magicfinger.liner
+		 */
+		showLine: function( line ) {
+			var uid = line.getUniqueId();
+
+			line.show();
+
+			this.visible[ uid ] = line;
+			delete this.hidden[ uid ];
+		},
+
+		/**
 		 * Hides all visible lines.
 		 *
 		 * @member CKEDITOR.plugins.magicfinger.liner
@@ -717,7 +732,7 @@
 		 * @param {Function} [callback] A callback to be called once the line is shown.
 		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
-		showLine: function( location, callback ) {
+		placeLine: function( location, callback ) {
 			var styles, line, l;
 
 			// No style means that line would be out of viewport.
@@ -737,9 +752,7 @@
 			if ( !line ) {
 				for ( l in this.hidden ) {
 					if ( this.hidden[ l ].getCustomData( 'hash' ) !== this.hash ) {
-						line = this.hidden[ l ];
-						line.show();
-						delete this.hidden[ l ];
+						this.showLine( ( line = this.hidden[ l ] ) );
 						break;
 					}
 				}
@@ -747,7 +760,7 @@
 
 			// If no line available, add the new one.
 			if ( !line )
-				line = this.addLine();
+				this.showLine( ( line = this.addLine() ) );
 
 			// Mark the line with current hash.
 			line.setCustomData( 'hash', this.hash );
@@ -840,7 +853,7 @@
 		 * to tell unwanted lines from new ones. This method **must** be called
 		 * before a new set of relations is to be visualized so {@link #cleanup}
 		 * eventually hides obsolete lines. This is because lines
-		 * are re-used between {@link #showLine} calls and the number of
+		 * are re-used between {@link #placeLine} calls and the number of
 		 * necessary ones may vary according to the number of relations.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.magicfinger.finder#relations}.

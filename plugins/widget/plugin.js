@@ -2522,7 +2522,7 @@
 
 						if ( sorted.length ) {
 							liner.prepare( relations, locations );
-							liner.showLine( sorted[ 0 ] );
+							liner.placeLine( sorted[ 0 ] );
 							liner.cleanup();
 						}
 					} );
