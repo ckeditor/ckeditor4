@@ -110,8 +110,7 @@
 		 * Returns a range representing the relation, according to its element
 		 * and type.
 		 *
-		 * @param {Number} uid Unique identifier of the relation.
-		 * @param {Number} type Type of the relation.
+		 * @param {Object} location Location containing unique identifier and type.
 		 * @returns {CKEDITOR.dom.range} Range representing the relation.
 		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
@@ -122,10 +121,10 @@
 			where[ CKEDITOR.MAGICFINGER_AFTER ] = CKEDITOR.POSITION_AFTER_END;
 			where[ CKEDITOR.MAGICFINGER_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
 
-			return function( uid, type ) {
+			return function( location ) {
 				var range = this.editor.createRange();
 
-				range.moveToPosition( this.relations[ uid ].element, where[ type ] );
+				range.moveToPosition( this.relations[ location.uid ].element, where[ location.type ] );
 
 				return range;
 			};

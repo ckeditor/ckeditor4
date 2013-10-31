@@ -2500,7 +2500,8 @@
 					locator = widget.repository.locator,
 					liner = widget.repository.liner,
 					listeners = [],
-					sorted, buffer;
+					sorted = [],
+					buffer;
 
 				// This will change DOM, save undo snapshot.
 				editor.fire( 'saveSnapshot' );
@@ -2553,7 +2554,7 @@
 
 					if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 						// Retrieve range for the closest location.
-						var range = finder.getRange( sorted[ 0 ].uid, sorted[ 0 ].type );
+						var range = finder.getRange( sorted[ 0 ] );
 
 						// Reset the fake selection, which will be invalidated by insertElementIntoRange.
 						// This avoids a situation when getSelection() still returns a fake selection made
