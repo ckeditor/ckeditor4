@@ -932,18 +932,22 @@
 	/**
 	 * Global namespace holding definitions and global helpers.
 	 *
+	 * @private
 	 * @class
 	 * @singleton
+	 * @since 4.3
 	 */
 	CKEDITOR.plugins.magicfinger = {
 		/**
 		 * An utility that traverses DOM tree and discovers elements
 		 * (relations) matching user-defined lookups.
 		 *
+		 * @private
 		 * @class CKEDITOR.plugins.magicfinger.finder
 		 * @constructor Creates a Finder class instance.
 		 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
 		 * @param {Object} def Finder's definition.
+		 * @since 4.3
 		 */
 		finder: Finder,
 
@@ -952,9 +956,11 @@
 		 * CKEDITOR.plugins.magicfinger.finder and locates them
 		 * in the viewport as horizontal lines of specific coordinates.
 		 *
+		 * @private
 		 * @class CKEDITOR.plugins.magicfinger.locator
 		 * @constructor Creates a Locator class instance.
 		 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
+		 * @since 4.3
 		 */
 		locator: Locator,
 
@@ -962,10 +968,12 @@
 		 * An utility that draws horizontal lines in DOM according to locations
 		 * returned by CKEDITOR.plugins.magicfinger.locator.
 		 *
+		 * @private
 		 * @class CKEDITOR.plugins.magicfinger.liner
 		 * @constructor Creates a Liner class instance.
 		 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
 		 * @param {Object} def Liner's definition.
+		 * @since 4.3
 		 */
 		liner: Liner
 	};
