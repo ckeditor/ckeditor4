@@ -337,7 +337,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	return {
+	var ret = {
 		title: lang.title,
 		minWidth: 250,
 		minHeight: 100,
@@ -402,6 +402,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 										validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
 									},
 									{
+										// Remark: button may be removed at the very bottom of
+										// the file, if browser config is not set.
 										type: 'button',
 										id: 'browse',
 										// v-align with the 'txtUrl' field.
@@ -534,4 +536,11 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			}
 		]
 	};
+
+	if ( !editor.config.filebrowserImage2BrowseUrl ) {
+		// It goes all the way to button#browse, and takes it out of array.
+		ret.contents[0].elements[0].children[0].children.pop();
+	}
+
+	return ret;
 } );
