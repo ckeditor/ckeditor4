@@ -545,7 +545,11 @@
 		attributeNames: [
 			// Event attributes (onXYZ) must not be directly set. They can become
 			// active in the editing area (IE|WebKit).
-			[ ( /^on/ ), 'data-cke-pa-on' ]
+			[ ( /^on/ ), 'data-cke-pa-on' ],
+
+			// Don't let some old expando enter editor. Concerns only IE8,
+			// but for consistency remove on all browsers.
+			[ ( /^data-cke-expando$/ ), '' ]
 		]
 	};
 
