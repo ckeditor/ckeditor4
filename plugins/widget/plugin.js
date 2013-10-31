@@ -1778,6 +1778,12 @@
 		'$'
 	);
 
+	function pasteReplaceFn( match, wrapperHtml ) {
+		// Avoid polluting pasted data with any whitspaces,
+		// what's going to break check whether only one widget was pasted.
+		return CKEDITOR.tools.trim( wrapperHtml );
+	}
+
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
 	// * pasting handling,
@@ -1794,10 +1800,7 @@
 
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace(
-				pasteReplaceRegex,
-				'$1'
-			);
+			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
 		} );
 	}
 
