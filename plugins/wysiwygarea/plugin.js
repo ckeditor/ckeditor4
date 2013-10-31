@@ -611,7 +611,7 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  * @cfg {String/Array} [contentsCss=CKEDITOR.basePath + 'contents.css']
  * @member CKEDITOR.config
  */
-CKEDITOR.config.contentsCss = CKEDITOR.basePath + 'contents.css';
+CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
 
 /**
  * Language code of  the writting language which is used to author the editor
