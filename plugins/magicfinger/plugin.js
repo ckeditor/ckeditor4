@@ -528,7 +528,10 @@
 					}
 				}
 
-				return sorted.slice( 0, howMany );
+				if ( typeof howMany != 'undefined' )
+					return sorted.slice( 0, howMany );
+				else
+					return sorted;
 			};
 		})(),
 
