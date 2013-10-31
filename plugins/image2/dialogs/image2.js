@@ -537,9 +537,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		]
 	};
 
-	if ( !editor.config.filebrowserImageBrowseUrl && !editor.config.filebrowserBrowseUrl )
+	if ( !editor.config.filebrowserImageBrowseUrl && !editor.config.filebrowserBrowseUrl ) {
 		// Replaces hbox (which should contain button#browse but is hidden) with text control.
 		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
+	}
 
 	return ret;
 } );
