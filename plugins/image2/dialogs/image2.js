@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+/**
+ * @fileOverview Image plugin based on Widgets API
+ */
+
 'use strict';
 
 CKEDITOR.dialog.add( 'image2', function( editor ) {
