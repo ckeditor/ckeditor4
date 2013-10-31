@@ -2168,9 +2168,7 @@
 	// * keyup.
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, function() {
-				widgetsRepo.fire( 'checkWidgets' );
-			} ),
+			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, checkWidgets ),
 			ignoredKeys = { 16:1,17:1,18:1,37:1,38:1,39:1,40:1,225:1 }; // SHIFT,CTRL,ALT,LEFT,UP,RIGHT,DOWN,RIGHT ALT(FF)
 
 		editor.on( 'contentDom', function() {
@@ -2187,9 +2185,11 @@
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 
-		editor.on( 'contentDomInvalidated', function() {
+		editor.on( 'contentDomInvalidated', checkWidgets );
+
+		function checkWidgets() {
 			widgetsRepo.fire( 'checkWidgets' );
-		} );
+		}
 	}
 
 	// Helper for coordinating which widgets should be
