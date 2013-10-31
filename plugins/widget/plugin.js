@@ -540,6 +540,9 @@
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline ) );
 
+				if ( widgetDef.pathName )
+					wrapper.data( 'data-cke-display-name', widgetDef.pathName )
+
 				// Replace element unless it is a detached one.
 				if ( element.getParent( true ) )
 					wrapper.replace( element );
