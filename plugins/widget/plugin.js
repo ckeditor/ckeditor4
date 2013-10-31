@@ -540,8 +540,7 @@
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline ) );
 
-				if ( widgetDef.pathName )
-					wrapper.data( 'data-cke-display-name', widgetDef.pathName )
+				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
 
 				// Replace element unless it is a detached one.
 				if ( element.getParent( true ) )
@@ -567,8 +566,7 @@
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
 
-				if ( widgetDef.pathName )
-					wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName;
+				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
 				var parent = element.parent,
 					index;
