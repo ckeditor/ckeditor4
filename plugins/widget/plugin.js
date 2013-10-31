@@ -256,6 +256,8 @@
 		/**
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
+		 * Reinitializes widgets on widget wrappers for which widget instances
+		 * cannot be found.
 		 *
 		 * This method is triggered by the {@link #event-checkWidgets} event.
 		 */
