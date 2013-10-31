@@ -597,7 +597,7 @@
 		if ( childName != 'img' && !( childName == 'figure' && child.hasClass( 'caption' ) ) )
 			return false;
 
-		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '' );
+		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
 
 		// Centering wrapper got to be... centering.
 		if ( styles[ 'text-align' ] == 'center' )
