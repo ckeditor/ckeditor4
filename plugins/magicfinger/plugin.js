@@ -342,10 +342,10 @@
 		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
 		 * and runs lookups for every one of them, collecting relations.
 		 *
-		 * @param {Function} [callback] Function executed when relations were found.
 		 * @member CKEDITOR.plugins.magicfinger.finder
+		 * @returns {Object} {@link #relations}.
 		 */
-		greedySearch: function( callback ) {
+		greedySearch: function() {
 			this.relations = {};
 
 			var all = this.editable.getElementsByTag( '*' ),
@@ -373,7 +373,7 @@
 				}
 			}
 
-			callback && callback( this.relations );
+			return this.relations;
 		}
 
 		/**
