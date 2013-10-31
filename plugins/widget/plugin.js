@@ -93,7 +93,6 @@
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
-			registerElementsPathFilters( editor );
 		}
 	} );
 
@@ -565,6 +564,9 @@
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
 
+				if ( widgetDef.pathName )
+					wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName;
+
 				var parent = element.parent,
 					index;
 
@@ -992,6 +994,9 @@
 				// had focused editable. Clean this class here, not in
 				// cleanUpWidgetElement for performance and code size reasons.
 				editable.removeClass( 'cke_widget_editable_focused' );
+
+				if ( definition.pathName )
+					editable.data( 'cke-display-name', definition.pathName );
 
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
@@ -1766,33 +1771,6 @@
 		'(?:</(?:div|span)>)?' +
 		'$'
 	);
-
-	// Registers filters for elementspath plugin, they allow us to override names
-	// displayed in path with values from definitions.
-	function registerElementsPathFilters( editor ) {
-		var pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
-
-		if ( pathFilters )
-			pathFilters.push( function( element, name ) {
-
-				var isWidgetWrapper = isWidgetWrapper2( element ),
-					editableName = element.data( 'cke-widget-editable' );
-
-				// If element is widget wrapper or has widget editable name assigned.
-				if ( isWidgetWrapper || editableName ) {
-
-					var widget = editor.widgets.getByElement( element );
-
-					if ( !widget )
-						return ;
-
-					if ( isWidgetWrapper )
-						return widget.definition.pathName || widget.element.getName();
-					else
-						return widget.definition.editables[ editableName ].pathName || name;
-				}
-			} );
-	}
 
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
