@@ -3,6 +3,10 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
+/**
+ * @fileOverview Image plugin based on Widgets API
+ */
+
 'use strict';
 
 CKEDITOR.dialog.add( 'image2', function( editor ) {
@@ -101,6 +105,69 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 			image.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 		};
+	}
+
+	// This function updates width and height fields once the
+	// "src" field is altered. Along with dimensions, also the
+	// dimensions lock is adjusted.
+	function onChangeSrc() {
+		var value = this.getValue();
+
+		toggleDimensions( false );
+
+		// Remember that src is different than default.
+		if ( value !== widget.data.src ) {
+			// Update dimensions of the image once it's preloaded.
+			preLoader( value, function( image, width, height ) {
+				// Re-enable width and height fields.
+				toggleDimensions( true );
+
+				// There was problem loading the image. Unlock ratio.
+				if ( !image )
+					return toggleLockDimensions( false );
+
+				// Fill width field with the width of the new image.
+				widthField.setValue( width );
+
+				// Fill height field with the height of the new image.
+				heightField.setValue( height );
+
+				// Cache the new width.
+				preLoadedWidth = width;
+
+				// Cache the new height.
+				preLoadedHeight = height;
+
+				// Check for new lock value if image exist.
+				toggleLockDimensions( 'check' );
+			} );
+
+			srcChanged = true;
+		}
+
+		// Value is the same as in widget data but is was
+		// modified back in time. Roll back dimensions when restoring
+		// default src.
+		else if ( srcChanged ) {
+			// Re-enable width and height fields.
+			toggleDimensions( true );
+
+			// Restore width field with cached width.
+			widthField.setValue( domWidth );
+
+			// Restore height field with cached height.
+			heightField.setValue( domHeight );
+
+			// Src equals default one back again.
+			srcChanged = false;
+		}
+
+		// Value is the same as in widget data and it hadn't
+		// been modified.
+		else {
+			// Re-enable width and height fields.
+			toggleDimensions( true );
+		}
 	}
 
 	function onChangeDimension() {
@@ -270,7 +337,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	return {
+	var ret = {
 		title: lang.title,
 		minWidth: 250,
 		minHeight: 100,
@@ -309,77 +376,47 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		contents: [
 			{
 				id: 'info',
+				label: editor.lang.image2.infoTab,
 				elements: [
 					{
-						id: 'src',
-						type: 'text',
-						label: commonLang.url,
-						onKeyup: function() {
-							var value = this.getValue();
-
-							toggleDimensions( false );
-
-							// Remember that src is different than default.
-							if ( value !== widget.data.src ) {
-								// Update dimensions of the image once it's preloaded.
-								preLoader( value, function( image, width, height ) {
-									// Re-enable width and height fields.
-									toggleDimensions( true );
-
-									// There was problem loading the image. Unlock ratio.
-									if ( !image )
-										return toggleLockDimensions( false );
-
-									// Fill width field with the width of the new image.
-									widthField.setValue( width );
-
-									// Fill height field with the height of the new image.
-									heightField.setValue( height );
-
-									// Cache the new width.
-									preLoadedWidth = width;
-
-									// Cache the new height.
-									preLoadedHeight = height;
-
-									// Check for new lock value if image exist.
-									toggleLockDimensions( 'check' );
-								} );
-
-								srcChanged = true;
+						type: 'vbox',
+						padding: 0,
+						children: [
+							{
+								type: 'hbox',
+								widths: [ '280px', '110px' ],
+								align: 'right',
+								children: [
+									{
+										id: 'src',
+										type: 'text',
+										label: commonLang.url,
+										onKeyup: onChangeSrc,
+										onChange: onChangeSrc,
+										setup: function( widget ) {
+											this.setValue( widget.data.src );
+										},
+										commit: function( widget ) {
+											widget.setData( 'src', this.getValue() );
+										},
+										validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+									},
+									{
+										// Remark: button may be removed at the very bottom of
+										// the file, if browser config is not set.
+										type: 'button',
+										id: 'browse',
+										// v-align with the 'txtUrl' field.
+										// TODO: We need something better than a fixed size here.
+										style: 'display:inline-block;margin-top:16px;',
+										align: 'center',
+										label: editor.lang.common.browseServer,
+										hidden: true,
+										filebrowser: 'info:src'
+									}
+								]
 							}
-
-							// Value is the same as in widget data but is was
-							// modified back in time. Roll back dimensions when restoring
-							// default src.
-							else if ( srcChanged ) {
-								// Re-enable width and height fields.
-								toggleDimensions( true );
-
-								// Restore width field with cached width.
-								widthField.setValue( domWidth );
-
-								// Restore height field with cached height.
-								heightField.setValue( domHeight );
-
-								// Src equals default one back again.
-								srcChanged = false;
-							}
-
-							// Value is the same as in widget data and it hadn't
-							// been modified.
-							else {
-								// Re-enable width and height fields.
-								toggleDimensions( true );
-							}
-						},
-						setup: function( widget ) {
-							this.setValue( widget.data.src );
-						},
-						commit: function( widget ) {
-							widget.setData( 'src', this.getValue() );
-						},
-						validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+						]
 					},
 					{
 						id: 'alt',
@@ -474,7 +511,36 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						}
 					}
 				]
+			},
+			{
+				id: 'Upload',
+				hidden: true,
+				filebrowser: 'uploadButton',
+				label: editor.lang.image2.uploadTab,
+				elements: [
+					{
+						type: 'file',
+						id: 'upload',
+						label: editor.lang.image2.btnUpload,
+						style: 'height:40px',
+						size: 38
+					},
+					{
+						type: 'fileButton',
+						id: 'uploadButton',
+						filebrowser: 'info:src',
+						label: editor.lang.image2.btnUpload,
+						'for': [ 'Upload', 'upload' ]
+					}
+				]
 			}
 		]
 	};
+
+	if ( !editor.config.filebrowserImageBrowseUrl && !editor.config.filebrowserBrowseUrl ) {
+		// Replaces hbox (which should contain button#browse but is hidden) with text control.
+		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
+	}
+
+	return ret;
 } );
