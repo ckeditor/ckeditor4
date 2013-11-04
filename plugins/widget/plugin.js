@@ -14,6 +14,7 @@
 	var DRAG_HANDLER_SIZE = 14;
 
 	CKEDITOR.plugins.add( 'widget', {
+		lang: 'en', // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -2379,6 +2380,7 @@
 			'data-cke-widget-drag-handler': '1',
 			src: transparentImageData,
 			width: DRAG_HANDLER_SIZE,
+			title: editor.lang.widget.move,
 			height: DRAG_HANDLER_SIZE
 		} );
 
