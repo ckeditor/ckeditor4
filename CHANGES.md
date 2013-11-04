@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10886](http://dev.ckeditor.com/ticket/10886): Widgets: added tooltip to the drag handler.
 * [#10895](http://dev.ckeditor.com/ticket/10895): Image2: added support for server file browsers.
 * [#11057](http://dev.ckeditor.com/ticket/11057): Fixed: Regression in #10212 test.
 * [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
