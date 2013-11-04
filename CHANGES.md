@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: loading external jQuery when opening adapter sample from file.
 * [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening color palette.
+* [#9929](http://dev.ckeditor.com/ticket/9929): [Blink/Webkit] Fixed: A non-breaking space is created once deleted a character and a regular space is typed.
 
 ## CKEditor 4.2.2
 
