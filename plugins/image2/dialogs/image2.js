@@ -360,7 +360,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		contents: [
 			{
 				id: 'info',
-				label: editor.lang.image2.infoTab,
+				label: lang.infoTab,
 				elements: [
 					{
 						type: 'vbox',
@@ -506,12 +506,12 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				id: 'Upload',
 				hidden: true,
 				filebrowser: 'uploadButton',
-				label: editor.lang.image2.uploadTab,
+				label: lang.uploadTab,
 				elements: [
 					{
 						type: 'file',
 						id: 'upload',
-						label: editor.lang.image2.btnUpload,
+						label: lang.btnUpload,
 						style: 'height:40px',
 						size: 38
 					},
@@ -519,7 +519,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						type: 'fileButton',
 						id: 'uploadButton',
 						filebrowser: 'info:src',
-						label: editor.lang.image2.btnUpload,
+						label: lang.btnUpload,
 						'for': [ 'Upload', 'upload' ]
 					}
 				]
