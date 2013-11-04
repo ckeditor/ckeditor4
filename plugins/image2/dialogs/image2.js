@@ -132,7 +132,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 				// There was problem loading the image. Unlock ratio.
 				if ( !image )
-					return toggleLockDimensions( false );
+					return toggleLockRatio( false );
 
 				// Fill width field with the width of the new image.
 				widthField.setValue( width );
@@ -147,7 +147,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				preLoadedHeight = height;
 
 				// Check for new lock value if image exist.
-				toggleLockDimensions( 'check' );
+				toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
 			} );
 
 			srcChanged = true;
