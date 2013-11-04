@@ -210,13 +210,17 @@
 		},
 
 		init: function() {
-			var image = this.parts.image,
+			var helpers = CKEDITOR.plugins.image2,
+				image = this.parts.image,
 				data = {
 					hasCaption: !!this.parts.caption,
 					src: image.getAttribute( 'src' ),
 					alt: image.getAttribute( 'alt' ) || '',
 					width: image.getAttribute( 'width' ) || '',
-					height: image.getAttribute( 'height' ) || ''
+					height: image.getAttribute( 'height' ) || '',
+
+					// Lock ratio is on by default (#10833).
+					lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 				};
 
 			// Read initial float style from figure/image and
@@ -237,7 +241,7 @@
 			// Setup dynamic image resizing with mouse.
 			setupResizer( this );
 
-			this.shiftState = CKEDITOR.plugins.image2.stateShifter( this.editor );
+			this.shiftState = helpers.stateShifter( this.editor );
 
 			// Add widget editing option to its context menu.
 			this.on( 'contextMenu', function( evt ) {
@@ -413,6 +417,48 @@
 
 				data.init( data.element );
 			};
+		},
+
+		// Checks whether current ratio of the image match the natural one.
+		// by comparing dimensions.
+		// @param {CKEDITOR.dom.element} image
+		// @returns {Boolean}
+		checkHasNaturalRatio: function( image ) {
+			var $ = image.$,
+				natural = this.getNatural( image );
+
+			// The reason for two alternative comparisons is that the rounding can come from
+			// both dimensions, e.g. there are two cases:
+			// 	1. height is computed as a rounded relation of the real height and the value of width,
+			//	2. width is computed as a rounded relation of the real width and the value of heigh.
+			return Math.round( $.clientWidth / natural.width * natural.height ) == $.clientHeight ||
+				Math.round( $.clientHeight / natural.height * natural.width ) == $.clientWidth;
+		},
+
+		// Returns natural dimensions of the image. For modern browsers
+		// it uses natural(Width|Height) for old ones (IE8), creates
+		// a new image and reads dimensions.
+		// @param {CKEDITOR.dom.element} image
+		// @returns {Object}
+		getNatural: function( image ) {
+			var dimensions;
+
+			if ( image.$.naturalWidth ) {
+				dimensions = {
+					width: image.$.naturalWidth,
+					height: image.$.naturalHeight
+				};
+			} else {
+				var img = new Image();
+				img.src = image.getAttribute( 'src' );
+
+				dimensions = {
+					width: img.width,
+					height: img.height
+				};
+			}
+
+			return dimensions;
 		}
 	};
 
@@ -663,13 +709,13 @@
 			// Calculate with first, and then adjust height, preserving ratio.
 			function adjustToX() {
 				newWidth = startWidth + factor * moveDiffX;
-				newHeight = 0 | newWidth / ratio;
+				newHeight = Math.round( newWidth / ratio );
 			}
 
 			// Calculate height first, and then adjust width, preserving ratio.
 			function adjustToY() {
 				newHeight = startHeight - moveDiffY;
-				newWidth = 0 | newHeight * ratio;
+				newWidth = Math.round( newHeight * ratio );
 			}
 
 			// This is how variables refer to the geometry.
