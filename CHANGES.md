@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#11057](http://dev.ckeditor.com/ticket/11057): Fixed: Regression in #10212 test.
 * [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
 * [#10856](http://dev.ckeditor.com/ticket/10856): Menu-buttons will now toggle their panels visibility when clicked multiple times. Language plugin fixes: added active language highlighting, added option to remove language.
 * [#10822](http://dev.ckeditor.com/ticket/10822): Added styles system integration with non-editable elements (for example widgets) and their nested editables. Styles cannot change non-editable content and are applied in nested editable only if allowed by its type and content filter.
