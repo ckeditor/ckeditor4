@@ -291,6 +291,8 @@
 				listsCreated.push( child );
 		}
 		newList.listNode.replace( groupObj.root );
+
+		editor.fire( 'contentDomInvalidated' );
 	}
 
 	var headerTagRegex = /^h[1-6]$/;
@@ -443,6 +445,8 @@
 		compensateBrs();
 
 		docFragment.replace( groupObj.root );
+
+		editor.fire( 'contentDomInvalidated' );
 	}
 
 	function listCommand( name, type ) {
@@ -476,7 +480,7 @@
 			var doc = editor.document,
 				config = editor.config,
 				selection = editor.getSelection(),
-				ranges = selection && selection.getRanges( true );
+				ranges = selection && selection.getRanges();
 
 			// Midas lists rule #1 says we can create a list even in an empty document.
 			// But DOM iterator wouldn't run if the document is really empty.

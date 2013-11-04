@@ -1755,3 +1755,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @event contentDomUnload
  * @param {CKEDITOR.editor} editor This editor instance.
  */
+
+/**
+ * The event fired when contents DOM changes and some of the references as well as
+ * native DOM event listeners could be lost.
+ * This event is useful when it is important to keep track of references
+ * to elements in the editable contents from code.
+ *
+ * @since 4.3
+ * @event contentDomInvalidated
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */

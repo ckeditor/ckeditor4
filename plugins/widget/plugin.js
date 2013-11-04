@@ -256,6 +256,8 @@
 		/**
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
+		 * Reinitializes widgets on widget wrappers for which widget instances
+		 * cannot be found.
 		 *
 		 * This method is triggered by the {@link #event-checkWidgets} event.
 		 */
@@ -263,17 +265,31 @@
 			if ( this.editor.mode != 'wysiwyg' )
 				return;
 
-			var toBeDestroyed = [],
-				editable = this.editor.editable(),
+			var editable = this.editor.editable(),
 				instances = this.instances,
-				id;
+				i, count, wrapper;
 
 			if ( !editable )
 				return;
 
-			for ( id in instances ) {
-				if ( !editable.contains( instances[ id ].wrapper ) )
-					this.destroy( instances[ id ], true );
+			// Remove widgets which have no corresponding elements in DOM.
+			for ( i in instances ) {
+				if ( !editable.contains( instances[ i ].wrapper ) )
+					this.destroy( instances[ i ], true );
+			}
+
+			var wrappers = editable.find( '.cke_widget_wrapper' );
+
+			// Create widgets on existing wrappers if they do not exists.
+			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
+				wrapper = wrappers.getItem( i );
+
+				if ( !this.getByElement( wrapper, true ) ) {
+					// Add cke_widget_new class because otherwise
+					// widget will not be created on such wrapper.
+					wrapper.addClass( 'cke_widget_new' );
+					this.initOn( wrapper.getFirst( isWidgetElement2 ) );
+				}
 			}
 		},
 
@@ -416,7 +432,7 @@
 		 * Initializes a widget on a given element if the widget has not been initialized on it yet.
 		 *
 		 * @param {CKEDITOR.dom.element} element The future widget element.
-		 * @param {String/CKEDITOR.plugins.widget.definition} widgetDef Name of a widget or a widget definition.
+		 * @param {String/CKEDITOR.plugins.widget.definition} [widgetDef] Name of a widget or a widget definition.
 		 * The widget definition should be previously registered by using the
 		 * {@link CKEDITOR.plugins.widget.repository#add} method.
 		 * @param [startupData] Widget startup data (has precedence over default one).
@@ -2154,9 +2170,7 @@
 	// * keyup.
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, function() {
-				widgetsRepo.fire( 'checkWidgets' );
-			} ),
+			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, checkWidgets ),
 			ignoredKeys = { 16:1,17:1,18:1,37:1,38:1,39:1,40:1,225:1 }; // SHIFT,CTRL,ALT,LEFT,UP,RIGHT,DOWN,RIGHT ALT(FF)
 
 		editor.on( 'contentDom', function() {
@@ -2172,6 +2186,12 @@
 		editor.on( 'contentDomUnload', buffer.reset );
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
+
+		editor.on( 'contentDomInvalidated', checkWidgets );
+
+		function checkWidgets() {
+			widgetsRepo.fire( 'checkWidgets' );
+		}
 	}
 
 	// Helper for coordinating which widgets should be

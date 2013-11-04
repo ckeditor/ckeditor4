@@ -181,20 +181,25 @@
 	 * @class CKEDITOR.plugins.undo.Image
 	 * @constructor Creates an Image class instance.
 	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
+	 * @param {Boolean} [contentsOnly] If set to `true` image will contain only contents, without selection.
 	 */
-	var Image = CKEDITOR.plugins.undo.Image = function( editor ) {
+	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
 			this.editor = editor;
 
 			editor.fire( 'beforeUndoImage' );
 
-			var contents = editor.getSnapshot(),
-				selection = contents && editor.getSelection();
+			var contents = editor.getSnapshot();
 
 			// In IE, we need to remove the expando attributes.
-			CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' ) );
+			if ( CKEDITOR.env.ie && contents )
+				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
 
 			this.contents = contents;
-			this.bookmarks = selection && selection.createBookmarks2( true );
+
+			if ( !contentsOnly ) {
+				var selection = contents && editor.getSelection();
+				this.bookmarks = selection && selection.createBookmarks2( true );
+			}
 
 			editor.fire( 'afterUndoImage' );
 		};
@@ -614,7 +619,12 @@
 		 */
 		lock: function() {
 			if ( !this.locked ) {
-				var imageBefore = new Image( this.editor );
+				// Make a contents image. Don't include bookmarks, because:
+				// * we don't compare them,
+				// * there's a chance that DOM has been changed since
+				// locked (e.g. fake) selection was made, so createBookmark2 could fail.
+				// http://dev.ckeditor.com/ticket/11027#comment:3
+				var imageBefore = new Image( this.editor, true );
 
 				// If current editor content matches the tip of snapshot stack,
 				// the stack tip must be updated by unlock, to include any changes made
@@ -640,12 +650,12 @@
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
 					var updateImage = this.locked.update,
-						newImage = new Image( this.editor );
+						newImage = new Image( this.editor, true );
 
 					this.locked = null;
 
 					if ( updateImage && !updateImage.equalsContent( newImage ) )
-						this.update( newImage );
+						this.update();
 				}
 			}
 		}

@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#11027](http://dev.ckeditor.com/ticket/11027): Fixed block commands break on widget issue; added contentDomInvalidated event.
 * [#10886](http://dev.ckeditor.com/ticket/10886): Widgets: added tooltip to the drag handler.
 * [#10895](http://dev.ckeditor.com/ticket/10895): Image2: added support for server file browsers.
 * [#11057](http://dev.ckeditor.com/ticket/11057): Fixed: Regression in #10212 test.

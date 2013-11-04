@@ -1958,6 +1958,9 @@
 		fake: function( element ) {
 			var editor = this.root.editor;
 
+			// Cleanup after previous selection - e.g. remove hidden sel container.
+			this.reset();
+
 			hideSelection( editor );
 
 			// Set this value after executing hiseSelection, because it may

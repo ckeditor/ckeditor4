@@ -138,7 +138,7 @@
 
 						exec: function( editor ) {
 							var selection = editor.getSelection(),
-								range = selection && selection.getRanges( 1 )[ 0 ],
+								range = selection && selection.getRanges()[ 0 ],
 								nearestListBlock;
 
 							// If there's some list in the path, then it will be
@@ -156,8 +156,10 @@
 								iterator.enforceRealBlocks = true;
 								iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-								while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) )
-									indentElement.call( this, block, classes );
+								while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
+									if ( !block.isReadOnly() )
+										indentElement.call( this, block, classes );
+								}
 							}
 
 							return true;
