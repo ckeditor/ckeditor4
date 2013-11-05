@@ -46,9 +46,9 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 	<strong>extraPlugins: 'mathjax'</strong>
 } );
 </pre>
-	</div>
-	<div class="warning" id="ie8-warning" style="display:none;">
-		<span>Mathematical plugin is <strong>not fully supported in Internet Explorer 8</strong>. It may cause errors and crashes.</span>
+		<p id="ie8-warning">
+			Please note that this plugin is not compatible with Internet Explorer 8.
+		</p>
 	</div>
 
 	<textarea id="editor1" cols="10" rows="10">
@@ -64,7 +64,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 		} );
 
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
-			document.getElementById( 'ie8-warning' ).style.display = 'block';
+			document.getElementById( 'ie8-warning' ).className = 'warning';
 
 	</script>
 
