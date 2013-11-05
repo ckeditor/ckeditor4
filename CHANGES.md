@@ -18,7 +18,6 @@ New Features:
 * [#10430](http://dev.ckeditor.com/ticket/10430): Resolve dependence of image plugin if forms plugin.
 * [#10937](http://dev.ckeditor.com/ticket/10937): MathJax widget improvements:
   * loading indicator,
-  * IE8 support,
   * apply paragraph changes (like font color change) to iframe,
   * FF and IE9 clipboard fixes,
   * fix same origin policy issue,
