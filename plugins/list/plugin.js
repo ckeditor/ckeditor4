@@ -295,8 +295,6 @@
 		editor.fire( 'contentDomInvalidated' );
 	}
 
-	var headerTagRegex = /^h[1-6]$/;
-
 	function createList( editor, groupObj, listsCreated ) {
 		var contents = groupObj.contents,
 			doc = groupObj.root.getDocument(),
@@ -366,8 +364,9 @@
 			contentBlock = listContents.shift();
 			listItem = doc.createElement( 'li' );
 
-			// Preserve preformat block and heading structure when converting to list item. (#5335) (#5271)
-			if ( contentBlock.is( 'pre' ) || headerTagRegex.test( contentBlock.getName() ) )
+			// If current block should be preserved, append it to list item instead of
+			// transforming it to <li> element.
+			if ( shouldPreserveBlock( contentBlock ) )
 				contentBlock.appendTo( listItem );
 			else {
 				contentBlock.copyAttributes( listItem );
@@ -447,6 +446,20 @@
 		docFragment.replace( groupObj.root );
 
 		editor.fire( 'contentDomInvalidated' );
+	}
+
+	var headerTagRegex = /^h[1-6]$/;
+
+	// Checks wheather this block should be element preserved (not transformed to <li>) when creating list.
+	function shouldPreserveBlock( block ) {
+		return (
+			// #5335
+			block.is( 'pre' ) ||
+			// #5271 - this is a header.
+			headerTagRegex.test( block.getName() ) ||
+			// 11083 - this is a non-editable element.
+			block.getAttribute( 'contenteditable' ) == 'false'
+		);
 	}
 
 	function listCommand( name, type ) {
