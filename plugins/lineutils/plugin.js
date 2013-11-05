@@ -182,39 +182,30 @@
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 */
-		traverseSearch: (function() {
-			var cached;
+		traverseSearch: function( el ) {
+			var l, type, uid;
 
-			return function( el ) {
-				if ( el.equals( cached ) )
+			// Go down DOM towards root (or limit).
+			do {
+				uid = el.$[ 'data-cke-expando' ];
+
+				// This element was already visited and checked.
+				if ( uid && uid in this.relations )
+					continue;
+
+				if ( el.equals( this.editable ) )
 					return;
 
-				var l, type, uid;
+				if ( isStatic( el ) ) {
+					// Collect all addresses yielded by lookups for that element.
+					for ( l in this.lookups ) {
 
-				// Go down DOM towards root (or limit).
-				do {
-					uid = el.$[ 'data-cke-expando' ];
-
-					// This element was already visited and checked.
-					if ( uid && uid in this.relations )
-						continue;
-
-					if ( el.equals( this.editable ) )
-						return;
-
-					if ( isStatic( el ) ) {
-						// Collect all addresses yielded by lookups for that element.
-						for ( l in this.lookups ) {
-
-							if ( ( type = this.lookups[ l ]( el ) ) )
-								this.store( el, type );
-						}
+						if ( ( type = this.lookups[ l ]( el ) ) )
+							this.store( el, type );
 					}
-				} while ( !isLimit( el ) && ( el = el.getParent() ) )
-
-				cached = el;
-			}
-		})(),
+				}
+			} while ( !isLimit( el ) && ( el = el.getParent() ) )
+		},
 
 		/**
 		 * Iterates vertically pixel-by-pixel within given element starting
