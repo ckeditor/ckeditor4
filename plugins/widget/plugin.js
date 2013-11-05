@@ -69,7 +69,7 @@
 					'display:block' +
 				'}' +
 				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
-					'cursor: move !important' +
+					'cursor:move !important' +
 				'}'
 			);
 		},
