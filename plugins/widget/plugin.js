@@ -99,7 +99,7 @@
 
 	// Registers listeners for external commands.
 	function setupExternalCommands( editor ) {
-		editor.on( 'instanceReady', function() {
+		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
 				widgetsRepo = editor.widgets,
 				eventListener = function( evt ) {
