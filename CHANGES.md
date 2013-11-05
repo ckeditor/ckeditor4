@@ -5,17 +5,12 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#11066](http://dev.ckeditor.com/ticket/11066): Widget's private parts uses CSS reset.
-* [#11027](http://dev.ckeditor.com/ticket/11027): Fixed block commands break on widget issue; added contentDomInvalidated event.
 * [#10886](http://dev.ckeditor.com/ticket/10886): Widgets: added tooltip to the drag handler.
 * [#10895](http://dev.ckeditor.com/ticket/10895): Image2: added support for server file browsers.
-* [#11057](http://dev.ckeditor.com/ticket/11057): Fixed: Regression in #10212 test.
-* [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
 * [#10856](http://dev.ckeditor.com/ticket/10856): Menu-buttons will now toggle their panels visibility when clicked multiple times. Language plugin fixes: added active language highlighting, added option to remove language.
 * [#10822](http://dev.ckeditor.com/ticket/10822): Added styles system integration with non-editable elements (for example widgets) and their nested editables. Styles cannot change non-editable content and are applied in nested editable only if allowed by its type and content filter.
 * [#10855](http://dev.ckeditor.com/ticket/10855): Change extension of emotes in BBCode sample from GIF to PNG.
 * [#11002](http://dev.ckeditor.com/ticket/11002): Added option to disable widgets drag and drop support.
-* [#10430](http://dev.ckeditor.com/ticket/10430): Resolve dependence of image plugin if forms plugin.
 * [#10937](http://dev.ckeditor.com/ticket/10937): MathJax widget improvements:
   * loading indicator,
   * apply paragraph changes (like font color change) to iframe,
@@ -43,6 +38,11 @@ Fixed Issues:
 * [#10828](http://dev.ckeditor.com/ticket/10828): Magicline integration with widgets system.
 * [#10865](http://dev.ckeditor.com/ticket/10865): Improved hiding copybin, so copying widgets works smoothly.
 * [#10833](http://dev.ckeditor.com/ticket/10833): Fixed: *Lock ratio* option should be on by default in Image2 dialog.
+* [#11066](http://dev.ckeditor.com/ticket/11066): Widget's private parts uses CSS reset.
+* [#11027](http://dev.ckeditor.com/ticket/11027): Fixed block commands break on widget issue; added contentDomInvalidated event.
+* [#11057](http://dev.ckeditor.com/ticket/11057): Fixed: Regression in #10212 test.
+* [#10430](http://dev.ckeditor.com/ticket/10430): Resolve dependence of image plugin if forms plugin.
+* [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
 
 ## CKEditor 4.3 Beta
 
