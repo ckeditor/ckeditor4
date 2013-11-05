@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#11066](http://dev.ckeditor.com/ticket/11066): Widget's private parts uses CSS reset.
 * [#11027](http://dev.ckeditor.com/ticket/11027): Fixed block commands break on widget issue; added contentDomInvalidated event.
 * [#10886](http://dev.ckeditor.com/ticket/10886): Widgets: added tooltip to the drag handler.
 * [#10895](http://dev.ckeditor.com/ticket/10895): Image2: added support for server file browsers.
