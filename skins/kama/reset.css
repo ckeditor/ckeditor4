@@ -39,10 +39,10 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	position: static;
-	-webkit-transition: all 0 ease 0;
-	-moz-transition: all 0 ease 0;
-	-ms-transition: all 0 ease 0;
-	transition: all 0 ease 0;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	transition: none;
 }
 
 /* Reset for elements and their children. */
@@ -61,10 +61,10 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	position: static;
-	-webkit-transition: all 0 ease 0;
-	-moz-transition: all 0 ease 0;
-	-ms-transition: all 0 ease 0;
-	transition: all 0 ease 0;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	transition: none;
 
 	/* These are rule inherited by all children elements. */
 	border-collapse: collapse;
