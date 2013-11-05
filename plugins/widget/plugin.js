@@ -93,8 +93,24 @@
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
+			setupExternalCommands( editor );
 		}
 	} );
+
+	// Registers listeners for external commands.
+	function setupExternalCommands( editor ) {
+		editor.on( 'instanceReady', function() {
+			var editable = editor.editable(),
+				widgetsRepo = editor.widgets,
+				eventListener = function( evt ) {
+					if ( widgetsRepo.focused )
+						copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
+				};
+
+			editable.on( 'copy', eventListener );
+			editable.on( 'cut', eventListener );
+		} );
+	}
 
 	/**
 	 * Widget repository. It keeps track of all {@link #registered registered widget definitions} and
