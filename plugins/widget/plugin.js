@@ -540,6 +540,8 @@
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline ) );
 
+				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
+
 				// Replace element unless it is a detached one.
 				if ( element.getParent( true ) )
 					wrapper.replace( element );
@@ -563,6 +565,8 @@
 				isInline = isWidgetInline( widgetDef, element.name );
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
+
+				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
 				var parent = element.parent,
 					index;
@@ -991,6 +995,9 @@
 				// had focused editable. Clean this class here, not in
 				// cleanUpWidgetElement for performance and code size reasons.
 				editable.removeClass( 'cke_widget_editable_focused' );
+
+				if ( definition.pathName )
+					editable.data( 'cke-display-name', definition.pathName );
 
 				this.editor.focusManager.add( editable );
 				editable.on( 'focus', onEditableFocus, this );
@@ -2767,6 +2774,12 @@
  */
 
 /**
+ * Widget name displayed in elements path.
+ *
+ * @property {String} pathName
+ */
+
+/**
  * If set to `true`, the widget's element will be covered with a transparent mask.
  * This will prevent its content from being clickable, which matters in case
  * of special elements like embedded Flash or iframes that generate a separate "context".
@@ -2840,4 +2853,10 @@
  * use it to limit the editor features available in the nested editable.
  *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
+ */
+
+/**
+ * Nested editable name displayed in elements path.
+ *
+ * @property {String} pathName
  */
