@@ -2543,7 +2543,7 @@
 			buffer.input();
 		} ) );
 
-		function removeListeners() {
+		function onMouseUp() {
 			var l;
 
 			buffer.reset();
@@ -2551,21 +2551,17 @@
 			// Stop observing events.
 			while ( ( l = listeners.pop() ) )
 				l.removeListener();
+
+			onBlockWidgetDrop.call( this, sorted );
 		}
 
 		// Mouseup means "drop". This is when the widget is being detached
 		// from DOM and placed at range determined by the line (location).
-		listeners.push( editor.document.once( 'mouseup', function() {
-			removeListeners();
-			onBlockWidgetDrop.call( this, sorted );
-		}, this ) );
+		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
 
 		// Mouseup may occur when user hovers the line, which belongs to
 		// the outer document. This is, of course, a valid listener too.
-		listeners.push( CKEDITOR.document.once( 'mouseup', function() {
-			removeListeners();
-			onBlockWidgetDrop.call( this, sorted );
-		}, this ) );
+		listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
 	}
 
 	function onBlockWidgetDrop( sorted ) {
