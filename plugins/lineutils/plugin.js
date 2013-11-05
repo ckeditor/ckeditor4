@@ -612,21 +612,19 @@
 
 		this.queryViewport();
 
-		editable.attachListener( this.winTop, 'resize', function() {
-			this.queryViewport();
-		}, this );
+		// Callbacks must be wrapped. Otherwise they're not attached
+		// to global DOM objects (i.e. topmost window) for every editor
+		// because they're treated as duplicates. They belong to the
+		// same prototype shared among Liner instances.
+		var queryViewport = CKEDITOR.tools.bind( this.queryViewport, this ),
+			hideVisible = CKEDITOR.tools.bind( this.hideVisible, this ),
+			removeAll = CKEDITOR.tools.bind( this.removeAll, this );
 
-		editable.attachListener( this.winTop, 'scroll', function() {
-			this.queryViewport();
-		}, this );
+		editable.attachListener( this.winTop, 'resize', queryViewport );
+		editable.attachListener( this.winTop, 'scroll', queryViewport );
 
-		editable.attachListener( this.winTop, 'resize', function() {
-			this.hideVisible();
-		}, this );
-
-		editable.attachListener( this.win, 'scroll', function() {
-			this.hideVisible();
-		}, this );
+		editable.attachListener( this.winTop, 'resize', hideVisible );
+		editable.attachListener( this.win, 'scroll', hideVisible );
 
 		editable.attachListener( this.inline ? editable : this.frame, 'mouseout', function( evt ) {
 			var x = evt.data.$.clientX,
@@ -643,17 +641,9 @@
 				this.hideVisible();
 		}, this );
 
-		editable.attachListener( editor, 'resize', function() {
-			this.queryViewport();
-		}, this );
-
-		editable.attachListener( editor, 'mode', function() {
-			this.removeAll();
-		}, this );
-
-		editor.on( 'destroy', function() {
-			this.removeAll();
-		}, this );
+		editable.attachListener( editor, 'resize', queryViewport );
+		editable.attachListener( editor, 'mode', removeAll );
+		editor.on( 'destroy', removeAll );
 
 		this.lineTpl = new CKEDITOR.template( lineTpl ).output( {
 			lineStyle: CKEDITOR.tools.writeCssText(
