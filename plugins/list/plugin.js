@@ -168,6 +168,7 @@
 					for ( i = 0; i < count; i++ ) {
 						child = item.contents[ i ];
 
+						// Block content goes directly to the current list item, without wrapping.
 						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
 							// Apply direction on content blocks.
 							if ( dirLoose && !child.getDirection() )
@@ -176,10 +177,19 @@
 							inheirtInlineStyles( li, child );
 
 							className && child.addClass( className );
-						} else if ( needsBlock ) {
+
+							// Close the block which we started for inline content.
+							block = null;
+							// Append this block element to the list item.
+							currentListItem.append( child.clone( 1, 1 ) );
+						}
+						// Some inline content was found - wrap it with block and append that
+						// block to the current list item or append it to the block previously created.
+						else if ( needsBlock ) {
 							// Establish new block to hold text direction and styles.
 							if ( !block ) {
 								block = doc.createElement( paragraphName );
+								currentListItem.append( block );
 								dirLoose && block.setAttribute( 'dir', orgDir );
 							}
 
@@ -189,8 +199,9 @@
 
 							block.append( child.clone( 1, 1 ) );
 						}
-
-						currentListItem.append( block || child.clone( 1, 1 ) );
+						// E.g. BR mode - inline content appended directly to the list item.
+						else
+							currentListItem.append( child.clone( 1, 1 ) );
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
