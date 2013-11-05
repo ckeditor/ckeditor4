@@ -478,7 +478,7 @@
 
 				// Trigger in nested editable area.
 				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
-					return trigger
+					return trigger;
 				// Trigger in non-editable area.
 				else if ( limit.is( that.triggers ) )
 					return limit;

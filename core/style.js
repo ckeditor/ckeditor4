@@ -488,7 +488,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
 		var nodeType = currentNode.type;
-		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() )
+		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() );
 	}
 
 	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
@@ -1234,14 +1234,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 			styles = def.styles,
 			overrides = getOverrides( this ),
 			innerElements = element.getElementsByTag( this.element ),
-			element;
+			innerElement;
 
 		for ( var i = innerElements.count(); --i >= 0; ) {
-			element = innerElements.getItem( i );
+			innerElement = innerElements.getItem( i );
 
 			// Do not remove elements which are read only (e.g. duplicates inside widgets).
-			if ( !element.isReadOnly() )
-				removeFromElement.call( this, element );
+			if ( !innerElement.isReadOnly() )
+				removeFromElement.call( this, innerElement );
 		}
 
 		// Now remove any other element with different name that is
@@ -1251,11 +1251,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 				innerElements = element.getElementsByTag( overrideElement );
 
 				for ( i = innerElements.count() - 1; i >= 0; i-- ) {
-					element = innerElements.getItem( i );
+					innerElement = innerElements.getItem( i );
 
 					// Do not remove elements which are read only (e.g. duplicates inside widgets).
-					if ( !element.isReadOnly() )
-						removeOverrides( innerElement, overrides[ element ] );
+					if ( !innerElement.isReadOnly() )
+						removeOverrides( innerElement, overrides[ overrideElement ] );
 				}
 			}
 		}
