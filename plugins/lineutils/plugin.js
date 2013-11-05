@@ -4,14 +4,14 @@
  */
 
  /**
- * @fileOverview Fingering like a boss.
+ * @fileOverview A set of utilities to find and make horizontal spaces in edited contents.
  */
 
 'use strict';
 
 (function() {
 
-	CKEDITOR.plugins.add( 'magicfinger' );
+	CKEDITOR.plugins.add( 'lineutils' );
 
 	/**
 	 * Determines a position relative to an element in DOM (before).
@@ -20,7 +20,7 @@
 	 * @property {Number} [=0]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MAGICFINGER_BEFORE = 1;
+	CKEDITOR.LINEUTILS_BEFORE = 1;
 
 	/**
 	 * Determines a position relative to an element in DOM (after).
@@ -29,7 +29,7 @@
 	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MAGICFINGER_AFTER = 2;
+	CKEDITOR.LINEUTILS_AFTER = 2;
 
 	/**
 	 * Determines a position relative to an element in DOM (inside).
@@ -38,14 +38,14 @@
 	 * @property {Number} [=4]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MAGICFINGER_INSIDE = 4;
+	CKEDITOR.LINEUTILS_INSIDE = 4;
 
 	/**
 	 * An utility that traverses DOM tree and discovers elements
 	 * (relations) matching user-defined lookups.
 	 *
 	 * @private
-	 * @class CKEDITOR.plugins.magicfinger.finder
+	 * @class CKEDITOR.plugins.lineutils.finder
 	 * @constructor Creates a Finder class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
 	 * @param {Object} def Finder's definition.
@@ -124,9 +124,9 @@
 		getRange: (function() {
 			var where = {};
 
-			where[ CKEDITOR.MAGICFINGER_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
-			where[ CKEDITOR.MAGICFINGER_AFTER ] = CKEDITOR.POSITION_AFTER_END;
-			where[ CKEDITOR.MAGICFINGER_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
+			where[ CKEDITOR.LINEUTILS_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
+			where[ CKEDITOR.LINEUTILS_AFTER ] = CKEDITOR.POSITION_AFTER_END;
+			where[ CKEDITOR.LINEUTILS_INSIDE ] = CKEDITOR.POSITION_AFTER_START;
 
 			return function( location ) {
 				var range = this.editor.createRange();
@@ -142,7 +142,7 @@
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
-		 * @param {Number} type Relation, one of `CKEDITOR.MAGICFINGER_AFTER`, `CKEDITOR.MAGICFINGER_BEFORE`, `CKEDITOR.MAGICFINGER_INSIDE`.
+		 * @param {Number} type Relation, one of `CKEDITOR.LINEUTILS_AFTER`, `CKEDITOR.LINEUTILS_BEFORE`, `CKEDITOR.LINEUTILS_INSIDE`.
 		 */
 		store: (function() {
 			function merge( el, type, relations ) {
@@ -158,17 +158,17 @@
 				var alt;
 
 				// Normalization to avoid duplicates:
-				// CKEDITOR.MAGICFINGER_AFTER becomes CKEDITOR.MAGICFINGER_BEFORE of el.getNext().
-				if ( is( type, CKEDITOR.MAGICFINGER_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible() ) {
-					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
-					type ^= CKEDITOR.MAGICFINGER_AFTER;
+				// CKEDITOR.LINEUTILS_AFTER becomes CKEDITOR.LINEUTILS_BEFORE of el.getNext().
+				if ( is( type, CKEDITOR.LINEUTILS_AFTER ) && isStatic( alt = el.getNext() ) && alt.isVisible() ) {
+					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
+					type ^= CKEDITOR.LINEUTILS_AFTER;
 				}
 
 				// Normalization to avoid duplicates:
-				// CKEDITOR.MAGICFINGER_INSIDE becomes CKEDITOR.MAGICFINGER_BEFORE of el.getFirst().
-				if ( is( type, CKEDITOR.MAGICFINGER_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible() ) {
-					merge( alt, CKEDITOR.MAGICFINGER_BEFORE, this.relations );
-					type ^= CKEDITOR.MAGICFINGER_INSIDE;
+				// CKEDITOR.LINEUTILS_INSIDE becomes CKEDITOR.LINEUTILS_BEFORE of el.getFirst().
+				if ( is( type, CKEDITOR.LINEUTILS_INSIDE ) && isStatic( alt = el.getFirst() ) && alt.isVisible() ) {
+					merge( alt, CKEDITOR.LINEUTILS_BEFORE, this.relations );
+					type ^= CKEDITOR.LINEUTILS_INSIDE;
 				}
 
 				merge( el, type, this.relations );
@@ -391,7 +391,7 @@
 		 *			Number: {
 		 *				// Element of this relation.
 		 *				element: {@link CKEDITOR.dom.element}
-		 *				// Conjunction of CKEDITOR.MAGICFINGER_BEFORE, CKEDITOR.MAGICFINGER_AFTER and CKEDITOR.MAGICFINGER_INSIDE.
+		 *				// Conjunction of CKEDITOR.LINEUTILS_BEFORE, CKEDITOR.LINEUTILS_AFTER and CKEDITOR.LINEUTILS_INSIDE.
 		 *				type: Number
 		 *			},
 		 *			...
@@ -404,15 +404,15 @@
 		/**
 		 * A set of user-defined functions used by Finder to check if an element
 		 * is a valid relation, belonging to {@link #relations}.
-		 * When the criterion is met, lookup returns a logical conjunction of `CKEDITOR.MAGICFINGER_BEFORE`,
-		 * `CKEDITOR.MAGICFINGER_AFTER` or `CKEDITOR.MAGICFINGER_INSIDE`.
+		 * When the criterion is met, lookup returns a logical conjunction of `CKEDITOR.LINEUTILS_BEFORE`,
+		 * `CKEDITOR.LINEUTILS_AFTER` or `CKEDITOR.LINEUTILS_INSIDE`.
 		 *
 		 * Lookups are passed along with Finder's definition.
 		 *
 		 *		lookups: {
 		 *			'some lookup': function( el ) {
 		 *				if ( someCondition )
-		 *					return CKEDITOR.MAGICFINGER_BEFORE;
+		 *					return CKEDITOR.LINEUTILS_BEFORE;
 		 *			},
 		 *			...
 		 *		}
@@ -424,11 +424,11 @@
 
 	/**
 	 * An utility that analyses relations found by
-	 * CKEDITOR.plugins.magicfinger.finder and locates them
+	 * CKEDITOR.plugins.lineutils.finder and locates them
 	 * in the viewport as horizontal lines of specific coordinates.
 	 *
 	 * @private
-	 * @class CKEDITOR.plugins.magicfinger.locator
+	 * @class CKEDITOR.plugins.lineutils.locator
 	 * @constructor Creates a Locator class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
 	 * @since 4.3
@@ -444,20 +444,20 @@
 		 * Localizes Y coordinate for all types of every single relation and stores
 		 * them in the object.
 		 *
-		 * @param {Object} relations {@link CKEDITOR.plugins.magicfinger.finder#relations}.
+		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @returns {Object} {@link #locations}.
 		 */
 		locate: (function() {
 			var rel, uid;
 
 			function locateSibling( rel, type ) {
-				var sib = rel.element[ type === CKEDITOR.MAGICFINGER_BEFORE ? 'getPrevious' : 'getNext' ]();
+				var sib = rel.element[ type === CKEDITOR.LINEUTILS_BEFORE ? 'getPrevious' : 'getNext' ]();
 
 				// Return the middle point between siblings.
 				if ( sib && isStatic( sib ) ) {
 					rel.siblingRect = sib.getClientRect();
 
-					if ( type == CKEDITOR.MAGICFINGER_BEFORE )
+					if ( type == CKEDITOR.LINEUTILS_BEFORE )
 						return ( rel.siblingRect.bottom + rel.elementRect.top ) / 2;
 					else
 						return ( rel.elementRect.bottom + rel.siblingRect.top ) / 2;
@@ -465,7 +465,7 @@
 
 				// If there's no sibling, use the edge of an element.
 				else {
-					if ( type == CKEDITOR.MAGICFINGER_BEFORE )
+					if ( type == CKEDITOR.LINEUTILS_BEFORE )
 						return rel.elementRect.top;
 					else
 						return rel.elementRect.bottom;
@@ -479,15 +479,15 @@
 					rel = relations[ uid ];
 					rel.elementRect = rel.element.getClientRect();
 
-					if ( is( rel.type, CKEDITOR.MAGICFINGER_BEFORE ) )
-						this.store( uid, CKEDITOR.MAGICFINGER_BEFORE, locateSibling( rel, CKEDITOR.MAGICFINGER_BEFORE ) );
+					if ( is( rel.type, CKEDITOR.LINEUTILS_BEFORE ) )
+						this.store( uid, CKEDITOR.LINEUTILS_BEFORE, locateSibling( rel, CKEDITOR.LINEUTILS_BEFORE ) );
 
-					if ( is( rel.type, CKEDITOR.MAGICFINGER_AFTER ) )
-						this.store( uid, CKEDITOR.MAGICFINGER_AFTER, locateSibling( rel, CKEDITOR.MAGICFINGER_AFTER ) );
+					if ( is( rel.type, CKEDITOR.LINEUTILS_AFTER ) )
+						this.store( uid, CKEDITOR.LINEUTILS_AFTER, locateSibling( rel, CKEDITOR.LINEUTILS_AFTER ) );
 
 					// The middle point of the element.
-					if ( is( rel.type, CKEDITOR.MAGICFINGER_INSIDE ) )
-						this.store( uid, CKEDITOR.MAGICFINGER_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
+					if ( is( rel.type, CKEDITOR.LINEUTILS_INSIDE ) )
+						this.store( uid, CKEDITOR.LINEUTILS_INSIDE, ( rel.elementRect.top + rel.elementRect.bottom ) / 2 );
 				}
 
 				return this.locations;
@@ -549,7 +549,7 @@
 		 * Stores the location in a collection.
 		 *
 		 * @param {Number} uid Unique identifier of the relation.
-		 * @param {Number} type One of `CKEDITOR.MAGICFINGER_BEFORE`, `CKEDITOR.MAGICFINGER_AFTER` and `CKEDITOR.MAGICFINGER_INSIDE`.
+		 * @param {Number} type One of `CKEDITOR.LINEUTILS_BEFORE`, `CKEDITOR.LINEUTILS_AFTER` and `CKEDITOR.LINEUTILS_INSIDE`.
 		 * @param {Number} y Vertical position of the relation.
 		 */
 		store: function( uid, type, y ) {
@@ -583,17 +583,17 @@
 		},
 
 		lineTpl =
-			'<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineStyle}">' +
+			'<div data-cke-lineutils-line="1" class="cke_reset_all" style="{lineStyle}">' +
 				'<span style="{tipLeftStyle}">&nbsp;</span>' +
 				'<span style="{tipRightStyle}">&nbsp;</span>' +
 			'</div>';
 
 	/**
 	 * An utility that draws horizontal lines in DOM according to locations
-	 * returned by CKEDITOR.plugins.magicfinger.locator.
+	 * returned by CKEDITOR.plugins.lineutils.locator.
 	 *
 	 * @private
-	 * @class CKEDITOR.plugins.magicfinger.liner
+	 * @class CKEDITOR.plugins.lineutils.liner
 	 * @constructor Creates a Liner class instance.
 	 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
 	 * @param {Object} def Liner's definition.
@@ -743,7 +743,7 @@
 		 * Shows a line at given location.
 		 *
 		 * @param {Object} location Location object containing unique identifier of the relation
-		 * and its type. Usually returned by {@link CKEDITOR.plugins.magicfinger.locator#sort}.
+		 * and its type. Usually returned by {@link CKEDITOR.plugins.lineutils.locator#sort}.
 		 * @param {Function} [callback] A callback to be called once the line is shown.
 		 */
 		placeLine: function( location, callback ) {
@@ -867,8 +867,8 @@
 		 * are re-used between {@link #placeLine} calls and the number of
 		 * necessary ones may vary according to the number of relations.
 		 *
-		 * @param {Object} relations {@link CKEDITOR.plugins.magicfinger.finder#relations}.
-		 * @param {Object} locations {@link CKEDITOR.plugins.magicfinger.locator#locations}.
+		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
+		 * @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator#locations}.
 		 */
 		prepare: function( relations, locations ) {
 			this.relations = relations;
@@ -937,14 +937,14 @@
 	}
 
 	/**
-	 * Global namespace holding definitions and global helpers for the magicfinger plugin.
+	 * Global namespace holding definitions and global helpers for the lineutils plugin.
 	 *
 	 * @private
 	 * @class
 	 * @singleton
 	 * @since 4.3
 	 */
-	CKEDITOR.plugins.magicfinger = {
+	CKEDITOR.plugins.lineutils = {
 		finder: Finder,
 		locator: Locator,
 		liner: Liner

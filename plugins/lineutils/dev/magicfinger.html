@@ -5,14 +5,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Magicfinger &mdash; CKEditor Sample</title>
+	<title>Lineutils &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Magicfinger
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Lineutils
 	</h1>
 
 	<h3>Framed</h3>
@@ -195,7 +195,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		);
 
 		function callback() {
-			var helpers = CKEDITOR.plugins.magicfinger;
+			var helpers = CKEDITOR.plugins.lineutils;
 			var liner = new helpers.liner( this );
 			var locator = new helpers.locator( this );
 			var finder = new helpers.finder( this, {
@@ -205,7 +205,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							return;
 
 						if ( el.is( CKEDITOR.dtd.$block ) )
-							return CKEDITOR.MAGICFINGER_BEFORE | CKEDITOR.MAGICFINGER_AFTER;
+							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 					}
 				}
 			} ).start( function( relations, x, y ) {
@@ -228,7 +228,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		CKEDITOR.disableAutoInline = true;
 
 		CKEDITOR.replace( 'editor1', {
-			extraPlugins: 'magicfinger',
+			extraPlugins: 'lineutils',
 			height: 450,
 			removePlugins: 'magicline',
 			allowedContent: true,
@@ -239,7 +239,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		} );
 
 		CKEDITOR.inline( 'editor2', {
-			extraPlugins: 'magicfinger',
+			extraPlugins: 'lineutils',
 			removePlugins: 'magicline',
 			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],
@@ -249,7 +249,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		} );
 
 		CKEDITOR.inline( 'editor3', {
-			extraPlugins: 'magicfinger',
+			extraPlugins: 'lineutils',
 			removePlugins: 'magicline',
 			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],
@@ -259,7 +259,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		} );
 
 		CKEDITOR.replace( 'editor4', {
-			extraPlugins: 'magicfinger',
+			extraPlugins: 'lineutils',
 			removePlugins: 'magicline',
 			allowedContent: true,
 			contentsCss: [ '../../../contents.css' ],

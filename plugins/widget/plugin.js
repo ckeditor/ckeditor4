@@ -15,7 +15,7 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		lang: 'en', // %REMOVE_LINE_CORE%
-		requires: 'magicfinger',
+		requires: 'lineutils',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -1880,7 +1880,7 @@
 
 	function setupDragAndDrop( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			magicfinger = CKEDITOR.plugins.magicfinger;
+			lineutils = CKEDITOR.plugins.lineutils;
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
@@ -1925,9 +1925,9 @@
 					moveWidget( editor, sourceWidget );
 			} );
 
-			// Register Magicfinger's utilities as properties of repo.
+			// Register Lineutils's utilities as properties of repo.
 			CKEDITOR.tools.extend( widgetsRepo, {
-				finder: new magicfinger.finder( editor, {
+				finder: new lineutils.finder( editor, {
 					lookups: {
 						'is block but not list item, not in nested editable': function( el ) {
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
@@ -1943,12 +1943,12 @@
 								el = el.getParent();
 							}
 
-							return CKEDITOR.MAGICFINGER_BEFORE | CKEDITOR.MAGICFINGER_AFTER;
+							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 						}
 					}
 				} ),
-				locator: new magicfinger.locator( editor ),
-				liner: new magicfinger.liner( editor, {
+				locator: new lineutils.locator( editor ),
+				liner: new lineutils.liner( editor, {
 					lineStyle: {
 						cursor: 'move !important',
 						'border-top-color': '#666'
@@ -1985,7 +1985,7 @@
 				// Widget was clicked, but not editable nested in it.
 				if ( widget ) {
 					// Ignore mousedown on drag and drop handler if the widget is inline.
-					// Block widgets are handled by Magicfinger.
+					// Block widgets are handled by Lineutils.
 					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
 						mouseDownOnDragHandler = 1;
 						return;
