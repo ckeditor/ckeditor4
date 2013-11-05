@@ -2004,6 +2004,10 @@
 			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
 				var target = evt.data.getTarget();
 
+				// #10887 Clicking scrollbar in IE8 will invoke event with empty target object.
+				if ( !target.type )
+					return false;
+
 				widget = widgetsRepo.getByElement( target );
 				mouseDownOnDragHandler = 0; // Reset.
 
