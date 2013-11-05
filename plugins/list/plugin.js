@@ -164,12 +164,23 @@
 					var needsBlock = currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && ( paragraphMode != CKEDITOR.ENTER_BR || dirLoose || style || className );
 
 					var child,
-						count = item.contents.length;
+						count = item.contents.length,
+						cachedBookmark;
+
 					for ( i = 0; i < count; i++ ) {
 						child = item.contents[ i ];
 
+						// Append bookmark if we can, or cache it and append it when we'll know
+						// what to do with it. Generally - we want to keep it next to its original neighbour.
+						if ( bookmarks( child ) ) {
+							// If we don't need block, it's simple - append bookmark directly to the current list item.
+							if ( !needsBlock )
+								currentListItem.append( child.clone( 1, 1 ) );
+							else
+								cachedBookmark = child.clone( 1, 1 );
+						}
 						// Block content goes directly to the current list item, without wrapping.
-						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
+						else if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
 							// Apply direction on content blocks.
 							if ( dirLoose && !child.getDirection() )
 								child.setAttribute( 'dir', orgDir );
@@ -180,6 +191,11 @@
 
 							// Close the block which we started for inline content.
 							block = null;
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								currentListItem.append( cachedBookmark );
+								cachedBookmark = null;
+							}
 							// Append this block element to the list item.
 							currentListItem.append( child.clone( 1, 1 ) );
 						}
@@ -197,11 +213,23 @@
 							style && block.setAttribute( 'style', style );
 							className && block.setAttribute( 'class', className );
 
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								block.append( cachedBookmark );
+								cachedBookmark = null;
+							}
 							block.append( child.clone( 1, 1 ) );
 						}
 						// E.g. BR mode - inline content appended directly to the list item.
 						else
 							currentListItem.append( child.clone( 1, 1 ) );
+					}
+
+					// No content after bookmark - append it to the block if we had one
+					// or directly to the current list item if we finished directly in the current list item.
+					if ( cachedBookmark ) {
+						( block || currentListItem ).append( cachedBookmark );
+						cachedBookmark = null;
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
