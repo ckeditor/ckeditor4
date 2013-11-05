@@ -55,8 +55,8 @@
 				'}'+
 				'img.cke_widget_drag_handler{' +
 					'cursor:move;' +
-					'width: ' + DRAG_HANDLER_SIZE + 'px;' +
-			 		'height: ' + DRAG_HANDLER_SIZE + 'px;' +
+					'width:' + DRAG_HANDLER_SIZE + 'px;' +
+					'height:' + DRAG_HANDLER_SIZE + 'px;' +
 					'display:block' +
 				'}' +
 				'.cke_widget_mask{' +
