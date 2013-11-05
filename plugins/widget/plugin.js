@@ -54,14 +54,18 @@
 					'opacity:1' +
 				'}'+
 				'img.cke_widget_drag_handler{' +
-					'cursor:move' +
+					'cursor:move;' +
+					'width:' + DRAG_HANDLER_SIZE + 'px;' +
+					'height:' + DRAG_HANDLER_SIZE + 'px;' +
+					'display:block' +
 				'}' +
 				'.cke_widget_mask{' +
 					'position:absolute;' +
 					'top:0;' +
 					'left:0;' +
 					'width:100%;' +
-					'height:100%' +
+					'height:100%;' +
+					'display:block' +
 				'}'
 			);
 		},
@@ -2389,14 +2393,14 @@
 			container = new CKEDITOR.dom.element( 'span', editor.document );
 
 		container.setAttributes( {
-			'class': 'cke_widget_drag_handler_container',
+			'class': 'cke_reset cke_widget_drag_handler_container',
 			// Split background and background-image for IE8 which will break on rgba().
 			style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
 		} );
 
 		img.setAttributes( {
 			draggable: 'true',
-			'class': 'cke_widget_drag_handler',
+			'class': 'cke_reset cke_widget_drag_handler',
 			'data-cke-widget-drag-handler': '1',
 			src: transparentImageData,
 			width: DRAG_HANDLER_SIZE,
@@ -2436,7 +2440,7 @@
 		var img = new CKEDITOR.dom.element( 'img', widget.editor.document );
 		img.setAttributes( {
 			src: transparentImageData,
-			'class': 'cke_widget_mask'
+			'class': 'cke_reset cke_widget_mask'
 		} );
 		widget.wrapper.append( img );
 		widget.mask = img;
