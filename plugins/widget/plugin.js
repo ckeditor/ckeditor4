@@ -1929,7 +1929,8 @@
 			CKEDITOR.tools.extend( widgetsRepo, {
 				finder: new lineutils.finder( editor, {
 					lookups: {
-						'is block but not list item, not in nested editable': function( el ) {
+						// Element is block but not list item and not in nested editable.
+						default: function( el ) {
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
