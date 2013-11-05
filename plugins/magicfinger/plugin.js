@@ -26,7 +26,7 @@
 	 * Determines a position relative to an element in DOM (after).
 	 *
 	 * @readonly
-	 * @property {Number} [=1]
+	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
 	CKEDITOR.MAGICFINGER_AFTER = 2;
@@ -35,11 +35,22 @@
 	 * Determines a position relative to an element in DOM (inside).
 	 *
 	 * @readonly
-	 * @property {Number} [=2]
+	 * @property {Number} [=4]
 	 * @member CKEDITOR
 	 */
 	CKEDITOR.MAGICFINGER_INSIDE = 4;
 
+	/**
+	 * An utility that traverses DOM tree and discovers elements
+	 * (relations) matching user-defined lookups.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.magicfinger.finder
+	 * @constructor Creates a Finder class instance.
+	 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
+	 * @param {Object} def Finder's definition.
+	 * @since 4.3
+	 */
 	function Finder( editor, def ) {
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
@@ -59,7 +70,6 @@
 		 * To stop searching use {@link #stop}.
 		 *
 		 * @param {Function} [callback] Function executed on every iteration.
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		start: function( callback ) {
 			var that = this,
@@ -98,8 +108,6 @@
 
 		/**
 		 * Stops observing mouse events attached by {@link #start}.
-		 *
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		stop: function() {
 			if ( this.listener )
@@ -112,7 +120,6 @@
 		 *
 		 * @param {Object} location Location containing unique identifier and type.
 		 * @returns {CKEDITOR.dom.range} Range representing the relation.
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		getRange: (function() {
 			var where = {};
@@ -135,8 +142,7 @@
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
-		 * @param {Number} type Relation, one of CKEDITOR.REL_(AFTER|BEFORE|INSIDE).
-		 * @member CKEDITOR.plugins.magicfinger.finder
+		 * @param {Number} type Relation, one of `CKEDITOR.MAGICFINGER_AFTER`, `CKEDITOR.MAGICFINGER_BEFORE`, `CKEDITOR.MAGICFINGER_INSIDE`.
 		 */
 		store: (function() {
 			function merge( el, type, relations ) {
@@ -175,7 +181,6 @@
 		 * in {@link #relations} object.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		traverseSearch: (function() {
 			var cached;
@@ -219,7 +224,6 @@
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
 		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 		pixelSearch: (function() {
 			var contains = CKEDITOR.env.ie || CKEDITOR.env.webkit ?
@@ -342,7 +346,6 @@
 		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
 		 * and runs lookups for every one of them, collecting relations.
 		 *
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 * @returns {Object} {@link #relations}.
 		 */
 		greedySearch: function() {
@@ -396,14 +399,13 @@
 		 *
 		 * @property {Object} relations
 		 * @readonly
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 
 		/**
 		 * A set of user-defined functions used by Finder to check if an element
 		 * is a valid relation, belonging to {@link #relations}.
-		 * When the criterion is met, lookup returns a logical conjunction of CKEDITOR.MAGICFINGER_BEFORE, CKEDITOR.MAGICFINGER_AFTER
-		 * or CKEDITOR.MAGICFINGER_INSIDE.
+		 * When the criterion is met, lookup returns a logical conjunction of `CKEDITOR.MAGICFINGER_BEFORE`,
+		 * `CKEDITOR.MAGICFINGER_AFTER` or `CKEDITOR.MAGICFINGER_INSIDE`.
 		 *
 		 * Lookups are passed along with Finder's definition.
 		 *
@@ -416,10 +418,21 @@
 		 *		}
 		 *
 		 * @property {Object} lookups
-		 * @member CKEDITOR.plugins.magicfinger.finder
 		 */
 	};
 
+
+	/**
+	 * An utility that analyses relations found by
+	 * CKEDITOR.plugins.magicfinger.finder and locates them
+	 * in the viewport as horizontal lines of specific coordinates.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.magicfinger.locator
+	 * @constructor Creates a Locator class instance.
+	 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
+	 * @since 4.3
+	 */
 	function Locator( editor, def ) {
 		CKEDITOR.tools.extend( this, def, {
 			editor: editor
@@ -433,7 +446,6 @@
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.magicfinger.finder#relations}.
 		 * @returns {Object} {@link #locations}.
-		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
 		locate: (function() {
 			var rel, uid;
@@ -489,7 +501,6 @@
 		 * @param {Number} y The vertical coordinate used for sorting, used as a reference.
 		 * @param {Number} [howMany] Determines the number "closest locations" to be returned.
 		 * @returns {Array} Sorted, array representation of {@link #locations}.
-		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
 		sort: (function() {
 			var locations, sorted,
@@ -540,7 +551,6 @@
 		 * @param {Number} uid Unique identifier of the relation.
 		 * @param {Number} type One of `CKEDITOR.MAGICFINGER_BEFORE`, `CKEDITOR.MAGICFINGER_AFTER` and `CKEDITOR.MAGICFINGER_INSIDE`.
 		 * @param {Number} y Vertical position of the relation.
-		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
 		store: function( uid, type, y ) {
 			if ( !this.locations[ uid ] )
@@ -552,7 +562,6 @@
 		/**
 		 * @readonly
 		 * @property {Object} locations
-		 * @member CKEDITOR.plugins.magicfinger.locator
 		 */
 	};
 
@@ -573,11 +582,23 @@
 			'z-index': 9999
 		},
 
-		lineTpl = '<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineStyle}">' +
+		lineTpl =
+			'<div data-cke-magicfinger-line="1" class="cke_reset_all" style="{lineStyle}">' +
 				'<span style="{tipLeftStyle}">&nbsp;</span>' +
 				'<span style="{tipRightStyle}">&nbsp;</span>' +
-			'</div>'
+			'</div>';
 
+	/**
+	 * An utility that draws horizontal lines in DOM according to locations
+	 * returned by CKEDITOR.plugins.magicfinger.locator.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.magicfinger.liner
+	 * @constructor Creates a Liner class instance.
+	 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
+	 * @param {Object} def Liner's definition.
+	 * @since 4.3
+	 */
 	function Liner( editor, def ) {
 		var editable = editor.editable();
 
@@ -667,8 +688,6 @@
 	Liner.prototype = {
 		/**
 		 * Permanently removes all lines (both hidden and visible) from DOM.
-		 *
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		removeAll: function() {
 			var l;
@@ -688,7 +707,6 @@
 		 * Hides a given line.
 		 *
 		 * @param {CKEDITOR.dom.element} line The line to be hidden.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		hideLine: function( line ) {
 			var uid = line.getUniqueId();
@@ -703,7 +721,6 @@
 		 * Shows a given line.
 		 *
 		 * @param {CKEDITOR.dom.element} line The line to be shown.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		showLine: function( line ) {
 			var uid = line.getUniqueId();
@@ -716,8 +733,6 @@
 
 		/**
 		 * Hides all visible lines.
-		 *
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		hideVisible: function() {
 			for ( var l in this.visible )
@@ -730,7 +745,6 @@
 		 * @param {Object} location Location object containing unique identifier of the relation
 		 * and its type. Usually returned by {@link CKEDITOR.plugins.magicfinger.locator#sort}.
 		 * @param {Function} [callback] A callback to be called once the line is shown.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		placeLine: function( location, callback ) {
 			var styles, line, l;
@@ -780,7 +794,6 @@
 		 * @param {Number} uid Unique identifier of the relation.
 		 * @param {Number} type Type of the relation.
 		 * @returns {Object} An object containing styles.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		getStyle: function( uid, type ) {
 			var rel = this.relations[ uid ],
@@ -819,9 +832,8 @@
 				}
 
 				// H-scroll case. Right edge of element may be out of viewport.
-				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.winPane.width ) ) > 0 ) {
+				if ( ( hdiff = styles.left + styles.width - ( this.rect.left + this.winPane.width ) ) > 0 )
 					styles.width -= hdiff;
-				}
 			}
 
 			// Finally include horizontal scroll of the global window.
@@ -838,7 +850,6 @@
 		 * Adds a new line to DOM.
 		 *
 		 * @returns {CKEDITOR.dom.element} A brand-new line.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		addLine: function() {
 			var line = CKEDITOR.dom.element.createFromHtml( this.lineTpl );
@@ -858,7 +869,6 @@
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.magicfinger.finder#relations}.
 		 * @param {Object} locations {@link CKEDITOR.plugins.magicfinger.locator#locations}.
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		prepare: function( relations, locations ) {
 			this.relations = relations;
@@ -869,9 +879,8 @@
 		/**
 		 * Hides all visible lines that don't belong to current hash
 		 * and no-longer represent relations (locations).
-		 * See also: {@link #prepare}.
 		 *
-		 * @member CKEDITOR.plugins.magicfinger.liner
+		 * See also: {@link #prepare}.
 		 */
 		cleanup: function() {
 			var line;
@@ -887,8 +896,6 @@
 		/**
 		 * Queries dimensions of the viewport, editable, frame etc.
 		 * that are used for correct positioning of the line.
-		 *
-		 * @member CKEDITOR.plugins.magicfinger.liner
 		 */
 		queryViewport: function() {
 			this.winPane = this.win.getViewPaneSize();
@@ -930,7 +937,7 @@
 	}
 
 	/**
-	 * Global namespace holding definitions and global helpers.
+	 * Global namespace holding definitions and global helpers for the magicfinger plugin.
 	 *
 	 * @private
 	 * @class
@@ -938,43 +945,8 @@
 	 * @since 4.3
 	 */
 	CKEDITOR.plugins.magicfinger = {
-		/**
-		 * An utility that traverses DOM tree and discovers elements
-		 * (relations) matching user-defined lookups.
-		 *
-		 * @private
-		 * @class CKEDITOR.plugins.magicfinger.finder
-		 * @constructor Creates a Finder class instance.
-		 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
-		 * @param {Object} def Finder's definition.
-		 * @since 4.3
-		 */
 		finder: Finder,
-
-		/**
-		 * An utility that analyses relations found by
-		 * CKEDITOR.plugins.magicfinger.finder and locates them
-		 * in the viewport as horizontal lines of specific coordinates.
-		 *
-		 * @private
-		 * @class CKEDITOR.plugins.magicfinger.locator
-		 * @constructor Creates a Locator class instance.
-		 * @param {CKEDITOR.editor} editor Editor instance that Locator belongs to.
-		 * @since 4.3
-		 */
 		locator: Locator,
-
-		/**
-		 * An utility that draws horizontal lines in DOM according to locations
-		 * returned by CKEDITOR.plugins.magicfinger.locator.
-		 *
-		 * @private
-		 * @class CKEDITOR.plugins.magicfinger.liner
-		 * @constructor Creates a Liner class instance.
-		 * @param {CKEDITOR.editor} editor Editor instance that Liner belongs to.
-		 * @param {Object} def Liner's definition.
-		 * @since 4.3
-		 */
 		liner: Liner
 	};
 })();
