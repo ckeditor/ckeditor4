@@ -1930,7 +1930,7 @@
 				finder: new lineutils.finder( editor, {
 					lookups: {
 						// Element is block but not list item and not in nested editable.
-						default: function( el ) {
+						'default': function( el ) {
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
