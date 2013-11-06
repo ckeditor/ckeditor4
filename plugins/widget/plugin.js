@@ -93,24 +93,8 @@
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
-			setupExternalCommands( editor );
 		}
 	} );
-
-	// Registers listeners for external commands.
-	function setupExternalCommands( editor ) {
-		editor.on( 'contentDom', function() {
-			var editable = editor.editable(),
-				widgetsRepo = editor.widgets,
-				eventListener = function( evt ) {
-					if ( widgetsRepo.focused )
-						copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
-				};
-
-			editable.on( 'copy', eventListener );
-			editable.on( 'cut', eventListener );
-		} );
-	}
 
 	/**
 	 * Widget repository. It keeps track of all {@link #registered registered widget definitions} and
@@ -191,6 +175,7 @@
 		setupMouseObserver( this );
 		setupKeyboardObserver( this );
 		setupDragAndDrop( this );
+		setupNativeCutAndCopy( this );
 	}
 
 	Repository.prototype = {
@@ -2029,6 +2014,23 @@
 
 			return ret;
 		}, null, null, 1 );
+	}
+
+	// Setup copybin on native copy and cut events in order to handle copy and cut commands
+	// if user accepted security alert on IEs.
+	function setupNativeCutAndCopy( widgetsRepo ) {
+		var editor = widgetsRepo.editor;
+
+		editor.on( 'contentDom', function() {
+			var editable = editor.editable(),
+				eventListener = function( evt ) {
+					if ( widgetsRepo.focused )
+						copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
+				};
+
+			editable.on( 'copy', eventListener );
+			editable.on( 'cut', eventListener );
+		} );
 	}
 
 	// Setup selection observer which will trigger:
