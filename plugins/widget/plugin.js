@@ -2032,7 +2032,7 @@
 
 		function eventListener( evt ) {
 			if ( widgetsRepo.focused )
-				copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
+				copySingleWidget( widgetsRepo.focused, evt.name == 'cut' );
 		}
 	}
 
