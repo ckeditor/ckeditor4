@@ -24,14 +24,18 @@
 		},
 
 		init: function( editor ) {
+
+			var lang = editor.lang.placeholder;
+
 			// Register dialog.
 			CKEDITOR.dialog.add( 'placeholder', this.path + 'dialogs/placeholder.js' );
 
 			// Put ur init code here.
 			editor.widgets.add( 'placeholder', {
 				// Widget code.
-				button: editor.lang.placeholder.toolbar,
+				button: lang.toolbar,
 				dialog: 'placeholder',
+				pathName: lang.pathName,
 				// We need to have wrapping element, otherwise there are issues in
 				// add dialog.
 				template: '<span class="cke_placeholder">[[]]</span>',

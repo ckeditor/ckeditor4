@@ -9,6 +9,8 @@ CKEDITOR.plugins.setLang( 'image2', 'en', {
 	infoTab: 'Image Info',
 	lockRatio: 'Lock Ratio',
 	menu: 'Image Properties',
+	pathName: 'image',
+	pathNameCaption: 'caption',
 	resetSize: 'Reset Size',
 	resizer: 'Click and drag to resize',
 	title: 'Image Properties',

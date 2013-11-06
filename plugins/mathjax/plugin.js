@@ -28,6 +28,7 @@
 				button: editor.lang.mathjax.button,
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
+				pathName: editor.lang.mathjax.pathName,
 
 				template: '<span class="' + cls + '" style="display:inline-block" data-cke-survive=1></span>',
 

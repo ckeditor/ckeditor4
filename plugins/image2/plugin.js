@@ -56,9 +56,14 @@
 
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
-			var config = editor.config;
+			var config = editor.config,
+				lang = editor.lang.image2;
 			config.filebrowserImage2BrowseUrl = config.filebrowserImageBrowseUrl;
 			config.filebrowserImage2UploadUrl = config.filebrowserImageUploadUrl;
+
+			// Add custom elementspath names to widget definition.
+			image2.pathName = lang.pathName;
+			image2.editables.caption.pathName = lang.pathNameCaption;
 
 			// Register the widget.
 			editor.widgets.add( 'image2', image2 );
@@ -75,7 +80,7 @@
 				editor.addMenuGroup( 'image2', 10 );
 
 				editor.addMenuItem( 'image2', {
-					label: editor.lang.image2.menu,
+					label: lang.menu,
 					command: 'image2',
 					group: 'image2'
 				} );
