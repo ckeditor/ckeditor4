@@ -172,7 +172,9 @@
 
 						// Append bookmark if we can, or cache it and append it when we'll know
 						// what to do with it. Generally - we want to keep it next to its original neighbour.
-						if ( bookmarks( child ) ) {
+						// Exception: if bookmark is the only child it hasn't got any neighbour, so handle it normally
+						// (wrap with block if needed).
+						if ( bookmarks( child ) && count > 1 ) {
 							// If we don't need block, it's simple - append bookmark directly to the current list item.
 							if ( !needsBlock )
 								currentListItem.append( child.clone( 1, 1 ) );
