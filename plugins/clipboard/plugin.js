@@ -683,7 +683,10 @@
 			var pastebin = new CKEDITOR.dom.element(
 				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
-			pastebin.setAttribute( 'id', 'cke_pastebin' );
+			pastebin.setAttributes( {
+				id: 'cke_pastebin',
+				'data-cke-temp': '1'
+			} );
 
 			// Append bogus to prevent Opera from doing this. (#9522)
 			if ( CKEDITOR.env.opera )

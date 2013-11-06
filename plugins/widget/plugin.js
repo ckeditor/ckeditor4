@@ -1791,7 +1791,7 @@
 	// * We use spans on IE and blockless editors, but divs in other cases.
 	var pasteReplaceRegex = new RegExp(
 		'^' +
-		'(?:<(?:div|span)(?: id="cke_copybin")?>)?' +
+		'(?:<(?:div|span)(?: data-cke-temp="1")?(?: id="cke_copybin")?(?: data-cke-temp="1")?>)?' +
 			'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
 				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
 			'(?:</(?:div|span)>)?' +
@@ -2383,7 +2383,10 @@
 			// IE8 always jumps to the end of document.
 			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-		copybinContainer.setAttribute( 'id', 'cke_copybin' );
+		copybinContainer.setAttributes( {
+			id: 'cke_copybin',
+			'data-cke-temp': '1'
+		} );
 
 		// Position copybin element outside current viewport.
 		copybin.setStyles( {
