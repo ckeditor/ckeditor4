@@ -630,9 +630,10 @@
 							// 1. Del/Backspace key before/after table;
 							// 2. Backspace Key after start of table.
 							if ( ( block = path.block ) &&
-								 range[ rtl ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() &&
 								 ( next = block[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) &&
-								 next.is( 'table' ) )
+								 ( next.type == CKEDITOR.NODE_ELEMENT ) &&
+								 next.is( 'table' ) &&
+								 range[ rtl ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
 							{
 								editor.fire( 'saveSnapshot' );
 

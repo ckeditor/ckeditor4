@@ -72,6 +72,16 @@ New Features:
 * [#7987](https://dev.ckeditor.com/ticket/7987): New [Language](http://ckeditor.com/addon/language) plugin that implements Language toolbar button to support [WCAG 3.1.2 Language of Parts](http://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html).
 * [#10708](http://dev.ckeditor.com/ticket/10708): New [smileys](http://ckeditor.com/addon/smiley).
 
+## CKEditor 4.2.3
+
+Fixed Issues:
+
+* [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: loading external jQuery when opening adapter sample from file.
+* [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening color palette.
+* [#9929](http://dev.ckeditor.com/ticket/9929): [Blink/Webkit] Fixed: A non-breaking space is created once deleted a character and a regular space is typed.
+* [#10963](http://dev.ckeditor.com/ticket/10963): Fixed: JAWS issue with keyboard shortcut for Magicline.
+* [#11096](http://dev.ckeditor.com/ticket/11096): Fixed: TypeError: Object has no method 'is'.
+
 ## CKEditor 4.2.2
 
 Fixed Issues:
