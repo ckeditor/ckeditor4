@@ -293,7 +293,9 @@
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
 
-				if ( !this.getByElement( wrapper, true ) ) {
+				// Check if there's no instance for this widget and that
+				// wrapper is not inside some temporary element like copybin (#11088).
+				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
@@ -1542,6 +1544,20 @@
 		return filter;
 	}
 
+	// Finds a first parent that matches query.
+	//
+	// @param {CKEDITOR.dom.element} element
+	// @param {Function} query
+	function findParent( element, query ) {
+		var parent = element;
+
+		while ( ( parent = parent.getParent() ) ) {
+			if ( query( parent ) )
+				return true;
+		}
+		return false;
+	}
+
 	// Gets nested editable if node is its descendant or the editable itself.
 	//
 	// @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
@@ -1637,6 +1653,11 @@
 	// @param {CKEDITOR.dom.element}
 	function isNestedEditable2( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
+	}
+
+	// @param {CKEDITOR.dom.element}
+	function isTemp2( element ) {
+		return element.hasAttribute( 'data-cke-temp' );
 	}
 
 	function moveSelectionToDropPosition( editor, dropEvt ) {
