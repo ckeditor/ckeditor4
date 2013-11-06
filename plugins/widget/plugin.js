@@ -11,10 +11,11 @@
 
 (function() {
 
-	var DRAG_HANDLER_SIZE = 14;
+	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
 		lang: 'en', // %REMOVE_LINE_CORE%
+		requires: 'lineutils',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -66,6 +67,9 @@
 					'width:100%;' +
 					'height:100%;' +
 					'display:block' +
+				'}' +
+				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
+					'cursor:move !important' +
 				'}'
 			);
 		},
@@ -1875,7 +1879,8 @@
 	}
 
 	function setupDragAndDrop( widgetsRepo ) {
-		var editor = widgetsRepo.editor;
+		var editor = widgetsRepo.editor,
+			lineutils = CKEDITOR.plugins.lineutils;
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
@@ -1919,6 +1924,44 @@
 				else
 					moveWidget( editor, sourceWidget );
 			} );
+
+			// Register Lineutils's utilities as properties of repo.
+			CKEDITOR.tools.extend( widgetsRepo, {
+				finder: new lineutils.finder( editor, {
+					lookups: {
+						// Element is block but not list item and not in nested editable.
+						'default': function( el ) {
+							if ( el.is( CKEDITOR.dtd.$listItem ) )
+								return;
+
+							if ( !el.is( CKEDITOR.dtd.$block ) )
+								return;
+
+							while ( el ) {
+								if ( isNestedEditable2( el ) )
+									return;
+
+								el = el.getParent();
+							}
+
+							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
+						}
+					}
+				} ),
+				locator: new lineutils.locator( editor ),
+				liner: new lineutils.liner( editor, {
+					lineStyle: {
+						cursor: 'move !important',
+						'border-top-color': '#666'
+					},
+					tipLeftStyle: {
+						'border-left-color': '#666'
+					},
+					tipRightStyle: {
+						'border-right-color': '#666'
+					}
+				} )
+			}, true );
 		} );
 	}
 
@@ -1940,14 +1983,15 @@
 				widget = widgetsRepo.getByElement( target );
 				mouseDownOnDragHandler = 0; // Reset.
 
-				// Ignore mousedown on drag and drop handler.
-				if ( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
-					mouseDownOnDragHandler = 1;
-					return;
-				}
-
 				// Widget was clicked, but not editable nested in it.
 				if ( widget ) {
+					// Ignore mousedown on drag and drop handler if the widget is inline.
+					// Block widgets are handled by Lineutils.
+					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
+						mouseDownOnDragHandler = 1;
+						return;
+					}
+
 					if ( !getNestedEditable( widget.wrapper, target ) ) {
 						evt.data.preventDefault();
 						if ( !CKEDITOR.env.ie )
@@ -2419,6 +2463,7 @@
 			return;
 
 		var editor = widget.editor,
+			editable = editor.editable(),
 			img = new CKEDITOR.dom.element( 'img', editor.document ),
 			container = new CKEDITOR.dom.element( 'span', editor.document );
 
@@ -2429,7 +2474,6 @@
 		} );
 
 		img.setAttributes( {
-			draggable: 'true',
 			'class': 'cke_reset cke_widget_drag_handler',
 			'data-cke-widget-drag-handler': '1',
 			src: transparentImageData,
@@ -2438,13 +2482,119 @@
 			height: DRAG_HANDLER_SIZE
 		} );
 
-		img.on( 'dragstart', function( evt ) {
-			evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
-		} );
+		if ( widget.inline ) {
+			img.setAttribute( 'draggable', 'true' );
+			img.on( 'dragstart', function( evt ) {
+				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
+			} );
+		} else {
+			// Quite frankly, I got no better idea how to prevent IE8 from
+			// starting native D&D there. So... tadaaa.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				img.on( 'dragstart', function( evt ) {
+					evt.data.preventDefault();
+				} );
+			}
+
+			img.on( 'mousedown', onBlockWidgetDrag, widget );
+		}
 
 		container.append( img );
 		widget.wrapper.append( container );
 		widget.dragHandlerContainer = container;
+	}
+
+	function onBlockWidgetDrag() {
+		var finder = this.repository.finder,
+			locator = this.repository.locator,
+			liner = this.repository.liner,
+			editor = this.editor,
+			editable = editor.editable(),
+			listeners = [],
+			sorted = [],
+
+			// Harvest all possible relations and display some closest.
+			relations = finder.greedySearch(),
+
+			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
+				locations = locator.locate( relations );
+
+				// There's only a single line displayed for D&D.
+				sorted = locator.sort( y, 1 );
+
+				if ( sorted.length ) {
+					liner.prepare( relations, locations );
+					liner.placeLine( sorted[ 0 ] );
+					liner.cleanup();
+				}
+			} ),
+
+			locations, y;
+
+		// This will change DOM, save undo snapshot.
+		editor.fire( 'saveSnapshot' );
+
+		// Let's have the "dragging cursor" over entire editable.
+		editable.addClass( 'cke_widget_dragging' );
+
+		// Cache mouse position so it is re-used in events buffer.
+		listeners.push( editable.on( 'mousemove', function( evt ) {
+			y = evt.data.$.clientY;
+			buffer.input();
+		} ) );
+
+		function onMouseUp() {
+			var l;
+
+			buffer.reset();
+
+			// Stop observing events.
+			while ( ( l = listeners.pop() ) )
+				l.removeListener();
+
+			onBlockWidgetDrop.call( this, sorted );
+		}
+
+		// Mouseup means "drop". This is when the widget is being detached
+		// from DOM and placed at range determined by the line (location).
+		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
+
+		// Mouseup may occur when user hovers the line, which belongs to
+		// the outer document. This is, of course, a valid listener too.
+		listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
+	}
+
+	function onBlockWidgetDrop( sorted ) {
+		var finder = this.repository.finder,
+			liner = this.repository.liner,
+			editor = this.editor,
+			editable = this.editor.editable();
+
+		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
+			// Retrieve range for the closest location.
+			var range = finder.getRange( sorted[ 0 ] );
+
+			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
+			// This avoids a situation when getSelection() still returns a fake selection made
+			// on widget which in the meantime has been moved to other place. That could cause
+			// an error thrown e.g. by saveSnapshot or stateUpdater.
+			editor.getSelection().reset();
+
+			// Attach widget at the place determined by range.
+			editable.insertElementIntoRange( this.wrapper, range );
+
+			// DOM structure has been altered, save undo snapshot.
+			editor.fire( 'saveSnapshot' );
+		}
+
+		// Focus again the dropped widget.
+		this.focus();
+
+		// Clean-up custom cursor for editable.
+		editable.removeClass( 'cke_widget_dragging' );
+
+		// Clean-up all remaining lines.
+		liner.hideVisible();
 	}
 
 	function setupEditables( widget ) {
