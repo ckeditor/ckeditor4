@@ -9,6 +9,8 @@ Fixed Issues:
 * [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening color palette.
 * [#9929](http://dev.ckeditor.com/ticket/9929): [Blink/Webkit] Fixed: A non-breaking space is created once deleted a character and a regular space is typed.
 * [#10963](http://dev.ckeditor.com/ticket/10963): Fixed: JAWS issue with keyboard shortcut for Magicline.
+* [#11096](http://dev.ckeditor.com/ticket/11096): Fixed: TypeError: Object has no method 'is'.
+
 
 ## CKEditor 4.2.2
 
