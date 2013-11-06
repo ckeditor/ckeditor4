@@ -566,6 +566,7 @@
 							// 2. Backspace Key after start of table.
 							if ( ( block = path.block ) &&
 								 ( next = block[ rtl ? 'getPrevious' : 'getNext' ]( isNotWhitespace ) ) &&
+								 ( next.type == CKEDITOR.NODE_ELEMENT ) &&
 								 next.is( 'table' ) &&
 								 range[ rtl ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
 							{
