@@ -818,7 +818,6 @@
 	// Returns truly value when dom was changed, falsy otherwise.
 	function fixDom( evt ) {
 		var editor = evt.editor,
-			editable = editor.editable(),
 			path = evt.data.path,
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
