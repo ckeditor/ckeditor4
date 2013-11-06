@@ -54,6 +54,11 @@
 		function getDivContainer( element ) {
 			var container = editor.elementPath( element ).blockLimit;
 
+			// Never consider read-only (i.e. contenteditable=false) element as
+			// a first div limit (#11083).
+			if ( container.isReadOnly() )
+				container = container.getParent();
+
 			// Dont stop at 'td' and 'th' when div should wrap entire table.
 			if ( editor.config.div_wrapTable && container.is( [ 'td', 'th' ] ) ) {
 				var parentPath = editor.elementPath( container.getParent() );
