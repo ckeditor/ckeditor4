@@ -2022,15 +2022,16 @@
 		var editor = widgetsRepo.editor;
 
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable(),
-				eventListener = function( evt ) {
-					if ( widgetsRepo.focused )
-						copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
-				};
+			var editable = editor.editable();
 
-			editable.on( 'copy', eventListener );
-			editable.on( 'cut', eventListener );
+			editable.attachListener( editable, 'copy', eventListener );
+			editable.attachListener( editable, 'cut', eventListener );
 		} );
+
+		function eventListener( evt ) {
+			if ( widgetsRepo.focused )
+				copySingleWidget( widgetsRepo.focused, evt.data.$.type == 'cut' );
+		}
 	}
 
 	// Setup selection observer which will trigger:
