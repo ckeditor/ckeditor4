@@ -125,7 +125,7 @@
 				iterator = ranges[ i ].createIterator();
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// include contents of blockLimit elements.
-					if ( block.getName() in divLimitDefinition ) {
+					if ( block.getName() in divLimitDefinition && !block.isReadOnly() ) {
 						var j,
 							childNodes = block.getChildren();
 						for ( j = 0; j < childNodes.count(); j++ )
