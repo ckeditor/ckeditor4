@@ -33,7 +33,6 @@
 			// Put ur init code here.
 			editor.widgets.add( 'placeholder', {
 				// Widget code.
-				button: lang.toolbar,
 				dialog: 'placeholder',
 				pathName: lang.pathName,
 				// We need to have wrapping element, otherwise there are issues in
@@ -53,6 +52,13 @@
 					this.element.setText( '[[' + this.data.name + ']]' );
 				}
 			} );
+
+			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
+				label: lang.toolbar,
+				command: 'placeholder',
+				toolbar: 'insert,5',
+				icon: 'placeholder'
+			});
 		},
 
 		afterInit: function( editor ) {
