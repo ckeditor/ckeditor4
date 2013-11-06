@@ -47,6 +47,7 @@ Fixed Issues:
 * [#10430](http://dev.ckeditor.com/ticket/10430): Resolve dependence of image plugin if forms plugin.
 * [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
 * [#11082](http://dev.ckeditor.com/ticket/11082): Selected widget is not copied/cut when using toolbar buttons or context menu.
+* [#11083](http://dev.ckeditor.com/ticket/11083): Fixed lists and divs application to block widgets.
 
 ## CKEditor 4.3 Beta
 
