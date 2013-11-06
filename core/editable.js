@@ -818,7 +818,6 @@
 	// Returns truly value when dom was changed, falsy otherwise.
 	function fixDom( evt ) {
 		var editor = evt.editor,
-			editable = editor.editable(),
 			path = evt.data.path,
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
@@ -838,7 +837,10 @@
 
 		// When we're in block enter mode, a new paragraph will be established
 		// to encapsulate inline contents inside editable. (#3657)
-		if ( shouldAutoParagraph( editor, path.block, blockLimit ) && range.collapsed ) {
+		// Don't autoparagraph if browser (namely - IE) incorrectly anchored selection
+		// inside non-editable content. This happens e.g. if non-editable block is the only
+		// content of editable.
+		if ( shouldAutoParagraph( editor, path.block, blockLimit ) && range.collapsed && !range.getCommonAncestor().isReadOnly() ) {
 			var testRng = range.clone();
 			testRng.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 			var walker = new CKEDITOR.dom.walker( testRng );

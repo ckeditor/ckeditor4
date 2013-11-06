@@ -64,9 +64,9 @@
 				if ( !this.lastElement ) {
 					this.lastElement = e;
 
-					// If a table is fully selected at the end of the element path,
+					// If an object or non-editable element is fully selected at the end of the element path,
 					// it must not become the block limit.
-					if ( e.is( CKEDITOR.dtd.$object ) )
+					if ( e.is( CKEDITOR.dtd.$object ) || e.getAttribute( 'contenteditable' ) == 'false' )
 						continue;
 				}
 

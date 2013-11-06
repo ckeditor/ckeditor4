@@ -58,7 +58,7 @@
 					'cursor:move;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:' + DRAG_HANDLER_SIZE + 'px;' +
-					'display:block' +
+					'display:inline-block' +
 				'}' +
 				'.cke_widget_mask{' +
 					'position:absolute;' +

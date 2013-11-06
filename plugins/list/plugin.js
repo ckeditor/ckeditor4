@@ -164,11 +164,25 @@
 					var needsBlock = currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && ( paragraphMode != CKEDITOR.ENTER_BR || dirLoose || style || className );
 
 					var child,
-						count = item.contents.length;
+						count = item.contents.length,
+						cachedBookmark;
+
 					for ( i = 0; i < count; i++ ) {
 						child = item.contents[ i ];
 
-						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
+						// Append bookmark if we can, or cache it and append it when we'll know
+						// what to do with it. Generally - we want to keep it next to its original neighbour.
+						// Exception: if bookmark is the only child it hasn't got any neighbour, so handle it normally
+						// (wrap with block if needed).
+						if ( bookmarks( child ) && count > 1 ) {
+							// If we don't need block, it's simple - append bookmark directly to the current list item.
+							if ( !needsBlock )
+								currentListItem.append( child.clone( 1, 1 ) );
+							else
+								cachedBookmark = child.clone( 1, 1 );
+						}
+						// Block content goes directly to the current list item, without wrapping.
+						else if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
 							// Apply direction on content blocks.
 							if ( dirLoose && !child.getDirection() )
 								child.setAttribute( 'dir', orgDir );
@@ -176,10 +190,24 @@
 							inheirtInlineStyles( li, child );
 
 							className && child.addClass( className );
-						} else if ( needsBlock ) {
+
+							// Close the block which we started for inline content.
+							block = null;
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								currentListItem.append( cachedBookmark );
+								cachedBookmark = null;
+							}
+							// Append this block element to the list item.
+							currentListItem.append( child.clone( 1, 1 ) );
+						}
+						// Some inline content was found - wrap it with block and append that
+						// block to the current list item or append it to the block previously created.
+						else if ( needsBlock ) {
 							// Establish new block to hold text direction and styles.
 							if ( !block ) {
 								block = doc.createElement( paragraphName );
+								currentListItem.append( block );
 								dirLoose && block.setAttribute( 'dir', orgDir );
 							}
 
@@ -187,10 +215,23 @@
 							style && block.setAttribute( 'style', style );
 							className && block.setAttribute( 'class', className );
 
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								block.append( cachedBookmark );
+								cachedBookmark = null;
+							}
 							block.append( child.clone( 1, 1 ) );
 						}
+						// E.g. BR mode - inline content appended directly to the list item.
+						else
+							currentListItem.append( child.clone( 1, 1 ) );
+					}
 
-						currentListItem.append( block || child.clone( 1, 1 ) );
+					// No content after bookmark - append it to the block if we had one
+					// or directly to the current list item if we finished directly in the current list item.
+					if ( cachedBookmark ) {
+						( block || currentListItem ).append( cachedBookmark );
+						cachedBookmark = null;
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
@@ -295,8 +336,6 @@
 		editor.fire( 'contentDomInvalidated' );
 	}
 
-	var headerTagRegex = /^h[1-6]$/;
-
 	function createList( editor, groupObj, listsCreated ) {
 		var contents = groupObj.contents,
 			doc = groupObj.root.getDocument(),
@@ -366,8 +405,9 @@
 			contentBlock = listContents.shift();
 			listItem = doc.createElement( 'li' );
 
-			// Preserve preformat block and heading structure when converting to list item. (#5335) (#5271)
-			if ( contentBlock.is( 'pre' ) || headerTagRegex.test( contentBlock.getName() ) )
+			// If current block should be preserved, append it to list item instead of
+			// transforming it to <li> element.
+			if ( shouldPreserveBlock( contentBlock ) )
 				contentBlock.appendTo( listItem );
 			else {
 				contentBlock.copyAttributes( listItem );
@@ -447,6 +487,20 @@
 		docFragment.replace( groupObj.root );
 
 		editor.fire( 'contentDomInvalidated' );
+	}
+
+	var headerTagRegex = /^h[1-6]$/;
+
+	// Checks wheather this block should be element preserved (not transformed to <li>) when creating list.
+	function shouldPreserveBlock( block ) {
+		return (
+			// #5335
+			block.is( 'pre' ) ||
+			// #5271 - this is a header.
+			headerTagRegex.test( block.getName() ) ||
+			// 11083 - this is a non-editable element.
+			block.getAttribute( 'contenteditable' ) == 'false'
+		);
 	}
 
 	function listCommand( name, type ) {
