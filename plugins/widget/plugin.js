@@ -2018,6 +2018,8 @@
 
 	// Setup copybin on native copy and cut events in order to handle copy and cut commands
 	// if user accepted security alert on IEs.
+	// Note: when copying or cutting using keystroke, copySingleWidget will be first executed
+	// by the keydown listener. Conflict between two calls will be resolved by copy_bin existence check.
 	function setupNativeCutAndCopy( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
@@ -2300,6 +2302,8 @@
 			doc = editor.document;
 
 		// We're still handling previous copy/cut.
+		// When keystroke is used to copy/cut this will also prevent
+		// conflict with copySingleWidget called again for native copy/cut event.
 		if ( doc.getById( 'cke_copybin' ) )
 			return;
 
