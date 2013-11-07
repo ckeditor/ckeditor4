@@ -172,7 +172,7 @@
 				}
 
 				merge( el, type, this.relations );
-			}
+			};
 		})(),
 
 		/**
@@ -330,7 +330,7 @@
 
 					this.traverseSearch( pos );
 				}
-			}
+			};
 		})(),
 
 		/**
@@ -511,7 +511,7 @@
 
 						// An array is empty.
 						if ( !sorted.length )
-							sorted.push( { uid: +uid, type: type, dist: dist } )
+							sorted.push( { uid: +uid, type: type, dist: dist } );
 						else {
 							// Sort the array on fly when it's populated.
 							for ( i = 0; i < sorted.length; i++ ) {
@@ -902,7 +902,7 @@
 	}
 
 	function isFloated( el ) {
-		return !!( floats[ el.getComputedStyle( 'float' ) ] || floats[ el.getAttribute( 'align' ) ] )
+		return !!( floats[ el.getComputedStyle( 'float' ) ] || floats[ el.getAttribute( 'align' ) ] );
 	}
 
 	function isPositioned( el ) {

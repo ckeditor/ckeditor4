@@ -12,10 +12,11 @@
 		var editor = ev.editor,
 			meta = CKEDITOR.document.$.getElementsByName( 'ckeditor-sample-required-plugins' ),
 			requires = meta.length ? CKEDITOR.dom.element.get( meta[ 0 ] ).getAttribute( 'content' ).split( ',' ) : [],
-			missing = [];
+			missing = [],
+			i;
 
 		if ( requires.length ) {
-			for ( var i = 0; i < requires.length; i++ ) {
+			for ( i = 0; i < requires.length; i++ ) {
 				if ( !editor.plugins[ requires[ i ] ] )
 					missing.push( '<code>' + requires[ i ] + '</code>' );
 			}
@@ -34,7 +35,7 @@
 		var doc = new CKEDITOR.dom.document( document ),
 			icons = doc.find( '.button_icon' );
 
-		for ( var i = 0, count = icons.count(); i < count; i++ ) {
+		for ( i = 0; i < icons.count(); i++ ) {
 			var icon = icons.getItem( i ),
 				name = icon.getAttribute( 'data-icon' ),
 				style = CKEDITOR.skin.getIconStyle( name, ( CKEDITOR.lang.dir == 'rtl' ) );
@@ -44,7 +45,7 @@
 			icon.setAttribute( 'style', style );
 			icon.setStyle( 'float', 'none' );
 
-		};
+		}
 	} );
 })();
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
