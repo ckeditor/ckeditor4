@@ -1703,16 +1703,8 @@
 
 	function moveWidget( editor, sourceWidget ) {
 		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
-
 		sourceWidget.wrapper.remove();
 		editor.widgets.destroy( sourceWidget, true );
-
-		// Create snapshot for the removed widget.
-		editor.fire( 'saveSnapshot' );
-
-		// Lock snapshot while pasting to merge those changes with the previous snapshot.
-		// This way we are grouping all changes done by moveWidget into one snapshot.
-		editor.fire( 'lockSnapshot' );
 		editor.execCommand( 'paste', widgetHtml );
 		editor.fire( 'unlockSnapshot' );
 	}
@@ -1938,9 +1930,12 @@
 					return;
 
 				// Save the snapshot with the state before moving widget.
-				// TODO unfortunately at this stage widget is not focused any more so
-				// undoing will not select widget which was moved.
+				// Focus widget, so when we'll undo the DnD, widget will be focused.
+				sourceWidget.focus();
 				editor.fire( 'saveSnapshot' );
+
+				// Lock snapshot to group all steps of moving widget from the original place to the new one.
+				editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
 				moveSelectionToDropPosition( editor, evt );
 
