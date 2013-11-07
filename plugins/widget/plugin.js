@@ -838,6 +838,10 @@
 		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
+		// #11074 - IE8 throws exceptions when dragging widget using the native method.
+		if ( this.inline && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			this.draggable = false;
+
 		widgetsRepo.fire( 'instanceCreated', this );
 
 		setupWidget( this, widgetDef );
