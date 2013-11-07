@@ -158,7 +158,9 @@
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
-			editor.on( 'lockSnapshot', undoManager.lock, undoManager );
+			editor.on( 'lockSnapshot', function( evt ) {
+				undoManager.lock( evt.data && evt.data.dontUpdate );
+			} );
 
 			/**
 			 * Unlocks the undo manager and updates the latest snapshot.
@@ -617,21 +619,25 @@
 		 *
 		 * @since 4.0
 		 */
-		lock: function() {
+		lock: function( dontUpdate ) {
 			if ( !this.locked ) {
-				// Make a contents image. Don't include bookmarks, because:
-				// * we don't compare them,
-				// * there's a chance that DOM has been changed since
-				// locked (e.g. fake) selection was made, so createBookmark2 could fail.
-				// http://dev.ckeditor.com/ticket/11027#comment:3
-				var imageBefore = new Image( this.editor, true );
+				if ( dontUpdate )
+					this.locked = { level: 1 };
+				else {
+					// Make a contents image. Don't include bookmarks, because:
+					// * we don't compare them,
+					// * there's a chance that DOM has been changed since
+					// locked (e.g. fake) selection was made, so createBookmark2 could fail.
+					// http://dev.ckeditor.com/ticket/11027#comment:3
+					var imageBefore = new Image( this.editor, true );
 
-				// If current editor content matches the tip of snapshot stack,
-				// the stack tip must be updated by unlock, to include any changes made
-				// during this period.
-				var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
+					// If current editor content matches the tip of snapshot stack,
+					// the stack tip must be updated by unlock, to include any changes made
+					// during this period.
+					var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
 
-				this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
+					this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
+				}
 			}
 			// Increase the level of lock.
 			else
@@ -650,7 +656,7 @@
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
 					var updateImage = this.locked.update,
-						newImage = new Image( this.editor, true );
+						newImage = updateImage && new Image( this.editor, true );
 
 					this.locked = null;
 
