@@ -48,6 +48,7 @@ Fixed Issues:
 * [#10911](http://dev.ckeditor.com/ticket/10911): Browser alt hotkeys will no longer be blocked while widget is focused.
 * [#11082](http://dev.ckeditor.com/ticket/11082): Selected widget is not copied/cut when using toolbar buttons or context menu.
 * [#11083](http://dev.ckeditor.com/ticket/11083): Fixed lists and divs application to block widgets.
+* [#10887](http://dev.ckeditor.com/ticket/10887): Internet Explorer 8 compatibility issues related to the Widget System.
 
 ## CKEditor 4.3 Beta
 

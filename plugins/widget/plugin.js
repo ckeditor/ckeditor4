@@ -293,7 +293,9 @@
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
 
-				if ( !this.getByElement( wrapper, true ) ) {
+				// Check if there's no instance for this widget and that
+				// wrapper is not inside some temporary element like copybin (#11088).
+				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
@@ -1542,6 +1544,20 @@
 		return filter;
 	}
 
+	// Finds a first parent that matches query.
+	//
+	// @param {CKEDITOR.dom.element} element
+	// @param {Function} query
+	function findParent( element, query ) {
+		var parent = element;
+
+		while ( ( parent = parent.getParent() ) ) {
+			if ( query( parent ) )
+				return true;
+		}
+		return false;
+	}
+
 	// Gets nested editable if node is its descendant or the editable itself.
 	//
 	// @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
@@ -1637,6 +1653,11 @@
 	// @param {CKEDITOR.dom.element}
 	function isNestedEditable2( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
+	}
+
+	// @param {CKEDITOR.dom.element}
+	function isTemp2( element ) {
+		return element.hasAttribute( 'data-cke-temp' );
 	}
 
 	function moveSelectionToDropPosition( editor, dropEvt ) {
@@ -1770,13 +1791,19 @@
 	// * We use spans on IE and blockless editors, but divs in other cases.
 	var pasteReplaceRegex = new RegExp(
 		'^' +
-		'(?:<(?:div|span)(?: id="cke_copybin")?>)?' +
+		'(?:<(?:div|span)(?: data-cke-temp="1")?(?: id="cke_copybin")?(?: data-cke-temp="1")?>)?' +
 			'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
 				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
 			'(?:</(?:div|span)>)?' +
 		'(?:</(?:div|span)>)?' +
 		'$'
 	);
+
+	function pasteReplaceFn( match, wrapperHtml ) {
+		// Avoid polluting pasted data with any whitspaces,
+		// what's going to break check whether only one widget was pasted.
+		return CKEDITOR.tools.trim( wrapperHtml );
+	}
 
 	// Set up data processing like:
 	// * toHtml/toDataFormat,
@@ -1794,10 +1821,7 @@
 
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace(
-				pasteReplaceRegex,
-				'$1'
-			);
+			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
 		} );
 	}
 
@@ -1979,6 +2003,10 @@
 
 			editable.attachListener( evtRoot, 'mousedown', function( evt ) {
 				var target = evt.data.getTarget();
+
+				// #10887 Clicking scrollbar in IE8 will invoke event with empty target object.
+				if ( !target.type )
+					return false;
 
 				widget = widgetsRepo.getByElement( target );
 				mouseDownOnDragHandler = 0; // Reset.
@@ -2359,7 +2387,10 @@
 			// IE8 always jumps to the end of document.
 			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-		copybinContainer.setAttribute( 'id', 'cke_copybin' );
+		copybinContainer.setAttributes( {
+			id: 'cke_copybin',
+			'data-cke-temp': '1'
+		} );
 
 		// Position copybin element outside current viewport.
 		copybin.setStyles( {
