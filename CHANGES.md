@@ -50,6 +50,7 @@ Fixed Issues:
 * [#11083](http://dev.ckeditor.com/ticket/11083): Fixed lists and divs application to block widgets.
 * [#10887](http://dev.ckeditor.com/ticket/10887): Internet Explorer 8 compatibility issues related to the Widget System.
 * [#11074](http://dev.ckeditor.com/ticket/11074): Temporarily disabled inline widgets drag and drop, because of seriously buggy native `range#moveToPoint` method.
+* [#11098](http://dev.ckeditor.com/ticket/11098): Fixed wrong selection position after undoing widget drag and drop.
 
 ## CKEditor 4.3 Beta
 

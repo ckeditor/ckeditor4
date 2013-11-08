@@ -157,8 +157,13 @@
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
+			 * @param data
+			 * @param {Boolean} [data.dontUpdate] When set to `true` the last snapshot will not be updated
+			 * with the current contents and selection. Read more in the {@link CKEDITOR.plugins.undo.UndoManager#lock} method.
 			 */
-			editor.on( 'lockSnapshot', undoManager.lock, undoManager );
+			editor.on( 'lockSnapshot', function( evt ) {
+				undoManager.lock( evt.data && evt.data.dontUpdate );
+			} );
 
 			/**
 			 * Unlocks the undo manager and updates the latest snapshot.
@@ -616,22 +621,32 @@
 		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the undo manager.
 		 *
 		 * @since 4.0
+		 * @param {Boolean} [dontUpdate] When set to `true` the last snapashot will not be updated
+		 * with the current contents and selection. By default, if undo manager was up to date when lock started,
+		 * the last snapshot will be updated to the current state when unlocking. This means that all changes
+		 * done during lock will be merged into the previous snapshot or the next one. Use this option, to gain
+		 * more control over this behavior. For example, it is possible to group changes done during lock into
+		 * separate snapshot.
 		 */
-		lock: function() {
+		lock: function( dontUpdate ) {
 			if ( !this.locked ) {
-				// Make a contents image. Don't include bookmarks, because:
-				// * we don't compare them,
-				// * there's a chance that DOM has been changed since
-				// locked (e.g. fake) selection was made, so createBookmark2 could fail.
-				// http://dev.ckeditor.com/ticket/11027#comment:3
-				var imageBefore = new Image( this.editor, true );
+				if ( dontUpdate )
+					this.locked = { level: 1 };
+				else {
+					// Make a contents image. Don't include bookmarks, because:
+					// * we don't compare them,
+					// * there's a chance that DOM has been changed since
+					// locked (e.g. fake) selection was made, so createBookmark2 could fail.
+					// http://dev.ckeditor.com/ticket/11027#comment:3
+					var imageBefore = new Image( this.editor, true );
 
-				// If current editor content matches the tip of snapshot stack,
-				// the stack tip must be updated by unlock, to include any changes made
-				// during this period.
-				var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
+					// If current editor content matches the tip of snapshot stack,
+					// the stack tip must be updated by unlock, to include any changes made
+					// during this period.
+					var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
 
-				this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
+					this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
+				}
 			}
 			// Increase the level of lock.
 			else
@@ -650,7 +665,7 @@
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
 					var updateImage = this.locked.update,
-						newImage = new Image( this.editor, true );
+						newImage = updateImage && new Image( this.editor, true );
 
 					this.locked = null;
 
