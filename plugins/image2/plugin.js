@@ -495,6 +495,10 @@
 			name = el.name,
 			image;
 
+		// #11110 Don't initialize on pasted fake objects.
+		if ( el.attributes[ 'data-cke-realelement' ] )
+			return;
+
 		// If a center wrapper is found. So the element is:
 		// 		<div style="text-align:center"><figure>...</figure></div>.
 		// Centering is done by widget.wrapper in such case. Hence, replace
