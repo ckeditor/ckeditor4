@@ -157,6 +157,9 @@
 			 * @event lockSnapshot
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
+			 * @param data
+			 * @param {Boolean} [data.dontUpdate] When set to `true` the last snapshot will not be updated
+			 * with the current contents and selection. Read more in the {@link CKEDITOR.plugins.undo.UndoManager#lock} method.
 			 */
 			editor.on( 'lockSnapshot', function( evt ) {
 				undoManager.lock( evt.data && evt.data.dontUpdate );
@@ -618,6 +621,12 @@
 		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the undo manager.
 		 *
 		 * @since 4.0
+		 * @param {Boolean} [dontUpdate] When set to `true` the last snapashot will not be updated
+		 * with the current contents and selection. By default, if undo manager was up to date when lock started,
+		 * the last snapshot will be updated to the current state when unlocking. This means that all changes
+		 * done during lock will be merged into the previous snapshot or the next one. Use this option, to gain
+		 * more control over this behavior. For example, it is possible to group changes done during lock into
+		 * separate snapshot.
 		 */
 		lock: function( dontUpdate ) {
 			if ( !this.locked ) {
