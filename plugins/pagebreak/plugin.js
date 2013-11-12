@@ -64,7 +64,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 			htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
 		if ( htmlFilter ) {
-			htmlFilter.addRules({
+			htmlFilter.addRules( {
 				attributes: {
 					'class': function( value, element ) {
 						var className = value.replace( 'cke_pagebreak', '' );
@@ -80,11 +80,11 @@ CKEDITOR.plugins.add( 'pagebreak', {
 						return className;
 					}
 				}
-			}, 5 );
+			}, { applyToAll: true, priority: 5 } );
 		}
 
 		if ( dataFilter ) {
-			dataFilter.addRules({
+			dataFilter.addRules( {
 				elements: {
 					div: function( element ) {
 						var attributes = element.attributes,
@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 						}
 					}
 				}
-			});
+			} );
 		}
 	}
 });
