@@ -132,7 +132,7 @@
 		editables: {
 			caption: {
 				selector: 'figcaption',
-				allowedContent: 'br em strong sub sup u; a[!href]'
+				allowedContent: 'br em strong sub sup u s; a[!href]'
 			}
 		},
 
