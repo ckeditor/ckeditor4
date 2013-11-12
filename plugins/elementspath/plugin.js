@@ -153,12 +153,13 @@
 				namesList = [],
 				filters = elementsPath.filters,
 				isContentEditable = true,
-				name,
-				elementsChain = selection.getStartElement().getParents(),
-				chainLength = elementsChain.length;
+
+				// Use elementPath to consider children of editable only (#11124).
+				elementsChain = editor.elementPath().elements,
+				name;
 
 			// Starts iteration from body element, skipping html.
-			for ( var j = 1; j < chainLength; j++ ) {
+			for ( var j = elementsChain.length; j--; ) {
 				var element = elementsChain[ j ],
 					ignore = 0;
 
