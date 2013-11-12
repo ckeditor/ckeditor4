@@ -54,6 +54,7 @@ Fixed Issues:
 * [#11110](http://dev.ckeditor.com/ticket/11110): Fixed iframe and flash object being incorrectly pasted in certain conditions.
 * [#11129](http://dev.ckeditor.com/ticket/11129): Pagebreak is lost when loading data.
 * [#11123](http://dev.ckeditor.com/ticket/11123): Firefox: widget is destroyed after being dragged outside `body`.
+* [#11124](http://dev.ckeditor.com/ticket/11124): Fixed elements path on editor using divarea.
 
 ## CKEditor 4.3 Beta
 
