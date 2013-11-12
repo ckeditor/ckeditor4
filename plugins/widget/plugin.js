@@ -1905,7 +1905,8 @@
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
 
-			editable.attachListener( editable, 'drop', function( evt ) {
+			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+			editable.attachListener( editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
 					sourceWidget;
