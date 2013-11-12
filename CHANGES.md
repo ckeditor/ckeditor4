@@ -53,6 +53,7 @@ Fixed Issues:
 * [#11098](http://dev.ckeditor.com/ticket/11098): Fixed wrong selection position after undoing widget drag and drop.
 * [#11110](http://dev.ckeditor.com/ticket/11110): Fixed iframe and flash object being incorrectly pasted in certain conditions.
 * [#11129](http://dev.ckeditor.com/ticket/11129): Pagebreak is lost when loading data.
+* [#11123](http://dev.ckeditor.com/ticket/11123): Firefox: widget is destroyed after being dragged outside `body`.
 
 ## CKEditor 4.3 Beta
 
