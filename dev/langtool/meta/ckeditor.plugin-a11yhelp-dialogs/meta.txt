@@ -31,3 +31,7 @@ legend.1.items.6.name =
 legend.1.items.6.legend = 
 legend.1.items.7.name = 
 legend.1.items.7.legend = 
+legend.1.items.8.name = 
+legend.1.items.8.legend = 
+legend.1.items.9.name = 
+legend.1.items.9.legend = 
