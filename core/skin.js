@@ -181,9 +181,9 @@
 
 		/** Sets the color of the editor user interface. This method accepts a color value in
 		 * hexadecimal notation, with a `#` character (e.g. #ffffff).
-		 * 
+		 *
 		 * 		CKEDITOR.instances.editor1.setUiColor( '#ff00ff' );
-		 * 
+		 *
 		 * @method
 		 * @member CKEDITOR.editor
 		 * @param {String} color The desired editor UI color in hexadecimal notation.
@@ -244,7 +244,7 @@
 				for ( r = 0; r < replace.length; r++ )
 					content = content.replace( replace[ r ][ 0 ], replace[ r ][ 1 ] );
 
-				if ( CKEDITOR.env.ie )
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
 					styleNodes[ id ].$.styleSheet.cssText += content;
 				else
 					styleNodes[ id ].$.innerHTML += content;
