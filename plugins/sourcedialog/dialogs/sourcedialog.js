@@ -63,7 +63,6 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 			label: editor.lang.sourcedialog.title,
 			elements: [{
 				type: 'textarea',
-				type: 'textarea',
 				id: 'data',
 				dir: 'ltr',
 				inputStyle: 'cursor:auto;' +
