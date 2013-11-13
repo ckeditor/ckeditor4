@@ -23,7 +23,7 @@ CKEDITOR.plugins.add( 'link', {
 				// Show the arrow cursor for the anchor image (FF at least).
 				'cursor:auto;' +
 			'}' +
-			( CKEDITOR.env.ie ? ( 'a.cke_anchor_empty' +
+			( CKEDITOR.plugins.link.synAnchorSelector ? ( 'a.cke_anchor_empty' +
 			'{' +
 				// Make empty anchor selectable on IE.
 				'display:inline-block;' +
@@ -276,7 +276,7 @@ CKEDITOR.plugins.link = {
 	 * @readonly
 	 * @property {Boolean}
 	 */
-	synAnchorSelector: CKEDITOR.env.ie,
+	synAnchorSelector: CKEDITOR.env.ie && CKEDITOR.env.version < 11,
 
 	/**
 	 * For browsers that have editing issue with empty anchor.
