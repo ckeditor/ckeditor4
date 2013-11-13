@@ -55,6 +55,7 @@ Fixed Issues:
 * [#11129](http://dev.ckeditor.com/ticket/11129): Pagebreak is lost when loading data.
 * [#11123](http://dev.ckeditor.com/ticket/11123): Firefox: widget is destroyed after being dragged outside `body`.
 * [#11124](http://dev.ckeditor.com/ticket/11124): Fixed elements path on editor using divarea.
+* [#11063](http://dev.ckeditor.com/ticket/11063): Fixed IE11 anchor issue.
 
 ## CKEditor 4.3 Beta
 
