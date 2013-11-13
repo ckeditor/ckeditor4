@@ -281,7 +281,7 @@
 
 				for ( var t in { p:1,br:1,div:1 } ) {
 					// document.find is not available in QM (#11149).
-					elements = doc.getElementsByTag( t );
+					elements = editor.document.getElementsByTag( t );
 
 					for ( i = elements.count(); i--; ) {
 						if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
