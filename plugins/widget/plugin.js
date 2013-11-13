@@ -2518,17 +2518,8 @@
 			img.on( 'dragstart', function( evt ) {
 				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
 			} );
-		} else {
-			// Quite frankly, I got no better idea how to prevent IE8 from
-			// starting native D&D there. So... tadaaa.
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				img.on( 'dragstart', function( evt ) {
-					evt.data.preventDefault();
-				} );
-			}
-
+		} else
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
-		}
 
 		container.append( img );
 		widget.wrapper.append( container );
@@ -2686,6 +2677,15 @@
 		setupEditables( widget );
 		setupMask( widget );
 		setupDragHandler( widget );
+
+		// #11145: [IE8] Non-editable content of widget is draggable.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			widget.wrapper.on( 'dragstart', function( evt ) {
+				// Allow text dragging inside nested editables.
+				if ( !getNestedEditable( widget, evt.data.getTarget() ) )
+					evt.data.preventDefault();
+			} );
+		}
 
 		widget.wrapper.removeClass( 'cke_widget_new' );
 		widget.element.addClass( 'cke_widget_element' );
