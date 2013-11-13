@@ -84,10 +84,10 @@ New Features:
 
 Fixed Issues:
 
-* [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: loading external jQuery when opening adapter sample from file.
-* [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening color palette.
-* [#9929](http://dev.ckeditor.com/ticket/9929): [Blink/Webkit] Fixed: A non-breaking space is created once deleted a character and a regular space is typed.
-* [#10963](http://dev.ckeditor.com/ticket/10963): Fixed: JAWS issue with keyboard shortcut for Magicline.
+* [#10994](http://dev.ckeditor.com/ticket/10994): Fixed: Loading external jQuery library when opening the [jQuery Adapter](http://docs.ckeditor.com/#!/guide/dev_jquery) sample directly from file.
+* [#10975](http://dev.ckeditor.com/ticket/10975): [IE] Fixed: Error thrown while opening the color palette.
+* [#9929](http://dev.ckeditor.com/ticket/9929): [Blink/WebKit] Fixed: A non-breaking space is created once a character is deleted and a regular space is typed.
+* [#10963](http://dev.ckeditor.com/ticket/10963): Fixed: JAWS issue with the keyboard shortcut for [Magic Line](http://ckeditor.com/addon/magicline).
 * [#11096](http://dev.ckeditor.com/ticket/11096): Fixed: TypeError: Object has no method 'is'.
 
 ## CKEditor 4.2.2
