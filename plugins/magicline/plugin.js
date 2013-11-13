@@ -472,7 +472,7 @@
 			trigger = node.getAscendant( that.triggers, true );
 
 			// If trigger is an element, neither editable nor editable's ascendant.
-			if ( trigger && !trigger.contains( that.editable ) && !trigger.equals( that.editable ) ) {
+			if ( trigger && that.editable.contains( trigger ) ) {
 				// Check for closest editable limit.
 				var limit = getClosestEditableLimit( trigger, true );
 
