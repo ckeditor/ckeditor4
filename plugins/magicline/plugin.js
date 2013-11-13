@@ -277,16 +277,21 @@
 
 			// Revert magicline hot node on undo/redo.
 			editor.on( 'loadSnapshot', function( event ) {
-				var elements = editor.document.find( 'p,br,div' ),
-					element;
+				var elements, element, i;
 
-				for ( var i = elements.count(); i--; ) {
-					if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
-						// Restore hotNode
-						that.hotNode = element;
-						// Restore last access direction
-						that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
-						break;
+				for ( var t in { p:1,br:1,div:1 } ) {
+					// document.find is not available in QM (#11149).
+					elements = doc.getElementsByTag( t );
+
+					for ( i = elements.count(); i--; ) {
+						if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
+							// Restore hotNode
+							that.hotNode = element;
+							// Restore last access direction
+							that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
+
+							return;
+						}
 					}
 				}
 			} );
