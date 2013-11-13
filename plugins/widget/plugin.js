@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -14,7 +14,7 @@
 	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
-		lang: 'en', // %REMOVE_LINE_CORE%
+		lang: 'en,ja,uk', // %REMOVE_LINE_CORE%
 		requires: 'lineutils',
 		onLoad: function() {
 			CKEDITOR.addCss(

@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'km', {
 	resetSize: 'កំណត់ទំហំឡើងវិញ',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ការកំណត់រូបភាព',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'ផ្ទុក​ឡើង',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );

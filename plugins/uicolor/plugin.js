@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add( 'uicolor', {
 	requires: 'dialog',
-	lang: 'bg,cs,cy,da,de,el,en,eo,et,fa,fi,fr,he,hr,it,mk,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'ar,bg,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,mk,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 	icons: 'uicolor', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {

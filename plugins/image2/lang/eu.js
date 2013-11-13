@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eu', {
 	resetSize: 'Tamaina Berrezarri',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Irudi Ezaugarriak',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Gora kargatu',
 	urlMissing: 'Irudiaren iturburu URL-a falta da.'
 } );

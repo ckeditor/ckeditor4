@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'ja', {
 	alt: '代替テキスト',
 	btnUpload: 'サーバーに送信',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'キャプションを付ける',
 	infoTab: '画像情報',
 	lockRatio: '比率を固定',
 	menu: '画像のプロパティ',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'image',
+	pathNameCaption: 'caption',
 	resetSize: 'サイズをリセット',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'ドラッグしてリサイズ',
 	title: '画像のプロパティ',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'アップロード',
 	urlMissing: '画像のURLを入力してください。'
 } );

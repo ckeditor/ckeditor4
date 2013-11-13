@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.add( 'devtools', {
-	lang: 'ar,bg,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fr-ca,gl,gu,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,ur,vi,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'ar,bg,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fr,fr-ca,gl,gu,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {
 		editor._.showDialogDefinitionTooltips = 1;

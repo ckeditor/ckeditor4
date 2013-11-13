@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'mn', {
 	resetSize: 'хэмжээ дахин оноох',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Зураг',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Илгээж ачаалах',
 	urlMissing: 'Зургийн эх сурвалжийн хаяг (URL) байхгүй байна.'
 } );
