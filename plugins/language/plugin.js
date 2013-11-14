@@ -120,12 +120,9 @@
 			} );
 		},
 
-		/**
-		 * Gets the first language element for the current editor selection.
-		 * @param {CKEDITOR.editor} editor
-		 * @returns {CKEDITOR.dom.element} The language element, if any.
-		 * @member CKEDITOR.plugins.language
-		 */
+		// Gets the first language element for the current editor selection.
+		// @param {CKEDITOR.editor} editor
+		// @returns {CKEDITOR.dom.element} The language element, if any.
 		getCurrentLangElement: function( editor ) {
 			var elementPath = editor.elementPath(),
 				activePath = elementPath && elementPath.elements,
