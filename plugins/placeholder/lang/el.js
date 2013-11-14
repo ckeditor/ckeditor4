@@ -1,12 +1,12 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'el', {
-	title: 'Ιδιότητες Υποκατάστατου Κειμένου',
-	toolbar: 'Δημιουργία Υποκατάσταστου Κειμένου',
-	text: 'Υποκαθιστόμενο Κείμενο',
-	edit: 'Επεξεργασία Υποκατάσταστου Κειμένου',
-	textMissing: 'Πρέπει να υπάρχει υποκαθιστόμενο κείμενο.'
+	title: 'Ιδιότητες Υποκαθιστόμενου Κειμένου',
+	toolbar: 'Δημιουργία Υποκαθιστόμενου Κειμένου',
+	name: 'Placeholder Name', // MISSING
+	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
+	pathName: 'placeholder' // MISSING
 });

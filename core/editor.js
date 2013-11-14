@@ -161,7 +161,12 @@
 
 		// Make the editor update its command states on mode change.
 		this.on( 'readOnly', updateCommands );
-		this.on( 'selectionChange', updateCommandsContext );
+		this.on( 'selectionChange', function( evt ) {
+			updateCommandsContext( this, evt.data.path );
+		} );
+		this.on( 'activeFilterChange', function( evt ) {
+			updateCommandsContext( this, this.elementPath(), true );
+		} );
 		this.on( 'mode', updateCommands );
 
 		// Handle startup focus.
@@ -212,16 +217,21 @@
 		cmd[ cmd.startDisabled ? 'disable' : editor.readOnly && !cmd.readOnly ? 'disable' : cmd.modes[ editor.mode ] ? 'enable' : 'disable' ]();
 	}
 
-	function updateCommandsContext( ev ) {
-		var command,
-			commands = this.commands,
-			editor = ev.editor,
-			path = ev.data.path;
+	function updateCommandsContext( editor, path, forceRefresh ) {
+		// Commands cannot be refreshed without a path. In edge cases
+		// it may happen that there's no selection when this function is executed.
+		// For example when active filter is changed in #10877.
+		if ( !path )
+			return;
 
-		for ( var name in commands ) {
+		var command,
+			name,
+			commands = editor.commands;
+
+		for ( name in commands ) {
 			command = commands[ name ];
 
-			if ( command.contextSensitive )
+			if ( forceRefresh || command.contextSensitive )
 				command.refresh( editor, path );
 		}
 	}
@@ -308,8 +318,10 @@
 
 	// ##### END: Config Privates
 
+	// Set config related properties.
 	function onConfigLoaded( editor ) {
-		// Set config related properties.
+		var config = editor.config;
+
 		/**
 		 * Indicates the read-only state of this editor. This is a read-only property.
 		 *
@@ -319,7 +331,7 @@
 		 * @see CKEDITOR.editor#setReadOnly
 		 */
 		editor.readOnly = !!(
-			editor.config.readOnly || (
+			config.readOnly || (
 				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
 						editor.element.is( 'textarea' ) ?
 								editor.element.hasAttribute( 'disabled' )
@@ -334,8 +346,10 @@
 		);
 
 		/**
-		 * Indicates that the editor is running into an environment where
+		 * Indicates that the editor is running in an environment where
 		 * no block elements are accepted inside the content.
+		 *
+		 * This can be for example inline editor based on `<h1>` element.
 		 *
 		 * @readonly
 		 * @property {Boolean}
@@ -355,12 +369,15 @@
 		 * @readonly
 		 * @property {Number} [=0]
 		 */
-		editor.tabIndex = editor.config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
+		editor.tabIndex = config.tabIndex || editor.element && editor.element.getAttribute( 'tabindex' ) || 0;
+
+		editor.activeEnterMode = editor.enterMode = validateEnterMode( editor, config.enterMode );
+		editor.activeShiftEnterMode = editor.shiftEnterMode = validateEnterMode( editor, config.shiftEnterMode );
 
 		// Set CKEDITOR.skinName. Note that it is not possible to have
 		// different skins on the same page, so the last one to set it "wins".
-		if ( editor.config.skin )
-			CKEDITOR.skinName = editor.config.skin;
+		if ( config.skin )
+			CKEDITOR.skinName = config.skin;
 
 		// Fire the "configLoaded" event.
 		editor.fireOnce( 'configLoaded' );
@@ -372,8 +389,10 @@
 	function initComponents( editor ) {
 		// Documented in dataprocessor.js.
 		editor.dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-		// Documented in filter.js
-		editor.filter = new CKEDITOR.filter( editor );
+
+		// Set activeFilter directly to avoid firing event.
+		editor.filter = editor.activeFilter = new CKEDITOR.filter( editor );
+
 		loadSkin( editor );
 	}
 
@@ -628,6 +647,11 @@
 		return false;
 	}
 
+	// Always returns ENTER_BR in case of blockless editor.
+	function validateEnterMode( editor, enterMode ) {
+		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
+	}
+
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
@@ -750,10 +774,12 @@
 		},
 
 		/**
-		 * @param {CKEDITOR.dom.node} [startNode] From which the path should start, if not specified default to editor selection's
+		 * Returns an {@link CKEDITOR.dom.elementPath element path} for the selection in the editor.
+		 *
+		 * @param {CKEDITOR.dom.node} [startNode] From which the path should start,
+		 * if not specified default to editor selection's
 		 * start element yield by {@link CKEDITOR.dom.selection#getStartElement}.
 		 * @returns {CKEDITOR.dom.elementPath}
-		 * @see CKEDITOR.dom.elementPath
 		 */
 		elementPath: function( startNode ) {
 			startNode = startNode || this.getSelection().getStartElement();
@@ -1114,11 +1140,91 @@
 		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
+		 * @since 4.1
 		 * @param {CKEDITOR.feature} feature See {@link CKEDITOR.filter#addFeature}.
 		 * @returns {Boolean} See {@link CKEDITOR.filter#addFeature}.
 		 */
 		addFeature: function( feature ) {
 			return this.filter.addFeature( feature );
+		},
+
+		/**
+		 * Sets the active filter ({@link #activeFilter}). Fires {@link #activeFilterChange} event.
+		 *
+		 *		// Set active filter which allows only 4 elements.
+		 *		// Buttons like Bold, Italic will be disabled.
+		 *		var filter = new CKEDITOR.filter( 'p strong em br' );
+		 *		editor.setActiveFilter( filter );
+		 *
+		 * Setting new filter will also change the {@link #setActiveEnterMode active enter modes} to the first values
+		 * allowed by the new filter (see {@link CKEDITOR.filter#getAllowedEnterMode}).
+		 *
+		 * @since 4.3
+		 * @param {CKEDITOR.filter} filter Filter instance or a falsy value (e.g. `null`) to reset to the default one.
+		 */
+		setActiveFilter: function( filter ) {
+			if ( !filter )
+				filter = this.filter;
+
+			if ( this.activeFilter !== filter ) {
+				this.activeFilter = filter;
+				this.fire( 'activeFilterChange' );
+
+				// Reseted active filter to the main one - reset enter modes too.
+				if ( filter === this.filter )
+					this.setActiveEnterMode( null, null );
+				else
+					this.setActiveEnterMode(
+						filter.getAllowedEnterMode( this.enterMode ),
+						filter.getAllowedEnterMode( this.shiftEnterMode, true )
+					);
+			}
+		},
+
+		/**
+		 * Sets the active enter modes ({@link #enterMode} and {@link #shiftEnterMode}).
+		 * Fires the {@link #activeEnterModeChange} event.
+		 *
+		 * Prior to CKEditor 4.3 enter modes were static and it was enough to check {@link CKEDITOR.config#enterMode}
+		 * and {@link CKEDITOR.config#shiftEnterMode} when implementing a feature which should depend on the enter modes.
+		 * Since CKEditor 4.3 these options are source of initial:
+		 *
+		 * * static {@link #enterMode} and {@link #shiftEnterMode} values,
+		 * * dynamic {@link #activeEnterMode} and {@link #activeShiftEnterMode} values.
+		 *
+		 * However, the dynamic enter modes can be changed during runtime by using this method, to reflect the selection context.
+		 * For example, if selection is moved to the {@link CKEDITOR.plugins.widget widget}'s nested editable which
+		 * is a {@link #blockless blockless one}, then the active enter modes should be changed to {@link CKEDITOR#ENTER_BR}
+		 * (in this case [Widget System](#!/guide/dev_widgets) takes care of that).
+		 *
+		 * **Note:** This method should not be used to configure editor &ndash; use {@link CKEDITOR.config#enterMode} and
+		 * {@link CKEDITOR.config#shiftEnterMode} instead. This method should be used only to dynamically change
+		 * enter modes during runtime based on selection changes.
+		 * Keep in mind that changed enter mode may be overwritten by other plugin/feature when it decided that
+		 * the changed context requires this.
+		 *
+		 * **Note:** In case of blockless editor (inline editor based on element which cannot contain block elements
+		 * &ndash; see {@link CKEDITOR.editor#blockless}) only {@link CKEDITOR#ENTER_BR} is a valid enter mode. Therefore
+		 * this method will not allow to set other values.
+		 *
+		 * **Note:** Changing the {@link #activeFilter active filter} may cause enter mode change if default enter modes
+		 * are not allowed by the new filter.
+		 *
+		 * @since 4.3
+		 * @param {Number} enterMode One of {@link CKEDITOR#ENTER_P}, {@link CKEDITOR#ENTER_DIV}, {@link CKEDITOR#ENTER_BR}.
+		 * Pass falsy value (e.g. `null`) to reset enter mode to the default value ({@link #enterMode} and/or {@link #shiftEnterMode}).
+		 * @param {Number} shiftEnterMode See the `enterMode` argument.
+		 */
+		setActiveEnterMode: function( enterMode, shiftEnterMode ) {
+			// Validate passed modes or use default ones (validated on init).
+			enterMode = enterMode ? validateEnterMode( this, enterMode ) : this.enterMode;
+			shiftEnterMode = shiftEnterMode ? validateEnterMode( this, shiftEnterMode ) : this.shiftEnterMode;
+
+			if ( this.activeEnterMode != enterMode || this.activeShiftEnterMode != shiftEnterMode ) {
+				this.activeEnterMode = enterMode;
+				this.activeShiftEnterMode = shiftEnterMode;
+				this.fire( 'activeEnterModeChange' );
+			}
 		}
 	});
 })();
@@ -1281,6 +1387,91 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *
  * @readonly
  * @property {CKEDITOR.dom.window} window
+ */
+
+/**
+ * The main filter instance used for input data filtering, data
+ * transformations, and activation of features.
+ *
+ * It points to a {@link CKEDITOR.filter} instance set up based on
+ * editor configuration.
+ *
+ * @since 4.1
+ * @readonly
+ * @property {CKEDITOR.filter} filter
+ */
+
+/**
+ * The active filter instance which should be used in the current context (location selection).
+ * This instance will be used to make a decision which commands, buttons and other
+ * {@link CKEDITOR.feature features} can be enabled.
+ *
+ * By default it equals the {@link #filter} and it can be changed by the {@link #setActiveFilter} method.
+ *
+ *		editor.on( 'activeFilterChange', function() {
+ *			if ( editor.activeFilter.check( 'cite' ) )
+ *				// Do something when <cite> was enabled - e.g. enable a button.
+ *			else
+ *				// Otherwise do something else.
+ *		} );
+ *
+ * See also the {@link #setActiveEnterMode} method for an explanation of dynamic settings.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {CKEDITOR.filter} activeFilter
+ */
+
+/**
+ * The main (static) enter mode which is a validated version of the {@link CKEDITOR.config#enterMode} setting.
+ * Currently only one rule exists &ndash; {@link #blockless blockless editors} may have
+ * enter modes set only to {@link CKEDITOR#ENTER_BR}.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} enterMode
+ */
+
+/**
+ * See the {@link #enterMode} property.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} shiftEnterMode
+ */
+
+/**
+ * The dynamic enter mode which should be used in the current context (selection location).
+ * By default it equals the {@link #enterMode} and it can be changed by the {@link #setActiveEnterMode} method.
+ *
+ * See also the {@link #setActiveEnterMode} method for an explanation of dynamic settings.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} activeEnterMode
+ */
+
+/**
+ * See the {@link #activeEnterMode} property.
+ *
+ * @since 4.3
+ * @readonly
+ * @property {Number} activeShiftEnterMode
+ */
+
+/**
+ * Fired by the {@link #setActiveFilter} method when the {@link #activeFilter} is changed.
+ *
+ * @since 4.3
+ * @event activeFilterChange
+ */
+
+/**
+ * Fired by the {@link #setActiveEnterMode} method when any of the active enter modes is changed.
+ * See also the {@link #activeEnterMode} and {@link #activeShiftEnterMode} properties.
+ *
+ * @since 4.3
+ * @event activeEnterModeChange
  */
 
 /**
@@ -1562,5 +1753,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * See {@link #contentDom} documentation for more details.
  *
  * @event contentDomUnload
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * The event fired when contents DOM changes and some of the references as well as
+ * native DOM event listeners could be lost.
+ * This event is useful when it is important to keep track of references
+ * to elements in the editable contents from code.
+ *
+ * @since 4.3
+ * @event contentDomInvalidated
  * @param {CKEDITOR.editor} editor This editor instance.
  */

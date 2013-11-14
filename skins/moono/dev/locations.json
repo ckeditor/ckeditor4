@@ -127,7 +127,8 @@
 	"10": [
 		"plugins/about/icons/about.png",
 		"plugins/uicolor/icons/uicolor.png",
-		"plugins/placeholder/icons/placeholder.png"
+		"plugins/placeholder/icons/placeholder.png",
+		"plugins/language/icons/language.png"
 	],
 	"11": [
 		"plugins/link/images/anchor.png",

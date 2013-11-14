@@ -90,6 +90,11 @@
 					// If no styles match, just empty it.
 					this.setValue( '', defaultLabel );
 				}, this );
+			},
+
+			refresh: function() {
+				if ( !editor.activeFilter.check( style ) )
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		});
 	}

@@ -370,7 +370,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.on( 'cancel', function( evt ) {
 			iterContents( function( item ) {
 				if ( item.isChanged() ) {
-					if ( !confirm( editor.lang.common.confirmCancel ) )
+					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) )
 						evt.data.hide = false;
 					return true;
 				}
@@ -837,6 +837,38 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
 
+			for ( var i in definition.contents ) {
+				if ( !definition.contents[ i ] )
+					continue;
+
+				var content = definition.contents[ i ],
+					tab = this._.tabs[ content.id ],
+					requiredContent = content.requiredContent,
+					enableElements = 0;
+
+				if ( !tab )
+					continue;
+
+				for ( var j in this._.contents[ content.id ] ) {
+					var elem = this._.contents[ content.id ][ j ];
+
+					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
+						continue;
+
+					if ( elem.requiredContent && !this._.editor.activeFilter.check( elem.requiredContent ) ) {
+						elem.disable();
+					} else {
+						elem.enable();
+						enableElements++;
+					}
+				}
+
+				if ( !enableElements || ( requiredContent && !this._.editor.activeFilter.check( requiredContent ) ) )
+					tab[ 0 ].addClass( 'cke_dialog_tab_disabled' );
+				else
+					tab[ 0 ].removeClass( 'cke_dialog_tab_disabled' );
+			}
+
 			CKEDITOR.tools.setTimeout( function() {
 				this.layout();
 				resizeWithWindow( this );
@@ -1111,6 +1143,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		selectPage: function( id ) {
 			if ( this._.currentTabId == id )
+				return;
+
+			if ( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
 				return;
 
 			// Returning true means that the event has been canceled
@@ -2335,6 +2370,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					}
 				});
 
+				// Completes this object with everything we have in the
+				// definition.
+				CKEDITOR.tools.extend( this, elementDefinition );
+
 				// Register the object as a tab focus if it can be included.
 				if ( this.keyboardFocusable ) {
 					this.tabIndex = elementDefinition.tabIndex || 0;
@@ -2344,10 +2383,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						dialog._.currentFocusIndex = me.focusIndex;
 					});
 				}
-
-				// Completes this object with everything we have in the
-				// definition.
-				CKEDITOR.tools.extend( this, elementDefinition );
 			},
 
 			/**
@@ -3036,20 +3071,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 CKEDITOR.plugins.add( 'dialog', {
 	requires: 'dialogui',
 	init: function( editor ) {
-		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
-			// Open dialog on double-clicks.
-			editable.attachListener( editable, 'dblclick', function( evt ) {
-				if ( editor.readOnly )
-					return false;
-
-				var data = { element: evt.data.getTarget() };
-				editor.fire( 'doubleclick', data );
-				data.dialog && editor.openDialog( data.dialog );
-
-				return 1;
-			});
-		});
+		editor.on( 'doubleclick', function( evt ) {
+			if ( evt.data.dialog )
+				editor.openDialog( evt.data.dialog );
+		}, null, null, 999 );
 	}
 });
 
@@ -3123,6 +3148,17 @@ CKEDITOR.plugins.add( 'dialog', {
  *
  * @since 3.5
  * @cfg {String} [removeDialogTabs='']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Tells if user should not be asked to confirm close, if any dialog field was modified.
+ * By default it is set to `false` meaning that the confirmation dialog will be shown.
+ *
+ *		config.dialog_noConfirmCancel = true;
+ *
+ * @since 4.3
+ * @cfg {Boolean} [dialog_noConfirmCancel=false]
  * @member CKEDITOR.config
  */
 

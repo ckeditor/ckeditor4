@@ -344,7 +344,10 @@
 		refreshJob: function( editor, priority, path ) {
 			var job = this.jobs[ priority ];
 
-			job.state = job.refresh.call( this, editor, path );
+			if ( !editor.activeFilter.checkFeature( this ) )
+				job.state = TRISTATE_DISABLED;
+			else
+				job.state = job.refresh.call( this, editor, path );
 
 			return job.state;
 		},

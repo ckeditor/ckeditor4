@@ -168,7 +168,7 @@
 					sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
 
-				if ( range && body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+				if ( range && body.getHtml().match( /^<p>(?:&nbsp;|<br>)<\/p>$/i ) && range.startContainer.equals( body ) ) {
 					// Avoid the ambiguity from a real user cursor position.
 					setTimeout( function() {
 						range = editor.getSelection().getRanges()[ 0 ];
@@ -179,12 +179,19 @@
 						}
 					}, 0 );
 				}
-			});
-		} else if ( CKEDITOR.env.webkit ) {
-			// Fix problem with cursor not appearing in Chrome when clicking below the body (#10945).
+			} );
+		}
+
+		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
+		// Fix for older IEs (8-10 and QM) is placed inside selection.js.
+		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
 			doc.getDocumentElement().on( 'mousedown', function( evt ) {
-				if ( evt.data.getTarget().is( 'html' ) )
-					editor.editable().focus();
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					// IE needs this timeout. Webkit does not, but it does not cause problems too.
+					setTimeout( function() {
+						editor.editable().focus();
+					} );
+				}
 			} );
 		}
 
@@ -353,8 +360,7 @@
 					}
 
 					// Get the HTML version of the data.
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -430,10 +436,7 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 						bootstrapCode +=
 							'<script id="cke_shimscrpt">' +
-								'(function(){' +
-									'var e="abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video".split(","),i=e.length;' +
-									'while(i--){document.createElement(e[i])}' +
-								'})()' +
+								'window.parent.CKEDITOR.tools.enableHtml5Elements(document)' +
 							'</script>';
 					}
 
@@ -474,8 +477,7 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data );
+					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;

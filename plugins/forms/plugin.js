@@ -118,12 +118,6 @@ CKEDITOR.plugins.add( 'forms', {
 					group: 'hiddenfield'
 				},
 
-				imagebutton: {
-					label: lang.image.titleButton,
-					command: 'imagebutton',
-					group: 'imagebutton'
-				},
-
 				button: {
 					label: lang.forms.button.title,
 					command: 'button',
@@ -142,6 +136,14 @@ CKEDITOR.plugins.add( 'forms', {
 					group: 'textarea'
 				}
 			};
+
+			if ( imagePlugin ) {
+				items.imagebutton = {
+					label: lang.image.titleButton,
+					command: 'imagebutton',
+					group: 'imagebutton'
+				};
+			}
 
 			!editor.blockless && ( items.form = {
 				label: lang.forms.form.menu,
@@ -240,8 +242,10 @@ CKEDITOR.plugins.add( 'forms', {
 			dataFilter = dataProcessor && dataProcessor.dataFilter;
 
 		// Cleanup certain IE form elements default values.
+		// Note: Inputs are marked with contenteditable=false flags, so filters for them
+		// need to be applied to non-editable content as well.
 		if ( CKEDITOR.env.ie ) {
-			htmlFilter && htmlFilter.addRules({
+			htmlFilter && htmlFilter.addRules( {
 				elements: {
 					input: function( input ) {
 						var attrs = input.attributes,
@@ -253,18 +257,18 @@ CKEDITOR.plugins.add( 'forms', {
 							attrs.value == 'on' && delete attrs.value;
 					}
 				}
-			});
+			}, { applyToAll: true } );
 		}
 
 		if ( dataFilter ) {
-			dataFilter.addRules({
+			dataFilter.addRules( {
 				elements: {
 					input: function( element ) {
 						if ( element.attributes.type == 'hidden' )
 							return editor.createFakeParserElement( element, 'cke_hidden', 'hiddenfield' );
 					}
 				}
-			});
+			}, { applyToAll: true } );
 		}
 	}
 });

@@ -8,6 +8,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<title>Placeholder Plugin &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
+	<script src="../../../samples/sample.js"></script>
 	<link rel="stylesheet" href="../../../samples/sample.css">
 	<meta name="ckeditor-sample-name" content="Placeholder plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
@@ -22,11 +23,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			This sample shows how to configure CKEditor instances to use the
 			<strong>Placeholder</strong> plugin that lets you insert read-only elements
 			into your content. To enter and modify read-only text, use the
-			<strong>Create Placeholder</strong> button and its matching dialog window.
+			<strong>Create Placeholder</strong> <span class="button_icon" data-icon="placeholder">&nbsp;</span> button and its matching dialog window.
 		</p>
 		<p>
 			To add a CKEditor instance that uses the <code>placeholder</code> plugin and a related
-			<strong>Create Placeholder</strong> toolbar button, insert the following JavaScript
+			<strong>Create Placeholder</strong> <span class="button_icon" data-icon="placeholder">&nbsp;</span> toolbar button, insert the following JavaScript
 			call to your code:
 		</p>
 <pre class="samples">
@@ -48,8 +49,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			<script>
 
 				CKEDITOR.replace( 'editor1', {
-					extraPlugins: 'placeholder',
-					toolbar: [ [ 'Source', 'CreatePlaceholder' ] ]
+					extraPlugins: 'placeholder'
 				});
 
 			</script>

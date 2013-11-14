@@ -9,7 +9,8 @@
 	var DTD = CKEDITOR.dtd,
 		copy = CKEDITOR.tools.copy,
 		trim = CKEDITOR.tools.trim,
-		TEST_VALUE = 'cke-test';
+		TEST_VALUE = 'cke-test',
+		enterModeTags = [ '', 'p', 'br', 'div' ];
 
 	/**
 	 * Highly configurable class which implements input data filtering mechanisms
@@ -28,10 +29,11 @@
 	 * configuration option.
 	 *
 	 * **Note**: Filter rules will be extended with the following elements
-	 * depending on the {@link CKEDITOR.config#enterMode} setting:
+	 * depending on the {@link CKEDITOR.config#enterMode} and
+	 * {@link CKEDITOR.config#shiftEnterMode} settings:
 	 *
-	 *	* `'p br'` &ndash; for {@link CKEDITOR#ENTER_P},
-	 *	* `'div br'` &ndash; for {@link CKEDITOR#ENTER_DIV},
+	 *	* `'p'` &ndash; for {@link CKEDITOR#ENTER_P},
+	 *	* `'div'` &ndash; for {@link CKEDITOR#ENTER_DIV},
 	 *	* `'br'` &ndash; for {@link CKEDITOR#ENTER_BR}.
 	 *
 	 * **Read more** about the Advanced Content Filter in [guides](#!/guide/dev_advanced_content_filter).
@@ -95,18 +97,14 @@
 		this.editor = null;
 
 		/**
-		 * Enter mode used by the filter when deciding how to strip disallowed elements.
+		 * Filter's unique id. It can be used to find filter instance in
+		 * {@link CKEDITOR.filter#instances CKEDITOR.filter.instance} object.
 		 *
-		 * For editor filter it will be set to {@link CKEDITOR.config#enterMode} unless this
-		 * is a blockless (see {@link CKEDITOR.editor#blockless}) editor &mdash; in this case
-		 * {@link CKEDITOR#ENTER_BR} will be forced.
-		 *
-		 * For the standalone filter by default it will be set to {@link CKEDITOR#ENTER_P}.
-		 *
+		 * @since 4.3
 		 * @readonly
-		 * @property {Number} [=CKEDITOR.ENTER_P]
+		 * @property {Number} id
 		 */
-		this.enterMode = CKEDITOR.ENTER_P;
+		this.id = CKEDITOR.tools.getNextNumber();
 
 		this._ = {
 			// Optimized allowed content rules.
@@ -116,12 +114,14 @@
 			cachedTests: {}
 		};
 
+		// Register filter instance.
+		CKEDITOR.filter.instances[ this.id ] = this;
+
 		if ( editorOrRules instanceof CKEDITOR.editor ) {
 			var editor = this.editor = editorOrRules;
 			this.customConfig = true;
 
-			var allowedContent = editor.config.allowedContent,
-				enterMode;
+			var allowedContent = editor.config.allowedContent;
 
 			// Disable filter completely by setting config.allowedContent = true.
 			if ( allowedContent === true ) {
@@ -132,39 +132,11 @@
 			if ( !allowedContent )
 				this.customConfig = false;
 
-			// Force ENTER_BR for blockless editable.
-			this.enterMode = enterMode = ( editor.blockless ? CKEDITOR.ENTER_BR : editor.config.enterMode );
-
-			var defaultRules = [ 'br' ],
-				shiftEnterMode = editor.blockless ? CKEDITOR.ENTER_BR : editor.config.shiftEnterMode;
-
-			if ( enterMode == CKEDITOR.ENTER_P || shiftEnterMode == CKEDITOR.ENTER_P )
-				defaultRules.push( 'p' );
-			if ( enterMode == CKEDITOR.ENTER_DIV || shiftEnterMode == CKEDITOR.ENTER_DIV )
-				defaultRules.push( 'div' );
-
-			this.allow( defaultRules.join( ' ' ), 'default', 1 );
 			this.allow( allowedContent, 'config', 1 );
 			this.allow( editor.config.extraAllowedContent, 'extra', 1 );
 
-			//
-			// Add filter listeners to toHTML and toDataFormat events.
-			//
-
-			// Filter incoming "data".
-			// Add element filter before htmlDataProcessor.dataFilter
-			// when purifying input data to correct html.
-			this._.toHtmlListener = editor.on( 'toHtml', function( evt ) {
-				if ( this.applyTo( evt.data.dataValue, true, evt.data.dontFilter ) )
-					editor.fire( 'dataFiltered' );
-			}, this, null, 6 );
-
-			// Transform outcoming "data".
-			// Add element filter after htmlDataProcessor.htmlFilter
-			// when preparing output data HTML.
-			this._.toDataFormatListener = editor.on( 'toDataFormat', function( evt ) {
-				this.applyTo( evt.data.dataValue, false, true );
-			}, this, null, 11 );
+			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
+			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -172,6 +144,19 @@
 			this.allow( editorOrRules, 'default', 1 );
 		}
 	};
+
+	/**
+	 * Object containing all filter instances stored under their
+	 * {@link #id} properties.
+	 *
+	 *		var filter = new CKEDITOR.filter( 'p' );
+	 *		filter === CKEDITOR.filter.instances[ filter.id ];
+	 *
+	 * @since 4.3
+	 * @static
+	 * @property instances
+	 */
+	CKEDITOR.filter.instances = {};
 
 	CKEDITOR.filter.prototype = {
 		/**
@@ -274,9 +259,14 @@
 		 * @param {Boolean} [toHtml] Set to `true` if the filter is used together with {@link CKEDITOR.htmlDataProcessor#toHtml}.
 		 * @param {Boolean} [transformOnly] If set to `true` only transformations will be applied. Content
 		 * will not be filtered with allowed content rules.
+		 * @param {Number} [enterMode] Enter mode used by the filter when deciding how to strip disallowed element.
+		 * Defaults to {@link CKEDITOR.editor#activeEnterMode} for a editor's filter or to {@link CKEDITOR#ENTER_P} for standalone filter.
 		 * @returns {Boolean} Whether some part of the `fragment` was removed by the filter.
 		 */
-		applyTo: function( fragment, toHtml, transformOnly ) {
+		applyTo: function( fragment, toHtml, transformOnly, enterMode ) {
+			if ( this.disabled )
+				return false;
+
 			var toBeRemoved = [],
 				rules = !transformOnly && this._.rules,
 				transformations = this._.transformations,
@@ -287,6 +277,10 @@
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
 				if ( el.type == CKEDITOR.NODE_ELEMENT ) {
+					// Do not filter element with data-cke-filter="off" and all their descendants.
+					if ( el.attributes[ 'data-cke-filter' ] == 'off' )
+						return false;
+
 					// (#10260) Don't touch elements like spans with data-cke-* attribute since they're
 					// responsible e.g. for placing markers, bookmarks, odds and stuff.
 					// We love 'em and we don't wanna lose anything during the filtering.
@@ -312,7 +306,7 @@
 
 			var node, element, check,
 				toBeChecked = [],
-				enterTag = [ 'p', 'br', 'div' ][ this.enterMode - 1 ];
+				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ];
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( node = toBeRemoved.pop() ) ) {
@@ -400,10 +394,6 @@
 		 */
 		disable: function() {
 			this.disabled = true;
-			if ( this._.toHtmlListener )
-				this._.toHtmlListener.removeListener();
-			if ( this._.toDataFormatListener )
-				this._.toDataFormatListener.removeListener();
 		},
 
 		/**
@@ -686,7 +676,46 @@
 				this._.cachedChecks[ cacheKey ] = result;
 
 			return result;
-		}
+		},
+
+		/**
+		 * Returns first enter mode allowed by this filter rules. Modes are checked in `p`, `div`, `br` order.
+		 * If none of tags is allowed this method will return {@link CKEDITOR#ENTER_BR}.
+		 *
+		 * @since 4.3
+		 * @param {Number} defaultMode The default mode which will be checked as the first one.
+		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).
+		 * @returns {Number} Allowed enter mode.
+		 */
+		getAllowedEnterMode: (function() {
+			var tagsToCheck = [ 'p', 'div', 'br' ],
+				enterModes = {
+					p: CKEDITOR.ENTER_P,
+					div: CKEDITOR.ENTER_DIV,
+					br: CKEDITOR.ENTER_BR
+				};
+
+			return function( defaultMode, reverse ) {
+				// Clone the array first.
+				var tags = tagsToCheck.slice(),
+					tag;
+
+				// Check the default mode first.
+				if ( this.check( enterModeTags[ defaultMode ] ) )
+					return defaultMode;
+
+				// If not reverse order, reverse array so we can pop() from it.
+				if ( !reverse )
+					tags = tags.reverse();
+
+				while ( ( tag = tags.pop() ) ) {
+					if ( this.check( tag ) )
+						return enterModes[ tag ];
+				}
+
+				return CKEDITOR.ENTER_BR;
+			};
+		})()
 	};
 
 	// Apply ACR to an element
@@ -1895,19 +1924,6 @@
  * @since 4.1
  * @cfg {Object/String} extraAllowedContent
  * @member CKEDITOR.config
- */
-
-/**
- * Filter instance used for input data filtering, data
- * transformations, and activation of features.
- *
- * It points to a {CKEDITOR.filter} instance set up based on
- * editor configuration.
- *
- * @since 4.1
- * @readonly
- * @property {CKEDITOR.filter} filter
- * @member CKEDITOR.editor
  */
 
 /**

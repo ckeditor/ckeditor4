@@ -89,13 +89,6 @@ img.left
 	padding: 5px;
 }
 
-/* #10868: We use :not() selector to exclude IE8, which crashes on img:hover style. */
-:not(.ie8) img:hover
-{
-	opacity: .9;
-	filter: alpha(opacity = 90);
-}
-
 pre
 {
 	white-space: pre-wrap; /* CSS 2.1 */
@@ -105,4 +98,9 @@ pre
 .marker
 {
 	background-color: Yellow;
+}
+
+span[lang]
+{
+   font-style: italic;
 }

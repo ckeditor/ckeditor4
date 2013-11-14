@@ -45,3 +45,7 @@ textfield.maxChars = Label for the Maximum Characters field of the Text Field Pr
 textfield.type = Label for the Type field of the Text Field Properties dialog window.
 textfield.typeText = Label for the Text type of the Text Field Properties dialog window.
 textfield.typePass = Label for the Password type of the Text Field Properties dialog window.
+textfield.typeEmail = 
+textfield.typeSearch = 
+textfield.typeTel = 
+textfield.typeUrl = 

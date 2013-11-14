@@ -118,7 +118,7 @@ CKEDITOR.scriptLoader = (function() {
 						src: url } );
 
 					if ( callback ) {
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 							// FIXME: For IE, we are not able to return false on error (like 404).
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {

@@ -211,9 +211,7 @@
 					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in context ) {
 						// IE requires a filler NBSP for nested list inside empty list item,
 						// otherwise the list item will be inaccessiable. (#4476)
-						if ( CKEDITOR.env.ie && !li.getFirst( function( node ) {
-							return isNotWhitespaces( node ) && isNotBookmark( node );
-						} ) )
+						if ( CKEDITOR.env.needsNbspFiller && !li.getFirst( neitherWhitespacesNorBookmark ) )
 							li.append( range.document.createText( '\u00a0' ) );
 
 						li.append( followingList );
@@ -223,11 +221,14 @@
 				}
 			}
 
+			if ( newList )
+				editor.fire( 'contentDomInvalidated' );
+
 			return true;
 		}
 
 		var selection = editor.getSelection(),
-			ranges = selection && selection.getRanges( 1 ),
+			ranges = selection && selection.getRanges(),
 			iterator = ranges.createIterator(),
 			range;
 
@@ -289,5 +290,9 @@
 	// Determines whether a node is a list <li> element.
 	function listItem( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
+	}
+
+	function neitherWhitespacesNorBookmark( node ) {
+		return isNotWhitespaces( node ) && isNotBookmark( node );
 	}
 })();

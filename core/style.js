@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+'use strict';
+
 /**
  * Registers a function to be called whenever the selection position changes in the
  * editing area. The current state is passed to the function. The possible
@@ -39,15 +41,14 @@ CKEDITOR.editor.prototype.attachStyleStateChange = function( style, callback ) {
 			for ( var i = 0; i < styleStateChangeCallbacks.length; i++ ) {
 				var callback = styleStateChangeCallbacks[ i ];
 
-				// Check the current state for the style defined for that
-				// callback.
-				var currentState = callback.style.checkActive( ev.data.path ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+				// Check the current state for the style defined for that callback.
+				var currentState = callback.style.checkActive( ev.data.path ) ?
+					CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 
-				// Call the callback function, passing the current
-				// state to it.
+				// Call the callback function, passing the current state to it.
 				callback.fn.call( this, currentState );
 			}
-		});
+		} );
 	}
 
 	// Save the callback info, so it can be checked on the next occurrence of
@@ -97,14 +98,17 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		var element = this.element = styleDefinition.element ?
-		                             (typeof styleDefinition.element == 'string' ?
-		                              styleDefinition.element.toLowerCase() :
-		                              styleDefinition.element ) : '*';
+			(
+				typeof styleDefinition.element == 'string' ?
+					styleDefinition.element.toLowerCase() : styleDefinition.element
+			) : '*';
 
 		this.type = styleDefinition.type ||
-		            (blockElements[ element ] ? CKEDITOR.STYLE_BLOCK :
-		             objectElements[ element ] ? CKEDITOR.STYLE_OBJECT :
-		             CKEDITOR.STYLE_INLINE );
+			(
+				blockElements[ element ] ? CKEDITOR.STYLE_BLOCK :
+				objectElements[ element ] ? CKEDITOR.STYLE_OBJECT :
+				CKEDITOR.STYLE_INLINE
+			);
 
 		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
 		if ( typeof this.element == 'object' )
@@ -122,7 +126,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection() );
+		if ( style.checkApplicable( this.elementPath() ) )
+			applyStyleOnSelection.call( style, this.getSelection() );
 	};
 
 	/**
@@ -132,7 +137,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection(), 1 );
+		if ( style.checkApplicable( this.elementPath() ) )
+			applyStyleOnSelection.call( style, this.getSelection(), 1 );
 	};
 
 	CKEDITOR.style.prototype = {
@@ -220,19 +226,23 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Whether this style can be applied at the element path.
+		 * Whether this style can be applied at the specified elements-path.
 		 *
-		 * @param {CKEDITOR.dom.elementPath} elementPath
+		 * @param {CKEDITOR.dom.elementPath} elementPath The elements-path to
+		 * 	check the style against.
+		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
+		 * 	checked against this filter as well.
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
-		checkApplicable: function( elementPath ) {
-			switch ( this.type ) {
-				case CKEDITOR.STYLE_INLINE:
-				case CKEDITOR.STYLE_BLOCK:
-					break;
+		checkApplicable: function( elementPath, filter ) {
+			if ( filter && !filter.check( this ) )
+				return false;
 
+			switch ( this.type ) {
 				case CKEDITOR.STYLE_OBJECT:
-					return elementPath.contains( this.element );
+					return !!elementPath.contains( this.element );
+				case CKEDITOR.STYLE_BLOCK:
+					return !!elementPath.blockLimit.getDtd()[ this.element ];
 			}
 
 			return true;
@@ -271,10 +281,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ?
-						     compareCssText( attribs[ attName ], elementAttr ) :
-						     attribs[ attName ] == elementAttr )
-						{
+						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch )
@@ -324,10 +331,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						//      matches the attribute value exactly.
 						//    - The override definition value is a regex that
 						//      has matches in the attribute value.
-						if ( attValue === null ||
-						     ( typeof attValue == 'string' &&
-						       actualAttrValue == attValue ) ||
-						     attValue.test( actualAttrValue ) )
+						if ( attValue === null || ( typeof attValue == 'string' && actualAttrValue == attValue ) || attValue.test( actualAttrValue ) )
 							return true;
 					}
 				}
@@ -355,9 +359,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// Assign all defined attributes.
 			var attribs = styleDefinition.attributes;
 			if ( attribs ) {
-				for ( var att in attribs ) {
+				for ( var att in attribs )
 					html.push( ' ', att, '="', attribs[ att ], '"' );
-				}
 			}
 
 			// Assign the style attribute.
@@ -445,6 +448,55 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return unstylable;
 	}
 
+	var posPrecedingIdenticalContained =
+			CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED,
+		posFollowingIdenticalContained =
+			CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED;
+
+	// Checks if the current node can be a child of the style element.
+	function checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) {
+		// Style can be applied to text node.
+		if ( !nodeName )
+			return 1;
+
+		// Style definitely cannot be applied if DTD or data-nostyle do not allow.
+		if ( !dtd[ nodeName ] || nodeIsNoStyle  )
+			return 0;
+
+		// Non-editable element cannot be styled is we shouldn't include readonly elements.
+		if ( nodeIsReadonly && !includeReadonly  )
+			return 0;
+
+		// Check that we haven't passed lastNode yet and that style's childRule allows this style on current element.
+		return checkPositionAndRule( currentNode, lastNode, def, posPrecedingIdenticalContained );
+	}
+
+	// Check if the style element can be a child of the current
+	// node parent or if the element is not defined in the DTD.
+	function checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) {
+		return currentParent &&
+			( ( currentParent.getDtd() || CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
+			( !def.parentRule || def.parentRule( currentParent ) );
+	}
+
+	function checkIfStartsRange( nodeName, currentNode, lastNode ) {
+		return (
+			!nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
+			( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained
+		);
+	}
+
+	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
+		var nodeType = currentNode.type;
+		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() );
+	}
+
+	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
+	function checkPositionAndRule( nodeA, nodeB, def, posBitFlags ) {
+		return ( nodeA.getPosition( nodeB ) | posBitFlags ) == posBitFlags &&
+			( !def.childRule || def.childRule( nodeA ) );
+	}
+
 	function applyInlineStyle( range ) {
 		var document = range.document;
 
@@ -461,9 +513,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return;
 		}
 
-		var elementName = this.element;
-		var def = this._.definition;
-		var isUnknownElement;
+		var elementName = this.element,
+			def = this._.definition,
+			isUnknownElement;
 
 		// Indicates that fully selected read-only elements are to be included in the styling range.
 		var ignoreReadonly = def.ignoreReadonly,
@@ -475,21 +527,22 @@ CKEDITOR.STYLE_OBJECT = 3;
 			includeReadonly = range.root.getCustomData( 'cke_includeReadonly' );
 
 		// Get the DTD definition for the element. Defaults to "span".
-		var dtd = CKEDITOR.dtd[ elementName ] || ( isUnknownElement = true, CKEDITOR.dtd.span );
+		var dtd = CKEDITOR.dtd[ elementName ];
+		if ( !dtd ) {
+			isUnknownElement = true;
+			dtd = CKEDITOR.dtd.span;
+		}
 
 		// Expand the range.
 		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 		range.trim();
 
-		// Get the first node to be processed and the last, which concludes the
-		// processing.
+		// Get the first node to be processed and the last, which concludes the processing.
 		var boundaryNodes = range.createBookmark(),
 			firstNode = boundaryNodes.startNode,
-			lastNode = boundaryNodes.endNode;
-
-		var currentNode = firstNode;
-
-		var styleRange;
+			lastNode = boundaryNodes.endNode,
+			currentNode = firstNode,
+			styleRange;
 
 		if ( !ignoreReadonly ) {
 			// Check if the boundaries are inside non stylable elements.
@@ -519,54 +572,39 @@ CKEDITOR.STYLE_OBJECT = 3;
 				currentNode = null;
 				applyStyle = true;
 			} else {
-				var nodeType = currentNode.type;
-				var nodeName = nodeType == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null;
-				var nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' );
-				var nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
+				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
+					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
+					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
+				// Skip bookmarks.
 				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}
 
+				// Find all nested editables of a non-editable block and apply this style inside them.
+				if ( nodeIsReadonly && includeReadonly && CKEDITOR.dtd.$block[ nodeName ] )
+					applyStyleOnNestedEditables.call( this, currentNode );
+
 				// Check if the current node can be a child of the style element.
-				if ( !nodeName ||
-				     ( dtd[ nodeName ] && !nodeIsNoStyle &&
-				       ( !nodeIsReadonly || includeReadonly ) &&
-				       ( currentNode.getPosition( lastNode ) |
-				         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-				         CKEDITOR.POSITION_IS_CONTAINED ) ==
-				       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-				         CKEDITOR.POSITION_IS_CONTAINED ) &&
-				       ( !def.childRule || def.childRule( currentNode ) ) ) ) {
+				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) ) {
 					var currentParent = currentNode.getParent();
 
 					// Check if the style element can be a child of the current
 					// node parent or if the element is not defined in the DTD.
-					if ( currentParent &&
-					     ( ( currentParent.getDtd() ||
-					         CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
-					     ( !def.parentRule || def.parentRule( currentParent ) ) ) {
+					if ( checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) ) {
 						// This node will be part of our range, so if it has not
 						// been started, place its start right before the node.
 						// In the case of an element node, it will be included
 						// only if it is entirely inside the range.
-						if ( !styleRange &&
-						     ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
-						       ( currentNode.getPosition( lastNode ) |
-						         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-						         CKEDITOR.POSITION_IS_CONTAINED ) ==
-						       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-						         CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
+						if ( !styleRange && checkIfStartsRange( nodeName, currentNode, lastNode ) ) {
 							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
 
 						// Non element nodes, readonly elements, or empty
 						// elements can be added completely to the range.
-						if ( nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly ||
-						     ( nodeType == CKEDITOR.NODE_ELEMENT &&
-						       !currentNode.getChildCount() ) ) {
+						if ( checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
@@ -574,16 +612,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
 							// to the range, otherwise apply the style immediately.
-							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) &&
-							        ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
-							        ( parentNode.getPosition( firstNode ) |
-							          CKEDITOR.POSITION_FOLLOWING |
-							          CKEDITOR.POSITION_IDENTICAL |
-							          CKEDITOR.POSITION_IS_CONTAINED ) ==
-							        ( CKEDITOR.POSITION_FOLLOWING +
-							          CKEDITOR.POSITION_IDENTICAL +
-							          CKEDITOR.POSITION_IS_CONTAINED ) &&
-							        ( !def.childRule || def.childRule( parentNode ) ) ) {
+							while (
+								( applyStyle = !includedNode.getNext( notBookmark ) ) &&
+								( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
+								checkPositionAndRule( parentNode, firstNode, def, posFollowingIdenticalContained )
+							) {
 								includedNode = parentNode;
 							}
 
@@ -592,11 +625,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 						}
 					} else
 						applyStyle = true;
-				} else
+				}
+				// Style isn't applicable to current element, so apply style to
+				// range ending at previously chosen position, or nowhere if we haven't
+				// yet started styleRange.
+				else
 					applyStyle = true;
 
 				// Get the next node to be processed.
-				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly && !includeReadonly );
+				// If we're currently on a non-editable element or non-styleable element,
+				// then we'll be moved to current node's sibling (or even further), so we'll
+				// avoid messing up its content.
+				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly );
 			}
 
 			// Apply the style if we have something to which apply it.
@@ -660,13 +700,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// Move the contents of the range to the style element.
 					styleRange.extractContents().appendTo( styleNode );
 
-					// Here we do some cleanup, removing all duplicated
-					// elements from the style element.
-					removeFromInsideElement.call( this, styleNode );
-
 					// Insert it into the range position (it is collapsed after
 					// extractContents.
 					styleRange.insertNode( styleNode );
+
+					// Here we do some cleanup, removing all duplicated
+					// elements from the style element.
+					removeFromInsideElement.call( this, styleNode );
 
 					// Let's merge our new style with its neighbors, if possible.
 					styleNode.mergeSiblings();
@@ -700,6 +740,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Minimize the result range to exclude empty text nodes. (#5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
+
+		// Get inside the remaining element if range.shrink( TEXT ) has failed because of non-editable elements inside.
+		// E.g. range.shrink( TEXT ) will not get inside:
+		// [<b><i contenteditable="false">x</i></b>]
+		// but range.shrink( ELEMENT ) will.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
 	}
 
 	function removeInlineStyle( range ) {
@@ -732,14 +778,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
-						/*
-						 * Before removing the style node, there may be a sibling to the style node
-						 * that's exactly the same to the one to be removed. To the user, it makes
-						 * no difference that they're separate entities in the DOM tree. So, merge
-						 * them before removal.
-						 */
+						// Before removing the style node, there may be a sibling to the style node
+						// that's exactly the same to the one to be removed. To the user, it makes
+						// no difference that they're separate entities in the DOM tree. So, merge
+						// them before removal.
 						element.mergeSiblings();
-						if ( element.getName() == this.element )
+						if ( element.is( this.element ) )
 							removeFromElement.call( this, element );
 						else
 							removeOverrides( element, getOverrides( this )[ element.getName() ] );
@@ -752,7 +796,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// new range.
 			if ( boundaryElement ) {
 				var clonedElement = startNode;
-				for ( i = 0;; i++ ) {
+				for ( i = 0; ; i++ ) {
 					var newElement = startPath.elements[ i ];
 					if ( newElement.equals( boundaryElement ) )
 						break;
@@ -772,37 +816,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var endNode = bookmark.endNode,
 				me = this;
 
-			// Find out the style ancestor that needs to be broken down at startNode
-			// and endNode.
-			function breakNodes() {
-				var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
-					endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
-					breakStart = null,
-					breakEnd = null;
-				for ( var i = 0; i < startPath.elements.length; i++ ) {
-					var element = startPath.elements[ i ];
-
-					if ( element == startPath.block || element == startPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakStart = element;
-				}
-				for ( i = 0; i < endPath.elements.length; i++ ) {
-					element = endPath.elements[ i ];
-
-					if ( element == endPath.block || element == endPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakEnd = element;
-				}
-
-				if ( breakEnd )
-					endNode.breakParent( breakEnd );
-				if ( breakStart )
-					startNode.breakParent( breakStart );
-			}
 			breakNodes();
 
 			// Now, do the DFS walk.
@@ -832,6 +845,89 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		range.moveToBookmark( bookmark );
+		// See the comment for range.shrink in applyInlineStyle.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
+
+		// Find out the style ancestor that needs to be broken down at startNode
+		// and endNode.
+		function breakNodes() {
+			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+				endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
+				breakStart = null,
+				breakEnd = null;
+
+			for ( var i = 0; i < startPath.elements.length; i++ ) {
+				var element = startPath.elements[ i ];
+
+				if ( element == startPath.block || element == startPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element ) )
+					breakStart = element;
+			}
+
+			for ( i = 0; i < endPath.elements.length; i++ ) {
+				element = endPath.elements[ i ];
+
+				if ( element == endPath.block || element == endPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element ) )
+					breakEnd = element;
+			}
+
+			if ( breakEnd )
+				endNode.breakParent( breakEnd );
+			if ( breakStart )
+				startNode.breakParent( breakStart );
+		}
+	}
+
+	// Apply style to nested editables inside editablesContainer.
+	// @param {CKEDITOR.dom.element} editablesContainer
+	// @context CKEDITOR.style
+	function applyStyleOnNestedEditables( editablesContainer ) {
+		var editables = findNestedEditables( editablesContainer ),
+			editable,
+			l = editables.length,
+			i = 0,
+			range = l && new CKEDITOR.dom.range( editablesContainer.getDocument() );
+
+		for ( ; i < l; ++i ) {
+			editable = editables[ i ];
+			// Check if style is allowed by this editable's ACF.
+			if ( checkIfAllowedInEditable( editable, this ) ) {
+				range.selectNodeContents( editable );
+				applyInlineStyle.call( this, range );
+			}
+		}
+	}
+
+	// Finds nested editables within container. Does not return
+	// editables nested in another editable (twice).
+	function findNestedEditables( container ) {
+		var editables = [];
+
+		container.forEach( function( element ) {
+			if ( element.getAttribute( 'contenteditable' ) == 'true' ) {
+				editables.push( element );
+				return false; // Skip children.
+			}
+		}, CKEDITOR.NODE_ELEMENT, true );
+
+		return editables;
+	}
+
+	// Checks if style is allowed in this editable.
+	function checkIfAllowedInEditable( editable, style ) {
+		var filter = CKEDITOR.filter.instances[ editable.data( 'cke-filter' ) ];
+
+		return filter ? filter.check( style ) : 1;
+	}
+
+	// Checks if style is allowed by iterator's active filter.
+	function checkIfAllowedByIterator( iterator, style ) {
+		return iterator.activeFilter ? iterator.activeFilter.check( style ) : 1;
 	}
 
 	function applyObjectStyle( range ) {
@@ -855,18 +951,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Remove all defined attributes.
 		if ( attributes ) {
-			for ( var att in attributes ) {
+			for ( var att in attributes )
 				element.removeAttribute( att, attributes[ att ] );
-			}
 		}
 
 		// Assign all defined styles.
 		if ( def.styles ) {
 			for ( var i in def.styles ) {
-				if ( !def.styles.hasOwnProperty( i ) )
-					continue;
-
-				element.removeStyle( i );
+				if ( def.styles.hasOwnProperty( i ) )
+					element.removeStyle( i );
 			}
 		}
 	}
@@ -883,14 +976,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( this._.enterMode )
 			iterator.enlargeBr = ( this._.enterMode != CKEDITOR.ENTER_BR );
 
-		var block;
-		var doc = range.document;
-		var previousPreBlock;
+		var block,
+			doc = range.document,
+			previousPreBlock,
+			newBlock;
 
-		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
-		{
-			if ( !block.isReadOnly() ) {
-				var newBlock = getElement( this, doc, block );
+		while ( ( block = iterator.getNextParagraph() ) ) {
+			if ( !block.isReadOnly() && checkIfAllowedByIterator( iterator, this ) ) {
+				newBlock = getElement( this, doc, block );
 				replaceBlock( block, newBlock );
 			}
 		}
@@ -907,13 +1000,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 		iterator.enforceRealBlocks = true;
 		iterator.enlargeBr = this._.enterMode != CKEDITOR.ENTER_BR;
 
-		var block;
+		var block,
+			newBlock;
+
 		while ( ( block = iterator.getNextParagraph() ) ) {
 			if ( this.checkElementRemovable( block ) ) {
 				// <pre> get special treatment.
 				if ( block.is( 'pre' ) ) {
-					var newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null :
-					               range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+					newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null :
+							range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 					newBlock && block.copyAttributes( newBlock );
 					replaceBlock( block, newBlock );
@@ -937,11 +1032,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			block.copyAttributes( newBlock );
 		}
 
-		var newBlockIsPre = newBlock && newBlock.is( 'pre' );
-		var blockIsPre = block.is( 'pre' );
-
-		var isToPre = newBlockIsPre && !blockIsPre;
-		var isFromPre = !newBlockIsPre && blockIsPre;
+		var newBlockIsPre = newBlock && newBlock.is( 'pre' ),
+			blockIsPre = block.is( 'pre' ),
+			isToPre = newBlockIsPre && !blockIsPre,
+			isFromPre = !newBlockIsPre && blockIsPre;
 
 		if ( isToPre )
 			newBlock = toPre( block, newBlock );
@@ -963,7 +1057,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// Merge a <pre> block with a previous sibling if available.
 	function mergePre( preBlock ) {
 		var previousBlock;
-		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) ) && previousBlock.is && previousBlock.is( 'pre' ) ) )
+		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) ) && previousBlock.type == CKEDITOR.NODE_ELEMENT && previousBlock.is( 'pre' ) ) )
 			return;
 
 		// Merge the previous <pre> block contents into the current <pre>
@@ -991,14 +1085,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// and ignore bookmark content between them.
 		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+data-cke-bookmark.*?\/span>))*\n(?!$)/gi,
 			blockName = preBlock.getName(),
+			pres = [],
 			splitedHtml = replace( preBlock.getOuterHtml(), duoBrRegex, function( match, charBefore, bookmark ) {
 				return charBefore + '</pre>' + bookmark + '<pre>';
-			});
+			} );
 
-		var pres = [];
 		splitedHtml.replace( /<pre\b.*?>([\s\S]*?)<\/pre>/gi, function( match, preContent ) {
 			pres.push( preContent );
-		});
+		} );
 		return pres;
 	}
 
@@ -1011,7 +1105,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			m1 && ( headBookmark = m1 );
 			m2 && ( tailBookmark = m2 );
 			return '';
-		});
+		} );
 		return headBookmark + str.replace( regexp, replacement ) + tailBookmark;
 	}
 
@@ -1032,19 +1126,19 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// 2. Convert spaces or tabs at the beginning or at the end to &nbsp;
 			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
 				if ( match.length == 1 ) // one space, preserve it
-				return '&nbsp;';
+					return '&nbsp;';
 				else if ( !offset ) // beginning of block
-				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 				else // end of block
-				return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
-			});
+					return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
+			} );
 
 			// 3. Convert \n to <BR>.
 			// 4. Convert contiguous (i.e. non-singular) spaces or tabs to &nbsp;
 			blockHtml = blockHtml.replace( /\n/g, '<br>' );
 			blockHtml = blockHtml.replace( /[ \t]{2,}/g, function( match ) {
 				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-			});
+			} );
 
 			if ( docFrag ) {
 				var newBlockClone = newBlock.clone();
@@ -1125,7 +1219,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this._.definition.alwaysRemoveElement )
 				removeNoAttribsElement( element, 1 );
 			else {
-				!CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+				if ( !CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() )
+					removeNoAttribsElement( element );
+				else
+					element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			}
 		}
 	}
@@ -1136,19 +1233,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 			attribs = def.attributes,
 			styles = def.styles,
 			overrides = getOverrides( this ),
-			innerElements = element.getElementsByTag( this.element );
+			innerElements = element.getElementsByTag( this.element ),
+			innerElement;
 
-		for ( var i = innerElements.count(); --i >= 0; )
-			removeFromElement.call( this, innerElements.getItem( i ) );
+		for ( var i = innerElements.count(); --i >= 0; ) {
+			innerElement = innerElements.getItem( i );
+
+			// Do not remove elements which are read only (e.g. duplicates inside widgets).
+			if ( !innerElement.isReadOnly() )
+				removeFromElement.call( this, innerElement );
+		}
 
 		// Now remove any other element with different name that is
 		// defined to be overriden.
 		for ( var overrideElement in overrides ) {
 			if ( overrideElement != this.element ) {
 				innerElements = element.getElementsByTag( overrideElement );
+
 				for ( i = innerElements.count() - 1; i >= 0; i-- ) {
-					var innerElement = innerElements.getItem( i );
-					removeOverrides( innerElement, overrides[ overrideElement ] );
+					innerElement = innerElements.getItem( i );
+
+					// Do not remove elements which are read only (e.g. duplicates inside widgets).
+					if ( !innerElement.isReadOnly() )
+						removeOverrides( innerElement, overrides[ overrideElement ] );
 				}
 			}
 		}
@@ -1255,9 +1362,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Assign all defined attributes.
 		if ( attributes ) {
-			for ( var att in attributes ) {
+			for ( var att in attributes )
 				el.setAttribute( att, attributes[ att ] );
-			}
 		}
 
 		// Assign all defined styles.
@@ -1271,7 +1377,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		for ( var item in list ) {
 			list[ item ] = list[ item ].replace( varRegex, function( match, varName ) {
 				return variablesValues[ varName ];
-			});
+			} );
 		}
 	}
 
@@ -1331,10 +1437,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			// Loop through all override definitions.
 			for ( var i = 0; i < definition.length; i++ ) {
-				var override = definition[ i ];
-				var elementName;
-				var overrideEl;
-				var attrs;
+				var override = definition[ i ],
+					elementName,
+					overrideEl,
+					attrs;
 
 				// If can be a string with the element name.
 				if ( typeof override == 'string' )
@@ -1380,12 +1486,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @param {Object/String} source
 	// @param {Object/String} target
 	function compareCssText( source, target ) {
-		typeof source == 'string' && ( source = CKEDITOR.tools.parseCssText( source ) );
-		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target, true ) );
+		if ( typeof source == 'string' )
+			source = CKEDITOR.tools.parseCssText( source );
+		if ( typeof target == 'string' )
+			target = CKEDITOR.tools.parseCssText( target, true );
+
 		for ( var name in source ) {
-			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
+			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) )
 				return false;
-			}
 		}
 		return true;
 	}
@@ -1521,7 +1629,7 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
 		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
 			editor._.stylesDefinitions = stylesSet[ styleSetName ];
 			callback( editor._.stylesDefinitions );
-		});
+		} );
 	} else
 		callback( this._.stylesDefinitions );
 };

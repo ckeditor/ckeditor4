@@ -381,9 +381,9 @@
 				editor.contextMenu.addListener( function( element, selection ) {
 					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
-						cut: stateFromNamedCommand( 'Cut' ),
-						copy: stateFromNamedCommand( 'Copy' ),
-						paste: stateFromNamedCommand( 'Paste' )
+						cut: stateFromNamedCommand( 'cut' ),
+						copy: stateFromNamedCommand( 'copy' ),
+						paste: stateFromNamedCommand( 'paste' )
 					};
 				});
 			}
@@ -683,7 +683,10 @@
 			var pastebin = new CKEDITOR.dom.element(
 				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
-			pastebin.setAttribute( 'id', 'cke_pastebin' );
+			pastebin.setAttributes( {
+				id: 'cke_pastebin',
+				'data-cke-temp': '1'
+			} );
 
 			// Append bogus to prevent Opera from doing this. (#9522)
 			if ( CKEDITOR.env.opera )
@@ -904,39 +907,27 @@
 			if ( editor.mode != 'wysiwyg' )
 				return;
 
-			var pasteState = stateFromNamedCommand( 'Paste' );
+			var pasteState = stateFromNamedCommand( 'paste' );
 
-			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'Cut' ) );
-			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'Copy' ) );
+			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'cut' ) );
+			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'copy' ) );
 			editor.getCommand( 'paste' ).setState( pasteState );
 			editor.fire( 'pasteState', pasteState );
 		}
 
 		function stateFromNamedCommand( command ) {
-			var retval;
-
-			if ( inReadOnly && command in { Paste:1,Cut:1 } )
+			if ( inReadOnly && command in { paste:1,cut:1 } )
 				return CKEDITOR.TRISTATE_DISABLED;
 
-			if ( command == 'Paste' ) {
-				// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
-				// guard to distinguish from the ordinary sources (either
-				// keyboard paste or execCommand) (#4874).
-				CKEDITOR.env.ie && ( preventBeforePasteEvent = 1 );
-				try {
-					// Always return true for Webkit (which always returns false)
-					retval = editor.document.$.queryCommandEnabled( command ) || CKEDITOR.env.webkit;
-				} catch ( er ) {}
-				preventBeforePasteEvent = 0;
-			}
-			// Cut, Copy - check if the selection is not empty
-			else {
-				var sel = editor.getSelection(),
-					ranges = sel.getRanges();
-				retval = sel.getType() != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
-			}
+			if ( command == 'paste' )
+				return CKEDITOR.TRISTATE_OFF;
 
-			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+			// Cut, copy - check if the selection is not empty.
+			var sel = editor.getSelection(),
+				ranges = sel.getRanges(),
+				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
+
+			return selectionIsEmpty ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
 		}
 	}
 
@@ -1070,7 +1061,7 @@
 				}
 			};
 
-		filter.addRules({
+		filter.addRules( {
 			elements: {
 				h1: squashHeader,
 				h2: squashHeader,
@@ -1102,7 +1093,7 @@
 						return false;
 
 					// Remove all attributes.
-					delete element.attributes;
+					element.attributes = [];
 
 					// Pass brs.
 					if ( initialName == 'br' )
@@ -1140,7 +1131,10 @@
 					return element;
 				}
 			}
-		});
+		}, {
+			// Apply this filter to every element.
+			applyToAll: true
+		} );
 
 		return filter;
 	}
