@@ -1,6 +1,11 @@
 CKEditor 4 - The best browser-based WYSIWYG editor
 ==================================================
 
+## Fork description
+
+This fork was done to implement the needed changes for- and a Sample (+[online-demo](http://jsfiddle.net/Kt3v6/)) of- the [textselection](https://github.com/sirtet/ckeditor-dev/tree/master/plugins/textselection) plugin, which was firs posted on the [CKEditor Forums](http://ckeditor.com/comment/123133#comment-123133).
+
+
 ## Development Code
 
 This repository contains the development version of CKEditor.
