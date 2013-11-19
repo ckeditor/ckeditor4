@@ -100,7 +100,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// @param {Function} callback.
 		return function( src, callback, scope ) {
 			addListener( 'load', function() {
-				callback.call( scope, image, image.$.width, image.$.height );
+				// Don't use image.$.(width|height) since it's buggy in IE9-10 (#11159)
+				var dimensions = getNatural( image );
+
+				callback.call( scope, image, dimensions.width, dimensions.height );
 			} );
 
 			addListener( 'error', function() {
