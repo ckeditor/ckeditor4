@@ -827,18 +827,18 @@
 				while ( ( l = listeners.pop() ) )
 					l.removeListener();
 
+				// Restore default cursor by removing special class.
+				editable.removeClass( cursorClass );
+
+				// This is to bring back the regular behaviour of the resizer.
+				resizer.removeClass( 'cke_image2_resizing' );
+
 				if ( updateData ) {
 					widget.setData( { width: newWidth, height: newHeight } );
 
 					// Save another undo snapshot: after resizing.
 					editor.fire( 'saveSnapshot' );
 				}
-
-				// Restore default cursor by removing special class.
-				editable.removeClass( cursorClass );
-
-				// This is to bring back the regular behaviour of the resizer.
-				resizer.removeClass( 'cke_image2_resizing' );
 
 				// Don't update data twice or more.
 				updateData = false;
