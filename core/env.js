@@ -72,14 +72,23 @@ if ( !CKEDITOR.env ) {
 			mac: ( agent.indexOf( 'macintosh' ) > -1 ),
 
 			/**
-			 * Indicates that CKEditor is running in a Quirks Mode environemnt.
+			 * Indicates that CKEditor is running in a Quirks Mode environment.
 			 *
 			 *		if ( CKEDITOR.env.quirks )
 			 *			alert( 'Nooooo!' );
 			 *
+			 * Internet Explorer 10 introduced new Quirks Mode, which is similar to the Quirks Mode
+			 * implemented in other modern browsers and which is defined in HTML5 specification. It can be handled as
+			 * the standards mode, so value of this property will be set to `false`.
+			 *
+			 * The "Internet Explorer 5 quirks" mode which is still available on Internet Explorer 10+
+			 * sets this value to `true` and {@link #version} to `7`.
+			 *
+			 * Read more: http://blogs.msdn.com/b/ie/archive/2011/12/14/interoperable-html5-quirks-mode-in-ie10.aspx
+			 *
 			 * @property {Boolean}
 			 */
-			quirks: ( document.compatMode == 'BackCompat' ),
+			quirks: ( document.compatMode == 'BackCompat' && ( !document.documentMode || document.documentMode < 10 ) ),
 
 			/**
 			 * Indicates that CKEditor is running in a mobile environemnt.
@@ -181,7 +190,7 @@ if ( !CKEDITOR.env ) {
 			env.ie9Compat = version == 9;
 			env.ie8Compat = version == 8;
 			env.ie7Compat = version == 7;
-			env.ie6Compat = version < 7 || ( env.quirks && version < 10 );
+			env.ie6Compat = version < 7 || env.quirks;
 
 			/**
 			 * Indicates that CKEditor is running in an IE6-like environment, which
