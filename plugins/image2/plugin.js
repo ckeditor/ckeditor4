@@ -150,6 +150,8 @@
 		data: function() {
 			var widget = this,
 				editor = widget.editor,
+				doc = editor.document,
+				editable = editor.editable(),
 				oldState = widget.oldData,
 				newState = widget.data;
 
@@ -181,6 +183,15 @@
 					if ( this.destroyed ) {
 						widget = editor.widgets.initOn( element, 'image2', widget.data );
 
+						// Once widget was re-created, it may become an inline element without
+						// block wrapper (i.e. when unaligned, end not captioned). Let's do some
+						// sort of autoparagraphing here (#10853).
+						if ( widget.inline && !( new CKEDITOR.dom.elementPath( widget.wrapper, editable ).block ) ) {
+							var block = doc.createElement( editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+							block.replace( widget.wrapper );
+							widget.wrapper.move( block );
+						}
+
 						// The focus must be transferred from the old one (destroyed)
 						// to the new one (just created).
 						if ( this.focused ) {
@@ -195,6 +206,7 @@
 					// According to the new state.
 					else
 						setWrapperAlign( widget );
+
 				}
 			} );
 
@@ -396,7 +408,9 @@
 					var range = editor.createRange();
 
 					// Move the range before old element and insert element into it.
-					range.moveToPosition( replaced, CKEDITOR.POSITION_BEFORE_START );
+					// Use AFTER_END rather than BEFORE_START to avoid
+					// empty paragraphs produced by insertion (#10853).
+					range.moveToPosition( replaced, CKEDITOR.POSITION_AFTER_END );
 					editable.insertElementIntoRange( replacing, range );
 
 					// Remove old element.
