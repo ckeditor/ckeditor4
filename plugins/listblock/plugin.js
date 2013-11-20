@@ -18,12 +18,10 @@ CKEDITOR.plugins.add( 'listblock', {
 				'</a>' +
 				'</li>' ),
 			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
-			escapeSingleQuotes = (function() {
-				var reSingleQuote = /\'/g;
-				return function( str ) {
-					return str.replace( reSingleQuote, '\\\'' );
-				};
-			}());
+			reSingleQuote = /\'/g,
+			escapeSingleQuotes = function( str ) {
+				return str.replace( reSingleQuote, '\\\'' );
+			};
 
 		CKEDITOR.ui.panel.prototype.addListBlock = function( name, definition ) {
 			return this.addBlock( name, new CKEDITOR.ui.listBlock( this.getHolderElement(), definition ) );
