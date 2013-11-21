@@ -64,7 +64,7 @@ CKEDITOR.lang[ 'en-gb' ] = {
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?',
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?',
+		confirmCancel: 'Some of the options have been changed. Are you sure you want to close the dialogue?',
 		options: 'Options',
 		target: 'Target',
 		targetNew: 'New Window (_blank)',
