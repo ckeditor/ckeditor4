@@ -15,7 +15,7 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		lang: 'en,ja,uk', // %REMOVE_LINE_CORE%
-		requires: 'lineutils',
+		requires: 'lineutils,clipboard',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
