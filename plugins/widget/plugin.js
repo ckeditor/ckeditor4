@@ -1666,16 +1666,33 @@
 		return element.hasAttribute( 'data-cke-temp' );
 	}
 
-	function moveSelectionToDropPosition( editor, dropEvt ) {
+	function finalizeNativeDrop( editor, sourceWidget, range ) {
+		// Save the snapshot with the state before moving widget.
+		// Focus widget, so when we'll undo the DnD, widget will be focused.
+		sourceWidget.focus();
+		editor.fire( 'saveSnapshot' );
+
+		// Lock snapshot to group all steps of moving widget from the original place to the new one.
+		editor.fire( 'lockSnapshot', { dontUpdate: true } );
+
+		range.select();
+
+		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
+		sourceWidget.wrapper.remove();
+		editor.widgets.destroy( sourceWidget, true );
+		editor.execCommand( 'paste', widgetHtml );
+
+		editor.fire( 'unlockSnapshot' );
+	}
+
+	function getRangeAtDropPosition( editor, dropEvt ) {
 		var $evt = dropEvt.data.$,
 			$range,
 			range = editor.createRange();
 
 		// Make testing possible.
-		if ( dropEvt.data.testRange ) {
-			dropEvt.data.testRange.select();
-			return;
-		}
+		if ( dropEvt.data.testRange )
+			return dropEvt.data.testRange;
 
 		// Webkits.
 		if ( document.caretRangeFromPoint ) {
@@ -1699,16 +1716,10 @@
 			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
 			span.remove();
 		}
+		else
+			return null;
 
-		range.select();
-	}
-
-	function moveWidget( editor, sourceWidget ) {
-		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
-		sourceWidget.wrapper.remove();
-		editor.widgets.destroy( sourceWidget, true );
-		editor.execCommand( 'paste', widgetHtml );
-		editor.fire( 'unlockSnapshot' );
+		return range;
 	}
 
 	function onEditableKey( widget, keyCode ) {
@@ -1911,7 +1922,8 @@
 			editable.attachListener( editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
-					sourceWidget;
+					sourceWidget,
+					range;
 
 				if ( !dataStr )
 					return;
@@ -1932,23 +1944,19 @@
 				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
 					return;
 
-				// Save the snapshot with the state before moving widget.
-				// Focus widget, so when we'll undo the DnD, widget will be focused.
-				sourceWidget.focus();
-				editor.fire( 'saveSnapshot' );
+				// Try to determine a DOM position at which drop happened. If none of methods
+				// which we support succeeded abort.
+				range = getRangeAtDropPosition( editor, evt );
+				if ( !range )
+					return;
 
-				// Lock snapshot to group all steps of moving widget from the original place to the new one.
-				editor.fire( 'lockSnapshot', { dontUpdate: true } );
-
-				moveSelectionToDropPosition( editor, evt );
-
-				// Hack to prevent cursor loss on Firefox. Without timeout widget is
+				// #11132 Hack to prevent cursor loss on Firefox. Without timeout widget is
 				// correctly pasted but then cursor is invisible (although it works) and can be restored
 				// only by blurring editable.
 				if ( CKEDITOR.env.gecko )
-					setTimeout( moveWidget, 0, editor, sourceWidget );
+					setTimeout( finalizeNativeDrop, 0, editor, sourceWidget, range );
 				else
-					moveWidget( editor, sourceWidget );
+					finalizeNativeDrop( editor, sourceWidget, range );
 			} );
 
 			// Register Lineutils's utilities as properties of repo.
