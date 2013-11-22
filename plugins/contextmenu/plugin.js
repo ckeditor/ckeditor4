@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 		 * @class
 		 * @extends CKEDITOR.menu
 		 */
-		CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass({
+		CKEDITOR.plugins.contextMenu = CKEDITOR.tools.createClass( {
 			base: CKEDITOR.menu,
 
 			/**
@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							'aria-label': editor.lang.contextmenu.options
 						}
 					}
-				});
+				} );
 			},
 
 			proto: {
@@ -64,7 +64,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 								'px;left:' + ( evt.$.clientX - 2 ) +
 								'px;width:5px;height:5px;opacity:0.01' );
 
-						});
+						} );
 
 						element.on( 'mouseup', function( evt ) {
 							if ( contextMenuOverrideButton ) {
@@ -73,18 +73,18 @@ CKEDITOR.plugins.add( 'contextmenu', {
 								// Simulate 'contextmenu' event.
 								element.fire( 'contextmenu', evt.data );
 							}
-						});
+						} );
 					}
 
 					element.on( 'contextmenu', function( event ) {
-						var domEvent = event.data;
+						var domEvent = event.data,
+							isCtrlKeyDown =
+								// Safari on Windows always show 'ctrlKey' as true in 'contextmenu' event,
+								// which make this property unreliable. (#4826)
+								( CKEDITOR.env.webkit ? holdCtrlKey : ( CKEDITOR.env.mac ? domEvent.$.metaKey : domEvent.$.ctrlKey ) );
 
-						if ( nativeContextMenuOnCtrl &&
-						// Safari on Windows always show 'ctrlKey' as true in 'contextmenu' event,
-						// which make this property unreliable. (#4826)
-						( CKEDITOR.env.webkit ? holdCtrlKey : ( CKEDITOR.env.mac ? domEvent.$.metaKey : domEvent.$.ctrlKey ) ) )
+						if ( nativeContextMenuOnCtrl && isCtrlKeyDown )
 							return;
-
 
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
@@ -111,7 +111,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 							if ( domEvent.$.keyCode === 0 )
 								domEvent.preventDefault();
-						});
+						} );
 					}
 
 					if ( CKEDITOR.env.webkit ) {
@@ -147,18 +147,18 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 		editor.on( 'contentDom', function() {
 			contextMenu.addTarget( editor.editable(), editor.config.browserContextMenuOnCtrl !== false );
-		});
+		} );
 
 		editor.addCommand( 'contextMenu', {
 			exec: function() {
 				editor.contextMenu.open( editor.document.getBody() );
 			}
-		});
+		} );
 
 		editor.setKeystroke( CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' );
 		editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 121 /*F10*/, 'contextMenu' );
 	}
-});
+} );
 
 /**
  * Whether to show the browser native context menu when the *Ctrl* or
