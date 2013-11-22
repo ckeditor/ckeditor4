@@ -32,50 +32,6 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 			proto: {
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
-					// Opera doesn't support 'contextmenu' event, we have duo approaches employed here:
-					// 1. Inherit the 'button override' hack we introduced in v2 (#4530), while this require the Opera browser
-					//  option 'Allow script to detect context menu/right click events' to be always turned on.
-					// 2. Considering the fact that ctrl/meta key is not been occupied
-					//  for multiple range selecting (like Gecko), we use this key
-					//  combination as a fallback for triggering context-menu. (#4530)
-					if ( CKEDITOR.env.opera && !( 'oncontextmenu' in document.body ) ) {
-						var contextMenuOverrideButton;
-						element.on( 'mousedown', function( evt ) {
-							evt = evt.data;
-							if ( evt.$.button != 2 ) {
-								if ( evt.getKeystroke() == CKEDITOR.CTRL + 1 )
-									element.fire( 'contextmenu', evt );
-								return;
-							}
-
-							if ( nativeContextMenuOnCtrl && ( CKEDITOR.env.mac ? evt.$.metaKey : evt.$.ctrlKey ) )
-								return;
-
-							var target = evt.getTarget();
-
-							if ( !contextMenuOverrideButton ) {
-								var ownerDoc = target.getDocument();
-								contextMenuOverrideButton = ownerDoc.createElement( 'input' );
-								contextMenuOverrideButton.$.type = 'button';
-								ownerDoc.getBody().append( contextMenuOverrideButton );
-							}
-
-							contextMenuOverrideButton.setAttribute( 'style', 'position:absolute;top:' + ( evt.$.clientY - 2 ) +
-								'px;left:' + ( evt.$.clientX - 2 ) +
-								'px;width:5px;height:5px;opacity:0.01' );
-
-						} );
-
-						element.on( 'mouseup', function( evt ) {
-							if ( contextMenuOverrideButton ) {
-								contextMenuOverrideButton.remove();
-								contextMenuOverrideButton = undefined;
-								// Simulate 'contextmenu' event.
-								element.fire( 'contextmenu', evt.data );
-							}
-						} );
-					}
-
 					element.on( 'contextmenu', function( event ) {
 						var domEvent = event.data,
 							isCtrlKeyDown =
@@ -102,17 +58,6 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							// IE needs a short while to allow selection change before opening menu. (#7908)
 						}, CKEDITOR.env.ie ? 200 : 0, this );
 					}, this );
-
-					if ( CKEDITOR.env.opera ) {
-						// 'contextmenu' event triggered by Windows menu key is unpreventable,
-						// cancel the key event itself. (#6534)
-						element.on( 'keypress', function( evt ) {
-							var domEvent = evt.data;
-
-							if ( domEvent.$.keyCode === 0 )
-								domEvent.preventDefault();
-						} );
-					}
 
 					if ( CKEDITOR.env.webkit ) {
 						var holdCtrlKey,
