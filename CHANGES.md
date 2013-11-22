@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.1
 
+**Important Notes:**
+
+* To match the naming convention `image2` and `language` buttons are now `Image2` and `Language` ([#11201](http://dev.ckeditor.com/ticket/11201)).
+
 ## CKEditor 4.3
 
 New Features:
