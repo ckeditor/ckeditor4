@@ -10,6 +10,8 @@ CKEDITOR.plugins.add( 'contextmenu', {
 	// Make sure the base class (CKEDITOR.menu) is loaded before it (#3318).
 	onLoad: function() {
 		/**
+		 * Class replacing the non-configurable native context menu with configurable CKEditor's equivalent.
+		 *
 		 * @class
 		 * @extends CKEDITOR.menu
 		 */
@@ -17,7 +19,10 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			base: CKEDITOR.menu,
 
 			/**
+			 * Creates the CKEDITOR.plugins.contextMenu class instance.
+			 *
 			 * @constructor
+			 * @param {CKEDITOR.editor} editor
 			 */
 			$: function( editor ) {
 				this.base.call( this, editor, {
@@ -31,6 +36,13 @@ CKEDITOR.plugins.add( 'contextmenu', {
 			},
 
 			proto: {
+				/**
+				 * Starts watching on native context menu triggers (option key, right click) on given element.
+				 *
+				 * @param {CKEDITOR.dom.element} element
+				 * @param {Boolean} [nativeContextMenuOnCtrl] Whether to open native context menu if
+				 * *Ctrl* key is hold on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
+				 */
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
 					element.on( 'contextmenu', function( event ) {
 						var domEvent = event.data,
@@ -74,6 +86,14 @@ CKEDITOR.plugins.add( 'contextmenu', {
 					}
 				},
 
+				/**
+				 * Opens context menu in given location. See the {@link CKEDITOR.menu#show} method.
+				 *
+				 * @param {CKEDITOR.dom.element} offsetParent
+				 * @param {Number} [corner]
+				 * @param {Number} [offsetX]
+				 * @param {Number} [offsetY]
+				 */
 				open: function( offsetParent, corner, offsetX, offsetY ) {
 					this.editor.focus();
 					offsetParent = offsetParent || CKEDITOR.document.getDocumentElement();
@@ -88,6 +108,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 	},
 
 	beforeInit: function( editor ) {
+		/**
+		 * @readonly
+		 * @property {CKEDITOR.plugins.contextMenu} contextMenu
+		 * @member CKEDITOR.editor
+		 */
 		var contextMenu = editor.contextMenu = new CKEDITOR.plugins.contextMenu( editor );
 
 		editor.on( 'contentDom', function() {
