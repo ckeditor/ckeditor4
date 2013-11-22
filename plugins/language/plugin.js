@@ -94,7 +94,7 @@
 			editor.addMenuGroup( 'language_remove' ); // Group order is skipped intentionally, it will be placed at the end.
 			editor.addMenuItems( items );
 
-			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
+			editor.ui.add( 'Language', CKEDITOR.UI_MENUBUTTON, {
 				label: lang.button,
 				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
 				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }

@@ -69,7 +69,7 @@
 			editor.widgets.add( 'image2', image2 );
 
 			// Add toolbar button for this plugin.
-			editor.ui.addButton && editor.ui.addButton( 'image2', {
+			editor.ui.addButton && editor.ui.addButton( 'Image2', {
 				label: editor.lang.common.image,
 				command: 'image2',
 				toolbar: 'insert,10'
