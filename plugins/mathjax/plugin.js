@@ -167,7 +167,41 @@
 	 * @member CKEDITOR.plugins.mathjax
 	 * @property CKEDITOR.plugins.mathjax.loadingIcon
 	 */
-	CKEDITOR.plugins.mathjax.loadingIcon = CKEDITOR.plugins.get( 'mathjax' ).path + 'images/loader.gif',
+	CKEDITOR.plugins.mathjax.loadingIcon = CKEDITOR.plugins.get( 'mathjax' ).path + 'images/loader.gif';
+
+	/**
+	 * Computed predefined styles and copy them to the other element.
+	 *
+	 * @private
+	 * @member CKEDITOR.plugins.mathjax
+	 * @param {CKEDITOR.dom.element} from Copy source.
+	 * @param {CKEDITOR.dom.element} to Copy target.
+	 */
+	CKEDITOR.plugins.mathjax.copyStyles = function( from, to ) {
+		var stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ];
+
+		for ( var i = 0; i < stylesToCopy.length; i++ ) {
+			var key = stylesToCopy[ i ],
+				val = from.getComputedStyle( key );
+			if ( val )
+				to.setStyle( key, val );
+		}
+	}
+
+	/**
+	 * Trim MathJax value from '\(1+1=2\)' to '1+1=2'.
+	 *
+	 * @private
+	 * @member CKEDITOR.plugins.mathjax
+	 * @param {String} value String to trim.
+	 * @returns {String} Trimed string.
+	 */
+	CKEDITOR.plugins.mathjax.trim = function( value ) {
+		var begin = value.indexOf( '\\(' ) + 2,
+			end = value.lastIndexOf( '\\)' );
+
+		return value.substring( begin, end );
+	}
 
 	/**
 	 * FrameWrapper is responsible for communication between the MathJax library
@@ -182,184 +216,212 @@
 	 * @param {CKEDITOR.dom.element} iFrame The `iframe` element to be wrapped.
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 */
-	CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
+	if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) {
+		CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
 
-		var buffer, preview, value, newValue,
-			doc = iFrame.getFrameDocument(),
+			var buffer, preview, value, newValue,
+				doc = iFrame.getFrameDocument(),
 
-			// Is MathJax loaded and ready to work.
-			isInit = false,
+				// Is MathJax loaded and ready to work.
+				isInit = false,
 
-			// Is MathJax parsing Tex.
-			isRunning = false,
+				// Is MathJax parsing Tex.
+				isRunning = false,
 
-			// Function called when MathJax is loaded.
-			loadedHandler = CKEDITOR.tools.addFunction( function() {
-				preview = doc.getById( 'preview' );
-				buffer = doc.getById( 'buffer' );
-				isInit = true;
+				// Function called when MathJax is loaded.
+				loadedHandler = CKEDITOR.tools.addFunction( function() {
+					preview = doc.getById( 'preview' );
+					buffer = doc.getById( 'buffer' );
+					isInit = true;
 
-				if ( newValue )
-					update();
+					if ( newValue )
+						update();
 
-				// Private! For test usage only.
-				CKEDITOR.fire( 'mathJaxLoaded', iFrame );
-			} ),
+					// Private! For test usage only.
+					CKEDITOR.fire( 'mathJaxLoaded', iFrame );
+				} ),
 
-			// Function called when MathJax finish his job.
-			updateDoneHandler = CKEDITOR.tools.addFunction( function() {
+				// Function called when MathJax finish his job.
+				updateDoneHandler = CKEDITOR.tools.addFunction( function() {
+					CKEDITOR.plugins.mathjax.copyStyles( iFrame, preview );
 
-				// Copy styles from iFrame to body inside iFrame.
-				var stylesToCopy = [ 'color', 'font-family', 'font-style', 'font-weight', 'font-variant', 'font-size' ];
+					preview.setHtml( buffer.getHtml() );
 
-				for ( var i = 0; i < stylesToCopy.length; i++ ) {
-					var key = stylesToCopy[ i ],
-						val = iFrame.getComputedStyle( key );
-					if ( val )
-						preview.setStyle( key, val );
-				}
+					editor.fire( 'lockSnapshot' );
 
-				// Set preview content.
-				preview.setHtml( buffer.getHtml() );
+					iFrame.setStyles( {
+						height: 0,
+						width: 0
+					} );
+
+					// Set iFrame dimensions.
+					var height = Math.max( doc.$.body.offsetHeight, doc.$.documentElement.offsetHeight ),
+						width = Math.max( preview.$.offsetWidth, doc.$.body.scrollWidth );
+
+					iFrame.setStyles( {
+						height: height + 'px',
+						width: width + 'px'
+					} );
+
+					editor.fire( 'unlockSnapshot' );
+
+					// Private! For test usage only.
+					CKEDITOR.fire( 'mathJaxUpdateDone', iFrame );
+
+					// If value changed in the meantime update it again.
+					if ( value != newValue )
+						update();
+					else
+						isRunning = false;
+				} );
+
+			iFrame.on( 'load', load );
+
+			load();
+
+			function load() {
+				doc = iFrame.getFrameDocument();
+
+				if ( doc.getById( 'preview' ) )
+					return;
+
+				// Because of IE9 bug in a src attribute can not be javascript
+				// when you undo (#10930). If you have iFrame with javascript in src
+				// and call insertBefore on such element then IE9 will see crash.
+				if ( CKEDITOR.env.ie )
+					iFrame.removeAttribute( 'src' );
+
+				doc.write( '<!DOCTYPE html>' +
+							'<html>' +
+							'<head>' +
+								'<meta charset="utf-8">' +
+								'<script type="text/x-mathjax-config">' +
+
+									// MathJax configuration, disable messages.
+									'MathJax.Hub.Config( {' +
+										'showMathMenu: false,' +
+										'messageStyle: "none"' +
+									'} );' +
+
+									// Get main CKEDITOR form parent.
+									'function getCKE() {' +
+										'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
+											'return window.parent.CKEDITOR;' +
+										'} else {' +
+											'return window.parent.parent.CKEDITOR;' +
+										'}' +
+									'}' +
+
+									// Run MathJax.Hub with its actual parser and call callback function after that.
+									// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
+									'function update() {' +
+										'MathJax.Hub.Queue(' +
+											'[ \'Typeset\', MathJax.Hub, this.buffer ],' +
+											'function() {' +
+												'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
+											'}' +
+										');' +
+									'}' +
+
+									// Run MathJax for the first time, when the script is loaded.
+									// Callback function will be called then it's done.
+									'MathJax.Hub.Queue( function() {' +
+										'getCKE().tools.callFunction(' + loadedHandler + ');' +
+									'} );' +
+								'</script>' +
+
+								// Load MathJax lib.
+								'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+							'</head>' +
+							'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+								'<span id="preview"></span>' +
+
+								// Render everything here and after that copy it to the preview.
+								'<span id="buffer" style="display:none"></span>' +
+							'</body>' +
+							'</html>' );
+			}
+
+			// Run MathJax parsing Tex.
+			function update() {
+				isRunning = true;
+
+				value = newValue;
 
 				editor.fire( 'lockSnapshot' );
 
-				iFrame.setStyles( {
-					height: 0,
-					width: 0
-				} );
+				buffer.setHtml( value );
 
-				// Set iFrame dimensions.
-				var height = Math.max( doc.$.body.offsetHeight, doc.$.documentElement.offsetHeight ),
-					width = Math.max( preview.$.offsetWidth, doc.$.body.scrollWidth );
+				// Set loading indicator.
+				preview.setHtml( '<img src=' + CKEDITOR.plugins.mathjax.loadingIcon + ' alt=' + editor.lang.mathjax.loading + '>' );
 
 				iFrame.setStyles( {
-					height: height + 'px',
-					width: width + 'px'
+					height: '16px',
+					width: '16px',
+					display: 'inline',
+					'vertical-align': 'middle'
 				} );
 
 				editor.fire( 'unlockSnapshot' );
 
-				// Private! For test usage only.
-				CKEDITOR.fire( 'mathJaxUpdateDone', iFrame );
-
-				// If value changed in the meantime update it again.
-				if ( value != newValue )
-					update();
-				else
-					isRunning = false;
-			} );
-
-		iFrame.on( 'load', load );
-
-		load();
-
-		function load() {
-			doc = iFrame.getFrameDocument();
-
-			if ( doc.getById( 'preview' ) )
-				return;
-
-			// Because of IE9 bug in a src attribute can not be javascript
-			// when you undo (#10930). If you have iFrame with javascript in src
-			// and call insertBefore on such element then IE9 will see crash.
-			if ( CKEDITOR.env.ie )
-				iFrame.removeAttribute( 'src' );
-
-			doc.write( '<!DOCTYPE html>' +
-						'<html>' +
-						'<head>' +
-							'<meta charset="utf-8">' +
-							'<script type="text/x-mathjax-config">' +
-
-								// MathJax configuration, disable messages.
-								'MathJax.Hub.Config( {' +
-									'showMathMenu: false,' +
-									'messageStyle: "none"' +
-								'} );' +
-
-								// Get main CKEDITOR form parent.
-								'function getCKE() {' +
-									'if ( typeof window.parent.CKEDITOR == \'object\' ) {' +
-										'return window.parent.CKEDITOR;' +
-									'} else {' +
-										'return window.parent.parent.CKEDITOR;' +
-									'}' +
-								'}' +
-
-								// Run MathJax.Hub with its actual parser and call callback function after that.
-								// Because MathJax.Hub is asynchronous create MathJax.Hub.Queue to wait with callback.
-								'function update() {' +
-									'MathJax.Hub.Queue(' +
-										'[ \'Typeset\', MathJax.Hub, this.buffer ],' +
-										'function() {' +
-											'getCKE().tools.callFunction( ' + updateDoneHandler + ' );' +
-										'}' +
-									');' +
-								'}' +
-
-								// Run MathJax for the first time, when the script is loaded.
-								// Callback function will be called then it's done.
-								'MathJax.Hub.Queue( function() {' +
-									'getCKE().tools.callFunction(' + loadedHandler + ');' +
-								'} );' +
-							'</script>' +
-
-							// Load MathJax lib.
-							'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
-						'</head>' +
-						'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
-							'<span id="preview"></span>' +
-
-							// Render everything here and after that copy it to the preview.
-							'<span id="buffer" style="display:none"></span>' +
-						'</body>' +
-						'</html>' );
-		}
-
-		// Run MathJax parsing Tex.
-		function update() {
-			isRunning = true;
-
-			value = newValue;
-
-			editor.fire( 'lockSnapshot' );
-
-			buffer.setHtml( value );
-
-			// Set loading indicator.
-			preview.setHtml( '<img src=' + CKEDITOR.plugins.mathjax.loadingIcon + ' alt=' + editor.lang.mathjax.loading + '>' );
-
-			iFrame.setStyles( {
-				height: '16px',
-				width: '16px',
-				display: 'inline',
-				'vertical-align': 'middle'
-			} );
-
-			editor.fire( 'unlockSnapshot' );
-
-			// Run MathJax.
-			doc.getWindow().$.update( value );
-		}
-
-		return {
-			/**
-			 * Sets the TeX value to be displayed in the `iframe` element inside
-			 * the editor. This function will activate the MathJax
-			 * library which interprets TeX expressions and converts them into
-			 * their representation that is displayed in the editor.
-			 *
-			 * @param {String} value TeX string.
-			 */
-			setValue: function( value ) {
-				newValue = value;
-
-				if ( isInit && !isRunning )
-					update();
+				// Run MathJax.
+				doc.getWindow().$.update( value );
 			}
+
+			return {
+				/**
+				 * Sets the TeX value to be displayed in the `iframe` element inside
+				 * the editor. This function will activate the MathJax
+				 * library which interprets TeX expressions and converts them into
+				 * their representation that is displayed in the editor.
+				 *
+				 * @param {String} value TeX string.
+				 */
+				setValue: function( value ) {
+					newValue = value;
+
+					if ( isInit && !isRunning )
+						update();
+				}
+			}
+		}
+	} else {
+		// In IE8 MathJax does not work stable so instead of using standard
+		// frame wrapper it is replaced by placeholder to show pure TeX in iframe.
+		CKEDITOR.plugins.mathjax.frameWrapper = function( iFrame, editor ) {
+			iFrame.getFrameDocument().write( '<!DOCTYPE html>' +
+				'<html>' +
+				'<head>' +
+					'<meta charset="utf-8">' +
+				'</head>' +
+				'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
+					'<span style="white-space:nowrap;" id="tex"></span>' +
+				'</body>' +
+				'</html>' );
+
+			return {
+				setValue: function( value ) {
+					var doc = iFrame.getFrameDocument();
+						tex = doc.getById( 'tex' );
+
+					tex.setHtml( CKEDITOR.plugins.mathjax.trim( value ) );
+
+					CKEDITOR.plugins.mathjax.copyStyles( iFrame, tex );
+
+					editor.fire( 'lockSnapshot' );
+
+					iFrame.setStyles( {
+						width: Math.min( 250, tex.$.offsetWidth ) + 'px',
+						height: doc.$.body.offsetHeight + 'px',
+						display: 'inline',
+						'vertical-align': 'middle'
+					} );
+
+					editor.fire( 'unlockSnapshot' );
+				}
+			};
 		};
-	};
+	}
 })();
 
 /**

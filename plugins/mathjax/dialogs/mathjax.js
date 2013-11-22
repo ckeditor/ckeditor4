@@ -26,18 +26,17 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 						onLoad: function( widget ) {
 							var that = this;
 
-							this.getInputElement().on( 'keyup', function() {
-								// Add \( and \) for preview.
-								preview.setValue( '\\(' + that.getInputElement().getValue() + '\\)' );
-							} );
+							if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) {
+								this.getInputElement().on( 'keyup', function() {
+									// Add \( and \) for preview.
+									preview.setValue( '\\(' + that.getInputElement().getValue() + '\\)' );
+								} );
+							}
 						},
 
 						setup: function( widget ) {
 							// Remove \( and \).
-							var math = widget.data.math,
-								begin = math.indexOf( '\\(' ) + 2,
-								end = math.lastIndexOf( '\\)' );
-							this.setValue( math.substring( begin, end ) );
+							this.setValue( CKEDITOR.plugins.mathjax.trim( widget.data.math ) );
 						},
 
 						commit: function( widget ) {
@@ -55,7 +54,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 								'</a>' +
 							'</div>'
 					},
-					{
+					( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) && {
 						id: 'preview',
 						type: 'html',
 						html:
