@@ -45,7 +45,9 @@
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
 					'opacity:0.75;' +
-					'transition:height 0s 0.2s' + // Delay hiding drag handler.
+					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
+					// Prevent drag handler from being misplaced (#11198).
+					'line-height:0' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_drag_handler_container{' +
 					'height:' + DRAG_HANDLER_SIZE + 'px;' +
