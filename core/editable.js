@@ -267,6 +267,9 @@
 				// the parent blocks until we reach blockLimit.
 				var current, dtd;
 
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr:1,table:1,tbody:1,thead:1,tfoot:1 } ) )
+					fixTableSelectionForInsertion( range );
+
 				if ( isBlock ) {
 					while ( ( current = range.getCommonAncestor( 0, 1 ) ) &&
 					        ( dtd = CKEDITOR.dtd[ current.getName() ] ) &&
@@ -1809,6 +1812,80 @@
 			editor.fire( 'saveSnapshot' );
 		}, 0 );
 	}
+
+	// Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
+	// inside a table. A goal is to find a closest <td> or <th> element and when this fails, recreate the structure of the table.
+	var fixTableSelectionForInsertion = (function() {
+		// Creates an element walker which can only "go deeper". It won't
+		// move out from any element. Therefore it can be used to find <td>x</td> in cases like:
+		// <table><tbody><tr><td>x</td></tr></tbody>^<tfoot>...
+		function getFixTableSelectionWalker( testRange ) {
+			var walker = new CKEDITOR.dom.walker( testRange );
+			walker.guard = function( node, isMovingOut ) {
+				if ( isMovingOut )
+					return false;
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					return node.is( CKEDITOR.dtd.$tableContent );
+			};
+			walker.evaluator = function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT;
+			};
+
+			return walker;
+		}
+
+		function fixTableStructure( element, newElementName, appendToStart ) {
+			var temp = element.getDocument().createElement( newElementName );
+			element.append( temp, appendToStart );
+			return temp;
+		}
+
+		return function( range ) {
+			var container = range.startContainer,
+				testRange,
+				walker,
+				deeperSibling,
+				doc = range.document,
+				appendToStart = false;
+
+			// Look left.
+			testRange = range.clone();
+			testRange.setStart( container, 0 );
+			deeperSibling = getFixTableSelectionWalker( testRange ).lastBackward();
+
+			// If left is empty, look right.
+			if ( !deeperSibling ) {
+				testRange = range.clone();
+				testRange.setEndAt( container, CKEDITOR.POSITION_BEFORE_END );
+				deeperSibling = getFixTableSelectionWalker( testRange ).lastForward();
+				appendToStart = true;
+			}
+
+			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
+			if ( !deeperSibling )
+				deeperSibling = container;
+
+			// Fix structure...
+
+			// We found a table what means that it's empty - remove it completely.
+			if ( deeperSibling.is( 'table' ) ) {
+				range.setStartAt( deeperSibling, CKEDITOR.POSITION_BEFORE_START );
+				range.collapse( true );
+				deeperSibling.remove();
+				return;
+			}
+
+			// Found an empty txxx element - append tr.
+			if ( deeperSibling.is( { tbody:1,thead:1,tfoot:1 } ) )
+				deeperSibling = fixTableStructure( deeperSibling, 'tr', appendToStart );
+
+			// Found an empty tr element - append td/th.
+			if ( deeperSibling.is( 'tr' ) )
+				deeperSibling = fixTableStructure( deeperSibling, deeperSibling.getParent().is( 'thead' ) ? 'th' : 'td', appendToStart );
+
+			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+		}
+	})();
 
 })();
 
