@@ -10,6 +10,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
+* [#11198](http://dev.ckeditor.com/ticket/11198): Widgets: Drag handler is not fully visible when inline widget is in a heading.
 
 ## CKEditor 4.3
 
