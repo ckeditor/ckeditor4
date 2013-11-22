@@ -7,6 +7,10 @@ CKEditor 4 Changelog
 
 * To match the naming convention `image2` and `language` buttons are now `Image2` and `Language` ([#11201](http://dev.ckeditor.com/ticket/11201)).
 
+Fixed Issues:
+
+* [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
+
 ## CKEditor 4.3
 
 New Features:
