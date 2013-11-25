@@ -12,6 +12,7 @@ Fixed Issues:
 * [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
 * [#11198](http://dev.ckeditor.com/ticket/11198): Widgets: Drag handler is not fully visible when inline widget is in a heading.
 * [#11132](http://dev.ckeditor.com/ticket/11132): [Firefox] Fixed: Caret is lost after drag and drop of inline widget.
+* [#11182](http://dev.ckeditor.com/ticket/11182): [Internet Explorer 10-11] Fixed: Editor crashes (IE11) or works with minor issues (IE10) if page is loaded in Quirks Mode. See [`env.quirks`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-quirks) for more details.
 
 ## CKEditor 4.3
 
