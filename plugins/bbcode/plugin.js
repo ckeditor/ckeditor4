@@ -549,11 +549,15 @@
 	CKEDITOR.plugins.add( 'bbcode', {
 		requires: 'entities',
 
+		// Adapt some critical editor configuration for better support
+		// of BBCode environment.
 		beforeInit: function( editor ) {
-			// Adapt some critical editor configuration for better support
-			// of BBCode environment.
 			var config = editor.config;
+
 			CKEDITOR.tools.extend( config, {
+				// This one is for backwards compatibility only as
+				// editor#enterMode is already set at this stage (#11202).
+				enterMode: CKEDITOR.ENTER_BR,
 				basicEntities: false,
 				entities: false,
 				fillEmptyBlocks: false
