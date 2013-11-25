@@ -59,7 +59,7 @@
 		smileyReverseMap[ smileyMap[ i ] ] = i;
 		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
 			return '\\' + match;
-		} ));
+		} ) );
 	}
 
 	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
@@ -554,13 +554,14 @@
 			// of BBCode environment.
 			var config = editor.config;
 			CKEDITOR.tools.extend( config, {
-				enterMode: CKEDITOR.ENTER_BR,
 				basicEntities: false,
 				entities: false,
 				fillEmptyBlocks: false
 			}, true );
 
 			editor.filter.disable();
+
+			editor.activeEnterMode = editor.enterMode = CKEDITOR.ENTER_BR;
 		},
 
 		init: function( editor ) {
