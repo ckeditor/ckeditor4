@@ -105,7 +105,7 @@ span[lang]
    font-style: italic;
 }
 
-figure.caption
+figure
 {
 	text-align: center;
 	border: solid 1px #ccc;
@@ -116,7 +116,7 @@ figure.caption
 	display: block; /* For IE8 */
 }
 
-figure.caption figcaption
+figure figcaption
 {
 	text-align: center;
 	display: block; /* For IE8 */
