@@ -561,6 +561,8 @@
 
 			editor.filter.disable();
 
+			// Since CKEditor 4.3, editor#(active)enterMode is set before
+			// beforeInit. Properties got to be updated (#11202).
 			editor.activeEnterMode = editor.enterMode = CKEDITOR.ENTER_BR;
 		},
 
