@@ -77,14 +77,14 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.quirks )
 			 *			alert( 'Nooooo!' );
 			 *
-			 * Internet Explorer 10 introduced new Quirks Mode, which is similar to the Quirks Mode
-			 * implemented in other modern browsers and which is defined in HTML5 specification. It can be handled as
+			 * Internet Explorer 10 introduced the _New Quirks Mode_, which is similar to the _Quirks Mode_
+			 * implemented in other modern browsers and defined in HTML5 specification. It can be handled as
 			 * the standards mode, so value of this property will be set to `false`.
 			 *
-			 * The "Internet Explorer 5 quirks" mode which is still available on Internet Explorer 10+
+			 * The _Internet Explorer 5 quirks_ mode which is still available in Internet Explorer 10+
 			 * sets this value to `true` and {@link #version} to `7`.
 			 *
-			 * Read more: http://blogs.msdn.com/b/ie/archive/2011/12/14/interoperable-html5-quirks-mode-in-ie10.aspx
+			 * Read more: [IEBlog](http://blogs.msdn.com/b/ie/archive/2011/12/14/interoperable-html5-quirks-mode-in-ie10.aspx)
 			 *
 			 * @property {Boolean}
 			 */
