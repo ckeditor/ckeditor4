@@ -133,6 +133,9 @@ CKEDITOR.plugins.add( 'menu', {
 	 * @todo
 	 */
 	CKEDITOR.menu = CKEDITOR.tools.createClass({
+		/**
+		 * @constructor
+		 */
 		$: function( editor, definition ) {
 			definition = this._.definition = definition || {};
 			this.id = CKEDITOR.tools.getNextId();
@@ -250,6 +253,11 @@ CKEDITOR.plugins.add( 'menu', {
 		},
 
 		proto: {
+			/**
+			 * Adds an item.
+			 *
+			 * @param item
+			 */
 			add: function( item ) {
 				// Later we may sort the items, but Array#sort is not stable in
 				// some browsers, here we're forcing the original sequence with
@@ -260,10 +268,21 @@ CKEDITOR.plugins.add( 'menu', {
 				this.items.push( item );
 			},
 
+			/**
+			 * Removes all items.
+			 */
 			removeAll: function() {
 				this.items = [];
 			},
 
+			/**
+			 * Shows the menu in given location.
+			 *
+			 * @param {CKEDITOR.dom.element} offsetParent
+			 * @param {Number} [corner]
+			 * @param {Number} [offsetX]
+			 * @param {Number} [offsetY]
+			 */
 			show: function( offsetParent, corner, offsetX, offsetY ) {
 				// Not for sub menu.
 				if ( !this.parent ) {
@@ -381,10 +400,25 @@ CKEDITOR.plugins.add( 'menu', {
 				editor.fire( 'menuShow', [ panel ] );
 			},
 
+			/**
+			 * Adds a callback executed on opening the menu. Items
+			 * returned by that callback are added to the menu.
+			 *
+			 * @param {Function} listenerFn
+			 * @param {CKEDITOR.dom.element} listenerFn.startElement The selection start anchor element.
+			 * @param {CKEDITOR.dom.selection} listenerFn.selection The current selection.
+			 * @param {CKEDITOR.dom.elementPath} listenerFn.path The current elements path.
+			 * @param listenerFn.return Object (`commandName` => `state`) of items that should be added to the menu.
+			 */
 			addListener: function( listenerFn ) {
 				this._.listeners.push( listenerFn );
 			},
 
+			/**
+			 * Hides the menu.
+			 *
+			 * @param {Boolean} [returnFocus]
+			 */
 			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide( returnFocus );
