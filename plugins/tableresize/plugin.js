@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var pxUnit = CKEDITOR.tools.cssLength,
 		needsIEHacks = CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks );
 
@@ -96,7 +96,7 @@
 
 			// The pillar should reflects exactly the shape of the hovered
 			// column border line.
-			pillars.push({
+			pillars.push( {
 				table: table,
 				index: pillarIndex,
 				x: pillarLeft,
@@ -275,12 +275,12 @@
 
 			pillar = targetPillar;
 
-			resizer.setStyles({
+			resizer.setStyles( {
 				width: pxUnit( targetPillar.width ),
 				height: pxUnit( targetPillar.height ),
 				left: pxUnit( targetPillar.x ),
 				top: pxUnit( targetPillar.y )
-			});
+			} );
 
 			// In IE6/7, it's not possible to have custom cursors for floating
 			// elements in an editable document. Show the resizer in that case,
@@ -382,9 +382,9 @@
 						!resizer && ( resizer = new columnResizer( editor ) );
 						resizer.attachTo( pillar );
 					}
-				});
-			});
+				} );
+			} );
 		}
-	});
+	} );
 
-})();
+} )();
