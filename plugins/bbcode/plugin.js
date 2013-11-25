@@ -24,7 +24,7 @@
 			tab.remove( 'txtAlt' );
 			tab.remove( 'basic' );
 		}
-	});
+	} );
 
 	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
@@ -34,7 +34,7 @@
 
 	// List of block-like tags.
 	var dtd = CKEDITOR.dtd,
-		blockLikeTags = CKEDITOR.tools.extend( { table:1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
+		blockLikeTags = CKEDITOR.tools.extend( { table: 1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/;
 
@@ -59,7 +59,7 @@
 		smileyReverseMap[ smileyMap[ i ] ] = i;
 		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
 			return '\\' + match;
-		}));
+		} ));
 	}
 
 	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
@@ -81,7 +81,7 @@
 		return function( html ) {
 			return html.replace( regex, function( match, entity ) {
 				return entities[ entity ];
-			});
+			} );
 		};
 	})();
 
@@ -380,12 +380,12 @@
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
 							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
 							lastIndex = index + match.length;
-						});
+						} );
 
 						if ( lastIndex != piece.length )
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
 					}
-				});
+				} );
 			}
 		};
 
@@ -404,7 +404,7 @@
 		return fragment;
 	};
 
-	var BBCodeWriter = CKEDITOR.tools.createClass({
+	var BBCodeWriter = CKEDITOR.tools.createClass( {
 		$: function() {
 			this._ = {
 				output: [],
@@ -412,21 +412,21 @@
 			};
 
 			// List and list item.
-			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 });
+			this.setRules( 'list', { breakBeforeOpen: 1, breakAfterOpen: 1, breakBeforeClose: 1, breakAfterClose: 1 } );
 
 			this.setRules( '*', {
 				breakBeforeOpen: 1,
 				breakAfterOpen: 0,
 				breakBeforeClose: 1,
 				breakAfterClose: 0
-			});
+			} );
 
 			this.setRules( 'quote', {
 				breakBeforeOpen: 1,
 				breakAfterOpen: 0,
 				breakBeforeClose: 0,
 				breakAfterClose: 1
-			});
+			} );
 		},
 
 		proto: {
@@ -542,7 +542,7 @@
 				return decodeHtml( bbcode );
 			}
 		}
-	});
+	} );
 
 	var writer = new BBCodeWriter();
 
@@ -575,7 +575,7 @@
 			}
 
 			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
-			bbcodeFilter.addRules({
+			bbcodeFilter.addRules( {
 				elements: {
 					blockquote: function( element ) {
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
@@ -632,9 +632,9 @@
 						};
 					}
 				}
-			});
+			} );
 
-			editor.dataProcessor.htmlFilter.addRules({
+			editor.dataProcessor.htmlFilter.addRules( {
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
@@ -739,7 +739,7 @@
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				editor.once( 'contentDom', function() {
 					editor.on( 'setData', onSetData );
-				});
+				} );
 			else
 				editor.on( 'setData', onSetData );
 
@@ -770,10 +770,10 @@
 						}
 
 						return name;
-					});
+					} );
 				}
 			}
 		}
-	});
+	} );
 
 })();
