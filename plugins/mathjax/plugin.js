@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
 
@@ -186,7 +186,7 @@
 			if ( val )
 				to.setStyle( key, val );
 		}
-	}
+	};
 
 	/**
 	 * Trim MathJax value from '\(1+1=2\)' to '1+1=2'.
@@ -201,7 +201,7 @@
 			end = value.lastIndexOf( '\\)' );
 
 		return value.substring( begin, end );
-	}
+	};
 
 	/**
 	 * FrameWrapper is responsible for communication between the MathJax library
@@ -383,8 +383,8 @@
 					if ( isInit && !isRunning )
 						update();
 				}
-			}
-		}
+			};
+		};
 	} else {
 		// In IE8 MathJax does not work stable so instead of using standard
 		// frame wrapper it is replaced by placeholder to show pure TeX in iframe.
@@ -401,7 +401,7 @@
 
 			return {
 				setValue: function( value ) {
-					var doc = iFrame.getFrameDocument();
+					var doc = iFrame.getFrameDocument(),
 						tex = doc.getById( 'tex' );
 
 					tex.setHtml( CKEDITOR.plugins.mathjax.trim( value ) );
@@ -422,7 +422,7 @@
 			};
 		};
 	}
-})();
+} )();
 
 /**
  * Sets the path to the MathJax library. It can be both a local
