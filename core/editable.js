@@ -310,48 +310,32 @@
 				var editor = this.editor,
 					enterMode = editor.activeEnterMode,
 					selection = editor.getSelection(),
-					ranges = selection.getRanges(),
+					range = selection.getRanges()[ 0 ],
 					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ],
-					clone, lastElement, range;
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
 				// Prepare for the insertion.
 				beforeInsert( this );
 
-				// Insert the element into all ranges by cloning.
-				for ( var i = ranges.length; i--; ) {
-					range = ranges[ i ];
-
-					// Clone is an element for the first range.
-					clone = !i && element || element.clone( 1 );
-
-					// Put the clone into a particular range.
-					// Save the last **successfully inserted** element reference
-					// so we can make the selection later.
-					if ( this.insertElementIntoRange( clone, range ) && !lastElement )
-						lastElement = clone;
-				}
-
-				if ( lastElement ) {
-					range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
+				// Insert element into first range only and ignore the rest (#11183).
+				if ( this.insertElementIntoRange( element, range ) ) {
+					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
 
 					// If we're inserting a block element, the new cursor position must be
 					// optimized. (#3100,#5436,#8950)
 					if ( isBlock ) {
-
 						// Find next, meaningful element.
-						var next = lastElement.getNext( function( node ) {
+						var next = element.getNext( function( node ) {
 							return isNotEmpty( node ) && !isBogus( node );
 						} );
 
 						if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.is( CKEDITOR.dtd.$block ) ) {
-
 							// If the next one is a text block, move cursor to the start of it's content.
 							if ( next.getDtd()[ '#' ] )
 								range.moveToElementEditStart( next );
 							// Otherwise move cursor to the before end of the last element.
 							else
-								range.moveToElementEditEnd( lastElement );
+								range.moveToElementEditEnd( element );
 						}
 						// Open a new line if the block is inserted at the end of parent.
 						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
