@@ -263,12 +263,16 @@
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
 
+				// If range is placed in inermediate element (not td or th), we need to do three things:
+				// * fill emptied <td/th>s with if browser needs them,
+				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
+				// * fix structure and move range into the <td/th> element.
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr:1,table:1,tbody:1,thead:1,tfoot:1 } ) )
+					fixTableAfterContentsDeletion( range );
+
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
 				var current, dtd;
-
-				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr:1,table:1,tbody:1,thead:1,tfoot:1 } ) )
-					fixTableSelectionForInsertion( range );
 
 				if ( isBlock ) {
 					while ( ( current = range.getCommonAncestor( 0, 1 ) ) &&
@@ -1813,9 +1817,10 @@
 		}, 0 );
 	}
 
-	// Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
+	// 1. Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
 	// inside a table. A goal is to find a closest <td> or <th> element and when this fails, recreate the structure of the table.
-	var fixTableSelectionForInsertion = (function() {
+	// 2. Fixes empty cells by appending bogus <br>s or deleting empty text nodes in IE<=8 case.
+	var fixTableAfterContentsDeletion = (function() {
 		// Creates an element walker which can only "go deeper". It won't
 		// move out from any element. Therefore it can be used to find <td>x</td> in cases like:
 		// <table><tbody><tr><td>x</td></tr></tbody>^<tfoot>...
@@ -1840,13 +1845,35 @@
 			return temp;
 		}
 
+		// Fix empty cells. This means:
+		// * add bogus <br> if browser needs it
+		// * remove empty text nodes on IE8, because it will crash (http://dev.ckeditor.com/ticket/11183#comment:8).
+		function fixEmptyCells( cells ) {
+			var i = cells.count(),
+				cell;
+
+			for ( i; i-- > 0; ) {
+				cell = cells.getItem( i );
+
+				if ( !CKEDITOR.tools.trim( cell.getHtml() ) ) {
+					cell.appendBogus();
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && cell.getChildCount() )
+						cell.getFirst().remove();
+				}
+			}
+		}
+
 		return function( range ) {
 			var container = range.startContainer,
+				table = container.getAscendant( 'table', 1 ),
 				testRange,
 				walker,
 				deeperSibling,
 				doc = range.document,
 				appendToStart = false;
+
+			fixEmptyCells( table.getElementsByTag( 'td' ) );
+			fixEmptyCells( table.getElementsByTag( 'th' ) );
 
 			// Look left.
 			testRange = range.clone();
@@ -1882,6 +1909,12 @@
 			// Found an empty tr element - append td/th.
 			if ( deeperSibling.is( 'tr' ) )
 				deeperSibling = fixTableStructure( deeperSibling, deeperSibling.getParent().is( 'thead' ) ? 'th' : 'td', appendToStart );
+
+			// To avoid setting selection after bogus, remove it from the current cell.
+			// We can safely do that, because we'll insert element into that cell.
+			var bogus = deeperSibling.getBogus();
+			if ( bogus )
+				bogus.remove();
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 		}
