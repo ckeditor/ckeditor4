@@ -257,6 +257,11 @@
 			'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
 				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
 
+		// Clean DOM when editor is destroyed.
+		editor.on( 'destroy', function() {
+			resizer.remove();
+		} );
+
 		// Except on IE6/7 (#5890), place the resizer after body to prevent it
 		// from being editable.
 		if ( !needsIEHacks )
