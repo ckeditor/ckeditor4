@@ -16,7 +16,8 @@ CKEDITOR.addTemplates( 'default', {
 		image: 'template1.gif',
 		description: 'One main image with a title and text that surround the image.',
 		html: '<h3>' +
-			'<img style="margin-right: 10px" height="100" width="100" align="left"/>' +
+			// Use src=" " so image is not filtered out by the editor as incorrect (src is required).
+			'<img src=" " alt="" style="margin-right: 10px" height="100" width="100" align="left" />' +
 			'Type the title here' +
 			'</h3>' +
 			'<p>' +
