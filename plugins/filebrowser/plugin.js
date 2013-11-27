@@ -357,7 +357,7 @@
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
 		// We require filebrowser plugin to be loaded.
-		if ( !( 'filebrowser' in evt.editor.plugins ) )
+		if ( !evt.editor.plugins.filebrowser )
 			return;
 
 		var definition = evt.data.definition,
