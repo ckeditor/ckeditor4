@@ -89,8 +89,7 @@
 
 							return false;
 
-						case rightKeyCode: // RIGHT-ARROW
-						case 40: // DOWN-ARROW
+						case rightKeyCode:
 							next = item;
 							do {
 								// Look for the next item in the toolbar.
@@ -110,9 +109,20 @@
 								itemKeystroke( item, 9 );
 
 							return false;
-
-						case leftKeyCode: // LEFT-ARROW
 						case 38: // UP-ARROW
+						case 40: // DOWN-ARROW
+							if ( item.button && item.button.hasArrow ) {
+								// Note: code is duplicated in plugins\richcombo\plugin.js in keyDownFn().
+								editor.once( 'panelShow', function( evt ) {
+									evt.data._.panel._.currentBlock.onKeyDown( 40 );
+								} );
+								item.execute();
+							} else {
+								// Send left arrow key.
+								itemKeystroke( item, keystroke == 40 ? rightKeyCode : leftKeyCode );
+							}
+							return false;
+						case leftKeyCode:
 							next = item;
 							do {
 								// Look for the previous item in the toolbar.
