@@ -60,9 +60,14 @@ CKEDITOR.STYLE_BLOCK = 1;
 CKEDITOR.STYLE_INLINE = 2;
 CKEDITOR.STYLE_OBJECT = 3;
 
-(function() {
-	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,details:1,datagrid:1,datalist:1 },
-		objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1,audio:1,video:1 };
+( function() {
+	var blockElements = { address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1,
+			p: 1, pre: 1, section: 1, header: 1, footer: 1, nav: 1, article: 1, aside: 1,
+			figure: 1, dialog: 1, hgroup: 1, time: 1, meter: 1, menu: 1, command: 1,
+			keygen: 1, output: 1, progress: 1, details: 1, datagrid: 1, datalist: 1 },
+
+		objectElements = { a: 1, embed: 1, hr: 1, img: 1, li: 1, object: 1, ol: 1, table: 1,
+			td: 1, tr: 1, th: 1, ul: 1, dl: 1, dt: 1, dd: 1, form: 1, audio: 1, video: 1 };
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/,
 		varRegex = /#\((.+?)\)/g;
@@ -1302,9 +1307,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var previous = element.getPrevious( nonWhitespaces ),
 					next = element.getNext( nonWhitespaces );
 
-				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br:1 } ) ) )
+				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br', 1 );
-				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br:1 } ) ) )
+				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br' );
 
 				element.remove( true );
@@ -1511,7 +1516,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
 	}
-})();
+} )();
 
 /**
  * Generic style command. It applies a specific style when executed.
