@@ -157,8 +157,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			editor.fire( 'beforeModeUnload' );
 
+			editor.fire('beforeGetModeData');
+			var data = editor.getData();
+			data = editor.fire('beforeModeUnload', data);
+			data = editor.fire('afterModeUnload', data);
+
 			// Detach the current editable.
 			editor.editable( 0 );
+
+			editor._.data = data;
 
 			// Clear up the mode space.
 			editor.ui.space( 'contents' ).setHtml( '' );
