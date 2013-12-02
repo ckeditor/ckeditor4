@@ -87,9 +87,10 @@ CKEDITOR.plugins.add( 'menu', {
 		' tabindex="-1"' +
 		'_cke_focus=1' +
 		' hidefocus="true"' +
-		' role="menuitem"' +
+		' role="{role}"' +
 		' aria-haspopup="{hasPopup}"' +
-		' aria-disabled="{disabled}"';
+		' aria-disabled="{disabled}"' +
+		' {ariaChecked}';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -460,9 +461,13 @@ CKEDITOR.plugins.add( 'menu', {
 		proto: {
 			render: function( menu, index, output ) {
 				var id = menu.id + String( index ),
-					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state;
+					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state,
+					ariaChecked = '';
 
 				var stateName = state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off';
+
+				if ( this.role in { menuitemcheckbox: 1, menuitemradio: 1 } )
+					ariaChecked = ' aria-checked="' + ( state == CKEDITOR.TRISTATE_ON ? 'true' : 'false' ) + '"';
 
 				var hasSubMenu = this.getItems;
 				// ltr: BLACK LEFT-POINTING POINTER
@@ -489,7 +494,9 @@ CKEDITOR.plugins.add( 'menu', {
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
-					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : ''
+					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label : arrowLabel } ) : '',
+					role: this.role ? this.role : 'menuitem',
+					ariaChecked: ariaChecked
 				};
 
 				menuItemTpl.output( params, output );
