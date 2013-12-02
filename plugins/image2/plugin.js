@@ -62,11 +62,11 @@
 			config.filebrowserImage2UploadUrl = config.filebrowserImageUploadUrl;
 
 			// Add custom elementspath names to widget definition.
-			image2.pathName = lang.pathName;
-			image2.editables.caption.pathName = lang.pathNameCaption;
+			image.pathName = lang.pathName;
+			image.editables.caption.pathName = lang.pathNameCaption;
 
 			// Register the widget.
-			editor.widgets.add( 'image2', image2 );
+			editor.widgets.add( 'image', image );
 
 			// Add toolbar button for this plugin.
 			editor.ui.addButton && editor.ui.addButton( 'Image', {
@@ -98,8 +98,8 @@
 		}
 	} );
 
-	// Image2 widget definition.
-	var image2 = {
+	// Image widget definition.
+	var image = {
 		// Widget-specific rules for Allowed Content Filter.
 		allowedContent: {
 			// This widget may need <div> centering wrapper.
@@ -181,7 +181,7 @@
 					// non-captioned, block or inline according to what is the
 					// new state of the widget.
 					if ( this.destroyed ) {
-						widget = editor.widgets.initOn( element, 'image2', widget.data );
+						widget = editor.widgets.initOn( element, 'image', widget.data );
 
 						// Once widget was re-created, it may become an inline element without
 						// block wrapper (i.e. when unaligned, end not captioned). Let's do some
@@ -929,7 +929,7 @@
 	function getFocusedWidget( editor ) {
 		var widget = editor.widgets.focused;
 
-		if ( widget && widget.name == 'image2' )
+		if ( widget && widget.name == 'image' )
 			return widget;
 
 		return null;
