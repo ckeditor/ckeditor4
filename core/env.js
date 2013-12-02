@@ -29,7 +29,6 @@ if ( !CKEDITOR.env ) {
 			 * @property {Boolean}
 			 */
 			ie: ( agent.indexOf( 'trident/' ) > -1 ),
-			// Use eval to preserve conditional comment when compiling with Google Closure Compiler (#93).
 
 			/**
 			 * Indicates that CKEditor is running in Opera.
