@@ -2280,9 +2280,16 @@
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
 		editor.on( 'contentDomInvalidated', checkWidgets );
+		// Listen with high priority to check widgets after data was inserted.
+		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
+		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
 
 		function checkWidgets() {
 			widgetsRepo.fire( 'checkWidgets' );
+		}
+
+		function checkNewWidgets() {
+			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true } );
 		}
 	}
 
