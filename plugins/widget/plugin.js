@@ -193,13 +193,6 @@
 		MIN_SELECTION_CHECK_INTERVAL: 500,
 
 		/**
-		 * Minimum interval between widget checks.
-		 *
-		 * @private
-		 */
-		MIN_WIDGETS_CHECK_INTERVAL: 1000,
-
-		/**
 		 * Adds a widget definition to the repository. Fires the {@link CKEDITOR.editor#widgetDefinition} event
 		 * which allows to modify the widget definition which is going to be registered.
 		 *
@@ -2281,26 +2274,11 @@
 	}
 
 	// Setup observer which will trigger checkWidgets on:
-	// * keyup.
+	// * contentDomInvalidated.
 	function setupWidgetsObserver( widgetsRepo ) {
-		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, checkWidgets ),
-			ignoredKeys = { 16:1,17:1,18:1,37:1,38:1,39:1,40:1,225:1 }; // SHIFT,CTRL,ALT,LEFT,UP,RIGHT,DOWN,RIGHT ALT(FF)
-
-		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
-
-			// Schedule check on keyup, but not more often than once per MIN_CHECK_DELAY.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'keyup', function( evt ) {
-				if ( !( evt.data.getKey() in ignoredKeys ) )
-					buffer.input();
-			}, null, null, 999 );
-		} );
-
-		editor.on( 'contentDomUnload', buffer.reset );
+		var editor = widgetsRepo.editor;
 
 		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
-
 		editor.on( 'contentDomInvalidated', checkWidgets );
 
 		function checkWidgets() {
