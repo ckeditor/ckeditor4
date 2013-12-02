@@ -1116,17 +1116,16 @@ CKEDITOR.dom.range = function( root ) {
 					commonReached = needsWhiteSpace = false;
 
 					if ( container.type == CKEDITOR.NODE_TEXT ) {
-						// Check if there is any non-space text after the
-						// offset. Otherwise, container is null.
-						container = !CKEDITOR.tools.trim( container.substring( offset ) ).length && container;
+						// Check if there is only white space after the offset.
+						if ( CKEDITOR.tools.trim( container.substring( offset ) ).length ) {
+							// If we found only whitespace in the node, it
+							// means that we'll need more whitespace to be able
+							// to expand. For example, <i> can be expanded in
+							// "A <i> [B]</i>", but not in "A<i> [B]</i>".
+							needsWhiteSpace = true;
+						} else {
+							needsWhiteSpace = !container.getLength();
 
-						// If we found only whitespace in the node, it
-						// means that we'll need more whitespace to be able
-						// to expand. For example, <i> can be expanded in
-						// "A <i> [B]</i>", but not in "A<i> [B]</i>".
-						needsWhiteSpace = !( container && container.getLength() );
-
-						if ( container ) {
 							if ( !( sibling = container.getNext() ) )
 								enlargeable = container.getParent();
 						}
