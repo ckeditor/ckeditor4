@@ -1555,6 +1555,66 @@
 		return filter;
 	}
 
+	// Creates an iterator function which when executed on all
+	// elements in DOM tree will gather elements that should be wrapped
+	// and initialized as widgets.
+	function createUpcastIterator( widgetsRepo ) {
+		var toBeWrapped = [],
+			upcasts = widgetsRepo._.upcasts;
+
+		return {
+			toBeWrapped: toBeWrapped,
+
+			iterator: function( element ) {
+				// Wrapper found - find widget element, add it to be
+				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
+				if ( 'data-cke-widget-wrapper' in element.attributes ) {
+					element = element.getFirst( isWidgetElement );
+
+					if ( element )
+						toBeWrapped.push( [ element ] );
+
+					// Do not iterate over descendants.
+					return false;
+				}
+				// Widget element found - add it to be cleaned up (just in case)
+				// and wrapped and stop iterating in this branch.
+				else if ( 'data-widget' in element.attributes ) {
+					toBeWrapped.push( [ element ] );
+
+					// Do not iterate over descendants.
+					return false;
+				}
+				else if ( upcasts.length ) {
+					var upcast, upcasted,
+						data,
+						i = 0,
+						l = upcasts.length;
+
+					for ( ; i < l; ++i ) {
+						upcast = upcasts[ i ];
+						data = {};
+
+						if ( ( upcasted = upcast[ 0 ]( element, data ) ) ) {
+							// If upcast function returned element, upcast this one.
+							// It can be e.g. a new element wrapping the original one.
+							if ( upcasted instanceof CKEDITOR.htmlParser.element )
+								element = upcasted;
+
+							// Set initial data attr with data from upcast method.
+							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
+
+							toBeWrapped.push( [ element, upcast[ 1 ] ] );
+
+							// Do not iterate over descendants.
+							return false;
+						}
+					}
+				}
+			}
+		};
+	}
+
 	// Finds a first parent that matches query.
 	//
 	// @param {CKEDITOR.dom.element} element
@@ -2076,15 +2136,23 @@
 		} );
 	}
 
-	// Set up data processing like:
-	// * toHtml/toDataFormat,
+	// Set up actions like:
+	// * processing in toHtml/toDataFormat,
 	// * pasting handling,
 	// * insertion handling,
-	// * undo/redo handling,
-	// * editable reload handling (setData, mode switch).
+	// * editable reload handling (setData, mode switch, undo/redo),
+	// * DOM invalidation handling,
+	// * widgets checks.
 	function setupWidgetsLifecycle( widgetsRepo ) {
 		setupWidgetsLifecycleStart( widgetsRepo );
 		setupWidgetsLifecycleEnd( widgetsRepo );
+
+		widgetsRepo.on( 'checkWidgets', function( evt ) {
+			widgetsRepo.checkWidgets( evt.data );
+		} );
+		widgetsRepo.editor.on( 'contentDomInvalidated', function() {
+			widgetsRepo.fire( 'checkWidgets' );
+		} );
 	}
 
 	function setupWidgetsLifecycleEnd( widgetsRepo ) {
@@ -2171,9 +2239,27 @@
 
 	function setupWidgetsLifecycleStart( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			upcasts = widgetsRepo._.upcasts,
 			processedWidgetOnly,
 			snapshotLoaded;
+
+		// Listen after ACF (so data are filtered),
+		// but before dataProcessor.dataFilter was applied (so we can secure widgets' internals).
+		editor.on( 'toHtml', function( evt ) {
+			var upcastIterator = createUpcastIterator( widgetsRepo ),
+				toBeWrapped;
+
+			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT );
+
+			// Clean up and wrap all queued elements.
+			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
+				cleanUpWidgetElement( toBeWrapped[ 0 ] );
+				widgetsRepo.wrapElement( toBeWrapped[ 0 ], toBeWrapped[ 1 ] );
+			}
+
+			// Used to determine whether only widget was pasted.
+			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
+				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
 			// Clean up all widgets loaded from snapshot.
@@ -2187,6 +2273,22 @@
 			// before setting data.
 			widgetsRepo.destroyAll( true );
 			widgetsRepo.initOnAll();
+		} );
+
+		// Set flag so dataReady will know that additional
+		// cleanup is needed, because snapshot containing widgets was loaded.
+		editor.on( 'loadSnapshot', function( evt ) {
+			// Primitive but sufficient check which will prevent from executing
+			// heavier cleanUpAllWidgetElements if not needed.
+			if ( ( /data-cke-widget/ ).test( evt.data ) )
+				snapshotLoaded = 1;
+
+			widgetsRepo.destroyAll( true );
+		}, null, null, 9 );
+
+		// Handle pasted single widget.
+		editor.on( 'paste', function( evt ) {
+			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
 		} );
 
 		editor.on( 'afterPaste', function() {
@@ -2203,98 +2305,6 @@
 			editor.fire( 'unlockSnapshot' );
 		} );
 
-		// Set flag so dataReady will know that additional
-		// cleanup is needed, because snapshot containing widgets was loaded.
-		editor.on( 'loadSnapshot', function( evt ) {
-			// Primitive but sufficient check which will prevent from executing
-			// heavier cleanUpAllWidgetElements if not needed.
-			if ( ( /data-cke-widget/ ).test( evt.data ) )
-				snapshotLoaded = 1;
-
-			widgetsRepo.destroyAll( true );
-		}, null, null, 9 );
-
-		// Listen after ACF (so data are filtered),
-		// but before dataProcessor.dataFilter was applied (so we can secure widgets' internals).
-		editor.on( 'toHtml', function( evt ) {
-			var toBeWrapped = [],
-				toBe,
-				element;
-
-			evt.data.dataValue.forEach( function( element ) {
-				// Wrapper found - find widget element, add it to be
-				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
-				if ( 'data-cke-widget-wrapper' in element.attributes ) {
-					element = element.getFirst( isWidgetElement );
-
-					if ( element )
-						toBeWrapped.push( [ element ] );
-
-					// Do not iterate over descendants.
-					return false;
-				}
-				// Widget element found - add it to be cleaned up (just in case)
-				// and wrapped and stop iterating in this branch.
-				else if ( 'data-widget' in element.attributes ) {
-					toBeWrapped.push( [ element ] );
-
-					// Do not iterate over descendants.
-					return false;
-				}
-				else if ( upcasts.length ) {
-					var upcast, upcasted,
-						data,
-						i = 0,
-						l = upcasts.length;
-
-					for ( ; i < l; ++i ) {
-						upcast = upcasts[ i ];
-						data = {};
-
-						if ( ( upcasted = upcast[ 0 ]( element, data ) ) ) {
-							// If upcast function returned element, upcast this one.
-							// It can be e.g. a new element wrapping the original one.
-							if ( upcasted instanceof CKEDITOR.htmlParser.element )
-								element = upcasted;
-
-							// Set initial data attr with data from upcast method.
-							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
-
-							toBeWrapped.push( [ element, upcast[ 1 ] ] );
-
-							// Do not iterate over descendants.
-							return false;
-						}
-					}
-				}
-			}, CKEDITOR.NODE_ELEMENT );
-
-			// Clean up and wrap all queued elements.
-			while ( ( toBe = toBeWrapped.pop() ) ) {
-				cleanUpWidgetElement( toBe[ 0 ] );
-				widgetsRepo.wrapElement( toBe[ 0 ], toBe[ 1 ] );
-			}
-
-			// Used to determine whether only widget was pasted.
-			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
-		}, null, null, 8 );
-
-		// Handle pasted single widget.
-		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
-		} );
-
-		// Setup observer which will trigger checkWidgets on:
-		// * contentDomInvalidated,
-		// * insertText,
-		// * insertHtml.
-		widgetsRepo.on( 'checkWidgets', function( evt ) {
-			widgetsRepo.checkWidgets( evt.data );
-		} );
-		editor.on( 'contentDomInvalidated', function() {
-			widgetsRepo.fire( 'checkWidgets' );
-		} );
 		// Listen with high priority to check widgets after data was inserted.
 		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
 		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
