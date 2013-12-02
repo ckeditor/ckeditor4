@@ -15,6 +15,11 @@
 		icons: 'image', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			// Abort when Image2 is to be loaded since both plugins
+			// share the same button, command, etc. names (#11222).
+			if ( editor.plugins.image2 )
+				return;
+
 			var pluginName = 'image';
 
 			// Register the dialog.
@@ -70,6 +75,11 @@
 			}
 		},
 		afterInit: function( editor ) {
+			// Abort when Image2 is to be loaded since both plugins
+			// share the same button, command, etc. names (#11222).
+			if ( editor.plugins.image2 )
+				return;
+
 			// Customize the behavior of the alignment commands. (#7430)
 			setupAlignCommand( 'left' );
 			setupAlignCommand( 'right' );
