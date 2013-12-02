@@ -85,9 +85,12 @@ CKEDITOR.plugins.add( 'forms', {
 		addButtonCommand( 'Select', 'select', dialogPath + 'select.js' );
 		addButtonCommand( 'Button', 'button', dialogPath + 'button.js' );
 
-		// If the "image" plugin is loaded.
-		var imagePlugin = CKEDITOR.plugins.get( 'image' );
-		imagePlugin && addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
+		var imagePlugin = editor.plugins.image;
+
+		// Since Image plugin is disabled when Image2 is to be loaded,
+		// ImageButton also got to be off (#11222).
+		if ( imagePlugin && !editor.plugins.image2 )
+			addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 
 		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
 
