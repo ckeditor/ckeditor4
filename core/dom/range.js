@@ -1126,7 +1126,9 @@ CKEDITOR.dom.range = function( root ) {
 						} else {
 							needsWhiteSpace = !container.getLength();
 
-							if ( !( sibling = container.getNext() ) )
+							// If we are at the end of container and this is the last text node
+							// we should enlarged end to the parent.
+							if ( offset == container.getLength() && !( sibling = container.getNext() ) )
 								enlargeable = container.getParent();
 						}
 					} else {
