@@ -1116,7 +1116,15 @@
 				if ( withAppend )
 					doc.appendChild( el );
 			}
-		}
+		},
+
+		/**
+		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
+		 *
+		 * @since 4.3.1
+		 * @readonly
+		 */
+		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D'
 	};
 } )();
 
