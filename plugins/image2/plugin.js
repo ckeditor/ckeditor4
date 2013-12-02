@@ -77,12 +77,12 @@
 
 			// Register context menu option for editing widget.
 			if ( editor.contextMenu ) {
-				editor.addMenuGroup( 'image2', 10 );
+				editor.addMenuGroup( 'image', 10 );
 
-				editor.addMenuItem( 'image2', {
+				editor.addMenuItem( 'image', {
 					label: lang.menu,
-					command: 'image2',
-					group: 'image2'
+					command: 'image',
+					group: 'image'
 				} );
 			}
 
@@ -262,7 +262,7 @@
 
 			// Add widget editing option to its context menu.
 			this.on( 'contextMenu', function( evt ) {
-				evt.data.image2 = CKEDITOR.TRISTATE_OFF;
+				evt.data.image = CKEDITOR.TRISTATE_OFF;
 			} );
 
 			// Pass the reference to this widget to the dialog.
