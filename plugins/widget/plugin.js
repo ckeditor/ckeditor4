@@ -263,9 +263,16 @@
 		 * Reinitializes widgets on widget wrappers for which widget instances
 		 * cannot be found.
 		 *
-		 * This method is triggered by the {@link #event-checkWidgets} event.
+		 * This method is triggered by the {@link #event-checkWidgets} event **and should
+		 * not be called directly**.
+		 *
+		 * @param [options]
+		 * @param {Boolean} [options.initOnlyNew] Init widgets only on newly created
+		 * widgets (those which still have `cke_widget_new` class). When this option is
+		 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
+		 * That makes the check faster.
 		 */
-		checkWidgets: function() {
+		checkWidgets: function( options ) {
 			if ( this.editor.mode != 'wysiwyg' )
 				return;
 
@@ -280,6 +287,12 @@
 			for ( i in instances ) {
 				if ( !editable.contains( instances[ i ].wrapper ) )
 					this.destroy( instances[ i ], true );
+			}
+
+			// Init on all (new) if initOnlyNew option was passed.
+			if ( options && options.initOnlyNew ) {
+				this.initOnAll();
+				return;
 			}
 
 			var wrappers = editable.find( '.cke_widget_wrapper' );
@@ -2274,19 +2287,21 @@
 	}
 
 	// Setup observer which will trigger checkWidgets on:
-	// * contentDomInvalidated.
+	// * contentDomInvalidated,
+	// * insertText,
+	// * insertHtml.
 	function setupWidgetsObserver( widgetsRepo ) {
 		var editor = widgetsRepo.editor;
 
-		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
-		editor.on( 'contentDomInvalidated', checkWidgets );
+		widgetsRepo.on( 'checkWidgets', function( evt ) {
+			widgetsRepo.checkWidgets( evt.data );
+		} );
+		editor.on( 'contentDomInvalidated', function() {
+			widgetsRepo.fire( 'checkWidgets' );
+		} );
 		// Listen with high priority to check widgets after data was inserted.
 		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
 		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
-
-		function checkWidgets() {
-			widgetsRepo.fire( 'checkWidgets' );
-		}
 
 		function checkNewWidgets() {
 			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true } );
