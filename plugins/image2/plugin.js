@@ -405,14 +405,14 @@
 				if ( replaced.getParent() ) {
 					var range = editor.createRange();
 
-					// Move the range before old element and insert element into it.
-					// Use AFTER_END rather than BEFORE_START to avoid
-					// empty paragraphs produced by insertion (#10853).
-					range.moveToPosition( replaced, CKEDITOR.POSITION_AFTER_END );
-					editable.insertElementIntoRange( replacing, range );
+					range.moveToPosition( replaced, CKEDITOR.POSITION_BEFORE_START );
 
-					// Remove old element.
+					// Remove old element. Do it before insertion to avoid a case when
+					// element is moved from 'replaced' element before it, what creates
+					// a tricky case which insertElementIntorRange does not handle.
 					replaced.remove();
+
+					editable.insertElementIntoRange( replacing, range );
 				}
 				else
 					replacing.replace( replaced );
