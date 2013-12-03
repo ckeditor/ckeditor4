@@ -608,8 +608,12 @@
 							next,
 							rtl = keyCode == 8;
 
-						// Remove the entire list/table on fully selected content. (#7645)
-						if ( ( selected = getSelectedTableList( sel ) ) ) {
+						if (
+							// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (#10055)
+							( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && ( selected = sel.getSelectedElement() ) ) ||
+							// Remove the entire list/table on fully selected content. (#7645)
+							( selected = getSelectedTableList( sel ) )
+						) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
 
@@ -623,9 +627,7 @@
 							editor.fire( 'saveSnapshot' );
 
 							isHandled = 1;
-						}
-						else if ( range.collapsed )
-						{
+						} else if ( range.collapsed ) {
 							// Handle the following special cases: (#6217)
 							// 1. Del/Backspace key before/after table;
 							// 2. Backspace Key after start of table.
