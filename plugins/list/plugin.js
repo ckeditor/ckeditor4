@@ -780,6 +780,10 @@
 			nextPath = nextCursor.startPath();
 			nextBlock = nextPath.block;
 
+			// Abort when nothing to be removed (#10890).
+			if ( !nextBlock )
+				break;
+
 			// Check if also to remove empty list.
 			if ( nextBlock.is( 'li' ) ) {
 				parent = nextBlock.getParent();
