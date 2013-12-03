@@ -1901,7 +1901,7 @@
 				bogus.remove();
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
-		}
+		};
 	})();
 
 })();
