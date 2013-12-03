@@ -381,10 +381,7 @@
 	// If fake selection should be applied this function will return instance of
 	// CKEDITOR.dom.element which should gain fake selection.
 	function getNonEditableFakeSelectionReceiver( ranges ) {
-		var enclosedNode,
-			shrinkedNode,
-			clone,
-			range;
+		var enclosedNode, shrinkedNode, clone, range;
 
 		if ( ranges.length == 1 && !( range = ranges[ 0 ] ).collapsed &&
 			( enclosedNode = range.getEnclosedNode() ) && enclosedNode.type == CKEDITOR.NODE_ELEMENT ) {
