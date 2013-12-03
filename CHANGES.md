@@ -19,6 +19,7 @@ Fixed Issues:
 * [#10890](http://dev.ckeditor.com/ticket/10890): Fixed: Error thrown when pressing *Delete* key in a list item.
 * [#10055](http://dev.ckeditor.com/ticket/10055): [IE8-10] Fixed: *Delete* pressed on selected image causes browser to go back.
 * [#11183](http://dev.ckeditor.com/ticket/11183): Fixed: Inserting line or table in multiple rows selection causes browser crash. Additionally, the [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) method does not insert element into every range of a selection any more.
+* [#11042](http://dev.ckeditor.com/ticket/11042): Fixed: Selection made on element containing non-editable element was not auto faked.
 
 
 ## CKEditor 4.3
