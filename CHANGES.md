@@ -16,6 +16,7 @@ Fixed Issues:
 * [#11182](http://dev.ckeditor.com/ticket/11182): [Internet Explorer 10-11] Fixed: Editor crashes (IE11) or works with minor issues (IE10) if page is loaded in Quirks Mode. See [`env.quirks`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-quirks) for more details.
 * [#11204](http://dev.ckeditor.com/ticket/11204): Added `figure` and `figcaption` styles to `contents.css` so [Enhanced Image](http://ckeditor.com/addon/image2) looks nicer.
 * [#11202](http://dev.ckeditor.com/ticket/11202): Fixed: No newline at BB-code mode.
+* [#10890](http://dev.ckeditor.com/ticket/10890): Fixed: Error thrown when pressing *Delete* key in a list item.
 
 ## CKEditor 4.3
 
