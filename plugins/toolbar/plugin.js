@@ -109,7 +109,6 @@
 								itemKeystroke( item, 9 );
 
 							return false;
-						case 38: // UP-ARROW
 						case 40: // DOWN-ARROW
 							if ( item.button && item.button.hasArrow ) {
 								// Note: code is duplicated in plugins\richcombo\plugin.js in keyDownFn().
@@ -123,6 +122,7 @@
 							}
 							return false;
 						case leftKeyCode:
+						case 38: // UP-ARROW
 							next = item;
 							do {
 								// Look for the previous item in the toolbar.

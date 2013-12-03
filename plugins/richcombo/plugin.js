@@ -185,7 +185,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					var keystroke = ev.getKeystroke();
 					switch ( keystroke ) {
-						case 38: // UP-DOWN
 						case 40: // ARROW-DOWN
 							// This call is duplicated in plugins\toolbar\plugin.js in itemKeystroke().
 							editor.once( 'panelShow', function( evt ) {
