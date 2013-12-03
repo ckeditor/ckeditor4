@@ -339,6 +339,13 @@
 								break;
 							}
 						}
+
+						// If no link was found, cycle and restart from the top. (#11125)
+						if ( !link ) {
+							this._.focusIndex = -1;
+							arguments.callee.apply( this, arguments );
+						}
+
 						return false;
 
 						// Move backward.
@@ -356,6 +363,13 @@
 								break;
 							}
 						}
+
+						// If no link was found, cycle and restart from the bottom. (#11125)
+						if ( !link ) {
+							this._.focusIndex = links.count();
+							arguments.callee.apply( this, arguments );
+						}
+
 						return false;
 
 					case 'click':
