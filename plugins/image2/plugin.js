@@ -150,6 +150,8 @@
 		data: function() {
 			var widget = this,
 				editor = widget.editor,
+				doc = editor.document,
+				editable = editor.editable(),
 				oldState = widget.oldData,
 				newState = widget.data;
 
@@ -181,6 +183,15 @@
 					if ( this.destroyed ) {
 						widget = editor.widgets.initOn( element, 'image2', widget.data );
 
+						// Once widget was re-created, it may become an inline element without
+						// block wrapper (i.e. when unaligned, end not captioned). Let's do some
+						// sort of autoparagraphing here (#10853).
+						if ( widget.inline && !( new CKEDITOR.dom.elementPath( widget.wrapper, editable ).block ) ) {
+							var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+							block.replace( widget.wrapper );
+							widget.wrapper.move( block );
+						}
+
 						// The focus must be transferred from the old one (destroyed)
 						// to the new one (just created).
 						if ( this.focused ) {
@@ -195,6 +206,7 @@
 					// According to the new state.
 					else
 						setWrapperAlign( widget );
+
 				}
 			} );
 
@@ -266,9 +278,7 @@
 	CKEDITOR.plugins.image2 = {
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
-			var centerElement = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div',
-
-				doc = editor.document,
+			var doc = editor.document,
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
@@ -287,7 +297,7 @@
 								// Changed to "center" (non-captioned).
 								if ( newValue == 'center' ) {
 									data.destroy();
-									data.element = wrapInCentering( element );
+									data.element = wrapInCentering( editor, element );
 								}
 
 								// Changed to "non-center" from "center" while caption removed.
@@ -301,7 +311,7 @@
 						// Alignment remains and "center" removed caption.
 						else if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
 							data.destroy();
-							data.element = wrapInCentering( element );
+							data.element = wrapInCentering( editor, element );
 						}
 
 						// Finally set display for figure.
@@ -369,10 +379,10 @@
 					return data.oldState[ name ] !== data.newState[ name ];
 			}
 
-			function wrapInCentering( element ) {
+			function wrapInCentering( editor, element ) {
 				// When widget gets centered. Wrapper must be created.
 				// Create new <p|div> with text-align:center.
-				var center = doc.createElement( centerElement, {
+				var center = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', {
 					styles: { 'text-align': 'center' }
 				} );
 
@@ -395,12 +405,14 @@
 				if ( replaced.getParent() ) {
 					var range = editor.createRange();
 
-					// Move the range before old element and insert element into it.
 					range.moveToPosition( replaced, CKEDITOR.POSITION_BEFORE_START );
-					editable.insertElementIntoRange( replacing, range );
 
-					// Remove old element.
+					// Remove old element. Do it before insertion to avoid a case when
+					// element is moved from 'replaced' element before it, what creates
+					// a tricky case which insertElementIntorRange does not handle.
 					replaced.remove();
+
+					editable.insertElementIntoRange( replacing, range );
 				}
 				else
 					replacing.replace( replaced );
