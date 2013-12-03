@@ -175,8 +175,7 @@
 			filters: {}
 		};
 
-		setupDataProcessing( this );
-		setupWidgetsObserver( this );
+		setupWidgetsLifecycle( this );
 		setupSelectionObserver( this );
 		setupMouseObserver( this );
 		setupKeyboardObserver( this );
@@ -191,13 +190,6 @@
 		 * @private
 		 */
 		MIN_SELECTION_CHECK_INTERVAL: 500,
-
-		/**
-		 * Minimum interval between widget checks.
-		 *
-		 * @private
-		 */
-		MIN_WIDGETS_CHECK_INTERVAL: 1000,
 
 		/**
 		 * Adds a widget definition to the repository. Fires the {@link CKEDITOR.editor#widgetDefinition} event
@@ -270,15 +262,24 @@
 		 * Reinitializes widgets on widget wrappers for which widget instances
 		 * cannot be found.
 		 *
-		 * This method is triggered by the {@link #event-checkWidgets} event.
+		 * This method is triggered by the {@link #event-checkWidgets} event **and should
+		 * not be called directly**.
+		 *
+		 * @param [options] The options object.
+		 * @param {Boolean} [options.initOnlyNew] Init widgets only on newly created
+		 * widgets (those which still have `cke_widget_new` class). When this option is
+		 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
+		 * That makes the check faster.
+		 * @param {Boolean} [options.focusInited] If only one widget will be initialized by
+		 * the method, then it will be focused.
 		 */
-		checkWidgets: function() {
+		checkWidgets: function( options ) {
 			if ( this.editor.mode != 'wysiwyg' )
 				return;
 
 			var editable = this.editor.editable(),
 				instances = this.instances,
-				i, count, wrapper;
+				newInstances, i, count, wrapper;
 
 			if ( !editable )
 				return;
@@ -289,21 +290,31 @@
 					this.destroy( instances[ i ], true );
 			}
 
-			var wrappers = editable.find( '.cke_widget_wrapper' );
+			// Init on all (new) if initOnlyNew option was passed.
+			if ( options && options.initOnlyNew )
+				newInstances = this.initOnAll();
+			else {
+				var wrappers = editable.find( '.cke_widget_wrapper' );
+				newInstances = [];
 
-			// Create widgets on existing wrappers if they do not exists.
-			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
-				wrapper = wrappers.getItem( i );
+				// Create widgets on existing wrappers if they do not exists.
+				for ( i = 0, count = wrappers.count(); i < count; i++ ) {
+					wrapper = wrappers.getItem( i );
 
-				// Check if there's no instance for this widget and that
-				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
-					// Add cke_widget_new class because otherwise
-					// widget will not be created on such wrapper.
-					wrapper.addClass( 'cke_widget_new' );
-					this.initOn( wrapper.getFirst( isWidgetElement2 ) );
+					// Check if there's no instance for this widget and that
+					// wrapper is not inside some temporary element like copybin (#11088).
+					if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
+						// Add cke_widget_new class because otherwise
+						// widget will not be created on such wrapper.
+						wrapper.addClass( 'cke_widget_new' );
+						newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
+					}
 				}
 			}
+
+			// If only single widget was initialized and focusInited was passed, focus it.
+			if ( options && options.focusInited && newInstances.length == 1 )
+				newInstances[ 0 ].focus();
 		},
 
 		/**
@@ -629,9 +640,22 @@
 	/**
 	 * An event fired to trigger the widgets check.
 	 *
-	 * See {@link #method-checkWidgets} method.
+	 * See the {@link #method-checkWidgets} method.
+	 *
+	 *		// Will destroy old widgets and initialize new ones.
+	 *		editor.widgets.fire( 'checkWidgets' );
+	 *
+	 *		// Initialized widget will be focused.
+	 *		editor.widgets.fire( 'checkWidgets', { focusInited: true } );
 	 *
 	 * @event checkWidgets
+	 * @param [data]
+	 * @param {Boolean} [data.initOnlyNew] Init widgets only on newly created
+	 * widgets (those which still have `cke_widget_new` class). When this option is
+	 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
+	 * That makes the check faster.
+	 * @param {Boolean} [data.focusInited] If only one widget will be initialized by
+	 * the method, then it will be focused.
 	 */
 
 
@@ -1550,6 +1574,66 @@
 		return filter;
 	}
 
+	// Creates an iterator function which when executed on all
+	// elements in DOM tree will gather elements that should be wrapped
+	// and initialized as widgets.
+	function createUpcastIterator( widgetsRepo ) {
+		var toBeWrapped = [],
+			upcasts = widgetsRepo._.upcasts;
+
+		return {
+			toBeWrapped: toBeWrapped,
+
+			iterator: function( element ) {
+				// Wrapper found - find widget element, add it to be
+				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
+				if ( 'data-cke-widget-wrapper' in element.attributes ) {
+					element = element.getFirst( isWidgetElement );
+
+					if ( element )
+						toBeWrapped.push( [ element ] );
+
+					// Do not iterate over descendants.
+					return false;
+				}
+				// Widget element found - add it to be cleaned up (just in case)
+				// and wrapped and stop iterating in this branch.
+				else if ( 'data-widget' in element.attributes ) {
+					toBeWrapped.push( [ element ] );
+
+					// Do not iterate over descendants.
+					return false;
+				}
+				else if ( upcasts.length ) {
+					var upcast, upcasted,
+						data,
+						i = 0,
+						l = upcasts.length;
+
+					for ( ; i < l; ++i ) {
+						upcast = upcasts[ i ];
+						data = {};
+
+						if ( ( upcasted = upcast[ 0 ]( element, data ) ) ) {
+							// If upcast function returned element, upcast this one.
+							// It can be e.g. a new element wrapping the original one.
+							if ( upcasted instanceof CKEDITOR.htmlParser.element )
+								element = upcasted;
+
+							// Set initial data attr with data from upcast method.
+							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
+
+							toBeWrapped.push( [ element, upcast[ 1 ] ] );
+
+							// Do not iterate over descendants.
+							return false;
+						}
+					}
+				}
+			}
+		};
+	}
+
 	// Finds a first parent that matches query.
 	//
 	// @param {CKEDITOR.dom.element} element
@@ -1814,103 +1898,6 @@
 		return CKEDITOR.tools.trim( wrapperHtml );
 	}
 
-	// Set up data processing like:
-	// * toHtml/toDataFormat,
-	// * pasting handling,
-	// * undo/redo handling.
-	function setupDataProcessing( widgetsRepo ) {
-		var editor = widgetsRepo.editor;
-
-		setupUpcasting( widgetsRepo );
-		setupDowncasting( widgetsRepo );
-
-		editor.on( 'contentDomUnload', function() {
-			widgetsRepo.destroyAll( true );
-		} );
-
-		// Handle pasted single widget.
-		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
-		} );
-	}
-
-	function setupDowncasting( widgetsRepo ) {
-		var editor = widgetsRepo.editor,
-			downcastingSessions = {},
-			nestedEditableScope = false;
-
-		// Listen before htmlDP#htmlFilter is applied to cache all widgets, because we'll
-		// loose data-cke-* attributes.
-		editor.on( 'toDataFormat', function( evt ) {
-			// To avoid conflicts between htmlDP#toDF calls done at the same time
-			// (e.g. nestedEditable#getData called during downcasting some widget)
-			// mark every toDataFormat event chain with the downcasting session id.
-			var id = CKEDITOR.tools.getNextNumber(),
-				toBeDowncasted = [];
-			evt.data.downcastingSessionId = id;
-			downcastingSessions[ id ] = toBeDowncasted;
-
-			evt.data.dataValue.forEach( function( element ) {
-				var attrs = element.attributes,
-					widget, widgetElement;
-
-				// Wrapper.
-				// Perform first part of downcasting (cleanup) and cache widgets,
-				// because after applying DP's filter all data-cke-* attributes will be gone.
-				if ( 'data-cke-widget-id' in attrs ) {
-					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
-					if ( widget ) {
-						widgetElement = element.getFirst( isWidgetElement );
-						toBeDowncasted.push( {
-							wrapper: element,
-							element: widgetElement,
-							widget: widget
-						} );
-
-						// If widget did not have data-cke-widget attribute before upcasting remove it.
-						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
-							delete widgetElement.attributes[ 'data-widget' ];
-					}
-				}
-				// Nested editable.
-				else if ( 'data-cke-widget-editable' in attrs ) {
-					delete attrs[ 'contenteditable' ];
-
-					// Replace nested editable's content with its output data.
-					var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
-					element.setHtml( editable.getData() );
-
-					// Don't check children - there won't be next wrapper or nested editable which we
-					// should process in this session.
-					return false;
-				}
-			}, CKEDITOR.NODE_ELEMENT );
-		}, null, null, 8 );
-
-		// Listen after dataProcessor.htmlFilter and ACF were applied
-		// so wrappers securing widgets' contents are removed after all filtering was done.
-		editor.on( 'toDataFormat', function( evt ) {
-			// Ignore some unmarked sessions.
-			if ( !evt.data.downcastingSessionId )
-				return;
-
-			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement;
-
-			while ( ( toBe = toBeDowncasted.shift() ) ) {
-				widget = toBe.widget;
-				widgetElement = toBe.element;
-				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
-
-				// Returned element always defaults to widgetElement.
-				if ( !retElement )
-					retElement = widgetElement;
-
-				toBe.wrapper.replaceWith( retElement );
-			}
-		}, null, null, 13 );
-	}
-
 	function setupDragAndDrop( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
@@ -2168,11 +2155,130 @@
 		} );
 	}
 
-	function setupUpcasting( widgetsRepo ) {
+	// Set up actions like:
+	// * processing in toHtml/toDataFormat,
+	// * pasting handling,
+	// * insertion handling,
+	// * editable reload handling (setData, mode switch, undo/redo),
+	// * DOM invalidation handling,
+	// * widgets checks.
+	function setupWidgetsLifecycle( widgetsRepo ) {
+		setupWidgetsLifecycleStart( widgetsRepo );
+		setupWidgetsLifecycleEnd( widgetsRepo );
+
+		widgetsRepo.on( 'checkWidgets', function( evt ) {
+			widgetsRepo.checkWidgets( evt.data );
+		} );
+		widgetsRepo.editor.on( 'contentDomInvalidated', function() {
+			widgetsRepo.fire( 'checkWidgets' );
+		} );
+	}
+
+	function setupWidgetsLifecycleEnd( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			upcasts = widgetsRepo._.upcasts,
+			downcastingSessions = {},
+			nestedEditableScope = false;
+
+		// Listen before htmlDP#htmlFilter is applied to cache all widgets, because we'll
+		// loose data-cke-* attributes.
+		editor.on( 'toDataFormat', function( evt ) {
+			// To avoid conflicts between htmlDP#toDF calls done at the same time
+			// (e.g. nestedEditable#getData called during downcasting some widget)
+			// mark every toDataFormat event chain with the downcasting session id.
+			var id = CKEDITOR.tools.getNextNumber(),
+				toBeDowncasted = [];
+			evt.data.downcastingSessionId = id;
+			downcastingSessions[ id ] = toBeDowncasted;
+
+			evt.data.dataValue.forEach( function( element ) {
+				var attrs = element.attributes,
+					widget, widgetElement;
+
+				// Wrapper.
+				// Perform first part of downcasting (cleanup) and cache widgets,
+				// because after applying DP's filter all data-cke-* attributes will be gone.
+				if ( 'data-cke-widget-id' in attrs ) {
+					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
+					if ( widget ) {
+						widgetElement = element.getFirst( isWidgetElement );
+						toBeDowncasted.push( {
+							wrapper: element,
+							element: widgetElement,
+							widget: widget
+						} );
+
+						// If widget did not have data-cke-widget attribute before upcasting remove it.
+						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
+							delete widgetElement.attributes[ 'data-widget' ];
+					}
+				}
+				// Nested editable.
+				else if ( 'data-cke-widget-editable' in attrs ) {
+					delete attrs[ 'contenteditable' ];
+
+					// Replace nested editable's content with its output data.
+					var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
+					element.setHtml( editable.getData() );
+
+					// Don't check children - there won't be next wrapper or nested editable which we
+					// should process in this session.
+					return false;
+				}
+			}, CKEDITOR.NODE_ELEMENT );
+		}, null, null, 8 );
+
+		// Listen after dataProcessor.htmlFilter and ACF were applied
+		// so wrappers securing widgets' contents are removed after all filtering was done.
+		editor.on( 'toDataFormat', function( evt ) {
+			// Ignore some unmarked sessions.
+			if ( !evt.data.downcastingSessionId )
+				return;
+
+			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
+				toBe, widget, widgetElement, retElement;
+
+			while ( ( toBe = toBeDowncasted.shift() ) ) {
+				widget = toBe.widget;
+				widgetElement = toBe.element;
+				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+
+				// Returned element always defaults to widgetElement.
+				if ( !retElement )
+					retElement = widgetElement;
+
+				toBe.wrapper.replaceWith( retElement );
+			}
+		}, null, null, 13 );
+
+
+		editor.on( 'contentDomUnload', function() {
+			widgetsRepo.destroyAll( true );
+		} );
+	}
+
+	function setupWidgetsLifecycleStart( widgetsRepo ) {
+		var editor = widgetsRepo.editor,
 			processedWidgetOnly,
 			snapshotLoaded;
+
+		// Listen after ACF (so data are filtered),
+		// but before dataProcessor.dataFilter was applied (so we can secure widgets' internals).
+		editor.on( 'toHtml', function( evt ) {
+			var upcastIterator = createUpcastIterator( widgetsRepo ),
+				toBeWrapped;
+
+			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT );
+
+			// Clean up and wrap all queued elements.
+			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
+				cleanUpWidgetElement( toBeWrapped[ 0 ] );
+				widgetsRepo.wrapElement( toBeWrapped[ 0 ], toBeWrapped[ 1 ] );
+			}
+
+			// Used to determine whether only widget was pasted.
+			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
+				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
 			// Clean up all widgets loaded from snapshot.
@@ -2188,20 +2294,6 @@
 			widgetsRepo.initOnAll();
 		} );
 
-		editor.on( 'afterPaste', function() {
-			editor.fire( 'lockSnapshot' );
-
-			// Init is enough (no clean up needed),
-			// because inserted widgets were cleaned up by toHtml.
-			var newInstances = widgetsRepo.initOnAll();
-
-			// If just a widget was pasted and nothing more focus it.
-			if ( processedWidgetOnly && newInstances.length == 1 )
-				newInstances[ 0 ].focus();
-
-			editor.fire( 'unlockSnapshot' );
-		} );
-
 		// Set flag so dataReady will know that additional
 		// cleanup is needed, because snapshot containing widgets was loaded.
 		editor.on( 'loadSnapshot', function( evt ) {
@@ -2213,98 +2305,23 @@
 			widgetsRepo.destroyAll( true );
 		}, null, null, 9 );
 
-		// Listen after ACF (so data are filtered),
-		// but before dataProcessor.dataFilter was applied (so we can secure widgets' internals).
-		editor.on( 'toHtml', function( evt ) {
-			var toBeWrapped = [],
-				toBe,
-				element;
-
-			evt.data.dataValue.forEach( function( element ) {
-				// Wrapper found - find widget element, add it to be
-				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
-				if ( 'data-cke-widget-wrapper' in element.attributes ) {
-					element = element.getFirst( isWidgetElement );
-
-					if ( element )
-						toBeWrapped.push( [ element ] );
-
-					// Do not iterate over descendants.
-					return false;
-				}
-				// Widget element found - add it to be cleaned up (just in case)
-				// and wrapped and stop iterating in this branch.
-				else if ( 'data-widget' in element.attributes ) {
-					toBeWrapped.push( [ element ] );
-
-					// Do not iterate over descendants.
-					return false;
-				}
-				else if ( upcasts.length ) {
-					var upcast, upcasted,
-						data,
-						i = 0,
-						l = upcasts.length;
-
-					for ( ; i < l; ++i ) {
-						upcast = upcasts[ i ];
-						data = {};
-
-						if ( ( upcasted = upcast[ 0 ]( element, data ) ) ) {
-							// If upcast function returned element, upcast this one.
-							// It can be e.g. a new element wrapping the original one.
-							if ( upcasted instanceof CKEDITOR.htmlParser.element )
-								element = upcasted;
-
-							// Set initial data attr with data from upcast method.
-							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
-
-							toBeWrapped.push( [ element, upcast[ 1 ] ] );
-
-							// Do not iterate over descendants.
-							return false;
-						}
-					}
-				}
-			}, CKEDITOR.NODE_ELEMENT );
-
-			// Clean up and wrap all queued elements.
-			while ( ( toBe = toBeWrapped.pop() ) ) {
-				cleanUpWidgetElement( toBe[ 0 ] );
-				widgetsRepo.wrapElement( toBe[ 0 ], toBe[ 1 ] );
-			}
-
-			// Used to determine whether only widget was pasted.
-			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
-		}, null, null, 8 );
-	}
-
-	// Setup observer which will trigger checkWidgets on:
-	// * keyup.
-	function setupWidgetsObserver( widgetsRepo ) {
-		var editor = widgetsRepo.editor,
-			buffer = CKEDITOR.tools.eventsBuffer( widgetsRepo.MIN_WIDGETS_CHECK_INTERVAL, checkWidgets ),
-			ignoredKeys = { 16:1,17:1,18:1,37:1,38:1,39:1,40:1,225:1 }; // SHIFT,CTRL,ALT,LEFT,UP,RIGHT,DOWN,RIGHT ALT(FF)
-
-		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
-
-			// Schedule check on keyup, but not more often than once per MIN_CHECK_DELAY.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'keyup', function( evt ) {
-				if ( !( evt.data.getKey() in ignoredKeys ) )
-					buffer.input();
-			}, null, null, 999 );
+		// Handle pasted single widget.
+		editor.on( 'paste', function( evt ) {
+			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
 		} );
 
-		editor.on( 'contentDomUnload', buffer.reset );
+		// Listen with high priority to check widgets after data was inserted.
+		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
+		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
 
-		widgetsRepo.on( 'checkWidgets', widgetsRepo.checkWidgets, widgetsRepo );
+		function checkNewWidgets() {
+			editor.fire( 'lockSnapshot' );
 
-		editor.on( 'contentDomInvalidated', checkWidgets );
+			// Init only new for performance reason.
+			// Focus inited if only widget was processed.
+			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
-		function checkWidgets() {
-			widgetsRepo.fire( 'checkWidgets' );
+			editor.fire( 'unlockSnapshot' );
 		}
 	}
 
