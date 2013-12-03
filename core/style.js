@@ -1204,9 +1204,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// The 'class' element value must match (#1318).
 			if ( ( attName == 'class' || this._.definition.fullMatch ) && element.getAttribute( attName ) != normalizeProperty( attName, attributes[ attName ] ) )
 				continue;
+
 			// Do not touch data-* attributes (#11011).
 			if ( attName.slice( 0, 5 ) == 'data-' )
 				continue;
+
 			removeEmpty = element.hasAttribute( attName );
 			element.removeAttribute( attName );
 		}
