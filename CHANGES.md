@@ -10,6 +10,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
+* [#11101](http://dev.ckeditor.com/ticket/11101): Richcombo no longer breaks when given double quotes.
 * [#11077](http://dev.ckeditor.com/ticket/11077): [Enhanced Image](http://ckeditor.com/addon/image2): Empty undo step recorded when resizing the image.
 * [#11198](http://dev.ckeditor.com/ticket/11198): Widgets: Drag handler is not fully visible when inline widget is in a heading.
 * [#11132](http://dev.ckeditor.com/ticket/11132): [Firefox] Fixed: Caret is lost after drag and drop of inline widget.
