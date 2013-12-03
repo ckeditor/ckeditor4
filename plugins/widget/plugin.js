@@ -2310,26 +2310,18 @@
 			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
 		} );
 
-		editor.on( 'afterPaste', function() {
-			editor.fire( 'lockSnapshot' );
-
-			// Init is enough (no clean up needed),
-			// because inserted widgets were cleaned up by toHtml.
-			var newInstances = widgetsRepo.initOnAll();
-
-			// If just a widget was pasted and nothing more focus it.
-			if ( processedWidgetOnly && newInstances.length == 1 )
-				newInstances[ 0 ].focus();
-
-			editor.fire( 'unlockSnapshot' );
-		} );
-
 		// Listen with high priority to check widgets after data was inserted.
 		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
 		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
 
 		function checkNewWidgets() {
-			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true } );
+			editor.fire( 'lockSnapshot' );
+
+			// Init only new for performance reason.
+			// Focus inited if only widget was processed.
+			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true, focusInited: processedWidgetOnly } );
+
+			editor.fire( 'unlockSnapshot' );
 		}
 	}
 
