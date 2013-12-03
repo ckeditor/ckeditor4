@@ -265,11 +265,13 @@
 		 * This method is triggered by the {@link #event-checkWidgets} event **and should
 		 * not be called directly**.
 		 *
-		 * @param [options]
+		 * @param [options] The options object.
 		 * @param {Boolean} [options.initOnlyNew] Init widgets only on newly created
 		 * widgets (those which still have `cke_widget_new` class). When this option is
 		 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
 		 * That makes the check faster.
+		 * @param {Boolean} [options.focusInited] If only one widget will be initialized by
+		 * the method, then it will be focused.
 		 */
 		checkWidgets: function( options ) {
 			if ( this.editor.mode != 'wysiwyg' )
@@ -277,7 +279,7 @@
 
 			var editable = this.editor.editable(),
 				instances = this.instances,
-				i, count, wrapper;
+				newInstances, i, count, wrapper;
 
 			if ( !editable )
 				return;
@@ -289,26 +291,30 @@
 			}
 
 			// Init on all (new) if initOnlyNew option was passed.
-			if ( options && options.initOnlyNew ) {
-				this.initOnAll();
-				return;
-			}
+			if ( options && options.initOnlyNew )
+				newInstances = this.initOnAll();
+			else {
+				var wrappers = editable.find( '.cke_widget_wrapper' );
+				newInstances = [];
 
-			var wrappers = editable.find( '.cke_widget_wrapper' );
+				// Create widgets on existing wrappers if they do not exists.
+				for ( i = 0, count = wrappers.count(); i < count; i++ ) {
+					wrapper = wrappers.getItem( i );
 
-			// Create widgets on existing wrappers if they do not exists.
-			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
-				wrapper = wrappers.getItem( i );
-
-				// Check if there's no instance for this widget and that
-				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
-					// Add cke_widget_new class because otherwise
-					// widget will not be created on such wrapper.
-					wrapper.addClass( 'cke_widget_new' );
-					this.initOn( wrapper.getFirst( isWidgetElement2 ) );
+					// Check if there's no instance for this widget and that
+					// wrapper is not inside some temporary element like copybin (#11088).
+					if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
+						// Add cke_widget_new class because otherwise
+						// widget will not be created on such wrapper.
+						wrapper.addClass( 'cke_widget_new' );
+						newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
+					}
 				}
 			}
+
+			// If only single widget was initialized and focusInited was passed, focus it.
+			if ( options && options.focusInited && newInstances.length == 1 )
+				newInstances[ 0 ].focus();
 		},
 
 		/**
@@ -634,9 +640,22 @@
 	/**
 	 * An event fired to trigger the widgets check.
 	 *
-	 * See {@link #method-checkWidgets} method.
+	 * See the {@link #method-checkWidgets} method.
+	 *
+	 *		// Will destroy old widgets and initialize new ones.
+	 *		editor.widgets.fire( 'checkWidgets' );
+	 *
+	 *		// Initialized widget will be focused.
+	 *		editor.widgets.fire( 'checkWidgets', { focusInited: true } );
 	 *
 	 * @event checkWidgets
+	 * @param [data]
+	 * @param {Boolean} [data.initOnlyNew] Init widgets only on newly created
+	 * widgets (those which still have `cke_widget_new` class). When this option is
+	 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
+	 * That makes the check faster.
+	 * @param {Boolean} [data.focusInited] If only one widget will be initialized by
+	 * the method, then it will be focused.
 	 */
 
 
