@@ -17,6 +17,8 @@ Fixed Issues:
 * [#11204](http://dev.ckeditor.com/ticket/11204): Added `figure` and `figcaption` styles to `contents.css` so [Enhanced Image](http://ckeditor.com/addon/image2) looks nicer.
 * [#11202](http://dev.ckeditor.com/ticket/11202): Fixed: No newline at BB-code mode.
 * [#10890](http://dev.ckeditor.com/ticket/10890): Fixed: Error thrown when pressing *Delete* key in a list item.
+* [#10055](http://dev.ckeditor.com/ticket/10055): [IE8-10] Fixed: *Delete* pressed on selected image causes browser to go back.
+
 
 ## CKEditor 4.3
 
