@@ -320,7 +320,7 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			onKeyDown: function( keystroke ) {
+			onKeyDown: function( keystroke, noCycle ) {
 				var keyAction = this.keys[ keystroke ];
 				switch ( keyAction ) {
 					// Move forward.
@@ -341,9 +341,9 @@
 						}
 
 						// If no link was found, cycle and restart from the top. (#11125)
-						if ( !link ) {
+						if ( !link && !noCycle ) {
 							this._.focusIndex = -1;
-							arguments.callee.apply( this, arguments );
+							return arguments.callee.call( this, keystroke, 1 );
 						}
 
 						return false;
@@ -365,9 +365,9 @@
 						}
 
 						// If no link was found, cycle and restart from the bottom. (#11125)
-						if ( !link ) {
+						if ( !link && !noCycle ) {
 							this._.focusIndex = links.count();
-							arguments.callee.apply( this, arguments );
+							return arguments.callee.call( this, keystroke, 1 );
 						}
 
 						return false;
