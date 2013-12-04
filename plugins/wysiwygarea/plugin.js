@@ -163,7 +163,7 @@
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 
 			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-			editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
+			editor.config.enterMode != CKEDITOR.ENTER_P && this.attachListener( doc, 'selectionchange', function() {
 				var body = doc.getBody(),
 					sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
