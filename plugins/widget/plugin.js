@@ -262,8 +262,8 @@
 		 * Reinitializes widgets on widget wrappers for which widget instances
 		 * cannot be found.
 		 *
-		 * This method is triggered by the {@link #event-checkWidgets} event **and should
-		 * not be called directly**.
+		 * This method triggers the {@link #event-checkWidgets} event which listeners
+		 * can cancel the execution or modify options.
 		 *
 		 * @param [options] The options object.
 		 * @param {Boolean} [options.initOnlyNew] Init widgets only on newly created
@@ -274,47 +274,7 @@
 		 * the method, then it will be focused.
 		 */
 		checkWidgets: function( options ) {
-			if ( this.editor.mode != 'wysiwyg' )
-				return;
-
-			var editable = this.editor.editable(),
-				instances = this.instances,
-				newInstances, i, count, wrapper;
-
-			if ( !editable )
-				return;
-
-			// Remove widgets which have no corresponding elements in DOM.
-			for ( i in instances ) {
-				if ( !editable.contains( instances[ i ].wrapper ) )
-					this.destroy( instances[ i ], true );
-			}
-
-			// Init on all (new) if initOnlyNew option was passed.
-			if ( options && options.initOnlyNew )
-				newInstances = this.initOnAll();
-			else {
-				var wrappers = editable.find( '.cke_widget_wrapper' );
-				newInstances = [];
-
-				// Create widgets on existing wrappers if they do not exists.
-				for ( i = 0, count = wrappers.count(); i < count; i++ ) {
-					wrapper = wrappers.getItem( i );
-
-					// Check if there's no instance for this widget and that
-					// wrapper is not inside some temporary element like copybin (#11088).
-					if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
-						// Add cke_widget_new class because otherwise
-						// widget will not be created on such wrapper.
-						wrapper.addClass( 'cke_widget_new' );
-						newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
-					}
-				}
-			}
-
-			// If only single widget was initialized and focusInited was passed, focus it.
-			if ( options && options.focusInited && newInstances.length == 1 )
-				newInstances[ 0 ].focus();
+			this.fire( 'checkWidgets', CKEDITOR.tools.copy( options || {} ) );
 		},
 
 		/**
@@ -638,15 +598,10 @@
 	 */
 
 	/**
-	 * An event fired to trigger the widgets check.
+	 * An event fired by the the {@link #method-checkWidgets} method.
 	 *
-	 * See the {@link #method-checkWidgets} method.
-	 *
-	 *		// Will destroy old widgets and initialize new ones.
-	 *		editor.widgets.fire( 'checkWidgets' );
-	 *
-	 *		// Initialized widget will be focused.
-	 *		editor.widgets.fire( 'checkWidgets', { focusInited: true } );
+	 * It can be canceled in order to stop check widgets execution or
+	 * listener can modify the options.
 	 *
 	 * @event checkWidgets
 	 * @param [data]
@@ -1508,6 +1463,52 @@
 		}
 	}
 
+	function checkWidgets( evt ) {
+		var options = evt.data;
+
+		if ( this.editor.mode != 'wysiwyg' )
+			return;
+
+		var editable = this.editor.editable(),
+			instances = this.instances,
+			newInstances, i, count, wrapper;
+
+		if ( !editable )
+			return;
+
+		// Remove widgets which have no corresponding elements in DOM.
+		for ( i in instances ) {
+			if ( !editable.contains( instances[ i ].wrapper ) )
+				this.destroy( instances[ i ], true );
+		}
+
+		// Init on all (new) if initOnlyNew option was passed.
+		if ( options && options.initOnlyNew )
+			newInstances = this.initOnAll();
+		else {
+			var wrappers = editable.find( '.cke_widget_wrapper' );
+			newInstances = [];
+
+			// Create widgets on existing wrappers if they do not exists.
+			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
+				wrapper = wrappers.getItem( i );
+
+				// Check if there's no instance for this widget and that
+				// wrapper is not inside some temporary element like copybin (#11088).
+				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
+					// Add cke_widget_new class because otherwise
+					// widget will not be created on such wrapper.
+					wrapper.addClass( 'cke_widget_new' );
+					newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
+				}
+			}
+		}
+
+		// If only single widget was initialized and focusInited was passed, focus it.
+		if ( options && options.focusInited && newInstances.length == 1 )
+			newInstances[ 0 ].focus();
+	}
+
 	// Unwraps widget element and clean up element.
 	//
 	// This function is used to clean up pasted widgets.
@@ -2166,12 +2167,8 @@
 		setupWidgetsLifecycleStart( widgetsRepo );
 		setupWidgetsLifecycleEnd( widgetsRepo );
 
-		widgetsRepo.on( 'checkWidgets', function( evt ) {
-			widgetsRepo.checkWidgets( evt.data );
-		} );
-		widgetsRepo.editor.on( 'contentDomInvalidated', function() {
-			widgetsRepo.fire( 'checkWidgets' );
-		} );
+		widgetsRepo.on( 'checkWidgets', checkWidgets );
+		widgetsRepo.editor.on( 'contentDomInvalidated', widgetsRepo.checkWidgets, widgetsRepo );
 	}
 
 	function setupWidgetsLifecycleEnd( widgetsRepo ) {
@@ -2319,7 +2316,7 @@
 
 			// Init only new for performance reason.
 			// Focus inited if only widget was processed.
-			widgetsRepo.fire( 'checkWidgets', { initOnlyNew: true, focusInited: processedWidgetOnly } );
+			widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
 			editor.fire( 'unlockSnapshot' );
 		}
