@@ -9,10 +9,11 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11244](http://dev.ckeditor.com/ticket/11244): Changed: The [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-checkWidgets) method now fires the [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-event-checkWidgets) event, so from CKEditor 4.3.1 it's preferred to use method rather than fire event.
+* [#11171](http://dev.ckeditor.com/ticket/11171): Fixed: [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) and [`editor.insertText`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertText) methods do not call the [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-checkWidgets) method.
 * [#11044](http://dev.ckeditor.com/ticket/11044): Enhanced aria support for language plugin drop-down menu.
 * [#11075](http://dev.ckeditor.com/ticket/11075): With drop-down menubutton focused, pressing down arrow key will now open menu and focus its first option.
-* [#11165](http://dev.ckeditor.com/ticket/11165): The filebrowser plugin cannot be removed from the editor.
-* [#11171](http://dev.ckeditor.com/ticket/11171): Fixed: [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) and [`editor.insertText`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertText) methods do not call the [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-checkWidgets) method.
+* [#11165](http://dev.ckeditor.com/ticket/11165): Fixed: The filebrowser plugin cannot be removed from the editor.
 * [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
 * [#11101](http://dev.ckeditor.com/ticket/11101): Richcombo no longer breaks when given double quotes.
 * [#11077](http://dev.ckeditor.com/ticket/11077): [Enhanced Image](http://ckeditor.com/addon/image2): Empty undo step recorded when resizing the image.
