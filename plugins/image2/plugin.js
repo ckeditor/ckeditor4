@@ -17,14 +17,14 @@
 	CKEDITOR.plugins.add( 'image2', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
-		icons: 'image2',
+		icons: 'image',
 		hidpi: true,
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss(
-			'.cke_editable.cke_image2_sw, .cke_editable.cke_image2_sw *{cursor:sw-resize !important}' +
-			'.cke_editable.cke_image2_se, .cke_editable.cke_image2_se *{cursor:se-resize !important}' +
-			'.cke_image2_resizer{' +
+			'.cke_editable.cke_image_sw, .cke_editable.cke_image_sw *{cursor:sw-resize !important}' +
+			'.cke_editable.cke_image_se, .cke_editable.cke_image_se *{cursor:se-resize !important}' +
+			'.cke_image_resizer{' +
 				'display:none;' +
 				'position:absolute;' +
 				'width:10px;' +
@@ -35,54 +35,58 @@
 				'outline:1px solid #fff;' +
 				'cursor:se-resize;' +
 			'}' +
-			'.cke_image2_resizer_wrapper{' +
+			'.cke_image_resizer_wrapper{' +
 				'position:relative;' +
 				'display:inline-block;' +
 				'line-height:0;' +
 			'}' +
 			// Bottom-left corner style of the resizer.
-			'.cke_image2_resizer.cke_image2_resizer_left{' +
+			'.cke_image_resizer.cke_image_resizer_left{' +
 				'right:auto;' +
 				'left:-5px;' +
 				'cursor:sw-resize;' +
 			'}' +
-			'.cke_widget_wrapper:hover .cke_image2_resizer,' +
-			'.cke_image2_resizer.cke_image2_resizing{' +
+			'.cke_widget_wrapper:hover .cke_image_resizer,' +
+			'.cke_image_resizer.cke_image_resizing{' +
 				'display:block' +
 			'}' );
 		},
 
 		init: function( editor ) {
-
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
 				lang = editor.lang.image2;
+
+			// Since filebrowser plugin discovers config properties by dialog (plugin?)
+			// names (sic!), this hack will be necessary as long as Image2 is not named
+			// Image. And since Image2 will never be Image, for sure some filebrowser logic
+			// got to be refined.
 			config.filebrowserImage2BrowseUrl = config.filebrowserImageBrowseUrl;
 			config.filebrowserImage2UploadUrl = config.filebrowserImageUploadUrl;
 
 			// Add custom elementspath names to widget definition.
-			image2.pathName = lang.pathName;
-			image2.editables.caption.pathName = lang.pathNameCaption;
+			image.pathName = lang.pathName;
+			image.editables.caption.pathName = lang.pathNameCaption;
 
 			// Register the widget.
-			editor.widgets.add( 'image2', image2 );
+			editor.widgets.add( 'image', image );
 
 			// Add toolbar button for this plugin.
-			editor.ui.addButton && editor.ui.addButton( 'Image2', {
+			editor.ui.addButton && editor.ui.addButton( 'Image', {
 				label: editor.lang.common.image,
-				command: 'image2',
+				command: 'image',
 				toolbar: 'insert,10'
 			} );
 
 			// Register context menu option for editing widget.
 			if ( editor.contextMenu ) {
-				editor.addMenuGroup( 'image2', 10 );
+				editor.addMenuGroup( 'image', 10 );
 
-				editor.addMenuItem( 'image2', {
+				editor.addMenuItem( 'image', {
 					label: lang.menu,
-					command: 'image2',
-					group: 'image2'
+					command: 'image',
+					group: 'image'
 				} );
 			}
 
@@ -98,8 +102,8 @@
 		}
 	} );
 
-	// Image2 widget definition.
-	var image2 = {
+	// Image widget definition.
+	var image = {
 		// Widget-specific rules for Allowed Content Filter.
 		allowedContent: {
 			// This widget may need <div> centering wrapper.
@@ -181,7 +185,7 @@
 					// non-captioned, block or inline according to what is the
 					// new state of the widget.
 					if ( this.destroyed ) {
-						widget = editor.widgets.initOn( element, 'image2', widget.data );
+						widget = editor.widgets.initOn( element, 'image', widget.data );
 
 						// Once widget was re-created, it may become an inline element without
 						// block wrapper (i.e. when unaligned, end not captioned). Let's do some
@@ -262,7 +266,7 @@
 
 			// Add widget editing option to its context menu.
 			this.on( 'contextMenu', function( evt ) {
-				evt.data.image2 = CKEDITOR.TRISTATE_OFF;
+				evt.data.image = CKEDITOR.TRISTATE_OFF;
 			} );
 
 			// Pass the reference to this widget to the dialog.
@@ -647,7 +651,7 @@
 			doc = editor.document,
 			resizer = doc.createElement( 'span' );
 
-		resizer.addClass( 'cke_image2_resizer' );
+		resizer.addClass( 'cke_image_resizer' );
 		resizer.setAttribute( 'title', editor.lang.image2.resizer );
 		resizer.append( new CKEDITOR.dom.text( '\u200b', doc ) );
 
@@ -656,7 +660,7 @@
 			var oldResizeWrapper = widget.element.getFirst(),
 				resizeWrapper = doc.createElement( 'span' );
 
-			resizeWrapper.addClass( 'cke_image2_resizer_wrapper' );
+			resizeWrapper.addClass( 'cke_image_resizer_wrapper' );
 			resizeWrapper.append( widget.parts.image );
 			resizeWrapper.append( resizer );
 			widget.element.append( resizeWrapper, true );
@@ -690,7 +694,7 @@
 				listeners = [],
 
 				// A class applied to editable during resizing.
-				cursorClass = 'cke_image2_s' + ( !~factor ? 'w' : 'e' ),
+				cursorClass = 'cke_image_s' + ( !~factor ? 'w' : 'e' ),
 
 				nativeEvt, newWidth, newHeight, updateData,
 				moveDiffX, moveDiffY, moveRatio;
@@ -708,7 +712,7 @@
 			editable.addClass( cursorClass );
 
 			// This is to always keep the resizer element visible while resizing.
-			resizer.addClass( 'cke_image2_resizing' );
+			resizer.addClass( 'cke_image_resizing' );
 
 			// Attaches an event to a global document if inline editor.
 			// Additionally, if framed, also attaches the same event to iframe's document.
@@ -843,7 +847,7 @@
 				editable.removeClass( cursorClass );
 
 				// This is to bring back the regular behaviour of the resizer.
-				resizer.removeClass( 'cke_image2_resizing' );
+				resizer.removeClass( 'cke_image_resizing' );
 
 				if ( updateData ) {
 					widget.setData( { width: newWidth, height: newHeight } );
@@ -859,7 +863,7 @@
 
 		// Change the position of the widget resizer when data changes.
 		widget.on( 'data', function() {
-			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_image2_resizer_left' );
+			resizer[ widget.data.align == 'right' ? 'addClass' : 'removeClass' ]( 'cke_image_resizer_left' );
 		} );
 	}
 
@@ -929,7 +933,7 @@
 	function getFocusedWidget( editor ) {
 		var widget = editor.widgets.focused;
 
-		if ( widget && widget.name == 'image2' )
+		if ( widget && widget.name == 'image' )
 			return widget;
 
 		return null;

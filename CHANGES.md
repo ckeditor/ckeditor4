@@ -5,7 +5,8 @@ CKEditor 4 Changelog
 
 **Important Notes:**
 
-* To match the naming convention `image2` and `language` buttons are now `Image2` and `Language` ([#11201](http://dev.ckeditor.com/ticket/11201)).
+* To match the naming convention `language` button is now `Language` ([#11201](http://dev.ckeditor.com/ticket/11201)).
+* [Enhanced Image](http://ckeditor.com/addon/image2) button/context menu/command/icon names match those of Image plugin ([#11222](http://dev.ckeditor.com/ticket/11222)).
 
 Fixed Issues:
 
