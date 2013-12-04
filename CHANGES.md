@@ -9,6 +9,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11044](http://dev.ckeditor.com/ticket/11044): Enhanced aria support for language plugin drop-down menu.
 * [#11075](http://dev.ckeditor.com/ticket/11075): With drop-down menubutton focused, pressing down arrow key will now open menu and focus its first option.
 * [#11165](http://dev.ckeditor.com/ticket/11165): The filebrowser plugin cannot be removed from the editor.
 * [#11171](http://dev.ckeditor.com/ticket/11171): Fixed: [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) and [`editor.insertText`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertText) methods do not call the [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-checkWidgets) method.
