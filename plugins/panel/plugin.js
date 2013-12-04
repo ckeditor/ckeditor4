@@ -343,7 +343,7 @@
 						// If no link was found, cycle and restart from the top. (#11125)
 						if ( !link && !noCycle ) {
 							this._.focusIndex = -1;
-							return arguments.callee.call( this, keystroke, 1 );
+							return this.onKeyDown( keystroke, 1 );
 						}
 
 						return false;
@@ -367,7 +367,7 @@
 						// If no link was found, cycle and restart from the bottom. (#11125)
 						if ( !link && !noCycle ) {
 							this._.focusIndex = links.count();
-							return arguments.callee.call( this, keystroke, 1 );
+							return this.onKeyDown( keystroke, 1 );
 						}
 
 						return false;
