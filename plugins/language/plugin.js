@@ -62,7 +62,8 @@
 					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
 					onClick: function() {
 						editor.execCommand( 'language', this.langId );
-					}
+					},
+					role: 'menuitemcheckbox'
 				};
 
 				// Init style property.
