@@ -371,8 +371,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						children: [
 							{
 								type: 'hbox',
-								widths: [ '280px', '110px' ],
-								align: 'right',
+								widths: [ '100%' ],
 								children: [
 									{
 										id: 'src',
