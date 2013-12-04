@@ -28,7 +28,7 @@ Fixed Issues:
 * [#11183](http://dev.ckeditor.com/ticket/11183): Fixed: Inserting line or table in multiple rows selection causes browser crash. Additionally, the [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) method does not insert element into every range of a selection any more.
 * [#11042](http://dev.ckeditor.com/ticket/11042): Fixed: Selection made on element containing non-editable element was not auto faked.
 * [#11042](http://dev.ckeditor.com/ticket/11125): Fixed: Keyboard navigation through menu and combo items will now cycle.
-
+* [#11011](http://dev.ckeditor.com/ticket/11011): Fixed: Method applyStyle removes attributes from nested elements.
 
 ## CKEditor 4.3
 
