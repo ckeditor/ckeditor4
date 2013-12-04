@@ -334,9 +334,41 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	var hasFileBrowser = !!( editor.config.filebrowserImageBrowseUrl || editor.config.filebrowserBrowseUrl );
+	var hasFileBrowser = !!( editor.config.filebrowserImageBrowseUrl || editor.config.filebrowserBrowseUrl ),
+		srcBoxChildren = [
+			{
+				id: 'src',
+				type: 'text',
+				label: commonLang.url,
+				onKeyup: onChangeSrc,
+				onChange: onChangeSrc,
+				setup: function( widget ) {
+					this.setValue( widget.data.src );
+				},
+				commit: function( widget ) {
+					widget.setData( 'src', this.getValue() );
+				},
+				validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+			}
+		];
 
-	var ret = {
+	// Render the "Browse" button on demand to avoid an "empty" (hidden child)
+	// space in dialog layout that distorts the UI.
+	if ( hasFileBrowser ) {
+		srcBoxChildren.push( {
+			type: 'button',
+			id: 'browse',
+			// v-align with the 'txtUrl' field.
+			// TODO: We need something better than a fixed size here.
+			style: 'display:inline-block;margin-top:16px;',
+			align: 'center',
+			label: editor.lang.common.browseServer,
+			hidden: true,
+			filebrowser: 'info:src'
+		} );
+	}
+
+	return {
 		title: lang.title,
 		minWidth: 250,
 		minHeight: 100,
@@ -378,35 +410,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 							{
 								type: 'hbox',
 								widths: [ '100%' ],
-								children: [
-									{
-										id: 'src',
-										type: 'text',
-										label: commonLang.url,
-										onKeyup: onChangeSrc,
-										onChange: onChangeSrc,
-										setup: function( widget ) {
-											this.setValue( widget.data.src );
-										},
-										commit: function( widget ) {
-											widget.setData( 'src', this.getValue() );
-										},
-										validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
-									},
-									{
-										// Remark: button may be removed at the very bottom of
-										// the file, if browser config is not set.
-										type: 'button',
-										id: 'browse',
-										// v-align with the 'txtUrl' field.
-										// TODO: We need something better than a fixed size here.
-										style: 'display:inline-block;margin-top:16px;',
-										align: 'center',
-										label: editor.lang.common.browseServer,
-										hidden: true,
-										filebrowser: 'info:src'
-									}
-								]
+								children: srcBoxChildren
 							}
 						]
 					},
@@ -534,10 +538,4 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			}
 		]
 	};
-
-	// Replaces hbox (which should contain button#browse but is hidden) with text control.
-	if ( !hasFileBrowser )
-		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
-
-	return ret;
 } );
