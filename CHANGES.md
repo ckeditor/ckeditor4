@@ -9,6 +9,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11165](http://dev.ckeditor.com/ticket/11165): The filebrowser plugin cannot be removed from the editor.
 * [#11171](http://dev.ckeditor.com/ticket/11171): Fixed: [`editor.insertElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) and [`editor.insertText`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertText) methods do not call the [`widget.repository.checkWidgets`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-checkWidgets) method.
 * [#11159](http://dev.ckeditor.com/ticket/11159): [Enhanced Image](http://ckeditor.com/addon/image2): Fixed buggy discovery of image dimensions in IE9 and IE10.
 * [#11101](http://dev.ckeditor.com/ticket/11101): Richcombo no longer breaks when given double quotes.
