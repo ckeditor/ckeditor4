@@ -1115,6 +1115,53 @@ CKEDITOR.dom.range = function( root ) {
 					enlargeable = sibling = null;
 					commonReached = needsWhiteSpace = false;
 
+					function onlyWhiteSpaces( startContainer, startOffset ) {
+						// We need to enlarge range if there is white space at the end of the block,
+						// because it is not displayed in WYSIWYG mode and user can not select it. So
+						// "<p>foo[bar] </p>" should be changed to "<p>foo[bar ]</p>". On the other hand
+						// we should do nothing if we are not at the end of the block, so this should not
+						// be changed: "<p><i>[foo] </i>bar</p>".
+						var walkerRange = new CKEDITOR.dom.range( boundary );
+						walkerRange.setStart( startContainer, startOffset );
+						// The guard will find the end of range so I put boundary here.
+						walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
+
+						var walker = new CKEDITOR.dom.walker( walkerRange ),
+							node;
+
+						walker.guard = function( node, movingOut ) {
+							// Stop if you exit block.
+							if ( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
+								return false;
+
+							// Stop if you exit contenteditable.
+							if ( node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'false' )
+								return false;
+
+							return true;
+						};
+
+						while ( ( node = walker.next() ) ) {
+							if ( node.type != CKEDITOR.NODE_TEXT ) {
+								// Stop if you enter to any node (walker.next() will return node only
+								// it goes out, not if it is go into node).
+								return false;
+							} else {
+								// Trim the first node to startOffset.
+								if ( node != startContainer )
+									siblingText = node.getText();
+								else
+									siblingText = node.substring( startOffset )
+
+								// Check if it is white space.
+								if ( ( /[^\s\ufeff]/.test( siblingText ) ) )
+									return false;
+							}
+						}
+
+						return true;
+					}
+
 					if ( container.type == CKEDITOR.NODE_TEXT ) {
 						// Check if there is only white space after the offset.
 						if ( CKEDITOR.tools.trim( container.substring( offset ) ).length ) {
@@ -1126,10 +1173,17 @@ CKEDITOR.dom.range = function( root ) {
 						} else {
 							needsWhiteSpace = !container.getLength();
 
-							// If we are at the end of container and this is the last text node
-							// we should enlarged end to the parent.
-							if ( offset == container.getLength() && !( sibling = container.getNext() ) )
-								enlargeable = container.getParent();
+							if ( offset == container.getLength() ) {
+								// If we are at the end of container and this is the last text node,
+								// we should enlarge end to the parent.
+								if ( !( sibling = container.getNext() ) )
+									enlargeable = container.getParent();
+							} else {
+								// If we are in the middle on text node and there are only whitespaces
+								// till the end of block, we should enlarge element.
+								if ( onlyWhiteSpaces( container, offset ) )
+									enlargeable = container.getParent();
+							}
 						}
 					} else {
 						// Get the node right after the boudary to be checked
@@ -1166,7 +1220,9 @@ CKEDITOR.dom.range = function( root ) {
 							if ( sibling.type == CKEDITOR.NODE_TEXT ) {
 								siblingText = sibling.getText();
 
-								if ( /[^\s\ufeff]/.test( siblingText ) )
+								// Check if there are not whitespace characters till the end of editable.
+								// If so stop expanding.
+								if ( !onlyWhiteSpaces( sibling, 0 ) )
 									sibling = null;
 
 								isWhiteSpace = /^[\s\ufeff]/.test( siblingText );
