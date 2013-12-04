@@ -243,7 +243,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// Activate (Un)LockRatio button
 		if ( lockButton ) {
-			dialog.addFocusable( lockButton, 4 );
+			// Consider that there's an additional focusable field
+			// in the dialog when the "browse" button is visible.
+			dialog.addFocusable( lockButton, 4 + hasFileBrowser );
 
 			lockButton.on( 'click', function( evt ) {
 				toggleLockRatio();
@@ -255,7 +257,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// Activate the reset size button.
 		if ( resetButton ) {
-			dialog.addFocusable( resetButton, 5 );
+			// Consider that there's an additional focusable field
+			// in the dialog when the "browse" button is visible.
+			dialog.addFocusable( resetButton, 5 + hasFileBrowser );
 
 			// Fills width and height fields with the original dimensions of the
 			// image (stored in widget#data since widget#init).
@@ -329,6 +333,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		widthField[ method ]();
 		heightField[ method ]();
 	}
+
+	var hasFileBrowser = !!( editor.config.filebrowserImageBrowseUrl || editor.config.filebrowserBrowseUrl );
 
 	var ret = {
 		title: lang.title,
@@ -529,10 +535,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		]
 	};
 
-	if ( !editor.config.filebrowserImageBrowseUrl && !editor.config.filebrowserBrowseUrl ) {
-		// Replaces hbox (which should contain button#browse but is hidden) with text control.
+	// Replaces hbox (which should contain button#browse but is hidden) with text control.
+	if ( !hasFileBrowser )
 		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
-	}
 
 	return ret;
 } );
