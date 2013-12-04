@@ -151,7 +151,7 @@
 					text: function( text ) {
 						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
 					}
-				});
+				}, { applyToAll: true } );
 			}
 		}
 	});
