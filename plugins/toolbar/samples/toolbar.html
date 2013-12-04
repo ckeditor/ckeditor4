@@ -101,7 +101,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	CKEDITOR.on( 'instanceReady', function( evt ) {
 		var editor = evt.editor,
 			editorCurrent = editor.name == 'editorCurrent',
-			defaultToolbar = !( editor.config.toolbar || editor.config.toolbarGroups ),
+			defaultToolbar = !( editor.config.toolbar || editor.config.toolbarGroups || editor.config.removeButtons ),
 			pre = CKEDITOR.document.getById( editor.name + 'Cfg' ),
 			output = '';
 
@@ -141,6 +141,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 		// Reset toolbar settings, so full toolbar will be generated automatically.
 		toolbar: null,
 		toolbarGroups: null,
+		removeButtons: null,
 		height: 100
 	} );
 
