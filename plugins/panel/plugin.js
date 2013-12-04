@@ -338,10 +338,6 @@
 								link.focus();
 								break;
 							}
-
-							// Make sure link is null when the loop ends and nothing was
-							// found (#11125).
-							link = null;
 						}
 
 						// If no link was found, cycle and restart from the top. (#11125)
@@ -371,7 +367,6 @@
 							// found (#11125).
 							link = null;
 						}
-
 
 						// If no link was found, cycle and restart from the bottom. (#11125)
 						if ( !link && !noCycle ) {
