@@ -185,9 +185,13 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					var keystroke = ev.getKeystroke();
 					switch ( keystroke ) {
+						case 40: // ARROW-DOWN
+							// This call is duplicated in plugins\toolbar\plugin.js in itemKeystroke().
+							editor.once( 'panelShow', function( evt ) {
+								evt.data._.panel._.currentBlock.onKeyDown( 40 );
+							} );
 						case 13: // ENTER
 						case 32: // SPACE
-						case 40: // ARROW-DOWN
 							// Show panel
 							CKEDITOR.tools.callFunction( clickFn, element );
 							break;
