@@ -53,11 +53,15 @@
 		},
 
 		init: function( editor ) {
-
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
 				lang = editor.lang.image2;
+
+			// Since filebrowser plugin discovers config properties by dialog (plugin?)
+			// names (sic!), this hack will be necessary as long as Image2 is not named
+			// Image. And since Image2 will never be Image, for sure some filebrowser logic
+			// got to be refined.
 			config.filebrowserImage2BrowseUrl = config.filebrowserImageBrowseUrl;
 			config.filebrowserImage2UploadUrl = config.filebrowserImageUploadUrl;
 
