@@ -1191,7 +1191,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	// Removes a style from an element itself, don't care about its subtree.
-	function removeFromElement( element ) {
+	function removeFromElement( element, keepData ) {
 		var def = this._.definition,
 			attributes = def.attributes,
 			styles = def.styles,
@@ -1206,7 +1206,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				continue;
 
 			// Do not touch data-* attributes (#11011).
-			if ( attName.slice( 0, 5 ) == 'data-' )
+			if ( keepData && attName.slice( 0, 5 ) == 'data-' )
 				continue;
 
 			removeEmpty = element.hasAttribute( attName );
@@ -1237,7 +1237,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
-	// Removes a style from inside an element.
+	// Removes a style from inside an element. Called on applyStyle to make cleanup
+	// before apply. During clean up this function keep data-* attribute in contrast
+	// to removeFromElement.
 	function removeFromInsideElement( element ) {
 		var def = this._.definition,
 			attribs = def.attributes,
@@ -1251,7 +1253,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			// Do not remove elements which are read only (e.g. duplicates inside widgets).
 			if ( !innerElement.isReadOnly() )
-				removeFromElement.call( this, innerElement );
+				removeFromElement.call( this, innerElement, true );
 		}
 
 		// Now remove any other element with different name that is
