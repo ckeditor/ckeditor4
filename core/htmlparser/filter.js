@@ -338,23 +338,16 @@
 						return ret;
 
 					// We're filtering node (element/fragment).
-					if ( isNode ) {
-						// No further filtering if it's not anymore
-						// fitable for the subsequent filters.
-						if ( ret && ( ret.name != orgName || ret.type != orgType ) )
-							return ret;
-					}
-					// Filtering value (nodeName/textValue/attrValue).
-					else {
-						// No further filtering if it's not any more values.
-						if ( typeof ret != 'string' )
-							return ret;
-					}
+					// No further filtering if it's not anymore fitable for the subsequent filters.
+					if ( isNode && ret && ( ret.name != orgName || ret.type != orgType ) )
+						return ret;
 
 					// Update currentValue and corresponding argument in args array.
 					// Updated values will be used in next for-loop step.
 					if ( ret != undefined )
 						args[ 0 ] = currentValue = ret;
+
+					// ret == undefined will continue loop as nothing has happened.
 				}
 			}
 
