@@ -1191,7 +1191,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	// Removes a style from an element itself, don't care about its subtree.
-	function removeFromElement( element, keepData ) {
+	function removeFromElement( element, keepDataAttrs ) {
 		var def = this._.definition,
 			attributes = def.attributes,
 			styles = def.styles,
@@ -1205,8 +1205,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( ( attName == 'class' || this._.definition.fullMatch ) && element.getAttribute( attName ) != normalizeProperty( attName, attributes[ attName ] ) )
 				continue;
 
-			// Do not touch data-* attributes (#11011).
-			if ( keepData && attName.slice( 0, 5 ) == 'data-' )
+			// Do not touch data-* attributes (#11011) (#11258).
+			if ( keepDataAttrs && attName.slice( 0, 5 ) == 'data-' )
 				continue;
 
 			removeEmpty = element.hasAttribute( attName );
