@@ -6,7 +6,7 @@
 (function() {
 	var template = '<a id="{id}"' +
 		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
-		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
 		' hidefocus="true"' +
