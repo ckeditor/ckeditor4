@@ -12,7 +12,8 @@
 		' hidefocus="true"' +
 		' role="button"' +
 		' aria-labelledby="{id}_label"' +
-		' aria-haspopup="{hasArrow}"';
+		' aria-haspopup="{hasArrow}"' +
+		' aria-disabled="{ariaDisabled}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -268,6 +269,7 @@
 				label: this.label,
 				cls: this.className || '',
 				state: stateName,
+				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title,
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
