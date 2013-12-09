@@ -262,16 +262,16 @@
 		 * Reinitializes widgets on widget wrappers for which widget instances
 		 * cannot be found.
 		 *
-		 * This method triggers the {@link #event-checkWidgets} event which listeners
-		 * can cancel the execution or modify options.
+		 * This method triggers the {@link #event-checkWidgets} event whose listeners
+		 * can cancel the method's execution or modify its options.
 		 *
 		 * @param [options] The options object.
-		 * @param {Boolean} [options.initOnlyNew] Init widgets only on newly created
-		 * widgets (those which still have `cke_widget_new` class). When this option is
-		 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
-		 * That makes the check faster.
-		 * @param {Boolean} [options.focusInited] If only one widget will be initialized by
-		 * the method, then it will be focused.
+		 * @param {Boolean} [options.initOnlyNew] Initializes widgets only on newly wrapped
+		 * widget elements (those which still have the `cke_widget_new` class). When this option is
+		 * set to `true`, widgets which were invalidated (e.g. by replacing with a cloned DOM structure)
+		 * will not be reinitialized. This makes the check faster.
+		 * @param {Boolean} [options.focusInited] If only one widget is initialized by
+		 * the method, it will be focused.
 		 */
 		checkWidgets: function( options ) {
 			this.fire( 'checkWidgets', CKEDITOR.tools.copy( options || {} ) );
@@ -600,17 +600,17 @@
 	/**
 	 * An event fired by the the {@link #method-checkWidgets} method.
 	 *
-	 * It can be canceled in order to stop check widgets execution or
-	 * listener can modify the options.
+	 * It can be canceled in order to stop the {@link #method-checkWidgets}
+	 * method execution or the event listener can modify the method's options.
 	 *
 	 * @event checkWidgets
 	 * @param [data]
-	 * @param {Boolean} [data.initOnlyNew] Init widgets only on newly created
-	 * widgets (those which still have `cke_widget_new` class). When this option is
-	 * set to `true` widgets which were invalidated (e.g. by replacing by clone), will not be reinitialized.
-	 * That makes the check faster.
-	 * @param {Boolean} [data.focusInited] If only one widget will be initialized by
-	 * the method, then it will be focused.
+	 * @param {Boolean} [data.initOnlyNew] Initialize widgets only on newly wrapped
+	 * widget elements (those which still have the `cke_widget_new` class). When this option is
+	 * set to `true`, widgets which were invalidated (e.g. by replacing with a cloned DOM structure)
+	 * will not be reinitialized. This makes the check faster.
+	 * @param {Boolean} [data.focusInited] If only one widget is initialized by
+	 * the method, it will be focused.
 	 */
 
 

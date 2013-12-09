@@ -140,8 +140,8 @@
 	CKEDITOR.plugins.mathjax = {};
 
 	/**
-	 * Variable to fix problems with iFrame. This variable is global
-	 * because it is used in both widget and dialog.
+	 * A variable to fix problems with `iframe`. This variable is global
+	 * because it is used in both the widget and the dialog window.
 	 *
 	 * @private
 	 * @property CKEDITOR.plugins.mathjax.fixSrc
@@ -170,7 +170,7 @@
 	CKEDITOR.plugins.mathjax.loadingIcon = CKEDITOR.plugins.get( 'mathjax' ).path + 'images/loader.gif';
 
 	/**
-	 * Computed predefined styles and copy them to the other element.
+	 * Computes predefined styles and copies them to another element.
 	 *
 	 * @private
 	 * @member CKEDITOR.plugins.mathjax
@@ -189,7 +189,7 @@
 	};
 
 	/**
-	 * Trim MathJax value from '\(1+1=2\)' to '1+1=2'.
+	 * Trims MathJax value from '\(1+1=2\)' to '1+1=2'.
 	 *
 	 * @private
 	 * @member CKEDITOR.plugins.mathjax
