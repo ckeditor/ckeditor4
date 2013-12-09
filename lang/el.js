@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'el' ] = {
 	// ARIA description.
 	editor: 'Επεξεργαστής Πλούσιου Κειμένου',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Πίνακας Επεξεργαστή Πλούσιου Κειμένου',
 
 	// Common messages and labels.
 	common: {

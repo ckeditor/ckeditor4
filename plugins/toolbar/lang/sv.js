@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 	toolbarCollapse: 'Dölj verktygsfält',
 	toolbarExpand: 'Visa verktygsfält',
 	toolbarGroups: {
-		document: 'Document',
+		document: 'Dokument',
 		clipboard: 'Clipboard/Undo',
 		editing: 'Editing',
 		forms: 'Forms',

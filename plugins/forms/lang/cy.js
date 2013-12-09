@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		text: 'Testun (Gwerth)',
 		type: 'Math',
 		typeBtn: 'Botwm',
-		typeSbm: 'Gyrru',
+		typeSbm: 'Anfon',
 		typeRst: 'Ailosod'
 	},
 	checkboxAndRadio: {

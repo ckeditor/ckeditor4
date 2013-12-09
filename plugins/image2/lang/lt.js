@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'lt', {
 	resetSize: 'Atstatyti dydį',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Vaizdo savybės',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Siųsti',
 	urlMissing: 'Paveiksliuko nuorodos nėra.'
 } );

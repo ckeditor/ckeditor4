@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ug', {
 	resetSize: 'ئەسلى چوڭلۇق',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'سۈرەت خاسلىقى',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'يۈكلە',
 	urlMissing: 'سۈرەتنىڭ ئەسلى ھۆججەت ئادرېسى كەم'
 } );

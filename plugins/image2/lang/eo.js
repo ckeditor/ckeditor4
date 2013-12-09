@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	resetSize: 'Origina Grando',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Atributoj de Bildo',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Alŝuti',
 	urlMissing: 'La fontretadreso de la bildo mankas.'
 } );

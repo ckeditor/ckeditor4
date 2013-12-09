@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'vi', {
 	resetSize: 'Kích thước gốc',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Thuộc tính của ảnh',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Tải lên',
 	urlMissing: 'Thiếu đường dẫn hình ảnh'
 } );

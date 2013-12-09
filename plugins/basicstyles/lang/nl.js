@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'nl', {
 	strike: 'Doorhalen',
 	subscript: 'Subscript',
 	superscript: 'Superscript',
-	underline: 'Onderstreept'
+	underline: 'Onderstrepen'
 });

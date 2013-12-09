@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'bn', {
 	resetSize: 'সাইজ পূর্বাবস্থায় ফিরিয়ে দাও',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ছবির প্রোপার্টি',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'আপলোড',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );

@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ku', {
 	resetSize: 'ڕێکخستنەوەی قەباره',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'خاسیەتی وێنه',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'بارکردن',
 	urlMissing: 'سەرچاوەی بەستەری وێنه بزره'
 } );

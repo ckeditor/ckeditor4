@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'nl', {
 	border: 'Framerand tonen',
-	noUrl: 'Geef de IFrame URL in',
+	noUrl: 'Vul de IFrame URL in',
 	scrolling: 'Scrollbalken inschakelen',
-	title: 'IFrame eigenschappen',
+	title: 'IFrame-eigenschappen',
 	toolbar: 'IFrame'
 });

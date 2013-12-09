@@ -69,7 +69,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		},
 			{
 			name: '访问前一个焦点区域的命令',
-			legend: '按 ${accessPreviousSpace} 访问^符号前最近的不可访问的焦点区域，例如：两个相邻的 HR元素。重复此组合按键可以到达远处的焦点区域。'
+			legend: '按 ${accessPreviousSpace} 访问^符号前最近的不可访问的焦点区域，例如：两个相邻的 HR 元素。重复此组合按键可以到达远处的焦点区域。'
 		},
 			{
 			name: '访问下一个焦点区域命令',

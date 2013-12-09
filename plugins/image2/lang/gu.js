@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'gu', {
 	resetSize: 'રીસેટ સાઇઝ',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ચિત્રના ગુણ',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'અપલોડ',
 	urlMissing: 'ઈમેજની મૂળ URL છે નહી.'
 } );

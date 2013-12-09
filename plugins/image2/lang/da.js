@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'da', {
 	resetSize: 'Nulstil størrelse',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Egenskaber for billede',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Upload',
 	urlMissing: 'Kilde på billed-URL mangler'
 } );

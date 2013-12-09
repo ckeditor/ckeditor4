@@ -16,7 +16,7 @@
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
-		lang: 'en,ja,uk', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,el,en,en-gb,es,fi,ja,km,nb,nl,no,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 

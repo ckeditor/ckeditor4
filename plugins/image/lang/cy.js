@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'image', 'cy', {
 	resetSize: 'Ailosod Maint',
 	title: 'Priodweddau Delwedd',
 	titleButton: 'Priodweddau Botwm Delwedd',
-	upload: 'lanlwytho',
+	upload: 'Lanlwytho',
 	urlMissing: 'URL gwreiddiol y ddelwedd ar goll.',
 	vSpace: 'BwlchF',
 	validateBorder: 'Rhaid i\'r ymyl fod yn gyfanrif.',

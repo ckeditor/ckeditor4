@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'no', {
 	alt: 'Alternativ tekst',
 	btnUpload: 'Send det til serveren',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Bilde med bildetekst',
 	infoTab: 'Bildeinformasjon',
 	lockRatio: 'Lås forhold',
 	menu: 'Bildeegenskaper',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'bilde',
+	pathNameCaption: 'bildetekst',
 	resetSize: 'Tilbakestill størrelse',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Klikk og dra for å endre størrelse',
 	title: 'Bildeegenskaper',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Last opp',
 	urlMissing: 'Bildets adresse mangler.'
 } );

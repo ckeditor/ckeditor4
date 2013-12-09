@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'sk', {
 	resetSize: 'Pôvodná veľkosť',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Vlastnosti obrázka',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Nahrať',
 	urlMissing: 'Chýba URL zdroja obrázka.'
 } );

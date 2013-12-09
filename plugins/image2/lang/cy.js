@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'cy', {
 	alt: 'Testun Amgen',
 	btnUpload: 'Anfon i\'r Gweinydd',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Delwedd â phennawd',
 	infoTab: 'Gwyb Delwedd',
 	lockRatio: 'Cloi Cymhareb',
 	menu: 'Priodweddau Delwedd',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'delwedd',
+	pathNameCaption: 'pennawd',
 	resetSize: 'Ailosod Maint',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Clicio a llusgo i ail-meintio',
 	title: 'Priodweddau Delwedd',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Lanlwytho',
 	urlMissing: 'URL gwreiddiol y ddelwedd ar goll.'
 } );

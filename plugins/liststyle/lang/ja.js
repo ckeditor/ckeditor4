@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ja', {
 	armenian: 'アルメニア数字',
-	bulletedTitle: '番号無しリストのプロパティ',
+	bulletedTitle: '箇条書きのプロパティ',
 	circle: '白丸',
 	decimal: '数字 (1, 2, 3, etc.)',
 	decimalLeadingZero: '0付きの数字 (01, 02, 03, etc.)',

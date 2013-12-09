@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'nl', {
 	title: 'Eigenschappen placeholder',
 	toolbar: 'Placeholder aanmaken',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Naam placeholder',
+	invalidName: 'De placeholder mag niet leeg zijn, en mag niet een van de volgende tekens bevatten: [, ], <, >',
+	pathName: 'placeholder'
 });

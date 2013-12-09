@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'fi' ] = {
 	// ARIA description.
 	editor: 'Rikastekstieditori',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Rikastekstieditoripaneeli',
 
 	// Common messages and labels.
 	common: {

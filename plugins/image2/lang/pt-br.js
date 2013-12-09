@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
 	resetSize: 'Redefinir para o Tamanho Original',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Formatar Imagem',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Enviar ao Servidor',
 	urlMissing: 'URL da imagem está faltando.'
 } );

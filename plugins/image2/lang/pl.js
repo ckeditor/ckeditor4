@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'pl', {
 	alt: 'Tekst zastępczy',
 	btnUpload: 'Wyślij',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Obrazek z podpisem',
 	infoTab: 'Informacje o obrazku',
 	lockRatio: 'Zablokuj proporcje',
 	menu: 'Właściwości obrazka',
 	pathName: 'image', // MISSING
 	pathNameCaption: 'caption', // MISSING
 	resetSize: 'Przywróć rozmiar',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Kliknij i przeciągnij, by zmienić rozmiar.',
 	title: 'Właściwości obrazka',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Wyślij',
 	urlMissing: 'Podaj adres URL obrazka.'
 } );

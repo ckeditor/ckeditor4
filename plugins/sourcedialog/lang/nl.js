@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'nl', {
-	toolbar: 'Code',
-	title: 'Code'
+	toolbar: 'Broncode',
+	title: 'Broncode'
 });
