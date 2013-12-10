@@ -7,7 +7,7 @@
  * @fileOverview Increase and Decrease Indent commands.
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var TRISTATE_DISABLED = CKEDITOR.TRISTATE_DISABLED,
@@ -458,4 +458,4 @@
 			selection.selectBookmarks( bookmarks );
 		}, command, null, 100 );
 	}
-})();
+} )();

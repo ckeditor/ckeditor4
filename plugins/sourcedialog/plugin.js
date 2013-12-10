@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'sourcedialog', {
 				label: editor.lang.sourcedialog.toolbar,
 				command: 'sourcedialog',
 				toolbar: 'mode,10'
-			});
+			} );
 		}
 	}
-});
+} );

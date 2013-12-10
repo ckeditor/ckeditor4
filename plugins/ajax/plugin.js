@@ -8,10 +8,10 @@
  *		data loading.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'ajax', {
 		requires: 'xml'
-	});
+	} );
 
 	/**
 	 * Ajax methods for data loading.
@@ -19,7 +19,7 @@
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.ajax = (function() {
+	CKEDITOR.ajax = ( function() {
 		var createXMLHttpRequest = function() {
 				// In IE, using the native XMLHttpRequest for local files may throw
 				// "Access is Denied" errors.
@@ -133,6 +133,6 @@
 				return load( url, callback, getResponseXml );
 			}
 		};
-	})();
+	} )();
 
-})();
+} )();

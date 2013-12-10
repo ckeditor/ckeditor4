@@ -5,7 +5,7 @@
 
 'use strict';
 
-var CKCONSOLE = (function() {
+var CKCONSOLE = ( function() {
 	var	that = {
 			container: null,
 			definitions: {},
@@ -81,7 +81,7 @@ var CKCONSOLE = (function() {
 		} );
 
 		el.findOne( '.ckconsole_header' ).on( 'click', function( evt ) {
-			if ( el.hasClass( 'ckconsole_folded') )
+			if ( el.hasClass( 'ckconsole_folded' ) )
 				el.removeClass( 'ckconsole_folded' );
 			else
 				el.addClass( 'ckconsole_folded' );
@@ -99,7 +99,7 @@ var CKCONSOLE = (function() {
 		var el = fromHtml( panelTpl, data );
 
 		el.findOne( '.ckconsole_header' ).on( 'click', function( evt ) {
-			if ( el.hasClass( 'ckconsole_folded') )
+			if ( el.hasClass( 'ckconsole_folded' ) )
 				el.removeClass( 'ckconsole_folded' );
 			else
 				el.addClass( 'ckconsole_folded' );
@@ -228,4 +228,4 @@ var CKCONSOLE = (function() {
 		);
 
 	return that;
-})();
+} )();

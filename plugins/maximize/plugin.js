@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function protectFormStyles( formElement ) {
 		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' )
 			return [];
@@ -177,12 +177,12 @@
 						// Special treatment for FF Quirks (#7284)
 						container.setStyle( 'position', CKEDITOR.env.gecko && CKEDITOR.env.quirks ? 'fixed' : 'absolute' );
 						container.$.offsetLeft; // SAFARI BUG: See #2066.
-						container.setStyles({
+						container.setStyles( {
 							// Show under floatpanels (-1) and context menu (-2).
 							'z-index': editor.config.baseFloatZIndex - 5,
 							left: '0px',
 							top: '0px'
-						});
+						} );
 
 						// Add cke_maximized class before resize handle since that will change things sizes (#5580)
 						container.addClass( 'cke_maximized' );
@@ -191,10 +191,10 @@
 
 						// Still not top left? Fix it. (Bug #174)
 						var offset = container.getDocumentPosition();
-						container.setStyles({
+						container.setStyles( {
 							left: ( -1 * offset.x ) + 'px',
 							top: ( -1 * offset.y ) + 'px'
-						});
+						} );
 
 						// Fixing positioning editor chrome in Firefox break design mode. (#5149)
 						CKEDITOR.env.gecko && refreshCursor( editor );
@@ -277,13 +277,13 @@
 					editor.fire( 'maximize', this.state );
 				},
 				canUndo: false
-			});
+			} );
 
 			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
 				label: lang.maximize.maximize,
 				command: 'maximize',
 				toolbar: 'tools,10'
-			});
+			} );
 
 			// Restore the command state after mode change, unless it has been changed to disabled (#6467)
 			editor.on( 'mode', function() {
@@ -291,8 +291,8 @@
 				command.setState( command.state == CKEDITOR.TRISTATE_DISABLED ? CKEDITOR.TRISTATE_DISABLED : savedState );
 			}, null, null, 100 );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Event fired when the maximize command is called.

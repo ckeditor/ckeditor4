@@ -25,7 +25,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				// Listen to contextual style activation.
 				editor.attachStyleStateChange( style, function( state ) {
 					!editor.readOnly && editor.getCommand( commandName ).setState( state );
-				});
+				} );
 
 				// Create the command that can be used to apply the style.
 				editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
@@ -38,7 +38,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'basicstyles,' + ( order += 10 )
-					});
+					} );
 				}
 			};
 
@@ -99,7 +99,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 			] );
 	}
-});
+} );
 
 // Basic Inline Styles.
 

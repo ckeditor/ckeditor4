@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	CKCONSOLE.add( 'widget', {
 		panels: [
@@ -126,4 +126,4 @@
 	}
 
 	var itemTpl = new CKEDITOR.template( '<li>id: <code>{id}</code>, name: <code>{name}</code>, data: <code>{data}</code></li>' );
-})();
+} )();

@@ -50,4 +50,4 @@ CKEDITOR.tools.extend( CKEDITOR.dom.comment.prototype, {
 	getOuterHtml: function() {
 		return '<!--' + this.$.nodeValue + '-->';
 	}
-});
+} );

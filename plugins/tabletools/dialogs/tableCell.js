@@ -415,4 +415,4 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			this._.editor.selectionChange();
 		}
 	};
-});
+} );

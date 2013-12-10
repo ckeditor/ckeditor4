@@ -7,7 +7,7 @@
  * @fileOverview Justify commands.
  */
 
-(function() {
+( function() {
 	function getAlignment( element, useComputedState ) {
 		useComputedState = useComputedState === undefined || useComputedState;
 
@@ -60,9 +60,8 @@
 			this.cssClassRegex = new RegExp( '(?:^|\\s+)(?:' + classes.join( '|' ) + ')(?=$|\\s)' );
 			this.requiredContent = blockTag + '(' + this.cssClassName + ')';
 		}
-		else {
+		else
 			this.requiredContent = blockTag + '{text-align}';
-		}
 
 		this.allowedContent = {
 			'caption div h1 h2 h3 h4 h5 h6 p pre td th li': {
@@ -205,28 +204,28 @@
 					label: editor.lang.justify.left,
 					command: 'justifyleft',
 					toolbar: 'align,10'
-				});
+				} );
 				editor.ui.addButton( 'JustifyCenter', {
 					label: editor.lang.justify.center,
 					command: 'justifycenter',
 					toolbar: 'align,20'
-				});
+				} );
 				editor.ui.addButton( 'JustifyRight', {
 					label: editor.lang.justify.right,
 					command: 'justifyright',
 					toolbar: 'align,30'
-				});
+				} );
 				editor.ui.addButton( 'JustifyBlock', {
 					label: editor.lang.justify.block,
 					command: 'justifyblock',
 					toolbar: 'align,40'
-				});
+				} );
 			}
 
 			editor.on( 'dirChanged', onDirChanged );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * List of classes to use for aligning the contents. If it's `null`, no classes will be used

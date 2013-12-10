@@ -101,7 +101,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 	var variablesPattern = /\$\{(.*?)\}/g;
 
-	var replaceVariables = (function() {
+	var replaceVariables = ( function() {
 		// Swaps keystrokes with their commands in object literal.
 		// This makes searching keystrokes by command much easier.
 		var keystrokesByCode = editor.keystrokeHandler.keystrokes,
@@ -115,7 +115,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			// if there's no keystroke for such command.
 			return keystrokesByName[ name ] ? representKeyStroke( keystrokesByName[ name ] ) : match;
 		};
-	})();
+	} )();
 
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
@@ -214,4 +214,4 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		],
 		buttons: [ CKEDITOR.dialog.cancelButton ]
 	};
-});
+} );

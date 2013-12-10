@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var pathBlockLimitElements = {},
 		pathBlockElements = {},
@@ -145,7 +145,7 @@
 		 */
 	};
 
-})();
+} )();
 
 CKEDITOR.dom.elementPath.prototype = {
 	/**

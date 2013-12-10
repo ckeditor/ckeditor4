@@ -15,7 +15,7 @@
  */
 CKEDITOR.replaceClass = 'ckeditor';
 
-(function() {
+( function() {
 	/**
 	 * Replaces a `<textarea>` or a DOM element (`<div>`) with a CKEditor
 	 * instance. For textareas, the initial value in the editor will be the
@@ -76,7 +76,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *			// You can also customize the editor instance by having the function
 	 *			// modify the "config" parameter.
 	 *		} );
-	 * 
+	 *
 	 * @param {String} [className] The `<textarea>` class name.
 	 * @param {Function} [function] An assertion function that must return `true` for a `<textarea>`
 	 * to be replaced with the editor. If the function returns `false`, the `<textarea>` element
@@ -171,16 +171,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// Set the current mode.
 			editor.mode = newMode;
 
-			if ( isDirty !== undefined ) {
+			if ( isDirty !== undefined )
 				!isDirty && editor.resetDirty();
-			}
 
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
 				editor.fire( 'mode' );
 				callback && callback.call( editor );
-			}, 0);
-		});
+			}, 0 );
+		} );
 	};
 
 	/**
@@ -280,8 +279,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 				editor.status = 'ready';
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
-			});
-		});
+			} );
+		} );
 
 		editor.on( 'destroy', destroy );
 		return editor;
@@ -336,7 +335,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 				'</{outerEl}>' );
 		}
 
-		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
+		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output( {
 			id: editor.id,
 			name: name,
 			langDir: editor.lang.dir,
@@ -346,7 +345,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
 			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
-		}));
+		} ) );
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
@@ -375,7 +374,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Redirect the focus into editor for webkit. (#5713)
 		CKEDITOR.env.webkit && container.on( 'focus', function() {
 			editor.focus();
-		});
+		} );
 
 		editor.fireOnce( 'uiReady' );
 	}
@@ -383,8 +382,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 	// Replace all textareas with the default class name.
 	CKEDITOR.domReady( function() {
 		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass );
-	});
-})();
+	} );
+} )();
 
 /**
  * The current editing mode. An editing mode basically provides

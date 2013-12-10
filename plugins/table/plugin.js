@@ -33,11 +33,11 @@ CKEDITOR.plugins.add( 'table', {
 				refresh: function( editor, path ) {
 					this.setState( path.contains( 'table', 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				}
-			});
+			} );
 		}
 
 		editor.addCommand( 'tableProperties', new CKEDITOR.dialogCommand( 'tableProperties', createDef() ) );
-		editor.addCommand( 'tableDelete', createDef({
+		editor.addCommand( 'tableDelete', createDef( {
 			exec: function( editor ) {
 				var path = editor.elementPath(),
 					table = path.contains( 'table', 1 );
@@ -55,20 +55,20 @@ CKEDITOR.plugins.add( 'table', {
 				table.remove();
 				range.select();
 			}
-		}));
+		} ) );
 
 		editor.ui.addButton && editor.ui.addButton( 'Table', {
 			label: lang.toolbar,
 			command: 'table',
 			toolbar: 'insert,30'
-		});
+		} );
 
 		CKEDITOR.dialog.add( 'table', this.path + 'dialogs/table.js' );
 		CKEDITOR.dialog.add( 'tableProperties', this.path + 'dialogs/table.js' );
 
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {
-			editor.addMenuItems({
+			editor.addMenuItems( {
 				table: {
 					label: lang.menu,
 					command: 'tableProperties',
@@ -82,7 +82,7 @@ CKEDITOR.plugins.add( 'table', {
 					group: 'table',
 					order: 1
 				}
-			});
+			} );
 		}
 
 		editor.on( 'doubleclick', function( evt ) {
@@ -90,7 +90,7 @@ CKEDITOR.plugins.add( 'table', {
 
 			if ( element.is( 'table' ) )
 				evt.data.dialog = 'tableProperties';
-		});
+		} );
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
@@ -100,7 +100,7 @@ CKEDITOR.plugins.add( 'table', {
 					tabledelete: CKEDITOR.TRISTATE_OFF,
 					table: CKEDITOR.TRISTATE_OFF
 				};
-			});
+			} );
 		}
 	}
-});
+} );

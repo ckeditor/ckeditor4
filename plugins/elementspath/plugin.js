@@ -8,7 +8,7 @@
  *		parent tree relative to the current selection in the editing area.
  */
 
-(function() {
+( function() {
 	var commands = {
 		toolbarFocus: {
 			editorFocus: false,
@@ -114,8 +114,7 @@
 
 				var rtl = editor.lang.dir == 'rtl';
 				switch ( ev.getKeystroke() ) {
-					case rtl ? 39:
-						37 : // LEFT-ARROW
+					case rtl ? 39 : 37: // LEFT-ARROW
 					case 9: // TAB
 						element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
 						if ( !element )
@@ -123,8 +122,7 @@
 						element.focus();
 						return false;
 
-					case rtl ? 37:
-						39 : // RIGHT-ARROW
+					case rtl ? 37 : 39: // RIGHT-ARROW
 					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
 						element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
 						if ( !element )
@@ -225,7 +223,7 @@
 		editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );
 		editor.setKeystroke( CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' );
 	}
-})();
+} )();
 
 /**
  * Fired when the contents of the elementsPath are changed.

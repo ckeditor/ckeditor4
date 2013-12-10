@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 	/**
 	 * Filter is a configurable tool for transforming and filtering {@link CKEDITOR.htmlParser.node nodes}.
 	 * It is mainly used during data processing phase which is done not on real DOM nodes,
@@ -131,7 +131,7 @@
 					options = {};
 
 				// Add the elementNames.
-				if ( rules.elementNames)
+				if ( rules.elementNames )
 					this.elementNameRules.addMany( rules.elementNames, priority, options );
 
 				// Add the attributeNames.
@@ -394,7 +394,7 @@
 		return !context.nonEditable || rule.options.applyToAll;
 	}
 
-})();
+} )();
 
 /**
  * @class CKEDITOR.htmlParser.filterRulesDefinition

@@ -20,9 +20,9 @@ else {
 		script.type = 'text/javascript';
 		script.src = CKEDITOR.getUrl( 'core/loader.js' );
 		document.body.appendChild( script );
-	} else {
+	} else
 		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
-	}
+
 }
 
 /**

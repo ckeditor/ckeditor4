@@ -9,7 +9,7 @@
  *               displayed on the left-right corner.
  */
 
-(function() {
+( function() {
 	var commandDefinition = {
 		readOnly: 1,
 		preserveState: true,
@@ -147,13 +147,13 @@
 				label: editor.lang.showblocks.toolbar,
 				command: 'showblocks',
 				toolbar: 'tools,20'
-			});
+			} );
 
 			// Refresh the command on setData.
 			editor.on( 'mode', function() {
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
-			});
+			} );
 
 			// Refresh the command on focus/blur in inline.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
@@ -168,10 +168,10 @@
 			editor.on( 'contentDom', function() {
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Whether to automaticaly enable the show block" command when the editor loads.

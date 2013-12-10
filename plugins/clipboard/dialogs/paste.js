@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 			doc.getWindow().on( 'blur', function() {
 				doc.$.selection.empty();
-			});
+			} );
 		}
 
 		doc.on( 'keydown', function( e ) {
@@ -216,7 +216,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		}
 		]
 	};
-});
+} );
 
 /**
  * Internal event to pass paste dialog's data to the listeners.

@@ -123,9 +123,9 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				// relative is TR
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( [ element.getIndex() ] );
-					if ( nodeToMove && nodeToMove.type == 1 ) {
+					if ( nodeToMove && nodeToMove.type == 1 )
 						nodeToMove.focus();
-					}
+
 				}
 				domEvt.preventDefault();
 				break;
@@ -139,8 +139,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				break;
 
 				// RIGHT-ARROW
-			case rtl ? 37:
-				39 :
+			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( nodeToMove = element.getNext() ) ) {
 					if ( nodeToMove.type == 1 ) {
@@ -159,8 +158,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				break;
 
 				// LEFT-ARROW
-			case rtl ? 39:
-				37 :
+			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( nodeToMove = element.getPrevious() ) ) {
 					nodeToMove.focus();
@@ -337,4 +335,4 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		}
 		]
 	};
-});
+} );

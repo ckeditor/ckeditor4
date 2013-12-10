@@ -11,7 +11,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'placeholder', {
 		requires: 'widget,dialog',
 		lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -58,7 +58,7 @@
 				command: 'placeholder',
 				toolbar: 'insert,5',
 				icon: 'placeholder'
-			});
+			} );
 		},
 
 		afterInit: function( editor ) {
@@ -86,4 +86,4 @@
 		}
 	} );
 
-})();
+} )();

@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// Base HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
 
@@ -155,7 +155,7 @@
 			}
 		}
 	} );
-})();
+} )();
 
 /**
  * Whether to escape basic HTML entities in the document, including:

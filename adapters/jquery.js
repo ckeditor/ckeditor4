@@ -18,7 +18,7 @@
  * @aside guide dev_jquery
  */
 
-(function( $ ) {
+( function( $ ) {
 	/**
 	 * Allows CKEditor to override `jQuery.fn.val()`. When set to `true`, the `val()` function
 	 * used on textarea elements replaced with CKEditor uses the CKEditor API.
@@ -372,4 +372,4 @@
 			};
 		} );
 	}
-})( window.jQuery );
+} )( window.jQuery );

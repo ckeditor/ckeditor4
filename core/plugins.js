@@ -87,7 +87,7 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 
 		loadPlugins.call( this, name );
 	};
-});
+} );
 
 /**
  * Loads a specific language file, or auto detect it. A callback is

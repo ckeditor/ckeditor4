@@ -62,4 +62,4 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 
 		return true;
 	}
-});
+} );

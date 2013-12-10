@@ -104,7 +104,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 					this.show( offsetParent, corner, offsetX, offsetY );
 				}
 			}
-		});
+		} );
 	},
 
 	beforeInit: function( editor ) {

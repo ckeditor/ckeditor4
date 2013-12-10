@@ -18,10 +18,10 @@ CKEDITOR.plugins.add( 'smiley', {
 			label: editor.lang.smiley.toolbar,
 			command: 'smiley',
 			toolbar: 'insert,50'
-		});
+		} );
 		CKEDITOR.dialog.add( 'smiley', this.path + 'dialogs/smiley.js' );
 	}
-});
+} );
 
 /**
  * The base path used to build the URL for the smiley images. It must end with a slash.

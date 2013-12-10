@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/**
 	 * Represents an HTML data processor, which is responsible for translating and
 	 * transforming the editor data on input and output.
@@ -322,7 +322,7 @@
 
 		// Append a filler right after the last line-break BR, found at the end of block.
 		function brFilter( isOutput ) {
-			return function ( br ) {
+			return function( br ) {
 
 				// DO NOT apply the filer if parent's a fragment node.
 				if ( br.parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
@@ -764,8 +764,8 @@
 				}
 
 				return fullAttr;
-			}) + '>';
-		});
+			} ) + '>';
+		} );
 	}
 
 	function protectElements( html, regex ) {
@@ -776,13 +776,13 @@
 				match = tag + unprotectRealComments( content ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ) + '</textarea>';
 
 			return '<cke:encoded>' + encodeURIComponent( match ) + '</cke:encoded>';
-		});
+		} );
 	}
 
 	function unprotectElements( html ) {
 		return html.replace( encodedElementsRegex, function( match, encoded ) {
 			return decodeURIComponent( encoded );
-		});
+		} );
 	}
 
 	function protectElementsNames( html ) {
@@ -807,13 +807,13 @@
 				'{C}' +
 				encodeURIComponent( match ).replace( /--/g, '%2D%2D' ) +
 				'-->';
-		});
+		} );
 	}
 
 	function unprotectRealComments( html ) {
 		return html.replace( /<!--\{cke_protected\}\{C\}([\s\S]+?)-->/g, function( match, data ) {
 			return decodeURIComponent( data );
-		});
+		} );
 	}
 
 	function unprotectSource( html, editor ) {
@@ -821,15 +821,15 @@
 
 		return html.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
 			return decodeURIComponent( data );
-		}).replace( /\{cke_protected_(\d+)\}/g, function( match, id ) {
+		} ).replace( /\{cke_protected_(\d+)\}/g, function( match, id ) {
 			return store && store[ id ] || '';
-		});
+		} );
 	}
 
 	function protectSource( data, editor ) {
 		var protectedHtml = [],
 			protectRegexes = editor.config.protectedSource,
-			store = editor._.dataStore || ( editor._.dataStore = { id:1 } ),
+			store = editor._.dataStore || ( editor._.dataStore = { id: 1 } ),
 			tempRegex = /<\!--\{cke_temp(comment)?\}(\d*?)-->/g;
 
 		var regexes = [
@@ -847,25 +847,25 @@
 		// transform them when applying filters.
 		data = data.replace( ( /<!--[\s\S]*?-->/g ), function( match ) {
 			return '<!--{cke_tempcomment}' + ( protectedHtml.push( match ) - 1 ) + '-->';
-		});
+		} );
 
 		for ( var i = 0; i < regexes.length; i++ ) {
 			data = data.replace( regexes[ i ], function( match ) {
 				match = match.replace( tempRegex, // There could be protected source inside another one. (#3869).
 				function( $, isComment, id ) {
 					return protectedHtml[ id ];
-				});
+				} );
 
 				// Avoid protecting over protected, e.g. /\{.*?\}/
 				return ( /cke_temp(comment)?/ ).test( match ) ? match : '<!--{cke_temp}' + ( protectedHtml.push( match ) - 1 ) + '-->';
-			});
+			} );
 		}
 		data = data.replace( tempRegex, function( $, isComment, id ) {
 			return '<!--' + protectedSourceMarker +
 				( isComment ? '{C}' : '' ) +
 				encodeURIComponent( protectedHtml[ id ] ).replace( /--/g, '%2D%2D' ) +
 				'-->';
-		});
+		} );
 
 		// Different protection pattern is used for those that
 		// live in attributes to avoid from being HTML encoded.
@@ -873,10 +873,10 @@
 			return match.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
 				store[ store.id ] = decodeURIComponent( data );
 				return '{cke_protected_' + ( store.id++ ) + '}';
-			});
-		});
+			} );
+		} );
 	}
-})();
+} )();
 
 /**
  * Whether a filler text (non-breaking space entity &mdash; `&nbsp;`) will be

@@ -126,7 +126,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 *
 		 * @see CKEDITOR.editor#mode
 		 */
-		modes: { wysiwyg:1 },
+		modes: { wysiwyg: 1 },
 
 		/**
 		 * Indicates that the editor will get the focus before executing
@@ -166,7 +166,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		 * @property {Number} [=CKEDITOR.TRISTATE_DISABLED]
 		 */
 		state: CKEDITOR.TRISTATE_DISABLED
-	});
+	} );
 
 	// Call the CKEDITOR.event constructor to initialize this instance.
 	CKEDITOR.event.call( this );

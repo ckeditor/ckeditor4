@@ -106,13 +106,12 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				// SPACE
 				// ENTER is already handled as onClick
 			case 32:
-				onChoice({ data: ev } );
+				onChoice( { data: ev } );
 				ev.preventDefault();
 				break;
 
 				// RIGHT-ARROW
-			case rtl ? 37:
-				39 :
+			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -138,8 +137,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				break;
 
 				// LEFT-ARROW
-			case rtl ? 39:
-				37 :
+			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( relative = element.getParent().getPrevious() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -162,7 +160,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				// Do not stop not handled events.
 				return;
 		}
-	});
+	} );
 
 	return {
 		title: lang.title,
@@ -301,4 +299,4 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 		}
 		]
 	};
-});
+} );

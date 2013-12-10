@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var defaultToPixel = CKEDITOR.tools.cssLength;
 
 	var commitValue = function( data ) {
@@ -77,7 +77,7 @@
 							txtHeight = dialog.getContentElement( 'info', 'txtHeight' );
 
 						txtHeight && txtHeight.setValue( height, true );
-					});
+					} );
 				}
 			},
 
@@ -548,8 +548,8 @@
 
 	CKEDITOR.dialog.add( 'table', function( editor ) {
 		return tableDialog( editor, 'table' );
-	});
+	} );
 	CKEDITOR.dialog.add( 'tableProperties', function( editor ) {
 		return tableDialog( editor, 'tableProperties' );
-	});
-})();
+	} );
+} )();

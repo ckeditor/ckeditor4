@@ -220,7 +220,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					me.getInputElement().on( 'keydown', function( evt ) {
 						if ( evt.data.getKeystroke() == 13 )
 							keyPressedOnMe = true;
-					});
+					} );
 
 					// Lower the priority this 'keyup' since 'ok' will close the dialog.(#3749)
 					me.getInputElement().on( 'keyup', function( evt ) {
@@ -231,7 +231,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							keyPressedOnMe = false;
 						}
 					}, null, null, 1000 );
-				});
+				} );
 
 				var innerHTML = function() {
 						// IE BUG: Text input fields in IE at 100% would exceed a <td> or inline
@@ -490,7 +490,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				dialog.on( 'load', function( eventInfo ) {
 					var element = this.getElement();
 
-					(function() {
+					( function() {
 						element.on( 'click', function( evt ) {
 							me.click();
 							// #9958
@@ -498,12 +498,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 						} );
 
 						element.on( 'keydown', function( evt ) {
-							if ( evt.data.getKeystroke() in { 32:1 } ) {
+							if ( evt.data.getKeystroke() in { 32: 1 } ) {
 								me.click();
 								evt.data.preventDefault();
 							}
-						});
-					})();
+						} );
+					} )();
 
 					element.unselectable();
 				}, this );
@@ -657,7 +657,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var iframe = CKEDITOR.document.getById( _.frameId ),
 						contentDiv = iframe.getParent();
 					contentDiv.addClass( 'cke_dialog_ui_input_file' );
-				});
+				} );
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 			},
@@ -701,12 +701,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				dialog.on( 'load', function() {
 					dialog.getContentElement( elementDefinition[ 'for' ][ 0 ], elementDefinition[ 'for' ][ 1 ] )._.buttons.push( me );
-				});
+				} );
 
 				CKEDITOR.ui.dialog.button.call( this, dialog, myDefinition, htmlList );
 			},
 
-			html: (function() {
+			html: ( function() {
 				var myHtmlRe = /^\s*<[\w:]+\s+([^>]*)?>/,
 					theirHtmlRe = /^(\s*<[\w:]+(?:\s+[^>]*)?)((?:.|\r|\n)+)$/,
 					emptyTagRe = /\/$/;
@@ -766,7 +766,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 					htmlList.push( [ theirMatch[ 1 ], ' ', myMatch[ 1 ] || '', theirMatch[ 2 ] ].join( '' ) );
 				};
-			})(),
+			} )(),
 
 			/**
 			 * Form fieldset for grouping dialog UI elements.
@@ -898,7 +898,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				onClick: function( dialog, func ) {
 					this.on( 'click', function() {
 						func.apply( this, arguments );
-					});
+					} );
 				}
 			}, true ),
 
@@ -1181,7 +1181,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 									evt = evt.data.$;
 									if ( evt.propertyName == 'checked' && this.$.checked )
 										me.fire( 'change', { value: this.getAttribute( 'value' ) } );
-								});
+								} );
 							}
 						}, this );
 						this.on( 'change', func );
@@ -1233,7 +1233,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var registerDomEvent = function( uiElement, dialog, eventName, func ) {
 						uiElement.on( 'formLoaded', function() {
 							uiElement.getInputElement().on( eventName, func, uiElement );
-						});
+						} );
 					};
 
 				for ( var i in definition ) {
@@ -1281,7 +1281,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this.getDialog()._.editor.on( 'destroy', function() {
 						CKEDITOR.tools.removeFunction( callNumber );
 						CKEDITOR.tools.removeFunction( unloadNumber );
-					});
+					} );
 				}
 
 				function generateFormField() {
@@ -1389,7 +1389,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		CKEDITOR.dialog.addUIElement( 'html', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'fieldset', containerBuilder );
 	}
-});
+} );
 
 /**
  * Fired when the value of the uiElement is changed.

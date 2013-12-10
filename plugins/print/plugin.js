@@ -26,9 +26,9 @@ CKEDITOR.plugins.add( 'print', {
 			label: editor.lang.print.toolbar,
 			command: pluginName,
 			toolbar: 'document,50'
-		});
+		} );
 	}
-});
+} );
 
 CKEDITOR.plugins.print = {
 	exec: function( editor ) {

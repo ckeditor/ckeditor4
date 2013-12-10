@@ -57,9 +57,9 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				commit: function( element ) {
 					if ( this.getValue() )
 						element.setAttribute( 'name', this.getValue() );
-					else {
+					else
 						element.removeAttribute( 'name' );
-					}
+
 				}
 			},
 				{
@@ -82,4 +82,4 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 		}
 		]
 	};
-});
+} );

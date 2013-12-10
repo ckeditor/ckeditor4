@@ -9,9 +9,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_RICHCOMBO, CKEDITOR.ui.richCombo.handler );
 	}
-});
+} );
 
-(function() {
+( function() {
 	var template = '<span id="{id}"' +
 		' class="cke_combo cke_combo__{name} {cls}"' +
 		' role="presentation">' +
@@ -65,7 +65,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
+	CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass( {
 		$: function( definition ) {
 			// Copy all definition properties to this object.
 			CKEDITOR.tools.extend( this, definition,
@@ -74,9 +74,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 				// The combo won't participate in toolbar grouping.
 				canGroup: false,
 				title: definition.label,
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: 1 },
 				editorFocus: 1
-			});
+			} );
 
 			// We don't want the panel definition in this object.
 			var panelDefinition = this.panel || {};
@@ -208,11 +208,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					// Avoid subsequent focus grab on editor document.
 					ev.preventDefault();
-				});
+				} );
 
 				var focusFn = CKEDITOR.tools.addFunction( function() {
 					instance.onfocus && instance.onfocus();
-				});
+				} );
 
 				var selLocked = 0;
 				var mouseDownFn = CKEDITOR.tools.addFunction( function() {
@@ -224,7 +224,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 							selLocked = 1;
 						}
 					}
-				});
+				} );
 
 				// For clean up
 				instance.keyDownFn = keyDownFn;
@@ -425,7 +425,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 			}
 		}
-	});
+	} );
 
 	/**
 	 * @member CKEDITOR.ui
@@ -437,4 +437,4 @@ CKEDITOR.plugins.add( 'richcombo', {
 		this.add( name, CKEDITOR.UI_RICHCOMBO, definition );
 	};
 
-})();
+} )();

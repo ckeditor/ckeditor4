@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var cellNodeRegex = /^(?:td|th)$/;
 
 	function getSelectedCells( selection ) {
@@ -452,9 +452,8 @@
 		// 2. In solo mode while not exactly only one selected.
 		// 3. Cells distributed in different table groups (e.g. from both thead and tbody).
 		var commonAncestor;
-		if ( ( mergeDirection ? cells.length != 1 : cells.length < 2 ) || ( commonAncestor = selection.getCommonAncestor() ) && commonAncestor.type == CKEDITOR.NODE_ELEMENT && commonAncestor.is( 'table' ) ) {
+		if ( ( mergeDirection ? cells.length != 1 : cells.length < 2 ) || ( commonAncestor = selection.getCommonAncestor() ) && commonAncestor.type == CKEDITOR.NODE_ELEMENT && commonAncestor.is( 'table' ) )
 			return false;
-		}
 
 		var cell,
 			firstCell = cells[ 0 ],
@@ -518,7 +517,7 @@
 				// Trim all cell fillers and check to remove empty cells.
 				if ( trimCell( cell ), cell.getChildren().count() ) {
 					// Merge vertically cells as two separated paragraphs.
-					if ( rowIndex != lastRowIndex && cellFirstChild && !( cellFirstChild.isBlockBoundary && cellFirstChild.isBlockBoundary( { br:1 } ) ) ) {
+					if ( rowIndex != lastRowIndex && cellFirstChild && !( cellFirstChild.isBlockBoundary && cellFirstChild.isBlockBoundary( { br: 1 } ) ) ) {
 						var last = frag.getLast( CKEDITOR.dom.walker.whitespaces( true ) );
 						if ( last && !( last.is && last.is( 'br' ) ) )
 							frag.append( 'br' );
@@ -670,7 +669,7 @@
 		return newCell;
 	}
 	// Context menu on table caption incorrect (#3834)
-	var contextMenuTags = { thead:1,tbody:1,tfoot:1,td:1,tr:1,th:1 };
+	var contextMenuTags = { thead: 1, tbody: 1, tfoot: 1, td: 1, tr: 1, th: 1 };
 
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
@@ -681,9 +680,9 @@
 				return CKEDITOR.tools.extend( def || {}, {
 					contextSensitive: 1,
 					refresh: function( editor, path ) {
-						this.setState( path.contains( { td:1,th:1 }, 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+						this.setState( path.contains( { td: 1, th: 1 }, 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 					}
-				});
+				} );
 			}
 			function addCmd( name, def ) {
 				var cmd = editor.addCommand( name, def );
@@ -811,7 +810,7 @@
 
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {
-				editor.addMenuItems({
+				editor.addMenuItems( {
 					tablecell: {
 						label: lang.cell.menu,
 						group: 'tablecell',
@@ -963,13 +962,13 @@
 						command: 'columnDelete',
 						order: 15
 					}
-				});
+				} );
 			}
 
 			// If the "contextmenu" plugin is laoded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection, path ) {
-					var cell = path.contains( { 'td':1,'th':1 }, 1 );
+					var cell = path.contains( { 'td': 1, 'th': 1 }, 1 );
 					if ( cell && !cell.isReadOnly() ) {
 						return {
 							tablecell: CKEDITOR.TRISTATE_OFF,
@@ -979,7 +978,7 @@
 					}
 
 					return null;
-				});
+				} );
 			}
 		},
 
@@ -987,7 +986,7 @@
 
 	};
 	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
-})();
+} )();
 
 /**
  * Create a two-dimension array that reflects the actual layout of table cells,

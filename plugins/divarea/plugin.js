@@ -27,10 +27,10 @@ CKEDITOR.plugins.add( 'divarea', {
 						org.apply( this, arguments );
 						this.remove();
 					};
-				});
+				} );
 
 			editor.setData( editor.getData( 1 ), callback );
 			editor.fire( 'contentDom' );
-		});
+		} );
 	}
-});
+} );

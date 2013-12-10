@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var allowedContent = 'span[!lang,!dir]',
 		requiredContent = 'span[lang,dir]';
@@ -142,7 +142,7 @@
 			return ret;
 		}
 	} );
-})();
+} )();
 
 /**
  * Specifies the list of languages available in the

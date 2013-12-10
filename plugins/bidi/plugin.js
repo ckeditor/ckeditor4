@@ -3,13 +3,13 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
-	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
+( function() {
+	var guardElements = { table: 1, ul: 1, ol: 1, blockquote: 1, div: 1 },
 		directSelectionGuardElements = {},
 		// All guard elements which can have a direction applied on them.
 		allGuardElements = {};
-	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
-	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td:1 } );
+	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr: 1, p: 1, div: 1, li: 1 } );
+	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td: 1 } );
 
 	function setToolbarStates( editor, path ) {
 		var useComputedState = editor.config.useComputedState,
@@ -215,7 +215,7 @@
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'bidi,' + order
-					});
+					} );
 				}
 			}
 
@@ -229,9 +229,9 @@
 					editor.fire( 'dirChanged', {
 						node: evt.data,
 						dir: evt.data.getDirection( 1 )
-					});
-				});
-			});
+					} );
+				} );
+			} );
 
 			// Indicate that the current selection is in different direction than the UI.
 			editor.on( 'contentDirChanged', function( evt ) {
@@ -239,9 +239,9 @@
 				var toolbar = editor.ui.space( editor.config.toolbarLocation );
 				if ( toolbar )
 					toolbar[ func ]( 'cke_mixed_dir_content' );
-			});
+			} );
 		}
-	});
+	} );
 
 	// If the element direction changed, we need to switch the margins of
 	// the element and all its children, so it will get really reflected
@@ -282,7 +282,7 @@
 		methods = [ 'setStyle', 'removeStyle', 'setAttribute', 'removeAttribute' ];
 	for ( var i = 0; i < methods.length; i++ )
 		elementProto[ methods[ i ] ] = CKEDITOR.tools.override( elementProto[ methods[ i ] ], dirChangeNotifier );
-})();
+} )();
 
 /**
  * Fired when the language direction of an element is changed.
