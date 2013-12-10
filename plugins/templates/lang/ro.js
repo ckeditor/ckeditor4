@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ro', {
 	options: 'Opțiuni șabloane',
 	selectPromptMsg: 'Vă rugăm selectaţi template-ul (şablonul) ce se va deschide în editor<br>(conţinutul actual va fi pierdut):',
 	title: 'Template-uri (şabloane) de conţinut'
-});
+} );

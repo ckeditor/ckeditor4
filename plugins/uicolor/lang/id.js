@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'id', {
 	preview: 'Pratinjau',
 	config: 'Tempel string ini ke arsip config.js anda.',
 	predefined: 'Set warna belum terdefinisi.'
-});
+} );

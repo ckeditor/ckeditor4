@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ku', {
 	preview: 'پێشبینین بە زیندوویی',
 	config: 'ئەم دەقانە بلکێنە بە پەڕگەی config.js-fil',
 	predefined: 'کۆمەڵە ڕەنگە دیاریکراوەکانی پێشوو'
-});
+} );

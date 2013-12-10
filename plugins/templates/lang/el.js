@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'el', {
 	options: 'Επιλογές Προτύπου',
 	selectPromptMsg: 'Παρακαλώ επιλέξτε πρότυπο για εισαγωγή στο πρόγραμμα',
 	title: 'Πρότυπα Περιεχομένου'
-});
+} );

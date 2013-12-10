@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'si', {
 	scrolling: 'සක්ක්‍රිය කරන්න',
 	title: 'IFrame Properties', // MISSING
 	toolbar: 'IFrame'
-});
+} );

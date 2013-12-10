@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'si', {
 	title: 'පෝරමයේ ගුණ/',
 	txtColor: 'අක්ෂර වර්ණ',
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
-});
+} );

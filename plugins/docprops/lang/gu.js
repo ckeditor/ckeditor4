@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'gu', {
 	title: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
 	txtColor: 'શબ્દનો રંગ',
 	xhtmlDec: 'XHTML સૂચના સમાવિષ્ટ કરવી'
-});
+} );

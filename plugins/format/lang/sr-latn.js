@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sr-latn', {
 	tag_h6: 'Naslov 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatirano'
-});
+} );

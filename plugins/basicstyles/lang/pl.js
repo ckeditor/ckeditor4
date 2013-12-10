@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'pl', {
 	subscript: 'Indeks dolny',
 	superscript: 'Indeks górny',
 	underline: 'Podkreślenie'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'fa', {
 	tabName: 'نام برگه',
 	elementId: 'ID عنصر',
 	elementType: 'نوع عنصر'
-});
+} );

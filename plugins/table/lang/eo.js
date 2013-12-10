@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'eo', {
 	widthPc: 'elcentoj',
 	widthPx: 'Rastrumeroj',
 	widthUnit: 'unuo de larĝo'
-});
+} );

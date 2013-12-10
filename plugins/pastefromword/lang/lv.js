@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'lv', {
 	error: 'Iekšējas kļūdas dēļ, neizdevās iztīrīt ielīmētos datus.',
 	title: 'Ievietot no Worda',
 	toolbar: 'Ievietot no Worda'
-});
+} );

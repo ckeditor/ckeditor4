@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sv', {
 	validateBorder: 'Kantlinje måste vara ett heltal.',
 	validateHSpace: 'HSpace måste vara ett heltal.',
 	validateVSpace: 'VSpace måste vara ett heltal.'
-});
+} );

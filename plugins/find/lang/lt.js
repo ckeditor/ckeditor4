@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'lt', {
 	replaceSuccessMsg: '%1 sutapimas(ų) buvo pakeisti.',
 	replaceWith: 'Pakeisti tekstu:',
 	title: 'Surasti ir pakeisti'
-});
+} );

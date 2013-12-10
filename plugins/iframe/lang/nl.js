@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'nl', {
 	scrolling: 'Scrollbalken inschakelen',
 	title: 'IFrame-eigenschappen',
 	toolbar: 'IFrame'
-});
+} );

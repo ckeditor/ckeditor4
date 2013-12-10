@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'vi', {
 	error: 'Không thể để làm sạch các dữ liệu dán do một lỗi nội bộ',
 	title: 'Dán với định dạng Word',
 	toolbar: 'Dán với định dạng Word'
-});
+} );

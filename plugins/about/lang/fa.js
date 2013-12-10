@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'fa', {
 	moreInfo: 'برای کسب اطلاعات مجوز لطفا به وب سایت ما مراجعه کنید:',
 	title: 'درباره CKEditor',
 	userGuide: 'راهنمای کاربران CKEditor'
-});
+} );

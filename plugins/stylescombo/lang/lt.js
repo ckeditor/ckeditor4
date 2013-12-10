@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'lt', {
 	panelTitle1: 'Blokų stiliai',
 	panelTitle2: 'Vidiniai stiliai',
 	panelTitle3: 'Objektų stiliai'
-});
+} );

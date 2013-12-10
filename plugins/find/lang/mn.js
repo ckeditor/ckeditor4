@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'mn', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: 'Солих үг:',
 	title: 'Хайж орлуулах'
-});
+} );

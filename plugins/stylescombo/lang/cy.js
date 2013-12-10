@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'cy', {
 	panelTitle1: 'Arddulliau Bloc',
 	panelTitle2: 'Arddulliau Mewnol',
 	panelTitle3: 'Arddulliau Gwrthrych'
-});
+} );

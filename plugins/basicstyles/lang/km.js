@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'km', {
 	subscript: 'អក្សរតូចក្រោម',
 	superscript: 'អក្សរតូចលើ',
 	underline: 'គូស​បន្ទាត់​ក្រោម'
-});
+} );

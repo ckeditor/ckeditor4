@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'eu', {
 	tag_h6: 'Izenburua 6',
 	tag_p: 'Arrunta',
 	tag_pre: 'Formateatua'
-});
+} );

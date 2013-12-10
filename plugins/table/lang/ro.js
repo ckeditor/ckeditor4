@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ro', {
 	widthPc: 'procente',
 	widthPx: 'pixeli',
 	widthUnit: 'unitate lățime'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ko', {
 	subscript: '아래 첨자',
 	superscript: '위 첨자',
 	underline: '밑줄'
-});
+} );

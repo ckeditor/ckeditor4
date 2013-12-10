@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'eo', {
 	moreInfo: 'Por informoj pri licenco, bonvolu viziti nian retpaĝaron:',
 	title: 'Pri CKEditor',
 	userGuide: 'CKEditor Uzindikoj'
-});
+} );

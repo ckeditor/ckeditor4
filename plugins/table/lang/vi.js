@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'vi', {
 	widthPc: 'Phần trăm (%)',
 	widthPx: 'Điểm ảnh (px)',
 	widthUnit: 'Đơn vị'
-});
+} );

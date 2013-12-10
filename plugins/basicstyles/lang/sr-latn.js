@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'sr-latn', {
 	subscript: 'Indeks',
 	superscript: 'Stepen',
 	underline: 'Podvučeno'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'eu', {
 	panelTitle1: 'Bloke Estiloak',
 	panelTitle2: 'Inline Estiloak',
 	panelTitle3: 'Objektu Estiloak'
-});
+} );

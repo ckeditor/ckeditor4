@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ca', {
 	scrolling: 'Activa les barres de desplaçament',
 	title: 'Propietats de l\'IFrame',
 	toolbar: 'IFrame'
-});
+} );

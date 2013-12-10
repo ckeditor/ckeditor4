@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'uk', {
 	replaceSuccessMsg: '%1 співпадінь(ня) замінено.',
 	replaceWith: 'Замінити на:',
 	title: 'Знайти і замінити'
-});
+} );

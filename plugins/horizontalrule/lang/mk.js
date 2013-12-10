@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'horizontalrule', 'mk', {
 	toolbar: 'Insert Horizontal Line' // MISSING
-});
+} );

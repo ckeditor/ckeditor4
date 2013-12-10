@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'fi', {
 	styleSelectLabel: 'Tyyli',
 	title: 'Luo div-kehikko',
 	toolbar: 'Luo div-kehikko'
-});
+} );

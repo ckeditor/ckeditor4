@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'pt-br', {
 	hArr: 'Seta dupla direita e esquerda',
 	diams: 'Ouros',
 	asymp: 'Aproximadamente'
-});
+} );

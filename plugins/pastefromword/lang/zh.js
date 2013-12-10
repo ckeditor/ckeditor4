@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'zh', {
 	error: '由於發生內部錯誤，無法清除清除 Word 的格式。',
 	title: '自 Word 貼上',
 	toolbar: '自 Word 貼上'
-});
+} );

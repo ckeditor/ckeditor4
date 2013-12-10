@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'nb', {
 	error: 'Det var ikke mulig å renske den innlimte teksten på grunn av en intern feil',
 	title: 'Lim inn fra Word',
 	toolbar: 'Lim inn fra Word'
-});
+} );

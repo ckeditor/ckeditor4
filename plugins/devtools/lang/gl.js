@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'gl', {
 	tabName: 'Nome da lapela',
 	elementId: 'ID do elemento',
 	elementType: 'Tipo do elemento'
-});
+} );

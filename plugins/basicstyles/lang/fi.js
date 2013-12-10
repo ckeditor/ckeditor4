@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'fi', {
 	subscript: 'Alaindeksi',
 	superscript: 'Yläindeksi',
 	underline: 'Alleviivattu'
-});
+} );

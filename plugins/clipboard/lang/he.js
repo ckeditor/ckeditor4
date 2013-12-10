@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'he', {
 	pasteMsg: 'נא להדביק בתוך הקופסה באמצעות (<b>Ctrl/Cmd+V</b>) וללחוץ על <b>אישור</b>.',
 	securityMsg: 'עקב הגדרות אבטחה בדפדפן, לא ניתן לגשת אל לוח הגזירים (Clipboard) בצורה ישירה. נא להדביק שוב בחלון זה.',
 	title: 'הדבקה'
-});
+} );

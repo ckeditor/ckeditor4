@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'ca', {
 	tabName: 'Nom de la pestanya',
 	elementId: 'ID de l\'element',
 	elementType: 'Tipus d\'element'
-});
+} );

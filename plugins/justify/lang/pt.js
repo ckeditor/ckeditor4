@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'pt', {
 	center: 'Alinhar ao Centro',
 	left: 'Alinhar à Esquerda',
 	right: 'Alinhar à Direita'
-});
+} );

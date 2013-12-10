@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'cs', {
 	preview: 'Živý náhled',
 	config: 'Vložte tento řetězec do vašeho souboru config.js',
 	predefined: 'Přednastavené sady barev'
-});
+} );

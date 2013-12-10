@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'th', {
 		typeTel: 'หมายเลขโทรศัพท์',
 		typeUrl: 'ที่อยู่อ้างอิง URL'
 	}
-});
+} );

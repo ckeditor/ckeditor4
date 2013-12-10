@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hu', {
 	hArr: 'Bal-jobb duplanyíl',
 	diams: 'Fekete gyémánt jel',
 	asymp: 'Majdnem egyenlő jel'
-});
+} );

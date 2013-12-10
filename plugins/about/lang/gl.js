@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'gl', {
 	moreInfo: 'Para obter  información sobre a licenza, visite o noso sitio web:',
 	title: 'Sobre o CKEditor',
 	userGuide: 'Guía do usuario do CKEditor'
-});
+} );

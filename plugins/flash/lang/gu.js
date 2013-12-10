@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'gu', {
 	windowModeOpaque: 'અપારદર્શક',
 	windowModeTransparent: 'પારદર્શક',
 	windowModeWindow: 'વિન્ડો'
-});
+} );

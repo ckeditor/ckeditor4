@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ar', {
 	options: 'خصائص القوالب',
 	selectPromptMsg: 'اختر القالب الذي تود وضعه في المحرر',
 	title: 'قوالب المحتوى'
-});
+} );

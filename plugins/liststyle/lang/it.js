@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'it', {
 	upperAlpha: 'Alfabetico maiuscolo (A, B, C, D, E, ecc.)',
 	upperRoman: 'Numerazione Romana maiuscola (I, II, III, IV, V, ecc.)',
 	validateStartNumber: 'Il numero di inizio di una lista numerata deve essere un numero intero.'
-});
+} );

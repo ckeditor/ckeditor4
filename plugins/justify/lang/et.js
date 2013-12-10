@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'et', {
 	center: 'Keskjoondus',
 	left: 'Vasakjoondus',
 	right: 'Paremjoondus'
-});
+} );

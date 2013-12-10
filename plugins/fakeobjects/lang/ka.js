@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'ka', {
 	hiddenfield: 'მალული ველი',
 	iframe: 'IFrame',
 	unknown: 'უცნობი ობიექტი'
-});
+} );

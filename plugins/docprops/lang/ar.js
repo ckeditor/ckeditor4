@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ar', {
 	title: 'خصائص الصفحة',
 	txtColor: 'لون النص',
 	xhtmlDec: 'تضمين   إعلانات لغة XHTMLَ'
-});
+} );

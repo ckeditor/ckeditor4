@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'is', {
 	options: 'Special Character Options', // MISSING
 	title: 'Velja tákn',
 	toolbar: 'Setja inn merki'
-});
+} );

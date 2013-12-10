@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'mn', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'Word-оос буулгах',
 	toolbar: 'Word-оос буулгах'
-});
+} );

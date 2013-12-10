@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'gu', {
 	moreInfo: 'લાયસનસની માહિતી માટે અમારી વેબ સાઈટ',
 	title: 'CKEditor વિષે',
 	userGuide: 'CKEditor યુઝર્સ ગાઈડ'
-});
+} );

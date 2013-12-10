@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'uk', {
 	preview: 'Перегляд наживо',
 	config: 'Вставте цей рядок у файл config.js',
 	predefined: 'Стандартний набір кольорів'
-});
+} );

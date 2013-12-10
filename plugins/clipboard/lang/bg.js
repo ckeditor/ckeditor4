@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl/Cmd+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
 	securityMsg: 'Заради настройките за сигурност на Вашия браузър, редакторът не може да прочете данните от клипборда коректно.',
 	title: 'Вмъкни'
-});
+} );

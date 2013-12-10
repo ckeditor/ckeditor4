@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		typeTel: 'ژمارەی تەلەفۆن',
 		typeUrl: 'ناونیشانی بەستەر'
 	}
-});
+} );

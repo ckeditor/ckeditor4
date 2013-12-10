@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'de', {
 	label: 'Schriftart',
 	panelTitle: 'Schriftart',
 	voiceLabel: 'Schriftart'
-});
+} );

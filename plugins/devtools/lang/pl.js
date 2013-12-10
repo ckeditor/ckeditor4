@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'pl', {
 	tabName: 'Nazwa zakładki',
 	elementId: 'ID elementu',
 	elementType: 'Typ elementu'
-});
+} );

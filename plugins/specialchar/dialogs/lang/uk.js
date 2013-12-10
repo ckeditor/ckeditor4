@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'uk', {
 	hArr: 'Подвійна стрілка вліво-вправо',
 	diams: 'Чорний діамонт',
 	asymp: 'Наближено дорівнює'
-});
+} );

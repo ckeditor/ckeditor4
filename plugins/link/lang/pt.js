@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 	type: 'Tipo de Hiperligação',
 	unlink: 'Eliminar Hiperligação',
 	upload: 'Carregar'
-});
+} );

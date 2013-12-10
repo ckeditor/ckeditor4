@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'cs', {
 	options: 'Nastavení barvy',
 	selected: 'Vybráno',
 	title: 'Výběr barvy'
-});
+} );

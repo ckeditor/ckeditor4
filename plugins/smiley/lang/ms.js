@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'ms', {
 	options: 'Smiley Options', // MISSING
 	title: 'Masukkan Smiley',
 	toolbar: 'Smiley'
-});
+} );

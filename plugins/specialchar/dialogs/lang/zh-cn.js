@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
 	hArr: '左右双线箭头',
 	diams: '实心方块纸牌',
 	asymp: '约等于'
-});
+} );

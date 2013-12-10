@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'vi', {
 	hArr: 'Mũi tên hướng bên trái dạng đôi',
 	diams: 'Ký hiệu hình thoi',
 	asymp: 'Gần bằng với'
-});
+} );

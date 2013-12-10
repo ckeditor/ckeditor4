@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'cy', {
 	options: 'Opsiynau Templedi',
 	selectPromptMsg: 'Dewiswch dempled i\'w agor yn y golygydd',
 	title: 'Templedi Cynnwys'
-});
+} );

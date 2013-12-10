@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'sq', {
 	tabName: 'Emri i fletës',
 	elementId: 'ID e elementit',
 	elementType: 'Lloji i elementit'
-});
+} );

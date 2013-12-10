@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	type: 'Kiểu liên kết',
 	unlink: 'Xoá liên kết',
 	upload: 'Tải lên'
-});
+} );

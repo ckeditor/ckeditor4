@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'sr-latn', {
 	options: 'Smiley Options', // MISSING
 	title: 'Unesi smajlija',
 	toolbar: 'Smajli'
-});
+} );

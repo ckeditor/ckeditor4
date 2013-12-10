@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'sl', {
 	scrolling: 'Omogoči scrollbars',
 	title: 'IFrame Lastnosti',
 	toolbar: 'IFrame'
-});
+} );

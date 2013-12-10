@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ja', {
 	options: 'テンプレートオプション',
 	selectPromptMsg: 'エディターで使用するテンプレートを選択してください。<br>(現在のエディタの内容は失われます):',
 	title: '内容テンプレート'
-});
+} );

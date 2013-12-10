@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'tr', {
 	moreInfo: 'Lisanslama hakkında daha fazla bilgi almak için lütfen sitemizi ziyaret edin:',
 	title: 'CKEditor Hakkında',
 	userGuide: 'CKEditor Kullanıcı Kılavuzu'
-});
+} );

@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'undo', 'he', {
 	redo: 'חזרה על צעד אחרון',
 	undo: 'ביטול צעד אחרון'
-});
+} );

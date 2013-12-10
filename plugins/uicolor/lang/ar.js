@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ar', {
 	preview: 'معاينة مباشرة',
 	config: 'قص السطر إلى الملف config.js',
 	predefined: 'مجموعات ألوان معرفة مسبقا'
-});
+} );

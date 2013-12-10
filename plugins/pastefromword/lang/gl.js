@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'gl', {
 	error: 'Non foi posíbel depurar os datos pegados por mor dun erro interno',
 	title: 'Pegar desde Word',
 	toolbar: 'Pegar desde Word'
-});
+} );

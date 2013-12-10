@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'nl', {
 	moreInfo: 'Bezoek onze website voor licentieinformatie:',
 	title: 'Over CKEditor',
 	userGuide: 'CKEditor gebruiksaanwijzing'
-});
+} );

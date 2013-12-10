@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'eo', {
 	error: 'Ne eblis purigi la intergluitajn datenojn pro interna eraro',
 	title: 'Interglui el Word',
 	toolbar: 'Interglui el Word'
-});
+} );

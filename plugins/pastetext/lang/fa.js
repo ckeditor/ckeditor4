@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'fa', {
 	button: 'چسباندن به عنوان متن ساده',
 	title: 'چسباندن به عنوان متن ساده'
-});
+} );

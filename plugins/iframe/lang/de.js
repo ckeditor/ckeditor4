@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'de', {
 	scrolling: 'Rollbalken anzeigen',
 	title: 'IFrame-Eigenschaften',
 	toolbar: 'IFrame'
-});
+} );

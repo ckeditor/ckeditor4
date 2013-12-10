@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'da', {
 	center: 'Centreret',
 	left: 'Venstrestillet',
 	right: 'Højrestillet'
-});
+} );

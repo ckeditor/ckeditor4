@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'sq', {
 	options: 'Opsionet e Shabllonit',
 	selectPromptMsg: 'Përzgjidhni shabllonin për të hapur tek redaktuesi',
 	title: 'Përmbajtja e Shabllonit'
-});
+} );

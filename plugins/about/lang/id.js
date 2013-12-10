@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'id', {
 	moreInfo: 'Untuk informasi lisensi silahkan kunjungi web site kami:',
 	title: 'Tentang CKEditor',
 	userGuide: 'Petunjuk Pengguna CKEditor'
-});
+} );

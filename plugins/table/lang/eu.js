@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 	widthPc: 'ehuneko',
 	widthPx: 'pixel',
 	widthUnit: 'zabalera unitatea'
-});
+} );

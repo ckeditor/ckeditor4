@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'fi', {
 	label: 'Kirjaisinlaji',
 	panelTitle: 'Kirjaisinlaji',
 	voiceLabel: 'Kirjaisinlaji'
-});
+} );

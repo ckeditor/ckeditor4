@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'hu', {
 	subscript: 'Alsó index',
 	superscript: 'Felső index',
 	underline: 'Aláhúzott'
-});
+} );

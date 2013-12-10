@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'ka', {
 	options: 'ფერის პარამეტრები',
 	selected: 'არჩეული ფერი',
 	title: 'ფერის შეცვლა'
-});
+} );

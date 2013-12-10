@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	type: 'Esteka Mota',
 	unlink: 'Kendu Esteka',
 	upload: 'Gora kargatu'
-});
+} );

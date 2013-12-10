@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'removeformat', 'gu', {
 	toolbar: 'ફૉર્મટ કાઢવું'
-});
+} );

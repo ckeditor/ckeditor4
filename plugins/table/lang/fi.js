@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'fi', {
 	widthPc: 'prosenttia',
 	widthPx: 'pikseliä',
 	widthUnit: 'leveysyksikkö'
-});
+} );

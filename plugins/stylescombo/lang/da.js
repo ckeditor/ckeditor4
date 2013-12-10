@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'da', {
 	panelTitle1: 'Block typografi',
 	panelTitle2: 'Inline typografi',
 	panelTitle3: 'Object typografi'
-});
+} );

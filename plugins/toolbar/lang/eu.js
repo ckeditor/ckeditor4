@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'eu', {
 		tools: 'Tools'
 	},
 	toolbars: 'Editorearen Tresna-barra'
-});
+} );

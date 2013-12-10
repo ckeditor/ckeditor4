@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	type: 'Math y Ddolen',
 	unlink: 'Datgysylltu',
 	upload: 'Lanlwytho'
-});
+} );

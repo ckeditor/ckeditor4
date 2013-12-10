@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	hArr: 'ئوڭ سول قوش سىزىق يا ئوق',
 	diams: 'ئۇيۇل غىچ',
 	asymp: 'تەخمىنەن تەڭ'
-});
+} );

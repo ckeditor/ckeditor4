@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fo', {
 	error: 'Tað eydnaðist ikki at reinsa tekstin vegna ein internan feil',
 	title: 'Innrita frá Word',
 	toolbar: 'Innrita frá Word'
-});
+} );

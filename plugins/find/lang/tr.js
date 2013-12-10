@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'tr', {
 	replaceSuccessMsg: '%1 bulunanlardan değiştirildi.',
 	replaceWith: 'Bununla değiştir:',
 	title: 'Bul ve Değiştir'
-});
+} );

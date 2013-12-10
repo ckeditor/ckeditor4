@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'cy', {
 	error: 'Doedd dim modd glanhau y data a ludwyd oherwydd gwall mewnol',
 	title: 'Gludo o Word',
 	toolbar: 'Gludo o Word'
-});
+} );

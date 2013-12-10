@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'sq', {
 	scrolling: 'Lejo shiritët zvarritës',
 	title: 'Karakteristikat e IFrame',
 	toolbar: 'IFrame'
-});
+} );

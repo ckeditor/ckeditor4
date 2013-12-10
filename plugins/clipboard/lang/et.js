@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	pasteMsg: 'Palun aseta tekst järgnevasse kasti kasutades klaviatuuri klahvikombinatsiooni (<STRONG>Ctrl/Cmd+V</STRONG>) ja vajuta seejärel <STRONG>OK</STRONG>.',
 	securityMsg: 'Sinu veebisirvija turvaseadete tõttu ei oma redaktor otsest ligipääsu lõikelaua andmetele. Sa pead asetama need uuesti siia aknasse.',
 	title: 'Asetamine'
-});
+} );

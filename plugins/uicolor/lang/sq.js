@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'sq', {
 	preview: 'Parapamje direkte',
 	config: 'Hidhni këtë varg në skedën tuaj config.js',
 	predefined: 'Setet e paradefinuara të ngjyrave'
-});
+} );

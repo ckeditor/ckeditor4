@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eu', {
 	pasteMsg: 'Mesedez teklatua erabilita (<STRONG>Ctrl/Cmd+V</STRONG>) ondorego eremuan testua itsatsi eta <STRONG>OK</STRONG> sakatu.',
 	securityMsg: 'Nabigatzailearen segurtasun ezarpenak direla eta, editoreak ezin du arbela zuzenean erabili. Leiho honetan berriro itsatsi behar duzu.',
 	title: 'Itsatsi'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'vi', {
 	moreInfo: 'Vui lòng ghé thăm trang web của chúng tôi để có thông tin về giấy phép:',
 	title: 'Thông tin về CKEditor',
 	userGuide: 'Hướng dẫn sử dụng CKEditor'
-});
+} );

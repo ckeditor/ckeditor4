@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'et', {
 	hArr: 'Topeltnool vasakule',
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Ligikaudu võrdne'
-});
+} );

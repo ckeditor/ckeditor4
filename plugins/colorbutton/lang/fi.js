@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fi', {
 	more: 'Lisää värejä...',
 	panelTitle: 'Värit',
 	textColorTitle: 'Tekstiväri'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'eo', {
 	scrolling: 'Ebligi rulumskalon',
 	title: 'Atributoj de la enlinia kadro (IFrame)',
 	toolbar: 'Enlinia kadro (IFrame)'
-});
+} );

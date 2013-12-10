@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	windowModeOpaque: 'Συμπαγές',
 	windowModeTransparent: 'Διάφανο',
 	windowModeWindow: 'Παράθυρο'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'vi', {
 	panelTitle1: 'Kiểu khối',
 	panelTitle2: 'Kiểu trực tiếp',
 	panelTitle3: 'Kiểu đối tượng'
-});
+} );

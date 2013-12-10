@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'si', {
 		tools: 'මෙවලම්'
 	},
 	toolbars: 'සංස්කරණ මෙවලම් තීරුව'
-});
+} );

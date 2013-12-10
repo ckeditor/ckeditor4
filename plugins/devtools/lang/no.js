@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'no', {
 	tabName: 'Navn på fane',
 	elementId: 'Element-ID',
 	elementType: 'Elementtype'
-});
+} );

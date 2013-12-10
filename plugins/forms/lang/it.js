@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		typeTel: 'Numero di telefono',
 		typeUrl: 'URL'
 	}
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'sk', {
 	moreInfo: 'Pre informácie o licenciách, prosíme, navštívte našu web stránku:',
 	title: 'O CKEditor-e',
 	userGuide: 'Používateľská príručka KCEditor-a'
-});
+} );

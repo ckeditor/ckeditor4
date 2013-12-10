@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'km', {
 	tag_h6: 'ចំណង​ជើង 6',
 	tag_p: 'ធម្មតា',
 	tag_pre: 'Formatted' // MISSING
-});
+} );

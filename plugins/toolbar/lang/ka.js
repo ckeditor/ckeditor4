@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ka', {
 		tools: 'ხელსაწყოები'
 	},
 	toolbars: 'Editor toolbars' // MISSING
-});
+} );

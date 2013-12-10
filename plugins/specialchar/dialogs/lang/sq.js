@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sq', {
 	hArr: 'Shigjeta e dyfishë majtas-djathtas',
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Gati e barabar me'
-});
+} );

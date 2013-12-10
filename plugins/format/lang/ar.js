@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ar', {
 	tag_h6: 'العنوان  6',
 	tag_p: 'عادي',
 	tag_pre: 'منسّق'
-});
+} );

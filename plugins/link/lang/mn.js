@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	type: 'Линкийн төрөл',
 	unlink: 'Холбоос авч хаях',
 	upload: 'Хуулах'
-});
+} );

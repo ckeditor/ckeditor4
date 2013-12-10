@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ug', {
 	replaceSuccessMsg: 'جەمئى %1 جايدىكى ئالماشتۇرۇش تاماملاندى',
 	replaceWith: 'ئالماشتۇر:',
 	title: 'ئىزدەپ ئالماشتۇر'
-});
+} );

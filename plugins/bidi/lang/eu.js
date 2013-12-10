@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'bidi', 'eu', {
 	ltr: 'Testuaren norantza ezkerretik eskuinera',
 	rtl: 'Testuaren norantza eskuinetik ezkerrera'
-});
+} );

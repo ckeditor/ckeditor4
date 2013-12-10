@@ -82,4 +82,4 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 		]
 	}
 	]
-});
+} );

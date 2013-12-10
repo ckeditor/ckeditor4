@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'he', {
 	label: 'גופן',
 	panelTitle: 'גופן',
 	voiceLabel: 'גופן'
-});
+} );

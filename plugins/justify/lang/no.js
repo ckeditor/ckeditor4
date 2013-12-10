@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'no', {
 	center: 'Midtstill',
 	left: 'Venstrejuster',
 	right: 'Høyrejuster'
-});
+} );

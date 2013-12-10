@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'es', {
 	options: 'Opciones de plantillas',
 	selectPromptMsg: 'Por favor selecciona la plantilla a abrir en el editor<br>(el contenido actual se perderá):',
 	title: 'Contenido de Plantillas'
-});
+} );

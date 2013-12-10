@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ko', {
 	more: '색상선택...',
 	panelTitle: 'Colors',
 	textColorTitle: '글자 색상'
-});
+} );

@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fo', {
 	pasteMsg: 'Vinarliga koyr tekstin í hendan rútin við knappaborðinum (<strong>Ctrl/Cmd+V</strong>) og klikk á <strong>Góðtak</strong>.',
 	securityMsg: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í beinleiðis atgongd til avritingarminnið. Tygum mugu royna aftur í hesum rútinum.',
 	title: 'Innrita'
-});
+} );

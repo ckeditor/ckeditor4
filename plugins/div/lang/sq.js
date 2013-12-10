@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'sq', {
 	styleSelectLabel: 'Stil',
 	title: 'Krijo Div Përmbajtës',
 	toolbar: 'Krijo Div Përmbajtës'
-});
+} );

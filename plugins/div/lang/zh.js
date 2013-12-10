@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'zh', {
 	styleSelectLabel: '樣式',
 	title: '建立 Div 容器',
 	toolbar: '建立 Div 容器'
-});
+} );

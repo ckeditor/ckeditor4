@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	type: 'ბმულის ტიპი',
 	unlink: 'ბმულის მოხსნა',
 	upload: 'აქაჩვა'
-});
+} );

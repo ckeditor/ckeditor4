@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ug', {
 	options: 'قېلىپ تاللانمىسى',
 	selectPromptMsg: 'تەھرىرلىگۈچنىڭ مەزمۇن قېلىپىنى تاللاڭ:',
 	title: 'مەزمۇن قېلىپى'
-});
+} );

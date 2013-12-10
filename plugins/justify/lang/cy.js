@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'cy', {
 	center: 'Alinio i\'r Canol',
 	left: 'Alinio i\'r Chwith',
 	right: 'Alinio i\'r Dde'
-});
+} );

@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'si', {
 	type: 'Link Type', // MISSING
 	unlink: 'Unlink', // MISSING
 	upload: 'උඩුගතකිරීම'
-});
+} );

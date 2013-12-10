@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ko', {
 	options: '템플릿 옵션',
 	selectPromptMsg: '에디터에서 사용할 템플릿을 선택하십시요.<br>(지금까지 작성된 내용은 사라집니다.):',
 	title: '내용 템플릿'
-});
+} );

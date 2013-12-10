@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'cs', {
 	panelTitle1: 'Blokové styly',
 	panelTitle2: 'Řádkové styly',
 	panelTitle3: 'Objektové styly'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'hu', {
 	center: 'Középre',
 	left: 'Balra',
 	right: 'Jobbra'
-});
+} );

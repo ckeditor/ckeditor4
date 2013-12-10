@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'hi', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'ऍडिटर में ओपन करने हेतु टॅम्प्लेट चुनें(वर्तमान कन्टॅन्ट सेव नहीं होंगे):',
 	title: 'कन्टेन्ट टॅम्प्लेट'
-});
+} );

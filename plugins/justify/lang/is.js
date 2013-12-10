@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'is', {
 	center: 'Miðja texta',
 	left: 'Vinstrijöfnun',
 	right: 'Hægrijöfnun'
-});
+} );

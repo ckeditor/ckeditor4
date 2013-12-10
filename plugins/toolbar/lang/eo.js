@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'eo', {
 		tools: 'Iloj'
 	},
 	toolbars: 'Ilobretoj de la redaktilo'
-});
+} );

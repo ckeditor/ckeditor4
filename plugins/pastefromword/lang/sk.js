@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'sk', {
 	error: 'Nebolo možné vyčistiť vložené dáta kvôli internej chybe',
 	title: 'Vložiť z Wordu',
 	toolbar: 'Vložiť z Wordu'
-});
+} );

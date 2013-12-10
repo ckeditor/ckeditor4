@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fi', {
 	replaceSuccessMsg: '%1 esiintymä(ä) korvattu.',
 	replaceWith: 'Korvaa tällä:',
 	title: 'Etsi ja korvaa'
-});
+} );

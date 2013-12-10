@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'th', {
 	options: 'Special Character Options', // MISSING
 	title: 'แทรกตัวอักษรพิเศษ',
 	toolbar: 'แทรกตัวอักษรพิเศษ'
-});
+} );

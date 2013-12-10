@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'eu', {
 	moreInfo: 'Lizentziari buruzko informazioa gure webgunean:',
 	title: 'CKEditor(r)i buruz',
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

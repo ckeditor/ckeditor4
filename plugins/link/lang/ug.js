@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	type: 'ئۇلانما تىپى',
 	unlink: 'ئۇلانما بىكار قىل',
 	upload: 'يۈكلە'
-});
+} );

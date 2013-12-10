@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'hu', {
 	tabName: 'Fül neve',
 	elementId: 'Elem ID',
 	elementType: 'Elem típusa'
-});
+} );

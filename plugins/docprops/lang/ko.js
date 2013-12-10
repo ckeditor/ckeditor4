@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ko', {
 	title: '문서 속성',
 	txtColor: '글자 색상',
 	xhtmlDec: 'XHTML 문서정의 포함'
-});
+} );

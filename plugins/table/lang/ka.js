@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ka', {
 	widthPc: 'პროცენტი',
 	widthPx: 'წერტილი',
 	widthUnit: 'საზომი ერთეული'
-});
+} );

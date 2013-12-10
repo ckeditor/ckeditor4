@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fo', {
 	replaceSuccessMsg: '%1 úrslit broytt.',
 	replaceWith: 'Yvirskriva við:',
 	title: 'Finn og broyt'
-});
+} );

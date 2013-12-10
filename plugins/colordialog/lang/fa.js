@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'fa', {
 	options: 'گزینه​های رنگ',
 	selected: 'رنگ انتخاب شده',
 	title: 'انتخاب رنگ'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'pl', {
 	upperAlpha: 'Duże litery (A, B, C, D, E itd.)',
 	upperRoman: 'Duże cyfry rzymskie (I, II, III, IV, V itd.)',
 	validateStartNumber: 'Listę musi rozpoczynać liczba całkowita.'
-});
+} );

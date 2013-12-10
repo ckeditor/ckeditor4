@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ar', {
 	subscript: 'منخفض',
 	superscript: 'مرتفع',
 	underline: 'تسطير'
-});
+} );

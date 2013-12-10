@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'cy', {
 	validateBorder: 'Rhaid i\'r ymyl fod yn gyfanrif.',
 	validateHSpace: 'Rhaid i\'r HSpace fod yn gyfanrif.',
 	validateVSpace: 'Rhaid i\'r VSpace fod yn gyfanrif.'
-});
+} );

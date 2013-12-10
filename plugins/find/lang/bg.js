@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'bg', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: 'Препокрива с:',
 	title: 'Търсене и препокриване'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'gu', {
 	center: 'સંકેંદ્રણ/સેંટરિંગ',
 	left: 'ડાબી બાજુએ/બાજુ તરફ',
 	right: 'જમણી બાજુએ/બાજુ તરફ'
-});
+} );

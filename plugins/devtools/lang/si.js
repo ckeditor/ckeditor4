@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'si', {
 	tabName: 'තීරුවේ නම',
 	elementId: 'මුලද්‍රව්‍ය කේතය',
 	elementType: 'මුලද්‍රව්‍ය වර්ගය'
-});
+} );

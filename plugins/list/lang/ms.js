@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'list', 'ms', {
 	bulletedlist: 'Senarai tidak bernombor',
 	numberedlist: 'Senarai bernombor'
-});
+} );

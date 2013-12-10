@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ar', {
 	scrolling: 'تفعيل أشرطة الإنتقال',
 	title: 'خصائص iframe',
 	toolbar: 'iframe'
-});
+} );

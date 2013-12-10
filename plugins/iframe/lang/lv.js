@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'lv', {
 	scrolling: 'Atļaut ritjoslas',
 	title: 'IFrame uzstādījumi',
 	toolbar: 'IFrame'
-});
+} );

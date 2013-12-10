@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'lt', {
 	widthPc: 'procentais',
 	widthPx: 'taškais',
 	widthUnit: 'pločio vienetas'
-});
+} );

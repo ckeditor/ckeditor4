@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ko', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: '바꿀 문자열:',
 	title: '찾기 & 바꾸기'
-});
+} );

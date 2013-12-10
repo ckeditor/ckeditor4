@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ms', {
 	options: 'Special Character Options', // MISSING
 	title: 'Sila pilih huruf istimewa',
 	toolbar: 'Masukkan Huruf Istimewa'
-});
+} );

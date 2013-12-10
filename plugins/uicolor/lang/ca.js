@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ca', {
 	preview: 'Vista prèvia',
 	config: 'Enganxa aquest text dins el fitxer config.js',
 	predefined: 'Conjunts de colors predefinits'
-});
+} );

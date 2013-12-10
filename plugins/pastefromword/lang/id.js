@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'id', {
 	error: 'Tidak mungkin membersihkan data yang ditempel dikerenakan kesalahan internal',
 	title: 'Tempel dari Word',
 	toolbar: 'Tempel dari Word'
-});
+} );

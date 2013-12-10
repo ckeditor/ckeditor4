@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'Vefslóð'
 	}
-});
+} );

@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'cs', {
 	button: 'Vložit jako čistý text',
 	title: 'Vložit jako čistý text'
-});
+} );

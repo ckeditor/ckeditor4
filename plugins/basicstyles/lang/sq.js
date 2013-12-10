@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'sq', {
 	subscript: 'Nën-skriptë',
 	superscript: 'Super-skriptë',
 	underline: 'Nënvijëzuar'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'nb', {
 	options: 'Alternativer for mal',
 	selectPromptMsg: 'Velg malen du vil åpne i redigeringsverktøyet:',
 	title: 'Innholdsmaler'
-});
+} );

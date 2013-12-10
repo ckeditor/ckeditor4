@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ug', {
 	more: 'باشقا رەڭ',
 	panelTitle: 'رەڭ',
 	textColorTitle: 'تېكىست رەڭگى'
-});
+} );

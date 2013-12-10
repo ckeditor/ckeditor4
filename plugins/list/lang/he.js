@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'list', 'he', {
 	bulletedlist: 'רשימת נקודות',
 	numberedlist: 'רשימה ממוספרת'
-});
+} );

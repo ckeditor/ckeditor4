@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	widthPc: 'เปอร์เซ็น',
 	widthPx: 'จุดสี',
 	widthUnit: 'หน่วยความกว้าง'
-});
+} );

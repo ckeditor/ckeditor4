@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'ug', {
 	tabName: 'Tab ئاتى',
 	elementId: 'ئېلېمېنت كىملىكى',
 	elementType: 'ئېلېمېنت تىپى'
-});
+} );

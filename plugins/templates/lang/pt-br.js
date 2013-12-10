@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'pt-br', {
 	options: 'Opções de Template',
 	selectPromptMsg: 'Selecione um modelo de layout para ser aberto no editor<br>(o conteúdo atual será perdido):',
 	title: 'Modelo de layout de conteúdo'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'pl', {
 	moreInfo: 'Informacje na temat licencji można znaleźć na naszej stronie:',
 	title: 'Informacje o programie CKEditor',
 	userGuide: 'podręczniku użytkownika programu CKEditor'
-});
+} );

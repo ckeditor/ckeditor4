@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'cy', {
 	hiddenfield: 'Maes Cudd',
 	iframe: 'IFrame',
 	unknown: 'Gwrthrych Anhysbys'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'he', {
 	center: 'מרכוז',
 	left: 'יישור לשמאל',
 	right: 'יישור לימין'
-});
+} );

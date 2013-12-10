@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'tr', {
 	preview: 'Canlı ön izleme',
 	config: 'Bu yazıyı config.js dosyasının içine yapıştırın',
 	predefined: 'Önceden tanımlı renk seti'
-});
+} );

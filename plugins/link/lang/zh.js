@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	type: '連結類型',
 	unlink: '取消連結',
 	upload: '上傳'
-});
+} );

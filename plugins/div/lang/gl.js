@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'gl', {
 	styleSelectLabel: 'Estilo',
 	title: 'Crear un contedor Div',
 	toolbar: 'Crear un contedor Div'
-});
+} );

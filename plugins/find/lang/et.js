@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'et', {
 	replaceSuccessMsg: '%1 vastet asendati.',
 	replaceWith: 'Asendus:',
 	title: 'Otsimine ja asendamine'
-});
+} );

@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'bs', {
 	type: 'Tip linka',
 	unlink: 'Izbriši link',
 	upload: 'Šalji'
-});
+} );

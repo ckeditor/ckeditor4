@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'nl', {
 	options: 'Template opties',
 	selectPromptMsg: 'Selecteer het sjabloon dat in de editor geopend moet worden (de actuele inhoud gaat verloren):',
 	title: 'Inhoud sjablonen'
-});
+} );

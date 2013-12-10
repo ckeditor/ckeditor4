@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'fi', {
 	tag_h6: 'Otsikko 6',
 	tag_p: 'Normaali',
 	tag_pre: 'Muotoiltu'
-});
+} );

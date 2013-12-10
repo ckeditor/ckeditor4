@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'el', {
 	tabName: 'Όνομα καρτέλας',
 	elementId: 'Αναγνωριστικό Στοιχείου',
 	elementType: 'Τύπος στοιχείου'
-});
+} );

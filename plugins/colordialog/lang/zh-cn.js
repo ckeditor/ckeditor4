@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'zh-cn', {
 	options: '颜色选项',
 	selected: '选择颜色',
 	title: '选择颜色'
-});
+} );

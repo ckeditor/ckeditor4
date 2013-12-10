@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'lv', {
 	validateBorder: 'Apmalei jābūt veselam skaitlim',
 	validateHSpace: 'HSpace jābūt veselam skaitlim',
 	validateVSpace: 'VSpace jābūt veselam skaitlim'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ug', {
 	preview: 'شۇئان ئالدىن كۆزىتىش',
 	config: 'بۇ ھەرپ تىزىقىنى config.js ھۆججەتكە چاپلايدۇ',
 	predefined: 'ئالدىن بەلگىلەنگەن رەڭلەر'
-});
+} );

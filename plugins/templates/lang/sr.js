@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'sr', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Молимо Вас да одаберете образац који ће бити примењен на страницу (тренутни садржај ће бити обрисан):',
 	title: 'Обрасци за садржај'
-});
+} );

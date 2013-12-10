@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'removeformat', 'ja', {
 	toolbar: '書式を解除'
-});
+} );

@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sr', {
 	validateBorder: 'Ивица треба да буде цифра.',
 	validateHSpace: 'HSpace треба да буде цифра.',
 	validateVSpace: 'VSpace треба да буде цифра.'
-});
+} );

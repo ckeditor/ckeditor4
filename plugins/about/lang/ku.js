@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ku', {
 	moreInfo: 'بۆ زانیاری زیاتر دەربارەی مۆڵەتی بەکارهێنان، تکایه سەردانی ماڵپەڕەکەمان بکه:',
 	title: 'دەربارەی CKEditor',
 	userGuide: 'ڕێپیشاندەری CKEditors'
-});
+} );

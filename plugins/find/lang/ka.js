@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ka', {
 	replaceSuccessMsg: '%1 მოძებნილი შეიცვალა.',
 	replaceWith: 'შეცვლის ტექსტი:',
 	title: 'ძებნა და შეცვლა'
-});
+} );

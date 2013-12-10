@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'fr-ca', {
 	subscript: 'Indice',
 	superscript: 'Exposant',
 	underline: 'Souligné'
-});
+} );

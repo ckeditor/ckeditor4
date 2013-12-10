@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'it', {
 	replaceSuccessMsg: '%1 occorrenza(e) sostituite.',
 	replaceWith: 'Sostituisci con:',
 	title: 'Cerca e Sostituisci'
-});
+} );

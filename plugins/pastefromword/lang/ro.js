@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ro', {
 	error: 'Nu a fost posibilă curățarea datelor adăugate datorită unei erori interne',
 	title: 'Adaugă din Word',
 	toolbar: 'Adaugă din Word'
-});
+} );

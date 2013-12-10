@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'fi', {
 	title: 'Dokumentin ominaisuudet',
 	txtColor: 'Tekstiväri',
 	xhtmlDec: 'Lisää XHTML julistukset'
-});
+} );

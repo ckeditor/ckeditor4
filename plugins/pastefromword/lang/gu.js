@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'gu', {
 	error: 'પેસ્ટ કરેલો ડેટા ઇન્ટરનલ એરર ના લીથે સાફ કરી શકાયો નથી.',
 	title: 'પેસ્ટ (વડૅ ટેક્સ્ટ)',
 	toolbar: 'પેસ્ટ (વડૅ ટેક્સ્ટ)'
-});
+} );

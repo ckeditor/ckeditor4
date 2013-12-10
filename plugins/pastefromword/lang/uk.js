@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'uk', {
 	error: 'Неможливо очистити форматування через внутрішню помилку.',
 	title: 'Вставити з Word',
 	toolbar: 'Вставити з Word'
-});
+} );

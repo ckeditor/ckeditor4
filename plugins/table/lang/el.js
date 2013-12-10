@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 	widthPc: 'τοις εκατό',
 	widthPx: 'pixel',
 	widthUnit: 'μονάδα πλάτους'
-});
+} );

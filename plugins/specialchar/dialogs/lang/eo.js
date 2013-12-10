@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eo', {
 	hArr: 'Duobla sago maldekstren',
 	diams: 'Nigra kvadrato',
 	asymp: 'Preskaŭ egala'
-});
+} );

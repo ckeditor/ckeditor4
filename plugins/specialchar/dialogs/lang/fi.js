@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fi', {
 	hArr: 'Kaksoisnuoli oikealle ja vasemmalle',
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Noin'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'gu', {
 	replaceSuccessMsg: '%1 ફેરફારો બાદલાયા છે.',
 	replaceWith: 'આનાથી બદલો',
 	title: 'શોધવું અને બદલવું'
-});
+} );

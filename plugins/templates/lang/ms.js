@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ms', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Sila pilih templat untuk dibuka oleh editor<br>(kandungan sebenar akan hilang):',
 	title: 'Templat Kandungan'
-});
+} );

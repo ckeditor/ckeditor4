@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	type: 'Type',
 	unlink: 'Fjern hyperlink',
 	upload: 'Upload'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'pl', {
 	error: 'Wyczyszczenie wklejonych danych nie było możliwe z powodu wystąpienia błędu.',
 	title: 'Wklej z programu MS Word',
 	toolbar: 'Wklej z programu MS Word'
-});
+} );

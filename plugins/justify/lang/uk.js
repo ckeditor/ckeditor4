@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'uk', {
 	center: 'По центру',
 	left: 'По лівому краю',
 	right: 'По правому краю'
-});
+} );

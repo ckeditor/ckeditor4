@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'tr', {
 	tag_h6: 'Başlık 6',
 	tag_p: 'Normal',
 	tag_pre: 'Biçimli'
-});
+} );

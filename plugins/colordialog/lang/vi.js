@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'vi', {
 	options: 'Tùy chọn màu',
 	selected: 'Màu đã chọn',
 	title: 'Chọn màu'
-});
+} );

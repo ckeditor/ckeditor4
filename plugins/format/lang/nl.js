@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'nl', {
 	tag_h6: 'Kop 6',
 	tag_p: 'Normaal',
 	tag_pre: 'Met opmaak'
-});
+} );

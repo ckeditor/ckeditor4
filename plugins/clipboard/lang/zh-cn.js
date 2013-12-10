@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh-cn', {
 	pasteMsg: '请使用键盘快捷键(<STRONG>Ctrl/Cmd+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>',
 	securityMsg: '因为您的浏览器的安全设置原因，本编辑器不能直接访问您的剪贴板内容，你需要在本窗口重新粘贴一次。',
 	title: '粘贴'
-});
+} );

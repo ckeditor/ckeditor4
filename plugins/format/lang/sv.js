@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sv', {
 	tag_h6: 'Rubrik 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formaterad'
-});
+} );

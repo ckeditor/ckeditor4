@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'cs', {
 	tabName: 'Název karty',
 	elementId: 'ID prvku',
 	elementType: 'Typ prvku'
-});
+} );

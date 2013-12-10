@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'et', {
 	hiddenfield: 'Varjatud väli',
 	iframe: 'IFrame',
 	unknown: 'Tundmatu objekt'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'th', {
 	panelTitle1: 'Block Styles', // MISSING
 	panelTitle2: 'Inline Styles', // MISSING
 	panelTitle3: 'Object Styles' // MISSING
-});
+} );

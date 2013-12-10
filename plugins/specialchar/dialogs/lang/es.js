@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'es', {
 	hArr: 'Flecha izquierda derecha doble',
 	diams: 'Diamante negro',
 	asymp: 'Casi igual a'
-});
+} );

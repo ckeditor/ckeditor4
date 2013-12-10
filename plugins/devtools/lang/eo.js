@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'eo', {
 	tabName: 'Langetnomo',
 	elementId: 'ID de la elemento',
 	elementType: 'Tipo de la elemento'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'fo', {
 	scrolling: 'Loyv scrollbars',
 	title: 'Møguleikar fyri IFrame',
 	toolbar: 'IFrame'
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'ug', {
 	label: 'خەت نۇسخا',
 	panelTitle: 'خەت نۇسخا',
 	voiceLabel: 'خەت نۇسخا'
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'th', {
 	label: 'แบบอักษร',
 	panelTitle: 'แบบอักษร',
 	voiceLabel: 'แบบอักษร'
-});
+} );

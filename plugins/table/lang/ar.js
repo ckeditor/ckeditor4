@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ar', {
 	widthPc: 'بالمئة',
 	widthPx: 'بكسل',
 	widthUnit: 'وحدة العرض'
-});
+} );

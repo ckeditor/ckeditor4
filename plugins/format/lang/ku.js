@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ku', {
 	tag_h6: 'سەرنووسەی ٦',
 	tag_p: 'ئاسایی',
 	tag_pre: 'شێوازکراو'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'cs', {
 	scrolling: 'Zapnout posuvníky',
 	title: 'Vlastnosti IFrame',
 	toolbar: 'IFrame'
-});
+} );

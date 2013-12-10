@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ru', {
 	preview: 'Предпросмотр в реальном времени',
 	config: 'Вставьте эту строку в файл config.js',
 	predefined: 'Предопределенные цветовые схемы'
-});
+} );

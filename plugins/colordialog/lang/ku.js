@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'ku', {
 	options: 'هەڵبژاردەی ڕەنگەکان',
 	selected: 'ڕەنگی هەڵبژێردراو',
 	title: 'هەڵبژاردنی ڕەنگ'
-});
+} );

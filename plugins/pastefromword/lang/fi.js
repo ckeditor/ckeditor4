@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fi', {
 	error: 'Liitetyn tiedon siivoaminen ei onnistunut sisäisen virheen takia',
 	title: 'Liitä Word-dokumentista',
 	toolbar: 'Liitä Word-dokumentista'
-});
+} );

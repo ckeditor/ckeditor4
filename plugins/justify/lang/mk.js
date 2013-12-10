@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'mk', {
 	center: 'Center', // MISSING
 	left: 'Align Left', // MISSING
 	right: 'Align Right' // MISSING
-});
+} );

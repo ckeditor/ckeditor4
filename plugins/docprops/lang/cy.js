@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'cy', {
 	title: 'Priodweddau Dogfen',
 	txtColor: 'Lliw y Testun',
 	xhtmlDec: 'Cynnwys Datganiadau XHTML'
-});
+} );

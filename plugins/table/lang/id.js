@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'id', {
 	widthPc: 'persen',
 	widthPx: 'piksel',
 	widthUnit: 'lebar satuan'
-});
+} );

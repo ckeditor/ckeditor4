@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sv', {
 	panelTitle1: 'Blockstil',
 	panelTitle2: 'Inbäddad stil',
 	panelTitle3: 'Objektets stil'
-});
+} );

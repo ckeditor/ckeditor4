@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'showblocks', 'km', {
 	toolbar: 'បង្ហាញ​ប្លក់'
-});
+} );

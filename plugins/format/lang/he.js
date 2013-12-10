@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'he', {
 	tag_h6: 'כותרת 6',
 	tag_p: 'נורמלי',
 	tag_pre: 'קוד'
-});
+} );

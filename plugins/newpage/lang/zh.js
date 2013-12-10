@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'newpage', 'zh', {
 	toolbar: '新增網頁'
-});
+} );

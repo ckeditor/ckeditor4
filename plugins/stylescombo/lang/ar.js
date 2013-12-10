@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ar', {
 	panelTitle1: 'أنماط الفقرة',
 	panelTitle2: 'أنماط مضمنة',
 	panelTitle3: 'أنماط الكائن'
-});
+} );

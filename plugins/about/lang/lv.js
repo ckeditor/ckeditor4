@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'lv', {
 	moreInfo: 'Informācijai par licenzēšanu apmeklējiet mūsu mājas lapu:',
 	title: 'Par CKEditor',
 	userGuide: 'CKEditor Lietotāja pamācība'
-});
+} );

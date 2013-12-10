@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'sl', {
 	styleSelectLabel: 'Slog',
 	title: 'Ustvari Div Posodo',
 	toolbar: 'Ustvari Div Posodo'
-});
+} );

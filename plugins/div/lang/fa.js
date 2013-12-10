@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'fa', {
 	styleSelectLabel: 'سبک',
 	title: 'ایجاد یک محل DIV',
 	toolbar: 'ایجاد یک محل DIV'
-});
+} );

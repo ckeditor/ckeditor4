@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'hr', {
 	replaceSuccessMsg: 'Zamijenjeno %1 pojmova.',
 	replaceWith: 'Zamijeni s:',
 	title: 'Pronađi i zamijeni'
-});
+} );

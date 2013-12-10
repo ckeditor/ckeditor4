@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sr-latn', {
 		tools: 'Tools'
 	},
 	toolbars: 'Alatne trake'
-});
+} );

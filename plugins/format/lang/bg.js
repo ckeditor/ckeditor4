@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'bg', {
 	tag_h6: 'Заглавие 6',
 	tag_p: 'Нормален',
 	tag_pre: 'Форматиран'
-});
+} );

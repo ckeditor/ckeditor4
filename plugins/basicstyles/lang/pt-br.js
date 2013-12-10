@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'pt-br', {
 	subscript: 'Subscrito',
 	superscript: 'Sobrescrito',
 	underline: 'Sublinhado'
-});
+} );

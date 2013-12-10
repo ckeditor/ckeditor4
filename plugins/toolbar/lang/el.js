@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'el', {
 		tools: 'Εργαλεία'
 	},
 	toolbars: 'Εργαλειοθήκες επεξεργαστή'
-});
+} );

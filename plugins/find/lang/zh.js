@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'zh', {
 	replaceSuccessMsg: '已取代  %1 個指定項目。',
 	replaceWith: '取代成：',
 	title: '尋找及取代'
-});
+} );

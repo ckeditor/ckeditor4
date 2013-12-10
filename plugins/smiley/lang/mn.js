@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'mn', {
 	options: 'Smiley Options', // MISSING
 	title: 'Тодорхойлолт оруулах',
 	toolbar: 'Тодорхойлолт'
-});
+} );

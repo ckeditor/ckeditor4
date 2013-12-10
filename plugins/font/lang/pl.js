@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'pl', {
 	label: 'Czcionka',
 	panelTitle: 'Czcionka',
 	voiceLabel: 'Czcionka'
-});
+} );

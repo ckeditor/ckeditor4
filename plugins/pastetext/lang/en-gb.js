@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'en-gb', {
 	button: 'Paste as plain text',
 	title: 'Paste as Plain Text'
-});
+} );

@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'sk', {
 	alt: 'Zalomenie strany',
 	toolbar: 'Vložiť oddeľovač stránky pre tlač'
-});
+} );

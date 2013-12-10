@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'fi', {
 	center: 'Keskitä',
 	left: 'Tasaa vasemmat reunat',
 	right: 'Tasaa oikeat reunat'
-});
+} );

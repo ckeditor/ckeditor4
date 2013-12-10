@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'es', {
 	replaceSuccessMsg: 'La expresión buscada ha sido reemplazada %1 veces.',
 	replaceWith: 'Reemplazar con:',
 	title: 'Buscar y Reemplazar'
-});
+} );

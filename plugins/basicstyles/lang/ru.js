@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ru', {
 	subscript: 'Подстрочный индекс',
 	superscript: 'Надстрочный индекс',
 	underline: 'Подчеркнутый'
-});
+} );

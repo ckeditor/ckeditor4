@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'nb', {
 	panelTitle1: 'Blokkstiler',
 	panelTitle2: 'Inlinestiler',
 	panelTitle3: 'Objektstiler'
-});
+} );

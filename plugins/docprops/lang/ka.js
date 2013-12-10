@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ka', {
 	title: 'დოკუმენტის პარამეტრები',
 	txtColor: 'ტექსტის ფერი',
 	xhtmlDec: 'XHTML დეკლარაციების ჩართვა'
-});
+} );

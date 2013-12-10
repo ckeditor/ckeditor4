@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'zh-cn', {
 	options: '模板选项',
 	selectPromptMsg: '请选择要在编辑器中使用的模板：',
 	title: '内容模板'
-});
+} );

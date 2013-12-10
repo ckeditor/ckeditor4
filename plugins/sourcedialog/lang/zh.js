@@ -6,4 +6,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'sourcedialog', 'zh', {
 	toolbar: '原始碼',
 	title: '原始碼'
-});
+} );

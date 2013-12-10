@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'fi', {
 	button: 'Liitä tekstinä',
 	title: 'Liitä tekstinä'
-});
+} );

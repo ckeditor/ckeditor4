@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'he', {
 	moreInfo: 'למידע נוסף בקרו באתרנו:',
 	title: 'אודות CKEditor',
 	userGuide: 'מדריך המשתמש של CKEditor'
-});
+} );

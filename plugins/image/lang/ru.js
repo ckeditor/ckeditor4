@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ru', {
 	validateBorder: 'Размер границ должен быть задан числом.',
 	validateHSpace: 'Горизонтальный отступ должен быть задан числом.',
 	validateVSpace: 'Вертикальный отступ должен быть задан числом.'
-});
+} );

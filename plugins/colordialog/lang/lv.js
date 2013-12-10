@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'lv', {
 	options: 'Krāsas uzstādījumi',
 	selected: 'Izvēlētā krāsa',
 	title: 'Izvēlies krāsu'
-});
+} );

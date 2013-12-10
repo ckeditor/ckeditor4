@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'nl', {
 		tools: 'Toepassingen'
 	},
 	toolbars: 'Werkbalken'
-});
+} );

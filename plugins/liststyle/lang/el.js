@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'el', {
 	upperAlpha: 'Κεφαλαία Λατινικά (A, B, C, D, E, κτλ)',
 	upperRoman: 'Κεφαλαία Ρωμαϊκά (I, II, III, IV, V, κτλ)',
 	validateStartNumber: 'Ο αριθμός εκκίνησης της αρίθμησης πρέπει να είναι ακέραιος αριθμός.'
-});
+} );

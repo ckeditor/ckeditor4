@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ku', {
 	center: 'ناوەڕاست',
 	left: 'بەهێڵ کردنی چەپ',
 	right: 'بەهێڵ کردنی ڕاست'
-});
+} );

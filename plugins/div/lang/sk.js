@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'sk', {
 	styleSelectLabel: 'Štýl',
 	title: 'Vytvoriť Div kontajner',
 	toolbar: 'Vytvoriť Div kontajner'
-});
+} );

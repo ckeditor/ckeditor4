@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'mn', {
 	center: 'Голлуулах',
 	left: 'Зүүн талд тулгах',
 	right: 'Баруун талд тулгах'
-});
+} );

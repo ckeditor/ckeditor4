@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'fo', {
 	tag_h6: 'Yvirskrift 6',
 	tag_p: 'Vanligt',
 	tag_pre: 'Sniðgivið'
-});
+} );

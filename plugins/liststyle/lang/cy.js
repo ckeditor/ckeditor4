@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
 	upperAlpha: 'Alffa Uwch (A, B, C, D, E, ayyb.)',
 	upperRoman: 'Rhufeinig Uwch (I, II, III, IV, V, ayyb.)',
 	validateStartNumber: 'Rhaid bod y rhif cychwynnol yn gyfanrif.'
-});
+} );

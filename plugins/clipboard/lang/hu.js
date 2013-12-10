@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	pasteMsg: 'Másolja be az alábbi mezőbe a <STRONG>Ctrl/Cmd+V</STRONG> billentyűk lenyomásával, majd nyomjon <STRONG>Rendben</STRONG>-t.',
 	securityMsg: 'A böngésző biztonsági beállításai miatt a szerkesztő nem képes hozzáférni a vágólap adataihoz. Illeszd be újra ebben az ablakban.',
 	title: 'Beillesztés'
-});
+} );

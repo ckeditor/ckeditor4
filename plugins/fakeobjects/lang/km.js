@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'km', {
 	hiddenfield: 'វាល​កំបាំង',
 	iframe: 'IFrame',
 	unknown: 'វត្ថុ​មិន​ស្គាល់'
-});
+} );

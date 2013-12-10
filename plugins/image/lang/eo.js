@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'eo', {
 	validateBorder: 'La bordero devas esti entjera nombro.',
 	validateHSpace: 'La horizontala spaco devas esti entjera nombro.',
 	validateVSpace: 'La vertikala spaco devas esti entjera nombro.'
-});
+} );

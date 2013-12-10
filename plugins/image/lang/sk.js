@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sk', {
 	validateBorder: 'Rám (border) musí byť celé číslo.',
 	validateHSpace: 'H-medzera musí byť celé číslo.',
 	validateVSpace: 'V-medzera musí byť celé číslo.'
-});
+} );

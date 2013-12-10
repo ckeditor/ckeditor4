@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ug', {
 	title: 'بەت خاسلىقى',
 	txtColor: 'تېكىست رەڭگى',
 	xhtmlDec: 'XHTML ئېنىقلىمىسىنى ئۆز ئىچىگە ئالىدۇ'
-});
+} );

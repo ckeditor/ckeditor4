@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'sv', {
 	center: 'Centrera',
 	left: 'Vänsterjustera',
 	right: 'Högerjustera'
-});
+} );

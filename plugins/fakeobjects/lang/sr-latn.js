@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'sr-latn', {
 	hiddenfield: 'Skriveno polje',
 	iframe: 'IFrame', // MISSING
 	unknown: 'Unknown Object' // MISSING
-});
+} );

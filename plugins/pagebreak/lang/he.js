@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'he', {
 	alt: 'שבירת דף',
 	toolbar: 'הוספת שבירת דף'
-});
+} );

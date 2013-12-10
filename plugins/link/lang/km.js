@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	type: 'ប្រភេទ​តំណ',
 	unlink: 'ផ្ដាច់​តំណ',
 	upload: 'ផ្ទុក​ឡើង'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'km', {
 	tabName: 'ឈ្មោះ​ផ្ទាំង',
 	elementId: 'អត្តលេខ​ធាតុ',
 	elementType: 'ប្រភេទ​ធាតុ'
-});
+} );

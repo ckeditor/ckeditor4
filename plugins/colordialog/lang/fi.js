@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'fi', {
 	options: 'Värin ominaisuudet',
 	selected: 'Valittu',
 	title: 'Valitse väri'
-});
+} );

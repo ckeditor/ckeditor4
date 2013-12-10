@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 	widthPc: 'процентов',
 	widthPx: 'пикселей',
 	widthUnit: 'единица измерения'
-});
+} );

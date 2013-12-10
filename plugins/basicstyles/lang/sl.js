@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'sl', {
 	subscript: 'Podpisano',
 	superscript: 'Nadpisano',
 	underline: 'Podčrtano'
-});
+} );

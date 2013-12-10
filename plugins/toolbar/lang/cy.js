@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'cy', {
 		tools: 'Offer'
 	},
 	toolbars: 'Bariau offer y golygydd'
-});
+} );

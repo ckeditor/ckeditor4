@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'bn', {
 	widthPc: 'শতকরা',
 	widthPx: 'পিক্সেল',
 	widthUnit: 'width unit' // MISSING
-});
+} );

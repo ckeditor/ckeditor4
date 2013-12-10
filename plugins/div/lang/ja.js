@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ja', {
 	styleSelectLabel: 'スタイル',
 	title: 'Divコンテナ',
 	toolbar: 'Divコンテナ'
-});
+} );

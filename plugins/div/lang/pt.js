@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'pt', {
 	styleSelectLabel: 'Estilo',
 	title: 'Criar Div',
 	toolbar: 'Criar Div'
-});
+} );

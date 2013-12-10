@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'gl', {
 	validateBorder: 'O bordo debe ser un número.',
 	validateHSpace: 'O espazado horizontal debe ser un número.',
 	validateVSpace: 'O espazado vertical debe ser un número.'
-});
+} );

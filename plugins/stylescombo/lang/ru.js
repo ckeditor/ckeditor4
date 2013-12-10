@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ru', {
 	panelTitle1: 'Стили блока',
 	panelTitle2: 'Стили элемента',
 	panelTitle3: 'Стили объекта'
-});
+} );

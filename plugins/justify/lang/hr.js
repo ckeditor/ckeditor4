@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'hr', {
 	center: 'Središnje poravnanje',
 	left: 'Lijevo poravnanje',
 	right: 'Desno poravnanje'
-});
+} );

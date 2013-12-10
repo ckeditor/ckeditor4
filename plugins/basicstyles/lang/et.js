@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'et', {
 	subscript: 'Allindeks',
 	superscript: 'Ülaindeks',
 	underline: 'Allajoonitud'
-});
+} );

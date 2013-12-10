@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'nb', {
 	moreInfo: 'For lisensieringsinformasjon, vennligst besøk vårt nettsted:',
 	title: 'Om CKEditor',
 	userGuide: 'CKEditors brukerveiledning'
-});
+} );

@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ug', {
 		tools: 'قورال'
 	},
 	toolbars: 'قورال بالداق'
-});
+} );

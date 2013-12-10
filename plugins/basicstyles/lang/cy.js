@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'cy', {
 	subscript: 'Is-sgript',
 	superscript: 'Uwchsgript',
 	underline: 'Tanlinellu'
-});
+} );

@@ -6,4 +6,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'sourcedialog', 'bg', {
 	toolbar: 'Източник',
 	title: 'Източник'
-});
+} );

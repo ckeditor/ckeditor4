@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'hr', {
 		tools: 'Alatke'
 	},
 	toolbars: 'Alatne trake uređivača teksta'
-});
+} );

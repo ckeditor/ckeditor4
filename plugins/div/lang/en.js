@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'en', {
 	styleSelectLabel: 'Style',
 	title: 'Create Div Container',
 	toolbar: 'Create Div Container'
-});
+} );

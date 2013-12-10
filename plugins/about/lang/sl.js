@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'sl', {
 	moreInfo: 'Za informacijo o licenci prosim obiščite našo spletno stran:',
 	title: 'O programu CKEditor',
 	userGuide: 'CKEditor Navodila za Uporabo'
-});
+} );

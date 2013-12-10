@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'ca', {
 	label: 'Tipus de lletra',
 	panelTitle: 'Tipus de lletra',
 	voiceLabel: 'Tipus de lletra'
-});
+} );

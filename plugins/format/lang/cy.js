@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'cy', {
 	tag_h6: 'Pennawd 6',
 	tag_p: 'Normal',
 	tag_pre: 'Wedi\'i Fformatio'
-});
+} );

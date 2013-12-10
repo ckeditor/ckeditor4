@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'fa', {
 	options: 'گزینه​های منوی زمینه'
-});
+} );

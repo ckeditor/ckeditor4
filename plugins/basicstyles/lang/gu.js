@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'gu', {
 	subscript: 'એક ચિહ્નની નીચે કરેલું બીજું ચિહ્ન',
 	superscript: 'એક ચિહ્ન ઉપર કરેલું બીજું ચિહ્ન.',
 	underline: 'અન્ડર્લાઇન, નીચે લીટી'
-});
+} );

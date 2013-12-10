@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'ug', {
 	hiddenfield: 'يوشۇرۇن دائىرە',
 	iframe: 'IFrame',
 	unknown: 'يوچۇن نەڭ'
-});
+} );

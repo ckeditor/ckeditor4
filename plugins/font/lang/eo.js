@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'eo', {
 	label: 'Tiparo',
 	panelTitle: 'Tipara nomo',
 	voiceLabel: 'Tiparo'
-});
+} );

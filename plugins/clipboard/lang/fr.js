@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fr', {
 	pasteMsg: 'Veuillez coller le texte dans la zone suivante en utilisant le raccourci clavier (<strong>Ctrl/Cmd+V</strong>) et cliquez sur OK.',
 	securityMsg: 'A cause des paramètres de sécurité de votre navigateur, l\'éditeur n\'est pas en mesure d\'accéder directement à vos données contenues dans le presse-papier. Vous devriez réessayer de coller les données dans la fenêtre.',
 	title: 'Coller'
-});
+} );

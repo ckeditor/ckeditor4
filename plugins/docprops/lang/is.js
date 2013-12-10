@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'is', {
 	title: 'Eigindi skjals',
 	txtColor: 'Litur texta',
 	xhtmlDec: 'Fella inn XHTML lýsingu'
-});
+} );

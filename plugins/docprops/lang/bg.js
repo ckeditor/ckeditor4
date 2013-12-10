@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'bg', {
 	title: 'Настройки на документа',
 	txtColor: 'Цвят на шрифт',
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
-});
+} );

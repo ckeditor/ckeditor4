@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		typeTel: 'Tālruņa numurs',
 		typeUrl: 'Adrese'
 	}
-});
+} );

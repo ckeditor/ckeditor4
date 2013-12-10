@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'en', {
 	scrolling: 'Enable scrollbars',
 	title: 'IFrame Properties',
 	toolbar: 'IFrame'
-});
+} );

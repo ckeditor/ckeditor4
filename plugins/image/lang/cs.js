@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'cs', {
 	validateBorder: 'Okraj musí být nastaven v celých číslech.',
 	validateHSpace: 'Horizontální mezera musí být nastavena v celých číslech.',
 	validateVSpace: 'Vertikální mezera musí být nastavena v celých číslech.'
-});
+} );

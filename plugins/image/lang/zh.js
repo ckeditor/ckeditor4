@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'zh', {
 	validateBorder: '框線必須是整數。',
 	validateHSpace: 'HSpace 必須是整數。',
 	validateVSpace: 'VSpace 必須是整數。'
-});
+} );

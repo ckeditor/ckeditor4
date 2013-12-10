@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'uk', {
 	options: 'Опції шаблону',
 	selectPromptMsg: 'Оберіть, будь ласка, шаблон для відкриття в редакторі<br>(поточний зміст буде втрачено):',
 	title: 'Шаблони змісту'
-});
+} );

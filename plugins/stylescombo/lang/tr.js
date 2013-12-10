@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'tr', {
 	panelTitle1: 'Blok Stilleri',
 	panelTitle2: 'Inline Stilleri',
 	panelTitle3: 'Nesne Stilleri'
-});
+} );

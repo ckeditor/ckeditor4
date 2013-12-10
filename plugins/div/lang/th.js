@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'th', {
 	styleSelectLabel: 'ลักษณะการแสดงผล',
 	title: 'Create Div Container', // MISSING
 	toolbar: 'Create Div Container' // MISSING
-});
+} );

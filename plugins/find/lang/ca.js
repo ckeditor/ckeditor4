@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ca', {
 	replaceSuccessMsg: '%1 ocurrència/es reemplaçada/es.',
 	replaceWith: 'Reemplaça amb:',
 	title: 'Cerca i reemplaça'
-});
+} );

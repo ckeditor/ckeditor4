@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'he', {
 	error: 'לא ניתן היה לנקות את המידע בשל תקלה פנימית.',
 	title: 'הדבקה מ-Word',
 	toolbar: 'הדבקה מ-Word'
-});
+} );

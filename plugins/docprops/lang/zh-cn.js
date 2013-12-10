@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'zh-cn', {
 	title: '页面属性',
 	txtColor: '文本颜色',
 	xhtmlDec: '包含 XHTML 声明'
-});
+} );

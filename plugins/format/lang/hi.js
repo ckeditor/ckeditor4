@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'hi', {
 	tag_h6: 'शीर्षक 6',
 	tag_p: 'साधारण',
 	tag_pre: 'फ़ॉर्मैटॅड'
-});
+} );

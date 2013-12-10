@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'el', {
 	subscript: 'Δείκτης',
 	superscript: 'Εκθέτης',
 	underline: 'Υπογράμμιση'
-});
+} );

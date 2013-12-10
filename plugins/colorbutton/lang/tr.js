@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'tr', {
 	more: 'Diğer renkler...',
 	panelTitle: 'Renkler',
 	textColorTitle: 'Yazı Rengi'
-});
+} );

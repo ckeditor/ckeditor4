@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ko', {
 	error: '내부 오류로 붙여 넣은 데이터를 정리 할 수 없습니다.',
 	title: 'MS Word 형식에서 붙여넣기',
 	toolbar: 'MS Word 형식에서 붙여넣기'
-});
+} );

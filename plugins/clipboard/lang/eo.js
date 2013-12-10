@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eo', {
 	pasteMsg: 'Bonvolu glui la tekston en la jenan areon per uzado de la klavaro (<strong>Ctrl/Cmd+V</strong>) kaj premu OK',
 	securityMsg: 'Pro la sekurecagordo de via TTT-legilo, la redaktilo ne povas rekte atingi viajn datenojn en la poŝo. Bonvolu denove interglui la datenojn en tiun fenestron.',
 	title: 'Interglui'
-});
+} );

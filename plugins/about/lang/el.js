@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'el', {
 	moreInfo: 'Για πληροφορίες αδειών παρακαλούμε επισκεφθείτε την ιστοσελίδα μας:',
 	title: 'Περί του CKEditor',
 	userGuide: 'Οδηγίες Χρήστη CKEditor'
-});
+} );

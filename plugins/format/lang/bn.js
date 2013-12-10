@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'bn', {
 	tag_h6: 'শীর্ষক ৬',
 	tag_p: 'সাধারণ',
 	tag_pre: 'ফর্মেটেড'
-});
+} );

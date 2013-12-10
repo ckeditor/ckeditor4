@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ug', {
 	tag_h6: 'ماۋزۇ 6',
 	tag_p: 'ئادەتتىكى',
 	tag_pre: 'تىزىلغان پىچىم'
-});
+} );

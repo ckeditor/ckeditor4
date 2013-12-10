@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'tr', {
 	validateBorder: 'Çerçeve tam sayı olmalıdır.',
 	validateHSpace: 'HSpace tam sayı olmalıdır.',
 	validateVSpace: 'VSpace tam sayı olmalıdır.'
-});
+} );

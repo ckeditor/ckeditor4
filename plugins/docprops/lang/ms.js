@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ms', {
 	title: 'Ciri-ciri dokumen',
 	txtColor: 'Warna Text',
 	xhtmlDec: 'Masukkan pemula kod XHTML'
-});
+} );

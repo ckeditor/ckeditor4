@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nl', {
 	pasteMsg: 'Plak de tekst in het volgende vak gebruikmakend van uw toetsenbord (<strong>Ctrl/Cmd+V</strong>) en klik op OK.',
 	securityMsg: 'Door de beveiligingsinstellingen van uw browser is het niet mogelijk om direct vanuit het klembord in de editor te plakken. Middels opnieuw plakken in dit venster kunt u de tekst alsnog plakken in de editor.',
 	title: 'Plakken'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'zh', {
 	tabName: '標籤名稱',
 	elementId: '元件 ID',
 	elementType: '元件類型'
-});
+} );

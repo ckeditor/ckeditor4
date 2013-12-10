@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'eo', {
 	title: 'Dokumentaj Atributoj',
 	txtColor: 'Teksta Koloro',
 	xhtmlDec: 'Inkluzivi XHTML Deklarojn'
-});
+} );

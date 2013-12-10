@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'tr', {
 	hArr: 'Sol, sağ çift ok',
 	diams: 'Siyah elmas takımı',
 	asymp: 'Hemen hemen eşit'
-});
+} );

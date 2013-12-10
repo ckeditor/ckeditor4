@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	pasteMsg: 'Wklej tekst w poniższym polu, używając skrótu klawiaturowego (<STRONG>Ctrl/Cmd+V</STRONG>), i kliknij <STRONG>OK</STRONG>.',
 	securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę ponownie wkleić dane w tym oknie.',
 	title: 'Wklej'
-});
+} );

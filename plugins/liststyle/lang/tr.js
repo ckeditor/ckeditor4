@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'tr', {
 	upperAlpha: 'Büyük Alpha (A, B, C, D, E, vs.)',
 	upperRoman: 'Büyük Roman (I, II, III, IV, V, vs.)',
 	validateStartNumber: 'Liste başlangıcı tam sayı olmalıdır.'
-});
+} );

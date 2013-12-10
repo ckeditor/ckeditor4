@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'pl', {
 	panelTitle1: 'Style blokowe',
 	panelTitle2: 'Style liniowe',
 	panelTitle3: 'Style obiektowe'
-});
+} );

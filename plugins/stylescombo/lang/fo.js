@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'fo', {
 	panelTitle1: 'Blokk stílir',
 	panelTitle2: 'Inline stílir',
 	panelTitle3: 'Object stílir'
-});
+} );

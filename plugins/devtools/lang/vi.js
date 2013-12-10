@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'vi', {
 	tabName: 'Tên th',
 	elementId: 'Mã thành ph',
 	elementType: 'Loại thành ph'
-});
+} );

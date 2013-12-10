@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'sk', {
 	scrolling: 'Povoliť skrolovanie',
 	title: 'Vlastnosti IFrame',
 	toolbar: 'IFrame'
-});
+} );

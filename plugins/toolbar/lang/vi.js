@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'vi', {
 		tools: 'Công cụ'
 	},
 	toolbars: 'Thanh công cụ'
-});
+} );

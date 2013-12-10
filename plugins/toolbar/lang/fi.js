@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fi', {
 		tools: 'Työkalut'
 	},
 	toolbars: 'Editorin työkalupalkit'
-});
+} );

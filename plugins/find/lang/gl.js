@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'gl', {
 	replaceSuccessMsg: '%1 concorrencia(s) substituída(s).',
 	replaceWith: 'Substituír con:',
 	title: 'Buscar e substituír'
-});
+} );

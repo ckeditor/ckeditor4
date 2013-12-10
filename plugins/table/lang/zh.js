@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 	widthPc: '百分比',
 	widthPx: '像素',
 	widthUnit: '寬度單位'
-});
+} );

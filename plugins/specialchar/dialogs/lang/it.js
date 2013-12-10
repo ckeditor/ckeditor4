@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'it', {
 	hArr: 'Doppia freccia sinistra destra',
 	diams: 'Simbolo nero diamante',
 	asymp: 'Quasi uguale a'
-});
+} );

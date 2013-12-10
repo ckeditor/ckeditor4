@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'nl', {
 	tabName: 'Tabnaam',
 	elementId: 'Element ID',
 	elementType: 'Elementtype'
-});
+} );

@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'zh-cn', {
 		tools: '工具'
 	},
 	toolbars: '工具栏'
-});
+} );

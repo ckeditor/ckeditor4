@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'hu', {
 	panelTitle1: 'Blokk stílusok',
 	panelTitle2: 'Inline stílusok',
 	panelTitle3: 'Objektum stílusok'
-});
+} );

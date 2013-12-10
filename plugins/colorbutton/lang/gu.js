@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'gu', {
 	more: 'ઔર રંગ...',
 	panelTitle: 'રંગ',
 	textColorTitle: 'શબ્દનો રંગ'
-});
+} );

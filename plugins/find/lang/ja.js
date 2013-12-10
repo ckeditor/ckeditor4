@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ja', {
 	replaceSuccessMsg: '%1 個置換しました。',
 	replaceWith: '置換後の文字列:',
 	title: '検索と置換'
-});
+} );

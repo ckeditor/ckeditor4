@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	type: 'Vrsta povezave',
 	unlink: 'Odstrani povezavo',
 	upload: 'Prenesi'
-});
+} );

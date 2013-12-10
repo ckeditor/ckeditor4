@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ka', {
 	scrolling: 'გადახვევის ზოლების დაშვება',
 	title: 'IFrame-ის პარამეტრები',
 	toolbar: 'IFrame'
-});
+} );

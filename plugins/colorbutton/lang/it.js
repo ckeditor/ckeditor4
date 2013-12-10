@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'it', {
 	more: 'Altri colori...',
 	panelTitle: 'Colori',
 	textColorTitle: 'Colore testo'
-});
+} );

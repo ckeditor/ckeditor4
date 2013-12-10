@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'eu', {
 	hiddenfield: 'Ezkutuko Eremua',
 	iframe: 'IFrame',
 	unknown: 'Objektu ezezaguna'
-});
+} );

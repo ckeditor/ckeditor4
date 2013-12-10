@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sk', {
 	type: 'Typ odkazu',
 	unlink: 'Odstrániť odkaz',
 	upload: 'Nahrať'
-});
+} );

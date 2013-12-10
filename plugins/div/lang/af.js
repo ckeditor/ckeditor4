@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'af', {
 	styleSelectLabel: 'Styl',
 	title: 'Skep Div houer',
 	toolbar: 'Skep Div houer'
-});
+} );

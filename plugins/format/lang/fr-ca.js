@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'fr-ca', {
 	tag_h6: 'En-tête 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formaté'
-});
+} );

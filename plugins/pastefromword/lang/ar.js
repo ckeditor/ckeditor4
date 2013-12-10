@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ar', {
 	error: 'لم يتم مسح المعلومات الملصقة لخلل داخلي',
 	title: 'لصق من وورد',
 	toolbar: 'لصق من وورد'
-});
+} );

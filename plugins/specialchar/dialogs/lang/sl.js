@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sl', {
 	hArr: 'Leva in desna dvojna puščica',
 	diams: 'Črna kara',
 	asymp: 'Skoraj enako'
-});
+} );

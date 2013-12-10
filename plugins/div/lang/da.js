@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'da', {
 	styleSelectLabel: 'Style',
 	title: 'Opret Div Container',
 	toolbar: 'Opret Div Container'
-});
+} );

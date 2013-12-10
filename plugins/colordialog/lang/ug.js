@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'ug', {
 	options: 'رەڭ تاللانمىسى',
 	selected: 'رەڭ تاللاڭ',
 	title: 'رەڭ تاللاڭ'
-});
+} );

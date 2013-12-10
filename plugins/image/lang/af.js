@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'af', {
 	validateBorder: 'Rand moet \'n heelgetal wees.',
 	validateHSpace: 'HSpasie moet \'n heelgetal wees.',
 	validateVSpace: 'VSpasie moet \'n heelgetal wees.'
-});
+} );

@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'blockquote', 'gu', {
 	toolbar: 'બ્લૉક-કોટ, અવતરણચિહ્નો'
-});
+} );

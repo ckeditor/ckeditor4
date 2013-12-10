@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'lt', {
 	scrolling: 'Įjungti slankiklius',
 	title: 'IFrame nustatymai',
 	toolbar: 'IFrame'
-});
+} );

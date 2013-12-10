@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'bg', {
 	options: 'Цветови опции',
 	selected: 'Изберете цвят',
 	title: 'Изберете цвят'
-});
+} );

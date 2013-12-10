@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	type: 'Tipo de Ligilo',
 	unlink: 'Forigi Ligilon',
 	upload: 'Alŝuti'
-});
+} );

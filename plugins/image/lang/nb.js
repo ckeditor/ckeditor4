@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'nb', {
 	validateBorder: 'Ramme må være et heltall.',
 	validateHSpace: 'HMarg må være et heltall.',
 	validateVSpace: 'VMarg må være et heltall.'
-});
+} );

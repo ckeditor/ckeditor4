@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'is', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: 'Skipta út fyrir:',
 	title: 'Finna og skipta'
-});
+} );

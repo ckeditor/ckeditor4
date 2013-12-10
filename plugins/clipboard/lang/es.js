@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'es', {
 	pasteMsg: 'Por favor pegue dentro del cuadro utilizando el teclado (<STRONG>Ctrl/Cmd+V</STRONG>);\r\nluego presione <STRONG>Aceptar</STRONG>.',
 	securityMsg: 'Debido a la configuración de seguridad de su navegador, el editor no tiene acceso al portapapeles.\r\nEs necesario que lo pegue de nuevo en esta ventana.',
 	title: 'Pegar'
-});
+} );

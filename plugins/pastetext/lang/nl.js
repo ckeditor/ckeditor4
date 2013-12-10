@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'nl', {
 	button: 'Plakken als platte tekst',
 	title: 'Plakken als platte tekst'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'lv', {
 	panelTitle1: 'Bloka stili',
 	panelTitle2: 'iekļautie stili',
 	panelTitle3: 'Objekta stili'
-});
+} );

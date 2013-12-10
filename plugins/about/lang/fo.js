@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'fo', {
 	moreInfo: 'Licens upplýsingar finnast á heimasíðu okkara:',
 	title: 'Um CKEditor',
 	userGuide: 'CKEditor Brúkaravegleiðing'
-});
+} );

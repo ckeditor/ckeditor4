@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	type: 'Nuorodos tipas',
 	unlink: 'Panaikinti nuorodą',
 	upload: 'Siųsti'
-});
+} );

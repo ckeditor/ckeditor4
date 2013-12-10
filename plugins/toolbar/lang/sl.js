@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
 		tools: 'Tools'
 	},
 	toolbars: 'Urejevalnik orodne vrstice'
-});
+} );

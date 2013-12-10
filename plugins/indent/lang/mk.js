@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'indent', 'mk', {
 	indent: 'Increase Indent', // MISSING
 	outdent: 'Decrease Indent' // MISSING
-});
+} );

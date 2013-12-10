@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'si', {
 	tag_h6: 'ශීර්ෂය 6',
 	tag_p: 'සාමාන්‍ය',
 	tag_pre: 'ආකෘතියන්'
-});
+} );

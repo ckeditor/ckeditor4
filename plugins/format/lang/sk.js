@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sk', {
 	tag_h6: 'Nadpis 6',
 	tag_p: 'Normálny',
 	tag_pre: 'Formátovaný'
-});
+} );

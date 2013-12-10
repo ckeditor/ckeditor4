@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'el', {
 	tag_h6: 'Κεφαλίδα 6',
 	tag_p: 'Κανονική',
 	tag_pre: 'Προ-μορφοποιημένη'
-});
+} );

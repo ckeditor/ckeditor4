@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		typeTel: 'Rhif Ffôn',
 		typeUrl: 'URL'
 	}
-});
+} );

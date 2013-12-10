@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'id', {
 	more: 'More Colors...', // MISSING
 	panelTitle: 'Warna',
 	textColorTitle: 'Text Color' // MISSING
-});
+} );

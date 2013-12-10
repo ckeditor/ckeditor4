@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'vi', {
 	styleSelectLabel: 'Kiểu (style)',
 	title: 'Tạo khối các thành phần',
 	toolbar: 'Tạo khối các thành phần'
-});
+} );

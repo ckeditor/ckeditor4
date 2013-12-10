@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'lv', {
 	options: 'Sagataves uzstādījumi',
 	selectPromptMsg: 'Lūdzu, norādiet sagatavi, ko atvērt editorā<br>(patreizējie dati tiks zaudēti):',
 	title: 'Satura sagataves'
-});
+} );

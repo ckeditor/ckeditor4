@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'nl', {
 	hiddenfield: 'Verborgen veld',
 	iframe: 'IFrame',
 	unknown: 'Onbekend object'
-});
+} );

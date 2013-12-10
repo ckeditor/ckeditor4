@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'en-au', {
 	options: 'Smiley Options', // MISSING
 	title: 'Insert a Smiley',
 	toolbar: 'Smiley'
-});
+} );

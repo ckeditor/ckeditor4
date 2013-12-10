@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	type: 'Τύπος Συνδέσμου',
 	unlink: 'Αφαίρεση Συνδέσμου',
 	upload: 'Αποστολή'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ku', {
 	subscript: 'ژێرنووس',
 	superscript: 'سەرنووس',
 	underline: 'ژێرهێڵ'
-});
+} );

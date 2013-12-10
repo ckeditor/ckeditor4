@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'he', {
 	options: 'אפשרויות צבע',
 	selected: 'בחירה',
 	title: 'בחירת צבע'
-});
+} );

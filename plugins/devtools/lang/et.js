@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'et', {
 	tabName: 'Saki nimi',
 	elementId: 'Elemendi ID',
 	elementType: 'Elemendi liik'
-});
+} );

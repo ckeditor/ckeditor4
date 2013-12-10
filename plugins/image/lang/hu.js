@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'hu', {
 	validateBorder: 'A keret méretének egész számot kell beírni!',
 	validateHSpace: 'Vízszintes távolságnak egész számot kell beírni!',
 	validateVSpace: 'Függőleges távolságnak egész számot kell beírni!'
-});
+} );

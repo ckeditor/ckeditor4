@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ug', {
 	subscript: 'تۆۋەن ئىندېكس',
 	superscript: 'يۇقىرى ئىندېكس',
 	underline: 'ئاستى سىزىق'
-});
+} );

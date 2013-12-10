@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'de', {
 	options: 'Vorlagen Optionen',
 	selectPromptMsg: 'Klicken Sie auf eine Vorlage, um sie im Editor zu öffnen (der aktuelle Inhalt wird dabei gelöscht!):',
 	title: 'Vorlagen'
-});
+} );

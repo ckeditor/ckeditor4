@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	type: 'Тип ссылки',
 	unlink: 'Убрать ссылку',
 	upload: 'Загрузка'
-});
+} );

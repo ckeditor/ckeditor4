@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'he', {
 	upperAlpha: 'אותיות אנגליות גדולות (A, B, C, D, E וכו\')',
 	upperRoman: 'ספירה רומיות באותיות גדולות (I, II, III, IV, V וכו\')',
 	validateStartNumber: 'שדה תחילת המספור חייב להכיל מספר שלם.'
-});
+} );

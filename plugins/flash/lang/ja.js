@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'ja', {
 	windowModeOpaque: '背景を不透明設定',
 	windowModeTransparent: '背景を透過設定',
 	windowModeWindow: '標準'
-});
+} );

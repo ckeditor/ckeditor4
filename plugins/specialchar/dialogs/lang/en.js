@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'en', {
 	hArr: 'Left right double arrow',
 	diams: 'Black diamond suit',
 	asymp: 'Almost equal to'
-});
+} );

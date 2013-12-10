@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'mn', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Загварыг нээж editor-рүү сонгож оруулна уу<br />(Одоогийн агууллагыг устаж магадгүй):',
 	title: 'Загварын агуулга'
-});
+} );

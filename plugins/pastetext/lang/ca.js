@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'ca', {
 	button: 'Enganxa com a text no formatat',
 	title: 'Enganxa com a text no formatat'
-});
+} );

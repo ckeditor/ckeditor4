@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'af', {
 	moreInfo: 'Vir lisensie-informasie, besoek asb. ons webwerf:',
 	title: 'Info oor CKEditor',
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

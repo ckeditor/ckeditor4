@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'es', {
 	tag_h6: 'Encabezado 6',
 	tag_p: 'Normal',
 	tag_pre: 'Con formato'
-});
+} );

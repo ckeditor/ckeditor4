@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'hu', {
 	tag_h6: 'Fejléc 6',
 	tag_p: 'Normál',
 	tag_pre: 'Formázott'
-});
+} );

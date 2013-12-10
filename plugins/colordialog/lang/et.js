@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'et', {
 	options: 'Värvi valikud',
 	selected: 'Valitud värv',
 	title: 'Värvi valimine'
-});
+} );

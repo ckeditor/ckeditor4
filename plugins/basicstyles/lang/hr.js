@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'hr', {
 	subscript: 'Subscript',
 	superscript: 'Superscript',
 	underline: 'Potcrtano'
-});
+} );

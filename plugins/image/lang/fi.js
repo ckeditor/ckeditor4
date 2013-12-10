@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'fi', {
 	validateBorder: 'Kehyksen täytyy olla kokonaisluku.',
 	validateHSpace: 'HSpace-määrityksen täytyy olla kokonaisluku.',
 	validateVSpace: 'VSpace-määrityksen täytyy olla kokonaisluku.'
-});
+} );

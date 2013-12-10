@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'sr', {
 	subscript: 'Индекс',
 	superscript: 'Степен',
 	underline: 'Подвучено'
-});
+} );

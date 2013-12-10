@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'hr', {
 	validateBorder: 'Okvir mora biti cijeli broj.',
 	validateHSpace: 'HSpace mora biti cijeli broj',
 	validateVSpace: 'VSpace mora biti cijeli broj.'
-});
+} );

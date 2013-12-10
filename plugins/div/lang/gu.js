@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'gu', {
 	styleSelectLabel: 'સ્ટાઈલ',
 	title: 'Div કન્ટેનર બનાવુંવું',
 	toolbar: 'Div કન્ટેનર બનાવુંવું'
-});
+} );

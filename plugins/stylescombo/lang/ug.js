@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ug', {
 	panelTitle1: 'بۆلەك دەرىجىسىدىكى ئېلېمېنت ئۇسلۇبى',
 	panelTitle2: 'ئىچكى باغلانما ئېلېمېنت ئۇسلۇبى',
 	panelTitle3: 'نەڭ (Object) ئېلېمېنت ئۇسلۇبى'
-});
+} );

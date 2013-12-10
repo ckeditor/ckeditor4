@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'fo', {
 	options: 'Litmøguleikar',
 	selected: 'Valdur litur',
 	title: 'Vel lit'
-});
+} );

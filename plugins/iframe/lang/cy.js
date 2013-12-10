@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'cy', {
 	scrolling: 'Galluogi bariau sgrolio',
 	title: 'Priodweddau IFrame',
 	toolbar: 'IFrame'
-});
+} );

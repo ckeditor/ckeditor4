@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'sr', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: 'Замени са:',
 	title: 'Find and Replace'
-});
+} );

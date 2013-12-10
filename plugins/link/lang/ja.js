@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	type: 'リンクタイプ',
 	unlink: 'リンクを削除',
 	upload: 'アップロード'
-});
+} );

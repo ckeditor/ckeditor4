@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ku', {
 	upperAlpha: 'ئەلفابێی گەوره (A, B, C, D, E, وە هیتر.)',
 	upperRoman: 'ژمارەی ڕۆمی گەوره (I, II, III, IV, V, وە هیتر.)',
 	validateStartNumber: 'دەستپێکەری لیستی ژمارەیی دەبێت تەنها ژمارە بێت.'
-});
+} );

@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ku', {
 	validateBorder: 'پەراوێز دەبێت بەتەواوی تەنها ژماره بێت.',
 	validateHSpace: 'بۆشایی ئاسۆیی دەبێت بەتەواوی تەنها ژمارە بێت.',
 	validateVSpace: 'بۆشایی ئەستونی دەبێت بەتەواوی تەنها ژماره بێت.'
-});
+} );

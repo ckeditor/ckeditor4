@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sv', {
 	hArr: 'Dubbel vänsterpil',
 	diams: 'Svart ruter',
 	asymp: 'Ungefär lika med'
-});
+} );

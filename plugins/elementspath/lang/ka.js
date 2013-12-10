@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'elementspath', 'ka', {
 	eleLabel: 'ელემეტის გზა',
 	eleTitle: '%1 ელემენტი'
-});
+} );

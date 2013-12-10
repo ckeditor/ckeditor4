@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	type: 'Tipus d\'enllaç',
 	unlink: 'Elimina l\'enllaç',
 	upload: 'Puja'
-});
+} );

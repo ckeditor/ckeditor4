@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'mn', {
 	title: 'Баримт бичиг шинж чанар',
 	txtColor: 'Фонтны өнгө',
 	xhtmlDec: 'XHTML-ийн мэдээллийг агуулах'
-});
+} );

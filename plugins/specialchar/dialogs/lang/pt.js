@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'pt', {
 	hArr: 'Seta dupla direita esquerda',
 	diams: 'Naipe diamante preto',
 	asymp: 'Quase igual a '
-});
+} );

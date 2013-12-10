@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'elementspath', 'af', {
 	eleLabel: 'Elemente-pad',
 	eleTitle: '%1 element'
-});
+} );

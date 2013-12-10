@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fa', {
 	upperAlpha: 'بالانویس الفبایی (A, B, C, D, E, etc.)',
 	upperRoman: 'بالانویس رومی (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'فهرست شماره شروع باید یک عدد صحیح باشد.'
-});
+} );

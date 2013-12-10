@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	type: 'Vrsta linka',
 	unlink: 'Ukloni link',
 	upload: 'Pošalji'
-});
+} );

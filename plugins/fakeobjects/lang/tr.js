@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'tr', {
 	hiddenfield: 'Gizli Alan',
 	iframe: 'IFrame',
 	unknown: 'Bilinmeyen Nesne'
-});
+} );

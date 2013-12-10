@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'bs', {
 	options: 'Context Menu Options' // MISSING
-});
+} );

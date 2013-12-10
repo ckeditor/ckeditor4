@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'is', {
 	tag_h6: 'Fyrirsögn 6',
 	tag_p: 'Venjulegt letur',
 	tag_pre: 'Forsniðið'
-});
+} );

@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'is', {
 	more: 'Fleiri liti...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Litur texta'
-});
+} );

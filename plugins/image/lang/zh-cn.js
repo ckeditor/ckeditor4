@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'zh-cn', {
 	validateBorder: '边框大小必须为整数格式',
 	validateHSpace: '水平间距必须为整数格式',
 	validateVSpace: '垂直间距必须为整数格式'
-});
+} );

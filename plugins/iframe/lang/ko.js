@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ko', {
 	scrolling: '스크롤바 사용',
 	title: 'IFrame 속성',
 	toolbar: 'IFrame'
-});
+} );

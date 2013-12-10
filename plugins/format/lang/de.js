@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'de', {
 	tag_h6: 'Überschrift 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatiert'
-});
+} );

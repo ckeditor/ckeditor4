@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	type: 'Typ odkazu',
 	unlink: 'Odstranit odkaz',
 	upload: 'Odeslat'
-});
+} );

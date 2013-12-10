@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'sq', {
 	moreInfo: 'Për informacione rreth licencave shih faqen tonë:',
 	title: 'Rreth CKEditor',
 	userGuide: 'Udhëzuesi i Shfrytëzuesit të CKEditor'
-});
+} );

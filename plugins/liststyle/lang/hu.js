@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'hu', {
 	upperAlpha: 'Nagybetűs (A, B, C, D, E, stb.)',
 	upperRoman: 'Római nagybetűs (I, II, III, IV, V, stb.)',
 	validateStartNumber: 'A kezdőszám nem lehet tört érték.'
-});
+} );

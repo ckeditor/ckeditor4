@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'zh-cn', {
 	scrolling: '允许滚动条',
 	title: 'IFrame 属性',
 	toolbar: 'IFrame'
-});
+} );

@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ko', {
 		tools: 'Tools'
 	},
 	toolbars: '편집자용 툴바들'
-});
+} );

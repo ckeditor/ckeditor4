@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'sr-latn', {
 	widthPc: 'procenata',
 	widthPx: 'piksela',
 	widthUnit: 'jedinica za širinu'
-});
+} );

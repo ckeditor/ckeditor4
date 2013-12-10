@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'mn', {
 	widthPc: 'хувь',
 	widthPx: 'цэг',
 	widthUnit: 'өргөний нэгж'
-});
+} );

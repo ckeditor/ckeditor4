@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'hu', {
 	replaceSuccessMsg: '%1 egyezőség cserélve.',
 	replaceWith: 'Csere erre:',
 	title: 'Keresés és csere'
-});
+} );

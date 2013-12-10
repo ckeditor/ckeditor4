@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'id', {
 	subscript: 'Subscript', // MISSING
 	superscript: 'Superscript', // MISSING
 	underline: 'Garis Bawah'
-});
+} );

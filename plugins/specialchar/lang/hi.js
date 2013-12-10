@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hi', {
 	options: 'Special Character Options', // MISSING
 	title: 'विशेष करॅक्टर चुनें',
 	toolbar: 'विशेष करॅक्टर इन्सर्ट करें'
-});
+} );

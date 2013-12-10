@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sl', {
 	tag_h6: 'Naslov 6',
 	tag_p: 'Navaden',
 	tag_pre: 'Oblikovan'
-});
+} );

@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	type: 'Lloji i Nyjes',
 	unlink: 'Largo Nyjen',
 	upload: 'Ngarko'
-});
+} );

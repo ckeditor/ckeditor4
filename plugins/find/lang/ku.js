@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ku', {
 	replaceSuccessMsg: ' پێشهاتە(ی) لەبری دانرا. %1',
 	replaceWith: 'لەبریدانان به:',
 	title: 'گەڕان و لەبریدانان'
-});
+} );

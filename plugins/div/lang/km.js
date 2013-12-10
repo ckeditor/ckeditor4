@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'km', {
 	styleSelectLabel: 'ស្ទីល',
 	title: 'បង្កើត​អ្នក​ផ្ទុក Div',
 	toolbar: 'បង្កើត​អ្នក​ផ្ទុក Div'
-});
+} );

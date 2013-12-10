@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'no', {
 	upperAlpha: 'Alfabetisk, store (A, B, C, D, E, osv.)',
 	upperRoman: 'Romertall, store (I, II, III, IV, V, osv.)',
 	validateStartNumber: 'Starten på listen må være et heltall.'
-});
+} );

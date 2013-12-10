@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'vi', {
 	upperAlpha: 'Kiểu ABC HOA (A, B, C, D, E...)',
 	upperRoman: 'Số La Mã kiểu HOA (I, II, III, IV, V...)',
 	validateStartNumber: 'Số bắt đầu danh sách phải là một số nguyên.'
-});
+} );

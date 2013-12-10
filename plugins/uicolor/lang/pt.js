@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'pt', {
 	preview: 'Pré-visualização Live ',
 	config: 'Colar este item no seu ficheiro config.js',
 	predefined: 'Conjuntos de cor predefinidas'
-});
+} );

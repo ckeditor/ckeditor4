@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'el', {
 	scrolling: 'Ενεργοποίηση μπαρών κύλισης',
 	title: 'Ιδιότητες IFrame',
 	toolbar: 'IFrame'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'vi', {
 	replaceSuccessMsg: '%1 vị trí đã được thay thế.',
 	replaceWith: 'Thay bằng:',
 	title: 'Tìm kiếm và thay thế'
-});
+} );

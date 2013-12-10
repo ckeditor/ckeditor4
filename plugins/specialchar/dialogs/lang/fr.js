@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	hArr: 'Double flèche vers la gauche',
 	diams: 'Carreau noir',
 	asymp: 'Presque égal'
-});
+} );

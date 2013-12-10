@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'id', {
 	upperAlpha: 'Huruf Besar (A, B, C, D, E, dst.)',
 	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)', // MISSING
 	validateStartNumber: 'List start number must be a whole number.' // MISSING
-});
+} );

@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'af', {
 	title: 'Dokument Eienskappe',
 	txtColor: 'Tekskleur',
 	xhtmlDec: 'Voeg XHTML verklaring by'
-});
+} );

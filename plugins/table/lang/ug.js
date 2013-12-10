@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ug', {
 	widthPc: 'پىرسەنت',
 	widthPx: 'پىكسېل',
 	widthUnit: 'كەڭلىك بىرلىكى'
-});
+} );

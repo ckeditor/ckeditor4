@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'hr', {
 	error: 'Nije moguće očistiti podatke za ljepljenje zbog interne greške',
 	title: 'Zalijepi iz Worda',
 	toolbar: 'Zalijepi iz Worda'
-});
+} );

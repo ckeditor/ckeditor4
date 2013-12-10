@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ka', {
 	options: 'თარგების პარამეტრები',
 	selectPromptMsg: 'აირჩიეთ თარგი რედაქტორისთვის',
 	title: 'თარგები'
-});
+} );

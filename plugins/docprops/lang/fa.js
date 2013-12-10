@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'fa', {
 	title: 'ویژگی​های سند',
 	txtColor: 'رنگ متن',
 	xhtmlDec: 'شامل تعاریف XHTML'
-});
+} );

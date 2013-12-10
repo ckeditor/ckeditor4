@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ar', {
 	replaceSuccessMsg: 'تم استبدال 1% من الحالات ',
 	replaceWith: 'إستبدال بـ:',
 	title: 'بحث واستبدال'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'af', {
 	center: 'Sentreer',
 	left: 'Links oplyn',
 	right: 'Regs oplyn'
-});
+} );

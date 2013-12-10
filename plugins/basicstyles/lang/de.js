@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'de', {
 	subscript: 'Tiefgestellt',
 	superscript: 'Hochgestellt',
 	underline: 'Unterstrichen'
-});
+} );

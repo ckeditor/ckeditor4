@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'list', 'lv', {
 	bulletedlist: 'Pievienot/Noņemt vienkāršu sarakstu',
 	numberedlist: 'Numurēts saraksts'
-});
+} );

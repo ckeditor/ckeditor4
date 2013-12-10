@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'si', {
 	options: 'අච්චු ',
 	selectPromptMsg: 'කරුණාකර සංස්කරණය සදහා අච්චුවක් ',
 	title: 'අන්තර්ගත් අච්චුන්'
-});
+} );

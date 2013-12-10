@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'sk', {
 	options: 'Možnosti šablóny',
 	selectPromptMsg: 'Prosím vyberte šablónu na otvorenie v editore',
 	title: 'Šablóny obsahu'
-});
+} );

@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
 	more: 'Màu khác...',
 	panelTitle: 'Màu sắc',
 	textColorTitle: 'Màu chữ'
-});
+} );

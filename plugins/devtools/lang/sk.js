@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'sk', {
 	tabName: 'Názov záložky',
 	elementId: 'ID prvku',
 	elementType: 'Typ prvku'
-});
+} );

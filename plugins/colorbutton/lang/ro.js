@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ro', {
 	more: 'Mai multe culori...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Culoarea textului'
-});
+} );

@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'is', {
 	pasteMsg: 'Límdu í svæðið hér að neðan og (<STRONG>Ctrl/Cmd+V</STRONG>) og smelltu á <STRONG>OK</STRONG>.',
 	securityMsg: 'Vegna öryggisstillinga í vafranum þínum fær ritillinn ekki beinan aðgang að klippuborðinu. Þú verður að líma innihaldið aftur inn í þennan glugga.',
 	title: 'Líma'
-});
+} );

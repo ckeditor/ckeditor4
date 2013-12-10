@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'fo', {
 	hiddenfield: 'Fjaldur teigur',
 	iframe: 'IFrame',
 	unknown: 'Ókent Object'
-});
+} );

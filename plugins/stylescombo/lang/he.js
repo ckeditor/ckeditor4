@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'he', {
 	panelTitle1: 'סגנונות בלוק',
 	panelTitle2: 'סגנונות רצף',
 	panelTitle3: 'סגנונות אובייקט'
-});
+} );

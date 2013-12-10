@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'vi', {
 	subscript: 'Chỉ số dưới',
 	superscript: 'Chỉ số trên',
 	underline: 'Gạch chân'
-});
+} );

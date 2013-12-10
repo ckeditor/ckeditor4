@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'no', {
 	options: 'Alternativer for farge',
 	selected: 'Valgt',
 	title: 'Velg farge'
-});
+} );

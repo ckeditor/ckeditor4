@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'fi', {
 	name: 'Paikkamerkin nimi',
 	invalidName: 'Paikkamerkki ei voi olla tyhjä eikä sisältää seuraavia merkkejä: [, ], <, >',
 	pathName: 'paikkamerkki'
-});
+} );

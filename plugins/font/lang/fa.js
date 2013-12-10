@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'fa', {
 	label: 'قلم',
 	panelTitle: 'نام قلم',
 	voiceLabel: 'قلم'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'zh', {
 	upperAlpha: '大寫字母 (A, B, C, D, E 等)',
 	upperRoman: '大寫羅馬數字 (I, II, III, IV, V 等)',
 	validateStartNumber: '清單起始號碼須為一完整數字。'
-});
+} );

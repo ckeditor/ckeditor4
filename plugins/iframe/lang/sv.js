@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'sv', {
 	scrolling: 'Aktivera rullningslister',
 	title: 'iFrame Egenskaper',
 	toolbar: 'iFrame'
-});
+} );

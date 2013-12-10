@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'fo', {
 	center: 'Miðsett',
 	left: 'Vinstrasett',
 	right: 'Høgrasett'
-});
+} );

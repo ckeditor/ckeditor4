@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'si', {
 	moreInfo: 'බලපත්‍ර තොරතුරු සදහා කරුණාකර අපගේ විද්‍යුත් ලිපිනයට පිවිසෙන්න:',
 	title: 'CKEditor ගැන විස්තර',
 	userGuide: 'CKEditor භාවිතා කිරීම පිළිබඳ '
-});
+} );

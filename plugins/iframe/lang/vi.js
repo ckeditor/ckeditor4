@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'vi', {
 	scrolling: 'Kích hoạt thanh cuộn',
 	title: 'Thuộc tính iframe',
 	toolbar: 'Iframe'
-});
+} );

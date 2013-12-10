@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ca', {
 	subscript: 'Subíndex',
 	superscript: 'Superíndex',
 	underline: 'Subratllat'
-});
+} );

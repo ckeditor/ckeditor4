@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'af', {
 	options: 'Sjabloon opsies',
 	selectPromptMsg: 'Kies die sjabloon om te gebruik in die redigeerder (huidige inhoud gaan verlore):',
 	title: 'Inhoud Sjablone'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'he', {
 	tabName: 'שם הטאב',
 	elementId: 'ID של האלמנט',
 	elementType: 'סוג האלמנט'
-});
+} );

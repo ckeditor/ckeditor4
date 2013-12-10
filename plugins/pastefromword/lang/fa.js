@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fa', {
 	error: 'به دلیل بروز خطای داخلی امکان پاکسازی اطلاعات بازنشانی شده وجود ندارد.',
 	title: 'چسباندن از Word',
 	toolbar: 'چسباندن از Word'
-});
+} );

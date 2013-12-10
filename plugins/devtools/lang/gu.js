@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'gu', {
 	tabName: 'ટેબનું નામ',
 	elementId: 'પ્રાથમિક આઈડી',
 	elementType: 'પ્રાથમિક પ્રકાર'
-});
+} );

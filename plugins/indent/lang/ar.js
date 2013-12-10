@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'indent', 'ar', {
 	indent: 'زيادة المسافة البادئة',
 	outdent: 'إنقاص المسافة البادئة'
-});
+} );

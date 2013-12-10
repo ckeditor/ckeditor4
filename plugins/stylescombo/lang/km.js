@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'km', {
 	panelTitle1: 'រចនាបថ​ប្លក់',
 	panelTitle2: 'រចនាបថ​ក្នុង​ជួរ',
 	panelTitle3: 'រចនាបថ​វត្ថុ'
-});
+} );

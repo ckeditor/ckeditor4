@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ru', {
 	moreInfo: 'Для получения информации о лицензии, пожалуйста, перейдите на наш сайт:',
 	title: 'О CKEditor',
 	userGuide: 'Руководство пользователя CKEditor'
-});
+} );
