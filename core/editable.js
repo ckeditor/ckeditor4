@@ -263,6 +263,13 @@
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
 
+				// If range is placed in inermediate element (not td or th), we need to do three things:
+				// * fill emptied <td/th>s with if browser needs them,
+				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
+				// * fix structure and move range into the <td/th> element.
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr:1,table:1,tbody:1,thead:1,tfoot:1 } ) )
+					fixTableAfterContentsDeletion( range );
+
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
 				var current, dtd;
@@ -303,48 +310,32 @@
 				var editor = this.editor,
 					enterMode = editor.activeEnterMode,
 					selection = editor.getSelection(),
-					ranges = selection.getRanges(),
+					range = selection.getRanges()[ 0 ],
 					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ],
-					clone, lastElement, range;
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
 				// Prepare for the insertion.
 				beforeInsert( this );
 
-				// Insert the element into all ranges by cloning.
-				for ( var i = ranges.length; i--; ) {
-					range = ranges[ i ];
-
-					// Clone is an element for the first range.
-					clone = !i && element || element.clone( 1 );
-
-					// Put the clone into a particular range.
-					// Save the last **successfully inserted** element reference
-					// so we can make the selection later.
-					if ( this.insertElementIntoRange( clone, range ) && !lastElement )
-						lastElement = clone;
-				}
-
-				if ( lastElement ) {
-					range.moveToPosition( lastElement, CKEDITOR.POSITION_AFTER_END );
+				// Insert element into first range only and ignore the rest (#11183).
+				if ( this.insertElementIntoRange( element, range ) ) {
+					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
 
 					// If we're inserting a block element, the new cursor position must be
 					// optimized. (#3100,#5436,#8950)
 					if ( isBlock ) {
-
 						// Find next, meaningful element.
-						var next = lastElement.getNext( function( node ) {
+						var next = element.getNext( function( node ) {
 							return isNotEmpty( node ) && !isBogus( node );
 						} );
 
 						if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.is( CKEDITOR.dtd.$block ) ) {
-
 							// If the next one is a text block, move cursor to the start of it's content.
 							if ( next.getDtd()[ '#' ] )
 								range.moveToElementEditStart( next );
 							// Otherwise move cursor to the before end of the last element.
 							else
-								range.moveToElementEditEnd( lastElement );
+								range.moveToElementEditEnd( element );
 						}
 						// Open a new line if the block is inserted at the end of parent.
 						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
@@ -608,8 +599,12 @@
 							next,
 							rtl = keyCode == 8;
 
-						// Remove the entire list/table on fully selected content. (#7645)
-						if ( ( selected = getSelectedTableList( sel ) ) ) {
+						if (
+							// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (#10055)
+							( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && ( selected = sel.getSelectedElement() ) ) ||
+							// Remove the entire list/table on fully selected content. (#7645)
+							( selected = getSelectedTableList( sel ) )
+						) {
 							// Make undo snapshot.
 							editor.fire( 'saveSnapshot' );
 
@@ -623,9 +618,7 @@
 							editor.fire( 'saveSnapshot' );
 
 							isHandled = 1;
-						}
-						else if ( range.collapsed )
-						{
+						} else if ( range.collapsed ) {
 							// Handle the following special cases: (#6217)
 							// 1. Del/Backspace key before/after table;
 							// 2. Backspace Key after start of table.
@@ -1807,6 +1800,109 @@
 			editor.fire( 'saveSnapshot' );
 		}, 0 );
 	}
+
+	// 1. Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
+	// inside a table. A goal is to find a closest <td> or <th> element and when this fails, recreate the structure of the table.
+	// 2. Fixes empty cells by appending bogus <br>s or deleting empty text nodes in IE<=8 case.
+	var fixTableAfterContentsDeletion = (function() {
+		// Creates an element walker which can only "go deeper". It won't
+		// move out from any element. Therefore it can be used to find <td>x</td> in cases like:
+		// <table><tbody><tr><td>x</td></tr></tbody>^<tfoot>...
+		function getFixTableSelectionWalker( testRange ) {
+			var walker = new CKEDITOR.dom.walker( testRange );
+			walker.guard = function( node, isMovingOut ) {
+				if ( isMovingOut )
+					return false;
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					return node.is( CKEDITOR.dtd.$tableContent );
+			};
+			walker.evaluator = function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT;
+			};
+
+			return walker;
+		}
+
+		function fixTableStructure( element, newElementName, appendToStart ) {
+			var temp = element.getDocument().createElement( newElementName );
+			element.append( temp, appendToStart );
+			return temp;
+		}
+
+		// Fix empty cells. This means:
+		// * add bogus <br> if browser needs it
+		// * remove empty text nodes on IE8, because it will crash (http://dev.ckeditor.com/ticket/11183#comment:8).
+		function fixEmptyCells( cells ) {
+			var i = cells.count(),
+				cell;
+
+			for ( i; i-- > 0; ) {
+				cell = cells.getItem( i );
+
+				if ( !CKEDITOR.tools.trim( cell.getHtml() ) ) {
+					cell.appendBogus();
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && cell.getChildCount() )
+						cell.getFirst().remove();
+				}
+			}
+		}
+
+		return function( range ) {
+			var container = range.startContainer,
+				table = container.getAscendant( 'table', 1 ),
+				testRange,
+				walker,
+				deeperSibling,
+				doc = range.document,
+				appendToStart = false;
+
+			fixEmptyCells( table.getElementsByTag( 'td' ) );
+			fixEmptyCells( table.getElementsByTag( 'th' ) );
+
+			// Look left.
+			testRange = range.clone();
+			testRange.setStart( container, 0 );
+			deeperSibling = getFixTableSelectionWalker( testRange ).lastBackward();
+
+			// If left is empty, look right.
+			if ( !deeperSibling ) {
+				testRange = range.clone();
+				testRange.setEndAt( container, CKEDITOR.POSITION_BEFORE_END );
+				deeperSibling = getFixTableSelectionWalker( testRange ).lastForward();
+				appendToStart = true;
+			}
+
+			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
+			if ( !deeperSibling )
+				deeperSibling = container;
+
+			// Fix structure...
+
+			// We found a table what means that it's empty - remove it completely.
+			if ( deeperSibling.is( 'table' ) ) {
+				range.setStartAt( deeperSibling, CKEDITOR.POSITION_BEFORE_START );
+				range.collapse( true );
+				deeperSibling.remove();
+				return;
+			}
+
+			// Found an empty txxx element - append tr.
+			if ( deeperSibling.is( { tbody:1,thead:1,tfoot:1 } ) )
+				deeperSibling = fixTableStructure( deeperSibling, 'tr', appendToStart );
+
+			// Found an empty tr element - append td/th.
+			if ( deeperSibling.is( 'tr' ) )
+				deeperSibling = fixTableStructure( deeperSibling, deeperSibling.getParent().is( 'thead' ) ? 'th' : 'td', appendToStart );
+
+			// To avoid setting selection after bogus, remove it from the current cell.
+			// We can safely do that, because we'll insert element into that cell.
+			var bogus = deeperSibling.getBogus();
+			if ( bogus )
+				bogus.remove();
+
+			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+		};
+	})();
 
 })();
 

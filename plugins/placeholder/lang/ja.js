@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'ja', {
 	title: 'プレースホルダのプロパティ',
 	toolbar: 'プレースホルダを作成',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'プレースホルダ名',
+	invalidName: 'プレースホルダは空欄にできません。また、[, ], <, > の文字は使用できません。',
+	pathName: 'placeholder'
 });

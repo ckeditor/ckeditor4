@@ -110,7 +110,7 @@ CKEDITOR.dom.range = function( root ) {
 	this.root = isDocRoot ? root.getBody() : root;
 };
 
-(function() {
+( function() {
 	// Updates the "collapsed" property for the given range object.
 	var updateCollapsed = function( range ) {
 			range.collapsed = ( range.startContainer && range.endContainer && range.startContainer.equals( range.endContainer ) && range.startOffset == range.endOffset );
@@ -316,7 +316,7 @@ CKEDITOR.dom.range = function( root ) {
 							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
 						span.insertAfter( topStart );
 						topStart.mergeSiblings( false );
-						range.moveToBookmark({ startNode: span } );
+						range.moveToBookmark( { startNode: span } );
 					} else
 						range.setStart( topEnd.getParent(), endIndex );
 				}
@@ -333,7 +333,9 @@ CKEDITOR.dom.range = function( root ) {
 				endNode.remove();
 		};
 
-	var inlineChildReqElements = { abbr:1,acronym:1,b:1,bdo:1,big:1,cite:1,code:1,del:1,dfn:1,em:1,font:1,i:1,ins:1,label:1,kbd:1,q:1,samp:1,small:1,span:1,strike:1,strong:1,sub:1,sup:1,tt:1,u:1,'var':1 };
+	var inlineChildReqElements = { abbr: 1, acronym: 1, b: 1, bdo: 1, big: 1, cite: 1, code: 1, del: 1,
+		dfn: 1, em: 1, font: 1, i: 1, ins: 1, label: 1, kbd: 1, q: 1, samp: 1, small: 1, span: 1, strike: 1,
+		strong: 1, sub: 1, sup: 1, tt: 1, u: 1, 'var': 1 };
 
 	// Creates the appropriate node evaluator for the dom walker used inside
 	// check(Start|End)OfBlock.
@@ -582,7 +584,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.normalized
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
-		createBookmark2: (function() {
+		createBookmark2: ( function() {
 			// Returns true for limit anchored in element and placed between text nodes.
 			//
 			//               v
@@ -666,7 +668,7 @@ CKEDITOR.dom.range = function( root ) {
 					is2: true // It's a createBookmark2 bookmark.
 				};
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Moves this range to the given bookmark. See {@link #createBookmark} and {@link #createBookmark2}.
@@ -1254,7 +1256,7 @@ CKEDITOR.dom.range = function( root ) {
 					var walker = new CKEDITOR.dom.walker( walkerRange ),
 						blockBoundary, // The node on which the enlarging should stop.
 						tailBr, // In case BR as block boundary.
-						notBlockBoundary = CKEDITOR.dom.walker.blockBoundary( ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br:1 } : null ),
+						notBlockBoundary = CKEDITOR.dom.walker.blockBoundary( ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? { br: 1 } : null ),
 						inNonEditable = null,
 						// Record the encountered 'blockBoundary' for later use.
 						boundaryGuard = function( node ) {
@@ -1770,7 +1772,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {Boolean} atEnd Removal to perform at the end boundary,
 		 * otherwise to perform at the start.
 		 */
-		removeEmptyBlocksAtEnd: (function() {
+		removeEmptyBlocksAtEnd: ( function() {
 
 			var whitespace = CKEDITOR.dom.walker.whitespaces(),
 					bookmark = CKEDITOR.dom.walker.bookmark( false );
@@ -1809,7 +1811,7 @@ CKEDITOR.dom.range = function( root ) {
 				this.moveToBookmark( bm );
 			};
 
-		})(),
+		} )(),
 
 		/**
 		 * Gets {@link CKEDITOR.dom.elementPath} for the {@link #startContainer}.
@@ -1986,17 +1988,17 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @returns {Boolean}
 		 */
-		checkReadOnly: (function() {
+		checkReadOnly: ( function() {
 			function checkNodesEditable( node, anotherEnd ) {
 				while ( node ) {
 					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-						if ( node.getAttribute( 'contentEditable' ) == 'false' && !node.data( 'cke-editable' ) ) {
+						if ( node.getAttribute( 'contentEditable' ) == 'false' && !node.data( 'cke-editable' ) )
 							return 0;
-						}
+
 						// Range enclosed entirely in an editable element.
-						else if ( node.is( 'html' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) ) {
+						else if ( node.is( 'html' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) )
 							break;
-						}
+
 					}
 					node = node.getParent();
 				}
@@ -2011,7 +2013,7 @@ CKEDITOR.dom.range = function( root ) {
 				// Check if elements path at both boundaries are editable.
 				return !( checkNodesEditable( startNode, endNode ) && checkNodesEditable( endNode, startNode ) );
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Moves the range boundaries to the first/end editing point inside an
@@ -2276,7 +2278,7 @@ CKEDITOR.dom.range = function( root ) {
 			reference.remove();
 		}
 	};
-})();
+} )();
 
 CKEDITOR.POSITION_AFTER_START = 1; // <element>^contents</element>		"^text"
 CKEDITOR.POSITION_BEFORE_END = 2; // <element>contents^</element>		"text^"

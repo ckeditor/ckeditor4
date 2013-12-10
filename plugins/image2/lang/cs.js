@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'cs', {
 	alt: 'Alternativní text',
 	btnUpload: 'Odeslat na server',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Obrázek s popisem',
 	infoTab: 'Informace o obrázku',
 	lockRatio: 'Zámek',
 	menu: 'Vlastnosti obrázku',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'Obrázek',
+	pathNameCaption: 'Popis',
 	resetSize: 'Původní velikost',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Klepněte a táhněte pro změnu velikosti',
 	title: 'Vlastnosti obrázku',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Odeslat',
 	urlMissing: 'Zadané URL zdroje obrázku nebylo nalezeno.'
 } );

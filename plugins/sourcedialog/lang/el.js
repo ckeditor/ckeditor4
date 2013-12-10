@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'el', {
-	toolbar: 'HTML κώδικας',
-	title: 'HTML κώδικας'
+	toolbar: 'Κώδικας',
+	title: 'Κώδικας'
 });

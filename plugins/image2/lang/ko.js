@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	resetSize: '원래 크기로',
 	resizer: 'Click and drag to resize', // MISSING
 	title: '이미지 설정',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: '업로드',
 	urlMissing: '이미지 소스 URL이 없습니다.'
 } );

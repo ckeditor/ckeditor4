@@ -29,14 +29,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			and easy captioning of the images.
 		</p>
 		<p>
-			To use the new plugin, include it in <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraPlugins">config.extraPlugins</a></code>
-			parameter and remove the old one (<code>image</code>) with
-			<code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removePlugins">config.removePlugins</a></code> (with dependencies).
+			To use the new plugin, extend <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraPlugins">config.extraPlugins</a></code>:
 		</p>
 <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>', {
-	<strong>extraPlugins: 'image2',</strong>
-	<strong>removePlugins: 'image'</strong>
+	<strong>extraPlugins: 'image2'</strong>
 } );
 </pre>
 	</div>
@@ -49,9 +46,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 
 		CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'image2',
-			height: 450,
-			removePlugins: 'image',
-			contentsCss: [ '../../../contents.css', 'contents.css' ]
+			height: 450
 		} );
 
 	</script>

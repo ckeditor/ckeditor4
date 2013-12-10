@@ -16,7 +16,7 @@
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
-		lang: 'en,ja,uk', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,el,en,en-gb,es,fi,ja,km,nb,nl,no,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -62,7 +62,8 @@
 					ltr: ( '' + parts[ 2 ] ).toLowerCase() != 'rtl',
 					onClick: function() {
 						editor.execCommand( 'language', this.langId );
-					}
+					},
+					role: 'menuitemcheckbox'
 				};
 
 				// Init style property.
@@ -94,7 +95,7 @@
 			editor.addMenuGroup( 'language_remove' ); // Group order is skipped intentionally, it will be placed at the end.
 			editor.addMenuItems( items );
 
-			editor.ui.add( 'language', CKEDITOR.UI_MENUBUTTON, {
+			editor.ui.add( 'Language', CKEDITOR.UI_MENUBUTTON, {
 				label: lang.button,
 				// MenuButtons do not (yet) has toFeature method, so we cannot do this:
 				// toFeature: function( editor ) { return editor.getCommand( 'language' ); }

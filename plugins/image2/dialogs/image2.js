@@ -100,7 +100,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// @param {Function} callback.
 		return function( src, callback, scope ) {
 			addListener( 'load', function() {
-				callback.call( scope, image, image.$.width, image.$.height );
+				// Don't use image.$.(width|height) since it's buggy in IE9-10 (#11159)
+				var dimensions = getNatural( image );
+
+				callback.call( scope, image, dimensions.width, dimensions.height );
 			} );
 
 			addListener( 'error', function() {
@@ -240,7 +243,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// Activate (Un)LockRatio button
 		if ( lockButton ) {
-			dialog.addFocusable( lockButton, 4 );
+			// Consider that there's an additional focusable field
+			// in the dialog when the "browse" button is visible.
+			dialog.addFocusable( lockButton, 4 + hasFileBrowser );
 
 			lockButton.on( 'click', function( evt ) {
 				toggleLockRatio();
@@ -252,7 +257,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		// Activate the reset size button.
 		if ( resetButton ) {
-			dialog.addFocusable( resetButton, 5 );
+			// Consider that there's an additional focusable field
+			// in the dialog when the "browse" button is visible.
+			dialog.addFocusable( resetButton, 5 + hasFileBrowser );
 
 			// Fills width and height fields with the original dimensions of the
 			// image (stored in widget#data since widget#init).
@@ -327,7 +334,41 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	var ret = {
+	var hasFileBrowser = !!( editor.config.filebrowserImageBrowseUrl || editor.config.filebrowserBrowseUrl ),
+		srcBoxChildren = [
+			{
+				id: 'src',
+				type: 'text',
+				label: commonLang.url,
+				onKeyup: onChangeSrc,
+				onChange: onChangeSrc,
+				setup: function( widget ) {
+					this.setValue( widget.data.src );
+				},
+				commit: function( widget ) {
+					widget.setData( 'src', this.getValue() );
+				},
+				validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
+			}
+		];
+
+	// Render the "Browse" button on demand to avoid an "empty" (hidden child)
+	// space in dialog layout that distorts the UI.
+	if ( hasFileBrowser ) {
+		srcBoxChildren.push( {
+			type: 'button',
+			id: 'browse',
+			// v-align with the 'txtUrl' field.
+			// TODO: We need something better than a fixed size here.
+			style: 'display:inline-block;margin-top:16px;',
+			align: 'center',
+			label: editor.lang.common.browseServer,
+			hidden: true,
+			filebrowser: 'info:src'
+		} );
+	}
+
+	return {
 		title: lang.title,
 		minWidth: 250,
 		minHeight: 100,
@@ -368,37 +409,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						children: [
 							{
 								type: 'hbox',
-								widths: [ '280px', '110px' ],
-								align: 'right',
-								children: [
-									{
-										id: 'src',
-										type: 'text',
-										label: commonLang.url,
-										onKeyup: onChangeSrc,
-										onChange: onChangeSrc,
-										setup: function( widget ) {
-											this.setValue( widget.data.src );
-										},
-										commit: function( widget ) {
-											widget.setData( 'src', this.getValue() );
-										},
-										validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
-									},
-									{
-										// Remark: button may be removed at the very bottom of
-										// the file, if browser config is not set.
-										type: 'button',
-										id: 'browse',
-										// v-align with the 'txtUrl' field.
-										// TODO: We need something better than a fixed size here.
-										style: 'display:inline-block;margin-top:16px;',
-										align: 'center',
-										label: editor.lang.common.browseServer,
-										hidden: true,
-										filebrowser: 'info:src'
-									}
-								]
+								widths: [ '100%' ],
+								children: srcBoxChildren
 							}
 						]
 					},
@@ -526,11 +538,4 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			}
 		]
 	};
-
-	if ( !editor.config.filebrowserImageBrowseUrl && !editor.config.filebrowserBrowseUrl ) {
-		// Replaces hbox (which should contain button#browse but is hidden) with text control.
-		ret.contents[ 0 ].elements[ 0 ].children[ 0 ] = ret.contents[ 0 ].elements[ 0 ].children[ 0 ].children[ 0 ];
-	}
-
-	return ret;
 } );

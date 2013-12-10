@@ -67,7 +67,7 @@
 			table[ org ] = result;
 			regex.push( org );
 			return '';
-		});
+		} );
 
 		if ( !reverse && entities ) {
 			// Transforms the entities string into an array.
@@ -147,14 +147,14 @@
 					return baseEntitiesTable[ character ];
 				}
 
-				htmlFilter.addRules({
+				htmlFilter.addRules( {
 					text: function( text ) {
 						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
 					}
-				});
+				}, { applyToAll: true } );
 			}
 		}
-	});
+	} );
 })();
 
 /**

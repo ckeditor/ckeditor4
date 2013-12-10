@@ -32,7 +32,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 
 			{
 			name: 'Bar Llwybr Elfen y Golygydd',
-			legend: 'Pwyswch $ {elementsPathFocus} i fynd i\'r elfennau llwybr bar. Symudwch i fotwm yr elfen nesaf gyda TAB neu SAETH DDE. Symudwch i fotwm blaenorol gyda SHIFT + TAB neu SAETH CHWITH. Pwyswch SPACE neu ENTER i ddewis yr elfen yn y golygydd.'
+			legend: 'Pwyswch ${elementsPathFocus} i fynd i\'r bar llwybr elfennau. Symudwch i fotwm yr elfen nesaf gyda TAB neu SAETH DDE. Symudwch i fotwm blaenorol gyda SHIFT + TAB neu SAETH CHWITH. Pwyswch SPACE neu ENTER i ddewis yr elfen yn y golygydd.'
 		}
 		]
 	},
@@ -69,11 +69,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 		},
 			{
 			name: 'Myned i orchymyn bwlch ffocws blaenorol',
-			legend: 'Pwyswch ${accessPreviousSpace} i myned i\'r "blwch ffocws sydd methu ei gyrraedd" cyn y caret, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. AIladroddwch y cyfuniad allwedd i gyrraedd bylchau ffocws pell.'
+			legend: 'Pwyswch ${accessPreviousSpace} i fyned i\'r "blwch ffocws sydd methu ei gyrraedd" cyn y caret, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. AIladroddwch y cyfuniad allwedd i gyrraedd bylchau ffocws pell.'
 		},
 			{
 			name: 'Ewch i\'r gorchymyn blwch ffocws nesaf',
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.ôl y lleolnod, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. Ailadroddwch y cyfuniad allwedd i gyrraedd blychau ffocws pell.'
+			legend: 'Pwyswch ${accessNextSpace} i fyned i\'r blwch ffocws agosaf nad oes modd ei gyrraedd ar ôl y caret, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. Ailadroddwch y cyfuniad allwedd i gyrraedd blychau ffocws pell.'
 		},
 			{
 			name: 'Cymorth Hygyrchedd',

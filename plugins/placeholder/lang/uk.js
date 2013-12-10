@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'uk', {
 	title: 'Налаштування Заповнювача',
 	toolbar: 'Створити Заповнювач',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Назва заповнювача',
+	invalidName: 'Заповнювач не може бути порожнім і не може містити наступні символи: [, ], <, >',
+	pathName: 'заповнювач'
 });

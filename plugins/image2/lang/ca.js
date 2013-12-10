@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'ca', {
 	alt: 'Text alternatiu',
 	btnUpload: 'Envia-la al servidor',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Imatge amb subtítol',
 	infoTab: 'Informació de la imatge',
 	lockRatio: 'Bloqueja les proporcions',
 	menu: 'Propietats de la imatge',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'imatge',
+	pathNameCaption: 'subtítol',
 	resetSize: 'Restaura la mida',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Clicar i arrossegar per redimensionar',
 	title: 'Propietats de la imatge',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Puja',
 	urlMissing: 'Falta la URL de la imatge.'
 } );

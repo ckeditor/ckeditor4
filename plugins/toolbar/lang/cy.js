@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'cy', {
 		colors: 'Lliwiau',
 		tools: 'Offer'
 	},
-	toolbars: 'Bariau offer golygydd'
+	toolbars: 'Bariau offer y golygydd'
 });

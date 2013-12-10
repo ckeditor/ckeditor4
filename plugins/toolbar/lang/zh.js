@@ -3,20 +3,20 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'zh', {
-	toolbarCollapse: '折叠工具栏',
-	toolbarExpand: '展开工具栏',
+	toolbarCollapse: '摺疊工具列',
+	toolbarExpand: '展開工具列',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: '文件',
+		clipboard: '剪貼簿/復原',
+		editing: '編輯選項',
+		forms: '格式',
+		basicstyles: '基本樣式',
+		paragraph: '段落',
+		links: '連結',
+		insert: '插入',
+		styles: '樣式',
+		colors: '顏色',
+		tools: '工具'
 	},
-	toolbars: '編輯器工具欄'
+	toolbars: '編輯器工具列'
 });

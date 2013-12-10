@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'lv', {
 	resetSize: 'Atjaunot sākotnējo izmēru',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Attēla īpašības',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Augšupielādēt',
 	urlMissing: 'Trūkst attēla atrašanās adrese.'
 } );

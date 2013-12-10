@@ -60,9 +60,14 @@ CKEDITOR.STYLE_BLOCK = 1;
 CKEDITOR.STYLE_INLINE = 2;
 CKEDITOR.STYLE_OBJECT = 3;
 
-(function() {
-	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,details:1,datagrid:1,datalist:1 },
-		objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1,audio:1,video:1 };
+( function() {
+	var blockElements = { address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1,
+			pre: 1, section: 1, header: 1, footer: 1, nav: 1, article: 1, aside: 1, figure: 1,
+			dialog: 1, hgroup: 1, time: 1, meter: 1, menu: 1, command: 1, keygen: 1, output: 1,
+			progress: 1, details: 1, datagrid: 1, datalist: 1 },
+
+		objectElements = { a: 1, embed: 1, hr: 1, img: 1, li: 1, object: 1, ol: 1, table: 1, td: 1,
+			tr: 1, th: 1, ul: 1, dl: 1, dt: 1, dd: 1, form: 1, audio: 1, video: 1 };
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/,
 		varRegex = /#\((.+?)\)/g;
@@ -1186,7 +1191,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	}
 
 	// Removes a style from an element itself, don't care about its subtree.
-	function removeFromElement( element ) {
+	function removeFromElement( element, keepDataAttrs ) {
 		var def = this._.definition,
 			attributes = def.attributes,
 			styles = def.styles,
@@ -1199,6 +1204,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// The 'class' element value must match (#1318).
 			if ( ( attName == 'class' || this._.definition.fullMatch ) && element.getAttribute( attName ) != normalizeProperty( attName, attributes[ attName ] ) )
 				continue;
+
+			// Do not touch data-* attributes (#11011) (#11258).
+			if ( keepDataAttrs && attName.slice( 0, 5 ) == 'data-' )
+				continue;
+
 			removeEmpty = element.hasAttribute( attName );
 			element.removeAttribute( attName );
 		}
@@ -1227,7 +1237,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 	}
 
-	// Removes a style from inside an element.
+	// Removes a style from inside an element. Called on applyStyle to make cleanup
+	// before apply. During clean up this function keep data-* attribute in contrast
+	// to removeFromElement.
 	function removeFromInsideElement( element ) {
 		var def = this._.definition,
 			attribs = def.attributes,
@@ -1241,7 +1253,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			// Do not remove elements which are read only (e.g. duplicates inside widgets).
 			if ( !innerElement.isReadOnly() )
-				removeFromElement.call( this, innerElement );
+				removeFromElement.call( this, innerElement, true );
 		}
 
 		// Now remove any other element with different name that is
@@ -1302,9 +1314,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var previous = element.getPrevious( nonWhitespaces ),
 					next = element.getNext( nonWhitespaces );
 
-				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br:1 } ) ) )
+				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br', 1 );
-				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br:1 } ) ) )
+				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br' );
 
 				element.remove( true );
@@ -1511,7 +1523,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
 	}
-})();
+} )();
 
 /**
  * Generic style command. It applies a specific style when executed.

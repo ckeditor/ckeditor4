@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'tr', {
 	resetSize: 'Boyutu Başa Döndür',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Resim Özellikleri',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Karşıya Yükle',
 	urlMissing: 'Resmin URL kaynağı eksiktir.'
 } );

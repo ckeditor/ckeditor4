@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'fa', {
 	resetSize: 'بازنشانی اندازه',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ویژگی​های تصویر',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'آپلود',
 	urlMissing: 'آدرس URL اصلی تصویر یافت نشد.'
 } );

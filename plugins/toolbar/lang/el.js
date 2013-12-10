@@ -3,20 +3,20 @@ Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'el', {
-	toolbarCollapse: 'Σύμπτηξη Εργαλειοθήκης',
+	toolbarCollapse: 'Σύμπτυξη Εργαλειοθήκης',
 	toolbarExpand: 'Ανάπτυξη Εργαλειοθήκης',
 	toolbarGroups: {
 		document: 'Έγγραφο',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Σε επεξεργασία',
+		clipboard: 'Πρόχειρο/Αναίρεση',
+		editing: 'Επεξεργασία',
 		forms: 'Φόρμες',
-		basicstyles: 'Βασικά στυλ',
+		basicstyles: 'Βασικά Στυλ',
 		paragraph: 'Παράγραφος',
-		links: 'Συνδέσμοι',
+		links: 'Σύνδεσμοι',
 		insert: 'Εισαγωγή',
 		styles: 'Στυλ',
 		colors: 'Χρώματα',
 		tools: 'Εργαλεία'
 	},
-	toolbars: 'Εργαλειοθήκες Επεξεργαστή'
+	toolbars: 'Εργαλειοθήκες επεξεργαστή'
 });

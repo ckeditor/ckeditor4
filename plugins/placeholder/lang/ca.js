@@ -5,8 +5,8 @@
 
 CKEDITOR.plugins.setLang( 'placeholder', 'ca', {
 	title: 'Propietats del marcador de posició',
-	toolbar: 'Crear Marcador de posició',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	toolbar: 'Marcador de posició',
+	name: 'Nom del marcador de posició',
+	invalidName: 'El marcador de posició no pot estar en blanc ni pot contenir cap dels caràcters següents: [,],<,>',
+	pathName: 'marcador de posició'
 });

@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'specialchar', 'el', {
 	options: 'Επιλογές Ειδικών Χαρακτήρων',
-	title: 'Επιλέξτε έναν Ειδικό Χαρακτήρα',
+	title: 'Επιλέξτε Έναν Ειδικό Χαρακτήρα',
 	toolbar: 'Εισαγωγή Ειδικού Χαρακτήρα'
 });

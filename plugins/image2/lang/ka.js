@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ka', {
 	resetSize: 'ზომის დაბრუნება',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'სურათის პარამეტრები',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'აქაჩვა',
 	urlMissing: 'სურათის URL არაა შევსებული.'
 } );

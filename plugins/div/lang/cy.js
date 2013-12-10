@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'div', 'cy', {
 	IdInputLabel: 'Id',
 	advisoryTitleInputLabel: 'Teitl Cynghorol',
-	cssClassInputLabel: 'Dosbarthiadau Ffeil Ddiwyg',
+	cssClassInputLabel: 'Dosbarthiadau Ffeil Arddull',
 	edit: 'Golygu Div',
 	inlineStyleInputLabel: 'Arddull Mewn Llinell',
 	langDirLTRLabel: 'Chwith i\'r Dde (LTR)',

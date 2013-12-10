@@ -184,6 +184,16 @@ CKEDITOR.plugins.add( 'richcombo', {
 					ev = new CKEDITOR.dom.event( ev );
 
 					var keystroke = ev.getKeystroke();
+
+					// ARROW-DOWN
+					// This call is duplicated in plugins/toolbar/plugin.js in itemKeystroke().
+					// Move focus to the first element after drop down was opened by the arrow down key.
+					if ( keystroke == 40 ) {
+						editor.once( 'panelShow', function( evt ) {
+							evt.data._.panel._.currentBlock.onKeyDown( 40 );
+						} );
+					}
+
 					switch ( keystroke ) {
 						case 13: // ENTER
 						case 32: // SPACE

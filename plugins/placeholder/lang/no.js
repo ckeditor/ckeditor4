@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'no', {
 	title: 'Egenskaper for plassholder',
 	toolbar: 'Opprett plassholder',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Navn på plassholder',
+	invalidName: 'Plassholderen kan ikke være tom, og kan ikke inneholde følgende tegn: [, ], <, >',
+	pathName: 'plassholder'
 });

@@ -96,7 +96,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						return 'mailto:' +
 							String.fromCharCode.apply( String, protectedAddress.split( ',' ) ) +
 							( rest && unescapeSingleQuote( rest ) );
-					});
+					} );
 				}
 				// Protected email link as function call.
 				else if ( emailProtection ) {
@@ -118,7 +118,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							}
 							email.address = [ email.name, email.domain ].join( '@' );
 						}
-					});
+					} );
 				}
 			}
 
@@ -166,7 +166,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 						var featureMatch;
 						while ( ( featureMatch = popupFeaturesRegex.exec( onclickMatch[ 2 ] ) ) ) {
 							// Some values should remain numbers (#7300)
-							if ( ( featureMatch[ 2 ] == 'yes' || featureMatch[ 2 ] == '1' ) && !( featureMatch[ 1 ] in { height:1,width:1,top:1,left:1 } ) )
+							if ( ( featureMatch[ 2 ] == 'yes' || featureMatch[ 2 ] == '1' ) && !( featureMatch[ 1 ] in { height: 1, width: 1, top: 1, left: 1 } ) )
 								retval.target[ featureMatch[ 1 ] ] = true;
 							else if ( isFinite( featureMatch[ 2 ] ) )
 								retval.target[ featureMatch[ 1 ] ] = featureMatch[ 2 ];
@@ -213,7 +213,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				for ( i = 0, count = links.count(); i < count; i++ ) {
 					item = links.getItem( i );
 					if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) )
-						anchors.push({ name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
+						anchors.push( { name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
 				}
 			} else {
 				var anchorList = new CKEDITOR.dom.nodeList( editor.document.$.anchors );
@@ -227,7 +227,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				var imgs = editor.document.getElementsByTag( 'img' );
 				for ( i = 0, count = imgs.count(); i < count; i++ ) {
 					if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
-						anchors.push({ name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
+						anchors.push( { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
 				}
 			}
 
@@ -283,8 +283,8 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			compiledProtectionFunction.params = [];
 			params.replace( /[^,\s]+/g, function( param ) {
 				compiledProtectionFunction.params.push( param );
-			});
-		});
+			} );
+		} );
 	}
 
 	function protectEmailLinkAsFunction( email ) {
@@ -419,7 +419,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 							if ( dialog.getContentElement( 'info', 'linkType' ) && dialog.getValueOf( 'info', 'linkType' ) != 'url' )
 								return true;
 
-							if ( (/javascript\:/).test( this.getValue() ) ) {
+							if ( ( /javascript\:/ ).test( this.getValue() ) ) {
 								alert( commonLang.invalidValue );
 								return false;
 							}
@@ -1216,7 +1216,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				}
 
 				// Apply style.
-				var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
+				var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 				style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
 				style.applyToRange( range );
 				range.select();
@@ -1261,7 +1261,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			}
 		}
 	};
-});
+} );
 
 /**
  * The e-mail address anti-spam protection option. The protection will be

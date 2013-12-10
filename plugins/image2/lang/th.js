@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'th', {
 	resetSize: 'กำหนดรูปเท่าขนาดจริง',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'คุณสมบัติของ รูปภาพ',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'อัพโหลดไฟล์',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );

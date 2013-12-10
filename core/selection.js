@@ -378,6 +378,28 @@
 		};
 	}
 
+	// If fake selection should be applied this function will return instance of
+	// CKEDITOR.dom.element which should gain fake selection.
+	function getNonEditableFakeSelectionReceiver( ranges ) {
+		var enclosedNode, shrinkedNode, clone, range;
+
+		if ( ranges.length == 1 && !( range = ranges[ 0 ] ).collapsed &&
+			( enclosedNode = range.getEnclosedNode() ) && enclosedNode.type == CKEDITOR.NODE_ELEMENT ) {
+			// So far we can't say that enclosed element is non-editable. Before checking,
+			// we'll shrink range (clone). Shrinking will stop on non-editable range, or
+			// innermost element (#11114).
+			clone = range.clone();
+			clone.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+
+			// If shrinked range still encloses an element, check this one (shrink stops only on non-editable elements).
+			if ( ( shrinkedNode = clone.getEnclosedNode() ) && shrinkedNode.type == CKEDITOR.NODE_ELEMENT )
+				enclosedNode = shrinkedNode;
+
+			if ( enclosedNode.getAttribute( 'contenteditable' ) == 'false' )
+				return enclosedNode;
+		}
+	}
+
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
@@ -1713,13 +1735,10 @@
 			}
 
 			// Handle special case - automatic fake selection on non-editable elements.
-			var enclosedNode;
-			if (
-				ranges.length == 1 && !ranges[ 0 ].collapsed &&
-				( enclosedNode = ranges[ 0 ].getEnclosedNode() ) &&
-				enclosedNode.type == CKEDITOR.NODE_ELEMENT && enclosedNode.getAttribute( 'contenteditable' ) == 'false'
-			) {
-				this.fake( enclosedNode );
+			var receiver = getNonEditableFakeSelectionReceiver( ranges );
+
+			if ( receiver ) {
+				this.fake( receiver );
 				return;
 			}
 

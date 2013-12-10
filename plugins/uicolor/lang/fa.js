@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'fa', {
-	title: 'انتخاب رنگ UI',
+	title: 'انتخاب رنگ رابط کاربری',
 	preview: 'پیش‌نمایش زنده',
-	config: 'این رشته را در فایل config.js خود بچسبانید.',
+	config: 'این رشته را در فایل config.js خود کپی کنید.',
 	predefined: 'مجموعه رنگ از پیش تعریف شده'
 });

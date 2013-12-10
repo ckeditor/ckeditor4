@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ms', {
 	resetSize: 'Saiz Set Semula',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Ciri-ciri Imej',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Muat Naik',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );

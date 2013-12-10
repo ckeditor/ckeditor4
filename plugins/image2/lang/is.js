@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'is', {
 	resetSize: 'Reikna stærð',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Eigindi myndar',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Senda upp',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );

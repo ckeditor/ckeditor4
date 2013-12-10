@@ -356,6 +356,10 @@
 	});
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
+		// We require filebrowser plugin to be loaded.
+		if ( !evt.editor.plugins.filebrowser )
+			return;
+
 		var definition = evt.data.definition,
 			element;
 		// Associate filebrowser to elements with 'filebrowser' attribute.

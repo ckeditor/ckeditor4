@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'fi', {
 	title: 'Paikkamerkin ominaisuudet',
 	toolbar: 'Luo paikkamerkki',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Paikkamerkin nimi',
+	invalidName: 'Paikkamerkki ei voi olla tyhjä eikä sisältää seuraavia merkkejä: [, ], <, >',
+	pathName: 'paikkamerkki'
 });

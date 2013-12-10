@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'image2', 'bs', {
 	resetSize: 'Resetuj dimenzije',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Svojstva slike',
-	uploadTab: 'Upload', // MISSING
+	uploadTab: 'Šalji',
 	urlMissing: 'Image source URL is missing.' // MISSING
 } );
