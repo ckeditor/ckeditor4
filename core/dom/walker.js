@@ -130,10 +130,9 @@
 	}
 
 	/**
-	 * Utility class to "walk" the DOM inside a range boundaries. If
-	 * necessary, partially included nodes (text nodes) are broken to
-	 * reflect the boundaries limits, so DOM and range changes may happen.
-	 * Outside changes to the range may break the walker.
+	 * Utility class to "walk" the DOM inside a range boundaries. If the
+	 * range starts or ends in the middle of the text node this node will
+	 * be included as a whole. Outside changes to the range may break the walker.
 	 *
 	 * The walker may return nodes that are not totaly included into the
 	 * range boundaires. Let's take the following range representation,
