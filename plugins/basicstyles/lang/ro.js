@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ro', {
 	subscript: 'Indice (subscript)',
 	superscript: 'Putere (superscript)',
 	underline: 'Subliniat (underline)'
-});
+} );

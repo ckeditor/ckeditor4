@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ku', {
 		tools: 'ئامرازەکان'
 	},
 	toolbars: 'تووڵامرازی دەسکاریکەر'
-});
+} );

@@ -7,7 +7,7 @@
  * @fileOverview API initialization code.
  */
 
-(function() {
+( function() {
 	// Disable HC detection in WebKit. (#5429)
 	if ( CKEDITOR.env.webkit )
 		CKEDITOR.env.hc = false;
@@ -49,7 +49,7 @@
 			CKEDITOR.add( pending[ i ][ 0 ] );
 		}
 	}
-})();
+} )();
 
 /**
  * Indicates that CKEditor is running on a High Contrast environment.

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'bs', {
 	subscript: 'Subscript',
 	superscript: 'Superscript',
 	underline: 'Podvuci'
-});
+} );

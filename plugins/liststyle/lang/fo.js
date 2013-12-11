@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fo', {
 	upperAlpha: 'Stórir bókstavir (A, B, C, D, E, etc.)',
 	upperRoman: 'Stór rómaratøl (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Byrjunartalið fyri lista má vera eitt heiltal.'
-});
+} );

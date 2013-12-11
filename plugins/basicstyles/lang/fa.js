@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'fa', {
 	subscript: 'زیرنویس',
 	superscript: 'بالانویس',
 	underline: 'زیرخطدار'
-});
+} );

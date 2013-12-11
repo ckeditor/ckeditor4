@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		typeTel: 'Số điện thoại',
 		typeUrl: 'URL'
 	}
-});
+} );

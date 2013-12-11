@@ -6,4 +6,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'sourcedialog', 'sl', {
 	toolbar: 'Izvorna koda',
 	title: 'Izvorna koda'
-});
+} );

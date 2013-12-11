@@ -5,7 +5,7 @@
 
  'use strict';
 
-(function() {
+( function() {
 	/**
 	 * A lightweight representation of HTML text.
 	 *
@@ -67,4 +67,4 @@
 			writer.text( this.value );
 		}
 	} );
-})();
+} )();

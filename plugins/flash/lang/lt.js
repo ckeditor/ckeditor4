@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'lt', {
 	windowModeOpaque: 'Nepermatomas',
 	windowModeTransparent: 'Permatomas',
 	windowModeWindow: 'Langas'
-});
+} );

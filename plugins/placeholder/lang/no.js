@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'no', {
 	name: 'Navn på plassholder',
 	invalidName: 'Plassholderen kan ikke være tom, og kan ikke inneholde følgende tegn: [, ], <, >',
 	pathName: 'plassholder'
-});
+} );

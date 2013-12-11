@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'fo', {
 	subscript: 'Lækkað skrift',
 	superscript: 'Hækkað skrift',
 	underline: 'Undirstrikað'
-});
+} );

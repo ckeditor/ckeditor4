@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'vi', {
 	tag_h6: 'Heading 6',
 	tag_p: 'Bình thường (P)',
 	tag_pre: 'Đã thiết lập'
-});
+} );

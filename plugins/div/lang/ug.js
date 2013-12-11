@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ug', {
 	styleSelectLabel: 'ئۇسلۇب',
 	title: 'DIV قاچا قۇر',
 	toolbar: 'DIV قاچا قۇر'
-});
+} );

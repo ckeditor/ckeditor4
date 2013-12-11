@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'fa', {
 	tag_h6: 'سرنویس 6',
 	tag_p: 'نرمال',
 	tag_pre: 'فرمت شده'
-});
+} );

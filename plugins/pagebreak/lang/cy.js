@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'cy', {
 	alt: 'Toriad Tudalen',
 	toolbar: 'Mewnosod Toriad Tudalen i Argraffu'
-});
+} );

@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 		tools: 'Tools'
 	},
 	toolbars: 'Redigera verktygsfält'
-});
+} );

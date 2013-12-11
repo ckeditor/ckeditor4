@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'mk', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'Paste from Word', // MISSING
 	toolbar: 'Paste from Word' // MISSING
-});
+} );

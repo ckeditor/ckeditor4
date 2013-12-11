@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'el', {
 	title: 'Ιδιότητες Εγγράφου',
 	txtColor: 'Χρώμα Κειμένου',
 	xhtmlDec: 'Να Συμπεριληφθούν οι Δηλώσεις XHTML'
-});
+} );

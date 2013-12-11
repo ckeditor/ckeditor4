@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fa', {
 	hArr: 'فلش دوتایی چپ راست',
 	diams: 'نشان الماس سیاه',
 	asymp: 'تقریبا برابر با'
-});
+} );

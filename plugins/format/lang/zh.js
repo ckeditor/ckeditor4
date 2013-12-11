@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'zh', {
 	tag_h6: '標題 6',
 	tag_p: '標準',
 	tag_pre: '格式設定'
-});
+} );

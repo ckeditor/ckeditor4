@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'hr', {
 	options: 'Opcije boje',
 	selected: 'Odabrana boja',
 	title: 'Odaberi boju'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'pl', {
 	scrolling: 'Włącz paski przewijania',
 	title: 'Właściwości elementu IFrame',
 	toolbar: 'IFrame'
-});
+} );

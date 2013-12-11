@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sq', {
 	more: 'Më Shumë Ngjyra...',
 	panelTitle: 'Ngjyrat',
 	textColorTitle: 'Ngjyra e Tekstit'
-});
+} );

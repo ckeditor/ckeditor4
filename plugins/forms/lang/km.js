@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		typeTel: 'លេខ​ទូរសព្ទ',
 		typeUrl: 'URL'
 	}
-});
+} );

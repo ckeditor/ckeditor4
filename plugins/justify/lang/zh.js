@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'zh', {
 	center: '置中',
 	left: '靠左對齊',
 	right: '靠右對齊'
-});
+} );

@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'pt-br', {
 		tools: 'Ferramentas'
 	},
 	toolbars: 'Barra de Ferramentas do Editor'
-});
+} );

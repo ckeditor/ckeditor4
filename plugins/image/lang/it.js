@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'it', {
 	validateBorder: 'Il campo Bordo deve essere un numero intero.',
 	validateHSpace: 'Il campo HSpace deve essere un numero intero.',
 	validateVSpace: 'Il campo VSpace deve essere un numero intero.'
-});
+} );

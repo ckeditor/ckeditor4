@@ -7,10 +7,10 @@
  * @fileOverview Preview plugin.
  */
 
-(function() {
+( function() {
 	var pluginPath;
 
-	var previewCmd = { modes:{wysiwyg:1,source:1 },
+	var previewCmd = { modes: { wysiwyg: 1, source: 1 },
 		canUndo: false,
 		readOnly: 1,
 		exec: function( editor ) {
@@ -19,9 +19,9 @@
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
 				eventData;
 
-			if ( config.fullPage ) {
+			if ( config.fullPage )
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
-			} else {
+			else {
 				var bodyHtml = '<body ',
 					body = editor.document && editor.document.getBody();
 
@@ -116,10 +116,10 @@
 				label: editor.lang.preview.preview,
 				command: pluginName,
 				toolbar: 'document,40'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Event fired when executing `preview` command, which allows additional data manipulation.

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'de', {
 	error: 'Aufgrund eines internen Fehlers war es nicht möglich die eingefügten Daten zu bereinigen',
 	title: 'Aus MS-Word einfügen',
 	toolbar: 'Aus MS-Word einfügen'
-});
+} );

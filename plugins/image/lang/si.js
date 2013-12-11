@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'si', {
 	validateBorder: 'මාඉම් සම්පුර්ණ සංක්‍යාවක් විය යුතුය.',
 	validateHSpace: 'HSpace  සම්පුර්ණ සංක්‍යාවක් විය යුතුය',
 	validateVSpace: 'VSpace සම්පුර්ණ සංක්‍යාවක් විය යුතුය.'
-});
+} );

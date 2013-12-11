@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'цахим хуудасны хаяг (URL)'
 	}
-});
+} );

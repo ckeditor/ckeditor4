@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'lt', {
 	options: 'Template Options',
 	selectPromptMsg: 'Pasirinkite norimą šabloną<br>(<b>Dėmesio!</b> esamas turinys bus prarastas):',
 	title: 'Turinio šablonai'
-});
+} );

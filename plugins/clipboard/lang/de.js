@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de', {
 	pasteMsg: 'Bitte fügen Sie den Text in der folgenden Box über die Tastatur (mit <STRONG>Strg+V</STRONG>) ein und bestätigen Sie mit <STRONG>OK</STRONG>.',
 	securityMsg: 'Aufgrund von Sicherheitsbeschränkungen Ihres Browsers kann der Editor nicht direkt auf die Zwischenablage zugreifen. Bitte fügen Sie den Inhalt erneut in diesem Fenster ein.',
 	title: 'Einfügen'
-});
+} );

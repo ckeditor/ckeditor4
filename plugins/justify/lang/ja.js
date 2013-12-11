@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ja', {
 	center: '中央揃え',
 	left: '左揃え',
 	right: '右揃え'
-});
+} );

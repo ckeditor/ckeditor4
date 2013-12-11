@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	type: 'Link Türü',
 	unlink: 'Köprü Kaldır',
 	upload: 'Karşıya Yükle'
-});
+} );

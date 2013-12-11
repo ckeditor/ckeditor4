@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		typeTel: 'تېلېفون نومۇر',
 		typeUrl: 'ئادرېس'
 	}
-});
+} );

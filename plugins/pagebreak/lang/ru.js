@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'ru', {
 	alt: 'Разрыв страницы',
 	toolbar: 'Вставить разрыв страницы для печати'
-});
+} );

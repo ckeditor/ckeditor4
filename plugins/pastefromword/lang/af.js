@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'af', {
 	error: 'Die geplakte teks kon nie skoongemaak word nie, weens \'n interne fout',
 	title: 'Plak vanuit Word',
 	toolbar: 'Plak vanuit Word'
-});
+} );

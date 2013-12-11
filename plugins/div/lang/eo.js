@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'eo', {
 	styleSelectLabel: 'Stilo',
 	title: 'Krei DIV ujon',
 	toolbar: 'Krei DIV ujon'
-});
+} );

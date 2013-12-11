@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'hu', {
 	preview: 'Élő előnézet',
 	config: 'Illessze be ezt a szöveget a config.js fájlba',
 	predefined: 'Előre definiált színbeállítások'
-});
+} );

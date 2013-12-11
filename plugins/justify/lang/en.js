@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'en', {
 	center: 'Center',
 	left: 'Align Left',
 	right: 'Align Right'
-});
+} );

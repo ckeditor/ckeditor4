@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'et', {
 	upperAlpha: 'Suurtähed (A, B, C, D, E, jne)',
 	upperRoman: 'Suured rooma numbrid (I, II, III, IV, V, jne)',
 	validateStartNumber: 'Loendi algusnumber peab olema täisarv.'
-});
+} );

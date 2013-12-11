@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ja', {
 	hArr: '左右二重矢印',
 	diams: 'ダイヤ',
 	asymp: '漸近'
-});
+} );

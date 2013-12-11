@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
 	upperAlpha: 'Alpha versaler (A, B, C, D, E, etc.)',
 	upperRoman: 'Romerska versaler (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Listans startnummer måste vara ett heltal.'
-});
+} );

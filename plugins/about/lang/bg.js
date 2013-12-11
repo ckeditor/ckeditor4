@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'bg', {
 	moreInfo: 'За лицензионна информация моля посетете сайта ни:',
 	title: 'Относно CKEditor',
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

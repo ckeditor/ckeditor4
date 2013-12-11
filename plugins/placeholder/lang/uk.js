@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'uk', {
 	name: 'Назва заповнювача',
 	invalidName: 'Заповнювач не може бути порожнім і не може містити наступні символи: [, ], <, >',
 	pathName: 'заповнювач'
-});
+} );

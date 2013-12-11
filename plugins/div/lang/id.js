@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'id', {
 	styleSelectLabel: 'Gaya',
 	title: 'Ciptakan Wadah Div',
 	toolbar: 'Cipatakan Wadah Div'
-});
+} );

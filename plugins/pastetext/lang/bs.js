@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'bs', {
 	button: 'Zalijepi kao obièan tekst',
 	title: 'Zalijepi kao obièan tekst'
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'hu', {
 	label: 'Betűtípus',
 	panelTitle: 'Betűtípus',
 	voiceLabel: 'Betűtípus'
-});
+} );

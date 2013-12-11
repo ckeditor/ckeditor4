@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'tr', {
 	alt: 'Sayfa Sonu',
 	toolbar: 'Sayfa Sonu Ekle'
-});
+} );

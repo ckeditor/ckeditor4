@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'gu', {
 	scrolling: 'સ્ક્રોલબાર ચાલુ કરવા',
 	title: 'IFrame વિકલ્પો',
 	toolbar: 'IFrame'
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'pt', {
 	label: 'Tipo de Letra',
 	panelTitle: 'Nome do Tipo de Letra',
 	voiceLabel: 'Tipo de Letra'
-});
+} );

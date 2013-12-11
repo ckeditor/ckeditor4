@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'sq', {
 	options: 'Përzgjedhjet e Ngjyrave',
 	selected: 'Ngjyra e Përzgjedhur',
 	title: 'Përzgjidh një ngjyrë'
-});
+} );

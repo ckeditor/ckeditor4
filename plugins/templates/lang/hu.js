@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'hu', {
 	options: 'Sablon opciók',
 	selectPromptMsg: 'Válassza ki melyik sablon nyíljon meg a szerkesztőben<br>(a jelenlegi tartalom elveszik):',
 	title: 'Elérhető sablonok'
-});
+} );

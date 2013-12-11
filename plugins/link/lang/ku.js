@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	type: 'جۆری بەستەر',
 	unlink: 'لابردنی بەستەر',
 	upload: 'بارکردن'
-});
+} );

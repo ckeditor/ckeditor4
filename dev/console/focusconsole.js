@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	CKCONSOLE.add( 'focus', {
 		panels: [
@@ -85,4 +85,4 @@
 			return element2Str( active );
 	}
 
-})();
+} )();

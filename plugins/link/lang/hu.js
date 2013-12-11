@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	type: 'Hivatkozás típusa',
 	unlink: 'Hivatkozás törlése',
 	upload: 'Feltöltés'
-});
+} );

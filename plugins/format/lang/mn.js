@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'mn', {
 	tag_h6: 'Гарчиг 6',
 	tag_p: 'Хэвийн',
 	tag_pre: 'Formatted'
-});
+} );

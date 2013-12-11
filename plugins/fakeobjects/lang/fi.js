@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'fi', {
 	hiddenfield: 'Piilokenttä',
 	iframe: 'IFrame-kehys',
 	unknown: 'Tuntematon objekti'
-});
+} );

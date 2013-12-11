@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ro', {
 	moreInfo: 'For licensing information please visit our web site:', // MISSING
 	title: 'About CKEditor', // MISSING
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

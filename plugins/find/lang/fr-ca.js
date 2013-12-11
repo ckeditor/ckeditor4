@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fr-ca', {
 	replaceSuccessMsg: '%1 remplacements.',
 	replaceWith: 'Remplacer par:',
 	title: 'Rechercher et remplacer'
-});
+} );

@@ -7,7 +7,7 @@
  * @fileOverview AutoGrow plugin.
  */
 
-(function() {
+( function() {
 
 	// Actual content height, figured out by appending check the last element's document position.
 	function contentHeight( scrollable ) {
@@ -42,7 +42,7 @@
 
 		var maximize = editor.getCommand( 'maximize' );
 			// Disable autogrow when the editor is maximized .(#6339)
-		if( maximize && maximize.state == CKEDITOR.TRISTATE_ON )
+		if ( maximize && maximize.state == CKEDITOR.TRISTATE_ON )
 			return null;
 
 		var scrollable = getScrollable( editor ),
@@ -96,13 +96,13 @@
 						exec: function( editor ) {
 							lastHeight = resizeEditor( editor, lastHeight );
 						},
-						modes:{ wysiwyg:1 },
+						modes: { wysiwyg: 1 },
 						readOnly: 1,
 						canUndo: false,
 						editorFocus: false
 					} );
 
-					var eventsList = { contentDom:1,key:1,selectionChange:1,insertElement:1,mode:1 };
+					var eventsList = { contentDom: 1, key: 1, selectionChange: 1, insertElement: 1, mode: 1 };
 					for ( var eventName in eventsList ) {
 						editor.on( eventName, function( evt ) {
 							// Some time is required for insertHtml, and it gives other events better performance as well.
@@ -114,7 +114,7 @@
 									lastHeight = resizeEditor( evt.editor, lastHeight );
 								}, 100 );
 							}
-						});
+						} );
 					}
 
 					// Coordinate with the "maximize" plugin. (#9311)
@@ -127,14 +127,14 @@
  							else
 								lastHeight = resizeEditor( editor, lastHeight );
 						}
-					});
+					} );
 
 					editor.config.autoGrow_onStartup && editor.execCommand( 'autogrow' );
 				}
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * The minimum height that the editor can reach using the AutoGrow feature.

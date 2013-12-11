@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'nl', {
 	error: 'Het was niet mogelijk om de geplakte tekst op te schonen door een interne fout',
 	title: 'Plakken vanuit Word',
 	toolbar: 'Plakken vanuit Word'
-});
+} );

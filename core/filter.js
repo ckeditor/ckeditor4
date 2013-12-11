@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var DTD = CKEDITOR.dtd,
@@ -687,7 +687,7 @@
 		 * @param {Boolean} [reverse] Whether to check modes in reverse order (used for shift enter mode).
 		 * @returns {Number} Allowed enter mode.
 		 */
-		getAllowedEnterMode: (function() {
+		getAllowedEnterMode: ( function() {
 			var tagsToCheck = [ 'p', 'div', 'br' ],
 				enterModes = {
 					p: CKEDITOR.ENTER_P,
@@ -715,7 +715,7 @@
 
 				return CKEDITOR.ENTER_BR;
 			};
-		})()
+		} )()
 	};
 
 	// Apply ACR to an element
@@ -1129,7 +1129,7 @@
 		return obj;
 	}
 
-	var validators = { styles:1,attributes:1,classes:1 },
+	var validators = { styles: 1, attributes: 1, classes: 1 },
 		validatorsRequired = {
 			styles: 'requiredStyles',
 			attributes: 'requiredAttributes',
@@ -1611,9 +1611,8 @@
 
 		if ( typeof form == 'string' )
 			element = form;
-		else if ( form instanceof CKEDITOR.style ) {
+		else if ( form instanceof CKEDITOR.style )
 			left = form;
-		}
 		else {
 			element = form[ 0 ];
 			left = form[ 1 ];
@@ -1845,9 +1844,9 @@
 							if ( existingClassesPattern.indexOf( cl ) == -1 )
 								el.classes.push( cl );
 						}
-					} else {
+					} else
 						el.attributes[ attrName ] = defAttrs[ attrName ];
-					}
+
 				}
 
 				for ( styleName in defStyles ) {
@@ -1857,7 +1856,7 @@
 		}
 	};
 
-})();
+} )();
 
 /**
  * Allowed content rules. This setting is used when

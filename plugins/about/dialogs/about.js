@@ -72,4 +72,4 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 		],
 		buttons: [ CKEDITOR.dialog.cancelButton ]
 	};
-});
+} );

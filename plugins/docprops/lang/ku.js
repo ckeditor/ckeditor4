@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ku', {
 	title: 'خاسییەتی پەڕه',
 	txtColor: 'ڕەنگی دەق',
 	xhtmlDec: 'بەیاننامەکانی XHTML لەگەڵدابێت'
-});
+} );

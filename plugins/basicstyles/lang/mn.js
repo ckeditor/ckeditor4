@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'mn', {
 	subscript: 'Суурь болгох',
 	superscript: 'Зэрэг болгох',
 	underline: 'Доогуур нь зураастай болгох'
-});
+} );

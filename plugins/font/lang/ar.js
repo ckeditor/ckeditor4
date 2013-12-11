@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'ar', {
 	label: 'خط',
 	panelTitle: 'حجم الخط',
 	voiceLabel: 'حجم الخط'
-});
+} );

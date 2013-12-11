@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'lv', {
 	tabName: 'Cilnes nosaukums',
 	elementId: 'Elementa ID',
 	elementType: 'Elementa tips'
-});
+} );

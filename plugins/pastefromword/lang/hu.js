@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'hu', {
 	error: 'Egy belső hiba miatt nem sikerült megtisztítani a szöveget',
 	title: 'Beillesztés Word-ből',
 	toolbar: 'Beillesztés Word-ből'
-});
+} );

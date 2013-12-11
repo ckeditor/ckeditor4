@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ru', {
 	replaceSuccessMsg: 'Успешно заменено %1 раз(а).',
 	replaceWith: 'Заменить на:',
 	title: 'Поиск и замена'
-});
+} );

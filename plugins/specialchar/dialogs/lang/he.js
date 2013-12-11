@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'he', {
 	hArr: 'חץ כפול לימין ושמאל',
 	diams: 'יהלום מלא',
 	asymp: 'כמעט שווה'
-});
+} );

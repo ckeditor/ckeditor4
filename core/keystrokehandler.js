@@ -37,7 +37,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	return this;
 };
 
-(function() {
+( function() {
 	var cancel;
 
 	var onKeyDown = function( event ) {
@@ -91,7 +91,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 				domObject.on( 'keypress', onKeyPress, this );
 		}
 	};
-})();
+} )();
 
 /**
  * A list associating keystrokes to editor commands. Each element in the list

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ku', {
 	scrolling: 'چالاککردنی هاتووچۆپێکردن',
 	title: 'دیالۆگی چووارچێوه',
 	toolbar: 'چووارچێوه'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'en-au', {
 	panelTitle1: 'Block Styles',
 	panelTitle2: 'Inline Styles',
 	panelTitle3: 'Object Styles'
-});
+} );

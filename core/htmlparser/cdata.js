@@ -5,7 +5,7 @@
 
  'use strict';
 
-(function() {
+( function() {
 
 	/**
 	 * A lightweight representation of HTML CDATA.
@@ -45,4 +45,4 @@
 			writer.write( this.value );
 		}
 	} );
-})();
+} )();

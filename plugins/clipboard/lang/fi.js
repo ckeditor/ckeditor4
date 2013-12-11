@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fi', {
 	pasteMsg: 'Liitä painamalla (<STRONG>Ctrl+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
 	securityMsg: 'Selaimesi turva-asetukset eivät salli editorin käyttää leikepöytää suoraan. Sinun pitää suorittaa liittäminen tässä ikkunassa.',
 	title: 'Liitä'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ja', {
 	panelTitle1: 'ブロックスタイル',
 	panelTitle2: 'インラインスタイル',
 	panelTitle3: 'オブジェクトスタイル'
-});
+} );

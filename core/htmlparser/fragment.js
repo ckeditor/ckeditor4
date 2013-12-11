@@ -34,15 +34,15 @@ CKEDITOR.htmlParser.fragment = function() {
 	};
 };
 
-(function() {
+( function() {
 	// Block-level elements whose internal structure should be respected during
 	// parser fixing.
-	var nonBreakingBlocks = CKEDITOR.tools.extend( { table:1,ul:1,ol:1,dl:1 }, CKEDITOR.dtd.table, CKEDITOR.dtd.ul, CKEDITOR.dtd.ol, CKEDITOR.dtd.dl );
+	var nonBreakingBlocks = CKEDITOR.tools.extend( { table: 1, ul: 1, ol: 1, dl: 1 }, CKEDITOR.dtd.table, CKEDITOR.dtd.ul, CKEDITOR.dtd.ol, CKEDITOR.dtd.dl );
 
-	var listBlocks = { ol:1,ul:1 };
+	var listBlocks = { ol: 1, ul: 1 };
 
 	// Dtd of the fragment element, basically it accept anything except for intermediate structure, e.g. orphan <li>.
-	var rootDtd = CKEDITOR.tools.extend( {}, { html:1 }, CKEDITOR.dtd.html, CKEDITOR.dtd.body, CKEDITOR.dtd.head, { style:1,script:1 } );
+	var rootDtd = CKEDITOR.tools.extend( {}, { html: 1 }, CKEDITOR.dtd.html, CKEDITOR.dtd.body, CKEDITOR.dtd.head, { style: 1, script: 1 } );
 
 	function isRemoveEmpty( node ) {
 		// Keep marked element event if it is empty.
@@ -628,4 +628,4 @@ CKEDITOR.htmlParser.fragment = function() {
 			return context || {};
 		}
 	};
-})();
+} )();

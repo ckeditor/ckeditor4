@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	type: 'Тип посилання',
 	unlink: 'Видалити посилання',
 	upload: 'Надіслати'
-});
+} );

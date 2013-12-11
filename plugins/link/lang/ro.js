@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	type: 'Tipul link-ului (al legăturii web)',
 	unlink: 'Înlătură link (legătură web)',
 	upload: 'Încarcă'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'lt', {
 	tag_h6: 'Antraštinis 6',
 	tag_p: 'Normalus',
 	tag_pre: 'Formuotas'
-});
+} );

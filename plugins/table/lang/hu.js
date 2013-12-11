@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'hu', {
 	widthPc: 'százalék',
 	widthPx: 'képpont',
 	widthUnit: 'Szélesség egység'
-});
+} );

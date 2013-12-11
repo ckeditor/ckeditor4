@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'de', {
 	hiddenfield: 'Verstecktes Feld',
 	iframe: 'IFrame',
 	unknown: 'Unbekanntes Objekt'
-});
+} );

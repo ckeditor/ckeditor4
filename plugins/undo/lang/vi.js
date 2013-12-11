@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'undo', 'vi', {
 	redo: 'Làm lại thao tác',
 	undo: 'Khôi phục thao tác'
-});
+} );

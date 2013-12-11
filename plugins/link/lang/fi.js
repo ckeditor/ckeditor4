@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	type: 'Linkkityyppi',
 	unlink: 'Poista linkki',
 	upload: 'Lisää tiedosto'
-});
+} );

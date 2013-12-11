@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sk', {
 	panelTitle1: 'Štýly bloku',
 	panelTitle2: 'Vnútroriadkové (inline) štýly',
 	panelTitle3: 'Štýly objeku'
-});
+} );

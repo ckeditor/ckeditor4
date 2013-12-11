@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'cy', {
 	styleSelectLabel: 'Arddull',
 	title: 'Creu Cynhwysydd Div',
 	toolbar: 'Creu Cynhwysydd Div'
-});
+} );

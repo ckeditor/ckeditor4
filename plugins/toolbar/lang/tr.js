@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'tr', {
 		tools: 'Araçlar'
 	},
 	toolbars: 'Araç çubukları Editörü'
-});
+} );

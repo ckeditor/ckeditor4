@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'sk', {
 	hArr: 'Dvojitá šipka vľavo a vpravo',
 	diams: 'Čierne piky',
 	asymp: 'Skoro sa rovná'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'sq', {
 	hiddenfield: 'Fushë e fshehur',
 	iframe: 'IFrame',
 	unknown: 'Objekt i Panjohur'
-});
+} );

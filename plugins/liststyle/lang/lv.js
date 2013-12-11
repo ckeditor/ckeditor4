@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'lv', {
 	upperAlpha: 'Lielie alfabēta (A, B, C, D, E, utt)',
 	upperRoman: 'Lielie romāņu (I, II, III, IV, V, utt)',
 	validateStartNumber: 'Saraksta sākuma numuram jābūt veselam skaitlim'
-});
+} );

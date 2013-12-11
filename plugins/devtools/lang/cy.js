@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'cy', {
 	tabName: 'Enw\'r tab',
 	elementId: 'ID yr Elfen',
 	elementType: 'Math yr elfen'
-});
+} );

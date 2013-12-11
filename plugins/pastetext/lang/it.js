@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'it', {
 	button: 'Incolla come testo semplice',
 	title: 'Incolla come testo semplice'
-});
+} );

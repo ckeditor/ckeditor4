@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'id', {
 	hiddenfield: 'Kolom Tersembunyi',
 	iframe: 'IFrame',
 	unknown: 'Obyek Tak Dikenal'
-});
+} );

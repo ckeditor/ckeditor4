@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		typeTel: 'Broj telefona',
 		typeUrl: 'URL'
 	}
-});
+} );

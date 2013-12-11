@@ -15,7 +15,7 @@ if ( !CKEDITOR.env ) {
 	 * @class CKEDITOR.env
 	 * @singleton
 	 */
-	CKEDITOR.env = (function() {
+	CKEDITOR.env = ( function() {
 		var agent = navigator.userAgent.toLowerCase();
 		var opera = window.opera;
 
@@ -352,7 +352,7 @@ if ( !CKEDITOR.env ) {
 			env.cssClass += ' cke_hidpi';
 
 		return env;
-	})();
+	} )();
 }
 
 // PACKAGER_RENAME( CKEDITOR.env )

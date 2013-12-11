@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ca', {
 	hArr: 'Doble fletxa esquerra dreta',
 	diams: 'Vestit negre diamant',
 	asymp: 'Gairebé igual a'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ug', {
 	upperAlpha: 'ئىنگلىزچە چوڭ ھەرپ (A, B, C, D, E قاتارلىق)',
 	upperRoman: 'چوڭ ھەرپلىك رىم رەقىمى (I, II, III, IV, V قاتارلىق)',
 	validateStartNumber: 'تىزىم باشلىنىش تەرتىپ نومۇرى چوقۇم پۈتۈن سان پىچىمىدا بولۇشى لازىم'
-});
+} );

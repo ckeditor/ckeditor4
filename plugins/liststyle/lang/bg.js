@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'bg', {
 	upperAlpha: 'Големи букви (А, Б, В, Г, Д и т.н.)',
 	upperRoman: 'Големи римски числа (I, II, III, IV, V и т.н.)',
 	validateStartNumber: 'List start number must be a whole number.'
-});
+} );

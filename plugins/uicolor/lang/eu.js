@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'eu', {
 	preview: 'Zuzeneko aurreikuspena',
 	config: 'Itsatsi karaktere kate hau zure config.js fitxategian.',
 	predefined: 'Aurredefinitutako kolore multzoak'
-});
+} );

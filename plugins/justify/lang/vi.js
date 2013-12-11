@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'vi', {
 	center: 'Canh giữa',
 	left: 'Canh trái',
 	right: 'Canh phải'
-});
+} );

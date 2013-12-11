@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'it', {
 	pasteMsg: 'Incolla il testo all\'interno dell\'area sottostante usando la scorciatoia di tastiere (<STRONG>Ctrl/Cmd+V</STRONG>) e premi <STRONG>OK</STRONG>.',
 	securityMsg: 'A causa delle impostazioni di sicurezza del browser,l\'editor non è in grado di accedere direttamente agli appunti. E\' pertanto necessario incollarli di nuovo in questa finestra.',
 	title: 'Incolla'
-});
+} );

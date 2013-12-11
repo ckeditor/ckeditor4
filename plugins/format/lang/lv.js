@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'lv', {
 	tag_h6: 'Virsraksts 6',
 	tag_p: 'Normāls teksts',
 	tag_pre: 'Formatēts teksts'
-});
+} );

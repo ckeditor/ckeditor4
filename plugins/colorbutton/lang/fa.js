@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fa', {
 	more: 'رنگ​های بیشتر...',
 	panelTitle: 'رنگها',
 	textColorTitle: 'رنگ متن'
-});
+} );

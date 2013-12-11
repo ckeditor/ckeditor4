@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/** @class CKEDITOR */
 
 	/**
@@ -141,7 +141,7 @@
 	CKEDITOR.domReady( function() {
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
 	} );
-})();
+} )();
 
 /**
  * Disables creating the inline editor automatically for elements with

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'da', {
 	options: 'Farvemuligheder',
 	selected: 'Valgt farve',
 	title: 'Vælg farve'
-});
+} );

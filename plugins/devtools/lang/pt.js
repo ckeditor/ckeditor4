@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'pt', {
 	tabName: 'Nome do Separador',
 	elementId: 'Id. do Elemento',
 	elementType: 'Tipo de Elemento'
-});
+} );

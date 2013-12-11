@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eo', {
 	more: 'Pli da Koloroj...',
 	panelTitle: 'Koloroj',
 	textColorTitle: 'Teksta Koloro'
-});
+} );

@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ug', {
 	validateBorder: 'گىرۋەك چوڭلۇقى چوقۇم سان بولىدۇ',
 	validateHSpace: 'توغرىسىغا ئارىلىق چوقۇم پۈتۈن سان بولىدۇ',
 	validateVSpace: 'بويىغا ئارىلىق چوقۇم پۈتۈن سان بولىدۇ'
-});
+} );

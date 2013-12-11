@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'id', {
 	tag_h6: 'Heading 6',
 	tag_p: 'Normal',
 	tag_pre: 'Membentuk'
-});
+} );

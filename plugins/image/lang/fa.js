@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'fa', {
 	validateBorder: 'مقدار خطوط باید یک عدد باشد.',
 	validateHSpace: 'مقدار فاصله گذاری افقی باید یک عدد باشد.',
 	validateVSpace: 'مقدار فاصله گذاری عمودی باید یک عدد باشد.'
-});
+} );

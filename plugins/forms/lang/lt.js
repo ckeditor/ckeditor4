@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		typeTel: 'Telefono numeris',
 		typeUrl: 'Nuoroda'
 	}
-});
+} );

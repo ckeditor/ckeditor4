@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'tr', {
 	tabName: 'Sekme adı',
 	elementId: 'Eleman ID',
 	elementType: 'Eleman türü'
-});
+} );

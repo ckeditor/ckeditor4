@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pagebreak', 'fi', {
 	alt: 'Sivunvaihto',
 	toolbar: 'Lisää sivunvaihto'
-});
+} );

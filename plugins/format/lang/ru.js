@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ru', {
 	tag_h6: 'Заголовок 6',
 	tag_p: 'Обычное',
 	tag_pre: 'Моноширинное'
-});
+} );

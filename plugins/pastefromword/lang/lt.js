@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'lt', {
 	error: 'Dėl vidinių sutrikimų, nepavyko išvalyti įkeliamo teksto',
 	title: 'Įdėti iš Word',
 	toolbar: 'Įdėti iš Word'
-});
+} );

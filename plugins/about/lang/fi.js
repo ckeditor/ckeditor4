@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'fi', {
 	moreInfo: 'Lisenssitiedot löytyvät kotisivuiltamme:',
 	title: 'Tietoa CKEditorista',
 	userGuide: 'CKEditorin käyttäjäopas'
-});
+} );

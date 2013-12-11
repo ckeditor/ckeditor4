@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sl', {
 	panelTitle1: 'Slogi odstavkov',
 	panelTitle2: 'Slogi besedila',
 	panelTitle3: 'Slogi objektov'
-});
+} );

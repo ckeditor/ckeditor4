@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'sq', {
 	error: 'Nuk ishte e mundur të fshiheshin të dhënat e hedhura për shkak të një gabimi të brendshëm',
 	title: 'Hidhe nga Word-i',
 	toolbar: 'Hidhe nga Word-i'
-});
+} );

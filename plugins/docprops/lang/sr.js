@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'sr', {
 	title: 'Особине документа',
 	txtColor: 'Боја текста',
 	xhtmlDec: 'Улључи XHTML декларације'
-});
+} );

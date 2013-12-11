@@ -7,8 +7,8 @@
  * @fileOverview Insert and remove numbered and bulleted lists.
  */
 
-(function() {
-	var listNodeNames = { ol:1,ul:1 },
+( function() {
+	var listNodeNames = { ol: 1, ul: 1 },
 		emptyTextRegex = /^[\n\r\t ]*$/;
 
 	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
@@ -317,7 +317,7 @@
 			if ( !listNode.is( this.type ) ) {
 				newListNode = doc.createElement( this.type );
 				// Copy all attributes, except from 'start' and 'type'.
-				listNode.copyAttributes( newListNode, { start:1,type:1 } );
+				listNode.copyAttributes( newListNode, { start: 1, type: 1 } );
 				// The list-style-type property should be ignored.
 				newListNode.removeStyle( 'list-style-type' );
 				listArray[ listIndex ].parent = newListNode;
@@ -478,7 +478,7 @@
 
 		function compensateBrs( isStart ) {
 			if ( ( boundaryNode = docFragment[ isStart ? 'getFirst' : 'getLast' ]() ) && !( boundaryNode.is && boundaryNode.isBlockBoundary() ) && ( siblingNode = groupObj.root[ isStart ? 'getPrevious' : 'getNext' ]
-			( CKEDITOR.dom.walker.invisible( true ) ) ) && !( siblingNode.is && siblingNode.isBlockBoundary( { br:1 } ) ) )
+			( CKEDITOR.dom.walker.invisible( true ) ) ) && !( siblingNode.is && siblingNode.isBlockBoundary( { br: 1 } ) ) )
 				editor.document.createElement( 'br' )[ isStart ? 'insertBefore' : 'insertAfter' ]( boundaryNode );
 		}
 		compensateBrs( true );
@@ -837,13 +837,13 @@
 					command: 'numberedlist',
 					directional: true,
 					toolbar: 'list,10'
-				});
+				} );
 				editor.ui.addButton( 'BulletedList', {
 					label: editor.lang.list.bulletedlist,
 					command: 'bulletedlist',
 					directional: true,
 					toolbar: 'list,20'
-				});
+				} );
 			}
 
 			// Handled backspace/del key to join list items. (#8248,#9080)
@@ -851,7 +851,7 @@
 				var key = evt.data.keyCode;
 
 				// DEl/BACKSPACE
-				if ( editor.mode == 'wysiwyg' && key in { 8:1,46:1 } ) {
+				if ( editor.mode == 'wysiwyg' && key in { 8: 1, 46: 1 } ) {
 					var sel = editor.getSelection(),
 						range = sel.getRanges()[ 0 ],
 						path = range && range.startPath();
@@ -1026,7 +1026,7 @@
 					// being it handled or not, check immediately the selection to have it fixed.
 					setTimeout( function() { editor.selectionChange( 1 ); } );
 				}
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

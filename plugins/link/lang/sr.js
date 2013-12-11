@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	type: 'Врста линка',
 	unlink: 'Уклони линк',
 	upload: 'Пошаљи'
-});
+} );

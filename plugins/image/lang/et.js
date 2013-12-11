@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'et', {
 	validateBorder: 'Äärise laius peab olema täisarv.',
 	validateHSpace: 'Horisontaalne vaheruum peab olema täisarv.',
 	validateVSpace: 'Vertikaalne vaheruum peab olema täisarv.'
-});
+} );

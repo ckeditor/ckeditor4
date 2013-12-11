@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ar', {
 	center: 'توسيط',
 	left: 'محاذاة إلى اليسار',
 	right: 'محاذاة إلى اليمين'
-});
+} );

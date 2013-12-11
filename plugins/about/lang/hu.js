@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'hu', {
 	moreInfo: 'Licenszelési információkért kérjük látogassa meg weboldalunkat:',
 	title: 'CKEditor névjegy',
 	userGuide: 'CKEditor Felhasználói útmutató'
-});
+} );

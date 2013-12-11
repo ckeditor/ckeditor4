@@ -233,7 +233,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 // used instead. This means that a skin is not required to provide all icons.
 // Actually, it is not required to provide icons at all.
 
-(function() {
+( function() {
 	// The available icons. This list must match the file names (without
 	// extension) available inside the "icons" folder.
 	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
@@ -255,7 +255,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	for ( var i = 0; i < icons.length; i++ ) {
 		CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
 	}
-})();
+} )();
 
 // %REMOVE_END%
 

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'tr', {
 	subscript: 'Alt Simge',
 	superscript: 'Üst Simge',
 	underline: 'Altı Çizgili'
-});
+} );

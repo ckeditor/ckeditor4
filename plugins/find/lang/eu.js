@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'eu', {
 	replaceSuccessMsg: 'Zenbat aldiz ordeztua: %1',
 	replaceWith: 'Zerekin ordeztu:',
 	title: 'Bilatu eta Ordeztu'
-});
+} );

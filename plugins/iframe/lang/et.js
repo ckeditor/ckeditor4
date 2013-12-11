@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'et', {
 	scrolling: 'Kerimisribade lubamine',
 	title: 'IFrame omadused',
 	toolbar: 'IFrame'
-});
+} );

@@ -8,7 +8,7 @@
  *		mode, which handles the main editing area space.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
@@ -64,13 +64,13 @@
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
 					desc.remove();
-				});
+				} );
 
-				iframe.setAttributes({
+				iframe.setAttributes( {
 					'aria-describedby': labelId,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
-				});
+				} );
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
 				!useOnloadEvent && onLoad();
@@ -99,9 +99,9 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
 				}
-			});
+			} );
 		}
-	});
+	} );
 
 	function onDomReady( win ) {
 		var editor = this.editor,
@@ -214,7 +214,7 @@
 				// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
 				this.attachListener( this, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
 					evt.data.preventDefault();
-				});
+				} );
 			}
 		}
 
@@ -242,7 +242,7 @@
 						evt.data.preventDefault();
 					}
 				}
-			});
+			} );
 		}
 
 		if ( CKEDITOR.env.ie ) {
@@ -261,7 +261,7 @@
 				try {
 					doc.$.selection.empty();
 				} catch ( er ) {}
-			});
+			} );
 		}
 
 		// ## END
@@ -306,7 +306,7 @@
 		}, 0, this );
 	}
 
-	var framedWysiwyg = CKEDITOR.tools.createClass({
+	var framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function( editor ) {
 			this.base.apply( this, arguments );
 
@@ -333,7 +333,7 @@
 				}
 				else {
 					this._.isLoadingData = true;
-					editor._.dataStore = { id:1 };
+					editor._.dataStore = { id: 1 };
 
 					var config = editor.config,
 						fullPage = config.fullPage,
@@ -353,10 +353,10 @@
 						data = data.replace( /<!DOCTYPE[^>]*>/i, function( match ) {
 							editor.docType = docType = match;
 							return '';
-						}).replace( /<\?xml\s[^\?]*\?>/i, function( match ) {
+						} ).replace( /<\?xml\s[^\?]*\?>/i, function( match ) {
 							editor.xmlDeclaration = match;
 							return '';
-						});
+						} );
 					}
 
 					// Get the HTML version of the data.
@@ -453,7 +453,7 @@
 					// Work around Firefox bug - error prune when called from XUL (#320),
 					// defer it thanks to the async nature of this method.
 					try { doc.write( data ); } catch ( e ) {
-						setTimeout( function () { doc.write( data ); }, 0 );
+						setTimeout( function() { doc.write( data ); }, 0 );
 					}
 				}
 			},
@@ -520,7 +520,7 @@
 				iframe.remove();
 			}
 		}
-	});
+	} );
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {
@@ -558,9 +558,9 @@
 		// Use correct cursor for these elements
 		css.push( 'img,input,textarea{cursor:default}' );
 
-		return css.join('\n');
+		return css.join( '\n' );
 	}
-})();
+} )();
 
 /**
  * Disables the ability of resize objects (image and tables) in the editing area.

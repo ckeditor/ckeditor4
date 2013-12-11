@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'de', {
 	hArr: 'Doppelpfeil links',
 	diams: 'Karo',
 	asymp: 'Ungefähr'
-});
+} );

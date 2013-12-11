@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ku', {
 	styleSelectLabel: 'شێواز',
 	title: 'دروستکردنی لەخۆگری Div',
 	toolbar: 'دروستکردنی لەخۆگری Div'
-});
+} );

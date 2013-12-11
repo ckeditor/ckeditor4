@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'fa', {
 	panelTitle1: 'سبکهای بلوک',
 	panelTitle2: 'سبکهای درونخطی',
 	panelTitle3: 'سبکهای شیء'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ru', {
 	scrolling: 'Отображать полосы прокрутки',
 	title: 'Свойства iFrame',
 	toolbar: 'iFrame'
-});
+} );

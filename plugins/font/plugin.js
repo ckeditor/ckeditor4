@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
@@ -96,7 +96,7 @@
 				if ( !editor.activeFilter.check( style ) )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
-		});
+		} );
 	}
 
 	CKEDITOR.plugins.add( 'font', {
@@ -108,8 +108,8 @@
 			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
 			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * The list of fonts names to be displayed in the Font combo in the toolbar.
@@ -171,7 +171,7 @@ CKEDITOR.config.font_style = {
 	styles: { 'font-family': '#(family)' },
 	overrides: [ {
 		element: 'font', attributes: { 'face': null }
-	}]
+	} ]
 };
 
 /**
@@ -226,5 +226,5 @@ CKEDITOR.config.fontSize_style = {
 	styles: { 'font-size': '#(size)' },
 	overrides: [ {
 		element: 'font', attributes: { 'size': null }
-	}]
+	} ]
 };

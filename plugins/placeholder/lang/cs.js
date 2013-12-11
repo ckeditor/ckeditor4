@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'cs', {
 	name: 'Název vyhrazeného prostoru',
 	invalidName: 'Vyhrazený prostor nesmí být prázdný či obsahovat následující znaky: [, ], <, >',
 	pathName: 'Vyhrazený prostor'
-});
+} );

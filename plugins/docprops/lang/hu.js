@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'hu', {
 	title: 'Dokumentum tulajdonságai',
 	txtColor: 'Betűszín',
 	xhtmlDec: 'XHTML deklarációk beillesztése'
-});
+} );

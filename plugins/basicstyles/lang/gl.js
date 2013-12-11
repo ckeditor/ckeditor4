@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'gl', {
 	subscript: 'Subíndice',
 	superscript: 'Superíndice',
 	underline: 'Subliñado'
-});
+} );

@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	type: 'Jenis Sambungan',
 	unlink: 'Buang Sambungan',
 	upload: 'Muat Naik'
-});
+} );

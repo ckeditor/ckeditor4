@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'eu', {
 	styleSelectLabel: 'Estiloa',
 	title: 'Div Edukiontzia Sortu',
 	toolbar: 'Div Edukiontzia Sortu'
-});
+} );

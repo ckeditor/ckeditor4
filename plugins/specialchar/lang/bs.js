@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'bs', {
 	options: 'Special Character Options', // MISSING
 	title: 'Izaberi specijalni karakter',
 	toolbar: 'Ubaci specijalni karater'
-});
+} );

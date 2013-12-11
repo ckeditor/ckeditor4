@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ja', {
 	subscript: '下付き',
 	superscript: '上付き',
 	underline: '下線'
-});
+} );

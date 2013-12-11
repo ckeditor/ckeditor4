@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ca', {
 		tools: 'Tools'
 	},
 	toolbars: 'Editor de barra d\'eines'
-});
+} );

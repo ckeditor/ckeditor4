@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'mk', {
 	preview: 'Преглед',
 	config: 'Залепи го овој текст во config.js датотеката',
 	predefined: 'Предефинирани множества на бои'
-});
+} );

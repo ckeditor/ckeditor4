@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'eu', {
 	options: 'Txantiloi Aukerak',
 	selectPromptMsg: 'Mesedez txantiloia aukeratu editorean kargatzeko<br>(orain dauden edukiak galduko dira):',
 	title: 'Eduki Txantiloiak'
-});
+} );

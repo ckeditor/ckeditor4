@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'fr', {
 	styleSelectLabel: 'Style',
 	title: 'Créer un container DIV',
 	toolbar: 'Créer un container DIV'
-});
+} );

@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ro', {
 	validateBorder: 'Bordura trebuie să fie un număr întreg.',
 	validateHSpace: 'Hspace trebuie să fie un număr întreg.',
 	validateVSpace: 'Vspace trebuie să fie un număr întreg.'
-});
+} );

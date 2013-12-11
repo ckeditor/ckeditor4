@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'de', {
 	validateBorder: 'Rahmen muß eine ganze Zahl sein.',
 	validateHSpace: 'Horizontal-Abstand muß eine ganze Zahl sein.',
 	validateVSpace: 'Vertikal-Abstand muß eine ganze Zahl sein.'
-});
+} );

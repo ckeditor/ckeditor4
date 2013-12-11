@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'eu', {
 		typeTel: 'Telefono Zenbakia',
 		typeUrl: 'URL'
 	}
-});
+} );

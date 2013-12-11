@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'tr', {
 	center: 'Ortalanmış',
 	left: 'Sola Dayalı',
 	right: 'Sağa Dayalı'
-});
+} );

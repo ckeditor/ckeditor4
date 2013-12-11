@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fi', {
 	upperAlpha: 'Isot aakkoset (A, B, C, D, E, jne.)',
 	upperRoman: 'Isot roomalaiset (I, II, III, IV, V, jne.)',
 	validateStartNumber: 'Listan ensimmäisen numeron tulee olla kokonaisluku.'
-});
+} );

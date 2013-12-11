@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'eo', {
 	center: 'Centrigi',
 	left: 'Ĝisrandigi maldekstren',
 	right: 'Ĝisrandigi dekstren'
-});
+} );

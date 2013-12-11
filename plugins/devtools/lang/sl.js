@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'sl', {
 	tabName: 'Ime zavihka',
 	elementId: 'ID elementa',
 	elementType: 'Tip elementa'
-});
+} );

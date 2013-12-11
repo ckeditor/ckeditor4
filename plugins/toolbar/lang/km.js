@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'km', {
 		tools: 'ឧបករណ៍'
 	},
 	toolbars: 'របារ​ឧបករណ៍​កែ​សម្រួល'
-});
+} );

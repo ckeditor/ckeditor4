@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'af', {
 	scrolling: 'Skuifbalke aan',
 	title: 'IFrame Eienskappe',
 	toolbar: 'IFrame'
-});
+} );

@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'sq', {
 	widthPc: 'përqind',
 	widthPx: 'piksell',
 	widthUnit: 'njësia e gjerësisë'
-});
+} );

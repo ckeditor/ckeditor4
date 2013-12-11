@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'hr', {
 	options: 'Opcije predložaka',
 	selectPromptMsg: 'Molimo odaberite predložak koji želite otvoriti<br>(stvarni sadržaj će biti izgubljen):',
 	title: 'Predlošci sadržaja'
-});
+} );

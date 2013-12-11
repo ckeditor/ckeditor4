@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ja', {
 	moreInfo: 'ライセンス情報の詳細はウェブサイトにて確認してください:',
 	title: 'CKEditorについて',
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'ku', {
 	tabName: 'ناوی بازدەر تاب',
 	elementId: 'ناسنامەی توخم',
 	elementType: 'جۆری توخم'
-});
+} );

@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'pl', {
 	styleSelectLabel: 'Styl',
 	title: 'Utwórz pojemnik Div',
 	toolbar: 'Utwórz pojemnik Div'
-});
+} );

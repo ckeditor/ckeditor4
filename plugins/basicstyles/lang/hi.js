@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'hi', {
 	subscript: 'अधोलेख',
 	superscript: 'अभिलेख',
 	underline: 'रेखांकण'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ja', {
 	scrolling: 'スクロールバーの表示を許可',
 	title: 'iFrameのプロパティ',
 	toolbar: 'IFrame'
-});
+} );

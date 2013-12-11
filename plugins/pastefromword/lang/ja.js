@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ja', {
 	error: '内部エラーにより貼り付けたデータをクリアできませんでした',
 	title: 'ワード文章から貼り付け',
 	toolbar: 'ワード文章から貼り付け'
-});
+} );

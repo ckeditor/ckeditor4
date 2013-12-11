@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'mn', {
 	pasteMsg: '(<strong>Ctrl/Cmd+V</strong>) товчийг ашиглан paste хийнэ үү. Мөн <strong>OK</strong> дар.',
 	securityMsg: 'Таны үзүүлэгч/browser/-н хамгаалалтын тохиргооноос болоод editor clipboard өгөгдөлрүү шууд хандах боломжгүй. Энэ цонход дахин paste хийхийг оролд.',
 	title: 'Буулгах'
-});
+} );

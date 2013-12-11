@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'list', 'fr-ca', {
 	bulletedlist: 'Liste à puces',
 	numberedlist: 'Liste numérotée'
-});
+} );

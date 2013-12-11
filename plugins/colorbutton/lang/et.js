@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'et', {
 	more: 'Rohkem värve...',
 	panelTitle: 'Värvid',
 	textColorTitle: 'Teksti värv'
-});
+} );

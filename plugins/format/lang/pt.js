@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'pt', {
 	tag_h6: 'Título 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatado'
-});
+} );

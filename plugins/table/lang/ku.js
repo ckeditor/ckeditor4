@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ku', {
 	widthPc: 'لەسەدا',
 	widthPx: 'وێنەخاڵ - پیکسل',
 	widthUnit: 'پانی یەکە'
-});
+} );

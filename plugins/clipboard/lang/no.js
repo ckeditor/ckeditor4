@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'no', {
 	pasteMsg: 'Vennligst lim inn i følgende boks med tastaturet (<STRONG>Ctrl/Cmd+V</STRONG>) og trykk <STRONG>OK</STRONG>.',
 	securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må derfor lime det inn på nytt i dette vinduet.',
 	title: 'Lim inn'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'fi', {
 	scrolling: 'Näytä vierityspalkit',
 	title: 'IFrame-kehyksen ominaisuudet',
 	toolbar: 'IFrame-kehys'
-});
+} );

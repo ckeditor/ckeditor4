@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'ru', {
 	tabName: 'Имя вкладки',
 	elementId: 'ID элемента',
 	elementType: 'Тип элемента'
-});
+} );

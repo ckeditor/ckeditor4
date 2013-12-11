@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 	/**
 	 * A lightweight representation of HTML node.
 	 *
@@ -147,4 +147,4 @@
 			return context || {};
 		}
 	};
-})();
+} )();

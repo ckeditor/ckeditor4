@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'is', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Veldu sniðmát til að opna í ritlinum.<br>(Núverandi innihald víkur fyrir því!):',
 	title: 'Innihaldssniðmát'
-});
+} );

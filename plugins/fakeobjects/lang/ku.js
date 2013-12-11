@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'ku', {
 	hiddenfield: 'شاردنەوەی خانه',
 	iframe: 'لەچوارچێوە',
 	unknown: 'بەرکارێکی نەناسراو'
-});
+} );

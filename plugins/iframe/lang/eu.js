@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'eu', {
 	scrolling: 'Korritze barrak gaitu',
 	title: 'IFrame-aren Propietateak',
 	toolbar: 'IFrame'
-});
+} );

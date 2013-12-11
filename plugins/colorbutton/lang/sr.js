@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sr', {
 	more: 'Више боја...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Боја текста'
-});
+} );

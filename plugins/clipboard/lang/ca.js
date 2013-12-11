@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ca', {
 	pasteMsg: 'Si us plau, enganxi dins del següent camp utilitzant el teclat (<strong>Ctrl/Cmd+V</strong>) i premi OK.',
 	securityMsg: 'A causa de la configuració de seguretat del vostre navegador, l\'editor no pot accedir a les dades del porta-retalls directament. Enganxeu-ho un altre cop en aquesta finestra.',
 	title: 'Enganxar'
-});
+} );

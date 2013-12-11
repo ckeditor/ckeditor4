@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'km', {
 	widthPc: 'ភាគរយ',
 	widthPx: 'ភីកសែល',
 	widthUnit: 'ឯកតា​ទទឹង'
-});
+} );

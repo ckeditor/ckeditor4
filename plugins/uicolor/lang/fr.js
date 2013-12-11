@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'fr', {
 	preview: 'Aperçu',
 	config: 'Collez cette chaîne de caractères dans votre fichier config.js',
 	predefined: 'Palettes de couleurs prédéfinies'
-});
+} );

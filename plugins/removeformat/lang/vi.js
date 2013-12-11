@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'removeformat', 'vi', {
 	toolbar: 'Xoá định dạng'
-});
+} );

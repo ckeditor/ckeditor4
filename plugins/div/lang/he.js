@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'he', {
 	styleSelectLabel: 'סגנון',
 	title: 'יצירת מיכל (Div)',
 	toolbar: 'יצירת מיכל (Div)'
-});
+} );

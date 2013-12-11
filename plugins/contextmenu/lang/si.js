@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'si', {
 	options: 'අනතර්ග ලේඛණ  විකල්ප'
-});
+} );

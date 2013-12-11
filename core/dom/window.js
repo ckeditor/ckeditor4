@@ -92,4 +92,4 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 		var iframe = this.$.frameElement;
 		return iframe ? new CKEDITOR.dom.element.get( iframe ) : null;
 	}
-});
+} );

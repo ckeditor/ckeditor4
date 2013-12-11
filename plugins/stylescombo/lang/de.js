@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'de', {
 	panelTitle1: 'Block Stilart',
 	panelTitle2: 'Inline Stilart',
 	panelTitle3: 'Objekt Stilart'
-});
+} );

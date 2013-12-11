@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'pt-br', {
 	error: 'Não foi possível limpar os dados colados devido a um erro interno',
 	title: 'Colar do Word',
 	toolbar: 'Colar do Word'
-});
+} );

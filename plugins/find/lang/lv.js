@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'lv', {
 	replaceSuccessMsg: '%1 gadījums(i) aizvietoti',
 	replaceWith: 'Nomainīt uz:',
 	title: 'Meklēt un aizvietot'
-});
+} );

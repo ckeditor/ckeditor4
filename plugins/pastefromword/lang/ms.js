@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ms', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'Tampal dari Word',
 	toolbar: 'Tampal dari Word'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'mk', {
 	tag_h6: 'Heading 6', // MISSING
 	tag_p: 'Normal', // MISSING
 	tag_pre: 'Formatted' // MISSING
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'ka', {
 	label: 'ფონტი',
 	panelTitle: 'ფონტის სახელი',
 	voiceLabel: 'ფონტი'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'bg', {
 	center: 'Център',
 	left: 'Подравни в ляво',
 	right: 'Подравни в дясно'
-});
+} );

@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eu', {
 	more: 'Kolore gehiago...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Testu Kolorea'
-});
+} );

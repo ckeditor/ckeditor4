@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'km', {
 	hArr: 'Left right double arrow', // MISSING
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Almost equal to' // MISSING
-});
+} );

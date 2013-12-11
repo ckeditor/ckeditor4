@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'fo', {
 	options: 'Møguleikar fyri Template',
 	selectPromptMsg: 'Vinarliga vel ta skabelón, ið skal opnast í tekstviðgeranum<br>(Hetta yvirskrivar núverandi innihald):',
 	title: 'Innihaldsskabelónir'
-});
+} );

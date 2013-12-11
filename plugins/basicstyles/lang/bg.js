@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'bg', {
 	subscript: 'Индексиран текст',
 	superscript: 'Суперскрипт',
 	underline: 'Подчертан'
-});
+} );

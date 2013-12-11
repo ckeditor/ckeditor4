@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'hu', {
 	hiddenfield: 'Rejtett mezõ',
 	iframe: 'IFrame',
 	unknown: 'Ismeretlen objektum'
-});
+} );

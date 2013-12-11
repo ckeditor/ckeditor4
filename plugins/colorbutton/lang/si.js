@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'si', {
 	more: 'More Colors...', // MISSING
 	panelTitle: 'වර්ණය',
 	textColorTitle: 'අක්ෂර වර්ණ'
-});
+} );

@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ca', {
 	styleSelectLabel: 'Estil',
 	title: 'Crea una Capa Contenidora',
 	toolbar: 'Crea una Capa Contenidora'
-});
+} );

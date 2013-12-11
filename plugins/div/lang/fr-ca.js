@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'fr-ca', {
 	styleSelectLabel: 'Style',
 	title: 'Créer un DIV',
 	toolbar: 'Créer un DIV'
-});
+} );

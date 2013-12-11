@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'cs', {
 	pasteMsg: 'Do následujícího pole vložte požadovaný obsah pomocí klávesnice (<STRONG>Ctrl/Cmd+V</STRONG>) a stiskněte <STRONG>OK</STRONG>.',
 	securityMsg: 'Z důvodů nastavení bezpečnosti vašeho prohlížeče nemůže editor přistupovat přímo do schránky. Obsah schránky prosím vložte znovu do tohoto okna.',
 	title: 'Vložit'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'he', {
 	subscript: 'כתיב תחתון',
 	superscript: 'כתיב עליון',
 	underline: 'קו תחתון'
-});
+} );

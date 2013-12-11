@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
 				title: title,
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: 1 },
 				editorFocus: 0,
 				toolbar: 'colors,' + order,
 				allowedContent: style,
@@ -95,7 +95,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					return color;
 				}
-			});
+			} );
 		}
 
 
@@ -117,7 +117,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					editor.openDialog( 'colordialog', function() {
 						this.on( 'ok', onColorDialogClose );
 						this.on( 'cancel', onColorDialogClose );
-					});
+					} );
 
 					return;
 				}
@@ -148,7 +148,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				}
 
 				editor.fire( 'saveSnapshot' );
-			});
+			} );
 
 			// Render the "Automatic" button.
 			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
@@ -215,7 +215,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
 	}
-});
+} );
 
 /**
  * Whether to enable the **More Colors*** button in the color selectors.
@@ -265,7 +265,7 @@ CKEDITOR.config.colorButton_foreStyle = {
 	styles: { 'color': '#(color)' },
 	overrides: [ {
 		element: 'font', attributes: { 'color': null }
-	}]
+	} ]
 };
 
 /**

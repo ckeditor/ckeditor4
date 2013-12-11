@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'zh-cn', {
 	error: '由于内部错误无法清理要粘贴的数据',
 	title: '从 MS Word 粘贴',
 	toolbar: '从 MS Word 粘贴'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'sv', {
 	preview: 'Live förhandsgranskning',
 	config: 'Klistra in den här strängen i din config.js-fil',
 	predefined: 'Fördefinierade färguppsättningar'
-});
+} );

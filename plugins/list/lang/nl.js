@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'list', 'nl', {
 	bulletedlist: 'Opsomming invoegen',
 	numberedlist: 'Genummerde lijst invoegen'
-});
+} );

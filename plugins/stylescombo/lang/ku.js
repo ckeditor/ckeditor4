@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ku', {
 	panelTitle1: 'شێوازی خشت',
 	panelTitle2: 'شێوازی ناوهێڵ',
 	panelTitle3: 'شێوازی بەرکار'
-});
+} );

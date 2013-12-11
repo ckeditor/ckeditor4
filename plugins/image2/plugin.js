@@ -5,7 +5,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var template = '<img alt="" src="" />',
 		templateBlock = '<figure class="caption">' +
@@ -94,7 +94,7 @@
 		},
 
 		afterInit: function( editor ) {
-			var align = { left:1,right:1,center:1,block:1 },
+			var align = { left: 1, right: 1, center: 1, block: 1 },
 				integrate = alignCommandIntegrator( editor );
 
 			for ( var value in align )
@@ -507,7 +507,7 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function upcastWidgetElement( el, data ) {
-		var dimensions = { width:1,height:1 },
+		var dimensions = { width: 1, height: 1 },
 			name = el.name,
 			image;
 
@@ -587,7 +587,7 @@
 			}
 
 			// If left/right, add float style to the downcasted element.
-			else if ( align in { left:1,right:1 } )
+			else if ( align in { left: 1, right: 1 } )
 				styles[ 'float' ] = align;
 
 			// Update element styles.
@@ -600,7 +600,7 @@
 
 	function isCenterWrapper( el ) {
 		// Wrapper must be either <div> or <p>.
-		if ( !( el.name in { div:1,p:1 } ) )
+		if ( !( el.name in { div: 1, p: 1 } ) )
 			return false;
 
 		var children = el.children;
@@ -887,7 +887,7 @@
 				command.refresh( editor, editor.elementPath() );
 			} );
 
-			if ( value in { right:1,left:1,center:1 } ) {
+			if ( value in { right: 1, left: 1, center: 1 } ) {
 				command.on( 'exec', function( evt ) {
 					var widget = getFocusedWidget( editor );
 
@@ -906,7 +906,7 @@
 
 			command.on( 'refresh', function( evt ) {
 				var widget = getFocusedWidget( editor ),
-					allowed = { right:1,left:1,center:1 };
+					allowed = { right: 1, left: 1, center: 1 };
 
 				if ( !widget )
 					return;
@@ -938,4 +938,4 @@
 
 		return null;
 	}
-})();
+} )();

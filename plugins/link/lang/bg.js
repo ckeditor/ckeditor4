@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	type: 'Тип на връзката',
 	unlink: 'Премахни връзката',
 	upload: 'Качване'
-});
+} );

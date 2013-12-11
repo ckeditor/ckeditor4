@@ -28,7 +28,7 @@ CKEDITOR.plugins.add( 'menubutton', {
 							className: 'cke_menu_panel',
 							attributes: { 'aria-label': editor.lang.common.options }
 						}
-					});
+					} );
 
 					menu.onHide = CKEDITOR.tools.bind( function() {
 						var modes = this.command ? editor.getCommand( this.command ).modes : this.modes;
@@ -48,7 +48,7 @@ CKEDITOR.plugins.add( 'menubutton', {
 				// when JAWS is running. (#9842)
 				setTimeout( function() {
 					menu.show( CKEDITOR.document.getById( _.id ), 4 );
-				},0);
+				}, 0 );
 			};
 
 		/**
@@ -56,7 +56,7 @@ CKEDITOR.plugins.add( 'menubutton', {
 		 * @extends CKEDITOR.ui.button
 		 * @todo
 		 */
-		CKEDITOR.ui.menuButton = CKEDITOR.tools.createClass({
+		CKEDITOR.ui.menuButton = CKEDITOR.tools.createClass( {
 			base: CKEDITOR.ui.button,
 
 			/**
@@ -85,12 +85,12 @@ CKEDITOR.plugins.add( 'menubutton', {
 					}
 				}
 			}
-		});
+		} );
 	},
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_MENUBUTTON, CKEDITOR.ui.menuButton.handler );
 	}
-});
+} );
 
 /**
  * Button UI element.

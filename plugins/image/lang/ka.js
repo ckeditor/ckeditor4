@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ka', {
 	validateBorder: 'ჩარჩო მთელი რიცხვი უნდა იყოს.',
 	validateHSpace: 'ჰორიზონტალური სივრცე მთელი რიცხვი უნდა იყოს.',
 	validateVSpace: 'ვერტიკალური სივრცე მთელი რიცხვი უნდა იყოს.'
-});
+} );

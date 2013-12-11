@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'eu', {
 	error: 'Barneko errore bat dela eta ezin izan da testua garbitu',
 	title: 'Itsatsi Word-etik',
 	toolbar: 'Itsatsi Word-etik'
-});
+} );

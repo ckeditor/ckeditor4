@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cy', {
 	more: 'Mwy o Liwiau...',
 	panelTitle: 'Lliwiau',
 	textColorTitle: 'Lliw Testun'
-});
+} );

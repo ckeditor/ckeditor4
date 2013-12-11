@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'af', {
 	tag_h6: 'Opskrif 6',
 	tag_p: 'Normaal',
 	tag_pre: 'Opgemaak'
-});
+} );

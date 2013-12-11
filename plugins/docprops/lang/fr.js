@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'fr', {
 	title: 'Propriétés du document',
 	txtColor: 'Couleur de texte',
 	xhtmlDec: 'Inclure les déclarations XHTML'
-});
+} );

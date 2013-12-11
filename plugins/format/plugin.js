@@ -100,9 +100,9 @@ CKEDITOR.plugins.add( 'format', {
 					var style = styles[ name ];
 
 					// Check if that style is enabled in activeFilter.
-					if ( !editor.activeFilter.check( style ) ) {
+					if ( !editor.activeFilter.check( style ) )
 						this.hideItem( name );
-					}
+
 				}
 			},
 
@@ -125,9 +125,9 @@ CKEDITOR.plugins.add( 'format', {
 				}
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
-		});
+		} );
 	}
-});
+} );
 
 /**
  * A list of semi colon separated style names (by default tags) representing

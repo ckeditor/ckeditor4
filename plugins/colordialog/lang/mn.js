@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'mn', {
 	options: 'Color Options', // MISSING
 	selected: 'Selected Color', // MISSING
 	title: 'Select color' // MISSING
-});
+} );

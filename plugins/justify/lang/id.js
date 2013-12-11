@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'id', {
 	center: 'Pusat',
 	left: 'Align Left', // MISSING
 	right: 'Align Right' // MISSING
-});
+} );

@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'gu', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'URL'
 	}
-});
+} );

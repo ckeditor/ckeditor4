@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'vi', {
 	preview: 'Xem trước trực tiếp',
 	config: 'Dán chuỗi này vào tập tin config.js của bạn',
 	predefined: 'Tập màu định nghĩa sẵn'
-});
+} );

@@ -13,9 +13,9 @@ CKEDITOR.plugins.add( 'removeformat', {
 			label: editor.lang.removeformat.toolbar,
 			command: 'removeFormat',
 			toolbar: 'cleanup,10'
-		});
+		} );
 	}
-});
+} );
 
 CKEDITOR.plugins.removeformat = {
 	commands: {

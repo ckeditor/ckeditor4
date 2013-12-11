@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'vi', {
 	title: 'Thuộc tính Tài liệu',
 	txtColor: 'Màu chữ',
 	xhtmlDec: 'Bao gồm cả định nghĩa XHTML'
-});
+} );

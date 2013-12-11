@@ -14,9 +14,9 @@ CKEDITOR.plugins.add( 'devtools', {
 			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
 			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }' );
 	}
-});
+} );
 
-(function() {
+( function() {
 	function defaultCallback( editor, dialog, element, tabName ) {
 		var lang = editor.lang.devtools,
 			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
@@ -56,7 +56,7 @@ CKEDITOR.plugins.add( 'devtools', {
 	CKEDITOR.on( 'reset', function() {
 		tooltip && tooltip.remove();
 		tooltip = null;
-	});
+	} );
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
 		var editor = evt.editor;
@@ -66,10 +66,10 @@ CKEDITOR.plugins.add( 'devtools', {
 				tooltip.hide();
 				tooltip.on( 'mouseover', function() {
 					this.show();
-				});
+				} );
 				tooltip.on( 'mouseout', function() {
 					this.hide();
-				});
+				} );
 				tooltip.appendTo( CKEDITOR.document.getBody() );
 			}
 
@@ -84,30 +84,30 @@ CKEDITOR.plugins.add( 'devtools', {
 					tab.on( 'mouseover', function() {
 						var id = this.$.id;
 						showTooltip( callback, this, editor, dialog, null, id.substring( 4, id.lastIndexOf( '_' ) ) );
-					});
+					} );
 					tab.on( 'mouseout', function() {
 						tooltip.hide();
-					});
+					} );
 				}
 
 				dialog.foreach( function( obj ) {
-					if ( obj.type in { hbox:1,vbox:1 } )
+					if ( obj.type in { hbox: 1, vbox: 1 } )
 						return;
 
 					var el = obj.getElement();
 					if ( el ) {
 						el.on( 'mouseover', function() {
 							showTooltip( callback, this, editor, dialog, obj, dialog._.currentTabId );
-						});
+						} );
 						el.on( 'mouseout', function() {
 							tooltip.hide();
-						});
+						} );
 					}
-				});
-			});
+				} );
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * A function that returns the text to be displayed inside the Developer Tools

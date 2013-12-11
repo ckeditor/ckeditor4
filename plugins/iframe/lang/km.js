@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'km', {
 	scrolling: 'ប្រើ​របារ​រំកិល',
 	title: 'លក្ខណៈ​សម្បត្តិ IFrame',
 	toolbar: 'IFrame'
-});
+} );

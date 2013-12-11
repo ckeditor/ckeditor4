@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'lt', {
 	tabName: 'Auselės pavadinimas',
 	elementId: 'Elemento ID',
 	elementType: 'Elemento tipas'
-});
+} );

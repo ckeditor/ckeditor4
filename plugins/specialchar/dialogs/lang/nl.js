@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'nl', {
 	hArr: 'Dubbele pijl naar links',
 	diams: 'Zwart ruitje',
 	asymp: 'Benaderingsteken'
-});
+} );

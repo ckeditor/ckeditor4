@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'el', {
 	validateBorder: 'Το περίγραμμα πρέπει να είναι ένας ακέραιος αριθμός.',
 	validateHSpace: 'Το HSpace πρέπει να είναι ένας ακέραιος αριθμός.',
 	validateVSpace: 'Το VSpace πρέπει να είναι ένας ακέραιος αριθμός.'
-});
+} );

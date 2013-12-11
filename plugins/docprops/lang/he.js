@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'he', {
 	title: 'מאפייני מסמך',
 	txtColor: 'צבע טקסט',
 	xhtmlDec: 'כלול הכרזות XHTML'
-});
+} );

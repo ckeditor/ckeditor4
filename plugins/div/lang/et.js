@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'et', {
 	styleSelectLabel: 'Stiil',
 	title: 'Div-konteineri loomine',
 	toolbar: 'Div-konteineri loomine'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'bg', {
 	preview: 'Преглед',
 	config: 'Вмъкнете този низ във Вашия config.js fajl',
 	predefined: 'Предефинирани цветови палитри'
-});
+} );

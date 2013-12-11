@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'mn', {
 		tools: 'Хэрэгслүүд'
 	},
 	toolbars: 'Болосруулагчийн хэрэгслийн самбар'
-});
+} );

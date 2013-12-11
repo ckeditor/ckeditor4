@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ru', {
 	styleSelectLabel: 'Стиль',
 	title: 'Создать Div-контейнер',
 	toolbar: 'Создать Div-контейнер'
-});
+} );

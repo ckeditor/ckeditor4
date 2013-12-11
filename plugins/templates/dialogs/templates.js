@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var doc = CKEDITOR.document;
 
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
@@ -50,7 +50,7 @@
 
 			item.on( 'click', function() {
 				insertTemplate( template.html );
-			});
+			} );
 
 			return item;
 		}
@@ -190,7 +190,7 @@
 							'<span>' + lang.emptyListMsg + '</span>' +
 							'</div>' );
 					}
-				});
+				} );
 
 				this._.element.on( 'keydown', keyNavigation );
 			},
@@ -199,5 +199,5 @@
 				this._.element.removeListener( 'keydown', keyNavigation );
 			}
 		};
-	});
-})();
+	} );
+} )();

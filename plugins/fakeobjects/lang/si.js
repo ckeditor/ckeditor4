@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'si', {
 	hiddenfield: 'සැඟවුණු ප්‍රදේශය',
 	iframe: 'IFrame',
 	unknown: 'Unknown Object' // MISSING
-});
+} );

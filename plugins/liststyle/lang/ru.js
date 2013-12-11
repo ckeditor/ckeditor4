@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ru', {
 	upperAlpha: 'Заглавные латинские (A, B, C, D, E, и т.д.)',
 	upperRoman: 'Заглавные римские (I, II, III, IV, V, и т.д.)',
 	validateStartNumber: 'Первый номер списка должен быть задан обычным целым числом.'
-});
+} );

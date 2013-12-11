@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'eu', {
 	title: 'Dokumentuaren Ezarpenak',
 	txtColor: 'Testu Kolorea',
 	xhtmlDec: 'XHTML Ezarpenak'
-});
+} );

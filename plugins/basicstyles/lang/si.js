@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'si', {
 	subscript: 'Subscript', // MISSING
 	superscript: 'Superscript', // MISSING
 	underline: 'යටින් ඉරි අදින ලද'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'eo', {
 	replaceSuccessMsg: '%1 anstataŭigita(j) apero(j).',
 	replaceWith: 'Anstataŭigi per:',
 	title: 'Serĉi kaj Anstataŭigi'
-});
+} );

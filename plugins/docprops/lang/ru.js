@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'ru', {
 	title: 'Свойства документа',
 	txtColor: 'Цвет текста',
 	xhtmlDec: 'Включить объявления XHTML'
-});
+} );

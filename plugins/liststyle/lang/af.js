@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'af', {
 	upperAlpha: 'Hoofletters (A, B, C, D, E, ens.)',
 	upperRoman: 'Romeinse hoofletters (I, II, III, IV, V, ens.)',
 	validateStartNumber: 'Beginnommer van lys moet \'n heelgetal wees.'
-});
+} );

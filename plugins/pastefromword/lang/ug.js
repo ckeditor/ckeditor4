@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ug', {
 	error: 'ئىچكى خاتالىق سەۋەبىدىن چاپلايدىغان سانلىق مەلۇماتنى تازىلىيالمايدۇ',
 	title: 'MS Word تىن چاپلا',
 	toolbar: 'MS Word تىن چاپلا'
-});
+} );

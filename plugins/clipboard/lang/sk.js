@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	pasteMsg: 'Prosím, vložte nasledovný rámček použitím klávesnice (<STRONG>Ctrl/Cmd+V</STRONG>) a stlačte OK.',
 	securityMsg: 'Kvôli vašim bezpečnostným nastaveniam prehliadača editor nie je schopný pristupovať k vašej schránke na kopírovanie priamo. Vložte to preto do tohto okna.',
 	title: 'Vložiť'
-});
+} );

@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'km', {
 	title: 'ការកំណត់ ឯកសារ',
 	txtColor: 'ពណ៌អក្សរ',
 	xhtmlDec: 'បញ្ជូល XHTML'
-});
+} );

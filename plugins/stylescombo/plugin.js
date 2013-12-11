@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	CKEDITOR.plugins.add( 'stylescombo', {
@@ -182,7 +182,7 @@
 					styles = {};
 					stylesList = [];
 				}
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

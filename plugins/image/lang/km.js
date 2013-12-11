@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'km', {
 	validateBorder: 'Border must be a whole number.', // MISSING
 	validateHSpace: 'HSpace must be a whole number.', // MISSING
 	validateVSpace: 'VSpace must be a whole number.' // MISSING
-});
+} );

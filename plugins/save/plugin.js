@@ -7,7 +7,7 @@
  * @fileOverview The Save plugin.
  */
 
-(function() {
+( function() {
 	var saveCmd = {
 		readOnly: 1,
 
@@ -49,10 +49,10 @@
 				label: editor.lang.save.toolbar,
 				command: pluginName,
 				toolbar: 'document,10'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Fired when the user clicks the Save button on the editor toolbar.

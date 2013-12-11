@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'zh', {
 	name: 'Placeholder 名稱',
 	invalidName: '「預留位置」不可為空白且不可包含以下字元：[, ], <, >',
 	pathName: '預留位置'
-});
+} );

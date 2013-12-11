@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'nb', {
 	replaceSuccessMsg: '%1 tilfelle(r) erstattet.',
 	replaceWith: 'Erstatt med:',
 	title: 'Søk og erstatt'
-});
+} );

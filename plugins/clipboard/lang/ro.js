@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ro', {
 	pasteMsg: 'Vă rugăm adăugaţi în căsuţa următoare folosind tastatura (<strong>Ctrl/Cmd+V</strong>) şi apăsaţi OK',
 	securityMsg: 'Din cauza setărilor de securitate ale programului dvs. cu care navigaţi pe internet (browser), editorul nu poate accesa direct datele din clipboard. Va trebui să adăugaţi din nou datele în această fereastră.',
 	title: 'Adaugă'
-});
+} );

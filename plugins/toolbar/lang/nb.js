@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'nb', {
 		tools: 'Verktøy'
 	},
 	toolbars: 'Verktøylinjer for editor'
-});
+} );

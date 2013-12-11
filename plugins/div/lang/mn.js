@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'mn', {
 	styleSelectLabel: 'Загвар',
 	title: 'Div гэдэг хэсэг бий болгох',
 	toolbar: 'Div гэдэг хэсэг бий болгох'
-});
+} );

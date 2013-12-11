@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'el', {
 	styleSelectLabel: 'Μορφή',
 	title: 'Δημιουργία Div',
 	toolbar: 'Δημιουργία Div'
-});
+} );

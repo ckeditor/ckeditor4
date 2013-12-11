@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'horizontalrule', 'ko', {
 	toolbar: '수평선 삽입'
-});
+} );

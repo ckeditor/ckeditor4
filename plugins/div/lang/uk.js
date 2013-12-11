@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'uk', {
 	styleSelectLabel: 'Стиль CSS',
 	title: 'Створити блок-контейнер',
 	toolbar: 'Створити блок-контейнер'
-});
+} );

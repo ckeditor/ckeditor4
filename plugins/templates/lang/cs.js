@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'cs', {
 	options: 'Nastavení šablon',
 	selectPromptMsg: 'Prosím zvolte šablonu pro otevření v editoru<br>(aktuální obsah editoru bude ztracen):',
 	title: 'Šablony obsahu'
-});
+} );

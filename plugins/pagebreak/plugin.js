@@ -43,7 +43,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 			label: editor.lang.pagebreak.toolbar,
 			command: 'pagebreak',
 			toolbar: 'insert,70'
-		});
+		} );
 
 		// Opera needs help to select the page-break.
 		CKEDITOR.env.opera && editor.on( 'contentDom', function() {
@@ -51,8 +51,8 @@ CKEDITOR.plugins.add( 'pagebreak', {
 				var target = evt.data.getTarget();
 				if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
 					editor.getSelection().selectElement( target );
-			});
-		});
+			} );
+		} );
 	},
 
 	afterInit: function( editor ) {
@@ -106,7 +106,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 			} );
 		}
 	}
-});
+} );
 
 // TODO Much probably there's no need to expose this object as public object.
 

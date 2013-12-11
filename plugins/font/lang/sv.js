@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'sv', {
 	label: 'Typsnitt',
 	panelTitle: 'Typsnitt',
 	voiceLabel: 'Typsnitt'
-});
+} );

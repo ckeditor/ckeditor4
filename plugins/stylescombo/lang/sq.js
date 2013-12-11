@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sq', {
 	panelTitle1: 'Stilet e Bllokut',
 	panelTitle2: 'Stili i Brendshëm',
 	panelTitle3: 'Stilet e Objektit'
-});
+} );

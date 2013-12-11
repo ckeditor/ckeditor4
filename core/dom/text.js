@@ -136,4 +136,4 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 		else
 			return this.$.nodeValue.substring( indexA, indexB );
 	}
-});
+} );

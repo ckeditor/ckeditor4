@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sr', {
 		tools: 'Tools'
 	},
 	toolbars: 'Едитор алатне траке'
-});
+} );

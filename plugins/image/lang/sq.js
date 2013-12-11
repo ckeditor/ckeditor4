@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sq', {
 	validateBorder: 'Korniza duhet të jetë numër i plotë.',
 	validateHSpace: 'Hapësira horizontale duhet të jetë numër i plotë.',
 	validateVSpace: 'Hapësira vertikale duhet të jetë numër i plotë.'
-});
+} );

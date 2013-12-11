@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'uk', {
 	label: 'Шрифт',
 	panelTitle: 'Шрифт',
 	voiceLabel: 'Шрифт'
-});
+} );

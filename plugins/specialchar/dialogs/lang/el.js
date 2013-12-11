@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'el', {
 	hArr: 'Διπλό βελάκι αριστερά-δεξιά',
 	diams: 'Μαύρο διαμάντι',
 	asymp: 'Σχεδόν ίσο με'
-});
+} );

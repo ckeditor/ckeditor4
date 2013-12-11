@@ -8,7 +8,7 @@
  *		editor instance.
  */
 
-(function() {
+( function() {
 	// Override the basic constructor defined at editor_basic.js.
 	Editor.prototype = CKEDITOR.editor.prototype;
 	CKEDITOR.editor = Editor;
@@ -279,7 +279,7 @@
 				// Call the load config again. This time the custom
 				// config is already cached and so it will get loaded.
 				loadConfig( editor );
-			});
+			} );
 		}
 
 		return true;
@@ -304,7 +304,7 @@
 			}
 
 			onConfigLoaded( editor );
-		});
+		} );
 
 		// The instance config may override the customConfig setting to avoid
 		// loading the default ~/config.js file.
@@ -399,7 +399,7 @@
 	function loadSkin( editor ) {
 		CKEDITOR.skin.loadPart( 'editor', function() {
 			loadLang( editor );
-		});
+		} );
 	}
 
 	function loadLang( editor ) {
@@ -455,7 +455,7 @@
 			editor.fire( 'langLoaded' );
 
 			preloadStylesSet( editor );
-		});
+		} );
 	}
 
 	// Preloads styles set file (config.stylesSet).
@@ -546,7 +546,7 @@
 				if ( requires && ( match = requires.match( removeRegex ) ) ) {
 					while ( ( name = match.pop() ) ) {
 						CKEDITOR.tools.setTimeout( function( name, pluginName ) {
-							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.');
+							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.' );
 						}, 0, null, [ name, pluginName ] );
 					}
 				}
@@ -621,8 +621,8 @@
 				editor.status = 'loaded';
 				editor.fireOnce( 'loaded' );
 				CKEDITOR.fire( 'instanceLoaded', null, editor );
-			});
-		});
+			} );
+		} );
 	}
 
 	// Send to data output back to editor's associated element.
@@ -936,7 +936,7 @@
 				this.on( 'dataReady', function( evt ) {
 					evt.removeListener();
 					callback.call( evt.editor );
-				});
+				} );
 			}
 
 			// Fire "setData" so data manipulation may happen.
@@ -1226,8 +1226,8 @@
 				this.fire( 'activeEnterModeChange' );
 			}
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * The editor has no associated element.

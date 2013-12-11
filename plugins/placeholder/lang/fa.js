@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'fa', {
 	name: 'Placeholder Name', // MISSING
 	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
 	pathName: 'placeholder' // MISSING
-});
+} );

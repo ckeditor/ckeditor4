@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'fr-ca', {
 	label: 'Police',
 	panelTitle: 'Police',
 	voiceLabel: 'Police'
-});
+} );

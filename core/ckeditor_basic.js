@@ -10,7 +10,7 @@
  */
 
 if ( CKEDITOR.status == 'unloaded' ) {
-	(function() {
+	( function() {
 		CKEDITOR.event.implementOn( CKEDITOR );
 
 		/**
@@ -66,7 +66,7 @@ if ( CKEDITOR.status == 'unloaded' ) {
 			pending.push( editor );
 		};
 
-		(function() {
+		( function() {
 			var onload = function() {
 					var loadFullCore = CKEDITOR.loadFullCore,
 						loadFullCoreTimeout = CKEDITOR.loadFullCoreTimeout;
@@ -87,8 +87,8 @@ if ( CKEDITOR.status == 'unloaded' ) {
 				};
 
 			CKEDITOR.domReady( onload );
-		})();
+		} )();
 
 		CKEDITOR.status = 'basic_loaded';
-	})();
+	} )();
 }

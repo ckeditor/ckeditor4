@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ka', {
 	upperAlpha: 'დიდი ლათინური ასოებით (A, B, C, D, E, ..)',
 	upperRoman: 'რომაული გადანომრვა დიდი ციფრებით (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'სიის საწყისი მთელი რიცხვი უნდა იყოს.'
-});
+} );

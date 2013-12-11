@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ku', {
 	hArr: 'دوو تیری ڕاست و چەپ',
 	diams: 'ڕەشی پاقڵاوەیی',
 	asymp: 'نیشانەی یەکسانە'
-});
+} );

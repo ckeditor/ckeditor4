@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'bn', {
 	subscript: 'অধোলেখ',
 	superscript: 'অভিলেখ',
 	underline: 'আন্ডারলাইন'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'he', {
 	replaceSuccessMsg: '%1 טקסטים הוחלפו.',
 	replaceWith: 'החלפה במחרוזת:',
 	title: 'חיפוש והחלפה'
-});
+} );

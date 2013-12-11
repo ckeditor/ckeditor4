@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'da', {
 	upperAlpha: 'Store alfabet (A, B, C, D, E, etc.)',
 	upperRoman: 'Store romerske (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Den nummererede liste skal starte med et rundt nummer'
-});
+} );

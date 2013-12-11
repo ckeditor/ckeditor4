@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'eu', {
 	validateBorder: 'Ertza zenbaki oso bat izan behar da.',
 	validateHSpace: 'HSpace zenbaki oso bat izan behar da.',
 	validateVSpace: 'VSpace zenbaki oso bat izan behar da.'
-});
+} );

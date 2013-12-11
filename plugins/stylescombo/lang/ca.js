@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ca', {
 	panelTitle1: 'Estils de bloc',
 	panelTitle2: 'Estils incrustats',
 	panelTitle3: 'Estils d\'objecte'
-});
+} );

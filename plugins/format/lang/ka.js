@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ka', {
 	tag_h6: 'სათაური 6',
 	tag_p: 'ჩვეულებრივი',
 	tag_pre: 'ფორმატირებული'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'nl', {
 	center: 'Centreren',
 	left: 'Links uitlijnen',
 	right: 'Rechts uitlijnen'
-});
+} );

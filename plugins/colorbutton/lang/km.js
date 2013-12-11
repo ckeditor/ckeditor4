@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'km', {
 	more: 'ពណ៌​ផ្សេង​ទៀត..',
 	panelTitle: 'ពណ៌',
 	textColorTitle: 'ពណ៌អក្សរ'
-});
+} );

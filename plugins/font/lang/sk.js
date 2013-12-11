@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'sk', {
 	label: 'Font',
 	panelTitle: 'Názov fontu',
 	voiceLabel: 'Font'
-});
+} );

@@ -25,7 +25,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );
-				if ( type in { button:1,reset:1,submit:1 } ) {
+				if ( type in { button: 1, reset: 1, submit: 1 } ) {
 					this.button = element;
 					this.setupContent( element );
 				}
@@ -97,4 +97,4 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		}
 		]
 	};
-});
+} );

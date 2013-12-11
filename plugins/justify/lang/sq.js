@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'sq', {
 	center: 'Qendër',
 	left: 'Rreshto majtas',
 	right: 'Rreshto Djathtas'
-});
+} );

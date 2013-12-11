@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ro', {
 	center: 'Aliniere centrală',
 	left: 'Aliniere la stânga',
 	right: 'Aliniere la dreapta'
-});
+} );

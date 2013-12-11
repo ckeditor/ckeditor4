@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sq', {
 		tools: 'Mjetet'
 	},
 	toolbars: 'Shiritet e Redaktuesit'
-});
+} );

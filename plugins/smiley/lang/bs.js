@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'bs', {
 	options: 'Smiley Options', // MISSING
 	title: 'Ubaci smješka',
 	toolbar: 'Smješko'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'gu', {
 	tag_h6: 'શીર્ષક 6',
 	tag_p: 'સામાન્ય',
 	tag_pre: 'ફૉર્મટેડ'
-});
+} );

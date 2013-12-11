@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'sv', {
 	styleSelectLabel: 'Stil',
 	title: 'Skapa Div container',
 	toolbar: 'Skapa Div container'
-});
+} );

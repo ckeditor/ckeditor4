@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fa', {
 	replaceSuccessMsg: '%1 رخداد جایگزین شد.',
 	replaceWith: 'جایگزینی با:',
 	title: 'جستجو و جایگزینی'
-});
+} );

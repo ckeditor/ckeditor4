@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'pl', {
 	validateBorder: 'Wartość obramowania musi być liczbą całkowitą.',
 	validateHSpace: 'Wartość odstępu poziomego musi być liczbą całkowitą.',
 	validateVSpace: 'Wartość odstępu pionowego musi być liczbą całkowitą.'
-});
+} );

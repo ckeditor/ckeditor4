@@ -86,4 +86,4 @@ CKEDITOR.addTemplates( 'default', {
 			'</div>'
 	}
 	]
-});
+} );

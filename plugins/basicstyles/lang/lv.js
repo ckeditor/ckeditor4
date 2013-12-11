@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'lv', {
 	subscript: 'Apakšrakstā',
 	superscript: 'Augšrakstā',
 	underline: 'Pasvītrots'
-});
+} );

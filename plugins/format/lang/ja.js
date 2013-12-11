@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ja', {
 	tag_h6: '見出し 6',
 	tag_p: '標準',
 	tag_pre: '書式付き'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'lt', {
 	options: 'Spalvos nustatymai',
 	selected: 'Pasirinkta spalva',
 	title: 'Pasirinkite spalvą'
-});
+} );

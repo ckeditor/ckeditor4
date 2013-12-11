@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'lv', {
 	hArr: 'Bulta pa kreisi',
 	diams: 'Dubulta Bulta pa kreisi',
 	asymp: 'Gandrīz vienāds ar'
-});
+} );

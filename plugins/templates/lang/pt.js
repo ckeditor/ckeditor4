@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'pt', {
 	options: 'Opções do Modelo',
 	selectPromptMsg: 'Por favor, seleccione o modelo a abrir no editor<br>(o conteúdo actual será perdido):',
 	title: 'Modelo de Conteúdo'
-});
+} );

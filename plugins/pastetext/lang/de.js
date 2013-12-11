@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'de', {
 	button: 'Als Text einfügen',
 	title: 'Als Text einfügen'
-});
+} );

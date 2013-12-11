@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'km', {
 	preview: 'មើល​ជាមុន​ផ្ទាល់',
 	config: 'បិទ​ភ្ជាប់​ខ្សែ​អក្សរ​នេះ​ទៅ​ក្នុង​ឯកសារ config.js របស់​អ្នក',
 	predefined: 'ឈុត​ពណ៌​កំណត់​រួច​ស្រេច'
-});
+} );

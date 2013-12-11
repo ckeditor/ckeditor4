@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'gu', {
 	widthPc: 'પ્રતિશત',
 	widthPx: 'પિકસલ',
 	widthUnit: 'પોહાલાઈ એકમ'
-});
+} );

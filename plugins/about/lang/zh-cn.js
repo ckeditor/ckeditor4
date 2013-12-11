@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'zh-cn', {
 	moreInfo: '相关授权许可信息请访问我们的网站：',
 	title: '关于 CKEditor',
 	userGuide: 'CKEditor 用户向导'
-});
+} );

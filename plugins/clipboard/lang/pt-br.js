@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt-br', {
 	pasteMsg: 'Transfira o link usado na caixa usando o teclado com (<STRONG>Ctrl/Cmd+V</STRONG>) e <STRONG>OK</STRONG>.',
 	securityMsg: 'As configurações de segurança do seu navegador não permitem que o editor acesse os dados da área de transferência diretamente. Por favor cole o conteúdo manualmente nesta janela.',
 	title: 'Colar'
-});
+} );

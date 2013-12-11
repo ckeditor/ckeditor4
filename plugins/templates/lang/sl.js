@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'sl', {
 	options: 'Možnosti Predloge',
 	selectPromptMsg: 'Izberite predlogo, ki jo želite odpreti v urejevalniku<br>(trenutna vsebina bo izgubljena):',
 	title: 'Vsebinske predloge'
-});
+} );

@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'uk', {
 	widthPc: 'відсотків',
 	widthPx: 'пікселів',
 	widthUnit: 'Одиниці вимір.'
-});
+} );

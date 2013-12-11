@@ -8,7 +8,7 @@
  *		loaded XML document.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'xml', {} );
 
 	/**
@@ -158,4 +158,4 @@
 			return xml.length ? xml.join( '' ) : null;
 		}
 	};
-})();
+} )();

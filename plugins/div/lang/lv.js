@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'lv', {
 	styleSelectLabel: 'Stils',
 	title: 'Izveidot div konteineri',
 	toolbar: 'Izveidot div konteineri'
-});
+} );

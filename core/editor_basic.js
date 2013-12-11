@@ -18,14 +18,14 @@ if ( !CKEDITOR.editor ) {
 	// "editor" param in CKEDITOR.event.fire. So, we override it to do that
 	// automaticaly.
 	CKEDITOR.editor.prototype.fire = function( eventName, data ) {
-		if ( eventName in { instanceReady:1,loaded:1 } )
+		if ( eventName in { instanceReady: 1, loaded: 1 } )
 			this[ eventName ] = true;
 
 		return CKEDITOR.event.prototype.fire.call( this, eventName, data, this );
 	};
 
 	CKEDITOR.editor.prototype.fireOnce = function( eventName, data ) {
-		if ( eventName in { instanceReady:1,loaded:1 } )
+		if ( eventName in { instanceReady: 1, loaded: 1 } )
 			this[ eventName ] = true;
 
 		return CKEDITOR.event.prototype.fireOnce.call( this, eventName, data, this );

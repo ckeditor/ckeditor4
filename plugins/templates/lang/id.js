@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'id', {
 	options: 'Opsi Contoh',
 	selectPromptMsg: 'Mohon pilih contoh untuk dibuka di editor',
 	title: 'Contoh Konten'
-});
+} );

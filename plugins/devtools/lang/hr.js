@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'hr', {
 	tabName: 'Naziva jahača',
 	elementId: 'ID elementa',
 	elementType: 'Vrsta elementa'
-});
+} );

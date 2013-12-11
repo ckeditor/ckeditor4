@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'et', {
 	moreInfo: 'Litsentsi andmed leiab meie veebilehelt:',
 	title: 'CKEditorist',
 	userGuide: 'CKEditori kasutusjuhendit'
-});
+} );

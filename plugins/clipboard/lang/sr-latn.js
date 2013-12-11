@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	pasteMsg: 'Molimo Vas da zalepite unutar donje povrine koristeći tastaturnu prečicu (<STRONG>Ctrl/Cmd+V</STRONG>) i da pritisnete <STRONG>OK</STRONG>.',
 	securityMsg: 'Zbog sigurnosnih postavki vašeg pregledača, editor nije u mogućnosti da direktno pristupi podacima u klipbordu. Potrebno je da zalepite još jednom u ovom prozoru.',
 	title: 'Zalepi'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'es', {
 	error: 'No ha sido posible limpiar los datos debido a un error interno',
 	title: 'Pegar desde Word',
 	toolbar: 'Pegar desde Word'
-});
+} );

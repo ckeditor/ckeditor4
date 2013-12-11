@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'cs', {
 	upperAlpha: 'Velká latinka (A, B, C, D, E, atd.)',
 	upperRoman: 'Velké římské (I, II, III, IV, V, atd.)',
 	validateStartNumber: 'Číslování musí začínat celým číslem.'
-});
+} );

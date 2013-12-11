@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ru', {
 	options: 'Параметры шаблона',
 	selectPromptMsg: 'Пожалуйста, выберите, какой шаблон следует открыть в редакторе',
 	title: 'Шаблоны содержимого'
-});
+} );

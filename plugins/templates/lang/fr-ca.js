@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'fr-ca', {
 	options: 'Options de modèles',
 	selectPromptMsg: 'Sélectionner le modèle à ouvrir dans l\'éditeur',
 	title: 'Modèles de contenu'
-});
+} );

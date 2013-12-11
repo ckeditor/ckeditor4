@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'da', {
 	subscript: 'Sænket skrift',
 	superscript: 'Hævet skrift',
 	underline: 'Understreget'
-});
+} );

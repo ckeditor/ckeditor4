@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'is', {
 	label: 'Leturgerð ',
 	panelTitle: 'Leturgerð ',
 	voiceLabel: 'Leturgerð '
-});
+} );

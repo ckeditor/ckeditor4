@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'zh-cn', {
 	tabName: '选项卡名称',
 	elementId: '元素 ID',
 	elementType: '元素类型'
-});
+} );

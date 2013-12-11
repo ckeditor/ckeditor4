@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'bn', {
 	center: 'মাঝ বরাবর ঘেষা',
 	left: 'বা দিকে ঘেঁষা',
 	right: 'ডান দিকে ঘেঁষা'
-});
+} );

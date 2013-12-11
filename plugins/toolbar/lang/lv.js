@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'lv', {
 		tools: 'Rīki'
 	},
 	toolbars: 'Redaktora rīkjoslas'
-});
+} );

@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ka', {
 	styleSelectLabel: 'სტილი',
 	title: 'Div კონტეინერის შექმნა',
 	toolbar: 'Div კონტეინერის შექმნა'
-});
+} );

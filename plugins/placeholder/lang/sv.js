@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'sv', {
 	name: 'Innehållsrutans namn',
 	invalidName: 'Innehållsrutan får inte vara tom och får inte innehålla någon av följande tecken: [,],<,>',
 	pathName: 'innehållsruta'
-});
+} );

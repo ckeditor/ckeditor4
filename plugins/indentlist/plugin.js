@@ -7,7 +7,7 @@
  * @fileOverview Handles the indentation of lists.
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
@@ -295,4 +295,4 @@
 	function neitherWhitespacesNorBookmark( node ) {
 		return isNotWhitespaces( node ) && isNotBookmark( node );
 	}
-})();
+} )();

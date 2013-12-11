@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'sk', {
 	replaceSuccessMsg: '%1 výskyt(ov) nahradených.',
 	replaceWith: 'Čím nahradiť:',
 	title: 'Nájsť a nahradiť'
-});
+} );

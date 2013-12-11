@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'fo', {
 	styleSelectLabel: 'Style',
 	title: 'Ger Div Container',
 	toolbar: 'Ger Div Container'
-});
+} );

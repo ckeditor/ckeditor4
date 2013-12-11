@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'lt', {
 	subscript: 'Apatinis indeksas',
 	superscript: 'Viršutinis indeksas',
 	underline: 'Pabrauktas'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'km', {
 	upperAlpha: 'អក្សរ​ធំ (A, B, C, D, E, ...)',
 	upperRoman: 'លេខ​រ៉ូម៉ាំង​ធំ (I, II, III, IV, V, ...)',
 	validateStartNumber: 'លេខ​ចាប់​ផ្ដើម​បញ្ជី ត្រូវ​តែ​ជា​តួ​លេខ​ពិត​ប្រាកដ។'
-});
+} );

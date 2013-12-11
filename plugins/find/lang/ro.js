@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ro', {
 	replaceSuccessMsg: '%1 căutări înlocuite.',
 	replaceWith: 'Înlocuieşte cu:',
 	title: 'Găseşte şi înlocuieşte'
-});
+} );

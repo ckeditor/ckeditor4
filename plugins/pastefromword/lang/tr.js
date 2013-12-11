@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'tr', {
 	error: 'Yapıştırmadaki veri bilgisi hata düzelene kadar silinmeyecektir',
 	title: 'Word\'den Yapıştır',
 	toolbar: 'Word\'den Yapıştır'
-});
+} );

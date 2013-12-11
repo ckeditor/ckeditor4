@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'elementspath', 'gl', {
 	eleLabel: 'Ruta dos elementos',
 	eleTitle: 'Elemento %1'
-});
+} );

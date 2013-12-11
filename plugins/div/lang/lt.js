@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'lt', {
 	styleSelectLabel: 'Stilius',
 	title: 'Sukurti Div elementą',
 	toolbar: 'Sukurti Div elementą'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'sq', {
 	replaceSuccessMsg: '%1 rast(e) u zëvendësua(n).',
 	replaceWith: 'Zëvendëso me:',
 	title: 'Gjej dhe Zëvendëso'
-});
+} );

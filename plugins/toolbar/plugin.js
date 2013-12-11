@@ -8,7 +8,7 @@
  * the editor.
  */
 
-(function() {
+( function() {
 	var toolbox = function() {
 			this.toolbars = [];
 			this.focusCommandExecuted = false;
@@ -27,7 +27,7 @@
 
 	var commands = {
 		toolbarFocus: {
-			modes: { wysiwyg:1,source:1 },
+			modes: { wysiwyg: 1, source: 1 },
 			readOnly: 1,
 
 			exec: function( editor ) {
@@ -310,11 +310,11 @@
 				if ( editor.config.toolbarCanCollapse && editor.elementMode != CKEDITOR.ELEMENT_MODE_INLINE ) {
 					var collapserFn = CKEDITOR.tools.addFunction( function() {
 						editor.execCommand( 'toolbarCollapse' );
-					});
+					} );
 
 					editor.on( 'destroy', function() {
 						CKEDITOR.tools.removeFunction( collapserFn );
-					});
+					} );
 
 					editor.addCommand( 'toolbarCollapse', {
 						readOnly: 1,
@@ -348,8 +348,8 @@
 							editor.fire( 'resize' );
 						},
 
-						modes: { wysiwyg:1,source:1 }
-					});
+						modes: { wysiwyg: 1, source: 1 }
+					} );
 
 					editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
 
@@ -366,7 +366,7 @@
 
 				output.push( '</span>' );
 				event.data.html += output.join( '' );
-			});
+			} );
 
 			editor.on( 'destroy', function() {
 
@@ -387,13 +387,13 @@
 						}
 					}
 				}
-			});
+			} );
 
 			// Manage editor focus  when navigating the toolbar.
 			editor.on( 'uiReady', function() {
 				var toolbox = editor.ui.space( 'toolbox' );
 				toolbox && editor.focusManager.add( toolbox, 1 );
-			});
+			} );
 
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
 			editor.setKeystroke( CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' );
@@ -408,9 +408,9 @@
 						}
 					};
 				}
-			});
+			} );
 		}
-	});
+	} );
 
 	function getToolbarConfig( editor ) {
 		var removeButtons = editor.config.removeButtons;
@@ -476,7 +476,7 @@
 					groups[ group ] || ( groups[ group ] = [] );
 
 					// Push the data used to build the toolbar later.
-					groups[ group ].push( { name: itemName, order: order} );
+					groups[ group ].push( { name: itemName, order: order } );
 				}
 			}
 
@@ -488,7 +488,7 @@
 						a.order < 0 ? 1 :
 						a.order < b.order ? -1 :
 						1;
-				});
+				} );
 			}
 
 			return groups;
@@ -531,14 +531,14 @@
 
 				if ( group == '/' )
 					toolbar.push( group );
-				else if ( CKEDITOR.tools.isArray( group) ) {
+				else if ( CKEDITOR.tools.isArray( group ) ) {
 					fillGroup( newGroup, CKEDITOR.tools.clone( group ) );
 					toolbar.push( newGroup );
 				}
 				else if ( group.items ) {
 					fillGroup( newGroup, CKEDITOR.tools.clone( group.items ) );
 					newGroup.name = group.name;
-					toolbar.push( newGroup);
+					toolbar.push( newGroup );
 				}
 			}
 
@@ -576,7 +576,7 @@
 			// Transform the subgroupOf name in the real subgroup object.
 			subgroupOf = CKEDITOR.tools.search( toolbarGroups, function( group ) {
 				return group.name == subgroupOf;
-			});
+			} );
 
 			if ( subgroupOf ) {
 				!subgroupOf.groups && ( subgroupOf.groups = [] ) ;
@@ -607,7 +607,7 @@
 			// Transform the "previous" name into its index.
 			previous = CKEDITOR.tools.indexOf( toolbarGroups, function( group ) {
 				return group.name == previous;
-			});
+			} );
 		}
 
 		if ( atStart )
@@ -635,9 +635,9 @@
 			{ name: 'tools' },
 			{ name: 'others' },
 			{ name: 'about' }
-		]);
+		] );
 	}
-})();
+} )();
 
 /**
  * Separator UI element.

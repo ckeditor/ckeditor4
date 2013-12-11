@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'ms', {
 	tag_h6: 'Heading 6',
 	tag_p: 'Normal',
 	tag_pre: 'Telah Diformat'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'bn', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'অনুগ্রহ করে এডিটরে ওপেন করার জন্য টেমপ্লেট বাছাই করুন<br>(আসল কনটেন্ট হারিয়ে যাবে):',
 	title: 'কনটেন্ট টেমপ্লেট'
-});
+} );

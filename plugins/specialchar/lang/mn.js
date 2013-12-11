@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'mn', {
 	options: 'Special Character Options', // MISSING
 	title: 'Онцгой тэмдэгт сонгох',
 	toolbar: 'Онцгой тэмдэгт оруулах'
-});
+} );

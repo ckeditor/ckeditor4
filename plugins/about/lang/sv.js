@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'sv', {
 	moreInfo: 'För information av licensiering besök vår hemsida:',
 	title: 'Om CKEditor',
 	userGuide: 'CKEditor User\'s Guide'
-});
+} );

@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		typeTel: 'Telefónne číslo',
 		typeUrl: 'URL'
 	}
-});
+} );

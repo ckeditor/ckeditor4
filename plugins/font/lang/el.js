@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'el', {
 	label: 'Γραμματοσειρά',
 	panelTitle: 'Όνομα Γραμματοσειράς',
 	voiceLabel: 'Γραμματοσειρά'
-});
+} );

@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'ug', {
 	windowModeOpaque: 'خىرە',
 	windowModeTransparent: 'سۈزۈك',
 	windowModeWindow: 'كۆزنەك گەۋدىسى'
-});
+} );

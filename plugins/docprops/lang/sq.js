@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'sq', {
 	title: 'Karakteristikat e Dokumentit',
 	txtColor: 'Ngjyra e Tekstit',
 	xhtmlDec: 'Përfshij XHTML Deklarimet'
-});
+} );

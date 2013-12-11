@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'ka', {
 	panelTitle1: 'არის სტილები',
 	panelTitle2: 'თანდართული სტილები',
 	panelTitle3: 'ობიექტის სტილები'
-});
+} );

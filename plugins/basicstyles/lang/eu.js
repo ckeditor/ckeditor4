@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'eu', {
 	subscript: 'Azpi-indize',
 	superscript: 'Goi-indize',
 	underline: 'Azpimarratu'
-});
+} );

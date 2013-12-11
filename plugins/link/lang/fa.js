@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	type: 'نوع پیوند',
 	unlink: 'برداشتن پیوند',
 	upload: 'انتقال به سرور'
-});
+} );

@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	type: 'লিংক প্রকার',
 	unlink: 'লিংক সরাও',
 	upload: 'আপলোড'
-});
+} );

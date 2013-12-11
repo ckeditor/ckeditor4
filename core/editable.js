@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/**
 	 * Editable class which provides all editing related activities by
 	 * the `contenteditable` element, dynamically get attached to editor instance.
@@ -11,7 +11,7 @@
 	 * @class CKEDITOR.editable
 	 * @extends CKEDITOR.dom.element
 	 */
-	CKEDITOR.editable = CKEDITOR.tools.createClass({
+	CKEDITOR.editable = CKEDITOR.tools.createClass( {
 		base: CKEDITOR.dom.element,
 		/**
 		 * The constructor hold only generic editable creation logic that are commonly shared among all different editable elements.
@@ -68,9 +68,9 @@
 				// Remedy if Safari doens't applies focus properly. (#279)
 				if ( CKEDITOR.env.safari && !this.isInline() ) {
 					active = CKEDITOR.document.getActive();
-					if ( !active.equals( this.getWindow().getFrame() ) ) {
+					if ( !active.equals( this.getWindow().getFrame() ) )
 						this.getWindow().focus();
-					}
+
 				}
 			},
 
@@ -220,7 +220,7 @@
 				if ( !isEnterBrMode ) {
 					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
 						return tools.repeat( match, 2 );
-					});
+					} );
 				}
 
 				// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
@@ -267,7 +267,7 @@
 				// * fill emptied <td/th>s with if browser needs them,
 				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
 				// * fix structure and move range into the <td/th> element.
-				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr:1,table:1,tbody:1,thead:1,tfoot:1 } ) )
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr: 1, table: 1, tbody: 1, thead: 1, tfoot: 1 } ) )
 					fixTableAfterContentsDeletion( range );
 
 				// If we're inserting a block at dtd-violated position, split
@@ -407,7 +407,7 @@
 			 *
 			 * @returns {Boolean}
 			 */
-			isInline : function () {
+			isInline : function() {
 				return this.getDocument().equals( CKEDITOR.document );
 			},
 
@@ -521,7 +521,7 @@
 					// Pending until this editable has attached.
 					editor.once( 'contentDom', function() {
 						editor.focusManager.focus();
-					});
+					} );
 				}
 
 				// Apply tab index on demand, with original direction saved.
@@ -578,7 +578,7 @@
 						evt.preventDefault();
 				} );
 
-				var backspaceOrDelete = { 8:1,46:1 };
+				var backspaceOrDelete = { 8: 1, 46: 1 };
 
 				// Override keystrokes which should have deletion behavior
 				//  on fully selected element . (#4047) (#7645)
@@ -735,13 +735,13 @@
 					this.attachListener( this, 'click', function( ev ) {
 						if ( ev.data.getTarget().is( 'input', 'select' ) )
 							ev.data.preventDefault();
-					});
+					} );
 
 					// Prevent from editig textfield/textarea value.
 					this.attachListener( this, 'mouseup', function( ev ) {
 						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
 							ev.data.preventDefault();
-					});
+					} );
 				}
 			}
 		},
@@ -778,7 +778,7 @@
 				delete this.editor;
 			}
 		}
-	});
+	} );
 
 	/**
 	 * Create, retrieve or detach an editable element of the editor,
@@ -921,7 +921,7 @@
 	function isNotBubbling( fn, src ) {
 		return function( evt ) {
 			var other = CKEDITOR.dom.element.get( evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget );
-			if ( ! ( other && ( src.equals( other ) || src.contains( other ) ) ) )
+			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};
 	}
@@ -934,7 +934,7 @@
 			range = sel.getRanges()[ 0 ],
 			editable = sel.root,
 			path = range.startPath(),
-			structural = { table:1,ul:1,ol:1,dl:1 };
+			structural = { table: 1, ul: 1, ol: 1, dl: 1 };
 
 		if ( path.contains( structural ) ) {
 			function guard( forwardGuard ) {
@@ -1030,7 +1030,7 @@
 					element.data( 'cke-editable', element.hasAttribute( 'contenteditable' ) ? 'true' : '1' );
 				element.setAttribute( 'contentEditable', false );
 			}
-		});
+		} );
 
 		editor.on( 'selectionChange', function( evt ) {
 			if ( editor.readOnly )
@@ -1050,8 +1050,8 @@
 
 				!isDirty && editor.resetDirty();
 			}
-		});
-	});
+		} );
+	} );
 
 
 	CKEDITOR.on( 'instanceCreated', function( evt ) {
@@ -1083,8 +1083,8 @@
 					editable.changeAttr( 'aria-describedby', ariaDescId );
 				}
 			}
-		});
-	});
+		} );
+	} );
 
 	// #9222: Show text cursor in Gecko.
 	// Show default cursor over control elements on all non-IEs.
@@ -1093,7 +1093,7 @@
 	//
 	// Functions related to insertXXX methods
 	//
-	var insert = (function() {
+	var insert = ( function() {
 		'use strict';
 
 		var DTD = CKEDITOR.dtd;
@@ -1572,7 +1572,7 @@
 					lineBreak = 0;
 					blockSibling = 0;
 				} else
-					nodesData.push( { isElement:0,node:node,allowed:1 } );
+					nodesData.push( { isElement: 0, node: node, allowed: 1 } );
 			}
 
 			// Mark first node that cannot be inserted directly into startContainer
@@ -1656,7 +1656,7 @@
 			return node && checkIfElement( node ) && ( node.is( DTD.$removeEmpty ) || node.is( 'a' ) && !node.isBlockBoundary() );
 		}
 
-		var blockMergedTags = { p:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,ul:1,ol:1,li:1,pre:1,dl:1,blockquote:1 };
+		var blockMergedTags = { p: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ul: 1, ol: 1, li: 1, pre: 1, dl: 1, blockquote: 1 };
 
 		// See rule 5. in TCs.
 		// Initial situation:
@@ -1721,7 +1721,7 @@
 				return 1;
 
 			firstBlockAscendant = range.startContainer.getAscendant( DTD.$block, 1 );
-			if ( !firstBlockAscendant || !firstBlockAscendant.is( { div:1,p:1 } ) )
+			if ( !firstBlockAscendant || !firstBlockAscendant.is( { div: 1, p: 1 } ) )
 				return 0;
 
 			pos = firstBlockAscendant.getPosition( blockLimit );
@@ -1735,7 +1735,7 @@
 			return 1;
 		}
 
-		var stripSingleBlockTags = { p:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1 },
+		var stripSingleBlockTags = { p: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1 },
 			inlineButNotBr = CKEDITOR.tools.extend( {}, DTD.$inline );
 		delete inlineButNotBr.br;
 
@@ -1777,7 +1777,7 @@
 		}
 
 		return insert;
-	})();
+	} )();
 
 	function beforeInsert( editable ) {
 		// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
@@ -1804,7 +1804,7 @@
 	// 1. Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
 	// inside a table. A goal is to find a closest <td> or <th> element and when this fails, recreate the structure of the table.
 	// 2. Fixes empty cells by appending bogus <br>s or deleting empty text nodes in IE<=8 case.
-	var fixTableAfterContentsDeletion = (function() {
+	var fixTableAfterContentsDeletion = ( function() {
 		// Creates an element walker which can only "go deeper". It won't
 		// move out from any element. Therefore it can be used to find <td>x</td> in cases like:
 		// <table><tbody><tr><td>x</td></tr></tbody>^<tfoot>...
@@ -1887,7 +1887,7 @@
 			}
 
 			// Found an empty txxx element - append tr.
-			if ( deeperSibling.is( { tbody:1,thead:1,tfoot:1 } ) )
+			if ( deeperSibling.is( { tbody: 1, thead: 1, tfoot: 1 } ) )
 				deeperSibling = fixTableStructure( deeperSibling, 'tr', appendToStart );
 
 			// Found an empty tr element - append td/th.
@@ -1902,9 +1902,9 @@
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 		};
-	})();
+	} )();
 
-})();
+} )();
 
 /**
  * Whether the editor must output an empty value (`''`) if it's contents is made

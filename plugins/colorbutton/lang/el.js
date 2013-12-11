@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 	more: 'Περισσότερα Χρώματα...',
 	panelTitle: 'Χρώματα',
 	textColorTitle: 'Χρώμα Κειμένου'
-});
+} );

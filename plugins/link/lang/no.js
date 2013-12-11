@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	type: 'Lenketype',
 	unlink: 'Fjern lenke',
 	upload: 'Last opp'
-});
+} );

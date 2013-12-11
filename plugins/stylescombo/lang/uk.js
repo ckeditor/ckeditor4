@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'uk', {
 	panelTitle1: 'Блочні стилі',
 	panelTitle2: 'Рядкові стилі',
 	panelTitle3: 'Об\'єктні стилі'
-});
+} );

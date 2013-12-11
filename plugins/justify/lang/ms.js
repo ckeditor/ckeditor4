@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ms', {
 	center: 'Jajaran Tengah',
 	left: 'Jajaran Kiri',
 	right: 'Jajaran Kanan'
-});
+} );

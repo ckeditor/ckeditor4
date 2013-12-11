@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'zh-cn', {
 	replaceSuccessMsg: '共完成 %1 处替换。',
 	replaceWith: '替换:',
 	title: '查找和替换'
-});
+} );

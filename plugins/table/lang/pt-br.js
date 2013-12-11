@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'pt-br', {
 	widthPc: '%',
 	widthPx: 'pixels',
 	widthUnit: 'unidade largura'
-});
+} );

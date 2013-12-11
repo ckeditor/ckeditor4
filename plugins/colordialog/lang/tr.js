@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'tr', {
 	options: 'Renk Seçenekleri',
 	selected: 'Seçilmiş',
 	title: 'Renk seç'
-});
+} );

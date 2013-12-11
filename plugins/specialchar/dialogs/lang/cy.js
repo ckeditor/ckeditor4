@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'cy', {
 	hArr: 'Saeth ddwbl i\'r chwith',
 	diams: 'Siwt diemwnt du',
 	asymp: 'Bron yn hafal iddo'
-});
+} );

@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-var CKEDITOR_LANGS = (function() {
+var CKEDITOR_LANGS = ( function() {
 	var langs = {
 		af: 'Afrikaans',
 		ar: 'Arabic',
@@ -75,12 +75,12 @@ var CKEDITOR_LANGS = (function() {
 	var langsArray = [];
 
 	for ( var code in CKEDITOR.lang.languages ) {
-		langsArray.push({ code: code, name: ( langs[ code ] || code ) } );
+		langsArray.push( { code: code, name: ( langs[ code ] || code ) } );
 	}
 
 	langsArray.sort( function( a, b ) {
 		return ( a.name < b.name ) ? -1 : 1;
-	});
+	} );
 
 	return langsArray;
-})();
+} )();

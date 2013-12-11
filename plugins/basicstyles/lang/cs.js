@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'cs', {
 	subscript: 'Dolní index',
 	superscript: 'Horní index',
 	underline: 'Podtržené'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ka', {
 	error: 'შიდა შეცდომის გამო ვერ მოხერხდა ტექსტის გაწმენდა',
 	title: 'ვორდიდან ჩასმა',
 	toolbar: 'ვორდიდან ჩასმა'
-});
+} );

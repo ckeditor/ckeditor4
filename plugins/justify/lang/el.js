@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'el', {
 	center: 'Στο Κέντρο',
 	left: 'Στοίχιση Αριστερά',
 	right: 'Στοίχιση Δεξιά'
-});
+} );

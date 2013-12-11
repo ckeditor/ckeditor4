@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'nl', {
 	options: 'Kleuropties',
 	selected: 'Geselecteerde kleur',
 	title: 'Selecteer kleur'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'zh', {
 	subscript: '下標',
 	superscript: '上標',
 	underline: '底線'
-});
+} );

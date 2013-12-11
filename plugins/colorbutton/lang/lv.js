@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'lv', {
 	more: 'Plašāka palete...',
 	panelTitle: 'Krāsa',
 	textColorTitle: 'Teksta krāsa'
-});
+} );

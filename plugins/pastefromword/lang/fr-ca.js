@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fr-ca', {
 	error: 'Il n\'a pas été possible de nettoyer les données collées du à une erreur interne',
 	title: 'Coller de Word',
 	toolbar: 'Coller de Word'
-});
+} );

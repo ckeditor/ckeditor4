@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'pl', {
 	tag_h6: 'Nagłówek 6',
 	tag_p: 'Normalny',
 	tag_pre: 'Tekst sformatowany'
-});
+} );

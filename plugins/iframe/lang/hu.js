@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'hu', {
 	scrolling: 'Gördítősáv bekapcsolása',
 	title: 'IFrame Tulajdonságok',
 	toolbar: 'IFrame'
-});
+} );

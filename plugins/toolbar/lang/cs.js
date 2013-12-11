@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'cs', {
 		tools: 'Nástroje'
 	},
 	toolbars: 'Panely nástrojů editoru'
-});
+} );

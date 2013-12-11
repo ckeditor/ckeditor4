@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'lt', {
 	moreInfo: 'Dėl licencijavimo apsilankykite mūsų svetainėje:',
 	title: 'Apie CKEditor',
 	userGuide: 'CKEditor Vartotojo Gidas'
-});
+} );

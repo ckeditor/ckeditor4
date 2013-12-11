@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'nl', {
 	upperAlpha: 'Hoofdletters (A, B, C, D, E, etc.)',
 	upperRoman: 'Romeinse hoofdletters (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Startnummer van de lijst moet een heel nummer zijn.'
-});
+} );

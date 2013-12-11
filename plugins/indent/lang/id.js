@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'indent', 'id', {
 	indent: 'Tingkatkan Lekuk',
 	outdent: 'Kurangi Lekuk'
-});
+} );

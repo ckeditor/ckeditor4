@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'undo', 'si', {
 	redo: 'නැවත කිරීම',
 	undo: 'වෙනස් කිරීම'
-});
+} );

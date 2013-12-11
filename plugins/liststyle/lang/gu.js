@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'gu', {
 	upperAlpha: 'આલ્ફા મોટા (A, B, C, D, E, etc.)',
 	upperRoman: 'રોમન મોટા (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'લીસ્ટના સરુઆતનો આંકડો પુરો હોવો જોઈએ.'
-});
+} );

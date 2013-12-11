@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'da', {
 	replaceSuccessMsg: '%1 forekomst(er) erstattet.',
 	replaceWith: 'Erstat med:',
 	title: 'Søg og erstat'
-});
+} );

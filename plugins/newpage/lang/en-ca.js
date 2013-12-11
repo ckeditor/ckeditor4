@@ -4,4 +4,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'newpage', 'en-ca', {
 	toolbar: 'New Page'
-});
+} );

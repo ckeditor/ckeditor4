@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ug', {
 	moreInfo: 'تور تۇرايىمىزنى زىيارەت قىلىپ كېلىشىمگە ئائىت تېخىمۇ كۆپ ئۇچۇرغا ئېرىشىڭ',
 	title: 'CKEditor ھەققىدە',
 	userGuide: 'CKEditor ئىشلەتكۈچى قوللانمىسى'
-});
+} );

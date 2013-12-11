@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'uicolor', {
 			label: editor.lang.uicolor.title,
 			command: 'uicolor',
 			toolbar: 'tools,1'
-		});
+		} );
 		CKEDITOR.dialog.add( 'uicolor', this.path + 'dialogs/uicolor.js' );
 
 		// Load YUI js files.
@@ -26,4 +26,4 @@ CKEDITOR.plugins.add( 'uicolor', {
 		// Load YUI css files.
 		CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( 'plugins/uicolor/yui/assets/yui.css' ) );
 	}
-});
+} );

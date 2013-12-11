@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'cy', {
 	options: 'Opsiynau Lliw',
 	selected: 'Lliw a Ddewiswyd',
 	title: 'Dewis lliw'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'et', {
 	panelTitle1: 'Blokkstiilid',
 	panelTitle2: 'Reasisesed stiilid',
 	panelTitle3: 'Objektistiilid'
-});
+} );

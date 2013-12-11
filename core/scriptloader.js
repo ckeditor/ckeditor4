@@ -14,7 +14,7 @@
  * @class
  * @singleton
  */
-CKEDITOR.scriptLoader = (function() {
+CKEDITOR.scriptLoader = ( function() {
 	var uniqueScripts = {},
 		waitingList = {};
 
@@ -113,7 +113,7 @@ CKEDITOR.scriptLoader = (function() {
 
 					// Create the <script> element.
 					var script = new CKEDITOR.dom.element( 'script' );
-					script.setAttributes({
+					script.setAttributes( {
 						type: 'text/javascript',
 						src: url } );
 
@@ -165,7 +165,7 @@ CKEDITOR.scriptLoader = (function() {
 		 *
 		 * @see CKEDITOR.scriptLoader#load
 		 */
-		queue: (function() {
+		queue: ( function() {
 			var pending = [];
 
 			// Loads the very first script from queue and removes it.
@@ -197,6 +197,6 @@ CKEDITOR.scriptLoader = (function() {
 				if ( pending.length == 1 )
 					loadNext.call( this );
 			};
-		})()
+		} )()
 	};
-})();
+} )();

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'tr', {
 	scrolling: 'Kaydırma çubuklarını aktif et',
 	title: 'IFrame Özellikleri',
 	toolbar: 'IFrame'
-});
+} );

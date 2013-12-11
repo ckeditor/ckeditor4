@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'nl', {
 	name: 'Naam placeholder',
 	invalidName: 'De placeholder mag niet leeg zijn, en mag niet een van de volgende tekens bevatten: [, ], <, >',
 	pathName: 'placeholder'
-});
+} );

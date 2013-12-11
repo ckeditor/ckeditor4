@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'el', {
 	error: 'Δεν ήταν δυνατό να καθαριστούν τα δεδομένα λόγω ενός εσωτερικού σφάλματος',
 	title: 'Επικόλληση από το Word',
 	toolbar: 'Επικόλληση από το Word'
-});
+} );

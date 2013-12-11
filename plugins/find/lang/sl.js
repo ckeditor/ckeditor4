@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'sl', {
 	replaceSuccessMsg: '%1 pojavitev je bilo zamenjano.',
 	replaceWith: 'Zamenjaj z:',
 	title: 'Najdi in zamenjaj'
-});
+} );

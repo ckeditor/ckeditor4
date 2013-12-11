@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ca', {
 	center: 'Centrat',
 	left: 'Alinea a l\'esquerra',
 	right: 'Alinea a la dreta'
-});
+} );

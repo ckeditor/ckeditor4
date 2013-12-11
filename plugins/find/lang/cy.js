@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'cy', {
 	replaceSuccessMsg: 'Amnewidiwyd %1 achlysur.',
 	replaceWith: 'Amnewid gyda:',
 	title: 'Chwilio ac Amnewid'
-});
+} );

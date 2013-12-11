@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'he', {
 	validateBorder: 'שדה המסגרת חייב להיות מספר שלם.',
 	validateHSpace: 'שדה המרווח האופקי חייב להיות מספר שלם.',
 	validateVSpace: 'שדה המרווח האנכי חייב להיות מספר שלם.'
-});
+} );

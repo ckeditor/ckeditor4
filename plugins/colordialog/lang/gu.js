@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'gu', {
 	options: 'રંગના વિકલ્પ',
 	selected: 'પસંદ કરેલો રંગ',
 	title: 'રંગ પસંદ કરો'
-});
+} );

@@ -8,7 +8,7 @@
  * an UI template for an editor instance.
  */
 
-(function() {
+( function() {
 	var cache = {};
 
 	/**
@@ -39,13 +39,13 @@
 			// Inject the template keys replacement.
 			.replace( /{([^}]+)}/g, function( m, key ) {
 				return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
-			});
+			} );
 
 			fn = "return buffer?buffer.push('" + fn + "'):['" + fn + "'].join('');";
 			this.output = cache[ source ] = Function( 'data', 'buffer', fn );
 		}
 	};
-})();
+} )();
 
 /**
  * Processes the template, filling its variables with the provided data.

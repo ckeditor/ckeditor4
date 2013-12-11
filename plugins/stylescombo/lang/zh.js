@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'zh', {
 	panelTitle1: '區塊樣式',
 	panelTitle2: '內嵌樣式',
 	panelTitle3: '物件樣式'
-});
+} );

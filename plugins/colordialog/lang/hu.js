@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'hu', {
 	options: 'Szín opciók',
 	selected: 'Kiválasztott',
 	title: 'Válasszon színt'
-});
+} );

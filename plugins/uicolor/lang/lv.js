@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'lv', {
 	preview: 'Priekšskatījums',
 	config: 'Ielīmējiet šo rindu jūsu config.js failā',
 	predefined: 'Predefinēti krāsu komplekti'
-});
+} );

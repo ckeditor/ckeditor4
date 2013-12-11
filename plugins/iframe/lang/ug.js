@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'ug', {
 	scrolling: 'دومىلىما سۈرگۈچكە يول قوي',
 	title: 'IFrame خاسلىق',
 	toolbar: 'IFrame '
-});
+} );

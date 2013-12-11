@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'sk', {
 	center: 'Zarovnať na stred',
 	left: 'Zarovnať vľavo',
 	right: 'Zarovnať vpravo'
-});
+} );

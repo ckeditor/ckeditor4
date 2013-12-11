@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'pl', {
 	options: 'Opcje szablonów',
 	selectPromptMsg: 'Wybierz szablon do otwarcia w edytorze<br>(obecna zawartość okna edytora zostanie utracona):',
 	title: 'Szablony zawartości'
-});
+} );

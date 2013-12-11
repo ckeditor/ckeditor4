@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'tr', {
 	label: 'Yazı Türü',
 	panelTitle: 'Yazı Türü',
 	voiceLabel: 'Font'
-});
+} );

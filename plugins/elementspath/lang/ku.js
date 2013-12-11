@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'elementspath', 'ku', {
 	eleLabel: 'ڕێڕەوی توخمەکان',
 	eleTitle: '%1 توخم'
-});
+} );

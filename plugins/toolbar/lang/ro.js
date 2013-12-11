@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ro', {
 		tools: 'Tools'
 	},
 	toolbars: 'Editează bara de unelte'
-});
+} );

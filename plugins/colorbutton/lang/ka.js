@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ka', {
 	more: 'მეტი ფერი...',
 	panelTitle: 'ფერები',
 	textColorTitle: 'ტექსტის ფერი'
-});
+} );

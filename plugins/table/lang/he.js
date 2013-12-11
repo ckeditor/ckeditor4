@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'he', {
 	widthPc: 'אחוז',
 	widthPx: 'פיקסלים',
 	widthUnit: 'יחידת רוחב'
-});
+} );

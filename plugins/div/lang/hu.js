@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'hu', {
 	styleSelectLabel: 'Stílus',
 	title: 'DIV tároló létrehozása',
 	toolbar: 'DIV tároló létrehozása'
-});
+} );

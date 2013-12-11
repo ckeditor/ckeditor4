@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'bn', {
 	title: 'ডক্যুমেন্ট প্রোপার্টি',
 	txtColor: 'টেক্স্ট রং',
 	xhtmlDec: 'XHTML ডেক্লারেশন যুক্ত কর'
-});
+} );

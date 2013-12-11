@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'eo', {
 	subscript: 'Suba indico',
 	superscript: 'Supra indico',
 	underline: 'Substreko'
-});
+} );

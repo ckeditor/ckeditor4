@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'et', {
 	options: 'Malli valikud',
 	selectPromptMsg: 'Palun vali mall, mis avada redaktoris<br />(praegune sisu läheb kaotsi):',
 	title: 'Sisumallid'
-});
+} );

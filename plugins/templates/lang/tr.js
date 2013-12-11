@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'tr', {
 	options: 'Şablon Seçenekleri',
 	selectPromptMsg: 'Düzenleyicide açmak için lütfen bir şablon seçin.<br>(hali hazırdaki içerik kaybolacaktır.):',
 	title: 'İçerik Şablonları'
-});
+} );

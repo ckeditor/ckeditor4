@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'hi', {
 	title: 'डॉक्यूमॅन्ट प्रॉपर्टीज़',
 	txtColor: 'टेक्स्ट रंग',
 	xhtmlDec: 'XHTML सूचना सम्मिलित करें'
-});
+} );

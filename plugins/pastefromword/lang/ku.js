@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ku', {
 	error: 'هیچ ڕێگەیەك نەبوو لەلکاندنی دەقەکه بەهۆی هەڵەیەکی ناوەخۆیی',
 	title: 'لکاندنی لەلایەن Word',
 	toolbar: 'لکاندنی لەڕێی Word'
-});
+} );

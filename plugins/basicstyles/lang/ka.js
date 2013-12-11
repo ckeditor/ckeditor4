@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ka', {
 	subscript: 'ინდექსი',
 	superscript: 'ხარისხი',
 	underline: 'გახაზული'
-});
+} );

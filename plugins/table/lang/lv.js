@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'lv', {
 	widthPc: 'procentuāli',
 	widthPx: 'pikseļos',
 	widthUnit: 'platuma mērvienība'
-});
+} );

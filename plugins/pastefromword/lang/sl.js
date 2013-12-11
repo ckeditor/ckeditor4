@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'sl', {
 	error: 'Ni bilo mogoče očistiti prilepljenih podatkov zaradi notranje napake',
 	title: 'Prilepi iz Worda',
 	toolbar: 'Prilepi iz Worda'
-});
+} );

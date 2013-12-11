@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'si', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'වචන වලින් අලවන්න',
 	toolbar: 'වචන වලින් අලවන්න'
-});
+} );

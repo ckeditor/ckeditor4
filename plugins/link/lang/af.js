@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'af', {
 	type: 'Skakelsoort',
 	unlink: 'Verwyder skakel',
 	upload: 'Oplaai'
-});
+} );

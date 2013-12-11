@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'th', {
 	subscript: 'ตัวห้อย',
 	superscript: 'ตัวยก',
 	underline: 'ตัวขีดเส้นใต้'
-});
+} );

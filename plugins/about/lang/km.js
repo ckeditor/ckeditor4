@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'km', {
 	moreInfo: 'សម្រាប់​ព័ត៌មាន​អំពី​អាជ្ញាបណញណ សូម​មើល​ក្នុង​គេហទំព័រ​របស់​យើង៖',
 	title: 'អំពី CKEditor',
 	userGuide: 'វិធី​ប្រើ​ប្រាស់ CKEditor'
-});
+} );

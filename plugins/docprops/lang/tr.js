@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'tr', {
 	title: 'Belge Özellikleri',
 	txtColor: 'Yazı Rengi',
 	xhtmlDec: 'XHTML Bildirimlerini Dahil Et'
-});
+} );

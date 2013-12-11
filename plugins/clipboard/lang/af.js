@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'af', {
 	pasteMsg: 'Plak die teks in die volgende teks-area met die sleutelbordkombinasie (<STRONG>Ctrl/Cmd+V</STRONG>) en druk <STRONG>OK</STRONG>.',
 	securityMsg: 'Weens u blaaier se sekuriteitsinstelling is data op die knipbord nie toeganklik nie. U kan dit eers weer in hierdie venster plak.',
 	title: 'Byvoeg'
-});
+} );

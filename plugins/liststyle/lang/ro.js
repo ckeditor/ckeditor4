@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ro', {
 	upperAlpha: 'Litere mari (A, B, C, D, E, etc.)',
 	upperRoman: 'Cifre romane mari (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Începutul listei trebuie să fie un număr întreg.'
-});
+} );

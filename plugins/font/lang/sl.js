@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'sl', {
 	label: 'Pisava',
 	panelTitle: 'Pisava',
 	voiceLabel: 'Pisava'
-});
+} );

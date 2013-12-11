@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'mn', {
 	label: 'Үсгийн хэлбэр',
 	panelTitle: 'Үгсийн хэлбэрийн нэр',
 	voiceLabel: 'Үгсийн хэлбэр'
-});
+} );

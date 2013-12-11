@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'th', {
 	center: 'จัดกึ่งกลาง',
 	left: 'จัดชิดซ้าย',
 	right: 'จัดชิดขวา'
-});
+} );

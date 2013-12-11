@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'fo', {
 	title: 'Eginleikar fyri dokument',
 	txtColor: 'Tekstlitur',
 	xhtmlDec: 'Viðfest XHTML deklaratiónir'
-});
+} );

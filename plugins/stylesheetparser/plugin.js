@@ -7,7 +7,7 @@
  * @fileOverview stylesheetParser plugin.
  */
 
-(function() {
+( function() {
 	// We want to extract only the elements with classes defined in the stylesheets:
 	function parseClasses( aRules, skipSelectors, validSelectors ) {
 		// aRules are just the different rules in the style sheets
@@ -75,11 +75,11 @@
 				element = oElement[ 0 ].toLowerCase(),
 				sClassName = oElement[ 1 ];
 
-			styles.push({
+			styles.push( {
 				name: element + '.' + sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
-			});
+			} );
 		}
 
 		return styles;
@@ -118,8 +118,8 @@
 				} );
 			}, null, null, 1 );
 		}
-	});
-})();
+	} );
+} )();
 
 
 /**

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'af', {
 	panelTitle1: 'Blok style',
 	panelTitle2: 'Inlyn style',
 	panelTitle3: 'Objek style'
-});
+} );

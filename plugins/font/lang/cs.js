@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'cs', {
 	label: 'Písmo',
 	panelTitle: 'Písmo',
 	voiceLabel: 'Písmo'
-});
+} );

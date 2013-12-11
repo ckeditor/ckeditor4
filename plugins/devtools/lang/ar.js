@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'ar', {
 	tabName: 'إسم التبويب',
 	elementId: 'إسم العنصر',
 	elementType: 'نوع العنصر'
-});
+} );

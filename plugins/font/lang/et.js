@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'et', {
 	label: 'Kiri',
 	panelTitle: 'Kiri',
 	voiceLabel: 'Kiri'
-});
+} );

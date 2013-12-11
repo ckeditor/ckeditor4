@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ms', {
 	widthPc: 'peratus',
 	widthPx: 'piksel-piksel',
 	widthUnit: 'width unit' // MISSING
-});
+} );

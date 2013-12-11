@@ -76,17 +76,17 @@ CKEDITOR.plugins.add( 'link', {
 				label: editor.lang.link.toolbar,
 				command: 'link',
 				toolbar: 'links,10'
-			});
+			} );
 			editor.ui.addButton( 'Unlink', {
 				label: editor.lang.link.unlink,
 				command: 'unlink',
 				toolbar: 'links,20'
-			});
+			} );
 			editor.ui.addButton( 'Anchor', {
 				label: editor.lang.link.anchor.toolbar,
 				command: 'anchor',
 				toolbar: 'links,30'
-			});
+			} );
 		}
 
 		CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
@@ -102,11 +102,11 @@ CKEDITOR.plugins.add( 'link', {
 				} else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) )
 					evt.data.dialog = 'anchor';
 			}
-		});
+		} );
 
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems ) {
-			editor.addMenuItems({
+			editor.addMenuItems( {
 				anchor: {
 					label: editor.lang.link.anchor.menu,
 					command: 'anchor',
@@ -134,7 +134,7 @@ CKEDITOR.plugins.add( 'link', {
 					group: 'link',
 					order: 5
 				}
-			});
+			} );
 		}
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'link', {
 					menu.anchor = menu.removeAnchor = CKEDITOR.TRISTATE_OFF;
 
 				return menu;
-			});
+			} );
 		}
 	},
 
@@ -170,7 +170,7 @@ CKEDITOR.plugins.add( 'link', {
 			pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
 
 		if ( dataFilter ) {
-			dataFilter.addRules({
+			dataFilter.addRules( {
 				elements: {
 					a: function( element ) {
 						var attributes = element.attributes;
@@ -197,30 +197,30 @@ CKEDITOR.plugins.add( 'link', {
 						return null;
 					}
 				}
-			});
+			} );
 		}
 
 		if ( CKEDITOR.plugins.link.emptyAnchorFix && htmlFilter ) {
-			htmlFilter.addRules({
+			htmlFilter.addRules( {
 				elements: {
 					a: function( element ) {
 						delete element.attributes.contenteditable;
 					}
 				}
-			});
+			} );
 		}
 
 		if ( pathFilters ) {
 			pathFilters.push( function( element, name ) {
 				if ( name == 'a' ) {
-					if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) || ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ) {
+					if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) || ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) )
 						return 'anchor';
-					}
+
 				}
-			});
+			} );
 		}
 	}
-});
+} );
 
 /**
  * Set of link plugin's helpers.
@@ -305,7 +305,7 @@ CKEDITOR.plugins.link = {
 CKEDITOR.unlinkCommand = function() {};
 CKEDITOR.unlinkCommand.prototype = {
 	exec: function( editor ) {
-		var style = new CKEDITOR.style( { element:'a',type:CKEDITOR.STYLE_INLINE,alwaysRemoveElement:1 } );
+		var style = new CKEDITOR.style( { element: 'a', type: CKEDITOR.STYLE_INLINE, alwaysRemoveElement: 1 } );
 		editor.removeStyle( style );
 	},
 
@@ -337,7 +337,7 @@ CKEDITOR.removeAnchorCommand.prototype = {
 		else {
 			if ( ( anchor = CKEDITOR.plugins.link.getSelectedLink( editor ) ) ) {
 				if ( anchor.hasAttribute( 'href' ) ) {
-					anchor.removeAttributes( { name:1,'data-cke-saved-name':1 } );
+					anchor.removeAttributes( { name: 1, 'data-cke-saved-name': 1 } );
 					anchor.removeClass( 'cke_anchor' );
 				} else
 					anchor.remove( 1 );
@@ -362,4 +362,4 @@ CKEDITOR.tools.extend( CKEDITOR.config, {
 	 * @todo
 	 */
 	linkShowTargetTab: true
-});
+} );

@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'sq', {
 	label: 'Shkronja',
 	panelTitle: 'Emri i Shkronjës',
 	voiceLabel: 'Shkronja'
-});
+} );

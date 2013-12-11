@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'hu', {
 		tools: 'Eszközök'
 	},
 	toolbars: 'Szerkesztő Eszköztár'
-});
+} );

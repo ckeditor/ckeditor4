@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'nb', {
 	scrolling: 'Aktiver scrollefelt',
 	title: 'Egenskaper for IFrame',
 	toolbar: 'IFrame'
-});
+} );

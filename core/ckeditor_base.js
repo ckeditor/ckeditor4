@@ -26,7 +26,7 @@ if ( !window.CKEDITOR ) {
 	 * @class CKEDITOR
 	 * @singleton
 	 */
-	window.CKEDITOR = (function() {
+	window.CKEDITOR = ( function() {
 		var CKEDITOR = {
 
 			/**
@@ -112,7 +112,7 @@ if ( !window.CKEDITOR ) {
 			 *
 			 * @property {String}
 			 */
-			basePath: (function() {
+			basePath: ( function() {
 				// ATTENTION: fixes to this code must be ported to
 				// var basePath in "core/loader.js".
 
@@ -147,7 +147,7 @@ if ( !window.CKEDITOR ) {
 					throw 'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';
 
 				return path;
-			})(),
+			} )(),
 
 			/**
 			 * Gets the full URL for CKEditor resources. By default, URLs
@@ -194,7 +194,7 @@ if ( !window.CKEDITOR ) {
 			 * @method
 			 * @todo
 			 */
-			domReady: (function() {
+			domReady: ( function() {
 				// Based on the original jQuery code.
 
 				var callbacks = [];
@@ -276,7 +276,7 @@ if ( !window.CKEDITOR ) {
 					}
 				};
 
-			})()
+			} )()
 		};
 
 		// Make it possible to override the "url" function with a custom
@@ -290,7 +290,7 @@ if ( !window.CKEDITOR ) {
 		}
 
 		return CKEDITOR;
-	})();
+	} )();
 }
 
 /**

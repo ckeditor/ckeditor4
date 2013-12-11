@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'maximize', 'ko', {
 	maximize: '최대',
 	minimize: '최소'
-});
+} );

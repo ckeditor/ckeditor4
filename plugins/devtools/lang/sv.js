@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'sv', {
 	tabName: 'Fliknamn',
 	elementId: 'Elementet-ID',
 	elementType: 'Elementet-typ'
-});
+} );

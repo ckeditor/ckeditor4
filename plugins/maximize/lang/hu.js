@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'maximize', 'hu', {
 	maximize: 'Teljes méret',
 	minimize: 'Kis méret'
-});
+} );

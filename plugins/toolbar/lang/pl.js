@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'pl', {
 		tools: 'Narzędzia'
 	},
 	toolbars: 'Paski narzędzi edytora'
-});
+} );

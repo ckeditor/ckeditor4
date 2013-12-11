@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'zh-cn', {
 	panelTitle1: '块级元素样式',
 	panelTitle2: '内联元素样式',
 	panelTitle3: '对象元素样式'
-});
+} );

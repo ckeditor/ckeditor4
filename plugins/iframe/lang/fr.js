@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'fr', {
 	scrolling: 'Permettre à la barre de défilement',
 	title: 'Propriétés de la IFrame',
 	toolbar: 'IFrame'
-});
+} );

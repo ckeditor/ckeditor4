@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		typeTel: 'Telefonszám',
 		typeUrl: 'URL'
 	}
-});
+} );

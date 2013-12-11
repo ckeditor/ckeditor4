@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ku', {
 	options: 'هەڵبژاردەکانی ڕووکار',
 	selectPromptMsg: 'ڕووکارێك هەڵبژێره بۆ کردنەوەی له سەرنووسەر:',
 	title: 'پێکهاتەی ڕووکار'
-});
+} );

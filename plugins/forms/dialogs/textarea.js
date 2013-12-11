@@ -115,4 +115,4 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 		}
 		]
 	};
-});
+} );

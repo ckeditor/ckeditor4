@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'th', {
 	pasteMsg: 'กรุณาใช้คีย์บอร์ดเท่านั้น โดยกดปุ๋ม (<strong>Ctrl/Cmd และ V</strong>)พร้อมๆกัน และกด <strong>OK</strong>.',
 	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
 	title: 'วาง'
-});
+} );

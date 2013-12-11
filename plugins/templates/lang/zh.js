@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'zh', {
 	options: '範本選項',
 	selectPromptMsg: '請選擇要在編輯器中開啟的範本。',
 	title: '內容範本'
-});
+} );

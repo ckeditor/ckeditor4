@@ -113,7 +113,7 @@
  * like in the third example, a custom <code>onSelect</code> function may be defined.
  */
 
-(function() {
+( function() {
 	// Adds (additional) arguments to given url.
 	//
 	// @param {String}
@@ -351,9 +351,9 @@
 			editor._.filebrowserFn = CKEDITOR.tools.addFunction( setUrl, editor );
 			editor.on( 'destroy', function() {
 				CKEDITOR.tools.removeFunction( this._.filebrowserFn );
-			});
+			} );
 		}
-	});
+	} );
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
 		// We require filebrowser plugin to be loaded.
@@ -366,14 +366,14 @@
 		for ( var i = 0; i < definition.contents.length; ++i ) {
 			if ( ( element = definition.contents[ i ] ) ) {
 				attachFileBrowser( evt.editor, evt.data.name, definition, element.elements );
-				if ( element.hidden && element.filebrowser ) {
+				if ( element.hidden && element.filebrowser )
 					element.hidden = !isConfigured( definition, element[ 'id' ], element.filebrowser );
-				}
+
 			}
 		}
-	});
+	} );
 
-})();
+} )();
 
 /**
  * The location of an external file browser that should be launched when the **Browse Server**

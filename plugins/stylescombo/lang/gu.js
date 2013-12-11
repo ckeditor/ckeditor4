@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'gu', {
 	panelTitle1: 'બ્લોક ',
 	panelTitle2: 'ઈનલાઈન ',
 	panelTitle3: 'ઓબ્જેક્ટ પદ્ધતિ'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'km', {
 	replaceSuccessMsg: 'ការ​ជំនួស​ចំនួន %1 បាន​កើត​ឡើង។',
 	replaceWith: 'ជំនួសជាមួយ:',
 	title: 'រក​និង​ជំនួស'
-});
+} );

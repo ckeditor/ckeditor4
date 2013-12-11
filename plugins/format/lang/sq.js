@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sq', {
 	tag_h6: 'Titulli 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatuar'
-});
+} );

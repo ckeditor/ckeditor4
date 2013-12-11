@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'lt', {
 	center: 'Centruoti',
 	left: 'Lygiuoti kairę',
 	right: 'Lygiuoti dešinę'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'uk', {
 	upperAlpha: 'Великі лат. букви (A, B, C, D, E і т.д.)',
 	upperRoman: 'Великі римські (I, II, III, IV, V і т.д.)',
 	validateStartNumber: 'Початковий номер списку повинен бути цілим числом.'
-});
+} );

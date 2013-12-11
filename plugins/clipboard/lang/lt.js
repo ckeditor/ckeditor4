@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lt', {
 	pasteMsg: 'Žemiau esančiame įvedimo lauke įdėkite tekstą, naudodami klaviatūrą (<STRONG>Ctrl/Cmd+V</STRONG>) ir paspauskite mygtuką <STRONG>OK</STRONG>.',
 	securityMsg: 'Dėl jūsų naršyklės saugumo nustatymų, redaktorius negali tiesiogiai pasiekti laikinosios atminties. Jums reikia nukopijuoti dar kartą į šį langą.',
 	title: 'Įdėti'
-});
+} );

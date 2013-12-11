@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'fa', {
 	center: 'میان چین',
 	left: 'چپ چین',
 	right: 'راست چین'
-});
+} );

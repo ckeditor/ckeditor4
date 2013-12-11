@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'et', {
 		tools: 'Tööriistad'
 	},
 	toolbars: 'Redaktori tööriistaribad'
-});
+} );

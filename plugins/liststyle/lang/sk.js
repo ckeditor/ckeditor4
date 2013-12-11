@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sk', {
 	upperAlpha: 'Veľké latinské (A, B, C, D, E, atď.)',
 	upperRoman: 'Veľké rímske (I, II, III, IV, V, atď.)',
 	validateStartNumber: 'Začiatočné číslo číselného zoznamu musí byť celé číslo.'
-});
+} );

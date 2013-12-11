@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'pl', {
 	center: 'Wyśrodkuj',
 	left: 'Wyrównaj do lewej',
 	right: 'Wyrównaj do prawej'
-});
+} );

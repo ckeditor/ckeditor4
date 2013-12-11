@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'hr', {
 	upperAlpha: 'Znakovi velika slova (A, B, C, D, E, itd.)',
 	upperRoman: 'Romanska numeracija velika slova (I, II, III, IV, V, itd.)',
 	validateStartNumber: 'Početak brojčane liste mora biti cijeli broj.'
-});
+} );

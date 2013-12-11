@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ja', {
 	upperAlpha: '大文字アルファベット (A, B, C, D, E, etc.)',
 	upperRoman: '大文字ローマ数字 (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'リストの開始番号は数値で入力してください。'
-});
+} );

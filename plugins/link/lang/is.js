@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	type: 'Stikluflokkur',
 	unlink: 'Fjarlægja stiklu',
 	upload: 'Senda upp'
-});
+} );

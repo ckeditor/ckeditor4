@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'da', {
 	error: 'Det var ikke muligt at fjerne formatteringen på den indsatte tekst grundet en intern fejl',
 	title: 'Indsæt fra Word',
 	toolbar: 'Indsæt fra Word'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'et', {
 	error: 'Asetatud andmete puhastamine ei olnud sisemise vea tõttu võimalik',
 	title: 'Asetamine Wordist',
 	toolbar: 'Asetamine Wordist'
-});
+} );

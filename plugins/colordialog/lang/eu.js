@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'eu', {
 	options: 'Kolore Aukerak',
 	selected: 'Hautatutako Kolorea',
 	title: 'Kolorea Hautatu'
-});
+} );

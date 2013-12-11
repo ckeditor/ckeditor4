@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'el', {
 	replaceSuccessMsg: 'Ο(ι) όρος(-οι) αντικαταστήθηκε(-αν) %1 φορές.',
 	replaceWith: 'Αντικατάσταση με:',
 	title: 'Εύρεση και Αντικατάσταση'
-});
+} );

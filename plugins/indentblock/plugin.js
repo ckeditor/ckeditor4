@@ -7,7 +7,7 @@
  * @fileOverview Handles the indentation of block elements.
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var $listItem = CKEDITOR.dtd.$listItem,
@@ -277,7 +277,7 @@
 	function getIndent( element ) {
 		return parseInt( element.getStyle( getIndentCss( element ) ), 10 );
 	}
-})();
+} )();
 
 /**
  * A list of classes to use for indenting the contents. If set to `null`, no classes will be used

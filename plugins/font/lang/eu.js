@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'eu', {
 	label: 'Letra-tipoa',
 	panelTitle: 'Letra-tipoa',
 	voiceLabel: 'Letra-tipoa'
-});
+} );

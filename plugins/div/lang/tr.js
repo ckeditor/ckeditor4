@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'tr', {
 	styleSelectLabel: 'Stil',
 	title: 'Div İçeriği Oluştur',
 	toolbar: 'Div İçeriği Oluştur'
-});
+} );

@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'bn', {
 	options: 'Smiley Options', // MISSING
 	title: 'স্মাইলী যুক্ত কর',
 	toolbar: 'স্মাইলী'
-});
+} );

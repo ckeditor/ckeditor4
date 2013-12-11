@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	type: 'Länktyp',
 	unlink: 'Radera länk',
 	upload: 'Ladda upp'
-});
+} );

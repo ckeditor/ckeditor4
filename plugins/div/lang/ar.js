@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'ar', {
 	styleSelectLabel: 'نمط',
 	title: 'إحداث Div Container',
 	toolbar: 'إحداث Div Container'
-});
+} );

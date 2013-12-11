@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'pl', {
 	hArr: 'Podwójna strzałka w lewo',
 	diams: 'Czarny znak karo',
 	asymp: 'Znak prawie równe'
-});
+} );

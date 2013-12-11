@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'da', {
 	options: 'Skabelon muligheder',
 	selectPromptMsg: 'Vælg den skabelon, som skal åbnes i editoren (nuværende indhold vil blive overskrevet):',
 	title: 'Indholdsskabeloner'
-});
+} );

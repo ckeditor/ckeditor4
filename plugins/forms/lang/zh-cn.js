@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		typeTel: '电话号码',
 		typeUrl: '地址'
 	}
-});
+} );

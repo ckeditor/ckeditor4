@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ru', {
 	error: 'Невозможно очистить вставленные данные из-за внутренней ошибки',
 	title: 'Вставить из Word',
 	toolbar: 'Вставить из Word'
-});
+} );

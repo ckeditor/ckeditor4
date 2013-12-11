@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'es', {
 	panelTitle1: 'Estilos de párrafo',
 	panelTitle2: 'Estilos de carácter',
 	panelTitle3: 'Estilos de objeto'
-});
+} );

@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'uk', {
 	scrolling: 'Увімкнути прокрутку',
 	title: 'Налаштування для IFrame',
 	toolbar: 'IFrame'
-});
+} );

@@ -30,6 +30,6 @@ CKEDITOR.plugins.add( 'docprops', {
 			label: editor.lang.docprops.label,
 			command: 'docProps',
 			toolbar: 'document,30'
-		});
+		} );
 	}
-});
+} );

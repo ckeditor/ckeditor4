@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'mn', {
 	more: 'Нэмэлт өнгөнүүд...',
 	panelTitle: 'Өнгөнүүд',
 	textColorTitle: 'Бичвэрийн өнгө'
-});
+} );

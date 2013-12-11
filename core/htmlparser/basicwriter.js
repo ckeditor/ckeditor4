@@ -9,7 +9,7 @@
  * @class
  * @todo
  */
-CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
+CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 	/**
 	 * Creates a basicWriter class instance.
 	 *
@@ -149,4 +149,4 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 			return html;
 		}
 	}
-});
+} );

@@ -65,4 +65,4 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		typeTel: 'Puhelinnumero',
 		typeUrl: 'Osoite'
 	}
-});
+} );

@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'hr', {
 	widthPc: 'postotaka',
 	widthPx: 'piksela',
 	widthUnit: 'jedinica širine'
-});
+} );

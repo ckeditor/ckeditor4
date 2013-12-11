@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'eo', {
 	hiddenfield: 'Kaŝita kampo',
 	iframe: 'Enlinia Kadro (IFrame)',
 	unknown: 'Nekonata objekto'
-});
+} );

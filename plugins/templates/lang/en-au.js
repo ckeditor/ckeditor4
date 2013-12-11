@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'en-au', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Please select the template to open in the editor',
 	title: 'Content Templates'
-});
+} );

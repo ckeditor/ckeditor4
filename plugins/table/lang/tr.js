@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'tr', {
 	widthPc: 'yüzde',
 	widthPx: 'piksel',
 	widthUnit: 'genişlik birimi'
-});
+} );

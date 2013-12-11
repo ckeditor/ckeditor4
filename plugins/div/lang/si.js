@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'si', {
 	styleSelectLabel: 'විලාසය',
 	title: 'නිර්මාණය ',
 	toolbar: 'නිර්මාණය '
-});
+} );

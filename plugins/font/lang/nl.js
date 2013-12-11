@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'nl', {
 	label: 'Lettertype',
 	panelTitle: 'Lettertype',
 	voiceLabel: 'Lettertype'
-});
+} );

@@ -7,7 +7,7 @@
  * @fileOverview Horizontal Rule plugin.
  */
 
-(function() {
+( function() {
 	var horizontalruleCmd = {
 		canUndo: false, // The undo snapshot will be handled by 'insertElement'.
 		exec: function( editor ) {
@@ -35,7 +35,7 @@
 				label: editor.lang.horizontalrule.toolbar,
 				command: pluginName,
 				toolbar: 'insert,40'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'fi', {
 	tabName: 'Välilehden nimi',
 	elementId: 'Elementin ID',
 	elementType: 'Elementin tyyppi'
-});
+} );

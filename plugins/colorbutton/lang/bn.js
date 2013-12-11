@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'bn', {
 	more: 'আরও রং...',
 	panelTitle: 'Colors',
 	textColorTitle: 'টেক্স্ট রং'
-});
+} );

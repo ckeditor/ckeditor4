@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'si', {
 	label: 'අක්ෂරය',
 	panelTitle: 'අක්ෂර නාමය',
 	voiceLabel: 'අක්ෂර'
-});
+} );

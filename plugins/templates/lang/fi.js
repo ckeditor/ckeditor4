@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'fi', {
 	options: 'Sisältöpohjan ominaisuudet',
 	selectPromptMsg: 'Valitse editoriin avattava pohja',
 	title: 'Sisältöpohjat'
-});
+} );

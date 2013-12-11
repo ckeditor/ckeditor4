@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'lt', {
 	validateBorder: 'Reikšmė turi būti sveikas skaičius.',
 	validateHSpace: 'Reikšmė turi būti sveikas skaičius.',
 	validateVSpace: 'Reikšmė turi būti sveikas skaičius.'
-});
+} );

@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'it', {
 	subscript: 'Pedice',
 	superscript: 'Apice',
 	underline: 'Sottolineato'
-});
+} );

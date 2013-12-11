@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'ar', {
 	moreInfo: 'للحصول على معلومات الترخيص ، يرجى زيارة موقعنا:',
 	title: 'عن CKEditor',
 	userGuide: 'دليل مستخدم CKEditor.'
-});
+} );

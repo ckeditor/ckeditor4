@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'cy', {
 	moreInfo: 'Am wybodaeth ynghylch trwyddedau, ewch i\'n gwefan:',
 	title: 'Ynghylch CKEditor',
 	userGuide: 'Canllawiau Defnyddiwr CKEditor'
-});
+} );

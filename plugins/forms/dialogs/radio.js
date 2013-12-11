@@ -29,7 +29,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 
 			if ( isInsertMode )
 				editor.insertElement( element );
-			this.commitContent({ element: element } );
+			this.commitContent( { element: element } );
 		},
 		contents: [
 			{
@@ -100,7 +100,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						if ( isElementChecked != isChecked ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' )
 								+ '></input>', editor.document );
-							element.copyAttributes( replace, { type:1,checked:1 } );
+							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );
 							data.element = replace;
@@ -112,4 +112,4 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 		}
 		]
 	};
-});
+} );

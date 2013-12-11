@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fr', {
 	upperAlpha: 'Alphabétique majuscules (A, B, C, D, E, etc.)',
 	upperRoman: 'Nombres romains majuscules (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Le premier élément de la liste doit être un nombre entier.'
-});
+} );

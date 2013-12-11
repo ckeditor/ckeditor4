@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'eo', {
 	options: 'Opcioj pri ŝablonoj',
 	selectPromptMsg: 'Bonvolu selekti la ŝablonon por malfermi ĝin en la redaktilo',
 	title: 'Enhavo de ŝablonoj'
-});
+} );

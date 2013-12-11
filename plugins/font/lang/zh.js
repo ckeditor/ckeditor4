@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'zh', {
 	label: '字型',
 	panelTitle: '字型名稱',
 	voiceLabel: '字型'
-});
+} );

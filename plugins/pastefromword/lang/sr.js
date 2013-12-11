@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'sr', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'Залепи из Worda',
 	toolbar: 'Залепи из Worda'
-});
+} );

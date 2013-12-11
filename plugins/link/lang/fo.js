@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	type: 'Tilknýtisslag',
 	unlink: 'Strika tilknýti',
 	upload: 'Send til ambætaran'
-});
+} );

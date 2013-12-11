@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'lt', {
 	upperAlpha: 'Didžiosios Alpha (A, B, C, D, E, t.t)',
 	upperRoman: 'Didžiosios Romėnų (I, II, III, IV, V, t.t)',
 	validateStartNumber: 'Sąrašo pradžios skaitmuo turi būti sveikas skaičius.'
-});
+} );

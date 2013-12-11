@@ -64,9 +64,9 @@ else if ( !( argv.i && argv.l ) ) {
 
 // Check if convert is installed.
 exec( 'convert -version', function( error, stdout, stderr ) {
-	if ( error ) {
+	if ( error )
 		gracefulFailure( 'Convert not found in PATH. See http://www.imagemagick.org/ for more help.' );
-	}
+
 } );
 
 // Check if PNG exist.

@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'lt', {
 	title: 'Dokumento savybės',
 	txtColor: 'Teksto spalva',
 	xhtmlDec: 'Įtraukti XHTML deklaracijas'
-});
+} );

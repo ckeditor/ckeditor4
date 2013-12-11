@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'devtools', 'eu', {
 	tabName: 'Fitxaren izena',
 	elementId: 'Elementuaren ID-a',
 	elementType: 'Elementu mota'
-});
+} );

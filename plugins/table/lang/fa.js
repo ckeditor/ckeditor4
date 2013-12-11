@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'fa', {
 	widthPc: 'درصد',
 	widthPx: 'پیکسل',
 	widthUnit: 'واحد پهنا'
-});
+} );

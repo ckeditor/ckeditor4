@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'fr', {
 	label: 'Police',
 	panelTitle: 'Style de police',
 	voiceLabel: 'Police'
-});
+} );

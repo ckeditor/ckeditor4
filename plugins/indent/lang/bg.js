@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'indent', 'bg', {
 	indent: 'Увеличаване на отстъпа',
 	outdent: 'Намаляване на отстъпа'
-});
+} );

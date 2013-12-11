@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'nl', {
 	subscript: 'Subscript',
 	superscript: 'Superscript',
 	underline: 'Onderstrepen'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ca', {
 	error: 'No ha estat possible netejar les dades enganxades degut a un error intern',
 	title: 'Enganxa des del Word',
 	toolbar: 'Enganxa des del Word'
-});
+} );

@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sq', {
 	upperAlpha: 'Të mëdha alfa (A, B, C, D, E, etj.)',
 	upperRoman: 'Të mëdha romake (I, II, III, IV, V, etj.)',
 	validateStartNumber: 'Numri i fillimit të listës duhet të është numër i plotë.'
-});
+} );

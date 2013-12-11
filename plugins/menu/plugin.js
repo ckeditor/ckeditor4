@@ -77,9 +77,9 @@ CKEDITOR.plugins.add( 'menu', {
 			delete menuItems[ name ];
 		};
 	}
-});
+} );
 
-(function() {
+( function() {
 	var menuItemSource = '<span class="cke_menuitem">' +
 		'<a id="{id}"' +
 		' class="cke_menubutton cke_menubutton__{name} cke_menubutton_{state} {cls}" href="{href}"' +
@@ -133,7 +133,7 @@ CKEDITOR.plugins.add( 'menu', {
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.menu = CKEDITOR.tools.createClass({
+	CKEDITOR.menu = CKEDITOR.tools.createClass( {
 		/**
 		 * @constructor
 		 */
@@ -151,7 +151,7 @@ CKEDITOR.plugins.add( 'menu', {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ],
 				level: this._.level - 1,
 				block: {}
-			});
+			} );
 
 			var attrs = panelDefinition.block.attributes = ( panelDefinition.attributes || {} );
 			// Provide default role of 'menu'.
@@ -249,7 +249,7 @@ CKEDITOR.plugins.add( 'menu', {
 				// focus when JAWS is running. (#9844)
 				setTimeout( function() {
 					menu.show( element, 2 );
-				},0);
+				}, 0 );
 			}
 		},
 
@@ -425,7 +425,7 @@ CKEDITOR.plugins.add( 'menu', {
 				this._.panel && this._.panel.hide( returnFocus );
 			}
 		}
-	});
+	} );
 
 	function sortItems( items ) {
 		items.sort( function( itemA, itemB ) {
@@ -435,21 +435,21 @@ CKEDITOR.plugins.add( 'menu', {
 				return 1;
 
 			return itemA.order < itemB.order ? -1 : itemA.order > itemB.order ? 1 : 0;
-		});
+		} );
 	}
 
 	/**
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.menuItem = CKEDITOR.tools.createClass({
+	CKEDITOR.menuItem = CKEDITOR.tools.createClass( {
 		$: function( editor, name, definition ) {
 			CKEDITOR.tools.extend( this, definition,
 			// Defaults
 			{
 				order: 0,
 				className: 'cke_menubutton__' + name
-			});
+			} );
 
 			// Transform the group name into its order number.
 			this.group = editor._.menuGroups[ this.group ];
@@ -502,9 +502,9 @@ CKEDITOR.plugins.add( 'menu', {
 				menuItemTpl.output( params, output );
 			}
 		}
-	});
+	} );
 
-})();
+} )();
 
 
 /**

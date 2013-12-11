@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'uk', {
 	subscript: 'Нижній індекс',
 	superscript: 'Верхній індекс',
 	underline: 'Підкреслений'
-});
+} );

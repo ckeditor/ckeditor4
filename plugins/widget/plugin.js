@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var DRAG_HANDLER_SIZE = 15;
 
@@ -2353,9 +2353,8 @@
 
 				widgetsRepo.editor.fire( 'lockSnapshot' );
 
-				if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
+				if ( focusedChanged && ( widget = widgetsRepo.focused ) )
 					blurWidget( widgetsRepo, widget );
-				}
 
 				while ( ( widget = toBeDeselected.pop() ) ) {
 					currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
@@ -2387,7 +2386,7 @@
 
 	var transparentImageData = 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D',
 		// LEFT, RIGHT, UP, DOWN, DEL, BACKSPACE - unblock default fake sel handlers.
-		keystrokesNotBlockedByWidget = { 37:1,38:1,39:1,40:1,8:1,46:1 };
+		keystrokesNotBlockedByWidget = { 37: 1, 38: 1, 39: 1, 40: 1, 8: 1, 46: 1 };
 
 	function cancel( evt ) {
 		evt.cancel();
@@ -2788,7 +2787,7 @@
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 	Widget.nestedEditable = NestedEditable;
-})();
+} )();
 
 /**
  * An event fired when a widget definition is registered by the {@link CKEDITOR.plugins.widget.repository#add} method.

@@ -6,4 +6,4 @@ CKEDITOR.plugins.setLang( 'smiley', 'is', {
 	options: 'Smiley Options', // MISSING
 	title: 'Velja svip',
 	toolbar: 'Svipur'
-});
+} );

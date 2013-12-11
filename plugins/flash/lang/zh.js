@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'zh', {
 	windowModeOpaque: '不透明',
 	windowModeTransparent: '透明',
 	windowModeWindow: '視窗'
-});
+} );

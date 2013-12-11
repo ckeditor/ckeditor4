@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var imageDialog = function( editor, dialogType ) {
 			// Load image preview.
 			var IMAGE = 1,
@@ -67,7 +67,7 @@
 				this.foreach( function( widget ) {
 					if ( widget.commit && widget.id != 'txtdlgGenStyle' )
 						widget.commit.apply( widget, args );
-				});
+				} );
 			}
 
 			// Avoid recursions.
@@ -349,10 +349,10 @@
 							// Replace IMG -> INPUT
 							imgTagName = 'input';
 							this.imageElement = editor.document.createElement( 'input' );
-							this.imageElement.setAttributes({
+							this.imageElement.setAttributes( {
 								type: 'image',
 								alt: ''
-							});
+							} );
 							editor.insertElement( this.imageElement );
 						} else {
 							// Restore the original element before all commits.
@@ -543,11 +543,11 @@
 							if ( type == IMAGE ) {
 								if ( this.getValue() || this.isChanged() )
 									element.setAttribute( 'alt', this.getValue() );
-							} else if ( type == PREVIEW ) {
+							} else if ( type == PREVIEW )
 								element.setAttribute( 'alt', this.getValue() );
-							} else if ( type == CLEANUP ) {
+							else if ( type == CLEANUP )
 								element.removeAttribute( 'alt' );
-							}
+
 						}
 					},
 						{
@@ -1153,11 +1153,11 @@
 								if ( type == IMAGE ) {
 									if ( this.getValue() || this.isChanged() )
 										element.setAttribute( 'title', this.getValue() );
-								} else if ( type == PREVIEW ) {
+								} else if ( type == PREVIEW )
 									element.setAttribute( 'title', this.getValue() );
-								} else if ( type == CLEANUP ) {
+								else if ( type == CLEANUP )
 									element.removeAttribute( 'title' );
-								}
+
 							}
 						}
 						]
@@ -1195,9 +1195,9 @@
 							updatePreview( this );
 						},
 						commit: function( type, element ) {
-							if ( type == IMAGE && ( this.getValue() || this.isChanged() ) ) {
+							if ( type == IMAGE && ( this.getValue() || this.isChanged() ) )
 								element.setAttribute( 'style', this.getValue() );
-							}
+
 						}
 					}
 					]
@@ -1208,9 +1208,9 @@
 
 	CKEDITOR.dialog.add( 'image', function( editor ) {
 		return imageDialog( editor, 'image' );
-	});
+	} );
 
 	CKEDITOR.dialog.add( 'imagebutton', function( editor ) {
 		return imageDialog( editor, 'imagebutton' );
-	});
-})();
+	} );
+} )();

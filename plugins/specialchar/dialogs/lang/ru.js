@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ru', {
 	hArr: 'Двойная стрелка влево-вправо',
 	diams: 'Черный ромб',
 	asymp: 'Примерно равно'
-});
+} );

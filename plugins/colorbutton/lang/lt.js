@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'lt', {
 	more: 'Daugiau spalvų...',
 	panelTitle: 'Spalva',
 	textColorTitle: 'Teksto spalva'
-});
+} );

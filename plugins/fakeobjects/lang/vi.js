@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'vi', {
 	hiddenfield: 'Trường ẩn',
 	iframe: 'IFrame',
 	unknown: 'Đối tượng không rõ ràng'
-});
+} );

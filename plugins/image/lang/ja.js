@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ja', {
 	validateBorder: '枠線の幅は数値で入力してください。',
 	validateHSpace: '水平間隔は数値で入力してください。',
 	validateVSpace: '垂直間隔は数値で入力してください。'
-});
+} );

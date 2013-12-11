@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'hi', {
 	center: 'बीच में',
 	left: 'बायीं तरफ',
 	right: 'दायीं तरफ'
-});
+} );

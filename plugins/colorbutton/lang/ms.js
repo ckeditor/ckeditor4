@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ms', {
 	more: 'Warna lain-lain...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Warna Text'
-});
+} );

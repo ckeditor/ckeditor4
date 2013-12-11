@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ku', {
 	more: 'ڕەنگی زیاتر...',
 	panelTitle: 'ڕەنگەکان',
 	textColorTitle: 'ڕەنگی دەق'
-});
+} );

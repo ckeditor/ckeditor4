@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'km', {
 	options: 'ជម្រើស​ពុម្ព​គំរូ',
 	selectPromptMsg: 'សូម​រើស​ពុម្ព​គំរូ​ដើម្បី​បើក​ក្នុង​កម្មវិធី​សរសេរ​អត្ថបទ',
 	title: 'ពុម្ព​គំរូ​មាតិកា'
-});
+} );

@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'ka', {
 	center: 'შუაში სწორება',
 	left: 'მარცხნივ სწორება',
 	right: 'მარჯვნივ სწორება'
-});
+} );

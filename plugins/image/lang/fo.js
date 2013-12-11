@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'fo', {
 	validateBorder: 'Bordi má vera eitt heiltal.',
 	validateHSpace: 'HSpace má vera eitt heiltal.',
 	validateVSpace: 'VSpace má vera eitt heiltal.'
-});
+} );

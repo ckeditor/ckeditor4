@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'he', {
 	options: 'אפשרויות התבניות',
 	selectPromptMsg: 'יש לבחור תבנית לפתיחה בעורך.<br />התוכן המקורי ימחק:',
 	title: 'תביות תוכן'
-});
+} );

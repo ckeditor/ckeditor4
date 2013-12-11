@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'elementspath', 'cs', {
 	eleLabel: 'Cesta objektu',
 	eleTitle: '%1 objekt'
-});
+} );

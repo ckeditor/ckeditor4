@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'hi', {
 	error: 'It was not possible to clean up the pasted data due to an internal error', // MISSING
 	title: 'पेस्ट (वर्ड से)',
 	toolbar: 'पेस्ट (वर्ड से)'
-});
+} );

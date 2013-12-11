@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'pt', {
 	panelTitle1: 'Estilos de Bloco',
 	panelTitle2: 'Estilos de Linha',
 	panelTitle3: 'Estilos de Objeto'
-});
+} );

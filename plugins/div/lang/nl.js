@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'nl', {
 	styleSelectLabel: 'Stijl',
 	title: 'Div aanmaken',
 	toolbar: 'Div aanmaken'
-});
+} );

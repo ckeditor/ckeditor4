@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'id', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.', // MISSING
 	replaceWith: 'Ganti dengan:',
 	title: 'Temukan dan Ganti'
-});
+} );

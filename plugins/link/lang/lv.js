@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	type: 'Hipersaites tips',
 	unlink: 'Noņemt hipersaiti',
 	upload: 'Augšupielādēt'
-});
+} );

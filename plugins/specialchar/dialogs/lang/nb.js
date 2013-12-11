@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'nb', {
 	hArr: 'Dobbel venstrevendt pil',
 	diams: 'Svart ruter',
 	asymp: 'Omtrent likhetstegn'
-});
+} );

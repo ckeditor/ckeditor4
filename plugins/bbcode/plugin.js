@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var tab,
 			name = ev.data.name,
@@ -64,7 +64,7 @@
 
 	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
 
-	var decodeHtml = (function() {
+	var decodeHtml = ( function() {
 		var regex = [],
 			entities = {
 				nbsp: '\u00A0', // IE | FF
@@ -83,7 +83,7 @@
 				return entities[ entity ];
 			} );
 		};
-	})();
+	} )();
 
 	CKEDITOR.BBCodeParser = function() {
 		this._ = {
@@ -783,4 +783,4 @@
 		}
 	} );
 
-})();
+} )();

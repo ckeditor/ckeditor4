@@ -6,4 +6,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'sourcedialog', 'et', {
 	toolbar: 'Lähtekood',
 	title: 'Lähtekood'
-});
+} );

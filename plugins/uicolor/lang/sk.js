@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'sk', {
 	preview: 'Živý náhľad',
 	config: 'Vložte tento reťazec do vášho config.js súboru',
 	predefined: 'Preddefinované sady farieb'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'et', {
 	tag_h6: 'Pealkiri 6',
 	tag_p: 'Tavaline',
 	tag_pre: 'Vormindatud'
-});
+} );

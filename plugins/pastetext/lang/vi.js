@@ -5,4 +5,4 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'vi', {
 	button: 'Dán theo định dạng văn bản thuần',
 	title: 'Dán theo định dạng văn bản thuần'
-});
+} );

@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'af', {
 	replaceSuccessMsg: '%1 voorkoms(te) vervang.',
 	replaceWith: 'Vervang met:',
 	title: 'Soek en vervang'
-});
+} );
