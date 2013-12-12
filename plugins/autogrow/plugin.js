@@ -48,6 +48,11 @@
 				// Some time is required for insertHtml, and it gives other events better performance as well.
 				if ( evt.editor.mode == 'wysiwyg' ) {
 					setTimeout( function() {
+						if ( isNotResizable() ) {
+							lastHeight = null;
+							return;
+						}
+
 						lastHeight = resizeEditor( evt.editor, lastHeight );
 						// Second pass to make correction upon
 						// the first resize, e.g. scrollbar.
@@ -93,6 +98,16 @@
 				editor.document );
 		}
 
+		function isNotResizable() {
+			var maximizeCommand = editor.getCommand( 'maximize' );
+
+			return (
+				!editor.window ||
+				// Disable autogrow when the editor is maximized. (#6339)
+				maximizeCommand && maximizeCommand.state == CKEDITOR.TRISTATE_ON
+			);
+		}
+
 		// Actual content height, figured out by appending check the last element's document position.
 		function contentHeight() {
 			var doc = scrollable.getDocument();
@@ -109,14 +124,6 @@
 		// @param {Number} lastHeight The last height set by autogrow.
 		// @returns {Number} New height if has been changed, or the passed `lastHeight`.
 		function resizeEditor( editor, lastHeight ) {
-			if ( !editor.window )
-				return null;
-
-			var maximize = editor.getCommand( 'maximize' );
-				// Disable autogrow when the editor is maximized .(#6339)
-			if ( maximize && maximize.state == CKEDITOR.TRISTATE_ON )
-				return null;
-
 			var currentHeight = editor.window.getViewPaneSize().height,
 				newHeight = contentHeight();
 
