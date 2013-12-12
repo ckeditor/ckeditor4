@@ -35,7 +35,8 @@
 			marker,
 			configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
 			configMinHeight = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
-			configMaxHeight = editor.config.autoGrow_maxHeight || Infinity;
+			configMaxHeight = editor.config.autoGrow_maxHeight || Infinity,
+			maxHeightIsUnlimited = !editor.config.autoGrow_maxHeight;
 
 		editor.addCommand( 'autogrow', {
 			exec: resizeEditor,
@@ -57,9 +58,12 @@
 						}
 
 						resizeEditor();
-						// Second pass to make correction upon
-						// the first resize, e.g. scrollbar.
-						resizeEditor();
+
+						// Second pass to make correction upon the first resize, e.g. scrollbar.
+						// If height is unlimited vertical scrollbar was removed in the first
+						// resizeEditor() call, so we don't need the second pass.
+						if ( !maxHeightIsUnlimited )
+							resizeEditor();
 					}, 100 );
 				}
 			} );
@@ -115,6 +119,11 @@
 		}
 
 		function resizeEditor() {
+			// Hide scroll because we won't need it at all.
+			// Thanks to that we'll need only one resizeEditor() call per change.
+			if ( maxHeightIsUnlimited )
+				scrollable.setStyle( 'overflow-y', 'hidden' );
+
 			var currentHeight = editor.window.getViewPaneSize().height,
 				newHeight = contentHeight();
 
@@ -131,10 +140,12 @@
 				lastHeight = newHeight;
 			}
 
-			if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight )
-				scrollable.setStyle( 'overflow-y', 'hidden' );
-			else
-				scrollable.removeStyle( 'overflow-y' );
+			if ( !maxHeightIsUnlimited ) {
+				if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight )
+					scrollable.setStyle( 'overflow-y', 'hidden' );
+				else
+					scrollable.removeStyle( 'overflow-y' );
+			}
 		}
 	}
 } )();
