@@ -30,7 +30,10 @@
 	function initIframeAutogrow( editor ) {
 		var lastHeight,
 			scrollable,
-			marker;
+			marker,
+			configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
+			configMinHeight = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
+			configMaxHeight = editor.config.autoGrow_maxHeight || Infinity;
 
 		editor.addCommand( 'autogrow', {
 			exec: resizeEditor,
@@ -122,13 +125,9 @@
 				newHeight = contentHeight();
 
 			// Additional space specified by user.
-			newHeight += ( editor.config.autoGrow_bottomSpace || 0 );
-
-			var min = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
-				max = editor.config.autoGrow_maxHeight || Infinity;
-
-			newHeight = Math.max( newHeight, min );
-			newHeight = Math.min( newHeight, max );
+			newHeight += configBottomSpace;
+			newHeight = Math.max( newHeight, configMinHeight );
+			newHeight = Math.min( newHeight, configMaxHeight );
 
 			// #10196 Do not resize editor if new height is equal
 			// to the one set by previous resizeEditor() call.
@@ -138,7 +137,7 @@
 				lastHeight = newHeight;
 			}
 
-			if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < max )
+			if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < configMaxHeight )
 				scrollable.setStyle( 'overflow-y', 'hidden' );
 			else
 				scrollable.removeStyle( 'overflow-y' );
