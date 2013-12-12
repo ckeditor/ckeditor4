@@ -83,17 +83,11 @@
 		function refreshCache() {
 			doc = editor.document;
 			markerContainer = doc[ CKEDITOR.env.ie ? 'getBody' : 'getDocumentElement' ]();
-			scrollable = getScrollable( editor );
-			marker = createMarker();
-		}
 
-		function getScrollable() {
 			// Quirks mode overflows body, standards overflows document element.
-			return CKEDITOR.env.quirks ? doc.getBody() : doc.getDocumentElement();
-		}
+			scrollable = CKEDITOR.env.quirks ? doc.getBody() : doc.getDocumentElement();
 
-		function createMarker() {
-			return CKEDITOR.dom.element.createFromHtml(
+			marker = CKEDITOR.dom.element.createFromHtml(
 				'<span style="margin:0;padding:0;border:0;clear:both;width:1px;height:1px;display:block;">' +
 					( CKEDITOR.env.webkit ? '&nbsp;' : '' ) +
 				'</span>',
