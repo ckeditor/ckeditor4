@@ -86,8 +86,7 @@
 			var doc = editor.document;
 
 			// Quirks mode overflows body, standards overflows document element.
-			// TODO - env.quirks
-			return doc.$.compatMode == 'BackCompat' ? doc.getBody() : doc.getDocumentElement();
+			return CKEDITOR.env.quirks ? doc.getBody() : doc.getDocumentElement();
 		}
 
 		function createMarker() {
