@@ -29,6 +29,8 @@
 
 	function initIframeAutogrow( editor ) {
 		var lastHeight,
+			doc,
+			markerContainer,
 			scrollable,
 			marker,
 			configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
@@ -79,13 +81,13 @@
 		editor.config.autoGrow_onStartup && editor.execCommand( 'autogrow' );
 
 		function refreshCache() {
+			doc = editor.document;
+			markerContainer = doc[ CKEDITOR.env.ie ? 'getBody' : 'getDocumentElement' ]();
 			scrollable = getScrollable( editor );
 			marker = createMarker();
 		}
 
 		function getScrollable() {
-			var doc = editor.document;
-
 			// Quirks mode overflows body, standards overflows document element.
 			return CKEDITOR.env.quirks ? doc.getBody() : doc.getDocumentElement();
 		}
@@ -95,7 +97,7 @@
 				'<span style="margin:0;padding:0;border:0;clear:both;width:1px;height:1px;display:block;">' +
 					( CKEDITOR.env.webkit ? '&nbsp;' : '' ) +
 				'</span>',
-				editor.document );
+				doc );
 		}
 
 		function isNotResizable() {
@@ -110,10 +112,8 @@
 
 		// Actual content height, figured out by appending check the last element's document position.
 		function contentHeight() {
-			var doc = scrollable.getDocument();
 			// Append a temporary marker element.
-			doc[ CKEDITOR.env.ie ? 'getBody' : 'getDocumentElement' ]().append( marker );
-
+			markerContainer.append( marker );
 			var height = marker.getDocumentPosition( doc ).y + marker.$.offsetHeight;
 			marker.remove();
 
