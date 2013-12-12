@@ -95,15 +95,12 @@
 
 		// Actual content height, figured out by appending check the last element's document position.
 		function contentHeight( scrollable ) {
-			var overflowY = scrollable.getStyle( 'overflow-y' );
-
 			var doc = scrollable.getDocument();
 			// Append a temporary marker element.
 			doc[ CKEDITOR.env.ie ? 'getBody' : 'getDocumentElement' ]().append( marker );
 
 			var height = marker.getDocumentPosition( doc ).y + marker.$.offsetHeight;
 			marker.remove();
-			scrollable.setStyle( 'overflow-y', overflowY );
 
 			return height;
 		}
