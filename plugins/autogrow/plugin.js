@@ -69,7 +69,7 @@
 		editor.on( 'afterCommandExec', function( evt ) {
 			if ( evt.data.name == 'maximize' && evt.editor.mode == 'wysiwyg' ) {
 				if ( evt.data.command.state == CKEDITOR.TRISTATE_ON )
-					scrollable.removeStyle( 'overflow' );
+					scrollable.removeStyle( 'overflow-y' );
 				else
 					resizeEditor();
 			}
