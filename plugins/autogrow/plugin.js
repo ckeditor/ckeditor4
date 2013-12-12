@@ -94,7 +94,7 @@
 		}
 
 		// Actual content height, figured out by appending check the last element's document position.
-		function contentHeight( scrollable ) {
+		function contentHeight() {
 			var doc = scrollable.getDocument();
 			// Append a temporary marker element.
 			doc[ CKEDITOR.env.ie ? 'getBody' : 'getDocumentElement' ]().append( marker );
@@ -118,7 +118,7 @@
 				return null;
 
 			var currentHeight = editor.window.getViewPaneSize().height,
-				newHeight = contentHeight( scrollable );
+				newHeight = contentHeight();
 
 			// Additional space specified by user.
 			newHeight += ( editor.config.autoGrow_bottomSpace || 0 );
