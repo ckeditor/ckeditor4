@@ -137,7 +137,7 @@
 				lastHeight = newHeight;
 			}
 
-			if ( scrollable.$.scrollHeight > scrollable.$.clientHeight && newHeight < configMaxHeight )
+			if ( newHeight < configMaxHeight && scrollable.$.scrollHeight > scrollable.$.clientHeight )
 				scrollable.setStyle( 'overflow-y', 'hidden' );
 			else
 				scrollable.removeStyle( 'overflow-y' );
