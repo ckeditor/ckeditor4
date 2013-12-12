@@ -33,9 +33,7 @@
 			marker;
 
 		editor.addCommand( 'autogrow', {
-			exec: function( editor ) {
-				lastHeight = resizeEditor( editor, lastHeight );
-			},
+			exec: resizeEditor,
 			modes: { wysiwyg: 1 },
 			readOnly: 1,
 			canUndo: false,
@@ -53,10 +51,10 @@
 							return;
 						}
 
-						lastHeight = resizeEditor( evt.editor, lastHeight );
+						resizeEditor();
 						// Second pass to make correction upon
 						// the first resize, e.g. scrollbar.
-						lastHeight = resizeEditor( evt.editor, lastHeight );
+						resizeEditor();
 					}, 100 );
 				}
 			} );
@@ -68,7 +66,7 @@
 				if ( evt.data.command.state == CKEDITOR.TRISTATE_ON )
 					scrollable.removeStyle( 'overflow' );
 				else
-					lastHeight = resizeEditor( editor, lastHeight );
+					resizeEditor();
 			}
 		} );
 
@@ -119,10 +117,7 @@
 			return height;
 		}
 
-		// @param editor
-		// @param {Number} lastHeight The last height set by autogrow.
-		// @returns {Number} New height if has been changed, or the passed `lastHeight`.
-		function resizeEditor( editor, lastHeight ) {
+		function resizeEditor() {
 			var currentHeight = editor.window.getViewPaneSize().height,
 				newHeight = contentHeight();
 
@@ -147,8 +142,6 @@
 				scrollable.setStyle( 'overflow-y', 'hidden' );
 			else
 				scrollable.removeStyle( 'overflow-y' );
-
-			return lastHeight;
 		}
 	}
 } )();
