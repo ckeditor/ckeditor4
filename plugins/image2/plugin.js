@@ -424,8 +424,8 @@
 			}
 
 			function wrapInCentering( editor, element ) {
-				// When widget gets centered. Wrapper must be created.
-				// Create new <p|div> with text-align:center.
+				// There's no way to center inline element with CSS and text-align,
+				// so create new <p|div> that wraps widget contents and makes it block.
 				var center = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', {
 					styles: { 'text-align': 'center' }
 				} );
