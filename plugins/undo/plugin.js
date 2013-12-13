@@ -414,15 +414,21 @@
 		 * Saves a snapshot of the document image for later retrieval.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
-			// Do not change snapshots stack when locked.
-			if ( this.locked )
+			var editor = this.editor;
+			// Do not change snapshots stack when locked, editor is not ready,
+			// editable is not ready or when editor is in mode difference than 'wysiwyg'.
+			if ( this.locked || editor.status != 'ready' || editor.mode != 'wysiwyg' )
+				return false;
+
+			var editable = editor.editable();
+			if ( !editable || editable.status != 'ready' )
 				return false;
 
 			var snapshots = this.snapshots;
 
 			// Get a content image.
 			if ( !image )
-				image = new Image( this.editor );
+				image = new Image( editor );
 
 			// Do nothing if it was not possible to retrieve an image.
 			if ( image.contents === false )
@@ -437,8 +443,7 @@
 					if ( image.equalsSelection( this.currentImage ) )
 						return false;
 				} else
-					this.editor.fire( 'change' );
-
+					editor.fire( 'change' );
 			}
 
 			// Drop future snapshots.
