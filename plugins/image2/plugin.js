@@ -23,6 +23,11 @@
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss(
+			'.cke_image_nocaption{' +
+				// This is to remove unwanted space so resize
+				// wrapper is displayed property.
+				'line-height:0' +
+			'}' +
 			'.cke_editable.cke_image_sw, .cke_editable.cke_image_sw *{cursor:sw-resize !important}' +
 			'.cke_editable.cke_image_se, .cke_editable.cke_image_se *{cursor:se-resize !important}' +
 			'.cke_image_resizer{' +
@@ -289,8 +294,7 @@
 
 				// Get rid of extra vertical space when there's no caption.
 				// It will improve the look of the resizer.
-				if ( !data.hasCaption )
-					this.wrapper.setStyle( 'line-height', '0' );
+				this.wrapper[ ( data.hasCaption ? 'remove' : 'add' ) + 'Class' ]( 'cke_image_nocaption' );
 
 				this.setData( data );
 
