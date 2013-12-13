@@ -90,7 +90,8 @@ CKEDITOR.plugins.add( 'menu', {
 		' role="{role}"' +
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
-		' {ariaChecked}';
+		' {ariaChecked}' +
+		' ondragstart="return false;"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
