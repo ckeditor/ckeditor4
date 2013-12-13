@@ -8,10 +8,11 @@
 ( function() {
 
 	var template = '<img alt="" src="" />',
-		templateBlock = '<figure class="caption">' +
+		templateBlock = new CKEDITOR.template(
+			'<figure class="{captionedClass}">' +
 				template +
 				'<figcaption>Caption</figcaption>' +
-			'</figure>',
+			'</figure>' ),
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
 	CKEDITOR.plugins.add( 'image2', {
@@ -382,7 +383,9 @@
 							img = element.findOne( 'img' ) || element;
 
 							// Create new <figure> from widget template.
-							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock, doc );
+							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
+								captionedClass: editor.config.image2_captionedClass
+							} ), doc );
 
 							// Replace element with <figure>.
 							replaceSafely( figure, element );
