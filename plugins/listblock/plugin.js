@@ -11,6 +11,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			listItem = CKEDITOR.addTemplate( 'panel-list-item', '<li id="{id}" class="cke_panel_listItem" role=presentation>' +
 				'<a id="{id}_option" _cke_focus=1 hidefocus=true' +
 					' title="{title}"' +
+					' ondragstart="return false;"' +
 					' href="javascript:void(\'{val}\')" ' +
 					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // #188
 						' role="option">' +
