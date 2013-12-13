@@ -218,18 +218,107 @@
 			}
 		}
 
-		if ( CKEDITOR.env.gecko || CKEDITOR.env.ie && editor.document.$.compatMode == 'CSS1Compat' ) {
+		if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) ) {
 			this.attachListener( this, 'keydown', function( evt ) {
 				var keyCode = evt.data.getKeystroke();
+				var isShift = false;
 
+				if ( keyCode > CKEDITOR.SHIFT ) {
+					keyCode = keyCode - CKEDITOR.SHIFT;
+					isShift = true;
+				}
+				
 				// PageUp OR PageDown
 				if ( keyCode == 33 || keyCode == 34 ) {
-					// PageUp/PageDown scrolling is broken in document
-					// with standard doctype, manually fix it. (#4736)
+					// PageUp/PageDown scrolling does not work in Internet Explorer versions
+					// below 11 so we're manually scrolling instead (#8382)
 					if ( CKEDITOR.env.ie ) {
-						setTimeout( function() {
-							editor.getSelection().scrollIntoView();
-						}, 0 );
+						var isUp = keyCode == 33;
+						var documentElement = editor.document.$.documentElement;
+						var body = editor.document.getBody();
+						var currentScrollTop = documentElement.scrollTop;
+						var viewHeight = editor.container.find( '.cke_contents' ).getItem( 0 ).$.scrollHeight;
+						var scrollDestinationHeight;
+						var selection = editor.getSelection();
+
+						// Calculate position to scroll too by adding or subtracting the size of the view from the current scroll position
+						if ( isUp ) {
+							scrollDestinationHeight = Math.max( currentScrollTop - viewHeight, 0 );
+						}
+						else {
+							scrollDestinationHeight = currentScrollTop + viewHeight;
+						}
+
+						// Do the scrolling
+						documentElement.scrollTop = scrollDestinationHeight;
+
+						var afterStart = false;
+						var found = false;
+						var walkerRange;
+						var destinationRange;
+						var currentRange;
+
+						var ranges = selection.getRanges();
+						if ( ranges && ranges.length ) {
+							currentRange = ranges[ 0 ];
+						}
+
+						// If the scroll moved the amount we expected find the element that should be selected
+						if ( documentElement.scrollTop == scrollDestinationHeight ) {
+							walkerRange = editor.createRange();
+							walkerRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
+							walkerRange.setEndAt( body, CKEDITOR.POSITION_BEFORE_END );
+
+							var walker = new CKEDITOR.dom.walker( walkerRange );
+							var found = false;
+							walker.evaluator = function ( node ) {
+								if ( node ) {
+									if ( currentRange && currentRange.startContainer.$ == node.$ ) {
+										afterStart = true;
+									}
+
+									if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+										if ( node.$.offsetTop > documentElement.scrollTop ) {
+											found = true;
+											destinationRange = editor.createRange();
+											destinationRange.moveToElementEditStart( node );
+										}
+									}
+								}
+								return true;
+
+							};
+							walker.guard = function () {
+								return !found;
+							};
+							walker.checkForward();
+						}
+
+						// We did not find the element to select, this should only happen at the end of the container so put the cursor inside the last editable position of the container
+						if ( !found ) {
+							afterStart = true;
+							destinationRange = editor.createRange();
+							destinationRange.moveToElementEditEnd( body );
+						}
+
+						if ( isShift ) {
+							// If shift was held down we need to extend the current selection
+							if ( currentRange ) {
+								if ( afterStart && scrollDestinationHeight > 0 ) {
+									currentRange.setEnd(destinationRange.startContainer, destinationRange.startOffset);
+								}
+								else {
+									currentRange.setStart(destinationRange.startContainer, destinationRange.startOffset);
+								}
+								selection.selectRanges( [ currentRange ] );
+							}
+						} else {
+							// Shift was not held down so we can just move the selection to the target
+							selection.selectRanges( [ destinationRange ] );
+						}
+
+						// Prevent the default handling of this key
+						evt.data.preventDefault();
 					}
 					// Page up/down cause editor selection to leak
 					// outside of editable thus we try to intercept
