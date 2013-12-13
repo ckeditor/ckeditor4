@@ -29,6 +29,21 @@
 			this.editor = editor;
 
 			/**
+			 * Indicates editable initialization status. The following statuses are available:
+			 *
+			 *	* **unloaded**: the initial state; editable's instance has been created but
+			 *	is not fully loaded (in particular has no data),
+			 *	* **ready**: editable is fully initialized; `ready` status is set after
+			 *	first {@link CKEDITOR.editor#method-setData} has been called.
+			 *	* **detached**: the editable has been detached.
+			 *
+			 * @since 4.3.3
+			 * @readonly
+			 * @property {String}
+			 */
+			this.status = 'unloaded';
+
+			/**
 			 * Indicate whether the editable element has gained focus.
 			 *
 			 * @property {Boolean} hasFocus
@@ -399,6 +414,11 @@
 					data = this.editor.dataProcessor.toHtml( data );
 
 				this.setHtml( data );
+
+				// Editable is ready after first setData.
+				if ( this.status == 'unloaded' )
+					this.status = 'ready';
+
 				this.editor.fire( 'dataReady' );
 			},
 
@@ -429,6 +449,8 @@
 			detach: function() {
 				// Cleanup the element.
 				this.removeClass( 'cke_editable' );
+
+				this.status = 'detached';
 
 				// Save the editor reference which will be lost after
 				// calling detach from super class.
