@@ -3,6 +3,8 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
+* [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in `sourcedialog` plugin.
+
 ## CKEditor 4.3.1
 
 **Important Notes:**
