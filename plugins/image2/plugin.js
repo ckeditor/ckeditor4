@@ -11,7 +11,7 @@
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
-				'<figcaption>Caption</figcaption>' +
+				'<figcaption>{placeholder}</figcaption>' +
 			'</figure>' ),
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
@@ -390,7 +390,8 @@
 
 							// Create new <figure> from widget template.
 							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
-								captionedClass: editor.config.image2_captionedClass
+								captionedClass: editor.config.image2_captionedClass,
+								placeholder: editor.lang.image2.placeholder
 							} ), doc );
 
 							// Replace element with <figure>.

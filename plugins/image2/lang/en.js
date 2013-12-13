@@ -11,6 +11,7 @@ CKEDITOR.plugins.setLang( 'image2', 'en', {
 	menu: 'Image Properties',
 	pathName: 'image',
 	pathNameCaption: 'caption',
+	placeholder: 'Caption',
 	resetSize: 'Reset Size',
 	resizer: 'Click and drag to resize',
 	title: 'Image Properties',
