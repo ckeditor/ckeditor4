@@ -50,9 +50,11 @@
 				languageCode = this.detect( defaultLanguage, languageCode );
 
 			if ( !this[ languageCode ] ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), function() {
-					this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
-					callback( languageCode, this[ languageCode ] );
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), function( completed, failed ) {
+					if ( completed ) {
+						this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
+						callback( languageCode, this[ languageCode ] );
+					}
 				}, this );
 			} else
 				callback( languageCode, this[ languageCode ] );
