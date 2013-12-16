@@ -200,16 +200,23 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					var editor = this.getDialog().getParentEditor(),
 						body = this.getInputElement().getFrameDocument().getBody(),
 						bogus = body.getBogus(),
-						html;
+						html,
+						dir;
 					bogus && bogus.remove();
 
 					// Saving the contents so changes until paste is complete will not take place (#7500)
 					html = body.getHtml();
+					dir = body.getDirection();
+					
+					// Preserving the text direction (#10633)
+					if (dir == 'ltr' || dir == 'rtl') {
+						html = "<span dir='" + dir + "'>" + html + "</span>";
+					}
 
 					// Opera needs some time to think about what has happened and what it should do now.
-					setTimeout( function() {
-						editor.fire( 'pasteDialogCommit', html );
-					}, 0 );
+					setTimeout( function() {						
+						editor.fire( 'pasteDialogCommit', html );						
+					}, 0 );					
 				}
 			}
 			]
