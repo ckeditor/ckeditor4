@@ -88,7 +88,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<h1>Apollo 11</h1>
 
 		<figure class="image" style="float: right">
-			<img alt="Saturn V" src="assets/image1.jpg" width="200" />
+			<img alt="Saturn V" src="assets/image1.jpg" width="200" data-foo="*********" data-bar="@@@@@@@@" />
 			<figcaption>Roll out of Saturn V on launch pad</figcaption>
 		</figure>
 
@@ -249,6 +249,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			extraPlugins: 'image2',
 			height: 600,
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
+			extraAllowedContent: 'img[data-foo,data-bar]',
 
 			filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
 			filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
@@ -261,8 +262,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		} );
 
 		CKEDITOR.replace( 'editor3', {
-				extraPlugins: 'image2,divarea',
-				height: 600
+			extraPlugins: 'image2,divarea',
+			height: 600
+		} );
+
+		CKEDITOR.replace( 'editor4', {
+			plugins: 'wysiwygarea,sourcearea,toolbar,image2,htmlwriter',
+			image2_alignClasses: [ 'align-left', 'align-center', 'align-right' ],
+			contentsCss: [ '../../../contents.css', 'contents.css' ],
+			height: 600
 		} );
 
 		CKCONSOLE.create( 'widget', { editor: 'editor1' } );
