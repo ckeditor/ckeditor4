@@ -61,10 +61,12 @@
 			if ( !editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) )
 				return false;
 
-			var sOpenUrl = '';
+			var sOpenUrl = '',
+				ieLocation;
+
 			if ( CKEDITOR.env.ie ) {
 				window._cke_htmlToLoad = eventData.dataValue;
-				sOpenUrl = 'javascript:void( (function(){' +
+				ieLocation = 'javascript:void( (function(){' +
 					'document.open();' +
 					// Support for custom document.domain.
 					// Strip comments and replace parent with window.opener in the function body.
@@ -73,6 +75,8 @@
 					'document.close();' +
 					'window.opener._cke_htmlToLoad = null;' +
 				'})() )';
+				// For IE we should use window.location rather than setting url in window.open. (#11146)
+				sOpenUrl = '';
 			}
 
 			// With Firefox only, we need to open a special preview page, so
@@ -84,6 +88,9 @@
 
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
+
+			if ( CKEDITOR.env.ie )
+				oWindow.location = ieLocation;
 
 			if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
