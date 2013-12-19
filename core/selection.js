@@ -1715,6 +1715,17 @@
 		 * representing ranges to be added to the document.
 		 */
 		selectRanges: function( ranges ) {
+			var editor = this.root.editor,
+				hiddenSelectionContainer,
+				hiddenSelectionContainerIndex;
+
+			// Check if there's a hiddenSelectionContainer in editable at some index.
+			// Some ranges may be anchored after the hiddenSelectionContainer and,
+			// once the container is removed while resetting the selection, they
+			// may need new endOffset (one element less within the range) (#11021).
+			if ( editor && ( hiddenSelectionContainer = editor._.hiddenSelectionContainer ) )
+				hiddenSelectionContainerIndex = hiddenSelectionContainer.getIndex();
+
 			this.reset();
 
 			if ( !ranges.length )
@@ -1896,6 +1907,11 @@
 					}
 
 					range = ranges[ i ];
+
+					// Fix the endOffset of the range if it is set after the
+					// hiddenSelectionContainer, which is no longer in DOM now (#11021).
+					if ( range.endContainer.equals( this.root ) && range.endOffset == hiddenSelectionContainerIndex + 1 )
+						--range.endOffset;
 
 					var nativeRange = this.document.$.createRange();
 					var startContainer = range.startContainer;
