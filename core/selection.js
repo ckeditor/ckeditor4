@@ -1910,8 +1910,8 @@
 
 					// Fix the endOffset of the range if it is set after the
 					// hiddenSelectionContainer, which is no longer in DOM now (#11021).
-					if ( range.endContainer.equals( this.root ) && range.endOffset == hiddenSelectionContainerIndex + 1 )
-						--range.endOffset;
+					if ( range.endContainer.equals( this.root ) )
+						range.endOffset = Math.min( range.endOffset, hiddenSelectionContainerIndex );
 
 					var nativeRange = this.document.$.createRange();
 					var startContainer = range.startContainer;
