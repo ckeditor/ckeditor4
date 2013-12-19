@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
+* [#11097](http://dev.ckeditor.com/ticket/11097): Improved the [Autogrow](http://ckeditor.com/addon/autogrow) plugin performance when dealing with very big tables.
 * [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in `sourcedialog` plugin.
 
 ## CKEditor 4.3.1
