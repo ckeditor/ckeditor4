@@ -937,15 +937,13 @@
 		setData: function( data, callback, internal ) {
 			!internal && this.fire( 'saveSnapshot' );
 
-			if ( callback ) {
+			if ( callback || !internal ) {
 				this.once( 'dataReady', function( evt ) {
-					callback.call( evt.editor );
-				} );
-			}
+					if ( callback )
+						callback.call( evt.editor );
 
-			if ( !internal ) {
-				this.once( 'dataReady', function( evt ) {
-					this.fire( 'saveSnapshot' );
+					if ( !internal )
+						this.fire( 'saveSnapshot' );
 				} );
 			}
 
