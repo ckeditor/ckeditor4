@@ -939,11 +939,11 @@
 
 			if ( callback || !internal ) {
 				this.once( 'dataReady', function( evt ) {
-					if ( callback )
-						callback.call( evt.editor );
-
 					if ( !internal )
 						this.fire( 'saveSnapshot' );
+
+					if ( callback )
+						callback.call( evt.editor );
 				} );
 			}
 
