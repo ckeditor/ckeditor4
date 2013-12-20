@@ -151,9 +151,25 @@ CKEDITOR.replaceClass = 'ckeditor';
 		editor.fire( 'beforeSetMode', newMode );
 
 		if ( editor.mode ) {
-			var isDirty = editor.checkDirty();
+			var isDirty = editor.checkDirty(),
+				previousModeData = editor._.previousModeData,
+				currentData = editor.getData(),
+				unlockSnapshot = 0;
+
+			// If data has not been modified in the mode which we are currently leaving,
+			// avoid making shapshot right after initializing new mode.
+			// http://dev.ckeditor.com/ticket/5217#comment:20
+			if ( editor.mode == 'source' && previousModeData == currentData ) {
+				// We need to make sure that unlockSnapshot will update the last snapshot
+				// (will not create new one) if lockSnapshot is not called on outdated snapshots stack.
+				// Additionally, forceUpdate prevents from making content image now, which is useless
+				// (because it equals editor data not inner HTML).
+				editor.fire( 'lockSnapshot', { forceUpdate: true } );
+				unlockSnapshot = 1;
+			}
 
 			editor._.previousMode = editor.mode;
+			editor._.previousModeData = currentData;
 
 			editor.fire( 'beforeModeUnload' );
 
@@ -164,7 +180,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.ui.space( 'contents' ).setHtml( '' );
 
 			editor.mode = '';
-		}
+		} else
+			editor._.previousModeData = editor.getData( 1 );
 
 		// Fire the mode handler.
 		this._.modes[ newMode ]( function() {
@@ -173,6 +190,14 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			if ( isDirty !== undefined )
 				!isDirty && editor.resetDirty();
+
+			if ( unlockSnapshot )
+				editor.fire( 'unlockSnapshot' );
+			// Since snapshot made on dataReady (which normally catches changes done by setData)
+			// won't work because editor.mode was not set yet (it's set in this function), we need
+			// to make special snapshot for changes done in source mode here.
+			else if ( newMode == 'wysiwyg' )
+				editor.fire( 'saveSnapshot' );
 
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
