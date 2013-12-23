@@ -2547,11 +2547,12 @@
 	}
 
 	// Position drag handler according to the widget's element position.
-	function positionDragHandler( widget ) {
-		var handler = widget.dragHandlerContainer;
+	// @context Widget
+	function positionDragHandler() {
+		var handler = this.dragHandlerContainer;
 
-		handler.setStyle( 'top', widget.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
-		handler.setStyle( 'left', widget.element.$.offsetLeft + 'px' );
+		handler.setStyle( 'top', this.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
+		handler.setStyle( 'left', this.element.$.offsetLeft + 'px' );
 	}
 
 	function setupDragHandler( widget ) {
@@ -2584,6 +2585,7 @@
 			} );
 			widget.inline && img.setAttribute( 'draggable', 'true' );
 
+			widget.wrapper.on( 'mouseover', positionDragHandler, widget );
 			container.append( img );
 			widget.wrapper.append( container );
 		}
@@ -2801,12 +2803,6 @@
 
 		if ( widgetDef.edit )
 			widget.on( 'edit', widgetDef.edit );
-
-		if ( widget.draggable ) {
-			widget.on( 'data', function() {
-				positionDragHandler( widget );
-			}, null, null, 999 );
-		}
 	}
 
 	function setupWidgetData( widget, startupData ) {
