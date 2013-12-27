@@ -1,25 +1,33 @@
 ﻿CKEDITOR.plugins.add( 'linksei',
 {
 	//requires: [ 'iframedialog' ],
+	onLoad: function() {
+		CKEDITOR.addCss( '.ancoraSei' +
+			'{' +
+				'background-color: #d5d5d5;' +
+				( CKEDITOR.env.gecko ? 'cursor: default;' : '' ) +
+			'}'
+			);
+	},
 	init: function( editor )
 	{
 		editor.addCommand( 'linkseiDialog', new CKEDITOR.dialogCommand( 'linkseiDialog' ) );
 		editor.ui.addButton( 'linksei',
 		{
-			label: 'Inserir um Link para documento do SEI!',
+			label: 'Inserir um Link para processo ou documento do SEI!',
 			command: 'linkseiDialog',
 			icon: this.path + 'images/sei.png'
 		} );		
 		
-		var height = 480, width = 750;
-		var link=  "http://sei.trf4.jus.br";
+		//var height = 200, width = 750;
+		//var linksei=  "http://sei.trf4.jus.br";
 		
-		CKEDITOR.dialog.add( 'simpleLinkDialog', function( editor )
+		CKEDITOR.dialog.add( 'linkseiDialog', function( editor )
 				{
 					return {
 						title : 'Propriedades do Link',
-						minWidth : 400,
-						minHeight : 200,
+						minWidth : 200,
+						minHeight : 70,
 						contents :
 						[
 							{
@@ -29,13 +37,13 @@
 								[
 									{
 										type : 'text',
-										id : 'url',
-										label : 'URL',
-										validate : CKEDITOR.dialog.validate.notEmpty( 'O link deve ter uma URL.' ),
+										id : 'protocolo',
+										label : 'Protocolo',
+										validate : CKEDITOR.dialog.validate.SEI(),
 										required : true,
 										commit : function( data )
 										{
-											data.url = this.getValue();
+											data.protocolo = window._protocoloFormatado;
 										}
 									}
 								]
@@ -47,38 +55,19 @@
 								data = {},
 								link = editor.document.createElement( 'a' );
 							this.commitContent( data );
-							link.setAttribute( 'id', "lnkSei"+data.url );
-							link.setHtml( data.url );
+							link.setAttributes( {
+								'id':'lnkSei'+window._idProtocolo,
+								contentEditable: "false",
+								'data-cke-linksei':1,
+								'class': "ancoraSei",
+								'style':"text-indent:0px;"
+									});							
+							link.setHtml( data.protocolo );
 							editor.insertElement( link );
 						}
 					};
 				} );
 		
-/*		CKEDITOR.dialog.addIframe(
-				'myiframedialogDialog',
-			   'Propriedades do Link',
-			   link, width, height,
-			   function()
-			   {
-				   // Iframe loaded callback.
-			   },
 
-			   {
-					onOk : function()
-					{
-						// Dialog onOk callback.
-						var dialog = this,
-						data = {},
-						link = editor.document.createElement( 'a' );
-					this.commitContent( data );
-					link.setAttribute( 'id', "lnkSei"+data.url );
-					link.setHtml( data.url );
-					editor.insertElement( link );
-					}
-			   }
-			);
-
-		editor.addCommand( 'linkseiDialog', new CKEDITOR.dialogCommand( 'myiframedialogDialog' ) );
-*/
 	}
 } );

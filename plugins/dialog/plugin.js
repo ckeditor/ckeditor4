@@ -481,7 +481,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else if ( keystroke == 13 /*ENTER*/ ) {
 				// Don't do that for a target that handles ENTER.
 				var target = evt.data.getTarget();
-				if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {
+				if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {					
 					button = this.getButton( 'ok' );
 					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
 					processed = 1;

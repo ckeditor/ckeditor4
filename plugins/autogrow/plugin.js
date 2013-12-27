@@ -117,7 +117,7 @@
 						editor.on( eventName, function( evt ) {
 							// Some time is required for insertHtml, and it gives other events better performance as well.
 							if ( evt.editor.mode == 'wysiwyg'  ) {
-								setTimeout( function() {
+								setTimeout( function() {									
 									lastHeight = resizeEditor( evt.editor, lastHeight );
 									// Second pass to make correction upon
 									// the first resize, e.g. scrollbar.

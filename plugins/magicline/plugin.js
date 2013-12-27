@@ -519,8 +519,7 @@
 			attach: function() {
 				// Only if not already attached
 				if ( !this.wrap.getParent() )
-					this.wrap.appendTo( that.editable, true );
-
+					this.wrap.appendTo( that.editable, true );				
 				return this;
 			},
 
@@ -707,6 +706,7 @@
 
 		// Make the box unselectable.
 		line.unselectable();
+		
 
 		// Handle accessSpace node insertion.
 		line.lineChildren[ 0 ].on( 'mouseup', function( event ) {
@@ -734,6 +734,7 @@
 		});
 
 		that.line = line;
+		
 	}
 
 	// This function allows accessing any focus space according to the insert function:

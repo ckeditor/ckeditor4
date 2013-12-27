@@ -87,7 +87,7 @@
 				});
 			}
 
-			if ( htmlFilter ) {
+			/*if ( htmlFilter ) {
 				htmlFilter.addRules({
 					elements: {
 						'span': function( element ) {
@@ -96,7 +96,7 @@
 						}
 					}
 				});
-			}
+			} */
 		}
 	});
 })();
