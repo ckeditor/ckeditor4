@@ -21,7 +21,12 @@
 		// Update CKEDITOR.env.
 		// Catch exception needed sometimes for FF. (#4230)
 		try {
-			CKEDITOR.env.hc = hcDetect.getComputedStyle( 'border-top-color' ) == hcDetect.getComputedStyle( 'border-right-color' );
+			var top = hcDetect.getComputedStyle( 'border-top-color' ),
+				right = hcDetect.getComputedStyle( 'border-right-color' );
+
+			// We need to check if getComputedStyle returned any value, because on FF
+			// it returnes empty string if CKEditor is loaded in hidden iframe. (#11121)
+			CKEDITOR.env.hc = !!( top && top == right );
 		} catch ( e ) {
 			CKEDITOR.env.hc = false;
 		}
