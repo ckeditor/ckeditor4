@@ -1,18 +1,19 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
 	var template = '<a id="{id}"' +
 		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
-		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
 		' hidefocus="true"' +
 		' role="button"' +
 		' aria-labelledby="{id}_label"' +
-		' aria-haspopup="{hasArrow}"';
+		' aria-haspopup="{hasArrow}"' +
+		' aria-disabled="{ariaDisabled}"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -34,7 +35,7 @@
 
 
 	template += '>&nbsp;</span>' +
-		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label">{label}</span>' +
+		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label" aria-hidden="false">{label}</span>' +
 		'{arrowHtml}' +
 		'</a>';
 
@@ -196,7 +197,13 @@
 						// Restore saved button state.
 						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
-						this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
+						state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
+
+						this.setState( state );
+
+						// Let plugin to disable button.
+						if ( this.refresh )
+							this.refresh();
 					}
 				}
 
@@ -205,10 +212,12 @@
 						modeStates[ editor.mode ] = this._.state;
 				}, this );
 
+				// Update status when activeFilter, mode or readOnly changes.
+				editor.on( 'activeFilterChange', updateState, this );
 				editor.on( 'mode', updateState, this );
-
 				// If this button is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );
+
 			} else if ( command ) {
 				// Get the command instance.
 				command = editor.getCommand( command );
@@ -260,6 +269,7 @@
 				label: this.label,
 				cls: this.className || '',
 				state: stateName,
+				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title,
 				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
@@ -304,6 +314,13 @@
 				return true;
 			} else
 				return false;
+		},
+
+		/**
+		 * @todo
+		 */
+		getState: function( state ) {
+			return this._.state;
 		},
 
 		/**

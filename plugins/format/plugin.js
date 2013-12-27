@@ -1,11 +1,11 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'format', {
 	requires: 'richcombo',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		if ( editor.blockless )
 			return;
@@ -75,28 +75,55 @@ CKEDITOR.plugins.add( 'format', {
 
 			onRender: function() {
 				editor.on( 'selectionChange', function( ev ) {
-
 					var currentTag = this.getValue(),
-						elementPath = ev.data.path,
-						isEnabled = !editor.readOnly && elementPath.isContextFor( 'p' );
+						elementPath = ev.data.path;
 
-					// Disable the command when selection path is "blockless".
-					this[ isEnabled ? 'enable' : 'disable' ]();
+					this.refresh();
 
-					if ( isEnabled ) {
-
-						for ( var tag in styles ) {
-							if ( styles[ tag ].checkActive( elementPath ) ) {
-								if ( tag != currentTag )
-									this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
-								return;
-							}
+					for ( var tag in styles ) {
+						if ( styles[ tag ].checkActive( elementPath ) ) {
+							if ( tag != currentTag )
+								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
+							return;
 						}
-
-						// If no styles match, just empty it.
-						this.setValue( '' );
 					}
+
+					// If no styles match, just empty it.
+					this.setValue( '' );
+
 				}, this );
+			},
+
+			onOpen: function() {
+				this.showAll();
+				for ( var name in styles ) {
+					var style = styles[ name ];
+
+					// Check if that style is enabled in activeFilter.
+					if ( !editor.activeFilter.check( style ) ) {
+						this.hideItem( name );
+					}
+				}
+			},
+
+			refresh: function() {
+				var elementPath = editor.elementPath();
+
+				if ( !elementPath )
+						return;
+
+				// Check if element path contains 'p' element.
+				if ( !elementPath.isContextFor( 'p' ) ) {
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+					return;
+				}
+
+				// Check if there is any available style.
+				for ( var name in styles ) {
+					if ( editor.activeFilter.check( styles[ name ] ) )
+						return;
+				}
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		});
 	}

@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'km', {
 	confirmCleanup: 'អត្ថបទ​ដែល​អ្នក​ចង់​បិទ​ភ្ជាប់​នេះ ទំនង​ដូច​ជា​ចម្លង​មក​ពី Word។ តើ​អ្នក​ចង់​សម្អាត​វា​មុន​បិទ​ភ្ជាប់​ទេ?',

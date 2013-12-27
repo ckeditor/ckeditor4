@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -222,14 +222,11 @@
 			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
 			if ( current ) {
-				// Clean up the current block's effects on holder.
-				holder.removeAttributes( current.attributes );
 				current.hide();
 			}
 
 			this._.currentBlock = block;
 
-			holder.setAttributes( block.attributes );
 			CKEDITOR.fire( 'ariaWidget', holder );
 
 			// Reset the focus index, so it will always go into the first one.
@@ -265,10 +262,8 @@
 		$: function( blockHolder, blockDefinition ) {
 			this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
 				attributes: {
-					'tabIndex': -1,
-					'class': 'cke_panel_block',
-					'role': 'presentation',
-					'tabindex': 0
+					'tabindex': -1,
+					'class': 'cke_panel_block'
 				},
 				styles: {
 					display: 'none'
@@ -279,16 +274,12 @@
 			if ( blockDefinition )
 				CKEDITOR.tools.extend( this, blockDefinition );
 
-
 			// Set the a11y attributes of this element ...
 			this.element.setAttributes( {
+				'role': this.attributes.role || 'presentation',
 				'aria-label': this.attributes[ 'aria-label' ],
 				'title': this.attributes.title || this.attributes[ 'aria-label' ]
 			} );
-
-			// ...  and remove them from being set in the panel main element.
-			delete this.attributes[ 'aria-label' ];
-			delete this.attributes.title;
 
 			this.keys = {};
 
@@ -329,7 +320,7 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			onKeyDown: function( keystroke ) {
+			onKeyDown: function( keystroke, noCycle ) {
 				var keyAction = this.keys[ keystroke ];
 				switch ( keyAction ) {
 					// Move forward.
@@ -348,6 +339,13 @@
 								break;
 							}
 						}
+
+						// If no link was found, cycle and restart from the top. (#11125)
+						if ( !link && !noCycle ) {
+							this._.focusIndex = -1;
+							return this.onKeyDown( keystroke, 1 );
+						}
+
 						return false;
 
 						// Move backward.
@@ -364,7 +362,18 @@
 								link.focus();
 								break;
 							}
+
+							// Make sure link is null when the loop ends and nothing was
+							// found (#11125).
+							link = null;
 						}
+
+						// If no link was found, cycle and restart from the bottom. (#11125)
+						if ( !link && !noCycle ) {
+							this._.focusIndex = links.count();
+							return this.onKeyDown( keystroke, 1 );
+						}
+
 						return false;
 
 					case 'click':

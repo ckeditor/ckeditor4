@@ -1,9 +1,11 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
- // MISSING
+/**
+ * @fileOverview
+ */
 
 /**#@+
    @type String
@@ -15,16 +17,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'si' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'පොහොසත් වචන සංස්කරණ',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
@@ -91,10 +86,10 @@ CKEDITOR.lang[ 'si' ] = {
 		invalidValue	: 'වැරදී වටිනාකමකි',
 		invalidHeight: 'උස අංකයක් විය යුතුය',
 		invalidWidth: 'පළල අංකයක් විය යුතුය',
-		invalidCssLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  CSS මිනුම් එකක(px, %, in, cm, mm, em, ex, pt,  pc)',
+		invalidCssLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  CSS මිනුම් එකක(px, %, in, cm, mm, em, ex, pt, pc)',
 		invalidHtmlLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  HTML මිනුම් එකක (px හෝ %).',
 		invalidInlineStyle: 'වටිනාකමක් නිරූපණය කිරීම  පේළි විලාසයයට ආකෘතිය  අනතර්ග විය යුතය  "නම : වටිනාකම", තිත් කොමාවකින් වෙන් වෙන ලද.',
-		cssLengthTooltip: 'සංක්‍යා ඇතුලත් කිරීමේදී වටිනාකම තිත් ප්‍රමාණය නිවරදි CSS  ඒකක(තිත්, %, අඟල්,සෙමි, mm, em, ex, pt,  pc)',
+		cssLengthTooltip: 'සංක්‍යා ඇතුලත් කිරීමේදී වටිනාකම තිත් ප්‍රමාණය නිවරදි CSS  ඒකක(තිත්, %, අඟල්,සෙමි, mm, em, ex, pt, pc)',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span පන්තිය="ළඟා වියහැකි ද බලන්න">, නොමැතිනම්</span>'

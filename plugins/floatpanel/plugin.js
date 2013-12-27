@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'floatpanel', {
@@ -133,9 +133,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 *
 			 * @param {Number} [offsetX=0]
 			 * @param {Number} [offsetY=0]
+			 * @param {Function} [callback] A callback function executed when block positioning is done.
 			 * @todo what do exactly these params mean (especially corner)?
 			 */
-			showBlock: function( name, offsetParent, corner, offsetX, offsetY ) {
+			showBlock: function( name, offsetParent, corner, offsetX, offsetY, callback ) {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
@@ -359,14 +360,24 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							left: left + 'px'
 						});
 						element.setOpacity( 1 );
+
+						callback && callback();
 					}, this );
 
 					panel.isLoaded ? panelLoad() : panel.onLoad = panelLoad;
 
-					// Set the panel frame focus, so the blur event gets fired.
 					CKEDITOR.tools.setTimeout( function() {
+						var scrollTop = CKEDITOR.env.webkit && CKEDITOR.document.getWindow().getScrollPosition().y;
 
+						// Focus the panel frame first, so blur gets fired.
 						this.focus();
+
+						// Focus the block now.
+						block.element.focus();
+
+						// #10623, #10951 - restore the viewport's scroll position after focusing list element.
+						if ( CKEDITOR.env.webkit )
+							CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
@@ -377,7 +388,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				if ( this.onShow )
 					this.onShow.call( this );
-
 			},
 
 			/**

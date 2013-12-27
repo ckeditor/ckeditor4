@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -356,6 +356,10 @@
 	});
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
+		// We require filebrowser plugin to be loaded.
+		if ( !evt.editor.plugins.filebrowser )
+			return;
+
 		var definition = evt.data.definition,
 			element;
 		// Associate filebrowser to elements with 'filebrowser' attribute.

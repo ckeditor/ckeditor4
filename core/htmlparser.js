@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -182,7 +182,7 @@ CKEDITOR.htmlParser = function() {
 							if ( !attValue && emptyAttribs[ attName ] )
 								attribs[ attName ] = attName;
 							else
-								attribs[ attName ] = attValue;
+								attribs[ attName ] = CKEDITOR.tools.htmlDecodeAttr( attValue );
 						}
 					}
 

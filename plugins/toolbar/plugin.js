@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -49,7 +49,7 @@
 
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			var endFlag;
@@ -57,7 +57,10 @@
 			var itemKeystroke = function( item, keystroke ) {
 					var next, toolbar;
 					var rtl = editor.lang.dir == 'rtl',
-						toolbarGroupCycling = editor.config.toolbarGroupCycling;
+						toolbarGroupCycling = editor.config.toolbarGroupCycling,
+						// Picking right/left key codes.
+						rightKeyCode = rtl ? 37 : 39,
+						leftKeyCode = rtl ? 39 : 37;
 
 					toolbarGroupCycling = toolbarGroupCycling === undefined || toolbarGroupCycling;
 
@@ -86,9 +89,7 @@
 
 							return false;
 
-						case rtl ? 37:
-							39 : // RIGHT-ARROW
-						case 40: // DOWN-ARROW
+						case rightKeyCode:
 							next = item;
 							do {
 								// Look for the next item in the toolbar.
@@ -97,7 +98,7 @@
 								// If it's the last item, cycle to the first one.
 								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ 0 ];
 							}
-							while ( next && !next.focus )
+							while ( next && !next.focus );
 
 							// If available, just focus it, otherwise focus the
 							// first one.
@@ -108,9 +109,19 @@
 								itemKeystroke( item, 9 );
 
 							return false;
-
-						case rtl ? 39:
-							37 : // LEFT-ARROW
+						case 40: // DOWN-ARROW
+							if ( item.button && item.button.hasArrow ) {
+								// Note: code is duplicated in plugins\richcombo\plugin.js in keyDownFn().
+								editor.once( 'panelShow', function( evt ) {
+									evt.data._.panel._.currentBlock.onKeyDown( 40 );
+								} );
+								item.execute();
+							} else {
+								// Send left arrow key.
+								itemKeystroke( item, keystroke == 40 ? rightKeyCode : leftKeyCode );
+							}
+							return false;
+						case leftKeyCode:
 						case 38: // UP-ARROW
 							next = item;
 							do {
@@ -120,7 +131,7 @@
 								// If it's the first item, cycle to the last one.
 								if ( !next && toolbarGroupCycling ) next = item.toolbar.items[ item.toolbar.items.length - 1 ];
 							}
-							while ( next && !next.focus )
+							while ( next && !next.focus );
 
 							// If available, just focus it, otherwise focus the
 							// last one.
@@ -615,7 +626,7 @@
 			{ name: 'forms' },
 			'/',
 			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 			{ name: 'links' },
 			{ name: 'insert' },
 			'/',
@@ -693,7 +704,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *			{ name: 'forms' },
  *			'/',
  *			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
- *			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+ *			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
  *			{ name: 'links' },
  *			{ name: 'insert' },
  *			'/',

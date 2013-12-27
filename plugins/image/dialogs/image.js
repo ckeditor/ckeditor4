@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -299,7 +299,14 @@
 							this.setupContent( LINK, link );
 					}
 
-					if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) || element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
+					// Edit given image element instead the one from selection.
+					if ( this.customImageElement ) {
+						this.imageEditMode = 'img';
+						this.imageElement = this.customImageElement;
+						delete this.customImageElement;
+					}
+					else if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) ||
+						element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
 						this.imageEditMode = element.getName();
 						this.imageElement = element;
 					}

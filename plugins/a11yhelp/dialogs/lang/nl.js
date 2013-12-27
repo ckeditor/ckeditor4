@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
@@ -49,7 +49,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		},
 			{
 			name: 'Vetgedrukt opdracht',
-			legend: 'Druk up ${bold}'
+			legend: 'Druk op ${bold}'
 		},
 			{
 			name: 'Cursief opdracht',
@@ -69,11 +69,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		},
 			{
 			name: 'Ga naar vorige focus spatie commando',
-			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtsbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
+			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
 		},
 			{
 			name: 'Ga naar volgende focus spatie commando',
-			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de meest dichtbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
+			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
 		},
 			{
 			name: 'Toegankelijkheidshulp',

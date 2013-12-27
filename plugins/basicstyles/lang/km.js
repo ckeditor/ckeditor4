@@ -1,9 +1,9 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'km', {
-	bold: 'ក្រាស់',
+	bold: 'ដិត',
 	italic: 'ទ្រេត',
 	strike: 'គូស​បន្ទាត់​ចំ​កណ្ដាល',
 	subscript: 'អក្សរតូចក្រោម',

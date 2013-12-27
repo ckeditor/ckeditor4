@@ -1,22 +1,27 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'menubutton', {
 	requires: 'button,menu',
 	onLoad: function() {
 		var clickFn = function( editor ) {
-				var _ = this._;
+				var _ = this._,
+					menu = _.menu;
 
 				// Do nothing if this button is disabled.
 				if ( _.state === CKEDITOR.TRISTATE_DISABLED )
 					return;
 
+				if ( _.on && menu ) {
+					menu.hide();
+					return;
+				}
+
 				_.previousState = _.state;
 
 				// Check if we already have a menu for it, otherwise just create it.
-				var menu = _.menu;
 				if ( !menu ) {
 					menu = _.menu = new CKEDITOR.menu( editor, {
 						panel: {
@@ -26,7 +31,9 @@ CKEDITOR.plugins.add( 'menubutton', {
 					});
 
 					menu.onHide = CKEDITOR.tools.bind( function() {
-						this.setState( this.modes && this.modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
+						var modes = this.command ? editor.getCommand( this.command ).modes : this.modes;
+						this.setState( !modes || modes[ editor.mode ] ? _.previousState : CKEDITOR.TRISTATE_DISABLED );
+						_.on = 0;
 					}, this );
 
 					// Initialize the menu items at this point.
@@ -34,12 +41,8 @@ CKEDITOR.plugins.add( 'menubutton', {
 						menu.addListener( this.onMenu );
 				}
 
-				if ( _.on ) {
-					menu.hide();
-					return;
-				}
-
 				this.setState( CKEDITOR.TRISTATE_ON );
+				_.on = 1;
 
 				// This timeout is needed to give time for the panel get focus
 				// when JAWS is running. (#9842)

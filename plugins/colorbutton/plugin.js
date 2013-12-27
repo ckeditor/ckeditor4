@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -10,8 +10,9 @@
  */
 CKEDITOR.plugins.add( 'colorbutton', {
 	requires: 'panelbutton,floatpanel',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	icons: 'bgcolor,textcolor', // %REMOVE_LINE_CORE%
+	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		var config = editor.config,
 			lang = editor.lang.colorbutton;
@@ -31,7 +32,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				label: title,
 				title: title,
 				modes: { wysiwyg:1 },
-				editorFocus: 1,
+				editorFocus: 0,
 				toolbar: 'colors,' + order,
 				allowedContent: style,
 				requiredContent: style,
@@ -61,6 +62,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					keys[ 32 ] = 'click'; // SPACE
 				},
 
+				refresh: function() {
+					if ( !editor.activeFilter.check( style ) )
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+				},
+
 				// The automatic colorbox should represent the real color (#6010)
 				onOpen: function() {
 
@@ -68,6 +74,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
 						color;
+
+					if ( !path )
+						return;
 
 					// Find the closest block element.
 					block = path.block || path.blockLimit || editor.document.getBody();

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -118,7 +118,7 @@ CKEDITOR.scriptLoader = (function() {
 						src: url } );
 
 					if ( callback ) {
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 							// FIXME: For IE, we are not able to return false on error (like 404).
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {

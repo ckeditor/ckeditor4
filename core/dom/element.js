@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -250,9 +250,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * @todo
+	 * Appends a `<br>` filler element to this element if the filler is not present already.
+	 * By default filler is appended only if {@link CKEDITOR.env#needsBrFiller} is `true`,
+	 * however when `force` is set to `true` filler will be appended regardless of the environment.
+	 *
+	 * @param {Boolean} [force] Append filler regardless of the environment.
 	 */
-	appendBogus: function() {
+	appendBogus: function( force ) {
+		if ( !force && !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
+			return;
+
 		var lastChild = this.getLast();
 
 		// Ignore empty/spaces text.
@@ -408,17 +415,29 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {String} html The HTML to be set for this element.
 	 * @returns {String} The inserted HTML.
 	 */
-	setHtml: (function() {
-		var standard = function( html ) {
-			return ( this.$.innerHTML = html );
-		};
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+	setHtml: ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ?
 			// old IEs throws error on HTML manipulation (through the "innerHTML" property)
 			// on the element which resides in an DTD invalid position,  e.g. <span><div></div></span>
 			// fortunately it can be worked around with DOM manipulation.
-			return function( html ) {
-				try { return standard.call( this, html ); }
+			function( html ) {
+				try {
+					var $ = this.$;
+
+					// Fix the case when setHtml is called on detached element.
+					// HTML5 shiv used for document in which this element was created
+					// won't affect that detached element. So get document fragment with
+					// all HTML5 elements enabled and set innerHTML while this element is appended to it.
+					if ( this.getParent() )
+						return ( $.innerHTML = html );
+					else {
+						var $frag = this.getDocument()._getHtml5ShivFrag();
+						$frag.appendChild( $ );
+						$.innerHTML = html;
+						$frag.removeChild( $ );
+
+						return html;
+					}
+				}
 				catch ( e ) {
 					this.$.innerHTML = '';
 
@@ -426,15 +445,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 					temp.$.innerHTML = html;
 
 					var children = temp.getChildren();
-					while( children.count() )
+					while ( children.count() )
 						this.append( children.getItem( 0 ) );
 
 					return html;
 				}
-			};
-		} else
-			return standard;
-	})(),
+			}
+		:
+			function( html ) {
+				return ( this.$.innerHTML = html );
+			},
 
 	/**
 	 * Sets the element contents as plain text.
@@ -1800,8 +1820,127 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		}
 
 		return null;
+	},
+
+	/**
+	 * Returns list of elements within this element that match specified `selector`.
+	 *
+	 * **Notes:**
+	 *
+	 *	* Not available in IE7.
+	 *	* Returned list is not a live collection (like a result of native `querySelectorAll`).
+	 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+	 *
+	 *			HTML:		'<body><div><i>foo</i></div></body>'
+	 *			Native:		div.querySelectorAll( 'body i' ) // ->		[ <i>foo</i> ]
+	 *			Method:		div.find( 'body i' ) // ->					[]
+	 *						div.find( 'i' ) // ->						[ <i>foo</i> ]
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.nodeList}
+	 */
+	find: function( selector ) {
+		var removeTmpId = createTmpId( this ),
+			list = new CKEDITOR.dom.nodeList(
+				this.$.querySelectorAll( getContextualizedSelector( this, selector ) )
+			);
+
+		removeTmpId();
+
+		return list;
+	},
+
+	/**
+	 * Returns first element within this element that matches specified `selector`.
+	 *
+	 * **Notes:**
+	 *
+	 *	* Not available in IE7.
+	 *	* Unlike native `querySelectorAll` this method ensures selector contextualization. This is:
+	 *
+	 *			HTML:		'<body><div><i>foo</i></div></body>'
+	 *			Native:		div.querySelector( 'body i' ) // ->			<i>foo</i>
+	 *			Method:		div.findOne( 'body i' ) // ->				null
+	 *						div.findOne( 'i' ) // ->					<i>foo</i>
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	findOne: function( selector ) {
+		var removeTmpId = createTmpId( this ),
+			found = this.$.querySelector( getContextualizedSelector( this, selector ) );
+
+		removeTmpId();
+
+		return found ? new CKEDITOR.dom.element( found ) : null;
+	},
+
+	/**
+	 * Traverse the DOM of this element (inclusive), executing a callback for
+	 * each node.
+	 *
+	 *		var element = CKEDITOR.dom.element.createFromHtml( '<div><p>foo<b>bar</b>bom</p></div>' );
+	 *		element.forEach( function( node ) {
+	 *			console.log( node );
+	 *		} );
+	 *		// Will log:
+	 *		// 1. <div> element,
+	 *		// 2. <p> element,
+	 *		// 3. "foo" text node,
+	 *		// 4. <b> element,
+	 *		// 5. "bar" text node,
+	 *		// 6. "bom" text node.
+	 *
+	 * @since 4.3
+	 * @param {Function} callback Function to be executed on every node.
+	 * If `callback` returns `false` descendants of the node will be ignored.
+	 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
+	 * @param {Number} [type] If specified `callback` will be executed only on
+	 * nodes of this type.
+	 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
+	 */
+	forEach: function( callback, type, skipRoot ) {
+		if ( !skipRoot && ( !type || this.type == type ) )
+				var ret = callback( this );
+
+		// Do not filter children if callback returned false.
+		if ( ret === false )
+			return;
+
+		var children = this.getChildren(),
+			node,
+			i = 0;
+
+		// We do not cache the size, because the live list of nodes may be changed by the callback.
+		for ( ; i < children.count(); i++ ) {
+			node = children.getItem( i );
+			if ( node.type == CKEDITOR.NODE_ELEMENT )
+				node.forEach( callback, type );
+			else if ( !type || node.type == type )
+				callback( node );
+		}
 	}
 });
+
+	function createTmpId( element ) {
+		var hadId = true;
+
+		if ( !element.$.id ) {
+			element.$.id = 'cke_tmp_' + CKEDITOR.tools.getNextNumber();
+			hadId = false;
+		}
+
+		return function() {
+			if ( !hadId )
+				element.removeAttribute( 'id' );
+		};
+	}
+
+	function getContextualizedSelector( element, selector ) {
+		return '#' + element.$.id + ' ' + selector.split( /,\s*/ ).join( ', #' + element.$.id + ' ' );
+	}
 
 	var sides = {
 		width: [ 'border-left-width', 'border-right-width', 'padding-left', 'padding-right' ],

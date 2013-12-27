@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -142,7 +142,7 @@
 					// If the next block is an <li> with another list tree as the first
 					// child, we'll need to append a filler (<br>/NBSP) or the list item
 					// wouldn't be editable. (#6724)
-					if ( !currentListItem.getChildCount() && CKEDITOR.env.ie && !( doc.$.documentMode > 7 ) )
+					if ( !currentListItem.getChildCount() && CKEDITOR.env.needsNbspFiller && !( doc.$.documentMode > 7 ) )
 						currentListItem.append( doc.createText( '\xa0' ) );
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
@@ -164,11 +164,25 @@
 					var needsBlock = currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && ( paragraphMode != CKEDITOR.ENTER_BR || dirLoose || style || className );
 
 					var child,
-						count = item.contents.length;
+						count = item.contents.length,
+						cachedBookmark;
+
 					for ( i = 0; i < count; i++ ) {
 						child = item.contents[ i ];
 
-						if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
+						// Append bookmark if we can, or cache it and append it when we'll know
+						// what to do with it. Generally - we want to keep it next to its original neighbour.
+						// Exception: if bookmark is the only child it hasn't got any neighbour, so handle it normally
+						// (wrap with block if needed).
+						if ( bookmarks( child ) && count > 1 ) {
+							// If we don't need block, it's simple - append bookmark directly to the current list item.
+							if ( !needsBlock )
+								currentListItem.append( child.clone( 1, 1 ) );
+							else
+								cachedBookmark = child.clone( 1, 1 );
+						}
+						// Block content goes directly to the current list item, without wrapping.
+						else if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() ) {
 							// Apply direction on content blocks.
 							if ( dirLoose && !child.getDirection() )
 								child.setAttribute( 'dir', orgDir );
@@ -176,10 +190,24 @@
 							inheirtInlineStyles( li, child );
 
 							className && child.addClass( className );
-						} else if ( needsBlock ) {
+
+							// Close the block which we started for inline content.
+							block = null;
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								currentListItem.append( cachedBookmark );
+								cachedBookmark = null;
+							}
+							// Append this block element to the list item.
+							currentListItem.append( child.clone( 1, 1 ) );
+						}
+						// Some inline content was found - wrap it with block and append that
+						// block to the current list item or append it to the block previously created.
+						else if ( needsBlock ) {
 							// Establish new block to hold text direction and styles.
 							if ( !block ) {
 								block = doc.createElement( paragraphName );
+								currentListItem.append( block );
 								dirLoose && block.setAttribute( 'dir', orgDir );
 							}
 
@@ -187,25 +215,43 @@
 							style && block.setAttribute( 'style', style );
 							className && block.setAttribute( 'class', className );
 
+							// Append bookmark directly before current child.
+							if ( cachedBookmark ) {
+								block.append( cachedBookmark );
+								cachedBookmark = null;
+							}
 							block.append( child.clone( 1, 1 ) );
 						}
+						// E.g. BR mode - inline content appended directly to the list item.
+						else
+							currentListItem.append( child.clone( 1, 1 ) );
+					}
 
-						currentListItem.append( block || child.clone( 1, 1 ) );
+					// No content after bookmark - append it to the block if we had one
+					// or directly to the current list item if we finished directly in the current list item.
+					if ( cachedBookmark ) {
+						( block || currentListItem ).append( cachedBookmark );
+						cachedBookmark = null;
 					}
 
 					if ( currentListItem.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT && currentIndex != listArray.length - 1 ) {
-						var last = currentListItem.getLast();
-						if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.getAttribute( 'type' ) == '_moz' ) {
-							last.remove();
+						var last;
+
+						// Remove bogus <br> if this browser uses them.
+						if ( CKEDITOR.env.needsBrFiller ) {
+							last = currentListItem.getLast();
+							if ( last && last.type == CKEDITOR.NODE_ELEMENT && last.is( 'br' ) )
+								last.remove();
 						}
 
-						if ( !( last = currentListItem.getLast( nonEmpty ) && last.type == CKEDITOR.NODE_ELEMENT && last.getName() in CKEDITOR.dtd.$block ) ) {
+						// If the last element is not a block, append <br> to separate merged list items.
+						last = currentListItem.getLast( nonEmpty );
+						if ( !( last && last.type == CKEDITOR.NODE_ELEMENT && last.is( CKEDITOR.dtd.$block ) ) )
 							currentListItem.append( doc.createElement( 'br' ) );
-						}
 					}
 
 					var currentListItemName = currentListItem.$.nodeName.toLowerCase();
-					if ( !CKEDITOR.env.ie && ( currentListItemName == 'div' || currentListItemName == 'p' ) )
+					if ( currentListItemName == 'div' || currentListItemName == 'p' )
 						currentListItem.appendBogus();
 					retval.append( currentListItem );
 					rootNode = null;
@@ -286,9 +332,9 @@
 				listsCreated.push( child );
 		}
 		newList.listNode.replace( groupObj.root );
-	}
 
-	var headerTagRegex = /^h[1-6]$/;
+		editor.fire( 'contentDomInvalidated' );
+	}
 
 	function createList( editor, groupObj, listsCreated ) {
 		var contents = groupObj.contents,
@@ -359,8 +405,9 @@
 			contentBlock = listContents.shift();
 			listItem = doc.createElement( 'li' );
 
-			// Preserve preformat block and heading structure when converting to list item. (#5335) (#5271)
-			if ( contentBlock.is( 'pre' ) || headerTagRegex.test( contentBlock.getName() ) )
+			// If current block should be preserved, append it to list item instead of
+			// transforming it to <li> element.
+			if ( shouldPreserveBlock( contentBlock ) )
 				contentBlock.appendTo( listItem );
 			else {
 				contentBlock.copyAttributes( listItem );
@@ -438,6 +485,22 @@
 		compensateBrs();
 
 		docFragment.replace( groupObj.root );
+
+		editor.fire( 'contentDomInvalidated' );
+	}
+
+	var headerTagRegex = /^h[1-6]$/;
+
+	// Checks wheather this block should be element preserved (not transformed to <li>) when creating list.
+	function shouldPreserveBlock( block ) {
+		return (
+			// #5335
+			block.is( 'pre' ) ||
+			// #5271 - this is a header.
+			headerTagRegex.test( block.getName() ) ||
+			// 11083 - this is a non-editable element.
+			block.getAttribute( 'contenteditable' ) == 'false'
+		);
 	}
 
 	function listCommand( name, type ) {
@@ -471,7 +534,7 @@
 			var doc = editor.document,
 				config = editor.config,
 				selection = editor.getSelection(),
-				ranges = selection && selection.getRanges( true );
+				ranges = selection && selection.getRanges();
 
 			// Midas lists rule #1 says we can create a list even in an empty document.
 			// But DOM iterator wouldn't run if the document is really empty.
@@ -717,6 +780,10 @@
 			nextPath = nextCursor.startPath();
 			nextBlock = nextPath.block;
 
+			// Abort when nothing to be removed (#10890).
+			if ( !nextBlock )
+				break;
+
 			// Check if also to remove empty list.
 			if ( nextBlock.is( 'li' ) ) {
 				parent = nextBlock.getParent();
@@ -751,9 +818,10 @@
 	}
 
 	CKEDITOR.plugins.add( 'list', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'bulletedlist,bulletedlist-rtl,numberedlist,numberedlist-rtl', // %REMOVE_LINE_CORE%
-		requires: 'indent',
+		hidpi: true, // %REMOVE_LINE_CORE%
+		requires: 'indentlist',
 		init: function( editor ) {
 			if ( editor.blockless )
 				return;
@@ -786,9 +854,9 @@
 				if ( editor.mode == 'wysiwyg' && key in { 8:1,46:1 } ) {
 					var sel = editor.getSelection(),
 						range = sel.getRanges()[ 0 ],
-						path = range.startPath();
+						path = range && range.startPath();
 
-					if ( !range.collapsed )
+					if ( !range || !range.collapsed )
 						return;
 
 					path = new CKEDITOR.dom.elementPath( range.startContainer );

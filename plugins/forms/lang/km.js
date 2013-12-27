@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'km', {
 	button: {
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		type: 'ប្រភេទ',
 		typeText: 'ពាក្យ',
 		typePass: 'ពាក្យសំងាត់',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'អ៊ីមែល',
+		typeSearch: 'ស្វែង​រក',
+		typeTel: 'លេខ​ទូរសព្ទ',
 		typeUrl: 'URL'
 	}
 });

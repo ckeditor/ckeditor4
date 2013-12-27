@@ -1,7 +1,7 @@
 @ECHO OFF
 ::
 :: Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-:: For licensing, see LICENSE.html or http://ckeditor.com/license
+:: For licensing, see LICENSE.md or http://ckeditor.com/license
 ::
 :: Calls the JavaScript Lint (jsl) with the predefined configurations.
 :: If a file name is passed as a parameter it writes there the results,

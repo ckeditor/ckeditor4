@@ -2,3 +2,5 @@
 /.project
 /.externalToolBuilders
 /rsyncExclude.txt
+dev/iconmaker/node_modules
+

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'listblock', {
@@ -17,7 +17,11 @@ CKEDITOR.plugins.add( 'listblock', {
 					'{text}' +
 				'</a>' +
 				'</li>' ),
-			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' );
+			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
+			reSingleQuote = /\'/g,
+			escapeSingleQuotes = function( str ) {
+				return str.replace( reSingleQuote, '\\\'' );
+			};
 
 		CKEDITOR.ui.panel.prototype.addListBlock = function( name, definition ) {
 			return this.addBlock( name, new CKEDITOR.ui.listBlock( this.getHolderElement(), definition ) );
@@ -89,10 +93,10 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					var data = {
 						id: id,
-						val: value,
+						val: escapeSingleQuotes( CKEDITOR.tools.htmlEncodeAttr( value ) ),
 						onclick: CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick',
 						clickFn: this._.getClick(),
-						title: title || value,
+						title: CKEDITOR.tools.htmlEncodeAttr( title || value ),
 						text: html || value
 					};
 
@@ -223,9 +227,8 @@ CKEDITOR.plugins.add( 'listblock', {
 							}
 						}
 					}
-					else {
+					else
 						this.element.focus();
-					}
 
 					selected && setTimeout( function() {
 						selected.focus();

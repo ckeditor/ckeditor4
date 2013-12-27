@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 IdInputLabel = Label for the Id field of the Div Container dialog window.
 advisoryTitleInputLabel = Label for the Advisory Title field of the Div Container dialog window.

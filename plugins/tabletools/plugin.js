@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -123,7 +123,7 @@
 			} else {
 				cell = new CKEDITOR.dom.element( cloneRow[ i ] ).clone();
 				cell.removeAttribute( 'rowSpan' );
-				!CKEDITOR.env.ie && cell.appendBogus();
+				cell.appendBogus();
 				newRow.append( cell );
 				cell = cell.$;
 			}
@@ -255,7 +255,7 @@
 			} else {
 				cell = new CKEDITOR.dom.element( cloneCol[ i ] ).clone();
 				cell.removeAttribute( 'colSpan' );
-				!CKEDITOR.env.ie && cell.appendBogus();
+				cell.appendBogus();
 				cell[ insertBefore ? 'insertBefore' : 'insertAfter' ].call( cell, new CKEDITOR.dom.element( cloneCol[ i ] ) );
 				cell = cell.$;
 			}
@@ -361,8 +361,7 @@
 
 		// Create the new cell element to be added.
 		var newCell = cell.clone();
-		if ( !CKEDITOR.env.ie )
-			newCell.appendBogus();
+		newCell.appendBogus();
 
 		if ( insertBefore )
 			newCell.insertBefore( cell );
@@ -400,7 +399,17 @@
 	}
 
 	function placeCursorInCell( cell, placeAtEnd ) {
-		var range = new CKEDITOR.dom.range( cell.getDocument() );
+		var docInner = cell.getDocument(),
+			docOuter = CKEDITOR.document;
+
+		// Fixing "Unspecified error" thrown in IE10 by resetting
+		// selection the dirty and shameful way (#10308).
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			docOuter.focus();
+			docInner.focus();
+		}
+
+		var range = new CKEDITOR.dom.range( docInner );
 		if ( !range[ 'moveToElementEdit' + ( placeAtEnd ? 'End' : 'Start' ) ]( cell ) ) {
 			range.selectNodeContents( cell );
 			range.collapse( placeAtEnd ? false : true );
@@ -525,8 +534,7 @@
 		if ( !isDetect ) {
 			frag.moveChildren( firstCell );
 
-			if ( !CKEDITOR.env.ie )
-				firstCell.appendBogus();
+			firstCell.appendBogus();
 
 			if ( totalColSpan >= mapWidth )
 				firstCell.removeAttribute( 'rowSpan' );
@@ -611,8 +619,7 @@
 				cellsInSameRow[ i ].rowSpan++;
 		}
 
-		if ( !CKEDITOR.env.ie )
-			newCell.appendBogus();
+		newCell.appendBogus();
 
 		cell.$.rowSpan = newRowSpan;
 		newCell.$.rowSpan = newCellRowSpan;
@@ -651,8 +658,7 @@
 		}
 		newCell = cell.clone();
 		newCell.insertAfter( cell );
-		if ( !CKEDITOR.env.ie )
-			newCell.appendBogus();
+		newCell.appendBogus();
 
 		cell.$.colSpan = newColSpan;
 		newCell.$.colSpan = newCellColSpan;

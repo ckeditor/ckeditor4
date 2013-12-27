@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'ru' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Визуальный текстовый редактор',
+	editorPanel: 'Визуальный редактор текста',
 
 	// Common messages and labels.
 	common: {
@@ -49,7 +42,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		textarea: 'Многострочное текстовое поле',
 		hiddenField: 'Скрытое поле',
 		button: 'Кнопка',
-		select: 'Список выбора',
+		select: 'Выпадающий список',
 		imageButton: 'Кнопка-изображение',
 		notSet: '<не указано>',
 		id: 'Идентификатор',
@@ -88,9 +81,9 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignLeft: 'По левому краю',
 		alignRight: 'По правому краю',
 		alignCenter: 'По центру',
-		alignTop: 'По верху',
-		alignMiddle: 'По середине',
-		alignBottom: 'По низу',
+		alignTop: 'Поверху',
+		alignMiddle: 'Посередине',
+		alignBottom: 'Понизу',
 		invalidValue	: 'Недопустимое значение.',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',

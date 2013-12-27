@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -45,11 +45,15 @@
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = [ editor.lang.editor, editor.name ].join( ',' ),
+				var frameLabel = editor.title,
 					frameDesc = editor.lang.common.editorHelp;
 
-				if ( CKEDITOR.env.ie )
-					frameLabel += ', ' + frameDesc;
+				if ( frameLabel ) {
+					if ( CKEDITOR.env.ie )
+						frameLabel += ', ' + frameDesc;
+
+					iframe.setAttribute( 'title', frameLabel );
+				}
 
 				var labelId = CKEDITOR.tools.getNextId(),
 					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
@@ -63,8 +67,7 @@
 				});
 
 				iframe.setAttributes({
-					'aria-describedby' : labelId,
-					title: frameLabel,
+					'aria-describedby': labelId,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				});
@@ -160,12 +163,12 @@
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 
 			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-			editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
+			editor.config.enterMode != CKEDITOR.ENTER_P && this.attachListener( doc, 'selectionchange', function() {
 				var body = doc.getBody(),
 					sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
 
-				if ( range && body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+				if ( range && body.getHtml().match( /^<p>(?:&nbsp;|<br>)<\/p>$/i ) && range.startContainer.equals( body ) ) {
 					// Avoid the ambiguity from a real user cursor position.
 					setTimeout( function() {
 						range = editor.getSelection().getRanges()[ 0 ];
@@ -176,12 +179,21 @@
 						}
 					}, 0 );
 				}
-			});
+			} );
 		}
 
-		// Gecko needs a key event to 'wake up' editing when the document is
-		// empty. (#3864, #5781)
-		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
+		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
+		// Fix for older IEs (8-10 and QM) is placed inside selection.js.
+		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
+			doc.getDocumentElement().on( 'mousedown', function( evt ) {
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					// IE needs this timeout. Webkit does not, but it does not cause problems too.
+					setTimeout( function() {
+						editor.editable().focus();
+					} );
+				}
+			} );
+		}
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
@@ -313,8 +325,12 @@
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
-				if ( isSnapshot )
+				if ( isSnapshot ) {
 					this.setHtml( data );
+					// Fire dataReady for the consistency with inline editors
+					// and because it makes sense. (#10370)
+					editor.fire( 'dataReady' );
+				}
 				else {
 					this._.isLoadingData = true;
 					editor._.dataStore = { id:1 };
@@ -344,8 +360,7 @@
 					}
 
 					// Get the HTML version of the data.
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -421,10 +436,7 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 						bootstrapCode +=
 							'<script id="cke_shimscrpt">' +
-								'(function(){' +
-									'var e="abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video".split(","),i=e.length;' +
-									'while(i--){document.createElement(e[i])}' +
-								'})()' +
+								'window.parent.CKEDITOR.tools.enableHtml5Elements(document)' +
 							'</script>';
 					}
 
@@ -465,8 +477,7 @@
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data );
+					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;
@@ -517,42 +528,6 @@
 			setTimeout( function() {
 			editor.resetDirty();
 		}, 0 );
-	}
-
-	function activateEditing( editor ) {
-		if ( editor.readOnly )
-			return;
-
-		var win = editor.window,
-			doc = editor.document,
-			body = doc.getBody(),
-			bodyFirstChild = body.getFirst(),
-			bodyChildsNum = body.getChildren().count();
-
-		if ( !bodyChildsNum || bodyChildsNum == 1 && bodyFirstChild.type == CKEDITOR.NODE_ELEMENT && bodyFirstChild.hasAttribute( '_moz_editor_bogus_node' ) ) {
-			restoreDirty( editor );
-
-			// Memorize scroll position to restore it later (#4472).
-			var hostDocument = CKEDITOR.document;
-			var hostDocumentElement = hostDocument.getDocumentElement();
-			var scrollTop = hostDocumentElement.$.scrollTop;
-			var scrollLeft = hostDocumentElement.$.scrollLeft;
-
-			// Simulating keyboard character input by dispatching a keydown of white-space text.
-			var keyEventSimulate = doc.$.createEvent( "KeyEvents" );
-			keyEventSimulate.initKeyEvent( 'keypress', true, true, win.$, false, false, false, false, 0, 32 );
-			doc.$.dispatchEvent( keyEventSimulate );
-
-			if ( scrollTop != hostDocumentElement.$.scrollTop || scrollLeft != hostDocumentElement.$.scrollLeft )
-				hostDocument.getWindow().$.scrollTo( scrollLeft, scrollTop );
-
-			// Restore the original document status by placing the cursor before a bogus br created (#5021).
-			bodyChildsNum && body.getFirst().remove();
-			doc.getBody().appendBogus();
-			var nativeRange = editor.createRange();
-			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
-			nativeRange.select();
-		}
 	}
 
 	function iframeCssFixes() {

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'form', function( editor ) {
 	var autoAttributes = { action:1,id:1,method:1,enctype:1,target:1 };
@@ -28,7 +28,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 			if ( isInsertMode ) {
 				editor = this.getParentEditor();
 				element = editor.document.createElement( 'form' );
-				!CKEDITOR.env.ie && element.append( editor.document.createElement( 'br' ) );
+				element.appendBogus();
 			}
 
 			if ( isInsertMode )

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -84,8 +84,9 @@
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var textificationFilter;
 
@@ -380,9 +381,9 @@
 				editor.contextMenu.addListener( function( element, selection ) {
 					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
-						cut: stateFromNamedCommand( 'Cut' ),
-						copy: stateFromNamedCommand( 'Copy' ),
-						paste: stateFromNamedCommand( 'Paste' )
+						cut: stateFromNamedCommand( 'cut' ),
+						copy: stateFromNamedCommand( 'copy' ),
+						paste: stateFromNamedCommand( 'paste' )
 					};
 				});
 			}
@@ -660,7 +661,8 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902;
+				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
+				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
@@ -679,15 +681,19 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
-			pastebin.setAttribute( 'id', 'cke_pastebin' );
+			pastebin.setAttributes( {
+				id: 'cke_pastebin',
+				'data-cke-temp': '1'
+			} );
 
 			// Append bogus to prevent Opera from doing this. (#9522)
 			if ( CKEDITOR.env.opera )
 				pastebin.appendBogus();
 
 			var containerOffset = 0,
+				offsetParent,
 				win = doc.getWindow();
 
 			// Seems to be the only way to avoid page scroll in Fx 3.x.
@@ -701,8 +707,19 @@
 					editable.append( pastebin );
 					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
 					pastebin.addClass( 'cke_editable' );
+
 					// Compensate position of offsetParent.
-					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
+					if ( !editable.is( 'body' ) ) {
+						// We're not able to get offsetParent from pastebin (body element), so check whether
+						// its parent (editable) is positioned.
+						if ( editable.getComputedStyle( 'position' ) != 'static' )
+							offsetParent = editable;
+						// And if not - safely get offsetParent from editable.
+						else
+							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+
+						containerOffset = offsetParent.getDocumentPosition().y;
+					}
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
@@ -739,6 +756,12 @@
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
+			// Webkit fill fire blur on editable when moving selection to
+			// pastebin (if body is used). Cancel it because it causes incorrect
+			// selection lock in case of inline editor.
+			if ( CKEDITOR.env.webkit )
+				blurListener = editable.once( 'blur', cancel, null, null, -100 );
+
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
@@ -750,7 +773,7 @@
 			// this selection will be restored. We overwrite stored selection, so it's restored
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
-				var blurListener = editable.once( 'blur', function( evt ) {
+				blurListener = editable.once( 'blur', function( evt ) {
 					editor.lockSelection( selPastebin );
 				} );
 			}
@@ -884,39 +907,27 @@
 			if ( editor.mode != 'wysiwyg' )
 				return;
 
-			var pasteState = stateFromNamedCommand( 'Paste' );
+			var pasteState = stateFromNamedCommand( 'paste' );
 
-			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'Cut' ) );
-			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'Copy' ) );
+			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'cut' ) );
+			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'copy' ) );
 			editor.getCommand( 'paste' ).setState( pasteState );
 			editor.fire( 'pasteState', pasteState );
 		}
 
 		function stateFromNamedCommand( command ) {
-			var retval;
-
-			if ( inReadOnly && command in { Paste:1,Cut:1 } )
+			if ( inReadOnly && command in { paste:1,cut:1 } )
 				return CKEDITOR.TRISTATE_DISABLED;
 
-			if ( command == 'Paste' ) {
-				// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
-				// guard to distinguish from the ordinary sources (either
-				// keyboard paste or execCommand) (#4874).
-				CKEDITOR.env.ie && ( preventBeforePasteEvent = 1 );
-				try {
-					// Always return true for Webkit (which always returns false)
-					retval = editor.document.$.queryCommandEnabled( command ) || CKEDITOR.env.webkit;
-				} catch ( er ) {}
-				preventBeforePasteEvent = 0;
-			}
-			// Cut, Copy - check if the selection is not empty
-			else {
-				var sel = editor.getSelection(),
-					ranges = sel.getRanges();
-				retval = sel.getType() != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
-			}
+			if ( command == 'paste' )
+				return CKEDITOR.TRISTATE_OFF;
 
-			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+			// Cut, copy - check if the selection is not empty.
+			var sel = editor.getSelection(),
+				ranges = sel.getRanges(),
+				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
+
+			return selectionIsEmpty ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
 		}
 	}
 
@@ -1050,7 +1061,7 @@
 				}
 			};
 
-		filter.addRules({
+		filter.addRules( {
 			elements: {
 				h1: squashHeader,
 				h2: squashHeader,
@@ -1082,7 +1093,7 @@
 						return false;
 
 					// Remove all attributes.
-					delete element.attributes;
+					element.attributes = [];
 
 					// Pass brs.
 					if ( initialName == 'br' )
@@ -1120,7 +1131,10 @@
 					return element;
 				}
 			}
-		});
+		}, {
+			// Apply this filter to every element.
+			applyToAll: true
+		} );
 
 		return filter;
 	}

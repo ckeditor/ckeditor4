@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 (function() {
@@ -58,7 +58,7 @@
 
 							for ( var i = 0, count = cells.length; i < count; i++ ) {
 								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
-								!CKEDITOR.env.ie && newCell.appendBogus();
+								newCell.appendBogus();
 							}
 
 							resultRange.moveToElementEditStart( newRow );

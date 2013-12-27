@@ -1,12 +1,12 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'pt', {
-	label: 'Formato',
-	panelTitle: 'Formato',
+	label: 'Formatar',
+	panelTitle: 'Formatar Parágrafo',
 	tag_address: 'Endereço',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: 'Normal (DIV)',
 	tag_h1: 'Título 1',
 	tag_h2: 'Título 2',
 	tag_h3: 'Título 3',

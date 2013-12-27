@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -38,8 +38,13 @@ CKEDITOR.plugins.load = CKEDITOR.tools.override( CKEDITOR.plugins.load, function
 							// Register all icons eventually defined by this plugin.
 							if ( plugin.icons ) {
 								var icons = plugin.icons.split( ',' );
-								for ( var ic = 0 ; ic < icons.length ; ic++ ) {
-									CKEDITOR.skin.addIcon( icons[ ic ], plugin.path + 'icons/' + icons[ ic ] + '.png' );
+								for ( var ic = icons.length; ic--; ) {
+									CKEDITOR.skin.addIcon( icons[ ic ],
+										plugin.path +
+										'icons/' +
+										( CKEDITOR.env.hidpi && plugin.hidpi ? 'hidpi/' : '' ) +
+										icons[ ic ] +
+										'.png' );
 								}
 							}
 							initialized[ pluginName ] = 1;
