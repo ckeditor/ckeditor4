@@ -83,15 +83,18 @@ if ( !CKEDITOR.loader ) {
 				return CKEDITOR.basePath;
 
 			// Find out the editor directory path, based on its <script> tag.
-			var path = '';
-			var scripts = document.getElementsByTagName( 'script' );
-
-			for ( var i = 0; i < scripts.length; i++ ) {
-				var match = scripts[ i ].src.match( /(^|.*?[\\\/])(?:_source\/)?core\/loader.js(?:\?.*)?$/i );
-
-				if ( match ) {
-					path = match[ 1 ];
-					break;
+			var path = window.CKEDITOR_BASEPATH || '';
+			
+			if ( !path ) {
+				var scripts = document.getElementsByTagName( 'script' );
+	
+				for ( var i = 0; i < scripts.length; i++ ) {
+					var match = scripts[ i ].src.match( /(^|.*?[\\\/])(?:_source\/)?core\/loader.js(?:\?.*)?$/i );
+	
+					if ( match ) {
+						path = match[ 1 ];
+						break;
+					}
 				}
 			}
 
