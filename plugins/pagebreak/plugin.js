@@ -46,7 +46,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		} );
 
 		// Opera needs help to select the page-break.
-		CKEDITOR.env.opera && editor.on( 'contentDom', function() {
+		(CKEDITOR.env.opera || CKEDITOR.env.chrome) && editor.on( 'contentDom', function() {
 			editor.document.on( 'click', function( evt ) {
 				var target = evt.data.getTarget();
 				if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
