@@ -3,6 +3,9 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
+* [#11102](http://dev.ckeditor.com/ticket/11102): `CKEDITOR.template` improvements:
+  * added new line character support ([#11102](http://dev.ckeditor.com/ticket/11102)),
+  * added "\\'" substring support ([#11216](http://dev.ckeditor.com/ticket/11216)).
 * [#11121](http://dev.ckeditor.com/ticket/11121): [Firefox] Fixed: High Contrast mode is enabled when editor is loaded in hidden iframe.
 * [#11350](http://dev.ckeditor.com/ticket/11350): The default value of [`config.contentsCss`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-contentsCss) is affected by [`CKEDITOR.getUrl`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getUrl).
 * [#11097](http://dev.ckeditor.com/ticket/11097): Improved the [Autogrow](http://ckeditor.com/addon/autogrow) plugin performance when dealing with very big tables.
