@@ -2513,14 +2513,23 @@
 	}
 
 	function setupDragHandler( widget ) {
+
+		var container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' );
+
 		if ( !widget.draggable )
 			return;
 
+		if ( container ) {
+			// Drag container already found.
+			widget.dragHandlerContainer = container;
+			return;
+		}
+
 		var editor = widget.editor,
 			editable = editor.editable(),
-			img = new CKEDITOR.dom.element( 'img', editor.document ),
-			container = new CKEDITOR.dom.element( 'span', editor.document );
+			img = new CKEDITOR.dom.element( 'img', editor.document );
 
+		container = new CKEDITOR.dom.element( 'span', editor.document );
 		container.setAttributes( {
 			'class': 'cke_reset cke_widget_drag_handler_container',
 			// Split background and background-image for IE8 which will break on rgba().
