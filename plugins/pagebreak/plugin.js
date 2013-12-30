@@ -61,7 +61,9 @@ CKEDITOR.plugins.add( 'pagebreak', {
 		// Register a filter to displaying placeholders after mode change.
 		var dataProcessor = editor.dataProcessor,
 			dataFilter = dataProcessor && dataProcessor.dataFilter,
-			htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+			htmlFilter = dataProcessor && dataProcessor.htmlFilter,
+			styleRegex = /page-break-after\s*:\s*always/i,
+			childStyleRegex = /display\s*:\s*none/i;
 
 		if ( htmlFilter ) {
 			htmlFilter.addRules( {
@@ -92,7 +94,7 @@ CKEDITOR.plugins.add( 'pagebreak', {
 							child = style && element.children.length == 1 && element.children[ 0 ],
 							childStyle = child && ( child.name == 'span' ) && child.attributes.style;
 
-						if ( childStyle && ( /page-break-after\s*:\s*always/i ).test( style ) && ( /display\s*:\s*none/i ).test( childStyle ) ) {
+						if ( childStyle && styleRegex.test( style ) && childStyleRegex.test( childStyle ) ) {
 							attributes.contenteditable = "false";
 							attributes[ 'class' ] = "cke_pagebreak";
 							attributes[ 'data-cke-display-name' ] = "pagebreak";
