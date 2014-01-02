@@ -323,12 +323,26 @@ CKEDITOR.config = {
 	 * The keystrokes that are blocked by default as the browser implementation
 	 * is buggy. These default keystrokes are handled by the editor.
 	 *
-	 * @cfg {Array} [=[ CKEDITOR.CTRL + 66, CKEDITOR.CTRL + 73, CKEDITOR.CTRL + 85 ] // CTRL+B,I,U]
+	 *		// Default setting.
+	 *		config.blockedKeystrokes = [
+	 *			CKEDITOR.CTRL + 66, // CTRL+B
+	 *			CKEDITOR.CTRL + 73, // CTRL+I
+	 *			CKEDITOR.CTRL + 85, // CTRL+U
+	 *			CKEDITOR.CTRL + 89, // CTRL+Y
+	 *			CKEDITOR.CTRL + 90, // CTRL+Z
+	 *			CKEDITOR.CTRL + CKEDITOR.SHIFT + 90  // CTRL+SHIFT+Z
+	 *		];
+	 *
+	 * @cfg {Array} [blockedKeystrokes=see example]
 	 */
 	blockedKeystrokes: [
 		CKEDITOR.CTRL + 66, // CTRL+B
 		CKEDITOR.CTRL + 73, // CTRL+I
-		CKEDITOR.CTRL + 85 // CTRL+U
+		CKEDITOR.CTRL + 85, // CTRL+U
+
+		CKEDITOR.CTRL + 89, // CTRL+Y
+		CKEDITOR.CTRL + 90, // CTRL+Z
+		CKEDITOR.CTRL + CKEDITOR.SHIFT + 90  // CTRL+SHIFT+Z
 	]
 };
 
