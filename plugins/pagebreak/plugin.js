@@ -17,21 +17,19 @@
 		icons: 'pagebreak,pagebreak-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
-			var cssStyles = [
-				'{',
-					'background: url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;',
-					'clear: both;',
-					'width:100%; _width:99.9%;',
-					'border-top: #999999 1px dotted;',
-					'border-bottom: #999999 1px dotted;',
-					'padding:0;',
-					'height: 5px;',
-					'cursor: default;',
-				'}'
-				].join( '' ).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
+			var cssStyles = (
+					'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
+					'clear:both;' +
+					'width:100%; _width:99.9%;' +
+					'border-top:#999 1px dotted;' +
+					'border-bottom:#999 1px dotted;' +
+					'padding:0;' +
+					'height:5px;' +
+					'cursor:default;'
+				).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
 
 			// Add the style that renders our placeholder.
-			CKEDITOR.addCss( 'div.cke_pagebreak' + cssStyles );
+			CKEDITOR.addCss( 'div.cke_pagebreak{' + cssStyles + '}' );
 		},
 
 		init: function( editor ) {
