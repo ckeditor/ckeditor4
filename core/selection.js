@@ -180,7 +180,13 @@
 			if ( bm ) {
 				var rng = sel.getRangeAt( 0 );
 				rng.setStart( rng.startContainer, bm[ 0 ] );
-				rng.setEnd( rng.startContainer, bm[ 1 ] );
+				try {
+					rng.setEnd( rng.startContainer, bm[ 1 ] );
+				} catch (e) {
+					if (!e || !e.toString().indexOf("NS_ERROR_ILLEGAL_VALUE") >= 0 && !e.toString().indexOf('IndexSizeError') > -1) {
+						throw e;
+					}
+				}
 				sel.removeAllRanges();
 				sel.addRange( rng );
 			}
@@ -1943,7 +1949,7 @@
 						// There is a bug in Firefox implementation (it would be too easy
 						// otherwise). The new start can't be after the end (W3C says it can).
 						// So, let's create a new range and collapse it to the desired point.
-						if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 ) {
+						if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 || e.toString().indexOf('IndexSizeError') > -1 ) {
 							range.collapse( 1 );
 							nativeRange.setEnd( range.endContainer.$, range.endOffset );
 						} else
