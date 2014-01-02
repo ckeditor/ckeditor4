@@ -2516,44 +2516,42 @@
 		if ( !widget.draggable )
 			return;
 
-		var container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' );
+		var editor = widget.editor,
+			container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' ),
+			img;
 
-		if ( container ) {
-			// Drag container already found.
-			widget.dragHandlerContainer = container;
-			return;
+		if ( container )
+			img = container.findOne( 'img' );
+		else {
+			container = new CKEDITOR.dom.element( 'span', editor.document );
+			container.setAttributes( {
+				'class': 'cke_reset cke_widget_drag_handler_container',
+				// Split background and background-image for IE8 which will break on rgba().
+				style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
+			} );
+
+			img = new CKEDITOR.dom.element( 'img', editor.document );
+			img.setAttributes( {
+				'class': 'cke_reset cke_widget_drag_handler',
+				'data-cke-widget-drag-handler': '1',
+				src: transparentImageData,
+				width: DRAG_HANDLER_SIZE,
+				title: editor.lang.widget.move,
+				height: DRAG_HANDLER_SIZE
+			} );
+			widget.inline && img.setAttribute( 'draggable', 'true' );
+
+			container.append( img );
+			widget.wrapper.append( container );
 		}
 
-		var editor = widget.editor,
-			editable = editor.editable(),
-			img = new CKEDITOR.dom.element( 'img', editor.document );
-
-		container = new CKEDITOR.dom.element( 'span', editor.document );
-		container.setAttributes( {
-			'class': 'cke_reset cke_widget_drag_handler_container',
-			// Split background and background-image for IE8 which will break on rgba().
-			style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
-		} );
-
-		img.setAttributes( {
-			'class': 'cke_reset cke_widget_drag_handler',
-			'data-cke-widget-drag-handler': '1',
-			src: transparentImageData,
-			width: DRAG_HANDLER_SIZE,
-			title: editor.lang.widget.move,
-			height: DRAG_HANDLER_SIZE
-		} );
-
 		if ( widget.inline ) {
-			img.setAttribute( 'draggable', 'true' );
 			img.on( 'dragstart', function( evt ) {
 				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
 			} );
 		} else
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
 
-		container.append( img );
-		widget.wrapper.append( container );
 		widget.dragHandlerContainer = container;
 	}
 
