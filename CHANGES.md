@@ -10,6 +10,7 @@ CKEditor 4 Changelog
 * [#11350](http://dev.ckeditor.com/ticket/11350): The default value of [`config.contentsCss`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-contentsCss) is affected by [`CKEDITOR.getUrl`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getUrl).
 * [#11097](http://dev.ckeditor.com/ticket/11097): Improved the [Autogrow](http://ckeditor.com/addon/autogrow) plugin performance when dealing with very big tables.
 * [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in `sourcedialog` plugin.
+* [#11133](http://dev.ckeditor.com/ticket/11133): [Pagebreak](http://ckeditor.com/addon/pagebreak) becomes editable if pasted.
 
 ## CKEditor 4.3.1
 
