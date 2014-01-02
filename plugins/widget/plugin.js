@@ -2221,7 +2221,7 @@
 					// should process in this session.
 					return false;
 				}
-			}, CKEDITOR.NODE_ELEMENT );
+			}, CKEDITOR.NODE_ELEMENT, true );
 		}, null, null, 8 );
 
 		// Listen after dataProcessor.htmlFilter and ACF were applied
@@ -2264,7 +2264,7 @@
 			var upcastIterator = createUpcastIterator( widgetsRepo ),
 				toBeWrapped;
 
-			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT );
+			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT, true );
 
 			// Clean up and wrap all queued elements.
 			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
