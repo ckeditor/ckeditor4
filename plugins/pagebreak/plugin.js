@@ -20,7 +20,7 @@
 			var cssStyles = (
 					'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
 					'clear:both;' +
-					'width:100%; _width:99.9%;' +
+					'width:100%;' +
 					'border-top:#999 1px dotted;' +
 					'border-bottom:#999 1px dotted;' +
 					'padding:0;' +
