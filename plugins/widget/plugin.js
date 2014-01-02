@@ -1130,6 +1130,15 @@
 			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
 			this.fire(  selected ? 'select' : 'deselect' );
 			return this;
+		},
+
+		/**
+		 * Repositions drag handler according to the widget's element position. Should be called from events, like mouseover.
+		 */
+		updateDragHandlerPosition: function() {
+			var handler = this.dragHandlerContainer;
+			handler.setStyle( 'top', this.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
+			handler.setStyle( 'left', this.element.$.offsetLeft + 'px' );
 		}
 	};
 
@@ -2544,15 +2553,6 @@
 			this.editor.forceNextSelectionCheck();
 			this.editor.selectionChange( 1 );
 		}
-	}
-
-	// Position drag handler according to the widget's element position.
-	// @context Widget
-	function positionDragHandler() {
-		var handler = this.dragHandlerContainer;
-
-		handler.setStyle( 'top', this.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
-		handler.setStyle( 'left', this.element.$.offsetLeft + 'px' );
 	}
 
 	function setupDragHandler( widget ) {
