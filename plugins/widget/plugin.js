@@ -2513,11 +2513,10 @@
 	}
 
 	function setupDragHandler( widget ) {
-
-		var container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' );
-
 		if ( !widget.draggable )
 			return;
+
+		var container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' );
 
 		if ( container ) {
 			// Drag container already found.
