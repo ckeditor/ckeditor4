@@ -11,6 +11,7 @@ CKEditor 4 Changelog
 * [#11097](http://dev.ckeditor.com/ticket/11097): Improved the [Autogrow](http://ckeditor.com/addon/autogrow) plugin performance when dealing with very big tables.
 * [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in `sourcedialog` plugin.
 * [#11133](http://dev.ckeditor.com/ticket/11133): [Pagebreak](http://ckeditor.com/addon/pagebreak) becomes editable if pasted.
+* [#11126](http://dev.ckeditor.com/ticket/11126): Fixed: Native undo executed once reached the bottom of snapshot stack.
 
 ## CKEditor 4.3.1
 
