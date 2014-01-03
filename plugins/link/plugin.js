@@ -361,5 +361,12 @@ CKEDITOR.tools.extend( CKEDITOR.config, {
 	 * @member CKEDITOR.config
 	 * @todo
 	 */
-	linkShowTargetTab: true
+	linkShowTargetTab: true,
+
+	/**
+	 * @cfg {Boolean} [linkShowSurroundingAnchors=true]
+	 * @member CKEDITOR.config
+	 * @todo
+	 */
+	linkShowSurroundingAnchors: true,
 });
