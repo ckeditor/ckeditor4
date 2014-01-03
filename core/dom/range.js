@@ -1127,7 +1127,8 @@ CKEDITOR.dom.range = function( root ) {
 						walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
 
 						var walker = new CKEDITOR.dom.walker( walkerRange ),
-							node;
+							node,
+							whitespaceRegexp = new RegExp( /[^\s\ufeff]/ );
 
 						walker.guard = function( node, movingOut ) {
 							// Stop if you exit block.
@@ -1147,7 +1148,7 @@ CKEDITOR.dom.range = function( root ) {
 									siblingText = node.substring( startOffset )
 
 								// Check if it is white space.
-								if ( ( /[^\s\ufeff]/.test( siblingText ) ) )
+								if ( ( whitespaceRegexp.test( siblingText ) ) )
 									return false;
 							}
 						}
