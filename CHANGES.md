@@ -3,6 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
+* [#11207](http://dev.ckeditor.com/ticket/11207): [Firefox] Fixed: Misplaced Image2 resizer in inline editor.
 * [#11102](http://dev.ckeditor.com/ticket/11102): `CKEDITOR.template` improvements:
   * added new line character support ([#11102](http://dev.ckeditor.com/ticket/11102)),
   * added "\\'" substring support ([#11216](http://dev.ckeditor.com/ticket/11216)).
