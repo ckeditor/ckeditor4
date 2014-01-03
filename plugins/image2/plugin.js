@@ -33,6 +33,7 @@
 				'right:-5px;' +
 				'background:#000;' +
 				'outline:1px solid #fff;' +
+				'line-height:0;' +
 				'cursor:se-resize;' +
 			'}' +
 			'.cke_image_resizer_wrapper{' +
