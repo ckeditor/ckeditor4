@@ -1131,14 +1131,7 @@ CKEDITOR.dom.range = function( root ) {
 
 						walker.guard = function( node, movingOut ) {
 							// Stop if you exit block.
-							if ( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() )
-								return false;
-
-							// Stop if you exit contenteditable.
-							if ( node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'false' )
-								return false;
-
-							return true;
+							return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() );
 						};
 
 						while ( ( node = walker.next() ) ) {
