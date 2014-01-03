@@ -1115,6 +1115,14 @@ CKEDITOR.dom.range = function( root ) {
 					enlargeable = sibling = null;
 					commonReached = needsWhiteSpace = false;
 
+					// Function check if there are only whitespaces from the given starting point
+					// (startContainer and startOffset) till the end on block.
+					// Examples ("[" is the start point):
+					//  - <p>foo[ </p>           - will return true,
+					//  - <p><b>foo[ </b> </p>   - will return true,
+					//  - <p>foo[ bar</p>        - will return false,
+					//  - <p><b>foo[ </b>bar</p> - will return false,
+					//  - <p>foo[ <b></b></p>    - will return false.
 					function onlyWhiteSpaces( startContainer, startOffset ) {
 						// We need to enlarge range if there is white space at the end of the block,
 						// because it is not displayed in WYSIWYG mode and user can not select it. So
