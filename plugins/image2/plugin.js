@@ -33,6 +33,7 @@
 				'right:-5px;' +
 				'background:#000;' +
 				'outline:1px solid #fff;' +
+				// Prevent drag handler from being misplaced (#11207).
 				'line-height:0;' +
 				'cursor:se-resize;' +
 			'}' +
