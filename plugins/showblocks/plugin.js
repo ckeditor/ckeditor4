@@ -132,6 +132,19 @@
 			}
 
 			CKEDITOR.addCss( cssTemplate.replace( /%1/g, 'background-image: url(' + CKEDITOR.getUrl( this.path ) + 'images/block_' ).replace( /%2/g, 'cke_show_blocks ' ) + cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
+
+			// Disable showblocks styles for widget wrapper (#10884).
+			CKEDITOR.addCss( '.cke_show_blocks div.cke_widget_wrapper {' +
+				'border:none;' +
+				'padding-top:0;' +
+				'background-image:none;' +
+			'}' +
+			'.cke_show_blocks.cke_contents_rtl div.cke_widget_wrapper{' +
+				'padding-right:0;' +
+			'}' +
+			'.cke_show_blocks.cke_contents_ltr div.cke_widget_wrapper{' +
+				'padding-left:0;' +
+			'}' );
 		},
 		init: function( editor ) {
 			if ( editor.blockless )
