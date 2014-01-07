@@ -38,100 +38,42 @@
 		icons: 'showblocks,showblocks-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
-			var cssTemplate = '.%2 p,' +
-				'.%2 div,' +
-				'.%2 pre,' +
-				'.%2 address,' +
-				'.%2 blockquote,' +
-				'.%2 h1,' +
-				'.%2 h2,' +
-				'.%2 h3,' +
-				'.%2 h4,' +
-				'.%2 h5,' +
-				'.%2 h6' +
-				'{' +
-					'background-repeat: no-repeat;' +
-					'border: 1px dotted gray;' +
-					'padding-top: 8px;' +
-				'}' +
+			var tags = [ 'p', 'div', 'pre', 'address', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
+				cssStd = cssImg = cssLtr = cssRtl = '',
+				path = CKEDITOR.getUrl( this.path ),
+				tag, trailing;
 
-				'.%2 p' +
-				'{' +
-					'%1p.png);' +
-				'}' +
+			while ( ( tag = tags.pop() ) ) {
+				trailing = tags.length ? ',' : '';
 
-				'.%2 div' +
-				'{' +
-					'%1div.png);' +
-				'}' +
-
-				'.%2 pre' +
-				'{' +
-					'%1pre.png);' +
-				'}' +
-
-				'.%2 address' +
-				'{' +
-					'%1address.png);' +
-				'}' +
-
-				'.%2 blockquote' +
-				'{' +
-					'%1blockquote.png);' +
-				'}' +
-
-				'.%2 h1' +
-				'{' +
-					'%1h1.png);' +
-				'}' +
-
-				'.%2 h2' +
-				'{' +
-					'%1h2.png);' +
-				'}' +
-
-				'.%2 h3' +
-				'{' +
-					'%1h3.png);' +
-				'}' +
-
-				'.%2 h4' +
-				'{' +
-					'%1h4.png);' +
-				'}' +
-
-				'.%2 h5' +
-				'{' +
-					'%1h5.png);' +
-				'}' +
-
-				'.%2 h6' +
-				'{' +
-					'%1h6.png);' +
+				cssStd += '.cke_show_blocks ' + tag + trailing;
+				cssLtr += '.cke_show_blocks.cke_contents_ltr ' + tag + trailing;
+				cssRtl += '.cke_show_blocks.cke_contents_rtl ' + tag + trailing;
+				cssImg += '.cke_show_blocks ' + tag + '{' +
+					'background-image:url(' + path + 'images/block_' + tag + '.png )' +
 				'}';
-
-			// Styles with contents direction awareness.
-			function cssWithDir( dir ) {
-				var template = '.%1.%2 p,' +
-					'.%1.%2 div,' +
-					'.%1.%2 pre,' +
-					'.%1.%2 address,' +
-					'.%1.%2 blockquote,' +
-					'.%1.%2 h1,' +
-					'.%1.%2 h2,' +
-					'.%1.%2 h3,' +
-					'.%1.%2 h4,' +
-					'.%1.%2 h5,' +
-					'.%1.%2 h6' +
-					'{' +
-						'background-position: top %3;' +
-						'padding-%3: 8px;' +
-					'}';
-
-				return template.replace( /%1/g, 'cke_show_blocks' ).replace( /%2/g, 'cke_contents_' + dir ).replace( /%3/g, dir == 'rtl' ? 'right' : 'left' );
 			}
 
-			CKEDITOR.addCss( cssTemplate.replace( /%1/g, 'background-image: url(' + CKEDITOR.getUrl( this.path ) + 'images/block_' ).replace( /%2/g, 'cke_show_blocks ' ) + cssWithDir( 'ltr' ) + cssWithDir( 'rtl' ) );
+			// .cke_show_blocks p { ... }
+			cssStd += '{' +
+				'background-repeat:no-repeat;' +
+				'border:1px dotted gray;' +
+				'padding-top:8px;' +
+			'}';
+
+			// .cke_show_blocks.cke_contents_ltr p { ... }
+			cssLtr += '{' +
+				'background-position:top left;' +
+				'padding-left:8px;' +
+			'}';
+
+			// .cke_show_blocks.cke_contents_rtl p { ... }
+			cssRtl += '{' +
+				'background-position:top right;' +
+				'padding-right:8px;' +
+			'}';
+
+			CKEDITOR.addCss( cssStd.concat( cssImg, cssLtr, cssRtl ) );
 
 			// Disable showblocks styles for widget wrapper (#10884).
 			CKEDITOR.addCss( '.cke_show_blocks div.cke_widget_wrapper {' +
