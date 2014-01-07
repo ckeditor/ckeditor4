@@ -511,9 +511,6 @@
 				var onResize = iframe.removeCustomData( 'onResize' );
 				onResize && onResize.removeListener();
 
-
-				editor.fire( 'contentDomUnload' );
-
 				// IE BUG: When destroying editor DOM with the selection remains inside
 				// editing area would break IE7/8's selection system, we have to put the editing
 				// iframe offline first. (#3812 and #5441)

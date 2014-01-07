@@ -774,6 +774,8 @@
 						doc.setCustomData( 'stylesheet_ref', refs );
 				}
 
+				this.editor.fire( 'contentDomUnload' );
+
 				// Free up the editor reference.
 				delete this.editor;
 			}
