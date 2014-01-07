@@ -15,6 +15,7 @@ CKEditor 4 Changelog
 * [#11126](http://dev.ckeditor.com/ticket/11126): Fixed: Native undo executed once reached the bottom of snapshot stack.
 * [#11131](http://dev.ckeditor.com/ticket/11131): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Error thrown when switching to source mode if selection was in widget's nested editable.
 * [#11139](http://dev.ckeditor.com/ticket/11139): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Elements path is not cleared after switching to source mode.
+* [#10778](http://dev.ckeditor.com/ticket/10778): Fix bug with range enlarge; range no longer expanded visible whitespace.
 
 ## CKEditor 4.3.1
 
