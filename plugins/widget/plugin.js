@@ -838,10 +838,6 @@
 		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
-		// #11074 - IE8 throws exceptions when dragging widget using the native method.
-		if ( this.inline && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-			this.draggable = false;
-
 		widgetsRepo.fire( 'instanceCreated', this );
 
 		setupWidget( this, widgetDef );
@@ -1937,7 +1933,7 @@
 			var editable = editor.editable();
 
 			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
+			editable.attachListener( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
 					sourceWidget,
@@ -2747,8 +2743,11 @@
 		// #11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			widget.wrapper.on( 'dragstart', function( evt ) {
-				// Allow text dragging inside nested editables.
-				if ( !getNestedEditable( widget, evt.data.getTarget() ) )
+				var target = evt.data.getTarget();
+
+				// Allow text dragging inside nested editables or using drag handler.
+				if ( !getNestedEditable( widget, target ) &&
+					 !( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) )
 					evt.data.preventDefault();
 			} );
 		}
