@@ -2520,6 +2520,7 @@
 			container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' ),
 			img;
 
+		// Reuse drag handler if already exists (#11281).
 		if ( container )
 			img = container.findOne( 'img' );
 		else {
@@ -2674,12 +2675,18 @@
 		if ( !widget.mask )
 			return;
 
-		var img = new CKEDITOR.dom.element( 'img', widget.editor.document );
-		img.setAttributes( {
-			src: transparentImageData,
-			'class': 'cke_reset cke_widget_mask'
-		} );
-		widget.wrapper.append( img );
+		// Reuse mask if already exists (#11281).
+		var img = widget.wrapper.findOne( '.cke_widget_mask' );
+
+		if ( !img ) {
+			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			img.setAttributes( {
+				src: transparentImageData,
+				'class': 'cke_reset cke_widget_mask'
+			} );
+			widget.wrapper.append( img );
+		}
+
 		widget.mask = img;
 	}
 
