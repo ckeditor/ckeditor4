@@ -922,6 +922,8 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {Boolean} [excludeBrs=false] Whether include line-breaks when expanding.
 		 */
 		enlarge: function( unit, excludeBrs ) {
+			var leadingWhitespaceRegex = new RegExp( /[^\s\ufeff]/ );
+
 			switch ( unit ) {
 				case CKEDITOR.ENLARGE_INLINE:
 					var enlargeInlineOnly = 1;
@@ -1029,7 +1031,7 @@ CKEDITOR.dom.range = function( root ) {
 							} else if ( sibling.type == CKEDITOR.NODE_TEXT ) {
 								siblingText = sibling.getText();
 
-								if ( /[^\s\ufeff]/.test( siblingText ) )
+								if ( leadingWhitespaceRegex.test( siblingText ) )
 									sibling = null;
 
 								isWhiteSpace = /[\s\ufeff]$/.test( siblingText );
@@ -1047,7 +1049,7 @@ CKEDITOR.dom.range = function( root ) {
 
 										siblingText = sibling.getText();
 
-										if ( ( /[^\s\ufeff]/ ).test( siblingText ) ) // Spaces + Zero Width No-Break Space (U+FEFF)
+										if ( leadingWhitespaceRegex.test( siblingText ) ) // Spaces + Zero Width No-Break Space (U+FEFF)
 										sibling = null;
 										else {
 											var allChildren = sibling.$.getElementsByTagName( '*' );
@@ -1135,8 +1137,7 @@ CKEDITOR.dom.range = function( root ) {
 						walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
 
 						var walker = new CKEDITOR.dom.walker( walkerRange ),
-							node,
-							whitespaceRegexp = new RegExp( /[^\s\ufeff]/ );
+							node;
 
 						walker.guard = function( node, movingOut ) {
 							// Stop if you exit block.
@@ -1156,7 +1157,7 @@ CKEDITOR.dom.range = function( root ) {
 									siblingText = node.substring( startOffset )
 
 								// Check if it is white space.
-								if ( ( whitespaceRegexp.test( siblingText ) ) )
+								if ( leadingWhitespaceRegex.test( siblingText ) )
 									return false;
 							}
 						}
@@ -1242,7 +1243,7 @@ CKEDITOR.dom.range = function( root ) {
 
 										siblingText = sibling.getText();
 
-										if ( ( /[^\s\ufeff]/ ).test( siblingText ) )
+										if ( leadingWhitespaceRegex.test( siblingText ) )
 											sibling = null;
 										else {
 											allChildren = sibling.$.getElementsByTagName( '*' );
