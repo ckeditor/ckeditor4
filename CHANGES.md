@@ -16,6 +16,7 @@ CKEditor 4 Changelog
 * [#11131](http://dev.ckeditor.com/ticket/11131): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Error thrown when switching to source mode if selection was in widget's nested editable.
 * [#11139](http://dev.ckeditor.com/ticket/11139): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Elements path is not cleared after switching to source mode.
 * [#10778](http://dev.ckeditor.com/ticket/10778): Fix bug with range enlarge; range no longer expanded visible whitespace.
+* [#11281](http://dev.ckeditor.com/ticket/11281): Fixed: Drag handler and mask are duplicated after widget reinitialization.
 
 ## CKEditor 4.3.1
 
