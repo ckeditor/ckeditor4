@@ -156,28 +156,22 @@ CKEDITOR.plugins.add( 'link', {
 	},
 
 	afterInit: function( editor ) {
-		// Register a filter to displaying placeholders after mode change.
-
-		var dataProcessor = editor.dataProcessor,
-			dataFilter = dataProcessor && dataProcessor.dataFilter,
-			pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
-
-		if ( dataFilter ) {
-			dataFilter.addRules( {
-				elements: {
-					a: function( element ) {
-						if ( !element.attributes.name )
-							return null;
-
-						if ( !element.children.length )
-							return editor.createFakeParserElement( element, 'cke_anchor', 'anchor' );
-
+		// Empty anchors upcasting to fake objects.
+		editor.dataProcessor.dataFilter.addRules( {
+			elements: {
+				a: function( element ) {
+					if ( !element.attributes.name )
 						return null;
-					}
-				}
-			} );
-		}
 
+					if ( !element.children.length )
+						return editor.createFakeParserElement( element, 'cke_anchor', 'anchor' );
+
+					return null;
+				}
+			}
+		} );
+
+		var pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
 		if ( pathFilters ) {
 			pathFilters.push( function( element, name ) {
 				if ( name == 'a' ) {
