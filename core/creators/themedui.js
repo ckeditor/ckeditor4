@@ -153,11 +153,22 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( editor.mode ) {
 			var isDirty = editor.checkDirty(),
 				previousModeData = editor._.previousModeData,
-				currentData = editor.getData(),
+				currentData,
 				unlockSnapshot = 0;
 
+			editor.fire( 'beforeModeUnload' );
+
+			// Detach the current editable. While detaching editable will set
+			// cached editor's data (with internal setData call). We use this
+			// data below to avoid two getData() calls in a row.
+			editor.editable( 0 );
+
+			editor._.previousMode = editor.mode;
+			// Get cached data, which was set while detaching editable.
+			editor._.previousModeData = currentData = editor.getData( 1 );
+
 			// If data has not been modified in the mode which we are currently leaving,
-			// avoid making shapshot right after initializing new mode.
+			// avoid making snapshot right after initializing new mode.
 			// http://dev.ckeditor.com/ticket/5217#comment:20
 			if ( editor.mode == 'source' && previousModeData == currentData ) {
 				// We need to make sure that unlockSnapshot will update the last snapshot
@@ -167,14 +178,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 				editor.fire( 'lockSnapshot', { forceUpdate: true } );
 				unlockSnapshot = 1;
 			}
-
-			editor._.previousMode = editor.mode;
-			editor._.previousModeData = currentData;
-
-			editor.fire( 'beforeModeUnload' );
-
-			// Detach the current editable.
-			editor.editable( 0 );
 
 			// Clear up the mode space.
 			editor.ui.space( 'contents' ).setHtml( '' );
