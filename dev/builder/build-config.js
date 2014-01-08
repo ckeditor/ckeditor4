@@ -45,7 +45,7 @@ var CKBUILDER_CONFIG = {
 		indentblock: 1,
 		justify: 1,
 		link: 0,
-		linksei: 1,
+		linksei: 0,
 		list: 1,
 		liststyle: 1,
 		magicline: 1,
@@ -73,6 +73,7 @@ var CKBUILDER_CONFIG = {
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
+		widget: 1,
 		wsc: 1,
 		wysiwygarea: 1,
 		zoom: 1

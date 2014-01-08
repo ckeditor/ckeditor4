@@ -1,6 +1,8 @@
 ﻿CKEDITOR.plugins.add( 'linksei',
 {
-	//requires: [ 'iframedialog' ],
+	requires: 'widget',
+	icons: 'sei',
+	
 	onLoad: function() {
 		CKEDITOR.addCss( '.ancoraSei' +
 			'{' +
@@ -11,63 +13,23 @@
 	},
 	init: function( editor )
 	{
-		editor.addCommand( 'linkseiDialog', new CKEDITOR.dialogCommand( 'linkseiDialog' ) );
-		editor.ui.addButton( 'linksei',
-		{
-			label: 'Inserir um Link para processo ou documento do SEI!',
-			command: 'linkseiDialog',
-			icon: this.path + 'images/sei.png'
-		} );		
-		
-		//var height = 200, width = 750;
-		//var linksei=  "http://sei.trf4.jus.br";
-		
-		CKEDITOR.dialog.add( 'linkseiDialog', function( editor )
-				{
-					return {
-						title : 'Propriedades do Link',
-						minWidth : 200,
-						minHeight : 70,
-						contents :
-						[
-							{
-								id : 'general',
-								label : 'Settings',
-								elements :
-								[
-									{
-										type : 'text',
-										id : 'protocolo',
-										label : 'Protocolo',
-										validate : CKEDITOR.dialog.validate.SEI(),
-										required : true,
-										commit : function( data )
-										{
-											data.protocolo = window._protocoloFormatado;
-										}
-									}
-								]
-							}
-						],
-						onOk : function()
-						{
-							var dialog = this,
-								data = {},
-								link = editor.document.createElement( 'a' );
-							this.commitContent( data );
-							link.setAttributes( {
-								'id':'lnkSei'+window._idProtocolo,
-								contentEditable: "false",
-								'data-cke-linksei':1,
-								'class': "ancoraSei",
-								'style':"text-indent:0px;"
-									});							
-							link.setHtml( data.protocolo );
-							editor.insertElement( link );
-						}
-					};
-				} );
-		
-
+		editor.widgets.add('linksei',{
+			button: 'Inserir um Link para processo ou documento do SEI!',
+			template: '<a id="lnkSei" class="ancoraSei" style="text-indent:0px;">Title</a>',
+			allowedContent: 'a(!ancoraSei)',
+			requiredContent: 'a(ancoraSei)',
+			upcast: function(element) {
+				return element.name=='a' && element.hasClass('ancoraSei');
+			},
+			dialog: 'linksei',
+			init: function() {
+				var id=this.element.getAttr('id');
+				if (id) this.setData('id',id);
+			},
+			data: function() {
+				this.element.setAttr('id',id);
+			}
+						
+		});
 	}
 } );
