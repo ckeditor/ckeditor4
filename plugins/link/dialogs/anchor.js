@@ -40,20 +40,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 				// Empty anchor
 				if ( range.collapsed ) {
-					if ( CKEDITOR.plugins.link.synAnchorSelector )
-						attributes[ 'class' ] = 'cke_anchor_empty';
-
-					if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
-						attributes[ 'contenteditable' ] = 'false';
-						attributes[ 'data-cke-editable' ] = 1;
-					}
-
-					var anchor = editor.document.createElement( 'a', { attributes: attributes } );
-
-					// Transform the anchor into a fake element for browsers that need it.
-					if ( CKEDITOR.plugins.link.fakeAnchor )
-						anchor = createFakeAnchor( editor, anchor );
-
+					var anchor = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
 					range.insertNode( anchor );
 				} else {
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
@@ -78,12 +65,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 			// Detect the anchor under selection.
 			if ( fullySelected ) {
-				if ( CKEDITOR.plugins.link.fakeAnchor ) {
-					var realElement = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected );
-					realElement && loadElements.call( this, realElement );
-					this._.selectedElement = fullySelected;
-				} else if ( fullySelected.is( 'a' ) && fullySelected.hasAttribute( 'name' ) )
-					loadElements.call( this, fullySelected );
+				var realElement = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected );
+				realElement && loadElements.call( this, realElement );
+				this._.selectedElement = fullySelected;
 			} else {
 				partialSelected = CKEDITOR.plugins.link.getSelectedLink( editor );
 				if ( partialSelected ) {

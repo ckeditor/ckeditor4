@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -23,14 +23,6 @@ CKEDITOR.plugins.add( 'link', {
 				// Show the arrow cursor for the anchor image (FF at least).
 				'cursor:auto;' +
 			'}' +
-			( CKEDITOR.plugins.link.synAnchorSelector ? ( 'a.cke_anchor_empty' +
-			'{' +
-				// Make empty anchor selectable on IE.
-				'display:inline-block;' +
-				// IE11 doesn't display empty inline-block elements.
-				( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ? 'min-height:16px;vertical-align:middle' : '' ) +
-			'}'
-			) : '' ) +
 			'.%2 img.cke_anchor' +
 			'{' +
 				baseStyle +
@@ -168,45 +160,19 @@ CKEDITOR.plugins.add( 'link', {
 
 		var dataProcessor = editor.dataProcessor,
 			dataFilter = dataProcessor && dataProcessor.dataFilter,
-			htmlFilter = dataProcessor && dataProcessor.htmlFilter,
 			pathFilters = editor._.elementsPath && editor._.elementsPath.filters;
 
 		if ( dataFilter ) {
 			dataFilter.addRules( {
 				elements: {
 					a: function( element ) {
-						var attributes = element.attributes;
-						if ( !attributes.name )
+						if ( !element.attributes.name )
 							return null;
 
-						var isEmpty = !element.children.length;
-
-						if ( CKEDITOR.plugins.link.synAnchorSelector ) {
-							// IE needs a specific class name to be applied
-							// to the anchors, for appropriate styling.
-							var ieClass = isEmpty ? 'cke_anchor_empty' : 'cke_anchor';
-							var cls = attributes[ 'class' ];
-							if ( attributes.name && ( !cls || cls.indexOf( ieClass ) < 0 ) )
-								attributes[ 'class' ] = ( cls || '' ) + ' ' + ieClass;
-
-							if ( isEmpty && CKEDITOR.plugins.link.emptyAnchorFix ) {
-								attributes.contenteditable = 'false';
-								attributes[ 'data-cke-editable' ] = 1;
-							}
-						} else if ( CKEDITOR.plugins.link.fakeAnchor && isEmpty )
+						if ( !element.children.length )
 							return editor.createFakeParserElement( element, 'cke_anchor', 'anchor' );
 
 						return null;
-					}
-				}
-			} );
-		}
-
-		if ( CKEDITOR.plugins.link.emptyAnchorFix && htmlFilter ) {
-			htmlFilter.addRules( {
-				elements: {
-					a: function( element ) {
-						delete element.attributes.contenteditable;
 					}
 				}
 			} );
@@ -217,7 +183,6 @@ CKEDITOR.plugins.add( 'link', {
 				if ( name == 'a' ) {
 					if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) || ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) )
 						return 'anchor';
-
 				}
 			} );
 		}
@@ -295,18 +260,16 @@ CKEDITOR.plugins.link = {
 		}
 
 		// Retrieve all "fake anchors" within the scope.
-		if ( this.fakeAnchor ) {
-			var imgs = scope.getElementsByTag( 'img' );
+		var imgs = scope.getElementsByTag( 'img' );
 
-			i = 0;
+		i = 0;
 
-			while ( ( item = imgs.getItem( i++ ) ) ) {
-				if ( ( item = this.tryRestoreFakeAnchor( editor, item ) ) ) {
-					anchors.push( {
-						name: item.getAttribute( 'name' ),
-						id: item.getAttribute( 'id' )
-					} );
-				}
+		while ( ( item = imgs.getItem( i++ ) ) ) {
+			if ( ( item = this.tryRestoreFakeAnchor( editor, item ) ) ) {
+				anchors.push( {
+					name: item.getAttribute( 'name' ),
+					id: item.getAttribute( 'id' )
+				} );
 			}
 		}
 
@@ -314,29 +277,30 @@ CKEDITOR.plugins.link = {
 	},
 
 	/**
-	 * Opera and WebKit don't make it possible to select empty anchors. Fake
-	 * elements must be used for them.
-	 *
-	 * @readonly
-	 * @property {Boolean}
-	 */
-	fakeAnchor: CKEDITOR.env.opera || CKEDITOR.env.webkit,
+	* Opera and WebKit don't make it possible to select empty anchors. Fake
+	* elements must be used for them.
+	*
+	* @readonly
+	* @deprecated 4.3.2 It is set to `true` on every browser.
+	* @property {Boolean}
+	*/
+	fakeAnchor: true,
 
 	/**
-	 * For browsers that don't support CSS3 `a[name]:empty()`, note IE9 is included because of #7783.
-	 *
-	 * @readonly
-	 * @property {Boolean}
-	 */
-	synAnchorSelector: CKEDITOR.env.ie,
+	* For browsers that don't support CSS3 `a[name]:empty()`, note IE9 is included because of #7783.
+	*
+	* @readonly
+	* @deprecated 4.3.2 It is set to `false` on every browser.
+	* @property {Boolean} synAnchorSelector
+	*/
 
 	/**
-	 * For browsers that have editing issue with empty anchor.
-	 *
-	 * @readonly
-	 * @property {Boolean}
-	 */
-	emptyAnchorFix: CKEDITOR.env.ie && CKEDITOR.env.version < 8,
+	* For browsers that have editing issue with empty anchor.
+	*
+	* @readonly
+	* @deprecated 4.3.2 It is set to `false` on every browser.
+	* @property {Boolean} emptyAnchorFix
+	*/
 
 	/**
 	 * @param {CKEDITOR.editor} editor
@@ -384,7 +348,7 @@ CKEDITOR.removeAnchorCommand.prototype = {
 		var sel = editor.getSelection(),
 			bms = sel.createBookmarks(),
 			anchor;
-		if ( sel && ( anchor = sel.getSelectedElement() ) && ( CKEDITOR.plugins.link.fakeAnchor && !anchor.getChildCount() ? CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, anchor ) : anchor.is( 'a' ) ) )
+		if ( sel && ( anchor = sel.getSelectedElement() ) && ( !anchor.getChildCount() ? CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, anchor ) : anchor.is( 'a' ) ) )
 			anchor.remove( 1 );
 		else {
 			if ( ( anchor = CKEDITOR.plugins.link.getSelectedLink( editor ) ) ) {
