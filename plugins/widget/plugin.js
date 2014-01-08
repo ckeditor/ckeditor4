@@ -1634,11 +1634,11 @@
 				else if ( ( upcastsLength = upcasts.length ) ) {
 					// Check element with upcast callbacks first.
 					// If any of them return false abort upcasting.
-					if ( ( upcastCallbacksLength = upcastCallbacks.length ) ) {
-						for ( i = 0; i < upcastCallbacksLength; ++i ) {
-							if ( upcastCallbacks[ i ]( element ) === false )
-								return;
-						}
+					for ( i = 0, upcastCallbacksLength = upcastCallbacks.length; i < upcastCallbacksLength; ++i ) {
+						if ( upcastCallbacks[ i ]( element ) === false )
+							return;
+						// Return nothing in order to continue iterating over ascendants.
+						// See http://dev.ckeditor.com/ticket/11186#comment:6
 					}
 
 					for ( i = 0; i < upcastsLength; ++i ) {
