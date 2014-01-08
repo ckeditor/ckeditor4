@@ -1093,7 +1093,7 @@
 						return false;
 
 					// Remove all attributes.
-					element.attributes = [];
+					element.attributes = {};
 
 					// Pass brs.
 					if ( initialName == 'br' )
