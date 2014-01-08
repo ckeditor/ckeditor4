@@ -291,11 +291,6 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 		return 'String.fromCharCode(' + encodedChars.join( ',' ) + ')';
 	}
 
-	function getLinkClass( ele ) {
-		var className = ele.getAttribute( 'class' );
-		return className ? className.replace( /\s*(?:cke_anchor_empty|cke_anchor)(?:\s*$)?/g, '' ) : '';
-	}
-
 	var commonLang = editor.lang.common,
 		linkLang = editor.lang.link;
 
