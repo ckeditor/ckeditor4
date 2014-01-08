@@ -172,6 +172,7 @@
 		this._ = {
 			nextId: 0,
 			upcasts: [],
+			upcastCallbacks: [],
 			filters: {}
 		};
 
@@ -221,6 +222,24 @@
 			this.registered[ name ] = widgetDef;
 
 			return widgetDef;
+		},
+
+		/**
+		 * Adds a callback for element upcasting. Each callback will be executed
+		 * for every element which is later tested by upcast methods. If callback
+		 * returns `false`, then element will not be upcasted.
+		 *
+		 *		// Images with banner class will not be upcasted (e.g. to the image widget).
+		 *		editor.widgets.addUpcastCallback( function( element ) {
+		 *			if ( element.name == 'img' && element.hasClass( 'banner' ) )
+		 *				return false;
+		 *		} );
+		 *
+		 * @param {Function} callback
+		 * @param {CKEDITOR.htmlParser.element} callback.element
+		 */
+		addUpcastCallback: function( callback ) {
+			this._.upcastCallbacks.push( callback );
 		},
 
 		/**
@@ -1580,12 +1599,19 @@
 	// and initialized as widgets.
 	function createUpcastIterator( widgetsRepo ) {
 		var toBeWrapped = [],
-			upcasts = widgetsRepo._.upcasts;
+			upcasts = widgetsRepo._.upcasts,
+			upcastCallbacks = widgetsRepo._.upcastCallbacks;
 
 		return {
 			toBeWrapped: toBeWrapped,
 
 			iterator: function( element ) {
+				var upcast, upcasted,
+					data,
+					i,
+					upcastsLength,
+					upcastCallbacksLength;
+
 				// Wrapper found - find widget element, add it to be
 				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
 				if ( 'data-cke-widget-wrapper' in element.attributes ) {
@@ -1605,13 +1631,17 @@
 					// Do not iterate over descendants.
 					return false;
 				}
-				else if ( upcasts.length ) {
-					var upcast, upcasted,
-						data,
-						i = 0,
-						l = upcasts.length;
+				else if ( ( upcastsLength = upcasts.length ) ) {
+					// Check element with upcast callbacks first.
+					// If any of them return false abort upcasting.
+					if ( ( upcastCallbacksLength = upcastCallbacks.length ) ) {
+						for ( i = 0; i < upcastCallbacksLength; ++i ) {
+							if ( upcastCallbacks[ i ]( element ) === false )
+								return;
+						}
+					}
 
-					for ( ; i < l; ++i ) {
+					for ( i = 0; i < upcastsLength; ++i ) {
 						upcast = upcasts[ i ];
 						data = {};
 
@@ -2221,7 +2251,7 @@
 					// should process in this session.
 					return false;
 				}
-			}, CKEDITOR.NODE_ELEMENT );
+			}, CKEDITOR.NODE_ELEMENT, true );
 		}, null, null, 8 );
 
 		// Listen after dataProcessor.htmlFilter and ACF were applied
@@ -2264,7 +2294,7 @@
 			var upcastIterator = createUpcastIterator( widgetsRepo ),
 				toBeWrapped;
 
-			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT );
+			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT, true );
 
 			// Clean up and wrap all queued elements.
 			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
