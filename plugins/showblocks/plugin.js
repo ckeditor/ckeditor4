@@ -75,16 +75,16 @@
 
 			CKEDITOR.addCss( cssStd.concat( cssImg, cssLtr, cssRtl ) );
 
-			// Disable showblocks styles for widget wrapper (#10884).
-			CKEDITOR.addCss( '.cke_show_blocks div.cke_widget_wrapper {' +
+			// Disable showblocks styles for non-editables (#10884).
+			CKEDITOR.addCss( '.cke_show_blocks [contenteditable=false]{' +
 				'border:none;' +
 				'padding-top:0;' +
 				'background-image:none;' +
 			'}' +
-			'.cke_show_blocks.cke_contents_rtl div.cke_widget_wrapper{' +
+			'.cke_show_blocks.cke_contents_rtl [contenteditable=false]{' +
 				'padding-right:0;' +
 			'}' +
-			'.cke_show_blocks.cke_contents_ltr div.cke_widget_wrapper{' +
+			'.cke_show_blocks.cke_contents_ltr [contenteditable=false]{' +
 				'padding-left:0;' +
 			'}' );
 		},
