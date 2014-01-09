@@ -18,12 +18,12 @@ CKEDITOR.dialog.add( 'linksei', function( editor )
 						validate : CKEDITOR.dialog.validate.SEI(),
 						required : true,
 						setup: function(widget){
-							this.setValue(widget.data.id);
+							this.setValue(widget.data.protocolo);
 						},
 						commit : function( widget )
 						{
-							widget.setData('id','lnkSei'+window._protocoloFormatado);
-							widget.setData('text',widget.data.protocolo);
+							widget.setData('id','lnkSei'+window._idProtocolo);
+							widget.setData('protocolo',window._protocoloFormatado);
 						}
 					}
 				]
