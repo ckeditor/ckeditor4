@@ -113,7 +113,7 @@
 			allowedContent: {
 				// This widget may need <div> centering wrapper.
 				div: {
-					match: isCenterWrapper,
+					match: centerWrapperChecker( editor ),
 					styles: 'text-align'
 				},
 				figcaption: true,
@@ -127,7 +127,7 @@
 				},
 				// This widget may need <p> centering wrapper.
 				p: {
-					match: isCenterWrapper,
+					match: centerWrapperChecker( editor ),
 					styles: 'text-align'
 				}
 			},
@@ -515,6 +515,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function upcastWidgetElement( editor ) {
+		var isCenterWrapper = centerWrapperChecker( editor );
+
 		// @param {CKEDITOR.htmlParser.element} el
 		// @param {Object} data
 		return function( el, data ) {
@@ -610,32 +612,38 @@
 		return el;
 	}
 
-	function isCenterWrapper( el ) {
-		// Wrapper must be either <div> or <p>.
-		if ( !( el.name in { div: 1, p: 1 } ) )
+	// Returns a function that checks if an element is a centering wrapper.
+	//
+	// @param {CKEDITOR.editor} editor
+	// @returns {Function}
+	function centerWrapperChecker( editor ) {
+		return function( el ) {
+			// Wrapper must be either <div> or <p>.
+			if ( !( el.name in { div: 1, p: 1 } ) )
+				return false;
+
+			var children = el.children;
+
+			// Centering wrapper can have only one child.
+			if ( children.length !== 1 )
+				return false;
+
+			var child = children[ 0 ],
+				childName = child.name;
+
+			// The only child of centering wrapper can be <figure> with
+			// class="caption" or plain <img>.
+			if ( childName != 'img' && !( childName == 'figure' && child.hasClass( 'caption' ) ) )
+				return false;
+
+			var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
+
+			// Centering wrapper got to be... centering.
+			if ( styles[ 'text-align' ] == 'center' )
+				return true;
+
 			return false;
-
-		var children = el.children;
-
-		// Centering wrapper can have only one child.
-		if ( children.length !== 1 )
-			return false;
-
-		var child = children[ 0 ],
-			childName = child.name;
-
-		// The only child of centering wrapper can be <figure> with
-		// class="caption" or plain <img>.
-		if ( childName != 'img' && !( childName == 'figure' && child.hasClass( 'caption' ) ) )
-			return false;
-
-		var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
-
-		// Centering wrapper got to be... centering.
-		if ( styles[ 'text-align' ] == 'center' )
-			return true;
-
-		return false;
+		};
 	}
 
 	// Sets width and height of the widget image according to current widget data.
