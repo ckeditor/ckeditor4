@@ -631,10 +631,29 @@
 			var child = children[ 0 ],
 				childName = child.name;
 
-			// The only child of centering wrapper can be <figure> with
-			// class="caption" or plain <img>.
-			if ( childName != 'img' && !( childName == 'figure' && child.hasClass( 'caption' ) ) )
+			// Only <figure> or <img /> can be first (only) child of centering wrapper,
+			// regardless of its type.
+			if ( !{ figure: 1, img: 1 }[ childName ] )
 				return false;
+
+			// If centering wrapper is <p>, only <img /> can be the child.
+			//   <p style="text-align:center"><img /></p>
+			if ( el.name == 'p' ) {
+				if ( childName != 'img' )
+					return false;
+			}
+			// Centering <div> can hold <img/> or <figure>, depending on enterMode.
+			else {
+				// If a <figure> is the first (only) child, it must have a class.
+				//   <div style="text-align:center"><figure>...</figure><div>
+				if ( childName == 'figure' && !child.hasClass( 'caption' ) )
+					return false;
+
+				// Centering <div> can hold <img /> only when enterMode is ENTER_(BR|DIV).
+				//   <div style="text-align:center"><img /></div>
+				if ( childName == 'img' && editor.activeEnterMode == CKEDITOR.ENTER_P )
+					return false;
+			}
 
 			var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
 
