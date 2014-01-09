@@ -58,7 +58,8 @@
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
-				lang = editor.lang.image2;
+				lang = editor.lang.image2,
+				image = widgetDef( editor );
 
 			// Since filebrowser plugin discovers config properties by dialog (plugin?)
 			// names (sic!), this hack will be necessary as long as Image2 is not named
@@ -104,182 +105,185 @@
 		}
 	} );
 
-	// Image widget definition.
-	var image = {
-		// Widget-specific rules for Allowed Content Filter.
-		allowedContent: {
-			// This widget may need <div> centering wrapper.
-			div: {
-				match: isCenterWrapper,
-				styles: 'text-align'
-			},
-			figcaption: true,
-			figure: {
-				classes: '!caption',
-				styles: 'float,display'
-			},
-			img: {
-				attributes: '!src,alt,width,height',
-				styles: 'float'
-			},
-			// This widget may need <p> centering wrapper.
-			p: {
-				match: isCenterWrapper,
-				styles: 'text-align'
-			}
-		},
-
-		// This widget converts style-driven dimensions to attributes.
-		contentTransformations: [
-			[ 'img[width]: sizeToAttribute' ]
-		],
-
-		// This widget has an editable caption.
-		editables: {
-			caption: {
-				selector: 'figcaption',
-				allowedContent: 'br em strong sub sup u s; a[!href]'
-			}
-		},
-
-		parts: {
-			image: 'img',
-			caption: 'figcaption'
-		},
-
-		// The name of this widget's dialog.
-		dialog: 'image2',
-
-		// Template of the widget: plain image.
-		template: template,
-
-		data: function() {
-			var widget = this,
-				editor = widget.editor,
-				doc = editor.document,
-				editable = editor.editable(),
-				oldState = widget.oldData,
-				newState = widget.data;
-
-			// Convert the internal form of the widget from the old state to the new one.
-			widget.shiftState( {
-				element: widget.element,
-				oldState: oldState,
-				newState: newState,
-
-				// Destroy the widget.
-				destroy: function() {
-					if ( this.destroyed )
-						return;
-
-					// Remember whether widget was focused before destroyed.
-					if ( editor.widgets.focused == widget )
-						this.focused = true;
-
-					editor.widgets.destroy( widget );
-
-					// Mark widget was destroyed.
-					this.destroyed = true;
+	// @param {CKEDITOR.editor}
+	// @returns {Object}
+	function widgetDef( editor ) {
+		return {
+			// Widget-specific rules for Allowed Content Filter.
+			allowedContent: {
+				// This widget may need <div> centering wrapper.
+				div: {
+					match: isCenterWrapper,
+					styles: 'text-align'
 				},
-
-				init: function( element ) {
-					// Create a new widget. This widget will be either captioned
-					// non-captioned, block or inline according to what is the
-					// new state of the widget.
-					if ( this.destroyed ) {
-						widget = editor.widgets.initOn( element, 'image', widget.data );
-
-						// Once widget was re-created, it may become an inline element without
-						// block wrapper (i.e. when unaligned, end not captioned). Let's do some
-						// sort of autoparagraphing here (#10853).
-						if ( widget.inline && !( new CKEDITOR.dom.elementPath( widget.wrapper, editable ).block ) ) {
-							var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
-							block.replace( widget.wrapper );
-							widget.wrapper.move( block );
-						}
-
-						// The focus must be transferred from the old one (destroyed)
-						// to the new one (just created).
-						if ( this.focused ) {
-							widget.focus();
-							delete this.focused;
-						}
-
-						delete this.destroyed;
-					}
-
-					// If now widget was destroyed just update wrapper's alignment.
-					// According to the new state.
-					else
-						setWrapperAlign( widget );
-
+				figcaption: true,
+				figure: {
+					classes: '!caption',
+					styles: 'float,display'
+				},
+				img: {
+					attributes: '!src,alt,width,height',
+					styles: 'float'
+				},
+				// This widget may need <p> centering wrapper.
+				p: {
+					match: isCenterWrapper,
+					styles: 'text-align'
 				}
-			} );
+			},
 
-			widget.parts.image.setAttributes( {
-				src: widget.data.src,
+			// This widget converts style-driven dimensions to attributes.
+			contentTransformations: [
+				[ 'img[width]: sizeToAttribute' ]
+			],
 
-				// This internal is required by the editor.
-				'data-cke-saved-src': widget.data.src,
+			// This widget has an editable caption.
+			editables: {
+				caption: {
+					selector: 'figcaption',
+					allowedContent: 'br em strong sub sup u s; a[!href]'
+				}
+			},
 
-				alt: widget.data.alt
-			} );
+			parts: {
+				image: 'img',
+				caption: 'figcaption'
+			},
 
-			// Set dimensions of the image according to gathered data.
-			setDimensions( widget );
+			// The name of this widget's dialog.
+			dialog: 'image2',
 
-			// Cache current data.
-			widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
-		},
+			// Template of the widget: plain image.
+			template: template,
 
-		init: function() {
-			var helpers = CKEDITOR.plugins.image2,
-				image = this.parts.image,
-				data = {
-					hasCaption: !!this.parts.caption,
-					src: image.getAttribute( 'src' ),
-					alt: image.getAttribute( 'alt' ) || '',
-					width: image.getAttribute( 'width' ) || '',
-					height: image.getAttribute( 'height' ) || '',
+			data: function() {
+				var widget = this,
+					editor = widget.editor,
+					doc = editor.document,
+					editable = editor.editable(),
+					oldState = widget.oldData,
+					newState = widget.data;
 
-					// Lock ratio is on by default (#10833).
-					lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
-				};
+				// Convert the internal form of the widget from the old state to the new one.
+				widget.shiftState( {
+					element: widget.element,
+					oldState: oldState,
+					newState: newState,
 
-			// Read initial float style from figure/image and
-			// then remove it. This style will be set on wrapper in #data listener.
-			if ( !data.align ) {
-				data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
-				this.element.removeStyle( 'float' );
-				image.removeStyle( 'float' );
-			}
+					// Destroy the widget.
+					destroy: function() {
+						if ( this.destroyed )
+							return;
 
-			// Get rid of extra vertical space when there's no caption.
-			// It will improve the look of the resizer.
-			if ( !data.hasCaption )
-				this.wrapper.setStyle( 'line-height', '0' );
+						// Remember whether widget was focused before destroyed.
+						if ( editor.widgets.focused == widget )
+							this.focused = true;
 
-			this.setData( data );
+						editor.widgets.destroy( widget );
 
-			// Setup dynamic image resizing with mouse.
-			setupResizer( this );
+						// Mark widget was destroyed.
+						this.destroyed = true;
+					},
 
-			this.shiftState = helpers.stateShifter( this.editor );
+					init: function( element ) {
+						// Create a new widget. This widget will be either captioned
+						// non-captioned, block or inline according to what is the
+						// new state of the widget.
+						if ( this.destroyed ) {
+							widget = editor.widgets.initOn( element, 'image', widget.data );
 
-			// Add widget editing option to its context menu.
-			this.on( 'contextMenu', function( evt ) {
-				evt.data.image = CKEDITOR.TRISTATE_OFF;
-			} );
+							// Once widget was re-created, it may become an inline element without
+							// block wrapper (i.e. when unaligned, end not captioned). Let's do some
+							// sort of autoparagraphing here (#10853).
+							if ( widget.inline && !( new CKEDITOR.dom.elementPath( widget.wrapper, editable ).block ) ) {
+								var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+								block.replace( widget.wrapper );
+								widget.wrapper.move( block );
+							}
 
-			// Pass the reference to this widget to the dialog.
-			this.on( 'dialog', function( evt ) {
-				evt.data.widget = this;
-			}, this );
-		},
+							// The focus must be transferred from the old one (destroyed)
+							// to the new one (just created).
+							if ( this.focused ) {
+								widget.focus();
+								delete this.focused;
+							}
 
-		upcast: upcastWidgetElement,
-		downcast: downcastWidgetElement
-	};
+							delete this.destroyed;
+						}
+
+						// If now widget was destroyed just update wrapper's alignment.
+						// According to the new state.
+						else
+							setWrapperAlign( widget );
+
+					}
+				} );
+
+				widget.parts.image.setAttributes( {
+					src: widget.data.src,
+
+					// This internal is required by the editor.
+					'data-cke-saved-src': widget.data.src,
+
+					alt: widget.data.alt
+				} );
+
+				// Set dimensions of the image according to gathered data.
+				setDimensions( widget );
+
+				// Cache current data.
+				widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
+			},
+
+			init: function() {
+				var helpers = CKEDITOR.plugins.image2,
+					image = this.parts.image,
+					data = {
+						hasCaption: !!this.parts.caption,
+						src: image.getAttribute( 'src' ),
+						alt: image.getAttribute( 'alt' ) || '',
+						width: image.getAttribute( 'width' ) || '',
+						height: image.getAttribute( 'height' ) || '',
+
+						// Lock ratio is on by default (#10833).
+						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
+					};
+
+				// Read initial float style from figure/image and
+				// then remove it. This style will be set on wrapper in #data listener.
+				if ( !data.align ) {
+					data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
+					this.element.removeStyle( 'float' );
+					image.removeStyle( 'float' );
+				}
+
+				// Get rid of extra vertical space when there's no caption.
+				// It will improve the look of the resizer.
+				if ( !data.hasCaption )
+					this.wrapper.setStyle( 'line-height', '0' );
+
+				this.setData( data );
+
+				// Setup dynamic image resizing with mouse.
+				setupResizer( this );
+
+				this.shiftState = helpers.stateShifter( this.editor );
+
+				// Add widget editing option to its context menu.
+				this.on( 'contextMenu', function( evt ) {
+					evt.data.image = CKEDITOR.TRISTATE_OFF;
+				} );
+
+				// Pass the reference to this widget to the dialog.
+				this.on( 'dialog', function( evt ) {
+					evt.data.widget = this;
+				}, this );
+			},
+
+			upcast: upcastWidgetElement,
+			downcast: downcastWidgetElement
+		};
+	}
 
 	CKEDITOR.plugins.image2 = {
 		stateShifter: function( editor ) {
