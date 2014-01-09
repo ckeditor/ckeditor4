@@ -22,6 +22,7 @@ CKEditor 4 Changelog
 * [#11186](http://dev.ckeditor.com/ticket/11186): Introduced the [`widgets.repository.addUpcastCallback`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-addUpcastCallback) method which allows to block upcasting given element to a widget.
 * [#11307](http://dev.ckeditor.com/ticket/11307): Fixed: Paste as plain text conflict with the [MooTools](http://mootools.net) library.
 * [#11140](http://dev.ckeditor.com/ticket/11140): [IE11] Fixed: Anchors are not draggable.
+* [#11379](http://dev.ckeditor.com/ticket/11379): Changed default contents' `line-height` to unitless values to avoid huge text overlapping (like in [#9696](http://dev.ckeditor.com/ticket/9696)).
 
 
 ## CKEditor 4.3.1
