@@ -280,7 +280,7 @@
 				}, this );
 			},
 
-			upcast: upcastWidgetElement,
+			upcast: upcastWidgetElement( editor ),
 			downcast: downcastWidgetElement
 		};
 	}
@@ -509,58 +509,64 @@
 		}
 	}
 
-	// Creates widgets from all <img> and <figure class="caption">.
+	// Returns a function that creates widgets from all <img> and
+	// <figure class="{config.image2_captionedClass}"> elements.
 	//
-	// @param {CKEDITOR.htmlParser.element} el
-	function upcastWidgetElement( el, data ) {
-		var dimensions = { width: 1, height: 1 },
-			name = el.name,
-			image;
+	// @param {CKEDITOR.editor} editor
+	// @returns {Function}
+	function upcastWidgetElement( editor ) {
+		// @param {CKEDITOR.htmlParser.element} el
+		// @param {Object} data
+		return function( el, data ) {
+			var dimensions = { width: 1, height: 1 },
+				name = el.name,
+				image;
 
-		// #11110 Don't initialize on pasted fake objects.
-		if ( el.attributes[ 'data-cke-realelement' ] )
-			return;
+			// #11110 Don't initialize on pasted fake objects.
+			if ( el.attributes[ 'data-cke-realelement' ] )
+				return;
 
-		// If a center wrapper is found. So the element is:
-		// 		<div style="text-align:center"><figure>...</figure></div>.
-		// Centering is done by widget.wrapper in such case. Hence, replace
-		// centering wrapper with figure.
-		// The other case is:
-		// 		<p style="text-align:center"><img></p>.
-		// Then <p> takes charge of <figure> and nothing is to be changed.
-		if ( isCenterWrapper( el ) ) {
-			if ( name == 'div' ) {
-				var figure = el.getFirst( 'figure' );
-				el.replaceWith( figure );
-				el = figure;
+			// If a center wrapper is found. So the element is:
+			// 		<div style="text-align:center"><figure>...</figure></div>.
+			// Centering is done by widget.wrapper in such case. Hence, replace
+			// centering wrapper with figure.
+			// The other case is:
+			// 		<p style="text-align:center"><img></p>.
+			// Then <p> takes charge of <figure> and nothing is to be changed.
+			if ( isCenterWrapper( el ) ) {
+				if ( name == 'div' ) {
+					var figure = el.getFirst( 'figure' );
+					el.replaceWith( figure );
+					el = figure;
+				}
+
+				data.align = 'center';
+
+				image = el.getFirst( 'img' );
 			}
 
-			data.align = 'center';
+			// No center wrapper has been found.
+			else if ( name == 'figure' && el.hasClass( 'caption' ) )
+				image = el.getFirst( 'img' );
 
-			image = el.getFirst( 'img' );
-		}
+			// Inline widget from plain img.
+			else if ( name == 'img' )
+				image = el;
 
-		// No center wrapper has been found.
-		else if ( name == 'figure' && el.hasClass( 'caption' ) )
-			image = el.getFirst( 'img' );
+			if ( !image )
+				return;
 
-		// Inline widget from plain img.
-		else if ( name == 'img' )
-			image = el;
+			// If there's an image, then cool, we got a widget.
+			// Now just remove dimension attributes expressed with %.
+			for ( var d in dimensions ) {
+				var dimension = image.attributes[ d ];
 
-		if ( !image )
-			return;
+				if ( dimension && dimension.match( regexPercent ) )
+					delete image.attributes[ d ];
+			}
 
-		// If there's an image, then cool, we got a widget.
-		// Now just remove dimension attributes expressed with %.
-		for ( var d in dimensions ) {
-			var dimension = image.attributes[ d ];
-
-			if ( dimension && dimension.match( regexPercent ) )
-				delete image.attributes[ d ];
-		}
-
-		return el;
+			return el;
+		};
 	}
 
 	// Transforms the widget to the external format according to the current configuration.
