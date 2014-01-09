@@ -21,6 +21,7 @@ CKEditor 4 Changelog
 * [#10762](http://dev.ckeditor.com/ticket/10762): [IE] Fixed: JavaScript code displayed in preview window's URL bar.
 * [#11186](http://dev.ckeditor.com/ticket/11186): Introduced the [`widgets.repository.addUpcastCallback`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-addUpcastCallback) method which allows to block upcasting given element to a widget.
 * [#11307](http://dev.ckeditor.com/ticket/11307): Fixed: Paste as plain text conflict with the [MooTools](http://mootools.net) library.
+* [#11140](http://dev.ckeditor.com/ticket/11140): [IE11] Fixed: Anchors are not draggable.
 
 
 ## CKEditor 4.3.1
