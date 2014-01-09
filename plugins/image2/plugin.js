@@ -601,15 +601,18 @@
 		if ( align && align != 'none' ) {
 			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
 
-			// If centering, wrap downcasted element.
-			// Wrappers for <img> and <figure> are <p> and <div>, respectively.
-			if ( align == 'center' && el.name != 'p' ) {
-				var name = el.name == 'img' ? 'p' : 'div';
-
-				el = el.wrapWith( new CKEDITOR.htmlParser.element( name, {
-					'style': 'text-align:center'
-				} ) );
-			}
+			// When the widget is captioned (<figure>) and internally centering is done
+			// with widget's wrapper inline style, in the external data representation,
+			// <figure> must be wrapped with an element holding an inline style:
+			//
+			//   <div style="text-align:center">
+			//     <figure class="image" style="display:inline-block">
+			//      <img alt="A" src="B" />
+			//       <figcaption>C</figcaption>
+			//     </figure>
+			//   </div>
+			if ( align == 'center' && el.name == 'figure' )
+				el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', { style: 'text-align:center' } ) );
 
 			// If left/right, add float style to the downcasted element.
 			else if ( align in { left: 1, right: 1 } )
