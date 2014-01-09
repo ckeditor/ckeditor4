@@ -1935,10 +1935,12 @@
 			lineutils = CKEDITOR.plugins.lineutils;
 
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+				// #11086 IE8 cannot listen on document.
+				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
 
-			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			editable.attachListener( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
+			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
 					sourceWidget,
