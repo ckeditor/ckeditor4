@@ -528,20 +528,31 @@
 			if ( el.attributes[ 'data-cke-realelement' ] )
 				return;
 
-			// If a center wrapper is found. So the element is:
-			// 		<div style="text-align:center"><figure>...</figure></div>.
-			// Centering is done by widget.wrapper in such case. Hence, replace
-			// centering wrapper with figure.
-			// The other case is:
-			// 		<p style="text-align:center"><img></p>.
-			// Then <p> takes charge of <figure> and nothing is to be changed.
+			// If a center wrapper is found, there are 3 possible cases:
+			//
+			// 1. <div style="text-align:center"><figure>...</figure></div>.
+			//    In this case centering is done with a class set on widget.wrapper.
+			//    Simply replace centering wrapper with figure (it's no longer necessary).
+			//
+			// 2. <p style="text-align:center"><img/></p>.
+			//    Nothing to do here: <p> remains for styling purposes.
+			//
+			// 3. <div style="text-align:center"><img/></div>.
+			//    Nothing to do here (2.) but that case is only possible in enterMode different
+			//    than ENTER_P.
 			if ( isCenterWrapper( el ) ) {
 				if ( name == 'div' ) {
 					var figure = el.getFirst( 'figure' );
-					el.replaceWith( figure );
-					el = figure;
-				}
 
+					// Case #1.
+					if ( figure ) {
+						el.replaceWith( figure );
+						el = figure;
+					}
+				}
+				// Cases #2 and #3 (handled transparently)
+
+				// If there's a centering wrapper, save it in data.
 				data.align = 'center';
 
 				image = el.getFirst( 'img' );
