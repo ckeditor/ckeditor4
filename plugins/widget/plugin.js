@@ -1777,6 +1777,11 @@
 		return element.hasAttribute( 'data-cke-temp' );
 	}
 
+	// @param {CKEDITOR.dom.element}
+	function isDragHandler2( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
+	}
+
 	function finalizeNativeDrop( editor, sourceWidget, range ) {
 		// Save the snapshot with the state before moving widget.
 		// Focus widget, so when we'll undo the DnD, widget will be focused.
@@ -2746,8 +2751,7 @@
 				var target = evt.data.getTarget();
 
 				// Allow text dragging inside nested editables or using drag handler.
-				if ( !getNestedEditable( widget, target ) &&
-					 !( target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) )
+				if ( !getNestedEditable( widget, target ) && !isDragHandler2( target ) )
 					evt.data.preventDefault();
 			} );
 		}
