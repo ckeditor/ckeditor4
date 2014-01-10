@@ -10,6 +10,8 @@
  */
 
 ( function() {
+	'use strict';
+
 	var commandDefinition = {
 		readOnly: 1,
 		preserveState: true,
@@ -39,7 +41,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			var tags = [ 'p', 'div', 'pre', 'address', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
-				cssStd = cssImg = cssLtr = cssRtl = '',
+				cssStd, cssImg, cssLtr, cssRtl,
 				path = CKEDITOR.getUrl( this.path ),
 				// #10884 don't apply showblocks styles to non-editable elements and chosen ones.
 				// IE8 does not support :not() pseudoclass, so we need to reset showblocks rather
@@ -47,6 +49,8 @@
 				supportsNotPseudoclass = !( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
 				notDisabled = supportsNotPseudoclass ? ':not([contenteditable=false]):not(.cke_show_blocks_off)' : '',
 				tag, trailing;
+
+			cssStd = cssImg = cssLtr = cssRtl = '';
 
 			while ( ( tag = tags.pop() ) ) {
 				trailing = tags.length ? ',' : '';
@@ -122,9 +126,6 @@
 
 			// Refresh the command on focus/blur in inline.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
-				function onFocusBlur() {
-					command.refresh( editor );
-				}
 				editor.on( 'focus', onFocusBlur );
 				editor.on( 'blur', onFocusBlur );
 			}
@@ -134,6 +135,10 @@
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
 			} );
+
+			function onFocusBlur() {
+				command.refresh( editor );
+			}
 		}
 	} );
 } )();
