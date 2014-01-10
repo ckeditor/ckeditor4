@@ -2752,8 +2752,8 @@
 			widget.wrapper.on( 'dragstart', function( evt ) {
 				var target = evt.data.getTarget();
 
-				// Allow text dragging inside nested editables or using drag handler.
-				if ( !getNestedEditable( widget, target ) && !isDragHandler2( target ) )
+				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
+				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDragHandler2( target ) ) )
 					evt.data.preventDefault();
 			} );
 		}
