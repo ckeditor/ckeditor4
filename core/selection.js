@@ -399,6 +399,15 @@
 		}
 	}
 
+	// Fix ranges which ends after hidden selection container.
+	function fixRangesAfterHiddenSelectionContainer( ranges, root, hiddenSelectionContainerIndex ) {
+		for ( var i = 0; i < ranges.length; ++i ) {
+			range = ranges[ i ];
+			if ( range.endContainer.equals( root ) )
+				range.endOffset = Math.min( range.endOffset, hiddenSelectionContainerIndex );
+		}
+	}
+
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
@@ -1715,6 +1724,16 @@
 		 * representing ranges to be added to the document.
 		 */
 		selectRanges: function( ranges ) {
+			var editor = this.root.editor,
+				hiddenSelectionContainer;
+
+			// Check if there's a hiddenSelectionContainer in editable at some index.
+			// Some ranges may be anchored after the hiddenSelectionContainer and,
+			// once the container is removed while resetting the selection, they
+			// may need new endOffset (one element less within the range) (#11021).
+			if ( editor && ( hiddenSelectionContainer = editor._.hiddenSelectionContainer ) )
+				fixRangesAfterHiddenSelectionContainer( ranges, this.root, hiddenSelectionContainer.getIndex() );
+
 			this.reset();
 
 			if ( !ranges.length )

@@ -25,6 +25,7 @@ CKEditor 4 Changelog
 * [#11379](http://dev.ckeditor.com/ticket/11379): Changed default contents' `line-height` to unitless values to avoid huge text overlapping (like in [#9696](http://dev.ckeditor.com/ticket/9696)).
 * [#10787](http://dev.ckeditor.com/ticket/10787): [Firefox] Fixed: Broken replacement of text while pasting into div-based editor.
 * [#10884](http://dev.ckeditor.com/ticket/10884): Widgets integration with [Showblocks](http://ckeditor.com/addon/showblocks) plugin.
+* [#11021](http://dev.ckeditor.com/ticket/11021): Fixed: An error thrown when selecting entire editable's contents while fake selection is on.
 
 ## CKEditor 4.3.1
 
