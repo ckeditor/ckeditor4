@@ -41,15 +41,20 @@
 			var tags = [ 'p', 'div', 'pre', 'address', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
 				cssStd = cssImg = cssLtr = cssRtl = '',
 				path = CKEDITOR.getUrl( this.path ),
+				// #10884 don't apply showblocks styles to non-editable elements and chosen ones.
+				// IE8 does not support :not() pseudoclass, so we need to reset showblocks rather
+				// than 'prevent' its application. We do that by additional rules.
+				supportsNotPseudoclass = !( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
+				notDisabled = supportsNotPseudoclass ? ':not([contenteditable=false]):not(.cke_show_blocks_off)' : '',
 				tag, trailing;
 
 			while ( ( tag = tags.pop() ) ) {
 				trailing = tags.length ? ',' : '';
 
-				cssStd += '.cke_show_blocks ' + tag + trailing;
-				cssLtr += '.cke_show_blocks.cke_contents_ltr ' + tag + trailing;
-				cssRtl += '.cke_show_blocks.cke_contents_rtl ' + tag + trailing;
-				cssImg += '.cke_show_blocks ' + tag + '{' +
+				cssStd += '.cke_show_blocks ' + tag + notDisabled + trailing;
+				cssLtr += '.cke_show_blocks.cke_contents_ltr ' + tag + notDisabled + trailing;
+				cssRtl += '.cke_show_blocks.cke_contents_rtl ' + tag + notDisabled + trailing;
+				cssImg += '.cke_show_blocks ' + tag + notDisabled + '{' +
 					'background-image:url(' + path + 'images/block_' + tag + '.png )' +
 				'}';
 			}
@@ -75,18 +80,23 @@
 
 			CKEDITOR.addCss( cssStd.concat( cssImg, cssLtr, cssRtl ) );
 
-			// Disable showblocks styles for non-editables (#10884).
-			CKEDITOR.addCss( '.cke_show_blocks [contenteditable=false]{' +
-				'border:none;' +
-				'padding-top:0;' +
-				'background-image:none;' +
-			'}' +
-			'.cke_show_blocks.cke_contents_rtl [contenteditable=false]{' +
-				'padding-right:0;' +
-			'}' +
-			'.cke_show_blocks.cke_contents_ltr [contenteditable=false]{' +
-				'padding-left:0;' +
-			'}' );
+			// [IE8] Reset showblocks styles for non-editables and chosen elements, because
+			// it could not be done using :not() pseudoclass (#10884).
+			if ( !supportsNotPseudoclass ) {
+				CKEDITOR.addCss(
+					'.cke_show_blocks [contenteditable=false],.cke_show_blocks .cke_show_blocks_off{' +
+						'border:none;' +
+						'padding-top:0;' +
+						'background-image:none;' +
+					'}' +
+					'.cke_show_blocks.cke_contents_rtl [contenteditable=false],.cke_show_blocks.cke_contents_rtl .cke_show_blocks_off{' +
+						'padding-right:0;' +
+					'}' +
+					'.cke_show_blocks.cke_contents_ltr [contenteditable=false],.cke_show_blocks.cke_contents_ltr .cke_show_blocks_off{' +
+						'padding-left:0;' +
+					'}'
+				);
+			}
 		},
 		init: function( editor ) {
 			if ( editor.blockless )
