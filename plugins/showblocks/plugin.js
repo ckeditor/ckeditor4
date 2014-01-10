@@ -55,7 +55,7 @@
 				cssLtr += '.cke_show_blocks.cke_contents_ltr ' + tag + notDisabled + trailing;
 				cssRtl += '.cke_show_blocks.cke_contents_rtl ' + tag + notDisabled + trailing;
 				cssImg += '.cke_show_blocks ' + tag + notDisabled + '{' +
-					'background-image:url(' + path + 'images/block_' + tag + '.png )' +
+					'background-image:url(' + path + 'images/block_' + tag + '.png)' +
 				'}';
 			}
 
@@ -63,19 +63,19 @@
 			cssStd += '{' +
 				'background-repeat:no-repeat;' +
 				'border:1px dotted gray;' +
-				'padding-top:8px;' +
+				'padding-top:8px' +
 			'}';
 
 			// .cke_show_blocks.cke_contents_ltr p { ... }
 			cssLtr += '{' +
 				'background-position:top left;' +
-				'padding-left:8px;' +
+				'padding-left:8px' +
 			'}';
 
 			// .cke_show_blocks.cke_contents_rtl p { ... }
 			cssRtl += '{' +
 				'background-position:top right;' +
-				'padding-right:8px;' +
+				'padding-right:8px' +
 			'}';
 
 			CKEDITOR.addCss( cssStd.concat( cssImg, cssLtr, cssRtl ) );
@@ -87,13 +87,13 @@
 					'.cke_show_blocks [contenteditable=false],.cke_show_blocks .cke_show_blocks_off{' +
 						'border:none;' +
 						'padding-top:0;' +
-						'background-image:none;' +
+						'background-image:none' +
 					'}' +
 					'.cke_show_blocks.cke_contents_rtl [contenteditable=false],.cke_show_blocks.cke_contents_rtl .cke_show_blocks_off{' +
-						'padding-right:0;' +
+						'padding-right:0' +
 					'}' +
 					'.cke_show_blocks.cke_contents_ltr [contenteditable=false],.cke_show_blocks.cke_contents_ltr .cke_show_blocks_off{' +
-						'padding-left:0;' +
+						'padding-left:0' +
 					'}'
 				);
 			}
