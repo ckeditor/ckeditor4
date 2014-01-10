@@ -758,8 +758,9 @@
 
 			// Webkit fill fire blur on editable when moving selection to
 			// pastebin (if body is used). Cancel it because it causes incorrect
-			// selection lock in case of inline editor.
-			if ( CKEDITOR.env.webkit )
+			// selection lock in case of inline editor (#10644).
+			// The same seems to apply to Firefox (#10787).
+			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko )
 				blurListener = editable.once( 'blur', cancel, null, null, -100 );
 
 			// Temporarily move selection to the pastebin.
