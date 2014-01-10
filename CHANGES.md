@@ -23,6 +23,7 @@ CKEditor 4 Changelog
 * [#11307](http://dev.ckeditor.com/ticket/11307): Fixed: Paste as plain text conflict with the [MooTools](http://mootools.net) library.
 * [#11140](http://dev.ckeditor.com/ticket/11140): [IE11] Fixed: Anchors are not draggable.
 * [#11379](http://dev.ckeditor.com/ticket/11379): Changed default contents' `line-height` to unitless values to avoid huge text overlapping (like in [#9696](http://dev.ckeditor.com/ticket/9696)).
+* [#10787](http://dev.ckeditor.com/ticket/10787): [Firefox] Fixed: Broken replacement of text while pasting into div-based editor.
 
 
 ## CKEditor 4.3.1
