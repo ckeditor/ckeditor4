@@ -26,7 +26,8 @@ CKEditor 4 Changelog
 * [#10787](http://dev.ckeditor.com/ticket/10787): [Firefox] Fixed: Broken replacement of text while pasting into div-based editor.
 * [#10884](http://dev.ckeditor.com/ticket/10884): Widgets integration with [Showblocks](http://ckeditor.com/addon/showblocks) plugin.
 * [#11021](http://dev.ckeditor.com/ticket/11021): Fixed: An error thrown when selecting entire editable's contents while fake selection is on.
-* [#11086](http://dev.ckeditor.com/ticket/11086): [IE8]Re enable inline widgets drag & drop on IE8.
+* [#11086](http://dev.ckeditor.com/ticket/11086): [IE8] Re-enable inline widgets drag&drop on IE8.
+* [#11372](http://dev.ckeditor.com/ticket/11372): Widgets: Special characters encoded twice in nested editables.
 
 ## CKEditor 4.3.1
 
