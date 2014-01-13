@@ -390,18 +390,11 @@
 	}
 
 	function isRuleApplicable( context, rule ) {
-		if ( context.nonEditable ) {
-			// Do not apply rule if context is nonEditable and rule doesn't have applyToAll option.
-			if ( rule.options.applyToAll ) {
-				// Do not apply the rule if context is nestedEditable and the rule **has** excludeNestedEditable option.
-				if ( context.nestedEditable )
-					return !rule.options.excludeNestedEditable;
-
-				return true;
-			}
-
+		if ( context.nonEditable && !rule.options.applyToAll )
 			return false;
-		}
+
+		if ( context.nestedEditable && rule.options.excludeNestedEditable )
+			return false;
 
 		return true;
 	}
