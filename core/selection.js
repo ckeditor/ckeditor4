@@ -400,11 +400,15 @@
 	}
 
 	// Fix ranges which may end after hidden selection container.
+	// Note: this function may only be used if hidden selection container
+	// is not in DOM any more.
 	function fixRangesAfterHiddenSelectionContainer( ranges, root ) {
 		for ( var i = 0; i < ranges.length; ++i ) {
 			range = ranges[ i ];
-			if ( range.endContainer.equals( root ) )
+			if ( range.endContainer.equals( root ) ) {
+				// We can use getChildCount() because hidden selection container is not in DOM.
 				range.endOffset = Math.min( range.endOffset, root.getChildCount() );
+			}
 		}
 	}
 
