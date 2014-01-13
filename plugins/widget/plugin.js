@@ -1142,13 +1142,14 @@
 			var editor = this.editor,
 				handler = this.dragHandlerContainer,
 				domElement = this.element.$,
+				oldPos = this._.dragHandlerOffset,
 				newPos = {
 					x: domElement.offsetLeft,
 					y: domElement.offsetTop - DRAG_HANDLER_SIZE
 				};
 
-			if ( CKEDITOR.tools.objectCompare( newPos, this._.dragHandlerOffset ) )
-				return ;
+			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
+				return;
 
 			editor.fire( 'lockSnapshot' );
 			handler.setStyles( {
