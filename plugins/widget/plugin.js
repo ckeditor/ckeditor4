@@ -1151,8 +1151,10 @@
 				return ;
 
 			editor.fire( 'lockSnapshot' );
-			handler.setStyle( 'top', newPos.y + 'px' );
-			handler.setStyle( 'left', newPos.x + 'px' );
+			handler.setStyles( {
+				top: newPos.y + 'px',
+				left: newPos.x + 'px'
+			} );
 			editor.fire( 'unlockSnapshot' );
 
 			this._.dragHandlerOffset = newPos;
