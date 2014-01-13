@@ -647,7 +647,7 @@
 
 			// Only <figure> or <img /> can be first (only) child of centering wrapper,
 			// regardless of its type.
-			if ( !{ figure: 1, img: 1 }[ childName ] )
+			if ( childName != 'figure' && childName != 'img' )
 				return false;
 
 			// If centering wrapper is <p>, only <img /> can be the child.
