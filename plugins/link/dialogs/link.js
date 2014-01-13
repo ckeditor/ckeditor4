@@ -205,26 +205,27 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 			// Find out whether we have any anchors in the editor.
 			var anchors = retval.anchors = [],
-				i, count, item;
+				editable = editor.editable(),
+				// The scope of search for anchors is the entire document for inline editors
+				// and editor's editable for framed/divarea (#11359).
+				scope = ( editable.isInline() && !editor.plugins.divarea ) ? editor.document : editable,
+				i = 0,
+				count, item;
 
-			// For some browsers we set contenteditable="false" on anchors, making document.anchors not to include them, so we must traverse the links manually (#7893).
-			if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
-				var links = editor.document.getElementsByTag( 'a' );
-				for ( i = 0, count = links.count(); i < count; i++ ) {
-					item = links.getItem( i );
-					if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) )
-						anchors.push( { name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
-				}
-			} else {
-				var anchorList = new CKEDITOR.dom.nodeList( editor.document.$.anchors );
-				for ( i = 0, count = anchorList.count(); i < count; i++ ) {
-					item = anchorList.getItem( i );
-					anchors[ i ] = { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) };
+			var links = scope.getElementsByTag( 'a' );
+
+			// Retrieve all anchors within the scope.
+			while ( ( item = links.getItem( i++ ) ) ) {
+				if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) ) {
+					anchors.push( {
+						name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ),
+						id: item.getAttribute( 'id' )
+					} );
 				}
 			}
 
 			if ( CKEDITOR.plugins.link.fakeAnchor ) {
-				var imgs = editor.document.getElementsByTag( 'img' );
+				var imgs = scope.getElementsByTag( 'img' );
 				for ( i = 0, count = imgs.count(); i < count; i++ ) {
 					if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
 						anchors.push( { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
