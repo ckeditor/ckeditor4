@@ -1147,7 +1147,7 @@
 					y: domElement.offsetTop - DRAG_HANDLER_SIZE
 				};
 
-			if ( newPos == this._.dragHandlerOffset )
+			if ( CKEDITOR.tools.objectCompare( newPos, this._.dragHandlerOffset ) )
 				return ;
 
 			editor.fire( 'lockSnapshot' );
