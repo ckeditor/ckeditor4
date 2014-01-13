@@ -838,10 +838,6 @@
 		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
-		// #11074 - IE8 throws exceptions when dragging widget using the native method.
-		if ( this.inline && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-			this.draggable = false;
-
 		widgetsRepo.fire( 'instanceCreated', this );
 
 		setupWidget( this, widgetDef );
@@ -1781,6 +1777,11 @@
 		return element.hasAttribute( 'data-cke-temp' );
 	}
 
+	// @param {CKEDITOR.dom.element}
+	function isDragHandler2( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
+	}
+
 	function finalizeNativeDrop( editor, sourceWidget, range ) {
 		// Save the snapshot with the state before moving widget.
 		// Focus widget, so when we'll undo the DnD, widget will be focused.
@@ -1934,10 +1935,12 @@
 			lineutils = CKEDITOR.plugins.lineutils;
 
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+				// #11086 IE8 cannot listen on document.
+				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
 
-			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
+			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
 					sourceWidget,
@@ -2747,8 +2750,10 @@
 		// #11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			widget.wrapper.on( 'dragstart', function( evt ) {
-				// Allow text dragging inside nested editables.
-				if ( !getNestedEditable( widget, evt.data.getTarget() ) )
+				var target = evt.data.getTarget();
+
+				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
+				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDragHandler2( target ) ) )
 					evt.data.preventDefault();
 			} );
 		}
