@@ -44,6 +44,7 @@
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
+					'left:-9999px;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (#11198).
@@ -2585,7 +2586,7 @@
 			} );
 			widget.inline && img.setAttribute( 'draggable', 'true' );
 
-			widget.wrapper.on( 'mouseover', positionDragHandler, widget );
+			widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 			container.append( img );
 			widget.wrapper.append( container );
 		}
