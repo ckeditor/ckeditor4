@@ -44,6 +44,8 @@
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
+					// Initially drag handler should not be visible, until its position will be
+					// repositioned. #11177
 					'left:-9999px;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
