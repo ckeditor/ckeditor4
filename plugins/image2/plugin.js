@@ -665,7 +665,7 @@
 
 				// Centering <div> can hold <img /> only when enterMode is ENTER_(BR|DIV).
 				//   <div style="text-align:center"><img /></div>
-				if ( childName == 'img' && editor.activeEnterMode == CKEDITOR.ENTER_P )
+				if ( childName == 'img' && editor.enterMode == CKEDITOR.ENTER_P )
 					return false;
 			}
 
