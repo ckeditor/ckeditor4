@@ -2234,7 +2234,8 @@
 						toBeDowncasted.push( {
 							wrapper: element,
 							element: widgetElement,
-							widget: widget
+							widget: widget,
+							editables: {}
 						} );
 
 						// If widget did not have data-cke-widget attribute before upcasting remove it.
@@ -2244,11 +2245,11 @@
 				}
 				// Nested editable.
 				else if ( 'data-cke-widget-editable' in attrs ) {
-					delete attrs[ 'contenteditable' ];
-
-					// Replace nested editable's content with its output data.
-					var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
-					element.setHtml( editable.getData() );
+					// Save the reference to this nested editable in the closest widget to be downcasted.
+					// Nested editables are downcasted in the successive toDataFormat to create an opportunity
+					// for dataFilter's "excludeNestedEditable" option to do its job (that option relies on
+					// contenteditable="true" attribute) (#11372).
+					toBeDowncasted[ toBeDowncasted.length - 1 ].editables[ attrs[ 'data-cke-widget-editable' ] ] = element;
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
@@ -2265,12 +2266,20 @@
 				return;
 
 			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement;
+				toBe, widget, widgetElement, retElement, editableElement, e;
 
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+
+				// Replace nested editables' content with their output data.
+				for ( e in toBe.editables ) {
+					editableElement = toBe.editables[ e ];
+
+					delete editableElement.attributes[ 'contenteditable' ];
+					editableElement.setHtml( widget.editables[ e ].getData() );
+				}
 
 				// Returned element always defaults to widgetElement.
 				if ( !retElement )
