@@ -399,12 +399,16 @@
 		}
 	}
 
-	// Fix ranges which ends after hidden selection container.
-	function fixRangesAfterHiddenSelectionContainer( ranges, root, hiddenSelectionContainerIndex ) {
+	// Fix ranges which may end after hidden selection container.
+	// Note: this function may only be used if hidden selection container
+	// is not in DOM any more.
+	function fixRangesAfterHiddenSelectionContainer( ranges, root ) {
 		for ( var i = 0; i < ranges.length; ++i ) {
 			range = ranges[ i ];
-			if ( range.endContainer.equals( root ) )
-				range.endOffset = Math.min( range.endOffset, hiddenSelectionContainerIndex );
+			if ( range.endContainer.equals( root ) ) {
+				// We can use getChildCount() because hidden selection container is not in DOM.
+				range.endOffset = Math.min( range.endOffset, root.getChildCount() );
+			}
 		}
 	}
 
@@ -1725,16 +1729,16 @@
 		 */
 		selectRanges: function( ranges ) {
 			var editor = this.root.editor,
-				hiddenSelectionContainer;
+				hadHiddenSelectionContainer = editor && editor._.hiddenSelectionContainer;
+
+			this.reset();
 
 			// Check if there's a hiddenSelectionContainer in editable at some index.
 			// Some ranges may be anchored after the hiddenSelectionContainer and,
 			// once the container is removed while resetting the selection, they
-			// may need new endOffset (one element less within the range) (#11021).
-			if ( editor && ( hiddenSelectionContainer = editor._.hiddenSelectionContainer ) )
-				fixRangesAfterHiddenSelectionContainer( ranges, this.root, hiddenSelectionContainer.getIndex() );
-
-			this.reset();
+			// may need new endOffset (one element less within the range) (#11021 #11393).
+			if ( hadHiddenSelectionContainer )
+				fixRangesAfterHiddenSelectionContainer( ranges, this.root );
 
 			if ( !ranges.length )
 				return;
