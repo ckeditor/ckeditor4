@@ -1137,9 +1137,23 @@
 		 * Repositions drag handler according to the widget's element position. Should be called from events, like mouseover.
 		 */
 		updateDragHandlerPosition: function() {
-			var handler = this.dragHandlerContainer;
-			handler.setStyle( 'top', this.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
-			handler.setStyle( 'left', this.element.$.offsetLeft + 'px' );
+			var editor = this.editor,
+				handler = this.dragHandlerContainer,
+				domElement = this.element.$,
+				newPos = {
+					x: domElement.offsetLeft,
+					y: domElement.offsetTop - DRAG_HANDLER_SIZE
+				};
+
+			if ( newPos == this._.dragHandlerOffset )
+				return ;
+
+			editor.fire( 'lockSnapshot' );
+			handler.setStyle( 'top', newPos.y + 'px' );
+			handler.setStyle( 'left', newPos.x + 'px' );
+			editor.fire( 'unlockSnapshot' );
+
+			this._.dragHandlerOffset = newPos;
 		}
 	};
 
