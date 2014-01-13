@@ -1140,7 +1140,6 @@
 		 */
 		updateDragHandlerPosition: function() {
 			var editor = this.editor,
-				handler = this.dragHandlerContainer,
 				domElement = this.element.$,
 				oldPos = this._.dragHandlerOffset,
 				newPos = {
@@ -1152,7 +1151,7 @@
 				return;
 
 			editor.fire( 'lockSnapshot' );
-			handler.setStyles( {
+			this.dragHandlerContainer.setStyles( {
 				top: newPos.y + 'px',
 				left: newPos.x + 'px'
 			} );
