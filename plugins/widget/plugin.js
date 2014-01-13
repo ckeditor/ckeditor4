@@ -2607,6 +2607,10 @@
 			widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 			container.append( img );
 			widget.wrapper.append( container );
+
+			setTimeout( function() {
+				widget.on( 'data', widget.updateDragHandlerPosition, widget );
+			}, 50 );
 		}
 
 		if ( widget.inline ) {
