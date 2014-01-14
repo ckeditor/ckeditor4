@@ -28,6 +28,7 @@ CKEditor 4 Changelog
 * [#11021](http://dev.ckeditor.com/ticket/11021): Fixed: An error thrown when selecting entire editable's contents while fake selection is on.
 * [#11086](http://dev.ckeditor.com/ticket/11086): [IE8] Re-enable inline widgets drag&drop on IE8.
 * [#11372](http://dev.ckeditor.com/ticket/11372): Widgets: Special characters encoded twice in nested editables.
+* [#10068](http://dev.ckeditor.com/ticket/10068): Fixed: Support for protocol relative URLs.
 
 ## CKEditor 4.3.1
 
