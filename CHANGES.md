@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
+* [#11177](http://dev.ckeditor.com/ticket/11177): Widget's drag handler improvements:
+  * fixed: initial position is not updated when widget's data object is empty ([#11161](http://dev.ckeditor.com/ticket/11161)),
+  * fixed: multiple synchronous layout recalculations are caused by initial drag handler positioning causing performance issues ([#11001](http://dev.ckeditor.com/ticket/11001)),
+  * fixed: drag handler is not repositioned in various situations ([#11161](http://dev.ckeditor.com/ticket/11161)).
 * [#11207](http://dev.ckeditor.com/ticket/11207): [Firefox] Fixed: Misplaced Image2 resizer in inline editor.
 * [#11102](http://dev.ckeditor.com/ticket/11102): `CKEDITOR.template` improvements:
   * added new line character support ([#11102](http://dev.ckeditor.com/ticket/11102)),
