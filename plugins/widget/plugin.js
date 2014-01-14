@@ -44,6 +44,9 @@
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
+					// Initially drag handler should not be visible, until its position will be
+					// repositioned. #11177
+					'left:-9999px;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (#11198).
@@ -1130,6 +1133,31 @@
 			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
 			this.fire(  selected ? 'select' : 'deselect' );
 			return this;
+		},
+
+		/**
+		 * Repositions drag handler according to the widget's element position. Should be called from events, like mouseover.
+		 */
+		updateDragHandlerPosition: function() {
+			var editor = this.editor,
+				domElement = this.element.$,
+				oldPos = this._.dragHandlerOffset,
+				newPos = {
+					x: domElement.offsetLeft,
+					y: domElement.offsetTop - DRAG_HANDLER_SIZE
+				};
+
+			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
+				return;
+
+			editor.fire( 'lockSnapshot' );
+			this.dragHandlerContainer.setStyles( {
+				top: newPos.y + 'px',
+				left: newPos.x + 'px'
+			} );
+			editor.fire( 'unlockSnapshot' );
+
+			this._.dragHandlerOffset = newPos;
 		}
 	};
 
@@ -2546,14 +2574,6 @@
 		}
 	}
 
-	// Position drag handler according to the widget's element position.
-	function positionDragHandler( widget ) {
-		var handler = widget.dragHandlerContainer;
-
-		handler.setStyle( 'top', widget.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
-		handler.setStyle( 'left', widget.element.$.offsetLeft + 'px' );
-	}
-
 	function setupDragHandler( widget ) {
 		if ( !widget.draggable )
 			return;
@@ -2587,6 +2607,11 @@
 			container.append( img );
 			widget.wrapper.append( container );
 		}
+
+		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
+		setTimeout( function() {
+			widget.on( 'data', widget.updateDragHandlerPosition, widget );
+		}, 50 );
 
 		if ( widget.inline ) {
 			img.on( 'dragstart', function( evt ) {
@@ -2801,12 +2826,6 @@
 
 		if ( widgetDef.edit )
 			widget.on( 'edit', widgetDef.edit );
-
-		if ( widget.draggable ) {
-			widget.on( 'data', function() {
-				positionDragHandler( widget );
-			}, null, null, 999 );
-		}
 	}
 
 	function setupWidgetData( widget, startupData ) {
