@@ -1154,7 +1154,7 @@ CKEDITOR.dom.range = function( root ) {
 								if ( node != startContainer )
 									siblingText = node.getText();
 								else
-									siblingText = node.substring( startOffset )
+									siblingText = node.substring( startOffset );
 
 								// Check if it is white space.
 								if ( leadingWhitespaceRegex.test( siblingText ) )

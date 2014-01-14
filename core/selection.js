@@ -403,6 +403,7 @@
 	// Note: this function may only be used if hidden selection container
 	// is not in DOM any more.
 	function fixRangesAfterHiddenSelectionContainer( ranges, root ) {
+		var range;
 		for ( var i = 0; i < ranges.length; ++i ) {
 			range = ranges[ i ];
 			if ( range.endContainer.equals( root ) ) {
