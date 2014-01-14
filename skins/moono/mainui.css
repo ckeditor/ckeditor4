@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -117,7 +117,7 @@ Special outer level classes used in this file:
 	background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
 	background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
 	background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff5f5f5', endColorstr='#ffcfd1cf');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
 
 .cke_float .cke_top
@@ -144,9 +144,15 @@ Special outer level classes used in this file:
 	background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
 	background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
 	background-image: linear-gradient(top, #ebebeb, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffebebeb', endColorstr='#cfd1cf');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
 }
 
+/* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+.cke_browser_ios .cke_contents
+{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
 
 /* The resizer is the small UI element that is rendered at the bottom right
    part of the editor. It makes is possible to resize the editor UI. */

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'fr-ca', {
 	bgColor: 'Couleur de fond',
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'fr-ca', {
 	title: 'Propriétés du document',
 	txtColor: 'Couleur de caractère',
 	xhtmlDec: 'Inclure les déclarations XHTML'
-});
+} );

@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -134,11 +134,30 @@ Special outer level classes used in this file:
 	filter: alpha(opacity=30);
 }
 
+.cke_menubutton_on
+{
+	border: 1px solid #ccc;
+	background-color: #e9f5ff;
+}
+
+.cke_menubutton_on .cke_menubutton_icon
+{
+	padding-right: 3px;
+}
+
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active
 {
 	background-color: #D3D3D3;
+}
+
+.cke_menubutton_on:hover,
+.cke_menubutton_on:focus,
+.cke_menubutton_on:active
+{
+	border-color: #316ac5;
+	background-color: #dff1ff;
 }
 
 .cke_panel_frame .cke_menubutton_label

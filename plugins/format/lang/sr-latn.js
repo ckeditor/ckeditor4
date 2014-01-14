@@ -1,12 +1,12 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'sr-latn', {
 	label: 'Format',
 	panelTitle: 'Format',
 	tag_address: 'Adresa',
-	tag_div: 'Normal (DIV)', // MISSING
+	tag_div: 'Normalno (DIV)',
 	tag_h1: 'Naslov 1',
 	tag_h2: 'Naslov 2',
 	tag_h3: 'Naslov 3',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sr-latn', {
 	tag_h6: 'Naslov 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatirano'
-});
+} );

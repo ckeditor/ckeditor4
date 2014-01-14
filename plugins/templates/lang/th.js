@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'th', {
 	button: 'เทมเพลต',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'th', {
 	options: 'ตัวเลือกเกี่ยวกับเทมเพลท',
 	selectPromptMsg: 'กรุณาเลือก เทมเพลต เพื่อนำไปแก้ไขในอีดิตเตอร์<br />(เนื้อหาส่วนนี้จะหายไป):',
 	title: 'เทมเพลตของส่วนเนื้อหาเว็บไซต์'
-});
+} );

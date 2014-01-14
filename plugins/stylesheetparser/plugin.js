@@ -1,13 +1,13 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @fileOverview stylesheetParser plugin.
  */
 
-(function() {
+( function() {
 	// We want to extract only the elements with classes defined in the stylesheets:
 	function parseClasses( aRules, skipSelectors, validSelectors ) {
 		// aRules are just the different rules in the style sheets
@@ -75,11 +75,11 @@
 				element = oElement[ 0 ].toLowerCase(),
 				sClassName = oElement[ 1 ];
 
-			styles.push({
+			styles.push( {
 				name: element + '.' + sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
-			});
+			} );
 		}
 
 		return styles;
@@ -118,8 +118,8 @@
 				} );
 			}, null, null, 1 );
 		}
-	});
-})();
+	} );
+} )();
 
 
 /**

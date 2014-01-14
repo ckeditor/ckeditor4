@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'zh', {
-	border: 'Show frame border', // MISSING
-	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
-	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame' // MISSING
-});
+	border: '顯示框架框線',
+	noUrl: '請輸入 iframe URL',
+	scrolling: '啟用捲軸列',
+	title: 'IFrame 屬性',
+	toolbar: 'IFrame'
+} );

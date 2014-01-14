@@ -1,12 +1,12 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var meta = {
 		editorFocus: false,
-		modes: { wysiwyg:1,source:1 }
+		modes: { wysiwyg: 1, source: 1 }
 	};
 
 	var blurCommand = {
@@ -25,14 +25,14 @@
 		return {
 			editorFocus: false,
 			canUndo: false,
-			modes: { wysiwyg:1 },
+			modes: { wysiwyg: 1 },
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
 					var sel = editor.getSelection(),
 						path = new CKEDITOR.dom.elementPath( sel.getCommonAncestor(), sel.root ),
 						cell;
 
-					if ( ( cell = path.contains( { td:1,th:1 }, 1 ) ) ) {
+					if ( ( cell = path.contains( { td: 1, th: 1 }, 1 ) ) ) {
 						var resultRange = editor.createRange(),
 							next = CKEDITOR.tools.tryThese( function() {
 								var row = cell.getParent(),
@@ -47,7 +47,7 @@
 									nextRow = table.$.rows[ row.$.rowIndex + ( backward ? -1 : 1 ) ];
 
 								return nextRow.cells[ backward ? nextRow.cells.length - 1 : 0 ];
-							});
+							} );
 
 						// Clone one more row at the end of table and select the first newly established cell.
 						if ( !( next || backward ) ) {
@@ -58,7 +58,7 @@
 
 							for ( var i = 0, count = cells.length; i < count; i++ ) {
 								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
-								!CKEDITOR.env.ie && newCell.appendBogus();
+								newCell.appendBogus();
 							}
 
 							resultRange.moveToElementEditStart( newRow );
@@ -97,7 +97,7 @@
 						editor.insertHtml( tabText );
 						ev.cancel();
 					}
-				});
+				} );
 			}
 
 			if ( tabTools ) {
@@ -105,7 +105,7 @@
 					if ( ev.data.keyCode == 9 && editor.execCommand( 'selectNextCell' ) || // TAB
 					ev.data.keyCode == ( CKEDITOR.SHIFT + 9 ) && editor.execCommand( 'selectPreviousCell' ) ) // SHIFT+TAB
 					ev.cancel();
-				});
+				} );
 			}
 
 			editor.addCommand( 'blur', CKEDITOR.tools.extend( blurCommand, meta ) );
@@ -113,8 +113,8 @@
 			editor.addCommand( 'selectNextCell', selectNextCellCommand() );
 			editor.addCommand( 'selectPreviousCell', selectNextCellCommand( true ) );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Moves the UI focus to the element following this element in the tabindex order.

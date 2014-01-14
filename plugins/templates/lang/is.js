@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'is', {
 	button: 'Sniðmát',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'is', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'Veldu sniðmát til að opna í ritlinum.<br>(Núverandi innihald víkur fyrir því!):',
 	title: 'Innihaldssniðmát'
-});
+} );

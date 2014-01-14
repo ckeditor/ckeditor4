@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ko', {
 	button: {
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		type: '종류',
 		typeText: '문자열',
 		typePass: '비밀번호',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: '이메일',
+		typeSearch: '검색',
+		typeTel: '전화번호',
 		typeUrl: 'URL'
 	}
-});
+} );

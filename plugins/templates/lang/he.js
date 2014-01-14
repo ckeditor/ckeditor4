@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'he', {
 	button: 'תבניות',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'he', {
 	options: 'אפשרויות התבניות',
 	selectPromptMsg: 'יש לבחור תבנית לפתיחה בעורך.<br />התוכן המקורי ימחק:',
 	title: 'תביות תוכן'
-});
+} );

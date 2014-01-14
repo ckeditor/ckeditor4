@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 'use strict';
 
-(function() {
+( function() {
 	/**
 	 * A lightweight representation of HTML node.
 	 *
@@ -93,6 +93,58 @@
 			node.previous = this;
 
 			this.parent = node.parent;
+		},
+
+		/**
+		 * Gets the closest ancestor element of this element which satisfies given condition
+		 *
+		 * @since 4.3
+		 * @param {String/Object/Function} condition Name of an ancestor, hash of names or validator function.
+		 * @returns {CKEDITOR.htmlParser.element} The closest ancestor which satisfies given condition or `null`.
+		 */
+		getAscendant: function( condition ) {
+			var checkFn =
+				typeof condition == 'function' ?	condition :
+				typeof condition == 'string' ?		function( el ) { return el.name == condition; } :
+													function( el ) { return el.name in condition; };
+
+			var parent = this.parent;
+
+			// Parent has to be an element - don't check doc fragment.
+			while ( parent && parent.type == CKEDITOR.NODE_ELEMENT ) {
+				if ( checkFn( parent ) )
+					return parent;
+				parent = parent.parent;
+			}
+
+			return null;
+		},
+
+		/**
+		 * Wraps this element with given `wrapper`.
+		 *
+		 * @since 4.3
+		 * @param {CKEDITOR.htmlParser.element} wrapper The element which will be this element's new parent.
+		 * @returns {CKEDITOR.htmlParser.element} Wrapper.
+		 */
+		wrapWith: function( wrapper ) {
+			this.replaceWith( wrapper );
+			wrapper.add( this );
+			return wrapper;
+		},
+
+		/**
+		 * Gets this node's index in its parent's children array.
+		 *
+		 * @since 4.3
+		 * @returns {Number}
+		 */
+		getIndex: function() {
+			return CKEDITOR.tools.indexOf( this.parent.children, this );
+		},
+
+		getFilterContext: function( context ) {
+			return context || {};
 		}
 	};
-})();
+} )();

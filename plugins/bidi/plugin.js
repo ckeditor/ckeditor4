@@ -1,15 +1,15 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
-	var guardElements = { table:1,ul:1,ol:1,blockquote:1,div:1 },
+( function() {
+	var guardElements = { table: 1, ul: 1, ol: 1, blockquote: 1, div: 1 },
 		directSelectionGuardElements = {},
 		// All guard elements which can have a direction applied on them.
 		allGuardElements = {};
-	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr:1,p:1,div:1,li:1 } );
-	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td:1 } );
+	CKEDITOR.tools.extend( directSelectionGuardElements, guardElements, { tr: 1, p: 1, div: 1, li: 1 } );
+	CKEDITOR.tools.extend( allGuardElements, directSelectionGuardElements, { td: 1 } );
 
 	function setToolbarStates( editor, path ) {
 		var useComputedState = editor.config.useComputedState,
@@ -198,8 +198,9 @@
 	}
 
 	CKEDITOR.plugins.add( 'bidi', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'bidiltr,bidirtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			if ( editor.blockless )
 				return;
@@ -214,14 +215,11 @@
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'bidi,' + order
-					});
+					} );
 				}
 			}
 
 			var lang = editor.lang.bidi;
-
-			if ( editor.ui.addToolbarGroup )
-				editor.ui.addToolbarGroup( 'bidi', 'align', 'paragraph' );
 
 			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
 			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 20 );
@@ -231,9 +229,9 @@
 					editor.fire( 'dirChanged', {
 						node: evt.data,
 						dir: evt.data.getDirection( 1 )
-					});
-				});
-			});
+					} );
+				} );
+			} );
 
 			// Indicate that the current selection is in different direction than the UI.
 			editor.on( 'contentDirChanged', function( evt ) {
@@ -241,9 +239,9 @@
 				var toolbar = editor.ui.space( editor.config.toolbarLocation );
 				if ( toolbar )
 					toolbar[ func ]( 'cke_mixed_dir_content' );
-			});
+			} );
 		}
-	});
+	} );
 
 	// If the element direction changed, we need to switch the margins of
 	// the element and all its children, so it will get really reflected
@@ -284,7 +282,7 @@
 		methods = [ 'setStyle', 'removeStyle', 'setAttribute', 'removeAttribute' ];
 	for ( var i = 0; i < methods.length; i++ )
 		elementProto[ methods[ i ] ] = CKEDITOR.tools.override( elementProto[ methods[ i ] ], dirChangeNotifier );
-})();
+} )();
 
 /**
  * Fired when the language direction of an element is changed.

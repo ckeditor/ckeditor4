@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
@@ -95,7 +95,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	ocirc: 'Latin small letter o with circumflex', // MISSING
 	otilde: 'Latin small letter o with tilde', // MISSING
 	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
+	divide: 'بۆلۈش بەلگىسى',
 	oslash: 'Latin small letter o with stroke', // MISSING
 	ugrave: 'Latin small letter u with grave accent', // MISSING
 	uacute: 'Latin small letter u with acute accent', // MISSING
@@ -114,7 +114,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	'8219': 'Single high-reversed-9 quotation mark', // MISSING
 	bdquo: 'Double low-9 quotation mark', // MISSING
 	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
+	trade: 'خەتلەتكەن تاۋار ماركىسى بەلگىسى',
 	'9658': 'Black right-pointing pointer', // MISSING
 	bull: 'Bullet', // MISSING
 	rarr: 'ئوڭ يا ئوق',
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ug', {
 	hArr: 'ئوڭ سول قوش سىزىق يا ئوق',
 	diams: 'ئۇيۇل غىچ',
 	asymp: 'تەخمىنەن تەڭ'
-});
+} );

@@ -1,10 +1,10 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'devtools', {
-	lang: 'en,bg,cs,cy,da,de,el,eo,et,fa,fi,fr,gu,he,hr,it,ku,nb,nl,no,pl,tr,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,gu,he,hr,hu,id,it,ja,km,ko,ku,lt,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {
 		editor._.showDialogDefinitionTooltips = 1;
@@ -14,9 +14,9 @@ CKEDITOR.plugins.add( 'devtools', {
 			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
 			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }' );
 	}
-});
+} );
 
-(function() {
+( function() {
 	function defaultCallback( editor, dialog, element, tabName ) {
 		var lang = editor.lang.devtools,
 			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
@@ -56,7 +56,7 @@ CKEDITOR.plugins.add( 'devtools', {
 	CKEDITOR.on( 'reset', function() {
 		tooltip && tooltip.remove();
 		tooltip = null;
-	});
+	} );
 
 	CKEDITOR.on( 'dialogDefinition', function( evt ) {
 		var editor = evt.editor;
@@ -66,10 +66,10 @@ CKEDITOR.plugins.add( 'devtools', {
 				tooltip.hide();
 				tooltip.on( 'mouseover', function() {
 					this.show();
-				});
+				} );
 				tooltip.on( 'mouseout', function() {
 					this.hide();
-				});
+				} );
 				tooltip.appendTo( CKEDITOR.document.getBody() );
 			}
 
@@ -84,30 +84,30 @@ CKEDITOR.plugins.add( 'devtools', {
 					tab.on( 'mouseover', function() {
 						var id = this.$.id;
 						showTooltip( callback, this, editor, dialog, null, id.substring( 4, id.lastIndexOf( '_' ) ) );
-					});
+					} );
 					tab.on( 'mouseout', function() {
 						tooltip.hide();
-					});
+					} );
 				}
 
 				dialog.foreach( function( obj ) {
-					if ( obj.type in { hbox:1,vbox:1 } )
+					if ( obj.type in { hbox: 1, vbox: 1 } )
 						return;
 
 					var el = obj.getElement();
 					if ( el ) {
 						el.on( 'mouseover', function() {
 							showTooltip( callback, this, editor, dialog, obj, dialog._.currentTabId );
-						});
+						} );
 						el.on( 'mouseout', function() {
 							tooltip.hide();
-						});
+						} );
 					}
-				});
-			});
+				} );
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * A function that returns the text to be displayed inside the Developer Tools

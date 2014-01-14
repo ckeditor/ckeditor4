@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -9,20 +9,14 @@
 
 'use strict';
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'magicline', {
-		lang: 'en,pl', // %REMOVE_LINE_CORE%
+		lang: 'ar,bg,ca,cs,cy,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: initPlugin
-	});
+	} );
 
 	// Activates the box inside of an editor.
 	function initPlugin( editor ) {
-
-		var enterBehaviors = {};
-		enterBehaviors[ CKEDITOR.ENTER_BR ] = 'br';
-		enterBehaviors[ CKEDITOR.ENTER_P ] = 'p';
-		enterBehaviors[ CKEDITOR.ENTER_DIV ] = 'div';
-
 		// Configurables
 		var config = editor.config,
 			triggerOffset = config.magicline_triggerOffset || 30,
@@ -30,13 +24,13 @@
 			that = {
 				// Global stuff is being initialized here.
 				editor: editor,
-				enterBehavior: enterBehaviors[ enterMode ], 		// A tag which is to be inserted by the magicline.
 				enterMode: enterMode,
 				triggerOffset: triggerOffset,
 				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
 				boxColor: config.magicline_color || '#ff0000',
 				rtl: config.contentsLangDirection == 'rtl',
-				triggers: config.magicline_everywhere ? DTD_BLOCK : { table:1,hr:1,div:1,ul:1,ol:1,dl:1,form:1,blockquote:1 }
+				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
+				triggers: config.magicline_everywhere ? DTD_BLOCK : { table: 1, hr: 1, div: 1, ul: 1, ol: 1, dl: 1, form: 1, blockquote: 1 }
 			},
 			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
 
@@ -85,7 +79,8 @@
 				editable: editable,
 				inInlineMode: editable.isInline(),
 				doc: doc,
-				win: win
+				win: win,
+				hotNode: null
 			}, true );
 
 			// This is the boundary of the editor. For inline the boundary is editable itself.
@@ -100,11 +95,11 @@
 			// Handle in-line editing by setting appropriate position.
 			// If current position is static, make it relative and clear top/left coordinates.
 			if ( that.inInlineMode && !isPositioned( editable ) ) {
-				editable.setStyles({
+				editable.setStyles( {
 					position: 'relative',
 					top: null,
 					left: null
-				});
+				} );
 			}
 			// Enable the box. Let it produce children elements, initialize
 			// event handlers and own methods.
@@ -120,7 +115,7 @@
 			// Thanks to that, undo doesn't even know about the existence of the box.
 			editable.attachListener( editor, 'beforeUndoImage', function() {
 				that.line.detach();
-			});
+			} );
 
 			// Removes the box HTML from editor data string if getData is called.
 			// Thanks to that, an editor never yields data polluted by the box.
@@ -170,14 +165,14 @@
 					checkMouseTimer = null;
 					that.line.detach();
 				}
-			});
+			} );
 
 			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
 			editable.attachListener( editable, 'keyup', function( event ) {
 				that.hiddenMode = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			});
+			} );
 
 			editable.attachListener( editable, 'keydown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
@@ -196,7 +191,7 @@
 				}
 
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			});
+			} );
 
 			// This method ensures that checkMouse aren't executed
 			// in parallel and no more frequently than specified in timeout function.
@@ -219,7 +214,7 @@
 				checkMouseTimer = setTimeout( function() {
 					checkMouse( mouse );
 				}, 30 ); // balances performance and accessibility
-			});
+			} );
 
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
@@ -236,35 +231,40 @@
 
 					clearTimeout( scrollTimeout );
 					scrollTimeout = setTimeout( function() {
-						that.hiddenMode = 0;
+						// Don't leave hidden mode until mouse remains pressed and
+						// scroll is being used, i.e. when dragging something.
+						if ( !that.mouseDown )
+							that.hiddenMode = 0;
 						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 					}, 50 );
 
 					that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 				}
-			});
+			} );
 
 			// Those event handlers remove the box on mousedown
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			editable.attachListener( win, 'mousedown', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function( event ) {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
 				that.line.detach();
 				that.hiddenMode = 1;
+				that.mouseDown = 1;
 
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			});
+			} );
 
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			editable.attachListener( win, 'mouseup', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function( event ) {
 				that.hiddenMode = 0;
+				that.mouseDown = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			});
+			} );
 
 			// Editor commands for accessing difficult focus spaces.
 			editor.addCommand( 'accessPreviousSpace', accessFocusSpaceCmd( that ) );
@@ -277,16 +277,21 @@
 
 			// Revert magicline hot node on undo/redo.
 			editor.on( 'loadSnapshot', function( event ) {
-				var elements = editor.document.getElementsByTag( that.enterBehavior ),
-					element;
+				var elements, element, i;
 
-				for ( var i = elements.count(); i--; ) {
-					if ( ( element = elements.getItem( i ) ).hasAttribute( 'data-cke-magicline-hot' ) ) {
-						// Restore hotNode
-						that.hotNode = element;
-						// Restore last access direction
-						that.lastCmdDirection = element.getAttribute( 'data-cke-magicline-dir' ) === 'true' ? true : false;
-						break;
+				for ( var t in { p: 1, br: 1, div: 1 } ) {
+					// document.find is not available in QM (#11149).
+					elements = editor.document.getElementsByTag( t );
+
+					for ( i = elements.count(); i--; ) {
+						if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
+							// Restore hotNode
+							that.hotNode = element;
+							// Restore last access direction
+							that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
+
+							return;
+						}
 					}
 				}
 			} );
@@ -311,8 +316,10 @@
 					&& !that.line.mouseNear() 								// 	-> Mouse pointer can't be close to the box.
 					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
 				{
-					// If trigger exists, and trigger is correct -> show the box
-					if ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) {
+					// If trigger exists, and trigger is correct -> show the box.
+					// Don't show the line if trigger is a descendant of some tabu-list element.
+					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
+						!isInTabu( that, that.trigger.upper || that.trigger.lower ) ) {
 						that.line.attach().place();
 					}
 
@@ -354,7 +361,11 @@
 		newElement = CKEDITOR.dom.element,
 		newElementFromHtml = newElement.createFromHtml,
 		env = CKEDITOR.env,
+		env_ie8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9,
 		dtd = CKEDITOR.dtd,
+
+		// Global object associating enter modes with elements.
+		enterElements = {},
 
 		// Constant values, types and so on.
 		EDGE_TOP = 128,
@@ -380,10 +391,14 @@
 		CSS_TRIANGLE = CSS_COMMON + 'border-color:transparent;display:block;border-style:solid;',
 		TRIANGLE_HTML = '<span>' + WHITE_SPACE + '</span>';
 
+	enterElements[ CKEDITOR.ENTER_BR ] = 'br';
+	enterElements[ CKEDITOR.ENTER_P ] = 'p';
+	enterElements[ CKEDITOR.ENTER_DIV ] = 'div';
+
 	function areSiblings( that, upper, lower ) {
 		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( function( node ) {
 			return !( isEmptyTextNode( node ) || isComment( node ) || isFlowBreaker( node ) );
-		}) );
+		} ) );
 	}
 
 	// boxTrigger is an abstract type which describes
@@ -435,9 +450,8 @@
 
 			// Return nothing if:
 			//	\-> Element is not HTML.
-			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) ) {
+			if ( !( element && element.type == CKEDITOR.NODE_ELEMENT && element.$ ) )
 				return null;
-			}
 
 			// Also return nothing if:
 			//	\-> We're IE<9 and element is out of the top-level element (editable for inline and HTML for framed).
@@ -451,7 +465,7 @@
 
 			return element;
 		};
-	})();
+	} )();
 
 	// Gets the closest parent node that belongs to triggers group.
 	function getAscendantTrigger( that ) {
@@ -459,9 +473,25 @@
 			trigger;
 
 		if ( node && isHtml( node ) ) {
-			return ( trigger = node.getAscendant( that.triggers, true ) ) &&
-				!trigger.contains( that.editable ) &&
-				!trigger.equals( that.editable ) ? trigger : null;
+			trigger = node.getAscendant( that.triggers, true );
+
+			// If trigger is an element, neither editable nor editable's ascendant.
+			if ( trigger && that.editable.contains( trigger ) ) {
+				// Check for closest editable limit.
+				var limit = getClosestEditableLimit( trigger, true );
+
+				// Trigger in nested editable area.
+				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
+					return trigger;
+				// Trigger in non-editable area.
+				else if ( limit.is( that.triggers ) )
+					return limit;
+				else
+					return null;
+
+				return trigger;
+			} else
+				return null;
 		}
 
 		return null;
@@ -485,13 +515,36 @@
 		node = node[ goBack ? 'getPrevious' : 'getNext' ]( function( node ) {
 			return ( isTextNode( node ) && !isEmptyTextNode( node ) ) ||
 				( isHtml( node ) && !isFlowBreaker( node ) && !isLine( that, node ) );
-		});
+		} );
 
 		return node;
 	}
 
 	function inBetween( val, lower, upper ) {
 		return val > lower && val < upper;
+	}
+
+	// Returns the closest ancestor that has contenteditable attribute.
+	// Such ancestor is the limit of (non-)editable DOM branch that element
+	// belongs to. This method omits editor editable.
+	function getClosestEditableLimit( element, includeSelf ) {
+		if ( element.data( 'cke-editable' ) )
+			return null;
+
+		if ( !includeSelf )
+			element = element.getParent();
+
+		while ( element ) {
+			if ( element.data( 'cke-editable' ) )
+				return null;
+
+			if ( element.hasAttribute( 'contenteditable' ) )
+				return element;
+
+			element = element.getParent();
+		}
+
+		return null;
 	}
 
 	// Access space line consists of a few elements (spans):
@@ -512,7 +565,8 @@
 	function initLine( that ) {
 		var doc = that.doc,
 			// This the main box element that holds triangles and the insertion button
-			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc );
+			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc ),
+			iconPath = this.path + 'images/' + ( env.hidpi ? 'hidpi/' : '' ) + 'icon.png';
 
 		extend( line, {
 
@@ -530,14 +584,15 @@
 					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
 						'" contenteditable="false">&#8629;</span>', doc ), {
 					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-						+ 'background:url(' + this.path + 'images/icon.png) center no-repeat ' + that.boxColor + ';cursor:pointer;'
-						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ),
+						+ 'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;'
+						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' )
+						+ ( env.hidpi ? 'background-size: 9px 10px;' : '' ),
 					looks: [
 						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
 						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
 						'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
 					]
-				}),
+				} ),
 				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
 					looks: [
@@ -545,7 +600,7 @@
 						'border-width:8px 0 0 8px;top:-8px',
 						'border-width:0 0 8px 8px;top:0px'
 					]
-				}),
+				} ),
 				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'right:0px;border-right-color:' + that.boxColor + ';',
 					looks: [
@@ -553,7 +608,7 @@
 						'border-width:8px 8px 0 0;top:-8px',
 						'border-width:0 8px 8px 0;top:0px'
 					]
-				})
+				} )
 			],
 
 			detach: function() {
@@ -691,7 +746,7 @@
 
 			wrap: new newElement( 'span', that.doc )
 
-		});
+		} );
 
 		// Insert children into the box.
 		for ( var i = line.lineChildren.length; i--; )
@@ -726,12 +781,12 @@
 				that.hotNode.scrollIntoView();
 
 			event.data.preventDefault( true );
-		});
+		} );
 
 		// Prevents IE9 from displaying the resize box and disables drag'n'drop functionality.
 		line.on( 'mousedown', function( event ) {
 			event.data.preventDefault( true );
-		});
+		} );
 
 		that.line = line;
 	}
@@ -754,9 +809,19 @@
 
 		// In other cases a regular element is used.
 		else {
-			accessNode = new newElement( that.enterBehavior, that.doc );
+			// Use the enterMode of editable's limit or editor's
+			// enter mode if not in nested editable.
+			var limit = getClosestEditableLimit( that.element, true ),
 
-			if ( that.enterMode != CKEDITOR.ENTER_BR ) {
+				// This is an enter mode for the context. We cannot use
+				// editor.activeEnterMode because the focused nested editable will
+				// have a different enterMode as editor but magicline will be inserted
+				// directly into editor's editable.
+				enterMode = limit && limit.data( 'cke-enter-mode' ) || that.enterMode;
+
+			accessNode = new newElement( enterElements[ enterMode ], that.doc );
+
+			if ( !accessNode.is( 'br' ) ) {
 				var dummy = that.doc.createText( WHITE_SPACE );
 				dummy.appendTo( accessNode );
 			}
@@ -844,7 +909,7 @@
 						that.lastCmdDirection = !!insertAfter;
 					} );
 
-					if( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
+					if ( !env.ie && that.enterMode != CKEDITOR.ENTER_BR )
 						that.hotNode.scrollIntoView();
 
 					// Detach the line if was visible (previously triggered by mouse).
@@ -852,17 +917,27 @@
 				}
 
 				return function( editor ) {
-					var selected = editor.getSelection().getStartElement();
+					var selected = editor.getSelection().getStartElement(),
+						limit;
 
 					// (#9833) Go down to the closest non-inline element in DOM structure
 					// since inline elements don't participate in in magicline.
 					selected = selected.getAscendant( DTD_BLOCK, 1 );
+
+					// Stop if selected is a child of a tabu-list element.
+					if ( isInTabu( that, selected ) )
+						return;
 
 					// Sometimes it may happen that there's no parent block below selected element
 					// or, for example, getAscendant reaches editable or editable parent.
 					// We must avoid such pathological cases.
 					if ( !selected || selected.equals( that.editable ) || selected.contains( that.editable ) )
 						return;
+
+					// Executing the command directly in nested editable should
+					// access space before/after it.
+					if ( ( limit = getClosestEditableLimit( selected ) ) && limit.getAttribute( 'contenteditable' ) == 'false' )
+						selected = limit;
 
 					// That holds element from mouse. Replace it with the
 					// element under the caret.
@@ -919,7 +994,7 @@
 						return;
 					}
 				};
-			})()
+			} )()
 		};
 	}
 
@@ -944,7 +1019,7 @@
 		if ( !isHtml( element ) )
 			return false;
 
-		var options = { left:1,right:1,center:1 };
+		var options = { left: 1, right: 1, center: 1 };
 
 		return !!( options[ element.getComputedStyle( 'float' ) ] || options[ element.getAttribute( 'align' ) ] );
 	}
@@ -960,7 +1035,7 @@
 	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
 	function isPositioned( element ) {
-		return !!{ absolute:1,fixed:1,relative:1 }[ element.getComputedStyle( 'position' ) ];
+		return !!{ absolute: 1, fixed: 1 }[ element.getComputedStyle( 'position' ) ];
 	}
 
 	// Is text node?
@@ -972,13 +1047,29 @@
 		return isHtml( element ) ? element.is( that.triggers ) : null;
 	}
 
+	function isInTabu( that, element ) {
+		if ( !element )
+			return false;
+
+		var parents = element.getParents( 1 );
+
+		for ( var i = parents.length ; i-- ; ) {
+			for ( var j = that.tabuList.length ; j-- ; ) {
+				if ( parents[ i ].hasAttribute( that.tabuList[ j ] ) )
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	// This function checks vertically is there's a relevant child between element's edge
 	// and the pointer.
 	//	\-> Table contents are omitted.
 	function isChildBetweenPointerAndEdge( that, parent, edgeBottom ) {
 		var edgeChild = parent[ edgeBottom ? 'getLast' : 'getFirst' ]( function( node ) {
 			return that.isRelevant( node ) && !node.is( DTD_TABLECONTENT );
-		});
+		} );
 
 		if ( !edgeChild )
 			return false;
@@ -1033,7 +1124,7 @@
 		// Edge node according to bottomTrigger.
 		edgeNode = editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( function( node ) {
 			return !( isEmptyTextNode( node ) || isComment( node ) );
-		});
+		} );
 
 		// There's no edge node. Abort.
 		if ( !edgeNode ) {
@@ -1045,7 +1136,7 @@
 		if ( isLine( that, edgeNode ) ) {
 			edgeNode = that.line.wrap[ bottomTrigger ? 'getPrevious' : 'getNext' ]( function( node ) {
 				return !( isEmptyTextNode( node ) || isComment( node ) );
-			});
+			} );
 		}
 
 		// Exclude bad nodes (no ML needed then):
@@ -1183,7 +1274,7 @@
 		// 	\-> Reject an element which is a flow breaker.
 		// 	\-> Reject an element which has a child above/below the mouse pointer.
 		//	\-> Reject an element which belongs to list items.
-		if( isFlowBreaker( element ) ||
+		if ( isFlowBreaker( element ) ||
 			isChildBetweenPointerAndEdge( that, element, bottomTrigger ) ||
 			element.getParent().is( DTD_LISTITEM ) ) {
 				that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
@@ -1208,9 +1299,9 @@
 					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height ) ) {
 						triggerLook = LOOK_BOTTOM;
 				}
-				else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) ) {
+				else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) )
 					triggerLook = LOOK_TOP;
-				}
+
 			}
 			else
 				triggerLook = LOOK_NORMAL;
@@ -1239,7 +1330,7 @@
 			// 	\-> Reject an elementSibling which is a flow breaker.
 			//	\-> Reject an elementSibling which isn't a trigger.
 			//	\-> Reject an elementSibling which belongs to list items.
-			if( isFlowBreaker( elementSibling ) ||
+			if ( isFlowBreaker( elementSibling ) ||
 				!isTrigger( that, elementSibling ) ||
 				elementSibling.getParent().is( DTD_LISTITEM ) ) {
 					that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
@@ -1306,6 +1397,10 @@
 				return null;
 			}
 
+			// Stop searching if element is in non-editable branch of DOM.
+			if ( startElement.isReadOnly() )
+				return null;
+
 			trigger = verticalSearch( that,
 				function( current, startElement ) {
 					return !startElement.equals( current );	// stop when start element and the current one differ
@@ -1358,7 +1453,7 @@
 			} else {
 				upper = startElement.getFirst( function( node ) {
 					return expandSelector( that, node );
-				});
+				} );
 			}
 
 			if ( lower && startElement.contains( lower ) ) {
@@ -1367,7 +1462,7 @@
 			} else {
 				lower = startElement.getLast( function( node ) {
 					return expandSelector( that, node );
-				});
+				} );
 			}
 
 			// 1.3.
@@ -1503,13 +1598,13 @@
 			that.debug.groupEnd(); // %REMOVE_LINE%
 			return trigger && expandFilter( that, trigger ) ? trigger : null;
 		};
-	})();
+	} )();
 
 	// Collects dimensions of an element.
 	var sizePrefixes = [ 'top', 'left', 'right', 'bottom' ];
 
 	function getSize( that, element, ignoreScroll, force ) {
-		var getStyle = (function() {
+		var getStyle = ( function() {
 			// Better "cache and reuse" than "call again and again".
 			var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
 
@@ -1519,7 +1614,7 @@
 					} : function( propertyName ) {
 						return computed.getPropertyValue( propertyName );
 					};
-			})(),
+			} )(),
 			docPosition = element.getDocumentPosition(),
 			border = {},
 			margin = {},
@@ -1553,7 +1648,7 @@
 			};
 		}
 
-		return extend({
+		return extend( {
 			border: border,
 			padding: padding,
 			margin: margin,
@@ -1659,7 +1754,7 @@
 		return new boxTrigger( [ upper, lower, null, null ] );
 	}
 
-})();
+} )();
 
 /**
  * Sets the default vertical distance between element edge and mouse pointer that
@@ -1693,10 +1788,10 @@
  *		// Changes keystroke to CTRL + ,
  *		CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + 188;
  *
- * @cfg {Number} [magicline_keystrokePrevious=CKEDITOR.CTRL + CKEDITOR.SHIFT + 219 (CTRL + SHIFT + [)]
+ * @cfg {Number} [magicline_keystrokePrevious=CKEDITOR.CTRL + CKEDITOR.SHIFT + 51 (CTRL + SHIFT + 3)]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 219; // CTRL + SHIFT + [
+CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 51; // CTRL + SHIFT + 3
 
 /**
  * Defines default keystroke that access the closest unreachable focus space **after**
@@ -1705,10 +1800,21 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 2
  *		// Changes keystroke to CTRL + .
  *		CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + 190;
  *
- * @cfg {Number} [magicline_keystrokeNext=CKEDITOR.CTRL + CKEDITOR.SHIFT + 221 (CTRL + SHIFT + ])]
+ * @cfg {Number} [magicline_keystrokeNext=CKEDITOR.CTRL + CKEDITOR.SHIFT + 52 (CTRL + SHIFT + 4)]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 221; // CTRL + SHIFT + ]
+CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; // CTRL + SHIFT + 4
+
+/**
+ * Defines a list of attributes that, if assigned to some elements, prevent magicline from being
+ * used within these elements.
+ *
+ *		// Adds "data-tabu" attribute to magicline tabu list.
+ *		CKEDITOR.config.magicline_tabuList = [ 'data-tabu' ];
+ *
+ * @cfg {Number} [magicline_tabuList=[ 'data-widget-wrapper' ]]
+ * @member CKEDITOR.config
+ */
 
 /**
  * Defines box color. The color may be adjusted to enhance readability.

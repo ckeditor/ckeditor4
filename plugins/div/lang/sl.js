@@ -1,19 +1,19 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'sl', {
 	IdInputLabel: 'Id',
 	advisoryTitleInputLabel: 'Predlagani naslov',
 	cssClassInputLabel: 'Razred stilne predloge',
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
+	edit: 'Uredi Div',
+	inlineStyleInputLabel: 'Inline Slog',
 	langDirLTRLabel: 'Od leve proti desni (LTR)',
 	langDirLabel: 'Smer jezika',
 	langDirRTLLabel: 'Od desne proti levi (RTL)',
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
+	languageCodeInputLabel: 'Koda Jezika',
+	remove: 'Odstrani Div',
 	styleSelectLabel: 'Slog',
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
-});
+	title: 'Ustvari Div Posodo',
+	toolbar: 'Ustvari Div Posodo'
+} );

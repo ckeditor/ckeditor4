@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 	button: {
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		type: '类型',
 		typeText: '文本',
 		typePass: '密码',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: '搜索',
+		typeTel: '电话号码',
 		typeUrl: '地址'
 	}
-});
+} );

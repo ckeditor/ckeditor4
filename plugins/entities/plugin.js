@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// Base HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
 
@@ -67,7 +67,7 @@
 			table[ org ] = result;
 			regex.push( org );
 			return '';
-		});
+		} );
 
 		if ( !reverse && entities ) {
 			// Transforms the entities string into an array.
@@ -147,15 +147,18 @@
 					return baseEntitiesTable[ character ];
 				}
 
-				htmlFilter.addRules({
+				htmlFilter.addRules( {
 					text: function( text ) {
 						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
 					}
-				});
+				}, {
+					applyToAll: true,
+					excludeNestedEditable: true
+				} );
 			}
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Whether to escape basic HTML entities in the document, including:

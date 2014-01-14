@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'eu', {
 	border: 'Ertzaren Zabalera',
@@ -70,5 +70,5 @@ CKEDITOR.plugins.setLang( 'table', 'eu', {
 	toolbar: 'Taula',
 	widthPc: 'ehuneko',
 	widthPx: 'pixel',
-	widthUnit: 'width unit' // MISSING
-});
+	widthUnit: 'zabalera unitatea'
+} );

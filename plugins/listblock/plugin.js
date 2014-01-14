@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'listblock', {
@@ -17,13 +17,17 @@ CKEDITOR.plugins.add( 'listblock', {
 					'{text}' +
 				'</a>' +
 				'</li>' ),
-			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' );
+			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
+			reSingleQuote = /\'/g,
+			escapeSingleQuotes = function( str ) {
+				return str.replace( reSingleQuote, '\\\'' );
+			};
 
 		CKEDITOR.ui.panel.prototype.addListBlock = function( name, definition ) {
 			return this.addBlock( name, new CKEDITOR.ui.listBlock( this.getHolderElement(), definition ) );
 		};
 
-		CKEDITOR.ui.listBlock = CKEDITOR.tools.createClass({
+		CKEDITOR.ui.listBlock = CKEDITOR.tools.createClass( {
 			base: CKEDITOR.ui.panel.block,
 
 			$: function( blockHolder, blockDefinition ) {
@@ -36,6 +40,9 @@ CKEDITOR.plugins.add( 'listblock', {
 
 				// Call the base contructor.
 				this.base.apply( this, arguments );
+
+				// Set the proper a11y attributes.
+				this.element.setAttribute( 'role', attribs.role );
 
 				var keys = this.keys;
 				keys[ 40 ] = 'next'; // ARROW-DOWN
@@ -54,7 +61,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			_: {
 				close: function() {
 					if ( this._.started ) {
-						var output = list.output({ items: this._.pendingList.join( '' ) } );
+						var output = list.output( { items: this._.pendingList.join( '' ) } );
 						this._.pendingList = [];
 						this._.pendingHtml.push( output );
 						delete this._.started;
@@ -86,10 +93,10 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					var data = {
 						id: id,
-						val: value,
+						val: escapeSingleQuotes( CKEDITOR.tools.htmlEncodeAttr( value ) ),
 						onclick: CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick',
 						clickFn: this._.getClick(),
-						title: title || value,
+						title: CKEDITOR.tools.htmlEncodeAttr( title || value ),
 						text: html || value
 					};
 
@@ -103,7 +110,7 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					this._.groups[ title ] = id;
 
-					this._.pendingHtml.push( listGroup.output({ id: id, label: title } ) );
+					this._.pendingHtml.push( listGroup.output( { id: id, label: title } ) );
 				},
 
 				commit: function() {
@@ -205,12 +212,13 @@ CKEDITOR.plugins.add( 'listblock', {
 				focus: function( value ) {
 					this._.focusIndex = -1;
 
-					if ( value ) {
-						var selected = this.element.getDocument().getById( this._.items[ value ] ).getFirst();
+					var links = this.element.getElementsByTag( 'a' ),
+						link,
+						selected,
+						i = -1;
 
-						var links = this.element.getElementsByTag( 'a' ),
-							link,
-							i = -1;
+					if ( value ) {
+						selected = this.element.getDocument().getById( this._.items[ value ] ).getFirst();
 
 						while ( ( link = links.getItem( ++i ) ) ) {
 							if ( link.equals( selected ) ) {
@@ -218,13 +226,15 @@ CKEDITOR.plugins.add( 'listblock', {
 								break;
 							}
 						}
-
-						setTimeout( function() {
-							selected.focus();
-						}, 0 );
 					}
+					else
+						this.element.focus();
+
+					selected && setTimeout( function() {
+						selected.focus();
+					}, 0 );
 				}
 			}
-		});
+		} );
 	}
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ug', {
 	alertUrl: 'سۈرەت ئادرېسىنى كىرگۈزۈڭ',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ug', {
 	validateBorder: 'گىرۋەك چوڭلۇقى چوقۇم سان بولىدۇ',
 	validateHSpace: 'توغرىسىغا ئارىلىق چوقۇم پۈتۈن سان بولىدۇ',
 	validateVSpace: 'بويىغا ئارىلىق چوقۇم پۈتۈن سان بولىدۇ'
-});
+} );

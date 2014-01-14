@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'ja', {
 	access: 'スプリクトアクセス(AllowScriptAccess)',
@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'ja', {
 	windowModeOpaque: '背景を不透明設定',
 	windowModeTransparent: '背景を透過設定',
 	windowModeWindow: '標準'
-});
+} );

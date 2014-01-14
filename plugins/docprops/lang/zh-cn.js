@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'zh-cn', {
 	bgColor: '背景颜色',
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'zh-cn', {
 	title: '页面属性',
 	txtColor: '文本颜色',
 	xhtmlDec: '包含 XHTML 声明'
-});
+} );

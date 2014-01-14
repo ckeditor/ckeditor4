@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'hr', {
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'hr', {
 	preview: 'Pregled uživo',
 	config: 'Zalijepite ovaj tekst u Vašu config.js datoteku.',
 	predefined: 'Već postavljeni setovi boja'
-});
+} );

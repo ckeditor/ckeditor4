@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -108,7 +108,7 @@ Comments in this file will give more details about each of the above blocks.
 	background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
 	background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
 	background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff5f5f5', endColorstr='#ffcfd1cf');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
 
 /* The outer part of the dialog contants, which contains the contents body
@@ -159,7 +159,7 @@ Comments in this file will give more details about each of the above blocks.
 	background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
 	background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
 	background-image: linear-gradient(top, #ebebeb, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffebebeb', endColorstr='#cfd1cf');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
 }
 
 .cke_rtl .cke_dialog_footer
@@ -250,7 +250,7 @@ a.cke_dialog_tab
 	background-image: -o-linear-gradient(top, #fafafa, #ededed);
 	background-image: -ms-linear-gradient(top, #fafafa, #ededed);
 	background-image: linear-gradient(top, #fafafa, #ededed);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fffafafa', endColorstr='#ffededed');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fafafa', endColorstr='#ededed');
 }
 
 .cke_rtl a.cke_dialog_tab
@@ -301,6 +301,12 @@ a.cke_dialog_tab_selected:hover
 	padding: 2px 6px;
 }
 
+a.cke_dialog_tab_disabled
+{
+	color: #bababa;
+	cursor: default;
+}
+
 /* The .cke_single_page class is appended to the dialog outer element in case
    of dialogs that has no tabs. */
 .cke_single_page .cke_dialog_tabs
@@ -329,6 +335,11 @@ a.cke_dialog_tab_selected:hover
 	width: 20px;
 	top: 5px;
 	z-index: 5;
+}
+
+.cke_hidpi .cke_dialog_close_button {
+	background-image: url(images/hidpi/close.png);
+	background-size: 16px;
 }
 
 .cke_dialog_close_button span
@@ -592,7 +603,7 @@ a.cke_dialog_ui_button
 	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
 	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
 	background-image: linear-gradient(top, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 
 }
 
@@ -612,7 +623,7 @@ a.cke_dialog_ui_button:hover
 	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
 	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
 	background-image: linear-gradient(top, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
 /* 	:focus/:active styles for dialog buttons: regular and footer. */
@@ -672,7 +683,7 @@ a.cke_dialog_ui_button_ok
 	background-image: -o-linear-gradient(top, #9ad717, #69b10b);
 	background-image: linear-gradient(to bottom, #9ad717, #69b10b);
 	background-image: -moz-linear-gradient(top, #9ad717, #69b10b);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ff9ad717', endColorstr='#ff69b10b');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#9ad717', endColorstr='#69b10b');
 }
 
 a.cke_dialog_ui_button_ok:hover
@@ -804,13 +815,16 @@ select.cke_dialog_ui_input_select
 .cke_dialog a.cke_btn_reset
 {
 	float: right;
-	background-position: 0 -32px;
-	background-image: url(images/mini.png);
+	background: url(images/refresh.png) top left no-repeat;
 	width: 16px;
 	height: 16px;
-	background-repeat: no-repeat;
 	border: 1px none;
 	font-size: 1px;
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_reset {
+	background-size: 16px;
+	background-image: url(images/hidpi/refresh.png);
 }
 
 .cke_rtl .cke_dialog a.cke_btn_reset
@@ -822,8 +836,6 @@ select.cke_dialog_ui_input_select
 .cke_dialog a.cke_btn_unlocked
 {
 	float: left;
-	background-position: 0 0;
-	background-image: url(images/mini.png);
 	width: 16px;
 	height: 16px;
 	background-repeat: no-repeat;
@@ -842,10 +854,27 @@ select.cke_dialog_ui_input_select
 	float: right;
 }
 
+.cke_dialog a.cke_btn_locked
+{
+	background-image: url(images/lock.png);
+}
+
 .cke_dialog a.cke_btn_unlocked
 {
-	background-position: 0 -16px;
-	background-image: url(images/mini.png);
+	background-image: url(images/lock-open.png);
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_unlocked,
+.cke_hidpi .cke_dialog a.cke_btn_locked {
+	background-size: 16px;
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_locked {
+	background-image: url(images/hidpi/lock.png);
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_unlocked {
+	background-image: url(images/hidpi/lock-open.png);
 }
 
 .cke_dialog .cke_btn_over

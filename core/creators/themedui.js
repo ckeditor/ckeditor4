@@ -1,13 +1,13 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
  /** @class CKEDITOR */
 
 /**
- * The class name used to identify `<textarea>` elements to be replace
- * by CKEditor instances. Set it to empty/null to disable this feature.
+ * The class name used to identify `<textarea>` elements to be replaced
+ * by CKEditor instances. Set it to empty/`null` to disable this feature.
  *
  *		CKEDITOR.replaceClass = 'rich_editor';
  *
@@ -15,11 +15,11 @@
  */
 CKEDITOR.replaceClass = 'ckeditor';
 
-(function() {
+( function() {
 	/**
 	 * Replaces a `<textarea>` or a DOM element (`<div>`) with a CKEditor
 	 * instance. For textareas, the initial value in the editor will be the
-	 * textarea value. For DOM elements, their innerHTML will be used
+	 * textarea value. For DOM elements, their `innerHTML` will be used
 	 * instead. We recommend using `<textarea>` and `<div>` elements only.
 	 *
 	 *		<textarea id="myfield" name="myfield"></textarea>
@@ -29,9 +29,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *		var textarea = document.body.appendChild( document.createElement( 'textarea' ) );
 	 *		CKEDITOR.replace( textarea );
 	 *
-	 * @param {Object/String} element The DOM element (textarea), its ID or name.
-	 * @param {Object} [config] The specific configurations to apply to this
-	 * editor instance. Configurations set here will override global CKEditor settings (see {@link CKEDITOR.config}).
+	 * @param {Object/String} element The DOM element (textarea), its ID, or name.
+	 * @param {Object} [config] The specific configuration to apply to this
+	 * editor instance. Configuration set here will override the global CKEditor settings
+	 * (see {@link CKEDITOR.config}).
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
 	CKEDITOR.replace = function( element, config ) {
@@ -39,15 +40,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Creates a new editor at the end of a specific DOM element.
+	 * Creates a new editor instance at the end of a specific DOM element.
 	 *
 	 *		<div id="editorSpace"></div>
 	 *		...
 	 *		CKEDITOR.appendTo( 'editorSpace' );
 	 *
-	 * @param {Object/String} element The DOM element, its ID or name.
-	 * @param {Object} [config] The specific configurations to apply to this
-	 * editor instance. Configurations set here will override global CKEditor settings.
+	 * @param {Object/String} element The DOM element, its ID, or name.
+	 * @param {Object} [config] The specific configuration to apply to this
+	 * editor instance. Configuration set here will override the global CKEditor settings
+	 * (see {@link CKEDITOR.config}).
 	 * @param {String} [data] Since 3.3. Initial value for the instance.
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
@@ -57,7 +59,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Replace all `<textarea>` elements available in the document with
+	 * Replaces all `<textarea>` elements available in the document with
 	 * editor instances.
 	 *
 	 *		// Replace all <textarea> elements in the page.
@@ -68,11 +70,17 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *
 	 *		// Selectively replace <textarea> elements, based on custom assertions.
 	 *		CKEDITOR.replaceAll( function( textarea, config ) {
-	 *			// Custom code to evaluate the replace, returning false
-	 *			// if it must not be done.
-	 *			// It also passes the "config" parameter, so the
-	 *			// developer can customize the instance.
+	 *			// An assertion function that needs to be evaluated for the <textarea>
+	 *			// to be replaced. It must explicitely return "false" to ignore a
+	 *			// specific <textarea>.
+	 *			// You can also customize the editor instance by having the function
+	 *			// modify the "config" parameter.
 	 *		} );
+	 *
+	 * @param {String} [className] The `<textarea>` class name.
+	 * @param {Function} [function] An assertion function that must return `true` for a `<textarea>`
+	 * to be replaced with the editor. If the function returns `false`, the `<textarea>` element
+	 * will not be replaced.
 	 */
 	CKEDITOR.replaceAll = function() {
 		var textareas = document.getElementsByTagName( 'textarea' );
@@ -111,25 +119,25 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * Registers an editing mode. This function is to be used mainly by plugins.
 	 *
 	 * @param {String} mode The mode name.
-	 * @param {Function} exec Function that perform the actual mode change.
+	 * @param {Function} exec The function that performs the actual mode change.
 	 */
 	CKEDITOR.editor.prototype.addMode = function( mode, exec ) {
 		( this._.modes || ( this._.modes = {} ) )[ mode ] = exec;
 	};
 
 	/**
-	 * Change the editing mode of this editor instance.
+	 * Changes the editing mode of this editor instance.
 	 *
-	 * **Note:** The mode switch could be asynchronous depending on the mode provider,
-	 * use the `callback` to hook subsequent code.
+	 * **Note:** The mode switch could be asynchronous depending on the mode provider.
+	 * Use the `callback` to hook subsequent code.
 	 *
 	 *		// Switch to "source" view.
 	 *		CKEDITOR.instances.editor1.setMode( 'source' );
-	 *		// Switch to "wysiwyg" and be noticed on completed.
+	 *		// Switch to "wysiwyg" view and be notified on completion.
 	 *		CKEDITOR.instances.editor1.setMode( 'wysiwyg', function() { alert( 'wysiwyg mode loaded!' ); } );
 	 *
-	 * @param {String} [newMode] If not specified the {@link CKEDITOR.config#startupMode} will be used.
-	 * @param {Function} [callback] Optional callback function which invoked once the mode switch has succeeded.
+	 * @param {String} [newMode] If not specified, the {@link CKEDITOR.config#startupMode} will be used.
+	 * @param {Function} [callback] Optional callback function which is invoked once the mode switch has succeeded.
 	 */
 	CKEDITOR.editor.prototype.setMode = function( newMode, callback ) {
 		var editor = this;
@@ -163,16 +171,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// Set the current mode.
 			editor.mode = newMode;
 
-			if ( isDirty !== undefined ) {
+			if ( isDirty !== undefined )
 				!isDirty && editor.resetDirty();
-			}
 
 			// Delay to avoid race conditions (setMode inside setMode).
 			setTimeout( function() {
 				editor.fire( 'mode' );
 				callback && callback.call( editor );
-			}, 0);
-		});
+			}, 0 );
+		} );
 	};
 
 	/**
@@ -182,19 +189,19 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *
 	 *		editor.resize( '100%', 450, true );
 	 *
-	 * @param {Number/String} width The new width. It can be an pixels integer or a
-	 * CSS size value.
-	 * @param {Number/String} height The new height. It can be an pixels integer or
-	 * a CSS size value.
+	 * @param {Number/String} width The new width. It can be an integer denoting a value
+	 * in pixels or a CSS size value with unit.
+	 * @param {Number/String} height The new height. It can be an integer denoting a value
+	 * in pixels or a CSS size value with unit.
 	 * @param {Boolean} [isContentHeight] Indicates that the provided height is to
-	 * be applied to the editor contents space, not to the entire editor
-	 * interface. Defaults to false.
-	 * @param {Boolean} [resizeInner] Indicates that the first inner interface
-	 * element must receive the size, not the outer element. The default theme
-	 * defines the interface inside a pair of span elements
-	 * (`<span><span>...</span></span>`). By default the
-	 * first span element receives the sizes. If this parameter is set to
-	 * true, the second span is sized instead.
+	 * be applied to the editor content area, and not to the entire editor
+	 * interface. Defaults to `false`.
+	 * @param {Boolean} [resizeInner] Indicates that it is the inner interface
+	 * element that must be resized, not the outer element. The default theme
+	 * defines the editor interface inside a pair of `<span>` elements
+	 * (`<span><span>...</span></span>`). By default the first,
+	 * outer `<span>` element receives the sizes. If this parameter is set to
+	 * `true`, the second, inner `<span>` is resized instead.
 	 */
 	CKEDITOR.editor.prototype.resize = function( width, height, isContentHeight, resizeInner ) {
 		var container = this.container,
@@ -221,8 +228,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 	};
 
 	/**
-	 * Gets the element that can be freely used to check the editor size. This method
-	 * is mainly used by the resize plugin, which adds a UI handle that can be used
+	 * Gets the element that can be used to check the editor size. This method
+	 * is mainly used by the `resize` plugin, which adds a UI handle that can be used
 	 * to resize the editor.
 	 *
 	 * @param {Boolean} forContents Whether to return the "contents" part of the theme instead of the container.
@@ -245,10 +252,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Create the editor instance.
 		var editor = new CKEDITOR.editor( config, element, mode );
 
-		// Do not replace the textarea right now, just hide it. The effective
-		// replacement will be done later in the editor creation lifecycle.
-		if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE )
+		if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+			// Do not replace the textarea right now, just hide it. The effective
+			// replacement will be done later in the editor creation lifecycle.
 			element.setStyle( 'visibility', 'hidden' );
+
+			// #8031 Remember if textarea was required and remove the attribute.
+			editor._.required = element.hasAttribute( 'required' );
+			element.removeAttribute( 'required' );
+		}
 
 		data && editor.setData( data, null, true );
 
@@ -256,8 +268,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		editor.on( 'loaded', function() {
 			loadTheme( editor );
 
-			if (  mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement )
-				attachToForm( editor );
+			if ( mode == CKEDITOR.ELEMENT_MODE_REPLACE && editor.config.autoUpdateElement && element.$.form )
+				editor._attachToForm();
 
 			editor.setMode( editor.config.startupMode, function() {
 				// Clean on startup.
@@ -267,8 +279,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 				editor.status = 'ready';
 				editor.fireOnce( 'instanceReady' );
 				CKEDITOR.fire( 'instanceReady', null, editor );
-			});
-		});
+			} );
+		} );
 
 		editor.on( 'destroy', destroy );
 		return editor;
@@ -286,7 +298,11 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		if ( element ) {
 			element.clearCustomData();
-			editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.show();
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+				element.show();
+				if ( editor._.required )
+					element.setAttribute( 'required', 'required' );
+			}
 			delete editor.element;
 		}
 	}
@@ -319,17 +335,17 @@ CKEDITOR.replaceClass = 'ckeditor';
 				'</{outerEl}>' );
 		}
 
-		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output({
+		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output( {
 			id: editor.id,
 			name: name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
-			voiceLabel: editor.lang.editor,
+			voiceLabel: [ editor.lang.editor, editor.name ].join( ', ' ),
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
 			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
-		}));
+		} ) );
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
@@ -358,53 +374,16 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Redirect the focus into editor for webkit. (#5713)
 		CKEDITOR.env.webkit && container.on( 'focus', function() {
 			editor.focus();
-		});
+		} );
 
 		editor.fireOnce( 'uiReady' );
-	}
-
-	function attachToForm( editor ) {
-		var element = editor.element;
-
-		// If are replacing a textarea, we must
-		if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE && element.is( 'textarea' ) ) {
-			var form = element.$.form && new CKEDITOR.dom.element( element.$.form );
-			if ( form ) {
-				function onSubmit() {
-					editor.updateElement();
-				}
-				form.on( 'submit', onSubmit );
-
-				// Setup the submit function because it doesn't fire the
-				// "submit" event.
-				if ( !form.$.submit.nodeName && !form.$.submit.length ) {
-					form.$.submit = CKEDITOR.tools.override( form.$.submit, function( originalSubmit ) {
-						return function() {
-							editor.updateElement();
-
-							// For IE, the DOM submit function is not a
-							// function, so we need third check.
-							if ( originalSubmit.apply )
-								originalSubmit.apply( this, arguments );
-							else
-								originalSubmit();
-						};
-					});
-				}
-
-				// Remove 'submit' events registered on form element before destroying.(#3988)
-				editor.on( 'destroy', function() {
-					form.removeListener( 'submit', onSubmit );
-				});
-			}
-		}
 	}
 
 	// Replace all textareas with the default class name.
 	CKEDITOR.domReady( function() {
 		CKEDITOR.replaceClass && CKEDITOR.replaceAll( CKEDITOR.replaceClass );
-	});
-})();
+	} );
+} )();
 
 /**
  * The current editing mode. An editing mode basically provides
@@ -429,24 +408,27 @@ CKEDITOR.config.startupMode = 'wysiwyg';
 
 /**
  * Fired after the editor instance is resized through
- * the {@link CKEDITOR.editor#method-resize} method.
+ * the {@link CKEDITOR.editor#method-resize CKEDITOR.resize} method.
  *
  * @event resize
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
- * Event fired before changing the editing mode. See also
+ * Fired before changing the editing mode. See also
  * {@link #beforeSetMode} and {@link #event-mode}.
  *
  * @event beforeModeUnload
+ * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
- * Event fired before the editor mode is set. See also
+ * Fired before the editor mode is set. See also
  * {@link #event-mode} and {@link #beforeModeUnload}.
  *
  * @since 3.5.3
  * @event beforeSetMode
+ * @param {CKEDITOR.editor} editor This editor instance.
  * @param {String} data The name of the mode which is about to be set.
  */
 
@@ -454,4 +436,22 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * Fired after setting the editing mode. See also {@link #beforeSetMode} and {@link #beforeModeUnload}
  *
  * @event mode
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Fired when the editor (replacing a `<textarea>` which has a `required` attribute) is empty during form submission.
+ *
+ * This event replaces native required fields validation that the browsers cannot
+ * perform when CKEditor replaces `<textarea>` elements.
+ *
+ * You can cancel this event to prevent the page from submitting data.
+ *
+ *		editor.on( 'required', function( evt ) {
+ *			alert( 'Article content is required.' );
+ *			evt.cancel();
+ *		} );
+ *
+ * @event required
+ * @param {CKEDITOR.editor} editor This editor instance.
  */

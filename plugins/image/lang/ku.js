@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ku', {
 	alertUrl: 'تکایه ناونیشانی بەستەری وێنه بنووسه',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ku', {
 	validateBorder: 'پەراوێز دەبێت بەتەواوی تەنها ژماره بێت.',
 	validateHSpace: 'بۆشایی ئاسۆیی دەبێت بەتەواوی تەنها ژمارە بێت.',
 	validateVSpace: 'بۆشایی ئەستونی دەبێت بەتەواوی تەنها ژماره بێت.'
-});
+} );

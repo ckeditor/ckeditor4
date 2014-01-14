@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'ko', {
 	auto: '기본색상',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ko', {
 	more: '색상선택...',
 	panelTitle: 'Colors',
 	textColorTitle: '글자 색상'
-});
+} );

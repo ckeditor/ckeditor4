@@ -1,25 +1,25 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'zh', {
-	armenian: 'Armenian numbering',
-	bulletedTitle: 'Bulleted List Properties',
-	circle: 'Circle',
-	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
-	disc: 'Disc',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'None',
-	notset: '<not set>',
-	numberedTitle: 'Numbered List Properties',
-	square: 'Square',
-	start: 'Start',
-	type: 'Type',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
-});
+	armenian: '亞美尼亞數字',
+	bulletedTitle: '項目符號清單屬性',
+	circle: '圓圈',
+	decimal: '小數點 (1, 2, 3, etc.)',
+	decimalLeadingZero: '前綴 0 十位數字 (01, 02, 03, 等)',
+	disc: '圓點',
+	georgian: '喬治王時代數字 (an, ban, gan, 等)',
+	lowerAlpha: '小寫字母 (a, b, c, d, e 等)',
+	lowerGreek: '小寫希臘字母 (alpha, beta, gamma, 等)',
+	lowerRoman: '小寫羅馬數字 (i, ii, iii, iv, v 等)',
+	none: '無',
+	notset: '<未設定>',
+	numberedTitle: '編號清單屬性',
+	square: '方塊',
+	start: '開始',
+	type: '類型',
+	upperAlpha: '大寫字母 (A, B, C, D, E 等)',
+	upperRoman: '大寫羅馬數字 (I, II, III, IV, V 等)',
+	validateStartNumber: '清單起始號碼須為一完整數字。'
+} );

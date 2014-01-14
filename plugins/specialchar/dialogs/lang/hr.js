@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	yen: 'Yen znak',
 	brvbar: 'Potrgana prečka',
 	sect: 'Znak odjeljka',
-	uml: 'Diaeresis', // MISSING
+	uml: 'Prijeglasi',
 	copy: 'Copyright znak',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Lijevi dvostruki uglati navodnik',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	sup2: 'Superscript two', // MISSING
 	sup3: 'Superscript three', // MISSING
 	acute: 'Acute accent', // MISSING
-	micro: 'Micro sign', // MISSING
+	micro: 'Mikro znak',
 	para: 'Pilcrow sign', // MISSING
 	middot: 'Srednja točka',
 	cedil: 'Cedilla', // MISSING
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	hArr: 'Left right double arrow', // MISSING
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Almost equal to' // MISSING
-});
+} );

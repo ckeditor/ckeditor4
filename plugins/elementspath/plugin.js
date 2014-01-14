@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -8,7 +8,7 @@
  *		parent tree relative to the current selection in the editing area.
  */
 
-(function() {
+( function() {
 	var commands = {
 		toolbarFocus: {
 			editorFocus: false,
@@ -55,8 +55,13 @@
 		'</a>' );
 
 	CKEDITOR.plugins.add( 'elementspath', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			editor._.elementsPath = {
+				idBase: 'cke_elementspath_' + CKEDITOR.tools.getNextNumber() + '_',
+				filters: []
+			};
+
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' )
 					initElementsPath( editor, event.data );
@@ -65,17 +70,15 @@
 	} );
 
 	function initElementsPath( editor, bottomSpaceData ) {
-		var spaceId = editor.ui.spaceId( 'path' );
-		var spaceElement;
-		var getSpaceElement = function() {
+		var spaceId = editor.ui.spaceId( 'path' ),
+			spaceElement,
+			getSpaceElement = function() {
 				if ( !spaceElement )
 					spaceElement = CKEDITOR.document.getById( spaceId );
 				return spaceElement;
-			};
-
-		var idBase = 'cke_elementspath_' + CKEDITOR.tools.getNextNumber() + '_';
-
-		editor._.elementsPath = { idBase: idBase, filters: [] };
+			},
+			elementsPath = editor._.elementsPath,
+			idBase = elementsPath.idBase;
 
 		bottomSpaceData.html += '<span id="' + spaceId + '_label" class="cke_voice_label">' + editor.lang.elementspath.eleLabel + '</span>' +
 			'<span id="' + spaceId + '" class="cke_path" role="group" aria-labelledby="' + spaceId + '_label">' + emptyHtml + '</span>';
@@ -87,8 +90,8 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var element = editor._.elementsPath.list[ elementIndex ];
-			if ( element.equals( editor.editable() ) ) {
+			var element = elementsPath.list[ elementIndex ];
+			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
 				range.select();
@@ -100,58 +103,63 @@
 			editor.focus();
 		}
 
-		var onClickHanlder = CKEDITOR.tools.addFunction( onClick );
+		elementsPath.onClick = onClick;
 
-		var onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
-			var idBase = editor._.elementsPath.idBase,
-				element;
+		var onClickHanlder = CKEDITOR.tools.addFunction( onClick ),
+			onKeyDownHandler = CKEDITOR.tools.addFunction( function( elementIndex, ev ) {
+				var idBase = elementsPath.idBase,
+					element;
 
-			ev = new CKEDITOR.dom.event( ev );
+				ev = new CKEDITOR.dom.event( ev );
 
-			var rtl = editor.lang.dir == 'rtl';
-			switch ( ev.getKeystroke() ) {
-				case rtl ? 39:
-					37 : // LEFT-ARROW
-				case 9: // TAB
-					element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
-					if ( !element )
-						element = CKEDITOR.document.getById( idBase + '0' );
-					element.focus();
-					return false;
+				var rtl = editor.lang.dir == 'rtl';
+				switch ( ev.getKeystroke() ) {
+					case rtl ? 39 : 37: // LEFT-ARROW
+					case 9: // TAB
+						element = CKEDITOR.document.getById( idBase + ( elementIndex + 1 ) );
+						if ( !element )
+							element = CKEDITOR.document.getById( idBase + '0' );
+						element.focus();
+						return false;
 
-				case rtl ? 37:
-					39 : // RIGHT-ARROW
-				case CKEDITOR.SHIFT + 9: // SHIFT + TAB
-					element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
-					if ( !element )
-						element = CKEDITOR.document.getById( idBase + ( editor._.elementsPath.list.length - 1 ) );
-					element.focus();
-					return false;
+					case rtl ? 37 : 39: // RIGHT-ARROW
+					case CKEDITOR.SHIFT + 9: // SHIFT + TAB
+						element = CKEDITOR.document.getById( idBase + ( elementIndex - 1 ) );
+						if ( !element )
+							element = CKEDITOR.document.getById( idBase + ( elementsPath.list.length - 1 ) );
+						element.focus();
+						return false;
 
-				case 27: // ESC
-					editor.focus();
-					return false;
+					case 27: // ESC
+						editor.focus();
+						return false;
 
-				case 13: // ENTER	// Opera
-				case 32: // SPACE
-					onClick( elementIndex );
-					return false;
-			}
-			return true;
-		} );
+					case 13: // ENTER	// Opera
+					case 32: // SPACE
+						onClick( elementIndex );
+						return false;
+				}
+				return true;
+			} );
 
 		editor.on( 'selectionChange', function( ev ) {
 			var env = CKEDITOR.env,
 				editable = editor.editable(),
 				selection = ev.data.selection,
-				element = selection.getStartElement(),
 				html = [],
-				elementsList = editor._.elementsPath.list = [],
-				filters = editor._.elementsPath.filters;
+				elementsList = elementsPath.list = [],
+				namesList = [],
+				filters = elementsPath.filters,
+				isContentEditable = true,
 
-			while ( element ) {
-				var ignore = 0,
-					name;
+				// Use elementPath to consider children of editable only (#11124).
+				elementsChain = editor.elementPath().elements,
+				name;
+
+			// Starts iteration from body element, skipping html.
+			for ( var j = elementsChain.length; j--; ) {
+				var element = elementsChain[ j ],
+					ignore = 0;
 
 				if ( element.data( 'cke-display-name' ) )
 					name = element.data( 'cke-display-name' );
@@ -159,6 +167,14 @@
 					name = element.data( 'cke-real-element-type' );
 				else
 					name = element.getName();
+
+				isContentEditable = element.hasAttribute( 'contenteditable' ) ?
+					element.getAttribute( 'contenteditable' ) == 'true' : isContentEditable;
+
+				// If elem is non-contenteditable, and it's not specifying contenteditable
+				// attribute - then elem should be ignored.
+				if ( !isContentEditable && !element.hasAttribute( 'contenteditable' ) )
+					ignore = 1;
 
 				for ( var i = 0; i < filters.length; i++ ) {
 					var ret = filters[ i ]( element, name );
@@ -170,10 +186,15 @@
 				}
 
 				if ( !ignore ) {
-					var index = elementsList.push( element ) - 1,
-						label = editor.lang.elementspath.eleTitle.replace( /%1/, name );
+					elementsList.unshift( element );
+					namesList.unshift( name );
+				}
+			}
 
-					var item = pathItemTpl.output({
+			for ( var iterationLimit = elementsList.length, index = 0; index < iterationLimit; index++ ) {
+				name = namesList[ index ];
+				var label = editor.lang.elementspath.eleTitle.replace( /%1/, name ),
+					item = pathItemTpl.output( {
 						id: idBase + index,
 						label: label,
 						text: name,
@@ -182,14 +203,8 @@
 						keyDownFn: onKeyDownHandler,
 						clickFn: onClickHanlder
 					} );
-					html.unshift( item );
 
-				}
-
-				if ( element.equals( editable ) )
-					break;
-
-				element = element.getParent();
+				html.unshift( item );
 			}
 
 			var space = getSpaceElement();
@@ -199,7 +214,7 @@
 
 		function empty() {
 			spaceElement && spaceElement.setHtml( emptyHtml );
-			delete editor._.elementsPath.list;
+			delete elementsPath.list;
 		}
 
 		editor.on( 'readOnly', empty );
@@ -208,7 +223,7 @@
 		editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );
 		editor.setKeystroke( CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' );
 	}
-})();
+} )();
 
 /**
  * Fired when the contents of the elementsPath are changed.

@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 // Compressed version of core/ckeditor_base.js. See original for instructions.
@@ -20,9 +20,9 @@ else {
 		script.type = 'text/javascript';
 		script.src = CKEDITOR.getUrl( 'core/loader.js' );
 		document.body.appendChild( script );
-	} else {
+	} else
 		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
-	}
+
 }
 
 /**

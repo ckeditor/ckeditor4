@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'bn', {
 	label: 'ফন্ট ফরমেট',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'bn', {
 	tag_h6: 'শীর্ষক ৬',
 	tag_p: 'সাধারণ',
 	tag_pre: 'ফর্মেটেড'
-});
+} );

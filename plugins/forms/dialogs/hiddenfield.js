@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 	return {
@@ -57,9 +57,9 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 				commit: function( element ) {
 					if ( this.getValue() )
 						element.setAttribute( 'name', this.getValue() );
-					else {
+					else
 						element.removeAttribute( 'name' );
-					}
+
 				}
 			},
 				{
@@ -82,4 +82,4 @@ CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 		}
 		]
 	};
-});
+} );

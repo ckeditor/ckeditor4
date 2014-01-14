@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -80,12 +80,13 @@
 
 'use strict';
 
-(function() {
+( function() {
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var textificationFilter;
 
@@ -110,7 +111,7 @@
 						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, function( all, spaces ) {
 						// Replace tabs with 4 spaces like Fx does.
 						return spaces.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
-					});
+					} );
 
 					// This br is produced only when copying & pasting HTML content.
 					if ( data.indexOf( '<br class="Apple-interchange-newline">' ) > -1 ) {
@@ -151,7 +152,7 @@
 							return '<' + elementName;
 						}
 						return match;
-					});
+					} );
 				} else if ( CKEDITOR.env.webkit ) {
 					// </p><div><br></div> -> </p><br>
 					// We don't mark br, because this situation can happen for htmlified text too.
@@ -161,7 +162,7 @@
 							return '</' + elementName + '>';
 						}
 						return match;
-					});
+					} );
 				} else if ( CKEDITOR.env.gecko ) {
 					// Firefox adds bogus <br> when user pasted text followed by space(s).
 					data = data.replace( /(\s)<br>$/, '$1' );
@@ -230,9 +231,9 @@
 					// Open default paste dialog.
 					editor.openDialog( 'paste', evt.data );
 				}, 0 );
-			});
+			} );
 		}
-	});
+	} );
 
 	function initClipboard( editor ) {
 		var preventBeforePasteEvent = 0,
@@ -307,7 +308,7 @@
 							if ( !dialogCommited )
 								callback( null );
 						}, 10 );
-					});
+					} );
 				} else
 					callback( null );
 			}
@@ -351,7 +352,7 @@
 					label: lang,
 					command: commandName,
 					toolbar: 'clipboard,' + toolbarOrder
-				});
+				} );
 
 				// If the "menu" plugin is loaded, register the menu item.
 				if ( editor.addMenuItems ) {
@@ -360,7 +361,7 @@
 						command: commandName,
 						group: 'clipboard',
 						order: ctxMenuOrder
-					});
+					} );
 				}
 			}
 		}
@@ -373,18 +374,18 @@
 			editor.on( 'selectionChange', function( evt ) {
 				inReadOnly = evt.data.selection.getRanges()[ 0 ].checkReadOnly();
 				setToolbarStates();
-			});
+			} );
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element, selection ) {
 					inReadOnly = selection.getRanges()[ 0 ].checkReadOnly();
 					return {
-						cut: stateFromNamedCommand( 'Cut' ),
-						copy: stateFromNamedCommand( 'Copy' ),
-						paste: stateFromNamedCommand( 'Paste' )
+						cut: stateFromNamedCommand( 'cut' ),
+						copy: stateFromNamedCommand( 'copy' ),
+						paste: stateFromNamedCommand( 'paste' )
 					};
-				});
+				} );
 			}
 		}
 
@@ -423,7 +424,7 @@
 				// command. And that's what we did using preventPasteEventNow().
 
 				pasteDataFromClipboard( evt );
-			});
+			} );
 
 			// It's not possible to clearly handle all four paste methods (ctrl+v, native menu bar
 			// native context menu, editor's command) in one 'paste/beforepaste' event in IE.
@@ -460,7 +461,7 @@
 				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
 				if ( !execIECommand( 'paste' ) )
 					editor.openDialog( 'paste' );
-			});
+			} );
 
 			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
 			if ( CKEDITOR.env.ie ) {
@@ -475,7 +476,7 @@
 
 			editable.on( 'beforecut', function() {
 				!preventBeforePasteEvent && fixCut( editor );
-			});
+			} );
 
 			var mouseupTimeout;
 
@@ -486,14 +487,14 @@
 				mouseupTimeout = setTimeout( function() {
 					setToolbarStates();
 				}, 0 );
-			});
+			} );
 
 			// Make sure that deferred mouseup callback isn't executed after editor instance
 			// had been destroyed. This may happen when editor.destroy() is called in parallel
 			// with mouseup event (i.e. a button with onclick callback) (#10219).
 			editor.on( 'destroy', function() {
 				clearTimeout( mouseupTimeout );
-			});
+			} );
 
 			editable.on( 'keyup', setToolbarStates );
 		}
@@ -545,7 +546,7 @@
 								name: 'paste',
 								command: cmd,
 								returnValue: !!data
-							});
+							} );
 						},
 						cmd = this;
 
@@ -660,7 +661,8 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902;
+				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
+				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
@@ -679,15 +681,19 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				editable.is( 'body' ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
 
-			pastebin.setAttribute( 'id', 'cke_pastebin' );
+			pastebin.setAttributes( {
+				id: 'cke_pastebin',
+				'data-cke-temp': '1'
+			} );
 
 			// Append bogus to prevent Opera from doing this. (#9522)
 			if ( CKEDITOR.env.opera )
 				pastebin.appendBogus();
 
 			var containerOffset = 0,
+				offsetParent,
 				win = doc.getWindow();
 
 			// Seems to be the only way to avoid page scroll in Fx 3.x.
@@ -701,14 +707,25 @@
 					editable.append( pastebin );
 					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
 					pastebin.addClass( 'cke_editable' );
+
 					// Compensate position of offsetParent.
-					containerOffset = ( editable.is( 'body' ) ? editable : CKEDITOR.dom.element.get( pastebin.$.offsetParent ) ).getDocumentPosition().y;
+					if ( !editable.is( 'body' ) ) {
+						// We're not able to get offsetParent from pastebin (body element), so check whether
+						// its parent (editable) is positioned.
+						if ( editable.getComputedStyle( 'position' ) != 'static' )
+							offsetParent = editable;
+						// And if not - safely get offsetParent from editable.
+						else
+							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+
+						containerOffset = offsetParent.getDocumentPosition().y;
+					}
 				} else {
 					// Opera and IE doesn't allow to append to html element.
 					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
 				}
 
-				pastebin.setStyles({
+				pastebin.setStyles( {
 					position: 'absolute',
 					// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
 					top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
@@ -720,7 +737,7 @@
 					// Reset styles that can mess up pastebin position.
 					margin: 0,
 					padding: 0
-				});
+				} );
 			}
 
 			// Check if the paste bin now establishes new editing host.
@@ -739,6 +756,13 @@
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
+			// Webkit fill fire blur on editable when moving selection to
+			// pastebin (if body is used). Cancel it because it causes incorrect
+			// selection lock in case of inline editor (#10644).
+			// The same seems to apply to Firefox (#10787).
+			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko )
+				blurListener = editable.once( 'blur', cancel, null, null, -100 );
+
 			// Temporarily move selection to the pastebin.
 			isEditingHost && pastebin.focus();
 			var range = new CKEDITOR.dom.range( pastebin );
@@ -750,7 +774,7 @@
 			// this selection will be restored. We overwrite stored selection, so it's restored
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
-				var blurListener = editable.once( 'blur', function( evt ) {
+				blurListener = editable.once( 'blur', function( evt ) {
 					editor.lockSelection( selPastebin );
 				} );
 			}
@@ -815,9 +839,9 @@
 				focusManager.unlock();
 			} else {
 				try {
-					if ( editor.editable().fire( mainPasteEvent ) && !editor.document.$.execCommand( 'Paste', false, null ) ) {
+					if ( editor.editable().fire( mainPasteEvent ) && !editor.document.$.execCommand( 'Paste', false, null ) )
 						throw 0;
-					}
+
 				} catch ( e ) {
 					return false;
 				}
@@ -877,46 +901,34 @@
 
 				// Fire remaining events (without beforePaste)
 				beforePasteNotCanceled && firePasteEvents( eventData.type, data, 0, 1 );
-			});
+			} );
 		}
 
 		function setToolbarStates() {
 			if ( editor.mode != 'wysiwyg' )
 				return;
 
-			var pasteState = stateFromNamedCommand( 'Paste' );
+			var pasteState = stateFromNamedCommand( 'paste' );
 
-			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'Cut' ) );
-			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'Copy' ) );
+			editor.getCommand( 'cut' ).setState( stateFromNamedCommand( 'cut' ) );
+			editor.getCommand( 'copy' ).setState( stateFromNamedCommand( 'copy' ) );
 			editor.getCommand( 'paste' ).setState( pasteState );
 			editor.fire( 'pasteState', pasteState );
 		}
 
 		function stateFromNamedCommand( command ) {
-			var retval;
-
-			if ( inReadOnly && command in { Paste:1,Cut:1 } )
+			if ( inReadOnly && command in { paste: 1, cut: 1 } )
 				return CKEDITOR.TRISTATE_DISABLED;
 
-			if ( command == 'Paste' ) {
-				// IE Bug: queryCommandEnabled('paste') fires also 'beforepaste(copy/cut)',
-				// guard to distinguish from the ordinary sources (either
-				// keyboard paste or execCommand) (#4874).
-				CKEDITOR.env.ie && ( preventBeforePasteEvent = 1 );
-				try {
-					// Always return true for Webkit (which always returns false)
-					retval = editor.document.$.queryCommandEnabled( command ) || CKEDITOR.env.webkit;
-				} catch ( er ) {}
-				preventBeforePasteEvent = 0;
-			}
-			// Cut, Copy - check if the selection is not empty
-			else {
-				var sel = editor.getSelection(),
-					ranges = sel.getRanges();
-				retval = sel.getType() != CKEDITOR.SELECTION_NONE && !( ranges.length == 1 && ranges[ 0 ].collapsed );
-			}
+			if ( command == 'paste' )
+				return CKEDITOR.TRISTATE_OFF;
 
-			return retval ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+			// Cut, copy - check if the selection is not empty.
+			var sel = editor.getSelection(),
+				ranges = sel.getRanges(),
+				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
+
+			return selectionIsEmpty ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
 		}
 	}
 
@@ -963,7 +975,7 @@
 		// IE - lower cased tags.
 		data = data.replace( /<\/?[A-Z]+>/g, function( match ) {
 			return match.toLowerCase();
-		});
+		} );
 
 		// Don't touch single lines (no <br|p|div>) - nothing to do here.
 		if ( data.match( /^[^<]$/ ) )
@@ -980,7 +992,7 @@
 			if ( data.match( /<div>(<br>|)<\/div>/ ) ) {
 				data = '<p>' + data.replace( /(<div>(<br>|)<\/div>)+/g, function( match ) {
 					return repeatParagraphs( match.split( '</div><div>' ).length + 1 );
-				}) + '</p>';
+				} ) + '</p>';
 			}
 
 			// One line break create br.
@@ -1004,7 +1016,7 @@
 				// Two line breaks create one paragraph, three - 2, four - 3, etc.
 				data = '<p>' + data.replace( /(<br>){2,}/g, function( match ) {
 					return repeatParagraphs( match.length / 4 );
-				}) + '</p>';
+				} ) + '</p>';
 			}
 		}
 
@@ -1017,18 +1029,18 @@
 
 		// Elements which creates vertical breaks (have vert margins) - took from HTML5 spec.
 		// http://dev.w3.org/html5/markup/Overview.html#toc
-		var replaceWithParaIf = { blockquote:1,dl:1,fieldset:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,ol:1,p:1,table:1,ul:1 },
+		var replaceWithParaIf = { blockquote: 1, dl: 1, fieldset: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ol: 1, p: 1, table: 1, ul: 1 },
 
 			// All names except of <br>.
-			stripInlineIf = CKEDITOR.tools.extend({ br: 0 }, CKEDITOR.dtd.$inline ),
+			stripInlineIf = CKEDITOR.tools.extend( { br: 0 }, CKEDITOR.dtd.$inline ),
 
 			// What's finally allowed (cke:br will be removed later).
-			allowedIf = { p:1,br:1,'cke:br':1 },
+			allowedIf = { p: 1, br: 1, 'cke:br': 1 },
 
 			knownIf = CKEDITOR.dtd,
 
 			// All names that will be removed (with content).
-			removeIf = CKEDITOR.tools.extend( { area:1,basefont:1,embed:1,iframe:1,map:1,object:1,param:1 }, CKEDITOR.dtd.$nonBodyContent, CKEDITOR.dtd.$cdata );
+			removeIf = CKEDITOR.tools.extend( { area: 1, basefont: 1, embed: 1, iframe: 1, map: 1, object: 1, param: 1 }, CKEDITOR.dtd.$nonBodyContent, CKEDITOR.dtd.$cdata );
 
 		var flattenTableCell = function( element ) {
 				delete element.name;
@@ -1050,7 +1062,7 @@
 				}
 			};
 
-		filter.addRules({
+		filter.addRules( {
 			elements: {
 				h1: squashHeader,
 				h2: squashHeader,
@@ -1082,7 +1094,7 @@
 						return false;
 
 					// Remove all attributes.
-					delete element.attributes;
+					element.attributes = {};
 
 					// Pass brs.
 					if ( initialName == 'br' )
@@ -1120,7 +1132,10 @@
 					return element;
 				}
 			}
-		});
+		}, {
+			// Apply this filter to every element.
+			applyToAll: true
+		} );
 
 		return filter;
 	}
@@ -1154,7 +1169,7 @@
 			}
 
 			return match;
-		}).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
+		} ).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
 
 		return switchEnterMode( config, data );
 	}
@@ -1163,14 +1178,13 @@
 		if ( config.enterMode == CKEDITOR.ENTER_BR ) {
 			data = data.replace( /(<\/p><p>)+/g, function( match ) {
 				return CKEDITOR.tools.repeat( '<br>', match.length / 7 * 2 );
-			}).replace( /<\/?p>/g, '' );
-		} else if ( config.enterMode == CKEDITOR.ENTER_DIV ) {
+			} ).replace( /<\/?p>/g, '' );
+		} else if ( config.enterMode == CKEDITOR.ENTER_DIV )
 			data = data.replace( /<(\/)?p>/g, '<$1div>' );
-		}
 
 		return data;
 	}
-})();
+} )();
 
 /**
  * The default content type is used when pasted data cannot be clearly recognized as HTML or text.

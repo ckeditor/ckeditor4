@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -21,7 +21,7 @@ other files.
 @import url("mainui.css");
 
 /* Styles all "panels", which are the floating elements that appear when
-   opening toolbar combos, menu buttons, context menus, etc. */ 
+   opening toolbar combos, menu buttons, context menus, etc. */
 @import url("panel.css");
 
 /* Styles the color panel displayed by the color buttons. */

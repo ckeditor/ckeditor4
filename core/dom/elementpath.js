@@ -1,20 +1,24 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+'use strict';
+
+( function() {
+
+	var pathBlockLimitElements = {},
+		pathBlockElements = {},
+		tag;
+
 	// Elements that are considered the "Block limit" in an element path.
-	var pathBlockLimitElements = {};
-	for ( var tag in CKEDITOR.dtd.$blockLimit ) {
+	for ( tag in CKEDITOR.dtd.$blockLimit ) {
 		// Exclude from list roots.
 		if ( !( tag in CKEDITOR.dtd.$list ) )
 			pathBlockLimitElements[ tag ] = 1;
 	}
 
 	// Elements that are considered the "End level Block" in an element path.
-	var pathBlockElements = {};
-
 	for ( tag in CKEDITOR.dtd.$block ) {
 		// Exclude block limits, and empty block element, e.g. hr.
 		if ( !( tag in CKEDITOR.dtd.$blockLimit || tag in CKEDITOR.dtd.$empty ) )
@@ -22,36 +26,36 @@
 	}
 
 	// Check if an element contains any block element.
-	var checkHasBlock = function( element ) {
-			var childNodes = element.getChildren();
+	function checkHasBlock( element ) {
+		var childNodes = element.getChildren();
 
-			for ( var i = 0, count = childNodes.count(); i < count; i++ ) {
-				var child = childNodes.getItem( i );
+		for ( var i = 0, count = childNodes.count(); i < count; i++ ) {
+			var child = childNodes.getItem( i );
 
-				if ( child.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$block[ child.getName() ] )
-					return true;
-			}
+			if ( child.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$block[ child.getName() ] )
+				return true;
+		}
 
-			return false;
-		};
+		return false;
+	}
 
 	/**
 	 * Retrieve the list of nodes walked from the start node up to the editable element of the editor.
 	 *
 	 * @class
-	 * @constructor Creates a element path class instance.
+	 * @constructor Creates an element path class instance.
 	 * @param {CKEDITOR.dom.element} startNode From which the path should start.
-	 * @param {CKEDITOR.dom.element} root To which element the path should stop, default to the body element.
+	 * @param {CKEDITOR.dom.element} root To which element the path should stop, defaults to the `body` element.
 	 */
 	CKEDITOR.dom.elementPath = function( startNode, root ) {
-		var block = null;
-		var blockLimit = null;
-		var elements = [];
+		var block = null,
+			blockLimit = null,
+			elements = [],
+			e = startNode,
+			elementName;
 
 		// Backward compact.
 		root = root || startNode.getDocument().getBody();
-
-		var e = startNode;
 
 		do {
 			if ( e.type == CKEDITOR.NODE_ELEMENT ) {
@@ -60,62 +64,88 @@
 				if ( !this.lastElement ) {
 					this.lastElement = e;
 
-					// If a table is fully selected at the end of the element path,
+					// If an object or non-editable element is fully selected at the end of the element path,
 					// it must not become the block limit.
-					if ( e.is( CKEDITOR.dtd.$object ) )
+					if ( e.is( CKEDITOR.dtd.$object ) || e.getAttribute( 'contenteditable' ) == 'false' )
 						continue;
-				}
-
-				var elementName = e.getName();
-
-				if ( !blockLimit ) {
-					if ( !block && pathBlockElements[ elementName ] )
-						block = e;
-
-					if ( pathBlockLimitElements[ elementName ] ) {
-						// End level DIV is considered as the block, if no block is available. (#525)
-						// But it must NOT be as the root element.
-						if ( !block && elementName == 'div' && !checkHasBlock( e ) && !e.equals( root ) ) {
-							block = e;
-						} else
-							blockLimit = e;
-					}
 				}
 
 				if ( e.equals( root ) )
 					break;
+
+				if ( !blockLimit ) {
+					elementName = e.getName();
+
+					// First editable element becomes a block limit, because it cannot be split.
+					if ( e.getAttribute( 'contenteditable' ) == 'true' )
+						blockLimit = e;
+					// "Else" because element cannot be both - block and block levelimit.
+					else if ( !block && pathBlockElements[ elementName ] )
+						block = e;
+
+					if ( pathBlockLimitElements[ elementName ] ) {
+						// End level DIV is considered as the block, if no block is available. (#525)
+						// But it must NOT be the root element (checked above).
+						if ( !block && elementName == 'div' && !checkHasBlock( e ) )
+							block = e;
+						else
+							blockLimit = e;
+					}
+				}
 			}
 		}
 		while ( ( e = e.getParent() ) );
 
+		// Block limit defaults to root.
+		if ( !blockLimit )
+			blockLimit = root;
+
 		/**
+		 * First non-empty block element which:
+		 *
+		 * * is not a {@link CKEDITOR.dtd#$blockLimit},
+		 * * or is a `div` which does not contain block elements and is not a `root`.
+		 *
+		 * This means a first, splittable block in elements path.
+		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.block = block;
 
 		/**
+		 * See the {@link CKEDITOR.dtd#$blockLimit} description.
+		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.blockLimit = blockLimit;
 
 		/**
-		 * The root of the elements path - `startNode` argument passed to class constructor or body element.
+		 * The root of the elements path - `root` argument passed to class constructor or a `body` element.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element}
-		 * @todo
 		 */
 		this.root = root;
 
 		/**
+		 * An array of elements (from `startNode` to `root`) in the path.
+		 *
+		 * @readonly
 		 * @property {CKEDITOR.dom.element[]}
-		 * @todo
 		 */
 		this.elements = elements;
+
+		/**
+		 * The last element of the elements path - `startNode` or its parent.
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.dom.element} lastElement
+		 */
 	};
 
-})();
+} )();
 
 CKEDITOR.dom.elementPath.prototype = {
 	/**
@@ -146,8 +176,8 @@ CKEDITOR.dom.elementPath.prototype = {
 	 *
 	 * @param {String/Array/Function/Object/CKEDITOR.dom.element} query The criteria that can be
 	 * either a tag name, list (array and object) of tag names, element or an node evaluator function.
-	 * @param {Boolean} excludeRoot Not taking path root element into consideration.
-	 * @param {Boolean} fromTop Search start from the topmost element instead of bottom.
+	 * @param {Boolean} [excludeRoot] Not taking path root element into consideration.
+	 * @param {Boolean} [fromTop] Search start from the topmost element instead of bottom.
 	 * @returns {CKEDITOR.dom.element} The first matched dom element or `null`.
 	 */
 	contains: function( query, excludeRoot, fromTop ) {
@@ -207,7 +237,6 @@ CKEDITOR.dom.elementPath.prototype = {
 		}
 
 		return true;
-
 	},
 
 	/**

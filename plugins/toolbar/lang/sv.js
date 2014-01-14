@@ -1,12 +1,12 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 	toolbarCollapse: 'Dölj verktygsfält',
 	toolbarExpand: 'Visa verktygsfält',
 	toolbarGroups: {
-		document: 'Document',
+		document: 'Dokument',
 		clipboard: 'Clipboard/Undo',
 		editing: 'Editing',
 		forms: 'Forms',
@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 		tools: 'Tools'
 	},
 	toolbars: 'Redigera verktygsfält'
-});
+} );

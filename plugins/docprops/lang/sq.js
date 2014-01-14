@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'sq', {
 	bgColor: 'Ngjyra e Prapavijës',
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'sq', {
 	design: 'Dizajni',
 	docTitle: 'Titulli i Faqes',
 	docType: 'Document Type Heading', // MISSING
-	docTypeOther: 'Other Document Type Heading', // MISSING
+	docTypeOther: 'Koka e Llojit Tjetër të Dokumentit',
 	label: 'Karakteristikat e Dokumentit',
 	margin: 'Kufijtë e Faqes',
 	marginBottom: 'Poshtë',
@@ -33,10 +33,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'sq', {
 	metaAuthor: 'Autori',
 	metaCopyright: 'Të drejtat e kopjimit',
 	metaDescription: 'Përshkrimi i Dokumentit',
-	metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
+	metaKeywords: 'Fjalët kyçe të indeksimit të dokumentit (të ndarë me presje)',
 	other: 'Tjera...',
 	previewHtml: '<p>Ky është nje <strong>tekst shembull</strong>.  Ju jeni duke shfrytëzuar <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Karakteristikat e Dokumentit',
 	txtColor: 'Ngjyra e Tekstit',
 	xhtmlDec: 'Përfshij XHTML Deklarimet'
-});
+} );

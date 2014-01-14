@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'cy', {
 	auto: 'Awtomatig',
@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cy', {
 		'008080': 'Corhwyad',
 		'000080': 'Nefi',
 		'4B0082': 'Indigo',
-		'696969': 'Llwyd Pwl',
+		'696969': 'Llwyd Tywyll',
 		B22222: 'Bric Tân',
 		A52A2A: 'Brown',
 		DAA520: 'Rhoden Aur',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cy', {
 		'0FF': 'Cyan',
 		'00F': 'Glas',
 		EE82EE: 'Fioled',
-		A9A9A9: 'Llwyd Tywyll',
+		A9A9A9: 'Llwyd Pwl',
 		FFA07A: 'Samwn Golau',
 		FFA500: 'Oren',
 		FFFF00: 'Melyn',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cy', {
 	more: 'Mwy o Liwiau...',
 	panelTitle: 'Lliwiau',
 	textColorTitle: 'Lliw Testun'
-});
+} );

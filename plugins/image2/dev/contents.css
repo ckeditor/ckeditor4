@@ -1,0 +1,17 @@
+/*
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+.cke_widget_wrapper:hover:after {
+	content: "id: " attr(data-cke-widget-id);
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 2px 4px;
+	background: #EEE;
+	border: solid 1px #DDD;
+	border-radius: 2px;
+	color: #BBB;
+	font: bold 10px sans-serif;
+}

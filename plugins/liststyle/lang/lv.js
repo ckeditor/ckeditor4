@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'lv', {
 	armenian: 'Armēņu skaitļi',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'lv', {
 	upperAlpha: 'Lielie alfabēta (A, B, C, D, E, utt)',
 	upperRoman: 'Lielie romāņu (I, II, III, IV, V, utt)',
 	validateStartNumber: 'Saraksta sākuma numuram jābūt veselam skaitlim'
-});
+} );

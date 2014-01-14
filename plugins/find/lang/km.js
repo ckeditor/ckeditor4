@@ -1,18 +1,18 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'km', {
 	find: 'ស្វែងរក',
-	findOptions: 'Find Options',
+	findOptions: 'ជម្រើស​ស្វែង​រក',
 	findWhat: 'ស្វែងរកអ្វី:',
-	matchCase: 'ករណ៉ត្រូវរក',
-	matchCyclic: 'Match cyclic',
-	matchWord: 'ត្រូវពាក្យទាំងអស់',
-	notFoundMsg: 'ពាក្យនេះ រកមិនឃើញទេ ។',
+	matchCase: 'ករណី​ដំណូច',
+	matchCyclic: 'ត្រូវ​នឹង cyclic',
+	matchWord: 'ដូច​នឹង​ពាក្យ​ទាំង​មូល',
+	notFoundMsg: 'រក​មិន​ឃើញ​ពាក្យ​ដែល​បាន​បញ្ជាក់។',
 	replace: 'ជំនួស',
 	replaceAll: 'ជំនួសទាំងអស់',
-	replaceSuccessMsg: '%1 occurrence(s) replaced.',
+	replaceSuccessMsg: 'ការ​ជំនួស​ចំនួន %1 បាន​កើត​ឡើង។',
 	replaceWith: 'ជំនួសជាមួយ:',
-	title: 'Find and Replace'
-});
+	title: 'រក​និង​ជំនួស'
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'eo', {
 	alertUrl: 'Bonvolu tajpi la retadreson de la bildo',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'eo', {
 	validateBorder: 'La bordero devas esti entjera nombro.',
 	validateHSpace: 'La horizontala spaco devas esti entjera nombro.',
 	validateVSpace: 'La vertikala spaco devas esti entjera nombro.'
-});
+} );

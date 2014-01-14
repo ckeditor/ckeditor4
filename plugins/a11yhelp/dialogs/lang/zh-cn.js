@@ -1,14 +1,14 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
-	title: '访问功能说明',
+	title: '辅助功能说明',
 	contents: '帮助内容。要关闭此对话框请按 ESC 键。',
 	legend: [
 		{
-		name: '一般的',
+		name: '常规',
 		items: [
 			{
 			name: '编辑器工具栏',
@@ -17,12 +17,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 
 			{
 			name: '编辑器对话框',
-			legend: '在对话框内，TAB 键移动到下一个字段，SHIFT + TAB 组合键移动到上一个字段，ENTER 键提交对话框，ESC 键取消对话框。对于有多标签的对话框，用ALT + F10来移到标签列表。然后用 TAB 键或者向右箭头来移动到下一个标签；SHIFT + TAB 组合键或者向左箭头移动到上一个标签。用 SPACE 键或者 ENTER 键选择标签。'
+			legend: '在对话框内，TAB 键移动到下一个字段，SHIFT + TAB 组合键移动到上一个字段，ENTER 键提交对话框，ESC 键取消对话框。对于有多选项卡的对话框，用ALT + F10来移到选项卡列表。然后用 TAB 键或者向右箭头来移动到下一个选项卡；SHIFT + TAB 组合键或者向左箭头移动到上一个选项卡。用 SPACE 键或者 ENTER 键选择选项卡。'
 		},
 
 			{
 			name: '编辑器上下文菜单',
-			legend: '用 ${contextMenu}或者 应用程序键 打开上下文菜单。然后用 TAB 键或者下箭头键来移动到下一个菜单项；SHIFT + TAB 组合键或者上箭头键移动到上一个菜单项。用 SPACE 键或者 ENTER 键选择菜单项。用 SPACE 键，ENTER 键或者右箭头键打开子菜单。返回菜单用 ESC 键或者左箭头键。用 ESC 键关闭上下文菜单。'
+			legend: '用 ${contextMenu} 或者“应用程序键”打开上下文菜单。然后用 TAB 键或者下箭头键来移动到下一个菜单项；SHIFT + TAB 组合键或者上箭头键移动到上一个菜单项。用 SPACE 键或者 ENTER 键选择菜单项。用 SPACE 键，ENTER 键或者右箭头键打开子菜单。返回菜单用 ESC 键或者左箭头键。用 ESC 键关闭上下文菜单。'
 		},
 
 			{
@@ -69,17 +69,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		},
 			{
 			name: '访问前一个焦点区域的命令',
-			legend: '按${accessPreviousSpace} 访问^符号前最近的不可访问的焦点区域，例如：两个相邻的HR（人力资源）元素。重复此组合按键可以到达远处的焦点区域。'
+			legend: '按 ${accessPreviousSpace} 访问^符号前最近的不可访问的焦点区域，例如：两个相邻的 HR 元素。重复此组合按键可以到达远处的焦点区域。'
 		},
 			{
 			name: '访问下一个焦点区域命令',
-			legend: '按${accessNextSpace} 访问^符号后最近的不可访问的焦点区域，例如：两个相邻的HR（人力资源）元素。重复此组合按键可以到达远处的焦点区域。'
+			legend: '按 ${accessNextSpace} 以访问^符号后最近的不可访问的焦点区域。例如：两个相邻的 HR 元素。重复此组合按键可以到达远处的焦点区域。'
 		},
 			{
-			name: '访问功能帮助',
+			name: '辅助功能帮助',
 			legend: '按 ${a11yHelp}'
 		}
 		]
 	}
 	]
-});
+} );

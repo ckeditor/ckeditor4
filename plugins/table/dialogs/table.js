@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var defaultToPixel = CKEDITOR.tools.cssLength;
 
 	var commitValue = function( data ) {
@@ -77,7 +77,7 @@
 							txtHeight = dialog.getContentElement( 'info', 'txtHeight' );
 
 						txtHeight && txtHeight.setValue( height, true );
-					});
+					} );
 				}
 			},
 
@@ -147,8 +147,7 @@
 							var row = tbody.append( makeElement( 'tr' ) );
 							for ( var j = 0; j < cols; j++ ) {
 								var cell = row.append( makeElement( 'td' ) );
-								if ( !CKEDITOR.env.ie )
-									cell.append( makeElement( 'br' ) );
+								cell.appendBogus();
 							}
 						}
 					}
@@ -549,8 +548,8 @@
 
 	CKEDITOR.dialog.add( 'table', function( editor ) {
 		return tableDialog( editor, 'table' );
-	});
+	} );
 	CKEDITOR.dialog.add( 'tableProperties', function( editor ) {
 		return tableDialog( editor, 'tableProperties' );
-	});
-})();
+	} );
+} )();

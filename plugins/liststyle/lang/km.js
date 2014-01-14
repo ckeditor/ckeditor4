@@ -1,25 +1,25 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'km', {
 	armenian: 'លេខ​អារមេនី',
-	bulletedTitle: 'Bulleted List Properties',
-	circle: 'Circle',
-	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
-	disc: 'Disc',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'None',
+	bulletedTitle: 'លក្ខណៈ​សម្បត្តិ​បញ្ជី​ជា​ចំណុច',
+	circle: 'រង្វង់​មូល',
+	decimal: 'លេខ​ទសភាគ (1, 2, 3, ...)',
+	decimalLeadingZero: 'ទសភាគ​ចាប់​ផ្ដើម​ពី​សូន្យ (01, 02, 03, ...)',
+	disc: 'ថាស',
+	georgian: 'លេខ​ចចជា (an, ban, gan, ...)',
+	lowerAlpha: 'ព្យញ្ជនៈ​តូច (a, b, c, d, e, ...)',
+	lowerGreek: 'លេខ​ក្រិក​តូច (alpha, beta, gamma, ...)',
+	lowerRoman: 'លេខ​រ៉ូម៉ាំង​តូច (i, ii, iii, iv, v, ...)',
+	none: 'គ្មាន',
 	notset: '<not set>',
-	numberedTitle: 'Numbered List Properties',
-	square: 'Square',
+	numberedTitle: 'លក្ខណៈ​សម្បត្តិ​បញ្ជី​ជា​លេខ',
+	square: 'ការេ',
 	start: 'ចាប់​ផ្ដើម',
 	type: 'ប្រភេទ',
 	upperAlpha: 'អក្សរ​ធំ (A, B, C, D, E, ...)',
 	upperRoman: 'លេខ​រ៉ូម៉ាំង​ធំ (I, II, III, IV, V, ...)',
-	validateStartNumber: 'List start number must be a whole number.' // MISSING
-});
+	validateStartNumber: 'លេខ​ចាប់​ផ្ដើម​បញ្ជី ត្រូវ​តែ​ជា​តួ​លេខ​ពិត​ប្រាកដ។'
+} );

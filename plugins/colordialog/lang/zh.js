@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'zh', {
-	clear: 'Clear', // MISSING
-	highlight: 'Highlight', // MISSING
-	options: 'Color Options', // MISSING
-	selected: 'Selected Color', // MISSING
-	title: 'Select color' // MISSING
-});
+	clear: '清除',
+	highlight: '高亮',
+	options: '色彩選項',
+	selected: '選取的色彩',
+	title: '選取色彩'
+} );

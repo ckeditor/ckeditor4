@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'mk', {
 	label: 'Format', // MISSING
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'mk', {
 	tag_h6: 'Heading 6', // MISSING
 	tag_p: 'Normal', // MISSING
 	tag_pre: 'Formatted' // MISSING
-});
+} );

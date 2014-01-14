@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
@@ -27,7 +27,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 
 			{
 			name: 'Lista w edytorze',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'W polu listy możesz przechodzić do następnego elementu za pomocą klawisza TAB lub STRZAŁKI W DÓŁ. Poprzedni element osiągniesz za pomocą SHIFT+TAB lub STRZAŁKI W GÓRĘ. Za pomocą SPACJI lub ENTERA wybierzesz daną opcję z listy, a za pomocą klawisza ESC opuścisz listę.'
 		},
 
 			{
@@ -82,4 +82,4 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 		]
 	}
 	]
-});
+} );

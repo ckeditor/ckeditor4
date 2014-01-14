@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -14,7 +14,7 @@
  * @class
  * @singleton
  */
-CKEDITOR.scriptLoader = (function() {
+CKEDITOR.scriptLoader = ( function() {
 	var uniqueScripts = {},
 		waitingList = {};
 
@@ -113,12 +113,12 @@ CKEDITOR.scriptLoader = (function() {
 
 					// Create the <script> element.
 					var script = new CKEDITOR.dom.element( 'script' );
-					script.setAttributes({
+					script.setAttributes( {
 						type: 'text/javascript',
 						src: url } );
 
 					if ( callback ) {
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 							// FIXME: For IE, we are not able to return false on error (like 404).
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
@@ -152,6 +152,51 @@ CKEDITOR.scriptLoader = (function() {
 			for ( var i = 0; i < scriptCount; i++ ) {
 				loadScript( scriptUrl[ i ] );
 			}
-		}
+		},
+
+		/**
+		 * Loads a script in a queue, so only one is loaded at the same time.
+		 *
+		 * @since 4.1.2
+		 * @param {String} scriptUrl URL pointing to the script to be loaded.
+		 * @param {Function} [callback] A function to be called when the script
+		 * is loaded and executed. A boolean parameter is passed to the callback,
+		 * indicating the success of the load.
+		 *
+		 * @see CKEDITOR.scriptLoader#load
+		 */
+		queue: ( function() {
+			var pending = [];
+
+			// Loads the very first script from queue and removes it.
+			function loadNext() {
+				var script;
+
+				if ( ( script = pending[ 0 ] ) )
+					this.load( script.scriptUrl, script.callback, CKEDITOR, 0 );
+			}
+
+			return function( scriptUrl, callback ) {
+				var that = this;
+
+				// This callback calls the standard callback for the script
+				// and loads the very next script from pending list.
+				function callbackWrapper() {
+					callback && callback.apply( this, arguments );
+
+					// Removed the just loaded script from the queue.
+					pending.shift();
+
+					loadNext.call( that );
+				}
+
+				// Let's add this script to the queue
+				pending.push( { scriptUrl: scriptUrl, callback: callbackWrapper } );
+
+				// If the queue was empty, then start loading.
+				if ( pending.length == 1 )
+					loadNext.call( this );
+			};
+		} )()
 	};
-})();
+} )();

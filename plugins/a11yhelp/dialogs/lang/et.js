@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	contents: 'Abi sisu. Selle dialoogi sulgemiseks vajuta ESC klahvi.',
 	legend: [
 		{
 		name: 'Üldine',
@@ -82,4 +82,4 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'et', {
 		]
 	}
 	]
-});
+} );

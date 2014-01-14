@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'th', {
 	border: 'ขนาดเส้นขอบ',
@@ -51,8 +51,8 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	headersNone: 'None',
 	headersRow: 'แถวแรก',
 	invalidBorder: 'ขนาดเส้นกรอบต้องเป็นจำนวนตัวเลข',
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
+	invalidCellPadding: 'ช่องว่างภายในเซลล์ต้องเลขจำนวนบวก',
+	invalidCellSpacing: 'ช่องว่างภายในเซลล์ต้องเป็นเลขจำนวนบวก',
 	invalidCols: 'จำนวนคอลัมน์ต้องเป็นจำนวนมากกว่า 0',
 	invalidHeight: 'ส่วนสูงของตารางต้องเป็นตัวเลข',
 	invalidRows: 'จำนวนของแถวต้องเป็นจำนวนมากกว่า 0',
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'th', {
 	widthPc: 'เปอร์เซ็น',
 	widthPx: 'จุดสี',
 	widthUnit: 'หน่วยความกว้าง'
-});
+} );

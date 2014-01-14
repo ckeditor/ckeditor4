@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'sv', {
 	button: 'Sidmallar',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'sv', {
 	options: 'Inställningar för mall',
 	selectPromptMsg: 'Var god välj en mall att använda med editorn<br>(allt nuvarande innehåll raderas):',
 	title: 'Sidmallar'
-});
+} );

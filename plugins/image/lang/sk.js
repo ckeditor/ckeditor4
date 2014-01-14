@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'sk', {
 	alertUrl: 'Zadajte prosím URL obrázka',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sk', {
 	validateBorder: 'Rám (border) musí byť celé číslo.',
 	validateHSpace: 'H-medzera musí byť celé číslo.',
 	validateVSpace: 'V-medzera musí byť celé číslo.'
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ja', {
 	acccessKey: 'アクセスキー',
@@ -9,28 +9,28 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	advisoryTitle: 'Title属性',
 	anchor: {
 		toolbar: 'アンカー挿入/編集',
-		menu: 'アンカー プロパティ',
-		title: 'アンカー プロパティ',
+		menu: 'アンカーの編集',
+		title: 'アンカーのプロパティ',
 		name: 'アンカー名',
-		errorName: 'アンカー名を必ず入力してください。',
-		remove: 'Remove Anchor'
+		errorName: 'アンカー名を入力してください。',
+		remove: 'アンカーを削除'
 	},
 	anchorId: 'エレメントID',
 	anchorName: 'アンカー名',
-	charset: 'リンクcharset属性',
+	charset: 'リンク先のcharset',
 	cssClasses: 'スタイルシートクラス',
 	emailAddress: 'E-Mail アドレス',
 	emailBody: '本文',
 	emailSubject: '件名',
 	id: 'Id',
-	info: 'ハイパーリンク 情報',
+	info: 'ハイパーリンク情報',
 	langCode: '言語コード',
 	langDir: '文字表記の方向',
 	langDirLTR: '左から右 (LTR)',
 	langDirRTL: '右から左 (RTL)',
-	menu: 'リンク編集',
+	menu: 'リンクを編集',
 	name: 'Name属性',
-	noAnchors: '(ドキュメントにおいて利用可能なアンカーはありません。)',
+	noAnchors: '(このドキュメント内にアンカーはありません)',
 	noEmail: 'メールアドレスを入力してください。',
 	noUrl: 'リンクURLを入力してください。',
 	other: '<その他の>',
@@ -45,21 +45,21 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	popupStatusBar: 'ステータスバー',
 	popupToolbar: 'ツールバー',
 	popupTop: '上端からの座標で指定',
-	rel: 'Relationship', // MISSING
+	rel: '関連リンク',
 	selectAnchor: 'アンカーを選択',
 	styles: 'スタイルシート',
 	tabIndex: 'タブインデックス',
 	target: 'ターゲット',
 	targetFrame: '<フレーム>',
-	targetFrameName: '目的のフレーム名',
+	targetFrameName: 'ターゲットのフレーム名',
 	targetPopup: '<ポップアップウィンドウ>',
 	targetPopupName: 'ポップアップウィンドウ名',
 	title: 'ハイパーリンク',
-	toAnchor: 'このページのアンカー',
+	toAnchor: 'ページ内のアンカー',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
 	toolbar: 'リンク挿入/編集',
 	type: 'リンクタイプ',
-	unlink: 'リンク削除',
+	unlink: 'リンクを削除',
 	upload: 'アップロード'
-});
+} );

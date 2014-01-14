@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'el' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Επεξεργαστής Πλούσιου Κειμένου',
+	editorPanel: 'Πίνακας Επεξεργαστή Πλούσιου Κειμένου',
 
 	// Common messages and labels.
 	common: {
@@ -35,40 +28,40 @@ CKEDITOR.lang[ 'el' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'Πατήστε το ALT 0 για βοήθεια',
 
-		browseServer: 'Εξερεύνηση διακομιστή',
+		browseServer: 'Εξερεύνηση Διακομιστή',
 		url: 'URL',
 		protocol: 'Πρωτόκολλο',
-		upload: 'Ανέβασμα',
+		upload: 'Αποστολή',
 		uploadSubmit: 'Αποστολή στον Διακομιστή',
 		image: 'Εικόνα',
-		flash: 'Εισαγωγή Flash',
+		flash: 'Flash',
 		form: 'Φόρμα',
-		checkbox: 'Κουτί επιλογής',
-		radio: 'Κουμπί επιλογής',
-		textField: 'Πεδίο κειμένου',
-		textarea: 'Περιοχή κειμένου',
-		hiddenField: 'Κρυφό πεδίο',
+		checkbox: 'Κουτί Επιλογής',
+		radio: 'Κουμπί Επιλογής',
+		textField: 'Πεδίο Κειμένου',
+		textarea: 'Περιοχή Κειμένου',
+		hiddenField: 'Κρυφό Πεδίο',
 		button: 'Κουμπί',
-		select: 'Πεδίο επιλογής',
-		imageButton: 'Κουμπί εικόνας',
+		select: 'Πεδίο Επιλογής',
+		imageButton: 'Κουμπί Εικόνας',
 		notSet: '<δεν έχει ρυθμιστεί>',
 		id: 'Id',
 		name: 'Όνομα',
-		langDir: 'Κατεύθυνση κειμένου',
+		langDir: 'Κατεύθυνση Κειμένου',
 		langDirLtr: 'Αριστερά προς Δεξιά (LTR)',
 		langDirRtl: 'Δεξιά προς Αριστερά (RTL)',
 		langCode: 'Κωδικός Γλώσσας',
-		longDescr: 'Αναλυτική περιγραφή URL',
-		cssClass: 'Stylesheet Classes',
-		advisoryTitle: 'Ενδεικτικός τίτλος',
-		cssStyle: 'Μορφή κειμένου',
+		longDescr: 'Αναλυτική Περιγραφή URL',
+		cssClass: 'Κλάσεις Φύλλων Στυλ',
+		advisoryTitle: 'Ενδεικτικός Τίτλος',
+		cssStyle: 'Μορφή Κειμένου',
 		ok: 'OK',
 		cancel: 'Ακύρωση',
 		close: 'Κλείσιμο',
 		preview: 'Προεπισκόπηση',
-		resize: 'Σύρσιμο για αλλαγή μεγέθους',
+		resize: 'Αλλαγή Μεγέθους',
 		generalTab: 'Γενικά',
-		advancedTab: 'Για προχωρημένους',
+		advancedTab: 'Για Προχωρημένους',
 		validateNumberFailed: 'Αυτή η τιμή δεν είναι αριθμός.',
 		confirmNewPage: 'Οι όποιες αλλαγές στο περιεχόμενο θα χαθούν. Είσαστε σίγουροι ότι θέλετε να φορτώσετε μια νέα σελίδα;',
 		confirmCancel: 'Μερικές επιλογές έχουν αλλάξει. Είσαστε σίγουροι ότι θέλετε να κλείσετε το παράθυρο διαλόγου;',
@@ -76,12 +69,12 @@ CKEDITOR.lang[ 'el' ] = {
 		target: 'Προορισμός',
 		targetNew: 'Νέο Παράθυρο (_blank)',
 		targetTop: 'Αρχική Περιοχή (_top)',
-		targetSelf: 'Ίδια Περιοχή (_self)',
+		targetSelf: 'Ίδιο Παράθυρο (_self)',
 		targetParent: 'Γονεϊκό Παράθυρο (_parent)',
 		langDirLTR: 'Αριστερά προς Δεξιά (LTR)',
 		langDirRTL: 'Δεξιά προς Αριστερά (RTL)',
 		styles: 'Μορφή',
-		cssClasses: 'Stylesheet Classes',
+		cssClasses: 'Κλάσεις Φύλλων Στυλ',
 		width: 'Πλάτος',
 		height: 'Ύψος',
 		align: 'Στοίχιση',
@@ -95,7 +88,7 @@ CKEDITOR.lang[ 'el' ] = {
 		invalidHeight: 'Το ύψος πρέπει να είναι ένας αριθμός.',
 		invalidWidth: 'Το πλάτος πρέπει να είναι ένας αριθμός.',
 		invalidCssLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης CSS (px, %, in, cm, mm, em, ex, pt, ή pc).',
-		invalidHtmlLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης HTML (px or %).',
+		invalidHtmlLength: 'Η τιμή που ορίζεται για το πεδίο "%1" πρέπει να είναι ένας θετικός αριθμός με ή χωρίς μια έγκυρη μονάδα μέτρησης HTML (px ή %).',
 		invalidInlineStyle: 'Η τιμή για το εν σειρά στυλ πρέπει να περιέχει ένα ή περισσότερα ζεύγη με την μορφή "όνομα: τιμή" διαχωρισμένα με Ελληνικό ερωτηματικό.',
 		cssLengthTooltip: 'Εισάγεται μια τιμή σε pixel ή έναν αριθμό μαζί με μια έγκυρη μονάδα μέτρησης CSS (px, %, in, cm, mm, em, ex, pt, ή pc).',
 

@@ -1,7 +1,7 @@
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
-uicolor.title = The UI Color Picker toolbar button tooltip and dialog window title.
-uicolor.preview = Label for the Live Preview checkbox of the UI Color Picker dialog window.
-uicolor.config = Label for the text box containing the configuration code for the UI Color Picker dialog window.
-uicolor.predefined = Label for the Predefined color sets drop-down list of the UI Color Picker dialog window.
+title = The UI Color Picker toolbar button tooltip and dialog window title.
+preview = Label for the Live Preview checkbox of the UI Color Picker dialog window.
+config = Label for the text box containing the configuration code for the UI Color Picker dialog window.
+predefined = Label for the Predefined color sets drop-down list of the UI Color Picker dialog window.

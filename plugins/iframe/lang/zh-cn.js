@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'zh-cn', {
 	border: '显示框架边框',
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'iframe', 'zh-cn', {
 	scrolling: '允许滚动条',
 	title: 'IFrame 属性',
 	toolbar: 'IFrame'
-});
+} );

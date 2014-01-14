@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'sk', {
 	clear: 'Vyčistiť',
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'sk', {
 	options: 'Možnosti farby',
 	selected: 'Vybraná farba',
 	title: 'Vyberte farbu'
-});
+} );

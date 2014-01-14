@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -130,9 +130,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 						var html = [],
 							requiredClass = elementDefinition.required ? ' cke_required' : '';
-						if ( elementDefinition.labelLayout != 'horizontal' )
-						html.push( '<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"', ( _.inputId ? ' for="' + _.inputId + '"' : '' ), ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', elementDefinition.label, '</label>', '<div class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + ' role="presentation">', contentHtml.call( this, dialog, elementDefinition ), '</div>' );
-						else {
+						if ( elementDefinition.labelLayout != 'horizontal' ) {
+							html.push(
+								'<label class="cke_dialog_ui_labeled_label' + requiredClass + '" ', ' id="' + _.labelId + '"',
+									( _.inputId ? ' for="' + _.inputId + '"' : '' ),
+									( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
+									elementDefinition.label,
+								'</label>',
+								'<div class="cke_dialog_ui_labeled_content"',
+									( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
+									' role="radiogroup" aria-labelledby="' + _.labelId + '">',
+									contentHtml.call( this, dialog, elementDefinition ),
+								'</div>' );
+						} else {
 							var hboxDefinition = {
 								type: 'hbox',
 								widths: elementDefinition.widths,
@@ -210,7 +220,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					me.getInputElement().on( 'keydown', function( evt ) {
 						if ( evt.data.getKeystroke() == 13 )
 							keyPressedOnMe = true;
-					});
+					} );
 
 					// Lower the priority this 'keyup' since 'ok' will close the dialog.(#3749)
 					me.getInputElement().on( 'keyup', function( evt ) {
@@ -221,7 +231,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							keyPressedOnMe = false;
 						}
 					}, null, null, 1000 );
-				});
+				} );
 
 				var innerHTML = function() {
 						// IE BUG: Text input fields in IE at 100% would exceed a <td> or inline
@@ -371,56 +381,76 @@ CKEDITOR.plugins.add( 'dialogui', {
 					return;
 
 				initPrivateObject.call( this, elementDefinition );
+
 				if ( !this._[ 'default' ] )
 					this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
+
 				if ( elementDefinition.validate )
 					this.validate = elementDefinition.valdiate;
+
 				var children = [],
 					me = this;
 
 				var innerHTML = function() {
-						var inputHtmlList = [],
-							html = [],
-							commonAttributes = { 'class': 'cke_dialog_ui_radio_item', 'aria-labelledby': this._.labelId },
-							commonName = elementDefinition.id ? elementDefinition.id + '_radio' : CKEDITOR.tools.getNextId() + '_radio';
-						for ( var i = 0; i < elementDefinition.items.length; i++ ) {
-							var item = elementDefinition.items[ i ],
-								title = item[ 2 ] !== undefined ? item[ 2 ] : item[ 0 ],
-								value = item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ],
-								inputId = CKEDITOR.tools.getNextId() + '_radio_input',
-								labelId = inputId + '_label',
-								inputDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
-									id: inputId,
-									title: null,
-									type: null
-								}, true ),
-								labelDefinition = CKEDITOR.tools.extend( {}, inputDefinition, {
-									title: title
-								}, true ),
-								inputAttributes = {
-									type: 'radio',
-									'class': 'cke_dialog_ui_radio_input',
-									name: commonName,
-									value: value,
-									'aria-labelledby': labelId
-								},
-								inputHtml = [];
-							if ( me._[ 'default' ] == value )
-								inputAttributes.checked = 'checked';
-							cleanInnerDefinition( inputDefinition );
-							cleanInnerDefinition( labelDefinition );
+					var inputHtmlList = [],
+						html = [],
+						commonName = ( elementDefinition.id ? elementDefinition.id : CKEDITOR.tools.getNextId() ) + '_radio';
 
-							if ( typeof inputDefinition.inputStyle != 'undefined' )
-								inputDefinition.style = inputDefinition.inputStyle;
+					for ( var i = 0; i < elementDefinition.items.length; i++ ) {
+						var item = elementDefinition.items[ i ],
+							title = item[ 2 ] !== undefined ? item[ 2 ] : item[ 0 ],
+							value = item[ 1 ] !== undefined ? item[ 1 ] : item[ 0 ],
+							inputId = CKEDITOR.tools.getNextId() + '_radio_input',
+							labelId = inputId + '_label',
 
-							children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
-							inputHtml.push( ' ' );
-							new CKEDITOR.ui.dialog.uiElement( dialog, labelDefinition, inputHtml, 'label', null, { id: labelId, 'for': inputAttributes.id }, item[ 0 ] );
-							inputHtmlList.push( inputHtml.join( '' ) );
-						}
-						new CKEDITOR.ui.dialog.hbox( dialog, children, inputHtmlList, html );
-						return html.join( '' );
-					};
+							inputDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
+								id: inputId,
+								title: null,
+								type: null
+							}, true ),
+
+							labelDefinition = CKEDITOR.tools.extend( {}, inputDefinition, {
+								title: title
+							}, true ),
+
+							inputAttributes = {
+								type: 'radio',
+								'class': 'cke_dialog_ui_radio_input',
+								name: commonName,
+								value: value,
+								'aria-labelledby': labelId
+							},
+
+							inputHtml = [];
+
+						if ( me._[ 'default' ] == value )
+							inputAttributes.checked = 'checked';
+
+						cleanInnerDefinition( inputDefinition );
+						cleanInnerDefinition( labelDefinition );
+
+						if ( typeof inputDefinition.inputStyle != 'undefined' )
+							inputDefinition.style = inputDefinition.inputStyle;
+
+						// Make inputs of radio type focusable (#10866).
+						inputDefinition.keyboardFocusable = true;
+
+						children.push( new CKEDITOR.ui.dialog.uiElement( dialog, inputDefinition, inputHtml, 'input', null, inputAttributes ) );
+
+						inputHtml.push( ' ' );
+
+						new CKEDITOR.ui.dialog.uiElement( dialog, labelDefinition, inputHtml, 'label', null, {
+							id: labelId,
+							'for': inputAttributes.id
+						}, item[ 0 ] );
+
+						inputHtmlList.push( inputHtml.join( '' ) );
+					}
+
+					new CKEDITOR.ui.dialog.hbox( dialog, children, inputHtmlList, html );
+
+					return html.join( '' );
+				};
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 				this._.children = children;
@@ -460,16 +490,20 @@ CKEDITOR.plugins.add( 'dialogui', {
 				dialog.on( 'load', function( eventInfo ) {
 					var element = this.getElement();
 
-					(function() {
-						element.on( 'click', me.click, me );
+					( function() {
+						element.on( 'click', function( evt ) {
+							me.click();
+							// #9958
+							evt.data.preventDefault();
+						} );
 
 						element.on( 'keydown', function( evt ) {
-							if ( evt.data.getKeystroke() in { 32:1 } ) {
+							if ( evt.data.getKeystroke() in { 32: 1 } ) {
 								me.click();
 								evt.data.preventDefault();
 							}
-						});
-					})();
+						} );
+					} )();
 
 					element.unselectable();
 				}, this );
@@ -592,9 +626,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 						_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
 
-						// Support for custom document.domain in IE.
-						var isCustomDomain = CKEDITOR.env.isCustomDomain();
-
 						var html = [
 							'<iframe' +
 								' frameborder="0"' +
@@ -605,11 +636,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 								' title="', elementDefinition.label, '"' +
 								' src="javascript:void(' ];
 
-						html.push( isCustomDomain ? '(function(){' +
-							'document.open();' +
-							'document.domain=\'' + document.domain + '\';' +
-							'document.close();' +
-							'})()'
+						// Support for custom document.domain on IE. (#10165)
+						html.push( CKEDITOR.env.ie ?
+							'(function(){' + encodeURIComponent(
+								'document.open();' +
+								'(' + CKEDITOR.tools.fixDomain + ')();' +
+								'document.close();'
+							) + '})()'
 							:
 							'0' );
 
@@ -624,7 +657,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var iframe = CKEDITOR.document.getById( _.frameId ),
 						contentDiv = iframe.getParent();
 					contentDiv.addClass( 'cke_dialog_ui_input_file' );
-				});
+				} );
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 			},
@@ -668,12 +701,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				dialog.on( 'load', function() {
 					dialog.getContentElement( elementDefinition[ 'for' ][ 0 ], elementDefinition[ 'for' ][ 1 ] )._.buttons.push( me );
-				});
+				} );
 
 				CKEDITOR.ui.dialog.button.call( this, dialog, myDefinition, htmlList );
 			},
 
-			html: (function() {
+			html: ( function() {
 				var myHtmlRe = /^\s*<[\w:]+\s+([^>]*)?>/,
 					theirHtmlRe = /^(\s*<[\w:]+(?:\s+[^>]*)?)((?:.|\r|\n)+)$/,
 					emptyTagRe = /\/$/;
@@ -733,7 +766,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 					htmlList.push( [ theirMatch[ 1 ], ' ', myMatch[ 1 ] || '', theirMatch[ 2 ] ].join( '' ) );
 				};
-			})(),
+			} )(),
 
 			/**
 			 * Form fieldset for grouping dialog UI elements.
@@ -865,7 +898,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				onClick: function( dialog, func ) {
 					this.on( 'click', function() {
 						func.apply( this, arguments );
-					});
+					} );
 				}
 			}, true ),
 
@@ -1148,16 +1181,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 									evt = evt.data.$;
 									if ( evt.propertyName == 'checked' && this.$.checked )
 										me.fire( 'change', { value: this.getAttribute( 'value' ) } );
-								});
+								} );
 							}
 						}, this );
 						this.on( 'change', func );
 					}
 					return null;
 				}
-			},
-
-			keyboardFocusable: true
+			}
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.file */
@@ -1202,7 +1233,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var registerDomEvent = function( uiElement, dialog, eventName, func ) {
 						uiElement.on( 'formLoaded', function() {
 							uiElement.getInputElement().on( eventName, func, uiElement );
-						});
+						} );
 					};
 
 				for ( var i in definition ) {
@@ -1250,39 +1281,42 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this.getDialog()._.editor.on( 'destroy', function() {
 						CKEDITOR.tools.removeFunction( callNumber );
 						CKEDITOR.tools.removeFunction( unloadNumber );
-					});
+					} );
 				}
 
 				function generateFormField() {
 					frameDocument.$.open();
 
-					// Support for custom document.domain in IE.
-					if ( CKEDITOR.env.isCustomDomain() )
-						frameDocument.$.domain = document.domain;
-
 					var size = '';
 					if ( elementDefinition.size )
 						size = elementDefinition.size - ( CKEDITOR.env.ie ? 7 : 0 ); // "Browse" button is bigger in IE.
 
-				var inputId = _.frameId + '_input';
+					var inputId = _.frameId + '_input';
 
-					frameDocument.$.write( [ '<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
-														'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
-														CKEDITOR.tools.htmlEncode( elementDefinition.action ),
-														'">',
-													// Replicate the field label inside of iframe.
-																	'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
-													CKEDITOR.tools.htmlEncode( elementDefinition.label ),
-													'</label>',
-													'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
-														CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
-														'" size="',
-														CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
-														'" />',
-														'</form>',
-														'</body></html>',
-														'<script>window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
-														'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}</script>' ].join( '' ) );
+					frameDocument.$.write( [
+						'<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
+							'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
+								CKEDITOR.tools.htmlEncode( elementDefinition.action ),
+							'">',
+								// Replicate the field label inside of iframe.
+								'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
+									CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+								'</label>',
+								'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
+									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
+									'" size="',
+									CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
+								'" />',
+							'</form>',
+						'</body></html>',
+						'<script>',
+							// Support for custom document.domain in IE.
+							CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '',
+
+							'window.parent.CKEDITOR.tools.callFunction(' + callNumber + ');',
+							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
+						'</script>'
+					].join( '' ) );
 
 					frameDocument.$.close();
 
@@ -1355,7 +1389,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		CKEDITOR.dialog.addUIElement( 'html', commonBuilder );
 		CKEDITOR.dialog.addUIElement( 'fieldset', containerBuilder );
 	}
-});
+} );
 
 /**
  * Fired when the value of the uiElement is changed.

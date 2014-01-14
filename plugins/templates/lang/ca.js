@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'ca', {
 	button: 'Plantilles',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ca', {
 	options: 'Opcions de plantilla',
 	selectPromptMsg: 'Seleccioneu una plantilla per usar a l\'editor<br>(per defecte s\'elimina el contingut actual):',
 	title: 'Plantilles de contingut'
-});
+} );

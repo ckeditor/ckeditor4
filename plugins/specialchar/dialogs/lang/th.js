@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'th', {
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'th', {
 	hArr: 'Left right double arrow', // MISSING
 	diams: 'Black diamond suit', // MISSING
 	asymp: 'Almost equal to' // MISSING
-});
+} );

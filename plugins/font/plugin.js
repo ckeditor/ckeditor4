@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
@@ -90,21 +90,26 @@
 					// If no styles match, just empty it.
 					this.setValue( '', defaultLabel );
 				}, this );
+			},
+
+			refresh: function() {
+				if ( !editor.activeFilter.check( style ) )
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
-		});
+		} );
 	}
 
 	CKEDITOR.plugins.add( 'font', {
 		requires: 'richcombo',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var config = editor.config;
 
 			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
 			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * The list of fonts names to be displayed in the Font combo in the toolbar.
@@ -166,7 +171,7 @@ CKEDITOR.config.font_style = {
 	styles: { 'font-family': '#(family)' },
 	overrides: [ {
 		element: 'font', attributes: { 'face': null }
-	}]
+	} ]
 };
 
 /**
@@ -221,5 +226,5 @@ CKEDITOR.config.fontSize_style = {
 	styles: { 'font-size': '#(size)' },
 	overrides: [ {
 		element: 'font', attributes: { 'size': null }
-	}]
+	} ]
 };

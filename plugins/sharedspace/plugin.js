@@ -1,9 +1,9 @@
 /**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 
 	'use strict';
 
@@ -21,16 +21,19 @@
 		'</div>' );
 
 	CKEDITOR.plugins.add( 'sharedspace', {
-		afterInit: function( editor ) {
-			var spaces = editor.config.sharedSpaces;
+		init: function( editor ) {
+			// Create toolbars on #loaded (like themed creator), but do that
+			// with higher priority to block the default scenario.
+			editor.on( 'loaded', function() {
+				var spaces = editor.config.sharedSpaces;
 
-			if ( spaces ) {
-				for ( var spaceName in spaces ) {
-					create( editor, spaceName, spaces[ spaceName ] );
+				if ( spaces ) {
+					for ( var spaceName in spaces )
+						create( editor, spaceName, spaces[ spaceName ] );
 				}
-			}
+			}, null, null, 9 );
 		}
-	});
+	} );
 
 	function create( editor, spaceName, targetId ) {
 		var target = CKEDITOR.document.getById( targetId ),
@@ -48,7 +51,7 @@
 				}, null, null, 1 );  // Hi-priority
 
 				// Inject the space into the target.
-				space = target.append( CKEDITOR.dom.element.createFromHtml( containerTpl.output({
+				space = target.append( CKEDITOR.dom.element.createFromHtml( containerTpl.output( {
 					id: editor.id,
 					name: editor.name,
 					langDir: editor.lang.dir,
@@ -56,7 +59,7 @@
 					space: spaceName,
 					spaceId: editor.ui.spaceId( spaceName ),
 					content: innerHtml
-				})));
+				} ) ) );
 
 				// Only the first container starts visible. Others get hidden.
 				if ( target.getCustomData( 'cke_hasshared' ) )
@@ -72,7 +75,7 @@
 					evt = evt.data;
 					if ( !evt.getTarget().hasAscendant( 'a', 1 ) )
 						evt.preventDefault();
-				});
+				} );
 
 				// Register this UI space to the focus manager.
 				editor.focusManager.add( space, 1 );
@@ -88,15 +91,15 @@
 					}
 
 					space.show();
-				});
+				} );
 
 				editor.on( 'destroy', function() {
 					space.remove();
-				});
+				} );
 			}
 		}
 	}
-})();
+} )();
 
 /**
  * Makes it possible to place some of the editor UI blocks, like the toolbar

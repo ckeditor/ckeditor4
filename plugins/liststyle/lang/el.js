@@ -1,25 +1,25 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'el', {
-	armenian: 'Armenian numbering',
+	armenian: 'Αρμενική αρίθμηση',
 	bulletedTitle: 'Ιδιότητες Λίστας Σημείων',
 	circle: 'Κύκλος',
-	decimal: 'Δεκαδικός (1, 2, 3, κτλ)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
+	decimal: 'Δεκαδική (1, 2, 3, κτλ)',
+	decimalLeadingZero: 'Δεκαδική με αρχικό μηδεν (01, 02, 03, κτλ)',
 	disc: 'Δίσκος',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
-	none: 'Τίποτα',
+	georgian: 'Γεωργιανή αρίθμηση (ა, ბ, გ, κτλ)',
+	lowerAlpha: 'Μικρά Λατινικά (a, b, c, d, e, κτλ.)',
+	lowerGreek: 'Μικρά Ελληνικά (α, β, γ, κτλ)',
+	lowerRoman: 'Μικρά Ρωμαϊκά (i, ii, iii, iv, v, κτλ)',
+	none: 'Καμία',
 	notset: '<δεν έχει οριστεί>',
 	numberedTitle: 'Ιδιότητες Αριθμημένης Λίστας ',
 	square: 'Τετράγωνο',
 	start: 'Εκκίνηση',
 	type: 'Τύπος',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
+	upperAlpha: 'Κεφαλαία Λατινικά (A, B, C, D, E, κτλ)',
+	upperRoman: 'Κεφαλαία Ρωμαϊκά (I, II, III, IV, V, κτλ)',
 	validateStartNumber: 'Ο αριθμός εκκίνησης της αρίθμησης πρέπει να είναι ακέραιος αριθμός.'
-});
+} );

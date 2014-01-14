@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'sq', {
 	label: 'Stil',
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'sq', {
 	panelTitle1: 'Stilet e Bllokut',
 	panelTitle2: 'Stili i Brendshëm',
 	panelTitle3: 'Stilet e Objektit'
-});
+} );

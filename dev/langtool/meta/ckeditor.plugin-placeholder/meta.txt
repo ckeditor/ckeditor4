@@ -1,8 +1,8 @@
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
-placeholder.title = Label for the Placeholder Properties dialog window.
-placeholder.toolbar = Toolbar button tooltip for the Placeholder plugin.
-placeholder.text = Label for the Placeholder Text field of the Placeholder Properties dialog window.
-placeholder.edit = Label for the Edit Placeholder feature displayed in the placeholder context menu.
-placeholder.textMissing = Error message displayed when a user attempts to add a placeholder without filling its text.
+title = Label for the Placeholder dialog window.
+toolbar = Toolbar button tooltip for the Placeholder feature.
+name = 
+invalidName = 
+pathName = 

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'sr', {
 	auto: 'Аутоматски',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sr', {
 	more: 'Више боја...',
 	panelTitle: 'Colors',
 	textColorTitle: 'Боја текста'
-});
+} );

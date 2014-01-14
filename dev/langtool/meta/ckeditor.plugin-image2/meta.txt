@@ -1,0 +1,16 @@
+# Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+alt = Label for the Alternative Text field of the Image Properties dialog window.
+btnUpload = Label for the button that uploads the file to the server.
+captioned = Label for the Captioned checkbox in the Image2 dialog window.
+infoTab = Label for the Image Info tab of the Image Properties dialog window.
+lockRatio = Tooltip for the Lock Ratio icon of the Image Properties dialog window.
+menu = Label for the Image Properties context menu entry for an image.
+pathName = Label displayed in Elementspath when the image is selected.
+pathNameCaption = Label displayed in Elementspath when the caption of an image is focused.
+resetSize = Tooltip for the Reset Size icon of the Image Properties dialog window.
+resizer = Tooltip for the dynamic resizer of the image.
+title = Label for the Image Properties dialog window.
+uploadTab = Label for the Upload tab of the Image Properties dialog window.
+urlMissing = Error message displayed when a user attempts to add an image without giving its URL.

@@ -1,25 +1,25 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'ja', {
 	bgColor: '背景色',
 	bgFixed: 'スクロールしない背景',
 	bgImage: '背景画像 URL',
-	charset: '文字セット符号化',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
+	charset: '文字コード',
+	charsetASCII: 'ASCII',
+	charsetCE: 'Central European',
+	charsetCR: 'Cyrillic',
+	charsetCT: 'Chinese Traditional (Big5)',
+	charsetGR: 'Greek',
+	charsetJP: '日本語',
+	charsetKR: 'Korean',
 	charsetOther: '他の文字セット符号化',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetTR: 'Turkish',
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Western European',
 	chooseColor: '色の選択',
-	design: 'Design', // MISSING
+	design: 'デザイン',
 	docTitle: 'ページタイトル',
 	docType: '文書タイプヘッダー',
 	docTypeOther: 'その他文書タイプヘッダー',
@@ -35,8 +35,8 @@ CKEDITOR.plugins.setLang( 'docprops', 'ja', {
 	metaDescription: '文書の概要',
 	metaKeywords: '文書のキーワード(カンマ区切り)',
 	other: '<その他の>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>これは<strong>テキストサンプル</strong>です。 あなたは、<a href="javascript:void(0)">CKEditor</a>を使っています。</p>',
 	title: '文書 プロパティ',
 	txtColor: 'テキスト色',
 	xhtmlDec: 'XHTML宣言をインクルード'
-});
+} );

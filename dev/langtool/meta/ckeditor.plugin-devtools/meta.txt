@@ -1,8 +1,8 @@
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
-devTools.title = Label for the Element Information tooltip displayed by the Developer Tools plugin.
-devTools.dialogName = Label for the Dialog window name field displayed by the Developer Tools plugin.
-devTools.tabName = Label for the Tab name field displayed by the Developer Tools plugin.
-devTools.elementId = Label for the Element ID field displayed by the Developer Tools plugin.
-devTools.elementType = Label for the Element type field displayed by the Developer Tools plugin.
+title = Label for the Element Information tooltip displayed by the Developer Tools plugin.
+dialogName = Label for the Dialog window name field displayed by the Developer Tools plugin.
+tabName = Label for the Tab name field displayed by the Developer Tools plugin.
+elementId = Label for the Element ID field displayed by the Developer Tools plugin.
+elementType = Label for the Element type field displayed by the Developer Tools plugin.

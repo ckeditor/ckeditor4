@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
@@ -12,27 +12,27 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 		items: [
 			{
 			name: 'Панель Редактора',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Натисніть ${toolbarFocus} для переходу до панелі інструментів. Для переміщення між групами панелі інструментів використовуйте TAB і SHIFT-TAB. Для переміщення між кнопками панелі іструментів використовуйте кнопки СТРІЛКА ВПРАВО або ВЛІВО. Натисніть ПРОПУСК або ENTER для запуску кнопки панелі інструментів'
 		},
 
 			{
 			name: 'Діалог Редактора',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: 'У діалозі натисніть клавішу TAB для переходу до наступного поля, натисніть SHIFT + TAB, щоб перейти до попереднього поля, натисніть ENTER, щоб відправити дані, натисніть ESC, щоб скасувати. Для вікон, які мають кілька вкладок, натисніть ALT + F10 для переходу до списку вкладок. Перехід до наступної вкладки TAB АБО СТРІЛКА ВПРАВО. Перехід до попередньої вкладки за допомогою SHIFT + TAB або СТРІЛКА ВЛІВО. Натисніть ПРОПУСК або ENTER, щоб вибрати вкладку.'
 		},
 
 			{
 			name: 'Контекстне Меню Редактора',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Потім перейдіть до наступного пункту меню за допомогою TAB або СТРІЛКИ ВНИЗ. Натисніть ПРОПУСК або ENTER для вибору параметру меню. Відкрийте підменю поточного параметру, натиснувши ПРОПУСК або ENTER або СТРІЛКУ ВПРАВО. Перейдіть до батьківського елемента меню, натиснувши ESC або СТРІЛКУ ВЛІВО. Закрийте контекстне меню, натиснувши ESC.'
 		},
 
 			{
 			name: 'Скринька Списків Редактора',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Всередині списку переходимо до наступного пункту списку  клавішею TAB або СТРІЛКА ВНИЗ. Перейти до попереднього елемента списку можна SHIFT + TAB або СТРІЛКА ВГОРУ. Натисніть ПРОПУСК або ENTER, щоб вибрати параметр списку. Натисніть клавішу ESC, щоб закрити список.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'Шлях до елемента редактора',
+			legend: 'Натисніть ${elementsPathFocus} для навігації між елементами панелі. Перейдіть до наступного елемента кнопкою TAB або СТРІЛКА ВПРАВО. Перейдіть до попереднього елемента кнопкою SHIFT+TAB або СТРІЛКА ВЛІВО. Натисніть ПРОПУСК або ENTER для вибору елемента в редакторі.'
 		}
 		]
 	},
@@ -41,45 +41,45 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 		items: [
 			{
 			name: 'Відмінити команду',
-			legend: 'Press ${undo}' // MISSING
+			legend: 'Натисніть ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Повторити',
+			legend: 'Натисніть ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Жирний',
+			legend: 'Натисніть ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Курсив',
+			legend: 'Натисніть ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Підкреслений',
+			legend: 'Натисніть ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Посилання',
+			legend: 'Натисніть ${link}'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'Згорнути панель інструментів',
+			legend: 'Натисніть ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Доступ до попереднього місця фокусування',
+			legend: 'Натисніть ${accessNextSpace} для доступу до найближчої недосяжної області фокусування перед кареткою, наприклад: два сусідні елементи HR. Повторіть комбінацію клавіш для досягнення віддалених областей фокусування.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Доступ до наступного місця фокусування',
+			legend: 'Натисніть ${accessNextSpace} для доступу до найближчої недосяжної області фокусування після каретки, наприклад: два сусідні елементи HR. Повторіть комбінацію клавіш для досягнення віддалених областей фокусування.'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'Допомога з доступності',
+			legend: 'Натисніть ${a11yHelp}'
 		}
 		]
 	}
 	]
-});
+} );

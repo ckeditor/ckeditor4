@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sq', {
 	acccessKey: 'Sipas ID-së së Elementit',
 	advanced: 'Të përparuara',
-	advisoryContentType: 'Advisory Content Type', // MISSING
+	advisoryContentType: 'Lloji i Përmbajtjes Këshillimore',
 	advisoryTitle: 'Titull',
 	anchor: {
 		toolbar: 'Spirancë',
@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	},
 	anchorId: 'Sipas ID-së së Elementit',
 	anchorName: 'Sipas Emrit të Spirancës',
-	charset: 'Linked Resource Charset', // MISSING
+	charset: 'Seti i Karaktereve të Burimeve të Nëdlidhura',
 	cssClasses: 'Klasa stili CSS',
 	emailAddress: 'Posta Elektronike',
 	emailBody: 'Trupi i Porosisë',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	noUrl: 'Ju lutemi shkruani URL-në e nyjes',
 	other: '<tjetër>',
 	popupDependent: 'E Varur (Netscape)',
-	popupFeatures: 'Popup Window Features', // MISSING
+	popupFeatures: 'Karakteristikat e Dritares së Dialogut',
 	popupFullScreen: 'Ekran i Plotë  (IE)',
 	popupLeft: 'Pozita Majtas',
 	popupLocationBar: 'Shiriti i Lokacionit',
@@ -51,9 +51,9 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	tabIndex: 'Tab Index', // MISSING
 	target: 'Objektivi',
 	targetFrame: '<frame>',
-	targetFrameName: 'Target Frame Name', // MISSING
+	targetFrameName: 'Emri i Kornizës së Synuar',
 	targetPopup: '<popup window>',
-	targetPopupName: 'Popup Window Name', // MISSING
+	targetPopupName: 'Emri i Dritares së Dialogut',
 	title: 'Nyja',
 	toAnchor: 'Lidhu me spirancën në tekst',
 	toEmail: 'Posta Elektronike',
@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	type: 'Lloji i Nyjes',
 	unlink: 'Largo Nyjen',
 	upload: 'Ngarko'
-});
+} );

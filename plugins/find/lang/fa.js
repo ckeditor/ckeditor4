@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'fa', {
 	find: 'جستجو',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fa', {
 	replaceSuccessMsg: '%1 رخداد جایگزین شد.',
 	replaceWith: 'جایگزینی با:',
 	title: 'جستجو و جایگزینی'
-});
+} );

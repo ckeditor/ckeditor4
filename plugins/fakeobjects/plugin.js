@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var cssStyle = CKEDITOR.htmlParser.cssStyle,
 		cssLength = CKEDITOR.tools.cssLength;
 
@@ -52,7 +52,13 @@
 	};
 
 	var plugin = CKEDITOR.plugins.add( 'fakeobjects', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+
+		init: function( editor ) {
+			// Allow image with all styles and classes plus src, alt and title attributes.
+			// We need them when fakeobject is pasted.
+			editor.filter.allow( 'img[!data-cke-realelement,src,alt,title](*){*}', 'fakeobjects' );
+		},
 
 		afterInit: function( editor ) {
 			var dataProcessor = editor.dataProcessor,
@@ -61,7 +67,7 @@
 			if ( htmlFilter )
 				htmlFilter.addRules( htmlFilterRules );
 		}
-	});
+	} );
 
 	/**
 	 * @member CKEDITOR.editor
@@ -169,4 +175,4 @@
 		return element;
 	};
 
-})();
+} )();

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'cy', {
 	alertUrl: 'Rhowch URL y ddelwedd',
@@ -17,10 +17,10 @@ CKEDITOR.plugins.setLang( 'image', 'cy', {
 	resetSize: 'Ailosod Maint',
 	title: 'Priodweddau Delwedd',
 	titleButton: 'Priodweddau Botwm Delwedd',
-	upload: 'lanlwytho',
+	upload: 'Lanlwytho',
 	urlMissing: 'URL gwreiddiol y ddelwedd ar goll.',
 	vSpace: 'BwlchF',
 	validateBorder: 'Rhaid i\'r ymyl fod yn gyfanrif.',
 	validateHSpace: 'Rhaid i\'r HSpace fod yn gyfanrif.',
 	validateVSpace: 'Rhaid i\'r VSpace fod yn gyfanrif.'
-});
+} );

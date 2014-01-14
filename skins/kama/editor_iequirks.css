@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -234,7 +234,7 @@ a.cke_dialog_ui_button_cancel span
 .cke_menuitem .cke_disabled .cke_icon,
 .cke_button_disabled .cke_button_icon
 {
-	filter: ;
+	filter: "";
 }
 
 .cke_menuseparator

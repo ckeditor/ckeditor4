@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'sv', {
 	border: 'Kantstorlek',
@@ -60,7 +60,7 @@ CKEDITOR.plugins.setLang( 'table', 'sv', {
 	menu: 'Tabellegenskaper',
 	row: {
 		menu: 'Rad',
-		insertBefore: 'Lägg till Rad Före',
+		insertBefore: 'Lägg till rad före',
 		insertAfter: 'Lägg till rad efter',
 		deleteRow: 'Radera rad'
 	},
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'sv', {
 	widthPc: 'procent',
 	widthPx: 'pixlar',
 	widthUnit: 'enhet bredd'
-});
+} );

@@ -1,9 +1,9 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
-	armenian: 'Rhifau Armeneg',
+	armenian: 'Rhifo Armeneg',
 	bulletedTitle: 'Priodweddau Rhestr Fwled',
 	circle: 'Cylch',
 	decimal: 'Degol (1, 2, 3, ayyb.)',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
 	upperAlpha: 'Alffa Uwch (A, B, C, D, E, ayyb.)',
 	upperRoman: 'Rhufeinig Uwch (I, II, III, IV, V, ayyb.)',
 	validateStartNumber: 'Rhaid bod y rhif cychwynnol yn gyfanrif.'
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
 	armenian: 'Armenisk numrering',
@@ -21,5 +21,5 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
 	type: 'Typ',
 	upperAlpha: 'Alpha versaler (A, B, C, D, E, etc.)',
 	upperRoman: 'Romerska versaler (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
-});
+	validateStartNumber: 'Listans startnummer måste vara ett heltal.'
+} );

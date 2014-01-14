@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'zh-cn', {
 	find: '查找',
@@ -9,10 +9,10 @@ CKEDITOR.plugins.setLang( 'find', 'zh-cn', {
 	matchCase: '区分大小写',
 	matchCyclic: '循环匹配',
 	matchWord: '全字匹配',
-	notFoundMsg: '指定文本没有找到',
+	notFoundMsg: '指定的文本没有找到。',
 	replace: '替换',
 	replaceAll: '全部替换',
-	replaceSuccessMsg: '共完成 %1 处替换.',
+	replaceSuccessMsg: '共完成 %1 处替换。',
 	replaceWith: '替换:',
 	title: '查找和替换'
-});
+} );

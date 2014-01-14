@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'de', {
 	armenian: 'Armenisch Nummerierung',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'de', {
 	upperAlpha: 'Groß alpha (A, B, C, D, E, etc.)',
 	upperRoman: 'Groß römisch (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'List Startnummer muss eine ganze Zahl sein.'
-});
+} );

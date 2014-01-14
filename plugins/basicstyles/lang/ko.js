@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'ko', {
 	bold: '진하게',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'ko', {
 	subscript: '아래 첨자',
 	superscript: '위 첨자',
 	underline: '밑줄'
-});
+} );

@@ -1,28 +1,27 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @fileOverview Preview plugin.
  */
 
-(function() {
+( function() {
 	var pluginPath;
 
-	var previewCmd = { modes:{wysiwyg:1,source:1 },
+	var previewCmd = { modes: { wysiwyg: 1, source: 1 },
 		canUndo: false,
 		readOnly: 1,
 		exec: function( editor ) {
 			var sHTML,
 				config = editor.config,
 				baseTag = config.baseHref ? '<base href="' + config.baseHref + '"/>' : '',
-				isCustomDomain = CKEDITOR.env.isCustomDomain(),
 				eventData;
 
-			if ( config.fullPage ) {
+			if ( config.fullPage )
 				sHTML = editor.getData().replace( /<head>/, '$&' + baseTag ).replace( /[^>]*(?=<\/title>)/, '$& &mdash; ' + editor.lang.preview.preview );
-			} else {
+			else {
 				var bodyHtml = '<body ',
 					body = editor.document && editor.document.getBody();
 
@@ -62,16 +61,22 @@
 			if ( !editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) )
 				return false;
 
-			var sOpenUrl = '';
-			if ( isCustomDomain ) {
+			var sOpenUrl = '',
+				ieLocation;
+
+			if ( CKEDITOR.env.ie ) {
 				window._cke_htmlToLoad = eventData.dataValue;
-				sOpenUrl = 'javascript:void( (function(){' +
+				ieLocation = 'javascript:void( (function(){' +
 					'document.open();' +
-					'document.domain="' + document.domain + '";' +
+					// Support for custom document.domain.
+					// Strip comments and replace parent with window.opener in the function body.
+					( '(' + CKEDITOR.tools.fixDomain + ')();' ).replace( /\/\/.*?\n/g, '' ).replace( /parent\./g, 'window.opener.' ) +
 					'document.write( window.opener._cke_htmlToLoad );' +
 					'document.close();' +
 					'window.opener._cke_htmlToLoad = null;' +
-					'})() )';
+				'})() )';
+				// For IE we should use window.location rather than setting url in window.open. (#11146)
+				sOpenUrl = '';
 			}
 
 			// With Firefox only, we need to open a special preview page, so
@@ -84,16 +89,14 @@
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
-			if ( !isCustomDomain && !CKEDITOR.env.gecko ) {
+			if ( CKEDITOR.env.ie )
+				oWindow.location = ieLocation;
+
+			if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
 				var doc = oWindow.document;
 				doc.open();
 				doc.write( eventData.dataValue );
 				doc.close();
-
-				// Chrome will need this to show the embedded. (#8016)
-				CKEDITOR.env.webkit && setTimeout( function() {
-					doc.body.innerHTML += '';
-				}, 0 );
 			}
 
 			return true;
@@ -104,8 +107,9 @@
 
 	// Register a plugin named "preview".
 	CKEDITOR.plugins.add( pluginName, {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'preview,preview-rtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 
 			// Preview is not used for the inline creator.
@@ -119,10 +123,10 @@
 				label: editor.lang.preview.preview,
 				command: pluginName,
 				toolbar: 'document,40'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Event fired when executing `preview` command, which allows additional data manipulation.

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'tr', {
 	copy: 'Copyright &copy; $1. Tüm hakları saklıdır.',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'tr', {
 	moreInfo: 'Lisanslama hakkında daha fazla bilgi almak için lütfen sitemizi ziyaret edin:',
 	title: 'CKEditor Hakkında',
 	userGuide: 'CKEditor Kullanıcı Kılavuzu'
-});
+} );

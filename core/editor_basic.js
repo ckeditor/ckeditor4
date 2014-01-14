@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 if ( !CKEDITOR.editor ) {
@@ -18,14 +18,14 @@ if ( !CKEDITOR.editor ) {
 	// "editor" param in CKEDITOR.event.fire. So, we override it to do that
 	// automaticaly.
 	CKEDITOR.editor.prototype.fire = function( eventName, data ) {
-		if ( eventName in { instanceReady:1,loaded:1 } )
+		if ( eventName in { instanceReady: 1, loaded: 1 } )
 			this[ eventName ] = true;
 
 		return CKEDITOR.event.prototype.fire.call( this, eventName, data, this );
 	};
 
 	CKEDITOR.editor.prototype.fireOnce = function( eventName, data ) {
-		if ( eventName in { instanceReady:1,loaded:1 } )
+		if ( eventName in { instanceReady: 1, loaded: 1 } )
 			this[ eventName ] = true;
 
 		return CKEDITOR.event.prototype.fireOnce.call( this, eventName, data, this );

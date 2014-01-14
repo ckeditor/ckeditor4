@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -8,7 +8,7 @@
  *		mode, which handles the main editing area space.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
@@ -19,17 +19,9 @@
 			}
 
 			editor.addMode( 'wysiwyg', function( callback ) {
-				var iframe = CKEDITOR.document.createElement( 'iframe' );
-				iframe.setStyles({ width: '100%', height: '100%' } );
-				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
-
-				var contentSpace = editor.ui.space( 'contents' );
-				contentSpace.append( iframe );
-
 				var src = 'document.open();' +
-					// The document domain must be set any time we
-				// call document.open().
-				( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
+					// In IE, the document domain must be set any time we call document.open().
+					( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
 					'document.close();';
 
 				// With IE, the custom domain has to be taken care at first,
@@ -39,17 +31,29 @@
 					:
 					'';
 
+				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
+				iframe.setStyles( { width: '100%', height: '100%' } );
+				iframe.addClass( 'cke_wysiwyg_frame cke_reset' );
+
+				var contentSpace = editor.ui.space( 'contents' );
+				contentSpace.append( iframe );
+
+
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
 				var useOnloadEvent = CKEDITOR.env.ie || CKEDITOR.env.gecko;
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
-				var frameLabel = [ editor.lang.editor, editor.name ].join( ',' ),
+				var frameLabel = editor.title,
 					frameDesc = editor.lang.common.editorHelp;
 
-				if ( CKEDITOR.env.ie )
-					frameLabel += ', ' + frameDesc;
+				if ( frameLabel ) {
+					if ( CKEDITOR.env.ie )
+						frameLabel += ', ' + frameDesc;
+
+					iframe.setAttribute( 'title', frameLabel );
+				}
 
 				var labelId = CKEDITOR.tools.getNextId(),
 					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
@@ -60,16 +64,13 @@
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
 					desc.remove();
-				});
+				} );
 
-				iframe.setAttributes({
-					frameBorder: 0,
-					'aria-describedby' : labelId,
-					title: frameLabel,
-					src: src,
+				iframe.setAttributes( {
+					'aria-describedby': labelId,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
-				});
+				} );
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
 				!useOnloadEvent && onLoad();
@@ -98,12 +99,9 @@
 					editor.editable( new framedWysiwyg( editor, iframe.$.contentWindow.document.body ) );
 					editor.setData( editor.getData( 1 ), callback );
 				}
-			});
+			} );
 		}
-	});
-
-	// Support for custom document.domain in IE.
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
+	} );
 
 	function onDomReady( win ) {
 		var editor = this.editor,
@@ -165,12 +163,12 @@
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 
 			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-			editor.config.enterMode != CKEDITOR.ENTER_P && doc.on( 'selectionchange', function() {
+			editor.config.enterMode != CKEDITOR.ENTER_P && this.attachListener( doc, 'selectionchange', function() {
 				var body = doc.getBody(),
 					sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
 
-				if ( range && body.getHtml().match( /^<p>&nbsp;<\/p>$/i ) && range.startContainer.equals( body ) ) {
+				if ( range && body.getHtml().match( /^<p>(?:&nbsp;|<br>)<\/p>$/i ) && range.startContainer.equals( body ) ) {
 					// Avoid the ambiguity from a real user cursor position.
 					setTimeout( function() {
 						range = editor.getSelection().getRanges()[ 0 ];
@@ -181,12 +179,21 @@
 						}
 					}, 0 );
 				}
-			});
+			} );
 		}
 
-		// Gecko needs a key event to 'wake up' editing when the document is
-		// empty. (#3864, #5781)
-		CKEDITOR.env.gecko && CKEDITOR.tools.setTimeout( activateEditing, 0, this, editor );
+		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
+		// Fix for older IEs (8-10 and QM) is placed inside selection.js.
+		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
+			doc.getDocumentElement().on( 'mousedown', function( evt ) {
+				if ( evt.data.getTarget().is( 'html' ) ) {
+					// IE needs this timeout. Webkit does not, but it does not cause problems too.
+					setTimeout( function() {
+						editor.editable().focus();
+					} );
+				}
+			} );
+		}
 
 		// ## START : disableNativeTableHandles and disableObjectResizing settings.
 
@@ -207,7 +214,7 @@
 				// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
 				this.attachListener( this, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
 					evt.data.preventDefault();
-				});
+				} );
 			}
 		}
 
@@ -235,7 +242,7 @@
 						evt.data.preventDefault();
 					}
 				}
-			});
+			} );
 		}
 
 		if ( CKEDITOR.env.ie ) {
@@ -254,7 +261,7 @@
 				try {
 					doc.$.selection.empty();
 				} catch ( er ) {}
-			});
+			} );
 		}
 
 		// ## END
@@ -299,7 +306,7 @@
 		}, 0, this );
 	}
 
-	var framedWysiwyg = CKEDITOR.tools.createClass({
+	var framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function( editor ) {
 			this.base.apply( this, arguments );
 
@@ -318,11 +325,15 @@
 			setData: function( data, isSnapshot ) {
 				var editor = this.editor;
 
-				if ( isSnapshot )
+				if ( isSnapshot ) {
 					this.setHtml( data );
+					// Fire dataReady for the consistency with inline editors
+					// and because it makes sense. (#10370)
+					editor.fire( 'dataReady' );
+				}
 				else {
 					this._.isLoadingData = true;
-					editor._.dataStore = { id:1 };
+					editor._.dataStore = { id: 1 };
 
 					var config = editor.config,
 						fullPage = config.fullPage,
@@ -342,15 +353,14 @@
 						data = data.replace( /<!DOCTYPE[^>]*>/i, function( match ) {
 							editor.docType = docType = match;
 							return '';
-						}).replace( /<\?xml\s[^\?]*\?>/i, function( match ) {
+						} ).replace( /<\?xml\s[^\?]*\?>/i, function( match ) {
 							editor.xmlDeclaration = match;
 							return '';
-						});
+						} );
 					}
 
 					// Get the HTML version of the data.
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toHtml( data );
+					data = editor.dataProcessor.toHtml( data );
 
 					if ( fullPage ) {
 						// Check if the <body> tag is available.
@@ -412,7 +422,6 @@
 					// is fully editable even before the editing iframe is fully loaded (#4455).
 					var bootstrapCode =
 						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
-							( isCustomDomain ? ( 'document.domain="' + document.domain + '";' ) : '' ) +
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
 							'function onload(){' +
 								'if(!wasLoaded)' +	// FF3.6 calls onload twice when editor.setData. Stop that.
@@ -427,10 +436,7 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 						bootstrapCode +=
 							'<script id="cke_shimscrpt">' +
-								'(function(){' +
-									'var e="abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video".split(","),i=e.length;' +
-									'while(i--){document.createElement(e[i])}' +
-								'})()' +
+								'window.parent.CKEDITOR.tools.enableHtml5Elements(document)' +
 							'</script>';
 					}
 
@@ -447,7 +453,7 @@
 					// Work around Firefox bug - error prune when called from XUL (#320),
 					// defer it thanks to the async nature of this method.
 					try { doc.write( data ); } catch ( e ) {
-						setTimeout( function () { doc.write( data ); }, 0 );
+						setTimeout( function() { doc.write( data ); }, 0 );
 					}
 				}
 			},
@@ -466,11 +472,12 @@
 					var data = fullPage ? doc.getDocumentElement().getOuterHtml() : doc.getBody().getHtml();
 
 					// BR at the end of document is bogus node for Mozilla. (#5293).
-					if ( CKEDITOR.env.gecko )
+					// Prevent BRs from disappearing from the end of the content
+					// while enterMode is ENTER_BR (#10146).
+					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
-					if ( editor.dataProcessor )
-						data = editor.dataProcessor.toDataFormat( data );
+					data = editor.dataProcessor.toDataFormat( data );
 
 					if ( xmlDeclaration )
 						data = xmlDeclaration + '\n' + data;
@@ -504,16 +511,13 @@
 				var onResize = iframe.removeCustomData( 'onResize' );
 				onResize && onResize.removeListener();
 
-
-				editor.fire( 'contentDomUnload' );
-
 				// IE BUG: When destroying editor DOM with the selection remains inside
 				// editing area would break IE7/8's selection system, we have to put the editing
 				// iframe offline first. (#3812 and #5441)
 				iframe.remove();
 			}
 		}
-	});
+	} );
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {
@@ -521,42 +525,6 @@
 			setTimeout( function() {
 			editor.resetDirty();
 		}, 0 );
-	}
-
-	function activateEditing( editor ) {
-		if ( editor.readOnly )
-			return;
-
-		var win = editor.window,
-			doc = editor.document,
-			body = doc.getBody(),
-			bodyFirstChild = body.getFirst(),
-			bodyChildsNum = body.getChildren().count();
-
-		if ( !bodyChildsNum || bodyChildsNum == 1 && bodyFirstChild.type == CKEDITOR.NODE_ELEMENT && bodyFirstChild.hasAttribute( '_moz_editor_bogus_node' ) ) {
-			restoreDirty( editor );
-
-			// Memorize scroll position to restore it later (#4472).
-			var hostDocument = CKEDITOR.document;
-			var hostDocumentElement = hostDocument.getDocumentElement();
-			var scrollTop = hostDocumentElement.$.scrollTop;
-			var scrollLeft = hostDocumentElement.$.scrollLeft;
-
-			// Simulating keyboard character input by dispatching a keydown of white-space text.
-			var keyEventSimulate = doc.$.createEvent( "KeyEvents" );
-			keyEventSimulate.initKeyEvent( 'keypress', true, true, win.$, false, false, false, false, 0, 32 );
-			doc.$.dispatchEvent( keyEventSimulate );
-
-			if ( scrollTop != hostDocumentElement.$.scrollTop || scrollLeft != hostDocumentElement.$.scrollLeft )
-				hostDocument.getWindow().$.scrollTo( scrollLeft, scrollTop );
-
-			// Restore the original document status by placing the cursor before a bogus br created (#5021).
-			bodyChildsNum && body.getFirst().remove();
-			doc.getBody().appendBogus();
-			var nativeRange = editor.createRange();
-			nativeRange.setStartAt( body, CKEDITOR.POSITION_AFTER_START );
-			nativeRange.select();
-		}
 	}
 
 	function iframeCssFixes() {
@@ -587,9 +555,9 @@
 		// Use correct cursor for these elements
 		css.push( 'img,input,textarea{cursor:default}' );
 
-		return css.join('\n');
+		return css.join( '\n' );
 	}
-})();
+} )();
 
 /**
  * Disables the ability of resize objects (image and tables) in the editing area.
@@ -637,10 +605,10 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  *		config.contentsCss = '/css/mysitestyles.css';
  *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
  *
- * @cfg {String/Array} [contentsCss=CKEDITOR.basePath + 'contents.css']
+ * @cfg {String/Array} [contentsCss=CKEDITOR.getUrl( 'contents.css' )]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.contentsCss = CKEDITOR.basePath + 'contents.css';
+CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
 
 /**
  * Language code of  the writting language which is used to author the editor

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fo', {
 	armenian: 'Armensk talskipan',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fo', {
 	upperAlpha: 'Stórir bókstavir (A, B, C, D, E, etc.)',
 	upperRoman: 'Stór rómaratøl (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Byrjunartalið fyri lista má vera eitt heiltal.'
-});
+} );

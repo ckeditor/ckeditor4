@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'gu', {
 	access: 'સ્ક્રીપ્ટ એક્સેસ',
@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'gu', {
 	windowModeOpaque: 'અપારદર્શક',
 	windowModeTransparent: 'પારદર્શક',
 	windowModeWindow: 'વિન્ડો'
-});
+} );

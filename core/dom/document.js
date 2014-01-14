@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -47,11 +47,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 			this.$.createStyleSheet( cssFileUrl );
 		else {
 			var link = new CKEDITOR.dom.element( 'link' );
-			link.setAttributes({
+			link.setAttributes( {
 				rel: 'stylesheet',
 				type: 'text/css',
 				href: cssFileUrl
-			});
+			} );
 
 			this.getHead().append( link );
 		}
@@ -162,9 +162,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 			for ( var j = 0; j < $.childNodes.length; j++ ) {
 				var candidate = $.childNodes[ j ];
 
-				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
+				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 )
 					continue;
-				}
 
 				currentIndex++;
 
@@ -235,11 +234,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {CKEDITOR.dom.window} The window object.
 	 */
 	getWindow: function() {
-		var win = new CKEDITOR.dom.window( this.$.parentWindow || this.$.defaultView );
-
-		return ( this.getWindow = function() {
-			return win;
-		})();
+		return new CKEDITOR.dom.window( this.$.parentWindow || this.$.defaultView );
 	},
 
 	/**
@@ -261,9 +256,61 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 		this.$.open( 'text/html', 'replace' );
 
 		// Support for custom document.domain in IE.
-		CKEDITOR.env.isCustomDomain() && ( this.$.domain = document.domain );
+		//
+		// The script must be appended because if placed before the
+		// doctype, IE will go into quirks mode and mess with
+		// the editable, e.g. by changing its default height.
+		if ( CKEDITOR.env.ie )
+			html = html.replace( /(?:^\s*<!DOCTYPE[^>]*?>)|^/i, '$&\n<script data-cke-temp="1">(' + CKEDITOR.tools.fixDomain + ')();</script>' );
 
 		this.$.write( html );
 		this.$.close();
+	},
+
+	/**
+	 * Wrapper for `querySelectorAll`. Returns a list of elements within this document that match
+	 * specified `selector`.
+	 *
+	 * **Note:** returned list is not a live collection (like a result of native `querySelectorAll`).
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.nodeList}
+	 */
+	find: function( selector ) {
+		return new CKEDITOR.dom.nodeList( this.$.querySelectorAll( selector ) );
+	},
+
+	/**
+	 * Wrapper for `querySelector`. Returns first element within this document that matches
+	 * specified `selector`.
+	 *
+	 * @since 4.3
+	 * @param {String} selector
+	 * @returns {CKEDITOR.dom.element}
+	 */
+	findOne: function( selector ) {
+		var el = this.$.querySelector( selector );
+
+		return el ? new CKEDITOR.dom.element( el ) : null;
+	},
+
+	/**
+	 * IE8 only method. It returns document fragment which has all HTML5 elements enabled.
+	 *
+	 * @since 4.3
+	 * @private
+	 * @returns DocumentFragment
+	 */
+	_getHtml5ShivFrag: function() {
+		var $frag = this.getCustomData( 'html5ShivFrag' );
+
+		if ( !$frag ) {
+			$frag = this.$.createDocumentFragment();
+			CKEDITOR.tools.enableHtml5Elements( $frag, true );
+			this.setCustomData( 'html5ShivFrag', $frag );
+		}
+
+		return $frag;
 	}
-});
+} );

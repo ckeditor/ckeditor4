@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <html>
 <head>
@@ -115,13 +115,11 @@ body {
 {
 	'use strict';
 
-	var log = window.__log = function( title, msg )
-	{
+	var log = window.__log = function( title, msg ) {
 		var msgEl = new CKEDITOR.dom.element( 'p' ),
 			consoleEl = CKEDITOR.document.getById( 'console' ),
 			time = new Date().toString().match( /\d\d:\d\d:\d\d/ )[ 0 ],
-			format = function( tpl )
-			{
+			format = function( tpl ) {
 				return tpl.replace( /{time}/g, time ).replace( '{title}', title ).replace( '{msg}', msg || '' );
 			};
 
@@ -134,68 +132,54 @@ body {
 		msgEl.setHtml( format( '<time datetime="{time}">{time}</time><span class="prompt">{title}</span> {msg}' ) );
 		consoleEl.append( msgEl );
 		consoleEl.$.scrollTop = consoleEl.$.scrollHeight;
-		setTimeout( function () { msgEl.addClass( 'old' ); }, 250 );
+		setTimeout( function() { msgEl.addClass( 'old' ); }, 250 );
 	};
 
-	var observe = function( editor, num )
-	{
+	var observe = function( editor, num ) {
 		var p = 'EDITOR ' + num + ' > ';
 
-		editor.on( 'paste', function( event )
-			{
-				log( p + 'paste(prior:-1)', event.data.type + ' - "' + event.data.dataValue + '"' );
-			}, null, null, -1 );
-		editor.on( 'paste', function( event )
-			{
-				log( p + 'paste(prior:10)', event.data.type + ' - "' + event.data.dataValue + '"' );
-			});
-		editor.on( 'paste', function( event )
-			{
-				log( p + 'paste(prior:999)', event.data.type + ' - "' + event.data.dataValue + '"' );
-			}, null, null, 999 );
-		editor.on( 'beforePaste', function( event )
-			{
-				log( p + 'beforePaste', event.data.type );
-			});
-		editor.on( 'beforePaste', function( event )
-			{
-				log( p + 'beforePaste(prior:999)', event.data.type );
-			}, null, null, 999 );
-		editor.on( 'afterPaste', function( event )
-			{
-				log( p + 'afterPaste' );
-			});
-		editor.on( 'copy', function( event )
-			{
-				log( p + 'copy' );
-			});
-		editor.on( 'cut', function( event )
-			{
-				log( p + 'cut' );
-			});
+		editor.on( 'paste', function( event ) {
+			log( p + 'paste(prior:-1)', event.data.type + ' - "' + event.data.dataValue + '"' );
+		}, null, null, -1 );
+		editor.on( 'paste', function( event ) {
+			log( p + 'paste(prior:10)', event.data.type + ' - "' + event.data.dataValue + '"' );
+		} );
+		editor.on( 'paste', function( event ) {
+			log( p + 'paste(prior:999)', event.data.type + ' - "' + event.data.dataValue + '"' );
+		}, null, null, 999 );
+		editor.on( 'beforePaste', function( event ) {
+			log( p + 'beforePaste', event.data.type );
+		} );
+		editor.on( 'beforePaste', function( event ) {
+			log( p + 'beforePaste(prior:999)', event.data.type );
+		}, null, null, 999 );
+		editor.on( 'afterPaste', function( event ) {
+			log( p + 'afterPaste' );
+		} );
+		editor.on( 'copy', function( event ) {
+			log( p + 'copy' );
+		} );
+		editor.on( 'cut', function( event ) {
+			log( p + 'cut' );
+		} );
 	};
 
 	CKEDITOR.disableAutoInline = true;
-	var config =
-		{
-			height : 120,
-			toolbar : 'Custom',
-			toolbar_Custom :
-			[
-				{ name: 'custom', items : [ 'Source','Bold','Italic','Underline','-','Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] }
-			]
+	var config = {
+			height: 120,
+			toolbar: [ [ 'Source' ] ],
+			allowedContent: true
 		},
 		editor1 = CKEDITOR.replace( 'editor1', config ),
 		editor2 = CKEDITOR.replace( 'editor2', config ),
 		editor3 = CKEDITOR.replace( 'editor3', config ),
-		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { forcePasteAsPlainText : true }, config ) ),
-		editor5 = CKEDITOR.replace( 'editor5', CKEDITOR.tools.extend( { autoParagraph : false }, config ) ),
+		editor4 = CKEDITOR.replace( 'editor4', CKEDITOR.tools.extend( { forcePasteAsPlainText: true }, config ) ),
+		editor5 = CKEDITOR.replace( 'editor5', CKEDITOR.tools.extend( { autoParagraph: false }, config ) ),
 		editor6 = CKEDITOR.inline( document.getElementById( 'editor6' ), config );
 
-	editor3.on( 'beforePaste', function( evt )
-		{
-			evt.data.type = 'text';
-		});
+	editor3.on( 'beforePaste', function( evt ) {
+		evt.data.type = 'text';
+	} );
 
 	observe( editor1, 1 );
 	observe( editor2, 2 );

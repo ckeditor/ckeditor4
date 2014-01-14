@@ -1,108 +1,108 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'he', {
 	euro: 'יורו',
-	lsquo: 'Left single quotation mark', // MISSING
-	rsquo: 'Right single quotation mark', // MISSING
-	ldquo: 'Left double quotation mark', // MISSING
-	rdquo: 'Right double quotation mark', // MISSING
-	ndash: 'En dash', // MISSING
-	mdash: 'Em dash', // MISSING
-	iexcl: 'Inverted exclamation mark', // MISSING
-	cent: 'Cent sign', // MISSING
-	pound: 'Pound sign', // MISSING
-	curren: 'Currency sign', // MISSING
-	yen: 'Yen sign', // MISSING
-	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
-	copy: 'Copyright sign', // MISSING
-	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
-	not: 'Not sign', // MISSING
-	reg: 'Registered sign', // MISSING
-	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
-	micro: 'Micro sign', // MISSING
-	para: 'Pilcrow sign', // MISSING
-	middot: 'Middle dot', // MISSING
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
-	ordm: 'Masculine ordinal indicator', // MISSING
-	raquo: 'Right-pointing double angle quotation mark', // MISSING
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
-	iquest: 'Inverted question mark', // MISSING
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
+	lsquo: 'סימן ציטוט יחיד שמאלי',
+	rsquo: 'סימן ציטוט יחיד ימני',
+	ldquo: 'סימן ציטוט כפול שמאלי',
+	rdquo: 'סימן ציטוט כפול ימני',
+	ndash: 'קו מפריד קצר',
+	mdash: 'קו מפריד ארוך',
+	iexcl: 'סימן קריאה הפוך',
+	cent: 'סנט',
+	pound: 'פאונד',
+	curren: 'מטבע',
+	yen: 'ין',
+	brvbar: 'קו שבור',
+	sect: 'סימן מקטע',
+	uml: 'שתי נקודות אופקיות (Diaeresis)',
+	copy: 'סימן זכויות יוצרים (Copyright)',
+	ordf: 'סימן אורדינאלי נקבי',
+	laquo: 'סימן ציטוט זווית כפולה לשמאל',
+	not: 'סימן שלילה מתמטי',
+	reg: 'סימן רשום',
+	macr: 'מקרון (הגיה ארוכה)',
+	deg: 'מעלות',
+	sup2: '2 בכתיב עילי',
+	sup3: '3 בכתיב עילי',
+	acute: 'סימן דגוש (Acute)',
+	micro: 'מיקרו',
+	para: 'סימון פסקה',
+	middot: 'נקודה אמצעית',
+	cedil: 'סדיליה',
+	sup1: '1 בכתיב עילי',
+	ordm: 'סימן אורדינאלי זכרי',
+	raquo: 'סימן ציטוט זווית כפולה לימין',
+	frac14: 'רבע בשבר פשוט',
+	frac12: 'חצי בשבר פשוט',
+	frac34: 'שלושה רבעים בשבר פשוט',
+	iquest: 'סימן שאלה הפוך',
+	Agrave: 'אות לטינית A עם גרש (Grave)',
 	Aacute: 'Latin capital letter A with acute accent', // MISSING
 	Acirc: 'Latin capital letter A with circumflex', // MISSING
 	Atilde: 'Latin capital letter A with tilde', // MISSING
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
 	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
+	AElig: 'אות לטינית Æ גדולה',
 	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
+	Egrave: 'אות לטינית E עם גרש (Grave)',
 	Eacute: 'Latin capital letter E with acute accent', // MISSING
 	Ecirc: 'Latin capital letter E with circumflex', // MISSING
 	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
+	Igrave: 'אות לטינית I עם גרש (Grave)',
 	Iacute: 'Latin capital letter I with acute accent', // MISSING
 	Icirc: 'Latin capital letter I with circumflex', // MISSING
 	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
+	ETH: 'אות לטינית Eth גדולה',
 	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
+	Ograve: 'אות לטינית O עם גרש (Grave)',
 	Oacute: 'Latin capital letter O with acute accent', // MISSING
 	Ocirc: 'Latin capital letter O with circumflex', // MISSING
 	Otilde: 'Latin capital letter O with tilde', // MISSING
 	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
+	times: 'סימן כפל',
 	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
+	Ugrave: 'אות לטינית U עם גרש (Grave)',
 	Uacute: 'Latin capital letter U with acute accent', // MISSING
 	Ucirc: 'Latin capital letter U with circumflex', // MISSING
 	Uuml: 'Latin capital letter U with diaeresis', // MISSING
 	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
+	THORN: 'אות לטינית Thorn גדולה',
+	szlig: 'אות לטינית s חדה קטנה',
+	agrave: 'אות לטינית a עם גרש (Grave)',
 	aacute: 'Latin small letter a with acute accent', // MISSING
 	acirc: 'Latin small letter a with circumflex', // MISSING
 	atilde: 'Latin small letter a with tilde', // MISSING
 	auml: 'Latin small letter a with diaeresis', // MISSING
 	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
+	aelig: 'אות לטינית æ קטנה',
 	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
+	egrave: 'אות לטינית e עם גרש (Grave)',
 	eacute: 'Latin small letter e with acute accent', // MISSING
 	ecirc: 'Latin small letter e with circumflex', // MISSING
 	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
+	igrave: 'אות לטינית i עם גרש (Grave)',
 	iacute: 'Latin small letter i with acute accent', // MISSING
 	icirc: 'Latin small letter i with circumflex', // MISSING
 	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
+	eth: 'אות לטינית eth קטנה',
 	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
+	ograve: 'אות לטינית o עם גרש (Grave)',
 	oacute: 'Latin small letter o with acute accent', // MISSING
 	ocirc: 'Latin small letter o with circumflex', // MISSING
 	otilde: 'Latin small letter o with tilde', // MISSING
 	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
+	divide: 'סימן חלוקה',
 	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
+	ugrave: 'אות לטינית u עם גרש (Grave)',
 	uacute: 'Latin small letter u with acute accent', // MISSING
 	ucirc: 'Latin small letter u with circumflex', // MISSING
 	uuml: 'Latin small letter u with diaeresis', // MISSING
 	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
+	thorn: 'אות לטינית thorn קטנה',
 	yuml: 'Latin small letter y with diaeresis', // MISSING
 	OElig: 'Latin capital ligature OE', // MISSING
 	oelig: 'Latin small ligature oe', // MISSING
@@ -110,16 +110,16 @@ CKEDITOR.plugins.setLang( 'specialchar', 'he', {
 	'374': 'Latin capital letter Y with circumflex', // MISSING
 	'373': 'Latin small letter w with circumflex', // MISSING
 	'375': 'Latin small letter y with circumflex', // MISSING
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
-});
+	sbquo: 'סימן ציטוט נמוך יחיד',
+	'8219': 'סימן ציטוט',
+	bdquo: 'סימן ציטוט נמוך כפול',
+	hellip: 'שלוש נקודות',
+	trade: 'סימן טריידמארק',
+	'9658': 'סמן שחור לצד ימין',
+	bull: 'תבליט (רשימה)',
+	rarr: 'חץ לימין',
+	rArr: 'חץ כפול לימין',
+	hArr: 'חץ כפול לימין ושמאל',
+	diams: 'יהלום מלא',
+	asymp: 'כמעט שווה'
+} );

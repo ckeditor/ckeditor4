@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'gu', {
 	label: 'ફૉન્ટ ફૉર્મટ, રચનાની શૈલી',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'gu', {
 	tag_h6: 'શીર્ષક 6',
 	tag_p: 'સામાન્ય',
 	tag_pre: 'ફૉર્મટેડ'
-});
+} );

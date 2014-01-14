@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'cs', {
 	label: 'Formát',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'cs', {
 	tag_h6: 'Nadpis 6',
 	tag_p: 'Normální',
 	tag_pre: 'Naformátováno'
-});
+} );

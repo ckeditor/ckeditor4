@@ -1,11 +1,12 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'basicstyles', {
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	icons: 'bold,italic,underline,strike,subscript,superscript', // %REMOVE_LINE_CORE%
+	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		var order = 0;
 		// All buttons use the same code to register. So, to avoid
@@ -24,7 +25,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 				// Listen to contextual style activation.
 				editor.attachStyleStateChange( style, function( state ) {
 					!editor.readOnly && editor.getCommand( commandName ).setState( state );
-				});
+				} );
 
 				// Create the command that can be used to apply the style.
 				editor.addCommand( commandName, new CKEDITOR.styleCommand( style, {
@@ -37,7 +38,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 						label: buttonLabel,
 						command: commandName,
 						toolbar: 'basicstyles,' + ( order += 10 )
-					});
+					} );
 				}
 			};
 
@@ -98,7 +99,7 @@ CKEDITOR.plugins.add( 'basicstyles', {
 			[ CKEDITOR.CTRL + 85 /*U*/, 'underline' ]
 			] );
 	}
-});
+} );
 
 // Basic Inline Styles.
 

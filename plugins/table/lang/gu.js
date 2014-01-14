@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'gu', {
 	border: 'કોઠાની બાજુ(બોર્ડર) સાઇઝ',
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'gu', {
 	widthPc: 'પ્રતિશત',
 	widthPx: 'પિકસલ',
 	widthUnit: 'પોહાલાઈ એકમ'
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'ja' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'リッチテキストエディタ',
+	editorPanel: 'リッチテキストエディタパネル',
 
 	// Common messages and labels.
 	common: {
@@ -35,7 +28,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'ヘルプは ALT 0 を押してください',
 
-		browseServer: 'サーバーブラウザー',
+		browseServer: 'サーバブラウザ',
 		url: 'URL',
 		protocol: 'プロトコル',
 		upload: 'アップロード',
@@ -74,10 +67,10 @@ CKEDITOR.lang[ 'ja' ] = {
 		confirmCancel: 'オプション設定を変更しました。ダイアログを閉じてもよろしいでしょうか？',
 		options: 'オプション',
 		target: 'ターゲット',
-		targetNew: '新しいウィンドウ (_空白)',
-		targetTop: '最上部ウィンドウ (_トップ)',
-		targetSelf: '同じウィンドウ (_同一)',
-		targetParent: '親ウィンドウ (_親)',
+		targetNew: '新しいウインドウ (_blank)',
+		targetTop: '最上部ウィンドウ (_top)',
+		targetSelf: '同じウィンドウ (_self)',
+		targetParent: '親ウィンドウ (_parent)',
 		langDirLTR: '左から右 (LTR)',
 		langDirRTL: '右から左 (RTL)',
 		styles: 'スタイル',
@@ -94,9 +87,9 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidValue	: '不正な値です。',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		invalidCssLength: '入力された "%1" 項目の値は、CSSの大きさ(px, %, in, cm, mm, em, ex, pt, または pc)が正しいものである/ないに関わらず、正の値である必要があります。',
+		invalidHtmlLength: '入力された "%1" 項目の値は、HTMLの大きさ(px または %)が正しいものである/ないに関わらず、正の値である必要があります。',
+		invalidInlineStyle: '入力されたインラインスタイルの値は、"名前 : 値" のフォーマットのセットで、複数の場合はセミコロンで区切られている形式である必要があります。',
 		cssLengthTooltip: 'ピクセル数もしくはCSSにセットできる数値を入力してください。(px,%,in,cm,mm,em,ex,pt,or pc)',
 
 		// Put the voice-only part of the label in the span.

@@ -1,14 +1,14 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: 'richcombo',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			var config = editor.config,
@@ -136,20 +136,13 @@
 						var style = styles[ name ],
 							type = style.type;
 
-						// Check if block styles are applicable.
-						if ( type == CKEDITOR.STYLE_BLOCK && !elementPath.isContextFor( style.element ) ) {
+						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+							counter[ type ]++;
+						else
 							this.hideItem( name );
-							continue;
-						}
 
 						if ( style.checkActive( elementPath ) )
 							this.mark( name );
-						else if ( type == CKEDITOR.STYLE_OBJECT && !style.checkApplicable( elementPath ) ) {
-							this.hideItem( name );
-							counter[ type ]--;
-						}
-
-						counter[ type ]++;
 					}
 
 					if ( !counter[ CKEDITOR.STYLE_BLOCK ] )
@@ -160,6 +153,21 @@
 
 					if ( !counter[ CKEDITOR.STYLE_OBJECT ] )
 						this.hideGroup( lang[ 'panelTitle' + String( CKEDITOR.STYLE_OBJECT ) ] );
+				},
+
+				refresh: function() {
+					var elementPath = editor.elementPath();
+
+					if ( !elementPath )
+						return;
+
+					for ( var name in styles ) {
+						var style = styles[ name ];
+
+						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+							return;
+					}
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},
 
 				// Force a reload of the data
@@ -174,7 +182,7 @@
 					styles = {};
 					stylesList = [];
 				}
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

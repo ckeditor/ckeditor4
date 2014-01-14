@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'tr', {
 	bgColor: 'Arka Plan Rengi',
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'tr', {
 	title: 'Belge Özellikleri',
 	txtColor: 'Yazı Rengi',
 	xhtmlDec: 'XHTML Bildirimlerini Dahil Et'
-});
+} );

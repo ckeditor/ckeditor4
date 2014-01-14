@@ -1,18 +1,18 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'el', {
-	find: 'Αναζήτηση',
-	findOptions: 'Find Options',
-	findWhat: 'Αναζήτηση για:',
-	matchCase: 'Έλεγχος πεζών/κεφαλαίων',
-	matchCyclic: 'Match cyclic',
-	matchWord: 'Εύρεση πλήρους λέξης',
+	find: 'Εύρεση',
+	findOptions: 'Επιλογές Εύρεσης',
+	findWhat: 'Εύρεση για:',
+	matchCase: 'Ταίριασμα πεζών/κεφαλαίων',
+	matchCyclic: 'Αναδρομική εύρεση',
+	matchWord: 'Εύρεση μόνο πλήρων λέξεων',
 	notFoundMsg: 'Το κείμενο δεν βρέθηκε.',
 	replace: 'Αντικατάσταση',
 	replaceAll: 'Αντικατάσταση Όλων',
-	replaceSuccessMsg: '%1 occurrence(s) replaced.',
+	replaceSuccessMsg: 'Ο(ι) όρος(-οι) αντικαταστήθηκε(-αν) %1 φορές.',
 	replaceWith: 'Αντικατάσταση με:',
-	title: 'Αναζήτηση και Αντικατάσταση'
-});
+	title: 'Εύρεση και Αντικατάσταση'
+} );

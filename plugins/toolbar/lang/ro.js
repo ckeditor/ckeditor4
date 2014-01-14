@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'ro', {
 	toolbarCollapse: 'Micșorează Bara',
@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ro', {
 		tools: 'Tools'
 	},
 	toolbars: 'Editează bara de unelte'
-});
+} );

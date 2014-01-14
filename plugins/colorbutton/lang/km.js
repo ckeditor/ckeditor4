@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'km', {
 	auto: 'ស្វ័យប្រវត្តិ',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'km', {
 	more: 'ពណ៌​ផ្សេង​ទៀត..',
 	panelTitle: 'ពណ៌',
 	textColorTitle: 'ពណ៌អក្សរ'
-});
+} );

@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -38,6 +38,11 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
+	position: static;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	transition: none;
 }
 
 /* Reset for elements and their children. */
@@ -55,6 +60,11 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
+	position: static;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	transition: none;
 
 	/* These are rule inherited by all children elements. */
 	border-collapse: collapse;

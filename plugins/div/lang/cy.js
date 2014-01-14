@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'cy', {
 	IdInputLabel: 'Id',
 	advisoryTitleInputLabel: 'Teitl Cynghorol',
-	cssClassInputLabel: 'Dosbarthiadau Ffeil Ddiwyg',
+	cssClassInputLabel: 'Dosbarthiadau Ffeil Arddull',
 	edit: 'Golygu Div',
 	inlineStyleInputLabel: 'Arddull Mewn Llinell',
 	langDirLTRLabel: 'Chwith i\'r Dde (LTR)',
@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'cy', {
 	styleSelectLabel: 'Arddull',
 	title: 'Creu Cynhwysydd Div',
 	toolbar: 'Creu Cynhwysydd Div'
-});
+} );

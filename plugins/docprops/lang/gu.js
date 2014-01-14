@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'gu', {
 	bgColor: 'બૅકગ્રાઉન્ડ રંગ',
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'gu', {
 	title: 'ડૉક્યુમન્ટ ગુણ/પ્રૉપર્ટિઝ',
 	txtColor: 'શબ્દનો રંગ',
 	xhtmlDec: 'XHTML સૂચના સમાવિષ્ટ કરવી'
-});
+} );

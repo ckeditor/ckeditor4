@@ -1,0 +1,10 @@
+# Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+title = Label for the Mathematics dialog window.
+button = Toolbar button tooltip for the mathematics feature.
+dialogInput = Label for textarea where user will write mathematic in TeX.
+docUrl = URL to the TeX documentation in english or user language, avaible in mathematics dialog.
+docLabel = Label for the link to the TeX documentation in mathematics dialog.
+loading = Alternative text for loading indicator for mathematics plugin.
+pathName = Mathematics widget name displayed in element path.

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'it', {
 	armenian: 'Numerazione Armena',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'it', {
 	upperAlpha: 'Alfabetico maiuscolo (A, B, C, D, E, ecc.)',
 	upperRoman: 'Numerazione Romana maiuscola (I, II, III, IV, V, ecc.)',
 	validateStartNumber: 'Il numero di inizio di una lista numerata deve essere un numero intero.'
-});
+} );

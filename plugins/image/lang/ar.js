@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ar', {
 	alertUrl: 'فضلاً أكتب الموقع الذي توجد عليه هذه الصورة.',
@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'image', 'ar', {
 	upload: 'رفع',
 	urlMissing: 'عنوان مصدر الصورة مفقود',
 	vSpace: 'تباعد عمودي',
-	validateBorder: 'Border must be a whole number.', // MISSING
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
-});
+	validateBorder: 'الإطار يجب أن يكون عددا',
+	validateHSpace: 'HSpace يجب أن يكون عدداً.',
+	validateVSpace: 'VSpace يجب أن يكون عدداً.'
+} );

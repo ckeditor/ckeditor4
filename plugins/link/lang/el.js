@@ -1,10 +1,10 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'el', {
 	acccessKey: 'Συντόμευση',
-	advanced: 'Για προχωρημένους',
+	advanced: 'Για Προχωρημένους',
 	advisoryContentType: 'Ενδεικτικός Τύπος Περιεχομένου',
 	advisoryTitle: 'Ενδεικτικός Τίτλος',
 	anchor: {
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 		remove: 'Αφαίρεση Άγκυρας'
 	},
 	anchorId: 'Βάσει του Element Id',
-	anchorName: 'Βάσει του Ονόματος της άγκυρας',
+	anchorName: 'Βάσει του Ονόματος Άγκυρας',
 	charset: 'Κωδικοποίηση Χαρακτήρων Προσαρτημένης Πηγής',
-	cssClasses: 'Stylesheet Classes',
-	emailAddress: 'Διεύθυνση e-mail',
+	cssClasses: 'Κλάσεις Φύλλων Στυλ',
+	emailAddress: 'Διεύθυνση E-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',
 	id: 'Id',
@@ -31,8 +31,8 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	menu: 'Επεξεργασία Συνδέσμου',
 	name: 'Όνομα',
 	noAnchors: '(Δεν υπάρχουν άγκυρες στο κείμενο)',
-	noEmail: 'Εισάγετε την διεύθυνση ηλεκτρονικού ταχυδρομείου',
-	noUrl: 'Εισάγετε την τοποθεσία (URL) του υπερσυνδέσμου (Link)',
+	noEmail: 'Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου',
+	noUrl: 'Εισάγετε την τοποθεσία (URL) του συνδέσμου',
 	other: '<άλλο>',
 	popupDependent: 'Εξαρτημένο (Netscape)',
 	popupFeatures: 'Επιλογές Αναδυόμενου Παραθύρου',
@@ -46,20 +46,20 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	popupToolbar: 'Εργαλειοθήκη',
 	popupTop: 'Θέση Πάνω',
 	rel: 'Σχέση',
-	selectAnchor: 'Επιλέξτε μια άγκυρα',
+	selectAnchor: 'Επιλέξτε μια Άγκυρα',
 	styles: 'Μορφή',
 	tabIndex: 'Σειρά Μεταπήδησης',
 	target: 'Παράθυρο Προορισμού',
 	targetFrame: '<πλαίσιο>',
-	targetFrameName: 'Όνομα Παραθύρου Προορισμού',
+	targetFrameName: 'Όνομα Πλαισίου Προορισμού',
 	targetPopup: '<αναδυόμενο παράθυρο>',
 	targetPopupName: 'Όνομα Αναδυόμενου Παραθύρου',
 	title: 'Σύνδεσμος',
-	toAnchor: 'Άγκυρα σε αυτή τη σελίδα',
+	toAnchor: 'Άγκυρα σε αυτήν τη σελίδα',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
 	toolbar: 'Σύνδεσμος',
 	type: 'Τύπος Συνδέσμου',
-	unlink: 'Αφαίρεση Συνδέσμου (Link)',
-	upload: 'Ανέβασμα'
-});
+	unlink: 'Αφαίρεση Συνδέσμου',
+	upload: 'Αποστολή'
+} );

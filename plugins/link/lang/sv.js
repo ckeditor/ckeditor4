@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sv', {
 	acccessKey: 'Behörighetsnyckel',
@@ -15,23 +15,23 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 		errorName: 'Var god ange ett ankarnamn',
 		remove: 'Radera ankare'
 	},
-	anchorId: 'efter objektid',
-	anchorName: 'efter ankarnamn',
+	anchorId: 'Efter element-id',
+	anchorName: 'Efter ankarnamn',
 	charset: 'Teckenuppställning',
-	cssClasses: 'Stylesheet class',
+	cssClasses: 'Stilmall',
 	emailAddress: 'E-postadress',
 	emailBody: 'Innehåll',
 	emailSubject: 'Ämne',
 	id: 'Id',
 	info: 'Länkinformation',
-	langCode: 'Språkriktning',
+	langCode: 'Språkkod',
 	langDir: 'Språkriktning',
 	langDirLTR: 'Vänster till höger (VTH)',
 	langDirRTL: 'Höger till vänster (HTV)',
 	menu: 'Redigera länk',
 	name: 'Namn',
 	noAnchors: '(Inga ankare kunde hittas)',
-	noEmail: 'Var god ange E-postadress',
+	noEmail: 'Var god ange e-postadress',
 	noUrl: 'Var god ange länkens URL',
 	other: '<annan>',
 	popupDependent: 'Beroende (endast Netscape)',
@@ -55,11 +55,11 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	targetPopup: '<popup-fönster>',
 	targetPopupName: 'Popup-fönstrets namn',
 	title: 'Länk',
-	toAnchor: 'Ankare i sidan',
+	toAnchor: 'Länk till ankare i texten',
 	toEmail: 'E-post',
 	toUrl: 'URL',
 	toolbar: 'Infoga/Redigera länk',
 	type: 'Länktyp',
 	unlink: 'Radera länk',
 	upload: 'Ladda upp'
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'ko', {
 	find: '찾기',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ko', {
 	replaceSuccessMsg: '%1 occurrence(s) replaced.',
 	replaceWith: '바꿀 문자열:',
 	title: '찾기 & 바꾸기'
-});
+} );

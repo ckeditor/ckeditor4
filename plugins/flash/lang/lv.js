@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'lv', {
 	access: 'Skripta pieeja',
@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'lv', {
 	windowModeOpaque: 'Necaurspīdīgs',
 	windowModeTransparent: 'Caurspīdīgs',
 	windowModeWindow: 'Logs'
-});
+} );

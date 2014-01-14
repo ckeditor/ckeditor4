@@ -1,0 +1,129 @@
+/**
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
+ */
+
+body {
+	padding-right: 430px; /* ckconsole (400px) + normal padding (30px) */
+}
+
+div.ckconsole {
+	width: 400px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	background: #F8F8F8;
+	background: rgba(250,250,250,0.9);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	z-index: 99999;
+	opacity: 0.8;
+	transition: opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+}
+
+div.ckconsole_side_left {
+	left: 0;
+}
+
+div.ckconsole:hover {
+	opacity: 1;
+}
+
+.ckconsole .ckconsole_editor_panel {
+	border: solid 2px #CCC;
+}
+
+.ckconsole .ckconsole_editor_panel.ckconsole_active {
+	border-color: #EE6;
+}
+
+.ckconsole .ckconsole_header,
+.ckconsole .ckconsole_content {
+	padding: 3px 10px;
+}
+
+.ckconsole .ckconsole_header,
+.ckconsole .ckconsole_header * {
+	cursor: pointer;
+}
+
+.ckconsole .ckconsole_editor_header {
+	background: #DDD;
+	font-size: 14px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.ckconsole .ckconsole_editor_header:before {
+	content: '\25bc\00a0'; /* down triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_folded .ckconsole_editor_header:before {
+	content: '\25ba\00a0'; /* right triangle arrow + nbsp */
+}
+
+.ckconsole .ckconsole_panel_header {
+	background: #EEE;
+	border-top: solid 2px #CCC;
+	transition: background 0.1s;
+	-webkit-transition: background 0.1s;
+}
+.ckconsole .ckconsole_panel_header:before {
+	content: '\25bE\00a0'; /* small down triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_folded .ckconsole_panel_header:before {
+	content: '\25b8\00a0'; /* small right triangle arrow + nbsp */
+}
+.ckconsole .ckconsole_refreshed .ckconsole_panel_header {
+	background: #EE6;
+}
+
+.ckconsole_folded > .ckconsole_panel {
+	display: none;
+}
+.ckconsole_folded > .ckconsole_content,
+.ckconsole_folded > .ckconsole_log {
+	display: none;
+}
+
+.ckconsole .ckconsole_list {
+	list-style-type: square;
+	list-style-position: inside;
+}
+
+.ckconsole .ckconsole_log {
+	height: 75px;
+	overflow: auto;
+}
+
+.ckconsole .ckconsole_active .ckconsole_log {
+	height: 150px;
+}
+
+.ckconsole code {
+	font-family: monospace;
+	font-size: 11px;
+	white-space: pre-wrap;
+}
+
+.ckconsole .ckconsole_log_item {
+	border-bottom: solid 1px #EEE;
+	background: rgba(0,0,0,0);
+	transition: background 1s;
+	-webkit-transition: background 1s;
+}
+
+.ckconsole .ckconsole_fresh_log_item {
+	background: rgba(0,0,0,0.2);
+}
+
+.ckconsole_log_item .ckconsole_time {
+	padding: 1px 10px;
+	background: rgba(100,100,100,0.1);
+	font-family: monospace;
+	font-size: 11px;
+}
+
+.ckconsole_log_item code {
+	padding: 1px 0;
+}

@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'km' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'ឧបករណ៍​សរសេរ​អត្ថបទ​សម្បូរ​បែប',
+	editorPanel: 'ផ្ទាំង​ឧបករណ៍​សរសេរ​អត្ថបទ​សម្បូរ​បែប',
 
 	// Common messages and labels.
 	common: {
@@ -94,10 +87,10 @@ CKEDITOR.lang[ 'km' ] = {
 		invalidValue	: 'តម្លៃ​មិន​ត្រឹម​ត្រូវ។',
 		invalidHeight: 'តម្លៃ​កំពស់​ត្រូវ​តែ​ជា​លេខ។',
 		invalidWidth: 'តម្លៃ​ទទឹង​ត្រូវ​តែ​ជា​លេខ។',
-		invalidCssLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន​ ដោយ​ភ្ជាប់ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ CSS (px, %, in, cm, mm, em, ex, pt, or pc) ។',
+		invalidCssLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន​ ដោយ​ភ្ជាប់ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ CSS (px, %, in, cm, mm, em, ex, pt ឬ pc) ។',
 		invalidHtmlLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន ដោយ​ភ្ជាប់​ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ HTML (px ឬ %) ។',
 		invalidInlineStyle: 'តម្លៃ​កំណត់​សម្រាប់​រចនាបថ​ក្នុង​តួ ត្រូវ​តែ​មាន​មួយ​ឬ​ធាតុ​ច្រើន​ដោយ​មាន​ទ្រង់ទ្រាយ​ជា "ឈ្មោះ : តម្លៃ" ហើយ​ញែក​ចេញ​ពី​គ្នា​ដោយ​ចុច​ក្បៀស។',
-		cssLengthTooltip: 'បញ្ចូល​លេខ​សម្រាប់​តម្លៃ​ជា​ភិចសែល ឬ​លេខ​ដែល​មាន​ឯកតា​ត្រឹមត្រូវ​របស់ CSS (px, %, in, cm, mm, em, ex, pt, or pc) ។',
+		cssLengthTooltip: 'បញ្ចូល​លេខ​សម្រាប់​តម្លៃ​ជា​ភិចសែល ឬ​លេខ​ដែល​មាន​ឯកតា​ត្រឹមត្រូវ​របស់ CSS (px, %, in, cm, mm, em, ex, pt ឬ pc) ។',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, មិន​មាន</span>'

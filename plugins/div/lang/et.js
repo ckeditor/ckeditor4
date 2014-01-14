@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'et', {
 	IdInputLabel: 'ID',
@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'et', {
 	styleSelectLabel: 'Stiil',
 	title: 'Div-konteineri loomine',
 	toolbar: 'Div-konteineri loomine'
-});
+} );

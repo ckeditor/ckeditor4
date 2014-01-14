@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'bg', {
 	border: 'Размер на рамката',
@@ -50,13 +50,13 @@ CKEDITOR.plugins.setLang( 'table', 'bg', {
 	headersColumn: 'Първа колона',
 	headersNone: 'Няма',
 	headersRow: 'Първи ред',
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
+	invalidBorder: 'Размерът на рамката трябва да е число.',
+	invalidCellPadding: 'Отстоянието на клетките трябва да е позитивно число.',
+	invalidCellSpacing: 'Интервала в клетките трябва да е позитивно число.',
 	invalidCols: 'Броят колони трябва да е по-голям от 0.',
-	invalidHeight: 'Table height must be a number.', // MISSING
+	invalidHeight: 'Височината на таблицата трябва да е число.',
 	invalidRows: 'Броят редове трябва да е по-голям от 0.',
-	invalidWidth: 'Table width must be a number.', // MISSING
+	invalidWidth: 'Ширината на таблицата трябва да е число.',
 	menu: 'Настройки на таблицата',
 	row: {
 		menu: 'Ред',
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'bg', {
 	widthPc: 'процент',
 	widthPx: 'пиксела',
 	widthUnit: 'единица за ширина'
-});
+} );

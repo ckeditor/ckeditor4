@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'fr-ca', {
 	label: 'Styles',
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'fr-ca', {
 	panelTitle1: 'Styles de block',
 	panelTitle2: 'Styles en ligne',
 	panelTitle3: 'Styles d\'objet'
-});
+} );

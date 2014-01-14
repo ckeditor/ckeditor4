@@ -1,9 +1,9 @@
 ﻿/*
- * Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 
 	// Add to collection with DUP examination.
 	// @param {Object} collection
@@ -34,7 +34,7 @@
 	// @param {String} command	The command name which indicate what the current command is.
 	function divDialog( editor, command ) {
 		// Definition of elements at which div operation should stopped.
-		var divLimitDefinition = (function() {
+		var divLimitDefinition = ( function() {
 
 			// Customzie from specialize blockLimit elements
 			var definition = CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$blockLimit );
@@ -44,7 +44,7 @@
 				delete definition.th;
 			}
 			return definition;
-		})();
+		} )();
 
 		// DTD of 'div' element
 		var dtd = CKEDITOR.dtd.div;
@@ -53,6 +53,11 @@
 		// @param {Object} element
 		function getDivContainer( element ) {
 			var container = editor.elementPath( element ).blockLimit;
+
+			// Never consider read-only (i.e. contenteditable=false) element as
+			// a first div limit (#11083).
+			if ( container.isReadOnly() )
+				container = container.getParent();
 
 			// Dont stop at 'td' and 'th' when div should wrap entire table.
 			if ( editor.config.div_wrapTable && container.is( [ 'td', 'th' ] ) ) {
@@ -92,7 +97,7 @@
 						};
 					}
 				}
-			});
+			} );
 		}
 
 		// Wrapping 'div' element around appropriate blocks among the selected ranges.
@@ -120,7 +125,7 @@
 				iterator = ranges[ i ].createIterator();
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// include contents of blockLimit elements.
-					if ( block.getName() in divLimitDefinition ) {
+					if ( block.getName() in divLimitDefinition && !block.isReadOnly() ) {
 						var j,
 							childNodes = block.getChildren();
 						for ( j = 0; j < childNodes.count(); j++ )
@@ -401,7 +406,7 @@
 					setTimeout( function() {
 						dialog._element && stylesField.setup( dialog._element );
 					}, 0 );
-				});
+				} );
 			},
 			onShow: function() {
 				// Whether always create new container regardless of existed
@@ -441,11 +446,11 @@
 
 	CKEDITOR.dialog.add( 'creatediv', function( editor ) {
 		return divDialog( editor, 'creatediv' );
-	});
+	} );
 	CKEDITOR.dialog.add( 'editdiv', function( editor ) {
 		return divDialog( editor, 'editdiv' );
-	});
-})();
+	} );
+} )();
 
 /**
  * Whether to wrap the whole table instead of indivisual cells when created `<div>` in table cell.

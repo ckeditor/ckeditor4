@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'km', {
 	alertUrl: 'សូមសរសេរងាស័យដ្ឋានរបស់រូបភាព',
@@ -18,9 +18,9 @@ CKEDITOR.plugins.setLang( 'image', 'km', {
 	title: 'ការកំណត់រូបភាព',
 	titleButton: 'ការកំណត់ប៉ូតុនរូបភាព',
 	upload: 'ទាញយក',
-	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'គំលាតបណ្តោយ',
+	urlMissing: 'ខ្វះ URL ប្រភព​រូប​ភាព។',
+	vSpace: 'VSpace',
 	validateBorder: 'Border must be a whole number.', // MISSING
 	validateHSpace: 'HSpace must be a whole number.', // MISSING
 	validateVSpace: 'VSpace must be a whole number.' // MISSING
-});
+} );

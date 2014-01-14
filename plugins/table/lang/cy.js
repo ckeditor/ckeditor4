@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'cy', {
 	border: 'Maint yr Ymyl',
@@ -33,10 +33,10 @@ CKEDITOR.plugins.setLang( 'table', 'cy', {
 		invalidHeight: 'Mae\'n rhaid i uchder y gell fod yn rhif.',
 		invalidRowSpan: 'Mae\'n rhaid i rychwant y rhesi fod yn gyfanrif.',
 		invalidColSpan: 'Mae\'n rhaid i rychwant y colofnau fod yn gyfanrif.',
-		chooseColor: 'Choose'
+		chooseColor: 'Dewis'
 	},
 	cellPad: 'Padio\'r gell',
-	cellSpace: 'Bylchu\'r gell',
+	cellSpace: 'Bylchiad y gell',
 	column: {
 		menu: 'Colofn',
 		insertBefore: 'Mewnosod Colofn Cyn',
@@ -57,7 +57,7 @@ CKEDITOR.plugins.setLang( 'table', 'cy', {
 	invalidHeight: 'Mae\'n rhaid i uchder y tabl fod yn rhif.',
 	invalidRows: 'Mae\'n rhaid cael o leiaf un rhes.',
 	invalidWidth: 'Mae\'n rhaid i led y tabl fod yn rhif.',
-	menu: 'Nodweddion Tabl',
+	menu: 'Priodweddau\'r Tabl',
 	row: {
 		menu: 'Rhes',
 		insertBefore: 'Mewnosod Rhes Cyn',
@@ -66,9 +66,9 @@ CKEDITOR.plugins.setLang( 'table', 'cy', {
 	},
 	rows: 'Rhesi',
 	summary: 'Crynodeb',
-	title: 'Nodweddion Tabl',
+	title: 'Priodweddau\'r Tabl',
 	toolbar: 'Tabl',
 	widthPc: 'y cant',
 	widthPx: 'picsel',
 	widthUnit: 'uned lled'
-});
+} );

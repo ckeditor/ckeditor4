@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -227,6 +227,12 @@ a.cke_dialog_tab_selected
 {
 	padding: 2px 6px !important;
 	border-width: 3px;
+}
+
+a.cke_dialog_tab_disabled
+{
+	color: #bababa;
+	cursor: default;
 }
 
 /* The .cke_single_page class is appended to the dialog outer element in case

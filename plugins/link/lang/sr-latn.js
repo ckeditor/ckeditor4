@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	acccessKey: 'Pristupni taster',
@@ -11,11 +11,11 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 		toolbar: 'Unesi/izmeni sidro',
 		menu: 'Osobine sidra',
 		title: 'Osobine sidra',
-		name: 'Ime sidra',
-		errorName: 'Unesite ime sidra',
-		remove: 'Remove Anchor'
+		name: 'Naziv sidra',
+		errorName: 'Unesite naziv sidra',
+		remove: 'Ukloni sidro'
 	},
-	anchorId: 'Po Id-ju elementa',
+	anchorId: 'Po Id-u elementa',
 	anchorName: 'Po nazivu sidra',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Stylesheet klase',
@@ -40,12 +40,12 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	popupLeft: 'Od leve ivice ekrana (px)',
 	popupLocationBar: 'Lokacija',
 	popupMenuBar: 'Kontekstni meni',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'Promenljive veličine',
 	popupScrollBars: 'Scroll bar',
 	popupStatusBar: 'Statusna linija',
 	popupToolbar: 'Toolbar',
 	popupTop: 'Od vrha ekrana (px)',
-	rel: 'Relationship', // MISSING
+	rel: 'Odnos',
 	selectAnchor: 'Odaberi sidro',
 	styles: 'Stil',
 	tabIndex: 'Tab indeks',
@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	type: 'Vrsta linka',
 	unlink: 'Ukloni link',
 	upload: 'Pošalji'
-});
+} );

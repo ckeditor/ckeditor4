@@ -1,11 +1,11 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'km', {
-	clear: 'Clear', // MISSING
-	highlight: 'Highlight', // MISSING
-	options: 'Color Options', // MISSING
-	selected: 'Selected Color', // MISSING
-	title: 'Select color' // MISSING
-});
+	clear: 'សម្អាត',
+	highlight: 'បន្លិច​ពណ៌',
+	options: 'ជម្រើស​ពណ៌',
+	selected: 'ពណ៌​ដែល​បាន​រើស',
+	title: 'រើស​ពណ៌'
+} );

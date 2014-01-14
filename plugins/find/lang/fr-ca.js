@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'fr-ca', {
 	find: 'Rechercher',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fr-ca', {
 	replaceSuccessMsg: '%1 remplacements.',
 	replaceWith: 'Remplacer par:',
 	title: 'Rechercher et remplacer'
-});
+} );

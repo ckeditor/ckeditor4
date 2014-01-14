@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'nl' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Tekstverwerker',
+	editorPanel: 'Tekstverwerker beheerpaneel',
 
 	// Common messages and labels.
 	common: {
@@ -43,8 +36,8 @@ CKEDITOR.lang[ 'nl' ] = {
 		image: 'Afbeelding',
 		flash: 'Flash',
 		form: 'Formulier',
-		checkbox: 'Aanvinkvakje',
-		radio: 'Selectievakje',
+		checkbox: 'Selectievinkje',
+		radio: 'Keuzerondje',
 		textField: 'Tekstveld',
 		textarea: 'Tekstvak',
 		hiddenField: 'Verborgen veld',
@@ -81,7 +74,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		langDirLTR: 'Links naar rechts (LTR)',
 		langDirRTL: 'Rechts naar links (RTL)',
 		styles: 'Stijl',
-		cssClasses: 'Stylesheet klassen',
+		cssClasses: 'Stylesheet-klassen',
 		width: 'Breedte',
 		height: 'Hoogte',
 		align: 'Uitlijning',

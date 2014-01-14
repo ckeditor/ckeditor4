@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -8,7 +8,7 @@
  *		to handle the focus on editor instances..
  */
 
-(function() {
+( function() {
 	/**
 	 * Manages the focus activity in an editor instance. This class is to be
 	 * used mainly by UI elements coders when adding interface elements that need
@@ -79,12 +79,17 @@
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
 		 *		editor.focusManage.focus( editor.editable() );
+		 *
+		 * @param {CKEDITOR.dom.element} [currentActive] The new value of {@link #currentActive} property.
 		 */
-		focus: function() {
+		focus: function( currentActive ) {
 			if ( this._.timer )
 				clearTimeout( this._.timer );
 
-			if ( ! ( this.hasFocus || this._.locked ) ) {
+			if ( currentActive )
+				this.currentActive = currentActive;
+
+			if ( !( this.hasFocus || this._.locked ) ) {
 				// If another editor has the current focus, we first "blur" it. In
 				// this way the events happen in a more logical sequence, like:
 				//		"focus 1" > "blur 1" > "focus 2"
@@ -146,9 +151,9 @@
 				clearTimeout( this._.timer );
 
 			var delay = CKEDITOR.focusManager._.blurDelay;
-			if ( noDelay || !delay ) {
+			if ( noDelay || !delay )
 				doBlur.call( this );
-			} else {
+			else {
 				this._.timer = CKEDITOR.tools.setTimeout( function() {
 					delete this._.timer;
 					doBlur.call( this );
@@ -190,11 +195,9 @@
 							this.blur();
 					},
 					focus: function() {
-						this.currentActive = element;
-						this.focus();
+						this.focus( element );
 					}
 				};
-
 
 				element.on( focusEvent, listeners.focus, this );
 				element.on( blurEvent, listeners.blur, this );
@@ -221,7 +224,7 @@
 
 	};
 
-})();
+} )();
 
 /**
  * Fired when the editor instance receives the input focus.

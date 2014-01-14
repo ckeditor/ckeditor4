@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
  'use strict';
@@ -46,10 +46,10 @@ CKEDITOR.htmlParser.comment.prototype = CKEDITOR.tools.extend( new CKEDITOR.html
 	 * {@link CKEDITOR.htmlParser.element#filterChildren} that it has
 	 * to repeat filter on current position in parent's children array.
 	 */
-	filter: function( filter ) {
+	filter: function( filter, context ) {
 		var comment = this.value;
 
-		if ( !( comment = filter.onComment( comment, this ) ) ) {
+		if ( !( comment = filter.onComment( context, comment, this ) ) ) {
 			this.remove();
 			return false;
 		}

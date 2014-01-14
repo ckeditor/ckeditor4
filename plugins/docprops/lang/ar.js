@@ -1,13 +1,13 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'ar', {
 	bgColor: 'لون الخلفية',
 	bgFixed: 'جعلها علامة مائية',
 	bgImage: 'رابط الصورة الخلفية',
 	charset: 'ترميز الحروف',
-	charsetASCII: 'ASCII', // MISSING
+	charsetASCII: 'ASCII',
 	charsetCE: 'أوروبا الوسطى',
 	charsetCR: 'السيريلية',
 	charsetCT: 'الصينية التقليدية (Big5)',
@@ -16,10 +16,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'ar', {
 	charsetKR: 'الكورية',
 	charsetOther: 'ترميز آخر',
 	charsetTR: 'التركية',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'أوروبا الغربية',
 	chooseColor: 'اختر',
-	design: 'Design', // MISSING
+	design: 'تصميم',
 	docTitle: 'عنوان الصفحة',
 	docType: 'ترويسة نوع  الصفحة',
 	docTypeOther: 'ترويسة نوع  صفحة أخرى',
@@ -35,8 +35,8 @@ CKEDITOR.plugins.setLang( 'docprops', 'ar', {
 	metaDescription: 'وصف الصفحة',
 	metaKeywords: 'الكلمات الأساسية (مفصولة بفواصل)َ',
 	other: '<أخرى>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	previewHtml: '<p>هذه مجرد <strong>كتابة بسيطة</strong>من أجل التمثيل. <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'خصائص الصفحة',
 	txtColor: 'لون النص',
 	xhtmlDec: 'تضمين   إعلانات لغة XHTMLَ'
-});
+} );

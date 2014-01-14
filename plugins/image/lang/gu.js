@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'gu', {
 	alertUrl: 'ચિત્રની URL ટાઇપ કરો',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'gu', {
 	validateBorder: 'બોર્ડેર આંકડો હોવો જોઈએ.',
 	validateHSpace: 'HSpaceઆંકડો હોવો જોઈએ.',
 	validateVSpace: 'VSpace આંકડો હોવો જોઈએ. '
-});
+} );

@@ -1,11 +1,10 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
 	var lang = editor.lang.clipboard;
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -21,7 +20,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 			doc.getWindow().on( 'blur', function() {
 				doc.$.selection.empty();
-			});
+			} );
 		}
 
 		doc.on( 'keydown', function( e ) {
@@ -130,12 +129,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' :
-							isCustomDomain ?
-								'javascript:void((function(){' +
+							CKEDITOR.env.ie ?
+								'javascript:void((function(){' + encodeURIComponent(
 									'document.open();' +
-									'document.domain=\'' + document.domain + '\';' +
-									'document.close();' +
-								'})())"'
+									'(' + CKEDITOR.tools.fixDomain + ')();' +
+									'document.close();'
+								) + '})())"'
 							: '';
 
 					var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
@@ -172,8 +171,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 					if ( CKEDITOR.env.ie ) {
 						var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 						focusGrabber.on( 'focus', function() {
-							iframe.$.contentWindow.focus();
-						});
+							// Since fixDomain is called in src attribute,
+							// IE needs some slight delay to correctly move focus.
+							setTimeout( function() {
+								iframe.$.contentWindow.focus();
+							} );
+						} );
 						container.append( focusGrabber );
 
 						// Override focus handler on field.
@@ -213,7 +216,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		}
 		]
 	};
-});
+} );
 
 /**
  * Internal event to pass paste dialog's data to the listeners.

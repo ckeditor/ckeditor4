@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var imageDialog = function( editor, dialogType ) {
 			// Load image preview.
 			var IMAGE = 1,
@@ -67,7 +67,7 @@
 				this.foreach( function( widget ) {
 					if ( widget.commit && widget.id != 'txtdlgGenStyle' )
 						widget.commit.apply( widget, args );
-				});
+				} );
 			}
 
 			// Avoid recursions.
@@ -299,7 +299,14 @@
 							this.setupContent( LINK, link );
 					}
 
-					if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) || element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
+					// Edit given image element instead the one from selection.
+					if ( this.customImageElement ) {
+						this.imageEditMode = 'img';
+						this.imageElement = this.customImageElement;
+						delete this.customImageElement;
+					}
+					else if ( element && element.getName() == 'img' && !element.data( 'cke-realelement' ) ||
+						element && element.getName() == 'input' && element.getAttribute( 'type' ) == 'image' ) {
 						this.imageEditMode = element.getName();
 						this.imageElement = element;
 					}
@@ -342,10 +349,10 @@
 							// Replace IMG -> INPUT
 							imgTagName = 'input';
 							this.imageElement = editor.document.createElement( 'input' );
-							this.imageElement.setAttributes({
+							this.imageElement.setAttributes( {
 								type: 'image',
 								alt: ''
-							});
+							} );
 							editor.insertElement( this.imageElement );
 						} else {
 							// Restore the original element before all commits.
@@ -536,11 +543,11 @@
 							if ( type == IMAGE ) {
 								if ( this.getValue() || this.isChanged() )
 									element.setAttribute( 'alt', this.getValue() );
-							} else if ( type == PREVIEW ) {
+							} else if ( type == PREVIEW )
 								element.setAttribute( 'alt', this.getValue() );
-							} else if ( type == CLEANUP ) {
+							else if ( type == CLEANUP )
 								element.removeAttribute( 'alt' );
-							}
+
 						}
 					},
 						{
@@ -1146,11 +1153,11 @@
 								if ( type == IMAGE ) {
 									if ( this.getValue() || this.isChanged() )
 										element.setAttribute( 'title', this.getValue() );
-								} else if ( type == PREVIEW ) {
+								} else if ( type == PREVIEW )
 									element.setAttribute( 'title', this.getValue() );
-								} else if ( type == CLEANUP ) {
+								else if ( type == CLEANUP )
 									element.removeAttribute( 'title' );
-								}
+
 							}
 						}
 						]
@@ -1188,9 +1195,9 @@
 							updatePreview( this );
 						},
 						commit: function( type, element ) {
-							if ( type == IMAGE && ( this.getValue() || this.isChanged() ) ) {
+							if ( type == IMAGE && ( this.getValue() || this.isChanged() ) )
 								element.setAttribute( 'style', this.getValue() );
-							}
+
 						}
 					}
 					]
@@ -1201,9 +1208,9 @@
 
 	CKEDITOR.dialog.add( 'image', function( editor ) {
 		return imageDialog( editor, 'image' );
-	});
+	} );
 
 	CKEDITOR.dialog.add( 'imagebutton', function( editor ) {
 		return imageDialog( editor, 'imagebutton' );
-	});
-})();
+	} );
+} )();

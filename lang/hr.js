@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'hr' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Bogati uređivač teksta',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
@@ -42,7 +35,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		uploadSubmit: 'Pošalji na server',
 		image: 'Slika',
 		flash: 'Flash',
-		form: 'Form',
+		form: 'Forma',
 		checkbox: 'Checkbox',
 		radio: 'Radio Button',
 		textField: 'Text Field',
@@ -59,7 +52,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		langDirRtl: 'S desna na lijevo (RTL)',
 		langCode: 'Kôd jezika',
 		longDescr: 'Dugački opis URL',
-		cssClass: 'Stylesheet klase',
+		cssClass: 'Klase stilova',
 		advisoryTitle: 'Advisory naslov',
 		cssStyle: 'Stil',
 		ok: 'OK',
@@ -84,14 +77,14 @@ CKEDITOR.lang[ 'hr' ] = {
 		cssClasses: 'Klase stilova',
 		width: 'Širina',
 		height: 'Visina',
-		align: 'Poravnaj',
+		align: 'Poravnanje',
 		alignLeft: 'Lijevo',
 		alignRight: 'Desno',
 		alignCenter: 'Središnje',
 		alignTop: 'Vrh',
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dolje',
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Neispravna vrijednost.',
 		invalidHeight: 'Visina mora biti broj.',
 		invalidWidth: 'Širina mora biti broj.',
 		invalidCssLength: 'Vrijednost određena za "%1" polje mora biti pozitivni broj sa ili bez važećih CSS mjernih jedinica (px, %, in, cm, mm, em, ex, pt ili pc).',

@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -8,10 +8,11 @@
  *		mode, which displays the raw data being edited in the editor.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'sourcearea', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sq,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'source,source-rtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Source mode isn't available in inline mode yet.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
@@ -24,7 +25,7 @@
 					textarea = contentsSpace.getDocument().createElement( 'textarea' );
 
 				textarea.setStyles(
-					CKEDITOR.tools.extend({
+					CKEDITOR.tools.extend( {
 						// IE7 has overflow the <textarea> from wrapping table cell.
 						width: CKEDITOR.env.ie7Compat ? '99%' : '100%',
 						height: '100%',
@@ -60,7 +61,7 @@
 				editor.fire( 'ariaWidget', this );
 
 				callback();
-			});
+			} );
 
 			editor.addCommand( 'source', sourcearea.commands.source );
 
@@ -69,12 +70,12 @@
 					label: editor.lang.sourcearea.toolbar,
 					command: 'source',
 					toolbar: 'mode,10'
-				});
+				} );
 			}
 
 			editor.on( 'mode', function() {
 				editor.getCommand( 'source' ).setState( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-			});
+			} );
 
 			function onResize() {
 				// Holder rectange size is stretched by textarea,
@@ -86,9 +87,9 @@
 				this.show();
 			}
 		}
-	});
+	} );
 
-	var sourceEditable = CKEDITOR.tools.createClass({
+	var sourceEditable = CKEDITOR.tools.createClass( {
 		base: CKEDITOR.editable,
 		proto: {
 			setData: function( data ) {
@@ -116,13 +117,13 @@
 				this.remove();
 			}
 		}
-	});
-})();
+	} );
+} )();
 
 CKEDITOR.plugins.sourcearea = {
 	commands: {
 		source: {
-			modes: { wysiwyg:1,source:1 },
+			modes: { wysiwyg: 1, source: 1 },
 			editorFocus: false,
 			readOnly: 1,
 			exec: function( editor ) {

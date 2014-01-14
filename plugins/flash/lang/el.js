@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'el', {
 	access: 'Πρόσβαση Script',
@@ -36,8 +36,8 @@ CKEDITOR.plugins.setLang( 'flash', 'el', {
 	validateHSpace: 'Το HSpace πρέπει να είναι αριθμός.',
 	validateSrc: 'Εισάγετε την τοποθεσία (URL) του υπερσυνδέσμου (Link)',
 	validateVSpace: 'Το VSpace πρέπει να είναι αριθμός.',
-	windowMode: 'Τρόπος λειτουργίας παραθύρου.',
+	windowMode: 'Τρόπος λειτουργίας παραθύρου',
 	windowModeOpaque: 'Συμπαγές',
 	windowModeTransparent: 'Διάφανο',
 	windowModeWindow: 'Παράθυρο'
-});
+} );

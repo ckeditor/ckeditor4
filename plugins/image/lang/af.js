@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'af', {
 	alertUrl: 'Gee URL van afbeelding.',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'af', {
 	validateBorder: 'Rand moet \'n heelgetal wees.',
 	validateHSpace: 'HSpasie moet \'n heelgetal wees.',
 	validateVSpace: 'VSpasie moet \'n heelgetal wees.'
-});
+} );

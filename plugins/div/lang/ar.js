@@ -1,19 +1,19 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'ar', {
 	IdInputLabel: 'هوية',
 	advisoryTitleInputLabel: 'عنوان التقرير',
 	cssClassInputLabel: 'فئات التنسيق',
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
+	edit: 'تحرير Div',
+	inlineStyleInputLabel: 'Inline Style',
 	langDirLTRLabel: 'اليسار لليمين (LTR)',
 	langDirLabel: 'إتجاه النص',
 	langDirRTLLabel: 'اليمين لليسار (RTL)',
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
+	languageCodeInputLabel: 'رمز اللغة',
+	remove: 'إزالة Div',
 	styleSelectLabel: 'نمط',
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
-});
+	title: 'إحداث Div Container',
+	toolbar: 'إحداث Div Container'
+} );

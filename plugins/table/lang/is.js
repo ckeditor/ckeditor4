@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'is', {
 	border: 'Breidd ramma',
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'is', {
 	widthPc: 'prósent',
 	widthPx: 'myndeindir',
 	widthUnit: 'width unit' // MISSING
-});
+} );

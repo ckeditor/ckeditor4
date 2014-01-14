@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -117,8 +117,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		var removeIds = function( node ) {
 				// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
-				if ( node['data-cke-expando'] )
-					node['data-cke-expando'] = false;
+				if ( node[ 'data-cke-expando' ] )
+					node[ 'data-cke-expando' ] = false;
 
 				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
 					return;
@@ -236,7 +236,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( parentNode ) {
 				// Get the node index. For performance, call getIndex
 				// directly, instead of creating a new node object.
-				address.unshift( this.getIndex.call({ $: node }, normalized ) );
+				address.unshift( this.getIndex.call( { $: node }, normalized ) );
 			}
 
 			node = parentNode;
@@ -285,9 +285,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		do {
 			// Bypass blank node and adjacent text nodes.
-			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) ) {
+			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
 				continue;
-			}
 
 			index++;
 			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
@@ -434,7 +433,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *
 	 *		var node = editor.document.getBody().getFirst();
 	 *		var parent = node.getParent();
-	 *		alert( node.getName() ); // 'body'
+	 *		alert( parent.getName() ); // 'body'
 	 *
 	 * @param {Boolean} [allowFragmentParent=false] Consider also parent node that is of
 	 * fragment type {@link CKEDITOR#NODE_DOCUMENT_FRAGMENT}.
@@ -446,7 +445,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * @todo
+	 * Returns array containing node parents and node itself. By default nodes are in _descending_ order.
+	 *
+	 *		// Assuming that body has paragraph as first child.
+	 *		var node = editor.document.getBody().getFirst();
+	 *		var parents = node.getParents();
+	 *		alert( parents[ 0 ].getName() + ',' + parents[ 2 ].getName() ); // 'html,p'
+	 *
+	 * @param {Boolean} [closerFirst=false] Determines order of returned nodes.
+	 * @returns {Array} Returns array of {@link CKEDITOR.dom.node}.
 	 */
 	getParents: function( closerFirst ) {
 		var node = this;
@@ -505,9 +512,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 					return CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING;
 			}
 
-			if ( 'sourceIndex' in $ ) {
+			if ( 'sourceIndex' in $ )
 				return ( $.sourceIndex < 0 || $other.sourceIndex < 0 ) ? CKEDITOR.POSITION_DISCONNECTED : ( $.sourceIndex < $other.sourceIndex ) ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
-			}
+
 		}
 
 		// For nodes that don't support compareDocumentPosition, contains
@@ -520,9 +527,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		// Determinate preceed/follow relationship.
 		for ( var i = 0; i <= minLevel - 1; i++ ) {
 			if ( addressOfThis[ i ] != addressOfOther[ i ] ) {
-				if ( i < minLevel ) {
+				if ( i < minLevel )
 					return addressOfThis[ i ] < addressOfOther[ i ] ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
-				}
+
 				break;
 			}
 		}
@@ -562,7 +569,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 			try {
 				$ = $.parentNode;
-			} catch( e ) {
+			} catch ( e ) {
 				$ = null;
 			}
 		}
@@ -686,7 +693,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			break;
 		}
 
-		if ( !CKEDITOR.env.ie && !CKEDITOR.env.opera ) {
+		if ( CKEDITOR.env.needsBrFiller ) {
 			child = this.$.lastChild;
 
 			if ( child && child.type == 1 && child.nodeName.toLowerCase() == 'br' ) {
@@ -738,4 +745,4 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			return !element;
 		}
 	}
-});
+} );

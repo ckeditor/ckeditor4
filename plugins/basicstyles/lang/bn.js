@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'bn', {
 	bold: 'বোল্ড',
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'bn', {
 	subscript: 'অধোলেখ',
 	superscript: 'অভিলেখ',
 	underline: 'আন্ডারলাইন'
-});
+} );

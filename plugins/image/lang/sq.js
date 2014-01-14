@@ -1,15 +1,15 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'sq', {
-	alertUrl: 'Please type the image URL', // MISSING
+	alertUrl: 'Ju lutemi shkruani URL-në e fotos',
 	alt: 'Tekst Alternativ',
 	border: 'Korniza',
 	btnUpload: 'Dërgo në server',
-	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
+	button2Img: 'Dëshironi të e ndërroni pullën e fotos së selektuar në një foto të thjeshtë?',
 	hSpace: 'HSpace',
-	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
+	img2Button: 'Dëshironi të ndryshoni foton e përzgjedhur në pullë?',
 	infoTab: 'Informacione mbi Fotografinë',
 	linkTab: 'Nyja',
 	lockRatio: 'Mbyll Racionin',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sq', {
 	validateBorder: 'Korniza duhet të jetë numër i plotë.',
 	validateHSpace: 'Hapësira horizontale duhet të jetë numër i plotë.',
 	validateVSpace: 'Hapësira vertikale duhet të jetë numër i plotë.'
-});
+} );

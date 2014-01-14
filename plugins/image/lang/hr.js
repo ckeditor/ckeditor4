@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'hr', {
 	alertUrl: 'Unesite URL slike',
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'hr', {
 	validateBorder: 'Okvir mora biti cijeli broj.',
 	validateHSpace: 'HSpace mora biti cijeli broj',
 	validateVSpace: 'VSpace mora biti cijeli broj.'
-});
+} );

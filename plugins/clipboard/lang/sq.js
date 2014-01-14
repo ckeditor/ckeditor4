@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	copy: 'Kopjo',
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	pasteMsg: 'Ju lutemi hidhni brenda kutizës në vijim duke shfrytëzuar tastierën (<strong>Ctrl/Cmd+V</strong>) dhe shtypni Mirë.',
 	securityMsg: 'Për shkak të dhënave të sigurisë së shfletuesit tuaj, redaktuesi nuk është në gjendje të i qaset drejtpërdrejtë të dhanve të tabelës suaj të punës. Ju duhet të hidhni atë përsëri në këtë dritare.',
 	title: 'Hidhe'
-});
+} );

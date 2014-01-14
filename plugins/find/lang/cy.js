@@ -1,18 +1,18 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'cy', {
 	find: 'Chwilio',
-	findOptions: 'Chwilio Opsiynau',
+	findOptions: 'Opsiynau Chwilio',
 	findWhat: 'Chwilio\'r term:',
-	matchCase: 'Cyfateb i\'r cas',
-	matchCyclic: 'Cyfateb cylchol',
-	matchWord: 'Cyfateb gair cyfan',
+	matchCase: 'Cydweddu\'r cas',
+	matchCyclic: 'Cydweddu\'n gylchol',
+	matchWord: 'Cydweddu gair cyfan',
 	notFoundMsg: 'Nid oedd y testun wedi\'i ddarganfod.',
-	replace: 'Amnewid',
-	replaceAll: 'Amnewid pob un',
+	replace: 'Amnewid Un',
+	replaceAll: 'Amnewid Pob',
 	replaceSuccessMsg: 'Amnewidiwyd %1 achlysur.',
 	replaceWith: 'Amnewid gyda:',
 	title: 'Chwilio ac Amnewid'
-});
+} );

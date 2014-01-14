@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -131,6 +131,13 @@ Special outer level classes used in this file:
 .cke_top
 {
 	white-space: normal;
+}
+
+/* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+.cke_browser_ios .cke_contents
+{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* The resizer is the small UI element that is rendered at the bottom right

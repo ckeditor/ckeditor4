@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
@@ -10,12 +10,12 @@ CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
 	ldquo: '左双引号',
 	rdquo: '右双引号',
 	ndash: '短划线',
-	mdash: '破折号',
+	mdash: '长划线',
 	iexcl: '竖翻叹号',
-	cent: '分币标记',
-	pound: '英镑标记',
-	curren: '货币标记',
-	yen: '日元标记',
+	cent: '分币符号',
+	pound: '英镑符号',
+	curren: '货币符号',
+	yen: '日元符号',
 	brvbar: '间断条',
 	sect: '节标记',
 	uml: '分音符',
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
 	hArr: '左右双线箭头',
 	diams: '实心方块纸牌',
 	asymp: '约等于'
-});
+} );

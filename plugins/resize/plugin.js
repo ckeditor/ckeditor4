@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'resize', {
@@ -71,11 +71,11 @@ CKEDITOR.plugins.add( 'resize', {
 				}
 
 				$event.preventDefault && $event.preventDefault();
-			});
+			} );
 
 			editor.on( 'destroy', function() {
 				CKEDITOR.tools.removeFunction( mouseDownFn );
-			});
+			} );
 
 			editor.on( 'uiSpace', function( event ) {
 				if ( event.data.space == 'bottom' ) {
@@ -105,10 +105,10 @@ CKEDITOR.plugins.add( 'resize', {
 			// Toggle the visibility of the resizer when an editor is being maximized or minimized.
 			editor.on( 'maximize', function( event ) {
 				editor.ui.space( 'resizer' )[ event.data == CKEDITOR.TRISTATE_ON ? 'hide' : 'show' ]();
-			});
+			} );
 		}
 	}
-});
+} );
 
 /**
  * The minimum editor width, in pixels, when resizing the editor interface by using the resize handle.

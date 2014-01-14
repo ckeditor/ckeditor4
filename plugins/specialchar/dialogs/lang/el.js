@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'el', {
@@ -12,114 +12,114 @@ CKEDITOR.plugins.setLang( 'specialchar', 'el', {
 	ndash: 'Παύλα en',
 	mdash: 'Παύλα em',
 	iexcl: 'Ανάποδο θαυμαστικό',
-	cent: 'Σύμβολο Σεντ',
+	cent: 'Σύμβολο σεντ',
 	pound: 'Σύμβολο λίρας',
 	curren: 'Σύμβολο συναλλαγματικής μονάδας',
-	yen: 'Σύμβολο Γιέν',
+	yen: 'Σύμβολο Γιεν',
 	brvbar: 'Σπασμένη μπάρα',
 	sect: 'Σύμβολο τμήματος',
 	uml: 'Διαίρεση',
 	copy: 'Σύμβολο πνευματικών δικαιωμάτων',
 	ordf: 'Feminine ordinal indicator', // MISSING
-	laquo: 'Left-pointing double angle quotation mark', // MISSING
+	laquo: 'Αριστερός χαρακτήρας διπλού εισαγωγικού',
 	not: 'Not sign', // MISSING
-	reg: 'Registered sign', // MISSING
-	macr: 'Macron', // MISSING
-	deg: 'Degree sign', // MISSING
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
-	micro: 'Micro sign', // MISSING
-	para: 'Pilcrow sign', // MISSING
-	middot: 'Middle dot', // MISSING
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
+	reg: 'Σύμβολο σημάτων κατατεθέν',
+	macr: 'Μακρόν',
+	deg: 'Σύμβολο βαθμού',
+	sup2: 'Εκτεθειμένο δύο',
+	sup3: 'Εκτεθειμένο τρία',
+	acute: 'Οξεία',
+	micro: 'Σύμβολο μικρού',
+	para: 'Σύμβολο παραγράφου',
+	middot: 'Μέση τελεία',
+	cedil: 'Υπογεγραμμένη',
+	sup1: 'Εκτεθειμένο ένα',
 	ordm: 'Masculine ordinal indicator', // MISSING
 	raquo: 'Right-pointing double angle quotation mark', // MISSING
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
-	iquest: 'Inverted question mark', // MISSING
-	Agrave: 'Latin capital letter A with grave accent', // MISSING
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
-	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
-	Iacute: 'Latin capital letter I with acute accent', // MISSING
-	Icirc: 'Latin capital letter I with circumflex', // MISSING
-	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
-	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
-	Oacute: 'Latin capital letter O with acute accent', // MISSING
-	Ocirc: 'Latin capital letter O with circumflex', // MISSING
-	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
-	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
-	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
-	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
-	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
-	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
-	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
-	eacute: 'Latin small letter e with acute accent', // MISSING
-	ecirc: 'Latin small letter e with circumflex', // MISSING
-	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
-	iacute: 'Latin small letter i with acute accent', // MISSING
-	icirc: 'Latin small letter i with circumflex', // MISSING
-	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
-	oacute: 'Latin small letter o with acute accent', // MISSING
-	ocirc: 'Latin small letter o with circumflex', // MISSING
-	otilde: 'Latin small letter o with tilde', // MISSING
-	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
-	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
-	uacute: 'Latin small letter u with acute accent', // MISSING
-	ucirc: 'Latin small letter u with circumflex', // MISSING
-	uuml: 'Latin small letter u with diaeresis', // MISSING
-	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
-	yuml: 'Latin small letter y with diaeresis', // MISSING
-	OElig: 'Latin capital ligature OE', // MISSING
-	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
+	frac14: 'Γνήσιο κλάσμα ενός τετάρτου',
+	frac12: 'Γνήσιο κλάσμα ενός δεύτερου',
+	frac34: 'Γνήσιο κλάσμα τριών τετάρτων',
+	iquest: 'Ανάποδο θαυμαστικό',
+	Agrave: 'Λατινικό κεφαλαίο γράμμα A με βαρεία',
+	Aacute: 'Λατινικό κεφαλαίο γράμμα A με οξεία',
+	Acirc: 'Λατινικό κεφαλαίο γράμμα A με περισπωμένη',
+	Atilde: 'Λατινικό κεφαλαίο γράμμα A με περισπωμένη',
+	Auml: 'Λατινικό κεφαλαίο γράμμα A με διαλυτικά',
+	Aring: 'Λατινικό κεφαλαίο γράμμα A με δακτύλιο επάνω',
+	AElig: 'Λατινικό κεφαλαίο γράμμα Æ',
+	Ccedil: 'Λατινικό κεφαλαίο γράμμα C με υπογεγραμμένη',
+	Egrave: 'Λατινικό κεφαλαίο γράμμα E με βαρεία',
+	Eacute: 'Λατινικό κεφαλαίο γράμμα E με οξεία',
+	Ecirc: 'Λατινικό κεφαλαίο γράμμα Ε με περισπωμένη ',
+	Euml: 'Λατινικό κεφαλαίο γράμμα Ε με διαλυτικά',
+	Igrave: 'Λατινικό κεφαλαίο γράμμα I με βαρεία',
+	Iacute: 'Λατινικό κεφαλαίο γράμμα I με οξεία',
+	Icirc: 'Λατινικό κεφαλαίο γράμμα I  με περισπωμένη',
+	Iuml: 'Λατινικό κεφαλαίο γράμμα I με διαλυτικά ',
+	ETH: 'Λατινικό κεφαλαίο γράμμα Eth',
+	Ntilde: 'Λατινικό κεφαλαίο γράμμα N με περισπωμένη',
+	Ograve: 'Λατινικό κεφαλαίο γράμμα O με βαρεία',
+	Oacute: 'Λατινικό κεφαλαίο γράμμα O με οξεία',
+	Ocirc: 'Λατινικό κεφαλαίο γράμμα O με περισπωμένη ',
+	Otilde: 'Λατινικό κεφαλαίο γράμμα O με περισπωμένη',
+	Ouml: 'Λατινικό κεφαλαίο γράμμα O με διαλυτικά',
+	times: 'Σύμβολο πολλαπλασιασμού',
+	Oslash: 'Λατινικό κεφαλαίο γράμμα O με μολυβιά',
+	Ugrave: 'Λατινικό κεφαλαίο γράμμα U με βαρεία',
+	Uacute: 'Λατινικό κεφαλαίο γράμμα U με οξεία',
+	Ucirc: 'Λατινικό κεφαλαίο γράμμα U με περισπωμένη',
+	Uuml: 'Λατινικό κεφαλαίο γράμμα U με διαλυτικά',
+	Yacute: 'Λατινικό κεφαλαίο γράμμα Y με οξεία',
+	THORN: 'Λατινικό κεφαλαίο γράμμα Thorn',
+	szlig: 'Λατινικό μικρό γράμμα απότομο s',
+	agrave: 'Λατινικό μικρό γράμμα a με βαρεία',
+	aacute: 'Λατινικό μικρό γράμμα a με οξεία',
+	acirc: 'Λατινικό μικρό γράμμα a με περισπωμένη',
+	atilde: 'Λατινικό μικρό γράμμα a με περισπωμένη',
+	auml: 'Λατινικό μικρό γράμμα a με διαλυτικά',
+	aring: 'Λατινικό μικρό γράμμα a με δακτύλιο πάνω',
+	aelig: 'Λατινικό μικρό γράμμα æ',
+	ccedil: 'Λατινικό μικρό γράμμα c με υπογεγραμμένη',
+	egrave: 'Λατινικό μικρό γράμμα ε με βαρεία',
+	eacute: 'Λατινικό μικρό γράμμα e με οξεία',
+	ecirc: 'Λατινικό μικρό γράμμα e με περισπωμένη',
+	euml: 'Λατινικό μικρό γράμμα e με διαλυτικά',
+	igrave: 'Λατινικό μικρό γράμμα i με βαρεία',
+	iacute: 'Λατινικό μικρό γράμμα i με οξεία',
+	icirc: 'Λατινικό μικρό γράμμα i με περισπωμένη',
+	iuml: 'Λατινικό μικρό γράμμα i με διαλυτικά',
+	eth: 'Λατινικό μικρό γράμμα eth',
+	ntilde: 'Λατινικό μικρό γράμμα n με περισπωμένη',
+	ograve: 'Λατινικό μικρό γράμμα o με βαρεία',
+	oacute: 'Λατινικό μικρό γράμμα o με οξεία ',
+	ocirc: 'Λατινικό πεζό γράμμα o με περισπωμένη',
+	otilde: 'Λατινικό μικρό γράμμα o με περισπωμένη ',
+	ouml: 'Λατινικό μικρό γράμμα o με διαλυτικά',
+	divide: 'Σύμβολο διαίρεσης',
+	oslash: 'Λατινικό μικρό γράμμα o με περισπωμένη',
+	ugrave: 'Λατινικό μικρό γράμμα u με βαρεία',
+	uacute: 'Λατινικό μικρό γράμμα u με οξεία',
+	ucirc: 'Λατινικό μικρό γράμμα u με περισπωμένη',
+	uuml: 'Λατινικό μικρό γράμμα u με διαλυτικά',
+	yacute: 'Λατινικό μικρό γράμμα y με οξεία',
+	thorn: 'Λατινικό μικρό γράμμα thorn',
+	yuml: 'Λατινικό μικρό γράμμα y με διαλυτικά',
+	OElig: 'Λατινικό κεφαλαίο σύμπλεγμα ΟΕ',
+	oelig: 'Λατινικό μικρό σύμπλεγμα oe',
+	'372': 'Λατινικό κεφαλαίο γράμμα W με περισπωμένη',
+	'374': 'Λατινικό κεφαλαίο γράμμα Y με περισπωμένη',
+	'373': 'Λατινικό μικρό γράμμα w με περισπωμένη',
+	'375': 'Λατινικό μικρό γράμμα y με περισπωμένη',
 	sbquo: 'Single low-9 quotation mark', // MISSING
 	'8219': 'Single high-reversed-9 quotation mark', // MISSING
 	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
-});
+	hellip: 'Οριζόντια αποσιωπητικά',
+	trade: 'Σύμβολο εμπορικού κατατεθέν',
+	'9658': 'Μαύρος δείκτης που δείχνει προς τα δεξιά',
+	bull: 'Κουκκίδα',
+	rarr: 'Δεξί βελάκι',
+	rArr: 'Διπλό δεξί βελάκι',
+	hArr: 'Διπλό βελάκι αριστερά-δεξιά',
+	diams: 'Μαύρο διαμάντι',
+	asymp: 'Σχεδόν ίσο με'
+} );

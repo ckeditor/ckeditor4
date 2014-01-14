@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
@@ -68,8 +68,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			legend: 'Stiskněte ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Příkaz pro přístup k předchozímu prostoru zaměření',
+			legend: 'Stiskněte ${accessPreviousSpace} pro přístup k nejbližšímu nedosažitelnému prostoru zaměření před stříškou, například: dva přilehlé prvky HR. Pro dosažení vzdálených prostorů zaměření tuto kombinaci kláves opakujte.'
 		},
 			{
 			name: 'Příkaz pro přístup k dalšímu prostoru zaměření',
@@ -82,4 +82,4 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 		]
 	}
 	]
-});
+} );

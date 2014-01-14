@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'lt', {
 	armenian: 'Armėniški skaitmenys',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'lt', {
 	upperAlpha: 'Didžiosios Alpha (A, B, C, D, E, t.t)',
 	upperRoman: 'Didžiosios Romėnų (I, II, III, IV, V, t.t)',
 	validateStartNumber: 'Sąrašo pradžios skaitmuo turi būti sveikas skaičius.'
-});
+} );

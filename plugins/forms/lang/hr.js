@@ -1,10 +1,10 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'hr', {
 	button: {
-		title: 'Image Button svojstva',
+		title: 'Button svojstva',
 		text: 'Tekst (vrijednost)',
 		type: 'Vrsta',
 		typeBtn: 'Gumb',
@@ -60,9 +60,9 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		type: 'Vrsta',
 		typeText: 'Tekst',
 		typePass: 'Šifra',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Traži',
+		typeTel: 'Broj telefona',
 		typeUrl: 'URL'
 	}
-});
+} );
