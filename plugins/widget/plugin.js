@@ -2604,14 +2604,14 @@
 			} );
 			widget.inline && img.setAttribute( 'draggable', 'true' );
 
-			widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 			container.append( img );
 			widget.wrapper.append( container );
-
-			setTimeout( function() {
-				widget.on( 'data', widget.updateDragHandlerPosition, widget );
-			}, 50 );
 		}
+
+		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
+		setTimeout( function() {
+			widget.on( 'data', widget.updateDragHandlerPosition, widget );
+		}, 50 );
 
 		if ( widget.inline ) {
 			img.on( 'dragstart', function( evt ) {
