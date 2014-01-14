@@ -270,7 +270,7 @@
 			var walker = new CKEDITOR.dom.walker( range ),
 				wrapper;
 
-			walker.evaluator = isWidgetWrapper2;
+			walker.evaluator = isDomWidgetWrapper;
 
 			while ( ( wrapper = walker.next() ) )
 				updater.select( this.getByElement( wrapper ) );
@@ -393,7 +393,7 @@
 		 */
 		finalizeCreation: function( container ) {
 			var wrapper = container.getFirst();
-			if ( wrapper && isWidgetWrapper2( wrapper ) ) {
+			if ( wrapper && isDomWidgetWrapper( wrapper ) ) {
 				this.editor.insertElement( wrapper );
 
 				var widget = this.getByElement( wrapper );
@@ -496,7 +496,7 @@
 				instance;
 
 			for ( var i = newWidgets.count(); i--; ) {
-				instance = this.initOn( newWidgets.getItem( i ).getFirst( isWidgetElement2 ) );
+				instance = this.initOn( newWidgets.getItem( i ).getFirst( isDomWidgetElement ) );
 				if ( instance )
 					newInstances.push( instance );
 			}
@@ -1538,11 +1538,11 @@
 
 				// Check if there's no instance for this widget and that
 				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
+				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isDomTemp ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
-					newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
+					newInstances.push( this.initOn( wrapper.getFirst( isDomWidgetElement ) ) );
 				}
 			}
 		}
@@ -1579,7 +1579,7 @@
 
 		for ( ; i < l; ++i ) {
 			wrapper = wrappers.getItem( i );
-			element = wrapper.getFirst( isWidgetElement2 );
+			element = wrapper.getFirst( isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
@@ -1639,7 +1639,7 @@
 				// Wrapper found - find widget element, add it to be
 				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
 				if ( 'data-cke-widget-wrapper' in element.attributes ) {
-					element = element.getFirst( isWidgetElement );
+					element = element.getFirst( isParserWidgetElement );
 
 					if ( element )
 						toBeWrapped.push( [ element ] );
@@ -1712,7 +1712,7 @@
 		if ( !node || node.equals( guard ) )
 			return null;
 
-		if ( isNestedEditable2( node ) )
+		if ( isDomNestedEditable( node ) )
 			return node;
 
 		return getNestedEditable( guard, node.getParent() );
@@ -1771,12 +1771,12 @@
 	}
 
 	// @param {CKEDITOR.htmlParser.element}
-	function isWidgetElement( element ) {
+	function isParserWidgetElement( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isWidgetElement2( element ) {
+	function isDomWidgetElement( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
@@ -1786,27 +1786,27 @@
 	}
 
 	// @param {CKEDITOR.htmlParser.element}
-	function isWidgetWrapper( element ) {
+	function isParserWidgetWrapper( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-cke-widget-wrapper' ];
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isWidgetWrapper2( element ) {
+	function isDomWidgetWrapper( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isNestedEditable2( node ) {
+	function isDomNestedEditable( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isTemp2( element ) {
+	function isDomTemp( element ) {
 		return element.hasAttribute( 'data-cke-temp' );
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isDragHandler2( element ) {
+	function isDomDragHandler( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
 	}
 
@@ -2021,7 +2021,7 @@
 								return;
 
 							while ( el ) {
-								if ( isNestedEditable2( el ) )
+								if ( isDomNestedEditable( el ) )
 									return;
 
 								el = el.getParent();
@@ -2258,7 +2258,7 @@
 				if ( 'data-cke-widget-id' in attrs ) {
 					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
 					if ( widget ) {
-						widgetElement = element.getFirst( isWidgetElement );
+						widgetElement = element.getFirst( isParserWidgetElement );
 						toBeDowncasted.push( {
 							wrapper: element,
 							element: widgetElement,
@@ -2344,7 +2344,7 @@
 
 			// Used to determine whether only widget was pasted.
 			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+				isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
@@ -2787,7 +2787,7 @@
 				var target = evt.data.getTarget();
 
 				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
-				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDragHandler2( target ) ) )
+				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDomDragHandler( target ) ) )
 					evt.data.preventDefault();
 			} );
 		}
