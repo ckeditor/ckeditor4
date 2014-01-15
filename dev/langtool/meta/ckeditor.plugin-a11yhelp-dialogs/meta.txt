@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
-# for the licensing, see LICENSE.md or http://ckeditor.com/license
+# for licensing, see LICENSE.md or http://ckeditor.com/license
 
 title = Label for the Accessibility Instructions dialog window title.
 contents = Instructions for closing the Accessibility Instructions dialog window.
