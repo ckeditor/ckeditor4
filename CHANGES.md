@@ -36,6 +36,7 @@ CKEditor 4 Changelog
 * [#11372](http://dev.ckeditor.com/ticket/11372): Widgets: Special characters encoded twice in nested editables.
 * [#10068](http://dev.ckeditor.com/ticket/10068): Fixed: Support for protocol relative URLs.
 * [#11283](http://dev.ckeditor.com/ticket/11283): [Enhanced Image](http://ckeditor.com/addon/image2): Div with `text-align: center` and image inside is not recognised correctly.
+* [#11196](http://dev.ckeditor.com/ticket/11196): [Accessibility Instructions](http://ckeditor.com/addon/a11yhelp): Allowed additional labels to be translated in the dialog.
 
 ## CKEditor 4.3.1
 
