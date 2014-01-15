@@ -20,12 +20,36 @@
 
 				for ( var j = 0; j < count; j++ ) {
 					var template = templates[ j ],
-						item = createTemplateItem( template, imagesPath );
+						item = createTemplateItem( template, imagesPath ),
+						allowedContent = template.allowedContent;
+					setupFilter(allowedContent);
 					item.setAttribute( 'aria-posinset', j + 1 );
 					item.setAttribute( 'aria-setsize', count );
 					container.append( item );
 				}
 			}
+		}
+
+		function setupFilter(allowedContent) {
+			if (allowedContent !== undefined) {
+				/* since templates are loaded dynamically each time the dialog is
+				 * shown, we need a way to avoid adding filter rules over and over.
+				 */
+				var allowedContentCache = getAllowedContentCache(editor);
+				if (allowedContentCache.indexOf(allowedContent) == -1) {
+					editor.filter.allow(allowedContent, 'templates', 1)
+					allowedContentCache.push(allowedContent);
+				}
+			}
+		}
+
+		function getAllowedContentCache(editor) {
+			var allowedContentCache = editor.templatesAllowedContentCache;
+			if (allowedContentCache === undefined) {
+				editor.templatesAllowedContentCache = [];
+				allowedContentCache = editor.templatesAllowedContentCache;
+			}
+			return allowedContentCache;
 		}
 
 		function createTemplateItem( template, imagesPath ) {
