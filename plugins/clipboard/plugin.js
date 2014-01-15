@@ -881,7 +881,7 @@
 					editor.fire( 'saveSnapshot' ); // Save before cut
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' ); // Save after cut
-					}, 10 ); // OSX is slow (#11416).
+					}, 50 ); // OSX is slow (#11416).
 			}
 		}
 
