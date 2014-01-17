@@ -3,7 +3,6 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.2
 
-
 * [#11331](http://dev.ckeditor.com/ticket/11331): A11y menubutton will have changed label when selected, instead of `aria-pressed` attribute.
 * [#11177](http://dev.ckeditor.com/ticket/11177): Widget's drag handler improvements:
   * fixed: initial position is not updated when widget's data object is empty ([#11161](http://dev.ckeditor.com/ticket/11161)),
