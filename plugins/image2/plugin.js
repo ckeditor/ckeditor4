@@ -547,7 +547,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function upcastWidgetElement( editor ) {
-		var isCenterWrapper = centerWrapperChecker( editor );
+		var isCenterWrapper = centerWrapperChecker( editor ),
+			captionedClass = editor.config.image2_captionedClass;
 
 		// @param {CKEDITOR.htmlParser.element} el
 		// @param {Object} data
@@ -591,7 +592,7 @@
 			}
 
 			// No center wrapper has been found.
-			else if ( name == 'figure' && el.hasClass( 'caption' ) )
+			else if ( name == 'figure' && el.hasClass( captionedClass ) )
 				image = el.getFirst( 'img' );
 
 			// Inline widget from plain img.
@@ -667,6 +668,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function centerWrapperChecker( editor ) {
+		var captionedClass = editor.config.image2_captionedClass;
+
 		return function( el ) {
 			// Wrapper must be either <div> or <p>.
 			if ( !( el.name in { div: 1, p: 1 } ) )
@@ -696,7 +699,7 @@
 			else {
 				// If a <figure> is the first (only) child, it must have a class.
 				//   <div style="text-align:center"><figure>...</figure><div>
-				if ( childName == 'figure' && !child.hasClass( 'caption' ) )
+				if ( childName == 'figure' && !child.hasClass( captionedClass ) )
 					return false;
 
 				// Centering <div> can hold <img /> only when enterMode is ENTER_(BR|DIV).
