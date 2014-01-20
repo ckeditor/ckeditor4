@@ -661,7 +661,6 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
 				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
@@ -696,49 +695,43 @@
 				offsetParent,
 				win = doc.getWindow();
 
-			// Seems to be the only way to avoid page scroll in Fx 3.x.
-			if ( ff3x ) {
-				pastebin.insertAfter( bms[ 0 ].startNode );
-				pastebin.setStyle( 'display', 'inline' );
-			} else {
-				if ( CKEDITOR.env.webkit ) {
-					// It's better to paste close to the real paste destination, so inherited styles
-					// (which Webkits will try to compensate by styling span) differs less from the destination's one.
-					editable.append( pastebin );
-					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
-					pastebin.addClass( 'cke_editable' );
+			if ( CKEDITOR.env.webkit ) {
+				// It's better to paste close to the real paste destination, so inherited styles
+				// (which Webkits will try to compensate by styling span) differs less from the destination's one.
+				editable.append( pastebin );
+				// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
+				pastebin.addClass( 'cke_editable' );
 
-					// Compensate position of offsetParent.
-					if ( !editable.is( 'body' ) ) {
-						// We're not able to get offsetParent from pastebin (body element), so check whether
-						// its parent (editable) is positioned.
-						if ( editable.getComputedStyle( 'position' ) != 'static' )
-							offsetParent = editable;
-						// And if not - safely get offsetParent from editable.
-						else
-							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+				// Compensate position of offsetParent.
+				if ( !editable.is( 'body' ) ) {
+					// We're not able to get offsetParent from pastebin (body element), so check whether
+					// its parent (editable) is positioned.
+					if ( editable.getComputedStyle( 'position' ) != 'static' )
+						offsetParent = editable;
+					// And if not - safely get offsetParent from editable.
+					else
+						offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
 
-						containerOffset = offsetParent.getDocumentPosition().y;
-					}
-				} else {
-					// Opera and IE doesn't allow to append to html element.
-					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+					containerOffset = offsetParent.getDocumentPosition().y;
 				}
-
-				pastebin.setStyles( {
-					position: 'absolute',
-					// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
-					top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
-					width: '1px',
-					// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
-					// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
-					height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
-					overflow: 'hidden',
-					// Reset styles that can mess up pastebin position.
-					margin: 0,
-					padding: 0
-				} );
+			} else {
+				// Opera and IE doesn't allow to append to html element.
+				editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
 			}
+
+			pastebin.setStyles( {
+				position: 'absolute',
+				// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
+				top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
+				width: '1px',
+				// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
+				// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
+				height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
+				overflow: 'hidden',
+				// Reset styles that can mess up pastebin position.
+				margin: 0,
+				padding: 0
+			} );
 
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
@@ -869,8 +862,8 @@
 					// Simulate 'beforepaste' event for all none-IEs.
 					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
 
-					// Simulate 'paste' event for Opera/Firefox2.
-					if ( CKEDITOR.env.opera || CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
+					// Simulate 'paste' event for Opera.
+					if ( CKEDITOR.env.opera )
 						editable.fire( 'paste' );
 					return;
 

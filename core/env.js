@@ -335,13 +335,6 @@ if ( !CKEDITOR.env ) {
 				env.cssClass += ' cke_browser_iequirks';
 		}
 
-		if ( env.gecko ) {
-			if ( version < 10900 )
-				env.cssClass += ' cke_browser_gecko18';
-			else if ( version <= 11000 )
-				env.cssClass += ' cke_browser_gecko19';
-		}
-
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';
 

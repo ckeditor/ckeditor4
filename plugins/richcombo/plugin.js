@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
 			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
-			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
@@ -235,7 +235,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					label: this.label,
 					title: this.title,
 					cls: this.className || '',
-					titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+					titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 					keydownFn: keyDownFn,
 					mousedownFn: mouseDownFn,
 					focusFn: focusFn,

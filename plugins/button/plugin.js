@@ -6,7 +6,7 @@
 ( function() {
 	var template = '<a id="{id}"' +
 		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
-		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
+		( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 		' title="{title}"' +
 		' tabindex="-1"' +
 		' hidefocus="true"' +
@@ -154,9 +154,6 @@
 				if ( instance.onfocus )
 					retVal = ( instance.onfocus( instance, new CKEDITOR.dom.event( ev ) ) !== false );
 
-				// FF2: prevent focus event been bubbled up to editor container, which caused unexpected editor focus.
-				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
-					ev.preventBubble();
 				return retVal;
 			} );
 
@@ -272,7 +269,7 @@
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
 				title: this.title,
-				titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
 				keydownFn: keydownFn,
 				mousedownFn: mousedownFn,

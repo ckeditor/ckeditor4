@@ -793,16 +793,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else
 				element.setStyle( 'display', 'block' );
 
-			// FIREFOX BUG: Fix vanishing caret for Firefox 2 or Gecko 1.8.
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) {
-				var dialogElement = this.parts.dialog;
-				dialogElement.setStyle( 'position', 'absolute' );
-				setTimeout( function() {
-					dialogElement.setStyle( 'position', 'fixed' );
-				}, 0 );
-			}
-
-
 			// First, set the dialog to an appropriate size.
 			this.resize( this._.contentSize && this._.contentSize.width || definition.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight );
 
@@ -1101,7 +1091,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						titleHtml,
 						( !!contents.hidden ? ' style="display:none"' : '' ),
 						' id="', tabId, '"',
-						env.gecko && env.version >= 10900 && !env.hc ? '' : ' href="javascript:void(0)"',
+						env.gecko && !env.hc ? '' : ' href="javascript:void(0)"',
 						' tabIndex="-1"',
 						' hidefocus="true"',
 						' role="tab">',

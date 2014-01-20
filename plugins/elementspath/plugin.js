@@ -45,7 +45,6 @@
 		' tabindex="-1"' +
 		' class="cke_path_item"' +
 		' title="{label}"' +
-		( ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) ? ' onfocus="event.preventBubble();"' : '' ) +
 		extra +
 		' hidefocus="true" ' +
 		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
