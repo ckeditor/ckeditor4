@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'hu', {
 	title: 'Helytartó beállítások',
 	toolbar: 'Helytartó készítése',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Helytartó neve',
+	invalidName: 'A helytartó nem lehet üres, és nem tartalmazhatja a következő karaktereket:[, ], <, > ',
+	pathName: 'helytartó'
 } );

@@ -5,14 +5,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'de', {
 	alt: 'Alternativer Text',
 	btnUpload: 'Zum Server senden',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Bild mit Überschrift',
 	infoTab: 'Bild-Info',
 	lockRatio: 'Größenverhältnis beibehalten',
 	menu: 'Bild-Eigenschaften',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'Bild',
+	pathNameCaption: 'Überschrift',
 	resetSize: 'Größe zurücksetzen',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Zum vergrößern anwählen und ziehen',
 	title: 'Bild-Eigenschaften',
 	uploadTab: 'Hochladen',
 	urlMissing: 'Imagequelle URL fehlt.'

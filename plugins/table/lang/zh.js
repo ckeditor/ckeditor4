@@ -53,11 +53,11 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 	invalidBorder: '框線大小必須是整數。',
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
+	invalidCols: '行數須為大於 0 的正整數。',
+	invalidHeight: '表格高度必須為數字。',
 	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
-	menu: 'Table Properties', // MISSING
+	invalidWidth: '表格寬度必須為數字。',
+	menu: '表格屬性',
 	row: {
 		menu: '列',
 		insertBefore: 'Insert Row Before', // MISSING
@@ -66,8 +66,8 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 	},
 	rows: '列',
 	summary: 'Summary', // MISSING
-	title: 'Table Properties', // MISSING
-	toolbar: 'Table', // MISSING
+	title: '表格屬性',
+	toolbar: '表格',
 	widthPc: '百分比',
 	widthPx: '像素',
 	widthUnit: '寬度單位'

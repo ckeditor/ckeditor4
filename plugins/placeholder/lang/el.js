@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'el', {
 	title: 'Ιδιότητες Υποκαθιστόμενου Κειμένου',
 	toolbar: 'Δημιουργία Υποκαθιστόμενου Κειμένου',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Όνομα Υποκαθιστόμενου Κειμένου',
+	invalidName: 'Το υποκαθιστόμενου κειμένο πρέπει να μην είναι κενό και να μην έχει κανέναν από τους ακόλουθους χαρακτήρες: [, ], <, >',
+	pathName: 'υποκαθιστόμενο κείμενο'
 } );
