@@ -279,7 +279,7 @@ if ( !CKEDITOR.env ) {
 			env.iOS && version >= 534 ||
 			!env.mobile && (
 				( env.ie && version > 6 ) ||
-				( env.gecko && version >= 10801 ) ||
+				( env.gecko && version >= 20000 ) ||
 				( env.opera && version >= 9.5 ) ||
 				( env.air && version >= 1 ) ||
 				( env.webkit && version >= 522 ) ||
