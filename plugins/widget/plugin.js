@@ -229,10 +229,10 @@
 
 		/**
 		 * Adds a callback for element upcasting. Each callback will be executed
-		 * for every element which is later tested by upcast methods. If callback
-		 * returns `false`, then element will not be upcasted.
+		 * for every element which is later tested by upcast methods. If a callback
+		 * returns `false`, the element will not be upcasted.
 		 *
-		 *		// Images with banner class will not be upcasted (e.g. to the image widget).
+		 *		// Images with the "banner" class will not be upcasted (e.g. to the image widget).
 		 *		editor.widgets.addUpcastCallback( function( element ) {
 		 *			if ( element.name == 'img' && element.hasClass( 'banner' ) )
 		 *				return false;
