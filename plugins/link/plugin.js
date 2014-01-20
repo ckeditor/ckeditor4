@@ -275,7 +275,7 @@ CKEDITOR.plugins.link = {
 	* elements must be used for them.
 	*
 	* @readonly
-	* @deprecated 4.3.2 It is set to `true` on every browser.
+	* @deprecated 4.3.3 It is set to `true` on every browser.
 	* @property {Boolean}
 	*/
 	fakeAnchor: true,
@@ -284,7 +284,7 @@ CKEDITOR.plugins.link = {
 	* For browsers that don't support CSS3 `a[name]:empty()`, note IE9 is included because of #7783.
 	*
 	* @readonly
-	* @deprecated 4.3.2 It is set to `false` on every browser.
+	* @deprecated 4.3.3 It is set to `false` on every browser.
 	* @property {Boolean} synAnchorSelector
 	*/
 
@@ -292,7 +292,7 @@ CKEDITOR.plugins.link = {
 	* For browsers that have editing issue with empty anchor.
 	*
 	* @readonly
-	* @deprecated 4.3.2 It is set to `false` on every browser.
+	* @deprecated 4.3.3 It is set to `false` on every browser.
 	* @property {Boolean} emptyAnchorFix
 	*/
 
