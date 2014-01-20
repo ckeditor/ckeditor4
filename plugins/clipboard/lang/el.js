@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'el', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'el', {
 	pasteMsg: 'Παρακαλώ επικολλήστε στο ακόλουθο κουτί χρησιμοποιώντας το πληκτρολόγιο (<strong>Ctrl/Cmd+V</strong>) και πατήστε OK.',
 	securityMsg: 'Λόγων των ρυθμίσεων ασφάλειας του περιηγητή σας, ο επεξεργαστής δεν μπορεί να έχει πρόσβαση στην μνήμη επικόλλησης. Χρειάζεται να επικολλήσετε ξανά σε αυτό το παράθυρο.',
 	title: 'Επικόλληση'
-});
+} );

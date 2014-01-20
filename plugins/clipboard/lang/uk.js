@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	pasteMsg: 'Будь ласка, вставте інформацію з буфера обміну в цю область, користуючись комбінацією клавіш (<STRONG>Ctrl/Cmd+V</STRONG>), та натисніть <STRONG>OK</STRONG>.',
 	securityMsg: 'Редактор не може отримати прямий доступ до буферу обміну у зв\'язку з налаштуваннями Вашого браузера. Вам потрібно вставити інформацію в це вікно.',
 	title: 'Вставити'
-});
+} );

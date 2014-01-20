@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,7 +18,7 @@ if ( !CKEDITOR.loader ) {
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.loader = (function() {
+	CKEDITOR.loader = ( function() {
 		// Table of script names and their dependencies.
 		var scripts = {
 			'_bootstrap': [ 'config', 'creators/inline', 'creators/themedui', 'editable', 'ckeditor', 'plugins', 'scriptloader', 'style', 'tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin' ],
@@ -54,7 +54,7 @@ if ( !CKEDITOR.loader ) {
 			'htmldataprocessor': [ 'htmlparser', 'htmlparser/basicwriter', 'htmlparser/fragment', 'htmlparser/filter' ],
 			'htmlparser': [],
 			'htmlparser/comment': [ 'htmlparser', 'htmlparser/node' ],
-			'htmlparser/element': [ 'htmlparser', 'htmlparser/fragment','htmlparser/node' ],
+			'htmlparser/element': [ 'htmlparser', 'htmlparser/fragment', 'htmlparser/node' ],
 			'htmlparser/fragment': [ 'htmlparser', 'htmlparser/comment', 'htmlparser/text', 'htmlparser/cdata' ],
 			'htmlparser/text': [ 'htmlparser', 'htmlparser/node' ],
 			'htmlparser/cdata': [ 'htmlparser', 'htmlparser/node' ],
@@ -76,7 +76,7 @@ if ( !CKEDITOR.loader ) {
 			'creators/inline': []
 		};
 
-		var basePath = (function() {
+		var basePath = ( function() {
 			// This is a copy of CKEDITOR.basePath, but requires the script having
 			// "_source/loader.js".
 			if ( CKEDITOR && CKEDITOR.basePath )
@@ -107,7 +107,7 @@ if ( !CKEDITOR.loader ) {
 			}
 
 			return path;
-		})();
+		} )();
 
 		var timestamp = ( CKEDITOR && CKEDITOR.timestamp ) || ( new Date() ).valueOf(); // %REMOVE_LINE%
 		/*																				// %REMOVE_LINE%
@@ -237,7 +237,7 @@ if ( !CKEDITOR.loader ) {
 				}
 			}
 		};
-	})();
+	} )();
 }
 
 // Check if any script has been defined for autoload.

@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var isReplace;
 
 	function findEvaluator( node ) {
@@ -54,8 +54,8 @@
 			// Style object for highlights: (#5018)
 			// 1. Defined as full match style to avoid compromising ordinary text color styles.
 			// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
-			var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend({
-				attributes: { 'data-cke-highlight':1 },
+			var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( {
+				attributes: { 'data-cke-highlight': 1 },
 				fullMatch: 1, ignoreReadonly: 1, childRule: function() {
 					return 0;
 				} }, editor.config.find_highlight, true ) );
@@ -711,10 +711,10 @@
 					var isUserSelect = 0;
 					this.on( 'hide', function() {
 						isUserSelect = 0;
-					});
+					} );
 					this.on( 'show', function() {
 						isUserSelect = 1;
-					});
+					} );
 
 					this.selectPage = CKEDITOR.tools.override( this.selectPage, function( originalFunc ) {
 						return function( pageId ) {
@@ -738,7 +738,7 @@
 							if ( isUserSelect )
 								syncFieldsBetweenTabs.call( this, pageId );
 						};
-					});
+					} );
 
 				},
 				onShow: function() {
@@ -782,9 +782,9 @@
 
 	CKEDITOR.dialog.add( 'find', function( editor ) {
 		return findDialog( editor, 'find' );
-	});
+	} );
 
 	CKEDITOR.dialog.add( 'replace', function( editor ) {
 		return findDialog( editor, 'replace' );
-	});
-})();
+	} );
+} )();

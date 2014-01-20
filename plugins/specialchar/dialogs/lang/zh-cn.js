@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
 	hArr: '左右双线箭头',
 	diams: '实心方块纸牌',
 	asymp: '约等于'
-});
+} );

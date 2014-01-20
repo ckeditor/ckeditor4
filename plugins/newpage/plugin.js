@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'newpage', {
 	icons: 'newpage,newpage-rtl', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
-		editor.addCommand( 'newpage', { modes:{wysiwyg:1,source:1 },
+		editor.addCommand( 'newpage', { modes: { wysiwyg: 1, source: 1 },
 
 			exec: function( editor ) {
 				var command = this;
@@ -24,22 +24,22 @@ CKEDITOR.plugins.add( 'newpage', {
 						editor.fire( 'afterCommandExec', {
 							name: 'newpage',
 							command: command
-						});
+						} );
 						editor.selectionChange();
 
 					}, 200 );
-				});
+				} );
 			},
 			async: true
-		});
+		} );
 
 		editor.ui.addButton && editor.ui.addButton( 'NewPage', {
 			label: editor.lang.newpage.toolbar,
 			command: 'newpage',
 			toolbar: 'document,20'
-		});
+		} );
 	}
-});
+} );
 
 /**
  * The HTML to load in the editor when the "new page" command is executed.

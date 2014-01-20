@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -64,9 +64,9 @@ else if ( !( argv.i && argv.l ) ) {
 
 // Check if convert is installed.
 exec( 'convert -version', function( error, stdout, stderr ) {
-	if ( error ) {
+	if ( error )
 		gracefulFailure( 'Convert not found in PATH. See http://www.imagemagick.org/ for more help.' );
-	}
+
 } );
 
 // Check if PNG exist.

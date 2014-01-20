@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'km', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'km', {
 	options: 'ជម្រើស​ពុម្ព​គំរូ',
 	selectPromptMsg: 'សូម​រើស​ពុម្ព​គំរូ​ដើម្បី​បើក​ក្នុង​កម្មវិធី​សរសេរ​អត្ថបទ',
 	title: 'ពុម្ព​គំរូ​មាតិកា'
-});
+} );

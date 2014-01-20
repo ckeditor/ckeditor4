@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'gl', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'gl', {
 	options: 'Opcións de modelos',
 	selectPromptMsg: 'Seleccione o modelo a abrir no editor',
 	title: 'Modelos de contido'
-});
+} );

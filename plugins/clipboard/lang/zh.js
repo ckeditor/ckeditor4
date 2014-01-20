@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	pasteMsg: '請使用鍵盤快捷鍵 (<strong>Ctrl/Cmd+V</strong>) 貼到下方區域中並按下「確定」。',
 	securityMsg: '因為瀏覽器的安全性設定，本編輯器無法直接存取您的剪貼簿資料，請您自行在本視窗進行貼上動作。',
 	title: '貼上'
-});
+} );

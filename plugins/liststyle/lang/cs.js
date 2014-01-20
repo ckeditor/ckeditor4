@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'cs', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'cs', {
 	upperAlpha: 'Velká latinka (A, B, C, D, E, atd.)',
 	upperRoman: 'Velké římské (I, II, III, IV, V, atd.)',
 	validateStartNumber: 'Číslování musí začínat celým číslem.'
-});
+} );

@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/** @class CKEDITOR */
 
 	/**
@@ -141,7 +141,7 @@
 	CKEDITOR.domReady( function() {
 		!CKEDITOR.disableAutoInline && CKEDITOR.inlineAll();
 	} );
-})();
+} )();
 
 /**
  * Disables creating the inline editor automatically for elements with

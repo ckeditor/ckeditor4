@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -33,7 +33,7 @@ CKEDITOR.dom.domObject = function( nativeDomObject ) {
 	}
 };
 
-CKEDITOR.dom.domObject.prototype = (function() {
+CKEDITOR.dom.domObject.prototype = ( function() {
 	// Do not define other local variables here. We want to keep the native
 	// listener closures as clean as possible.
 
@@ -138,14 +138,14 @@ CKEDITOR.dom.domObject.prototype = (function() {
 			}
 		}
 	};
-})();
+} )();
 
-(function( domObjectProto ) {
+( function( domObjectProto ) {
 	var customData = {};
 
 	CKEDITOR.on( 'reset', function() {
 		customData = {};
-	});
+	} );
 
 	/**
 	 * Determines whether the specified object is equal to the current object.
@@ -255,4 +255,4 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	// Implement CKEDITOR.event.
 	CKEDITOR.event.implementOn( domObjectProto );
 
-})( CKEDITOR.dom.domObject.prototype );
+} )( CKEDITOR.dom.domObject.prototype );

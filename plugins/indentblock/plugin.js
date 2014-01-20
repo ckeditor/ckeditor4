@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview Handles the indentation of block elements.
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var $listItem = CKEDITOR.dtd.$listItem,
@@ -277,7 +277,7 @@
 	function getIndent( element ) {
 		return parseInt( element.getStyle( getIndentCss( element ) ), 10 );
 	}
-})();
+} )();
 
 /**
  * A list of classes to use for indenting the contents. If set to `null`, no classes will be used

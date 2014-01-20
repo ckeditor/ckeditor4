@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,10 +18,10 @@ CKEDITOR.plugins.add( 'smiley', {
 			label: editor.lang.smiley.toolbar,
 			command: 'smiley',
 			toolbar: 'insert,50'
-		});
+		} );
 		CKEDITOR.dialog.add( 'smiley', this.path + 'dialogs/smiley.js' );
 	}
-});
+} );
 
 /**
  * The base path used to build the URL for the smiley images. It must end with a slash.

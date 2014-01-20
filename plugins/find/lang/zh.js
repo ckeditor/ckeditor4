@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'zh', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'zh', {
 	replaceSuccessMsg: '已取代  %1 個指定項目。',
 	replaceWith: '取代成：',
 	title: '尋找及取代'
-});
+} );

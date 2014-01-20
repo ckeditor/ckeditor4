@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'ja', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ja', {
 	replaceSuccessMsg: '%1 個置換しました。',
 	replaceWith: '置換後の文字列:',
 	title: '検索と置換'
-});
+} );

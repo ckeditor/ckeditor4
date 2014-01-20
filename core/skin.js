@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview Defines the {@link CKEDITOR.skin} class that is used to manage skin parts.
  */
 
-(function() {
+( function() {
 	var cssLoaded = {};
 
 	function getName() {
@@ -50,7 +50,7 @@
 			if ( CKEDITOR.skin.name != getName() ) {
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( getConfigPath() + 'skin.js' ), function() {
 					loadCss( part, fn );
-				});
+				} );
 			} else
 				loadCss( part, fn );
 		},
@@ -135,7 +135,7 @@
 			if ( uas ) {
 
 				// Having versioned UA checked first.
-				uas = uas.split( ',' ).sort( function ( a, b ) { return a > b ? -1 : 1; } );
+				uas = uas.split( ',' ).sort( function( a, b ) { return a > b ? -1 : 1; } );
 
 				// Loop through all ua entries, checking is any of them match the current ua.
 				for ( var i = 0, ua; i < uas.length; i++ ) {
@@ -202,9 +202,9 @@
 
 				// Update panel styles.
 				updateStylesheets( uiColorMenus, chameleon( this, 'panel' ), replace );
-			}).call( this, color );
+			} ).call( this, color );
 		}
-	});
+	} );
 
 	var uiColorStylesheetId = 'cke_ui_color',
 		uiColorMenus = [],
@@ -269,9 +269,9 @@
 
 					var color = editor.getUiColor();
 					// Set uiColor for new panel.
-					if ( color ) {
+					if ( color )
 						updateStylesheets( [ node ], CKEDITOR.skin.chameleon( editor, 'panel' ), [ [ uiColorRegexp, color ] ] );
-					}
+
 				}
 			};
 
@@ -281,8 +281,8 @@
 		// Apply UI color if specified in config.
 		if ( editor.config.uiColor )
 			editor.setUiColor( editor.config.uiColor );
-	});
-})();
+	} );
+} )();
 
 /**
  * The list of file names matching the browser user agent string from

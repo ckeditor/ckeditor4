@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'uk', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'uk', {
 	upperAlpha: 'Великі лат. букви (A, B, C, D, E і т.д.)',
 	upperRoman: 'Великі римські (I, II, III, IV, V і т.д.)',
 	validateStartNumber: 'Початковий номер списку повинен бути цілим числом.'
-});
+} );

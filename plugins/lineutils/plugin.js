@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	CKEDITOR.plugins.add( 'lineutils' );
 
@@ -121,7 +121,7 @@
 		 * @param {Object} location Location containing unique identifier and type.
 		 * @returns {CKEDITOR.dom.range} Range representing the relation.
 		 */
-		getRange: (function() {
+		getRange: ( function() {
 			var where = {};
 
 			where[ CKEDITOR.LINEUTILS_BEFORE ] = CKEDITOR.POSITION_BEFORE_START;
@@ -135,7 +135,7 @@
 
 				return range;
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Stores given relation in {@link #relations} object. Processes the relation
@@ -144,7 +144,7 @@
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
 		 * @param {Number} type Relation, one of `CKEDITOR.LINEUTILS_AFTER`, `CKEDITOR.LINEUTILS_BEFORE`, `CKEDITOR.LINEUTILS_INSIDE`.
 		 */
-		store: (function() {
+		store: ( function() {
 			function merge( el, type, relations ) {
 				var uid = el.getUniqueId();
 
@@ -173,7 +173,7 @@
 
 				merge( el, type, this.relations );
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Traverses DOM tree towards root, checking all ancestors
@@ -216,7 +216,7 @@
 		 * @param {Number} [x] Horizontal mouse coordinate relative to the viewport.
 		 * @param {Number} [y] Vertical mouse coordinate relative to the viewport.
 		 */
-		pixelSearch: (function() {
+		pixelSearch: ( function() {
 			var contains = CKEDITOR.env.ie || CKEDITOR.env.webkit ?
 					function( el, found ) {
 						return el.contains( found );
@@ -331,7 +331,7 @@
 					this.traverseSearch( pos );
 				}
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
@@ -438,7 +438,7 @@
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @returns {Object} {@link #locations}.
 		 */
-		locate: (function() {
+		locate: ( function() {
 			var rel, uid;
 
 			function locateSibling( rel, type ) {
@@ -483,7 +483,7 @@
 
 				return this.locations;
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Calculates distances from every location to given vertical coordinate
@@ -493,7 +493,7 @@
 		 * @param {Number} [howMany] Determines the number "closest locations" to be returned.
 		 * @returns {Array} Sorted, array representation of {@link #locations}.
 		 */
-		sort: (function() {
+		sort: ( function() {
 			var locations, sorted,
 				dist, uid, type, i;
 
@@ -534,7 +534,7 @@
 				else
 					return sorted;
 			};
-		})(),
+		} )(),
 
 		/**
 		 * Stores the location in a collection.
@@ -894,8 +894,8 @@
 		return type & flag;
 	}
 
-	var floats = { left:1,right:1,center:1 },
-		positions = { absolute:1,fixed:1 };
+	var floats = { left: 1, right: 1, center: 1 },
+		positions = { absolute: 1, fixed: 1 };
 
 	function isElement( node ) {
 		return node && node.type == CKEDITOR.NODE_ELEMENT;
@@ -930,4 +930,4 @@
 		locator: Locator,
 		liner: Liner
 	};
-})();
+} )();

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -25,11 +25,11 @@ function iconmaker( png, locations, size, cold ) {
 	var chain = q.resolve( { total: 0, updated: 0 } );
 
 	for ( var row in locations ) {
-		(function( row ) {
+		( function( row ) {
 			chain = chain.then( function( stats ) {
 				return extractIconArray( { png: png, size: size, cold: cold ? '[C]' : '' }, locations[ row ], parseInt( row ), stats );
 			} );
-		})( row );
+		} )( row );
 	}
 
 	chain = chain.then( function( stats ) {

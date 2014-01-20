@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var eventNameList = [ 'click', 'keydown', 'mousedown', 'keypress', 'mouseover', 'mouseout' ];
 
 	// Inline event callbacks assigned via innerHTML/outerHTML, such as
@@ -18,9 +18,9 @@
 		for ( var i = 0; i < count; i++ ) {
 			child = children.getItem( i );
 
-			(function( node ) {
+			( function( node ) {
 				for ( var j = 0; j < eventNameList.length; j++ ) {
-					(function( eventName ) {
+					( function( eventName ) {
 						var inlineEventHandler = node.getAttribute( 'on' + eventName );
 						if ( node.hasAttribute( 'on' + eventName ) ) {
 							node.removeAttribute( 'on' + eventName );
@@ -72,11 +72,11 @@
 
 								if ( preventDefault )
 									evt.data.preventDefault();
-							});
+							} );
 						}
-					})( eventNameList[ j ] );
+					} )( eventNameList[ j ] );
 				}
-			})( child );
+			} )( child );
 		}
 	}
 
@@ -107,17 +107,17 @@
 						html = html.replace( /(<style[^>]*>)([\s\S]*?)<\/style>/gi, function( match, startTag, styleText ) {
 							appendElement( head, 'style', startTag, styleText );
 							return '';
-						});
+						} );
 
 						html = html.replace( /<base\b[^>]*\/>/i, function( match ) {
 							appendElement( head, 'base', match );
 							return '';
-						});
+						} );
 
 						html = html.replace( /<title>([\s\S]*)<\/title>/i, function( match, title ) {
 							doc.$.title = title;
 							return '';
-						});
+						} );
 
 						// Move the rest of head stuff.
 						html = html.replace( /<head>([\s\S]*)<\/head>/i, function( headHtml ) {
@@ -129,17 +129,17 @@
 							// Move the <div> nodes to <head>.
 							div.moveChildren( head );
 							return '';
-						});
+						} );
 
 						html.replace( /(<body[^>]*>)([\s\S]*)(?=$|<\/body>)/i, function( match, startTag, innerHTML ) {
 							doc.getBody().setHtml( innerHTML );
 							var attrs = CKEDITOR.htmlParser.fragment.fromHtml( startTag ).children[ 0 ].attributes;
 							attrs && doc.getBody().setAttributes( attrs );
-						});
+						} );
 					} else
 						original_write.apply( this, arguments );
 				};
-			});
+			} );
 
 			// Body doesn't get default margin on AIR.
 			CKEDITOR.addCss( 'body.cke_editable { padding: 8px }' );
@@ -150,7 +150,7 @@
 					var panel = ui._.panel._.panel,
 						holder;
 
-					(function() {
+					( function() {
 						// Adding dom event listeners off-line are not supported in AIR,
 						// waiting for panel iframe loaded.
 						if ( !panel.isLoaded ) {
@@ -159,10 +159,10 @@
 						}
 						holder = panel._.holder;
 						convertInlineHandlers( holder );
-					})();
+					} )();
 				} else if ( ui instanceof CKEDITOR.dialog )
 					convertInlineHandlers( ui._.element );
-			});
+			} );
 		},
 		init: function( editor ) {
 			if ( !CKEDITOR.env.air )
@@ -173,16 +173,16 @@
 
 				editor.on( 'elementsPathUpdate', function( evt ) {
 					convertInlineHandlers( evt.data.space );
-				});
-			});
+				} );
+			} );
 
 			editor.on( 'contentDom', function() {
 				// Hyperlinks are enabled in editable documents in Adobe
 				// AIR. Prevent their click behavior.
 				editor.document.on( 'click', function( ev ) {
 					ev.data.preventDefault( true );
-				});
-			});
+				} );
+			} );
 		}
-	});
-})();
+	} );
+} )();

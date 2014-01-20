@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -8,7 +8,7 @@
  * border line around all table elements if table doesn't have a none-zero 'border' attribute specified.
  */
 
-(function() {
+( function() {
 	var commandDefinition = {
 		preserveState: true,
 		editorFocus: false,
@@ -30,7 +30,7 @@
 	var showBorderClassName = 'cke_show_border';
 
 	CKEDITOR.plugins.add( 'showborders', {
-		modes: { 'wysiwyg':1 },
+		modes: { 'wysiwyg': 1 },
 
 		onLoad: function() {
 			var cssStyleText,
@@ -77,13 +77,13 @@
 			editor.on( 'contentDom', function() {
 				if ( command.state != CKEDITOR.TRISTATE_DISABLED )
 					command.refresh( editor );
-			});
+			} );
 
 			editor.on( 'removeFormatCleanup', function( evt ) {
 				var element = evt.data;
 				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) )
 					element.addClass( showBorderClassName );
-			});
+			} );
 		},
 
 		afterInit: function( editor ) {
@@ -92,7 +92,7 @@
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
 			if ( dataFilter ) {
-				dataFilter.addRules({
+				dataFilter.addRules( {
 					elements: {
 						'table': function( element ) {
 							var attributes = element.attributes,
@@ -103,11 +103,11 @@
 								attributes[ 'class' ] = ( cssClass || '' ) + ' ' + showBorderClassName;
 						}
 					}
-				});
+				} );
 			}
 
 			if ( htmlFilter ) {
-				htmlFilter.addRules({
+				htmlFilter.addRules( {
 					elements: {
 						'table': function( table ) {
 							var attributes = table.attributes,
@@ -116,10 +116,10 @@
 							cssClass && ( attributes[ 'class' ] = cssClass.replace( showBorderClassName, '' ).replace( /\s{2}/, ' ' ).replace( /^\s+|\s+$/, '' ) );
 						}
 					}
-				});
+				} );
 			}
 		}
-	});
+	} );
 
 	// Table dialog must be aware of it.
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
@@ -137,7 +137,7 @@
 					var value = parseInt( this.getValue(), 10 );
 					selectedTable[ ( !value || value <= 0 ) ? 'addClass' : 'removeClass' ]( showBorderClassName );
 				};
-			});
+			} );
 
 			var advTab = dialogDefinition.getContents( 'advanced' ),
 				classField = advTab && advTab.get( 'advCSSClasses' );
@@ -148,7 +148,7 @@
 						originalSetup.apply( this, arguments );
 						this.setValue( this.getValue().replace( /cke_show_border/, '' ) );
 					};
-				});
+				} );
 
 				classField.commit = CKEDITOR.tools.override( classField.commit, function( originalCommit ) {
 					return function( data, element ) {
@@ -157,12 +157,12 @@
 						if ( !parseInt( element.getAttribute( 'border' ), 10 ) )
 							element.addClass( 'cke_show_border' );
 					};
-				});
+				} );
 			}
 		}
-	});
+	} );
 
-})();
+} )();
 
 /**
  * Whether to automatically enable the "show borders" command when the editor loads.

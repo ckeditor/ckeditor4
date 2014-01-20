@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'fr', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fr', {
 	error: 'Il n\'a pas été possible de nettoyer les données collées à la suite d\'une erreur interne.',
 	title: 'Coller depuis Word',
 	toolbar: 'Coller depuis Word'
-});
+} );

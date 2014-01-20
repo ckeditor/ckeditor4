@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'placeholder', 'sv', {
 	name: 'Innehållsrutans namn',
 	invalidName: 'Innehållsrutan får inte vara tom och får inte innehålla någon av följande tecken: [,],<,>',
 	pathName: 'innehållsruta'
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -60,7 +60,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 						attributes[ 'class' ] = 'cke_anchor';
 
 					// Apply style.
-					var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
+					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
 					editor.applyStyle( style );
 				}
@@ -117,4 +117,4 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		}
 		]
 	};
-});
+} );

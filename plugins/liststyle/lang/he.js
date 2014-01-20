@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'he', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'he', {
 	upperAlpha: 'אותיות אנגליות גדולות (A, B, C, D, E וכו\')',
 	upperRoman: 'ספירה רומיות באותיות גדולות (I, II, III, IV, V וכו\')',
 	validateStartNumber: 'שדה תחילת המספור חייב להכיל מספר שלם.'
-});
+} );

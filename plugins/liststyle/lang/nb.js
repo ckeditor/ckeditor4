@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'nb', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'nb', {
 	upperAlpha: 'Alfabetisk, store (A, B, C, D, E, osv.)',
 	upperRoman: 'Romertall, store (I, II, III, IV, V, osv.)',
 	validateStartNumber: 'Starten på listen må være et heltall.'
-});
+} );

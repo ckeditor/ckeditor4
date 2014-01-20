@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'sq', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'sq', {
 	error: 'Nuk ishte e mundur të fshiheshin të dhënat e hedhura për shkak të një gabimi të brendshëm',
 	title: 'Hidhe nga Word-i',
 	toolbar: 'Hidhe nga Word-i'
-});
+} );

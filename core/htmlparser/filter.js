@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 'use strict';
 
-(function() {
+( function() {
 	/**
 	 * Filter is a configurable tool for transforming and filtering {@link CKEDITOR.htmlParser.node nodes}.
 	 * It is mainly used during data processing phase which is done not on real DOM nodes,
@@ -131,7 +131,7 @@
 					options = {};
 
 				// Add the elementNames.
-				if ( rules.elementNames)
+				if ( rules.elementNames )
 					this.elementNameRules.addMany( rules.elementNames, priority, options );
 
 				// Add the attributeNames.
@@ -390,11 +390,16 @@
 	}
 
 	function isRuleApplicable( context, rule ) {
-		// Do not apply rule if context is nonEditable and rule doesn't have applyToAll option.
-		return !context.nonEditable || rule.options.applyToAll;
+		if ( context.nonEditable && !rule.options.applyToAll )
+			return false;
+
+		if ( context.nestedEditable && rule.options.excludeNestedEditable )
+			return false;
+
+		return true;
 	}
 
-})();
+} )();
 
 /**
  * @class CKEDITOR.htmlParser.filterRulesDefinition

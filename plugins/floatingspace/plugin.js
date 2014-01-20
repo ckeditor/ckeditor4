@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var floatSpaceTpl = CKEDITOR.addTemplate( 'floatcontainer', '<div' +
 			' id="cke_{name}"' +
 			' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
@@ -49,7 +49,7 @@
 			topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html,
 
 			// Re-positioning of the space.
-			layout = (function() {
+			layout = ( function() {
 				// Mode indicates the vertical aligning mode.
 				var mode, editable,
 					spaceRect, editorRect, viewRect, spaceHeight, pageScrollX,
@@ -275,7 +275,7 @@
 
 					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + scroll ) );
 				};
-			})();
+			} )();
 
 		if ( topHtml ) {
 			var floatSpace = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( {
@@ -332,7 +332,7 @@
 			editor.focusManager.add( floatSpace, 1 );
 		}
 	}
-})();
+} )();
 
 /**
  * Along with {@link #floatSpaceDockedOffsetY} it defines the

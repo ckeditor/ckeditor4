@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'uk', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'uk', {
 	validateBorder: 'Ширина рамки повинна бути цілим числом.',
 	validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
 	validateVSpace: 'Верт. відступ повинен бути цілим числом.'
-});
+} );

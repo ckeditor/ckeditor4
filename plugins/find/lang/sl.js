@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'sl', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'sl', {
 	replaceSuccessMsg: '%1 pojavitev je bilo zamenjano.',
 	replaceWith: 'Zamenjaj z:',
 	title: 'Najdi in zamenjaj'
-});
+} );

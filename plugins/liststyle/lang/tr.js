@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'tr', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'tr', {
 	upperAlpha: 'Büyük Alpha (A, B, C, D, E, vs.)',
 	upperRoman: 'Büyük Roman (I, II, III, IV, V, vs.)',
 	validateStartNumber: 'Liste başlangıcı tam sayı olmalıdır.'
-});
+} );

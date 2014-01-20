@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'pastefromword', {
 		requires: 'clipboard',
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -27,7 +27,7 @@
 					// Force html mode for incomming paste events sequence.
 					editor.once( 'beforePaste', forceHtmlMode );
 
-					editor.getClipboardData({ title: editor.lang.pastefromword.title }, function( data ) {
+					editor.getClipboardData( { title: editor.lang.pastefromword.title }, function( data ) {
 						// Do not use editor#paste, because it would start from beforePaste event.
 						data && editor.fire( 'paste', { type: 'html', dataValue: data.dataValue } );
 
@@ -35,21 +35,21 @@
 							name: commandName,
 							command: cmd,
 							returnValue: !!data
-						});
-					});
+						} );
+					} );
 				}
-			});
+			} );
 
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
 				command: commandName,
 				toolbar: 'clipboard,50'
-			});
+			} );
 
 			editor.on( 'pasteState', function( evt ) {
 				editor.getCommand( commandName ).setState( evt.data );
-			});
+			} );
 
 			// Features bring by this command beside the normal process:
 			// 1. No more bothering of user about the clean-up.
@@ -71,10 +71,10 @@
 						// Event continuation with the original data.
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
-						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) )
 							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
-						}
-					});
+
+					} );
 
 					// The cleanup rules are to be loaded, we should just cancel
 					// this event.
@@ -91,7 +91,7 @@
 			}
 		}
 
-	});
+	} );
 
 	function loadFilterRules( editor, path, callback ) {
 		var isLoaded = CKEDITOR.cleanWord;
@@ -111,7 +111,7 @@
 	function forceHtmlMode( evt ) {
 		evt.data.type = 'html';
 	}
-})();
+} )();
 
 
 /**

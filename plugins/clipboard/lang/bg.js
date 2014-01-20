@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl/Cmd+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
 	securityMsg: 'Заради настройките за сигурност на Вашия браузър, редакторът не може да прочете данните от клипборда коректно.',
 	title: 'Вмъкни'
-});
+} );

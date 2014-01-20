@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
  'use strict';
 
-(function() {
+( function() {
 
 	/**
 	 * A lightweight representation of HTML CDATA.
@@ -45,4 +45,4 @@
 			writer.write( this.value );
 		}
 	} );
-})();
+} )();

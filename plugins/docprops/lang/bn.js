@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'bn', {
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'bn', {
 	title: 'ডক্যুমেন্ট প্রোপার্টি',
 	txtColor: 'টেক্স্ট রং',
 	xhtmlDec: 'XHTML ডেক্লারেশন যুক্ত কর'
-});
+} );

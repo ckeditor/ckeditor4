@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'et', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'et', {
 	upperAlpha: 'Suurtähed (A, B, C, D, E, jne)',
 	upperRoman: 'Suured rooma numbrid (I, II, III, IV, V, jne)',
 	validateStartNumber: 'Loendi algusnumber peab olema täisarv.'
-});
+} );

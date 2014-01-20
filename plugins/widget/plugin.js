@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var DRAG_HANDLER_SIZE = 15;
 
@@ -44,6 +44,9 @@
 					'position:absolute;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
+					// Initially drag handler should not be visible, until its position will be
+					// repositioned. #11177
+					'left:-9999px;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (#11198).
@@ -172,6 +175,7 @@
 		this._ = {
 			nextId: 0,
 			upcasts: [],
+			upcastCallbacks: [],
 			filters: {}
 		};
 
@@ -224,6 +228,24 @@
 		},
 
 		/**
+		 * Adds a callback for element upcasting. Each callback will be executed
+		 * for every element which is later tested by upcast methods. If callback
+		 * returns `false`, then element will not be upcasted.
+		 *
+		 *		// Images with banner class will not be upcasted (e.g. to the image widget).
+		 *		editor.widgets.addUpcastCallback( function( element ) {
+		 *			if ( element.name == 'img' && element.hasClass( 'banner' ) )
+		 *				return false;
+		 *		} );
+		 *
+		 * @param {Function} callback
+		 * @param {CKEDITOR.htmlParser.element} callback.element
+		 */
+		addUpcastCallback: function( callback ) {
+			this._.upcastCallbacks.push( callback );
+		},
+
+		/**
 		 * Checks the selection to update widget states (selection and focus).
 		 *
 		 * This method is triggered by the {@link #event-checkSelection} event.
@@ -248,7 +270,7 @@
 			var walker = new CKEDITOR.dom.walker( range ),
 				wrapper;
 
-			walker.evaluator = isWidgetWrapper2;
+			walker.evaluator = isDomWidgetWrapper;
 
 			while ( ( wrapper = walker.next() ) )
 				updater.select( this.getByElement( wrapper ) );
@@ -371,7 +393,7 @@
 		 */
 		finalizeCreation: function( container ) {
 			var wrapper = container.getFirst();
-			if ( wrapper && isWidgetWrapper2( wrapper ) ) {
+			if ( wrapper && isDomWidgetWrapper( wrapper ) ) {
 				this.editor.insertElement( wrapper );
 
 				var widget = this.getByElement( wrapper );
@@ -474,7 +496,7 @@
 				instance;
 
 			for ( var i = newWidgets.count(); i--; ) {
-				instance = this.initOn( newWidgets.getItem( i ).getFirst( isWidgetElement2 ) );
+				instance = this.initOn( newWidgets.getItem( i ).getFirst( isDomWidgetElement ) );
 				if ( instance )
 					newInstances.push( instance );
 			}
@@ -819,10 +841,6 @@
 		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
-		// #11074 - IE8 throws exceptions when dragging widget using the native method.
-		if ( this.inline && CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-			this.draggable = false;
-
 		widgetsRepo.fire( 'instanceCreated', this );
 
 		setupWidget( this, widgetDef );
@@ -1115,6 +1133,31 @@
 			this.wrapper[ selected ? 'addClass' : 'removeClass' ]( 'cke_widget_selected' );
 			this.fire(  selected ? 'select' : 'deselect' );
 			return this;
+		},
+
+		/**
+		 * Repositions drag handler according to the widget's element position. Should be called from events, like mouseover.
+		 */
+		updateDragHandlerPosition: function() {
+			var editor = this.editor,
+				domElement = this.element.$,
+				oldPos = this._.dragHandlerOffset,
+				newPos = {
+					x: domElement.offsetLeft,
+					y: domElement.offsetTop - DRAG_HANDLER_SIZE
+				};
+
+			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
+				return;
+
+			editor.fire( 'lockSnapshot' );
+			this.dragHandlerContainer.setStyles( {
+				top: newPos.y + 'px',
+				left: newPos.x + 'px'
+			} );
+			editor.fire( 'unlockSnapshot' );
+
+			this._.dragHandlerOffset = newPos;
 		}
 	};
 
@@ -1495,11 +1538,11 @@
 
 				// Check if there's no instance for this widget and that
 				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isTemp2 ) ) {
+				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isDomTemp ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
-					newInstances.push( this.initOn( wrapper.getFirst( isWidgetElement2 ) ) );
+					newInstances.push( this.initOn( wrapper.getFirst( isDomWidgetElement ) ) );
 				}
 			}
 		}
@@ -1536,7 +1579,7 @@
 
 		for ( ; i < l; ++i ) {
 			wrapper = wrappers.getItem( i );
-			element = wrapper.getFirst( isWidgetElement2 );
+			element = wrapper.getFirst( isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
@@ -1580,16 +1623,23 @@
 	// and initialized as widgets.
 	function createUpcastIterator( widgetsRepo ) {
 		var toBeWrapped = [],
-			upcasts = widgetsRepo._.upcasts;
+			upcasts = widgetsRepo._.upcasts,
+			upcastCallbacks = widgetsRepo._.upcastCallbacks;
 
 		return {
 			toBeWrapped: toBeWrapped,
 
 			iterator: function( element ) {
+				var upcast, upcasted,
+					data,
+					i,
+					upcastsLength,
+					upcastCallbacksLength;
+
 				// Wrapper found - find widget element, add it to be
 				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
 				if ( 'data-cke-widget-wrapper' in element.attributes ) {
-					element = element.getFirst( isWidgetElement );
+					element = element.getFirst( isParserWidgetElement );
 
 					if ( element )
 						toBeWrapped.push( [ element ] );
@@ -1605,13 +1655,17 @@
 					// Do not iterate over descendants.
 					return false;
 				}
-				else if ( upcasts.length ) {
-					var upcast, upcasted,
-						data,
-						i = 0,
-						l = upcasts.length;
+				else if ( ( upcastsLength = upcasts.length ) ) {
+					// Check element with upcast callbacks first.
+					// If any of them return false abort upcasting.
+					for ( i = 0, upcastCallbacksLength = upcastCallbacks.length; i < upcastCallbacksLength; ++i ) {
+						if ( upcastCallbacks[ i ]( element ) === false )
+							return;
+						// Return nothing in order to continue iterating over ascendants.
+						// See http://dev.ckeditor.com/ticket/11186#comment:6
+					}
 
-					for ( ; i < l; ++i ) {
+					for ( i = 0; i < upcastsLength; ++i ) {
 						upcast = upcasts[ i ];
 						data = {};
 
@@ -1658,7 +1712,7 @@
 		if ( !node || node.equals( guard ) )
 			return null;
 
-		if ( isNestedEditable2( node ) )
+		if ( isDomNestedEditable( node ) )
 			return node;
 
 		return getNestedEditable( guard, node.getParent() );
@@ -1717,12 +1771,12 @@
 	}
 
 	// @param {CKEDITOR.htmlParser.element}
-	function isWidgetElement( element ) {
+	function isParserWidgetElement( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isWidgetElement2( element ) {
+	function isDomWidgetElement( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
 	}
 
@@ -1732,23 +1786,28 @@
 	}
 
 	// @param {CKEDITOR.htmlParser.element}
-	function isWidgetWrapper( element ) {
+	function isParserWidgetWrapper( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-cke-widget-wrapper' ];
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isWidgetWrapper2( element ) {
+	function isDomWidgetWrapper( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isNestedEditable2( node ) {
+	function isDomNestedEditable( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
 	}
 
 	// @param {CKEDITOR.dom.element}
-	function isTemp2( element ) {
+	function isDomTemp( element ) {
 		return element.hasAttribute( 'data-cke-temp' );
+	}
+
+	// @param {CKEDITOR.dom.element}
+	function isDomDragHandler( element ) {
+		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
 	}
 
 	function finalizeNativeDrop( editor, sourceWidget, range ) {
@@ -1904,10 +1963,12 @@
 			lineutils = CKEDITOR.plugins.lineutils;
 
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+				// #11086 IE8 cannot listen on document.
+				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
 
-			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			editable.attachListener( editable.isInline() ? editable : editor.document, 'drop', function( evt ) {
+			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
 					dataObj,
 					sourceWidget,
@@ -1960,7 +2021,7 @@
 								return;
 
 							while ( el ) {
-								if ( isNestedEditable2( el ) )
+								if ( isDomNestedEditable( el ) )
 									return;
 
 								el = el.getParent();
@@ -2197,11 +2258,12 @@
 				if ( 'data-cke-widget-id' in attrs ) {
 					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
 					if ( widget ) {
-						widgetElement = element.getFirst( isWidgetElement );
+						widgetElement = element.getFirst( isParserWidgetElement );
 						toBeDowncasted.push( {
 							wrapper: element,
 							element: widgetElement,
-							widget: widget
+							widget: widget,
+							editables: {}
 						} );
 
 						// If widget did not have data-cke-widget attribute before upcasting remove it.
@@ -2211,17 +2273,17 @@
 				}
 				// Nested editable.
 				else if ( 'data-cke-widget-editable' in attrs ) {
-					delete attrs[ 'contenteditable' ];
-
-					// Replace nested editable's content with its output data.
-					var editable = toBeDowncasted[ toBeDowncasted.length - 1 ].widget.editables[ attrs[ 'data-cke-widget-editable' ] ];
-					element.setHtml( editable.getData() );
+					// Save the reference to this nested editable in the closest widget to be downcasted.
+					// Nested editables are downcasted in the successive toDataFormat to create an opportunity
+					// for dataFilter's "excludeNestedEditable" option to do its job (that option relies on
+					// contenteditable="true" attribute) (#11372).
+					toBeDowncasted[ toBeDowncasted.length - 1 ].editables[ attrs[ 'data-cke-widget-editable' ] ] = element;
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
 					return false;
 				}
-			}, CKEDITOR.NODE_ELEMENT );
+			}, CKEDITOR.NODE_ELEMENT, true );
 		}, null, null, 8 );
 
 		// Listen after dataProcessor.htmlFilter and ACF were applied
@@ -2232,12 +2294,20 @@
 				return;
 
 			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement;
+				toBe, widget, widgetElement, retElement, editableElement, e;
 
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
 				widgetElement = toBe.element;
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
+
+				// Replace nested editables' content with their output data.
+				for ( e in toBe.editables ) {
+					editableElement = toBe.editables[ e ];
+
+					delete editableElement.attributes[ 'contenteditable' ];
+					editableElement.setHtml( widget.editables[ e ].getData() );
+				}
 
 				// Returned element always defaults to widgetElement.
 				if ( !retElement )
@@ -2264,7 +2334,7 @@
 			var upcastIterator = createUpcastIterator( widgetsRepo ),
 				toBeWrapped;
 
-			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT );
+			evt.data.dataValue.forEach( upcastIterator.iterator, CKEDITOR.NODE_ELEMENT, true );
 
 			// Clean up and wrap all queued elements.
 			while ( ( toBeWrapped = upcastIterator.toBeWrapped.pop() ) ) {
@@ -2274,7 +2344,7 @@
 
 			// Used to determine whether only widget was pasted.
 			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				isWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+				isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
@@ -2353,9 +2423,8 @@
 
 				widgetsRepo.editor.fire( 'lockSnapshot' );
 
-				if ( focusedChanged && ( widget = widgetsRepo.focused ) ) {
+				if ( focusedChanged && ( widget = widgetsRepo.focused ) )
 					blurWidget( widgetsRepo, widget );
-				}
 
 				while ( ( widget = toBeDeselected.pop() ) ) {
 					currentlySelected.splice( CKEDITOR.tools.indexOf( currentlySelected, widget ), 1 );
@@ -2387,7 +2456,7 @@
 
 	var transparentImageData = 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D',
 		// LEFT, RIGHT, UP, DOWN, DEL, BACKSPACE - unblock default fake sel handlers.
-		keystrokesNotBlockedByWidget = { 37:1,38:1,39:1,40:1,8:1,46:1 };
+		keystrokesNotBlockedByWidget = { 37: 1, 38: 1, 39: 1, 40: 1, 8: 1, 46: 1 };
 
 	function cancel( evt ) {
 		evt.cancel();
@@ -2505,48 +2574,52 @@
 		}
 	}
 
-	// Position drag handler according to the widget's element position.
-	function positionDragHandler( widget ) {
-		var handler = widget.dragHandlerContainer;
-
-		handler.setStyle( 'top', widget.element.$.offsetTop - DRAG_HANDLER_SIZE + 'px' );
-		handler.setStyle( 'left', widget.element.$.offsetLeft + 'px' );
-	}
-
 	function setupDragHandler( widget ) {
 		if ( !widget.draggable )
 			return;
 
 		var editor = widget.editor,
-			editable = editor.editable(),
-			img = new CKEDITOR.dom.element( 'img', editor.document ),
+			container = widget.wrapper.findOne( '.cke_widget_drag_handler_container' ),
+			img;
+
+		// Reuse drag handler if already exists (#11281).
+		if ( container )
+			img = container.findOne( 'img' );
+		else {
 			container = new CKEDITOR.dom.element( 'span', editor.document );
+			container.setAttributes( {
+				'class': 'cke_reset cke_widget_drag_handler_container',
+				// Split background and background-image for IE8 which will break on rgba().
+				style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
+			} );
 
-		container.setAttributes( {
-			'class': 'cke_reset cke_widget_drag_handler_container',
-			// Split background and background-image for IE8 which will break on rgba().
-			style: 'background:rgba(220,220,220,0.5);background-image:url(' + editor.plugins.widget.path + 'images/handle.png)'
-		} );
+			img = new CKEDITOR.dom.element( 'img', editor.document );
+			img.setAttributes( {
+				'class': 'cke_reset cke_widget_drag_handler',
+				'data-cke-widget-drag-handler': '1',
+				src: transparentImageData,
+				width: DRAG_HANDLER_SIZE,
+				title: editor.lang.widget.move,
+				height: DRAG_HANDLER_SIZE
+			} );
+			widget.inline && img.setAttribute( 'draggable', 'true' );
 
-		img.setAttributes( {
-			'class': 'cke_reset cke_widget_drag_handler',
-			'data-cke-widget-drag-handler': '1',
-			src: transparentImageData,
-			width: DRAG_HANDLER_SIZE,
-			title: editor.lang.widget.move,
-			height: DRAG_HANDLER_SIZE
-		} );
+			container.append( img );
+			widget.wrapper.append( container );
+		}
+
+		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
+		setTimeout( function() {
+			widget.on( 'data', widget.updateDragHandlerPosition, widget );
+		}, 50 );
 
 		if ( widget.inline ) {
-			img.setAttribute( 'draggable', 'true' );
 			img.on( 'dragstart', function( evt ) {
 				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
 			} );
 		} else
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
 
-		container.append( img );
-		widget.wrapper.append( container );
 		widget.dragHandlerContainer = container;
 	}
 
@@ -2669,12 +2742,18 @@
 		if ( !widget.mask )
 			return;
 
-		var img = new CKEDITOR.dom.element( 'img', widget.editor.document );
-		img.setAttributes( {
-			src: transparentImageData,
-			'class': 'cke_reset cke_widget_mask'
-		} );
-		widget.wrapper.append( img );
+		// Reuse mask if already exists (#11281).
+		var img = widget.wrapper.findOne( '.cke_widget_mask' );
+
+		if ( !img ) {
+			img = new CKEDITOR.dom.element( 'img', widget.editor.document );
+			img.setAttributes( {
+				src: transparentImageData,
+				'class': 'cke_reset cke_widget_mask'
+			} );
+			widget.wrapper.append( img );
+		}
+
 		widget.mask = img;
 	}
 
@@ -2705,8 +2784,10 @@
 		// #11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			widget.wrapper.on( 'dragstart', function( evt ) {
-				// Allow text dragging inside nested editables.
-				if ( !getNestedEditable( widget, evt.data.getTarget() ) )
+				var target = evt.data.getTarget();
+
+				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
+				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDomDragHandler( target ) ) )
 					evt.data.preventDefault();
 			} );
 		}
@@ -2745,12 +2826,6 @@
 
 		if ( widgetDef.edit )
 			widget.on( 'edit', widgetDef.edit );
-
-		if ( widget.draggable ) {
-			widget.on( 'data', function() {
-				positionDragHandler( widget );
-			}, null, null, 999 );
-		}
 	}
 
 	function setupWidgetData( widget, startupData ) {
@@ -2788,7 +2863,7 @@
 	CKEDITOR.plugins.widget = Widget;
 	Widget.repository = Repository;
 	Widget.nestedEditable = NestedEditable;
-})();
+} )();
 
 /**
  * An event fired when a widget definition is registered by the {@link CKEDITOR.plugins.widget.repository#add} method.

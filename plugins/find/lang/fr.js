@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'fr', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'fr', {
 	replaceSuccessMsg: '%1 occurrence(s) replacée(s).',
 	replaceWith: 'Remplacer par: ',
 	title: 'Trouver et remplacer'
-});
+} );

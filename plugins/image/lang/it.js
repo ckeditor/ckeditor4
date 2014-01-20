@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'it', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'it', {
 	validateBorder: 'Il campo Bordo deve essere un numero intero.',
 	validateHSpace: 'Il campo HSpace deve essere un numero intero.',
 	validateVSpace: 'Il campo VSpace deve essere un numero intero.'
-});
+} );

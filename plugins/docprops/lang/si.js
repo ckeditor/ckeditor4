@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'si', {
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'si', {
 	title: 'පෝරමයේ ගුණ/',
 	txtColor: 'අක්ෂර වර්ණ',
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
-});
+} );

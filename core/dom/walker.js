@@ -1,9 +1,9 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// This function is to be called under a "walker" instance scope.
 	function iterate( rtl, breakOnFalse ) {
 		var range = this.range;
@@ -130,10 +130,9 @@
 	}
 
 	/**
-	 * Utility class to "walk" the DOM inside a range boundaries. If
-	 * necessary, partially included nodes (text nodes) are broken to
-	 * reflect the boundaries limits, so DOM and range changes may happen.
-	 * Outside changes to the range may break the walker.
+	 * Utility class to "walk" the DOM inside a range boundaries. If the
+	 * range starts or ends in the middle of the text node this node will
+	 * be included as a whole. Outside changes to the range may break the walker.
 	 *
 	 * The walker may return nodes that are not totaly included into the
 	 * range boundaires. Let's take the following range representation,
@@ -150,7 +149,7 @@
 	 *
 	 * @class
 	 */
-	CKEDITOR.dom.walker = CKEDITOR.tools.createClass({
+	CKEDITOR.dom.walker = CKEDITOR.tools.createClass( {
 		/**
 		 * Creates a walker class instance.
 		 *
@@ -295,14 +294,16 @@
 			}
 
 		}
-	});
+	} );
 
 	// Anything whose display computed style is block, list-item, table,
 	// table-row-group, table-header-group, table-footer-group, table-row,
 	// table-column-group, table-column, table-cell, table-caption, or whose node
 	// name is hr, br (when enterMode is br only) is a block boundary.
-	var blockBoundaryDisplayMatch = { block:1,'list-item':1,table:1,'table-row-group':1,'table-header-group':1,'table-footer-group':1,'table-row':1,'table-column-group':1,'table-column':1,'table-cell':1,'table-caption':1 },
-		outOfFlowPositions = { absolute:1,fixed:1 };
+	var blockBoundaryDisplayMatch = { block: 1, 'list-item': 1, table: 1, 'table-row-group': 1,
+			'table-header-group': 1, 'table-footer-group': 1, 'table-row': 1, 'table-column-group': 1,
+			'table-column': 1, 'table-cell': 1, 'table-caption': 1 },
+		outOfFlowPositions = { absolute: 1, fixed: 1 };
 
 	/**
 	 * Checks whether element is displayed as a block.
@@ -343,7 +344,7 @@
 	 * @todo
 	 */
 	CKEDITOR.dom.walker.listItemBoundary = function() {
-		return this.blockBoundary( { br:1 } );
+		return this.blockBoundary( { br: 1 } );
 	};
 
 	/**
@@ -388,7 +389,7 @@
 					CKEDITOR.env.webkit && node.getText() == '\u200b';
 			}
 
-			return !! ( isReject ^ isWhitespace );
+			return !!( isReject ^ isWhitespace );
 		};
 	};
 
@@ -606,10 +607,10 @@
 		}
 		while ( toSkip( tail ) )
 
-		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) ) {
+		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) )
 			return tail;
-		}
+
 		return false;
 	};
 
-})();
+} )();

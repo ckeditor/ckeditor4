@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ug', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ug', {
 	upperAlpha: 'ئىنگلىزچە چوڭ ھەرپ (A, B, C, D, E قاتارلىق)',
 	upperRoman: 'چوڭ ھەرپلىك رىم رەقىمى (I, II, III, IV, V قاتارلىق)',
 	validateStartNumber: 'تىزىم باشلىنىش تەرتىپ نومۇرى چوقۇم پۈتۈن سان پىچىمىدا بولۇشى لازىم'
-});
+} );

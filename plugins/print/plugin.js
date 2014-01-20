@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -26,9 +26,9 @@ CKEDITOR.plugins.add( 'print', {
 			label: editor.lang.print.toolbar,
 			command: pluginName,
 			toolbar: 'document,50'
-		});
+		} );
 	}
-});
+} );
 
 CKEDITOR.plugins.print = {
 	exec: function( editor ) {

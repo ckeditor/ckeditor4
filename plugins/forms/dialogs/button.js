@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'button', function( editor ) {
@@ -25,7 +25,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 			var element = this.getParentEditor().getSelection().getSelectedElement();
 			if ( element && element.is( 'input' ) ) {
 				var type = element.getAttribute( 'type' );
-				if ( type in { button:1,reset:1,submit:1 } ) {
+				if ( type in { button: 1, reset: 1, submit: 1 } ) {
 					this.button = element;
 					this.setupContent( element );
 				}
@@ -97,4 +97,4 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 		}
 		]
 	};
-});
+} );

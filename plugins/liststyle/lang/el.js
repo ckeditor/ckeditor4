@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'el', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'el', {
 	upperAlpha: 'Κεφαλαία Λατινικά (A, B, C, D, E, κτλ)',
 	upperRoman: 'Κεφαλαία Ρωμαϊκά (I, II, III, IV, V, κτλ)',
 	validateStartNumber: 'Ο αριθμός εκκίνησης της αρίθμησης πρέπει να είναι ακέραιος αριθμός.'
-});
+} );

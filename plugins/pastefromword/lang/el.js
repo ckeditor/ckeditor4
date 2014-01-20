@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'el', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'el', {
 	error: 'Δεν ήταν δυνατό να καθαριστούν τα δεδομένα λόγω ενός εσωτερικού σφάλματος',
 	title: 'Επικόλληση από το Word',
 	toolbar: 'Επικόλληση από το Word'
-});
+} );

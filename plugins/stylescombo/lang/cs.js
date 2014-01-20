@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'cs', {
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'stylescombo', 'cs', {
 	panelTitle1: 'Blokové styly',
 	panelTitle2: 'Řádkové styly',
 	panelTitle3: 'Objektové styly'
-});
+} );

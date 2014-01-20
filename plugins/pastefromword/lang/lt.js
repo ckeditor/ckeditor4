@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'lt', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'lt', {
 	error: 'Dėl vidinių sutrikimų, nepavyko išvalyti įkeliamo teksto',
 	title: 'Įdėti iš Word',
 	toolbar: 'Įdėti iš Word'
-});
+} );

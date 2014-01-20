@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'eo', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'eo', {
 	upperAlpha: 'Majusklaj Literoj (A, B, C, D, E, ktp.)',
 	upperRoman: 'Majusklaj Romanaj Nombroj (I, II, III, IV, V, ktp.)',
 	validateStartNumber: 'La unua listero devas esti entjera nombro.'
-});
+} );

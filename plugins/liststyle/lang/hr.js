@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'hr', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'hr', {
 	upperAlpha: 'Znakovi velika slova (A, B, C, D, E, itd.)',
 	upperRoman: 'Romanska numeracija velika slova (I, II, III, IV, V, itd.)',
 	validateStartNumber: 'Početak brojčane liste mora biti cijeli broj.'
-});
+} );

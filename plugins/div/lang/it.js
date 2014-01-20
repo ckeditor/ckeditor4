@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'it', {
@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'it', {
 	styleSelectLabel: 'Stile',
 	title: 'Crea DIV contenitore',
 	toolbar: 'Crea DIV contenitore'
-});
+} );

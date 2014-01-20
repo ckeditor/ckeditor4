@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -47,14 +47,14 @@ CKEDITOR.add = function( editor ) {
 			CKEDITOR.currentInstance = editor;
 			CKEDITOR.fire( 'currentInstance' );
 		}
-	});
+	} );
 
 	editor.on( 'blur', function() {
 		if ( CKEDITOR.currentInstance == editor ) {
 			CKEDITOR.currentInstance = null;
 			CKEDITOR.fire( 'currentInstance' );
 		}
-	});
+	} );
 
 	CKEDITOR.fire( 'instance', null, editor );
 };
@@ -70,7 +70,7 @@ CKEDITOR.remove = function( editor ) {
 	delete CKEDITOR.instances[ editor.name ];
 };
 
-(function() {
+( function() {
 	var tpls = {};
 
 	/**
@@ -102,9 +102,9 @@ CKEDITOR.remove = function( editor ) {
 	CKEDITOR.getTemplate = function( name ) {
 		return tpls[ name ];
 	};
-})();
+} )();
 
-(function() {
+( function() {
 	var styles = [];
 
 	/**
@@ -133,14 +133,14 @@ CKEDITOR.remove = function( editor ) {
 	CKEDITOR.getCss = function() {
 		return styles.join( '\n' );
 	};
-})();
+} )();
 
 // Perform global clean up to free as much memory as possible
 // when there are no instances left
 CKEDITOR.on( 'instanceDestroyed', function() {
 	if ( CKEDITOR.tools.isEmpty( this.instances ) )
 		CKEDITOR.fire( 'reset' );
-});
+} );
 
 // Load the bootstrap script.
 CKEDITOR.loader.load( '_bootstrap' ); // %REMOVE_LINE%

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'sq', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'sq', {
 	validateBorder: 'Korniza duhet të jetë numër i plotë.',
 	validateHSpace: 'Hapësira horizontale duhet të jetë numër i plotë.',
 	validateVSpace: 'Hapësira vertikale duhet të jetë numër i plotë.'
-});
+} );

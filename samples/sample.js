@@ -1,12 +1,12 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 // Tool scripts for the sample pages.
 // This file can be ignored and is not required to make use of CKEditor.
 
-(function() {
+( function() {
 	CKEDITOR.on( 'instanceReady', function( ev ) {
 		// Check for sample compliance.
 		var editor = ev.editor,
@@ -47,5 +47,5 @@
 
 		}
 	} );
-})();
+} )();
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%

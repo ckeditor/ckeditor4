@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
  * @class
  * @todo
  */
-CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
+CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 	/**
 	 * Creates a basicWriter class instance.
 	 *
@@ -149,4 +149,4 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 			return html;
 		}
 	}
-});
+} );

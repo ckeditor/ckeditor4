@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'eo', {
@@ -16,4 +16,4 @@ CKEDITOR.plugins.setLang( 'div', 'eo', {
 	styleSelectLabel: 'Stilo',
 	title: 'Krei DIV ujon',
 	toolbar: 'Krei DIV ujon'
-});
+} );

@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var template = '<a id="{id}"' +
 		' class="cke_button cke_button__{name} cke_button_{state} {cls}"' +
 		( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
@@ -48,10 +48,11 @@
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
+		lang: 'en', // %REMOVE_LINE_CORE%
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
 		}
-	});
+	} );
 
 	/**
 	 * Button UI element.
@@ -79,7 +80,7 @@
 			function( editor ) {
 				editor.execCommand( definition.command );
 			}
-		});
+		} );
 
 		this._ = {};
 	};
@@ -145,7 +146,7 @@
 					ev = new CKEDITOR.dom.event( ev );
 					return ( instance.onkey( instance, ev.getKeystroke() ) !== false );
 				}
-			});
+			} );
 
 			var focusFn = CKEDITOR.tools.addFunction( function( ev ) {
 				var retVal;
@@ -157,7 +158,7 @@
 				if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
 					ev.preventBubble();
 				return retVal;
-			});
+			} );
 
 			var selLocked = 0;
 
@@ -170,7 +171,7 @@
 						selLocked = 1;
 					}
 				}
-			});
+			} );
 
 			instance.clickFn = clickFn = CKEDITOR.tools.addFunction( function() {
 
@@ -181,7 +182,7 @@
 				}
 
 				instance.execute();
-			});
+			} );
 
 
 			// Indicate a mode sensitive button.
@@ -307,9 +308,16 @@
 					element.setAttribute( 'aria-disabled', true ) :
 					element.removeAttribute( 'aria-disabled' );
 
-				state == CKEDITOR.TRISTATE_ON ?
-					element.setAttribute( 'aria-pressed', true ) :
-					element.removeAttribute( 'aria-pressed' );
+				if ( !this.hasArrow ) {
+					// Note: aria-pressed attribute should not be added to menuButton instances. (#11331)
+					state == CKEDITOR.TRISTATE_ON ?
+						element.setAttribute( 'aria-pressed', true ) :
+						element.removeAttribute( 'aria-pressed' );
+				} else {
+					var newLabel = state == CKEDITOR.TRISTATE_ON ?
+						this._.editor.lang.button.selectedLabel.replace( /%1/g, this.label ) : this.label;
+					CKEDITOR.document.getById( this._.id + '_label' ).setText( newLabel );
+				}
 
 				return true;
 			} else
@@ -368,4 +376,4 @@
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
 	};
 
-})();
+} )();

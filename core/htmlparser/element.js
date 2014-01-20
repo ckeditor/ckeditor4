@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -75,7 +75,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 	( styleText || '' ).replace( /&quot;/g, '"' ).replace( /\s*([^ :;]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
 		name == 'font-family' && ( value = value.replace( /["']/g, '' ) );
 		rules[ name.toLowerCase() ] = value;
-	});
+	} );
 
 	return {
 
@@ -88,9 +88,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 */
 		populate: function( obj ) {
 			var style = this.toString();
-			if ( style ) {
+			if ( style )
 				obj instanceof CKEDITOR.dom.element ? obj.setAttribute( 'style', style ) : obj instanceof CKEDITOR.htmlParser.element ? obj.attributes.style = style : obj.style = style;
-			}
+
 		},
 
 		/**
@@ -108,7 +108,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 };
 
 /** @class CKEDITOR.htmlParser.element */
-(function() {
+( function() {
 	// Used to sort attribute entries in an array, where the first element of
 	// each object is the attribute name.
 	var sortAttribs = function( a, b ) {
@@ -484,7 +484,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			if ( !ctx ) {
 				ctx = {
 					off: false,
-					nonEditable: false
+					nonEditable: false,
+					nestedEditable: false
 				};
 			}
 
@@ -493,6 +494,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			if ( !ctx.nonEditable && this.attributes[ 'contenteditable' ] == 'false' )
 				changes.push( 'nonEditable', true );
+			// A context to be given nestedEditable must be nonEditable first (by inheritance).
+			else if ( !ctx.nestedEditable && this.attributes[ 'contenteditable' ] == 'true' )
+				changes.push( 'nestedEditable', true );
 
 			if ( changes.length ) {
 				ctx = CKEDITOR.tools.copy( ctx );
@@ -510,4 +514,4 @@ CKEDITOR.htmlParser.cssStyle = function() {
 				( typeof condition == 'string' ? el.name == condition : el.name in condition );
 		};
 	}
-})();
+} )();

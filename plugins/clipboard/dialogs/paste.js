@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 			doc.getWindow().on( 'blur', function() {
 				doc.$.selection.empty();
-			});
+			} );
 		}
 
 		doc.on( 'keydown', function( e ) {
@@ -216,7 +216,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		}
 		]
 	};
-});
+} );
 
 /**
  * Internal event to pass paste dialog's data to the listeners.
