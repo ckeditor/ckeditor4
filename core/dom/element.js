@@ -257,7 +257,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {Boolean} [force] Append filler regardless of the environment.
 	 */
 	appendBogus: function( force ) {
-		if ( !force && !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
+		if ( !force && !CKEDITOR.env.needsBrFiller )
 			return;
 
 		var lastChild = this.getLast();
@@ -266,7 +266,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
 			lastChild = lastChild.getPrevious();
 		if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
-			var bogus = CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' );
+			var bogus = this.getDocument().createElement( 'br' );
 
 			CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' );
 
@@ -885,7 +885,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 
 		// Webkit and Opera report non-zero offsetHeight despite that
 		// element is inside an invisible iframe. (#4542)
-		if ( isVisible && ( CKEDITOR.env.webkit || CKEDITOR.env.opera ) ) {
+		if ( isVisible && CKEDITOR.env.webkit ) {
 			elementWindow = this.getWindow();
 
 			if ( !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementWindowFrame = elementWindow.$.frameElement ) )
@@ -1319,7 +1319,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		// For IE/Opera which doesn't support for the above CSS style,
 		// the unselectable="on" attribute only specifies the selection
 		// process cannot start in the element itself, and it doesn't inherit.
-		if ( CKEDITOR.env.ie || CKEDITOR.env.opera ) {
+		if ( CKEDITOR.env.ie ) {
 			this.setAttribute( 'unselectable', 'on' );
 
 			var element,

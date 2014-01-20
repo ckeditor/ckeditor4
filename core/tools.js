@@ -13,7 +13,6 @@
 		cssVendorPrefix =
 			CKEDITOR.env.gecko ? '-moz-' :
 			CKEDITOR.env.webkit ? '-webkit-' :
-			CKEDITOR.env.opera ? '-o-' :
 			CKEDITOR.env.ie ? '-ms-' :
 			'';
 

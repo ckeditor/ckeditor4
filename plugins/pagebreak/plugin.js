@@ -45,15 +45,6 @@
 				command: 'pagebreak',
 				toolbar: 'insert,70'
 			} );
-
-			// Opera needs help to select the page-break.
-			CKEDITOR.env.opera && editor.on( 'contentDom', function() {
-				editor.document.on( 'click', function( evt ) {
-					var target = evt.data.getTarget();
-					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
-						editor.getSelection().selectElement( target );
-				} );
-			} );
 		},
 
 		afterInit: function( editor ) {

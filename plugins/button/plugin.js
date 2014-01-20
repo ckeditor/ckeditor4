@@ -17,8 +17,8 @@
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
-	// TODO: Check if really needed for Gecko+Mac.
-	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+	// TODO: Check if really needed.
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
 		template += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
@@ -28,7 +28,6 @@
 
 	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-		' onmousedown="return CKEDITOR.tools.callFunction({mousedownFn},event);" ' +
 		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 			'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 		'<span class="cke_button_icon cke_button__{iconName}_icon" style="{style}"';
@@ -159,17 +158,6 @@
 
 			var selLocked = 0;
 
-			var mousedownFn = CKEDITOR.tools.addFunction( function() {
-				// Opera: lock to prevent loosing editable text selection when clicking on button.
-				if ( CKEDITOR.env.opera ) {
-					var edt = editor.editable();
-					if ( edt.isInline() && edt.hasFocus ) {
-						editor.lockSelection();
-						selLocked = 1;
-					}
-				}
-			} );
-
 			instance.clickFn = clickFn = CKEDITOR.tools.addFunction( function() {
 
 				// Restore locked selection in Opera.
@@ -272,7 +260,6 @@
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
 				keydownFn: keydownFn,
-				mousedownFn: mousedownFn,
 				focusFn: focusFn,
 				clickFn: clickFn,
 				style: CKEDITOR.skin.getIconStyle( iconName, ( editor.lang.dir == 'rtl' ), this.icon, this.iconOffset ),

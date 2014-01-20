@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'link', {
 				// The default line-height on IE.
 				'height:1.15em;' +
 				// Opera works better with "middle" (even if not perfect)
-				'vertical-align:' + ( CKEDITOR.env.opera ? 'middle' : 'text-bottom' ) + ';' +
+				'vertical-align:text-bottom;' +
 			'}';
 
 		// Styles with contents direction awareness.

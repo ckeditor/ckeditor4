@@ -680,16 +680,12 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !CKEDITOR.env.ie ? 'body' : 'div', doc );
 
 			pastebin.setAttributes( {
 				id: 'cke_pastebin',
 				'data-cke-temp': '1'
 			} );
-
-			// Append bogus to prevent Opera from doing this. (#9522)
-			if ( CKEDITOR.env.opera )
-				pastebin.appendBogus();
 
 			var containerOffset = 0,
 				offsetParent,
@@ -716,7 +712,7 @@
 				}
 			} else {
 				// Opera and IE doesn't allow to append to html element.
-				editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+				editable.getAscendant( CKEDITOR.env.ie ? 'body' : 'html', 1 ).append( pastebin );
 			}
 
 			pastebin.setStyles( {
@@ -778,8 +774,8 @@
 			setTimeout( function() {
 				// Restore main window's scroll position which could have been changed
 				// by browser in cases described in #9771.
-				if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
-					CKEDITOR.document[ CKEDITOR.env.webkit ? 'getBody' : 'getDocumentElement' ]().$.scrollTop = scrollTop;
+				if ( CKEDITOR.env.webkit )
+					CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
@@ -862,9 +858,6 @@
 					// Simulate 'beforepaste' event for all none-IEs.
 					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
 
-					// Simulate 'paste' event for Opera.
-					if ( CKEDITOR.env.opera )
-						editable.fire( 'paste' );
 					return;
 
 					// Cut
@@ -938,7 +931,7 @@
 			// Text and <br> or ( text and <br> in <p> - paragraphs can be separated by new \r\n ).
 			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) && !data.match( /^(<p>([^<]|<br( ?\/)?>)*<\/p>|(\r\n))*$/gi ) )
 				return 'html';
-		} else if ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
+		} else if ( CKEDITOR.env.gecko ) {
 			// Text or <br>.
 			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) )
 				return 'html';
@@ -996,7 +989,7 @@
 		}
 
 		// Opera and Firefox and enterMode != BR.
-		if ( ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) && config.enterMode != CKEDITOR.ENTER_BR ) {
+		if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR ) {
 			// Remove bogus <br> - Fx generates two <brs> for one line break.
 			// For two line breaks it still produces two <brs>, but it's better to ignore this case than the first one.
 			if ( CKEDITOR.env.gecko )

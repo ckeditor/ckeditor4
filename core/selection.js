@@ -558,7 +558,7 @@
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
-			if ( CKEDITOR.env.ie || CKEDITOR.env.opera || isInline ) {
+			if ( CKEDITOR.env.ie || isInline ) {
 				// Save a cloned version of current selection.
 				function saveSel() {
 					lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
@@ -722,11 +722,10 @@
 				editor.selectionChange( 1 );
 			} );
 
-			// #9699: On Webkit&Gecko in inline editor and on Opera in framed editor we have to check selection
-			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
+			// #9699: On Webkit&Gecko in inline editor we have to check selection when it was changed
+			// by dragging and releasing mouse button outside editable. Dragging (mousedown)
 			// has to be initialized in editable, but for mouseup we listen on document element.
-			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
-			if ( isInline ? ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) : CKEDITOR.env.opera ) {
+			if ( isInline && ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) ) {
 				var mouseDown;
 				editable.attachListener( editable, 'mousedown', function() {
 					mouseDown = 1;
@@ -1889,14 +1888,6 @@
 				if ( !sel )
 					return;
 
-				// Opera: The above hack work around a *visually wrong* text selection that
-				// happens in certain situation. (#6874, #9447)
-				if ( CKEDITOR.env.opera ) {
-					var nativeRng = this.document.$.createRange();
-					nativeRng.selectNodeContents( this.root.$ );
-					sel.addRange( nativeRng );
-				}
-
 				this.removeAllRanges();
 
 				for ( var i = 0; i < ranges.length; i++ ) {
@@ -1931,23 +1922,6 @@
 
 					var nativeRange = this.document.$.createRange();
 					var startContainer = range.startContainer;
-
-					// In Opera, we have some cases when a collapsed text selection cursor will be moved out of the
-					// anchor node:
-					// 1. Inside of any empty inline. (#4657)
-					// 2. In adjacent to any inline element.
-					if ( CKEDITOR.env.opera && range.collapsed && startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-
-						var leftSib = startContainer.getChild( range.startOffset - 1 ),
-							rightSib = startContainer.getChild( range.startOffset );
-
-						if ( !leftSib && !rightSib && startContainer.is( CKEDITOR.dtd.$removeEmpty ) ||
-								 leftSib && leftSib.type == CKEDITOR.NODE_ELEMENT ||
-								 rightSib && rightSib.type == CKEDITOR.NODE_ELEMENT ) {
-							range.insertNode( this.document.createText( '' ) );
-							range.collapse( 1 );
-						}
-					}
 
 					if ( range.collapsed && CKEDITOR.env.webkit && rangeRequiresFix( range ) ) {
 						// Append a zero-width space so WebKit will not try to

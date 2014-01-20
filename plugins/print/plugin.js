@@ -32,14 +32,12 @@ CKEDITOR.plugins.add( 'print', {
 
 CKEDITOR.plugins.print = {
 	exec: function( editor ) {
-		if ( CKEDITOR.env.opera )
-			return;
-		else if ( CKEDITOR.env.gecko )
+		if ( CKEDITOR.env.gecko )
 			editor.window.$.print();
 		else
 			editor.document.$.execCommand( "Print" );
 	},
 	canUndo: false,
 	readOnly: 1,
-	modes: { wysiwyg: !( CKEDITOR.env.opera ) } // It is imposible to print the inner document in Opera.
+	modes: { wysiwyg: 1 }
 };
