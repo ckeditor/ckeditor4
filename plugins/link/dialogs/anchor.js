@@ -59,22 +59,20 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		},
 
 		onShow: function() {
-			var selection = editor.getSelection(),
-				fullySelected = selection.getSelectedElement(),
-				partialSelected;
+			var sel = editor.getSelection(),
+				fullySelected = sel.getSelectedElement(),
+				fakeSelected = fullySelected && fullySelected.data( 'cke-realelement' ),
+				linkElement = fakeSelected ?
+					CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected ) :
+					CKEDITOR.plugins.link.getSelectedLink( editor );
 
-			// Detect the anchor under selection.
-			if ( fullySelected ) {
-				var realElement = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected );
-				realElement && loadElements.call( this, realElement );
-				this._.selectedElement = fullySelected;
-			} else {
-				partialSelected = CKEDITOR.plugins.link.getSelectedLink( editor );
-				if ( partialSelected ) {
-					loadElements.call( this, partialSelected );
-					selection.selectElement( partialSelected );
-				}
+			if ( linkElement ) {
+				loadElements.call( this, linkElement );
+				!fakeSelected && sel.selectElement( linkElement );
 			}
+
+			if ( fullySelected && linkElement )
+				this._.selectedElement = fullySelected;
 
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
