@@ -14,7 +14,7 @@
 	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
-		lang: 'ca,cs,cy,el,en,en-gb,es,fi,hu,ja,km,nb,nl,no,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,de,el,en,en-gb,es,fa,fi,hu,ja,km,ko,nb,nl,no,pl,pt,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'lineutils,clipboard',
 		onLoad: function() {
 			CKEDITOR.addCss(
