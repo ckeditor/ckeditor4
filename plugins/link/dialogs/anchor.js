@@ -32,6 +32,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				if ( this._.selectedElement.data( 'cke-realelement' ) ) {
 					var newFake = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
 					newFake.replace( this._.selectedElement );
+
+					// Selecting fake element for IE. (#11377)
+					if ( CKEDITOR.env.ie )
+						editor.getSelection().selectElement( newFake );
 				} else
 					this._.selectedElement.setAttributes( attributes );
 			} else {
