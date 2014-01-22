@@ -1,7 +1,14 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.3.3
+
+Fixed Issues:
+
+
 ## CKEditor 4.3.2
+
+Fixed Issues:
 
 * [#11331](http://dev.ckeditor.com/ticket/11331): A menu button will have a changed label when selected instead of using the `aria-pressed` attribute.
 * [#11177](http://dev.ckeditor.com/ticket/11177): Widget drag handler improvements:
