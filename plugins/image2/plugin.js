@@ -21,7 +21,7 @@
 		icons: 'image',
 		hidpi: true,
 
-		onLoad: function( editor ) {
+		onLoad: function() {
 			CKEDITOR.addCss(
 			'.cke_image_nocaption{' +
 				// This is to remove unwanted space so resize
