@@ -825,11 +825,11 @@
 			};
 
 			if ( command && command.state != CKEDITOR.TRISTATE_DISABLED ) {
-				if ( this.fire( 'beforeCommandExec', eventData ) !== true ) {
+				if ( this.fire( 'beforeCommandExec', eventData ) ) {
 					eventData.returnValue = command.exec( eventData.commandData );
 
 					// Fire the 'afterCommandExec' immediately if command is synchronous.
-					if ( !command.async && this.fire( 'afterCommandExec', eventData ) !== true )
+					if ( !command.async && this.fire( 'afterCommandExec', eventData ) )
 						return eventData.returnValue;
 				}
 			}
