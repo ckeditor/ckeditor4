@@ -239,6 +239,7 @@ CKEDITOR.plugins.link = {
 			scope = ( editable.isInline() && !editor.plugins.divarea ) ? editor.document : editable,
 
 			links = scope.getElementsByTag( 'a' ),
+			imgs = scope.getElementsByTag( 'img' ),
 			anchors = [],
 			i = 0,
 			item;
@@ -252,10 +253,7 @@ CKEDITOR.plugins.link = {
 				} );
 			}
 		}
-
 		// Retrieve all "fake anchors" within the scope.
-		var imgs = scope.getElementsByTag( 'img' );
-
 		i = 0;
 
 		while ( ( item = imgs.getItem( i++ ) ) ) {

@@ -73,10 +73,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			if ( linkElement ) {
 				loadElements.call( this, linkElement );
 				!fakeSelected && sel.selectElement( linkElement );
-			}
 
-			if ( fullySelected && linkElement )
-				this._.selectedElement = fullySelected;
+				if ( fullySelected )
+					this._.selectedElement = fullySelected;
+			}
 
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
