@@ -524,8 +524,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						type: 'file',
 						id: 'upload',
 						label: lang.btnUpload,
-						style: 'height:40px',
-						size: 38
+						style: 'height:40px'
 					},
 					{
 						type: 'fileButton',
