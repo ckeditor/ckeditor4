@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
-# for licensing, see LICENSE.md or http://ckeditor.com/license
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 title = Label for the Accessibility Instructions dialog window title.
 contents = Instructions for closing the Accessibility Instructions dialog window.
@@ -32,7 +32,7 @@ legend.1.items.6.legend = Keyboard shortcut instructions for the Toolbar Collaps
 legend.1.items.7.name = Label for the Access Previous Focus Space Command section of the Accessibility Instructions dialog window.
 legend.1.items.7.legend = Keyboard shortcut instructions for the Access Previous Focus Space command displayed in the Accessibility Instructions dialog window.
 legend.1.items.8.name = Label for the Access Next Focus Space Command section of the Accessibility Instructions dialog window.
-legend.1.items.8.legend =  Keyboard shortcut instructions for the Access Next Focus Space command displayed in the Accessibility Instructions dialog window.
+legend.1.items.8.legend = Keyboard shortcut instructions for the Access Next Focus Space command displayed in the Accessibility Instructions dialog window.
 legend.1.items.9.name = Label for the Accessibility Help section of the Accessibility Instructions dialog window.
 legend.1.items.9.legend = Keyboard shortcut instructions for the Accessibility Help command displayed in the Accessibility Instructions dialog window.
 backspace = The label for the "Backspace" key.
@@ -53,7 +53,7 @@ upArrow = The label for the "Up Arrow" key.
 rightArrow = The label for the "Right Arrow" key.
 downArrow = The label for the "Down Arrow" key.
 insert = The label for the "Insert" key.
-'delete' = The label for the "Delete" key.
+delete = The label for the "Delete" key.
 leftWindowKey = The label for the "Left Windows" key.
 rightWindowKey = The label for the "Right Windows" key.
 selectKey = The label for the "Select" key.
@@ -91,7 +91,7 @@ equalSign = The label for the "Equal Sign" (=) key.
 comma = The label for the "Comma" (,) key.
 dash = The label for the "Dash" (-) key.
 period = The label for the "Period" (.) key.
-for thewardSlash = The label for the "for theward Slash" (/) key.
+forwardSlash = The label for the "for theward Slash" (/) key. 
 graveAccent = The label for the "Grave Accent" (`) key.
 openBracket = The label for the "Open Bracket" ([) key.
 backSlash = The label for the "Backslash" (\) key.
