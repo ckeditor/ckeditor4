@@ -782,7 +782,14 @@
 		 * @returns {CKEDITOR.dom.elementPath}
 		 */
 		elementPath: function( startNode ) {
-			startNode = startNode || this.getSelection().getStartElement();
+			if ( !startNode ) {
+				var sel = this.getSelection();
+				if ( !sel )
+					return null;
+
+				startNode = sel.getStartElement();
+			}
+
 			return startNode ? new CKEDITOR.dom.elementPath( startNode, this.editable() ) : null;
 		},
 
