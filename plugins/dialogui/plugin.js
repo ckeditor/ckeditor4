@@ -1064,7 +1064,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the state of the checkbox.
 			 *
-			 * @param {Boolean} `true` to tick the checkbox, `false` to untick it.
+			 * @param {Boolean} checked `true` to tick the checkbox, `false` to untick it.
 			 * @param {Boolean} noChangeEvent Internal commit, to supress `change` event on this element.
 			 */
 			setValue: function( checked, noChangeEvent ) {
