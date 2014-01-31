@@ -5,7 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
- * [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
+* [#11490](http://dev.ckeditor.com/ticket/11490): Fixed issue with menubuttons panel showing in source mode.
+* [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
 
 ## CKEditor 4.3.2
 
