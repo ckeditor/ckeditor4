@@ -2818,7 +2818,6 @@
 
 		widget.on( 'doubleclick', function( evt ) {
 			widget.edit();
-			evt.cancel();
 		} );
 
 		if ( widgetDef.data )
