@@ -607,7 +607,7 @@
 
 			// The destination row is empty, append at will.
 			if ( !candidateCell )
-				newCellTr.append( newCell, true );
+				newCellTr.append( newCell );
 		} else {
 			newCellRowSpan = newRowSpan = 1;
 
