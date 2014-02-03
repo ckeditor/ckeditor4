@@ -24,9 +24,7 @@
 		requires: 'widget,ajax,dialog',
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_snippet_wrapper {' +
-			'}' +
-			'.cke_snippet_wrapper > .cke_snippet_fancyview > pre {' +
+			CKEDITOR.addCss( '.cke_snippet_wrapper > pre {' +
 				'font-family:monospace;' +
 				'background: #fafafa;' +
 				'border-top: 1px solid #ccc;' +
@@ -58,13 +56,7 @@
 					code: ''
 				},
 
-				template: '<div class="cke_snippet_wrapper">' +
-						'<div class="cke_snippet_fancyview"></div>' +
-					'</div>',
-
-				init: function() {
-					this.fancyView = this.element.getFirst();
-				},
+				template: '<div class="cke_snippet_wrapper"></div>',
 
 				doReformat: function() {
 					var that = this;
@@ -73,7 +65,7 @@
 							lang: this.data.lang,
 							html: decodeHtml( this.data.code )
 						}, function( data ) {
-							that.fancyView.setHtml( data );
+							that.element.setHtml( data );
 						} );
 				},
 
@@ -83,13 +75,12 @@
 					if ( curData.lang )
 						this.doReformat();
 					else if ( curData.code )
-						this.fancyView.setHtml( '<pre>' + curData.code + '</pre>' );
+						this.element.setHtml( '<pre>' + curData.code + '</pre>' );
 				},
 
 				// Upcasts <pre><code [class="language-*"]>...</code></pre>
 				upcast: function( el, data ) {
-					var code,
-						ret;
+					var code;
 
 					// Check el.parent to prevent upcasting loop of hell. If not checked,
 					// widgets system will attempt to upcast nested editables. Bunnies cry.
@@ -109,20 +100,10 @@
 					// Remove <code>. The internal form is <pre>.
 					code.replaceWithChildren();
 
-					/**
-					 * @todo: Clean this up a little bit.
-					 */
-
-					ret = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
-						'class': 'cke_snippet_fancyview'
-					} ) );
-
 					// Wrap <pre> with wrapper. It is to hold bar, etc.
-					ret = ret.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
+					return el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
 						'class': 'cke_snippet_wrapper'
 					} ) );
-
-					return ret;
 				},
 
 				// Downcasts to <pre><code [class="language-*"]>...</code></pre>
