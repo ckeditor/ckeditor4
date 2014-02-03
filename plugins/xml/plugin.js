@@ -74,8 +74,8 @@
 			var baseXml = this.baseXml;
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( CKEDITOR.env.ie || contextNode.selectSingleNode ) // IE
-				return contextNode.selectSingleNode( xpath );
+				if ( 'selectSingleNode' in contextNode ) // old IEs<10
+					return contextNode.selectSingleNode( xpath );
 				else if ( baseXml.evaluate ) // Others
 				{
 					var result = baseXml.evaluate( xpath, contextNode, null, 9, null );
@@ -108,8 +108,8 @@
 				nodes = [];
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( CKEDITOR.env.ie || contextNode.selectNodes ) // IE
-				return contextNode.selectNodes( xpath );
+				if ( 'selectNodes' in contextNode ) // old IEs<10
+					return contextNode.selectNodes( xpath );
 				else if ( baseXml.evaluate ) // Others
 				{
 					var result = baseXml.evaluate( xpath, contextNode, null, 5, null );
