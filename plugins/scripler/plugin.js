@@ -66,6 +66,10 @@ CKEDITOR.plugins.add( 'scripler', {
 			//Hide Toolbar
 			if (force) {
 				fading = true;	
+				if (doAbortToolbarHide()) {
+					fading = false;
+					return;
+				}
 				clearInterval(timerFadeOut);
 				clearInterval(timerFadeIn);
 				clearTimeout(timerChangeTimeout);
@@ -90,15 +94,9 @@ CKEDITOR.plugins.add( 'scripler', {
 				clearInterval(timerFadeIn);
 				
 				//Done hide if any open panels
-				var panels = document.querySelectorAll('div.cke_panel');
-				for (var i = 0;i<panels.length;i++){
-					if (panels[i].style.display!='none') {
-						//console.log(panels[i]);
-						//panels[i].style.display = 'none';
-						console.log('Cancelled hide')
-						fading = false;
-						return;
-					}
+				if (doAbortToolbarHide()) {
+					fading = false;
+					return;
 				}
 				
 				//Fade toolbar
@@ -118,27 +116,28 @@ CKEDITOR.plugins.add( 'scripler', {
 				}, 25);
 			}
 		}
-		function fadeIn(element) {
-			if (fading) {
-				fading = false;
-				var delay = 5;
-				clearInterval(timerFadeOut);
-				timerFadeIn = setInterval(function () {
-					if (!delay) {
-						if (op >= 1.0){
-							clearInterval(timerFadeIn);
-							op = 1.0;
-							resetChangeTimeout();
-						}
-						element.style.opacity = op;
-						element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-						element.style.display = 'block';
-						op += 0.1;
-					} else {
-						delay--;
-					}
-				}, 25);
+		
+		function doAbortToolbarHide() {
+			var panels = document.querySelectorAll('div.cke_panel');
+			for (var i = 0;i<panels.length;i++){
+				if (panels[i].style.display!='none') {
+					//console.log(panels[i]);
+					//panels[i].style.display = 'none';
+					console.log('Cancelled hide')
+					return true;
+				}
 			}
+			return false;
+		}
+		
+		function fadeIn(element) {
+			fading = false;
+			op = 1;
+			clearInterval(timerFadeOut);
+			element.style.opacity = op;
+			element.style.filter = 'alpha(opacity=' + op * 100 + ')';
+			element.style.display = 'block';
+			resetChangeTimeout();
 		}
 		
         editor.on('paste', function (ev) {
