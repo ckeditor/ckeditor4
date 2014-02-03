@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'pt', {
-	title: 'Propriedades de Símbolos',
-	toolbar: 'Criar Símbolos',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	title: 'Propriedades dos Símbolos',
+	toolbar: 'Símbolo',
+	name: 'Nome do Símbolo',
+	invalidName: 'O símbolo não pode estar em branco e não pode conter qualquer dos seguintes carateres: [, ], <, >',
+	pathName: 'símbolo'
 } );

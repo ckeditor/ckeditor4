@@ -14,7 +14,7 @@
 	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
-		lang: 'ca,cs,cy,el,en,en-gb,es,fi,hu,ja,km,nb,nl,no,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,de,el,en,en-gb,es,fa,fi,hu,ja,km,ko,nb,nl,no,pl,pt,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'lineutils,clipboard',
 		onLoad: function() {
 			CKEDITOR.addCss(
@@ -229,10 +229,10 @@
 
 		/**
 		 * Adds a callback for element upcasting. Each callback will be executed
-		 * for every element which is later tested by upcast methods. If callback
-		 * returns `false`, then element will not be upcasted.
+		 * for every element which is later tested by upcast methods. If a callback
+		 * returns `false`, the element will not be upcasted.
 		 *
-		 *		// Images with banner class will not be upcasted (e.g. to the image widget).
+		 *		// Images with the "banner" class will not be upcasted (e.g. to the image widget).
 		 *		editor.widgets.addUpcastCallback( function( element ) {
 		 *			if ( element.name == 'img' && element.hasClass( 'banner' ) )
 		 *				return false;
@@ -2818,7 +2818,6 @@
 
 		widget.on( 'doubleclick', function( evt ) {
 			widget.edit();
-			evt.cancel();
 		} );
 
 		if ( widgetDef.data )

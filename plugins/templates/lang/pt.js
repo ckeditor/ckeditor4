@@ -7,6 +7,6 @@ CKEDITOR.plugins.setLang( 'templates', 'pt', {
 	emptyListMsg: '(Sem modelos definidos)',
 	insertOption: 'Substituir conteúdos actuais',
 	options: 'Opções do Modelo',
-	selectPromptMsg: 'Por favor, seleccione o modelo a abrir no editor<br>(o conteúdo actual será perdido):',
-	title: 'Modelo de Conteúdo'
+	selectPromptMsg: 'Por favor, selecione o modelo para abrir no editor',
+	title: 'Conteúdo dos Modelos'
 } );

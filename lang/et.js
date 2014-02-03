@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'et' ] = {
 	// ARIA description.
 	editor: 'Rikkalik tekstiredaktor',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Rikkaliku tekstiredaktori paneel',
 
 	// Common messages and labels.
 	common: {
@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'et' ] = {
 		cssClass: 'Stiilistiku klassid',
 		advisoryTitle: 'Soovituslik pealkiri',
 		cssStyle: 'Laad',
-		ok: 'OK',
+		ok: 'Olgu',
 		cancel: 'Loobu',
 		close: 'Sulge',
 		preview: 'Eelvaade',

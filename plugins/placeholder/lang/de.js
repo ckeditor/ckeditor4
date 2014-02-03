@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'de', {
 	title: 'Platzhalter Einstellungen',
 	toolbar: 'Platzhalter erstellen',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Platzhalter Name',
+	invalidName: 'Der Platzhalter darf nicht leer sein und folgende Zeichen nicht enthalten: [, ], <, >',
+	pathName: 'Platzhalter'
 } );

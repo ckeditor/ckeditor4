@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'pl', {
 	title: 'Właściwości wypełniacza',
 	toolbar: 'Utwórz wypełniacz',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Nazwa wypełniacza',
+	invalidName: 'Wypełniacz nie może być pusty ani nie może zawierać żadnego z następujących znaków: [, ], < oraz >',
+	pathName: 'wypełniacz'
 } );

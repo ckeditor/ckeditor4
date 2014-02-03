@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'fa' ] = {
 	// ARIA description.
 	editor: 'ویرایشگر متن کامل',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'پنل ویرایشگر متن غنی',
 
 	// Common messages and labels.
 	common: {

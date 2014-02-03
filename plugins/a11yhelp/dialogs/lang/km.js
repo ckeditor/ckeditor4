@@ -5,18 +5,18 @@
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	contents: 'មាតិកា​ជំនួយ។ ដើម្បី​បិទ​ផ្ទាំង​នេះ សូម​ចុច ESC ។',
 	legend: [
 		{
 		name: 'ទូទៅ',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
+			name: 'របារ​ឧបករណ៍​កម្មវិធី​និពន្ធ',
 			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
+			name: 'ផ្ទាំង​កម្មវិធីនិពន្ធ',
 			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
 		},
 
@@ -37,31 +37,31 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'ពាក្យបញ្ជា',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: 'ការ​បញ្ជា​មិនធ្វើវិញ',
+			legend: 'ចុច ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'ការបញ្ជា​ធ្វើវិញ',
+			legend: 'ចុច ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'ការបញ្ជា​អក្សរ​ដិត',
+			legend: 'ចុច ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'ការបញ្ជា​អក្សរ​ទ្រេត',
+			legend: 'ចុច ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'ពាក្យបញ្ជា​បន្ទាត់​ពីក្រោម',
+			legend: 'ចុច ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'ពាក្យបញ្ជា​តំណ',
+			legend: 'ចុច ${link}'
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING
@@ -76,49 +76,49 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'ជំនួយ​ពី​ភាព​ងាយស្រួល',
+			legend: 'ជួយ ${a11yHelp}'
 		}
 		]
 	}
 	],
-	backspace: 'BACKSPACE', // MISSING
-	tab: 'TAB', // MISSING
-	enter: 'ENTER', // MISSING
-	shift: 'SHIFT', // MISSING
-	ctrl: 'CTRL', // MISSING
-	alt: 'ALT', // MISSING
-	pause: 'PAUSE', // MISSING
-	capslock: 'CAPSLOCK', // MISSING
-	escape: 'ESCAPE', // MISSING
-	pageUp: 'PAGE UP', // MISSING
-	pageDown: 'PAGE DOWN', // MISSING
-	end: 'END', // MISSING
-	home: 'HOME', // MISSING
-	leftArrow: 'LEFT ARROW', // MISSING
-	upArrow: 'UP ARROW', // MISSING
-	rightArrow: 'RIGHT ARROW', // MISSING
-	downArrow: 'DOWN ARROW', // MISSING
-	insert: 'INSERT', // MISSING
-	'delete': 'DELETE', // MISSING
-	leftWindowKey: 'LEFT WINDOW KEY', // MISSING
-	rightWindowKey: 'RIGHT WINDOW KEY', // MISSING
-	selectKey: 'SELECT KEY', // MISSING
-	numpad0: 'NUMPAD 0', // MISSING
-	numpad1: 'NUMPAD 1', // MISSING
-	numpad2: 'NUMPAD 2', // MISSING
-	numpad3: 'NUMPAD 3', // MISSING
-	numpad4: 'NUMPAD 4', // MISSING
-	numpad5: 'NUMPAD 5', // MISSING
-	numpad6: 'NUMPAD 6', // MISSING
-	numpad7: 'NUMPAD 7', // MISSING
-	numpad8: 'NUMPAD 8', // MISSING
-	numpad9: 'NUMPAD 9', // MISSING
-	multiply: 'MULTIPLY', // MISSING
-	add: 'ADD', // MISSING
-	subtract: 'SUBTRACT', // MISSING
-	decimalPoint: 'DECIMAL POINT', // MISSING
-	divide: 'DIVIDE', // MISSING
+	backspace: 'Backspace', // MISSING
+	tab: 'Tab', // MISSING
+	enter: 'Enter', // MISSING
+	shift: 'Shift', // MISSING
+	ctrl: 'Ctrl', // MISSING
+	alt: 'Alt', // MISSING
+	pause: 'Pause', // MISSING
+	capslock: 'Caps Lock', // MISSING
+	escape: 'Escape', // MISSING
+	pageUp: 'Page Up', // MISSING
+	pageDown: 'Page Down', // MISSING
+	end: 'End', // MISSING
+	home: 'Home', // MISSING
+	leftArrow: 'Left Arrow', // MISSING
+	upArrow: 'Up Arrow', // MISSING
+	rightArrow: 'Right Arrow', // MISSING
+	downArrow: 'Down Arrow', // MISSING
+	insert: 'Insert', // MISSING
+	'delete': 'Delete', // MISSING
+	leftWindowKey: 'Left Windows key', // MISSING
+	rightWindowKey: 'Right Windows key', // MISSING
+	selectKey: 'Select key', // MISSING
+	numpad0: 'Numpad 0', // MISSING
+	numpad1: 'Numpad 1', // MISSING
+	numpad2: 'Numpad 2', // MISSING
+	numpad3: 'Numpad 3', // MISSING
+	numpad4: 'Numpad 4', // MISSING
+	numpad5: 'Numpad 5', // MISSING
+	numpad6: 'Numpad 6', // MISSING
+	numpad7: 'Numpad 7', // MISSING
+	numpad8: 'Numpad 8', // MISSING
+	numpad9: 'Numpad 9', // MISSING
+	multiply: 'Multiply', // MISSING
+	add: 'Add', // MISSING
+	subtract: 'Subtract', // MISSING
+	decimalPoint: 'Decimal Point', // MISSING
+	divide: 'Divide', // MISSING
 	f1: 'F1', // MISSING
 	f2: 'F2', // MISSING
 	f3: 'F3', // MISSING
@@ -131,17 +131,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 	f10: 'F10', // MISSING
 	f11: 'F11', // MISSING
 	f12: 'F12', // MISSING
-	numLock: 'NUM LOCK', // MISSING
-	scrollLock: 'SCROLL LOCK', // MISSING
-	semiColon: 'SEMI-COLON', // MISSING
-	equalSign: 'EQUAL SIGN', // MISSING
-	comma: 'COMMA', // MISSING
-	dash: 'DASH', // MISSING
-	period: 'PERIOD', // MISSING
-	forwardSlash: 'FORWARD SLASH', // MISSING
-	graveAccent: 'GRAVE ACCENT', // MISSING
-	openBracket: 'OPEN BRACKET', // MISSING
-	backSlash: 'BACK SLASH', // MISSING
-	closeBracket: 'CLOSE BRACKET', // MISSING
-	singleQuote: 'SINGLE QUOTE' // MISSING
+	numLock: 'Num Lock', // MISSING
+	scrollLock: 'Scroll Lock', // MISSING
+	semiColon: 'Semicolon', // MISSING
+	equalSign: 'Equal Sign', // MISSING
+	comma: 'Comma', // MISSING
+	dash: 'Dash', // MISSING
+	period: 'Period', // MISSING
+	forwardSlash: 'Forward Slash', // MISSING
+	graveAccent: 'Grave Accent', // MISSING
+	openBracket: 'Open Bracket', // MISSING
+	backSlash: 'Backslash', // MISSING
+	closeBracket: 'Close Bracket', // MISSING
+	singleQuote: 'Single Quote' // MISSING
 } );

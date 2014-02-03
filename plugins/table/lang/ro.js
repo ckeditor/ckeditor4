@@ -51,7 +51,7 @@ CKEDITOR.plugins.setLang( 'table', 'ro', {
 	headersNone: 'Nimic',
 	headersRow: 'Primul rând',
 	invalidBorder: 'Dimensiunea bordurii trebuie să aibe un număr.',
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
+	invalidCellPadding: 'Spațierea celulei trebuie sa fie un număr pozitiv',
 	invalidCellSpacing: 'Spațierea celului trebuie să fie un număr pozitiv.',
 	invalidCols: 'Numărul coloanelor trebuie să fie mai mare decât 0.',
 	invalidHeight: 'Inaltimea celulei trebuie sa fie un numar.',

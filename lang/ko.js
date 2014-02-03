@@ -60,7 +60,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		close: '닫기',
 		preview: '미리보기',
 		resize: '크기 조절',
-		generalTab: 'General', // MISSING
+		generalTab: '일반',
 		advancedTab: '자세히',
 		validateNumberFailed: '이 값은 숫자가 아닙니다.',
 		confirmNewPage: '저장하지 않은 모든 변경사항은 유실됩니다. 정말로 새로운 페이지를 부르겠습니까?',

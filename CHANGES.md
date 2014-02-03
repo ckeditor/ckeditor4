@@ -3,41 +3,51 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4
 
+## CKEditor 4.3.3
+
+Fixed Issues:
+
+* [#11490](http://dev.ckeditor.com/ticket/11490): Fixed issue with menubuttons panel showing in source mode.
+* [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
+* [#11253](http://dev.ckeditor.com/ticket/11253): [IE] Fixed: Clipped upload button in [Enhanced Image](http://ckeditor.com/addon/image2) dialog.
+
 ## CKEditor 4.3.2
 
-* [#11331](http://dev.ckeditor.com/ticket/11331): A11y menubutton will have changed label when selected, instead of `aria-pressed` attribute.
-* [#11177](http://dev.ckeditor.com/ticket/11177): Widget's drag handler improvements:
-  * fixed: initial position is not updated when widget's data object is empty ([#11161](http://dev.ckeditor.com/ticket/11161)),
-  * fixed: multiple synchronous layout recalculations are caused by initial drag handler positioning causing performance issues ([#11001](http://dev.ckeditor.com/ticket/11001)),
-  * fixed: drag handler is not repositioned in various situations ([#11161](http://dev.ckeditor.com/ticket/11161)).
-* [#11207](http://dev.ckeditor.com/ticket/11207): [Firefox] Fixed: Misplaced Image2 resizer in inline editor.
+Fixed Issues:
+
+* [#11331](http://dev.ckeditor.com/ticket/11331): A menu button will have a changed label when selected instead of using the `aria-pressed` attribute.
+* [#11177](http://dev.ckeditor.com/ticket/11177): Widget drag handler improvements:
+  * [#11176](http://dev.ckeditor.com/ticket/11176): Fixed: Initial position is not updated when the widget data object is empty.
+  * [#11001](http://dev.ckeditor.com/ticket/11001): Fixed: Multiple synchronous layout recalculations are caused by initial drag handler positioning causing performance issues.
+  * [#11161](http://dev.ckeditor.com/ticket/11161): Fixed: Drag handler is not repositioned in various situations.
+  * [#11281](http://dev.ckeditor.com/ticket/11281): Fixed: Drag handler and mask are duplicated after widget reinitialization.
+* [#11207](http://dev.ckeditor.com/ticket/11207): [Firefox] Fixed: Misplaced [Enhanced Image](http://ckeditor.com/addon/image2) resizer in the inline editor.
 * [#11102](http://dev.ckeditor.com/ticket/11102): `CKEDITOR.template` improvements:
-  * added new line character support ([#11102](http://dev.ckeditor.com/ticket/11102)),
-  * added "\\'" substring support ([#11216](http://dev.ckeditor.com/ticket/11216)).
-* [#11121](http://dev.ckeditor.com/ticket/11121): [Firefox] Fixed: High Contrast mode is enabled when editor is loaded in hidden iframe.
+  * [#11102](http://dev.ckeditor.com/ticket/11102): Added newline character support.
+  * [#11216](http://dev.ckeditor.com/ticket/11216): Added "\\'" substring support.
+* [#11121](http://dev.ckeditor.com/ticket/11121): [Firefox] Fixed: High Contrast mode is enabled when the editor is loaded in a hidden iframe.
 * [#11350](http://dev.ckeditor.com/ticket/11350): The default value of [`config.contentsCss`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-contentsCss) is affected by [`CKEDITOR.getUrl`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getUrl).
 * [#11097](http://dev.ckeditor.com/ticket/11097): Improved the [Autogrow](http://ckeditor.com/addon/autogrow) plugin performance when dealing with very big tables.
-* [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in `sourcedialog` plugin.
-* [#11133](http://dev.ckeditor.com/ticket/11133): [Pagebreak](http://ckeditor.com/addon/pagebreak) becomes editable if pasted.
-* [#11126](http://dev.ckeditor.com/ticket/11126): Fixed: Native undo executed once reached the bottom of snapshot stack.
-* [#11131](http://dev.ckeditor.com/ticket/11131): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Error thrown when switching to source mode if selection was in widget's nested editable.
-* [#11139](http://dev.ckeditor.com/ticket/11139): [[Divarea](http://ckeditor.com/addon/divarea)] Fixed: Elements path is not cleared after switching to source mode.
-* [#10778](http://dev.ckeditor.com/ticket/10778): Fix bug with range enlarge; range no longer expanded visible whitespace.
-* [#11281](http://dev.ckeditor.com/ticket/11281): Fixed: Drag handler and mask are duplicated after widget reinitialization.
-* [#11146](http://dev.ckeditor.com/ticket/11146): [IE] Fixed: Preview window switches IE to Quirks Mode.
+* [#11290](http://dev.ckeditor.com/ticket/11290): Removed redundant code in the [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin.
+* [#11133](http://dev.ckeditor.com/ticket/11133): [Page Break](http://ckeditor.com/addon/pagebreak) becomes editable if pasted.
+* [#11126](http://dev.ckeditor.com/ticket/11126): Fixed: Native Undo executed once the bottom of the snapshot stack is reached.
+* [#11131](http://dev.ckeditor.com/ticket/11131): [Div Editing Area](http://ckeditor.com/addon/divarea): Fixed: Error thrown when switching to source mode if the selection was in widget's nested editable.
+* [#11139](http://dev.ckeditor.com/ticket/11139): [Div Editing Area](http://ckeditor.com/addon/divarea): Fixed: Elements Path is not cleared after switching to source mode.
+* [#10778](http://dev.ckeditor.com/ticket/10778): Fixed a bug with range enlargement. The range no longer expands to visible whitespace.
+* [#11146](http://dev.ckeditor.com/ticket/11146): [IE] Fixed: Preview window switches Internet Explorer to Quirks Mode.
 * [#10762](http://dev.ckeditor.com/ticket/10762): [IE] Fixed: JavaScript code displayed in preview window's URL bar.
-* [#11186](http://dev.ckeditor.com/ticket/11186): Introduced the [`widgets.repository.addUpcastCallback`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-addUpcastCallback) method which allows to block upcasting given element to a widget.
-* [#11307](http://dev.ckeditor.com/ticket/11307): Fixed: Paste as plain text conflict with the [MooTools](http://mootools.net) library.
+* [#11186](http://dev.ckeditor.com/ticket/11186): Introduced the [`widgets.repository.addUpcastCallback`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-addUpcastCallback) method that allows to block upcasting given element to a widget.
+* [#11307](http://dev.ckeditor.com/ticket/11307): Fixed: Paste as Plain Text conflict with the [MooTools](http://mootools.net) library.
 * [#11140](http://dev.ckeditor.com/ticket/11140): [IE11] Fixed: Anchors are not draggable.
-* [#11379](http://dev.ckeditor.com/ticket/11379): Changed default contents' `line-height` to unitless values to avoid huge text overlapping (like in [#9696](http://dev.ckeditor.com/ticket/9696)).
-* [#10787](http://dev.ckeditor.com/ticket/10787): [Firefox] Fixed: Broken replacement of text while pasting into div-based editor.
-* [#10884](http://dev.ckeditor.com/ticket/10884): Widgets integration with [Showblocks](http://ckeditor.com/addon/showblocks) plugin.
-* [#11021](http://dev.ckeditor.com/ticket/11021): Fixed: An error thrown when selecting entire editable's contents while fake selection is on.
-* [#11086](http://dev.ckeditor.com/ticket/11086): [IE8] Re-enable inline widgets drag&drop on IE8.
+* [#11379](http://dev.ckeditor.com/ticket/11379): Changed default contents `line-height` to unitless values to avoid huge text overlapping (like in [#9696](http://dev.ckeditor.com/ticket/9696)).
+* [#10787](http://dev.ckeditor.com/ticket/10787): [Firefox] Fixed: Broken replacement of text while pasting into `div`-based editor.
+* [#10884](http://dev.ckeditor.com/ticket/10884): Widgets integration with the [Show Blocks](http://ckeditor.com/addon/showblocks) plugin.
+* [#11021](http://dev.ckeditor.com/ticket/11021): Fixed: An error thrown when selecting entire editable contents while fake selection is on.
+* [#11086](http://dev.ckeditor.com/ticket/11086): [IE8] Re-enable inline widgets drag&drop in Internet Explorer 8.
 * [#11372](http://dev.ckeditor.com/ticket/11372): Widgets: Special characters encoded twice in nested editables.
-* [#10068](http://dev.ckeditor.com/ticket/10068): Fixed: Support for protocol relative URLs.
-* [#11283](http://dev.ckeditor.com/ticket/11283): [Enhanced Image](http://ckeditor.com/addon/image2): Div with `text-align: center` and image inside is not recognised correctly.
-* [#11196](http://dev.ckeditor.com/ticket/11196): [Accessibility Instructions](http://ckeditor.com/addon/a11yhelp): Allowed additional labels to be translated in the dialog.
+* [#10068](http://dev.ckeditor.com/ticket/10068): Fixed: Support for protocol-relative URLs.
+* [#11283](http://dev.ckeditor.com/ticket/11283): [Enhanced Image](http://ckeditor.com/addon/image2): A `<div>` element with `text-align: center` and an image inside is not recognised correctly.
+* [#11196](http://dev.ckeditor.com/ticket/11196): [Accessibility Instructions](http://ckeditor.com/addon/a11yhelp): Allowed additional keyboard button labels to be translated in the dialog window.
 
 ## CKEditor 4.3.1
 

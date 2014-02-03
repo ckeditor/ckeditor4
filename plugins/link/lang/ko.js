@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	popupStatusBar: '상태바',
 	popupToolbar: '툴바',
 	popupTop: '윗쪽 위치',
-	rel: 'Relationship', // MISSING
+	rel: '관계',
 	selectAnchor: '책갈피 선택',
 	styles: 'Style',
 	tabIndex: '탭 순서',

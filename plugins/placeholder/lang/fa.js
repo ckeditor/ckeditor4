@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'fa', {
 	title: 'ویژگی‌های محل نگهداری',
 	toolbar: 'ایجاد یک محل نگهداری',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'نام مکان نگهداری',
+	invalidName: 'مکان نگهداری نمی‌تواند خالی باشد و همچنین نمی‌تواند محتوی نویسه‌های مقابل باشد: [, ], <, >',
+	pathName: 'مکان نگهداری'
 } );

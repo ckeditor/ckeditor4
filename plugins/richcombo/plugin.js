@@ -428,9 +428,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 	} );
 
 	/**
-	 * @member CKEDITOR.ui
-	 * @param {String}
+	 * @param {String} name
 	 * @param {Object} definition
+	 * @member CKEDITOR.ui
 	 * @todo
 	 */
 	CKEDITOR.ui.prototype.addRichCombo = function( name, definition ) {

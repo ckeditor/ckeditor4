@@ -5,14 +5,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'fa', {
 	alt: 'متن جایگزین',
 	btnUpload: 'به سرور بفرست',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'تصویر زیرنویس شده',
 	infoTab: 'اطلاعات تصویر',
 	lockRatio: 'قفل کردن نسبت',
 	menu: 'ویژگی​های تصویر',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'تصویر',
+	pathNameCaption: 'عنوان',
 	resetSize: 'بازنشانی اندازه',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'کلیک و کشیدن برای تغییر اندازه',
 	title: 'ویژگی​های تصویر',
 	uploadTab: 'آپلود',
 	urlMissing: 'آدرس URL اصلی تصویر یافت نشد.'

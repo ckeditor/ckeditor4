@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'pt', {
 	border: 'Mostrar a borda da Frame',
-	noUrl: 'Por favor escreva o URL da iframe',
-	scrolling: 'Activar barras de deslocamento',
-	title: 'Propriadades da IFrame',
+	noUrl: 'Por favor, digite o URL da iframe',
+	scrolling: 'Ativar barras de deslocamento',
+	title: 'Propriedades da IFrame',
 	toolbar: 'IFrame'
 } );

@@ -54,13 +54,20 @@
 	var SLOT_NAME = 'focusmanager',
 		SLOT_NAME_LISTENERS = 'focusmanager_handlers';
 
+	/**
+	 * Object used to hold private stuff.
+	 *
+	 * @private
+	 * @class
+	 * @singleton
+	 */
 	CKEDITOR.focusManager._ = {
 		/**
 		 * The delay (in milliseconds) to deactivate the editor when UI dom element has lost focus.
 		 *
 		 * @private
-		 * @static
-		 * @property {Number} [_.blurDelay=200]
+		 * @property {Number} [blurDelay=200]
+		 * @member CKEDITOR.focusManager._
 		 */
 		blurDelay: 200
 	};
@@ -81,6 +88,7 @@
 		 *		editor.focusManage.focus( editor.editable() );
 		 *
 		 * @param {CKEDITOR.dom.element} [currentActive] The new value of {@link #currentActive} property.
+		 * @member CKEDITOR.focusManager
 		 */
 		focus: function( currentActive ) {
 			if ( this._.timer )
@@ -108,6 +116,8 @@
 
 		/**
 		 * Prevent from changing the focus manager state until next {@link #unlock} is called.
+		 *
+		 * @member CKEDITOR.focusManager
 		 */
 		lock: function() {
 			this._.locked = 1;
@@ -115,6 +125,8 @@
 
 		/**
 		 * Restore the automatic focus management, if {@link #lock} is called.
+		 *
+		 * @member CKEDITOR.focusManager
 		 */
 		unlock: function() {
 			delete this._.locked;
@@ -132,6 +144,7 @@
 		 *		editor.focusManager.blur();
 		 *
 		 * @param {Boolean} [noDelay=false] Deactivate immediately the editor instance synchronously.
+		 * @member CKEDITOR.focusManager
 		 */
 		blur: function( noDelay ) {
 			if ( this._.locked )
@@ -167,6 +180,7 @@
 		 *
 		 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
 		 * @param {Boolean} isCapture If specified {@link CKEDITOR.event#useCapture} will be used when listening to the focus event.
+		 * @member CKEDITOR.focusManager
 		 */
 		add: function( element, isCapture ) {
 			var fm = element.getCustomData( SLOT_NAME );
@@ -214,6 +228,7 @@
 		 * Dismiss an element from the the focus manager delegations added by {@link #add}.
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be removed from the focusmanager.
+		 * @member CKEDITOR.focusManager
 		 */
 		remove: function( element ) {
 			element.removeCustomData( SLOT_NAME );
