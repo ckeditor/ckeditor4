@@ -11,75 +11,85 @@
 
 (function() {
 
+	// Default languages object.
 	var defaults = {
-		js: 'JavaScript',
+		javascript: 'JavaScript',
 		php: 'PHP',
-		html: 'HTML',
+		html4strict: 'HTML',
+		html5: 'HTML5',
 		css: 'CSS'
 	};
 
 	CKEDITOR.plugins.add( 'snippet', {
-		requires: 'widget,ajax',
+		requires: 'widget,ajax,dialog',
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_snippet_bar {' +
-				'background: #eee;' +
-				'line-height: 45px;' +
-				'padding: 0 20px;' +
-				'text-align: right;' +
-				'height: 45px;' +
+			CKEDITOR.addCss( '.cke_snippet_wrapper {' +
 			'}' +
-			'.cke_snippet_wrapper {' +
-			'}' +
-			'.cke_snippet_wrapper > pre {' +
+			'.cke_snippet_wrapper > .cke_snippet_fancyview > pre {' +
+				'font-family:monospace;' +
 				'background: #fafafa;' +
 				'border-top: 1px solid #ccc;' +
 				'border-bottom: 1px solid #ccc;' +
 				'margin: 0;' +
 				'padding: 10px;' +
 			'}'	);
+			CKEDITOR.dialog.add( 'snippet', this.path + 'dialogs/snippet.js' );
 		},
 
 		init: function( editor ) {
+
 			var langs = editor.config.snippet_langs || defaults,
 				path = CKEDITOR.getUrl( this.path );
+
+			// Creates snippet plugin private area where languages list will be
+			// stored (per editor instance).
+			editor._.snippet = {
+				langs: langs
+			};
 
 			editor.widgets.add( 'snippet', {
 				allowedContent: 'pre; code(*)',
 
-				editables: {
-					pre: {
-						selector: 'pre',
-						allowedContent: {}
-					}
-				},
+				dialog: 'snippet',
 
 				defaults: {
-					lang: ''
-				},
-
-				parts: {
-					pre: 'pre'
+					lang: '',
+					code: ''
 				},
 
 				template: '<div class="cke_snippet_wrapper">' +
-						'<pre><code></code></pre>' +
+						'<div class="cke_snippet_fancyview"></div>' +
 					'</div>',
 
 				init: function() {
-					appendSettingsBar( this );
-					appendLanguagesSel( this, langs );
-					appendSaveBtn( this, path );
-					appendFancyView( this );
+					this.fancyView = this.element.getFirst();
 				},
 
-				data: function() {
-					this.langSel.setValue( this.data.lang );
+				doReformat: function() {
+					var that = this;
+
+					CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', {
+							lang: this.data.lang,
+							html: decodeHtml( this.data.code )
+						}, function( data ) {
+							that.fancyView.setHtml( data );
+						} );
+				},
+
+				data: function( evt ) {
+					var curData = evt.data;
+					// Lang needs to be specified in order to apply formatting.
+					if ( curData.lang )
+						this.doReformat();
+					else if ( curData.code )
+						this.fancyView.setHtml( '<pre>' + curData.code + '</pre>' );
 				},
 
 				// Upcasts <pre><code [class="language-*"]>...</code></pre>
 				upcast: function( el, data ) {
-					var code;
+					var code,
+						ret;
 
 					// Check el.parent to prevent upcasting loop of hell. If not checked,
 					// widgets system will attempt to upcast nested editables. Bunnies cry.
@@ -94,19 +104,32 @@
 						}
 					}
 
+					data.code = code.getHtml();
+
 					// Remove <code>. The internal form is <pre>.
 					code.replaceWithChildren();
 
+					/**
+					 * @todo: Clean this up a little bit.
+					 */
+
+					ret = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
+						'class': 'cke_snippet_fancyview'
+					} ) );
+
 					// Wrap <pre> with wrapper. It is to hold bar, etc.
-					return el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
+					ret = ret.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
 						'class': 'cke_snippet_wrapper'
 					} ) );
+
+					return ret;
 				},
 
 				// Downcasts to <pre><code [class="language-*"]>...</code></pre>
 				downcast: function( el ) {
-					var pre = CKEDITOR.htmlParser.fragment.fromHtml( this.editables.pre.getData(), 'pre' ),
-						code = new CKEDITOR.htmlParser.element( 'code' );
+					var pre = CKEDITOR.htmlParser.fragment.fromHtml( this.data.code, 'pre' ),
+						code = new CKEDITOR.htmlParser.element( 'code' ),
+						encodedHtmlContent;
 
 					code.children = pre.children;
 
@@ -115,6 +138,12 @@
 
 					pre.children = [ code ];
 					code.parent = pre;
+
+					encodedHtmlContent = CKEDITOR.tools.htmlEncode( this.data.code );
+					// CKEDITOR.htmlParser.fragment.prototype expects brs, and will transform them
+					// to new lines.
+					encodedHtmlContent = encodedHtmlContent.replace( /\n/g, '<br />' );
+					code.setHtml( encodedHtmlContent );
 
 					if ( this.data.lang )
 						code.attributes.class = 'language-' + this.data.lang;
@@ -133,94 +162,8 @@
 		}
 	} );
 
-	function appendSettingsBar( widget, langs ) {
-		var editor = widget.editor,
-			doc = editor.document;
-
-		widget.bar = doc.createElement( 'div', {
-			attributes: {
-				'class': 'cke_snippet_bar'
-			}
-		} );
-
-		function showBar() {
-			widget.bar.show();
-		}
-
-		function hideBar() {
-			widget.bar.hide();
-		}
-
-		// widget.on( 'focus', showBar );
-		// widget.editables.pre.on( 'focus', showBar );
-		// widget.on( 'blur', hideBar );
-		// widget.editables.pre.on( 'blur', hideBar );
-
-		// widget.bar.hide();
-		widget.bar.appendTo( widget.element );
-	}
-
-	function appendLanguagesSel( widget, langs ) {
-		var editor = widget.editor,
-			doc = editor.document,
-			option;
-
-		function appendLangSelOption( value, text ) {
-			var option = doc.createElement( 'option', {
-				attributes: { value: value }
-			} );
-
-			option.setText( text );
-			option.appendTo( widget.langSel );
-		}
-
-		widget.langSel = doc.createElement( 'select' );
-
-		appendLangSelOption( '', 'Plain text' );
-
-		for ( var l in langs )
-			appendLangSelOption( l, langs[ l ] );
-
-		widget.langSel.on( 'change', function( evt ) {
-			widget.setData( 'lang', widget.langSel.getValue() );
-		} );
-
-		widget.langSel.appendTo( widget.bar );
-	}
-
-	function appendSaveBtn( widget, path ) {
-		var editor = widget.editor,
-			doc = editor.document;
-
-		widget.saveBtn = doc.createElement( 'button', {
-			attributes: {
-				type: 'button'
-			}
-		} );
-
-		widget.saveBtn.setHtml( '<strong>Unicorns!</strong>' );
-		widget.saveBtn.appendTo( widget.bar, true );
-		widget.saveBtn.on( 'click', function() {
-			CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', {
-				lang: widget.data.lang,
-				html: widget.editables.pre.getData()
-			}, function( data ) {
-				widget.fancyView.setHtml( data );
-			} );
-		} );
-	}
-
-	function appendFancyView( widget ) {
-		var editor = widget.editor,
-			doc = editor.document;
-
-		widget.fancyView = doc.createElement( 'div', {
-			attributes: {
-				class: 'cke_snippet_fancyview'
-			}
-		} );
-
-		widget.fancyView.appendTo( widget.element, true );
+	function decodeHtml( stringToDecode ) {
+		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
 	}
 
 	function enableMouseInBar( editor ) {
