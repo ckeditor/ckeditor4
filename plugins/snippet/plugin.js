@@ -48,15 +48,13 @@
 
 			editor.widgets.add( 'snippet', {
 				allowedContent: 'pre; code(*)',
-
+				template: '<div class="cke_snippet_wrapper"></div>',
 				dialog: 'snippet',
-
+				mask: true,
 				defaults: {
 					lang: '',
 					code: ''
 				},
-
-				template: '<div class="cke_snippet_wrapper"></div>',
 
 				doReformat: function() {
 					var that = this;
@@ -133,8 +131,6 @@
 				}
 			} );
 
-			enableMouseInBar( editor );
-
 			editor.ui.addButton && editor.ui.addButton( 'snippet', {
 				label: 'Gimme snippet!',
 				command: 'snippet',
@@ -147,30 +143,4 @@
 		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
 	}
 
-	function enableMouseInBar( editor ) {
-		// If evt target belongs to any widget's bar, allow clicking
-		// there.
-		function callback( evt ) {
-			var target = evt.data.getTarget(),
-				parents = target.getParents( true ),
-				parent;
-
-			while ( ( parent = parents.shift() ) && !parent.equals( this ) ) {
-				if ( parent.hasClass( 'cke_snippet_bar' ) )
-					evt.stop();
-			}
-		}
-
-		editor.on( 'contentDom', function() {
-			var editable = editor.editable(),
-				evtRoot = editable.isInline() ? editable : editor.document;
-
-			// This one overwrites editable's listener.
-			editable.attachListener( editable, 'mousedown', callback, editable, null, 0 );
-
-			// This one overwrites widget system's listener.
-			if ( !editable.isInline() )
-				editable.attachListener( editor.document, 'mousedown', callback, editable, null, 0 );
-		} );
-	}
 })();
