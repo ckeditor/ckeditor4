@@ -11,15 +11,6 @@
 
 (function() {
 
-	// Default languages object.
-	var defaults = {
-		javascript: 'JavaScript',
-		php: 'PHP',
-		html4strict: 'HTML',
-		html5: 'HTML5',
-		css: 'CSS'
-	};
-
 	CKEDITOR.plugins.add( 'snippet', {
 		requires: 'widget,ajax,dialog',
 
@@ -35,16 +26,44 @@
 			CKEDITOR.dialog.add( 'snippet', this.path + 'dialogs/snippet.js' );
 		},
 
-		init: function( editor ) {
+		/**
+		 * Sets custom syntax highlighter function.
+		 * @member CKEDITOR.editor.plugins.snippet
+		 * @param {CKEDITOR.editor} editor
+		 * @param {Function} highlightHandlerFn
+		 *
+		 * 	Function highlightHandlerFn takes 3 parameters:
+		 *
+		 *	* code - string - plain text code to be formatted
+		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
+		 *	* callback - function - function which takes string as arguments and writes output inside of a widget
+		 */
+		setHighlighter: function( editor, highlightHandlerFn ) {
+			editor._.snippet.highlighter = highlightHandlerFn;
+		},
 
-			var langs = editor.config.snippet_langs || defaults,
-				path = CKEDITOR.getUrl( this.path );
+		/**
+		 * Restores default syntax highlighter for the plugin, which by default
+		 * uses highlight.js library.
+		 */
+		setDefaultHighlighter: function( editor, pluginInstance ) {
+			this.setHighlighter( editor, defaultHighlighter );
+		},
 
+		beforeInit: function( editor ) {
 			// Creates snippet plugin private area where languages list will be
 			// stored (per editor instance).
 			editor._.snippet = {
-				langs: langs
+				langs: editor.config.snippet_langs || defaults
 			};
+
+			this.setDefaultHighlighter( editor, this );
+		},
+
+		init: function( editor ) {
+
+			var langs = editor._.snippet.langs,
+				path = CKEDITOR.getUrl( this.path );
 
 			editor.widgets.add( 'snippet', {
 				allowedContent: 'pre; code(*)',
@@ -57,14 +76,16 @@
 				},
 
 				doReformat: function() {
-					var that = this;
-
-					CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', {
-							lang: this.data.lang,
-							html: decodeHtml( this.data.code )
-						}, function( data ) {
-							that.element.setHtml( data );
-						} );
+					var widgetData = this.data,
+						preTag = this.element.findOne( 'pre' ),
+						callback = function( formattedCode ) {
+							//that.element.setHtml( formattedCode );
+							preTag.setHtml( formattedCode );
+						};
+					// Set plain code first, so even if custom handler will not call it the code will be there.
+					callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
+					// Call higlighter to apply its custom highlighting.
+					editor._.snippet.highlighter( widgetData.code, widgetData.lang, callback );
 				},
 
 				data: function( evt ) {
@@ -136,8 +157,36 @@
 				command: 'snippet',
 				toolbar: 'insert,10'
 			} );
+		},
+
+		afterInit: function( editor ) {
+			var path = CKEDITOR.getUrl( this.path );
+
+			if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
+				// Inserting required styles/javascript.
+				// Default highlighter was not changed, and hljs is not available, so
+				// it wasn't inserted to the document.
+				CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
+				editor.on( 'instanceReady', function( evt ) {
+					CKEDITOR.document.appendStyleSheet.call( editor.document, path + 'lib/highlight/styles/default.css' );
+				} );
+			}
 		}
 	} );
+
+	// Default languages object.
+	var defaultHighlighter = function( code, lang, callback ) {
+			var result = window.hljs.highlightAuto( code );
+			if ( result )
+				callback( result.value );
+
+		}, defaults = {
+			javascript: 'JavaScript',
+			php: 'PHP',
+			html4strict: 'HTML',
+			html5: 'HTML5',
+			css: 'CSS'
+		};
 
 	function decodeHtml( stringToDecode ) {
 		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );

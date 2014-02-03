@@ -16,19 +16,40 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	</h1>
 
 	<textarea id="editor1" cols="10" rows="10">
-
 <p>A bit of JS:</p>
-<pre><code class="language-javascript">
-CKEDITOR.<strong>replace</strong>( 'editor2', {
-	<em>allowedContent</em>: 'h1 h2 h3 p blockquote strong em;'
-} );
-</code></pre>
+<pre><code class="language-php">&lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &gt; 3 ) {
+   alert("aaa");
+  }
+}</code></pre>
 
 <p>A bit of WTF:</p>
 <pre><code>
 moo(); <strong>// Why not cow?</strong>
 </code></pre>
+	</textarea>
 
+	<h3>formatted with php-side stuff</h3>
+	<textarea id="editor2" cols="10" rows="10">
+<p>A bit of JS:</p>
+<pre><code class="language-php">&lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &gt; 3 ) {
+   alert("aaa");
+  }
+}</code></pre>
+
+<p>A bit of WTF:</p>
+<pre><code>
+moo(); <strong>// Why not cow?</strong>
+</code></pre>
 	</textarea>
 
 	<script>
@@ -36,6 +57,15 @@ moo(); <strong>// Why not cow?</strong>
 		CKEDITOR.replace( 'editor1', {
 			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
 			height: 350,
+			snippet_langs: {
+				javascript: 'JavaScript',
+				php: 'PHP'
+			}
+		} );
+
+		CKEDITOR.replace( 'editor2', {
+			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
+			height: 550,
 			snippet_langs: {
 				javascript: 'JavaScript',
 				php: 'PHP'
