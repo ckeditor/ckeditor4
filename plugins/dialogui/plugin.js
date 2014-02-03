@@ -1302,7 +1302,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 								'<label id="', _.labelId, '" for="', inputId, '" style="display:none">',
 									CKEDITOR.tools.htmlEncode( elementDefinition.label ),
 								'</label>',
-								'<input id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
+								// Set width to make sure that input is not clipped by the iframe (#11253).
+								'<input style="width:100%" id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
 									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
 									'" size="',
 									CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
