@@ -48,9 +48,12 @@
 
 		/**
 		 * Restores default syntax highlighter for the plugin, which by default
-		 * uses highlight.js library.
+		 * is highlight.js library.
+		 *
+		 * @member CKEDITOR.editor.plugins.snippet
+		 * @param {CKEDITOR.editor} editor
 		 */
-		setDefaultHighlighter: function( editor, pluginInstance ) {
+		setDefaultHighlighter: function( editor ) {
 			this.setHighlighter( editor, defaults, defaultHighlighter );
 		},
 
@@ -216,7 +219,6 @@
 	}
 
 } )();
-
 
 /**
  * Allows to set a template for highlihgt.js, you can browse templates at http://highlightjs.org/static/test.html
