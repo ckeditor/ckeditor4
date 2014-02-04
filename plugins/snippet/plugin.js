@@ -123,28 +123,19 @@
 
 				// Downcasts to <pre><code [class="language-*"]>...</code></pre>
 				downcast: function( el ) {
-					var pre = CKEDITOR.htmlParser.fragment.fromHtml( this.data.code, 'pre' ),
+					var retPreElement = new CKEDITOR.htmlParser.element( 'pre' ),
 						code = new CKEDITOR.htmlParser.element( 'code' ),
-						encodedHtmlContent;
+						encodedSnippetCode = CKEDITOR.tools.htmlEncode( this.data.code );
 
-					code.children = pre.children;
+					code.parent = retPreElement;
+					retPreElement.children = [ code ];
 
-					for ( var i = 0; i < code.children.length; ++i )
-						code.children[ i ].parent = code;
-
-					pre.children = [ code ];
-					code.parent = pre;
-
-					encodedHtmlContent = CKEDITOR.tools.htmlEncode( this.data.code );
-					// CKEDITOR.htmlParser.fragment.prototype expects brs, and will transform them
-					// to new lines.
-					encodedHtmlContent = encodedHtmlContent.replace( /\n/g, '<br />' );
-					code.setHtml( encodedHtmlContent );
+					code.children = [ new CKEDITOR.htmlParser.text( encodedSnippetCode ) ];
 
 					if ( this.data.lang )
-						code.attributes.class = 'language-' + this.data.lang;
+						code.attributes[ 'class' ] = 'language-' + this.data.lang;
 
-					return pre;
+					return retPreElement;
 				}
 			} );
 
