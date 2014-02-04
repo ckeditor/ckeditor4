@@ -216,3 +216,27 @@
 	}
 
 } )();
+
+
+/**
+ * Allows to set a template for highlihgt.js, you can browse templates at http://highlightjs.org/static/test.html
+ *
+ *		config.snippet_template = 'pojoaque';
+ *
+ * @since 4.4
+ * @cfg {String} [snippet_template='default']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * An object listing available languages.
+ *
+ *		config.snippet_langs = {
+ *			javascript: 'JavaScript',
+ *			php: 'PHP'
+ *		};
+ *
+ * @since 4.4
+ * @cfg {Object} [snippet_langs=null]
+ * @member CKEDITOR.config
+ */
