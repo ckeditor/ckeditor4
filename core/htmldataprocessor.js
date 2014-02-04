@@ -741,7 +741,23 @@
 	//
 
 	var protectElementRegex = /<(a|area|img|input|source)\b([^>]*)>/gi,
-		protectAttributeRegex = /\s(on\w+|href|src|name)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
+		// Be greedy while looking for protected attributes. This will let us avoid an unfortunate
+		// situation when "nested attributes", which may appear valid, are also protected.
+		// I.e. if we consider the following HTML:
+		//
+		// 	<img data-x="&lt;a href=&quot;X&quot;" />
+		//
+		// then the "non-greedy match" returns:
+		//
+		// 	'href' => '&quot;X&quot;' // It's wrong! Href is not an attribute of <img>.
+		//
+		// while greedy match returns:
+		//
+		// 	'data-x' => '&lt;a href=&quot;X&quot;'
+		//
+		// which, can be easily filtered out (#11508).
+		protectAttributeRegex = /((?:\w|-)+)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi,
+		protectAttributeNameRegex = /^(href|src|name)$/i;
 
 		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
@@ -758,10 +774,8 @@
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
-				if ( !( /^on/ ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 ) {
-					fullAttr = fullAttr.slice( 1 ); // Strip the space.
+				if ( protectAttributeNameRegex.test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
 					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rnd + '-' + fullAttr;
-				}
 
 				return fullAttr;
 			} ) + '>';
