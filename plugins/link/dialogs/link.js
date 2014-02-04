@@ -204,32 +204,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			}
 
 			// Find out whether we have any anchors in the editor.
-			var anchors = retval.anchors = [],
-				i, count, item;
-
-			// For some browsers we set contenteditable="false" on anchors, making document.anchors not to include them, so we must traverse the links manually (#7893).
-			if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
-				var links = editor.document.getElementsByTag( 'a' );
-				for ( i = 0, count = links.count(); i < count; i++ ) {
-					item = links.getItem( i );
-					if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) )
-						anchors.push( { name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
-				}
-			} else {
-				var anchorList = new CKEDITOR.dom.nodeList( editor.document.$.anchors );
-				for ( i = 0, count = anchorList.count(); i < count; i++ ) {
-					item = anchorList.getItem( i );
-					anchors[ i ] = { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) };
-				}
-			}
-
-			if ( CKEDITOR.plugins.link.fakeAnchor ) {
-				var imgs = editor.document.getElementsByTag( 'img' );
-				for ( i = 0, count = imgs.count(); i < count; i++ ) {
-					if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
-						anchors.push( { name: item.getAttribute( 'name' ), id: item.getAttribute( 'id' ) } );
-				}
-			}
+			retval.anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
 
 			// Record down the selected element in the dialog.
 			this._.selectedElement = element;

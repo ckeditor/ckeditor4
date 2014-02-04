@@ -7,9 +7,13 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#8899](http://dev.ckeditor.com/ticket/8899): Fixed: Links in About Dialog now open in new window/tab.
 * [#11490](http://dev.ckeditor.com/ticket/11490): Fixed issue with menubuttons panel showing in source mode.
 * [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
 * [#11253](http://dev.ckeditor.com/ticket/11253): [IE] Fixed: Clipped upload button in [Enhanced Image](http://ckeditor.com/addon/image2) dialog.
+* [#11359](http://dev.ckeditor.com/ticket/11359): Standardized the way anchors are discovered by the [Link](http://ckeditor.com/addon/link) dialog.
+* [#11058](http://dev.ckeditor.com/ticket/11058): [IE8] Fixed: Error when deleting a row.
+* [#11508](http://dev.ckeditor.com/ticket/11508): Fixed: htmlDataProcessor discovering protected attributes within other attributes' values.
 
 ## CKEditor 4.3.2
 

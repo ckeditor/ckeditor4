@@ -404,7 +404,9 @@
 
 		// Fixing "Unspecified error" thrown in IE10 by resetting
 		// selection the dirty and shameful way (#10308).
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		// We can not apply this hack to IE8 because
+		// it causes error (#11058).
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 10 ) {
 			docOuter.focus();
 			docInner.focus();
 		}
