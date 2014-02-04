@@ -111,7 +111,7 @@
 				callback( result.value );
 		}, defaults = {
 			bash: 'Bash',
-			cs: 'C#', // im not sure :D
+			cs: 'C#',
 			ruby: 'Ruby',
 			diff: 'Diff',
 			javascript: 'JavaScript',
@@ -134,6 +134,8 @@
 			makefile: 'Makefile'
 		};
 
+	// Encapsulates snippet widget registration function.
+	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 		editor.widgets.add( 'snippet', {
 			allowedContent: 'pre; code(*)',
