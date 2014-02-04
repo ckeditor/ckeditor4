@@ -10,6 +10,7 @@ Fixed Issues:
 * [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
 * [#11253](http://dev.ckeditor.com/ticket/11253): [IE] Fixed: Clipped upload button in [Enhanced Image](http://ckeditor.com/addon/image2) dialog.
 * [#11359](http://dev.ckeditor.com/ticket/11359): Standardized the way anchors are discovered by the [Link](http://ckeditor.com/addon/link) dialog.
+* [#11058](http://dev.ckeditor.com/ticket/11058): [IE8] Fixed: Error when deleting a row.
 
 ## CKEditor 4.3.2
 
