@@ -30,13 +30,14 @@
 		 * Sets custom syntax highlighter function.
 		 * @member CKEDITOR.editor.plugins.snippet
 		 * @param {CKEDITOR.editor} editor
+		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.snippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
 		 * @param {Function} highlightHandlerFn
 		 *
-		 * 	Function highlightHandlerFn takes 3 parameters:
+		 * 	Function `highlightHandlerFn` takes 3 parameters:
 		 *
 		 *	* code - string - plain text code to be formatted
 		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
-		 *	* callback - function - function which takes string as arguments and writes output inside of a widget
+		 *	* callback - function - function which takes string as argument and writes it as output inside of a widget
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
 			ensurePluginNamespaceExists( editor );
