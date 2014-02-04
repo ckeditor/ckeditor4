@@ -164,17 +164,24 @@
 					// Default highlighter was not changed, and hljs is not available, so
 					// it wasn't inserted to the document.
 					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
-					editor.on( 'instanceReady', function( evt ) {
-						editor.document.appendStyleSheet( path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css' );
-					} );
 				}
+
+				var cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
+
+				// Adding css file to config.contentsCss, such logic will most likely
+				// go to editor soon with issue #11532.
+				if ( editor.config.contentsCss ) {
+					CKEDITOR.tools.isArray( editor.config.contentsCss ) ?
+						editor.config.contentsCss.push( cssCode ) :
+						editor.config.contentsCss = [ cssCode, editor.config.contentsCss ];
+				} else
+					editor.config.contentsCss = [ cssCode ];
 			}
 		}
 	} );
 
 	// Default languages object.
 	var defaultHighlighter = function( code, lang, callback ) {
-
 			var hljs = window.hljs,
 				// Ensure that language is supported by hljs.
 				snippetLang = window.hljs.getLanguage( lang ) ? [ lang ] : undefined,
