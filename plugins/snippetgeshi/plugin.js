@@ -16,9 +16,16 @@
 
 		init: function( editor ) {
 
-			var path = CKEDITOR.getUrl( this.path );
+			var path = CKEDITOR.getUrl( this.path ),
+				languages = {
+					javascript: 'JavaScript',
+					php: 'PHP',
+					html4strict: 'HTML',
+					html5: 'HTML5',
+					css: 'CSS'
+				};
 
-			editor.plugins.snippet.setHighlighter( editor, function( code, lang, callback ) {
+			editor.plugins.snippet.setHighlighter( editor, languages, function( code, lang, callback ) {
 				var requestConfig = {
 					lang: lang,
 					html: code

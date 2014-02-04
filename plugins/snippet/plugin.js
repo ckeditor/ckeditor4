@@ -38,8 +38,12 @@
 		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
 		 *	* callback - function - function which takes string as arguments and writes output inside of a widget
 		 */
-		setHighlighter: function( editor, highlightHandlerFn ) {
+		setHighlighter: function( editor, languages, highlightHandlerFn ) {
+
+			ensurePluginNamespaceExists( editor );
+
 			editor._.snippet.highlighter = highlightHandlerFn;
+			editor._.snippet.langs = languages;
 		},
 
 		/**
@@ -47,22 +51,14 @@
 		 * uses highlight.js library.
 		 */
 		setDefaultHighlighter: function( editor, pluginInstance ) {
-			this.setHighlighter( editor, defaultHighlighter );
+			this.setHighlighter( editor, defaults, defaultHighlighter );
 		},
 
-		beforeInit: function( editor ) {
-			// Creates snippet plugin private area where languages list will be
-			// stored (per editor instance).
-			editor._.snippet = {
-				langs: editor.config.snippet_langs || defaults
-			};
+		afterInit: function( editor ) {
 
-			this.setDefaultHighlighter( editor, this );
-		},
+			ensurePluginNamespaceExists( editor );
 
-		init: function( editor ) {
-
-			var langs = editor._.snippet.langs,
+			var langs = editor.config.snippet_langs || defaults,
 				path = CKEDITOR.getUrl( this.path );
 
 			editor.widgets.add( 'snippet', {
@@ -157,19 +153,21 @@
 				command: 'snippet',
 				toolbar: 'insert,10'
 			} );
-		},
 
-		afterInit: function( editor ) {
-			var path = CKEDITOR.getUrl( this.path );
+			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
+			// we will set default one.
+			if ( !editor._.snippet.highlighter ) {
+				this.setDefaultHighlighter( editor, this );
 
-			if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
-				// Inserting required styles/javascript.
-				// Default highlighter was not changed, and hljs is not available, so
-				// it wasn't inserted to the document.
-				CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
-				editor.on( 'instanceReady', function( evt ) {
-					CKEDITOR.document.appendStyleSheet.call( editor.document, path + 'lib/highlight/styles/default.css' );
-				} );
+				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
+					// Inserting required styles/javascript.
+					// Default highlighter was not changed, and hljs is not available, so
+					// it wasn't inserted to the document.
+					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
+					editor.on( 'instanceReady', function( evt ) {
+						editor.document.appendStyleSheet( path + 'lib/highlight/styles/default.css' );
+					} );
+				}
 			}
 		}
 	} );
@@ -190,6 +188,12 @@
 
 	function decodeHtml( stringToDecode ) {
 		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
+	}
+
+	function ensurePluginNamespaceExists( editor ) {
+		// Create a protected namespace if it's not already there.
+		if ( !editor._.snippet )
+			editor._.snippet = {};
 	}
 
 })();
