@@ -29,10 +29,7 @@
 
 		afterInit: function( editor ) {
 			ensurePluginNamespaceExists( editor );
-
-			var langs = editor.config.snippet_langs || defaults;
-
-			registerWidget( editor, langs );
+			registerWidget( editor );
 
 			editor.ui.addButton && editor.ui.addButton( 'snippet', {
 				label: editor.lang.snippet.button,
@@ -59,8 +56,9 @@
 				// Adding css file to config.contentsCss, such logic will most likely
 				// go to editor soon with issue #11532.
 				if ( editor.config.contentsCss ) {
-					CKEDITOR.tools.isArray( editor.config.contentsCss ) ?
-						editor.config.contentsCss.push( cssCode ) :
+					if ( CKEDITOR.tools.isArray( editor.config.contentsCss ) )
+						editor.config.contentsCss.push( cssCode );
+					else
 						editor.config.contentsCss = [ cssCode, editor.config.contentsCss ];
 				} else
 					editor.config.contentsCss = [ cssCode ];
@@ -87,7 +85,7 @@
 			ensurePluginNamespaceExists( editor );
 
 			editor._.snippet.highlighter = highlightHandlerFn;
-			editor._.snippet.langs = languages;
+			editor._.snippet.langs = editor.config.snippet_langs ? editor.config.snippet_langs : languages;
 		},
 
 		/**
@@ -136,7 +134,7 @@
 			makefile: 'Makefile'
 		};
 
-	function registerWidget( editor, langs ) {
+	function registerWidget( editor ) {
 		editor.widgets.add( 'snippet', {
 			allowedContent: 'pre; code(*)',
 			template: '<div class="cke_snippet_wrapper"><pre></pre></div>',
@@ -170,7 +168,9 @@
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
-				var code;
+				var	langs = editor._.snippet.langs,
+					code,
+					l;
 
 				// Check el.parent to prevent upcasting loop of hell. If not checked,
 				// widgets system will attempt to upcast nested editables. Bunnies cry.
@@ -178,7 +178,7 @@
 					return;
 
 				// Read language-* from <code> class attribute.
-				for ( var l in langs ) {
+				for ( l in langs ) {
 					if ( code.hasClass( 'language-' + l ) ) {
 						data.lang = l;
 						break;
