@@ -165,7 +165,7 @@
 					// it wasn't inserted to the document.
 					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
 					editor.on( 'instanceReady', function( evt ) {
-						editor.document.appendStyleSheet( path + 'lib/highlight/styles/default.css' );
+						editor.document.appendStyleSheet( path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css' );
 					} );
 				}
 			}
