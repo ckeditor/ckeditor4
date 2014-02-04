@@ -756,7 +756,8 @@
 		// 	'data-x' => '&lt;a href=&quot;X&quot;'
 		//
 		// which, can be easily filtered out (#11508).
-		protectAttributeRegex = /((?:\w|-)+)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi;
+		protectAttributeRegex = /((?:\w|-)+)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi,
+		protectAttributeNameRegex = /^(href|src|name)$/i;
 
 		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.
 	var protectElementsRegex = /(?:<style(?=[ >])[^>]*>[\s\S]*?<\/style>)|(?:<(:?link|meta|base)[^>]*>)/gi,
@@ -773,7 +774,7 @@
 			return '<' + tag + attributes.replace( protectAttributeRegex, function( fullAttr, attrName ) {
 				// Avoid corrupting the inline event attributes (#7243).
 				// We should not rewrite the existed protected attributes, e.g. clipboard content from editor. (#5218)
-				if ( ( /^(href|src|name)$/i ).test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
+				if ( protectAttributeNameRegex.test( attrName ) && attributes.indexOf( 'data-cke-saved-' + attrName ) == -1 )
 					return ' data-cke-saved-' + fullAttr + ' data-cke-' + CKEDITOR.rnd + '-' + fullAttr;
 
 				return fullAttr;
