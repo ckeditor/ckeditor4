@@ -26,37 +26,6 @@
 			CKEDITOR.dialog.add( 'snippet', this.path + 'dialogs/snippet.js' );
 		},
 
-		/**
-		 * Sets custom syntax highlighter function.
-		 * @member CKEDITOR.editor.plugins.snippet
-		 * @param {CKEDITOR.editor} editor
-		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.snippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
-		 * @param {Function} highlightHandlerFn
-		 *
-		 * 	Function `highlightHandlerFn` takes 3 parameters:
-		 *
-		 *	* code - string - plain text code to be formatted
-		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
-		 *	* callback - function - function which takes string as argument and writes it as output inside of a widget
-		 */
-		setHighlighter: function( editor, languages, highlightHandlerFn ) {
-			ensurePluginNamespaceExists( editor );
-
-			editor._.snippet.highlighter = highlightHandlerFn;
-			editor._.snippet.langs = languages;
-		},
-
-		/**
-		 * Restores default syntax highlighter for the plugin, which by default
-		 * is highlight.js library.
-		 *
-		 * @member CKEDITOR.editor.plugins.snippet
-		 * @param {CKEDITOR.editor} editor
-		 */
-		setDefaultHighlighter: function( editor ) {
-			this.setHighlighter( editor, defaults, defaultHighlighter );
-		},
-
 		afterInit: function( editor ) {
 			ensurePluginNamespaceExists( editor );
 
@@ -149,7 +118,7 @@
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
 			if ( !editor._.snippet.highlighter ) {
-				this.setDefaultHighlighter( editor, this );
+				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor, this );
 
 				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
 					// Inserting required styles/javascript.
@@ -171,6 +140,40 @@
 			}
 		}
 	} );
+
+	// Public interface.
+	CKEDITOR.plugins.snippet = {
+		/**
+		 * Sets custom syntax highlighter function.
+		 * @member CKEDITOR.plugins.snippet
+		 * @param {CKEDITOR.editor} editor
+		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.snippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
+		 * @param {Function} highlightHandlerFn
+		 *
+		 * 	Function `highlightHandlerFn` takes 3 parameters:
+		 *
+		 *	* code - string - plain text code to be formatted
+		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
+		 *	* callback - function - function which takes string as argument and writes it as output inside of a widget
+		 */
+		setHighlighter: function( editor, languages, highlightHandlerFn ) {
+			ensurePluginNamespaceExists( editor );
+
+			editor._.snippet.highlighter = highlightHandlerFn;
+			editor._.snippet.langs = languages;
+		},
+
+		/**
+		 * Restores default syntax highlighter for the plugin, which by default
+		 * is highlight.js library.
+		 *
+		 * @member CKEDITOR.plugins.snippet
+		 * @param {CKEDITOR.editor} editor
+		 */
+		setDefaultHighlighter: function( editor ) {
+			this.setHighlighter( editor, defaults, defaultHighlighter );
+		}
+	};
 
 	// Default languages object.
 	var defaultHighlighter = function( code, lang, callback ) {
