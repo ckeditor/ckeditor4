@@ -174,16 +174,37 @@
 
 	// Default languages object.
 	var defaultHighlighter = function( code, lang, callback ) {
-			var result = window.hljs.highlightAuto( code );
+
+			var hljs = window.hljs,
+				// Ensure that language is supported by hljs.
+				snippetLang = window.hljs.getLanguage( lang ) ? [ lang ] : undefined,
+				result = window.hljs.highlightAuto( code, snippetLang );
+
 			if ( result )
 				callback( result.value );
-
 		}, defaults = {
+			bash: 'Bash',
+			cs: 'C#', // im not sure :D
+			ruby: 'Ruby',
+			diff: 'Diff',
 			javascript: 'JavaScript',
+			xml: 'XML',
+			markdown: 'Markdown',
+			css: 'CSS',
+			http: 'HTTP',
+			java: 'Java',
 			php: 'PHP',
-			html4strict: 'HTML',
-			html5: 'HTML5',
-			css: 'CSS'
+			python: 'Python',
+			sql: 'SQL',
+			ini: 'INI',
+			perl: 'Perl',
+			objectivec: 'Objective-C',
+			coffeescript: 'CoffeeScript',
+			nginx: 'Nginx',
+			json: 'JSON',
+			apache: 'Apache',
+			cpp: 'C++',
+			makefile: 'Makefile'
 		};
 
 	function decodeHtml( stringToDecode ) {
