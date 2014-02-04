@@ -16,14 +16,16 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_snippet_wrapper > pre {' +
+			CKEDITOR.addCss( '.cke_snippet_wrapper{' +
 				'font-family:monospace;' +
-				'background: #fafafa;' +
-				'border-top: 1px solid #ccc;' +
-				'border-bottom: 1px solid #ccc;' +
-				'margin: 0;' +
-				'padding: 10px;' +
-			'}'	);
+				'background:#fafafa;' +
+				'border-top:1px solid #ccc;' +
+				'border-bottom:1px solid #ccc;' +
+			'}' +
+			'.cke_snippet_wrapper > pre{' +
+				'margin:0px auto;' +
+				'padding:10px' +
+			'}' );
 			CKEDITOR.dialog.add( 'snippet', this.path + 'dialogs/snippet.js' );
 		},
 
@@ -43,7 +45,7 @@
 				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor, this );
 
 				var path = CKEDITOR.getUrl( this.path ),
-					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
+					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'tomorrow-night' ) + '.css';
 
 				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
 					// Inserting required styles/javascript.
