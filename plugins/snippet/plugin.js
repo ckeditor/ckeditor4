@@ -13,6 +13,7 @@
 
 	CKEDITOR.plugins.add( 'snippet', {
 		requires: 'widget,ajax,dialog',
+		lang: 'en', // %REMOVE_LINE_CORE%
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss( '.cke_snippet_wrapper > pre {' +
@@ -110,7 +111,7 @@
 			} );
 
 			editor.ui.addButton && editor.ui.addButton( 'snippet', {
-				label: 'Gimme snippet!',
+				label: editor.lang.snippet.button,
 				command: 'snippet',
 				toolbar: 'insert,10'
 			} );
