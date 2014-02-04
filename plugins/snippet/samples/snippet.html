@@ -15,7 +15,80 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Snippet
 	</h1>
 
+	<h3>default with highlight.js</h3>
+
 	<textarea id="editor1" cols="10" rows="10">
+&lt;p&gt;A bit of JS:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &amp;gt; 3 ) {
+   alert(&quot;aaa&quot;);
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;quick sql&lt;/p&gt;
+&lt;pre&gt;
+&lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<h3>formatted with php-side stuff</h3>
+	<textarea id="editor2" cols="10" rows="10">
+&lt;p&gt;A bit of JS:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &amp;gt; 3 ) {
+   alert(&quot;aaa&quot;);
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;quick sql&lt;/p&gt;
+&lt;pre&gt;
+&lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<h3>These are again formatted with highlight.js but with custom templates</h3>
+
+	<textarea id="editor11" cols="10" rows="10">
+&lt;p&gt;A bit of JS:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &amp;gt; 3 ) {
+   alert(&quot;aaa&quot;);
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;quick sql&lt;/p&gt;
+&lt;pre&gt;
+&lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<hr>
+
+	<textarea id="editor12" cols="10" rows="10">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
 isset( $foo );
@@ -33,8 +106,29 @@ moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
-	<h3>formatted with php-side stuff</h3>
-	<textarea id="editor2" cols="10" rows="10">
+	<hr>
+
+	<textarea id="editor13" cols="10" rows="10">
+&lt;p&gt;A bit of JS:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &amp;gt; 3 ) {
+   alert(&quot;aaa&quot;);
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<hr>
+
+	<textarea id="editor14" cols="10" rows="10">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
 isset( $foo );
@@ -56,19 +150,27 @@ moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 
 		CKEDITOR.replace( 'editor1', {
 			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
-			height: 350,
-			snippet_langs: {
-				javascript: 'JavaScript',
-				php: 'PHP'
-			}
+			height: 350
 		} );
+
+		var styles = [ 'pojoaque', 'vs', 'xcode', 'github' ];
+		for ( var i in styles ) {
+			var edName = 'editor1' + ( 1 + Number(i) );
+			console.log('replace ' + edName );
+			CKEDITOR.replace( edName, {
+				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+				height: 550,
+				snippet_template: styles[ i ]
+			} );
+		}
 
 		CKEDITOR.replace( 'editor2', {
 			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
 			height: 550,
 			snippet_langs: {
 				javascript: 'JavaScript',
-				php: 'PHP'
+				php: 'PHP',
+				sql: 'SQL'
 			}
 		} );
 
@@ -80,7 +182,7 @@ moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2014, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>
