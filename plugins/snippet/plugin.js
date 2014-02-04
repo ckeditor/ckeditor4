@@ -90,7 +90,7 @@
 					if ( curData.lang )
 						this.doReformat();
 					else if ( curData.code )
-						this.element.setHtml( '<pre>' + curData.code + '</pre>' );
+						this.element.setHtml( '<pre>' + CKEDITOR.tools.htmlEncode( curData.code ) + '</pre>' );
 				},
 
 				// Upcasts <pre><code [class="language-*"]>...</code></pre>
