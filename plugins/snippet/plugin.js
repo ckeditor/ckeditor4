@@ -39,7 +39,6 @@
 		 *	* callback - function - function which takes string as arguments and writes output inside of a widget
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
-
 			ensurePluginNamespaceExists( editor );
 
 			editor._.snippet.highlighter = highlightHandlerFn;
@@ -58,7 +57,6 @@
 		},
 
 		afterInit: function( editor ) {
-
 			ensurePluginNamespaceExists( editor );
 
 			var langs = editor.config.snippet_langs || defaults,
@@ -78,7 +76,6 @@
 					var widgetData = this.data,
 						preTag = this.element.findOne( 'pre' ),
 						callback = function( formattedCode ) {
-							//that.element.setHtml( formattedCode );
 							preTag.setHtml( formattedCode );
 						};
 					// Set plain code first, so even if custom handler will not call it the code will be there.
