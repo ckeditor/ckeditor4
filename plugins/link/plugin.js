@@ -264,6 +264,56 @@ CKEDITOR.plugins.link = {
 	},
 
 	/**
+	 * Collects anchors available in the editor (i.e. used by link dialog).
+	 * Note that the scope of search is different for inline (the "global" document) and
+	 * framed editors (the "inner" document).
+	 *
+	 * @since 4.3.3
+	 * @param {CKEDITOR.editor} editor
+	 * @returns {CKEDITOR.dom.element[]} An array of anchor elements.
+	 */
+	getEditorAnchors: function( editor ) {
+		var editable = editor.editable(),
+
+			// The scope of search for anchors is the entire document for inline editors
+			// and editor's editable for framed/divarea (#11359).
+			scope = ( editable.isInline() && !editor.plugins.divarea ) ? editor.document : editable,
+
+			links = scope.getElementsByTag( 'a' ),
+			anchors = [],
+			i = 0,
+			item;
+
+		// Retrieve all anchors within the scope.
+		while ( ( item = links.getItem( i++ ) ) ) {
+			if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) ) {
+				anchors.push( {
+					name: item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ),
+					id: item.getAttribute( 'id' )
+				} );
+			}
+		}
+
+		// Retrieve all "fake anchors" within the scope.
+		if ( this.fakeAnchor ) {
+			var imgs = scope.getElementsByTag( 'img' );
+
+			i = 0;
+
+			while ( ( item = imgs.getItem( i++ ) ) ) {
+				if ( ( item = this.tryRestoreFakeAnchor( editor, item ) ) ) {
+					anchors.push( {
+						name: item.getAttribute( 'name' ),
+						id: item.getAttribute( 'id' )
+					} );
+				}
+			}
+		}
+
+		return anchors;
+	},
+
+	/**
 	 * Opera and WebKit don't make it possible to select empty anchors. Fake
 	 * elements must be used for them.
 	 *
