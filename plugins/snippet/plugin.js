@@ -63,7 +63,7 @@
 
 			editor.widgets.add( 'snippet', {
 				allowedContent: 'pre; code(*)',
-				template: '<div class="cke_snippet_wrapper"></div>',
+				template: '<div class="cke_snippet_wrapper"><pre></pre></div>',
 				dialog: 'snippet',
 				mask: true,
 				defaults: {
