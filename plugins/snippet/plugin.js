@@ -30,85 +30,9 @@
 		afterInit: function( editor ) {
 			ensurePluginNamespaceExists( editor );
 
-			var langs = editor.config.snippet_langs || defaults,
-				path = CKEDITOR.getUrl( this.path );
+			var langs = editor.config.snippet_langs || defaults;
 
-			editor.widgets.add( 'snippet', {
-				allowedContent: 'pre; code(*)',
-				template: '<div class="cke_snippet_wrapper"><pre></pre></div>',
-				dialog: 'snippet',
-				mask: true,
-				defaults: {
-					lang: '',
-					code: ''
-				},
-
-				doReformat: function() {
-					var widgetData = this.data,
-						preTag = this.element.findOne( 'pre' ),
-						callback = function( formattedCode ) {
-							preTag.setHtml( formattedCode );
-						};
-					// Set plain code first, so even if custom handler will not call it the code will be there.
-					callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
-					// Call higlighter to apply its custom highlighting.
-					editor._.snippet.highlighter( widgetData.code, widgetData.lang, callback );
-				},
-
-				data: function( evt ) {
-					var curData = evt.data;
-					// Lang needs to be specified in order to apply formatting.
-					if ( curData.lang )
-						this.doReformat();
-					else if ( curData.code )
-						this.element.setHtml( '<pre>' + CKEDITOR.tools.htmlEncode( curData.code ) + '</pre>' );
-				},
-
-				// Upcasts <pre><code [class="language-*"]>...</code></pre>
-				upcast: function( el, data ) {
-					var code;
-
-					// Check el.parent to prevent upcasting loop of hell. If not checked,
-					// widgets system will attempt to upcast nested editables. Bunnies cry.
-					if ( el.name != 'pre' || !el.parent || !( code = el.getFirst( 'code' ) ) )
-						return;
-
-					// Read language-* from <code> class attribute.
-					for ( var l in langs ) {
-						if ( code.hasClass( 'language-' + l ) ) {
-							data.lang = l;
-							break;
-						}
-					}
-
-					data.code = code.getHtml();
-
-					// Remove <code>. The internal form is <pre>.
-					code.replaceWithChildren();
-
-					// Wrap <pre> with wrapper. It is to hold bar, etc.
-					return el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
-						'class': 'cke_snippet_wrapper'
-					} ) );
-				},
-
-				// Downcasts to <pre><code [class="language-*"]>...</code></pre>
-				downcast: function( el ) {
-					var retPreElement = new CKEDITOR.htmlParser.element( 'pre' ),
-						code = new CKEDITOR.htmlParser.element( 'code' ),
-						encodedSnippetCode = CKEDITOR.tools.htmlEncode( this.data.code );
-
-					code.parent = retPreElement;
-					retPreElement.children = [ code ];
-
-					code.children = [ new CKEDITOR.htmlParser.text( encodedSnippetCode ) ];
-
-					if ( this.data.lang )
-						code.attributes[ 'class' ] = 'language-' + this.data.lang;
-
-					return retPreElement;
-				}
-			} );
+			registerWidget( editor, langs );
 
 			editor.ui.addButton && editor.ui.addButton( 'snippet', {
 				label: editor.lang.snippet.button,
@@ -121,6 +45,9 @@
 			if ( !editor._.snippet.highlighter ) {
 				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor, this );
 
+				var path = CKEDITOR.getUrl( this.path ),
+					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
+
 				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
 					// Inserting required styles/javascript.
 					// Default highlighter was not changed, and hljs is not available, so
@@ -128,7 +55,6 @@
 					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
 				}
 
-				var cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
 
 				// Adding css file to config.contentsCss, such logic will most likely
 				// go to editor soon with issue #11532.
@@ -209,6 +135,85 @@
 			cpp: 'C++',
 			makefile: 'Makefile'
 		};
+
+	function registerWidget( editor, langs ) {
+		editor.widgets.add( 'snippet', {
+			allowedContent: 'pre; code(*)',
+			template: '<div class="cke_snippet_wrapper"><pre></pre></div>',
+			dialog: 'snippet',
+			mask: true,
+			defaults: {
+				lang: '',
+				code: ''
+			},
+
+			doReformat: function() {
+				var widgetData = this.data,
+					preTag = this.element.findOne( 'pre' ),
+					callback = function( formattedCode ) {
+						preTag.setHtml( formattedCode );
+					};
+				// Set plain code first, so even if custom handler will not call it the code will be there.
+				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
+				// Call higlighter to apply its custom highlighting.
+				editor._.snippet.highlighter( widgetData.code, widgetData.lang, callback );
+			},
+
+			data: function( evt ) {
+				var curData = evt.data;
+				// Lang needs to be specified in order to apply formatting.
+				if ( curData.lang )
+					this.doReformat();
+				else if ( curData.code )
+					this.element.setHtml( '<pre>' + CKEDITOR.tools.htmlEncode( curData.code ) + '</pre>' );
+			},
+
+			// Upcasts <pre><code [class="language-*"]>...</code></pre>
+			upcast: function( el, data ) {
+				var code;
+
+				// Check el.parent to prevent upcasting loop of hell. If not checked,
+				// widgets system will attempt to upcast nested editables. Bunnies cry.
+				if ( el.name != 'pre' || !el.parent || !( code = el.getFirst( 'code' ) ) )
+					return;
+
+				// Read language-* from <code> class attribute.
+				for ( var l in langs ) {
+					if ( code.hasClass( 'language-' + l ) ) {
+						data.lang = l;
+						break;
+					}
+				}
+
+				data.code = code.getHtml();
+
+				// Remove <code>. The internal form is <pre>.
+				code.replaceWithChildren();
+
+				// Wrap <pre> with wrapper. It is to hold bar, etc.
+				return el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
+					'class': 'cke_snippet_wrapper'
+				} ) );
+			},
+
+			// Downcasts to <pre><code [class="language-*"]>...</code></pre>
+			downcast: function( el ) {
+				var retPreElement = new CKEDITOR.htmlParser.element( 'pre' ),
+					code = new CKEDITOR.htmlParser.element( 'code' ),
+					encodedSnippetCode = CKEDITOR.tools.htmlEncode( this.data.code );
+
+				code.parent = retPreElement;
+				retPreElement.children = [ code ];
+
+				code.children = [ new CKEDITOR.htmlParser.text( encodedSnippetCode ) ];
+
+				if ( this.data.lang )
+					code.attributes[ 'class' ] = 'language-' + this.data.lang;
+
+				return retPreElement;
+			}
+		} );
+	}
 
 	function decodeHtml( stringToDecode ) {
 		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
