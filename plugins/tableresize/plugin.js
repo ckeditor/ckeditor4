@@ -355,6 +355,7 @@
 				var resizer;
 
 				editor.document.getBody().on( 'mousemove', function( evt ) {
+					var editorelement = editor && editor.element ? editor.element.$ : null;
 					evt = evt.data;
 
 					var pageX = evt.getPageOffset().x;
@@ -374,6 +375,9 @@
 						return;
 
 					table = target.getAscendant( 'table', 1 );
+
+					if(!table || table.getAscendant("div", 1).$ != editorelement)
+						return;
 
 					if ( !( pillars = table.getCustomData( '_cke_table_pillars' ) ) ) {
 						// Cache table pillars calculation result.

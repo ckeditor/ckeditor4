@@ -30,9 +30,16 @@
 			if ( range.collapsed ) {
 				// Walker does not handle collapsed ranges yet - fall back to old API.
 				var startNode = range.getCommonAncestor();
-				var nearestCell = startNode.getAscendant( 'td', true ) || startNode.getAscendant( 'th', true );
-				if ( nearestCell )
-					retval.push( nearestCell );
+				var tableElement = startNode.getAscendant('table', 0);
+
+				if(!tableElement) {
+					var cell = startNode.getAscendant('td', 1);
+					if(!cell || cell.getAscendant('table', 0).$ != tableElement.$) 
+						cell = startNode.getAscendant('th', 1);
+
+					if(cell && cell.getAscendant('table', 0).$ == tableElement.$)
+						retval.push( nearestCell );
+				}
 			} else {
 				var walker = new CKEDITOR.dom.walker( range );
 				var node;
@@ -47,8 +54,12 @@
 					// walked into its children.
 
 					if ( node.type != CKEDITOR.NODE_ELEMENT || !node.is( CKEDITOR.dtd.table ) ) {
-						var parent = node.getAscendant( 'td', true ) || node.getAscendant( 'th', true );
-						if ( parent && !parent.getCustomData( 'selected_cell' ) ) {
+						var tableElement = node.getAscendant('table', 0);
+						var parent = node.getAscendant('td', 1);
+						if(!parent || parent.getAscendant('table', 0).$ != tableElement.$) 
+							parent = node.getAscendant('th', 1);
+
+						if ( parent && parent.getAscendant('table', 0).$ == tableElement.$ && !parent.getCustomData( 'selected_cell' ) ) {
 							CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
 							retval.push( parent );
 						}
@@ -354,9 +365,17 @@
 
 	function insertCell( selection, insertBefore ) {
 		var startElement = selection.getStartElement();
-		var cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 );
+		var tableElement = startElement.getAscendant('table', 0);
 
-		if ( !cell )
+		if(!tableElement)
+			return;
+
+		var cell = startElement.getAscendant('td', 1);
+
+		if(cell.getAscendant('table', 0).$ != tableElement.$) 
+			cell = startElement.getAscendant('th', 1);
+
+		if(!cell || cell.getAscendant('table', 0).$ != tableElement.$)
 			return;
 
 		// Create the new cell element to be added.
