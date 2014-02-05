@@ -12,7 +12,7 @@
 ( function() {
 
 	CKEDITOR.plugins.add( 'snippet', {
-		requires: 'widget,ajax,dialog',
+		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
 
 		onLoad: function( editor ) {
@@ -45,7 +45,7 @@
 				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor, this );
 
 				var path = CKEDITOR.getUrl( this.path ),
-					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'tomorrow-night' ) + '.css';
+					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
 
 				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
 					// Inserting required styles/javascript.
