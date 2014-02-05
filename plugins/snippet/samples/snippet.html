@@ -8,16 +8,28 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	<title>Snippet &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
 	<script src="../../../ckeditor.js"></script>
+	<script src="../../../plugins/snippet/lib/highlight/highlight.pack.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../../plugins/snippet/lib/highlight/styles/github.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
 		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Snippet
 	</h1>
 
-	<h3>default with highlight.js</h3>
+	<h3>Default highlighting highlight.js</h3>
+	<p>Highlighting with client-side default highlighter, using highlight.js library.</p>
+	<p>
+		Select template:
+		<select id="templateSelect"></select>
+	</p>
 
-	<textarea id="editor1" cols="10" rows="10">
+	<pre class="samples"><code id="initSample">CKEDITOR.replace( 'editor1', {
+	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+	height: 440
+} );</code></pre>
+
+	<textarea id="editor1">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
 isset( $foo );
@@ -25,7 +37,7 @@ isset( $foo );
 // Comment2
 function foo( $bar ) {
   if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
+   echo &quot;aaa&quot;;
   }
 }&lt;/code&gt;&lt;/pre&gt;
 
@@ -34,13 +46,27 @@ function foo( $bar ) {
 &lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
-	<h3>formatted with php-side stuff</h3>
-	<textarea id="editor2" cols="10" rows="10">
+	<h3>Server-side highlighter</h3>
+	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <strong>snippetgeshi</strong> plugin in order to use GeSHi as highlight provider.</p>
+	<p>In this case we will also use <strong>snippet_langs</strong> config variable, to reduce available languages list.</p>
+
+	<pre class="samples"><code>CKEDITOR.replace( 'editor2', {
+	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
+	height: 440,
+	snippet_langs: {
+		html4strict: 'HTML',
+		html5: 'HTML5',
+		javascript: 'JavaScript',
+		php: 'PHP',
+		sql: 'SQL'
+	}
+} );</code></pre>
+
+	<textarea id="editor2">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
 isset( $foo );
@@ -48,7 +74,7 @@ isset( $foo );
 // Comment2
 function foo( $bar ) {
   if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
+   echo &quot;aaa&quot;;
   }
 }&lt;/code&gt;&lt;/pre&gt;
 
@@ -57,124 +83,72 @@ function foo( $bar ) {
 &lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
-&lt;/code&gt;&lt;/pre&gt;
-	</textarea>
-
-	<h3>These are again formatted with highlight.js but with custom templates</h3>
-
-	<textarea id="editor11" cols="10" rows="10">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
-isset( $foo );
-# Comment
-// Comment2
-function foo( $bar ) {
-  if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;quick sql&lt;/p&gt;
-&lt;pre&gt;
-&lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
-&lt;/code&gt;&lt;/pre&gt;
-	</textarea>
-
-	<hr>
-
-	<textarea id="editor12" cols="10" rows="10">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
-isset( $foo );
-# Comment
-// Comment2
-function foo( $bar ) {
-  if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
-&lt;/code&gt;&lt;/pre&gt;
-	</textarea>
-
-	<hr>
-
-	<textarea id="editor13" cols="10" rows="10">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
-isset( $foo );
-# Comment
-// Comment2
-function foo( $bar ) {
-  if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
-&lt;/code&gt;&lt;/pre&gt;
-	</textarea>
-
-	<hr>
-
-	<textarea id="editor14" cols="10" rows="10">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
-isset( $foo );
-# Comment
-// Comment2
-function foo( $bar ) {
-  if ( $bar &amp;gt; 3 ) {
-   alert(&quot;aaa&quot;);
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+&lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
 	<script>
-
-		CKEDITOR.replace( 'editor1', {
-			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
-			height: 350
-		} );
-
-		var styles = [ 'pojoaque', 'vs', 'xcode', 'github' ];
-		for ( var i in styles ) {
-			var edName = 'editor1' + ( 1 + Number(i) );
-			console.log('replace ' + edName );
-			CKEDITOR.replace( edName, {
+		(function() {
+			// Default editor initialization, this one will have no template assigned,
+			// so it will get default template.
+			CKEDITOR.replace( 'editor1', {
 				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
-				height: 550,
-				snippet_template: styles[ i ]
+				height: 440
 			} );
-		}
 
-		CKEDITOR.replace( 'editor2', {
-			plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
-			height: 550,
-			snippet_langs: {
-				javascript: 'JavaScript',
-				php: 'PHP',
-				sql: 'SQL'
+			// Second editor, using snippetgeshi plugin.
+			CKEDITOR.replace( 'editor2', {
+				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
+				height: 440,
+				snippet_langs: {
+					html4strict: 'HTML',
+					html5: 'HTML5',
+					javascript: 'JavaScript',
+					php: 'PHP',
+					sql: 'SQL'
+				}
+			} );
+
+			var templates = [ 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn' ];
+
+			var templateSelect = document.getElementById( 'templateSelect' ),
+				// This function will encapsulate all the logic needed to replace first
+				// editor with template picked in select.
+				createTemplatedEditor = function( snippetTemplateName ) {
+					if ( CKEDITOR.instances.editor1 )
+						CKEDITOR.instances.editor1.destroy();
+
+					CKEDITOR.replace( 'editor1', {
+						plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+						height: 440,
+						snippet_template: snippetTemplateName
+					} );
+
+					// Update code sample, it picks only specific lines, and replaces
+					// snippetTemplateName to actually picked value, wrapping it with
+					// quotes.
+					document.getElementById( 'initSample' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice(4, 9).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
+					// Afterwards we need to reinit style for this particular DOM elem.
+					hljs.highlightBlock( document.getElementById( 'initSample' ) );
+				};
+
+			// Filling up options in template select.
+			for (var i=0; i < templates.length; i++) {
+				var curTemplate = templates[ i ];
+				templateSelect.innerHTML += '<option value="'+curTemplate+'">'+curTemplate+'</option>';
 			}
-		} );
 
+			templateSelect.onchange = function() {
+				createTemplatedEditor( this.value );
+			};
+
+			// Apply highlighting on load.
+			hljs.initHighlightingOnLoad();
+		}());
 	</script>
+	<style>
+		pre code{ background: none; border: none; padding: 0px; }
+	</style>
 
 	<div id="footer">
 		<hr>
