@@ -12,6 +12,7 @@ Fixed Issues:
 * [#11359](http://dev.ckeditor.com/ticket/11359): Standardized the way anchors are discovered by the [Link](http://ckeditor.com/addon/link) dialog.
 * [#11058](http://dev.ckeditor.com/ticket/11058): [IE8] Fixed: Error when deleting a row.
 * [#11508](http://dev.ckeditor.com/ticket/11508): Fixed: htmlDataProcessor discovering protected attributes within other attributes' values.
+* [#11533](http://dev.ckeditor.com/ticket/11533): Widgets: Avoid recurring upcasts if DOM structure was modified during an upcast.
 
 ## CKEditor 4.3.2
 
