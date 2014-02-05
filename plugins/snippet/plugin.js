@@ -54,7 +54,6 @@
 					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
 				}
 
-
 				// Adding css file to config.contentsCss, such logic will most likely
 				// go to editor soon with issue #11532.
 				if ( editor.config.contentsCss ) {

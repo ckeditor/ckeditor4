@@ -88,7 +88,7 @@ function foo( $bar ) {
 	</textarea>
 
 	<script>
-		(function() {
+		( function() {
 			// Default editor initialization, this one will have no template assigned,
 			// so it will get default template.
 			CKEDITOR.replace( 'editor1', {
@@ -127,13 +127,13 @@ function foo( $bar ) {
 					// Update code sample, it picks only specific lines, and replaces
 					// snippetTemplateName to actually picked value, wrapping it with
 					// quotes.
-					document.getElementById( 'initSample' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice(4, 9).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
+					document.getElementById( 'initSample' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 9 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
 					// Afterwards we need to reinit style for this particular DOM elem.
 					hljs.highlightBlock( document.getElementById( 'initSample' ) );
 				};
 
 			// Filling up options in template select.
-			for (var i=0; i < templates.length; i++) {
+			for ( var i=0; i < templates.length; i++ ) {
 				var curTemplate = templates[ i ];
 				templateSelect.innerHTML += '<option value="'+curTemplate+'">'+curTemplate+'</option>';
 			}
@@ -144,7 +144,7 @@ function foo( $bar ) {
 
 			// Apply highlighting on load.
 			hljs.initHighlightingOnLoad();
-		}());
+		}() );
 	</script>
 	<style>
 		pre code{ background: none; border: none; padding: 0px; }
