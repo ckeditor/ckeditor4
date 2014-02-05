@@ -136,6 +136,10 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 
 				delete nativeListeners[ eventName ];
 			}
+
+			// Remove events from events object so fire() method will not call
+			// listeners (#11400).
+			CKEDITOR.event.prototype.removeAllListeners.call( this );
 		}
 	};
 } )();
