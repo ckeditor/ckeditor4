@@ -139,9 +139,12 @@
 	// Encapsulates snippet widget registration function.
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
+
+		var preClass = editor.config.snippet_class || 'hljs';
+
 		editor.widgets.add( 'snippet', {
 			allowedContent: 'pre; code(*)',
-			template: '<div class="cke_snippet_wrapper"><pre></pre></div>',
+			template: '<div class="cke_snippet_wrapper"><pre class="' + preClass + '"></pre></div>',
 			dialog: 'snippet',
 			mask: true,
 			defaults: {
@@ -149,11 +152,15 @@
 				code: ''
 			},
 
+			parts: {
+				pre: 'pre'
+			},
+
 			doReformat: function() {
-				var widgetData = this.data,
-					preTag = this.element.findOne( 'pre' ),
+				var that = this,
+					widgetData = this.data,
 					callback = function( formattedCode ) {
-						preTag.setHtml( formattedCode );
+						that.parts.pre.setHtml( formattedCode );
 					};
 				// Set plain code first, so even if custom handler will not call it the code will be there.
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
@@ -167,7 +174,7 @@
 				if ( curData.lang )
 					this.doReformat();
 				else if ( curData.code )
-					this.element.setHtml( '<pre>' + CKEDITOR.tools.htmlEncode( curData.code ) + '</pre>' );
+					this.parts.pre.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
 			},
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
@@ -190,6 +197,9 @@
 				}
 
 				data.code = code.getHtml();
+
+				el.classes.push( preClass );
+				el.attributes[ 'class' ] = el.classes.join( ' ' );
 
 				// Remove <code>. The internal form is <pre>.
 				code.replaceWithChildren();
@@ -230,6 +240,14 @@
 	}
 
 } )();
+
+/**
+ * Allows to setup custom class for pre element inside editor editable.
+ *
+ * @since 4.4
+ * @cfg {String} [snippet_class='hljs']
+ * @member CKEDITOR.config
+ */
 
 /**
  * Allows to set a template for highlihgt.js, you can browse templates at http://highlightjs.org/static/test.html
