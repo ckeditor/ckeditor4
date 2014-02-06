@@ -188,6 +188,10 @@
 				if ( newState.hasCaption && !editor.filter.check( features.caption.requiredContent ) )
 					newState.hasCaption = false;
 
+				// Image can't be aligned when floating is disallowed (#11004).
+				if ( newState.align != 'none' && !editor.filter.check( features.align.requiredContent ) )
+					newState.align = 'none';
+
 				// Convert the internal form of the widget from the old state to the new one.
 				widget.shiftState( {
 					element: widget.element,
