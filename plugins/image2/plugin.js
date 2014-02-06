@@ -298,7 +298,9 @@
 				this.setData( data );
 
 				// Setup dynamic image resizing with mouse.
-				setupResizer( this );
+				// Don't initialize resizer when dimensions are disallowed (#11004).
+				if ( editor.filter.check( this.features.dimension.requiredContent ) )
+					setupResizer( this );
 
 				this.shiftState = helpers.stateShifter( this.editor );
 
@@ -626,9 +628,13 @@
 		// Only block widgets have one.
 		if ( !this.inline ) {
 			var resizeWrapper = el.getFirst( 'span' ),
-				img = resizeWrapper.getFirst( 'img' );
+				img;
 
-			resizeWrapper.replaceWith( img );
+			if ( resizeWrapper ) {
+				img = resizeWrapper.getFirst( 'img' );
+				resizeWrapper.replaceWith( img );
+			} else
+				img = el.getFirst( 'img' );
 		}
 
 		if ( align && align != 'none' ) {
@@ -735,7 +741,9 @@
 		var editor = widget.editor,
 			editable = editor.editable(),
 			doc = editor.document,
-			resizer = doc.createElement( 'span' );
+
+			// Store the resizer in a widget for testing (#11004).
+			resizer = widget.resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_image_resizer' );
 		resizer.setAttribute( 'title', editor.lang.image2.resizer );
