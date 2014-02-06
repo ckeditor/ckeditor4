@@ -262,7 +262,9 @@
 				} );
 
 				// Set dimensions of the image according to gathered data.
-				setDimensions( widget );
+				// Do it only when the attributes are allowed (#11004).
+				if ( editor.filter.check( features.dimension.requiredContent ) )
+					setDimensions( widget );
 
 				// Cache current data.
 				widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
