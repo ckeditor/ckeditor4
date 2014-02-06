@@ -238,13 +238,18 @@
 					}
 				} );
 
-				widget.parts.image.setAttributes( {
+				var img = widget.parts.image;
+
+				// Don't set alt when attribute is disallowed (#11004).
+				// This rule is coherent with requiredContent in dialogDefinition.
+				if ( editor.filter.check( this.features.alt.requiredContent ) )
+					img.setAttribute( 'alt', widget.data.alt );
+
+				img.setAttributes( {
 					src: widget.data.src,
 
 					// This internal is required by the editor.
-					'data-cke-saved-src': widget.data.src,
-
-					alt: widget.data.alt
+					'data-cke-saved-src': widget.data.src
 				} );
 
 				// Set dimensions of the image according to gathered data.
