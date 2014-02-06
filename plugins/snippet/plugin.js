@@ -42,7 +42,7 @@
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
 			if ( !editor._.snippet.highlighter ) {
-				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor, this );
+				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor );
 
 				var path = CKEDITOR.getUrl( this.path ),
 					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
