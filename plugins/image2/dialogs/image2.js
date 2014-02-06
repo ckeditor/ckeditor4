@@ -38,6 +38,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		helpers = CKEDITOR.plugins.image2,
 
+		// Content restrictions defined by the widget which
+		// impact on dialog structure and presence of fields.
+		features = editor.widgets.registered.image.features,
+
 		// Functions inherited from image2 plugin.
 		checkHasNaturalRatio = helpers.checkHasNaturalRatio,
 		getNatural = helpers.getNatural,
@@ -418,6 +422,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						id: 'alt',
 						type: 'text',
 						label: lang.alt,
+						requiredContent: features.alt.requiredContent,
+						allowedContent: features.alt.allowedContent,
 						setup: function( widget ) {
 							this.setValue( widget.data.alt );
 						},
@@ -428,7 +434,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 					{
 						type: 'hbox',
 						widths: [ '25%', '25%', '50%' ],
-						requiredContent: 'img[width,height]',
+						requiredContent: features.dimension.requiredContent,
+						allowedContent: features.dimension.allowedContent,
 						children: [
 							{
 								type: 'text',
@@ -482,6 +489,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 					{
 						type: 'hbox',
 						id: 'alignment',
+						requiredContent: features.align.requiredContent,
+						allowedContent: features.align.allowedContent,
 						children: [
 							{
 								id: 'align',
@@ -505,6 +514,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						id: 'hasCaption',
 						type: 'checkbox',
 						label: lang.captioned,
+						requiredContent: features.caption.requiredContent,
+						allowedContent: features.caption.allowedContent,
 						setup: function( widget ) {
 							this.setValue( widget.data.hasCaption );
 						},

@@ -132,6 +132,25 @@
 				}
 			},
 
+			requiredContent: 'img[src]',
+
+			// Note: The following may not cover all the possible cases since
+			// requiredContent supports a single tag only.
+			features: {
+				alt: {
+					requiredContent: 'img[alt]'
+				},
+				dimension: {
+					requiredContent: 'img[width,height]'
+				},
+				align: {
+					requiredContent: 'img{float}',
+				},
+				caption: {
+					requiredContent: 'figcaption'
+				}
+			},
+
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
 				[ 'img[width]: sizeToAttribute' ]
