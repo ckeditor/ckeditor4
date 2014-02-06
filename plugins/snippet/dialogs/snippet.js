@@ -8,30 +8,27 @@
 ( function() {
 	CKEDITOR.dialog.add( 'snippet', function( editor ) {
 
-		var availableLangs = editor._.snippet.langs,
+		var snippetLangs = editor._.snippet.langs,
 			lang = editor.lang.snippet,
 			langSelectItems = [],
-			langId,
-			defaultLang;
+			langSelectDefaultValue,
+			snippetLangId;
 
-		for ( langId in availableLangs ) {
-			langSelectItems.push( [ availableLangs[ langId ], langId ] );
-		}
+		for ( snippetLangId in snippetLangs )
+			langSelectItems.push( [ snippetLangs[ snippetLangId ], snippetLangId ] );
 
 		if ( langSelectItems.length )
-			defaultLang = langSelectItems[ 0 ][ 1 ];
+			langSelectDefaultValue = langSelectItems[ 0 ][ 1 ];
 
 		// Size adjustments.
-		var size = CKEDITOR.document.getWindow().getViewPaneSize();
-		// Make it maximum 800px wide, but still fully visible in the viewport.
-		var width = Math.min( size.width - 70, 800);
-		// Make it use 2/3 of the viewport height.
-		var height = size.height / 1.5;
+		var size = CKEDITOR.document.getWindow().getViewPaneSize(),
+			// Make it maximum 800px wide, but still fully visible in the viewport.
+			width = Math.min( size.width - 70, 800 ),
+			// Make it use 2/3 of the viewport height.
+			height = size.height / 1.5;
 
 		return  {
 			title: lang.title,
-			minWidth: 500,
-			minHeight: 300,
 			contents: [
 				{
 					id: 'info',
@@ -41,7 +38,7 @@
 							type: 'select',
 							label: lang.language,
 							items: langSelectItems,
-							'default': defaultLang,
+							'default': langSelectDefaultValue,
 							setup: function( widget ) {
 								if ( widget.ready )
 									this.setValue( widget.data.lang );
