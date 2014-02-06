@@ -181,7 +181,12 @@
 					doc = editor.document,
 					editable = editor.editable(),
 					oldState = widget.oldData,
-					newState = widget.data;
+					newState = widget.data,
+					features = this.features;
+
+				// Image can't be captioned when figcaption is disallowed (#11004).
+				if ( newState.hasCaption && !editor.filter.check( features.caption.requiredContent ) )
+					newState.hasCaption = false;
 
 				// Convert the internal form of the widget from the old state to the new one.
 				widget.shiftState( {
@@ -242,7 +247,7 @@
 
 				// Don't set alt when attribute is disallowed (#11004).
 				// This rule is coherent with requiredContent in dialogDefinition.
-				if ( editor.filter.check( this.features.alt.requiredContent ) )
+				if ( editor.filter.check( features.alt.requiredContent ) )
 					img.setAttribute( 'alt', widget.data.alt );
 
 				img.setAttributes( {
