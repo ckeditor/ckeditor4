@@ -28,9 +28,11 @@
 			baseXml = xmlObjectOrData;
 		else {
 			var data = ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' );
-			if ( window.DOMParser )
-				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
-			else if ( window.ActiveXObject ) {
+
+			// Check ActiveXObject before DOMParser, because IE10+ support both, but
+			// there's no XPath support in DOMParser instance.
+			// Also, the only check for ActiveXObject which still works in IE11+ is with `in` operator.
+			if ( 'ActiveXObject' in window ) {
 				try {
 					baseXml = new ActiveXObject( 'MSXML2.DOMDocument' );
 				} catch ( e ) {
@@ -46,6 +48,8 @@
 					baseXml.loadXML( data );
 				}
 			}
+			else if ( window.DOMParser )
+				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
 		}
 
 		/**
@@ -74,10 +78,9 @@
 			var baseXml = this.baseXml;
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( 'selectSingleNode' in contextNode ) // old IEs<10
+				if ( 'selectSingleNode' in contextNode ) // IEs
 					return contextNode.selectSingleNode( xpath );
-				else if ( baseXml.evaluate ) // Others
-				{
+				else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 9, null );
 					return ( result && result.singleNodeValue ) || null;
 				}
@@ -108,10 +111,9 @@
 				nodes = [];
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( 'selectNodes' in contextNode ) // old IEs<10
+				if ( 'selectNodes' in contextNode ) // IEs
 					return contextNode.selectNodes( xpath );
-				else if ( baseXml.evaluate ) // Others
-				{
+				else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 5, null );
 
 					if ( result ) {
@@ -146,10 +148,10 @@
 			if ( node ) {
 				node = node.firstChild;
 				while ( node ) {
-					if ( node.xml ) // IE
-					xml.push( node.xml );
+					if ( node.xml ) // IEs
+						xml.push( node.xml );
 					else if ( window.XMLSerializer ) // Others
-					xml.push( ( new XMLSerializer() ).serializeToString( node ) );
+						xml.push( ( new XMLSerializer() ).serializeToString( node ) );
 
 					node = node.nextSibling;
 				}
