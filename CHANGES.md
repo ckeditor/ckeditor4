@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
 * [#8899](http://dev.ckeditor.com/ticket/8899): Fixed: Links in About Dialog now open in new window/tab.
 * [#11490](http://dev.ckeditor.com/ticket/11490): Fixed issue with menubuttons panel showing in source mode.
 * [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
