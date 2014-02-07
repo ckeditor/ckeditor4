@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4
 
+New Features:
+
+* [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://localhost/cksource/ckeditor-docs/build/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as images' source.
+
 ## CKEditor 4.3.3
 
 Fixed Issues:
