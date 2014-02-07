@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -197,7 +197,7 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 				advAttr( 'advTabIndex', 'tabindex' );
 				advAttr( 'advTitle', 'title' );
 				advAttr( 'advContentType', 'type' );
-				CKEDITOR.plugins.link.synAnchorSelector ? retval.adv.advCSSClasses = getLinkClass( element ) : advAttr( 'advCSSClasses', 'class' );
+				advAttr( 'advCSSClasses', 'class' );
 				advAttr( 'advCharset', 'charset' );
 				advAttr( 'advStyles', 'style' );
 				advAttr( 'advRel', 'rel' );
@@ -289,11 +289,6 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 			encodedChars.push( charCode );
 		}
 		return 'String.fromCharCode(' + encodedChars.join( ',' ) + ')';
-	}
-
-	function getLinkClass( ele ) {
-		var className = ele.getAttribute( 'class' );
-		return className ? className.replace( /\s*(?:cke_anchor_empty|cke_anchor)(?:\s*$)?/g, '' ) : '';
 	}
 
 	var commonLang = editor.lang.common,
@@ -1203,9 +1198,6 @@ CKEDITOR.dialog.add( 'link', function( editor ) {
 
 				element.setAttributes( attributes );
 				element.removeAttributes( removeAttributes );
-
-				if ( data.adv && data.adv.advName && CKEDITOR.plugins.link.synAnchorSelector )
-					element.addClass( element.getChildCount() ? 'cke_anchor' : 'cke_anchor_empty' );
 
 				// Update text view when user changes protocol (#4612).
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
