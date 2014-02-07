@@ -326,6 +326,18 @@
 		},
 
 		/**
+		 * Decodes HTML entities.
+		 *
+		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
+		 *
+		 * @param {String} The string to be decoded.
+		 * @returns {String} The decoded string.
+		 */
+		htmlDecode: function( text ) {
+			return text.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
+		},
+
+		/**
 		 * Replaces special HTML characters in HTMLElement attribute with their relative HTML entity values.
 		 *
 		 *		element.setAttribute( 'title', '<a " b >' );
