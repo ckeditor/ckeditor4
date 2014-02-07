@@ -12,8 +12,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			this.setValueOf( 'info', 'txtName', attributeValue || '' );
 		};
 
-	function createFakeAnchor( editor, anchor ) {
-		return editor.createFakeElement( anchor, 'cke_anchor', 'anchor' );
+	function createFakeAnchor( editor, attributes ) {
+		return editor.createFakeElement( editor.document.createElement( 'a', {
+			attributes: attributes
+		} ), 'cke_anchor', 'anchor' );
 	}
 
 	return {
@@ -30,7 +32,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 			if ( this._.selectedElement ) {
 				if ( this._.selectedElement.data( 'cke-realelement' ) ) {
-					var newFake = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
+					var newFake = createFakeAnchor( editor, attributes );
 					newFake.replace( this._.selectedElement );
 
 					// Selecting fake element for IE. (#11377)
@@ -44,7 +46,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 				// Empty anchor
 				if ( range.collapsed ) {
-					var anchor = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
+					var anchor = createFakeAnchor( editor, attributes );
 					range.insertNode( anchor );
 				} else {
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
