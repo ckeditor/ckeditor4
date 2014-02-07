@@ -1656,6 +1656,11 @@
 					return false;
 				}
 				else if ( ( upcastsLength = upcasts.length ) ) {
+					// Ignore elements with data-cke-widget-upcasted to avoid multiple upcasts (#11533).
+					// Do not iterate over descendants.
+					if ( element.attributes[ 'data-cke-widget-upcasted' ] )
+						return false;
+
 					// Check element with upcast callbacks first.
 					// If any of them return false abort upcasting.
 					for ( i = 0, upcastCallbacksLength = upcastCallbacks.length; i < upcastCallbacksLength; ++i ) {
@@ -1677,6 +1682,7 @@
 
 							// Set initial data attr with data from upcast method.
 							element.attributes[ 'data-cke-widget-data' ] = JSON.stringify( data );
+							element.attributes[ 'data-cke-widget-upcasted' ] = 1;
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
