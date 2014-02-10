@@ -103,6 +103,28 @@
 		}
 	} );
 
+	/**
+	 * Adds given stylesheet file path to the exisiting {@link CKEDITOR.config#contentsCss} value.
+	 *
+	 * **Note:** This method is available only with the `wysiwygarea` plugin and affects
+	 * only editors based on it (e.g. not inline editors).
+	 *
+	 *		editor.addContentsCss( 'assets/contents.css' );
+	 *
+	 * @param {String} cssPath Path to the stylesheet file which should be added.
+	 * @member CKEDITOR.editor
+	 */
+	CKEDITOR.editor.prototype.addContentsCss = function( cssPath ) {
+		var cfg = this.config,
+			curContentsCss = cfg.contentsCss;
+
+		// Convert current value into array.
+		if ( !CKEDITOR.tools.isArray( curContentsCss ) )
+			cfg.contentsCss = curContentsCss ? [ curContentsCss ] : [];
+
+		cfg.contentsCss.push( cssPath );
+	};
+
 	function onDomReady( win ) {
 		var editor = this.editor,
 			doc = win.document,
