@@ -413,6 +413,95 @@
 		}
 	}
 
+	// Extract only editable part or ranges.
+	// Note: this function modifies ranges list!
+	// @param {CKEDITOR.dom.rangeList} ranges
+	function extractEditableRanges( ranges ) {
+		for ( var i = 0; i < ranges.length; i++ ) {
+			var range = ranges[ i ];
+
+			// Drop range spans inside one ready-only node.
+			var parent = range.getCommonAncestor();
+			if ( parent.isReadOnly() )
+				ranges.splice( i, 1 );
+
+			if ( range.collapsed )
+				continue;
+
+			// Range may start inside a non-editable element,
+			// replace the range start after it.
+			if ( range.startContainer.isReadOnly() ) {
+				var current = range.startContainer,
+					isElement;
+
+				while ( current ) {
+					isElement = current.type == CKEDITOR.NODE_ELEMENT;
+
+					if ( ( isElement && current.is( 'body' ) ) || !current.isReadOnly() )
+						break;
+
+					if ( isElement && current.getAttribute( 'contentEditable' ) == 'false' )
+						range.setStartAfter( current );
+
+					current = current.getParent();
+				}
+			}
+
+			var startContainer = range.startContainer,
+				endContainer = range.endContainer,
+				startOffset = range.startOffset,
+				endOffset = range.endOffset,
+				walkerRange = range.clone();
+
+			// Enlarge range start/end with text node to avoid walker
+			// being DOM destructive, it doesn't interfere our checking
+			// of elements below as well.
+			if ( startContainer && startContainer.type == CKEDITOR.NODE_TEXT ) {
+				if ( startOffset >= startContainer.getLength() )
+					walkerRange.setStartAfter( startContainer );
+				else
+					walkerRange.setStartBefore( startContainer );
+			}
+
+			if ( endContainer && endContainer.type == CKEDITOR.NODE_TEXT ) {
+				if ( !endOffset )
+					walkerRange.setEndBefore( endContainer );
+				else
+					walkerRange.setEndAfter( endContainer );
+			}
+
+			// Looking for non-editable element inside the range.
+			var walker = new CKEDITOR.dom.walker( walkerRange );
+			walker.evaluator = function( node ) {
+				if ( node.type == CKEDITOR.NODE_ELEMENT && node.isReadOnly() ) {
+					var newRange = range.clone();
+					range.setEndBefore( node );
+
+					// Drop collapsed range around read-only elements,
+					// it make sure the range list empty when selecting
+					// only non-editable elements.
+					if ( range.collapsed )
+						ranges.splice( i--, 1 );
+
+					// Avoid creating invalid range.
+					if ( !( node.getPosition( walkerRange.endContainer ) & CKEDITOR.POSITION_CONTAINS ) ) {
+						newRange.setStartAfter( node );
+						if ( !newRange.collapsed )
+							ranges.splice( i + 1, 0, newRange );
+					}
+
+					return true;
+				}
+
+				return false;
+			};
+
+			walker.next();
+		}
+
+		return ranges;
+	}
+
 	// Setup all editor instances for the necessary selection hooks.
 	CKEDITOR.on( 'instanceCreated', function( ev ) {
 		var editor = ev.editor;
@@ -1394,99 +1483,18 @@
 				};
 
 			return function( onlyEditables ) {
-				var cache = this._.cache;
-				if ( cache.ranges && !onlyEditables )
-					return cache.ranges;
-				else if ( !cache.ranges )
-					cache.ranges = new CKEDITOR.dom.rangeList( func.call( this ) );
+				var cache = this._.cache,
+					ranges = cache.ranges;
+
+				if ( !ranges )
+					cache.ranges = ranges = new CKEDITOR.dom.rangeList( func.call( this ) );
+
+				if ( !onlyEditables )
+					return ranges;
 
 				// Split range into multiple by read-only nodes.
-				if ( onlyEditables ) {
-					var ranges = cache.ranges;
-					for ( var i = 0; i < ranges.length; i++ ) {
-						var range = ranges[ i ];
-
-						// Drop range spans inside one ready-only node.
-						var parent = range.getCommonAncestor();
-						if ( parent.isReadOnly() )
-							ranges.splice( i, 1 );
-
-						if ( range.collapsed )
-							continue;
-
-						// Range may start inside a non-editable element,
-						// replace the range start after it.
-						if ( range.startContainer.isReadOnly() ) {
-							var current = range.startContainer,
-								isElement;
-
-							while ( current ) {
-								isElement = current.type == CKEDITOR.NODE_ELEMENT;
-
-								if ( ( isElement && current.is( 'body' ) ) || !current.isReadOnly() )
-									break;
-
-								if ( isElement && current.getAttribute( 'contentEditable' ) == 'false' )
-									range.setStartAfter( current );
-
-								current = current.getParent();
-							}
-						}
-
-						var startContainer = range.startContainer,
-							endContainer = range.endContainer,
-							startOffset = range.startOffset,
-							endOffset = range.endOffset,
-							walkerRange = range.clone();
-
-						// Enlarge range start/end with text node to avoid walker
-						// being DOM destructive, it doesn't interfere our checking
-						// of elements below as well.
-						if ( startContainer && startContainer.type == CKEDITOR.NODE_TEXT ) {
-							if ( startOffset >= startContainer.getLength() )
-								walkerRange.setStartAfter( startContainer );
-							else
-								walkerRange.setStartBefore( startContainer );
-						}
-
-						if ( endContainer && endContainer.type == CKEDITOR.NODE_TEXT ) {
-							if ( !endOffset )
-								walkerRange.setEndBefore( endContainer );
-							else
-								walkerRange.setEndAfter( endContainer );
-						}
-
-						// Looking for non-editable element inside the range.
-						var walker = new CKEDITOR.dom.walker( walkerRange );
-						walker.evaluator = function( node ) {
-							if ( node.type == CKEDITOR.NODE_ELEMENT && node.isReadOnly() ) {
-								var newRange = range.clone();
-								range.setEndBefore( node );
-
-								// Drop collapsed range around read-only elements,
-								// it make sure the range list empty when selecting
-								// only non-editable elements.
-								if ( range.collapsed )
-									ranges.splice( i--, 1 );
-
-								// Avoid creating invalid range.
-								if ( !( node.getPosition( walkerRange.endContainer ) & CKEDITOR.POSITION_CONTAINS ) ) {
-									newRange.setStartAfter( node );
-									if ( !newRange.collapsed )
-										ranges.splice( i + 1, 0, newRange );
-								}
-
-								return true;
-							}
-
-							return false;
-						};
-
-						walker.next();
-					}
-				}
-
-				return cache.ranges;
+				// Clone ranges array to avoid changing cached ranges (#11493).
+				return extractEditableRanges( new CKEDITOR.dom.rangeList( ranges.slice() ) );
 			};
 		} )(),
 
