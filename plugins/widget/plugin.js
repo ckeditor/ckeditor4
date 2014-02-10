@@ -1052,7 +1052,7 @@
 			var sel = this.editor.getSelection();
 
 			// Fake the selection before focusing editor, to avoid unpreventable viewports scrolling
-			// on Webkit/Blink which is done because there's no selection or selection was somewhere else than widget.
+			// on Webkit/Blink/IE which is done because there's no selection or selection was somewhere else than widget.
 			if ( sel )
 				sel.fake( this.wrapper );
 
