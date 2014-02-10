@@ -54,6 +54,8 @@
 
 		/**
 		 * The native XML (DOM document) used by the class instance.
+		 *
+		 * @property {Object}
 		 */
 		this.baseXml = baseXml;
 	};
@@ -94,10 +96,10 @@
 		 *
 		 *		// Create the XML instance.
 		 *		var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
-		 *		// Get the first <item> node.
-		 *		var itemNodes = xml.selectSingleNode( 'list/item' );
+		 *		// Get all <item> nodes.
+		 *		var itemNodes = xml.selectNodes( 'list/item' );
 		 *		// Alert "item" twice, one for each <item>.
-		 *		for ( var i = 0 ; i < itemNodes.length ; i++ )
+		 *		for ( var i = 0; i < itemNodes.length; i++ )
 		 *			alert( itemNodes[i].nodeName );
 		 *
 		 * @param {String} xpath The XPath query to execute.
