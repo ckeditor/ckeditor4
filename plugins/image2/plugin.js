@@ -132,7 +132,7 @@
 				}
 			},
 
-			requiredContent: 'img[src]',
+			requiredContent: 'img[src,alt]',
 
 			// Note: The following may not cover all the possible cases since
 			// requiredContent supports a single tag only.
