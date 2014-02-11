@@ -182,11 +182,11 @@
 					features = this.features;
 
 				// Image can't be captioned when figcaption is disallowed (#11004).
-				if ( newState.hasCaption && !editor.filter.check( features.caption.requiredContent ) )
+				if ( newState.hasCaption && !editor.filter.checkFeature( features.caption ) )
 					newState.hasCaption = false;
 
 				// Image can't be aligned when floating is disallowed (#11004).
-				if ( newState.align != 'none' && !editor.filter.check( features.align.requiredContent ) )
+				if ( newState.align != 'none' && !editor.filter.checkFeature( features.align ) )
 					newState.align = 'none';
 
 				// Convert the internal form of the widget from the old state to the new one.
@@ -255,7 +255,7 @@
 
 				// Set dimensions of the image according to gathered data.
 				// Do it only when the attributes are allowed (#11004).
-				if ( editor.filter.check( features.dimension.requiredContent ) )
+				if ( editor.filter.checkFeature( features.dimension ) )
 					setDimensions( widget );
 
 				// Cache current data.
@@ -293,7 +293,7 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (#11004).
-				if ( editor.filter.check( this.features.dimension.requiredContent ) )
+				if ( editor.filter.checkFeature( this.features.dimension ) )
 					setupResizer( this );
 
 				this.shiftState = helpers.stateShifter( this.editor );
@@ -961,7 +961,7 @@
 	// @param {String} value 'left', 'right', 'center' or 'block'
 	function alignCommandIntegrator( editor ) {
 		var execCallbacks = [],
-			isAllowed = editor.filter.check( editor.widgets.registered.image.features.align.requiredContent );
+			isAllowed = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
 
 		return function( value ) {
 			var command = editor.getCommand( 'justify' + value );
