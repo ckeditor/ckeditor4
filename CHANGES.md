@@ -13,6 +13,7 @@ New Features:
 
 Fixed Issues:
 
+* [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
 * [#8899](http://dev.ckeditor.com/ticket/8899): Fixed: Links in About Dialog now open in new window/tab.
 * [#11490](http://dev.ckeditor.com/ticket/11490): Fixed issue with menubuttons panel showing in source mode.
 * [#11417](http://dev.ckeditor.com/ticket/11417): The [`widget.doubleclick`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-event-doubleclick) event is not cancelled anymore after editing has been triggered.
@@ -22,6 +23,8 @@ Fixed Issues:
 * [#11508](http://dev.ckeditor.com/ticket/11508): Fixed: htmlDataProcessor discovering protected attributes within other attributes' values.
 * [#11533](http://dev.ckeditor.com/ticket/11533): Widgets: Avoid recurring upcasts if DOM structure was modified during an upcast.
 * [#11400](http://dev.ckeditor.com/ticket/11400): Fixed [`domObject.removeAllListeners`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject-method-removeAllListeners) does not remove custom listeners completely.
+* [#11493](http://dev.ckeditor.com/ticket/11493): Fixed [`selection.getRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges) does not override cached ranges when used with `onlyEditables` argument.
+* [#11390](http://dev.ckeditor.com/ticket/11390): All [XML](http://docs.ckeditor.com/#!/api/CKEDITOR.xml) plugin's methods work now on IE10+.
 
 ## CKEditor 4.3.2
 
