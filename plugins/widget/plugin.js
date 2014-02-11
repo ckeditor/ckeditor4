@@ -928,7 +928,7 @@
 				that = this;
 
 			// Edit event was blocked, but there's no dialog to be automatically opened.
-			if ( !this.fire( 'edit', evtData ) || !evtData.dialog )
+			if ( this.fire( 'edit', evtData ) === false || !evtData.dialog )
 				return;
 
 			this.editor.openDialog( evtData.dialog, function( dialog ) {
@@ -936,7 +936,7 @@
 					okListener;
 
 				// Allow to add a custom dialog handler.
-				if ( !that.fire( 'dialog', dialog ) )
+				if ( that.fire( 'dialog', dialog ) === false )
 					return;
 
 				showListener = dialog.on( 'show', function() {
