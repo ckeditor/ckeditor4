@@ -15,7 +15,8 @@ Fixed Issues:
 * [#11508](http://dev.ckeditor.com/ticket/11508): Fixed: htmlDataProcessor discovering protected attributes within other attributes' values.
 * [#11533](http://dev.ckeditor.com/ticket/11533): Widgets: Avoid recurring upcasts if DOM structure was modified during an upcast.
 * [#11400](http://dev.ckeditor.com/ticket/11400): Fixed [`domObject.removeAllListeners`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject-method-removeAllListeners) does not remove custom listeners completely.
-* [#11493](http://dev.ckeditor.com/ticket/114093: Fixed [`selection.getRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges) does not override cached ranges when used with `onlyEditables` argument.
+* [#11493](http://dev.ckeditor.com/ticket/11493): Fixed [`selection.getRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges) does not override cached ranges when used with `onlyEditables` argument.
+* [#11390](http://dev.ckeditor.com/ticket/11390): All [XML](http://docs.ckeditor.com/#!/api/CKEDITOR.xml) plugin's methods work now on IE10+.
 
 ## CKEditor 4.3.2
 
