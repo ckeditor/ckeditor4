@@ -960,7 +960,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @param {String} value 'left', 'right', 'center' or 'block'
 	function alignCommandIntegrator( editor ) {
-		var execCallbacks = [];
+		var execCallbacks = [],
+			isAllowed = editor.filter.check( editor.widgets.registered.image.features.align.requiredContent );
 
 		return function( value ) {
 			var command = editor.getCommand( 'justify' + value );
@@ -1000,7 +1001,7 @@
 					return;
 
 				// Don't allow justify commands when widget alignment is disabled (#11004).
-				if ( !editor.filter.check( widget.features.align.requiredContent ) )
+				if ( !isAllowed )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				else {
 					this.setState(
