@@ -15,6 +15,41 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
 
+	// Returns a function, which runs regular "setup" for all selected cells to find out
+	// whether the initial value of the field would be the same for all cells. If so,
+	// the value is displayed just as if a regular "setup" was executed. Otherwise,
+	// i.e. when there are several cells of different value of the property, a field
+	// gets empty value.
+	//
+	// * @param {Function} setup Setup function which returns a value instead of setting it.
+	// * @returns {Function} A function to be used in dialog definition.
+	function setupCells( setup ) {
+		return function( cells ) {
+			var fieldValue = setup( cells[ 0 ] );
+
+			// If one of the cells would have a different value of the
+			// property, set the empty value for a field.
+			for ( var i = 1; i < cells.length; i++ ) {
+				if ( setup( cells[ i ] ) !== fieldValue ) {
+					fieldValue = null;
+					break;
+				}
+			}
+
+			// Setting meaningful or empty value only makes sense
+			// when setup returns some value. Otherwise, a *default* value
+			// is used for that field.
+			if ( typeof fieldValue != 'undefined' ) {
+				this.setValue( fieldValue );
+
+				// The only way to have an empty select value in Firefox is
+				// to set a negative selectedIndex.
+				if ( CKEDITOR.env.gecko && this.type == 'select' && !fieldValue )
+					this.getInputElement().$.selectedIndex = -1;
+			}
+		};
+	}
+
 	return {
 		title: langCell.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
@@ -54,13 +89,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 							},
 
-							setup: function( element ) {
+							setup: setupCells( function( element ) {
 								var widthAttr = parseInt( element.getAttribute( 'width' ), 10 ),
 									widthStyle = parseInt( element.getStyle( 'width' ), 10 );
 
-								!isNaN( widthAttr ) && this.setValue( widthAttr );
-								!isNaN( widthStyle ) && this.setValue( widthStyle );
-							},
+								return !isNaN( widthStyle ) ? widthStyle :
+									!isNaN( widthAttr ) ? widthAttr : '';
+							} ),
 							commit: function( element ) {
 								var value = parseInt( this.getValue(), 10 ),
 									unit = this.getDialog().getValueOf( 'info', 'widthType' );
@@ -84,11 +119,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								[ langTable.widthPx, 'px' ],
 								[ langTable.widthPc, '%' ]
 								],
-							setup: function( selectedCell ) {
+							setup: setupCells( function( selectedCell ) {
 								var widthMatch = widthPattern.exec( selectedCell.getStyle( 'width' ) || selectedCell.getAttribute( 'width' ) );
 								if ( widthMatch )
-									this.setValue( widthMatch[ 2 ] );
-							}
+									return widthMatch[ 2 ];
+							} )
 						}
 						]
 					},
@@ -114,13 +149,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 							},
 
-							setup: function( element ) {
+							setup: setupCells( function( element ) {
 								var heightAttr = parseInt( element.getAttribute( 'height' ), 10 ),
 									heightStyle = parseInt( element.getStyle( 'height' ), 10 );
 
-								!isNaN( heightAttr ) && this.setValue( heightAttr );
-								!isNaN( heightStyle ) && this.setValue( heightStyle );
-							},
+								return !isNaN( heightStyle ) ? heightStyle :
+									!isNaN( heightAttr ) ? heightAttr : '';
+							} ),
 							commit: function( element ) {
 								var value = parseInt( this.getValue(), 10 );
 
@@ -149,13 +184,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCell.yes, 'yes' ],
 							[ langCell.no, 'no' ]
 							],
-						setup: function( element ) {
+						setup: setupCells( function( element ) {
 							var wordWrapAttr = element.getAttribute( 'noWrap' ),
 								wordWrapStyle = element.getStyle( 'white-space' );
 
 							if ( wordWrapStyle == 'nowrap' || wordWrapAttr )
-								this.setValue( 'no' );
-						},
+								return 'no';
+						} ),
 						commit: function( element ) {
 							if ( this.getValue() == 'no' )
 								element.setStyle( 'white-space', 'nowrap' );
@@ -177,12 +212,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCommon.alignCenter, 'center' ],
 							[ langCommon.alignRight, 'right' ]
 							],
-						setup: function( element ) {
+						setup: setupCells( function( element ) {
 							var alignAttr = element.getAttribute( 'align' ),
 								textAlignStyle = element.getStyle( 'text-align' );
 
-							this.setValue( textAlignStyle || alignAttr || '' );
-						},
+							return textAlignStyle || alignAttr || '';
+						} ),
 						commit: function( selectedCell ) {
 							var value = this.getValue();
 
@@ -206,7 +241,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCommon.alignBottom, 'bottom' ],
 							[ langCell.alignBaseline, 'baseline' ]
 							],
-						setup: function( element ) {
+						setup: setupCells( function( element ) {
 							var vAlignAttr = element.getAttribute( 'vAlign' ),
 								vAlignStyle = element.getStyle( 'vertical-align' );
 
@@ -221,8 +256,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									vAlignStyle = '';
 							}
 
-							this.setValue( vAlignStyle || vAlignAttr || '' );
-						},
+							return vAlignStyle || vAlignAttr || '';
+						} ),
 						commit: function( element ) {
 							var value = this.getValue();
 
@@ -250,9 +285,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCell.data, 'td' ],
 							[ langCell.header, 'th' ]
 							],
-						setup: function( selectedCell ) {
-							this.setValue( selectedCell.getName() );
-						},
+						setup: setupCells( function( selectedCell ) {
+							return selectedCell.getName();
+						} ),
 						commit: function( selectedCell ) {
 							selectedCell.renameNode( this.getValue() );
 						}
@@ -264,11 +299,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						label: langCell.rowSpan,
 						'default': '',
 						validate: validate.integer( langCell.invalidRowSpan ),
-						setup: function( selectedCell ) {
+						setup: setupCells( function( selectedCell ) {
 							var attrVal = parseInt( selectedCell.getAttribute( 'rowSpan' ), 10 );
 							if ( attrVal && attrVal != 1 )
-								this.setValue( attrVal );
-						},
+								return attrVal;
+						} ),
 						commit: function( selectedCell ) {
 							var value = parseInt( this.getValue(), 10 );
 							if ( value && value != 1 )
@@ -283,11 +318,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						label: langCell.colSpan,
 						'default': '',
 						validate: validate.integer( langCell.invalidColSpan ),
-						setup: function( element ) {
+						setup: setupCells( function( element ) {
 							var attrVal = parseInt( element.getAttribute( 'colSpan' ), 10 );
 							if ( attrVal && attrVal != 1 )
-								this.setValue( attrVal );
-						},
+								return attrVal;
+						} ),
 						commit: function( selectedCell ) {
 							var value = parseInt( this.getValue(), 10 );
 							if ( value && value != 1 )
@@ -307,12 +342,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							id: 'bgColor',
 							label: langCell.bgColor,
 							'default': '',
-							setup: function( element ) {
+							setup: setupCells( function( element ) {
 								var bgColorAttr = element.getAttribute( 'bgColor' ),
 									bgColorStyle = element.getStyle( 'background-color' );
 
-								this.setValue( bgColorStyle || bgColorAttr );
-							},
+								return bgColorStyle || bgColorAttr;
+							} ),
 							commit: function( selectedCell ) {
 								var value = this.getValue();
 
@@ -354,12 +389,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							id: 'borderColor',
 							label: langCell.borderColor,
 							'default': '',
-							setup: function( element ) {
+							setup: setupCells( function( element ) {
 								var borderColorAttr = element.getAttribute( 'borderColor' ),
 									borderColorStyle = element.getStyle( 'border-color' );
 
-								this.setValue( borderColorStyle || borderColorAttr );
-							},
+								return borderColorStyle || borderColorAttr;
+							} ),
 							commit: function( selectedCell ) {
 								var value = this.getValue();
 								if ( value )
@@ -400,7 +435,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		],
 		onShow: function() {
 			this.cells = CKEDITOR.plugins.tabletools.getSelectedCells( this._.editor.getSelection() );
-			this.setupContent( this.cells[ 0 ] );
+			this.setupContent( this.cells );
 		},
 		onOk: function() {
 			var selection = this._.editor.getSelection(),
@@ -414,7 +449,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			selection.selectBookmarks( bookmarks );
 			this._.editor.selectionChange();
 		},
-		onLoad: function( a ) {
+		onLoad: function() {
 			var saved = {};
 
 			// Prevent from changing cell properties when the field's value
