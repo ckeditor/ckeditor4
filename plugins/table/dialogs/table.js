@@ -5,6 +5,7 @@
 
 ( function() {
 	var defaultToPixel = CKEDITOR.tools.cssLength;
+	var lre = "\u202A", rle = "\u202B";
 
 	var commitValue = function( data ) {
 			var id = this.id;
@@ -485,17 +486,17 @@
 
 							var nodeList = selectedTable.getElementsByTag( 'caption' );
 							if ( nodeList.count() > 0 ) {
-								var caption = nodeList.getItem( 0 );
-								var firstElementChild = caption.getFirst( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) );
+								var caption = nodeList.getItem( 0 );								
+								var firstElementChild = caption.getFirst( CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ) );								
 
 								if ( firstElementChild && !firstElementChild.equals( caption.getBogus() ) ) {
 									this.disable();
-									this.setValue( caption.getText() );
+									this.setValue( caption.getText() );																		
 									return;
 								}
-
-								caption = CKEDITOR.tools.trim( caption.getText() );
-								this.setValue( caption );
+																
+								caption = CKEDITOR.tools.trim( caption.getText() );								
+								this.setValue( caption );																
 							}
 						},
 						commit: function( data, table ) {
@@ -528,13 +529,34 @@
 						requiredContent: 'table[summary]',
 						label: editor.lang.table.summary,
 						setup: function( selectedTable ) {
-							this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
+							var value = selectedTable.getAttribute( 'summary' );
+							var dir = "";
+							if (value) {
+								var marker = value.charAt(0);
+								dir = (marker == lre ? "ltr" : (marker == rle ? "rtl" : ""));
+								value = value.replace(/\u202A/g,"").replace(/\u202B/g,"");
+							}
+							this.setValue( value || '' );
+							this.getInputElement().setAttribute( 'dir', dir );
 						},
 						commit: function( data, selectedTable ) {
-							if ( this.getValue() )
-								selectedTable.setAttribute( 'summary', this.getValue() );
+							if ( this.getValue() ) {
+								var dir = this.getInputElement().getAttribute( 'dir' );
+								selectedTable.setAttribute( 'summary', (dir == "ltr" ? lre : (dir == "rtl" ? rle : '')) + this.getValue() );
+							}
 							else
 								selectedTable.removeAttribute( 'summary' );
+						},
+						onKeyUp: function(event) {							
+							var keystroke = event.data.getKeystroke();
+							/* ALT + SHIFT + Home for LTR direction */
+							if (keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36) {
+								this.getInputElement().setAttribute( 'dir', 'ltr' );
+							}
+							/* ALT + SHIFT + End for RTL direction */
+							else if (keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35) {
+								this.getInputElement().setAttribute( 'dir', 'rtl' );
+							}
 						}
 					}
 					]
