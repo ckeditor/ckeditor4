@@ -312,12 +312,8 @@ if ( !CKEDITOR.env ) {
 		if ( env.quirks )
 			env.cssClass += ' cke_browser_quirks';
 
-		if ( env.ie ) {
-			env.cssClass += ' cke_browser_ie' + ( env.quirks || env.version < 7 ? '6' : env.version );
-
-			if ( env.quirks )
-				env.cssClass += ' cke_browser_iequirks';
-		}
+		if ( env.ie )
+			env.cssClass += ' cke_browser_ie' + ( env.quirks ? '6 cke_browser_iequirks' : env.version );
 
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';

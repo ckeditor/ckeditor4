@@ -177,9 +177,8 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 						'overflow-y:auto;' +
 						'overflow-x:hidden;' +
 					'}' +
-					// Some adjustments are to be done for IE6 and Quirks to work "properly" (#5757)
+					// Some adjustments are to be done for Quirks to work "properly" (#5757)
 					'.cke_browser_quirks .cke_accessibility_legend,' +
-					'.cke_browser_ie6 .cke_accessibility_legend' +
 					'{' +
 						'height:390px' +
 					'}' +

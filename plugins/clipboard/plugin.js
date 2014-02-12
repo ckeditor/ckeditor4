@@ -596,7 +596,7 @@
 			// the command to execute.
 			body.on( command, onExec );
 
-			// IE6/7: document.execCommand has problem to paste into positioned element.
+			// IE7: document.execCommand has problem to paste into positioned element.
 			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() )[ 'execCommand' ]( command );
 
 			body.removeListener( command, onExec );

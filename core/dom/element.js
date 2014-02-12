@@ -492,7 +492,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				return this.$.getAttribute( name, 2 );
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name ) {
 				switch ( name ) {
 					case 'class':
@@ -931,7 +931,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @method
 	 * @returns {Boolean} True if the element has attributes.
 	 */
-	hasAttributes: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ?
+	hasAttributes: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ?
 		function() {
 			var attributes = this.$.attributes;
 
@@ -1117,7 +1117,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				return this;
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name, value ) {
 				if ( name == 'class' )
 					this.$.className = value;
@@ -1194,7 +1194,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				this.$.removeAttribute( name );
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name ) {
 				if ( name == 'class' )
 					name = 'className';

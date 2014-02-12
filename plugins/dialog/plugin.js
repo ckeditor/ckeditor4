@@ -160,7 +160,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			close = body.getChild( 1 );
 
 		// IFrame shim for dialog that masks activeX in IE. (#7619)
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ) {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks ) {
 			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())',
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 					' frameBorder="0"' +

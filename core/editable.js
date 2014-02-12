@@ -685,7 +685,7 @@
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
 				// Gecko/Webkit need some help when selecting control type elements. (#3448)
-				if ( !( CKEDITOR.env.ie ) ) {
+				if ( !CKEDITOR.env.ie ) {
 					this.attachListener( this, 'mousedown', function( ev ) {
 						var control = ev.data.getTarget();
 						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) ) {
