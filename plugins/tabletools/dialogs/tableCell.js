@@ -413,6 +413,33 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 			this._.editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
 			this._.editor.selectionChange();
+		},
+		onLoad: function( a ) {
+			var saved = {};
+
+			// Prevent from changing cell properties when the field's value
+			// remains unaltered, i.e. when selected multiple cells and dialog loaded
+			// only the properties of the first cell (#11439).
+			this.foreach( function( field ) {
+				if ( !field.setup || !field.commit )
+					return;
+
+				// Save field's value every time after "setup" is called.
+				field.setup = CKEDITOR.tools.override( field.setup, function( orgSetup ) {
+					return function() {
+						orgSetup.apply( this, arguments );
+						saved[ field.id ] = field.getValue();
+					};
+				} );
+
+				// Compare saved value with actual value. Update cell only if value has changed.
+				field.commit = CKEDITOR.tools.override( field.commit, function( orgCommit ) {
+					return function() {
+						if ( saved[ field.id ] !== field.getValue() )
+							orgCommit.apply( this, arguments );
+					};
+				} );
+			} );
 		}
 	};
 } );
