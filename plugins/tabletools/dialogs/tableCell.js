@@ -50,6 +50,18 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
 
+	// Reads the unit of width property of the table cell.
+	//
+	// * @param {CKEDITOR.dom.element} cell An element representing table cell.
+	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
+	function getCellWidthType( cell ) {
+		var match = widthPattern.exec(
+			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
+
+		if ( match )
+			return match[ 2 ];
+	}
+
 	return {
 		title: langCell.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
@@ -98,7 +110,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							} ),
 							commit: function( element ) {
 								var value = parseInt( this.getValue(), 10 ),
-									unit = this.getDialog().getValueOf( 'info', 'widthType' );
+
+									// There might be no widthType value, i.e. when multiple cells are
+									// selected but some of them have width expressed in pixels and some
+									// of them in percent. Try to re-read the unit from the cell in such
+									// case (#11439).
+									unit = this.getDialog().getValueOf( 'info', 'widthType' ) || getCellWidthType( element );
 
 								if ( !isNaN( value ) )
 									element.setStyle( 'width', value + unit );
@@ -119,11 +136,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								[ langTable.widthPx, 'px' ],
 								[ langTable.widthPc, '%' ]
 								],
-							setup: setupCells( function( selectedCell ) {
-								var widthMatch = widthPattern.exec( selectedCell.getStyle( 'width' ) || selectedCell.getAttribute( 'width' ) );
-								if ( widthMatch )
-									return widthMatch[ 2 ];
-							} )
+							setup: setupCells( getCellWidthType )
 						}
 						]
 					},
