@@ -610,7 +610,7 @@
 			if ( withBeforePaste ) {
 				// Fire 'beforePaste' event so clipboard flavor get customized
 				// by other plugins.
-				if ( !editor.fire( 'beforePaste', eventData ) )
+				if ( editor.fire( 'beforePaste', eventData ) === false )
 					return false; // Event canceled
 			}
 

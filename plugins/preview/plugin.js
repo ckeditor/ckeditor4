@@ -58,7 +58,7 @@
 
 			// (#9907) Allow data manipulation before preview is displayed.
 			// Also don't open the preview window when event cancelled.
-			if ( !editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) )
+			if ( editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) === false )
 				return false;
 
 			var sOpenUrl = '',
