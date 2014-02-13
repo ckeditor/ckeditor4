@@ -55,7 +55,7 @@ CKEDITOR.skin.name = 'kama';
 // The available browser specific files must be set separately for editor.css
 // and dialog.css.
 CKEDITOR.skin.ua_editor = 'ie,iequirks,ie7,ie8';
-CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8,opera';
+CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 
 // 3. Define the "Chameleon" feature

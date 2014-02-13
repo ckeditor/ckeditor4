@@ -9,6 +9,7 @@ New Features:
 * [#11536](http://dev.ckeditor.com/ticket/11536): Added CKEDITOR.tools.htmlDecode method.
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://localhost/cksource/ckeditor-docs/build/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as images' source.
+* [#11422](http://dev.ckeditor.com/ticket/11422): Removed FF3.x, IE6 and Opera12.x leftovers in code.
 
 ## CKEditor 4.3.3
 

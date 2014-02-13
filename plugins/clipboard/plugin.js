@@ -596,7 +596,7 @@
 			// the command to execute.
 			body.on( command, onExec );
 
-			// IE6/7: document.execCommand has problem to paste into positioned element.
+			// IE7: document.execCommand has problem to paste into positioned element.
 			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() )[ 'execCommand' ]( command );
 
 			body.removeListener( command, onExec );
@@ -661,7 +661,6 @@
 				cancel = function( evt ) {
 					evt.cancel();
 				},
-				ff3x = CKEDITOR.env.gecko && CKEDITOR.env.version <= 10902,
 				blurListener;
 
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
@@ -681,64 +680,54 @@
 			// what is indistinguishable from pasted <br> (copying <br> in Opera isn't possible,
 			// but it can be copied from other browser).
 			var pastebin = new CKEDITOR.dom.element(
-				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ? 'body' : 'div', doc );
+				( CKEDITOR.env.webkit || editable.is( 'body' ) ) && !CKEDITOR.env.ie ? 'body' : 'div', doc );
 
 			pastebin.setAttributes( {
 				id: 'cke_pastebin',
 				'data-cke-temp': '1'
 			} );
 
-			// Append bogus to prevent Opera from doing this. (#9522)
-			if ( CKEDITOR.env.opera )
-				pastebin.appendBogus();
-
 			var containerOffset = 0,
 				offsetParent,
 				win = doc.getWindow();
 
-			// Seems to be the only way to avoid page scroll in Fx 3.x.
-			if ( ff3x ) {
-				pastebin.insertAfter( bms[ 0 ].startNode );
-				pastebin.setStyle( 'display', 'inline' );
-			} else {
-				if ( CKEDITOR.env.webkit ) {
-					// It's better to paste close to the real paste destination, so inherited styles
-					// (which Webkits will try to compensate by styling span) differs less from the destination's one.
-					editable.append( pastebin );
-					// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
-					pastebin.addClass( 'cke_editable' );
+			if ( CKEDITOR.env.webkit ) {
+				// It's better to paste close to the real paste destination, so inherited styles
+				// (which Webkits will try to compensate by styling span) differs less from the destination's one.
+				editable.append( pastebin );
+				// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
+				pastebin.addClass( 'cke_editable' );
 
-					// Compensate position of offsetParent.
-					if ( !editable.is( 'body' ) ) {
-						// We're not able to get offsetParent from pastebin (body element), so check whether
-						// its parent (editable) is positioned.
-						if ( editable.getComputedStyle( 'position' ) != 'static' )
-							offsetParent = editable;
-						// And if not - safely get offsetParent from editable.
-						else
-							offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
+				// Compensate position of offsetParent.
+				if ( !editable.is( 'body' ) ) {
+					// We're not able to get offsetParent from pastebin (body element), so check whether
+					// its parent (editable) is positioned.
+					if ( editable.getComputedStyle( 'position' ) != 'static' )
+						offsetParent = editable;
+					// And if not - safely get offsetParent from editable.
+					else
+						offsetParent = CKEDITOR.dom.element.get( editable.$.offsetParent );
 
-						containerOffset = offsetParent.getDocumentPosition().y;
-					}
-				} else {
-					// Opera and IE doesn't allow to append to html element.
-					editable.getAscendant( CKEDITOR.env.ie || CKEDITOR.env.opera ? 'body' : 'html', 1 ).append( pastebin );
+					containerOffset = offsetParent.getDocumentPosition().y;
 				}
-
-				pastebin.setStyles( {
-					position: 'absolute',
-					// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
-					top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
-					width: '1px',
-					// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
-					// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
-					height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
-					overflow: 'hidden',
-					// Reset styles that can mess up pastebin position.
-					margin: 0,
-					padding: 0
-				} );
+			} else {
+				// Opera and IE doesn't allow to append to html element.
+				editable.getAscendant( CKEDITOR.env.ie ? 'body' : 'html', 1 ).append( pastebin );
 			}
+
+			pastebin.setStyles( {
+				position: 'absolute',
+				// Position the bin at the top (+10 for safety) of viewport to avoid any subsequent document scroll.
+				top: ( win.getScrollPosition().y - containerOffset + 10 ) + 'px',
+				width: '1px',
+				// Caret has to fit in that height, otherwise browsers like Chrome & Opera will scroll window to show it.
+				// Set height equal to viewport's height - 20px (safety gaps), minimum 1px.
+				height: Math.max( 1, win.getViewPaneSize().height - 20 ) + 'px',
+				overflow: 'hidden',
+				// Reset styles that can mess up pastebin position.
+				margin: 0,
+				padding: 0
+			} );
 
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
@@ -785,8 +774,8 @@
 			setTimeout( function() {
 				// Restore main window's scroll position which could have been changed
 				// by browser in cases described in #9771.
-				if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
-					CKEDITOR.document[ CKEDITOR.env.webkit ? 'getBody' : 'getDocumentElement' ]().$.scrollTop = scrollTop;
+				if ( CKEDITOR.env.webkit )
+					CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
@@ -869,9 +858,6 @@
 					// Simulate 'beforepaste' event for all none-IEs.
 					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
 
-					// Simulate 'paste' event for Opera/Firefox2.
-					if ( CKEDITOR.env.opera || CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 )
-						editable.fire( 'paste' );
 					return;
 
 					// Cut
@@ -945,7 +931,7 @@
 			// Text and <br> or ( text and <br> in <p> - paragraphs can be separated by new \r\n ).
 			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) && !data.match( /^(<p>([^<]|<br( ?\/)?>)*<\/p>|(\r\n))*$/gi ) )
 				return 'html';
-		} else if ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) {
+		} else if ( CKEDITOR.env.gecko ) {
 			// Text or <br>.
 			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) )
 				return 'html';
@@ -1003,7 +989,7 @@
 		}
 
 		// Opera and Firefox and enterMode != BR.
-		if ( ( CKEDITOR.env.gecko || CKEDITOR.env.opera ) && config.enterMode != CKEDITOR.ENTER_BR ) {
+		if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR ) {
 			// Remove bogus <br> - Fx generates two <brs> for one line break.
 			// For two line breaks it still produces two <brs>, but it's better to ignore this case than the first one.
 			if ( CKEDITOR.env.gecko )

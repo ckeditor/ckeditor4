@@ -344,8 +344,7 @@
 				// Set up the correct selection.
 				selection.selectRanges( [ range ] );
 
-				// Do not scroll after inserting, because Opera may fail on certain element (e.g. iframe/iframe.html).
-				afterInsert( this, CKEDITOR.env.opera );
+				afterInsert( this );
 			},
 
 			/**
@@ -491,16 +490,6 @@
 
 				// Update focus states.
 				this.on( 'blur', function( evt ) {
-					// Opera might raise undesired blur event on editable, check if it's
-					// really blurred, otherwise cancel the event. (#9459)
-					if ( CKEDITOR.env.opera ) {
-						var active = CKEDITOR.document.getActive();
-						if ( active.equals( this.isInline() ? this : this.getWindow().getFrame() ) ) {
-							evt.cancel();
-							return;
-						}
-					}
-
 					this.hasFocus = false;
 				}, null, null, -1 );
 
@@ -696,7 +685,7 @@
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
 				// Gecko/Webkit need some help when selecting control type elements. (#3448)
-				if ( !( CKEDITOR.env.ie || CKEDITOR.env.opera ) ) {
+				if ( !CKEDITOR.env.ie ) {
 					this.attachListener( this, 'mousedown', function( ev ) {
 						var control = ev.data.getTarget();
 						if ( control.is( 'img', 'hr', 'input', 'textarea', 'select' ) ) {
@@ -1784,11 +1773,11 @@
 		editable.editor.fire( 'saveSnapshot' );
 	}
 
-	function afterInsert( editable, noScroll ) {
+	function afterInsert( editable ) {
 		var editor = editable.editor;
 
 		// Scroll using selection, not ranges, to affect native pastes.
-		!noScroll && editor.getSelection().scrollIntoView();
+		editor.getSelection().scrollIntoView();
 
 		// Save snaps after the whole execution completed.
 		// This's a workaround for make DOM modification's happened after

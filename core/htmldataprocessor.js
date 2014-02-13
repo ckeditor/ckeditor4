@@ -310,10 +310,8 @@
 
 				cleanBogus( block );
 
-				// [Opera] it's mandatory for the filler to present inside of empty block when in WYSIWYG.
-				if ( ( ( CKEDITOR.env.opera && !isOutput ) ||
-						( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) ) &&
-						 isEmptyBlockNeedFiller( block ) )
+				if ( ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) &&
+						isEmptyBlockNeedFiller( block ) )
 				{
 					block.add( createFiller( isOutput ) );
 				}
@@ -812,7 +810,7 @@
 	}
 
 	function protectPreFormatted( html ) {
-		return CKEDITOR.env.opera ? html : html.replace( /(<pre\b[^>]*>)(\r\n|\n)/g, '$1$2$2' );
+		return html.replace( /(<pre\b[^>]*>)(\r\n|\n)/g, '$1$2$2' );
 	}
 
 	function protectRealComments( html ) {

@@ -64,15 +64,6 @@ Comments in this file will give more details about each of the above blocks.
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 }
 
-/* This one is required by Firefox 3.6. Without it,
-   dialog tabs and resizer float outside of the dialog.
-   Although this rule doesn't seem to break anything on other
-   browsers, it doesn't work with broken jQueryUI - #9851. */
-.cke_browser_gecko19 .cke_dialog_body
-{
-	position: relative;
-}
-
 /* Due to our reset we have to recover the styles of some elements. */
 .cke_dialog strong
 {

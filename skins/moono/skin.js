@@ -45,8 +45,8 @@ CKEDITOR.skin.name = 'moono';
 // underscore and the browser name (e.g. editor_ie.css, dialog_ie8.css).
 //
 // The accepted browser names must match the CKEDITOR.env properties. The most
-// common names are: ie, opera, webkit and gecko. Check the documentation for
-// the complete list:
+// common names are: ie, webkit and gecko. Check the documentation for the complete
+// list:
 // http://docs.ckeditor.com/#!/api/CKEDITOR.env
 //
 // Internet explorer is an expection and the browser version is also accepted
@@ -55,7 +55,7 @@ CKEDITOR.skin.name = 'moono';
 // The available browser specific files must be set separately for editor.css
 // and dialog.css.
 CKEDITOR.skin.ua_editor = 'ie,iequirks,ie7,ie8,gecko';
-CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8,opera';
+CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 // 3. Define the "Chameleon" feature
 // -----------------------------------

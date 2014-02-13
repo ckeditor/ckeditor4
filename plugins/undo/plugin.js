@@ -217,8 +217,8 @@
 			var thisContents = this.contents,
 				otherContents = otherImage.contents;
 
-			// For IE6/7 : Comparing only the protected attribute values but not the original ones.(#4522)
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
+			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 				thisContents = thisContents.replace( protectedAttrs, '' );
 				otherContents = otherContents.replace( protectedAttrs, '' );
 			}

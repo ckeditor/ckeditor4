@@ -17,7 +17,6 @@ if ( !CKEDITOR.env ) {
 	 */
 	CKEDITOR.env = ( function() {
 		var agent = navigator.userAgent.toLowerCase();
-		var opera = window.opera;
 
 		var env = {
 			/**
@@ -29,16 +28,6 @@ if ( !CKEDITOR.env ) {
 			 * @property {Boolean}
 			 */
 			ie: ( agent.indexOf( 'trident/' ) > -1 ),
-
-			/**
-			 * Indicates that CKEditor is running in Opera.
-			 *
-			 *		if ( CKEDITOR.env.opera )
-			 *			alert( 'I\'m running in Opera!' );
-			 *
-			 * @property {Boolean}
-			 */
-			opera: ( !!opera && opera.version ),
 
 			/**
 			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari.
@@ -149,7 +138,7 @@ if ( !CKEDITOR.env ) {
 		 *
 		 * @property {Boolean}
 		 */
-		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.opera && !env.ie );
+		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.ie );
 
 		/**
 		 * Indicates that CKEditor is running in Chrome.
@@ -233,10 +222,6 @@ if ( !CKEDITOR.env ) {
 			}
 		}
 
-		// Opera 9.50+
-		if ( env.opera )
-			version = parseFloat( opera.version() );
-
 		// Adobe AIR 1.0+
 		// Checked before Safari because AIR have the WebKit rich text editor
 		// features from Safari 3.0.4, but the version reported is 420.
@@ -279,8 +264,7 @@ if ( !CKEDITOR.env ) {
 			env.iOS && version >= 534 ||
 			!env.mobile && (
 				( env.ie && version > 6 ) ||
-				( env.gecko && version >= 10801 ) ||
-				( env.opera && version >= 9.5 ) ||
+				( env.gecko && version >= 20000 ) ||
 				( env.air && version >= 1 ) ||
 				( env.webkit && version >= 522 ) ||
 				false
@@ -323,24 +307,13 @@ if ( !CKEDITOR.env ) {
 		 *
 		 * @property {String}
 		 */
-		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.opera ? 'opera' : env.webkit ? 'webkit' : 'unknown' );
+		env.cssClass = 'cke_browser_' + ( env.ie ? 'ie' : env.gecko ? 'gecko' : env.webkit ? 'webkit' : 'unknown' );
 
 		if ( env.quirks )
 			env.cssClass += ' cke_browser_quirks';
 
-		if ( env.ie ) {
-			env.cssClass += ' cke_browser_ie' + ( env.quirks || env.version < 7 ? '6' : env.version );
-
-			if ( env.quirks )
-				env.cssClass += ' cke_browser_iequirks';
-		}
-
-		if ( env.gecko ) {
-			if ( version < 10900 )
-				env.cssClass += ' cke_browser_gecko18';
-			else if ( version <= 11000 )
-				env.cssClass += ' cke_browser_gecko19';
-		}
+		if ( env.ie )
+			env.cssClass += ' cke_browser_ie' + ( env.quirks ? '6 cke_browser_iequirks' : env.version );
 
 		if ( env.air )
 			env.cssClass += ' cke_browser_air';
