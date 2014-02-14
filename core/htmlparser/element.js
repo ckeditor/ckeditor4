@@ -492,10 +492,12 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			if ( !ctx.off && this.attributes[ 'data-cke-processor' ] == 'off' )
 				changes.push( 'off', true );
 
-			if ( !ctx.nonEditable && this.attributes[ 'contenteditable' ] == 'false' )
+			if ( !ctx.nonEditable && this.attributes.contenteditable == 'false' )
 				changes.push( 'nonEditable', true );
-			// A context to be given nestedEditable must be nonEditable first (by inheritance).
-			else if ( !ctx.nestedEditable && this.attributes[ 'contenteditable' ] == 'true' )
+			// A context to be given nestedEditable must be nonEditable first (by inheritance) (#11372).
+			// Never set "nestedEditable" context for a body. If body is processed then it indicates
+			// a fullPage editor and there's no slightest change of nesting such editable (#11504).
+			else if ( this.name != 'body' && !ctx.nestedEditable && this.attributes.contenteditable == 'true' )
 				changes.push( 'nestedEditable', true );
 
 			if ( changes.length ) {
