@@ -141,7 +141,7 @@
 					requiredContent: 'img[width,height]'
 				},
 				align: {
-					requiredContent: 'img{float}',
+					requiredContent: 'img{float}'
 				},
 				caption: {
 					requiredContent: 'figcaption'
