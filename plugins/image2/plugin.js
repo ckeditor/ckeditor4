@@ -961,7 +961,7 @@
 	// @param {String} value 'left', 'right', 'center' or 'block'
 	function alignCommandIntegrator( editor ) {
 		var execCallbacks = [],
-			isAllowed = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
+			enabled;
 
 		return function( value ) {
 			var command = editor.getCommand( 'justify' + value );
@@ -1000,8 +1000,14 @@
 				if ( !widget )
 					return;
 
+				// Cache "enabled" on first use. This is because filter#checkFeature may
+				// not be available during plugin's afterInit in the future — a moment when
+				// alignCommandIntegrator is called.
+				if ( typeof enabled == 'undefined' )
+					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
+
 				// Don't allow justify commands when widget alignment is disabled (#11004).
-				if ( !isAllowed )
+				if ( !enabled )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				else {
 					this.setState(
