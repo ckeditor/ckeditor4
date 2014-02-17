@@ -170,6 +170,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// If data has not been modified in the mode which we are currently leaving,
 			// avoid making snapshot right after initializing new mode.
 			// http://dev.ckeditor.com/ticket/5217#comment:20
+			// Tested by:
+			// 'test switch mode with unrecoreded, inner HTML specific content (boguses)'
+			// 'test switch mode with unrecoreded, inner HTML specific content (boguses) plus changes in source mode'
 			if ( editor.mode == 'source' && previousModeData == currentData ) {
 				// We need to make sure that unlockSnapshot will update the last snapshot
 				// (will not create new one) if lockSnapshot is not called on outdated snapshots stack.
