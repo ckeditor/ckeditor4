@@ -23,6 +23,7 @@ Fixed Issues:
 * [#11390](http://dev.ckeditor.com/ticket/11390): All [XML](http://docs.ckeditor.com/#!/api/CKEDITOR.xml) plugin's methods work now on IE10+.
 * [#11542](http://dev.ckeditor.com/ticket/11542): [IE11] Fixed: Blurry toolbar icons when right-to-left UI language is set.
 * [#11504](http://dev.ckeditor.com/ticket/11504): Fixed: When `config.fullPage` is set `true`, entities are not encoded in editor's output.
+* [#11004](http://dev.ckeditor.com/ticket/11004): Integrated [Enhanced Image](http://ckeditor.com/addon/image2) dialog with [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter).
 
 ## CKEditor 4.3.2
 
