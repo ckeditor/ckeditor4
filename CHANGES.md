@@ -15,6 +15,7 @@ New Features:
 
 Fixed Issues:
 
+* [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Webkit browsers - cannot select and remove Page Break (pagebreak).
 * [#11413](http://dev.ckeditor.com/ticket/11413): Fixed: Wrong execCommand behavior.
 * [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
 * [#8899](http://dev.ckeditor.com/ticket/8899): Fixed: Links in About Dialog now open in new window/tab.
@@ -28,6 +29,8 @@ Fixed Issues:
 * [#11400](http://dev.ckeditor.com/ticket/11400): Fixed [`domObject.removeAllListeners`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.domObject-method-removeAllListeners) does not remove custom listeners completely.
 * [#11493](http://dev.ckeditor.com/ticket/11493): Fixed [`selection.getRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-getRanges) does not override cached ranges when used with `onlyEditables` argument.
 * [#11390](http://dev.ckeditor.com/ticket/11390): All [XML](http://docs.ckeditor.com/#!/api/CKEDITOR.xml) plugin's methods work now on IE10+.
+* [#11542](http://dev.ckeditor.com/ticket/11542): [IE11] Fixed: Blurry toolbar icons when right-to-left UI language is set.
+* [#11504](http://dev.ckeditor.com/ticket/11504): Fixed: When `config.fullPage` is set `true`, entities are not encoded in editor's output.
 
 ## CKEditor 4.3.2
 

@@ -207,6 +207,12 @@ CKEDITOR.config = {
 	 *
 	 *		config.bodyClass = 'contents';
 	 *
+	 * **Note:** Editor needs to load stylesheets containing contents styles. You can either
+	 * copy them to the `contents.css` file that editor loads by default or set the {@link #contentsCss}
+	 * option.
+	 *
+	 * **Note:** This setting applies only to the classic editor (the one that uses `iframe`).
+	 *
 	 * @since 3.1
 	 * @cfg
 	 */

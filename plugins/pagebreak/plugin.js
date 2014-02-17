@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -44,6 +44,15 @@
 				label: editor.lang.pagebreak.toolbar,
 				command: 'pagebreak',
 				toolbar: 'insert,70'
+			} );
+
+			// Webkit based browsers needs help to select the page-break.
+			CKEDITOR.env.webkit && editor.on( 'contentDom', function() {
+				editor.document.on( 'click', function( evt ) {
+					var target = evt.data.getTarget();
+					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
+						editor.getSelection().selectElement( target );
+				} );
 			} );
 		},
 
