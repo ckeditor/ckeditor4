@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -46,8 +46,8 @@
 				toolbar: 'insert,70'
 			} );
 
-			// Opera needs help to select the page-break.
-			CKEDITOR.env.opera && editor.on( 'contentDom', function() {
+			// Opera and Chrome needs help to select the page-break.
+			( CKEDITOR.env.opera || CKEDITOR.env.chrome ) && editor.on( 'contentDom', function() {
 				editor.document.on( 'click', function( evt ) {
 					var target = evt.data.getTarget();
 					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
