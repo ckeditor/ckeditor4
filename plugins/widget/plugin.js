@@ -1147,7 +1147,9 @@
 				newPos = {
 					x: domElement.offsetLeft,
 					y: domElement.offsetTop - DRAG_HANDLER_SIZE
-				};
+				},
+				// We need to make sure that dirty state is not changed (#11487).
+				initialDirty = editor.checkDirty();
 
 			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
 				return;
@@ -1158,6 +1160,7 @@
 				left: newPos.x + 'px'
 			} );
 			editor.fire( 'unlockSnapshot' );
+			!initialDirty && editor.resetDirty();
 
 			this._.dragHandlerOffset = newPos;
 		}
