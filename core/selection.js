@@ -253,7 +253,8 @@
 
 		editor.editable().append( hiddenEl );
 
-		var sel = editor.getSelection(),
+			// Always use real selection to avoid overriding locked one (http://dev.ckeditor.com/ticket/11104#comment:13).
+		var sel = editor.getSelection( 1 ),
 			range = editor.createRange(),
 			// Cancel selectionchange fired by selectRanges - prevent from firing selectionChange.
 			listener = sel.root.on( 'selectionchange', function( evt ) {
