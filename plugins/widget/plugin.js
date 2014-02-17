@@ -1152,12 +1152,16 @@
 			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
 				return;
 
+			// We need to make sure that dirty state is not changed (#11487).
+			var initialDirty = editor.checkDirty();
+
 			editor.fire( 'lockSnapshot' );
 			this.dragHandlerContainer.setStyles( {
 				top: newPos.y + 'px',
 				left: newPos.x + 'px'
 			} );
 			editor.fire( 'unlockSnapshot' );
+			!initialDirty && editor.resetDirty();
 
 			this._.dragHandlerOffset = newPos;
 		}

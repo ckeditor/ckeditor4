@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11487](http://dev.ckeditor.com/ticket/11487): Moving mouse over [Enhanced Image](http://ckeditor.com/addon/image2) widget will no longer change value returned by [`Editor.checkDirty`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) method.
 * [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Webkit browsers - cannot select and remove Page Break (pagebreak).
 * [#11413](http://dev.ckeditor.com/ticket/11413): Fixed: Wrong execCommand behavior.
 * [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
