@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Chrome - cannot select and remove Page Break (pagebreak).
+* [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Webkit browsers - cannot select and remove Page Break (pagebreak).
 * [#11413](http://dev.ckeditor.com/ticket/11413): Fixed: Wrong execCommand behavior.
 * [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
 * [#8899](http://dev.ckeditor.com/ticket/8899): Fixed: Links in About Dialog now open in new window/tab.

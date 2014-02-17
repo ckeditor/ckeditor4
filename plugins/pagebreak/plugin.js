@@ -46,8 +46,8 @@
 				toolbar: 'insert,70'
 			} );
 
-			// Opera and Chrome needs help to select the page-break.
-			( CKEDITOR.env.opera || CKEDITOR.env.chrome ) && editor.on( 'contentDom', function() {
+			// Opera and webkit based browsers needs help to select the page-break.
+			( CKEDITOR.env.opera || CKEDITOR.env.webkit ) && editor.on( 'contentDom', function() {
 				editor.document.on( 'click', function( evt ) {
 					var target = evt.data.getTarget();
 					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
