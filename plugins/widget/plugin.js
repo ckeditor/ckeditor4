@@ -1147,12 +1147,13 @@
 				newPos = {
 					x: domElement.offsetLeft,
 					y: domElement.offsetTop - DRAG_HANDLER_SIZE
-				},
-				// We need to make sure that dirty state is not changed (#11487).
-				initialDirty = editor.checkDirty();
+				};
 
 			if ( oldPos && newPos.x == oldPos.x && newPos.y == oldPos.y )
 				return;
+
+			// We need to make sure that dirty state is not changed (#11487).
+			var initialDirty = editor.checkDirty();
 
 			editor.fire( 'lockSnapshot' );
 			this.dragHandlerContainer.setStyles( {
