@@ -2151,6 +2151,10 @@
 		 * Remove all the selection ranges from the document.
 		 */
 		removeAllRanges: function() {
+			// Don't clear selection outside this selection's root (#11500).
+			if ( this.getType() == CKEDITOR.SELECTION_NONE )
+				return;
+
 			var nativ = this.getNative();
 
 			try { nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ](); }
