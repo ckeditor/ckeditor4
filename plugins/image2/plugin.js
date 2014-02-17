@@ -1003,7 +1003,7 @@
 				// Cache "enabled" on first use. This is because filter#checkFeature may
 				// not be available during plugin's afterInit in the future — a moment when
 				// alignCommandIntegrator is called.
-				if ( typeof enabled == 'undefined' )
+				if ( enabled == undefined )
 					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
 
 				// Don't allow justify commands when widget alignment is disabled (#11004).
