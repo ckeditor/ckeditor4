@@ -98,14 +98,14 @@
 
 			/**
 			 * Registers an event listener that needs to be removed when detaching this editable.
-			 * This means that it will be automatically removed when {@link #detach} was executed,
-			 * so when {@link CKEDITOR.editor#setMode changing editor mode} or destroying editor.
+			 * This means that it will be automatically removed when {@link #detach} is executed,
+			 * for example on {@link CKEDITOR.editor#setMode changing editor mode} or destroying editor.
 			 *
 			 * Except for `obj` all other arguments have the same meaning as in {@link CKEDITOR.event#on}.
 			 *
 			 * This method is strongly related to the {@link CKEDITOR.editor#contentDom} and
 			 * {@link CKEDITOR.editor#contentDomUnload} events, because they are fired
-			 * when editable is being attached and detached. Therefore, usually this method is used
+			 * when an editable is being attached and detached. Therefore, this method is usually used
 			 * in the following way:
 			 *
 			 *		editor.on( 'contentDom', function() {
@@ -115,11 +115,11 @@
 			 *			} );
 			 *		} );
 			 *
-			 * The above code will attach `mousedown` listener every time new editable is attached
-			 * to the editor, what in classic (`iframe`-based) editor happens every time
-			 * data or mode is set. This listener will also be removed when that editable is detached.
+			 * This code will attach the `mousedown` listener every time a new editable is attached
+			 * to the editor, which in classic (`iframe`-based) editor happens every time the
+			 * data or the mode is set. This listener will also be removed when that editable is detached.
 			 *
-			 * It's also possible to attach listener to other object (e.g. to document).
+			 * It is also possible to attach a listener to another object (e.g. to a document).
 			 *
 			 *		editor.on( 'contentDom', function() {
 			 *			editor.editable().attachListener( editor.document, 'mousedown', function() {
@@ -127,22 +127,22 @@
 			 *			} );
 			 *		} );
 			 *
-			 * @param {CKEDITOR.event} obj The element/object to which listener will be attached. Every object
+			 * @param {CKEDITOR.event} obj The element/object to which the listener will be attached. Every object
 			 * which inherits from {@link CKEDITOR.event} may be used including {@link CKEDITOR.dom.element},
-			 * {@link CKEDITOR.dom.document} and {@link CKEDITOR.editable}.
-			 * @param {String} eventName The event name to which listen.
+			 * {@link CKEDITOR.dom.document}, and {@link CKEDITOR.editable}.
+			 * @param {String} eventName The name of the event that will be listened to.
 			 * @param {Function} listenerFunction The function listening to the
-			 * event. A single {@link CKEDITOR.eventInfo} object instanced
-			 * is passed to this function containing all the event data.
+			 * event. A single {@link CKEDITOR.eventInfo} object instance
+			 * containing all the event data is passed to this function.
 			 * @param {Object} [scopeObj] The object used to scope the listener
 			 * call (the `this` object). If omitted, the current object is used.
 			 * @param {Object} [listenerData] Data to be sent as the
 			 * {@link CKEDITOR.eventInfo#listenerData} when calling the listener.
 			 * @param {Number} [priority=10] The listener priority. Lower priority
 			 * listeners are called first. Listeners with the same priority
-			 * value are called in registration order.
+			 * value are called in the registration order.
 			 * @returns {Object} An object containing the `removeListener`
-			 * function, which can be used to remove the listener at any time.
+			 * function that can be used to remove the listener at any time.
 			 */
 			attachListener: function( obj, event, fn, scope, listenerData, priority ) {
 				!this._.listeners && ( this._.listeners = [] );
