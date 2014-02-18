@@ -94,6 +94,7 @@
 		proto: {
 			setData: function( data ) {
 				this.setValue( data );
+				this.status = 'ready';
 				this.editor.fire( 'dataReady' );
 			},
 
