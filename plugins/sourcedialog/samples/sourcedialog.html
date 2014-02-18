@@ -11,7 +11,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<link rel="stylesheet" href="../../../samples/sample.css">
 	<meta name="ckeditor-sample-name" content="Editing source code in a dialog">
 	<meta name="ckeditor-sample-group" content="Plugins">
-	<meta name="ckeditor-sample-description" content="Editing HTML content of both inline and framed editor instances.">
+	<meta name="ckeditor-sample-description" content="Editing HTML content of both inline and classic editor instances.">
 	<meta name="ckeditor-sample-isnew" content="1">
 	<style>
 
@@ -31,12 +31,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p>
 			<strong>Sourcedialog</strong> plugin provides an easy way to edit raw HTML content
 			of an editor, similarly to what is possible with <strong>Sourcearea</strong>
-			plugin for framed instances but using dialogs. Thanks to that, it's also possible
+			plugin for classic (<code>iframe</code>-based) instances but using dialogs. Thanks to that, it's also possible
 			to manipulate raw content of inline editor instances.
 		</p>
 		<p>
 			This plugin extends the toolbar with a button,
-			which opens a dialog window with a source code editor. It works with both framed
+			which opens a dialog window with a source code editor. It works with both classic
 			and inline instances. To enable this
 			plugin, basically add <code>extraPlugins: 'sourcedialog'</code> to editor's
 			config:
@@ -47,7 +47,7 @@ CKEDITOR.inline( 'editable', {
 	<strong>extraPlugins: 'sourcedialog'</strong>
 });
 
-// Framed editor.
+// Classic (iframe-based) editor.
 CKEDITOR.replace( 'textarea_id', {
 	<strong>extraPlugins: 'sourcedialog'</strong>,
 	removePlugins: 'sourcearea'
@@ -55,7 +55,7 @@ CKEDITOR.replace( 'textarea_id', {
 </pre>
 		<p>
 			Note that you may want to include <code>removePlugins: 'sourcearea'</code>
-			in your config when using <strong>Sourcedialog</strong> in framed instances.
+			in your config when using <strong>Sourcedialog</strong> in classic editor instances.
 			This prevents feature redundancy.
 		</p>
 		<p>
@@ -78,7 +78,7 @@ CKEDITOR.replace( 'textarea_id', {
 	<br>
 	<div>
 		<label for="editor2">
-			Framed editor:
+			Classic editor:
 		</label>
 		<textarea cols="80" id="editor2" name="editor2" rows="10">
 			This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.

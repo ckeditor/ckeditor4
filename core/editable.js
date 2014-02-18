@@ -1102,8 +1102,8 @@
 
 			var editable = editor.editable();
 
-			// Setup proper ARIA roles and properties for inline editable, framed
-			// editable is instead handled by plugin.
+			// Setup proper ARIA roles and properties for inline editable, classic
+			// (iframe-based) editable is instead handled by plugin.
 			if ( editable && editable.isInline() ) {
 
 				var ariaLabel = editor.title;

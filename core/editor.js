@@ -1369,13 +1369,13 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * The document that stores the editor contents.
  *
- * * For the framed editor it is equal to the document inside the
- * iframe containing the editable element.
+ * * For the classic (`iframe`-based) editor it is equal to the document inside the
+ * `iframe` containing the editable element.
  * * For the inline editor it is equal to {@link CKEDITOR#document}.
  *
  * The document object is available after the {@link #contentDom} event is fired
  * and may be invalidated when the {@link #contentDomUnload} event is fired
- * (framed editor only).
+ * (classic editor only).
  *
  *		editor.on( 'contentDom', function() {
  *			console.log( editor.document );
@@ -1724,8 +1724,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * editor's content. It is also a first event fired after
  * {@link CKEDITOR.editable} is initialized.
  *
- * This event is particularly important for framed editor, because
- * on editor initialization and every time data are set
+ * This event is particularly important for classic (`iframe`-based)
+ * editor, because on editor initialization and every time data are set
  * (by {@link CKEDITOR.editor#method-setData}) contents DOM structure
  * is rebuilt. Thus, e.g. you need to attach DOM events listeners
  * on editable one more time.

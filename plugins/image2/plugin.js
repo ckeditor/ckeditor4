@@ -803,7 +803,7 @@
 			resizer.addClass( 'cke_image_resizing' );
 
 			// Attaches an event to a global document if inline editor.
-			// Additionally, if framed, also attaches the same event to iframe's document.
+			// Additionally, if classic (`iframe`-based) editor, also attaches the same event to `iframe`'s document.
 			function attachToDocuments( name, callback, collection ) {
 				var globalDoc = CKEDITOR.document,
 					listeners = [];

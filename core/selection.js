@@ -587,7 +587,7 @@
 				} );
 			}
 
-			// The following selection related fixes applies to only framed editable.
+			// The following selection-related fixes only apply to classic (`iframe`-based) editable.
 			if ( CKEDITOR.env.ie && !isInline ) {
 				var scroll;
 				editable.attachListener( editable, 'mousedown', function( evt ) {
@@ -723,7 +723,7 @@
 				editor.selectionChange( 1 );
 			} );
 
-			// #9699: On Webkit&Gecko in inline editor and on Opera in framed editor we have to check selection
+			// #9699: On Webkit&Gecko in inline editor and on Opera in classic (`iframe`-based) editor we have to check selection
 			// when it was changed by dragging and releasing mouse button outside editable. Dragging (mousedown)
 			// has to be initialized in editable, but for mouseup we listen on document element.
 			// On Opera, listening on document element, helps even if mouse button is released outside iframe.
