@@ -1179,6 +1179,45 @@
 
 		return data;
 	}
+
+	// Copy of getRangeAtDropPosition method from widget plugin.
+	// In #11219 method in widget should be removed and everything be according to DRY.
+	function getRangeAtDropPosition( editor, dropEvt ) {
+		var $evt = dropEvt.data.$,
+			$range,
+			range = editor.createRange();
+
+		// Make testing possible.
+		if ( dropEvt.data.testRange )
+			return dropEvt.data.testRange;
+
+		// Webkits.
+		if ( document.caretRangeFromPoint ) {
+			$range = editor.document.$.caretRangeFromPoint( $evt.clientX, $evt.clientY );
+			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
+			range.collapse( true );
+		}
+		// FF.
+		else if ( $evt.rangeParent ) {
+			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
+			range.collapse( true );
+		}
+		// IEs.
+		else if ( document.body.createTextRange ) {
+			$range = editor.document.getBody().$.createTextRange();
+			$range.moveToPoint( $evt.clientX, $evt.clientY );
+			var id = 'cke-temp-' + ( new Date() ).getTime();
+			$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+
+			var span = editor.document.getById( id );
+			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
+			span.remove();
+		}
+		else
+			return null;
+
+		return range;
+	}
 } )();
 
 /**
