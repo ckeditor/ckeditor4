@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11500](http://dev.ckeditor.com/ticket/11500): [Webkit/Blink] Fixed: Selection lost when setting data in other inline editor. Additionally, [`selection.removeAllRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-removeAllRanges) is now scoped to selection's [root](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-property-root).
 * [#11104](http://dev.ckeditor.com/ticket/11104): [IE] Fixed: Various issues with scroll and selection focusing widgets.
 * [#11487](http://dev.ckeditor.com/ticket/11487): Moving mouse over [Enhanced Image](http://ckeditor.com/addon/image2) widget will no longer change value returned by [`Editor.checkDirty`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) method.
 * [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Webkit browsers - cannot select and remove Page Break (pagebreak).
