@@ -132,6 +132,22 @@
 				}
 			},
 
+			requiredContent: 'img[src,alt]',
+
+			// Note: The following may not cover all the possible cases since
+			// requiredContent supports a single tag only.
+			features: {
+				dimension: {
+					requiredContent: 'img[width,height]'
+				},
+				align: {
+					requiredContent: 'img{float}'
+				},
+				caption: {
+					requiredContent: 'figcaption'
+				}
+			},
+
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
 				[ 'img[width]: sizeToAttribute' ]
@@ -162,7 +178,16 @@
 					doc = editor.document,
 					editable = editor.editable(),
 					oldState = widget.oldData,
-					newState = widget.data;
+					newState = widget.data,
+					features = this.features;
+
+				// Image can't be captioned when figcaption is disallowed (#11004).
+				if ( newState.hasCaption && !editor.filter.checkFeature( features.caption ) )
+					newState.hasCaption = false;
+
+				// Image can't be aligned when floating is disallowed (#11004).
+				if ( newState.align != 'none' && !editor.filter.checkFeature( features.align ) )
+					newState.align = 'none';
 
 				// Convert the internal form of the widget from the old state to the new one.
 				widget.shiftState( {
@@ -229,7 +254,9 @@
 				} );
 
 				// Set dimensions of the image according to gathered data.
-				setDimensions( widget );
+				// Do it only when the attributes are allowed (#11004).
+				if ( editor.filter.checkFeature( features.dimension ) )
+					setDimensions( widget );
 
 				// Cache current data.
 				widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
@@ -265,7 +292,9 @@
 				this.setData( data );
 
 				// Setup dynamic image resizing with mouse.
-				setupResizer( this );
+				// Don't initialize resizer when dimensions are disallowed (#11004).
+				if ( editor.filter.checkFeature( this.features.dimension ) )
+					setupResizer( this );
 
 				this.shiftState = helpers.stateShifter( this.editor );
 
@@ -593,9 +622,13 @@
 		// Only block widgets have one.
 		if ( !this.inline ) {
 			var resizeWrapper = el.getFirst( 'span' ),
-				img = resizeWrapper.getFirst( 'img' );
+				img;
 
-			resizeWrapper.replaceWith( img );
+			if ( resizeWrapper ) {
+				img = resizeWrapper.getFirst( 'img' );
+				resizeWrapper.replaceWith( img );
+			} else
+				img = el.getFirst( 'img' );
 		}
 
 		if ( align && align != 'none' ) {
@@ -702,7 +735,9 @@
 		var editor = widget.editor,
 			editable = editor.editable(),
 			doc = editor.document,
-			resizer = doc.createElement( 'span' );
+
+			// Store the resizer in a widget for testing (#11004).
+			resizer = widget.resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_image_resizer' );
 		resizer.setAttribute( 'title', editor.lang.image2.resizer );
@@ -768,7 +803,7 @@
 			resizer.addClass( 'cke_image_resizing' );
 
 			// Attaches an event to a global document if inline editor.
-			// Additionally, if framed, also attaches the same event to iframe's document.
+			// Additionally, if classic (`iframe`-based) editor, also attaches the same event to `iframe`'s document.
 			function attachToDocuments( name, callback, collection ) {
 				var globalDoc = CKEDITOR.document,
 					listeners = [];
@@ -925,7 +960,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @param {String} value 'left', 'right', 'center' or 'block'
 	function alignCommandIntegrator( editor ) {
-		var execCallbacks = [];
+		var execCallbacks = [],
+			enabled;
 
 		return function( value ) {
 			var command = editor.getCommand( 'justify' + value );
@@ -964,14 +1000,25 @@
 				if ( !widget )
 					return;
 
-				this.setState(
-					( widget.data.align == value ) ?
-							CKEDITOR.TRISTATE_ON
-						:
-							( value in allowed ) ?
-									CKEDITOR.TRISTATE_OFF
-								:
-									CKEDITOR.TRISTATE_DISABLED );
+				// Cache "enabled" on first use. This is because filter#checkFeature may
+				// not be available during plugin's afterInit in the future — a moment when
+				// alignCommandIntegrator is called.
+				if ( enabled == undefined )
+					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
+
+				// Don't allow justify commands when widget alignment is disabled (#11004).
+				if ( !enabled )
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
+				else {
+					this.setState(
+						( widget.data.align == value ) ?
+								CKEDITOR.TRISTATE_ON
+							:
+								( value in allowed ) ?
+										CKEDITOR.TRISTATE_OFF
+									:
+										CKEDITOR.TRISTATE_DISABLED );
+				}
 
 				evt.cancel();
 			} );

@@ -84,7 +84,7 @@
 			}, true );
 
 			// This is the boundary of the editor. For inline the boundary is editable itself.
-			// For framed editor, the HTML element is a real boundary.
+			// For classic (`iframe`-based) editor, the HTML element is a real boundary.
 			that.boundary = that.inInlineMode ? that.editable : that.doc.getDocumentElement();
 
 			// Enabling the box inside of inline editable is pointless.
@@ -195,7 +195,7 @@
 
 			// This method ensures that checkMouse aren't executed
 			// in parallel and no more frequently than specified in timeout function.
-			// In framed editor, document is used as a trigger, to provide magicline
+			// In classic (`iframe`-based) editor, document is used as a trigger, to provide magicline
 			// functionality when mouse is below the body (short content, short body).
 			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
 				checkMouseTimeoutPending = true;
@@ -454,7 +454,7 @@
 				return null;
 
 			// Also return nothing if:
-			//	\-> We're IE<9 and element is out of the top-level element (editable for inline and HTML for framed).
+			//	\-> We're IE<9 and element is out of the top-level element (editable for inline and HTML for classic (`iframe`-based)).
 			//		This is due to the bug which allows IE<9 firing mouse events on element
 			//		with contenteditable=true while doing selection out (far, away) of the element.
 			//		Thus we must always be sure that we stay in editable or HTML.

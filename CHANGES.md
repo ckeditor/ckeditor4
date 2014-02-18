@@ -15,6 +15,10 @@ New Features:
 
 Fixed Issues:
 
+* [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including changing data in source mode) now records an undo snapshot (can be undone) and fires the [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
+* [#11500](http://dev.ckeditor.com/ticket/11500): [Webkit/Blink] Fixed: Selection lost when setting data in other inline editor. Additionally, [`selection.removeAllRanges`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-removeAllRanges) is now scoped to selection's [root](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-property-root).
+* [#11104](http://dev.ckeditor.com/ticket/11104): [IE] Fixed: Various issues with scroll and selection focusing widgets.
+* [#11487](http://dev.ckeditor.com/ticket/11487): Moving mouse over [Enhanced Image](http://ckeditor.com/addon/image2) widget will no longer change value returned by [`Editor.checkDirty`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) method.
 * [#8673](http://dev.ckeditor.com/ticket/8673): Fixed: Webkit browsers - cannot select and remove Page Break (pagebreak).
 * [#11413](http://dev.ckeditor.com/ticket/11413): Fixed: Wrong execCommand behavior.
 * [#11438](http://dev.ckeditor.com/ticket/11438): Splitting table cells vertically is no longer chnaging table structure.
@@ -31,6 +35,7 @@ Fixed Issues:
 * [#11390](http://dev.ckeditor.com/ticket/11390): All [XML](http://docs.ckeditor.com/#!/api/CKEDITOR.xml) plugin's methods work now on IE10+.
 * [#11542](http://dev.ckeditor.com/ticket/11542): [IE11] Fixed: Blurry toolbar icons when right-to-left UI language is set.
 * [#11504](http://dev.ckeditor.com/ticket/11504): Fixed: When `config.fullPage` is set `true`, entities are not encoded in editor's output.
+* [#11004](http://dev.ckeditor.com/ticket/11004): Integrated [Enhanced Image](http://ckeditor.com/addon/image2) dialog with [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter).
 
 ## CKEditor 4.3.2
 

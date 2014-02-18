@@ -253,7 +253,8 @@
 
 		editor.editable().append( hiddenEl );
 
-		var sel = editor.getSelection(),
+			// Always use real selection to avoid overriding locked one (http://dev.ckeditor.com/ticket/11104#comment:13).
+		var sel = editor.getSelection( 1 ),
 			range = editor.createRange(),
 			// Cancel selectionchange fired by selectRanges - prevent from firing selectionChange.
 			listener = sel.root.on( 'selectionchange', function( evt ) {
@@ -586,7 +587,7 @@
 				} );
 			}
 
-			// The following selection related fixes applies to only framed editable.
+			// The following selection-related fixes only apply to classic (`iframe`-based) editable.
 			if ( CKEDITOR.env.ie && !isInline ) {
 				var scroll;
 				editable.attachListener( editable, 'mousedown', function( evt ) {
@@ -2124,6 +2125,10 @@
 		 * Remove all the selection ranges from the document.
 		 */
 		removeAllRanges: function() {
+			// Don't clear selection outside this selection's root (#11500).
+			if ( this.getType() == CKEDITOR.SELECTION_NONE )
+				return;
+
 			var nativ = this.getNative();
 
 			try { nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ](); }

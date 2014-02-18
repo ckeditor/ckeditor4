@@ -20,7 +20,7 @@
 				// Simply set auto height with div wysiwyg.
 				if ( editor.editable().isInline() )
 					editor.ui.space( 'contents' ).setStyle( 'height', 'auto' );
-				// For framed wysiwyg we need to resize the editor.
+				// For classic (`iframe`-based) wysiwyg we need to resize the editor.
 				else
 					initIframeAutogrow( editor );
 			} );

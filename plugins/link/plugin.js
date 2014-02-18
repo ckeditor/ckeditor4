@@ -225,7 +225,7 @@ CKEDITOR.plugins.link = {
 	/**
 	 * Collects anchors available in the editor (i.e. used by link dialog).
 	 * Note that the scope of search is different for inline (the "global" document) and
-	 * framed editors (the "inner" document).
+	 * classic (`iframe`-based) editors (the "inner" document).
 	 *
 	 * @since 4.3.3
 	 * @param {CKEDITOR.editor} editor
@@ -235,7 +235,7 @@ CKEDITOR.plugins.link = {
 		var editable = editor.editable(),
 
 			// The scope of search for anchors is the entire document for inline editors
-			// and editor's editable for framed/divarea (#11359).
+			// and editor's editable for classic editor/divarea (#11359).
 			scope = ( editable.isInline() && !editor.plugins.divarea ) ? editor.document : editable,
 
 			links = scope.getElementsByTag( 'a' ),
