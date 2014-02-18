@@ -109,7 +109,8 @@
 			 * in the following way:
 			 *
 			 *		editor.on( 'contentDom', function() {
-			 *			editor.editable().attachListener( editable, 'mousedown', function() {
+			 *			var editable = editor.editable();
+			 *			editable.attachListener( editable, 'mousedown', function() {
 			 *				// ...
 			 *			} );
 			 *		} );
