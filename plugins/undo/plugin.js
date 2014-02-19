@@ -160,12 +160,9 @@
 			 * @param data
 			 * @param {Boolean} [data.dontUpdate] When set to `true` the last snapshot will not be updated
 			 * with the current contents and selection. Read more in the {@link CKEDITOR.plugins.undo.UndoManager#lock} method.
-			 * @param {Boolean} [data.alwaysUpdate] When set to `true` the last snapshot will always be updated
-			 * with the current contents and selection. Read more in the {@link CKEDITOR.plugins.undo.UndoManager#lock} method.
 			 */
 			editor.on( 'lockSnapshot', function( evt ) {
-				var data = evt.data;
-				undoManager.lock( data && data.dontUpdate, data && data.alwaysUpdate );
+				undoManager.lock( evt.data && evt.data.dontUpdate );
 			} );
 
 			/**
@@ -417,21 +414,15 @@
 		 * Saves a snapshot of the document image for later retrieval.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
-			var editor = this.editor;
-			// Do not change snapshots stack when locked, editor is not ready,
-			// editable is not ready or when editor is in mode difference than 'wysiwyg'.
-			if ( this.locked || editor.status != 'ready' || editor.mode != 'wysiwyg' )
-				return false;
-
-			var editable = editor.editable();
-			if ( !editable || editable.status != 'ready' )
+			// Do not change snapshots stack when locked.
+			if ( this.locked )
 				return false;
 
 			var snapshots = this.snapshots;
 
 			// Get a content image.
 			if ( !image )
-				image = new Image( editor );
+				image = new Image( this.editor );
 
 			// Do nothing if it was not possible to retrieve an image.
 			if ( image.contents === false )
@@ -446,7 +437,8 @@
 					if ( image.equalsSelection( this.currentImage ) )
 						return false;
 				} else
-					editor.fire( 'change' );
+					this.editor.fire( 'change' );
+
 			}
 
 			// Drop future snapshots.
@@ -629,43 +621,31 @@
 		 * **Note:** For every `lock` call you must call {@link #unlock} once to unlock the undo manager.
 		 *
 		 * @since 4.0
-		 * @param {Boolean} [dontUpdate] When set to `true` the last snapshot will not be updated
+		 * @param {Boolean} [dontUpdate] When set to `true` the last snapashot will not be updated
 		 * with the current contents and selection. By default, if undo manager was up to date when lock started,
 		 * the last snapshot will be updated to the current state when unlocking. This means that all changes
 		 * done during lock will be merged into the previous snapshot or the next one. Use this option, to gain
 		 * more control over this behavior. For example, it is possible to group changes done during lock into
 		 * separate snapshot.
-		 * @param {Boolean} [alwaysUpdate] When set to `true` the last snapshot will always be updated with the
-		 * current contents and selection regardless of the current state of undo manager.
-		 * When not set the last snapshot will be updated only if undo manager was up to date when locking.
-		 * Additionally, this option makes it possible to lock snapshot when editor is not in `wysiwyg` mode,
-		 * because when it's passed snapshots will not need to be compared.
 		 */
-		lock: function( dontUpdate, alwaysUpdate ) {
+		lock: function( dontUpdate ) {
 			if ( !this.locked ) {
 				if ( dontUpdate )
 					this.locked = { level: 1 };
 				else {
-					var update = null;
+					// Make a contents image. Don't include bookmarks, because:
+					// * we don't compare them,
+					// * there's a chance that DOM has been changed since
+					// locked (e.g. fake) selection was made, so createBookmark2 could fail.
+					// http://dev.ckeditor.com/ticket/11027#comment:3
+					var imageBefore = new Image( this.editor, true );
 
-					if ( alwaysUpdate )
-						update = true;
-					else {
-						// Make a contents image. Don't include bookmarks, because:
-						// * we don't compare them,
-						// * there's a chance that DOM has been changed since
-						// locked (e.g. fake) selection was made, so createBookmark2 could fail.
-						// http://dev.ckeditor.com/ticket/11027#comment:3
-						var imageBefore = new Image( this.editor, true );
+					// If current editor content matches the tip of snapshot stack,
+					// the stack tip must be updated by unlock, to include any changes made
+					// during this period.
+					var matchedTip = this.currentImage && this.currentImage.equalsContent( imageBefore );
 
-						// If current editor content matches the tip of snapshot stack,
-						// the stack tip must be updated by unlock, to include any changes made
-						// during this period.
-						if ( this.currentImage && this.currentImage.equalsContent( imageBefore ) )
-							update = imageBefore;
-					}
-
-					this.locked = { update: update, level: 1 };
+					this.locked = { update: matchedTip ? imageBefore : null, level: 1 };
 				}
 			}
 			// Increase the level of lock.
@@ -684,20 +664,13 @@
 			if ( this.locked ) {
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
-					var update = this.locked.update;
+					var updateImage = this.locked.update,
+						newImage = updateImage && new Image( this.editor, true );
 
 					this.locked = null;
 
-					// alwaysUpdate was passed to lock().
-					if ( update === true )
+					if ( updateImage && !updateImage.equalsContent( newImage ) )
 						this.update();
-					// update is instance of Image.
-					else if ( update ) {
-						var newImage = new Image( this.editor, true );
-
-						if ( !update.equalsContent( newImage ) )
-							this.update();
-					}
 				}
 			}
 		}

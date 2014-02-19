@@ -277,10 +277,6 @@
 			editor.document.$.title = this._.docTitle;
 
 		CKEDITOR.tools.setTimeout( function() {
-			// Editable is ready after first setData.
-			if ( this.status == 'unloaded' )
-				this.status = 'ready';
-
 			editor.fire( 'contentDom' );
 
 			if ( this._.isPendingFocus ) {

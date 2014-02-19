@@ -939,15 +939,10 @@
 		 * @param {Boolean} internal Whether to suppress any event firing when copying data internally inside the editor.
 		 */
 		setData: function( data, callback, internal ) {
-			!internal && this.fire( 'saveSnapshot' );
-
-			if ( callback || !internal ) {
-				this.once( 'dataReady', function( evt ) {
-					if ( !internal )
-						this.fire( 'saveSnapshot' );
-
-					if ( callback )
-						callback.call( evt.editor );
+			if ( callback ) {
+				this.on( 'dataReady', function( evt ) {
+					evt.removeListener();
+					callback.call( evt.editor );
 				} );
 			}
 
