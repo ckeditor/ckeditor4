@@ -25,11 +25,13 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 		},
 
 		onOk: ( function() {
-			function setData( newData ) {
-				var that = this;
-
+			function setData( dialog, newData ) {
+				// [IE8] Focus editor before setting selection to avoid setting data on
+				// locked selection, because in case of inline editor, it won't be
+				// unlocked before editable's HTML is altered. (#11585)
+				editor.focus();
 				editor.setData( newData, function() {
-					that.hide();
+					dialog.hide();
 
 					// Ensure correct selection.
 					var range = editor.createRange();
@@ -40,20 +42,20 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 
 			return function( event ) {
 				// Remove CR from input data for reliable comparison with editor data.
-				var newData = this.getValueOf( 'main', 'data' ).replace( /\r/g, '' );
+				var newData = this.getValueOf( 'main', 'data' ).replace( /\r/g, '' ),
+					that = this;
 
 				// Avoid unnecessary setData. Also preserve selection
 				// when user changed his mind and goes back to wysiwyg editing.
 				if ( newData === oldData )
 					return true;
 
-				// Set data asynchronously to avoid errors in IE.
-				CKEDITOR.env.ie ?
-						CKEDITOR.tools.setTimeout( setData, 0, this, newData )
-					:
-						setData.call( this, newData );
+				setTimeout( function() {
+					setData( that, newData );
+				} );
 
-				// Don't let the dialog close before setData is over.
+				// Don't let the dialog close before setData is over, to hide
+				// from user blinking caused by selection restoring and setting new data.
 				return false;
 			};
 		} )(),
