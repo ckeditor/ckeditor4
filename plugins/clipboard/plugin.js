@@ -497,6 +497,68 @@
 			} );
 
 			editable.on( 'keyup', setToolbarStates );
+
+			var editable = editor.editable(),
+				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+				// #11086 IE8 cannot listen on document.
+				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+				clipboard, dragRanges, dragTimestamp;
+
+			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
+				dragTimestamp = 'cke-' + ( new Date() ).getTime();
+				clipboard = editor.getSelection().getSelectedHtml();
+				dragRanges = editor.getSelection().getRanges();
+				evt.data.$.dataTransfer.setData( 'text', dragTimestamp );
+			} );
+
+			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				if ( evt.data.$.dataTransfer.getData( 'text' ) == dragTimestamp ) {
+					var dropRange = editor.createRange(),
+						dragRange,
+						dropBookmark,
+						dragBookmarks = [];
+
+					dropRange = getRangeAtDropPosition( editor, evt );
+
+					if ( dropRange ) {
+						editor.fire( 'saveSnapshot' );
+						editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+
+						// Create bookmarks in the correct order.
+						for ( var i = 0; i < dragRanges.length; i++ ) {
+							dragRange = dragRanges[ i ];
+							if ( !rangeBefore( dragRange, dropRange ) )
+								dragBookmarks.push( dragRange.createBookmark( 1 ) );
+						};
+
+						var dropRangeCopy = dropRange.clone();
+						dropBookmark = dropRangeCopy.createBookmark( 1 );
+
+						for ( var i = 0; i < dragRanges.length; i++ ) {
+							dragRange = dragRanges[ i ];
+							if ( rangeBefore( dragRange, dropRange ) )
+								dragBookmarks.push( dragRange.createBookmark( 1 ) );
+						};
+
+						// Delete content for the drag position.
+						for ( var i = 0; i < dragBookmarks.length; i++ ) {
+							dragRange = editor.createRange()
+							dragRange.moveToBookmark( dragBookmarks[ i ] );
+							dragRange.deleteContents();
+						}
+
+						// Paste content into the drop position.
+						dropRange = editor.createRange();
+						dropRange.moveToBookmark( dropBookmark );
+						dropRange.select();
+						firePasteEvents( 'html', clipboard );
+
+						editor.fire( 'unlockSnapshot' );
+					}
+				}
+				evt.data.preventDefault();
+			} );
+
 		}
 
 		// Create object representing Cut or Copy commands.
@@ -1184,7 +1246,10 @@
 	// In #11219 method in widget should be removed and everything be according to DRY.
 	function getRangeAtDropPosition( editor, dropEvt ) {
 		var $evt = dropEvt.data.$,
+			x = $evt.clientX,
+			y = $evt.clientY,
 			$range,
+			defaultRange = editor.getSelection().getRanges()[ 0 ],
 			range = editor.createRange();
 
 		// Make testing possible.
@@ -1193,7 +1258,7 @@
 
 		// Webkits.
 		if ( document.caretRangeFromPoint ) {
-			$range = editor.document.$.caretRangeFromPoint( $evt.clientX, $evt.clientY );
+			$range = editor.document.$.caretRangeFromPoint( x, y );
 			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
 			range.collapse( true );
 		}
@@ -1202,21 +1267,85 @@
 			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
 			range.collapse( true );
 		}
-		// IEs.
+		// IEs 9+.
+		else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 )
+			// On IE 9+ range by default is where we expected it.
+			return defaultRange;
+		// IE 8.
 		else if ( document.body.createTextRange ) {
 			$range = editor.document.getBody().$.createTextRange();
-			$range.moveToPoint( $evt.clientX, $evt.clientY );
-			var id = 'cke-temp-' + ( new Date() ).getTime();
-			$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+			try {
+				var sucess = false;
 
-			var span = editor.document.getById( id );
-			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
-			span.remove();
+				for ( var i = 0; i < 20 && !sucess; i++ ) {
+					if ( !sucess ) {
+						try {
+							$range.moveToPoint( x, y - i );
+							sucess = true;
+						} catch ( err ) {
+						}
+					}
+					if ( !sucess ) {
+						try {
+							$range.moveToPoint( x, y + i );
+							sucess = true;
+						} catch ( err ) {
+						}
+					}
+				};
+
+				if ( sucess ) {
+					var id = 'cke-temp-' + ( new Date() ).getTime();
+					$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+
+					var span = editor.document.getById( id );
+					range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
+					span.remove();
+				} else {
+					// Try to use elementFromPoint.
+					var $element = editor.document.$.elementFromPoint( x, y ),
+						element = new CKEDITOR.dom.element( $element ),
+						rect;
+
+					if ( !element.equals( editor.editable() ) ) {
+						rect = element.getClientRect();
+
+						if ( x < rect.left ) {
+							range.setStartAt( element, CKEDITOR.POSITION_AFTER_START );
+							range.collapse( true );
+						} else {
+							range.setStartAt( element, CKEDITOR.POSITION_BEFORE_END );
+							range.collapse( true );
+						}
+					}
+					// elementFromPoint if editable try with defaultRange.
+					else if ( defaultRange && defaultRange.startContainer && !defaultRange.
+						startContainer.equals( editor.editable() ) ) {
+						return defaultRange;
+					} else
+						return null;
+
+				}
+			} catch ( err ) {
+				return null;
+			}
 		}
 		else
 			return null;
 
 		return range;
+	}
+
+	function rangeBefore( firstRange, secondRange ) {
+		if ( firstRange.startContainer.equals( secondRange.startContainer ) &&
+			firstRange.startOffset < secondRange.startOffset )
+			return true;
+
+		if ( firstRange.startContainer.getParent().equals( secondRange.startContainer ) &&
+			firstRange.startContainer.getIndex() < secondRange.startOffset )
+			return true;
+
+		return false;
 	}
 } )();
 
