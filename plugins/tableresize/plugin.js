@@ -354,7 +354,7 @@
 			editor.on( 'contentDom', function() {
 				var resizer;
 
-				editor.document.getBody().on( 'mousemove', function( evt ) {
+				editor.container.on( 'mousemove', function( evt ) {
 					evt = evt.data;
 
 					var pageX = evt.getPageOffset().x;
@@ -370,11 +370,14 @@
 					var target = evt.getTarget(),
 						table, pillars;
 
-					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
+					if ( (!target.is( 'table' ) && !target.getAscendant( 'tbody', 1 )) )
 						return;
 
 					table = target.getAscendant( 'table', 1 );
 
+					if ( !editor.container.contains(table) )
+						return;
+					
 					if ( !( pillars = table.getCustomData( '_cke_table_pillars' ) ) ) {
 						// Cache table pillars calculation result.
 						table.setCustomData( '_cke_table_pillars', ( pillars = buildTableColumnPillars( table ) ) );
