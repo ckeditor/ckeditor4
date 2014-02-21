@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'lv', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'lv', {
 	error: 'Iekšējas kļūdas dēļ, neizdevās iztīrīt ielīmētos datus.',
 	title: 'Ievietot no Worda',
 	toolbar: 'Ievietot no Worda'
-});
+} );

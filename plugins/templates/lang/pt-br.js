@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'pt-br', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'pt-br', {
 	options: 'Opções de Template',
 	selectPromptMsg: 'Selecione um modelo de layout para ser aberto no editor<br>(o conteúdo atual será perdido):',
 	title: 'Modelo de layout de conteúdo'
-});
+} );

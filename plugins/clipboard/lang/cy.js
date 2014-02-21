@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'cy', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'cy', {
 	pasteMsg: 'Gludwch i mewn i\'r blwch canlynol gan ddefnyddio\'r bysellfwrdd (<strong>Ctrl/Cmd+V</strong>) a phwyso <strong>Iawn</strong>.',
 	securityMsg: 'Oherwydd gosodiadau diogelwch eich porwr, \'dyw\'r porwr ddim yn gallu ennill mynediad i\'r data ar y clipfwrdd yn uniongyrchol. Mae angen i chi ei ludo eto i\'r ffenestr hon.',
 	title: 'Gludo'
-});
+} );

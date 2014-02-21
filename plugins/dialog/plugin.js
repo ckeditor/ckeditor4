@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -481,7 +481,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else if ( keystroke == 13 /*ENTER*/ ) {
 				// Don't do that for a target that handles ENTER.
 				var target = evt.data.getTarget();
-				if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {					
+				if ( !target.is( 'a', 'button', 'select', 'textarea' ) && ( !target.is( 'input' ) || target.$.type != 'button' ) ) {
 					button = this.getButton( 'ok' );
 					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
 					processed = 1;

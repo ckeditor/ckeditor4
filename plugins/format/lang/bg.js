@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'bg', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'bg', {
 	tag_h6: 'Заглавие 6',
 	tag_p: 'Нормален',
 	tag_pre: 'Форматиран'
-});
+} );

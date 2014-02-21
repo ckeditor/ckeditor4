@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -81,5 +81,67 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 		}
 		]
 	}
-	]
-});
+	],
+	backspace: 'Backspace',
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
+	leftArrow: 'Strzałka w lewo',
+	upArrow: 'Strzałka w górę',
+	rightArrow: 'Strzałka w prawo',
+	downArrow: 'Strzałka w dół',
+	insert: 'Insert',
+	'delete': 'Delete',
+	leftWindowKey: 'Lewy klawisz Windows',
+	rightWindowKey: 'Prawy klawisz Windows',
+	selectKey: 'Klawisz wyboru',
+	numpad0: 'Klawisz 0 na klawiaturze numerycznej',
+	numpad1: 'Klawisz 1 na klawiaturze numerycznej',
+	numpad2: 'Klawisz 2 na klawiaturze numerycznej',
+	numpad3: 'Klawisz 3 na klawiaturze numerycznej',
+	numpad4: 'Klawisz 4 na klawiaturze numerycznej',
+	numpad5: 'Klawisz 5 na klawiaturze numerycznej',
+	numpad6: 'Klawisz 6 na klawiaturze numerycznej',
+	numpad7: 'Klawisz 7 na klawiaturze numerycznej',
+	numpad8: 'Klawisz 8 na klawiaturze numerycznej',
+	numpad9: 'Klawisz 9 na klawiaturze numerycznej',
+	multiply: 'Multiply', // MISSING
+	add: 'Plus',
+	subtract: 'Minus',
+	decimalPoint: 'Separator dziesiętny',
+	divide: 'Divide', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Średnik',
+	equalSign: 'Equal Sign', // MISSING
+	comma: 'Przecinek',
+	dash: 'Dash', // MISSING
+	period: 'Kropka',
+	forwardSlash: 'Ukośnik prawy',
+	graveAccent: 'Grave Accent', // MISSING
+	openBracket: 'Nawias kwadratowy otwierający',
+	backSlash: 'Ukośnik lewy',
+	closeBracket: 'Nawias kwadratowy zamykający',
+	singleQuote: 'Apostrof'
+} );

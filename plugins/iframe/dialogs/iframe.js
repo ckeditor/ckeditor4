@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// Map 'true' and 'false' values to match W3C's specifications
 	// http://www.w3.org/TR/REC-html40/present/frames.html#h-16.5
 	var checkboxValues = {
@@ -211,8 +211,8 @@
 				}
 				]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 }, 'iframe' )
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id: 1, classes: 1, styles: 1 }, 'iframe' )
 				]
 		};
-	});
-})();
+	} );
+} )();

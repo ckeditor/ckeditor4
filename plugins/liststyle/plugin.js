@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.liststyle = {
 		requires: 'dialog,contextmenu',
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -32,7 +32,7 @@
 			//Register map group;
 			editor.addMenuGroup( "list", 108 );
 
-			editor.addMenuItems({
+			editor.addMenuItems( {
 				numberedlist: {
 					label: editor.lang.liststyle.numberedTitle,
 					group: 'list',
@@ -43,7 +43,7 @@
 					group: 'list',
 					command: 'bulletedListStyle'
 				}
-			});
+			} );
 
 			editor.contextMenu.addListener( function( element, selection ) {
 				if ( !element || element.isReadOnly() )
@@ -59,9 +59,9 @@
 					element = element.getParent();
 				}
 				return null;
-			});
+			} );
 		}
 	};
 
 	CKEDITOR.plugins.add( 'liststyle', CKEDITOR.plugins.liststyle );
-})();
+} )();

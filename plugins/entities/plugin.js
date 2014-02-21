@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// Base HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
 
@@ -151,11 +151,14 @@
 					text: function( text ) {
 						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
 					}
-				}, { applyToAll: true } );
+				}, {
+					applyToAll: true,
+					excludeNestedEditable: true
+				} );
 			}
 		}
 	} );
-})();
+} )();
 
 /**
  * Whether to escape basic HTML entities in the document, including:

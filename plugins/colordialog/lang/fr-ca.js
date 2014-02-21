@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'fr-ca', {
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'colordialog', 'fr-ca', {
 	options: 'Options de couleur',
 	selected: 'Couleur sélectionnée',
 	title: 'Choisir une couleur'
-});
+} );

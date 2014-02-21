@@ -1,10 +1,10 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'pt-br', {
 	auto: 'Automático',
-	bgColorTitle: 'Realce do texto',
+	bgColorTitle: 'Cor do Plano de Fundo',
 	colors: {
 		'000': 'Preto',
 		'800000': 'Foquete',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'pt-br', {
 	more: 'Mais Cores...',
 	panelTitle: 'Cores',
 	textColorTitle: 'Cor do Texto'
-});
+} );

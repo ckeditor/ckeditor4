@@ -1,18 +1,18 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'ko', {
-	access: 'Script Access', // MISSING
-	accessAlways: 'Always', // MISSING
-	accessNever: 'Never', // MISSING
+	access: '스크립트 허용',
+	accessAlways: '항상 허용',
+	accessNever: '허용 안함',
 	accessSameDomain: 'Same domain', // MISSING
 	alignAbsBottom: '줄아래(Abs Bottom)',
 	alignAbsMiddle: '줄중간(Abs Middle)',
 	alignBaseline: '기준선',
 	alignTextTop: '글자상단',
 	bgcolor: '배경 색상',
-	chkFull: 'Allow Fullscreen', // MISSING
+	chkFull: '전체화면 ',
 	chkLoop: '반복',
 	chkMenu: '플래쉬메뉴 가능',
 	chkPlay: '자동재생',
@@ -40,4 +40,4 @@ CKEDITOR.plugins.setLang( 'flash', 'ko', {
 	windowModeOpaque: 'Opaque', // MISSING
 	windowModeTransparent: 'Transparent', // MISSING
 	windowModeWindow: 'Window' // MISSING
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'sq', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sq', {
 	upperAlpha: 'Të mëdha alfa (A, B, C, D, E, etj.)',
 	upperRoman: 'Të mëdha romake (I, II, III, IV, V, etj.)',
 	validateStartNumber: 'Numri i fillimit të listës duhet të është numër i plotë.'
-});
+} );

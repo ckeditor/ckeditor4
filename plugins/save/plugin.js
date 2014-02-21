@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview The Save plugin.
  */
 
-(function() {
+( function() {
 	var saveCmd = {
 		readOnly: 1,
 
@@ -49,10 +49,10 @@
 				label: editor.lang.save.toolbar,
 				command: pluginName,
 				toolbar: 'document,10'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Fired when the user clicks the Save button on the editor toolbar.

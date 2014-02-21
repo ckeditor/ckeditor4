@@ -1,10 +1,10 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moonocolor',
+	skin: 'moono',
 	ignore: [
 		'dev',
 		'README.md',
@@ -17,9 +17,8 @@ var CKBUILDER_CONFIG = {
 	plugins: {
 		a11yhelp: 1,
 		about: 1,
-		autogrow: 1,
 		basicstyles: 1,
-		bidi: 0,
+		bidi: 1,
 		blockquote: 1,
 		clipboard: 1,
 		colorbutton: 1,
@@ -27,12 +26,12 @@ var CKBUILDER_CONFIG = {
 		contextmenu: 1,
 		dialogadvtab: 1,
 		div: 1,
-		elementspath: 0,
+		elementspath: 1,
 		enterkey: 1,
 		entities: 1,
-		filebrowser: 0,
+		filebrowser: 1,
 		find: 1,
-		flash: 0,
+		flash: 1,
 		floatingspace: 1,
 		font: 1,
 		format: 1,
@@ -44,26 +43,24 @@ var CKBUILDER_CONFIG = {
 		indentlist: 1,
 		indentblock: 1,
 		justify: 1,
-		link: 0,
-		linksei: 0,
+		link: 1,
 		list: 1,
 		liststyle: 1,
 		magicline: 1,
-		maximize: 0,
-		newpage: 0,
-		pagebreak: 0,
+		maximize: 1,
+		newpage: 1,
+		pagebreak: 1,
 		pastefromword: 1,
 		pastetext: 1,
 		preview: 1,
 		print: 1,
 		removeformat: 1,
-		resize: 0,
+		resize: 1,
 		save: 1,
 		selectall: 1,
-		sharedspace: 1,
 		showblocks: 1,
 		showborders: 1,
-		smiley: 0,
+		smiley: 1,
 		sourcearea: 1,
 		specialchar: 1,
 		stylescombo: 1,
@@ -73,9 +70,6 @@ var CKBUILDER_CONFIG = {
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
-		widget: 1,
-		wsc: 1,
-		wysiwygarea: 1,
-		zoom: 1
+		wysiwygarea: 1
 	}
 };

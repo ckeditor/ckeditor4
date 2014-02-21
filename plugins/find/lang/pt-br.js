@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'pt-br', {
@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'find', 'pt-br', {
 	findOptions: 'Opções',
 	findWhat: 'Procurar por:',
 	matchCase: 'Coincidir Maiúsculas/Minúsculas',
-	matchCyclic: 'Todo o texto',
+	matchCyclic: 'Coincidir cíclico',
 	matchWord: 'Coincidir a palavra inteira',
 	notFoundMsg: 'O texto especificado não foi encontrado.',
 	replace: 'Substituir',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'pt-br', {
 	replaceSuccessMsg: '%1 ocorrência(s) substituída(s).',
 	replaceWith: 'Substituir por:',
 	title: 'Localizar e Substituir'
-});
+} );

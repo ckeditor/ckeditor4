@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,14 +9,14 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	var allowedContent = 'span[!lang,!dir]',
 		requiredContent = 'span[lang,dir]';
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
-		lang: 'ca,cs,cy,el,en,en-gb,es,fi,ja,km,nb,nl,no,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,el,en,en-gb,es,fi,hu,ja,km,nb,nl,no,pt,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -142,7 +142,7 @@
 			return ret;
 		}
 	} );
-})();
+} )();
 
 /**
  * Specifies the list of languages available in the

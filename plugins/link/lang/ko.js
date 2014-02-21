@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ko', {
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	popupStatusBar: '상태바',
 	popupToolbar: '툴바',
 	popupTop: '윗쪽 위치',
-	rel: 'Relationship', // MISSING
+	rel: '관계',
 	selectAnchor: '책갈피 선택',
 	styles: 'Style',
 	tabIndex: '탭 순서',
@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	type: '링크 종류',
 	unlink: '링크 삭제',
 	upload: '업로드'
-});
+} );

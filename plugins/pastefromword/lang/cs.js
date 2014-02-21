@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'cs', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'cs', {
 	error: 'Z důvodu vnitřní chyby nebylo možné provést vyčištění vkládaného textu.',
 	title: 'Vložit z Wordu',
 	toolbar: 'Vložit z Wordu'
-});
+} );

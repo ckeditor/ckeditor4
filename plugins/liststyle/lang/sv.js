@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sv', {
 	upperAlpha: 'Alpha versaler (A, B, C, D, E, etc.)',
 	upperRoman: 'Romerska versaler (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Listans startnummer måste vara ett heltal.'
-});
+} );

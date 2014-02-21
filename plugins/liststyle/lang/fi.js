@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fi', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'fi', {
 	upperAlpha: 'Isot aakkoset (A, B, C, D, E, jne.)',
 	upperRoman: 'Isot roomalaiset (I, II, III, IV, V, jne.)',
 	validateStartNumber: 'Listan ensimmäisen numeron tulee olla kokonaisluku.'
-});
+} );

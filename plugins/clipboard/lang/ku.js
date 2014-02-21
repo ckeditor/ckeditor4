@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	pasteMsg: 'تکایە بیلکێنە لەناوەوەی ئەم سنوقە لەڕێی تەختەکلیلەکەت بە بەکارهێنانی کلیلی (<STRONG>Ctrl/Cmd+V</STRONG>) دووای کلیکی باشە بکە.',
 	securityMsg: 'بەهۆی شێوەپێدانی پارێزی وێبگەڕەکەت، سەرنووسەکه ناتوانێت دەستبگەیەنێت بەهەڵگیراوەکە ڕاستەوخۆ. بۆیه پێویسته دووباره بیلکێنیت لەم پەنجەرەیه.',
 	title: 'لکاندن'
-});
+} );

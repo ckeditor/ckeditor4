@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	CKEDITOR.plugins.add( 'stylescombo', {
@@ -94,14 +94,14 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath(),
 //inicio alteração - sempre aplica estilo selecionado
-						tagsRegex = editor._.removeFormatRegex;  
+  					tagsRegex = editor._.removeFormatRegex;  
 
 					editor._.removeFormatRegex=new RegExp( '^(?:font|span)$', 'i' );
 					editor.execCommand('removeFormat');
 					editor._.removeFormatRegex=tagsRegex;
 					style[ 'apply' ]( editor.document );					
 					//editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
-//fim alteração					
+//fim alteração	
 					editor.fire( 'saveSnapshot' );
 				},
 
@@ -189,7 +189,7 @@
 					styles = {};
 					stylesList = [];
 				}
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -39,7 +39,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 					PICKER_THUMB: url + "assets/picker_thumb.png",
 					HUE_THUMB: url + "assets/hue_thumb.png"
 				}
-			});
+			} );
 
 			// Make Yahoo widget available to public.
 			this.picker = picker;
@@ -53,7 +53,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 				// Reset predefined box.
 				dialog._.contents.tab1.predefined.setValue( '' );
 				setNewUiColor( '#' + picker.get( 'hex' ) );
-			});
+			} );
 
 			// Fix input class names.
 			var inputs = new CKEDITOR.dom.nodeList( picker.getElementsByTagName( 'input' ) );
@@ -160,4 +160,4 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		],
 		buttons: [ CKEDITOR.dialog.okButton ]
 	};
-});
+} );

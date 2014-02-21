@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -81,5 +81,67 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 		}
 		]
 	}
-	]
-});
+	],
+	backspace: 'عقبگرد',
+	tab: 'برگه',
+	enter: 'ورود',
+	shift: 'تعویض',
+	ctrl: 'کنترل',
+	alt: 'دگرساز',
+	pause: 'توقف',
+	capslock: 'Caps Lock',
+	escape: 'گریز',
+	pageUp: 'صفحه به بالا',
+	pageDown: 'صفحه به پایین',
+	end: 'پایان',
+	home: 'خانه',
+	leftArrow: 'پیکان چپ',
+	upArrow: 'پیکان بالا',
+	rightArrow: 'پیکان راست',
+	downArrow: 'پیکان پایین',
+	insert: 'Insert',
+	'delete': 'Delete',
+	leftWindowKey: 'کلید چپ ویندوز',
+	rightWindowKey: 'کلید راست ویندوز',
+	selectKey: 'انتخاب کلید',
+	numpad0: 'کلید شماره 0',
+	numpad1: 'کلید شماره 1',
+	numpad2: 'کلید شماره 2',
+	numpad3: 'کلید شماره 3',
+	numpad4: 'کلید شماره 4',
+	numpad5: 'کلید شماره 5',
+	numpad6: 'کلید شماره 6',
+	numpad7: 'کلید شماره 7',
+	numpad8: 'کلید شماره 8',
+	numpad9: 'کلید شماره 9',
+	multiply: 'ضرب',
+	add: 'Add',
+	subtract: 'تفریق',
+	decimalPoint: 'نقطه‌ی اعشار',
+	divide: 'جدا کردن',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Semicolon',
+	equalSign: 'علامت تساوی',
+	comma: 'کاما',
+	dash: 'خط تیره',
+	period: 'دوره',
+	forwardSlash: 'Forward Slash',
+	graveAccent: 'Grave Accent',
+	openBracket: 'Open Bracket',
+	backSlash: 'Backslash',
+	closeBracket: 'Close Bracket',
+	singleQuote: 'Single Quote'
+} );

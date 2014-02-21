@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			return this.addBlock( name, new CKEDITOR.ui.listBlock( this.getHolderElement(), definition ) );
 		};
 
-		CKEDITOR.ui.listBlock = CKEDITOR.tools.createClass({
+		CKEDITOR.ui.listBlock = CKEDITOR.tools.createClass( {
 			base: CKEDITOR.ui.panel.block,
 
 			$: function( blockHolder, blockDefinition ) {
@@ -61,7 +61,7 @@ CKEDITOR.plugins.add( 'listblock', {
 			_: {
 				close: function() {
 					if ( this._.started ) {
-						var output = list.output({ items: this._.pendingList.join( '' ) } );
+						var output = list.output( { items: this._.pendingList.join( '' ) } );
 						this._.pendingList = [];
 						this._.pendingHtml.push( output );
 						delete this._.started;
@@ -110,7 +110,7 @@ CKEDITOR.plugins.add( 'listblock', {
 
 					this._.groups[ title ] = id;
 
-					this._.pendingHtml.push( listGroup.output({ id: id, label: title } ) );
+					this._.pendingHtml.push( listGroup.output( { id: id, label: title } ) );
 				},
 
 				commit: function() {
@@ -235,6 +235,6 @@ CKEDITOR.plugins.add( 'listblock', {
 					}, 0 );
 				}
 			}
-		});
+		} );
 	}
-});
+} );

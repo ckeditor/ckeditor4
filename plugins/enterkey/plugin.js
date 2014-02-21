@@ -1,13 +1,13 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'enterkey', {
 		init: function( editor ) {
 			editor.addCommand( 'enter', {
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: 1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					enter( editor );
@@ -15,7 +15,7 @@
 			} );
 
 			editor.addCommand( 'shiftEnter', {
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: 1 },
 				editorFocus: false,
 				exec: function( editor ) {
 					shiftEnter( editor );
@@ -526,4 +526,4 @@
 		// Return the first range.
 		return ranges[ 0 ];
 	}
-})();
+} )();

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'ar', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ar', {
 	options: 'خصائص القوالب',
 	selectPromptMsg: 'اختر القالب الذي تود وضعه في المحرر',
 	title: 'قوالب المحتوى'
-});
+} );

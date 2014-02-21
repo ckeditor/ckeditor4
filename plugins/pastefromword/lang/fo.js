@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'fo', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'fo', {
 	error: 'Tað eydnaðist ikki at reinsa tekstin vegna ein internan feil',
 	title: 'Innrita frá Word',
 	toolbar: 'Innrita frá Word'
-});
+} );

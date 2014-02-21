@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'vi', {
 	more: 'Màu khác...',
 	panelTitle: 'Màu sắc',
 	textColorTitle: 'Màu chữ'
-});
+} );

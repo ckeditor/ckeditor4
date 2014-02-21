@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'textfield', function( editor ) {
-	var autoAttributes = { value:1,size:1,maxLength:1 };
+	var autoAttributes = { value: 1, size: 1, maxLength: 1 };
 
-	var acceptedTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 };
+	var acceptedTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 };
 
 	function autoCommit( data ) {
 		var element = data.element;
@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					if ( !contentObj.commit )
 						contentObj.commit = autoCommit;
 				}
-			});
+			} );
 		},
 		contents: [
 			{
@@ -103,7 +103,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 						if ( CKEDITOR.env.ie && !this.getValue() ) {
 							var element = data.element,
 								fresh = new CKEDITOR.dom.element( 'input', editor.document );
-							element.copyAttributes( fresh, { value:1 } );
+							element.copyAttributes( fresh, { value: 1 } );
 							fresh.replace( element );
 							data.element = fresh;
 						} else
@@ -167,7 +167,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 
 						if ( elementType != myType ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="' + myType + '"></input>', editor.document );
-							element.copyAttributes( replace, { type:1 } );
+							element.copyAttributes( replace, { type: 1 } );
 							replace.replace( element );
 							data.element = replace;
 						}
@@ -179,4 +179,4 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 		}
 		]
 	};
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ko', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ko', {
 	validateBorder: '테두리는 정수여야 합니다.',
 	validateHSpace: '가로 길이는 정수여야 합니다.',
 	validateVSpace: '세로 길이는 정수여야 합니다.'
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'en-au', {
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'en-au', {
 	title: 'Document Properties', // MISSING
 	txtColor: 'Text Color', // MISSING
 	xhtmlDec: 'Include XHTML Declarations' // MISSING
-});
+} );

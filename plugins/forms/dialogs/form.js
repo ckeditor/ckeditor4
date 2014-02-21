@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'form', function( editor ) {
-	var autoAttributes = { action:1,id:1,method:1,enctype:1,target:1 };
+	var autoAttributes = { action: 1, id: 1, method: 1, enctype: 1, target: 1 };
 
 	return {
 		title: editor.lang.forms.form.title,
@@ -52,7 +52,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 					contentObj.setup = autoSetup;
 					contentObj.commit = autoCommit;
 				}
-			});
+			} );
 		},
 		contents: [
 			{
@@ -148,4 +148,4 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 		}
 		]
 	};
-});
+} );

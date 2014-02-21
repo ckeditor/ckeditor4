@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'el', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'el', {
 	validateBorder: 'Το περίγραμμα πρέπει να είναι ένας ακέραιος αριθμός.',
 	validateHSpace: 'Το HSpace πρέπει να είναι ένας ακέραιος αριθμός.',
 	validateVSpace: 'Το VSpace πρέπει να είναι ένας ακέραιος αριθμός.'
-});
+} );

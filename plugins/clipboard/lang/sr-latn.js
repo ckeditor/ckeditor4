@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sr-latn', {
 	pasteMsg: 'Molimo Vas da zalepite unutar donje povrine koristeći tastaturnu prečicu (<STRONG>Ctrl/Cmd+V</STRONG>) i da pritisnete <STRONG>OK</STRONG>.',
 	securityMsg: 'Zbog sigurnosnih postavki vašeg pregledača, editor nije u mogućnosti da direktno pristupi podacima u klipbordu. Potrebno je da zalepite još jednom u ovom prozoru.',
 	title: 'Zalepi'
-});
+} );

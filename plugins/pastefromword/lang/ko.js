@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'ko', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'ko', {
 	error: '내부 오류로 붙여 넣은 데이터를 정리 할 수 없습니다.',
 	title: 'MS Word 형식에서 붙여넣기',
 	toolbar: 'MS Word 형식에서 붙여넣기'
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -57,14 +57,14 @@ CKEDITOR.plugins.add( 'iframedialog', {
 						dialog.removeListener( 'resize', notifyEvent );
 
 						e.removeListener();
-					});
+					} );
 
 					// Notify child iframe of load:
-					childWindow.onDialogEvent({
+					childWindow.onDialogEvent( {
 						name: 'load',
 						sender: this,
 						editor: dialog._.editor
-					});
+					} );
 				}
 			};
 
@@ -88,10 +88,10 @@ CKEDITOR.plugins.add( 'iframedialog', {
 
 			this.add( name, function() {
 				return definition;
-			});
+			} );
 		};
 
-		(function() {
+		( function() {
 			/**
 			 * An iframe element.
 			 *
@@ -126,11 +126,11 @@ CKEDITOR.plugins.add( 'iframedialog', {
 						var iframe = CKEDITOR.document.getById( _.frameId ),
 							parentContainer = iframe.getParent();
 
-						parentContainer.setStyles({
+						parentContainer.setStyles( {
 							width: cssWidth,
 							height: cssHeight
-						});
-					});
+						} );
+					} );
 
 					var attributes = {
 						src: '%2',
@@ -159,7 +159,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 							callIndex = CKEDITOR.tools.addFunction( contentLoad ),
 							html = myHtml.replace( '%1', callIndex ).replace( '%2', CKEDITOR.tools.htmlEncode( elementDefinition.src ) );
 						parentContainer.setHtml( html );
-					});
+					} );
 				};
 
 			iframeElement.prototype = new CKEDITOR.ui.dialog.uiElement;
@@ -168,7 +168,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 				build: function( dialog, elementDefinition, output ) {
 					return new iframeElement( dialog, elementDefinition, output );
 				}
-			});
-		})();
+			} );
+		} )();
 	}
-});
+} );

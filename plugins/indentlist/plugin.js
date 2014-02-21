@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview Handles the indentation of lists.
  */
 
-(function() {
+( function() {
 	'use strict';
 
 	var isNotWhitespaces = CKEDITOR.dom.walker.whitespaces( true ),
@@ -295,4 +295,4 @@
 	function neitherWhitespacesNorBookmark( node ) {
 		return isNotWhitespaces( node ) && isNotBookmark( node );
 	}
-})();
+} )();

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'fo', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'fo', {
 	validateBorder: 'Bordi má vera eitt heiltal.',
 	validateHSpace: 'HSpace má vera eitt heiltal.',
 	validateVSpace: 'VSpace má vera eitt heiltal.'
-});
+} );

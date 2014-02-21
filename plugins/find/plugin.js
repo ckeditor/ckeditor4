@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -21,19 +21,19 @@ CKEDITOR.plugins.add( 'find', {
 				label: editor.lang.find.find,
 				command: 'find',
 				toolbar: 'find,10'
-			});
+			} );
 
 			editor.ui.addButton( 'Replace', {
 				label: editor.lang.find.replace,
 				command: 'replace',
 				toolbar: 'find,20'
-			});
+			} );
 		}
 
 		CKEDITOR.dialog.add( 'find', this.path + 'dialogs/find.js' );
 		CKEDITOR.dialog.add( 'replace', this.path + 'dialogs/find.js' );
 	}
-});
+} );
 
 /**
  * Defines the style to be used to highlight results with the find dialog.

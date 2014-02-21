@@ -1,11 +1,11 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 'use strict';
 
-(function() {
+( function() {
 
 	CKCONSOLE.add( 'widget', {
 		panels: [
@@ -126,4 +126,4 @@
 	}
 
 	var itemTpl = new CKEDITOR.template( '<li>id: <code>{id}</code>, name: <code>{name}</code>, data: <code>{data}</code></li>' );
-})();
+} )();

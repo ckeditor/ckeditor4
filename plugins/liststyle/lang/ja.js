@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ja', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ja', {
 	upperAlpha: '大文字アルファベット (A, B, C, D, E, etc.)',
 	upperRoman: '大文字ローマ数字 (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'リストの開始番号は数値で入力してください。'
-});
+} );

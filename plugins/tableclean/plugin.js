@@ -1,8 +1,8 @@
 ﻿/*
-Copyright (c) 2012, TRF4 - bcu
+Copyright (c) 2012-2014, TRF4 - bcu
 */
 
-if (INFRA_IE>0 && INFRA_IE<9) {
+if (CKEDITOR.env.ie && CKEDITOR.env.version<9) {
 	Array.prototype.indexOf = function(obj, start) {
     for (var i = (start || 0), j = this.length; i < j; i++) {
         if (this[i] === obj) { return i; }
@@ -38,7 +38,7 @@ function cleanAttribute(elemento){
 function cleanStyle(elemento){
 	var styleAllowed=['width','font-family','font-size','font-weight','text-align','border-spacing','nowrap'];
 	var tmp=[],attrib=elemento.style,qtd=attrib.length;	
-	if (INFRA_IE>0 && INFRA_IE<9) {
+	if (CKEDITOR.env.ie && CKEDITOR.env.version<9) {
 		if (attrib.cssText.length==0) qtd=0; else {
 			var attribIE=attrib.cssText.split(';');
 			qtd=attribIE.length;
@@ -71,7 +71,7 @@ function cleanStyle(elemento){
 function cleanTable(tabela){
 	if (tabela.nodeName!="TABLE") return;
 
-	if (INFRA_IE) {
+	if (CKEDITOR.env.ie) {
 		cleanElement(tabela.children[0]);
 	} else 	cleanElement(tabela.firstElementChild);
 	
@@ -91,7 +91,7 @@ function cleanElement(elemento){
 
 	cleanAttribute(elemento);
 	cleanStyle(elemento);
-	if (INFRA_IE) {
+	if (CKEDITOR.env.ie) {
 		if (elemento.children[0]!=null) cleanElement(elemento.children[0]); 
 		if (elemento.nextSibling!=null) cleanElement(elemento.nextSibling);
 	} else {

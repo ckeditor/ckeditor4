@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -81,5 +81,67 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 		}
 		]
 	}
-	]
-});
+	],
+	backspace: 'Backspace',
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
+	leftArrow: '左矢印',
+	upArrow: '上矢印',
+	rightArrow: '右矢印',
+	downArrow: '下矢印',
+	insert: 'Insert',
+	'delete': 'Delete',
+	leftWindowKey: '左Windowキー',
+	rightWindowKey: '右のWindowキー',
+	selectKey: 'Select',
+	numpad0: 'Num 0',
+	numpad1: 'Num 1',
+	numpad2: 'Num 2',
+	numpad3: 'Num 3',
+	numpad4: 'Num 4',
+	numpad5: 'Num 5',
+	numpad6: 'Num 6',
+	numpad7: 'Num 7',
+	numpad8: 'Num 8',
+	numpad9: 'Num 9',
+	multiply: '掛ける',
+	add: '足す',
+	subtract: '引く',
+	decimalPoint: '小数点',
+	divide: '割る',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'セミコロン',
+	equalSign: 'イコール記号',
+	comma: 'カンマ',
+	dash: 'ダッシュ',
+	period: 'ピリオド',
+	forwardSlash: 'フォワードスラッシュ',
+	graveAccent: 'グレイヴアクセント',
+	openBracket: '開きカッコ',
+	backSlash: 'バックスラッシュ',
+	closeBracket: '閉じカッコ',
+	singleQuote: 'シングルクォート'
+} );

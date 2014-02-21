@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'km', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'km', {
 	replaceSuccessMsg: 'ការ​ជំនួស​ចំនួន %1 បាន​កើត​ឡើង។',
 	replaceWith: 'ជំនួសជាមួយ:',
 	title: 'រក​និង​ជំនួស'
-});
+} );

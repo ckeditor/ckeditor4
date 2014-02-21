@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview Horizontal Rule plugin.
  */
 
-(function() {
+( function() {
 	var horizontalruleCmd = {
 		canUndo: false, // The undo snapshot will be handled by 'insertElement'.
 		exec: function( editor ) {
@@ -35,7 +35,7 @@
 				label: editor.lang.horizontalrule.toolbar,
 				command: pluginName,
 				toolbar: 'insert,40'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

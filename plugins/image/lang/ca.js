@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ca', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'ca', {
 	validateBorder: 'La vora ha de ser un nombre enter.',
 	validateHSpace: 'HSpace ha de ser un nombre enter.',
 	validateVSpace: 'VSpace ha de ser un nombre enter.'
-});
+} );

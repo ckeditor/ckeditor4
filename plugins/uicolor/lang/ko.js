@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ko', {
 	preview: '미리보기',
 	config: '이 문자열을 config.js 에 붙여넣으세요',
 	predefined: '미리 정의된 색깔들'
-});
+} );

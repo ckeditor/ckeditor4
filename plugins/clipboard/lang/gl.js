@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'gl', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gl', {
 	pasteMsg: 'Pegue dentro do seguinte cadro usando o teclado (<STRONG>Ctrl/Cmd+V</STRONG>) e prema en Aceptar',
 	securityMsg: 'Por mor da configuración de seguranza do seu navegador, o editor non ten acceso ao portapapeis. É necesario pegalo novamente nesta xanela.',
 	title: 'Pegar'
-});
+} );

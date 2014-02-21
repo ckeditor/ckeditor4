@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'nb', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'nb', {
 	validateBorder: 'Ramme må være et heltall.',
 	validateHSpace: 'HMarg må være et heltall.',
 	validateVSpace: 'VMarg må være et heltall.'
-});
+} );

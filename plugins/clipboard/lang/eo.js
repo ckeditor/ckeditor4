@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'eo', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eo', {
 	pasteMsg: 'Bonvolu glui la tekston en la jenan areon per uzado de la klavaro (<strong>Ctrl/Cmd+V</strong>) kaj premu OK',
 	securityMsg: 'Pro la sekurecagordo de via TTT-legilo, la redaktilo ne povas rekte atingi viajn datenojn en la poŝo. Bonvolu denove interglui la datenojn en tiun fenestron.',
 	title: 'Interglui'
-});
+} );

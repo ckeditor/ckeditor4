@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
  * @fileOverview stylesheetParser plugin.
  */
 
-(function() {
+( function() {
 	// We want to extract only the elements with classes defined in the stylesheets:
 	function parseClasses( aRules, skipSelectors, validSelectors ) {
 		// aRules are just the different rules in the style sheets
@@ -52,8 +52,8 @@
 				node = sheet.ownerNode || sheet.owningElement;
 
 			// Skip the internal stylesheets
-			//if ( node.getAttribute( 'data-cke-temp' ) )
-			//	continue;
+			if ( node.getAttribute( 'data-cke-temp' ) )
+				continue;
 
 			// Exclude stylesheets injected by extensions
 			if ( sheet.href && sheet.href.substr( 0, 9 ) == 'chrome://' )
@@ -75,12 +75,11 @@
 				element = oElement[ 0 ].toLowerCase(),
 				sClassName = oElement[ 1 ];
 
-			styles.push({
-				//name: element + '.' + sClassName,
-				name: sClassName,
+			styles.push( {
+				name: element + '.' + sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
-			});
+			} );
 		}
 
 		return styles;
@@ -107,8 +106,8 @@
 							// Rules that are valid
 							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
 
-						cachedDefinitions =  LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) ;
-						//cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
+						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
+
 						editor.getStylesSet = function( callback ) {
 							if ( cachedDefinitions )
 								return callback( cachedDefinitions );
@@ -119,8 +118,8 @@
 				} );
 			}, null, null, 1 );
 		}
-	});
-})();
+	} );
+} )();
 
 
 /**

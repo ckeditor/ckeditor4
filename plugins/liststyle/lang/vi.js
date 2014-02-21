@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'vi', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'vi', {
 	upperAlpha: 'Kiểu ABC HOA (A, B, C, D, E...)',
 	upperRoman: 'Số La Mã kiểu HOA (I, II, III, IV, V...)',
 	validateStartNumber: 'Số bắt đầu danh sách phải là một số nguyên.'
-});
+} );

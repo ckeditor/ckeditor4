@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'fr-ca', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'about', 'fr-ca', {
 	moreInfo: 'Pour les informations de licence, consulter notre site internet:',
 	title: 'À propos de CKEditor',
 	userGuide: 'Guide utilisateur de CKEditor'
-});
+} );

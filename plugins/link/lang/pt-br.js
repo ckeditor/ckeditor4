@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'pt-br', {
@@ -62,4 +62,4 @@ CKEDITOR.plugins.setLang( 'link', 'pt-br', {
 	type: 'Tipo de hiperlink',
 	unlink: 'Remover Link',
 	upload: 'Enviar ao Servidor'
-});
+} );

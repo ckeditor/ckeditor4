@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'cs', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'cs', {
 	validateBorder: 'Okraj musí být nastaven v celých číslech.',
 	validateHSpace: 'Horizontální mezera musí být nastavena v celých číslech.',
 	validateVSpace: 'Vertikální mezera musí být nastavena v celých číslech.'
-});
+} );

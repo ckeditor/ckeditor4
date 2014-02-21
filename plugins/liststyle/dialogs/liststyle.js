@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function getListElement( editor, listTag ) {
 		var range;
 		try {
@@ -191,9 +191,9 @@
 
 	CKEDITOR.dialog.add( 'numberedListStyle', function( editor ) {
 		return listStyle( editor, 'numberedListStyle' );
-	});
+	} );
 
 	CKEDITOR.dialog.add( 'bulletedListStyle', function( editor ) {
 		return listStyle( editor, 'bulletedListStyle' );
-	});
-})();
+	} );
+} )();

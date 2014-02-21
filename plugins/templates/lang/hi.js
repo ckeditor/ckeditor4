@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'hi', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'hi', {
 	options: 'Template Options', // MISSING
 	selectPromptMsg: 'ऍडिटर में ओपन करने हेतु टॅम्प्लेट चुनें(वर्तमान कन्टॅन्ट सेव नहीं होंगे):',
 	title: 'कन्टेन्ट टॅम्प्लेट'
-});
+} );

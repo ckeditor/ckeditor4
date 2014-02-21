@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'checkbox', function( editor ) {
@@ -28,7 +28,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 				element.setAttribute( 'type', 'checkbox' );
 				editor.insertElement( element );
 			}
-			this.commitContent({ element: element } );
+			this.commitContent( { element: element } );
 		},
 		contents: [
 			{
@@ -79,7 +79,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 						if ( CKEDITOR.env.ie ) {
 							// Remove attribute 'value' of checkbox (#4721).
 							var checkbox = new CKEDITOR.dom.element( 'input', element.getDocument() );
-							element.copyAttributes( checkbox, { value:1 } );
+							element.copyAttributes( checkbox, { value: 1 } );
 							checkbox.replace( element );
 							editor.getSelection().selectElement( checkbox );
 							data.element = checkbox;
@@ -109,7 +109,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="checkbox"' + ( isChecked ? ' checked="checked"' : '' )
 								+ '/>', editor.document );
 
-							element.copyAttributes( replace, { type:1,checked:1 } );
+							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );
 							data.element = replace;
@@ -127,4 +127,4 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 		}
 		]
 	};
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'cy', {
 	upperAlpha: 'Alffa Uwch (A, B, C, D, E, ayyb.)',
 	upperRoman: 'Rhufeinig Uwch (I, II, III, IV, V, ayyb.)',
 	validateStartNumber: 'Rhaid bod y rhif cychwynnol yn gyfanrif.'
-});
+} );

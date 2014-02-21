@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'vi', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'vi', {
 	error: 'Không thể để làm sạch các dữ liệu dán do một lỗi nội bộ',
 	title: 'Dán với định dạng Word',
 	toolbar: 'Dán với định dạng Word'
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'uicolor', 'km', {
 	preview: 'មើល​ជាមុន​ផ្ទាល់',
 	config: 'បិទ​ភ្ជាប់​ខ្សែ​អក្សរ​នេះ​ទៅ​ក្នុង​ឯកសារ config.js របស់​អ្នក',
 	predefined: 'ឈុត​ពណ៌​កំណត់​រួច​ស្រេច'
-});
+} );

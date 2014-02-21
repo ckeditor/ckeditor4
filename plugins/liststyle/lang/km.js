@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'km', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'km', {
 	upperAlpha: 'អក្សរ​ធំ (A, B, C, D, E, ...)',
 	upperRoman: 'លេខ​រ៉ូម៉ាំង​ធំ (I, II, III, IV, V, ...)',
 	validateStartNumber: 'លេខ​ចាប់​ផ្ដើម​បញ្ជី ត្រូវ​តែ​ជា​តួ​លេខ​ពិត​ប្រាកដ។'
-});
+} );

@@ -66,18 +66,18 @@ CKEDITOR.plugins.add( 'zoom',
 			apply: function(editor) {
 				var body = editor.editable().$;
 				var value=CKEDITOR.config.zoom||100;
-				if (value==100|| INFRA_IE==7) body.style.width='auto'; 
+				if (value==100|| (CKEDITOR.env.ie && CKEDITOR.env.version==7)) body.style.width='auto'; 
 				else body.style.width=Math.floor(10000/value -1)+"%";
 				
-				if (INFRA_FF>0) {
+				if (CKEDITOR.env.gecko) {
 					body.style.MozTransformOrigin = "top left";
 					body.style.MozTransform = "scale(" + (value/100)  + ")";						
-				} else if (INFRA_WEBKIT>0) {
+				} else if (CKEDITOR.env.webkit) {
 					body.style.WebkitTransformOrigin = "top left";
 					body.style.WebkitTransform = "scale(" + (value/100)  + ")";
-				} else if (INFRA_IE>0){
+				} else if (CKEDITOR.env.ie){
 					body.style.zoom = value/100;	
-					if (INFRA_IE>7) {		
+					if (CKEDITOR.env.version>7) {		
 						editor.document.getDocumentElement().$.style.overflowX='hidden';						
 					}
 				} else {

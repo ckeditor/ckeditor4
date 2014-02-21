@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var fragmentPrototype = CKEDITOR.htmlParser.fragment.prototype,
 		elementPrototype = CKEDITOR.htmlParser.element.prototype;
 
@@ -243,7 +243,7 @@
 								previousListItemMargin = margin;
 
 								attrs[ 'cke:indent' ] = listBaseIndent && ( Math.ceil( margin / listBaseIndent ) + 1 ) || 1;
-							}],
+							} ],
 							// The best situation: "mso-list:l0 level1 lfo2" tells the belonged list root, list item indentation, etc.
 							[ ( /^mso-list$/ ), null, function( val ) {
 								val = val.split( ' ' );
@@ -255,7 +255,7 @@
 									previousListId = listId;
 								}
 								attrs[ 'cke:indent' ] = indent;
-							}]
+							} ]
 						] )( attrs.style, element ) || '';
 					}
 
@@ -280,7 +280,7 @@
 			},
 
 			// Providing a shorthand style then retrieve one or more style component values.
-			getStyleComponents: (function() {
+			getStyleComponents: ( function() {
 				var calculator = CKEDITOR.dom.element.createFromHtml( '<div style="position:absolute;left:-9999px;top:-9999px;"></div>', CKEDITOR.document );
 				CKEDITOR.document.getBody().append( calculator );
 
@@ -293,7 +293,7 @@
 
 					return styles;
 				};
-			})(),
+			} )(),
 
 			listDtdParents: CKEDITOR.dtd.parentOf( 'ol' )
 		},
@@ -350,13 +350,13 @@
 							[ 'tab-stops', null, function( val ) {
 								var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
 								margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
-							}],
+							} ],
 							( level == 1 ? [ 'mso-list', null, function( val ) {
 								val = val.split( ' ' );
 								var listId = Number( val[ 0 ].match( /\d+/ ) );
 								listId !== previousListId && ( attributes[ 'cke:reset' ] = 1 );
 								previousListId = listId;
-							}] : null )
+							} ] : null )
 						] )( attributes.style );
 
 						attributes[ 'cke:indent' ] = level;
@@ -575,7 +575,7 @@
 
 						!whitelist && rules.push( [ name, value ] );
 
-					});
+					} );
 
 					for ( var i = 0; i < rules.length; i++ )
 						rules[ i ] = rules[ i ].join( ':' );
@@ -592,7 +592,7 @@
 					element.name = styleDef.element;
 					CKEDITOR.tools.extend( element.attributes, CKEDITOR.tools.clone( styleDef.attributes ) );
 					element.addStyle( CKEDITOR.style.getStyleText( styleDef ) );
-				} : function(){};
+				} : function() {};
 			},
 
 			// Migrate styles by creating a new nested stylish element.
@@ -618,7 +618,7 @@
 					// its filter method.
 					styleElement.filter = function() {};
 					styleElement.parent = element;
-				} : function(){};
+				} : function() {};
 			},
 
 			// A filter which remove cke-namespaced-attribute on
@@ -686,9 +686,8 @@
 
 						// Convert length unit of width/height on blocks to
 						// a more editor-friendly way (px).
-						if ( tagName in blockLike && attrs.style ) {
+						if ( tagName in blockLike && attrs.style )
 							attrs.style = stylesFilter( [ [ ( /^(:?width|height)$/ ), null, convertToPx ] ] )( attrs.style ) || '';
-						}
 
 						// Processing headings.
 						if ( tagName.match( /h\d/ ) ) {
@@ -765,9 +764,9 @@
 												rules[ tagName ][ className ] = styleBlock;
 											else
 												rules[ tagName ] = styleBlock;
-										});
+										} );
 									}
-								});
+								} );
 
 								filters.applyStyleFilter = function( element ) {
 									var name = rules[ '*' ] ? '*' : element.name,
@@ -794,12 +793,12 @@
 						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
-							});
+							} );
 
 							var bullet = bulletText && bulletText.parent;
-							if ( bullet ) {
+							if ( bullet )
 								bullet.addStyle( 'mso-list', 'Ignore' );
-							}
+
 						}
 
 						element.filterChildren( filter );
@@ -907,7 +906,7 @@
 						if ( isListBulletIndicator( element ) ) {
 							var listSymbolNode = element.firstChild( function( node ) {
 								return node.value || node.name == 'img';
-							});
+							} );
 
 							var listSymbol = listSymbolNode && ( listSymbolNode.value || 'l.' ),
 								listType = listSymbol && listSymbol.match( /^(?:[(]?)([^\s]+?)([.)]?)$/ );
@@ -993,13 +992,13 @@
 
 						// Preserve margin-left/right which used as default indent style in the editor.
 						[ ( /^margin$|^margin-(?!bottom|top)/ ), null, function( value, element, name ) {
-							if ( element.name in { p:1,div:1 } ) {
+							if ( element.name in { p: 1, div: 1 } ) {
 								var indentStyleName = config.contentsLangDirection == 'ltr' ? 'margin-left' : 'margin-right';
 
 								// Extract component value from 'margin' shorthand.
-								if ( name == 'margin' ) {
+								if ( name == 'margin' )
 									value = getStyleComponents( name, value, [ indentStyleName ] )[ indentStyleName ];
-								} else if ( name != indentStyleName )
+								else if ( name != indentStyleName )
 									return null;
 
 								if ( value && !emptyMarginRegex.test( value ) )
@@ -1007,7 +1006,7 @@
 							}
 
 							return null;
-						}],
+						} ],
 
 						// Preserve clear float style.
 						[ ( /^clear$/ ) ],
@@ -1015,12 +1014,12 @@
 						[ ( /^border.*|margin.*|vertical-align|float$/ ), null, function( value, element ) {
 							if ( element.name == 'img' )
 								return value;
-						}],
+						} ],
 
 						[ ( /^width|height$/ ), null, function( value, element ) {
-							if ( element.name in { table:1,td:1,th:1,img:1 } )
+							if ( element.name in { table: 1, td: 1, th: 1, img: 1 } )
 								return value;
-						}]
+						} ]
 					] :
 					// Otherwise provide a black-list of styles that we remove.
 					[
@@ -1031,7 +1030,7 @@
 								return false;
 							if ( CKEDITOR.env.gecko )
 								return value.replace( /-moz-use-text-color/g, 'transparent' );
-						}],
+						} ],
 						// Remove empty margin values, e.g. 0.00001pt 0em 0pt
 						[ ( /^margin$/ ), emptyMarginRegex ],
 						[ 'text-indent', '0cm' ],
@@ -1100,7 +1099,7 @@
 				} : falsyFilter
 			};
 		}
-	});
+	} );
 
 	// The paste processor here is just a reduced copy of html data processor.
 	var pasteProcessor = function() {
@@ -1141,9 +1140,8 @@
 		//			</span>
 		//			<!--[endif]-->Test3<o:p></o:p>
 		//		</p>
-		if ( CKEDITOR.env.webkit ) {
+		if ( CKEDITOR.env.webkit )
 			data = data.replace( /(class="MsoListParagraph[^>]+><!--\[if !supportLists\]-->)([^<]+<span[^<]+<\/span>)(<!--\[endif\]-->)/gi, '$1<span>$2</span>$3' );
-		}
 
 		var dataProcessor = new pasteProcessor(),
 			dataFilter = dataProcessor.dataFilter;
@@ -1173,7 +1171,7 @@
 
 		return data;
 	};
-})();
+} )();
 
 /**
  * Whether to ignore all font related formatting styles, including:

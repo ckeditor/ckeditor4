@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 					width: target.$.width,
 					height: target.$.height
 				}
-			});
+			} );
 
 			editor.insertElement( img );
 
@@ -72,13 +72,12 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// ENTER
 				// SPACE
 			case 32:
-				onClick({ data: ev } );
+				onClick( { data: ev } );
 				ev.preventDefault();
 				break;
 
 				// RIGHT-ARROW
-			case rtl ? 37:
-				39 :
+			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -95,8 +94,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				break;
 
 				// LEFT-ARROW
-			case rtl ? 39:
-				37 :
+			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( relative = element.getParent().getPrevious() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -114,7 +112,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// Do not stop not handled events.
 				return;
 		}
-	});
+	} );
 
 	// Build the HTML for the smiley images table.
 	var labelId = CKEDITOR.tools.getNextId() + '_smiley_emtions_label';
@@ -189,4 +187,4 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		],
 		buttons: [ CKEDITOR.dialog.cancelButton ]
 	};
-});
+} );

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'fr', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'fr', {
 	validateBorder: 'Bordure doit être un entier.',
 	validateHSpace: 'HSpace doit être un entier.',
 	validateVSpace: 'VSpace doit être un entier.'
-});
+} );

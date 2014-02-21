@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'lv', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'lv', {
 	upperAlpha: 'Lielie alfabēta (A, B, C, D, E, utt)',
 	upperRoman: 'Lielie romāņu (I, II, III, IV, V, utt)',
 	validateStartNumber: 'Saraksta sākuma numuram jābūt veselam skaitlim'
-});
+} );

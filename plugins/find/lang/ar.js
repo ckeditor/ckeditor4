@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'ar', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'find', 'ar', {
 	replaceSuccessMsg: 'تم استبدال 1% من الحالات ',
 	replaceWith: 'إستبدال بـ:',
 	title: 'بحث واستبدال'
-});
+} );

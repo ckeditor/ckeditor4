@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'justify', 'zh', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'justify', 'zh', {
 	center: '置中',
 	left: '靠左對齊',
 	right: '靠右對齊'
-});
+} );

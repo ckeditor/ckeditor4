@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'km', {
@@ -8,4 +8,4 @@ CKEDITOR.plugins.setLang( 'fakeobjects', 'km', {
 	hiddenfield: 'វាល​កំបាំង',
 	iframe: 'IFrame',
 	unknown: 'វត្ថុ​មិន​ស្គាល់'
-});
+} );

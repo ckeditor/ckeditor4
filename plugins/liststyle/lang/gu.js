@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'gu', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'gu', {
 	upperAlpha: 'આલ્ફા મોટા (A, B, C, D, E, etc.)',
 	upperRoman: 'રોમન મોટા (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'લીસ્ટના સરુઆતનો આંકડો પુરો હોવો જોઈએ.'
-});
+} );

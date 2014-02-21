@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
 	}
-});
+} );
 
 /**
  * Class used to write HTML data.
@@ -29,7 +29,7 @@ CKEDITOR.plugins.add( 'htmlwriter', {
  * @class
  * @extends CKEDITOR.htmlParser.basicWriter
  */
-CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
+CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 	base: CKEDITOR.htmlParser.basicWriter,
 
 	/**
@@ -81,26 +81,26 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				breakBeforeOpen: 1,
 				breakBeforeClose: !dtd[ e ][ '#' ],
 				breakAfterClose: 1,
-				needsSpace: ( e in dtd.$block ) && !( e in { li:1,dt:1,dd:1 } )
-			});
+				needsSpace: ( e in dtd.$block ) && !( e in { li: 1, dt: 1, dd: 1 } )
+			} );
 		}
 
-		this.setRules( 'br', { breakAfterOpen:1 } );
+		this.setRules( 'br', { breakAfterOpen: 1 } );
 
 		this.setRules( 'title', {
 			indent: 0,
 			breakAfterOpen: 0
-		});
+		} );
 
 		this.setRules( 'style', {
 			indent: 0,
 			breakBeforeClose: 1
-		});
+		} );
 
 		this.setRules( 'pre', {
 			breakAfterOpen: 1, // Keep line break after the opening tag
 			indent: 0 // Disable indentation on <pre>.
-		});
+		} );
 	},
 
 	proto: {
@@ -329,7 +329,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				this._.rules[ tagName ] = rules;
 		}
 	}
-});
+} );
 
 /**
  * Whether to force using `'&'` instead of `'&amp;'` in elements attributes

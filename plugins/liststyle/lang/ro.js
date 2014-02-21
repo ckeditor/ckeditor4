@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'ro', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'ro', {
 	upperAlpha: 'Litere mari (A, B, C, D, E, etc.)',
 	upperRoman: 'Cifre romane mari (I, II, III, IV, V, etc.)',
 	validateStartNumber: 'Începutul listei trebuie să fie un număr întreg.'
-});
+} );

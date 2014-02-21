@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'pl', {
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'pl', {
 	upperAlpha: 'Duże litery (A, B, C, D, E itd.)',
 	upperRoman: 'Duże cyfry rzymskie (I, II, III, IV, V itd.)',
 	validateStartNumber: 'Listę musi rozpoczynać liczba całkowita.'
-});
+} );

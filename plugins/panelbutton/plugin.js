@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'panelbutton', {
 		 * @extends CKEDITOR.ui.button
 		 * @todo class and methods
 		 */
-		CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass({
+		CKEDITOR.ui.panelButton = CKEDITOR.tools.createClass( {
 			base: CKEDITOR.ui.button,
 
 			/**
@@ -120,13 +120,13 @@ CKEDITOR.plugins.add( 'panelbutton', {
 					};
 				}
 			}
-		});
+		} );
 
 	},
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_PANELBUTTON, CKEDITOR.ui.panelButton.handler );
 	}
-});
+} );
 
 /**
  * Button UI element.

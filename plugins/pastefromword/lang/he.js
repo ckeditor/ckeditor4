@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastefromword', 'he', {
@@ -7,4 +7,4 @@ CKEDITOR.plugins.setLang( 'pastefromword', 'he', {
 	error: 'לא ניתן היה לנקות את המידע בשל תקלה פנימית.',
 	title: 'הדבקה מ-Word',
 	toolbar: 'הדבקה מ-Word'
-});
+} );

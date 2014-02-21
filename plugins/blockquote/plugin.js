@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function noBlockLeft( bqBlock ) {
 		for ( var i = 0, length = bqBlock.getChildCount(), child; i < length && ( child = bqBlock.getChild( i ) ); i++ ) {
 			if ( child.type == CKEDITOR.NODE_ELEMENT && child.isBlockBoundary() )
@@ -84,7 +84,7 @@
 				}
 
 				// The common parent must not be the following tags: table, tbody, tr, ol, ul.
-				var denyTags = { table:1,tbody:1,tr:1,ol:1,ul:1 };
+				var denyTags = { table: 1, tbody: 1, tr: 1, ol: 1, ul: 1 };
 				while ( denyTags[ commonParent.getName() ] )
 					commonParent = commonParent.getParent();
 
@@ -242,7 +242,7 @@
 				label: editor.lang.blockquote.toolbar,
 				command: 'blockquote',
 				toolbar: 'blocks,10'
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();

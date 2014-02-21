@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'zh', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'zh', {
 	options: '範本選項',
 	selectPromptMsg: '請選擇要在編輯器中開啟的範本。',
 	title: '內容範本'
-});
+} );

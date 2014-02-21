@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'he', {
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'he', {
 	tag_h6: 'כותרת 6',
 	tag_p: 'נורמלי',
 	tag_pre: 'קוד'
-});
+} );

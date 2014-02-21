@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'nb', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nb', {
 	pasteMsg: 'Vennligst lim inn i følgende boks med tastaturet (<strong>Ctrl/Cmd+V</strong>) og trykk <strong>OK</strong>.',
 	securityMsg: 'Din nettlesers sikkerhetsinstillinger gir ikke redigeringsverktøyet direkte tilgang til utklippstavlen. Du må derfor lime det inn på nytt i dette vinduet.',
 	title: 'Lim inn'
-});
+} );

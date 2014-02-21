@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	title: 'Toegankelijkheidsinstructies',
-	contents: 'Help inhoud. Druk op ESC om dit dialoog te sluiten.',
+	contents: 'Help-inhoud. Druk op ESC om dit dialoog te sluiten.',
 	legend: [
 		{
 		name: 'Algemeen',
@@ -81,5 +81,67 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		}
 		]
 	}
-	]
-});
+	],
+	backspace: 'Backspace',
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
+	leftArrow: 'Pijl naar links',
+	upArrow: 'Pijl omhoog',
+	rightArrow: 'Pijl naar rechts',
+	downArrow: 'Pijl naar beneden',
+	insert: 'Insert', // MISSING
+	'delete': 'Delete', // MISSING
+	leftWindowKey: 'Linker Windows-toets',
+	rightWindowKey: 'Rechter Windows-toets',
+	selectKey: 'Selecteer toets',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
+	multiply: 'Vermenigvuldigen',
+	add: 'Add', // MISSING
+	subtract: 'Aftrekken',
+	decimalPoint: 'Decimaalteken',
+	divide: 'Delen',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Puntkomma',
+	equalSign: 'Is gelijk-teken',
+	comma: 'Komma',
+	dash: 'Koppelteken',
+	period: 'Punt',
+	forwardSlash: 'Slash',
+	graveAccent: 'Accent grave',
+	openBracket: 'Vierkant haakje openen',
+	backSlash: 'Backslash',
+	closeBracket: 'Vierkant haakje sluiten',
+	singleQuote: 'Apostrof'
+} );

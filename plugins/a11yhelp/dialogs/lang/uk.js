@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -81,5 +81,67 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 		}
 		]
 	}
-	]
-});
+	],
+	backspace: 'Backspace',
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Esc',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
+	leftArrow: 'Ліва стрілка',
+	upArrow: 'Стрілка вгору',
+	rightArrow: 'Права стрілка',
+	downArrow: 'Стрілка вниз',
+	insert: 'Вставити',
+	'delete': 'Видалити',
+	leftWindowKey: 'Ліва клавіша Windows',
+	rightWindowKey: 'Права клавіша Windows',
+	selectKey: 'Виберіть клавішу',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
+	multiply: 'Множення',
+	add: 'Додати',
+	subtract: 'Віднімання',
+	decimalPoint: 'Десяткова кома',
+	divide: 'Ділення',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Крапка з комою',
+	equalSign: 'Знак рівності',
+	comma: 'Кома',
+	dash: 'Тире',
+	period: 'Період',
+	forwardSlash: 'Коса риска',
+	graveAccent: 'Гравіс',
+	openBracket: 'Відкрити дужку',
+	backSlash: 'Зворотна коса риска',
+	closeBracket: 'Закрити дужку',
+	singleQuote: 'Одинарні лапки'
+} );

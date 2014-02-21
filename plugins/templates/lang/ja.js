@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'ja', {
@@ -9,4 +9,4 @@ CKEDITOR.plugins.setLang( 'templates', 'ja', {
 	options: 'テンプレートオプション',
 	selectPromptMsg: 'エディターで使用するテンプレートを選択してください。<br>(現在のエディタの内容は失われます):',
 	title: '内容テンプレート'
-});
+} );

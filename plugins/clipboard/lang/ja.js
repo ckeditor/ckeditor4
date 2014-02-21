@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'ja', {
@@ -12,4 +12,4 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ja', {
 	pasteMsg: 'キーボード(<STRONG>Ctrl/Cmd+V</STRONG>)を使用して、次の入力エリア内で貼り付けて、<STRONG>OK</STRONG>を押してください。',
 	securityMsg: 'ブラウザのセキュリティ設定により、エディタはクリップボードデータに直接アクセスすることができません。このウィンドウは貼り付け操作を行う度に表示されます。',
 	title: '貼り付け'
-});
+} );

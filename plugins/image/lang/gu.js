@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'gu', {
@@ -23,4 +23,4 @@ CKEDITOR.plugins.setLang( 'image', 'gu', {
 	validateBorder: 'બોર્ડેર આંકડો હોવો જોઈએ.',
 	validateHSpace: 'HSpaceઆંકડો હોવો જોઈએ.',
 	validateVSpace: 'VSpace આંકડો હોવો જોઈએ. '
-});
+} );

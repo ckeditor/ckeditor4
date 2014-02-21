@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 	var size = CKEDITOR.document.getWindow().getViewPaneSize();
 
 	// Make it maximum 800px wide, but still fully visible in the viewport.
-	var width = Math.min( size.width - 70, 800);
+	var width = Math.min( size.width - 70, 800 );
 
 	// Make it use 2/3 of the viewport height.
 	var height = size.height / 1.5;
@@ -24,7 +24,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 			this.setValueOf( 'main', 'data', oldData = editor.getData() );
 		},
 
-		onOk: (function() {
+		onOk: ( function() {
 			function setData( newData ) {
 				var that = this;
 
@@ -56,13 +56,12 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 				// Don't let the dialog close before setData is over.
 				return false;
 			};
-		})(),
+		} )(),
 
-		contents: [{
+		contents: [ {
 			id: 'main',
 			label: editor.lang.sourcedialog.title,
-			elements: [{
-				type: 'textarea',
+			elements: [ {
 				type: 'textarea',
 				id: 'data',
 				dir: 'ltr',
@@ -72,7 +71,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 					'tab-size:4;' +
 					'text-align:left;',
 				'class': 'cke_source'
-			}]
-		}]
+			} ]
+		} ]
 	};
-});
+} );

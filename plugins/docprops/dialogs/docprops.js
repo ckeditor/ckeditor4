@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -39,8 +39,8 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						if ( typeof orginal == 'function' )
 							orginal.call( this );
 					};
-				});
-			});
+				} );
+			} );
 		}
 	}
 
@@ -124,7 +124,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				padding: 0,
 				widths: [ '60%', '40%' ],
 				children: [
-					CKEDITOR.tools.extend({
+					CKEDITOR.tools.extend( {
 					type: 'text',
 					id: id,
 					label: lang[ label ]
@@ -139,7 +139,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						getDialogValue( 'colordialog', function( colorDialog ) {
 							var dialog = self.getDialog();
 							dialog.getContentElement( dialog._.currentTabId, id ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
-						});
+						} );
 					}
 				}
 				]
@@ -230,9 +230,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 							return;
 						var val = this.getValue();
 						if ( val )
-							html.setAttributes({ 'xml:lang': val, lang: val } );
+							html.setAttributes( { 'xml:lang': val, lang: val } );
 						else
-							html.removeAttributes( { 'xml:lang':1,lang:1 } );
+							html.removeAttributes( { 'xml:lang': 1, lang: 1 } );
 					}
 				}
 				]
@@ -403,7 +403,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 									body.removeStyle( 'color' );
 							}
 						}
-					}),
+					} ),
 						colorField( 'bgColor', 'bgColor', {
 						setup: function( doc, html, head, body ) {
 							var val = body.getComputedStyle( 'background-color' ) || '';
@@ -419,7 +419,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 									resetStyle( body, 'background-color', 'transparent' );
 							}
 						}
-					}),
+					} ),
 					{
 						type: 'hbox',
 						widths: [ '60%', '40%' ],
@@ -436,7 +436,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								else {
 									val = val.replace( /url\(\s*(["']?)\s*([^\)]*)\s*\1\s*\)/i, function( match, quote, url ) {
 										return url;
-									});
+									} );
 								}
 								this.setValue( val );
 							},
@@ -597,7 +597,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 								self.commitContent( doc, html, head, body, 1 );
 							}, 50 );
 						}
-					});
+					} );
 					CKEDITOR.document.getById( 'cke_docProps_preview_iframe' ).getAscendant( 'table' ).setStyle( 'height', '100%' );
 				}
 			}
@@ -605,4 +605,4 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 		}
 		]
 	};
-});
+} );
