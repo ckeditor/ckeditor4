@@ -1,44 +1,77 @@
 ﻿CKEDITOR.plugins.add( 'linksei',
 {
-	requires: 'widget',
-	icons: 'linksei',
-	
-	
+	//requires: [ 'iframedialog' ],
 	onLoad: function() {
 		CKEDITOR.addCss( '.ancoraSei' +
 			'{' +
 				'background-color: #d5d5d5;' +
-				//( CKEDITOR.env.gecko ? 'cursor: default;' : '' ) +
+				( CKEDITOR.env.gecko ? 'cursor: default;' : '' ) +
 			'}'
 			);
 	},
 	init: function( editor )
 	{
-		CKEDITOR.dialog.add('linksei',this.path+'dialogs/linksei.js');
-		editor.ui.addButton( 'linksei', {
-	    label: 'Inserir um Link para processo ou documento do SEI!',
-	    command: 'linksei',
-	    toolbar: 'insert'
-	});
-		editor.widgets.add('linksei',{
-			button: 'Inserir um Link para processo ou documento do SEI!',
-			template: '<a id="lnkSei" class="ancoraSei" style="text-indent:0px;">Title</a>',
-			allowedContent: 'a(!ancoraSei)',
-			requiredContent: 'a(ancoraSei)',
-			upcast: function(element) {
-				return element.name=='a' && element.hasClass('ancoraSei');
-			},
-			dialog: 'linksei',
-			init: function() {
-				var id=this.element.getAttribute('id');
-				if (id) this.setData('id',id);
-				this.setData('protocolo',this.element.getHtml());
-			},
-			data: function() {
-				this.element.setAttribute('id',this.data.id);
-				this.element.setHtml(this.data.protocolo);
-			}
-						
-		});
+		editor.addCommand( 'linkseiDialog', new CKEDITOR.dialogCommand( 'linkseiDialog' ) );
+		editor.ui.addButton( 'linksei',
+		{
+			label: 'Inserir um Link para processo ou documento do SEI!',
+			command: 'linkseiDialog',
+			icon: this.path + 'images/sei.png'
+		} );		
+		
+		//var height = 200, width = 750;
+		//var linksei=  "http://sei.trf4.jus.br";
+		
+		CKEDITOR.dialog.add( 'linkseiDialog', function( editor )
+				{
+					return {
+						title : 'Propriedades do Link',
+						minWidth : 200,
+						minHeight : 70,
+						contents :
+						[
+							{
+								id : 'general',
+								label : 'Settings',
+								elements :
+								[
+									{
+										type : 'text',
+										id : 'protocolo',
+										label : 'Protocolo',
+										validate : CKEDITOR.dialog.validate.SEI(),
+										required : true,
+										commit : function( data )
+										{
+											data.protocolo = window._protocoloFormatado;
+										}
+									}
+								]
+							}
+						],
+						onOk : function()
+						{
+							var dialog = this,
+								data = {},
+								span = editor.document.createElement('span'),
+								link = editor.document.createElement( 'a' );
+							this.commitContent( data );
+							span.setAttributes({
+								contentEditable: "false",
+								'data-cke-linksei':1
+								});
+							link.setAttributes( {
+								'id':'lnkSei'+window._idProtocolo,
+								'class': "ancoraSei",
+								'style':"text-indent:0px;"
+									});							
+							link.setHtml( data.protocolo );
+							span.append(link);
+							editor.insertElement( span );
+						}
+					};
+				} );
+		
+
 	}
 } );

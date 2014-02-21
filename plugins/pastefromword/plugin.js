@@ -12,7 +12,7 @@
 		init: function( editor ) {
 			var commandName = 'pastefromword',
 				// Flag indicate this command is actually been asked instead of a generic pasting.
-				forceFromWord = 0,
+				forceFromWord = 1,
 				path = this.path;
 
 			editor.addCommand( commandName, {
