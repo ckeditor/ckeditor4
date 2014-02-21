@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'ja', {
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ja', {
 	widthPc: 'パーセント',
 	widthPx: 'ピクセル',
 	widthUnit: '幅の単位'
-});
+} );

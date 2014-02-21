@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'pt', {
@@ -9,10 +9,10 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		menu: 'Célula',
 		insertBefore: 'Inserir Célula Antes',
 		insertAfter: 'Inserir Célula Depois',
-		deleteCell: 'Eliminar Célula',
+		deleteCell: 'Apagar Células',
 		merge: 'Unir Células',
 		mergeRight: 'Unir à Direita',
-		mergeDown: 'Unir abaixo',
+		mergeDown: 'Unir Abaixo',
 		splitHorizontal: 'Dividir Célula Horizontalmente',
 		splitVertical: 'Dividir Célula Verticalmente',
 		title: 'Propriedades da Célula',
@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	headersColumn: 'Primeira coluna',
 	headersNone: 'Nenhum',
 	headersRow: 'Primeira Linha',
-	invalidBorder: 'O tamanho da borda tem de ser um número.',
+	invalidBorder: 'O tamanho da margem tem de ser um número.',
 	invalidCellPadding: 'A criação do espaço na célula deve ser um número positivo.',
 	invalidCellSpacing: 'O espaçamento da célula deve ser um número positivo.',
 	invalidCols: 'O número de colunas tem de ser um número maior que 0.',
@@ -69,6 +69,6 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 	title: 'Propriedades da Tabela',
 	toolbar: 'Tabela',
 	widthPc: 'percentagem',
-	widthPx: 'pixels',
+	widthPx: 'pontos',
 	widthUnit: 'unidade da largura'
-});
+} );

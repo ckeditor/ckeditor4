@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'ko', {
@@ -71,4 +71,4 @@ CKEDITOR.plugins.setLang( 'table', 'ko', {
 	widthPc: '퍼센트',
 	widthPx: '픽셀',
 	widthUnit: '폭 단위'
-});
+} );
