@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -47,11 +47,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 			this.$.createStyleSheet( cssFileUrl );
 		else {
 			var link = new CKEDITOR.dom.element( 'link' );
-			link.setAttributes({
+			link.setAttributes( {
 				rel: 'stylesheet',
 				type: 'text/css',
 				href: cssFileUrl
-			});
+			} );
 
 			this.getHead().append( link );
 		}
@@ -162,9 +162,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 			for ( var j = 0; j < $.childNodes.length; j++ ) {
 				var candidate = $.childNodes[ j ];
 
-				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 ) {
+				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 )
 					continue;
-				}
 
 				currentIndex++;
 
@@ -314,4 +313,4 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 
 		return $frag;
 	}
-});
+} );

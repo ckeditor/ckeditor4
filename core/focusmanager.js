@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -8,7 +8,7 @@
  *		to handle the focus on editor instances..
  */
 
-(function() {
+( function() {
 	/**
 	 * Manages the focus activity in an editor instance. This class is to be
 	 * used mainly by UI elements coders when adding interface elements that need
@@ -151,9 +151,9 @@
 				clearTimeout( this._.timer );
 
 			var delay = CKEDITOR.focusManager._.blurDelay;
-			if ( noDelay || !delay ) {
+			if ( noDelay || !delay )
 				doBlur.call( this );
-			} else {
+			else {
 				this._.timer = CKEDITOR.tools.setTimeout( function() {
 					delete this._.timer;
 					doBlur.call( this );
@@ -224,7 +224,7 @@
 
 	};
 
-})();
+} )();
 
 /**
  * Fired when the editor instance receives the input focus.

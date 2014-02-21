@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -10,7 +10,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 	/**
 	 * Represents iterator class. It can be used to iterate
 	 * over all elements (or even text nodes in case of {@link #enlargeBr} set to `false`)
@@ -175,7 +175,7 @@
 
 						// Gets us straight to the end of getParagraph() because block variable is set.
 						break;
-					} else if ( currentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
+					} else if ( currentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br: 1 } ) ) {
 						// <br> boundaries must be part of the range. It will
 						// happen only if ForceBrBreak.
 						if ( nodeName == 'br' )
@@ -237,7 +237,7 @@
 					while ( !currentNode.getNext( skipGuard ) && !isLast ) {
 						var parentNode = currentNode.getParent();
 
-						if ( parentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br:1 } ) ) {
+						if ( parentNode.isBlockBoundary( this.forceBrBreak && !parentPre && { br: 1 } ) ) {
 							closeRange = 1;
 							includeNode = 0;
 							isLast = isLast || ( parentNode.equals( lastNode ) );
@@ -277,7 +277,7 @@
 
 				var startPath = new CKEDITOR.dom.elementPath( range.startContainer, range.root );
 				var startBlockLimit = startPath.blockLimit,
-					checkLimits = { div:1,th:1,td:1 };
+					checkLimits = { div: 1, th: 1, td: 1 };
 				block = startPath.block;
 
 				if ( !block && startBlockLimit && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
@@ -497,4 +497,4 @@
 	CKEDITOR.dom.range.prototype.createIterator = function() {
 		return new iterator( this );
 	};
-})();
+} )();

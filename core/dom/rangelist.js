@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/**
 	 * Represents a list os CKEDITOR.dom.range objects, which can be easily
 	 * iterated sequentially.
@@ -191,7 +191,7 @@
 		dirtyRange[ checkEnd ? 'endContainer' : 'startContainer' ] = container;
 		return dirtyRange;
 	}
-})();
+} )();
 
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part

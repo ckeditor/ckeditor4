@@ -1,11 +1,11 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 // Compressed version of core/ckeditor_base.js. See original for instructions.
 /*jsl:ignore*/
-window.CKEDITOR||(window.CKEDITOR=function(){var l=Math.floor(900*Math.random())+100,b=window.CKEDITOR_BASEPATH||"";if(!b)for(var g=document.getElementsByTagName("script"),e=0;e<g.length;e++){var h=g[e].src.match(/(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i);if(h){b=h[1];break}}-1==b.indexOf(":/")&&(b=0===b.indexOf("/")?location.href.match(/^.*?:\/\/[^\/]*/)[0]+b:location.href.match(/^[^\?]*\/(?:)/)[0]+b);if(!b)throw'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';var c=function(){try{document.addEventListener?(document.removeEventListener("DOMContentLoaded",c,!1),j()):document.attachEvent&&"complete"===document.readyState&&(document.detachEvent("onreadystatechange",c),j())}catch(a){}},j=function(){for(var a;a=f.shift();)a()},f=[],d={timestamp:"",version:"%VERSION%",revision:"%REV%",rnd:l,_:{pending:[]},status:"unloaded",basePath:b,getUrl:function(a){-1==a.indexOf(":/")&&0!==a.indexOf("/")&&(a=this.basePath+a);this.timestamp&&("/"!=a.charAt(a.length-1)&&!/[&?]t=/.test(a))&&(a+=(0<=a.indexOf("?")?"&":"?")+"t="+this.timestamp);return a},domReady:function(a){f.push(a);"complete"===document.readyState&&setTimeout(c,1);if(1==f.length)if(document.addEventListener)document.addEventListener("DOMContentLoaded",c,!1),window.addEventListener("load",c,!1);else if(document.attachEvent){document.attachEvent("onreadystatechange",c);window.attachEvent("onload",c);a=!1;try{a=!window.frameElement}catch(b){}if(document.documentElement.doScroll&&a){var d=function(){try{document.documentElement.doScroll("left")}catch(a){setTimeout(d,1);return}c()};d()}}}},k=window.CKEDITOR_GETURL;if(k){var m=d.getUrl;d.getUrl=function(a){return k.call(d,a)||m.call(d,a)}}return d}());
+window.CKEDITOR||(window.CKEDITOR=function(){var b={timestamp:"",version:"%VERSION%",revision:"%REV%",rnd:Math.floor(900*Math.random())+100,_:{pending:[]},status:"unloaded",basePath:function(){var a=window.CKEDITOR_BASEPATH||"";if(!a)for(var b=document.getElementsByTagName("script"),c=0;c<b.length;c++){var d=b[c].src.match(/(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i);if(d){a=d[1];break}}-1==a.indexOf(":/")&&"//"!=a.slice(0,2)&&(a=0===a.indexOf("/")?location.href.match(/^.*?:\/\/[^\/]*/)[0]+a:location.href.match(/^[^\?]*\/(?:)/)[0]+a);if(!a)throw'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';return a}(),getUrl:function(a){-1==a.indexOf(":/")&&0!==a.indexOf("/")&&(a=this.basePath+a);this.timestamp&&"/"!=a.charAt(a.length-1)&&!/[&?]t=/.test(a)&&(a+=(0<=a.indexOf("?")?"&":"?")+"t="+this.timestamp);return a},domReady:function(){function a(){try{document.addEventListener?(document.removeEventListener("DOMContentLoaded",a,!1),b()):document.attachEvent&&"complete"===document.readyState&&(document.detachEvent("onreadystatechange",a),b())}catch(d){}}function b(){for(var a;a=c.shift();)a()}var c=[];return function(b){c.push(b);"complete"===document.readyState&&setTimeout(a,1);if(1==c.length)if(document.addEventListener)document.addEventListener("DOMContentLoaded",a,!1),window.addEventListener("load",a,!1);else if(document.attachEvent){document.attachEvent("onreadystatechange",a);window.attachEvent("onload",a);b=!1;try{b=!window.frameElement}catch(e){}if(document.documentElement.doScroll&&b){var f=function(){try{document.documentElement.doScroll("left")}catch(b){setTimeout(f,1);return}a()};f()}}}}()},e=window.CKEDITOR_GETURL;if(e){var g=b.getUrl;b.getUrl=function(a){return e.call(b,a)||g.call(b,a)}}return b}());
 /*jsl:end*/
 
 if ( CKEDITOR.loader )
@@ -20,9 +20,9 @@ else {
 		script.type = 'text/javascript';
 		script.src = CKEDITOR.getUrl( 'core/loader.js' );
 		document.body.appendChild( script );
-	} else {
+	} else
 		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
-	}
+
 }
 
 /**

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -49,7 +49,7 @@ if ( !CKEDITOR.event ) {
 		}
 	};
 
-	CKEDITOR.event.prototype = (function() {
+	CKEDITOR.event.prototype = ( function() {
 		// Returns the private events object for a given object.
 		var getPrivate = function( obj ) {
 				var _ = ( obj.getPrivate && obj.getPrivate() ) || obj._ || ( obj._ = {} );
@@ -242,7 +242,7 @@ if ( !CKEDITOR.event ) {
 			 * @returns {Boolean/Object} A boolean indicating that the event is to be
 			 * canceled, or data returned by one of the listeners.
 			 */
-			fire: (function() {
+			fire: ( function() {
 				// Create the function that marks the event as stopped.
 				var stopped = 0;
 				var stopEvent = function() {
@@ -308,7 +308,7 @@ if ( !CKEDITOR.event ) {
 
 					return ret;
 				};
-			})(),
+			} )(),
 
 			/**
 			 * Fires an specific event in the object, releasing all listeners
@@ -383,5 +383,5 @@ if ( !CKEDITOR.event ) {
 				return ( event && event.listeners.length > 0 );
 			}
 		};
-	})();
+	} )();
 }
