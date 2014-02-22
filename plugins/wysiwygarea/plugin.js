@@ -264,6 +264,14 @@
 			} );
 		}
 
+		if ( CKEDITOR.env.iOS ) {
+			// [iOS] If touch is bound to any parent of the iframe blur happens on any touch
+			// event and body becomes the focused element
+			this.attachListener( doc, 'touchend', function() {
+				win.focus();
+			} );
+		}
+
 		// ## END
 
 
