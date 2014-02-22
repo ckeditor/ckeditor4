@@ -201,7 +201,9 @@
 					original.removeListener( 'abort', onImgLoadErrorEvent );
 
 					// Hide loader
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					var loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+					if ( loader )
+						CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
 
 					// New image -> new domensions
 					if ( !this.dontResetSize )
@@ -267,7 +269,10 @@
 						link = element && editor.elementPath( element ).contains( 'a', 1 );
 
 					//Hide loader.
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					var loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+					if ( loader )
+						loader.setStyle( 'display', 'none' );
+
 					// Create the preview before setup the dialog contents.
 					previewPreloader = new CKEDITOR.dom.element( 'img', editor.document );
 					this.preview = CKEDITOR.document.getById( previewImageId );
@@ -464,7 +469,9 @@
 										dialog = this.getDialog();
 										var original = dialog.originalElement;
 
-										dialog.preview.removeStyle( 'display' );
+										if(dialog.preview){
+											dialog.preview.removeStyle( 'display' );
+										}
 
 										original.setCustomData( 'isReady', 'false' );
 										// Show loader
@@ -477,10 +484,12 @@
 										original.on( 'abort', onImgLoadErrorEvent, dialog );
 										original.setAttribute( 'src', newUrl );
 
-										// Query the preloader to figure out the url impacted by based href.
-										previewPreloader.setAttribute( 'src', newUrl );
-										dialog.preview.setAttribute( 'src', previewPreloader.$.src );
-										updatePreview( dialog );
+										if(dialog.preview){
+											// Query the preloader to figure out the url impacted by based href.
+											previewPreloader.setAttribute( 'src', newUrl );
+											dialog.preview.setAttribute( 'src', previewPreloader.$.src );
+											updatePreview( dialog );
+										}
 									}
 									// Dont show preview if no URL given.
 									else if ( dialog.preview ) {
