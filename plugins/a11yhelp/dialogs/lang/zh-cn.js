@@ -82,66 +82,66 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	backspace: '退格键',
+	tab: 'Tab 键',
+	enter: '回车键',
+	shift: 'Shift 键',
+	ctrl: 'Ctrl 键',
+	alt: 'Alt 键',
+	pause: '暂停键',
+	capslock: '大写锁定键',
+	escape: 'Esc 键',
+	pageUp: '上翻页键',
+	pageDown: '下翻页键',
+	end: '行尾键',
+	home: '行首键',
+	leftArrow: '向左箭头键',
+	upArrow: '向上箭头键',
+	rightArrow: '向右箭头键',
+	downArrow: '向下箭头键',
+	insert: '插入键',
+	'delete': '删除键',
+	leftWindowKey: '左 WIN 键',
+	rightWindowKey: '右 WIN 键',
+	selectKey: '选择键',
+	numpad0: '小键盘 0 键',
+	numpad1: '小键盘 1 键',
+	numpad2: '小键盘 2 键',
+	numpad3: '小键盘 3 键',
+	numpad4: '小键盘 4 键',
+	numpad5: '小键盘 5 键',
+	numpad6: '小键盘 6 键',
+	numpad7: '小键盘 7 键',
+	numpad8: '小键盘 8 键',
+	numpad9: '小键盘 9 键',
+	multiply: '星号键',
+	add: '加号键',
+	subtract: '减号键',
+	decimalPoint: '小数点键',
+	divide: '除号键',
+	f1: 'F1 键',
+	f2: 'F2 键',
+	f3: 'F3 键',
+	f4: 'F4 键',
+	f5: 'F5 键',
+	f6: 'F6 键',
+	f7: 'F7 键',
+	f8: 'F8 键',
+	f9: 'F9 键',
+	f10: 'F10 键',
+	f11: 'F11 键',
+	f12: 'F12 键',
+	numLock: '数字锁定键',
+	scrollLock: '滚动锁定键',
+	semiColon: '分号键',
+	equalSign: '等号键',
+	comma: '逗号键',
+	dash: '短划线键',
+	period: '句号键',
+	forwardSlash: '斜杠键',
+	graveAccent: '重音符键',
+	openBracket: '左中括号键',
+	backSlash: '反斜杠键',
+	closeBracket: '右中括号键',
+	singleQuote: '单引号键'
 } );
