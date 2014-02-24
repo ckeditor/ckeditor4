@@ -42,15 +42,18 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<form action="sample_posteddata.php" method="post">
 		<div class="description">
 			<p>
-				This sample shows how to use the <a href="http://docs.ckeditor.com/#!/api/CKEDITOR_Adapters.jQuery">jQuery adapter</a>.
+				This sample shows how to use the <a href="http://docs.ckeditor.com/#!/guide/dev_jquery">jQuery adapter</a>.
 				Note that you have to include both CKEditor and jQuery scripts before including the adapter.
 			</p>
+
 <pre class="samples">
 &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"&gt;&lt;/script&gt;
 &lt;script src="/ckeditor/ckeditor.js"&gt;&lt;/script&gt;
 &lt;script src="/ckeditor/adapters/jquery.js"&gt;&lt;/script&gt;
 </pre>
-			<p>Then you can replace html elements with a CKEditor instance using the <code>ckeditor()</code> method.</p>
+
+			<p>Then you can replace HTML elements with a CKEditor instance using the <code>ckeditor()</code> method.</p>
+
 <pre class="samples">
 $( document ).ready( function() {
 	$( 'textarea#editor1' ).ckeditor();

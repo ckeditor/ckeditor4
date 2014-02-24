@@ -14,7 +14,7 @@
 	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
 
 	CKEDITOR.plugins.add( 'mathjax', {
-		lang: 'ca,cs,cy,de,el,en,en-gb,es,fa,fi,hu,ja,km,nb,nl,no,pl,pt,ro,ru,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,cy,de,el,en,en-gb,es,fa,fi,fr,gl,hu,ja,km,nb,nl,no,pl,pt,pt-br,ro,ru,sl,sv,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
 		icons: 'mathjax',
 		hidpi: true, // %REMOVE_LINE_CORE%

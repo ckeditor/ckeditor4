@@ -99,8 +99,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	upArrow: 'Pijl omhoog',
 	rightArrow: 'Pijl naar rechts',
 	downArrow: 'Pijl naar beneden',
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
+	insert: 'Invoegen',
+	'delete': 'Verwijderen',
 	leftWindowKey: 'Linker Windows-toets',
 	rightWindowKey: 'Rechter Windows-toets',
 	selectKey: 'Selecteer toets',
@@ -115,7 +115,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	numpad8: 'Numpad 8',
 	numpad9: 'Numpad 9',
 	multiply: 'Vermenigvuldigen',
-	add: 'Add', // MISSING
+	add: 'Toevoegen',
 	subtract: 'Aftrekken',
 	decimalPoint: 'Decimaalteken',
 	divide: 'Delen',

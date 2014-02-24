@@ -184,18 +184,18 @@ CKEDITOR.plugins.add( 'link', {
 } );
 
 /**
- * Set of link plugin's helpers.
+ * Set of Link plugin helpers.
  *
  * @class
  * @singleton
  */
 CKEDITOR.plugins.link = {
 	/**
-	 * Get the surrounding link element of current selection.
+	 * Get the surrounding link element of the current selection.
 	 *
 	 *		CKEDITOR.plugins.link.getSelectedLink( editor );
 	 *
-	 *		// The following selection will all return the link element.
+	 *		// The following selections will all return the link element.
 	 *
 	 *		<a href="#">li^nk</a>
 	 *		<a href="#">[link]</a>
@@ -223,7 +223,7 @@ CKEDITOR.plugins.link = {
 	},
 
 	/**
-	 * Collects anchors available in the editor (i.e. used by link dialog).
+	 * Collects anchors available in the editor (i.e. used by the Link plugin).
 	 * Note that the scope of search is different for inline (the "global" document) and
 	 * classic (`iframe`-based) editors (the "inner" document).
 	 *
@@ -269,35 +269,38 @@ CKEDITOR.plugins.link = {
 	},
 
 	/**
-	* Opera and WebKit don't make it possible to select empty anchors. Fake
-	* elements must be used for them.
-	*
-	* @readonly
-	* @deprecated 4.3.3 It is set to `true` on every browser.
-	* @property {Boolean}
-	*/
+	 * Opera and WebKit do not make it possible to select empty anchors. Fake
+	 * elements must be used for them.
+	 *
+	 * @readonly
+	 * @deprecated 4.3.3 It is set to `true` on every browser.
+	 * @property {Boolean}
+	 */
 	fakeAnchor: true,
 
 	/**
-	* For browsers that don't support CSS3 `a[name]:empty()`, note IE9 is included because of #7783.
-	*
-	* @readonly
-	* @deprecated 4.3.3 It is set to `false` on every browser.
-	* @property {Boolean} synAnchorSelector
-	*/
+	 * For browsers that do not support CSS3 `a[name]:empty()`. Note that IE9 is included because of #7783.
+	 *
+	 * @readonly
+	 * @deprecated 4.3.3 It is set to `false` on every browser.
+	 * @property {Boolean} synAnchorSelector
+	 */
 
 	/**
-	* For browsers that have editing issue with empty anchor.
-	*
-	* @readonly
-	* @deprecated 4.3.3 It is set to `false` on every browser.
-	* @property {Boolean} emptyAnchorFix
-	*/
+	 * For browsers that have editing issues with an empty anchor.
+	 *
+	 * @readonly
+	 * @deprecated 4.3.3 It is set to `false` on every browser.
+	 * @property {Boolean} emptyAnchorFix
+	 */
 
 	/**
+	 * Returns an element representing a real anchor restored from a fake anchor.
+	 *
 	 * @param {CKEDITOR.editor} editor
 	 * @param {CKEDITOR.dom.element} element
-	 * @todo
+	 * @returns {CKEDITOR.dom.element} Restored anchor element or nothing if the
+	 * passed element was not a fake anchor.
 	 */
 	tryRestoreFakeAnchor: function( editor, element ) {
 		if ( element && element.data( 'cke-real-element-type' ) && element.data( 'cke-real-element-type' ) == 'anchor' ) {
@@ -358,16 +361,18 @@ CKEDITOR.removeAnchorCommand.prototype = {
 
 CKEDITOR.tools.extend( CKEDITOR.config, {
 	/**
+	 * Whether to show the Advanced tab in the Link dialog window.
+	 *
 	 * @cfg {Boolean} [linkShowAdvancedTab=true]
 	 * @member CKEDITOR.config
-	 * @todo
 	 */
 	linkShowAdvancedTab: true,
 
 	/**
+	 * Whether to show the Target tab in the Link dialog window.
+	 *
 	 * @cfg {Boolean} [linkShowTargetTab=true]
 	 * @member CKEDITOR.config
-	 * @todo
 	 */
 	linkShowTargetTab: true
 } );

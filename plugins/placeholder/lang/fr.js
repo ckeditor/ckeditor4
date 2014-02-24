@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'fr', {
 	title: 'Propriétés de l\'Espace réservé',
 	toolbar: 'Créer l\'Espace réservé',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Nom de l\'espace réservé',
+	invalidName: 'L\'espace réservé ne peut pas être vide ni contenir l\'un de ses caractères : [, ], <, >',
+	pathName: 'espace réservé'
 } );
