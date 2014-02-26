@@ -11,6 +11,8 @@ New Features:
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://localhost/cksource/ckeditor-docs/build/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as images' source.
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed FF3.x, IE6 and Opera12.x leftovers in code.
 
+## CKEditor 4.3.4
+
 ## CKEditor 4.3.3
 
 Fixed Issues:
