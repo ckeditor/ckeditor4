@@ -1205,6 +1205,17 @@
  */
 
 /**
+ * Fired before the {@link #paste} event. Allows to preset data type.
+ *
+ * **Note:** this event is deprecated. Add a `0` priority listener for the
+ * {@link #paste} event instead.
+ *
+ * @deprecated
+ * @event beforePaste
+ * @member CKEDITOR.editor
+ */
+
+/**
  * Internal event to open the Paste dialog.
  *
  * @private

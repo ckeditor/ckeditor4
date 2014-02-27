@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4
 
+**Important Notes:**
+
+* Marked the [`editor.beforePaste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-beforePaste) event as deprecated.
+
 New Features:
 
 * [#11532](http://dev.ckeditor.com/ticket/11532): Added `editor.addContentsCss()` method.
