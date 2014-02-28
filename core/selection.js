@@ -773,8 +773,6 @@
 			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
 		} );
 
-		// Clear the cached range path before unload. (#7174)
-		editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
 		// Check selection change on data reload.
 		editor.on( 'dataReady', function() {
 			// Clean up fake selection after setting data.
