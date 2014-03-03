@@ -9,22 +9,21 @@
  */
 
 ( function() {
-
 	var functions = [],
 		cssVendorPrefix =
 			CKEDITOR.env.gecko ? '-moz-' :
 			CKEDITOR.env.webkit ? '-webkit-' :
 			CKEDITOR.env.ie ? '-ms-' :
 			'',
-		_ampRegex= /&/g,
-		_gtRegex= />/g,
-		_ltRegex= /</g,
-		_quoteRegex= /"/g,
+		ampRegex = /&/g,
+		gtRegex = />/g,
+		ltRegex = /</g,
+		quoteRegex = /"/g,
 
-		_ampEscRegex= /&amp;/g,
-		_gtEscRegex= /&gt;/g,
-		_ltEscRegex= /&lt;/g,
-		_quoteEscRegex= /&quot;/g;
+		ampEscRegex = /&amp;/g,
+		gtEscRegex = /&gt;/g,
+		ltEscRegex = /&lt;/g,
+		quoteEscRegex = /&quot;/g;
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -331,7 +330,7 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
-			return String( text ).replace( _ampRegex, '&amp;' ).replace( _gtRegex, '&gt;' ).replace( _ltRegex, '&lt;' );
+			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
 		},
 
 		/**
@@ -343,7 +342,7 @@
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( _ampEscRegex, '&' ).replace( _gtEscRegex, '>' ).replace( _ltEscRegex, '<' );
+			return text.replace( ampEscRegex, '&' ).replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' );
 		},
 
 		/**
@@ -355,7 +354,7 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( _quoteRegex, '&quot;' ).replace( _ltRegex, '&lt;' ).replace( _gtRegex, '&gt;' );
+			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
 		},
 
 		/**
@@ -369,7 +368,7 @@
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( _quoteEscRegex, '"' ).replace( _ltEscRegex, '<' ).replace( _gtEscRegex, '>' );
+			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
 		},
 
 		/**
