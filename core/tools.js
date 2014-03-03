@@ -9,12 +9,22 @@
  */
 
 ( function() {
+
 	var functions = [],
 		cssVendorPrefix =
 			CKEDITOR.env.gecko ? '-moz-' :
 			CKEDITOR.env.webkit ? '-webkit-' :
 			CKEDITOR.env.ie ? '-ms-' :
-			'';
+			'',
+		_ampRegex= /&/g,
+		_gtRegex= />/g,
+		_ltRegex= /</g,
+		_quoteRegex= /"/g,
+
+		_ampEscRegex= /&amp;/g,
+		_gtEscRegex= /&gt;/g,
+		_ltEscRegex= /&lt;/g,
+		_quoteEscRegex= /&quot;/g;
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -321,7 +331,7 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
-			return String( text ).replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' );
+			return String( text ).replace( _ampRegex, '&amp;' ).replace( _gtRegex, '&gt;' ).replace( _ltRegex, '&lt;' );
 		},
 
 		/**
@@ -333,7 +343,7 @@
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
+			return text.replace( _ampEscRegex, '&' ).replace( _gtEscRegex, '>' ).replace( _ltEscRegex, '<' );
 		},
 
 		/**
@@ -345,7 +355,7 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+			return text.replace( _quoteRegex, '&quot;' ).replace( _ltRegex, '&lt;' ).replace( _gtRegex, '&gt;' );
 		},
 
 		/**
@@ -359,7 +369,7 @@
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( /&quot;/g, '"' ).replace( /&lt;/g, '<' ).replace( /&gt;/g, '>' );
+			return text.replace( _quoteEscRegex, '"' ).replace( _ltEscRegex, '<' ).replace( _gtEscRegex, '>' );
 		},
 
 		/**
