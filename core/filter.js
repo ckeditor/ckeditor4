@@ -1143,15 +1143,17 @@
 	// Optimize a rule by replacing validators with functions
 	// and rewriting requiredXXX validators to arrays.
 	function optimizeRule( rule ) {
-		var i;
-		for ( i in validators )
-			rule[ i ] = validatorFunction( rule[ i ] );
+		var validatorName,
+			i;
+
+		for ( validatorName in validators )
+			rule[ validatorName ] = validatorFunction( rule[ validatorName ] );
 
 		var nothingRequired = true;
 		for ( i in validatorsRequired ) {
-			i = validatorsRequired[ i ];
-			rule[ i ] = CKEDITOR.tools.objectKeys( rule[ i ] );
-			if ( rule[ i ] )
+			validatorName = validatorsRequired[ i ];
+			rule[ validatorName ] = CKEDITOR.tools.objectKeys( rule[ validatorName ] );
+			if ( rule[ validatorName ] )
 				nothingRequired = false;
 		}
 
