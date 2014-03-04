@@ -1253,6 +1253,23 @@
 			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
 	}
 
+	// Returns a regexp object which can be used to test if a property
+	// matches one of wildcard validators.
+	function regexifyPropertiesWithWildcards( validators ) {
+		var patterns = [],
+			i;
+
+		for ( i in validators ) {
+			if ( i.indexOf( '*' ) > -1 )
+				patterns.push( i.replace( /\*/g, '.*' ) );
+		}
+
+		if ( patterns.length )
+			return new RegExp( '^(?:' + patterns.join( '|' ) + ')$' );
+		else
+			return null;
+	}
+
 	// Standardize a rule by converting all validators to hashes.
 	function standardizeRule( rule ) {
 		rule.elements = convertValidatorToHash( rule.elements, /\s+/ ) || null;
@@ -1383,8 +1400,13 @@
 		if ( validator === true )
 			return true;
 
+		// Note: We don't need to remove properties with wildcards from the validator object.
+		// E.g. data-* is actually an edge case of /^data-.*$/, so when it's accepted
+		// by `value in validator` it's ok.
+		var regexp = regexifyPropertiesWithWildcards( validator );
+
 		return function( value ) {
-			return value in validator;
+			return value in validator || ( regexp && value.match( regexp ) );
 		};
 	}
 
