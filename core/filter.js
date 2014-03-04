@@ -1044,13 +1044,21 @@
 		if ( rule.nothingRequired )
 			return true;
 
-		var i, reqs, existing;
+		var i, req, reqs, existing;
 
 		if ( ( reqs = rule.requiredClasses ) ) {
 			existing = element.classes;
 			for ( i = 0; i < reqs.length; ++i ) {
-				if ( CKEDITOR.tools.indexOf( existing, reqs[ i ] ) == -1 )
-					return false;
+				req = reqs[ i ];
+				if ( typeof req == 'string' ) {
+					if ( CKEDITOR.tools.indexOf( existing, req ) == -1 )
+						return false;
+				}
+				// This means regexp.
+				else {
+					if ( !CKEDITOR.tools.checkIfAnyArrayItemMatches( existing, req ) )
+						return false;
+				}
 			}
 		}
 
@@ -1063,9 +1071,17 @@
 		if ( !required )
 			return true;
 
-		for ( var i = 0; i < required.length; ++i ) {
-			if ( !( required[ i ] in existing ) )
-				return false;
+		for ( var i = 0, req; i < required.length; ++i ) {
+			req = required[ i ];
+			if ( typeof req == 'string' ) {
+				if ( !( req in existing ) )
+					return false;
+			}
+			// This means regexp.
+			else {
+				if ( !CKEDITOR.tools.checkIfAnyObjectPropertyMatches( existing, req ) )
+					return false;
+			}
 		}
 
 		return true;
@@ -1133,6 +1149,23 @@
 		return obj;
 	}
 
+	// Extract properties names from the object
+	// and replace those containing wildcards with regexps.
+	// Note: there's a room for performance improvement. Array of mixed types
+	// breaks JIT-compiler optiomization what may invalidate compilation of pretty a lot of code.
+	//
+	// @returns An array of strings and regexps.
+	function optimizeRequiredProperties( requiredProperties ) {
+		var arr = [];
+		for ( var propertyName in requiredProperties ) {
+			if ( propertyName.indexOf( '*' ) > -1 )
+				arr.push( new RegExp( '^' + propertyName.replace( /\*/g, '.*' ) + '$' ) );
+			else
+				arr.push( propertyName );
+		}
+		return arr;
+	}
+
 	var validators = { styles: 1, attributes: 1, classes: 1 },
 		validatorsRequired = {
 			styles: 'requiredStyles',
@@ -1153,7 +1186,7 @@
 		var nothingRequired = true;
 		for ( i in validatorsRequired ) {
 			validatorName = validatorsRequired[ i ];
-			requiredProperties = CKEDITOR.tools.objectKeys( rule[ validatorName ] );
+			requiredProperties = optimizeRequiredProperties( rule[ validatorName ] );
 			// Don't set anything if there are no required properties. This will allow to
 			// save some memory by GCing all empty arrays (requiredProperties).
 			if ( requiredProperties.length ) {

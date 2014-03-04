@@ -1138,6 +1138,38 @@
 		},
 
 		/**
+		 * Checks if any of the `arr` items match provided regular expression.
+		 *
+		 * @param {Array} arr The array which items will be checked.
+		 * @param {RegExp} regexp The regular expression.
+		 * @returns {Boolean} Returns `true` for the first occurrence of searched pattern.
+		 * @since 4.4
+		 */
+		checkIfAnyArrayItemMatches: function( arr, regexp ) {
+			for ( var i = 0, l = arr.length; i < l; ++i ) {
+				if ( arr[ i ].match( regexp ) )
+					return true;
+			}
+			return false;
+		},
+
+		/**
+		 * Checks if any of the `obj` properties match provided regular expression.
+		 *
+		 * @param obj The object which properties will be checked.
+		 * @param {RegExp} regexp The regular expression.
+		 * @returns {Boolean} Returns `true` for the first occurrence of searched pattern.
+		 * @since 4.4
+		 */
+		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {
+			for ( var i in obj ) {
+				if ( i.match( regexp ) )
+					return true;
+			}
+			return false;
+		},
+
+		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
 		 * @since 4.4
