@@ -1144,6 +1144,7 @@
 	// and rewriting requiredXXX validators to arrays.
 	function optimizeRule( rule ) {
 		var validatorName,
+			requiredProperties,
 			i;
 
 		for ( validatorName in validators )
@@ -1152,9 +1153,13 @@
 		var nothingRequired = true;
 		for ( i in validatorsRequired ) {
 			validatorName = validatorsRequired[ i ];
-			rule[ validatorName ] = CKEDITOR.tools.objectKeys( rule[ validatorName ] );
-			if ( rule[ validatorName ] )
+			requiredProperties = CKEDITOR.tools.objectKeys( rule[ validatorName ] );
+			// Don't set anything if there are no required properties. This will allow to
+			// save some memory by GCing all empty arrays (requiredProperties).
+			if ( requiredProperties.length ) {
+				rule[ validatorName ] = requiredProperties;
 				nothingRequired = false;
+			}
 		}
 
 		rule.nothingRequired = nothingRequired;
