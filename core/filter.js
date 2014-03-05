@@ -607,6 +607,10 @@
 		 *
 		 * Second `check()` call returned `false` because `src` is required.
 		 *
+		 * **Note:** The `test` argument is of {@link CKEDITOR.filter.contentRule} type, which is
+		 * a limited version of {@link CKEDITOR.filter.allowedContentRules}. Read more about it
+		 * in the {@link CKEDITOR.filter.contentRule}'s documentation.
+		 *
 		 * @param {CKEDITOR.filter.contentRule} test
 		 * @param {Boolean} [applyTransformations=true] Whether to use registered transformations.
 		 * @param {Boolean} [strictCheck] Whether the filter should check if an element with exactly
@@ -1961,7 +1965,14 @@
  *
  * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
  * It may contain only one element and its styles, classes, and attributes. Only the
- * string format and a {@link CKEDITOR.style} instances are accepted.
+ * string format and a {@link CKEDITOR.style} instances are accepted. Required properties
+ * are not allowed in this format.
+ *
+ * Example:
+ *
+ *		'img[src,alt](foo)'	// Correct rule.
+ *		'ol, ul(!foo)'		// Incorrect rule. Multiple elements and required
+ *							// properties are not supported.
  *
  * @since 4.1
  * @class CKEDITOR.filter.contentRule
