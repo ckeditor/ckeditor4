@@ -105,11 +105,15 @@
 		},
 
 		afterInit: function( editor ) {
+			// Integrate with align commands (justify plugin).
 			var align = { left: 1, right: 1, center: 1, block: 1 },
 				integrate = alignCommandIntegrator( editor );
 
 			for ( var value in align )
 				integrate( value );
+
+			// Integrate with link commands (link plugin).
+			linkCommandIntegrator( editor );
 		}
 	} );
 
@@ -1159,6 +1163,14 @@
 				evt.cancel();
 			} );
 		};
+	}
+
+	function linkCommandIntegrator( editor ) {
+		// Don't open link dialog if double-clicked focused widget.
+		editor.on( 'doubleclick', function( evt ) {
+			if ( evt.data.dialog && evt.data.dialog == 'link' && getFocusedWidget( editor ) )
+				evt.cancel();
+		} );
 	}
 
 	// Returns the focused widget, if of the type specific for this plugin.
