@@ -250,31 +250,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	},
 
 	/**
-	 * Appends a `<br>` filler element to this element if the filler is not present already.
-	 * By default filler is appended only if {@link CKEDITOR.env#needsBrFiller} is `true`,
-	 * however when `force` is set to `true` filler will be appended regardless of the environment.
-	 *
-	 * @param {Boolean} [force] Append filler regardless of the environment.
-	 */
-	appendBogus: function( force ) {
-		if ( !force && !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
-			return;
-
-		var lastChild = this.getLast();
-
-		// Ignore empty/spaces text.
-		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
-			lastChild = lastChild.getPrevious();
-		if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
-			var bogus = CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' );
-
-			CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' );
-
-			this.append( bogus );
-		}
-	},
-
-	/**
 	 * Breaks one of the ancestor element in the element position, moving
 	 * this element between the broken parts.
 	 *
