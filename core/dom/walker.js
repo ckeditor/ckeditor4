@@ -612,5 +612,38 @@
 
 		return false;
 	};
+	var whitespaces = CKEDITOR.dom.walker.whitespaces(), 
+ 	bookmarks = CKEDITOR.dom.walker.bookmark( false ); 
+ 	
+ 	 CKEDITOR.dom.element.prototype.appendBogus = function () 
+ 	 { 
+ 	         var range = new CKEDITOR.dom.range( this.document ); 
+ 	         range.selectNodeContents( this ); 
+ 	         var walker = new CKEDITOR.dom.walker( range ); 
+ 	
+ 	         walker.evaluator = function( node ) 
+ 	         { 
+ 	                 if ( whitespaces( node ) 
+ 	                                 || bookmarks( node ) 
+ 	                                 || node.type == CKEDITOR.NODE_ELEMENT 
+ 	                                 && node.getName() in CKEDITOR.dtd.$inline 
+ 	                                 && !( node.getName() in CKEDITOR.dtd.$empty ) ) 
+ 	                 { 
+ 	                         return false; 
+ 	                 } 
+ 		     }; 
+ 		 
+ 		     if ( !walker.previous() ) 
+		        { 
+					var bogus = CKEDITOR.env.opera ? 
+									this.getDocument().createText('') : 
+									this.getDocument().createElement( 'br' ); 
+
+					CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' ); 
+
+					this.append( bogus ); 
+ 		        } 
+	}; 
+	
 
 } )();
