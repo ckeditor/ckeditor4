@@ -35,15 +35,42 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 						},
 
 						setup: function( widget ) {
-							// Remove \( and \).
+							// Remove MathJax prefix and suffix (e.g. \( \) or \[ \])
 							this.setValue( CKEDITOR.plugins.mathjax.trim( widget.data.math ) );
+                            // Set equation_type based on equation
+                            var equation_type = CKEDITOR.plugins.mathjax.get_equation_type(widget.data.math);
+                            widget.setData('equation_type', equation_type);
 						},
 
 						commit: function( widget ) {
-							// Add \( and \) to make TeX be parsed by MathJax by default.
-							widget.setData( 'math', '\\(' + this.getValue() + '\\)' );
+                            // Get value from equation_type box
+                            var equation_type = this.getDialog().getContentElement('info', 'equation_type').getValue();
+
+							// Add prefix and suffix to make TeX be parsed by MathJax by default.
+                            if (equation_type == 'display') {
+                                widget.setData('math', '\\[' + this.getValue() + '\\]');
+                            } else {
+                                // Default to inline
+                                widget.setData( 'math', '\\(' + this.getValue() + '\\)' );
+                            }
+
 						}
 					},
+                    {
+                        id: 'equation_type',
+                        type: 'select',
+                        label: 'Type of equation',
+                        items: [
+                            ['Inline equation', 'inline'],
+                            ['Display equation', 'display']
+                        ],
+                        setup: function(widget) {
+                            this.setValue(widget.data.equation_type);
+                        },
+                        commit: function(widget) {
+                            widget.setData('equation_type', this.getValue());
+                        }
+                    },
 					{
 						id: 'documentation',
 						type: 'html',

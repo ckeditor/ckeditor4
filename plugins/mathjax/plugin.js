@@ -187,18 +187,40 @@
 	};
 
 	/**
-	 * Trims MathJax value from '\(1+1=2\)' to '1+1=2'.
+	 * Trims MathJax value from '\(1+1=2\)' or '\[1+1=2\]' to '1+1=2'.
 	 *
 	 * @private
 	 * @param {String} value String to trim.
 	 * @returns {String} Trimed string.
 	 */
 	CKEDITOR.plugins.mathjax.trim = function( value ) {
-		var begin = value.indexOf( '\\(' ) + 2,
-			end = value.lastIndexOf( '\\)' );
+        var length_of_mathjax_prefix = 2; // i.e. length of '\\('
 
-		return value.substring( begin, end );
+        // Inline equation
+		var begin = value.indexOf( '\\(' );
+        if (begin >= 0) {
+            var end = value.lastIndexOf( '\\)' );
+        } else {
+            // Display equation
+            begin = value.indexOf('\\[');
+            var end = value.indexOf(('\\]'));
+        }
+
+		return value.substring(begin + length_of_mathjax_prefix, end);
 	};
+
+    /**
+     * Returns the type of equation based on the value,
+     * e.g. '\(x=2\)' gives inline, while '\[x=3\]' gives display
+     * @param {String} value Mathjax equation expression
+     * @returns {string} Type of equation
+     */
+    CKEDITOR.plugins.mathjax.get_equation_type = function(value) {
+        if (value.indexOf('\\(') >= 0) {
+            return 'inline';
+        }
+        return 'display';
+    }
 
 	/**
 	 * FrameWrapper is responsible for communication between the MathJax library
@@ -402,6 +424,8 @@
 						tex = doc.getById( 'tex' );
 
 					tex.setHtml( CKEDITOR.plugins.mathjax.trim( value ) );
+                    var equation_type = CKEDITOR.plugins.mathjax.get_equation_type(value);
+                    this.setData('equation_type', equation_type);
 
 					CKEDITOR.plugins.mathjax.copyStyles( iFrame, tex );
 
