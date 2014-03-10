@@ -1063,3 +1063,51 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.image2_captionedClass = 'image';
+
+/**
+ * CSS classes applied to aligned images. Useful to take control over the way
+ * images are aligned i.e. to customize output HTML and integrate external stylesheets.
+ *
+ * **Note**: Once this configuration option is set, the plugin will not produce inline
+ * styles for alignment any longer. It means that e.g. the following HTML will be produced
+ *
+ *		<img alt="My image" class="custom-center-class" src="foo.png" />
+ *
+ * instead of
+ *
+ *		<img alt="My image" style="float:left" src="foo.png" />
+ *
+ * **Note**: Once this configuration option is set, corresponding style definitions
+ * must be supplied to the editor:
+ *
+ * * It can be done by defining additional
+ * styles in {@link CKEDITOR.config#contentsCss config.contentsCss}.
+ * * For {@link CKEDITOR#method-inline inline editor}, styles can also be defined directly
+ * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within `<head>`
+ * of the page.
+ *
+ * For example, considering the following configuration
+ *
+ *		CKEDITOR.config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
+ *
+ * CSS rules can be defined as follows
+ *
+ *		.align-left {
+ *			float: left;
+ *		}
+ *
+ *		.align-right {
+ *			float: right;
+ *		}
+ *
+ *		.align-center {
+ *			text-align: center;
+ *		}
+ *
+ *		.align-center > figure {
+ *			display: inline-block;
+ *		}
+ *
+ * @cfg {String} [image2_alignClasses=null]
+ * @member CKEDITOR.config
+ */
