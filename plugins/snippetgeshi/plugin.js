@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function() {
+( function() {
 
 	CKEDITOR.plugins.add( 'snippetgeshi', {
 		requires: 'ajax,snippet',
@@ -27,7 +27,7 @@
 				CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', requestConfig, function( data ) {
 
 					var resp =  CKEDITOR.htmlParser.fragment.fromHtml( data ),
-						respFirstElement = resp.children[0],
+						respFirstElement = resp.children[ 0 ],
 						retHtml,
 						i;
 
@@ -172,6 +172,6 @@
 		xorg_conf: 'Xorg.conf',
 		xpp: 'X++',
 		z80: 'ZiLOG Z80 Assembler'
-	}
+	};
 
-})();
+} )();
