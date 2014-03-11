@@ -169,11 +169,12 @@
 
 			data: function( evt ) {
 				var curData = evt.data;
+
+				if ( curData.code )
+					this.parts.pre.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
 				// Lang needs to be specified in order to apply formatting.
 				if ( curData.lang )
 					this.doReformat();
-				else if ( curData.code )
-					this.parts.pre.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
 			},
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
