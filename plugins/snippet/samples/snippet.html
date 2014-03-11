@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--
 Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Snippet &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
+	<title>Snippet &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<script src="../../../plugins/snippet/lib/highlight/highlight.pack.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
@@ -45,14 +45,14 @@ function foo( $bar ) {
 &lt;pre&gt;
 &lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;p&gt;A bit of uknown markup:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
 	<h3>Server-side highlighter</h3>
-	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <strong>snippetgeshi</strong> plugin in order to use GeSHi as highlight provider.</p>
-	<p>In this case we will also use <strong>snippet_langs</strong> config variable, to reduce available languages list.</p>
+	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>snippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
+	<p>In this case we will also use <code>snippet_langs</code> config variable, to reduce available languages list.</p>
 
 	<pre class="samples"><code>CKEDITOR.replace( 'editor2', {
 	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
@@ -82,7 +82,7 @@ function foo( $bar ) {
 &lt;pre&gt;
 &lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;A bit of WTF:&lt;/p&gt;
+&lt;p&gt;A bit of uknown markup:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
