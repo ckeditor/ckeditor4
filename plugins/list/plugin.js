@@ -859,7 +859,6 @@
 					if ( !range || !range.collapsed )
 						return;
 
-					path = new CKEDITOR.dom.elementPath( range.startContainer );
 					var isBackspace = key == 8;
 					var editable = editor.editable();
 					var walker = new CKEDITOR.dom.walker( range.clone() );
