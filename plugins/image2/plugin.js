@@ -114,31 +114,9 @@
 	// @param {CKEDITOR.editor}
 	// @returns {Object}
 	function widgetDef( editor ) {
-		var captionedClass = editor.config.image2_captionedClass;
-
 		return {
 			// Widget-specific rules for Allowed Content Filter.
-			allowedContent: {
-				// This widget may need <div> centering wrapper.
-				div: {
-					match: centerWrapperChecker( editor ),
-					styles: 'text-align'
-				},
-				figcaption: true,
-				figure: {
-					classes: '!' + captionedClass,
-					styles: 'float,display'
-				},
-				img: {
-					attributes: '!src,alt,width,height',
-					styles: 'float'
-				},
-				// This widget may need <p> centering wrapper.
-				p: {
-					match: centerWrapperChecker( editor ),
-					styles: 'text-align'
-				}
-			},
+			allowedContent: getWidgetAllowedContent( editor ),
 
 			requiredContent: 'img[src,alt]',
 
@@ -1050,6 +1028,51 @@
 			return widget;
 
 		return null;
+	}
+
+	// Returns a set of widget allowedContent rules, depending
+	// on configurations like config#image2_alignClasses or
+	// config#image2_captionedClass.
+	//
+	// @param {CKEDITOR.editor}
+	// @returns {Object}
+	function getWidgetAllowedContent( editor ) {
+		var alignClasses = editor.config.image2_alignClasses,
+			rules = {
+				// Widget may need <div> or <p> centering wrapper.
+				div: {
+					match: centerWrapperChecker( editor )
+				},
+				p: {
+					match: centerWrapperChecker( editor )
+				},
+				img: {
+					attributes: '!src,alt,width,height'
+				},
+				figure: {
+					classes: '!' + editor.config.image2_captionedClass
+				},
+				figcaption: true
+			};
+
+		if ( alignClasses ) {
+			// Centering class from the config.
+			rules.div.classes = alignClasses[ 1 ];
+			rules.p.classes = rules.div.classes;
+
+			// Left/right classes from the config.
+			rules.img.classes = alignClasses[ 0 ] + ',' + alignClasses[ 2 ];
+			rules.figure.classes += ',' + rules.img.classes;
+		} else {
+			// Centering with text-align.
+			rules.div.styles = 'text-align';
+			rules.p.styles = 'text-align';
+
+			rules.img.styles = 'float';
+			rules.figure.styles = 'float,display';
+		}
+
+		return rules;
 	}
 } )();
 
