@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.3.4
 
+Fixed Issues:
+
+* [#8663](http://dev.ckeditor.com/ticket/8663): Fixed [`element.renameNode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-renameNode) not clearing [`element.getName()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getName) cache.
+
 ## CKEditor 4.3.3
 
 Fixed Issues:
