@@ -115,24 +115,11 @@
 	// @returns {Object}
 	function widgetDef( editor ) {
 		return {
-			// Widget-specific rules for Allowed Content Filter.
 			allowedContent: getWidgetAllowedContent( editor ),
 
 			requiredContent: 'img[src,alt]',
 
-			// Note: The following may not cover all the possible cases since
-			// requiredContent supports a single tag only.
-			features: {
-				dimension: {
-					requiredContent: 'img[width,height]'
-				},
-				align: {
-					requiredContent: 'img{float}'
-				},
-				caption: {
-					requiredContent: 'figcaption'
-				}
-			},
+			features: getWidgetFeatures( editor ),
 
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
@@ -1073,6 +1060,31 @@
 		}
 
 		return rules;
+	}
+
+	// Returns a set of widget feature rules, depending
+	// on editor configuration. Note that the following may not cover
+	// all the possible cases since requiredContent supports a single
+	// tag only.
+	//
+	// @param {CKEDITOR.editor}
+	// @returns {Object}
+	function getWidgetFeatures( editor ) {
+		var alignClasses = editor.config.image2_alignClasses,
+			features = {
+				dimension: {
+					requiredContent: 'img[width,height]'
+				},
+				align: {
+					requiredContent: 'img' +
+						( alignClasses ? '(' + alignClasses[ 0 ] + ')' : '{float}' )
+				},
+				caption: {
+					requiredContent: 'figcaption'
+				}
+			};
+
+		return features;
 	}
 } )();
 
