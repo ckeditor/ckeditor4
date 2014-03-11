@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.tools} object, which contains
+ * @fileOverview Defines the {@link CKEDITOR.tools} object that contains
  *		utility functions.
  */
 
@@ -1115,14 +1115,14 @@
 		},
 
 		/**
-		 * Enable HTML5 elements for older browsers (IE8) in passed document.
+		 * Enable HTML5 elements for older browsers (IE8) in the passed document.
 		 *
-		 * In IE8 this method can be also executed on document fragment.
+		 * In IE8 this method can also be executed on a document fragment.
 		 *
 		 * **Note:** This method has to be used in the `<head>` section of the document.
 		 *
 		 * @since 4.3
-		 * @param {Object} doc Native `Document` or `DocumentFragment` in which elements will be enabled.
+		 * @param {Object} doc Native `Document` or `DocumentFragment` in which the elements will be enabled.
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
 		enableHtml5Elements: function( doc, withAppend ) {

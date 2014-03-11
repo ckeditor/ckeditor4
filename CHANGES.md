@@ -9,11 +9,11 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#11532](http://dev.ckeditor.com/ticket/11532): Added `editor.addContentsCss()` method.
-* [#11536](http://dev.ckeditor.com/ticket/11536): Added CKEDITOR.tools.htmlDecode method.
+* [#11532](http://dev.ckeditor.com/ticket/11532): Introduced the [`editor.addContentsCss()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-addContentsCss) method that can be used for adding custom CSS files.
+* [#11536](http://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode) method for decoding HTML entities.
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.
-* [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://localhost/cksource/ckeditor-docs/build/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as images' source.
-* [#11422](http://dev.ckeditor.com/ticket/11422): Removed FF3.x, IE6 and Opera12.x leftovers in code.
+* [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as image source.
+* [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
 
 ## CKEditor 4.3.4
 
