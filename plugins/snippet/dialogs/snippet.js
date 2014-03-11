@@ -51,6 +51,18 @@
 							id: 'code',
 							type: 'textarea',
 							label: lang.codeContents,
+							onLoad: function() {
+								var textarea = CKEDITOR.document.getById( this.domId ).findOne( 'textarea' );
+
+								textarea.on( 'keydown', function( evt ) {
+									if ( evt.data.getKeystroke() == CKEDITOR.CTRL + CKEDITOR.ALT + 84 ) {
+										// ctrl + alt + t
+										// We should insert tab char on this hotkey, and prevent default browser action.
+										insertCharacterToTextarea( textarea.$, '	' );
+										evt.data.preventDefault();
+									}
+								} );
+							},
 							setup: function( widget ) {
 								this.setValue( widget.data.code );
 							},
@@ -63,10 +75,40 @@
 								'tab-size:4;' +
 								'text-align:left;',
 							'class': 'cke_source'
+						},
+						{
+							type: 'html',
+							id: 'hotkeyMsg',
+							html: '<div>' + lang.hotkeyMsg + '</div>'
 						}
 					]
 				}
 			]
 		};
 	} );
+
+	// Inserts value into given field at its current range position. It will replace
+	// selection text with given value.
+	// @param {HTMLTextAreaElement} field The textarea element.
+	// @param {String} insertValue Value to be inserted.
+	function insertCharacterToTextarea( field, insertValue ) {
+		var valueLength = insertValue.length,
+			sel;
+
+		if ( field.selectionStart !== undefined  ) {
+			// Modern browsers.
+			var startPos = field.selectionStart,
+				endPos = field.selectionEnd;
+			field.value = field.value.slice( 0, startPos ) + insertValue + field.value.slice( endPos );
+			field.selectionStart = field.selectionEnd = startPos + valueLength;
+		} else if ( document.selection ) {
+			// Older IE.
+			field.focus();
+			sel = document.selection.createRange();
+			sel.text = insertValue;
+		} else {
+			// No selection info.
+			field.value += insertValue;
+		}
+	}
 }() );
