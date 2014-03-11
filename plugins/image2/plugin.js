@@ -640,7 +640,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function centerWrapperChecker( editor ) {
-		var captionedClass = editor.config.image2_captionedClass;
+		var captionedClass = editor.config.image2_captionedClass,
+			alignClasses = editor.config.image2_alignClasses;
 
 		return function( el ) {
 			// Wrapper must be either <div> or <p>.
@@ -680,10 +681,10 @@
 					return false;
 			}
 
-			var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
-
-			// Centering wrapper got to be... centering.
-			if ( styles[ 'text-align' ] == 'center' )
+			// Centering wrapper got to be... centering. If image2_alignClasses are defined,
+			// check for centering class. Otherwise, check the style.
+			if ( alignClasses ? el.hasClass( alignClasses[ 1 ] ) :
+					CKEDITOR.tools.parseCssText( el.attributes.style || '', true )[ 'text-align' ] == 'center' )
 				return true;
 
 			return false;
