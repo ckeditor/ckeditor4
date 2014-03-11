@@ -76,11 +76,11 @@
 		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.snippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
 		 * @param {Function} highlightHandlerFn
 		 *
-		 * 	Function `highlightHandlerFn` takes 3 parameters:
+		 *	Function `highlightHandlerFn` takes 3 parameters:
 		 *
 		 *	* code - string - plain text code to be formatted
 		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
-		 *	* callback - function - function which takes string as argument and writes it as output inside of a widget
+		 *	* callback - function - function which takes a string as an argument and writes it as output inside of a snippet widget
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
 			ensurePluginNamespaceExists( editor );
@@ -105,8 +105,8 @@
 	var defaultHighlighter = function( code, lang, callback ) {
 			var hljs = window.hljs,
 				// Ensure that language is supported by hljs.
-				snippetLang = window.hljs.getLanguage( lang ) ? [ lang ] : undefined,
-				result = window.hljs.highlightAuto( code, snippetLang );
+				snippetLang = hljs.getLanguage( lang ) ? [ lang ] : undefined,
+				result = hljs.highlightAuto( code, snippetLang );
 
 			if ( result )
 				callback( result.value );
@@ -135,7 +135,7 @@
 			makefile: 'Makefile'
 		};
 
-	// Encapsulates snippet widget registration function.
+	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 
@@ -183,7 +183,7 @@
 					l;
 
 				// Check el.parent to prevent upcasting loop of hell. If not checked,
-				// widgets system will attempt to upcast nested editables. Bunnies cry.
+				// widgets system will attempt to upcast nested editables.
 				if ( el.name != 'pre' || !el.parent || !( code = el.getFirst( 'code' ) ) )
 					return;
 
@@ -228,16 +228,11 @@
 		} );
 	}
 
-	function decodeHtml( stringToDecode ) {
-		return stringToDecode.replace( /&amp;/g, '&' ).replace( /&gt;/g, '>' ).replace( /&lt;/g, '<' );
-	}
-
 	function ensurePluginNamespaceExists( editor ) {
 		// Create a protected namespace if it's not already there.
 		if ( !editor._.snippet )
 			editor._.snippet = {};
 	}
-
 } )();
 
 /**
