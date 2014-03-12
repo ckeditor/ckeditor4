@@ -13,6 +13,7 @@
 				template +
 				'<figcaption>{placeholder}</figcaption>' +
 			'</figure>' ),
+		alignmentsObj = { left: 0, center: 1, right: 2 },
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
 	CKEDITOR.plugins.add( 'image2', {
@@ -495,21 +496,35 @@
 
 	function setWrapperAlign( widget ) {
 		var wrapper = widget.wrapper,
-			align = widget.data.align;
+			align = widget.data.align,
+			hasCaption = widget.data.hasCaption,
+			alignClasses = widget.editor.config.image2_alignClasses;
 
-		if ( align == 'center' ) {
-			if ( !widget.inline )
-				wrapper.setStyle( 'text-align', 'center' );
+		if ( alignClasses ) {
+			removeAlignClasses( widget.editor, wrapper );
 
-			wrapper.removeStyle( 'float' );
+			if ( align == 'center' ) {
+				if ( hasCaption )
+					wrapper.addClass( alignClasses[ 1 ] );
+			} else if ( align != 'none' )
+				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
 		} else {
-			if ( !widget.inline )
-				wrapper.removeStyle( 'text-align' );
+			if ( align == 'center' ) {
+				if ( hasCaption )
+					wrapper.setStyle( 'text-align', 'center' );
+				else
+					wrapper.removeStyle( 'text-align' );
 
-			if ( align == 'none' )
 				wrapper.removeStyle( 'float' );
-			else
-				wrapper.setStyle( 'float', align );
+			}
+			else {
+				if ( align == 'none' )
+					wrapper.removeStyle( 'float' );
+				else
+					wrapper.setStyle( 'float', align );
+
+				wrapper.removeStyle( 'text-align' );
+			}
 		}
 	}
 
@@ -1086,6 +1101,17 @@
 			};
 
 		return features;
+	}
+
+	// Removes any class defined in alignClasses from given element.
+	//
+	// @param {CKEDITOR.editor}
+	// @param {CKEDITOR.dom.element}
+	function removeAlignClasses( editor, el ) {
+		var alignClasses = editor.config.image2_alignClasses;
+
+		for ( var i = 3; i--; )
+			el.removeClass( alignClasses[ i ] );
 	}
 } )();
 
