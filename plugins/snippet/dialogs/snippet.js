@@ -69,6 +69,8 @@
 							commit: function( widget ) {
 								widget.setData( 'code', this.getValue() );
 							},
+							required: true,
+							validate: CKEDITOR.dialog.validate.notEmpty( lang.emptySnippetError ),
 							inputStyle: 'cursor:auto;' +
 								'width:' + width + 'px;' +
 								'height:' + height + 'px;' +

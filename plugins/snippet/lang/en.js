@@ -6,6 +6,7 @@
 CKEDITOR.plugins.setLang( 'snippet', 'en', {
 	button: 'Insert code snippet',
 	codeContents: 'Code contents',
+	emptySnippetError: 'Snippet can\'t be empty.',
 	hotkeyMsg: '<strong>Note:</strong> you may use <strong>CTRL + ALT + T</strong> hotkey to insert a tab character.',
 	language: 'Language',
 	title: 'Code snippet'
