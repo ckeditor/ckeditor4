@@ -303,7 +303,7 @@
 			},
 
 			upcast: upcastWidgetElement( editor ),
-			downcast: downcastWidgetElement
+			downcast: downcastWidgetElement( editor )
 		};
 	}
 
@@ -348,7 +348,7 @@
 						}
 
 						// Finally set display for figure.
-						if ( element.is( 'figure' ) ) {
+						if ( !alignClasses && element.is( 'figure' ) ) {
 							if ( newValue == 'center' )
 								element.setStyle( 'display', 'inline-block' );
 							else
@@ -419,7 +419,7 @@
 				var attribsAndStyles = {};
 
 				if ( alignClasses )
-					attribsAndStyles.attributes = { class: alignClasses[ 1 ] };
+					attribsAndStyles.attributes = { 'class': alignClasses[ 1 ] };
 				else
 					attribsAndStyles.styles = { 'text-align': 'center' };
 
@@ -629,52 +629,67 @@
 		};
 	}
 
-	// Transforms the widget to the external format according to the current configuration.
+	// Returns a function which transforms the widget to the external format
+	// according to the current configuration.
 	//
-	// @param {CKEDITOR.htmlParser.element} el
-	function downcastWidgetElement( el ) {
-		var attrs = el.attributes,
-			align = this.data.align;
+	// @param {CKEDITOR.editor}
+	function downcastWidgetElement( editor ) {
+		var alignClasses = editor.config.image2_alignClasses;
 
-		// De-wrap the image from resize handle wrapper.
-		// Only block widgets have one.
-		if ( !this.inline ) {
-			var resizeWrapper = el.getFirst( 'span' ),
-				img;
+		// @param {CKEDITOR.htmlParser.element} el
+		// @param {Object} data
+		return function( el, data ) {
+			var attrs = el.attributes,
+				align = this.data.align;
 
-			if ( resizeWrapper ) {
-				img = resizeWrapper.getFirst( 'img' );
-				resizeWrapper.replaceWith( img );
-			} else
-				img = el.getFirst( 'img' );
+			// De-wrap the image from resize handle wrapper.
+			// Only block widgets have one.
+			if ( !this.inline ) {
+				var resizeWrapper = el.getFirst( 'span' ),
+					img;
+
+				if ( resizeWrapper ) {
+					img = resizeWrapper.getFirst( 'img' );
+					resizeWrapper.replaceWith( img );
+				} else
+					img = el.getFirst( 'img' );
+			}
+
+			if ( align && align != 'none' ) {
+				var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
+
+				// When the widget is captioned (<figure>) and internally centering is done
+				// with widget's wrapper style/class, in the external data representation,
+				// <figure> must be wrapped with an element holding an style/class:
+				//
+				// 	<div style="text-align:center">
+				// 		<figure class="image" style="display:inline-block">...</figure>
+				// 	</div>
+				// or
+				// 	<div class="some-center-class">
+				// 		<figure class="image">...</figure>
+				// 	</div>
+				//
+				if ( align == 'center' && el.name == 'figure' ) {
+					el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div',
+						alignClasses ? { 'class': alignClasses[ 1 ] } : { style: 'text-align:center' } ) );
+				}
+
+				// If left/right, add float style to the downcasted element.
+				else if ( align in { left: 1, right: 1 } ) {
+					if ( alignClasses )
+						el.addClass( alignClasses[ alignmentsObj[ align ] ] );
+					else
+						styles[ 'float' ] = align;
+				}
+
+				// Update element styles.
+				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
+					attrs.style = CKEDITOR.tools.writeCssText( styles );
+			}
+
+			return el;
 		}
-
-		if ( align && align != 'none' ) {
-			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
-
-			// When the widget is captioned (<figure>) and internally centering is done
-			// with widget's wrapper inline style, in the external data representation,
-			// <figure> must be wrapped with an element holding an inline style:
-			//
-			//   <div style="text-align:center">
-			//     <figure class="image" style="display:inline-block">
-			//      <img alt="A" src="B" />
-			//       <figcaption>C</figcaption>
-			//     </figure>
-			//   </div>
-			if ( align == 'center' && el.name == 'figure' )
-				el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', { style: 'text-align:center' } ) );
-
-			// If left/right, add float style to the downcasted element.
-			else if ( align in { left: 1, right: 1 } )
-				styles[ 'float' ] = align;
-
-			// Update element styles.
-			if ( !CKEDITOR.tools.isEmpty( styles ) )
-				attrs.style = CKEDITOR.tools.writeCssText( styles );
-		}
-
-		return el;
 	}
 
 	// Returns a function that checks if an element is a centering wrapper.
