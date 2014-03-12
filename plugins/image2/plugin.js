@@ -311,6 +311,7 @@
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
 			var doc = editor.document,
+				alignClasses = editor.config.image2_alignClasses,
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
@@ -415,11 +416,17 @@
 			}
 
 			function wrapInCentering( editor, element ) {
+				var attribsAndStyles = {};
+
+				if ( alignClasses )
+					attribsAndStyles.attributes = { class: alignClasses[ 1 ] };
+				else
+					attribsAndStyles.styles = { 'text-align': 'center' };
+
 				// There's no way to center inline element with CSS and text-align,
 				// so create new <p|div> that wraps widget contents and makes it block.
-				var center = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', {
-					styles: { 'text-align': 'center' }
-				} );
+				var center = doc.createElement(
+					editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', attribsAndStyles );
 
 				// Replace element with centering wrapper.
 				replaceSafely( center, element );
