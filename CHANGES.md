@@ -9,6 +9,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10202](http://dev.ckeditor.com/ticket/10202): Introduced wildcards support in the [Allowed Content Rules](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules) format.
 * [#11532](http://dev.ckeditor.com/ticket/11532): Introduced the [`editor.addContentsCss()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-addContentsCss) method that can be used for adding custom CSS files.
 * [#11536](http://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode) method for decoding HTML entities.
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.

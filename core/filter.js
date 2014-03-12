@@ -1044,13 +1044,21 @@
 		if ( rule.nothingRequired )
 			return true;
 
-		var i, reqs, existing;
+		var i, req, reqs, existing;
 
 		if ( ( reqs = rule.requiredClasses ) ) {
 			existing = element.classes;
 			for ( i = 0; i < reqs.length; ++i ) {
-				if ( CKEDITOR.tools.indexOf( existing, reqs[ i ] ) == -1 )
-					return false;
+				req = reqs[ i ];
+				if ( typeof req == 'string' ) {
+					if ( CKEDITOR.tools.indexOf( existing, req ) == -1 )
+						return false;
+				}
+				// This means regexp.
+				else {
+					if ( !CKEDITOR.tools.checkIfAnyArrayItemMatches( existing, req ) )
+						return false;
+				}
 			}
 		}
 
@@ -1063,9 +1071,17 @@
 		if ( !required )
 			return true;
 
-		for ( var i = 0; i < required.length; ++i ) {
-			if ( !( required[ i ] in existing ) )
-				return false;
+		for ( var i = 0, req; i < required.length; ++i ) {
+			req = required[ i ];
+			if ( typeof req == 'string' ) {
+				if ( !( req in existing ) )
+					return false;
+			}
+			// This means regexp.
+			else {
+				if ( !CKEDITOR.tools.checkIfAnyObjectPropertyMatches( existing, req ) )
+					return false;
+			}
 		}
 
 		return true;
@@ -1133,6 +1149,23 @@
 		return obj;
 	}
 
+	// Extract properties names from the object
+	// and replace those containing wildcards with regexps.
+	// Note: there's a room for performance improvement. Array of mixed types
+	// breaks JIT-compiler optiomization what may invalidate compilation of pretty a lot of code.
+	//
+	// @returns An array of strings and regexps.
+	function optimizeRequiredProperties( requiredProperties ) {
+		var arr = [];
+		for ( var propertyName in requiredProperties ) {
+			if ( propertyName.indexOf( '*' ) > -1 )
+				arr.push( new RegExp( '^' + propertyName.replace( /\*/g, '.*' ) + '$' ) );
+			else
+				arr.push( propertyName );
+		}
+		return arr;
+	}
+
 	var validators = { styles: 1, attributes: 1, classes: 1 },
 		validatorsRequired = {
 			styles: 'requiredStyles',
@@ -1143,16 +1176,23 @@
 	// Optimize a rule by replacing validators with functions
 	// and rewriting requiredXXX validators to arrays.
 	function optimizeRule( rule ) {
-		var i;
-		for ( i in validators )
-			rule[ i ] = validatorFunction( rule[ i ] );
+		var validatorName,
+			requiredProperties,
+			i;
+
+		for ( validatorName in validators )
+			rule[ validatorName ] = validatorFunction( rule[ validatorName ] );
 
 		var nothingRequired = true;
 		for ( i in validatorsRequired ) {
-			i = validatorsRequired[ i ];
-			rule[ i ] = CKEDITOR.tools.objectKeys( rule[ i ] );
-			if ( rule[ i ] )
+			validatorName = validatorsRequired[ i ];
+			requiredProperties = optimizeRequiredProperties( rule[ validatorName ] );
+			// Don't set anything if there are no required properties. This will allow to
+			// save some memory by GCing all empty arrays (requiredProperties).
+			if ( requiredProperties.length ) {
+				rule[ validatorName ] = requiredProperties;
 				nothingRequired = false;
+			}
 		}
 
 		rule.nothingRequired = nothingRequired;
@@ -1251,6 +1291,23 @@
 			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
 		if ( !element.classes )
 			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+	}
+
+	// Returns a regexp object which can be used to test if a property
+	// matches one of wildcard validators.
+	function regexifyPropertiesWithWildcards( validators ) {
+		var patterns = [],
+			i;
+
+		for ( i in validators ) {
+			if ( i.indexOf( '*' ) > -1 )
+				patterns.push( i.replace( /\*/g, '.*' ) );
+		}
+
+		if ( patterns.length )
+			return new RegExp( '^(?:' + patterns.join( '|' ) + ')$' );
+		else
+			return null;
 	}
 
 	// Standardize a rule by converting all validators to hashes.
@@ -1383,8 +1440,13 @@
 		if ( validator === true )
 			return true;
 
+		// Note: We don't need to remove properties with wildcards from the validator object.
+		// E.g. data-* is actually an edge case of /^data-.*$/, so when it's accepted
+		// by `value in validator` it's ok.
+		var regexp = regexifyPropertiesWithWildcards( validator );
+
 		return function( value ) {
-			return value in validator;
+			return value in validator || ( regexp && value.match( regexp ) );
 		};
 	}
 
