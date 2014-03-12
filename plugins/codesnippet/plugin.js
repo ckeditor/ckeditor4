@@ -11,7 +11,7 @@
 
 ( function() {
 
-	CKEDITOR.plugins.add( 'snippet', {
+	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
 
@@ -26,28 +26,28 @@
 				'margin:0px auto;' +
 				'padding:10px' +
 			'}' );
-			CKEDITOR.dialog.add( 'snippet', this.path + 'dialogs/snippet.js' );
+			CKEDITOR.dialog.add( 'codesnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 
 		afterInit: function( editor ) {
 			ensurePluginNamespaceExists( editor );
 			registerWidget( editor );
 
-			editor.ui.addButton && editor.ui.addButton( 'snippet', {
-				label: editor.lang.snippet.button,
-				command: 'snippet',
+			editor.ui.addButton && editor.ui.addButton( 'codesnippet', {
+				label: editor.lang.codesnippet.button,
+				command: 'codesnippet',
 				toolbar: 'insert,10'
 			} );
 
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
-			if ( !editor._.snippet.highlighter ) {
-				CKEDITOR.plugins.snippet.setDefaultHighlighter( editor );
+			if ( !editor._.codesnippet.highlighter ) {
+				CKEDITOR.plugins.codesnippet.setDefaultHighlighter( editor );
 
 				var path = CKEDITOR.getUrl( this.path ),
-					cssCode = path + 'lib/highlight/styles/' + ( editor.config.snippet_template || 'default' ) + '.css';
+					cssCode = path + 'lib/highlight/styles/' + ( editor.config.codesnippet_template || 'default' ) + '.css';
 
-				if ( editor._.snippet.highlighter == defaultHighlighter && !window.hljs ) {
+				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs ) {
 					// Inserting required styles/javascript.
 					// Default highlighter was not changed, and hljs is not available, so
 					// it wasn't inserted to the document.
@@ -68,32 +68,32 @@
 	} );
 
 	// Public interface.
-	CKEDITOR.plugins.snippet = {
+	CKEDITOR.plugins.codesnippet = {
 		/**
 		 * Sets custom syntax highlighter function.
-		 * @member CKEDITOR.plugins.snippet
+		 * @member CKEDITOR.plugins.codesnippet
 		 * @param {CKEDITOR.editor} editor
-		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.snippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
+		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.codesnippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
 		 * @param {Function} highlightHandlerFn
 		 *
 		 *	Function `highlightHandlerFn` takes 3 parameters:
 		 *
 		 *	* code - string - plain text code to be formatted
-		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.snippet_langs}
+		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.codesnippet_langs}
 		 *	* callback - function - function which takes a string as an argument and writes it as output inside of a snippet widget
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
 			ensurePluginNamespaceExists( editor );
 
-			editor._.snippet.highlighter = highlightHandlerFn;
-			editor._.snippet.langs = editor.config.snippet_langs ? editor.config.snippet_langs : languages;
+			editor._.codesnippet.highlighter = highlightHandlerFn;
+			editor._.codesnippet.langs = editor.config.codesnippet_langs ? editor.config.codesnippet_langs : languages;
 		},
 
 		/**
 		 * Restores default syntax highlighter for the plugin, which by default
 		 * is highlight.js library.
 		 *
-		 * @member CKEDITOR.plugins.snippet
+		 * @member CKEDITOR.plugins.codesnippet
 		 * @param {CKEDITOR.editor} editor
 		 */
 		setDefaultHighlighter: function( editor ) {
@@ -139,12 +139,12 @@
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 
-		var preClass = editor.config.snippet_class || 'hljs';
+		var preClass = editor.config.codesnippet_class || 'hljs';
 
-		editor.widgets.add( 'snippet', {
+		editor.widgets.add( 'codesnippet', {
 			allowedContent: 'pre; code(*)',
 			template: '<div class="cke_snippet_wrapper"><pre class="' + preClass + '"></pre></div>',
-			dialog: 'snippet',
+			dialog: 'codesnippet',
 			mask: true,
 			defaults: {
 				lang: '',
@@ -164,7 +164,7 @@
 				// Set plain code first, so even if custom handler will not call it the code will be there.
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
 				// Call higlighter to apply its custom highlighting.
-				editor._.snippet.highlighter( widgetData.code, widgetData.lang, callback );
+				editor._.codesnippet.highlighter( widgetData.code, widgetData.lang, callback );
 			},
 
 			data: function( evt ) {
@@ -179,7 +179,7 @@
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
-				var	langs = editor._.snippet.langs,
+				var	langs = editor._.codesnippet.langs,
 					code,
 					l;
 
@@ -231,8 +231,8 @@
 
 	function ensurePluginNamespaceExists( editor ) {
 		// Create a protected namespace if it's not already there.
-		if ( !editor._.snippet )
-			editor._.snippet = {};
+		if ( !editor._.codesnippet )
+			editor._.codesnippet = {};
 	}
 } )();
 
@@ -247,7 +247,7 @@
 /**
  * Allows to set a template for highlihgt.js, you can browse templates at http://highlightjs.org/static/test.html
  *
- *		config.snippet_template = 'pojoaque';
+ *		config.codesnippet_template = 'pojoaque';
  *
  * @since 4.4
  * @cfg {String} [snippet_template='default']
@@ -257,7 +257,7 @@
 /**
  * An object listing available languages.
  *
- *		config.snippet_langs = {
+ *		config.codesnippet_langs = {
  *			javascript: 'JavaScript',
  *			php: 'PHP'
  *		};

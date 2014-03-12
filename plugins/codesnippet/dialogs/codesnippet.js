@@ -6,10 +6,10 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.dialog.add( 'snippet', function( editor ) {
+	CKEDITOR.dialog.add( 'codesnippet', function( editor ) {
 
-		var snippetLangs = editor._.snippet.langs,
-			lang = editor.lang.snippet,
+		var snippetLangs = editor._.codesnippet.langs,
+			lang = editor.lang.codesnippet,
 			langSelectItems = [],
 			langSelectDefaultValue,
 			snippetLangId;

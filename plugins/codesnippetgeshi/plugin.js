@@ -4,21 +4,21 @@
  */
 
  /**
- * @fileOverview Rich code snippets for CKEditor.
+ * @fileOverview Rich code snippets for CKEditor using GeSHi.
  */
 
 'use strict';
 
 ( function() {
 
-	CKEDITOR.plugins.add( 'snippetgeshi', {
-		requires: 'ajax,snippet',
+	CKEDITOR.plugins.add( 'codesnippetgeshi', {
+		requires: 'ajax,codesnippet',
 
 		init: function( editor ) {
 
 			var path = CKEDITOR.getUrl( this.path );
 
-			CKEDITOR.plugins.snippet.setHighlighter( editor, default_languages, function( code, lang, callback ) {
+			CKEDITOR.plugins.codesnippet.setHighlighter( editor, default_languages, function( code, lang, callback ) {
 				var requestConfig = {
 					lang: lang,
 					html: code

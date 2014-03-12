@@ -6,24 +6,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Snippet &mdash; CKEditor Sample</title>
+	<title>CodeSnippet &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Snippet
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; CodeSnippet
 	</h1>
 
 	<h2>Default snippet highlighting with highlight.js</h2>
-	<p>By default <code>snippet</code> plugin uses client-side highlight.js library. You can adjust it's appearance using <code>snippet_template</code> config variable.</p>
+	<p>By default <code>codesnippet</code> plugin uses client-side highlight.js library. You can adjust it's appearance using <code>codesnippet_template</code> config variable.</p>
 	<p>
 		Select template:
 		<select id="templateSelect"></select>
 	</p>
 
 	<pre class="samples" id="sampleConfig">CKEDITOR.replace( 'editor1', {
-	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
 	height: 440
 } );</pre>
 
@@ -49,13 +49,13 @@ function foo( $bar ) {
 	</textarea>
 
 	<h2>Server-side highlighter</h2>
-	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>snippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
-	<p>In this case we will also use <code>snippet_langs</code> config variable, to reduce available languages list.</p>
+	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>codesnippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
+	<p>In this case we will also use <code>codesnippet_langs</code> config variable, to reduce available languages list.</p>
 
 	<pre class="samples">CKEDITOR.replace( 'editor2', {
-	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
+	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
 	height: 440,
-	snippet_langs: {
+	codesnippet_langs: {
 		html4strict: 'HTML',
 		html5: 'HTML5',
 		javascript: 'JavaScript',
@@ -90,15 +90,15 @@ function foo( $bar ) {
 			// Default editor initialization, this one will have no template assigned,
 			// so it will get default template.
 			CKEDITOR.replace( 'editor1', {
-				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
 				height: 440
 			} );
 
 			// Second editor, using snippetgeshi plugin.
 			CKEDITOR.replace( 'editor2', {
-				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
+				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
 				height: 440,
-				snippet_langs: {
+				codesnippet_langs: {
 					html4strict: 'HTML',
 					html5: 'HTML5',
 					javascript: 'JavaScript',
@@ -117,9 +117,9 @@ function foo( $bar ) {
 						CKEDITOR.instances.editor1.destroy();
 
 					CKEDITOR.replace( 'editor1', {
-						plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
+						plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
 						height: 440,
-						snippet_template: snippetTemplateName
+						codesnippet_template: snippetTemplateName
 					} );
 
 					// Update code sample, it picks only specific lines, and replaces
