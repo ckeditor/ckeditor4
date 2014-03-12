@@ -13,6 +13,7 @@
 				template +
 				'<figcaption>{placeholder}</figcaption>' +
 			'</figure>' ),
+		alignmentsArr = [ 'left', 'center', 'right' ],
 		alignmentsObj = { left: 0, center: 1, right: 2 },
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
@@ -250,12 +251,31 @@
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 					};
 
-				// Read initial float style from figure/image and
-				// then remove it. This style will be set on wrapper in #data listener.
+				// Depending on configuration, read style/class from element and
+				// then remove it. Removed style/class will be set on wrapper in #data listener.
+				// Note: Center alignment is detected during upcast, so only left/right cases
+				// are checked below.
 				if ( !data.align ) {
-					data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
-					this.element.removeStyle( 'float' );
-					image.removeStyle( 'float' );
+					var alignClasses = this.editor.config.image2_alignClasses;
+
+					// Read the initial left/right alignment from the class set on element.
+					if ( alignClasses ) {
+						if ( this.element.hasClass( alignClasses[ 0 ] ) )
+							data.align = 'left';
+						else if ( this.element.hasClass( alignClasses[ 2 ] ) )
+							data.align = 'right';
+
+						if ( data.align )
+							this.element.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
+						else
+							data.align = 'none';
+					}
+					// Read initial float style from figure/image and then remove it.
+					else {
+						data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
+						this.element.removeStyle( 'float' );
+						image.removeStyle( 'float' );
+					}
 				}
 
 				// Get rid of extra vertical space when there's no caption.
