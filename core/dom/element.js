@@ -1705,6 +1705,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		this.getParent() && this.$.parentNode.replaceChild( newNode.$, this.$ );
 		newNode.$[ 'data-cke-expando' ] = this.$[ 'data-cke-expando' ];
 		this.$ = newNode.$;
+		// Bust getName's cache. (#8663)
+		delete this.getName;
 	},
 
 	/**
