@@ -116,6 +116,8 @@
 	// @param {CKEDITOR.editor}
 	// @returns {Object}
 	function widgetDef( editor ) {
+		var alignClasses = editor.config.image2_alignClasses;
+
 		return {
 			allowedContent: getWidgetAllowedContent( editor ),
 
@@ -214,7 +216,7 @@
 						// If now widget was destroyed just update wrapper's alignment.
 						// According to the new state.
 						else
-							setWrapperAlign( widget );
+							setWrapperAlign( widget, alignClasses );
 
 					}
 				} );
@@ -256,8 +258,6 @@
 				// Note: Center alignment is detected during upcast, so only left/right cases
 				// are checked below.
 				if ( !data.align ) {
-					var alignClasses = this.editor.config.image2_alignClasses;
-
 					// Read the initial left/right alignment from the class set on element.
 					if ( alignClasses ) {
 						if ( this.element.hasClass( alignClasses[ 0 ] ) )
@@ -312,6 +312,7 @@
 			// Tag name used for centering non-captioned widgets.
 			var doc = editor.document,
 				alignClasses = editor.config.image2_alignClasses,
+				captionedClass = editor.config.image2_captionedClass,
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
@@ -377,7 +378,7 @@
 
 							// Create new <figure> from widget template.
 							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
-								captionedClass: editor.config.image2_captionedClass,
+								captionedClass: captionedClass,
 								placeholder: editor.lang.image2.placeholder
 							} ), doc );
 
@@ -521,16 +522,25 @@
 		}
 	};
 
-	function setWrapperAlign( widget ) {
+	function setWrapperAlign( widget, alignClasses ) {
 		var wrapper = widget.wrapper,
 			align = widget.data.align,
-			hasCaption = widget.data.hasCaption,
-			alignClasses = widget.editor.config.image2_alignClasses;
+			hasCaption = widget.data.hasCaption;
 
 		if ( alignClasses ) {
-			removeAlignClasses( widget.editor, wrapper );
+			// Remove all align classes first.
+			for ( var i = 3; i--; )
+				wrapper.removeClass( alignClasses[ i ] );
 
 			if ( align == 'center' ) {
+				// Avoid touching non-captioned, centered widgets because
+				// they have the class set on the element instead of wrapper:
+				//
+				// 	<div class="cke_widget_wrapper">
+				// 		<p class="center-class">
+				// 			<img />
+				// 		</p>
+				// 	</div>
 				if ( hasCaption )
 					wrapper.addClass( alignClasses[ 1 ] );
 			} else if ( align != 'none' )
@@ -1143,17 +1153,6 @@
 			};
 
 		return features;
-	}
-
-	// Removes any class defined in alignClasses from given element.
-	//
-	// @param {CKEDITOR.editor}
-	// @param {CKEDITOR.dom.element}
-	function removeAlignClasses( editor, el ) {
-		var alignClasses = editor.config.image2_alignClasses;
-
-		for ( var i = 3; i--; )
-			el.removeClass( alignClasses[ i ] );
 	}
 } )();
 
