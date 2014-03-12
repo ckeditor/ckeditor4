@@ -8,26 +8,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<title>Snippet &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
-	<script src="../../../plugins/snippet/lib/highlight/highlight.pack.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
-	<link href="../../../plugins/snippet/lib/highlight/styles/github.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
 		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Snippet
 	</h1>
 
-	<h3>Default highlighting highlight.js</h3>
+	<h2>Default snippet highlighting with highlight.js</h2>
 	<p>Highlighting with client-side default highlighter, using highlight.js library.</p>
 	<p>
 		Select template:
 		<select id="templateSelect"></select>
 	</p>
 
-	<pre class="samples"><code id="initSample">CKEDITOR.replace( 'editor1', {
+	<pre class="samples" id="sampleConfig">CKEDITOR.replace( 'editor1', {
 	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet',
 	height: 440
-} );</code></pre>
+} );</pre>
 
 	<textarea id="editor1">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
@@ -50,11 +48,11 @@ function foo( $bar ) {
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
-	<h3>Server-side highlighter</h3>
+	<h2>Server-side highlighter</h2>
 	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>snippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
 	<p>In this case we will also use <code>snippet_langs</code> config variable, to reduce available languages list.</p>
 
-	<pre class="samples"><code>CKEDITOR.replace( 'editor2', {
+	<pre class="samples">CKEDITOR.replace( 'editor2', {
 	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,snippet,snippetgeshi',
 	height: 440,
 	snippet_langs: {
@@ -64,7 +62,7 @@ function foo( $bar ) {
 		php: 'PHP',
 		sql: 'SQL'
 	}
-} );</code></pre>
+} );</pre>
 
 	<textarea id="editor2">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
@@ -127,9 +125,7 @@ function foo( $bar ) {
 					// Update code sample, it picks only specific lines, and replaces
 					// snippetTemplateName to actually picked value, wrapping it with
 					// quotes.
-					document.getElementById( 'initSample' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 9 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
-					// Afterwards we need to reinit style for this particular DOM elem.
-					hljs.highlightBlock( document.getElementById( 'initSample' ) );
+					document.getElementById( 'sampleConfig' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 9 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
 				};
 
 			// Filling up options in template select.
@@ -141,14 +137,8 @@ function foo( $bar ) {
 			templateSelect.onchange = function() {
 				createTemplatedEditor( this.value );
 			};
-
-			// Apply highlighting on load.
-			hljs.initHighlightingOnLoad();
 		}() );
 	</script>
-	<style>
-		pre code{ background: none; border: none; padding: 0px; }
-	</style>
 
 	<div id="footer">
 		<hr>
