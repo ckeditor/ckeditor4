@@ -440,6 +440,21 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
+		 * Adds class name to classes list.
+		 *
+		 * @since 4.4
+		 * @param {String} className The class name to be added.
+		 */
+		addClass: function( className ) {
+			if ( this.hasClass( className ) )
+				return;
+
+			var c = this.attributes[ 'class' ] || '';
+
+			this.attributes[ 'class' ] = c + ( c ? ' ' : '' ) + className;
+		},
+
+		/**
 		 * Removes class name from classes list.
 		 *
 		 * @since 4.3
