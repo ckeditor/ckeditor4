@@ -65,7 +65,11 @@
 			var placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
 			editor.dataProcessor.dataFilter.addRules( {
-				text: function( text ) {
+				text: function( text, node ) {
+					// Skipping the case when placeholder is in elements like title.
+					if ( node.parent && !CKEDITOR.dtd[ node.parent.name ].span )
+						return ;
+
 					return text.replace( placeholderReplaceRegex, function( match ) {
 						// Creating widget code.
 						var widgetWrapper = null,
