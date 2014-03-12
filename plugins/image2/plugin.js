@@ -514,8 +514,8 @@
 				else
 					attribsAndStyles.styles = { 'text-align': 'center' };
 
-				// There's no way to center inline element with CSS and text-align,
-				// so create new <p|div> that wraps widget contents and makes it block.
+				// There's no gentle way to center inline element with CSS, so create p/div
+				// that wraps widget contents and does the trick either with style or class.
 				var center = doc.createElement(
 					editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', attribsAndStyles );
 
