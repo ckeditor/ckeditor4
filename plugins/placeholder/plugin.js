@@ -66,9 +66,12 @@
 
 			editor.dataProcessor.dataFilter.addRules( {
 				text: function( text, node ) {
-					// Skipping the case when placeholder is in elements like title.
-					if ( node.parent && !CKEDITOR.dtd[ node.parent.name ].span )
-						return ;
+					var dtd = node.parent && CKEDITOR.dtd[ node.parent.name ];
+
+					// Skip the case when placeholder is in elements like <title> or <textarea>
+					// but upcast placeholder in custom elements (no DTD).
+					if ( dtd && !dtd.span )
+						return;
 
 					return text.replace( placeholderReplaceRegex, function( match ) {
 						// Creating widget code.
