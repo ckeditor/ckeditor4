@@ -89,7 +89,9 @@
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
-			if ( CKEDITOR.env.ie )
+			// For IE we want to assign whole js stored in ieLocation, but in case of
+			// popup blocker activation oWindow variable will be null. (#11597)
+			if ( CKEDITOR.env.ie && oWindow )
 				oWindow.location = ieLocation;
 
 			if ( !CKEDITOR.env.ie && !CKEDITOR.env.gecko ) {
