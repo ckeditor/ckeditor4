@@ -131,8 +131,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		if ( style.checkApplicable( this.elementPath() ) )
+		if ( style.checkApplicable( this.elementPath() ) ) {
+			var initialEnterMode = style._.enterMode;
+
+			if ( style._.enterMode === undefined )
+				style._.enterMode = this.activeEnterMode;
 			applyStyleOnSelection.call( style, this.getSelection() );
+			style._.enterMode = initialEnterMode;
+		}
 	};
 
 	/**
@@ -142,8 +148,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		if ( style.checkApplicable( this.elementPath() ) )
+		if ( style.checkApplicable( this.elementPath() ) ) {
+			var initialEnterMode = style._.enterMode;
+
+			if ( style._.enterMode === undefined )
+				style._.enterMode = this.activeEnterMode;
 			applyStyleOnSelection.call( style, this.getSelection(), 1 );
+			style._.enterMode = initialEnterMode;
+		}
 	};
 
 	CKEDITOR.style.prototype = {
