@@ -883,8 +883,9 @@
 
 		// Different protection pattern is used for those that
 		// live in attributes to avoid from being HTML encoded.
-		return data.replace( /(['"]).*?\1/g, function( match ) {
-			return match.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
+		// Why so serious? See #9205, #8216, #7805.
+		return data.replace( /<\w([^'">]+|'[^']*'|"[^"]*")+>/g, function( match ) {
+			return match.replace( /<!--\{cke_protected\}([^>]*)-->/g, function( match, data ) {
 				store[ store.id ] = decodeURIComponent( data );
 				return '{cke_protected_' + ( store.id++ ) + '}';
 			} );

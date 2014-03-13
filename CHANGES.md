@@ -10,6 +10,8 @@ Fixed Issues:
 * [#8663](http://dev.ckeditor.com/ticket/8663): Fixed [`element.renameNode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-renameNode) not clearing [`element.getName()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getName) cache.
 * [#11574](http://dev.ckeditor.com/ticket/11574): Fixed *Backspace* destroying DOM structure if inline editable is placed in list item.
 * [#11603](http://dev.ckeditor.com/ticket/11603): Fixed: [Tableresize](http://ckeditor.com/addon/tableresize) attaches to tables outside of editable.
+* [#9205](http://dev.ckeditor.com/ticket/9205), [#7805](http://dev.ckeditor.com/ticket/7805), [#8216](http://dev.ckeditor.com/ticket/8216): Fixed: `{cke_protected_1}` appearing in data in various cases where HTML comments are placed next to `"` or `'`.
+
 
 ## CKEditor 4.3.3
 
