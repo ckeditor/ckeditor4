@@ -33,9 +33,15 @@ New Features:
 
 Fixed Issues:
 
+* [#11597](http://dev.ckeditor.com/ticket/11597): [IE11] Fixed: Error thrown when trying to open preview using keyboard.
 * [#11544](http://dev.ckeditor.com/ticket/11544): Placeholders will no longer be upcasted in parents not accepting spans.
 * [#8663](http://dev.ckeditor.com/ticket/8663): Fixed [`element.renameNode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-renameNode) not clearing [`element.getName()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getName) cache.
 * [#11574](http://dev.ckeditor.com/ticket/11574): Fixed *Backspace* destroying DOM structure if inline editable is placed in list item.
+* [#11603](http://dev.ckeditor.com/ticket/11603): Fixed: [Tableresize](http://ckeditor.com/addon/tableresize) attaches to tables outside of editable.
+* [#9205](http://dev.ckeditor.com/ticket/9205), [#7805](http://dev.ckeditor.com/ticket/7805), [#8216](http://dev.ckeditor.com/ticket/8216): Fixed: `{cke_protected_1}` appearing in data in various cases where HTML comments are placed next to `"` or `'`.
+* [#11635](http://dev.ckeditor.com/ticket/11635): Fixed: Some attributes are not protected before content is passed through fix bin.
+* [#11660](http://dev.ckeditor.com/ticket/11660): [IE] Fixed: Content of a table is lost when there is some extra markup inside a table.
+
 
 ## CKEditor 4.3.3
 

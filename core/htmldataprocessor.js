@@ -81,6 +81,10 @@
 			// eat it up. (#5789)
 			data = protectPreFormatted( data );
 
+			// There are attributes which may execute JavaScript code inside fixBin.
+			// Encode them greedily. They will be unprotected right after getting HTML from fixBin. (#10)
+			data = protectInsecureAttributes( data );
+
 			var fixBin = evtData.context || editor.editable().getName(),
 				isPre;
 
@@ -99,7 +103,7 @@
 			data = el.getHtml().substr( 1 );
 
 			// Restore shortly protected attribute names.
-			data = data.replace( new RegExp( ' data-cke-' + CKEDITOR.rnd + '-', 'ig' ), ' ' );
+			data = data.replace( new RegExp( 'data-cke-' + CKEDITOR.rnd + '-', 'ig' ), '' );
 
 			isPre && ( data = data.replace( /^<pre>|<\/pre>$/gi, '' ) );
 
@@ -822,6 +826,14 @@
 		} );
 	}
 
+	// Replace all "on\w{3,}" strings which are not:
+	// * opening tags - e.g. `<onfoo`,
+	// * closing tags - e.g. </onfoo> (tested in "false positive 1"),
+	// * part of other attribute - e.g. `data-onfoo` or `fonfoo`.
+	function protectInsecureAttributes( html ) {
+		return html.replace( /([^a-z0-9<\-])(on\w{3,})(?!>)/gi, '$1data-cke-' + CKEDITOR.rnd + '-$2' );
+	}
+
 	function unprotectRealComments( html ) {
 		return html.replace( /<!--\{cke_protected\}\{C\}([\s\S]+?)-->/g, function( match, data ) {
 			return decodeURIComponent( data );
@@ -881,8 +893,9 @@
 
 		// Different protection pattern is used for those that
 		// live in attributes to avoid from being HTML encoded.
-		return data.replace( /(['"]).*?\1/g, function( match ) {
-			return match.replace( /<!--\{cke_protected\}([\s\S]+?)-->/g, function( match, data ) {
+		// Why so serious? See #9205, #8216, #7805.
+		return data.replace( /<\w([^'">]+|'[^']*'|"[^"]*")+>/g, function( match ) {
+			return match.replace( /<!--\{cke_protected\}([^>]*)-->/g, function( match, data ) {
 				store[ store.id ] = decodeURIComponent( data );
 				return '{cke_protected_' + ( store.id++ ) + '}';
 			} );

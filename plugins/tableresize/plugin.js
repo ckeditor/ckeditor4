@@ -352,9 +352,10 @@
 
 		init: function( editor ) {
 			editor.on( 'contentDom', function() {
-				var resizer;
+				var resizer,
+					editable = editor.editable();
 
-				editor.document.getBody().on( 'mousemove', function( evt ) {
+				editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
 					evt = evt.data;
 
 					var pageX = evt.getPageOffset().x;
