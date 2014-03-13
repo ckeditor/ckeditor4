@@ -6,7 +6,10 @@ CKEditor 4 Changelog
 **Important Notes:**
 
 * Marked the [`editor.beforePaste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-beforePaste) event as deprecated.
-* Default class of captioned image has changed to _image_ (instead of _caption_).
+* Default class of captioned image has changed to _"image"_ (was: _"caption"_). Please note that once edited in CKEditor 4.4+, all existing images of the _"caption"_ class (`<figure class="caption">`)
+  will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option 
+  is set to _"caption"_. For backward compatibility (i.e. when upgrading), it is highly recommended to do so, to also prevent CSS conflicts, etc.. This does not apply
+  to new CKEditor integrations.
 
 New Features:
 
