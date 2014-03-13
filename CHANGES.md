@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 **Important Notes:**
 
 * Marked the [`editor.beforePaste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-beforePaste) event as deprecated.
+* Default class of captioned image has changed to _image_ (instead of _caption_).
 
 New Features:
 
@@ -19,6 +20,11 @@ New Features:
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as image source.
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
+* [#11300](http://dev.ckeditor.com/ticket/11300): Various changes in [Enhanced Image](http://ckeditor.com/addon/image2) plugin:  
+  * Introduced [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) to configure the class of captioned images.
+  * Introduced [`config.image2_alignClasses`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_alignClasses) to configure the way images are aligned with CSS classes.
+  If defined, the editor produces classes instead of inline styles for aligned images.
+  * Default caption of the image can be translated (customized) with `editor.lang.image2.captionPlaceholder`. 
 
 ## CKEditor 4.3.4
 

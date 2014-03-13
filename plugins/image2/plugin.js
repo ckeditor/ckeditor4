@@ -8,10 +8,13 @@
 ( function() {
 
 	var template = '<img alt="" src="" />',
-		templateBlock = '<figure class="caption">' +
+		templateBlock = new CKEDITOR.template(
+			'<figure class="{captionedClass}">' +
 				template +
-				'<figcaption>Caption</figcaption>' +
-			'</figure>',
+				'<figcaption>{captionPlaceholder}</figcaption>' +
+			'</figure>' ),
+		alignmentsArr = [ 'left', 'center', 'right' ],
+		alignmentsObj = { left: 0, center: 1, right: 2 },
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
 	CKEDITOR.plugins.add( 'image2', {
@@ -20,8 +23,13 @@
 		icons: 'image',
 		hidpi: true,
 
-		onLoad: function( editor ) {
+		onLoad: function() {
 			CKEDITOR.addCss(
+			'.cke_image_nocaption{' +
+				// This is to remove unwanted space so resize
+				// wrapper is displayed property.
+				'line-height:0' +
+			'}' +
 			'.cke_editable.cke_image_sw, .cke_editable.cke_image_sw *{cursor:sw-resize !important}' +
 			'.cke_editable.cke_image_se, .cke_editable.cke_image_se *{cursor:se-resize !important}' +
 			'.cke_image_resizer{' +
@@ -105,48 +113,107 @@
 		}
 	} );
 
+	// Wiget states (forms) depending on alignment and configuration.
+	//
+	// Non-captioned widget (inline styles)
+	// 		┌──────┬───────────────────────────────┬─────────────────────────────┐
+	// 		│Align │Internal form                  │Data                         │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│none  │<wrapper>                      │<img />                      │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│left  │<wrapper style=”float:left”>   │<img style=”float:left” />   │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│center│<wrapper>                      │<p style=”text-align:center”>│
+	// 		│      │ <p style=”text-align:center”> │  <img />                    │
+	// 		│      │   <img />                     │</p>                         │
+	// 		│      │ </p>                          │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│right │<wrapper style=”float:right”>  │<img style=”float:right” />  │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		└──────┴───────────────────────────────┴─────────────────────────────┘
+	//
+	// Non-captioned widget (config.image2_alignClasses defined)
+	// 		┌──────┬───────────────────────────────┬─────────────────────────────┐
+	// 		│Align │Internal form                  │Data                         │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│none  │<wrapper>                      │<img />                      │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│left  │<wrapper class=”left”>         │<img class=”left” />         │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│center│<wrapper>                      │<p class=”center”>           │
+	// 		│      │ <p class=”center”>            │ <img />                     │
+	// 		│      │   <img />                     │</p>                         │
+	// 		│      │ </p>                          │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		├──────┼───────────────────────────────┼─────────────────────────────┤
+	// 		│right │<wrapper class=”right”>        │<img class=”right” />        │
+	// 		│      │ <img />                       │                             │
+	// 		│      │</wrapper>                     │                             │
+	// 		└──────┴───────────────────────────────┴─────────────────────────────┘
+	//
+	// Captioned widget (inline styles)
+	// 		┌──────┬────────────────────────────────────────┬────────────────────────────────────────┐
+	// 		│Align │Internal form                           │Data                                    │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│none  │<wrapper>                               │<figure />                              │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│left  │<wrapper style=”float:left”>            │<figure style=”float:left” />           │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│center│<wrapper style=”text-align:center”>     │<div style=”text-align:center”>         │
+	// 		│      │ <figure style=”display:inline-block” />│ <figure style=”display:inline-block” />│
+	// 		│      │</wrapper>                              │</p>                                    │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│right │<wrapper style=”float:right”>           │<figure style=”float:right” />          │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		└──────┴────────────────────────────────────────┴────────────────────────────────────────┘
+	//
+	// Captioned widget (config.image2_alignClasses defined)
+	// 		┌──────┬────────────────────────────────────────┬────────────────────────────────────────┐
+	// 		│Align │Internal form                           │Data                                    │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│none  │<wrapper>                               │<figure />                              │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│left  │<wrapper class=”left”>                  │<figure class=”left” />                 │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│center│<wrapper class=”center”>                │<div class=”center”>                    │
+	// 		│      │ <figure />                             │ <figure />                             │
+	// 		│      │</wrapper>                              │</p>                                    │
+	// 		├──────┼────────────────────────────────────────┼────────────────────────────────────────┤
+	// 		│right │<wrapper class=”right”>                 │<figure class=”right” />                │
+	// 		│      │ <figure />                             │                                        │
+	// 		│      │</wrapper>                              │                                        │
+	// 		└──────┴────────────────────────────────────────┴────────────────────────────────────────┘
+	//
 	// @param {CKEDITOR.editor}
 	// @returns {Object}
 	function widgetDef( editor ) {
+		var alignClasses = editor.config.image2_alignClasses;
+
 		return {
-			// Widget-specific rules for Allowed Content Filter.
-			allowedContent: {
-				// This widget may need <div> centering wrapper.
-				div: {
-					match: centerWrapperChecker( editor ),
-					styles: 'text-align'
-				},
-				figcaption: true,
-				figure: {
-					classes: '!caption',
-					styles: 'float,display'
-				},
-				img: {
-					attributes: '!src,alt,width,height',
-					styles: 'float'
-				},
-				// This widget may need <p> centering wrapper.
-				p: {
-					match: centerWrapperChecker( editor ),
-					styles: 'text-align'
-				}
-			},
+			allowedContent: getWidgetAllowedContent( editor ),
 
 			requiredContent: 'img[src,alt]',
 
-			// Note: The following may not cover all the possible cases since
-			// requiredContent supports a single tag only.
-			features: {
-				dimension: {
-					requiredContent: 'img[width,height]'
-				},
-				align: {
-					requiredContent: 'img{float}'
-				},
-				caption: {
-					requiredContent: 'figcaption'
-				}
-			},
+			features: getWidgetFeatures( editor ),
 
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
@@ -239,7 +306,7 @@
 						// If now widget was destroyed just update wrapper's alignment.
 						// According to the new state.
 						else
-							setWrapperAlign( widget );
+							setWrapperAlign( widget, alignClasses );
 
 					}
 				} );
@@ -276,18 +343,34 @@
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 					};
 
-				// Read initial float style from figure/image and
-				// then remove it. This style will be set on wrapper in #data listener.
+				// Depending on configuration, read style/class from element and
+				// then remove it. Removed style/class will be set on wrapper in #data listener.
+				// Note: Center alignment is detected during upcast, so only left/right cases
+				// are checked below.
 				if ( !data.align ) {
-					data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
-					this.element.removeStyle( 'float' );
-					image.removeStyle( 'float' );
+					// Read the initial left/right alignment from the class set on element.
+					if ( alignClasses ) {
+						if ( this.element.hasClass( alignClasses[ 0 ] ) )
+							data.align = 'left';
+						else if ( this.element.hasClass( alignClasses[ 2 ] ) )
+							data.align = 'right';
+
+						if ( data.align )
+							this.element.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
+						else
+							data.align = 'none';
+					}
+					// Read initial float style from figure/image and then remove it.
+					else {
+						data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
+						this.element.removeStyle( 'float' );
+						image.removeStyle( 'float' );
+					}
 				}
 
 				// Get rid of extra vertical space when there's no caption.
 				// It will improve the look of the resizer.
-				if ( !data.hasCaption )
-					this.wrapper.setStyle( 'line-height', '0' );
+				this.wrapper[ ( data.hasCaption ? 'remove' : 'add' ) + 'Class' ]( 'cke_image_nocaption' );
 
 				this.setData( data );
 
@@ -310,7 +393,7 @@
 			},
 
 			upcast: upcastWidgetElement( editor ),
-			downcast: downcastWidgetElement
+			downcast: downcastWidgetElement( editor )
 		};
 	}
 
@@ -318,6 +401,8 @@
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
 			var doc = editor.document,
+				alignClasses = editor.config.image2_alignClasses,
+				captionedClass = editor.config.image2_captionedClass,
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
@@ -354,7 +439,7 @@
 						}
 
 						// Finally set display for figure.
-						if ( element.is( 'figure' ) ) {
+						if ( !alignClasses && element.is( 'figure' ) ) {
 							if ( newValue == 'center' )
 								element.setStyle( 'display', 'inline-block' );
 							else
@@ -382,7 +467,10 @@
 							img = element.findOne( 'img' ) || element;
 
 							// Create new <figure> from widget template.
-							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock, doc );
+							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
+								captionedClass: captionedClass,
+								captionPlaceholder: editor.lang.image2.captionPlaceholder
+							} ), doc );
 
 							// Replace element with <figure>.
 							replaceSafely( figure, element );
@@ -419,11 +507,17 @@
 			}
 
 			function wrapInCentering( editor, element ) {
-				// When widget gets centered. Wrapper must be created.
-				// Create new <p|div> with text-align:center.
-				var center = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', {
-					styles: { 'text-align': 'center' }
-				} );
+				var attribsAndStyles = {};
+
+				if ( alignClasses )
+					attribsAndStyles.attributes = { 'class': alignClasses[ 1 ] };
+				else
+					attribsAndStyles.styles = { 'text-align': 'center' };
+
+				// There's no gentle way to center inline element with CSS, so create p/div
+				// that wraps widget contents and does the trick either with style or class.
+				var center = doc.createElement(
+					editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div', attribsAndStyles );
 
 				// Replace element with centering wrapper.
 				replaceSafely( center, element );
@@ -518,23 +612,46 @@
 		}
 	};
 
-	function setWrapperAlign( widget ) {
+	function setWrapperAlign( widget, alignClasses ) {
 		var wrapper = widget.wrapper,
-			align = widget.data.align;
+			align = widget.data.align,
+			hasCaption = widget.data.hasCaption;
 
-		if ( align == 'center' ) {
-			if ( !widget.inline )
-				wrapper.setStyle( 'text-align', 'center' );
+		if ( alignClasses ) {
+			// Remove all align classes first.
+			for ( var i = 3; i--; )
+				wrapper.removeClass( alignClasses[ i ] );
 
-			wrapper.removeStyle( 'float' );
+			if ( align == 'center' ) {
+				// Avoid touching non-captioned, centered widgets because
+				// they have the class set on the element instead of wrapper:
+				//
+				// 	<div class="cke_widget_wrapper">
+				// 		<p class="center-class">
+				// 			<img />
+				// 		</p>
+				// 	</div>
+				if ( hasCaption )
+					wrapper.addClass( alignClasses[ 1 ] );
+			} else if ( align != 'none' )
+				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
 		} else {
-			if ( !widget.inline )
-				wrapper.removeStyle( 'text-align' );
+			if ( align == 'center' ) {
+				if ( hasCaption )
+					wrapper.setStyle( 'text-align', 'center' );
+				else
+					wrapper.removeStyle( 'text-align' );
 
-			if ( align == 'none' )
 				wrapper.removeStyle( 'float' );
-			else
-				wrapper.setStyle( 'float', align );
+			}
+			else {
+				if ( align == 'none' )
+					wrapper.removeStyle( 'float' );
+				else
+					wrapper.setStyle( 'float', align );
+
+				wrapper.removeStyle( 'text-align' );
+			}
 		}
 	}
 
@@ -544,7 +661,8 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function upcastWidgetElement( editor ) {
-		var isCenterWrapper = centerWrapperChecker( editor );
+		var isCenterWrapper = centerWrapperChecker( editor ),
+			captionedClass = editor.config.image2_captionedClass;
 
 		// @param {CKEDITOR.htmlParser.element} el
 		// @param {Object} data
@@ -588,7 +706,7 @@
 			}
 
 			// No center wrapper has been found.
-			else if ( name == 'figure' && el.hasClass( 'caption' ) )
+			else if ( name == 'figure' && el.hasClass( captionedClass ) )
 				image = el.getFirst( 'img' );
 
 			// Inline widget from plain img.
@@ -611,52 +729,67 @@
 		};
 	}
 
-	// Transforms the widget to the external format according to the current configuration.
+	// Returns a function which transforms the widget to the external format
+	// according to the current configuration.
 	//
-	// @param {CKEDITOR.htmlParser.element} el
-	function downcastWidgetElement( el ) {
-		var attrs = el.attributes,
-			align = this.data.align;
+	// @param {CKEDITOR.editor}
+	function downcastWidgetElement( editor ) {
+		var alignClasses = editor.config.image2_alignClasses;
 
-		// De-wrap the image from resize handle wrapper.
-		// Only block widgets have one.
-		if ( !this.inline ) {
-			var resizeWrapper = el.getFirst( 'span' ),
-				img;
+		// @param {CKEDITOR.htmlParser.element} el
+		// @param {Object} data
+		return function( el, data ) {
+			var attrs = el.attributes,
+				align = this.data.align;
 
-			if ( resizeWrapper ) {
-				img = resizeWrapper.getFirst( 'img' );
-				resizeWrapper.replaceWith( img );
-			} else
-				img = el.getFirst( 'img' );
-		}
+			// De-wrap the image from resize handle wrapper.
+			// Only block widgets have one.
+			if ( !this.inline ) {
+				var resizeWrapper = el.getFirst( 'span' ),
+					img;
 
-		if ( align && align != 'none' ) {
-			var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
+				if ( resizeWrapper ) {
+					img = resizeWrapper.getFirst( 'img' );
+					resizeWrapper.replaceWith( img );
+				} else
+					img = el.getFirst( 'img' );
+			}
 
-			// When the widget is captioned (<figure>) and internally centering is done
-			// with widget's wrapper inline style, in the external data representation,
-			// <figure> must be wrapped with an element holding an inline style:
-			//
-			//   <div style="text-align:center">
-			//     <figure class="image" style="display:inline-block">
-			//      <img alt="A" src="B" />
-			//       <figcaption>C</figcaption>
-			//     </figure>
-			//   </div>
-			if ( align == 'center' && el.name == 'figure' )
-				el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div', { style: 'text-align:center' } ) );
+			if ( align && align != 'none' ) {
+				var styles = CKEDITOR.tools.parseCssText( attrs.style || '' );
 
-			// If left/right, add float style to the downcasted element.
-			else if ( align in { left: 1, right: 1 } )
-				styles[ 'float' ] = align;
+				// When the widget is captioned (<figure>) and internally centering is done
+				// with widget's wrapper style/class, in the external data representation,
+				// <figure> must be wrapped with an element holding an style/class:
+				//
+				// 	<div style="text-align:center">
+				// 		<figure class="image" style="display:inline-block">...</figure>
+				// 	</div>
+				// or
+				// 	<div class="some-center-class">
+				// 		<figure class="image">...</figure>
+				// 	</div>
+				//
+				if ( align == 'center' && el.name == 'figure' ) {
+					el = el.wrapWith( new CKEDITOR.htmlParser.element( 'div',
+						alignClasses ? { 'class': alignClasses[ 1 ] } : { style: 'text-align:center' } ) );
+				}
 
-			// Update element styles.
-			if ( !CKEDITOR.tools.isEmpty( styles ) )
-				attrs.style = CKEDITOR.tools.writeCssText( styles );
-		}
+				// If left/right, add float style to the downcasted element.
+				else if ( align in { left: 1, right: 1 } ) {
+					if ( alignClasses )
+						el.addClass( alignClasses[ alignmentsObj[ align ] ] );
+					else
+						styles[ 'float' ] = align;
+				}
 
-		return el;
+				// Update element styles.
+				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
+					attrs.style = CKEDITOR.tools.writeCssText( styles );
+			}
+
+			return el;
+		};
 	}
 
 	// Returns a function that checks if an element is a centering wrapper.
@@ -664,6 +797,9 @@
 	// @param {CKEDITOR.editor} editor
 	// @returns {Function}
 	function centerWrapperChecker( editor ) {
+		var captionedClass = editor.config.image2_captionedClass,
+			alignClasses = editor.config.image2_alignClasses;
+
 		return function( el ) {
 			// Wrapper must be either <div> or <p>.
 			if ( !( el.name in { div: 1, p: 1 } ) )
@@ -693,7 +829,7 @@
 			else {
 				// If a <figure> is the first (only) child, it must have a class.
 				//   <div style="text-align:center"><figure>...</figure><div>
-				if ( childName == 'figure' && !child.hasClass( 'caption' ) )
+				if ( childName == 'figure' && !child.hasClass( captionedClass ) )
 					return false;
 
 				// Centering <div> can hold <img /> only when enterMode is ENTER_(BR|DIV).
@@ -702,10 +838,10 @@
 					return false;
 			}
 
-			var styles = CKEDITOR.tools.parseCssText( el.attributes.style || '', true );
-
-			// Centering wrapper got to be... centering.
-			if ( styles[ 'text-align' ] == 'center' )
+			// Centering wrapper got to be... centering. If image2_alignClasses are defined,
+			// check for centering class. Otherwise, check the style.
+			if ( alignClasses ? el.hasClass( alignClasses[ 1 ] ) :
+					CKEDITOR.tools.parseCssText( el.attributes.style || '', true )[ 'text-align' ] == 'center' )
 				return true;
 
 			return false;
@@ -1038,4 +1174,139 @@
 
 		return null;
 	}
+
+	// Returns a set of widget allowedContent rules, depending
+	// on configurations like config#image2_alignClasses or
+	// config#image2_captionedClass.
+	//
+	// @param {CKEDITOR.editor}
+	// @returns {Object}
+	function getWidgetAllowedContent( editor ) {
+		var alignClasses = editor.config.image2_alignClasses,
+			rules = {
+				// Widget may need <div> or <p> centering wrapper.
+				div: {
+					match: centerWrapperChecker( editor )
+				},
+				p: {
+					match: centerWrapperChecker( editor )
+				},
+				img: {
+					attributes: '!src,alt,width,height'
+				},
+				figure: {
+					classes: '!' + editor.config.image2_captionedClass
+				},
+				figcaption: true
+			};
+
+		if ( alignClasses ) {
+			// Centering class from the config.
+			rules.div.classes = alignClasses[ 1 ];
+			rules.p.classes = rules.div.classes;
+
+			// Left/right classes from the config.
+			rules.img.classes = alignClasses[ 0 ] + ',' + alignClasses[ 2 ];
+			rules.figure.classes += ',' + rules.img.classes;
+		} else {
+			// Centering with text-align.
+			rules.div.styles = 'text-align';
+			rules.p.styles = 'text-align';
+
+			rules.img.styles = 'float';
+			rules.figure.styles = 'float,display';
+		}
+
+		return rules;
+	}
+
+	// Returns a set of widget feature rules, depending
+	// on editor configuration. Note that the following may not cover
+	// all the possible cases since requiredContent supports a single
+	// tag only.
+	//
+	// @param {CKEDITOR.editor}
+	// @returns {Object}
+	function getWidgetFeatures( editor ) {
+		var alignClasses = editor.config.image2_alignClasses,
+			features = {
+				dimension: {
+					requiredContent: 'img[width,height]'
+				},
+				align: {
+					requiredContent: 'img' +
+						( alignClasses ? '(' + alignClasses[ 0 ] + ')' : '{float}' )
+				},
+				caption: {
+					requiredContent: 'figcaption'
+				}
+			};
+
+		return features;
+	}
 } )();
+
+/**
+ * CSS class applied to the `<figure>` element of a captioned image.
+ *
+ *		// Changes the class to "captionedImage".
+ *		CKEDITOR.config.image2_captionedClass = 'captionedImage';
+ *
+ * @cfg {String} [image2_captionedClass='image']
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.image2_captionedClass = 'image';
+
+/**
+ * CSS classes applied to aligned images. Useful to take control over the way
+ * images are aligned i.e. to customize output HTML and integrate external stylesheets.
+ *
+ * Classes should be defined in three elements array, containing respectively left, center and right
+ * alignment classes. For example:
+ *
+ *		config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
+ *
+ * **Note**: Once this configuration option is set, the plugin will not produce inline
+ * styles for alignment any longer. It means that e.g. the following HTML will be produced:
+ *
+ *		<img alt="My image" class="custom-center-class" src="foo.png" />
+ *
+ * instead of:
+ *
+ *		<img alt="My image" style="float:left" src="foo.png" />
+ *
+ * **Note**: Once this configuration option is set, corresponding style definitions
+ * must be supplied to the editor:
+ *
+ * * For [classic editor](#!/guide/dev_framed) it can be done by defining additional
+ * styles in {@link CKEDITOR.config#contentsCss stylesheets loaded by the editor}. The same
+ * styles must be provided on the target page where the content will be loaded.
+ * * For [inline editor](#!/guide/dev_inline) styles can be defined directly
+ * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within the `<head>`
+ * of the page.
+ *
+ * For example, considering the following configuration:
+ *
+ *		config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
+ *
+ * CSS rules can be defined as follows:
+ *
+ *		.align-left {
+ *			float: left;
+ *		}
+ *
+ *		.align-right {
+ *			float: right;
+ *		}
+ *
+ *		.align-center {
+ *			text-align: center;
+ *		}
+ *
+ *		.align-center > figure {
+ *			display: inline-block;
+ *		}
+ *
+ * @cfg {String[]} [image2_alignClasses=null]
+ * @member CKEDITOR.config
+ */
