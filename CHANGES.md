@@ -9,6 +9,10 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including switching between modes) creates new undo snapshot. Besides that:
+  * Introduced the [`editable.status`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-property-status) property.
+  * Introduced new option `forceUpdate` for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
+  * Fixed: selection not being unlocked in inline editor after setting data ([#15000](http://dev.ckeditor.com/ticket/11500)).
 * [#10202](http://dev.ckeditor.com/ticket/10202): Introduced wildcards support in the [Allowed Content Rules](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules) format.
 * [#11532](http://dev.ckeditor.com/ticket/11532): Introduced the [`editor.addContentsCss()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-addContentsCss) method that can be used for adding custom CSS files.
 * [#11536](http://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode) method for decoding HTML entities.
