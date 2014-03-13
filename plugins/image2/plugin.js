@@ -1261,29 +1261,35 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * CSS classes applied to aligned images. Useful to take control over the way
  * images are aligned i.e. to customize output HTML and integrate external stylesheets.
  *
+ * Classes should be defined in three elements array, containing respectively left, center and right
+ * alignment classes. For example:
+ *
+ *		config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
+ *
  * **Note**: Once this configuration option is set, the plugin will not produce inline
- * styles for alignment any longer. It means that e.g. the following HTML will be produced
+ * styles for alignment any longer. It means that e.g. the following HTML will be produced:
  *
  *		<img alt="My image" class="custom-center-class" src="foo.png" />
  *
- * instead of
+ * instead of:
  *
  *		<img alt="My image" style="float:left" src="foo.png" />
  *
  * **Note**: Once this configuration option is set, corresponding style definitions
  * must be supplied to the editor:
  *
- * * It can be done by defining additional
- * styles in {@link CKEDITOR.config#contentsCss config.contentsCss}.
- * * For {@link CKEDITOR#method-inline inline editor}, styles can also be defined directly
- * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within `<head>`
+ * * For [classic editor](#!/guide/dev_framed) it can be done by defining additional
+ * styles in {@link CKEDITOR.config#contentsCss stylesheets loaded by the editor}. The same
+ * styles must be provided on the target page where the content will be loaded.
+ * * For [inline editor](#!/guide/dev_inline) styles can be defined directly
+ * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within the `<head>`
  * of the page.
  *
- * For example, considering the following configuration
+ * For example, considering the following configuration:
  *
- *		CKEDITOR.config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
+ *		config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
  *
- * CSS rules can be defined as follows
+ * CSS rules can be defined as follows:
  *
  *		.align-left {
  *			float: left;
@@ -1301,6 +1307,6 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *			display: inline-block;
  *		}
  *
- * @cfg {String} [image2_alignClasses=null]
+ * @cfg {String[]} [image2_alignClasses=null]
  * @member CKEDITOR.config
  */
