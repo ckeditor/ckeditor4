@@ -18,10 +18,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .align-left {
 	float: left;
+	margin-right: 20px;
 }
 
 .align-right {
 	float: right;
+	margin-left: 20px;
 }
 
 .align-center {
