@@ -773,8 +773,26 @@
 			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
 		} );
 
-		// Clear the cached range path before unload. (#7174)
-		editor.on( 'contentDomUnload', editor.forceNextSelectionCheck, editor );
+		editor.on( 'setData', function() {
+			// Invalidate locked selection when unloading DOM.
+			// (#9521, #5217#comment:32 and #11500#comment:11)
+			editor.unlockSelection();
+
+			// Webkit's selection will mess up after the data loading.
+			if ( CKEDITOR.env.webkit )
+				clearSelection();
+		} );
+
+		// Catch all the cases which above setData listener couldn't catch.
+		// For example: switching to source mode and destroying editor.
+		editor.on( 'contentDomUnload', function() {
+			editor.unlockSelection();
+		} );
+
+		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
+		if ( CKEDITOR.env.ie9Compat )
+			editor.on( 'beforeDestroy', clearSelection, null, null, 9 );
+
 		// Check selection change on data reload.
 		editor.on( 'dataReady', function() {
 			// Clean up fake selection after setting data.
@@ -783,6 +801,7 @@
 
 			editor.selectionChange( 1 );
 		} );
+
 		// When loaded data are ready check whether hidden selection container was not loaded.
 		editor.on( 'loadSnapshot', function() {
 			// TODO replace with el.find() which will be introduced in #9764,
@@ -794,24 +813,6 @@
 			if ( el && el.hasAttribute( 'data-cke-hidden-sel' ) )
 				el.remove();
 		}, null, null, 100 );
-
-		function clearSelection() {
-			var sel = editor.getSelection();
-			sel && sel.removeAllRanges();
-		}
-
-		// Clear dom selection before editable destroying to fix some browser
-		// craziness.
-
-		// IE9 might cease to work if there's an object selection inside the iframe (#7639).
-		CKEDITOR.env.ie9Compat && editor.on( 'beforeDestroy', clearSelection, null, null, 9 );
-		// Webkit's selection will mess up after the data loading.
-		CKEDITOR.env.webkit && editor.on( 'setData', clearSelection );
-
-		// Invalidate locked selection when unloading DOM (e.g. after setData). (#9521)
-		editor.on( 'contentDomUnload', function() {
-			editor.unlockSelection();
-		} );
 
 		editor.on( 'key', function( evt ) {
 			if ( editor.mode != 'wysiwyg' )
@@ -825,6 +826,11 @@
 			if ( handler )
 				return handler( { editor: editor, selected: sel.getSelectedElement(), selection: sel, keyEvent: evt } );
 		} );
+
+		function clearSelection() {
+			var sel = editor.getSelection();
+			sel && sel.removeAllRanges();
+		}
 	} );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
