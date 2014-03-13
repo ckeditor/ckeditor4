@@ -11,7 +11,7 @@
 		templateBlock = new CKEDITOR.template(
 			'<figure class="{captionedClass}">' +
 				template +
-				'<figcaption>{placeholder}</figcaption>' +
+				'<figcaption>{captionPlaceholder}</figcaption>' +
 			'</figure>' ),
 		alignmentsArr = [ 'left', 'center', 'right' ],
 		alignmentsObj = { left: 0, center: 1, right: 2 },
@@ -469,7 +469,7 @@
 							// Create new <figure> from widget template.
 							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
 								captionedClass: captionedClass,
-								placeholder: editor.lang.image2.placeholder
+								captionPlaceholder: editor.lang.image2.captionPlaceholder
 							} ), doc );
 
 							// Replace element with <figure>.
