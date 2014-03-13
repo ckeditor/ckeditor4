@@ -789,7 +789,7 @@
 			}
 
 			return el;
-		}
+		};
 	}
 
 	// Returns a function that checks if an element is a centering wrapper.
