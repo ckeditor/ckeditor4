@@ -218,10 +218,6 @@
 			addWidgetCommand( this.editor, widgetDef );
 			addWidgetProcessors( this, widgetDef );
 
-			// Register widget automatically if it does not have a button.
-			if ( !widgetDef.button )
-				this.editor.addFeature( widgetDef );
-
 			this.registered[ name ] = widgetDef;
 
 			return widgetDef;
