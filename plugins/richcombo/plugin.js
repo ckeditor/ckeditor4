@@ -173,9 +173,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 						this.refresh();
 				}
 
-				// Update status when activeFilter, mode or readOnly changes.
+				// Update status when activeFilter, mode, selection or readOnly changes.
 				editor.on( 'activeFilterChange', updateState, this );
 				editor.on( 'mode', updateState, this );
+				editor.on( 'selectionChange', updateState, this );
 				// If this combo is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );
 

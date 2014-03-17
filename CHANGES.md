@@ -41,7 +41,8 @@ Fixed Issues:
 * [#9205](http://dev.ckeditor.com/ticket/9205), [#7805](http://dev.ckeditor.com/ticket/7805), [#8216](http://dev.ckeditor.com/ticket/8216): Fixed: `{cke_protected_1}` appearing in data in various cases where HTML comments are placed next to `"` or `'`.
 * [#11635](http://dev.ckeditor.com/ticket/11635): Fixed: Some attributes are not protected before content is passed through fix bin.
 * [#11660](http://dev.ckeditor.com/ticket/11660): [IE] Fixed: Content of a table is lost when there is some extra markup inside a table.
-
+* [#11641](http://dev.ckeditor.com/ticket/11641): Fixed: Switching between modes in framed editor removes content styles for inline editor.
+* [#11568](http://dev.ckeditor.com/ticket/11568): Fixed: Style list does not enable on selection change.
 
 ## CKEditor 4.3.3
 

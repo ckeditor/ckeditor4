@@ -812,16 +812,18 @@
 				}
 
 				// Remove contents stylesheet from document if it's the last usage.
-				var doc = this.getDocument(),
-					head = doc.getHead();
-				if ( head.getCustomData( 'stylesheet' ) ) {
-					var refs = doc.getCustomData( 'stylesheet_ref' );
-					if ( !( --refs ) ) {
-						doc.removeCustomData( 'stylesheet_ref' );
-						var sheet = head.removeCustomData( 'stylesheet' );
-						sheet.remove();
-					} else
-						doc.setCustomData( 'stylesheet_ref', refs );
+				if ( !this.is( 'textarea' ) ) {
+					var doc = this.getDocument(),
+						head = doc.getHead();
+					if ( head.getCustomData( 'stylesheet' ) ) {
+						var refs = doc.getCustomData( 'stylesheet_ref' );
+						if ( !( --refs ) ) {
+							doc.removeCustomData( 'stylesheet_ref' );
+							var sheet = head.removeCustomData( 'stylesheet' );
+							sheet.remove();
+						} else
+							doc.setCustomData( 'stylesheet_ref', refs );
+					}
 				}
 
 				this.editor.fire( 'contentDomUnload' );
