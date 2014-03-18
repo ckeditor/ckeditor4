@@ -716,9 +716,9 @@
 			 * Whether this widget is an inline widget (based on an inline element unless
 			 * forced otherwise by {@link CKEDITOR.plugins.widget.definition#inline}).
 			 *
-			 * **Note:** this option does not allow to make a block element an inline widget.
-			 * However, it makes it possible to make an inline element a block widget or to
-			 * force correct type in case in which automatic recognition fails.
+			 * **Note:** This option does not allow to turn a block element into an inline widget.
+			 * However, it makes it possible to turn an inline element into a block widget or to
+			 * force a correct type in case when automatic recognition fails.
 			 *
 			 * @readonly
 			 * @property {Boolean}
