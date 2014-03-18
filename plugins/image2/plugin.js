@@ -308,8 +308,8 @@
 				this.shiftState( {
 					widget: this,
 					element: this.element,
-					oldState: this.oldData,
-					newState: this.data,
+					oldData: this.oldData,
+					newData: this.data,
 					deflate: deflate,
 					inflate: inflate
 				} );
@@ -413,32 +413,32 @@
 
 				// Atomic procedures, one per state variable.
 				stateActions = {
-					align: function( data, oldValue, newValue ) {
-						var hasCaptionAfter = data.newState.hasCaption,
-							element = data.element;
+					align: function( shift, oldValue, newValue ) {
+						var hasCaptionAfter = shift.newData.hasCaption,
+							element = shift.element;
 
 						// Alignment changed.
-						if ( changed( data, 'align' ) ) {
+						if ( changed( shift, 'align' ) ) {
 							// No caption in the new state.
 							if ( !hasCaptionAfter ) {
 								// Changed to "center" (non-captioned).
 								if ( newValue == 'center' ) {
-									data.deflate();
-									data.element = wrapInCentering( editor, element );
+									shift.deflate();
+									shift.element = wrapInCentering( editor, element );
 								}
 
 								// Changed to "non-center" from "center" while caption removed.
-								if ( !changed( data, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
-									data.deflate();
-									data.element = unwrapFromCentering( element );
+								if ( !changed( shift, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
+									shift.deflate();
+									shift.element = unwrapFromCentering( element );
 								}
 							}
 						}
 
 						// Alignment remains and "center" removed caption.
-						else if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
-							data.deflate();
-							data.element = wrapInCentering( editor, element );
+						else if ( newValue == 'center' && changed( shift, 'hasCaption' ) && !hasCaptionAfter ) {
+							shift.deflate();
+							shift.element = wrapInCentering( editor, element );
 						}
 
 						// Finally set display for figure.
@@ -450,18 +450,18 @@
 						}
 					},
 
-					hasCaption:	function( data, oldValue, newValue ) {
+					hasCaption:	function( shift, oldValue, newValue ) {
 						// This action is for real state change only.
-						if ( !changed( data, 'hasCaption' ) )
+						if ( !changed( shift, 'hasCaption' ) )
 							return;
 
-						var element = data.element,
-							oldState = data.oldState,
-							newState = data.newState,
+						var element = shift.element,
+							oldData = shift.oldData,
+							newData = shift.newData,
 							img;
 
 						// Switching hasCaption always destroys the widget.
-						data.deflate();
+						shift.deflate();
 
 						// There was no caption, but the caption is to be added.
 						if ( newValue ) {
@@ -483,7 +483,7 @@
 							img.replace( figure.findOne( 'img' ) );
 
 							// Update widget's element.
-							data.element = figure;
+							shift.element = figure;
 						}
 
 						// The caption was present, but now it's to be removed.
@@ -493,24 +493,20 @@
 							img.replace( element );
 
 							// Update widget's element.
-							data.element = img;
+							shift.element = img;
 						}
 					},
 
-					link: function( data, oldValue, newValue ) {
-						//console.log( 'link state has changed', data, oldValue, newValue );
+					link: function( shift, oldValue, newValue ) {
+						//console.log( 'link state has changed', shift, oldValue, newValue );
 					}
 				};
 
-			function getValue( state, name ) {
-				return state && state[ name ] !== undefined ? state[ name ] : null;
-			}
-
-			function changed( data, name ) {
-				if ( !data.oldState )
+			function changed( shift, name ) {
+				if ( !shift.oldData )
 					return false;
 				else
-					return data.oldState[ name ] !== data.newState[ name ];
+					return shift.oldData[ name ] !== shift.newData[ name ];
 			}
 
 			function wrapInCentering( editor, element ) {
@@ -559,8 +555,8 @@
 			}
 
 			return function( data ) {
-				var oldState = data.oldState,
-					newState = data.newState,
+				var oldData = data.oldData,
+					newData = data.newData,
 					name;
 
 				// Iterate over possible state variables.
@@ -568,8 +564,8 @@
 					name = shiftables[ i ];
 
 					stateActions[ name ]( data,
-						oldState ? oldState[ name ] : null,
-						newState[ name ] );
+						oldData ? oldData[ name ] : null,
+						newData[ name ] );
 				}
 
 				data.inflate();
