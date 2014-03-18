@@ -707,16 +707,17 @@
 				// If there's a centering wrapper, save it in data.
 				data.align = 'center';
 
-				image = el.getFirst( 'img' );
+				// Image can be wrapped in link <a><img/></a>.
+				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 			}
 
 			// No center wrapper has been found.
 			else if ( name == 'figure' && el.hasClass( captionedClass ) )
 				image = el.getFirst( 'img' );
 
-			// Inline widget from plain img.
-			else if ( name == 'img' )
-				image = el;
+			// Upcast linked image like <a><img/></a>.
+			else if ( isLinkedOrStandaloneImage( el ) )
+				image = el.name == 'a' ? el.children[ 0 ] : el;
 
 			if ( !image )
 				return;
@@ -851,6 +852,18 @@
 
 			return false;
 		};
+	}
+
+	// Checks whether element is <img/> or <a><img/></a>.
+	//
+	// @param {CKEDITOR.htmlParser.element}
+	function isLinkedOrStandaloneImage( el ) {
+		if ( el.name == 'img' )
+			return true;
+		else if ( el.name == 'a' )
+			return el.children.length == 1 && el.getFirst( 'img' );
+
+		return false;
 	}
 
 	// Sets width and height of the widget image according to current widget data.
