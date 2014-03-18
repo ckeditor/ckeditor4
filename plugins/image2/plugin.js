@@ -411,7 +411,7 @@
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
-				shiftables = [ 'hasCaption', 'align' ],
+				shiftables = [ 'hasCaption', 'align', 'link' ],
 
 				// Atomic procedures, one per state variable.
 				stateActions = {
@@ -497,6 +497,10 @@
 							// Update widget's element.
 							data.element = img;
 						}
+					},
+
+					link: function( data, oldValue, newValue ) {
+						//console.log( 'link state has changed', data, oldValue, newValue );
 					}
 				};
 
