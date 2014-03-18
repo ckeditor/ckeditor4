@@ -409,98 +409,98 @@
 				editable = editor.editable(),
 
 				// The order that stateActions get executed. It matters!
-				shiftables = [ 'hasCaption', 'align', 'link' ],
+				shiftables = [ 'hasCaption', 'align', 'link' ];
 
-				// Atomic procedures, one per state variable.
-				stateActions = {
-					align: function( shift, oldValue, newValue ) {
-						var hasCaptionAfter = shift.newData.hasCaption,
-							element = shift.element;
+			// Atomic procedures, one per state variable.
+			var stateActions = {
+				align: function( shift, oldValue, newValue ) {
+					var hasCaptionAfter = shift.newData.hasCaption,
+						element = shift.element;
 
-						// Alignment changed.
-						if ( changed( shift, 'align' ) ) {
-							// No caption in the new state.
-							if ( !hasCaptionAfter ) {
-								// Changed to "center" (non-captioned).
-								if ( newValue == 'center' ) {
-									shift.deflate();
-									shift.element = wrapInCentering( editor, element );
-								}
+					// Alignment changed.
+					if ( changed( shift, 'align' ) ) {
+						// No caption in the new state.
+						if ( !hasCaptionAfter ) {
+							// Changed to "center" (non-captioned).
+							if ( newValue == 'center' ) {
+								shift.deflate();
+								shift.element = wrapInCentering( editor, element );
+							}
 
-								// Changed to "non-center" from "center" while caption removed.
-								if ( !changed( shift, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
-									shift.deflate();
-									shift.element = unwrapFromCentering( element );
-								}
+							// Changed to "non-center" from "center" while caption removed.
+							if ( !changed( shift, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
+								shift.deflate();
+								shift.element = unwrapFromCentering( element );
 							}
 						}
-
-						// Alignment remains and "center" removed caption.
-						else if ( newValue == 'center' && changed( shift, 'hasCaption' ) && !hasCaptionAfter ) {
-							shift.deflate();
-							shift.element = wrapInCentering( editor, element );
-						}
-
-						// Finally set display for figure.
-						if ( !alignClasses && element.is( 'figure' ) ) {
-							if ( newValue == 'center' )
-								element.setStyle( 'display', 'inline-block' );
-							else
-								element.removeStyle( 'display' );
-						}
-					},
-
-					hasCaption:	function( shift, oldValue, newValue ) {
-						// This action is for real state change only.
-						if ( !changed( shift, 'hasCaption' ) )
-							return;
-
-						var element = shift.element,
-							oldData = shift.oldData,
-							newData = shift.newData,
-							img;
-
-						// Switching hasCaption always destroys the widget.
-						shift.deflate();
-
-						// There was no caption, but the caption is to be added.
-						if ( newValue ) {
-							// Get <img> from element. As element may be either
-							// <img> or centering <p>, consider it now.
-							img = element.findOne( 'img' ) || element;
-
-							// Create new <figure> from widget template.
-							var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
-								captionedClass: captionedClass,
-								captionPlaceholder: editor.lang.image2.captionPlaceholder
-							} ), doc );
-
-							// Replace element with <figure>.
-							replaceSafely( figure, element );
-
-							// Use old <img> instead of the one from the template,
-							// so we won't lose additional attributes.
-							img.replace( figure.findOne( 'img' ) );
-
-							// Update widget's element.
-							shift.element = figure;
-						}
-
-						// The caption was present, but now it's to be removed.
-						else {
-							// Unwrap <img> from figure.
-							img = element.findOne( 'img' );
-							img.replace( element );
-
-							// Update widget's element.
-							shift.element = img;
-						}
-					},
-
-					link: function( shift, oldValue, newValue ) {
-						//console.log( 'link state has changed', shift, oldValue, newValue );
 					}
-				};
+
+					// Alignment remains and "center" removed caption.
+					else if ( newValue == 'center' && changed( shift, 'hasCaption' ) && !hasCaptionAfter ) {
+						shift.deflate();
+						shift.element = wrapInCentering( editor, element );
+					}
+
+					// Finally set display for figure.
+					if ( !alignClasses && element.is( 'figure' ) ) {
+						if ( newValue == 'center' )
+							element.setStyle( 'display', 'inline-block' );
+						else
+							element.removeStyle( 'display' );
+					}
+				},
+
+				hasCaption:	function( shift, oldValue, newValue ) {
+					// This action is for real state change only.
+					if ( !changed( shift, 'hasCaption' ) )
+						return;
+
+					var element = shift.element,
+						oldData = shift.oldData,
+						newData = shift.newData,
+						img;
+
+					// Switching hasCaption always destroys the widget.
+					shift.deflate();
+
+					// There was no caption, but the caption is to be added.
+					if ( newValue ) {
+						// Get <img> from element. As element may be either
+						// <img> or centering <p>, consider it now.
+						img = element.findOne( 'img' ) || element;
+
+						// Create new <figure> from widget template.
+						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
+							captionedClass: captionedClass,
+							captionPlaceholder: editor.lang.image2.captionPlaceholder
+						} ), doc );
+
+						// Replace element with <figure>.
+						replaceSafely( figure, element );
+
+						// Use old <img> instead of the one from the template,
+						// so we won't lose additional attributes.
+						img.replace( figure.findOne( 'img' ) );
+
+						// Update widget's element.
+						shift.element = figure;
+					}
+
+					// The caption was present, but now it's to be removed.
+					else {
+						// Unwrap <img> from figure.
+						img = element.findOne( 'img' );
+						img.replace( element );
+
+						// Update widget's element.
+						shift.element = img;
+					}
+				},
+
+				link: function( shift, oldValue, newValue ) {
+					//console.log( 'link state has changed', shift, oldValue, newValue );
+				}
+			};
 
 			function changed( shift, name ) {
 				if ( !shift.oldData )
