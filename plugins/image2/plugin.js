@@ -212,6 +212,55 @@
 	function widgetDef( editor ) {
 		var alignClasses = editor.config.image2_alignClasses;
 
+		function deflate() {
+			if ( this.deflated )
+				return;
+
+			// Remember whether widget was focused before destroyed.
+			if ( editor.widgets.focused == this.widget )
+				this.focused = true;
+
+			editor.widgets.destroy( this.widget );
+
+			// Mark widget was destroyed.
+			this.deflated = true;
+		}
+
+		function inflate() {
+			var editable = editor.editable(),
+			doc = editor.document;
+
+			// Create a new widget. This widget will be either captioned
+			// non-captioned, block or inline according to what is the
+			// new state of the widget.
+			if ( this.deflated ) {
+				this.widget = editor.widgets.initOn( this.element, 'image', this.widget.data );
+
+				// Once widget was re-created, it may become an inline element without
+				// block wrapper (i.e. when unaligned, end not captioned). Let's do some
+				// sort of autoparagraphing here (#10853).
+				if ( this.widget.inline && !( new CKEDITOR.dom.elementPath( this.widget.wrapper, editable ).block ) ) {
+					var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+					block.replace( this.widget.wrapper );
+					this.widget.wrapper.move( block );
+				}
+
+				// The focus must be transferred from the old one (destroyed)
+				// to the new one (just created).
+				if ( this.focused ) {
+					this.widget.focus();
+					delete this.focused;
+				}
+
+				delete this.deflated;
+			}
+
+			// If now widget was destroyed just update wrapper's alignment.
+			// According to the new state.
+			else
+				setWrapperAlign( this.widget, alignClasses );
+		}
+
 		return {
 			allowedContent: getWidgetAllowedContent( editor ),
 
@@ -245,92 +294,42 @@
 			template: template,
 
 			data: function() {
-				var widget = this,
-					editor = widget.editor,
-					doc = editor.document,
-					editable = editor.editable(),
-					oldState = widget.oldData,
-					newState = widget.data,
-					features = this.features;
+				var features = this.features;
 
 				// Image can't be captioned when figcaption is disallowed (#11004).
-				if ( newState.hasCaption && !editor.filter.checkFeature( features.caption ) )
-					newState.hasCaption = false;
+				if ( this.data.hasCaption && !editor.filter.checkFeature( features.caption ) )
+					this.data.hasCaption = false;
 
 				// Image can't be aligned when floating is disallowed (#11004).
-				if ( newState.align != 'none' && !editor.filter.checkFeature( features.align ) )
-					newState.align = 'none';
+				if ( this.data.align != 'none' && !editor.filter.checkFeature( features.align ) )
+					this.data.align = 'none';
 
 				// Convert the internal form of the widget from the old state to the new one.
-				widget.shiftState( {
-					element: widget.element,
-					oldState: oldState,
-					newState: newState,
-
-					// Destroy the widget.
-					deflate: function() {
-						if ( this.deflated )
-							return;
-
-						// Remember whether widget was focused before destroyed.
-						if ( editor.widgets.focused == widget )
-							this.focused = true;
-
-						editor.widgets.destroy( widget );
-
-						// Mark widget was destroyed.
-						this.deflated = true;
-					},
-
-					inflate: function( element ) {
-						// Create a new widget. This widget will be either captioned
-						// non-captioned, block or inline according to what is the
-						// new state of the widget.
-						if ( this.deflated ) {
-							widget = editor.widgets.initOn( element, 'image', widget.data );
-
-							// Once widget was re-created, it may become an inline element without
-							// block wrapper (i.e. when unaligned, end not captioned). Let's do some
-							// sort of autoparagraphing here (#10853).
-							if ( widget.inline && !( new CKEDITOR.dom.elementPath( widget.wrapper, editable ).block ) ) {
-								var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
-								block.replace( widget.wrapper );
-								widget.wrapper.move( block );
-							}
-
-							// The focus must be transferred from the old one (destroyed)
-							// to the new one (just created).
-							if ( this.focused ) {
-								widget.focus();
-								delete this.focused;
-							}
-
-							delete this.deflated;
-						}
-
-						// If now widget was destroyed just update wrapper's alignment.
-						// According to the new state.
-						else
-							setWrapperAlign( widget, alignClasses );
-					}
+				this.shiftState( {
+					widget: this,
+					element: this.element,
+					oldState: this.oldData,
+					newState: this.data,
+					deflate: deflate,
+					inflate: inflate
 				} );
 
-				widget.parts.image.setAttributes( {
-					src: widget.data.src,
+				this.parts.image.setAttributes( {
+					src: this.data.src,
 
 					// This internal is required by the editor.
-					'data-cke-saved-src': widget.data.src,
+					'data-cke-saved-src': this.data.src,
 
-					alt: widget.data.alt
+					alt: this.data.alt
 				} );
 
 				// Set dimensions of the image according to gathered data.
 				// Do it only when the attributes are allowed (#11004).
 				if ( editor.filter.checkFeature( features.dimension ) )
-					setDimensions( widget );
+					setDimensions( this );
 
 				// Cache current data.
-				widget.oldData = CKEDITOR.tools.extend( {}, widget.data );
+				this.oldData = CKEDITOR.tools.extend( {}, this.data );
 			},
 
 			init: function() {
@@ -573,7 +572,7 @@
 						newState[ name ] );
 				}
 
-				data.inflate( data.element );
+				data.inflate();
 			};
 		},
 
