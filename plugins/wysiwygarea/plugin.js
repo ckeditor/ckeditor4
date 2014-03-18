@@ -217,52 +217,6 @@
 				} );
 			}
 		}
-		else if ( CKEDITOR.env.ie )
-		{
-			// Hook the onresizestart and onresizeend events so that we can track resizing via the native browser size grips (#1511).
-			function resizeStart( evt ) {
-				oldSelectedElement.$.detachEvent( 'onresizestart', resizeStart );
-				// Save an initial snapshot so that we can detect the first resize.
-				editor.fire( 'saveSnapshot' );
-			};
-
-			function resizeEnd( evt ) {
-				editor.fire( 'saveSnapshot' );
-			};
-
-			var oldSelectedElement = null;
-
-			function monitorResizeForCurrentSelection()
-			{
-				var selection = doc.getSelection();
-				if ( !selection )
-				{
-					return;
-				}
-
-				var selectedElement = selection.getSelectedElement();
-				if ( !selectedElement )
-				{
-					return;
-				}
-
-				selectedElement.$.attachEvent( 'onresizestart', resizeStart );
-				selectedElement.$.attachEvent( 'onresizeend', resizeEnd );
-				oldSelectedElement = selectedElement;
-			}
-
-			this.attachListener( doc, 'selectionchange', function ( evt ) {
-				if (oldSelectedElement)
-				{
-					oldSelectedElement.$.detachEvent('onresizeend', resizeEnd);
-					oldSelectedElement = null;
-				}
-
-				monitorResizeForCurrentSelection();
-			});
-
-			monitorResizeForCurrentSelection();
-		}
 
 		if ( CKEDITOR.env.gecko || CKEDITOR.env.ie && editor.document.$.compatMode == 'CSS1Compat' ) {
 			this.attachListener( this, 'keydown', function( evt ) {

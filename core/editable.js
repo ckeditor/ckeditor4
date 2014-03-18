@@ -782,6 +782,22 @@
 							ev.data.preventDefault();
 					} );
 				}
+
+				// IE: detect object resizing to allow undo/redo and change notification. (#1511)
+				if ( CKEDITOR.env.ie ) {
+					// listen for resizestart/resizeend events and save undo snapshots accordingly.
+					// The this.attachListener syntax does not seem work in IE9.
+					if ( this.$.attachEvent )
+					{
+						this.$.attachEvent( 'onresizestart', function( evt ) {
+							editor.fire( 'saveSnapshot' );
+						} );
+
+						this.$.attachEvent( 'onresizeend', function( evt ) {
+							editor.fire( 'saveSnapshot' );
+						} );
+					}
+				}
 			}
 		},
 
