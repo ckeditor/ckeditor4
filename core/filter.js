@@ -79,6 +79,11 @@
 		this.allowedContent = [];
 
 		/**
+		 * @readonly
+		 */
+		this.disallowedContent = [];
+
+		/**
 		 * Whether the filter is disabled.
 		 *
 		 * To disable the filter, set {@link CKEDITOR.config#allowedContent} to `true`
@@ -108,7 +113,9 @@
 
 		this._ = {
 			// Optimized allowed content rules.
-			rules: {},
+			allowedRules: {},
+			// Optimized disallowed content rules.
+			disallowedRules: {},
 			// Object: element name => array of transformations groups.
 			transformations: {},
 			cachedTests: {}
@@ -180,18 +187,9 @@
 		 * @returns {Boolean} Whether the rules were accepted.
 		 */
 		allow: function( newRules, featureName, overrideCustom ) {
-			if ( this.disabled )
+			// Check arguments and constraints. Clear cache.
+			if ( !beforeAddingRule( this, newRules, overrideCustom ) )
 				return false;
-
-			// Don't override custom user's configuration if not explicitly requested.
-			if ( this.customConfig && !overrideCustom )
-				return false;
-
-			if ( !newRules )
-				return false;
-
-			// Clear cache, because new rules could change results of checks.
-			this._.cachedChecks = {};
 
 			var i, ret;
 
@@ -205,38 +203,7 @@
 				return ret; // Return last status.
 			}
 
-			var groupName, rule,
-				rulesToOptimize = [];
-
-			for ( groupName in newRules ) {
-				rule = newRules[ groupName ];
-
-				// { 'p h1': true } => { 'p h1': {} }.
-				if ( typeof rule == 'boolean' )
-					rule = {};
-				// { 'p h1': func } => { 'p h1': { match: func } }.
-				else if ( typeof rule == 'function' )
-					rule = { match: rule };
-				// Clone (shallow) rule, because we'll modify it later.
-				else
-					rule = copy( rule );
-
-				// If this is not an unnamed rule ({ '$1' => { ... } })
-				// move elements list to property.
-				if ( groupName.charAt( 0 ) != '$' )
-					rule.elements = groupName;
-
-				if ( featureName )
-					rule.featureName = featureName.toLowerCase();
-
-				standardizeRule( rule );
-
-				// Save rule and remember to optimize it.
-				this.allowedContent.push( rule );
-				rulesToOptimize.push( rule );
-			}
-
-			optimizeRules( this._.rules, rulesToOptimize );
+			addAndOptimizeRules( this, newRules, featureName, this.allowedContent, this._.allowedRules );
 
 			return true;
 		},
@@ -268,7 +235,7 @@
 				return false;
 
 			var toBeRemoved = [],
-				rules = !transformOnly && this._.rules,
+				rules = !transformOnly && this._.allowedRules,
 				transformations = this._.transformations,
 				filterFn = getFilterFunction( this ),
 				protectedRegexs = this.editor && this.editor.config.protectedSource,
@@ -394,6 +361,19 @@
 		 */
 		disable: function() {
 			this.disabled = true;
+		},
+
+		disallow: function( newRules, overrideCustom ) {
+			// Check arguments and constraints. Clear cache.
+			if ( !beforeAddingRule( this, newRules, overrideCustom ) )
+				return false;
+
+			if ( typeof newRules == 'string' )
+				newRules = parseRulesString( newRules );
+
+			addAndOptimizeRules( this, newRules, null, this.disallowedContent, this._.disallowedRules );
+
+			return true;
 		},
 
 		/**
@@ -664,7 +644,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
+			getFilterFunction( this )( clone, this._.allowedRules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -721,6 +701,41 @@
 			};
 		} )()
 	};
+
+	function addAndOptimizeRules( that, newRules, featureName, standardizedRules, optimizedRules ) {
+		var groupName, rule,
+			rulesToOptimize = [];
+
+		for ( groupName in newRules ) {
+			rule = newRules[ groupName ];
+
+			// { 'p h1': true } => { 'p h1': {} }.
+			if ( typeof rule == 'boolean' )
+				rule = {};
+			// { 'p h1': func } => { 'p h1': { match: func } }.
+			else if ( typeof rule == 'function' )
+				rule = { match: rule };
+			// Clone (shallow) rule, because we'll modify it later.
+			else
+				rule = copy( rule );
+
+			// If this is not an unnamed rule ({ '$1' => { ... } })
+			// move elements list to property.
+			if ( groupName.charAt( 0 ) != '$' )
+				rule.elements = groupName;
+
+			if ( featureName )
+				rule.featureName = featureName.toLowerCase();
+
+			standardizeRule( rule );
+
+			// Save rule and remember to optimize it.
+			standardizedRules.push( rule );
+			rulesToOptimize.push( rule );
+		}
+
+		optimizeRules( optimizedRules, rulesToOptimize );
+	}
 
 	// Apply ACR to an element
 	// @param rule
@@ -794,6 +809,23 @@
 		}
 
 		return false;
+	}
+
+	function beforeAddingRule( that, newRules, overrideCustom ) {
+		if ( that.disabled )
+			return false;
+
+		// Don't override custom user's configuration if not explicitly requested.
+		if ( that.customConfig && !overrideCustom )
+			return false;
+
+		if ( !newRules )
+			return false;
+
+		// Clear cache, because new rules could change results of checks.
+		that._.cachedChecks = {};
+
+		return true;
 	}
 
 	// Convert CKEDITOR.style to filter's rule.
