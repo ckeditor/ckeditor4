@@ -234,7 +234,8 @@
 
 			parts: {
 				image: 'img',
-				caption: 'figcaption'
+				caption: 'figcaption',
+				link: 'a'
 			},
 
 			// The name of this widget's dialog.
