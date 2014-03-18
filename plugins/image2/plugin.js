@@ -268,8 +268,8 @@
 					newState: newState,
 
 					// Destroy the widget.
-					destroy: function() {
-						if ( this.destroyed )
+					deflate: function() {
+						if ( this.deflated )
 							return;
 
 						// Remember whether widget was focused before destroyed.
@@ -279,14 +279,14 @@
 						editor.widgets.destroy( widget );
 
 						// Mark widget was destroyed.
-						this.destroyed = true;
+						this.deflated = true;
 					},
 
-					init: function( element ) {
+					inflate: function( element ) {
 						// Create a new widget. This widget will be either captioned
 						// non-captioned, block or inline according to what is the
 						// new state of the widget.
-						if ( this.destroyed ) {
+						if ( this.deflated ) {
 							widget = editor.widgets.initOn( element, 'image', widget.data );
 
 							// Once widget was re-created, it may become an inline element without
@@ -305,14 +305,13 @@
 								delete this.focused;
 							}
 
-							delete this.destroyed;
+							delete this.deflated;
 						}
 
 						// If now widget was destroyed just update wrapper's alignment.
 						// According to the new state.
 						else
 							setWrapperAlign( widget, alignClasses );
-
 					}
 				} );
 
@@ -425,13 +424,13 @@
 							if ( !hasCaptionAfter ) {
 								// Changed to "center" (non-captioned).
 								if ( newValue == 'center' ) {
-									data.destroy();
+									data.deflate();
 									data.element = wrapInCentering( editor, element );
 								}
 
 								// Changed to "non-center" from "center" while caption removed.
 								if ( !changed( data, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
-									data.destroy();
+									data.deflate();
 									data.element = unwrapFromCentering( element );
 								}
 							}
@@ -439,7 +438,7 @@
 
 						// Alignment remains and "center" removed caption.
 						else if ( newValue == 'center' && changed( data, 'hasCaption' ) && !hasCaptionAfter ) {
-							data.destroy();
+							data.deflate();
 							data.element = wrapInCentering( editor, element );
 						}
 
@@ -463,7 +462,7 @@
 							img;
 
 						// Switching hasCaption always destroys the widget.
-						data.destroy();
+						data.deflate();
 
 						// There was no caption, but the caption is to be added.
 						if ( newValue ) {
@@ -574,7 +573,7 @@
 						newState[ name ] );
 				}
 
-				data.init( data.element );
+				data.inflate( data.element );
 			};
 		},
 
