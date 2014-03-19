@@ -454,20 +454,15 @@
 					if ( !shift.changed.hasCaption )
 						return;
 
-					var element = shift.element,
-						oldData = shift.oldData,
-						newData = shift.newData,
-						img;
-
 					// Switching hasCaption always destroys the widget.
 					shift.deflate();
 
+					// Get <img/> or <a><img/></a> from widget. Note that widget element might itself
+					// be what we're looking for.
+					var imageOrLink = shift.element.findOne( 'a,img' ) || shift.element;
+
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
-						// Get <img> from element. As element may be either
-						// <img> or centering <p>, consider it now.
-						img = element.findOne( 'img' ) || element;
-
 						// Create new <figure> from widget template.
 						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
 							captionedClass: captionedClass,
@@ -475,11 +470,11 @@
 						} ), doc );
 
 						// Replace element with <figure>.
-						replaceSafely( figure, element );
+						replaceSafely( figure, shift.element );
 
-						// Use old <img> instead of the one from the template,
+						// Use old <img/> or <a><img/></a> instead of the one from the template,
 						// so we won't lose additional attributes.
-						img.replace( figure.findOne( 'img' ) );
+						imageOrLink.replace( figure.findOne( 'img' ) );
 
 						// Update widget's element.
 						shift.element = figure;
@@ -487,12 +482,11 @@
 
 					// The caption was present, but now it's to be removed.
 					else {
-						// Unwrap <img> from figure.
-						img = element.findOne( 'img' );
-						img.replace( element );
+						// Unwrap <img/> or <a><img/></a> from figure.
+						imageOrLink.replace( shift.element );
 
 						// Update widget's element.
-						shift.element = img;
+						shift.element = imageOrLink;
 					}
 				},
 
