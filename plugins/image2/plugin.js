@@ -59,6 +59,10 @@
 			'.cke_widget_wrapper:hover .cke_image_resizer,' +
 			'.cke_image_resizer.cke_image_resizing{' +
 				'display:block' +
+			'}' +
+			// Expand widget wrapper when linked inline image.
+			'.cke_widget_wrapper > a{' +
+				'display:inline-block' +
 			'}' );
 		},
 
