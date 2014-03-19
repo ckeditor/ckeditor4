@@ -848,7 +848,8 @@
 	// @returns {Function}
 	function centerWrapperChecker( editor ) {
 		var captionedClass = editor.config.image2_captionedClass,
-			alignClasses = editor.config.image2_alignClasses;
+			alignClasses = editor.config.image2_alignClasses,
+			validChildren = { figure: 1, a: 1, img: 1 };
 
 		return function( el ) {
 			// Wrapper must be either <div> or <p>.
@@ -861,31 +862,39 @@
 			if ( children.length !== 1 )
 				return false;
 
-			var child = children[ 0 ],
-				childName = child.name;
+			var child = children[ 0 ];
 
 			// Only <figure> or <img /> can be first (only) child of centering wrapper,
 			// regardless of its type.
-			if ( childName != 'figure' && childName != 'img' )
+			if ( !( child.name in validChildren ) )
 				return false;
 
 			// If centering wrapper is <p>, only <img /> can be the child.
 			//   <p style="text-align:center"><img /></p>
 			if ( el.name == 'p' ) {
-				if ( childName != 'img' )
+				if ( !isLinkedOrStandaloneImage( child ) )
 					return false;
 			}
 			// Centering <div> can hold <img/> or <figure>, depending on enterMode.
 			else {
 				// If a <figure> is the first (only) child, it must have a class.
 				//   <div style="text-align:center"><figure>...</figure><div>
-				if ( childName == 'figure' && !child.hasClass( captionedClass ) )
-					return false;
+				if ( child.name == 'figure' ) {
+					if ( !child.hasClass( captionedClass ) )
+						return false;
+				} else {
+					// Centering <div> can hold <img/> or <a><img/></a> only when enterMode
+					// is ENTER_(BR|DIV).
+					//   <div style="text-align:center"><img /></div>
+					//   <div style="text-align:center"><a><img /></a></div>
+					if ( editor.enterMode == CKEDITOR.ENTER_P )
+						return false;
 
-				// Centering <div> can hold <img /> only when enterMode is ENTER_(BR|DIV).
-				//   <div style="text-align:center"><img /></div>
-				if ( childName == 'img' && editor.enterMode == CKEDITOR.ENTER_P )
-					return false;
+					// Regardless of enterMode, a child which is not <figure> must be
+					// either <img/> or <a><img/></a>.
+					if ( !isLinkedOrStandaloneImage( child ) )
+						return false;
+				}
 			}
 
 			// Centering wrapper got to be... centering. If image2_alignClasses are defined,
