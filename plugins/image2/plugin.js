@@ -418,7 +418,7 @@
 						element = shift.element;
 
 					// Alignment changed.
-					if ( changed( shift, 'align' ) ) {
+					if ( shift.changed.align ) {
 						// No caption in the new state.
 						if ( !hasCaptionAfter ) {
 							// Changed to "center" (non-captioned).
@@ -428,7 +428,7 @@
 							}
 
 							// Changed to "non-center" from "center" while caption removed.
-							if ( !changed( shift, 'hasCaption' ) && oldValue == 'center' && newValue != 'center' ) {
+							if ( !shift.changed.hasCaption && oldValue == 'center' && newValue != 'center' ) {
 								shift.deflate();
 								shift.element = unwrapFromCentering( element );
 							}
@@ -436,7 +436,7 @@
 					}
 
 					// Alignment remains and "center" removed caption.
-					else if ( newValue == 'center' && changed( shift, 'hasCaption' ) && !hasCaptionAfter ) {
+					else if ( newValue == 'center' && shift.changed.hasCaption && !hasCaptionAfter ) {
 						shift.deflate();
 						shift.element = wrapInCentering( editor, element );
 					}
@@ -452,7 +452,7 @@
 
 				hasCaption:	function( shift, oldValue, newValue ) {
 					// This action is for real state change only.
-					if ( !changed( shift, 'hasCaption' ) )
+					if ( !shift.changed.hasCaption )
 						return;
 
 					var element = shift.element,
@@ -502,13 +502,6 @@
 				}
 			};
 
-			function changed( shift, name ) {
-				if ( !shift.oldData )
-					return false;
-				else
-					return shift.oldData[ name ] !== shift.newData[ name ];
-			}
-
 			function wrapInCentering( editor, element ) {
 				var attribsAndStyles = {};
 
@@ -554,21 +547,28 @@
 					replacing.replace( replaced );
 			}
 
-			return function( data ) {
-				var oldData = data.oldData,
-					newData = data.newData,
-					name;
+			return function( shift ) {
+				var name, i;
 
-				// Iterate over possible state variables.
-				for ( var i = 0; i < shiftables.length; i++ ) {
+				shift.changed = {};
+
+				for ( i = 0; i < shiftables.length; i++ ) {
 					name = shiftables[ i ];
 
-					stateActions[ name ]( data,
-						oldData ? oldData[ name ] : null,
-						newData[ name ] );
+					shift.changed[ name ] = shift.oldData ?
+						shift.oldData[ name ] !== shift.newData[ name ] : false;
 				}
 
-				data.inflate();
+				// Iterate over possible state variables.
+				for ( i = 0; i < shiftables.length; i++ ) {
+					name = shiftables[ i ];
+
+					stateActions[ name ]( shift,
+						shift.oldData ? shift.oldData[ name ] : null,
+						shift.newData[ name ] );
+				}
+
+				shift.inflate();
 			};
 		},
 
