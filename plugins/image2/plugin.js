@@ -414,39 +414,38 @@
 			// Atomic procedures, one per state variable.
 			var stateActions = {
 				align: function( shift, oldValue, newValue ) {
-					var hasCaptionAfter = shift.newData.hasCaption,
-						element = shift.element;
+					var el = shift.element;
 
 					// Alignment changed.
 					if ( shift.changed.align ) {
 						// No caption in the new state.
-						if ( !hasCaptionAfter ) {
+						if ( !shift.newData.hasCaption ) {
 							// Changed to "center" (non-captioned).
 							if ( newValue == 'center' ) {
 								shift.deflate();
-								shift.element = wrapInCentering( editor, element );
+								shift.element = wrapInCentering( editor, el );
 							}
 
 							// Changed to "non-center" from "center" while caption removed.
 							if ( !shift.changed.hasCaption && oldValue == 'center' && newValue != 'center' ) {
 								shift.deflate();
-								shift.element = unwrapFromCentering( element );
+								shift.element = unwrapFromCentering( el );
 							}
 						}
 					}
 
 					// Alignment remains and "center" removed caption.
-					else if ( newValue == 'center' && shift.changed.hasCaption && !hasCaptionAfter ) {
+					else if ( newValue == 'center' && shift.changed.hasCaption && !shift.newData.hasCaption ) {
 						shift.deflate();
-						shift.element = wrapInCentering( editor, element );
+						shift.element = wrapInCentering( editor, el );
 					}
 
 					// Finally set display for figure.
-					if ( !alignClasses && element.is( 'figure' ) ) {
+					if ( !alignClasses && el.is( 'figure' ) ) {
 						if ( newValue == 'center' )
-							element.setStyle( 'display', 'inline-block' );
+							el.setStyle( 'display', 'inline-block' );
 						else
-							element.removeStyle( 'display' );
+							el.removeStyle( 'display' );
 					}
 				},
 
@@ -498,6 +497,7 @@
 				},
 
 				link: function( shift, oldValue, newValue ) {
+
 					//console.log( 'link state has changed', shift, oldValue, newValue );
 				}
 			};
