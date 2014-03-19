@@ -1171,6 +1171,22 @@
 			if ( evt.data.dialog && evt.data.dialog == 'link' && getFocusedWidget( editor ) )
 				evt.cancel();
 		} );
+
+		function onRefresh( evt ) {
+			var widget = getFocusedWidget( editor );
+
+			if ( !widget )
+				return;
+
+			var states = this.name == 'link' ? [ 'ON', 'OFF' ] : [ 'OFF', 'DISABLED' ];
+
+			this.setState( CKEDITOR[ 'TRISTATE_' + states[ widget.data.link ? 0 : 1 ] ] );
+
+			evt.cancel();
+		}
+
+		editor.commands.link.on( 'refresh', onRefresh );
+		editor.commands.unlink.on( 'refresh', onRefresh );
 	}
 
 	// Returns the focused widget, if of the type specific for this plugin.
