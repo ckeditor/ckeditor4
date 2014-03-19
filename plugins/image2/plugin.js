@@ -454,12 +454,16 @@
 					if ( !shift.changed.hasCaption )
 						return;
 
+					// Get <img/> or <a><img/></a> from widget. Note that widget element might itself
+					// be what we're looking for. Also element can be <p style="text-align:center"><a>...</a></p>.
+					var imageOrLink;
+					if ( shift.element.is( { img: 1, a: 1 } ) )
+						imageOrLink = shift.element;
+					else
+						imageOrLink =  shift.element.findOne( 'a,img' );
+
 					// Switching hasCaption always destroys the widget.
 					shift.deflate();
-
-					// Get <img/> or <a><img/></a> from widget. Note that widget element might itself
-					// be what we're looking for.
-					var imageOrLink = shift.element.findOne( 'a,img' ) || shift.element;
 
 					// There was no caption, but the caption is to be added.
 					if ( newValue ) {
@@ -492,21 +496,20 @@
 
 				link: function( shift, oldValue, newValue ) {
 					if ( shift.changed.link ) {
-						// Non-captioned image (but not centered!).
-						var img = shift.element.findOne( 'img' ) || shift.element,
-							link = shift.element.findOne( 'a' ) || shift.element,
+						var img = shift.element.is( 'img' ) ?
+								shift.element : shift.element.findOne( 'img' ),
+							link = shift.element.is( 'a' ) ?
+								shift.element : shift.element.findOne( 'a' ),
 							needsDeflate = shift.element.is( { img: 1, a: 1 } ),
 							newEl;
 
 						if ( needsDeflate )
 							shift.deflate();
 
-						// Linked the image. Returned element is <a>.
-						if ( newValue )
-							newEl = wrapInLink( img, shift.newData.link );
-						// Unlinked the image. Returned element is <img>.
-						else
-							newEl = unwrapFromLink( link );
+						// If linked the image, returned element is <a>.
+						// If unlinked the image, returned element is <img>.
+						newEl = newValue ?
+							wrapInLink( img, shift.newData.link ) : unwrapFromLink( link );
 
 						if ( needsDeflate )
 							shift.element = newEl;
@@ -535,11 +538,11 @@
 			}
 
 			function unwrapFromCentering( element ) {
-				var img = element.findOne( 'img' );
+				var imageOrLink = element.findOne( 'a,img' );
 
-				img.replace( element );
+				imageOrLink.replace( element );
 
-				return img;
+				return imageOrLink;
 			}
 
 			// Wraps <img/> -> <a><img/></a>.
