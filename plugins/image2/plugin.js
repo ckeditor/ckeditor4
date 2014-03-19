@@ -943,11 +943,12 @@
 
 		// Inline widgets don't need a resizer wrapper as an image spans the entire widget.
 		if ( !widget.inline ) {
-			var oldResizeWrapper = widget.element.getFirst(),
+			var imageOrLink = widget.parts.link || widget.parts.image,
+				oldResizeWrapper = imageOrLink.getParent(),
 				resizeWrapper = doc.createElement( 'span' );
 
 			resizeWrapper.addClass( 'cke_image_resizer_wrapper' );
-			resizeWrapper.append( widget.parts.image );
+			resizeWrapper.append( imageOrLink );
 			resizeWrapper.append( resizer );
 			widget.element.append( resizeWrapper, true );
 
