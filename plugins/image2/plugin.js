@@ -497,8 +497,26 @@
 				},
 
 				link: function( shift, oldValue, newValue ) {
+					if ( shift.changed.link ) {
+						// Non-captioned image (but not centered!).
+						var img = shift.element.findOne( 'img' ) || shift.element,
+							link = shift.element.findOne( 'a' ) || shift.element,
+							needsDeflate = shift.element.equals( img ),
+							newEl;
 
-					//console.log( 'link state has changed', shift, oldValue, newValue );
+						if ( needsDeflate )
+							shift.deflate();
+
+						// Linked the image. Returned element is <a>.
+						if ( newValue )
+							newEl = wrapInLink( img, shift.newData.link );
+						// Unlinked the image. Returned element is <img>.
+						else
+							newEl = unwrapFromLink( link );
+
+						if ( needsDeflate )
+							shift.element = newEl;
+					}
 				}
 			};
 
@@ -526,6 +544,38 @@
 				var img = element.findOne( 'img' );
 
 				img.replace( element );
+
+				return img;
+			}
+
+			// Wraps <img/> -> <a><img/></a>.
+			// Returns reference to <a>.
+			//
+			// @param {CKEDITOR.dom.element} img
+			// @param {Object} linkData
+			// @returns {CKEDITOR.dom.element}
+			function wrapInLink( img, linkData ) {
+				var link = doc.createElement( 'a', {
+					attributes: {
+						href: linkData.url
+					}
+				} );
+
+				link.replace( img );
+				img.move( link );
+
+				return link;
+			}
+
+			// De-wraps <a><img/></a> -> <img/>.
+			// Returns the reference to <img/>
+			//
+			// @param {CKEDITOR.dom.element} link
+			// @returns {CKEDITOR.dom.element}
+			function unwrapFromLink( link ) {
+				var img = link.findOne( 'img' );
+
+				img.replace( link );
 
 				return img;
 			}
