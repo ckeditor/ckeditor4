@@ -495,7 +495,7 @@
 						// Non-captioned image (but not centered!).
 						var img = shift.element.findOne( 'img' ) || shift.element,
 							link = shift.element.findOne( 'a' ) || shift.element,
-							needsDeflate = shift.element.equals( img ),
+							needsDeflate = shift.element.is( { img: 1, a: 1 } ),
 							newEl;
 
 						if ( needsDeflate )
