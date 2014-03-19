@@ -1166,6 +1166,10 @@
 	}
 
 	function linkCommandIntegrator( editor ) {
+		// Nothing to integrate with if link is not loaded.
+		if ( !editor.plugins.link )
+			return;
+
 		// Don't open link dialog if double-clicked focused widget.
 		editor.on( 'doubleclick', function( evt ) {
 			if ( evt.data.dialog && evt.data.dialog == 'link' && getFocusedWidget( editor ) )
