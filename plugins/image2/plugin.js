@@ -758,7 +758,7 @@
 
 			// No center wrapper has been found.
 			else if ( name == 'figure' && el.hasClass( captionedClass ) )
-				image = el.getFirst( 'img' );
+				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 
 			// Upcast linked image like <a><img/></a>.
 			else if ( isLinkedOrStandaloneImage( el ) )
