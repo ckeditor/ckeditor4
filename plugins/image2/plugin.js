@@ -371,6 +371,13 @@
 					}
 				}
 
+				// Update data.link object with attributes if the link has been discovered.
+				if ( this.parts.link ) {
+					data.link = {
+						url: this.parts.link.getAttribute( 'src' )
+					}
+				}
+
 				// Get rid of extra vertical space when there's no caption.
 				// It will improve the look of the resizer.
 				this.wrapper[ ( data.hasCaption ? 'remove' : 'add' ) + 'Class' ]( 'cke_image_nocaption' );
