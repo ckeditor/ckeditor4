@@ -787,20 +787,19 @@
 		// @param {CKEDITOR.htmlParser.element} el
 		// @param {Object} data
 		return function( el, data ) {
-			var attrs = el.attributes,
+			// In case of <a><img/></a>, <img/> is the element to hold
+			// inline styles or classes (image2_alignClasses).
+			var attrsHolder = el.name == 'a' ? el.getFirst() : el,
+				attrs = attrsHolder.attributes,
 				align = this.data.align;
 
 			// De-wrap the image from resize handle wrapper.
 			// Only block widgets have one.
 			if ( !this.inline ) {
-				var resizeWrapper = el.getFirst( 'span' ),
-					img;
+				var resizeWrapper = el.getFirst( 'span' );
 
-				if ( resizeWrapper ) {
-					img = resizeWrapper.getFirst( 'img' );
-					resizeWrapper.replaceWith( img );
-				} else
-					img = el.getFirst( 'img' );
+				if ( resizeWrapper )
+					resizeWrapper.replaceWith( resizeWrapper.getFirst( { img: 1, a: 1 } ) );
 			}
 
 			if ( align && align != 'none' ) {
@@ -826,7 +825,7 @@
 				// If left/right, add float style to the downcasted element.
 				else if ( align in { left: 1, right: 1 } ) {
 					if ( alignClasses )
-						el.addClass( alignClasses[ alignmentsObj[ align ] ] );
+						attrsHolder.addClass( alignClasses[ alignmentsObj[ align ] ] );
 					else
 						styles[ 'float' ] = align;
 				}
