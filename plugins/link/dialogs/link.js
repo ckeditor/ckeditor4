@@ -848,7 +848,7 @@
 				} else
 					element = null;
 
-				var data = plugin.parseLinkAttributes.apply( this, [ editor, element ] );
+				var data = plugin.parseLinkAttributes( editor, element );
 
 				// Record down the selected element in the dialog.
 				this._.selectedElement = element;
