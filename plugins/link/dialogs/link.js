@@ -858,7 +858,7 @@
 			onOk: function() {
 				var data = {};
 
-				// Gather data from fields.
+				// Collect data from fields.
 				this.commitContent( data );
 
 				var selection = editor.getSelection(),

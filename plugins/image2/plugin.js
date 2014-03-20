@@ -1282,6 +1282,36 @@
 
 		editor.commands.link.on( 'refresh', onRefresh );
 		editor.commands.unlink.on( 'refresh', onRefresh );
+
+		// Overwrite default behavior of link dialog.
+		editor.on( 'dialogShow', function( evt ) {
+			var dialog = evt.data;
+
+			if ( dialog.getName() != 'link' )
+				return;
+
+			var widget = getFocusedWidget( editor );
+
+			if ( !widget )
+				return;
+
+			// Set widget data if linking the widget using
+			// link dialog (instead of default action).
+			// State shifter handles data change and takes
+			// care of internal DOM structure of linked widget.
+			dialog.once( 'ok', function( evt ) {
+				var data = {};
+
+				// Collect data from fields.
+				this.commitContent( data );
+
+				// Set collected data to widget.
+				widget.setData( 'link', data );
+
+				// Cancel default action of the dialog.
+				evt.cancel();
+			}, null, null, 0 );
+		} );
 	}
 
 	// Returns the focused widget, if of the type specific for this plugin.
