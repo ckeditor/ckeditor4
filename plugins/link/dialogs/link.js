@@ -7,8 +7,7 @@
 
 ( function() {
 	CKEDITOR.dialog.add( 'link', function( editor ) {
-		var plugin = CKEDITOR.plugins.link,
-			pluginInstance = editor.plugins.link;
+		var plugin = CKEDITOR.plugins.link;
 
 		// Handles the event when the "Target" selection box is changed.
 		var targetChanged = function() {
@@ -104,38 +103,6 @@
 				return commitParams.call( this, 'adv', data );
 			};
 
-		function escapeSingleQuote( str ) {
-			return str.replace( /'/g, '\\$&' );
-		}
-
-		function protectEmailLinkAsFunction( email ) {
-			var retval,
-				name = pluginInstance.compiledProtectionFunction.name,
-				params = pluginInstance.compiledProtectionFunction.params,
-				paramName, paramValue;
-
-			retval = [ name, '(' ];
-			for ( var i = 0; i < params.length; i++ ) {
-				paramName = params[ i ].toLowerCase();
-				paramValue = email[ paramName ];
-
-				i > 0 && retval.push( ',' );
-				retval.push( '\'', paramValue ? escapeSingleQuote( encodeURIComponent( email[ paramName ] ) ) : '', '\'' );
-			}
-			retval.push( ')' );
-			return retval.join( '' );
-		}
-
-		function protectEmailAddressAsEncodedString( address ) {
-			var charCode,
-				length = address.length,
-				encodedChars = [];
-			for ( var i = 0; i < length; i++ ) {
-				charCode = address.charCodeAt( i );
-				encodedChars.push( charCode );
-			}
-			return 'String.fromCharCode(' + encodedChars.join( ',' ) + ')';
-		}
 
 		var commonLang = editor.lang.common,
 			linkLang = editor.lang.link;
@@ -889,141 +856,13 @@
 				this.setupContent( data );
 			},
 			onOk: function() {
-				var attributes = {},
-					removeAttributes = [],
-					data = {},
-					me = this,
-					editor = this.getParentEditor();
+				var data = {};
 
+				// Gather data from fields.
 				this.commitContent( data );
 
-				// Compose the URL.
-				switch ( data.type || 'url' ) {
-					case 'url':
-						var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
-							url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
-						attributes[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
-						break;
-					case 'anchor':
-						var name = ( data.anchor && data.anchor.name ),
-							id = ( data.anchor && data.anchor.id );
-						attributes[ 'data-cke-saved-href' ] = '#' + ( name || id || '' );
-						break;
-					case 'email':
-
-						var linkHref,
-						email = data.email,
-							address = email.address;
-
-						switch ( editor.config.emailProtection ) {
-							case '':
-							case 'encode':
-								{
-									var subject = encodeURIComponent( email.subject || '' ),
-										body = encodeURIComponent( email.body || '' );
-
-									// Build the e-mail parameters first.
-									var argList = [];
-									subject && argList.push( 'subject=' + subject );
-									body && argList.push( 'body=' + body );
-									argList = argList.length ? '?' + argList.join( '&' ) : '';
-
-									if ( editor.config.emailProtection == 'encode' ) {
-										linkHref = [ 'javascript:void(location.href=\'mailto:\'+',
-																																protectEmailAddressAsEncodedString( address ) ];
-										// parameters are optional.
-										argList && linkHref.push( '+\'', escapeSingleQuote( argList ), '\'' );
-
-										linkHref.push( ')' );
-									} else
-										linkHref = [ 'mailto:', address, argList ];
-
-									break;
-								}
-							default:
-								{
-									// Separating name and domain.
-									var nameAndDomain = address.split( '@', 2 );
-									email.name = nameAndDomain[ 0 ];
-									email.domain = nameAndDomain[ 1 ];
-
-									linkHref = [ 'javascript:', protectEmailLinkAsFunction( email ) ];
-								}
-						}
-
-						attributes[ 'data-cke-saved-href' ] = linkHref.join( '' );
-						break;
-				}
-
-				// Popups and target.
-				if ( data.target ) {
-					if ( data.target.type == 'popup' ) {
-						var onclickList = [ 'window.open(this.href, \'',
-																				data.target.name || '', '\', \'' ];
-						var featureList = [ 'resizable', 'status', 'location', 'toolbar', 'menubar', 'fullscreen',
-																				'scrollbars', 'dependent' ];
-						var featureLength = featureList.length;
-						var addFeature = function( featureName ) {
-								if ( data.target[ featureName ] )
-									featureList.push( featureName + '=' + data.target[ featureName ] );
-							};
-
-						for ( var i = 0; i < featureLength; i++ )
-							featureList[ i ] = featureList[ i ] + ( data.target[ featureList[ i ] ] ? '=yes' : '=no' );
-						addFeature( 'width' );
-						addFeature( 'left' );
-						addFeature( 'height' );
-						addFeature( 'top' );
-
-						onclickList.push( featureList.join( ',' ), '\'); return false;' );
-						attributes[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
-
-						// Add the "target" attribute. (#5074)
-						removeAttributes.push( 'target' );
-					} else {
-						if ( data.target.type != 'notSet' && data.target.name )
-							attributes.target = data.target.name;
-						else
-							removeAttributes.push( 'target' );
-
-						removeAttributes.push( 'data-cke-pa-onclick', 'onclick' );
-					}
-				}
-
-				// Advanced attributes.
-				if ( data.adv ) {
-					var advAttr = function( inputName, attrName ) {
-							var value = data.adv[ inputName ];
-							if ( value )
-								attributes[ attrName ] = value;
-							else
-								removeAttributes.push( attrName );
-						};
-
-					advAttr( 'advId', 'id' );
-					advAttr( 'advLangDir', 'dir' );
-					advAttr( 'advAccessKey', 'accessKey' );
-
-					if ( data.adv[ 'advName' ] )
-						attributes[ 'name' ] = attributes[ 'data-cke-saved-name' ] = data.adv[ 'advName' ];
-					else
-						removeAttributes = removeAttributes.concat( [ 'data-cke-saved-name', 'name' ] );
-
-					advAttr( 'advLangCode', 'lang' );
-					advAttr( 'advTabIndex', 'tabindex' );
-					advAttr( 'advTitle', 'title' );
-					advAttr( 'advContentType', 'type' );
-					advAttr( 'advCSSClasses', 'class' );
-					advAttr( 'advCharset', 'charset' );
-					advAttr( 'advStyles', 'style' );
-					advAttr( 'advRel', 'rel' );
-				}
-
-
-				var selection = editor.getSelection();
-
-				// Browser need the "href" fro copy/paste link to work. (#6641)
-				attributes.href = attributes[ 'data-cke-saved-href' ];
+				var selection = editor.getSelection(),
+					attributes = plugin.getLinkAttributes( editor, data );
 
 				if ( !this._.selectedElement ) {
 					var range = selection.getRanges()[ 0 ];
@@ -1031,13 +870,18 @@
 					// Use link URL as text with a collapsed cursor.
 					if ( range.collapsed ) {
 						// Short mailto link text view (#5736).
-						var text = new CKEDITOR.dom.text( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ], editor.document );
+						var text = new CKEDITOR.dom.text( data.type == 'email' ?
+							data.email.address : attributes.set[ 'data-cke-saved-href' ], editor.document );
 						range.insertNode( text );
 						range.selectNodeContents( text );
 					}
 
 					// Apply style.
-					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
+					var style = new CKEDITOR.style( {
+						element: 'a',
+						attributes: attributes.set
+					} );
+
 					style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
 					style.applyToRange( range );
 					range.select();
@@ -1047,13 +891,14 @@
 						href = element.data( 'cke-saved-href' ),
 						textView = element.getHtml();
 
-					element.setAttributes( attributes );
-					element.removeAttributes( removeAttributes );
+					element.setAttributes( attributes.set );
+					element.removeAttributes( attributes.removed );
 
 					// Update text view when user changes protocol (#4612).
 					if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
 						// Short mailto link text view (#5736).
-						element.setHtml( data.type == 'email' ? data.email.address : attributes[ 'data-cke-saved-href' ] );
+						element.setHtml( data.type == 'email' ?
+							data.email.address : attributes.set[ 'data-cke-saved-href' ] );
 
 						// We changed the content, so need to select it again.
 						selection.selectElement( element );

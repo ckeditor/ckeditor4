@@ -205,6 +205,41 @@
 		return str.replace( /\\'/g, '\'' );
 	}
 
+	function escapeSingleQuote( str ) {
+		return str.replace( /'/g, '\\$&' );
+	}
+
+	function protectEmailAddressAsEncodedString( address ) {
+		var charCode,
+			length = address.length,
+			encodedChars = [];
+
+		for ( var i = 0; i < length; i++ ) {
+			charCode = address.charCodeAt( i );
+			encodedChars.push( charCode );
+		}
+
+		return 'String.fromCharCode(' + encodedChars.join( ',' ) + ')';
+	}
+
+	function protectEmailLinkAsFunction( editor, email ) {
+		var plugin = editor.plugins.link,
+			name = plugin.compiledProtectionFunction.name,
+			params = plugin.compiledProtectionFunction.params,
+			paramName, paramValue, retval;
+
+		retval = [ name, '(' ];
+		for ( var i = 0; i < params.length; i++ ) {
+			paramName = params[ i ].toLowerCase();
+			paramValue = email[ paramName ];
+
+			i > 0 && retval.push( ',' );
+			retval.push( '\'', paramValue ? escapeSingleQuote( encodeURIComponent( email[ paramName ] ) ) : '', '\'' );
+		}
+		retval.push( ')' );
+		return retval.join( '' );
+	}
+
 	/**
 	 * Set of Link plugin helpers.
 	 *
@@ -476,6 +511,146 @@
 			}
 
 			return compiledProtectionFunction;
+		},
+
+		getLinkAttributes: function( editor, data ) {
+			var set = {},
+				removed = [];
+
+			// Compose the URL.
+			switch ( data.type || 'url' ) {
+				case 'url':
+					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
+						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
+
+					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
+
+					break;
+				case 'anchor':
+					var name = ( data.anchor && data.anchor.name ),
+						id = ( data.anchor && data.anchor.id );
+
+					set[ 'data-cke-saved-href' ] = '#' + ( name || id || '' );
+
+					break;
+				case 'email':
+					var email = data.email,
+						address = email.address,
+						linkHref;
+
+					switch ( editor.config.emailProtection ) {
+						case '':
+						case 'encode':
+							var subject = encodeURIComponent( email.subject || '' ),
+								body = encodeURIComponent( email.body || '' ),
+								argList = [];
+
+							// Build the e-mail parameters first.
+							subject && argList.push( 'subject=' + subject );
+							body && argList.push( 'body=' + body );
+							argList = argList.length ? '?' + argList.join( '&' ) : '';
+
+							if ( editor.config.emailProtection == 'encode' ) {
+								linkHref = [
+									'javascript:void(location.href=\'mailto:\'+',
+									protectEmailAddressAsEncodedString( address )
+								];
+								// parameters are optional.
+								argList && linkHref.push( '+\'', escapeSingleQuote( argList ), '\'' );
+
+								linkHref.push( ')' );
+							} else
+								linkHref = [ 'mailto:', address, argList ];
+
+							break;
+						default:
+							// Separating name and domain.
+							var nameAndDomain = address.split( '@', 2 );
+							email.name = nameAndDomain[ 0 ];
+							email.domain = nameAndDomain[ 1 ];
+
+							linkHref = [ 'javascript:', protectEmailLinkAsFunction( editor, email ) ];
+					}
+
+					set[ 'data-cke-saved-href' ] = linkHref.join( '' );
+					break;
+			}
+
+			// Popups and target.
+			if ( data.target ) {
+				if ( data.target.type == 'popup' ) {
+					var onclickList = [
+							'window.open(this.href, \'', data.target.name || '', '\', \''
+						],
+						featureList = [
+							'resizable', 'status', 'location', 'toolbar', 'menubar', 'fullscreen', 'scrollbars', 'dependent'
+						],
+						featureLength = featureList.length,
+						addFeature = function( featureName ) {
+							if ( data.target[ featureName ] )
+								featureList.push( featureName + '=' + data.target[ featureName ] );
+						};
+
+					for ( var i = 0; i < featureLength; i++ )
+						featureList[ i ] = featureList[ i ] + ( data.target[ featureList[ i ] ] ? '=yes' : '=no' );
+
+					addFeature( 'width' );
+					addFeature( 'left' );
+					addFeature( 'height' );
+					addFeature( 'top' );
+
+					onclickList.push( featureList.join( ',' ), '\'); return false;' );
+					set[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
+
+					// Add the "target" attribute. (#5074)
+					removed.push( 'target' );
+				} else {
+					if ( data.target.type != 'notSet' && data.target.name )
+						set.target = data.target.name;
+					else
+						removed.push( 'target' );
+
+					removed.push( 'data-cke-pa-onclick', 'onclick' );
+				}
+			}
+
+			// Advanced attributes.
+			if ( data.adv ) {
+				var advAttr = function( inputName, attrName ) {
+					var value = data.adv[ inputName ];
+
+					if ( value )
+						set[ attrName ] = value;
+					else
+						removed.push( attrName );
+				};
+
+				advAttr( 'advId', 'id' );
+				advAttr( 'advLangDir', 'dir' );
+				advAttr( 'advAccessKey', 'accessKey' );
+
+				if ( data.adv.advName )
+					set.name = set[ 'data-cke-saved-name' ] = data.adv[ 'advName' ];
+				else
+					removed = removed.concat( [ 'data-cke-saved-name', 'name' ] );
+
+				advAttr( 'advLangCode', 'lang' );
+				advAttr( 'advTabIndex', 'tabindex' );
+				advAttr( 'advTitle', 'title' );
+				advAttr( 'advContentType', 'type' );
+				advAttr( 'advCSSClasses', 'class' );
+				advAttr( 'advCharset', 'charset' );
+				advAttr( 'advStyles', 'style' );
+				advAttr( 'advRel', 'rel' );
+			}
+
+			// Browser need the "href" fro copy/paste link to work. (#6641)
+			set.href = set[ 'data-cke-saved-href' ];
+
+			return {
+				set: set,
+				removed: removed
+			};
 		}
 	};
 
