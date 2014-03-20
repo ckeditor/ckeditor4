@@ -757,10 +757,8 @@
 	// @param {Boolean} skipRequired If true don't check if element has all required properties.
 	function applyRule( rule, element, status, skipRequired ) {
 		// This rule doesn't match this element - skip it.
-		if ( rule.match ) {
-			if ( !rule.match( element ) )
-				return;
-		}
+		if ( rule.match && !rule.match( element ) )
+			return;
 
 		// If element doesn't have all required styles/attrs/classes
 		// this rule doesn't match it.
