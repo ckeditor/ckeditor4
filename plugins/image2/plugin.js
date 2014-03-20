@@ -376,11 +376,8 @@
 				}
 
 				// Update data.link object with attributes if the link has been discovered.
-				if ( this.parts.link ) {
-					data.link = {
-						url: this.parts.link.getAttribute( 'src' )
-					}
-				}
+				if ( editor.plugins.link && this.parts.link )
+					data.link = CKEDITOR.plugins.link.parseLink( editor, this.parts.link );
 
 				// Get rid of extra vertical space when there's no caption.
 				// It will improve the look of the resizer.
