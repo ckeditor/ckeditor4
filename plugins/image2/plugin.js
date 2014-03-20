@@ -508,16 +508,31 @@
 								shift.element : shift.element.findOne( 'img' ),
 							link = shift.element.is( 'a' ) ?
 								shift.element : shift.element.findOne( 'a' ),
+							// Why deflate:
+							// If element is <img/>, it will be wrapped into <a>,
+							// which becomes a new widget.element.
+							// If element is <a><img/></a>, it will be unlinked
+							// so <img/> becomes a new widget.element.
 							needsDeflate = shift.element.is( { img: 1, a: 1 } ),
 							newEl;
 
 						if ( needsDeflate )
 							shift.deflate();
 
-						// If linked the image, returned element is <a>.
 						// If unlinked the image, returned element is <img>.
-						newEl = newValue ?
-							wrapInLink( img, shift.newData.link ) : unwrapFromLink( link );
+						if ( !newValue )
+							newEl = unwrapFromLink( link );
+						else {
+							// If linked the image, returned element is <a>.
+							if ( !oldValue )
+								newEl = wrapInLink( img, shift.newData.link );
+
+							// Set and remove all attributes associated with this state.
+							var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, newValue );
+
+							( newEl || link ).setAttributes( attributes.set );
+							( newEl || link ).removeAttributes( attributes.removed );
+						}
 
 						if ( needsDeflate )
 							shift.element = newEl;
