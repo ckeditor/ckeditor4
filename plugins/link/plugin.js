@@ -157,7 +157,7 @@
 				} );
 			}
 
-			this.compiledProtectionFunction = CKEDITOR.plugins.link.getCompiledProtectionFunction( editor );
+			this.compiledProtectionFunction = getCompiledProtectionFunction( editor );
 		},
 
 		afterInit: function( editor ) {
@@ -239,6 +239,26 @@
 		retval.push( ')' );
 		return retval.join( '' );
 	}
+
+	function getCompiledProtectionFunction( editor ) {
+		var emailProtection = editor.config.emailProtection || '',
+			compiledProtectionFunction;
+
+		// Compile the protection function pattern.
+		if ( emailProtection && emailProtection != 'encode' ) {
+			compiledProtectionFunction = {};
+
+			emailProtection.replace( /^([^(]+)\(([^)]+)\)$/, function( match, funcName, params ) {
+				compiledProtectionFunction.name = funcName;
+				compiledProtectionFunction.params = [];
+				params.replace( /[^,\s]+/g, function( param ) {
+					compiledProtectionFunction.params.push( param );
+				} );
+			} );
+		}
+
+		return compiledProtectionFunction;
+	};
 
 	/**
 	 * Set of Link plugin helpers.
@@ -491,26 +511,6 @@
 			retval.anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
 
 			return retval;
-		},
-
-		getCompiledProtectionFunction: function( editor ) {
-			var emailProtection = editor.config.emailProtection || '',
-				compiledProtectionFunction;
-
-			// Compile the protection function pattern.
-			if ( emailProtection && emailProtection != 'encode' ) {
-				compiledProtectionFunction = {};
-
-				emailProtection.replace( /^([^(]+)\(([^)]+)\)$/, function( match, funcName, params ) {
-					compiledProtectionFunction.name = funcName;
-					compiledProtectionFunction.params = [];
-					params.replace( /[^,\s]+/g, function( param ) {
-						compiledProtectionFunction.params.push( param );
-					} );
-				} );
-			}
-
-			return compiledProtectionFunction;
 		},
 
 		getLinkAttributes: function( editor, data ) {
