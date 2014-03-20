@@ -881,7 +881,12 @@
 				} else
 					element = null;
 
-				this.setupContent( plugin.parseLink.apply( this, [ editor, element ] ) );
+				var data = plugin.parseLink.apply( this, [ editor, element ] );
+
+				// Record down the selected element in the dialog.
+				this._.selectedElement = element;
+
+				this.setupContent( data );
 			},
 			onOk: function() {
 				var attributes = {},

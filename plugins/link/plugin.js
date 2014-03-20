@@ -431,12 +431,12 @@
 					}
 				}
 
-				var me = this;
 				var advAttr = function( inputName, attrName ) {
-						var value = element.getAttribute( attrName );
-						if ( value !== null )
-							retval.adv[ inputName ] = value || '';
-					};
+					var value = element.getAttribute( attrName );
+					if ( value !== null )
+						retval.adv[ inputName ] = value || '';
+				};
+
 				advAttr( 'advId', 'id' );
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
@@ -455,8 +455,6 @@
 			// Find out whether we have any anchors in the editor.
 			retval.anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
 
-			// Record down the selected element in the dialog.
-			this._.selectedElement = element;
 			return retval;
 		},
 
