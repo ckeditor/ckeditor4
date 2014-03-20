@@ -514,8 +514,9 @@
 		},
 
 		getLinkAttributes: function( editor, data ) {
-			var set = {},
-				removed = [];
+			var emailProtection = editor.config.emailProtection || '',
+				removed = [],
+				set = {};
 
 			// Compose the URL.
 			switch ( data.type || 'url' ) {
@@ -538,7 +539,7 @@
 						address = email.address,
 						linkHref;
 
-					switch ( editor.config.emailProtection ) {
+					switch ( emailProtection ) {
 						case '':
 						case 'encode':
 							var subject = encodeURIComponent( email.subject || '' ),
@@ -550,7 +551,7 @@
 							body && argList.push( 'body=' + body );
 							argList = argList.length ? '?' + argList.join( '&' ) : '';
 
-							if ( editor.config.emailProtection == 'encode' ) {
+							if ( emailProtection == 'encode' ) {
 								linkHref = [
 									'javascript:void(location.href=\'mailto:\'+',
 									protectEmailAddressAsEncodedString( address )
