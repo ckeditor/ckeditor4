@@ -936,6 +936,55 @@
 		return empty ? false : required;
 	}
 
+	// Does the actual filtering by appling allowed content rules
+	// to the element.
+	//
+	// @param {CKEDITOR.filter} that The context.
+	// @param {CKEDITOR.htmlParser.element} element
+	// @param {Object} opts The same as in processElement.
+	function filterElement( that, element, opts ) {
+		var name = element.name,
+			rules = that._.allowedRules.elements[ name ],
+			genericRules = that._.allowedRules.generic,
+			skipRequired = opts.skipRequired,
+			status = {
+				// Whether any of rules accepted element.
+				// If not - it will be stripped.
+				valid: false,
+				// Objects containing accepted attributes, classes and styles.
+				validAttributes: {},
+				validClasses: {},
+				validStyles: {},
+				// Whether all are valid.
+				// If we know that all element's attrs/classes/styles are valid
+				// we can skip their validation, to improve performance.
+				allAttributes: false,
+				allClasses: false,
+				allStyles: false
+			},
+			i, l;
+
+		// Early return - if there are no rules for this element (specific or generic), remove it.
+		if ( !rules && !genericRules )
+			return null;
+
+		// Could not be done yet if there were no transformations and if this
+		// is real (not mocked) object.
+		populateProperties( element );
+
+		if ( rules ) {
+			for ( i = 0, l = rules.length; i < l; ++i )
+				applyRule( rules[ i ], element, status, true, skipRequired );
+		}
+
+		if ( genericRules ) {
+			for ( i = 0, l = genericRules.length; i < l; ++i )
+				applyRule( genericRules[ i ], element, status, false, skipRequired );
+		}
+
+		return status;
+	}
+
 	// Filter element protected with a comment.
 	// Returns true if protected content is ok, false otherwise.
 	function processProtectedElement( that, comment, protectedRegexs, filterOpts ) {
@@ -981,22 +1030,19 @@
 	// @param {Boolean} [opts.skipFinalValidation] Whether to not perform final element validation (a,img).
 	// @returns {Boolean} Whether content has been modified.
 	function processElement( that, element, toBeRemoved, opts ) {
-		var name = element.name,
-			skipRequired = opts.skipRequired,
-			skipFinalValidation = opts.skipFinalValidation,
-			optimizedRules = that._.allowedRules,
-			transformations,
+		var transformations,
 			i, l, trans,
+			status,
 			isModified = false;
 
 		// Unprotect elements names previously protected by htmlDataProcessor
 		// (see protectElementNames and protectSelfClosingElements functions).
 		// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
 		if ( opts.toHtml )
-			element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
+			element.name = element.name.replace( unprotectElementsNamesRegexp, '$1' );
 
 		// If transformations are set apply all groups.
-		if ( ( transformations = opts.doTransform && that._.transformations[ name ] ) ) {
+		if ( ( transformations = opts.doTransform && that._.transformations[ element.name ] ) ) {
 			populateProperties( element );
 
 			for ( i = 0; i < transformations.length; ++i )
@@ -1009,45 +1055,13 @@
 		}
 
 		if ( opts.doFilter ) {
-			// Name could be changed by transformations.
-			name = element.name;
+			// Apply all filters.
+			status = filterElement( that, element, opts );
 
-			var rules = optimizedRules.elements[ name ],
-				genericRules = optimizedRules.generic,
-				status = {
-					// Whether any of rules accepted element.
-					// If not - it will be stripped.
-					valid: false,
-					// Objects containing accepted attributes, classes and styles.
-					validAttributes: {},
-					validClasses: {},
-					validStyles: {},
-					// Whether all are valid.
-					// If we know that all element's attrs/classes/styles are valid
-					// we can skip their validation, to improve performance.
-					allAttributes: false,
-					allClasses: false,
-					allStyles: false
-				};
-
-			// Early return - if there are no rules for this element (specific or generic), remove it.
-			if ( !rules && !genericRules ) {
+			// Handle early return from filterElement.
+			if ( !status ) {
 				toBeRemoved.push( element );
 				return true;
-			}
-
-			// Could not be done yet if there were no transformations and if this
-			// is real (not mocked) object.
-			populateProperties( element );
-
-			if ( rules ) {
-				for ( i = 0, l = rules.length; i < l; ++i )
-					applyRule( rules[ i ], element, status, true, skipRequired );
-			}
-
-			if ( genericRules ) {
-				for ( i = 0, l = genericRules.length; i < l; ++i )
-					applyRule( genericRules[ i ], element, status, false, skipRequired );
 			}
 
 			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
@@ -1060,7 +1074,7 @@
 			if ( updateElement( element, status ) )
 				isModified = true;
 
-			if ( !skipFinalValidation && !validateElement( element ) ) {
+			if ( !opts.skipFinalValidation && !validateElement( element ) ) {
 				toBeRemoved.push( element );
 				return true;
 			}
