@@ -754,15 +754,8 @@
 	// @param rule
 	// @param element
 	// @param status Object containing status of element's filtering.
-	// @param {Boolean} isSpecific True if this is specific element's rule, false if generic.
 	// @param {Boolean} skipRequired If true don't check if element has all required properties.
-	function applyRule( rule, element, status, isSpecific, skipRequired ) {
-		var name = element.name;
-
-		// This generic rule doesn't apply to this element - skip it.
-		if ( !isSpecific && typeof rule.elements == 'function' && !rule.elements( name ) )
-			return;
-
+	function applyRule( rule, element, status, skipRequired ) {
 		// This rule doesn't match this element - skip it.
 		if ( rule.match ) {
 			if ( !rule.match( element ) )
@@ -987,12 +980,12 @@
 
 		if ( allowedRules ) {
 			for ( i = 0, l = allowedRules.length; i < l; ++i )
-				applyRule( allowedRules[ i ], element, status, true, skipRequired );
+				applyRule( allowedRules[ i ], element, status, skipRequired );
 		}
 
 		if ( genericAllowedRules ) {
 			for ( i = 0, l = genericAllowedRules.length; i < l; ++i )
-				applyRule( genericAllowedRules[ i ], element, status, false, skipRequired );
+				applyRule( genericAllowedRules[ i ], element, status, skipRequired );
 		}
 
 		return status;
@@ -1190,7 +1183,6 @@
 			// validates properties only.
 			// Or '$1': { match: function() {...} }
 			if ( rule.elements === true || rule.elements === null ) {
-				rule.elements = validatorFunction( rule.elements );
 				// Add priority rules at the beginning.
 				genericRules[ priority ? 'unshift' : 'push' ]( rule );
 			}
