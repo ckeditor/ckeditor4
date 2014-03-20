@@ -387,7 +387,7 @@
 			}
 		},
 
-		parseLink: function( editor, element ) {
+		parseLinkAttributes: function( editor, element ) {
 			var href = ( element && ( element.data( 'cke-saved-href' ) || element.getAttribute( 'href' ) ) ) || '',
 				compiledProtectionFunction = editor.plugins.link.compiledProtectionFunction,
 				emailProtection = editor.config.emailProtection,
