@@ -113,9 +113,15 @@
 
 		this._ = {
 			// Optimized allowed content rules.
-			allowedRules: {},
+			allowedRules: {
+				elements: {},
+				generic: []
+			},
 			// Optimized disallowed content rules.
-			disallowedRules: {},
+			disallowedRules: {
+				elements: {},
+				generic: []
+			},
 			// Object: element name => array of transformations groups.
 			transformations: {},
 			cachedTests: {}
@@ -944,8 +950,11 @@
 	// @param {Object} opts The same as in processElement.
 	function filterElement( that, element, opts ) {
 		var name = element.name,
-			rules = that._.allowedRules.elements[ name ],
-			genericRules = that._.allowedRules.generic,
+			privObj = that._,
+			allowedRules = privObj.allowedRules.elements[ name ],
+			genericAllowedRules = privObj.allowedRules.generic,
+			disallowedRules = privObj.disallowedRules.elements[ name ],
+			genericDisallowedRules = privObj.disallowedRules.generic,
 			skipRequired = opts.skipRequired,
 			status = {
 				// Whether any of rules accepted element.
@@ -965,21 +974,25 @@
 			i, l;
 
 		// Early return - if there are no rules for this element (specific or generic), remove it.
-		if ( !rules && !genericRules )
+		if ( !allowedRules && !genericAllowedRules )
+			return null;
+
+		// Early return - if there's is a disallowed content rule which disallows this element.
+		if ( disallowedRules && isElementDisallowed( element, disallowedRules ) )
 			return null;
 
 		// Could not be done yet if there were no transformations and if this
 		// is real (not mocked) object.
 		populateProperties( element );
 
-		if ( rules ) {
-			for ( i = 0, l = rules.length; i < l; ++i )
-				applyRule( rules[ i ], element, status, true, skipRequired );
+		if ( allowedRules ) {
+			for ( i = 0, l = allowedRules.length; i < l; ++i )
+				applyRule( allowedRules[ i ], element, status, true, skipRequired );
 		}
 
-		if ( genericRules ) {
-			for ( i = 0, l = genericRules.length; i < l; ++i )
-				applyRule( genericRules[ i ], element, status, false, skipRequired );
+		if ( genericAllowedRules ) {
+			for ( i = 0, l = genericAllowedRules.length; i < l; ++i )
+				applyRule( genericAllowedRules[ i ], element, status, false, skipRequired );
 		}
 
 		return status;
@@ -1031,6 +1044,22 @@
 		}
 
 		return true;
+	}
+
+	// Checks whether there is a rule with no properties for this element.
+	// Such rule means that entire element is disallowed.
+	//
+	// @param {CKEDITOR.htmlParser.element} element
+	// @param {Array} disallowedRules Rules for this element.
+	// @returns {Boolean} True if element is disallowed.
+	function isElementDisallowed( element, disallowedRules ) {
+		for ( var i = 0, rule; i < disallowedRules.length; ++i ) {
+			rule = disallowedRules[ i ];
+			// No properties and matches if match function was defined.
+			if ( rule.noProperties && ( !rule.match || rule.match( element ) ) )
+				return true;
+		}
+		return false;
 	}
 
 	// Create pseudo element that will be passed through filter
@@ -1142,12 +1171,13 @@
 		}
 
 		rule.nothingRequired = nothingRequired;
+		rule.noProperties = !( rule.attributes || rule.classes || rule.styles );
 	}
 
 	// Add optimized version of rule to optimizedRules object.
 	function optimizeRules( optimizedRules, rules ) {
-		var elementsRules = optimizedRules.elements || {},
-			genericRules = optimizedRules.generic || [],
+		var elementsRules = optimizedRules.elements,
+			genericRules = optimizedRules.generic,
 			i, l, j, rule, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
@@ -1179,9 +1209,6 @@
 				}
 			}
 		}
-
-		optimizedRules.elements = elementsRules;
-		optimizedRules.generic = genericRules.length ? genericRules : null;
 	}
 
 	//                  <   elements   ><                      styles, attributes and classes                       >< separator >
