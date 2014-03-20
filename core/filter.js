@@ -234,10 +234,10 @@
 			if ( this.disabled )
 				return false;
 
-			var toBeRemoved = [],
+			var that = this,
+				toBeRemoved = [],
 				rules = !transformOnly && this._.allowedRules,
 				transformations = this._.transformations,
-				filterFn = getFilterFunction( this ),
 				protectedRegexs = this.editor && this.editor.config.protectedSource,
 				isModified = false;
 
@@ -259,11 +259,11 @@
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
-					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
+					if ( filterElement( that, el, rules, transformations, toBeRemoved, toHtml ) )
 						isModified = true;
 				}
 				else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
-					if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
+					if ( !filterProtectedElement( that, el, protectedRegexs, rules, transformations, toHtml ) )
 						toBeRemoved.push( el );
 				}
 			}, null, true );
@@ -644,7 +644,7 @@
 
 			// Filter clone of mocked element.
 			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.allowedRules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
+			filterElement( this, clone, this._.allowedRules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -931,7 +931,7 @@
 
 	// Filter element protected with a comment.
 	// Returns true if protected content is ok, false otherwise.
-	function filterProtectedElement( comment, protectedRegexs, filterFn, rules, transformations, toHtml ) {
+	function filterProtectedElement( that, comment, protectedRegexs, rules, transformations, toHtml ) {
 		var source = decodeURIComponent( comment.value.replace( /^\{cke_protected\}/, '' ) ),
 			protectedFrag,
 			toBeRemoved = [],
@@ -953,122 +953,112 @@
 		protectedFrag = CKEDITOR.htmlParser.fragment.fromHtml( source );
 
 		if ( protectedFrag.children.length == 1 && ( node = protectedFrag.children[ 0 ] ).type == CKEDITOR.NODE_ELEMENT )
-			filterFn( node, rules, transformations, toBeRemoved, toHtml );
+			filterElement( that, node, rules, transformations, toBeRemoved, toHtml );
 
 		// If protected element has been marked to be removed, return 'false' - comment was rejected.
 		return !toBeRemoved.length;
 	}
 
-	// Returns function that accepts {@link CKEDITOR.htmlParser.element}
-	// and filters it basing on allowed content rules registered by
-	// {@link #allow} method.
-	//
-	// @param {CKEDITOR.filter} that
-	function getFilterFunction( that ) {
-		// Return cached function.
-		if ( that._.filterFunction )
-			return that._.filterFunction;
+	var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
+		protectElementsNamesRegexp = /^(object|embed|param)$/;
 
-		var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
-			protectElementsNamesRegexp = /^(object|embed|param)$/;
+	// Return and cache created function.
+	// @param {CKEDITOR.filter} that Context.
+	// @param {CKEDITOR.htmlParser.element}
+	// @param [optimizedRules] Rules to be used.
+	// @param [transformations] Transformations to be applied.
+	// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
+	// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
+	// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
+	// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
+	// @returns {Boolean} Whether content has been modified.
+	function filterElement( that, element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
+		var name = element.name,
+			i, l, trans,
+			isModified = false;
 
-		// Return and cache created function.
-		// @param {CKEDITOR.htmlParser.element}
-		// @param [optimizedRules] Rules to be used.
-		// @param [transformations] Transformations to be applied.
-		// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
-		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
-		// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
-		// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
-		// @returns {Boolean} Whether content has been modified.
-		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
-			var name = element.name,
-				i, l, trans,
-				isModified = false;
+		// Unprotect elements names previously protected by htmlDataProcessor
+		// (see protectElementNames and protectSelfClosingElements functions).
+		// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
+		if ( toHtml )
+			element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
-			// Unprotect elements names previously protected by htmlDataProcessor
-			// (see protectElementNames and protectSelfClosingElements functions).
-			// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
-			if ( toHtml )
-				element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
+		// If transformations are set apply all groups.
+		if ( ( transformations = transformations && transformations[ name ] ) ) {
+			populateProperties( element );
 
-			// If transformations are set apply all groups.
-			if ( ( transformations = transformations && transformations[ name ] ) ) {
-				populateProperties( element );
+			for ( i = 0; i < transformations.length; ++i )
+				applyTransformationsGroup( that, element, transformations[ i ] );
 
-				for ( i = 0; i < transformations.length; ++i )
-					applyTransformationsGroup( that, element, transformations[ i ] );
+			// Do not count on updateElement(), because it:
+			// * may not be called,
+			// * may skip some properties when all are marked as valid.
+			updateAttributes( element );
+		}
 
-				// Do not count on updateElement(), because it:
-				// * may not be called,
-				// * may skip some properties when all are marked as valid.
-				updateAttributes( element );
+		if ( optimizedRules ) {
+			// Name could be changed by transformations.
+			name = element.name;
+
+			var rules = optimizedRules.elements[ name ],
+				genericRules = optimizedRules.generic,
+				status = {
+					// Whether any of rules accepted element.
+					// If not - it will be stripped.
+					valid: false,
+					// Objects containing accepted attributes, classes and styles.
+					validAttributes: {},
+					validClasses: {},
+					validStyles: {},
+					// Whether all are valid.
+					// If we know that all element's attrs/classes/styles are valid
+					// we can skip their validation, to improve performance.
+					allAttributes: false,
+					allClasses: false,
+					allStyles: false
+				};
+
+			// Early return - if there are no rules for this element (specific or generic), remove it.
+			if ( !rules && !genericRules ) {
+				toBeRemoved.push( element );
+				return true;
 			}
 
-			if ( optimizedRules ) {
-				// Name could be changed by transformations.
-				name = element.name;
+			// Could not be done yet if there were no transformations and if this
+			// is real (not mocked) object.
+			populateProperties( element );
 
-				var rules = optimizedRules.elements[ name ],
-					genericRules = optimizedRules.generic,
-					status = {
-						// Whether any of rules accepted element.
-						// If not - it will be stripped.
-						valid: false,
-						// Objects containing accepted attributes, classes and styles.
-						validAttributes: {},
-						validClasses: {},
-						validStyles: {},
-						// Whether all are valid.
-						// If we know that all element's attrs/classes/styles are valid
-						// we can skip their validation, to improve performance.
-						allAttributes: false,
-						allClasses: false,
-						allStyles: false
-					};
-
-				// Early return - if there are no rules for this element (specific or generic), remove it.
-				if ( !rules && !genericRules ) {
-					toBeRemoved.push( element );
-					return true;
-				}
-
-				// Could not be done yet if there were no transformations and if this
-				// is real (not mocked) object.
-				populateProperties( element );
-
-				if ( rules ) {
-					for ( i = 0, l = rules.length; i < l; ++i )
-						applyRule( rules[ i ], element, status, true, skipRequired );
-				}
-
-				if ( genericRules ) {
-					for ( i = 0, l = genericRules.length; i < l; ++i )
-						applyRule( genericRules[ i ], element, status, false, skipRequired );
-				}
-
-				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
-				if ( !status.valid ) {
-					toBeRemoved.push( element );
-					return true;
-				}
-
-				// Update element's attributes based on status of filtering.
-				if ( updateElement( element, status ) )
-					isModified = true;
-
-				if ( !skipFinalValidation && !validateElement( element ) ) {
-					toBeRemoved.push( element );
-					return true;
-				}
+			if ( rules ) {
+				for ( i = 0, l = rules.length; i < l; ++i )
+					applyRule( rules[ i ], element, status, true, skipRequired );
 			}
 
-			// Protect previously unprotected elements.
-			if ( toHtml )
-				element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
+			if ( genericRules ) {
+				for ( i = 0, l = genericRules.length; i < l; ++i )
+					applyRule( genericRules[ i ], element, status, false, skipRequired );
+			}
 
-			return isModified;
-		};
+			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
+			if ( !status.valid ) {
+				toBeRemoved.push( element );
+				return true;
+			}
+
+			// Update element's attributes based on status of filtering.
+			if ( updateElement( element, status ) )
+				isModified = true;
+
+			if ( !skipFinalValidation && !validateElement( element ) ) {
+				toBeRemoved.push( element );
+				return true;
+			}
+		}
+
+		// Protect previously unprotected elements.
+		if ( toHtml )
+			element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
+
+		return isModified;
 	}
 
 	// Check whether element has all properties (styles,classes,attrs) required by a rule.
