@@ -1267,22 +1267,6 @@
 				evt.cancel();
 		} );
 
-		function onRefresh( evt ) {
-			var widget = getFocusedWidget( editor );
-
-			if ( !widget )
-				return;
-
-			var states = this.name == 'link' ? [ 'ON', 'OFF' ] : [ 'OFF', 'DISABLED' ];
-
-			this.setState( CKEDITOR[ 'TRISTATE_' + states[ widget.data.link ? 0 : 1 ] ] );
-
-			evt.cancel();
-		}
-
-		editor.commands.link.on( 'refresh', onRefresh );
-		editor.commands.unlink.on( 'refresh', onRefresh );
-
 		// Overwrite default behavior of link dialog.
 		editor.on( 'dialogShow', function( evt ) {
 			var dialog = evt.data;
@@ -1311,6 +1295,34 @@
 				// Cancel default action of the dialog.
 				evt.cancel();
 			}, null, null, 0 );
+		} );
+
+		// Overwrite default behaviour of unlink command.
+		editor.commands.unlink.on( 'exec', function( evt ) {
+			var widget = getFocusedWidget( editor );
+
+			if ( !widget )
+				return;
+
+			widget.setData( 'link', null );
+
+			// Selection (which is fake) may not change if unlinked image in focused widget,
+			// i.e. if captioned image. Let's refresh command state manually here.
+			editor.commands.unlink.refresh( editor, editor.elementPath() );
+
+			evt.cancel();
+		} );
+
+		// Overwrite default refresh of unlink command.
+		editor.commands.unlink.on( 'refresh', function( evt ) {
+			var widget = getFocusedWidget( editor );
+
+			if ( !widget )
+				return;
+
+			this.setState( widget.data.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+
+			evt.cancel();
 		} );
 	}
 
