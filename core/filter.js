@@ -1030,9 +1030,7 @@
 	// @param {Boolean} [opts.skipFinalValidation] Whether to not perform final element validation (a,img).
 	// @returns {Boolean} Whether content has been modified.
 	function processElement( that, element, toBeRemoved, opts ) {
-		var transformations,
-			i, l, trans,
-			status,
+		var status,
 			isModified = false;
 
 		// Unprotect elements names previously protected by htmlDataProcessor
@@ -1042,17 +1040,8 @@
 			element.name = element.name.replace( unprotectElementsNamesRegexp, '$1' );
 
 		// If transformations are set apply all groups.
-		if ( ( transformations = opts.doTransform && that._.transformations[ element.name ] ) ) {
-			populateProperties( element );
-
-			for ( i = 0; i < transformations.length; ++i )
-				applyTransformationsGroup( that, element, transformations[ i ] );
-
-			// Do not count on updateElement(), because it:
-			// * may not be called,
-			// * may skip some properties when all are marked as valid.
-			updateAttributes( element );
-		}
+		if ( opts.doTransform )
+			transformElement( that, element );
 
 		if ( opts.doFilter ) {
 			// Apply all filters.
@@ -1373,6 +1362,26 @@
 		}
 
 		rule.match = rule.match || null;
+	}
+
+	// Does the element transformation by applying registered
+	// transformation rules.
+	function transformElement( that, element ) {
+		var transformations = that._.transformations[ element.name ],
+			i;
+
+		if ( !transformations )
+			return;
+
+		populateProperties( element );
+
+		for ( i = 0; i < transformations.length; ++i )
+			applyTransformationsGroup( that, element, transformations[ i ] );
+
+		// Do not count on updateElement() which is called in processElement, because it:
+		// * may not be called,
+		// * may skip some properties when all are marked as valid.
+		updateAttributes( element );
 	}
 
 	// Copy element's styles and classes back to attributes array.
