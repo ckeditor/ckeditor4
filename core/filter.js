@@ -236,10 +236,13 @@
 
 			var that = this,
 				toBeRemoved = [],
-				rules = !transformOnly && this._.allowedRules,
-				transformations = this._.transformations,
 				protectedRegexs = this.editor && this.editor.config.protectedSource,
-				isModified = false;
+				isModified = false,
+				filterOpts = {
+					doFilter: !transformOnly,
+					doTransform: true,
+					toHtml: toHtml
+				};
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
@@ -259,11 +262,11 @@
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
-					if ( filterElement( that, el, rules, transformations, toBeRemoved, toHtml ) )
+					if ( processElement( that, el, toBeRemoved, filterOpts ) )
 						isModified = true;
 				}
 				else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
-					if ( !filterProtectedElement( that, el, protectedRegexs, rules, transformations, toHtml ) )
+					if ( !processProtectedElement( that, el, protectedRegexs, filterOpts ) )
 						toBeRemoved.push( el );
 				}
 			}, null, true );
@@ -643,8 +646,12 @@
 			}
 
 			// Filter clone of mocked element.
-			// Do not run transformations.
-			filterElement( this, clone, this._.allowedRules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
+			processElement( this, clone, toBeRemoved, {
+				doFilter: true,
+				doTransform: applyTransformations !== false,
+				skipRequired: !strictCheck,
+				skipFinalValidation: !strictCheck
+			} );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -931,7 +938,7 @@
 
 	// Filter element protected with a comment.
 	// Returns true if protected content is ok, false otherwise.
-	function filterProtectedElement( that, comment, protectedRegexs, rules, transformations, toHtml ) {
+	function processProtectedElement( that, comment, protectedRegexs, filterOpts ) {
 		var source = decodeURIComponent( comment.value.replace( /^\{cke_protected\}/, '' ) ),
 			protectedFrag,
 			toBeRemoved = [],
@@ -953,7 +960,7 @@
 		protectedFrag = CKEDITOR.htmlParser.fragment.fromHtml( source );
 
 		if ( protectedFrag.children.length == 1 && ( node = protectedFrag.children[ 0 ] ).type == CKEDITOR.NODE_ELEMENT )
-			filterElement( that, node, rules, transformations, toBeRemoved, toHtml );
+			processElement( that, node, toBeRemoved, filterOpts );
 
 		// If protected element has been marked to be removed, return 'false' - comment was rejected.
 		return !toBeRemoved.length;
@@ -962,29 +969,34 @@
 	var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
 		protectElementsNamesRegexp = /^(object|embed|param)$/;
 
-	// Return and cache created function.
+	// The actual function which filters, transforms and does other funny things with an element.
+	//
 	// @param {CKEDITOR.filter} that Context.
-	// @param {CKEDITOR.htmlParser.element}
-	// @param [optimizedRules] Rules to be used.
-	// @param [transformations] Transformations to be applied.
+	// @param {CKEDITOR.htmlParser.element} element The element to be processed.
 	// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
-	// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
-	// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
-	// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
+	// @param {Boolean} [opts.doFilter] Whether element should be filtered.
+	// @param {Boolean} [opts.doTransform] Whether transformations should be applied.
+	// @param {Boolean} [opts.toHtml] Set to true if filter used together with htmlDP#toHtml
+	// @param {Boolean} [opts.skipRequired] Whether element's required properties shouldn't be verified.
+	// @param {Boolean} [opts.skipFinalValidation] Whether to not perform final element validation (a,img).
 	// @returns {Boolean} Whether content has been modified.
-	function filterElement( that, element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
+	function processElement( that, element, toBeRemoved, opts ) {
 		var name = element.name,
+			skipRequired = opts.skipRequired,
+			skipFinalValidation = opts.skipFinalValidation,
+			optimizedRules = that._.allowedRules,
+			transformations,
 			i, l, trans,
 			isModified = false;
 
 		// Unprotect elements names previously protected by htmlDataProcessor
 		// (see protectElementNames and protectSelfClosingElements functions).
 		// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
-		if ( toHtml )
+		if ( opts.toHtml )
 			element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
 
 		// If transformations are set apply all groups.
-		if ( ( transformations = transformations && transformations[ name ] ) ) {
+		if ( ( transformations = opts.doTransform && that._.transformations[ name ] ) ) {
 			populateProperties( element );
 
 			for ( i = 0; i < transformations.length; ++i )
@@ -996,7 +1008,7 @@
 			updateAttributes( element );
 		}
 
-		if ( optimizedRules ) {
+		if ( opts.doFilter ) {
 			// Name could be changed by transformations.
 			name = element.name;
 
@@ -1055,7 +1067,7 @@
 		}
 
 		// Protect previously unprotected elements.
-		if ( toHtml )
+		if ( opts.toHtml )
 			element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
 
 		return isModified;
@@ -1545,7 +1557,7 @@
 		}
 		// Special case - elements that may contain CDATA
 		// should be removed completely. <script> is handled
-		// by filterProtectedElement().
+		// by processProtectedElement().
 		else if ( name == 'style' )
 			element.remove();
 		// The rest of inline elements. May also be the last resort
