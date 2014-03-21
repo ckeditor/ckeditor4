@@ -376,8 +376,15 @@
 				}
 
 				// Update data.link object with attributes if the link has been discovered.
-				if ( editor.plugins.link && this.parts.link )
+				if ( editor.plugins.link && this.parts.link ) {
 					data.link = CKEDITOR.plugins.link.parseLinkAttributes( editor, this.parts.link );
+
+					// Get rid of cke_widget_* classes in data. Otherwise
+					// they might appear in link dialog.
+					var advanced = data.link.advanced;
+					if ( advanced && advanced.advCSSClasses )
+						advanced.advCSSClasses = CKEDITOR.tools.trim( advanced.advCSSClasses.replace( /cke_\S+/, '' ) );
+				}
 
 				// Get rid of extra vertical space when there's no caption.
 				// It will improve the look of the resizer.
@@ -1278,6 +1285,9 @@
 
 			if ( !widget )
 				return;
+
+			if ( widget.data.link )
+				dialog.setupContent( widget.data.link );
 
 			// Set widget data if linking the widget using
 			// link dialog (instead of default action).
