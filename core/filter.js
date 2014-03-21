@@ -809,7 +809,7 @@
 
 		for ( var name in items ) {
 			if ( !validItems[ name ] )
-				validItems[ name ] = itemsRule( name, items[ name ] );
+				validItems[ name ] = itemsRule( name );
 		}
 
 		return false;
@@ -861,7 +861,7 @@
 			allDisallowed = itemsRule === true;
 
 		for ( var name in items ) {
-			if ( allDisallowed || itemsRule( name, items[ name ] ) ) {
+			if ( allDisallowed || itemsRule( name ) ) {
 				delete items[ name ];
 				hadInvalid = true;
 			}
