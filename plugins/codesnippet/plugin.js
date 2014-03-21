@@ -67,7 +67,15 @@
 		}
 	} );
 
-	// Public interface.
+	/**
+	 * Public API for codesnippet plugin. You are able to set a custom syntax highlighters using
+	 * {@link CKEDITOR.plugins.codesnippet#setHighlighter setHighlighter} method. You can also
+	 * restore original highlighter by calling
+	 * {@link CKEDITOR.plugins.codesnippet#setDefaultHighlighter setDefaultHighlighter}
+	 *
+	 * @since 4.4
+	 * @class CKEDITOR.plugins.codesnippet
+	 */
 	CKEDITOR.plugins.codesnippet = {
 		/**
 		 * Sets custom syntax highlighter function.
