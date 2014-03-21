@@ -224,10 +224,8 @@
 					code = new CKEDITOR.htmlParser.element( 'code' ),
 					encodedSnippetCode = CKEDITOR.tools.htmlEncode( this.data.code );
 
-				code.parent = retPreElement;
-				retPreElement.children = [ code ];
-
-				code.children = [ new CKEDITOR.htmlParser.text( encodedSnippetCode ) ];
+				retPreElement.add( code );
+				code.add( new CKEDITOR.htmlParser.text( encodedSnippetCode ) );
 
 				if ( this.data.lang )
 					code.attributes[ 'class' ] = 'language-' + this.data.lang;
