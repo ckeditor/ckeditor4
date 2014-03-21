@@ -92,9 +92,13 @@
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
 			ensurePluginNamespaceExists( editor );
+			var codeSnippetScope = editor._.codesnippet;
 
-			editor._.codesnippet.highlighter = highlightHandlerFn;
-			editor._.codesnippet.langs = editor.config.codesnippet_langs ? editor.config.codesnippet_langs : languages;
+			codeSnippetScope.highlighter = highlightHandlerFn;
+			codeSnippetScope.langs = editor.config.codesnippet_langs ? editor.config.codesnippet_langs : languages;
+			// We might escape special regex chars below, but we expect that there should be no crazy values used
+			// as lang keys.
+			codeSnippetScope.langsRegex = new RegExp( '(?:^|\\s)language-(' + CKEDITOR.tools.objectKeys( codeSnippetScope.langs ).join( '|' ) + ')(?:\\s|$)' );
 		},
 
 		/**
@@ -190,6 +194,7 @@
 				var	langs = editor._.codesnippet.langs,
 					elClassAttr = el.attributes[ 'class' ],
 					code,
+					matchResult,
 					l;
 
 				// Check el.parent to prevent upcasting loop of hell. If not checked,
@@ -198,12 +203,9 @@
 					return;
 
 				// Read language-* from <code> class attribute.
-				for ( l in langs ) {
-					if ( code.hasClass( 'language-' + l ) ) {
-						data.lang = l;
-						break;
-					}
-				}
+				matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
+				if ( matchResult )
+					data.lang = matchResult[ 1 ];
 
 				data.code = code.getHtml();
 				el.attributes[ 'class' ] = elClassAttr ? elClassAttr + ' ' + preClass : preClass;
