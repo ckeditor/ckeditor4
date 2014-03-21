@@ -188,6 +188,7 @@
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
 				var	langs = editor._.codesnippet.langs,
+					elClassAttr = el.attributes[ 'class' ],
 					code,
 					l;
 
@@ -205,9 +206,7 @@
 				}
 
 				data.code = code.getHtml();
-
-				el.classes.push( preClass );
-				el.attributes[ 'class' ] = el.classes.join( ' ' );
+				el.attributes[ 'class' ] = elClassAttr ? elClassAttr + ' ' + preClass : preClass;
 
 				// Remove <code>. The internal form is <pre>.
 				code.replaceWithChildren();
