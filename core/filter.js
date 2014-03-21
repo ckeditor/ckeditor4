@@ -750,12 +750,12 @@
 		optimizeRules( optimizedRules, rulesToOptimize );
 	}
 
-	// Apply ACR to an element
+	// Apply ACR to an element.
 	// @param rule
 	// @param element
 	// @param status Object containing status of element's filtering.
 	// @param {Boolean} skipRequired If true don't check if element has all required properties.
-	function applyRule( rule, element, status, skipRequired ) {
+	function applyAllowedRule( rule, element, status, skipRequired ) {
 		// This rule doesn't match this element - skip it.
 		if ( rule.match && !rule.match( element ) )
 			return;
@@ -771,19 +771,19 @@
 
 		// Apply rule only when all attrs/styles/classes haven't been marked as valid.
 		if ( !status.allAttributes )
-			status.allAttributes = applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
+			status.allAttributes = applyAllowedRuleToHash( rule.attributes, element.attributes, status.validAttributes );
 
 		if ( !status.allStyles )
-			status.allStyles = applyRuleToHash( rule.styles, element.styles, status.validStyles );
+			status.allStyles = applyAllowedRuleToHash( rule.styles, element.styles, status.validStyles );
 
 		if ( !status.allClasses )
-			status.allClasses = applyRuleToArray( rule.classes, element.classes, status.validClasses );
+			status.allClasses = applyAllowedRuleToArray( rule.classes, element.classes, status.validClasses );
 	}
 
 	// Apply itemsRule to items (only classes are kept in array).
 	// Push accepted items to validItems array.
 	// Return true when all items are valid.
-	function applyRuleToArray( itemsRule, items, validItems ) {
+	function applyAllowedRuleToArray( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return false;
 
@@ -800,7 +800,7 @@
 		return false;
 	}
 
-	function applyRuleToHash( itemsRule, items, validItems ) {
+	function applyAllowedRuleToHash( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return false;
 
@@ -813,6 +813,61 @@
 		}
 
 		return false;
+	}
+
+	// Apply DACR rule to an element.
+	function applyDisallowedRule( rule, element, status ) {
+		// This rule doesn't match this element - skip it.
+		if ( rule.match && !rule.match( element ) )
+			return;
+
+		// No properties - it's an element only rule so it disallows entire element.
+		// Early return is handled in filterElement.
+		if ( rule.noProperties )
+			return false;
+
+		// Apply rule to attributes, styles and classes. Switch hadInvalid* to true if method returned true.
+		status.hadInvalidAttribute = applyDisallowedRuleToHash( rule.attributes, element.attributes ) || status.hadInvalidAttribute;
+		status.hadInvalidStyle = applyDisallowedRuleToHash( rule.styles, element.styles ) || status.hadInvalidStyle;
+		status.hadInvalidClass = applyDisallowedRuleToArray( rule.classes, element.classes ) || status.hadInvalidClass;
+	}
+
+	// Apply DACR to items (only classes are kept in array).
+	// @returns {Boolean} True if at least one of items was invalid (disallowed).
+	function applyDisallowedRuleToArray( itemsRule, items ) {
+		if ( !itemsRule )
+			return false;
+
+		var hadInvalid = false,
+			allDisallowed = itemsRule === true;
+
+		for ( var i = items.length; i--; ) {
+			if ( allDisallowed || itemsRule( items[ i ] ) ) {
+				items.splice( i, 1 );
+				hadInvalid = true;
+			}
+		}
+
+		return hadInvalid;
+	}
+
+	// Apply DACR to items (styles and attributes).
+	// @returns {Boolean} True if at least one of items was invalid (disallowed).
+	function applyDisallowedRuleToHash( itemsRule, items ) {
+		if ( !itemsRule )
+			return false;
+
+		var hadInvalid = false,
+			allDisallowed = itemsRule === true;
+
+		for ( var name in items ) {
+			if ( allDisallowed || itemsRule( name, items[ name ] ) ) {
+				delete items[ name ];
+				hadInvalid = true;
+			}
+		}
+
+		return hadInvalid;
 	}
 
 	function beforeAddingRule( that, newRules, overrideCustom ) {
@@ -960,7 +1015,11 @@
 				// we can skip their validation, to improve performance.
 				allAttributes: false,
 				allClasses: false,
-				allStyles: false
+				allStyles: false,
+				// Whether element had (before applying DACRs) at least one invalid attribute/class/style.
+				hadInvalidAttribute: false,
+				hadInvalidClass: false,
+				hadInvalidStyle: false
 			},
 			i, l;
 
@@ -968,22 +1027,34 @@
 		if ( !allowedRules && !genericAllowedRules )
 			return null;
 
-		// Early return - if there's is a disallowed content rule which disallows this element.
-		if ( disallowedRules && isElementDisallowed( element, disallowedRules ) )
-			return null;
-
 		// Could not be done yet if there were no transformations and if this
 		// is real (not mocked) object.
 		populateProperties( element );
 
+		// Note - this step modifies element's styles, classes and attributes.
+		if ( disallowedRules ) {
+			for ( i = 0, l = disallowedRules.length; i < l; ++i ) {
+				// Apply rule and make an early return if false is returned what means
+				// that element is completely disallowed.
+				if ( applyDisallowedRule( disallowedRules[ i ], element, status ) === false )
+					return null;
+			}
+		}
+
+		// Note - this step modifies element's styles, classes and attributes.
+		if ( genericDisallowedRules ) {
+			for ( i = 0, l = genericDisallowedRules.length; i < l; ++i )
+				applyDisallowedRule( genericDisallowedRules[ i ], element, status );
+		}
+
 		if ( allowedRules ) {
 			for ( i = 0, l = allowedRules.length; i < l; ++i )
-				applyRule( allowedRules[ i ], element, status, skipRequired );
+				applyAllowedRule( allowedRules[ i ], element, status, skipRequired );
 		}
 
 		if ( genericAllowedRules ) {
 			for ( i = 0, l = genericAllowedRules.length; i < l; ++i )
-				applyRule( genericAllowedRules[ i ], element, status, skipRequired );
+				applyAllowedRule( genericAllowedRules[ i ], element, status, skipRequired );
 		}
 
 		return status;
@@ -1035,22 +1106,6 @@
 		}
 
 		return true;
-	}
-
-	// Checks whether there is a rule with no properties for this element.
-	// Such rule means that entire element is disallowed.
-	//
-	// @param {CKEDITOR.htmlParser.element} element
-	// @param {Array} disallowedRules Rules for this element.
-	// @returns {Boolean} True if element is disallowed.
-	function isElementDisallowed( element, disallowedRules ) {
-		for ( var i = 0, rule; i < disallowedRules.length; ++i ) {
-			rule = disallowedRules[ i ];
-			// No properties and matches if match function was defined.
-			if ( rule.noProperties && ( !rule.match || rule.match( element ) ) )
-				return true;
-		}
-		return false;
 	}
 
 	// Create pseudo element that will be passed through filter
@@ -1249,11 +1304,16 @@
 	}
 
 	function populateProperties( element ) {
+			// Backup styles and classes, because they may be removed by DACRs.
+			// We'll need them in updateElement().
+		var styles = element.styleBackup = element.attributes.style,
+			classes = element.classBackup = element.attributes[ 'class' ];
+
 		// Parse classes and styles if that hasn't been done before.
 		if ( !element.styles )
-			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
+			element.styles = CKEDITOR.tools.parseCssText( styles || '', 1 );
 		if ( !element.classes )
-			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+			element.classes = classes ? classes.split( /\s+/ ) : [];
 	}
 
 	// Filter element protected with a comment.
@@ -1426,8 +1486,8 @@
 			validClasses = status.validClasses,
 			attrs = element.attributes,
 			styles = element.styles,
-			origClasses = attrs[ 'class' ],
-			origStyles = attrs.style,
+			origClasses = element.classBackup,
+			origStyles = element.styleBackup,
 			name, origName,
 			stylesArr = [],
 			classesArr = [],
@@ -1437,8 +1497,11 @@
 		// Will be recreated later if any of styles/classes were passed.
 		delete attrs.style;
 		delete attrs[ 'class' ];
+		// Clean up.
+		delete element.classBackup;
+		delete element.styleBackup;
 
-		if ( !status.allAttributes ) {
+		if ( !status.allAttributes || status.hadInvalidAttribute ) {
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
 				if ( !validAttrs[ name ] ) {
@@ -1460,7 +1523,7 @@
 			}
 		}
 
-		if ( !status.allStyles ) {
+		if ( !status.allStyles || status.hadInvalidStyle ) {
 			for ( name in styles ) {
 				if ( validStyles[ name ] )
 					stylesArr.push( name + ':' + styles[ name ] );
@@ -1473,7 +1536,7 @@
 		else if ( origStyles )
 			attrs.style = origStyles;
 
-		if ( !status.allClasses ) {
+		if ( !status.allClasses || status.hadInvalidClass ) {
 			for ( name in validClasses ) {
 				if ( validClasses[ name ] )
 					classesArr.push( name );
