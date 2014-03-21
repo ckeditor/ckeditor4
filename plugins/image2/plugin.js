@@ -1287,8 +1287,7 @@
 					var widget = getFocusedWidget( editor );
 
 					if ( widget ) {
-						if ( widget.data.link )
-							this.setupContent( widget.data.link );
+						this.setupContent( widget.data.link || {} );
 					} else
 						onShow.apply( this, arguments );
 				}

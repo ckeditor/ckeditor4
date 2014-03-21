@@ -129,8 +129,7 @@
 						],
 					onChange: linkTypeChanged,
 					setup: function( data ) {
-						if ( data.type )
-							this.setValue( data.type );
+						this.setValue( data.type || 'url' );
 					},
 					commit: function( data ) {
 						data.type = this.getValue();
@@ -259,7 +258,7 @@
 						id: 'selectAnchorText',
 						label: linkLang.selectAnchor,
 						setup: function( data ) {
-							if ( data.anchors.length > 0 )
+							if ( data.anchors && data.anchors.length > 0 )
 								this.getElement().show();
 							else
 								this.getElement().hide();
@@ -281,9 +280,12 @@
 								setup: function( data ) {
 									this.clear();
 									this.add( '' );
-									for ( var i = 0; i < data.anchors.length; i++ ) {
-										if ( data.anchors[ i ].name )
-											this.add( data.anchors[ i ].name );
+
+									if ( data.anchors ) {
+										for ( var i = 0; i < data.anchors.length; i++ ) {
+											if ( data.anchors[ i ].name )
+												this.add( data.anchors[ i ].name );
+										}
 									}
 
 									if ( data.anchor )
@@ -312,9 +314,12 @@
 								setup: function( data ) {
 									this.clear();
 									this.add( '' );
-									for ( var i = 0; i < data.anchors.length; i++ ) {
-										if ( data.anchors[ i ].id )
-											this.add( data.anchors[ i ].id );
+
+									if ( data.anchors ) {
+										for ( var i = 0; i < data.anchors.length; i++ ) {
+											if ( data.anchors[ i ].id )
+												this.add( data.anchors[ i ].id );
+										}
 									}
 
 									if ( data.anchor )
@@ -329,7 +334,7 @@
 							}
 							],
 							setup: function( data ) {
-								if ( data.anchors.length > 0 )
+								if ( data.anchors && data.anchors.length > 0 )
 									this.getElement().show();
 								else
 									this.getElement().hide();
@@ -345,7 +350,7 @@
 						// Focus the first element defined in above html.
 						focus: true,
 						setup: function( data ) {
-							if ( data.anchors.length < 1 )
+							if ( data.anchors && data.anchors.length < 1 )
 								this.getElement().show();
 							else
 								this.getElement().hide();
@@ -918,6 +923,7 @@
 			onFocus: function() {
 				var linkType = this.getContentElement( 'info', 'linkType' ),
 					urlField;
+
 				if ( linkType && linkType.getValue() == 'url' ) {
 					urlField = this.getContentElement( 'info', 'url' );
 					urlField.select();
