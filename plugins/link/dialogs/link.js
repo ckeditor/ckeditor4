@@ -85,7 +85,7 @@
 			};
 
 		var setupAdvParams = function( data ) {
-				return setupParams.call( this, 'adv', data );
+				return setupParams.call( this, 'advanced', data );
 			};
 
 		var commitParams = function( page, data ) {
@@ -100,7 +100,7 @@
 			};
 
 		var commitAdvParams = function( data ) {
-				return commitParams.call( this, 'adv', data );
+				return commitParams.call( this, 'advanced', data );
 			};
 
 

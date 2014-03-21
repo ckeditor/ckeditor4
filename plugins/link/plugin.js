@@ -457,7 +457,7 @@
 			if ( element ) {
 				var target = element.getAttribute( 'target' );
 				retval.target = {};
-				retval.adv = {};
+				retval.advanced = {};
 
 				// IE BUG: target attribute is an empty string instead of null in IE if it's not set.
 				if ( !target ) {
@@ -489,14 +489,15 @@
 				var advAttr = function( inputName, attrName ) {
 					var value = element.getAttribute( attrName );
 					if ( value !== null )
-						retval.adv[ inputName ] = value || '';
+						retval.advanced[ inputName ] = value || '';
 				};
 
 				advAttr( 'advId', 'id' );
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
 
-				retval.adv.advName = element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '';
+				retval.advanced.advName = element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '';
+
 				advAttr( 'advLangCode', 'lang' );
 				advAttr( 'advTabIndex', 'tabindex' );
 				advAttr( 'advTitle', 'title' );
