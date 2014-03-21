@@ -1274,37 +1274,44 @@
 				evt.cancel();
 		} );
 
-		// Overwrite default behavior of link dialog.
-		editor.on( 'dialogShow', function( evt ) {
+		CKEDITOR.on( 'dialogDefinition', function( evt ) {
 			var dialog = evt.data;
 
-			if ( dialog.getName() != 'link' )
-				return;
+			if ( dialog.name == 'link' ) {
+				var def = dialog.definition;
 
-			var widget = getFocusedWidget( editor );
+				var onShow = def.onShow,
+					onOk = def.onOk;
 
-			if ( !widget )
-				return;
+				def.onShow = function() {
+					var widget = getFocusedWidget( editor );
 
-			if ( widget.data.link )
-				dialog.setupContent( widget.data.link );
+					if ( widget ) {
+						if ( widget.data.link )
+							this.setupContent( widget.data.link );
+					} else
+						onShow.apply( this, arguments );
+				}
 
-			// Set widget data if linking the widget using
-			// link dialog (instead of default action).
-			// State shifter handles data change and takes
-			// care of internal DOM structure of linked widget.
-			dialog.once( 'ok', function( evt ) {
-				var data = {};
+				// Set widget data if linking the widget using
+				// link dialog (instead of default action).
+				// State shifter handles data change and takes
+				// care of internal DOM structure of linked widget.
+				def.onOk = function() {
+					var widget = getFocusedWidget( editor );
 
-				// Collect data from fields.
-				this.commitContent( data );
+					if ( widget ) {
+						var data = {};
 
-				// Set collected data to widget.
-				widget.setData( 'link', data );
+						// Collect data from fields.
+						this.commitContent( data );
 
-				// Cancel default action of the dialog.
-				evt.cancel();
-			}, null, null, 0 );
+						// Set collected data to widget.
+						widget.setData( 'link', data );
+					} else
+						onOk.apply( this, arguments );
+				}
+			}
 		} );
 
 		// Overwrite default behaviour of unlink command.
