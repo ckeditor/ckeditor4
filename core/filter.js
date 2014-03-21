@@ -150,6 +150,8 @@
 
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
 			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
+
+			this.disallow( editor.config.disallowedContent, 1 );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -2125,6 +2127,16 @@
  *
  * @since 4.1
  * @cfg {Object/String} extraAllowedContent
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
+ *
+ * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
+ *
+ * @since 4.4
+ * @cfg {Object/String} disallowedContent
  * @member CKEDITOR.config
  */
 
