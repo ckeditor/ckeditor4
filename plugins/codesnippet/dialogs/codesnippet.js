@@ -55,11 +55,19 @@
 								var textarea = CKEDITOR.document.getById( this.domId ).findOne( 'textarea' );
 
 								textarea.on( 'keydown', function( evt ) {
-									if ( evt.data.getKeystroke() == CKEDITOR.CTRL + CKEDITOR.ALT + 84 ) {
-										// ctrl + alt + t
-										// We should insert tab char on this hotkey, and prevent default browser action.
-										insertCharacterToTextarea( textarea.$, '	' );
+									var tabKeystroke = 9, // Tab.
+										changeFocusKeystroke = CKEDITOR.CTRL + 190, // Ctrl + dot.
+										eventKeystroke = evt.data.getKeystroke();
+
+									if ( eventKeystroke == tabKeystroke || eventKeystroke == changeFocusKeystroke ) {
+										// We should insert tab char or move focus to next
+										// dialog element, and prevent default browser actions.
+										eventKeystroke == tabKeystroke ?
+											insertCharacterToTextarea( textarea.$, '	' ) :
+											editor._.storedDialogs.codesnippet.changeFocus( 1 );
+
 										evt.data.preventDefault();
+										evt.data.stopPropagation();
 									}
 								} );
 							},
