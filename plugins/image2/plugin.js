@@ -1303,7 +1303,7 @@
 						this.setupContent( widget.data.link || {} );
 					} else
 						onShow.apply( this, arguments );
-				}
+				};
 
 				// Set widget data if linking the widget using
 				// link dialog (instead of default action).
@@ -1322,7 +1322,7 @@
 						widget.setData( 'link', data );
 					} else
 						onOk.apply( this, arguments );
-				}
+				};
 			}
 		} );
 

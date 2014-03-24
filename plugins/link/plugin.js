@@ -258,7 +258,7 @@
 		}
 
 		return compiledProtectionFunction;
-	};
+	}
 
 	/**
 	 * Set of Link plugin helpers.
