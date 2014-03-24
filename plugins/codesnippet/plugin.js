@@ -47,7 +47,7 @@
 				var path = CKEDITOR.getUrl( this.path ),
 					cssCode = path + 'lib/highlight/styles/' + ( editor.config.codesnippet_template || 'default' ) + '.css';
 
-				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs ) {
+				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs && isBrowserSupported ) {
 					// Inserting required styles/javascript.
 					// Default highlighter was not changed, and hljs is not available, so
 					// it wasn't inserted to the document.
@@ -118,6 +118,9 @@
 
 	// Default languages object.
 	var defaultHighlighter = function( code, lang, callback ) {
+			if ( !isBrowserSupported )
+				return;
+
 			var hljs = window.hljs,
 				// Ensure that language is supported by hljs.
 				snippetLang = hljs.getLanguage( lang ) ? [ lang ] : undefined,
@@ -149,7 +152,8 @@
 			apache: 'Apache',
 			cpp: 'C++',
 			makefile: 'Makefile'
-		};
+		},
+		isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
 
 	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
