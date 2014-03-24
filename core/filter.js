@@ -469,8 +469,8 @@
 			this.addTransformations( feature.contentTransformations );
 			this.addContentForms( feature.contentForms );
 
-			// If custom configuration, then check if required content is allowed.
-			if ( this.customConfig && feature.requiredContent )
+			// If custom configuration or any DACRs, then check if required content is allowed.
+			if ( feature.requiredContent && ( this.customConfig || this.disallowedContent.length ) )
 				return this.check( feature.requiredContent );
 
 			return true;
