@@ -69,7 +69,7 @@
 										// We should insert tab char or move focus to next
 										// dialog element, and prevent default browser actions.
 										eventKeystroke == tabKeystroke ?
-											insertCharacterToTextarea( textarea.$, '	' ) :
+											insertCharacterToTextarea( textarea.$, '    ' ) :
 											editor._.storedDialogs.codeSnippet.changeFocus( 1 );
 
 										evt.data.preventDefault();
