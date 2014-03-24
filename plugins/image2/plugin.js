@@ -318,6 +318,16 @@
 					inflate: inflate
 				} );
 
+				// Update widget.parts.link since it will not auto-update unless widget
+				// is destroyed and re-inited.
+				if ( !this.data.link ) {
+					if ( this.parts.link )
+						this.parts.link = null;
+				} else {
+					if ( !this.parts.link )
+						this.parts.link = this.parts.image.getParent();
+				}
+
 				this.parts.image.setAttributes( {
 					src: this.data.src,
 
