@@ -547,8 +547,11 @@
 							// Set and remove all attributes associated with this state.
 							var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, newValue );
 
-							( newEl || link ).setAttributes( attributes.set );
-							( newEl || link ).removeAttributes( attributes.removed );
+							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
+								( newEl || link ).setAttributes( attributes.set );
+
+							if ( attributes.removed.length )
+								( newEl || link ).removeAttributes( attributes.removed );
 						}
 
 						if ( needsDeflate )
