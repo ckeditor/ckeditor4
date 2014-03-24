@@ -10,6 +10,7 @@
 
 		var snippetLangs = editor._.codesnippet.langs,
 			lang = editor.lang.codesnippet,
+			clientHeight = document.documentElement.clientHeight,
 			langSelectItems = [],
 			langSelectDefaultValue,
 			snippetLangId;
@@ -26,9 +27,14 @@
 			width = Math.min( size.width - 70, 800 ),
 			// Make it use 2/3 of the viewport height.
 			height = size.height / 1.5;
+			// Low resolution settings.
+			if ( clientHeight < 650 )
+				height = clientHeight - 220;
 
 		return  {
 			title: lang.title,
+			minHeight: 200,
+			resizable: CKEDITOR.DIALOG_RESIZE_NONE,
 			contents: [
 				{
 					id: 'info',
