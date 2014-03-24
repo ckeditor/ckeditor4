@@ -162,7 +162,7 @@
 		var preClass = editor.config.codesnippet_class || 'hljs';
 
 		editor.widgets.add( 'codeSnippet', {
-			allowedContent: 'pre; code(*)',
+			allowedContent: 'pre; code(language-*)',
 			template: '<div class="cke_snippet_wrapper"><pre class="' + preClass + '"></pre></div>',
 			dialog: 'codeSnippet',
 			mask: true,
