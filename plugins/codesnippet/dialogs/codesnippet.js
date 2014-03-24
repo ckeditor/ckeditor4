@@ -122,6 +122,8 @@
 			field.focus();
 			sel = document.selection.createRange();
 			sel.text = insertValue;
+			sel.move( 'character', 0 );
+			sel.select();
 		} else {
 			// No selection info.
 			field.value += insertValue;
