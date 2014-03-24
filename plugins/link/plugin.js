@@ -617,9 +617,9 @@
 			}
 
 			// Advanced attributes.
-			if ( data.adv ) {
+			if ( data.advanced ) {
 				var advAttr = function( inputName, attrName ) {
-					var value = data.adv[ inputName ];
+					var value = data.advanced[ inputName ];
 
 					if ( value )
 						set[ attrName ] = value;
@@ -631,8 +631,8 @@
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
 
-				if ( data.adv.advName )
-					set.name = set[ 'data-cke-saved-name' ] = data.adv[ 'advName' ];
+				if ( data.advanced.advName )
+					set.name = set[ 'data-cke-saved-name' ] = data.advanced[ 'advName' ];
 				else
 					removed = removed.concat( [ 'data-cke-saved-name', 'name' ] );
 
