@@ -81,7 +81,10 @@
 		 * Sets custom syntax highlighter function.
 		 * @member CKEDITOR.plugins.codesnippet
 		 * @param {CKEDITOR.editor} editor
-		 * @param {Object} defaultLanguages Default languages for given highlighter. **Note:** if {@link CKEDITOR.config.codesnippet_langs} is set, **it will overwrite** languages given with `defaultLanguages`.
+		 * @param {Object} defaultLanguages Default languages for given highlighter.
+		 *
+		 * **Note:** if {@link CKEDITOR.config.codesnippet_langs} is set, **it will
+		 * overwrite** languages given in this variable.
 		 * @param {Function} highlightHandlerFn
 		 *
 		 *	Function `highlightHandlerFn` takes 3 parameters:
@@ -122,7 +125,8 @@
 
 			if ( result )
 				callback( result.value );
-		}, defaults = {
+		},
+		defaults = {
 			bash: 'Bash',
 			cs: 'C#',
 			ruby: 'Ruby',
