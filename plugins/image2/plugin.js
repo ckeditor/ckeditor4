@@ -530,7 +530,7 @@
 							// which becomes a new widget.element.
 							// If element is <a><img/></a>, it will be unlinked
 							// so <img/> becomes a new widget.element.
-							needsDeflate = shift.element.is( { img: 1, a: 1 } ),
+							needsDeflate = ( shift.element.is( 'a' ) && !newValue ) || ( shift.element.is( 'img' ) && newValue ),
 							newEl;
 
 						if ( needsDeflate )
