@@ -41,7 +41,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	frac34: 'Vulgar fraction three quarters', // MISSING
 	iquest: 'Naopaki upitnik',
 	Agrave: 'Veliko latinsko slovo A s akcentom',
-	Aacute: 'Latin capital letter A with acute accent', // MISSING
+	Aacute: 'Latinično veliko slovo A sa oštrim naglaskom',
 	Acirc: 'Latin capital letter A with circumflex', // MISSING
 	Atilde: 'Latin capital letter A with tilde', // MISSING
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
