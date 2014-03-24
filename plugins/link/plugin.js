@@ -387,6 +387,16 @@
 			}
 		},
 
+		/**
+		 * Parses attributes of the link element and returns an object representing
+		 * the current state (data) of the link. This data format is accepted e.g. by
+		 * the link dialog and {@link #getLinkAttributes}.
+		 *
+		 * @since 4.4
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.dom.element} element
+		 * @returns {Object} An object of link data.
+		 */
 		parseLinkAttributes: function( editor, element ) {
 			var href = ( element && ( element.data( 'cke-saved-href' ) || element.getAttribute( 'href' ) ) ) || '',
 				compiledProtectionFunction = editor.plugins.link.compiledProtectionFunction,
@@ -514,6 +524,29 @@
 			return retval;
 		},
 
+		/**
+		 * Converts link data into an object which consists of attributes to be set
+		 * (with their values) and an array of attributes to be removed. This method
+		 * can be used to synthesise or to update any link element with given data.
+		 *
+		 * @since 4.4
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.dom.element} data Data in {@link #parseLinkAttributes} format.
+		 * @returns {Object} An object consisting of two keys, i.e.:
+		 *
+		 *		{
+		 *			// Attributes to be set
+		 *			set: {
+		 *				href: 'http://foo.bar',
+		 *				target: 'bang'
+		 *			},
+		 *			// Attributes to be removed
+		 *			removed: [
+		 *				'id', 'style'
+		 *			]
+		 *		}
+		 *
+		 */
 		getLinkAttributes: function( editor, data ) {
 			var emailProtection = editor.config.emailProtection || '',
 				removed = [],
