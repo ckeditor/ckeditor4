@@ -6,7 +6,7 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.dialog.add( 'codesnippet', function( editor ) {
+	CKEDITOR.dialog.add( 'codeSnippet', function( editor ) {
 
 		var snippetLangs = editor._.codesnippet.langs,
 			lang = editor.lang.codesnippet,
@@ -70,7 +70,7 @@
 										// dialog element, and prevent default browser actions.
 										eventKeystroke == tabKeystroke ?
 											insertCharacterToTextarea( textarea.$, '	' ) :
-											editor._.storedDialogs.codesnippet.changeFocus( 1 );
+											editor._.storedDialogs.codeSnippet.changeFocus( 1 );
 
 										evt.data.preventDefault();
 										evt.data.stopPropagation();

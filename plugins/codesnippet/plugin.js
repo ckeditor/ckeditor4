@@ -26,16 +26,16 @@
 				'margin:0px auto;' +
 				'padding:10px' +
 			'}' );
-			CKEDITOR.dialog.add( 'codesnippet', this.path + 'dialogs/codesnippet.js' );
+			CKEDITOR.dialog.add( 'codeSnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 
 		afterInit: function( editor ) {
 			ensurePluginNamespaceExists( editor );
 			registerWidget( editor );
 
-			editor.ui.addButton && editor.ui.addButton( 'codesnippet', {
+			editor.ui.addButton && editor.ui.addButton( 'CodeSnippet', {
 				label: editor.lang.codesnippet.button,
-				command: 'codesnippet',
+				command: 'codeSnippet',
 				toolbar: 'insert,10'
 			} );
 
@@ -157,10 +157,10 @@
 
 		var preClass = editor.config.codesnippet_class || 'hljs';
 
-		editor.widgets.add( 'codesnippet', {
+		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(*)',
 			template: '<div class="cke_snippet_wrapper"><pre class="' + preClass + '"></pre></div>',
-			dialog: 'codesnippet',
+			dialog: 'codeSnippet',
 			mask: true,
 			defaults: {
 				lang: '',
