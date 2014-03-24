@@ -130,8 +130,15 @@ function foo( $bar ) {
 
 			// Filling up options in template select.
 			for ( var i=0; i < templates.length; i++ ) {
-				var curTemplate = templates[ i ];
-				templateSelect.innerHTML += '<option value="'+curTemplate+'">'+curTemplate+'</option>';
+				var curTemplate = templates[ i ],
+					optElem;
+
+				// We need to use bare node, coz IE9 have issue with innerHTML inside
+				// select.
+				optElem = document.createElement( 'option' );
+				optElem.text = curTemplate;
+				optElem.value = curTemplate;
+				templateSelect.appendChild( optElem );
 			}
 
 			templateSelect.onchange = function() {
