@@ -467,23 +467,23 @@
 					retval.url = {};
 					retval.url.protocol = urlMatch[ 1 ];
 					retval.url.url = urlMatch[ 2 ];
-				} else
-					retval.type = 'url';
+				}
 			}
 
 			// Load target and popup settings.
 			if ( element ) {
 				var target = element.getAttribute( 'target' );
-				retval.target = {};
-				retval.advanced = {};
 
 				// IE BUG: target attribute is an empty string instead of null in IE if it's not set.
 				if ( !target ) {
 					var onclick = element.data( 'cke-pa-onclick' ) || element.getAttribute( 'onclick' ),
 						onclickMatch = onclick && onclick.match( popupRegex );
+
 					if ( onclickMatch ) {
-						retval.target.type = 'popup';
-						retval.target.name = onclickMatch[ 1 ];
+						retval.target = {
+							type: 'popup',
+							name: onclickMatch[ 1 ]
+						}
 
 						var featureMatch;
 						while ( ( featureMatch = popupFeaturesRegex.exec( onclickMatch[ 2 ] ) ) ) {
@@ -495,26 +495,29 @@
 						}
 					}
 				} else {
-					var targetMatch = target.match( selectableTargets );
-					if ( targetMatch )
-						retval.target.type = retval.target.name = target;
-					else {
-						retval.target.type = 'frame';
-						retval.target.name = target;
+					retval.target = {
+						type: target.match( selectableTargets ) ? target : 'frame',
+						name: target
 					}
 				}
 
+				var advanced = {};
+
 				var advAttr = function( inputName, attrName ) {
 					var value = element.getAttribute( attrName );
+
 					if ( value !== null )
-						retval.advanced[ inputName ] = value || '';
+						advanced[ inputName ] = value || '';
 				};
 
 				advAttr( 'advId', 'id' );
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
 
-				retval.advanced.advName = element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '';
+				var advName = element.data( 'cke-saved-name' ) || element.getAttribute( 'name' );
+
+				if ( advName )
+					advanced.advName = advName;
 
 				advAttr( 'advLangCode', 'lang' );
 				advAttr( 'advTabIndex', 'tabindex' );
@@ -524,10 +527,16 @@
 				advAttr( 'advCharset', 'charset' );
 				advAttr( 'advStyles', 'style' );
 				advAttr( 'advRel', 'rel' );
+
+				if ( !CKEDITOR.tools.isEmpty( advanced ) )
+					retval.advanced = advanced;
 			}
 
 			// Find out whether we have any anchors in the editor.
-			retval.anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
+			var anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
+
+			if ( anchors.length )
+				retval.anchors = anchors;
 
 			return retval;
 		},
