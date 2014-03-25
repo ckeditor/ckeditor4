@@ -209,6 +209,22 @@
 		popupRegex = /\s*window.open\(\s*this\.href\s*,\s*(?:'([^']*)'|null)\s*,\s*'([^']*)'\s*\)\s*;\s*return\s*false;*\s*/,
 		popupFeaturesRegex = /(?:^|,)([^=]+)=(\d+|yes|no)/gi;
 
+	var advAttrNames = {
+		id: 'advId',
+		dir: 'advLangDir',
+		accessKey: 'advAccessKey',
+		// 'data-cke-saved-name': 'advName',
+		name: 'advName',
+		lang: 'advLangCode',
+		tabindex: 'advTabIndex',
+		title: 'advTitle',
+		type: 'advContentType',
+		'class': 'advCSSClasses',
+		charset: 'advCharset',
+		style: 'advStyles',
+		rel: 'advRel',
+	};
+
 	function unescapeSingleQuote( str ) {
 		return str.replace( /\\'/g, '\'' );
 	}
@@ -503,30 +519,17 @@
 
 				var advanced = {};
 
-				var advAttr = function( inputName, attrName ) {
-					var value = element.getAttribute( attrName );
+				for ( var a in advAttrNames ) {
+					var val = element.getAttribute( a );
 
-					if ( value !== null )
-						advanced[ inputName ] = value || '';
-				};
+					if ( val )
+						advanced[ advAttrNames[ a ] ] = val;
+				}
 
-				advAttr( 'advId', 'id' );
-				advAttr( 'advLangDir', 'dir' );
-				advAttr( 'advAccessKey', 'accessKey' );
-
-				var advName = element.data( 'cke-saved-name' ) || element.getAttribute( 'name' );
+				var advName = element.data( 'cke-saved-name' ) || advanced[ 'advName' ];
 
 				if ( advName )
-					advanced.advName = advName;
-
-				advAttr( 'advLangCode', 'lang' );
-				advAttr( 'advTabIndex', 'tabindex' );
-				advAttr( 'advTitle', 'title' );
-				advAttr( 'advContentType', 'type' );
-				advAttr( 'advCSSClasses', 'class' );
-				advAttr( 'advCharset', 'charset' );
-				advAttr( 'advStyles', 'style' );
-				advAttr( 'advRel', 'rel' );
+					advanced[ 'advName' ] = advName;
 
 				if ( !CKEDITOR.tools.isEmpty( advanced ) )
 					retval.advanced = advanced;
@@ -566,11 +569,10 @@
 		 */
 		getLinkAttributes: function( editor, data ) {
 			var emailProtection = editor.config.emailProtection || '',
-				removed = [],
 				set = {};
 
 			// Compose the URL.
-			switch ( data.type || 'url' ) {
+			switch ( data.type ) {
 				case 'url':
 					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
 						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
@@ -653,55 +655,42 @@
 
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
 					set[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
-
-					// Add the "target" attribute. (#5074)
-					removed.push( 'target' );
-				} else {
-					if ( data.target.type != 'notSet' && data.target.name )
-						set.target = data.target.name;
-					else
-						removed.push( 'target' );
-
-					removed.push( 'data-cke-pa-onclick', 'onclick' );
 				}
+				else if ( data.target.type != 'notSet' && data.target.name )
+					set.target = data.target.name;
 			}
 
 			// Advanced attributes.
 			if ( data.advanced ) {
-				var advAttr = function( inputName, attrName ) {
-					var value = data.advanced[ inputName ];
+				for ( var a in advAttrNames ) {
+					var val = data.advanced[ advAttrNames[ a ] ];
 
-					if ( value )
-						set[ attrName ] = value;
-					else
-						removed.push( attrName );
-				};
+					if ( val )
+						set[ a ] = val;
+				}
 
-				advAttr( 'advId', 'id' );
-				advAttr( 'advLangDir', 'dir' );
-				advAttr( 'advAccessKey', 'accessKey' );
-
-				if ( data.advanced.advName )
-					set.name = set[ 'data-cke-saved-name' ] = data.advanced[ 'advName' ];
-				else
-					removed = removed.concat( [ 'data-cke-saved-name', 'name' ] );
-
-				advAttr( 'advLangCode', 'lang' );
-				advAttr( 'advTabIndex', 'tabindex' );
-				advAttr( 'advTitle', 'title' );
-				advAttr( 'advContentType', 'type' );
-				advAttr( 'advCSSClasses', 'class' );
-				advAttr( 'advCharset', 'charset' );
-				advAttr( 'advStyles', 'style' );
-				advAttr( 'advRel', 'rel' );
+				if ( set.name )
+					set[ 'data-cke-saved-name' ] = set.name;
 			}
 
 			// Browser need the "href" fro copy/paste link to work. (#6641)
-			set.href = set[ 'data-cke-saved-href' ];
+			if ( set[ 'data-cke-saved-href' ] )
+				set.href = set[ 'data-cke-saved-href' ];
+
+			var removed = CKEDITOR.tools.extend( {
+				target: 1,
+				onclick: 1,
+				'data-cke-pa-onclick': 1,
+				'data-cke-saved-name': 1
+			}, advAttrNames );
+
+			// Remove all attributes which are not currently set.
+			for ( var s in set )
+				delete removed[ s ];
 
 			return {
 				set: set,
-				removed: removed
+				removed: CKEDITOR.tools.objectKeys( removed )
 			};
 		}
 	};
