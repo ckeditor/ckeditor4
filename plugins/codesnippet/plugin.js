@@ -199,16 +199,17 @@
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
-				var	langs = editor._.codesnippet.langs,
-					elClassAttr = el.attributes[ 'class' ],
+				var elClassAttr = el.attributes[ 'class' ],
+					// Note, here we assume that it's code, we'll validate it
+					// few lines later.
+					childrenArray = getNonEmptyChildren( el ),
 					code,
-					matchResult,
-					l;
+					matchResult;
 
-				// Check el.parent to prevent upcasting loop of hell. If not checked,
-				// widgets system will attempt to upcast nested editables.
-				if ( el.name != 'pre' || !el.parent || !( code = el.getFirst( 'code' ) ) )
+				if ( el.name != 'pre' || childrenArray.length !== 1 || childrenArray[ 0 ].name != 'code' )
 					return;
+
+				code = childrenArray[ 0 ];
 
 				// Read language-* from <code> class attribute.
 				matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
@@ -242,6 +243,29 @@
 				return retPreElement;
 			}
 		} );
+
+		// Returns **array** of children elements, with whitespace-only text nodes
+		// filtered out.
+		// @param {CKEDITOR.htmlParser.element} parentElement
+		// @return Array - array of CKEDITOR.htmlParser.node
+		var whitespaceOnlyRegex = /^[\s\n\r]*$/,
+			getNonEmptyChildren = function( parentElement ) {
+				var ret = [],
+					preChildrenList = parentElement.children,
+					curNode;
+
+				// Filter out empty text nodes.
+				for ( var i = preChildrenList.length-1; i >= 0; i-- ) {
+					curNode = preChildrenList[ i ];
+
+					if ( curNode.type  == CKEDITOR.NODE_TEXT && curNode.value.match( whitespaceOnlyRegex ) )
+						continue;
+
+					ret.push( curNode );
+				}
+
+				return ret;
+			};
 	}
 
 	function ensurePluginNamespaceExists( editor ) {
