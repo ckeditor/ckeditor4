@@ -135,7 +135,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var initialEnterMode = style._.enterMode;
 
 			// See comment in removeStyle.
-			if ( style._.enterMode === undefined )
+			if ( !initialEnterMode )
 				style._.enterMode = this.activeEnterMode;
 			applyStyleOnSelection.call( style, this.getSelection() );
 			style._.enterMode = initialEnterMode;
@@ -156,7 +156,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// styles system and we need to do that (see #10190).
 			// However, we should not change style's enter mode if it was
 			// already set, because that could break backward compatibility.
-			if ( style._.enterMode === undefined )
+			if ( !initialEnterMode )
 				style._.enterMode = this.activeEnterMode;
 			applyStyleOnSelection.call( style, this.getSelection(), 1 );
 			style._.enterMode = initialEnterMode;
