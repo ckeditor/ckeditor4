@@ -412,6 +412,11 @@
 				// Add widget editing option to its context menu.
 				this.on( 'contextMenu', function( evt ) {
 					evt.data.image = CKEDITOR.TRISTATE_OFF;
+
+					// Integrate context menu items for link.
+					evt.data.link = CKEDITOR.TRISTATE_OFF;
+					evt.data.unlink = this.parts.link ?
+						CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 				} );
 
 				// Pass the reference to this widget to the dialog.
