@@ -23,8 +23,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</p>
 
 	<pre class="samples" id="sampleConfig">CKEDITOR.replace( 'editor1', {
-	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
-	height: 440
+	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet'
 } );</pre>
 
 	<textarea id="editor1">
@@ -54,7 +53,6 @@ function foo( $bar ) {
 
 	<pre class="samples">CKEDITOR.replace( 'editor2', {
 	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
-	height: 440,
 	codesnippet_langs: {
 		html4strict: 'HTML',
 		html5: 'HTML5',
@@ -90,14 +88,12 @@ function foo( $bar ) {
 			// Default editor initialization, this one will have no template assigned,
 			// so it will get default template.
 			CKEDITOR.replace( 'editor1', {
-				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
-				height: 440
+				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet'
 			} );
 
 			// Second editor, using snippetgeshi plugin.
 			CKEDITOR.replace( 'editor2', {
 				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
-				height: 440,
 				codesnippet_langs: {
 					html4strict: 'HTML',
 					html5: 'HTML5',
@@ -118,14 +114,13 @@ function foo( $bar ) {
 
 					CKEDITOR.replace( 'editor1', {
 						plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
-						height: 440,
 						codesnippet_template: snippetTemplateName
 					} );
 
 					// Update code sample, it picks only specific lines, and replaces
 					// snippetTemplateName to actually picked value, wrapping it with
 					// quotes.
-					document.getElementById( 'sampleConfig' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 9 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
+					document.getElementById( 'sampleConfig' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 8 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
 				};
 
 			// Filling up options in template select.
