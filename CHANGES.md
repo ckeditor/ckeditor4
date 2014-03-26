@@ -13,6 +13,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10190](http://dev.ckeditor.com/ticket/10190): Fixed: Removing block style by [`editor.removeStyle`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-removeStyle) should result in paragraph not div.
 * [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including switching between modes) creates new undo snapshot. Besides that:
   * Introduced the [`editable.status`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-property-status) property.
   * Introduced new option `forceUpdate` for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
