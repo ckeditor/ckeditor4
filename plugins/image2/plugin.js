@@ -1281,12 +1281,6 @@
 		if ( !editor.plugins.link )
 			return;
 
-		// Don't open link dialog if double-clicked focused widget.
-		editor.on( 'doubleclick', function( evt ) {
-			if ( evt.data.dialog && evt.data.dialog == 'link' && getFocusedWidget( editor ) )
-				evt.cancel();
-		} );
-
 		CKEDITOR.on( 'dialogDefinition', function( evt ) {
 			var dialog = evt.data;
 
