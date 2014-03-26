@@ -7,7 +7,7 @@ CKEditor 4 Changelog
 
 * Marked the [`editor.beforePaste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-beforePaste) event as deprecated.
 * Default class of captioned image has changed to _"image"_ (was: _"caption"_). Please note that once edited in CKEditor 4.4+, all existing images of the _"caption"_ class (`<figure class="caption">`)
-  will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option 
+  will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option
   is set to _"caption"_. For backward compatibility (i.e. when upgrading), it is highly recommended to do so, to also prevent CSS conflicts, etc.. This does not apply
   to new CKEditor integrations.
 
@@ -24,11 +24,11 @@ New Features:
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as image source.
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
-* [#11300](http://dev.ckeditor.com/ticket/11300): Various changes in [Enhanced Image](http://ckeditor.com/addon/image2) plugin:  
+* [#11300](http://dev.ckeditor.com/ticket/11300): Various changes in [Enhanced Image](http://ckeditor.com/addon/image2) plugin:
   * Introduced [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) to configure the class of captioned images.
   * Introduced [`config.image2_alignClasses`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_alignClasses) to configure the way images are aligned with CSS classes.
   If defined, the editor produces classes instead of inline styles for aligned images.
-  * Default caption of the image can be translated (customized) with `editor.lang.image2.captionPlaceholder`. 
+  * Default caption of the image can be translated (customized) with `editor.lang.image2.captionPlaceholder`.
 
 ## CKEditor 4.3.4
 
