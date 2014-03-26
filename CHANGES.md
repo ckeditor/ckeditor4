@@ -10,6 +10,7 @@ CKEditor 4 Changelog
   will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option
   is set to _"caption"_. For backward compatibility (i.e. when upgrading), it is highly recommended to do so, to also prevent CSS conflicts, etc.. This does not apply
   to new CKEditor integrations.
+* Widgets without buttons are not registered automatically to ACF ([#11567](http://dev.ckeditor.com/ticket/11567)).
 
 New Features:
 
