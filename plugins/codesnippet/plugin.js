@@ -288,7 +288,7 @@
  * Allows to setup custom class for pre element inside editor editable.
  *
  * @since 4.4
- * @cfg {String} [snippet_class='hljs']
+ * @cfg {String} [codesnippet_class='hljs']
  * @member CKEDITOR.config
  */
 
@@ -298,7 +298,7 @@
  *		config.codesnippet_template = 'pojoaque';
  *
  * @since 4.4
- * @cfg {String} [snippet_template='default']
+ * @cfg {String} [codesnippet_template='default']
  * @member CKEDITOR.config
  */
 
@@ -311,6 +311,16 @@
  *		};
  *
  * @since 4.4
- * @cfg {Object} [snippet_langs=null]
+ * @cfg {Object} [codesnippet_langs=null]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Tabulation string used in codesnippet edit dialog. Common values are 4x space/ tab character.
+ *
+ *		config.codesnippet_tabulation = "\t";
+ *
+ * @since 4.4
+ * @cfg {Object} [codesnippet_tabulation="    "]
  * @member CKEDITOR.config
  */

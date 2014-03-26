@@ -11,6 +11,7 @@
 		var snippetLangs = editor._.codesnippet.langs,
 			lang = editor.lang.codesnippet,
 			clientHeight = document.documentElement.clientHeight,
+			tabulationString = editor.config.codesnippet_tabulation || '    ',
 			langSelectItems = [],
 			langSelectDefaultValue,
 			snippetLangId;
@@ -69,7 +70,7 @@
 										// We should insert tab char or move focus to next
 										// dialog element, and prevent default browser actions.
 										eventKeystroke == tabKeystroke ?
-											insertCharacterToTextarea( textarea.$, '    ' ) :
+											insertCharacterToTextarea( textarea.$, tabulationString ) :
 											editor._.storedDialogs.codeSnippet.changeFocus( 1 );
 
 										evt.data.preventDefault();
