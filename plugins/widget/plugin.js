@@ -1263,7 +1263,7 @@
 	 * An event fired when the context menu is opened for a widget.
 	 *
 	 * @event contextMenu
-	 * @param data The object contaning context menu options to be added
+	 * @param data The object containing context menu options to be added
 	 * for this widget. See {@link CKEDITOR.plugins.contextMenu#addListener}.
 	 */
 
