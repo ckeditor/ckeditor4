@@ -1327,7 +1327,7 @@
 		} );
 
 		// Overwrite default behaviour of unlink command.
-		editor.commands.unlink.on( 'exec', function( evt ) {
+		editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
 			var widget = getFocusedWidget( editor );
 
 			if ( !widget )
@@ -1337,13 +1337,13 @@
 
 			// Selection (which is fake) may not change if unlinked image in focused widget,
 			// i.e. if captioned image. Let's refresh command state manually here.
-			editor.commands.unlink.refresh( editor, editor.elementPath() );
+			this.refresh( editor, editor.elementPath() );
 
 			evt.cancel();
 		} );
 
 		// Overwrite default refresh of unlink command.
-		editor.commands.unlink.on( 'refresh', function( evt ) {
+		editor.getCommand( 'unlink' ).on( 'refresh', function( evt ) {
 			var widget = getFocusedWidget( editor );
 
 			if ( !widget )
