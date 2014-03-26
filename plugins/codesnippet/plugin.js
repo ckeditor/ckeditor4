@@ -159,7 +159,8 @@
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 
-		var preClass = editor.config.codesnippet_class || 'hljs';
+		var preClass = editor.config.codesnippet_class || 'hljs',
+			newLineRegex = /\r?\n/g;
 
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
@@ -179,7 +180,15 @@
 				var that = this,
 					widgetData = this.data,
 					callback = function( formattedCode ) {
-						that.parts.pre.setHtml( formattedCode );
+						if ( isBrowserSupported )
+							that.parts.pre.setHtml( formattedCode );
+						else {
+							/**
+							 * IE8 (not supported browser) have issue with new line chars, when using innerHTML.
+							 * It will simply strip it.
+							 */
+							that.parts.pre.$.innerHTML = formattedCode.replace( newLineRegex, '<br>' );
+						}
 					};
 				// Set plain code first, so even if custom handler will not call it the code will be there.
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
