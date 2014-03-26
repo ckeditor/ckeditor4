@@ -6,11 +6,11 @@ CKEDITOR.plugins.setLang( 'docprops', 'km', {
 	bgColor: 'ពណ៌​ផ្ទៃ​ក្រោយ',
 	bgFixed: 'ផ្ទៃ​ក្រោយ​គ្មាន​ការ​រំកិល (នឹង​ថ្កល់)',
 	bgImage: 'URL រូបភាព​ផ្ទៃ​ក្រោយ',
-	charset: 'Character Set Encoding', // MISSING
+	charset: 'ការ​អ៊ិនកូដ​តួ​អក្សរ',
 	charsetASCII: 'ASCII',
-	charsetCE: 'Central European', // MISSING
+	charsetCE: 'អឺរ៉ុប​កណ្ដាល',
 	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
+	charsetCT: 'ចិន​បុរាណ (Big5)',
 	charsetGR: 'ក្រិក',
 	charsetJP: 'ជប៉ុន',
 	charsetKR: 'កូរ៉េ',

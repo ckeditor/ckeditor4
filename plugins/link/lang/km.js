@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	noUrl: 'សូម​បញ្ចូល​តំណ URL',
 	other: '<ផ្សេង​ទៀត>',
 	popupDependent: 'Dependent (Netscape)',
-	popupFeatures: 'Popup Window Features', // MISSING
+	popupFeatures: 'មុខ​ងារ​ផុស​ផ្ទាំង​វីនដូ​ឡើង',
 	popupFullScreen: 'ពេញ​អេក្រង់ (IE)',
 	popupLeft: 'ទីតាំងខាងឆ្វេង',
 	popupLocationBar: 'របារ​ទីតាំង',

@@ -30,6 +30,10 @@ New Features:
   If defined, the editor produces classes instead of inline styles for aligned images.
   * Default caption of the image can be translated (customized) with `editor.lang.image2.captionPlaceholder`.
 
+## CKEditor 4.3.5
+
+Fixed Issues:
+
 ## CKEditor 4.3.4
 
 Fixed Issues:
