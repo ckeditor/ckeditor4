@@ -151,7 +151,7 @@
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
 			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
 
-			this.disallow( editor.config.disallowedContent, 1 );
+			this.disallow( editor.config.disallowedContent );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -374,9 +374,11 @@
 			this.disabled = true;
 		},
 
-		disallow: function( newRules, overrideCustom ) {
+		disallow: function( newRules ) {
 			// Check arguments and constraints. Clear cache.
-			if ( !beforeAddingRule( this, newRules, overrideCustom ) )
+			// Note: we pass true in the 3rd argument, because disallow() should never
+			// be blocked by custom configuration.
+			if ( !beforeAddingRule( this, newRules, true ) )
 				return false;
 
 			if ( typeof newRules == 'string' )
