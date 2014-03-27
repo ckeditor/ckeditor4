@@ -7,10 +7,27 @@
 	'use strict';
 
 	var DTD = CKEDITOR.dtd,
+		// processElement flag - means that element has been somehow modified.
+		FILTER_ELEMENT_MODIFIED = 1,
+		// processElement flag - meaning explained in CKEDITOR.FILTER_SKIP_TREE doc.
+		FILTER_SKIP_TREE = 2,
 		copy = CKEDITOR.tools.copy,
 		trim = CKEDITOR.tools.trim,
 		TEST_VALUE = 'cke-test',
 		enterModeTags = [ '', 'p', 'br', 'div' ];
+
+	/**
+	 * Flag indicating that current element and all its ancestors
+	 * should not be filtered.
+	 *
+	 * See {@link CKEDITOR.filter#addElementCallback} for more details.
+	 *
+	 * @since 4.4
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.FILTER_SKIP_TREE = FILTER_SKIP_TREE;
 
 	/**
 	 * Highly configurable class which implements input data filtering mechanisms
@@ -82,6 +99,14 @@
 		 * @readonly
 		 */
 		this.disallowedContent = [];
+
+		/**
+		 * Array of element callbacks. See {@link #addElementCallback}.
+		 *
+		 * @readonly
+		 * @property {Function[]} [=null]
+		 */
+		this.elementCallbacks = null;
 
 		/**
 		 * Whether the filter is disabled.
@@ -245,10 +270,12 @@
 			var that = this,
 				toBeRemoved = [],
 				protectedRegexs = this.editor && this.editor.config.protectedSource,
+				processRetVal,
 				isModified = false,
 				filterOpts = {
 					doFilter: !transformOnly,
 					doTransform: true,
+					doCallbacks: true,
 					toHtml: toHtml
 				};
 
@@ -270,8 +297,11 @@
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
-					if ( processElement( that, el, toBeRemoved, filterOpts ) )
+					processRetVal = processElement( that, el, toBeRemoved, filterOpts );
+					if ( processRetVal & FILTER_ELEMENT_MODIFIED )
 						isModified = true;
+					else if ( processRetVal & FILTER_SKIP_TREE )
+						return false;
 				}
 				else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
 					if ( !processProtectedElement( that, el, protectedRegexs, filterOpts ) )
@@ -440,6 +470,34 @@
 				transfGroups.push( getContentFormTransformationGroup( forms[ i ], preferredForm ) );
 
 			this.addTransformations( transfGroups );
+		},
+
+		/**
+		 * Adds a callback which will be executed on every element
+		 * which filter reaches when filtering, before the element is filtered.
+		 *
+		 * By returning {@link CKEDITOR#FILTER_SKIP_TREE} it is possible to
+		 * skip filtering of the current element and its all ancestors.
+		 *
+		 *		editor.filter.addElementCallback( function( el ) {
+		 *			if ( el.hasClass( 'protected' ) )
+		 *				return CKEDITOR.FILTER_SKIP_TREE;
+		 *		} );
+		 *
+		 * **Note:** At this stage the element passed to callback does not
+		 * contain `attributes`, `classes` and `styles` properties which are available
+		 * temporarily on later stages of filtering. Therefore you need to use the pure
+		 * {@link CKEDITOR.htmlParser.element} interface.
+		 *
+		 * @since 4.4
+		 * @param {Function} callback The callback to be executed.
+		 */
+		addElementCallback: function( callback ) {
+			// We want to keep it a falsy value, to speed up finding whether there are any callbacks.
+			if ( !this.elementCallbacks )
+				this.elementCallbacks = [];
+
+			this.elementCallbacks.push( callback );
 		},
 
 		/**
@@ -953,6 +1011,13 @@
 		}
 	}
 
+	function executeElementCallbacks( element, callbacks ) {
+		for ( var i = 0, l = callbacks.length, retVal; i < l; ++i ) {
+			if ( retVal = callbacks[ i ]( element ) )
+				return retVal;
+		}
+	}
+
 	// Extract required properties from "required" validator and "all" properties.
 	// Remove exclamation marks from "all" properties.
 	//
@@ -1360,19 +1425,30 @@
 	// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
 	// @param {Boolean} [opts.doFilter] Whether element should be filtered.
 	// @param {Boolean} [opts.doTransform] Whether transformations should be applied.
+	// @param {Boolean} [opts.doCallbacks] Whether to execute element callbacks.
 	// @param {Boolean} [opts.toHtml] Set to true if filter used together with htmlDP#toHtml
 	// @param {Boolean} [opts.skipRequired] Whether element's required properties shouldn't be verified.
 	// @param {Boolean} [opts.skipFinalValidation] Whether to not perform final element validation (a,img).
-	// @returns {Boolean} Whether content has been modified.
+	// @returns {Number} Possible flags:
+	//  * FILTER_ELEMENT_MODIFIED,
+	//  * FILTER_SKIP_TREE.
 	function processElement( that, element, toBeRemoved, opts ) {
 		var status,
-			isModified = false;
+			retVal = 0,
+			callbacksRetVal;
 
 		// Unprotect elements names previously protected by htmlDataProcessor
 		// (see protectElementNames and protectSelfClosingElements functions).
 		// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
 		if ( opts.toHtml )
 			element.name = element.name.replace( unprotectElementsNamesRegexp, '$1' );
+
+		// Execute element callbacks and return if one of them returned any value.
+		if ( opts.doCallbacks && that.elementCallbacks ) {
+			// For now we only support here FILTER_SKIP_TREE, so we can early return if retVal is truly value.
+			if ( callbacksRetVal = executeElementCallbacks( element, that.elementCallbacks ) )
+				return callbacksRetVal;
+		}
 
 		// If transformations are set apply all groups.
 		if ( opts.doTransform )
@@ -1385,22 +1461,22 @@
 			// Handle early return from filterElement.
 			if ( !status ) {
 				toBeRemoved.push( element );
-				return true;
+				return FILTER_ELEMENT_MODIFIED;
 			}
 
 			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
 			if ( !status.valid ) {
 				toBeRemoved.push( element );
-				return true;
+				return FILTER_ELEMENT_MODIFIED;
 			}
 
 			// Update element's attributes based on status of filtering.
 			if ( updateElement( element, status ) )
-				isModified = true;
+				retVal = FILTER_ELEMENT_MODIFIED;
 
 			if ( !opts.skipFinalValidation && !validateElement( element ) ) {
 				toBeRemoved.push( element );
-				return true;
+				return FILTER_ELEMENT_MODIFIED;
 			}
 		}
 
@@ -1408,7 +1484,7 @@
 		if ( opts.toHtml )
 			element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
 
-		return isModified;
+		return retVal;
 	}
 
 	// Returns a regexp object which can be used to test if a property
