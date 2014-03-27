@@ -23,7 +23,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</p>
 
 	<pre class="samples" id="sampleConfig">CKEDITOR.replace( 'editor1', {
-	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet'
+	extraPlugins: 'codesnippet'
 } );</pre>
 
 	<textarea id="editor1">
@@ -52,7 +52,7 @@ function foo( $bar ) {
 	<p>In this case we will also use <code>codesnippet_langs</code> config variable, to reduce available languages list.</p>
 
 	<pre class="samples">CKEDITOR.replace( 'editor2', {
-	plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
+	extraPlugins: 'codesnippet,codesnippetgeshi',
 	codesnippet_langs: {
 		html4strict: 'HTML',
 		html5: 'HTML5',
@@ -88,12 +88,12 @@ function foo( $bar ) {
 			// Default editor initialization, this one will have no template assigned,
 			// so it will get default template.
 			CKEDITOR.replace( 'editor1', {
-				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet'
+				extraPlugins: 'codesnippet'
 			} );
 
 			// Second editor, using snippetgeshi plugin.
 			CKEDITOR.replace( 'editor2', {
-				plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet,codesnippetgeshi',
+				extraPlugins: 'codesnippet,codesnippetgeshi',
 				codesnippet_langs: {
 					html4strict: 'HTML',
 					html5: 'HTML5',
@@ -103,9 +103,11 @@ function foo( $bar ) {
 				}
 			} );
 
+			// Remaining part is resposible only for interactive sample logic.
 			var templates = [ 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn' ];
 
 			var templateSelect = document.getElementById( 'templateSelect' ),
+				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n	extraPlugins: \'codesnippet\',\n	codesnippet_template: \'{tpl}\'\n} );',
 				// This function will encapsulate all the logic needed to replace first
 				// editor with template picked in select.
 				createTemplatedEditor = function( snippetTemplateName ) {
@@ -113,14 +115,12 @@ function foo( $bar ) {
 						CKEDITOR.instances.editor1.destroy();
 
 					CKEDITOR.replace( 'editor1', {
-						plugins: 'wysiwygarea,clipboard,toolbar,sourcearea,htmlwriter,basicstyles,enterkey,codesnippet',
+						extraPlugins: 'codesnippet',
 						codesnippet_template: snippetTemplateName
 					} );
 
-					// Update code sample, it picks only specific lines, and replaces
-					// snippetTemplateName to actually picked value, wrapping it with
-					// quotes.
-					document.getElementById( 'sampleConfig' ).innerHTML = String( createTemplatedEditor ).split( "\n" ).slice( 4, 8 ).join( "\n" ).replace( /^\t{5}/gm, '' ).replace( 'snippetTemplateName', "'" + snippetTemplateName + "'" );
+					// Update sample code.
+					document.getElementById( 'sampleConfig' ).innerText = codeTemplate.replace( '{tpl}', snippetTemplateName );
 				};
 
 			// Filling up options in template select.
@@ -131,7 +131,7 @@ function foo( $bar ) {
 				// We need to use bare node, coz IE9 have issue with innerHTML inside
 				// select.
 				optElem = document.createElement( 'option' );
-				optElem.text = curTemplate;
+				optElem.innerHTML = curTemplate;
 				optElem.value = curTemplate;
 				templateSelect.appendChild( optElem );
 			}
