@@ -26,6 +26,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	extraPlugins: 'codesnippet'
 } );</pre>
 
+	<p id="ie8-warning">
+		Please note that syntax highlighting feature is not compatible with Internet Explorer 8.
+	</p>
+
 	<textarea id="editor1">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
@@ -141,6 +145,9 @@ function foo( $bar ) {
 			templateSelect.onchange = function() {
 				createTemplatedEditor( this.value );
 			};
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+				document.getElementById( 'ie8-warning' ).className = 'warning';
 		}() );
 	</script>
 
