@@ -119,8 +119,10 @@ function foo( $bar ) {
 						codesnippet_template: snippetTemplateName
 					} );
 
-					// Update sample code.
-					document.getElementById( 'sampleConfig' ).innerText = codeTemplate.replace( '{tpl}', snippetTemplateName );
+					// Update sample code. Purely DOM-oriented text insertion, otherwise IE8 was consuming tab chars.
+					var sampleConfigPre = CKEDITOR.document.getById( 'sampleConfig' );
+					sampleConfigPre.setHtml( '' );
+					sampleConfigPre.append( new CKEDITOR.dom.text( codeTemplate.replace( '{tpl}', snippetTemplateName ) ) );
 				};
 
 			// Filling up options in template select.
