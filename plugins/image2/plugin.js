@@ -1315,7 +1315,7 @@
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
-					if ( widget && !widget.wrapper.getAscendant( 'a' ) ) {
+					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) ) {
 						this.setupContent( widget.data.link || {} );
 					} else
 						onShow.apply( this, arguments );
@@ -1330,7 +1330,7 @@
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
-					if ( widget && !widget.wrapper.getAscendant( 'a' ) ) {
+					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) ) {
 						var data = {};
 
 						// Collect data from fields.
