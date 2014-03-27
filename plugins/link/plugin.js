@@ -95,11 +95,19 @@
 				if ( !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
 						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
-						editor.getSelection().selectElement( element );
+
+						// Pass the link to be selected along with event data.
+						evt.data.link = element;
 					} else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) )
 						evt.data.dialog = 'anchor';
 				}
-			} );
+			}, null, null, 0 );
+
+			// If event was cancelled, link passed in event data will not be selected.
+			editor.on( 'doubleclick', function( evt ) {
+				if ( evt.data.dialog == 'link' && evt.data.link )
+					editor.getSelection().selectElement( evt.data.link );
+			}, null, null, 20 );
 
 			// If the "menu" plugin is loaded, register the menu items.
 			if ( editor.addMenuItems ) {
