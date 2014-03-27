@@ -79,6 +79,11 @@
 		this.allowedContent = [];
 
 		/**
+		 * @readonly
+		 */
+		this.disallowedContent = [];
+
+		/**
 		 * Whether the filter is disabled.
 		 *
 		 * To disable the filter, set {@link CKEDITOR.config#allowedContent} to `true`
@@ -108,7 +113,15 @@
 
 		this._ = {
 			// Optimized allowed content rules.
-			rules: {},
+			allowedRules: {
+				elements: {},
+				generic: []
+			},
+			// Optimized disallowed content rules.
+			disallowedRules: {
+				elements: {},
+				generic: []
+			},
 			// Object: element name => array of transformations groups.
 			transformations: {},
 			cachedTests: {}
@@ -137,6 +150,8 @@
 
 			// Enter modes should extend filter rules (ENTER_P adds 'p' rule, etc.).
 			this.allow( enterModeTags[ editor.enterMode ] + ' ' + enterModeTags[ editor.shiftEnterMode ], 'default', 1 );
+
+			this.disallow( editor.config.disallowedContent );
 		}
 		// Rules object passed in editorOrRules argument - initialize standalone filter.
 		else {
@@ -180,18 +195,9 @@
 		 * @returns {Boolean} Whether the rules were accepted.
 		 */
 		allow: function( newRules, featureName, overrideCustom ) {
-			if ( this.disabled )
+			// Check arguments and constraints. Clear cache.
+			if ( !beforeAddingRule( this, newRules, overrideCustom ) )
 				return false;
-
-			// Don't override custom user's configuration if not explicitly requested.
-			if ( this.customConfig && !overrideCustom )
-				return false;
-
-			if ( !newRules )
-				return false;
-
-			// Clear cache, because new rules could change results of checks.
-			this._.cachedChecks = {};
 
 			var i, ret;
 
@@ -205,38 +211,7 @@
 				return ret; // Return last status.
 			}
 
-			var groupName, rule,
-				rulesToOptimize = [];
-
-			for ( groupName in newRules ) {
-				rule = newRules[ groupName ];
-
-				// { 'p h1': true } => { 'p h1': {} }.
-				if ( typeof rule == 'boolean' )
-					rule = {};
-				// { 'p h1': func } => { 'p h1': { match: func } }.
-				else if ( typeof rule == 'function' )
-					rule = { match: rule };
-				// Clone (shallow) rule, because we'll modify it later.
-				else
-					rule = copy( rule );
-
-				// If this is not an unnamed rule ({ '$1' => { ... } })
-				// move elements list to property.
-				if ( groupName.charAt( 0 ) != '$' )
-					rule.elements = groupName;
-
-				if ( featureName )
-					rule.featureName = featureName.toLowerCase();
-
-				standardizeRule( rule );
-
-				// Save rule and remember to optimize it.
-				this.allowedContent.push( rule );
-				rulesToOptimize.push( rule );
-			}
-
-			optimizeRules( this._.rules, rulesToOptimize );
+			addAndOptimizeRules( this, newRules, featureName, this.allowedContent, this._.allowedRules );
 
 			return true;
 		},
@@ -267,12 +242,15 @@
 			if ( this.disabled )
 				return false;
 
-			var toBeRemoved = [],
-				rules = !transformOnly && this._.rules,
-				transformations = this._.transformations,
-				filterFn = getFilterFunction( this ),
+			var that = this,
+				toBeRemoved = [],
 				protectedRegexs = this.editor && this.editor.config.protectedSource,
-				isModified = false;
+				isModified = false,
+				filterOpts = {
+					doFilter: !transformOnly,
+					doTransform: true,
+					toHtml: toHtml
+				};
 
 			// Filter all children, skip root (fragment or editable-like wrapper used by data processor).
 			fragment.forEach( function( el ) {
@@ -292,11 +270,11 @@
 					if ( toHtml && el.name == 'span' && ~CKEDITOR.tools.objectKeys( el.attributes ).join( '|' ).indexOf( 'data-cke-' ) )
 						return;
 
-					if ( filterFn( el, rules, transformations, toBeRemoved, toHtml ) )
+					if ( processElement( that, el, toBeRemoved, filterOpts ) )
 						isModified = true;
 				}
 				else if ( el.type == CKEDITOR.NODE_COMMENT && el.value.match( /^\{cke_protected\}(?!\{C\})/ ) ) {
-					if ( !filterProtectedElement( el, protectedRegexs, filterFn, rules, transformations, toHtml ) )
+					if ( !processProtectedElement( that, el, protectedRegexs, filterOpts ) )
 						toBeRemoved.push( el );
 				}
 			}, null, true );
@@ -396,6 +374,21 @@
 			this.disabled = true;
 		},
 
+		disallow: function( newRules ) {
+			// Check arguments and constraints. Clear cache.
+			// Note: we pass true in the 3rd argument, because disallow() should never
+			// be blocked by custom configuration.
+			if ( !beforeAddingRule( this, newRules, true ) )
+				return false;
+
+			if ( typeof newRules == 'string' )
+				newRules = parseRulesString( newRules );
+
+			addAndOptimizeRules( this, newRules, null, this.disallowedContent, this._.disallowedRules );
+
+			return true;
+		},
+
 		/**
 		 * Adds an array of {@link CKEDITOR.feature} content forms. All forms
 		 * will then be transformed to the first form which is allowed by the filter.
@@ -478,8 +471,8 @@
 			this.addTransformations( feature.contentTransformations );
 			this.addContentForms( feature.contentForms );
 
-			// If custom configuration, then check if required content is allowed.
-			if ( this.customConfig && feature.requiredContent )
+			// If custom configuration or any DACRs, then check if required content is allowed.
+			if ( feature.requiredContent && ( this.customConfig || this.disallowedContent.length ) )
 				return this.check( feature.requiredContent );
 
 			return true;
@@ -663,8 +656,12 @@
 			}
 
 			// Filter clone of mocked element.
-			// Do not run transformations.
-			getFilterFunction( this )( clone, this._.rules, applyTransformations === false ? false : this._.transformations, toBeRemoved, false, !strictCheck, !strictCheck );
+			processElement( this, clone, toBeRemoved, {
+				doFilter: true,
+				doTransform: applyTransformations !== false,
+				skipRequired: !strictCheck,
+				skipFinalValidation: !strictCheck
+			} );
 
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 )
@@ -722,24 +719,50 @@
 		} )()
 	};
 
-	// Apply ACR to an element
+	function addAndOptimizeRules( that, newRules, featureName, standardizedRules, optimizedRules ) {
+		var groupName, rule,
+			rulesToOptimize = [];
+
+		for ( groupName in newRules ) {
+			rule = newRules[ groupName ];
+
+			// { 'p h1': true } => { 'p h1': {} }.
+			if ( typeof rule == 'boolean' )
+				rule = {};
+			// { 'p h1': func } => { 'p h1': { match: func } }.
+			else if ( typeof rule == 'function' )
+				rule = { match: rule };
+			// Clone (shallow) rule, because we'll modify it later.
+			else
+				rule = copy( rule );
+
+			// If this is not an unnamed rule ({ '$1' => { ... } })
+			// move elements list to property.
+			if ( groupName.charAt( 0 ) != '$' )
+				rule.elements = groupName;
+
+			if ( featureName )
+				rule.featureName = featureName.toLowerCase();
+
+			standardizeRule( rule );
+
+			// Save rule and remember to optimize it.
+			standardizedRules.push( rule );
+			rulesToOptimize.push( rule );
+		}
+
+		optimizeRules( optimizedRules, rulesToOptimize );
+	}
+
+	// Apply ACR to an element.
 	// @param rule
 	// @param element
 	// @param status Object containing status of element's filtering.
-	// @param {Boolean} isSpecific True if this is specific element's rule, false if generic.
 	// @param {Boolean} skipRequired If true don't check if element has all required properties.
-	function applyRule( rule, element, status, isSpecific, skipRequired ) {
-		var name = element.name;
-
-		// This generic rule doesn't apply to this element - skip it.
-		if ( !isSpecific && typeof rule.elements == 'function' && !rule.elements( name ) )
-			return;
-
+	function applyAllowedRule( rule, element, status, skipRequired ) {
 		// This rule doesn't match this element - skip it.
-		if ( rule.match ) {
-			if ( !rule.match( element ) )
-				return;
-		}
+		if ( rule.match && !rule.match( element ) )
+			return;
 
 		// If element doesn't have all required styles/attrs/classes
 		// this rule doesn't match it.
@@ -752,19 +775,19 @@
 
 		// Apply rule only when all attrs/styles/classes haven't been marked as valid.
 		if ( !status.allAttributes )
-			status.allAttributes = applyRuleToHash( rule.attributes, element.attributes, status.validAttributes );
+			status.allAttributes = applyAllowedRuleToHash( rule.attributes, element.attributes, status.validAttributes );
 
 		if ( !status.allStyles )
-			status.allStyles = applyRuleToHash( rule.styles, element.styles, status.validStyles );
+			status.allStyles = applyAllowedRuleToHash( rule.styles, element.styles, status.validStyles );
 
 		if ( !status.allClasses )
-			status.allClasses = applyRuleToArray( rule.classes, element.classes, status.validClasses );
+			status.allClasses = applyAllowedRuleToArray( rule.classes, element.classes, status.validClasses );
 	}
 
 	// Apply itemsRule to items (only classes are kept in array).
 	// Push accepted items to validItems array.
 	// Return true when all items are valid.
-	function applyRuleToArray( itemsRule, items, validItems ) {
+	function applyAllowedRuleToArray( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return false;
 
@@ -781,7 +804,7 @@
 		return false;
 	}
 
-	function applyRuleToHash( itemsRule, items, validItems ) {
+	function applyAllowedRuleToHash( itemsRule, items, validItems ) {
 		if ( !itemsRule )
 			return false;
 
@@ -790,10 +813,82 @@
 
 		for ( var name in items ) {
 			if ( !validItems[ name ] )
-				validItems[ name ] = itemsRule( name, items[ name ] );
+				validItems[ name ] = itemsRule( name );
 		}
 
 		return false;
+	}
+
+	// Apply DACR rule to an element.
+	function applyDisallowedRule( rule, element, status ) {
+		// This rule doesn't match this element - skip it.
+		if ( rule.match && !rule.match( element ) )
+			return;
+
+		// No properties - it's an element only rule so it disallows entire element.
+		// Early return is handled in filterElement.
+		if ( rule.noProperties )
+			return false;
+
+		// Apply rule to attributes, styles and classes. Switch hadInvalid* to true if method returned true.
+		status.hadInvalidAttribute = applyDisallowedRuleToHash( rule.attributes, element.attributes ) || status.hadInvalidAttribute;
+		status.hadInvalidStyle = applyDisallowedRuleToHash( rule.styles, element.styles ) || status.hadInvalidStyle;
+		status.hadInvalidClass = applyDisallowedRuleToArray( rule.classes, element.classes ) || status.hadInvalidClass;
+	}
+
+	// Apply DACR to items (only classes are kept in array).
+	// @returns {Boolean} True if at least one of items was invalid (disallowed).
+	function applyDisallowedRuleToArray( itemsRule, items ) {
+		if ( !itemsRule )
+			return false;
+
+		var hadInvalid = false,
+			allDisallowed = itemsRule === true;
+
+		for ( var i = items.length; i--; ) {
+			if ( allDisallowed || itemsRule( items[ i ] ) ) {
+				items.splice( i, 1 );
+				hadInvalid = true;
+			}
+		}
+
+		return hadInvalid;
+	}
+
+	// Apply DACR to items (styles and attributes).
+	// @returns {Boolean} True if at least one of items was invalid (disallowed).
+	function applyDisallowedRuleToHash( itemsRule, items ) {
+		if ( !itemsRule )
+			return false;
+
+		var hadInvalid = false,
+			allDisallowed = itemsRule === true;
+
+		for ( var name in items ) {
+			if ( allDisallowed || itemsRule( name ) ) {
+				delete items[ name ];
+				hadInvalid = true;
+			}
+		}
+
+		return hadInvalid;
+	}
+
+	function beforeAddingRule( that, newRules, overrideCustom ) {
+		if ( that.disabled )
+			return false;
+
+		// Don't override custom user's configuration if not explicitly requested.
+		if ( that.customConfig && !overrideCustom )
+			return false;
+
+		if ( !newRules )
+			return false;
+
+		// Clear cache, because new rules could change results of checks.
+		that._.cachedChecks = {};
+
+		return true;
 	}
 
 	// Convert CKEDITOR.style to filter's rule.
@@ -897,146 +992,76 @@
 		return empty ? false : required;
 	}
 
-	// Filter element protected with a comment.
-	// Returns true if protected content is ok, false otherwise.
-	function filterProtectedElement( comment, protectedRegexs, filterFn, rules, transformations, toHtml ) {
-		var source = decodeURIComponent( comment.value.replace( /^\{cke_protected\}/, '' ) ),
-			protectedFrag,
-			toBeRemoved = [],
-			node, i, match;
+	// Does the actual filtering by appling allowed content rules
+	// to the element.
+	//
+	// @param {CKEDITOR.filter} that The context.
+	// @param {CKEDITOR.htmlParser.element} element
+	// @param {Object} opts The same as in processElement.
+	function filterElement( that, element, opts ) {
+		var name = element.name,
+			privObj = that._,
+			allowedRules = privObj.allowedRules.elements[ name ],
+			genericAllowedRules = privObj.allowedRules.generic,
+			disallowedRules = privObj.disallowedRules.elements[ name ],
+			genericDisallowedRules = privObj.disallowedRules.generic,
+			skipRequired = opts.skipRequired,
+			status = {
+				// Whether any of rules accepted element.
+				// If not - it will be stripped.
+				valid: false,
+				// Objects containing accepted attributes, classes and styles.
+				validAttributes: {},
+				validClasses: {},
+				validStyles: {},
+				// Whether all are valid.
+				// If we know that all element's attrs/classes/styles are valid
+				// we can skip their validation, to improve performance.
+				allAttributes: false,
+				allClasses: false,
+				allStyles: false,
+				// Whether element had (before applying DACRs) at least one invalid attribute/class/style.
+				hadInvalidAttribute: false,
+				hadInvalidClass: false,
+				hadInvalidStyle: false
+			},
+			i, l;
 
-		// Protected element's and protected source's comments look exactly the same.
-		// Check if what we have isn't a protected source instead of protected script/noscript.
-		if ( protectedRegexs ) {
-			for ( i = 0; i < protectedRegexs.length; ++i ) {
-				if ( ( match = source.match( protectedRegexs[ i ] ) ) &&
-					match[ 0 ].length == source.length	// Check whether this pattern matches entire source
-														// to avoid '<script>alert("<? 1 ?>")</script>' matching
-														// the PHP's protectedSource regexp.
-				)
-					return true;
+		// Early return - if there are no rules for this element (specific or generic), remove it.
+		if ( !allowedRules && !genericAllowedRules )
+			return null;
+
+		// Could not be done yet if there were no transformations and if this
+		// is real (not mocked) object.
+		populateProperties( element );
+
+		// Note - this step modifies element's styles, classes and attributes.
+		if ( disallowedRules ) {
+			for ( i = 0, l = disallowedRules.length; i < l; ++i ) {
+				// Apply rule and make an early return if false is returned what means
+				// that element is completely disallowed.
+				if ( applyDisallowedRule( disallowedRules[ i ], element, status ) === false )
+					return null;
 			}
 		}
 
-		protectedFrag = CKEDITOR.htmlParser.fragment.fromHtml( source );
+		// Note - this step modifies element's styles, classes and attributes.
+		if ( genericDisallowedRules ) {
+			for ( i = 0, l = genericDisallowedRules.length; i < l; ++i )
+				applyDisallowedRule( genericDisallowedRules[ i ], element, status );
+		}
 
-		if ( protectedFrag.children.length == 1 && ( node = protectedFrag.children[ 0 ] ).type == CKEDITOR.NODE_ELEMENT )
-			filterFn( node, rules, transformations, toBeRemoved, toHtml );
+		if ( allowedRules ) {
+			for ( i = 0, l = allowedRules.length; i < l; ++i )
+				applyAllowedRule( allowedRules[ i ], element, status, skipRequired );
+		}
 
-		// If protected element has been marked to be removed, return 'false' - comment was rejected.
-		return !toBeRemoved.length;
-	}
+		if ( genericAllowedRules ) {
+			for ( i = 0, l = genericAllowedRules.length; i < l; ++i )
+				applyAllowedRule( genericAllowedRules[ i ], element, status, skipRequired );
+		}
 
-	// Returns function that accepts {@link CKEDITOR.htmlParser.element}
-	// and filters it basing on allowed content rules registered by
-	// {@link #allow} method.
-	//
-	// @param {CKEDITOR.filter} that
-	function getFilterFunction( that ) {
-		// Return cached function.
-		if ( that._.filterFunction )
-			return that._.filterFunction;
-
-		var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
-			protectElementsNamesRegexp = /^(object|embed|param)$/;
-
-		// Return and cache created function.
-		// @param {CKEDITOR.htmlParser.element}
-		// @param [optimizedRules] Rules to be used.
-		// @param [transformations] Transformations to be applied.
-		// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
-		// @param {Boolean} [toHtml] Set to true if filter used together with htmlDP#toHtml
-		// @param {Boolean} [skipRequired] Whether element's required properties shouldn't be verified.
-		// @param {Boolean} [skipFinalValidation] Whether to not perform final element validation (a,img).
-		// @returns {Boolean} Whether content has been modified.
-		return that._.filterFunction = function( element, optimizedRules, transformations, toBeRemoved, toHtml, skipRequired, skipFinalValidation ) {
-			var name = element.name,
-				i, l, trans,
-				isModified = false;
-
-			// Unprotect elements names previously protected by htmlDataProcessor
-			// (see protectElementNames and protectSelfClosingElements functions).
-			// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
-			if ( toHtml )
-				element.name = name = name.replace( unprotectElementsNamesRegexp, '$1' );
-
-			// If transformations are set apply all groups.
-			if ( ( transformations = transformations && transformations[ name ] ) ) {
-				populateProperties( element );
-
-				for ( i = 0; i < transformations.length; ++i )
-					applyTransformationsGroup( that, element, transformations[ i ] );
-
-				// Do not count on updateElement(), because it:
-				// * may not be called,
-				// * may skip some properties when all are marked as valid.
-				updateAttributes( element );
-			}
-
-			if ( optimizedRules ) {
-				// Name could be changed by transformations.
-				name = element.name;
-
-				var rules = optimizedRules.elements[ name ],
-					genericRules = optimizedRules.generic,
-					status = {
-						// Whether any of rules accepted element.
-						// If not - it will be stripped.
-						valid: false,
-						// Objects containing accepted attributes, classes and styles.
-						validAttributes: {},
-						validClasses: {},
-						validStyles: {},
-						// Whether all are valid.
-						// If we know that all element's attrs/classes/styles are valid
-						// we can skip their validation, to improve performance.
-						allAttributes: false,
-						allClasses: false,
-						allStyles: false
-					};
-
-				// Early return - if there are no rules for this element (specific or generic), remove it.
-				if ( !rules && !genericRules ) {
-					toBeRemoved.push( element );
-					return true;
-				}
-
-				// Could not be done yet if there were no transformations and if this
-				// is real (not mocked) object.
-				populateProperties( element );
-
-				if ( rules ) {
-					for ( i = 0, l = rules.length; i < l; ++i )
-						applyRule( rules[ i ], element, status, true, skipRequired );
-				}
-
-				if ( genericRules ) {
-					for ( i = 0, l = genericRules.length; i < l; ++i )
-						applyRule( genericRules[ i ], element, status, false, skipRequired );
-				}
-
-				// Finally, if after running all filter rules it still hasn't been allowed - remove it.
-				if ( !status.valid ) {
-					toBeRemoved.push( element );
-					return true;
-				}
-
-				// Update element's attributes based on status of filtering.
-				if ( updateElement( element, status ) )
-					isModified = true;
-
-				if ( !skipFinalValidation && !validateElement( element ) ) {
-					toBeRemoved.push( element );
-					return true;
-				}
-			}
-
-			// Protect previously unprotected elements.
-			if ( toHtml )
-				element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
-
-			return isModified;
-		};
+		return status;
 	}
 
 	// Check whether element has all properties (styles,classes,attrs) required by a rule.
@@ -1196,12 +1221,13 @@
 		}
 
 		rule.nothingRequired = nothingRequired;
+		rule.noProperties = !( rule.attributes || rule.classes || rule.styles );
 	}
 
 	// Add optimized version of rule to optimizedRules object.
 	function optimizeRules( optimizedRules, rules ) {
-		var elementsRules = optimizedRules.elements || {},
-			genericRules = optimizedRules.generic || [],
+		var elementsRules = optimizedRules.elements,
+			genericRules = optimizedRules.generic,
 			i, l, j, rule, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
@@ -1214,7 +1240,6 @@
 			// validates properties only.
 			// Or '$1': { match: function() {...} }
 			if ( rule.elements === true || rule.elements === null ) {
-				rule.elements = validatorFunction( rule.elements );
 				// Add priority rules at the beginning.
 				genericRules[ priority ? 'unshift' : 'push' ]( rule );
 			}
@@ -1233,9 +1258,6 @@
 				}
 			}
 		}
-
-		optimizedRules.elements = elementsRules;
-		optimizedRules.generic = genericRules.length ? genericRules : null;
 	}
 
 	//                  <   elements   ><                      styles, attributes and classes                       >< separator >
@@ -1286,11 +1308,107 @@
 	}
 
 	function populateProperties( element ) {
+			// Backup styles and classes, because they may be removed by DACRs.
+			// We'll need them in updateElement().
+		var styles = element.styleBackup = element.attributes.style,
+			classes = element.classBackup = element.attributes[ 'class' ];
+
 		// Parse classes and styles if that hasn't been done before.
 		if ( !element.styles )
-			element.styles = CKEDITOR.tools.parseCssText( element.attributes.style || '', 1 );
+			element.styles = CKEDITOR.tools.parseCssText( styles || '', 1 );
 		if ( !element.classes )
-			element.classes = element.attributes[ 'class' ] ? element.attributes[ 'class' ].split( /\s+/ ) : [];
+			element.classes = classes ? classes.split( /\s+/ ) : [];
+	}
+
+	// Filter element protected with a comment.
+	// Returns true if protected content is ok, false otherwise.
+	function processProtectedElement( that, comment, protectedRegexs, filterOpts ) {
+		var source = decodeURIComponent( comment.value.replace( /^\{cke_protected\}/, '' ) ),
+			protectedFrag,
+			toBeRemoved = [],
+			node, i, match;
+
+		// Protected element's and protected source's comments look exactly the same.
+		// Check if what we have isn't a protected source instead of protected script/noscript.
+		if ( protectedRegexs ) {
+			for ( i = 0; i < protectedRegexs.length; ++i ) {
+				if ( ( match = source.match( protectedRegexs[ i ] ) ) &&
+					match[ 0 ].length == source.length	// Check whether this pattern matches entire source
+														// to avoid '<script>alert("<? 1 ?>")</script>' matching
+														// the PHP's protectedSource regexp.
+				)
+					return true;
+			}
+		}
+
+		protectedFrag = CKEDITOR.htmlParser.fragment.fromHtml( source );
+
+		if ( protectedFrag.children.length == 1 && ( node = protectedFrag.children[ 0 ] ).type == CKEDITOR.NODE_ELEMENT )
+			processElement( that, node, toBeRemoved, filterOpts );
+
+		// If protected element has been marked to be removed, return 'false' - comment was rejected.
+		return !toBeRemoved.length;
+	}
+
+	var unprotectElementsNamesRegexp = /^cke:(object|embed|param)$/,
+		protectElementsNamesRegexp = /^(object|embed|param)$/;
+
+	// The actual function which filters, transforms and does other funny things with an element.
+	//
+	// @param {CKEDITOR.filter} that Context.
+	// @param {CKEDITOR.htmlParser.element} element The element to be processed.
+	// @param {Array} toBeRemoved Array into which elements rejected by the filter will be pushed.
+	// @param {Boolean} [opts.doFilter] Whether element should be filtered.
+	// @param {Boolean} [opts.doTransform] Whether transformations should be applied.
+	// @param {Boolean} [opts.toHtml] Set to true if filter used together with htmlDP#toHtml
+	// @param {Boolean} [opts.skipRequired] Whether element's required properties shouldn't be verified.
+	// @param {Boolean} [opts.skipFinalValidation] Whether to not perform final element validation (a,img).
+	// @returns {Boolean} Whether content has been modified.
+	function processElement( that, element, toBeRemoved, opts ) {
+		var status,
+			isModified = false;
+
+		// Unprotect elements names previously protected by htmlDataProcessor
+		// (see protectElementNames and protectSelfClosingElements functions).
+		// Note: body, title, etc. are not protected by htmlDataP (or are protected and then unprotected).
+		if ( opts.toHtml )
+			element.name = element.name.replace( unprotectElementsNamesRegexp, '$1' );
+
+		// If transformations are set apply all groups.
+		if ( opts.doTransform )
+			transformElement( that, element );
+
+		if ( opts.doFilter ) {
+			// Apply all filters.
+			status = filterElement( that, element, opts );
+
+			// Handle early return from filterElement.
+			if ( !status ) {
+				toBeRemoved.push( element );
+				return true;
+			}
+
+			// Finally, if after running all filter rules it still hasn't been allowed - remove it.
+			if ( !status.valid ) {
+				toBeRemoved.push( element );
+				return true;
+			}
+
+			// Update element's attributes based on status of filtering.
+			if ( updateElement( element, status ) )
+				isModified = true;
+
+			if ( !opts.skipFinalValidation && !validateElement( element ) ) {
+				toBeRemoved.push( element );
+				return true;
+			}
+		}
+
+		// Protect previously unprotected elements.
+		if ( opts.toHtml )
+			element.name = element.name.replace( protectElementsNamesRegexp, 'cke:$1' );
+
+		return isModified;
 	}
 
 	// Returns a regexp object which can be used to test if a property
@@ -1327,6 +1445,26 @@
 		rule.match = rule.match || null;
 	}
 
+	// Does the element transformation by applying registered
+	// transformation rules.
+	function transformElement( that, element ) {
+		var transformations = that._.transformations[ element.name ],
+			i;
+
+		if ( !transformations )
+			return;
+
+		populateProperties( element );
+
+		for ( i = 0; i < transformations.length; ++i )
+			applyTransformationsGroup( that, element, transformations[ i ] );
+
+		// Do not count on updateElement() which is called in processElement, because it:
+		// * may not be called,
+		// * may skip some properties when all are marked as valid.
+		updateAttributes( element );
+	}
+
 	// Copy element's styles and classes back to attributes array.
 	function updateAttributes( element ) {
 		var attrs = element.attributes,
@@ -1352,8 +1490,8 @@
 			validClasses = status.validClasses,
 			attrs = element.attributes,
 			styles = element.styles,
-			origClasses = attrs[ 'class' ],
-			origStyles = attrs.style,
+			origClasses = element.classBackup,
+			origStyles = element.styleBackup,
 			name, origName,
 			stylesArr = [],
 			classesArr = [],
@@ -1363,8 +1501,11 @@
 		// Will be recreated later if any of styles/classes were passed.
 		delete attrs.style;
 		delete attrs[ 'class' ];
+		// Clean up.
+		delete element.classBackup;
+		delete element.styleBackup;
 
-		if ( !status.allAttributes ) {
+		if ( !status.allAttributes || status.hadInvalidAttribute ) {
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
 				if ( !validAttrs[ name ] ) {
@@ -1386,7 +1527,7 @@
 			}
 		}
 
-		if ( !status.allStyles ) {
+		if ( !status.allStyles || status.hadInvalidStyle ) {
 			for ( name in styles ) {
 				if ( validStyles[ name ] )
 					stylesArr.push( name + ':' + styles[ name ] );
@@ -1399,7 +1540,7 @@
 		else if ( origStyles )
 			attrs.style = origStyles;
 
-		if ( !status.allClasses ) {
+		if ( !status.allClasses || status.hadInvalidClass ) {
 			for ( name in validClasses ) {
 				if ( validClasses[ name ] )
 					classesArr.push( name );
@@ -1523,7 +1664,7 @@
 		}
 		// Special case - elements that may contain CDATA
 		// should be removed completely. <script> is handled
-		// by filterProtectedElement().
+		// by processProtectedElement().
 		else if ( name == 'style' )
 			element.remove();
 		// The rest of inline elements. May also be the last resort
@@ -1988,6 +2129,16 @@
  *
  * @since 4.1
  * @cfg {Object/String} extraAllowedContent
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
+ *
+ * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
+ *
+ * @since 4.4
+ * @cfg {Object/String} disallowedContent
  * @member CKEDITOR.config
  */
 
