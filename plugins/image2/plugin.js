@@ -1298,7 +1298,9 @@
 				def.onShow = function() {
 					var widget = getFocusedWidget( editor );
 
-					if ( widget ) {
+					// Widget cannot be enclosed in a link, i.e.
+					//		<a>foo<inline widget/>bar</a>
+					if ( widget && !widget.wrapper.getAscendant( 'a' ) ) {
 						this.setupContent( widget.data.link || {} );
 					} else
 						onShow.apply( this, arguments );
@@ -1311,7 +1313,9 @@
 				def.onOk = function() {
 					var widget = getFocusedWidget( editor );
 
-					if ( widget ) {
+					// Widget cannot be enclosed in a link, i.e.
+					//		<a>foo<inline widget/>bar</a>
+					if ( widget && !widget.wrapper.getAscendant( 'a' ) ) {
 						var data = {};
 
 						// Collect data from fields.
