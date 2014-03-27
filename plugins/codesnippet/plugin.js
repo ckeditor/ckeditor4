@@ -14,6 +14,8 @@
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
+		icons: 'codesnippet',
+		hidpi: true,
 
 		onLoad: function( editor ) {
 			CKEDITOR.addCss( '.cke_snippet_wrapper{' +
