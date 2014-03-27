@@ -6,15 +6,11 @@ CKEditor 4 Changelog
 **Important Notes:**
 
 * Marked the [`editor.beforePaste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-beforePaste) event as deprecated.
-* Default class of captioned image has changed to _"image"_ (was: _"caption"_). Please note that once edited in CKEditor 4.4+, all existing images of the _"caption"_ class (`<figure class="caption">`)
-  will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option
-  is set to _"caption"_. For backward compatibility (i.e. when upgrading), it is highly recommended to do so, to also prevent CSS conflicts, etc.. This does not apply
-  to new CKEditor integrations.
-* Widgets without buttons are not registered automatically to ACF ([#11567](http://dev.ckeditor.com/ticket/11567)).
+* Default class of captioned image has changed to _"image"_ (was: _"caption"_). Please note that once edited in CKEditor 4.4+, all existing images of the _"caption"_ class (`<figure class="caption">`) will be [filtered out](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) unless [`config.image2_captionedClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_captionedClass) option is set to _"caption"_. For backward compatibility (i.e. when upgrading), it is highly recommended to do so, to also prevent CSS conflicts, etc.. This does not apply to new CKEditor integrations.
+* Widgets without defined buttons are not registered automatically to the ACF any more. Before CKEditor 4.4 widgets were registered to the ACF what was an incorrect behavior ([#11567](http://dev.ckeditor.com/ticket/11567)). This change should not have any impact on standard scenarios, but if your button does not execute widget command you have to set [`allowedContent`](http://docs.ckeditor.com/#!/api/CKEDITOR.feature-property-allowedContent) and [`requiredContent`](http://docs.ckeditor.com/#!/api/CKEDITOR.feature-property-requiredContent) properties on it manually, because editor will not be able to find them.
 
 New Features:
 
-* [#10190](http://dev.ckeditor.com/ticket/10190): Fixed: Removing block style by [`editor.removeStyle`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-removeStyle) should result in paragraph not div.
 * [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including switching between modes) creates new undo snapshot. Besides that:
   * Introduced the [`editable.status`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-property-status) property.
   * Introduced new option `forceUpdate` for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
@@ -23,7 +19,7 @@ New Features:
 * [#10276](http://dev.ckeditor.com/ticket/10276): Introduced blacklisting in the [Allowed Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter).
 * [#11532](http://dev.ckeditor.com/ticket/11532): Introduced the [`editor.addContentsCss()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-addContentsCss) method that can be used for adding custom CSS files.
 * [#11536](http://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode) method for decoding HTML entities.
-* [#11377](http://dev.ckeditor.com/ticket/11377): Unify internal representation of empty anchors using fake objects.
+* [#11377](http://dev.ckeditor.com/ticket/11377): Unified internal representation of empty anchors using the [fakeobjects](http://ckeditor.com/addon/fakeobjects).
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as image source.
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
 * [#11300](http://dev.ckeditor.com/ticket/11300): Various changes in [Enhanced Image](http://ckeditor.com/addon/image2) plugin:
@@ -34,6 +30,7 @@ New Features:
 
 Fixed Issues:
 
+* [#10190](http://dev.ckeditor.com/ticket/10190): Fixed: Removing block style by [`editor.removeStyle`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-removeStyle) should result in paragraph not div.
 * [#11727](http://dev.ckeditor.com/ticket/11727): Fixed: Editor tries to select non-editable image which was clicked.
 
 ## CKEditor 4.3.5
