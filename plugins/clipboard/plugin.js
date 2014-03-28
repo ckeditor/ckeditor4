@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -573,6 +573,29 @@
 						firePasteEvents( 'html', clipboard );
 
 						editor.fire( 'unlockSnapshot' );
+					}
+				}
+				// Drop from external source.
+				else {
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+						editor.focus();
+
+					var dropRange = getRangeAtDropPosition( editor, evt );
+
+					if ( dropRange ) {
+						// Paste content into the drop position.
+						dropRange.select();
+						var dataTransfer = evt.data.$.dataTransfer,
+							data;
+						try {
+							data = dataTransfer.getData( 'text/html' )
+						} catch ( err ) {
+						}
+
+						if ( data )
+							firePasteEvents( 'html', data );
+						else
+							firePasteEvents( 'text', dataTransfer.getData( 'Text' ) );
 					}
 				}
 				evt.data.preventDefault();
@@ -1268,7 +1291,7 @@
 			x = $evt.clientX,
 			y = $evt.clientY,
 			$range,
-			defaultRange = editor.getSelection().getRanges()[ 0 ],
+			defaultRange = editor.getSelection( true ).getRanges()[ 0 ],
 			range = editor.createRange();
 
 		// Make testing possible.
