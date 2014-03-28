@@ -524,6 +524,25 @@
 						editor.fire( 'saveSnapshot' );
 						editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
+						// Fix IE 8 & 9 splitted node on drop
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 &&
+							 dropRange.startContainer.type == 1 &&
+							 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
+							 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRanges[ 0 ].startContainer ) ) {
+							var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+								nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+
+							var offset = nodeBefore.getLength();
+
+							if ( nodeAfter ) {
+								nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+								nodeAfter.remove();
+							}
+
+							dropRange.startContainer = nodeBefore;
+							dropRange.startOffset = offset;
+						}
+
 						// Create bookmarks in the correct order.
 						for ( var i = 0; i < dragRanges.length; i++ ) {
 							dragRange = dragRanges[ i ];
