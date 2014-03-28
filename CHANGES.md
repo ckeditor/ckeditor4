@@ -5,6 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11717](http://dev.ckeditor.com/ticket/11717): [Docprops](http://ckeditor.com/addon/docprops) plugin requires the [Colordialog](http://ckeditor.com/addon/colordialog) plugin to work.
+
 ## CKEditor 4.3.4
 
 Fixed Issues:
