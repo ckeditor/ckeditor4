@@ -38,11 +38,22 @@
 				canUndo: false
 			} );
 
+			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ];
+
 			editor.setKeystroke( [
-				[ CKEDITOR.CTRL + 90 /*Z*/, 'undo' ],
-				[ CKEDITOR.CTRL + 89 /*Y*/, 'redo' ],
-				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/, 'redo' ]
+				[ keystrokes[ 0 ], 'undo' ],
+				[ keystrokes[ 1 ], 'redo' ],
+				[ keystrokes[ 2 ], 'redo' ]
 			] );
+
+			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
+			editor.on( 'contentDom', function() {
+				var editable = editor.editable();
+				editable.attachListener( editable, 'keydown', function( evt ) {
+					if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 )
+						evt.data.preventDefault();
+				} );
+			} );
 
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
