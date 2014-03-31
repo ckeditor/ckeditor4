@@ -5,57 +5,6 @@
 
 'use strict';
 
-/**
- * Registers a function to be called whenever the selection position changes in the
- * editing area. The current state is passed to the function. The possible
- * states are {@link CKEDITOR#TRISTATE_ON} and {@link CKEDITOR#TRISTATE_OFF}.
- *
- *		// Create a style object for the <b> element.
- *		var style = new CKEDITOR.style( { element: 'b' } );
- *		var editor = CKEDITOR.instances.editor1;
- *		editor.attachStyleStateChange( style, function( state ) {
- *			if ( state == CKEDITOR.TRISTATE_ON )
- *				alert( 'The current state for the B element is ON' );
- *			else
- *				alert( 'The current state for the B element is OFF' );
- *		} );
- *
- * @member CKEDITOR.editor
- * @param {CKEDITOR.style} style The style to be watched.
- * @param {Function} callback The function to be called.
- */
-CKEDITOR.editor.prototype.attachStyleStateChange = function( style, callback ) {
-	// Try to get the list of attached callbacks.
-	var styleStateChangeCallbacks = this._.styleStateChangeCallbacks;
-
-	// If it doesn't exist, it means this is the first call. So, let's create
-	// all the structure to manage the style checks and the callback calls.
-	if ( !styleStateChangeCallbacks ) {
-		// Create the callbacks array.
-		styleStateChangeCallbacks = this._.styleStateChangeCallbacks = [];
-
-		// Attach to the selectionChange event, so we can check the styles at
-		// that point.
-		this.on( 'selectionChange', function( ev ) {
-			// Loop throw all registered callbacks.
-			for ( var i = 0; i < styleStateChangeCallbacks.length; i++ ) {
-				var callback = styleStateChangeCallbacks[ i ];
-
-				// Check the current state for the style defined for that callback.
-				var currentState = callback.style.checkActive( ev.data.path ) ?
-					CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-
-				// Call the callback function, passing the current state to it.
-				callback.fn.call( this, currentState );
-			}
-		} );
-	}
-
-	// Save the callback info, so it can be checked on the next occurrence of
-	// selectionChange.
-	styleStateChangeCallbacks.push( { style: style, fn: callback } );
-};
-
 CKEDITOR.STYLE_BLOCK = 1;
 CKEDITOR.STYLE_INLINE = 2;
 CKEDITOR.STYLE_OBJECT = 3;
@@ -122,28 +71,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		this._ = {
 			definition: styleDefinition
 		};
-	};
-
-	/**
-	 * Applies the style upon the editor's current selection. Shorthand for
-	 * {@link CKEDITOR.style#apply}.
-	 *
-	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.style} style
-	 */
-	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		style.apply( this );
-	};
-
-	/**
-	 * Removes the style from the editor's current selection. Shorthand for
-	 * {@link CKEDITOR.style#remove}.
-	 *
-	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.style} style
-	 */
-	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		style.remove( this );
 	};
 
 	CKEDITOR.style.prototype = {
@@ -1644,53 +1571,127 @@ CKEDITOR.loadStylesSet = function( name, url, callback ) {
 	CKEDITOR.stylesSet.load( name, callback );
 };
 
+CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+	/**
+	 * Registers a function to be called whenever the selection position changes in the
+	 * editing area. The current state is passed to the function. The possible
+	 * states are {@link CKEDITOR#TRISTATE_ON} and {@link CKEDITOR#TRISTATE_OFF}.
+	 *
+	 *		// Create a style object for the <b> element.
+	 *		var style = new CKEDITOR.style( { element: 'b' } );
+	 *		var editor = CKEDITOR.instances.editor1;
+	 *		editor.attachStyleStateChange( style, function( state ) {
+	 *			if ( state == CKEDITOR.TRISTATE_ON )
+	 *				alert( 'The current state for the B element is ON' );
+	 *			else
+	 *				alert( 'The current state for the B element is OFF' );
+	 *		} );
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style The style to be watched.
+	 * @param {Function} callback The function to be called.
+	 */
+	attachStyleStateChange: function( style, callback ) {
+		// Try to get the list of attached callbacks.
+		var styleStateChangeCallbacks = this._.styleStateChangeCallbacks;
 
-/**
- * Gets the current styleSet for this instance.
- *
- *		editor.getStylesSet( function( stylesDefinitions ) {} );
- *
- * See also {@link CKEDITOR.editor#stylesSet} event.
- *
- * @param {Function} callback The function to be called with the styles data.
- * @member CKEDITOR.editor
- */
-CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
-	if ( !this._.stylesDefinitions ) {
-		var editor = this,
-			// Respect the backwards compatible definition entry
-			configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet;
+		// If it doesn't exist, it means this is the first call. So, let's create
+		// all the structure to manage the style checks and the callback calls.
+		if ( !styleStateChangeCallbacks ) {
+			// Create the callbacks array.
+			styleStateChangeCallbacks = this._.styleStateChangeCallbacks = [];
 
-		// The false value means that none styles should be loaded.
-		if ( configStyleSet === false ) {
-			callback( null );
-			return;
+			// Attach to the selectionChange event, so we can check the styles at
+			// that point.
+			this.on( 'selectionChange', function( ev ) {
+				// Loop throw all registered callbacks.
+				for ( var i = 0; i < styleStateChangeCallbacks.length; i++ ) {
+					var callback = styleStateChangeCallbacks[ i ];
+
+					// Check the current state for the style defined for that callback.
+					var currentState = callback.style.checkActive( ev.data.path ) ?
+						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+
+					// Call the callback function, passing the current state to it.
+					callback.fn.call( this, currentState );
+				}
+			} );
 		}
 
-		// #5352 Allow to define the styles directly in the config object
-		if ( configStyleSet instanceof Array ) {
-			editor._.stylesDefinitions = configStyleSet;
-			callback( configStyleSet );
-			return;
-		}
+		// Save the callback info, so it can be checked on the next occurrence of
+		// selectionChange.
+		styleStateChangeCallbacks.push( { style: style, fn: callback } );
+	},
 
-		// Default value is 'default'.
-		if ( !configStyleSet )
-			configStyleSet = 'default';
+	/**
+	 * Applies the style upon the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#apply}.
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style
+	 */
+	applyStyle: function( style ) {
+		style.apply( this );
+	},
 
-		var partsStylesSet = configStyleSet.split( ':' ),
-			styleSetName = partsStylesSet[ 0 ],
-			externalPath = partsStylesSet[ 1 ];
+	/**
+	 * Removes the style from the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#remove}.
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style
+	 */
+	removeStyle: function( style ) {
+		style.remove( this );
+	},
 
-		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : CKEDITOR.getUrl( 'styles.js' ), '' );
+	/**
+	 * Gets the current styleSet for this instance.
+	 *
+	 *		editor.getStylesSet( function( stylesDefinitions ) {} );
+	 *
+	 * See also {@link CKEDITOR.editor#stylesSet} event.
+	 *
+	 * @param {Function} callback The function to be called with the styles data.
+	 * @member CKEDITOR.editor
+	 */
+	getStylesSet: function( callback ) {
+		if ( !this._.stylesDefinitions ) {
+			var editor = this,
+				// Respect the backwards compatible definition entry
+				configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet;
 
-		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
-			editor._.stylesDefinitions = stylesSet[ styleSetName ];
-			callback( editor._.stylesDefinitions );
-		} );
-	} else
-		callback( this._.stylesDefinitions );
-};
+			// The false value means that none styles should be loaded.
+			if ( configStyleSet === false ) {
+				callback( null );
+				return;
+			}
+
+			// #5352 Allow to define the styles directly in the config object
+			if ( configStyleSet instanceof Array ) {
+				editor._.stylesDefinitions = configStyleSet;
+				callback( configStyleSet );
+				return;
+			}
+
+			// Default value is 'default'.
+			if ( !configStyleSet )
+				configStyleSet = 'default';
+
+			var partsStylesSet = configStyleSet.split( ':' ),
+				styleSetName = partsStylesSet[ 0 ],
+				externalPath = partsStylesSet[ 1 ];
+
+			CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : CKEDITOR.getUrl( 'styles.js' ), '' );
+
+			CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+				editor._.stylesDefinitions = stylesSet[ styleSetName ];
+				callback( editor._.stylesDefinitions );
+			} );
+		} else
+			callback( this._.stylesDefinitions );
+	}
+} );
 
 /**
  * Indicates that fully selected read-only elements will be included when
