@@ -137,39 +137,59 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
+		 * Applies the style upon provided range. Unlike {@link #apply} this
+		 * method does not take care of setting selection, however the range
+		 * is updated to the correct place.
+		 *
+		 * **Note:** If you want to apply the style upon the editor's selection
+		 * you probably want to use {@link CKEDITOR.editor#applyStyle}.
+		 *
 		 * @param {CKEDITOR.dom.range} range
-		 * @todo
 		 */
 		applyToRange: function( range ) {
-			return ( this.applyToRange =
-			         this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle :
-			         this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle :
-			         this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle :
-			         null ).call( this, range );
+			this.applyToRange =
+				this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle :
+				this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle :
+				this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle :
+				null;
+
+			return this.applyToRange( range );
 		},
 
 		/**
+		 * Removes the style from provided range. Unlike {@link #remove} this
+		 * method does not take care of setting selection, however the range
+		 * is updated to the correct place.
+		 *
+		 * **Note:** If you want to remove the style from the editor's selection
+		 * you probably want to use {@link CKEDITOR.editor#removeStyle}.
+		 *
 		 * @param {CKEDITOR.dom.range} range
-		 * @todo
 		 */
 		removeFromRange: function( range ) {
-			return ( this.removeFromRange =
-			         this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle :
-			         this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle :
-			         this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle :
-			         null ).call( this, range );
+			this.removeFromRange =
+				this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle :
+				this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle :
+				this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle :
+				null;
+
+			return this.removeFromRange( range );
 		},
 
 		/**
+		 * Applies style to the element. This methods bypasses every checks
+		 * and applies style attributes directly on the provided element. Use with caution.
+		 *
+		 * See {@link CKEDITOR.editor#applyStyle}.
+		 *
 		 * @param {CKEDITOR.dom.element} element
-		 * @todo
 		 */
 		applyToObject: function( element ) {
 			setupElement( element, this );
 		},
 
 		/**
-		 * Get the style state inside an element path.
+		 * Gets the style state inside an element path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
 		 * @returns {Boolean} `true` if the element is active in the path.
@@ -207,9 +227,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Whether this style can be applied at the specified elements-path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath The elements-path to
-		 * 	check the style against.
+		 * check the style against.
 		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
-		 * 	checked against this filter as well.
+		 * checked against this filter as well.
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
 		checkApplicable: function( elementPath, filter ) {
@@ -227,12 +247,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Check if the element matches the current style definition.
+		 * Checks if the element matches the current style definition.
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
 		 * @returns {Boolean}
-		 * @todo
 		 */
 		checkElementMatch: function( element, fullMatch ) {
 			var def = this._.definition;
@@ -281,7 +300,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
 		 * @returns {Boolean}
-		 * @todo
 		 */
 		checkElementRemovable: function( element, fullMatch ) {
 			// Check element matches the style itself.
@@ -320,8 +338,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Builds the preview HTML based on the styles definition.
 		 *
-		 * @param label
-		 * @todo
+		 * @param {String} [label] The label used in the style preview.
+		 * @return {String} The HTML of preview.
 		 */
 		buildPreview: function( label ) {
 			var styleDefinition = this._.definition,
@@ -357,12 +375,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 	};
 
 	/**
-	 * Build the cssText based on the styles definition.
+	 * Builds the inline style text based on the style definition.
 	 *
 	 * @static
 	 * @param styleDefinition
-	 * @returns {String}
-	 * @todo
+	 * @returns {String} Inline style text.
 	 */
 	CKEDITOR.style.getStyleText = function( styleDefinition ) {
 		// If we have already computed it, just return it.
