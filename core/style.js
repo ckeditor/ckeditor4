@@ -34,6 +34,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @todo
 	 */
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
+		if ( typeof styleDefinition.type == 'string' )
+			return new CKEDITOR.style.customHandlers[ styleDefinition.type ]( styleDefinition );
 
 		// Inline style text as attribute should be converted
 		// to styles object.
@@ -416,6 +418,21 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Return it, saving it to the next request.
 		return ( styleDefinition._ST = stylesText );
+	};
+
+	CKEDITOR.style.customHandlers = {};
+	CKEDITOR.style.addCustomHandler = function( definition ) {
+		var styleClass = function( styleDefinition ) {
+			this._ = {
+				definition: styleDefinition
+			};
+		};
+		styleClass.prototype = CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype );
+		CKEDITOR.tools.extend( styleClass.prototype, definition, true );
+
+		this.customHandlers[ definition.type ] = styleClass;
+
+		return styleClass;
 	};
 
 	// Gets the parent element which blocks the styling for an element. This
