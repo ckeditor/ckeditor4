@@ -125,59 +125,88 @@ CKEDITOR.STYLE_OBJECT = 3;
 	};
 
 	/**
-	 * Apply the style upon the editor's current selection.
+	 * Applies the style upon the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#apply}.
 	 *
 	 * @member CKEDITOR.editor
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		if ( style.checkApplicable( this.elementPath() ) ) {
-			var initialEnterMode = style._.enterMode;
-
-			// See comment in removeStyle.
-			if ( !initialEnterMode )
-				style._.enterMode = this.activeEnterMode;
-			applyStyleOnSelection.call( style, this.getSelection() );
-			style._.enterMode = initialEnterMode;
-		}
+		style.apply( this );
 	};
 
 	/**
-	 * Remove the style from the editor's current selection.
+	 * Removes the style from the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#remove}.
 	 *
 	 * @member CKEDITOR.editor
 	 * @param {CKEDITOR.style} style
 	 */
 	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		if ( style.checkApplicable( this.elementPath() ) ) {
-			var initialEnterMode = style._.enterMode;
-
-			// There's no other way to pass editor's enter mode to the
-			// styles system and we need to do that (see #10190).
-			// However, we should not change style's enter mode if it was
-			// already set, because that could break backward compatibility.
-			if ( !initialEnterMode )
-				style._.enterMode = this.activeEnterMode;
-			applyStyleOnSelection.call( style, this.getSelection(), 1 );
-			style._.enterMode = initialEnterMode;
-		}
+		style.remove( this );
 	};
 
 	CKEDITOR.style.prototype = {
 		/**
-		 * @param {CKEDITOR.dom.document} document
-		 * @todo
+		 * Applies the style upon the editor's current selection.
+		 *
+		 * Before style is applied the method checks if {@link #checkApplicable style is applicable}.
+		 *
+		 * **Note:** The recommended way of applying style is by using the
+		 * {@link CKEDITOR.editor#applyStyle} method which is a shorthand for this method.
+		 *
+		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
+		 * the style will be applied.
+		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
+		 * reasons, although since CKEditor 4.4 this type of argument is deprecated.
 		 */
-		apply: function( document ) {
-			applyStyleOnSelection.call( this, document.getSelection() );
+		apply: function( editor ) {
+			// Backward compatibility.
+			if ( editor instanceof CKEDITOR.dom.document )
+				return applyStyleOnSelection.call( this, editor.getSelection() );
+
+			if ( this.checkApplicable( editor.elementPath() ) ) {
+				var initialEnterMode = this._.enterMode;
+
+				// See comment in removeStyle.
+				if ( !initialEnterMode )
+					this._.enterMode = editor.activeEnterMode;
+				applyStyleOnSelection.call( this, editor.getSelection() );
+				this._.enterMode = initialEnterMode;
+			}
 		},
 
 		/**
-		 * @param {CKEDITOR.dom.document} document
-		 * @todo
+		 * Removes the style from the editor's current selection.
+		 *
+		 * Before style is applied the method checks if {@link #checkApplicable style could be applied}.
+		 *
+		 * **Note:** The recommended way of removing style is by using the
+		 * {@link CKEDITOR.editor#removeStyle} method which is a shorthand for this method.
+		 *
+		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
+		 * the style will be removed.
+		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
+		 * reasons, although since CKEditor 4.4 this type of argument is deprecated.
 		 */
-		remove: function( document ) {
-			applyStyleOnSelection.call( this, document.getSelection(), 1 );
+		remove: function( editor ) {
+			// Backward compatibility.
+			if ( editor instanceof CKEDITOR.dom.document )
+				return applyStyleOnSelection.call( this, editor.getSelection(), 1 );
+
+			if ( this.checkApplicable( editor.elementPath() ) ) {
+				var initialEnterMode = this._.enterMode;
+
+				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
+				// which should be used developers were forced to hack the style object (see #10190).
+				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
+				// use _.enterMode for backward compatibility with those hacks.
+				// Note: we should not change style's enter mode if it was already set.
+				if ( !initialEnterMode )
+					this._.enterMode = editor.activeEnterMode;
+				applyStyleOnSelection.call( this, editor.getSelection(), 1 );
+				this._.enterMode = initialEnterMode;
+			}
 		},
 
 		/**
