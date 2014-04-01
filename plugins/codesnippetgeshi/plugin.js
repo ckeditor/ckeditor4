@@ -18,7 +18,7 @@
 
 			var path = CKEDITOR.getUrl( this.path );
 
-			CKEDITOR.plugins.codesnippet.setHighlighter( editor, default_languages, function( code, lang, callback ) {
+			editor.plugins.codesnippet.setHighlighter( default_languages, function( code, lang, callback ) {
 				var requestConfig = {
 					lang: lang,
 					html: code

@@ -45,6 +45,35 @@
 
 		beforeInit: function( editor ) {
 			editor._.codesnippet = {};
+
+			/**
+			 * Sets custom syntax highlighter function.
+			 *
+			 * **Note**: If {@link CKEDITOR.config#codeSnippet_langs} is set, **it will
+			 * overwrite** languages given in `languages`.
+			 *
+			 * **Note**: Function `highlightHandlerFn` accepts 3 arguments:
+			 *
+			 *	* `code` (_String_) - plain text code to be formatted
+			 *	* `lang` (_String_) - language identifier taken from {@link CKEDITOR.config#codeSnippet_langs}
+			 *	* `callback` (_Function_) - function which takes a string as an argument and writes it as output inside of a snippet widget
+			 *
+			 * @since 4.4
+			 * @member CKEDITOR.plugins.codesnippet
+			 * @param {Object} languages
+			 * @param {Function} highlightHandlerFn
+			 */
+			this.setHighlighter = function( languages, highlightHandlerFn ) {
+				var scope = editor._.codesnippet;
+
+				scope.highlighter = highlightHandlerFn;
+				scope.langs = editor.config.codeSnippet_langs || languages;
+
+				// We might escape special regex chars below, but we expect that there
+				// should be no crazy values used as lang keys.
+				scope.langsRegex = new RegExp( '(?:^|\\s)language-(' +
+					CKEDITOR.tools.objectKeys( scope.langs ).join( '|' ) + ')(?:\\s|$)' );
+			};
 		},
 
 		onLoad: function( editor ) {
@@ -63,7 +92,7 @@
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
 			if ( !editor._.codesnippet.highlighter ) {
-				CKEDITOR.plugins.codesnippet.setHighlighter( editor, defaultLanguages, defaultHighlighter );
+				this.setHighlighter( defaultLanguages, defaultHighlighter );
 
 				var path = CKEDITOR.getUrl( this.path ),
 					cssCode = path + 'lib/highlight/styles/' +
@@ -80,45 +109,6 @@
 			}
 		}
 	} );
-
-	/**
-	 * Public API for codesnippet plugin. You are able to set a custom syntax highlighters using
-	 * {@link CKEDITOR.plugins.codesnippet#setHighlighter setHighlighter} method. You can also
-	 * restore original highlighter by calling
-	 * {@link CKEDITOR.plugins.codesnippet#setDefaultHighlighter setDefaultHighlighter}
-	 *
-	 * @since 4.4
-	 * @class CKEDITOR.plugins.codesnippet
-	 */
-	CKEDITOR.plugins.codesnippet = {
-		/**
-		 * Sets custom syntax highlighter function.
-		 * @member CKEDITOR.plugins.codesnippet
-		 * @param {CKEDITOR.editor} editor
-		 * @param {Object} defaultLanguages Default languages for given highlighter.
-		 *
-		 * **Note:** if {@link CKEDITOR.config.codeSnippet_langs} is set, **it will
-		 * overwrite** languages given in this variable.
-		 * @param {Function} highlightHandlerFn
-		 *
-		 *	Function `highlightHandlerFn` takes 3 parameters:
-		 *
-		 *	* code - string - plain text code to be formatted
-		 *	* lang - string - language identifier taken from {@link CKEDITOR.config.codeSnippet_langs}
-		 *	* callback - function - function which takes a string as an argument and writes it as output inside of a snippet widget
-		 */
-		setHighlighter: function( editor, languages, highlightHandlerFn ) {
-			var codeSnippetScope = editor._.codesnippet;
-
-			codeSnippetScope.highlighter = highlightHandlerFn;
-			codeSnippetScope.langs = editor.config.codeSnippet_langs ?
-				editor.config.codeSnippet_langs : languages;
-			// We might escape special regex chars below, but we expect that there should be no crazy values used
-			// as lang keys.
-			codeSnippetScope.langsRegex = new RegExp( '(?:^|\\s)language-(' +
-				CKEDITOR.tools.objectKeys( codeSnippetScope.langs ).join( '|' ) + ')(?:\\s|$)' );
-		}
-	};
 
 	// Default languages object.
 	function defaultHighlighter( code, lang, callback ) {
