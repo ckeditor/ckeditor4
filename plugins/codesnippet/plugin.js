@@ -17,12 +17,15 @@
 		icons: 'codesnippet',
 		hidpi: true,
 
+		beforeInit: function( editor ) {
+			editor._.codesnippet = {};
+		},
+
 		onLoad: function( editor ) {
 			CKEDITOR.dialog.add( 'codeSnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 
 		afterInit: function( editor ) {
-			ensurePluginNamespaceExists( editor );
 			registerWidget( editor );
 
 			editor.ui.addButton && editor.ui.addButton( 'CodeSnippet', {
@@ -78,7 +81,6 @@
 		 *	* callback - function - function which takes a string as an argument and writes it as output inside of a snippet widget
 		 */
 		setHighlighter: function( editor, languages, highlightHandlerFn ) {
-			ensurePluginNamespaceExists( editor );
 			var codeSnippetScope = editor._.codesnippet;
 
 			codeSnippetScope.highlighter = highlightHandlerFn;
@@ -255,12 +257,6 @@
 
 				return ret;
 			};
-	}
-
-	function ensurePluginNamespaceExists( editor ) {
-		// Create a protected namespace if it's not already there.
-		if ( !editor._.codesnippet )
-			editor._.codesnippet = {};
 	}
 } )();
 
