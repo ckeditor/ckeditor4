@@ -89,10 +89,13 @@ function foo( $bar ) {
 
 	<script>
 		( function() {
+			var toolbar = [ [ 'Source' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ] ];
+
 			// Default editor initialization, this one will have no template assigned,
 			// so it will get default template.
 			CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'codesnippet'
+				extraPlugins: 'codesnippet',
+				toolbar: toolbar
 			} );
 
 			// Second editor, using snippetgeshi plugin.
@@ -104,14 +107,18 @@ function foo( $bar ) {
 					javascript: 'JavaScript',
 					php: 'PHP',
 					sql: 'SQL'
-				}
+				},
+				toolbar: toolbar
 			} );
 
 			// Remaining part is resposible only for interactive sample logic.
 			var templates = [ 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn' ];
 
 			var templateSelect = document.getElementById( 'templateSelect' ),
-				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n	extraPlugins: \'codesnippet\',\n	codeSnippet_template: \'{tpl}\'\n} );',
+				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n' +
+					'	extraPlugins: \'codesnippet\',\n' +
+					'	codeSnippet_template: \'{tpl}\'\n' +
+				'} );',
 				// This function will encapsulate all the logic needed to replace first
 				// editor with template picked in select.
 				createTemplatedEditor = function( snippetTemplateName ) {
