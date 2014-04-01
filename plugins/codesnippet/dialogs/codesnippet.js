@@ -71,7 +71,7 @@
 								'height:' + height + 'px;' +
 								'tab-size:4;' +
 								'text-align:left;',
-							'class': 'cke_source'
+								'class': 'cke_source'
 						}
 					]
 				}
