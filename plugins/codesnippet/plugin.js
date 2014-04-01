@@ -186,20 +186,18 @@
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
 			upcast: function( el, data ) {
-				var elClassAttr = el.attributes[ 'class' ],
-					// Note, here we assume that it's code, we'll validate it
-					// few lines later.
-					childrenArray = getNonEmptyChildren( el ),
-					code,
-					matchResult;
-
-				if ( el.name != 'pre' || childrenArray.length !== 1 || childrenArray[ 0 ].name != 'code' )
+				if ( el.name != 'pre' )
 					return;
 
-				code = childrenArray[ 0 ];
+				var childrenArray = getNonEmptyChildren( el ),
+					code;
+
+				if ( childrenArray.length !== 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
+					return;
 
 				// Read language-* from <code> class attribute.
-				matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
+				var matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
+
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
