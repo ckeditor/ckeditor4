@@ -11,6 +11,32 @@
 
 ( function() {
 
+	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
+		defaultLanguages = {
+			bash: 'Bash',
+			cs: 'C#',
+			ruby: 'Ruby',
+			diff: 'Diff',
+			javascript: 'JavaScript',
+			xml: 'XML',
+			markdown: 'Markdown',
+			css: 'CSS',
+			http: 'HTTP',
+			java: 'Java',
+			php: 'PHP',
+			python: 'Python',
+			sql: 'SQL',
+			ini: 'INI',
+			perl: 'Perl',
+			objectivec: 'Objective-C',
+			coffeescript: 'CoffeeScript',
+			nginx: 'Nginx',
+			json: 'JSON',
+			apache: 'Apache',
+			cpp: 'C++',
+			makefile: 'Makefile'
+		};
+
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
@@ -37,7 +63,7 @@
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
 			if ( !editor._.codesnippet.highlighter ) {
-				CKEDITOR.plugins.codesnippet.setDefaultHighlighter( editor );
+				CKEDITOR.plugins.codesnippet.setHighlighter( editor, defaultLanguages, defaultHighlighter );
 
 				var path = CKEDITOR.getUrl( this.path ),
 					cssCode = path + 'lib/highlight/styles/' +
@@ -91,17 +117,6 @@
 			// as lang keys.
 			codeSnippetScope.langsRegex = new RegExp( '(?:^|\\s)language-(' +
 				CKEDITOR.tools.objectKeys( codeSnippetScope.langs ).join( '|' ) + ')(?:\\s|$)' );
-		},
-
-		/**
-		 * Restores default syntax highlighter for the plugin, which by default
-		 * is highlight.js library.
-		 *
-		 * @member CKEDITOR.plugins.codesnippet
-		 * @param {CKEDITOR.editor} editor
-		 */
-		setDefaultHighlighter: function( editor ) {
-			this.setHighlighter( editor, defaults, defaultHighlighter );
 		}
 	};
 
@@ -118,32 +133,6 @@
 		if ( result )
 			callback( result.value );
 	};
-
-	var defaults = {
-			bash: 'Bash',
-			cs: 'C#',
-			ruby: 'Ruby',
-			diff: 'Diff',
-			javascript: 'JavaScript',
-			xml: 'XML',
-			markdown: 'Markdown',
-			css: 'CSS',
-			http: 'HTTP',
-			java: 'Java',
-			php: 'PHP',
-			python: 'Python',
-			sql: 'SQL',
-			ini: 'INI',
-			perl: 'Perl',
-			objectivec: 'Objective-C',
-			coffeescript: 'CoffeeScript',
-			nginx: 'Nginx',
-			json: 'JSON',
-			apache: 'Apache',
-			cpp: 'C++',
-			makefile: 'Makefile'
-		},
-		isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
 
 	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
