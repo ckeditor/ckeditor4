@@ -397,6 +397,7 @@
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
 			editable.on( mainPasteEvent, function( evt ) {
+
 				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
 					return;
 
@@ -667,6 +668,40 @@
 			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
 			if ( doc.getById( 'cke_pastebin' ) )
 				return;
+
+	    // begin by jagermesh
+	    if (evt.data && evt.data.$.clipboardData) {
+
+	      var html =  evt.data.$.clipboardData.getData('text/html');
+	      if (html && (html.length > 0)) {
+	        // it seems we have HTML here
+	      } else {
+	        var matchType = /image.*/
+	        var found = false;
+	        var clipboardData = evt.data.$.clipboardData;
+	        Array.prototype.forEach.call(clipboardData.types, function(type, i) {
+	          var file, reader;
+	          if (found) {
+	            return;
+	          }
+	          if (type.match(matchType) || clipboardData.items[i].type.match(matchType)) {
+	            found = true;
+	            file = clipboardData.items[i].getAsFile();
+	            reader = new FileReader();
+	            reader.onload = function(evt) {
+	              callback('<img src="' + evt.target.result + '" border="0" />');
+	            };
+	            reader.readAsDataURL(file);
+	            return;
+	          }
+	        });
+	        if (found) {
+	          evt.data.preventDefault();
+	          return;
+	        }
+	      }
+	    }
+	    // end by jagermesh
 
 			var sel = editor.getSelection();
 			var bms = sel.createBookmarks();
