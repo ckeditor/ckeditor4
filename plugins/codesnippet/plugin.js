@@ -136,11 +136,6 @@
 			dialog: 'codeSnippet',
 			mask: true,
 
-			defaults: {
-				lang: '',
-				code: ''
-			},
-
 			parts: {
 				pre: 'pre',
 				code: 'code'
