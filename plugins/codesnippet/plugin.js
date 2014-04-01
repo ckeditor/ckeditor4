@@ -18,16 +18,6 @@
 		hidpi: true,
 
 		onLoad: function( editor ) {
-			CKEDITOR.addCss( '.cke_snippet_wrapper{' +
-				'font-family:monospace;' +
-				'background:#fafafa;' +
-				'border-top:1px solid #ccc;' +
-				'border-bottom:1px solid #ccc;' +
-			'}' +
-			'.cke_snippet_wrapper > pre{' +
-				'margin:0px auto;' +
-				'padding:10px' +
-			'}' );
 			CKEDITOR.dialog.add( 'codeSnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 
@@ -153,12 +143,12 @@
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 
-		var preClass = editor.config.codeSnippet_class || 'hljs',
+		var codeClass = editor.config.codeSnippet_class || 'hljs',
 			newLineRegex = /\r?\n/g;
 
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
-			template: '<div class="cke_snippet_wrapper"><pre class="' + preClass + '"></pre></div>',
+			template: '<pre><code class="' + codeClass + '"></code></pre>',
 			dialog: 'codeSnippet',
 			mask: true,
 			defaults: {
@@ -167,7 +157,8 @@
 			},
 
 			parts: {
-				pre: 'pre'
+				pre: 'pre',
+				code: 'code'
 			},
 
 			doReformat: function() {
@@ -175,13 +166,13 @@
 					widgetData = this.data,
 					callback = function( formattedCode ) {
 						if ( isBrowserSupported )
-							that.parts.pre.setHtml( formattedCode );
+							that.parts.code.setHtml( formattedCode );
 						else {
 							/**
 							 * IE8 (not supported browser) have issue with new line chars, when using innerHTML.
 							 * It will simply strip it.
 							 */
-							that.parts.pre.$.innerHTML = formattedCode.replace( newLineRegex, '<br>' );
+							that.parts.code.$.innerHTML = formattedCode.replace( newLineRegex, '<br>' );
 						}
 					};
 				// Set plain code first, so even if custom handler will not call it the code will be there.
@@ -194,7 +185,7 @@
 				var curData = evt.data;
 
 				if ( curData.code )
-					this.parts.pre.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
+					this.parts.code.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
 				// Lang needs to be specified in order to apply formatting.
 				if ( curData.lang )
 					this.doReformat();
@@ -220,15 +211,10 @@
 					data.lang = matchResult[ 1 ];
 
 				data.code = code.getHtml();
-				el.attributes[ 'class' ] = elClassAttr ? elClassAttr + ' ' + preClass : preClass;
 
-				// Remove <code>. The internal form is <pre>.
-				code.replaceWithChildren();
+				code.addClass( codeClass );
 
-				// Wrap <pre> with wrapper. It is to hold bar, etc.
-				return el.wrapWith( new CKEDITOR.htmlParser.element( 'div', {
-					'class': 'cke_snippet_wrapper'
-				} ) );
+				return el;
 			},
 
 			// Downcasts to <pre><code [class="language-*"]>...</code></pre>

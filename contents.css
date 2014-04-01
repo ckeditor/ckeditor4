@@ -122,6 +122,20 @@ figure > figcaption
 	display: block; /* For IE8 */
 }
 
+pre
+{
+	font-family: monospace;
+	background: #fafafa;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+pre > code
+{
+	display: block;
+	margin: 0px auto;
+	padding: 10px;
+}
 a > img {
 	padding: 1px;
 	margin: 1px;
