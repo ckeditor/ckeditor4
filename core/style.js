@@ -426,6 +426,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			this._ = {
 				definition: styleDefinition
 			};
+
+			if ( this.setup )
+				this.setup( styleDefinition );
 		};
 		styleClass.prototype = CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype );
 		CKEDITOR.tools.extend( styleClass.prototype, definition, true );
