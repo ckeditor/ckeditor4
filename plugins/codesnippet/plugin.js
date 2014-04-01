@@ -40,7 +40,8 @@
 				CKEDITOR.plugins.codesnippet.setDefaultHighlighter( editor );
 
 				var path = CKEDITOR.getUrl( this.path ),
-					cssCode = path + 'lib/highlight/styles/' + ( editor.config.codeSnippet_template || 'default' ) + '.css';
+					cssCode = path + 'lib/highlight/styles/' +
+						( editor.config.codeSnippet_template || 'default' ) + '.css';
 
 				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs && isBrowserSupported ) {
 					// Inserting required styles/javascript.
@@ -84,10 +85,12 @@
 			var codeSnippetScope = editor._.codesnippet;
 
 			codeSnippetScope.highlighter = highlightHandlerFn;
-			codeSnippetScope.langs = editor.config.codeSnippet_langs ? editor.config.codeSnippet_langs : languages;
+			codeSnippetScope.langs = editor.config.codeSnippet_langs ?
+				editor.config.codeSnippet_langs : languages;
 			// We might escape special regex chars below, but we expect that there should be no crazy values used
 			// as lang keys.
-			codeSnippetScope.langsRegex = new RegExp( '(?:^|\\s)language-(' + CKEDITOR.tools.objectKeys( codeSnippetScope.langs ).join( '|' ) + ')(?:\\s|$)' );
+			codeSnippetScope.langsRegex = new RegExp( '(?:^|\\s)language-(' +
+				CKEDITOR.tools.objectKeys( codeSnippetScope.langs ).join( '|' ) + ')(?:\\s|$)' );
 		},
 
 		/**
@@ -103,19 +106,20 @@
 	};
 
 	// Default languages object.
-	var defaultHighlighter = function( code, lang, callback ) {
-			if ( !isBrowserSupported )
-				return;
+	function defaultHighlighter( code, lang, callback ) {
+		if ( !isBrowserSupported )
+			return;
 
-			var hljs = window.hljs,
-				// Ensure that language is supported by hljs.
-				snippetLang = hljs.getLanguage( lang ) ? [ lang ] : undefined,
-				result = hljs.highlightAuto( code, snippetLang );
+		var hljs = window.hljs,
+			// Ensure that language is supported by hljs.
+			snippetLang = hljs.getLanguage( lang ) ? [ lang ] : undefined,
+			result = hljs.highlightAuto( code, snippetLang );
 
-			if ( result )
-				callback( result.value );
-		},
-		defaults = {
+		if ( result )
+			callback( result.value );
+	};
+
+	var defaults = {
 			bash: 'Bash',
 			cs: 'C#',
 			ruby: 'Ruby',
@@ -144,7 +148,6 @@
 	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
-
 		var codeClass = editor.config.codeSnippet_class || 'hljs',
 			newLineRegex = /\r?\n/g;
 
@@ -153,6 +156,7 @@
 			template: '<pre><code class="' + codeClass + '"></code></pre>',
 			dialog: 'codeSnippet',
 			mask: true,
+
 			defaults: {
 				lang: '',
 				code: ''
@@ -169,16 +173,15 @@
 					callback = function( formattedCode ) {
 						if ( isBrowserSupported )
 							that.parts.code.setHtml( formattedCode );
-						else {
-							/**
-							 * IE8 (not supported browser) have issue with new line chars, when using innerHTML.
-							 * It will simply strip it.
-							 */
+						// IE8 (not supported browser) have issue with new line chars, when using innerHTML.
+						// It will simply strip it.
+						else
 							that.parts.code.$.innerHTML = formattedCode.replace( newLineRegex, '<br>' );
-						}
 					};
+
 				// Set plain code first, so even if custom handler will not call it the code will be there.
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
+
 				// Call higlighter to apply its custom highlighting.
 				editor._.codesnippet.highlighter( widgetData.code, widgetData.lang, callback );
 			},
@@ -188,6 +191,7 @@
 
 				if ( curData.code )
 					this.parts.code.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
+
 				// Lang needs to be specified in order to apply formatting.
 				if ( curData.lang )
 					this.doReformat();
@@ -239,24 +243,25 @@
 		// filtered out.
 		// @param {CKEDITOR.htmlParser.element} parentElement
 		// @return Array - array of CKEDITOR.htmlParser.node
-		var whitespaceOnlyRegex = /^[\s\n\r]*$/,
-			getNonEmptyChildren = function( parentElement ) {
-				var ret = [],
-					preChildrenList = parentElement.children,
-					curNode;
+		var whitespaceOnlyRegex = /^[\s\n\r]*$/;
 
-				// Filter out empty text nodes.
-				for ( var i = preChildrenList.length-1; i >= 0; i-- ) {
-					curNode = preChildrenList[ i ];
+		function getNonEmptyChildren( parentElement ) {
+			var ret = [],
+				preChildrenList = parentElement.children,
+				curNode;
 
-					if ( curNode.type  == CKEDITOR.NODE_TEXT && curNode.value.match( whitespaceOnlyRegex ) )
-						continue;
+			// Filter out empty text nodes.
+			for ( var i = preChildrenList.length-1; i >= 0; i-- ) {
+				curNode = preChildrenList[ i ];
 
-					ret.push( curNode );
-				}
+				if ( curNode.type  == CKEDITOR.NODE_TEXT && curNode.value.match( whitespaceOnlyRegex ) )
+					continue;
 
-				return ret;
-			};
+				ret.push( curNode );
+			}
+
+			return ret;
+		}
 	}
 } )();
 
@@ -288,15 +293,5 @@
  *
  * @since 4.4
  * @cfg {Object} [codeSnippet_langs=null]
- * @member CKEDITOR.config
- */
-
-/**
- * Tabulation string used in codesnippet edit dialog. Common values are 4x space/ tab character.
- *
- *		config.codeSnippet_tabulation = "\t";
- *
- * @since 4.4
- * @cfg {Object} [codeSnippet_tabulation="    "]
  * @member CKEDITOR.config
  */
