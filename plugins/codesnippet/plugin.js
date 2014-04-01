@@ -225,17 +225,19 @@
 
 			// Downcasts to <pre><code [class="language-*"]>...</code></pre>
 			downcast: function( el ) {
-				var retPreElement = new CKEDITOR.htmlParser.element( 'pre' ),
-					code = new CKEDITOR.htmlParser.element( 'code' ),
-					encodedSnippetCode = CKEDITOR.tools.htmlEncode( this.data.code );
+				var code = el.getFirst();
 
-				retPreElement.add( code );
-				code.add( new CKEDITOR.htmlParser.text( encodedSnippetCode ) );
+				// Remove pretty formatting from <code>...</code>.
+				code.children.length = 0;
 
+				// Set raw text inside <code>...</code>.
+				code.add( new CKEDITOR.htmlParser.text( CKEDITOR.tools.htmlEncode( this.data.code ) ) );
+
+				// Update <code class="language-*">.
 				if ( this.data.lang )
-					code.attributes[ 'class' ] = 'language-' + this.data.lang;
+					code.addClass( 'language-' + this.data.lang );
 
-				return retPreElement;
+				return el;
 			}
 		} );
 
