@@ -94,13 +94,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( editor instanceof CKEDITOR.dom.document )
 				return applyStyleOnSelection.call( this, editor.getSelection() );
 
-			if ( this.checkApplicable( editor.elementPath() ) ) {
+			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 				var initialEnterMode = this._.enterMode;
 
 				// See comment in removeStyle.
 				if ( !initialEnterMode )
 					this._.enterMode = editor.activeEnterMode;
-				applyStyleOnSelection.call( this, editor.getSelection() );
+				applyStyleOnSelection.call( this, editor.getSelection(), 0, editor );
 				this._.enterMode = initialEnterMode;
 			}
 		},
@@ -123,7 +123,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( editor instanceof CKEDITOR.dom.document )
 				return applyStyleOnSelection.call( this, editor.getSelection(), 1 );
 
-			if ( this.checkApplicable( editor.elementPath() ) ) {
+			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
 				var initialEnterMode = this._.enterMode;
 
 				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
@@ -133,7 +133,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				// Note: we should not change style's enter mode if it was already set.
 				if ( !initialEnterMode )
 					this._.enterMode = editor.activeEnterMode;
-				applyStyleOnSelection.call( this, editor.getSelection(), 1 );
+				applyStyleOnSelection.call( this, editor.getSelection(), 1, editor );
 				this._.enterMode = initialEnterMode;
 			}
 		},
@@ -212,10 +212,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * documentation for argumentation.
 		 * @returns {Boolean} `true` if the element is active in the path.
 		 */
-		checkActive: function( elementPath ) {
+		checkActive: function( elementPath, editor ) {
 			switch ( this.type ) {
 				case CKEDITOR.STYLE_BLOCK:
-					return this.checkElementRemovable( elementPath.block || elementPath.blockLimit, true );
+					return this.checkElementRemovable( elementPath.block || elementPath.blockLimit, true, editor );
 
 				case CKEDITOR.STYLE_OBJECT:
 				case CKEDITOR.STYLE_INLINE:
@@ -234,7 +234,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 								continue;
 						}
 
-						if ( this.checkElementRemovable( element, true ) )
+						if ( this.checkElementRemovable( element, true, editor ) )
 							return true;
 					}
 			}
@@ -335,9 +335,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * documentation for argumentation.
 		 * @returns {Boolean}
 		 */
-		checkElementRemovable: function( element, fullMatch ) {
+		checkElementRemovable: function( element, fullMatch, editor ) {
 			// Check element matches the style itself.
-			if ( this.checkElementMatch( element, fullMatch ) )
+			if ( this.checkElementMatch( element, fullMatch, editor ) )
 				return true;
 
 			// Check if the element matches the style overrides.
@@ -1552,7 +1552,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return true;
 	}
 
-	function applyStyleOnSelection( selection, remove ) {
+	function applyStyleOnSelection( selection, remove, editor ) {
 		var doc = selection.document,
 			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
@@ -1560,7 +1560,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
-			func.call( this, range );
+			func.call( this, range, editor );
 
 		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
@@ -1678,7 +1678,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 					var callback = styleStateChangeCallbacks[ i ];
 
 					// Check the current state for the style defined for that callback.
-					var currentState = callback.style.checkActive( ev.data.path ) ?
+					var currentState = callback.style.checkActive( ev.data.path, this ) ?
 						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 
 					// Call the callback function, passing the current state to it.

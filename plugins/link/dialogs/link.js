@@ -888,7 +888,7 @@
 					} );
 
 					style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
-					style.applyToRange( range );
+					style.applyToRange( range, editor );
 					range.select();
 				} else {
 					// We're only editing an existing link, so just overwrite the attributes.

@@ -65,7 +65,7 @@ CKEDITOR.plugins.add( 'format', {
 				var style = styles[ value ],
 					elementPath = editor.elementPath();
 
-				editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
+				editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
 
 				// Save the undo snapshot after all changes are affected. (#4899)
 				setTimeout( function() {
@@ -81,7 +81,7 @@ CKEDITOR.plugins.add( 'format', {
 					this.refresh();
 
 					for ( var tag in styles ) {
-						if ( styles[ tag ].checkActive( elementPath ) ) {
+						if ( styles[ tag ].checkActive( elementPath, editor ) ) {
 							if ( tag != currentTag )
 								this.setValue( tag, editor.lang.format[ 'tag_' + tag ] );
 							return;

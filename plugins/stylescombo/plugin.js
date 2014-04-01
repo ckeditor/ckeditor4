@@ -94,7 +94,7 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath();
 
-					editor[ style.checkActive( elementPath ) ? 'removeStyle' : 'applyStyle' ]( style );
+					editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
 					editor.fire( 'saveSnapshot' );
 				},
 
@@ -111,7 +111,7 @@
 							// Check if the element is removable by any of
 							// the styles.
 							for ( var value in styles ) {
-								if ( styles[ value ].checkElementRemovable( element, true ) ) {
+								if ( styles[ value ].checkElementRemovable( element, true, editor ) ) {
 									if ( value != currentValue )
 										this.setValue( value );
 									return;
@@ -136,12 +136,12 @@
 						var style = styles[ name ],
 							type = style.type;
 
-						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) )
 							counter[ type ]++;
 						else
 							this.hideItem( name );
 
-						if ( style.checkActive( elementPath ) )
+						if ( style.checkActive( elementPath, editor ) )
 							this.mark( name );
 					}
 
@@ -164,7 +164,7 @@
 					for ( var name in styles ) {
 						var style = styles[ name ];
 
-						if ( style.checkApplicable( elementPath, editor.activeFilter ) )
+						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) )
 							return;
 					}
 					this.setState( CKEDITOR.TRISTATE_DISABLED );

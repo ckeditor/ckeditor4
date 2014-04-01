@@ -265,13 +265,13 @@
 						},
 						setup: function( element ) {
 							for ( var name in styles )
-								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name, 1 );
+								styles[ name ].checkElementRemovable( element, true, editor ) && this.setValue( name, 1 );
 						},
 						commit: function( element ) {
 							var styleName;
 							if ( ( styleName = this.getValue() ) ) {
 								var style = styles[ styleName ];
-								style.applyToObject( element );
+								style.applyToObject( element, editor );
 							}
 							else
 								element.removeAttribute( 'style' );
