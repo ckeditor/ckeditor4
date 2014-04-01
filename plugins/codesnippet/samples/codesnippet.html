@@ -16,7 +16,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</h1>
 
 	<h2>Default snippet highlighting with highlight.js</h2>
-	<p>By default <code>codesnippet</code> plugin uses client-side highlight.js library. You can adjust it's appearance using <code>codesnippet_template</code> config variable.</p>
+	<p>By default <code>codesnippet</code> plugin uses client-side highlight.js library. You can adjust it's appearance using <code>codeSnippet_template</code> config variable.</p>
 	<p>
 		Select template:
 		<select id="templateSelect"></select>
@@ -53,11 +53,11 @@ function foo( $bar ) {
 
 	<h2>Server-side highlighter</h2>
 	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>codesnippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
-	<p>In this case we will also use <code>codesnippet_langs</code> config variable, to reduce available languages list.</p>
+	<p>In this case we will also use <code>codeSnippet_langs</code> config variable, to reduce available languages list.</p>
 
 	<pre class="samples">CKEDITOR.replace( 'editor2', {
 	extraPlugins: 'codesnippet,codesnippetgeshi',
-	codesnippet_langs: {
+	codeSnippet_langs: {
 		html4strict: 'HTML',
 		html5: 'HTML5',
 		javascript: 'JavaScript',
@@ -98,7 +98,7 @@ function foo( $bar ) {
 			// Second editor, using snippetgeshi plugin.
 			CKEDITOR.replace( 'editor2', {
 				extraPlugins: 'codesnippet,codesnippetgeshi',
-				codesnippet_langs: {
+				codeSnippet_langs: {
 					html4strict: 'HTML',
 					html5: 'HTML5',
 					javascript: 'JavaScript',
@@ -111,7 +111,7 @@ function foo( $bar ) {
 			var templates = [ 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn' ];
 
 			var templateSelect = document.getElementById( 'templateSelect' ),
-				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n	extraPlugins: \'codesnippet\',\n	codesnippet_template: \'{tpl}\'\n} );',
+				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n	extraPlugins: \'codesnippet\',\n	codeSnippet_template: \'{tpl}\'\n} );',
 				// This function will encapsulate all the logic needed to replace first
 				// editor with template picked in select.
 				createTemplatedEditor = function( snippetTemplateName ) {
@@ -120,7 +120,7 @@ function foo( $bar ) {
 
 					CKEDITOR.replace( 'editor1', {
 						extraPlugins: 'codesnippet',
-						codesnippet_template: snippetTemplateName
+						codeSnippet_template: snippetTemplateName
 					} );
 
 					// Update sample code. Purely DOM-oriented text insertion, otherwise IE8 was consuming tab chars.
