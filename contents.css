@@ -130,13 +130,12 @@ pre
 	border-bottom: 1px solid #ccc;
 }
 
-pre > code
+pre > code.hljs
 {
 	display: block;
 	margin: 0px auto;
-	padding: 10px;
-}
-a > img {
+	padding: 1em 1.5em;
+}a > img {
 	padding: 1px;
 	margin: 1px;
 	outline: 1px solid #0782C1;
