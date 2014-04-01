@@ -171,12 +171,10 @@
 				var that = this,
 					widgetData = this.data,
 					callback = function( formattedCode ) {
-						if ( isBrowserSupported )
-							that.parts.code.setHtml( formattedCode );
 						// IE8 (not supported browser) have issue with new line chars, when using innerHTML.
 						// It will simply strip it.
-						else
-							that.parts.code.$.innerHTML = formattedCode.replace( newLineRegex, '<br>' );
+						that.parts.code.setHtml( isBrowserSupported ?
+							formattedCode : formattedCode.replace( newLineRegex, '<br>' ) );
 					};
 
 				// Set plain code first, so even if custom handler will not call it the code will be there.
