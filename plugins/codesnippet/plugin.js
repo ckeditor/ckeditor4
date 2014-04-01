@@ -195,10 +195,13 @@
 
 			// Downcasts to <pre><code [class="language-*"]>...</code></pre>
 			downcast: function( el ) {
-				var code = el.getFirst();
+				var code = el.getFirst( 'code' );
 
 				// Remove pretty formatting from <code>...</code>.
 				code.children.length = 0;
+
+				// Remove config#codeSnippet_class.
+				code.removeClass( codeClass );
 
 				// Set raw text inside <code>...</code>.
 				code.add( new CKEDITOR.htmlParser.text( CKEDITOR.tools.htmlEncode( this.data.code ) ) );
