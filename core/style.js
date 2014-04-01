@@ -147,6 +147,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * you probably want to use {@link CKEDITOR.editor#applyStyle}.
 		 *
 		 * @param {CKEDITOR.dom.range} range
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 */
 		applyToRange: function( range ) {
 			this.applyToRange =
@@ -167,6 +171,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * you probably want to use {@link CKEDITOR.editor#removeStyle}.
 		 *
 		 * @param {CKEDITOR.dom.range} range
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 */
 		removeFromRange: function( range ) {
 			this.removeFromRange =
@@ -185,6 +193,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * See {@link CKEDITOR.editor#applyStyle}.
 		 *
 		 * @param {CKEDITOR.dom.element} element
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 */
 		applyToObject: function( element ) {
 			setupElement( element, this );
@@ -194,6 +206,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * Gets the style state inside an element path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 * @returns {Boolean} `true` if the element is active in the path.
 		 */
 		checkActive: function( elementPath ) {
@@ -230,11 +246,19 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath The elements-path to
 		 * check the style against.
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
 		 * checked against this filter as well.
 		 * @returns {Boolean} `true` if this style can be applied at the element path.
 		 */
-		checkApplicable: function( elementPath, filter ) {
+		checkApplicable: function( elementPath, editor, filter ) {
+			// Backward compatibility.
+			if ( editor && editor instanceof CKEDITOR.filter )
+				filter = editor;
+
 			if ( filter && !filter.check( this ) )
 				return false;
 
@@ -253,6 +277,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 * @returns {Boolean}
 		 */
 		checkElementMatch: function( element, fullMatch ) {
@@ -301,6 +329,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
+		 * documentation for argumentation.
 		 * @returns {Boolean}
 		 */
 		checkElementRemovable: function( element, fullMatch ) {
