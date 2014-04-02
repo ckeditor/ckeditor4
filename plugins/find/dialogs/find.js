@@ -533,7 +533,7 @@
 					elements: [
 						{
 						type: 'hbox',
-						widths: [ '230px', '90px' ],
+						widths: [ 'auto', '100px' ],
 						children: [
 							{
 							type: 'text',
@@ -560,7 +560,7 @@
 						{
 						type: 'fieldset',
 						label: CKEDITOR.tools.htmlEncode( lang.findOptions ),
-						style: 'margin-top:29px',
+						style: 'margin-top:35px',
 						children: [
 							{
 							type: 'vbox',
@@ -598,7 +598,7 @@
 					elements: [
 						{
 						type: 'hbox',
-						widths: [ '230px', '90px' ],
+						widths: [ 'auto', '100px' ],
 						children: [
 							{
 							type: 'text',
@@ -624,7 +624,7 @@
 					},
 						{
 						type: 'hbox',
-						widths: [ '230px', '90px' ],
+						widths: [ 'auto', '100px' ],
 						children: [
 							{
 							type: 'text',
