@@ -327,7 +327,7 @@ a.cke_dialog_tab_disabled
 {
 	background-image: url(images/close.png);
 	background-repeat: no-repeat;
-	background-position: 0 0;
+	background-position: 50%;
 	position: absolute;
 	cursor: pointer;
 	text-align: center;
@@ -335,6 +335,13 @@ a.cke_dialog_tab_disabled
 	width: 20px;
 	top: 5px;
 	z-index: 5;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.cke_dialog_close_button:hover{
+	opacity: 1;
+	filter: alpha(opacity = 100);
 }
 
 .cke_hidpi .cke_dialog_close_button {
