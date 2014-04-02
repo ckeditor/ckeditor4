@@ -3064,6 +3064,10 @@
 				return widgetElement && widgetElement.data( 'widget' ) == this.widget;
 			},
 
+			buildPreview: function( label ) {
+				return label || this._.definition.name;
+			},
+
 			applyToRange: notImplemented,
 			removeFromRange: notImplemented,
 			applyToObject: notImplemented
