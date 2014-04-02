@@ -7,7 +7,6 @@
 
 ( function() {
 	CKEDITOR.dialog.add( 'codeSnippet', function( editor ) {
-
 		var snippetLangs = editor._.codesnippet.langs,
 			lang = editor.lang.codesnippet,
 			clientHeight = document.documentElement.clientHeight,
