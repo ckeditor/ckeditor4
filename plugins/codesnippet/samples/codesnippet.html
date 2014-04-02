@@ -15,20 +15,30 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; CodeSnippet
 	</h1>
 
-	<h2>Default snippet highlighting with highlight.js</h2>
-	<p>By default <code>codesnippet</code> plugin uses client-side highlight.js library. You can adjust it's appearance using <code>codeSnippet_template</code> config variable.</p>
-	<p>
-		Select template:
-		<select id="templateSelect"></select>
-	</p>
+	<div class="description">
+		<p>
+			This editor is using the <strong>Codesnippet</strong> plugin, which brings beautiful code snippets.
+			By default <code>codesnippet</code> plugin depends on built-in client-side syntax highlighting
+			library <a href="highlightjs.org">highlight.js</a>.
+		</p>
+		<p>
+			You can adjust the appearance of code snippets using <code>codeSnippet_theme</code> config variable
+			(<a href="http://highlightjs.org/static/test.html">available themes</a>).
+		</p>
+		<p>
+			Select template: <select id="select"></select>
+		</p>
 
-	<pre class="samples" id="sampleConfig">CKEDITOR.replace( 'editor1', {
+<pre class="samples" id="sampleConfig">
+CKEDITOR.replace( 'editor1', {
 	extraPlugins: 'codesnippet'
-} );</pre>
+} );
+</pre>
 
-	<p id="ie8-warning">
-		Please note that syntax highlighting feature is not compatible with Internet Explorer 8.
-	</p>
+		<p id="ie8-warning">
+			Please note that this plugin is not compatible with Internet Explorer 8.
+		</p>
+	</div>
 
 	<textarea id="editor1">
 &lt;p&gt;A bit of JS:&lt;/p&gt;
@@ -51,110 +61,53 @@ function foo( $bar ) {
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
-	<h2>Server-side highlighter</h2>
-	<p>You can extend highlighting functinallity by creating your own plugin which will take care of syntax highlighting. In this case we will use <code>codesnippetgeshi</code> plugin in order to use GeSHi as highlight provider.</p>
-	<p>In this case we will also use <code>codeSnippet_langs</code> config variable, to reduce available languages list.</p>
-
-	<pre class="samples">CKEDITOR.replace( 'editor2', {
-	extraPlugins: 'codesnippet,codesnippetgeshi',
-	codeSnippet_langs: {
-		html4strict: 'HTML',
-		html5: 'HTML5',
-		javascript: 'JavaScript',
-		php: 'PHP',
-		sql: 'SQL'
-	}
-} );</pre>
-
-	<textarea id="editor2">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
-isset( $foo );
-# Comment
-// Comment2
-function foo( $bar ) {
-  if ( $bar &amp;gt; 3 ) {
-   echo &quot;aaa&quot;;
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;quick sql&lt;/p&gt;
-&lt;pre&gt;
-&lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A bit of uknown markup:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
-&lt;/code&gt;&lt;/pre&gt;
-	</textarea>
-
 	<script>
 		( function() {
-			var toolbar = [ [ 'Source' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ] ];
-
-			// Default editor initialization, this one will have no template assigned,
-			// so it will get default template.
-			CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'codesnippet',
-				toolbar: toolbar
-			} );
-
-			// Second editor, using snippetgeshi plugin.
-			CKEDITOR.replace( 'editor2', {
-				extraPlugins: 'codesnippet,codesnippetgeshi',
-				codeSnippet_langs: {
-					html4strict: 'HTML',
-					html5: 'HTML5',
-					javascript: 'JavaScript',
-					php: 'PHP',
-					sql: 'SQL'
+			var config = {
+					extraPlugins: 'codesnippet',
+					toolbar: [
+						[ 'Source' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
+					]
 				},
-				toolbar: toolbar
-			} );
-
-			// Remaining part is resposible only for interactive sample logic.
-			var templates = [ 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn' ];
-
-			var templateSelect = document.getElementById( 'templateSelect' ),
+				templates = [
+					'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
+				],
+				pre = CKEDITOR.document.getById( 'sampleConfig' ),
+				select = CKEDITOR.document.getById( 'select' ),
 				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n' +
 					'	extraPlugins: \'codesnippet\',\n' +
-					'	codeSnippet_template: \'{tpl}\'\n' +
-				'} );',
-				// This function will encapsulate all the logic needed to replace first
-				// editor with template picked in select.
-				createTemplatedEditor = function( snippetTemplateName ) {
-					if ( CKEDITOR.instances.editor1 )
-						CKEDITOR.instances.editor1.destroy();
+					'	codeSnippet_theme: \'{tpl}\'\n' +
+				'} );';
 
-					CKEDITOR.replace( 'editor1', {
-						extraPlugins: 'codesnippet',
-						codeSnippet_template: snippetTemplateName
-					} );
+			// Default editor initialization.
+			CKEDITOR.replace( 'editor1', config );
 
-					// Update sample code. Purely DOM-oriented text insertion, otherwise IE8 was consuming tab chars.
-					var sampleConfigPre = CKEDITOR.document.getById( 'sampleConfig' );
-					sampleConfigPre.setHtml( '' );
-					sampleConfigPre.append( new CKEDITOR.dom.text( codeTemplate.replace( '{tpl}', snippetTemplateName ) ) );
-				};
+			var name, option;
+			while ( ( name = templates.shift() ) ) {
+				option = CKEDITOR.document.createElement( 'option', {
+					attributes: {
+						value: name
+					}
+				} );
 
-			// Filling up options in template select.
-			for ( var i=0; i < templates.length; i++ ) {
-				var curTemplate = templates[ i ],
-					optElem;
-
-				// We need to use bare node, coz IE9 have issue with innerHTML inside
-				// select.
-				optElem = document.createElement( 'option' );
-				optElem.innerHTML = curTemplate;
-				optElem.value = curTemplate;
-				templateSelect.appendChild( optElem );
+				option.setText( name );
+				select.append( option );
 			}
 
-			templateSelect.onchange = function() {
-				createTemplatedEditor( this.value );
+			select.$.onchange = function() {
+				if ( CKEDITOR.instances.editor1 )
+					CKEDITOR.instances.editor1.destroy();
+
+				CKEDITOR.replace( 'editor1', CKEDITOR.tools.extend( {}, config, {
+					codeSnippet_theme: this.value
+				} ) );
+
+				pre.setHtml( '' );
+				pre.append( new CKEDITOR.dom.text( codeTemplate.replace( '{tpl}', this.value ) ) );
 			};
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
-				document.getElementById( 'ie8-warning' ).className = 'warning';
+				CKEDITOR.document.getById( 'ie8-warning' ).addClass( 'warning' );
 		}() );
 	</script>
 
