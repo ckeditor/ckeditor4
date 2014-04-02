@@ -1,8 +1,8 @@
-.thickBorder {
-	border-width: 5px;
-}
 .mediumBorder {
 	border-width: 2px;
+}
+.thickBorder {
+	border-width: 5px;
 }
 img.thickBorder, img.mediumBorder {
 	border-style: solid;
