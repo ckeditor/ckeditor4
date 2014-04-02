@@ -141,7 +141,7 @@
 				code: 'code'
 			},
 
-			doReformat: function() {
+			highlight: function() {
 				var that = this,
 					widgetData = this.data,
 					callback = function( formattedCode ) {
@@ -158,15 +158,27 @@
 				editor._.codesnippet.highlighter( widgetData.code, widgetData.lang, callback );
 			},
 
-			data: function( evt ) {
-				var curData = evt.data;
+			data: function() {
+				var newData = this.data,
+					oldData = this.oldData;
 
-				if ( curData.code )
-					this.parts.code.setHtml( CKEDITOR.tools.htmlEncode( curData.code ) );
+				if ( newData.code )
+					this.parts.code.setHtml( CKEDITOR.tools.htmlEncode( newData.code ) );
 
 				// Lang needs to be specified in order to apply formatting.
-				if ( curData.lang )
-					this.doReformat();
+				if ( newData.lang ) {
+					// Apply new .language-* class.
+					this.parts.code.addClass( 'language-' + newData.lang );
+
+					// Remove old .language-* class.
+					if ( oldData && newData.lang != oldData.lang )
+						this.parts.code.removeClass( 'language-' + oldData.lang );
+
+					this.highlight();
+				}
+
+				// Save oldData.
+				this.oldData = CKEDITOR.tools.extend( {}, newData );
 			},
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
@@ -205,10 +217,6 @@
 
 				// Set raw text inside <code>...</code>.
 				code.add( new CKEDITOR.htmlParser.text( CKEDITOR.tools.htmlEncode( this.data.code ) ) );
-
-				// Update <code class="language-*">.
-				if ( this.data.lang )
-					code.addClass( 'language-' + this.data.lang );
 
 				return el;
 			}
