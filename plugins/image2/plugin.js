@@ -61,7 +61,7 @@
 				'display:block' +
 			'}' +
 			// Expand widget wrapper when linked inline image.
-			'.cke_widget_wrapper > a{' +
+			'.cke_widget_wrapper>a{' +
 				'display:inline-block' +
 			'}' );
 		},
@@ -1315,9 +1315,9 @@
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
-					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) ) {
+					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) )
 						this.setupContent( widget.data.link || {} );
-					} else
+					else
 						onShow.apply( this, arguments );
 				};
 

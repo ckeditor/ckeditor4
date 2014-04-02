@@ -526,10 +526,10 @@
 						advanced[ advAttrNames[ a ] ] = val;
 				}
 
-				var advName = element.data( 'cke-saved-name' ) || advanced[ 'advName' ];
+				var advName = element.data( 'cke-saved-name' ) || advanced.advName;
 
 				if ( advName )
-					advanced[ 'advName' ] = advName;
+					advanced.advName = advName;
 
 				if ( !CKEDITOR.tools.isEmpty( advanced ) )
 					retval.advanced = advanced;
@@ -551,7 +551,7 @@
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
-		 * @param {CKEDITOR.dom.element} data Data in {@link #parseLinkAttributes} format.
+		 * @param {Object} data Data in {@link #parseLinkAttributes} format.
 		 * @returns {Object} An object consisting of two keys, i.e.:
 		 *
 		 *		{
