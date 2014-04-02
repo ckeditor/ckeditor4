@@ -211,6 +211,7 @@ is its visual representation:
 /* The title of the entire panel which is visible on top of the list. */
 .cke_panel_grouptitle
 {
+	cursor: default;
 	font-size: 11px;
 	font-weight: bold;
 	white-space: nowrap;
