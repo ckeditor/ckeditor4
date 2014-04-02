@@ -12,35 +12,35 @@
 ( function() {
 	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
 		defaultLanguages = {
+			apache: 'Apache',
 			bash: 'Bash',
+			coffeescript: 'CoffeeScript',
+			cpp: 'C++',
 			cs: 'C#',
-			ruby: 'Ruby',
-			diff: 'Diff',
-			javascript: 'JavaScript',
-			xml: 'XML',
-			markdown: 'Markdown',
 			css: 'CSS',
+			diff: 'Diff',
 			http: 'HTTP',
+			ini: 'INI',
 			java: 'Java',
+			javascript: 'JavaScript',
+			json: 'JSON',
+			makefile: 'Makefile',
+			markdown: 'Markdown',
+			nginx: 'Nginx',
+			objectivec: 'Objective-C',
+			perl: 'Perl',
 			php: 'PHP',
 			python: 'Python',
+			ruby: 'Ruby',
 			sql: 'SQL',
-			ini: 'INI',
-			perl: 'Perl',
-			objectivec: 'Objective-C',
-			coffeescript: 'CoffeeScript',
-			nginx: 'Nginx',
-			json: 'JSON',
-			apache: 'Apache',
-			cpp: 'C++',
-			makefile: 'Makefile'
+			xml: 'XML'
 		};
 
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
 		lang: 'en', // %REMOVE_LINE_CORE%
-		icons: 'codesnippet',
-		hidpi: true,
+		icons: 'codesnippet', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			editor._.codesnippet = {};
@@ -48,25 +48,25 @@
 			/**
 			 * Sets custom syntax highlighter function.
 			 *
-			 * **Note**: If {@link CKEDITOR.config#codeSnippet_langs} is set, **it will
+			 * **Note**: If {@link CKEDITOR.config#codeSnippet_languages} is set, **it will
 			 * overwrite** languages given in `languages`.
 			 *
 			 * **Note**: Function `highlighterFn` accepts 3 arguments:
 			 *
 			 *	* `code` (_String_) - plain text code to be formatted
-			 *	* `lang` (_String_) - language identifier taken from {@link CKEDITOR.config#codeSnippet_langs}
+			 *	* `lang` (_String_) - language identifier taken from {@link CKEDITOR.config#codeSnippet_languages}
 			 *	* `callback` (_Function_) - function which takes a string as an argument and writes it as output inside of a snippet widget
 			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
-			 * @param {Object} languages
+			 * @param {Object} languages Languages supported by the highlighter. See {@link CKEDITOR.config#codeSnippet_languages}.
 			 * @param {Function} highlighterFn
 			 */
 			this.setHighlighter = function( languages, highlighterFn ) {
 				var scope = editor._.codesnippet;
 
 				scope.highlighter = highlighterFn;
-				scope.langs = editor.config.codeSnippet_langs || languages;
+				scope.langs = editor.config.codeSnippet_languages || languages;
 
 				// We might escape special regex chars below, but we expect that there
 				// should be no crazy values used as lang keys.
@@ -95,7 +95,7 @@
 
 				var path = CKEDITOR.getUrl( this.path ),
 					cssCode = path + 'lib/highlight/styles/' +
-						( editor.config.codeSnippet_template || 'default' ) + '.css';
+						editor.config.codeSnippet_theme + '.css';
 
 				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs && isBrowserSupported ) {
 					// Inserting required styles/javascript.
@@ -112,7 +112,7 @@
 	// A default highlighter of the plugin, which uses highlight.js library.
 	//
 	// @param {String} code Code to be formatted.
-	// @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_langs}).
+	// @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_languages}).
 	// @param {Function} callback Function which accepts highlighted String as an argument.
 	function defaultHighlighter( code, lang, callback ) {
 		if ( !isBrowserSupported )
@@ -130,7 +130,7 @@
 	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
-		var codeClass = editor.config.codeSnippet_class || 'hljs',
+		var codeClass = editor.config.codeSnippet_class,
 			newLineRegex = /\r?\n/g;
 
 		editor.widgets.add( 'codeSnippet', {
@@ -252,32 +252,48 @@
 } )();
 
 /**
- * Allows to setup custom class for pre element inside editor editable.
+ * A CSS class for `code` element inside of the snippet.
+ *
+ *		// Changes the class to "myCustomClass".
+ *		config.codeSnippet_class = 'myCustomClass';
+ *
+ * **Note**: This might need to be changed if using custom highlighter
+ * (default is [highlight.js](http://highlightjs.org)).
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_class='hljs']
  * @member CKEDITOR.config
  */
+CKEDITOR.config.codeSnippet_class = 'hljs';
 
 /**
- * Allows to set a template for highlihgt.js, you can browse templates at http://highlightjs.org/static/test.html
+ * Restricts languages available in the "Code snippet" dialog.
  *
- *		config.codeSnippet_template = 'pojoaque';
+ * **Note**: If using custom highlighter library (default is [highlight.js](http://highlightjs.org)),
+ * you may need to refer to external docs to set `config.codeSnippet_languages` properly.
  *
- * @since 4.4
- * @cfg {String} [codeSnippet_template='default']
- * @member CKEDITOR.config
- */
-
-/**
- * An object listing available languages.
- *
- *		config.codeSnippet_langs = {
+ *		// Restricts languages to JavaScript and PHP.
+ *		config.codeSnippet_languages = {
  *			javascript: 'JavaScript',
  *			php: 'PHP'
  *		};
  *
  * @since 4.4
- * @cfg {Object} [codeSnippet_langs=null]
+ * @cfg {Object} [codeSnippet_languages=null]
  * @member CKEDITOR.config
  */
+
+/**
+ * A theme used to render snippets ([available themes](http://highlightjs.org/static/test.html)).
+ *
+ * **Note**: This will work only with default highlighter
+ * ([highlight.js](http://highlightjs.org/static/test.html)).
+ *
+ *		// Changes theme "pojoaque".
+ *		config.codeSnippet_theme = 'pojoaque';
+ *
+ * @since 4.4
+ * @cfg {String} [codeSnippet_theme='default']
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.codeSnippet_theme = 'default';
