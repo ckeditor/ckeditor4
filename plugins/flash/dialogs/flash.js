@@ -359,7 +359,7 @@
 							hidden: true,
 							// v-align with the 'src' field.
 							// TODO: We need something better than a fixed size here.
-							style: 'display:inline-block;margin-top:10px;',
+							style: 'display:inline-block;margin-top:14px;',
 							label: editor.lang.common.browseServer
 						}
 						]
