@@ -462,8 +462,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this.setup )
 				this.setup( styleDefinition );
 		};
-		styleClass.prototype = CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype );
-		CKEDITOR.tools.extend( styleClass.prototype, definition, true );
+
+		styleClass.prototype = CKEDITOR.tools.extend(
+			// Prototype of CKEDITOR.style.
+			CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype ),
+			// Defaults.
+			{
+				assignedTo: CKEDITOR.STYLE_OBJECT
+			},
+			// Passed definition - overrides.
+			definition,
+			true
+		);
 
 		this.customHandlers[ definition.type ] = styleClass;
 
