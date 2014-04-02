@@ -10,7 +10,6 @@
 'use strict';
 
 ( function() {
-
 	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
 		defaultLanguages = {
 			bash: 'Bash',
@@ -52,7 +51,7 @@
 			 * **Note**: If {@link CKEDITOR.config#codeSnippet_langs} is set, **it will
 			 * overwrite** languages given in `languages`.
 			 *
-			 * **Note**: Function `highlightHandlerFn` accepts 3 arguments:
+			 * **Note**: Function `highlighterFn` accepts 3 arguments:
 			 *
 			 *	* `code` (_String_) - plain text code to be formatted
 			 *	* `lang` (_String_) - language identifier taken from {@link CKEDITOR.config#codeSnippet_langs}
@@ -61,12 +60,12 @@
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
 			 * @param {Object} languages
-			 * @param {Function} highlightHandlerFn
+			 * @param {Function} highlighterFn
 			 */
-			this.setHighlighter = function( languages, highlightHandlerFn ) {
+			this.setHighlighter = function( languages, highlighterFn ) {
 				var scope = editor._.codesnippet;
 
-				scope.highlighter = highlightHandlerFn;
+				scope.highlighter = highlighterFn;
 				scope.langs = editor.config.codeSnippet_langs || languages;
 
 				// We might escape special regex chars below, but we expect that there
@@ -110,7 +109,11 @@
 		}
 	} );
 
-	// Default languages object.
+	// A default highlighter of the plugin, which uses highlight.js library.
+	//
+	// @param {String} code Code to be formatted.
+	// @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_langs}).
+	// @param {Function} callback Function which accepts highlighted String as an argument.
 	function defaultHighlighter( code, lang, callback ) {
 		if ( !isBrowserSupported )
 			return;
