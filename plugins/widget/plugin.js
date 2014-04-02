@@ -501,6 +501,34 @@
 		},
 
 		/**
+		 * Parses element classes string and returns an object
+		 * which keys contain classes names. Skips all `cke_*` classes.
+		 *
+		 * This method is used by the {@link CKEDITOR.plugins.widget#getClasses} method and
+		 * may be used if when overriding that method.
+		 *
+		 * @since 4.4
+		 * @param {String} classes String (value of `class` attribute).
+		 * @returns {Object} Object containing classes or `null` if no classes found.
+		 */
+		parseElementClasses: function( classes ) {
+			if ( !classes )
+				return null;
+
+			var classes = CKEDITOR.tools.trim( classes ).split( /\s+/ ),
+				cl,
+				obj = {},
+				hasClasses = 0;
+
+			while ( ( cl = classes.pop() ) ) {
+				if ( cl.indexOf( 'cke_' ) == -1 )
+					obj[ cl ] = hasClasses = 1;
+			}
+
+			return hasClasses ? obj : null;
+		},
+
+		/**
 		 * Wraps an element with a widget's non-editable container.
 		 *
 		 * If this method is called on an {@link CKEDITOR.htmlParser.element}, then it will
@@ -866,7 +894,10 @@
 		 * the {@link #applyStyle} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. add the to other elements).
 		 *
-		 * See also: {@link #removeClass}, {@link #hasClass}.
+		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
+		 * set the `classes` property. Read more in the {@link #setData} documentation.
+		 *
+		 * See also: {@link #removeClass}, {@link #hasClass}, {@link #getClasses}.
 		 *
 		 * @since 4.4
 		 * @param {String} className The class name to be added.
@@ -881,9 +912,15 @@
 		 * using this method directly, because unlike editor's and style's methods, this one
 		 * does not perform any checks.
 		 *
-		 * By default this method handles only classes defined in the style and passes
-		 * them to the {@link #addClass} method. To handle classes differently or handle
-		 * more of the style's properties you can override these methods.
+		 * By default this method handles only classes defined in the style. It clones existing
+		 * classes which are stored in the {@link #property-data widget data}'s `classes` property,
+		 * adds new classes and calls the {@link #setData} method if at least one new class was added.
+		 * Then, using the {@link #event-data} event listener widget applies modifications passing
+		 * new classes to the {@link #addClass} method.
+		 *
+		 * If you need to handle classes differently than in the default way you can override the
+		 * {@link #addClass} and related methods. You can also handle other style's property than classes
+		 * by overriding this method.
 		 *
 		 * See also: {@link #checkStyleActive}, {@link #removeStyle}.
 		 *
@@ -1036,11 +1073,27 @@
 		},
 
 		/**
+		 * Returns widget element classes parsed to an object. This method
+		 * is used to populate the `classes` property of widget's {@link #property-data}.
+		 *
+		 * This method reuses {@link CKEDITOR.plugins.widget.repository#parseElementClasses}.
+		 * It should be overriden if widget should handle classes differently (e.g. on other elements).
+		 *
+		 * See also: {@link #removeClass}, {@link #addClass}, {@link #hasClass}.
+		 *
+		 * @since 4.4
+		 * @returns {Object}
+		 */
+		getClasses: function() {
+			return this.repository.parseElementClasses( this.element.getAttribute( 'class' ) );
+		},
+
+		/**
 		 * Checks if the widget element has specified class. This method is used by
 		 * the {@link #checkStyleActive} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. on other elements).
 		 *
-		 * See also: {@link #removeClass}, {@link #addClass}.
+		 * See also: {@link #removeClass}, {@link #addClass}, {@link #getClasses}.
 		 *
 		 * @since 4.4
 		 * @param {String} className The class to be checked.
@@ -1142,6 +1195,9 @@
 		 * the {@link #removeStyle} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. on other elements).
 		 *
+		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
+		 * set the `classes` property. Read more in the {@link #setData} documentation.
+		 *
 		 * See also: {@link #hasClass}, {@link #addClass}.
 		 *
 		 * @since 4.4
@@ -1157,11 +1213,9 @@
 		 * using this method directly, because unlike editor's and style's methods, this one
 		 * does not perform any checks.
 		 *
-		 * By default this method handles only classes defined in the style and passes
-		 * them to the {@link #removeClass} method. To handle classes differently or handle
-		 * more of the style's properties you can override these methods.
+		 * Read more about how applying/removing styles works in the {@link #applyStyle} method documentation.
 		 *
-		 * See also {@link #checkStyleActive}, {@link #applyStyle}.
+		 * See also {@link #checkStyleActive}, {@link #applyStyle}, {@link #getClasses}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.style} style The custom widget style to be removed.
@@ -1184,6 +1238,22 @@
 		 * Set values are stored in {@link #element}'s attribute (`data-cke-widget-data`),
 		 * in a JSON string, therefore {@link #property-data} should contain
 		 * only serializable data.
+		 *
+		 * **Note:** There's a special data property - `classes`. It contains an object
+		 * with classes which were returned by the {@link #getClasses} method during widget initialization.
+		 * This property is then used by the {@link #applyStyle} and {@link #removeStyle} methods.
+		 * When it's changed (the reference to object must be changed!) widget updates its classes by using the
+		 * {@link #addClass} and {@link #removeClass} methods.
+		 *
+		 *		// Adding new class.
+		 *		var classes = CKEDITOR.tools.clone( widget.data.classes );
+		 *		classes.newClass = 1;
+		 *		widget.setData( 'classes', classes );
+		 *
+		 *		// Removing class.
+		 *		var classes = CKEDITOR.tools.clone( widget.data.classes );
+		 *		delete classes.newClass;
+		 *		widget.setData( 'classes', classes );
 		 *
 		 * @param {String/Object} keyOrData
 		 * @param {Object} value
@@ -2583,14 +2653,31 @@
 	// @param {CKEDITOR.style} style Custom widget style.
 	// @param {Boolean} apply Whether to apply or remove style.
 	function applyRemoveStyle( widget, style, apply ) {
-		var classes = getStyleClasses( style ),
+		var changed = 0,
+			classes = getStyleClasses( style ),
+			updatedClasses = widget.data.classes || {},
 			cl;
 
+		// Ee... Something is wrong with this style.
 		if ( !classes )
 			return;
 
-		while ( ( cl = classes.pop() ) )
-			widget[ apply ? 'addClass' : 'removeClass' ]( cl );
+		// Clone, because we need to break reference.
+		updatedClasses = CKEDITOR.tools.clone( updatedClasses );
+
+		while ( ( cl = classes.pop() ) ) {
+			if ( apply ) {
+				if ( !updatedClasses[ cl ] )
+					changed = updatedClasses[ cl ] = 1;
+			} else {
+				if ( updatedClasses[ cl ] ) {
+					delete updatedClasses[ cl ];
+					changed = 1;
+				}
+			}
+		}
+		if ( changed )
+			widget.setData( 'classes', updatedClasses );
 	}
 
 	function cancel( evt ) {
@@ -2715,6 +2802,34 @@
 			this.editor.forceNextSelectionCheck();
 			this.editor.selectionChange( 1 );
 		}
+	}
+
+	// Setup listener on widget#data which will update (remove/add) classes
+	// by comparing newly set classes with the old ones.
+	function setupDataClassesListener( widget ) {
+		// Note: previousClasses and newClasses may be null!
+		// Tip: for ( cl in null ) is correct.
+		var previousClasses = null;
+
+		widget.on( 'data', function() {
+			var newClasses = this.data.classes,
+				cl;
+
+			// When setting new classes one need to remember
+			// that he must break reference.
+			if ( previousClasses == newClasses )
+				return;
+
+			for ( cl in previousClasses ) {
+				// Avoid removing and adding classes again.
+				if ( !( newClasses && newClasses[ cl ] ) )
+					this.removeClass( cl );
+			}
+			for ( cl in newClasses )
+				this.addClass( cl );
+
+			previousClasses = newClasses;
+		} );
 	}
 
 	function setupDragHandler( widget ) {
@@ -2923,6 +3038,7 @@
 		setupEditables( widget );
 		setupMask( widget );
 		setupDragHandler( widget );
+		setupDataClassesListener( widget );
 
 		// #11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
@@ -2977,6 +3093,10 @@
 			widget.setData( JSON.parse( widgetDataAttr ) );
 		if ( startupData )
 			widget.setData( startupData );
+
+		// Populate classes if they are not preset.
+		if ( !widget.data.classes )
+			widget.setData( 'classes', widget.getClasses() );
 
 		// Unblock data and...
 		widget.dataReady = true;
