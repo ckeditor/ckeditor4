@@ -24,7 +24,7 @@
 				if ( !stylesDefinitions )
 					return;
 
-				var style, styleName;
+				var style, styleName, styleType;
 
 				// Put all styles into an Array.
 				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
@@ -34,15 +34,16 @@
 						continue;
 
 					styleName = styleDefinition.name;
-
 					style = new CKEDITOR.style( styleDefinition );
 
 					if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
 						style._name = styleName;
 						style._.enterMode = config.enterMode;
+						// Get the type (which will be used to assign style to one of 3 groups) from assignedTo if it's defined.
+						style._.type = styleType = style.assignedTo || style.type;
 
 						// Weight is used to sort styles (#9029).
-						style._.weight = i + ( style.type == CKEDITOR.STYLE_OBJECT ? 1 : style.type == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
+						style._.weight = i + ( styleType == CKEDITOR.STYLE_OBJECT ? 1 : styleType == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
 						styles[ styleName ] = style;
 						stylesList.push( style );
@@ -74,7 +75,7 @@
 					for ( i = 0, count = stylesList.length; i < count; i++ ) {
 						style = stylesList[ i ];
 						styleName = style._name;
-						type = style.type;
+						type = style._.type;
 
 						if ( type != lastType ) {
 							this.startGroup( lang[ 'panelTitle' + String( type ) ] );
@@ -134,7 +135,7 @@
 					this.unmarkAll();
 					for ( var name in styles ) {
 						var style = styles[ name ],
-							type = style.type;
+							type = style._.type;
 
 						if ( style.checkApplicable( elementPath, editor, editor.activeFilter ) )
 							counter[ type ]++;
