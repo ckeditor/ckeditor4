@@ -4,51 +4,42 @@
  */
 
  /**
- * @fileOverview Rich code snippets for CKEditor using GeSHi.
+ * @fileOverview Rich code snippets for CKEditor using GeSHi syntax highlighter (http://qbnz.com/highlighter/).
  */
 
 'use strict';
 
 ( function() {
-
 	CKEDITOR.plugins.add( 'codesnippetgeshi', {
 		requires: 'ajax,codesnippet',
 
 		init: function( editor ) {
+			var path = CKEDITOR.getUrl( this.path ),
+				writer = new CKEDITOR.htmlParser.basicWriter();
 
-			var path = CKEDITOR.getUrl( this.path );
-
-			editor.plugins.codesnippet.setHighlighter( default_languages, function( code, lang, callback ) {
+			editor.plugins.codesnippet.setHighlighter( languages, function( code, lang, callback ) {
+				// AJAX data to be sent in the request.
 				var requestConfig = {
 					lang: lang,
 					html: code
 				};
 
-				CKEDITOR.ajax.post( path + 'lib/geshi/colorize.php', requestConfig, function( data ) {
+				CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, function( highlighted ) {
+					var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
 
-					var resp =  CKEDITOR.htmlParser.fragment.fromHtml( data ),
-						respFirstElement = resp.children[ 0 ],
-						retHtml,
-						i;
+					// GeSHi returns <pre> as a top-most element. Since <pre> is
+					// already a part of the widget, consider children only.
+					fragment.children[ 0 ].writeChildrenHtml( writer );
 
-					// Because GeSHi output is wrapped within pre tag, we want skip root pre, and write
-					// only its innerHtml.
-					if ( respFirstElement && respFirstElement.name == 'pre' ) {
-						// In case when everything is fine, we will rewrite data variable.
-						data = '';
-
-						for ( i in respFirstElement.children ) {
-							data += respFirstElement.children[ i ].getOuterHtml ? respFirstElement.children[ i ].getOuterHtml() : respFirstElement.children[ i ].value;
-						}
-					}
-
-					callback( data );
+					// Return highlighted code.
+					callback( writer.getHtml( true ) );
 				} );
 			} );
 		}
 	} );
 
-	var default_languages = {
+	// A list of default languages supported by GeSHi.
+	var languages = {
 		abap: 'ABAP',
 		actionscript: 'ActionScript',
 		ada: 'Ada',
@@ -173,5 +164,13 @@
 		xpp: 'X++',
 		z80: 'ZiLOG Z80 Assembler'
 	};
-
 } )();
+
+/**
+ * Sets GeSHi URL which, once queried with AJAX, will return highlighted code.
+ *
+ *		config.codesnippetgeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
+ *
+ * @cfg {String} [mathJaxLib=null]
+ * @member CKEDITOR.config
+ */
