@@ -3124,6 +3124,13 @@
 
 	( function() {
 
+		/**
+		 * The class representing a widget style.
+		 *
+		 * @since 4.4
+		 * @class CKEDITOR.style.customHandlers.widget
+		 * @extends CKEDITOR.style
+		 */
 		CKEDITOR.style.addCustomHandler( {
 			type: 'widget',
 
@@ -3174,8 +3181,14 @@
 
 			checkElementRemovable: checkElementMatch,
 
-			// Checks if element is a {@link CKEDITOR.plugins.widget#wrapper wrapper} of a
-			// a widget which name matches the widget name specified in style definition.
+			/**
+			 * Checks if element is a {@link CKEDITOR.plugins.widget#wrapper wrapper} of a
+			 * a widget which name matches the {@link #widget widget name} specified in style definition.
+			 *
+			 * @param {CKEDITOR.dom.element} element
+			 * @param {CKEDITOR.editor} editor
+			 * @returns {Boolean}
+			 */
 			checkElement: function( element, editor ) {
 				if ( !isDomWidgetWrapper( element ) )
 					return false;
@@ -3188,8 +3201,16 @@
 				return label || this._.definition.name;
 			},
 
-			// Use widget's styleableElements to make a rule allowing classes on
-			// specified elements or use widget's styleToAllowedContentRules method.
+			/**
+			 * Returns allowed content rules which should be registered for this style.
+			 * Uses widget's {@link CKEDITOR.plugins.widget.definition#styleableElements} to make a rule
+			 * allowing classes on specified elements or use widget's
+			 * {@link CKEDITOR.plugins.widget.definition#styleToAllowedContentRules} method to transform style
+			 * into allowed content rules.
+			 *
+			 * @param {CKEDITOR.editor} The editor instance.
+			 * @returns {CKEDITOR.filter.allowedContentRules}
+			 */
 			toAllowedContentRules: function( editor ) {
 				if ( !editor )
 					return null;
@@ -3202,11 +3223,10 @@
 					return null;
 
 				if ( widgetDef.styleableElements ) {
-					classes = this._.definition.attributes && this._.definition.attributes[ 'class' ];
+					classes = this.getClassesArray();
 					if ( !classes )
 						return null;
 
-					classes = CKEDITOR.tools.trim( classes ).split( /\s+/ ).join( ',' );
 					rule[ widgetDef.styleableElements ] = {
 						classes: classes,
 						propertiesOnly: true
@@ -3218,8 +3238,36 @@
 				return null;
 			},
 
+			/**
+			 * Returns classes defined in the style in form of array.
+			 *
+			 * @returns {String[]}
+			 */
+			getClassesArray: function() {
+				var classes = this._.definition.attributes && this._.definition.attributes[ 'class' ];
+
+				return classes ? CKEDITOR.tools.trim( classes ).split( /\s+/ ) : null;
+			},
+
+			/**
+			 * Not implemented.
+			 *
+			 * @method applyToRange
+			 */
 			applyToRange: notImplemented,
+
+			/**
+			 * Not implemented.
+			 *
+			 * @method removeFromRange
+			 */
 			removeFromRange: notImplemented,
+
+			/**
+			 * Not implemented.
+			 *
+			 * @method applyToObject
+			 */
 			applyToObject: notImplemented
 		} );
 
@@ -3552,20 +3600,22 @@
  * In most cases, when style's classes just have to be added to element name(s) used by
  * widget element, it's recommended to use simpler {@link #styleableElements} property.
  *
+ * In order to get parsed classes from the style definition you can use
+ * {@link CKEDITOR.style.customHandlers.widget#getClassesArray}.
+ *
  *		editor.widgets.add( 'customWidget', {
  *			// ...
  *
  *			styleToAllowedContentRules: funciton( style ) {
  *				// Retrieve classes defined in the style.
- *				var classes = style.getDefinition().attributes[ 'classes' ];
- *				// Allowed content rule accepts classes separated with commas, not spaces.
- *				classes = classes.split( /\s+/ ).join( ',' );
+ *				var classes = style.getClassesArray();
  *
  *				// Do something crazy - for example return allowed content rules in object format,
- *				// with custom match property.
+ *				// with custom match property and propertiesOnly flag.
  *				return {
  *					h1: {
  *						match: isWidgetElement,
+ *						propertiesOnly: true,
  *						classes: classes
  *					}
  *				};
@@ -3574,7 +3624,7 @@
  *
  * @since 4.4
  * @property {Function} styleToAllowedContentRules
- * @param {CKEDITOR.style} styleToAllowedContentRules.style The style to be transformed.
+ * @param {CKEDITOR.style.customHandlers.widget} styleToAllowedContentRules.style The style to be transformed.
  * @returns {CKEDITOR.filter.allowedContentRules} styleToAllowedContentRules.return
  */
 
