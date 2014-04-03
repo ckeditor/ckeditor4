@@ -93,8 +93,6 @@
 			if ( !xhr )
 				return null;
 
-			data = JSON.stringify( data );
-
 			// Copy-pasted. Dunno if works :D
 			xhr.open( 'POST', url, true );
 
