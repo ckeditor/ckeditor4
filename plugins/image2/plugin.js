@@ -272,6 +272,8 @@
 
 			features: getWidgetFeatures( editor ),
 
+			styleableElements: 'img figure',
+
 			// This widget converts style-driven dimensions to attributes.
 			contentTransformations: [
 				[ 'img[width]: sizeToAttribute' ]
