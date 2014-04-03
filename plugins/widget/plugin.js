@@ -3188,6 +3188,36 @@
 				return label || this._.definition.name;
 			},
 
+			// Use widget's styleableElements to make a rule allowing classes on
+			// specified elements or use widget's styleToAllowedContentRules method.
+			toAllowedContentRules: function( editor ) {
+				if ( !editor )
+					return null;
+
+				var widgetDef = editor.widgets.registered[ this.widget ],
+					classes,
+					rule = {};
+
+				if ( !widgetDef )
+					return null;
+
+				if ( widgetDef.styleableElements ) {
+					classes = this._.definition.attributes && this._.definition.attributes[ 'class' ];
+					if ( !classes )
+						return null;
+
+					classes = CKEDITOR.tools.trim( classes ).split( /\s+/ ).join( ',' );
+					rule[ widgetDef.styleableElements ] = {
+						classes: classes,
+						propertiesOnly: true
+					};
+					return rule;
+				}
+				if ( widgetDef.styleToAllowedContentRules )
+					return widgetDef.styleToAllowedContentRules( this );
+				return null;
+			},
+
 			applyToRange: notImplemented,
 			removeFromRange: notImplemented,
 			applyToObject: notImplemented
@@ -3480,6 +3510,72 @@
  * If set to `false` drag handler will not be displayed when hovering widget.
  *
  * @property {Boolean} draggable
+ */
+
+/**
+ * Names of element(s) (separated by spaces) for which the {@link CKEDITOR.filter} should allow classes
+ * defined in widget styles. For example if your widget is upcasted from simple `<div>`
+ * element, then in order to make it styleable you can set:
+ *
+ *		editor.widgets.add( 'customWidget', {
+ *			upcast: function( element ) {
+ *				return element.name == 'div';
+ *			},
+ *
+ *			// ...
+ *
+ *			styleableElements: 'div'
+ *		} );
+ *
+ * Then, when a following style is defined:
+ *
+ *		{
+ *			name: 'Thick border', type: 'widget', widget: 'customWidget',
+ *			attributes: { 'class': 'thickBorder' }
+ *		}
+ *
+ * In the {@link CKEDITOR.filter} a rule allowing `thickBorder` class for `div` elements will be registered.
+ *
+ * If you need to have more freedom when transforming widget style to allowed content rules,
+ * you can use the {@link #styleToAllowedContentRules} callback.
+ *
+ * @since 4.4
+ * @property {String} styleableElements
+ */
+
+/**
+ * Function transforming custom widget's {@link CKEDITOR.style} instance into
+ * {@link CKEDITOR.filter.allowedContentRules}. It may be used when a static
+ * {@link #styleableElements} property is not enough to inform the {@link CKEDITOR.filter}
+ * what HTML features should be enabled when allowing given style.
+ *
+ * In most cases, when style's classes just have to be added to element name(s) used by
+ * widget element, it's recommended to use simpler {@link #styleableElements} property.
+ *
+ *		editor.widgets.add( 'customWidget', {
+ *			// ...
+ *
+ *			styleToAllowedContentRules: funciton( style ) {
+ *				// Retrieve classes defined in the style.
+ *				var classes = style.getDefinition().attributes[ 'classes' ];
+ *				// Allowed content rule accepts classes separated with commas, not spaces.
+ *				classes = classes.split( /\s+/ ).join( ',' );
+ *
+ *				// Do something crazy - for example return allowed content rules in object format,
+ *				// with custom match property.
+ *				return {
+ *					h1: {
+ *						match: isWidgetElement,
+ *						classes: classes
+ *					}
+ *				};
+ *			}
+ *		} );
+ *
+ * @since 4.4
+ * @property {Function} styleToAllowedContentRules
+ * @param {CKEDITOR.style} styleToAllowedContentRules.style The style to be transformed.
+ * @returns {CKEDITOR.filter.allowedContentRules} styleToAllowedContentRules.return
  */
 
 /**
