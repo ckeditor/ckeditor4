@@ -29,6 +29,7 @@ New Features:
   * Introduced [`config.image2_alignClasses`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_alignClasses) to configure the way images are aligned with CSS classes.
   If defined, the editor produces classes instead of inline styles for aligned images.
   * Default caption of the image can be translated (customized) with `editor.lang.image2.captionPlaceholder`.
+* [#11341](http://dev.ckeditor.com/ticket/11341): [Enhanced Image](http://ckeditor.com/addon/image2) plugin: it's now possible to link any kind of an image.
 
 Fixed Issues:
 
