@@ -103,7 +103,6 @@
 				}
 			};
 
-			xhr.setRequestHeader( 'Content-type', 'application/json' );
 			xhr.send( data );
 		};
 
