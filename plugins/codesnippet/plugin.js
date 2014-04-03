@@ -10,31 +10,7 @@
 'use strict';
 
 ( function() {
-	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
-		defaultLanguages = {
-			apache: 'Apache',
-			bash: 'Bash',
-			coffeescript: 'CoffeeScript',
-			cpp: 'C++',
-			cs: 'C#',
-			css: 'CSS',
-			diff: 'Diff',
-			http: 'HTTP',
-			ini: 'INI',
-			java: 'Java',
-			javascript: 'JavaScript',
-			json: 'JSON',
-			makefile: 'Makefile',
-			markdown: 'Markdown',
-			nginx: 'Nginx',
-			objectivec: 'Objective-C',
-			perl: 'Perl',
-			php: 'PHP',
-			python: 'Python',
-			ruby: 'Ruby',
-			sql: 'SQL',
-			xml: 'XML'
-		};
+	var isBrowserSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
 
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
@@ -46,32 +22,26 @@
 			editor._.codesnippet = {};
 
 			/**
-			 * Sets custom syntax highlighter function.
+			 * Sets custom syntax highlighter.
 			 *
 			 * **Note**: If {@link CKEDITOR.config#codeSnippet_languages} is set, **it will
 			 * overwrite** languages given in `languages`.
 			 *
-			 * **Note**: Function `highlighterFn` accepts 3 arguments:
-			 *
-			 *	* `code` (_String_) - plain text code to be formatted
-			 *	* `lang` (_String_) - language identifier taken from {@link CKEDITOR.config#codeSnippet_languages}
-			 *	* `callback` (_Function_) - function which takes a string as an argument and writes it as output inside of a snippet widget
-			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
 			 * @param {Object} languages Languages supported by the highlighter. See {@link CKEDITOR.config#codeSnippet_languages}.
-			 * @param {Function} highlighterFn
+			 * @param {CKEDITOR.plugins.codesnippet.highlighter} highlighter
 			 */
-			this.setHighlighter = function( languages, highlighterFn ) {
-				var scope = editor._.codesnippet;
+			this.setHighlighter = function( highlighter ) {
+				editor._.codesnippet.highlighter = highlighter;
 
-				scope.highlighter = highlighterFn;
-				scope.langs = editor.config.codeSnippet_languages || languages;
+				var langs = editor._.codesnippet.langs =
+					editor.config.codeSnippet_languages || highlighter.languages;
 
 				// We might escape special regex chars below, but we expect that there
 				// should be no crazy values used as lang keys.
-				scope.langsRegex = new RegExp( '(?:^|\\s)language-(' +
-					CKEDITOR.tools.objectKeys( scope.langs ).join( '|' ) + ')(?:\\s|$)' );
+				editor._.codesnippet.langsRegex = new RegExp( '(?:^|\\s)language-(' +
+					CKEDITOR.tools.objectKeys( langs ).join( '|' ) + ')(?:\\s|$)' );
 			};
 		},
 
@@ -88,43 +58,185 @@
 				toolbar: 'insert,10'
 			} );
 
+			var path = this.path;
+
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
 			if ( !editor._.codesnippet.highlighter ) {
-				this.setHighlighter( defaultLanguages, defaultHighlighter );
+				var hljsHighlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+					languages: {
+						apache: 'Apache',
+						bash: 'Bash',
+						coffeescript: 'CoffeeScript',
+						cpp: 'C++',
+						cs: 'C#',
+						css: 'CSS',
+						diff: 'Diff',
+						http: 'HTTP',
+						ini: 'INI',
+						java: 'Java',
+						javascript: 'JavaScript',
+						json: 'JSON',
+						makefile: 'Makefile',
+						markdown: 'Markdown',
+						nginx: 'Nginx',
+						objectivec: 'Objective-C',
+						perl: 'Perl',
+						php: 'PHP',
+						python: 'Python',
+						ruby: 'Ruby',
+						sql: 'SQL',
+						xml: 'XML'
+					},
 
-				var path = CKEDITOR.getUrl( this.path ),
-					cssCode = path + 'lib/highlight/styles/' +
-						editor.config.codeSnippet_theme + '.css';
+					init: function( callback ) {
+						var that = this;
 
-				if ( editor._.codesnippet.highlighter == defaultHighlighter && !window.hljs && isBrowserSupported ) {
-					// Inserting required styles/javascript.
-					// Default highlighter was not changed, and hljs is not available, so
-					// it wasn't inserted to the document.
-					CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js' );
-				}
+						CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
+							that.hljs = window.hljs;
+							callback();
+						} );
 
-				editor.addContentsCss( cssCode );
+						// Note: This will work for framed editor only.
+						editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
+					},
+
+					highlighter: function( code, language, callback ) {
+						var highlighted = this.hljs.highlightAuto( code,
+								this.hljs.getLanguage( language ) ? [ language ] : undefined );
+
+						if ( highlighted )
+							callback( highlighted.value );
+					}
+				} );
+
+				this.setHighlighter( hljsHighlighter );
 			}
 		}
 	} );
 
-	// A default highlighter of the plugin, which uses highlight.js library.
-	//
-	// @param {String} code Code to be formatted.
-	// @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_languages}).
-	// @param {Function} callback Function which accepts highlighted String as an argument.
-	function defaultHighlighter( code, lang, callback ) {
-		if ( !isBrowserSupported )
-			return;
+	/**
+	 * Global helpers and classes of Code Snippet plugin.
+	 *
+	 * @class
+	 * @singleton
+	 */
+	CKEDITOR.plugins.codesnippet = {
+		highlighter: Highlighter
+	};
 
-		var hljs = window.hljs,
-			// Ensure that language is supported by hljs.
-			snippetLang = hljs.getLanguage( lang ) ? [ lang ] : undefined,
-			result = hljs.highlightAuto( code, snippetLang );
+	/**
+	 * A Code Snippet highlighter.
+	 *
+	 *		var highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+	 *			init: function( callback ) {
+	 *				// Asynchronous code to load resources
+	 *				// and initialize libraries. Then...
+	 *				callback();
+	 *			},
+	 *			highlighter: function( code, language, callback ) {
+	 *				// Let the library highlight the code. Then...
+	 *				callback( highlightedCode );
+	 *			}
+	 *		} );
+	 *
+	 *		highlighter.highlight( 'foo()', 'javascript', function( highlightedCode ) {
+	 *			console.log( highlightedCode ); // -> <span class="pretty">foo()</span>
+	 *		} );
+	 *
+	 * @since 4.4
+	 * @class CKEDITOR.plugins.codesnippet.highlighter
+	 * @extends CKEDITOR.plugins.codesnippet
+	 * @param {Object} def Highlighter definition. See {@link #highlighter} and {@link #init}.
+	 */
+	function Highlighter( def ) {
+		CKEDITOR.tools.extend( this, def );
 
-		if ( result )
-			callback( result.value );
+		/**
+		 * A queue of {@link #highlight}
+		 * jobs to be done once highlighter is {@link #ready}.
+		 *
+		 * @readonly
+		 * @property {Array} [=[]]
+		 */
+		this.queue = [];
+
+		// Async init – execute jobs when ready.
+		if ( this.init ) {
+			this.init( CKEDITOR.tools.bind( function() {
+				// Execute pending jobs.
+				var job;
+
+				while ( ( job = this.queue.pop() ) )
+					job.call( this );
+
+				this.ready = true;
+			}, this ) );
+		} else
+			this.ready = true;
+
+		/**
+		 * If specified, this function should asynchronously load highlighter-specific
+		 * resources and execute `callback` once highlighter is ready.
+		 *
+		 * @property {Function} [init]
+		 * @param {Function} callback Function to be called once
+		 * highlighter is @{link #ready}.
+		 */
+
+		/**
+		 * A function which highlights given plain-text `code` of given `language` and, once done,
+		 * calls the `callback` function with highlighted markup as an argument.
+		 *
+		 * @property {Function} [highlighter]
+		 * @param {String} code Code to be formatted.
+		 * @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_languages}).
+		 * @param {Function} callback Function which accepts highlighted String as an argument.
+		 */
+
+		/**
+		 * Defines languages supported by the highlighter.
+		 * They can be restricted with {@link CKEDITOR.config#codeSnippet_languages}.
+		 *
+		 *		languages: {
+		 *			coffeescript: 'CoffeeScript',
+		 *			cpp: 'C++',
+		 *			cs: 'C#',
+		 *			css: 'CSS'
+		 *		}
+		 *
+		 * @property {Object} languages
+		 */
+
+		/**
+		 * A flag which indicates whether the highlighter is ready to do jobs
+		 * in the {@link #queue}.
+		 *
+		 * @readonly
+		 * @property {Boolean} ready
+		 */
+	}
+
+	/**
+	 * Executes {@link #highlighter}. If highlighter is not ready, defers the job ({@link #queue})
+	 * and executes is once highlighter is {@link #ready}.
+	 *
+	 * @param {String} code Code to be formatted.
+	 * @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_languages}).
+	 * @param {Function} callback Function which accepts highlighted String as an argument.
+	 */
+	Highlighter.prototype.highlight = function() {
+		var arg = arguments;
+
+		// Highlighter is ready – do it now.
+		if ( this.ready )
+			this.highlighter.apply( this, arg );
+		// Queue the job. It will be done once ready.
+		else {
+			this.queue.push( function() {
+				this.highlighter.apply( this, arg );
+			} );
+		}
 	};
 
 	// Encapsulates snippet widget registration code.
@@ -158,7 +270,7 @@
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
 
 				// Call higlighter to apply its custom highlighting.
-				editor._.codesnippet.highlighter( widgetData.code, widgetData.lang, callback );
+				editor._.codesnippet.highlighter.highlight( widgetData.code, widgetData.lang, callback );
 			},
 
 			data: function() {

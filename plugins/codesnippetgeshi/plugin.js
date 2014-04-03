@@ -14,27 +14,30 @@
 		requires: 'ajax,codesnippet',
 
 		init: function( editor ) {
-			var path = CKEDITOR.getUrl( this.path ),
-				writer = new CKEDITOR.htmlParser.basicWriter();
+			var writer = new CKEDITOR.htmlParser.basicWriter(),
+				geSHiHighlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+					languages: languages,
+					highlighter: function( code, language, callback ) {
+						// AJAX data to be sent in the request.
+						var requestConfig = {
+							lang: language,
+							html: code
+						};
 
-			editor.plugins.codesnippet.setHighlighter( languages, function( code, lang, callback ) {
-				// AJAX data to be sent in the request.
-				var requestConfig = {
-					lang: lang,
-					html: code
-				};
+						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, function( highlighted ) {
+							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
 
-				CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, function( highlighted ) {
-					var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
+							// GeSHi returns <pre> as a top-most element. Since <pre> is
+							// already a part of the widget, consider children only.
+							fragment.children[ 0 ].writeChildrenHtml( writer );
 
-					// GeSHi returns <pre> as a top-most element. Since <pre> is
-					// already a part of the widget, consider children only.
-					fragment.children[ 0 ].writeChildrenHtml( writer );
-
-					// Return highlighted code.
-					callback( writer.getHtml( true ) );
+							// Return highlighted code.
+							callback( writer.getHtml( true ) );
+						} );
+					}
 				} );
-			} );
+
+			editor.plugins.codesnippet.setHighlighter( geSHiHighlighter );
 		}
 	} );
 
