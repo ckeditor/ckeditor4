@@ -19,10 +19,10 @@
 					languages: languages,
 					highlighter: function( code, language, callback ) {
 						// AJAX data to be sent in the request.
-						var requestConfig = {
+						var requestConfig = JSON.stringify( {
 							lang: language,
 							html: code
-						};
+						} );
 
 						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, function( highlighted ) {
 							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
