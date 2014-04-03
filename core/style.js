@@ -403,9 +403,28 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return html.join( '' );
 		},
 
+		/**
+		 * Returns style definition.
+		 *
+		 * @since 4.1
+		 * @returns {Object}
+		 */
 		getDefinition: function() {
 			return this._.definition;
 		}
+
+		/**
+		 * If defined (for example by {@link CKEDITOR.style.addCustomHandler custom style handler}) returns
+		 * the {@link CKEDITOR.filter.allowedContentRules allowed content rules} which should be added to the
+		 * {@link CKEDITOR.filter} when enabling this style.
+		 *
+		 * **Note:** This method is not defined in the {@link CKEDITOR.style} class.
+		 *
+		 * @since 4.4
+		 * @method toAllowedContentRules
+		 * @param {CKEDITOR.editor} [editor] The editor instance.
+		 * @returns {CKEDITOR.filter.allowedContentRules} The rules that should represent this style in the {@link CKEDITOR.filter}.
+		 */
 	};
 
 	/**
