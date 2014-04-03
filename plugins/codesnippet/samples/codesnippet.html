@@ -6,20 +6,30 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>CodeSnippet &mdash; CKEditor Sample</title>
+	<title>Code Snippet &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../lib/highlight/styles/atelier-dune.dark.css " rel="stylesheet">
+	<style>
+
+		#editable
+		{
+			padding: 10px;
+			float: left;
+		}
+
+	</style>
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; CodeSnippet
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Code Snippet
 	</h1>
 
 	<div class="description">
 		<p>
-			This editor is using the <strong>Codesnippet</strong> plugin, which brings beautiful code snippets.
+			This editor is using the <strong>Code Snippet</strong> plugin, which brings beautiful code snippets.
 			By default <code>codesnippet</code> plugin depends on built-in client-side syntax highlighting
-			library <a href="highlightjs.org">highlight.js</a>.
+			library <a href="http://highlightjs.org">highlight.js</a>.
 		</p>
 		<p>
 			You can adjust the appearance of code snippets using <code>codeSnippet_theme</code> config variable
@@ -41,7 +51,7 @@ CKEDITOR.replace( 'editor1', {
 	</div>
 
 	<textarea id="editor1">
-&lt;p&gt;A bit of JS:&lt;/p&gt;
+&lt;p&gt;A bit of JS&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;&amp;lt;?php
 isset( $foo );
 # Comment
@@ -52,59 +62,96 @@ function foo( $bar ) {
   }
 }&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;quick sql&lt;/p&gt;
+&lt;p&gt;SQL&lt;/p&gt;
 &lt;pre&gt;
 &lt;code class=&quot;language-sql&quot;&gt;SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;A bit of uknown markup:&lt;/p&gt;
+&lt;p&gt;Unknown markup&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
 &lt;/code&gt;&lt;/pre&gt;
 	</textarea>
 
+	<h2>Inline editor</h2>
+
+	<div id="editable" contenteditable="true">
+<pre>
+<code class="language-php">&lt;?php
+isset( $foo );
+# Comment
+// Comment2
+function foo( $bar ) {
+  if ( $bar &gt; 3 ) {
+   echo "aaa";
+  }
+}</code></pre>
+
+<p>SQL</p>
+
+<pre>
+<code class="language-sql">SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) GROUP BY cust.type WHERE cust.type IN ( 1, 2, 3, 4, 5 );</code></pre>
+
+<p>Unknown markup</p>
+
+<pre>
+<code>moo(); &lt;strong&gt;// Why not cow?&lt;/strong&gt;
+</code></pre>
+	</div>
+
 	<script>
 		( function() {
-			var config = {
-					extraPlugins: 'codesnippet',
-					toolbar: [
-						[ 'Source' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
-					]
-				},
-				templates = [
-					'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
-				],
-				pre = CKEDITOR.document.getById( 'sampleConfig' ),
-				select = CKEDITOR.document.getById( 'select' ),
-				codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n' +
-					'	extraPlugins: \'codesnippet\',\n' +
-					'	codeSnippet_theme: \'{tpl}\'\n' +
-				'} );';
+			CKEDITOR.disableAutoInline = true;
 
-			// Default editor initialization.
+			var config = {
+				extraPlugins: 'codesnippet',
+				toolbar: [
+					[ 'Source', 'Sourcedialog' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
+				]
+			};
+
 			CKEDITOR.replace( 'editor1', config );
 
-			var name, option;
-			while ( ( name = templates.shift() ) ) {
-				option = CKEDITOR.document.createElement( 'option', {
-					attributes: {
-						value: name
-					}
-				} );
+			CKEDITOR.inline( 'editable', CKEDITOR.tools.extend( {}, config, {
+				extraPlugins: 'codesnippet,sourcedialog',
+				codeSnippet_theme: 'atelier-dune.dark'
+			}, true ) );
 
-				option.setText( name );
-				select.append( option );
+			initThemeChange();
+
+			function initThemeChange() {
+				var templates = [
+						'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'monokai_sublime', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
+					],
+					pre = CKEDITOR.document.getById( 'sampleConfig' ),
+					select = CKEDITOR.document.getById( 'select' ),
+					codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n' +
+						'	extraPlugins: \'codesnippet\',\n' +
+						'	codeSnippet_theme: \'{tpl}\'\n' +
+					'} );',
+					name, option;
+
+				while ( ( name = templates.shift() ) ) {
+					option = CKEDITOR.document.createElement( 'option', {
+						attributes: {
+							value: name
+						}
+					} );
+
+					option.setText( name );
+					select.append( option );
+				}
+
+				select.$.onchange = function() {
+					if ( CKEDITOR.instances.editor1 )
+						CKEDITOR.instances.editor1.destroy();
+
+					CKEDITOR.replace( 'editor1', CKEDITOR.tools.extend( {}, config, {
+						codeSnippet_theme: this.value
+					} ) );
+
+					pre.setHtml( '' );
+					pre.append( new CKEDITOR.dom.text( codeTemplate.replace( '{tpl}', this.value ) ) );
+				};
 			}
-
-			select.$.onchange = function() {
-				if ( CKEDITOR.instances.editor1 )
-					CKEDITOR.instances.editor1.destroy();
-
-				CKEDITOR.replace( 'editor1', CKEDITOR.tools.extend( {}, config, {
-					codeSnippet_theme: this.value
-				} ) );
-
-				pre.setHtml( '' );
-				pre.append( new CKEDITOR.dom.text( codeTemplate.replace( '{tpl}', this.value ) ) );
-			};
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
 				CKEDITOR.document.getById( 'ie8-warning' ).addClass( 'warning' );
