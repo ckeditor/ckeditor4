@@ -37,6 +37,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p>One small step for [a] man, one giant leap for mankind.</p>
 		</blockquote>
 
+		<p><span class="math-tex">\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)</span></p>
+
 		<p>Apollo 11 effectively ended the <a href="http://en.wikipedia.org/wiki/Space_Race" title="Space Race">Space Race</a> and fulfilled a national goal proposed in 1961 by the late U.S. President <a href="http://en.wikipedia.org/wiki/John_F._Kennedy" title="John F. Kennedy">John F. Kennedy</a> in a speech before the United States Congress:</p>
 
 		<blockquote>
@@ -82,6 +84,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p>One small step for [a] man, one giant leap for mankind.</p>
 		</blockquote>
 
+		<p><span class="math-tex">\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)</span></p>
+
 		<p>Apollo 11 effectively ended the <a href="http://en.wikipedia.org/wiki/Space_Race" title="Space Race">Space Race</a> and fulfilled a national goal proposed in 1961 by the late U.S. President <a href="http://en.wikipedia.org/wiki/John_F._Kennedy" title="John F. Kennedy">John F. Kennedy</a> in a speech before the United States Congress:</p>
 
 		<blockquote>
@@ -116,18 +120,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			{ name: 'So important', type: 'widget', widget: 'image', attributes: { 'class': 'important soMuch' } },
 
 			{ name: 'Red marker', type: 'widget', widget: 'placeholder', attributes: { 'class': 'redMarker' } },
-			{ name: 'Invisible', type: 'widget', widget: 'placeholder', attributes: { 'class': 'invisible' } },
+			{ name: 'Invisible Placeholder', type: 'widget', widget: 'placeholder', attributes: { 'class': 'invisible' } },
+
+			{ name: 'Invisible Mathjax', type: 'widget', widget: 'mathjax', attributes: { 'class': 'invisible' } }
 		];
 
 		CKEDITOR.replace( 'editor1', {
-			extraPlugins: 'placeholder,image2',
+			extraPlugins: 'placeholder,image2,mathjax',
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
 			stylesSet: stylesSet,
 			height: 300
 		} );
 
 		CKEDITOR.inline( 'editor2', {
-			extraPlugins: 'placeholder,image2',
+			extraPlugins: 'placeholder,image2,mathjax',
 			stylesSet: stylesSet,
 			height: 300
 		} );
