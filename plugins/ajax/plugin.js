@@ -87,13 +87,12 @@
 				return async ? '' : getResponseFn( xhr );
 			};
 
-		var post = function( url, data, callback, getResponseFn ) {
+		var post = function( url, data, contentType, callback, getResponseFn ) {
 			var xhr = createXMLHttpRequest();
 
 			if ( !xhr )
 				return null;
 
-			// Copy-pasted. Dunno if works :D
 			xhr.open( 'POST', url, true );
 
 			xhr.onreadystatechange = function() {
@@ -102,6 +101,8 @@
 					xhr = null;
 				}
 			};
+
+			xhr.setRequestHeader( 'Content-type', contentType || 'application/x-www-form-urlencoded; charset=UTF-8' );
 
 			xhr.send( data );
 		};
@@ -130,8 +131,27 @@
 				return load( url, callback, getResponseText );
 			},
 
-			post: function( url, data, callback ) {
-				return post( url, data, callback, getResponseText );
+			/**
+			 * Creates asynchronous POST `XMLHttpRequest` of given `url`, `data` and optional `contentType`.
+			 * Once the request is done, regardless if successful or not, `callback` is called
+			 * with `XMLHttpRequest#responseText` or `null` as an argument.
+			 *
+			 *		CKEDITOR.ajax.post( 'url/post.php', 'foo=bar', null, function( data ) {
+			 *			console.log( data );
+			 *		} );
+			 *
+			 *		CKEDITOR.ajax.post( 'url/post.php', JSON.stringify( { foo: 'bar' } ), 'application/json', function( data ) {
+			 *			console.log( data );
+			 *		} );
+			 *
+			 * @param {String} url URL of the request.
+			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
+			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] A value of `Content-type` header.
+			 * @param {Function} callback A callback executed asynchronously with `XMLHttpRequest#responseText` or `null` as an argument,
+			 * depending on `status` of the request.
+			 */
+			post: function( url, data, contentType, callback ) {
+				return post( url, data, contentType, callback, getResponseText );
 			},
 
 			/**

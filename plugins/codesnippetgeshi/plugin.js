@@ -24,7 +24,7 @@
 							html: code
 						} );
 
-						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, function( highlighted ) {
+						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, 'application/json', function( highlighted ) {
 							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
 
 							// GeSHi returns <pre> as a top-most element. Since <pre> is
