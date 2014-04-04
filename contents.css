@@ -135,7 +135,9 @@ pre > code.hljs
 	display: block;
 	margin: 0px auto;
 	padding: 1em 1.5em;
-}a > img {
+}
+
+a > img {
 	padding: 1px;
 	margin: 1px;
 	outline: 1px solid #0782C1;
