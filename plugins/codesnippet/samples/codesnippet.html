@@ -97,6 +97,19 @@ function foo( $bar ) {
 </code></pre>
 	</div>
 
+	<h2>Server&ndash;side highlighting and custom highlighting engines</h2>
+
+	<p>
+		<a href="http://ckeditor.com/addon/codesnippet"><strobg>Code Snippet GeSHi</strobg></a> plugin is an
+		extension of <strong>Code Snippet</strong>, which uses server-side highligter.
+	</p>
+
+	<p>
+		It also is possible to replace default highlighter with any library using
+		<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet.highlighter">Highlighter API</a>
+		and <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet-method-setHighlighter"><code>editor.plugins.codesnippet.setHighlighter()</code></a>.
+	</p>
+
 	<script>
 		( function() {
 			CKEDITOR.disableAutoInline = true;
