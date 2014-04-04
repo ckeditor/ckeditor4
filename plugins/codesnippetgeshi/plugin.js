@@ -24,7 +24,7 @@
 							html: code
 						} );
 
-						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codesnippetgeshi_url ), requestConfig, 'application/json', function( highlighted ) {
+						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codeSnippetGeshi_url ), requestConfig, 'application/json', function( highlighted ) {
 							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
 
 							// GeSHi returns <pre> as a top-most element. Since <pre> is
@@ -172,7 +172,7 @@
 /**
  * Sets GeSHi URL which, once queried with AJAX, will return highlighted code.
  *
- *		config.codesnippetgeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
+ *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
  *
  * @cfg {String} [mathJaxLib=null]
  * @member CKEDITOR.config
