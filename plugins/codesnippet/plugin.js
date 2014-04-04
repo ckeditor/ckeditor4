@@ -92,10 +92,12 @@
 					init: function( callback ) {
 						var that = this;
 
-						CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
-							that.hljs = window.hljs;
-							callback();
-						} );
+						if ( isBrowserSupported ) {
+							CKEDITOR.scriptLoader.load( path + 'lib/highlight/highlight.pack.js', function() {
+								that.hljs = window.hljs;
+								callback();
+							} );
+						}
 
 						// Note: This will work for framed editor only.
 						editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
