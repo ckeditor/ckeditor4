@@ -1013,7 +1013,7 @@
 
 	function executeElementCallbacks( element, callbacks ) {
 		for ( var i = 0, l = callbacks.length, retVal; i < l; ++i ) {
-			if ( retVal = callbacks[ i ]( element ) )
+			if ( ( retVal = callbacks[ i ]( element ) ) )
 				return retVal;
 		}
 	}
@@ -1446,7 +1446,7 @@
 		// Execute element callbacks and return if one of them returned any value.
 		if ( opts.doCallbacks && that.elementCallbacks ) {
 			// For now we only support here FILTER_SKIP_TREE, so we can early return if retVal is truly value.
-			if ( callbacksRetVal = executeElementCallbacks( element, that.elementCallbacks ) )
+			if ( ( callbacksRetVal = executeElementCallbacks( element, that.elementCallbacks ) ) )
 				return callbacksRetVal;
 		}
 

@@ -222,7 +222,7 @@
 		'class': 'advCSSClasses',
 		charset: 'advCharset',
 		style: 'advStyles',
-		rel: 'advRel',
+		rel: 'advRel'
 	};
 
 	function unescapeSingleQuote( str ) {
@@ -499,7 +499,7 @@
 						retval.target = {
 							type: 'popup',
 							name: onclickMatch[ 1 ]
-						}
+						};
 
 						var featureMatch;
 						while ( ( featureMatch = popupFeaturesRegex.exec( onclickMatch[ 2 ] ) ) ) {
@@ -514,7 +514,7 @@
 					retval.target = {
 						type: target.match( selectableTargets ) ? target : 'frame',
 						name: target
-					}
+					};
 				}
 
 				var advanced = {};
