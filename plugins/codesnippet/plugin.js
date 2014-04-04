@@ -129,10 +129,10 @@
 	 * A Code Snippet highlighter.
 	 *
 	 *		var highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
-	 *			init: function( callback ) {
+	 *			init: function( ready ) {
 	 *				// Asynchronous code to load resources
 	 *				// and initialize libraries. Then...
-	 *				callback();
+	 *				ready();
 	 *			},
 	 *			highlighter: function( code, language, callback ) {
 	 *				// Let the library highlight the code. Then...
@@ -177,10 +177,10 @@
 
 		/**
 		 * If specified, this function should asynchronously load highlighter-specific
-		 * resources and execute `callback` once highlighter is ready.
+		 * resources and execute `ready` once highlighter is ready.
 		 *
 		 * @property {Function} [init]
-		 * @param {Function} callback Function to be called once
+		 * @param {Function} ready Function to be called once
 		 * highlighter is @{link #ready}.
 		 */
 
@@ -259,18 +259,24 @@
 			highlight: function() {
 				var that = this,
 					widgetData = this.data,
-					callback = function( formattedCode ) {
+					callback = function( formatted ) {
 						// IE8 (not supported browser) have issue with new line chars, when using innerHTML.
 						// It will simply strip it.
 						that.parts.code.setHtml( isBrowserSupported ?
-							formattedCode : formattedCode.replace( newLineRegex, '<br>' ) );
+							formatted : formatted.replace( newLineRegex, '<br>' ) );
 					};
 
 				// Set plain code first, so even if custom handler will not call it the code will be there.
 				callback( CKEDITOR.tools.htmlEncode( widgetData.code ) );
 
 				// Call higlighter to apply its custom highlighting.
-				editor._.codesnippet.highlighter.highlight( widgetData.code, widgetData.lang, callback );
+				editor._.codesnippet.highlighter.highlight( widgetData.code, widgetData.lang, function( formatted ) {
+					callback.apply( this, arguments );
+
+					// Update snapshot – highlighted code should not
+					// produce additional undoManager snapshot.
+					editor.fire( 'updateSnapshot' );
+				} );
 			},
 
 			data: function() {
