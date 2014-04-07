@@ -515,8 +515,9 @@
 			if ( !classes )
 				return null;
 
-			var classes = CKEDITOR.tools.trim( classes ).split( /\s+/ ),
-				cl,
+			classes = CKEDITOR.tools.trim( classes ).split( /\s+/ );
+
+			var cl,
 				obj = {},
 				hasClasses = 0;
 
