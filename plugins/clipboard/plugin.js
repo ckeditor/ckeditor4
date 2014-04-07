@@ -513,67 +513,71 @@
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				if ( evt.data.$.dataTransfer.getData( 'text' ) == dragTimestamp ) {
-					var dropRange = editor.createRange(),
-						dragRange,
-						dropBookmark,
-						dragBookmarks = [];
-
-					dropRange = getRangeAtDropPosition( editor, evt );
+					var dropRange = getRangeAtDropPosition( editor, evt );
 
 					if ( dropRange ) {
-						editor.fire( 'saveSnapshot' );
-						editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+						// Execute D&D with a timeout because otherwise selection after
+						// drop is in the drag position instead of drop position.
+						setTimeout( function() {
+							var dragRange,
+								dropBookmark,
+								dragBookmarks = [];
 
-						// Fix IE 8 & 9 splitted node on drop
-						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 &&
-							 dropRange.startContainer.type == 1 &&
-							 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-							 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRanges[ 0 ].startContainer ) ) {
-							var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-								nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+							editor.fire( 'saveSnapshot' );
+							editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
-							var offset = nodeBefore.getLength();
+							// Fix IE 8 & 9 splitted node on drop
+							if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 &&
+								 dropRange.startContainer.type == 1 &&
+								 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
+								 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRanges[ 0 ].startContainer ) ) {
+								var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+									nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
 
-							if ( nodeAfter ) {
-								nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-								nodeAfter.remove();
+								var offset = nodeBefore.getLength();
+
+								if ( nodeAfter ) {
+									nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+									nodeAfter.remove();
+								}
+
+								dropRange.startContainer = nodeBefore;
+								dropRange.startOffset = offset;
 							}
 
-							dropRange.startContainer = nodeBefore;
-							dropRange.startOffset = offset;
-						}
+							// Create bookmarks in the correct order.
+							for ( var i = 0; i < dragRanges.length; i++ ) {
+								dragRange = dragRanges[ i ];
+								if ( !rangeBefore( dragRange, dropRange ) )
+									dragBookmarks.push( dragRange.createBookmark( 1 ) );
+							};
 
-						// Create bookmarks in the correct order.
-						for ( var i = 0; i < dragRanges.length; i++ ) {
-							dragRange = dragRanges[ i ];
-							if ( !rangeBefore( dragRange, dropRange ) )
-								dragBookmarks.push( dragRange.createBookmark( 1 ) );
-						};
+							var dropRangeCopy = dropRange.clone();
+							dropBookmark = dropRangeCopy.createBookmark( 1 );
 
-						var dropRangeCopy = dropRange.clone();
-						dropBookmark = dropRangeCopy.createBookmark( 1 );
+							for ( var i = 0; i < dragRanges.length; i++ ) {
+								dragRange = dragRanges[ i ];
+								if ( rangeBefore( dragRange, dropRange ) )
+									dragBookmarks.push( dragRange.createBookmark( 1 ) );
+							};
 
-						for ( var i = 0; i < dragRanges.length; i++ ) {
-							dragRange = dragRanges[ i ];
-							if ( rangeBefore( dragRange, dropRange ) )
-								dragBookmarks.push( dragRange.createBookmark( 1 ) );
-						};
+							// Delete content for the drag position.
+							for ( var i = 0; i < dragBookmarks.length; i++ ) {
+								dragRange = editor.createRange()
+								dragRange.moveToBookmark( dragBookmarks[ i ] );
+								dragRange.deleteContents();
+							}
 
-						// Delete content for the drag position.
-						for ( var i = 0; i < dragBookmarks.length; i++ ) {
-							dragRange = editor.createRange()
-							dragRange.moveToBookmark( dragBookmarks[ i ] );
-							dragRange.deleteContents();
-						}
+							// Paste content into the drop position.
+							dropRange = editor.createRange();
+							dropRange.moveToBookmark( dropBookmark );
+							dropRange.select();
+							firePasteEvents( 'html', clipboard );
 
-						// Paste content into the drop position.
-						dropRange = editor.createRange();
-						dropRange.moveToBookmark( dropBookmark );
-						dropRange.select();
-						firePasteEvents( 'html', clipboard );
-
-						editor.fire( 'unlockSnapshot' );
+							editor.fire( 'unlockSnapshot' );
+						}, 0 );
 					}
+
 				}
 				// Drop from external source.
 				else {
