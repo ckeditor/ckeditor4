@@ -594,8 +594,10 @@
 
 						if ( data )
 							firePasteEvents( 'html', data );
-						else
-							firePasteEvents( 'text', dataTransfer.getData( 'Text' ) );
+						else {
+							data = dataTransfer.getData( 'Text' );
+							firePasteEvents( 'text', CKEDITOR.tools.htmlEncode( data ) );
+						}
 					}
 				}
 				evt.data.preventDefault();
