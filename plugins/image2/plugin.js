@@ -214,7 +214,8 @@
 	// @param {CKEDITOR.editor}
 	// @returns {Object}
 	function widgetDef( editor ) {
-		var alignClasses = editor.config.image2_alignClasses;
+		var alignClasses = editor.config.image2_alignClasses,
+			captionedClass = editor.config.image2_captionedClass;
 
 		function deflate() {
 			if ( this.deflated )
@@ -339,6 +340,13 @@
 					alt: this.data.alt
 				} );
 
+				// If shifting non-captioned -> captioned, remove classes
+				// related to styles from <img/>.
+				if ( this.oldData && !this.oldData.hasCaption && this.data.hasCaption ) {
+					for ( var c in this.data.classes )
+						this.parts.image.removeClass( c );
+				}
+
 				// Set dimensions of the image according to gathered data.
 				// Do it only when the attributes are allowed (#11004).
 				if ( editor.filter.checkFeature( features.dimension ) )
@@ -426,6 +434,43 @@
 					evt.data.widget = this;
 				}, this );
 			},
+
+			// Overrides default method to handle internal mutability of Image2.
+			// @see CKEDITOR.plugins.widget#addClass
+			addClass: function( className ) {
+				getStyleableElement( this ).addClass( className );
+			},
+
+			// Overrides default method to handle internal mutability of Image2.
+			// @see CKEDITOR.plugins.widget#hasClass
+			hasClass: function( className ) {
+				return getStyleableElement( this ).hasClass( className );
+			},
+
+			// Overrides default method to handle internal mutability of Image2.
+			// @see CKEDITOR.plugins.widget#removeClass
+			removeClass: function( className ) {
+				getStyleableElement( this ).removeClass( className );
+			},
+
+			// Overrides default method to handle internal mutability of Image2.
+			// @see CKEDITOR.plugins.widget#getClasses
+			getClasses: ( function() {
+				var classRegex = new RegExp( '^(' + [].concat( captionedClass, alignClasses ).join( '|' ) + ')$' );
+
+				return function() {
+					var classes = this.repository.parseElementClasses( getStyleableElement( this ).getAttribute( 'class' ) );
+
+					// Neither config.image2_captionedClass nor config.image2_alignClasses
+					// do not belong to style classes.
+					for ( var c in classes ) {
+						if ( classRegex.test( c ) )
+							delete classes[ c ];
+					}
+
+					return classes;
+				};
+			} )(),
 
 			upcast: upcastWidgetElement( editor ),
 			downcast: downcastWidgetElement( editor )
@@ -1457,6 +1502,16 @@
 			};
 
 		return features;
+	}
+
+	// Returns element which is styled, considering current
+	// state of the widget.
+	//
+	// @see CKEDITOR.plugins.widget#applyStyle
+	// @param {CKEDITOR.plugins.widget} widget
+	// @returns {CKEDITOR.dom.element}
+	function getStyleableElement( widget ) {
+		return widget.data.hasCaption ? widget.element : widget.parts.image;
 	}
 } )();
 
