@@ -22,14 +22,11 @@
 			editor._.codesnippet = {};
 
 			/**
-			 * Sets custom syntax highlighter.
-			 *
-			 * **Note**: If {@link CKEDITOR.config#codeSnippet_languages} is set, **it will
-			 * overwrite** languages given in `languages`.
+			 * Sets custom syntax highlighter. See {@link CKEDITOR.plugins.codesnippet.highlighter}
+			 * to know how to register a custom highlighter.
 			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
-			 * @param {Object} languages Languages supported by the highlighter. See {@link CKEDITOR.config#codeSnippet_languages}.
 			 * @param {CKEDITOR.plugins.codesnippet.highlighter} highlighter
 			 */
 			this.setHighlighter = function( highlighter ) {
@@ -130,28 +127,46 @@
 	};
 
 	/**
-	 * A Code Snippet highlighter.
+	 * A Code Snippet highlighter. It can be set as a default highlighter
+	 * using {@link CKEDITOR.plugins.codesnippet#setHighlighter}, i.e.:
 	 *
-	 *		var highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
-	 *			init: function( ready ) {
-	 *				// Asynchronous code to load resources
-	 *				// and initialize libraries. Then...
-	 *				ready();
-	 *			},
-	 *			highlighter: function( code, language, callback ) {
-	 *				// Let the library highlight the code. Then...
-	 *				callback( highlightedCode );
+	 *		// Create a new plugin, which registers custom code highlighter
+	 *		// based on customEngine in order to replace the one that comes
+	 *		// with Code Snippet plugin.
+	 *		CKEDITOR.plugins.add( 'myCustomHighlighter', {
+	 *			afterInit: function( editor ) {
+	 *				// Create a new instance of highlighter.
+	 *				var myHighlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+	 *					init: function( ready ) {
+	 *						// Asynchronous code to load resources and libraries for customEngine.
+	 *						customEngine.loadResources( function() {
+	 *							// Let the editor know that everything is ready.
+	 *							ready();
+	 *						} );
+	 *					},
+	 *					highlighter: function( code, language, callback ) {
+	 *						// Let the customEngine highlight the code.
+	 *						customEngine.highlight( code, language, function() {
+	 *							callback( highlightedCode );
+	 *						} );
+	 *					}
+	 *				} );
+	 *
+	 *				// Check how does it perform.
+	 *				myHighlighter.highlight( 'foo()', 'javascript', function( highlightedCode ) {
+	 *					console.log( highlightedCode ); // -> <span class="pretty">foo()</span>
+	 *				} );
+	 *
+	 *				// From now on, myHighlighter will be used as a Code Snippet
+	 *				// highlighter, overwriting the default engine.
+	 *				editor.plugins.codesnippet.setHighlighter( myHighlighter );
 	 *			}
-	 *		} );
-	 *
-	 *		highlighter.highlight( 'foo()', 'javascript', function( highlightedCode ) {
-	 *			console.log( highlightedCode ); // -> <span class="pretty">foo()</span>
 	 *		} );
 	 *
 	 * @since 4.4
 	 * @class CKEDITOR.plugins.codesnippet.highlighter
 	 * @extends CKEDITOR.plugins.codesnippet
-	 * @param {Object} def Highlighter definition. See {@link #highlighter} and {@link #init}.
+	 * @param {Object} def Highlighter definition. See {@link #highlighter}, {@link #init} and {@link #languages}.
 	 */
 	function Highlighter( def ) {
 		CKEDITOR.tools.extend( this, def );
@@ -201,6 +216,9 @@
 		/**
 		 * Defines languages supported by the highlighter.
 		 * They can be restricted with {@link CKEDITOR.config#codeSnippet_languages}.
+		 *
+		 * **Note**: If {@link CKEDITOR.config#codeSnippet_languages} is set, **it will
+		 * overwrite** languages given in `languages`.
 		 *
 		 *		languages: {
 		 *			coffeescript: 'CoffeeScript',
@@ -413,6 +431,16 @@ CKEDITOR.config.codeSnippet_class = 'hljs';
  *
  *		// Changes theme "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';
+ *
+ * **Note**: [themes](http://highlightjs.org/static/test.html)
+ * must be loaded manually to be applied inside of [inline editor instance](#!/guide/dev_inline), e.g.
+ * `codeSnippet_theme` will not work in such case. Include the stylesheet in `<head>`
+ * section of the page instead, i.e.:
+ *
+ *		<head>
+ *			...
+ *			<link href="path/to/highlight.js/styles/theme_stylesheet.css" rel="stylesheet">
+ *		</head>
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_theme='default']
