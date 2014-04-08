@@ -498,10 +498,9 @@
 
 			editable.on( 'keyup', setToolbarStates );
 
-			var editable = editor.editable(),
-				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-				// #11086 IE8 cannot listen on document.
-				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+			// #11086 IE8 cannot listen on document.
+			var dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 				clipboard, dragRanges, dragTimestamp;
 
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
@@ -512,17 +511,19 @@
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
+					var dragRange,
+						dropRange,
+						dropBookmark,
+						dragBookmarks = [],
+						i;
+
 				if ( evt.data.$.dataTransfer.getData( 'text' ) == dragTimestamp ) {
-					var dropRange = getRangeAtDropPosition( editor, evt );
+					dropRange = getRangeAtDropPosition( editor, evt );
 
 					if ( dropRange ) {
 						// Execute D&D with a timeout because otherwise selection after
 						// drop is in the drag position instead of drop position.
 						setTimeout( function() {
-							var dragRange,
-								dropBookmark,
-								dragBookmarks = [];
-
 							editor.fire( 'saveSnapshot' );
 							editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
@@ -532,9 +533,8 @@
 								 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
 								 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRanges[ 0 ].startContainer ) ) {
 								var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-									nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
-
-								var offset = nodeBefore.getLength();
+									nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
+									offset = nodeBefore.getLength();
 
 								if ( nodeAfter ) {
 									nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
@@ -546,24 +546,24 @@
 							}
 
 							// Create bookmarks in the correct order.
-							for ( var i = 0; i < dragRanges.length; i++ ) {
+							for ( i = 0; i < dragRanges.length; i++ ) {
 								dragRange = dragRanges[ i ];
 								if ( !rangeBefore( dragRange, dropRange ) )
 									dragBookmarks.push( dragRange.createBookmark( 1 ) );
-							};
+							}
 
 							var dropRangeCopy = dropRange.clone();
 							dropBookmark = dropRangeCopy.createBookmark( 1 );
 
-							for ( var i = 0; i < dragRanges.length; i++ ) {
+							for ( i = 0; i < dragRanges.length; i++ ) {
 								dragRange = dragRanges[ i ];
 								if ( rangeBefore( dragRange, dropRange ) )
 									dragBookmarks.push( dragRange.createBookmark( 1 ) );
-							};
+							}
 
 							// Delete content for the drag position.
-							for ( var i = 0; i < dragBookmarks.length; i++ ) {
-								dragRange = editor.createRange()
+							for ( i = 0; i < dragBookmarks.length; i++ ) {
+								dragRange = editor.createRange();
 								dragRange.moveToBookmark( dragBookmarks[ i ] );
 								dragRange.deleteContents();
 							}
@@ -584,7 +584,7 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 						editor.focus();
 
-					var dropRange = getRangeAtDropPosition( editor, evt );
+					dropRange = getRangeAtDropPosition( editor, evt );
 
 					if ( dropRange ) {
 						// Paste content into the drop position.
@@ -592,7 +592,7 @@
 						var dataTransfer = evt.data.$.dataTransfer,
 							data;
 						try {
-							data = dataTransfer.getData( 'text/html' )
+							data = dataTransfer.getData( 'text/html' );
 						} catch ( err ) {
 						}
 
@@ -1340,7 +1340,7 @@
 						} catch ( err ) {
 						}
 					}
-				};
+				}
 
 				if ( sucess ) {
 					var id = 'cke-temp-' + ( new Date() ).getTime();
