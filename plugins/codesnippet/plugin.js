@@ -264,7 +264,7 @@
 	// Encapsulates snippet widget registration code.
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
-		var codeClass = editor.config.codeSnippet_class,
+		var codeClass = editor.config.codeSnippet_codeClass,
 			newLineRegex = /\r?\n/g;
 
 		editor.widgets.add( 'codeSnippet', {
@@ -355,7 +355,7 @@
 				// Remove pretty formatting from <code>...</code>.
 				code.children.length = 0;
 
-				// Remove config#codeSnippet_class.
+				// Remove config#codeSnippet_codeClass.
 				code.removeClass( codeClass );
 
 				// Set raw text inside <code>...</code>.
@@ -392,20 +392,23 @@
 } )();
 
 /**
- * A CSS class for `code` element inside of the snippet.
+ * A CSS class of `<code>` element used internally for styling
+ * (by default [highlight.js](http://highlightjs.org) themes, see
+ * {@link CKEDITOR.config#codeSnippet_theme config.codeSnippet_theme}),
+ * which means that it is **not present** it editor output data.
  *
  *		// Changes the class to "myCustomClass".
- *		config.codeSnippet_class = 'myCustomClass';
+ *		config.codeSnippet_codeClass = 'myCustomClass';
  *
- * **Note**: This might need to be changed if using custom highlighter
+ * **Note**: The class might need to be changed if using custom highlighter
  * (default is [highlight.js](http://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to know more.
  *
  * @since 4.4
- * @cfg {String} [codeSnippet_class='hljs']
+ * @cfg {String} [codeSnippet_codeClass='hljs']
  * @member CKEDITOR.config
  */
-CKEDITOR.config.codeSnippet_class = 'hljs';
+CKEDITOR.config.codeSnippet_codeClass = 'hljs';
 
 /**
  * Restricts languages available in the "Code snippet" dialog.
