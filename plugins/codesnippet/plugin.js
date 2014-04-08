@@ -49,16 +49,18 @@
 			CKEDITOR.dialog.add( 'codeSnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 
-		afterInit: function( editor ) {
-			registerWidget( editor );
-
+		init: function( editor ) {
 			editor.ui.addButton && editor.ui.addButton( 'CodeSnippet', {
 				label: editor.lang.codesnippet.button,
 				command: 'codeSnippet',
 				toolbar: 'insert,10'
 			} );
+		},
 
+		afterInit: function( editor ) {
 			var path = this.path;
+
+			registerWidget( editor );
 
 			// At the very end, if no custom highlighter was set so far (by plugin#setHighlighter)
 			// we will set default one.
