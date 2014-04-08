@@ -79,7 +79,7 @@
 						// Check if the element is removable by any of
 						// the styles.
 						for ( var value in styles ) {
-							if ( styles[ value ].checkElementMatch( element, true ) ) {
+							if ( styles[ value ].checkElementMatch( element, true, editor ) ) {
 								if ( value != currentValue )
 									this.setValue( value );
 								return;

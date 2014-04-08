@@ -39,7 +39,7 @@
 					var item = items[ 'language_' + languageId ];
 
 					if ( item )
-						editor[ item.style.checkActive( editor.elementPath() ) ? 'removeStyle' : 'applyStyle' ]( item.style );
+						editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				},
 				refresh: function( editor, path ) {
 					this.setState( plugin.getCurrentLangElement( editor ) ?

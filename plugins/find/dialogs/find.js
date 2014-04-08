@@ -220,7 +220,7 @@
 					// Apply the highlight.
 					var range = this.toDomRange(),
 						bookmark = range.createBookmark();
-					highlightStyle.applyToRange( range );
+					highlightStyle.applyToRange( range, editor );
 					range.moveToBookmark( bookmark );
 					this._.highlightRange = range;
 
@@ -242,7 +242,7 @@
 						return;
 
 					var bookmark = this._.highlightRange.createBookmark();
-					highlightStyle.removeFromRange( this._.highlightRange );
+					highlightStyle.removeFromRange( this._.highlightRange, editor );
 					this._.highlightRange.moveToBookmark( bookmark );
 					this.updateFromDomRange( this._.highlightRange );
 					this._.highlightRange = null;

@@ -28,6 +28,15 @@
 				button: editor.lang.mathjax.button,
 				mask: true,
 				allowedContent: 'span(!' + cls + ')',
+				// Allow style classes only on spans having mathjax class.
+				styleToAllowedContentRules: function( style ) {
+					var classes = style.getClassesArray();
+					if ( !classes )
+						return null;
+					classes.push( '!' + cls );
+
+					return 'span(' + classes.join( ',' ) + ')';
+				},
 				pathName: editor.lang.mathjax.pathName,
 
 				template: '<span class="' + cls + '" style="display:inline-block" data-cke-survive=1></span>',

@@ -228,9 +228,13 @@
 
 			if ( typeof newRules == 'string' )
 				newRules = parseRulesString( newRules );
-			else if ( newRules instanceof CKEDITOR.style )
+			else if ( newRules instanceof CKEDITOR.style ) {
+				// If style has the cast method defined, use it and abort.
+				if ( newRules.toAllowedContentRules )
+					return this.allow( newRules.toAllowedContentRules( this.editor ), featureName, overrideCustom );
+
 				newRules = convertStyleToRules( newRules );
-			else if ( CKEDITOR.tools.isArray( newRules ) ) {
+			} else if ( CKEDITOR.tools.isArray( newRules ) ) {
 				for ( i = 0; i < newRules.length; ++i )
 					ret = this.allow( newRules[ i ], featureName, overrideCustom );
 				return ret; // Return last status.
