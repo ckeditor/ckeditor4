@@ -200,7 +200,7 @@
 		 *
 		 * @property {Function} [init]
 		 * @param {Function} ready Function to be called once
-		 * highlighter is @{link #ready}.
+		 * highlighter is {@link #ready}.
 		 */
 
 		/**
@@ -321,7 +321,7 @@
 				}
 
 				// Save oldData.
-				this.oldData = CKEDITOR.tools.extend( {}, newData );
+				this.oldData = CKEDITOR.tools.copy( newData );
 			},
 
 			// Upcasts <pre><code [class="language-*"]>...</code></pre>
@@ -377,7 +377,7 @@
 				curNode;
 
 			// Filter out empty text nodes.
-			for ( var i = preChildrenList.length-1; i >= 0; i-- ) {
+			for ( var i = preChildrenList.length - 1; i >= 0; i-- ) {
 				curNode = preChildrenList[ i ];
 
 				if ( curNode.type  == CKEDITOR.NODE_TEXT && curNode.value.match( whitespaceOnlyRegex ) )
@@ -399,6 +399,7 @@
  *
  * **Note**: This might need to be changed if using custom highlighter
  * (default is [highlight.js](http://highlightjs.org)).
+ * See {@link CKEDITOR.plugins.codesnippet.highlighter} to know more.
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_class='hljs']
