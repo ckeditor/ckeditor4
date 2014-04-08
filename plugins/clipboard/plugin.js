@@ -565,7 +565,8 @@
 				if ( !dropRange )
 					return;
 
-				if ( evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp &&
+				if ( evt.data.$.dataTransfer.getData( 'text' ) &&
+					 evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp &&
 					 clipboard.editor == editor ) {
 					// Internal D&D.
 
@@ -653,7 +654,8 @@
 
 						editor.fire( 'unlockSnapshot' );
 					}, 0 );
-				} else if ( evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp ) {
+				} else if ( evt.data.$.dataTransfer.getData( 'text' ) &&
+					evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp ) {
 					// Cross editor D&D.
 
 					// Paste event should be fired before delete contents because otherwise
