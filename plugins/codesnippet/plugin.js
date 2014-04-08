@@ -293,11 +293,9 @@
 
 				// Call higlighter to apply its custom highlighting.
 				editor._.codesnippet.highlighter.highlight( widgetData.code, widgetData.lang, function( formatted ) {
+					editor.fire( 'lockSnapshot' );
 					callback.apply( this, arguments );
-
-					// Update snapshot – highlighted code should not
-					// produce additional undoManager snapshot.
-					editor.fire( 'updateSnapshot' );
+					editor.fire( 'unlockSnapshot' );
 				} );
 			},
 
