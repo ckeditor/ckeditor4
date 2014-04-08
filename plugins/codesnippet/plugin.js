@@ -294,7 +294,7 @@
 				// Call higlighter to apply its custom highlighting.
 				editor._.codesnippet.highlighter.highlight( widgetData.code, widgetData.lang, function( formatted ) {
 					editor.fire( 'lockSnapshot' );
-					callback.apply( this, arguments );
+					callback( formatted );
 					editor.fire( 'unlockSnapshot' );
 				} );
 			},
@@ -330,7 +330,7 @@
 				var childrenArray = getNonEmptyChildren( el ),
 					code;
 
-				if ( childrenArray.length !== 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
+				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
 					return;
 
 				// Read language-* from <code> class attribute.
@@ -378,10 +378,8 @@
 			for ( var i = preChildrenList.length - 1; i >= 0; i-- ) {
 				curNode = preChildrenList[ i ];
 
-				if ( curNode.type  == CKEDITOR.NODE_TEXT && curNode.value.match( whitespaceOnlyRegex ) )
-					continue;
-
-				ret.push( curNode );
+				if ( curNode.type != CKEDITOR.NODE_TEXT || !curNode.value.match( whitespaceOnlyRegex ) )
+					ret.push( curNode );
 			}
 
 			return ret;
