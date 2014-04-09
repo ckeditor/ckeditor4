@@ -85,6 +85,9 @@
 						python: 'Python',
 						ruby: 'Ruby',
 						sql: 'SQL',
+						html: 'HTML',
+						xhtml: 'XHTML',
+						vbscript: 'VBScript',
 						xml: 'XML'
 					},
 
