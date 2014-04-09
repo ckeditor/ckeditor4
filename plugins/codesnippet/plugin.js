@@ -71,6 +71,7 @@
 						cs: 'C#',
 						css: 'CSS',
 						diff: 'Diff',
+						html: 'HTML',
 						http: 'HTTP',
 						ini: 'INI',
 						java: 'Java',
@@ -85,9 +86,8 @@
 						python: 'Python',
 						ruby: 'Ruby',
 						sql: 'SQL',
-						html: 'HTML',
-						xhtml: 'XHTML',
 						vbscript: 'VBScript',
+						xhtml: 'XHTML',
 						xml: 'XML'
 					},
 
