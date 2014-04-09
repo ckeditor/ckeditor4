@@ -24,8 +24,17 @@
 							html: code
 						} );
 
-						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codeSnippetGeshi_url ), requestConfig, 'application/json', function( highlighted ) {
-							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted );
+						// We need to pass an empty string if config.codesnippet is not defined,
+						// because CKEDITOR#getUrl expects a String.
+						CKEDITOR.ajax.post( CKEDITOR.getUrl( editor.config.codeSnippetGeshi_url || '' ), requestConfig, 'application/json', function( highlighted ) {
+							// If no response is given it means that we have i.e. 404, so we'll set
+							// empty content.
+							if ( !highlighted ) {
+								callback( '' );
+								return;
+							}
+
+							var fragment = CKEDITOR.htmlParser.fragment.fromHtml( highlighted || '' );
 
 							// GeSHi returns <pre> as a top-most element. Since <pre> is
 							// already a part of the widget, consider children only.
@@ -174,6 +183,6 @@
  *
  *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
  *
- * @cfg {String} [mathJaxLib=null]
+ * @cfg {String} [codeSnippetGeshi_url=null]
  * @member CKEDITOR.config
  */
