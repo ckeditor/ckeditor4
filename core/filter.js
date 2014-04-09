@@ -1570,9 +1570,10 @@
 			validClasses = status.validClasses,
 			attrs = element.attributes,
 			styles = element.styles,
+			classes = element.classes,
 			origClasses = element.classBackup,
 			origStyles = element.styleBackup,
-			name, origName,
+			name, origName, i,
 			stylesArr = [],
 			classesArr = [],
 			internalAttr = /^data-cke-/,
@@ -1585,7 +1586,7 @@
 		delete element.classBackup;
 		delete element.styleBackup;
 
-		if ( !status.allAttributes || status.hadInvalidAttribute ) {
+		if ( !status.allAttributes ) {
 			for ( name in attrs ) {
 				// If not valid and not internal attribute delete it.
 				if ( !validAttrs[ name ] ) {
@@ -1609,7 +1610,11 @@
 
 		if ( !status.allStyles || status.hadInvalidStyle ) {
 			for ( name in styles ) {
-				if ( validStyles[ name ] )
+				// We check status.allStyles because when there was a '*' ACR and some
+				// DACR we have now both properties true - status.allStyles and status.hadInvalidStyle.
+				// However unlike in the case when we only have '*' ACR, in which we can just copy original
+				// styles, in this case we must copy only those styles which were not removed by DACRs.
+				if ( status.allStyles || validStyles[ name ] )
 					stylesArr.push( name + ':' + styles[ name ] );
 				else
 					isModified = true;
@@ -1621,9 +1626,10 @@
 			attrs.style = origStyles;
 
 		if ( !status.allClasses || status.hadInvalidClass ) {
-			for ( name in validClasses ) {
-				if ( validClasses[ name ] )
-					classesArr.push( name );
+			for ( i = 0; i < classes.length; ++i ) {
+				// See comment for styles.
+				if ( status.allClasses || validClasses[ classes[ i ] ] )
+					classesArr.push( classes[ i ] );
 			}
 			if ( classesArr.length )
 				attrs[ 'class' ] = classesArr.sort().join( ' ' );
