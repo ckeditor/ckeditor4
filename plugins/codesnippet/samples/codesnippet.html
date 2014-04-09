@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Code Snippet &mdash; CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+	<style>
+
+		#editable
+		{
+			padding: 10px 20px;
+		}
+
+	</style>
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Code Snippet
+	</h1>
+
+	<div class="description">
+		<p>
+			This editor is using the <strong>Code Snippet</strong> plugin, which brings beautiful code snippets.
+			By default <code>codesnippet</code> plugin depends on built-in client-side syntax highlighting
+			library <a href="http://highlightjs.org">highlight.js</a>.
+		</p>
+		<p>
+			You can adjust the appearance of code snippets using <code>codeSnippet_theme</code> config variable
+			(<a href="http://highlightjs.org/static/test.html">available themes</a>).
+		</p>
+		<p>
+			Select template: <select id="select"></select>
+		</p>
+
+<pre class="samples" id="sampleConfig">
+CKEDITOR.replace( 'editor1', {
+	<strong>extraPlugins: 'codesnippet',</strong>
+	codeSnippet_theme: 'monokai_sublime'
+} );
+</pre>
+
+		<p id="ie8-warning">
+			Please note that this plugin is not compatible with Internet Explorer 8.
+		</p>
+	</div>
+
+	<textarea id="editor1">
+&lt;p&gt;JavaScript code:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code class="language-javascript"&gt;function isEmpty( object ) {
+	for ( var i in object ) {
+		if ( object.hasOwnProperty( i ) )
+			return false;
+	}
+	return true;
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;SQL query:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code class="language-sql"&gt;SELECT cust.id FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) WHERE cust.type IN ( 1, 2 );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unknown markup:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code&gt; ________________
+/                \
+| How about moo? |  ^__^
+\________________/  (oo)\_______
+                  \ (__)\       )\/\
+                        ||----w |
+                        ||     ||
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<h2>Inline editor</h2>
+
+	<div class="description">
+		<p>
+			The following sample shows <strong>Code Snippet</strong> running inside
+			of inline CKEditor instance.
+		</p>
+
+<pre class="samples">
+CKEDITOR.inline( 'editable', {
+	// Note: sourcedialog plugin is optional.
+	extraPlugins: '<strong>codesnippet</strong>,sourcedialog'
+} );
+</pre>
+
+		<p>
+			<strong>Note</strong>: <a href="http://highlightjs.org/static/test.html">highlight.js themes</a>
+			must be loaded manually to be applied inside of inline editor instance, e.g.
+			<code>codeSnippet_theme</code> will not work in that case.
+			Include the stylesheet in <code>&lt;head&gt;</code> section of the page i.e.:
+		</p>
+
+<pre class="samples">
+&lt;head&gt;
+	...
+	&lt;link href="path/to/highlight.js/styles/monokai_sublime.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+</pre>
+
+	</div>
+
+	<div id="editable" contenteditable="true">
+
+<p>JavaScript code:</p>
+
+<pre><code class="language-javascript">function isEmpty( object ) {
+	for ( var i in object ) {
+		if ( object.hasOwnProperty( i ) )
+			return false;
+	}
+	return true;
+}</code></pre>
+
+<p>SQL query:</p>
+
+<pre><code class="language-sql">SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) WHERE cust.type IN ( 1, 2 );</code></pre>
+
+<p>Unknown markup:</p>
+
+<pre><code> ________________
+/                \
+| How about moo? |  ^__^
+\________________/  (oo)\_______
+                  \ (__)\       )\/\
+                        ||----w |
+                        ||     ||
+</code></pre>
+	</div>
+
+	<h2>Server&ndash;side highlighting and custom highlighting engines</h2>
+
+	<p>
+		<a href="http://ckeditor.com/addon/codesnippet"><strobg>Code Snippet GeSHi</strobg></a> plugin is an
+		extension of <strong>Code Snippet</strong>, which uses server-side highligter.
+	</p>
+
+	<p>
+		It also is possible to replace default highlighter with any library using
+		<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet.highlighter">Highlighter API</a>
+		and <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet-method-setHighlighter"><code>editor.plugins.codesnippet.setHighlighter()</code></a>.
+	</p>
+
+	<script>
+		( function() {
+			CKEDITOR.disableAutoInline = true;
+
+			var config = {
+				extraPlugins: 'codesnippet',
+				toolbar: [
+					[ 'Source', 'Sourcedialog' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
+				],
+				codeSnippet_theme: 'monokai_sublime',
+				height: 400
+			};
+
+			CKEDITOR.replace( 'editor1', config );
+
+			CKEDITOR.inline( 'editable', CKEDITOR.tools.extend( {}, config, {
+				extraPlugins: 'codesnippet,sourcedialog'
+			}, true ) );
+
+			initThemeChange();
+
+			function initThemeChange() {
+				var templates = [
+						'monokai_sublime', 'default', 'arta', 'ascetic', 'atelier-dune.dark', 'atelier-dune.light', 'atelier-forest.dark', 'atelier-forest.light', 'atelier-heath.dark', 'atelier-heath.light', 'atelier-lakeside.dark', 'atelier-lakeside.light', 'atelier-seaside.dark', 'atelier-seaside.light', 'brown_paper', 'dark', 'docco', 'far', 'foundation', 'github', 'googlecode', 'idea', 'ir_black', 'magula', 'mono-blue', 'monokai', 'obsidian', 'paraiso.dark', 'paraiso.light', 'pojoaque', 'railscasts', 'rainbow', 'school_book', 'solarized_dark', 'solarized_light', 'sunburst', 'tomorrow-night-blue', 'tomorrow-night-bright', 'tomorrow-night-eighties', 'tomorrow-night', 'tomorrow', 'vs', 'xcode', 'zenburn'
+					],
+					pre = CKEDITOR.document.getById( 'sampleConfig' ),
+					select = CKEDITOR.document.getById( 'select' ),
+					codeTemplate = 'CKEDITOR.replace( \'editor1\', {\n' +
+						'	<strong>extraPlugins: \'codesnippet\',</strong>\n' +
+						'	codeSnippet_theme: \'{tpl}\'\n' +
+					'} );',
+					name, option;
+
+				while ( ( name = templates.shift() ) ) {
+					option = CKEDITOR.document.createElement( 'option', {
+						attributes: {
+							value: name
+						}
+					} );
+
+					option.setText( name );
+					select.append( option );
+				}
+
+				select.$.onchange = function() {
+					if ( CKEDITOR.instances.editor1 )
+						CKEDITOR.instances.editor1.destroy();
+
+					CKEDITOR.replace( 'editor1', CKEDITOR.tools.extend( {}, config, {
+						codeSnippet_theme: this.value
+					}, true ) );
+
+					pre.setHtml( codeTemplate.replace( '{tpl}', this.value ) );
+				};
+			}
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+				CKEDITOR.document.getById( 'ie8-warning' ).addClass( 'warning' );
+		}() );
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2014, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>
