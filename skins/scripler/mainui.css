@@ -51,7 +51,7 @@ Special outer level classes used in this file:
   /* This is <span>, so transform it into a block.*/
   display: block;
   padding: 0;
-  border: 3px solid #f3f3f3;
+  border: 3px solid #D6D6D6;
 }
 
 /* The inner boundary of the interface. */
@@ -93,7 +93,7 @@ Special outer level classes used in this file:
 .cke_top
 {
   padding: 6px 8px 2px;
-  background: #f3f3f3;
+  background: #D6D6D6;
 }
 
 .cke_float .cke_top
