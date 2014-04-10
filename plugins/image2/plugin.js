@@ -290,8 +290,8 @@
 
 			parts: {
 				image: 'img',
-				caption: 'figcaption',
-				link: 'a'
+				caption: 'figcaption'
+				// parts#link defined in widget#init
 			},
 
 			// The name of this widget's dialog.
@@ -369,6 +369,14 @@
 						// Lock ratio is on by default (#10833).
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 					};
+
+				// If we used 'a' in widget#parts definition, it could happen that
+				// selected element is a child of widget.parts#caption. Since there's no clever
+				// way to solve it with CSS selectors, it's done like that. (#11783).
+				this.parts.link = this.element.is( 'a' ) ?
+					this.element : this.element.getFirst( function( el ) {
+						return el.is( 'a' );
+					} );
 
 				// Depending on configuration, read style/class from element and
 				// then remove it. Removed style/class will be set on wrapper in #data listener.
