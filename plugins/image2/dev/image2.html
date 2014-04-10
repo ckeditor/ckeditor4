@@ -79,11 +79,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 	<h2>Classic (iframe-based) Sample</h2>
 
-	<p>
-		<input id="readOnlyOn" onclick="toggleReadOnly();" type="button" value="Make it read-only" style="display:none">
-		<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none">
-	</p>
-
 	<textarea id="editor1" cols="10" rows="10">
 		<h1>Apollo 11</h1>
 
@@ -281,6 +276,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<hr />
 		<p style="text-align:right"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</textarea>
+
+	<p>
+		<input id="readOnlyOn" onclick="toggleReadOnly( true );" type="button" value="Make it read-only" style="display:none">
+		<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none">
+	</p>
 
 	<script>
 
