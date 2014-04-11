@@ -184,7 +184,9 @@
 			 * @member CKEDITOR.editor
  			 * @param {CKEDITOR.editor} editor This editor instance.
 			 */
-			editor.on( 'unlockSnapshot', undoManager.unlock, undoManager );
+			editor.on( 'unlockSnapshot', function( evt ) {
+				undoManager.unlock( evt.data && evt.data.dontUpdate );
+			} );
 		}
 	} );
 
@@ -671,11 +673,11 @@
 		 *
 		 * @since 4.0
 		 */
-		unlock: function() {
+		unlock: function( dontUpdate ) {
 			if ( this.locked ) {
 				// Decrease level of lock and check if equals 0, what means that undoM is completely unlocked.
 				if ( !--this.locked.level ) {
-					var updateImage = this.locked.update,
+					var updateImage = (dontUpdate) ? null : this.locked.update,
 						newImage = updateImage && new Image( this.editor, true );
 
 					this.locked = null;
