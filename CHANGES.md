@@ -36,10 +36,10 @@ Other changes:
 
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unified internal representation of empty anchors using the [fakeobjects](http://ckeditor.com/addon/fakeobjects).
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
-* [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including switching between modes) creates new undo snapshot. Besides that:
+* [#5217](http://dev.ckeditor.com/ticket/5217): Setting data (including switching between modes) creates a new undo snapshot. Besides that:
   * Introduced the [`editable.status`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-property-status) property.
-  * Introduced new option `forceUpdate` for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
-  * Fixed: selection not being unlocked in inline editor after setting data ([#15000](http://dev.ckeditor.com/ticket/11500)).
+  * Introduced a new `forceUpdate` option for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
+  * Fixed: Selection not being unlocked in inline editor after setting data ([#15000](http://dev.ckeditor.com/ticket/11500)).
 
 Fixed Issues:
 

@@ -14,13 +14,13 @@
 	CKEDITOR.editable = CKEDITOR.tools.createClass( {
 		base: CKEDITOR.dom.element,
 		/**
-		 * The constructor hold only generic editable creation logic that are commonly shared among all different editable elements.
+		 * The constructor only stores generic editable creation logic that is commonly shared among all different editable elements.
 		 *
 		 * @constructor Creates an editable class instance.
 		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
 		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
 		 * editing container, e.g. it could be either an HTML element with the `contenteditable` attribute
-		 * set to the true that handles wysiwyg editing or a `<textarea>` element that handles source editing.
+		 * set to the `true` that handles WYSIWYG editing or a `<textarea>` element that handles source editing.
 		 */
 		$: function( editor, element ) {
 			// Transform the element into a CKEDITOR.dom.element instance.
@@ -29,13 +29,13 @@
 			this.editor = editor;
 
 			/**
-			 * Indicates editable initialization status. The following statuses are available:
+			 * Indicates the initialization status of the editable element. The following statuses are available:
 			 *
-			 *	* **unloaded**: the initial state; editable's instance has been created but
-			 *	is not fully loaded (in particular has no data),
-			 *	* **ready**: editable is fully initialized; `ready` status is set after
-			 *	first {@link CKEDITOR.editor#method-setData} has been called.
-			 *	* **detached**: the editable has been detached.
+			 *	* **unloaded** &ndash; the initial state. The editable's instance was created but
+			 *	is not fully loaded (in particular it has no data).
+			 *	* **ready** &ndash; the editable is fully initialized. The `ready` status is set after
+			 *	the first {@link CKEDITOR.editor#method-setData} is called.
+			 *	* **detached** &ndash; the editable was detached.
 			 *
 			 * @since 4.3.3
 			 * @readonly
@@ -44,7 +44,7 @@
 			this.status = 'unloaded';
 
 			/**
-			 * Indicate whether the editable element has gained focus.
+			 * Indicates whether the editable element gained focus.
 			 *
 			 * @property {Boolean} hasFocus
 			 */
