@@ -502,10 +502,10 @@
 
 		/**
 		 * Parses element classes string and returns an object
-		 * which keys contain classes names. Skips all `cke_*` classes.
+		 * whose keys contain class names. Skips all `cke_*` classes.
 		 *
 		 * This method is used by the {@link CKEDITOR.plugins.widget#getClasses} method and
-		 * may be used if when overriding that method.
+		 * may be used when overriding that method.
 		 *
 		 * @since 4.4
 		 * @param {String} classes String (value of `class` attribute).
@@ -893,7 +893,7 @@
 		/**
 		 * Adds a class to the widget element. This method is used by
 		 * the {@link #applyStyle} method and should be overriden by widgets
-		 * which should handle classes differently (e.g. add the to other elements).
+		 * which should handle classes differently (e.g. add them to other elements).
 		 *
 		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
 		 * set the `classes` property. Read more in the {@link #setData} documentation.
@@ -908,19 +908,19 @@
 		},
 
 		/**
-		 * Applies specified style to the widget. It is highly recommended to use the
+		 * Applies the specified style to the widget. It is highly recommended to use the
 		 * {@link CKEDITOR.editor#applyStyle} or {@link CKEDITOR.style#apply} methods instead of
 		 * using this method directly, because unlike editor's and style's methods, this one
 		 * does not perform any checks.
 		 *
 		 * By default this method handles only classes defined in the style. It clones existing
 		 * classes which are stored in the {@link #property-data widget data}'s `classes` property,
-		 * adds new classes and calls the {@link #setData} method if at least one new class was added.
+		 * adds new classes, and calls the {@link #setData} method if at least one new class was added.
 		 * Then, using the {@link #event-data} event listener widget applies modifications passing
 		 * new classes to the {@link #addClass} method.
 		 *
-		 * If you need to handle classes differently than in the default way you can override the
-		 * {@link #addClass} and related methods. You can also handle other style's property than classes
+		 * If you need to handle classes differently than in the default way, you can override the
+		 * {@link #addClass} and related methods. You can also handle other style properties than `classes`
 		 * by overriding this method.
 		 *
 		 * See also: {@link #checkStyleActive}, {@link #removeStyle}.
@@ -933,19 +933,19 @@
 		},
 
 		/**
-		 * Checks if specified style is applied to this widget. It is highly recommended to use the
+		 * Checks if the specified style is applied to this widget. It is highly recommended to use the
 		 * {@link CKEDITOR.style#checkActive} method instead of using this method directly,
 		 * because unlike style's method, this one does not perform any checks.
 		 *
 		 * By default this method handles only classes defined in the style and passes
-		 * them to the {@link #hasClass} method. To handle classes differently or handle
-		 * more of the style's properties you can override these methods.
+		 * them to the {@link #hasClass} method. You can override these methods to handle classes
+		 * differently or to handle more of the style properties.
 		 *
 		 * See also: {@link #applyStyle}, {@link #removeStyle}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.style} style The custom widget style to be checked.
-		 * @returns {Boolean} Whether style is applied to this widget.
+		 * @returns {Boolean} Whether the style is applied to this widget.
 		 */
 		checkStyleActive: function( style ) {
 			var classes = getStyleClasses( style ),
@@ -1078,7 +1078,7 @@
 		 * is used to populate the `classes` property of widget's {@link #property-data}.
 		 *
 		 * This method reuses {@link CKEDITOR.plugins.widget.repository#parseElementClasses}.
-		 * It should be overriden if widget should handle classes differently (e.g. on other elements).
+		 * It should be overriden if a widget should handle classes differently (e.g. on other elements).
 		 *
 		 * See also: {@link #removeClass}, {@link #addClass}, {@link #hasClass}.
 		 *
@@ -1098,7 +1098,7 @@
 		 *
 		 * @since 4.4
 		 * @param {String} className The class to be checked.
-		 * @param {Boolean} Whether widget has specified class.
+		 * @param {Boolean} Whether a widget has specified class.
 		 */
 		hasClass: function( className ) {
 			return this.element.hasClass( className );
@@ -1209,7 +1209,7 @@
 		},
 
 		/**
-		 * Removes specified style from the widget. It is highly recommended to use the
+		 * Removes the specified style from the widget. It is highly recommended to use the
 		 * {@link CKEDITOR.editor#removeStyle} or {@link CKEDITOR.style#remove} methods instead of
 		 * using this method directly, because unlike editor's and style's methods, this one
 		 * does not perform any checks.
@@ -1240,18 +1240,18 @@
 		 * in a JSON string, therefore {@link #property-data} should contain
 		 * only serializable data.
 		 *
-		 * **Note:** There's a special data property - `classes`. It contains an object
-		 * with classes which were returned by the {@link #getClasses} method during widget initialization.
+		 * **Note:** A special data property, `classes`, exists. It contains an object with
+		 * classes which were returned by the {@link #getClasses} method during the widget initialization.
 		 * This property is then used by the {@link #applyStyle} and {@link #removeStyle} methods.
-		 * When it's changed (the reference to object must be changed!) widget updates its classes by using the
-		 * {@link #addClass} and {@link #removeClass} methods.
+		 * When it is changed (the reference to object must be changed!), the widget updates its classes by
+		 * using the {@link #addClass} and {@link #removeClass} methods.
 		 *
-		 *		// Adding new class.
+		 *		// Adding a new class.
 		 *		var classes = CKEDITOR.tools.clone( widget.data.classes );
 		 *		classes.newClass = 1;
 		 *		widget.setData( 'classes', classes );
 		 *
-		 *		// Removing class.
+		 *		// Removing a class.
 		 *		var classes = CKEDITOR.tools.clone( widget.data.classes );
 		 *		delete classes.newClass;
 		 *		widget.setData( 'classes', classes );
@@ -3183,8 +3183,8 @@
 			checkElementRemovable: checkElementMatch,
 
 			/**
-			 * Checks if element is a {@link CKEDITOR.plugins.widget#wrapper wrapper} of a
-			 * a widget which name matches the {@link #widget widget name} specified in style definition.
+			 * Checks if an element is a {@link CKEDITOR.plugins.widget#wrapper wrapper} of a
+			 * widget whose name matches the {@link #widget widget name} specified in the style definition.
 			 *
 			 * @param {CKEDITOR.dom.element} element
 			 * @param {CKEDITOR.editor} editor
@@ -3206,7 +3206,7 @@
 			 * Returns allowed content rules which should be registered for this style.
 			 * Uses widget's {@link CKEDITOR.plugins.widget.definition#styleableElements} to make a rule
 			 * allowing classes on specified elements or use widget's
-			 * {@link CKEDITOR.plugins.widget.definition#styleToAllowedContentRules} method to transform style
+			 * {@link CKEDITOR.plugins.widget.definition#styleToAllowedContentRules} method to transform a style
 			 * into allowed content rules.
 			 *
 			 * @param {CKEDITOR.editor} The editor instance.
@@ -3240,7 +3240,7 @@
 			},
 
 			/**
-			 * Returns classes defined in the style in form of array.
+			 * Returns classes defined in the style in form of an array.
 			 *
 			 * @returns {String[]}
 			 */
@@ -3563,7 +3563,7 @@
 
 /**
  * Names of element(s) (separated by spaces) for which the {@link CKEDITOR.filter} should allow classes
- * defined in widget styles. For example if your widget is upcasted from simple `<div>`
+ * defined in the widget styles. For example if your widget is upcasted from a simple `<div>`
  * element, then in order to make it styleable you can set:
  *
  *		editor.widgets.add( 'customWidget', {
@@ -3576,14 +3576,14 @@
  *			styleableElements: 'div'
  *		} );
  *
- * Then, when a following style is defined:
+ * Then, when the following style is defined:
  *
  *		{
  *			name: 'Thick border', type: 'widget', widget: 'customWidget',
  *			attributes: { 'class': 'thickBorder' }
  *		}
  *
- * In the {@link CKEDITOR.filter} a rule allowing `thickBorder` class for `div` elements will be registered.
+ * a rule allowing the `thickBorder` class for `div` elements will be registered in the {@link CKEDITOR.filter}.
  *
  * If you need to have more freedom when transforming widget style to allowed content rules,
  * you can use the {@link #styleToAllowedContentRules} callback.
@@ -3596,10 +3596,10 @@
  * Function transforming custom widget's {@link CKEDITOR.style} instance into
  * {@link CKEDITOR.filter.allowedContentRules}. It may be used when a static
  * {@link #styleableElements} property is not enough to inform the {@link CKEDITOR.filter}
- * what HTML features should be enabled when allowing given style.
+ * what HTML features should be enabled when allowing the given style.
  *
  * In most cases, when style's classes just have to be added to element name(s) used by
- * widget element, it's recommended to use simpler {@link #styleableElements} property.
+ * the widget element, it is recommended to use simpler {@link #styleableElements} property.
  *
  * In order to get parsed classes from the style definition you can use
  * {@link CKEDITOR.style.customHandlers.widget#getClassesArray}.

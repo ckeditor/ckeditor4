@@ -1115,7 +1115,7 @@
 		},
 
 		/**
-		 * Enable HTML5 elements for older browsers (IE8) in the passed document.
+		 * Enables HTML5 elements for older browsers (IE8) in the passed document.
 		 *
 		 * In IE8 this method can also be executed on a document fragment.
 		 *
@@ -1138,11 +1138,11 @@
 		},
 
 		/**
-		 * Checks if any of the `arr` items match provided regular expression.
+		 * Checks if any of the `arr` items match the provided regular expression.
 		 *
-		 * @param {Array} arr The array which items will be checked.
+		 * @param {Array} arr The array whose items will be checked.
 		 * @param {RegExp} regexp The regular expression.
-		 * @returns {Boolean} Returns `true` for the first occurrence of searched pattern.
+		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
 		 * @since 4.4
 		 */
 		checkIfAnyArrayItemMatches: function( arr, regexp ) {
@@ -1154,11 +1154,11 @@
 		},
 
 		/**
-		 * Checks if any of the `obj` properties match provided regular expression.
+		 * Checks if any of the `obj` properties match the provided regular expression.
 		 *
-		 * @param obj The object which properties will be checked.
+		 * @param obj The object whose properties will be checked.
 		 * @param {RegExp} regexp The regular expression.
-		 * @returns {Boolean} Returns `true` for the first occurrence of searched pattern.
+		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
 		 * @since 4.4
 		 */
 		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {

@@ -77,12 +77,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	CKEDITOR.style.prototype = {
 		/**
-		 * Applies the style upon the editor's current selection.
+		 * Applies the style on the editor's current selection.
 		 *
-		 * Before style is applied the method checks if {@link #checkApplicable style is applicable}.
+		 * Before the style is applied, the method checks if {@link #checkApplicable style is applicable}.
 		 *
-		 * **Note:** The recommended way of applying style is by using the
-		 * {@link CKEDITOR.editor#applyStyle} method which is a shorthand for this method.
+		 * **Note:** The recommended way of applying the style is by using the
+		 * {@link CKEDITOR.editor#applyStyle} method, which is a shorthand for this method.
 		 *
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be applied.
@@ -108,10 +108,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Removes the style from the editor's current selection.
 		 *
-		 * Before style is applied the method checks if {@link #checkApplicable style could be applied}.
+		 * Before the style is applied, the method checks if {@link #checkApplicable style could be applied}.
 		 *
-		 * **Note:** The recommended way of removing style is by using the
-		 * {@link CKEDITOR.editor#removeStyle} method which is a shorthand for this method.
+		 * **Note:** The recommended way of removing the style is by using the
+		 * {@link CKEDITOR.editor#removeStyle} method, which is a shorthand for this method.
 		 *
 		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
 		 * the style will be removed.
@@ -139,18 +139,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Applies the style upon provided range. Unlike {@link #apply} this
-		 * method does not take care of setting selection, however the range
+		 * Applies the style on the provided range. Unlike {@link #apply} this
+		 * method does not take care of setting the selection, however, the range
 		 * is updated to the correct place.
 		 *
-		 * **Note:** If you want to apply the style upon the editor's selection
+		 * **Note:** If you want to apply the style on the editor selection,
 		 * you probably want to use {@link CKEDITOR.editor#applyStyle}.
 		 *
 		 * @param {CKEDITOR.dom.range} range
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 */
 		applyToRange: function( range ) {
 			this.applyToRange =
@@ -163,18 +163,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Removes the style from provided range. Unlike {@link #remove} this
-		 * method does not take care of setting selection, however the range
+		 * Removes the style from the provided range. Unlike {@link #remove} this
+		 * method does not take care of setting the selection, however, the range
 		 * is updated to the correct place.
 		 *
-		 * **Note:** If you want to remove the style from the editor's selection
+		 * **Note:** If you want to remove the style from the editor selection,
 		 * you probably want to use {@link CKEDITOR.editor#removeStyle}.
 		 *
 		 * @param {CKEDITOR.dom.range} range
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 */
 		removeFromRange: function( range ) {
 			this.removeFromRange =
@@ -187,30 +187,30 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Applies style to the element. This methods bypasses every checks
-		 * and applies style attributes directly on the provided element. Use with caution.
+		 * Applies the style to the element. This method bypasses all checks
+		 * and applies the style attributes directly on the provided element. Use with caution.
 		 *
 		 * See {@link CKEDITOR.editor#applyStyle}.
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 */
 		applyToObject: function( element ) {
 			setupElement( element, this );
 		},
 
 		/**
-		 * Gets the style state inside an element path.
+		 * Gets the style state inside the elements path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
-		 * @returns {Boolean} `true` if the element is active in the path.
+		 * documentation for reasons.
+		 * @returns {Boolean} `true` if the element is active in the elements path.
 		 */
 		checkActive: function( elementPath, editor ) {
 			switch ( this.type ) {
@@ -242,17 +242,17 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Whether this style can be applied at the specified elements-path.
+		 * Whether this style can be applied at the specified elements path.
 		 *
-		 * @param {CKEDITOR.dom.elementPath} elementPath The elements-path to
+		 * @param {CKEDITOR.dom.elementPath} elementPath The elements path to
 		 * check the style against.
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
 		 * checked against this filter as well.
-		 * @returns {Boolean} `true` if this style can be applied at the element path.
+		 * @returns {Boolean} `true` if this style can be applied at the elements path.
 		 */
 		checkApplicable: function( elementPath, editor, filter ) {
 			// Backward compatibility.
@@ -278,9 +278,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 * @returns {Boolean}
 		 */
 		checkElementMatch: function( element, fullMatch ) {
@@ -330,9 +330,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
 		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
-		 * CKEditor 4.4. The style system will work without it, but it's highly
+		 * CKEditor 4.4. The style system will work without it, but it is highly
 		 * recommended to provide it for integration with all features. See the {#addCustomHandler} method
-		 * documentation for argumentation.
+		 * documentation for reasons.
 		 * @returns {Boolean}
 		 */
 		checkElementRemovable: function( element, fullMatch, editor ) {
@@ -404,7 +404,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Returns style definition.
+		 * Returns the style definition.
 		 *
 		 * @since 4.1
 		 * @returns {Object}
@@ -414,7 +414,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		/**
-		 * If defined (for example by {@link CKEDITOR.style.addCustomHandler custom style handler}) returns
+		 * If defined (for example by {@link CKEDITOR.style.addCustomHandler custom style handler}), it returns
 		 * the {@link CKEDITOR.filter.allowedContentRules allowed content rules} which should be added to the
 		 * {@link CKEDITOR.filter} when enabling this style.
 		 *
@@ -1633,7 +1633,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 /**
  * Manages styles registration and loading. See also {@link CKEDITOR.config#stylesSet}.
  *
- *		// The set of styles for the <b>Styles</b> combo.
+ *		// The set of styles for the <b>Styles</b> drop-down list.
  *		CKEDITOR.stylesSet.add( 'default', [
  *			// Block Styles
  *			{ name: 'Blue Title',		element: 'h3',		styles: { 'color': 'Blue' } },
@@ -1744,7 +1744,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 	},
 
 	/**
-	 * Gets the current styleSet for this instance.
+	 * Gets the current `stylesSet` for this instance.
 	 *
 	 *		editor.getStylesSet( function( stylesDefinitions ) {} );
 	 *
