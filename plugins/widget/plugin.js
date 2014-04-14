@@ -3136,8 +3136,12 @@
 			type: 'widget',
 
 			setup: function( styleDefinition ) {
-				// Make it easier to access name of widget to which
-				// this style may be applied.
+				/**
+				 * The name of widget to which this style can be applied.
+				 * It is extracted from style definition's `widget` property.
+				 *
+				 * @property {String} widget
+				 */
 				this.widget = styleDefinition.widget;
 			},
 
@@ -3604,6 +3608,9 @@
  * In order to get parsed classes from the style definition you can use
  * {@link CKEDITOR.style.customHandlers.widget#getClassesArray}.
  *
+ * For example, if you want to use the [object format of allowed content rules](#!/guide/dev_allowed_content_rules-section-object-format),
+ * to specify `match` validator, your implementation could look like this:
+ *
  *		editor.widgets.add( 'customWidget', {
  *			// ...
  *
@@ -3625,8 +3632,8 @@
  *
  * @since 4.4
  * @property {Function} styleToAllowedContentRules
- * @param {CKEDITOR.style.customHandlers.widget} styleToAllowedContentRules.style The style to be transformed.
- * @returns {CKEDITOR.filter.allowedContentRules} styleToAllowedContentRules.return
+ * @param {CKEDITOR.style.customHandlers.widget} style The style to be transformed.
+ * @returns {CKEDITOR.filter.allowedContentRules}
  */
 
 /**
