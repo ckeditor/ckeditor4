@@ -144,6 +144,7 @@
 			 *			console.log( data );
 			 *		} );
 			 *
+			 * @since 4.4
 			 * @param {String} url URL of the request.
 			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
 			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] A value of `Content-type` header.
