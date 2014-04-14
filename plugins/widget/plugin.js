@@ -3126,7 +3126,8 @@
 	( function() {
 
 		/**
-		 * The class representing a widget style.
+		 * The class representing a widget style. It's and {@link CKEDITOR#STYLE_OBJECT object} like
+		 * styles handler for widgets.
 		 *
 		 * @since 4.4
 		 * @class CKEDITOR.style.customHandlers.widget
