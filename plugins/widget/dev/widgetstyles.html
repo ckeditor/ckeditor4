@@ -111,6 +111,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</div>
 
 	<script>
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			CKEDITOR.tools.enableHtml5Elements( document );
 
 		CKEDITOR.disableAutoInline = true;
 
