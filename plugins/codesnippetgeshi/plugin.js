@@ -179,7 +179,7 @@
 } )();
 
 /**
- * Sets GeSHi URL which, once queried with AJAX, will return highlighted code.
+ * Sets GeSHi URL which, once queried with Ajax, will return highlighted code.
  *
  *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
  *

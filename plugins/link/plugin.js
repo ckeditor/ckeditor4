@@ -414,7 +414,7 @@
 		/**
 		 * Parses attributes of the link element and returns an object representing
 		 * the current state (data) of the link. This data format is accepted e.g. by
-		 * the link dialog and {@link #getLinkAttributes}.
+		 * the Link dialog window and {@link #getLinkAttributes}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
@@ -547,7 +547,7 @@
 		/**
 		 * Converts link data into an object which consists of attributes to be set
 		 * (with their values) and an array of attributes to be removed. This method
-		 * can be used to synthesise or to update any link element with given data.
+		 * can be used to synthesise or to update any link element with the given data.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
@@ -555,12 +555,12 @@
 		 * @returns {Object} An object consisting of two keys, i.e.:
 		 *
 		 *		{
-		 *			// Attributes to be set
+		 *			// Attributes to be set.
 		 *			set: {
 		 *				href: 'http://foo.bar',
 		 *				target: 'bang'
 		 *			},
-		 *			// Attributes to be removed
+		 *			// Attributes to be removed.
 		 *			removed: [
 		 *				'id', 'style'
 		 *			]

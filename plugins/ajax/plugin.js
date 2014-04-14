@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.ajax} object, which holds ajax methods for
+ * @fileOverview Defines the {@link CKEDITOR.ajax} object, which stores Ajax methods for
  *		data loading.
  */
 
@@ -109,7 +109,7 @@
 
 		return {
 			/**
-			 * Loads data from an URL as plain text.
+			 * Loads data from a URL as plain text.
 			 *
 			 *		// Load data synchronously.
 			 *		var data = CKEDITOR.ajax.load( 'somedata.txt' );
@@ -120,7 +120,7 @@
 			 *			alert( data );
 			 *		} );
 			 *
-			 * @param {String} url The URL from which load data.
+			 * @param {String} url The URL from which the datais loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
 			 * synchronously.
@@ -132,8 +132,8 @@
 			},
 
 			/**
-			 * Creates asynchronous POST `XMLHttpRequest` of given `url`, `data` and optional `contentType`.
-			 * Once the request is done, regardless if successful or not, `callback` is called
+			 * Creates an asynchronous POST `XMLHttpRequest` of the given `url`, `data` and optional `contentType`.
+			 * Once the request is done, regardless if it is successful or not, the `callback` is called
 			 * with `XMLHttpRequest#responseText` or `null` as an argument.
 			 *
 			 *		CKEDITOR.ajax.post( 'url/post.php', 'foo=bar', null, function( data ) {
@@ -145,18 +145,18 @@
 			 *		} );
 			 *
 			 * @since 4.4
-			 * @param {String} url URL of the request.
+			 * @param {String} url The URL of the request.
 			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
-			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] A value of `Content-type` header.
+			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] The value of the `Content-type` header.
 			 * @param {Function} callback A callback executed asynchronously with `XMLHttpRequest#responseText` or `null` as an argument,
-			 * depending on `status` of the request.
+			 * depending on the `status` of the request.
 			 */
 			post: function( url, data, contentType, callback ) {
 				return post( url, data, contentType, callback, getResponseText );
 			},
 
 			/**
-			 * Loads data from an URL as XML.
+			 * Loads data from a URL as XML.
 			 *
 			 *		// Load XML synchronously.
 			 *		var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
@@ -167,10 +167,10 @@
 			 *			alert( xml.getInnerXml( '//' ) );
 			 *		} );
 			 *
-			 * @param {String} url The URL from which load data.
+			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {CKEDITOR.xml} An XML object holding the loaded data. For asynchronous requests, an
+			 * @returns {CKEDITOR.xml} An XML object storing the loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
 			loadXml: function( url, callback ) {

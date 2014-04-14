@@ -1524,7 +1524,7 @@
 } )();
 
 /**
- * CSS class applied to the `<figure>` element of a captioned image.
+ * A CSS class applied to the `<figure>` element of a captioned image.
  *
  *		// Changes the class to "captionedImage".
  *		CKEDITOR.config.image2_captionedClass = 'captionedImage';
@@ -1536,15 +1536,15 @@ CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
  * CSS classes applied to aligned images. Useful to take control over the way
- * images are aligned i.e. to customize output HTML and integrate external stylesheets.
+ * the images are aligned, i.e. to customize output HTML and integrate external stylesheets.
  *
- * Classes should be defined in three elements array, containing respectively left, center and right
- * alignment classes. For example:
+ * Classes should be defined in an array of three elements, containing left, center, and right
+ * alignment classes, respectively. For example:
  *
  *		config.image2_alignClasses = [ 'align-left', 'align-center', 'align-right' ];
  *
- * **Note**: Once this configuration option is set, the plugin will not produce inline
- * styles for alignment any longer. It means that e.g. the following HTML will be produced:
+ * **Note**: Once this configuration option is set, the plugin will no longer produce inline
+ * styles for alignment. It means that e.g. the following HTML will be produced:
  *
  *		<img alt="My image" class="custom-center-class" src="foo.png" />
  *
@@ -1556,9 +1556,9 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * must be supplied to the editor:
  *
  * * For [classic editor](#!/guide/dev_framed) it can be done by defining additional
- * styles in {@link CKEDITOR.config#contentsCss stylesheets loaded by the editor}. The same
+ * styles in the {@link CKEDITOR.config#contentsCss stylesheets loaded by the editor}. The same
  * styles must be provided on the target page where the content will be loaded.
- * * For [inline editor](#!/guide/dev_inline) styles can be defined directly
+ * * For [inline editor](#!/guide/dev_inline) the styles can be defined directly
  * with `<style> ... <style>` or `<link href="..." rel="stylesheet">`, i.e. within the `<head>`
  * of the page.
  *

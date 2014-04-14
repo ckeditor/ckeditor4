@@ -22,8 +22,8 @@
 			editor._.codesnippet = {};
 
 			/**
-			 * Sets custom syntax highlighter. See {@link CKEDITOR.plugins.codesnippet.highlighter}
-			 * to know how to register a custom highlighter.
+			 * Sets the custom syntax highlighter. See {@link CKEDITOR.plugins.codesnippet.highlighter}
+			 * to learn how to register a custom highlighter.
 			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
@@ -120,7 +120,7 @@
 	} );
 
 	/**
-	 * Global helpers and classes of Code Snippet plugin.
+	 * Global helpers and classes of the Code Snippet plugin.
 	 *
 	 * @class
 	 * @singleton
@@ -131,14 +131,14 @@
 
 	/**
 	 * A Code Snippet highlighter. It can be set as a default highlighter
-	 * using {@link CKEDITOR.plugins.codesnippet#setHighlighter}, i.e.:
+	 * using {@link CKEDITOR.plugins.codesnippet#setHighlighter}, for example:
 	 *
-	 *		// Create a new plugin, which registers custom code highlighter
+	 *		// Create a new plugin which registers a custom code highlighter
 	 *		// based on customEngine in order to replace the one that comes
-	 *		// with Code Snippet plugin.
+	 *		// with the Code Snippet plugin.
 	 *		CKEDITOR.plugins.add( 'myCustomHighlighter', {
 	 *			afterInit: function( editor ) {
-	 *				// Create a new instance of highlighter.
+	 *				// Create a new instance of the highlighter.
 	 *				var myHighlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
 	 *					init: function( ready ) {
 	 *						// Asynchronous code to load resources and libraries for customEngine.
@@ -155,7 +155,7 @@
 	 *					}
 	 *				} );
 	 *
-	 *				// Check how does it perform.
+	 *				// Check how it performs.
 	 *				myHighlighter.highlight( 'foo()', 'javascript', function( highlightedCode ) {
 	 *					console.log( highlightedCode ); // -> <span class="pretty">foo()</span>
 	 *				} );
@@ -175,8 +175,8 @@
 		CKEDITOR.tools.extend( this, def );
 
 		/**
-		 * A queue of {@link #highlight}
-		 * jobs to be done once highlighter is {@link #ready}.
+		 * A queue of {@link #highlight} jobs to be
+		 * done once the highlighter is {@link #ready}.
 		 *
 		 * @readonly
 		 * @property {Array} [=[]]
@@ -199,15 +199,15 @@
 
 		/**
 		 * If specified, this function should asynchronously load highlighter-specific
-		 * resources and execute `ready` once highlighter is ready.
+		 * resources and execute `ready` when the highlighter is ready.
 		 *
 		 * @property {Function} [init]
-		 * @param {Function} ready Function to be called once
-		 * highlighter is {@link #ready}.
+		 * @param {Function} ready The function to be called once
+		 * the highlighter is {@link #ready}.
 		 */
 
 		/**
-		 * A function which highlights given plain-text `code` of given `language` and, once done,
+		 * A function which highlights given plain text `code` in a given `language` and, once done,
 		 * calls the `callback` function with highlighted markup as an argument.
 		 *
 		 * @property {Function} [highlighter]
@@ -218,10 +218,10 @@
 
 		/**
 		 * Defines languages supported by the highlighter.
-		 * They can be restricted with {@link CKEDITOR.config#codeSnippet_languages}.
+		 * They can be restricted with the {@link CKEDITOR.config#codeSnippet_languages} configuration option.
 		 *
 		 * **Note**: If {@link CKEDITOR.config#codeSnippet_languages} is set, **it will
-		 * overwrite** languages given in `languages`.
+		 * overwrite** the languages listed in `languages`.
 		 *
 		 *		languages: {
 		 *			coffeescript: 'CoffeeScript',
@@ -235,7 +235,7 @@
 
 		/**
 		 * A flag which indicates whether the highlighter is ready to do jobs
-		 * in the {@link #queue}.
+		 * from the {@link #queue}.
 		 *
 		 * @readonly
 		 * @property {Boolean} ready
@@ -243,8 +243,8 @@
 	}
 
 	/**
-	 * Executes {@link #highlighter}. If highlighter is not ready, defers the job ({@link #queue})
-	 * and executes is once highlighter is {@link #ready}.
+	 * Executes the {@link #highlighter}. If the highlighter is not ready, it defers the job ({@link #queue})
+	 * and executes it when the highlighter is {@link #ready}.
 	 *
 	 * @param {String} code Code to be formatted.
 	 * @param {String} lang Language to be used ({@link CKEDITOR.config#codeSnippet_languages}).
@@ -394,17 +394,17 @@
 } )();
 
 /**
- * A CSS class of `<code>` element used internally for styling
+ * A CSS class of the `<code>` element used internally for styling
  * (by default [highlight.js](http://highlightjs.org) themes, see
  * {@link CKEDITOR.config#codeSnippet_theme config.codeSnippet_theme}),
- * which means that it is **not present** it editor output data.
+ * which means that it is **not present** it the editor output data.
  *
  *		// Changes the class to "myCustomClass".
  *		config.codeSnippet_codeClass = 'myCustomClass';
  *
- * **Note**: The class might need to be changed if using custom highlighter
- * (default is [highlight.js](http://highlightjs.org)).
- * See {@link CKEDITOR.plugins.codesnippet.highlighter} to know more.
+ * **Note**: The class might need to be changed when you are using a custom
+ * highlighter (the default is [highlight.js](http://highlightjs.org)).
+ * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_codeClass='hljs']
@@ -413,10 +413,10 @@
 CKEDITOR.config.codeSnippet_codeClass = 'hljs';
 
 /**
- * Restricts languages available in the "Code snippet" dialog.
+ * Restricts languages available in the "Code Snippet" dialog window.
  *
- * **Note**: If using custom highlighter library (default is [highlight.js](http://highlightjs.org)),
- * you may need to refer to external docs to set `config.codeSnippet_languages` properly.
+ * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
+ * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
  *		// Restricts languages to JavaScript and PHP.
  *		config.codeSnippet_languages = {
@@ -430,18 +430,18 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  */
 
 /**
- * A theme used to render snippets ([available themes](http://highlightjs.org/static/test.html)).
+ * A theme used to render code snippets. See [available themes](http://highlightjs.org/static/test.html).
  *
- * **Note**: This will work only with default highlighter
+ * **Note**: This will only work with the default highlighter
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
- *		// Changes theme "pojoaque".
+ *		// Changes the "pojoaque" theme.
  *		config.codeSnippet_theme = 'pojoaque';
  *
- * **Note**: [themes](http://highlightjs.org/static/test.html)
- * must be loaded manually to be applied inside of [inline editor instance](#!/guide/dev_inline), e.g.
- * `codeSnippet_theme` will not work in such case. Include the stylesheet in `<head>`
- * section of the page instead, i.e.:
+ * **Note**: [Themes](http://highlightjs.org/static/test.html)
+ * must be loaded manually to be applied inside the [inline editor instance](#!/guide/dev_inline), as
+ * `codeSnippet_theme` will not work in such case. You need to include the stylesheet in the `<head>`
+ * section of the page instead, for example:
  *
  *		<head>
  *			...

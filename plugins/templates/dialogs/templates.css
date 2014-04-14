@@ -61,8 +61,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	cursor: pointer;
 }
 
-/* IE Quirks contextual selectors childs won't get :hover transition until,
-	the hover style of the link itself contains certain CSS declarations.*/
+/* IE Quirks contextual selectors children will not get :hover transition until
+	the hover style of the link itself contains certain CSS declarations. */
 .cke_browser_quirks .cke_tpl_list a:active,
 .cke_browser_quirks .cke_tpl_list a:hover,
 .cke_browser_quirks .cke_tpl_list a:focus

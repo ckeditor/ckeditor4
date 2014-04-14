@@ -15,7 +15,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<link href="../lib/highlight/styles/monokai_sublime.css" rel="stylesheet"><!-- %REMOVE_LINE% -->
 	<meta name="ckeditor-sample-name" content="Code Snippet plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
-	<meta name="ckeditor-sample-description" content="View and modify code using Code Snippet plugin.">
+	<meta name="ckeditor-sample-description" content="View and modify code using the Code Snippet plugin.">
 	<meta name="ckeditor-sample-isnew" content="1">
 	<style>
 
@@ -28,22 +28,25 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Code Snippet
+		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Code Snippet Plugin
 	</h1>
 
 	<div class="description">
 		<p>
-			This editor is using the <strong>Code Snippet</strong> plugin, which brings beautiful code snippets.
-			By default <code>codesnippet</code> plugin depends on built-in client-side syntax highlighting
+			This editor is using the <strong><a href="http://ckeditor.com/addon/codesnippet">Code Snippet</a></strong> plugin which introduces beautiful code snippets.
+			By default the <code>codesnippet</code> plugin depends on the built-in client-side syntax highlighting
 			library <a href="http://highlightjs.org">highlight.js</a>.
 		</p>
 		<p>
-			You can adjust the appearance of code snippets using <code>codeSnippet_theme</code> config variable
-			(<a href="http://highlightjs.org/static/test.html">available themes</a>).
+			You can adjust the appearance of code snippets using the <code><a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-codeSnippet_theme">codeSnippet_theme</a></code> configuration variable
+			(see <a href="http://highlightjs.org/static/test.html">available themes</a>).
 		</p>
 		<p>
-			Select template: <select id="select"></select>
+			Select theme: <select id="select"></select>
 		</p>
+        <p>
+            The CKEditor instance below was created by using the following configuration settings: 
+        </p>
 
 <pre class="samples" id="sampleConfig">
 CKEDITOR.replace( 'editor1', {
@@ -91,22 +94,22 @@ CKEDITOR.replace( 'editor1', {
 
 	<div class="description">
 		<p>
-			The following sample shows <strong>Code Snippet</strong> running inside
-			of inline CKEditor instance.
+			The following sample shows the <strong>Code Snippet</strong> plugin running inside
+			an inline CKEditor instance. The CKEditor instance below was created by using the following configuration settings:
 		</p>
 
 <pre class="samples">
 CKEDITOR.inline( 'editable', {
-	// Note: sourcedialog plugin is optional.
+	// Note: The Source Dialog plugin is optional.
 	extraPlugins: '<strong>codesnippet</strong>,sourcedialog'
 } );
 </pre>
 
 		<p>
-			<strong>Note</strong>: <a href="http://highlightjs.org/static/test.html">highlight.js themes</a>
-			must be loaded manually to be applied inside of inline editor instance, e.g.
-			<code>codeSnippet_theme</code> will not work in that case.
-			Include the stylesheet in <code>&lt;head&gt;</code> section of the page i.e.:
+			<strong>Note</strong>: The <a href="http://highlightjs.org/static/test.html">highlight.js themes</a>
+			must be loaded manually to be applied inside an inline editor instance, as the
+			<code>codeSnippet_theme</code> setting will not work in that case.
+			You need to include the stylesheet in the <code>&lt;head&gt;</code> section of the page, for example:
 		</p>
 
 <pre class="samples">
@@ -146,17 +149,17 @@ CKEDITOR.inline( 'editable', {
 </code></pre>
 	</div>
 
-	<h2>Server&ndash;side highlighting and custom highlighting engines</h2>
+	<h2>Server-side Highlighting and Custom Highlighting Engines</h2>
 
 	<p>
-		<a href="http://ckeditor.com/addon/codesnippet"><strobg>Code Snippet GeSHi</strobg></a> plugin is an
-		extension of <strong>Code Snippet</strong>, which uses server-side highligter.
+		The <a href="http://ckeditor.com/addon/codesnippetgeshi"><strong>Code Snippet GeSHi</strong></a> plugin is an
+		extension of the <strong>Code Snippet</strong> plugin which uses a server-side highligter.
 	</p>
 
 	<p>
-		It also is possible to replace default highlighter with any library using
-		<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet.highlighter">Highlighter API</a>
-		and <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet-method-setHighlighter"><code>editor.plugins.codesnippet.setHighlighter()</code></a>.
+		It also is possible to replace the default highlighter with any library using
+		the <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet.highlighter">Highlighter API</a>
+		and the <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.codesnippet-method-setHighlighter"><code>editor.plugins.codesnippet.setHighlighter()</code></a> method.
 	</p>
 
 	<script>
