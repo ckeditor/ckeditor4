@@ -120,7 +120,7 @@
 			 *			alert( data );
 			 *		} );
 			 *
-			 * @param {String} url The URL from which the datais loaded.
+			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
 			 * synchronously.

@@ -17,7 +17,7 @@
 		enterModeTags = [ '', 'p', 'br', 'div' ];
 
 	/**
-	 * Flag indicating that current element and all its ancestors
+	 * A flag indicating that the current element and all its ancestors
 	 * should not be filtered.
 	 *
 	 * See {@link CKEDITOR.filter#addElementCallback} for more details.
@@ -478,20 +478,20 @@
 
 		/**
 		 * Adds a callback which will be executed on every element
-		 * which filter reaches when filtering, before the element is filtered.
+		 * that the filter reaches when filtering, before the element is filtered.
 		 *
 		 * By returning {@link CKEDITOR#FILTER_SKIP_TREE} it is possible to
-		 * skip filtering of the current element and its all ancestors.
+		 * skip filtering of the current element and all its ancestors.
 		 *
 		 *		editor.filter.addElementCallback( function( el ) {
 		 *			if ( el.hasClass( 'protected' ) )
 		 *				return CKEDITOR.FILTER_SKIP_TREE;
 		 *		} );
 		 *
-		 * **Note:** At this stage the element passed to callback does not
-		 * contain `attributes`, `classes` and `styles` properties which are available
-		 * temporarily on later stages of filtering. Therefore you need to use the pure
-		 * {@link CKEDITOR.htmlParser.element} interface.
+		 * **Note:** At this stage the element passed to the callback does not
+		 * contain `attributes`, `classes`, and `styles` properties which are available
+		 * temporarily on later stages of the filtering process. Therefore you need to
+		 *  use the pure {@link CKEDITOR.htmlParser.element} interface.
 		 *
 		 * @since 4.4
 		 * @param {Function} callback The callback to be executed.
