@@ -575,11 +575,116 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return ( styleDefinition._ST = stylesText );
 	};
 
+	/**
+	 * Namespace containing custom style handlers added with {@link CKEDITOR.style#addCustomHandler}.
+	 *
+	 * @since 4.4
+	 * @class
+	 * @singleton
+	 */
 	CKEDITOR.style.customHandlers = {};
 
 	/**
+	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
+	 * Registered class will be used as a handler of a style of this type. This allows
+	 * to extend styles system, which by default uses only the {@link CKEDITOR.style}, by
+	 * new functionality. Registered classes are accessible in the {@link CKEDITOR.style.customHandlers}.
+	 *
+	 * ### The style class definition
+	 *
+	 * The definition object is used to override properties in a prototype inherited
+	 * from the {@link CKEDITOR.style} class. It must contain a `type` property which is
+	 * a name of the new type and therefore it must be unique. The default style types
+	 * ({@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
+	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}) are integers, but for easier identification
+	 * it is recommended to use strings as custom type names.
+	 *
+	 * Besides `type` the definition may contain two more special properties:
+	 *
+	 *  * `setup {Function}` &mdash; An optional callback executed when style instance is created.
+	 * Like the style constructor it is executed in style context and with the style definition as an argument.
+	 *  * `assignedTo {Number}` &mdash; Can be set to one of the default style types. Some editor
+	 * features like the Styles drop-down assign styles to one of the default groups based on
+	 * the style type. By using this property it is possible to notify them to which group this
+	 * custom style should be assigned. It defaults to the {@link CKEDITOR#STYLE_OBJECT}.
+	 *
+	 * Other properties of the definition object will be just used to extend prototype inherited
+	 * from the {@link CKEDITOR.style} class. So if definition contains a `apply` method, it will
+	 * override the {@link CKEDITOR.style#apply} method.
+	 *
+	 * ### Usage
+	 *
+	 * Registering basic handler:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom'
+	 *		} );
+	 *
+	 *		var style = new styleClass( { ... } );
+	 *		style instanceof styleClass; // -> true
+	 *		style instanceof CKEDITOR.style; // -> true
+	 *		style.type; // -> 'custom'
+	 *
+	 * The {@link CKEDITOR.style} constructor used as a factory:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom'
+	 *		} );
+	 *
+	 *		// Style constructor accepts style definition (do not confuse with style class definition).
+	 *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
+	 *		style instanceof styleClass; // -> true
+	 *
+	 * Thanks to that integration code using styles doesn't have to know
+	 * which style handler it should use. That is determined by the {@link CKEDITOR.style} constructor.
+	 *
+	 * Overriding existing {@link CKEDITOR.style} methods:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom',
+	 *			apply: function( editor ) {
+	 *				console.log( 'apply' );
+	 *			},
+	 *			remove: function( editor ) {
+	 *				console.log( 'remove' );
+	 *			}
+	 *		} );
+	 *
+	 *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
+	 *		editor.applyStyle( style ); // logged 'apply'
+	 *
+	 *		style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
+	 *		editor.applyStyle( style ); // style is really applied if image was selected
+	 *
+	 * ### Practical advices
+	 *
+	 * The style handling job, which includes such tasks like applying, removing, checking state, and
+	 * checking if style can be applied, is very complex. Therefore without deep knowledge
+	 * about DOM and especially {@link CKEDITOR.dom.range ranges} and {@link CKEDITOR.dom.walker DOM walker} it is impossible
+	 * to implement completely custom style handler able to handled block, inline and object type styles.
+	 * It is possible though, to customize the default implementation by overriding default methods and
+	 * reusing them.
+	 *
+	 * The only style handled which can be implemented from scratch without huge effort is a style
+	 * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
+	 * Such style can only be applied when specific object is selected. An example implementation can
+	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
+	 *
+	 * When implementing style handler from scratch at least following methods must be defined:
+	 *
+	 * * {@link CKEDITOR.style#apply apply} and {@link CKEDITOR.style#remove remove},
+	 * * {@link CKEDITOR.style#checkElementRemovable checkElementRemovable} and
+	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch} &mdash; note that both methods reuse the same logic,
+	 * * {@link CKEDITOR.style#checkActive checkActive} &mdash; reuses
+	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch},
+	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &mdash; not required, but very useful in
+	 * case of custom style, which has to notify the {@link CKEDITOR.filter} what rules it allows when registered.
+	 *
 	 * @since 4.4
 	 * @static
+	 * @member CKEDITOR.style
+	 * @param definition The style class definition.
+	 * @returns {CKEDITOR.style} The new style class created for the provided definition.
 	 */
 	CKEDITOR.style.addCustomHandler = function( definition ) {
 		var styleClass = function( styleDefinition ) {
