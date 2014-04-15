@@ -420,7 +420,7 @@
 		/**
 		 * Adds disallowed content rules to the filter.
 		 *
-		 * Read about rules formats in [Allowed Content Rules guide](#!/guide/dev_allowed_content_rules).
+		 * Read about rules formats in the [Allowed Content Rules guide](#!/guide/dev_allowed_content_rules).
 		 *
 		 *		// Disallow all styles on the image elements.
 		 *		editor.filter.disallow( 'img{*}' );
@@ -2208,7 +2208,7 @@
  *
  * It is also possible to disallow some already allowed content. It is especially
  * useful when you want to "trim down" the content allowed by default by
- * editor features. To do that use the {@link #disallowedContent} option.
+ * editor features. To do that, use the {@link #disallowedContent} option.
  *
  * @since 4.1
  * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
@@ -2287,11 +2287,11 @@
  */
 
 /**
- * Virtual class representing {@link CKEDITOR.filter#disallow} argument and a type of
+ * Virtual class representing the {@link CKEDITOR.filter#disallow} argument and a type of
  * the {@link CKEDITOR.config#disallowedContent} option.
  *
  * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
- * Only the string format and object formars are accepted. Required properties
+ * Only the string format and object format are accepted. Required properties
  * are not allowed in this format.
  *
  * @since 4.4
