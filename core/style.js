@@ -58,14 +58,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * In this approach, a style is a set of properties, like attributes and styles,
 	 * which can be applied to and removed from a {@link CKEDITOR.dom.selection selection} through
 	 * {@link CKEDITOR.editor editor} methods: {@link CKEDITOR.editor#applyStyle} and {@link CKEDITOR.editor#removeStyle},
-     * respectively.
+	 * respectively.
 	 *
 	 * Three default style types are available: {@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
 	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}. Based on its type, a style heavily changes its behavior.
 	 * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
 	 *
 	 * It is possible to define a custom style type by subclassing this class by using the {@link #addCustomHandler} method.
-	 * However, because of great complexity of the styles handling job, it is only possible in very spefic cases.
+	 * However, because of great complexity of the styles handling job, it is only possible in very specific cases.
 	 *
 	 * ### Usage
 	 *
