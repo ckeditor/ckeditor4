@@ -586,11 +586,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	/**
 	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
-	 * Registered class will be used as a handler of a style of this type. This allows
-	 * to extend styles system, which by default uses only the {@link CKEDITOR.style}, by
+	 * Registered class will be used as a handler for a style of this type. This allows
+	 * to extend the styles system, which by default uses only the {@link CKEDITOR.style}, with
 	 * new functionality. Registered classes are accessible in the {@link CKEDITOR.style.customHandlers}.
 	 *
-	 * ### The style class definition
+	 * ### The Style Class Definition
 	 *
 	 * The definition object is used to override properties in a prototype inherited
 	 * from the {@link CKEDITOR.style} class. It must contain a `type` property which is
@@ -599,22 +599,22 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}) are integers, but for easier identification
 	 * it is recommended to use strings as custom type names.
 	 *
-	 * Besides `type` the definition may contain two more special properties:
+	 * Besides `type`, the definition may contain two more special properties:
 	 *
-	 *  * `setup {Function}` &mdash; An optional callback executed when style instance is created.
-	 * Like the style constructor it is executed in style context and with the style definition as an argument.
-	 *  * `assignedTo {Number}` &mdash; Can be set to one of the default style types. Some editor
+	 *  * `setup {Function}` &ndash; An optional callback executed when a style instance is created.
+	 * Like the style constructor, it is executed in style context and with the style definition as an argument.
+	 *  * `assignedTo {Number}` &ndash; Can be set to one of the default style types. Some editor
 	 * features like the Styles drop-down assign styles to one of the default groups based on
 	 * the style type. By using this property it is possible to notify them to which group this
 	 * custom style should be assigned. It defaults to the {@link CKEDITOR#STYLE_OBJECT}.
 	 *
-	 * Other properties of the definition object will be just used to extend prototype inherited
-	 * from the {@link CKEDITOR.style} class. So if definition contains a `apply` method, it will
+	 * Other properties of the definition object will just be used to extend the prototype inherited
+	 * from the {@link CKEDITOR.style} class. So if the definition contains an `apply` method, it will
 	 * override the {@link CKEDITOR.style#apply} method.
 	 *
 	 * ### Usage
 	 *
-	 * Registering basic handler:
+	 * Registering a basic handler:
 	 *
 	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
 	 *			type: 'custom'
@@ -635,8 +635,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
 	 *		style instanceof styleClass; // -> true
 	 *
-	 * Thanks to that integration code using styles doesn't have to know
-	 * which style handler it should use. That is determined by the {@link CKEDITOR.style} constructor.
+	 * Thanks to that, integration code using styles does not need to know
+	 * which style handler it should use. It is determined by the {@link CKEDITOR.style} constructor.
 	 *
 	 * Overriding existing {@link CKEDITOR.style} methods:
 	 *
@@ -656,29 +656,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *		style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
 	 *		editor.applyStyle( style ); // style is really applied if image was selected
 	 *
-	 * ### Practical advices
+	 * ### Practical Recommendations
 	 *
-	 * The style handling job, which includes such tasks like applying, removing, checking state, and
-	 * checking if style can be applied, is very complex. Therefore without deep knowledge
+	 * The style handling job, which includes such tasks as applying, removing, checking state, and
+	 * checking if a style can be applied, is very complex. Therefore without deep knowledge
 	 * about DOM and especially {@link CKEDITOR.dom.range ranges} and {@link CKEDITOR.dom.walker DOM walker} it is impossible
-	 * to implement completely custom style handler able to handled block, inline and object type styles.
-	 * It is possible though, to customize the default implementation by overriding default methods and
+	 * to implement a completely custom style handler able to handle block, inline, and object type styles.
+	 * However, it is possible to customize the default implementation by overriding default methods and
 	 * reusing them.
 	 *
-	 * The only style handled which can be implemented from scratch without huge effort is a style
+	 * The only style handler which can be implemented from scratch without huge effort is a style
 	 * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
-	 * Such style can only be applied when specific object is selected. An example implementation can
+	 * Such style can only be applied when a specific object is selected. An example implementation can
 	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
 	 *
-	 * When implementing style handler from scratch at least following methods must be defined:
+	 * When implementing a style handler from scratch at least the following methods must be defined:
 	 *
 	 * * {@link CKEDITOR.style#apply apply} and {@link CKEDITOR.style#remove remove},
 	 * * {@link CKEDITOR.style#checkElementRemovable checkElementRemovable} and
-	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch} &mdash; note that both methods reuse the same logic,
-	 * * {@link CKEDITOR.style#checkActive checkActive} &mdash; reuses
+	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch} &ndash; Note that both methods reuse the same logic,
+	 * * {@link CKEDITOR.style#checkActive checkActive} &ndash; Reuses
 	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch},
-	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &mdash; not required, but very useful in
-	 * case of custom style, which has to notify the {@link CKEDITOR.filter} what rules it allows when registered.
+	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
+	 * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
 	 *
 	 * @since 4.4
 	 * @static
