@@ -3129,6 +3129,9 @@
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
 		 * the styles handler for widgets.
 		 *
+		 * **Note:** This custom style handler does not support all methods of the {@link CKEDITOR.style} class.
+		 * Not supported methods: {@link #applyToRange}, {@link #removeFromRange}, {@link #applyToObject}.
+		 *
 		 * @since 4.4
 		 * @class CKEDITOR.style.customHandlers.widget
 		 * @extends CKEDITOR.style
