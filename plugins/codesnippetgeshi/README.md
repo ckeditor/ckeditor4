@@ -13,7 +13,7 @@ of the default, client-side [highlight.js](http://highlightjs.org).
 
 ## Installation
 
-See the official [Plugin Installation Guide](http://docs.ckeditor.com/#!/guide/dev_plugins).
+See the [Code Snippet GeSHi Guide](http://docs.ckeditor.com/#!/guide/dev_codesnippetgeshi) in CKEditor documentation.
 
 ## Sample Configuration
 
@@ -25,7 +25,7 @@ in the `plugins/codesnippetgeshi/lib` directory:
 		codeSnippetGeshi_url: 'lib/geshi/colorize.php'
 	} );
 
-It is possible to specify an absolute path in the [`codeSnippetGeshi_url`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-codeSnippetGeshi_url) configuration setting. 
+It is possible to specify an absolute path in the [`codeSnippetGeshi_url`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-codeSnippetGeshi_url) configuration setting.
 
 **Note**: The [`codeSnippet_languages`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-codeSnippet_languages) configuration setting can be used to reduce the list of available languages.
 
