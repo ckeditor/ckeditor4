@@ -96,6 +96,15 @@
 		this.allowedContent = [];
 
 		/**
+		 * Array of rules added by the {@link #disallow} method (including those
+		 * loaded from {@link CKEDITOR.config#disallowedContent}).
+		 *
+		 * Rules in this array are in unified disallowed content rules format.
+		 *
+		 * This property is useful for debugging issues with rules string parsing
+		 * or for checking which rules were automatically added by editor features.
+		 *
+		 * @since 4.4
 		 * @readonly
 		 */
 		this.disallowedContent = [];
@@ -408,6 +417,20 @@
 			this.disabled = true;
 		},
 
+		/**
+		 * Adds disallowed content rules to the filter.
+		 *
+		 * Read about rules formats in [Allowed Content Rules guide](#!/guide/dev_allowed_content_rules).
+		 *
+		 *		// Disallow all styles on the image elements.
+		 *		editor.filter.disallow( 'img{*}' );
+		 *
+		 *		// Disallow all span and div elements.
+		 *		editor.filter.disallow( 'span div' );
+		 *
+		 * @since 4.4
+		 * @param {CKEDITOR.filter.disallowedContentRules} newRules Rule(s) to be added.
+		 */
 		disallow: function( newRules ) {
 			// Check arguments and constraints. Clear cache.
 			// Note: we pass true in the 3rd argument, because disallow() should never
@@ -2183,6 +2206,10 @@
  *			}
  *		} );
  *
+ * It is also possible to disallow some already allowed content. It is especially
+ * useful when you want to "trim down" the content allowed by default by
+ * editor features. To do that use the {@link #disallowedContent} option.
+ *
  * @since 4.1
  * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
  * @member CKEDITOR.config
@@ -2224,7 +2251,7 @@
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
  * @since 4.4
- * @cfg {Object/String} disallowedContent
+ * @cfg {CKEDITOR.filter.disallowedContentRules} disallowedContent
  * @member CKEDITOR.config
  */
 
@@ -2256,6 +2283,19 @@
  *
  * @since 4.1
  * @class CKEDITOR.filter.allowedContentRules
+ * @abstract
+ */
+
+/**
+ * Virtual class representing {@link CKEDITOR.filter#disallow} argument and a type of
+ * the {@link CKEDITOR.config#disallowedContent} option.
+ *
+ * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
+ * Only the string format and object formars are accepted. Required properties
+ * are not allowed in this format.
+ *
+ * @since 4.4
+ * @class CKEDITOR.filter.disallowedContentRules
  * @abstract
  */
 
