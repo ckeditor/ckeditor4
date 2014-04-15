@@ -54,23 +54,24 @@ CKEDITOR.STYLE_OBJECT = 3;
 		nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
 
 	/**
-	 * The class representing a style instance for the specific style definition.
-	 * A style in this understanding is a set of properties, like attributes and styles,
-	 * which can be applied and removed from a {@link CKEDITOR.dom.selection selection} through
-	 * {@link CKEDITOR.editor editor}'s methods {@link CKEDITOR.editor#applyStyle} and {@link CKEDITOR.editor#removeStyle}.
+	 * A class representing a style instance for the specific style definition.
+	 * In this approach, a style is a set of properties, like attributes and styles,
+	 * which can be applied to and removed from a {@link CKEDITOR.dom.selection selection} through
+	 * {@link CKEDITOR.editor editor} methods: {@link CKEDITOR.editor#applyStyle} and {@link CKEDITOR.editor#removeStyle},
+     * respectively.
 	 *
-	 * There are three default style types ({@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
-	 * {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}) and based on its type style heavily changes its behavior.
-	 * You can read more about style types in the [Style types section of the Style guide](#!/guide/dev_styles-section-style-types).
+	 * Three default style types are available: {@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
+	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}. Based on its type, a style heavily changes its behavior.
+	 * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
 	 *
-	 * It is possible to define custom style type by subclassing this class by using the {@link #addCustomHandler} method.
-	 * However, because of great complexity of the styles hanling job it is only possible in very spefic cases.
+	 * It is possible to define a custom style type by subclassing this class by using the {@link #addCustomHandler} method.
+	 * However, because of great complexity of the styles handling job, it is only possible in very spefic cases.
 	 *
 	 * ### Usage
 	 *
 	 * Basic usage:
 	 *
-	 *		// Define block style.
+	 *		// Define a block style.
 	 *		var style = new CKEDITOR.style( { element: 'h1' } );
 	 *
 	 *		// Considering the following selection:
@@ -89,15 +90,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * Object style:
 	 *
-	 *		// Define object style.
+	 *		// Define an object style.
 	 *		var style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
 	 *
 	 *		// Considering the following selection:
 	 *		// <p><img src="bar.png" alt="" />Foo^</p>
 	 *		// Executing:
 	 *		editor.applyStyle( style );
-	 *		// Will not apply style, because image is not selected.
-	 *		// You can check if style can be applied on current selection with:
+	 *		// Will not apply the style, because the image is not selected.
+	 *		// You can check if a style can be applied on the current selection with:
 	 *		style.checkApplicable( editor.elementPath(), editor ); // -> false
 	 *
 	 *		// Considering the following selection:
@@ -109,23 +110,23 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 *
 	 * ### API changes introduced in CKEditor 4.4
 	 *
-	 * Before CKEditor 4.4 all style instances had no access at all to {@link CKEDITOR.editor editor instance}
-	 * within which the style is used. Neither style constructor, nor style methods were requiring
-	 * passing the editor instance what made styles independent of editor and hence its settings and state.
-	 * This design decision came from CKEditor 3 and started causing problems and became an unsolvable obstacle for
+	 * Before CKEditor 4.4 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
+	 * within which the style is used. Neither the style constructor, nor style methods were requiring
+	 * passing the editor instance which made styles independent of the editor and hence its settings and state.
+	 * This design decision came from CKEditor 3; it started causing problems and became an unsolvable obstacle for
 	 * the {@link CKEDITOR.style.customHandlers.widget widget style handler} which we introduced in CKEditor 4.4.
 	 *
-	 * There were two possible solutions. Passing editor instance to style constructor or to every method.
+	 * There were two possible solutions. Passing an editor instance to the style constructor or to every method.
 	 * The first approach would be clean, however, having in mind the backward compatibility, we did not decide
-	 * to go for it. It would bound style to one editor instance, making it unusable with other editor instances.
-	 * That could break many implementations reusing styles between editors. Therefore, we decided to take longer
-	 * but safer path &ndash; editor instance became an argument for nearly all style methods, however,
-	 * for backward compatibility reasons all those methods will work without it. Even the newly
+	 * to go for it. It would bind the style to one editor instance, making it unusable with other editor instances.
+	 * That could break many implementations reusing styles between editors. Therefore, we decided to take the longer
+	 * but safer path &mdash; the editor instance became an argument for nearly all style methods, however,
+	 * for backward compatibility reasons, all these methods will work without it. Even the newly
 	 * implemented {@link CKEDITOR.style.customHandlers.widget widget style handler}'s methods will not fail,
-	 * although they will also not work by aborting in an early stage.
+	 * although they will also not work by aborting at an early stage.
 	 *
 	 * Therefore, you can safely upgrade to CKEditor 4.4 even if you use style methods without providing
-	 * editor instance. You must only align your code if your implementation should handle widget styles
+	 * the editor instance. You must only align your code if your implementation should handle widget styles
 	 * or any other custom style handler. Of course, we recommend doing this in any case to avoid potential
 	 * problems in the future.
 	 *
@@ -180,7 +181,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Applies the style on the editor's current selection.
 		 *
-		 * Before the style is applied, the method checks if {@link #checkApplicable style is applicable}.
+		 * Before the style is applied, the method checks if the {@link #checkApplicable style is applicable}.
 		 *
 		 * **Note:** The recommended way of applying the style is by using the
 		 * {@link CKEDITOR.editor#applyStyle} method, which is a shorthand for this method.
