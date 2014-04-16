@@ -183,6 +183,8 @@
  *
  *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
  *
+ * For more information check the [Code Snippet GeSHi Guide](#!/guide/dev_codesnippetgeshi).
+ *
  * @cfg {String} [codeSnippetGeshi_url=null]
  * @member CKEDITOR.config
  */
