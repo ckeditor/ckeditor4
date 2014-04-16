@@ -275,6 +275,7 @@
 			// Actually we need both - pre and code, but ACF does not make it possible
 			// to defire required content with "and" operator.
 			requiredContent: 'pre',
+			styleableElements: 'pre',
 			template: '<pre><code class="' + codeClass + '"></code></pre>',
 			dialog: 'codeSnippet',
 			mask: true,
