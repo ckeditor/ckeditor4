@@ -1584,6 +1584,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *			display: inline-block;
  *		}
  *
+ * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
  * @member CKEDITOR.config
  */
