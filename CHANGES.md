@@ -48,6 +48,10 @@ Fixed Issues:
 
 ## CKEditor 4.3.5
 
+New Features:
+
+* Added new translation: Tatar.
+
 Fixed Issues:
 
 * [#11677](http://dev.ckeditor.com/ticket/11677): Fixed: Undo/Redo keystrokes are blocked in the source mode.

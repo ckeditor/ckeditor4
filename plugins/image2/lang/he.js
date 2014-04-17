@@ -5,14 +5,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'he', {
 	alt: 'טקסט חלופי',
 	btnUpload: 'שליחה לשרת',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'כותרת תמונה',
 	infoTab: 'מידע על התמונה',
 	lockRatio: 'נעילת היחס',
 	menu: 'תכונות התמונה',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'תמונה',
+	pathNameCaption: 'כותרת',
 	resetSize: 'איפוס הגודל',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'לחץ וגרור לשינוי הגודל',
 	title: 'מאפייני התמונה',
 	uploadTab: 'העלאה',
 	urlMissing: 'כתובת התמונה חסרה.'
