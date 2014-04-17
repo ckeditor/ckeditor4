@@ -65,6 +65,7 @@ var CKEDITOR_LANGS = ( function() {
 		sv: 'Swedish',
 		th: 'Thai',
 		tr: 'Turkish',
+		tt: 'Tatar',
 		ug: 'Uighur',
 		uk: 'Ukrainian',
 		vi: 'Vietnamese',
