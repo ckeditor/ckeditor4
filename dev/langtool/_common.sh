@@ -4,7 +4,7 @@
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
 
-CKLANGTOOL_VERSION="1.2.1"
+CKLANGTOOL_VERSION="1.2.2"
 CKLANGTOOL_URL="http://download.cksource.com/CKLangTool/$CKLANGTOOL_VERSION/langtool.jar"
 
 PROGNAME=$(basename $0)
