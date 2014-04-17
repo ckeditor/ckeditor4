@@ -432,9 +432,10 @@
 					evt.data.image = CKEDITOR.TRISTATE_OFF;
 
 					// Integrate context menu items for link.
-					evt.data.link = CKEDITOR.TRISTATE_OFF;
-					evt.data.unlink = this.parts.link ?
-						CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+					// Note that widget may be wrapped in a link, which
+					// does not belong to that widget (#11814).
+					if ( this.parts.link || this.wrapper.getAscendant( 'a' ) )
+						evt.data.link = evt.data.unlink = CKEDITOR.TRISTATE_OFF;
 				} );
 
 				// Pass the reference to this widget to the dialog.
@@ -1403,7 +1404,9 @@
 		editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
 			var widget = getFocusedWidget( editor );
 
-			if ( !widget )
+			// Override unlink only when link truly belongs to the widget.
+			// If wrapped inline widget in a link, let default unlink work (#11814).
+			if ( !widget || !widget.parts.link )
 				return;
 
 			widget.setData( 'link', null );
@@ -1422,7 +1425,10 @@
 			if ( !widget )
 				return;
 
-			this.setState( widget.data.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+			// Note that widget may be wrapped in a link, which
+			// does not belong to that widget (#11814).
+			this.setState( widget.data.link || widget.wrapper.getAscendant( 'a' ) ?
+				CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
 			evt.cancel();
 		} );
