@@ -2247,6 +2247,7 @@
 
 /**
  * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
+ * Read more in the [Disallowed Content guide](#!/guide/dev_disallowed_content).
  *
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
@@ -2293,6 +2294,8 @@
  * This is a simplified version of the {@link CKEDITOR.filter.allowedContentRules} type.
  * Only the string format and object format are accepted. Required properties
  * are not allowed in this format.
+ *
+ * Read more in the [Disallowed Content guide](#!/guide/dev_disallowed_content).
  *
  * @since 4.4
  * @class CKEDITOR.filter.disallowedContentRules
