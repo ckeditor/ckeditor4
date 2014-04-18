@@ -378,7 +378,16 @@
 						}
 						// Open a new line if the block is inserted at the end of parent.
 						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
-							next = range.fixBlock( true, enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+							var tag = 'p';
+							swtich(enterMode) {
+								case CKEDITOR.ENTER_BR:
+									tag = 'br';
+									break;
+								case CKEDITOR.ENTER_DIV:
+									tag = 'div';
+									break;								
+							}
+							next = range.fixBlock( true, tag );
 							range.moveToElementEditStart( next );
 						}
 					}
