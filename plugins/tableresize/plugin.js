@@ -356,8 +356,15 @@
 				var resizer,
 					editable = editor.editable();
 
+				// In Classic editor it is better to use document
+				// instead of editable so event will work below body.
 				editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
 					evt = evt.data;
+
+					// If mouse is not over the editor then IE8 and FF have
+					// no target document and getPageOffset() throws error.
+					if ( typeof evt.getTarget().getDocument != 'function' )
+						return;
 
 					var pageX = evt.getPageOffset().x;
 
