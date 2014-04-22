@@ -111,6 +111,7 @@
 	 *
 	 *		editor.addContentsCss( 'assets/contents.css' );
 	 *
+	 * @since 4.4
 	 * @param {String} cssPath The path to the stylesheet file which should be added.
 	 * @member CKEDITOR.editor
 	 */
