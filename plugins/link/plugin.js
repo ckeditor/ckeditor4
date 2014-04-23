@@ -105,7 +105,8 @@
 
 			// If event was cancelled, link passed in event data will not be selected.
 			editor.on( 'doubleclick', function( evt ) {
-				if ( evt.data.dialog == 'link' && evt.data.link )
+				// Make sure both links and anchors are selected (#11822).
+				if ( evt.data.link )
 					editor.getSelection().selectElement( evt.data.link );
 			}, null, null, 20 );
 
