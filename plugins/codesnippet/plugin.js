@@ -122,6 +122,8 @@
 	/**
 	 * Global helpers and classes of the Code Snippet plugin.
 	 *
+	 * For more information see the [Code Snippet Guide](#!/guide/dev_codesnippet).
+	 *
 	 * @class
 	 * @singleton
 	 */
@@ -229,6 +231,9 @@
 		 *			cs: 'C#',
 		 *			css: 'CSS'
 		 *		}
+		 *
+		 * More information on how to change the list of languages is available
+         * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
 		 *
 		 * @property {Object} languages
 		 */
@@ -370,7 +375,7 @@
 			}
 		} );
 
-		// Returns **array** of children elements, with whitespace-only text nodes
+		// Returns an **array** of child elements, with whitespace-only text nodes
 		// filtered out.
 		// @param {CKEDITOR.htmlParser.element} parentElement
 		// @return Array - array of CKEDITOR.htmlParser.node
@@ -398,7 +403,7 @@
  * A CSS class of the `<code>` element used internally for styling
  * (by default [highlight.js](http://highlightjs.org) themes, see
  * {@link CKEDITOR.config#codeSnippet_theme config.codeSnippet_theme}),
- * which means that it is **not present** it the editor output data.
+ * which means that it is **not present** in the editor output data.
  *
  *		// Changes the class to "myCustomClass".
  *		config.codeSnippet_codeClass = 'myCustomClass';
@@ -425,6 +430,9 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  *			php: 'PHP'
  *		};
  *
+ * More information on how to change the list of languages list is available
+ * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
+ *
  * @since 4.4
  * @cfg {Object} [codeSnippet_languages=null]
  * @member CKEDITOR.config
@@ -436,18 +444,11 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: This will only work with the default highlighter
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
- *		// Changes the "pojoaque" theme.
+ *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';
  *
- * **Note**: [Themes](http://highlightjs.org/static/test.html)
- * must be loaded manually to be applied inside the [inline editor instance](#!/guide/dev_inline), as
- * `codeSnippet_theme` will not work in such case. You need to include the stylesheet in the `<head>`
- * section of the page instead, for example:
- *
- *		<head>
- *			...
- *			<link href="path/to/highlight.js/styles/theme_stylesheet.css" rel="stylesheet">
- *		</head>
+ * More information on how to change the highlighter theme is available
+ * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme).
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_theme='default']
