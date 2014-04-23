@@ -233,7 +233,7 @@
 		 *		}
 		 *
 		 * More information on how to change the list of languages is available
-         * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
+		 * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
 		 *
 		 * @property {Object} languages
 		 */
