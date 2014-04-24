@@ -18,7 +18,10 @@
  * @aside guide dev_jquery
  */
 
-( function( $ ) {
+( function( $, CKEDITOR ) {
+	if (!CKEDITOR) {
+		return; // no good can come if the CKEDITOR script didn't load
+	}
 	/**
 	 * Allows CKEditor to override `jQuery.fn.val()`. When set to `true`, the `val()` function
 	 * used on textarea elements replaced with CKEditor uses the CKEditor API.
@@ -372,4 +375,4 @@
 			};
 		} );
 	}
-} )( window.jQuery );
+} )( window.jQuery, window.CKEDITOR );
