@@ -361,15 +361,14 @@
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
 			insertElementIntoSelection: function( element ) {
+				beforeInsert( this );
+
 				var editor = this.editor,
 					enterMode = editor.activeEnterMode,
 					selection = editor.getSelection(),
 					range = selection.getRanges()[ 0 ],
 					elementName = element.getName(),
 					isBlock = CKEDITOR.dtd.$block[ elementName ];
-
-				// Prepare for the insertion.
-				beforeInsert( this );
 
 				// Insert element into first range only and ignore the rest (#11183).
 				if ( this.insertElementIntoRange( element, range ) ) {
