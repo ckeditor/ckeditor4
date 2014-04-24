@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
-		lang: 'en', // %REMOVE_LINE_CORE%
+		lang: 'bg,ca,cs,da,de,el,en,en-gb,eo,es,et,fa,fr,fr-ca,hr,hu,it,ja,ku,lt,lv,nb,nl,no,pl,pt,ro,ru,sk,sl,sq,sv,th,tt,ug,uk,vi', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
