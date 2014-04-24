@@ -7,8 +7,8 @@ CKEDITOR.plugins.setLang( 'toolbar', 'tt', {
 	toolbarExpand: 'Expand Toolbar', // MISSING
 	toolbarGroups: {
 		document: 'Документ',
-		clipboard: 'Clipboard/Undo', // MISSING
-		editing: 'Editing', // MISSING
+		clipboard: 'Алмашу буферы/Кайтару',
+		editing: 'Төзәтү',
 		forms: 'Формалар',
 		basicstyles: 'Төп стильләр',
 		paragraph: 'Параграф',

@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'mn', {
 	alt: 'Зургийг орлох бичвэр',
 	btnUpload: 'Үүнийг сервэррүү илгээ',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Зурагны мэдээлэл',
 	lockRatio: 'Радио түгжих',
 	menu: 'Зураг',

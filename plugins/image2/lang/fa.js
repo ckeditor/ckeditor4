@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'fa', {
 	alt: 'متن جایگزین',
 	btnUpload: 'به سرور بفرست',
 	captioned: 'تصویر زیرنویس شده',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'اطلاعات تصویر',
 	lockRatio: 'قفل کردن نسبت',
 	menu: 'ویژگی​های تصویر',

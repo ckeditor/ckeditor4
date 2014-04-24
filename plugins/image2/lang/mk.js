@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'mk', {
 	alt: 'Alternative Text', // MISSING
 	btnUpload: 'Send it to the Server', // MISSING
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Image Info', // MISSING
 	lockRatio: 'Lock Ratio', // MISSING
 	menu: 'Image Properties', // MISSING

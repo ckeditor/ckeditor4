@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'ar', {
 	alt: 'عنوان الصورة',
 	btnUpload: 'أرسلها للخادم',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'معلومات الصورة',
 	lockRatio: 'تناسق الحجم',
 	menu: 'خصائص الصورة',

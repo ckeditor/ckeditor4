@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'he', {
 	alt: 'טקסט חלופי',
 	btnUpload: 'שליחה לשרת',
 	captioned: 'כותרת תמונה',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'מידע על התמונה',
 	lockRatio: 'נעילת היחס',
 	menu: 'תכונות התמונה',

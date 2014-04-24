@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'nl', {
 	alt: 'Alternatieve tekst',
 	btnUpload: 'Naar server verzenden',
 	captioned: 'Afbeelding met onderschrift',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Informatie afbeelding',
 	lockRatio: 'Verhouding vergrendelen',
 	menu: 'Eigenschappen afbeelding',

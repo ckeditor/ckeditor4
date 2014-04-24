@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'de', {
 	alt: 'Alternativer Text',
 	btnUpload: 'Zum Server senden',
 	captioned: 'Bild mit Überschrift',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Bild-Info',
 	lockRatio: 'Größenverhältnis beibehalten',
 	menu: 'Bild-Eigenschaften',

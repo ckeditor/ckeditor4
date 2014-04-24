@@ -82,7 +82,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
+	backspace: 'Кайтару',
 	tab: 'Tab',
 	enter: 'Enter',
 	shift: 'Shift',
@@ -95,25 +95,25 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 	pageDown: 'Page Down',
 	end: 'End',
 	home: 'Home',
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	leftArrow: 'Сул якка ук',
+	upArrow: 'Өскә таба ук',
+	rightArrow: 'Уң якка ук',
+	downArrow: 'Аска таба ук',
 	insert: 'Өстәү',
 	'delete': 'Бетерү',
 	leftWindowKey: 'Сул Windows төймəсе',
 	rightWindowKey: 'Уң Windows төймəсе',
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
+	selectKey: 'Select төймəсе',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
 	multiply: 'Тапкырлау',
 	add: 'Кушу',
 	subtract: 'Алу',
@@ -133,15 +133,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 	f12: 'F12',
 	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock',
-	semiColon: 'Semicolon', // MISSING
+	semiColon: 'Нокталы өтер',
 	equalSign: 'Тигезлек билгесе',
 	comma: 'Өтер',
 	dash: 'Сызык',
 	period: 'Дәрәҗә',
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
+	forwardSlash: 'Кыек сызык',
+	graveAccent: 'Гравис',
+	openBracket: 'Җәя ачу',
+	backSlash: 'Кире кыек сызык',
+	closeBracket: 'Җәя ябу',
 	singleQuote: 'Single Quote' // MISSING
 } );

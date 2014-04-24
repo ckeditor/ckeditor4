@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'tt', {
 	alt: 'Альтернатив текст',
 	btnUpload: 'Серверга җибәрү',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Рәсем тасвирламасы',
 	lockRatio: 'Lock Ratio', // MISSING
 	menu: 'Рәсем үзлекләре',

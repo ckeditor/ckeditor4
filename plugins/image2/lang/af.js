@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'af', {
 	alt: 'Alternatiewe teks',
 	btnUpload: 'Stuur na bediener',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Afbeelding informasie',
 	lockRatio: 'Vaste proporsie',
 	menu: 'Afbeelding eienskappe',

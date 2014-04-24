@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'ka', {
 	alt: 'სანაცვლო ტექსტი',
 	btnUpload: 'სერვერისთვის გაგზავნა',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'სურათის ინფორმცია',
 	lockRatio: 'პროპორციის შენარჩუნება',
 	menu: 'სურათის პარამეტრები',

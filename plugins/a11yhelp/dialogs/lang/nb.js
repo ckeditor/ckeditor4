@@ -95,14 +95,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	pageDown: 'Page Down', // MISSING
 	end: 'End', // MISSING
 	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	leftArrow: 'Venstre piltast',
+	upArrow: 'Opp-piltast',
+	rightArrow: 'Høyre piltast',
+	downArrow: 'Ned-piltast',
 	insert: 'Insert', // MISSING
 	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
+	leftWindowKey: 'Venstre Windows-tast',
+	rightWindowKey: 'Høyre Windows-tast',
 	selectKey: 'Select key', // MISSING
 	numpad0: 'Numpad 0', // MISSING
 	numpad1: 'Numpad 1', // MISSING
@@ -133,15 +133,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	f12: 'F12', // MISSING
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
+	semiColon: 'Semikolon',
+	equalSign: 'Likhetstegn',
+	comma: 'Komma',
+	dash: 'Bindestrek',
+	period: 'Punktum',
+	forwardSlash: 'Forover skråstrek',
 	graveAccent: 'Grave Accent', // MISSING
 	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
+	backSlash: 'Bakover skråstrek',
 	closeBracket: 'Close Bracket', // MISSING
 	singleQuote: 'Single Quote' // MISSING
 } );

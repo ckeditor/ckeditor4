@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'ug', {
 	alt: 'تېكىست ئالماشتۇر',
 	btnUpload: 'مۇلازىمېتىرغا يۈكلە',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'سۈرەت',
 	lockRatio: 'نىسبەتنى قۇلۇپلا',
 	menu: 'سۈرەت خاسلىقى',

@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'ku', {
 	alt: 'جێگرەوەی دەق',
 	btnUpload: 'ناردنی بۆ ڕاژه',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'زانیاری وێنه',
 	lockRatio: 'داخستنی ڕێژه',
 	menu: 'خاسیەتی وێنه',

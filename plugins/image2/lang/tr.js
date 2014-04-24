@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'tr', {
 	alt: 'Alternatif Yazı',
 	btnUpload: 'Sunucuya Yolla',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Resim Bilgisi',
 	lockRatio: 'Oranı Kilitle',
 	menu: 'Resim Özellikleri',

@@ -37,31 +37,31 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ro', {
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Comenzi',
 		items: [
 			{
 			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			legend: 'Apasă ${undo}'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'Comanda precedentă',
+			legend: 'Apasă ${redo}'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: 'Comanda Îngroșat',
+			legend: 'Apasă ${bold}'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: 'Comanda Inclinat',
+			legend: 'Apasă ${italic}'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: 'Comanda Subliniere',
+			legend: 'Apasă ${underline}'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'Comanda Legatură',
+			legend: 'Apasă ${link}'
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING

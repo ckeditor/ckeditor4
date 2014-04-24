@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	alt: 'Anstataŭiga Teksto',
 	btnUpload: 'Sendu al Servilo',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Informoj pri Bildo',
 	lockRatio: 'Konservi Proporcion',
 	menu: 'Atributoj de Bildo',

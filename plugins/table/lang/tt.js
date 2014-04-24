@@ -13,16 +13,16 @@ CKEDITOR.plugins.setLang( 'table', 'tt', {
 		merge: 'Күзәнәкләрне берләштерү',
 		mergeRight: 'Уң яктагы белән берләштерү',
 		mergeDown: 'Астагы белән берләштерү',
-		splitHorizontal: 'Split Cell Horizontally', // MISSING
-		splitVertical: 'Split Cell Vertically', // MISSING
+		splitHorizontal: 'Күзәнәкне юлларга бүлү',
+		splitVertical: 'Күзәнәкне баганаларга бүлү',
 		title: 'Күзәнәк үзлекләре',
 		cellType: 'Күзәнәк төре',
-		rowSpan: 'Rows Span', // MISSING
-		colSpan: 'Columns Span', // MISSING
-		wordWrap: 'Word Wrap', // MISSING
+		rowSpan: 'Юлларны берләштерү',
+		colSpan: 'Баганаларны берләштерү',
+		wordWrap: 'Текстны күчерү',
 		hAlign: 'Ятма тигезләү',
 		vAlign: 'Асма тигезләү',
-		alignBaseline: 'Baseline', // MISSING
+		alignBaseline: 'Таяныч сызыгы',
 		bgColor: 'Фон төсе',
 		borderColor: 'Чик төсе',
 		data: 'Мәгълүмат',

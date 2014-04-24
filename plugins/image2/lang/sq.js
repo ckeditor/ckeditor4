@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'sq', {
 	alt: 'Tekst Alternativ',
 	btnUpload: 'Dërgo në server',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Informacione mbi Fotografinë',
 	lockRatio: 'Mbyll Racionin',
 	menu: 'Karakteristikat e Fotografisë',

@@ -19,10 +19,10 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	anchorName: 'Якорь исеме буенча',
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Стильләр класслары',
-	emailAddress: 'E-Mail Address', // MISSING
-	emailBody: 'Message Body', // MISSING
-	emailSubject: 'Message Subject', // MISSING
-	id: 'Id', // MISSING
+	emailAddress: 'Электрон почта адресы',
+	emailBody: 'Хат эчтәлеге',
+	emailSubject: 'Хат темасы',
+	id: 'Идентификатор',
 	info: 'Сылталама тасвирламасы',
 	langCode: 'Тел коды',
 	langDir: 'Язылыш юнəлеше',
@@ -31,8 +31,8 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	menu: 'Сылталамаyны үзгәртү',
 	name: 'Исем',
 	noAnchors: '(Әлеге документта якорьләр табылмады)',
-	noEmail: 'Please type the e-mail address', // MISSING
-	noUrl: 'Please type the link URL', // MISSING
+	noEmail: 'Электрон почта адресын языгыз',
+	noUrl: 'Сылталаманы языгыз',
 	other: '<бүтән>',
 	popupDependent: 'Dependent (Netscape)', // MISSING
 	popupFeatures: 'Popup Window Features', // MISSING
@@ -60,6 +60,6 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	toUrl: 'Сылталама',
 	toolbar: 'Сылталама',
 	type: 'Сылталама төре',
-	unlink: 'Unlink', // MISSING
+	unlink: 'Сылталаманы бетерү',
 	upload: 'Йөкләү'
 } );

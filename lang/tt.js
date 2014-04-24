@@ -38,14 +38,14 @@ CKEDITOR.lang[ 'tt' ] = {
 		form: 'Форма',
 		checkbox: 'Чекбокс',
 		radio: 'Радио төймә',
-		textField: 'Text Field', // MISSING
-		textarea: 'Текст өлкәсе',
-		hiddenField: 'Hidden Field', // MISSING
+		textField: 'Текст кыры',
+		textarea: 'Текст мәйданы',
+		hiddenField: 'Яшерен кыр',
 		button: 'Төймə',
-		select: 'Selection Field', // MISSING
+		select: 'Сайлау кыры',
 		imageButton: 'Рәсемле төймə',
 		notSet: '<билгеләнмәгән>',
-		id: 'Id', // MISSING
+		id: 'Id',
 		name: 'Исем',
 		langDir: 'Язылыш юнəлеше',
 		langDirLtr: 'Сулдан уңга язылыш (LTR)',

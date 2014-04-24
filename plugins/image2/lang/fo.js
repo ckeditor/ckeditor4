@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'fo', {
 	alt: 'Alternativur tekstur',
 	btnUpload: 'Send til ambætaran',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Myndaupplýsingar',
 	lockRatio: 'Læs lutfallið',
 	menu: 'Myndaeginleikar',

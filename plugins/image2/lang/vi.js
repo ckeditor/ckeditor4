@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'vi', {
 	alt: 'Chú thích ảnh',
 	btnUpload: 'Tải lên máy chủ',
 	captioned: 'Ảnh có chú thích',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Thông tin của ảnh',
 	lockRatio: 'Giữ nguyên tỷ lệ',
 	menu: 'Thuộc tính của ảnh',
