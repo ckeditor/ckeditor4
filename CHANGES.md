@@ -40,7 +40,7 @@ Other changes:
   * Introduced the [`editable.status`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-property-status) property.
   * Introduced a new `forceUpdate` option for the [`editor.lockSnapshot`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-lockSnapshot) event.
   * Fixed: Selection not being unlocked in inline editor after setting data ([#11500](http://dev.ckeditor.com/ticket/11500)).
-  * The [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin was updated to the latest version.
+* The [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin was updated to the latest version.
 
 Fixed Issues:
 
