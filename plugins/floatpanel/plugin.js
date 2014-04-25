@@ -83,7 +83,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 			// Window resize doesn't cause hide on blur. (#9800)
 			// [iOS] Poping up keyboard triggers window resize
-			// which leads to undesired panel hides
+			// which leads to undesired panel hides.
 			if ( !CKEDITOR.env.iOS )
 				doc.getWindow().on( 'resize', hide );
 
@@ -209,8 +209,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							return;
 
 						if ( this.visible && !this._.activeChild && !this._.hideTimeout ) {
-							// [iOS] Allow hide to be prevented if touch is bound 
-							// to any parent of the iframe blur happens before touch
+							// [iOS] Allow hide to be prevented if touch is bound
+							// to any parent of the iframe blur happens before touch (#10714).
 							this._.hideTimeout = CKEDITOR.tools.setTimeout( function() {
 								// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
 								// DO NOT restore focus in this case.
@@ -227,20 +227,20 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, this );
 
 					// [iOS] if touch is bound to any parent of the iframe blur
-					// happens twice before touchstart and before touchend
+					// happens twice before touchstart and before touchend (#10714).
 					if ( CKEDITOR.env.iOS ) {
-						// Prevent false hiding on blur
-						// We don't need to return focus here cuz touchend will fire anyway
-						// If user scrolls and pointer gets out of the panel area touchend will also fire
+						// Prevent false hiding on blur.
+						// We don't need to return focus here because touchend will fire anyway.
+						// If user scrolls and pointer gets out of the panel area touchend will also fire.
 						focused.on( 'touchstart', function() {
 							clearInterval( this._.hideTimeout );
-						}, this);
+						}, this );
 
-						// Set focus back to handle blur and hide panel when needed
+						// Set focus back to handle blur and hide panel when needed.
 						focused.on( 'touchend', function() {
 							this._.hideTimeout = 0;
 							this.focus();
-						}, this);
+						}, this );
 					}
 
 					CKEDITOR.event.useCapture = false;
