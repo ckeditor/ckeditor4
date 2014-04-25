@@ -361,6 +361,7 @@
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
 			insertElementIntoSelection: function( element ) {
+				// Prepare for the insertion. For example - focus editor (#11848).
 				beforeInsert( this );
 
 				var editor = this.editor,
