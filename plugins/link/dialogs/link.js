@@ -201,7 +201,7 @@
 								if ( dialog.getContentElement( 'info', 'linkType' ) && dialog.getValueOf( 'info', 'linkType' ) != 'url' )
 									return true;
 
-								if ( ( /javascript\:/ ).test( this.getValue() ) ) {
+								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/ ).test( this.getValue() ) ) {
 									alert( commonLang.invalidValue );
 									return false;
 								}

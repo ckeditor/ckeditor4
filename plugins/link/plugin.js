@@ -754,5 +754,14 @@
 		 * @member CKEDITOR.config
 		 */
 		linkShowTargetTab: true
+
+		/**
+		 * Whether JavaScript code is allowed as a `href` attribute in anchor tag.
+		 *
+		 *		<a href="javascript:alert('Hello world!')">hello world</a>
+		 *
+		 * @cfg {Boolean} [linkJavaScriptLinksAllowed=false]
+		 * @member CKEDITOR.config
+		 */
 	} );
 } )();
