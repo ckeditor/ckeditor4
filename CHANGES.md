@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.4.1
 
 Fixed Issues:
+* [#11848](http://dev.ckeditor.com/ticket/11848): Fixed [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
 
 Other changes:
 
