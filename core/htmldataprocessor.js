@@ -894,12 +894,21 @@
 		// Different protection pattern is used for those that
 		// live in attributes to avoid from being HTML encoded.
 		// Why so serious? See #9205, #8216, #7805, #11754, #11846.
-		return data.replace( /<\w+(?:\s+(?:(?:[^\s=>]+\s*=\s*(?:[^'"\s>]+|'[^']*'|"[^"]*"))|[^\s=>]+))+\s*>/g, function( match ) {
+		data = data.replace( /<\w+(?:\s+(?:(?:[^\s=>]+\s*=\s*(?:[^'"\s>]+|'[^']*'|"[^"]*"))|[^\s=>]+))+\s*>/g, function( match ) {
 			return match.replace( /<!--\{cke_protected\}([^>]*)-->/g, function( match, data ) {
 				store[ store.id ] = decodeURIComponent( data );
 				return '{cke_protected_' + ( store.id++ ) + '}';
 			} );
 		} );
+
+		// This RegExp searches for innerText in all the title/iframe/textarea elements.
+		// This is because browser doesn't allow HTML in these elements, that's why we can't
+		// nest comments in there. (#11223)
+		data = data.replace( /<(title|iframe|textarea)([^>]*)>([\s\S]*?)<\/\1>/g, function( match, tagName, tagAttributes, innerText ) {
+			return [ '<', tagName, tagAttributes, '>', unprotectSource( unprotectRealComments( innerText ), editor ), '</', tagName, '>' ].join('');
+		} );
+
+		return data;
 	}
 } )();
 
@@ -997,4 +1006,3 @@
  * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toDataFormat} The `filter` argument.
  * @param {Boolean} data.enterMode See {@link CKEDITOR.htmlDataProcessor#toDataFormat} The `enterMode` argument.
  */
-
