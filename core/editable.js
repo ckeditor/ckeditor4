@@ -796,6 +796,92 @@
 							ev.data.preventDefault();
 					} );
 				}
+
+				if ( CKEDITOR.env.webkit ) {
+					function isBlock( node ) {
+						return node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary();
+					}
+
+					this.attachListener( this, 'keydown', function( evt ) {
+						var key = evt.data.getKey();
+
+						if ( !( key in backspaceOrDelete ) )
+							return;
+
+						var backspace = key == 8,
+							selection = editor.getSelection(),
+							range = selection.getRanges()[ 0 ],
+							path = range.startPath();
+
+						if ( range.collapsed || !path.block ) {
+							var walkerRange = editor.createRange();
+
+							walkerRange.setStartAt( this, CKEDITOR.POSITION_AFTER_START );
+							walkerRange.setEndAt( path.block, CKEDITOR.POSITION_AFTER_START );
+
+							var walker = new CKEDITOR.dom.walker( walkerRange ),
+								straightBranch = true,
+								entered, node, siblingBlock, lastElementLeft;
+
+							walker.guard = function( node, leaving ) {
+								// If leaving for the 2nd time.
+								if ( entered && leaving )
+									return false;
+
+								entered = !leaving;
+
+								// Record last element left.
+								if ( leaving ) {
+									console.log( node );
+									if ( straightBranch )
+										straightBranch = node.getChildCount() == 1;
+
+									lastElementLeft = node;
+								}
+
+								if ( entered && isBlock( node ) )
+									siblingBlock = node;
+
+								return true;
+							};
+
+							while ( ( node = walker.previous() ) ) {}
+
+							// console.log( 'siblingBlock', siblingBlock.getOuterHtml() );
+							// console.log( 'lastElementLeft', lastElementLeft.getOuterHtml() );
+
+							// No sibling block to be merged to.
+							if ( !siblingBlock )
+								return;
+
+							// Not at the first editable position.
+							if ( !range.checkBoundaryOfElement( lastElementLeft, CKEDITOR.START ) )
+								return;
+
+							// Save selection. It will be restored.
+							bookmarks = selection.createBookmarks();
+
+							// Glue path.block with siblingBlock.
+							path.block.moveChildren( siblingBlock, false );
+
+							if ( !path.lastElement.equals( path.block ) )
+								path.lastElement.mergeSiblings();
+
+							if ( straightBranch )
+								lastElementLeft.remove();
+							else
+								path.block.remove();
+
+							// Restore selection.
+							selection.selectBookmarks( bookmarks );
+							//console.log( 'end' );
+						} else {
+							console.log( 'range not collapsed!' );
+						}
+
+						evt.data.preventDefault();
+					}, this, null, 100 ); // Later is better – do not override existing listeners.
+				}
 			}
 		},
 
