@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 * [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when contents contains not closed attributes.
-* [#11848](http://dev.ckeditor.com/ticket/11848): Fixed [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
+* [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
 
 Other changes:
 
