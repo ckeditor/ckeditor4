@@ -106,6 +106,7 @@ Special outer level classes used in this file:
   height: 15px;
   position: relative;
   background: transparent;
+  display: none; /*hide tags*/
 }
 
 /* The resizer is the small UI element that is rendered at the bottom right
