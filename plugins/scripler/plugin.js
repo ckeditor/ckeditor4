@@ -58,11 +58,11 @@ CKEDITOR.plugins.add( 'scripler', {
 		var timerChangeTimeout;
 		
 		function showToolbar() {
-			resetChangeTimeout();
             fadeIn(toolbarObj);
 		}
 		
 		function hideToolbar(force) {
+			//console.log('hide toolbar');
 			//Hide Toolbar
 			if (force) {
 				fading = true;	
@@ -123,7 +123,7 @@ CKEDITOR.plugins.add( 'scripler', {
 				if (panels[i].style.display!='none') {
 					//console.log(panels[i]);
 					//panels[i].style.display = 'none';
-					console.log('Cancelled hide')
+					//console.log('Cancelled hide')
 					return true;
 				}
 			}
@@ -131,12 +131,14 @@ CKEDITOR.plugins.add( 'scripler', {
 		}
 		
 		function fadeIn(element) {
-			fading = false;
-			op = 1;
-			clearInterval(timerFadeOut);
-			element.style.opacity = op;
-			element.style.filter = 'alpha(opacity=' + op * 100 + ')';
-			element.style.display = 'block';
+			if (fading) {
+				fading = false;
+				op = 1;
+				clearInterval(timerFadeOut);
+				element.style.opacity = op;
+				element.style.filter = 'alpha(opacity=' + op * 100 + ')';
+				element.style.display = 'block';
+			}
 			resetChangeTimeout();
 		}
 		
@@ -175,7 +177,7 @@ CKEDITOR.plugins.add( 'scripler', {
         editor.on('instanceReady', function (event){
 			//console.log(JSON.stringify(CKEDITOR.instances.editor1.window.$.document.getElementsByTagName("body")[0]));
 
-			var instanceName = 'editor1';
+			var instanceName = 'bodyeditor';
 			
 			var editableBody = CKEDITOR.instances[instanceName].window.$.document.getElementsByTagName("body")[0]
 			//editableBody.addEventListener ("paste", onPaste, false);
@@ -187,7 +189,7 @@ CKEDITOR.plugins.add( 'scripler', {
 			editorObj = document.getElementById( editorId+'_contents' );
 			toolbarArea = document.getElementById( 'toolbar-area' );
             toolbarObj.style.position = 'absolute';
-            toolbarObj.style.margin = '-2em 7em';
+            toolbarObj.style.margin = '-2em 5em';
             toolbarObj.style.display = 'none';
 			toolbarObj.onmousemove = showToolbar;
 			toolbarArea.onmousemove = showToolbar;
