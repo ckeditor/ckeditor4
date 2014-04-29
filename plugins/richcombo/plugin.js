@@ -160,6 +160,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				function updateState() {
+					// Don't change state while richcombo is active (#11793).
+					if ( this.getState() == CKEDITOR.TRISTATE_ON )
+						return;
+
 					var state = this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 					if ( editor.readOnly && !this.readOnly )
