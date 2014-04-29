@@ -814,72 +814,96 @@
 							path = range.startPath();
 
 						if ( range.collapsed || !path.block ) {
-							var walkerRange = editor.createRange();
+							var walkRange = range.clone();
 
-							walkerRange.setStartAt( this, CKEDITOR.POSITION_AFTER_START );
-							walkerRange.setEndAt( path.block, CKEDITOR.POSITION_AFTER_START );
+							if ( backspace )
+								walkRange.setStartAt( this, CKEDITOR.POSITION_AFTER_START );
+							else
+								walkRange.setEndAt( this, CKEDITOR.POSITION_BEFORE_END );
 
-							var walker = new CKEDITOR.dom.walker( walkerRange ),
+							var walker = new CKEDITOR.dom.walker( walkRange ),
 								straightBranch = true,
-								entered, node, siblingBlock, lastElementLeft;
+								wasEntering, siblingBlock, lastElementLeft, firstElementEntered;
 
 							walker.guard = function( node, leaving ) {
-								// If leaving for the 2nd time.
-								if ( entered && leaving )
+								// If stumbled upon a text node somewhere, it means
+								// that there's a place for the caret somewhere there.
+								if ( node.type != CKEDITOR.NODE_ELEMENT )
 									return false;
 
-								entered = !leaving;
+								// Abort if entering and approached non-block element.
+								if ( !leaving && !isBlock( node ) )
+									return false;
 
-								// Record last element left.
-								if ( leaving ) {
-									console.log( node );
-									if ( straightBranch )
-										straightBranch = node.getChildCount() == 1;
+								// Abort if leaving again, for the 2nd time.
+								if ( wasEntering && leaving )
+									return false;
 
+								// Check if this branch is straight (no siblings, just inheritance),
+								// so it can be cut off: when leaving (BACKSPACE) or when
+								// entering nodes (DEL).
+								if ( backspace ^ !leaving && straightBranch )
+									straightBranch = node.getChildCount() === 1;
+
+								// Record last element left (BACKSPACE).
+								if ( leaving )
 									lastElementLeft = node;
-								}
+								// Record first element entered (DEL).
+								else if ( !firstElementEntered )
+									firstElementEntered = node;
 
-								if ( entered && isBlock( node ) )
+								// This flag is set to figure out the moment, when,
+								// after descending walk (leaving nodes), walker starts
+								// entering nodes, and enters descending walk back again.
+								wasEntering = !leaving;
+
+								if ( !leaving )
 									siblingBlock = node;
 
 								return true;
 							};
 
-							while ( ( node = walker.previous() ) ) {}
-
-							// console.log( 'siblingBlock', siblingBlock.getOuterHtml() );
-							// console.log( 'lastElementLeft', lastElementLeft.getOuterHtml() );
+							while ( walker[ backspace ? 'previous' : 'next' ]() ) {}
 
 							// No sibling block to be merged to.
 							if ( !siblingBlock )
 								return;
 
-							// Not at the first editable position.
-							if ( !range.checkBoundaryOfElement( lastElementLeft, CKEDITOR.START ) )
-								return;
+							// var bogus;
+							// if ( ( bogus = siblingBlock.getBogus() ) )
+							// 	bogus.remove();
 
 							// Save selection. It will be restored.
 							bookmarks = selection.createBookmarks();
 
-							// Glue path.block with siblingBlock.
-							path.block.moveChildren( siblingBlock, false );
+							// Glue blocks:
+							// * path.block joins siblingBlock (BACKSPACE).
+							// * siblingBlock joins path.block (DEL).
+							if ( backspace )
+								path.block.moveChildren( siblingBlock, false );
+							else
+								siblingBlock.moveChildren( path.block, false );
 
 							if ( !path.lastElement.equals( path.block ) )
 								path.lastElement.mergeSiblings();
 
-							if ( straightBranch )
-								lastElementLeft.remove();
+							if ( backspace )
+								( straightBranch ? lastElementLeft : path.block ).remove();
 							else
-								path.block.remove();
+								( straightBranch ? firstElementEntered : siblingBlock ).remove();
+
+							// if ( bogus ) {
+							// 	console.log( 'app' );
+							// 	siblingBlock.appendBogus();
+							// }
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
-							//console.log( 'end' );
+
+							evt.data.preventDefault();
 						} else {
 							console.log( 'range not collapsed!' );
 						}
-
-						evt.data.preventDefault();
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
 			}
