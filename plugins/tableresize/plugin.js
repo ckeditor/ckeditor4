@@ -361,9 +361,11 @@
 				editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
 					evt = evt.data;
 
-					// If mouse is not over the editor then IE8 and FF have
-					// no target document and getPageOffset() throws error.
-					if ( typeof evt.getTarget().getDocument != 'function' )
+					var target = evt.getTarget();
+
+					// FF may return document and IE8 some UFO (object with no nodeType property...)
+					// instead of an element (#11823).
+					if ( target.type != CKEDITOR.NODE_ELEMENT )
 						return;
 
 					var pageX = evt.getPageOffset().x;
@@ -376,8 +378,7 @@
 					}
 
 					// Considering table, tr, td, tbody but nothing else.
-					var target = evt.getTarget(),
-						table, pillars;
+					var table, pillars;
 
 					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
 						return;
