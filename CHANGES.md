@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin from required in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
 * [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when contents contains not closed attributes.
 * [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
 * [#11801](http://dev.ckeditor.com/ticket/11801): Fixed: Editor anchors unavailable when linking [Enhanced Image](http://ckeditor.com/addon/image2) widget.

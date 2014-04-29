@@ -100,8 +100,7 @@ CKEDITOR.replace( 'editor1', {
 
 <pre class="samples">
 CKEDITOR.inline( 'editable', {
-	// Note: The Source Dialog plugin is optional.
-	extraPlugins: '<strong>codesnippet</strong>,sourcedialog'
+	<strong>extraPlugins: 'codesnippet'</strong>
 } );
 </pre>
 
@@ -169,7 +168,7 @@ CKEDITOR.inline( 'editable', {
 			var config = {
 				extraPlugins: 'codesnippet',
 				toolbar: [
-					[ 'Source', 'Sourcedialog' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
+					[ 'Source' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
 				],
 				codeSnippet_theme: 'monokai_sublime',
 				height: 400
@@ -178,7 +177,7 @@ CKEDITOR.inline( 'editable', {
 			CKEDITOR.replace( 'editor1', config );
 
 			CKEDITOR.inline( 'editable', CKEDITOR.tools.extend( {}, config, {
-				extraPlugins: 'codesnippet,sourcedialog'
+				extraPlugins: 'codesnippet'
 			}, true ) );
 
 			initThemeChange();
