@@ -814,16 +814,16 @@
 							path = range.startPath();
 
 						if ( range.collapsed || !path.block ) {
-							var walkRange = range.clone();
+							var walkRange = range.clone(),
+								straightBranch = true,
+								wasEntering, siblingBlock, lastElementLeft, firstElementEntered;
 
 							if ( backspace )
 								walkRange.setStartAt( this, CKEDITOR.POSITION_AFTER_START );
 							else
 								walkRange.setEndAt( this, CKEDITOR.POSITION_BEFORE_END );
 
-							var walker = new CKEDITOR.dom.walker( walkRange ),
-								straightBranch = true,
-								wasEntering, siblingBlock, lastElementLeft, firstElementEntered;
+							var walker = new CKEDITOR.dom.walker( walkRange );
 
 							walker.guard = function( node, leaving ) {
 								// If stumbled upon a text node somewhere, it means
@@ -869,33 +869,22 @@
 							if ( !siblingBlock )
 								return;
 
-							// var bogus;
-							// if ( ( bogus = siblingBlock.getBogus() ) )
-							// 	bogus.remove();
+							var targetBlock = backspace ? siblingBlock : path.block,
+								sourceBlock = backspace ? path.block : siblingBlock;
 
 							// Save selection. It will be restored.
 							bookmarks = selection.createBookmarks();
 
-							// Glue blocks:
-							// * path.block joins siblingBlock (BACKSPACE).
-							// * siblingBlock joins path.block (DEL).
-							if ( backspace )
-								path.block.moveChildren( siblingBlock, false );
-							else
-								siblingBlock.moveChildren( path.block, false );
+							// Glue blocks.
+							sourceBlock.moveChildren( targetBlock, false );
 
 							if ( !path.lastElement.equals( path.block ) )
 								path.lastElement.mergeSiblings();
 
-							if ( backspace )
-								( straightBranch ? lastElementLeft : path.block ).remove();
+							if ( straightBranch )
+								( backspace ? lastElementLeft : firstElementEntered ).remove();
 							else
-								( straightBranch ? firstElementEntered : siblingBlock ).remove();
-
-							// if ( bogus ) {
-							// 	console.log( 'app' );
-							// 	siblingBlock.appendBogus();
-							// }
+								sourceBlock.remove();
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
