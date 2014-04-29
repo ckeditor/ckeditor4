@@ -260,7 +260,7 @@
 						setup: function( data ) {
 							anchors = plugin.getEditorAnchors( editor );
 
-							this.getElement()[ anchors.length ? 'show' : 'hide' ]();
+							this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
 						},
 						children: [
 							{
@@ -333,7 +333,7 @@
 							}
 							],
 							setup: function( data ) {
-								this.getElement()[ anchors.length ? 'show' : 'hide' ]();
+								this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
 							}
 						}
 						]
@@ -346,7 +346,7 @@
 						// Focus the first element defined in above html.
 						focus: true,
 						setup: function( data ) {
-							this.getElement()[ !anchors.length ? 'show' : 'hide' ]();
+							this.getElement()[ anchors && anchors.length ? 'hide' : 'show' ]();
 						}
 					}
 					],
