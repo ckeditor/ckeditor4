@@ -103,9 +103,9 @@
 				return commitParams.call( this, 'advanced', data );
 			};
 
-
 		var commonLang = editor.lang.common,
-			linkLang = editor.lang.link;
+			linkLang = editor.lang.link,
+			anchors;
 
 		return {
 			title: linkLang.title,
@@ -258,10 +258,9 @@
 						id: 'selectAnchorText',
 						label: linkLang.selectAnchor,
 						setup: function( data ) {
-							if ( data.anchors && data.anchors.length > 0 )
-								this.getElement().show();
-							else
-								this.getElement().hide();
+							anchors = plugin.getEditorAnchors( editor );
+
+							this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
 						},
 						children: [
 							{
@@ -281,10 +280,10 @@
 									this.clear();
 									this.add( '' );
 
-									if ( data.anchors ) {
-										for ( var i = 0; i < data.anchors.length; i++ ) {
-											if ( data.anchors[ i ].name )
-												this.add( data.anchors[ i ].name );
+									if ( anchors ) {
+										for ( var i = 0; i < anchors.length; i++ ) {
+											if ( anchors[ i ].name )
+												this.add( anchors[ i ].name );
 										}
 									}
 
@@ -315,10 +314,10 @@
 									this.clear();
 									this.add( '' );
 
-									if ( data.anchors ) {
-										for ( var i = 0; i < data.anchors.length; i++ ) {
-											if ( data.anchors[ i ].id )
-												this.add( data.anchors[ i ].id );
+									if ( anchors ) {
+										for ( var i = 0; i < anchors.length; i++ ) {
+											if ( anchors[ i ].id )
+												this.add( anchors[ i ].id );
 										}
 									}
 
@@ -334,10 +333,7 @@
 							}
 							],
 							setup: function( data ) {
-								if ( data.anchors && data.anchors.length > 0 )
-									this.getElement().show();
-								else
-									this.getElement().hide();
+								this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
 							}
 						}
 						]
@@ -350,10 +346,7 @@
 						// Focus the first element defined in above html.
 						focus: true,
 						setup: function( data ) {
-							if ( data.anchors && data.anchors.length < 1 )
-								this.getElement().show();
-							else
-								this.getElement().hide();
+							this.getElement()[ anchors && anchors.length ? 'hide' : 'show' ]();
 						}
 					}
 					],

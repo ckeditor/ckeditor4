@@ -535,12 +535,6 @@
 					retval.advanced = advanced;
 			}
 
-			// Find out whether we have any anchors in the editor.
-			var anchors = CKEDITOR.plugins.link.getEditorAnchors( editor );
-
-			if ( anchors.length )
-				retval.anchors = anchors;
-
 			return retval;
 		},
 
