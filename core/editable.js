@@ -800,8 +800,8 @@
 				// Prevent Webkit/Blink from going rogue when joining
 				// blocks on BACKSPACE/DEL (#11861,#9998).
 				if ( CKEDITOR.env.webkit ) {
-					this.attachListener( this, 'keydown', function( evt ) {
-						var key = evt.data.getKey();
+					this.attachListener( editor, 'key', function( evt ) {
+						var key = evt.data.keyCode;
 
 						if ( !( key in backspaceOrDelete ) )
 							return;
@@ -858,9 +858,7 @@
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
 
-							evt.data.preventDefault();
-						} else {
-							console.log( 'range not collapsed!' );
+							return false;
 						}
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
