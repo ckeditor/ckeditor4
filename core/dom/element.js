@@ -134,6 +134,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		element.addClass( 'classB' ); // <div class="classA classB">
 	 *		element.addClass( 'classA' ); // <div class="classA classB">
 	 *
+	 * @chainable
 	 * @param {String} className The name of the class to be added.
 	 */
 	addClass: function( className ) {
@@ -144,6 +145,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				c += ' ' + className;
 		}
 		this.$.className = c || className;
+
+		return this;
 	},
 
 	/**

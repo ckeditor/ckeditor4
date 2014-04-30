@@ -10,6 +10,7 @@ Fixed Issues:
 * [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
 * [#11801](http://dev.ckeditor.com/ticket/11801): Fixed: Editor anchors unavailable when linking [Enhanced Image](http://ckeditor.com/addon/image2) widget.
 * [#11626](http://dev.ckeditor.com/ticket/11626): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) sets invalid width.
+* [#11872](http://dev.ckeditor.com/ticket/11872): Made [`element.addClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass) chainable symmetrically to [`element.removeClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass).
 
 Other changes:
 
