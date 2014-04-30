@@ -905,7 +905,7 @@
 		// This is because browser doesn't allow HTML in these elements, that's why we can't
 		// nest comments in there. (#11223)
 		data = data.replace( /<(title|iframe|textarea)([^>]*)>([\s\S]*?)<\/\1>/g, function( match, tagName, tagAttributes, innerText ) {
-			return [ '<', tagName, tagAttributes, '>', unprotectSource( unprotectRealComments( innerText ), editor ), '</', tagName, '>' ].join('');
+			return '<' + tagName + tagAttributes + '>' + unprotectSource( unprotectRealComments( innerText ), editor ) + '</' + tagName + '>';
 		} );
 
 		return data;
