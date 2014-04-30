@@ -797,6 +797,8 @@
 					} );
 				}
 
+				// Prevent Webkit/Blink from going rogue when joining
+				// blocks on BACKSPACE/DEL (#11861,#9998).
 				if ( CKEDITOR.env.webkit ) {
 					function isBlock( node ) {
 						return node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary();
@@ -826,20 +828,28 @@
 							var walker = new CKEDITOR.dom.walker( walkRange );
 
 							walker.guard = function( node, leaving ) {
-								// If stumbled upon a text node somewhere, it means
-								// that there's a place for the caret somewhere there.
-								if ( node.type != CKEDITOR.NODE_ELEMENT )
-									return false;
-
-								// Abort if entering and approached non-block element.
+								// Abort if entering and approached a non-block element.
+								// 	* If stumbled upon a text node somewhere, it means
+								//	  that there's a place for the caret there.
+								// 	* If reached inline element, then it's basically
+								//	  en of the walk.
 								if ( !leaving && !isBlock( node ) )
 									return false;
 
-								// Abort if leaving again, for the 2nd time.
+								// Abort if leaving nodes again, for the 2nd time, i.e. for
+								// BACKSPACE key and the following HTML
+								// 	<p>x</p><p>^y</p>
+								// the walker goes as follows:
+								// 	1. Leave "y"
+								// 	2. Leave <p>y</p>
+								// 	3. Enter <p>x</p>
+								// 	4. Enter "x"
+								// 	5. Leave "x" -> abort, leaving this element means
+								//	                going beyond the scope of search
 								if ( wasEntering && leaving )
 									return false;
 
-								// Check if this branch is straight (no siblings, just inheritance),
+								// Check if this DOM branch is straight (no siblings, just inheritance),
 								// so it can be cut off: when leaving (BACKSPACE) or when
 								// entering nodes (DEL).
 								if ( backspace ^ !leaving && straightBranch )
@@ -852,9 +862,8 @@
 								else if ( !firstElementEntered )
 									firstElementEntered = node;
 
-								// This flag is set to figure out the moment, when,
-								// after descending walk (leaving nodes), walker starts
-								// entering nodes, and enters descending walk back again.
+								// This flag is set to figure out the moment, when, once stopped
+								// entering nodes, walker starts leaving them back again.
 								wasEntering = !leaving;
 
 								if ( !leaving )
