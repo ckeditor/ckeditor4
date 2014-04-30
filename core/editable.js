@@ -843,6 +843,11 @@
 							while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
 								removableParent = node;
 
+							// Remove bogus to avoid duplicated boguses.
+							var bogus;
+							if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
+								bogus.remove();
+
 							// Save selection. It will be restored.
 							bookmarks = selection.createBookmarks();
 
