@@ -12,6 +12,7 @@ Fixed Issues:
 * [#11626](http://dev.ckeditor.com/ticket/11626): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) sets invalid width.
 * [#11872](http://dev.ckeditor.com/ticket/11872): Made [`element.addClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass) chainable symmetrically to [`element.removeClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass).
 * [#11813](http://dev.ckeditor.com/ticket/11813): Fixed: Link lost while pasting captioned image and restoring undo snapshot ([Enhanced Image](http://ckeditor.com/addon/image2)).
+* [#11814](http://dev.ckeditor.com/ticket/11814): Fixed: _Link_ and _Unlink_ entries persistently displayed in [Enhanced Image](http://ckeditor.com/addon/image2) context menu.
 
 Other changes:
 
