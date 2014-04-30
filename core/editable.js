@@ -800,10 +800,6 @@
 				// Prevent Webkit/Blink from going rogue when joining
 				// blocks on BACKSPACE/DEL (#11861,#9998).
 				if ( CKEDITOR.env.webkit ) {
-					function isBlock( node ) {
-						return node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary();
-					}
-
 					this.attachListener( this, 'keydown', function( evt ) {
 						var key = evt.data.getKey();
 
@@ -813,87 +809,51 @@
 						var backspace = key == 8,
 							selection = editor.getSelection(),
 							range = selection.getRanges()[ 0 ],
-							path = range.startPath();
+							startPath = range.startPath(),
+							startBlock = startPath.block;
 
-						if ( range.collapsed || !path.block ) {
-							var walkRange = range.clone(),
-								straightBranch = true,
-								wasEntering, siblingBlock, lastElementLeft, firstElementEntered;
-
-							if ( backspace )
-								walkRange.setStartAt( this, CKEDITOR.POSITION_AFTER_START );
-							else
-								walkRange.setEndAt( this, CKEDITOR.POSITION_BEFORE_END );
-
-							var walker = new CKEDITOR.dom.walker( walkRange );
-
-							walker.guard = function( node, leaving ) {
-								// Abort if entering and approached a non-block element.
-								// 	* If stumbled upon a text node somewhere, it means
-								//	  that there's a place for the caret there.
-								// 	* If reached inline element, then it's basically
-								//	  en of the walk.
-								if ( !leaving && !isBlock( node ) )
-									return false;
-
-								// Abort if leaving nodes again, for the 2nd time, i.e. for
-								// BACKSPACE key and the following HTML
-								// 	<p>x</p><p>^y</p>
-								// the walker goes as follows:
-								// 	1. Leave "y"
-								// 	2. Leave <p>y</p>
-								// 	3. Enter <p>x</p>
-								// 	4. Enter "x"
-								// 	5. Leave "x" -> abort, leaving this element means
-								//	                going beyond the scope of search
-								if ( wasEntering && leaving )
-									return false;
-
-								// Check if this DOM branch is straight (no siblings, just inheritance),
-								// so it can be cut off: when leaving (BACKSPACE) or when
-								// entering nodes (DEL).
-								if ( backspace ^ !leaving && straightBranch )
-									straightBranch = node.getChildCount() === 1;
-
-								// Record last element left (BACKSPACE).
-								if ( leaving )
-									lastElementLeft = node;
-								// Record first element entered (DEL).
-								else if ( !firstElementEntered )
-									firstElementEntered = node;
-
-								// This flag is set to figure out the moment, when, once stopped
-								// entering nodes, walker starts leaving them back again.
-								wasEntering = !leaving;
-
-								if ( !leaving )
-									siblingBlock = node;
-
-								return true;
-							};
-
-							while ( walker[ backspace ? 'previous' : 'next' ]() ) {}
-
-							// No sibling block to be merged to.
-							if ( !siblingBlock )
+						// Selection must be collapsed and to be anchored in a block.
+						if ( range.collapsed && startBlock ) {
+							// Exclude cases where, i.e. if pressed arrow key, selection
+							// would move within the same block (merge inside a block).
+							if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
 								return;
 
-							var targetBlock = backspace ? siblingBlock : path.block,
-								sourceBlock = backspace ? path.block : siblingBlock;
+							// Make sure, there's an editable position to put selection,
+							// which i.e. would be used if pressed arrow key, but abort
+							// if such position exists but means a selected element.
+							if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
+								return;
+
+							var siblingBlock = range.startPath().block;
+
+							// Abort if an editable position exists, but either it's not
+							// in a block or that block is the parent of the start block
+							// (merging child into parent).
+							if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
+								return;
+
+							var commonParent = startBlock.getCommonAncestor( siblingBlock ),
+								node = backspace ? startBlock : siblingBlock,
+								removableParent = node;
+
+							// Find an element (DOM branch), which contains the block
+							// to be merged but nothing else, so if removed, it will
+							// leave no empty parents.
+							while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
+								removableParent = node;
 
 							// Save selection. It will be restored.
 							bookmarks = selection.createBookmarks();
 
-							// Glue blocks.
-							sourceBlock.moveChildren( targetBlock, false );
+							// Merge blocks.
+							( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
 
-							if ( !path.lastElement.equals( path.block ) )
-								path.lastElement.mergeSiblings();
+							// Also merge children along with parents.
+							startPath.lastElement.mergeSiblings();
 
-							if ( straightBranch )
-								( backspace ? lastElementLeft : firstElementEntered ).remove();
-							else
-								sourceBlock.remove();
+							// Cut off removable branch of the DOM tree.
+							removableParent.remove();
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
