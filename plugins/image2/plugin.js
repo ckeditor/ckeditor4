@@ -325,7 +325,7 @@
 				// is destroyed and re-inited.
 				if ( !this.data.link ) {
 					if ( this.parts.link )
-						this.parts.link = null;
+						delete this.parts.link;
 				} else {
 					if ( !this.parts.link )
 						this.parts.link = this.parts.image.getParent();
@@ -373,10 +373,10 @@
 				// If we used 'a' in widget#parts definition, it could happen that
 				// selected element is a child of widget.parts#caption. Since there's no clever
 				// way to solve it with CSS selectors, it's done like that. (#11783).
-				this.parts.link = this.element.is( 'a' ) ?
-					this.element : this.element.getFirst( function( el ) {
-						return el.is( 'a' );
-					} );
+				var link = image.getAscendant( 'a' );
+
+				if ( link && this.wrapper.contains( link ) )
+					this.parts.link = link;
 
 				// Depending on configuration, read style/class from element and
 				// then remove it. Removed style/class will be set on wrapper in #data listener.
