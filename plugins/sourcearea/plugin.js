@@ -77,7 +77,13 @@
 				editor.getCommand( 'source' ).setState( editor.mode == 'source' ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} );
 
+			var needsFocusHack = CKEDITOR.env.ie && CKEDITOR.env.version == 9;
+
 			function onResize() {
+				// We have to do something with focus on IE9, because if sourcearea had focus
+				// before being resized, the caret ends somewhere in the editor UI (#11839).
+				var wasActive = needsFocusHack && this.equals( CKEDITOR.document.getActive() );
+
 				// Holder rectange size is stretched by textarea,
 				// so hide it just for a moment.
 				this.hide();
@@ -85,6 +91,9 @@
 				this.setStyle( 'width', this.getParent().$.clientWidth + 'px' );
 				// When we have proper holder size, show textarea again.
 				this.show();
+
+				if ( wasActive )
+					this.focus();
 			}
 		}
 	} );
