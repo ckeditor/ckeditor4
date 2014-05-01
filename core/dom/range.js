@@ -1808,7 +1808,29 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Wraps inline content found around the range's start or end boundary
+		 * with a block element.
+		 *
+		 *		// Assuming following range:
+		 *		// <h1>foo</h1>ba^r<br />bom<p>foo</p>
+		 *		// The result of executing:
+		 *		range.fixBlock( true, 'p' );
+		 *		// Will be:
+		 *		// <h1>foo</h1><p>ba^r<br />bom</p><p>foo</p>
+		 *
+		 * Non collapsed range:
+		 *
+		 *		// Assuming following range:
+		 *		// ba[r<p>foo</p>bo]m
+		 *		// The result of executing:
+		 *		range.fixBlock( false, 'p' );
+		 *		// Will be:
+		 *		// ba[r<p>foo</p><p>bo]m</p>
+		 *
+		 * @param {Boolean} [isStart=false] Whether range's start or end boundary should be checked.
+		 * @param {String} blockTag Name of a block element in which content will be wrapped.
+		 * For example `'p'`.
+		 * @returns {CKEDITOR.dom.element} Created block wrapper.
 		 */
 		fixBlock: function( isStart, blockTag ) {
 			var bookmark = this.createBookmark(),
