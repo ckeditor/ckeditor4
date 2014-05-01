@@ -125,5 +125,6 @@ figure > figcaption
 a > img {
 	padding: 1px;
 	margin: 1px;
+	border: none;
 	outline: 1px solid #0782C1;
 }
