@@ -1412,8 +1412,9 @@ CKEDITOR.dom.range = function( root ) {
 							return;
 					}
 
-
 					// Enlarging the end boundary.
+					// Set up new range and reset all flags (blockBoundary, inNonEditable, tailBr).
+
 					walkerRange = this.clone();
 					walkerRange.collapse();
 					walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
@@ -1421,9 +1422,9 @@ CKEDITOR.dom.range = function( root ) {
 
 					// tailBrGuard only used for on range end.
 					walker.guard = ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? tailBrGuard : boundaryGuard;
-					blockBoundary = null;
-					// End the range right before the block boundary node.
+					blockBoundary = inNonEditable = tailBr = null;
 
+					// End the range right before the block boundary node.
 					enlargeable = walker.lastForward();
 
 					// It's the body which stop the enlarging if no block boundary found.
