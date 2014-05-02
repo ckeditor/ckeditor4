@@ -55,9 +55,9 @@
 					callback( languageCode, this[ languageCode ] );
 				}, this );
 			} else {
-                this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
+				this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
 				callback( languageCode, this[ languageCode ] );
-            }
+			}
 		},
 
 		/**
