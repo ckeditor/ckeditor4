@@ -82,7 +82,7 @@
         var plugins = bender.editorPlugins,
             regexp;
 
-        if (!plugins) this.startRunner(tests);
+        if (!plugins) return this.startRunner(tests);
 
         if (plugins.add) CKEDITOR.config.plugins = plugins.add.join(',');
 
