@@ -3,6 +3,7 @@
         YTest = bender.Y.Test,
         i;
 
+    // override and extend assertions
     window.assert = bender.assert;
     window.arrayAssert = bender.arrayAssert;
 
@@ -11,17 +12,17 @@
             org.apply(this,
                 expected instanceof CKEDITOR.dom.node &&
                 actual instanceof CKEDITOR.dom.node ?
-                    [expected.$, actual.$, message] :
-                    arguments
+                [expected.$, actual.$, message] :
+                arguments
             );
         };
     }
 
     for (i = 0; i < overrides.length; i++) {
         bender.assert[overrides[i]] = bender.tools.override(
-                bender.assert[overrides[i]],
-                override
-            );
+            bender.assert[overrides[i]],
+            override
+        );
     }
 
     bender.assert.isMatching = function (expected, actual, message) {
@@ -29,15 +30,226 @@
         // Using regexp.test may lead to unpredictable bugs when using global flag for regexp.
         if (typeof actual != 'string' || !actual.match(expected)) {
             throw new YTest.ComparisonFailure(
-                    YTest.Assert._formatMessage(message, 'Value should match expected pattern.'),
-                    expected.toString(), actual
-                );
+                YTest.Assert._formatMessage(message, 'Value should match expected pattern.'),
+                expected.toString(), actual
+            );
         }
     };
 
+
+
+    // add support test ignore
+    YUITest.Ignore = function () {};
+
     bender.assert.ignore = function () {
-        // TODO
+        throw new YUITest.Ignore();
     };
+
+    YTest.Runner._ignoreTest = function (node) {
+        var runner = this,
+            test,
+            name;
+
+        function updateResult(testNode, testName) {
+            testNode.results[testName] = {
+                result: 'ignore',
+                message: 'Test ignored',
+                type: 'test',
+                name: testName.indexOf('ignore:') === 0 ? testName.substring(7) : testName
+            };
+
+            testNode.results.ignored++;
+            testNode.results.total++;
+
+            runner.fire({
+                type: runner.TEST_IGNORE_EVENT,
+                testCase: testNode.testObject,
+                testName: testName
+            });
+        }
+
+        if (typeof (test = node.testObject) == 'string') {
+            updateResult(node.parent, test);
+        // Ignore all tests in this whole test case
+        } else {
+            for (name in test) {
+                if (typeof test[name] == 'function' && name.match(/^test/)) {
+                    updateResult(node, name);
+                    this._next();
+                }
+            }
+        }
+    };
+
+    YTest.Runner._resumeTest = function (segment) {
+        //get relevant information
+        var node = this._cur,
+            failed = false,
+            ignored = false,
+            error = null,
+            testName, testCase, shouldFail, shouldError;
+
+        //we know there's no more waiting now
+        this._waiting = false;
+
+        //if there's no node, it probably means a wait() was called after resume()
+        if (!node) return;
+
+        testName = node.testObject;
+        testCase = node.parent.testObject;
+
+        //cancel other waits if available
+        if (testCase.__yui_wait) {
+            clearTimeout(testCase.__yui_wait);
+            delete testCase.__yui_wait;
+        }
+
+        //get the "should" test cases
+        shouldFail = testName.indexOf('fail:') === 0 ||
+            (testCase._should.fail || {})[testName];
+
+        shouldError = (testCase._should.error || {})[testName];
+
+        //try the test
+        try {
+            //run the test
+            segment.call(testCase, this._context);
+
+            //if the test hasn't already failed and doesn't have any asserts...
+            if (!YUITest.Assert._getCount() && !this._ignoreEmpty) {
+                throw new YUITest.AssertionError('Test has no asserts.');
+                //if it should fail, and it got here, then it's a fail because it didn't
+            } else if (shouldFail) {
+                error = new YUITest.ShouldFail();
+                failed = true;
+            } else if (shouldError) {
+                error = new YUITest.ShouldError();
+                failed = true;
+            }
+        } catch (thrown) {
+            //cancel any pending waits, the test already failed
+            if (testCase.__yui_wait) {
+                clearTimeout(testCase.__yui_wait);
+                delete testCase.__yui_wait;
+            }
+
+            if (thrown instanceof YUITest.Ignore) {
+                this._ignoreTest(node);
+                ignored = true;
+            } else if (thrown instanceof YUITest.AssertionError) {
+                if (!shouldFail) {
+                    error = thrown;
+                    failed = true;
+                }
+            } else if (thrown instanceof YUITest.Wait) {
+                if (typeof thrown.segment == 'function') {
+                    if (typeof thrown.delay == 'number') {
+                        //some environments don't support setTimeout
+                        if (typeof setTimeout != 'undefined') {
+                            testCase.__yui_wait = setTimeout(function () {
+                                YUITest.TestRunner._resumeTest(thrown.segment);
+                            }, thrown.delay);
+
+                            this._waiting = true;
+                        } else {
+                            throw new Error('Asynchronous tests not supported in this environment.');
+                        }
+                    }
+                }
+
+                return;
+            } else {
+                //first check to see if it should error
+                if (!shouldError) {
+                    error = new YUITest.UnexpectedError(thrown);
+                    failed = true;
+                } else if (typeof shouldError == 'string' &&
+                    thrown.message != shouldError) {
+                    error = new YUITest.UnexpectedError(thrown);
+                    failed = true;
+                } else if (typeof shouldError == 'function' && !(thrown instanceof shouldError)) {
+                    error = new YUITest.UnexpectedError(thrown);
+                    failed = true;
+                } else if (typeof shouldError == 'object' && shouldError !== null && !(thrown instanceof shouldError.constructor) ||
+                    thrown.message != shouldError.message) {
+                    error = new YUITest.UnexpectedError(thrown);
+                    failed = true;
+                }
+            }
+        }
+
+        if (!ignored) {
+            //fire appropriate event
+            this.fire({
+                type: failed ? this.TEST_FAIL_EVENT : this.TEST_PASS_EVENT,
+                testCase: testCase,
+                testName: testName,
+                error: failed ? error : undefined
+            });
+
+            //run the tear down
+            this._execNonTestMethod(node.parent, 'tearDown', false);
+
+            //reset the assert count
+            YUITest.Assert._reset();
+
+            //update results
+            node.parent.results[testName] = {
+                result: failed ? 'fail' : 'pass',
+                message: error ? error.getMessage() : 'Test passed',
+                type: 'test',
+                name: testName,
+                duration: new Date() - node._start
+            };
+
+            if (failed) node.parent.results.failed++;
+            else node.parent.results.passed++;
+            node.parent.results.total++;
+        }
+
+        //set timeout not supported in all environments
+        if (typeof setTimeout != 'undefined') {
+            setTimeout(function () {
+                YUITest.TestRunner._run();
+            });
+        } else {
+            this._run();
+        }
+
+    };
+
+    YTest.Runner._execNonTestMethod = function (node, methodName, allowAsync) {
+        var testObject = node.testObject,
+            event = { type: this.ERROR_EVENT };
+
+        try {
+            if (allowAsync && testObject["async:" + methodName]) {
+                testObject["async:" + methodName](this._context);
+                return true;
+            } else {
+                testObject[methodName](this._context);
+            }
+        } catch (ex) {
+            if (ex instanceof YUITest.Ignore) {
+                this._ignoreTest(node);
+            } else {
+                node.results.errors++;
+                event.error = ex;
+                event.methodName = methodName;
+                if (testObject instanceof YUITest.TestCase) {
+                    event.testCase = testObject;
+                } else {
+                    event.testSuite = testSuite;
+                }
+
+                this.fire(event);
+            }
+        }
+
+        return false;
+    };
+
+
 
     if (typeof CKEDITOR != 'undefined') {
         CKEDITOR.replaceClass = false;
