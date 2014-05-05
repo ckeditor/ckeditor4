@@ -79,15 +79,35 @@
     };
 
     bender.test = function (tests) {
-        if (bender.editorPlugins) {
-            CKEDITOR.config.plugins = bender.editorPlugins.join(',');
-            // TODO plugin removal
-            CKEDITOR.plugins.load(bender.editorPlugins, function () {
-                if (tests) bender.startRunner(tests);
-            });
-        } else {
-            this.startRunner(tests);
+        var plugins = bender.editorPlugins,
+            regexp;
+
+        if (!plugins) this.startRunner(tests);
+
+        if (plugins.add) CKEDITOR.config.plugins = plugins.add.join(',');
+
+        if (plugins.remove) {
+            CKEDITOR.config.removePlugins = plugins.remove.join(',');
+
+            regexp = new RegExp('(?:^|,)(' + plugins.remove.join('|') + ')(?:$|,)', 'g');
+
+            CKEDITOR.config.plugins = CKEDITOR.config.plugins
+                .replace(regexp, '')
+                .replace(/,+/g, ',')
+                .replace(/^,|,$/g, '');
+
+            if (plugins.add) {
+                plugins.add = plugins.add.join(',')
+                    .replace(regexp, '')
+                    .replace(/,+/g, ',')
+                    .replace(/^,|,$/g, '')
+                    .split(',');
+            }
         }
+
+        CKEDITOR.plugins.load(plugins.add, function () {
+            if (tests) bender.startRunner(tests);
+        });
     };
 
     bender.startRunner = function (tests) {
