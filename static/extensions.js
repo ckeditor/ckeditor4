@@ -325,6 +325,23 @@
     bender.startRunner = function (tests) {
         if (!tests.name) tests.name = document.title;
 
+        function handleRegressions() {
+            var testId = window.location.pathname.replace('/tests/', ''),
+                tc = bender.testCase,
+                condition,
+                name;
+
+            for (name in tc) {
+                // ignore a test
+                if (typeof tc[name] == 'function' && name.match(/^test/) &&
+                    (condition = bender.regressions[testId + '#' + name]) &&
+                    eval(condition.replace(/env/g, 'CKEDITOR.env'))) {
+                    tc['ignore:' + name] = tc[name];
+                    delete tc[name];
+                }
+            }
+        }
+
         function startRunner() {
             // catch exceptions
             if (bender.editor) {
@@ -345,6 +362,8 @@
 
             bender.testCase = new YTest.Case(tests);
             bender.testCase.callback = bender.testCase.callback(); //yeah... that's lovely ^_^
+
+            if (bender.regressions) handleRegressions();
 
             bender.runner.add(bender.testCase);
             bender.runner.run();
