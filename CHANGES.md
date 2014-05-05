@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#11223](http://dev.ckeditor.com/ticket/11223): Fixeed issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the title element.
 * [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin from required in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
 * [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when contents contains not closed attributes.
 * [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
