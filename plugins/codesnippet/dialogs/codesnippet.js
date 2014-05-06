@@ -10,7 +10,6 @@
 		var snippetLangs = editor._.codesnippet.langs,
 			lang = editor.lang.codesnippet,
 			clientHeight = document.documentElement.clientHeight,
-			tabulationString = editor.config.codesnippet_tabulation || '    ',
 			langSelectItems = [],
 			langSelectDefaultValue,
 			snippetLangId;
