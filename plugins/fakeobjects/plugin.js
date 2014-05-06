@@ -64,8 +64,11 @@
 			var dataProcessor = editor.dataProcessor,
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
-			if ( htmlFilter )
-				htmlFilter.addRules( htmlFilterRules );
+			if ( htmlFilter ) {
+				htmlFilter.addRules( htmlFilterRules, {
+					applyToAll: true
+				} );
+			}
 		}
 	} );
 
