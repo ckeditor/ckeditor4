@@ -16,6 +16,7 @@ Fixed Issues:
 * [#11814](http://dev.ckeditor.com/ticket/11814): Fixed: _Link_ and _Unlink_ entries persistently displayed in [Enhanced Image](http://ckeditor.com/addon/image2) context menu.
 * [#11839](http://dev.ckeditor.com/ticket/11839): Fixed: [IE9] Caret jumps out of editable when resizing editor in source mode.
 * [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
+* [#11822](http://dev.ckeditor.com/ticket/11822): Fixed: [Webkit] Anchors editing by double click broken in some cases.
 
 Other changes:
 
