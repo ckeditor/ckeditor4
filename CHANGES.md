@@ -18,6 +18,7 @@ Fixed Issues:
 * [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 * [#11822](http://dev.ckeditor.com/ticket/11822): Fixed: [Webkit] Anchors editing by double click broken in some cases.
 * [#11823](http://dev.ckeditor.com/ticket/11823): [IE8] Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) throws error over scrollbar.
+* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to undefined in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
 
 Other changes:
 
