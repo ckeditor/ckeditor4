@@ -19,6 +19,39 @@
  *		// Delete the contents.
  *		range.deleteContents();
  *
+ * Usually you will want to work on a ranges rooted in the editor's {@link CKEDITOR.editable editable}
+ * element. Such ranges can be created with a shorthand method &ndash; {@link CKEDITOR.editor#createRange editor.createRange}.
+ *
+ *		var range = editor.createRange();
+ *		range.root.equals( editor.editable() ); // -> true
+ *
+ * Note that the {@link #root} of a range is an important property, which limits many
+ * algorithms implemented in range's methods. Therefore it is crucial, especially
+ * when using ranges inside inline editors, to specify correct root, so using
+ * the {@link CKEDITOR.editor#createRange} method is highly recommended.
+ *
+ * ### Selection
+ *
+ * Range is only a logical representation of a piece of content in a DOM. It should not
+ * be confused with a {@link CKEDITOR.dom.selection selection} which represents "physically
+ * marked" content. It is possible to create unlimited number of various ranges, when
+ * only one real selection may exist at a time in a document. Ranges are used to read position
+ * of selection in the DOM and to move selection to new positions.
+ *
+ * The editor selection may be retrieved using the {@link CKEDITOR.editor#getSelection} method:
+ *
+ *		var sel = editor.getSelection(),
+ *			ranges = sel.getRange(); // CKEDITOR.dom.rangeList instance.
+ *
+ *		var range = ranges[ 0 ];
+ *		range.root; // -> editor's editable element.
+ *
+ * A range can also be selected:
+ *
+ *		var range = editor.createRange();
+ *		range.selectNodeContents( editor.editable() );
+ *		sel.selectRanges( [ range ] );
+ *
  * @class
  * @constructor Creates a {@link CKEDITOR.dom.range} instance that can be used inside a specific DOM Document.
  * @param {CKEDITOR.dom.document/CKEDITOR.dom.element} root The document or element
@@ -1543,7 +1576,18 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Moves the range to given position according to specified node.
+		 *
+		 *		// HTML: <p>Foo <b>bar</b></p>
+		 *		range.moveToPosition( elB, CKEDITOR.POSITION_BEFORE_START );
+		 *		// Range will be moved to: <p>Foo ^<b>bar</b></p>
+		 *
+		 * See also {@link #setStartAt} and {@link #setEndAt}.
+		 *
+		 * @param {CKEDITOR.dom.node} node The node according to which position will be set.
+		 * @param {Number} position One of {@link CKEDITOR#POSITION_BEFORE_START},
+		 * {@link CKEDITOR#POSITION_AFTER_START}, {@link CKEDITOR#POSITION_BEFORE_END},
+		 * {@link CKEDITOR#POSITION_AFTER_END}.
 		 */
 		moveToPosition: function( node, position ) {
 			this.setStartAt( node, position );
@@ -1551,7 +1595,9 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Moves the range to the exact position of the specified range.
+		 *
+		 * @param {CKEDITOR.dom.range} range
 		 */
 		moveToRange: function( range ) {
 			this.setStart( range.startContainer, range.startOffset );
@@ -1627,35 +1673,75 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Sets start of this range after the specified node.
+		 *
+		 *		// Range: <p>foo<b>bar</b>^</p>
+		 *		range.setStartAfter( textFoo );
+		 *		// The range will be changed to:
+		 *		// <p>foo[<b>bar</b>]</p>
+		 *
+		 * @param {CKEDITOR.dom.node} node
 		 */
 		setStartAfter: function( node ) {
 			this.setStart( node.getParent(), node.getIndex() + 1 );
 		},
 
 		/**
-		 * @todo
+		 * Sets start of this range after the specified node.
+		 *
+		 *		// Range: <p>foo<b>bar</b>^</p>
+		 *		range.setStartBefore( elB );
+		 *		// The range will be changed to:
+		 *		// <p>foo[<b>bar</b>]</p>
+		 *
+		 * @param {CKEDITOR.dom.node} node
 		 */
 		setStartBefore: function( node ) {
 			this.setStart( node.getParent(), node.getIndex() );
 		},
 
 		/**
-		 * @todo
+		 * Sets end of this range after the specified node.
+		 *
+		 *		// Range: <p>foo^<b>bar</b></p>
+		 *		range.setEndAfter( elB );
+		 *		// The range will be changed to:
+		 *		// <p>foo[<b>bar</b>]</p>
+		 *
+		 * @param {CKEDITOR.dom.node} node
 		 */
 		setEndAfter: function( node ) {
 			this.setEnd( node.getParent(), node.getIndex() + 1 );
 		},
 
 		/**
-		 * @todo
+		 * Sets end of this range before the specified node.
+		 *
+		 *		// Range: <p>^foo<b>bar</b></p>
+		 *		range.setStartAfter( textBar );
+		 *		// The range will be changed to:
+		 *		// <p>[foo<b>]bar</b></p>
+		 *
+		 * @param {CKEDITOR.dom.node} node
 		 */
 		setEndBefore: function( node ) {
 			this.setEnd( node.getParent(), node.getIndex() );
 		},
 
 		/**
-		 * @todo
+		 * Moves the start of this range to given position according to specified node.
+		 *
+		 *		// HTML: <p>Foo <b>bar</b>^</p>
+		 *		range.setStartAt( elB, CKEDITOR.POSITION_AFTER_START );
+		 *		// The range will be changed to:
+		 *		// <p>Foo <b>[bar</b>]</p>
+		 *
+		 * See also {@link #setEndAt} and {@link #moveToPosition}.
+		 *
+		 * @param {CKEDITOR.dom.node} node The node according to which position will be set.
+		 * @param {Number} position One of {@link CKEDITOR#POSITION_BEFORE_START},
+		 * {@link CKEDITOR#POSITION_AFTER_START}, {@link CKEDITOR#POSITION_BEFORE_END},
+		 * {@link CKEDITOR#POSITION_AFTER_END}.
 		 */
 		setStartAt: function( node, position ) {
 			switch ( position ) {
@@ -1682,7 +1768,19 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Moves the end of this range to given position according to specified node.
+		 *
+		 *		// HTML: <p>^Foo <b>bar</b></p>
+		 *		range.setEndAt( textBar, CKEDITOR.POSITION_BEFORE_START );
+		 *		// The range will be changed to:
+		 *		// <p>[Foo <b>]bar</b></p>
+		 *
+		 * See also {@link #setStartAt} and {@link #moveToPosition}.
+		 *
+		 * @param {CKEDITOR.dom.node} node The node according to which position will be set.
+		 * @param {Number} position One of {@link CKEDITOR#POSITION_BEFORE_START},
+		 * {@link CKEDITOR#POSITION_AFTER_START}, {@link CKEDITOR#POSITION_BEFORE_END},
+		 * {@link CKEDITOR#POSITION_AFTER_END}.
 		 */
 		setEndAt: function( node, position ) {
 			switch ( position ) {
@@ -2340,10 +2438,77 @@ CKEDITOR.dom.range = function( root ) {
 	};
 } )();
 
-CKEDITOR.POSITION_AFTER_START = 1; // <element>^contents</element>		"^text"
-CKEDITOR.POSITION_BEFORE_END = 2; // <element>contents^</element>		"text^"
-CKEDITOR.POSITION_BEFORE_START = 3; // ^<element>contents</element>		^"text"
-CKEDITOR.POSITION_AFTER_END = 4; // <element>contents</element>^		"text"
+/**
+ * Indicates a position after start of a node.
+ *
+ *		// When used according to an element:
+ *		// <element>^contents</element>
+ *
+ *		// When used according to a text node:
+ *		// "^text" (range is anchored in the text node)
+ *
+ * It is used as a parameter of methods like: {@link CKEDITOR.dom.range#moveToPosition},
+ * {@link CKEDITOR.dom.range#setStartAt} and {@link CKEDITOR.dom.range#setEndAt}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=1]
+ */
+CKEDITOR.POSITION_AFTER_START = 1;
+
+/**
+ * Indicates a position before end of a node.
+ *
+ *		// When used according to an element:
+ *		// <element>contents^</element>
+ *
+ *		// When used according to a text node:
+ *		// "text^" (range is anchored in the text node)
+ *
+ * It is used as a parameter of methods like: {@link CKEDITOR.dom.range#moveToPosition},
+ * {@link CKEDITOR.dom.range#setStartAt} and {@link CKEDITOR.dom.range#setEndAt}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=2]
+ */
+CKEDITOR.POSITION_BEFORE_END = 2;
+
+/**
+ * Indicates a position before start of a node.
+ *
+ *		// When used according to an element:
+ *		// ^<element>contents</element> (range is anchored in element's parent)
+ *
+ *		// When used according to a text node:
+ *		// ^"text" (range is anchored in text node's parent)
+ *
+ * It is used as a parameter of methods like: {@link CKEDITOR.dom.range#moveToPosition},
+ * {@link CKEDITOR.dom.range#setStartAt} and {@link CKEDITOR.dom.range#setEndAt}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=3]
+ */
+CKEDITOR.POSITION_BEFORE_START = 3;
+
+/**
+ * Indicates a position after end of a node.
+ *
+ *		// When used according to an element:
+ *		// <element>contents</element>^ (range is anchored in element's parent)
+ *
+ *		// When used according to a text node:
+ *		// "text"^ (range is anchored in text node's parent)
+ *
+ * It is used as a parameter of methods like: {@link CKEDITOR.dom.range#moveToPosition},
+ * {@link CKEDITOR.dom.range#setStartAt} and {@link CKEDITOR.dom.range#setEndAt}.
+ *
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=4]
+ */
+CKEDITOR.POSITION_AFTER_END = 4;
 
 CKEDITOR.ENLARGE_ELEMENT = 1;
 CKEDITOR.ENLARGE_BLOCK_CONTENTS = 2;
