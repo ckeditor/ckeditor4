@@ -420,6 +420,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
 
 /**
  * Restricts languages available in the "Code Snippet" dialog window.
+ * Node that the empty value is always added to the list.
  *
  * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
