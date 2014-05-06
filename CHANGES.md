@@ -17,6 +17,7 @@ Fixed Issues:
 * [#11839](http://dev.ckeditor.com/ticket/11839): Fixed: [IE9] Caret jumps out of editable when resizing editor in source mode.
 * [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 * [#11822](http://dev.ckeditor.com/ticket/11822): Fixed: [Webkit] Anchors editing by double click broken in some cases.
+* [#11823](http://dev.ckeditor.com/ticket/11823): [IE8] Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) throws error over scrollbar.
 
 Other changes:
 

@@ -356,8 +356,17 @@
 				var resizer,
 					editable = editor.editable();
 
+				// In Classic editor it is better to use document
+				// instead of editable so event will work below body.
 				editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
 					evt = evt.data;
+
+					var target = evt.getTarget();
+
+					// FF may return document and IE8 some UFO (object with no nodeType property...)
+					// instead of an element (#11823).
+					if ( target.type != CKEDITOR.NODE_ELEMENT )
+						return;
 
 					var pageX = evt.getPageOffset().x;
 
@@ -369,8 +378,7 @@
 					}
 
 					// Considering table, tr, td, tbody but nothing else.
-					var target = evt.getTarget(),
-						table, pillars;
+					var table, pillars;
 
 					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
 						return;
