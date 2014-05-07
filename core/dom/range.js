@@ -1412,8 +1412,9 @@ CKEDITOR.dom.range = function( root ) {
 							return;
 					}
 
-
 					// Enlarging the end boundary.
+					// Set up new range and reset all flags (blockBoundary, inNonEditable, tailBr).
+
 					walkerRange = this.clone();
 					walkerRange.collapse();
 					walkerRange.setEndAt( boundary, CKEDITOR.POSITION_BEFORE_END );
@@ -1421,9 +1422,9 @@ CKEDITOR.dom.range = function( root ) {
 
 					// tailBrGuard only used for on range end.
 					walker.guard = ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) ? tailBrGuard : boundaryGuard;
-					blockBoundary = null;
-					// End the range right before the block boundary node.
+					blockBoundary = inNonEditable = tailBr = null;
 
+					// End the range right before the block boundary node.
 					enlargeable = walker.lastForward();
 
 					// It's the body which stop the enlarging if no block boundary found.
@@ -1807,7 +1808,29 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * @todo
+		 * Wraps inline content found around the range's start or end boundary
+		 * with a block element.
+		 *
+		 *		// Assuming following range:
+		 *		// <h1>foo</h1>ba^r<br />bom<p>foo</p>
+		 *		// The result of executing:
+		 *		range.fixBlock( true, 'p' );
+		 *		// Will be:
+		 *		// <h1>foo</h1><p>ba^r<br />bom</p><p>foo</p>
+		 *
+		 * Non collapsed range:
+		 *
+		 *		// Assuming following range:
+		 *		// ba[r<p>foo</p>bo]m
+		 *		// The result of executing:
+		 *		range.fixBlock( false, 'p' );
+		 *		// Will be:
+		 *		// ba[r<p>foo</p><p>bo]m</p>
+		 *
+		 * @param {Boolean} [isStart=false] Whether range's start or end boundary should be checked.
+		 * @param {String} blockTag Name of a block element in which content will be wrapped.
+		 * For example `'p'`.
+		 * @returns {CKEDITOR.dom.element} Created block wrapper.
 		 */
 		fixBlock: function( isStart, blockTag ) {
 			var bookmark = this.createBookmark(),

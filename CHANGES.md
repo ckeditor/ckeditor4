@@ -20,6 +20,7 @@ Fixed Issues:
 * [#11823](http://dev.ckeditor.com/ticket/11823): Fixed: [IE8] [Table Resize](http://ckeditor.com/addon/tableresize) throws error over scrollbar.
 * [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to undefined in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
 * [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: [Filter](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied inside elements with `contenteditable` attribute set to `true`.
+* [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting non-editable element inside a table cell breaks the table badly.
 
 Other changes:
 
