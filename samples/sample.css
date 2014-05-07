@@ -358,3 +358,8 @@ img.left {
 	margin-right: 15px;
 	padding: 5px;
 }
+
+.marker
+{
+	background-color: Yellow;
+}
