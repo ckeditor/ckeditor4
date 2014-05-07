@@ -757,8 +757,12 @@
 
 		/**
 		 * Whether JavaScript code is allowed as a `href` attribute in anchor tag.
+		 * With this option enabled it is possible to create links like:
 		 *
 		 *		<a href="javascript:alert('Hello world!')">hello world</a>
+		 *
+		 * By default JavaScript links are not allowed and will not pass
+		 * the dialog validation.
 		 *
 		 * @cfg {Boolean} [linkJavaScriptLinksAllowed=false]
 		 * @member CKEDITOR.config
