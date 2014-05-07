@@ -823,7 +823,7 @@
 
 						// Make sure, there's an editable position to put selection,
 						// which i.e. would be used if pressed arrow key, but abort
-						// if such position exists but means a selected element.
+						// if such position exists but means a selected non-editable element.
 						if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
 							return;
 
