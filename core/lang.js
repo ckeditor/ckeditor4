@@ -49,15 +49,16 @@
 			if ( !languageCode || !CKEDITOR.lang.languages[ languageCode ] )
 				languageCode = this.detect( defaultLanguage, languageCode );
 
-			if ( !this[ languageCode ] ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), function() {
-					this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
-					callback( languageCode, this[ languageCode ] );
-				}, this );
-			} else {
-				this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
-				callback( languageCode, this[ languageCode ] );
-			}
+			var that = this,
+				loadedCallback = function() {
+					that[ languageCode ].dir = that.rtl[ languageCode ] ? 'rtl' : 'ltr';
+					callback( languageCode, that[ languageCode ] );
+				};
+
+			if ( !this[ languageCode ] )
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), loadedCallback, this );
+			else
+				loadedCallback();
 		},
 
 		/**
