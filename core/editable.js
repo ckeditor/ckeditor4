@@ -833,6 +833,8 @@
 							if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
 								return;
 
+							editor.fire( 'saveSnapshot' );
+
 							var commonParent = startBlock.getCommonAncestor( siblingBlock ),
 								node = backspace ? startBlock : siblingBlock,
 								removableParent = node;
@@ -862,6 +864,8 @@
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
+
+							editor.fire( 'saveSnapshot' );
 
 							return false;
 						}
