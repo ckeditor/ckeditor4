@@ -853,7 +853,7 @@
 							bogus.remove();
 
 						// Save selection. It will be restored.
-						bookmarks = selection.createBookmarks();
+						var bookmarks = selection.createBookmarks();
 
 						// Merge blocks.
 						( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
