@@ -813,62 +813,63 @@
 							startBlock = startPath.block;
 
 						// Selection must be collapsed and to be anchored in a block.
-						if ( range.collapsed && startBlock ) {
-							// Exclude cases where, i.e. if pressed arrow key, selection
-							// would move within the same block (merge inside a block).
-							if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
-								return;
+						if ( !range.collapsed || !startBlock )
+							return;
 
-							// Make sure, there's an editable position to put selection,
-							// which i.e. would be used if pressed arrow key, but abort
-							// if such position exists but means a selected element.
-							if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
-								return;
+						// Exclude cases where, i.e. if pressed arrow key, selection
+						// would move within the same block (merge inside a block).
+						if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
+							return;
 
-							var siblingBlock = range.startPath().block;
+						// Make sure, there's an editable position to put selection,
+						// which i.e. would be used if pressed arrow key, but abort
+						// if such position exists but means a selected element.
+						if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
+							return;
 
-							// Abort if an editable position exists, but either it's not
-							// in a block or that block is the parent of the start block
-							// (merging child into parent).
-							if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
-								return;
+						var siblingBlock = range.startPath().block;
 
-							editor.fire( 'saveSnapshot' );
+						// Abort if an editable position exists, but either it's not
+						// in a block or that block is the parent of the start block
+						// (merging child into parent).
+						if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
+							return;
 
-							var commonParent = startBlock.getCommonAncestor( siblingBlock ),
-								node = backspace ? startBlock : siblingBlock,
-								removableParent = node;
+						editor.fire( 'saveSnapshot' );
 
-							// Find an element (DOM branch), which contains the block
-							// to be merged but nothing else, so if removed, it will
-							// leave no empty parents.
-							while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
-								removableParent = node;
+						var commonParent = startBlock.getCommonAncestor( siblingBlock ),
+							node = backspace ? startBlock : siblingBlock,
+							removableParent = node;
 
-							// Remove bogus to avoid duplicated boguses.
-							var bogus;
-							if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
-								bogus.remove();
+						// Find an element (DOM branch), which contains the block
+						// to be merged but nothing else, so if removed, it will
+						// leave no empty parents.
+						while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
+							removableParent = node;
 
-							// Save selection. It will be restored.
-							bookmarks = selection.createBookmarks();
+						// Remove bogus to avoid duplicated boguses.
+						var bogus;
+						if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
+							bogus.remove();
 
-							// Merge blocks.
-							( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
+						// Save selection. It will be restored.
+						bookmarks = selection.createBookmarks();
 
-							// Also merge children along with parents.
-							startPath.lastElement.mergeSiblings();
+						// Merge blocks.
+						( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
 
-							// Cut off removable branch of the DOM tree.
-							removableParent.remove();
+						// Also merge children along with parents.
+						startPath.lastElement.mergeSiblings();
 
-							// Restore selection.
-							selection.selectBookmarks( bookmarks );
+						// Cut off removable branch of the DOM tree.
+						removableParent.remove();
 
-							editor.fire( 'saveSnapshot' );
+						// Restore selection.
+						selection.selectBookmarks( bookmarks );
 
-							return false;
-						}
+						editor.fire( 'saveSnapshot' );
+
+						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
 			}
