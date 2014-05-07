@@ -18,6 +18,14 @@ input, textarea, select, option, optgroup, button, td, th
 	font-size: 100%;
 }
 
+pre
+{
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	-webkit-tab-size: 4;
+	tab-size: 4;
+}
+
 pre, code, kbd, samp, tt
 {
 	font-family: monospace,monospace;
@@ -165,10 +173,6 @@ pre.samples
 	padding: 0.25em;
 	white-space: pre-wrap; /* CSS 2.1 */
 	word-wrap: break-word; /* IE7 */
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	-webkit-tab-size: 4;
-	tab-size: 4;
 }
 
 #footer
