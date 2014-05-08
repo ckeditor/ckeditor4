@@ -985,7 +985,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	hasAttribute: ( function() {
 		function standard( name ) {
 			var $attr = this.$.attributes.getNamedItem( name );
-			return !!( $attr && $attr.specified );
+
+			if ( !$attr )
+				return false;
+			else if ( CKEDITOR.env.ie )
+				return $attr.specified;
+			else {
+				// On other browsers specified property is deprecated and return always true,
+				// but fortunately $.attributes contains only specified attributes.
+				return true;
+			}
 		}
 
 		return ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) ?
@@ -1668,8 +1677,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 
 			if ( attrName == 'checked' && ( attrValue = this.getAttribute( attrName ) ) )
 				dest.setAttribute( attrName, attrValue );
-			// IE BUG: value attribute is never specified even if it exists.
-			else if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attrName == 'value' ) ) {
+			// IE contains not specified attributes in $.attributes so we need to check
+			// if elements attribute is specified using hasAttribute.
+			else if ( !CKEDITOR.env.ie || this.hasAttribute( attrName ) ) {
 				attrValue = this.getAttribute( attrName );
 				if ( attrValue === null )
 					attrValue = attribute.nodeValue;

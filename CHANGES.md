@@ -25,6 +25,7 @@ Fixed Issues:
 Other changes:
 
 * [#11807](http://dev.ckeditor.com/ticket/11807): Updated jQuery version used in sample to 1.11.0 and tested CKEditor jQuery adapter with version 1.11.0 and 2.1.0.
+* [#9504](http://dev.ckeditor.com/ticket/9504): Stop using deprecated attribute.specified on all browsers except IE.
 
 ## CKEditor 4.4
 
