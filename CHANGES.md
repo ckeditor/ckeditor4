@@ -21,6 +21,7 @@ Fixed Issues:
 * [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to undefined in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
 * [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: [Filter](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied inside elements with `contenteditable` attribute set to `true`.
 * [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting non-editable element inside a table cell breaks the table badly.
+* [#11793](http://dev.ckeditor.com/ticket/11793): Fixed: Drop down is not "on" when clicking it while editor is blurred.
 
 Other changes:
 
