@@ -764,6 +764,7 @@
 		 * By default JavaScript links are not allowed and will not pass
 		 * the dialog validation.
 		 *
+		 * @since 4.4.1
 		 * @cfg {Boolean} [linkJavaScriptLinksAllowed=false]
 		 * @member CKEDITOR.config
 		 */
