@@ -636,7 +636,10 @@
 					if ( editor.readOnly )
 						return true;
 
-					var keyCode = evt.data.keyCode, isHandled;
+					// Use getKey directly in order to ignore modifiers.
+					// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+					var keyCode = evt.data.domEvent.getKey(),
+						isHandled;
 
 					// Backspace OR Delete.
 					if ( keyCode in backspaceOrDelete ) {
