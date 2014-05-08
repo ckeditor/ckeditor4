@@ -848,7 +848,9 @@
 
 			// Handled backspace/del key to join list items. (#8248,#9080)
 			editor.on( 'key', function( evt ) {
-				var key = evt.data.keyCode;
+				// Use getKey directly in order to ignore modifiers.
+				// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+				var key = evt.data.domEvent.getKey();
 
 				// DEl/BACKSPACE
 				if ( editor.mode == 'wysiwyg' && key in { 8: 1, 46: 1 } ) {
