@@ -832,6 +832,18 @@
 						if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
 							return;
 
+						// Handle special case, when block's sibling is a <hr>. Delete it and keep selection
+						// in the same place (http://dev.ckeditor.com/ticket/11861#comment:9).
+						if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+							var touched = range.startContainer.getChild( range.startOffset - ( backspace ? 1 : 0 ) );
+							if ( touched && touched.type  == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
+								editor.fire( 'saveSnapshot' );
+								touched.remove();
+								editor.fire( 'saveSnapshot' );
+								return false;
+							}
+						}
+
 						var siblingBlock = range.startPath().block;
 
 						// Abort if an editable position exists, but either it's not
