@@ -273,7 +273,8 @@
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 		var codeClass = editor.config.codeSnippet_codeClass,
-			newLineRegex = /\r?\n/g;
+			newLineRegex = /\r?\n/g,
+			textarea = new CKEDITOR.dom.element( 'textarea' );
 
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
@@ -351,7 +352,9 @@
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
-				data.code = code.getHtml();
+				// Use textarea to decode HTML entities (#11926).
+				textarea.setHtml( code.getHtml() );
+				data.code = textarea.getValue();
 
 				code.addClass( codeClass );
 
