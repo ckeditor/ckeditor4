@@ -160,13 +160,13 @@
          * @param [callback]
          * @example
          * // Use inside of test.
-         * bender.tools.resetFocus(function (){
+         * bender.tools.resetFocus(function(){
          *   bender.tools.focus(...);
          * });
          * // Used as asynchronous setup method.
          * {
          *  async:setUp : bender.tools.resetFocus,
-         *  testXXX : function (){...}
+         *  testXXX : function(){...}
          * }
          */
         resetFocus: function (callback) {
@@ -271,7 +271,7 @@
          * </textarea>
          *
          * // Then test will look like:
-         * bender.testInputOut( 'sample1', function ( input, output ){ ...test and assertion... });
+         * bender.testInputOut( 'sample1', function( input, output ){ ...test and assertion... });
          */
         testInputOut: function (playground, fn) {
             var source = bender.tools.getValueAsHtml(playground).split('=>'),
@@ -307,15 +307,15 @@
          * @example
          * var example =
          * {
-         *     myFunction : function ( name )
+         *     myFunction : function( name )
          *     {
          *         alert( 'Name: ' + name );
          *     }
          * };
          *
-         * example.myFunction = bender.tools.override( example.myFunction, function ( myFunctionOriginal )
+         * example.myFunction = bender.tools.override( example.myFunction, function( myFunctionOriginal )
          *     {
-         *         return function ( name )
+         *         return function( name )
          *             {
          *                 alert( 'Override Name: ' + name );
          *                 myFunctionOriginal.call( this, name );
@@ -331,11 +331,11 @@
          * to revert the replacement.
          *
          *      var example = {
-         *          foo: function () {
+         *          foo: function() {
          *          }
          *      };
          *
-         *      var revert = bender.tools.replaceMethod( example, 'foo', function () {
+         *      var revert = bender.tools.replaceMethod( example, 'foo', function() {
          *          assert.something();
          *      } );
          *
@@ -453,15 +453,15 @@
             function replaceWithBookmark(match, startOrEnd) {
                 var bookmark;
                 switch (startOrEnd) {
-                    case 'S':
-                        bookmark = '[';
-                        break;
-                    case 'E':
-                        bookmark = ']';
-                        break;
-                    case 'C':
-                        bookmark = '^';
-                        break;
+                case 'S':
+                    bookmark = '[';
+                    break;
+                case 'E':
+                    bookmark = ']';
+                    break;
+                case 'C':
+                    bookmark = '^';
+                    break;
                 }
                 return bookmark;
             }
@@ -583,15 +583,15 @@
             function replaceWithBookmark(match, startOrEnd) {
                 var bookmark;
                 switch (startOrEnd) {
-                    case 'S':
-                        bookmark = '[';
-                        break;
-                    case 'E':
-                        bookmark = ']';
-                        break;
-                    case 'C':
-                        bookmark = '^';
-                        break;
+                case 'S':
+                    bookmark = '[';
+                    break;
+                case 'E':
+                    bookmark = ']';
+                    break;
+                case 'C':
+                    bookmark = '^';
+                    break;
                 }
                 return bookmark;
             }
@@ -632,11 +632,13 @@
          */
         recordEvents: function (editor, events) {
             var i,
-                fired = [];
+                fired = [],
+                paused = false;
 
             for (i = 0; i < events.length; ++i) {
                 editor.on(events[i], function (evt) {
-                    fired.push(evt.name);
+                    if (!paused)
+                        fired.push(evt.name);
                 }, null, null, -100);
             }
 
@@ -647,6 +649,10 @@
 
                 reset: function () {
                     fired = [];
+                },
+
+                pause: function () {
+                    paused = true;
                 }
             };
         },
