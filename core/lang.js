@@ -4,8 +4,6 @@
  */
 
 ( function() {
-	var loadedLangs = {};
-
 	/**
 	 * Stores language-related functions.
 	 *
@@ -16,7 +14,7 @@
 		/**
 		 * The list of languages available in the editor core.
 		 *
-		 *		alert( CKEDITOR.lang.en ); // 1
+		 *		alert( CKEDITOR.lang.languages.en ); // 1
 		 */
 		languages: { af: 1, ar: 1, bg: 1, bn: 1, bs: 1, ca: 1, cs: 1, cy: 1, da: 1, de: 1, el: 1,
 			'en-au': 1, 'en-ca': 1, 'en-gb': 1, en: 1, eo: 1, es: 1, et: 1, eu: 1, fa: 1, fi: 1, fo: 1,
@@ -49,13 +47,16 @@
 			if ( !languageCode || !CKEDITOR.lang.languages[ languageCode ] )
 				languageCode = this.detect( defaultLanguage, languageCode );
 
-			if ( !this[ languageCode ] ) {
-				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), function() {
-					this[ languageCode ].dir = this.rtl[ languageCode ] ? 'rtl' : 'ltr';
-					callback( languageCode, this[ languageCode ] );
-				}, this );
-			} else
-				callback( languageCode, this[ languageCode ] );
+			var that = this,
+				loadedCallback = function() {
+					that[ languageCode ].dir = that.rtl[ languageCode ] ? 'rtl' : 'ltr';
+					callback( languageCode, that[ languageCode ] );
+				};
+
+			if ( !this[ languageCode ] )
+				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( 'lang/' + languageCode + '.js' ), loadedCallback, this );
+			else
+				loadedCallback();
 		},
 
 		/**
