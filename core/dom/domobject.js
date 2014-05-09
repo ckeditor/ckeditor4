@@ -179,6 +179,8 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * clone node or from `innerHtml`) will fail, for such usage, please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
 	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
+	 *
 	 *		var element = new CKEDITOR.dom.element( 'span' );
 	 *		element.setCustomData( 'hasCustomData', true );
 	 *
@@ -247,8 +249,10 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	};
 
 	/**
-	 * Gets an ID that can be used to identiquely identify this DOM object in
+	 * Gets an ID that can be used to identify this DOM object in
 	 * the running session.
+	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
 	 *
 	 * @returns {Number} A unique ID.
 	 */
