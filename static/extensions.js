@@ -7,6 +7,10 @@
     window.assert = bender.assert;
     window.arrayAssert = bender.arrayAssert;
 
+    // clean-up data from previous tests if available
+    delete bender.editor;
+    delete bender.testCase;
+
     function override(org) {
         return function (expected, actual, message) {
             org.apply(this,
@@ -163,8 +167,7 @@
                 if (!shouldError) {
                     error = new YUITest.UnexpectedError(thrown);
                     failed = true;
-                } else if (typeof shouldError == 'string' &&
-                    thrown.message != shouldError) {
+                } else if (typeof shouldError == 'string' && thrown.message != shouldError) {
                     error = new YUITest.UnexpectedError(thrown);
                     failed = true;
                 } else if (typeof shouldError == 'function' && !(thrown instanceof shouldError)) {
@@ -316,6 +319,8 @@
                     .split(',');
             }
         }
+
+        bender.plugins = plugins.add;
 
         CKEDITOR.plugins.load(plugins.add, function () {
             if (tests) bender.startRunner(tests);
