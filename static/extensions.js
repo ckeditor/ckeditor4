@@ -6,6 +6,7 @@
     // override and extend assertions
     window.assert = bender.assert;
     window.arrayAssert = bender.arrayAssert;
+    window.objectAssert = bender.objectAssert;
 
     // clean-up data from previous tests if available
     delete bender.editor;
@@ -74,7 +75,7 @@
 
         if (typeof (test = node.testObject) == 'string') {
             updateResult(node.parent, test);
-        // Ignore all tests in this whole test case
+            // Ignore all tests in this whole test case
         } else {
             for (name in test) {
                 if (typeof test[name] == 'function' && name.match(/^test/)) {
@@ -227,7 +228,9 @@
 
     YTest.Runner._execNonTestMethod = function (node, methodName, allowAsync) {
         var testObject = node.testObject,
-            event = { type: this.ERROR_EVENT };
+            event = {
+                type: this.ERROR_EVENT
+            };
 
         try {
             if (allowAsync && testObject["async:" + methodName]) {
@@ -256,7 +259,18 @@
         return false;
     };
 
+    YTest.Runner.callback = function () {
+        var names = arguments,
+            data = this._context,
+            that = this,
+            i;
 
+        for (i = 0; i < arguments.length; i++) {
+            data[names[i]] = arguments[i];
+        }
+
+        that._run();
+    };
 
     if (typeof CKEDITOR != 'undefined') {
         CKEDITOR.replaceClass = false;
@@ -301,9 +315,15 @@
         var plugins = bender.editorPlugins,
             regexp;
 
+        CKEDITOR.config.customConfig = '';
+
         if (!plugins) return this.startRunner(tests);
 
-        if (plugins.add) CKEDITOR.config.plugins = plugins.add.join(',');
+        if (plugins.add) {
+            CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
+                CKEDITOR.config.plugins.split(',').concat(plugins.add).join(',') :
+                plugins.add.join(',');
+        }
 
         if (plugins.remove) {
             CKEDITOR.config.removePlugins = plugins.remove.join(',');
@@ -370,7 +390,6 @@
             }
 
             bender.testCase = new YTest.Case(tests);
-            bender.testCase.callback = bender.testCase.callback(); //yeah... that's lovely ^_^
 
             if (bender.regressions) handleRegressions();
 
