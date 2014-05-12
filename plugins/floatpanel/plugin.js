@@ -80,8 +80,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 			editor.on( 'mode', hide );
 			editor.on( 'resize', hide );
+
 			// Window resize doesn't cause hide on blur. (#9800)
-			doc.getWindow().on( 'resize', hide );
+			// [iOS] Poping up keyboard triggers window resize
+			// which leads to undesired panel hides
+			if ( !CKEDITOR.env.iOS )
+				doc.getWindow().on( 'resize', hide );
 
 			// We need a wrapper because events implementation doesn't allow to attach
 			// one listener more than once for the same event on the same object.
@@ -145,6 +149,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				// Record from where the focus is when open panel.
 				var editable = this._.editor.editable();
 				this._.returnFocus = editable.hasFocus ? editable : new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
+				this._.hideTimeout = 0;
 
 				var element = this.element,
 					iframe = this._.iframe,
@@ -203,11 +208,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET )
 							return;
 
-						if ( this.visible && !this._.activeChild ) {
-							// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
-							// DO NOT restore focus in this case.
-							delete this._.returnFocus;
-							this.hide();
+						if ( this.visible && !this._.activeChild && !this._.hideTimeout ) {
+							// [iOS] Allow hide to be prevented if touch is bound 
+							// to any parent of the iframe blur happens before touch
+							this._.hideTimeout = CKEDITOR.tools.setTimeout( function() {
+								// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
+								// DO NOT restore focus in this case.
+								delete this._.returnFocus;
+								this.hide();
+							}, 0, this );
 						}
 					}, this );
 
@@ -216,6 +225,23 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.hideChild();
 						this.allowBlur( true );
 					}, this );
+
+					// [iOS] if touch is bound to any parent of the iframe blur
+					// happens twice before touchstart and before touchend
+					if ( CKEDITOR.env.iOS ) {
+						// Prevent false hiding on blur
+						// We don't need to return focus here cuz touchend will fire anyway
+						// If user scrolls and pointer gets out of the panel area touchend will also fire
+						focused.on( 'touchstart', function() {
+							clearInterval( this._.hideTimeout );
+						}, this);
+
+						// Set focus back to handle blur and hide panel when needed
+						focused.on( 'touchend', function() {
+							this._.hideTimeout = 0;
+							this.focus();
+						}, this);
+					}
 
 					CKEDITOR.event.useCapture = false;
 
