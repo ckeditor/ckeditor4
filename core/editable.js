@@ -636,7 +636,10 @@
 					if ( editor.readOnly )
 						return true;
 
-					var keyCode = evt.data.keyCode, isHandled;
+					// Use getKey directly in order to ignore modifiers.
+					// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+					var keyCode = evt.data.domEvent.getKey(),
+						isHandled;
 
 					// Backspace OR Delete.
 					if ( keyCode in backspaceOrDelete ) {
@@ -795,6 +798,96 @@
 						if ( ev.data.getTarget().is( 'input', 'textarea' ) )
 							ev.data.preventDefault();
 					} );
+				}
+
+				// Prevent Webkit/Blink from going rogue when joining
+				// blocks on BACKSPACE/DEL (#11861,#9998).
+				if ( CKEDITOR.env.webkit ) {
+					this.attachListener( editor, 'key', function( evt ) {
+						// Use getKey directly in order to ignore modifiers.
+						// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+						var key = evt.data.domEvent.getKey();
+
+						if ( !( key in backspaceOrDelete ) )
+							return;
+
+						var backspace = key == 8,
+							selection = editor.getSelection(),
+							range = selection.getRanges()[ 0 ],
+							startPath = range.startPath(),
+							startBlock = startPath.block;
+
+						// Selection must be collapsed and to be anchored in a block.
+						if ( !range.collapsed || !startBlock )
+							return;
+
+						// Exclude cases where, i.e. if pressed arrow key, selection
+						// would move within the same block (merge inside a block).
+						if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
+							return;
+
+						// Make sure, there's an editable position to put selection,
+						// which i.e. would be used if pressed arrow key, but abort
+						// if such position exists but means a selected non-editable element.
+						if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
+							return;
+
+						// Handle special case, when block's sibling is a <hr>. Delete it and keep selection
+						// in the same place (http://dev.ckeditor.com/ticket/11861#comment:9).
+						if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+							var touched = range.startContainer.getChild( range.startOffset - ( backspace ? 1 : 0 ) );
+							if ( touched && touched.type  == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
+								editor.fire( 'saveSnapshot' );
+								touched.remove();
+								editor.fire( 'saveSnapshot' );
+								return false;
+							}
+						}
+
+						var siblingBlock = range.startPath().block;
+
+						// Abort if an editable position exists, but either it's not
+						// in a block or that block is the parent of the start block
+						// (merging child into parent).
+						if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
+							return;
+
+						editor.fire( 'saveSnapshot' );
+
+						var commonParent = startBlock.getCommonAncestor( siblingBlock ),
+							node = backspace ? startBlock : siblingBlock,
+							removableParent = node;
+
+						// Find an element (DOM branch), which contains the block
+						// to be merged but nothing else, so if removed, it will
+						// leave no empty parents.
+						while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
+							removableParent = node;
+
+						// Remove bogus to avoid duplicated boguses.
+						var bogus;
+						if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
+							bogus.remove();
+
+						// Save selection. It will be restored.
+						var bookmarks = selection.createBookmarks();
+
+						// Merge blocks.
+						( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
+
+						// Also merge children along with parents.
+						startPath.lastElement.mergeSiblings();
+
+						// Cut off removable branch of the DOM tree.
+						removableParent.remove();
+
+						// Restore selection.
+						selection.selectBookmarks( bookmarks );
+
+						editor.fire( 'saveSnapshot' );
+
+						return false;
+					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
 			}
 		},
