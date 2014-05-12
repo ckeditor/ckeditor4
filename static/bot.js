@@ -63,7 +63,7 @@
 
             // Allow all instantiation tasks to complete.
             setTimeout(function () {
-                if (bender.runner._waiting) {
+                if (bender.runner._inTest) {
                     resume(function () {
                         callback(bot);
                     });
@@ -85,6 +85,8 @@
         if (profile.formattedOutput) config.extraPlugins += 'htmlwriter';
 
         CKEDITOR[creator](element, config);
+
+        if (bender.runner._inTest) tc.wait();
     };
 
     bender.editorBot.prototype = {

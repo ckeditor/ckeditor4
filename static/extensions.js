@@ -114,6 +114,8 @@
 
         shouldError = (testCase._should.error || {})[testName];
 
+        this._inTest = true;
+
         //try the test
         try {
             //run the test
@@ -180,6 +182,8 @@
                 }
             }
         }
+
+        this._inTest = false;
 
         if (!ignored) {
             //fire appropriate event
@@ -272,7 +276,7 @@
         return function (segment) {
             var tc = this;
 
-            if (this._waiting) {
+            if (bender.runner._waiting) {
                 org.call(tc, segment);
             } else {
                 setTimeout(function () {
