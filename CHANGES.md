@@ -3,11 +3,14 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.1
 
-Fixed Issues:
-* [#10714](http://dev.ckeditor.com/ticket/10714): Fixed: [iOS] Selection and drop-downs are broken if touch listener is used due to [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
-* [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang).
+New Features:
+
 * [#9661](http://dev.ckeditor.com/ticket/9661): Added optional, [configurable](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-linkJavaScriptLinksAllowed) possibility to set JavaScript code in `href` attribute in anchor tags.
-* [#11809](http://dev.ckeditor.com/ticket/11809): Set indentation to four spaces in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
+
+Fixed Issues:
+
+* [#10714](http://dev.ckeditor.com/ticket/10714): Fixed: [iOS] Selection and drop-downs are broken if touch listener is used due to [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
+* [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang). Thanks to [Akash Mohapatra](https://github.com/akashmohapatra)!
 * [#11223](http://dev.ckeditor.com/ticket/11223): Fixed: issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the title element.
 * [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin from required in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
 * [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when contents contains not closed attributes.
@@ -18,10 +21,9 @@ Fixed Issues:
 * [#11813](http://dev.ckeditor.com/ticket/11813): Fixed: Link lost while pasting captioned image and restoring undo snapshot ([Enhanced Image](http://ckeditor.com/addon/image2)).
 * [#11814](http://dev.ckeditor.com/ticket/11814): Fixed: _Link_ and _Unlink_ entries persistently displayed in [Enhanced Image](http://ckeditor.com/addon/image2) context menu.
 * [#11839](http://dev.ckeditor.com/ticket/11839): Fixed: [IE9] Caret jumps out of editable when resizing editor in source mode.
-* [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 * [#11822](http://dev.ckeditor.com/ticket/11822): Fixed: [Webkit] Anchors editing by double click broken in some cases.
 * [#11823](http://dev.ckeditor.com/ticket/11823): Fixed: [IE8] [Table Resize](http://ckeditor.com/addon/tableresize) throws error over scrollbar.
-* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to undefined in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
+* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to _Not set_ in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
 * [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: [Filter](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied inside elements with `contenteditable` attribute set to `true`.
 * [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting non-editable element inside a table cell breaks the table badly.
 * [#11793](http://dev.ckeditor.com/ticket/11793): Fixed: Drop down is not "on" when clicking it while editor is blurred.
@@ -31,6 +33,8 @@ Other changes:
 
 * [#11807](http://dev.ckeditor.com/ticket/11807): Updated jQuery version used in sample to 1.11.0 and tested CKEditor jQuery adapter with version 1.11.0 and 2.1.0.
 * [#9504](http://dev.ckeditor.com/ticket/9504): Stop using deprecated attribute.specified on all browsers except IE.
+* [#11809](http://dev.ckeditor.com/ticket/11809): Changed tab size in `<pre>` to 4 spaces.
+* [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 
 ## CKEditor 4.4
 
