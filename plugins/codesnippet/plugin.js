@@ -346,6 +346,10 @@
 				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
 					return;
 
+				// Upcast <code> with text only: http://dev.ckeditor.com/ticket/11926#comment:4
+				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT )
+					return;
+
 				// Read language-* from <code> class attribute.
 				var matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
 
