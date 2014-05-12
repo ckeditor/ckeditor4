@@ -200,7 +200,6 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					CKEDITOR.event.useCapture = true;
 
 					focused.on( 'blur', function( ev ) {
-
 						// As we are using capture to register the listener,
 						// the blur event may get fired even when focusing
 						// inside the window itself, so we must ensure the
@@ -208,15 +207,21 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						if ( !this.allowBlur() || ev.data.getPhase() != CKEDITOR.EVENT_PHASE_AT_TARGET )
 							return;
 
-						if ( this.visible && !this._.activeChild && !this._.hideTimeout ) {
+						if ( this.visible && !this._.activeChild ) {
 							// [iOS] Allow hide to be prevented if touch is bound
 							// to any parent of the iframe blur happens before touch (#10714).
-							this._.hideTimeout = CKEDITOR.tools.setTimeout( function() {
-								// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
-								// DO NOT restore focus in this case.
-								delete this._.returnFocus;
-								this.hide();
-							}, 0, this );
+							if ( CKEDITOR.env.iOS ) {
+								if ( !this._.hideTimeout )
+									this._.hideTimeout = CKEDITOR.tools.setTimeout( doHide, 0, this );
+							} else
+								doHide.call( this );
+						}
+
+						function doHide() {
+							// Panel close is caused by user's navigating away the focus, e.g. click outside the panel.
+							// DO NOT restore focus in this case.
+							delete this._.returnFocus;
+							this.hide();
 						}
 					}, this );
 
