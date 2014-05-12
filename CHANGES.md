@@ -4,6 +4,7 @@ CKEditor 4 Changelog
 ## CKEditor 4.4.1
 
 Fixed Issues:
+* [#10714](http://dev.ckeditor.com/ticket/10714): Fixed: [iOS] Selection and drop-downs are broken if touch listener is used due to [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
 * [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang).
 * [#9661](http://dev.ckeditor.com/ticket/9661): Added optional, [configurable](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-linkJavaScriptLinksAllowed) possibility to set JavaScript code in `href` attribute in anchor tags.
 * [#11809](http://dev.ckeditor.com/ticket/11809): Set indentation to four spaces in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
