@@ -311,13 +311,12 @@
         }
     };
 
-    bender.test = function (tests) {
-        var plugins = bender.editorPlugins,
-            regexp;
+    bender.configurePlugins = function (plugins) {
+        var regexp;
 
         CKEDITOR.config.customConfig = '';
 
-        if (!plugins) return this.startRunner(tests);
+        if (!plugins) return;
 
         if (plugins.add) {
             CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
@@ -344,14 +343,32 @@
             }
         }
 
-        bender.plugins = plugins.add;
+        this.plugins = plugins.add;
+
+        if (this.plugins) this.deferred = true;
 
         CKEDITOR.plugins.load(plugins.add, function () {
-            if (tests) bender.startRunner(tests);
+            delete bender.deferred;
+            bender.startRunner();
         });
     };
 
+   bender.test = function (tests) {
+        if (this.deferred) {
+            delete this.deferred;
+            this.deferredTests = tests;
+        } else {
+            this.startRunner(tests);
+        }
+    };
+
     bender.startRunner = function (tests) {
+        tests = tests || this.deferredTests;
+
+        delete this.deferredTests;
+
+        if (!tests) return;
+
         if (!tests.name) tests.name = document.title;
 
         function handleRegressions() {
