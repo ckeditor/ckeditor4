@@ -29,6 +29,7 @@ Fixed Issues:
 * [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting non-editable element inside a table cell breaks the table badly.
 * [#11793](http://dev.ckeditor.com/ticket/11793): Fixed: Drop down is not "on" when clicking it while editor is blurred.
 * [#11850](http://dev.ckeditor.com/ticket/11850): Fixed: Filter downcasting fake object to element it replaced is not applied if fake object element is non-editable.
+* [#11811](http://dev.ckeditor.com/ticket/11811): Fixed: Widget's data are not encoded correctly when passed to attribute.
 
 Other changes:
 
