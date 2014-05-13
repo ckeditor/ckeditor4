@@ -273,7 +273,8 @@
 	// @param {CKEDITOR.editor} editor
 	function registerWidget( editor ) {
 		var codeClass = editor.config.codeSnippet_codeClass,
-			newLineRegex = /\r?\n/g;
+			newLineRegex = /\r?\n/g,
+			textarea = new CKEDITOR.dom.element( 'textarea' );
 
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
@@ -345,13 +346,19 @@
 				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
 					return;
 
+				// Upcast <code> with text only: http://dev.ckeditor.com/ticket/11926#comment:4
+				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT )
+					return;
+
 				// Read language-* from <code> class attribute.
 				var matchResult = editor._.codesnippet.langsRegex.exec( code.attributes[ 'class' ] );
 
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
-				data.code = code.getHtml();
+				// Use textarea to decode HTML entities (#11926).
+				textarea.setHtml( code.getHtml() );
+				data.code = textarea.getValue();
 
 				code.addClass( codeClass );
 

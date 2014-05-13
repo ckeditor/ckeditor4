@@ -12,7 +12,8 @@ Fixed Issues:
 * [#11861](http://dev.ckeditor.com/ticket/11861): Fixed: [Webkit/Blink] Span elements created while joining adjacent elements. **Note:** Only a case when *Backspace* or *Delete* is pressed on collapsed (empty) selection is covered by this patch. The remaining case, with a non-empty selection, will be fixed in next release.
 * [#10714](http://dev.ckeditor.com/ticket/10714): Fixed: [iOS] Selection and drop-downs are broken if touch listener is used due to [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
 * [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang). Thanks to [Akash Mohapatra](https://github.com/akashmohapatra)!
-* [#11223](http://dev.ckeditor.com/ticket/11223): Fixed: issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the title element.
+* [#11926](http://dev.ckeditor.com/ticket/11926): Fixed: Code snippet does not decode HTML entities when loading code from the `<code>` element.
+* [#11223](http://dev.ckeditor.com/ticket/11223): Fixed: Issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the title element.
 * [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin from required in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
 * [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when contents contains not closed attributes.
 * [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE, when there was no selection in editor.
