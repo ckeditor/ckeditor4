@@ -238,7 +238,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// We don't need to return focus here because touchend will fire anyway.
 						// If user scrolls and pointer gets out of the panel area touchend will also fire.
 						focused.on( 'touchstart', function() {
-							clearInterval( this._.hideTimeout );
+							clearTimeout( this._.hideTimeout );
 						}, this );
 
 						// Set focus back to handle blur and hide panel when needed.
