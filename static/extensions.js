@@ -311,31 +311,31 @@
         }
     };
 
-    bender.configurePlugins = function (plugins) {
-        var regexp;
+    bender.configureEditor = function (config) {
+        var regexp,
+            toLoad = 0,
+            i;
 
         CKEDITOR.config.customConfig = '';
 
-        if (!plugins) return;
-
-        if (plugins.add) {
+        if (config.plugins) {
             CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
-                CKEDITOR.config.plugins.split(',').concat(plugins.add).join(',') :
-                plugins.add.join(',');
+                CKEDITOR.config.plugins.split(',').concat(config.plugins).join(',') :
+                config.plugins.join(',');
         }
 
-        if (plugins.remove) {
-            CKEDITOR.config.removePlugins = plugins.remove.join(',');
+        if (config['remove-plugins']) {
+            CKEDITOR.config.removePlugins = config['remove-plugins'].join(',');
 
-            regexp = new RegExp('(?:^|,)(' + plugins.remove.join('|') + ')(?:$|,)', 'g');
+            regexp = new RegExp('(?:^|,)(' + config['remove-plugins'].join('|') + ')(?:$|,)', 'g');
 
             CKEDITOR.config.plugins = CKEDITOR.config.plugins
                 .replace(regexp, '')
                 .replace(/,+/g, ',')
                 .replace(/^,|,$/g, '');
 
-            if (plugins.add) {
-                plugins.add = plugins.add.join(',')
+            if (config.plugins) {
+                config.plugins = config.plugins.join(',')
                     .replace(regexp, '')
                     .replace(/,+/g, ',')
                     .replace(/^,|,$/g, '')
@@ -343,14 +343,34 @@
             }
         }
 
-        this.plugins = plugins.add;
+        this.plugins = config.plugins;
 
-        if (this.plugins) this.deferred = true;
+        if (this.plugins) {
+            toLoad++;
+            this.deferred = true;
 
-        CKEDITOR.plugins.load(plugins.add, function () {
-            delete bender.deferred;
-            bender.startRunner();
-        });
+            CKEDITOR.plugins.load(config.plugins, onload);
+        }
+
+        if (config.adapters) {
+            for (i = 0; i < config.adapters.length; i++) {
+                config.adapters[i] = CKEDITOR.basePath + 'adapters/' + config.adapters[i] + '.js';
+            }
+
+            toLoad++;
+            CKEDITOR.scriptLoader.load(config.adapters, onLoad);
+        }
+        
+        function onLoad() {
+            if (toLoad) toLoad--;
+
+            if (!toLoad) {
+                delete bender.deferred;
+                bender.startRunner();
+            }
+        }
+
+        onLoad();
     };
 
    bender.test = function (tests) {
