@@ -58,10 +58,10 @@
 			if ( atBlockStart && atBlockEnd ) {
 				// Exit the list when we're inside an empty list item block. (#5376)
 				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
-                    //Make sure to point to the li when dealing with empty list item
-                    if (!block.is('li')) {
-                        block = block.getParent();
-                    }
+					//Make sure to point to the li when dealing with empty list item
+					if (!block.is('li')) {
+						block = block.getParent();
+					}
 
 					var blockParent = block.getParent(),
 						blockGrandParent = blockParent.getParent(),
@@ -180,24 +180,24 @@
 
 						block.remove();
 					} else {
-                        if (path.block.is('li')) {
-                            //@original path block is the list item, create new block for the list item content
+						if (path.block.is('li')) {
+							//@original path block is the list item, create new block for the list item content
 
-                            // Use <div> block for ENTER_BR and ENTER_DIV.
-                            newBlock = doc.createElement(mode == CKEDITOR.ENTER_P ? 'p' : 'div');
+							// Use <div> block for ENTER_BR and ENTER_DIV.
+							newBlock = doc.createElement(mode == CKEDITOR.ENTER_P ? 'p' : 'div');
 
-                            if (dirLoose)
-                                newBlock.setAttribute('dir', orgDir);
+							if (dirLoose)
+								newBlock.setAttribute('dir', orgDir);
 
-                            style && newBlock.setAttribute('style', style);
-                            className && newBlock.setAttribute('class', className);
+							style && newBlock.setAttribute('style', style);
+							className && newBlock.setAttribute('class', className);
 
-                            // Move all the child nodes to the new block.
-                            block.moveChildren(newBlock);
-                        } else {
-                            //@author noam the original path block is not a list item, just copy the block to out side of the list
-                            newBlock = path.block;
-                        }
+							// Move all the child nodes to the new block.
+							block.moveChildren(newBlock);
+						} else {
+							//@author noam the original path block is not a list item, just copy the block to out side of the list
+							newBlock = path.block;
+						}
 
 						// If block is the first or last child of the parent
 						// list, move it out of the list:
