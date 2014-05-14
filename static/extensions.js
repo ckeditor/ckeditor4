@@ -283,34 +283,6 @@
         };
     };
 
-    // Override YUITest.TestCase#resume to error proof of: "resume() called without wait()."
-    window.resume = YTest.Case.prototype.resume = (function () {
-        var org = YTest.Case.prototype.resume;
-
-        return function (segment) {
-            var tc = this;
-
-            if (bender.runner._waiting) {
-                org.call(tc, segment);
-            } else {
-                setTimeout(function () {
-                    org.call(tc, segment);
-                });
-            }
-        };
-    })();
-
-    window.wait = function (callback) {
-        var args = [].slice.apply(arguments);
-
-        if (args.length == 1 && typeof callback == 'function') {
-            setTimeout(callback);
-            YTest.Case.prototype.wait.call(null);
-        } else {
-            YTest.Case.prototype.wait.apply(null, args);
-        }
-    };
-
     bender.configureEditor = function (config) {
         var regexp,
             toLoad = 0,
@@ -434,9 +406,7 @@
             bender.runner.run();
         }
 
-        // TODO add support for old IEs
-        if (document.readyState === 'complete') startRunner();
-        else window.addEventListener('load', startRunner);
+        $(startRunner);
     };
 
     bender.getAbsolutePath = function (path) {
@@ -460,3 +430,31 @@
         }
     };
 })(this, bender);
+
+// workaround for IE8 - window.resume / window.wait won't work in this environment...
+var resume = bender.Y.Test.Case.prototype.resume = (function () {
+    var org = bender.Y.Test.Case.prototype.resume;
+
+    return function (segment) {
+        var tc = this;
+
+        if (bender.runner._waiting) {
+            org.call(tc, segment);
+        } else {
+            setTimeout(function () {
+                org.call(tc, segment);
+            });
+        }
+    };
+})();
+
+var wait = function (callback) {
+    var args = [].slice.apply(arguments);
+
+    if (args.length == 1 && typeof callback == 'function') {
+        setTimeout(callback);
+        bender.Y.Test.Case.prototype.wait.call(null);
+    } else {
+        bender.Y.Test.Case.prototype.wait.apply(null, args);
+    }
+};
