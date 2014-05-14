@@ -364,7 +364,8 @@
         if (!tests.name) tests.name = document.title;
 
         function handleRegressions() {
-            var testId = window.location.pathname.replace('/tests/', ''),
+            var testId = window.location.pathname
+                    .replace(/^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, ''),
                 tc = bender.testCase,
                 condition,
                 name;
