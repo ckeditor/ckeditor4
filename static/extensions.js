@@ -277,12 +277,6 @@
         CKEDITOR.disableAutoInline = true;
     }
 
-    window.alert = function (msg) {
-        throw {
-            message: 'window.alert function called with message "' + msg + '".'
-        };
-    };
-
     bender.configureEditor = function (config) {
         var regexp,
             toLoad = 0,
@@ -355,18 +349,19 @@
     };
 
     bender.startRunner = function (tests) {
+        var testId = window.location.pathname
+                .replace(/^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, '');
+        
         tests = tests || this.deferredTests;
 
         delete this.deferredTests;
 
         if (!tests) return;
 
-        if (!tests.name) tests.name = document.title;
+        if (!tests.name) tests.name = testId;
 
         function handleRegressions() {
-            var testId = window.location.pathname
-                    .replace(/^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, ''),
-                tc = bender.testCase,
+            var tc = bender.testCase,
                 condition,
                 name;
 
