@@ -884,6 +884,9 @@
 						// Restore selection.
 						selection.selectBookmarks( bookmarks );
 
+						// Scroll to the new position of the caret (#11960).
+						selection.scrollIntoView();
+
 						editor.fire( 'saveSnapshot' );
 
 						return false;
