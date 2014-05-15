@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'de', {
 		checkboxTitle: 'Checkbox-Eigenschaften',
 		radioTitle: 'Optionsfeld-Eigenschaften',
 		value: 'Wert',
-		selected: 'ausgewählt'
+		selected: 'Ausgewählt',
+		required: 'Pflichtfeld'
 	},
 	form: {
 		title: 'Formular-Eigenschaften',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'de', {
 		size: 'Größe',
 		lines: 'Linien',
 		chkMulti: 'Erlaube Mehrfachauswahl',
+		required: 'Pflichtfeld',
 		opText: 'Text',
 		opValue: 'Wert',
 		btnAdd: 'Hinzufügen',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'de', {
 		value: 'Wert',
 		charWidth: 'Zeichenbreite',
 		maxChars: 'Max. Zeichen',
+		required: 'Pflichtfeld',
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Passwort',
