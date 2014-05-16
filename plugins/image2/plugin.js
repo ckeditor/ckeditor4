@@ -892,8 +892,7 @@
 		var alignClasses = editor.config.image2_alignClasses;
 
 		// @param {CKEDITOR.htmlParser.element} el
-		// @param {Object} data
-		return function( el, data ) {
+		return function( el ) {
 			// In case of <a><img/></a>, <img/> is the element to hold
 			// inline styles or classes (image2_alignClasses).
 			var attrsHolder = el.name == 'a' ? el.getFirst() : el,
