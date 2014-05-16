@@ -9,8 +9,8 @@
     window.objectAssert = bender.objectAssert;
 
     // clean-up data from previous tests if available
-    delete bender.editor;
-    delete bender.testCase;
+    if (bender.editor) delete bender.editor;
+    if (bender.testCase) delete bender.testCase;
 
     function override(org) {
         return function (expected, actual, message) {
@@ -309,11 +309,11 @@
             }
         }
 
-        this.plugins = config.plugins;
+        bender.plugins = config.plugins;
 
-        if (this.plugins) {
+        if (bender.plugins) {
             toLoad++;
-            this.deferred = true;
+            bender.deferred = true;
 
             CKEDITOR.plugins.load(config.plugins, onload);
         }
@@ -331,7 +331,7 @@
             if (toLoad) toLoad--;
 
             if (!toLoad) {
-                delete bender.deferred;
+                if (bender.deferred) delete bender.deferred;
                 bender.startRunner();
             }
         }
@@ -340,11 +340,11 @@
     };
 
    bender.test = function (tests) {
-        if (this.deferred) {
-            delete this.deferred;
-            this.deferredTests = tests;
+        if (bender.deferred) {
+            if (bender.deferred) delete bender.deferred;
+            bender.deferredTests = tests;
         } else {
-            this.startRunner(tests);
+            bender.startRunner(tests);
         }
     };
 
@@ -352,9 +352,9 @@
         var testId = window.location.pathname
                 .replace(/^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, '');
         
-        tests = tests || this.deferredTests;
+        tests = tests || bender.deferredTests;
 
-        delete this.deferredTests;
+        if (bender.deferredTests) delete bender.deferredTests;
 
         if (!tests) return;
 
