@@ -195,7 +195,7 @@
 			var onImgLoadEvent = function() {
 					// Image is ready.
 					var original = this.originalElement,
-                        loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 					original.setCustomData( 'isReady', 'true' );
 					original.removeListener( 'load', onImgLoadEvent );
 					original.removeListener( 'error', onImgLoadErrorEvent );
@@ -267,7 +267,7 @@
 						sel = editor.getSelection(),
 						element = sel && sel.getSelectedElement(),
 						link = element && editor.elementPath( element ).contains( 'a', 1 ),
-                        loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 
 					//Hide loader.
 					if ( loader )
