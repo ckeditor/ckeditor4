@@ -330,12 +330,14 @@ a.cke_dialog_tab_disabled
 	filter: alpha(opacity = 80);
 }
 
-.cke_dialog_close_button:hover{
+.cke_dialog_close_button:hover
+{
 	opacity: 1;
 	filter: alpha(opacity = 100);
 }
 
-.cke_hidpi .cke_dialog_close_button {
+.cke_hidpi .cke_dialog_close_button
+{
 	background-image: url(images/hidpi/close.png);
 	background-size: 16px;
 }
