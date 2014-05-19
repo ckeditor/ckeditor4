@@ -32,13 +32,13 @@ Fixed Issues:
 * [#11850](http://dev.ckeditor.com/ticket/11850): Fixed: Filter downcasting fake object to element it replaced is not applied if fake object element is non-editable.
 * [#11811](http://dev.ckeditor.com/ticket/11811): Fixed: Widget's data are not encoded correctly when passed to attribute.
 * [#11777](http://dev.ckeditor.com/ticket/11777): Fixed encoding ampersand in the [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin.
+* [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 
 Other changes:
 
 * [#11807](http://dev.ckeditor.com/ticket/11807): Updated jQuery version used in sample to 1.11.0 and tested CKEditor jQuery adapter with version 1.11.0 and 2.1.0.
 * [#9504](http://dev.ckeditor.com/ticket/9504): Stop using deprecated attribute.specified on all browsers except IE.
 * [#11809](http://dev.ckeditor.com/ticket/11809): Changed tab size in `<pre>` to 4 spaces.
-* [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
 
 ## CKEditor 4.4
 
