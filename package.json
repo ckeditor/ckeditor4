@@ -1,5 +1,5 @@
 {
-  "name": "bender-ckeditor",
+  "name": "benderjs-ckeditor",
   "version": "0.0.1",
   "description": "CKEditor plugin for Bender",
   "main": "lib/index.js",
