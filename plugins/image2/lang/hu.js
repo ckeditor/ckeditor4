@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'hu', {
 	alt: 'Buborék szöveg',
 	btnUpload: 'Küldés a szerverre',
 	captioned: 'Feliratozott kép',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: 'Képfelirat',
 	infoTab: 'Alaptulajdonságok',
 	lockRatio: 'Arány megtartása',
 	menu: 'Kép tulajdonságai',

@@ -143,5 +143,5 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 	openBracket: 'Җәя ачу',
 	backSlash: 'Кире кыек сызык',
 	closeBracket: 'Җәя ябу',
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Бер иңле куштырнаклар'
 } );

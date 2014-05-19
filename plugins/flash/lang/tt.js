@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'flash', 'tt', {
 	accessSameDomain: 'Same domain', // MISSING
 	alignAbsBottom: 'Иң аска',
 	alignAbsMiddle: 'Төгәл уртада',
-	alignBaseline: 'Baseline', // MISSING
+	alignBaseline: 'Таяныч сызыгы',
 	alignTextTop: 'Text Top', // MISSING
 	bgcolor: 'Фон төсе',
 	chkFull: 'Allow Fullscreen', // MISSING

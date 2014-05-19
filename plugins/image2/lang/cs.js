@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'cs', {
 	alt: 'Alternativní text',
 	btnUpload: 'Odeslat na server',
 	captioned: 'Obrázek s popisem',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: 'Popis',
 	infoTab: 'Informace o obrázku',
 	lockRatio: 'Zámek',
 	menu: 'Vlastnosti obrázku',

@@ -82,8 +82,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
+	backspace: 'Tecla Backspace',
+	tab: 'Tecla Tab',
 	enter: 'Enter', // MISSING
 	shift: 'Shift', // MISSING
 	ctrl: 'Ctrl', // MISSING

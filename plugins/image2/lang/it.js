@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'it', {
 	alt: 'Testo alternativo',
 	btnUpload: 'Invia al server',
 	captioned: 'Immagine con didascalia',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: 'Didascalia',
 	infoTab: 'Informazioni immagine',
 	lockRatio: 'Blocca rapporto',
 	menu: 'Proprietà immagine',

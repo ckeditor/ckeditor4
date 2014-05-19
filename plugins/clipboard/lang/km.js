@@ -10,6 +10,6 @@ CKEDITOR.plugins.setLang( 'clipboard', 'km', {
 	paste: 'បិទ​ភ្ជាប់',
 	pasteArea: 'តំបន់​បិទ​ភ្ជាប់',
 	pasteMsg: 'សូមចំលងអត្ថបទទៅដាក់ក្នុងប្រអប់ដូចខាងក្រោមដោយប្រើប្រាស់ ឃី ​(<STRONG>Ctrl/Cmd+V</STRONG>) ហើយចុច <STRONG>OK</STRONG> ។',
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
+	securityMsg: 'ព្រោះតែ​ការកំណត់​សុវត្ថិភាព ប្រអប់សរសេរ​មិន​អាចចាប់​យកទិន្នន័យពីក្តារតម្បៀតខ្ទាស់​អ្នក​​ដោយផ្ទាល់​បានទេ។ អ្នក​ត្រូវចំលង​ដាក់វាម្តង​ទៀត ក្នុងផ្ទាំងនេះ។',
 	title: 'បិទ​ភ្ជាប់'
 } );

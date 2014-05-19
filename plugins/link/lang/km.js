@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	},
 	anchorId: 'តាម ID ធាតុ',
 	anchorName: 'តាម​ឈ្មោះ​យុថ្កា',
-	charset: 'Linked Resource Charset', // MISSING
+	charset: 'លេខកូតអក្សររបស់ឈ្នាប់',
 	cssClasses: 'Stylesheet Classes',
 	emailAddress: 'អាសយដ្ឋាន​អ៊ីមែល',
 	emailBody: 'តួ​អត្ថបទ',
@@ -48,7 +48,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	rel: 'សម្ពន្ធ​ភាព',
 	selectAnchor: 'រើស​យក​យុថ្កា​មួយ',
 	styles: 'ស្ទីល',
-	tabIndex: 'Tab Index', // MISSING
+	tabIndex: 'លេខ Tab',
 	target: 'គោលដៅ',
 	targetFrame: '<ស៊ុម>',
 	targetFrameName: 'ឈ្មោះ​ស៊ុម​ជា​គោល​ដៅ',

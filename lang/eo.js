@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'eo' ] = {
 	// ARIA description.
-	editor: 'Redaktilo por Riĉiga Teksto',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editor: 'RiĉTeksta Redaktilo',
+	editorPanel: 'Panelo de la RiĉTeksta Redaktilo',
 
 	// Common messages and labels.
 	common: {

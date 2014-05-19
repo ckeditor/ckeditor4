@@ -82,57 +82,57 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
+	backspace: 'Backspace',
+	tab: 'Tabulator',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
 	leftArrow: 'Venstre piltast',
 	upArrow: 'Opp-piltast',
 	rightArrow: 'Høyre piltast',
 	downArrow: 'Ned-piltast',
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
+	insert: 'Insert',
+	'delete': 'Delete',
 	leftWindowKey: 'Venstre Windows-tast',
 	rightWindowKey: 'Høyre Windows-tast',
 	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
+	numpad0: 'Numerisk tastatur 0',
+	numpad1: 'Numerisk tastatur 1',
+	numpad2: 'Numerisk tastatur 2',
+	numpad3: 'Numerisk tastatur 3',
+	numpad4: 'Numerisk tastatur 4',
+	numpad5: 'Numerisk tastatur 5',
+	numpad6: 'Numerisk tastatur 6',
+	numpad7: 'Numerisk tastatur 7',
+	numpad8: 'Numerisk tastatur 8',
+	numpad9: 'Numerisk tastatur 9',
 	multiply: 'Multiply', // MISSING
 	add: 'Add', // MISSING
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
 	semiColon: 'Semikolon',
 	equalSign: 'Likhetstegn',
 	comma: 'Komma',

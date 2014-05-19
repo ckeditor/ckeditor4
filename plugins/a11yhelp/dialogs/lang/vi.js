@@ -90,30 +90,30 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 	alt: 'Phím Alt',
 	pause: 'Phím Pause',
 	capslock: 'Phím Caps Lock',
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	escape: 'Phím Escape',
+	pageUp: 'Phím Page Up',
+	pageDown: 'Phím Page Down',
+	end: 'Phím End',
+	home: 'Phím Home',
+	leftArrow: 'Phím Left Arrow',
+	upArrow: 'Phím Up Arrow',
+	rightArrow: 'Phím Right Arrow',
+	downArrow: 'Phím Down Arrow',
 	insert: 'Chèn',
 	'delete': 'Xóa',
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
+	leftWindowKey: 'Phím Left Windows',
+	rightWindowKey: 'Phím Right Windows ',
 	selectKey: 'Chọn phím',
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
+	numpad0: 'Phím 0',
+	numpad1: 'Phím 1',
+	numpad2: 'Phím 2',
+	numpad3: 'Phím 3',
+	numpad4: 'Phím 4',
+	numpad5: 'Phím 5',
+	numpad6: 'Phím 6',
+	numpad7: 'Phím 7',
+	numpad8: 'Phím 8',
+	numpad9: 'Phím 9',
 	multiply: 'Nhân',
 	add: 'Thêm',
 	subtract: 'Trừ',
@@ -137,10 +137,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 	equalSign: 'Đăng nhập bằng',
 	comma: 'Dấu phẩy',
 	dash: 'Dấu gạch ngang',
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
+	period: 'Phím .',
+	forwardSlash: 'Phím /',
+	graveAccent: 'Phím `',
+	openBracket: 'Open Bracket',
 	backSlash: 'Dấu gạch chéo ngược',
 	closeBracket: 'Gần giá đỡ',
 	singleQuote: 'Trích dẫn'

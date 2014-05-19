@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'fakeobjects', 'tt', {
 	anchor: 'Якорь',
 	flash: 'Флеш анимациясы',
-	hiddenfield: 'Hidden Field', // MISSING
-	iframe: 'IFrame', // MISSING
+	hiddenfield: 'Яшерен кыр',
+	iframe: 'IFrame',
 	unknown: 'Танылмаган объект'
 } );

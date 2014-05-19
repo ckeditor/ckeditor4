@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'km', {
 	charset: 'ការ​អ៊ិនកូដ​តួ​អក្សរ',
 	charsetASCII: 'ASCII',
 	charsetCE: 'អឺរ៉ុប​កណ្ដាល',
-	charsetCR: 'Cyrillic', // MISSING
+	charsetCR: 'Cyrillic',
 	charsetCT: 'ចិន​បុរាណ (Big5)',
 	charsetGR: 'ក្រិក',
 	charsetJP: 'ជប៉ុន',
@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'km', {
 	metaAuthor: 'អ្នកនិពន្ធ',
 	metaCopyright: 'រក្សាសិទ្ធិ',
 	metaDescription: 'សេចក្តីអត្ថាធិប្បាយអំពីឯកសារ',
-	metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
+	metaKeywords: 'ពាក្យនៅក្នុងឯកសារ (ផ្តាច់ពីគ្នាដោយក្បៀស)',
 	other: 'ដទៃ​ទៀត...',
 	previewHtml: '<p>នេះ​គឺ​ជា<strong>អក្សរ​គំរូ</strong>​ខ្លះៗ។ អ្នក​កំពុង​ប្រើ <a href="javascript:void(0)">CKEditor</a>។</p>',
 	title: 'ការកំណត់ ឯកសារ',

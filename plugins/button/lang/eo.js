@@ -3,7 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'language', 'fa', {
-	button: 'تعیین زبان',
-	remove: 'حذف زبان'
+CKEDITOR.plugins.setLang( 'button', 'eo', {
+	selectedLabel: '%1 (Selektita)'
 } );

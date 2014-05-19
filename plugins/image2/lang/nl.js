@@ -6,15 +6,15 @@ CKEDITOR.plugins.setLang( 'image2', 'nl', {
 	alt: 'Alternatieve tekst',
 	btnUpload: 'Naar server verzenden',
 	captioned: 'Afbeelding met onderschrift',
-	captionPlaceholder: 'Caption', // MISSING
-	infoTab: 'Informatie afbeelding',
+	captionPlaceholder: 'Onderschrift',
+	infoTab: 'Afbeeldingsinformatie',
 	lockRatio: 'Verhouding vergrendelen',
 	menu: 'Eigenschappen afbeelding',
 	pathName: 'afbeelding',
 	pathNameCaption: 'onderschrift',
-	resetSize: 'Afmetingen resetten',
+	resetSize: 'Afmetingen herstellen',
 	resizer: 'Klik en sleep om te herschalen',
-	title: 'Eigenschappen afbeelding',
-	uploadTab: 'Upload',
+	title: 'Afbeeldingseigenschappen',
+	uploadTab: 'Uploaden',
 	urlMissing: 'De URL naar de afbeelding ontbreekt.'
 } );

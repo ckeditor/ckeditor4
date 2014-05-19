@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'tt', {
 	charsetUN: 'Юникод (UTF-8)',
 	charsetWE: 'Көнбатыш Ауропа',
 	chooseColor: 'Сайлау',
-	design: 'Design', // MISSING
+	design: 'Дизайн',
 	docTitle: 'Page Title', // MISSING
 	docType: 'Document Type Heading', // MISSING
 	docTypeOther: 'Other Document Type Heading', // MISSING
@@ -34,7 +34,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'tt', {
 	metaCopyright: 'Copyright', // MISSING
 	metaDescription: 'Document Description', // MISSING
 	metaKeywords: 'Document Indexing Keywords (comma separated)', // MISSING
-	other: 'Other...', // MISSING
+	other: 'Башка...',
 	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
 	title: 'Document Properties', // MISSING
 	txtColor: 'Текст төсе',

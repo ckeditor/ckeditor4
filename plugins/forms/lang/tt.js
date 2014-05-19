@@ -18,14 +18,14 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 		selected: 'Сайланган'
 	},
 	form: {
-		title: 'Form Properties', // MISSING
-		menu: 'Form Properties', // MISSING
-		action: 'Action', // MISSING
-		method: 'Method', // MISSING
+		title: 'Форма үзлекләре',
+		menu: 'Форма үзлекләре',
+		action: 'Гамәл',
+		method: 'Ысул',
 		encoding: 'Кодировка'
 	},
 	hidden: {
-		title: 'Hidden Field Properties', // MISSING
+		title: 'Яшерен кыр үзлекләре',
 		name: 'Исем',
 		value: 'Күләм'
 	},
@@ -35,27 +35,27 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 		opAvail: 'Available Options', // MISSING
 		value: 'Күләм',
 		size: 'Зурлык',
-		lines: 'lines', // MISSING
+		lines: 'юллар',
 		chkMulti: 'Allow multiple selections', // MISSING
 		opText: 'Текст',
 		opValue: 'Күләм',
 		btnAdd: 'Кушу',
 		btnModify: 'Үзгәртү',
-		btnUp: 'Up', // MISSING
-		btnDown: 'Down', // MISSING
+		btnUp: 'Өскә',
+		btnDown: 'Аска',
 		btnSetValue: 'Set as selected value', // MISSING
 		btnDelete: 'Бетерү'
 	},
 	textarea: {
-		title: 'Textarea Properties', // MISSING
+		title: 'Текст мәйданы үзлекләре',
 		cols: 'Баганалар',
 		rows: 'Юллар'
 	},
 	textfield: {
-		title: 'Text Field Properties', // MISSING
+		title: 'Текст кыры үзлекләре',
 		name: 'Исем',
 		value: 'Күләм',
-		charWidth: 'Character Width', // MISSING
+		charWidth: 'Символлар киңлеге',
 		maxChars: 'Maximum Characters', // MISSING
 		type: 'Төр',
 		typeText: 'Текст',

@@ -15,7 +15,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 		errorName: 'Якорьнең исемен языгыз',
 		remove: 'Якорьне бетерү'
 	},
-	anchorId: 'By Element Id', // MISSING
+	anchorId: 'Элемент идентификаторы буенча',
 	anchorName: 'Якорь исеме буенча',
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Стильләр класслары',
@@ -56,7 +56,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	targetPopupName: 'Popup Window Name', // MISSING
 	title: 'Сылталама',
 	toAnchor: 'Якорьне текст белән бәйләү',
-	toEmail: 'E-mail', // MISSING
+	toEmail: 'Электрон почта',
 	toUrl: 'Сылталама',
 	toolbar: 'Сылталама',
 	type: 'Сылталама төре',
