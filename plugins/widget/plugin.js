@@ -419,15 +419,27 @@
 			if ( !element )
 				return null;
 
-			var wrapper;
+			var wrapper = element,
+				limit = this.editor.editable(),
+				validWrapperElements = { div: 1, span: 1 },
+				id, instance;
 
-			for ( var id in this.instances ) {
-				wrapper = this.instances[ id ].wrapper;
-				if ( wrapper.equals( element ) || ( !checkWrapperOnly && wrapper.contains( element ) ) )
-					return this.instances[ id ];
+			if ( !checkWrapperOnly ) {
+				while ( wrapper && !wrapper.equals( limit ) && !( id = getWidgetId( wrapper ) ) )
+					wrapper = wrapper.getParent();
+			} else
+				id = getWidgetId( wrapper );
+
+			if ( !wrapper || !id )
+				return null;
+
+			instance = this.instances[ id ];
+
+			return ( instance && wrapper.equals( instance.wrapper ) ) ? instance : null;
+
+			function getWidgetId( element ) {
+				return element.is( validWrapperElements ) && element.data( 'cke-widget-id' );
 			}
-
-			return null;
 		},
 
 		/**
