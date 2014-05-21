@@ -817,79 +817,106 @@
 							startPath = range.startPath(),
 							startBlock = startPath.block;
 
-						// Selection must be collapsed and to be anchored in a block.
-						if ( !range.collapsed || !startBlock )
-							return;
+						if ( range.collapsed ) {
+							// Selection must be collapsed and to be anchored in a block.
+							if ( !startBlock )
+								return;
 
-						// Exclude cases where, i.e. if pressed arrow key, selection
-						// would move within the same block (merge inside a block).
-						if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
-							return;
+							// Exclude cases where, i.e. if pressed arrow key, selection
+							// would move within the same block (merge inside a block).
+							if ( !range[ backspace ? 'checkStartOfBlock' : 'checkEndOfBlock' ]() )
+								return;
 
-						// Make sure, there's an editable position to put selection,
-						// which i.e. would be used if pressed arrow key, but abort
-						// if such position exists but means a selected non-editable element.
-						if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
-							return;
+							// Make sure, there's an editable position to put selection,
+							// which i.e. would be used if pressed arrow key, but abort
+							// if such position exists but means a selected non-editable element.
+							if ( !range.moveToClosestEditablePosition( startBlock, !backspace ) || !range.collapsed )
+								return;
 
-						// Handle special case, when block's sibling is a <hr>. Delete it and keep selection
-						// in the same place (http://dev.ckeditor.com/ticket/11861#comment:9).
-						if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-							var touched = range.startContainer.getChild( range.startOffset - ( backspace ? 1 : 0 ) );
-							if ( touched && touched.type  == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
-								editor.fire( 'saveSnapshot' );
-								touched.remove();
-								editor.fire( 'saveSnapshot' );
-								return false;
+							// Handle special case, when block's sibling is a <hr>. Delete it and keep selection
+							// in the same place (http://dev.ckeditor.com/ticket/11861#comment:9).
+							if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+								var touched = range.startContainer.getChild( range.startOffset - ( backspace ? 1 : 0 ) );
+								if ( touched && touched.type  == CKEDITOR.NODE_ELEMENT && touched.is( 'hr' ) ) {
+									editor.fire( 'saveSnapshot' );
+									touched.remove();
+									editor.fire( 'saveSnapshot' );
+									return false;
+								}
 							}
+
+							var siblingBlock = range.startPath().block;
+
+							// Abort if an editable position exists, but either it's not
+							// in a block or that block is the parent of the start block
+							// (merging child into parent).
+							if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
+								return;
+
+							editor.fire( 'saveSnapshot' );
+
+							// Remove bogus to avoid duplicated boguses.
+							var bogus;
+							if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
+								bogus.remove();
+
+							// Save selection. It will be restored.
+							var bookmarks = selection.createBookmarks();
+
+							// Merge blocks.
+							( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
+
+							// Also merge children along with parents.
+							startPath.lastElement.mergeSiblings();
+
+							// Cut off removable branch of the DOM tree.
+							pruneElementBranch( startBlock, siblingBlock, !backspace );
+
+							// Restore selection.
+							selection.selectBookmarks( bookmarks );
+
+							// Scroll to the new position of the caret (#11960).
+							selection.scrollIntoView();
+							editor.fire( 'saveSnapshot' );
+
+							return false;
+						} else {
+							var endPath = range.endPath(),
+								endBlock = endPath.block;
+
+							// Selection must be anchored in two different blocks.
+							if ( !startBlock || !endBlock || startBlock.equals( endBlock ) )
+								return;
+
+							editor.fire( 'saveSnapshot' );
+
+							// Delete range contents. Do NOT merge. Merging is weird.
+							range.deleteContents();
+
+							// If something has left of the block to be merged, clean it up.
+							// It may happen when merging with list items.
+							if ( endBlock.getParent() ) {
+								// Move children to the first block.
+								endBlock.moveChildren( startBlock, false );
+
+								// ...and merge them if that's possible.
+								startPath.lastElement.mergeSiblings();
+
+								// If expanded selection, things are always merged like with BACKSPACE.
+								pruneElementBranch( startBlock, endBlock, true );
+							}
+
+							// Make sure the result selection is collapsed.
+							range = editor.getSelection().getRanges()[ 0 ];
+							range.collapse( 1 );
+							range.select();
+
+							// Scroll to the new position of the caret (#11960).
+							selection.scrollIntoView();
+							editor.fire( 'saveSnapshot' );
+
+							return false;
 						}
-
-						var siblingBlock = range.startPath().block;
-
-						// Abort if an editable position exists, but either it's not
-						// in a block or that block is the parent of the start block
-						// (merging child into parent).
-						if ( !siblingBlock || ( siblingBlock && siblingBlock.contains( startBlock ) ) )
-							return;
-
-						editor.fire( 'saveSnapshot' );
-
-						var commonParent = startBlock.getCommonAncestor( siblingBlock ),
-							node = backspace ? startBlock : siblingBlock,
-							removableParent = node;
-
-						// Find an element (DOM branch), which contains the block
-						// to be merged but nothing else, so if removed, it will
-						// leave no empty parents.
-						while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
-							removableParent = node;
-
-						// Remove bogus to avoid duplicated boguses.
-						var bogus;
-						if ( ( bogus = ( backspace ? siblingBlock : startBlock ).getBogus() ) )
-							bogus.remove();
-
-						// Save selection. It will be restored.
-						var bookmarks = selection.createBookmarks();
-
-						// Merge blocks.
-						( backspace ? startBlock : siblingBlock ).moveChildren( backspace ? siblingBlock : startBlock, false );
-
-						// Also merge children along with parents.
-						startPath.lastElement.mergeSiblings();
-
-						// Cut off removable branch of the DOM tree.
-						removableParent.remove();
-
-						// Restore selection.
-						selection.selectBookmarks( bookmarks );
-
-						// Scroll to the new position of the caret (#11960).
-						selection.scrollIntoView();
-
-						editor.fire( 'saveSnapshot' );
-
-						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
 			}
@@ -1163,6 +1190,20 @@
 		return editor.config.autoParagraph !== false &&
 			editor.activeEnterMode != CKEDITOR.ENTER_BR &&
 			editor.editable().equals( pathBlockLimit ) && !pathBlock;
+	}
+
+	function pruneElementBranch( first, second, pruneSecond ) {
+		var commonParent = first.getCommonAncestor( second ),
+			node = pruneSecond ? second : first,
+			removableParent = node;
+
+		// Find an element (DOM branch), which contains the block
+		// to be merged but nothing else, so if removed, it will
+		// leave no empty parents.
+		while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
+			removableParent = node;
+
+		removableParent.remove();
 	}
 
 	// Matching an empty paragraph at the end of document.
