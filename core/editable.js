@@ -870,7 +870,7 @@
 							startPath.lastElement.mergeSiblings();
 
 							// Cut off removable branch of the DOM tree.
-							pruneElementBranch( startBlock, siblingBlock, !backspace );
+							pruneEmptyDisjointAncestors( startBlock, siblingBlock, !backspace );
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
@@ -903,7 +903,7 @@
 								startPath.lastElement.mergeSiblings();
 
 								// If expanded selection, things are always merged like with BACKSPACE.
-								pruneElementBranch( startBlock, endBlock, true );
+								pruneEmptyDisjointAncestors( startBlock, endBlock, true );
 							}
 
 							// Make sure the result selection is collapsed.
@@ -1192,14 +1192,27 @@
 			editor.editable().equals( pathBlockLimit ) && !pathBlock;
 	}
 
-	function pruneElementBranch( first, second, pruneSecond ) {
+	// Finds the innermost child of common parent, which,
+	// if removed, removes nothing but the contents of the element.
+	//
+	//	before: <div><p><strong>first</strong></p><p>second</p></div>
+	//	after:  <div><p>second</p></div>
+	//
+	//	before: <div><p>x<strong>first</strong></p><p>second</p></div>
+	//	after:  <div><p>x</p><p>second</p></div>
+	//
+	//	isPruneToEnd=true
+	//	before: <div><p><strong>first</strong></p><p>second</p></div>
+	//	after:  <div><p><strong>first</strong></p></div>
+	//
+	// @param {CKEDITOR.dom.element} first
+	// @param {CKEDITOR.dom.element} second
+	// @param {Boolean} isPruneToEnd
+	function pruneEmptyDisjointAncestors( first, second, isPruneToEnd ) {
 		var commonParent = first.getCommonAncestor( second ),
-			node = pruneSecond ? second : first,
+			node = isPruneToEnd ? second : first,
 			removableParent = node;
 
-		// Find an element (DOM branch), which contains the block
-		// to be merged but nothing else, so if removed, it will
-		// leave no empty parents.
 		while ( ( node = node.getParent() ) && !commonParent.equals( node ) && node.getChildCount() == 1 )
 			removableParent = node;
 
