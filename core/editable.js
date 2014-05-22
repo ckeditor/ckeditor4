@@ -890,6 +890,11 @@
 
 							editor.fire( 'saveSnapshot' );
 
+							// Remove bogus to avoid duplicated boguses.
+							var bogus;
+							if ( ( bogus = startBlock.getBogus() ) )
+								bogus.remove();
+
 							// Delete range contents. Do NOT merge. Merging is weird.
 							range.deleteContents();
 
