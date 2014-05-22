@@ -415,32 +415,35 @@
 		 * @param {Boolean} [checkWrapperOnly] If set to `true`, the method will not check wrappers' descendants.
 		 * @returns {CKEDITOR.plugins.widget} The widget instance or `null`.
 		 */
-		getByElement: function( element, checkWrapperOnly ) {
-			if ( !element )
-				return null;
-
-			var wrapper = element,
-				limit = this.editor.editable(),
-				validWrapperElements = { div: 1, span: 1 },
-				id, instance;
-
-			if ( !checkWrapperOnly ) {
-				while ( wrapper && !wrapper.equals( limit ) && !( id = getWidgetId( wrapper ) ) )
-					wrapper = wrapper.getParent();
-			} else
-				id = getWidgetId( wrapper );
-
-			if ( !wrapper || !id )
-				return null;
-
-			instance = this.instances[ id ];
-
-			return ( instance && wrapper.equals( instance.wrapper ) ) ? instance : null;
-
+		getByElement: ( function() {
+			var validWrapperElements = { div: 1, span: 1 };
 			function getWidgetId( element ) {
 				return element.is( validWrapperElements ) && element.data( 'cke-widget-id' );
 			}
-		},
+
+			return function( element, checkWrapperOnly ) {
+				if ( !element )
+					return null;
+
+				var wrapper = element,
+					limit = this.editor.editable(),
+					id, instance;
+
+				if ( !checkWrapperOnly ) {
+					// Try to find a closest ascendant which is a widget wrapper.
+					while ( wrapper && !wrapper.equals( limit ) && !( id = getWidgetId( wrapper ) ) )
+						wrapper = wrapper.getParent();
+				} else
+					id = getWidgetId( wrapper );
+
+				if ( !wrapper || !id )
+					return null;
+
+				instance = this.instances[ id ];
+
+				return instance || null;
+			};
+		} )(),
 
 		/**
 		 * Initializes a widget on a given element if the widget has not been initialized on it yet.
