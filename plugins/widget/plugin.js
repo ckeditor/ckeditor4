@@ -425,23 +425,19 @@
 				if ( !element )
 					return null;
 
-				var wrapper = element,
-					limit = this.editor.editable(),
-					id, instance;
+				var id = getWidgetId( element );
 
-				if ( !checkWrapperOnly ) {
+				// There's no need to check element parents if element is a wrapper.
+				if ( !checkWrapperOnly && !id ) {
+					var limit = this.editor.editable();
+
 					// Try to find a closest ascendant which is a widget wrapper.
-					while ( wrapper && !wrapper.equals( limit ) && !( id = getWidgetId( wrapper ) ) )
-						wrapper = wrapper.getParent();
-				} else
-					id = getWidgetId( wrapper );
+					do {
+						element = element.getParent();
+					} while ( element && !element.equals( limit ) && !( id = getWidgetId( element ) ) );
+				}
 
-				if ( !wrapper || !id )
-					return null;
-
-				instance = this.instances[ id ];
-
-				return instance || null;
+				return this.instances[ id ] || null;
 			};
 		} )(),
 
