@@ -108,19 +108,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 			CKEDITOR.tools.enableHtml5Elements( document );
 
-		CKEDITOR.on( 'instanceCreated', function( evt ) {
-			var editor = evt.editor;
-			editor.on( 'pluginsLoaded', function() {
-				editor.widgets.on( 'instanceCreated', function( evt ) {
-					if ( evt.data.name == 'simplebox' ) {
-						evt.data.on( 'ready', function() {
-							editor.widgets.initOnAll( evt.data.editables.content );
-						} );
-					}
-				} );
-			} );
-		} );
-
 		CKEDITOR.plugins.addExternal( 'simplebox', 'plugins/widget/dev/assets/simplebox/' );
 
 		CKEDITOR.replace( 'editor1', {
