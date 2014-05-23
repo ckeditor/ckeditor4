@@ -3,6 +3,9 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.2
 
+Fixed Issues:
+
+* [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking nested widget does not focus it. Additionally, performance of [`widget.repository.getByElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
 
 ## CKEditor 4.4.1
 
