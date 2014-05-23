@@ -77,16 +77,68 @@
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
-				editor.editable().on( 'keydown', function( event ) {
-					var keystroke = event.data.getKey();
 
-					if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
-						undoManager.type( keystroke, 0 );
-				} );
+				if ( CKEDITOR.env.ie ) {
+					// Old solution for IE, because IE11 and earlier does not fire input
+					// event for `contenteditable=true` elements.
+					editor.editable().on( 'keypress', function( event ) {
+						undoManager.type( event.data.getKey(), 1 );
+					} );
 
-				editor.editable().on( 'keypress', function( event ) {
-					undoManager.type( event.data.getKey(), 1 );
-				} );
+					editor.editable().on( 'keydown', function( event ) {
+						var keystroke = event.data.getKey();
+
+						if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
+							undoManager.type( keystroke, 0 );
+					} );
+				} else {
+
+					editor.on( 'instanceReady', function() {
+						console.log( 'isntR' );
+						// Save initial image.
+						// haxes, haxes needed for initial store.
+						var img = new Image( editor );
+						undoManager.snapshots.push( img );
+						undoManager.currentSnapshot = img;
+						undoManager.index = 0;
+						undoManager.onChange();
+						// Index:
+						// 0 - stays for characters input
+						// 1 - functional keys (delete/backspace)
+						undoManager.strokesRecorded = [ 0, 0 ];
+					} );
+
+					var tmpInputFired = false,
+						ignoreInputEvent = false,
+						ignoreInputEventListener = function() {
+							console.log( 'input event canceled' );
+							ignoreInputEvent = true;
+						};
+
+					editor.editable().on( 'input', function() {
+						tmpInputFired = true;
+
+						if ( ignoreInputEvent ) {
+							tmpInputFired = false;
+							ignoreInputEvent = false; // Reset flag.
+						}
+					} );
+
+					editor.editable().on( 'keyup', function( evt ) {
+						if ( tmpInputFired ) {
+							console.log( 'input flag detected, processing');
+
+							undoManager.newType( evt.data.getKey() );
+							// Reset temporary flag.
+							tmpInputFired = false;
+						}
+					} );
+
+					// On paste and drop we need to cancel tmpInputFired variable.
+					// It would result with calling undoManager.newType() on any following key.
+					editor.editable().on( 'paste', ignoreInputEventListener );
+					editor.editable().on( 'drop', ignoreInputEventListener );
+				}
 			} );
 
 			// Always save an undo snapshot - the previous mode might have
@@ -379,6 +431,42 @@
 
 		},
 
+		newType: function( keyCode ) {
+			// Backspace and delete.
+			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
+				// Note that his count does not consider current count, so you might want
+				// to increase it by 1.
+				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1;
+
+			if ( functionalKey !== this.wasFunctionalKey ) {
+				console.log( 'Key group changed' );
+				// Reset the other key group recorded count.
+				this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
+			} else if ( strokesRecorded >= 5 ) {
+				console.log( 'We have 5 or more keys recorded.' );
+				//this.save( false, null, true );
+				// Rather than using save directly we should use saveSnapshot event
+				this.editor.fire( 'saveSnapshot' );
+				// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
+				strokesRecorded = 0;
+			}
+
+			console.log( 'Already recorded: ' + strokesRecorded );
+			// Increase recorded strokes count.
+			this.strokesRecorded[ functionalKey ] = strokesRecorded;
+			//this.strokesRecorded[ functionalKey ]++;
+			// This prop will tell in next itaration what kind of group was processed previously.
+			this.wasFunctionalKey = functionalKey;
+
+			// Eventually we need to fire change event manually.
+			// Event was already fired if strokesRecorded == 0 ( snapshot has been created ),
+			// so we need to take care of any other case.
+			// @todo: mhmm seems that `this.save( false, null, true );` does not fire change
+			// event here.
+			//if ( strokesRecorded != 0 )
+				this.editor.fire( 'change' );
+		},
+
 		/**
 		 * Resets the undo stack.
 		 */
@@ -414,6 +502,9 @@
 			delete this.lastKeystroke;
 			this.typesCount = 0;
 			this.modifiersCount = 0;
+
+			// Reseting newType() variables.
+			this.strokesRecorded = [ 0, 0 ];
 		},
 
 		fireChange: function() {
