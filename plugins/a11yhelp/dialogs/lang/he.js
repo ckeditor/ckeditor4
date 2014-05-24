@@ -83,24 +83,24 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 	}
 	],
 	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
 	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
 	leftArrow: 'Left Arrow', // MISSING
 	upArrow: 'Up Arrow', // MISSING
 	rightArrow: 'Right Arrow', // MISSING
 	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
+	insert: 'הכנס',
+	'delete': 'מחק',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING
@@ -115,7 +115,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 	numpad8: 'Numpad 8', // MISSING
 	numpad9: 'Numpad 9', // MISSING
 	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
+	add: 'הוסף',
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING

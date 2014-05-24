@@ -176,8 +176,8 @@
 				return this.attributeNameRules.execOnName( context, name );
 			},
 
-			onText: function( context, text ) {
-				return this.textRules.exec( context, text );
+			onText: function( context, text, node ) {
+				return this.textRules.exec( context, text, node );
 			},
 
 			onComment: function( context, commentText, comment ) {

@@ -3,11 +3,11 @@ Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'fa', {
-	armenian: 'شمارهگذاری ارمنی',
-	bulletedTitle: 'ویژگیهای فهرست گلولهدار',
+	armenian: 'شماره‌گذاری ارمنی',
+	bulletedTitle: 'خصوصیات فهرست نقطه‌ای',
 	circle: 'دایره',
-	decimal: 'دهدهی (1, 2, 3, etc.)',
-	decimalLeadingZero: 'دهدهی همراه با صفر (01, 02, 03, etc.)',
+	decimal: 'ده‌دهی (۱، ۲، ۳، ...)',
+	decimalLeadingZero: 'دهدهی همراه با صفر (۰۱، ۰۲، ۰۳، ...)',
 	disc: 'صفحه گرد',
 	georgian: 'شمارهگذاری گریگورین (an, ban, gan, etc.)',
 	lowerAlpha: 'پانویس الفبایی (a, b, c, d, e, etc.)',

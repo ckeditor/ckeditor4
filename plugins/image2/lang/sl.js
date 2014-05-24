@@ -5,14 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'sl', {
 	alt: 'Nadomestno besedilo',
 	btnUpload: 'Pošlji na strežnik',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Podnaslovljena slika',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Podatki o sliki',
 	lockRatio: 'Zakleni razmerje',
 	menu: 'Lastnosti slike',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'slika',
+	pathNameCaption: 'napis',
 	resetSize: 'Ponastavi velikost',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Kliknite in povlecite, da spremeniti velikost',
 	title: 'Lastnosti slike',
 	uploadTab: 'Naloži',
 	urlMissing: 'Manjka vir (URL) slike.'

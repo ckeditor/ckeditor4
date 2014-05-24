@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'hr', {
 	title: 'Svojstva rezerviranog mjesta',
 	toolbar: 'Napravi rezervirano mjesto',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Ime rezerviranog mjesta',
+	invalidName: 'Rezervirano mjesto ne može biti prazno niti može sadržavati ijedan od sljedećih znakova: [, ], <, >',
+	pathName: 'rezervirano mjesto'
 } );

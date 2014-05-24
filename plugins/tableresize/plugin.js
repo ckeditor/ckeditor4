@@ -219,8 +219,9 @@
 
 				// Defer the resizing to avoid any interference among cells.
 				CKEDITOR.tools.setTimeout( function( leftCell, leftOldWidth, rightCell, rightOldWidth, tableWidth, sizeShift ) {
-					leftCell && leftCell.setStyle( 'width', pxUnit( Math.max( leftOldWidth + sizeShift, 0 ) ) );
-					rightCell && rightCell.setStyle( 'width', pxUnit( Math.max( rightOldWidth - sizeShift, 0 ) ) );
+					// 1px is the minimum valid width (#11626).
+					leftCell && leftCell.setStyle( 'width', pxUnit( Math.max( leftOldWidth + sizeShift, 1 ) ) );
+					rightCell && rightCell.setStyle( 'width', pxUnit( Math.max( rightOldWidth - sizeShift, 1 ) ) );
 
 					// If we're in the last cell, we need to resize the table as well
 					if ( tableWidth )
@@ -352,10 +353,20 @@
 
 		init: function( editor ) {
 			editor.on( 'contentDom', function() {
-				var resizer;
+				var resizer,
+					editable = editor.editable();
 
-				editor.document.getBody().on( 'mousemove', function( evt ) {
+				// In Classic editor it is better to use document
+				// instead of editable so event will work below body.
+				editable.attachListener( editable.isInline() ? editable : editor.document, 'mousemove', function( evt ) {
 					evt = evt.data;
+
+					var target = evt.getTarget();
+
+					// FF may return document and IE8 some UFO (object with no nodeType property...)
+					// instead of an element (#11823).
+					if ( target.type != CKEDITOR.NODE_ELEMENT )
+						return;
 
 					var pageX = evt.getPageOffset().x;
 
@@ -367,8 +378,7 @@
 					}
 
 					// Considering table, tr, td, tbody but nothing else.
-					var target = evt.getTarget(),
-						table, pillars;
+					var table, pillars;
 
 					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
 						return;

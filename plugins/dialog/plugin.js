@@ -160,7 +160,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			close = body.getChild( 1 );
 
 		// IFrame shim for dialog that masks activeX in IE. (#7619)
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.ie6Compat ) {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks ) {
 			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())',
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 					' frameBorder="0"' +
@@ -521,13 +521,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Some browsers instead, don't cancel key events in the keydown, but in the
 			// keypress. So we must do a longer trip in those cases. (#4531,#8985)
-			if ( CKEDITOR.env.opera || CKEDITOR.env.gecko )
+			if ( CKEDITOR.env.gecko )
 				dialogElement.on( 'keypress', keypressHandler, this );
 
 		} );
 		this.on( 'hide', function() {
 			dialogElement.removeListener( 'keydown', keydownHandler );
-			if ( CKEDITOR.env.opera || CKEDITOR.env.gecko )
+			if ( CKEDITOR.env.gecko )
 				dialogElement.removeListener( 'keypress', keypressHandler );
 
 			// Reset fields state when closing dialog.
@@ -793,16 +793,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			else
 				element.setStyle( 'display', 'block' );
 
-			// FIREFOX BUG: Fix vanishing caret for Firefox 2 or Gecko 1.8.
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 ) {
-				var dialogElement = this.parts.dialog;
-				dialogElement.setStyle( 'position', 'absolute' );
-				setTimeout( function() {
-					dialogElement.setStyle( 'position', 'fixed' );
-				}, 0 );
-			}
-
-
 			// First, set the dialog to an appropriate size.
 			this.resize( this._.contentSize && this._.contentSize.width || definition.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight );
 
@@ -831,7 +821,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}
 
 			element.on( 'keydown', accessKeyDownHandler );
-			element.on( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
+			element.on( 'keyup', accessKeyUpHandler );
 
 			// Reset the hasFocus state.
 			this._.hasFocus = false;
@@ -1031,7 +1021,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				// Remove access key handlers.
 				element.removeListener( 'keydown', accessKeyDownHandler );
-				element.removeListener( CKEDITOR.env.opera ? 'keypress' : 'keyup', accessKeyUpHandler );
+				element.removeListener( 'keyup', accessKeyUpHandler );
 
 				var editor = this._.editor;
 				editor.focus();
@@ -1101,7 +1091,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						titleHtml,
 						( !!contents.hidden ? ' style="display:none"' : '' ),
 						' id="', tabId, '"',
-						env.gecko && env.version >= 10900 && !env.hc ? '' : ' href="javascript:void(0)"',
+						env.gecko && !env.hc ? '' : ' href="javascript:void(0)"',
 						' tabIndex="-1"',
 						' hidefocus="true"',
 						' role="tab">',
@@ -1147,8 +1137,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( this._.tabs[ id ][ 0 ].hasClass( 'cke_dialog_tab_disabled' ) )
 				return;
 
-			// Returning true means that the event has been canceled
-			if ( this.fire( 'selectPage', { page: id, currentPage: this._.currentTabId } ) === true )
+			// If event was canceled - do nothing.
+			if ( this.fire( 'selectPage', { page: id, currentPage: this._.currentTabId } ) === false )
 				return;
 
 			// Hide the non-selected tabs and pages.
@@ -1889,7 +1879,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}
 
 			// Calculate the offset between content and chrome size.
-			wrapperHeight = startSize.height - dialog.parts.contents.getSize( 'height', !( CKEDITOR.env.gecko || CKEDITOR.env.opera || CKEDITOR.env.ie && CKEDITOR.env.quirks ) );
+			wrapperHeight = startSize.height - dialog.parts.contents.getSize( 'height', !( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.quirks ) );
 			wrapperWidth = startSize.width - dialog.parts.contents.getSize( 'width', 1 );
 
 			origin = { x: $event.screenX, y: $event.screenY };
@@ -2876,10 +2866,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 	CKEDITOR.dialogCommand.prototype = {
 		exec: function( editor ) {
-			// Special treatment for Opera. (#8031)
-			CKEDITOR.env.opera ? CKEDITOR.tools.setTimeout( function() {
-				editor.openDialog( this.dialogName );
-			}, 0, this ) : editor.openDialog( this.dialogName );
+			editor.openDialog( this.dialogName );
 		},
 
 		// Dialog commands just open a dialog ui, thus require no undo logic,

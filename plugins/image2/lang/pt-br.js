@@ -5,14 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
 	alt: 'Texto Alternativo',
 	btnUpload: 'Enviar para o Servidor',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Legenda da Imagem',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Informações da Imagem',
 	lockRatio: 'Travar Proporções',
 	menu: 'Formatar Imagem',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'Imagem',
+	pathNameCaption: 'Legenda',
 	resetSize: 'Redefinir para o Tamanho Original',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Click e arraste para redimensionar',
 	title: 'Formatar Imagem',
 	uploadTab: 'Enviar ao Servidor',
 	urlMissing: 'URL da imagem está faltando.'

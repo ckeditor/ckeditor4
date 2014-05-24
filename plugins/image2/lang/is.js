@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'is', {
 	alt: 'Baklægur texti',
 	btnUpload: 'Hlaða upp',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Almennt',
 	lockRatio: 'Festa stærðarhlutfall',
 	menu: 'Eigindi myndar',

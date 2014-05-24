@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.tools} object, which contains
+ * @fileOverview Defines the {@link CKEDITOR.tools} object that contains
  *		utility functions.
  */
 
@@ -13,9 +13,17 @@
 		cssVendorPrefix =
 			CKEDITOR.env.gecko ? '-moz-' :
 			CKEDITOR.env.webkit ? '-webkit-' :
-			CKEDITOR.env.opera ? '-o-' :
 			CKEDITOR.env.ie ? '-ms-' :
-			'';
+			'',
+		ampRegex = /&/g,
+		gtRegex = />/g,
+		ltRegex = /</g,
+		quoteRegex = /"/g,
+
+		ampEscRegex = /&amp;/g,
+		gtEscRegex = /&gt;/g,
+		ltEscRegex = /&lt;/g,
+		quoteEscRegex = /&quot;/g;
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -322,20 +330,31 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
-			return String( text ).replace( /&/g, '&amp;' ).replace( />/g, '&gt;' ).replace( /</g, '&lt;' );
+			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
+		},
+
+		/**
+		 * Decodes HTML entities.
+		 *
+		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
+		 *
+		 * @param {String} The string to be decoded.
+		 * @returns {String} The decoded string.
+		 */
+		htmlDecode: function( text ) {
+			return text.replace( ampEscRegex, '&' ).replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' );
 		},
 
 		/**
 		 * Replaces special HTML characters in HTMLElement attribute with their relative HTML entity values.
 		 *
-		 *		element.setAttribute( 'title', '<a " b >' );
-		 *		alert( CKEDITOR.tools.htmlEncodeAttr( element.getAttribute( 'title' ) ); // '&gt;a &quot; b &lt;'
+		 *		alert( CKEDITOR.tools.htmlEncodeAttr( '<a " b >' ) ); // '&lt;a &quot; b &gt;'
 		 *
 		 * @param {String} The attribute value to be encoded.
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( /"/g, '&quot;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
 		},
 
 		/**
@@ -343,13 +362,13 @@
 		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
 		 * representation.
 		 *
-		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&gt;a &quot; b &lt;' ); // '<a " b >'
+		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
 		 *
 		 * @param {String} text The text to be decoded.
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( /&quot;/g, '"' ).replace( /&lt;/g, '<' ).replace( /&gt;/g, '>' );
+			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
 		},
 
 		/**
@@ -1096,14 +1115,14 @@
 		},
 
 		/**
-		 * Enable HTML5 elements for older browsers (IE8) in passed document.
+		 * Enables HTML5 elements for older browsers (IE8) in the passed document.
 		 *
-		 * In IE8 this method can be also executed on document fragment.
+		 * In IE8 this method can also be executed on a document fragment.
 		 *
 		 * **Note:** This method has to be used in the `<head>` section of the document.
 		 *
 		 * @since 4.3
-		 * @param {Object} doc Native `Document` or `DocumentFragment` in which elements will be enabled.
+		 * @param {Object} doc Native `Document` or `DocumentFragment` in which the elements will be enabled.
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
 		enableHtml5Elements: function( doc, withAppend ) {
@@ -1116,7 +1135,47 @@
 				if ( withAppend )
 					doc.appendChild( el );
 			}
-		}
+		},
+
+		/**
+		 * Checks if any of the `arr` items match the provided regular expression.
+		 *
+		 * @param {Array} arr The array whose items will be checked.
+		 * @param {RegExp} regexp The regular expression.
+		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
+		 * @since 4.4
+		 */
+		checkIfAnyArrayItemMatches: function( arr, regexp ) {
+			for ( var i = 0, l = arr.length; i < l; ++i ) {
+				if ( arr[ i ].match( regexp ) )
+					return true;
+			}
+			return false;
+		},
+
+		/**
+		 * Checks if any of the `obj` properties match the provided regular expression.
+		 *
+		 * @param obj The object whose properties will be checked.
+		 * @param {RegExp} regexp The regular expression.
+		 * @returns {Boolean} Returns `true` for the first occurrence of the search pattern.
+		 * @since 4.4
+		 */
+		checkIfAnyObjectPropertyMatches: function( obj, regexp ) {
+			for ( var i in obj ) {
+				if ( i.match( regexp ) )
+					return true;
+			}
+			return false;
+		},
+
+		/**
+		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
+		 *
+		 * @since 4.4
+		 * @readonly
+		 */
+		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw=='
 	};
 } )();
 

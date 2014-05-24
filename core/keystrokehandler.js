@@ -48,7 +48,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 			var command = this.keystrokes[ keyCombination ];
 			var editor = this._.editor;
 
-			cancel = ( editor.fire( 'key', { keyCode: keyCombination } ) === false );
+			cancel = ( editor.fire( 'key', { keyCode: keyCombination, domEvent: event } ) === false );
 
 			if ( !cancel ) {
 				if ( command ) {
@@ -87,7 +87,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 
 			// Some browsers instead, don't cancel key events in the keydown, but in the
 			// keypress. So we must do a longer trip in those cases.
-			if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+			if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
 				domObject.on( 'keypress', onKeyPress, this );
 		}
 	};
@@ -143,11 +143,27 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 /**
  * Fired when any keyboard key (or combination) is pressed into the editing area.
  *
+ *		editor.on( 'key', function( evt ) {
+ *			if ( evt.data.keyCode == CKEDITOR.CTRL + 90 ) {
+ *				// Do something...
+ *
+ *				// Cancel the event, so other listeners won't be executed and
+ *				// keydown's default behavior will be prevented.
+ *				evt.cancel();
+ *			}
+ *		} );
+ *
+ * Usually you'll want to use the {@link CKEDITOR.editor#setKeystroke} method or
+ * the {@link CKEDITOR.config#keystrokes} option to attach a keystroke to some {@link CKEDITOR.command command}.
+ * Key event listeners are usuful when some action should be executed conditionally, based
+ * for example on precise selection location.
+ *
  * @event key
  * @member CKEDITOR.editor
  * @param data
  * @param {Number} data.keyCode A number representing the key code (or combination).
  * It is the sum of the current key code and the {@link CKEDITOR#CTRL}, {@link CKEDITOR#SHIFT}
  * and {@link CKEDITOR#ALT} constants, if those are pressed.
+ * @param {CKEDITOR.dom.event} data.domEvent A `keydown` DOM event instance. Available since CKEditor 4.4.1.
  * @param {CKEDITOR.editor} editor This editor instance.
  */

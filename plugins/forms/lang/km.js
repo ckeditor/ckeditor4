@@ -4,62 +4,62 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'km', {
 	button: {
-		title: 'ការកំណត់ ប៉ូតុន',
-		text: 'អត្ថបទ(តំលៃ)',
+		title: 'លក្ខណៈ​ប៊ូតុង',
+		text: 'អត្ថបទ (តម្លៃ)',
 		type: 'ប្រភេទ',
-		typeBtn: 'Button',
-		typeSbm: 'Submit',
-		typeRst: 'Reset'
+		typeBtn: 'ប៊ូតុង',
+		typeSbm: 'ដាក់ស្នើ',
+		typeRst: 'កំណត់​ឡើង​វិញ'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'ការកំណត់ប្រអប់ជ្រើសរើស',
-		radioTitle: 'ការកំណត់ប៉ូតុនរង្វង់',
-		value: 'តំលៃ',
-		selected: 'បានជ្រើសរើស'
+		checkboxTitle: 'លក្ខណៈ​ប្រអប់​ធីក',
+		radioTitle: 'លក្ខនៈ​ប៊ូតុង​មូល',
+		value: 'តម្លៃ',
+		selected: 'បាន​ជ្រើស'
 	},
 	form: {
-		title: 'ការកំណត់បែបបទ',
-		menu: 'ការកំណត់បែបបទ',
+		title: 'លក្ខណៈ​បែបបទ',
+		menu: 'លក្ខណៈ​បែបបទ',
 		action: 'សកម្មភាព',
-		method: 'វិធី',
-		encoding: 'Encoding'
+		method: 'វិធីសាស្ត្រ',
+		encoding: 'ការ​អ៊ិនកូដ'
 	},
 	hidden: {
-		title: 'ការកំណត់ជួរលាក់',
+		title: 'លក្ខណៈ​វាល​កំបាំង',
 		name: 'ឈ្មោះ',
-		value: 'តំលៃ'
+		value: 'តម្លៃ'
 	},
 	select: {
-		title: 'ការកំណត់ជួរជ្រើសរើស',
-		selectInfo: 'ពត៌មាន',
-		opAvail: 'ការកំណត់ជ្រើសរើស ដែលអាចកំណត់បាន',
-		value: 'តំលៃ',
+		title: 'លក្ខណៈ​វាល​ជម្រើស',
+		selectInfo: 'ព័ត៌មាន​ជម្រើស',
+		opAvail: 'ជម្រើស​ដែល​មាន',
+		value: 'តម្លៃ',
 		size: 'ទំហំ',
 		lines: 'បន្ទាត់',
-		chkMulti: 'អនុញ្ញាតអោយជ្រើសរើសច្រើន',
-		opText: 'ពាក្យ',
-		opValue: 'តំលៃ',
+		chkMulti: 'អនុញ្ញាត​ពហុ​ជម្រើស',
+		opText: 'អត្ថបទ',
+		opValue: 'តម្លៃ',
 		btnAdd: 'បន្ថែម',
 		btnModify: 'ផ្លាស់ប្តូរ',
 		btnUp: 'លើ',
 		btnDown: 'ក្រោម',
-		btnSetValue: 'Set as selected value',
-		btnDelete: 'លប់'
+		btnSetValue: 'កំណត់​ជា​តម្លៃ​ដែល​បាន​ជ្រើស',
+		btnDelete: 'លុប'
 	},
 	textarea: {
-		title: 'ការកំណត់កន្លែងសរសេរអត្ថបទ',
-		cols: 'ជូរឈរ',
-		rows: 'ជូរផ្តេក'
+		title: 'លក្ខណៈ​ប្រអប់​អត្ថបទ',
+		cols: 'ជួរឈរ',
+		rows: 'ជួរដេក'
 	},
 	textfield: {
-		title: 'ការកំណត់ជួរអត្ថបទ',
+		title: 'លក្ខណៈ​វាល​អត្ថបទ',
 		name: 'ឈ្មោះ',
-		value: 'តំលៃ',
-		charWidth: 'ទទឹង អក្សរ',
+		value: 'តម្លៃ',
+		charWidth: 'ទទឹង​តួ​អក្សរ',
 		maxChars: 'អក្សរអតិបរិមា',
 		type: 'ប្រភេទ',
-		typeText: 'ពាក្យ',
-		typePass: 'ពាក្យសំងាត់',
+		typeText: 'អត្ថបទ',
+		typePass: 'ពាក្យសម្ងាត់',
 		typeEmail: 'អ៊ីមែល',
 		typeSearch: 'ស្វែង​រក',
 		typeTel: 'លេខ​ទូរសព្ទ',

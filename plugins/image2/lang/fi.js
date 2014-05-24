@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'fi', {
 	alt: 'Vaihtoehtoinen teksti',
 	btnUpload: 'Lähetä palvelimelle',
 	captioned: 'Kuva kuvatekstillä',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Kuvan tiedot',
 	lockRatio: 'Lukitse suhteet',
 	menu: 'Kuvan ominaisuudet',

@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'bn', {
 	alt: 'বিকল্প টেক্সট',
 	btnUpload: 'ইহাকে সার্ভারে প্রেরন কর',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'ছবির তথ্য',
 	lockRatio: 'অনুপাত লক কর',
 	menu: 'ছবির প্রোপার্টি',

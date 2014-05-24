@@ -443,10 +443,6 @@
 			 */
 			editor.title = typeof configTitle == 'string' || configTitle === false ? configTitle : [ editor.lang.editor, editor.name ].join( ', ' );
 
-			// We're not able to support RTL in Firefox 2 at this time.
-			if ( CKEDITOR.env.gecko && CKEDITOR.env.version < 10900 && editor.lang.dir == 'rtl' )
-				editor.lang.dir = 'ltr';
-
 			if ( !editor.config.contentsLangDirection ) {
 				// Fallback to either the editable element direction or editor UI direction depending on creators.
 				editor.config.contentsLangDirection = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? editor.element.getDirection( 1 ) : editor.lang.dir;
@@ -782,7 +778,14 @@
 		 * @returns {CKEDITOR.dom.elementPath}
 		 */
 		elementPath: function( startNode ) {
-			startNode = startNode || this.getSelection().getStartElement();
+			if ( !startNode ) {
+				var sel = this.getSelection();
+				if ( !sel )
+					return null;
+
+				startNode = sel.getStartElement();
+			}
+
 			return startNode ? new CKEDITOR.dom.elementPath( startNode, this.editable() ) : null;
 		},
 
@@ -818,11 +821,11 @@
 			};
 
 			if ( command && command.state != CKEDITOR.TRISTATE_DISABLED ) {
-				if ( this.fire( 'beforeCommandExec', eventData ) !== true ) {
+				if ( this.fire( 'beforeCommandExec', eventData ) !== false ) {
 					eventData.returnValue = command.exec( eventData.commandData );
 
 					// Fire the 'afterCommandExec' immediately if command is synchronous.
-					if ( !command.async && this.fire( 'afterCommandExec', eventData ) !== true )
+					if ( !command.async && this.fire( 'afterCommandExec', eventData ) !== false )
 						return eventData.returnValue;
 				}
 			}
@@ -932,10 +935,15 @@
 		 * @param {Boolean} internal Whether to suppress any event firing when copying data internally inside the editor.
 		 */
 		setData: function( data, callback, internal ) {
-			if ( callback ) {
-				this.on( 'dataReady', function( evt ) {
-					evt.removeListener();
-					callback.call( evt.editor );
+			!internal && this.fire( 'saveSnapshot' );
+
+			if ( callback || !internal ) {
+				this.once( 'dataReady', function( evt ) {
+					if ( !internal )
+						this.fire( 'saveSnapshot' );
+
+					if ( callback )
+						callback.call( evt.editor );
 				} );
 			}
 
@@ -1362,13 +1370,13 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * The document that stores the editor contents.
  *
- * * For the framed editor it is equal to the document inside the
- * iframe containing the editable element.
+ * * For the classic (`iframe`-based) editor it is equal to the document inside the
+ * `iframe` containing the editable element.
  * * For the inline editor it is equal to {@link CKEDITOR#document}.
  *
  * The document object is available after the {@link #contentDom} event is fired
  * and may be invalidated when the {@link #contentDomUnload} event is fired
- * (framed editor only).
+ * (classic editor only).
  *
  *		editor.on( 'contentDom', function() {
  *			console.log( editor.document );
@@ -1717,8 +1725,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * editor's content. It is also a first event fired after
  * {@link CKEDITOR.editable} is initialized.
  *
- * This event is particularly important for framed editor, because
- * on editor initialization and every time data are set
+ * This event is particularly important for classic (`iframe`-based)
+ * editor, because on editor initialization and every time data are set
  * (by {@link CKEDITOR.editor#method-setData}) contents DOM structure
  * is rebuilt. Thus, e.g. you need to attach DOM events listeners
  * on editable one more time.

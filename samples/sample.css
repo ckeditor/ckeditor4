@@ -18,6 +18,14 @@ input, textarea, select, option, optgroup, button, td, th
 	font-size: 100%;
 }
 
+pre
+{
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	-webkit-tab-size: 4;
+	tab-size: 4;
+}
+
 pre, code, kbd, samp, tt
 {
 	font-family: monospace,monospace;
@@ -25,8 +33,8 @@ pre, code, kbd, samp, tt
 }
 
 body {
-    width: 960px;
-    margin: 0 auto;
+	width: 960px;
+	margin: 0 auto;
 }
 
 code
@@ -165,10 +173,6 @@ pre.samples
 	padding: 0.25em;
 	white-space: pre-wrap; /* CSS 2.1 */
 	word-wrap: break-word; /* IE7 */
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	-webkit-tab-size: 4;
-	tab-size: 4;
 }
 
 #footer
@@ -308,9 +312,9 @@ dl.samples > dd
 }
 .warning
 {
-    color: #ff0000;
+	color: #ff0000;
 	background-color: #FFCCBA;
-    border: 2px dotted #ff0000;
+	border: 2px dotted #ff0000;
 	padding: 15px 10px;
 	margin: 10px 0;
 }
@@ -342,15 +346,20 @@ blockquote
 }
 
 img.right {
-    border: 1px solid #ccc;
-    float: right;
-    margin-left: 15px;
-    padding: 5px;
+	border: 1px solid #ccc;
+	float: right;
+	margin-left: 15px;
+	padding: 5px;
 }
 
 img.left {
-    border: 1px solid #ccc;
-    float: left;
-    margin-right: 15px;
-    padding: 5px;
+	border: 1px solid #ccc;
+	float: left;
+	margin-right: 15px;
+	padding: 5px;
+}
+
+.marker
+{
+	background-color: Yellow;
 }

@@ -14,7 +14,7 @@
 ( function() {
 	CKEDITOR.plugins.add( 'placeholder', {
 		requires: 'widget,dialog',
-		lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'placeholder', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -65,7 +65,14 @@
 			var placeholderReplaceRegex = /\[\[([^\[\]])+\]\]/g;
 
 			editor.dataProcessor.dataFilter.addRules( {
-				text: function( text ) {
+				text: function( text, node ) {
+					var dtd = node.parent && CKEDITOR.dtd[ node.parent.name ];
+
+					// Skip the case when placeholder is in elements like <title> or <textarea>
+					// but upcast placeholder in custom elements (no DTD).
+					if ( dtd && !dtd.span )
+						return;
+
 					return text.replace( placeholderReplaceRegex, function( match ) {
 						// Creating widget code.
 						var widgetWrapper = null,

@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 
 			{
 			name: '편집기 다이얼로그',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend: '다이얼로그 내부에서 TAB'
 		},
 
 			{

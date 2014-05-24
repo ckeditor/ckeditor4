@@ -60,7 +60,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 			legend: 'Tryck på ${underline}'
 		},
 			{
-			name: 'kommandot länk',
+			name: 'Kommandot länk',
 			legend: 'Tryck på ${link}'
 		},
 			{

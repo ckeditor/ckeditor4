@@ -136,6 +136,10 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 
 				delete nativeListeners[ eventName ];
 			}
+
+			// Remove events from events object so fire() method will not call
+			// listeners (#11400).
+			CKEDITOR.event.prototype.removeAllListeners.call( this );
 		}
 	};
 } )();
@@ -174,6 +178,8 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * thus any wish to continue access it from other element clones (either created by
 	 * clone node or from `innerHtml`) will fail, for such usage, please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
+	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
 	 *
 	 *		var element = new CKEDITOR.dom.element( 'span' );
 	 *		element.setCustomData( 'hasCustomData', true );
@@ -243,8 +249,10 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	};
 
 	/**
-	 * Gets an ID that can be used to identiquely identify this DOM object in
+	 * Gets an ID that can be used to identify this DOM object in
 	 * the running session.
+	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
 	 *
 	 * @returns {Number} A unique ID.
 	 */

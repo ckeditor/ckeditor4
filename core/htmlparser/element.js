@@ -12,7 +12,7 @@
  * @extends CKEDITOR.htmlParser.node
  * @constructor Creates an element class instance.
  * @param {String} name The element name.
- * @param {Object} attributes And object holding all attributes defined for
+ * @param {Object} attributes An object storing all attributes defined for
  * this element.
  */
 CKEDITOR.htmlParser.element = function( name, attributes ) {
@@ -24,7 +24,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	this.name = name;
 
 	/**
-	 * Holds the attributes defined for this element.
+	 * Stores the attributes defined for this element.
 	 *
 	 * @property {Object}
 	 */
@@ -57,9 +57,9 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
  * Object presentation of CSS style declaration text.
  *
  * @class
- * @constructor Creates a cssStyle class instance.
+ * @constructor Creates a `cssStyle` class instance.
  * @param {CKEDITOR.htmlParser.element/String} elementOrStyleText
- * A html parser element or the inline style text.
+ * An HTML parser element or the inline style text.
  */
 CKEDITOR.htmlParser.cssStyle = function() {
 	var styleText,
@@ -82,7 +82,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		rules: rules,
 
 		/**
-		 * Apply the styles onto the specified element or object.
+		 * Applies the styles to the specified element or object.
 		 *
 		 * @param {CKEDITOR.htmlParser.element/CKEDITOR.dom.element/Object} obj
 		 */
@@ -94,7 +94,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Serialize CSS style declaration to string.
+		 * Serializes CSS style declaration to a string.
 		 *
 		 * @returns {String}
 		 */
@@ -137,7 +137,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		add: fragProto.add,
 
 		/**
-		 * Clone this element.
+		 * Clones this element.
 		 *
 		 * @returns {CKEDITOR.htmlParser.element} The element clone.
 		 */
@@ -146,13 +146,13 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Filter this element and its children with given filter.
+		 * Filters this element and its children with the given filter.
 		 *
 		 * @since 4.1
 		 * @param {CKEDITOR.htmlParser.filter} filter
-		 * @returns {Boolean} Method returns `false` when this element has
-		 * been removed or replaced with other. This is an information for
-		 * {@link #filterChildren} that it has to repeat filter on current
+		 * @returns {Boolean} The method returns `false` when this element has
+		 * been removed or replaced with another. This information means that
+		 * {@link #filterChildren} has to repeat the filter on the current
 		 * position in parent's children array.
 		 */
 		filter: function( filter, context ) {
@@ -251,10 +251,10 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Filter this element's children with given filter.
+		 * Filters this element's children with the given filter.
 		 *
 		 * Element's children may only be filtered once by one
-		 * instance of filter.
+		 * instance of the filter.
 		 *
 		 * @method filterChildren
 		 * @param {CKEDITOR.htmlParser.filter} filter
@@ -262,11 +262,11 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		filterChildren: fragProto.filterChildren,
 
 		/**
-		 * Writes the element HTML to a CKEDITOR.htmlWriter.
+		 * Writes the element HTML to the CKEDITOR.htmlWriter.
 		 *
-		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which HTML will be written.
 		 * @param {CKEDITOR.htmlParser.filter} [filter] The filter to be applied to this node.
-		 * **Note:** it's unsafe to filter offline (not appended) node.
+		 * **Note:** It is unsafe to filter an offline (not appended) node.
 		 */
 		writeHtml: function( writer, filter ) {
 			if ( filter )
@@ -306,15 +306,15 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Send children of this element to the writer.
+		 * Sends children of this element to the writer.
 		 *
-		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which write the HTML.
+		 * @param {CKEDITOR.htmlParser.basicWriter} writer The writer to which HTML will be written.
 		 * @param {CKEDITOR.htmlParser.filter} [filter]
 		 */
 		writeChildrenHtml: fragProto.writeChildrenHtml,
 
 		/**
-		 * Replace this element with its children.
+		 * Replaces this element with its children.
 		 *
 		 * @since 4.1
 		 */
@@ -328,9 +328,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Execute callback on each node (of given type) in this element.
+		 * Executes a callback on each node (of the given type) in this element.
 		 *
-		 *		// Create <p> element with foo<b>bar</b>bom as its content.
+		 *		// Create a <p> element with foo<b>bar</b>bom as its content.
 		 *		var elP = CKEDITOR.htmlParser.fragment.fromHtml( 'foo<b>bar</b>bom', 'p' );
 		 *		elP.forEach( function( node ) {
 		 *			console.log( node );
@@ -345,19 +345,19 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *
 		 * @since 4.1
 		 * @param {Function} callback Function to be executed on every node.
-		 * **Since 4.3** if `callback` returned `false` descendants of current node will be ignored.
-		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as argument.
-		 * @param {Number} [type] If specified `callback` will be executed only on nodes of this type.
-		 * @param {Boolean} [skipRoot] Don't execute `callback` on this element.
+		 * **Since 4.3**: If `callback` returned `false`, the descendants of the current node will be ignored.
+		 * @param {CKEDITOR.htmlParser.node} callback.node Node passed as an argument.
+		 * @param {Number} [type] Whether the specified `callback` will be executed only on nodes of this type.
+		 * @param {Boolean} [skipRoot] Do not execute `callback` on this element.
 		 */
 		forEach: fragProto.forEach,
 
 		/**
-		 * Gets this element's first child. If `condition` is given returns
-		 * first child which satisfies that condition.
+		 * Gets this element's first child. If `condition` is given, this method returns
+		 * the first child which satisfies that condition.
 		 *
 		 * @since 4.3
-		 * @param {String/Object/Function} condition Name of a child, hash of names or validator function.
+		 * @param {String/Object/Function} condition Name of a child, a hash of names, or a validator function.
 		 * @returns {CKEDITOR.htmlParser.node}
 		 */
 		getFirst: function( condition ) {
@@ -412,12 +412,12 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Splits this element at given index.
+		 * Splits this element at the given index.
 		 *
 		 * @since 4.3
-		 * @param {Number} index Index at which element will be split &ndash; `0` means beginning,
+		 * @param {Number} index Index at which the element will be split &mdash; `0` means the beginning,
 		 * `1` after first child node, etc.
-		 * @returns {CKEDITOR.htmlParser.element} New element, following this one.
+		 * @returns {CKEDITOR.htmlParser.element} The new element following this one.
 		 */
 		split: function( index ) {
 			var cloneChildren = this.children.splice( index, this.children.length - index ),
@@ -440,7 +440,22 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Removes class name from classes list.
+		 * Adds a class name to the list of classes.
+		 *
+		 * @since 4.4
+		 * @param {String} className The class name to be added.
+		 */
+		addClass: function( className ) {
+			if ( this.hasClass( className ) )
+				return;
+
+			var c = this.attributes[ 'class' ] || '';
+
+			this.attributes[ 'class' ] = c + ( c ? ' ' : '' ) + className;
+		},
+
+		/**
+		 * Removes a class name from the list of classes.
 		 *
 		 * @since 4.3
 		 * @param {String} className The class name to be removed.
@@ -492,10 +507,12 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			if ( !ctx.off && this.attributes[ 'data-cke-processor' ] == 'off' )
 				changes.push( 'off', true );
 
-			if ( !ctx.nonEditable && this.attributes[ 'contenteditable' ] == 'false' )
+			if ( !ctx.nonEditable && this.attributes.contenteditable == 'false' )
 				changes.push( 'nonEditable', true );
-			// A context to be given nestedEditable must be nonEditable first (by inheritance).
-			else if ( !ctx.nestedEditable && this.attributes[ 'contenteditable' ] == 'true' )
+			// A context to be given nestedEditable must be nonEditable first (by inheritance) (#11372, #11698).
+			// Special case: #11504 - filter starts on <body contenteditable=true>,
+			// so ctx.nonEditable has not been yet set to true.
+			else if ( ctx.nonEditable && !ctx.nestedEditable && this.attributes.contenteditable == 'true' )
 				changes.push( 'nestedEditable', true );
 
 			if ( changes.length ) {

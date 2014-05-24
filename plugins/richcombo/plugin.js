@@ -17,7 +17,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
 			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
-			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
@@ -25,8 +25,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
-	// TODO: Check if really needed for Gecko+Mac.
-	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+	// TODO: Check if really needed.
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
 		template += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
@@ -36,7 +36,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
-		' onmousedown="return CKEDITOR.tools.callFunction({mousedownFn},event);" ' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
@@ -161,6 +160,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				function updateState() {
+					// Don't change state while richcombo is active (#11793).
+					if ( this.getState() == CKEDITOR.TRISTATE_ON )
+						return;
+
 					var state = this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
 					if ( editor.readOnly && !this.readOnly )
@@ -174,9 +177,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 						this.refresh();
 				}
 
-				// Update status when activeFilter, mode or readOnly changes.
+				// Update status when activeFilter, mode, selection or readOnly changes.
 				editor.on( 'activeFilterChange', updateState, this );
 				editor.on( 'mode', updateState, this );
+				editor.on( 'selectionChange', updateState, this );
 				// If this combo is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );
 
@@ -215,16 +219,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 				} );
 
 				var selLocked = 0;
-				var mouseDownFn = CKEDITOR.tools.addFunction( function() {
-					// Opera: lock to prevent loosing editable text selection when clicking on button.
-					if ( CKEDITOR.env.opera ) {
-						var edt = editor.editable();
-						if ( edt.isInline() && edt.hasFocus ) {
-							editor.lockSelection();
-							selLocked = 1;
-						}
-					}
-				} );
 
 				// For clean up
 				instance.keyDownFn = keyDownFn;
@@ -235,9 +229,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 					label: this.label,
 					title: this.title,
 					cls: this.className || '',
-					titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+					titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 					keydownFn: keyDownFn,
-					mousedownFn: mouseDownFn,
 					focusFn: focusFn,
 					clickFn: clickFn
 				};
@@ -428,9 +421,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 	} );
 
 	/**
-	 * @member CKEDITOR.ui
-	 * @param {String}
+	 * @param {String} name
 	 * @param {Object} definition
+	 * @member CKEDITOR.ui
 	 * @todo
 	 */
 	CKEDITOR.ui.prototype.addRichCombo = function( name, definition ) {

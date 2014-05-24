@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'it', {
 	title: 'Proprietà segnaposto',
 	toolbar: 'Crea segnaposto',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Nome segnaposto',
+	invalidName: 'Il segnaposto non può essere vuoto e non può contenere nessuno dei seguenti caratteri: [, ], <, >',
+	pathName: 'segnaposto'
 } );

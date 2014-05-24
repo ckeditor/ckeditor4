@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'el', {
 	alt: 'Εναλλακτικό Κείμενο',
 	btnUpload: 'Αποστολή στον Διακομιστή',
 	captioned: 'Εικόνα με λεζάντα',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Πληροφορίες Εικόνας',
 	lockRatio: 'Κλείδωμα Αναλογίας',
 	menu: 'Ιδιότητες Εικόνας',

@@ -207,6 +207,12 @@ CKEDITOR.config = {
 	 *
 	 *		config.bodyClass = 'contents';
 	 *
+	 * **Note:** Editor needs to load stylesheets containing contents styles. You can either
+	 * copy them to the `contents.css` file that editor loads by default or set the {@link #contentsCss}
+	 * option.
+	 *
+	 * **Note:** This setting applies only to the classic editor (the one that uses `iframe`).
+	 *
 	 * @since 3.1
 	 * @cfg
 	 */
@@ -327,10 +333,7 @@ CKEDITOR.config = {
 	 *		config.blockedKeystrokes = [
 	 *			CKEDITOR.CTRL + 66, // CTRL+B
 	 *			CKEDITOR.CTRL + 73, // CTRL+I
-	 *			CKEDITOR.CTRL + 85, // CTRL+U
-	 *			CKEDITOR.CTRL + 89, // CTRL+Y
-	 *			CKEDITOR.CTRL + 90, // CTRL+Z
-	 *			CKEDITOR.CTRL + CKEDITOR.SHIFT + 90  // CTRL+SHIFT+Z
+	 *			CKEDITOR.CTRL + 85 // CTRL+U
 	 *		];
 	 *
 	 * @cfg {Array} [blockedKeystrokes=see example]
@@ -338,11 +341,7 @@ CKEDITOR.config = {
 	blockedKeystrokes: [
 		CKEDITOR.CTRL + 66, // CTRL+B
 		CKEDITOR.CTRL + 73, // CTRL+I
-		CKEDITOR.CTRL + 85, // CTRL+U
-
-		CKEDITOR.CTRL + 89, // CTRL+Y
-		CKEDITOR.CTRL + 90, // CTRL+Z
-		CKEDITOR.CTRL + CKEDITOR.SHIFT + 90  // CTRL+SHIFT+Z
+		CKEDITOR.CTRL + 85 // CTRL+U
 	]
 };
 

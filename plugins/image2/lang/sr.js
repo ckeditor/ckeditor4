@@ -6,6 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'sr', {
 	alt: 'Алтернативни текст',
 	btnUpload: 'Пошаљи на сервер',
 	captioned: 'Captioned image', // MISSING
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Инфо слике',
 	lockRatio: 'Закључај однос',
 	menu: 'Особине слика',

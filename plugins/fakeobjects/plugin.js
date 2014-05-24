@@ -52,7 +52,7 @@
 	};
 
 	var plugin = CKEDITOR.plugins.add( 'fakeobjects', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			// Allow image with all styles and classes plus src, alt and title attributes.
@@ -64,8 +64,11 @@
 			var dataProcessor = editor.dataProcessor,
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
-			if ( htmlFilter )
-				htmlFilter.addRules( htmlFilterRules );
+			if ( htmlFilter ) {
+				htmlFilter.addRules( htmlFilterRules, {
+					applyToAll: true
+				} );
+			}
 		}
 	} );
 
@@ -88,7 +91,7 @@
 
 		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
 		if ( !CKEDITOR.env.hc )
-			attributes.src = CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' );
+			attributes.src = CKEDITOR.tools.transparentImageData;
 
 		if ( realElementType )
 			attributes[ 'data-cke-real-element-type' ] = realElementType;
@@ -133,7 +136,7 @@
 
 		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
 		if ( !CKEDITOR.env.hc )
-			attributes.src = CKEDITOR.getUrl( plugin.path + 'images/spacer.gif' );
+			attributes.src = CKEDITOR.tools.transparentImageData;
 
 		if ( realElementType )
 			attributes[ 'data-cke-real-element-type' ] = realElementType;

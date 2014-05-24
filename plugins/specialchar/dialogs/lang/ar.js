@@ -5,20 +5,20 @@
 
 CKEDITOR.plugins.setLang( 'specialchar', 'ar', {
 	euro: 'رمز اليورو',
-	lsquo: 'علامة تنصيص علي اليسار',
-	rsquo: 'علامة تنصيص علي اليمين',
+	lsquo: 'علامة تنصيص فردية علي اليسار',
+	rsquo: 'علامة تنصيص فردية علي اليمين',
 	ldquo: 'علامة تنصيص مزدوجة علي اليسار',
 	rdquo: 'علامة تنصيص مزدوجة علي اليمين',
-	ndash: 'En dash –',
-	mdash: 'Em dash —',
+	ndash: 'En dash',
+	mdash: 'Em dash',
 	iexcl: 'علامة تعجب مقلوبة',
-	cent: 'رمز سنتيم',
+	cent: 'رمز السنت',
 	pound: 'رمز الاسترليني',
 	curren: 'رمز العملة',
-	yen: 'رمز الين الياباني',
-	brvbar: 'خط عمودي مكسور',
-	sect: 'رمز الفصيلة',
-	uml: 'Diaeresis', // MISSING
+	yen: 'رمز الين',
+	brvbar: 'شريط مقطوع',
+	sect: 'رمز القسم',
+	uml: 'Diaeresis',
 	copy: 'علامة حقوق الطبع',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Left-pointing double angle quotation mark', // MISSING

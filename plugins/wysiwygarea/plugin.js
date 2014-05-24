@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The "wysiwygarea" plugin. It registers the "wysiwyg" editing
+ * @fileOverview The WYSIWYG Area plugin. It registers the "wysiwyg" editing
  *		mode, which handles the main editing area space.
  */
 
@@ -102,6 +102,29 @@
 			} );
 		}
 	} );
+
+	/**
+	 * Adds the path to a stylesheet file to the exisiting {@link CKEDITOR.config#contentsCss} value.
+	 *
+	 * **Note:** This method is available only with the `wysiwygarea` plugin and only affects
+	 * classic editors based on it (so it does not affect inline editors).
+	 *
+	 *		editor.addContentsCss( 'assets/contents.css' );
+	 *
+	 * @since 4.4
+	 * @param {String} cssPath The path to the stylesheet file which should be added.
+	 * @member CKEDITOR.editor
+	 */
+	CKEDITOR.editor.prototype.addContentsCss = function( cssPath ) {
+		var cfg = this.config,
+			curContentsCss = cfg.contentsCss;
+
+		// Convert current value into array.
+		if ( !CKEDITOR.tools.isArray( curContentsCss ) )
+			cfg.contentsCss = curContentsCss ? [ curContentsCss ] : [];
+
+		cfg.contentsCss.push( cssPath );
+	};
 
 	function onDomReady( win ) {
 		var editor = this.editor,
@@ -264,6 +287,14 @@
 			} );
 		}
 
+		if ( CKEDITOR.env.iOS ) {
+			// [iOS] If touch is bound to any parent of the iframe blur happens on any touch
+			// event and body becomes the focused element (#10714).
+			this.attachListener( doc, 'touchend', function() {
+				win.focus();
+			} );
+		}
+
 		// ## END
 
 
@@ -277,6 +308,10 @@
 			editor.document.$.title = this._.docTitle;
 
 		CKEDITOR.tools.setTimeout( function() {
+			// Editable is ready after first setData.
+			if ( this.status == 'unloaded' )
+				this.status = 'ready';
+
 			editor.fire( 'contentDom' );
 
 			if ( this._.isPendingFocus ) {
@@ -560,7 +595,7 @@
 } )();
 
 /**
- * Disables the ability of resize objects (image and tables) in the editing area.
+ * Disables the ability to resize objects (images and tables) in the editing area.
  *
  *		config.disableObjectResizing = true;
  *
@@ -571,7 +606,7 @@ CKEDITOR.config.disableObjectResizing = false;
 
 /**
  * Disables the "table tools" offered natively by the browser (currently
- * Firefox only) to make quick table editing operations, like adding or
+ * Firefox only) to perform quick table editing operations, like adding or
  * deleting rows and columns.
  *
  *		config.disableNativeTableHandles = false;
@@ -582,13 +617,14 @@ CKEDITOR.config.disableObjectResizing = false;
 CKEDITOR.config.disableNativeTableHandles = true;
 
 /**
- * Disables the built-in words spell checker if browser provides one.
+ * Disables the built-in spell checker if the browser provides one.
  *
- * **Note:** Although word suggestions provided by browsers (natively) will
+ * **Note:** Although word suggestions provided natively by the browsers will
  * not appear in CKEditor's default context menu,
  * users can always reach the native context menu by holding the
  * *Ctrl* key when right-clicking if {@link #browserContextMenuOnCtrl}
- * is enabled or you're simply not using the context menu plugin.
+ * is enabled or you are simply not using the
+ * [context menu](http://ckeditor.com/addon/contextmenu) plugin.
  *
  *		config.disableNativeSpellChecker = false;
  *
@@ -598,8 +634,8 @@ CKEDITOR.config.disableNativeTableHandles = true;
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * The CSS file(s) to be used to apply style to the contents. It should
- * reflect the CSS used in the final pages where the contents are to be
+ * The CSS file(s) to be used to apply style to the content. It should
+ * reflect the CSS used in the final pages where the content is to be
  * used.
  *
  *		config.contentsCss = '/css/mysitestyles.css';
@@ -611,8 +647,8 @@ CKEDITOR.config.disableNativeSpellChecker = true;
 CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
 
 /**
- * Language code of  the writting language which is used to author the editor
- * contents.
+ * Language code of  the writing language which is used to author the editor
+ * content.
  *
  *		config.contentsLanguage = 'fr';
  *
@@ -631,8 +667,8 @@ CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
  */
 
 /**
- * Whether automatically create wrapping blocks around inline contents inside document body,
- * this helps to ensure the integrality of the block enter mode.
+ * Whether to automatically create wrapping blocks around inline content inside the document body.
+ * This helps to ensure the integrity of the block *Enter* mode.
  *
  * **Note:** Changing the default value might introduce unpredictable usability issues.
  *

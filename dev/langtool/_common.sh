@@ -4,7 +4,7 @@
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
 
-CKLANGTOOL_VERSION="1.2.1"
+CKLANGTOOL_VERSION="1.2.2"
 CKLANGTOOL_URL="http://download.cksource.com/CKLangTool/$CKLANGTOOL_VERSION/langtool.jar"
 
 PROGNAME=$(basename $0)
@@ -46,6 +46,6 @@ fi
 cd ../..
 
 
-plugins=( about basicstyles bidi blockquote button clipboard colorbutton colordialog contextmenu devtools div docprops elementspath fakeobjects find flash font format forms horizontalrule iframe image image2 indent justify language link list liststyle magicline maximize mathjax newpage pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo widget )
+plugins=( about basicstyles bidi blockquote button clipboard codesnippet colorbutton colordialog contextmenu devtools div docprops elementspath fakeobjects find flash font format forms horizontalrule iframe image image2 indent justify language link list liststyle magicline maximize mathjax newpage pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo widget )
 plugins_dialogs=( a11yhelp specialchar )
 

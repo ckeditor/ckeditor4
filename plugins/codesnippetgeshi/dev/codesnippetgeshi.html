@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Code Snippet &mdash; CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+	<meta name="ckeditor-sample-name" content="Code Snippet plugin">
+	<meta name="ckeditor-sample-group" content="Plugins">
+	<meta name="ckeditor-sample-description" content="View and modify code using the Code Snippet plugin.">
+	<meta name="ckeditor-sample-isnew" content="1">
+	<style>
+
+		#editable
+		{
+			padding: 10px 20px;
+		}
+		pre > code {
+			display: block;
+		}
+
+	</style>
+</head>
+<body>
+	<textarea id="editor1">
+&lt;p&gt;JavaScript code:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code class="language-javascript"&gt;function isEmpty( object ) {
+	for ( var i in object ) {
+		if ( object.hasOwnProperty( i ) )
+			return false;
+	}
+	return true;
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;SQL query:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code class="language-sql"&gt;SELECT cust.id FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) WHERE cust.type IN ( 1, 2 );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unknown markup:&lt;/p&gt;
+
+&lt;pre&gt;
+&lt;code&gt; ________________
+/                \
+| How about moo? |  ^__^
+\________________/  (oo)\_______
+                  \ (__)\       )\/\
+                        ||----w |
+                        ||     ||
+&lt;/code&gt;&lt;/pre&gt;
+	</textarea>
+
+	<h2>Inline editor</h2>
+
+	<div id="editable" contenteditable="true">
+
+<p>JavaScript code:</p>
+
+<pre><code class="language-javascript">function isEmpty( object ) {
+	for ( var i in object ) {
+		if ( object.hasOwnProperty( i ) )
+			return false;
+	}
+	return true;
+}</code></pre>
+
+<p>SQL query:</p>
+
+<pre><code class="language-sql">SELECT cust.id, cust.name, loc.city FROM cust LEFT JOIN loc ON ( cust.loc_id = loc.id ) WHERE cust.type IN ( 1, 2 );</code></pre>
+
+<p>Unknown markup:</p>
+
+<pre><code> ________________
+/                \
+| How about moo? |  ^__^
+\________________/  (oo)\_______
+                  \ (__)\       )\/\
+                        ||----w |
+                        ||     ||
+</code></pre>
+	</div>
+
+	<script>
+		( function() {
+			CKEDITOR.disableAutoInline = true;
+
+			var config = {
+				extraPlugins: 'codesnippet,codesnippetgeshi',
+				codeSnippetGeshi_url: 'plugins/codesnippetgeshi/dev/colorize.php',
+				toolbar: [
+					[ 'Source', 'Sourcedialog' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'CodeSnippet' ]
+				],
+				codeSnippet_theme: 'monokai_sublime',
+				height: 400
+			};
+
+			CKEDITOR.replace( 'editor1', config );
+
+			CKEDITOR.inline( 'editable', CKEDITOR.tools.extend( {}, config, {
+				extraPlugins: 'codesnippet,codesnippetgeshi,sourcedialog'
+			}, true ) );
+		}() );
+	</script>
+
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2014, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+</body>
+</html>

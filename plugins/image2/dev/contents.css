@@ -15,3 +15,21 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	color: #BBB;
 	font: bold 10px sans-serif;
 }
+
+.align-left {
+	float: left;
+	margin-right: 20px;
+}
+
+.align-right {
+	float: right;
+	margin-left: 20px;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-center > figure {
+	display: inline-block;
+}

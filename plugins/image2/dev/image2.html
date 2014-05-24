@@ -77,18 +77,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Widget Image
 	</h1>
 
-	<h2>Framed sample</h2>
-
-	<p>
-		<input id="readOnlyOn" onclick="toggleReadOnly();" type="button" value="Make it read-only" style="display:none">
-		<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none">
-	</p>
+	<h2>Classic (iframe-based) Sample</h2>
 
 	<textarea id="editor1" cols="10" rows="10">
 		<h1>Apollo 11</h1>
 
-		<figure class="caption" style="float: right">
-			<img alt="Saturn V" src="assets/image1.jpg" width="200" />
+		<figure class="image" style="float: right">
+			<img alt="Saturn V" src="assets/image1.jpg" width="200" data-foo="*********" data-bar="@@@@@@@@" />
 			<figcaption>Roll out of Saturn V on launch pad</figcaption>
 		</figure>
 
@@ -110,7 +105,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
 		</blockquote>
 
-		<figure class="caption" style="float: right">
+		<figure class="image" style="float: right">
 			<img alt="The Eagle" src="assets/image2.jpg" style="width: 200px" />
 			<figcaption>The Eagle in lunar orbit</figcaption>
 		</figure>
@@ -135,12 +130,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p style="text-align:right"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</textarea>
 
-	<h2>Inline sample</h2>
+	<h2>Inline Sample</h2>
 
 	<div id="editor2" contenteditable="true" class="editable">
 		<h2>Apollo 11</h2>
 
-		<figure class="caption" style="float: right">
+		<figure class="image" style="float: right">
 			<img alt="Saturn V" src="assets/image1.jpg" width="200" />
 			<figcaption>Roll out of Saturn V on launch pad</figcaption>
 		</figure>
@@ -163,7 +158,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
 		</blockquote>
 
-		<figure class="caption" style="float: right">
+		<figure class="image" style="float: right">
 			<img alt="The Eagle" src="assets/image2.jpg" style="width: 200px" />
 			<figcaption>The Eagle in lunar orbit</figcaption>
 		</figure>
@@ -188,7 +183,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p style="text-align:right"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</div>
 
-	<h2>Divarea sample</h2>
+	<h2>Div Editing Area Sample</h2>
 
 	<textarea id="editor3" cols="10" rows="10">
 		<h1>Apollo 11</h1>
@@ -221,7 +216,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			<figcaption>The Eagle in lunar orbit</figcaption>
 		</figure>
 
-		<h2>Technical details <a id="tech-details" name="tech-details"></a></h2>
+		<h2>Technical Details <a id="tech-details" name="tech-details"></a></h2>
 
 		<p>Launched by a <strong>Saturn V</strong> rocket from <a href="http://en.wikipedia.org/wiki/Kennedy_Space_Center" title="Kennedy Space Center">Kennedy Space Center</a> in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA" title="NASA">NASA</a>&#39;s Apollo program. The Apollo spacecraft had three parts:</p>
 
@@ -241,6 +236,52 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<p style="text-align:right"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</textarea>
 
+	<h2>alignClasses samples</h2>
+
+	<textarea id="editor4" cols="10" rows="10">
+		<h1>Apollo 11</h1>
+
+		<figure class="align-left image">
+			<img alt="Saturn V" src="assets/image1.jpg" width="200" data-foo="*********" data-bar="@@@@@@@@" />
+			<figcaption>Roll out of Saturn V on launch pad</figcaption>
+		</figure>
+
+		<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong" title="Neil Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin" title="Buzz Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
+
+		<blockquote>
+		<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
+		</blockquote>
+
+		<figure class="align-right image">
+			<img alt="The Eagle" src="assets/image2.jpg" style="width: 200px" />
+			<figcaption>The Eagle in lunar orbit</figcaption>
+		</figure>
+
+		<h2>Technical details <a id="tech-details" name="tech-details"></a></h2>
+
+		<p>Launched by a <strong>Saturn V</strong> rocket from <a href="http://en.wikipedia.org/wiki/Kennedy_Space_Center" title="Kennedy Space Center">Kennedy Space Center</a> in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA" title="NASA">NASA</a>&#39;s Apollo program. The Apollo spacecraft had three parts:</p>
+
+		<ol>
+			<li><strong>Command Module</strong> with a cabin for the three astronauts which was the only part which landed back on Earth</li>
+			<li><strong>Service Module</strong> which supported the Command Module with propulsion, electrical power, oxygen and water</li>
+			<li><strong>Lunar Module</strong> for landing on the Moon.</li>
+		</ol>
+
+		<p>After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the <a href="http://en.wikipedia.org/wiki/Mare_Tranquillitatis" title="Mare Tranquillitatis">Sea of Tranquility</a>. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the <a href="http://en.wikipedia.org/wiki/Pacific_Ocean" title="Pacific Ocean">Pacific Ocean</a> on July 24.</p>
+
+		<p class="align-center">
+			<img alt="Saturn V" src="assets/image1.jpg" width="200" />
+		</p>
+
+		<hr />
+		<p style="text-align:right"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
+	</textarea>
+
+	<p>
+		<input id="readOnlyOn" onclick="toggleReadOnly( true );" type="button" value="Make it read-only" style="display:none">
+		<input id="readOnlyOff" onclick="toggleReadOnly( false );" type="button" value="Make it editable again" style="display:none">
+	</p>
+
 	<script>
 
 		CKEDITOR.disableAutoInline = true;
@@ -249,6 +290,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			extraPlugins: 'image2',
 			height: 600,
 			contentsCss: [ '../../../contents.css', 'contents.css' ],
+			extraAllowedContent: 'img[data-foo,data-bar]',
 
 			filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
 			filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
@@ -261,8 +303,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		} );
 
 		CKEDITOR.replace( 'editor3', {
-				extraPlugins: 'image2,divarea',
-				height: 600
+			extraPlugins: 'image2,divarea',
+			height: 600
+		} );
+
+		CKEDITOR.replace( 'editor4', {
+			extraPlugins: 'image2',
+			image2_alignClasses: [ 'align-left', 'align-center', 'align-right' ],
+			contentsCss: [ '../../../contents.css', 'contents.css' ],
+			height: 600
 		} );
 
 		CKCONSOLE.create( 'widget', { editor: 'editor1' } );
@@ -271,6 +320,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		CKCONSOLE.create( 'focus', { editor: 'editor2', folded: true } );
 		CKCONSOLE.create( 'widget', { editor: 'editor3' } );
 		CKCONSOLE.create( 'focus', { editor: 'editor3' } );
+		CKCONSOLE.create( 'widget', { editor: 'editor4' } );
+		CKCONSOLE.create( 'focus', { editor: 'editor4' } );
 
 	</script>
 

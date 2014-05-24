@@ -134,6 +134,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 *		element.addClass( 'classB' ); // <div class="classA classB">
 	 *		element.addClass( 'classA' ); // <div class="classA classB">
 	 *
+	 * @chainable
 	 * @param {String} className The name of the class to be added.
 	 */
 	addClass: function( className ) {
@@ -144,6 +145,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				c += ' ' + className;
 		}
 		this.$.className = c || className;
+
+		return this;
 	},
 
 	/**
@@ -257,7 +260,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {Boolean} [force] Append filler regardless of the environment.
 	 */
 	appendBogus: function( force ) {
-		if ( !force && !( CKEDITOR.env.needsBrFiller || CKEDITOR.env.opera ) )
+		if ( !force && !CKEDITOR.env.needsBrFiller )
 			return;
 
 		var lastChild = this.getLast();
@@ -266,7 +269,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		while ( lastChild && lastChild.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.rtrim( lastChild.getText() ) )
 			lastChild = lastChild.getPrevious();
 		if ( !lastChild || !lastChild.is || !lastChild.is( 'br' ) ) {
-			var bogus = CKEDITOR.env.opera ? this.getDocument().createText( '' ) : this.getDocument().createElement( 'br' );
+			var bogus = this.getDocument().createElement( 'br' );
 
 			CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' );
 
@@ -492,7 +495,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				return this.$.getAttribute( name, 2 );
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name ) {
 				switch ( name ) {
 					case 'class':
@@ -885,7 +888,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 
 		// Webkit and Opera report non-zero offsetHeight despite that
 		// element is inside an invisible iframe. (#4542)
-		if ( isVisible && ( CKEDITOR.env.webkit || CKEDITOR.env.opera ) ) {
+		if ( isVisible && CKEDITOR.env.webkit ) {
 			elementWindow = this.getWindow();
 
 			if ( !elementWindow.equals( CKEDITOR.document.getWindow() ) && ( elementWindowFrame = elementWindow.$.frameElement ) )
@@ -931,7 +934,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @method
 	 * @returns {Boolean} True if the element has attributes.
 	 */
-	hasAttributes: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ?
+	hasAttributes: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ?
 		function() {
 			var attributes = this.$.attributes;
 
@@ -982,7 +985,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	hasAttribute: ( function() {
 		function standard( name ) {
 			var $attr = this.$.attributes.getNamedItem( name );
-			return !!( $attr && $attr.specified );
+
+			if ( !$attr )
+				return false;
+			else if ( CKEDITOR.env.ie )
+				return $attr.specified;
+			else {
+				// On other browsers specified property is deprecated and return always true,
+				// but fortunately $.attributes contains only specified attributes.
+				return true;
+			}
 		}
 
 		return ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) ?
@@ -1117,7 +1129,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				return this;
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name, value ) {
 				if ( name == 'class' )
 					this.$.className = value;
@@ -1194,7 +1206,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 				this.$.removeAttribute( name );
 			};
 
-		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) ) {
+		if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
 			return function( name ) {
 				if ( name == 'class' )
 					name = 'className';
@@ -1319,7 +1331,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		// For IE/Opera which doesn't support for the above CSS style,
 		// the unselectable="on" attribute only specifies the selection
 		// process cannot start in the element itself, and it doesn't inherit.
-		if ( CKEDITOR.env.ie || CKEDITOR.env.opera ) {
+		if ( CKEDITOR.env.ie ) {
 			this.setAttribute( 'unselectable', 'on' );
 
 			var element,
@@ -1665,8 +1677,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 
 			if ( attrName == 'checked' && ( attrValue = this.getAttribute( attrName ) ) )
 				dest.setAttribute( attrName, attrValue );
-			// IE BUG: value attribute is never specified even if it exists.
-			else if ( attribute.specified || ( CKEDITOR.env.ie && attribute.nodeValue && attrName == 'value' ) ) {
+			// IE contains not specified attributes in $.attributes so we need to check
+			// if elements attribute is specified using hasAttribute.
+			else if ( !CKEDITOR.env.ie || this.hasAttribute( attrName ) ) {
 				attrValue = this.getAttribute( attrName );
 				if ( attrValue === null )
 					attrValue = attribute.nodeValue;
@@ -1705,6 +1718,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		this.getParent() && this.$.parentNode.replaceChild( newNode.$, this.$ );
 		newNode.$[ 'data-cke-expando' ] = this.$[ 'data-cke-expando' ];
 		this.$ = newNode.$;
+		// Bust getName's cache. (#8663)
+		delete this.getName;
 	},
 
 	/**

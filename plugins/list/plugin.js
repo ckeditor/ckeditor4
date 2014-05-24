@@ -818,7 +818,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'list', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'bulletedlist,bulletedlist-rtl,numberedlist,numberedlist-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		requires: 'indentlist',
@@ -848,7 +848,9 @@
 
 			// Handled backspace/del key to join list items. (#8248,#9080)
 			editor.on( 'key', function( evt ) {
-				var key = evt.data.keyCode;
+				// Use getKey directly in order to ignore modifiers.
+				// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+				var key = evt.data.domEvent.getKey();
 
 				// DEl/BACKSPACE
 				if ( editor.mode == 'wysiwyg' && key in { 8: 1, 46: 1 } ) {
@@ -859,7 +861,6 @@
 					if ( !range || !range.collapsed )
 						return;
 
-					path = new CKEDITOR.dom.elementPath( range.startContainer );
 					var isBackspace = key == 8;
 					var editable = editor.editable();
 					var walker = new CKEDITOR.dom.walker( range.clone() );

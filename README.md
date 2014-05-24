@@ -27,7 +27,7 @@ This repository contains the following branches:
   - **release/A.B.x** (e.g. 4.0.x, 4.1.x): release freeze, tests and tagging.
     Hotfixing.
 
-(*) Note that both **master** and **major** are under heavy development. Their
+Note that both **master** and **major** are under heavy development. Their
 code didn't pass the release testing phase so it may be unstable.
 
 Additionally, all releases will have their relative tags in this form: 4.0,

@@ -5,14 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'image2', 'gl', {
 	alt: 'Texto alternativo',
 	btnUpload: 'Enviar ao servidor',
-	captioned: 'Captioned image', // MISSING
+	captioned: 'Imaxe subtitulada ',
+	captionPlaceholder: 'Caption', // MISSING
 	infoTab: 'Información da imaxe',
 	lockRatio: 'Proporcional',
 	menu: 'Propiedades da imaxe',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
+	pathName: 'Imaxe',
+	pathNameCaption: 'subtítulo',
 	resetSize: 'Tamaño orixinal',
-	resizer: 'Click and drag to resize', // MISSING
+	resizer: 'Prema e arrastre para axustar o tamaño',
 	title: 'Propiedades da imaxe',
 	uploadTab: 'Cargar',
 	urlMissing: 'Non se atopa o URL da imaxe.'

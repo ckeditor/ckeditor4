@@ -82,66 +82,66 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	backspace: 'Ir atrás',
+	tab: 'Tabulador',
+	enter: 'Intro',
+	shift: 'Maiús',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pausa',
+	capslock: 'Bloq. Maiús',
+	escape: 'Escape',
+	pageUp: 'Páxina arriba',
+	pageDown: 'Páxina abaixo',
+	end: 'Fin',
+	home: 'Inicio',
+	leftArrow: 'Frecha esquerda',
+	upArrow: 'Frecha arriba',
+	rightArrow: 'Frecha dereita',
+	downArrow: 'Frecha abaixo',
+	insert: 'Inserir',
+	'delete': 'Supr',
+	leftWindowKey: 'Tecla Windows esquerda',
+	rightWindowKey: 'Tecla Windows dereita',
+	selectKey: 'Escolla a tecla',
+	numpad0: 'Tec. numérico 0',
+	numpad1: 'Tec. numérico 1',
+	numpad2: 'Tec. numérico 2',
+	numpad3: 'Tec. numérico 3',
+	numpad4: 'Tec. numérico 4',
+	numpad5: 'Tec. numérico 5',
+	numpad6: 'Tec. numérico 6',
+	numpad7: 'Tec. numérico 7',
+	numpad8: 'Tec. numérico 8',
+	numpad9: 'Tec. numérico 9',
+	multiply: 'Multiplicar',
+	add: 'Sumar',
+	subtract: 'Restar',
+	decimalPoint: 'Punto decimal',
+	divide: 'Dividir',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Bloq. num.',
+	scrollLock: 'Bloq. despraz.',
+	semiColon: 'Punto e coma',
+	equalSign: 'Signo igual',
+	comma: 'Coma',
+	dash: 'Guión',
+	period: 'Punto',
+	forwardSlash: 'Barra inclinada',
+	graveAccent: 'Acento grave',
+	openBracket: 'Abrir corchete',
+	backSlash: 'Barra invertida',
+	closeBracket: 'Pechar corchete',
+	singleQuote: 'Comiña simple'
 } );

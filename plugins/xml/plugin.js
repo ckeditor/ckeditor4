@@ -28,9 +28,11 @@
 			baseXml = xmlObjectOrData;
 		else {
 			var data = ( xmlObjectOrData || '' ).replace( /&nbsp;/g, '\xA0' );
-			if ( window.DOMParser )
-				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
-			else if ( window.ActiveXObject ) {
+
+			// Check ActiveXObject before DOMParser, because IE10+ support both, but
+			// there's no XPath support in DOMParser instance.
+			// Also, the only check for ActiveXObject which still works in IE11+ is with `in` operator.
+			if ( 'ActiveXObject' in window ) {
 				try {
 					baseXml = new ActiveXObject( 'MSXML2.DOMDocument' );
 				} catch ( e ) {
@@ -46,10 +48,14 @@
 					baseXml.loadXML( data );
 				}
 			}
+			else if ( window.DOMParser )
+				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
 		}
 
 		/**
 		 * The native XML (DOM document) used by the class instance.
+		 *
+		 * @property {Object}
 		 */
 		this.baseXml = baseXml;
 	};
@@ -74,10 +80,9 @@
 			var baseXml = this.baseXml;
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( CKEDITOR.env.ie || contextNode.selectSingleNode ) // IE
-				return contextNode.selectSingleNode( xpath );
-				else if ( baseXml.evaluate ) // Others
-				{
+				if ( 'selectSingleNode' in contextNode ) // IEs
+					return contextNode.selectSingleNode( xpath );
+				else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 9, null );
 					return ( result && result.singleNodeValue ) || null;
 				}
@@ -91,10 +96,10 @@
 		 *
 		 *		// Create the XML instance.
 		 *		var xml = new CKEDITOR.xml( '<list><item id="test1" /><item id="test2" /></list>' );
-		 *		// Get the first <item> node.
-		 *		var itemNodes = xml.selectSingleNode( 'list/item' );
+		 *		// Get all <item> nodes.
+		 *		var itemNodes = xml.selectNodes( 'list/item' );
 		 *		// Alert "item" twice, one for each <item>.
-		 *		for ( var i = 0 ; i < itemNodes.length ; i++ )
+		 *		for ( var i = 0; i < itemNodes.length; i++ )
 		 *			alert( itemNodes[i].nodeName );
 		 *
 		 * @param {String} xpath The XPath query to execute.
@@ -108,10 +113,9 @@
 				nodes = [];
 
 			if ( contextNode || ( contextNode = baseXml ) ) {
-				if ( CKEDITOR.env.ie || contextNode.selectNodes ) // IE
-				return contextNode.selectNodes( xpath );
-				else if ( baseXml.evaluate ) // Others
-				{
+				if ( 'selectNodes' in contextNode ) // IEs
+					return contextNode.selectNodes( xpath );
+				else if ( baseXml.evaluate ) { // Others
 					var result = baseXml.evaluate( xpath, contextNode, null, 5, null );
 
 					if ( result ) {
@@ -146,10 +150,10 @@
 			if ( node ) {
 				node = node.firstChild;
 				while ( node ) {
-					if ( node.xml ) // IE
-					xml.push( node.xml );
+					if ( node.xml ) // IEs
+						xml.push( node.xml );
 					else if ( window.XMLSerializer ) // Others
-					xml.push( ( new XMLSerializer() ).serializeToString( node ) );
+						xml.push( ( new XMLSerializer() ).serializeToString( node ) );
 
 					node = node.nextSibling;
 				}

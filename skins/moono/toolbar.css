@@ -93,20 +93,6 @@ Special outer level classes used in this file:
 	margin-bottom: 10px;
 }
 
-.cke_rtl .cke_toolgroup *:first-child
-{
-	-moz-border-radius: 0 2px 2px 0;
-	-webkit-border-radius: 0 2px 2px 0;
-	border-radius: 0 2px 2px 0;
-}
-
-.cke_rtl .cke_toolgroup *:last-child
-{
-	-moz-border-radius: 2px 0 0 2px;
-	-webkit-border-radius: 2px 0 0 2px;
-	border-radius: 2px 0 0 2px;
-}
-
 .cke_rtl .cke_toolgroup
 {
 	float: right;
@@ -124,6 +110,24 @@ a.cke_button
 	cursor: default;
 	float: left;
 	border: 0;
+}
+
+.cke_ltr .cke_button:last-child,
+.cke_rtl .cke_button:first-child
+{
+	/* Don't distort parent's rounded border. */
+	-moz-border-radius: 0 2px 2px 0;
+	-webkit-border-radius: 0 2px 2px 0;
+	border-radius: 0 2px 2px 0;
+}
+
+.cke_ltr .cke_button:first-child,
+.cke_rtl .cke_button:last-child
+{
+	/* Don't distort parent's rounded border. */
+	-moz-border-radius: 2px 0 0 2px;
+	-webkit-border-radius: 2px 0 0 2px;
+	border-radius: 2px 0 0 2px;
 }
 
 .cke_rtl .cke_button

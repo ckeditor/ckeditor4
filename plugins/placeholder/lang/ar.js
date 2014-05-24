@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'ar', {
-	title: 'خصائص الخانة',
-	toolbar: 'خانة جديدة',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	title: 'خصائص الربط الموضعي',
+	toolbar: 'الربط الموضعي',
+	name: 'اسم الربط الموضعي',
+	invalidName: 'لا يمكن ترك الربط الموضعي فارغا و لا أن يحتوي على الرموز التالية  [, ], <, >',
+	pathName: 'الربط الموضعي'
 } );
