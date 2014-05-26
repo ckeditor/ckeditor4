@@ -62,12 +62,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							var editor = this.editor,
 								contentEditableParent = new CKEDITOR.dom.elementPath( domEvent.getTarget(), editor.editable() ).contains( function( el ) {
 									// Return when non-editable or nested editable element is found.
-									return contentEditable = el.getAttribute( 'contenteditable' );
-								}, true ), // Exclude editor's editable.
-								contentEditable;
+									return el.hasAttribute( 'contenteditable' );
+								}, true ); // Exclude editor's editable.
 
 							// Fake selection for non-editables only (to exclude nested editables).
-							if ( contentEditableParent && contentEditable == 'false' )
+							if ( contentEditableParent && contentEditableParent.getAttribute( 'contenteditable' ) == 'false' )
 								editor.getSelection().fake( contentEditableParent );
 						}
 
