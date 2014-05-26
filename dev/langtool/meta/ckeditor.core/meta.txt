@@ -60,6 +60,7 @@ common.alignCenter = Center alignment option text.
 common.alignTop = Top alignment option text.
 common.alignMiddle = Middle alignment option text.
 common.alignBottom = Bottom alignment option text.
+common.alignNone = No alignment option text.
 common.invalidValue = 
 common.invalidHeight = Error message displayed to the user when the specified height value is invalid.
 common.invalidWidth = Error message displayed to the user when the specified width value is invalid.

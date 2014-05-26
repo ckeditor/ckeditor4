@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'hi' ] = {
 		alignTop: 'ऊपर',
 		alignMiddle: 'मध्य',
 		alignBottom: 'नीचे',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Height must be a number.', // MISSING
 		invalidWidth: 'Width must be a number.', // MISSING

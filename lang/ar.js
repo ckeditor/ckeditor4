@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		alignTop: 'أعلى',
 		alignMiddle: 'وسط',
 		alignBottom: 'أسفل',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'قيمة غير مفبولة.',
 		invalidHeight: 'الارتفاع يجب أن يكون عدداً.',
 		invalidWidth: 'العرض يجب أن يكون عدداً.',

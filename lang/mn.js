@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'mn' ] = {
 		alignTop: 'Дээд талд',
 		alignMiddle: 'Дунд',
 		alignBottom: 'Доод талд',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Өндөр нь тоо байх ёстой.',
 		invalidWidth: 'Өргөн нь тоо байх ёстой.',

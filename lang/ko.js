@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		alignTop: '위',
 		alignMiddle: '중간',
 		alignBottom: '아래',
+		alignNone: 'None', // MISSING
 		invalidValue	: '잘못된 값.',
 		invalidHeight: '높이는 숫자여야 합니다.',
 		invalidWidth: '넓이는 숫자여야 합니다.',

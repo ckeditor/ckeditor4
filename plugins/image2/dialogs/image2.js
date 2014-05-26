@@ -492,10 +492,10 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 								id: 'align',
 								type: 'radio',
 								items: [
-									[ 'None', 'none' ],
-									[ 'Left', 'left' ],
-									[ 'Center', 'center' ],
-									[ 'Right', 'right' ] ],
+									[ commonLang.alignNone, 'none' ],
+									[ commonLang.alignLeft, 'left' ],
+									[ commonLang.alignCenter, 'center' ],
+									[ commonLang.alignRight, 'right' ] ],
 								label: commonLang.align,
 								setup: function( widget ) {
 									this.setValue( widget.data.align );

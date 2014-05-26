@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignTop: 'Trên',
 		alignMiddle: 'Giữa',
 		alignBottom: 'Dưới',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Giá trị không hợp lệ.',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',

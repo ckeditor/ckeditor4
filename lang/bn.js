@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'bn' ] = {
 		alignTop: 'উপর',
 		alignMiddle: 'মধ্য',
 		alignBottom: 'নীচে',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Height must be a number.', // MISSING
 		invalidWidth: 'Width must be a number.', // MISSING

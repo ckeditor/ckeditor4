@@ -83,6 +83,7 @@ CKEDITOR.lang[ 'si' ] = {
 		alignTop: 'ඉ',
 		alignMiddle: 'මැද',
 		alignBottom: 'පහල',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'වැරදී වටිනාකමකි',
 		invalidHeight: 'උස අංකයක් විය යුතුය',
 		invalidWidth: 'පළල අංකයක් විය යුතුය',
