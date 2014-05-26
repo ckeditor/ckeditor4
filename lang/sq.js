@@ -83,6 +83,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		alignTop: 'Lart',
 		alignMiddle: 'Në mes',
 		alignBottom: 'Poshtë',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Vlerë e pavlefshme',
 		invalidHeight: 'Lartësia duhet të jetë një numër',
 		invalidWidth: 'Gjerësia duhet të jetë një numër',

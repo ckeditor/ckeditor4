@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		alignTop: 'Brig',
 		alignMiddle: 'Canol',
 		alignBottom: 'Gwaelod',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Gwerth annilys.',
 		invalidHeight: 'Mae\'n rhaid i\'r uchder fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i\'r lled fod yn rhif.',

@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'he' ] = {
 		alignTop: 'למעלה',
 		alignMiddle: 'לאמצע',
 		alignBottom: 'לתחתית',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'ערך לא חוקי.',
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',

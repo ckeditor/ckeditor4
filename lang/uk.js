@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		alignTop: 'По верхньому краю',
 		alignMiddle: 'По середині',
 		alignBottom: 'По нижньому краю',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Невірне значення.',
 		invalidHeight: 'Висота повинна бути цілим числом.',
 		invalidWidth: 'Ширина повинна бути цілим числом.',

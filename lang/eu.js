@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Balio ezegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',

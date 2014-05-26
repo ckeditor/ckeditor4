@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		alignTop: 'Do góry',
 		alignMiddle: 'Do środka',
 		alignBottom: 'Do dołu',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Nieprawidłowa wartość.',
 		invalidHeight: 'Wysokość musi być liczbą.',
 		invalidWidth: 'Szerokość musi być liczbą.',

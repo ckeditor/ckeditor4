@@ -83,6 +83,7 @@ CKEDITOR.lang[ 'id' ] = {
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Nilai tidak sah.',
 		invalidHeight: 'Tinggi harus sebuah angka.',
 		invalidWidth: 'Lebar harus sebuah angka.',

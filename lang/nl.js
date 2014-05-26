@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		alignTop: 'Boven',
 		alignMiddle: 'Midden',
 		alignBottom: 'Onder',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Ongeldige waarde.',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',

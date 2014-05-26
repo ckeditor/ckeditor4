@@ -84,6 +84,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		alignTop: 'Ylös',
 		alignMiddle: 'Keskelle',
 		alignBottom: 'Alas',
+		alignNone: 'None', // MISSING
 		invalidValue	: 'Virheellinen arvo.',
 		invalidHeight: 'Korkeuden täytyy olla numero.',
 		invalidWidth: 'Leveyden täytyy olla numero.',
