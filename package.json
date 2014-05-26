@@ -1,0 +1,16 @@
+{
+  "name": "ckeditor-bender-test",
+  "version": "0.0.1",
+  "description": "Sample tests for CKEditor using Bender",
+  "dependencies": {
+    "bender-ckeditor": "git://github.com/benderjs/benderjs-ckeditor.git",
+    "bender-jquery": "git://github.com/benderjs/benderjs-jquery.git",
+    "bender-yui": "git://github.com/benderjs/benderjs-yui.git"
+  },
+  "scripts": {
+    "preinstall": "npm i -g git://github.com/benderjs/benderjs.git",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": ""
+}
