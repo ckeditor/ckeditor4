@@ -7,7 +7,7 @@ Fixed Issues:
 
 * [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking a nested widget does not focus it. Additionally, performance of the [`widget.repository.getByElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
 * [#11960](http://dev.ckeditor.com/ticket/11960): [Blink/Webkit] Fixed: The caret should be scrolled into view on *Backspace* and *Delete* (covers only the merging blocks case).
-* [#11306](http://dev.ckeditor.com/ticket/11306): Fixed: [OSX][Blink/Webkit] No widget's entries in context menu on widget right-click.
+* [#11306](http://dev.ckeditor.com/ticket/11306): [OSX][Blink/Webkit] Fixed: No widget's entries in context menu on widget right-click.
 
 ## CKEditor 4.4.1
 
