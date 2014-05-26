@@ -57,6 +57,19 @@ CKEDITOR.plugins.add( 'contextmenu', {
 						// Cancel the browser context menu.
 						domEvent.preventDefault();
 
+						// Fix selection when non-editable element in Webkit/Blink (Mac) (#11306).
+						if ( CKEDITOR.env.mac && CKEDITOR.env.webkit ) {
+							var editor = this.editor,
+								contentEditableParent = new CKEDITOR.dom.elementPath( domEvent.getTarget(), editor.editable() ).contains( function( el ) {
+									// Return when non-editable or nested editable element is found.
+									return el.hasAttribute( 'contenteditable' );
+								}, true ); // Exclude editor's editable.
+
+							// Fake selection for non-editables only (to exclude nested editables).
+							if ( contentEditableParent && contentEditableParent.getAttribute( 'contenteditable' ) == 'false' )
+								editor.getSelection().fake( contentEditableParent );
+						}
+
 						var doc = domEvent.getTarget().getDocument(),
 							offsetParent = domEvent.getTarget().getDocument().getDocumentElement(),
 							fromFrame = !doc.equals( CKEDITOR.document ),
