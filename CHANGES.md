@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking nested widget does not focus it. Additionally, performance of [`widget.repository.getByElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
+* [#11960](http://dev.ckeditor.com/ticket/11960): Fixed: [Blink/Webkit] Caret should be scrolled into view on *Backspace* and *Delete* (covered only merging blocks case).
 
 ## CKEditor 4.4.1
 
