@@ -15,16 +15,16 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 		return editor.keystrokeHandler;
 
 	/**
-	 * List of keystrokes associated to commands. Each entry points to the
+	 * A list of keystrokes associated with commands. Each entry points to the
 	 * command to be executed.
 	 *
-	 * Since CKEditor 4 there's no need to modify this property directly during the runtime.
+	 * Since CKEditor 4 there is no need to modify this property directly during the runtime.
 	 * Use {@link CKEDITOR.editor#setKeystroke} instead.
 	 */
 	this.keystrokes = {};
 
 	/**
-	 * List of keystrokes that should be blocked if not defined at
+	 * A list of keystrokes that should be blocked if not defined in
 	 * {@link #keystrokes}. In this way it is possible to block the default
 	 * browser behavior for those keystrokes.
 	 */
@@ -76,7 +76,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 	CKEDITOR.keystrokeHandler.prototype = {
 		/**
 		 * Attaches this keystroke handle to a DOM object. Keystrokes typed
-		 * over this object will get handled by this keystrokeHandler.
+		 * over this object will be handled by this keystrokeHandler.
 		 *
 		 * @param {CKEDITOR.dom.domObject} domObject The DOM object to attach to.
 		 */
@@ -94,7 +94,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 } )();
 
 /**
- * A list associating keystrokes to editor commands. Each element in the list
+ * A list associating keystrokes with editor commands. Each element in the list
  * is an array where the first item is the keystroke, and the second is the
  * name of the command to be executed.
  *
@@ -102,33 +102,33 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * set by plugins (like `link` and `basicstyles`). If you want to set a keystroke
  * for your plugin or during the runtime, use {@link CKEDITOR.editor#setKeystroke} instead.
  *
- * Since default keystrokes are set by {@link CKEDITOR.editor#setKeystroke}
+ * Since default keystrokes are set by the {@link CKEDITOR.editor#setKeystroke}
  * method, by default `config.keystrokes` is an empty array.
  *
  * See {@link CKEDITOR.editor#setKeystroke} documentation for more details
  * regarding the start up order.
  *
- *		// Change default CTRL + L keystroke for 'link' command to CTRL + SHIFT + L.
+ *		// Change default Ctrl+L keystroke for 'link' command to Ctrl+Shift+L.
  *		config.keystrokes = [
  *			...
- *			[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 76, 'link' ],	// CTRL + SHIFT + L
+ *			[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 76, 'link' ],	// Ctrl+Shift+L
  *			...
  *		];
  *
  * To reset a particular keystroke, the following approach can be used:
  *
- *		// Disable default CTRL + L keystroke which executes link command by default.
+ *		// Disable default Ctrl+L keystroke which executes the 'link' command by default.
  *		config.keystrokes = [
  *			...
- *			[ CKEDITOR.CTRL + 76, null ],						// CTRL + L
+ *			[ CKEDITOR.CTRL + 76, null ],						// Ctrl+L
  *			...
  *		];
  *
- * To reset all default keystrokes an {@link CKEDITOR#instanceReady} callback should be
+ * In order to reset all default keystrokes, a {@link CKEDITOR#instanceReady} callback should be
  * used. This is since editor defaults are merged rather than overwritten by
  * user keystrokes.
  *
- * **Note**: This can be potentially harmful for an editor. Avoid this unless you're
+ * **Note**: This can be potentially harmful for the editor. Avoid this unless you are
  * aware of the consequences.
  *
  *		// Reset all default keystrokes.
@@ -141,19 +141,19 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  */
 
 /**
- * Fired when any keyboard key (or combination) is pressed into the editing area.
+ * Fired when any keyboard key (or a combination thereof) is pressed in the editing area.
  *
  *		editor.on( 'key', function( evt ) {
  *			if ( evt.data.keyCode == CKEDITOR.CTRL + 90 ) {
  *				// Do something...
  *
- *				// Cancel the event, so other listeners won't be executed and
- *				// keydown's default behavior will be prevented.
+ *				// Cancel the event, so other listeners will not be executed and
+ *				// the keydown's default behavior will be prevented.
  *				evt.cancel();
  *			}
  *		} );
  *
- * Usually you'll want to use the {@link CKEDITOR.editor#setKeystroke} method or
+ * Usually you will want to use the {@link CKEDITOR.editor#setKeystroke} method or
  * the {@link CKEDITOR.config#keystrokes} option to attach a keystroke to some {@link CKEDITOR.command command}.
  * Key event listeners are usuful when some action should be executed conditionally, based
  * for example on precise selection location.
@@ -161,7 +161,7 @@ CKEDITOR.keystrokeHandler = function( editor ) {
  * @event key
  * @member CKEDITOR.editor
  * @param data
- * @param {Number} data.keyCode A number representing the key code (or combination).
+ * @param {Number} data.keyCode A number representing the key code (or a combination thereof).
  * It is the sum of the current key code and the {@link CKEDITOR#CTRL}, {@link CKEDITOR#SHIFT}
  * and {@link CKEDITOR#ALT} constants, if those are pressed.
  * @param {CKEDITOR.dom.event} data.domEvent A `keydown` DOM event instance. Available since CKEditor 4.4.1.

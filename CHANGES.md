@@ -5,46 +5,46 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking nested widget does not focus it. Additionally, performance of [`widget.repository.getByElement`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
-* [#11960](http://dev.ckeditor.com/ticket/11960): Fixed: [Blink/Webkit] Caret should be scrolled into view on *Backspace* and *Delete* (covered only merging blocks case).
+* [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking a nested widget does not focus it. Additionally, performance of the [`widget.repository.getByElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
+* [#11960](http://dev.ckeditor.com/ticket/11960): [Blink/Webkit] Fixed: The caret should be scrolled into view on *Backspace* and *Delete* (covers only the merging blocks case).
 
 ## CKEditor 4.4.1
 
 New Features:
 
-* [#9661](http://dev.ckeditor.com/ticket/9661): Added the option to [configure](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-linkJavaScriptLinksAllowed) anchor tags with JavaScript code in `href` attribute.
+* [#9661](http://dev.ckeditor.com/ticket/9661): Added the option to [configure](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-linkJavaScriptLinksAllowed) anchor tags with JavaScript code in the `href` attribute.
 
 Fixed Issues:
 
-* [#11861](http://dev.ckeditor.com/ticket/11861): Fixed: [Webkit/Blink] Span elements created while joining adjacent elements. **Note:** This patch only covers cases when *Backspace* or *Delete* is pressed on a collapsed (empty) selection. The remaining case, with a non-empty selection, will be fixed in next release.
-* [#10714](http://dev.ckeditor.com/ticket/10714): Fixed: [iOS] Selection and drop-downs are broken if touch listener is used due to [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
-* [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang). Thanks to [Akash Mohapatra](https://github.com/akashmohapatra)!
-* [#11926](http://dev.ckeditor.com/ticket/11926): Fixed: Code snippet does not decode HTML entities when loading code from the `<code>` element.
-* [#11223](http://dev.ckeditor.com/ticket/11223): Fixed: Issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the title element.
-* [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin from being required in [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
-* [#11754](http://dev.ckeditor.com/ticket/11754): Fixed: Infinite loop in Google Chrome when content contains not closed attributes.
-* [#11848](http://dev.ckeditor.com/ticket/11848): Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception in IE when there was no selection in editor.
-* [#11801](http://dev.ckeditor.com/ticket/11801): Fixed: Editor anchors unavailable when linking [Enhanced Image](http://ckeditor.com/addon/image2) widget.
-* [#11626](http://dev.ckeditor.com/ticket/11626): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) sets invalid width.
+* [#11861](http://dev.ckeditor.com/ticket/11861): [Webkit/Blink] Fixed: Span elements created while joining adjacent elements. **Note:** This patch only covers cases when *Backspace* or *Delete* is pressed on a collapsed (empty) selection. The remaining case, with a non-empty selection, will be fixed in the next release.
+* [#10714](http://dev.ckeditor.com/ticket/10714): [iOS] Fixed: Selection and drop-downs are broken if a touch event listener is used due to a [Webkit bug](https://bugs.webkit.org/show_bug.cgi?id=128924). Thanks to [Arty Gus](https://github.com/artygus)!
+* [#11911](http://dev.ckeditor.com/ticket/11911): Fixed setting the `dir` attribute for a preloaded language in [CKEDITOR.lang](http://docs.ckeditor.com/#!/api/CKEDITOR.lang). Thanks to [Akash Mohapatra](https://github.com/akashmohapatra)!
+* [#11926](http://dev.ckeditor.com/ticket/11926): Fixed: [Code Snippet](http://ckeditor.com/addon/codesnippet) does not decode HTML entities when loading code from the `<code>` element.
+* [#11223](http://dev.ckeditor.com/ticket/11223): Fixed: Issue when [Protected Source](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-protectedSource) was not working in the `<title>` element.
+* [#11859](http://dev.ckeditor.com/ticket/11859): Fixed: Removed the [Source Dialog](http://ckeditor.com/addon/sourcedialog) plugin dependency from the [Code Snippet](http://ckeditor.com/addon/codesnippet) sample.
+* [#11754](http://dev.ckeditor.com/ticket/11754): [Chrome] Fixed: Infinite loop when content includes not closed attributes.
+* [#11848](http://dev.ckeditor.com/ticket/11848): [IE] Fixed: [`editor.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertElement) throwing an exception when there was no selection in the editor.
+* [#11801](http://dev.ckeditor.com/ticket/11801): Fixed: Editor anchors unavailable when linking the [Enhanced Image](http://ckeditor.com/addon/image2) widget.
+* [#11626](http://dev.ckeditor.com/ticket/11626): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) sets invalid column width.
 * [#11872](http://dev.ckeditor.com/ticket/11872): Made [`element.addClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass) chainable symmetrically to [`element.removeClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass).
-* [#11813](http://dev.ckeditor.com/ticket/11813): Fixed: Link lost while pasting captioned image and restoring undo snapshot ([Enhanced Image](http://ckeditor.com/addon/image2)).
-* [#11814](http://dev.ckeditor.com/ticket/11814): Fixed: _Link_ and _Unlink_ entries persistently displayed in [Enhanced Image](http://ckeditor.com/addon/image2) context menu.
-* [#11839](http://dev.ckeditor.com/ticket/11839): Fixed: [IE9] Caret jumps out of editable area when resizing editor in source mode.
-* [#11822](http://dev.ckeditor.com/ticket/11822): Fixed: [Webkit] Editing Anchors by double-click broken in some cases.
-* [#11823](http://dev.ckeditor.com/ticket/11823): Fixed: [IE8] [Table Resize](http://ckeditor.com/addon/tableresize) throws error over scrollbar.
-* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change language back to _Not set_ in [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog.
-* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: [Filter](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied inside elements with `contenteditable` attribute set to `true`.
-* [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting non-editable element inside a table cell breaks the table badly.
-* [#11793](http://dev.ckeditor.com/ticket/11793): Fixed: Drop-down is not "on" when clicking it while editor is blurred.
-* [#11850](http://dev.ckeditor.com/ticket/11850): Fixed: Fake objects with contenteditable set to `false` are not downcasted properly.
-* [#11811](http://dev.ckeditor.com/ticket/11811): Fixed: Widget's data are not encoded correctly when passed to attribute.
+* [#11813](http://dev.ckeditor.com/ticket/11813): Fixed: Link lost while pasting a captioned image and restoring an undo snapshot ([Enhanced Image](http://ckeditor.com/addon/image2)).
+* [#11814](http://dev.ckeditor.com/ticket/11814): Fixed: _Link_ and _Unlink_ entries persistently displayed in the [Enhanced Image](http://ckeditor.com/addon/image2) context menu.
+* [#11839](http://dev.ckeditor.com/ticket/11839): [IE9] Fixed: The caret jumps out of the editable area when resizing the editor in the source mode.
+* [#11822](http://dev.ckeditor.com/ticket/11822): [Webkit] Fixed: Editing anchors by double-click is broken in some cases.
+* [#11823](http://dev.ckeditor.com/ticket/11823): [IE8] Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) throws an error over scrollbar.
+* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: It is not possible to change the language back to _Not set_ in the [Code Snippet](http://ckeditor.com/addon/codesnippet) dialog window.
+* [#11788](http://dev.ckeditor.com/ticket/11788): Fixed: [Filter](http://docs.ckeditor.com/#!/api/CKEDITOR.htmlParser.filter) rules are not applied inside elements with the `contenteditable` attribute set to `true`.
+* [#11798](http://dev.ckeditor.com/ticket/11798): Fixed: Inserting a non-editable element inside a table cell breaks the table.
+* [#11793](http://dev.ckeditor.com/ticket/11793): Fixed: Drop-down is not "on" when clicking it while the editor is blurred.
+* [#11850](http://dev.ckeditor.com/ticket/11850): Fixed: Fake objects with the `contenteditable` attribute set to `false` are not downcasted properly.
+* [#11811](http://dev.ckeditor.com/ticket/11811): Fixed: Widget's data is not encoded correctly when passed to an attribute.
 * [#11777](http://dev.ckeditor.com/ticket/11777): Fixed encoding ampersand in the [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin.
-* [#11880](http://dev.ckeditor.com/ticket/11880): Fixed: [IE8-9] Linked image has a default thick border.
+* [#11880](http://dev.ckeditor.com/ticket/11880): [IE8-9] Fixed: Linked image has a default thick border.
 
-Other changes:
+Other Changes:
 
-* [#11807](http://dev.ckeditor.com/ticket/11807): Updated jQuery version used in sample to 1.11.0 and tested CKEditor jQuery adapter with version 1.11.0 and 2.1.0.
-* [#9504](http://dev.ckeditor.com/ticket/9504): Stopped using deprecated attribute.specified in all browsers except IE.
+* [#11807](http://dev.ckeditor.com/ticket/11807): Updated jQuery version used in the sample to 1.11.0 and tested CKEditor jQuery Adapter with version 1.11.0 and 2.1.0.
+* [#9504](http://dev.ckeditor.com/ticket/9504): Stopped using deprecated `attribute.specified` in all browsers except Internet Explorer.
 * [#11809](http://dev.ckeditor.com/ticket/11809): Changed tab size in `<pre>` to 4 spaces.
 
 ## CKEditor 4.4
@@ -78,7 +78,7 @@ New Features:
 * [#11536](http://dev.ckeditor.com/ticket/11536): Added the [`CKEDITOR.tools.htmlDecode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode) method for decoding HTML entities.
 * [#11225](http://dev.ckeditor.com/ticket/11225): Introduced the [`CKEDITOR.tools.transparentImageData`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-property-transparentImageData) property which contains transparent image data to be used in CSS or as image source.
 
-Other changes:
+Other Changes:
 
 * [#11377](http://dev.ckeditor.com/ticket/11377): Unified internal representation of empty anchors using the [fake objects](http://ckeditor.com/addon/fakeobjects).
 * [#11422](http://dev.ckeditor.com/ticket/11422): Removed Firefox 3.x, Internet Explorer 6 and Opera 12.x leftovers in code.
