@@ -874,12 +874,6 @@
 
 							// Restore selection.
 							selection.selectBookmarks( bookmarks );
-
-							// Scroll to the new position of the caret (#11960).
-							selection.scrollIntoView();
-							editor.fire( 'saveSnapshot' );
-
-							return false;
 						} else {
 							var endPath = range.endPath(),
 								endBlock = endPath.block;
@@ -915,13 +909,13 @@
 							range = editor.getSelection().getRanges()[ 0 ];
 							range.collapse( 1 );
 							range.select();
-
-							// Scroll to the new position of the caret (#11960).
-							selection.scrollIntoView();
-							editor.fire( 'saveSnapshot' );
-
-							return false;
 						}
+
+						// Scroll to the new position of the caret (#11960).
+						selection.scrollIntoView();
+						editor.fire( 'saveSnapshot' );
+
+						return false;
 					}, this, null, 100 ); // Later is better – do not override existing listeners.
 				}
 			}
