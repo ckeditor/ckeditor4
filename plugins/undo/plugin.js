@@ -103,7 +103,7 @@
 						undoManager.index = 0;
 						undoManager.onChange();
 						// Index:
-						// 0 - stays for characters input
+						// 0 - stands for characters input
 						// 1 - functional keys (delete/backspace)
 						undoManager.strokesRecorded = [ 0, 0 ];
 					} );
@@ -431,12 +431,34 @@
 
 		},
 
+		onTypingStart: function() {
+			console.log( 'initial snapshot' );
+			var editor = this.editor;
+
+			// It's safe to now indicate typing state.
+			this.typing = true;
+
+			// This's a special save, with specified snapshot
+			// and without auto 'fireChange'.
+			if ( !this.save( false, new Image( editor ), false ) )
+				// Drop future snapshots.
+				this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
+
+			this.hasUndo = true;
+			this.hasRedo = false;
+
+			this.onChange();
+		},
+
 		newType: function( keyCode ) {
 			// Backspace and delete.
 			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
 				// Note that his count does not consider current count, so you might want
 				// to increase it by 1.
 				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1;
+
+			if ( !this.typing )
+				this.onTypingStart();
 
 			if ( functionalKey !== this.wasFunctionalKey ) {
 				console.log( 'Key group changed' );
@@ -449,6 +471,8 @@
 				this.editor.fire( 'saveSnapshot' );
 				// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
 				strokesRecorded = 0;
+				// Force typing state to be enabled, because it was reset in saveSnapshot().
+				this.typing = true;
 			}
 
 			console.log( 'Already recorded: ' + strokesRecorded );
