@@ -113,6 +113,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * * `widths` (Optional) This applies only for horizontal
 			 *     layouts - an 2-element array of lengths to specify the widths of the
 			 *     label and the content element.
+			 * * `role` (Optional) Value for `role` attribute.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 * @param {Function} contentHtml
@@ -139,7 +140,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								'</label>',
 								'<div class="cke_dialog_ui_labeled_content"',
 									( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ),
-									' role="radiogroup" aria-labelledby="' + _.labelId + '">',
+									' role="presentation">',
 									contentHtml.call( this, dialog, elementDefinition ),
 								'</div>' );
 						} else {
@@ -169,7 +170,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						}
 						return html.join( '' );
 					};
-				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'div', null, { role: 'presentation' }, innerHTML );
+				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'div', null, { role: elementDefinition.role || 'presentation' }, innerHTML );
 			},
 
 			/**
@@ -451,6 +452,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 					return html.join( '' );
 				};
+
+				// Adding a role="radiogroup" to definition used for wrapper.
+				elementDefinition.role = 'radiogroup';
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 				this._.children = children;
