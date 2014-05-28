@@ -12,7 +12,11 @@ var CKBUILDER_CONFIG = {
 		'.gitattributes',
 		'.idea',
 		'.mailmap',
-		'.DS_Store'
+		'.DS_Store',
+		'tests',
+		'package.json',
+		'bender.js',
+		'node_modules'
 	],
 	plugins: {
 		a11yhelp: 1,
