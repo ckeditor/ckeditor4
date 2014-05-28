@@ -114,6 +114,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 *     layouts - an 2-element array of lengths to specify the widths of the
 			 *     label and the content element.
 			 * * `role` (Optional) Value for `role` attribute.
+			 * * `includeLabel` (Optional) If set to `true` will include aria-labelledby attribute.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 * @param {Function} contentHtml
@@ -170,7 +171,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 						}
 						return html.join( '' );
 					};
-				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'div', null, { role: elementDefinition.role || 'presentation' }, innerHTML );
+				var attributes = { role: elementDefinition.role || 'presentation' };
+
+				if ( elementDefinition.includeLabel )
+					attributes[ 'aria-labelledby' ] = _.labelId;
+
+				CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, htmlList, 'div', null, attributes, innerHTML );
 			},
 
 			/**
@@ -455,6 +461,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				// Adding a role="radiogroup" to definition used for wrapper.
 				elementDefinition.role = 'radiogroup';
+				elementDefinition.includeLabel = true;
 
 				CKEDITOR.ui.dialog.labeledElement.call( this, dialog, elementDefinition, htmlList, innerHTML );
 				this._.children = children;
