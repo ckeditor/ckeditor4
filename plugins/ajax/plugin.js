@@ -54,7 +54,7 @@
 			return null;
 		}
 
-		var getResponseXml = function( xhr ) {
+		function getResponseXml( xhr ) {
 			if ( checkStatus( xhr ) ) {
 				var xml = xhr.responseXML;
 				return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
