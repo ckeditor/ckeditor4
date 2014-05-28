@@ -11,6 +11,7 @@ Fixed Issues:
 * [#11960](http://dev.ckeditor.com/ticket/11960): [Blink/Webkit] Fixed: The caret should be scrolled into view on *Backspace* and *Delete* (covers only the merging blocks case).
 * [#11306](http://dev.ckeditor.com/ticket/11306): [OSX][Blink/Webkit] Fixed: No widget's entries in context menu on widget right-click.
 * [#11957](http://dev.ckeditor.com/ticket/11957): Fixed: Alignment labels in the [Enhanced Image](http://ckeditor.com/addon/image2) dialog are not translated.
+* [#11980](http://dev.ckeditor.com/ticket/11980): [Blink/Webkit] Fixed: Span elements created while joining adjacent elements (non-collapsed selection).
 
 ## CKEditor 4.4.1
 
