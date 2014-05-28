@@ -1,0 +1,15 @@
+<body />
+ element.
+	// @param {String} title A value for a title element.
+	function addProtectedSourceTC( bodyHtml, title ) {
+		return function() {
+			title = title || 'foo';
+			var input = '<!DOCTYPE html>' + "\n" +
+					'<html>' +
+					'<head>' +
+					'<title>' + title + '</title>' +
+					'</head>' +
+					'<body>' +
+					bodyHtml +
+					'
+</body>

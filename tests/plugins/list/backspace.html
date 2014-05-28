@@ -1,0 +1,529 @@
+<textarea id="join_list1">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	<p>^2</p>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list1_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p>2</p>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list2">
+	<ol>
+		<li>1<ol><li><p>1.1</p></li></ol></li>
+	</ol>
+	<p>^2</p>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.12</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list2_del">
+	<ol>
+		<li>1<ol><li><p>1.1^</p></li></ol></li>
+	</ol>
+	<p>2</p>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.12</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list3">
+	<ol>
+		<li>1<ol><li><p>1.1</p></li></ol></li>
+	</ol>
+	<h1>^2</h1>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.12</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list3_del">
+	<ol>
+		<li>1<ol><li><p>1.1^</p></li></ol></li>
+	</ol>
+	<h1>2</h1>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.12</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list4">
+	<ol>
+		<li>1</li>
+		<li>2</li>
+	</ol>
+	<h1>^3</h1>
+	=>
+	<ol>
+		<li>1</li>
+		<li>23</li>
+	</ol>
+</textarea>
+<textarea id="join_list4_del">
+	<ol>
+		<li>1</li>
+		<li>2^</li>
+	</ol>
+	<h1>3</h1>
+	=>
+	<ol>
+		<li>1</li>
+		<li>23</li>
+	</ol>
+</textarea>
+<textarea id="join_list5">
+	<ol>
+		<li>1</li>
+		<li>2</li>
+	</ol>
+	<p>^3<br />4</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>23</li>
+	</ol>
+	<p>4</p>
+</textarea>
+<textarea id="join_list5_del">
+	<ol>
+		<li>1</li>
+		<li>2^</li>
+	</ol>
+	<p>3<br />4</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>23</li>
+	</ol>
+	<p>4</p>
+</textarea>
+<textarea id="join_list6">
+	<ol>
+		<li>1</li>
+		<li></li>
+	</ol>
+	<p>^3</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>3</li>
+	</ol>
+</textarea>
+<textarea id="join_list6_del">
+	<ol>
+		<li>1</li>
+		<li>^</li>
+	</ol>
+	<p>3</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>3</li>
+	</ol>
+</textarea>
+<textarea id="join_list7">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+		<li>^2</li>
+	</ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list7_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p></p>
+	=>
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list8">
+	<ol>
+		<li>1</li>
+		<li>^2</li>
+	</ol>
+	=>
+	<ol>
+		<li>12</li>
+	</ol>
+</textarea>
+<textarea id="join_list8_del">
+	<ol>
+		<li>1^</li>
+		<li>
+			2<ol><li>2.1</li></ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>12
+			<ol><li>2.1</li></ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list9">
+	<ol>
+		<li>1</li>
+		<li>^2<ol><li>1.1</li></ol></li>
+	</ol>
+	=>
+	<ol>
+		<li>12<ol><li>1.1</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list9_del">
+	<ol>
+		<li>1^
+			<ol>
+				<li>1.1
+					<ol><li>1.1.1</li></ol>
+				</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>11.1
+			<ol>
+				<li>1.1.1</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list10">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	<p>^2</p>
+	<ol>
+		<li>2</li>
+	</ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="join_list10_del">
+	<ol>
+		<li>1^</li>
+		<li>2
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>12
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list11">
+	<ol>
+		<li>1
+			<ol>
+				<li>^1.1</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>11.1<ol><li>1.2</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list11_del">
+	<ol>
+		<li>1^</li>
+		<li><p>2</p>
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>12
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list12_del">
+	<ol>
+		<li><p>1^</p>
+			<ol>
+				<li><h1>2.1</h1></li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li><p>12.1</p>
+			<ol>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list13_del">
+	<ol>
+		<li><p>1.1</p>
+			<p>1.2^</p>
+		</li>
+		<li>
+			<h1>2.1</h1>
+			2.2
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li><p>1.1</p>
+			<p>1.22.1</p>
+		</li>
+		<li>2.2</li>
+	</ol>
+</textarea>
+<textarea id="join_list14_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p>2</p>
+	<ol><li>2</li></ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+		<li>2</li>
+	</ol>
+</textarea>
+
+<textarea id="outdent_list">
+	<ol>
+		<li>^1</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>1</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="outdent_list2">
+	<ol>
+		<li><p>^1</p></li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>1</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="outdent_list3">
+	<table><tbody><tr><td>cell</td></tr></tbody></table>
+	<ol>
+		<li><p>^1</p></li>
+		<li>2</li>
+	</ol>
+	=>
+	<table><tbody><tr><td>cell</td></tr></tbody></table>
+	<p>1</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="outdent_list4">
+	<p>foo</p>
+	<ol>
+		<li>^</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>foo</p>
+	<p>&amp;nbsp;</p>
+	<ol><li>2</li></ol>
+</textarea>
+<textarea id="outdent_list5">
+	<ol>
+		<li>^</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>&amp;nbsp;</p>
+	<ol><li>2</li></ol>
+</textarea>
+<textarea id="outdent_list6">
+	<p>foo</p>
+	<ol>
+		<li>^1</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>foo</p>
+	<p>1</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+
+<textarea id="no_outdent_list">
+	<ol>
+		<li>^1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
+	=>
+	(no change)
+</textarea>
+<textarea id="no_outdent_list2">
+	<p>foo</p>
+	<ol>
+		<li>^1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
+	=>
+	(no change)
+</textarea>
+
+<textarea id="merge_next_list">
+	<p>foo^</p>
+	<ol>
+		<li>bar</li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p>foobar</p>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list2">
+	<p>foo^</p>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p>foobar</p>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list3">
+	<h1>foo^</h1>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<h1>foobar</h1>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list4">
+	<div><p>foo^</p></div>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<div><p>foobar</p></div>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+
+<textarea id="remove_empty_block">
+	<p>^</p>
+	<ol>
+		<li>bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="remove_empty_block2">
+	<p>^</p>
+	<ol>
+		<li>bar</li>
+		<li>baz</li>
+	</ol>
+	=>
+	<ol>
+		<li>bar</li>
+		<li>baz</li>
+	</ol>
+</textarea>
+
+
+<textarea id="del_no_action">
+	<table>
+		<tbody>
+			<tr>
+				<td>foo^</td>
+			</tr>
+		</tbody>
+	</table>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	(no change)
+</textarea>
+<textarea id="del_no_action2">
+	<p>foo^</p>
+	<ol>
+		<li>bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	(no change)
+</textarea>
