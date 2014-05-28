@@ -341,8 +341,32 @@
 		 *
 		 * @param {Boolean} [offline] Whether the widgets are offline (detached from the DOM tree) &mdash;
 		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
+		 * @param {CKEDITOR.dom.element} [container] Container within widgets will be destroyed.
+		 * This option will be ignored if `offline` flag was set to `true`, because in such case
+		 * it is not possible to find widgets within passed block.
 		 */
-		destroyAll: function( offline ) {
+		destroyAll: function( offline, container ) {
+			if ( container && !offline ) {
+				var wrappers = container.find( '.cke_widget_wrapper' ),
+					l = wrappers.count(),
+					i = 0,
+					widget;
+
+				// Length is constant, because this is not a live node list.
+				// Note: since querySelectorAll returns nodes in document order,
+				// outer widgets are always placed before their nested widgets and therefore
+				// are destroyed before them.
+				for ( ; i < l; ++i ) {
+					widget = this.getByElement( wrappers.getItem( i ), true );
+					// Widget might not be found, because it could be a nested widget,
+					// which would be destroyed when destroying its parent.
+					if ( widget )
+						this.destroy( widget );
+				}
+
+				return;
+			}
+
 			var instances = this.instances,
 				widget;
 
@@ -1005,7 +1029,7 @@
 		},
 
 		/**
-		 * Destroys a nested editable.
+		 * Destroys a nested editable and all nested widgets.
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
@@ -1018,6 +1042,7 @@
 			this.editor.focusManager.remove( editable );
 
 			if ( !offline ) {
+				this.repository.destroyAll( false, editable );
 				editable.removeClass( 'cke_widget_editable' );
 				editable.removeClass( 'cke_widget_editable_focused' );
 				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-enter-mode' ] );
@@ -1158,6 +1183,7 @@
 
 				// Finally, process editable's data. This data wasn't processed when loading
 				// editor's data, becuase they need to be processed separately, with its own filters and settings.
+				editable._.initialSetData = true;
 				editable.setData( editable.getHtml() );
 
 				return true;
@@ -1486,6 +1512,7 @@
 		// Call the base constructor.
 		CKEDITOR.dom.element.call( this, element.$ );
 		this.editor = editor;
+		this._ = {};
 		var filter = this.filter = config.filter;
 
 		// If blockless editable - always use BR mode.
@@ -1503,9 +1530,19 @@
 		 * and the {@link CKEDITOR.editor#filter}. This ensures that the data was filtered and prepared to be
 		 * edited like the {@link CKEDITOR.editor#method-setData editor data}.
 		 *
+		 * Before content is changed all nested widgets are destroyed.
+		 *
 		 * @param {String} data
 		 */
 		setData: function( data ) {
+			// For performance reasons don't call destroyAll when initializing nested editable,
+			// because there are not widgets inside.
+			if ( !this._.initialSetData ) {
+				// Destroy all nested widgets before setting data.
+				this.editor.widgets.destroyAll( false, this );
+			}
+			this._.initialSetData = false;
+
 			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
