@@ -1,7 +1,7 @@
 {
-  "name": "ckeditor-bender-test",
-  "version": "0.0.1",
-  "description": "Sample tests for CKEditor using Bender",
+  "name": "ckeditor",
+  "version": "4.4.1",
+  "description": "JavaScript WYSIWYG web text editor.",
   "dependencies": {
     "bender-ckeditor": "git://github.com/benderjs/benderjs-ckeditor.git",
     "bender-jquery": "git://github.com/benderjs/benderjs-jquery.git",
@@ -11,6 +11,6 @@
     "preinstall": "npm i -g git://github.com/benderjs/benderjs.git",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": ""
+  "author": "CKSource - Frederico Knabben",
+  "license": "Licensed under the GPL, LGPL, and MPL licenses, at your choice. Please check the LICENSE.md file for more information about the license."
 }
