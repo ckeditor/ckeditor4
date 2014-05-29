@@ -1,7 +1,7 @@
 {
-	"name": "ckeditor",
+	"name": "ckeditor-dev",
 	"version": "4.4.1",
-	"description": "JavaScript WYSIWYG web text editor.",
+	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"dependencies": {
 		"bender-ckeditor": "git://github.com/benderjs/benderjs-ckeditor.git",
 		"bender-jquery": "git://github.com/benderjs/benderjs-jquery.git",
@@ -11,6 +11,8 @@
 		"preinstall": "npm i -g git://github.com/benderjs/benderjs.git",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "CKSource - Frederico Knabben",
-	"license": "Licensed under the GPL, LGPL, and MPL licenses, at your choice. Please check the LICENSE.md file for more information about the license."
+	"author": "CKSource - Frederico Knabben (http://cksource.com)",
+	"license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
+	"bugs": "http://dev.ckeditor.com",
+	"homepage": "http://ckeditor.com"
 }
