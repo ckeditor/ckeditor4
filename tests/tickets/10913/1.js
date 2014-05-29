@@ -1,9 +1,9 @@
 /* bender-tags: editor,unit */
 
-CKEDITOR.plugins.addExternal( 'plugin1', '/tt/10913/_assets/plugin1/', 'plugin.js' );
-CKEDITOR.plugins.addExternal( 'plugin2', '/tt/10913/_assets/plugin2/plugin.js', '' );
-CKEDITOR.plugins.addExternal( 'plugin3', '/tt/10913/_assets/plugin3/plugin.js' );
-CKEDITOR.plugins.addExternal( 'plugin4', '/tt/10913/_assets/plugin4/' );
+CKEDITOR.plugins.addExternal( 'plugin1', '/tests/tests/tickets/10913/_assets/plugin1/', 'plugin.js' );
+CKEDITOR.plugins.addExternal( 'plugin2', '/tests/tests/tickets/10913/_assets/plugin2/plugin.js', '' );
+CKEDITOR.plugins.addExternal( 'plugin3', '/tests/tests/tickets/10913/_assets/plugin3/plugin.js' );
+CKEDITOR.plugins.addExternal( 'plugin4', '/tests/tests/tickets/10913/_assets/plugin4/' );
 
 bender.editor = {
 	creator: 'replace',
