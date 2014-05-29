@@ -95,17 +95,8 @@
 
 					editor.on( 'instanceReady', function() {
 						console.log( 'isntR' );
-						// Save initial image.
-						// haxes, haxes needed for initial store.
-						var img = new Image( editor );
-						undoManager.snapshots.push( img );
-						undoManager.currentSnapshot = img;
-						undoManager.index = 0;
-						undoManager.onChange();
-						// Index:
-						// 0 - stands for characters input
-						// 1 - functional keys (delete/backspace)
-						undoManager.strokesRecorded = [ 0, 0 ];
+						// Saves initial snapshot.
+						editor.fire( 'saveSnapshot' );
 					} );
 
 					var tmpInputFired = false,
@@ -334,6 +325,13 @@
 	}
 
 	UndoManager.prototype = {
+		// Array storing count of key presses count in a row.
+		// 0 - stores characters input
+		// 1 - functional keys (delete/backspace)
+		// Strokes count will be reseted, after reaching characters per snapshot limit.
+		// **Warrning:** this property is not used in IE!
+		strokesRecorded: [ 0, 0 ],
+
 		/**
 		 * When `locked` property is not `null`, the undo manager is locked, so
 		 * operations like `save` or `update` are forbidden.
@@ -478,7 +476,6 @@
 			console.log( 'Already recorded: ' + strokesRecorded );
 			// Increase recorded strokes count.
 			this.strokesRecorded[ functionalKey ] = strokesRecorded;
-			//this.strokesRecorded[ functionalKey ]++;
 			// This prop will tell in next itaration what kind of group was processed previously.
 			this.wasFunctionalKey = functionalKey;
 
