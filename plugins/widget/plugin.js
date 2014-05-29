@@ -1752,7 +1752,7 @@
 
 		var editable = this.editor.editable(),
 			instances = this.instances,
-			newInstances, i, count, wrapper;
+			newInstances, i, count, wrapper, notYetInitialized;
 
 		if ( !editable )
 			return;
@@ -1773,10 +1773,15 @@
 			// Create widgets on existing wrappers if they do not exists.
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
+				notYetInitialized = !this.getByElement( wrapper, true );
 
-				// Check if there's no instance for this widget and that
-				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isDomTemp ) ) {
+				// Check if:
+				// * there's no instance for this widget
+				// * wrapper is not inside some temporary element like copybin (#11088)
+				// * it was a nested widget's wrapper which has been detached from DOM,
+				// when nested editable has been initialized (it overwrites its innerHTML
+				// and initializes nested widgets).
+				if ( notYetInitialized && !findParent( wrapper, isDomTemp ) && editable.contains( wrapper ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
