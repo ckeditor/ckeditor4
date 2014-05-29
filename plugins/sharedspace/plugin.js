@@ -103,20 +103,20 @@
 
 /**
  * Makes it possible to place some of the editor UI blocks, like the toolbar
- * and the elements path, into any element in the page.
+ * and the elements path, in any element on the page.
  *
- * The elements used to hold the UI blocks can be shared among several editor
- * instances. In that case, only the blocks of the active editor instance will
- * display.
+ * The elements used to store the UI blocks can be shared among several editor
+ * instances. In that case only the blocks relevant to the active editor instance
+ * will be displayed.
  *
- *		// Place the toolbar inside the element with ID "someElementId" and the
- *		// elements path into the element with ID "anotherId".
+ *		// Place the toolbar inside the element with an ID of "someElementId" and the
+ *		// elements path into the element with an  ID of "anotherId".
  *		config.sharedSpaces = {
  *			top: 'someElementId',
  *			bottom: 'anotherId'
  *		};
  *
- *		// Place the toolbar inside the element with ID "someElementId". The
+ *		// Place the toolbar inside the element with an ID of "someElementId". The
  *		// elements path will remain attached to the editor UI.
  *		config.sharedSpaces = {
  *			top: 'someElementId'
