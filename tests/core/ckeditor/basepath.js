@@ -7,7 +7,8 @@
 	var path = window.location.protocol + '//' + window.location.host,
 		// http://ckeditor4.t/tests/tests/core/ckeditor
 		folderPath = path + window.location.pathname.slice( 0, window.location.pathname.lastIndexOf( '/' ) ),
-		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '';
+		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
+        secondDomainName = 'sub.ckeditor4.t';
 
 	bender.test( {
 		'test default BASEPATH': function() {
@@ -40,8 +41,7 @@
 
 		'test full BASEPATH': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-full' ),
-				doc = iframe.getFrameDocument(),
-				secondDomainName = bender.config.secondDomainName;
+				doc = iframe.getFrameDocument();
 
 			iframe.on( 'load', function() {
 				resume( function() {
@@ -128,8 +128,7 @@
 
 		'test protocol relative BASEPATH': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-protocol-relative' ),
-				doc = iframe.getFrameDocument(),
-				secondDomainName = bender.config.secondDomainName;
+				doc = iframe.getFrameDocument();
 
 			iframe.on( 'load', function() {
 				resume( function() {
