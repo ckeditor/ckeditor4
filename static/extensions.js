@@ -326,7 +326,7 @@
             toLoad++;
             CKEDITOR.scriptLoader.load(config.adapters, onLoad);
         }
-        
+
         function onLoad() {
             if (toLoad) toLoad--;
 
@@ -351,7 +351,7 @@
     bender.startRunner = function (tests) {
         var testId = window.location.pathname
                 .replace(/^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, '');
-        
+
         tests = tests || bender.deferredTests;
 
         if (bender.deferredTests) delete bender.deferredTests;
@@ -434,13 +434,9 @@ var resume = bender.Y.Test.Case.prototype.resume = (function () {
     return function (segment) {
         var tc = this;
 
-        if (bender.runner._waiting) {
+        setTimeout(function () {
             org.call(tc, segment);
-        } else {
-            setTimeout(function () {
-                org.call(tc, segment);
-            });
-        }
+        });
     };
 })();
 
