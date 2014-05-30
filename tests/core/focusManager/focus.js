@@ -5,31 +5,26 @@ var doc = CKEDITOR.document,
 
 CKEDITOR.focusManager._.blurDelay = 0;
 
-bender.test(
-{
-	'put focus in editable before editor creation' : function()
-	{
+bender.test( {
+	'put focus in editable before editor creation': function() {
 		var editable = doc.getById( 'editable' );
 		// Pre-focus the editable.
 		editable.focus();
 
-		var tc = this;
 		var editor = new CKEDITOR.editor();
-		editor.on( 'loaded', function()
-		{
+		editor.on( 'loaded', function() {
 			editable = editor.editable( editable );
 			editor.fire( 'contentDom' );
-			tc.resume( function()
-			{
-				assert.isTrue( editable.hasFocus );
-				assert.isTrue( editor.focusManager.hasFocus );
+			resume( function() {
+				assert.isTrue( editable.hasFocus, 'editable.hasFocus' );
+				assert.isTrue( editor.focusManager.hasFocus, 'focusManager.hasFocus' );
 				// Destroy editor, because this poor mock will not handle blur correctly.
 				editor.destroy();
 			} );
 		} );
 
 		// Focus manager blurring is asynchronous.
-		tc.wait();
+		wait();
 	},
 
 	setupIframe : function( callback )
