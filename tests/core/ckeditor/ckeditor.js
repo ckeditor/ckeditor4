@@ -75,7 +75,7 @@ bender.test(
 		assert.isUndefined( CKEDITOR.instances.editor8, 'editor8 should be undefined' );
 	},
 
-	test_replaceAll : function() {
+	test_replaceAll: function() {
 		CKEDITOR.replaceAll();
 
 		assert.isObject( CKEDITOR.instances.editor6, 'editor6 instance not found' );

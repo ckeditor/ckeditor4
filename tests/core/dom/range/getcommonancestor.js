@@ -51,7 +51,7 @@
 			assert.areSame( document.body, range.getCommonAncestor().$ );
 		},
 
-		test_getCommonAncestor6 : function() {
+		test_getCommonAncestor6: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_EnlargeI' ).getFirst(), 2 );
 			range.setEnd( doc.getById( '_EnlargeB' ), 3 );

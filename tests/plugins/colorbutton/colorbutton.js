@@ -24,7 +24,7 @@
 		},
 
 		// #10975
-		'test open palette without focus' : function() {
+		'test open palette without focus': function() {
 			var editor = CKEDITOR.replace( 'noFocus' );
 			editor.on( 'instanceReady', function() {
 				resume( function() {

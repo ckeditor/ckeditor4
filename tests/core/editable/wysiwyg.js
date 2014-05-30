@@ -108,7 +108,7 @@
 			assert.isFalse( edt.hasAttribute( 'foo' ), 'check removed new attr' );
 		},
 
-		testDetach : function() {
+		testDetach: function() {
 			var editable = this.editor.editable();
 			this.editor.editable( null );
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );

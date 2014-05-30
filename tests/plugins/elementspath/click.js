@@ -37,7 +37,7 @@
 			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] )  ) );
 		},
 
-		'test clicking contenteditable strong element' : function() {
+		'test clicking contenteditable strong element': function() {
 			var bot = this.editorBot,
 				editor = this.editor,
 				// We expect that textnode of contenteditable element will be selected.

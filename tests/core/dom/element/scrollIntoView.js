@@ -5,7 +5,7 @@ var doc = CKEDITOR.document, win = doc.getWindow();
 bender.test(
 {
 	// Reset scroll to top/bottom.
-	resetScroll : function( toBottom ) {
+	resetScroll: function( toBottom ) {
 		var maxScrollTop = win.$.scrollMaxY || doc.$.documentElement.scrollHeight - doc.$.documentElement.clientHeight;
 		win.$.scrollTo( 0, toBottom ?  maxScrollTop: 0 );
 	},

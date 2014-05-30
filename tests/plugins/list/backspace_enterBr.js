@@ -27,7 +27,7 @@ bender.test(
 		this.assertBackspace( 'list2_del', DEL );
 	},
 
-	'test del join with next list item' : function() {
+	'test del join with next list item': function() {
 		this.assertBackspace( 'merge_next_list', DEL );
 	}
 } );

@@ -33,7 +33,7 @@ bender.test(
 		} );
 	},
 
-	'test read from protected mail link' : function() {
+	'test read from protected mail link': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[' + protectedMailLink + ']' );
 		bot.dialog( 'link', function( dialog ) {

@@ -70,7 +70,7 @@
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock5 : function() {
+		test_checkStartOfBlock5: function() {
 			var el = doc.getById( 'playground' );
 			el.setHtml( '<p> Test </p>' );
 			el = el.getFirst().getFirst();
@@ -220,7 +220,7 @@
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
-		'test_checkEndOfBlock9 (ignore block bogus)' : function() {
+		'test_checkEndOfBlock9 (ignore block bogus)': function() {
 			var el = doc.getById( 'editable_playground' );
 			el.setHtml( '' );
 			appendBogus( el );

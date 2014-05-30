@@ -165,7 +165,7 @@
 				this.rangeMoveToElementEditablePosition( '<ul><li>editable</li>  \n \n</ul>', true ) );
 		},
 
-		test_moveToElementEditStart17d : function() {
+		test_moveToElementEditStart17d: function() {
 			assert.areSame( '<div>[<div contenteditable="false">x</div>]</div>',
 				this.rangeMoveToElementEditablePosition( '<div>  \t <div contenteditable="false">x</div>\n\n</div>', true ) );
 		}

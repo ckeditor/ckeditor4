@@ -39,7 +39,7 @@ bender.test(
 		assert.areSame( '<p>foo</p><hr /><p>bar</p>', bot.getData( false, true ) );
 	},
 
-	'test insert hr with text selection' : function() {
+	'test insert hr with text selection': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p>t[ext<a href="http://ckeditor.com/">lin]k</a></p>' );
 		bot.execCommand( 'horizontalrule' );

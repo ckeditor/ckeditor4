@@ -7,7 +7,7 @@
 		autoParagraph : false,
 		allowedContent : true // Disable filter.
 	}, {
-		'plain text htmlification' : function() {
+		'plain text htmlification': function() {
 			var a = this.createAssertInsertionFunction( 'body', '', 'insertText' );
 
 			a.insertion = 'abc\r\ndef';
@@ -41,7 +41,7 @@
 			a( '^', 'aa &lt;bb cc^',															'html encoding' );
 		},
 
-		'empty and spaces insertions' : function() {
+		'empty and spaces insertions': function() {
 			var a = this.createAssertInsertionFunction( 'body', '', 'insertText' );
 
 			a.insertion = '';

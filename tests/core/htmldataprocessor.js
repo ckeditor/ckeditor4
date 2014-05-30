@@ -121,7 +121,7 @@
 			this.editor.focus();
 		},
 
-		createProcessorAssertion : function( type ) {
+		createProcessorAssertion: function( type ) {
 
 			assert.isTrue( type == 'input' || type == 'output', 'known processing type' );
 
@@ -144,7 +144,7 @@
 			assert.areEqual( bender.tools.fixHtml( expected ), bender.tools.fixHtml( actual ), msg );
 		},
 
-		createBogus : function( toHtml ) {
+		createBogus: function( toHtml ) {
 			return CKEDITOR.env.needsNbspFiller ? ( toHtml ? '\u00a0' : '&nbsp;' ) : '<br />';
 		},
 

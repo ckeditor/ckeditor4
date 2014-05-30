@@ -15,7 +15,7 @@ bender.test(
 			  assert.areSame( '<h1>^foo</h1>', bot.htmlWithSelection(), 'applied h1 block style' );
 		  } );
    },
-   'test format style not in context' : function() {
+   'test format style not in context': function() {
 	   // TODO: IE throws selection inside of form legend.
 	   if ( CKEDITOR.env.ie )
 	   	assert.ignore();

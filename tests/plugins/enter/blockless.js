@@ -18,7 +18,7 @@ bender.test(
 		return bot.getData( 1, true );
 	},
 
-	'test enter among inline text' : function() {
+	'test enter among inline text': function() {
 		assert.areSame( 'foo<br />bar', this.enterKey( 'foo^bar' ) );
 		assert.areSame( 'foo<br />&nbsp;', this.enterKey( 'foo^' ) );
 		assert.areSame( '<br />foo', this.enterKey( '^foo' ) );

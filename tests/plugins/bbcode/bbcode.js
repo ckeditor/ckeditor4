@@ -77,7 +77,7 @@ bender.test(
 		this.assertToHtml( '<strong>foo<br /><br />bar</strong>', '[b]foo\r\n\r\nbar[/b]' );
 	},
 
-	'test enterMode' : function() {
+	'test enterMode': function() {
 		var editor = this.editor,
 			bot = this.editorBot;
 

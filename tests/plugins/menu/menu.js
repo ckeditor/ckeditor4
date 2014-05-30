@@ -31,7 +31,7 @@
 
 	bender.test(
 	{
-		'test menu item class names' : function() {
+		'test menu item class names': function() {
 			this.editorBot.menu( 'custom_menubutton', function( menu ) {
 
 				var panelDoc = menu._.panel._.iframe.getFrameDocument();

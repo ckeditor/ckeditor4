@@ -20,7 +20,7 @@ bender.test(
 			} );
 	},
 
-	'test empty fields' : function() {
+	'test empty fields': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[<input checked="checked" name="name" type="checkbox" value="value" />]' );

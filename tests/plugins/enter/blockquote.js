@@ -58,7 +58,7 @@ bender.test(
 		this.doTest( '<blockquote><p><b><i>^</i></b></p><p>Some text</p></blockquote>', '<p><b><i>^</i></b></p><blockquote><p>Some text</p></blockquote>' );
 	},
 
-	test_endWithStyles : function() {
+	test_endWithStyles: function() {
 		this.doTest( '<blockquote><p>Some text</p><p><b><i>^</i></b></p></blockquote>', '<blockquote><p>Some text</p></blockquote><p><b><i>^</i></b></p>' );
 	}
 } );

@@ -28,7 +28,7 @@ bender.test(
 	},
 
 	'test htmlEncodeOutput(false)' : function() {
-		this.createEditor( { ignoreEmptyParagraph : false }, function( val ) {
+		this.createEditor( { ignoreEmptyParagraph: false }, function( val ) {
 			   assert.areSame( '<p>foo&nbsp;bar</p>', val );
 		   } );
 	}

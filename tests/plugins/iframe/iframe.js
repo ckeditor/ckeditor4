@@ -20,7 +20,7 @@ bender.test(
 		} );
 	},
 
-	'test update iframe' : function() {
+	'test update iframe': function() {
 		var bot = this.editorBot, editor = this.editor;
 
 		bot.setHtmlWithSelection( editor.dataProcessor.toHtml( '[<iframe frameborder="0" scrolling="no" src="http://ckeditor.com" width="100%"></iframe>]' ) );

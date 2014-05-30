@@ -464,7 +464,7 @@ bender.test(
 		assert.isFalse( fired2 );
 	},
 
-	test_removeAllListeners : function() {
+	test_removeAllListeners: function() {
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
 

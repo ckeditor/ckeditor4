@@ -37,7 +37,7 @@ bender.test(
 	},
 
 	// Test auto wrapping content that lives directly in body element with paragraph.
-	testAutoParagraphing : function() {
+	testAutoParagraphing: function() {
 		var tc = this, editor = this.editor;
 		this.setupEditor( '', function() {
 			var start = editor.getSelection().getStartElement(),

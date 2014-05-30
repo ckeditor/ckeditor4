@@ -14,7 +14,7 @@ bender.test( appendDomObjectTests(
 		};
 	} )(),
 	{
-		test_getOuterHtml : function() {
+		test_getOuterHtml: function() {
 			var comments1 = CKEDITOR.document.getById( 'c' ).getChildren(),
 				comments2 = [ '<!--abc-->', '<!--\\\\-->', '<!--&gt;&lt;-->' ];
 

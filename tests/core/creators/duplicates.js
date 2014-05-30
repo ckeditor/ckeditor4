@@ -23,7 +23,7 @@
 			assert.isFalse( fail, 'Expected error not thrown.' );
 		},
 
-		'themedui duplicates' : function() {
+		'themedui duplicates': function() {
 			var fail = false;
 
 			CKEDITOR.replace( 'editor' );

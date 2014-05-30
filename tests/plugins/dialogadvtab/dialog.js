@@ -39,7 +39,7 @@
 		},
 
 		// #9281
-		'test dialog field updateStyle' : function( source, expected ) {
+		'test dialog field updateStyle': function( source, expected ) {
 			var bot = this.editorBot, editor = this.editor;
 			bot.dialog( 'testAdvTab', function( dialog ) {
 				var field = dialog.getContentElement( 'advanced', 'advStyles' );

@@ -6,7 +6,7 @@ bender.editor = true;
 bender.test(
 {
 	// #4355
-	'test command exec not require editor focus' : function() {
+	'test command exec not require editor focus': function() {
 		var bot = this.editorBot, editor = this.editor;
 
 		var focused = false;

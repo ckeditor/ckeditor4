@@ -15,7 +15,7 @@ bender.test(
 		return bot.getData( false, true ).replace( /<p>&nbsp;<\/p>$/, '' );
 	},
 
-	'test enter key inside of table cell' : function() {
+	'test enter key inside of table cell': function() {
 		if ( this.mode == CKEDITOR.ENTER_P ) {
 			// Block established in block-less table cells.
 			assert.areSame( '<table><tbody><tr><td><p>foo</p><p>&nbsp;</p></td></tr></tbody></table>', this.enterKey( '<table><tr><td>foo^</td></tr></table>' ) );

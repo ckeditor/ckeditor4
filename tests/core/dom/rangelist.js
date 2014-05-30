@@ -16,7 +16,7 @@ bender.test(
 			assert.areSame( range, rlist[ 0 ] );
 		},
 
-		test_createIterator : function() {
+		test_createIterator: function() {
 			var rlist,
 				ranges = [],
 				ranges2 = [],

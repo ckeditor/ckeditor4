@@ -19,7 +19,7 @@ bender.test(
 		assert.isTrue( this.editor.getCommand( 'blockquote' ).state == CKEDITOR.TRISTATE_ON );
 	},
 
-	'test blockquote on non-editable block' : function() {
+	'test blockquote on non-editable block': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<p contenteditable="false">foo</p>]' );
 		bot.execCommand( 'blockquote' );

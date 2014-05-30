@@ -3,7 +3,7 @@
 bender.test(
 {
 	// Return a set of css files for the specified skin part.
-	cssFileToCheck : function( part ) {
+	cssFileToCheck: function( part ) {
 		var base = CKEDITOR.skin.path();
 
 		// Note: Below code copied from skin.js#getCssPath,
@@ -50,7 +50,7 @@ bender.test(
 		}, 0 );
 	},
 
-	'load skin parts' : function() {
+	'load skin parts': function() {
 		var tc = this;
 		var skin = CKEDITOR.skin;
 

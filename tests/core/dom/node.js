@@ -627,7 +627,7 @@
 			assert.areSame( '<div id="replace">12<p id="replace1"></p>3</div>', getOuterHtml( $( 'replace' ) ) );
 		},
 
-		test_trim : function() {
+		test_trim: function() {
 			var node = $( 'trim' );
 			node.trim();
 

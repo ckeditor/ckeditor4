@@ -144,7 +144,7 @@
 		},
 
 		// #11798
-		'test wrapping contents stops at non-editable block and block limit' : function() {
+		'test wrapping contents stops at non-editable block and block limit': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 

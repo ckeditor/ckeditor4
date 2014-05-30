@@ -108,7 +108,7 @@ bender.test(
 		   }, 0 );
 	},
 
-	test_detach : function() {
+	test_detach: function() {
 		this.editor.editable( null );
 		assert.areSame( 0, this.editor.ui.space( 'contents' ).$.getElementsByTagName( 'iframe' ).length );
 	}

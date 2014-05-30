@@ -26,7 +26,7 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.window( {} );
 	},
 	{
-		test_loadEvent : function() {
+		test_loadEvent: function() {
 			assert.isTrue( loadCalled );
 		}
 	}

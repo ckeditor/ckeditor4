@@ -24,7 +24,7 @@
 			a( '^', 'bam^',															'into empty editable' );
 		},
 
-		'#119 - paste paragraphs into empty paragraph' : function() {
+		'#119 - paste paragraphs into empty paragraph': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>aaa</p><p>bbb</p>' ),
 				b = CKEDITOR.env.needsNbspFiller ? '&nbsp;' : '<br>';
 

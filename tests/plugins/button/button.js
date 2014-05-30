@@ -19,7 +19,7 @@ bender.editor =
 
 bender.test(
 {
-	'test button class names' : function() {
+	'test button class names': function() {
 		var btn = this.editor.ui.get( 'custom_btn' ),
 		btnEl = CKEDITOR.document.getById( btn._.id );
 

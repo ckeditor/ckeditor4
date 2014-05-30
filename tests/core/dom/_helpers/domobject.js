@@ -152,7 +152,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.areNotEqual( a.getUniqueId(), c.getUniqueId() );
 		},
 
-		test_domObject_removeAllListeners : function() {
+		test_domObject_removeAllListeners: function() {
 			var evtCouter = 0,
 				a = objectFactory( 'domObjectTest1' );
 

@@ -53,7 +53,7 @@ bender.test(
 			} );
 		},
 
-		'test remove div' : function() {
+		'test remove div': function() {
 			var bot = this.editorBot;
 
 			bender.tools.testInputOut( 'remove', function( source, output ) {

@@ -49,7 +49,7 @@
 			a( '<ul><li>foo^</li></ul>', '<ul><li>foo</li><li>bar^</li></ul>' );
 		},
 
-		'insert list items' : function() {
+		'insert list items': function() {
 			var a = this.createAssertInsertionFunction( 'div,body', null, 'html' );
 
 			a.insertion = '<li>foo</li><li>bar</li>';

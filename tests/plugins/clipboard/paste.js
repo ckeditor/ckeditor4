@@ -522,7 +522,7 @@
 				'htmlified text 2 - webkit' );
 		},
 
-		'htmlified text unification 3 - other cases' : function() {
+		'htmlified text unification 3 - other cases': function() {
 			var data = CKEDITOR.env.webkit ? '<div>a&nbsp;b</div>' : 'a&nbsp;b<br>c';
 			var result = CKEDITOR.env.webkit ? 'a&nbsp;b' : 'a&nbsp;b<br>c';
 
@@ -1165,7 +1165,7 @@
 			// #9675: FF36 copies divarea.
 			assertPasteEvent( this.editor,
 				{ dataValue : '<div id="cke_1_contents" class="cke_contents"><div class="cke_editable" contenteditable="true"><p>aaa</p></div></div>' },
-				{ dataValue : '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );
+				{ dataValue: '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );
 		}
 	} );
 

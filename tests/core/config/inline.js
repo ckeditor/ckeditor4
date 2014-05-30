@@ -21,7 +21,7 @@ bender.test(
 	test_startup_focus : function() {
 		assert.isTrue( this.editor.focusManager.hasFocus, 'config.startupFocus' );
 	},
-	test_contents_lang : function() {
+	test_contents_lang: function() {
 		assert.areSame( this.editor.config.contentsLangDirection, 'rtl' );
 		assert.areSame( 'rtl', this.editor.editable().getAttribute( 'dir' ) );
 	}

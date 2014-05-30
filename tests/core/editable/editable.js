@@ -18,11 +18,11 @@ var testEditable = CKEDITOR.tools.createClass(
 			this._.text = text;
 		},
 
-		setData : function( data, isSnapshot ) {
+		setData: function( data, isSnapshot ) {
 			this._[ isSnapshot ? 'snapshot' : 'data' ] = data;
 		},
 
-		getData : function( isSnapshot ) {
+		getData: function( isSnapshot ) {
 			return this._[ isSnapshot ? 'snapshot' : 'data' ] || '';
 		},
 

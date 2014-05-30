@@ -196,7 +196,7 @@ bender.test(
 
 	},
 
-	'test inactive when list is out of block limit' : function() {
+	'test inactive when list is out of block limit': function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.setHtmlWithSelection( '<ul><li><table><tr><td>^foo</td></tr></table></li></ul>' );
 		var bList = ed.getCommand( 'bulletedlist' );

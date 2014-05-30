@@ -32,7 +32,7 @@
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.getData() ), 'retrieve data' );
 		},
 
-		testDetach : function() {
+		testDetach: function() {
 			var editable = this.editor.editable();
 			this.editor.editable( null );
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );

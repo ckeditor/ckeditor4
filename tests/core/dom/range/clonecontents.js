@@ -196,7 +196,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_Other_4 : function() {
+		test_cloneContents_Other_4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.selectNodeContents( doc.getById( '_Para' ) );

@@ -248,7 +248,7 @@
 			assert.areEqual( '<div>te[xt]</div>', bender.tools.getHtmlWithRanges( playground, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		'test removeEmptyBlocksAtEnd - leave non-empty' : function() {
+		'test removeEmptyBlocksAtEnd - leave non-empty': function() {
 			var source = '<div>te[xt<div><p>]</p>x</div></div>',
 				playground = doc.getById( 'editable_playground' ),
 				range = bender.tools.setHtmlWithRange( playground, source )[ 0 ];

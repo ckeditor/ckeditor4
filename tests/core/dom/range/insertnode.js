@@ -115,7 +115,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_Mixed : function() {
+		test_insertNode_Mixed: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 

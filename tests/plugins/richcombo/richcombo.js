@@ -28,7 +28,7 @@ bender.editor =
 
 bender.test(
 {
-	'test combo class names' : function() {
+	'test combo class names': function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),
 			btnEl = CKEDITOR.document.getById( 'cke_' + combo.id );
 

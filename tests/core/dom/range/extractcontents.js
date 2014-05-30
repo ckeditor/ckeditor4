@@ -202,7 +202,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_extractContents_Other_6 : function() {
+		test_extractContents_Other_6: function() {
 			document.getElementById( 'playground' ).innerHTML = '<p><b><i>test</i></b></p>';
 
 			var range = new CKEDITOR.dom.range( doc );

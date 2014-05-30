@@ -1148,7 +1148,7 @@
 					text : '<b>xabc</b> <b>def^y</b>' },										'case 9a' );
 		},
 
-		'#136 - remove &lt;br&gt; before and after inserted block' : function() {
+		'#136 - remove &lt;br&gt; before and after inserted block': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>aaa</p><p>bbb</p>', 'html' );
 
 			a( '<p>x<br />^<br />y</p>',	'<p>x</p><p>aaa</p><p>bbb^</p><p>y</p>',			'case 1a' );

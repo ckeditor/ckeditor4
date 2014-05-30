@@ -12,7 +12,7 @@ var DEL = 46, BACKSPACE = 8;
 
 bender.test(
 {
-	assertKeystroke : function( key, keyModifiers, input, output, msg ) {
+	assertKeystroke: function( key, keyModifiers, input, output, msg ) {
 		var ed = this.editor, bot = this.editorBot;
 
 		bot.setHtmlWithSelection( input );

@@ -94,7 +94,7 @@ bender.test(
 			assert.areSame( text.$, next.$.previousSibling, 'sibling is wrong' );
 		},
 
-		test_split_3436 : function() {
+		test_split_3436: function() {
 			var parent = CKEDITOR.document.getById( 'playground2' );
 			parent.setHtml( 'A B <b>C </b>D E' );
 			parent.getFirst().split( 2 );	// Right before "B"

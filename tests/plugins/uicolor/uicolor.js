@@ -5,7 +5,7 @@ bender.editor = {};
 
 bender.test(
 {
-	'test set ui color with yuiColorPicker' : function() {
+	'test set ui color with yuiColorPicker': function() {
 		var bot = this.editorBot;
 		bot.dialog( 'uicolor', function( dialog ) {
 			var yuiPicker = dialog._.contents.tab1.yuiColorPicker.picker;

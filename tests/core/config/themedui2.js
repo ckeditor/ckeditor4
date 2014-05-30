@@ -29,7 +29,7 @@ bender.test(
 
 		assert.areSame( this.editor.config.contentsLanguage, htmlElement.getAttribute( 'lang' ) );
 	},
-	'test editor.config.(width|height)' : function() {
+	'test editor.config.(width|height)': function() {
 		var container = this.editor.getResizable(),
 			contents = this.editor.getResizable( true );
 

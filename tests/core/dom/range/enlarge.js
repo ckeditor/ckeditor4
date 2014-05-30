@@ -89,7 +89,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_element10 : CKEDITOR.env.ie ?
+		test_enlarge_element10: CKEDITOR.env.ie ?
 			function() {
 				// <p>Test <i>[Enlarge</i>]</p>
 				// <p>Test [<i>Enlarge</i>]</p>
@@ -753,7 +753,7 @@
 	// IE only tests.
 	CKEDITOR.env.ie && YUITest.Util.mix( tests,
 	{
-		test_enlarge_element1 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element1: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> Test <b> <i>  [Enlarge]</i> this</b>   </p>
 				// <p> Test <b> [<i>  Enlarge</i>] this</b>   </p>
@@ -788,7 +788,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element2 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element2: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> Test <b> <i>  [Enlarge</i> this]</b>   </p>
 				// <p> Test [<b> <i>  Enlarge</i> this</b>]   </p>
@@ -823,7 +823,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element3 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element3: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> [Test <b> <i>  Enlarge]</i> this</b>   </p>
 				// <p> [Test <b> <i>  Enlarge</i>] this</b>   </p>
@@ -857,7 +857,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element4 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element4: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> [Test <b> <i>  Enlarge</i> this]</b>   </p>
 				// [<p> Test <b> <i>  Enlarge</i> this</b>   </p>]
@@ -908,7 +908,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element6 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element6: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> <b> <i>  [Enlarge</i>] this</b>   </p>
 				// <p> <b> [<i>  Enlarge</i>] this</b>   </p>
@@ -943,7 +943,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element7 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element7: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> <b> <i>  [Enlarge</i> this]</b>   </p>
 				// [<p> <b> <i>  Enlarge</i> this</b>   </p>]
@@ -978,7 +978,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element8 : CKEDITOR.env.version > 8 ?
+		test_enlarge_element8: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> Test <b> <i>  [Enlarge</i> this</b>   </p><p> <b> <i>  Enlarge</i> this]</b>   </p>
 				// <p> Test [<b> <i>  Enlarge</i> this</b>   </p><p> <b> <i>  Enlarge</i> this</b>   </p>]
@@ -994,7 +994,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
 				assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			} :
+			}:
 			function() {
 				// <p>Test <b><i>[Enlarge</i> this</b></p><p><b><i>Enlarge</i> this]</b></p>
 				// <p>Test [<b><i>Enlarge</i> this</b></p><p><b><i>Enlarge</i> this</b></p>]

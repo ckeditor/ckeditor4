@@ -11,7 +11,7 @@ bender.editor = {
 bender.test(
 {
 	// #7912
-	'test enterkey after invisible element' : function() {
+	'test enterkey after invisible element': function() {
 		// IE restrain making selection in invisible element.
 		if ( CKEDITOR.env.ie )
 			assert.ignore();

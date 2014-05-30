@@ -141,7 +141,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setEndAt_4 : function() {
+		test_setEndAt_4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_AFTER_END );
 

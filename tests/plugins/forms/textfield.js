@@ -56,7 +56,7 @@ bender.test(
 			} );
 	},
 
-	'test read attributes (email)' : function() {
+	'test read attributes (email)': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[<input name="name" type="email" value="test@host.com" />]' );

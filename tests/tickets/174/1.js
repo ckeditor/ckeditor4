@@ -8,7 +8,7 @@
 
 	bender.test(
 	{
-		'fast switching between modes' : function() {
+		'fast switching between modes': function() {
 			var tc = this,
 				editor = this.editor,
 				counter = 5,

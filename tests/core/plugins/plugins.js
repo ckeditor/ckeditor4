@@ -61,7 +61,7 @@ bender.test(
 				removePlugins : 'errorplugin3,errorplugin4',
 
 				on : {
-					instanceReady : function( evt ) {
+					instanceReady: function( evt ) {
 						resume( function() {
 							// Reset overriden setTimeout.
 							window.setTimeout = originalSetTimeout;

@@ -10,7 +10,7 @@ bender.editor =
 
 bender.test(
 {
-	assertFocus : function( truly ) {
+	assertFocus: function( truly ) {
 
 		var ed = this.editor,
 			fm = this.editor.focusManager;
@@ -50,7 +50,7 @@ bender.test(
 		} );
 	},
 
-	'test editor focus - toolbar focused' : function() {
+	'test editor focus - toolbar focused': function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.execCommand( 'toolbarFocus' );
 		this.assertFocus();

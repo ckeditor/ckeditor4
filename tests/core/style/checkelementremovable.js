@@ -88,7 +88,7 @@ bender.test( {
 		var element = CKEDITOR.dom.element.createFromHtml( '<span style="font-family: georgia,  serif">Test Font</span>', doc );
 		playground.append( element );
 
-		var style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Georgia, serif;' } );
+		var style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Georgia, serif;' } );
 		assert.isTrue( style.checkElementRemovable( element, true ) );
 	}
 } );

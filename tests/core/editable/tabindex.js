@@ -65,7 +65,7 @@
 
 		// Check if the previous tabIndex of each editable
 		// is correctly restored.
-		'test tabIndex revert on destroy' : function() {
+		'test tabIndex revert on destroy': function() {
 			ed1.destroy();
 			ed2.destroy();
 			ed3.destroy();

@@ -43,7 +43,7 @@ bender.test( {
 		tc.wait();
 	},
 
-	'test add focus targets' : function() {
+	'test add focus targets': function() {
 		this.setupIframe( function() {
 			  var el1 = doc.getById( 'editable2' ),
 			  el2 = doc.getById( 'text_input' ),

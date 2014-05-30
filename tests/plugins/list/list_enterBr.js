@@ -60,7 +60,7 @@ bender.test(
 	/**
 	 *  Test remove list first list item not merging with previous text node. (#3836)
 	 */
-	'test remove list without merge' : function() {
+	'test remove list without merge': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( 'line1<ul><li>[item1</li><li>item2]</li></ul>line2' );
 		// Remove list.

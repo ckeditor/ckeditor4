@@ -25,7 +25,7 @@ bender.test(
 		   }, 0 );
 	},
 
-	'test maximize in source mode' : function() {
+	'test maximize in source mode': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 			assert.ignore();
 

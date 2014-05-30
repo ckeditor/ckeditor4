@@ -24,7 +24,7 @@ bender.test(
 		  } );
    },
 
-   'test apply font size (text range)' : function() {
+   'test apply font size (text range)': function() {
 	   var bot = this.editorBot, editor = this.editor;
 	   bot.setHtmlWithSelection( '<p>[foo]</p>' );
 	   bot.combo( 'FontSize', function( combo ) {

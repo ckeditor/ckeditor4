@@ -23,7 +23,7 @@ bender.test(
 	},
 
 	'test ignoreEmptyParagraph(false)' : function() {
-		this.createEditor( { entities : false, ignoreEmptyParagraph : true }, function() {
+		this.createEditor( { entities: false, ignoreEmptyParagraph: true }, function() {
 			   assert.areSame( '', this.editorBot.getData() );
 		   } );
 	}

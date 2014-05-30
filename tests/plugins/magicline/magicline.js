@@ -844,7 +844,7 @@
 				} );
 		},
 
-		'command: deep space access - with changes' : function() {
+		'command: deep space access - with changes': function() {
 			var that = this;
 
 			testEditor( this, {},

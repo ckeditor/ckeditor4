@@ -56,7 +56,7 @@ bender.test(
 		} );
 	},
 
-	'test apply direction mirror contents style (2)' : function() {
+	'test apply direction mirror contents style (2)': function() {
 		var ed = this.editor, bot = this.editorBot;
 		bender.tools.testInputOut( 'apply_dir_mirror_2', function( source, expected ) {
 			bot.setHtmlWithSelection( source );

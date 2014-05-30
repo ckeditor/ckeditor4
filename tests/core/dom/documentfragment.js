@@ -82,7 +82,7 @@ bender.test(
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
-		test_ltrim : CKEDITOR.env.ie ?
+		test_ltrim: CKEDITOR.env.ie ?
 			function() {
 				// IE dom operation will trim preceding empty text,
 				// here we use 'splitText' way to create leading spaces
@@ -109,7 +109,7 @@ bender.test(
 				assert.areSame( 'text\t\n', ct.getText() );
 			},
 
-		test_rtrim : CKEDITOR.env.ie ?
+		test_rtrim: CKEDITOR.env.ie ?
 			function() {
 				var emptyTextNode = CKEDITOR.document.createText( '@ \ttext\t ' );
 				var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
@@ -134,7 +134,7 @@ bender.test(
 				assert.areSame( '\t\ntext', ct.getText() );
 			},
 
-		test_trim : CKEDITOR.env.ie ?
+		test_trim: CKEDITOR.env.ie ?
 			function() {
 				var emptyTextNode = CKEDITOR.document.createText( '@ \t\ntext\t\n ' );
 				var frag =
@@ -206,7 +206,7 @@ bender.test(
 			assert.isTrue( inner2.equals( childNodesList.getItem( 1 ) ) );
 		},
 
-		test_getDocument : function() {
+		test_getDocument: function() {
 			var doc = CKEDITOR.document,
 				innerDoc = new CKEDITOR.dom.document(
 					doc.getById( 'innerFrame' ).$.contentWindow.document );

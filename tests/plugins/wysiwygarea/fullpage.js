@@ -28,7 +28,7 @@ bender.test(
 		} );
 	},
 
-	'test load full-page data (with doctype)' : function() {
+	'test load full-page data (with doctype)': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'fullpage2', function( source, expected ) {
 			bot.setData( source, function() {

@@ -33,7 +33,7 @@
 			this.assertPath( 'div,p,strong,span' );
 		},
 
-		'test widget mockup element path' : function() {
+		'test widget mockup element path': function() {
 			this.editorBot.setHtmlWithSelection( bender.tools.getValueAsHtml( 'testWidgetSample' ) );
 			this.assertPath( 'div,figcaption' );
 		}

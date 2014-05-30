@@ -75,7 +75,7 @@ bender.test(
 		} );
 	},
 
-	'test delete table' : function() {
+	'test delete table': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'del-table', function( source, expected ) {
 			bot.setHtmlWithSelection( source );

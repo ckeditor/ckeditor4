@@ -38,7 +38,7 @@ bender.test(
 		this.assertEditorSize( '50%', '200px', '50%', '',  'width set to 50%, auto height' );
 	},
 
-	'test relative width' : function() {
+	'test relative width': function() {
 		this.assertEditorSize( '20em', '10em', '20em', '10em',  'width set to 20em, height set to 10em' );
 	}
 } );

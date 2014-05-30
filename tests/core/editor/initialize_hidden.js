@@ -19,7 +19,7 @@ bender.test(
 
 	'test replace' : function() {
 		CKEDITOR.replace( 'editor2', { on : {
-			instanceReady : function( evt ) {
+			instanceReady: function( evt ) {
 				resume( function() {
 					assert.areEqual( '<p>ed2</p>', bender.tools.compatHtml( evt.editor.getData() ) );
 				} );

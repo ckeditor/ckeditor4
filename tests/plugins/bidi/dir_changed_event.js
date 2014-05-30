@@ -53,7 +53,7 @@ window.frameLoaded = function() {
 				assert.isTrue( changed );
 			},
 
-			test_dirChanged_event_6 : function() {
+			test_dirChanged_event_6: function() {
 				var target = this.doc.getById( 'p6' ), changed;
 				this.doc.on( 'dirChanged', function( evt ) {
 					changed = true;

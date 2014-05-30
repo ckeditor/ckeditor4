@@ -34,7 +34,7 @@
 			tc.wait();
 		},
 
-		'paste html' : CKEDITOR.env.ie ?
+		'paste html': CKEDITOR.env.ie ?
 		function() {
 			var tc = this,
 				editor = this.editor;
@@ -122,7 +122,7 @@
 			tc.wait();
 		},
 
-		'test paste dialog focus' : function() {
+		'test paste dialog focus': function() {
 			var editor = this.editor;
 
 			editor.on( 'ariaWidget', function( event ) {

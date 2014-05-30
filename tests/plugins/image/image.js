@@ -194,7 +194,7 @@ bender.test(
 		} );
 	},
 
-	'test update image (inline styles)' : function() {
+	'test update image (inline styles)': function() {
 		var bot = this.editorBot,
 			standard = '<img src="' + SRC + '" style="border:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
 			outputIE = '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
@@ -232,7 +232,7 @@ bender.test(
 		} );
 	},
 
-	'test update image (attributes)' : function() {
+	'test update image (attributes)': function() {
 		var bot = this.editorBot,
 			standard = '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
 			outputIE = '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',

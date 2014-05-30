@@ -5,7 +5,7 @@ bender.editor = true;
 
 bender.test(
 {
-	'test destroy editor with rich combo panel opened' : function() {
+	'test destroy editor with rich combo panel opened': function() {
 		var bot = this.editorBot, editor = this.editor;
 		bot.combo( 'Styles', function( combo ) {
 				var panelEl = combo._.panel.element;

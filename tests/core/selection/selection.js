@@ -288,7 +288,7 @@ bender.test(
 		checkRangeEqual( domRange, newRange, 'actual selection range should be the same' );
 	},
 
-	test_removeAllRanges : function() {
+	test_removeAllRanges: function() {
 		var range = new CKEDITOR.dom.range( doc );
 		range.selectNodeContents( doc.getBody() );
 		range.select();

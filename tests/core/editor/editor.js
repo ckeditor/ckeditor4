@@ -148,7 +148,7 @@ bender.test(
 
 	},
 
-	updateElement : function( element, mode ) {
+	updateElement: function( element, mode ) {
 		var editor = new CKEDITOR.editor( {}, element, mode );
 		editor.setData( 'foo' );
 
