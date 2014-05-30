@@ -75,7 +75,7 @@
 
 			// Checks if given keycode is a navigation key (like arrows, home, page down).
 			function isNavigationKey( keyCode ) {
-				return navigationKeyCodes.indexOf( keyCode ) !== -1;
+				return CKEDITOR.tools.indexOf( navigationKeyCodes, keyCode ) != -1;
 			}
 
 			// We'll save snapshots before and after executing a command.
@@ -89,80 +89,62 @@
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
+				editor.on( 'instanceReady', function() {
+					// Saves initial snapshot.
+					editor.fire( 'saveSnapshot' );
+				} );
 
-				if ( CKEDITOR.env.ie ) {
-					// Old solution for IE, because IE11 and earlier does not fire input
-					// event for `contenteditable=true` elements.
-					editor.editable().on( 'keypress', function( event ) {
-						undoManager.type( event.data.getKey(), 1 );
-					} );
+				var inputFired = false,
+					ignoreInputEvent = false,
+					ignoreInputEventListener = function() {
+						console.log( 'input event canceled' );
+						ignoreInputEvent = true;
+					};
 
-					editor.editable().on( 'keydown', function( event ) {
-						var keystroke = event.data.getKey();
+				// Only IE can't use input event, because it's not fired in contenteditable.
+				editor.editable().on( CKEDITOR.env.ie ? 'keypress' : 'input', function() {
+					inputFired = true;
 
-						if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
-							undoManager.type( keystroke, 0 );
-					} );
+					if ( ignoreInputEvent ) {
+						inputFired = false;
+						ignoreInputEvent = false; // Reset flag.
+					}
+				} );
 
-				} else {
-					// Solution for browsers supporting input event.
-
-					editor.on( 'instanceReady', function() {
-						// Saves initial snapshot.
-						editor.fire( 'saveSnapshot' );
-					} );
-
-					var inputFired = false,
-						ignoreInputEvent = false,
-						ignoreInputEventListener = function() {
-							console.log( 'input event canceled' );
-							ignoreInputEvent = true;
-						};
-
-					editor.editable().on( 'input', function() {
-						inputFired = true;
-
-						if ( ignoreInputEvent ) {
-							inputFired = false;
-							ignoreInputEvent = false; // Reset flag.
+				editor.editable().on( 'keydown', function( evt ) {
+					if ( isNavigationKey( evt.data.$.keyCode ) ) {
+						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
+							this.editor.fire( 'saveSnapshot' );
+							undoManager.resetType();
 						}
-					} );
+					} else if ( evt.data.getKey() == 8 || evt.data.getKey() == 46 ) {
+						undoManager.newType( evt.data.getKey() );
+					}
+				} );
 
-					editor.editable().on( 'keydown', function( evt ) {
-						if ( isNavigationKey( evt.data.$.keyCode ) ) {
-							if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
-								this.editor.fire( 'saveSnapshot' );
-								undoManager.resetType();
-							}
-						} else if ( evt.data.getKey() == 8 || evt.data.getKey() == 46 ) {
+				editor.editable().on( 'click', function( evt ) {
+					this.editor.fire( 'saveSnapshot' );
+					undoManager.resetType();
+				} );
+
+				editor.editable().on( 'keyup', function( evt ) {
+					if ( inputFired ) {
+						console.log( 'input flag detected, processing');
+
+						if ( evt.data.getKey() != 8 && evt.data.getKey() != 46 ) {
 							undoManager.newType( evt.data.getKey() );
 						}
-					} );
+						// Reset temporary flag.
+						inputFired = false;
+					} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
+						undoManager.amendSelection( new Image( editor ) );
+					}
+				} );
 
-					editor.editable().on( 'click', function( evt ) {
-						this.editor.fire( 'saveSnapshot' );
-						undoManager.resetType();
-					} );
-
-					editor.editable().on( 'keyup', function( evt ) {
-						if ( inputFired ) {
-							console.log( 'input flag detected, processing');
-
-							if ( evt.data.getKey() != 8 && evt.data.getKey() != 46 ) {
-								undoManager.newType( evt.data.getKey() );
-							}
-							// Reset temporary flag.
-							inputFired = false;
-						} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
-							undoManager.amendSelection( new Image( editor ) );
-						}
-					} );
-
-					// On paste and drop we need to cancel inputFired variable.
-					// It would result with calling undoManager.newType() on any following key.
-					editor.editable().on( 'paste', ignoreInputEventListener );
-					editor.editable().on( 'drop', ignoreInputEventListener );
-				}
+				// On paste and drop we need to cancel inputFired variable.
+				// It would result with calling undoManager.newType() on any following key.
+				editor.editable().on( 'paste', ignoreInputEventListener );
+				editor.editable().on( 'drop', ignoreInputEventListener );
 			} );
 
 			// Always save an undo snapshot - the previous mode might have
