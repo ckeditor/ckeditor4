@@ -8,7 +8,7 @@
 		// http://ckeditor4.t/tests/tests/core/ckeditor
 		folderPath = path + window.location.pathname.slice( 0, window.location.pathname.lastIndexOf( '/' ) ),
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
-        secondDomainName = 'sub.ckeditor4.t';
+		secondDomainName = 'sub.ckeditor4.t';
 
 	bender.test( {
 		'test default BASEPATH': function() {

@@ -5,7 +5,6 @@ bender.editor = true;
 
 bender.test(
 {
-	shouldIgnore : [ 'test_config', 'test_config_inpage' ],
 
 	test_name : function()
 	{
@@ -17,7 +16,7 @@ bender.test(
 		assert.areSame( document.getElementById( 'editor1' ), CKEDITOR.instances.editor1.element.$ );
 	},
 
-	test_config : function()
+	'ignore:test_config' : function()
 	{
 		// The instance default config must match the CKEDITOR.config.
 
@@ -27,7 +26,7 @@ bender.test(
 			assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
 	},
 
-	test_config_inpage : function()
+	'ignore:test_config_inpage' : function()
 	{
 		var self = this;
 

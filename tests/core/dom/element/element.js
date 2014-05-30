@@ -17,7 +17,6 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.element( document.getElementById( id ) );
 	},
 	{
-		shouldIgnore : [ 'test_getDocumentPosition' ],
 		test_$ : function()
 		{
 			var element = newElement( document.getElementById( 'test1' ) );
@@ -32,7 +31,9 @@ bender.test( appendDomObjectTests(
 
 		test_getId2 : function()
 		{
-			var element = newElement( document.getElementsByTagName( 'div' )[0] );
+			// Used body to ommit head element when searching, because YUI add div to it.
+			// See http://yuilibrary.com/forum-archive/forum/viewtopic.php@f=18&t=12285.html
+			var element = newElement( document.body.getElementsByTagName( 'div' )[0] );
 			assert.isNull( element.getId() );
 		},
 
@@ -568,13 +569,15 @@ bender.test( appendDomObjectTests(
 		test_getDocumentPosition : function()
 		{
 			// Assign the page location of the element.
-			YAHOO.util.Dom.setXY('DocPositionTarget', [ 350, 450 ] );
-			var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
-				x = Math.round( pos.x ),
-				y = Math.round( pos.y );
+			YUI().use( 'dom-screen', 'node', function( Y ) {
+				Y.one('#DocPositionTarget').setXY( [ 350, 450 ] );
+				var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
+					x = Math.round( pos.x ),
+					y = Math.round( pos.y );
 
-			assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
-			assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+				assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
+				assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+			} );
 		},
 
 		// Test get last non-spaces child node.
