@@ -129,10 +129,6 @@
 
 					editor.editable().on( 'keydown', function( evt ) {
 						if ( isNavigationKey( evt.data.$.keyCode ) ) {
-							// navigation keys.
-							var snapshots = editor.undoManager.snapshots,
-								snapshotsSize = snapshots.length;
-
 							if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 								this.editor.fire( 'saveSnapshot' );
 								undoManager.resetType();
