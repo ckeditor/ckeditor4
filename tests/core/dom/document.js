@@ -15,7 +15,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		test_appendStyleSheet : function() {
-			var cssUrl = CKEDITOR.basePath + 'samples/_assets/sample.css';
+			var cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
 
 			var doc = new CKEDITOR.dom.document( document );
 			doc.appendStyleSheet( cssUrl );
