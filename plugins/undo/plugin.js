@@ -38,7 +38,12 @@
 				canUndo: false
 			} );
 
-			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ];
+			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
+				navigationKeyCodes = [
+					37, 38, 39, 40, // Arrows.
+					36, 35, // Home, end.
+					33, 34 // Pgup, pgdn.
+				];
 
 			editor.setKeystroke( [
 				[ keystrokes[ 0 ], 'undo' ],
@@ -60,10 +65,17 @@
 				redoCommand.setState( undoManager.redoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 			};
 
+			undoManager.isNavigationKey = isNavigationKey;
+
 			function recordCommand( event ) {
 				// If the command hasn't been marked to not support undo.
 				if ( undoManager.enabled && event.data.command.canUndo !== false )
 					undoManager.save();
+			}
+
+			// Checks if given keycode is a navigation key (like arrows, home, page down).
+			function isNavigationKey( keyCode ) {
+				return navigationKeyCodes.indexOf( keyCode ) !== -1;
 			}
 
 			// We'll save snapshots before and after executing a command.
@@ -116,7 +128,7 @@
 					} );
 
 					editor.editable().on( 'keydown', function( evt ) {
-						if ( evt.data.$.keyCode in { 37: 1, 38:1, 39:1, 40:1 } ) {
+						if ( isNavigationKey( evt.data.$.keyCode ) ) {
 							// navigation keys.
 							var snapshots = editor.undoManager.snapshots,
 								snapshotsSize = snapshots.length;
@@ -140,7 +152,7 @@
 							undoManager.newType( evt.data.getKey() );
 							// Reset temporary flag.
 							tmpInputFired = false;
-						} else if ( evt.data.$.keyCode in { 37: 1, 38:1, 39:1, 40:1 } ) {
+						} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
 							undoManager.amendSelection( new Image( editor ) );
 						}
 					} );
