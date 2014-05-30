@@ -317,7 +317,7 @@
             toLoad++;
             bender.deferred = true;
 
-            CKEDITOR.plugins.load(config.plugins, onload);
+            CKEDITOR.plugins.load(config.plugins, onLoad);
         }
 
         if (config.adapters) {
