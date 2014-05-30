@@ -767,10 +767,22 @@
  * or may even get fired twice.
  *
  * If it is important not to get the change event too often, you should compare the
- * previous and the current editor content inside the event listener.
+ * previous and the current editor content inside the event listener. It is
+ * not recommended to do that on every change event.
  *
- * Please note that the change event is only fired in wysiwyg-mode. You can listen
- * for example to the {@link #key}-event if you need to be notified in source-mode.
+ * Please note that the change event is only fired in {@link #property-mode wysiwyg mode}.
+ * In order to implement similar functionality in source mode, you can listen for example to the {@link #key}
+ * event or the native [`input`](https://developer.mozilla.org/en-US/docs/Web/Reference/Events/input)
+ * event (not supported by Internet Explorer 8).
+ *
+ *		editor.on( 'mode', function() {
+ *			if ( this.mode == 'source' ) {
+ *				var editable = editor.editable();
+ *				editable.attachListener( editable, 'input', function() {
+ *					// Handle changes made in source mode.
+ *				} );
+ *			}
+ *		} );
  *
  * @since 4.2
  * @event change
