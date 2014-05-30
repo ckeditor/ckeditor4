@@ -37,7 +37,7 @@ bender.test(
 		var container = this.editor.getResizable(),
 			contents = this.editor.getResizable( true );
 
-		assert.areSame( 789 + 'px', container.getComputedStyle( 'width' ) );
-		assert.areSame( 456 + 'px', contents.getComputedStyle( 'height' ) );
+		assert.areSame( 789, Math.round( container.getComputedStyle( 'width' ).replace( 'px', '' ) ) );
+		assert.areSame( 456, Math.round( contents.getComputedStyle( 'height' ).replace( 'px', '' ) ) );
 	}
 });
