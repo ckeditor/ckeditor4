@@ -19,8 +19,6 @@ bender.test(
 		assert[ truly === false ? 'isFalse' : 'isTrue' ]( ed.container.hasClass( 'cke_focus' ),' editor container receives focused class name.' );
 	},
 
-	'async:setUp' : bender.tools.resetFocus,
-
 	'test editor focus - editable focused' : function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.focus( function() {
