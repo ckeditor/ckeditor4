@@ -480,7 +480,6 @@
 					// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
 					strokesRecorded = 0;
 				}
-
 				// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
 				this.editor.fire( 'saveSnapshot' );
 				this.typing = true;
@@ -495,7 +494,7 @@
 			// Event was already fired if strokesRecorded == 0 ( snapshot has been created ),
 			// so we need to take care of any other case.
 			// @todo: mhmm seems that `this.save( false, null, true );` does not fire change
-			// event here.
+			// event.
 			//if ( strokesRecorded != 0 )
 				this.editor.fire( 'change' );
 		},
@@ -515,7 +514,6 @@
 
 			if ( lastImage.equalsContent( newSnapshot ) ) {
 				if ( !lastImage.equalsSelection( newSnapshot ) ) {
-					console.log('snap replaced!');
 					snapshots[ snapshots.length - 1 ] = newSnapshot;
 				}
 			}
