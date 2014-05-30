@@ -115,6 +115,24 @@
 						}
 					} );
 
+					editor.editable().on( 'keydown', function( evt ) {
+						if ( evt.data.$.keyCode in { 37: 1, 38:1, 39:1, 40:1 } ) {
+							// navigation keys.
+							var snapshots = editor.undoManager.snapshots,
+								snapshotsSize = snapshots.length;
+
+							if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
+								this.editor.fire( 'saveSnapshot' );
+								undoManager.resetType();
+							}
+						}
+					} );
+
+					editor.editable().on( 'mousedown', function( evt ) {
+						this.editor.fire( 'saveSnapshot' );
+						undoManager.resetType();
+					} );
+
 					editor.editable().on( 'keyup', function( evt ) {
 						if ( tmpInputFired ) {
 							console.log( 'input flag detected, processing');
@@ -122,6 +140,8 @@
 							undoManager.newType( evt.data.getKey() );
 							// Reset temporary flag.
 							tmpInputFired = false;
+						} else if ( evt.data.$.keyCode in { 37: 1, 38:1, 39:1, 40:1 } ) {
+							undoManager.amendSelection( new Image( editor ) );
 						}
 					} );
 
@@ -430,17 +450,8 @@
 		},
 
 		onTypingStart: function() {
-			console.log( 'initial snapshot' );
-			var editor = this.editor;
-
 			// It's safe to now indicate typing state.
 			this.typing = true;
-
-			// This's a special save, with specified snapshot
-			// and without auto 'fireChange'.
-			if ( !this.save( false, new Image( editor ), false ) )
-				// Drop future snapshots.
-				this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 
 			this.hasUndo = true;
 			this.hasRedo = false;
@@ -453,27 +464,29 @@
 			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
 				// Note that his count does not consider current count, so you might want
 				// to increase it by 1.
-				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1;
+				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1,
+				keyGroupChanged = functionalKey !== this.wasFunctionalKey,
+				strokesPerSnapshotExceeded = strokesRecorded >= 5;
 
 			if ( !this.typing )
 				this.onTypingStart();
 
-			if ( functionalKey !== this.wasFunctionalKey ) {
-				console.log( 'Key group changed' );
-				// Reset the other key group recorded count.
-				this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
-			} else if ( strokesRecorded >= 5 ) {
-				console.log( 'We have 5 or more keys recorded.' );
-				//this.save( false, null, true );
-				// Rather than using save directly we should use saveSnapshot event
+			if ( (keyGroupChanged && this.wasFunctionalKey !== undefined) || strokesPerSnapshotExceeded ) {
+				if ( keyGroupChanged ) {
+					console.log( 'Key group changed' );
+					// Reset the other key group recorded count.
+					this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
+				} else {
+					console.log( 'We have 5 or more keys recorded.' );
+					// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
+					strokesRecorded = 0;
+				}
+
+				// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
 				this.editor.fire( 'saveSnapshot' );
-				// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
-				strokesRecorded = 0;
-				// Force typing state to be enabled, because it was reset in saveSnapshot().
 				this.typing = true;
 			}
 
-			console.log( 'Already recorded: ' + strokesRecorded );
 			// Increase recorded strokes count.
 			this.strokesRecorded[ functionalKey ] = strokesRecorded;
 			// This prop will tell in next itaration what kind of group was processed previously.
@@ -486,6 +499,27 @@
 			// event here.
 			//if ( strokesRecorded != 0 )
 				this.editor.fire( 'change' );
+		},
+
+		/**
+		 * Ammends last snapshot, and changes it selection ( only in case when contents
+		 * are equal between these two ).
+		 */
+		amendSelection: function( newSnapshot ) {
+
+			if ( !this.snapshots.length )
+				return ;
+
+			//var curImage = new Image( this.editor ),
+			var snapshots = this.snapshots,
+				lastImage = snapshots[ snapshots.length - 1 ];
+
+			if ( lastImage.equalsContent( newSnapshot ) ) {
+				if ( !lastImage.equalsSelection( newSnapshot ) ) {
+					console.log('snap replaced!');
+					snapshots[ snapshots.length - 1 ] = newSnapshot;
+				}
+			}
 		},
 
 		/**
@@ -526,6 +560,7 @@
 
 			// Reseting newType() variables.
 			this.strokesRecorded = [ 0, 0 ];
+			delete this.wasFunctionalKey;
 		},
 
 		fireChange: function() {
