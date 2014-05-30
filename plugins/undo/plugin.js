@@ -769,6 +769,9 @@
  * If it is important not to get the change event too often, you should compare the
  * previous and the current editor content inside the event listener.
  *
+ * Please note that the change event is only fired in wysiwyg-mode. You can listen
+ * for example to the {@link #key}-event if you need to be notified in source-mode.
+ *
  * @since 4.2
  * @event change
  * @member CKEDITOR.editor
