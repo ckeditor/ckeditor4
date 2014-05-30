@@ -66,9 +66,9 @@
 		};
 	}
 
-	var tcs = {
-		shouldIgnore : CKEDITOR.env.ie?  [ 'test_toDataFormat_ticket_2886_5' ] : [],
+	window.alert = function() {};
 
+	var tcs = {
 		// These tests go far beyond the strict htmlDataProcessor code testing. We
 		// are actually testing the entire parsing system here. The combination of
 		// htmlParser and htmlWriter inside htmlDataProcessor is useful in this
@@ -261,6 +261,8 @@
 
 		test_toDataFormat_ticket_2886_5 : function()
 		{
+			CKEDITOR.env.ie && assert.ignore();
+
 			var dataProcessor = this.editor.dataProcessor;
 
 			assert.areSame( '<p>&nbsp;</p>',
@@ -1142,4 +1144,4 @@ alert('>');
 
 	<!--
 		alert('-->');
-	//-->
+	//-->
