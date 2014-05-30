@@ -103,10 +103,11 @@
 						if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
 							undoManager.type( keystroke, 0 );
 					} );
+
 				} else {
+					// Solution for browsers supporting input event.
 
 					editor.on( 'instanceReady', function() {
-						console.log( 'isntR' );
 						// Saves initial snapshot.
 						editor.fire( 'saveSnapshot' );
 					} );
@@ -133,6 +134,8 @@
 								this.editor.fire( 'saveSnapshot' );
 								undoManager.resetType();
 							}
+						} else if ( evt.data.getKey() == 8 || evt.data.getKey() == 46 ) {
+							undoManager.newType( evt.data.getKey() );
 						}
 					} );
 
@@ -145,7 +148,9 @@
 						if ( tmpInputFired ) {
 							console.log( 'input flag detected, processing');
 
-							undoManager.newType( evt.data.getKey() );
+							if ( evt.data.getKey() != 8 && evt.data.getKey() != 46 ) {
+								undoManager.newType( evt.data.getKey() );
+							}
 							// Reset temporary flag.
 							tmpInputFired = false;
 						} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
