@@ -326,6 +326,8 @@
             }
 
             toLoad++;
+            bender.deferred = true;
+
             CKEDITOR.scriptLoader.load(config.adapters, onLoad);
         }
 
@@ -337,8 +339,6 @@
                 bender.startRunner();
             }
         }
-
-        onLoad();
     };
 
    bender.test = function (tests) {
