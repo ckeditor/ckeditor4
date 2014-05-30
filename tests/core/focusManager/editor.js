@@ -14,7 +14,7 @@ bender.test(
 
 		var ed = this.editor,
 			fm = this.editor.focusManager;
-		
+
 		assert[ truly === false ? 'isFalse' : 'isTrue' ]( fm.hasFocus, 'check focusManager.hasFocus' );
 		assert[ truly === false ? 'isFalse' : 'isTrue' ]( ed.container.hasClass( 'cke_focus' ),' editor container receives focused class name.' );
 	},
@@ -33,7 +33,7 @@ bender.test(
 		var tc = this;
 		var outer = CKEDITOR.document.getById( 'focusable' );
 		bender.tools.focus( outer, function() {
-			this.assertFocus( false );
+			tc.assertFocus( false );
 		} );
 	},
 
