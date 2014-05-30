@@ -112,7 +112,7 @@
 						editor.fire( 'saveSnapshot' );
 					} );
 
-					var tmpInputFired = false,
+					var inputFired = false,
 						ignoreInputEvent = false,
 						ignoreInputEventListener = function() {
 							console.log( 'input event canceled' );
@@ -120,10 +120,10 @@
 						};
 
 					editor.editable().on( 'input', function() {
-						tmpInputFired = true;
+						inputFired = true;
 
 						if ( ignoreInputEvent ) {
-							tmpInputFired = false;
+							inputFired = false;
 							ignoreInputEvent = false; // Reset flag.
 						}
 					} );
@@ -145,20 +145,20 @@
 					} );
 
 					editor.editable().on( 'keyup', function( evt ) {
-						if ( tmpInputFired ) {
+						if ( inputFired ) {
 							console.log( 'input flag detected, processing');
 
 							if ( evt.data.getKey() != 8 && evt.data.getKey() != 46 ) {
 								undoManager.newType( evt.data.getKey() );
 							}
 							// Reset temporary flag.
-							tmpInputFired = false;
+							inputFired = false;
 						} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
 							undoManager.amendSelection( new Image( editor ) );
 						}
 					} );
 
-					// On paste and drop we need to cancel tmpInputFired variable.
+					// On paste and drop we need to cancel inputFired variable.
 					// It would result with calling undoManager.newType() on any following key.
 					editor.editable().on( 'paste', ignoreInputEventListener );
 					editor.editable().on( 'drop', ignoreInputEventListener );
