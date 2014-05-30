@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,image,forms,link,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	var getById = widgetTestsTools.getWidgetById,
@@ -116,4 +116,4 @@
 			} );
 		}
 	} );
-})();
+} )();

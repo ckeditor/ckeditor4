@@ -8,8 +8,7 @@ bender.editor = {
 
 bender.test(
 {
-	assertCommandState : function( left, right, center, justify, editor )
-	{
+	assertCommandState : function( left, right, center, justify, editor ) {
 		editor = editor || this.editor;
 
 		var leftCmd = editor.getCommand( 'justifyleft' );
@@ -24,8 +23,7 @@ bender.test(
 	},
 
 	// Justify should align selected image.
-	'test aligment command on selected image' : function ()
-	{
+	'test aligment command on selected image' : function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x" style="float:left;"/>]</p>' );
@@ -46,8 +44,7 @@ bender.test(
 		assert.areSame( '<p><img src="http://tests/x" style="float:left;" /></p>', bot.getData( true ) );
 	},
 
-	'test aligment command on selected image (align attribute)' : function ()
-	{
+	'test aligment command on selected image (align attribute)' : function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x" align="left"/>]</p>' );
@@ -65,8 +62,7 @@ bender.test(
 	},
 
 	// Justify should align paragraph.
-	'test aligment command on paragraph' : function ()
-	{
+	'test aligment command on paragraph' : function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x"/>bar]</p>' );
@@ -208,7 +204,7 @@ bender.test(
 			tc.assertCommandState( 1, 2, 2, 2, editor );
 
 			assert.isTrue( editor.filter.check( 'div{text-align}' ), 'Check whether justify allows div in br mode' );
-		});
+		} );
 	},
 
 	'test alignment commands in div mode and with justifyClasses': function() {
@@ -243,7 +239,7 @@ bender.test(
 
 			// None on.
 			tc.assertCommandState( 1, 2, 2, 2, editor );
-		});
+		} );
 	},
 
 	'test justify on selection containing non-editable inline': function() {
@@ -257,4 +253,4 @@ bender.test(
 		bot.execCommand( 'justifyright' );
 		assert.areSame( '<p style="text-align:right;"><span contenteditable="false">foo</span></p>', bot.getData( true ) );
 	}
-});
+} );

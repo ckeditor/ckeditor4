@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,elementspath */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -125,4 +125,4 @@
 		}
 
 	} );
-})();
+} )();

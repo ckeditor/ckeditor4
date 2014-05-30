@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function() {
+( function() {
 	'use strict';
 
 	function createTest( rules, strictCheck ) {
@@ -364,4 +364,4 @@
 			test( false, [ 'x', 'y' ] );
 		}
 	} );
-})();
+} )();

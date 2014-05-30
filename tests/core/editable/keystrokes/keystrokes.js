@@ -12,8 +12,7 @@ var DEL = 46, BACKSPACE = 8;
 
 bender.test(
 {
-	assertKeystroke : function ( key, keyModifiers, input, output, msg )
-	{
+	assertKeystroke : function( key, keyModifiers, input, output, msg ) {
 		var ed = this.editor, bot = this.editorBot;
 
 		bot.setHtmlWithSelection( input );
@@ -42,8 +41,7 @@ bender.test(
 		assert.areSame( output, bender.tools.getHtmlWithSelection( ed ), msg );
 	},
 
-	'test handle del/backspace at the boundary of table cell' : function()
-	{
+	'test handle del/backspace at the boundary of table cell' : function() {
 		this.assertKeystroke( DEL, 0,
 		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
 		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection' );
@@ -170,4 +168,4 @@ bender.test(
 		this.assertKeystroke( DEL, 0, '<ul><li><table><tbody><tr><td>[foo]</td></tr></tbody></table></li></ul>',
 			'^', 'table 3' );
 	}
-});
+} );

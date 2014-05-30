@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -354,7 +354,7 @@
 					clickWidget( editor, widget, function() {
 						result.removeListeners();
 
-						assert.isTrue ( result.selectionChange >= 1, 'selectionChange has been fired at least once' );
+						assert.isTrue( result.selectionChange >= 1, 'selectionChange has been fired at least once' );
 						assertFakeSelection( result.selection, widget.wrapper );
 						assert.areSame( widget, result.widgetFocusedOnSelectionChange, 'widget was already focused on selectionChange' );
 
@@ -507,4 +507,4 @@
 			} );
 		}
 	} );
-})();
+} )();

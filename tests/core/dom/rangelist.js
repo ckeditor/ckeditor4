@@ -4,8 +4,7 @@ var doc = CKEDITOR.document;
 
 bender.test(
 {
-		test__constructor : function()
-		{
+		test__constructor : function() {
 			var rlist = new CKEDITOR.dom.rangeList(),
 				range = new CKEDITOR.dom.range( doc );
 
@@ -17,8 +16,7 @@ bender.test(
 			assert.areSame( range, rlist[ 0 ] );
 		},
 
-		test_createIterator : function()
-		{
+		test_createIterator : function() {
 			var rlist,
 				ranges = [],
 				ranges2 = [],
@@ -26,8 +24,7 @@ bender.test(
 				iterator,
 				i;
 
-			for ( i = 0 ; i < 3 ; ++i )
-			{
+			for ( i = 0 ; i < 3 ; ++i ) {
 				range = new CKEDITOR.dom.range( doc );
 				range.setStartBefore( doc.getById( 'createIterator' + i ) );
 				range.setEndAfter( doc.getById( 'createIterator' + i ) );
@@ -36,17 +33,17 @@ bender.test(
 
 			rlist = new CKEDITOR.dom.rangeList( ranges );
 			iterator = rlist.createIterator();
-			
+
 			while ( range = iterator.getNextRange() )
 				ranges2.push( range );
-	
+
 			assert.isTrue( CKEDITOR.tools.arrayCompare( ranges, ranges2 ) );
 
 			iterator = rlist.createIterator();
 			ranges2 = [];
 			while ( range = iterator.getNextRange( true ) )
 				ranges2.push( range );
-			
+
 			assert.areEqual( 1, ranges2.length, 'Adjacent nodes merged' );
 		}
-});
+} );

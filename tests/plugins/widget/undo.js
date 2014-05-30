@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,dialog,basicstyles,clipboard */
 
-(function() {
+( function() {
 	'use strict';
 
 	var widgetDefinition1 = {
@@ -440,4 +440,4 @@
 			} );
 		},
 	} );
-})();
+} )();

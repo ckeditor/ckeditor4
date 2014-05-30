@@ -5,8 +5,7 @@ var doc = CKEDITOR.document, tools = bender.tools;
 
 bender.test(
 {
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		tc.editor = CKEDITOR.replace( doc.getById( 'editor' ),
 		{
@@ -20,24 +19,21 @@ bender.test(
 		} );
 	},
 
-	test_startup_focus : function()
-	{
+	test_startup_focus : function() {
 		assert.isFalse( this.editor.focusManager.hasFocus );
 	},
-	test_contents_lang : function()
-	{
+	test_contents_lang : function() {
 		assert.areSame( 'rtl', this.editor.config.contentsLangDirection );
 		var htmlElement = this.editor.editable().getParent();
 		assert.areSame( 'rtl', htmlElement.getAttribute( 'dir' ) );
 
 		assert.areSame( this.editor.config.contentsLanguage, htmlElement.getAttribute( 'lang' ) );
 	},
-	'test editor.config.(width|height)' : function()
-	{
+	'test editor.config.(width|height)' : function() {
 		var container = this.editor.getResizable(),
 			contents = this.editor.getResizable( true );
 
 		assert.areSame( 789, Math.round( container.getComputedStyle( 'width' ).replace( 'px', '' ) ) );
 		assert.areSame( 456, Math.round( contents.getComputedStyle( 'height' ).replace( 'px', '' ) ) );
 	}
-});
+} );

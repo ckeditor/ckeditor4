@@ -22,7 +22,7 @@ bender.test( {
 				assert.areEqual( title1, title.data( 'cke-title' ), 'Title cke-data attribute has been set.' );
 				assert.areEqual( template.output( { title: title1 } ), editor.getData(), 'Page title is set in editor data.' );
 			}, 0 );
-		});
+		} );
 	},
 
 	'test read page title into dialog': function() {
@@ -34,10 +34,10 @@ bender.test( {
 			tc.resume( function() {
 				bot.dialog( 'docProps', function( dialog ) {
 					assert.areSame( title2, dialog.getValueOf( 'general', 'title', 'Page title has been loaded into dialog.' ) );
-				});
-			});
-		});
+				} );
+			} );
+		} );
 
 		tc.wait();
 	}
-});
+} );

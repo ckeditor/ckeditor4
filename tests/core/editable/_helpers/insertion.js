@@ -1,6 +1,6 @@
 'use strict';
 
-var insertionDT = (function() {
+var insertionDT = ( function() {
 	var doc = CKEDITOR.document,
 		tools = bender.tools;
 
@@ -97,7 +97,7 @@ var insertionDT = (function() {
 								startOffset = range.startOffset;
 							// Limit the fix only to non-block elements.(#3950)
 							if ( startOffset ==
-							     (startContainer.getChildCount ?
+							     ( startContainer.getChildCount ?
 							      startContainer.getChildCount() :
 							      startContainer.getLength() ) &&
 							     !startContainer.isBlockBoundary() )
@@ -192,7 +192,7 @@ var insertionDT = (function() {
 
 		createAssertInsertionFunction: function( editablesNames, insertion, mode, enterMode ) {
 			var that = this,
-				fn = function ( source, expected, message ) {
+				fn = function( source, expected, message ) {
 					// When mode is set and expected is a string or regexp, test
 					// only given mode.
 					if ( fn.mode && ( typeof expected === 'string' || !!expected.exec ) ) {
@@ -211,4 +211,4 @@ var insertionDT = (function() {
 			return fn;
 		}
 	};
-})();
+} )();

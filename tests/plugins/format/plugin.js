@@ -4,21 +4,18 @@
 bender.editor = true;
 bender.test(
 {
-   'test apply format style' : function()
-   {
+   'test apply format style' : function() {
 	   var bot = this.editorBot, ed = this.editor;
 	   bot.setHtmlWithSelection( '<p>^foo</p>' );
 	   var name = 'Format', combo = ed.ui.get( name );
 	   assert.areSame( CKEDITOR.TRISTATE_OFF, combo._.state, 'check state OFF' );
-	   bot.combo( name, function( combo )
-		  {
+	   bot.combo( name, function( combo ) {
 			  assert.areSame( CKEDITOR.TRISTATE_ON, combo._.state, 'check state ON when opened' );
 			  combo.onClick( 'h1' );
 			  assert.areSame( '<h1>^foo</h1>', bot.htmlWithSelection(), 'applied h1 block style' );
 		  } );
    },
-   'test format style not in context' : function()
-   {
+   'test format style not in context' : function() {
 	   // TODO: IE throws selection inside of form legend.
 	   if ( CKEDITOR.env.ie )
 	   	assert.ignore();

@@ -1,52 +1,40 @@
 /* bender-tags: editor,unit,dom */
 
-(function()
-{
+( function() {
 
 	var getInnerHtml = bender.tools.getInnerHtml,
-		getOuterHtml = function( element )
-		{
+		getOuterHtml = function( element ) {
 			return bender.tools.fixHtml( element.getOuterHtml() );
 		},
-		$ = function( id )
-		{
+		$ = function( id ) {
 			return CKEDITOR.document.getById( id );
 		},
-		$tn = function( tagName )
-		{
+		$tn = function( tagName ) {
 			return document.getElementsByTagName( tagName );
 		},
-		newNode = function( element )
-		{
+		newNode = function( element ) {
 			return new CKEDITOR.dom.node( element );
 		},
-		newElement = function( element, ownerDocument )
-		{
+		newElement = function( element, ownerDocument ) {
 			return new CKEDITOR.dom.element( element, ownerDocument );
 		},
-		newComment = function( text )
-		{
+		newComment = function( text ) {
 			return newNode( document.createComment( text ) );
 		},
-		newTextNode = function( text )
-		{
+		newTextNode = function( text ) {
 			return newNode( document.createTextNode( text ) );
 		},
-		getNodeByTagName = function( tagName, i )
-		{
+		getNodeByTagName = function( tagName, i ) {
 			return newNode( $tn( tagName )[ typeof i === 'undefined' ? 0 : i ] );
 		},
-		createGetIndexTest = function( test )
-		{
+		createGetIndexTest = function( test ) {
 			var wrapper = newElement( 'div' ),
 				token;
 
 			test = test.split( ',' );
 
-			while( ( token = test.shift() ) )
-			{
-				switch ( token )
-				{
+			while ( ( token = test.shift() ) ) {
+				switch ( token ) {
 					case 'etn':
 					case 'tn':
 						wrapper.append( newTextNode( token === 'tn' ? 'text' : '' ) );
@@ -62,8 +50,7 @@
 
 	bender.test(
 	{
-		test_$ : function()
-		{
+		test_$ : function() {
 			var t = newTextNode( 'text' ),
 				c = newComment( 'comment' ),
 				e = newElement( 'span' );
@@ -73,89 +60,78 @@
 			assert.isTrue( e instanceof CKEDITOR.dom.element, 'Should be an instanceof dom.element' );
 		},
 
-		test_getPosition1 : function()
-		{
+		test_getPosition1 : function() {
 			var node1 = getNodeByTagName( 'h1' );
 			var node2 = getNodeByTagName( 'p' );
 
 			assert.areSame( CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition2 : function()
-		{
+		test_getPosition2 : function() {
 			var node1 = getNodeByTagName( 'h1' );
 			var node2 = getNodeByTagName( 'p' );
 
 			assert.areSame( CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
-		test_getPosition3 : function()
-		{
+		test_getPosition3 : function() {
 			var node1 = getNodeByTagName( 'p' );
 			var node2 = getNodeByTagName( 'b' );
 
 			assert.areSame( CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition4 : function()
-		{
+		test_getPosition4 : function() {
 			var node1 = getNodeByTagName( 'p' );
 			var node2 = getNodeByTagName( 'b' );
 
 			assert.areSame( CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
-		test_getPosition5 : function()
-		{
+		test_getPosition5 : function() {
 			var node1 = getNodeByTagName( 'div' );
 			var node2 = getNodeByTagName( 'div' );
 
 			assert.areSame( CKEDITOR.POSITION_IDENTICAL, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition6 : function()
-		{
+		test_getPosition6 : function() {
 			var node1 = getNodeByTagName( 'h1' );
-			var node2 = newNode( $tn( 'h1' )[0].firstChild );
+			var node2 = newNode( $tn( 'h1' )[ 0 ].firstChild );
 
 			assert.areSame( CKEDITOR.POSITION_CONTAINS + CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition7 : function()
-		{
+		test_getPosition7 : function() {
 			var node1 = getNodeByTagName( 'h1' );
-			var node2 = newNode( $tn( 'h1' )[0].firstChild );
+			var node2 = newNode( $tn( 'h1' )[ 0 ].firstChild );
 			assert.areSame( CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
-		test_getPosition8 : function()
-		{
-			var node1 = newNode( $tn( 'h1' )[0].firstChild );
-			var node2 = newNode( $tn( 'b' )[0].firstChild );
+		test_getPosition8 : function() {
+			var node1 = newNode( $tn( 'h1' )[ 0 ].firstChild );
+			var node2 = newNode( $tn( 'b' )[ 0 ].firstChild );
 
 			assert.areSame( CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition9 : function()
-		{
-			var node1 = newNode( $tn( 'h1' )[0].firstChild );
-			var node2 = newNode( $tn( 'b' )[0].firstChild );
+		test_getPosition9 : function() {
+			var node1 = newNode( $tn( 'h1' )[ 0 ].firstChild );
+			var node2 = newNode( $tn( 'b' )[ 0 ].firstChild );
 
 			assert.areSame( CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
 
-		test_getPosition10 : function()
-		{
-			var node1 = newNode( $tn( 'b' )[0] );
-			var node2 = newNode( $tn( 'i' )[0] );
+		test_getPosition10 : function() {
+			var node1 = newNode( $tn( 'b' )[ 0 ] );
+			var node2 = newNode( $tn( 'i' )[ 0 ] );
 
 			assert.areSame( CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
-		test_getPosition11 : function()
-		{
-			var node1 = newNode( $tn( 'b' )[0] );
-			var node2 = newNode( $tn( 'i' )[0] );
+		test_getPosition11 : function() {
+			var node1 = newNode( $tn( 'b' )[ 0 ] );
+			var node2 = newNode( $tn( 'i' )[ 0 ] );
 
 			assert.areSame( CKEDITOR.POSITION_FOLLOWING, node2.getPosition( node1 ) );
 		},
@@ -163,17 +139,15 @@
 		/**
 		 *  Test 'preceding' position.
 		 */
-		test_getPosition_3240: function()
-		{
-			var node1 = newNode( $tn( 'b' )[0].firstChild );
-			var node2 = newNode( $tn( 'span' )[0].firstChild );
+		test_getPosition_3240: function() {
+			var node1 = newNode( $tn( 'b' )[ 0 ].firstChild );
+			var node2 = newNode( $tn( 'span' )[ 0 ].firstChild );
 
 			assert.areSame( CKEDITOR.POSITION_PRECEDING, node1.getPosition( node2 ) );
 		},
 
 		// Test get previous non-spaces node.
-		test_getPrevious : function()
-		{
+		test_getPrevious : function() {
 			var element = $( 'append' );
 			var span1 = newElement( 'span' );
 			element.append( span1 );
@@ -184,20 +158,17 @@
 			assert.areSame( span1.$, previous.$ );
 		},
 
-		test_getPrevious2 : function()
-		{
+		test_getPrevious2 : function() {
 			var node = $( 'getNSN6' );
 			assert.areSame( CKEDITOR.NODE_TEXT, node.getPrevious().type );
-			assert.areSame( $( 'getNSN5' ), node.getPrevious( function( node )
-				{
+			assert.areSame( $( 'getNSN5' ), node.getPrevious( function( node ) {
 					return node.type === CKEDITOR.NODE_ELEMENT;
 				}
 			) );
 		},
 
 		// Test get next non-spaces node.
-		test_getNext : function()
-		{
+		test_getNext : function() {
 			var element = $( 'append' );
 			var span1 = newElement( 'span' );
 			element.append( span1 );
@@ -208,20 +179,17 @@
 			assert.areSame( span2.$, next.$ );
 		},
 
-		test_getNext2 : function()
-		{
+		test_getNext2 : function() {
 			var node = $( 'getNSN1' );
 			assert.areSame( CKEDITOR.NODE_TEXT, node.getNext().type );
-			assert.areSame( $( 'getNSN2' ), node.getNext( function( node )
-				{
+			assert.areSame( $( 'getNSN2' ), node.getNext( function( node ) {
 					return node.type === CKEDITOR.NODE_ELEMENT;
 				}
 			) );
 		},
 
 		// element::isReadOnly tests.
-		test_isReadOnly : function()
-		{
+		test_isReadOnly : function() {
 			var target = $( 'editable' ), body = target.getParent();
 			assert.isTrue( body.isReadOnly(), 'Body is not editable' );
 			assert.isFalse( target.isReadOnly(), 'Element specify itself as editable.' );
@@ -239,8 +207,7 @@
 			assert.isFalse( target.getFirst().isReadOnly(), 'Element marked as "cke-editable" is not ready-only.' );
 		},
 
-		test_appendTo : function()
-		{
+		test_appendTo : function() {
 			var p = newElement( 'p' ),
 				t = newTextNode( 'text' ),
 				c = newComment( 'comment' ),
@@ -256,8 +223,7 @@
 			assert.areSame( CKEDITOR.POSITION_IS_CONTAINED + CKEDITOR.POSITION_FOLLOWING, b.getPosition( p ) );
 		},
 
-		test_clone1 : function()
-		{
+		test_clone1 : function() {
 			var a = $( 'clone1' );
 
 			assert.areSame( '<p></p>', getOuterHtml( a.clone() ) );
@@ -270,8 +236,7 @@
 			);
 		},
 
-		test_clone2 : function()
-		{
+		test_clone2 : function() {
 			var t = newTextNode( 'text' ),
 				c = newComment( 'comment' );
 
@@ -279,14 +244,12 @@
 			assert.areSame( '<!--comment-->', c.clone().getOuterHtml() );
 		},
 
-		test_clone3 : function()
-		{
+		test_clone3 : function() {
 			var a = $( 'clone1' );
 			assert.areNotEqual( a.getUniqueId(), a.clone().getUniqueId() );
 		},
 
-		test_clone4 : function()
-		{
+		test_clone4 : function() {
 			var t = new CKEDITOR.dom.text( 'text' ),
 				c = new CKEDITOR.dom.comment( 'comment' ),
 				e = $( 'clone' );
@@ -296,8 +259,7 @@
 			assert.isTrue( e.clone() instanceof CKEDITOR.dom.element );
 		},
 
-		test_hasNext : function()
-		{
+		test_hasNext : function() {
 			var node1 = getNodeByTagName( 'b' ),
 				node2 = getNodeByTagName( 'i' );
 
@@ -305,8 +267,7 @@
 			assert.isFalse( node2.hasNext() );
 		},
 
-		test_hasPrevious : function()
-		{
+		test_hasPrevious : function() {
 			var node1 = getNodeByTagName( 'b' ),
 				node2 = getNodeByTagName( 'i' );
 
@@ -314,8 +275,7 @@
 			assert.isTrue( node2.hasPrevious() );
 		},
 
-		test_insertAfter1 : function()
-		{
+		test_insertAfter1 : function() {
 			var c = newNode( $( 'insertAfter' ).$.firstChild ),
 				t = newNode( $( 'insertAfter' ).$.lastChild ),
 				e1 = newElement( 'i' ),
@@ -331,8 +291,7 @@
 		},
 
 		// test if other types of nodes can be inserted too
-		test_insertAfter2 : function()
-		{
+		test_insertAfter2 : function() {
 			var node = newNode( $( 'insertAfter' ).$.lastChild ),
 				c = newComment( 'comment' ),
 				t = newTextNode( 'text' );
@@ -344,8 +303,7 @@
 			assert.areSame( t, node.getNext() );
 		},
 
-		test_insertBefore : function()
-		{
+		test_insertBefore : function() {
 			var c = newNode( $( 'insertBefore' ).$.firstChild ),
 				t = newNode( $( 'insertBefore' ).$.lastChild ),
 				e1 = newElement( 'i' ),
@@ -361,8 +319,7 @@
 		},
 
 		// test if other types of nodes can be inserted too
-		test_insertBefore2 : function()
-		{
+		test_insertBefore2 : function() {
 			var node = newNode( $( 'insertBefore' ).$.firstChild ),
 				c = newComment( 'comment' ),
 				t = newTextNode( 'text' );
@@ -374,8 +331,7 @@
 			assert.areSame( t, node.getPrevious() );
 		},
 
-		test_insertBeforeMe : function()
-		{
+		test_insertBeforeMe : function() {
 			var node1 = newElement( 'span' ),
 				node2 = $( 'insertBefore' );
 
@@ -384,13 +340,12 @@
 			assert.areSame( node1.getNext(), node2 );
 		},
 
-		test_getAddress : function()
-		{
+		test_getAddress : function() {
 			// slice (2) - removes body>div part
 			var address1 = $( 'getAddress1' ).getAddress().slice( 2 ),
 				address2 = $( 'getAddress2' ).getAddress().slice( 2 );
 
-			assert.isTrue( CKEDITOR.tools.arrayCompare( address1, [ 4, 3, 2] ) );
+			assert.isTrue( CKEDITOR.tools.arrayCompare( address1, [ 4, 3, 2 ] ) );
 			assert.isTrue( CKEDITOR.tools.arrayCompare( address2, [ 0, 0, 0, 0, 0 ] ) );
 
 			// check detached trees (#8670 - test currently fails in IE7&8)
@@ -407,8 +362,7 @@
 			*/
 		},
 
-		test_getDocument : function()
-		{
+		test_getDocument : function() {
 			var doc = CKEDITOR.document,
 				iframe = $( 'getDocument' ),
 				docIframe = iframe.getFrameDocument();
@@ -424,8 +378,7 @@
 			assert.areSame( childContext.document, docIframe.$ );
 		},
 
-		'getIndex - single node' : function()
-		{
+		'getIndex - single node' : function() {
 			var wrapper = createGetIndexTest( 'el' ),
 				node = wrapper.getFirst();
 
@@ -433,8 +386,7 @@
 			assert.areEqual( 0, node.getIndex( true ) );
 		},
 
-		'getIndex - two elements' : function()
-		{
+		'getIndex - two elements' : function() {
 			var wrapper = createGetIndexTest( 'el,el' ),
 				node2 = wrapper.getChild( 1 );
 
@@ -442,8 +394,7 @@
 			assert.areEqual( 1, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after text node' : function()
-		{
+		'getIndex - element after text node' : function() {
 			var wrapper = createGetIndexTest( 'tn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -454,8 +405,7 @@
 			assert.areEqual( 1, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function()
-		{
+		'getIndex - element after empty text node' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -466,8 +416,7 @@
 			assert.areEqual( 0, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function()
-		{
+		'getIndex - element after empty text node' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -478,8 +427,7 @@
 			assert.areEqual( 0, node2.getIndex( true ) );
 		},
 
-		'getIndex - etn, tn, el' : function()
-		{
+		'getIndex - etn, tn, el' : function() {
 			var wrapper = createGetIndexTest( 'etn,tn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 ),
@@ -493,8 +441,7 @@
 			assert.areEqual( 1, node3.getIndex( true ) );
 		},
 
-		'getIndex - tn, etn, el' : function()
-		{
+		'getIndex - tn, etn, el' : function() {
 			var wrapper = createGetIndexTest( 'tn,etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 ),
@@ -508,8 +455,7 @@
 			assert.areEqual( 1, node3.getIndex( true ) );
 		},
 
-		'getIndex - etn, etn, el' : function()
-		{
+		'getIndex - etn, etn, el' : function() {
 			var wrapper = createGetIndexTest( 'etn,etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 ),
@@ -523,8 +469,7 @@
 			assert.areEqual( 0, node3.getIndex( true ) );
 		},
 
-		'getIndex - etn, tn, etn, el' : function()
-		{
+		'getIndex - etn, tn, etn, el' : function() {
 			var wrapper = createGetIndexTest( 'etn,tn,etn,el' ),
 				node2 = wrapper.getChild( 1 ),
 				node3 = wrapper.getChild( 2 ),
@@ -538,8 +483,7 @@
 			assert.areEqual( 1, node4.getIndex( true ) );
 		},
 
-		'getIndex - el, tn, el' : function()
-		{
+		'getIndex - el, tn, el' : function() {
 			var wrapper = createGetIndexTest( 'el,tn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 ),
@@ -553,8 +497,7 @@
 			assert.areEqual( 2, node3.getIndex( true ) );
 		},
 
-		'getIndex - el, etn, el' : function()
-		{
+		'getIndex - el, etn, el' : function() {
 			var wrapper = createGetIndexTest( 'el,etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 ),
@@ -568,8 +511,7 @@
 			assert.areEqual( 1, node3.getIndex( true ) );
 		},
 
-		'getIndex - el, etn, tn, el' : function()
-		{
+		'getIndex - el, etn, tn, el' : function() {
 			var wrapper = createGetIndexTest( 'el,etn,tn,el' ),
 				node2 = wrapper.getChild( 1 ),
 				node3 = wrapper.getChild( 2 ),
@@ -583,8 +525,7 @@
 			assert.areEqual( 2, node4.getIndex( true ) );
 		},
 
-		'getIndex - el, tn, etn, el' : function()
-		{
+		'getIndex - el, tn, etn, el' : function() {
 			var wrapper = createGetIndexTest( 'el,tn,etn,el' ),
 				node2 = wrapper.getChild( 1 ),
 				node3 = wrapper.getChild( 2 ),
@@ -598,8 +539,7 @@
 			assert.areEqual( 2, node4.getIndex( true ) );
 		},
 
-		'getIndex - el, etn' : function()
-		{
+		'getIndex - el, etn' : function() {
 			var wrapper = createGetIndexTest( 'el,etn' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -610,8 +550,7 @@
 			assert.areEqual( 1, node2.getIndex( true ) );
 		},
 
-		test_getNextSourceNode : function()
-		{
+		test_getNextSourceNode : function() {
 			var node = $( 'getNSN1' );
 			assert.areSame( CKEDITOR.NODE_TEXT, node.getNextSourceNode( true ).type );
 			assert.areSame( $( 'getNSN2' ), node.getNextSourceNode( true, CKEDITOR.NODE_ELEMENT ) );
@@ -619,8 +558,7 @@
 			assert.isNull( node.getNextSourceNode( true, CKEDITOR.NODE_COMMENT, $( 'getNSN3' ) ) );
 		},
 
-		test_getPreviousSourceNode : function()
-		{
+		test_getPreviousSourceNode : function() {
 			var node = $( 'getNSN6' );
 			assert.areSame( CKEDITOR.NODE_TEXT, node.getPreviousSourceNode( true ).type );
 			assert.areSame( $( 'getNSN5' ), node.getPreviousSourceNode( true, CKEDITOR.NODE_ELEMENT ) );
@@ -628,28 +566,24 @@
 			assert.isNull( node.getPreviousSourceNode( true, CKEDITOR.NODE_COMMENT, $( 'getNSN4' ) ) );
 		},
 
-		test_getParent : function()
-		{
+		test_getParent : function() {
 			var node = $( 'getNSN1' );
 			assert.areSame( $( 'getNSN' ), node.getParent() );
-			assert.isNull( newElement(document.body).getParent().getParent() );
+			assert.isNull( newElement( document.body ).getParent().getParent() );
 		},
 
-		test_getParents : function()
-		{
+		test_getParents : function() {
 			var node = getNodeByTagName( 'div' );
 
 			assert.areSame( 3, node.getParents().length );
 			assert.areSame( node.getParents()[ 0 ], node.getParents( true )[ 2 ] );
 		},
 
-		test_getCommonAncestor : function()
-		{
+		test_getCommonAncestor : function() {
 			assert.areSame( newElement( document.body ), $( 'getNSN1' ).getCommonAncestor( $( 'getAddress2' ) ) );
 		},
 
-		test_getAscendant : function()
-		{
+		test_getAscendant : function() {
 			var node = $( 'getNSN1' );
 
 			assert.areSame( $( 'getNSN' ), node.getAscendant( 'div' ) );
@@ -658,8 +592,7 @@
 			assert.isNull( null, node.getAscendant( 'i' ) );
 		},
 
-		test_hasAscendant : function()
-		{
+		test_hasAscendant : function() {
 			var node = $( 'getNSN1' );
 
 			assert.isTrue( node.hasAscendant( 'div' ) );
@@ -668,8 +601,7 @@
 			assert.isTrue( node.hasAscendant( 'i', true ) );
 		},
 
-		test_move : function()
-		{
+		test_move : function() {
 			var parent = $( 'move' ),
 				node = $( 'move1' );
 
@@ -682,29 +614,26 @@
 			assert.areSame( 'move1', parent.$.childNodes[ 0 ].id );
 		},
 
-		test_remove : function()
-		{
+		test_remove : function() {
 			$( 'remove1' ).remove( true );
 			assert.areSame( '<div id="remove"><i></i>text<!--comment--></div>', getOuterHtml( $( 'remove' ) ) );
 			$( 'remove' ).remove();
 			assert.areSame( null, document.getElementById( 'remove' ) );
 		},
 
-		test_replace : function()
-		{
+		test_replace : function() {
 			$( 'replace1' ).replace( $( 'replace2' ) );
 
 			assert.areSame( '<div id="replace">12<p id="replace1"></p>3</div>', getOuterHtml( $( 'replace' ) ) );
 		},
 
-		test_trim : function()
-		{
+		test_trim : function() {
 			var node = $( 'trim' );
 			node.trim();
 
 			assert.areSame( 'text', node.$.innerHTML );
 		}
 
-	});
+	} );
 
-}());
+}() );

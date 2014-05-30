@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit,insertion */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	insertionDT.run( {
@@ -104,8 +103,7 @@
 		// text -> text
 		//
 
-		'G1. text into text' : function()
-		{
+		'G1. text into text' : function() {
 			// Assertions names:
 			// b[egin] e[nd] m[iddle]
 			// n[ot]e[mpty] e[mpty]
@@ -127,8 +125,7 @@
 			a( 'f[o]o',			'f^o',															'mne 2' );
 		},
 
-		'G1. spaces into text' : function()
-		{
+		'G1. spaces into text' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a.insertion = '&nbsp;';
@@ -160,8 +157,7 @@
 		// text -> inline elements
 		//
 
-		'G2. text next to inline element' : function()
-		{
+		'G2. text next to inline element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( '^<br />foo',				'bam^<br />foo',									'before br' );
@@ -185,8 +181,7 @@
 					text : 'foo<span><b>bar</b>bam^</span>' },									'after nested 2' );
 		},
 
-		'G2. text into inline element' : function()
-		{
+		'G2. text into inline element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1.
@@ -211,8 +206,7 @@
 					text : 'x<span>abam^</span>x' },											'end 2' );
 		},
 
-		'G2. text into selection containing entire inline element' : function()
-		{
+		'G2. text into selection containing entire inline element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( '[<br />]',					'bam^',												'replace 1' );
@@ -228,8 +222,7 @@
 												text : 'x<b>bam^</b>y' },						'inside 4' );
 		},
 
-		'G2. text into selection containing inline element (part of or entire) and text outside this element' : function()
-		{
+		'G2. text into selection containing inline element (part of or entire) and text outside this element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( '[foo<span>bar]</span>baz',	'bam^baz', 											'remove 1' );
@@ -245,8 +238,7 @@
 					text : 'foo<span>xybam^</span>' }, 											'inside 2' );
 		},
 
-		'G2. text into selection containing entire inline elements' : function()
-		{
+		'G2. text into selection containing entire inline elements' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1. (+ note 1.)
@@ -271,8 +263,7 @@
 			a(	'foo[bim<b>bar</b><b>bom]</b>baz',		'foobam^baz',							'outside 1' );
 		},
 
-		'G2. text into not entirely selected inline elements' : function()
-		{
+		'G2. text into not entirely selected inline elements' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1. (+ note 1.)
@@ -289,8 +280,7 @@
 					text : 'foo<u>bbam^z</u>baz' },												'inside 3' );
 		},
 
-		'G2. text between inline elements' : function()
-		{
+		'G2. text between inline elements' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'x<b>a</b>^<b>c</b>y',			'x<b>a</b>bam^<b>c</b>y',						'between 1' );
@@ -314,8 +304,7 @@
 		// text -> block elements
 		//
 
-		'G3. text into block element' : function()
-		{
+		'G3. text into block element' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '<p>^</p>',						'<p>bam^</p>',									'into 1' );
@@ -329,8 +318,7 @@
 				{ html : 'x<p>bam^</p>x', text : 'x<p><b>bam^</b></p>x' },						'into 7' );
 		},
 
-		'G3. text next to block element' : function()
-		{
+		'G3. text next to block element' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '^<p>x</p>',				'bam^<p>x</p>',											'before p' );
@@ -341,8 +329,7 @@
 		},
 
 		// Rule 4.
-		'G3. text into block element + line break' : function()
-		{
+		'G3. text into block element + line break' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '[foo<p>]bar</p>baz',		'bam^<p>bar</p>baz',								'case 1' );
@@ -372,8 +359,7 @@
 		},
 
 		// Rule 4. + 5.
-		'G3. text into block elements' : function()
-		{
+		'G3. text into block elements' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '<p>AA[A</p><div>B]BB</div>',			'<p>AAbam^</p><div>BB</div>',			'don\'t merge 1' );
@@ -436,8 +422,7 @@
 		// inline elements -> text
 		//
 
-		'G4. inline element into text' : function()
-		{
+		'G4. inline element into text' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>bam</b>', 'html', CKEDITOR.ENTER_BR );
 
 			// Rule 3.
@@ -459,8 +444,7 @@
 			a( 'foo^bar',		'foo<br />^bar',												'me 2' );
 		},
 
-		'G4. inline element and text into text' : function()
-		{
+		'G4. inline element and text into text' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>bam</b>bom', 'html', CKEDITOR.ENTER_BR );
 
 			a( '^',				'<b>bam</b>bom^',												'into empty editable' );
@@ -488,8 +472,7 @@
 		// inline elements -> inline elements
 		//
 
-		'G5. inline element next to inline element (different name)' : function()
-		{
+		'G5. inline element next to inline element (different name)' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>a</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '^<br />c',				'<b>a^</b><br />c',										'before br' );
@@ -509,8 +492,7 @@
 			a( '[foo<u><b style="color: red">a</b>]c</u>',	'<b>a^</b><u>c</u>',				'remove styled el' );
 		},
 
-		'G5. inline element next to inline element (same name)' : function()
-		{
+		'G5. inline element next to inline element (same name)' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<br />', null, CKEDITOR.ENTER_BR );
 
 			a( '^<br />a',				'<br />^<br />a',										'before br' );
@@ -540,8 +522,7 @@
 			// More TCs can be found in corresponding 'GS. merging adjacent inline elements'.
 		},
 
-		'G5. inline element into inline element' : function()
-		{
+		'G5. inline element into inline element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>d</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '<u>c^</u>',				'<u>c</u><b>d^</b>',									'into a1' );
@@ -572,8 +553,7 @@
 			a( '<u>a[b]c</u>',			'<u>a</u>d<u>e</u>f^<u>c</u>',							'into d3' );
 		},
 
-		'G5. inline element into selected inline element' : function()
-		{
+		'G5. inline element into selected inline element' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>d</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '<u>[c]</u>',				'<b>d^</b>',										'replace a1' );
@@ -597,8 +577,7 @@
 		// inline elements -> block elements
 		//
 
-		'G6. inline element into block element' : function()
-		{
+		'G6. inline element into block element' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<b>d</b>', 'html' );
 
 			a( '<p>^</p>',					'<p><b>d^</b></p>',									'into 1' );
@@ -626,8 +605,7 @@
 		},
 
 		// Rule 4. + 5.
-		'G6. inline element into block elements' : function()
-		{
+		'G6. inline element into block elements' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<b>bam</b>', 'html' );
 
 			a( '<p>a[a</p><p>b]b</p>',					'<p>a<b>bam^</b>b</p>',					'merge 1' );
@@ -647,8 +625,7 @@
 		// block elements -> elements
 		//
 
-		'G7-9. splitting' : function()
-		{
+		'G7-9. splitting' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p><p>bar</p>' );
 
 			a( '<p>a^b</p>',
@@ -709,16 +686,14 @@
 			a( '<h1>a^b</h1>',				'<h1>a</h1><form>bam^</form><h1>b</h1>',			'case 8b' );
 		},
 
-		'G7-9. splitting - reuse element' : function()
-		{
+		'G7-9. splitting - reuse element' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p title="1">bam</p>y', 'html' );
 
 			a( '<p title="2">a^b</p>',
 				'<p title="2">ax</p><p title="1">bam</p><p title="2">y^b</p>',					'case 1a' );
 		},
 
-		'G7-9. splitting - multi selection' : function()
-		{
+		'G7-9. splitting - multi selection' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p>bam</p>y' );
 
 			a( '<p>a[b</p><p>c]d</p>',
@@ -744,8 +719,7 @@
 		},
 
 		// See _docs/blockselections.txt
-		'G7-9. splitting - text + eol' : function()
-		{
+		'G7-9. splitting - text + eol' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br data-cke-eol="1" />bam' );
 
 			a( '<p>a^b</p>',				'<p>a</p><p>bam^b</p>',								'case 1a' );
@@ -785,8 +759,7 @@
 		},
 
 		// These cases were previously handled positively. Test for regressions.
-		'G7-9. splitting - text + eol - reverted cases' : function()
-		{
+		'G7-9. splitting - text + eol - reverted cases' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br />bam' );
 
 			a( '<p>a^b</p>',				'<p>a<br />bam^b</p>',								'case 1' );
@@ -813,8 +786,7 @@
 			a( '<div>a^b</div>',			'<div>a<br /><br />^b</div>',						'case 6d' );
 		},
 
-		'G7-9. filtering content' : function()
-		{
+		'G7-9. filtering content' : function() {
 			// Form chosen, so it's not stripped by rule 7.
 			var a = this.createAssertInsertionFunction( 'h1', '<form>bam</form>', 'html' );
 
@@ -847,8 +819,7 @@
 		//
 
 		// Part of rule 2.
-		'GS. inline elements splitting for HTML being pasted' : function()
-		{
+		'GS. inline elements splitting for HTML being pasted' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'foo<u>w<b>x[y]z</b></u>baz',
@@ -867,8 +838,7 @@
 		},
 
 		// Rule 2.
-		'GS. merging adjacent inline elements' : function()
-		{
+		'GS. merging adjacent inline elements' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'x[<b>a</b>def]<b>c</b>y',
@@ -920,8 +890,7 @@
 		},
 
 		// Rule 2. does not apply.
-		'GS. merging adjacent inline elements - exceptions' : function()
-		{
+		'GS. merging adjacent inline elements - exceptions' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '', null, CKEDITOR.ENTER_BR );
 
 			a.insertion = '<br />';
@@ -943,8 +912,7 @@
 		},
 
 		// Rule 3.
-		'GS. moving caret to the element which is at the very end of insertion' : function()
-		{
+		'GS. moving caret to the element which is at the very end of insertion' : function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '', 'html', CKEDITOR.ENTER_BR );
 
 			a.insertion = 'cc<b>dd</b>';
@@ -990,8 +958,7 @@
 		},
 
 		// Rule 7.
-		'GS. single line handling' : function()
-		{
+		'GS. single line handling' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p>' );
 
 			a( 'a^b',						'a<p>bam^</p>b',									'case 0' );
@@ -1024,8 +991,7 @@
 			a( '<p><b>a^b</b>c</p>',			'<p><b>aba</b>r^<b>b</b>c</p>',					'case 5a' );
 		},
 
-		'GS. cleanup empty blocks' : function()
-		{
+		'GS. cleanup empty blocks' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p>' );
 
  			a( '<p>[foo</p><p>bar]</p>', '<p>bam^</p>', 'remove empty P at the end' );
@@ -1040,8 +1006,7 @@
 		},
 
 		// Rule 7. doesn't apply here.
-		'GS. single line handling - exceptions' : function()
-		{
+		'GS. single line handling - exceptions' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'html', CKEDITOR.ENTER_BR );
 
 			a.insertion = '<br data-cke-eol="1" /><p>bar</p>';
@@ -1076,12 +1041,10 @@
 					'<p>x</p><h1>abc^</h1><p>x</p>',											'case 6b' );
 		},
 
-		'GS. block bogus' : function()
-		{
+		'GS. block bogus' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '' );
 
-			if ( CKEDITOR.env.needsBrFiller )
-			{
+			if ( CKEDITOR.env.needsBrFiller ) {
 				a.insertion = 'bam';
 				a( '<p>^<br /></p>',			'<p>bam^</p>',									'text inserted before bogus' );
 				a( '<p><br />^</p>',			'<p>bam^</p>',									'text inserted after bogus' );
@@ -1106,8 +1069,7 @@
 		},
 
 		// Rule 8.
-		'GS. blocks inheriting inline styles in text mode' : function()
-		{
+		'GS. blocks inheriting inline styles in text mode' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>abc</p><p>def</p>' );
 
 			// Case from docs.
@@ -1141,8 +1103,7 @@
 				'<p><b>x</b></p><p><b>def</b></p><p><b>abc^y</b></p>',							'case 4a' );
 
 			// TODO Fix data processor in IE on introducing whitespace that confuses the parser at the end of pseudo block.
-			if ( ! ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 ) )
-			{
+			if ( !( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 ) ) {
 				a.insertion = 'abc<p>def</p>';
 				a( '<p><b>x^y</b></p>',
 					'<p><b>xabc</b></p><p><b>def^</b></p><p><b>y</b></p>',							'case 4b' );
@@ -1187,8 +1148,7 @@
 					text : '<b>xabc</b> <b>def^y</b>' },										'case 9a' );
 		},
 
-		'#136 - remove &lt;br&gt; before and after inserted block' : function()
-		{
+		'#136 - remove &lt;br&gt; before and after inserted block' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>aaa</p><p>bbb</p>', 'html' );
 
 			a( '<p>x<br />^<br />y</p>',	'<p>x</p><p>aaa</p><p>bbb^</p><p>y</p>',			'case 1a' );
@@ -1197,4 +1157,4 @@
 		}
 	} );
 
-})();
+} )();

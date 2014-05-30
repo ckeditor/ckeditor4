@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: clipboard,pastetext */
 
-(function() {
+( function() {
 	'use strict';
 
 	Array.prototype.$constructor = function() {

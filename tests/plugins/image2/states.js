@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,link */
 
-(function() {
+( function() {
 	'use strict';
 
 	var tools = image2TestsTools,
@@ -141,4 +141,4 @@
 
 		bender.test( tcs );
 	} );
-})();
+} )();

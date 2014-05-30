@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	// We're gonna do that later, manually.
@@ -9,8 +8,7 @@
 
 	bender.test(
 	{
-		'inline duplicates' : function()
-		{
+		'inline duplicates' : function() {
 			var fail = false;
 
 			CKEDITOR.inlineAll();
@@ -20,14 +18,12 @@
 				CKEDITOR.inline( 'editable' );
 				fail = true;
 			}
-			catch ( e )
-			{}
+			catch ( e ) {}
 
 			assert.isFalse( fail, 'Expected error not thrown.' );
 		},
 
-		'themedui duplicates' : function()
-		{
+		'themedui duplicates' : function() {
 			var fail = false;
 
 			CKEDITOR.replace( 'editor' );
@@ -37,11 +33,10 @@
 				CKEDITOR.replace( 'editor' );
 				fail = true;
 			}
-			catch ( e )
-			{}
+			catch ( e ) {}
 
 			assert.isFalse( fail, 'Expected error not thrown.' );
 		}
 	} );
 
-})();
+} )();

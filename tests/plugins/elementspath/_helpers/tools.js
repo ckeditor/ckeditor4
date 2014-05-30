@@ -1,4 +1,4 @@
-var elementspathTestsTools = (function() {
+var elementspathTestsTools = ( function() {
 	'use strict';
 
 	// @param {String} tags Expected elements path (excludding body) as string
@@ -7,8 +7,7 @@ var elementspathTestsTools = (function() {
 		var path = this.editor.ui.space( 'path' );
 		path = path.getElementsByTag( 'a' );
 		var list = [];
-		for ( var i = 0, length = path.count(), el; i < length; i++ )
-		{
+		for ( var i = 0, length = path.count(), el; i < length; i++ ) {
 			el = path.getItem( i );
 			list.push( el.getText() );
 		}
@@ -23,4 +22,4 @@ var elementspathTestsTools = (function() {
 	return {
 		assertPath: assertPath
 	};
-})();
+} )();

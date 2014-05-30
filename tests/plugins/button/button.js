@@ -4,7 +4,7 @@
 var customCls = 'my_btn';
 bender.editor =
 {
-	config : { toolbar : [[ 'custom_btn' ]], on :
+	config : { toolbar : [ [ 'custom_btn' ] ], on :
 	{
 		'pluginsLoaded' : function( evt ) {
 			var ed = evt.editor;
@@ -12,15 +12,14 @@ bender.editor =
 				{
 					label : 'button with custom class',
 					className : customCls
-				});
+				} );
 		}
 	} }
 };
 
 bender.test(
 {
-	'test button class names' : function()
-	{
+	'test button class names' : function() {
 		var btn = this.editor.ui.get( 'custom_btn' ),
 		btnEl = CKEDITOR.document.getById( btn._.id );
 
@@ -28,6 +27,6 @@ bender.test(
 		assert.isTrue( btnEl.hasClass( 'cke_button__custom_btn' ), 'check named ui type class name' );
 		assert.isTrue( btnEl.hasClass( customCls ), 'check ui item custom class name' );
 	}
-});
+} );
 
 //]]>

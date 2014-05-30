@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,dom,range */
 
-(function() {
+( function() {
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
@@ -13,8 +13,7 @@
 			 document.getElementById( 'playground2' ).innerHTML = html2;
 		},
 
-		test_insertNode_ElementContents : function()
-		{
+		test_insertNode_ElementContents : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -30,8 +29,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_ElementCollapsed : function()
-		{
+		test_insertNode_ElementCollapsed : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -47,8 +45,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_ElementNotCollapsed : function()
-		{
+		test_insertNode_ElementNotCollapsed : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -65,8 +62,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_DiffElements : function()
-		{
+		test_insertNode_DiffElements : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -86,8 +82,7 @@
 			assert.isTrue( range.startContainer.getChild( range.startOffset ).equals( newNode ), 'Start must be on new node' );
 		},
 
-		test_insertNode_TextCollapsed : function()
-		{
+		test_insertNode_TextCollapsed : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -103,8 +98,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_TextNotCollapsed : function()
-		{
+		test_insertNode_TextNotCollapsed : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -116,13 +110,12 @@
 
 			assert.areSame( document.getElementById( '_H1' ), range.startContainer.$, 'range.startContainer' );
 			assert.areSame( 1, range.startOffset, 'range.startOffset' );
-			assert.areSame( document.getElementById( '_H1' ).childNodes[2], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( document.getElementById( '_H1' ).childNodes[ 2 ], range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 2, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_Mixed : function()
-		{
+		test_insertNode_Mixed : function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -141,7 +134,7 @@
 	};
 
 	bender.test( tests );
-})();
+} )();
 
 	//<![CDATA[
 

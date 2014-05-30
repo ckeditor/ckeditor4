@@ -59,7 +59,7 @@
 
 					restoreOriginalCallbacks();
 				} );
-			} catch( e ) {
+			} catch ( e ) {
 				if ( e instanceof YUITest.Wait == false )
 					restoreOriginalCallbacks();
 				// Propagate the exception.

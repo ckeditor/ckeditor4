@@ -10,8 +10,7 @@
 
 	bender.test(
 	{
-		testInsertElement : function()
-		{
+		testInsertElement : function() {
 			var editor = this.editor;
 
 			// When editor has focus.
@@ -28,8 +27,7 @@
 			assert.areSame( 'foo<strong>baz</strong>bar', tools.compatHtml( editor.getData() ), 'insert element with existing selection, editor blurred' );
 		},
 
-		testInsertHtml : function()
-		{
+		testInsertHtml : function() {
 			var editor = this.editor;
 
 			// When editor has focus.
@@ -44,8 +42,7 @@
 			assert.areSame( 'foobazbar', tools.compatHtml( editor.getData() ), 'insert html with existing selection, editor blurred' );
 		},
 
-		testInsertText : function()
-		{
+		testInsertText : function() {
 			var editor = this.editor;
 
 			// When editor has focus.
@@ -108,4 +105,4 @@
 				assert.areSame( 2, toHtml, 'toHtml was fired twice' );
 			} );
 		}
-});
+} );

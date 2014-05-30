@@ -27,29 +27,24 @@ bender.test( {
 		wait();
 	},
 
-	setupIframe : function( callback )
-	{
+	setupIframe : function( callback ) {
 		var tc = this;
 		var frame = CKEDITOR.dom.element.createFromHtml( '<iframe id="editable_frame"></iframe>' );
-		frame.on( 'load', function( evt )
-		{
+		frame.on( 'load', function( evt ) {
 			evt.removeListener();
 			var doc = frame.getFrameDocument();
-			doc.write( '<body contenteditable="true">foo</body>');
-			setTimeout( function ()
-						{
+			doc.write( '<body contenteditable="true">foo</body>' );
+			setTimeout( function() {
 							tc.resume( callback );
 						}, 200 );
-		});
+		} );
 
 		doc.getBody().append( frame );
 		tc.wait();
 	},
 
-	'test add focus targets' : function()
-	{
-		this.setupIframe( function()
-		  {
+	'test add focus targets' : function() {
+		this.setupIframe( function() {
 			  var el1 = doc.getById( 'editable2' ),
 			  el2 = doc.getById( 'text_input' ),
 			  el3 = doc.getById( 'editable_frame' ).getFrameDocument().getBody(),
@@ -74,7 +69,7 @@ bender.test( {
 					  assert.isFalse( ed1.focusManager.hasFocus );
 					  assert.isTrue( ed2.focusManager.hasFocus );
 
-					  bender.tools.focus(el3, function() {
+					  bender.tools.focus( el3, function() {
 						  assert.isTrue( ed1.focusManager.hasFocus );
 
 						  // Other element will blur both of the editors.
@@ -86,6 +81,6 @@ bender.test( {
 
 				  } );
 			  } );
-		  });
+		  } );
 	}
-});
+} );

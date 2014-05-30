@@ -31,11 +31,11 @@ bender.test( {
 
 	'test creator: replace': function() {
 		$( '#editor1' ).ckeditor( function() {
-			resume( function () {
+			resume( function() {
 				this.assertEditor( 'editor1' );
 				this.assertEditorMode( 'editor1', CKEDITOR.ELEMENT_MODE_REPLACE );
 				this.assertEditorInstances( [ 'editor1' ] );
-			});
+			} );
 		} );
 
 		wait();
@@ -52,7 +52,7 @@ bender.test( {
 		this.assertEditorMode( 'editor3', CKEDITOR.ELEMENT_MODE_REPLACE );
 		this.assertEditor( 'editor3' );
 
-		this.assertEditorInstances( [ 'editor2','editor3' ] );
+		this.assertEditorInstances( [ 'editor2', 'editor3' ] );
 	},
 
 	'test creator: inline': function() {
@@ -63,7 +63,7 @@ bender.test( {
 	},
 
 	'test empty collection returns this': function() {
-		assert.areSame( 0, $( 'doesntExist' ).ckeditor().length, 'Adapter should return \'this\' when element does not exist.');
+		assert.areSame( 0, $( 'doesntExist' ).ckeditor().length, 'Adapter should return \'this\' when element does not exist.' );
 	},
 
 	'test wrong type of element': function() {

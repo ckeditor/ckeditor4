@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: clipboard,pastefromword,ajax */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -31,5 +31,5 @@
 			output = new RegExp( output.replace( /213/g, '(212|213)' ) );
 			testWordFilter( this.editor, CKEDITOR.document.getById( 'inputHtml' ).getValue(), output );
 		}
-	});
-})();
+	} );
+} )();

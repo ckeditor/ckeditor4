@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -36,7 +36,7 @@
 				height: '',
 				align: 'none',
 				hasCaption: false
-			});
+			} );
 
 		},
 
@@ -107,4 +107,4 @@
 			assertWidgetDialog( editorBot, 'image', '', null, null, '<p><span>foo^bar</span></p>', onResume )
 		}
 	} );
-})();
+} )();

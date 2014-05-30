@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: placeholder */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -30,4 +30,4 @@
 			widgetTestsTools.assertDowncast( this.editorBot, 'w6', 1, 'placeholder' );
 		}
 	} );
-})();
+} )();

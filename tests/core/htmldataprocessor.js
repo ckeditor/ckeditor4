@@ -7,9 +7,8 @@
 	 * IE always returning CRLF for linefeed, so remove it when retrieve pre-formated text from text area.
 	 * @param {Object} id
 	 */
-	function getTextAreaValue( id )
-	{
-		return CKEDITOR.document.getById( id ).getValue().replace(/\r/gi,'');
+	function getTextAreaValue( id ) {
+		return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
 	}
 
 	// Use inline editor for this test to ensure that testXss function will be always accessible,
@@ -97,7 +96,7 @@
 				editor3: {
 					name: 'test_editor3',
 					config: {
-						protectedSource: [ /\[\[[^\]]*?\]\]/g ],
+						protectedSource: [ /\[ \[ [^\ ] ]*?\ ]\ ]/g ],
 						fullPage: true,
 						allowedContent: true
 					}
@@ -149,27 +148,23 @@
 			return CKEDITOR.env.needsNbspFiller ? ( toHtml ? '\u00a0' : '&nbsp;' ) : '<br />';
 		},
 
-		test_toDataFormat_ticket_2886_1 : function()
-		{
+		test_toDataFormat_ticket_2886_1 : function() {
 			assert.areSame( '<p>&nbsp;</p>', this.editor.dataProcessor.toDataFormat( '<p></p>' ) );
 		},
 
-		test_toDataFormat_1a : function()
-		{
+		test_toDataFormat_1a : function() {
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><p>Test</p></div>' );
 
 			assert.areSame( '<p>Test</p>', this.editor.dataProcessor.toDataFormat( element.getHtml() ) );
 		},
 
-		test_toDataFormat_1b : function()
-		{
+		test_toDataFormat_1b : function() {
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x>Test</x:x></div>' );
 
 			assert.areSame( '<x:x>Test</x:x>', this.editor.dataProcessor.toDataFormat( element.getHtml() ) );
 		},
 
-		'test bogus nodes output in pseudo block' : function()
-		{
+		'test bogus nodes output in pseudo block' : function() {
 			var o = this.createProcessorAssertion( 'output' );
 
 			o( '<div>&nbsp;<p>foo</p></div>', '<div>@<p>foo</p></div>', 'Converted filler (1)' );
@@ -180,12 +175,11 @@
 			o( '<hr />foo<hr />', '<hr />foo@<hr />', 'Removed bogus (2)' );
 		},
 
-		'test bogus nodes input in pseudo block' : function()
-		{
+		'test bogus nodes input in pseudo block' : function() {
 			var i = this.createProcessorAssertion( 'input' );
 
-			i('<div>@<p>foo</p></div>','<div><br /><p>foo</p></div>', 'Converted filler (1)');
-			i('<div>@<p>foo</p></div>','<div>&nbsp;<p>foo</p></div>', 'Converted filler (2)');
+			i( '<div>@<p>foo</p></div>', '<div><br /><p>foo</p></div>', 'Converted filler (1)' );
+			i( '<div>@<p>foo</p></div>', '<div>&nbsp;<p>foo</p></div>', 'Converted filler (2)' );
 
 			i( '<div>foo<br />@<p>bar</p></div>', '<div>foo<br />&nbsp;<p>bar</p></div>', 'Converted filler (3)' );
 			i( '<div>foo<br />@<p>bar</p></div>', '<div>foo<br /><br /><p>bar</p></div>', 'Converted filler (4)' );
@@ -193,7 +187,7 @@
 			i( '<hr /><br />@', '<hr /><br />&nbsp;', 'Converted filler (5)' );
 			i( '<hr /><br />@', '<hr /><br /><br />', 'Converted filler (6)' );
 
-			i('<ul><li>@<ol><li>foo</li></ol></li></ul>','<ul><li>&nbsp;<ol><li>foo</li></ol></li></ul>', 'Converted filler (7)');
+			i( '<ul><li>@<ol><li>foo</li></ol></li></ul>', '<ul><li>&nbsp;<ol><li>foo</li></ol></li></ul>', 'Converted filler (7)' );
 
 			i( '<div>foo<p>bar</p></div>', '<div>foo<br /><p>bar</p></div>', 'Removed bogus' );
 
@@ -201,39 +195,33 @@
 			i( '<p>foo&nbsp;</p>', '<p>foo&nbsp;</p>', 'Kept non-filler NBSP (2)' );
 		},
 
-		test_toDataFormat_2b : function()
-		{
+		test_toDataFormat_2b : function() {
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><x:x></x:x><p>Test</p></div>' );
 
 			assert.areSame( '<x:x></x:x><p>Test</p>', this.editor.dataProcessor.toDataFormat( element.getHtml() ) );
 		},
 
-		test_toDataFormat_3 : function()
-		{
+		test_toDataFormat_3 : function() {
 			assert.areSame( '<div><x:x><p>Test</p></x:x></div>', this.editor.dataProcessor.toDataFormat( '<div><x:x><p>Test</p></div>' ) );
 		},
 
-		test_toDataFormat_ticket_2774 : function()
-		{
+		test_toDataFormat_ticket_2774 : function() {
 			var element = new CKEDITOR.dom.element.createFromHtml( '<div><P class=MsoNormal><B><I><SPAN lang=EN-US><o:p>Test</o:p></SPAN></I></B></P></div>' );
 
 			assert.areSame( '<p class="MsoNormal"><b><i><span lang="EN-US"><o:p>Test</o:p></span></i></b></p>', this.editor.dataProcessor.toDataFormat( element.getHtml() ) );
 		},
 
-		test_toDataFormat_ticket_3036_1 : function()
-		{
+		test_toDataFormat_ticket_3036_1 : function() {
 			assert.areSame( '<input autocomplete="off" checked="checked" type="checkbox" />',
 				this.editor.dataProcessor.toDataFormat( '<INPUT type="checkbox" CHECKED  autocomplete=off>' ) );
 		},
 
-		test_toDataFormat_ticket_3036_2 : function()
-		{
+		test_toDataFormat_ticket_3036_2 : function() {
 			assert.areSame( '<input autocomplete="off" type="checkbox" unknown="" />',
 				this.editor.dataProcessor.toDataFormat( '<INPUT type="checkbox" UNKNOWN  autocomplete=off>' ) );
 		},
 
-		test_toDataFormat_ticket_2886_2 : function()
-		{
+		test_toDataFormat_ticket_2886_2 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var source = '<p>Some text<br><br><br></p>';
@@ -243,24 +231,21 @@
 				dataProcessor.toDataFormat( source ) );
 		},
 
-		test_toDataFormat_ticket_2886_3 : function()
-		{
+		test_toDataFormat_ticket_2886_3 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			assert.areSame( '<p>Some text<br /><br /><br />Some more text</p>',
 				dataProcessor.toDataFormat( '<p>Some text<br><br><br>Some more text</p>' ) );
 		},
 
-		test_toDataFormat_ticket_2886_4 : function()
-		{
+		test_toDataFormat_ticket_2886_4 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			assert.areSame( '<p>Some text<br /><br />&nbsp;</p>',
 				dataProcessor.toDataFormat( '<p>Some text<br><br>&nbsp;</p>' ) );
 		},
 
-		test_toDataFormat_ticket_2886_5 : function()
-		{
+		test_toDataFormat_ticket_2886_5 : function() {
 			CKEDITOR.env.ie && assert.ignore();
 
 			var dataProcessor = this.editor.dataProcessor;
@@ -269,8 +254,7 @@
 				dataProcessor.toDataFormat( '<p><br></p>' ) );
 		},
 
-		test_toDataFormat_ticket_2886_6 : function()
-		{
+		test_toDataFormat_ticket_2886_6 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var source = '<p><br><br></p>';
@@ -281,57 +265,50 @@
 				dataProcessor.toDataFormat( source ) );
 		},
 
-		test_toHtml_ticket_2886_1 : function()
-		{
+		test_toHtml_ticket_2886_1 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var expected = '<p><br /></p>';
 
-			if ( CKEDITOR.env.needsNbspFiller )
-			{
+			if ( CKEDITOR.env.needsNbspFiller ) {
 				expected = '<p></p>';
 			}
 
 			assert.areSame( expected, dataProcessor.toHtml( '<p></p>' ) );
 		},
 
-		test_toHtml_ticket_2886_2 : function()
-		{
+		test_toHtml_ticket_2886_2 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var expected = '<p>Some text<br />Some other text</p>';
 			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br>Some other text</p>' ) );
 		},
 
-		test_toHtml_ticket_2886_3 : function()
-		{
+		test_toHtml_ticket_2886_3 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var expected = '<p>Some text<br />' + this.createBogus( 1 ) + '</p>';
 			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br>&nbsp;</p>' ) );
 		},
 
-		test_toHtml_ticket_2886_4 : function()
-		{
+		test_toHtml_ticket_2886_4 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var expected = '<p>Some text</p>';
-			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br></p>' ));
+			assert.areSame( expected, dataProcessor.toHtml( '<p>Some text<br></p>' ) );
 		},
 
-		test_toHtml_ticket_7243 : function()
-		{
+		test_toHtml_ticket_7243 : function() {
 			var dataProcessor = this.editor.dataProcessor;
 
 			var input = '<p><img onmouseout="this.src=\'out.png\'" onmouseover="this.src=\'over.png\'" src="http://t/image.png" /></p>',
 				output = '<p><img data-cke-pa-onmouseout="this.src=\'out.png\'" data-cke-pa-onmouseover="this.src=\'over.png\'" data-cke-saved-src="http://t/image.png" src="http://t/image.png" /></p>';
 
-			assert.areSame( output, bender.tools.fixHtml( dataProcessor.toHtml( input ) ));
+			assert.areSame( output, bender.tools.fixHtml( dataProcessor.toHtml( input ) ) );
 		},
 
 		// Spaces between filler brs should be ignored.(#4344)
-		test_spaces_between_filler_br : function()
-		{
+		test_spaces_between_filler_br : function() {
 			var dataProcessor = this.editor.dataProcessor;
 			assert.areSame( '<p><br />&nbsp;</p>',
 				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><br /><br /></p>' ) ) );
@@ -366,8 +343,7 @@
 			assert.areSame( getTextAreaValue( '_TEXTAREA_3591' ), dataProcessor.toDataFormat( protectedHtml ) );
 		}, */
 
-		test_ticket_3591_2 : function()
-		{
+		test_ticket_3591_2 : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor;
 
@@ -381,8 +357,7 @@
 				dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
-		test_ticket_3869_1 : function()
-		{
+		test_ticket_3869_1 : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor;
 
@@ -393,8 +368,7 @@
 			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
-		test_ticket_3869_2 : function()
-		{
+		test_ticket_3869_2 : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor,
 				config = editor.config;
@@ -402,8 +376,8 @@
 			config.protectedSource.push( /<\?[\s\S]*?\?>/g );   // PHP Code
 			config.protectedSource.push( /<%[\s\S]*?%>/g );   // ASP Code
 			config.protectedSource.push( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi );   // ASP.Net Code
-			config.protectedSource.push(/<gallery[\s\S]*?<\/gallery>/gi );	// custom protected source
-			config.protectedSource.push(/<options[\s\S]*?<\/options>/gi );
+			config.protectedSource.push( /<gallery[\s\S]*?<\/gallery>/gi );	// custom protected source
+			config.protectedSource.push( /<options[\s\S]*?<\/options>/gi );
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
 			var html = getTextAreaValue( '_TEXTAREA_3869_2' );
 			var protectedHtml = dataProcessor.toHtml( html );
@@ -414,8 +388,7 @@
 		/**
 		 * Test empty value attributes.
 		 */
-		test_ticket_3884 : function()
-		{
+		test_ticket_3884 : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor;
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
@@ -425,15 +398,13 @@
 				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><a href="" name="">emptylink</a></p>' ) ) );
 		},
 
-		test_innerHtmlComments_ticket_3801 : function()
-		{
+		test_innerHtmlComments_ticket_3801 : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor;
 
 			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
 
-			for ( var i = 1; i <= 7; i++ )
-			{
+			for ( var i = 1; i <= 7; i++ ) {
 				var html = getTextAreaValue( '_TEXTAREA_3801_' + i );
 				var protectedHtml = dataProcessor.toHtml( html );
 
@@ -445,8 +416,7 @@
 		/**
 		 *	 Leading spaces in <pre> should be well preserved.
 		 */
-		test_pre_leading_whitespaces_toHtml : function()
-		{
+		test_pre_leading_whitespaces_toHtml : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor,
 				source = '<pre>\n\n\tOne visible line break.</pre>';
@@ -457,8 +427,7 @@
 		/**
 		 *	 Leading spaces in <pre> should be well preserved.
 		 */
-		test_pre_leading_whitespaces_toDataFormat : function()
-		{
+		test_pre_leading_whitespaces_toDataFormat : function() {
 			var editor = this.editor,
 				dataProcessor = editor.dataProcessor,
 				source = '<pre>\n\tOne visible line break.</pre>\n',
@@ -468,8 +437,7 @@
 		},
 
 		// (#3165)
-		'test bogus node output in nested list': function()
-		{
+		'test bogus node output in nested list': function() {
 			var processor = this.editor.dataProcessor;
 			var source;
 
@@ -490,15 +458,13 @@
 		},
 
 		// #4096
-		'test output embedded/object element' : function()
-		{
+		'test output embedded/object element' : function() {
 			assert.areSame( '<div>some<object classid="id1"><param /><param /><embed /></object>text</div>',
 				this.editor.dataProcessor.toDataFormat( '<div>some<object classid="id1"><param><param><embed /></object>text</div>' ) );
 		},
 
 		// #4614
-		'test protect "href" attributes' : function()
-		{
+		'test protect "href" attributes' : function() {
 			assert.areSame( '<a data-cke-saved-href="http://ckeditor.com" href="http://ckeditor.com">foo</a>',
 							bender.tools.fixHtml( this.editor.dataProcessor.toHtml( '<a\n href="http://ckeditor.com">foo</a>' ) ) );
 		},
@@ -527,8 +493,7 @@
 		},
 
 		 // #4243
-		'test custom protected source' : function()
-		{
+		'test custom protected source' : function() {
 			var source = '<p>some<protected>protected</protected>text</p>';
 			var org = this.editor.config.protectedSource;
 			this.editor.config.protectedSource = [ ( /<protected>.*?<\/protected>/g ) ];
@@ -619,42 +584,36 @@
 		},
 
 		// #7243
-		'test protect inline event handlers' : function()
-		{
+		'test protect inline event handlers' : function() {
 			var source = '<img onmouseout="this.src=\'out.png\'" onmouseover="this.src=\'over.png\'" src="http://t/image.png" />';
 			var processor = this.editor.dataProcessor;
 			assert.areSame( source, processor.toDataFormat( processor.toHtml( source ) ) );
 		},
 
 		// #5305
-		'test processing br in front of inline' : function()
-		{
+		'test processing br in front of inline' : function() {
 			var source = '<p>line one<br /><br /><img src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" /><br />line four</p>';
 			var processor = this.editor.dataProcessor;
 			assert.areSame( source, processor.toDataFormat( processor.toHtml( source ) ) );
 		},
 
 		// #6975
-		'test process definition list' : function()
-		{
+		'test process definition list' : function() {
 			var source = '<dl><dt>foo</dt><dd>bar</dd><dt>baz</dt><dd>quz</dd></dl>';
 			var processor = this.editor.dataProcessor;
 			assert.areSame( source, processor.toDataFormat( processor.toHtml( source ) ) );
 		},
 
-		'test toHtml preserves cases inside of attribute value ' : function()
-		{
+		'test toHtml preserves cases inside of attribute value ' : function() {
 			var source = 'background-image: url(http://somedomain/SomeBackground.jpg);';
 			var processor = this.editor.dataProcessor;
 			assert.areSame( source, processor.toHtml( source ) );
 		},
 
 		// #9312
-		'test process table with multiple tbody keeps order' : function()
-		{
+		'test process table with multiple tbody keeps order' : function() {
 			var processor = this.editor.dataProcessor;
-			bender.tools.testInputOut( 'table-multi-tbody', function( source, expected )
-			{
+			bender.tools.testInputOut( 'table-multi-tbody', function( source, expected ) {
 				assert.areSame( bender.tools.compatHtml( expected ), processor.toDataFormat( source ) );
 			} );
 		},
@@ -911,7 +870,7 @@
 			editor.dataProcessor.toHtml( 'a' );
 			editor.dataProcessor.toHtml( 'a', { filter: customFilter } );
 
-			editor.setActiveFilter( new CKEDITOR.filter( 'b') );
+			editor.setActiveFilter( new CKEDITOR.filter( 'b' ) );
 			editor.dataProcessor.toHtml( 'a' );
 			editor.dataProcessor.toHtml( 'a', { filter: customFilter } );
 
@@ -953,7 +912,7 @@
 			editor.dataProcessor.toDataFormat( 'a' );
 			editor.dataProcessor.toDataFormat( 'a', { filter: customFilter } );
 
-			editor.setActiveFilter( new CKEDITOR.filter( 'b') );
+			editor.setActiveFilter( new CKEDITOR.filter( 'b' ) );
 			editor.dataProcessor.toDataFormat( 'a' );
 			editor.dataProcessor.toDataFormat( 'a', { filter: customFilter } );
 
@@ -1140,8 +1099,8 @@
 			'<p><onxxx>foo</onxxx>bar</p>' );
 	}
 
-alert('>');
+alert( '>' );
 
 	<!--
-		alert('-->');
+		alert( '-->' );
 	//-->

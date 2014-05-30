@@ -155,7 +155,7 @@ bender.test( {
 	// #6728, #4450
 	'test iterating over table cells (with bookmarks among cells)': function() {
 		var source = '<table><tbody><tr>[<td id="cell1">cell1</td>][<td id="cell2">cell2</td>]</tr></tbody></table>',
-		output = source.replace(/\[|\]|\^/g, '' );
+		output = source.replace( /\[|\]|\^/g, '' );
 
 		var sandbox = doc.getById( 'sandbox' );
 		var ranges = tools.setHtmlWithRange( sandbox, source );
@@ -166,10 +166,9 @@ bender.test( {
 		// Check iteration sequence.
 		var rangeIterator = ranges.createIterator(), range, blockList = [];
 		// Merge multiple ranges.
-		while( range = rangeIterator.getNextRange( true ) )
-		{
+		while ( range = rangeIterator.getNextRange( true ) ) {
 			var iter = range.createIterator(), block;
-			while (( block = iter.getNextParagraph() ) )
+			while ( ( block = iter.getNextParagraph() ) )
 				blockList.push( block.getName() );
 		}
 
@@ -216,8 +215,8 @@ bender.test( {
 					'<li><p>item5</p></li>'+
 				'</ul>';
 
-		checkRangeIteration( source, null,  [ 'li', 'p', 'li' ,'p', 'li' ], output1, 'Iteration should report paragraph or list item' );
-		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' ,'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
+		checkRangeIteration( source, null,  [ 'li', 'p', 'li' , 'p', 'li' ], output1, 'Iteration should report paragraph or list item' );
+		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
 	},
 
 	'when iteration range is scoped in a single block': function() {

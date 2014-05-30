@@ -59,4 +59,4 @@ bender.test( {
 				bot.editor.dataProcessor.toHtml( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>' ) );
 		} );
 	}
-});
+} );

@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: widget */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -42,7 +42,7 @@
 			editor.widgets.add( 'mockupWidget', this.sampleWidgetDefinition );
 
 			bot.setData( bender.tools.getValueAsHtml( 'editorContent' ), function() {
-				var headerSpan = editor.document.getElementsByTag('span').getItem( 0 );
+				var headerSpan = editor.document.getElementsByTag( 'span' ).getItem( 0 );
 				// Puts selection on span element.
 				editor.getSelection().selectElement( headerSpan );
 				assert.isTrue( true );
@@ -57,4 +57,4 @@
 			} );
 		}
 	} );
-})();
+} )();

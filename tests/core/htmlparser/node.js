@@ -153,7 +153,7 @@ bender.test( {
 
 		assert.areSame( CKEDITOR.NODE_TEXT, n4.type );
 		assert.areSame( n3, n4.getAscendant( 'i' ),				'n4 - i' );
-		assert.areSame( n2, n4.getAscendant( { b:1,p:1 } ),		'n4 - b,p' );
+		assert.areSame( n2, n4.getAscendant( { b: 1, p: 1 } ),		'n4 - b,p' );
 		assert.areSame( n2, n4.getAscendant( 'b' ),				'n4 - b' );
 		assert.areSame( n1, n4.getAscendant( foo1 ),			'n4 - foo1' );
 

@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: placeholder */
 
-(function() {
+( function() {
 	'use strict';
 
 	var assertWidgetDialog = widgetTestsTools.assertWidgetDialog;
@@ -64,4 +64,4 @@
 		}
 
 	} );
-})();
+} )();

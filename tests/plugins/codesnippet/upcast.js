@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: codesnippet,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	var obj2Array = widgetTestsTools.obj2Array,

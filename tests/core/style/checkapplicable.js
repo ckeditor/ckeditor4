@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function() {
+( function() {
 
 	'use strict';
 
@@ -44,7 +44,7 @@
 			var name = tcsGroupName + ' - ' + msg,
 				filter;
 
-			if( filterRules )
+			if ( filterRules )
 			 	filter = new CKEDITOR.filter( filterRules );
 
 			if ( tcs[ name ] )
@@ -101,4 +101,4 @@
 
 	bender.test( tcs );
 
-})();
+} )();

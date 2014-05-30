@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2 */
 
-(function() {
+( function() {
 	'use strict';
 
 	function assertWidgetDom( config ) {
@@ -627,4 +627,4 @@
 			} );
 		}
 	} );
-})();
+} )();

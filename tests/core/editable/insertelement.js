@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit,insertion */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	insertionDT.run( {
@@ -15,23 +14,20 @@
 		// text -> text
 		//
 
-		'G1. inline' : function()
-		{
+		'G1. inline' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'insertElement' );
 
 			a.insertion = '<b>baz<i>quz</i></b>';
 			a( '<p>foo^bar</p>',				 '<p>foo<b>baz<i>quz</i></b>^bar</p>' );
 		},
 
-		'G1. inline into blockless' : function()
-		{
+		'G1. inline into blockless' : function() {
 			var a = this.createAssertInsertionFunction( 'h1', '<b>baz<i>quz</i></b>', 'insertElement' );
 
 			a( 'foo^bar', 						'foo<b>baz<i>quz</i></b>^bar' );
 		},
 
-		'G2. block' : function()
-		{
+		'G2. block' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'insertElement' );
 
 			a.insertion = '<p>baz</p>';
@@ -44,8 +40,7 @@
 
 		},
 
-		'G2. block - inserted at the end of block limit' : function()
-		{
+		'G2. block - inserted at the end of block limit' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'insertElement' );
 
 			a.insertion = '<p>baz</p>';
@@ -55,8 +50,7 @@
 			a( '<ul><li>foo^<ol><li>bar</li></ol></li></ul>', '<ul><li>foo<p>baz^</p><ol><li>bar</li></ol></li></ul>', 'move to next (2)' );
 		},
 
-		'G3. table/list' : function()
-		{
+		'G3. table/list' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'insertElement' );
 
 			a.insertion = '<table><tr><td>1.1</td><td>1.2</td></tr></table>';
@@ -132,4 +126,4 @@
 		}
 	} );
 
-})();
+} )();

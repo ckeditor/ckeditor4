@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,lineutils */
 /* bender-ckeditor-plugins: lineutils */
 
-(function() {
+( function() {
 	'use strict';
 
 	var finder,
@@ -185,4 +185,4 @@
 			}
 		} )
 	} );
-})();
+} )();

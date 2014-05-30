@@ -3,14 +3,12 @@
 
 bender.test(
 {
-	createEditor : function( config, fn )
-	{
+	createEditor : function( config, fn ) {
 		if ( bender.editor )
 			bender.editor.destroy();
 
 		var tc = this;
-		bender.editorBot.create( { startupData : '<p>foo&nbsp;bar</p>', config : config }, function( bot )
-		{
+		bender.editorBot.create( { startupData : '<p>foo&nbsp;bar</p>', config : config }, function( bot ) {
 			var editor = bender.editor = tc.editor = bot.editor;
 			editor.updateElement();
 
@@ -23,19 +21,15 @@ bender.test(
 		} );
 	},
 
-	'test htmlEncodeOutput(true)' : function()
-	{
-		this.createEditor( { htmlEncodeOutput : true }, function( val )
-		   {
+	'test htmlEncodeOutput(true)' : function() {
+		this.createEditor( { htmlEncodeOutput : true }, function( val ) {
 			   assert.areSame( '&lt;p&gt;foo&amp;nbsp;bar&lt;/p&gt;', val );
 		   } );
 	},
 
-	'test htmlEncodeOutput(false)' : function()
-	{
-		this.createEditor( { ignoreEmptyParagraph : false }, function( val )
-		   {
+	'test htmlEncodeOutput(false)' : function() {
+		this.createEditor( { ignoreEmptyParagraph : false }, function( val ) {
 			   assert.areSame( '<p>foo&nbsp;bar</p>', val );
 		   } );
 	}
-});
+} );

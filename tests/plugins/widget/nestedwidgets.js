@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
 
-(function() {
+( function() {
 	'use strict';
 
 	var fixHtml = widgetTestsTools.fixHtml,
@@ -260,4 +260,4 @@
 		}
 
 	} );
-})();
+} )();

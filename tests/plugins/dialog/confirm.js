@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: dialog */
 
-(function() {
+( function() {
 	'use strict';
 
 	CKEDITOR.on( 'instanceLoaded', function() {
@@ -76,4 +76,4 @@
 			this.openAndCloseDialog( 1 );
 		}
 	} );
-})();
+} )();

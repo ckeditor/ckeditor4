@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: pagebreak,toolbar,clipboard */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -65,4 +65,4 @@
 			wait();
 		}
 	} );
-})();
+} )();

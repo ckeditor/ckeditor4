@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: maximize,divarea */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = true;
@@ -20,5 +20,5 @@
 				}, 0 );
 			}, 0 );
 		}
-	});
-})();
+	} );
+} )();

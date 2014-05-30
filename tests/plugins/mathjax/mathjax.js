@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: mathjax,dialog,toolbar,preview,clipboard,basicstyles,undo,wysiwygarea */
 
-(function() {
+( function() {
 	'use strict';
 
 	CKEDITOR.disableAutoInline = true;
@@ -66,7 +66,7 @@
 			} );
 		},
 
-		'test copy style when element is created': function () {
+		'test copy style when element is created': function() {
 			editor.focus();
 
 			CKEDITOR.once( 'mathJaxUpdateDone', function() {
@@ -82,7 +82,7 @@
 			wait();
 		},
 
-		'test copy style when outer text format changed': function () {
+		'test copy style when outer text format changed': function() {
 			this.checkMathJax( {
 				when: function( iFrame, editor ) {
 					editor.getSelection().selectElement( editor.document.getElementsByTag( 'p' ).getItem( 0 ) );
@@ -98,7 +98,7 @@
 			} );
 		},
 
-		'test double bold command': function () {
+		'test double bold command': function() {
 			this.checkMathJax( {
 				when: function( iFrame, editor ) {
 					editor.getSelection().selectElement( editor.document.getElementsByTag( 'p' ).getItem( 0 ) );
@@ -107,12 +107,12 @@
 					editor.execCommand( 'bold' );
 				},
 				then: function( iFrame, editor ) {
-					assert.areSame( 0, editor.document.getElementsByTag( 'strong' ).count( ) );
+					assert.areSame( 0, editor.document.getElementsByTag( 'strong' ).count() );
 				}
 			} );
 		},
 
-		'test undo': function () {
+		'test undo': function() {
 			var that = this;
 
 			this.checkMathJax( {
@@ -127,14 +127,14 @@
 							editor.execCommand( 'undo' );
 						},
 						then: function( iFrame, editor ) {
-							assert.areSame( 0, editor.document.getElementsByTag( 'strong' ).count( ) );
+							assert.areSame( 0, editor.document.getElementsByTag( 'strong' ).count() );
 						}
 					} );
 				}
 			} );
 		},
 
-		'test paste': function () {
+		'test paste': function() {
 			var html = editor.editable().getHtml();
 
 			CKEDITOR.once( 'mathJaxUpdateDone', function() {
@@ -182,4 +182,4 @@
 			} );
 		}
 	} );
-})();
+} )();

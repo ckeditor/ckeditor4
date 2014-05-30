@@ -47,7 +47,7 @@
 					resume( function() {
 						try {
 							assert.isTrue( dialog.getContentElement( 'info', 'browse' ).hidden, 'Browse button in the dialog should remain hidden.' );
-						} catch( e ) {
+						} catch ( e ) {
 							throw e;
 						} finally {
 							dialog.hide();

@@ -18,31 +18,25 @@ bender.editor = {
 
 bender.test(
 {
-	'test load full-page data' : function()
-	{
+	'test load full-page data' : function() {
 		var bot = this.editorBot;
-		bender.tools.testInputOut( 'fullpage1', function( source, expected )
-		{
-			bot.setData( source, function()
-			{
+		bender.tools.testInputOut( 'fullpage1', function( source, expected ) {
+			bot.setData( source, function() {
 				assert.areSame( bender.tools.compatHtml( expected ),
 					bot.getData( true ).replace( removeStyle, '' ) );	// remove styles from data
 			} );
-		});
+		} );
 	},
 
-	'test load full-page data (with doctype)' : function()
-	{
+	'test load full-page data (with doctype)' : function() {
 		var bot = this.editorBot;
-		bender.tools.testInputOut( 'fullpage2', function( source, expected )
-		{
-			bot.setData( source, function()
-			{
+		bender.tools.testInputOut( 'fullpage2', function( source, expected ) {
+			bot.setData( source, function() {
 				assert.areSame( bender.tools.compatHtml( expected ),
 					bot.getData( true, true ).replace( removeStyle, '' ) );	// remove styles from data
 			} );
-		});
+		} );
 	}
-});
+} );
 
 //]]>

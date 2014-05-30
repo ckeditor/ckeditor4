@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,toolbar,clipboard */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -188,4 +188,4 @@
 			} );
 		}
 	} );
-})();
+} )();

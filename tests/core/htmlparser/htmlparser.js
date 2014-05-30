@@ -2,8 +2,7 @@
 
 // Wrapper of the combination of htmlParser with htmlWriter, for convenience of
 // testing, formatting of writer has been disabled.
-function htmlParse( htmlString )
-{
+function htmlParse( htmlString ) {
 	var writer = new CKEDITOR.htmlParser.basicWriter(),
 		fragment = CKEDITOR.htmlParser.fragment.fromHtml( htmlString );
 	fragment.writeHtml( writer );
@@ -12,58 +11,49 @@ function htmlParse( htmlString )
 
 bender.test(
 {
-		test_parse_inline : function()
-		{
+		test_parse_inline : function() {
 			assert.areSame( '<span class="outer">text</span>',
 					htmlParse( '<span class="outer"><span></span>text</span>' ) );
 		},
 
-		test_parse_inline_2 : function()
-		{
+		test_parse_inline_2 : function() {
 			assert.areSame( '<span class="outer">text</span>',
 					htmlParse( '<span class="outer"><span><span></span></span>text</span>' ) );
 		},
 
-		test_parse_inline_3 : function()
-		{
+		test_parse_inline_3 : function() {
 			assert.areSame( '<span class="outer"><b>text</b></span>',
 					htmlParse( '<span class="outer"><span><b></span>text</b></span>' ) );
 		},
 
-		test_parse_inline_4 : function()
-		{
+		test_parse_inline_4 : function() {
 			assert.areSame( '<span class="outer"><span><b>some</b></span>text</span>',
 					htmlParse( '<span class="outer"><span><b>some</span></b>text</span>' ) );
 		},
 
-		test_parse_inline_5 : function()
-		{
+		test_parse_inline_5 : function() {
 			assert.areSame( '<strong>some</strong>text',
 					htmlParse( '<strong>some</span></strong>text' ) );
 		},
 
-		test_survive_1 : function()
-		{
+		test_survive_1 : function() {
 			assert.areSame( '<span class="outer"><span data-cke-survive="true"></span></span>',
 					htmlParse( '<span class="outer"><span data-cke-survive="true"></span><span></span></span>' ) );
 		},
 
-		test_survive_2 : function()
-		{
+		test_survive_2 : function() {
 			assert.areSame( '<span class="outer"><span class="cls" data-cke-survive="true"></span>text</span>',
 					htmlParse( '<span class="outer"><span class="cls" data-cke-survive="true"><span></span></span>text<span><span class="cls"></span></span></span>' ) );
 		},
 
-		test_survive_3 : function()
-		{
+		test_survive_3 : function() {
 			assert.areSame( '<span class="outer"><span data-cke-survive="true">text</span>text</span>',
 					htmlParse( '<span class="outer"><span data-cke-survive="true">text</span>text</span>' ) );
 		},
 
 		// Attribute name may contains hypen and dot.(#4351)
 		// Ref: http://www.w3.org/TR/xml/#NT-Name
-		test_fromHtml_attribute_name : function()
-		{
+		test_fromHtml_attribute_name : function() {
 			var html = '<p attr-name="value" attr_name="value" attr.name="value" attr:name="value">text</p>';
 			assert.areSame( html,
 				htmlParse( html ),
@@ -72,31 +62,27 @@ bender.test(
 
 		// Test white-spaces inside inline elements are well preserved, while
 		// white-spaces before block-level elements are trimmed. (#4656)
-		test_trim_whitespaces : function()
-		{
+		test_trim_whitespaces : function() {
 			assert.areSame( '<div>some <strong>bold</strong> text<p>paragraph</p></div>',
 				htmlParse( '<div>some <strong>bold</strong> text <p>\nparagraph</p></div>' ),
 				'White-spaces don\'t match.' );
 		},
 
 		// Attributes may have the < or > character. (#7513)
-		test_lt_gt_on_attributes : function()
-		{
+		test_lt_gt_on_attributes : function() {
 			assert.areSame( '<p title="a &lt; b &gt; c" class="test">Sample</p>',
 				htmlParse( '<p title="a < b > c" class="test">Sample</p>' ) );
 		},
 
-		test_onTagOpen : function()
-		{
+		test_onTagOpen : function() {
 			var counter = 0,
 				parser = new CKEDITOR.htmlParser();
 
-			parser.onTagOpen = function( tagName, attributes, selfClosing )
-				{
+			parser.onTagOpen = function( tagName, attributes, selfClosing ) {
 					counter += 1;
 
 					assert.areSame( 'p', tagName, 'Tag name doesn\'t match' );
-					assert.areSame( 'a\nb\r\nc', attributes['class'], 'Attribute class doesn\'t match' );
+					assert.areSame( 'a\nb\r\nc', attributes[ 'class' ], 'Attribute class doesn\'t match' );
 					assert.areSame( 'b', attributes.title, 'Attribute title doesn\'t match' );
 					assert.areSame( 'c', attributes.name, 'Attribute name doesn\'t match' );
 					assert.areSame( false, selfClosing );
@@ -110,8 +96,7 @@ bender.test(
 			assert.areSame( 1, counter );
 
 
-			parser.onTagOpen = function( tagName, attributes, selfClosing )
-				{
+			parser.onTagOpen = function( tagName, attributes, selfClosing ) {
 					counter += 1;
 
 					assert.areSame( false, selfClosing, false );
@@ -126,8 +111,7 @@ bender.test(
 			assert.areSame( 2, counter );
 
 
-			parser.onTagOpen = function( tagName, attributes, selfClosing )
-				{
+			parser.onTagOpen = function( tagName, attributes, selfClosing ) {
 					counter += 1;
 
 					assert.isTrue( selfClosing, 'Should be recognized as a self closing tag' );
@@ -143,13 +127,11 @@ bender.test(
 			assert.areSame( 2, counter );
 		},
 
-		test_onTagClose : function()
-		{
+		test_onTagClose : function() {
 			var counter = 0,
 				parser = new CKEDITOR.htmlParser();
 
-			parser.onTagClose = function( tagName )
-				{
+			parser.onTagClose = function( tagName ) {
 					counter += 1;
 					assert.areSame( 'p', tagName );
 				};
@@ -159,13 +141,11 @@ bender.test(
 			assert.areSame( 1, counter );
 		},
 
-		test_onComment : function()
-		{
+		test_onComment : function() {
 			var counter = 0,
 				parser = new CKEDITOR.htmlParser();
 
-			parser.onComment = function( comment )
-				{
+			parser.onComment = function( comment ) {
 					counter += 1;
 				};
 
@@ -178,25 +158,21 @@ bender.test(
 			assert.areSame( 2, counter );
 		},
 
-		test_onCDATA : function()
-		{
+		test_onCDATA : function() {
 			var style_html = '<style>%s</style>',
 				counter = 0,
 				nodes_counter = 0,
 				parser = new CKEDITOR.htmlParser();
 
-			parser.onCDATA = function()
-				{
+			parser.onCDATA = function() {
 					counter += 1;
 				};
 
-			parser.onTagOpen = parser.onTagClose = function( tagName )
-				{
+			parser.onTagOpen = parser.onTagClose = function( tagName ) {
 					if ( tagName !== 'style' )
 						nodes_counter += 1;
 				};
-			parser.onComment = parser.onText = function()
-				{
+			parser.onComment = parser.onText = function() {
 					nodes_counter += 1;
 				};
 
@@ -212,8 +188,7 @@ bender.test(
 			assert.areSame( 0, nodes_counter );
 		},
 
-		test_parse_cdata : function()
-		{
+		test_parse_cdata : function() {
 			assert.areSame( '\<script\><![CDATA[[abc]>\</script\>',
 				 htmlParse( '\<script\><![CDATA[[abc]>\</script\>' ) );
 
@@ -227,38 +202,32 @@ bender.test(
 			// 	 htmlParse( '<![CDATA[[]>' ) );
 		},
 
-		test_6946_1 : function()
-		{
+		test_6946_1 : function() {
 			assert.areSame( '<dl><dd>a</dd><dt>b</dt></dl>',
 				 htmlParse( '<dl><dd>a</dd><dt>b</dt></dl>' ) );
 		},
 
-		test_6946_2 : function()
-		{
+		test_6946_2 : function() {
 			assert.areSame( '<ul><li><ol></ol></li></ul>',
 				 htmlParse( '<ul><ol></ul>' ) );
 		},
 
-		test_6946_3 : function()
-		{
+		test_6946_3 : function() {
 			assert.areSame( '<ul><li>1</li></ul><dl><dt>2</dt><dd>3</dd></dl>',
 				 htmlParse( '<li>1</li><dt>2</dt><dd>3</dd>' ) );
 		},
 
-		test_6975 : function()
-		{
+		test_6975 : function() {
 			assert.areSame( '<dl><dt>foo</dt><dd>bar</dd><dt>baz</dt><dd>quz</dd></dl>',
 				 htmlParse( '<dl><dt>foo<dd>bar<dt>baz<dd>quz</dl>' ) );
 		},
 
-		test_7494 : function()
-		{
+		test_7494 : function() {
 			assert.areSame( '<ol><li>1<ol><li>2</li></ol></li><li>3</li></ol>',
 				 htmlParse( '<ol><li>1</li><ol><li>2</li></ol><li>3</li></ol>' ) );
 		},
 
-		test_7497 : function()
-		{
+		test_7497 : function() {
 			assert.areSame( '<p>1</p><ul><li>2</li></ul><p>3</p>',
 				 htmlParse( '<p>1</p><li>2</li><p>3</p>' ) );
 		},
@@ -268,4 +237,4 @@ bender.test(
 
 			assert.areSame( '<">', elP.attributes.foo );
 		}
-});
+} );

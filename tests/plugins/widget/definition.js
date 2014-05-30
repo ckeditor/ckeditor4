@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -181,7 +181,7 @@
 					},
 					upcast: function( el, data ) {
 						if ( el.name == 'b' ) {
-							data.value = 'bar' + (++i);
+							data.value = 'bar' + ( ++i );
 							return true;
 						}
 					}
@@ -538,7 +538,7 @@
 		'test button': function() {
 			CKEDITOR.plugins.add( 'widgetbutton', {
 				requires: 'widget,button',
-				init: function ( editor ) {
+				init: function( editor ) {
 					editor.widgets.add( 'testButton', {
 						button: 'Foo'
 					} );
@@ -728,4 +728,4 @@
 			} );
 		}
 	} );
-})();
+} )();

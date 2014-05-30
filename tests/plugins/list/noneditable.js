@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: list,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -25,7 +25,7 @@
 				'<p>[AA</p>' +
 				'<p><span contenteditable="false">BB</span></p>' +
 				'<p>c<span contenteditable="false">CC</span>c</p>' +
-				'<p>DD]</p>');
+				'<p>DD]</p>' );
 
 			editor.execCommand( 'numberedlist' );
 
@@ -141,4 +141,4 @@
 		}
 	} );
 
-})();
+} )();

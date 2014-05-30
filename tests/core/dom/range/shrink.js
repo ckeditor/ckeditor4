@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,dom,range */
 
-(function() {
+( function() {
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
@@ -12,8 +12,7 @@
 			 document.getElementById( 'playground2' ).innerHTML = html2;
 		},
 
-		test_shrink_text : function()
-		{
+		test_shrink_text : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartBefore( doc.getById( '_ShrinkB1' ) );
 			range.setEndAt( doc.getById( '_ShrinkB1' ).getNext(), CKEDITOR.POSITION_AFTER_START );
@@ -29,8 +28,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_shrink_text2 : function()
-		{
+		test_shrink_text2 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartBefore( doc.getById( '_ShrinkB2' ) );
 			range.setEnd( doc.getById( '_ShrinkI2' ).getFirst(), 2 );
@@ -47,8 +45,7 @@
 		},
 
 		// #4513
-		test_shrink_text3 : function()
-		{
+		test_shrink_text3 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_L1' ), CKEDITOR.POSITION_BEFORE_START );
 			range.setEndAt( doc.getById( '_L1' ), CKEDITOR.POSITION_AFTER_END );
@@ -64,8 +61,7 @@
 		},
 
 		// #4513
-		test_shrink_text4 : function()
-		{
+		test_shrink_text4 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_B2' ), CKEDITOR.POSITION_BEFORE_START );
 			range.setEndAt( doc.getById( '_L1' ), CKEDITOR.POSITION_AFTER_END );
@@ -81,8 +77,7 @@
 		},
 
 		// #4513
-		test_shrink_text5 : function()
-		{
+		test_shrink_text5 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_I2' ), CKEDITOR.POSITION_BEFORE_END );
 			range.setEndAt( doc.getById( '_P1' ), CKEDITOR.POSITION_AFTER_END );
@@ -98,8 +93,7 @@
 		},
 
 		// #4513
-		test_shrink_text6 : function()
-		{
+		test_shrink_text6 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
 			range.setEndAt( doc.getById( '_B2' ), CKEDITOR.POSITION_AFTER_END );
@@ -116,8 +110,7 @@
 		},
 
 		// #4513
-		test_shrink_text7 : function()
-		{
+		test_shrink_text7 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
 			range.setEnd( doc.getById( '_L1' ).getFirst(), 6 );
@@ -134,8 +127,7 @@
 		},
 
 		// #4513
-		test_shrink_text8 : function()
-		{
+		test_shrink_text8 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
 			range.setEnd( doc.getById( '_L1' ).getFirst(), 4 );
@@ -154,8 +146,7 @@
 		},
 
 		// Test shrink to an element range.
-		test_shrink_element : function()
-		{
+		test_shrink_element : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartBefore( doc.getById( '_ShrinkB3' ) );
 			range.setEndAt( doc.getById( '_ShrinkB3' ).getNext(), CKEDITOR.POSITION_AFTER_START );
@@ -172,8 +163,7 @@
 		},
 
 		// Test shrink to an element range failed.
-		test_shrink_element2 : function()
-		{
+		test_shrink_element2 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_ShrinkB4' ).getFirst(), 2 );
 			range.setEnd( doc.getById( '_ShrinkI4' ).getNext(), 2 );
@@ -273,7 +263,7 @@
 	};
 
 	bender.test( tests );
-})();
+} )();
 
 	//<![CDATA[
 

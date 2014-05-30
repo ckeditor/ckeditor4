@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,magicline */
 /* bender-ckeditor-plugins: magicline,widget */
 
-(function() {
+( function() {
 	'use strict';
 
 	var tools = widgetTestsTools,
@@ -773,4 +773,4 @@
 			}
 		} )
 	} );
-})();
+} )();

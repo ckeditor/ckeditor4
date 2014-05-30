@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: floatingspace,toolbar,basicstyles,list,link,about */
 /* bender-ckeditor-remove-plugins: liststyle */
 
-(function() {
+( function() {
 	'use strict';
 
 	function comp( expected, actual ) {
@@ -93,4 +93,4 @@
 		}
 	} );
 
-})();
+} )();

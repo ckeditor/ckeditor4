@@ -6,18 +6,15 @@ bender.editor = true;
 bender.test(
 {
 
-	test_name : function()
-	{
+	test_name : function() {
 		assert.areSame( 'editor1', CKEDITOR.instances.editor1.name );
 	},
 
-	test_element : function()
-	{
+	test_element : function() {
 		assert.areSame( document.getElementById( 'editor1' ), CKEDITOR.instances.editor1.element.$ );
 	},
 
-	'ignore:test_config' : function()
-	{
+	'ignore:test_config' : function() {
 		// The instance default config must match the CKEDITOR.config.
 
 		var config = CKEDITOR.instances.editor1.config;
@@ -26,8 +23,7 @@ bender.test(
 			assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
 	},
 
-	'ignore:test_config_inpage' : function()
-	{
+	'ignore:test_config_inpage' : function() {
 		var self = this;
 
 		CKEDITOR.replace( 'editor2',
@@ -38,40 +34,34 @@ bender.test(
 
 				on :
 				{
-					instanceReady : function()
-					{
-						self.resume( function()
-						{
+					instanceReady : function() {
+						self.resume( function() {
 							var config = CKEDITOR.instances.editor2.config;
 
 							assert.areSame( 'ball', config.test1, '"test1" doesn\'t match' );
 							assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
 
 							// All other settings must match CKEDITOR.config.
-							for ( var prop in CKEDITOR.config )
-							{
+							for ( var prop in CKEDITOR.config ) {
 								if ( prop != 'test1' && prop != 'baseHref' )
 									assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
 							}
 						} );
 					}
 				}
-			});
+			} );
 
 		this.wait();
 	},
 
-	test_config_customConfig : function()
-	{
+	test_config_customConfig : function() {
 		var tc = this;
 		// Pass in-page settings to the instance.
 		CKEDITOR.replace( 'editor3', { customConfig : bender.getAbsolutePath( '_assets/custom_config_1.js' ), test1 : 'ball', baseHref : 'test',
 			on :
 			{
-				configLoaded : function( event )
-				{
-					tc.resume( function()
-					{
+				configLoaded : function( event ) {
+					tc.resume( function() {
 						var config = event.editor.config;
 
 						assert.areSame( 'Ok', config.test_custom1, '"test_custom1" doesn\'t match' );
@@ -80,8 +70,7 @@ bender.test(
 						assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
 
 						// All other settings must match CKEDITOR.config.
-						for ( var prop in CKEDITOR.config )
-						{
+						for ( var prop in CKEDITOR.config ) {
 							if ( !Object.hasOwnProperty( CKEDITOR.config, prop ) )
 								continue;
 
@@ -90,7 +79,7 @@ bender.test(
 									 && prop != 'customConfig' && prop != 'test_custom1' && prop != 'test_custom2' && prop != 'test1' && prop != 'baseHref' )
 								assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
 						}
-					});
+					} );
 				}
 			}
 		} );
@@ -101,13 +90,10 @@ bender.test(
 	/**
 	 * Test editor core data retrieval and manipulation functionality.
 	 */
-	test_getData : function()
-	{
+	test_getData : function() {
 		var events = [];
-		function checkEventData( value )
-		{
-			return function( evt  )
-			{
+		function checkEventData( value ) {
+			return function( evt  ) {
 				events.push( evt.name );
 
 				// Check data value.
@@ -162,8 +148,7 @@ bender.test(
 
 	},
 
-	updateElement : function( element, mode )
-	{
+	updateElement : function( element, mode ) {
 		var editor = new CKEDITOR.editor( {}, element, mode );
 		editor.setData( 'foo' );
 
@@ -179,35 +164,30 @@ bender.test(
 		element.remove();
 	},
 
-	'test blockless editor' : function()
-	{
+	'test blockless editor' : function() {
 		var tc = this;
 		var el = CKEDITOR.dom.element.createFromHtml( '<h1>heading</h1>' );
 		CKEDITOR.document.getBody().append( el );
 
 		var editor = new CKEDITOR.editor( {}, el, CKEDITOR.ELEMENT_MODE_INLINE );
-		editor.on( 'loaded', function( evt )
-		{
-			tc.resume( function()
-			   {
+		editor.on( 'loaded', function( evt ) {
+			tc.resume( function() {
 				   evt.removeListener();
 				   assert.isTrue( editor.blockless );
-			   });
-		});
+			   } );
+		} );
 		this.wait();
 	},
 
-	test_updateElement : function()
-	{
+	test_updateElement : function() {
 		var body = CKEDITOR.document.getBody();
-		this.updateElement( body.append( new CKEDITOR.dom.element( 'textarea') ),
+		this.updateElement( body.append( new CKEDITOR.dom.element( 'textarea' ) ),
 								 CKEDITOR.ELEMENT_MODE_REPLACE );
-		this.updateElement( body.append( CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>') ),
+		this.updateElement( body.append( CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>' ) ),
 								 CKEDITOR.ELEMENT_MODE_INLINE );
 	},
 
-	'test editor.getResizable' : function()
-	{
+	'test editor.getResizable' : function() {
 		var editor = CKEDITOR.instances.editor1,
 			resizeable = editor.getResizable(),
 			innerResizeable = editor.getResizable( true );
@@ -288,4 +268,4 @@ bender.test(
 		} );
 	}
 
-});
+} );

@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = true;
@@ -20,6 +20,6 @@
 		'test list transformation': function() {
 			bender.tools.testInputOut( 'list_1', testWordFilter( this.editor ) );
 		}
-	});
+	} );
 
-})();
+} )();

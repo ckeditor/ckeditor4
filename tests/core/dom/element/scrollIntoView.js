@@ -9,7 +9,7 @@ bender.test(
 		var maxScrollTop = win.$.scrollMaxY || doc.$.documentElement.scrollHeight - doc.$.documentElement.clientHeight;
 		win.$.scrollTo( 0, toBottom ?  maxScrollTop: 0 );
 	},
-	
+
 	// Assert element position is inside of the view port, with an offset to the top/bottom.
 	assertElementInView: function( el, offset ) {
 		var view = win.getViewPaneSize(), rect = el.getClientRect();
@@ -26,7 +26,7 @@ bender.test(
 		var org = win.getScrollPosition();
 		return function() {
 			var curr = win.getScrollPosition();
-			assert.areSame( org.y, curr.y, 'check page not scrolled');
+			assert.areSame( org.y, curr.y, 'check page not scrolled' );
 		}
 	},
 
@@ -37,4 +37,4 @@ bender.test(
 		doc.getById( 'target1' ).scrollIntoView();
 		promise();
 	}
-});
+} );

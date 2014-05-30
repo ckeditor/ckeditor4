@@ -18,27 +18,23 @@ bender.editor =
 
 bender.test(
 {
-	assertBackspace : function( name, key )
-	{
+	assertBackspace : function( name, key ) {
 		var bot = this.editorBot;
-		bender.tools.testInputOut( name, function( source, expected )
-		{
+		bender.tools.testInputOut( name, function( source, expected ) {
 			bot.setHtmlWithSelection( source );
 			bender.Y.Event.simulate( bot.editor.editable().$, 'keydown', { keyCode : key } );
 			assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) );
-		});
+		} );
 	},
 
-	'test XML Entities' : function()
-	{
+	'test XML Entities' : function() {
 		var xmlEntities = '\'"&lt;&gt;&amp;';
 
 		// XML predefined entities are encoded as character reference.
 		assert.areEqual( '&apos;&quot;&lt;&gt;&amp;', this.editor.dataProcessor.toDataFormat( xmlEntities ) );
 	},
 
-	'test Other Special Characters' : function()
-	{
+	'test Other Special Characters' : function() {
 		var specials = ' ¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿×÷ƒ•…′″‾⁄℘ℑℜ™ℵ←↑→↓↔↵⇐⇑⇒⇓⇔∀∂∃∅∇∈∉∋∏∑−∗√∝∞∠∧∨∩∪∫∴∼≅≈≠≡≤≥⊂⊃⊄⊆⊇⊕⊗⊥⋅⌈⌉⌊⌋⟨⟩◊♠♣♥♦ˆ˜   ‌‍‎‏–—‘’‚“”„†‡‰‹›€';
 		// Other characters are encoded as numeric entities.
 		assert.isFalse( /&\w+?;/.test( this.editor.dataProcessor.toDataFormat( specials ) ) );
@@ -76,4 +72,4 @@ bender.test(
 			assert.areEqual( expectedHtml, editor.getData() );
 		} );
 	}
-});
+} );

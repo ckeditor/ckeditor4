@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: dialog */
 
-CKEDITOR.on('instanceLoaded', function() {
+CKEDITOR.on( 'instanceLoaded', function() {
 	CKEDITOR.dialog.add( 'testDialog1', function() {
 		return {
 			title: 'Test Dialog 1',
@@ -21,14 +21,13 @@ CKEDITOR.on('instanceLoaded', function() {
 		};
 	} );
 	CKEDITOR.dialog.add( 'testDialog2', bender.getAbsolutePath( "_assets/testdialog.js" ) );
-});
+} );
 
-bender.editor = { };
+bender.editor = {};
 
 bender.test(
 {
-	'test open dialog from local' : function()
-	{
+	'test open dialog from local' : function() {
 		var ed = this.editor, tc = this;
 		ed.openDialog( 'testDialog1', function( dialog ) {
 			tc.resume( function() {
@@ -37,13 +36,12 @@ bender.test(
 				wait( function() {
 					dialog.getButton( 'cancel' ).click();
 				}, 100 );
-			});
-		});
+			} );
+		} );
 		tc.wait();
 	},
 
-	'test open dialog from url' : function()
-	{
+	'test open dialog from url' : function() {
 		var ed = this.editor, tc = this;
 		ed.openDialog( 'testDialog2', function( dialog ) {
 			tc.resume( function() {
@@ -52,8 +50,8 @@ bender.test(
 				wait( function() {
 					dialog.getButton( 'cancel' ).click();
 				}, 100 );
-			});
-		});
+			} );
+		} );
 		tc.wait();
 	},
 
@@ -165,6 +163,6 @@ bender.test(
 
 		revert();
 	}
-});
+} );
 
 //]]>

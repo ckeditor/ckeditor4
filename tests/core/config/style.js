@@ -2,8 +2,7 @@
 
 bender.test(
 {
-	'test disableReadonlyStyling=true': function()
-	{
+	'test disableReadonlyStyling=true': function() {
 		bender.editorBot.create( {
 				name : 'test_dRS_true',
 				startupData: '<p>Text <span contenteditable=false id="marker1">text</span> text.</p>',
@@ -25,8 +24,7 @@ bender.test(
 		);
 	},
 
-	'test disableReadonlyStyling=false': function()
-	{
+	'test disableReadonlyStyling=false': function() {
 		bender.editorBot.create( {
 				name : 'test_dRS_false',
 				startupData: '<p>Text <span contenteditable=false id="marker2">text</span> text.</p>',
@@ -48,4 +46,4 @@ bender.test(
 		);
 	}
 
-});
+} );

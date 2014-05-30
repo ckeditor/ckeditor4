@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function() {
+( function() {
 
 	'use strict';
 
@@ -510,7 +510,7 @@
 					attributes	: { 'class' : '#(family)' },
 					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
 				}
-				, { family : 'fontcourier' });
+				, { family : 'fontcourier' } );
 
 			style.applyToRange( range );
 
@@ -524,7 +524,7 @@
 					attributes	: { 'class' : '#(family)' },
 					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
 				}
-				, { family : 'fontcomic' });
+				, { family : 'fontcomic' } );
 
 			style.applyToRange( range );
 
@@ -533,8 +533,7 @@
 
 		// #8078
 		'test remove heading style': function() {
-			function doTest( enterMode, expected )
-			{
+			function doTest( enterMode, expected ) {
 				var range = bender.tools.setHtmlWithRange( playground, '<h1>h[eadi]ng</h1>' )[ 0 ];
 				var style = new CKEDITOR.style( { element : 'h1' } );
 				style._.enterMode = enterMode;
@@ -555,8 +554,7 @@
 			{
 				element : 'span',
 				styles : { 'color' : 'red' },
-				childRule: function( element )
-				{
+				childRule: function( element ) {
 					return element.getName() != 'a' ||
 						   element.getElementsByTag( 'a' ).count();
 				}
@@ -753,7 +751,7 @@
 	removeInlineFromNonEditableBlocks( t );
 
 
-	(function() {
+	( function() {
 		t = createAssertionFunction2( tcs, 'test apply inline styles on nested editables - ACF integration', { element: 'b', includeReadonly: true } );
 
 		var filter1 = new CKEDITOR.filter( 'i' ),
@@ -765,10 +763,10 @@
 			'[<div @c=f><p @c=t @f=' + filter1.id + '>b</p><p @c=t @f=' + filter2.id + '>b</p></div>]',
 			'<div @c=f><p @c=t @f=' + filter1.id + '>b</p><p @c=t @f=' + filter2.id + '><b>b</b></p></div>',
 			'tc3' );
-	})();
+	} )();
 
 
-	(function() {
+	( function() {
 		t = createAssertionFunction2( tcs, 'test apply block styles on nested editables - ACF integration', { element: 'h1' } );
 
 		var filter1 = new CKEDITOR.filter( 'p' ),
@@ -780,7 +778,7 @@
 			'[<div @c=f><div @c=t @f=' + filter1.id + '><p>b</p></div><div @c=t @f=' + filter2.id + '><p>b</p></div></div>]',
 			'<div @c=f><div @c=t @f=' + filter1.id + '><p>b</p></div><div @c=t @f=' + filter2.id + '><h1>b</h1></div></div>',
 			'tc3' );
-	})();
+	} )();
 
 
 	t = createAssertionFunction2( tcs, 'test apply style with data- attribute', { element: 'span', attributes: { 'data-element': 'a', lang: 'en' } } );
@@ -798,4 +796,4 @@
 
 	bender.test( tcs );
 
-})();
+} )();

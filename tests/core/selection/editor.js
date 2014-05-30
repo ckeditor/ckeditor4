@@ -31,15 +31,13 @@ bender.test( {
 		} );
 	},
 
-	assertGetSelection : function( source, expected )
-	{
+	assertGetSelection : function( source, expected ) {
 		var ed = this.editor;
 		bender.tools.setHtmlWithSelection( ed, source );
 		assert.areSame( expected || source, bender.tools.getHtmlWithSelection( ed ) );
 	},
 
-	'test editor selection with no focus' : function()
-	{
+	'test editor selection with no focus' : function() {
 		var ed = this.editor;
 
 		// Make selection outside of editable.
@@ -51,8 +49,7 @@ bender.test( {
 		// Empty selection retrieved for :
 		// 1. Inline instance where document selection is made outside of editable.
 		// 2. IE when editable doesn't have focus.
-		if ( noSelectionOnBlur( ed ) )
-		{
+		if ( noSelectionOnBlur( ed ) ) {
 			assert.areSame( CKEDITOR.SELECTION_NONE, sel.getType(), 'selection type' );
 			arrayAssert.isEmpty( sel.getRanges(), 'selection ranges' );
 			assert.isNull( sel.getStartElement(), 'selection start element' );
@@ -78,15 +75,13 @@ bender.test( {
 		assert.areSame( editable.$, sel.root.$, 'selection.boundary is equivalent to the editable element' );
 	},
 
-	'test selection on initial focus': function()
-	{
+	'test selection on initial focus': function() {
 		var ed = this.editor;
 		ed.editable().focus();
 		assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (#9507).' );
 	},
 
-	'test selection on initial focus - ensure new doc': function()
-	{
+	'test selection on initial focus - ensure new doc': function() {
 		var ed = this.editor;
 
 		// Ensure async.
@@ -102,8 +97,7 @@ bender.test( {
 	},
 
 	// Lock lock/unlock selection.
-	'test editor selection lock on blur' : function()
-	{
+	'test editor selection lock on blur' : function() {
 		var ed = this.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
@@ -116,8 +110,7 @@ bender.test( {
 		range.moveToPosition( editable, CKEDITOR.POSITION_AFTER_START );
 		range.select();
 
-		this.wait( function()
-		   {
+		this.wait( function() {
 			   doc.getById( 'input1' ).focus();
 			   var sel = ed.getSelection();
 			   assert.isNotNull( sel, 'should be able to retrieve locked selection' );
@@ -140,11 +133,9 @@ bender.test( {
 		   }, 200 );		// 200ms delay for triggering selection change.
 	},
 
-	'test "selectionChange" fires properly' : function()
-	{
+	'test "selectionChange" fires properly' : function() {
 		var ed = this.editor, editable = ed.editable(), firedTimes = 0;
-		var onSelectionChange = function( evt )
-		{
+		var onSelectionChange = function( evt ) {
 			firedTimes ++;
 			ed.forceNextSelectionCheck();
 
@@ -168,15 +159,13 @@ bender.test( {
 		ed.selectionChange();
 
 		// selection change has a 200ms delay.
-		this.wait( function()
-		   {
+		this.wait( function() {
 			   ed.removeListener( 'selectionChange', onSelectionChange );
 			   assert.areSame( 2, firedTimes, 'times of selectionChange fired doesn\'t match.' );
 		   }, 200 );
 	},
 
-	'test "selectionChange" not fired when editor selection is locked' : function()
-	{
+	'test "selectionChange" not fired when editor selection is locked' : function() {
 		var ed = this.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
@@ -190,8 +179,7 @@ bender.test( {
 
 		doc.getById( 'input1' ).focus();
 
-		function shouldFail( evt )
-		{
+		function shouldFail( evt ) {
 			// No "selectionChange" when editor is blurred.
 			assert.fail( 'selection change should\'t be fired.' );
 		}
@@ -288,22 +276,19 @@ bender.test( {
 		} );
 	},
 
-	'test "selectionChange" fired on editor focus': function()
-	 {
+	'test "selectionChange" fired on editor focus': function() {
 		 var ed = this.editor;
-		 ed.on( 'selectionChange', function( evt )
-		 {
+		 ed.on( 'selectionChange', function( evt ) {
 			 evt.removeListener();
 			 assert.isTrue( true );
-		 });
+		 } );
 
 		 doc.getById( 'input1' ).focus();
 		 ed.forceNextSelectionCheck();
 		 ed.focus();
 	 },
 
-	'test collapsed text selection' : function()
-	{
+	'test collapsed text selection' : function() {
 		this.assertGetSelection( '^' );
 		this.assertGetSelection( '<p>^</p>' );
 		this.assertGetSelection( '<h1>^</h1>' );
@@ -319,8 +304,7 @@ bender.test( {
 		this.assertGetSelection( '<p>^<img /></p>' );
 
 		// IE selection doesn't support for the following range position.
-		if ( !CKEDITOR.env.ie )
-		{
+		if ( !CKEDITOR.env.ie ) {
 			this.assertGetSelection( '<p>^<br /></p>', '<p>^</p>' );
 			this.assertGetSelection( '<div>^<p>foo</p></div><p>bar</p>' );
 			this.assertGetSelection( '<div><p>foo</p>^</div><p>bar</p>' );
@@ -329,15 +313,13 @@ bender.test( {
 			this.assertGetSelection( '<hr />^' );
 		}
 
-		if ( CKEDITOR.env.webkit )
-		{
+		if ( CKEDITOR.env.webkit ) {
 			this.assertGetSelection( '<p>^<span style="display:none">foo</span></p>' );
 			this.assertGetSelection( '<p><span style="display:none">foo</span>^</p>' );
 		}
 	},
 
-	'test selection after DOM unload' : function()
-	{
+	'test selection after DOM unload' : function() {
 		var bot = this.editorBot,
 			editor = this.editor;
 
@@ -354,9 +336,9 @@ bender.test( {
 					editor.insertText( 'xyz' );
 
 					assert.isMatching( /xyz/, editor.getData() );
-				});
-			});
-		});
+				} );
+			} );
+		} );
 
 		wait();
 	},
@@ -532,4 +514,4 @@ bender.test( {
 		} );
 	}
 
-});
+} );

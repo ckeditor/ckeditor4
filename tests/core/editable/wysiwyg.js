@@ -9,20 +9,17 @@
 	bender.test(
 	{
 		// Initialize the editor instance.
-		'async:init' : function()
-		{
+		'async:init' : function() {
 			var tc = this;
-			var editor = new CKEDITOR.editor( { autoParagraph : false });
-			editor.on( 'loaded', function()
-			{
+			var editor = new CKEDITOR.editor( { autoParagraph : false } );
+			editor.on( 'loaded', function() {
 				tc.editor = editor;
 				tc.callback();
 			} );
 		},
 
 		// Setup reset editor to blank as well as keeping the editor focused.
-		setUp : function()
-		{
+		setUp : function() {
 			var tc = this;
 			var editor = tc.editor;
 			if ( !editor.editable() )
@@ -31,8 +28,7 @@
 		},
 
 		// Test all editable APIs.
-		testFocus : function()
-		{
+		testFocus : function() {
 			var editor = this.editor;
 			var editable = editor.editable();
 			bender.tools.focus( this.editor, function() {
@@ -41,19 +37,17 @@
 				bender.tools.focus( doc.getById( 'text_input' ), function() {
 					assert.isFalse( editor.focusManager.hasFocus, 'focus left' );
 				} );
-			});
+			} );
 		},
 
-		testData : function()
-		{
+		testData : function() {
 			var editor = this.editor;
 			editor.setData( '<p>foo</p>' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.editable().getHtml() ), 'set data' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.getData() ), 'retrieve data' );
 		},
 
-		testAttachListeners : function()
-		{
+		testAttachListeners : function() {
 			var editor = this.editor,
 				editable = editor.editable();
 
@@ -114,12 +108,11 @@
 			assert.isFalse( edt.hasAttribute( 'foo' ), 'check removed new attr' );
 		},
 
-		testDetach : function()
-		{
+		testDetach : function() {
 			var editable = this.editor.editable();
 			this.editor.editable( null );
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );
 			assert.isUndefined( this.editor.window );
 			assert.isUndefined( this.editor.document );
 		}
-});
+} );

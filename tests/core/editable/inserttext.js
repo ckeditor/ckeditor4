@@ -1,15 +1,13 @@
 /* bender-tags: editor,unit,insertion */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	insertionDT.run( {
 		autoParagraph : false,
 		allowedContent : true // Disable filter.
 	}, {
-		'plain text htmlification' : function()
-		{
+		'plain text htmlification' : function() {
 			var a = this.createAssertInsertionFunction( 'body', '', 'insertText' );
 
 			a.insertion = 'abc\r\ndef';
@@ -32,7 +30,7 @@
 			a.insertion = 'foo\t  \n bar';
 			a( '^', 'foo&nbsp;&nbsp; &nbsp; &nbsp;<br />&nbsp;bar^', 							'whitespaces between tab and LF' );
 			a.insertion = 'foo  \n\n  bar';
-			a( '^', '<p>foo' + ( !CKEDITOR.env.needsNbspFiller ? ' &nbsp;' : '' ) + '</p><p>&nbsp; bar^</p>','whitespaces between paragraphs' );
+			a( '^', '<p>foo' + ( !CKEDITOR.env.needsNbspFiller ? ' &nbsp;' : '' ) + '</p><p>&nbsp; bar^</p>', 'whitespaces between paragraphs' );
 
 			a.insertion = 'aaa\n2bbb\tccc\n\n  3ddd\n  4eee\n\t5fff\n\n\n6ggg  hhh\n';
 			a( '^',
@@ -43,8 +41,7 @@
 			a( '^', 'aa &lt;bb cc^',															'html encoding' );
 		},
 
-		'empty and spaces insertions' : function()
-		{
+		'empty and spaces insertions' : function() {
 			var a = this.createAssertInsertionFunction( 'body', '', 'insertText' );
 
 			a.insertion = '';
@@ -75,4 +72,4 @@
 		}
 	} );
 
-})();
+} )();

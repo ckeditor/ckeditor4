@@ -11,8 +11,7 @@ bender.editor = {
 bender.test(
 {
 	// #7912
-	'test enterkey after invisible element' : function()
-	{
+	'test enterkey after invisible element' : function() {
 		// IE restrain making selection in invisible element.
 		if ( CKEDITOR.env.ie )
 			assert.ignore();
@@ -34,8 +33,7 @@ bender.test(
 	},
 
 	// #8321
-	'test enter at the end of block with inline styles' : function()
-	{
+	'test enter at the end of block with inline styles' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p><b><i>foo^</i></b></p>' );
 		bot.execCommand( 'enter' );
@@ -44,8 +42,7 @@ bender.test(
 	},
 
 	// #7946 TODO: Add editor doc quirks mode tests.
-	'test enter key scrolls document' : function()
-	{
+	'test enter key scrolls document' : function() {
 		var bot = this.editorBot;
 
 		bot.editor.focus();
@@ -63,16 +60,14 @@ bender.test(
 	},
 
 	// Start of #8812
-	'test Enter key at the end of contents with comment' : function()
-	{
+	'test Enter key at the end of contents with comment' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( 'test ^<!-- --> ' );
 		bot.execCommand( 'enter' );
 		assert.areSame( '<p>test <!-- --></p><p>&nbsp;</p>', bot.getData( false, true ) );
 	},
 
-	'test Enter key in the middle of contents with comments' : function()
-	{
+	'test Enter key in the middle of contents with comments' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
 		bot.execCommand( 'enter' );
@@ -81,8 +76,7 @@ bender.test(
 		assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 	},
 
-	'test Enter key in the middle of contents with comments (2)' : function()
-	{
+	'test Enter key in the middle of contents with comments (2)' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
 		bot.execCommand( 'enter' );

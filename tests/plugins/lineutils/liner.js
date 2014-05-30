@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,lineutils */
 /* bender-ckeditor-plugins: lineutils */
 
-(function() {
+( function() {
 	'use strict';
 
 	var liner;
@@ -110,4 +110,4 @@
 			assert.areSame( 2, CKEDITOR.tools.objectKeys( liner.hidden ).length, 'Line moved to hidden.' );
 		}
 	} );
-})();
+} )();

@@ -8,8 +8,7 @@ bender.editor = {
 
 bender.test(
 {
-	test_contructor : function()
-	{
+	test_contructor : function() {
 		// Make the DOM selection at the beginning of the document.
 		var newRange = new CKEDITOR.dom.range( doc );
 		newRange.moveToPosition( doc.getBody(), CKEDITOR.POSITION_AFTER_START );
@@ -42,8 +41,7 @@ bender.test(
 		assert.areSame( 0, sel2.getRanges().length, 'selection.getRanges()' );
 	},
 
-	test_getSelection : function()
-	{
+	test_getSelection : function() {
 		var sel = doc.getSelection();
 		assert.isFalse( !!sel.isLocked, 'selection.isLock' );
 		assert.areSame( sel.document.$, doc.$, 'selection.document' );
@@ -51,8 +49,7 @@ bender.test(
 	},
 
 	// Test getRanges/setRanges with various selection source.
-	test_ranges_manipulation : function()
-	{
+	test_ranges_manipulation : function() {
 		// Text selection.
 		testSelection( '<div>[foo]</div>' );
 		testSelection( '<p><strong>[foo</strong>]bar</p>' );
@@ -80,8 +77,7 @@ bender.test(
 		testSelection( '<p>[<input />]</p>' );
 
 		// Entire block selection (FF only).
-		if ( CKEDITOR.env.gecko )
-		{
+		if ( CKEDITOR.env.gecko ) {
 			testSelection( '[<p style="float:left">foo</p>]' );
 			testSelection( '<div>[<p>foo</p>]</div>' );
 			testSelection( '<div>[<p>foo</p><p>bar</p>]</div>' );
@@ -94,15 +90,13 @@ bender.test(
 		testSelection( '<div><table><tr><td>[foo</td></tr><tr><td>bar]</td></tr></table></div>' );
 
 		// Multiple selection (FF only)
-		if ( CKEDITOR.env.gecko )
-		{
+		if ( CKEDITOR.env.gecko ) {
 			testSelection( '<div><table><tr><td>[foo]</td><td>[bar]</td></tr></table></div>' );
 			testSelection( '<div><table><tr><td>[foo]</td></tr><tr><td>[bar]</td></tr></table></div>' );
 		}
 	},
 
-	test_getSelectedElement : function()
-	{
+	test_getSelectedElement : function() {
 		testSelectedElement( '[<img />]', 'img' );
 		testSelectedElement( '[<hr />]', 'hr' );
 		testSelectedElement( '[<b><i><img /></i>]</b>', 'img' );
@@ -171,14 +165,12 @@ bender.test(
 		assert.areSame( 1, allRanges.length, 'only 1 range returned by getRanges()' );
 	},
 
-	test_getSelectedText : function()
-	{
+	test_getSelectedText : function() {
 		testSelectedText( '[<b>foo</b>bar]', 'foobar' );
 		testSelectedText( '[<b>foo<img /></b>bar]', 'foobar' );
 	},
 
-	test_getStartElement : function()
-	{
+	test_getStartElement : function() {
 		testStartElement( '<b>^foo</b>', 'b' );
 		testStartElement( '<b>foo^</b>', 'b' );
 		testStartElement( '<i><b>foo[</b>bar]</i>', 'i' );
@@ -186,8 +178,7 @@ bender.test(
 		testStartElement( '[<img />]', 'img' );
 	},
 
-	test_lock_unlock : function()
-	{
+	test_lock_unlock : function() {
 		// Make the first selection.
 		var sourceRange = makeSelection( '<strong id="start">foo</strong>bar[<img />]' )[ 0 ];
 		var sel = doc.getSelection(),
@@ -207,7 +198,7 @@ bender.test(
 		assert.isTrue( !!sel.isLocked, 'selection should be marked as locked.' );
 		assert.isTrue( checkRangeEqual( resultRange, sourceRange ), 'get ranges result from locked selection doesn\'t match the original.' );
 		assert.isTrue( sel.getStartElement().is( 'img' ), 'start element result from locked selection doesn\'t match the original.' );
-		assert.isTrue( sel.getSelectedElement().is( 'img' ),'selected element result from locked selection doesn\'t match the original.' );
+		assert.isTrue( sel.getSelectedElement().is( 'img' ), 'selected element result from locked selection doesn\'t match the original.' );
 		assert.areSame( initialRev, sel.rev, 'selection\'s rev has not been modified' );
 
 		sel.unlock();
@@ -219,8 +210,7 @@ bender.test(
 		assert.isTrue( sel.rev > initialRev, 'unlocked selection gets new rev' );
 	},
 
-	'test unlock outdated selection 1' : function()
-	{
+	'test unlock outdated selection 1' : function() {
 		makeSelection( '<p>a[b<b id="bold">c]d</b></p>' );
 
 		var sel = doc.getSelection(),
@@ -241,8 +231,7 @@ bender.test(
 		assert.isTrue( sel.rev > initialRev, 'New revision' );
 	},
 
-	'test unlock outdated selection 2' : function()
-	{
+	'test unlock outdated selection 2' : function() {
 		makeSelection( '<p>a<b id="bold">c[d<i>e]f</i></b></p>' );
 
 		var sel = doc.getSelection(),
@@ -263,8 +252,7 @@ bender.test(
 		assert.isTrue( sel.rev > initialRev, 'New revision' );
 	},
 
-	test_selectRanges_after_locked :function()
-	{
+	test_selectRanges_after_locked : function() {
 		// Make the first selection.
 		var sourceRange = makeSelection( '<strong id="start">foo</strong>bar[<img />]' )[ 0 ];
 		var sel = doc.getSelection(),
@@ -300,8 +288,7 @@ bender.test(
 		checkRangeEqual( domRange, newRange, 'actual selection range should be the same' );
 	},
 
-	test_removeAllRanges : function()
-	{
+	test_removeAllRanges : function() {
 		var range = new CKEDITOR.dom.range( doc );
 		range.selectNodeContents( doc.getBody() );
 		range.select();
@@ -325,8 +312,7 @@ bender.test(
 
 		// MS selection will remain a (empty) dom range collapsed at the beginning
 		// at the document even after the removal.
-		if ( msSelection )
-		{
+		if ( msSelection ) {
 			var startContainer = doc.getBody();
 			var emptyRange = new CKEDITOR.dom.range( doc );
 			emptyRange.moveToPosition( startContainer, CKEDITOR.POSITION_AFTER_START );
@@ -351,8 +337,7 @@ bender.test(
 	},
 
 	// Check ranges return from selection is properly scoped.
-	'check selection ranges\' scope' : function()
-	{
+	'check selection ranges\' scope' : function() {
 		var editable = doc.getById( 'sandbox' );
 		tools.setHtmlWithSelection( editable, '<p>[foo]</p>' );
 		var sel = new CKEDITOR.dom.selection( editable ),
@@ -361,8 +346,7 @@ bender.test(
 			assert.areSame( ranges[ i ].root, editable );
 	},
 
-	'test get only editable ranges' : function()
-	{
+	'test get only editable ranges' : function() {
 		var editable = doc.getById( 'sandbox' ),
 			sel, ranges;
 
@@ -376,8 +360,7 @@ bender.test(
 		assert.areSame( 'bo', ranges[ 1 ].getEnclosedNode().getText() );
 	},
 
-	'test get only editable ranges 2' : function()
-	{
+	'test get only editable ranges 2' : function() {
 		if ( CKEDITOR.env.ie )
 			assert.ignore();
 
@@ -407,8 +390,8 @@ bender.test(
 		// MUST not using setHtmlWithSelection which will split text nodes.
 		var marker = doc.getById( 'scroll_marker' );
 		var range = new CKEDITOR.dom.range( editable );
-		range.setStart(marker.getPrevious(), 0);
-		range.setEnd(marker.getFirst(), 3);
+		range.setStart( marker.getPrevious(), 0 );
+		range.setEnd( marker.getFirst(), 3 );
 		range.select();
 
 		var sel = new CKEDITOR.dom.selection( editable );
@@ -518,4 +501,4 @@ bender.test(
 
 		assert.areSame( initialRev, sel.rev, 'Revision has not been modified' );
 	}
-});
+} );

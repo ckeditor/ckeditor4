@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-remove-plugins: link,basicstyles */
 
-(function() {
+( function() {
 	'use strict';
 
 	// Returns first ACR added by specified feature.
@@ -544,9 +544,9 @@
 			assert.areSame( CKEDITOR.ENTER_BR, filter2.getAllowedEnterMode( CKEDITOR.ENTER_P, true ), 'f2 - reverse' );
 			assert.areSame( CKEDITOR.ENTER_BR, filter3.getAllowedEnterMode( CKEDITOR.ENTER_P ), 'f3' );
 			assert.areSame( CKEDITOR.ENTER_BR, filter3.getAllowedEnterMode( CKEDITOR.ENTER_P, true ), 'f3 - reverse' );
-			assert.areSame( CKEDITOR.ENTER_P, filter4.getAllowedEnterMode(CKEDITOR.ENTER_P ), 'f4' );
+			assert.areSame( CKEDITOR.ENTER_P, filter4.getAllowedEnterMode( CKEDITOR.ENTER_P ), 'f4' );
 			assert.areSame( CKEDITOR.ENTER_P, filter4.getAllowedEnterMode( CKEDITOR.ENTER_P, true ), 'f4a - reverse' );
 			assert.areSame( CKEDITOR.ENTER_BR, filter4.getAllowedEnterMode( CKEDITOR.ENTER_BR, true ), 'f4b - reverse' );
 		}
 	} );
-})();
+} )();

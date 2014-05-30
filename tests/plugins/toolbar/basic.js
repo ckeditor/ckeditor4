@@ -31,15 +31,13 @@ bender.editor = { config : { toolbar : 'Basic' } };
 
 bender.test(
 {
-	'test toolbar' : function()
-	{
+	'test toolbar' : function() {
 		assert.isNotNull( this.editor.ui.space( 'toolbox' ) );
 
 		assert.isNull( this.editor.ui.space( 'toolbar_collapser' ), 'No collapser by default' );
 	},
 
-	'test toolbarStartupExpanded=false' : function()
-	{
+	'test toolbarStartupExpanded=false' : function() {
 		bender.editorBot.create( {
 				name: 'editor1',
 				config: {
@@ -67,8 +65,7 @@ bender.test(
 		);
 	},
 
-	'test toolbarStartupExpanded=true' : function()
-	{
+	'test toolbarStartupExpanded=true' : function() {
 		bender.editorBot.create( {
 				name: 'editor2',
 				config: {
@@ -80,8 +77,7 @@ bender.test(
 		);
 	},
 
-	'test toolbarCanCollapse=true' : function()
-	{
+	'test toolbarCanCollapse=true' : function() {
 		bender.editorBot.create( {
 				name: 'editor3',
 				config: {
@@ -91,4 +87,4 @@ bender.test(
 			testToolbarExpanded
 		);
 	}
-});
+} );

@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: pastefromword */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -14,7 +14,7 @@
 	var compact = bender.tools.compatHtml;
 
 	function testWordFilter( editor ) {
-		return function ( input, output ) {
+		return function( input, output ) {
 			assertPasteEvent( editor,
 			{
 				dataValue: compact( input, 1 )
@@ -35,6 +35,6 @@
 
 			bender.tools.testInputOut( 'list_1', testWordFilter( this.editor ) );
 		}
-	});
+	} );
 
-})();
+} )();

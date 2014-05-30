@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: basicstyles,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -123,4 +123,4 @@
 			assert.areSame( 0, refreshed, 'command was not refreshed when selection was undefined' );
 		}
 	} );
-})();
+} )();

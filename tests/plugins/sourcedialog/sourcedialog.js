@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: sourcedialog,dialog,entities */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.test( {
@@ -19,8 +19,8 @@
 					wait( function() {
 						assert.areEqual( '<p>^&nbsp;</p>', bot.htmlWithSelection(), 'Editor is empty.' );
 					}, 0 );
-				});
-			});
+				} );
+			} );
 		},
 
 		'load and change editor data': function() {
@@ -39,8 +39,8 @@
 					wait( function() {
 						assert.areEqual( '<p>^Bar</p>', bot.htmlWithSelection(), 'Editor data has been altered.' );
 					}, 0 );
-				});
-			});
+				} );
+			} );
 		},
 
 		'preserve selection if data isn\'t changed': function() {
@@ -56,9 +56,9 @@
 					wait( function() {
 						assert.areEqual( '<p>F[o]o</p>', bot.htmlWithSelection(), 'Editor data remains unchanged.' );
 					}, 0 );
-				});
-			});
+				} );
+			} );
 		}
 	} );
 
-})();
+} )();

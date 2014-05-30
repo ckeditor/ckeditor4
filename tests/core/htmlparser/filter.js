@@ -371,7 +371,7 @@ bender.test( {
 		filter.addRules( {
 			elements: {
 				div: function( element ) {
-					assert.fail( 'This filter should not be applied.');
+					assert.fail( 'This filter should not be applied.' );
 				}
 			},
 			attributes: {
@@ -902,4 +902,4 @@ bender.test( {
 		assert.areSame( options3, group.rules[ 1 ].options );
 		assert.areSame( options3, group.rules[ 2 ].options );
 	}
-});
+} );

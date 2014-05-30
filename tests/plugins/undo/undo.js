@@ -12,14 +12,12 @@ bender.editor = {
 
 bender.test(
 {
-	doUndoCommand : function( input, cmd )
-	{
+	doUndoCommand : function( input, cmd ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( input );
 		bot.editor.resetUndo();
 		bot.execCommand( cmd );
-		this.wait( function()
-		{
+		this.wait( function() {
 			bot.execCommand( 'undo' );
 
 			var undo = bot.editor.getCommand( 'undo' );
@@ -35,19 +33,15 @@ bender.test(
 		}, 0 );
 	},
 
-	doUndoDialog : function( input, dlgName, fn )
-	{
+	doUndoDialog : function( input, dlgName, fn ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( input );
 		bot.editor.resetUndo();
-		this.wait( function()
-		{
-			bot.dialog( dlgName, function( dialog )
-			{
+		this.wait( function() {
+			bot.dialog( dlgName, function( dialog ) {
 				fn.call( this, dialog );
 
-				this.wait( function()
-				{
+				this.wait( function() {
 					bot.execCommand( 'undo' );
 
 					var undo = bot.editor.getCommand( 'undo' );
@@ -61,7 +55,7 @@ bender.test(
 
 					assert.areSame( input, output );
 				}, 0 );
-			});
+			} );
 
 		}, 0 );
 	},
@@ -122,19 +116,16 @@ bender.test(
 	},
 
 	// #7912
-	'test undo enter key' : function()
-	{
+	'test undo enter key' : function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'enter' );
 	},
 
 	// #8299
-	'test undo hr insertion' : function()
-	{
+	'test undo hr insertion' : function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'horizontalrule' );
 	},
 
-	'test lock/unlock undo manager' : function()
-	{
+	'test lock/unlock undo manager' : function() {
 		var ed = this.editor,
 			edt = ed.editable(),
 			undo = ed.getCommand( 'undo' ),
@@ -583,8 +574,7 @@ bender.test(
 	},
 
 	// #9230
-	'test automatic DOM changes handling' : function()
-	{
+	'test automatic DOM changes handling' : function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
 			root = editor.editable(),
@@ -622,8 +612,7 @@ bender.test(
 
 		bot.execCommand( 'enter' );
 
-		wait( function()
-		{
+		wait( function() {
 			assert.areEqual( '<p>ab</p><p>c</p>', bot.getData(), 'Enter command executed correctly' );
 			assert.isTrue( isActive( undo ), 'Enter command created undo snapshot' );
 
@@ -639,16 +628,14 @@ bender.test(
 		}, 0 );
 	},
 
-	'test multiple undo/redo' : function()
-	{
+	'test multiple undo/redo' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p>fo[ob]ar</p>' );
 		bot.editor.resetUndo();
 		bot.execCommand( 'bold' );
 		bot.execCommand( 'bold' );
 		bot.execCommand( 'bold' );
-		this.wait( function()
-		{
+		this.wait( function() {
 			var undo = bot.editor.getCommand( 'undo' );
 			var redo = bot.editor.getCommand( 'redo' );
 
@@ -679,37 +666,30 @@ bender.test(
 	},
 
 	// #8258
-	'test undo image insertion (dialog)' : function()
-	{
-		this.doUndoDialog( '<p>foo^bar</p>', 'image', function( dialog )
-		{
+	'test undo image insertion (dialog)' : function() {
+		this.doUndoDialog( '<p>foo^bar</p>', 'image', function( dialog ) {
 			dialog.setValueOf( 'info', 'txtUrl', '../../_assets/logo.png' );
 			dialog.getButton( 'ok' ).click();
 		} ) ;
 	},
 
 	// #8258
-	'test undo iframe insertion (dialog)' : function()
-	{
-		this.doUndoDialog( '<p>foo^bar</p>', 'iframe', function( dialog )
-		{
+	'test undo iframe insertion (dialog)' : function() {
+		this.doUndoDialog( '<p>foo^bar</p>', 'iframe', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', 'about:blank' );
 			dialog.getButton( 'ok' ).click();
 		} ) ;
 	},
 
 	// #8258
-	'test undo flash insertion (dialog)' : function()
-	{
-		this.doUndoDialog( '<p>foo^bar</p>', 'flash', function( dialog )
-		{
+	'test undo flash insertion (dialog)' : function() {
+		this.doUndoDialog( '<p>foo^bar</p>', 'flash', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', '../../_assets/sample.swf' );
 			dialog.getButton( 'ok' ).click();
 		} ) ;
 	},
 
-	'test undo with "control" type selection in IE' : function()
-	{
+	'test undo with "control" type selection in IE' : function() {
 		if ( !CKEDITOR.env.ie || ( document.documentMode || CKEDITOR.env.version ) > 8 )
 			assert.ignore();
 

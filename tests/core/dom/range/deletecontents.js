@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,dom,range */
 
-(function() {
+( function() {
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
@@ -12,8 +12,7 @@
 			 document.getElementById( 'playground' ).innerHTML = html1;
 		},
 
-		test_deleteContents_W3C_1 : function()
-		{
+		test_deleteContents_W3C_1 : function() {
 			// W3C DOM Range Specs - Section 2.6 - Example 1
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -31,8 +30,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_W3C_2 : function()
-		{
+		test_deleteContents_W3C_2 : function() {
 			// W3C DOM Range Specs - Section 2.6 - Example 2
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -50,8 +48,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_W3C_3 : function()
-		{
+		test_deleteContents_W3C_3 : function() {
 			// W3C DOM Range Specs - Section 2.6 - Example 3
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -69,8 +66,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_W3C_4 : function()
-		{
+		test_deleteContents_W3C_4 : function() {
 			// W3C DOM Range Specs - Section 2.6 - Example 4
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -88,8 +84,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_Other : function()
-		{
+		test_deleteContents_Other : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_H1' ), 0 );
 			range.setEnd( doc.getById( 'playground' ).getLast(), 1 );
@@ -105,8 +100,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_Other_2 : function()
-		{
+		test_deleteContents_Other_2 : function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'playground' ), 0 );
 			range.setEnd( doc.getById( 'playground' ), 2 );
@@ -117,46 +111,44 @@
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
 			assert.areSame( 0, range.startOffset, 'range.startOffset' );
-			assert.areSame(document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_Other_3 : function()
-		{
+		test_deleteContents_Other_3 : function() {
 			var range = new CKEDITOR.dom.range( doc );
-			range.selectNodeContents( doc.getById('_B') );
+			range.selectNodeContents( doc.getById( '_B' ) );
 
 			range.deleteContents();
 
-			assert.areSame( '', getInnerHtml('_B') );
+			assert.areSame( '', getInnerHtml( '_B' ) );
 
-			assert.areSame( document.getElementById('_B'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( document.getElementById( '_B' ), range.startContainer.$, 'range.startContainer' );
 			assert.areSame( 0, range.startOffset, 'range.startOffset' );
-			assert.areSame( document.getElementById('_B'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( document.getElementById( '_B' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_deleteContents_Other_4 : function()
-		{
+		test_deleteContents_Other_4 : function() {
 			var range = new CKEDITOR.dom.range( doc );
-			range.selectNodeContents( doc.getById('_Para') );
+			range.selectNodeContents( doc.getById( '_Para' ) );
 
 			range.deleteContents();
 
-			assert.areSame( '', getInnerHtml('_Para') );
+			assert.areSame( '', getInnerHtml( '_Para' ) );
 
-			assert.areSame( document.getElementById('_Para'), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
 			assert.areSame( 0, range.startOffset, 'range.startOffset' );
-			assert.areSame( document.getElementById('_Para'), range.endContainer.$, 'range.endContainer' );
+			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	};
 
 	bender.test( tests );
-})();
+} )();
 
 	//<![CDATA[
 

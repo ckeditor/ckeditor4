@@ -5,8 +5,7 @@ var doc = CKEDITOR.document, tools = bender.tools;
 
 bender.test(
 {
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		tc.editor = CKEDITOR.replace( doc.getById( 'editor' ),
 		{
@@ -19,17 +18,15 @@ bender.test(
 		} );
 	},
 
-	test_startup_focus : function()
-	{
+	test_startup_focus : function() {
 		assert.isTrue( this.editor.focusManager.hasFocus, 'config.startupFocus' );
 		// TODO: Check cursor position at the beginning of document.
 	},
-	test_contents_lang : function()
-	{
+	test_contents_lang : function() {
 		assert.areSame( 'ltr', this.editor.config.contentsLangDirection );
 		var htmlElement = this.editor.editable().getParent();
 		assert.areSame( 'ltr', htmlElement.getDirection() );
 
 		assert.areSame( this.editor.config.contentsLanguage, htmlElement.getAttribute( 'lang' ) );
 	}
-});
+} );

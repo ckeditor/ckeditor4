@@ -2,8 +2,7 @@
 
 bender.test(
 {
-		test_appendTo : function()
-		{
+		test_appendTo : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -14,8 +13,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_append : function()
-		{
+		test_append : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -26,8 +24,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_getFirst : function()
-		{
+		test_getFirst : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -37,8 +34,7 @@ bender.test(
 			assert.isTrue( first.equals( inner ) );
 		},
 
-		test_getLast : function()
-		{
+		test_getLast : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -49,8 +45,7 @@ bender.test(
 			assert.isTrue( last.equals( lastInner ) );
 		},
 
-		test_moveChildren : function()
-		{
+		test_moveChildren : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -65,8 +60,7 @@ bender.test(
 			assert.isTrue( element.getLast().equals( inner2 ) );
 		},
 
-		test_moveChildren2 : function()
-		{
+		test_moveChildren2 : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -82,20 +76,18 @@ bender.test(
 			assert.isTrue( anotherFrag.getLast().equals( inner2 ) );
 		},
 
-		test_appendText : function()
-		{
+		test_appendText : function() {
 			var element = new CKEDITOR.dom.element( 'script' );
 			element.appendText( 'Test appendText' );
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
 		test_ltrim : CKEDITOR.env.ie ?
-			function()
-			{
+			function() {
 				// IE dom operation will trim preceding empty text,
 				// here we use 'splitText' way to create leading spaces
 				// instead for testing.
-				var emptyTextNode = CKEDITOR.document.createText( '@ \ttext\t ');
+				var emptyTextNode = CKEDITOR.document.createText( '@ \ttext\t ' );
 				var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 				frag.append( emptyTextNode );
 				frag.getFirst().split( 1 );
@@ -105,8 +97,7 @@ bender.test(
 				ct.append( frag );
 				assert.areSame( 'text\t ', ct.getText() );
 			} :
-			function()
-			{
+			function() {
 				var element = CKEDITOR.dom.element.createFromHtml(
 					'<div id="trimTarget">\t\ntext\t\n</div>'
 				);
@@ -119,9 +110,8 @@ bender.test(
 			},
 
 		test_rtrim : CKEDITOR.env.ie ?
-			function()
-			{
-				var emptyTextNode = CKEDITOR.document.createText( '@ \ttext\t ');
+			function() {
+				var emptyTextNode = CKEDITOR.document.createText( '@ \ttext\t ' );
 				var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 				frag.append( emptyTextNode );
 				frag.getFirst().split( 1 );
@@ -131,8 +121,7 @@ bender.test(
 				ct.append( frag );
 				assert.areSame( ' \ttext', ct.getText() );
 			} :
-			function()
-			{
+			function() {
 				var element = CKEDITOR.dom.element.createFromHtml(
 					'<div id="trimTarget">\t\ntext\t\n</div>'
 				);
@@ -146,9 +135,8 @@ bender.test(
 			},
 
 		test_trim : CKEDITOR.env.ie ?
-			function()
-			{
-				var emptyTextNode = CKEDITOR.document.createText( '@ \t\ntext\t\n ');
+			function() {
+				var emptyTextNode = CKEDITOR.document.createText( '@ \t\ntext\t\n ' );
 				var frag =
 						new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 				frag.append( emptyTextNode );
@@ -159,8 +147,7 @@ bender.test(
 				ct.append( frag );
 				assert.areSame( 'text', ct.getText() );
 			} :
-			function()
-			{
+			function() {
 				var element = CKEDITOR.dom.element.createFromHtml(
 					'<div id="trimTarget">\t\ntext\t\n</div>'
 				);
@@ -173,8 +160,7 @@ bender.test(
 				assert.areSame( 'text', ct.getText() );
 			},
 
-		test_insertAfter : function()
-		{
+		test_insertAfter : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner = new CKEDITOR.dom.element( 'b' );
@@ -185,8 +171,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_getChildCount : function()
-		{
+		test_getChildCount : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -197,8 +182,7 @@ bender.test(
 			assert.areEqual( 2, frag.getChildCount() );
 		},
 
-		test_getChild : function()
-		{
+		test_getChild : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -209,8 +193,7 @@ bender.test(
 			assert.isTrue( inner2.equals( frag.getChild( 1 ) ) );
 		},
 
-		test_getChildren : function()
-		{
+		test_getChildren : function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -223,8 +206,7 @@ bender.test(
 			assert.isTrue( inner2.equals( childNodesList.getItem( 1 ) ) );
 		},
 
-		test_getDocument : function()
-		{
+		test_getDocument : function() {
 			var doc = CKEDITOR.document,
 				innerDoc = new CKEDITOR.dom.document(
 					doc.getById( 'innerFrame' ).$.contentWindow.document );
@@ -234,4 +216,4 @@ bender.test(
 			assert.isTrue( doc.equals( frag1.getDocument() ) );
 			assert.isTrue( innerDoc.equals( frag2.getDocument() ) );
 		}
-});
+} );

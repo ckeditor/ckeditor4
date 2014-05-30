@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: sharedspace,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	function assertEditor( editor ) {
@@ -50,4 +50,4 @@
 		}
 	} );
 
-})();
+} )();

@@ -10,7 +10,7 @@ bender.test( {
 		assert.isFunction( editor.addMode );
 
 		// Check mode provider.
-		editor.addMode( 'foo', function( callback ) { callback(); }) ;
+		editor.addMode( 'foo', function( callback ) { callback(); } ) ;
 
 		// Check mode event fired.
 		editor.on( 'mode', function( evt ) {

@@ -1,12 +1,11 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: smiley,bbcode,entities,enterkey */
 
-bender.editor = { config : { autoParagraph : false }};
+bender.editor = { config : { autoParagraph : false } };
 
 bender.test(
 {
-	setUp : function()
-	{
+	setUp : function() {
 		var ed = this.editor, processor = ed.dataProcessor;
 		// Remove protected attributes.
 		processor.dataFilter.addRules( {
@@ -16,8 +15,7 @@ bender.test(
 		} );
 	},
 
-	assertToHtml : function( html, bbcode )
-	{
+	assertToHtml : function( html, bbcode ) {
 		var ed = this.editor, processor = ed.dataProcessor;
 		// Fire "setData" event manually to not bother editable.
 		var evtData = { dataValue: bbcode };
@@ -25,14 +23,12 @@ bender.test(
 		assert.areSame( html.toLowerCase(), CKEDITOR.tools.convertRgbToHex( bender.tools.fixHtml( processor.toHtml( evtData.dataValue ) ) ), 'bbcode->html' );
 	},
 
-	assertToBBCode : function( bbcode, html )
-	{
+	assertToBBCode : function( bbcode, html ) {
 		var ed = this.editor, processor = ed.dataProcessor;
 		assert.areSame( bbcode, processor.toDataFormat( html ), 'html->bbcode failed at:' + bbcode );
 	},
 
-	'test HTML to bbcode' : function()
-	{
+	'test HTML to bbcode' : function() {
 		this.assertToBBCode( '[b]foo[/b]', '<strong>foo</strong>' );
 		this.assertToBBCode( '[i]foo[/i]', '<em>foo</em>' );
 		this.assertToBBCode( '[u]foo[/u]', '<u>foo</u>' );
@@ -48,9 +44,8 @@ bender.test(
 		this.assertToBBCode( '[list]\n[*]foo\n[*]bar\n[/list]\n', '<ul><li>foo</li><li>bar</li></ul>' );
 	},
 
-	'test bbcode to HTML' : function()
-	{
-		this.assertToHtml( '<strong>foo</strong>', '[b]foo[/b]');
+	'test bbcode to HTML' : function() {
+		this.assertToHtml( '<strong>foo</strong>', '[b]foo[/b]' );
 		this.assertToHtml( '<em>foo</em>', '[i]foo[/i]' );
 		this.assertToHtml( '<u>foo</u>', '[u]foo[/u]' );
 
@@ -70,22 +65,19 @@ bender.test(
 	},
 
 	// #8995
-	'test escape HTML entities in bbcode' : function()
-	{
+	'test escape HTML entities in bbcode' : function() {
 		var html = '<a href="foo&amp;bar">foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]foo<bar>[/url]';
 		this.assertToHtml( html, bbcode );
 		this.assertToBBCode( bbcode, html );
 	},
 
-	'test line-breaks' : function()
-	{
+	'test line-breaks' : function() {
 		this.assertToHtml( '<strong>foo<br /><br />bar</strong>', '[b]foo\n\nbar[/b]' );
 		this.assertToBBCode( '[b]foo\n\nbar[/b]', '<strong>foo<br /><br />bar</strong>' );
 		this.assertToHtml( '<strong>foo<br /><br />bar</strong>', '[b]foo\r\n\r\nbar[/b]' );
 	},
 
-	'test enterMode' : function()
-	{
+	'test enterMode' : function() {
 		var editor = this.editor,
 			bot = this.editorBot;
 
@@ -94,6 +86,6 @@ bender.test(
 
 		assert.areSame( 'foo\nbar', editor.getData() );
 	}
-});
+} );
 
 //]]>

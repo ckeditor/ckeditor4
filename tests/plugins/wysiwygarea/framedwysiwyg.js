@@ -45,16 +45,14 @@ bender.test(
 		wait();
 	},
 
-	test_focus : function()
-	{
+	test_focus : function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.focus( function() {
 			assert.isTrue( ed.focusManager.hasFocus );
 		} );
 	},
 
-	test_setData : function()
-	{
+	test_setData : function() {
 		var editor = this.editor;
 		var editable = this.editor.editable();
 
@@ -68,8 +66,7 @@ bender.test(
 		wait();
 	},
 
-	'test editable listeners after setData' : function()
-	{
+	'test editable listeners after setData' : function() {
 		var editor = this.editor,
 			editable = editor.editable(),
 			obj = {},
@@ -80,25 +77,21 @@ bender.test(
 
 		CKEDITOR.event.implementOn( obj );
 
-		editable.attachListener( obj, 'testEvent', function()
-		{
+		editable.attachListener( obj, 'testEvent', function() {
 			fired = true;
-		});
+		} );
 
-		editor.setData( 'abc', function()
-		{
-			resume( function()
-			{
+		editor.setData( 'abc', function() {
+			resume( function() {
 				obj.fire( 'testEvent' );
 				assert.isFalse( fired, 'Editable-dependent listeners were removed' );
 				assert.isTrue( doc.$ !== editor.editable().getDocument(), 'Document has changed' );
-			});
-		});
+			} );
+		} );
 		wait();
 	},
 
-	_testInsertion : function( insertFn, input, result )
-	{
+	_testInsertion : function( insertFn, input, result ) {
 		!result && ( result = input );
 		var editor = this.editor;
 		editor.editable().setHtml( '' );
@@ -110,15 +103,13 @@ bender.test(
 
 		editor[ insertFn ]( input );
 
-		this.wait( function()
-		   {
+		this.wait( function() {
 			   assert.areSame( result, editor.getData(), insertFn );
 		   }, 0 );
 	},
 
-	test_detach : function()
-	{
+	test_detach : function() {
 		this.editor.editable( null );
 		assert.areSame( 0, this.editor.ui.space( 'contents' ).$.getElementsByTagName( 'iframe' ).length );
 	}
-});
+} );

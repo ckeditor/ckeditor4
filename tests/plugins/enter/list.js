@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,list */
 
-(function() {
+( function() {
 	'use strict';
 
 	var editors = {},
@@ -563,4 +563,4 @@
 				true, 'Dir change forces block.', true );
 		}
 	};
-})();
+} )();

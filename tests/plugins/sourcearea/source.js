@@ -11,8 +11,7 @@
 	bender.test(
 	{
 		// Test all editable APIs.
-		testFocus : function()
-		{
+		testFocus : function() {
 			var editor = this.editor;
 			var editable = editor.editable();
 
@@ -26,18 +25,16 @@
 			this.wait( function() { assert.isFalse( editor.focusManager.hasFocus ); }, 200 );
 		},
 
-		testData : function()
-		{
+		testData : function() {
 			var editor = this.editor;
 			editor.setData( '<p>foo</p>' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.editable().getValue() ), 'set data' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.getData() ), 'retrieve data' );
 		},
 
-		testDetach : function()
-		{
+		testDetach : function() {
 			var editable = this.editor.editable();
 			this.editor.editable( null );
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );
 		}
-});
+} );

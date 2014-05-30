@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,widgetcore */
 
-(function() {
+( function() {
 	'use strict';
 
 	var sampleWidget = '<figure data-widget="test" foo="Value1"><span>Value2</span></figure>',
@@ -703,7 +703,7 @@
 					widget = getWidgetById( editor, 'w' );
 
 				widget.focus();
-				var hasBogus = !!editable.getHtml().match ( /foo<br><\/p>/ );
+				var hasBogus = !!editable.getHtml().match( /foo<br><\/p>/ );
 
 				editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ); // LEFT
 				assertCollapsedSelectionIn( editor, p1, hasBogus ? 2 : 1, 'Move left' ); // <p>foo^</p>
@@ -905,4 +905,4 @@
 			} );
 		}
 	} );
-})();
+} )();

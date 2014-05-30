@@ -22,7 +22,7 @@ var assetsPath = bender.getAbsolutePath( '_assets' ) + '/',
 				);
 			}
 		};
-	})();
+	} )();
 
 bender.test( {
 	'async:init': function() {
@@ -38,4 +38,4 @@ bender.test( {
 		assert.areSame( '300px', instances.editor2.config.width, 'Instance uses own customConfig.' );
 		assert.areSame( '400px', instances.editor3.config.width, 'Instance uses own customConfig.' );
 	}
-});
+} );

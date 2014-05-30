@@ -1,8 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	bender.editor = true;
@@ -14,17 +13,17 @@
 			editor.once( 'paste', function( evt ) {
 				resume( function() {
 					assert.areSame( '<p>text <strong>text</strong></p>', evt.data.dataValue, 'Basic filter was applied' );
-				});
+				} );
 			}, null, null, 999 );
 
 			editor.fire( 'paste', {
 				type: 'auto',
 				// This data will be recognized as pasted from Word.
 				dataValue: '<p>text <strong class="MsoNormal">text</strong></p>'
-			});
+			} );
 
 			wait();
 		}
-	});
+	} );
 
-})();
+} )();

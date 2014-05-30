@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: elementspath */
 
-(function() {
+( function() {
 	'use strict';
 	// Elements path feature is only available in themed UI creators.
 	bender.editor = { creator : 'replace' };
@@ -52,4 +52,4 @@
 			this.assertHtmlEqual( expectedHtml, bender.tools.getHtmlWithRanges( editor.document.getBody(), new CKEDITOR.dom.rangeList( [ curRange ] )  ) );
 		}
 	} );
-})();
+} )();

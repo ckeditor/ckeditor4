@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	var fixHtml = image2TestsTools.fixHtml;
@@ -29,4 +29,4 @@
 	};
 
 	bender.test( tcs );
-})();
+} )();

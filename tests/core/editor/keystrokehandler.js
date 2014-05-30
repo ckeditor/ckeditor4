@@ -9,16 +9,14 @@ var keyCombo1 = CKEDITOR.CTRL + 10,
 	command2 = 'command#2',
 	command3 = 'command#3';
 
-function clearStrokes( keystrokes )
-{
+function clearStrokes( keystrokes ) {
 	delete keystrokes[ keyCombo1 ];
 	delete keystrokes[ keyCombo2 ];
 }
 
 bender.test(
 {
-	'test keystroke assignment' : function()
-	{
+	'test keystroke assignment' : function() {
 		var editor = this.editor,
 			keystrokes = editor.keystrokeHandler.keystrokes;
 
@@ -28,8 +26,7 @@ bender.test(
 		assert.areEqual( command1, keystrokes[ keyCombo1 ] );
 	},
 
-	'test keystroke array assignment' : function()
-	{
+	'test keystroke array assignment' : function() {
 		var editor = this.editor,
 			keystrokes = editor.keystrokeHandler.keystrokes;
 
@@ -64,4 +61,4 @@ bender.test(
 		assert.isInstanceOf( CKEDITOR.dom.event, evtData.domEvent, 'domEvent' );
 		assert.areSame( 66, evtData.domEvent.getKey(), 'domEvent.getKey()' );
 	}
-});
+} );

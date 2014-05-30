@@ -78,7 +78,7 @@
 				wait();
 			},
 
-			'test conflict with iframe plugin': function () {
+			'test conflict with iframe plugin': function() {
 				var editor = editors[ 'with_iframe' ];
 
 				editor.focus();
@@ -87,7 +87,7 @@
 				assert.areSame( 2, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be two iFrames.' );
 			},
 
-			'test not a widget': function () {
+			'test not a widget': function() {
 				var editor = editors[ 'only_one_widget' ];
 
 				assert.areSame( 1, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be only one widget.' );

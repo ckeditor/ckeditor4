@@ -5,8 +5,7 @@ var doc = CKEDITOR.document;
 
 bender.test(
 {
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		tc.editor = CKEDITOR.inline( doc.getById( 'editor' ),
 		{
@@ -16,13 +15,11 @@ bender.test(
 		} );
 	},
 
-	test_startup_focus : function()
-	{
+	test_startup_focus : function() {
 		assert.isFalse( this.editor.focusManager.hasFocus );
 	},
-	test_contents_lang : function()
-	{
+	test_contents_lang : function() {
 		assert.areSame( this.editor.config.contentsLangDirection, 'rtl' );
-		assert.areSame( 'rtl', this.editor.editable().getAttribute( 'dir' ));
+		assert.areSame( 'rtl', this.editor.editable().getAttribute( 'dir' ) );
 	}
-});
+} );

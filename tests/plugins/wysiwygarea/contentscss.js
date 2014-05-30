@@ -62,19 +62,19 @@
 				// Reset value, lets start with string val.
 				editor.config.contentsCss = '_assets/contents2.css';
 				editor.addContentsCss( '_assets/contents.css' );
-				assert.isArray( cfg.contentsCss,'contentsCss should be converted to an Array' );
+				assert.isArray( cfg.contentsCss, 'contentsCss should be converted to an Array' );
 				arrayAssert.itemsAreSame( [ '_assets/contents2.css', '_assets/contents.css' ], cfg.contentsCss );
 
 				// Reset value, lets start with null.
 				editor.config.contentsCss = null;
 				editor.addContentsCss( '_assets/contents.css' );
-				assert.isArray( cfg.contentsCss,'contentsCss should be converted to an Array' );
+				assert.isArray( cfg.contentsCss, 'contentsCss should be converted to an Array' );
 				arrayAssert.itemsAreSame( [ '_assets/contents.css' ], cfg.contentsCss );
 
 				// Reset value, lets start with array.
 				editor.config.contentsCss = [ '_assets/contents2.css' ];
 				editor.addContentsCss( '_assets/contents.css' );
-				assert.isArray( cfg.contentsCss,'contentsCss should be converted to an Array' );
+				assert.isArray( cfg.contentsCss, 'contentsCss should be converted to an Array' );
 				arrayAssert.itemsAreSame( [ '_assets/contents2.css', '_assets/contents.css' ], cfg.contentsCss );
 			} );
 		}

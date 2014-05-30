@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,dom,range */
 
-(function() {
+( function() {
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
@@ -141,9 +141,9 @@
 
 		'test getPreviousEditableNode - 1': function() {
 			// ab^
-			assert.areSame( 'ab', this.rangeGetNextEditableNode( '<p id="s">ab</p>', 0, 2 , true) );
+			assert.areSame( 'ab', this.rangeGetNextEditableNode( '<p id="s">ab</p>', 0, 2 , true ) );
 		}
 	};
 
 	bender.test( tests );
-})();
+} )();

@@ -7,12 +7,10 @@ var doc = CKEDITOR.document,
 bender.test(
 {
 	// Initialize the editor instance.
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
-		editor.on( 'loaded', function()
-		{
+		editor.on( 'loaded', function() {
 			var innerDoc = doc.getById( 'editable_frame' ).getFrameDocument();
 			var body = innerDoc.getBody();
 			body.setAttribute( 'contentEditable', true );
@@ -28,34 +26,29 @@ bender.test(
 		} );
 	},
 
-	setupEditor : function( data, callback )
-	{
+	setupEditor : function( data, callback ) {
 		var tc = this, editor = tc.editor;
-		editor.setData( data, function()
-		{
+		editor.setData( data, function() {
 			CKEDITOR.document.getBody().focus();
 			editor.focus();
 			setTimeout( function() { tc.resume( callback ); }, 200 );
-		});
+		} );
 		tc.wait();
 	},
 
 	// Test auto wrapping content that lives directly in body element with paragraph.
-	testAutoParagraphing : function()
-	{
+	testAutoParagraphing : function() {
 		var tc = this, editor = this.editor;
-		this.setupEditor( '', function()
-		{
+		this.setupEditor( '', function() {
 			var start = editor.getSelection().getStartElement(),
 					path = new CKEDITOR.dom.elementPath( start );
 
 			assert.isTrue( path.block.is( 'p' ), 'auto fixing block-less body' );
 
-			if ( CKEDITOR.env.gecko )
-			{
+			if ( CKEDITOR.env.gecko ) {
 				var tail = path.block.getLast();
 				assert.isTrue( tail.is( 'br' ), '[Firefox] check padding block br' );
 			}
-		});
+		} );
 	}
 } );

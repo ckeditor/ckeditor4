@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: colorbutton,toolbar,wysiwygarea */
 
-(function()	{
+( function() {
 	'use strict';
 
 	bender.editor = true;
@@ -38,4 +38,4 @@
 			wait();
 		}
 	} );
-})();
+} )();

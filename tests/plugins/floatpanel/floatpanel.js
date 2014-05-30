@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: floatpanel,wysiwygarea,sourcearea */
 
-(function() {
+( function() {
 	'use strict';
 
 	var panel, panel2;
@@ -143,7 +143,7 @@
 					resume( function() {
 						assert.isTrue( true, 'Second panel was closed after editor\'s been resized.' );
 					} );
-				})
+				} )
 				editor.once( 'panelShow', function() {
 					editor.resize( 800, 200 );
 				} );
@@ -161,4 +161,4 @@
 		}
 	} );
 
-})();
+} )();

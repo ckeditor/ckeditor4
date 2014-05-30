@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: elementspath */
 
-(function() {
+( function() {
 	'use strict';
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
@@ -38,4 +38,4 @@
 			this.assertPath( 'div,figcaption' );
 		}
 	} );
-})();
+} )();

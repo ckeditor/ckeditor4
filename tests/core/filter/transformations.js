@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-remove-plugins: basicstyles,image,table,showborders,tabletools,fakeobjects,flash,forms,iframe,link,pagebreak */
 
-(function() {
+( function() {
 	'use strict';
 
 	function assertToHtml( editor, input, html,  msg ) {
@@ -394,4 +394,4 @@
 			} );
 		}
 	} );
-})();
+} )();

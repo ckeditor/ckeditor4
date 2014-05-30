@@ -142,8 +142,8 @@
 			var rules = getSortedRules( filter.disallowedContent );
 			assert.isTrue( !!rules[ 0 ].elements.b, '1st rule elements.b' );
 			assert.isTrue( !!rules[ 1 ].elements.i, '2nd rule elements.i' );
-			assert.isTrue( !!rules[ 1 ].attributes.foo, '2nd rule attributes.foo');
-			assert.isTrue( !!rules[ 1 ].attributes[ 'on*' ], '2nd rule attributes.on*');
+			assert.isTrue( !!rules[ 1 ].attributes.foo, '2nd rule attributes.foo' );
+			assert.isTrue( !!rules[ 1 ].attributes[ 'on*' ], '2nd rule attributes.on*' );
 		},
 
 		'test disallow() adds an object rule': function() {

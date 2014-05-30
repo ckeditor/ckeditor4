@@ -34,7 +34,7 @@ bender.test( {
 
 		assert.areSame( na, el.getFirst(), 'el.getFirst' );
 		assert.areSame( nb, el.getFirst( 'i' ), 'el.getFirst i' );
-		assert.areSame( nb, el.getFirst( { i:1,x:1 } ), 'el.getFirst i,x' );
+		assert.areSame( nb, el.getFirst( { i: 1, x: 1 } ), 'el.getFirst i,x' );
 		assert.areSame( nab, na.getFirst( foo2 ), 'na.getFirst foo2' );
 		assert.areSame( naa, na.getFirst(), 'na.getFirst' );
 		assert.areSame( nab, na.getFirst( 'u' ), 'na.getFirst u' );

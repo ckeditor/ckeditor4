@@ -6,43 +6,36 @@ var testEditable = CKEDITOR.tools.createClass(
 	_ : {},
 	proto :
 	{
-		insertHtml : function ( data )
-		{
+		insertHtml : function( data ) {
 			this._.html = data;
 		},
 
-		insertElement : function ( element )
-		{
+		insertElement : function( element ) {
 			this._.element = element;
 		},
 
-		insertText : function ( text )
-		{
+		insertText : function( text ) {
 			this._.text = text;
 		},
 
-		setData : function( data, isSnapshot )
-		{
+		setData : function( data, isSnapshot ) {
 			this._[ isSnapshot ? 'snapshot' : 'data' ] = data;
 		},
 
-		getData : function( isSnapshot )
-		{
+		getData : function( isSnapshot ) {
 			return this._[ isSnapshot ? 'snapshot' : 'data' ] || '';
 		},
 
-		focus : function()
-		{
+		focus : function() {
 			this._.focus = true;
 		},
-		detach : function()
-		{
+		detach : function() {
 			var _ = this._;
 			_.html = _.element = _.text = _.snapshot = _.data = _.focus = undefined;
 			testEditable.baseProto.detach.call( this );
 		}
 	}
-});
+} );
 
 var doc = CKEDITOR.document,
 	tools = bender.tools;
@@ -50,12 +43,10 @@ var doc = CKEDITOR.document,
 bender.test(
 {
 	// Initialize the editor instance.
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
-		editor.on( 'loaded', function()
-		{
+		editor.on( 'loaded', function() {
 			editor.editable( new testEditable( editor, doc.getBody() ) );
 			tc.editor = editor;
 			tc.callback();
@@ -63,8 +54,7 @@ bender.test(
 	},
 
 	// Test all editable APIs.
-	testEditable : function()
-	{
+	testEditable : function() {
 		var editable = this.editor.editable();
 		assert.areSame( editable.$, doc.getBody().$ );
 		assert.areSame( this.editor, editable.editor );
@@ -86,8 +76,7 @@ bender.test(
 	},
 
 	// Test editable destruction.
-	testDetach : function()
-	{
+	testDetach : function() {
 		var editable = this.editor.editable();
 		this.editor.editable( null );
 
@@ -104,8 +93,7 @@ bender.test(
 		assert.isUndefined( editable._.text );
 	},
 
-	'test listeners attaching/detaching' : function()
-	{
+	'test listeners attaching/detaching' : function() {
 		var editor = this.editor,
 			editable = new testEditable( editor, doc.getBody() ),
 			obj = {},
@@ -115,18 +103,15 @@ bender.test(
 
 		CKEDITOR.event.implementOn( obj );
 
-		editable.attachListener( obj, 'testEvent', function()
-		{
+		editable.attachListener( obj, 'testEvent', function() {
 			fired += '1';
-		});
-		editable.attachListener( obj, 'testEvent', function()
-		{
+		} );
+		editable.attachListener( obj, 'testEvent', function() {
 			fired += '2';
 		}, null, null, 1 );
-		obj.on( 'testEvent', function()
-		{
+		obj.on( 'testEvent', function() {
 			fired += '3';
-		});
+		} );
 
 		obj.fire( 'testEvent' );
 		assert.areEqual( '213', fired, 'All 3 fired, but in priorities order' );

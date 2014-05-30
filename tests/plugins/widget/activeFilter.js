@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,basicstyles,clipboard,dialog,link,toolbar,stylescombo,font,colorbutton,language,indentblock */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -160,7 +160,7 @@
 
 							dialog.getButton( 'cancel' ).click();
 
-							if( callback )
+							if ( callback )
 								callback();
 						} );
 					}
@@ -214,7 +214,7 @@
 							count = 0;
 
 	 					for ( var i in elements ) {
-	 						if (elements[ i ].getStyle( 'display' ) != 'none' )
+	 						if ( elements[ i ].getStyle( 'display' ) != 'none' )
 	 							count++;
 	 					}
 
@@ -320,4 +320,4 @@
 				} );
 		}
 	} );
-})();
+} )();

@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	var doc = CKEDITOR.document;
@@ -13,22 +12,19 @@
 
 		readyHandler =
 		{
-			instanceReady : function ()
-			{
+			instanceReady : function() {
 				if ( !pending-- )
 					tc.callback();
 			}
 		};
 
-	function getTabIndex( element )
-	{
+	function getTabIndex( element ) {
 		return element.getAttribute( 'tabindex' );
 	}
 
 	bender.test(
 	{
-		'async:init' : function()
-		{
+		'async:init' : function() {
 			tc = this;
 
 			// No initial tabIndex, nothing forced.
@@ -60,8 +56,7 @@
 
 		// Check whether element's tabIndex and config values
 		// are used correctly.
-		'test tabIndex inheritance' : function()
-		{
+		'test tabIndex inheritance' : function() {
 			assert.areEqual( 0, ed1.tabIndex );
 			assert.areEqual( 42, ed2.tabIndex );
 			assert.areEqual( 100, ed3.tabIndex );
@@ -70,8 +65,7 @@
 
 		// Check if the previous tabIndex of each editable
 		// is correctly restored.
-		'test tabIndex revert on destroy' : function()
-		{
+		'test tabIndex revert on destroy' : function() {
 			ed1.destroy();
 			ed2.destroy();
 			ed3.destroy();
@@ -84,4 +78,4 @@
 		}
 	} );
 
-})();
+} )();

@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function () {
+( function() {
 	'use strict';
 
 	var cfg = {
@@ -742,4 +742,4 @@
 			t2.s( 2, 0 );
 		}
 	};
-})();
+} )();

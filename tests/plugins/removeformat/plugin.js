@@ -10,13 +10,12 @@ bender.editor = {
 
 bender.test(
 {
-	'test remove format always fire editor#selectionChange': function()
-	{
+	'test remove format always fire editor#selectionChange': function() {
 		var ed = this.editor, bot = this.editorBot;
-		bot.setHtmlWithSelection('[<p style="text-align:right">foo</p>]');
+		bot.setHtmlWithSelection( '[<p style="text-align:right">foo</p>]' );
 		ed.once( 'selectionChange', function() {
-			assert.isTrue( true, '"selectionChange" event always fired after remove format.');
-		});
+			assert.isTrue( true, '"selectionChange" event always fired after remove format.' );
+		} );
 		ed.execCommand( 'removeFormat' );
 	},
 
@@ -51,4 +50,4 @@ bender.test(
 		} );
 	}
 
-});
+} );

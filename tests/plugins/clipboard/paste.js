@@ -9,8 +9,7 @@
  *
  */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	bender.editor =
@@ -22,31 +21,25 @@
 		}
 	};
 
-	function testEditor( tc, config, callback )
-	{
+	function testEditor( tc, config, callback ) {
 		var editor = new CKEDITOR.editor( config );
 
-		editor.on( 'loaded', function()
-			{
-				tc.resume( function()
-					{
+		editor.on( 'loaded', function() {
+				tc.resume( function() {
 						callback( editor );
-					});
-			});
+					} );
+			} );
 
 		tc.wait();
 	}
 
-	function assertAfterPasteContent( tc, html )
-	{
-		tc.editor.on( 'afterPaste', function( evt )
-			{
+	function assertAfterPasteContent( tc, html ) {
+		tc.editor.on( 'afterPaste', function( evt ) {
 				evt.removeListener();
-				tc.resume( function()
-				   {
+				tc.resume( function() {
 					   assert.areSame( html, tc.editor.getData() );
-				   });
-			});
+				   } );
+			} );
 	}
 
 	bender.test(
@@ -62,8 +55,7 @@
 				: null
 		},
 
-		setUp : function()
-		{
+		setUp : function() {
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
 			this.editor.focus();
@@ -73,12 +65,11 @@
 		 * Remove all editor's paste listeners that were set by corresponding
 		 * method tc.on()
 		 */
-		cleanUp : function()
-		{
+		cleanUp : function() {
 			var editor = this.editor,
 				name;
 
-			for ( name in { paste : 1, beforePaste : 1, afterPaste : 1 })
+			for ( name in { paste : 1, beforePaste : 1, afterPaste : 1 } )
 				this[ name + 'Callback' ] && editor.removeListener( name, this[ name + 'Callback' ] );
 
 			this.pasteCallback = this.beforePasteCallback = this.afterPasteCallback = null;
@@ -88,14 +79,12 @@
 		 * Add listener to the editor instance, so it'll be possible to remove it later
 		 * by tc.cleanUp method.
 		 */
-		on : function( name, callback, priority )
-		{
+		on : function( name, callback, priority ) {
 			this.editor.on( name, callback, null, null, priority );
 			this[ name + 'Callback' ] = callback;
 		},
 
-		'paste text' : function()
-		{
+		'paste text' : function() {
 			var tc = this,
 				editor = this.editor;
 
@@ -106,8 +95,7 @@
 			this.wait();
 		},
 
-		'paste html' : function()
-		{
+		'paste html' : function() {
 			var tc = this,
 				editor = this.editor;
 
@@ -118,8 +106,7 @@
 			tc.wait();
 		},
 
-		'paste into selection' : function()
-		{
+		'paste into selection' : function() {
 			var tc = this,
 				editor = this.editor;
 
@@ -130,112 +117,96 @@
 			tc.wait();
 		},
 
-		'paste events' : function()
-		{
+		'paste events' : function() {
 			var tc = this,
 				editor = this.editor,
 				order = [];
 
-			editor.on( 'beforePaste', function( evt )
-				{
+			editor.on( 'beforePaste', function( evt ) {
 					evt.removeListener();
 					order.push( 'a-' + evt.data.type );
-				});
+				} );
 
-			editor.on( 'paste', function( evt )
-				{
+			editor.on( 'paste', function( evt ) {
 					var data = evt.data;
 					evt.removeListener();
 					order.push( 'b-' + data.type + '-' + ( data.dataValue && data.dataValue.toLowerCase() ) );
-				});
+				} );
 
-			editor.on( 'afterPaste', function( evt )
-				{
+			editor.on( 'afterPaste', function( evt ) {
 					evt.removeListener();
-					tc.resume( function()
-						{
+					tc.resume( function() {
 							assert.areEqual( 'a-auto', order[ 0 ], 'proper order and data for beforePaste' );
 							assert.areEqual( 'b-html-<b>foo</b>', order[ 1 ], 'proper order and data for paste' );
-						});
-				});
+						} );
+				} );
 
 			bender.tools.emulatePaste( editor, '<b>foo</b>' );
 			this.wait();
 		},
 
-		'cancel beforePaste' : function()
-		{
+		'cancel beforePaste' : function() {
 			var tc = this,
 				editor = this.editor,
 				flag = null;
 
-			tc.on( 'beforePaste', function( evt )
-				{
+			tc.on( 'beforePaste', function( evt ) {
 					evt.cancel();
 					flag = true;
-				});
+				} );
 
-			tc.on( 'paste', function( evt )
-				{
+			tc.on( 'paste', function( evt ) {
 					flag = false;
-				});
+				} );
 
-			tc.on( 'afterPaste', function( evt )
-				{
+			tc.on( 'afterPaste', function( evt ) {
 					flag = false;
-				});
+				} );
 
 			bender.tools.setHtmlWithSelection( editor, '^' );
 			bender.tools.emulatePaste( editor, 'foo' );
 
 			// Let paste and afterPaste be fired (if there's a bug somewhere).
-			tc.wait( function()
-				{
+			tc.wait( function() {
 					tc.cleanUp();
 					assert.isTrue( flag, 'canceling beforePaste stops execution' );
 					assert.areEqual( '', editor.getData() );
 				}, 50 );
 		},
 
-		'cancel paste' : function()
-		{
+		'cancel paste' : function() {
 			var tc = this,
 				editor = this.editor,
 				flag = null;
 
-			tc.on( 'paste', function( evt )
-				{
+			tc.on( 'paste', function( evt ) {
 					evt.cancel();
 					flag = true;
-				});
+				} );
 
-			tc.on( 'afterPaste', function( evt )
-				{
+			tc.on( 'afterPaste', function( evt ) {
 					flag = false;
-				});
+				} );
 
 			bender.tools.setHtmlWithSelection( editor, '^' );
 			bender.tools.emulatePaste( editor, 'foo' );
 
 			// Let afterPaste be fired (if there's a bug somewhere).
-			tc.wait( function()
-				{
+			tc.wait( function() {
 					tc.cleanUp();
 					assert.areEqual( '', editor.getData() );
 					assert.isTrue( flag, 'canceling paste stops execution' );
 				}, 50 );
 		},
 
-		'modify pasted content' : function()
-		{
+		'modify pasted content' : function() {
 			var tc = this,
 				editor = this.editor;
 
-			editor.on( 'paste', function( evt )
-				{
+			editor.on( 'paste', function( evt ) {
 					evt.removeListener();
 					evt.data.dataValue = '<b>' + evt.data.dataValue + '</b>';
-				});
+				} );
 
 			bender.tools.setHtmlWithSelection( editor, '^' );
 			bender.tools.emulatePaste( editor, '<u>f</u>oo' );
@@ -244,33 +215,28 @@
 			tc.wait();
 		},
 
-		'editor#paste command' : function()
-		{
+		'editor#paste command' : function() {
 			var tc = this,
 				editor = this.editor,
 				order = [];
 
-			editor.on( 'beforePaste', function( evt )
-				{
+			editor.on( 'beforePaste', function( evt ) {
 					evt.removeListener();
 					order.push( 'a-' + evt.data.type );
-				});
+				} );
 
-			editor.on( 'paste', function( evt )
-				{
+			editor.on( 'paste', function( evt ) {
 					evt.removeListener();
 					order.push( 'b-' + evt.data.type + '-' + evt.data.dataValue );
-				});
+				} );
 
-			editor.on( 'afterPaste', function( evt )
-				{
+			editor.on( 'afterPaste', function( evt ) {
 					evt.removeListener();
-					tc.resume( function()
-						{
+					tc.resume( function() {
 							assert.areEqual( 'a-auto', order[ 0 ], 'proper order and data for beforePaste' );
 							assert.areEqual( 'b-html-<b>foo</b>bar', order[ 1 ], 'proper order and data for paste' );
-						});
-				});
+						} );
+				} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			setTimeout( function() {
@@ -279,13 +245,11 @@
 			tc.wait();
 		},
 
-		'pasting empty string with editor#paste command' : function()
-		{
+		'pasting empty string with editor#paste command' : function() {
 			var tc = this,
 				editor = this.editor,
 				flag = false,
-				callback = function( evt )
-				{
+				callback = function( evt ) {
 					evt.removeListener();
 					flag = true;
 				};
@@ -295,21 +259,18 @@
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			editor.execCommand( 'paste', '' );
-			tc.wait( function()
-				{
+			tc.wait( function() {
 					tc.cleanUp();
 					assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
 		},
 
-		'pasting empty string (native version)' : function()
-		{
+		'pasting empty string (native version)' : function() {
 			var tc = this,
 				editor = this.editor,
 				flag = false,
-				callback = function( evt )
-				{
+				callback = function( evt ) {
 					evt.removeListener();
 					flag = true;
 				};
@@ -322,45 +283,39 @@
 			// on pasteDataFromClipboard which removes bookmarks.
 			// Bookmark has to have body because Fx produces <br> if it's empty.
 			bender.tools.emulatePaste( editor, '<span data-cke-bookmark="1">a</span>' );
-			tc.wait( function()
-				{
+			tc.wait( function() {
 					tc.cleanUp();
 					assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
 		},
 
-		'paste events - forcePasteAsPlainText' : function()
-		{
+		'paste events - forcePasteAsPlainText' : function() {
 			var beforeType,
 				tc = this;
 
 			testEditor( this, { forcePasteAsPlainText : true },
-			function( editor )
-				{
-					editor.on( 'beforePaste', function( evt )
-						{
+			function( editor ) {
+					editor.on( 'beforePaste', function( evt ) {
 							evt.removeListener();
 							beforeType = evt.data.type;
-						});
+						} );
 
-					editor.on( 'paste', function( evt )
-						{
+					editor.on( 'paste', function( evt ) {
 							evt.removeListener();
 							assert.areEqual( 'text', beforeType, 'beforePaste.data.type' );
 							assert.areEqual( 'text', evt.data.type, 'paste.data.type' );
 							assert.areEqual( '<p>foo bar</p>', evt.data.dataValue, 'paste.data.data' );
-						});
+						} );
 
 					// We need to enable this command manually, because this listener is executed before event#mode
 					// which refreshes commands automatically.
 					editor.getCommand( 'paste' ).enable();
 					editor.execCommand( 'paste', '<p><b>foo</b> bar</p>' );
-				});
+				} );
 		},
 
-		'content type sniffing - text' : function()
-		{
+		'content type sniffing - text' : function() {
 			assertPasteEvent( this.editor, { dataValue : 'abc' },
 				{ type : 'text' }, 'text only' );
 
@@ -371,8 +326,7 @@
 				{ type : 'text' }, 'text only 3' );
 		},
 
-		'content type sniffing - htmlified text - Firefox & Opera' : function()
-		{
+		'content type sniffing - htmlified text - Firefox & Opera' : function() {
 			if ( !CKEDITOR.env.gecko )
 				assert.ignore();
 
@@ -395,8 +349,7 @@
 				{ type : 'html' }, 'html 2' );
 		},
 
-		'content type sniffing - htmlified text - Webkit' : function()
-		{
+		'content type sniffing - htmlified text - Webkit' : function() {
 			if ( !CKEDITOR.env.webkit )
 				assert.ignore();
 
@@ -428,8 +381,7 @@
 				{ type : 'html' }, 'html 6' );
 		},
 
-		'content type sniffing - htmlified text - IEs' : function()
-		{
+		'content type sniffing - htmlified text - IEs' : function() {
 			if ( !CKEDITOR.env.ie )
 				assert.ignore();
 
@@ -467,8 +419,7 @@
 				{ type : 'html' }, 'html 7' );
 		},
 
-		'content type sniffing - htmlified text - other' : function()
-		{
+		'content type sniffing - htmlified text - other' : function() {
 			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit || CKEDITOR.env.ie )
 				assert.ignore();
 
@@ -476,8 +427,7 @@
 				{ type : 'html' }, 'for unrecognized browser always shout html' );
 		},
 
-		'content type sniffing - html' : function()
-		{
+		'content type sniffing - html' : function() {
 			assertPasteEvent( this.editor, { dataValue : 'a<b>b</b>c<br>d' },
 				{ type : 'html' }, 'simple html' );
 
@@ -505,8 +455,7 @@
 				{ type : 'html', dataValue : 'A<div>B</div>C<div>D</div>E' }, 'case 3a' );
 		},
 
-		'content type sniffing - don\'t change type' : function()
-		{
+		'content type sniffing - don\'t change type' : function() {
 			assertPasteEvent( this.editor, { dataValue : 'a<b>b</b>c<hr>d', type : 'text' },
 				{ type : 'text' }, 'keep text' );
 
@@ -514,16 +463,13 @@
 				{ type : 'html' }, 'keep html' );
 		},
 
-		'content type sniffing - default config.clipboard_defaultContentType' : function()
-		{
-			testEditor( this, {}, function( editor )
-				{
+		'content type sniffing - default config.clipboard_defaultContentType' : function() {
+			testEditor( this, {}, function( editor ) {
 					// Use htmlified:true to prevent htmlification for plain text (which needs editor setup).
 					assertPasteEvent( editor, { dataValue : 'abc', htmlified : true },
 						{ type : 'html' }, 'case 1a' );
 
-					if ( CKEDITOR.env.webkit )
-					{
+					if ( CKEDITOR.env.webkit ) {
 						assertPasteEvent( editor, { dataValue : '<div>abc</div>' },
 							{ type : 'html' }, 'case 2a' );
 						assertPasteEvent( editor, { dataValue : '<div>abc</div>', type : 'text' },
@@ -536,11 +482,10 @@
 						assertPasteEvent( editor, { dataValue : 'ab<br>cd', type : 'text' },
 							{ type : 'text' }, 'case 3b' );
 					}
-				});
+				} );
 		},
 
-		'htmlified text unification' : function()
-		{
+		'htmlified text unification' : function() {
 			// TCs extracted from _docs/plaintext.txt.
 
 			CKEDITOR.env.gecko && assertPasteEvent( this.editor,
@@ -557,8 +502,7 @@
 				'htmlified text - webkit' );
 		},
 
-		'htmlified text unification 2' : function()
-		{
+		'htmlified text unification 2' : function() {
 			// aa\s
 			// \s\s\s
 			//
@@ -578,8 +522,7 @@
 				'htmlified text 2 - webkit' );
 		},
 
-		'htmlified text unification 3 - other cases' : function()
-		{
+		'htmlified text unification 3 - other cases' : function() {
 			var data = CKEDITOR.env.webkit ? '<div>a&nbsp;b</div>' : 'a&nbsp;b<br>c';
 			var result = CKEDITOR.env.webkit ? 'a&nbsp;b' : 'a&nbsp;b<br>c';
 
@@ -589,8 +532,7 @@
 			assertPasteEvent( this.editor, { dataValue : data, type : 'text' },
 				{ type : 'text', dataValue : result }, 'do not encode twice - treat as htmlifiedtext 2' );
 
-			if ( CKEDITOR.env.ie )
-			{
+			if ( CKEDITOR.env.ie ) {
 				assertPasteEvent( this.editor, { dataValue : '<p>B<br>C</p>' },
 					{ type : 'text', dataValue : '<p>B<br>C</p>' }, 'ie 1' );
 				assertPasteEvent( this.editor, { dataValue : '<p>A<br></p>' },
@@ -608,8 +550,7 @@
 				// Dive into this some day.
 			}
 
-			else if ( CKEDITOR.env.webkit )
-			{
+			else if ( CKEDITOR.env.webkit ) {
 				assertPasteEvent( this.editor,
 					{ dataValue : '<div>aa</div><div>bb</div>' },
 					{ type : 'text', dataValue : 'aa<br>bb' },
@@ -690,8 +631,7 @@
 					{ type : 'text', dataValue : '<p></p><p><br>aa</p>' },
 					'htmlified text 16 - webkit' );
 			}
-			else if ( CKEDITOR.env.gecko )
-			{
+			else if ( CKEDITOR.env.gecko ) {
 				// Fx is stupid - for one plain text line break it generates two brs.
 				// For two line breaks - two brs as well.
 				assertPasteEvent( this.editor, { dataValue : '<br><br>' },
@@ -708,8 +648,7 @@
 			}
 		},
 
-		'htmlified text unification 4 - XHTML syntax' : function()
-		{
+		'htmlified text unification 4 - XHTML syntax' : function() {
 			if ( CKEDITOR.env.gecko )
 				assertPasteEvent( this.editor,
 					{ dataValue : 'aa<br /><br/>bb<br />cc' },
@@ -729,16 +668,13 @@
 				assert.isTrue( true );
 		},
 
-		'htmlified text unification 5 - enter mode br' : function()
-		{
+		'htmlified text unification 5 - enter mode br' : function() {
 			testEditor( this, {
 					enterMode : CKEDITOR.ENTER_BR,
 					clipboard_defaultContentType : 'text'
 				},
-				function( editor )
-				{
-					if ( CKEDITOR.env.gecko )
-					{
+				function( editor ) {
+					if ( CKEDITOR.env.gecko ) {
 						assertPasteEvent( editor,
 							{ dataValue : 'aa<br>bb' }, { type : 'text', dataValue : 'aa<br>bb' },
 							'htmlified text 1 - fx' );
@@ -752,8 +688,7 @@
 							{ dataValue : '<br>aa<br><br>bb<br>cc<br>' }, { type : 'text', dataValue : '<br>aa<br><br>bb<br>cc<br>' },
 							'htmlified text 4 - fx' );
 					}
-					else if ( CKEDITOR.env.ie )
-					{
+					else if ( CKEDITOR.env.ie ) {
 						assertPasteEvent( editor,
 							{ dataValue : '<p>aa</p>' }, { type : 'text', dataValue : 'aa' },
 							'htmlified text 1 - ie' );
@@ -777,8 +712,7 @@
 							{ type : 'text', dataValue : '<br>aa<br><br>bb' },
 							'htmlified text 6 - ie' );
 					}
-					else if ( CKEDITOR.env.webkit )
-					{
+					else if ( CKEDITOR.env.webkit ) {
 						assertPasteEvent( editor,
 							{ dataValue : '<div>aa</div>' }, { type : 'text', dataValue : 'aa' },
 							'htmlified text 1 - webkit' );
@@ -817,19 +751,16 @@
 							{ type : 'text', dataValue : 'aa<br><br>bb<br data-cke-eol="1">' },
 							'htmlified text 10 - webkit' );
 					}
-				});
+				} );
 		},
 
-		'htmlified text unification 6 - enter mode div' : function()
-		{
+		'htmlified text unification 6 - enter mode div' : function() {
 			testEditor( this, {
 					enterMode : CKEDITOR.ENTER_DIV,
 					clipboard_defaultContentType : 'text'
 				},
-				function( editor )
-				{
-					if ( CKEDITOR.env.gecko )
-					{
+				function( editor ) {
+					if ( CKEDITOR.env.gecko ) {
 						assertPasteEvent( editor,
 							{ dataValue : 'aa<br>bb' }, { type : 'text', dataValue : 'aa<br>bb' },
 							'htmlified text 1 - fx' );
@@ -837,8 +768,7 @@
 							{ dataValue : 'aa<br>bb<br><br>cc' }, { type : 'text', dataValue : '<div>aa<br>bb</div><div>cc</div>' },
 							'htmlified text 2 - fx' );
 					}
-					else if ( CKEDITOR.env.ie )
-					{
+					else if ( CKEDITOR.env.ie ) {
 						assertPasteEvent( editor,
 							{ dataValue : 'aa<br>bb' }, { type : 'text', dataValue : 'aa<br>bb' },
 							'htmlified text 1 - ie' );
@@ -847,8 +777,7 @@
 							{ type : 'text', dataValue : '<div>aa<br>bb</div><div>cc</div>' },
 							'htmlified text 2 - ie' );
 					}
-					else if ( CKEDITOR.env.webkit )
-					{
+					else if ( CKEDITOR.env.webkit ) {
 						assertPasteEvent( editor,
 							{ dataValue : '<div>aa</div><div>bb</div>' }, { type : 'text', dataValue : 'aa<br>bb' },
 							'htmlified text 1 - webkit' );
@@ -859,11 +788,10 @@
 							{ type : 'text', dataValue : '<div>aa<br>bb</div><div>cc</div>' },
 							'htmlified text 2 - webkit' );
 					}
-				});
+				} );
 		},
 
-		'html textification' : function()
-		{
+		'html textification' : function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue : '<p class="test" style="color:red">a<br style="display:none">b</p>' },
 				{ type: 'text', dataValue : '<p>a<br>b</p>' },
@@ -907,8 +835,7 @@
 				'tables 2' );
 		},
 
-		'html textification 2' : function()
-		{
+		'html textification 2' : function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue : '<p title="1">a<br><br><br></p><p>b</p>' },
 				{ type: 'text', dataValue : '<p>a<br><br><br></p><p>b</p>' },
@@ -935,8 +862,7 @@
 				'transparent divs' );
 		},
 
-		'html textification 3 - ticket #8834' : function()
-		{
+		'html textification 3 - ticket #8834' : function() {
 			// Mso classes will be stripped by pastefromword filters, and we need some styling element,
 			// because otherwise this will be handled as htmlified text.
 			assertPasteEvent( this.editor,
@@ -950,8 +876,7 @@
 				'tt #8834' );
 		},
 
-		'html textification 4' : function()
-		{
+		'html textification 4' : function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue : 'x<object>y</object>z <p>a<iframe src=".">b</iframe>c</p>' },
 				{ type: 'text', dataValue : 'xz<p>ac</p>' },
@@ -961,8 +886,7 @@
 			// possible problems: applet, area, fieldset, hgroup (-> h1<br>h2), select, audio, video,
 		},
 
-		'html textification 5 - complex cases' : function()
-		{
+		'html textification 5 - complex cases' : function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue : '<section><h1>HH</h1><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></section><table><tbody><tr><td><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></td></tr></tbody></table>' },
 				{ type: 'text', dataValue : '<p>HH</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p>' },
@@ -979,8 +903,7 @@
 				'extremely complex case' );
 		},
 
-		'html textification 6 - tricks' : function()
-		{
+		'html textification 6 - tricks' : function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue : '<p>A<img src="sth.jpg" alt="This is a title">B</p>' },
 				{ type: 'text', dataValue : '<p>A [This is a title] B</p>' },
@@ -1009,32 +932,27 @@
 				'squash adjacent headers' );
 		},
 
-		'html textification 7 - enter mode br' : function()
-		{
+		'html textification 7 - enter mode br' : function() {
 			testEditor( this, { enterMode : CKEDITOR.ENTER_BR },
-				function( editor )
-				{
+				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue : '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
 						{ type: 'text', dataValue : 'AT<br>AD<br><br>BT<br>BD1<br>BD2' },
 						'def lists' );
-				});
+				} );
 		},
 
-		'html textification 8 - enter mode div' : function()
-		{
+		'html textification 8 - enter mode div' : function() {
 			testEditor( this, { enterMode : CKEDITOR.ENTER_DIV },
-				function( editor )
-				{
+				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue : '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
 						{ type: 'text', dataValue : '<div>AT<br>AD</div><div>BT<br>BD1<br>BD2</div>' },
 						'def lists' );
-				});
+				} );
 		},
 
-		'filtering browser\'s crap' : function()
-		{
+		'filtering browser\'s crap' : function() {
 			assertPasteEvent( this.editor, { dataValue : 'a<span class="Apple-some-class" style="white-space:pre"> </span>b' },
 				{ dataValue : 'a<span style="white-space:pre"> </span>b' }, 'tab-span' );
 
@@ -1045,8 +963,7 @@
 				{ dataValue : 'a<span class="Apple-tab-span" style="white-space:pre">		</span>b' },
 				{ priority : 4, dataValue : 'a&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;b' }, 'tab-span' );
 
-			if ( CKEDITOR.env.gecko )
-			{
+			if ( CKEDITOR.env.gecko ) {
 				// Firefox adds it when user pasted 'a '.
 				assertPasteEvent( this.editor, { dataValue : 'a <br>', htmlified: true },
 					{ dataValue : 'a ' }, 'gecko\'s bogus <br>' );
@@ -1054,10 +971,8 @@
 		},
 
 		// See dt/core/editable/_docs/blockselections.txt
-		'fixing block content' : function()
-		{
-			if ( CKEDITOR.env.ie )
-			{
+		'fixing block content' : function() {
+			if ( CKEDITOR.env.ie ) {
 				assertPasteEvent( this.editor, { dataValue : '&nbsp; <p>ABC</p>' },
 					{ type : 'html', dataValue : '<p>ABC</p>' }, 'eol 1a' );
 				assertPasteEvent( this.editor, { dataValue : '&nbsp;<p>ABC</p>' },
@@ -1067,8 +982,7 @@
 				assertPasteEvent( this.editor, { dataValue : '&nbsp; <b>ABC</b>' },
 					{ type : 'html', dataValue : '&nbsp; <b>ABC</b>' }, 'eol 2' );
 			}
-			else if ( CKEDITOR.env.webkit )
-			{
+			else if ( CKEDITOR.env.webkit ) {
 				assertPasteEvent( this.editor, { dataValue : '<br class="Apple-interchange-newline">ABC' },
 					{ type : 'html', dataValue : '<br data-cke-eol="1">ABC' }, 'eol 1' );
 
@@ -1091,18 +1005,15 @@
 				assert.isTrue( true );
 		},
 
-		'forcing html type' : function()
-		{
+		'forcing html type' : function() {
 			var tc = this,
 				editor = this.editor;
 
-			tc.on( 'beforePaste', function( evt )
-				{
+			tc.on( 'beforePaste', function( evt ) {
 					evt.data.type = 'html';
-				});
+				} );
 
-			tc.on( 'paste', function( evt )
-				{
+			tc.on( 'paste', function( evt ) {
 					assert.areEqual( 'html', evt.data.type );
 				}, null, null, 900 );
 
@@ -1110,21 +1021,18 @@
 			tc.cleanUp();
 		},
 
-		'editor.getClipboardData - successful' : function()
-		{
+		'editor.getClipboardData - successful' : function() {
 			var tc = this,
 				editor = this.editor,
 				beforePasteFired = false;
 
-			editor.once( 'beforePaste', function( evt )
-				{
+			editor.once( 'beforePaste', function( evt ) {
 					assert.areEqual( 'auto', evt.data.type );
 					beforePasteFired = true;
 					evt.data.type = 'test';
-				});
+				} );
 
-			editor.once( 'dialogShow', function( evt )
-				{
+			editor.once( 'dialogShow', function( evt ) {
 					var dialog = editor._.storedDialogs.paste;
 					assert.isTrue( !!dialog );
 
@@ -1136,137 +1044,117 @@
 					frameDoc.getBody().setHtml( 'abc<b>def</b>' );
 					dialog.fire( 'ok' );
 					dialog.hide();
-				});
+				} );
 
-			editor.getClipboardData( function( data )
-			{
-				tc.resume( function()
-					{
+			editor.getClipboardData( function( data ) {
+				tc.resume( function() {
 						assert.isTrue( beforePasteFired );
 						assert.areEqual( 'test', data.type );
 						assert.areEqual( 'abc<b>def</b>', data.dataValue );
-					});
-			});
+					} );
+			} );
 
 			tc.wait();
 		},
 
-		'editor.getClipboardData - unsuccessful' : function()
-		{
+		'editor.getClipboardData - unsuccessful' : function() {
 			var tc = this,
 				editor = this.editor,
 				dialogOpened = false;
 
-			editor.on( 'dialogShow', function( evt )
-				{
+			editor.on( 'dialogShow', function( evt ) {
 					evt.removeListener();
 
-					tc.resume( function()
-						{
+					tc.resume( function() {
 							var dialog = editor._.storedDialogs.paste;
 							assert.isTrue( !!dialog );
 
 							dialogOpened = true;
 
 							// Make sure it's async.
-							setTimeout( function()
-								{
+							setTimeout( function() {
 									dialog.fire( 'cancel' );
 									dialog.hide();
-								});
+								} );
 
 							tc.wait();
-						});
-				});
+						} );
+				} );
 
 			// It's easier to have this asynchronous, becasuse then we don't have to think
 			// if tc.wait() & tc.resume() will execute properly.
-			setTimeout( function()
-				{
-					editor.getClipboardData( function( data )
-					{
-						tc.resume( function()
-							{
+			setTimeout( function() {
+					editor.getClipboardData( function( data ) {
+						tc.resume( function() {
 								assert.isNull( data );
 								assert.isTrue( dialogOpened );
-							});
-					});
-				});
+							} );
+					} );
+				} );
 
 			tc.wait();
 		},
 
-		'editor.getClipboardData - canceled beforePaste' : function()
-		{
+		'editor.getClipboardData - canceled beforePaste' : function() {
 			var tc = this,
 				editor = this.editor,
 				dialogOpened = false,
 				pasteFired = false;
 
-			function onDialogShow()
-			{
+			function onDialogShow() {
 				dialogOpened = true;
 			}
 
-			function onPaste()
-			{
+			function onPaste() {
 				pasteFired = true;
 			}
 
-			editor.on( 'beforePaste', function( evt )
-				{
+			editor.on( 'beforePaste', function( evt ) {
 					evt.removeListener();
 					evt.cancel();
-				});
+				} );
 
 			editor.on( 'dialogShow', onDialogShow );
 			editor.on( 'paste', onPaste );
 
 			// It's easier to have this asynchronous, becasuse then we don't have to think
 			// if tc.wait() & tc.resume() will execute properly.
-			setTimeout( function()
-				{
-					editor.getClipboardData( function( data )
-					{
-						tc.resume( function()
-							{
+			setTimeout( function() {
+					editor.getClipboardData( function( data ) {
+						tc.resume( function() {
 								assert.isNull( data );
 								assert.isFalse( dialogOpened );
-								assert.isFalse( pasteFired);
+								assert.isFalse( pasteFired );
 
 								editor.removeListener( 'dialogShow', onDialogShow );
 								editor.removeListener( 'paste', onPaste );
-							});
-					});
-				});
+							} );
+					} );
+				} );
 
 			tc.wait();
 		},
 
-		'#131 - trailing spaces' : function()
-		{
+		'#131 - trailing spaces' : function() {
 			assertPasteEvent( this.editor,
 				{ dataValue : '&nbsp; BBB&nbsp;' },
 				{ type: 'text', dataValue : '&nbsp; BBB&nbsp;' },
 				'preserve trailing spaces' );
 		},
 
-		'#131 - trailing spaces - default config.clipboard_defaultContentType' : function()
-		{
+		'#131 - trailing spaces - default config.clipboard_defaultContentType' : function() {
 			// Test for default content - type.
 			testEditor( this, {},
-				function( editor )
-				{
+				function( editor ) {
 					assertPasteEvent( editor,
 						{ dataValue : '&nbsp; BBB&nbsp;' },
 						{ type: 'html', dataValue : '&nbsp; BBB&nbsp;' },
 						'preserve trailing spaces' );
-				});
+				} );
 		},
 
 		// #9675 and #9534.
-		'strip editable when about to paste the entire inline editor' : function()
-		{
+		'strip editable when about to paste the entire inline editor' : function() {
 			// #9534: FF and Webkits in inline editor based on header element.
 			assertPasteEvent( this.editor, { dataValue : '<h1 class="cke_editable">Foo<br>Bar</h1>' },
 				{ dataValue : 'Foo<br>Bar' }, 'stripped .cke_editable' );
@@ -1279,6 +1167,6 @@
 				{ dataValue : '<div id="cke_1_contents" class="cke_contents"><div class="cke_editable" contenteditable="true"><p>aaa</p></div></div>' },
 				{ dataValue : '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );
 		}
-	});
+	} );
 
-})();
+} )();

@@ -7,14 +7,12 @@ var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
 
 bender.test(
 {
-		assertNormalizedCssText: function( expected, elementId, msg )
-		{
+		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
 				CKEDITOR.document.getById( elementId ).getAttribute( 'style' ) ), msg );
 		},
 
-		test_extend: function()
-		{
+		test_extend: function() {
 			var fakeFn = function() {};
 			var fakeObj = { fake1 : 1, fake2 : 2 };
 			var fakeArray = [ 'Test', 10, fakeFn, fakeObj ];
@@ -44,38 +42,31 @@ bender.test(
 			assert.areSame( fakeArray	, target.prop7, 'prop7 doesn\'t match' );
 		},
 
-		test_isArray1: function()
-		{
+		test_isArray1: function() {
 			assert.isTrue( CKEDITOR.tools.isArray( [] ) );
 		},
 
-		test_isArray2: function()
-		{
+		test_isArray2: function() {
 			assert.isFalse( CKEDITOR.tools.isArray( { length: 1 } ) );
 		},
 
-		test_isArray3: function()
-		{
+		test_isArray3: function() {
 			assert.isFalse( CKEDITOR.tools.isArray( null ) );
 		},
 
-		test_isArray4: function()
-		{
+		test_isArray4: function() {
 			assert.isFalse( CKEDITOR.tools.isArray( window.x ) );
 		},
 
-		test_htmlEncode1: function()
-		{
+		test_htmlEncode1: function() {
 			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', CKEDITOR.tools.htmlEncode( '<b>Test</b>' ) );
 		},
 
-		test_htmlEncode2: function()
-		{
+		test_htmlEncode2: function() {
 			assert.areSame( 'Test\'s &amp; "quote"', CKEDITOR.tools.htmlEncode( 'Test\'s & "quote"' ) );
 		},
 
-		test_htmlEncode3: function()
-		{
+		test_htmlEncode3: function() {
 			assert.areSame( 'A   B   \n\n\t\tC\n \t D', CKEDITOR.tools.htmlEncode( 'A   B   \n\n\t\tC\n \t D' ), 'Tab should not be touched.' );
 		},
 
@@ -84,66 +75,54 @@ bender.test(
 				assert.areSame( '<a & b ><a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
 		},
 
-		test_htmlEncode_3874: function()
-		{
+		test_htmlEncode_3874: function() {
 			assert.areSame( 'line1\nline2', CKEDITOR.tools.htmlEncode( 'line1\nline2' ) );
 		},
 
-		test_htmlEncodeAttr: function()
-		{
+		test_htmlEncodeAttr: function() {
 			assert.areSame( '&lt;a b=&quot;c&quot;/&gt;', CKEDITOR.tools.htmlEncodeAttr( '<a b="c"/>' ) );
 		},
 
-		test_cssStyleToDomStyle1: function()
-		{
+		test_cssStyleToDomStyle1: function() {
 			assert.areSame( 'backgroundColor', CKEDITOR.tools.cssStyleToDomStyle( 'background-color' ) );
 		},
 
-		test_cssStyleToDomStyle2: function()
-		{
+		test_cssStyleToDomStyle2: function() {
 			assert.areSame( ( CKEDITOR.env.ie && !( document.documentMode > 8 ) ) ? 'styleFloat' : 'cssFloat', CKEDITOR.tools.cssStyleToDomStyle( 'float' ) );
 		},
 
-		test_getNextNumber: function()
-		{
+		test_getNextNumber: function() {
 			var number = CKEDITOR.tools.getNextNumber();
 			assert.areSame( number +  1, CKEDITOR.tools.getNextNumber() );
 			assert.areSame( number +  2, CKEDITOR.tools.getNextNumber() );
 			assert.areSame( number +  3, CKEDITOR.tools.getNextNumber() );
 		},
 
-		test_trim1: function()
-		{
+		test_trim1: function() {
 			assert.areSame( 'test', CKEDITOR.tools.trim( '    test   ' ) );
 		},
 
-		test_trim2: function()
-		{
+		test_trim2: function() {
 			assert.areSame( 'test', CKEDITOR.tools.trim( ' \n \t  test\n  \t ' ) );
 		},
 
-		test_ltrim1: function()
-		{
+		test_ltrim1: function() {
 			assert.areSame( 'test   ', CKEDITOR.tools.ltrim( '    test   ' ) );
 		},
 
-		test_ltrim2: function()
-		{
+		test_ltrim2: function() {
 			assert.areSame( 'test\n  \t ', CKEDITOR.tools.ltrim( ' \n \t  test\n  \t ' ) );
 		},
 
-		test_rtrim1: function()
-		{
+		test_rtrim1: function() {
 			assert.areSame( '    test', CKEDITOR.tools.rtrim( '    test   ' ) );
 		},
 
-		test_rtrim2: function()
-		{
+		test_rtrim2: function() {
 			assert.areSame( ' \n \t  test', CKEDITOR.tools.rtrim( ' \n \t  test\n  \t ' ) );
 		},
 
-		test_clone: function()
-		{
+		test_clone: function() {
 			var obj =
 			{
 				name : 'John',
@@ -166,8 +145,7 @@ bender.test(
 			assert.areSame( 'silver', clone.cars.Porsche.color );
 		},
 
-		test_repeat: function()
-		{
+		test_repeat: function() {
 			assert.areSame( '&nbsp;&nbsp;&nbsp;', CKEDITOR.tools.repeat( '&nbsp;', 3 ) );
 		},
 // Function escapeCssSelector removed in r5956
@@ -176,10 +154,8 @@ bender.test(
 //			assert.areSame( '\\.\\,\\*\\=\\~\\$\\^\\(\\)\\ \\:\\#\\+\\>', CKEDITOR.tools.escapeCssSelector( '.,*=~$^() :#+>' ) );
 //		},
 
-		test_callFunction: function()
-		{
-			var func = CKEDITOR.tools.addFunction( function( argA )
-			{
+		test_callFunction: function() {
+			var func = CKEDITOR.tools.addFunction( function( argA ) {
 				assert.areSame( argA, argARef );
 			} );
 
@@ -187,25 +163,21 @@ bender.test(
 			CKEDITOR.tools.callFunction( func, argARef );
 		},
 
-		test_createClass: function()
-		{
+		test_createClass: function() {
 			var A = CKEDITOR.tools.createClass(
 				{
 					_ :
 					{
-						type: function()
-						{
+						type: function() {
 							return 'A:';
 						}
 					},
-					$: function( name )
-					{
+					$: function( name ) {
 						this._name = name;
 					},
 					proto :
 					{
-						name: function()
-						{
+						name: function() {
 							// Call private method.
 							return  this._.type() + this._name;
 						}
@@ -215,15 +187,13 @@ bender.test(
 			var B = CKEDITOR.tools.createClass(
 					{
 						base : A,
-						$: function()
-						{
+						$: function() {
 							// Call super constructor.
 							this.base.apply( this, arguments );
 						},
 						proto :
 						{
-							type: function()
-							{
+							type: function() {
 								return 'B:';
 							}
 						}
@@ -232,16 +202,14 @@ bender.test(
 			var C = CKEDITOR.tools.createClass(
 				{
 					base : B,
-					$: function()
-					{
+					$: function() {
 						// Call super constructor recursively.
 						this.base.apply( this, arguments );
 					},
 					proto :
 					{
 						// Overrides super class method.
-						name: function()
-						{
+						name: function() {
 							// Call the super method.
 							return C.baseProto.name.call( this ).replace( /A/, 'C' );
 						}
@@ -263,16 +231,14 @@ bender.test(
 			assert.isTrue( c instanceof A && c instanceof B && c instanceof C, 'check instanceof both A & B & C' );
 		},
 
-		testNormalizeCssText: function()
-		{
+		testNormalizeCssText: function() {
 			this.assertNormalizedCssText(
 				'color:red;font-size:10px;width:10.5em;', 'style1', 'order, lowercase and white spaces' );
 
 			this.assertNormalizedCssText( 'color:red;font-family:arial black,helvetica,georgia;', 'style2', 'font names' );
 		},
 
-		testNormalizeCssText2: function()
-		{
+		testNormalizeCssText2: function() {
 			var n = CKEDITOR.tools.normalizeCssText;
 
 			assert.areSame( '', n( ' ' ), 'empty' );
@@ -294,8 +260,7 @@ bender.test(
 				n( 'background-image: url(\'http://cke.com/g.gif?hello=1&bye=0\'); display: none;' ), 'special chars in URL' );
 		},
 
-		testNormalizeCssText3: function()
-		{
+		testNormalizeCssText3: function() {
 			var n = CKEDITOR.tools.normalizeCssText;
 
 			assert.areSame( '', n( ' ', true ), 'empty' );
@@ -304,8 +269,7 @@ bender.test(
 				n( 'color: red; width: 10px; margin: 0.5em; float: left', true ), 'various' );
 		},
 
-		testConvertRgbToHex: function()
-		{
+		testConvertRgbToHex: function() {
 			var c = CKEDITOR.tools.convertRgbToHex;
 
 			assert.areSame( '', c( '' ), 'empty 1' );
@@ -320,8 +284,7 @@ bender.test(
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
 		},
 
-		testCssLength: function()
-		{
+		testCssLength: function() {
 			var cssLength = CKEDITOR.tools.cssLength;
 
 			assert.areSame( '', cssLength( false ) );	// reset the style
@@ -350,8 +313,7 @@ bender.test(
 			assert.areSame( '42em ', cssLength( '42em ' ) );
 		},
 
-		'test cssVendorPrefix - object': function()
-		{
+		'test cssVendorPrefix - object': function() {
 			var obj = CKEDITOR.tools.cssVendorPrefix( 'border-radius', 'val' );
 
 			assert.areSame( 'val', obj[ vendorPrefix + 'border-radius' ] );
@@ -365,15 +327,13 @@ bender.test(
 			assert.areSame( 2, len );
 		},
 
-		'test cssVendorPrefix - string': function()
-		{
+		'test cssVendorPrefix - string': function() {
 			var str = CKEDITOR.tools.cssVendorPrefix( 'border-radius', 'val', true );
 
 			assert.areSame( vendorPrefix + 'border-radius:val;border-radius:val', str );
 		},
 
-		'test writeCssText': function()
-		{
+		'test writeCssText': function() {
 			var write = CKEDITOR.tools.writeCssText;
 
 			assert.areSame( '', write() );

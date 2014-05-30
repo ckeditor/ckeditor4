@@ -12,12 +12,10 @@ var protectedMailLink = '<a href=\"javascript:void(location.href=\'mailto:\'+Str
 
 bender.test(
 {
-	'test created protected mail link' : function()
-	{
+	'test created protected mail link' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<a href="#">[AJD]</a>' );
-		bot.dialog( 'link', function( dialog )
-		{
+		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
 			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
 			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
@@ -32,15 +30,13 @@ bender.test(
 			dialog.hide();
 
 			assert.areSame( protectedMailLink, bot.getData( false, true ) );
-		});
+		} );
 	},
 
-	'test read from protected mail link' : function()
-	{
+	'test read from protected mail link' : function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[' + protectedMailLink + ']' );
-		bot.dialog( 'link', function( dialog )
-		{
+		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
 			addressField = dialog.getContentElement( 'info', 'emailAddress' ),
 			subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
@@ -53,8 +49,8 @@ bender.test(
 
 			dialog.fire( 'ok' );
 			dialog.hide();
-		});
+		} );
 	}
-});
+} );
 
 //]]>

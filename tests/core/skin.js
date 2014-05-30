@@ -3,8 +3,7 @@
 bender.test(
 {
 	// Return a set of css files for the specified skin part.
-	cssFileToCheck : function( part )
-	{
+	cssFileToCheck : function( part ) {
 		var base = CKEDITOR.skin.path();
 
 		// Note: Below code copied from skin.js#getCssPath,
@@ -12,10 +11,9 @@ bender.test(
 
 		var env = CKEDITOR.env;
 		var uas = CKEDITOR.skin[ 'ua_' + part ].split( ',' );
-		uas = uas.sort( function ( a, b ) { return a > b ? -1 : 1; } );
+		uas = uas.sort( function( a, b ) { return a > b ? -1 : 1; } );
 
-		for ( var i = 0, ua ; i < uas.length ; i++ )
-		{
+		for ( var i = 0, ua ; i < uas.length ; i++ ) {
 			ua = uas[ i ];
 
 			if ( env.ie ) {
@@ -36,17 +34,13 @@ bender.test(
 	},
 
 	// Check through all attached stylesheets to see if all skins parts are loaded.
-	checkPartLoaded : function( part, callback )
-	{
+	checkPartLoaded : function( part, callback ) {
 		var css = this.cssFileToCheck( part );
 
-		setTimeout( function checkLoaded()
-		{
-			for ( var i = 0, sheet, index; i < document.styleSheets.length; i++ )
-			{
+		setTimeout( function checkLoaded() {
+			for ( var i = 0, sheet, index; i < document.styleSheets.length; i++ ) {
 				sheet = document.styleSheets[ i ];
-				if ( sheet.href && sheet.href == css )
-				{
+				if ( sheet.href && sheet.href == css ) {
 					callback();
 					return;
 				}
@@ -56,32 +50,28 @@ bender.test(
 		}, 0 );
 	},
 
-	'load skin parts' : function()
-	{
+	'load skin parts' : function() {
 		var tc = this;
 		var skin = CKEDITOR.skin;
 
 		var editor = new CKEDITOR.editor();
-		editor.on( 'loaded', function()
-		{
+		editor.on( 'loaded', function() {
 			// Make sure css parts are all loaded.
-			tc.checkPartLoaded( 'editor', function()
-			{
-				resume( function()
-					{
+			tc.checkPartLoaded( 'editor', function() {
+				resume( function() {
 						// Load one other skin part.
 						skin.loadPart( 'dialog' );
-						tc.checkPartLoaded( 'dialog', function(){
+						tc.checkPartLoaded( 'dialog', function() {
 							// Success, if we reach this point.
 							assert.isTrue( true );
 							resume();
-						});
+						} );
 						wait();
-					});
-			});
-		});
+					} );
+			} );
+		} );
 
 		wait();
 	}
 
-});
+} );

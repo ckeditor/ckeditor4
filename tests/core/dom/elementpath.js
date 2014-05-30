@@ -7,7 +7,7 @@ CKEDITOR.tools.enableHtml5Elements( document );
 bender.test( {
 	// helpers
 
-	elPath: function ( element, root ) {
+	elPath: function( element, root ) {
 		return new CKEDITOR.dom.elementPath( this.$( element ), root ? this.$( root ) : root );
 	},
 

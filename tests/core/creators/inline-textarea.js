@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: wysiwygarea */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -147,4 +147,4 @@
 			} );
 		}
 	} );
-})();
+} )();

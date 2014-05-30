@@ -17,7 +17,7 @@ bender.test( {
 		editor.once( 'contentPreview', function( event ) {
 			tc.resume( function() {
 				assert.isArray( event.data.dataValue.match( '<p>Bar</p>' ), 'Content has been altered.' );
-			});
+			} );
 
 			event.cancel();	// Don't open preview window.
 		}, null, null, 2 );
@@ -26,4 +26,4 @@ bender.test( {
 
 		tc.wait();
 	}
-});
+} );

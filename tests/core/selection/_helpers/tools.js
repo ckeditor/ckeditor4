@@ -5,14 +5,12 @@ var tools = bender.tools,
  *  Make document selection within the sandbox with specified range denote.
  * @param markup
  */
-function makeSelection( markup )
-{
+function makeSelection( markup ) {
 	var container = doc.getById( 'sandbox' );
 	return tools.setHtmlWithSelection( container, markup ).getRanges();
 }
 
-function makeRanges( markup )
-{
+function makeRanges( markup ) {
 	var container = doc.getById( 'sandbox' );
 	return tools.setHtmlWithRange( container, markup );
 }
@@ -21,8 +19,7 @@ function makeRanges( markup )
  * Test retrieve/select range in a row with the source range specified by the range denote.
  * @param markup {String}
  */
-function testSelection( markup )
-{
+function testSelection( markup ) {
 	// WebKit fails on batch running without this.
 	CKEDITOR.env.webkit && doc.focus();
 
@@ -34,8 +31,7 @@ function testSelection( markup )
 
 	// Make the selection.
 	for ( var i = 0, range, length = sourceRanges.length;
-		  range = sourceRanges[ i ],i < length; i++ )
-	{
+		  range = sourceRanges[ i ], i < length; i++ ) {
 		domSel.addRange( convertRange( range ) );
 	}
 
@@ -53,22 +49,19 @@ function testSelection( markup )
 		assert.isTrue( checkRangeEqual( sourceRanges[ i ], madeRanges[ i ] ), 'select ranges result doesn\'t match original on selection: ' + markup );
 }
 
-function testSelectedElement( markup, tag )
-{
+function testSelectedElement( markup, tag ) {
 	makeSelection( markup );
 	var sel = doc.getSelection(), selected = sel.getSelectedElement();
 	assert.isTrue( selected && selected.is( tag ), 'selected element doesn\'t match on selection: ' + markup );
 }
 
-function testSelectedText( markup, text )
-{
+function testSelectedText( markup, text ) {
 	makeSelection( markup );
 	var sel = doc.getSelection(), selectedText = sel.getSelectedText();
 	assert.areSame( text, selectedText, 'selected text doesn\'t match on selection: ' + markup );
 }
 
-function testStartElement( markup, tag )
-{
+function testStartElement( markup, tag ) {
 	makeSelection( markup );
 	var sel = doc.getSelection(), startElement = sel.getStartElement();
 	assert.isTrue( startElement.is( tag ), 'start element doesn\'t match on selection: ' + markup );
@@ -78,12 +71,10 @@ function testStartElement( markup, tag )
  * Convert between CKEDITOR.dom.range and Rangy range.
  * @param range {CKEDITOR.dom.range|Rangy range}
  */
-function convertRange( range )
-{
+function convertRange( range ) {
 	var rng;
 
-	if ( range instanceof CKEDITOR.dom.range )
-	{
+	if ( range instanceof CKEDITOR.dom.range ) {
 		rng = rangy.createRange( range.document.$ );
 		rng.setStart( range.startContainer.$, range.startOffset );
 		rng.setEnd( range.endContainer.$, range.endOffset );
@@ -108,8 +99,7 @@ function convertRange( range )
  * @param {CKEDITOR.dom.range} one
  * @param {CKEDITOR.dom.range} theOther
  */
-function checkRangeEqual( one, theOther )
-{
+function checkRangeEqual( one, theOther ) {
 	one = convertRange( one );
 	theOther = convertRange( theOther );
 	var $ = CKEDITOR.dom.node;
@@ -121,8 +111,7 @@ function checkRangeEqual( one, theOther )
 		new CKEDITOR.dom.document( one.getDocument() ) );
 
 	// Check the measure range doesn't spans over actual content.
-	walker.guard = function( node, isOut )
-	{
+	walker.guard = function( node, isOut ) {
 		if ( !isOut && node.type == CKEDITOR.NODE_ELEMENT )
 				walker.currentElement = node;
 
@@ -134,8 +123,7 @@ function checkRangeEqual( one, theOther )
 		else if ( node.type == CKEDITOR.NODE_TEXT ?
 				CKEDITOR.tools.trim( node.getText() ).length
 				&& node.getText() != '\u200B'
-				: isOut && ( node.equals( walker.currentElement ) ) )
-		{
+				: isOut && ( node.equals( walker.currentElement ) ) ) {
 			equals = false;
 		}
 	};
@@ -144,8 +132,7 @@ function checkRangeEqual( one, theOther )
 	// on the start point of the two ranges.
 	var start = one.compareBoundaryPoints( 0, theOther );		/*Range.START_TO_START*/
 
-	if ( start )
-	{
+	if ( start ) {
 		walkerRange.setStart( $( start < 0 ? one.startContainer : theOther.startContainer ),
 			start < 0 ? one.startOffset : theOther.startOffset );
 		walkerRange.setEnd( $( start > 0 ? one.startContainer : theOther.startContainer ),
@@ -155,12 +142,10 @@ function checkRangeEqual( one, theOther )
 		walker.lastForward();
 	}
 
-	if ( equals && !( one.collapsed && theOther.collapsed ) )
-	{
+	if ( equals && !( one.collapsed && theOther.collapsed ) ) {
 		var end = one.compareBoundaryPoints( 2, theOther );	/*Range.END_TO_END*/
 
-		if ( end )
-		{
+		if ( end ) {
 			walkerRange.setStart( $( end < 0 ? one.endContainer : theOther.endContainer ),
 				end < 0 ? one.endOffset : theOther.endOffset );
 			walkerRange.setEnd( $( end > 0 ? one.endContainer : theOther.endContainer ),
@@ -176,8 +161,7 @@ function checkRangeEqual( one, theOther )
 	return equals;
 }
 
-function checkSelection( type, startElement, selectedElement, selectedText, ranges )
-{
+function checkSelection( type, startElement, selectedElement, selectedText, ranges ) {
 	type !== false && assert.areSame( type, this.getType(), 'check selection type failed' );
 	startElement !== false && assert.areSame( startElement, this.getStartElement(), 'check selection start element failed' );
 	selectedElement !== false && assert.areSame( selectedElement, this.getSelectedElement(), 'check selection selected element failed' );
@@ -185,8 +169,7 @@ function checkSelection( type, startElement, selectedElement, selectedText, rang
 
 	// Check through each range or only the range count.
 	var selRanges = this.getRanges();
-	if ( ranges.length )
-	{
+	if ( ranges.length ) {
 		for ( var i = 0; i < selRanges.length; i++ )
 			assert.isTrue( checkRangeEqual( ranges[ i ], selRanges[ i ] ), 'check selection range failed at position:' + i );
 	}
@@ -194,8 +177,7 @@ function checkSelection( type, startElement, selectedElement, selectedText, rang
 		assert.areSame( ranges, selRanges.length, 'selection ranges count failed' );
 }
 
-function assertSelectionsAreEqual( sel1, sel2 )
-{
+function assertSelectionsAreEqual( sel1, sel2 ) {
 	checkSelection.call( sel1, sel2.getType(), sel2.getStartElement(),
 						 sel2.getSelectedElement(), sel2.getSelectedText(),
 						 sel2.getRanges() );

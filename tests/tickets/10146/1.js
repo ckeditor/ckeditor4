@@ -22,13 +22,13 @@ bender.test( {
 			editor.once( 'mode', function() {
 				resume( function() {
 					assert.areSame( '<br /><br />&nbsp;', editor.getData(), 'Last BR turns into NBSP.' );
-				});
-			});
+				} );
+			} );
 
 			editor.execCommand( 'source' );
-		});
+		} );
 
 		editor.execCommand( 'source' );
 		wait();
 	}
-});
+} );

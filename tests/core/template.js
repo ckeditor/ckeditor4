@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,template */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.test( {
@@ -101,4 +101,4 @@
 			assert.areEqual( expected, tpl.output( replacementObject ) );
 		}
 	} );
-})();
+} )();

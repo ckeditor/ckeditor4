@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-(function() {
+( function() {
 	'use strict';
 
 	var createFilter = acfTestTools.createFilter,
@@ -860,4 +860,4 @@
 			}
 		}
 	};
-})();
+} )();

@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: list */
 
-(function() {
+( function() {
 	'use strict';
 
 	var invalidatedEventCounter = 0;
@@ -78,4 +78,4 @@
 		}
 	} );
 
-})();
+} )();

@@ -4,7 +4,7 @@
 var customCls = 'my_combo';
 bender.editor =
 {
-	config : { toolbar : [[ 'custom_combo' ]], on :
+	config : { toolbar : [ [ 'custom_combo' ] ], on :
 	{
 		'pluginsLoaded' : function( evt ) {
 			var ed = evt.editor;
@@ -21,15 +21,14 @@ bender.editor =
 					onClick: function() {},
 
 					onRender: function() {}
-				});
+				} );
 		}
 	} }
 };
 
 bender.test(
 {
-	'test combo class names' : function()
-	{
+	'test combo class names' : function() {
 		var combo = this.editor.ui.get( 'custom_combo' ),
 			btnEl = CKEDITOR.document.getById( 'cke_' + combo.id );
 
@@ -37,6 +36,6 @@ bender.test(
 		assert.isTrue( btnEl.hasClass( 'cke_combo__custom_combo' ), 'check named ui type class name' );
 		assert.isTrue( btnEl.hasClass( customCls ), 'check ui item custom class name' );
 	}
-});
+} );
 
 //]]>

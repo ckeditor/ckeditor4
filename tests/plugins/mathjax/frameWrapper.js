@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: mathjax */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.test( {
@@ -19,7 +19,7 @@
 					config: {
 						mathJaxLib: '_assets/truncated-mathjax/MathJax.js?config=TeX-AMS_HTML'
 					},
-					fire: function () {
+					fire: function() {
 						//mock
 					},
 					lang: {
@@ -78,7 +78,7 @@
 			}
 
 			// For some reason IE9 sometimes likes to run tests before loading all scripts.
-			if( CKEDITOR.plugins.mathjax )
+			if ( CKEDITOR.plugins.mathjax )
 				startTest();
 			else
 				setTimeout( startTest, 100 );
@@ -172,4 +172,4 @@
 			} );
 		}
 	} );
-})();
+} )();

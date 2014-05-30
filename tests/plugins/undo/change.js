@@ -42,7 +42,7 @@
 		'test setData': function() {
 			bender.editor.focus();
 
-			bender.editor.setData( 'bar', function ( editor ) {
+			bender.editor.setData( 'bar', function( editor ) {
 				resume( function() {
 					assert.areSame( 1, changeCounter );
 				} );

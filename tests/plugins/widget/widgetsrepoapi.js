@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore,widgetcore */
 /* bender-ckeditor-plugins: widget */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -554,7 +554,7 @@
 
 					editor.widgets.destroy( widget );
 
-					assert.areEqual( 0, keysLength(editor.widgets.instances ), '0 widgets remained after destroying 2nd' );
+					assert.areEqual( 0, keysLength( editor.widgets.instances ), '0 widgets remained after destroying 2nd' );
 					assert.isTrue( editor.document.getBody().contains( widgetEl ), 'element2 is still present in DOM' );
 					assert.isMatching(
 						'<p>foo<span ' + widgetInitedWrapperAttributes + '>' +
@@ -1280,4 +1280,4 @@
 			} );
 		}
 	} );
-})();
+} )();

@@ -526,7 +526,7 @@
 					assert.areSame( widget.wrapper, sel.getSelectedElement(), 'Widget is selected element' );
 					assert.areSame( widget, bot.editor.widgets.focused, 'Widget is still focused' );
 					assert.areSame( 'image2', dialogs.join( ',' ), 'Link dialog does not open on widget doubleclick.' );
-				} catch( e ) {
+				} catch ( e ) {
 					throw e;
 				} finally {
 					revert();
@@ -561,7 +561,7 @@
 					assert.areSame( widget.wrapper, sel.getSelectedElement(), 'Widget is selected element' );
 					assert.areSame( widget, bot.editor.widgets.focused, 'Widget is still focused' );
 					assert.areSame( 'image2', dialogs.join( ',' ), 'Link dialog does not open on widget doubleclick.' );
-				} catch( e ) {
+				} catch ( e ) {
 					throw e;
 				} finally {
 					revert();
@@ -728,7 +728,7 @@
 						assert.areSame( 2, dialog.getContentElement( 'info', 'anchorName' ).getInputElement().getChildCount(), 'Anchors loaded into dialog' );
 						dialog.setValueOf( 'info', 'anchorName', 'a' );
 						dialog.getButton( 'ok' ).click();
-					} catch( e ) {
+					} catch ( e ) {
 						throw e;
 					} finally {
 						dialog.hide();

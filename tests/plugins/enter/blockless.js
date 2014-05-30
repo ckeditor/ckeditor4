@@ -11,16 +11,14 @@ bender.editor = {
 bender.test(
 {
 	// Executes ENTER on input, type some text and check output.
-	enterKey : function( html )
-	{
+	enterKey : function( html ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( html );
 		bot.execCommand( 'enter' );
 		return bot.getData( 1, true );
 	},
 
-	'test enter among inline text' : function()
-	{
+	'test enter among inline text' : function() {
 		assert.areSame( 'foo<br />bar', this.enterKey( 'foo^bar' ) );
 		assert.areSame( 'foo<br />&nbsp;', this.enterKey( 'foo^' ) );
 		assert.areSame( '<br />foo', this.enterKey( '^foo' ) );
@@ -28,4 +26,4 @@ bender.test(
 		assert.areSame( '<br /><b>foo</b>', this.enterKey( '<b>^foo</b>' ) );
 	}
 
-});
+} );

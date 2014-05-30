@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: clipboard,pastefromword,ajax */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -37,5 +37,5 @@
 
 			bender.tools.testExternalInputOutput( '_assets/tc1_word2010_' + engineName + '.html', testWordFilter( this.editor ) );
 		}
-	});
-})();
+	} );
+} )();

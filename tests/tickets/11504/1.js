@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {

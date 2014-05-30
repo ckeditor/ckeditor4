@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: listblock */
 
-(function() {
+( function() {
 	'use strict';
 
 	function fixHtml( html ) {
@@ -93,4 +93,4 @@
 		}
 	} );
 
-})();
+} )();

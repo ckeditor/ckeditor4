@@ -2,20 +2,18 @@
 
 var doc = new CKEDITOR.dom.document( document );
 
-function assertNodesList( wanted, nodes )
-{
+function assertNodesList( wanted, nodes ) {
 	var simplifiedNodes = [];
 
 	for ( var i = 0 ; i < nodes.length ; i++ )
-		simplifiedNodes.push( nodes[i].type == CKEDITOR.NODE_TEXT ? nodes[i].getText() : ( '<' + nodes[i].getName() + '>' ) );
+		simplifiedNodes.push( nodes[ i ].type == CKEDITOR.NODE_TEXT ? nodes[ i ].getText() : ( '<' + nodes[ i ].getName() + '>' ) );
 
 	assert.areSame( wanted.toString(), simplifiedNodes.toString() );
 }
 
 bender.test(
 {
-		test_collapsed : function()
-		{
+		test_collapsed : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p>' );
 
@@ -29,8 +27,7 @@ bender.test(
 			assert.isNull( walker.next() );
 		},
 
-		test_next_1 : function()
-		{
+		test_next_1 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -46,14 +43,13 @@ bender.test(
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', ' test' ], nodes );
 		},
 
-		test_next_2 : function()
-		{
+		test_next_2 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( node.getFirst(), CKEDITOR.POSITION_AFTER_START );
-			range.setEnd( node.getChild( [0,1,1,0] ), 2 );
+			range.setEnd( node.getChild( [ 0, 1, 1, 0 ] ), 2 );
 
 			var walker = new CKEDITOR.dom.walker( range );
 
@@ -64,8 +60,7 @@ bender.test(
 			assertNodesList( [ 'This is ', '<b>', 'a ', '<i>', 'simple' ], nodes );
 		},
 
-		test_next_3 : function()
-		{
+		test_next_3 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -82,8 +77,7 @@ bender.test(
 			assertNodesList( [ '<h1>' ], nodes );
 		},
 
-		test_next_4 : function()
-		{
+		test_next_4 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -100,8 +94,7 @@ bender.test(
 			assertNodesList( [], nodes );
 		},
 
-		test_next_5 : function()
-		{
+		test_next_5 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -118,8 +111,7 @@ bender.test(
 			assertNodesList( [ '<h1>' ], nodes );
 		},
 
-		test_next_6 : function()
-		{
+		test_next_6 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -137,8 +129,7 @@ bender.test(
 			assertNodesList( [ '<h1>' ], nodes );
 		},
 
-		test_previous_1 : function()
-		{
+		test_previous_1 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -154,14 +145,13 @@ bender.test(
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
 
-		test_previous_2 : function()
-		{
+		test_previous_2 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
 			var range = new CKEDITOR.dom.range( doc );
-			range.setEnd( node.getChild( [0,0] ), 2 );
-			range.setEnd( node.getChild( [0,1,1,0] ), 2 );
+			range.setEnd( node.getChild( [ 0, 0 ] ), 2 );
+			range.setEnd( node.getChild( [ 0, 1, 1, 0 ] ), 2 );
 
 			var walker = new CKEDITOR.dom.walker( range );
 
@@ -172,8 +162,7 @@ bender.test(
 			assertNodesList( [ 'simple', 'a ', 'This is ' ], nodes );
 		},
 
-		test_previous_3 : function()
-		{
+		test_previous_3 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -190,8 +179,7 @@ bender.test(
 			assertNodesList( [ '' ], nodes );
 		},
 
-		test_previous_4 : function()
-		{
+		test_previous_4 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -208,8 +196,7 @@ bender.test(
 			assertNodesList( [ '<p>' ], nodes );
 		},
 
-		test_previous_5 : function()
-		{
+		test_previous_5 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -226,8 +213,7 @@ bender.test(
 			assertNodesList( [ '<p>' ], nodes );
 		},
 
-		test_next_6 : function()
-		{
+		test_next_6 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>Test</p><h1>More</h1>' );
 
@@ -248,8 +234,7 @@ bender.test(
 		/**
 		 *  Test guard function is invoked on every move when iterating forward.
 		 */
-		test_guard_1 : function()
-		{
+		test_guard_1 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -259,23 +244,20 @@ bender.test(
 			var walker = new CKEDITOR.dom.walker( range );
 			var nodes = [];
 
-			walker.guard = function( node )
-			{
+			walker.guard = function( node ) {
 				nodes.push( node );
 				return true;
 			};
 
-			while ( ( node = walker.next() ) )
-			{ /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
 
-			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', '<i>', '<b>',' test' , '<p>' ], nodes );
+			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', '<i>', '<b>', ' test' , '<p>' ], nodes );
 		},
 
 		/**
 		 *  Test guard function is invoked on every move when iterating backward.
 		 */
-		test_guard_2 : function()
-		{
+		test_guard_2 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -285,20 +267,17 @@ bender.test(
 			var walker = new CKEDITOR.dom.walker( range );
 			var nodes = [];
 
-			walker.guard = function( node )
-			{
+			walker.guard = function( node ) {
 				nodes.push( node );
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) )
-			{ /*jsl:pass*/ }
+			while ( ( node = walker.previous() ) ) { /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', '<i>', 'a ', '<b>', 'This is ', '<p>' ], nodes );
 		},
 
-		test_guard_3 : function()
-		{
+		test_guard_3 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -308,14 +287,12 @@ bender.test(
 			var walker = new CKEDITOR.dom.walker( range );
 			var nodes = [];
 
-			walker.guard = function( node )
-			{
+			walker.guard = function( node ) {
 				nodes.push( node );
 				return !( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'i' ) ); // Stop on <i> element.
 			};
 
-			while ( ( node = walker.next() ) )
-			{ /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>' ], nodes );
 		},
@@ -323,8 +300,7 @@ bender.test(
 		/**
 		 *  Test evaluator function is invoked on every  step when iterating backward.
 		 */
-		test_evaluator_1 : function()
-		{
+		test_evaluator_1 : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<p>This is <b>a <i>simple</i></b> test</p>' );
 
@@ -334,22 +310,19 @@ bender.test(
 			var walker = new CKEDITOR.dom.walker( range );
 			var nodes = [];
 
-			walker.evaluator = function( node )
-			{
+			walker.evaluator = function( node ) {
 				nodes.push( node );
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) )
-			{ /*jsl:pass*/ }
+			while ( ( node = walker.previous() ) ) { /*jsl:pass*/ }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
 		/**
 		 * Test walker stop at empty endContainer.
 		 */
-		test_stopGuard : function()
-		{
+		test_stopGuard : function() {
 			var node = doc.getById( 'playground' );
 			node.setHtml( '<span></span>afterEnd' );
 			var endContainer = node.getFirst();
@@ -360,21 +333,18 @@ bender.test(
 			var walker = new CKEDITOR.dom.walker( range );
 			var nodes = [];
 
-			walker.evaluator = function( node )
-			{
+			walker.evaluator = function( node ) {
 				nodes.push( node );
 				return true;
 			};
 
-			while ( ( node = walker.next() ) )
-			{ /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
 
 			assertNodesList( [ '<span>' ], nodes );
 
 		},
 
-		test_nbsp_is_visible : function ()
-		{
+		test_nbsp_is_visible : function() {
 			assert.isTrue( !!CKEDITOR.dom.walker.invisible( true )( doc.getById( 'nbsp' ).getFirst() ) );
 		},
 
@@ -525,4 +495,4 @@ bender.test(
 			assert.isTrue( doc.getById( 'bbt3' ).isBlockBoundary(), 'list item' );
 			assert.isTrue( doc.getById( 'bbt4' ).isBlockBoundary(), 'floated block' );
 		}
-});
+} );

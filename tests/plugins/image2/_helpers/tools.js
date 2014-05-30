@@ -1,4 +1,4 @@
-var image2TestsTools = (function() {
+var image2TestsTools = ( function() {
 	'use strict';
 
 	// Generates **all** possible widget state transitions and
@@ -19,7 +19,7 @@ var image2TestsTools = (function() {
 					continue;
 
 				// Fill tcs with a new state-change test.
-				tcs[ 'test shift state: [' + s + ' ⇒ ' + t + ']' ] = (function( oldState, newState ) {
+				tcs[ 'test shift state: [' + s + ' ⇒ ' + t + ']' ] = ( function( oldState, newState ) {
 					return function() {
 						assertStateChange( {
 							bot: this.editorBot,
@@ -29,7 +29,7 @@ var image2TestsTools = (function() {
 							msg: 'DOM must reflect the new state.'
 						} );
 					};
-				})( states[ s ], states[ t ] );
+				} )( states[ s ], states[ t ] );
 			}
 		}
 	}
@@ -45,7 +45,7 @@ var image2TestsTools = (function() {
 		// Iterate over each setup: context, oldState and newState.
 		for ( var i in contexts ) {
 			// Fill tcs with a new context-driven state-change test.
-			tcs[ i ] = (function( testCase ) {
+			tcs[ i ] = ( function( testCase ) {
 				return function() {
 					var bot = this.editorBot,
 						context = testCase.context,
@@ -67,7 +67,7 @@ var image2TestsTools = (function() {
 						} );
 					} );
 				};
-			})( contexts[ i ] )
+			} )( contexts[ i ] )
 		}
 	}
 
@@ -112,4 +112,4 @@ var image2TestsTools = (function() {
 		createContextualStateTransitionTests: createContextualStateTransitionTests,
 		fixHtml: fixHtml
 	};
-})();
+} )();

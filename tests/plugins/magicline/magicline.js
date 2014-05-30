@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit,magicline */
 
-(function()
-{
+( function() {
 	'use strict';
 
 	var	tablePlayGround = '<p>Before</p>\
@@ -21,8 +20,7 @@
 
 		editor;
 
-	function testEditor( tc, config, html, callback )
-	{
+	function testEditor( tc, config, html, callback ) {
 		if ( editor )
 			editor.destroy();
 
@@ -33,8 +31,7 @@
 				allowedContent: true, // Disable filter.
 				on :
 				{
-					instanceReady : function( event )
-					{
+					instanceReady : function( event ) {
 						var editable = editor.editable();
 
 						// Set initial HTML.
@@ -47,8 +44,7 @@
 								'font-size' : '0px'		// Make BRs invisible
 							} );
 
-						tc.resume( function()
-							{
+						tc.resume( function() {
 								callback( editor, editable, editor.plugins.magicline.backdoor );
 							} );
 					}
@@ -59,23 +55,19 @@
 		tc.wait();
 	}
 
-	function convertNbsp( text )
-	{
+	function convertNbsp( text ) {
 		return text.replace( /\u00A0/g, '&nbsp;' );
 	}
 
-	function htmlWithSelection( editor )
-	{
+	function htmlWithSelection( editor ) {
 		return convertNbsp( bender.tools.getHtmlWithSelection( editor ) );
 	}
 
-	function compareObjects( object, reference )
-	{
+	function compareObjects( object, reference ) {
 		assert.isTrue( typeof object == 'object'
 			&& typeof reference == 'object' );
 
-		for ( var p in object )
-		{
+		for ( var p in object ) {
 			if ( typeof object[ p ] == 'object' )
 				compareObjects( object[ p ], reference[ p ] );
 			else
@@ -106,15 +98,13 @@
 		},
 
 		// Simulate triggerEditable on a first and last element.
-		'synthetic triggerEditable' : function()
-		{
+		'synthetic triggerEditable' : function() {
 			testEditor( this, {},
 				'<!-- Comment goes here --> <!-- Another comment after white space -->\
 				<div id="up" style="height: 50px; background: green;">Up div</div>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>\
 				<!-- Comment goes here --> <!-- Another comment after white space -->',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -135,15 +125,13 @@
 		},
 
 		// Simulate triggerEditable on a "first and last" element with BR as a sibling.
-		'synthetic triggerEditable: BR above or below' : function()
-		{
+		'synthetic triggerEditable: BR above or below' : function() {
 			testEditor( this, {},
 				'<br/>\
 				<div id="up" style="height: 50px; background: green;">Up div</div>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>\
 				<br/>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -164,15 +152,13 @@
 		},
 
 		// Simulate triggerEditable on a "first and last" element with text node as a sibling.
-		'synthetic triggerEditable: Text above or below' : function()
-		{
+		'synthetic triggerEditable: Text above or below' : function() {
 			testEditor( this, {},
 				'Foo\
 				<div id="up" style="height: 50px; background: green;">Up div</div>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>\
 				Bar',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -194,15 +180,13 @@
 
 		// Simulate triggerEdge on a pair of elements.
 		// Floats, comments and "empty" text nodes should be omitted.
-		'synthetic triggerEdge' : function()
-		{
+		'synthetic triggerEdge' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				<!-- Comment goes here --> <!-- Another comment after white space -->\
 				<div id="floated" style="float: right; width: 50px; height: 50px; background: red;">I am floated</div>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -220,14 +204,12 @@
 		},
 
 		// Simulate triggerEdge on a pair of elements with BR between.
-		'synthetic triggerEdge: BR between' : function()
-		{
+		'synthetic triggerEdge: BR between' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				<br/>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -244,14 +226,12 @@
 		},
 
 		// Simulate triggerEdge on a pair of elements with text node between.
-		'synthetic triggerEdge: Text node between' : function()
-		{
+		'synthetic triggerEdge: Text node between' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				Text\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -268,16 +248,14 @@
 		},
 
 		// Simulate triggerEdge on a pair of elements.
-		'synthetic triggerEdge: Element is first or last child' : function()
-		{
+		'synthetic triggerEdge: Element is first or last child' : function() {
 			testEditor( this, {},
 				'<div id="container" style="padding: 50px; background: green;">\
 					<!-- Comment goes here --> <!-- Another comment after white space -->\
 					<div id="child" style="height: 50px; background: orange;">A child.</div>\
 					<!-- Comment goes here --> <!-- Another comment after white space -->\
 				</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -303,15 +281,13 @@
 		},
 
 		// Simulate triggerExpand on a pair of elements.
-		'synthetic triggerExpand' : function()
-		{
+		'synthetic triggerExpand' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				<!-- Comment goes here --> <!-- Another comment after white space -->\
 				<div id="floated" style="float: right">I am floated</div>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -329,14 +305,12 @@
 		},
 
 		// Simulate triggerExpand on a pair of elements with BR between.
-		'synthetic triggerExpand: BR between' : function()
-		{
+		'synthetic triggerExpand: BR between' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				<br/>\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -353,14 +327,12 @@
 		},
 
 		// Simulate triggerExpand on a pair of elements with BR between.
-		'synthetic triggerExpand: Text node between' : function()
-		{
+		'synthetic triggerExpand: Text node between' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; margin: 0 0 50px; background: green;">Up div</div>\
 				Foo\
 				<div id="bottom" style="height: 50px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -378,13 +350,11 @@
 
 
 		// Simulate triggerExpand on a pair of elements when elements are close and the pointer is outside.
-		'synthetic triggerExpand: Direct siblings with pointer in outer space' : function()
-		{
+		'synthetic triggerExpand: Direct siblings with pointer in outer space' : function() {
 			testEditor( this, {},
 				'<div id="up" style="height: 50px; width: 100px; background: green;">Up div</div>\
 				<div id="bottom" style="height: 50px; width: 100px; background: orange;">Bottom div</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var that = CKEDITOR.tools.extend( backdoor.that,
 						{
 							mouse :
@@ -402,15 +372,13 @@
 		},
 
 		// Checks if the line is being removed from editable on getData
-		'getData box clearing' : function()
-		{
+		'getData box clearing' : function() {
 			var str1 = '<div>CK</div>',
 				str2 = '<div>Editor</div>';
 
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var dummy1 = CKEDITOR.dom.element.createFromHtml( str1, editor.document ),
 						dummy2 = CKEDITOR.dom.element.createFromHtml( str2, editor.document );
 
@@ -424,12 +392,10 @@
 				} );
 		},
 
-		'get size' : function()
-		{
+		'get size' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var div = CKEDITOR.dom.element.createFromHtml( '<div style="\
 							width: 200px; height: 100px;\
 							padding: 5px 10px 15px 20px;\
@@ -468,12 +434,10 @@
 		},
 
 		// Checks the correctness of the boxTrigger constructor and methods.
-		'box trigger' : function()
-		{
+		'box trigger' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var trigger = new backdoor.boxTrigger( [ null, null, EDGE_MIDDLE, TYPE_EXPAND ] );
 
 					assert.isTrue( trigger.is( EDGE_MIDDLE )
@@ -492,12 +456,10 @@
 				} );
 		},
 
-		'get ascendant trigger' : function()
-		{
+		'get ascendant trigger' : function() {
 			testEditor( this, {},
 				tablePlayGround,
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					backdoor.that.element = editor.document.getById( 'cell' );
 					assert.isTrue(
 						backdoor.getAscendantTrigger(
@@ -506,12 +468,10 @@
 				} );
 		},
 
-		'get non empty neighbour' : function()
-		{
+		'get non empty neighbour' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<u>Any</u> <b>CKSource previous</b>Foo\
 						<!-- Comment -->foo<span>^Start</span>\
 						<!-- Comment -->bar<i>CKSource next</i> <u>Any</u>' );
@@ -533,12 +493,10 @@
 		},
 
 		// Checks line (+ line children) recognition function
-		'is line' : function()
-		{
+		'is line' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var dummy1 = CKEDITOR.dom.element.createFromHtml( '<div>CK</div>', editor.document ),
 						dummy2 = CKEDITOR.dom.element.createFromHtml( '<div>Editor</div>', editor.document );
 
@@ -554,19 +512,16 @@
 				} );
 		},
 
-		'magicline removes itself on editor#getData without superfluous operations' : function()
-		{
+		'magicline removes itself on editor#getData without superfluous operations' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var called = 0;
 
 					editable.setHtml( '<p>data</p>' );
 
 					// Mock editable#getData.
-					editable.getData = function()
-					{
+					editable.getData = function() {
 						called += 1;
 						// Execute original getData().
 						return CKEDITOR.editable.prototype.getData.apply( this, arguments );
@@ -581,23 +536,20 @@
 				} );
 		},
 
-		'magicline with editor.config.enterMode set to ENTER_P' : function()
-		{
+		'magicline with editor.config.enterMode set to ENTER_P' : function() {
 			testEditor( this,
 				{
 					enterMode : CKEDITOR.ENTER_P
 				},
 				'<p>Foo</p>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var hr = CKEDITOR.dom.element.createFromHtml( '<hr>', backdoor.that.doc );
 					hr.appendTo( editable );
 
 					backdoor.that.element = hr;
 
 					// Access focus space before HR.
-					backdoor.accessFocusSpace( backdoor.that, function( accessNode )
-						{
+					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
 							accessNode.insertBefore( hr );
 						} );
 
@@ -605,23 +557,20 @@
 				} );
 		},
 
-		'magicline with editor.config.enterMode set to ENTER_DIV' : function()
-		{
+		'magicline with editor.config.enterMode set to ENTER_DIV' : function() {
 			testEditor( this,
 				{
 					enterMode : CKEDITOR.ENTER_DIV
 				},
 				'<div>Foo</div>',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var hr = CKEDITOR.dom.element.createFromHtml( '<hr>', backdoor.that.doc );
 					hr.appendTo( editable );
 
 					backdoor.that.element = hr;
 
 					// Access focus space before HR.
-					backdoor.accessFocusSpace( backdoor.that, function( accessNode )
-						{
+					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
 							accessNode.insertBefore( hr );
 						} );
 
@@ -629,23 +578,20 @@
 				} );
 		},
 
-		'magicline with editor.config.enterMode set to ENTER_BR' : function()
-		{
+		'magicline with editor.config.enterMode set to ENTER_BR' : function() {
 			testEditor( this,
 				{
 					enterMode : CKEDITOR.ENTER_BR
 				},
 				'<hr />',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					var hr = CKEDITOR.dom.element.createFromHtml( '<hr>', backdoor.that.doc );
 					hr.appendTo( editable );
 
 					backdoor.that.element = hr;
 
 					// Access focus space before HR.
-					backdoor.accessFocusSpace( backdoor.that, function( accessNode )
-						{
+					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
 							accessNode.insertBefore( hr );
 						} );
 
@@ -653,12 +599,10 @@
 				} );
 		},
 
-		'command: access space with empty editable' : function()
-		{
+		'command: access space with empty editable' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					// Setup empty editable.
 					bender.tools.setHtmlWithSelection( editor, '^' );
 
@@ -669,12 +613,10 @@
 				} );
 		},
 
-		'command: access space - neighbour trigger is first-child (accessible)' : function()
-		{
+		'command: access space - neighbour trigger is first-child (accessible)' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, ' <div>Foo</div> <p>Ba^r</p> <div>Foo</div> ' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -685,12 +627,10 @@
 				} );
 		},
 
-		'command: access space - neighbour trigger is first-child (inaccessible)' : function()
-		{
+		'command: access space - neighbour trigger is first-child (inaccessible)' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, ' <hr /> <p>Ba^r</p>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -707,12 +647,10 @@
 				} );
 		},
 
-		'command: access space - neighbour trigger has a sibling trigger (accessible)' : function()
-		{
+		'command: access space - neighbour trigger has a sibling trigger (accessible)' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<div>A</div><!-- Comment --> <div>B</div> <p>Ba^r</p><div>C</div><!-- Comment --> <div>D</div> ' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -723,12 +661,10 @@
 				} );
 		},
 
-		'command: access space - neighbour trigger has a sibling trigger (inaccessible)' : function()
-		{
+		'command: access space - neighbour trigger has a sibling trigger (inaccessible)' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<hr /><!-- Comment --> <hr /> <p>Ba^r</p>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -745,12 +681,10 @@
 				} );
 		},
 
-		'command: access space - go down inline elements when looking for neighbour' : function()
-		{
+		'command: access space - go down inline elements when looking for neighbour' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<hr /><!-- Comment --> <hr /> <p><a href="#foo"><span><em>Ba^r</em></span></a></p>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -760,12 +694,10 @@
 				} );
 		},
 
-		'command: access space before - towards DOM root' : function()
-		{
+		'command: access space before - towards DOM root' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<div><p><span>Ba^r</span></p></div>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -775,12 +707,10 @@
 				} );
 		},
 
-		'command: access space after - towards DOM root' : function()
-		{
+		'command: access space after - towards DOM root' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<div><p><span>Ba^r</span></p></div>' );
 
 					editor.execCommand( 'accessNextSpace' );
@@ -790,12 +720,10 @@
 				} );
 		},
 
-		'command: access space before list' : function()
-		{
+		'command: access space before list' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<!-- Comment goes here --><ul><li>Foo</li><li>B^ar</li></ul>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -805,12 +733,10 @@
 				} );
 		},
 
-		'command: access space after list' : function()
-		{
+		'command: access space after list' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<ul><li>Foo</li><li>B^ar</li></ul><!-- Comment goes here -->' );
 
 					editor.execCommand( 'accessNextSpace' );
@@ -820,12 +746,10 @@
 				} );
 		},
 
-		'command: access space before table' : function()
-		{
+		'command: access space before table' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '\
 						<!-- Comment goes here -->\
 						<table><tbody><tr><td>CKE^ditor</td></tr></tbody></table>' );
@@ -837,12 +761,10 @@
 				} );
 		},
 
-		'command: access space after table' : function()
-		{
+		'command: access space after table' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '\
 						<table><tbody><tr><td>CKE^ditor</td></tr></tbody></table>\
 						<!-- Comment goes here -->' );
@@ -854,12 +776,10 @@
 				} );
 		},
 
-		'command: access space before/after - check sibling' : function()
-		{
+		'command: access space before/after - check sibling' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, 'a<div><p><span>Ba^r</span></p></div>b' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -870,12 +790,10 @@
 				} );
 		},
 
-		'command: access space before/after - check sibling 2' : function()
-		{
+		'command: access space before/after - check sibling 2' : function() {
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<hr />x<hr /><p>Ba^r</p><div>Foo</div>x' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -886,14 +804,12 @@
 				} );
 		},
 
-		'command: deep space access - multiple commands in the same direction with undo' : function()
-		{
+		'command: deep space access - multiple commands in the same direction with undo' : function() {
 			var that = this;
 
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<table><tbody><tr><td><table><tbody><tr><td>Fo^o</td></tr></tbody></table></td></tr></tbody></table>' );
 
 					editor.execCommand( 'accessPreviousSpace' );
@@ -928,14 +844,12 @@
 				} );
 		},
 
-		'command: deep space access - with changes' : function()
-		{
+		'command: deep space access - with changes' : function() {
 			var that = this;
 
 			testEditor( this, {},
 				'',
-				function( editor, editable, backdoor )
-				{
+				function( editor, editable, backdoor ) {
 					bender.tools.setHtmlWithSelection( editor, '<table><tbody><tr><td><table><tbody><tr><td>Fo^o</td></tr></tbody></table></td></tr></tbody></table>' );
 
 					editor.execCommand( 'accessPreviousSpace' );

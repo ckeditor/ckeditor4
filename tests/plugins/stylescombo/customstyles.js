@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: stylescombo,toolbar */
 
-( function () {
+( function() {
 	'use strict';
 
 	var buildPreviewCalled = [];

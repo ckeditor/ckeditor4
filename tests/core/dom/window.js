@@ -4,24 +4,21 @@ var loadCalled,
 	testWindow = new CKEDITOR.dom.window( window ),
 	t;
 
-testWindow.on( 'load', function()
-	{
+testWindow.on( 'load', function() {
 		t = document.createElement( 'textarea' );
 		t.id = 'fred';
 
 		document.body.appendChild( t );
 
 		loadCalled = true;
-	});
+	} );
 
-testWindow.on( 'beforeunload', function()
-	{
+testWindow.on( 'beforeunload', function() {
 		t.value = new Date();
-	});
+	} );
 
 bender.test( appendDomObjectTests(
-	function( id )
-	{
+	function( id ) {
 		if ( id === 'domObjectTest1' )
 			return new CKEDITOR.dom.window( window );
 
@@ -29,8 +26,7 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.window( {} );
 	},
 	{
-		test_loadEvent : function()
-		{
+		test_loadEvent : function() {
 			assert.isTrue( loadCalled );
 		}
 	}

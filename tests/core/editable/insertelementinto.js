@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,insertion */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {
@@ -114,4 +114,4 @@
 		}
 	} );
 
-})();
+} )();

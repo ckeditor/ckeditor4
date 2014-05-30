@@ -83,8 +83,7 @@ function addTests( title, command, testsToAdd ) {
 	}
 
 	function add( title, command, input, output ) {
-		tests[ testTitle ] = function()
-		{
+		tests[ testTitle ] = function() {
 			var bot = this.editorBot;
 			bot.setHtmlWithSelection( input );
 			bot.execCommand( command );

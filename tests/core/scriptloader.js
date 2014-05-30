@@ -16,7 +16,7 @@ var tests = {
 		function callback( data ) {
 			tc.resume( function() {
 				assert.areSame( 'Test!', testVar );
-			});
+			} );
 		}
 
 		CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback );
@@ -45,7 +45,7 @@ var tests = {
 						tc.resume( function() {
 							assert.areSame( true, success, 'Successful load.' );
 							wait();
-						});
+						} );
 
 						if ( loaded.length == scripts.length ) {
 							tc.resume( function() {
@@ -54,12 +54,12 @@ var tests = {
 								assert.areSame( 'Bam', testVar3, 'Script has been loaded.' );
 
 								arrayAssert.itemsAreSame( scripts, loaded, 'Scripts loaded in queue order.' );
-							});
+							} );
 						}
 					}
 
 					CKEDITOR.scriptLoader.queue( script, callback );
-				})( script );
+				} )( script );
 			}
 		}
 

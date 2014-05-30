@@ -2,13 +2,11 @@
 /* bender-ckeditor-plugins: dialogadvtab,entities */
 
 	//<![CDATA[
-( function()
-{
+( function() {
 	bender.editor = true;
 	bender.test(
 	{
-		setUp : function()
-		{
+		setUp : function() {
 			var ed = this.editor;
 			var adv = ed.plugins.dialogadvtab;
 			ed.addCommand( 'testAdvTab', new CKEDITOR.dialogCommand( 'testAdvTab' ) )
@@ -24,11 +22,9 @@
 		},
 
 		// #9553
-		'test getStyle' : function()
-		{
+		'test getStyle' : function() {
 			var bot = this.editorBot, editor = this.editor;
-			bot.dialog( 'testAdvTab', function( dialog )
-			{
+			bot.dialog( 'testAdvTab', function( dialog ) {
 				var field = dialog.getContentElement( 'advanced', 'advStyles' );
 				field.setValue( 'border-width: 2px; width: 200px;' );
 
@@ -39,15 +35,13 @@
 
 				assert.areSame( '300px', field.getStyle( 'width' ) );
 				assert.areSame( '5px', field.getStyle( 'border-width' ) );
-			});
+			} );
 		},
 
 		// #9281
-		'test dialog field updateStyle' : function( source, expected )
-		{
+		'test dialog field updateStyle' : function( source, expected ) {
 			var bot = this.editorBot, editor = this.editor;
-			bot.dialog( 'testAdvTab', function( dialog )
-			{
+			bot.dialog( 'testAdvTab', function( dialog ) {
 				var field = dialog.getContentElement( 'advanced', 'advStyles' );
 				field.setValue( 'border-width: 2px; width: 200px;' );
 				field.updateStyle( 'width', '300px' );
@@ -72,8 +66,8 @@
 				, style );
 
 				dialog.hide();
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 	//]]>

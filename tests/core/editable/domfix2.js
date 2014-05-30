@@ -5,12 +5,10 @@ var doc = CKEDITOR.document;
 bender.test(
 {
 	// Initialize the editor instance.
-	'async:init' : function()
-	{
+	'async:init' : function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
-		editor.on( 'loaded', function()
-		{
+		editor.on( 'loaded', function() {
 			editor.editable( doc.getById( 'editor' ) );
 			editor.mode = 'wysiwyg';
 			editor.fire( 'contentDom' );
@@ -21,15 +19,13 @@ bender.test(
 	},
 
 	// Test auto wrapping content that lives directly in body element with paragraph.
-	testAutoParagraphing : function()
-	{
+	testAutoParagraphing : function() {
 		var editor = this.editor;
 		editor.setData( '' );
 		editor.focus();
 		var path = editor.elementPath();
 		assert.isTrue( path.block.is( 'p' ) );
-		if ( CKEDITOR.env.gecko )
-		{
+		if ( CKEDITOR.env.gecko ) {
 			var tail = path.block.getLast();
 			assert.isTrue( tail.is( 'br' ) );
 		}
