@@ -1,4 +1,6 @@
 (function (bender) {
+    'use strict';
+
     function browserHtmlFix(html) {
         if (CKEDITOR.env.ie && (document.documentMode || CKEDITOR.env.version) < 9) {
             // Fix output base href on anchored link.

@@ -1,4 +1,6 @@
 (function (window, bender) {
+    'use strict';
+
     var overrides = ['areSame', 'areNotSame', 'areEqual', 'areNotEqual'],
         YTest = bender.Y.Test,
         i;

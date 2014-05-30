@@ -1,4 +1,5 @@
 (function (bender) {
+    'use strict';
 
     bender.editorBot = function (tc, editor) {
         this.testCase = tc;
@@ -81,7 +82,7 @@
         // For convenience, load here creator dedicated plugin, to avoid having them defined by test.
         config.extraPlugins = (creator == 'replace' || creator == 'append' ?
             'wysiwygarea' : 'floatingspace') + ',' + (config.extraPlugins || '');
-        
+
         if (profile.formattedOutput) config.extraPlugins += 'htmlwriter';
 
         CKEDITOR[creator](element, config);
@@ -115,7 +116,7 @@
 
             if (fixHtml) data = bender.tools.fixHtml(data);
             if (compatHtml) data = bender.tools.compatHtml(data);
-            
+
             return data;
         },
 
