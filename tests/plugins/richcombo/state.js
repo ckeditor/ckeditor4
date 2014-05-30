@@ -1,19 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: richcombo,format,stylescombo,font,toolbar */
 
-function combos( editor ) {
-	var items = editor.ui.items,
-		item,
-		combos = [];
-
-	for( var i in items ) {
-		item = items[ i ];
-		if ( item.type == CKEDITOR.UI_RICHCOMBO )
-			combos.push( editor.ui.get( i ) );
-	}
-	return combos;
-}
-
 bender.test( {
 	'test rich combos state when editor is readonly' : function() {
 		bender.editorBot.create( {
@@ -23,10 +10,21 @@ bender.test( {
 			}
 		}, function( bot ) {
 			bot.setHtmlWithSelection( '<p>^foo</p>' );
-			var combos = this.combos( bot.editor ),
-				combo;
 
-			for ( var i in combos ) {
+			var editor = bot.editor,
+				items = editor.ui.items,
+				item,
+				combos = [],
+				combo,
+				i;
+
+			for ( i in items ) {
+				item = items[ i ];
+				if ( item.type == CKEDITOR.UI_RICHCOMBO )
+					combos.push( editor.ui.get( i ) );
+			}
+
+			for ( i in combos ) {
 				combo = combos[ i ];
 				if ( !combo.readOnly )
 					assert.areSame( CKEDITOR.TRISTATE_DISABLED, combo._.state );

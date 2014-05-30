@@ -18,7 +18,7 @@ var CKEDITOR_GETURL = function( url ) {
 			}, function( bot ) {
 				var hrefs = getStylesheets( bot.editor.document );
 
-				assert.areSame( '/tests/tests/plugins/wysiwygarea/_assets/contents.css', hrefs.join() );
+				assert.isMatching( /\/apps\/ckeditor\/contents.css$/, hrefs.join() );
 			} );
 		}
 	} );
