@@ -470,7 +470,7 @@
 			if ( !this.typing )
 				this.onTypingStart();
 
-			if ( (keyGroupChanged && this.wasFunctionalKey !== undefined) || strokesPerSnapshotExceeded ) {
+			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
 					console.log( 'Key group changed' );
 					// Reset the other key group recorded count.
