@@ -139,7 +139,7 @@
 						}
 					} );
 
-					editor.editable().on( 'mousedown', function( evt ) {
+					editor.editable().on( 'click', function( evt ) {
 						this.editor.fire( 'saveSnapshot' );
 						undoManager.resetType();
 					} );
