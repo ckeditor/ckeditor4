@@ -112,13 +112,16 @@
 				} );
 
 				editor.editable().on( 'keydown', function( evt ) {
-					if ( isNavigationKey( evt.data.$.keyCode ) ) {
+					var keyCode = evt.data.getKey();
+					if ( isNavigationKey( keyCode ) ) {
 						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 							this.editor.fire( 'saveSnapshot' );
 							undoManager.resetType();
 						}
-					} else if ( evt.data.getKey() == 8 || evt.data.getKey() == 46 ) {
-						undoManager.newType( evt.data.getKey() );
+					} else if ( keyCode == 8 || keyCode == 46 ) {
+						// For functional keys we need to execute newType() in
+						// keydown event.
+						undoManager.newType( keyCode );
 					}
 				} );
 
@@ -128,15 +131,16 @@
 				} );
 
 				editor.editable().on( 'keyup', function( evt ) {
-					if ( inputFired ) {
-						console.log( 'input flag detected, processing');
+					var keyCode = evt.data.getKey();
 
-						if ( evt.data.getKey() != 8 && evt.data.getKey() != 46 ) {
-							undoManager.newType( evt.data.getKey() );
+					if ( inputFired ) {
+						// Functional keys are handled in `keydown` listener.
+						if ( keyCode != 8 && keyCode != 46 ) {
+							undoManager.newType( keyCode );
 						}
-						// Reset temporary flag.
+						// Reset flag indicating input event.
 						inputFired = false;
-					} else if ( isNavigationKey( evt.data.$.keyCode ) ) {
+					} else if ( isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );
 					}
 				} );
