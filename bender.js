@@ -27,7 +27,7 @@ var config = {
 				'adapters/',
 				'!/_'
 			],
-			jquery: [ '1.7', '1.7.2', '1.8.3', '1.9.1', '1.10.1', '2.0.0' ]
+			jquery: [ '1.7', '1.7.2', '1.8.3', '1.9.1', '1.10.2', '2.0.0' ]
 		},
 
 		'Core': {
@@ -64,8 +64,8 @@ var config = {
 			],
 			regressions: {
 				// IE10
-				'tests/plugins/ajax/ajax#test_loadXml_sync' : 'env.ie && env.version > 9',
-				'tests/plugins/ajax/ajax#test_loadXml_async' : 'env.ie && env.version > 9',
+				'tests/plugins/ajax/ajax#test_loadXml_sync': 'env.ie && env.version > 9',
+				'tests/plugins/ajax/ajax#test_loadXml_async': 'env.ie && env.version > 9',
 
 				// IE8 (#11242)
 				'tests/plugins/indent/indent#test indent next to inline non-editable': 'env.ie && env.version == 8',
