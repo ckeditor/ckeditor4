@@ -621,6 +621,44 @@
 			},
 
 			/**
+			 * @since 4.5
+			 * @param {CKEDITOR.dom.range} range
+			 * @returns {CKEDITOR.dom.documentFragment}
+			 */
+			getSelectedHtmlFromRange: function( range ) {
+				return range.cloneContents();
+			},
+
+			/**
+			 * @since 4.5
+			 * @param {CKEDITOR.dom.range} range
+			 * @returns {CKEDITOR.dom.documentFragment}
+			 */
+			extractSelectedHtmlFromRange: function( range ) {
+				return range.deleteContents();
+			},
+
+			/**
+			 * @since 4.5
+			 * @param {Boolean} toString
+			 * @returns {CKEDITOR.dom.documentFragment/String}
+			 */
+			getSelectedHtml: function( toString ) {
+				var docFragment = this.getSelectedHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
+
+				return toString ? docFragment.getHtml() : docFragment;
+			},
+
+			/**
+			 * @since 4.5
+			 * @param {Boolean} toString
+			 * @returns {CKEDITOR.dom.documentFragment/String}
+			 */
+			extractSelectedHtml: function() {
+				return this.extractSelectedHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
+			},
+
+			/**
 			 * Editable element bootstrapping.
 			 *
 			 * @private
