@@ -506,14 +506,18 @@ bender.test( appendDomObjectTests(
 		test_getDocumentPosition : function() {
 			// Assign the page location of the element.
 			YUI().use( 'dom-screen', 'node', function( Y ) {
-				Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
-				var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
-					x = Math.round( pos.x ),
-					y = Math.round( pos.y );
+				resume( function() {
+					Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
+					var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
+						x = Math.round( pos.x ),
+						y = Math.round( pos.y );
 
-				assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
-				assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+					assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
+					assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+				} );
 			} );
+
+			wait();
 		},
 
 		// Test get last non-spaces child node.
