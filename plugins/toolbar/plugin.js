@@ -555,15 +555,15 @@
 	}
 
 	/**
-	 * Add toolbar group. See {@link CKEDITOR.config#toolbarGroups} for more details.
+	 * Adds a toolbar group. See {@link CKEDITOR.config#toolbarGroups} for more details.
 	 *
-	 * **Note:** This method won't modify toolbar groups set explicitly by
-	 * {@link CKEDITOR.config#toolbarGroups}. It will extend only default setting.
+	 * **Note:** This method will not modify toolbar groups set explicitly by
+	 * {@link CKEDITOR.config#toolbarGroups}. It will only extend the default setting.
 	 *
-	 * @param {String} name Group name.
-	 * @param {Number/String} previous Name of group after which this one
+	 * @param {String} name Toolbar group name.
+	 * @param {Number/String} previous The name of the toolbar group after which this one
 	 * should be added or `0` if this group should be the first one.
-	 * @param {String} [subgroupOf] Name of parent group.
+	 * @param {String} [subgroupOf] The name of the parent group.
 	 * @member CKEDITOR.ui
 	 */
 	CKEDITOR.ui.prototype.addToolbarGroup = function( name, previous, subgroupOf ) {
@@ -649,8 +649,8 @@
 CKEDITOR.UI_SEPARATOR = 'separator';
 
 /**
- * The "UI space" to which rendering the toolbar. For the default editor implementation,
- * the recommended options are `'top'` and `'bottom'`.
+ * The part of the user interface where the toolbar will be rendered. For the default
+ *  editor implementation, the recommended options are `'top'` and `'bottom'`.
  *
  *		config.toolbarLocation = 'bottom';
  *
@@ -663,19 +663,19 @@ CKEDITOR.config.toolbarLocation = 'top';
  * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
  * toolbars (strips), each one being also an array, containing a list of UI items.
  *
- * If set to `null`, generate toolbar automatically using all available buttons
+ * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
- *		// separator and the "Bold" and "Italic" buttons.
+ *		// separator, and the "Bold" and "Italic" buttons.
  *		config.toolbar = [
  *			[ 'Source', '-', 'Bold', 'Italic' ]
  *		];
  *
- *		// Similar to example the above, defines a "Basic" toolbar with only one strip containing three buttons.
- *		// Note that this setting is composed by "toolbar_" added by the toolbar name, which in this case is called "Basic".
- *		// This second part of the setting name can be anything. You must use this name in the CKEDITOR.config.toolbar setting,
- *		// so you instruct the editor which toolbar_(name) setting to use.
+ *		// Similar to the example above, defines a "Basic" toolbar with only one strip containing three buttons.
+ *		// Note that this setting is composed by "toolbar_" added to the toolbar name, which in this case is called "Basic".
+ *		// This second part of the setting name can be anything. You must use this name in the CKEDITOR.config.toolbar setting
+ *		// in order to instruct the editor which `toolbar_(name)` setting should be used.
  *		config.toolbar_Basic = [
  *			[ 'Source', '-', 'Bold', 'Italic' ]
  *		];
@@ -689,12 +689,12 @@ CKEDITOR.config.toolbarLocation = 'top';
 /**
  * The toolbar groups definition.
  *
- * If toolbar layout isn't explicitly defined by {@link #toolbar} setting, then
+ * If the toolbar layout is not explicitly defined by the {@link #toolbar} setting, then
  * this setting is used to group all defined buttons (see {@link CKEDITOR.ui#addButton}).
- * Buttons are associated with toolbar groups by `toolbar` property in their definition objects.
+ * Buttons are associated with toolbar groups by the `toolbar` property in their definition objects.
  *
- * New groups may be dynamically added during the editor and plugins initialization by
- * {@link CKEDITOR.ui#addToolbarGroup}. Although only if default setting was used.
+ * New groups may be dynamically added during the editor and plugin initialization by
+ * {@link CKEDITOR.ui#addToolbarGroup}. This is only possible if the default setting was used.
  *
  *		// Default setting.
  *		config.toolbarGroups = [
@@ -720,7 +720,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 
 /**
- * Whether the toolbar can be collapsed by the user. If disabled, the collapser
+ * Whether the toolbar can be collapsed by the user. If disabled, the collapse
  * button will not be displayed.
  *
  *		config.toolbarCanCollapse = true;
@@ -732,7 +732,7 @@ CKEDITOR.config.toolbarLocation = 'top';
 /**
  * Whether the toolbar must start expanded when the editor is loaded.
  *
- * Setting this option to `false` will affect toolbar only when
+ * Setting this option to `false` will affect the toolbar only when
  * {@link #toolbarCanCollapse} is set to `true`:
  *
  *		config.toolbarCanCollapse = true;
@@ -743,9 +743,9 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 
 /**
- * When enabled, makes the arrow keys navigation cycle within the current
- * toolbar group. Otherwise the arrows will move through all items available in
- * the toolbar. The *TAB* key will still be used to quickly jump among the
+ * When enabled, makes the *Arrow* keys navigation cycle within the current
+ * toolbar group. Otherwise the *Arrow* keys will move through all items available in
+ * the toolbar. The *Tab* key will still be used to quickly jump among the
  * toolbar groups.
  *
  *		config.toolbarGroupCycling = false;
@@ -756,23 +756,25 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 
 /**
- * List of toolbar button names that must not be rendered. This will work as
- * well for non-button toolbar items, like the Font combos.
+ * List of toolbar button names that must not be rendered. This will also work
+ * for non-button toolbar items, like the Font drop-down list.
  *
  *		config.removeButtons = 'Underline,JustifyCenter';
  *
- * This configuration should not be overused, having
- * {@link CKEDITOR.config#removePlugins} removing features from the editor. In
- * some cases though, a single plugin may define a set of toolbar buttons and
- * removeButtons may be useful when just a few of them are to be removed.
+ * This configuration option should not be overused. The recommended way is to use the
+ * {@link CKEDITOR.config#removePlugins} setting to remove features from the editor
+ * or even better, [create a custom editor build](http://ckeditor.com/builder) with
+ * just the features that you will use.
+ * In some cases though, a single plugin may define a set of toolbar buttons and
+ * `removeButtons` may be useful when just a few of them are to be removed.
  *
  * @cfg {String} [removeButtons]
  * @member CKEDITOR.config
  */
 
 /**
- * Toolbar definition used by the editor. It is crated from the
- * {@link CKEDITOR.config#toolbar} if it is set or automatically
+ * The toolbar definition used by the editor. It is created from the
+ * {@link CKEDITOR.config#toolbar} option if it is set or automatically
  * based on {@link CKEDITOR.config#toolbarGroups}.
  *
  * @readonly
