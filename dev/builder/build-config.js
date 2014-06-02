@@ -16,6 +16,9 @@ var CKBUILDER_CONFIG = {
 		'tests',
 		'package.json',
 		'bender.js',
+		'.bender',
+		'bender-err.log',
+		'bender-out.log',
 		'node_modules'
 	],
 	plugins: {
