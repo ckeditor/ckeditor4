@@ -1,0 +1,86 @@
+<textarea id='apply_rtl_table'>
+[<table>
+	<tbody>
+		<tr>
+			<td>
+				aa</td>
+			<td>
+				bb</td>
+		</tr>
+		<tr>
+			<td>
+				cc</td>
+			<td>
+				dd</td>
+		</tr>
+	</tbody>
+</table>]
+=>
+<table dir="rtl">
+	<tbody>
+	<tr>
+		<td>aa</td>
+		<td>bb</td>
+	</tr>
+	<tr>
+		<td>cc</td>
+		<td>dd</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='apply_ltr_table'>
+<table dir="rtl">
+	<tbody>
+		<tr>
+			<td>
+				aa</td>
+			[
+			<td>
+				bb</td>
+		</tr>
+		<tr>
+			<td>
+				cc</td>
+			<td>
+				dd</td>
+			]
+		</tr>
+	</tbody>
+</table>
+=>
+<table dir="rtl">
+	<tbody>
+	<tr>
+		<td>aa</td>
+		<td dir="ltr">bb</td>
+	</tr>
+	<tr>
+		<td dir="ltr">cc</td>
+		<td dir="ltr">dd</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='apply_dir_mirror'>
+<div>
+<p style="margin-left: 30px;">[foo</p>
+<p style="text-align: left;">bar]</p>
+</div>
+=>
+<div dir="rtl">
+<p style="margin-right:30px;">foo</p>
+<p style="text-align:right;">bar</p>
+</div>
+</textarea>
+<textarea id='apply_dir_mirror_2'>
+<div dir="rtl">
+<p style="margin-left: 30px;">[foo</p>
+<p style="text-align: left;">bar]</p>
+</div>
+=>
+<div dir="ltr">
+<p style="margin-right:30px;">foo</p>
+<p style="text-align:right;">bar</p>
+</div>
+</textarea>

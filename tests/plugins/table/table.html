@@ -1,0 +1,110 @@
+<textarea id='create-table'>
+<table style="width: 500px;" border="1" cellpadding="1" cellspacing="1">
+	<tbody>
+	<tr>
+		<td>^&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	<tr>
+		<td>&amp;nbsp;</td>
+		<td>&amp;nbsp;</td>
+	</tr>
+	</tbody>
+</table>
+<p>&amp;nbsp;</p>
+</textarea>
+<textarea id='add-caption'>
+<table style="width:200px" border="1" cellpadding="1" cellspacing="1">
+	<thead>
+		<tr>
+			<th scope="col">
+				foo</th>
+			<th scope="col">
+				bar</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				^foo</td>
+			<td>
+				bar</td>
+		</tr>
+	</tbody>
+</table>
+=>
+<table style="width:200px" border="1" cellpadding="1" cellspacing="1" summary="Summary">
+	<caption>Caption</caption>
+	<thead>
+	<tr>
+		<th scope="col">foo</th>
+		<th scope="col">bar</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>foo</td>
+		<td>bar</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+<textarea id='read-table'>
+<table>
+	<caption>caption</caption>
+	<thead>
+		<tr>
+			<th scope="col">
+				foo</th>
+			<th scope="col">
+				bar</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				[foo]</td>
+			<td>
+				bar</td>
+		</tr>
+		<tr>
+			<td>
+				baz</td>
+			<td>
+				quz</td>
+		</tr>
+	</tbody>
+</table>
+=>
+</textarea>
+<textarea id='read-table-width'>
+<table style="width: 50%">
+	<tbody>
+		<tr>
+			<td>
+				[baz]</td>
+			<td>
+				quz</td>
+		</tr>
+	</tbody>
+</table>
+=>
+</textarea>
+<textarea id='del-table'>
+<div>
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					foo^</td>
+				<td>
+					bar</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+=></textarea>

@@ -1,0 +1,131 @@
+Sample HTML:
+<p>AA<b>A</b>AA</p>
+<p>BB<b>B</b>BB</p>
+<p>CC<b>C</b>CC</p>
+<p>DD<b>D</b>DD</p>
+
+
+1. Line (home to end)
+	AAAAA
+	[BBBBB]
+	CCCCC
+	DDDDD
+
+	Chrome:		BB<b>B</b>BB
+	Firefox:	BB<b>B</b>BB
+	Opera:		BB<b>B</b>BB
+	IE9:		<p>BB<b>B</b>BB</p>
+	IE8:		BB<b>B</b>BB
+
+2. Line + LF (home to end + right)
+	AAAAA
+	[BBBBB
+	]CCCCC
+	DDDDD
+
+	Chrome:		<p>BB<b>B</b>BB</p><div><br></div>
+	Firefox:	<p>BB<b>B</b>BB<br></p>
+	Opera:		BB<b>B</b>BB
+	IE9:		<p>BB<b>B</b>BB</p>
+	IE8:		<p>BB<b>B</b>BB</p>
+
+3. LF + line (end to home + left)
+	AAAAA[
+	BBBBB]
+	CCCCC
+	DDDDD
+
+	Chrome:		<br class="Apple-interchange-newline">BB<b>B</b>BB
+	Firefox:	<br><p>BB<b>B</b>BB<br></p>
+	Opera:		BB<b>B</b>BB
+	IE9:		<p>BB<b>B</b>BB</p>
+	IE8:		&nbsp; <p>BB<b>B</b>BB</p>
+		In this and in all other cases '&nbsp; ' means /^&nbsp;( |\r\n)?<block/g
+		I was able to produce trailing space also for IE9, but that was a rare thing.
+
+4. Partial line + LF (home + right to end + right)
+	AAAAA
+	B[BBBB
+	]CCCCC
+	DDDDD
+
+	Chrome:		<p>B<b>B</b>BB</p><div><br></div>
+	Firefox:	B<b>B</b>BB<br>
+	Opera:		B<b>B</b>BB
+	IE9:		B<b>B</b>BB
+	IE8:		B<b>B</b>BB
+
+5. LF + Partial line (end + left to home + left)
+	AAAAA[
+	BBBB]B
+	CCCCC
+	DDDDD
+
+	Chrome:		<br class="Apple-interchange-newline">BB<b>B</b>B
+	Firefox:	<br>BB<b>B</b>B
+	Opera:		BB<b>B</b>B
+	IE9:		<p>BB<b>B</b>B</p>
+	IE8:		&nbsp; <p>BB<b>B</b>B</p>
+
+6. Two partial lines
+	A[AAAA
+	BBBB]B
+	CCCCC
+	DDDDD
+
+	Chrome:		<p>A<b>A</b>AA</p><p>BB<b>B</b>B</p>
+	Firefox:	A<b>A</b>AA<br>BB<b>B</b>B
+	Opera:		<p>A<b>A</b>AA</p><p>BB<b>B</b>B</p>
+	IE9:		A<b>A</b>AA<p>BB<b>B</b>B</p>
+	IE8:		A<b>A</b>AA <p>BB<b>B</b>B</p>
+
+7. Two lines (home to end + down + end)
+	AAAAA
+	[BBBBB
+	CCCCC]
+	DDDDD
+
+	Chrome:		<p>BB<b>B</b>BB</p><p>CC<b>C</b>CC</p>
+	Firefox:	<p>BB<b>B</b>BB<br></p><p>CC<b>C</b>CC<br></p>
+	Opera:		<p>BB<b>B</b>BB</p><p>CC<b>C</b>CC</p>
+	IE9:		<p>BB<b>B</b>BB</p><p>CC<b>C</b>CC</p>
+	IE8:		<p>BB<b>B</b>BB</p> <p>CC<b>C</b>CC</p>
+
+8. Partial line 1 (home + right to end)
+	AAAAA
+	B[BBBB]
+	CCCCC
+	DDDDD
+
+	Chrome:		B<b>B</b>BB
+	Firefox:	B<b>B</b>BB
+	Opera:		B<b>B</b>BB
+	IE9:		B<b>B</b>BB
+	IE8:		B<b>B</b>BB
+
+9. Partial line 2 (end + left to home)
+	AAAAA
+	[BBBB]B
+	CCCCC
+	DDDDD
+
+	Chrome:		BB<b>B</b>B
+	Firefox:	BB<b>B</b>B
+	Opera:		BB<b>B</b>B
+	IE9:		BB<b>B</b>B
+	IE8:		BB<b>B</b>B
+
+
+Testing procedure:
+1. Select given range.
+2. Copy.
+3. Open plugins/clipboard/samples/clipboard.html.
+4. Paste into empty editable (<p>^</p>).
+5. Copy result from the paste event with lowest priority (-1).
+
+
+IE7:
+1. <p>BB<b>B</b>BB</p>
+2. <p>BB<b>B</b>BB</p>
+3. &nbsp; <p>BB<b>B</b>BB</p>
+4. ...

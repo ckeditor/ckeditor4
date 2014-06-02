@@ -1,0 +1,59 @@
+<textarea id="_TEXTAREA1"><script type="text/javascript">alert('>');</script><table><tbody><tr><!--- IE doesn't handle this comment ---><!--[if gte IE 6 ]>
+	<![if lt IE 8 ]>
+	gIE conditional comments
+<![endif]>
+<![endif]--><td><%Response.Write(now())%></td><td><asp:control_name id="some_id" runat="server"/></td><td><?php
+include ("head.html"); ?></td></tr></tbody></table><noscript>Your browser doesn't support JavaScript</noscript></textarea>
+<textarea id="_TEXTAREA_3591"><object><param /><param /><embed></embed></object></textarea>
+<textarea id="_TEXTAREA_3591_protected"><cke:object><cke:param></cke:param><cke:param></cke:param><cke:embed></cke:embed></cke:object></textarea>
+<textarea id="_TEXTAREA_3801_1"><!-- foo --><p>bar</p></textarea>
+<textarea id="_TEXTAREA_3801_2"><p><!-- foo -->bar</p></textarea>
+<textarea id="_TEXTAREA_3801_3"><!-- foo --><p><!-- foo -->bar</p></textarea>
+<textarea id="_TEXTAREA_3801_4"><p>bar</p><!-- foo --></textarea>
+<textarea id="_TEXTAREA_3801_5">bar<!-- foo --></textarea>
+<textarea id="_TEXTAREA_3801_6"><!-- foo -->bar</textarea>
+<textarea id="_TEXTAREA_3801_7"><p><!-- foo -->bar</p><p><!-- foo -->bar</p></textarea>
+<textarea id="_TEXTAREA_3869_1">#3869<script language="Javascript" type="text/javascript">
+	<!--
+	alert('-->');
+	//-->
+</script></textarea>
+<textarea id="_TEXTAREA_3869_2">#3869&lt;gallery&gt;
+	file.jpg
+	&lt;options name="test1" value="value1"&gt;&lt;/options&gt;
+	&lt;options name="test2" value="value2"&gt;&lt;/options&gt;
+	&lt;/gallery&gt;&lt;?
+	echo '&lt;script type="text/javascript"&gt;';
+	echo '&lt;!--alert("--&gt;");//--&gt;';
+	echo '&lt;/script&gt;';
+	?&gt;&lt;!--&lt;%Response.Write(now())%&gt;//--&gt;invalid&lt;?
+	echo 'bbb&lt;script&gt;
+	&lt;!--
+	ccc();&lt;!-- &lt;/script&gt;&lt;!-- &lt;/script&gt;
+	//--&gt;&lt;/script&gt;
+	&lt;script&gt;&lt;!--
+	&lt;!--
+	ffff();
+	//--&gt;&lt;/script&gt;
+	ddd';
+	?&gt;html</textarea>
+<textarea id="_TEXTAREA_3591_2">&lt;object classid="clsid"&gt;&lt;param name="movie" value="movie.swf" /&gt;&lt;embed src="movie.swf" type="application/x-shockwave-flash"&gt;&lt;/embed&gt;&lt;/object&gt;</textarea>
+<textarea id="table-multi-tbody">
+	<table>
+		<caption>cap</caption>
+		<tbody>
+		<tr>
+			<td>
+				foo
+			</td>
+		</tr>
+		</tbody>
+		<tbody>
+		<tr>
+			<td>bar</td>
+		</tr>
+		</tbody>
+	</table>
+	=>
+	(no change)
+</textarea>

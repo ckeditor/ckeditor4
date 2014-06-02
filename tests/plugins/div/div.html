@@ -1,0 +1,113 @@
+<textarea id="create">
+	<div>[div</div>
+	<table>
+		<tbody>
+			<tr>
+				<td>cell</td>
+				<td>cell</td>
+			</tr>
+		</tbody>
+	</table>
+	<ul>
+		<li>item1</li>
+		<li>item2</li>
+	</ul>
+	<p>paragraph]</p>
+=>
+	<div><div>div</div></div>
+	<table>
+		<tbody>
+		<tr>
+			<td><div>cell</div></td>
+			<td><div>cell</div></td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+		</ul>
+		<p>paragraph</p></div>
+</textarea>
+
+<textarea id="edit">
+	<div>
+		<div>^div</div>
+	</div>
+	<table>
+		<tbody>
+		<tr>
+			<td>
+				<div>cell</div>
+			</td>
+			<td>
+				<div>cell</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+		</ul>
+		<p>paragraph</p></div>
+=>
+	<div class="my-div"><div>div</div></div>
+	<table>
+		<tbody>
+		<tr>
+			<td><div>cell</div></td>
+			<td><div>cell</div></td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+		</ul>
+		<p>paragraph</p></div>
+</textarea>
+
+
+<textarea id="remove">
+	<div class="my-div">
+		<div>[div</div>
+	</div>
+	<table>
+		<tbody>
+		<tr>
+			<td>
+				<div>cell</div>
+			</td>
+			<td>
+				<div>cell</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+		</ul>
+		<p>paragraph]</p>
+	</div>
+=>
+	<div>div</div>
+	<table>
+		<tbody>
+		<tr>
+			<td><div>cell</div></td>
+			<td><div>cell</div></td>
+		</tr>
+		</tbody>
+	</table>
+	<ul>
+		<li>item1</li>
+		<li>item2</li>
+	</ul>
+	<p>paragraph</p>
+</textarea>

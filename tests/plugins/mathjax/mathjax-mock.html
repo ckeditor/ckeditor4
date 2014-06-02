@@ -1,0 +1,27 @@
+<head>
+	<script src="../widget/_helpers/tools.js"></script>
+</head>
+<body>
+	<textarea id="classic" cols="10" rows="10"></textarea>
+	<textarea id="with_iframe" cols="10" rows="10">
+		<p>X <span class="math-tex">\(1 + 1 = 2\)</span> Y</p>
+	</textarea>
+	<textarea id="only_one_widget" cols="10" rows="10">
+		<p><span class="math-tex">\(1 + 1 = 2\)</span></p>
+		<p><span class="math-tex">These elements <strong>should not be</strong></span></p>
+		<p><span class="math-tex"><strong>recognized as a widget.</strong></span> Y</p>
+	</textarea>
+
+	<textarea id="editor_default" cols="10" rows="10">
+		<p>X <span class="math-tex">\(1 + 1 = 2\)</span> X</p>
+		<p>Y <span class="math-tex" style="padding:10px">\(1 + 2 = 3\)</span> Y</p>
+	</textarea>
+	<textarea id="editor_customClass" cols="10" rows="10">
+		<p>X <span class="mjx">\(1 + 1 = 2\)</span> X</p>
+		<p>Y <span class="mjx" style="padding:10px">\(1 + 2 = 3\)</span> Y</p>
+	</textarea>
+	<div id="editor_inline" contenteditable="true">
+		<p>X <span class="math-tex">\(1 + 1 = 2\)</span> X</p>
+		<p>Y <span class="math-tex" style="padding:10px">\(1 + 2 = 3\)</span> Y</p>
+	</div>
+</body>

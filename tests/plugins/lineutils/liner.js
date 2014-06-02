@@ -1,0 +1,113 @@
+/* bender-tags: editor,unit,lineutils */
+/* bender-ckeditor-plugins: lineutils */
+
+( function() {
+	'use strict';
+
+	var liner;
+
+	CKEDITOR.addCss(
+		'body { padding: 0px !important; margin: 0px !important; }' +
+		'body * { outline: 1px solid #ccc } '
+	);
+
+	bender.editor = {
+		config: {
+			allowedContent: true,
+			autoParagraph: false,
+			on: {
+				instanceReady: function() {
+					liner = new CKEDITOR.plugins.lineutils.liner( this );
+				}
+			}
+		}
+	};
+
+	var lines = [],
+		line;
+
+	bender.test( {
+		'test addLine': function() {
+			var bot = this.editorBot,
+				body = CKEDITOR.document.getBody();
+
+			for ( var i = 0; i < 10; i++ ) {
+				line = liner.addLine();
+				lines.push( line );
+				assert.areSame( body, line.getParent(), 'Line added to DOM.' );
+			}
+		},
+
+		'test remove lines (destroy)': function() {
+			var bot = this.editorBot;
+
+			for ( var i = lines.length; i--; )
+				liner[ i % 2 ? 'visible' : 'hidden' ][ lines[ i ].getUniqueId() ] = lines[ i ];
+
+			assert.areSame( 5, CKEDITOR.tools.objectKeys( liner.visible ).length );
+			assert.areSame( 5, CKEDITOR.tools.objectKeys( liner.hidden ).length );
+
+			bot.editor.destroy();
+
+			for ( var i = lines.length; i--; )
+				assert.isNull( lines[ i ].getParent(), 'Line removed from DOM.' );
+		},
+
+		'test showLine': function() {
+			var line, uid;
+
+			line = liner.addLine();
+			uid = line.getUniqueId();
+
+			assert.isUndefined( liner.hidden[ uid ], 'Line not registered in visible.' );
+			assert.isUndefined( liner.visible[ uid ], 'Line not registered in hidden.' );
+
+			liner.showLine( line );
+
+			assert.isUndefined( liner.hidden[ uid ], 'Line not added to hidden.' );
+			assert.areSame( liner.visible[ uid ], line, 'Line properly added to visible.' );
+
+			assert.isTrue( line.isVisible(), 'Line hidden in DOM.' );
+		},
+
+
+		'test hideLine': function() {
+			var line, uid;
+
+			line = liner.addLine();
+			uid = line.getUniqueId();
+
+			assert.isUndefined( liner.hidden[ uid ], 'Line not registered in visible.' );
+			assert.isUndefined( liner.visible[ uid ], 'Line not registered in hidden.' );
+
+			liner.visible[ uid ] = line;
+			liner.hideLine( line );
+
+			assert.isUndefined( liner.visible[ uid ], 'Line properly removed from visible.' );
+			assert.areSame( liner.hidden[ uid ], line, 'Line properly added to hidden.' );
+
+			assert.isFalse( line.isVisible(), 'Line hidden in DOM.' );
+		},
+
+		'test hideVisible': function() {
+			var line1, line2, uid;
+
+			// Clean-up liner first.
+			liner.removeAll();
+
+			// One to hidden.
+			line1 = liner.addLine();
+			liner.hidden[ line1.getUniqueId() ] = line2;
+
+			// One to visible.
+			line2 = liner.addLine();
+			liner.visible[ line2.getUniqueId()  ] = line2;
+
+			liner.hideVisible();
+
+			assert.isTrue( CKEDITOR.tools.isEmpty( liner.visible ), 'Line removed from visible.' );
+			assert.isFalse( line2.isVisible(), 'Line hidden in DOM.' );
+			assert.areSame( 2, CKEDITOR.tools.objectKeys( liner.hidden ).length, 'Line moved to hidden.' );
+		}
+	} );
+} )();

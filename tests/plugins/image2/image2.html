@@ -1,0 +1,102 @@
+<head>
+	<script src="../widget/_helpers/tools.js"></script>
+</head>
+<body>
+	<textarea id="editor_image">
+		<p>x</p>
+		<img id="w1" src="_assets/foo.png" alt="foo" />
+	</textarea>
+
+	<textarea id="editor_imageAligned">
+		<p>x</p>
+		<img id="w1" src="_assets/foo.png" alt="foo" style="float:right" />
+	</textarea>
+
+	<textarea id="editor_imageCentered">
+		<p>x</p>
+		<p style="text-align:center">
+			<img id="w1" src="_assets/foo.png" alt="foo" />
+		</p>
+	</textarea>
+
+	<textarea id="editor_captioned">
+		<p>x</p>
+		<figure id="w1" class="image">
+			<img src="_assets/foo.png" alt="foo" />
+			<figcaption>caption1</figcaption>
+		</figure>
+	</textarea>
+
+	<textarea id="editor_captionedAligned">
+		<p>x</p>
+		<figure id="w1" class="image" style="float:right">
+			<img src="_assets/foo.png" alt="foo" />
+			<figcaption>caption1</figcaption>
+		</figure>
+	</textarea>
+
+	<textarea id="editor_captionedCentered">
+		<p>x</p>
+		<div style="text-align:center">
+			<figure id="w1" class="image" style="display:inline-block">
+				<img src="_assets/foo.png" alt="foo" />
+				<figcaption>caption1</figcaption>
+			</figure>
+		</div>
+	</textarea>
+
+	<!-- alignClasses -->
+
+	<textarea id="editor_image_alignClasses">
+		<p>x</p>
+		<img id="w1" src="_assets/foo.png" alt="foo" />
+	</textarea>
+
+	<textarea id="editor_imageAligned_alignClasses">
+		<p>x</p>
+		<img class="r" id="w1" src="_assets/foo.png" alt="foo" />
+	</textarea>
+
+	<textarea id="editor_imageCentered_alignClasses">
+		<p>x</p>
+		<p class="c">
+			<img id="w1" src="_assets/foo.png" alt="foo" />
+		</p>
+	</textarea>
+
+	<textarea id="editor_captioned_alignClasses">
+		<p>x</p>
+		<figure id="w1" class="image">
+			<img src="_assets/foo.png" alt="foo" />
+			<figcaption>caption1</figcaption>
+		</figure>
+	</textarea>
+
+	<textarea id="editor_captionedAligned_alignClasses">
+		<p>x</p>
+		<figure id="w1" class="image r">
+			<img src="_assets/foo.png" alt="foo" />
+			<figcaption>caption1</figcaption>
+		</figure>
+	</textarea>
+
+	<textarea id="editor_captionedCentered_alignClasses">
+		<p>x</p>
+		<div class="c">
+			<figure id="w1" class="image">
+				<img src="_assets/foo.png" alt="foo" />
+				<figcaption>caption1</figcaption>
+			</figure>
+		</div>
+	</textarea>
+
+	<!-- linking -->
+
+	<textarea id="editor_captioned_linked">
+		<p>x</p>
+		<figure id="w1" class="image">
+			<a id="l1" href="http://foo"><img src="_assets/foo.png" alt="foo" /></a>
+			<figcaption>caption1</figcaption>
+		</figure>
+	</textarea>
+</body>

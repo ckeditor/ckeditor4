@@ -1,0 +1,43 @@
+<head>
+	<script src="../../plugins/clipboard/_helpers/pasting.js"></script>
+</head>
+<body>
+	<textarea id="list_1">
+	<p style="mso-list: l0 level1 lfo1;">
+		<font color="#000000">
+			<span>
+				<span style="mso-list: Ignore;">
+					<font size="3">&#x00B7;</font>
+					<span>&nbsp;&nbsp;</span>
+				</span>
+			</span>
+			<span lang="EN-US"><font size="3" face="Calibri">item1</font></span>
+		</font>
+	</p>
+	<p class="ParagraphedelisteCxSpPierwsze" style="mso-list: l0 level2 lfo1;">
+		<font color="#000000">
+			<span size="3">
+				&#2002;
+				<span>&nbsp;&nbsp;</span>
+			</span>
+			<span lang="EN-US"><font size="3" face="Calibri">item2</font></span>
+		</font>
+	</p>
+	<p class="MsoListParagraph" style="mso-list: l0 level1 lfo1;">
+		<span style="font-family:Symbol;">
+			&#x00B7;
+			<span>&nbsp;&nbsp;</span>
+		</span>
+		<span lang="EN-US"><font size="3" face="Calibri">item3</font></span>
+	</p>
+	=>
+	<ul>
+		<li>item1
+			<ul>
+				<li>item2</li>
+			</ul>
+		</li>
+		<li>item3</li>
+	</ul>
+	</textarea>
+</body>
