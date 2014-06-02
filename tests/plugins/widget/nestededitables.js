@@ -263,8 +263,8 @@
 				assert.areSame( '<i testsetdata1="2">B</i>', fixHtml( editable.getHtml() ),
 					'data processor\'s rule for editable elements only was applied' );
 
-				editable.setData( 'B<img alt="foo" src="foo.png">B' );
-				assert.isMatching( /^B<img alt="foo" data-cke-saved-src="foo.png" src="[^"]+" \/>B$/, fixHtml( editable.getHtml() ),
+				editable.setData( 'B<img alt="foo" src="../../_assets/img.gif">B' );
+				assert.isMatching( /^B<img alt="foo" data-cke-saved-src="..\/..\/_assets\/img\.gif" src="[^"]+" \/>B$/, fixHtml( editable.getHtml() ),
 					'data processor\'s preprocessor rule was applied' );
 			} );
 		},
@@ -320,8 +320,8 @@
 				assert.areSame( '<i testgetdata1="2">B</i>', editable.getData(),
 					'data processor\'s rule for editable elements only was applied' );
 
-				editable.setData( 'B<img alt="foo" src="foo.png">B' );
-				assert.isMatching( 'B<img alt="foo" src="foo.png" />B', editable.getData(),
+				editable.setData( 'B<img alt="foo" src="../../_assets/img.gif">B' );
+				assert.isMatching( 'B<img alt="foo" src="../../_assets/img.gif" />B', editable.getData(),
 					'data processor\'s preprocessor rule was applied' );
 			} );
 		},
@@ -354,7 +354,7 @@
 			var editor = this.editor,
 				data =
 					'<p>Foo</p><div data-widget="testprocessing1" id="w1">' +
-						'<p id="foo"><i class="testprocessing1">A</i><img alt="a" src="foo.png" /><b>B</b></p>' +
+						'<p id="foo"><i class="testprocessing1">A</i><img alt="a" src="../../_assets/img.gif" /><b>B</b></p>' +
 					'</div>';
 
 			editor.widgets.add( 'testprocessing1', {
@@ -371,12 +371,12 @@
 					editable = widget.editables.foo;
 
 				assert.isMatching(
-					/^<i class="testprocessing1">A<\/i><img alt="a" data-cke-saved-src="foo.png" src="[^"]+" \/>B$/,
+					/^<i class="testprocessing1">A<\/i><img alt="a" data-cke-saved-src="..\/..\/_assets\/img\.gif" src="[^"]+" \/>B$/,
 					fixHtml( editable.getHtml() ), 'nested editable data was processed' );
 
 				data =
 					'<p>Foo</p><div data-widget="testprocessing1" id="w1">' +
-						'<p id="foo"><i class="testprocessing1">A</i><img alt="a" src="foo.png" />B</p>' +
+						'<p id="foo"><i class="testprocessing1">A</i><img alt="a" src="../../_assets/img.gif" />B</p>' +
 					'</div>';
 				assert.areSame( data, editor.getData() );
 			} );
@@ -907,7 +907,7 @@
 				'<p>foo</p>' +
 				'<div data-widget="testdel1"><p class="foo" id="e1">a<br />b</p></div>' +
 				'<div data-widget="testdel1"><div class="foo" id="e2"><p class="p1">foo</p><p class="p2">bar</p></div></div>' +
-				'<div data-widget="testdel1"><div class="foo" id="e3"><img src="foo.png" />foo</div></div>',
+				'<div data-widget="testdel1"><div class="foo" id="e3"><img src="../../_assets/img.gif" />foo</div></div>',
 				function() {
 					var e1 = editor.document.getById( 'e1' ),
 						e2 = editor.document.getById( 'e2' ),
