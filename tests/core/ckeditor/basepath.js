@@ -7,8 +7,15 @@
 	var path = window.location.protocol + '//' + window.location.host,
 		// http://ckeditor4.t/tests/tests/core/ckeditor
 		folderPath = path + window.location.pathname.slice( 0, window.location.pathname.lastIndexOf( '/' ) ),
+		expectedEditorPath = '/apps/ckeditor/',
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
-		secondDomainName = 'sub.ckeditor4.t';
+		secondDomainName = 'sub.ckeditor4.t',
+		port = window.location.port;
+
+	// If we're running tests on special port, append it to the second domain too.
+	if ( port != 80 ) {
+		secondDomainName += ':' + port;
+	}
 
 	bender.test( {
 		'test default BASEPATH': function() {
@@ -47,10 +54,10 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( 'http://' + secondDomainName + '/ckeditor/', iCKEDITOR.basePath );
-					assert.areSame( 'http://' + secondDomainName + '/ckeditor/ckeditor.js' + query,
+					assert.areSame( 'http://' + secondDomainName + expectedEditorPath, iCKEDITOR.basePath );
+					assert.areSame( 'http://' + secondDomainName + expectedEditorPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
-					assert.areSame( 'http://' + secondDomainName + '/ckeditor/skins/default/editor.css' + query,
+					assert.areSame( 'http://' + secondDomainName + expectedEditorPath + 'skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'skins/default/editor.css' ) );
 					assert.areSame( '/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( '/skins/default/editor.css' ) );
@@ -61,7 +68,7 @@
 
 			doc.$.open();
 			doc.$.write(
-				'<script>CKEDITOR_BASEPATH = "http://' + secondDomainName + '/ckeditor/";</scr' + 'ipt>' +
+				'<script>CKEDITOR_BASEPATH = "http://' + secondDomainName + expectedEditorPath + '";</scr' + 'ipt>' +
 				'<script src="' + CKEDITOR.getUrl( 'ckeditor.js' ) + '"></scr' + 'ipt>' );
 			doc.$.close();
 
@@ -76,10 +83,10 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( path +'/ckeditor/', iCKEDITOR.basePath );
-					assert.areSame( path + '/ckeditor/ckeditor.js' + query,
+					assert.areSame( path + expectedEditorPath, iCKEDITOR.basePath );
+					assert.areSame( path + expectedEditorPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
-					assert.areSame( path + '/ckeditor/skins/default/editor.css' + query,
+					assert.areSame( path + expectedEditorPath + 'skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'skins/default/editor.css' ) );
 					assert.areSame( '/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( '/skins/default/editor.css' ) );
@@ -90,7 +97,7 @@
 
 			doc.$.open();
 			doc.$.write(
-				'<script>CKEDITOR_BASEPATH = "/ckeditor/";</scr' + 'ipt>' +
+				'<script>CKEDITOR_BASEPATH = "/apps/ckeditor/";</scr' + 'ipt>' +
 				'<script src="' + CKEDITOR.getUrl( 'ckeditor.js' ) + '"></scr' + 'ipt>' );
 			doc.$.close();
 
@@ -99,16 +106,17 @@
 
 		'test relative BASEPATH': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-relative' ),
-				doc = iframe.getFrameDocument();
+				doc = iframe.getFrameDocument(),
+				relativeEditorPath = '../../../..' + expectedEditorPath;
 
 			iframe.on( 'load', function() {
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( path + '/tests/tests/core/ckeditor/../../../ckeditor/', iCKEDITOR.basePath );
-					assert.areSame( folderPath + '/../../../ckeditor/ckeditor.js' + query,
+					assert.areSame( path + '/tests/tests/core/ckeditor/' + relativeEditorPath, iCKEDITOR.basePath );
+					assert.areSame( folderPath + '/' + relativeEditorPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
-					assert.areSame( folderPath + '/../../../ckeditor/skins/default/editor.css' + query,
+					assert.areSame( folderPath + '/' + relativeEditorPath + 'skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'skins/default/editor.css' ) );
 					assert.areSame( '/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( '/skins/default/editor.css' ) );
@@ -119,7 +127,7 @@
 
 			doc.$.open();
 			doc.$.write(
-				'<script>CKEDITOR_BASEPATH = "../../../ckeditor/";</scr' + 'ipt>' +
+				'<script>CKEDITOR_BASEPATH = "' + relativeEditorPath + '";</scr' + 'ipt>' +
 				'<script src="' + CKEDITOR.getUrl( 'ckeditor.js' ) + '"></scr' + 'ipt>' );
 			doc.$.close();
 
@@ -134,10 +142,10 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( '//' + secondDomainName + '/ckeditor/', iCKEDITOR.basePath );
-					assert.areSame( '//' + secondDomainName + '/ckeditor/ckeditor.js' + query,
+					assert.areSame( '//' + secondDomainName + expectedEditorPath, iCKEDITOR.basePath );
+					assert.areSame( '//' + secondDomainName + expectedEditorPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
-					assert.areSame( '//' + secondDomainName + '/ckeditor/skins/default/editor.css' + query,
+					assert.areSame( '//' + secondDomainName + expectedEditorPath + 'skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( 'skins/default/editor.css' ) );
 					assert.areSame( '/skins/default/editor.css' + query,
 						iCKEDITOR.getUrl( '/skins/default/editor.css' ) );
@@ -148,7 +156,7 @@
 
 			doc.$.open();
 			doc.$.write(
-				'<script>CKEDITOR_BASEPATH = "//' + secondDomainName + '/ckeditor/";</scr' + 'ipt>' +
+				'<script>CKEDITOR_BASEPATH = "//' + secondDomainName + expectedEditorPath + '";</scr' + 'ipt>' +
 				'<script src="' + CKEDITOR.getUrl( 'ckeditor.js' ) + '"></scr' + 'ipt>' );
 			doc.$.close();
 
