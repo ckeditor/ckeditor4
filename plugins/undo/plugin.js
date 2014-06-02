@@ -606,7 +606,7 @@
 		 * Updates the last snapshot of the undo stack with the current editor content.
 		 *
 		 * @param {CKEDITOR.plugins.undo.Image} [newImage] The image which will replace the current one.
-		 * If not set defaults to image taken from editor.
+		 * If it is not set, it defaults to the image taken from editor.
 		 */
 		update: function( newImage ) {
 			// Do not change snapshots stack is locked.
@@ -735,7 +735,7 @@
  */
 
 /**
- * Fired before an undo image is to be taken. An undo image represents the
+ * Fired before an undo image is to be created. An *undo image* represents the
  * editor state at some point. It is saved into the undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
  *
@@ -747,7 +747,7 @@
  */
 
 /**
- * Fired after an undo image is taken. An undo image represents the
+ * Fired after an undo image is created. An *undo image* represents the
  * editor state at some point. It is saved into the undo store, so the editor is
  * able to recover the editor state on undo and redo operations.
  *
@@ -766,12 +766,12 @@
  * changes. This event may thus in some cases be fired when no changes happen
  * or may even get fired twice.
  *
- * If it is important not to get the change event too often, you should compare the
+ * If it is important not to get the `change` event fired too often, you should compare the
  * previous and the current editor content inside the event listener. It is
- * not recommended to do that on every change event.
+ * not recommended to do that on every `change` event.
  *
- * Please note that the change event is only fired in {@link #property-mode wysiwyg mode}.
- * In order to implement similar functionality in source mode, you can listen for example to the {@link #key}
+ * Please note that the `change` event is only fired in the {@link #property-mode wysiwyg mode}.
+ * In order to implement similar functionality in the source mode, you can listen for example to the {@link #key}
  * event or the native [`input`](https://developer.mozilla.org/en-US/docs/Web/Reference/Events/input)
  * event (not supported by Internet Explorer 8).
  *
@@ -779,7 +779,7 @@
  *			if ( this.mode == 'source' ) {
  *				var editable = editor.editable();
  *				editable.attachListener( editable, 'input', function() {
- *					// Handle changes made in source mode.
+ *					// Handle changes made in the source mode.
  *				} );
  *			}
  *		} );
