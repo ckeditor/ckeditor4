@@ -55,7 +55,7 @@
 		},
 
 		test_load_sync_404: function() {
-			var data = CKEDITOR.ajax.load( '../../_assets/404.txt' );
+			var data = CKEDITOR.ajax.load( '404.txt' );
 			assert.isNull( data );
 		},
 
@@ -81,7 +81,7 @@
 				} );
 			};
 
-			CKEDITOR.ajax.load( '../../_assets/404.txt', callback );
+			CKEDITOR.ajax.load( '404.txt', callback );
 
 			wait();
 		},
@@ -94,7 +94,7 @@
 		},
 
 		test_loadXml_sync_404: function() {
-			var data = CKEDITOR.ajax.loadXml( '../../_assets/404.xml' );
+			var data = CKEDITOR.ajax.loadXml( '404.xml' );
 			assert.isNull( data );
 		},
 
@@ -122,13 +122,13 @@
 				} );
 			};
 
-			CKEDITOR.ajax.loadXml( '../../_assets/404.xml', callback );
+			CKEDITOR.ajax.loadXml( '404.xml', callback );
 
 			wait();
 		},
 
 		'test CKEDITOR.ajax.post: ContentType application/x-www-form-urlencoded': function() {
-			var url = 'post.php',
+			var url = '404.post',
 				data = 'key=value',
 				contentType = 'application/x-www-form-urlencoded';
 
@@ -144,7 +144,7 @@
 		},
 
 		'test CKEDITOR.ajax.post: ContentType application/json': function() {
-			var url = 'post.php',
+			var url = '404.post',
 				data = JSON.stringify( { key: 'value' } ),
 				contentType = 'application/json';
 
@@ -160,7 +160,7 @@
 		},
 
 		'test CKEDITOR.ajax.post: ContentType not specified': function() {
-			var url = 'post.php',
+			var url = '404.post',
 				data = 'key=value';
 
 			assertAjaxPost( url, data, 'application/x-www-form-urlencoded; charset=UTF-8', function() {
