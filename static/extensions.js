@@ -192,6 +192,8 @@
 					error = new YUITest.UnexpectedError( thrown );
 					failed = true;
 				}
+
+				bender.error( thrown );
 			}
 		}
 
