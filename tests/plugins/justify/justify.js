@@ -26,65 +26,65 @@ bender.test(
 	'test aligment command on selected image' : function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x" style="float:left;"/>]</p>' );
+		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404" style="float:left;"/>]</p>' );
 
 		// Check commands state, center/justify should be disabled at this point.
 		this.assertCommandState( 1, 2, 0, 0 );
 
 		// Remove the existing image alignment.
 		bot.execCommand( 'justifyleft' );
-		assert.areSame( '<p><img src="http://tests/x" /></p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" /></p>', bot.getData( true ) );
 
 		// Align image right.
 		bot.execCommand( 'justifyright' );
-		assert.areSame( '<p><img src="http://tests/x" style="float:right;" /></p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" style="float:right;" /></p>', bot.getData( true ) );
 
 		// Align image left again.
 		bot.execCommand( 'justifyleft' );
-		assert.areSame( '<p><img src="http://tests/x" style="float:left;" /></p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" style="float:left;" /></p>', bot.getData( true ) );
 	},
 
 	'test aligment command on selected image (align attribute)' : function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x" align="left"/>]</p>' );
+		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404" align="left"/>]</p>' );
 
 		// Check commands state, center/justify should be disabled at this point.
 		this.assertCommandState( 1, 2, 0, 0 );
 
 		// Remove the existing image alignment.
 		bot.execCommand( 'justifyleft' );
-		assert.areSame( '<p><img src="http://tests/x" /></p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" /></p>', bot.getData( true ) );
 
 		// Align image right.
 		bot.execCommand( 'justifyright' );
-		assert.areSame( '<p><img src="http://tests/x" style="float:right;" /></p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" style="float:right;" /></p>', bot.getData( true ) );
 	},
 
 	// Justify should align paragraph.
 	'test aligment command on paragraph' : function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '<p>[<img src="http://tests/x"/>bar]</p>' );
+		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 
 		// Check commands state, all commands should be enabled, left should be turned on.
 		this.assertCommandState( 1, 2, 2, 2 );
 
 		// Align paragraph right;
 		bot.execCommand( 'justifyright' );
-		assert.areSame( '<p style="text-align:right;"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+		assert.areSame( '<p style="text-align:right;"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 		// Align paragraph left;
 		bot.execCommand( 'justifyleft' );
-		assert.areSame( '<p><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+		assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 		// Align paragraph center;
 		bot.execCommand( 'justifycenter' );
-		assert.areSame( '<p style="text-align:center;"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+		assert.areSame( '<p style="text-align:center;"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 		// Align paragraph justify
 		bot.execCommand( 'justifyblock' );
-		assert.areSame( '<p style="text-align:justify;"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+		assert.areSame( '<p style="text-align:justify;"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 	},
 
 	'test alignment commands with justifyClasses': function() {
@@ -101,35 +101,35 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			bot.setHtmlWithSelection( '<p>[<img src="http://tests/x"/>bar]</p>' );
+			bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 
 			// Check commands state, all commands should be enabled, left should be turned on.
 			tc.assertCommandState( 1, 2, 2, 2, editor );
 
 			// Align paragraph right;
 			bot.execCommand( 'justifyright' );
-			assert.areSame( '<p class="alignright"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p class="alignright"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Right on.
 			tc.assertCommandState( 2, 1, 2, 2, editor );
 
 			// Align paragraph center;
 			bot.execCommand( 'justifycenter' );
-			assert.areSame( '<p class="aligncenter"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Center on.
 			tc.assertCommandState( 2, 2, 1, 2, editor );
 
 			// Align paragraph left;
 			bot.execCommand( 'justifyleft' );
-			assert.areSame( '<p><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Left on.
 			tc.assertCommandState( 1, 2, 2, 2, editor );
 
 			// Align paragraph justify
 			bot.execCommand( 'justifyblock' );
-			assert.areSame( '<p class="alignjustify"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p class="alignjustify"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Justify on.
 			tc.assertCommandState( 2, 2, 2, 1, editor );
@@ -151,21 +151,21 @@ bender.test(
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			bot.setHtmlWithSelection( '<p>[<img src="http://tests/x"/>bar]</p>' );
+			bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );
 
 			// Check commands state, left should be turned on, right disabled and the rest off.
 			tc.assertCommandState( 1, 0, 2, 2, editor );
 
 			// Align paragraph right;
 			bot.execCommand( 'justifyright' );
-			assert.areSame( '<p><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Check commands state, left should be turned on, right disabled and the rest off.
 			tc.assertCommandState( 1, 0, 2, 2, editor );
 
 			// Align paragraph center;
 			bot.execCommand( 'justifycenter' );
-			assert.areSame( '<p class="aligncenter"><img src="http://tests/x" />bar</p>', bot.getData( true ) );
+			assert.areSame( '<p class="aligncenter"><img src="http://tests/404" />bar</p>', bot.getData( true ) );
 
 			// Check commands state, left should be turned on, right disabled and the rest off.
 			tc.assertCommandState( 2, 0, 1, 2, editor );
