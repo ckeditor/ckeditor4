@@ -164,21 +164,12 @@
 		 * @param cb
 		 */
 		focus: function( obj, cb ) {
-			var isInTest = bender.Y.Test.Runner._isInTest;
-
 			obj.once( 'focus', function() {
-				if ( isInTest ) {
-					resume( cb );
-				} else {
-					cb();
-				}
+				resume( cb );
 			} );
 
 			obj.focus();
-
-			if ( isInTest ) {
-				wait();
-			}
+			wait();
 		},
 
 		/**
