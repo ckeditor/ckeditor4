@@ -88,14 +88,14 @@
 		config = profile.config;
 
 		// For convenience, load here creator dedicated plugin, to avoid having them defined by test.
-		config.extraPlugins = ( creator == 'replace' || creator == 'append' ?
+		config.extraPlugins = ( ( creator == 'replace' || creator == 'append' ) ?
 			'wysiwygarea' : 'floatingspace' ) + ',' + ( config.extraPlugins || '' );
 
 		if ( profile.formattedOutput ) {
 			config.extraPlugins += 'htmlwriter';
 		}
 
-		CKEDITOR[ creator ]( element, config );
+		CKEDITOR[ creator ]( element, profile.config );
 
 		if ( bender.runner._inTest ) {
 			tc.wait();

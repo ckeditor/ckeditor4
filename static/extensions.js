@@ -290,6 +290,7 @@
 	};
 
 	if ( typeof CKEDITOR != 'undefined' ) {
+		CKEDITOR.config.customConfig = '';
 		CKEDITOR.replaceClass = false;
 		CKEDITOR.disableAutoInline = true;
 	}
@@ -298,8 +299,6 @@
 		var regexp,
 			toLoad = 0,
 			i;
-
-		CKEDITOR.config.customConfig = '';
 
 		if ( config.plugins ) {
 			CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
