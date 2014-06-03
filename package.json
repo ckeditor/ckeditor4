@@ -8,7 +8,6 @@
 		"bender-yui": "git://github.com/benderjs/benderjs-yui.git"
 	},
 	"scripts": {
-		"preinstall": "npm i -g git://github.com/benderjs/benderjs.git",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "CKSource - Frederico Knabben (http://cksource.com)",
