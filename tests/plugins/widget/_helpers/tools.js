@@ -175,8 +175,15 @@ var widgetTestsTools = ( function() {
 		return JSON.parse( decodeURIComponent( widget.element.data( 'cke-widget-data' ) ) );
 	}
 
-	function getWidgetById( editor, id ) {
-		return editor.widgets.getByElement( editor.document.getById( id ) );
+	// @param {Boolean} [byElement] If true, the passed id has to be widget element's id.
+	// Important for nested widgets, so parent widget is not mistakenly found.
+	function getWidgetById( editor, id, byElement ) {
+		var widget = editor.widgets.getByElement( editor.document.getById( id ) );
+
+		if ( widget && byElement )
+			return widget.element.$.id == id ? widget : null;
+
+		return widget;
 	}
 
 	// Retrives widget by its offset among parsed widgets.
