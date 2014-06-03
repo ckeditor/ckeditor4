@@ -87,7 +87,12 @@
 	}, {
 		type: ATTRTYPE_PARAM, name: names[ i ]
 	} ];
-	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
+
+	// This attributes has default value true. So they are not present in editor code when are set to true.
+	// Please note, that `allowFullScreen` property in not present here even thought has default value set to true.
+	// The reason is because this property have to bee present in editor code regardless of the value.
+	// Fro more info see #7634.
+	names = [ 'play', 'loop', 'menu' ];
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
 
