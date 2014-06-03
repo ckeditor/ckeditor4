@@ -278,7 +278,7 @@
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
 		 * Reinitializes widgets on widget wrappers for which widget instances
-		 * cannot be found.
+		 * cannot be found. Takes nested widgets into account too.
 		 *
 		 * This method triggers the {@link #event-checkWidgets} event whose listeners
 		 * can cancel the method's execution or modify its options.
@@ -321,7 +321,7 @@
 		},
 
 		/**
-		 * Destroys the widget instance.
+		 * Destroys the widget instance and all its nested widgets (widgets inside its nested editables).
 		 *
 		 * @param {CKEDITOR.plugins.widget} widget The widget instance to be destroyed.
 		 * @param {Boolean} [offline] Whether the widget is offline (detached from the DOM tree) &mdash;
@@ -1530,7 +1530,8 @@
 		 * and the {@link CKEDITOR.editor#filter}. This ensures that the data was filtered and prepared to be
 		 * edited like the {@link CKEDITOR.editor#method-setData editor data}.
 		 *
-		 * Before content is changed all nested widgets are destroyed.
+		 * Before content is changed all nested widgets are destroyed. Afterwards, after new content is loaded
+		 * all nested widgets are initialized.
 		 *
 		 * @param {String} data
 		 */
