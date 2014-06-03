@@ -9,7 +9,7 @@
 		folderPath = path + window.location.pathname.slice( 0, window.location.pathname.lastIndexOf( '/' ) ),
 		expectedEditorPath = '/apps/ckeditor/',
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
-		secondDomainName = 'sub.ckeditor4.t',
+		secondDomainName = 'sub.ckeditor.dev',
 		port = window.location.port;
 
 	// If we're running tests on special port, append it to the second domain too.
