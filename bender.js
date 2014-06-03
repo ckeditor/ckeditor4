@@ -85,6 +85,15 @@ var config = {
 				'tickets/',
 				'!/_'
 			]
+		},
+
+		'Utils': {
+			applications: [ 'ckeditor' ],
+			basePath: 'tests/',
+			paths: [
+				'utils/',
+				'!/_'
+			]
 		}
 	}
 };
