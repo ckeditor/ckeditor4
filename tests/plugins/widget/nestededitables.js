@@ -37,6 +37,10 @@
 		data2Attr = widgetTestsTools.data2Attribute,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
+	function keysLength( obj ) {
+		return CKEDITOR.tools.objectKeys( obj ).length;
+	}
+
 	function testDelKey( editor, keyName, range, shouldBeBlocked, msg ) {
 		range.select();
 
@@ -161,6 +165,52 @@
 
 				assert.isFalse( widget.initEditable( 'bar', { selector: '#bar' } ), 'return value' );
 				assert.isFalse( !!widget.editables.bar, 'editable was not initialized' );
+			} );
+		},
+
+		'test #destroyEditable destroys nested widgets': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethods3', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			this.editorBot.setData( '<div data-widget="testmethods3" id="w1"><p id="foo"><span data-widget="testmethods3" id="w2">x</span></p></div>', function() {
+				var w1 = getWidgetById( editor, 'w1' ),
+					w2 = getWidgetById( editor, 'w2' );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets were initialized' );
+
+				w1.destroyEditable( 'foo' );
+
+				assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
+				assert.isNull( getWidgetById( editor, 'w2', true ), 'nested widget was destroyed' );
+				assert.isFalse( w2.element.getParent().hasAttribute( 'data-cke-widget-wrapper' ), 'widget was unwrapped' );
+			} );
+		},
+
+		// More precise tests can be found in widgetsrepoapi because this
+		// methods uses repo#destroyAll with specified container.
+		'test #destroyEditable in offline mode does not destroy nested widgets': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethods4', {
+				editables: {
+					foo: '#foo'
+				}
+			} );
+
+			this.editorBot.setData( '<div data-widget="testmethods4" id="w1"><p id="foo"><span data-widget="testmethods4" id="w2">x</span></p></div>', function() {
+				var w1 = getWidgetById( editor, 'w1' );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets were initialized' );
+
+				w1.destroyEditable( 'foo', true );
+
+				assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets reimained' );
+				assert.isNotNull( getWidgetById( editor, 'w2', true ), 'nested widget was not destroyed' );
 			} );
 		},
 
@@ -291,6 +341,44 @@
 				editable.setData( '<i class="red blue">B</i><b class="testsetdata2">B</b>' );
 				assert.areSame( '<i class="red">B</i>B', fixHtml( editable.getHtml() ) );
 			} );
+		},
+
+		// For performance reasons.
+		'test nestedEditable.setData - destroyAll(false,editable) is not called on first nestedEditable.setData': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testsetdata3', {} );
+
+			this.editorBot.setData(
+				'<div data-widget="testsetdata3" id="w1">' +
+					'<p id="foo"></p>' +
+				'</div>',
+				function() {
+					var w1 = getWidgetById( editor, 'w1' ),
+						ed = editor.document.getById( 'foo' );
+
+					ed.setHtml( '<span data-widget="testsetdata3" id="w2">x</span><span data-widget="testsetdata3" id="w3">x</span>' );
+
+					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget was initialized' );
+
+					var original = editor.widgets.destroyAll,
+						destroyAllCalls = 0,
+						revert = bender.tools.replaceMethod( editor.widgets, 'destroyAll', function( offline, container ) {
+							destroyAllCalls += 1;
+							original.call( this, offline, container );
+						} );
+
+					w1.initEditable( 'foo', { selector: '#foo' } );
+					assert.areSame( 0, destroyAllCalls, 'destroyAll is not called on initial nestedEditable.setData' );
+					assert.areEqual( 3, keysLength( editor.widgets.instances ), '3 widgets were initialized' );
+
+					w1.editables.foo.setData( '<span data-widget="testsetdata3" id="w2">x</span>' );
+
+					assert.areSame( 1, destroyAllCalls, 'destroyAll is called on 2nd+ nestedEditable.setData' );
+					assert.areEqual( 2, keysLength( editor.widgets.instances ), '2 widgets reimained' );
+					revert();
+				}
+			);
 		},
 
 		'test nestedEditable.getData - data processor integration': function() {
