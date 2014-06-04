@@ -650,7 +650,7 @@
 		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be set.
 		 * @param {String} html HTML with range markers.
 		 * @returns {CKEDITOR.dom.range} A range reflecting range markers in `html`.
-		 * @see bender.tools.getHtmlWithRange
+		 * @see #getHtmlWithRange
 		 */
 		setHtmlWithRange2: ( function() {
 			var markerReplaceRegex = /(\[|\])/g,
@@ -836,10 +836,13 @@
 		/**
 		 * Returns the HTML of an element with range markers reflecting given range.
 		 *
+		 * **Note**: Unlike {@link #getHtmlWithRanges}, this method keeps the DOM structure
+		 * of the element untouched, e.g. it operates on detached clone.
+		 *
 		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be returned.
 		 * @param {CKEDITOR.dom.range} range A range corresponding with `element` to be marked in the output HTML.
 		 * @returns {String} HTML containing range markers.
-		 * @see bender.tools.setHtmlWithRange2
+		 * @see #setHtmlWithRange2
 		 */
 		getHtmlWithRange: ( function() {
 			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
@@ -863,30 +866,65 @@
 				return comment;
 			}
 
-			var node, html, removed,
-				startMarker, endMarker;
+			function relativeAddress( element, level ) {
+				return element.getAddress().slice( level );
+			}
+
+			// Creates a deep clone of a node.
+			function cloneNode( node ) {
+				var clone;
+
+				if ( node.type == CKEDITOR.NODE_TEXT )
+					return new CKEDITOR.dom.text( node.getText() );
+				else
+					clone = node.clone();
+
+				if ( clone.type == CKEDITOR.NODE_ELEMENT ) {
+					var children = node.getChildren(),
+						i = 0,
+						child;
+
+					while ( ( child = children.getItem( i++ ) ) )
+						cloneNode( child ).appendTo( clone );
+				}
+
+				return clone;
+			}
+
+			var html, clone,
+				startMarker, endMarker,
+				addressLength, startAddress, endAddress,
+				startContainer, endContainer;
 
 			return function( element, range ) {
 				// No range, no marker to display.
 				if ( !range )
 					return bender.tools.fixHtml( element.getHtml(), 1, 1 );
 
-				// Determine marker characters for start and end containers.
-				startMarker = range.startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[',
-				endMarker = range.endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']',
+				// Get length of element address.
+				addressLength = element.getAddress().length;
 
-				// Store the comments injected into DOM.
-				removed = [
-					injectComment( endMarker, range.endContainer, range.endOffset ),
-					injectComment( startMarker, range.startContainer, range.startOffset )
-				];
+				// Obtain addresses of start/endContainers relative to the element.
+				startAddress = relativeAddress( range.startContainer, addressLength ),
+				endAddress = relativeAddress( range.endContainer, addressLength );
+
+				// Deep element clone. This way the original element will remain untouched.
+				// Note: IE wouldn't make for a living on Kamino. It's a very bad cloner.
+				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
+				clone = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? cloneNode( element ) : element.clone( 1 );
+
+				startContainer = clone.getChild( startAddress );
+				endContainer = clone.getChild( endAddress );
+
+				// Determine marker characters for start and end containers.
+				startMarker = startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[',
+				endMarker = endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']',
+
+				injectComment( endMarker, endContainer, range.endOffset ),
+				injectComment( startMarker, startContainer, range.startOffset )
 
 				// Replace comments with corresponding range markers.
-				html = browserHtmlFix( element.getHtml() ).replace( markerDetectRegex, '$1' );
-
-				// Clean up comments injected to create markers.
-				while ( ( node = removed.pop() ) )
-					node.remove();
+				html = browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
 
 				return bender.tools.fixHtml( html, 1, 1 );
 			};
