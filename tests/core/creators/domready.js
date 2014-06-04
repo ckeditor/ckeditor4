@@ -25,4 +25,4 @@ $( window ).on( 'load', function() {
 } );
 
 // Large image to delay the page loading.
-document.write( '<img src="'+ bender.getAbsolutePath( '%BASE_PATH%_assets/large.jpg' ) + '?'+ encodeURI( new Date().getTime() ) + '" />' );
+document.write( '<img src="%BASE_PATH%_assets/large.jpg' + '?'+ encodeURI( new Date().getTime() ) + '" />' );

@@ -57,7 +57,7 @@ bender.test(
 	test_config_customConfig : function() {
 		var tc = this;
 		// Pass in-page settings to the instance.
-		CKEDITOR.replace( 'editor3', { customConfig : bender.getAbsolutePath( '_assets/custom_config_1.js' ), test1 : 'ball', baseHref : 'test',
+		CKEDITOR.replace( 'editor3', { customConfig : '%TEST_DIR%_assets/custom_config_1.js', test1 : 'ball', baseHref : 'test',
 			on :
 			{
 				configLoaded : function( event ) {

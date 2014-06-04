@@ -3,8 +3,7 @@
 
 bender.editor = { config : { autoParagraph : false } };
 
-
-var SRC = bender.getAbsolutePath( "../../_assets/logo.png" );
+var SRC = '%BASE_PATH%_assets/logo.png';
 
 bender.test(
 {

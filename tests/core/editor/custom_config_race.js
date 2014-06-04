@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-var assetsPath = bender.getAbsolutePath( '_assets' ) + '/',
+var assetsPath = '%TEST_DIR%_assets/',
 	instances = {},
 	initEditors = ( function() {
 		var count = 0;

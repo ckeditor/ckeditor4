@@ -3,8 +3,7 @@
 bender.test(
 {
 	'test: Loading self defined external plugin file paths' : function() {
-		CKEDITOR.plugins.addExternal( 'myplugin',
-			bender.getAbsolutePath( '_assets/myplugins/sample/' ), 'my_plugin.js' );
+		CKEDITOR.plugins.addExternal( 'myplugin', '%TEST_DIR%_assets/myplugins/sample/', 'my_plugin.js' );
 
 		CKEDITOR.plugins.load( 'myplugin', function() {
 			this.resume( function() {
