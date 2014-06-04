@@ -657,10 +657,13 @@
 				markerDetectRegex = /cke-range-marker-(\[|\])/,
 
 				range, walkerRange, walker,
-				removed, marker, index, text, root;
+				removed, marker, text, root,
+				markerIndex, markerFound;
 
-			function replaceTextMarker( text, index, length ) {
-				return text.substring( 0, index ) + text.substring( index + length );
+			function replaceTextMarker( m, i ) {
+				markerFound = m;
+				markerIndex = i;
+				return '';
 			}
 
 			// This evaluator looks for text nodes containing { or } and comment
@@ -668,55 +671,27 @@
 			// corresponding position.
 			function evaluator( node ) {
 				if ( node.type == CKEDITOR.NODE_TEXT ) {
-					text = node.getText();
+					markerFound = markerIndex = null;
 
-					// Collapsed range anchored in a text node.
-					if ( ( index = text.indexOf( '{}' ) ) != -1 ) {
-						// Remove {} from the string.
-						node.setText( ( text = replaceTextMarker( text, index, 2 ) ) );
-
-						// If "{}" is the only text in this text-node, this is an invalid range
-						// because it is to be anchored in a text node, which does not exist.
-						if ( !text )
-							return false;
-
-						// Create collapsed range.
+					if ( ( text = node.getText().replace( '{}', replaceTextMarker ) ) && markerFound == '{}' ) {
 						range = new CKEDITOR.dom.range( root );
-						range.setStart( node, index );
+						range.setStart( node, markerIndex );
 						range.collapse( 1 );
-
-						// It's over. There won't be more than one range.
-						return false;
 					}
 
-					// Start of a range anchored in a text node.
-					if ( ( index = text.indexOf( '{' ) ) != -1 ) {
-						// Remove { from the string.
-						node.setText( ( text = replaceTextMarker( text, index, 1 ) ) );
-
-						// If "{" is the only text in this text-node, this is an invalid range
-						// because it is to be anchored in a text node, which does not exist.
-						if ( !text )
-							return false;
-
+					if ( ( text = text.replace( '{', replaceTextMarker ) ) && markerFound  == '{' ) {
 						range = new CKEDITOR.dom.range( root );
-						range.setStart( node, index );
+						range.setStart( node, markerIndex );
 					}
 
-					// End of a range anchored in a text node.
-					if ( ( index = text.indexOf( '}' ) ) != -1 ) {
-						// Remove } from the string.
-						node.setText( ( text = replaceTextMarker( text, index, 1 ) ) );
+					// There must be existing range to set its end.
+					if ( ( text = text.replace( '}', replaceTextMarker ) ) && markerFound == '}' && range )
+						range.setEnd( node, markerIndex );
 
-						// If "}" is the only text in this text-node, this is an invalid range
-						// because it is to be anchored in a text node, which does not exist.
-						// Also abort if start marker "{" was purged for some reason.
-						if ( !text || !range )
-							return false;
+					if ( markerFound ) {
+						node.setText( text );
 
-						range.setEnd( node, index );
-
-						// It's over. There won't be more than one range.
+						// There will be no more ranges.
 						return false;
 					}
 				}
