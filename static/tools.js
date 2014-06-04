@@ -672,13 +672,13 @@
 
 					// Collapsed range anchored in a text node.
 					if ( ( index = text.indexOf( '{}' ) ) != -1 ) {
+						// Remove {} from the string.
+						node.setText( ( text = replaceTextMarker( text, index, 2 ) ) );
+
 						// If "{}" is the only text in this text-node, this is an invalid range
 						// because it is to be anchored in a text node, which does not exist.
-						if ( text.length == 2 )
+						if ( !text )
 							return false;
-
-						// Remove {} from the string.
-						node.setText( replaceTextMarker( text, index, 2 ) );
 
 						// Create collapsed range.
 						range = new CKEDITOR.dom.range( root );
@@ -691,13 +691,13 @@
 
 					// Start of a range anchored in a text node.
 					if ( ( index = text.indexOf( '{' ) ) != -1 ) {
-						// If "{" is the only text in this text-node, this is an invalid range
-						// because it is to be anchored in a text node, which does not exist.
-						if ( text.length == 1 )
-							return false;
-
 						// Remove { from the string.
 						node.setText( ( text = replaceTextMarker( text, index, 1 ) ) );
+
+						// If "{" is the only text in this text-node, this is an invalid range
+						// because it is to be anchored in a text node, which does not exist.
+						if ( !text )
+							return false;
 
 						range = new CKEDITOR.dom.range( root );
 						range.setStart( node, index );
@@ -705,13 +705,14 @@
 
 					// End of a range anchored in a text node.
 					if ( ( index = text.indexOf( '}' ) ) != -1 ) {
+						// Remove } from the string.
+						node.setText( ( text = replaceTextMarker( text, index, 1 ) ) );
+
 						// If "}" is the only text in this text-node, this is an invalid range
 						// because it is to be anchored in a text node, which does not exist.
-						if ( text.length == 1 )
+						// Also abort if start marker "{" was purged for some reason.
+						if ( !text || !range )
 							return false;
-
-						// Remove } from the string.
-						node.setText( replaceTextMarker( text, index, 1 ) );
 
 						range.setEnd( node, index );
 
