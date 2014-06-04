@@ -20,7 +20,7 @@ CKEDITOR.on( 'instanceLoaded', function() {
 			]
 		};
 	} );
-	CKEDITOR.dialog.add( 'testDialog2', bender.getAbsolutePath( "_assets/testdialog.js" ) );
+	CKEDITOR.dialog.add( 'testDialog2', '%TEST_DIR%_assets/testdialog.js' );
 } );
 
 bender.editor = {};
