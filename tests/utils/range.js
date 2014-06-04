@@ -6,13 +6,13 @@
 	var doc = CKEDITOR.document,
 		playground = doc.getById( 'playground' ),
 		setHtmlWithRange2 = bender.tools.setHtmlWithRange2,
-		getHtmlWithRange = bender.tools.getHtmlWithRange,
+		getHtmlWithRange2 = bender.tools.getHtmlWithRange2,
 		playgroundAddress = playground.getAddress(),
 
 		failIE11 = CKEDITOR.env.ie && CKEDITOR.env.version > 10,
 		failIE8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-	// Asserts setHtmlWithRange2 and getHtmlWithRange.
+	// Asserts setHtmlWithRange2 and getHtmlWithRange2.
 	function s( html, collapsed, startAddress, startOffset, endAddress, endOffset, htmlWithRange ) {
 		return function() {
 			var range = setHtmlWithRange2( playground, html ),
@@ -40,7 +40,7 @@
 			}
 
 			assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setHtmlWithRange2' );
-			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, getHtmlWithRange( playground, range ), 'getHtmlWithRange' );
+			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, getHtmlWithRange2( playground, range ), 'getHtmlWithRange2' );
 		};
 	}
 
