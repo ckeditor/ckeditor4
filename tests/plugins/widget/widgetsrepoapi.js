@@ -1383,6 +1383,7 @@
 			} );
 		},
 
+		/* #12054 - temporarily disabled.
 		'test widgets.checkWidgets draghandler re usage - nested widget': function() {
 			var editor = this.editor,
 				data =
@@ -1414,6 +1415,7 @@
 				assert.areSame( widget.wrapper, widget.dragHandlerContainer.getParent(), 'Nested widget\'s drag handler is directly in the wrapper' );
 			} );
 		},
+		*/
 
 		'test widgets.checkWidgets mask re usage': function() {
 			var editor = this.editor,
