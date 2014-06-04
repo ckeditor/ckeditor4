@@ -22,7 +22,7 @@
 				config: {
 					extraPlugins: 'stylescombo,basicstyles',
 					// Reuse custom styles from core/editor/styleset.js TC.
-					stylesSet: 'external:/tests/tests/core/editor/_assets/custom_styles.js',
+					stylesSet: 'external:%BASE_PATH%_assets/custom_styles.js',
 					sharedSpaces: {
 						top: 'editor_test1_top'
 					}
@@ -39,7 +39,7 @@
 				config: {
 					extraPlugins: 'stylescombo,basicstyles',
 					// Reuse custom styles from core/editor/styleset.js TC.
-					stylesSet: 'external:/tests/tests/core/editor/_assets/custom_styles.js',
+					stylesSet: 'external:%BASE_PATH%_assets/custom_styles.js',
 					sharedSpaces: {
 						top: 'editor_test2_top'
 					}

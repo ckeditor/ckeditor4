@@ -60,7 +60,7 @@ bender.test( {
 		bender.editorBot.create( {
 			name: 'editor_external_styles',
 			config: {
-				stylesSet: 'external:/tests/tests/core/editor/_assets/custom_styles.js',
+				stylesSet: 'external:%BASE_PATH%_assets/custom_styles.js',
 				on: {
 					stylesSet: function( evt ) {
 						stylesCount += evt.data.styles.length;

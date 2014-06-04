@@ -15,6 +15,7 @@ CKBUILDER_URL="http://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuild
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
 MSG_DOWNLOAD_FAILED="It was not possible to download ckbuilder.jar"
+ARGS=" $@ "
 
 function error_exit
 {
@@ -54,7 +55,24 @@ cd ../..
 echo ""
 echo "Starting CKBuilder..."
 
-java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release --version="4.5.0 DEV" --build-config build-config.js --overwrite "$@"
+JAVA_ARGS=${ARGS// -t / } # Remove -t from arrgs
+
+java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release --version="4.5.0 DEV" --build-config build-config.js --overwrite "$JAVA_ARGS"
+
+# Copy and build tests
+if [[ "$ARGS" == *\ \-t\ * ]]; then
+	echo ""
+	echo "Coping tests..."
+
+	cp -r ../../tests release/ckeditor/tests
+	cp -r ../../package.json release/ckeditor/package.json
+	cp -r ../../bender.js release/ckeditor/bender.js
+
+	echo ""
+	echo "Installing tests..."
+
+	(cd release/ckeditor &&	npm install && bender init)
+fi
 
 echo ""
 echo "Release created in the \"release\" directory."

@@ -3,14 +3,16 @@
 ( function() {
 	'use strict';
 
-		// http://ckeditor4.t/
+		// http://tests.ckeditor.dev:1030/
 	var path = window.location.protocol + '//' + window.location.host,
-		// http://ckeditor4.t/tests/tests/core/ckeditor
-		folderPath = path + window.location.pathname.slice( 0, window.location.pathname.lastIndexOf( '/' ) ),
+		testDir = '%TEST_DIR%',
+		// http://tests.ckeditor.dev:1030/tests/core/ckeditor
+		folderPath = path + testDir.slice( 0, testDir.lastIndexOf( '/' ) ),
 		expectedEditorPath = '/apps/ckeditor/',
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
 		secondDomainName = 'sub.ckeditor.dev',
 		port = window.location.port;
+
 
 	// If we're running tests on special port, append it to the second domain too.
 	if ( port != 80 ) {
@@ -97,7 +99,7 @@
 
 			doc.$.open();
 			doc.$.write(
-				'<script>CKEDITOR_BASEPATH = "/apps/ckeditor/";</scr' + 'ipt>' +
+				'<script>CKEDITOR_BASEPATH = "' + expectedEditorPath + '";</scr' + 'ipt>' +
 				'<script src="' + CKEDITOR.getUrl( 'ckeditor.js' ) + '"></scr' + 'ipt>' );
 			doc.$.close();
 
@@ -107,13 +109,14 @@
 		'test relative BASEPATH': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-relative' ),
 				doc = iframe.getFrameDocument(),
-				relativeEditorPath = '../../../..' + expectedEditorPath;
+				// Transform e.g. "/tests/core/editor/" to "../../..".
+				relativeEditorPath = testDir.replace( /[^\/]+/g, '..' ).slice( 1, -1 ) + expectedEditorPath;
 
 			iframe.on( 'load', function() {
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( path + '/tests/tests/core/ckeditor/' + relativeEditorPath, iCKEDITOR.basePath );
+					assert.areSame( path + testDir + relativeEditorPath, iCKEDITOR.basePath );
 					assert.areSame( folderPath + '/' + relativeEditorPath + 'ckeditor.js' + query,
 						iCKEDITOR.getUrl( 'ckeditor.js' ) );
 					assert.areSame( folderPath + '/' + relativeEditorPath + 'skins/default/editor.css' + query,
