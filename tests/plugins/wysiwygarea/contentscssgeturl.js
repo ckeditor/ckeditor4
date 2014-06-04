@@ -3,7 +3,7 @@
 // Load contents.css from assets directory and all other files a default way.
 var CKEDITOR_GETURL = function( url ) {
 	if ( url.indexOf( 'contents.css' ) > -1 )
-		return '/tests/tests/plugins/wysiwygarea/_assets/contents.css';
+		return '%TEST_DIR%_assets/contents.css';
 };
 
 ( function() {

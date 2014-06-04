@@ -52,7 +52,7 @@ bender.test( {
 			name: 'editor_external_styles',
 			config: {
 				// Reuse custom styles from core/editor/styleset.js TC.
-				stylesSet: 'external:/tests/tests/core/editor/_assets/custom_styles.js'
+				stylesSet: 'external:%BASE_PATH%_assets/custom_styles.js'
 			}
 		}, function( bot ) {
 			assert.areSame( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>',

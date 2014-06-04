@@ -6,7 +6,7 @@
 
 	bender.editor = {
 		config: {
-			pasteFromWordCleanupFile: '/tests/tests/plugins/pastefromword/_assets/customFilter.js'
+			pasteFromWordCleanupFile: '%TEST_DIR%_assets/customFilter.js'
 		}
 	};
 
