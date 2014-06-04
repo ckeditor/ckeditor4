@@ -650,7 +650,7 @@
 		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be set.
 		 * @param {String} html HTML with range markers.
 		 * @returns {CKEDITOR.dom.range} A range reflecting range markers in `html`.
-		 * @see #getHtmlWithRange
+		 * @see #getHtmlWithRange2
 		 */
 		setHtmlWithRange2: ( function() {
 			var markerReplaceRegex = /(\[|\])/g,
@@ -820,7 +820,7 @@
 		 * @returns {String} HTML containing range markers.
 		 * @see #setHtmlWithRange2
 		 */
-		getHtmlWithRange: ( function() {
+		getHtmlWithRange2: ( function() {
 			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
 
 			// Injects a comment according to the given marker type, node and offset.
