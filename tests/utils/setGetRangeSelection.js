@@ -5,17 +5,17 @@
 
 	var doc = CKEDITOR.document,
 		playground = doc.getById( 'playground' ),
-		setHtmlWithRange2 = bender.tools.setHtmlWithRange2,
-		getHtmlWithRange2 = bender.tools.getHtmlWithRange2,
+		setRange = bender.tools.setRange,
+		getRange = bender.tools.getRange,
 		playgroundAddress = playground.getAddress(),
 
 		failIE11 = CKEDITOR.env.ie && CKEDITOR.env.version > 10,
 		failIE8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-	// Asserts setHtmlWithRange2 and getHtmlWithRange2.
+	// Asserts setRange and getRange.
 	function s( html, collapsed, startAddress, startOffset, endAddress, endOffset, htmlWithRange ) {
 		return function() {
-			var range = setHtmlWithRange2( playground, html ),
+			var range = setRange( playground, html ),
 				startContainer, endContainer, range;
 
 			// Get startContainer by address.
@@ -39,8 +39,8 @@
 				assert.isNull( range, 'No ranges returned' );
 			}
 
-			assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setHtmlWithRange2' );
-			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, getHtmlWithRange2( playground, range ), 'getHtmlWithRange2' );
+			assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setRange' );
+			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, getRange( playground, range ), 'getRange' );
 		};
 	}
 
