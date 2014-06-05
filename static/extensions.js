@@ -374,7 +374,7 @@
 
 	bender.startRunner = function( tests ) {
 		var testId = window.location.pathname
-			.replace( /^(\/(?:tests|single|(?:jobs\/(?:\w+)\/tests))\/)/i, '' );
+			.replace( /^(\/|\/(?:jobs\/(?:\w+)\/tests)\/)/i, '' );
 
 		tests = tests || bender.deferredTests;
 
