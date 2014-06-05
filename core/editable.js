@@ -1854,7 +1854,8 @@
 
 			if ( dataWrapper.getChildCount() == 1 &&					// Only one node bein inserted.
 				checkIfElement( block = dataWrapper.getFirst() ) &&		// And it's an element.
-				block.is( stripSingleBlockTags ) )						// That's <p> or <div> or header.
+				block.is( stripSingleBlockTags ) &&						// That's <p> or <div> or header.
+				!block.hasAttribute( 'contenteditable' ) )				// It's not a non-editable block or nested editable.
 			{
 				// Check children not containing block.
 				children = block.getElementsByTag( '*' );
