@@ -680,15 +680,15 @@
 		setSelection: function( editor, html ) {
 			var editable = editor.editable();
 
-			// (#9848) Prevent additional selectionChange due to editor.focus().
-			// This fix isn't required by IE < 9.
-			if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
-				editor.once( 'selectionChange', function( event ) {
-					event.cancel();
-				}, null, null, 0 );
-			}
+			// Prevent from firing selectionChange for any reason (i.e. editor.focus())
+			// until selection.selectRanges().
+			var listener = editor.on( 'selectionChange', function( event ) {
+				event.cancel();
+			}, null, null, -1000 );
 
 			editable.focus();
+
+			listener.removeListener();
 
 			var range = this.setRange( editable, html );
 
