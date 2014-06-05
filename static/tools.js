@@ -468,36 +468,6 @@
 		},
 
 		/**
-		 * Sets HTML of the editor and returns a range, which reflects defined range markers.
-		 *
-		 * @param editor {CKEDITOR.editor} The editor instance.
-		 * @param html {String}
-		 * @returns {CKEDITOR.dom.selection}
-		 * @see #setHtmlWithRange2
-		 * @see #getHtmlWithRange2
-		 */
-		setHtmlWithSelection2: function( editor, html ) {
-			var editable = editor.editable();
-
-			// (#9848) Prevent additional selectionChange due to editor.focus().
-			// This fix isn't required by IE < 9.
-			if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
-				editor.once( 'selectionChange', function( event ) {
-					event.cancel();
-				}, null, null, 0 );
-			}
-
-			editable.focus();
-
-			var range = this.setHtmlWithRange2( editable, html );
-
-			if ( range )
-				editor.getSelection().selectRanges( [ range ] );
-
-			return editor.getSelection();
-		},
-
-		/**
 		 * Retrieve the data/HTML of the editor/element with it's selection ranges
 		 * marked in the output.
 		 *
@@ -562,18 +532,6 @@
 			}
 
 			return bender.tools.compatHtml( html );
-		},
-
-		/**
-		 * Retrieve the data of the editor with selection ranges marked in the output.
-		 *
-		 * @param {CKEDITOR.editor} editor Editor instance.
-		 * @returns {String} Editor data with selection range markers.
-		 * @see #setHtmlWithRange2
-		 * @see #getHtmlWithRange2
-		 */
-		getHtmlWithSelection2: function( editor ) {
-			return this.getHtmlWithRange2( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
 		},
 
 		setHtmlWithRange: function( element, html, root ) {
@@ -661,6 +619,97 @@
 			return new CKEDITOR.dom.rangeList( ranges );
 		},
 
+		getHtmlWithRanges: function( element, ranges, root ) {
+			root = root instanceof CKEDITOR.dom.document ?
+				root.getBody() : root || CKEDITOR.document.getBody();
+
+			function replaceWithBookmark( match, startOrEnd ) {
+				var bookmark;
+				switch ( startOrEnd ) {
+					case 'S':
+						bookmark = '[';
+						break;
+					case 'E':
+						bookmark = ']';
+						break;
+					case 'C':
+						bookmark = '^';
+						break;
+				}
+				return bookmark;
+			}
+
+			var doc = element.getDocument(),
+				range,
+				bms = [],
+				iter = ranges.createIterator();
+
+			while ( ( range = iter.getNextRange() ) ) {
+				bms.push( range.createBookmark( 1 ) );
+			}
+
+			var html = browserHtmlFix( element instanceof CKEDITOR.editable ? element.getData() : element.getHtml() );
+			html = html.replace( /<span\b[^>]*?id="?cke_bm_\d+(\w)"?\b[^>]*?>.*?<\/span>/gi, replaceWithBookmark );
+
+			for ( var i = 0, bm; i < bms.length; i++ ) {
+				bm = bms[ i ];
+				var start = doc.getById( bm.startNode ),
+					end = doc.getById( bm.endNode );
+
+				if ( start ) {
+					start.remove();
+				}
+
+				if ( end ) {
+					end.remove();
+				}
+			}
+
+			return bender.tools.compatHtml( html );
+		},
+
+		/**
+		 * Sets HTML of the editor and returns a range, which reflects defined range markers.
+		 *
+		 * @param editor {CKEDITOR.editor} The editor instance.
+		 * @param html {String}
+		 * @returns {CKEDITOR.dom.selection}
+		 * @see #setRange
+		 * @see #getRange
+		 */
+		setSelection: function( editor, html ) {
+			var editable = editor.editable();
+
+			// (#9848) Prevent additional selectionChange due to editor.focus().
+			// This fix isn't required by IE < 9.
+			if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
+				editor.once( 'selectionChange', function( event ) {
+					event.cancel();
+				}, null, null, 0 );
+			}
+
+			editable.focus();
+
+			var range = this.setRange( editable, html );
+
+			if ( range )
+				editor.getSelection().selectRanges( [ range ] );
+
+			return editor.getSelection();
+		},
+
+		/**
+		 * Retrieve the data of the editor with selection ranges marked in the output.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @returns {String} Editor data with selection range markers.
+		 * @see #setRange
+		 * @see #getRange
+		 */
+		getSelection: function( editor ) {
+			return this.getRange( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
+		},
+
 		/**
 		 * Sets HTML of an element and returns a range, which reflects defined range markers.
 		 *
@@ -692,9 +741,9 @@
 		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be set.
 		 * @param {String} html HTML with range markers.
 		 * @returns {CKEDITOR.dom.range} A range reflecting range markers in `html`.
-		 * @see #getHtmlWithRange2
+		 * @see #getRange
 		 */
-		setHtmlWithRange2: ( function() {
+		setRange: ( function() {
 			var markerReplaceRegex = /(\[|\])/g,
 				markerDetectRegex = /cke-range-marker-(\[|\])/,
 
@@ -802,55 +851,6 @@
 			}
 		} )(),
 
-		getHtmlWithRanges: function( element, ranges, root ) {
-			root = root instanceof CKEDITOR.dom.document ?
-				root.getBody() : root || CKEDITOR.document.getBody();
-
-			function replaceWithBookmark( match, startOrEnd ) {
-				var bookmark;
-				switch ( startOrEnd ) {
-					case 'S':
-						bookmark = '[';
-						break;
-					case 'E':
-						bookmark = ']';
-						break;
-					case 'C':
-						bookmark = '^';
-						break;
-				}
-				return bookmark;
-			}
-
-			var doc = element.getDocument(),
-				range,
-				bms = [],
-				iter = ranges.createIterator();
-
-			while ( ( range = iter.getNextRange() ) ) {
-				bms.push( range.createBookmark( 1 ) );
-			}
-
-			var html = browserHtmlFix( element instanceof CKEDITOR.editable ? element.getData() : element.getHtml() );
-			html = html.replace( /<span\b[^>]*?id="?cke_bm_\d+(\w)"?\b[^>]*?>.*?<\/span>/gi, replaceWithBookmark );
-
-			for ( var i = 0, bm; i < bms.length; i++ ) {
-				bm = bms[ i ];
-				var start = doc.getById( bm.startNode ),
-					end = doc.getById( bm.endNode );
-
-				if ( start ) {
-					start.remove();
-				}
-
-				if ( end ) {
-					end.remove();
-				}
-			}
-
-			return bender.tools.compatHtml( html );
-		},
-
 		/**
 		 * Returns the HTML of an element with range markers reflecting given range.
 		 *
@@ -860,9 +860,9 @@
 		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be returned.
 		 * @param {CKEDITOR.dom.range} range A range corresponding with `element` to be marked in the output HTML.
 		 * @returns {String} HTML containing range markers.
-		 * @see #setHtmlWithRange2
+		 * @see #setRange
 		 */
-		getHtmlWithRange2: ( function() {
+		getRange: ( function() {
 			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
 
 			// Injects a comment according to the given marker type, node and offset.
