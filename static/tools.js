@@ -468,6 +468,36 @@
 		},
 
 		/**
+		 * Sets HTML of the editor and returns a range, which reflects defined range markers.
+		 *
+		 * @param editor {CKEDITOR.editor} The editor instance.
+		 * @param html {String}
+		 * @returns {CKEDITOR.dom.selection}
+		 * @see #setHtmlWithRange2
+		 * @see #getHtmlWithRange2
+		 */
+		setHtmlWithSelection2: function( editor, html ) {
+			var editable = editor.editable();
+
+			// (#9848) Prevent additional selectionChange due to editor.focus().
+			// This fix isn't required by IE < 9.
+			if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
+				editor.once( 'selectionChange', function( event ) {
+					event.cancel();
+				}, null, null, 0 );
+			}
+
+			editable.focus();
+
+			var range = this.setHtmlWithRange2( editable, html );
+
+			if ( range )
+				editor.getSelection().selectRanges( [ range ] );
+
+			return editor.getSelection();
+		},
+
+		/**
 		 * Retrieve the data/HTML of the editor/element with it's selection ranges
 		 * marked in the output.
 		 *
@@ -532,6 +562,18 @@
 			}
 
 			return bender.tools.compatHtml( html );
+		},
+
+		/**
+		 * Retrieve the data of the editor with selection ranges marked in the output.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @returns {String} Editor data with selection range markers.
+		 * @see #setHtmlWithRange2
+		 * @see #getHtmlWithRange2
+		 */
+		getHtmlWithSelection2: function( editor ) {
+			return this.getHtmlWithRange2( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
 		},
 
 		setHtmlWithRange: function( element, html, root ) {
