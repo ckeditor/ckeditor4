@@ -83,6 +83,10 @@
 		//		"<p><b>x^y</b></p>" + "<p>abc</p><p>def</p>" => "<p><b>x</b></p><p><b>abc</b></p><p><b>def^</b></p><p><b>y</b></p>"
 		//		- in html mode:
 		//		"<p><b>x^y</b></p>" + "<p>abc</p><p>def</p>" => "<p><b>x</b></p><p>abc</p><p>def^</p><p><b>y</b></p>"
+		// 9. Non-editable element must be selected as a whole, even if it has a nested editable.
+		//
+		//		Example:
+		//		"<p>x^x</p>" + "<span contenteditable='false'>foo</span>" => "<p>x[<span contenteditable='false'>foo</span>]x</p>"
 
 		// TCs groups:
 		// 1. text -> text
@@ -621,11 +625,11 @@
 		},
 
 		//
-		// TCs groups 7-9.
+		// TCs groups 7-8.
 		// block elements -> elements
 		//
 
-		'G7-9. splitting' : function() {
+		'G7-8. splitting' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p><p>bar</p>' );
 
 			a( '<p>a^b</p>',
@@ -686,14 +690,14 @@
 			a( '<h1>a^b</h1>',				'<h1>a</h1><form>bam^</form><h1>b</h1>',			'case 8b' );
 		},
 
-		'G7-9. splitting - reuse element' : function() {
+		'G7-8. splitting - reuse element' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p title="1">bam</p>y', 'html' );
 
 			a( '<p title="2">a^b</p>',
 				'<p title="2">ax</p><p title="1">bam</p><p title="2">y^b</p>',					'case 1a' );
 		},
 
-		'G7-9. splitting - multi selection' : function() {
+		'G7-8. splitting - multi selection' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p>bam</p>y' );
 
 			a( '<p>a[b</p><p>c]d</p>',
@@ -719,7 +723,7 @@
 		},
 
 		// See _docs/blockselections.txt
-		'G7-9. splitting - text + eol' : function() {
+		'G7-8. splitting - text + eol' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br data-cke-eol="1" />bam' );
 
 			a( '<p>a^b</p>',				'<p>a</p><p>bam^b</p>',								'case 1a' );
@@ -759,7 +763,7 @@
 		},
 
 		// These cases were previously handled positively. Test for regressions.
-		'G7-9. splitting - text + eol - reverted cases' : function() {
+		'G7-8. splitting - text + eol - reverted cases' : function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br />bam' );
 
 			a( '<p>a^b</p>',				'<p>a<br />bam^b</p>',								'case 1' );
@@ -786,7 +790,7 @@
 			a( '<div>a^b</div>',			'<div>a<br /><br />^b</div>',						'case 6d' );
 		},
 
-		'G7-9. filtering content' : function() {
+		'G7-8. filtering content' : function() {
 			// Form chosen, so it's not stripped by rule 7.
 			var a = this.createAssertInsertionFunction( 'h1', '<form>bam</form>', 'html' );
 
@@ -812,6 +816,45 @@
 
 			a.insertion = '<p><b>b</b>a<br />m</p>';
 			a( 'a^b',		'a<b>b</b>a<br />m^b',												'case 6a' );
+		},
+
+		//
+		// TCs group 9.
+		// non-editable content
+		//
+
+		'G9. non-editable inline element' : function() {
+			var span = '<span contenteditable="false">xxx</span>',
+				a = this.createAssertInsertionFunction( 'body,div', span, 'html' );
+
+			a( 'a^b',							'a[' + span + ']b',								'case 1a' );
+			a( '<p>a^b</p>',					'<p>a[' + span + ']b</p>',						'case 1b' );
+			a( '<p>a[b</p><p>c]d</p>',			'<p>a[' + span + ']d</p>',						'case 1c' );
+		},
+
+		'G9. non-editable inline element with inline content' : function() {
+			var span = '<span contenteditable="false"><b>xxx</b></span>',
+				a = this.createAssertInsertionFunction( 'body,div', span, 'html' );
+
+			a( 'a^b',							'a[' + span + ']b',								'case 1a' );
+			a( '<p>a^b</p>',					'<p>a[' + span + ']b</p>',						'case 1b' );
+			a( '<p>a[b</p><p>c]d</p>',			'<p>a[' + span + ']d</p>',						'case 1c' );
+		},
+
+		'G9. non-editable block element' : function() {
+			var div = '<div contenteditable="false">xxx</div>',
+				a = this.createAssertInsertionFunction( 'body,div', div, 'html' );
+
+			a( '<p>a^b</p>',					'<p>a</p>[' + div + ']<p>b</p>',				'case 1a' );
+			a( '<p>a[b</p><p>c]d</p>',			'<p>a</p>[' + div + ']<p>d</p>',				'case 1b' );
+		},
+
+		'G9. non-editable block element with nested editable' : function() {
+			var div = '<div contenteditable="false">xx<p contenteditable="true">yy</p></div>',
+				a = this.createAssertInsertionFunction( 'body,div', div, 'html' );
+
+			a( '<p>a^b</p>',					'<p>a</p>[' + div + ']<p>b</p>',				'case 1a' );
+			a( '<p>a[b</p><p>c]d</p>',			'<p>a</p>[' + div + ']<p>d</p>',				'case 1b' );
 		},
 
 		//
