@@ -360,6 +360,9 @@
 		}
 	};
 
+	// keep reference to adapter's test function
+	bender.oldTest = bender.test;
+
 	bender.test = function( tests ) {
 		if ( bender.deferred ) {
 			if ( bender.deferred ) {
@@ -387,23 +390,8 @@
 		}
 
 		if ( !tests.name ) {
-			tests.name = testId;
-		}
-
-		function handleRegressions() {
-			var tc = bender.testCase,
-				condition,
-				name;
-
-			for ( name in tc ) {
-				// ignore a test
-				if ( typeof tc[ name ] == 'function' && name.match( /^test/ ) &&
-					( condition = bender.regressions[ testId + '#' + name ] ) &&
-					eval( condition.replace( /env/g, 'CKEDITOR.env' ) ) ) {
-					tc[ 'ignore:' + name ] = tc[ name ];
-					delete tc[ name ];
-				}
-			}
+			tests.name = window.location.pathname
+				.replace( /^(\/|\/(?:jobs\/(?:\w+)\/tests)\/)/i, '' );
 		}
 
 		function startRunner() {
@@ -427,14 +415,14 @@
 				}
 			}
 
-			bender.testCase = new YTest.Case( tests );
-
 			if ( bender.regressions ) {
-				handleRegressions();
+				for ( var name in bender.regressions ) {
+					bender.regressions[ name ] = bender.regressions[ name ]
+						.replace( /env/g, 'CKEDITOR.env' );
+				}
 			}
 
-			bender.runner.add( bender.testCase );
-			bender.runner.run();
+			bender.oldTest( tests );
 		}
 
 		$( startRunner );
