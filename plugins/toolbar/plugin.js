@@ -650,7 +650,11 @@ CKEDITOR.UI_SEPARATOR = 'separator';
 
 /**
  * The part of the user interface where the toolbar will be rendered. For the default
- *  editor implementation, the recommended options are `'top'` and `'bottom'`.
+ * editor implementation, the recommended options are `'top'` and `'bottom'`.
+ *
+ * Please note that this option is only applicable to [classic](#!/guide/dev_framed)
+ * (`iframe`-based) editor. In case of [inline](#!/guide/dev_inline) editor the toolbar
+ * position is set dynamically depending on the position of the editable element on the screen.
  *
  *		config.toolbarLocation = 'bottom';
  *
@@ -720,7 +724,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 
 /**
- * Whether the toolbar can be collapsed by the user. If disabled, the collapse
+ * Whether the toolbar can be collapsed by the user. If disabled, the Collapse Toolbar
  * button will not be displayed.
  *
  *		config.toolbarCanCollapse = true;
@@ -743,7 +747,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  */
 
 /**
- * When enabled, makes the *Arrow* keys navigation cycle within the current
+ * When enabled, causes the *Arrow* keys navigation to cycle within the current
  * toolbar group. Otherwise the *Arrow* keys will move through all items available in
  * the toolbar. The *Tab* key will still be used to quickly jump among the
  * toolbar groups.
