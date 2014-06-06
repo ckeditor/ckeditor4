@@ -479,7 +479,8 @@
 			// If trigger is an element, neither editable nor editable's ascendant.
 			if ( trigger && that.editable.contains( trigger ) ) {
 				// Check for closest editable limit.
-				var limit = getClosestEditableLimit( trigger, true );
+				// Don't consider trigger as a limit as it may be nested editable (includeSelf=false) (#12009).
+				var limit = getClosestEditableLimit( trigger );
 
 				// Trigger in nested editable area.
 				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
