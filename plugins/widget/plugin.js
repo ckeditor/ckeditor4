@@ -2275,12 +2275,9 @@
 							if ( !el.is( CKEDITOR.dtd.$block ) )
 								return;
 
-							while ( el ) {
-								if ( isDomNestedEditable( el ) )
-									return;
-
-								el = el.getParent();
-							}
+							// Allow drop line inside, but never before or after nested editable (#12006).
+							if ( isDomNestedEditable( el ) )
+								return;
 
 							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 						}
