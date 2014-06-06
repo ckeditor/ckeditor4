@@ -22,6 +22,12 @@
 				'<div class="zb">zb</div>' +
 			'</div>' +
 		'</div>' ),
+		nestedTpl2 = new CKEDITOR.template( '<div id="{id}" class="z">' +
+			'<div class="nested">' +
+				'<p>foo</p>' +
+			'</div>' +
+		'</div>' +
+		'<p>bar</p>' ),
 
 		editor, doc;
 
@@ -35,8 +41,9 @@
 		'div.z { background: orange; overflow: hidden; height: 100px; } ' +
 		'div.z > div { background: white; margin: 5px; } ' +
 		'div.z > div > div { height: 45px; outline: 1px solid black; } ' +
-		'div.z > div > .za { background: green; } ' +
+		'div.z > div > .za { background: green; } '  +
 		'div.z > div > .zb { background: violet; } ' +
+		'div.z > div > p { height: 90px }' +
 
 		'div.w { background: orange; overflow: hidden; height: 100px; } ' +
 		'div.w > div { height: 50px; } ' +
@@ -518,6 +525,17 @@
 				lower: function() {
 					return w( 'z' ).parts.nested.getLast();
 				}
+			}
+		} ),
+		'test nested, edge[bottom] - nested editable as a last child': t( nestedTpl2.output( { id: 'z' } ), {
+			that: {
+				mouse: { x: 10, y: 90 },
+				element: function() {
+					return w( 'z' ).parts.nested;
+				}
+			},
+			trigger: {
+				name: 'triggerEdge'
 			}
 		} ),
 		'test nested, expand - two blocks in nested': t( nestedTpl.output( { id: 'z' } ), {
