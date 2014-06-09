@@ -2282,12 +2282,18 @@
 							// If element is nested editable, make sure widget can be dropped there (#12006).
 							var nestedEditable = getNestedEditable( editable, el );
 							if ( nestedEditable ) {
+								var draggedWidget = widgetsRepo._.draggedWidget;
+
+								// Don't let the widget to be dropped into its own nested editable.
+								if ( widgetsRepo.getByElement( nestedEditable ) == draggedWidget )
+									return;
+
 								var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ],
-									draggedRequiredContent = widgetsRepo._.draggedWidget.requiredContent;
+									draggedRequiredContent = draggedWidget.requiredContent;
 
 								// There will be no relation if the filter of nested editable does not allow
 								// requiredContent of dragged widget.
-								if ( draggedRequiredContent && !filter.check( draggedRequiredContent ) )
+								if ( filter && draggedRequiredContent && !filter.check( draggedRequiredContent ) )
 									return;
 							}
 
