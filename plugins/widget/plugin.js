@@ -2279,6 +2279,18 @@
 							if ( isDomNestedEditable( el ) )
 								return;
 
+							// If element is nested editable, make sure widget can be dropped there (#12006).
+							var nestedEditable = getNestedEditable( editable, el );
+							if ( nestedEditable ) {
+								var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ],
+									draggedRequiredContent = widgetsRepo._.draggedWidget.requiredContent;
+
+								// There will be no relation if the filter of nested editable does not allow
+								// requiredContent of dragged widget.
+								if ( draggedRequiredContent && !filter.check( draggedRequiredContent ) )
+									return;
+							}
+
 							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
 						}
 					}
@@ -2949,10 +2961,13 @@
 			editor = this.editor,
 			editable = editor.editable(),
 			listeners = [],
-			sorted = [],
+			sorted = [];
 
-			// Harvest all possible relations and display some closest.
-			relations = finder.greedySearch(),
+		// Mark dragged widget for repository#finder.
+		this.repository._.draggedWidget = this;
+
+		// Harvest all possible relations and display some closest.
+		var relations = finder.greedySearch(),
 
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 				locations = locator.locate( relations );
