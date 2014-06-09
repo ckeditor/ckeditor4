@@ -12,13 +12,31 @@
 					evt.editor.dataProcessor.writer.sortAttributes = 1;
 
 					evt.editor.widgets.add( 'testwidget', {} );
+
+					evt.editor.widgets.add( 'testwidget2', {
+						editables: {
+							n1: {
+								selector: '.n1',
+								allowedContent: 'p;blockquote(testwidget3)'
+							},
+							n2: {
+								selector: '.n2',
+								allowedContent: 'p;blockquote'
+							}
+						}
+					} );
+
+					evt.editor.widgets.add( 'testwidget3', {
+						requiredContent: 'blockquote(testwidget3)'
+					} );
 				}
 			}
 		}
 	};
 
 	var fixHtml = widgetTestsTools.fixHtml,
-		getWidgetById = widgetTestsTools.getWidgetById;
+		getWidgetById = widgetTestsTools.getWidgetById,
+		assertRelations = lineutilsTestsTools.assertRelations;
 
 	function dropEvent( data, range ) {
 		var evt = new CKEDITOR.dom.event( {
@@ -368,6 +386,31 @@
 				} finally {
 					revert();
 				}
+			} );
+		},
+
+		'test drag and drop - block widget into nested editable (ACF)': function() {
+			var editor = this.editor,
+				html = '<div data-widget="testwidget2">' +
+					'<div class="n1">' +
+						'<p>x</p>' +
+					'</div>' +
+					'<div class="n2">' +
+						'<p>y</p>' +
+					'</div>' +
+				'</div>' +
+				'<blockquote data-widget="testwidget3" class="testwidget3" id="w3">testwidget3</blockquote>';
+
+			this.editorBot.setData( html, function() {
+				var w3 = getWidgetById( editor, 'w3' ),
+					repo = editor.widgets,
+					finder = repo.finder;
+
+				repo._.draggedWidget = w3;
+				w3.wrapper.remove();
+
+				finder.greedySearch();
+				assertRelations( editor, finder, '|<div data-widget="testwidget2"><div class="n1">|<p>x</p>|</div><div class="n2"><p>y</p></div></div>|' );
 			} );
 		}
 	} );
