@@ -690,7 +690,7 @@
 
 			listener.removeListener();
 
-			var range = this.setRange( editable, html );
+			var range = bender.tools.setRange( editable, html );
 
 			if ( range )
 				editor.getSelection().selectRanges( [ range ] );
@@ -707,7 +707,7 @@
 		 * @see #getRange
 		 */
 		getSelection: function( editor ) {
-			return this.getRange( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
+			return bender.tools.getRange( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
 		},
 
 		/**
