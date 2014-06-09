@@ -6,6 +6,24 @@
 	bender.editor = true;
 
 	bender.test( {
+		'test setSelection - none': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				selectionChangeCalled = 0;
+
+			var listener = editor.on( 'selectionChange', function() {
+				++selectionChangeCalled;
+			} );
+
+			var selection = bender.tools.setSelection( editor, '<p>x</p>' );
+
+			listener.removeListener();
+
+			assert.areSame( 0, selectionChangeCalled, 'selectionChange called' );
+			assert.isTrue( selection instanceof CKEDITOR.dom.selection, 'CKEDITOR.dom.selection' );
+			assert.areSame( '<p>x</p>', editor.getData(), 'editor data' );
+		},
+
 		'test setSelection - element': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
