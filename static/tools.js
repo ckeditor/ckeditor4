@@ -917,7 +917,7 @@
 			return function( element, range ) {
 				// No range, no marker to display.
 				if ( !range )
-					return bender.tools.fixHtml( element.getHtml(), 1, 1 );
+					return element.getHtml();
 
 				// Get length of element address.
 				addressLength = element.getAddress().length;
@@ -942,9 +942,7 @@
 				injectComment( startMarker, startContainer, range.startOffset )
 
 				// Replace comments with corresponding range markers.
-				html = browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
-
-				return bender.tools.fixHtml( html, 1, 1 );
+				return browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
 			};
 		} )(),
 
