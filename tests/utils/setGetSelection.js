@@ -71,6 +71,24 @@
 
 			assert.isMatching( /<p>\{x\}(<br>)?<\/p>/gi, bender.tools.getSelection( editor ), 'getSelection' );
 			assert.isMatching( '<p>x(<br>)?</p>', editor.editable().getHtml(), 'editable innerHTML' );
+		},
+
+		'test getSelection - multiple ranges': function() {
+			var editor = this.editor,
+				revert = bender.tools.replaceMethod( CKEDITOR.dom.selection.prototype, 'getRanges', function() {
+					return [ 1, 2 ];
+				} ),
+				error;
+
+			try {
+				bender.tools.getSelection( editor );
+			} catch( e ) {
+				error = e;
+			} finally {
+				revert();
+			}
+
+			assert.isNotUndefined( error, 'Error is expected to be thrown' );
 		}
 	} );
 } )();
