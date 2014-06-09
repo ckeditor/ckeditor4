@@ -825,10 +825,21 @@
 		 */
 		createTestsForEditors: function( editors, inputTests ) {
 			var outputTests = {},
-				specificTestName;
+				specificTestName,
+				specialMethods = { 'init': 1, 'async:init': 1, 'setUp': 1, 'tearDown': 1 };
+
+			for ( var method in specialMethods ) {
+				if ( inputTests[ method ] ) {
+					outputTests[ method ] = inputTests[ method ];
+				}
+			}
 
 			for ( var editorName in editors ) {
 				for ( var testName in inputTests ) {
+					if ( specialMethods[ testName ] ) {
+						continue;
+					}
+
 					specificTestName = testName + ' (' + editors[ editorName ].name + ')';
 
 					// Avoid silent failure.
