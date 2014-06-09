@@ -29,6 +29,12 @@
 					evt.editor.widgets.add( 'testwidget3', {
 						requiredContent: 'blockquote(testwidget3)'
 					} );
+
+					evt.editor.widgets.add( 'testwidget4', {
+						editables: {
+							n1: '.n1'
+						}
+					} );
 				}
 			}
 		}
@@ -402,15 +408,58 @@
 				'<blockquote data-widget="testwidget3" class="testwidget3" id="w3">testwidget3</blockquote>';
 
 			this.editorBot.setData( html, function() {
-				var w3 = getWidgetById( editor, 'w3' ),
+				var widget = getWidgetById( editor, 'w3' ),
 					repo = editor.widgets,
 					finder = repo.finder;
 
-				repo._.draggedWidget = w3;
-				w3.wrapper.remove();
-
+				// Detach dragged widget from DOM to make assertion simpler.
+				widget.wrapper.remove();
+				repo._.draggedWidget = widget;
 				finder.greedySearch();
+
 				assertRelations( editor, finder, '|<div data-widget="testwidget2"><div class="n1">|<p>x</p>|</div><div class="n2"><p>y</p></div></div>|' );
+			} );
+		},
+
+		'test drag and drop - block widget into nested editable (ACF) - no filter': function() {
+			var editor = this.editor,
+				html = '<div data-widget="testwidget4">' +
+					'<div class="n1">' +
+						'<p>x</p>' +
+					'</div>' +
+				'</div>' +
+				'<blockquote data-widget="testwidget3" class="testwidget3" id="w3">testwidget3</blockquote>';
+
+			this.editorBot.setData( html, function() {
+				var widget = getWidgetById( editor, 'w3' ),
+					repo = editor.widgets,
+					finder = repo.finder;
+
+				// Detach dragged widget from DOM to make assertion simpler.
+				widget.wrapper.remove();
+				repo._.draggedWidget = widget;
+				finder.greedySearch();
+
+				assertRelations( editor, finder, '|<div data-widget="testwidget4"><div class="n1">|<p>x</p>|</div></div>|' );
+			} );
+		},
+
+		'test drag and drop - block widget into nested editable (ACF) - self-drop': function() {
+			var editor = this.editor,
+				html = '<div data-widget="testwidget4" id="w4">' +
+					'<div class="n1">' +
+						'<p>x</p>' +
+					'</div>' +
+				'</div>';
+
+			this.editorBot.setData( html, function() {
+				var repo = editor.widgets,
+					finder = repo.finder;
+
+				repo._.draggedWidget = getWidgetById( editor, 'w4' );
+				finder.greedySearch();
+
+				assertRelations( editor, finder, '|<div data-widget="testwidget4" id="w4"><div class="n1"><p>x</p></div></div>|' );
 			} );
 		}
 	} );
