@@ -76,7 +76,7 @@
 				sClassName = oElement[ 1 ];
 
 			styles.push( {
-				name: element + '.' + sClassName,
+				name: sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
 			} );
@@ -106,7 +106,7 @@
 							// Rules that are valid
 							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
 
-						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
+						cachedDefinitions = LoadStylesCSS( editor.document.$, skipSelectors, validSelectors );
 
 						editor.getStylesSet = function( callback ) {
 							if ( cachedDefinitions )
