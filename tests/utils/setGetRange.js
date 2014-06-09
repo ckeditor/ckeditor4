@@ -40,7 +40,7 @@
 			}
 
 			assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setRange' );
-			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, getRange( playground, range ), 'getRange' );
+			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, bender.tools.fixHtml( getRange( playground, range ), 1, 1 ), 'getRange' );
 		};
 	}
 

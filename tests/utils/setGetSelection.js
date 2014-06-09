@@ -67,7 +67,7 @@
 			var selection = bender.tools.setSelection( editor, htmlWithRange );
 
 			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.getSelection( editor ), 'getSelection' );
-			assert.isMatching( '<p>x(<br>)?</p>', editor.editable().getHtml(), 'editable innerHTML' );
+			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
 		'test getSelection - text': function() {
@@ -77,7 +77,7 @@
 			var selection = bender.tools.setSelection( editor, htmlWithRange );
 
 			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.getSelection( editor ), 'getSelection' );
-			assert.isMatching( '<p>x(<br>)?</p>', editor.editable().getHtml(), 'editable innerHTML' );
+			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
 		'test getSelection - multiple ranges': function() {
