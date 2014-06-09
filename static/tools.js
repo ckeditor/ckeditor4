@@ -707,7 +707,12 @@
 		 * @see #getRange
 		 */
 		getSelection: function( editor ) {
-			return bender.tools.getRange( editor.editable(), editor.getSelection().getRanges()[ 0 ] );
+			var ranges = editor.getSelection().getRanges();
+
+			if ( ranges.length > 1 )
+				throw new Error( 'There are ' + ranges.length + ' ranges in editor\'s selection, while only one was expected.' );
+
+			return bender.tools.getRange( editor.editable(), ranges[ 0 ] );
 		},
 
 		/**
