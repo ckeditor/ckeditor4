@@ -4,7 +4,8 @@
  */
 
 /**
- * @fileOverview Allows accessing difficult focus spaces.
+ * @fileOverview The Magic Line plugin that makes it easier to access some document areas that
+ * are difficult to focus.
  */
 
 'use strict';
@@ -478,7 +479,8 @@
 			// If trigger is an element, neither editable nor editable's ascendant.
 			if ( trigger && that.editable.contains( trigger ) ) {
 				// Check for closest editable limit.
-				var limit = getClosestEditableLimit( trigger, true );
+				// Don't consider trigger as a limit as it may be nested editable (includeSelf=false) (#12009).
+				var limit = getClosestEditableLimit( trigger );
 
 				// Trigger in nested editable area.
 				if ( limit.getAttribute( 'contenteditable' ) == 'true' )
@@ -1757,8 +1759,9 @@
 } )();
 
 /**
- * Sets the default vertical distance between element edge and mouse pointer that
- * causes the box to appear. The distance is expressed in pixels (px).
+ * Sets the default vertical distance between the edge of the element and the mouse pointer that
+ * causes the magic line to appear. This option accepts a value in pixels, without the unit (for example:
+ * `15` for 15 pixels).
  *
  *		// Changes the offset to 15px.
  *		CKEDITOR.config.magicline_triggerOffset = 15;
@@ -1769,9 +1772,9 @@
  */
 
 /**
- * Defines the distance between mouse pointer and the box, within
- * which the box stays revealed and no other focus space is offered to be accessed.
- * The value is relative to {@link #magicline_triggerOffset}.
+ * Defines the distance between the mouse pointer and the box, within
+ * which the magic line stays revealed and no other focus space is offered to be accessed.
+ * This value is relative to {@link #magicline_triggerOffset}.
  *
  *		// Increases the distance to 80% of CKEDITOR.config.magicline_triggerOffset.
  *		CKEDITOR.config.magicline_holdDistance = .8;
@@ -1782,10 +1785,10 @@
  */
 
 /**
- * Defines default keystroke that access the closest unreachable focus space **before**
+ * Defines the default keystroke that access the closest unreachable focus space **before**
  * the caret (start of the selection). If there's no any focus space, selection remains.
  *
- *		// Changes keystroke to CTRL + ,
+ *		// Changes the default keystroke to "Ctrl + ,".
  *		CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + 188;
  *
  * @cfg {Number} [magicline_keystrokePrevious=CKEDITOR.CTRL + CKEDITOR.SHIFT + 51 (CTRL + SHIFT + 3)]
@@ -1794,10 +1797,10 @@
 CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 51; // CTRL + SHIFT + 3
 
 /**
- * Defines default keystroke that access the closest unreachable focus space **after**
+ * Defines the default keystroke that access the closest unreachable focus space **after**
  * the caret (start of the selection). If there's no any focus space, selection remains.
  *
- *		// Changes keystroke to CTRL + .
+ *		// Changes keystroke to "Ctrl + .".
  *		CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + 190;
  *
  * @cfg {Number} [magicline_keystrokeNext=CKEDITOR.CTRL + CKEDITOR.SHIFT + 52 (CTRL + SHIFT + 4)]
@@ -1806,10 +1809,10 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 5
 CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; // CTRL + SHIFT + 4
 
 /**
- * Defines a list of attributes that, if assigned to some elements, prevent magicline from being
+ * Defines a list of attributes that, if assigned to some elements, prevent the magic line from being
  * used within these elements.
  *
- *		// Adds "data-tabu" attribute to magicline tabu list.
+ *		// Adds the "data-tabu" attribute to the magic line tabu list.
  *		CKEDITOR.config.magicline_tabuList = [ 'data-tabu' ];
  *
  * @cfg {Number} [magicline_tabuList=[ 'data-widget-wrapper' ]]
@@ -1817,9 +1820,9 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  */
 
 /**
- * Defines box color. The color may be adjusted to enhance readability.
+ * Defines the color of the magic line. The color may be adjusted to enhance readability.
  *
- *		// Changes color to blue.
+ *		// Changes magic line color to blue.
  *		CKEDITOR.config.magicline_color = '#0000FF';
  *
  * @cfg {String} [magicline_color='#FF0000']
@@ -1827,10 +1830,10 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  */
 
 /**
- * Activates plugin mode that considers all focus spaces between
- * {@link CKEDITOR.dtd#$block} elements as accessible by the box.
+ * Activates the special all-encompassing mode that considers all focus spaces between
+ * {@link CKEDITOR.dtd#$block} elements as accessible by the magic line.
  *
- *		// Enables "put everywhere" mode.
+ *		// Enables the greedy "put everywhere" mode.
  *		CKEDITOR.config.magicline_putEverywhere = true;
  *
  * @cfg {Boolean} [magicline_putEverywhere=false]
