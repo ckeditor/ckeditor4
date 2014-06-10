@@ -112,16 +112,15 @@
 				} );
 
 				editor.editable().on( 'keydown', function( evt ) {
+					// We need to store an image which will be used in case of key group
+					// change.
+					undoManager.lastKeydownImage = new Image( editor );
 					var keyCode = evt.data.getKey();
 					if ( isNavigationKey( keyCode ) ) {
 						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 							this.editor.fire( 'saveSnapshot' );
 							undoManager.resetType();
 						}
-					} else if ( keyCode == 8 || keyCode == 46 ) {
-						// For functional keys we need to execute newType() in
-						// keydown event.
-						undoManager.newType( keyCode );
 					}
 				} );
 
@@ -133,11 +132,9 @@
 				editor.editable().on( 'keyup', function( evt ) {
 					var keyCode = evt.data.getKey();
 
-					if ( inputFired ) {
+					if ( inputFired || ( CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 } ) ) {
 						// Functional keys are handled in `keydown` listener.
-						if ( keyCode != 8 && keyCode != 46 ) {
-							undoManager.newType( keyCode );
-						}
+						undoManager.newType( keyCode );
 						// Reset flag indicating input event.
 						inputFired = false;
 					} else if ( isNavigationKey( keyCode ) ) {
@@ -470,19 +467,33 @@
 			if ( !this.typing )
 				this.onTypingStart();
 
+			console.log('isFunct: ' + functionalKey);
+
 			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
 					console.log( 'Key group changed' );
 					// Reset the other key group recorded count.
 					this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
+
+					console.log('group snap:', this.lastKeydownImage.contents);
+					if ( !this.save( false, this.lastKeydownImage, false ) )
+						// Drop further snapshots.
+						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
+
+					this.hasUndo = true;
+					this.hasRedo = false;
+
+					this.onChange();
 				} else {
 					console.log( 'We have 5 or more keys recorded.' );
 					// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
 					strokesRecorded = 0;
+
+					console.log('strokesExceed snap:', this.editor.editable().getHtml());
+					this.editor.fire( 'saveSnapshot' );
+					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
+					this.typing = true;
 				}
-				// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
-				this.editor.fire( 'saveSnapshot' );
-				this.typing = true;
 			}
 
 			// Increase recorded strokes count.
