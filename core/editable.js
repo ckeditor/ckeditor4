@@ -1519,6 +1519,14 @@
 				range.collapse();
 			}
 
+			// Rule 9. Non-editable content should be selected as a whole.
+			if ( isSingleNonEditableElement( nodesData ) ) {
+				dontMoveCaret = true;
+				node = nodesData[ 0 ].node;
+				range.setStartAt( node, CKEDITOR.POSITION_BEFORE_START );
+				range.setEndAt( node, CKEDITOR.POSITION_AFTER_END );
+			}
+
 			that.dontMoveCaret = dontMoveCaret;
 			that.bogusNeededBlocks = bogusNeededBlocks;
 		}
@@ -1747,6 +1755,16 @@
 			return node && checkIfElement( node ) && ( node.is( DTD.$removeEmpty ) || node.is( 'a' ) && !node.isBlockBoundary() );
 		}
 
+		// Checks if only non-editable element is being inserted.
+		function isSingleNonEditableElement( nodesData ) {
+			if ( nodesData.length != 1 )
+				return false;
+
+			var nodeData = nodesData[ 0 ];
+
+			return nodeData.isElement && ( nodeData.node.getAttribute( 'contenteditable' ) == 'false' );
+		}
+
 		var blockMergedTags = { p: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ul: 1, ol: 1, li: 1, pre: 1, dl: 1, blockquote: 1 };
 
 		// See rule 5. in TCs.
@@ -1836,7 +1854,8 @@
 
 			if ( dataWrapper.getChildCount() == 1 &&					// Only one node bein inserted.
 				checkIfElement( block = dataWrapper.getFirst() ) &&		// And it's an element.
-				block.is( stripSingleBlockTags ) )						// That's <p> or <div> or header.
+				block.is( stripSingleBlockTags ) &&						// That's <p> or <div> or header.
+				!block.hasAttribute( 'contenteditable' ) )				// It's not a non-editable block or nested editable.
 			{
 				// Check children not containing block.
 				children = block.getElementsByTag( '*' );

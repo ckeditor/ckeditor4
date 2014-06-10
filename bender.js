@@ -74,7 +74,10 @@ var config = {
 				'tests/plugins/widget/nestededitables#test pasting widget which was copied (d&d) when its nested editable was focused': 'env.ie && env.version == 8',
 
 				// Firefox (#11399)
-				'tests/plugins/widget/nestededitables#test selection in nested editable is preserved after opening and closing dialog - inline editor': 'env.gecko'
+				'tests/plugins/widget/nestededitables#test selection in nested editable is preserved after opening and closing dialog - inline editor': 'env.gecko',
+
+				// IE8 (http://dev.ckeditor.com/ticket/12008#comment:6)
+				'tests/plugins/widget/nestedwidgets#test pasting widget with nested editable into nested editable': 'env.ie && env.version == 8',
 			}
 		},
 

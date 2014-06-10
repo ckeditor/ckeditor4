@@ -299,6 +299,50 @@
 			function log() {
 				destroyed.push( this.element.$.id );
 			}
+		},
+
+		// #12008
+		'test pasting widget with nested editable into nested editable': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor;
+
+			editor.widgets.add( 'testpaste1', {
+				editables: {
+					ned2: '.ned2' // The name has to be different
+				}
+			} );
+
+			var widget2Data =
+				'<div data-widget="testpaste1" id="wp-1">' +
+					'<p class="ned2">foo</p>' +
+				'</div>';
+
+			bot.setData( generateWidgetsData( 1 ) + '<p>xxx</p>' + widget2Data, function() {
+				var w1 = getWidgetById( editor, 'wp-0' ),
+					w2 = getWidgetById( editor, 'wp-1' ),
+					html = w2.wrapper.getOuterHtml();
+
+				w2.wrapper.remove();
+				editor.widgets.checkWidgets();
+
+				w1.editables.ned.focus();
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p-0' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+
+				editor.on( 'afterPaste', function() {
+					resume( function() {
+						w2 = getWidgetById( editor, 'wp-1', true );
+
+						assert.isNotNull( w2, 'widget was pasted' );
+						assert.areSame( w2, editor.widgets.focused, 'pasted widget is focused' );
+					} );
+				} );
+
+				wait( function() {
+					editor.execCommand( 'paste', html );
+				} );
+			} );
 		}
 
 	} );

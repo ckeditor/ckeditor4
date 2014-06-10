@@ -397,7 +397,8 @@
 					data2Attr( { 'classes': null } ) +
 					'" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="test_upcasted_pasting"><i class="upcasted_pasting">foo</i></span>' +
 					widgetTestsTools.widgetDragHanlder +
-				'</span>X?(<br />)?</p>$'
+				'</span>X?(<br />)?</p>' +
+				'(<div [^>]+>&nbsp;</div>)?$' // Hidden sel container.
 			);
 
 			var editor = this.editor,
