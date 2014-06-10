@@ -61,6 +61,9 @@
 			} );
 
 			undoManager.onChange = function() {
+				undoManager.hasUndo = ( undoManager.index > 0 );
+				undoManager.hasRedo = ( undoManager.index < undoManager.snapshots.length - 1 );
+
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				redoCommand.setState( undoManager.redoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 			};
@@ -449,9 +452,6 @@
 			// It's safe to now indicate typing state.
 			this.typing = true;
 
-			this.hasUndo = true;
-			this.hasRedo = false;
-
 			this.onChange();
 		},
 
@@ -480,9 +480,7 @@
 						// Drop further snapshots.
 						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 
-					this.hasUndo = true;
-					this.hasRedo = false;
-
+					// @todo: We don't really need to call it, since fire( 'change' ) is called later on.
 					this.onChange();
 				} else {
 					console.log( 'We have 5 or more keys recorded.' );
@@ -572,6 +570,7 @@
 		},
 
 		fireChange: function() {
+			// These lines can be handled within onChange() too.
 			this.hasUndo = !!this.getNextImage( true );
 			this.hasRedo = !!this.getNextImage( false );
 			// Reset typing
