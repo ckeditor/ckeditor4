@@ -60,10 +60,8 @@
 				} );
 			} );
 
+			// @todo: this funciton should be renamed, since it's not called on each change event.
 			undoManager.onChange = function() {
-				undoManager.hasUndo = ( undoManager.index > 0 );
-				undoManager.hasRedo = ( undoManager.index < undoManager.snapshots.length - 1 );
-
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				redoCommand.setState( undoManager.redoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 			};
@@ -133,13 +131,18 @@
 				} );
 
 				editor.editable().on( 'keyup', function( evt ) {
-					var keyCode = evt.data.getKey();
+					var keyCode = evt.data.getKey(),
+						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 };
 
-					if ( inputFired || ( CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 } ) ) {
-						// Functional keys are handled in `keydown` listener.
-						undoManager.newType( keyCode );
+					if ( inputFired || ieFunctionKeysWorkaround ) {
 						// Reset flag indicating input event.
 						inputFired = false;
+						// IE: backspace/del would still call keypress event, even if nothing was removed.
+						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.contents === editor.getSnapshot() ) {
+							return;
+						}
+						// Functional keys are handled in `keydown` listener.
+						undoManager.newType( keyCode );
 					} else if ( isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );
 					}
@@ -452,6 +455,9 @@
 			// It's safe to now indicate typing state.
 			this.typing = true;
 
+			this.hasUndo = true;
+			this.hasRedo = false;
+
 			this.onChange();
 		},
 
@@ -479,9 +485,6 @@
 					if ( !this.save( false, this.lastKeydownImage, false ) )
 						// Drop further snapshots.
 						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
-
-					// @todo: We don't really need to call it, since fire( 'change' ) is called later on.
-					this.onChange();
 				} else {
 					console.log( 'We have 5 or more keys recorded.' );
 					// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
