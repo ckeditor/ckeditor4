@@ -12,6 +12,7 @@ Fixed Issues:
 * [#11306](http://dev.ckeditor.com/ticket/11306): [OSX][Blink/Webkit] Fixed: No widget's entries in context menu on widget right-click.
 * [#11957](http://dev.ckeditor.com/ticket/11957): Fixed: Alignment labels in the [Enhanced Image](http://ckeditor.com/addon/image2) dialog are not translated.
 * [#11980](http://dev.ckeditor.com/ticket/11980): [Blink/Webkit] Fixed: Span elements created while joining adjacent elements (non-collapsed selection).
+* [#12009](http://dev.ckeditor.com/ticket/12009): [Nested widgets] Integration with Magicline plugin.
 
 ## CKEditor 4.4.1
 
