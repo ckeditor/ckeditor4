@@ -2,20 +2,24 @@
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea */
 
-bender.test( {
-	'test pass jQuery object into config': function() {
-		var config = {
-			element: $( '#container' )
-		};
+( function() {
+	'use strict';
 
-		$( '#editable' ).ckeditor( function() {
-			var _config = this.config;
+	bender.test( {
+		'test pass jQuery object into config': function() {
+			var configObj = {
+				element: $( '#container' )
+			};
 
-			resume( function() {
-				assert.areSame( _config.element[ 0 ], config.element[ 0 ] );
-			} );
-		}, config );
+			$( '#editable' ).ckeditor( function() {
+				var editor = this;
 
-		wait();
-	}
-} );
+				resume( function() {
+					assert.areSame( configObj.element[ 0 ], editor.config.element[ 0 ], 'element was passed safely to editor.config' );
+				} );
+			}, configObj );
+
+			wait();
+		}
+	} );
+} )();
