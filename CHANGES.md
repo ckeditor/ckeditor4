@@ -3,6 +3,8 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5
 
+* [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Drag and drop of nested block widgets.
+
 ## CKEditor 4.4.2
 
 Fixed Issues:

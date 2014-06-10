@@ -2275,11 +2275,26 @@
 							if ( !el.is( CKEDITOR.dtd.$block ) )
 								return;
 
-							while ( el ) {
-								if ( isDomNestedEditable( el ) )
+							// Allow drop line inside, but never before or after nested editable (#12006).
+							if ( isDomNestedEditable( el ) )
+								return;
+
+							// If element is nested editable, make sure widget can be dropped there (#12006).
+							var nestedEditable = getNestedEditable( editable, el );
+							if ( nestedEditable ) {
+								var draggedWidget = widgetsRepo._.draggedWidget;
+
+								// Don't let the widget to be dropped into its own nested editable.
+								if ( widgetsRepo.getByElement( nestedEditable ) == draggedWidget )
 									return;
 
-								el = el.getParent();
+								var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ],
+									draggedRequiredContent = draggedWidget.requiredContent;
+
+								// There will be no relation if the filter of nested editable does not allow
+								// requiredContent of dragged widget.
+								if ( filter && draggedRequiredContent && !filter.check( draggedRequiredContent ) )
+									return;
 							}
 
 							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
@@ -2952,10 +2967,13 @@
 			editor = this.editor,
 			editable = editor.editable(),
 			listeners = [],
-			sorted = [],
+			sorted = [];
 
-			// Harvest all possible relations and display some closest.
-			relations = finder.greedySearch(),
+		// Mark dragged widget for repository#finder.
+		this.repository._.draggedWidget = this;
+
+		// Harvest all possible relations and display some closest.
+		var relations = finder.greedySearch(),
 
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 				locations = locator.locate( relations );
