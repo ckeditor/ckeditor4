@@ -58,7 +58,8 @@
 							this.commitContent( data );
 							span.setAttributes({
 								contentEditable: "false",
-								'data-cke-linksei':1
+								'data-cke-linksei':1,
+								'style':"text-indent:0px;"
 								});
 							link.setAttributes( {
 								'id':'lnkSei'+window._idProtocolo,

@@ -1,15 +1,25 @@
 /**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
  (function() {
-  // Create support tools 
+  // Create support tools
  var appTools = (function(){
+ 	var inited = {};
+
  	var _init = function(handler) {
-		if (document.addEventListener) {
+		if (window.addEventListener) {
 			window.addEventListener('message', handler, false);
 		} else {
 			window.attachEvent("onmessage", handler);
+		}
+	};
+
+	var unbindHandler = function(handler) {
+		if (window.removeEventListener) {
+			window.removeEventListener('message', handler, false);
+		} else {
+			window.detachEvent('onmessage', handler);
 		}
 	};
 
@@ -24,7 +34,7 @@
 				'id': id
 			};
 
-		if (type.call(o.message) == objObject) {
+		if (o.message && type.call(o.message) == objObject) {
 			(o.message.id) ? o.message.id : o.message.id = id;
 			message = o.message;
 		}
@@ -82,24 +92,63 @@
 	  setCookie(name, "", { expires: -1 });
 	};
 
+	var findFocusable = function(ckEl) {
+		var result = null,
+			focusableSelectors = 'a[href], area[href], input, select, textarea, button, *[tabindex], *[contenteditable]';
+
+		if(ckEl) {
+			result = ckEl.find(focusableSelectors);
+		}
+
+		return result;
+	};
+
+	var getStyle = function(el, prop) {
+		if(document.defaultView && document.defaultView.getComputedStyle) {
+			return document.defaultView.getComputedStyle(el, null)[prop];
+		} else if(el.currentStyle) {
+			return el.currentStyle[prop];
+		} else {
+			return el.style[prop];
+		}
+	};
+
+	var isHidden = function(el) {
+		return el.offsetWidth === 0 || el.offsetHeight == 0 || getStyle(el, 'display') === 'none';
+	};
+
+	var isVisible = function(el) {
+		return !isHidden(el);
+	};
+
+	var hasClass = function (obj, cname) {
+		return !!(obj.className ? obj.className.match(new RegExp('(\\s|^)'+cname+'(\\s|$)')) : false);
+	};
+
 	return {
 		postMessage: {
 			init: _init,
-			send: _sendCmd
+			send: _sendCmd,
+			unbindHandler: unbindHandler
 		},
 		hash: {
 			create: function() {
-				
+
 			},
 
 			parse: function() {
-				
+
 			}
 		},
 		cookie: {
 			set: setCookie,
 			get: getCookie,
 			remove: deleteCookie
+		},
+		misc: {
+			findFocusable: findFocusable,
+			isVisible: isVisible,
+			hasClass: hasClass
 		}
 	};
  })();
@@ -185,9 +234,12 @@
 		};
 
 	var SetLocalizationButton = function(obj) {
+		var el;
 
 		for(var i in obj) {
-			obj[i].instance.getElement().setText(NS.LocalizationComing[i]);
+			el = obj[i].instance.getElement().getFirst() || obj[i].instance.getElement();
+
+			el.setText(NS.LocalizationComing[i]);
 		}
 	};
 
@@ -210,14 +262,141 @@
 	var nameNode, selectNode, frameId;
 
 	NS.framesetHtml = function(tab) {
-		var str = '<iframe src="' + NS.templatePath + NS.serverLocation +'" id=' + NS.iframeNumber + '_' + tab + ' frameborder="0" allowtransparency="1" style="width:100%;border: 1px solid #AEB3B9;overflow: auto;background:#fff; border-radius: 3px;"></iframe>';
+		var str = '<iframe id=' + NS.iframeNumber + '_' + tab + ' frameborder="0" allowtransparency="1" style="width:100%;border: 1px solid #AEB3B9;overflow: auto;background:#fff; border-radius: 3px;"></iframe>';
 		return str;
 	};
 
 	NS.setIframe = function(that, nameTab) {
-		var str = NS.framesetHtml(nameTab),
-			iframeId = NS.iframeNumber + nameTab;
-		return that.getElement().setHtml(str);
+		var iframe,
+			str = NS.framesetHtml(nameTab),
+			iframeId = NS.iframeNumber + '_' + nameTab,
+			// tmp.html from wsc/dialogs
+			iframeInnerHtml =
+				'<!DOCTYPE html>' +
+				'<html>' +
+					'<head>' +
+						'<meta charset="UTF-8">' +
+						'<title>iframe</title>' +
+
+						'<style>' +
+							'html,body{' +
+								'margin: 0;' +
+								'height: 100%;' +
+								'font: 13px/1.555 "Trebuchet MS", sans-serif;' +
+							'}' +
+							'a{' +
+							    'color: #888;' +
+							    'font-weight: bold;' +
+							    'text-decoration: none;' +
+							    'border-bottom: 1px solid #888;' +
+							'}' +
+							'.main-box {' +
+								'color:#252525;' +
+								'padding: 3px 5px;' +
+								'text-align: justify;' +
+							'}' +
+							'.main-box p{margin: 0 0 14px;}' +
+							'.main-box .cerr{' +
+							    'color: #f00000;' +
+							    'border-bottom-color: #f00000;' +
+							'}' +
+						'</style>' +
+					'</head>' +
+					'<body>' +
+						'<div id="content" class="main-box"></div>' +
+						'<iframe src="" frameborder="0" id="spelltext" name="spelltext" style="display:none; width: 100%" ></iframe>' +
+						'<iframe src="" frameborder="0" id="loadsuggestfirst" name="loadsuggestfirst" style="display:none; width: 100%" ></iframe>' +
+						'<iframe src="" frameborder="0" id="loadspellsuggestall" name="loadspellsuggestall" style="display:none; width: 100%" ></iframe>' +
+						'<iframe src="" frameborder="0" id="loadOptionsForm" name="loadOptionsForm" style="display:none; width: 100%" ></iframe>' +
+						'<script>' +
+							'(function(window) {' +
+								// Constructor Manager PostMessage
+
+								'var ManagerPostMessage = function() {' +
+									'var _init = function(handler) {' +
+										'if (document.addEventListener) {' +
+											'window.addEventListener("message", handler, false);' +
+										'} else {' +
+											'window.attachEvent("onmessage", handler);' +
+										'};' +
+									'};' +
+									'var _sendCmd = function(o) {' +
+										'var str,' +
+											'type = Object.prototype.toString,' +
+											'fn = o.fn || null,' +
+											'id = o.id || "",' +
+											'target = o.target || window,' +
+											'message = o.message || { "id": id };' +
+
+										'if (o.message && type.call(o.message) == "[object Object]") {' +
+											'(o.message["id"]) ? o.message["id"] : o.message["id"] = id;' +
+											'message = o.message;' +
+										'};' +
+
+										'str = JSON.stringify(message, fn);' +
+										'target.postMessage(str, "*");' +
+									'};' +
+
+									'return {' +
+										'init: _init,' +
+										'send: _sendCmd' +
+									'};' +
+								'};' +
+
+								'var manageMessageTmp = new ManagerPostMessage;' +
+
+
+								'var appString = (function(){' +
+									'var spell = parent.CKEDITOR.config.wsc.DefaultParams.scriptPath;' +
+									'var serverUrl = parent.CKEDITOR.config.wsc.DefaultParams.serviceHost;' +
+									'return serverUrl + spell;' +
+								'})();' +
+
+								'function loadScript(src, callback) {' +
+								    'var scriptTag = document.createElement("script");' +
+								   		'scriptTag.type = "text/javascript";' +
+								   	'callback ? callback : callback = function() {};' +
+								    'if(scriptTag.readyState) {' +
+								        //IE
+								        'scriptTag.onreadystatechange = function() {' +
+								            'if (scriptTag.readyState == "loaded" ||' +
+								            'scriptTag.readyState == "complete") {' +
+								                'scriptTag.onreadystatechange = null;' +
+								                'setTimeout(function(){scriptTag.parentNode.removeChild(scriptTag)},1);' +
+								                'callback();' +
+								            '}' +
+								        '};' +
+								    '}else{' +
+								        //Others
+								        'scriptTag.onload = function() {' +
+								           'setTimeout(function(){scriptTag.parentNode.removeChild(scriptTag)},1);' +
+								           'callback();' +
+								        '};' +
+								    '};' +
+								    'scriptTag.src = src;' +
+								    'document.getElementsByTagName("head")[0].appendChild(scriptTag);' +
+								'};' +
+
+
+								'window.onload = function(){' +
+									 'loadScript(appString, function(){' +
+										'manageMessageTmp.send({' +
+											'"id": "iframeOnload",' +
+											'"target": window.parent' +
+										'});' +
+									'});' +
+								'}' +
+							'})(this);' +
+						'</script>' +
+					'</body>' +
+				'</html>';
+
+		that.getElement().setHtml(str);
+		iframe = document.getElementById(iframeId);
+		iframe = (iframe.contentWindow) ? iframe.contentWindow : (iframe.contentDocument.document) ? iframe.contentDocument.document : iframe.contentDocument;
+		iframe.document.open();
+		iframe.document.write(iframeInnerHtml);
+		iframe.document.close();
 	};
 
 	NS.setCurrentIframe = function(currentTab) {
@@ -247,47 +426,15 @@
 		iframe.style.height = '240px';
 	};
 
-	/*NS.sendData = function() {
-		var currentTab = NS.dialog._.currentTabId,
-			that = NS.dialog._.contents[currentTab].Content,
-			tabID, iframe;
-
-		NS.setIframe(that, currentTab);
-		NS.dialog.parts.tabs.removeAllListeners();
-
-		NS.dialog.parts.tabs.on('click', function(event) {
-			event = event || window.event;
-			if (!event.data.getTarget().is('a')) {
-				return
-			};
-
-			if (currentTab == NS.dialog._.currentTabId) { return };
-
-			currentTab = NS.dialog._.currentTabId;
-			that = NS.dialog._.contents[currentTab].Content;
-			tabID = NS.iframeNumber + '_' + currentTab;
-
-			if (that.getElement().$.children.length == 0) {
-				NS.setIframe(that, currentTab);
-				iframe = document.getElementById(tabID);
-				NS.targetFromFrame[tabID] = iframe.contentWindow;
-			} else {
-				sendData(NS.targetFromFrame[tabID], NS.cmd[currentTab]);
-			};
-		});
-
-	};*/
-
 	NS.sendData = function(scope) {
 		var currentTab = scope._.currentTabId,
 			that = scope._.contents[currentTab].Content,
 			tabID, iframe;
 
-			
+
 		NS.setIframe(that, currentTab);
-		scope.parts.tabs.removeAllListeners();
-		
-		scope.parts.tabs.on('click', function(event) {
+
+		var loadNewTab = function(event) {
 			event = event || window.event;
 
 			if (!event.data.getTarget().is('a')) {
@@ -308,13 +455,16 @@
 			} else {
 				sendData(NS.targetFromFrame[tabID], NS.cmd[currentTab]);
 			}
-		});
+		};
+
+		scope.parts.tabs.removeListener('click', loadNewTab);
+		scope.parts.tabs.on('click', loadNewTab);
 	};
 
-	NS.buildSelectLang = function() {
+	NS.buildSelectLang = function(aId) {
 		var divContainer = new CKEDITOR.dom.element('div'),
 			selectContainer = new CKEDITOR.dom.element('select'),
-			id = "wscLang" + NS.CKNumber;
+			id = "wscLang" + aId;
 
 		divContainer.addClass("cke_dialog_ui_input_select");
 		divContainer.setAttribute("role", "presentation");
@@ -341,8 +491,8 @@
 
 	};
 
-	NS.buildOptionLang = function(key) {
-		var id = "wscLang" + NS.CKNumber;
+	NS.buildOptionLang = function(key, aId) {
+		var id = "wscLang" + aId;
 		var select = document.getElementById(id),
 			fragment = document.createDocumentFragment(),
 			create_option, txt_option,
@@ -372,10 +522,17 @@
 
 	NS.buildOptionSynonyms = function(key) {
 		var syn = NS.selectNodeResponce[key];
+
+		var select = getSelect( NS.selectNode['synonyms'] );
+
 		NS.selectNode['synonyms'].clear();
 
-		for (var item = 0; item < syn.length; item++) {
-			NS.selectNode['synonyms'].add(syn[item], syn[item]);
+		for (var i = 0; i < syn.length; i++) {
+			var option = document.createElement('option');
+				option.text = syn[i];
+				option.value = syn[i];
+
+			select.$.add(option, i);
 		}
 
 		NS.selectNode['synonyms'].getInputElement().$.firstChild.selected = true;
@@ -473,23 +630,29 @@
 		return divContainer;
 	};
 
+	var statusGrammarTab = function(aState) {  //#19221
+		aState = aState || 'true';
+		if(aState !== null && aState == 'false'){
+			hideGrammTab();
+		}
+	};
+
 	var langConstructor = function(lang) {
 		var langSelectBox = new __constructLangSelectbox(lang),
-			selectId = "wscLang" + NS.CKNumber,
+			selectId = "wscLang" + NS.dialog.getParentEditor().name,
 			selectContainer = document.getElementById(selectId),
 			currentTabId = NS.dialog._.currentTabId,
 			frameId = NS.iframeNumber + '_' + currentTabId;
 
-		NS.buildOptionLang(langSelectBox.setLangList);
-
+		NS.buildOptionLang(langSelectBox.setLangList, NS.dialog.getParentEditor().name);
 		tabView[langSelectBox.getCurrentLangGroup(NS.selectingLang)]();
-		if(NS.show_grammar == 'false'){
-			hideGrammTab()
-		}; //#19221
+		statusGrammarTab(NS.show_grammar);
 
 		selectContainer.onchange = function(e){
 			e = e || window.event;
 			tabView[langSelectBox.getCurrentLangGroup(this.value)]();
+			statusGrammarTab(NS.show_grammar);
+
 			NS.div_overlay.setEnable();
 
 			NS.selectingLang = this.value;
@@ -530,6 +693,14 @@
 		}
 	};
 
+	function getSelect( obj ) {
+		if ( obj && obj.domId && obj.getInputElement().$ )
+		return obj.getInputElement();
+		else if ( obj && obj.$ )
+			return obj;
+		return false;
+	}
+
 	var handlerId = {
 		iframeOnload: function(response) {
 			NS.div_overlay.setEnable();
@@ -550,16 +721,23 @@
 
 			if (word instanceof Array) {
 				word = response.word[0];
-
 			}
 
 			word = word.split(',');
 			suggestionsList = word;
-			selectNode.clear();
+
 			NS.textNode['SpellTab'].setValue(suggestionsList[0]);
 
-			for (var item = 0; item < suggestionsList.length; item++) {
-				selectNode.add(suggestionsList[item], suggestionsList[item]);
+			var select = getSelect( selectNode );
+
+			selectNode.clear();
+
+			for (var i = 0; i < suggestionsList.length; i++) {
+				var option = document.createElement('option');
+					option.text = suggestionsList[i];
+					option.value = suggestionsList[i];
+
+				select.$.add(option, i);
 			}
 
 			showCurrentTabs();
@@ -604,10 +782,20 @@
 			NS.selectNodeResponce = response;
 
 			NS.textNode['Thesaurus'].reset();
+
+			var select = getSelect( NS.selectNode['categories'] ),
+				count = 0;
+
 			NS.selectNode['categories'].clear();
 
 			for (var i in response) {
-				NS.selectNode['categories'].add(i, i);
+
+				var option = document.createElement('option');
+					option.text = i;
+					option.value = i;
+
+				select.$.add(option, count);
+				count++
 			}
 
 			var synKey = NS.selectNode['categories'].getInputElement().getChildren().$[0].value;
@@ -616,6 +804,7 @@
 
 			showCurrentTabs();
 			NS.div_overlay.setDisable();
+			count = 0;
 		},
 		finish: function(response) {
 			delete response.id;
@@ -626,12 +815,20 @@
 		},
 		settext: function(response) {
 			delete response.id;
-	
-			//CKEDITOR.currentInstance.focus()
-			//CKEDITOR.currentInstance.setData(response.text, NS.dataTemp = '');
-			NS.dialog.getParentEditor().focus();
-			NS.dialog.getParentEditor().setData(response.text, NS.dataTemp = '');
-			NS.dialog.hide();
+
+			var command = NS.dialog.getParentEditor().getCommand( 'checkspell' ),
+				editor = NS.dialog.getParentEditor();
+
+			try {
+				editor.focus();
+			} catch(e) {}
+
+			editor.setData(response.text, function(){
+				NS.dataTemp = '';
+				editor.unlockSelection();
+				editor.fire('saveSnapshot');
+				NS.dialog.hide();
+			});
 
 		},
 		ReplaceText: function(response) {
@@ -642,7 +839,9 @@
 			NS.selectingLang = response.currentLang;
 
 			window.setTimeout(function() {
-				NS.div_overlay.setDisable();
+				try {
+					NS.div_overlay.setDisable();
+				} catch(e) {}
 			}, 500);
 
 			SetLocalizationButton(NS.LocalizationButton);
@@ -765,7 +964,9 @@
 		event = event || window.event;
 		var response = window.JSON.parse(event.data);
 
-		handlerId[response.id](response);
+		if(response && response.id) {
+			handlerId[response.id](response);
+		}
 	};
 
 	var handlerButtonOptions = function(event) {
@@ -785,7 +986,7 @@
 	};
 
 	var sendData = function(frameTarget, cmd, sendText, reset_suggest) {
-		cmd = cmd || CKEDITOR.config.wsc_cmd || 'spell';
+		cmd = cmd || CKEDITOR.config.wsc_cmd;
 		reset_suggest = reset_suggest || false;
 		sendText = sendText || NS.dataTemp;
 
@@ -814,6 +1015,11 @@
 			showSpellTab();
 		},
 		"usual"    : function() {
+			hideThesaurusTab();
+			hideGrammTab();
+			showSpellTab();
+		},
+		"rtl"    : function() {
 			hideThesaurusTab();
 			hideGrammTab();
 			showSpellTab();
@@ -864,25 +1070,109 @@
 	};
 
 	var showCurrentTabs = function() {
-		NS.dialog.getContentElement(NS.dialog._.currentTabId, 'bottomGroup').getElement().show();
+		var target = NS.dialog.getContentElement(NS.dialog._.currentTabId, 'bottomGroup').getElement();
+
+		target.removeStyle('display');
+		target.removeStyle('position');
+		target.removeStyle('left');
+
+		target.show();
 	};
 
 	var hideCurrentTabs = function() {
-		NS.dialog.getContentElement(NS.dialog._.currentTabId, 'bottomGroup').getElement().hide();
+		var target = NS.dialog.getContentElement(NS.dialog._.currentTabId, 'bottomGroup').getElement(),
+			activeElement = document.activeElement,
+			focusableElements;
+
+		target.setStyles({
+			display: 'block',
+			position: 'absolute',
+			left: '-9999px'
+		});
+
+		setTimeout(function() {
+			target.removeStyle('display');
+			target.removeStyle('position');
+			target.removeStyle('left');
+
+			target.hide();
+
+			NS.dialog._.editor.focusManager.currentActive.focusNext();
+
+			focusableElements = appTools.misc.findFocusable(NS.dialog.parts.contents);
+			if(!appTools.misc.hasClass(activeElement, 'cke_dialog_tab') && !appTools.misc.hasClass(activeElement, 'cke_dialog_contents_body') && appTools.misc.isVisible(activeElement)) {
+				try {
+					activeElement.focus();
+				} catch(e) {}
+			} else {
+				for(var i = 0, tmpCkEl; i < focusableElements.count(); i++) {
+					tmpCkEl = focusableElements.getItem(i);
+					if(appTools.misc.isVisible(tmpCkEl.$)) {
+						try {
+							tmpCkEl.$.focus();
+						} catch(e) {}
+
+						break;
+					}
+				}
+			}
+		}, 0);
 	};
 
 	var showCurrentFinishChecking = function() {
-		NS.dialog.getContentElement(NS.dialog._.currentTabId, 'BlockFinishChecking').getElement().show();
+		var target = NS.dialog.getContentElement(NS.dialog._.currentTabId, 'BlockFinishChecking').getElement();
+
+		target.removeStyle('display');
+		target.removeStyle('position');
+		target.removeStyle('left');
+
+		target.show();
 	};
 
 	var hideCurrentFinishChecking = function() {
-		NS.dialog.getContentElement(NS.dialog._.currentTabId, 'BlockFinishChecking').getElement().hide();
+		var target = NS.dialog.getContentElement(NS.dialog._.currentTabId, 'BlockFinishChecking').getElement(),
+			activeElement = document.activeElement,
+			focusableElements;
+
+		target.setStyles({
+			display: 'block',
+			position: 'absolute',
+			left: '-9999px'
+		});
+
+		setTimeout(function() {
+			target.removeStyle('display');
+			target.removeStyle('position');
+			target.removeStyle('left');
+
+			target.hide();
+
+			NS.dialog._.editor.focusManager.currentActive.focusNext();
+
+			focusableElements = appTools.misc.findFocusable(NS.dialog.parts.contents);
+			if(!appTools.misc.hasClass(activeElement, 'cke_dialog_tab') && !appTools.misc.hasClass(activeElement, 'cke_dialog_contents_body') && appTools.misc.isVisible(activeElement)) {
+				try {
+					activeElement.focus();
+				} catch(e) {}
+			} else {
+				for(var i = 0, tmpCkEl; i < focusableElements.count(); i++) {
+					tmpCkEl = focusableElements.getItem(i);
+					if(appTools.misc.isVisible(tmpCkEl.$)) {
+						try {
+							tmpCkEl.$.focus();
+						} catch(e) {}
+
+						break;
+					}
+				}
+			}
+		}, 0);
 	};
 
 
 
 function __constructLangSelectbox(languageGroup) {
-	if ( !languageGroup ) throw "Languages-by-groups list are required for construct selectbox";
+	if( !languageGroup ) { throw "Languages-by-groups list are required for construct selectbox"; }
 
 	var that = this,
 		o_arr = [],
@@ -893,10 +1183,11 @@ function __constructLangSelectbox(languageGroup) {
 	for ( var group in languageGroup){
 		for ( var langCode in languageGroup[group]){
 			var langName = languageGroup[group][langCode];
-			if ( langName == priorLang )
+			if ( langName == priorLang ) {
 				priorLangTitle = langName;
-			else
+			} else {
 				o_arr.push( langName );
+			}
 		}
 	}
 
@@ -908,8 +1199,9 @@ function __constructLangSelectbox(languageGroup) {
 	var searchGroup = function ( code ){
 		for ( var group in languageGroup){
 			for ( var langCode in languageGroup[group]){
-				if ( langCode.toUpperCase() === code.toUpperCase() )
+				if ( langCode.toUpperCase() === code.toUpperCase() ) {
 					return group;
+				}
 			}
 		}
 		return "";
@@ -936,19 +1228,23 @@ function __constructLangSelectbox(languageGroup) {
 	return _return;
 }
 
-NS.CKNumber = CKEDITOR.tools.getNextNumber();
 CKEDITOR.dialog.add('checkspell', function(editor) {
 	var handlerButtons = function(event) {
 		event = event || window.event;
 
+		// because in chrome and safary document.activeElement returns <body> tag. We need to signal that clicked element is active
+		this.getElement().focus();
+
 		NS.div_overlay.setEnable();
 		var currentTabId = NS.dialog._.currentTabId,
 			frameId = NS.iframeNumber + '_' + currentTabId,
-			new_word = NS.textNode[currentTabId].getValue();
+			new_word = NS.textNode[currentTabId].getValue(),
+			cmd = this.getElement().getAttribute("title-cmd");
+
 
 		appTools.postMessage.send({
 			'message': {
-				'cmd': this.getElement().getAttribute("title-cmd"),
+				'cmd': cmd,
 				'tabId': currentTabId,
 				'new_word': new_word
 			},
@@ -956,34 +1252,45 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 			'id': 'cmd_outer__page'
 		});
 
-		if (this.getElement().getAttribute("title-cmd") == 'FinishChecking') {
+		if (cmd == 'ChangeTo' || cmd == 'ChangeAll') {
+			editor.fire('saveSnapshot');
+		}
+
+		if (cmd == 'FinishChecking') {
 			editor.config.wsc_onFinish.call(CKEDITOR.document.getWindow().getFrame());
 		}
 
 	};
-	
-	var oneLoadFunction = null;	
+
+	var oneLoadFunction = null;
 
  return {
 		title: editor.config.wsc_dialogTitle || editor.lang.wsc.title,
 		minWidth: 560,
 		minHeight: 444,
 		buttons: [CKEDITOR.dialog.cancelButton],
-		onShow: function() {
+		onLoad: function() {
 			NS.dialog = this;
+
+			hideThesaurusTab();
+			hideGrammTab();
+			showSpellTab();
+		},
+		onShow: function() {
+			editor.lockSelection(editor.getSelection());
+
 			NS.TextAreaNumber = 'cke_textarea_' + CKEDITOR.currentInstance.name;
 			appTools.postMessage.init(handlerIncomingData);
 			NS.dataTemp = CKEDITOR.currentInstance.getData();
 			//NS.div_overlay.setDisable();
 			NS.OverlayPlace = NS.dialog.parts.tabs.getParent().$;
 			if(CKEDITOR && CKEDITOR.config){
-				//console.log
-				NS.wsc_customerId =  CKEDITOR.config.wsc_customerId;
-				NS.cust_dic_ids = CKEDITOR.config.wsc_customDictionaryIds;
-				NS.userDictionaryName = CKEDITOR.config.wsc_userDictionaryName;
+				NS.wsc_customerId =  editor.config.wsc_customerId;
+				NS.cust_dic_ids = editor.config.wsc_customDictionaryIds;
+				NS.userDictionaryName = editor.config.wsc_userDictionaryName;
 				NS.defaultLanguage = CKEDITOR.config.defaultLanguage;
 				var	protocol = document.location.protocol == "file:" ? "http:" : document.location.protocol;
-				var wscCoreUrl = CKEDITOR.config.wsc_customLoaderScript  || ( protocol + '//loader.webspellchecker.net/sproxy_fck/sproxy.php?plugin=fck2&customerid=' + CKEDITOR.config.wsc_customerId + '&cmd=script&doc=wsc&schema=22');
+				var wscCoreUrl = editor.config.wsc_customLoaderScript  || ( protocol + '//loader.webspellchecker.net/sproxy_fck/sproxy.php?plugin=fck2&customerid=' + NS.wsc_customerId + '&cmd=script&doc=wsc&schema=22');
 			} else {
 				NS.dialog.hide();
 				return;
@@ -1006,10 +1313,8 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 				}
 
 				NS.pluginPath = CKEDITOR.getUrl(editor.plugins.wsc.path);
-				NS.iframeNumber = NS.TextAreaNumber;//'cke_frame_' + NS.CKNumber;
-				NS.serverLocation = '#server=' + NS.serverLocationHash;
+				NS.iframeNumber = NS.TextAreaNumber;
 				NS.templatePath = NS.pluginPath + 'dialogs/tmp.html';
-				
 				NS.LangComparer.setDefaulLangCode( NS.defaultLanguage );
 				NS.currentLang = editor.config.wsc_lang || NS.LangComparer.getSPLangCode( editor.langCode );
 				NS.selectingLang = NS.currentLang;
@@ -1019,12 +1324,13 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 					target: NS.OverlayPlace
 
 				});
-			
-				var number_ck = NS.CKNumber + 1,
-					id_tab = CKEDITOR.document.getById('cke_dialog_tabs_' + number_ck);
-				id_tab.setStyle('width', '97%');
-				if (!id_tab.getElementsByTag('DIV').count()){
-					id_tab.append(NS.buildSelectLang());
+
+				var number_ck = NS.dialog.parts.tabs.getId(),
+					dialogPartsTab = CKEDITOR.document.getById(number_ck);
+
+				dialogPartsTab.setStyle('width', '97%');
+				if (!dialogPartsTab.getElementsByTag('DIV').count()){
+					dialogPartsTab.append(NS.buildSelectLang(NS.dialog.getParentEditor().name));
 				}
 
 				NS.div_overlay_no_check = new overlayBlock({
@@ -1044,7 +1350,17 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 
 		},
 		onHide: function() {
+			var scaytPlugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
+
+			editor.unlockSelection();
+
+			if(scaytPlugin && scaytInstance && scaytPlugin.state[editor.name] && scaytInstance.setMarkupPaused) {
+				scaytInstance.setMarkupPaused(false);
+			}
+
 			NS.dataTemp = '';
+			appTools.postMessage.unbindHandler(handlerIncomingData);
 		},
 		contents: [
 			{
@@ -1064,10 +1380,10 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 						id: 'Content',
 						label: 'spellContent',
 						html: '',
-						setup: function(dialog) {// debugger;	
+						setup: function(dialog) {// debugger;
 							var tabId = NS.iframeNumber + '_' + dialog._.currentTabId;
 							var iframe = document.getElementById(tabId);
-							NS.targetFromFrame[tabId] = iframe.contentWindow; 
+							NS.targetFromFrame[tabId] = iframe.contentWindow;
 						}
 					},
 					{
@@ -1119,7 +1435,9 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 																label: NS.LocalizationLabel['Suggestions'].text + ':',
 																onShow: function() {
 																	NS.LocalizationLabel['Suggestions'].instance = this;
-																	this.getInputElement().hide();
+																	this.getInputElement().setStyles({
+																		display: 'none'
+																	});
 																}
 															},
 						 									{
@@ -1144,9 +1462,6 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 														items: [['loading...']],
 														onShow: function() {
 															selectNode = this;
-														},
-														onHide: function() {
-															this.clear();
 														},
 														onChange: function() {
 															NS.textNode['SpellTab'].setValue(this.getValue());
@@ -1261,9 +1576,13 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 													}
 												},
 												onClick: function() {
+													// because in chrome and safary document.activeElement returns <body> tag. We need to signal that clicked element is active
+													this.getElement().focus();
+
 													if (document.location.protocol == "file:") {
 														alert('WSC: Options functionality is disabled when runing from file system');
 													} else {
+														activeElement = document.activeElement;
 														editor.openDialog('options');
 													}
 												}
@@ -1280,7 +1599,11 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 				style: 'width:560px; margin: 0 auto;',
 				widths: ['70%', '30%'],
 				onShow: function() {
-					this.getElement().hide();
+					this.getElement().setStyles({
+						display: 'block',
+						position: 'absolute',
+						left: '-9999px'
+					});
 				},
 				onHide: showCurrentTabs,
 				children: [
@@ -1332,9 +1655,13 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 											}
 										},
 										onClick: function() {
+											// because in chrome and safary document.activeElement returns <body> tag. We need to signal that clicked element is active
+											this.getElement().focus();
+
 											if (document.location.protocol == "file:") {
 												alert('WSC: Options functionality is disabled when runing from file system');
 											} else {
+												activeElement = document.activeElement;
 												editor.openDialog('options');
 											}
 										}
@@ -1486,7 +1813,11 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 						style: 'width:560px; margin: 0 auto;',
 						widths: ['70%', '30%'],
 						onShow: function() {
-							this.getElement().hide();
+							this.getElement().setStyles({
+								display: 'block',
+								position: 'absolute',
+								left: '-9999px'
+							});
 						},
 						onHide: showCurrentTabs,
 						children: [
@@ -1625,9 +1956,6 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 														onShow: function() {
 															NS.selectNode['categories'] = this;
 														},
-														onHide: function() {
-															this.clear();
-														},
 														onChange: function() {
 															NS.buildOptionSynonyms(this.getValue());
 														}
@@ -1643,9 +1971,6 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 														onShow: function() {
 															NS.selectNode['synonyms'] = this;
 															NS.textNode['Thesaurus'].setValue(this.getValue());
-														},
-														onHide: function() {
-															this.clear();
 														},
 														onChange: function(e) {
 															NS.textNode['Thesaurus'].setValue(this.getValue());
@@ -1695,7 +2020,11 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 						style: 'width:560px; margin: 0 auto;',
 						widths: ['70%', '30%'],
 						onShow: function() {
-							this.getElement().hide();
+							this.getElement().setStyles({
+								display: 'block',
+								position: 'absolute',
+								left: '-9999px'
+							});
 						},
 						children: [
 							{
@@ -1755,6 +2084,8 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 		]
 	};
 });
+
+var activeElement = null;
 
 // Options dialog
 CKEDITOR.dialog.add('options', function(editor) {
@@ -1980,7 +2311,9 @@ CKEDITOR.dialog.add('options', function(editor) {
 														this.getElement().setAttribute("title-cmd", this.id);
 													},
 													onShow: function() {
-														this.getElement().setText(NS.LocalizationComing['Create']);
+														var el = this.getElement().getFirst() || this.getElement();
+
+														el.setText(NS.LocalizationComing['Create']);
 													},
 													onClick: sendDicOptions
 												},
@@ -1994,7 +2327,9 @@ CKEDITOR.dialog.add('options', function(editor) {
 														this.getElement().setAttribute("title-cmd", this.id);
 													},
 													onShow: function() {
-														this.getElement().setText(NS.LocalizationComing['Restore']);
+														var el = this.getElement().getFirst() || this.getElement();
+
+														el.setText(NS.LocalizationComing['Restore']);
 													},
 													onClick: sendDicOptions
 												}
@@ -2015,7 +2350,9 @@ CKEDITOR.dialog.add('options', function(editor) {
 														this.getElement().setAttribute("title-cmd", this.id);
 													},
 													onShow: function() {
-														this.getElement().setText(NS.LocalizationComing['Rename']);
+														var el = this.getElement().getFirst() || this.getElement();
+
+														el.setText(NS.LocalizationComing['Rename']);
 													},
 													onClick: sendDicOptions
 												},
@@ -2029,7 +2366,9 @@ CKEDITOR.dialog.add('options', function(editor) {
 														this.getElement().setAttribute("title-cmd", this.id);
 													},
 													onShow: function() {
-														this.getElement().setText(NS.LocalizationComing['Remove']);
+														var el = this.getElement().getFirst() || this.getElement();
+
+														el.setText(NS.LocalizationComing['Remove']);
 													},
 													onClick: sendDicOptions
 												}
@@ -2068,7 +2407,7 @@ CKEDITOR.dialog.add('options', function(editor) {
 		},
 		onLoad: function() {
 			dialog = this;
-			appTools.postMessage.init(cameOptions);
+			// appTools.postMessage.init(cameOptions);
 
 			linkOnCheckbox['IgnoreAllCapsWords'] = dialog.getContentElement('OptionsTab', 'IgnoreAllCapsWords');
 			linkOnCheckbox['IgnoreWordsNumbers'] = dialog.getContentElement('OptionsTab', 'IgnoreWordsNumbers');
@@ -2077,6 +2416,7 @@ CKEDITOR.dialog.add('options', function(editor) {
 
 		},
 		onShow: function() {
+			appTools.postMessage.init(cameOptions);
 			setHandlerOptions();
 
 			(!parseInt(checkboxState['IgnoreAllCapsWords'], 10)) ? linkOnCheckbox['IgnoreAllCapsWords'].setValue('', false) : linkOnCheckbox['IgnoreAllCapsWords'].setValue('checked', false);
@@ -2093,6 +2433,14 @@ CKEDITOR.dialog.add('options', function(editor) {
 			linkOnCheckbox['IgnoreWordsNumbers'].getElement().$.lastChild.innerHTML = NS.LocalizationComing['IgnoreWordsWithNumbers'];
 			linkOnCheckbox['IgnoreMixedCaseWords'].getElement().$.lastChild.innerHTML = NS.LocalizationComing['IgnoreMixedCaseWords'];
 			linkOnCheckbox['IgnoreDomainNames'].getElement().$.lastChild.innerHTML = NS.LocalizationComing['IgnoreDomainNames'];
+		},
+		onHide: function() {
+			appTools.postMessage.unbindHandler(cameOptions);
+			if(activeElement) {
+				try {
+					activeElement.focus();
+				} catch(e) {}
+			}
 		}
 	};
 });
@@ -2115,21 +2463,24 @@ CKEDITOR.dialog.on( 'resize', function( evt ) {
 });
 
 CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
-    var dialogDefinition = dialogDefinitionEvent.data.definition;
- 
-    NS.onLoadOverlay = new overlayBlock({
-		opacity: "1",
-		background: "#fff",
-		target: dialogDefinition.dialog.parts.tabs.getParent().$
-	});
-	NS.onLoadOverlay.setEnable();
-	dialogDefinition.dialog.on('show', function(event) {
-		//NS.div_overlay.setEnable();
-	});
-    dialogDefinition.dialog.on('cancel', function(cancelEvent) {
-    		dialogDefinition.dialog.getParentEditor().config.wsc_onClose.call(this.document.getWindow().getFrame());
+
+    if(dialogDefinitionEvent.data.name === 'checkspell') {
+		var dialogDefinition = dialogDefinitionEvent.data.definition;
+
+		 NS.onLoadOverlay = new overlayBlock({
+			opacity: "1",
+			background: "#fff",
+			target: dialogDefinition.dialog.parts.tabs.getParent().$
+		});
+
+		NS.onLoadOverlay.setEnable();
+
+		dialogDefinition.dialog.on('cancel', function(cancelEvent) {
+			dialogDefinition.dialog.getParentEditor().config.wsc_onClose.call(this.document.getWindow().getFrame());
     		NS.div_overlay.setDisable();
-    	return false;
-    }, this, null, -1);
+    		NS.onLoadOverlay.setDisable();
+			return false;
+		}, this, null, -1);
+	}
 });
 })();

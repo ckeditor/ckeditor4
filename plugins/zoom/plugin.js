@@ -16,7 +16,7 @@ CKEDITOR.plugins.add( 'zoom',
 		var content = '.cke_combopanel__zoom { height: 200px; width: 100px; }' +
 					'.cke_combo__zoom .cke_combo_text { width: 40px;}';
 
-		if ( CKEDITOR.env.ie )
+		if ( node.$.styleSheet ) //IE
 			node.$.styleSheet.cssText = content;
 		else
 			node.$.innerHTML = content;
