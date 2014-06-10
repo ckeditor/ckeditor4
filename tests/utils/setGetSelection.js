@@ -8,7 +8,6 @@
 	bender.test( {
 		'test setSelection - none': function() {
 			var editor = this.editor,
-				editable = editor.editable(),
 				selectionChangeCalled = 0;
 
 			var listener = editor.on( 'selectionChange', function() {
@@ -26,7 +25,6 @@
 
 		'test setSelection - element': function() {
 			var editor = this.editor,
-				editable = editor.editable(),
 				selectionChangeCalled = 0;
 
 			var listener = editor.on( 'selectionChange', function() {
@@ -44,7 +42,6 @@
 
 		'test setSelection - text': function() {
 			var editor = this.editor,
-				editable = editor.editable(),
 				selectionChangeCalled = 0;
 
 			var listener = editor.on( 'selectionChange', function() {
@@ -58,6 +55,38 @@
 			assert.areSame( 1, selectionChangeCalled, 'selectionChange called' );
 			assert.isTrue( selection instanceof CKEDITOR.dom.selection, 'CKEDITOR.dom.selection' );
 			assert.areSame( '<p>x</p>', editor.getData(), 'editor data' );
+		},
+
+		'test setSelection - selectionChange': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				selectionChangeCalled = 0;
+
+			bot.setData( '<p>x</p>', function() {
+				var listener = editor.on( 'selectionChange', function() {
+					++selectionChangeCalled;
+				} );
+
+				bender.tools.setSelection( editor, '<p>[]x</p>' );
+				bender.tools.setSelection( editor, '<p>[]x</p>' );
+
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #1' );
+				selectionChangeCalled = 0;
+
+				bender.tools.setSelection( editor, '<p>{}x</p>' );
+				bender.tools.setSelection( editor, '<p>{}x</p>' );
+
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #2' );
+				selectionChangeCalled = 0;
+
+				bender.tools.setSelection( editor, '<p>[x]</p>' );
+				bender.tools.setSelection( editor, '<p>[x]</p>' );
+
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #3' );
+				selectionChangeCalled = 0;
+
+				listener.removeListener();
+			} );
 		},
 
 		'test getSelection - element': function() {
