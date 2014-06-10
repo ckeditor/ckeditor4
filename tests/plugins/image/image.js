@@ -316,22 +316,20 @@ bender.test(
 		} );
 	},
 
-	'test set iso uri in image dialog': function() {
+	// #10867
+	'test set encoded URI as image\'s link': function() {
 		var bot = this.editorBot,
-			isoUri = 'http://ckeditor.dev/?q=%C5rsrapport';
+			uri = 'http://ckeditor.dev/?q=%C5rsrapport';
 
-		bot.setHtmlWithSelection( '[<p><img src="' + SRC + '" /></p>]' );
+		bot.setHtmlWithSelection( '<p>[<img src="' + SRC + '" />]</p>' );
 		bot.dialog( 'image', function( dialog ) {
 			var linkInput = dialog.getContentElement( 'Link', 'txtUrl' );
 
-			linkInput.setValue( isoUri );
+			linkInput.setValue( uri );
 
 			dialog.getButton( 'ok' ).click();
-			assert.isTrue(true);
 
-			var anchor = bot.editor.document.findOne( 'a' );
-			assert.isNotNull( anchor, 'Anchor should be present.' );
-			assert.areSame( anchor.getAttribute( 'href' ), isoUri, 'Href attributes should be set.' )
+			assert.areSame( '<p><a href="' + uri + '"><img src="' + SRC + '" /></a></p>', bot.editor.getData() );
 		} );
 	}
 } );
