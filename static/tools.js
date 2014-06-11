@@ -677,289 +677,6 @@
 		},
 
 		/**
-		 * Sets HTML of the editor and returns a range, which reflects defined range markers.
-		 *
-		 * @param editor {CKEDITOR.editor} The editor instance.
-		 * @param html {String}
-		 * @returns {CKEDITOR.dom.selection}
-		 * @see #setRange
-		 * @see #getRange
-		 */
-		setSelection: function( editor, html ) {
-			var editable = editor.editable();
-
-			// Prevent from firing selectionChange for any reason (i.e. editor.focus())
-			// until selection.selectRanges().
-			var listener = editor.on( 'selectionChange', function( event ) {
-				event.cancel();
-			}, null, null, -1000 );
-
-			editable.focus();
-
-			listener.removeListener();
-
-			var range = bender.tools.setRange( editable, html );
-
-			if ( range )
-				editor.getSelection().selectRanges( [ range ] );
-
-			return editor.getSelection();
-		},
-
-		/**
-		 * Retrieve the data of the editor with selection ranges marked in the output.
-		 *
-		 * @param {CKEDITOR.editor} editor Editor instance.
-		 * @returns {String} Editor data with selection range markers.
-		 * @see #setRange
-		 * @see #getRange
-		 */
-		getSelection: function( editor ) {
-			var ranges = editor.getSelection().getRanges();
-
-			if ( ranges.length > 1 )
-				throw new Error( 'There are ' + ranges.length + ' ranges in editor\'s selection, while only one was expected.' );
-
-			return bender.tools.getRange( editor.editable(), ranges[ 0 ] );
-		},
-
-		/**
-		 * Sets HTML of an element and returns a range, which reflects defined range markers.
-		 *
-		 * This method supports range markers of two different types:
-		 * * Text markers `{` and `}`, which indicate that range should be anchored in a text node.
-		 * * Element markers `[` and `]`, which indicate that range should be anchored in an element.
-		 *
-		 * Examples:
-		 *
-		 * 	// Range anchored in "foo" text node (startOffset is 0, endOffset is 3).
-		 * 	<p>{foo}</p>
-		 *
-		 * 	// Range anchored in <p> element (startOffset is 0, endOffset is 1).
-		 * 	<p>[foo]</p>
-		 *
-		 * 	// Collapsed range, anchored in "foobar" text node (startOffset and endOffset are 3).
-		 * 	<p>foo{}bar</p>
-		 *
-		 * 	// Collapsed range, anchored in <p> element (startOffset and endOffset are 1).
-		 * 	<p>foo[]bar</p>
-		 *
-		 * 	// startContainer is "foo" text node (startOffset is 0) but endContainer is <p> element (endOffset is 1).
-		 * 	<p>{foo]</p>
-		 *
-		 * **Notes**:
-		 * * This method accepts HTML with a single range definition only.
-		 * * Range markers (`{`, `}`, `[`, `]`) are not visible in DOM.
-		 *
-		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be set.
-		 * @param {String} html HTML with range markers.
-		 * @returns {CKEDITOR.dom.range} A range reflecting range markers in `html`.
-		 * @see #getRange
-		 */
-		setRange: ( function() {
-			var markerReplaceRegex = /(\[|\])/g,
-				markerDetectRegex = /cke-range-marker-(\[|\])/,
-
-				range, walkerRange, walker,
-				removed, marker, text, root,
-				markerIndex, markerFound;
-
-			function replaceTextMarker( m, i ) {
-				markerFound = m;
-				markerIndex = i;
-				return '';
-			}
-
-			// This evaluator looks for text nodes containing { or } and comment
-			// nodes containing [ or ]. If one is found, the range is anchored at
-			// corresponding position.
-			function evaluator( node ) {
-				if ( node.type == CKEDITOR.NODE_TEXT ) {
-					markerFound = markerIndex = null;
-
-					if ( ( text = node.getText().replace( '{}', replaceTextMarker ) ) && markerFound == '{}' ) {
-						range = new CKEDITOR.dom.range( root );
-						range.setStart( node, markerIndex );
-						range.collapse( 1 );
-					}
-
-					if ( ( text = text.replace( '{', replaceTextMarker ) ) && markerFound  == '{' ) {
-						range = new CKEDITOR.dom.range( root );
-						range.setStart( node, markerIndex );
-					}
-
-					// There must be existing range to set its end.
-					if ( ( text = text.replace( '}', replaceTextMarker ) ) && markerFound == '}' && range )
-						range.setEnd( node, markerIndex );
-
-					if ( markerFound ) {
-						node.setText( text );
-
-						// There will be no more ranges.
-						return false;
-					}
-				}
-				else if ( node.type == CKEDITOR.NODE_COMMENT ) {
-					marker = node.$.nodeValue.match( markerDetectRegex );
-
-					if ( marker ) {
-						// Set start marker.
-						if ( marker[ 1 ] == '[' ) {
-							range = new CKEDITOR.dom.range( root );
-							range.setStartAt( node, CKEDITOR.POSITION_BEFORE_START );
-
-							// We cannot remove nodes while walking.
-							removed.push( node );
-						}
-						// Set end marker.
-						else {
-							range.setEndAt( node, CKEDITOR.POSITION_BEFORE_START );
-
-							// We cannot remove nodes while walking.
-							removed.push( node );
-
-							// It's over. There won't be more than one range.
-							return false;
-						}
-					}
-				}
-			};
-
-			return function( element, html ) {
-				root = element.getDocument().getBody();
-
-				// First, let's assume that there will be no range.
-				range = null;
-
-				// Translate range markers into HTML comments.
-				html = html.replace( markerReplaceRegex, '<!--cke-range-marker-$1-->' );
-
-				// Set clean HTML without {, }, [, ] but with adequate comments.
-				// Prevent IE from purging comment nodes before any actual text (#3801).
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-					element.setHtml( '<span>!</span>' + html );
-					element.getFirst().remove();
-				} else
-					element.setHtml( html );
-
-				removed = [];
-
-				// Let's go for a walk.
-				walkerRange = new CKEDITOR.dom.range( root );
-				walkerRange.selectNodeContents( element );
-				walker = new CKEDITOR.dom.walker( walkerRange ),
-				walker.evaluator = evaluator;
-				walker.lastForward();
-
-				// If "start comments" were removed, then the range endOffset may need to be updated
-				// because there's one less node (comment) before the end.
-				if ( removed.length && range.startContainer.equals( range.endContainer ) )
-					range.setEnd( range.endContainer, range.endOffset - 1 );
-
-				// Remove comments, which used to replace [ and ].
-				while ( removed.length )
-					removed.pop().remove();
-
-				return range;
-			}
-		} )(),
-
-		/**
-		 * Returns the HTML of an element with range markers reflecting given range.
-		 *
-		 * **Note**: Unlike {@link #getHtmlWithRanges}, this method keeps the DOM structure
-		 * of the element untouched, e.g. it operates on detached clone.
-		 *
-		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be returned.
-		 * @param {CKEDITOR.dom.range} range A range corresponding with `element` to be marked in the output HTML.
-		 * @returns {String} HTML containing range markers.
-		 * @see #setRange
-		 */
-		getRange: ( function() {
-			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
-
-			// Injects a comment according to the given marker type, node and offset.
-			// Text nodes are split if necessary to put a comment at desired position.
-			function injectComment( marker, node, offset ) {
-				var comment = new CKEDITOR.dom.comment( 'cke-range-marker-' + marker );
-
-				if ( marker == '{' || marker == '}' )
-					comment.insertBefore( node.split( offset ) );
-				else {
-					var child = node.getChild( offset );
-
-					if ( child )
-						comment.insertBefore( child );
-					else
-						comment.appendTo( node );
-				}
-
-				return comment;
-			}
-
-			function relativeAddress( element, level ) {
-				return element.getAddress().slice( level );
-			}
-
-			// Creates a deep clone of a node.
-			function cloneNode( node ) {
-				var clone;
-
-				if ( node.type == CKEDITOR.NODE_TEXT )
-					return new CKEDITOR.dom.text( node.getText() );
-				else
-					clone = node.clone();
-
-				if ( clone.type == CKEDITOR.NODE_ELEMENT ) {
-					var children = node.getChildren(),
-						i = 0,
-						child;
-
-					while ( ( child = children.getItem( i++ ) ) )
-						cloneNode( child ).appendTo( clone );
-				}
-
-				return clone;
-			}
-
-			var html, clone,
-				startMarker, endMarker,
-				addressLength, startAddress, endAddress,
-				startContainer, endContainer;
-
-			return function( element, range ) {
-				// No range, no marker to display.
-				if ( !range )
-					return element.getHtml();
-
-				// Get length of element address.
-				addressLength = element.getAddress().length;
-
-				// Obtain addresses of start/endContainers relative to the element.
-				startAddress = relativeAddress( range.startContainer, addressLength ),
-				endAddress = relativeAddress( range.endContainer, addressLength );
-
-				// Deep element clone. This way the original element will remain untouched.
-				// Note: IE wouldn't make for a living on Kamino. It's a very bad cloner.
-				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
-				clone = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? cloneNode( element ) : element.clone( 1 );
-
-				startContainer = clone.getChild( startAddress );
-				endContainer = clone.getChild( endAddress );
-
-				// Determine marker characters for start and end containers.
-				startMarker = startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[',
-				endMarker = endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']',
-
-				injectComment( endMarker, endContainer, range.endOffset ),
-				injectComment( startMarker, startContainer, range.startOffset )
-
-				// Replace comments with corresponding range markers.
-				return browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
-			};
-		} )(),
-
-		/**
 		 * Attaches event listeners to an editor instance to assert both the presence
 		 * and the order of given events.
 		 *
@@ -1149,6 +866,295 @@
 			return outputTests;
 		}
 
+	};
+
+	bender.tools.range = {
+		/**
+		 * Sets HTML of an element and returns a range, which reflects defined range markers.
+		 *
+		 * This method supports range markers of two different types:
+		 * * Text markers `{` and `}`, which indicate that range should be anchored in a text node.
+		 * * Element markers `[` and `]`, which indicate that range should be anchored in an element.
+		 *
+		 * Examples:
+		 *
+		 * 	// Range anchored in "foo" text node (startOffset is 0, endOffset is 3).
+		 * 	<p>{foo}</p>
+		 *
+		 * 	// Range anchored in <p> element (startOffset is 0, endOffset is 1).
+		 * 	<p>[foo]</p>
+		 *
+		 * 	// Collapsed range, anchored in "foobar" text node (startOffset and endOffset are 3).
+		 * 	<p>foo{}bar</p>
+		 *
+		 * 	// Collapsed range, anchored in <p> element (startOffset and endOffset are 1).
+		 * 	<p>foo[]bar</p>
+		 *
+		 * 	// startContainer is "foo" text node (startOffset is 0) but endContainer is <p> element (endOffset is 1).
+		 * 	<p>{foo]</p>
+		 *
+		 * **Notes**:
+		 * * This method accepts HTML with a single range definition only.
+		 * * Range markers (`{`, `}`, `[`, `]`) are not visible in DOM.
+		 *
+		 * @method setWithHtml
+		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be set.
+		 * @param {String} html HTML with range markers.
+		 * @returns {CKEDITOR.dom.range} A range reflecting range markers in `html`.
+		 * @see #getWithHtml
+		 */
+		setWithHtml: ( function() {
+			var markerReplaceRegex = /(\[|\])/g,
+				markerDetectRegex = /cke-range-marker-(\[|\])/,
+
+				range, walkerRange, walker,
+				removed, marker, text, root,
+				markerIndex, markerFound;
+
+			function replaceTextMarker( m, i ) {
+				markerFound = m;
+				markerIndex = i;
+				return '';
+			}
+
+			// This evaluator looks for text nodes containing { or } and comment
+			// nodes containing [ or ]. If one is found, the range is anchored at
+			// corresponding position.
+			function evaluator( node ) {
+				if ( node.type == CKEDITOR.NODE_TEXT ) {
+					markerFound = markerIndex = null;
+
+					if ( ( text = node.getText().replace( '{}', replaceTextMarker ) ) && markerFound == '{}' ) {
+						range = new CKEDITOR.dom.range( root );
+						range.setStart( node, markerIndex );
+						range.collapse( 1 );
+					}
+
+					if ( ( text = text.replace( '{', replaceTextMarker ) ) && markerFound  == '{' ) {
+						range = new CKEDITOR.dom.range( root );
+						range.setStart( node, markerIndex );
+					}
+
+					// There must be existing range to set its end.
+					if ( ( text = text.replace( '}', replaceTextMarker ) ) && markerFound == '}' && range )
+						range.setEnd( node, markerIndex );
+
+					if ( markerFound ) {
+						node.setText( text );
+
+						// There will be no more ranges.
+						return false;
+					}
+				}
+				else if ( node.type == CKEDITOR.NODE_COMMENT ) {
+					marker = node.$.nodeValue.match( markerDetectRegex );
+
+					if ( marker ) {
+						// Set start marker.
+						if ( marker[ 1 ] == '[' ) {
+							range = new CKEDITOR.dom.range( root );
+							range.setStartAt( node, CKEDITOR.POSITION_BEFORE_START );
+
+							// We cannot remove nodes while walking.
+							removed.push( node );
+						}
+						// Set end marker.
+						else {
+							range.setEndAt( node, CKEDITOR.POSITION_BEFORE_START );
+
+							// We cannot remove nodes while walking.
+							removed.push( node );
+
+							// It's over. There won't be more than one range.
+							return false;
+						}
+					}
+				}
+			};
+
+			return function( element, html ) {
+				root = element.getDocument().getBody();
+
+				// First, let's assume that there will be no range.
+				range = null;
+
+				// Translate range markers into HTML comments.
+				html = html.replace( markerReplaceRegex, '<!--cke-range-marker-$1-->' );
+
+				// Set clean HTML without {, }, [, ] but with adequate comments.
+				// Prevent IE from purging comment nodes before any actual text (#3801).
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+					element.setHtml( '<span>!</span>' + html );
+					element.getFirst().remove();
+				} else
+					element.setHtml( html );
+
+				removed = [];
+
+				// Let's go for a walk.
+				walkerRange = new CKEDITOR.dom.range( root );
+				walkerRange.selectNodeContents( element );
+				walker = new CKEDITOR.dom.walker( walkerRange ),
+				walker.evaluator = evaluator;
+				walker.lastForward();
+
+				// If "start comments" were removed, then the range endOffset may need to be updated
+				// because there's one less node (comment) before the end.
+				if ( removed.length && range.startContainer.equals( range.endContainer ) )
+					range.setEnd( range.endContainer, range.endOffset - 1 );
+
+				// Remove comments, which used to replace [ and ].
+				while ( removed.length )
+					removed.pop().remove();
+
+				return range;
+			}
+		} )(),
+
+		/**
+		 * Returns the HTML of an element with range markers reflecting given range.
+		 *
+		 * **Note**: Unlike {@link #getHtmlWithRanges}, this method keeps the DOM structure
+		 * of the element untouched, e.g. it operates on detached clone.
+		 *
+		 * @method getWithHtml
+		 * @param {CKEDITOR.dom.element} element An element, which `innerHTML` is to be returned.
+		 * @param {CKEDITOR.dom.range} range A range corresponding with `element` to be marked in the output HTML.
+		 * @returns {String} HTML containing range markers.
+		 * @see #setWithHtml
+		 */
+		getWithHtml: ( function() {
+			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
+
+			// Injects a comment according to the given marker type, node and offset.
+			// Text nodes are split if necessary to put a comment at desired position.
+			function injectComment( marker, node, offset ) {
+				var comment = new CKEDITOR.dom.comment( 'cke-range-marker-' + marker );
+
+				if ( marker == '{' || marker == '}' )
+					comment.insertBefore( node.split( offset ) );
+				else {
+					var child = node.getChild( offset );
+
+					if ( child )
+						comment.insertBefore( child );
+					else
+						comment.appendTo( node );
+				}
+
+				return comment;
+			}
+
+			function relativeAddress( element, level ) {
+				return element.getAddress().slice( level );
+			}
+
+			// Creates a deep clone of a node.
+			function cloneNode( node ) {
+				var clone;
+
+				if ( node.type == CKEDITOR.NODE_TEXT )
+					return new CKEDITOR.dom.text( node.getText() );
+				else
+					clone = node.clone();
+
+				if ( clone.type == CKEDITOR.NODE_ELEMENT ) {
+					var children = node.getChildren(),
+						i = 0,
+						child;
+
+					while ( ( child = children.getItem( i++ ) ) )
+						cloneNode( child ).appendTo( clone );
+				}
+
+				return clone;
+			}
+
+			var html, clone,
+				startMarker, endMarker,
+				addressLength, startAddress, endAddress,
+				startContainer, endContainer;
+
+			return function( element, range ) {
+				// No range, no marker to display.
+				if ( !range )
+					return element.getHtml();
+
+				// Get length of element address.
+				addressLength = element.getAddress().length;
+
+				// Obtain addresses of start/endContainers relative to the element.
+				startAddress = relativeAddress( range.startContainer, addressLength ),
+				endAddress = relativeAddress( range.endContainer, addressLength );
+
+				// Deep element clone. This way the original element will remain untouched.
+				// Note: IE wouldn't make for a living on Kamino. It's a very bad cloner.
+				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
+				clone = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? cloneNode( element ) : element.clone( 1 );
+
+				startContainer = clone.getChild( startAddress );
+				endContainer = clone.getChild( endAddress );
+
+				// Determine marker characters for start and end containers.
+				startMarker = startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[',
+				endMarker = endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']',
+
+				injectComment( endMarker, endContainer, range.endOffset ),
+				injectComment( startMarker, startContainer, range.startOffset )
+
+				// Replace comments with corresponding range markers.
+				return browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
+			};
+		} )()
+	};
+
+	bender.tools.selection = {
+		/**
+		 * Sets HTML of the editor and returns a range, which reflects defined range markers.
+		 *
+		 * @param editor {CKEDITOR.editor} The editor instance.
+		 * @param html {String}
+		 * @returns {CKEDITOR.dom.selection}
+		 * @see bender.tools.range#setWithHtml
+		 * @see bender.tools.range#getWithHtml
+		 */
+		setWithHtml: function( editor, html ) {
+			var editable = editor.editable();
+
+			// Prevent from firing selectionChange for any reason (i.e. editor.focus())
+			// until selection.selectRanges().
+			var listener = editor.on( 'selectionChange', function( event ) {
+				event.cancel();
+			}, null, null, -1000 );
+
+			editable.focus();
+
+			listener.removeListener();
+
+			var range = bender.tools.range.setWithHtml( editable, html );
+
+			if ( range )
+				editor.getSelection().selectRanges( [ range ] );
+
+			return editor.getSelection();
+		},
+
+		/**
+		 * Retrieve the data of the editor with selection ranges marked in the output.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @returns {String} Editor data with selection range markers.
+		 * @see bender.tools.range#setWithHtml
+		 * @see bender.tools.range#getWithHtml
+		 */
+		getWithHtml: function( editor ) {
+			var ranges = editor.getSelection().getRanges();
+
+			if ( ranges.length > 1 )
+				throw new Error( 'There are ' + ranges.length + ' ranges in editor\'s selection, while only one was expected.' );
+
+			return bender.tools.range.getWithHtml( editor.editable(), ranges[ 0 ] );
+		},
 	};
 
 } )( bender );
