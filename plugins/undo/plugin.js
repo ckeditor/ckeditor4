@@ -90,12 +90,8 @@
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
-				editor.on( 'instanceReady', function() {
-					// Saves initial snapshot.
-					editor.fire( 'saveSnapshot' );
-				} );
-
-				var inputFired = false,
+				var editable = editor.editable(),
+					inputFired = false,
 					ignoreInputEvent = false,
 					ignoreInputEventListener = function() {
 						console.log( 'input event canceled' );
@@ -103,7 +99,7 @@
 					};
 
 				// Only IE can't use input event, because it's not fired in contenteditable.
-				editor.editable().on( CKEDITOR.env.ie ? 'keypress' : 'input', function() {
+				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
 					inputFired = true;
 
 					if ( ignoreInputEvent ) {
@@ -112,7 +108,7 @@
 					}
 				} );
 
-				editor.editable().on( 'keydown', function( evt ) {
+				editable.attachListener( editable, 'keydown', function( evt ) {
 					// We need to store an image which will be used in case of key group
 					// change.
 					undoManager.lastKeydownImage = new Image( editor );
@@ -125,12 +121,12 @@
 					}
 				} );
 
-				editor.editable().on( 'click', function( evt ) {
+				editable.attachListener( editable, 'click', function( evt ) {
 					undoManager.save( true, null, false );
 					undoManager.resetType();
 				} );
 
-				editor.editable().on( 'keyup', function( evt ) {
+				editable.attachListener( editable, 'keyup', function( evt ) {
 					var keyCode = evt.data.getKey(),
 						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 };
 
@@ -150,8 +146,13 @@
 
 				// On paste and drop we need to cancel inputFired variable.
 				// It would result with calling undoManager.newType() on any following key.
-				editor.editable().on( 'paste', ignoreInputEventListener );
-				editor.editable().on( 'drop', ignoreInputEventListener );
+				editable.attachListener( editable, 'paste', ignoreInputEventListener );
+				editable.attachListener( editable, 'drop', ignoreInputEventListener );
+
+				editor.on( 'instanceReady', function() {
+					// Saves initial snapshot.
+					editor.fire( 'saveSnapshot' );
+				} );
 			} );
 
 			// Always save an undo snapshot - the previous mode might have
@@ -518,7 +519,7 @@
 		amendSelection: function( newSnapshot ) {
 
 			if ( !this.snapshots.length )
-				return ;
+				return;
 
 			//var curImage = new Image( this.editor ),
 			var snapshots = this.snapshots,
