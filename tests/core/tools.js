@@ -141,8 +141,40 @@ bender.test(
 			assert.areSame( 'John', obj.name );
 			assert.areSame( 'Paul', clone.name );
 
+			assert.areNotSame( obj.cars, clone.cars );
 			assert.areSame( 'red', obj.cars.Porsche.color );
 			assert.areSame( 'silver', clone.cars.Porsche.color );
+		},
+
+		test_clone_DOM: function() {
+			var anchor = document.createElement( 'a' );
+			var obj = {
+				anchor: anchor
+			};
+
+			var clone = CKEDITOR.tools.clone( obj );
+
+			assert.areSame( clone.anchor, anchor );
+		},
+
+		test_clone_Window: function() {
+			var obj = {
+				window: window
+			};
+
+			var clone = CKEDITOR.tools.clone( obj );
+
+			assert.areSame( clone.window, window );
+		},
+
+		test_clone_Document: function() {
+			var obj = {
+				document: document
+			};
+
+			var clone = CKEDITOR.tools.clone( obj );
+
+			assert.areSame( clone.document, document );
 		},
 
 		test_repeat: function() {
