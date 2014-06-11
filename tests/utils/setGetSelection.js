@@ -14,7 +14,7 @@
 				++selectionChangeCalled;
 			} );
 
-			var selection = bender.tools.setSelection( editor, '<p>x</p>' );
+			var selection = bender.tools.selection.setWithHtml( editor, '<p>x</p>' );
 
 			listener.removeListener();
 
@@ -31,7 +31,7 @@
 				++selectionChangeCalled;
 			} );
 
-			var selection = bender.tools.setSelection( editor, '<p>[x]</p>' );
+			var selection = bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
 
 			listener.removeListener();
 
@@ -48,7 +48,7 @@
 				++selectionChangeCalled;
 			} );
 
-			var selection = bender.tools.setSelection( editor, '<p>{x}</p>' );
+			var selection = bender.tools.selection.setWithHtml( editor, '<p>{x}</p>' );
 
 			listener.removeListener();
 
@@ -67,20 +67,20 @@
 					++selectionChangeCalled;
 				} );
 
-				bender.tools.setSelection( editor, '<p>[]x</p>' );
-				bender.tools.setSelection( editor, '<p>[]x</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
 
 				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #1' );
 				selectionChangeCalled = 0;
 
-				bender.tools.setSelection( editor, '<p>{}x</p>' );
-				bender.tools.setSelection( editor, '<p>{}x</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>{}x</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>{}x</p>' );
 
 				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #2' );
 				selectionChangeCalled = 0;
 
-				bender.tools.setSelection( editor, '<p>[x]</p>' );
-				bender.tools.setSelection( editor, '<p>[x]</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
+				bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
 
 				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #3' );
 				selectionChangeCalled = 0;
@@ -93,9 +93,9 @@
 			var editor = this.editor,
 				htmlWithRange = '<p>[x]</p>';
 
-			var selection = bender.tools.setSelection( editor, htmlWithRange );
+			var selection = bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
-			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.getSelection( editor ), 'getSelection' );
+			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
 			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
@@ -103,9 +103,9 @@
 			var editor = this.editor,
 				htmlWithRange = '<p>{x}</p>';
 
-			var selection = bender.tools.setSelection( editor, htmlWithRange );
+			var selection = bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
-			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.getSelection( editor ), 'getSelection' );
+			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
 			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
 		},
 
@@ -117,7 +117,7 @@
 				error;
 
 			try {
-				bender.tools.getSelection( editor );
+				bender.tools.selection.getWithHtml( editor );
 			} catch( e ) {
 				error = e;
 			} finally {

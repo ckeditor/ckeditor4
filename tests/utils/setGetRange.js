@@ -5,8 +5,8 @@
 
 	var doc = CKEDITOR.document,
 		playground = doc.getById( 'playground' ),
-		setRange = bender.tools.setRange,
-		getRange = bender.tools.getRange,
+		setRange = bender.tools.range.setWithHtml,
+		getRange = bender.tools.range.getWithHtml,
 		playgroundAddress = playground.getAddress(),
 
 		failIE11 = CKEDITOR.env.ie && CKEDITOR.env.version > 10,
