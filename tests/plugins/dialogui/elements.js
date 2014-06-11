@@ -4,30 +4,32 @@
 ( function() {
 	'use strict';
 
+	var container = new CKEDITOR.dom.element( 'div' );
+
 	bender.test( {
 		'test CKEDITOR.ui.dialog.radio wai-aria role=radiogroup': function() {
-			var htmlList = [],
-				// We're also checking if class="cke_dialog_ui_radio" so we'll be sure that's wrapper, and
-				// not any other element.
-				radiogroupRegEx = /role="radiogroup"[^>]+class="cke_dialog_ui_radio"/g;
+			var htmlList = [];
 
 			new CKEDITOR.ui.dialog.radio( this.getDialogMockup(), this.getMockupRadioDefinition(), htmlList );
 
-			htmlList = htmlList.join( '' );
+			container.setHtml( htmlList.join( '' ) );
 
-			assert.areNotEqual( -1, htmlList.search( radiogroupRegEx ), 'Radiogroup not found in wrapper div' );
+			var wrapper = container.findOne( '.cke_dialog_ui_radio' );
+
+			assert.areSame( 'radiogroup', wrapper.getAttribute( 'role' ), 'Role "radiogroup" for set for the container' );
 		},
 
 		'test CKEDITOR.ui.dialog.labeledElement wai-aria role': function() {
 			var outputHtml = [],
-				contentFunction = function() { return ''; },
-				radiogroupRegEx = /<div[^>]+class="cke_dialog_ui_labeled_content"[^>]+role="presentation"/;
+				contentFunction = function() { return ''; };
 
 			new CKEDITOR.ui.dialog.labeledElement( this.getDialogMockup(), {}, outputHtml, contentFunction );
 
-			outputHtml = outputHtml.join( '' );
+			container.setHtml( outputHtml.join( '' ) );
 
-			assert.areNotEqual( -1, outputHtml.search( radiogroupRegEx ), 'No role="presentation" attribute in div.cke_dialog_ui_labeled_content.' );
+			var labeled = container.findOne( '.cke_dialog_ui_labeled_content' );
+
+			assert.areSame( 'presentation', labeled.getAttribute( 'role' ), 'Role "presentation" set for labeled content' );
 		},
 
 		// Returns the simplest possible radio dialog element definition.
