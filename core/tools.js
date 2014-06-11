@@ -109,6 +109,10 @@
 			if ( obj === null || ( typeof( obj ) != 'object' ) || ( obj instanceof String ) || ( obj instanceof Number ) || ( obj instanceof Boolean ) || ( obj instanceof Date ) || ( obj instanceof RegExp ) )
 				return obj;
 
+			// DOM objects and window.
+			if ( obj.nodeType || obj.window === obj )
+				return obj;
+
 			// Objects.
 			clone = new obj.constructor();
 

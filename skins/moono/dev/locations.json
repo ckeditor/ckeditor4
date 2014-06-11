@@ -105,7 +105,10 @@
 		"plugins/link/icons/anchor-rtl.png"
 	],
 	"7": [
-		"plugins/image/icons/image.png",
+		[
+			"plugins/image/icons/image.png",
+			"plugins/image2/icons/image.png"
+		],
 		"plugins/flash/icons/flash.png",
 		"plugins/table/icons/table.png",
 		"plugins/horizontalrule/icons/horizontalrule.png",

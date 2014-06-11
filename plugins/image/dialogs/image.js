@@ -963,7 +963,7 @@
 						commit: function( type, element ) {
 							if ( type == LINK ) {
 								if ( this.getValue() || this.isChanged() ) {
-									var url = decodeURI( this.getValue() );
+									var url = this.getValue();
 									element.data( 'cke-saved-href', url );
 									element.setAttribute( 'href', url );
 

@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: image,button,toolbar */
+/* bender-ckeditor-plugins: image,button,toolbar,link */
 
 bender.editor = { config : { autoParagraph : false } };
 
@@ -313,6 +313,23 @@ bender.test(
 				'<p><img align="right" data-cke-saved-src="http://test/x" src="http://test/x" /></p>',
 				'<p><img align="right" src="http://test/x" /></p>'
 			);
+		} );
+	},
+
+	// #10867
+	'test set encoded URI as image\'s link': function() {
+		var bot = this.editorBot,
+			uri = 'http://ckeditor.dev/?q=%C5rsrapport';
+
+		bot.setHtmlWithSelection( '<p>[<img src="' + SRC + '" />]</p>' );
+		bot.dialog( 'image', function( dialog ) {
+			var linkInput = dialog.getContentElement( 'Link', 'txtUrl' );
+
+			linkInput.setValue( uri );
+
+			dialog.getButton( 'ok' ).click();
+
+			assert.areSame( '<p><a href="' + uri + '"><img src="' + SRC + '" /></a></p>', bot.editor.getData() );
 		} );
 	}
 } );
