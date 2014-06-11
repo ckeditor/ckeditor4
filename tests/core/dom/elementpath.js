@@ -2,8 +2,6 @@
 
 'use strict';
 
-CKEDITOR.tools.enableHtml5Elements( document );
-
 bender.test( {
 	// helpers
 
