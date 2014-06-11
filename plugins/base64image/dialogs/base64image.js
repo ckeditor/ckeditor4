@@ -87,13 +87,17 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			if(urlI) imagePreviewLoad(urlI.getValue());
 			
 		} else if(fsupport) {
+			var filetypes=CKEDITOR.config.base64image_filetypes;
 			
 			/* Read file and load preview */
 			var fileI = t.getContentElement("tab-source", "file");
 			var n = null;
 			try { n = fileI.getInputElement().$; } catch(e) { n = null; }
 			if(n && "files" in n && n.files && n.files.length > 0 && n.files[0]) {
-				if("type" in n.files[0] && !n.files[0].type.match("image.*")) return;
+				if("type" in n.files[0] && !n.files[0].type.match("image.("+filetypes+")")) {
+					alert('Tipo de arquivo não permitido.');
+					return;
+				}
 				if(!FileReader) return;
 				imgPreview.getElement().setHtml("Loading...");
 				var fr = new FileReader();
@@ -161,7 +165,7 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 				children: [					
 					{
 						type: "file",
-						id: "file",
+						id: "file",						
 						label: editor.lang.common.upload+":",
 						onChange: function(){ imagePreview("file"); }
 					}
@@ -184,13 +188,15 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
         minWidth: 450,
         minHeight: 180,
 		onLoad: function(){			
-			imgPreview = this.getContentElement("tab-source", "preview");			
+			imgPreview = this.getContentElement("tab-source", "preview");	
+			
+			
 		},
 		onShow: function(){
 			
 			/* Remove preview */
 			imgPreview.getElement().setHtml("");
-			
+		
 			t = this, orgWidth = null, orgHeight = null, imgScal = 1, lock = true;
 			
 			/* selected image or null */
