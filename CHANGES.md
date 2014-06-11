@@ -20,6 +20,7 @@ Fixed Issues:
 * [#11957](http://dev.ckeditor.com/ticket/11957): Fixed: Alignment labels in the [Enhanced Image](http://ckeditor.com/addon/image2) dialog are not translated.
 * [#11980](http://dev.ckeditor.com/ticket/11980): [Blink/Webkit] Fixed: Span elements created while joining adjacent elements (non-collapsed selection).
 * [#12009](http://dev.ckeditor.com/ticket/12009): [Nested widgets] Integration with Magicline plugin.
+* [#11387](http://dev.ckeditor.com/ticket/11387): Fixed: `role="radiogroup"` should be applied only to radio inputs' container.
 
 ## CKEditor 4.4.1
 
