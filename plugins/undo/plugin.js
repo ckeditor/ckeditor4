@@ -126,7 +126,7 @@
 				} );
 
 				editor.editable().on( 'click', function( evt ) {
-					this.editor.fire( 'saveSnapshot' );
+					undoManager.save( true, null, false );
 					undoManager.resetType();
 				} );
 
@@ -613,7 +613,7 @@
 
 					if ( image.equalsSelection( this.currentImage ) )
 						return false;
-				} else
+				} else if ( autoFireChange !== false )
 					editor.fire( 'change' );
 			}
 
