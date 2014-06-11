@@ -1131,12 +1131,13 @@
 
 			listener.removeListener();
 
-			var range = bender.tools.range.setWithHtml( editable, html );
+			var range = bender.tools.range.setWithHtml( editable, html ),
+				sel = editor.getSelection();
 
 			if ( range )
-				editor.getSelection().selectRanges( [ range ] );
+				sel.selectRanges( [ range ] );
 
-			return editor.getSelection();
+			return sel;
 		},
 
 		/**
