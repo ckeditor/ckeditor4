@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.2
 
+Important Notes:
+
+* We made CKEditor tests environment public. CKEditor tests can be found in the [`tests/`](https://github.com/ckeditor/ckeditor-dev/tree/master/tests) directory. Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
+
 Fixed Issues:
 
 * [#11478](http://dev.ckeditor.com/ticket/11478): Fixed: Issue with passing jQuery objects to adapter configuration.
