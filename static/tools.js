@@ -387,6 +387,11 @@
 		/**
 		 * Fill the the target editor or DOM element with the specified html
 		 * and make document selection denoted by the range marker.
+		 *
+		 *		<p>single ^ selection</p>
+		 *		<p>[multiple]<span>[selection]</span></p>
+		 *
+		 * @deprecated Use {@link bender.tools.selection#setWithHtml} instead.
 		 * @param element {CKEDITOR.editor|CKEDITOR.dom.element} The editor or element to fill.
 		 * @param html {String} String presentation of the HTML along with the
 		 * selection range marker to load.
@@ -394,9 +399,6 @@
 		 * in which the range/selection scopes, when the {@param element} has been
 		 * as an editor instance, this param is ignored, otherwise it defaults to the
 		 * current document when not specified.
-		 * @example
-		 * <p>single ^ selection</p>
-		 * <p>[multiple]<span>[selection]</span></p>
 		 */
 		setHtmlWithSelection: function( editorOrElement, html, root ) {
 			var isEditor = editorOrElement instanceof CKEDITOR.editor,
@@ -471,7 +473,7 @@
 		 * Retrieve the data/HTML of the editor/element with it's selection ranges
 		 * marked in the output.
 		 *
-		 * @see bender.tools.setHtmlWithSelection
+		 * @deprecated Use {@link bender.tools.selection#getWithHtml} instead.
 		 */
 		getHtmlWithSelection: function( editorOrElement, root ) {
 			var isEditor = editorOrElement instanceof CKEDITOR.editor,
@@ -534,6 +536,9 @@
 			return bender.tools.compatHtml( html );
 		},
 
+		/**
+		 * @deprecated Use {@link bender.tools.range#setWithHtml} instead.
+		 */
 		setHtmlWithRange: function( element, html, root ) {
 			root = root instanceof CKEDITOR.dom.document ?
 				root.getBody() : root || CKEDITOR.document.getBody();
@@ -619,6 +624,9 @@
 			return new CKEDITOR.dom.rangeList( ranges );
 		},
 
+		/**
+		 * @deprecated Use {@link bender.tools.range#getWithHtml} instead.
+		 */
 		getHtmlWithRanges: function( element, ranges, root ) {
 			root = root instanceof CKEDITOR.dom.document ?
 				root.getBody() : root || CKEDITOR.document.getBody();
