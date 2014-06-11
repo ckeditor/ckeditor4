@@ -57,7 +57,7 @@
 			assert.areSame( '<p>x</p>', editor.getData(), 'editor data' );
 		},
 
-		'test setSelection - selectionChange': function() {
+		'test setSelection - selectionChange is always fired': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				selectionChangeCalled = 0;
@@ -67,23 +67,34 @@
 					++selectionChangeCalled;
 				} );
 
-				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
-				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
+				// Focus editor what may make browser preparing initial selection
+				// after we set editable's HTML. That selection may be placed in
+				// exactly the same location, so selectionChange would not be fired.
+				editor.focus();
 
-				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #1' );
+				selectionChangeCalled = 0;
+
+				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
+				assert.areSame( 1, selectionChangeCalled, 'selectionChange called #1a' );
+
+				bender.tools.selection.setWithHtml( editor, '<p>[]x</p>' );
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #1b' );
+
 				selectionChangeCalled = 0;
 
 				bender.tools.selection.setWithHtml( editor, '<p>{}x</p>' );
+				assert.areSame( 1, selectionChangeCalled, 'selectionChange called #2a' );
+
 				bender.tools.selection.setWithHtml( editor, '<p>{}x</p>' );
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #2b' );
 
-				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #2' );
 				selectionChangeCalled = 0;
 
 				bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
-				bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
+				assert.areSame( 1, selectionChangeCalled, 'selectionChange called #3a' );
 
-				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #3' );
-				selectionChangeCalled = 0;
+				bender.tools.selection.setWithHtml( editor, '<p>[x]</p>' );
+				assert.areSame( 2, selectionChangeCalled, 'selectionChange called #3b' );
 
 				listener.removeListener();
 			} );
