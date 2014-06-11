@@ -945,8 +945,7 @@
 						// There will be no more ranges.
 						return false;
 					}
-				}
-				else if ( node.type == CKEDITOR.NODE_COMMENT ) {
+				} else if ( node.type == CKEDITOR.NODE_COMMENT ) {
 					marker = node.$.nodeValue.match( markerDetectRegex );
 
 					if ( marker ) {
@@ -1084,7 +1083,7 @@
 				addressLength = element.getAddress().length;
 
 				// Obtain addresses of start/endContainers relative to the element.
-				startAddress = relativeAddress( range.startContainer, addressLength ),
+				startAddress = relativeAddress( range.startContainer, addressLength );
 				endAddress = relativeAddress( range.endContainer, addressLength );
 
 				// Deep element clone. This way the original element will remain untouched.
@@ -1123,8 +1122,8 @@
 
 			// Prevent from firing selectionChange for any reason (i.e. editor.focus())
 			// until selection.selectRanges().
-			var listener = editor.on( 'selectionChange', function( event ) {
-				event.cancel();
+			var listener = editor.on( 'selectionChange', function( evt ) {
+				evt.cancel();
 			}, null, null, -1000 );
 
 			editable.focus();
