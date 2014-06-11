@@ -469,16 +469,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {String} text The text to be set.
 	 * @returns {String} The inserted text.
 	 */
-	setText: function( text ) {
-		CKEDITOR.dom.element.prototype.setText = ( this.$.innerText != undefined ) ?
-			function( text ) {
-				return this.$.innerText = text;
-			} : function( text ) {
-				return this.$.textContent = text;
-			};
+	setText: ( function() {
+		var supportsTextContent = document.createElement( 'p' );
+		supportsTextContent.innerHTML = 'x';
+		supportsTextContent = supportsTextContent.textContent;
 
-		return this.setText( text );
-	},
+		return function( text ) {
+			this.$[ supportsTextContent ? 'textContent' : 'innerText' ] = text;
+		};
+	} )(),
 
 	/**
 	 * Gets the value of an element attribute.
