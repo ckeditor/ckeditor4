@@ -51,7 +51,6 @@
 				[ keystrokes[ 2 ], 'redo' ]
 			] );
 
-			// @todo: this funciton should be renamed, since it's not called on each change event.
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				redoCommand.setState( undoManager.redoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
@@ -410,13 +409,8 @@
 			// This prop will tell in next itaration what kind of group was processed previously.
 			this.wasFunctionalKey = functionalKey;
 
-			// Eventually we need to fire change event manually.
-			// Event was already fired if strokesRecorded == 0 ( snapshot has been created ),
-			// so we need to take care of any other case.
-			// @todo: mhmm seems that `this.save( false, null, true );` does not fire change
-			// event.
-			//if ( strokesRecorded != 0 )
-				this.editor.fire( 'change' );
+			// Fire change event.
+			this.editor.fire( 'change' );
 		},
 
 		onTypingStart: function() {
