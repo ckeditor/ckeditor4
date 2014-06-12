@@ -88,7 +88,6 @@
 					inputFired = false,
 					ignoreInputEvent = false,
 					ignoreInputEventListener = function() {
-						console.log( 'input event canceled' );
 						ignoreInputEvent = true;
 					};
 
@@ -383,8 +382,6 @@
 			if ( !this.typing )
 				this.onTypingStart();
 
-			console.log('isFunct: ' + functionalKey);
-
 			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
 					// Key group changed:
@@ -399,10 +396,9 @@
 						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 				} else {
 					// Limit of chars in snapshot exceeded:
-					console.log( 'We have 5 or more keys recorded.' );
 					// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
 					strokesRecorded = 0;
-					console.log('strokesExceed snap:', this.editor.editable().getHtml());
+
 					this.editor.fire( 'saveSnapshot' );
 					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
 					this.typing = true;
