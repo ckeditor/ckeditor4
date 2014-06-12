@@ -89,5 +89,18 @@
 		'markers 2 - no opts.compareSelection - fail':		t( false, 'ba{}r', 'ba[]r' ),
 		'markers - opts.compareSelection - fail':			t( false, 'ba{}r', 'ba[]r', { compareSelection: true } ),
 		'markers - opts.compare&normalizeSelection - fail': t( false, 'ba[]r', 'ba[]r', { compareSelection: true, normalizeSelection: true } ),
+
+		// Misc ---------------------------------------------------------------
+
+		'test does not modify options object': function() {
+			var opts = {
+					fixStyles: true
+				},
+				strOpts = JSON.stringify( opts );
+
+			htmlTools.compareInnerHtml( 'a', 'a', opts );
+
+			assert.areSame( strOpts, JSON.stringify( opts ), 'options object has not been modified' );
+		}
 	} );
 } )();
