@@ -64,6 +64,8 @@
 			options = null;
 		}
 
+		YTest.Assert._increment();
+
 		if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
 			throw new YUITest.ComparisonFailure(
 				YUITest.Assert._formatMessage( message, 'Values should be the same.'),
