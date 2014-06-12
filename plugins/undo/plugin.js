@@ -51,15 +51,6 @@
 				[ keystrokes[ 2 ], 'redo' ]
 			] );
 
-			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
-			editor.on( 'contentDom', function() {
-				var editable = editor.editable();
-				editable.attachListener( editable, 'keydown', function( evt ) {
-					if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 )
-						evt.data.preventDefault();
-				} );
-			} );
-
 			// @todo: this funciton should be renamed, since it's not called on each change event.
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
@@ -90,6 +81,9 @@
 
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
+				// We'll use keyboard + input events to determine if snapshot should be created.
+				// Upon these events we'll mark inputFired flag. Eventually it might be canceled by
+				// paste/drop with ignoreInputEvent flag.
 				var editable = editor.editable(),
 					inputFired = false,
 					ignoreInputEvent = false,
@@ -101,14 +95,21 @@
 				// Only IE can't use input event, because it's not fired in contenteditable.
 				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
 					inputFired = true;
-
+					// inputFired flag should not be set if paste/drop event were fired before.
 					if ( ignoreInputEvent ) {
 						inputFired = false;
-						ignoreInputEvent = false; // Reset flag.
+						ignoreInputEvent = false;
 					}
 				} );
 
+				// We'll create a snapshot here (before DOM modification), because we'll
+				// need unmodified content when we got keygroup toggled in keyup.
 				editable.attachListener( editable, 'keydown', function( evt ) {
+					// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
+					if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
+						evt.data.preventDefault();
+						return;
+					}
 					// We need to store an image which will be used in case of key group
 					// change.
 					undoManager.lastKeydownImage = new Image( editor );
@@ -121,11 +122,13 @@
 					}
 				} );
 
+				// Click should create a snapshot if needed, but shouldn't cause change event.
 				editable.attachListener( editable, 'click', function( evt ) {
 					undoManager.save( true, null, false );
 					undoManager.resetType();
 				} );
 
+				// Keyup executes main snapshot logic.
 				editable.attachListener( editable, 'keyup', function( evt ) {
 					var keyCode = evt.data.getKey(),
 						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 };
@@ -137,13 +140,11 @@
 						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.contents === editor.getSnapshot() ) {
 							return;
 						}
-						// Functional keys are handled in `keydown` listener.
 						undoManager.newType( keyCode );
 					} else if ( isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );
 					}
 				} );
-
 				// On paste and drop we need to cancel inputFired variable.
 				// It would result with calling undoManager.newType() on any following key.
 				editable.attachListener( editable, 'paste', ignoreInputEventListener );
@@ -452,21 +453,11 @@
 
 		},
 
-		onTypingStart: function() {
-			// It's safe to now indicate typing state.
-			this.typing = true;
-
-			this.hasUndo = true;
-			this.hasRedo = false;
-
-			this.onChange();
-		},
-
 		newType: function( keyCode ) {
 			// Backspace and delete.
 			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
-				// Note that his count does not consider current count, so you might want
-				// to increase it by 1.
+				// Count of keystrokes in current a row.
+				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1,
 				keyGroupChanged = functionalKey !== this.wasFunctionalKey,
 				strokesPerSnapshotExceeded = strokesRecorded >= 5;
@@ -478,19 +469,21 @@
 
 			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
-					console.log( 'Key group changed' );
+					// Key group changed:
 					// Reset the other key group recorded count.
 					this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
-
-					console.log('group snap:', this.lastKeydownImage.contents);
+					// In case of group changed we need to save snapshot before DOM modification,
+					// consider: <p>ab^</p> when user was typing "ab", and is pressing backspace.
+					// Since we're in keyup event, DOM is modified, and we have <p>a^</p> - thus
+					// snapshot made in keydown, before modification.
 					if ( !this.save( false, this.lastKeydownImage, false ) )
 						// Drop further snapshots.
 						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 				} else {
+					// Limit of chars in snapshot exceeded:
 					console.log( 'We have 5 or more keys recorded.' );
-					// Reset the count of strokes, so it will be later assing to this.strokesRecorded.
+					// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
 					strokesRecorded = 0;
-
 					console.log('strokesExceed snap:', this.editor.editable().getHtml());
 					this.editor.fire( 'saveSnapshot' );
 					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
@@ -498,7 +491,7 @@
 				}
 			}
 
-			// Increase recorded strokes count.
+			// Store recorded strokes count.
 			this.strokesRecorded[ functionalKey ] = strokesRecorded;
 			// This prop will tell in next itaration what kind of group was processed previously.
 			this.wasFunctionalKey = functionalKey;
@@ -512,16 +505,26 @@
 				this.editor.fire( 'change' );
 		},
 
+		onTypingStart: function() {
+			// It's safe to now indicate typing state.
+			this.typing = true;
+
+			// Manually mark snapshot as available.
+			this.hasUndo = true;
+			this.hasRedo = false;
+
+			this.onChange();
+		},
+
 		/**
-		 * Ammends last snapshot, and changes it selection ( only in case when contents
-		 * are equal between these two ).
+		 * Amends last snapshot, and change its selection (only in case when contents
+		 * are equal between these two).
 		 */
 		amendSelection: function( newSnapshot ) {
 
 			if ( !this.snapshots.length )
 				return;
 
-			//var curImage = new Image( this.editor ),
 			var snapshots = this.snapshots,
 				lastImage = snapshots[ snapshots.length - 1 ];
 
