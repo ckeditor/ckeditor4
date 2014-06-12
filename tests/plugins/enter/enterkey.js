@@ -24,6 +24,13 @@
 	}
 
 	bender.test( {
+		_should: {
+			ignore: {
+				'test shift+enter key - end of block, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
+				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
+			}
+		},
+
 		'async:init': function() {
 			var that = this;
 
@@ -207,6 +214,11 @@
 		'test shift+enter key - end of block':			se( 'editor', '<p>foobar{}</p>', '<p>foobar<br />^@</p>' ),
 		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
 		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
+		// #11947
+		'test shift+enter key - end of block, inside inline element followed by bogus br':
+			se( 'editor', '<p><em>foo{}</em><br /></p>', '<p><em>foo<br />^</em><br /></p>' ),
+		'test shift+enter key - end of list item, inside inline element followed by bogus br':
+			se( 'editor', '<ul><li><em>foo{}</em><br /></li></ul>', '<ul><li><em>foo<br />^</em><br /></li></ul>' ),
 	} );
 
 } )();
