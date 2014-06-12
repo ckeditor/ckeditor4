@@ -4,6 +4,25 @@
 ( function() {
 	'use strict';
 
+	var selectionTools = bender.tools.selection,
+		matchOpts = {
+			compareSelection: true,
+			normalizeSelection: true
+		};
+
+	function se( editorName, htmlWithSeleciton, expectedHtmlWithSelection ) {
+		return function() {
+			var editor = this.editors[ editorName ];
+
+			selectionTools.setWithHtml( editor, htmlWithSeleciton );
+			editor.execCommand( 'shiftEnter' );
+
+			var output = selectionTools.getWithHtml( editor );
+
+			assert.isInnerHtmlMatching( expectedHtmlWithSelection, output, matchOpts );
+		};
+	}
+
 	bender.test( {
 		'async:init': function() {
 			var that = this;
@@ -31,7 +50,7 @@
 		},
 
 		// #7912
-		'test enterkey after invisible element': function() {
+		'test enter key after invisible element': function() {
 			// IE restrain making selection in invisible element.
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
@@ -55,7 +74,7 @@
 		},
 
 		// #8321
-		'test enter at the end of block with inline styles' : function() {
+		'test enter key at the end of block with inline styles' : function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -66,7 +85,7 @@
 		},
 
 		// #7946 TODO: Add editor doc quirks mode tests.
-		'test enter key scrolls document' : function() {
+		'test enter key key scrolls document' : function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -85,7 +104,7 @@
 		},
 
 		// Start of #8812
-		'test Enter key at the end of contents with comment' : function() {
+		'test ener key at the end of contents with comment' : function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( 'test ^<!-- --> ' );
@@ -93,7 +112,7 @@
 			assert.areSame( '<p>test <!-- --></p><p>&nbsp;</p>', bot.getData( false, true ) );
 		},
 
-		'test Enter key in the middle of contents with comments' : function() {
+		'test enter key in the middle of contents with comments' : function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
@@ -103,7 +122,7 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 		},
 
-		'test Enter key in the middle of contents with comments (2)' : function() {
+		'test enter key in the middle of contents with comments (2)' : function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
@@ -113,7 +132,7 @@
 		},
 		// End of #8812
 
-		'test Enter key uses editor.activeEnterMode': function() {
+		'test enter key uses editor.activeEnterMode': function() {
 			var bot = this.editorBots.editorNoAutoParagraph;
 
 			bot.editor.setActiveEnterMode( CKEDITOR.ENTER_BR, CKEDITOR.ENTER_DIV );
@@ -138,7 +157,7 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData(), 'main mode was used' );
 		},
 
-		'test Enter key is influenced by the active filter': function() {
+		'test enter key is influenced by the active filter': function() {
 			var bot = this.editorBots.editorNoAutoParagraph;
 
 			bot.setHtmlWithSelection( 'foo^bar' );
@@ -163,7 +182,7 @@
 
 		/*
 		// Commented out until we decide whether we want to block enter key completely and how.
-		'test Enter key is completely blocked if neither p nor br are allowed': function() {
+		'test enter key is completely blocked if neither p nor br are allowed': function() {
 			var bot = this.editorBot;
 			bot.setHtmlWithSelection( '<p>foo^bar</p>' );
 
@@ -179,8 +198,15 @@
 				// Always reset filter - even if previous test failed.
 				this.editor.setActiveFilter( null );
 			}
-		}
+		},
 		*/
+
+		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
+		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
+		'test shift+enter key - start of block':		se( 'editor', '<p>{}foobar</p>', '<p><br />^foobar@</p>' ),
+		'test shift+enter key - end of block':			se( 'editor', '<p>foobar{}</p>', '<p>foobar<br />^@</p>' ),
+		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
+		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
 	} );
 
 } )();
