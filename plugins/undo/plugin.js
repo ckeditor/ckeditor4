@@ -353,7 +353,6 @@
 		// 0 - stores characters input
 		// 1 - functional keys (delete/backspace)
 		// Strokes count will be reseted, after reaching characters per snapshot limit.
-		// **Warrning:** this property is not used in IE!
 		strokesRecorded: [ 0, 0 ],
 
 		/**
@@ -367,92 +366,11 @@
 		 */
 
 		/**
-		 * Handles keystroke support for the undo manager. It is called whenever a keystroke that
-		 * can change the editor contents is pressed.
-		 *
-		 * @param {Number} keystroke The key code.
-		 * @param {Boolean} isCharacter If `true`, it is a character ('a', '1', '&', ...). Otherwise it is the remove key (*Delete* or *Backspace*).
-		 */
-		type: function( keystroke, isCharacter ) {
-			// Create undo snap for every different modifier key.
-			var modifierSnapshot = ( !isCharacter && keystroke != this.lastKeystroke );
-
-			// Create undo snap on the following cases:
-			// 1. Just start to type .
-			// 2. Typing some content after a modifier.
-			// 3. Typing some content after make a visible selection.
-			var startedTyping = !this.typing || ( isCharacter && !this.wasCharacter );
-
-			var editor = this.editor;
-
-			if ( startedTyping || modifierSnapshot ) {
-				var beforeTypeImage = new Image( editor ),
-					beforeTypeCount = this.snapshots.length;
-
-				// Use setTimeout, so we give the necessary time to the
-				// browser to insert the character into the DOM.
-				CKEDITOR.tools.setTimeout( function() {
-					var currentSnapshot = editor.getSnapshot();
-
-					// In IE, we need to remove the expando attributes.
-					if ( CKEDITOR.env.ie )
-						currentSnapshot = currentSnapshot.replace( /\s+data-cke-expando=".*?"/g, '' );
-
-					// If changes have taken place, while not been captured yet (#8459),
-					// compensate the snapshot.
-					if ( beforeTypeImage.contents != currentSnapshot && beforeTypeCount == this.snapshots.length ) {
-						// It's safe to now indicate typing state.
-						this.typing = true;
-
-						// This's a special save, with specified snapshot
-						// and without auto 'fireChange'.
-						if ( !this.save( false, beforeTypeImage, false ) )
-							// Drop future snapshots.
-							this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
-
-						this.hasUndo = true;
-						this.hasRedo = false;
-
-						this.typesCount = 1;
-						this.modifiersCount = 1;
-
-						this.onChange();
-					}
-				}, 0, this );
-			}
-
-			this.lastKeystroke = keystroke;
-			this.wasCharacter = isCharacter;
-
-			// Create undo snap after typed too much (over 25 times).
-			if ( !isCharacter ) {
-				this.typesCount = 0;
-				this.modifiersCount++;
-
-				if ( this.modifiersCount > 25 ) {
-					this.save( false, null, false );
-					this.modifiersCount = 1;
-				} else {
-					setTimeout( function() {
-						editor.fire( 'change' );
-					}, 0 );
-				}
-			} else {
-				this.modifiersCount = 0;
-				this.typesCount++;
-
-				if ( this.typesCount > 25 ) {
-					this.save( false, null, false );
-					this.typesCount = 1;
-				} else {
-					setTimeout( function() {
-						editor.fire( 'change' );
-					}, 0 );
-				}
-			}
-
-		},
-
+		* Handles keystroke support for the undo manager. It'ss called on `keyup` event for
+		* keystrokes that can change the editor contents.
+		*
+		* @param {Number} keyCode The key code.
+		*/
 		newType: function( keyCode ) {
 			// Backspace and delete.
 			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
@@ -539,9 +457,6 @@
 		 * Resets the undo stack.
 		 */
 		reset: function() {
-			// Remember last pressed key.
-			this.lastKeystroke = 0;
-
 			// Stack for all the undo and redo snapshots, they're always created/removed
 			// in consistency.
 			this.snapshots = [];
@@ -550,6 +465,7 @@
 			this.index = -1;
 
 			this.limit = this.editor.config.undoStackSize || 20;
+			this.strokesRecorded = [ 0, 0 ];
 
 			this.currentImage = null;
 
@@ -567,12 +483,6 @@
 		 */
 		resetType: function() {
 			this.typing = false;
-			delete this.lastKeystroke;
-			this.typesCount = 0;
-			this.modifiersCount = 0;
-
-			// Reseting newType() variables.
-			this.strokesRecorded = [ 0, 0 ];
 			delete this.wasFunctionalKey;
 		},
 
