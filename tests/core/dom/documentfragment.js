@@ -217,6 +217,15 @@
 
 			assert.isTrue( doc.equals( frag1.getDocument() ) );
 			assert.isTrue( innerDoc.equals( frag2.getDocument() ) );
+		},
+
+		'test getHtml': function() {
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' ).appendTo( frag );
+			CKEDITOR.dom.element.createFromHtml( '<i>bar</i>' ).appendTo( frag );
+
+			assert.areSame( '<b>foo</b><i>bar</i>', bender.tools.fixHtml( frag.getHtml(), 1, 1 ), 'HTML of documentFragment' );
 		}
 	} );
 } )();
