@@ -246,8 +246,8 @@ CKEDITOR.config = {
 	height: 200,
 
 	/**
-	 * Comma separated list of plugins to be used for an editor instance,
-	 * besides, the actual plugins that to be loaded could be still affected by two other settings:
+	 * Comma-separated list of plugins to be used in an editor instance. Note that
+	 * the actual plugins that are to be loaded could still be affected by two other settings:
 	 * {@link CKEDITOR.config#extraPlugins} and {@link CKEDITOR.config#removePlugins}.
 	 *
 	 * @cfg {String} [="<default list of plugins>"]
@@ -256,7 +256,7 @@ CKEDITOR.config = {
 
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
-	 * to add new plugins without having to touch {@link CKEDITOR.config#plugins} setting.
+	 * to add new plugins without having to touch the {@link CKEDITOR.config#plugins} setting.
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
 	 *
@@ -269,9 +269,9 @@ CKEDITOR.config = {
 	 * to avoid loading some plugins defined in the {@link CKEDITOR.config#plugins}
 	 * setting, without having to touch it.
 	 *
-	 * **Note:** Plugin required by other plugin cannot be removed (error will be thrown).
-	 * So e.g. if `contextmenu` is required by `tabletools`, then it can be removed
-	 * only if `tabletools` isn't loaded.
+	 * **Note:** A plugin required by another plugin cannot be removed and will cause
+	 * an error to be thrown. So for example if `contextmenu` is required by `tabletools`,
+	 * it can only be removed if `tabletools` is not loaded.
 	 *
 	 *		config.removePlugins = 'elementspath,save,font';
 	 *
@@ -280,7 +280,7 @@ CKEDITOR.config = {
 	removePlugins: '',
 
 	/**
-	 * List of regular expressions to be executed on input HTML,
+	 * A list of regular expressions to be executed on input HTML,
 	 * indicating HTML source code that when matched, must **not** be available in the WYSIWYG
 	 * mode for editing.
 	 *
