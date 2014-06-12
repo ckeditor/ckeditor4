@@ -531,32 +531,43 @@
 			// #11086 IE8 cannot listen on document.
 			var dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
 
-			// Create global object if it does not exists to handle D&D from different editor.
-			if ( !CKEDITOR.plugins.clipboard ||  !CKEDITOR.plugins.clipboard.dnd )
-				CKEDITOR.plugins.clipboard = { dnd: {} };
-
 			// Listed on dragstart to mark internal and cross-editor D&D
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
-				var clipboard = CKEDITOR.plugins.clipboard.dnd;
+				// Create a dataTransfer object and save it to the global clipboard.dnd.
+				CKEDITOR.plugins.clipboard.dnd = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor );
+			} );
 
-				// Save to the global object.
-				clipboard.dragTimestamp = 'cke-' + ( new Date() ).getTime();
-				clipboard.html = editor.getSelection().getSelectedHtml();
-				clipboard.dragRanges = editor.getSelection().getRanges();
-				clipboard.editor = editor;
-
-				// dataTransfer object will be passed to the drop event.
-				evt.data.$.dataTransfer.setData( 'text', clipboard.dragTimestamp );
+			// Clean up on dragend.
+			editable.attachListener( dropTarget, 'dragend', function( evt ) {
+				// When DnD is done we need to remove clipboard.dnd so the future
+				// external drop will be not recognize as internal.
+				CKEDITOR.plugins.clipboard.dnd = undefined;
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
-					var clipboard = CKEDITOR.plugins.clipboard.dnd,
-						dragRanges = clipboard.dragRanges,
-						dragBookmarks = [],
-						dragRange, dropBookmark, i,
-						// Getting drop position is one of the most complex part of D&D.
-						dropRange = getRangeAtDropPosition( editor, evt );
+				// Create a new dataTransfer object based on the drop event.
+				// If this event was used on dragstart to create dataTransfer
+				// both dataTransfer objects will have the same id.
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+
+				// If there is the same id we will replace dataTransfer with the one
+				// created on drag, because it contains drag editor, drag content and so on.
+				// Otherwise (in case of drag from external source) we save new object to
+				// the global clipboard.dnd.
+				if ( CKEDITOR.plugins.clipboard.dnd &&
+					dataTransfer.id == CKEDITOR.plugins.clipboard.dnd.id ) {
+					dataTransfer = CKEDITOR.plugins.clipboard.dnd;
+				} else {
+					CKEDITOR.plugins.clipboard.dnd = dataTransfer;
+				}
+
+				dataTransfer.setTargetEditor( editor );
+
+
+				// Getting drop position is one of the most complex part of D&D.
+				var dropRange = getRangeAtDropPosition( editor, evt ),
+					i;
 
 				// Cancel native drop.
 				evt.data.preventDefault();
@@ -565,14 +576,16 @@
 				if ( !dropRange )
 					return;
 
-				if ( evt.data.$.dataTransfer.getData( 'text' ) &&
-					 evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp &&
-					 clipboard.editor == editor ) {
+				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					// Internal D&D.
 
 					// Execute D&D with a timeout because otherwise selection, after drop,
 					// on IE is in the drag position, instead of drop position.
 					setTimeout( function() {
+						var dragRanges = dataTransfer.sourceRanges,
+							dragBookmarks = [],
+							dragRange, dropBookmark;
+
 						// Save and lock snapshot so there will be only
 						// one snapshot for both remove and insert content.
 						editor.fire( 'saveSnapshot' );
@@ -650,51 +663,33 @@
 						dropRange = editor.createRange();
 						dropRange.moveToBookmark( dropBookmark );
 						dropRange.select();
-						firePasteEvents( 'html', clipboard.html );
+						firePasteEvents( 'html', dataTransfer.dataValue );
 
 						editor.fire( 'unlockSnapshot' );
 					}, 0 );
-				} else if ( evt.data.$.dataTransfer.getData( 'text' ) &&
-					evt.data.$.dataTransfer.getData( 'text' ) == clipboard.dragTimestamp ) {
+				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
 					// Cross editor D&D.
 
 					// Paste event should be fired before delete contents because otherwise
 					// Chrome have a problem with drop range (Chrome split the drop
 					// range container so the offset is bigger then container length).
 					dropRange.select();
-					firePasteEvents( 'html', clipboard.html );
+					firePasteEvents( 'html', dataTransfer.dataValue );
 
 					// Remove dragged content and make a snapshot.
-					clipboard.editor.fire( 'saveSnapshot' );
-					for ( i = 0; i < clipboard.dragRanges.length; i++ ) {
-						clipboard.dragRanges[ i ].deleteContents();
+					dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+					for ( i = 0; i < dataTransfer.sourceRanges.length; i++ ) {
+						dataTransfer.sourceRanges[ i ].deleteContents();
 					}
-					clipboard.editor.getSelection().reset();
-					clipboard.editor.fire( 'saveSnapshot' );
+					dataTransfer.sourceEditor.getSelection().reset();
+					dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 				} else {
 					// Drop from external source.
 
 					// Paste content into the drop position.
 					dropRange.select();
-					var dataTransfer = evt.data.$.dataTransfer,
-						data;
 
-					// IE support only text data and throws exception if we try to get html data.
-					// This html data object may also be empty if we drag content of the textarea.
-					try {
-						data = dataTransfer.getData( 'text/html' );
-					} catch ( err ) {
-					}
-
-					if ( data )
-						// If we have html data we fire paste event with it.
-						firePasteEvents( 'html', data );
-					else {
-						// Try to get text data otherwise.
-						data = dataTransfer.getData( 'Text' );
-						if ( data )
-							firePasteEvents( 'text', CKEDITOR.tools.htmlEncode( data ) );
-					}
+					firePasteEvents( dataTransfer.dataType, dataTransfer.dataValue );
 				}
 			} );
 
@@ -1547,6 +1542,221 @@
 
 		return false;
 	}
+
+	// Data type used to link drag and drop events.
+	var	clipboardIdDataType =
+		// IE does not support different data types that Text and URL.
+		// In IE 9- we can use URL data type to mark that drag comes from the editor.
+		( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ? 'URL':
+		// In IE 10+ URL data type is buggie and there is no way to mark DnD without
+		// modifying text data (which would be displayed if user drop content to the textarea)
+		// so we just read dragged text.
+		CKEDITOR.env.ie ? 'Text' :
+		// In Chrome and Firefox we can use custom data types.
+		'cke/id';
+
+	/**
+	 * @private
+	 * @singleton
+	 * @class CKEDITOR.plugins.clipboard
+	 */
+	CKEDITOR.plugins.clipboard = {};
+
+	/**
+	 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
+	 * between browsers.
+	 *
+	 * @class CKEDITOR.plugins.clipboard.dataTransfer
+	 * @constructor Creates a class instance and .
+	 *
+	 * @param {Object} domEvent
+	 * A native DOM event object.
+	 *
+	 * @param {CKEDITOR.editor} editor The source editor instance.
+	 * If this is set then html and sourceRanges will be created based on the editor contents.
+	 */
+	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
+		this.$ = evt.data.$.dataTransfer;
+
+		// Check if ID is already created.
+		this.id = this.$.getData( clipboardIdDataType );
+
+		// If there is no ID we need to create it. Different browsers needs different ID.
+		if ( !this.id ) {
+			if ( clipboardIdDataType == 'URL' ) {
+				// For IEs URL type ID have to look like an URL.
+				this.id = 'http://cke.' + ( new Date() ).getTime() +'/';
+			} else if ( clipboardIdDataType == 'Text' ) {
+				// For IE10+ only Text data type is supported and we have to compare dragged
+				// and dropped text. If the ID is not set it means that empty string was dragged
+				// (ex. image with no alt). We change null to empty string.
+				this.id = "";
+			} else {
+				// String for custom data type.
+				this.id = 'cke-' + ( new Date() ).getTime();
+			}
+		}
+
+		// In IE10+ we can not use any data type besides text, so we do not call setData.
+		if ( evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
+			// dataTransfer object will be passed from the drag to the drop event.
+			this.$.setData( clipboardIdDataType, this.id );
+		}
+
+		if ( editor ) {
+			this.sourceEditor = editor;
+			this.dataValue = editor.getSelection().getSelectedHtml();
+			this.dataType = 'html';
+			this.sourceRanges = editor.getSelection().getRanges();
+		} else {
+			// IE support only text data and throws exception if we try to get html data.
+			// This html data object may also be empty if we drag content of the textarea.
+			try {
+				this.dataValue = this.getData( 'text/html' );
+				this.dataType = 'html';
+			} catch ( err ) {
+			}
+
+			if ( !this.dataValue ) {
+				// Try to get text data otherwise.
+				this.dataValue = this.getData( 'Text' );
+
+				if ( this.dataValue ) {
+					CKEDITOR.tools.htmlEncode( this.getData( 'Text' ) );
+					this.dataType = 'text';
+				}
+			}
+		}
+	};
+
+	/**
+	 * Facade for the native getData method.
+	 *
+	 * @param {String} type The type of data to retrieve.
+	 *
+	 * @returns {String} type
+	 * Stored data for the given type or an
+	 * empty string if data for that type does not exist.
+	 */
+	CKEDITOR.plugins.clipboard.dataTransfer.prototype.getData = function( type ) {
+		return this.$.getData( type );
+	};
+
+	/**
+	 * Facade for the native setData method.
+	 *
+	 * @param {String} type The type of data to retrieve.
+	 * @param {String} value The data to add.
+	 */
+	CKEDITOR.plugins.clipboard.dataTransfer.prototype.setData = function( type, value ) {
+		return this.$.getData( type, value );
+	};
+
+	/**
+	 * Set target editor.
+	 *
+	 * @param {CKEDITOR.editor} editor The target editor instance.
+	 */
+	CKEDITOR.plugins.clipboard.dataTransfer.prototype.setTargetEditor = function( editor ) {
+		this.targetEditor = editor;
+	};
+
+	/**
+	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
+	 * editor instance.
+	 *
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.DATA_TRANSFER_INTERNAL = 0;
+
+	/**
+	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the
+	 * instance of CKEditor but in two different editors.
+	 *
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 1;
+
+	/**
+	 * Data transfer operation (drag and drop or copy and pasted) started not in the CKEditor.
+	 * The source of the data may be textarea, HTML, another application, etc..
+	 *
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.DATA_TRANSFER_EXTERNAL = 2;
+
+	/**
+	 * Get data transfer type.
+	 *
+	 * @returns {Number} type
+	 * Possible options: DATA_TRANSFER_INTERNAL, DATA_TRANSFER_CROSS_EDITORS, DATA_TRANSFER_EXTERNAL.
+	 */
+	CKEDITOR.plugins.clipboard.dataTransfer.prototype.getTransferType = function() {
+		if ( !this.sourceEditor ) {
+			return CKEDITOR.DATA_TRANSFER_EXTERNAL;
+		} else if ( this.sourceEditor == this.targetEditor ) {
+			return CKEDITOR.DATA_TRANSFER_INTERNAL;
+		} else {
+			return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;
+		}
+	};
+
+	/**
+	 * ID
+	 *
+	 * @property {String} id
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * $
+	 *
+	 * @private
+	 * @property {Object} $
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * sourceEditor
+	 *
+	 * @property {CKEDITOR.editor} sourceEditor
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * targetEditor
+	 *
+	 * @property {CKEDITOR.editor} targetEditor
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * dataValue
+	 *
+	 * @property {String} dataValue
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * dataType
+	 *
+	 * @property {String} dataType
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
+
+	/**
+	 * Range instances that represent the selection during drag.
+	 *
+	 * @private
+	 * @property {Array} sourceRanges
+	 * @member CKEDITOR.plugins.clipboard.dataTransfer
+	 */
 } )();
 
 /**
