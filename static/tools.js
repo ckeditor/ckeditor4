@@ -1236,27 +1236,6 @@
 				.replace( /@/g, '(<br />)?' );
 
 			return new RegExp( '^' + pattern + '$' ).test( actual );
-		},
-
-		/**
-		 * Asserts that `innerHTML`-like HTML strings are equal. See the {@link #compareInnerHtml} method for more
-		 * information.
-		 *
-		 * @param {String} expected
-		 * @param {String} actual
-		 * @param {Object} [options] {@link #compareInnerHtml}'s options.
-		 * @param {String} [message]
-		 */
-		assertInnerHtml: function( expected, actual, options, message ) {
-			if ( typeof options != 'object' ) {
-				message = options;
-				options = null;
-			}
-
-			if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
-				throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage(
-					message, 'Values should be the same.'), expected, actual );
-			}
 		}
 	};
 

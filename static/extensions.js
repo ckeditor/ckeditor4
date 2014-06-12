@@ -49,6 +49,28 @@
 		}
 	};
 
+	/**
+	 * Asserts that `innerHTML`-like HTML strings are equal. See the {@link bender.tools.html#compareInnerHtml}
+	 * method for more information.
+	 *
+	 * @param {String} expected
+	 * @param {String} actual
+	 * @param {Object} [options] {@link #compareInnerHtml}'s options.
+	 * @param {String} [message]
+	 */
+	bender.assert.isInnerHtmlMatching = function( expected, actual, options, message ) {
+		if ( typeof options != 'object' ) {
+			message = options;
+			options = null;
+		}
+
+		if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
+			throw new YUITest.ComparisonFailure(
+				YUITest.Assert._formatMessage( message, 'Values should be the same.'),
+				expected, actual
+			);
+		}
+	};
 
 
 	// add support test ignore
