@@ -936,8 +936,9 @@
 					}
 
 					// There must be existing range to set its end.
-					if ( ( text = text.replace( '}', replaceTextMarker ) ) && markerFound == '}' && range )
+					if ( ( text = text.replace( '}', replaceTextMarker ) ) && markerFound == '}' && range ) {
 						range.setEnd( node, markerIndex );
+					}
 
 					if ( markerFound ) {
 						node.setText( text );
@@ -956,9 +957,9 @@
 
 							// We cannot remove nodes while walking.
 							removed.push( node );
-						}
+
 						// Set end marker.
-						else {
+						} else {
 							range.setEndAt( node, CKEDITOR.POSITION_BEFORE_START );
 
 							// We cannot remove nodes while walking.
@@ -985,8 +986,9 @@
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 					element.setHtml( '<span>!</span>' + html );
 					element.getFirst().remove();
-				} else
+				} else {
 					element.setHtml( html );
+				}
 
 				removed = [];
 
@@ -999,12 +1001,14 @@
 
 				// If "start comments" were removed, then the range endOffset may need to be updated
 				// because there's one less node (comment) before the end.
-				if ( removed.length && range.startContainer.equals( range.endContainer ) )
+				if ( removed.length && range.startContainer.equals( range.endContainer ) ) {
 					range.setEnd( range.endContainer, range.endOffset - 1 );
+				}
 
 				// Remove comments, which used to replace [ and ].
-				while ( removed.length )
+				while ( removed.length ) {
 					removed.pop().remove();
+				}
 
 				return range;
 			}
@@ -1030,15 +1034,16 @@
 			function injectComment( marker, node, offset ) {
 				var comment = new CKEDITOR.dom.comment( 'cke-range-marker-' + marker );
 
-				if ( marker == '{' || marker == '}' )
+				if ( marker == '{' || marker == '}' ) {
 					comment.insertBefore( node.split( offset ) );
-				else {
+				} else {
 					var child = node.getChild( offset );
 
-					if ( child )
+					if ( child ) {
 						comment.insertBefore( child );
-					else
+					} else {
 						comment.appendTo( node );
+					}
 				}
 
 				return comment;
@@ -1052,18 +1057,20 @@
 			function cloneNode( node ) {
 				var clone;
 
-				if ( node.type == CKEDITOR.NODE_TEXT )
+				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					return new CKEDITOR.dom.text( node.getText() );
-				else
+				} else {
 					clone = node.clone();
+				}
 
 				if ( clone.type == CKEDITOR.NODE_ELEMENT ) {
 					var children = node.getChildren(),
 						i = 0,
 						child;
 
-					while ( ( child = children.getItem( i++ ) ) )
+					while ( ( child = children.getItem( i++ ) ) ) {
 						cloneNode( child ).appendTo( clone );
+					}
 				}
 
 				return clone;
@@ -1076,8 +1083,9 @@
 
 			return function( element, range ) {
 				// No range, no marker to display.
-				if ( !range )
+				if ( !range ) {
 					return element.getHtml();
+				}
 
 				// Get length of element address.
 				addressLength = element.getAddress().length;
@@ -1118,11 +1126,12 @@
 		 * @see bender.tools.range#getWithHtml
 		 */
 		setWithHtml: function( editor, html ) {
-			var editable = editor.editable();
+			var editable = editor.editable(),
+				listener;
 
 			// Prevent from firing selectionChange for any reason (i.e. editor.focus())
 			// until selection.selectRanges().
-			var listener = editor.on( 'selectionChange', function( evt ) {
+			listener = editor.on( 'selectionChange', function( evt ) {
 				evt.cancel();
 			}, null, null, -1000 );
 
@@ -1133,8 +1142,9 @@
 			var range = bender.tools.range.setWithHtml( editable, html ),
 				sel = editor.getSelection();
 
-			if ( range )
+			if ( range ) {
 				sel.selectRanges( [ range ] );
+			}
 
 			return sel;
 		},
@@ -1150,8 +1160,9 @@
 		getWithHtml: function( editor ) {
 			var ranges = editor.getSelection().getRanges();
 
-			if ( ranges.length > 1 )
+			if ( ranges.length > 1 ) {
 				throw new Error( 'There are ' + ranges.length + ' ranges in editor\'s selection, while only one was expected.' );
+			}
 
 			return bender.tools.range.getWithHtml( editor.editable(), ranges[ 0 ] );
 		},
