@@ -377,7 +377,7 @@
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1,
 				keyGroupChanged = functionalKey !== this.wasFunctionalKey,
-				strokesPerSnapshotExceeded = strokesRecorded >= 5;
+				strokesPerSnapshotExceeded = strokesRecorded >= 25;
 
 			if ( !this.typing )
 				this.onTypingStart();
