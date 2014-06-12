@@ -42,6 +42,9 @@
 		return textBlockTags;
 	}
 
+	var selectionMarkers = /(\[|\]|\{|\}|\^)/g,
+		selectionMarkerComments = /<!--cke-range-marker-(.)-->/gi;
+
 	bender.tools = {
 		/**
 		 * Gets the inner HTML of an element, for testing purposes.
@@ -222,8 +225,9 @@
 		 * @param {Boolean} [sortAttributes]
 		 * @param {Boolean} [fixZWS] Remove zero-width spaces (\u200b).
 		 * @param {Boolean} [fixStyles] Pass inline styles through {@link CKEDITOR.tools#parseCssText}.
+		 * @param {Boolean} [fixNbsp] Encode `\u00a0`.
 		 */
-		compatHtml: function( html, noInterWS, sortAttributes, fixZWS, fixStyles ) {
+		compatHtml: function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp ) {
 			// Remove all indeterminate white spaces.
 			if ( noInterWS ) {
 				html = html.replace( /[\t\n\r ]+(?=<)/g, '' ).replace( />[\t\n\r ]+/g, '>' );
@@ -241,6 +245,10 @@
 
 			if ( fixZWS ) {
 				html = html.replace( /\u200b/g, '' );
+			}
+
+			if ( fixNbsp ) {
+				html = html.replace( /\u00a0/g, '&nbsp;' );
 			}
 
 			if ( fixStyles ) {
@@ -1027,8 +1035,6 @@
 		 * @see #setWithHtml
 		 */
 		getWithHtml: ( function() {
-			var markerDetectRegex = /<!--cke-range-marker-(.)-->/gi;
-
 			// Injects a comment according to the given marker type, node and offset.
 			// Text nodes are split if necessary to put a comment at desired position.
 			function injectComment( marker, node, offset ) {
@@ -1110,7 +1116,7 @@
 				injectComment( startMarker, startContainer, range.startOffset )
 
 				// Replace comments with corresponding range markers.
-				return browserHtmlFix( clone.getHtml() ).replace( markerDetectRegex, '$1' );
+				return browserHtmlFix( clone.getHtml() ).replace( selectionMarkerComments, '$1' );
 			};
 		} )()
 	};
@@ -1166,6 +1172,71 @@
 
 			return bender.tools.range.getWithHtml( editor.editable(), ranges[ 0 ] );
 		},
+	};
+
+	bender.tools.html = {
+		/**
+		 * Compares `innerHTML`-like HTML strings. "Inner" indicates that this HTML has not been
+		 * output by editor (has not been passed through {@link CKEDITOR.dataProcessor#toDataFormat}).
+		 * Common unwelcomed assertion breakers like bogus `<br>`s, zero width spaces, unsorted attributes,
+		 * not encoded `&nbsp;`s, etc. will be normalized by this function.
+		 *
+		 * Special characters:
+		 *
+		 * * `[`, `]`, `{`, `}`, `^` &ndash; will be treated like range/selection markers, so for a time when
+		 * `actual` is processed by a parser they will be replaced by comments. Therefore these characters can't
+		 * appear in attributes and other places where comments will be lost. Set `options.compareSelection` to `true`
+		 * in order to enable selection markers special handling.
+		 * * `@` &ndash; will be treated like a possible bogus `<br>` marker. "Possible" means that
+		 * assertion will pass regardless of whether bogus `<br>` is found or not in the `actual`.
+		 *
+		 * @param {String} expected
+		 * @param {String} actual
+		 * @param {Object} [options]
+		 * @param {Boolean} [options.sortAttributes=true] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.fixZWS=true] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.noInterWs=false] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.fixStyles=false] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.compareSelection=false] If set to `true` selection markers in `expected` and
+		 * `actual` will be handled in special way. This may conflict with these charaters usage in attributes and
+		 * other places where comments are not allowed.
+		 * @param {Boolean} [options.normalizeSelection=true] Whether `{` and `}` should be treated like `[` and `]`
+		 * Additionally, collapsed selection will be replaced with `^`. This options works only if `compareSelection`
+		 * is set to `true`.
+		 */
+		compareInnerHtml: function( expected, actual, options ) {
+			if ( !options ) {
+				options = {};
+			}
+			if ( !( 'sortAttributes' in options ) ) {
+				options.sortAttributes = true;
+			}
+			if ( !( 'fixZWS' in options ) ) {
+				options.fixZWS = true;
+			}
+			if ( !( 'fixNbsp' in options ) ) {
+				options.fixNbsp = true;
+			}
+
+			if ( options.compareSelection ) {
+				actual = actual.replace( selectionMarkers, '<!--cke-range-marker-$1-->' );
+			}
+
+			actual = bender.tools.compatHtml( actual,
+				options.noInterWS, options.sortAttributes, options.fixZWS, options.fixStyles, options.fixNbsp );
+
+			if ( options.compareSelection ) {
+				actual = actual.replace( selectionMarkerComments, '$1' );
+				if ( options.normalizeSelection ) {
+					actual = actual.replace( /\{/g, '[' ).replace( /\}/g, ']' ).replace( /\[\]/g, '^' );
+				}
+			}
+
+			var pattern = bender.tools.escapeRegExp( expected )
+				.replace( /@/g, '(<br />)?' );
+
+			return new RegExp( '^' + pattern + '$' ).test( actual );
+		}
 	};
 
 } )( bender );
