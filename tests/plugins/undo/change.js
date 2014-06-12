@@ -31,6 +31,12 @@
 
 		setUp: function() {
 			changeCounter = 0;
+			// Inits tools used to mimic events if needed.
+			if ( !this.tools ) {
+				this.tools = undoEventDispatchTestsTools( this );
+				// Alias for more convenient accesss.
+				this.keyTools = this.tools.key;
+			}
 		},
 
 		'test setData': function() {
@@ -45,20 +51,9 @@
 		},
 
 		'test typing': function() {
+			var that = this;
 			this.checkChange( function( editor ) {
-				editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 66/* character b */ } ) );
-			} );
-		},
-
-		'test backspace': function() {
-			this.checkChange( function( editor ) {
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 8/* backspace */ } ) );
-			} );
-		},
-
-		'test delete': function() {
-			this.checkChange( function( editor ) {
-				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46/* delete */ } ) );
+				that.keyTools.typingEvents( 'a' );
 			} );
 		},
 
@@ -85,10 +80,20 @@
 
 			changeCounter = 0;
 
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37/* left arrow */ } ) );
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 39/* right arrow */ } ) );
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 35/* end */ } ) );
-			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 9/* tab */ } ) );
+			var navigationKeyCodes = [
+				37, // Left arrow.
+				39, // Right arrow.
+				35, // End.
+				9 // Tab.
+			];
+
+			for ( var i = 0; i < navigationKeyCodes.length; i++ ) {
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
+				// Firefox will fire keypress for all of these keys (#11611).
+				if ( CKEDITOR.env.gecko ) {
+					editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
+				}
+			}
 
 			wait( function() {
 				assert.areSame( 0, changeCounter, 'There should be no change events' );
@@ -115,6 +120,31 @@
 			} );
 
 			wait();
+		},
+
+		'test backspace': function() {
+			// IE: In case of backspace and delete we need to make real change to DOM content.
+			var that = this,
+				textNode = this.editor.editable().getFirst().getFirst();
+			this.checkChange( function( editor ) {
+				that.keyTools.keyEvent( 8 /* backspace */, null, null, function( e ) {
+					textNode.setText('fo');
+				} );
+				textNode.setText('foo');
+			} );
+		},
+
+		'test delete': function() {
+			var that = this,
+				textNode = this.editor.editable().getFirst().getFirst();
+			// In case of backspace and delete we need to make real change to DOM content.
+			this.checkChange( function( editor ) {
+				that.keyTools.keyEvent( 46 /* delete */, null, null, function( e ) {
+					// Textnode change required by IE.
+					textNode.setText('f');
+				} );
+				textNode.setText('foo');
+			} );
 		}
 	} );
 
