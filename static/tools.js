@@ -1101,9 +1101,11 @@
 				endAddress = relativeAddress( range.endContainer, addressLength );
 
 				// Deep element clone. This way the original element will remain untouched.
-				// Note: IE wouldn't make for a living on Kamino. It's a very bad cloner.
+				// Note: IE8 wouldn't make for a living on Kamino. It's a very bad cloner.
 				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
-				clone = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? cloneNode( element ) : element.clone( 1 );
+				// Note: IE9-11 aren't any better. They lose empty text nodes between elements when cloning.
+				// See 'test special #1' in tests.
+				clone = CKEDITOR.env.ie ? cloneNode( element ) : element.clone( 1 );
 
 				startContainer = clone.getChild( startAddress );
 				endContainer = clone.getChild( endAddress );
