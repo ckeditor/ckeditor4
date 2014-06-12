@@ -13,13 +13,6 @@
 			on: {
 				change: function() {
 					changeCounter++;
-
-					if ( waitingForChange ) {
-						waitingForChange = false;
-						resume( function() {
-							assert.isTrue( true, 'Change event emitted.' );
-						} );
-					}
 				}
 			}
 		}
@@ -32,7 +25,8 @@
 			bender.editor.focus();
 
 			action( bender.editor );
-			wait();
+
+			assert.areSame( 1, changeCounter, 'Invalid change calls count' );
 		},
 
 		setUp: function() {
