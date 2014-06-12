@@ -1208,22 +1208,17 @@
 			if ( !options ) {
 				options = {};
 			}
-			if ( !( 'sortAttributes' in options ) ) {
-				options.sortAttributes = true;
-			}
-			if ( !( 'fixZWS' in options ) ) {
-				options.fixZWS = true;
-			}
-			if ( !( 'fixNbsp' in options ) ) {
-				options.fixNbsp = true;
-			}
+
+			var sortAttributes = ( 'sortAttributes' in options ) ? options.sortAttributes : true,
+				fixZWS = ( 'fixZWS' in options ) ? options.fixZWS : true,
+				fixNbsp = ( 'fixNbsp' in options ) ? options.fixNbsp : true;
 
 			if ( options.compareSelection ) {
 				actual = actual.replace( selectionMarkers, '<!--cke-range-marker-$1-->' );
 			}
 
 			actual = bender.tools.compatHtml( actual,
-				options.noInterWS, options.sortAttributes, options.fixZWS, options.fixStyles, options.fixNbsp );
+				options.noInterWS, sortAttributes, fixZWS, options.fixStyles, fixNbsp );
 
 			if ( options.compareSelection ) {
 				actual = actual.replace( selectionMarkerComments, '$1' );
