@@ -465,7 +465,7 @@
 			this.index = -1;
 
 			this.limit = this.editor.config.undoStackSize || 20;
-			this.strokesRecorded = [ 0, 0 ];
+
 
 			this.currentImage = null;
 
@@ -482,6 +482,7 @@
 		 * @see #type
 		 */
 		resetType: function() {
+			this.strokesRecorded = [ 0, 0 ];
 			this.typing = false;
 			delete this.wasFunctionalKey;
 		},
