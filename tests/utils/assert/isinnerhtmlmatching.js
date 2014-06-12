@@ -22,7 +22,7 @@
 		},
 
 		'test passes - no opts': function() {
-			htmlTools.assertInnerHtml( 'a', 'b' );
+			assert.isInnerHtmlMatching( 'a', 'b' );
 			assert.isTrue( called, 'compareInnerHtml was called' );
 			assert.areSame( 'a', expected, 'expected' );
 			assert.areSame( 'b', actual, 'actual' );
@@ -32,7 +32,7 @@
 		'test passes - opts': function() {
 			var obj = {};
 
-			htmlTools.assertInnerHtml( 'a', 'b', obj );
+			assert.isInnerHtmlMatching( 'a', 'b', obj );
 			assert.isTrue( called, 'compareInnerHtml was called' );
 			assert.areSame( 'a', expected, 'expected' );
 			assert.areSame( 'b', actual, 'actual' );
@@ -40,7 +40,7 @@
 		},
 
 		'test passes - message': function() {
-			htmlTools.assertInnerHtml( 'a', 'b', 'msg' );
+			assert.isInnerHtmlMatching( 'a', 'b', 'msg' );
 			assert.isTrue( called, 'compareInnerHtml was called' );
 			assert.areSame( 'a', expected, 'expected' );
 			assert.areSame( 'b', actual, 'actual' );
@@ -54,7 +54,7 @@
 				failed = false;
 
 			try {
-				htmlTools.assertInnerHtml( 'a', 'b', 'msg' );
+				assert.isInnerHtmlMatching( 'a', 'b', 'msg' );
 			} catch ( e ) {
 				error = e;
 				failed = true;
