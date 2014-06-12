@@ -140,13 +140,13 @@
 						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.contents === editor.getSnapshot() ) {
 							return;
 						}
-						undoManager.newType( keyCode );
+						undoManager.type( keyCode );
 					} else if ( isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );
 					}
 				} );
 				// On paste and drop we need to cancel inputFired variable.
-				// It would result with calling undoManager.newType() on any following key.
+				// It would result with calling undoManager.type() on any following key.
 				editable.attachListener( editable, 'paste', ignoreInputEventListener );
 				editable.attachListener( editable, 'drop', ignoreInputEventListener );
 
@@ -371,7 +371,7 @@
 		*
 		* @param {Number} keyCode The key code.
 		*/
-		newType: function( keyCode ) {
+		type: function( keyCode ) {
 			// Backspace and delete.
 			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
 				// Count of keystrokes in current a row.
