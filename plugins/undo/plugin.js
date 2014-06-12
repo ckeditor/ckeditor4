@@ -91,16 +91,6 @@
 						ignoreInputEvent = true;
 					};
 
-				// Only IE can't use input event, because it's not fired in contenteditable.
-				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
-					inputFired = true;
-					// inputFired flag should not be set if paste/drop event were fired before.
-					if ( ignoreInputEvent ) {
-						inputFired = false;
-						ignoreInputEvent = false;
-					}
-				} );
-
 				// We'll create a snapshot here (before DOM modification), because we'll
 				// need unmodified content when we got keygroup toggled in keyup.
 				editable.attachListener( editable, 'keydown', function( evt ) {
@@ -121,16 +111,20 @@
 					}
 				} );
 
-				// Click should create a snapshot if needed, but shouldn't cause change event.
-				editable.attachListener( editable, 'click', function( evt ) {
-					undoManager.save( true, null, false );
-					undoManager.resetType();
+				// Only IE can't use input event, because it's not fired in contenteditable.
+				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
+					inputFired = true;
+					// inputFired flag should not be set if paste/drop event were fired before.
+					if ( ignoreInputEvent ) {
+						inputFired = false;
+						ignoreInputEvent = false;
+					}
 				} );
 
 				// Keyup executes main snapshot logic.
 				editable.attachListener( editable, 'keyup', function( evt ) {
 					var keyCode = evt.data.getKey(),
-						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in { 8:1, 46: 1 };
+						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in { 8: 1, 46: 1 }; /* backspace / delete */
 
 					if ( inputFired || ieFunctionKeysWorkaround ) {
 						// Reset flag indicating input event.
@@ -148,6 +142,12 @@
 				// It would result with calling undoManager.type() on any following key.
 				editable.attachListener( editable, 'paste', ignoreInputEventListener );
 				editable.attachListener( editable, 'drop', ignoreInputEventListener );
+
+				// Click should create a snapshot if needed, but shouldn't cause change event.
+				editable.attachListener( editable, 'click', function( evt ) {
+					undoManager.save( true, null, false );
+					undoManager.resetType();
+				} );
 
 				editor.on( 'instanceReady', function() {
 					// Saves initial snapshot.
