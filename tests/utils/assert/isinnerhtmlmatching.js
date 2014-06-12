@@ -66,6 +66,11 @@
 			assert.areSame( 'b', actual, 'actual' );
 			assert.isNull( options, 'options' );
 			assert.areSame( 'msg', error.message, 'message' )
+		},
+
+		'test increments number of assertions': function() {
+			// Will fail if it doesn't
+			assert.isInnerHtmlMatching( 'a', 'a' );
 		}
 	} );
 } )();
