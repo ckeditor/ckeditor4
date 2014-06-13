@@ -107,12 +107,10 @@ bender.test(
 		// This function allows to call either older API or new object based setData().
 		// It takes setData() params in new format (as editor#setData()).
 		function callSetData( data, params, legacyInterface ) {
-			//if ( legacyInterface ) {
-			//	editor.setData( data, params.callback, params.internal );
-			//} else {
-			//	editor.setData( data, params );
-			//}
-			legacyInterface ? editor.setData( data, params.callback, params.internal ) : editor.setData( data, params );
+			if ( legacyInterface )
+				editor.setData( data, params.callback, params.internal );
+			else
+				editor.setData( data, params );
 		}
 
 		var listeners = [],
