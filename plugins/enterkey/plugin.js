@@ -453,8 +453,11 @@
 					doc.createText( '\ufeff' ).insertAfter( lineBreak );
 
 					// If we are at the end of a block, we must be sure the bogus node is available in that block.
-					if ( isEndOfBlock )
-						lineBreak.getParent().appendBogus();
+					if ( isEndOfBlock ) {
+						// In most situations we've got an elementPath.block (e.g. <p>), but in a
+						// blockless editor or when autoP is false that needs to be a block limit.
+						( startBlock || elementPath.blockLimit ).appendBogus();
+					}
 
 					// Now we can remove the text node contents, so the caret doesn't
 					// stop on it.
