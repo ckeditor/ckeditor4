@@ -103,8 +103,8 @@ CKEDITOR.config = {
 	defaultLanguage: 'en',
 
 	/**
-	 * The writting direction of the language used to write the editor
-	 * contents. Allowed values are:
+	 * The writing direction of the language used to create editor contents.
+	 * Allowed values are:
 	 *
 	 * * `''` (empty string) - indicate content direction will be the same with either the editor
 	 *     UI direction or page element direction depending on the creators:
@@ -257,6 +257,10 @@ CKEDITOR.config = {
 	/**
 	 * A list of additional plugins to be loaded. This setting makes it easier
 	 * to add new plugins without having to touch the {@link CKEDITOR.config#plugins} setting.
+	 *
+	 * **Note:** The most recommended way to
+	 * [add CKEditor plugins](http://docs.ckeditor.com/#!/guide/dev_plugins) is through
+	 * [CKEditor Builder](http://ckeditor.com/builder).
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
 	 *
