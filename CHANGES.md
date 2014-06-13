@@ -22,6 +22,7 @@ Fixed Issues:
 * [#11980](http://dev.ckeditor.com/ticket/11980): [Blink/Webkit] Fixed: Span elements created while joining adjacent elements (non-collapsed selection).
 * [#12009](http://dev.ckeditor.com/ticket/12009): [Nested widgets] Integration with Magicline plugin.
 * [#11387](http://dev.ckeditor.com/ticket/11387): Fixed: `role="radiogroup"` should be applied only to radio inputs' container.
+* [#7975](http://dev.ckeditor.com/ticket/7975): [IE8] Fixed: Errors when trying to select empty table cell on IE8.
 
 ## CKEditor 4.4.1
 

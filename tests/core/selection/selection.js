@@ -2,7 +2,7 @@
 
 bender.editor = {
 	config: {
-		extraAllowedContent: 'div'
+		allowedContent: true
 	}
 };
 
@@ -94,6 +94,42 @@ bender.test(
 			testSelection( '<div><table><tr><td>[foo]</td><td>[bar]</td></tr></table></div>' );
 			testSelection( '<div><table><tr><td>[foo]</td></tr><tr><td>[bar]</td></tr></table></div>' );
 		}
+	},
+
+	'test selectRanges - range containing table cell': function() {
+		var editor = this.editor,
+			range = bender.tools.range.setWithHtml( editor.editable(), '<table><tr><td>x</td>[<td>foo</td>]<td>x</td></tr></table>' );
+
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( 'foo', CKEDITOR.tools.trim( editor.getSelection().getSelectedText() ) );
+	},
+
+	'test selectRanges - range containing empty table cell': function() {
+		var editor = this.editor,
+			data = '<table><tbody><tr><td>x</td><td id="cell"></td><td>x</td></tr></tbody></table>';
+
+		this.editorBot.setData( data, function() {
+			var range = editor.createRange(),
+				cell = editor.document.getById( 'cell' );
+
+			range.setStartAt( cell, CKEDITOR.POSITION_BEFORE_START );
+			range.setEndAt( cell, CKEDITOR.POSITION_AFTER_END );
+
+			editor.getSelection().selectRanges( [ range ] );
+
+			var sel = editor.getSelection();
+
+			// IE8 && Webkit (precisely - excluding Blink) can't select cell from outside.
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				var selected = sel.getStartElement();
+				assert.isTrue( cell.equals( selected ) || cell.contains( selected ), 'selection is inside the cell' );
+			} else
+				assert.areSame( cell, sel.getSelectedElement(), 'cell is selected' );
+
+			// I saw some strange span being left by IE8. Let's check data to be safe.
+			assert.areSame( data, editor.getData().replace( /&nbsp;|\u00a0/, '' ), 'data is ok' );
+		} );
 	},
 
 	test_getSelectedElement : function() {
