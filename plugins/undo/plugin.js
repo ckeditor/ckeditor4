@@ -11,6 +11,8 @@
 'use strict';
 
 ( function() {
+	var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ];
+
 	CKEDITOR.plugins.add( 'undo', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
@@ -40,13 +42,6 @@
 				canUndo: false
 			} );
 
-			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
-				navigationKeyCodes = {
-					37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
-					36: 1, 35: 1, // Home, end.
-					33: 1, 34: 1 // Pgup, pgdn.
-				};
-
 			editor.setKeystroke( [
 				[ keystrokes[ 0 ], 'undo' ],
 				[ keystrokes[ 1 ], 'redo' ],
@@ -58,17 +53,10 @@
 				redoCommand.setState( undoManager.redoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 			};
 
-			undoManager.isNavigationKey = isNavigationKey;
-
 			function recordCommand( event ) {
 				// If the command hasn't been marked to not support undo.
 				if ( undoManager.enabled && event.data.command.canUndo !== false )
 					undoManager.save();
-			}
-
-			// Checks if given keycode is a navigation key (like arrows, home, page down).
-			function isNavigationKey( keyCode ) {
-				return !!navigationKeyCodes[ keyCode ];
 			}
 
 			// We'll save snapshots before and after executing a command.
@@ -104,7 +92,7 @@
 					// change.
 					undoManager.lastKeydownImage = new Image( editor );
 					var keyCode = evt.data.getKey();
-					if ( isNavigationKey( keyCode ) ) {
+					if ( undoManager.isNavigationKey( keyCode ) ) {
 						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 							this.editor.fire( 'saveSnapshot' );
 							undoManager.resetType();
@@ -135,7 +123,7 @@
 							return;
 						}
 						undoManager.type( keyCode );
-					} else if ( isNavigationKey( keyCode ) ) {
+					} else if ( undoManager.isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );
 					}
 				} );
@@ -354,6 +342,18 @@
 		// 1 - functional keys (delete/backspace)
 		// Strokes count will be reseted, after reaching characters per snapshot limit.
 		strokesRecorded: [ 0, 0 ],
+
+		/**
+		 * Codes of navigation keys like arrows, page up/down, etc.
+		 * Used by the {@link #isNavigationKey} method.
+		 *
+		 * @since 4.4.2
+		 */
+		navigationKeyCodes: {
+			37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
+			36: 1, 35: 1, // Home, end.
+			33: 1, 34: 1 // Pgup, pgdn.
+		},
 
 		/**
 		 * When `locked` property is not `null`, the undo manager is locked, so
@@ -775,6 +775,18 @@
 					}
 				}
 			}
+		},
+
+		/**
+		 * Checks whether a key is one of navigation keys (arrows, page up/down, etc.).
+		 * See also the {@link #navigationKeyCodes} property.
+		 *
+		 * @since 4.4.2
+		 * @param {Number} keyCode
+		 * @returns {Boolean}
+		 */
+		isNavigationKey: function( keyCode ) {
+			return !!this.navigationKeyCodes[ keyCode ];
 		}
 	};
 } )();
