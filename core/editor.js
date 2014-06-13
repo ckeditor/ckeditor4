@@ -956,7 +956,8 @@
 				fireSnapshot = !options.noSnapshot;
 			}
 
-			!internal && fireSnapshot && this.fire( 'saveSnapshot' );
+			if ( !internal && fireSnapshot )
+				this.fire( 'saveSnapshot' );
 
 			if ( callback || !internal ) {
 				this.once( 'dataReady', function( evt ) {
