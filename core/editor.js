@@ -926,20 +926,36 @@
 		 *
 		 *		CKEDITOR.instances.editor1.setData( '<p>This is the editor data.</p>' );
 		 *
-		 *		CKEDITOR.instances.editor1.setData( '<p>Some other editor data.</p>', function() {
-		 *			this.checkDirty(); // true
-		 *		});
+		 *		CKEDITOR.instances.editor1.setData( '<p>Some other editor data.</p>', {
+		 *			callback: function() {
+		 *				this.checkDirty(); // true
+		 *			}
+		 *		} );
 		 *
 		 * @param {String} data HTML code to replace the curent content in the editor.
-		 * @param {Function} callback Function to be called after the `setData` is completed.
-		 * @param {Boolean} internal Whether to suppress any event firing when copying data internally inside the editor.
+		 * @param {Object} params Object with following properties:
+		 *
+		 *	* **internal** - `Boolean` - Whether to suppress any event firing when copying data internally inside the editor.
+		 *	* **callback** - `Function` - Function to be called after the `setData` is completed.
+		 *	* **noSnapshot** - `Boolean` - If set to `true` will prevent undo snapshot.
 		 */
-		setData: function( data, callback, internal ) {
-			!internal && this.fire( 'saveSnapshot' );
+		setData: function( data, params, internal ) {
+			var fireSnapshot = true,
+				// Backward compatibility.
+				callback = params,
+				eventData;
+
+			if ( params && typeof params == 'object' ) {
+				internal = params.internal;
+				callback = params.callback;
+				fireSnapshot = !params.noSnapshot;
+			}
+
+			!internal && fireSnapshot && this.fire( 'saveSnapshot' );
 
 			if ( callback || !internal ) {
 				this.once( 'dataReady', function( evt ) {
-					if ( !internal )
+					if ( !internal && fireSnapshot )
 						this.fire( 'saveSnapshot' );
 
 					if ( callback )
@@ -948,7 +964,7 @@
 			}
 
 			// Fire "setData" so data manipulation may happen.
-			var eventData = { dataValue: data };
+			eventData = { dataValue: data };
 			!internal && this.fire( 'setData', eventData );
 
 			this._.data = eventData.dataValue;

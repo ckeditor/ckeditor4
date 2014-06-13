@@ -90,62 +90,121 @@ bender.test(
 	/**
 	 * Test editor core data retrieval and manipulation functionality.
 	 */
-	test_getData : function() {
-		var events = [];
+	'test getData/setData': function() {
+		var events = [],
+			editor = new CKEDITOR.editor( {}, CKEDITOR.document.getById( 'editor4' ), CKEDITOR.ELEMENT_MODE_REPLACE );
 		function checkEventData( value ) {
 			return function( evt  ) {
 				events.push( evt.name );
-
 				// Check data value.
 				if ( value )
 					assert.areSame( value, evt.data.dataValue, 'check data on event: ' + evt.name );
-
 				// Alter the data value.
 				if ( evt.name == 'setData' )
 					evt.data.dataValue = 'bar';
-
 			};
 		}
+		// This function allows to call either older API or new object based setData().
+		// It takes setData() params in new format (as editor#setData()).
+		function callSetData( data, params, legacyInterface ) {
+			//if ( legacyInterface ) {
+			//	editor.setData( data, params.callback, params.internal );
+			//} else {
+			//	editor.setData( data, params );
+			//}
+			legacyInterface ? editor.setData( data, params.callback, params.internal ) : editor.setData( data, params );
+		}
 
-		var editor =
-			new CKEDITOR.editor( {},
-			  CKEDITOR.document.getById( 'editor4' ),
-			  CKEDITOR.ELEMENT_MODE_REPLACE );
+		var listeners = [],
+			allEvents = [ 'setData', 'afterSetData', 'beforeGetData', 'getData', 'saveSnapshot' ],
+			listener = checkEventData();
 
-		// Events are fired on setData call.
-		var checker = checkEventData();
-
-		var listeners = [];
-		var allEvents = [ 'setData', 'afterSetData', 'beforeGetData', 'getData' ];
 		for ( var i = 0; i < allEvents.length; i++ )
-			listeners.push( editor.on( allEvents[ i ], checker ) );
+			listeners.push( editor.on( allEvents[ i ], listener ) );
 
-		// Set/get data internally.
-		editor.setData( 'foo', null, true );
-		assert.areSame( 'foo', editor.getData( true ), 'setData internally' );
+		for ( i = 0; i <= 1; i++ ) {
+			var useOldAPI = Boolean( i ),
+				// Helper var with human-readable info what interface version is called.
+				interfaceName = useOldAPI ? 'old API params inline' :'new API params as object';
+			events = [];
 
-		// No events should be fired.
-		arrayAssert.itemsAreEqual( [], events );
+			// Test setData/getData internal.
+			callSetData( 'foo', { internal: true }, useOldAPI );
+			assert.areSame( 'foo', editor.getData( true ), 'setData internally - ' + interfaceName );
+			// No events should be fired.
+			arrayAssert.itemsAreEqual( [], events, 'Events fired - ' + interfaceName );
 
-		for ( i = 0; i < listeners.length; i++ )
-			listeners[ i ].removeListener();
+			events = [];
+			// Test non-internal setData() - snapshot is expected.
+			callSetData( 'foo', {}, useOldAPI );
 
-		// Events are fired on setData call.
-		editor.on( 'setData', checkEventData( 'foo' ) );
-		editor.on( 'afterSetData', checkEventData( 'bar' ) );
-		editor.setData( 'foo' );
+			arrayAssert.itemsAreEqual( [ 'saveSnapshot', 'setData', 'afterSetData' ], events,
+				'Invalid events for setData() - ' + interfaceName );
 
-		arrayAssert.itemsAreEqual( [ 'setData', 'afterSetData' ], events );
-		assert.areSame( 'bar', editor.getData(), 'setData listener change data value' );
+			// Test non-internal getData().
+			events = [];
 
+			assert.areSame( 'bar', editor.getData(), 'setData listener change data value - ' + interfaceName );
+			arrayAssert.itemsAreEqual( [ 'beforeGetData', 'getData' ], events );
+		}
+
+		// New API provides params.noSnapshot, which should prevent saveSnapshot event.
 		events = [];
-		// Events are fired on getData call.
-		editor.on( 'beforeGetData', checkEventData() );
-		editor.on( 'getData', checkEventData( 'bar' ) );
-		editor.getData();
+		callSetData( 'foo', { noSnapshot: true } );
 
-		arrayAssert.itemsAreEqual( [ 'beforeGetData', 'getData' ], events );
+		arrayAssert.itemsAreEqual( [ 'setData', 'afterSetData' ], events, 'Invalid events with params.noSnapshot = true' );
+	},
 
+	'test setData callback': function() {
+		var callbackCalledTimes = 0,
+			callback = function() {
+				callbackCalledTimes += 1;
+			},
+			waitTimeout = 80;
+
+		this.editor.setData( '<p>setData</p>', { callback: callback } );
+
+		wait( function() {
+			assert.areEqual( 1, callbackCalledTimes, 'Invalid callback calls count' );
+			// And test for older API.
+			this.editor.setData( '<p>setData</p>', callback );
+
+			wait( function() {
+				assert.areEqual( 2, callbackCalledTimes, 'Invalid callback calls count 2nd case' );
+			}, waitTimeout );
+		}, waitTimeout );
+	},
+
+	'test setData()': function() {
+		var firedEvents = [],
+			listeners = [],
+			editor = this.editor,
+			subscribedEvents = [ 'setData', 'afterSetData', 'beforeGetData', 'getData' ],
+			callbackCalledTimes = 0,
+			callback = function() {
+				callbackCalledTimes += 1;
+			},
+			// This listener will store types of events fired.
+			listener = function( evt ) {
+				firedEvents.push( evt.name );
+			};
+
+			// Registering listeners.
+			for ( var i = 0; i < subscribedEvents.length; i++ )
+				listeners.push( editor.on( subscribedEvents[ i ], listener ) );
+
+			// Legacy interface.
+			editor.setData( '<p>setData</p>', null, true );
+			arrayAssert.itemsAreEqual( [], firedEvents );
+
+			assert.areEqual( '<p>setData</p>', editor.getData( true ) );
+			arrayAssert.itemsAreEqual( [], firedEvents );
+
+			assert.isTrue( true );
+
+			// Cleanup.
+			for ( var i = 0; i < listeners.length; i++ )
+				listeners[ i ].removeListener();
 	},
 
 	updateElement: function( element, mode ) {
