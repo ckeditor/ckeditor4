@@ -39,11 +39,11 @@
 			} );
 
 			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
-				navigationKeyCodes = [
-					37, 38, 39, 40, // Arrows.
-					36, 35, // Home, end.
-					33, 34 // Pgup, pgdn.
-				];
+				navigationKeyCodes = {
+					37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
+					36: 1, 35: 1, // Home, end.
+					33: 1, 34: 1 // Pgup, pgdn.
+				};
 
 			editor.setKeystroke( [
 				[ keystrokes[ 0 ], 'undo' ],
@@ -66,7 +66,7 @@
 
 			// Checks if given keycode is a navigation key (like arrows, home, page down).
 			function isNavigationKey( keyCode ) {
-				return CKEDITOR.tools.indexOf( navigationKeyCodes, keyCode ) != -1;
+				return !!navigationKeyCodes[ keyCode ];
 			}
 
 			// We'll save snapshots before and after executing a command.
