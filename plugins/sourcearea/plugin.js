@@ -4,8 +4,8 @@
  */
 
 /**
- * @fileOverview The "sourcearea" plugin. It registers the "source" editing
- *		mode, which displays the raw data being edited in the editor.
+ * @fileOverview The Source Editing Area plugin. It registers the "source" editing
+ *		mode, which displays raw  HTML data being edited in the editor.
  */
 
 ( function() {
@@ -14,7 +14,7 @@
 		icons: 'source,source-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			// Source mode isn't available in inline mode yet.
+			// Source mode in inline editors is only available through the "sourcedialog" plugin.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				return;
 
@@ -149,14 +149,16 @@ CKEDITOR.plugins.sourcearea = {
 };
 
 /**
- * Controls CSS tab-size property of the sourcearea view.
+ * Controls the `tab-size` CSS property of the source editing area. Use it to set the width
+ * of the tab character in the source view. Enter an integer to denote the number of spaces
+ * that the tab will contain.
  *
  * **Note:** Works only with {@link #dataIndentationChars}
- * set to `'\t'`. Please consider that not all browsers support CSS
- * `tab-size` property yet.
+ * set to `'\t'`. Please consider that not all browsers support the `tab-size` CSS
+ * property yet.
  *
- *		// Set tab-size to 20 characters.
- *		CKEDITOR.config.sourceAreaTabSize = 20;
+ *		// Set tab-size to 10 characters.
+ *		config.sourceAreaTabSize = 10;
  *
  * @cfg {Number} [sourceAreaTabSize=4]
  * @member CKEDITOR.config
