@@ -416,9 +416,9 @@
 	/**
 	 * Returns a TC fn decorated with change events checking function.
 	 *
-	 * @param	{Number}	expectedEventsCount	Expected count of change events which should be called
+	 * @param {Number} expectedEventsCount Expected count of change events which should be called
 	 * *synchronously* after tcFunction execution.
-	 * @param	{Function}	tcFunction			Basically TC function to be executed.
+	 * @param {Function} tcFunction Basically TC function to be executed.
 	 */
 	function tcWithExpectedChanges( expectedEventsCount, tcFunction ) {
 		return function() {
