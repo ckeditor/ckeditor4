@@ -309,7 +309,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						label: lang.selected,
 						labelStyle: 'display:none',
 						id: 'selectedColor',
-						style: 'width: 74px',
+						style: 'width: 76px;margin-top:4px',
 						onChange: function() {
 							// Try to update color preview with new value. If fails, then set it no none.
 							try {
@@ -323,7 +323,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 					{
 						type: 'button',
 						id: 'clear',
-						style: 'margin-top: 5px',
 						label: lang.clear,
 						onClick: clearSelected
 					}

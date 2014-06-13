@@ -164,7 +164,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 	return {
 		title: lang.title,
-		minWidth: 430,
+		minWidth: 460,
 		minHeight: 280,
 		buttons: [ CKEDITOR.dialog.cancelButton ],
 		charColumns: 17,
@@ -175,7 +175,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 			var charsTableLabel = CKEDITOR.tools.getNextId() + '_specialchar_table_label';
 			var html = [ '<table role="listbox" aria-labelledby="' + charsTableLabel + '"' +
-				' style="width: 320px; height: 100%; border-collapse: separate;"' +
+				' style="width: 376px; height: 100%; border-collapse: separate; table-layout: fixed;"' +
 				' align="center" cellspacing="2" cellpadding="2" border="0">' ];
 
 			var i = 0,
@@ -236,7 +236,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				{
 				type: 'hbox',
 				align: 'top',
-				widths: [ '320px', '90px' ],
+				widths: [ 'auto', '74px' ],
 				children: [
 					{
 					type: 'html',

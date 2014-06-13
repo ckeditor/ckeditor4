@@ -62,6 +62,7 @@ The visual representation of a rich combo widget looks as follows:
 /* The container for combo text and arrow. */
 .cke_combo_button
 {
+	cursor: default;
 	display: inline-block;
 	float: left;
 	margin: 0 6px 5px 0;
@@ -203,6 +204,7 @@ The visual representation of a rich combo widget looks as follows:
 /* The arrow which is displayed inside of the .cke_combo_open handler. */
 .cke_combo_arrow
 {
+	cursor: default;
 	margin: 11px 0 0;
 	float: left;
 
