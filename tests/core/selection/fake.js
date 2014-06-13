@@ -218,6 +218,7 @@ bender.test( {
 	'Clean up on setData in inline editor': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_inline2',
+			creator: 'inline',
 			config: {
 				allowedContent: 'p span[id]'
 			}
@@ -431,6 +432,7 @@ bender.test( {
 	'Fake-selection restore on focus in inline editor': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_inline1',
+			creator: 'inline',
 			config: {
 				extraAllowedContent: 'span[id]'
 			}

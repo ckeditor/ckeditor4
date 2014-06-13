@@ -61,6 +61,7 @@ bender.test( {
 	'test blur after setData - inline editor': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_inline1',
+			creator: 'inline',
 			config: config
 		}, function( bot ) {
 			var editor = bot.editor;
