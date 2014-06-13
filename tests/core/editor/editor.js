@@ -126,33 +126,34 @@ bender.test(
 			var useOldAPI = Boolean( i ),
 				// Helper var with human-readable info what interface version is called.
 				interfaceName = useOldAPI ? 'old API params inline' :'new API params as object';
+
 			events = [];
 
 			// Test setData/getData internal.
 			callSetData( 'foo', { internal: true }, useOldAPI );
 			assert.areSame( 'foo', editor.getData( true ), 'setData internally - ' + interfaceName );
 			// No events should be fired.
-			arrayAssert.itemsAreEqual( [], events, 'Events fired - ' + interfaceName );
+			assert.areSame( '', events.join( ',' ), 'Events fired - ' + interfaceName );
 
 			events = [];
 			// Test non-internal setData() - snapshot is expected.
 			callSetData( 'foo', {}, useOldAPI );
 
-			arrayAssert.itemsAreEqual( [ 'saveSnapshot', 'setData', 'afterSetData' ], events,
+			assert.areSame( 'saveSnapshot,setData,afterSetData', events.join( ',' ),
 				'Invalid events for setData() - ' + interfaceName );
 
 			// Test non-internal getData().
 			events = [];
 
 			assert.areSame( 'bar', editor.getData(), 'setData listener change data value - ' + interfaceName );
-			arrayAssert.itemsAreEqual( [ 'beforeGetData', 'getData' ], events );
+			assert.areSame( 'beforeGetData,getData', events.join( ',' ) );
 		}
 
 		// New API provides params.noSnapshot, which should prevent saveSnapshot event.
 		events = [];
 		callSetData( 'foo', { noSnapshot: true } );
 
-		arrayAssert.itemsAreEqual( [ 'setData', 'afterSetData' ], events, 'Invalid events with params.noSnapshot = true' );
+		assert.areSame( 'setData,afterSetData', events.join( ',' ), 'Invalid events with params.noSnapshot = true' );
 	},
 
 	'test setData callback': function() {
