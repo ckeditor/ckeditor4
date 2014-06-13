@@ -19,6 +19,11 @@
 				'<div id="' + name + '"' + ' contenteditable="true"></div>' )
 		);
 
+		if ( creator == 'replace' && !element.is( 'textarea' ) ) {
+			throw new Error(
+				'[EditorBot:' + name + '] Are you sure you want to replace element with a classic editor?' );
+		}
+
 		if ( typeof profile.startupData == 'string' ) {
 			element[ element.is( 'textarea' ) ? 'setValue' : 'setHtml' ]( profile.startupData );
 		}
