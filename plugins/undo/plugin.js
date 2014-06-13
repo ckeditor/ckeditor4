@@ -138,11 +138,11 @@
 					undoManager.save( true, null, false );
 					undoManager.resetType();
 				} );
+			} );
 
-				editor.on( 'instanceReady', function() {
-					// Saves initial snapshot.
-					editor.fire( 'saveSnapshot' );
-				} );
+			editor.on( 'instanceReady', function() {
+				// Saves initial snapshot.
+				editor.fire( 'saveSnapshot' );
 			} );
 
 			// Always save an undo snapshot - the previous mode might have
