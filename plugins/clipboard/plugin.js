@@ -1649,7 +1649,7 @@
 	 * @param {String} value The data to add.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype.setData = function( type, value ) {
-		return this.$.getData( type, value );
+		return this.$.setData( type, value );
 	};
 
 	/**
