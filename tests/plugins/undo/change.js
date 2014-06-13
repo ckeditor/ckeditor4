@@ -128,9 +128,9 @@
 				textNode = this.editor.editable().getFirst().getFirst();
 			this.checkChange( function( editor ) {
 				that.keyTools.keyEvent( 8 /* backspace */, null, null, function( e ) {
-					textNode.setText('fo');
+					textNode.setText( 'fo' );
 				} );
-				textNode.setText('foo');
+				textNode.setText( 'foo' );
 			} );
 		},
 
@@ -141,9 +141,9 @@
 			this.checkChange( function( editor ) {
 				that.keyTools.keyEvent( 46 /* delete */, null, null, function( e ) {
 					// Textnode change required by IE.
-					textNode.setText('f');
+					textNode.setText( 'f' );
 				} );
-				textNode.setText('foo');
+				textNode.setText( 'foo' );
 			} );
 		}
 	} );

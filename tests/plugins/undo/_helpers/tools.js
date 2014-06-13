@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * These tools stores functions explicitly for Events dispatching, therefore names does not
@@ -9,8 +10,6 @@
  * Currently all the events fires only on editable.
  */
 var undoEventDispatchTestsTools = function( testSuite ) {
-	'use strict';
-
 	var events = {
 		/**
 		 * Generic function to fire event on editable. Note it will automatically add type property to
@@ -38,9 +37,11 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			eventInfo.keyCode = keyCode;
 			events.editableEvent( eventInfo.type, eventInfo );
 		},
-		// Params:
-		// domModificationFn - function which will be executed before input / keyup events. It has to
-		// mimic dom modification.
+
+		/**
+		 * @param {domModificationFn} function which will be executed before input / keyup events. It has to
+		 * mimic dom modification.
+		 */
 		keyEvent: function( keyCode, eventInfo, skipInputEvent, domModificationFn ) {
 			eventInfo = eventInfo || {};
 			// Make sure that we wont modify input parameter.
@@ -69,11 +70,15 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			eventInfo.type = 'keyup';
 			this.singleKeyEvent( keyCode, eventInfo );
 		},
-		// Calls keyEvent() with given ammount of times.
+
+		/**
+		 * Calls keyEvent() with given ammount of times.
+		 */
 		keyEventMultiple: function( repeatTimes, keyCode, eventInfo, skipInputEvent ) {
 			for ( var i = 0; i < repeatTimes; i++ )
 				this.keyEvent( keyCode, eventInfo, skipInputEvent );
 		},
+
 		/**
 		 * Generic function to fire event. Note it will automatically add type property to
 		 * `eventProperties`.
@@ -87,6 +92,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 
 			testSuite.editor.editable().fire( eventType, ckEvent );
 		},
+
 		/**
 		 * This function ties to mimic standard typing events. It will fire events like
 		 * keydown, keypress, input, keyup for all given characters.
@@ -97,6 +103,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 				this.keyEvent( keyCode );
 			}
 		},
+
 		/**
 		 * Note: this function works only for a-zA-Z strings.
 		 * Returns the keyCode for given char. It may also return keyCode for `keypress` event, which is
@@ -104,7 +111,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		 *
 		 * @param {String} char Description
 		 * @param {Boolean} forKeyPressEvent Whether keypress compilant keyCode should be returned or normal?
-		 * @return {Number}
+		 * @returns {Number}
 		 */
 		_keyCodeFromChar: function( character, forKeyPressEvent ) {
 			if ( forKeyPressEvent )
