@@ -5,7 +5,7 @@
 	'use strict';
 
 	var editorBots,
-		FLASH_URL = bender.getAbsolutePath( '_assets/sample.swf' );
+		FLASH_URL = '%BASE_PATH%_assets/sample.swf';
 
 	bender.test( {
 		'async:init': function() {
