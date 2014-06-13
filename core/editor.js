@@ -932,23 +932,28 @@
 		 *			}
 		 *		} );
 		 *
-		 * @param {String} data HTML code to replace the curent content in the editor.
-		 * @param {Object} params Object with following properties:
+		 * Note: In CKEditor 4.4.2 the signature of this method has changed. All arguments
+		 * except `data` has been wrapped into the `options` object. However, backward compatibility
+		 * has been preserved and it is still possible to use the `data, callback, internal` arguments.
 		 *
-		 *	* **internal** - `Boolean` - Whether to suppress any event firing when copying data internally inside the editor.
-		 *	* **callback** - `Function` - Function to be called after the `setData` is completed.
-		 *	* **noSnapshot** - `Boolean` - If set to `true` will prevent undo snapshot.
+		 *
+		 * @param {String} data HTML code to replace the current content in the editor.
+		 * @param {Object} [options]
+		 * @param {Boolean} [options.internal=false] Whether to suppress any event firing when copying data internally inside the editor.
+		 * @param {Function} [options.callback] Function to be called after the `setData` is completed (on {@link #dataReady}).
+		 * @param {Boolean} [options.noSnapshot=false] If set to `true` will prevent recording undo snapshot.
+		 * Introduced in CKEditor 4.4.2.
 		 */
-		setData: function( data, params, internal ) {
+		setData: function( data, options, internal ) {
 			var fireSnapshot = true,
 				// Backward compatibility.
-				callback = params,
+				callback = options,
 				eventData;
 
-			if ( params && typeof params == 'object' ) {
-				internal = params.internal;
-				callback = params.callback;
-				fireSnapshot = !params.noSnapshot;
+			if ( options && typeof options == 'object' ) {
+				internal = options.internal;
+				callback = options.callback;
+				fireSnapshot = !options.noSnapshot;
 			}
 
 			!internal && fireSnapshot && this.fire( 'saveSnapshot' );
