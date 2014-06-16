@@ -120,7 +120,7 @@
 						// Reset flag indicating input event.
 						inputFired = false;
 						// IE: backspace/del would still call keypress event, even if nothing was removed.
-						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.contents === editor.getSnapshot() ) {
+						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor ) ) ) {
 							return;
 						}
 						undoManager.type( keyCode );
@@ -374,7 +374,7 @@
 		*/
 		type: function( keyCode ) {
 			// Backspace and delete.
-			var functionalKey = Number( keyCode == 8 || keyCode == 46 ),
+			var functionalKey = backspaceOrDelete[ keyCode ] ? 1 : 0,
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1,
