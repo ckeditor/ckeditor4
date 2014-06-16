@@ -7,6 +7,10 @@ Important Notes:
 
 * We made CKEditor tests environment public. CKEditor tests can be found in the [`tests/`](https://github.com/ckeditor/ckeditor-dev/tree/master/tests) directory. Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
+New Features:
+
+* [#11909](http://dev.ckeditor.com/ticket/11909): Introduced a parameter to prevent [`editor.setData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData) from recording undo snapshots.
+
 Fixed Issues:
 
 * [#11757](http://dev.ckeditor.com/ticket/11757): Fixed: Imperfections in the [Moono](http://ckeditor.com/addon/moono) skin. Thanks to [danyaPostfactum](https://github.com/danyaPostfactum)!
