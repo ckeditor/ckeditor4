@@ -33,7 +33,6 @@
 			var bot = editorBots.one;
 
 			bot.setData( '', function() {
-				bot.editor.focus();
 				bot.dialog( 'flash', function( dialog ) {
 					dialog.setValueOf( 'info', 'src', FLASH_URL );
 
@@ -63,7 +62,6 @@
 			var bot = editorBots.one;
 
 			bot.setData( '', function() {
-				bot.editor.focus();
 				bot.dialog( 'flash', function( dialog ) {
 					dialog.setValueOf( 'info', 'src', FLASH_URL );
 
