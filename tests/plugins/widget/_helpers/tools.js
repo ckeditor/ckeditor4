@@ -49,6 +49,7 @@ var widgetTestsTools = ( function() {
 		tcs[ 'test ' + tcName + ' - init' ] = function() {
 			bender.editorBot.create( {
 				name: 'editor_' + tcName,
+				creator: config.creator,
 				config: editorConfig
 			}, function( bot ) {
 				editorBot = bot;
@@ -60,24 +61,26 @@ var widgetTestsTools = ( function() {
 			} );
 		};
 
-		tcs[ 'test ' + tcName + ' - switch modes' ] = function() {
-			var sourceModeData;
+		if ( config.creator != 'inline' ) {
+			tcs[ 'test ' + tcName + ' - switch modes' ] = function() {
+				var sourceModeData;
 
-			// Wait & ensure async.
-			wait( function() {
-				editor.setMode( 'source', function() {
-					sourceModeData = fixHtml( editor.getData(), config.ignoreStyle );
+				// Wait & ensure async.
+				wait( function() {
+					editor.setMode( 'source', function() {
+						sourceModeData = fixHtml( editor.getData(), config.ignoreStyle );
 
-					editor.setMode( 'wysiwyg', function() {
-						resume( function() {
-							checkData && assert.areSame( initialData, sourceModeData, 'source mode data' );
+						editor.setMode( 'wysiwyg', function() {
+							resume( function() {
+								checkData && assert.areSame( initialData, sourceModeData, 'source mode data' );
 
-							assertWidgets( 'after switching modes' );
+								assertWidgets( 'after switching modes' );
+							} );
 						} );
 					} );
 				} );
-			} );
-		};
+			};
+		}
 
 		tcs[ 'test ' + tcName + ' - paste' ] = function() {
 			var html = editor.editable().getHtml();

@@ -14,11 +14,16 @@ Important Notes:
 
 * We made CKEditor tests environment public. CKEditor tests can be found in the [`tests/`](https://github.com/ckeditor/ckeditor-dev/tree/master/tests) directory. Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
+New Features:
+
+* [#11909](http://dev.ckeditor.com/ticket/11909): Introduced a parameter to prevent [`editor.setData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData) from recording undo snapshots.
+
 Fixed Issues:
 
+* [#11757](http://dev.ckeditor.com/ticket/11757): Fixed: Imperfections in the [Moono](http://ckeditor.com/addon/moono) skin. Thanks to [danyaPostfactum](https://github.com/danyaPostfactum)!
+* [#10091](http://dev.ckeditor.com/ticket/10091): Blockquote should be treated like an object by the styles system. Thanks to [dan-james-deeson](https://github.com/dan-james-deeson)!
 * [#11478](http://dev.ckeditor.com/ticket/11478): Fixed: Issue with passing jQuery objects to adapter configuration.
 * [#10867](http://dev.ckeditor.com/ticket/10867): Fixed: Issue with setting encoded URI as image's link.
-* [#10091](http://dev.ckeditor.com/ticket/10091): Blockquote should be treated like an object by the styles system. Thanks to [dan-james-deeson](https://github.com/dan-james-deeson)!
 * [#11983](http://dev.ckeditor.com/ticket/11983): Fixed: Clicking a nested widget does not focus it. Additionally, performance of the [`widget.repository.getByElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-getByElement) method has been improved.
 * [#12000](http://dev.ckeditor.com/ticket/12000): Fixed: Nested widgets should be initialized on [`editor.setData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData) and [`nestedEditable.setData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable-method-setData).
 * [#12022](http://dev.ckeditor.com/ticket/12022): Fixed: Outer widget's drag handler is not created at all if it has any nested widgets inside.
@@ -27,6 +32,14 @@ Fixed Issues:
 * [#11957](http://dev.ckeditor.com/ticket/11957): Fixed: Alignment labels in the [Enhanced Image](http://ckeditor.com/addon/image2) dialog are not translated.
 * [#11980](http://dev.ckeditor.com/ticket/11980): [Blink/Webkit] Fixed: Span elements created while joining adjacent elements (non-collapsed selection).
 * [#12009](http://dev.ckeditor.com/ticket/12009): [Nested widgets] Integration with Magicline plugin.
+* [#11387](http://dev.ckeditor.com/ticket/11387): Fixed: `role="radiogroup"` should be applied only to radio inputs' container.
+* [#7975](http://dev.ckeditor.com/ticket/7975): [IE8] Fixed: Errors when trying to select empty table cell on IE8.
+* [#11947](http://dev.ckeditor.com/ticket/11947): [FF+IE11] Fixed: Shift+Enter in lists produces two line breaks.
+* [#11972](http://dev.ckeditor.com/ticket/11972): Fixed: Feature detection in the [`element.setText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setText) method should not trigger layout engine.
+* [#7634](http://dev.ckeditor.com/ticket/7634): Fixed: Flash plugin omits `allowFullScreen` parameter in editor data if set `true`.
+* [#11910](http://dev.ckeditor.com/ticket/11910): Fixed: [Enhanced Image](http://ckeditor.com/addon/image2) does not consider `config.baseHref` when updating image dimensions.
+* [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Wrong [`checkDirty()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) value after focusing or blurring widget.
+* [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Impossible to pass some arguments to [CKBuilder](https://github.com/ckeditor/ckbuilder) when using `/dev/builder/build.sh` script.
 
 ## CKEditor 4.4.1
 

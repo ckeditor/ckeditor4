@@ -13,7 +13,7 @@
 		failIE8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 	// Asserts setRange and getRange.
-	function s( html, collapsed, startAddress, startOffset, endAddress, endOffset, htmlWithRange ) {
+	function s( html, collapsed, startAddress, startOffset, endAddress, endOffset, htmlWithRangeOrCallback ) {
 		return function() {
 			var range = setRange( playground, html ),
 				startContainer, endContainer, range;
@@ -39,8 +39,14 @@
 				assert.isNull( range, 'No ranges returned' );
 			}
 
-			assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setRange' );
-			assert.areSame( htmlWithRange == undefined ? html : htmlWithRange, bender.tools.fixHtml( getRange( playground, range ), 1, 1 ), 'getRange' );
+			if ( typeof htmlWithRangeOrCallback == 'function' ) {
+				htmlWithRangeOrCallback( playground, range );
+			} else {
+				assert.areSame( html.replace( /[\{\}\[\]]/g, '' ), bender.tools.fixHtml( playground.getHtml(), 1, 1 ), 'Markers cleaned - setRange' );
+				if ( htmlWithRangeOrCallback == undefined )
+					htmlWithRangeOrCallback = html;
+				assert.areSame( htmlWithRangeOrCallback, bender.tools.fixHtml( getRange( playground, range ), 1, 1 ), 'getRange' );
+			}
 		};
 	}
 
@@ -63,7 +69,7 @@
 			}
 		},
 
-		//																											Collapsed 	Start Address 		Start Offset 	End Address 		End offset 		HtmlWithRange
+		//																											Collapsed 	Start Address 		Start Offset 	End Address 		End offset 		HtmlWithRange/callback
 		'test text #0': 			s( '' 																																															),
 		'test text #1': 			s( '{}', 																		null,		null,				null,			null,				null,			''							),
 		'test text #2': 			s( '<p>x</p>' 																																													),
@@ -112,6 +118,18 @@
 		'test mixed #5': 			s( '<p>x{]</p>', 																false, 		[ 0, 0 ], 			1,				[ 0 ],				1 											),
 		'test mixed #6': 			s( '<p>[x</p><p>y}</p>', 														false, 		[ 0 ],	 			0, 				[ 1, 0 ], 			1 											),
 		'test mixed #7': 			s( '<p>{ ]</p>', 																false, 		[ 0, 0 ], 			0,				[ 0 ],				1 											),
-		'test mixed #8': 			s( '<p> { ] </p>', 																false, 		[ 0, 0 ], 			1,				[ 0 ],				1 											)
+		'test mixed #8': 			s( '<p> { ] </p>', 																false, 		[ 0, 0 ], 			1,				[ 0 ],				1 											),
+
+		// IE9-11 aren't any better than IE8 and lose empty text nodes between elements
+		// when cloning a tree. We need special clone method to workaround this.
+		'test special #1': 			s( '<p>x<br>{}y<br></p>', 														true, 		[ 0, 2 ],	 		0,				null, 				null,
+			function( playground, range ) {
+				// Let's remove "y".
+				var text = playground.getChild( [ 0, 2 ] );
+				assert.areSame( 'y', text.getText(), 'we found the right node' );
+				text.setText( '' );
+
+				assert.areSame( '<p>x<br>{}<br></p>', bender.tools.fixHtml( getRange( playground, range ), 1, 1 ), 'getRange' );
+			} ),
 	} );
 } )();

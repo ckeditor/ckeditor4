@@ -10,7 +10,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "CKSource - Frederico Knabben (http://cksource.com)",
+	"author": "CKSource (http://cksource.com/)",
 	"license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
 	"bugs": "http://dev.ckeditor.com",
 	"homepage": "http://ckeditor.com"

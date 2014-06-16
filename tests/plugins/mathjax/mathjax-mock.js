@@ -181,6 +181,7 @@
 
 	tools.addTests( tcs, {
 		name: 'inline',
+		creator: 'inline',
 		widgetName: 'mathjax',
 		extraPlugins: 'mathjax',
 		extraAllowedContent: 'span{padding}',

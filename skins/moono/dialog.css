@@ -318,7 +318,7 @@ a.cke_dialog_tab_disabled
 {
 	background-image: url(images/close.png);
 	background-repeat: no-repeat;
-	background-position: 0 0;
+	background-position: 50%;
 	position: absolute;
 	cursor: pointer;
 	text-align: center;
@@ -326,9 +326,18 @@ a.cke_dialog_tab_disabled
 	width: 20px;
 	top: 5px;
 	z-index: 5;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
 }
 
-.cke_hidpi .cke_dialog_close_button {
+.cke_dialog_close_button:hover
+{
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
+.cke_hidpi .cke_dialog_close_button
+{
 	background-image: url(images/hidpi/close.png);
 	background-size: 16px;
 }
@@ -568,7 +577,7 @@ a.cke_dialog_ui_button
 	*display: inline;
 	*zoom: 1;
 
-	padding: 3px 0;
+	padding: 4px 0;
 	margin: 0;
 
 	text-align: center;
@@ -600,7 +609,7 @@ a.cke_dialog_ui_button
 
 span.cke_dialog_ui_button
 {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 a.cke_dialog_ui_button:hover
@@ -658,7 +667,8 @@ a.cke_dialog_ui_button[style*="width"]
 	color: inherit;
 	font-size: 12px;
 	font-weight: bold;
-	line-height: 20px;
+	line-height: 18px;
+	padding: 0 12px;
 }
 
 /* Special class appended to the Ok button. */
@@ -714,7 +724,7 @@ a.cke_dialog_ui_button_cancel:focus,
 a.cke_dialog_ui_button_cancel:active
 {
 	border-width: 2px;
-	padding: 2px 0;
+	padding: 3px 0;
 }
 
 a.cke_dialog_ui_button_ok:focus,
@@ -753,13 +763,13 @@ div.cke_dialog_ui_input_select
 
 select.cke_dialog_ui_input_select
 {
-	height: 24px;
-	line-height: 24px;
+	height: 25px;
+	line-height: 25px;
 
 	background-color: #fff;
 	border: 1px solid #c9cccf;
 	border-top-color: #aeb3b9;
-	padding: 2px 6px;
+	padding: 3px 3px 3px 6px;
 
 	outline: none;
 

@@ -52,6 +52,9 @@ var config = {
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #3': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #8': 'env.safari',
+
+				// Firefox (#12104)
+				'tests/core/editor/focus#test blur after setData': 'env.gecko'
 			}
 		},
 

@@ -87,7 +87,11 @@
 	}, {
 		type: ATTRTYPE_PARAM, name: names[ i ]
 	} ];
-	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
+
+	// These attributes are "true" by default and not present in editor data (when "true").
+	// Note that, though default value of "allowFullScreen" is "true", it is not listed here.
+	// "allowFullScreen" is present in editor data regardless of the value (#7634).
+	names = [ 'play', 'loop', 'menu' ];
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
 
@@ -359,7 +363,7 @@
 							hidden: true,
 							// v-align with the 'src' field.
 							// TODO: We need something better than a fixed size here.
-							style: 'display:inline-block;margin-top:10px;',
+							style: 'display:inline-block;margin-top:14px;',
 							label: editor.lang.common.browseServer
 						}
 						]

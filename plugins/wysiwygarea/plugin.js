@@ -136,6 +136,8 @@
 		script && script.parentNode.removeChild( script );
 		script = doc.getElementById( 'cke_shimscrpt' );
 		script && script.parentNode.removeChild( script );
+		script = doc.getElementById( 'cke_basetagscrpt' );
+		script && script.parentNode.removeChild( script );
 
 		if ( CKEDITOR.env.gecko ) {
 			// Force Gecko to change contentEditable from false to true on domReady
@@ -473,6 +475,16 @@
 							'<script id="cke_shimscrpt">' +
 								'window.parent.CKEDITOR.tools.enableHtml5Elements(document)' +
 							'</script>';
+					}
+
+					// IE<10 needs this hack to properly enable <base href="...">.
+					// See: http://stackoverflow.com/a/13373180/1485219 (#11910).
+					if ( baseTag && CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+						bootstrapCode +=
+							'<script id="cke_basetagscrpt">' +
+								'var baseTag = document.querySelector( "base" );' +
+								'baseTag.href = baseTag.href;' +
+							'</script>'
 					}
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
