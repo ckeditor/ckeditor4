@@ -333,7 +333,7 @@
 		if ( config[ 'remove-plugins' ] ) {
 			CKEDITOR.config.removePlugins = config[ 'remove-plugins' ].join( ',' );
 
-			regexp = new RegExp( '(?:^|,)(' + config[ 'remove-plugins' ].join( '|' ) + ')(?:$|,)', 'g' );
+			regexp = new RegExp( '(?:^|,)(' + config[ 'remove-plugins' ].join( '|' ) + ')(?=,|$)', 'g' );
 
 			CKEDITOR.config.plugins = CKEDITOR.config.plugins
 				.replace( regexp, '' )
