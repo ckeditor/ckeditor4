@@ -72,10 +72,10 @@
 			// Registering keydown on every document recreation.(#3844)
 			editor.on( 'contentDom', function() {
 				// We'll use keyboard + input events to determine if snapshot should be created.
-				// Upon these events we'll mark inputFired flag. Eventually it might be canceled by
-				// paste/drop with ignoreInputEvent flag.
+				// Upon these events we'll increase inputFired counter. Eventually it might be
+				// canceled by paste/drop with ignoreInputEvent flag.
 				var editable = editor.editable(),
-					inputFired = false,
+					inputFired = 0,
 					ignoreInputEvent = false,
 					ignoreInputEventListener = function() {
 						ignoreInputEvent = true;
@@ -103,10 +103,10 @@
 
 				// Only IE can't use input event, because it's not fired in contenteditable.
 				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
-					inputFired = true;
-					// inputFired flag should not be set if paste/drop event were fired before.
+					inputFired += 1;
+					// inputFired counter shouldn't be increased if paste/drop event were fired before.
 					if ( ignoreInputEvent ) {
-						inputFired = false;
+						inputFired -= 1;
 						ignoreInputEvent = false;
 					}
 				} );
@@ -116,13 +116,14 @@
 					var keyCode = evt.data.getKey(),
 						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
-					if ( inputFired || ieFunctionKeysWorkaround ) {
+					if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor ) ) ) {
+						return;
+					}
+
+					if ( inputFired > 0 ) {
 						// Reset flag indicating input event.
-						inputFired = false;
+						inputFired -= 1;
 						// IE: backspace/del would still call keypress event, even if nothing was removed.
-						if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor ) ) ) {
-							return;
-						}
 						undoManager.type( keyCode );
 					} else if ( undoManager.isNavigationKey( keyCode ) ) {
 						undoManager.amendSelection( new Image( editor ) );

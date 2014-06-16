@@ -103,6 +103,31 @@
 			assert.areSame( 0, undoManager.strokesRecorded[ 1 ], 'Count of functional keystrokes should remain unchanged' );
 		},
 
+		'test multiple key being pressed': function() {
+			// The issue is that we don't handle situation:
+			// Lets assume following scenario:
+			// keydown D
+			// input
+			// keydown G
+			// input
+			// keyup D
+			// keyup G
+			// This situation can be observed while typing text fast.
+			var that = this,
+				undoManager = this.editor.undoManager;
+
+			this.editor.editable().once( 'input', function() {
+				// After input, but before first keyup:
+				// Now simulate second keystroke in input event (as late as possible)
+				// so this keystroke will be executed before keyup for D key
+				that.keyTools.keyEvent( keyCodesEnum.KEY_G );
+			}, null, null, 9999 );
+
+			this.keyTools.keyEvent( keyCodesEnum.KEY_D );
+
+			assert.areEqual( 2, undoManager.strokesRecorded[ 0 ], 'Invalid undoManager.strokesRecorded[ 0 ]' );
+		},
+
 		'test undoManager.resetType() strokesRecorded reseting': function() {
 			var undoManager = this.undoManager;
 
