@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Important Notes:
 
-* We made CKEditor tests environment public. CKEditor tests can be found in the [`tests/`](https://github.com/ckeditor/ckeditor-dev/tree/master/tests) directory. Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
+* We made the CKEditor testing environment public. CKEditor tests can be found in the [`tests/`](https://github.com/ckeditor/ckeditor-dev/tree/master/tests) directory. Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
 New Features:
 
