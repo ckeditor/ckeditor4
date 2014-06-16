@@ -278,9 +278,13 @@
 		var hiddenEl = editor._.hiddenSelectionContainer;
 
 		if ( hiddenEl ) {
+			var isDirty = editor.checkDirty();
+
 			editor.fire( 'lockSnapshot' );
 			hiddenEl.remove();
 			editor.fire( 'unlockSnapshot' );
+
+			!isDirty && editor.resetDirty();
 		}
 
 		delete editor._.hiddenSelectionContainer;

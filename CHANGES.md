@@ -13,6 +13,7 @@ New Features:
 
 Fixed Issues:
 
+* [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Issue with wrong checkDirty value.
 * [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Issue with passing arguments into CKBuilder.
 * [#11757](http://dev.ckeditor.com/ticket/11757): Fixed: Imperfections in the [Moono](http://ckeditor.com/addon/moono) skin. Thanks to [danyaPostfactum](https://github.com/danyaPostfactum)!
 * [#10091](http://dev.ckeditor.com/ticket/10091): Blockquote should be treated like an object by the styles system. Thanks to [dan-james-deeson](https://github.com/dan-james-deeson)!
