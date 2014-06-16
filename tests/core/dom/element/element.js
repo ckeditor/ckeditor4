@@ -494,14 +494,30 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( td.hasAttribute( 'rowspan' ), 'rowspan' );
 		},
 
-		// Test for IE BUG: value attribute is never specified even if it exists.
-		test_hasAttribute_value : function() {
-			var inputWithValue = newElement( document.getElementById( 'inputWithValue' ) ),
-				inputWithNoValue = newElement( document.getElementById( 'inputWithNoValue' ) );
+		// Test for 2 IE bugs:
+		// - value attribute is never specified even if it exists.
+		// - input attributes needs to be checked different way than other attributes.
+		test_hasAttribute_input : function() {
+			var inputWithAttrs = newElement( document.getElementById( 'inputWithAttrs' ) ),
+				inputWithoutAttrs = newElement( document.getElementById( 'inputWithoutAttrs' ) ),
+				checkboxWithAttrs = newElement( document.getElementById( 'checkboxWithAttrs' ) ),
+				checkboxWithoutAttrs = newElement( document.getElementById( 'checkboxWithoutAttrs' ) );
 
-			assert.isTrue( inputWithValue.hasAttribute( 'value' ), 'inputWithValue' );
-			assert.isFalse( inputWithNoValue.hasAttribute( 'value' ), 'inputWithNoValue' );
+			assert.isTrue( inputWithAttrs.hasAttribute( 'value' ), 'inputWithValue value' );
+			assert.isTrue( inputWithAttrs.hasAttribute( 'class' ), 'inputWithValue class' );
+
+			assert.isFalse( inputWithoutAttrs.hasAttribute( 'value' ), 'inputWithNoValue value' );
+			assert.isFalse( inputWithoutAttrs.hasAttribute( 'class' ), 'inputWithNoValue class' );
+
+			assert.isTrue( checkboxWithAttrs.hasAttribute( 'value' ), 'checkboxWithAttrs value' );
+			assert.isTrue( checkboxWithAttrs.hasAttribute( 'class' ), 'checkboxWithAttrs class' );
+			assert.isTrue( checkboxWithAttrs.hasAttribute( 'checked' ), 'checkboxWithAttrs checked' );
+
+			assert.isFalse( checkboxWithoutAttrs.hasAttribute( 'value' ), 'checkboxWithoutAttrs value' );
+			assert.isFalse( checkboxWithoutAttrs.hasAttribute( 'class' ), 'checkboxWithoutAttrs class' );
+			assert.isFalse( checkboxWithoutAttrs.hasAttribute( 'checked' ), 'checkboxWithoutAttrs checked' );
 		},
+
 
 		test_getDocumentPosition : function() {
 			// Assign the page location of the element.
