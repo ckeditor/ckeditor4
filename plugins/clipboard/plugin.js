@@ -670,6 +670,15 @@
 			var sel = editor.getSelection();
 			var bms = sel.createBookmarks();
 
+			// #11384. On IE9+ we use native selectionchange (i.e. editor#selectionCheck) to cache the most
+			// recent selection which we then lock on editable blur. See selection.js for more info.
+			// selectionchange fired before getClipboardDataByPastebin() cached selection
+			// before creating bookmark (cached selection will be invalid, because bookmarks modified the DOM),
+			// so we need to fire selectionchange one more time, to store current seleciton.
+			// Selection will be locked when we focus pastebin.
+			if ( CKEDITOR.env.ie )
+				sel.root.fire( 'selectionchange' );
+
 			// Create container to paste into.
 			// For rich content we prefer to use "body" since it holds
 			// the least possibility to be splitted by pasted content, while this may
