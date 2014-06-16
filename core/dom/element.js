@@ -982,7 +982,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @returns {Boolean} `true` if the specified attribute is defined.
 	 */
 	hasAttribute: ( function() {
-		function forIE( name ) {
+		function ieHasAttribute( name ) {
 			var $attr = this.$.attributes.getNamedItem( name );
 
 			if ( this.getName() == 'input' ) {
@@ -1003,24 +1003,26 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 			return $attr.specified;
 		}
 
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
-			return function( name ) {
-				// On IE < 8 the name attribute cannot be retrieved
-				// right after the element creation and setting the
-				// name with setAttribute.
-				if ( name == 'name' )
-					return !!this.$.name;
+		if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.env.version < 8 ) {
+				return function( name ) {
+					// On IE < 8 the name attribute cannot be retrieved
+					// right after the element creation and setting the
+					// name with setAttribute.
+					if ( name == 'name' )
+						return !!this.$.name;
 
-				return forIE.call( this, name );
+					return ieHasAttribute.call( this, name );
+				};
+			} else {
+				return ieHasAttribute;
 			}
-		} else if ( CKEDITOR.env.ie ) {
-			return forIE;
 		} else {
 			return function( name ) {
 				// On other browsers specified property is deprecated and return always true,
 				// but fortunately $.attributes contains only specified attributes.
 				return !!this.$.attributes.getNamedItem( name );
-			}
+			};
 		}
 	} )(),
 
