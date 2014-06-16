@@ -32,6 +32,7 @@ Fixed Issues:
 * [#11947](http://dev.ckeditor.com/ticket/11947): [FF+IE11] Fixed: Shift+Enter in lists produces two line breaks.
 * [#11972](http://dev.ckeditor.com/ticket/11972): Fixed: Feature detection in the [`element.setText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setText) method should not trigger layout engine.
 * [#7634](http://dev.ckeditor.com/ticket/7634): Fixed: Flash plugin omits `allowFullScreen` parameter in editor data if set `true`.
+* [#11910](http://dev.ckeditor.com/ticket/11910): Fixed: [Enhanced Image](http://ckeditor.com/addon/image2) does not consider `config.baseHref` when updating image dimensions.
 
 ## CKEditor 4.4.1
 
