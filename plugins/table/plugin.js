@@ -45,9 +45,9 @@ CKEDITOR.plugins.add( 'table', {
 				if ( !table )
 					return;
 
-				// If the table's parent has only one child remove it as well (unless it's the body, or a table cell, or the container element) (#5416, #6289)
+				// If the table's parent has only one child remove it as well (unless it's the body, or a table cell, or the editable element) (#5416, #6289)
 				var parent = table.getParent();
-				if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) && !editor.container.equals(parent) )
+				if ( parent.getChildCount() == 1 && !parent.is( 'body', 'td', 'th' ) && !parent.isEditable() )
 					table = parent;
 
 				var range = editor.createRange();
