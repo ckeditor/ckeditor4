@@ -62,9 +62,9 @@ A "release ready" working copy of your development code will be built in the new
 `dev/builder/release/` folder. An internet connection is necessary to run the
 builder, for its first time at least.
 
-### Tests Environment
+### Testing Environment
 
-Read more how to set up the environment and execute tests in the [CKEditor Tests Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
+Read more how to set up the environment and execute tests in the [CKEditor Testing Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
 ### License
 
