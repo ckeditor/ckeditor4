@@ -34,6 +34,7 @@ Fixed Issues:
 * [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Wrong [`checkDirty()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) value after focusing or blurring widget.
 * [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Impossible to pass some arguments to [CKBuilder](https://github.com/ckeditor/ckbuilder) when using `/dev/builder/build.sh` script.
 * [#11945](http://dev.ckeditor.com/ticket/11945): Fixed: Forms plugin should not change core method.
+* [#11384](http://dev.ckeditor.com/ticket/11384): [IE9+] Fixed: `IndexSizeError` thrown when pasting into non empty selection anchored in one text node.
 
 ## CKEditor 4.4.1
 
