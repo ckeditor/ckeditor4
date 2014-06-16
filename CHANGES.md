@@ -33,6 +33,7 @@ Fixed Issues:
 * [#11910](http://dev.ckeditor.com/ticket/11910): Fixed: [Enhanced Image](http://ckeditor.com/addon/image2) does not consider `config.baseHref` when updating image dimensions.
 * [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Wrong [`checkDirty()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) value after focusing or blurring widget.
 * [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Impossible to pass some arguments to [CKBuilder](https://github.com/ckeditor/ckbuilder) when using `/dev/builder/build.sh` script.
+* [#11945](http://dev.ckeditor.com/ticket/11945): Fixed: Forms plugin should not change core method.
 
 ## CKEditor 4.4.1
 
