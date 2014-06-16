@@ -13,8 +13,6 @@ New Features:
 
 Fixed Issues:
 
-* [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Issue with wrong checkDirty value.
-* [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Issue with passing arguments into CKBuilder.
 * [#11757](http://dev.ckeditor.com/ticket/11757): Fixed: Imperfections in the [Moono](http://ckeditor.com/addon/moono) skin. Thanks to [danyaPostfactum](https://github.com/danyaPostfactum)!
 * [#10091](http://dev.ckeditor.com/ticket/10091): Blockquote should be treated like an object by the styles system. Thanks to [dan-james-deeson](https://github.com/dan-james-deeson)!
 * [#11478](http://dev.ckeditor.com/ticket/11478): Fixed: Issue with passing jQuery objects to adapter configuration.
@@ -33,6 +31,8 @@ Fixed Issues:
 * [#11972](http://dev.ckeditor.com/ticket/11972): Fixed: Feature detection in the [`element.setText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setText) method should not trigger layout engine.
 * [#7634](http://dev.ckeditor.com/ticket/7634): Fixed: Flash plugin omits `allowFullScreen` parameter in editor data if set `true`.
 * [#11910](http://dev.ckeditor.com/ticket/11910): Fixed: [Enhanced Image](http://ckeditor.com/addon/image2) does not consider `config.baseHref` when updating image dimensions.
+* [#11753](http://dev.ckeditor.com/ticket/11753): Fixed: Wrong [`checkDirty()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-checkDirty) value after focusing or blurring widget.
+* [#11830](http://dev.ckeditor.com/ticket/11830): Fixed: Impossible to pass some arguments to [CKBuilder](https://github.com/ckeditor/ckbuilder) when using `/dev/builder/build.sh` script.
 
 ## CKEditor 4.4.1
 
