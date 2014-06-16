@@ -24,6 +24,7 @@ Fixed Issues:
 * [#11387](http://dev.ckeditor.com/ticket/11387): Fixed: `role="radiogroup"` should be applied only to radio inputs' container.
 * [#7975](http://dev.ckeditor.com/ticket/7975): [IE8] Fixed: Errors when trying to select empty table cell on IE8.
 * [#11947](http://dev.ckeditor.com/ticket/11947): [FF+IE11] Fixed: Shift+Enter in lists produces two line breaks.
+* [#11972](http://dev.ckeditor.com/ticket/11972): Fixed: Feature detection in the [`element.setText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setText) method should not trigger layout engine.
 
 ## CKEditor 4.4.1
 
