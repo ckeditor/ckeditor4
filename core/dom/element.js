@@ -985,6 +985,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		function standard( name ) {
 			var $attr = this.$.attributes.getNamedItem( name );
 
+			if ( CKEDITOR.env.ie && this.getName() == 'input' ) {
+				switch ( name ) {
+					case 'class':
+						return this.$.className.length > 0;
+					case 'checked':
+						return !!this.$.checked;
+					case 'value':
+						var type = this.getAttribute( 'type' );
+						return type == 'checkbox' || type == 'radio' ? this.$.value != 'on' : !!this.$.value;
+				}
+			}
+
 			if ( !$attr )
 				return false;
 			else if ( CKEDITOR.env.ie )
