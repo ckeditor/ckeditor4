@@ -1,7 +1,11 @@
+/* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget */
 
-(function() {
+( function() {
 	'use strict';
+
+	var data = '<p><b id="w1" data-widget="testwidget">foo</b>bar</p>',
+		getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
 		'async:init': function() {
@@ -10,53 +14,52 @@
 			bender.tools.setUpEditors( {
 				editor: {
 					name: 'editor1',
-					startupData: '<b id="one" data-widget="testwidget">foo</b><b id="two" data-widget="testwidget">foo</b>',
+					creator: 'inline',
 					config: {
 						allowedContent: true,
 						on: {
 							pluginsLoaded: function( evt ) {
-								var ed = evt.editor;
-
-								ed.widgets.add( 'testwidget', {} );
+								evt.editor.widgets.add( 'testwidget', {} );
 							}
 						}
 					}
 				}
 			}, function( editors, bots ) {
-				tc.editor = bots.editor.editor;
+				tc.editors = editors;
+				tc.editorBots = bots;
 
 				tc.callback();
 			} );
 		},
 
 		'test check dirty is false after widget focus': function() {
-			var widget = this.editor.widgets.instances[ 1 ];
+			var editor = this.editors.editor;
 
-			assert.isFalse( this.editor.checkDirty() );
-			widget.focus();
-			assert.isFalse( this.editor.checkDirty() );
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				editor.resetDirty();
+				widget.focus();
+				assert.isFalse( editor.checkDirty() );
+			} );
 		},
 
-		'test check dirty is true after modifications': function() {
-			var widget = this.editor.widgets.instances[ 1 ];
+		'test check dirty keeps to be true after widget focus': function() {
+			var editor = this.editors.editor;
 
-			assert.isFalse( this.editor.checkDirty() );
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
 
-			// Clear selection
-			var range = this.editor.createRange();
-			var lastElement = this.editor.document.getById( 'two' );
-			range.moveToPosition( lastElement, CKEDITOR.POSITION_BEFORE_END );
-			this.editor.getSelection().selectRanges( [ range ] );
+				editor.resetDirty();
 
-			assert.isFalse( this.editor.checkDirty() );
+				// Make some changes in editor.
+				widget.addClass( 'test' );
 
-			// Make some changes in editor
-			widget.addClass( 'test' );
-
-			assert.isTrue( this.editor.checkDirty() );
-			widget.focus();
-			assert.isTrue( this.editor.checkDirty() );
+				assert.isTrue( editor.checkDirty() );
+				widget.focus();
+				assert.isTrue( editor.checkDirty() );
+			} );
 		}
 	} );
 
-})();
+} )();
