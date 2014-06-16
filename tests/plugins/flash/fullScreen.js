@@ -42,11 +42,11 @@
 
 					dialog.getButton( 'ok' ).click();
 
-					var element = parseEditorDataToDOM( bot );
+					var fullScreenParam = getFullScreenParam( bot );
+					assert.areEqual( 'true', fullScreenParam.attributes.value, 'Value should be set to true.' );
 
-					var fullScreenParam = element.findOne( 'param[name="allowFullScreen"]' );
-					assert.isNotNull( fullScreenParam, 'Parameter should be present.' );
-					assert.areEqual( 'true', fullScreenParam.getAttribute( 'value' ), 'Value should be set to true.' );
+					var embed = getEmbed( bot );
+					assert.areSame( 'true', embed.attributes.allowfullscreen, 'allowfullscreen set for embed' );
 
 					selectFirstFlashElementInEditor( bot );
 
@@ -72,11 +72,11 @@
 
 					dialog.getButton( 'ok' ).click();
 
-					var element = parseEditorDataToDOM( bot );
+					var fullScreenParam = getFullScreenParam( bot );
+					assert.areEqual( 'false', fullScreenParam.attributes.value, 'Value should be set to false.' );
 
-					var fullScreenParam = element.findOne( 'param[name="allowFullScreen"]' );
-					assert.isNotNull( fullScreenParam, 'Parameter should be present.' );
-					assert.areEqual( 'false', fullScreenParam.getAttribute( 'value' ), 'Value should be set to false.' );
+					var embed = getEmbed( bot );
+					assert.areSame( 'false', embed.attributes.allowfullscreen, 'allowfullscreen set for embed' );
 
 					selectFirstFlashElementInEditor( bot );
 
@@ -96,7 +96,28 @@
 		bot.editor.getSelection().selectElement( flashElement );
 	}
 
-	function parseEditorDataToDOM( bot ) {
-		return CKEDITOR.dom.element.createFromHtml( '<div>' + bot.getData() + '</div>' );
+	function getObjectChildElement( bot, lookupFn ) {
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( bot.getData() ),
+			found = null;
+
+		fragment.forEach( function( element ) {
+			if ( lookupFn( element ) ) {
+				found = element;
+			}
+		} );
+
+		return found;
+	}
+
+	function getFullScreenParam( bot ) {
+		return getObjectChildElement( bot, function( element ) {
+			return element.name == 'param' && element.attributes.name == 'allowFullScreen';
+		} );
+	}
+
+	function getEmbed( bot ) {
+		return getObjectChildElement( bot, function( element ) {
+			return element.name == 'embed';
+		} );
 	}
 } )();
