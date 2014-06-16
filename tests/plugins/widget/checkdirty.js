@@ -4,7 +4,7 @@
 ( function() {
 	'use strict';
 
-	var data = '<p><b id="w1" data-widget="testwidget">foo</b>bar</p>',
+	var data = '<p id="p1">bar<b id="w1" data-widget="testwidget">foo</b></p>',
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
@@ -44,20 +44,53 @@
 			} );
 		},
 
+		'test check dirty is false after widget blur': function() {
+			var editor = this.editors.editor;
+
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+				editor.resetDirty();
+
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p1' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+
+				assert.isFalse( editor.checkDirty() );
+			} );
+		},
+
 		'test check dirty keeps to be true after widget focus': function() {
 			var editor = this.editors.editor;
 
 			this.editorBots.editor.setData( data, function() {
 				var widget = getWidgetById( editor, 'w1' );
 
-				editor.resetDirty();
-
 				// Make some changes in editor.
 				widget.addClass( 'test' );
+				assert.isTrue( editor.checkDirty(), 'before focus' );
 
-				assert.isTrue( editor.checkDirty() );
 				widget.focus();
-				assert.isTrue( editor.checkDirty() );
+				assert.isTrue( editor.checkDirty(), 'after focus' );
+			} );
+		},
+
+		'test check dirty keeps to be false after widget blur': function() {
+			var editor = this.editors.editor;
+
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+				// Make some changes in editor.
+				widget.addClass( 'test' );
+				assert.isTrue( editor.checkDirty(), 'before blur' );
+
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p1' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+				assert.isTrue( editor.checkDirty(), 'after blur' );
 			} );
 		}
 	} );
