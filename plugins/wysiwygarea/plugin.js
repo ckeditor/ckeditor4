@@ -484,7 +484,7 @@
 							'<script id="cke_basetagscrpt">' +
 								'var baseTag = document.querySelector( "base" );' +
 								'baseTag.href = baseTag.href;' +
-							'</script>'
+							'</script>';
 					}
 
 					data = data.replace( /(?=\s*<\/(:?head)>)/, bootstrapCode );
