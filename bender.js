@@ -42,6 +42,9 @@ var config = {
 				'tests/core/style/editor#test apply inline style on non-editable inline element - at non-editable inline boundary': 'env.ie && env.version == 8',
 				'tests/core/style/editor#test remove inline style from non-editable inline element - at non-editable inline boundary': 'env.ie && env.version == 8',
 
+				// IE8 (fails only in testing env - window.window === window gives false)
+				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
+
 				// Safari (#11111)
 				'tests/core/dom/range/enlarge#test_enlarge_element12': 'env.safari',
 
