@@ -87,12 +87,10 @@ bender.test(
 		this.wait();
 	},
 
-	/**
-	 * Test editor core data retrieval and manipulation functionality.
-	 */
-	'test getData/setData': function() {
+	'test getData/setData() - events and arguments': function() {
 		var events = [],
 			editor = new CKEDITOR.editor( {}, CKEDITOR.document.getById( 'editor4' ), CKEDITOR.ELEMENT_MODE_REPLACE );
+
 		function checkEventData( value ) {
 			return function( evt  ) {
 				events.push( evt.name );
@@ -104,6 +102,7 @@ bender.test(
 					evt.data.dataValue = 'bar';
 			};
 		}
+
 		// This function allows to call either older API or new object based setData().
 		// It takes setData() params in new format (as editor#setData()).
 		function callSetData( data, params, legacyInterface ) {
@@ -154,56 +153,42 @@ bender.test(
 		assert.areSame( 'setData,afterSetData', events.join( ',' ), 'Invalid events with params.noSnapshot = true' );
 	},
 
-	'test setData callback': function() {
+	'test setData() callback - new API': function() {
 		var callbackCalledTimes = 0,
 			callback = function() {
 				callbackCalledTimes += 1;
 			},
-			waitTimeout = 80;
+			listener;
+
+		listener = this.editor.on( 'dataReady', function() {
+			listener.removeListener();
+
+			resume( function() {
+				assert.areEqual( 1, callbackCalledTimes, 'callback called once' );
+			} );
+		} );
 
 		this.editor.setData( '<p>setData</p>', { callback: callback } );
-
-		wait( function() {
-			assert.areEqual( 1, callbackCalledTimes, 'Invalid callback calls count' );
-			// And test for older API.
-			this.editor.setData( '<p>setData</p>', callback );
-
-			wait( function() {
-				assert.areEqual( 2, callbackCalledTimes, 'Invalid callback calls count 2nd case' );
-			}, waitTimeout );
-		}, waitTimeout );
+		wait();
 	},
 
-	'test setData()': function() {
-		var firedEvents = [],
-			listeners = [],
-			editor = this.editor,
-			subscribedEvents = [ 'setData', 'afterSetData', 'beforeGetData', 'getData' ],
-			callbackCalledTimes = 0,
+	'test setData() callback - old API': function() {
+		var callbackCalledTimes = 0,
 			callback = function() {
 				callbackCalledTimes += 1;
 			},
-			// This listener will store types of events fired.
-			listener = function( evt ) {
-				firedEvents.push( evt.name );
-			};
+			listener;
 
-			// Registering listeners.
-			for ( var i = 0; i < subscribedEvents.length; i++ )
-				listeners.push( editor.on( subscribedEvents[ i ], listener ) );
+		listener = this.editor.on( 'dataReady', function() {
+			listener.removeListener();
 
-			// Legacy interface.
-			editor.setData( '<p>setData</p>', null, true );
-			arrayAssert.itemsAreEqual( [], firedEvents );
+			resume( function() {
+				assert.areEqual( 1, callbackCalledTimes, 'callback called once' );
+			} );
+		} );
 
-			assert.areEqual( '<p>setData</p>', editor.getData( true ) );
-			arrayAssert.itemsAreEqual( [], firedEvents );
-
-			assert.isTrue( true );
-
-			// Cleanup.
-			for ( var i = 0; i < listeners.length; i++ )
-				listeners[ i ].removeListener();
+		this.editor.setData( '<p>setData</p>', callback );
+		wait();
 	},
 
 	updateElement: function( element, mode ) {
