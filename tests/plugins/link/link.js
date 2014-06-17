@@ -177,7 +177,7 @@
 
 		'test empty anchor passes filter': function() {
 			var matchRegex = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
-				/^<p><img alt="[^" ]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[ ^"]+" src="data:image[^" ]+" title="[ ^"]+" \/><\/p>$/ :
+				/^<p><img alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/><\/p>$/ :
 				/^<p><img align="" alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/>(<br \/>)?<\/p>$/;
 
 			this.editorBot.assertInputOutput(
