@@ -1,7 +1,11 @@
+/* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget */
 
-(function() {
+( function() {
 	'use strict';
+
+	var data = '<p id="p1">bar<b id="w1" data-widget="testwidget">foo</b></p>',
+		getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
 		'async:init': function() {
@@ -10,53 +14,85 @@
 			bender.tools.setUpEditors( {
 				editor: {
 					name: 'editor1',
-					startupData: '<b id="one" data-widget="testwidget">foo</b><b id="two" data-widget="testwidget">foo</b>',
+					creator: 'inline',
 					config: {
 						allowedContent: true,
 						on: {
 							pluginsLoaded: function( evt ) {
-								var ed = evt.editor;
-
-								ed.widgets.add( 'testwidget', {} );
+								evt.editor.widgets.add( 'testwidget', {} );
 							}
 						}
 					}
 				}
 			}, function( editors, bots ) {
-				tc.editor = bots.editor.editor;
+				tc.editors = editors;
+				tc.editorBots = bots;
 
 				tc.callback();
 			} );
 		},
 
 		'test check dirty is false after widget focus': function() {
-			var widget = this.editor.widgets.instances[ 1 ];
+			var editor = this.editors.editor;
 
-			assert.isFalse( this.editor.checkDirty() );
-			widget.focus();
-			assert.isFalse( this.editor.checkDirty() );
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				editor.resetDirty();
+				widget.focus();
+				assert.isFalse( editor.checkDirty() );
+			} );
 		},
 
-		'test check dirty is true after modifications': function() {
-			var widget = this.editor.widgets.instances[ 1 ];
+		'test check dirty is false after widget blur': function() {
+			var editor = this.editors.editor;
 
-			assert.isFalse( this.editor.checkDirty() );
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
 
-			// Clear selection
-			var range = this.editor.createRange();
-			var lastElement = this.editor.document.getById( 'two' );
-			range.moveToPosition( lastElement, CKEDITOR.POSITION_BEFORE_END );
-			this.editor.getSelection().selectRanges( [ range ] );
+				widget.focus();
+				editor.resetDirty();
 
-			assert.isFalse( this.editor.checkDirty() );
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p1' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
 
-			// Make some changes in editor
-			widget.addClass( 'test' );
+				assert.isFalse( editor.checkDirty() );
+			} );
+		},
 
-			assert.isTrue( this.editor.checkDirty() );
-			widget.focus();
-			assert.isTrue( this.editor.checkDirty() );
+		'test check dirty keeps to be true after widget focus': function() {
+			var editor = this.editors.editor;
+
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				// Make some changes in editor.
+				widget.addClass( 'test' );
+				assert.isTrue( editor.checkDirty(), 'before focus' );
+
+				widget.focus();
+				assert.isTrue( editor.checkDirty(), 'after focus' );
+			} );
+		},
+
+		'test check dirty keeps to be false after widget blur': function() {
+			var editor = this.editors.editor;
+
+			this.editorBots.editor.setData( data, function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				widget.focus();
+				// Make some changes in editor.
+				widget.addClass( 'test' );
+				assert.isTrue( editor.checkDirty(), 'before blur' );
+
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p1' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+				assert.isTrue( editor.checkDirty(), 'after blur' );
+			} );
 		}
 	} );
 
-})();
+} )();
