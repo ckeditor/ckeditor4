@@ -87,7 +87,11 @@ var config = {
 			paths: [
 				'tickets/',
 				'!/_'
-			]
+			],
+			regressions: {
+				// IE8 & IE9 have problems with loading iframe.
+				'tests/tickets/11121/1#test HC detection in hidden iframe': 'env.ie && env.version < 10'
+			}
 		},
 
 		'Utils': {
