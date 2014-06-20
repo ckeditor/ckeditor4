@@ -121,10 +121,37 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		}
 	};
 
+	var mouse = {
+		/**
+		 * Simulates full click events set on editable: mousedown, click, mouseup.
+		 * @param {CKEDITOR.dom.element} target Clicked element.
+		 * @param {Function} domModificationFn Function called between mousedown and click event. Most of the time youl'll
+		 * want change range here.
+		 */
+		click: function( target, domModificationFn ) {
+
+			if ( !target )
+				target = testSuite.editor.editable();
+
+			var domEventMockup = {
+				target: target.$
+			};
+
+			events.editableEvent( 'mousedown', domEventMockup );
+
+			if ( domModificationFn )
+				domModificationFn();
+
+			events.editableEvent( 'click', domEventMockup );
+			events.editableEvent( 'mouseup', domEventMockup );
+		}
+	};
+
 	return {
 		// Keyboard event dispatching functions.
 		key: keyboard,
 		// Standard event functions.
-		events: events
+		events: events,
+		mouse: mouse
 	};
 };

@@ -21,21 +21,6 @@
 			sel.selectRanges( [ rng ] );
 		},
 
-		/**
-		 * Fires mousedown/up, click events on editor editable. This function might be
-		 * moved to tools.
-		 *
-		 * @param CKEDITOR.dom.element target Clicked element.
-		 */
-		_fireEditableClickEvent: function( target ) {
-			var domEventMockup = {
-				target: target.$
-			};
-			this.tools.events.editableEvent( 'mousedown', domEventMockup );
-			this.tools.events.editableEvent( 'mouseup', domEventMockup );
-			this.tools.events.editableEvent( 'click', domEventMockup );
-		},
-
 		setUp: function() {
 			// Inits tools used to mimic events if needed.
 			if ( !this.tools )
@@ -51,8 +36,7 @@
 				that = this;
 
 			this.editorBot.setData( '<p>foo bar</p>', function() {
-				//debugger;
-				var editable = bender.editor.editable(),
+				var editable = that.editor.editable(),
 					textNode = editable.getFirst().getFirst(),
 					expectedSnapshots = 3;
 
@@ -61,19 +45,56 @@
 				// Initis with: foo^ Dbar
 				that._moveTextNodeRange( 3 );
 
-				that._fireEditableClickEvent( editable, textNode.getParent() );
+				that.tools.mouse.click( textNode.getParent() );
+
 				assert.areEqual( expectedSnapshots, undoManager.snapshots.length, 'Invalid snapshots count' );
 				// Further clicks should not create more snapshots even if selection changed.
-				that._fireEditableClickEvent( editable, textNode.getParent() );
-				that._moveTextNodeRange( 5 );
-				that._fireEditableClickEvent( editable, textNode.getParent() );
+				that.tools.mouse.click( textNode.getParent() );
+				that.tools.mouse.click( textNode.getParent(), function() {
+					that._moveTextNodeRange( 5 );
+				} );
 
+				// No extra snapshot should be created but the last one range should be overwritten.
 				assert.areEqual( expectedSnapshots, undoManager.snapshots.length, 'Snapshots count increased' );
-				// Ensure that snapshot range is correct.
+
 				var interestingSnapshot = undoManager.snapshots[ expectedSnapshots - 1 ];
-				assert.areEqual( 3, interestingSnapshot.bookmarks[ 0 ].startOffset, 'Invalid bookmark start offset' );
-				assert.areEqual( 3, interestingSnapshot.bookmarks[ 0 ].endOffset, 'Invalid bookmark start offset' );
+				assert.areEqual( 5, interestingSnapshot.bookmarks[ 0 ].startOffset, 'Invalid bookmark start offset' );
+				assert.areEqual( 5, interestingSnapshot.bookmarks[ 0 ].endOffset, 'Invalid bookmark start offset' );
 			} );
+		},
+
+		'test init snapshot overwrite': function() {
+			var that = this;
+			// We need to ensure that extra clicks will eventually override first snapshot selection.
+
+			this.editor.setData( '<p>foo</p>', {
+				// We don't want extra snapshot made by setData().
+				noSnapshot: true,
+				callback: function() {
+					assert.areEqual( 1, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
+					that.tools.mouse.click( null, function() {
+						that._moveTextNodeRange( 0 );
+					} );
+
+					that.tools.mouse.click( null, function() {
+						that._moveTextNodeRange( 2 );
+					} );
+
+					resume( function() {
+						var snapshots = that.editor.undoManager.snapshots,
+							bookmark;
+
+						assert.areEqual( 1, snapshots.length, 'Invalid snapshots count' );
+
+						bookmark = snapshots[ 0 ].bookmarks[ 0 ];
+						// Selection should be moved.
+						assert.areEqual( 2, bookmark.startOffset, 'Invalid start offset' );
+						assert.areEqual( 2, bookmark.endOffset, 'Invalid end offset' );
+					} );
+				}
+			} );
+
+			wait( 500 );
 		},
 
 		'test no change event on click': function() {
@@ -81,7 +102,7 @@
 			// We need to ensure that no change event is called when click snapshot is created
 			// (because nothing changed).
 			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var editable = bender.editor.editable(),
+				var editable = that.editor.editable(),
 					textNode = editable.getFirst().getFirst(),
 					changesCount = 0;
 
@@ -89,11 +110,11 @@
 				textNode.setText( 'foo Dbar' );
 				that._moveTextNodeRange( 3 );
 
-				bender.editor.once( 'change', function() {
+				that.editor.once( 'change', function() {
 					changesCount++;
 				} );
 
-				that._fireEditableClickEvent( editable, textNode.getParent() );
+				that.tools.mouse.click( textNode.getParent() );
 				assert.areEqual( 0, changesCount, 'Change event fired' );
 			} );
 		}

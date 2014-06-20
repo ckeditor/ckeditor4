@@ -95,7 +95,8 @@
 					var keyCode = evt.data.getKey();
 					if ( undoManager.isNavigationKey( keyCode ) ) {
 						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
-							this.editor.fire( 'saveSnapshot' );
+							// We already have image, so we'd like to reuse it.
+							undoManager.save( false, undoManager.lastKeydownImage );
 							undoManager.resetType();
 						}
 					}
@@ -126,7 +127,8 @@
 						// IE: backspace/del would still call keypress event, even if nothing was removed.
 						undoManager.type( keyCode );
 					} else if ( undoManager.isNavigationKey( keyCode ) ) {
-						undoManager.amendSelection( new Image( editor ) );
+						// Note content snapshot has been checked in keydown.
+						undoManager.onNavigationKey( true );
 					}
 				} );
 				// On paste and drop we need to cancel inputFired variable.
@@ -136,8 +138,7 @@
 
 				// Click should create a snapshot if needed, but shouldn't cause change event.
 				editable.attachListener( editable, 'click', function( evt ) {
-					undoManager.save( true, null, false );
-					undoManager.resetType();
+					undoManager.onNavigationKey();
 				} );
 			} );
 
@@ -435,7 +436,7 @@
 		amendSelection: function( newSnapshot ) {
 
 			if ( !this.snapshots.length )
-				return;
+				return false;
 
 			var snapshots = this.snapshots,
 				lastImage = snapshots[ snapshots.length - 1 ];
@@ -443,8 +444,20 @@
 			if ( lastImage.equalsContent( newSnapshot ) ) {
 				if ( !lastImage.equalsSelection( newSnapshot ) ) {
 					snapshots[ snapshots.length - 1 ] = newSnapshot;
+					return true;
 				}
 			}
+
+			return false;
+		},
+
+		onNavigationKey: function( skipContentCompare ) {
+			// We attempt to save content snapshot, if content didn't change, we'll
+			// only amend selection.
+			if ( skipContentCompare || !this.save( true, null, false ) )
+				this.amendSelection( new Image( this.editor ) );
+
+			this.resetType();
 		},
 
 		/**
