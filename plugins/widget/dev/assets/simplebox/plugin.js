@@ -97,7 +97,7 @@ CKEDITOR.plugins.add( 'simplebox', {
 			data: function() {
 				// Check whether "width" widget data is set and remove or set "width" CSS style.
 				// The style is set on widget main element (div.simplebox).
-				if ( this.data.width == '' )
+				if ( !this.data.width )
 					this.element.removeStyle( 'width' );
 				else
 					this.element.setStyle( 'width', this.data.width );

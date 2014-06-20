@@ -42,6 +42,9 @@ var config = {
 				'tests/core/style/editor#test apply inline style on non-editable inline element - at non-editable inline boundary': 'env.ie && env.version == 8',
 				'tests/core/style/editor#test remove inline style from non-editable inline element - at non-editable inline boundary': 'env.ie && env.version == 8',
 
+				// IE8 (fails only in testing env - window.window === window gives false)
+				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
+
 				// Safari (#11111)
 				'tests/core/dom/range/enlarge#test_enlarge_element12': 'env.safari',
 
@@ -81,6 +84,12 @@ var config = {
 
 				// IE8 (http://dev.ckeditor.com/ticket/12008#comment:6)
 				'tests/plugins/widget/nestedwidgets#test pasting widget with nested editable into nested editable': 'env.ie && env.version == 8',
+
+				// Firefox (#12104)
+				'tests/plugins/widget/widgetselection#test focusing widget': 'env.gecko',
+				'tests/plugins/widget/widgetselection#test focusing by click': 'env.gecko',
+				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by click': 'env.gecko',
+				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by method': 'env.gecko'
 			}
 		},
 
@@ -90,7 +99,11 @@ var config = {
 			paths: [
 				'tickets/',
 				'!/_'
-			]
+			],
+			regressions: {
+				// IE8 & IE9 have problems with loading iframe.
+				'tests/tickets/11121/1#test HC detection in hidden iframe': 'env.ie && env.version < 10'
+			}
 		},
 
 		'Utils': {
