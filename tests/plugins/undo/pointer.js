@@ -117,6 +117,38 @@
 				that.tools.mouse.click( textNode.getParent() );
 				assert.areEqual( 0, changesCount, 'Change event fired' );
 			} );
+		},
+
+		'test no snapshot after drop': function() {
+			// We should not create a drop snapshot, within the undo plugin. It's a job for dedicated DnD plugin.
+			this.editorBot.setData( '<p>foo bar</p>', function() {
+				var undoManager = this.editor.undoManager,
+					typeCalledTimes = 0,
+					originalType = undoManager.type;
+
+				undoManager.type = function( keyCode ) {
+					typeCalledTimes++;
+					return originalType.call( undoManager, keyCode );
+				};
+
+				// Fire minimal set of drop events.
+				this.tools.events.editableEvent( 'dragenter' );
+				this.tools.events.editableEvent( 'dragover' );
+				this.tools.events.editableEvent( 'drop' );
+				this.tools.events.editableEvent( 'input' );
+
+				// So input event occured, now lets fire some random key, like F4.
+				// Note taht F4 should not produce input event (it does only in FF wehere it's a bug).
+				this.tools.key.keyEvent( this.tools.key.keyCodesEnum.F4, {}, true );
+				assert.areEqual( 0, typeCalledTimes, 'undoManager.type should not be called' );
+
+				// Press printable key and ensure that it will be handled.
+				this.tools.key.keyEvent( this.tools.key.keyCodesEnum.KEY_D );
+				assert.areEqual( 1, typeCalledTimes, 'undoManager.type should be called' );
+
+				// Restore original function.
+				undoManager.type = originalType;
+			} );
 		}
 	};
 

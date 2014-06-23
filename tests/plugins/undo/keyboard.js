@@ -18,26 +18,8 @@
 		}
 	};
 
-	// Simple mapping of key codes to human readable identifiers.
-	var keyCodesEnum = {
-		BACKSPACE: 8,
-		DELETE: 46,
-
-		KEY_D: 68,
-		KEY_G: 71,
-
-		RIGHT: 39,
-		LEFT: 37,
-		DOWN: 40,
-		UP: 38,
-
-		HOME: 36,
-		END: 35,
-		PAGEUP: 33,
-		PAGEDOWN: 34
-	};
-
-	var tcs = {
+	var keyCodesEnum, // keyCodesEnum will be inited in first setUp call.
+		tcs = {
 		// This function assumes that your editor has only a paragraph with a text node.
 		// It changes selection in this text node
 		_moveTextNodeRange: function( newStartOffset, newEndOffset ) {
@@ -58,6 +40,7 @@
 				this.tools = undoEventDispatchTestsTools( this );
 				// Alias for more convenient accesss.
 				this.keyTools = this.tools.key;
+				keyCodesEnum = this.keyTools.keyCodesEnum;
 			}
 
 			changeCounter = 0;

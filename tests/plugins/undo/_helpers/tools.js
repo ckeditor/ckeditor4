@@ -118,6 +118,30 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 				return character.charCodeAt( 0 );
 
 			return character.toUpperCase().charCodeAt( 0 );
+		},
+
+		/**
+		 * Simple mapping of key codes to human readable identifiers. Moved to the end of object,
+		 * because it might get long.
+		 */
+		keyCodesEnum: {
+			BACKSPACE: 8,
+			DELETE: 46,
+
+			KEY_D: 68,
+			KEY_G: 71,
+
+			RIGHT: 39,
+			LEFT: 37,
+			DOWN: 40,
+			UP: 38,
+
+			HOME: 36,
+			END: 35,
+			PAGEUP: 33,
+			PAGEDOWN: 34,
+
+			F4: 115
 		}
 	};
 
