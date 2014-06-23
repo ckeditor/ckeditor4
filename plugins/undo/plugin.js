@@ -748,9 +748,14 @@
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
 	 */
 	function UndoManagerEventHandler( undoManager ) {
-		// We'll use keyboard + input events to determine if snapshot should be created.
-		// Upon these events we'll increase inputFired counter. Eventually it might be
-		// canceled by paste/drop with ignoreInputEvent flag.
+		/*
+		We'll use keyboard + input events to determine if snapshot should be created.
+		Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
+		That will tell us if any printable data was inserted.
+		On `input` event we'll increase `inputFired` counter. Eventually it might be
+		canceled by paste/drop using `ignoreInputEvent` flag.
+		Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
+		*/
 		var editor = undoManager.editor,
 			inputFired = 0,
 			ignoreInputEvent = false,
