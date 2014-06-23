@@ -784,7 +784,7 @@
 
 		this.onInput = function() {
 			inputFired += 1;
-			// inputFired counter shouldn't be increased if paste/drop event wer4e fired before.
+			// inputFired counter shouldn't be increased if paste/drop event were fired before.
 			if ( ignoreInputEvent ) {
 				inputFired -= 1;
 				ignoreInputEvent = false;
