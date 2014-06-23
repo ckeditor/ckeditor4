@@ -10,7 +10,7 @@
 		// This function assumes that your editor has only a paragraph with a text node.
 		// It changes selection in this text node
 		_moveTextNodeRange: function( newStartOffset, newEndOffset ) {
-			var editor = bender.editor,
+			var editor = this.editor,
 				rng = new CKEDITOR.dom.range( editor.document ),
 				textNode = editor.editable().getFirst().getFirst(),
 				sel = editor.getSelection();
@@ -26,7 +26,7 @@
 			if ( !this.tools )
 				this.tools = undoEventDispatchTestsTools( this );
 
-			this.undoManager = bender.editor.undoManager;
+			this.undoManager = this.editor.undoManager;
 			// For each TC we want to reset undoManager.
 			this.undoManager.reset();
 		},
@@ -66,7 +66,6 @@
 		'test init snapshot overwrite': function() {
 			var that = this;
 			// We need to ensure that extra clicks will eventually override first snapshot selection.
-
 			this.editor.setData( '<p>foo</p>', {
 				// We don't want extra snapshot made by setData().
 				noSnapshot: true,

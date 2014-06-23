@@ -23,7 +23,7 @@
 		// This function assumes that your editor has only a paragraph with a text node.
 		// It changes selection in this text node
 		_moveTextNodeRange: function( newStartOffset, newEndOffset ) {
-			var editor = bender.editor,
+			var editor = this.editor,
 				rng = new CKEDITOR.dom.range( editor.document ),
 				textNode = editor.editable().getFirst().getFirst(),
 				sel = editor.getSelection();
@@ -44,7 +44,7 @@
 			}
 
 			changeCounter = 0;
-			this.undoManager = bender.editor.undoManager;
+			this.undoManager = this.editor.undoManager;
 
 			this.editorBot.setHtmlWithSelection( '<p>_^_</p>' );
 
@@ -129,7 +129,7 @@
 		} ),
 
 		'test undoManager change event for functional keys': tcWithExpectedChanges( 2, function() {
-			var textNode = bender.editor.editable().getFirst().getFirst(),
+			var textNode = this.editor.editable().getFirst().getFirst(),
 				// Because we have caret in the middle, text node is splitted into two parts.
 				secondTextNode = textNode.getNext();
 			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() { textNode.setText( '' ); } );
@@ -143,9 +143,9 @@
 			// (Chrome 35.0.1916.122, Android 4.4.2)
 
 			// DOM should be already modified, events firing and no snapshot should be made.
-			bender.editor.fire( 'lockSnapshot' );
-			bender.editor.insertText( 'G' );
-			bender.editor.fire( 'unlockSnapshot' );
+			this.editor.fire( 'lockSnapshot' );
+			this.editor.insertText( 'G' );
+			this.editor.fire( 'unlockSnapshot' );
 
 			this.keyTools.singleEvent( 'input' );
 			this.keyTools.singleKeyEvent( 0, { type: 'keydown' } );
@@ -165,7 +165,7 @@
 
 		'test undoManager.strokesRecorded reseting': function() {
 			var undoManager = this.undoManager,
-				textNode = bender.editor.editable().getFirst().getFirst();
+				textNode = this.editor.editable().getFirst().getFirst();
 			// If we'll type few characters, and then press any functional key
 			// (i.e. del/backspace), undoManager should reset characters counter.
 			// This also works in reversed case.
@@ -190,7 +190,7 @@
 				snapshotEventsCount = 0,
 				undoManager = this.undoManager;
 
-			bender.editor.on( 'saveSnapshot', function() {
+			this.editor.on( 'saveSnapshot', function() {
 				snapshotEventsCount++;
 			}, null, null, -1000 );
 
@@ -222,8 +222,8 @@
 			// Ensures that pressing navigation key will update selection in
 			// latest snapshot (known during navigation key).
 			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var undoManager = bender.editor.undoManager,
-					textNode = bender.editor.editable().getFirst().getFirst(),
+				var undoManager = this.editor.undoManager,
+					textNode = this.editor.editable().getFirst().getFirst(),
 					that = this;
 
 				// Initis with: foo^ bar
@@ -252,8 +252,8 @@
 
 		'test undoManager extra snapshot on navigation key after recordable keystroke': function() {
 			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var undoManager = bender.editor.undoManager,
-					textNode = bender.editor.editable().getFirst().getFirst(),
+				var undoManager = this.editor.undoManager,
+					textNode = this.editor.editable().getFirst().getFirst(),
 					that = this;
 
 				// Initis with: foo ^bar
@@ -288,10 +288,10 @@
 		'test undoManager.amendSelection': function() {
 			// Initial editor content is: "<p>__</p>"
 			// and selection start/end offset is 1.
-			var img1 = new CKEDITOR.plugins.undo.Image( bender.editor ),
-				img2 = new CKEDITOR.plugins.undo.Image( bender.editor ),
+			var img1 = new CKEDITOR.plugins.undo.Image( this.editor ),
+				img2 = new CKEDITOR.plugins.undo.Image( this.editor ),
 				img2bookmark = img2.bookmarks[ 0 ],
-				undoManager = bender.editor.undoManager;
+				undoManager = this.editor.undoManager;
 
 			undoManager.snapshots = [ img1 ];
 
@@ -336,8 +336,8 @@
 			// (functional key) few times, so it will trigger key group change,
 			// and extra snapshot. We need to ensure.
 			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var undoManager = bender.editor.undoManager,
-					textNode = bender.editor.editable().getFirst().getFirst(),
+				var undoManager = this.editor.undoManager,
+					textNode = this.editor.editable().getFirst().getFirst(),
 					// Some browsers inserts extra BR.
 					extraBr = ( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? '<br>' : '',
 					that = this;
@@ -373,8 +373,8 @@
 
 		'test affecting commands state': function() {
 			// Ensures that undo/redo command state is correctly changed.
-			var undoCommand = bender.editor.getCommand( 'undo' ),
-				redoCommand = bender.editor.getCommand( 'redo' );
+			var undoCommand = this.editor.getCommand( 'undo' ),
+				redoCommand = this.editor.getCommand( 'redo' );
 
 			this._moveTextNodeRange( 0 );
 
@@ -390,8 +390,8 @@
 
 		'test no snapshot on dummy backspace': function() {
 			// Backspace which does not remove anything, shouln'd create snapshot.
-			var undoCommand = bender.editor.getCommand( 'undo' ),
-				undoManager = bender.editor.undoManager,
+			var undoCommand = this.editor.getCommand( 'undo' ),
+				undoManager = this.editor.undoManager,
 				// IE will send keypress for backspace, which is treated as "input" event.
 				skipInputEvent = CKEDITOR.env.ie ? false : true;
 
@@ -408,7 +408,7 @@
 
 		'test undoManager.isNavigationKey': function() {
 			var naviKeys = [ 'HOME', 'END', 'RIGHT', 'LEFT', 'DOWN', 'UP', 'PAGEDOWN', 'PAGEUP' ],
-				undoManager = bender.editor.undoManager,
+				undoManager = this.editor.undoManager,
 				curKey;
 
 			for ( var i=0; i < naviKeys.length; i++ ) {
