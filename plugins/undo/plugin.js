@@ -19,7 +19,8 @@
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var undoManager = editor.undoManager = new UndoManager( editor );
+			var undoManager = editor.undoManager = new UndoManager( editor ),
+				undoManagerEventHandler = undoManager.eventHandler = new UndoManagerEventHandler( undoManager );
 
 			var undoCommand = editor.addCommand( 'undo', {
 				exec: function() {
@@ -69,78 +70,8 @@
 				undoManager.save( evt.data && evt.data.contentOnly );
 			} );
 
-			// Registering keydown on every document recreation.(#3844)
-			editor.on( 'contentDom', function() {
-				// We'll use keyboard + input events to determine if snapshot should be created.
-				// Upon these events we'll increase inputFired counter. Eventually it might be
-				// canceled by paste/drop with ignoreInputEvent flag.
-				var editable = editor.editable(),
-					inputFired = 0,
-					ignoreInputEvent = false,
-					ignoreInputEventListener = function() {
-						ignoreInputEvent = true;
-					};
-
-				// We'll create a snapshot here (before DOM modification), because we'll
-				// need unmodified content when we got keygroup toggled in keyup.
-				editable.attachListener( editable, 'keydown', function( evt ) {
-					// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
-					if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
-						evt.data.preventDefault();
-						return;
-					}
-					// We need to store an image which will be used in case of key group
-					// change.
-					undoManager.lastKeydownImage = new Image( editor );
-					var keyCode = evt.data.getKey();
-					if ( undoManager.isNavigationKey( keyCode ) ) {
-						if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
-							// We already have image, so we'd like to reuse it.
-							undoManager.save( false, undoManager.lastKeydownImage );
-							undoManager.resetType();
-						}
-					}
-				} );
-
-				// Only IE can't use input event, because it's not fired in contenteditable.
-				editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', function() {
-					inputFired += 1;
-					// inputFired counter shouldn't be increased if paste/drop event were fired before.
-					if ( ignoreInputEvent ) {
-						inputFired -= 1;
-						ignoreInputEvent = false;
-					}
-				} );
-
-				// Keyup executes main snapshot logic.
-				editable.attachListener( editable, 'keyup', function( evt ) {
-					var keyCode = evt.data.getKey(),
-						ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
-
-					if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor ) ) ) {
-						return;
-					}
-
-					if ( inputFired > 0 ) {
-						// Reset flag indicating input event.
-						inputFired -= 1;
-						// IE: backspace/del would still call keypress event, even if nothing was removed.
-						undoManager.type( keyCode );
-					} else if ( undoManager.isNavigationKey( keyCode ) ) {
-						// Note content snapshot has been checked in keydown.
-						undoManager.onNavigationKey( true );
-					}
-				} );
-				// On paste and drop we need to cancel inputFired variable.
-				// It would result with calling undoManager.type() on any following key.
-				editable.attachListener( editable, 'paste', ignoreInputEventListener );
-				editable.attachListener( editable, 'drop', ignoreInputEventListener );
-
-				// Click should create a snapshot if needed, but shouldn't cause change event.
-				editable.attachListener( editable, 'click', function( evt ) {
-					undoManager.onNavigationKey();
-				} );
-			} );
+			// Event manager listeners should be attached on contentDom.
+			editor.on( 'contentDom', undoManagerEventHandler.attachListeners, undoManagerEventHandler );
 
 			editor.on( 'instanceReady', function() {
 				// Saves initial snapshot.
@@ -804,6 +735,99 @@
 			return !!this.navigationKeyCodes[ keyCode ];
 		}
 	};
+
+	/**
+	 * Class encapsulating all the listeners which should trigger snapshot.
+	 *
+	 * **Note:** This class is not accessible from the global scope.
+	 *
+	 * @private
+	 * @member CKEDITOR.plugins.undo
+	 * @class CKEDITOR.plugins.undo.UndoManagerEventHandler
+	 * @constructor Creates an UndoManagerEventHandler class instance.
+	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
+	 */
+	function UndoManagerEventHandler( undoManager ) {
+		// We'll use keyboard + input events to determine if snapshot should be created.
+		// Upon these events we'll increase inputFired counter. Eventually it might be
+		// canceled by paste/drop with ignoreInputEvent flag.
+		var editor = undoManager.editor,
+			inputFired = 0,
+			ignoreInputEvent = false,
+			ignoreInputEventListener = function() {
+				ignoreInputEvent = true;
+			};
+
+		this.onKeydown = function( evt ) {
+			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
+			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
+				evt.data.preventDefault();
+				return;
+			}
+			// We need to store an image which will be used in case of key group
+			// change.
+			undoManager.lastKeydownImage = new Image( editor );
+			var keyCode = evt.data.getKey();
+			if ( undoManager.isNavigationKey( keyCode ) ) {
+				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
+					// We already have image, so we'd like to reuse it.
+					undoManager.save( false, undoManager.lastKeydownImage );
+					undoManager.resetType();
+				}
+			}
+		};
+
+		this.onInput = function() {
+			inputFired += 1;
+			// inputFired counter shouldn't be increased if paste/drop event wer4e fired before.
+			if ( ignoreInputEvent ) {
+				inputFired -= 1;
+				ignoreInputEvent = false;
+			}
+		};
+
+		this.onKeyup = function( evt ) {
+			var keyCode = evt.data.getKey(),
+				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
+
+			// IE: backspace/del would still call keypress event, even if nothing was removed.
+			if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor ) ) ) {
+				return;
+			}
+
+			if ( inputFired > 0 ) {
+				// Reset flag indicating input event.
+				inputFired -= 1;
+				undoManager.type( keyCode );
+			} else if ( undoManager.isNavigationKey( keyCode ) ) {
+				// Note content snapshot has been checked in keydown.
+				undoManager.onNavigationKey( true );
+			}
+		};
+
+		this.attachListeners = function() {
+			var editable = editor.editable();
+			// We'll create a snapshot here (before DOM modification), because we'll
+			// need unmodified content when we got keygroup toggled in keyup.
+			editable.attachListener( editable, 'keydown', this.onKeydown );
+
+			// Only IE can't use input event, because it's not fired in contenteditable.
+			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', this.onInput );
+
+			// Keyup executes main snapshot logic.
+			editable.attachListener( editable, 'keyup', this.onKeyup );
+
+			// On paste and drop we need to cancel inputFired variable.
+			// It would result with calling undoManager.type() on any following key.
+			editable.attachListener( editable, 'paste', ignoreInputEventListener );
+			editable.attachListener( editable, 'drop', ignoreInputEventListener );
+
+			// Click should create a snapshot if needed, but shouldn't cause change event.
+			editable.attachListener( editable, 'click', function( evt ) {
+				undoManager.onNavigationKey();
+			} );
+		};
+	}
 } )();
 
 /**
