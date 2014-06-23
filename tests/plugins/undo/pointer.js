@@ -71,16 +71,18 @@
 				// We don't want extra snapshot made by setData().
 				noSnapshot: true,
 				callback: function() {
-					assert.areEqual( 1, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
-					that.tools.mouse.click( null, function() {
-						that._moveTextNodeRange( 0 );
-					} );
-
-					that.tools.mouse.click( null, function() {
-						that._moveTextNodeRange( 2 );
-					} );
-
 					resume( function() {
+						// There should be no snapshots at the begining, because of noSnapshot.
+						assert.areEqual( 0, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
+
+						that.tools.mouse.click( null, function() {
+							that._moveTextNodeRange( 0 );
+						} );
+
+						that.tools.mouse.click( null, function() {
+							that._moveTextNodeRange( 2 );
+						} );
+
 						var snapshots = that.editor.undoManager.snapshots,
 							bookmark;
 
@@ -94,7 +96,7 @@
 				}
 			} );
 
-			wait( 500 );
+			wait();
 		},
 
 		'test no change event on click': function() {
