@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'font', 'ca', {
 	fontSize: {
 		label: 'Mida',
 		voiceLabel: 'Mida de la lletra',
-		panelTitle: 'Mida'
+		panelTitle: 'Mida de la lletra'
 	},
 	label: 'Tipus de lletra',
 	panelTitle: 'Tipus de lletra',

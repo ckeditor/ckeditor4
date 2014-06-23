@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'km' ] = {
 		alignTop: 'ខាងលើ',
 		alignMiddle: 'កណ្តាល',
 		alignBottom: 'ខាងក្រោម',
-		alignNone: 'None', // MISSING
+		alignNone: 'អត់',
 		invalidValue	: 'តម្លៃ​មិន​ត្រឹម​ត្រូវ។',
 		invalidHeight: 'តម្លៃ​កំពស់​ត្រូវ​តែ​ជា​លេខ។',
 		invalidWidth: 'តម្លៃ​ទទឹង​ត្រូវ​តែ​ជា​លេខ។',

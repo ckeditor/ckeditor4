@@ -21,12 +21,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'ម៉ីនុយបរិបទអ្នកកែសម្រួល',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
+			name: 'ប្រអប់បញ្ជីអ្នកកែសម្រួល',
 			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
@@ -82,15 +82,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
+	backspace: 'លុបថយក្រោយ',
 	tab: 'Tab', // MISSING
 	enter: 'Enter', // MISSING
 	shift: 'Shift', // MISSING
 	ctrl: 'Ctrl', // MISSING
 	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
+	pause: 'ផ្អាក',
 	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
+	escape: 'ចាកចេញ',
 	pageUp: 'ទំព័រ​លើ',
 	pageDown: 'ទំព័រ​ក្រោម',
 	end: 'ចុង',
@@ -117,7 +117,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 	multiply: 'គុណ',
 	add: 'បន្ថែម',
 	subtract: 'ដក',
-	decimalPoint: 'Decimal Point', // MISSING
+	decimalPoint: 'ចំណុចទសភាគ',
 	divide: 'ចែក',
 	f1: 'F1',
 	f2: 'F2',

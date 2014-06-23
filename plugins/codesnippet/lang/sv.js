@@ -5,8 +5,8 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'sv', {
 	button: 'Infoga kodsnutt',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet' // MISSING
+	codeContents: 'Kodinnehålll',
+	emptySnippetError: 'Innehåll krävs för kodsnutt',
+	language: 'Språk',
+	title: 'Kodsnutt'
 } );
