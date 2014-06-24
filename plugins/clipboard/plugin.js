@@ -551,14 +551,14 @@
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				// Cancel native drop.
+				evt.data.preventDefault();
+
 				// Create dataTransfer of get it, if it was created before.
 				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, null, editor );
 
 				// Getting drop position is one of the most complex part of D&D.
 				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt );
-
-				// Cancel native drop.
-				evt.data.preventDefault();
 
 				// Do nothing if it was not possible to get drop range.
 				if ( !dropRange )
