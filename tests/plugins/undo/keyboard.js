@@ -355,41 +355,58 @@
 		'test backspace snapshot content': function() {
 			// In this test we'll type few characters, and then press backspace
 			// (functional key) few times, so it will trigger key group change,
-			// and extra snapshot. We need to ensure.
-			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var undoManager = this.editor.undoManager,
-					textNode = this.editor.editable().getFirst().getFirst(),
-					// Some browsers inserts extra BR.
-					extraBr = ( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? '<br>' : '',
-					that = this;
+			// and extra snapshot.
+			bender.tools.selection.setWithHtml( this.editor, '<p>foo {}bar</p>' );
 
-				// Initis with: foo ^bar
-				that._moveTextNodeRange( 4 );
+			this.editor.fire( 'saveSnapshot' );
 
-				this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
-					// Should insert letter to text node, and move the caret.
+			var undoManager = this.editor.undoManager,
+				textNode = this.editor.editable().getFirst().getFirst(),
+				// Some browsers inserts extra BR.
+				extraBr = ( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? '<br>' : '',
+				that = this;
+
+			assert.areEqual( 1, undoManager.snapshots.length, 'Invalid initial snapshots count' );
+
+			// Initis with: foo ^bar
+			this._moveTextNodeRange( 4 );
+
+			this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
+				// Should insert letter to text node, and move the caret.
+				// Ofc IE8 will split text nodes next to selection, so we need
+				// to be aware.
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+					textNode.setText( 'foo D' );
+				else
 					textNode.setText( 'foo Dbar' );
-					that._moveTextNodeRange( 5 );
-				} );
-
-				// Now delete three times.
-				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, false, function() {
-					// Should insert letter to text node, and move the caret.
-					textNode.$.ownerDocument.body.normalize();
-					textNode.setText( 'foo bar' );
-					that._moveTextNodeRange( 4 );
-				} );
-				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, false, function() {
-					textNode.$.ownerDocument.body.normalize();
-					// Should insert letter to text node, and move the caret.
-					textNode.setText( 'foobar' );
-					that._moveTextNodeRange( 3 );
-				} );
-
-				assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
-				assert.areEqual( '<p>foo bar' + extraBr + '</p>', undoManager.snapshots[ 1 ].contents, 'Invalid content for undoManager.snapshot[1]' );
-				assert.areEqual( '<p>foo Dbar' + extraBr + '</p>', undoManager.snapshots[ 2 ].contents, 'Invalid content for undoManager.snapshot[2]' );
+				that._moveTextNodeRange( 5 );
 			} );
+
+			// Now delete three times.
+			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, false, function() {
+				// Should insert letter to text node, and move the caret.
+				textNode.setText( 'foo bar' );
+				that._moveTextNodeRange( 4 );
+			} );
+			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, false, function() {
+				// Should insert letter to text node, and move the caret.
+				textNode.setText( 'foobar' );
+				that._moveTextNodeRange( 3 );
+			} );
+
+			assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+			assert.areEqual(
+				'<p>foo bar' + extraBr + '</p>',
+				undoManager.snapshots[ 0 ].contents.toLowerCase(),
+				'Invalid content for undoManager.snapshot[0]'
+			);
+
+			assert.areEqual(
+				'<p>foo dbar' + extraBr + '</p>',
+				undoManager.snapshots[ 1 ].contents.toLowerCase(),
+				'Invalid content for undoManager.snapshot[1]'
+			);
 		},
 
 		'test affecting commands state': function() {
