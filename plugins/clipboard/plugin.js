@@ -559,16 +559,16 @@
 
 				// Getting drop position is one of the most complex part of D&D.
 				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt ),
-					dragRanges = CKEDITOR.plugins.clipboard.dragRanges;
+					dragRange = CKEDITOR.plugins.clipboard.dragRange;
 
 				// Do nothing if it was not possible to get drop range.
 				if ( !dropRange )
 					return;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					internalDnD( dragRanges, dropRange, dataTransfer );
+					internalDnD( dragRange, dropRange, dataTransfer );
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
-					crossEditorDnD( dragRanges, dropRange, dataTransfer );
+					crossEditorDnD( dragRange, dropRange, dataTransfer );
 				} else {
 					externalDnD( dropRange, dataTransfer );
 				}
@@ -576,14 +576,11 @@
 		}
 
 		// Internal D&D.
-		function internalDnD( dragRanges, dropRange, dataTransfer ) {
+		function internalDnD( dragRange, dropRange, dataTransfer ) {
 			// Execute D&D with a timeout because otherwise selection, after drop,
 			// on IE is in the drag position, instead of drop position.
 			setTimeout( function() {
-				var dragBookmarks = [],
-					dragRange, dropBookmark, i,
-
-					// Functions shortcuts.
+				var dragBookmark, dropBookmark, i,
 					rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore,
 					fixIESplittedNodes = CKEDITOR.plugins.clipboard.fixIESplittedNodes;
 
@@ -593,35 +590,26 @@
 				editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-					fixIESplittedNodes( dragRanges[ 0 ], dropRange );
+					fixIESplittedNodes( dragRange, dropRange );
 				}
 
 				// Because we manipulate multiple ranges we need to do it carefully,
 				// changing one range (event creating a bookmark) may make other invalid.
-				// We need to change ranges into bookmark so we can manipulate them easily in the future.
+				// We need to change ranges into bookmarks so we can manipulate them easily in the future.
 				// We can change the range which is later in the text before we change the preceding range.
 				// We call rangeBefore to test the order of ranges.
-				for ( i = 0; i < dragRanges.length; i++ ) {
-					dragRange = dragRanges[ i ];
-					if ( !rangeBefore( dragRange, dropRange ) )
-						dragBookmarks.push( dragRange.createBookmark( 1 ) );
-				}
+				if ( !rangeBefore( dragRange, dropRange ) )
+					dragBookmark = dragRange.createBookmark( 1 );
 
-				var dropRangeCopy = dropRange.clone();
-				dropBookmark = dropRangeCopy.createBookmark( 1 );
+				dropBookmark = dropRange.clone().createBookmark( 1 );
 
-				for ( i = 0; i < dragRanges.length; i++ ) {
-					dragRange = dragRanges[ i ];
-					if ( rangeBefore( dragRange, dropRange ) )
-						dragBookmarks.push( dragRange.createBookmark( 1 ) );
-				}
+				if ( rangeBefore( dragRange, dropRange ) )
+					dragBookmark = dragRange.createBookmark( 1 );
 
-				// No we can safely delete content for the drag ranges...
-				for ( i = 0; i < dragBookmarks.length; i++ ) {
-					dragRange = editor.createRange();
-					dragRange.moveToBookmark( dragBookmarks[ i ] );
-					dragRange.deleteContents();
-				}
+				// No we can safely delete content for the drag range...
+				dragRange = editor.createRange();
+				dragRange.moveToBookmark( dragBookmark );
+				dragRange.deleteContents();
 
 				// ...and paste content into the drop position.
 				dropRange = editor.createRange();
@@ -634,7 +622,7 @@
 		}
 
 		// Cross editor D&D.
-		function crossEditorDnD( dragRanges, dropRange, dataTransfer ) {
+		function crossEditorDnD( dragRange, dropRange, dataTransfer ) {
 			var i;
 
 			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
@@ -650,9 +638,9 @@
 
 			// Remove dragged content and make a snapshot.
 			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
-			for ( i = 0; i < dragRanges.length; i++ ) {
-				dragRanges[ i ].deleteContents();
-			}
+
+			dragRange.deleteContents();
+
 			dataTransfer.sourceEditor.getSelection().reset();
 			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 		}
@@ -1619,7 +1607,7 @@
 		}
 
 		if ( sourceEditor ) {
-			CKEDITOR.plugins.clipboard.dragRanges = sourceEditor.getSelection().getRanges();
+			CKEDITOR.plugins.clipboard.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
 		}
 
 		if ( targetEditor ) {
@@ -1652,7 +1640,8 @@
 	 * A native DOM event object.
 	 *
 	 * @param {CKEDITOR.editor} editor The source editor instance.
-	 * If this is set then html and sourceRanges will be created based on the editor contents.
+	 * If editor is defined then dataValue will be created based on
+	 * the editor contents and dataType will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
 		this.$ = evt.data.$.dataTransfer;
