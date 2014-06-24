@@ -138,6 +138,7 @@
 			[ '<p>{x}@</p>', 														'<p>x</p>' ],
 			[ '<p><b>{x}</b>@</p>', 												'<b>x</b>' ],
 			[ '<p><b>{x}@</b></p>', 												'<b>x</b>' ],
+			[ '<p>{x}<br>@</p>', 													'x' ],
 		],
 		'tables': [
 			[ '<table><tbody><tr><td>{x}</td></tr></tbody></table>', 				'x' ],
@@ -166,6 +167,8 @@
 			[ '<ol><li>x[</li></ol><ol><li>x]y</li></ol>', 							'<ol><li></li></ol><ol><li>x</li></ol>' ],
 			[ '<p>[x@]</p>', 														'<p>x</p>' ],
 			[ '<p>[x]@</p>', 														'<p>x</p>' ],
+			[ '<p>[x]<br>@</p>', 													'x' ],
+			[ '<p>[x<br>]@</p>', 													'<p>x<br></p>' ],
 			[ '[<hr>]', 															'<hr>' ],
 			[ '[<img src="' + img_src + '">]', 										'<img src="' + img_src + '">' ],
 		]
