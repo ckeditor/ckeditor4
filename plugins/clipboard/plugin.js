@@ -558,16 +558,17 @@
 				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, null, editor );
 
 				// Getting drop position is one of the most complex part of D&D.
-				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt );
+				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt ),
+					dragRanges = CKEDITOR.plugins.clipboard.dragRanges;
 
 				// Do nothing if it was not possible to get drop range.
 				if ( !dropRange )
 					return;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					internalDnD( dropRange, dataTransfer );
+					internalDnD( dragRanges, dropRange, dataTransfer );
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
-					crossEditorDnD( dropRange, dataTransfer );
+					crossEditorDnD( dragRanges, dropRange, dataTransfer );
 				} else {
 					externalDnD( dropRange, dataTransfer );
 				}
@@ -575,12 +576,11 @@
 		}
 
 		// Internal D&D.
-		function internalDnD( dropRange, dataTransfer ) {
+		function internalDnD( dragRanges, dropRange, dataTransfer ) {
 			// Execute D&D with a timeout because otherwise selection, after drop,
 			// on IE is in the drag position, instead of drop position.
 			setTimeout( function() {
-				var dragRanges = dataTransfer.sourceRanges,
-					dragBookmarks = [],
+				var dragBookmarks = [],
 					dragRange, dropBookmark, i,
 
 					// Functions shortcuts.
@@ -634,7 +634,7 @@
 		}
 
 		// Cross editor D&D.
-		function crossEditorDnD( dropRange, dataTransfer ) {
+		function crossEditorDnD( dragRanges, dropRange, dataTransfer ) {
 			var i;
 
 			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
@@ -650,8 +650,8 @@
 
 			// Remove dragged content and make a snapshot.
 			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
-			for ( i = 0; i < dataTransfer.sourceRanges.length; i++ ) {
-				dataTransfer.sourceRanges[ i ].deleteContents();
+			for ( i = 0; i < dragRanges.length; i++ ) {
+				dragRanges[ i ].deleteContents();
 			}
 			dataTransfer.sourceEditor.getSelection().reset();
 			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -1618,6 +1618,10 @@
 			CKEDITOR.plugins.clipboard.dnd = dataTransfer;
 		}
 
+		if ( sourceEditor ) {
+			CKEDITOR.plugins.clipboard.dragRanges = sourceEditor.getSelection().getRanges();
+		}
+
 		if ( targetEditor ) {
 			dataTransfer.setTargetEditor( targetEditor );
 		}
@@ -1682,7 +1686,6 @@
 			this.sourceEditor = editor;
 			this.dataValue = editor.getSelection().getSelectedHtml();
 			this.dataType = 'html';
-			this.sourceRanges = editor.getSelection().getRanges();
 		} else {
 			// IE support only text data and throws exception if we try to get html data.
 			// This html data object may also be empty if we drag content of the textarea.
@@ -1822,14 +1825,6 @@
 	 * dataType
 	 *
 	 * @property {String} dataType
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * Range instances that represent the selection during drag.
-	 *
-	 * @private
-	 * @property {Array} sourceRanges
 	 * @member CKEDITOR.plugins.clipboard.dataTransfer
 	 */
 } )();
