@@ -675,6 +675,11 @@
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
 					// Cross editor D&D.
 
+					// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+					if ( CKEDITOR.env.gecko ) {
+						fixGeckoDisappearingCursor( editor );
+					}
+
 					// Paste event should be fired before delete contents because otherwise
 					// Chrome have a problem with drop range (Chrome split the drop
 					// range container so the offset is bigger then container length).
@@ -691,12 +696,23 @@
 				} else {
 					// Drop from external source.
 
+					// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+					if ( CKEDITOR.env.gecko ) {
+						fixGeckoDisappearingCursor( editor );
+					}
+
 					// Paste content into the drop position.
 					dropRange.select();
 
 					firePasteEvents( dataTransfer.dataType, dataTransfer.dataValue );
 				}
 			} );
+
+			function fixGeckoDisappearingCursor( editor ) {
+				editor.once( 'afterPaste', function() {
+					editor.toolbox.focus();
+				} );
+			}
 
 		}
 
