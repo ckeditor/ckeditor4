@@ -46,7 +46,7 @@
 			changeCounter = 0;
 			this.undoManager = this.editor.undoManager;
 
-			this.editorBot.setHtmlWithSelection( '<p>_^_</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>_{}_</p>' );
 
 			// For each TC we want to reset undoManager.
 			this.undoManager.reset();
@@ -130,10 +130,22 @@
 
 		'test undoManager change event for functional keys': tcWithExpectedChanges( 2, function() {
 			var textNode = this.editor.editable().getFirst().getFirst(),
-				// Because we have caret in the middle, text node is splitted into two parts.
-				secondTextNode = textNode.getNext();
-			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() { textNode.setText( '' ); } );
-			this.keyTools.keyEvent( keyCodesEnum.DELETE, null, null, function() { secondTextNode.setText( '' ); } );
+				// In IE8 _{}_ will be splitted into two text nodes after calling selection#setRanges().
+				secondTextNode = textNode.getNext(),
+				that = this;
+
+			this.keyTools.keyEvent( keyCodesEnum.DELETE, null, null, function() {
+				// We need to chceck if it's a text node, coz IE11 inserts BR there.
+				if ( secondTextNode && secondTextNode.type == CKEDITOR.NODE_TEXT )
+					secondTextNode.setText( '' );
+				else
+					textNode.setText( '_' );
+			} );
+
+			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() {
+				that._moveTextNodeRange( 0 );
+				textNode.setText( '' );
+			} );
 		} ),
 
 		'test buggy Android keyboard model': tcWithExpectedChanges( 1, function() {
