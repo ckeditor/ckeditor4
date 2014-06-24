@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The "dialogui" plugin.
+ * @fileOverview The Dialog User Interface plugin.
  */
 
 CKEDITOR.plugins.add( 'dialogui', {
@@ -97,26 +97,27 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog, {
 			/**
-			 * Base class for all dialog elements with a textual label on the left.
+			 * Base class for all dialog window elements with a textual label on the left.
 			 *
 			 * @class CKEDITOR.ui.dialog.labeledElement
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a labeledElement class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `label` (Required) The label string.
 			 * * `labelLayout` (Optional) Put 'horizontal' here if the
-			 *     label element is to be layed out horizontally. Otherwise a vertical
+			 *     label element is to be laid out horizontally. Otherwise a vertical
 			 *     layout will be used.
-			 * * `widths` (Optional) This applies only for horizontal
-			 *     layouts - an 2-element array of lengths to specify the widths of the
+			 * * `widths` (Optional) This applies only to horizontal
+			 *     layouts &mdash; a two-element array of lengths to specify the widths of the
 			 *     label and the content element.
-			 * * `role` (Optional) Value for `role` attribute.
-			 * * `includeLabel` (Optional) If set to `true` will include aria-labelledby attribute.
+			 * * `role` (Optional) Value for the `role` attribute.
+			 * * `includeLabel` (Optional) If set to `true`, the `aria-labelledby` attribute
+			 *     will be included.
 			 *
-			 * @param {Array} htmlList List of HTML code to output to.
+			 * @param {Array} htmlList The list of HTML code to output to.
 			 * @param {Function} contentHtml
 			 * A function returning the HTML code string to be added inside the content
 			 * cell.
@@ -186,7 +187,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.textInput
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a textInput class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
@@ -194,7 +195,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * * `validate` (Optional) The validation function.
 			 * * `maxLength` (Optional) The maximum length of text box contents.
 			 * * `size` (Optional) The size of the text box. This is
-			 *     usually overridden by the size defined by the skin, however.
+			 *     usually overridden by the size defined by the skin, though.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -261,12 +262,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * A text area with a label on the top or left.
+			 * A text area with a label at the top or on the left.
 			 *
 			 * @class CKEDITOR.ui.dialog.textarea
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a textarea class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 *
 			 * The element definition. Accepted fields:
@@ -322,12 +323,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.checkbox
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a checkbox class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `checked` (Optional) Whether the checkbox is checked
-			 *     on instantiation. Defaults to false.
+			 *     on instantiation. Defaults to `false`.
 			 * * `validate` (Optional) The validation function.
 			 * * `label` (Optional) The checkbox label.
 			 *
@@ -371,14 +372,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.radio
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a radio class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `default` (Required) The default value.
 			 * * `validate` (Optional) The validation function.
 			 * * `items` (Required) An array of options. Each option
-			 *     is a 1- or 2-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
+			 *     is a one- or two-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
 			 *     is missing, then the value would be assumed to be the same as the description.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -473,13 +474,13 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.button
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a button class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `label` (Required) The button label.
-			 * * `disabled` (Optional) Set to true if you want the
-			 *     button to appear in disabled state.
+			 * * `disabled` (Optional) Set to `true` if you want the
+			 *     button to appear in the disabled state.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
@@ -542,17 +543,17 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.select
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a button class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `default` (Required) The default value.
 			 * * `validate` (Optional) The validation function.
 			 * * `items` (Required) An array of options. Each option
-			 *     is a 1- or 2-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
+			 *     is a one- or two-item array of format `[ 'Description', 'Value' ]`. If `'Value'`
 			 *     is missing, then the value would be assumed to be the same as the
 			 *     description.
-			 * * `multiple` (Optional) Set this to true if you'd like
+			 * * `multiple` (Optional) Set this to `true` if you would like
 			 *     to have a multiple-choice select box.
 			 * * `size` (Optional) The number of items to display in
 			 *     the select box.
@@ -613,7 +614,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.file
 			 * @extends CKEDITOR.ui.dialog.labeledElement
 			 * @constructor Creates a file class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
@@ -679,12 +680,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.fileButton
 			 * @extends CKEDITOR.ui.dialog.button
 			 * @constructor Creates a fileButton class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
-			 * * `for` (Required) The file input's page and element Id
-			 *     to associate to, in a 2-item array format: `[ 'page_id', 'element_id' ]`.
+			 * * `for` (Required) The file input's page and element ID
+			 *     to associate with, in a two-item array format: `[ 'page_id', 'element_id' ]`.
 			 * * `validate` (Optional) The validation function.
 			 *
 			 * @param {Array} htmlList List of HTML code to output to.
@@ -722,12 +723,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 					theirHtmlRe = /^(\s*<[\w:]+(?:\s+[^>]*)?)((?:.|\r|\n)+)$/,
 					emptyTagRe = /\/$/;
 				/**
-				 * A dialog element made from raw HTML code.
+				 * A dialog window element made from raw HTML code.
 				 *
 				 * @class CKEDITOR.ui.dialog.html
 				 * @extends CKEDITOR.ui.dialog.uiElement
 				 * @constructor Creates a html class instance.
-				 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+				 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 				 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition Element definition.
 				 * Accepted fields:
 				 *
@@ -785,17 +786,17 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @class CKEDITOR.ui.dialog.fieldset
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a fieldset class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {Array} childObjList
 			 * Array of {@link CKEDITOR.ui.dialog.uiElement} objects inside this container.
-			 * @param {Array} childHtmlList Array of HTML code that correspond to the HTML output of all the
+			 * @param {Array} childHtmlList Array of HTML code that corresponds to the HTML output of all the
 			 * objects in childObjList.
 			 * @param {Array} htmlList Array of HTML code that this element will output to.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `label` (Optional) The legend of the this fieldset.
-			 * * `children` (Required) An array of dialog field definitions which will be grouped inside this fieldset.
+			 * * `children` (Required) An array of dialog window field definitions which will be grouped inside this fieldset.
 			 *
 			 */
 			fieldset: function( dialog, childObjList, childHtmlList, htmlList, elementDefinition ) {
@@ -850,7 +851,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Defines the onChange event for UI element definitions.
+			 * Defines the `onChange` event for UI element definitions.
 			 * @property {Object}
 			 */
 			eventProcessors: commonEventProcessors
@@ -887,21 +888,26 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * @todo
+			 * Checks whether a field is visible.
+			 *
+			 * @returns {Boolean}
 			 */
 			isVisible: function() {
 				return this.getElement().getFirst().isVisible();
 			},
 
 			/**
-			 * @todo
+			 * Checks whether a field is enabled. Fields can be disabled by using the
+			 * {@link #disable} method and enabled by using the {@link #enable} method.
+			 *
+			 * @returns {Boolean}
 			 */
 			isEnabled: function() {
 				return !this._.disabled;
 			},
 
 			/**
-			 * Defines the onChange event and onClick for button element definitions.
+			 * Defines the `onChange` event and `onClick` for button element definitions.
 			 *
 			 * @property {Object}
 			 */
@@ -1013,10 +1019,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * Adds an option to the select box.
 			 *
 			 * @param {String} label Option label.
-			 * @param {String} value (Optional) Option value, if not defined it'll be
+			 * @param {String} value (Optional) Option value, if not defined it will be
 			 * assumed to be the same as the label.
 			 * @param {Number} index (Optional) Position of the option to be inserted
-			 * to. If not defined the new option will be inserted to the end of list.
+			 * to. If not defined, the new option will be inserted to the end of list.
 			 * @returns {CKEDITOR.ui.dialog.select} The current select UI element.
 			 */
 			add: function( label, value, index ) {
@@ -1086,7 +1092,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the state of the checkbox.
 			 *
-			 * @returns {Boolean} true means the checkbox is ticked, false means it's not ticked.
+			 * @returns {Boolean} `true` means that the checkbox is ticked, `false` means it is not ticked.
 			 */
 			getValue: function() {
 				return this.getInputElement().$.checked;
@@ -1100,7 +1106,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Defines the onChange event for UI element definitions.
+			 * Defines the `onChange` event for UI element definitions.
 			 *
 			 * @property {Object}
 			 */
@@ -1129,10 +1135,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 		/** @class CKEDITOR.ui.dialog.radio */
 		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
 			/**
-			 * Checks one of the radio buttons in this button group.
+			 * Selects one of the radio buttons in this button group.
 			 *
 			 * @param {String} value The value of the button to be chcked.
-			 * @param {Boolean} noChangeEvent Internal commit, to supress `change` event on this element.
+			 * @param {Boolean} noChangeEvent Internal commit, to supress the `change` event on this element.
 			 */
 			setValue: function( value, noChangeEvent ) {
 				var children = this._.children,
@@ -1144,9 +1150,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Gets the value of the currently checked radio button.
+			 * Gets the value of the currently selected radio button.
 			 *
-			 * @returns {String} The currently checked button's value.
+			 * @returns {String} The currently selected button's value.
 			 */
 			getValue: function() {
 				var children = this._.children;
@@ -1174,7 +1180,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Defines the onChange event for UI element definitions.
+			 * Defines the `onChange` event for UI element definitions.
 			 *
 			 * @property {Object}
 			 */
@@ -1225,7 +1231,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Get the action assigned to the form.
+			 * Gets the action assigned to the form.
 			 *
 			 * @returns {String} The value of the action.
 			 */
@@ -1234,8 +1240,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * The events must be applied on the inner input element, and
-			 * that must be done when the iframe & form has been loaded.
+			 * The events must be applied to the inner input element, and
+			 * this must be done when the iframe and form have been loaded.
 			 */
 			registerEvents: function( definition ) {
 				var regex = /^on([A-Z]\w+)/,
@@ -1262,8 +1268,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 			/**
 			 * Redraws the file input and resets the file path in the file input.
-			 * The redraw logic is necessary because non-IE browsers tend to clear
-			 * the `<iframe>` containing the file input after closing the dialog.
+			 * The redrawing logic is necessary because non-IE browsers tend to clear
+			 * the `<iframe>` containing the file input after closing the dialog window.
 			 */
 			reset: function() {
 				var _ = this._,
@@ -1347,18 +1353,18 @@ CKEDITOR.plugins.add( 'dialogui', {
 				return this.getInputElement().$.value || '';
 			},
 
-			/***
-			 * The default value of input `type="file"` is an empty string, but during initialization
-			 * of this UI element, the iframe still isn't ready so it can't be read from that object
-			 * Setting it manually prevents later issues about the current value (`''`) being different
-			 * of the initial value (undefined as it asked for `.value` of a div).
+			/**
+			 * The default value of input `type="file"` is an empty string, but during the initialization
+			 * of this UI element, the iframe still is not ready so it cannot be read from that object.
+			 * Setting it manually prevents later issues with the current value (`''`) being different
+			 * than the initial value (undefined as it asked for `.value` of a div).
 			 */
 			setInitValue: function() {
 				this._.initValue = '';
 			},
 
 			/**
-			 * Defines the onChange event for UI element definitions.
+			 * Defines the `onChange` event for UI element definitions.
 			 *
 			 * @property {Object}
 			 */
@@ -1412,7 +1418,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 /**
  * Fired when the inner frame created by the element is ready.
- * Each time the button is used or the dialog is loaded a new
+ * Each time the button is used or the dialog window is loaded, a new
  * form might be created.
  *
  * @event formLoaded

@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		alignTop: 'Nahoru',
 		alignMiddle: 'Na střed',
 		alignBottom: 'Dolů',
-		alignNone: 'None', // MISSING
+		alignNone: 'Žádné',
 		invalidValue	: 'Neplatná hodnota.',
 		invalidHeight: 'Zadaná výška musí být číslo.',
 		invalidWidth: 'Šířka musí být číslo.',

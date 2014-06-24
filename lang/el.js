@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'el' ] = {
 		alignTop: 'Πάνω',
 		alignMiddle: 'Μέση',
 		alignBottom: 'Κάτω',
-		alignNone: 'None', // MISSING
+		alignNone: 'Χωρίς',
 		invalidValue	: 'Μη έγκυρη τιμή.',
 		invalidHeight: 'Το ύψος πρέπει να είναι ένας αριθμός.',
 		invalidWidth: 'Το πλάτος πρέπει να είναι ένας αριθμός.',

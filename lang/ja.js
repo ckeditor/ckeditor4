@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignTop: '上',
 		alignMiddle: '中央',
 		alignBottom: '下',
-		alignNone: 'None', // MISSING
+		alignNone: 'なし',
 		invalidValue	: '不正な値です。',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',

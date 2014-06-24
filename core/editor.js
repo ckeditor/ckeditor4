@@ -932,16 +932,16 @@
 		 *			}
 		 *		} );
 		 *
-		 * Note: In CKEditor 4.4.2 the signature of this method has changed. All arguments
-		 * except `data` has been wrapped into the `options` object. However, backward compatibility
-		 * has been preserved and it is still possible to use the `data, callback, internal` arguments.
+		 * Note: In **CKEditor 4.4.2** the signature of this method has changed. All arguments
+		 * except `data` were wrapped into the `options` object. However, backward compatibility
+		 * was preserved and it is still possible to use the `data, callback, internal` arguments.
 		 *
 		 *
-		 * @param {String} data HTML code to replace the current content in the editor.
+		 * @param {String} data HTML code to replace current editor content.
 		 * @param {Object} [options]
 		 * @param {Boolean} [options.internal=false] Whether to suppress any event firing when copying data internally inside the editor.
-		 * @param {Function} [options.callback] Function to be called after the `setData` is completed (on {@link #dataReady}).
-		 * @param {Boolean} [options.noSnapshot=false] If set to `true` will prevent recording undo snapshot.
+		 * @param {Function} [options.callback] Function to be called after `setData` is completed (on {@link #dataReady}).
+		 * @param {Boolean} [options.noSnapshot=false] If set to `true`, it will prevent recording an undo snapshot.
 		 * Introduced in CKEditor 4.4.2.
 		 */
 		setData: function( data, options, internal ) {

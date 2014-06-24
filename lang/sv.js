@@ -83,7 +83,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		alignTop: 'Överkant',
 		alignMiddle: 'Mitten',
 		alignBottom: 'Nederkant',
-		alignNone: 'None', // MISSING
+		alignNone: 'Ingen',
 		invalidValue	: 'Felaktigt värde.',
 		invalidHeight: 'Höjd måste vara ett nummer.',
 		invalidWidth: 'Bredd måste vara ett nummer.',

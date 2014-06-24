@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		alignTop: 'بالا',
 		alignMiddle: 'میانه',
 		alignBottom: 'پائین',
-		alignNone: 'None', // MISSING
+		alignNone: 'هیچ',
 		invalidValue	: 'مقدار نامعتبر.',
 		invalidHeight: 'ارتفاع باید یک عدد باشد.',
 		invalidWidth: 'عرض باید یک عدد باشد.',
