@@ -346,11 +346,14 @@
 		 * it is not possible to find widgets within passed block.
 		 */
 		destroyAll: function( offline, container ) {
+			var widget,
+				id,
+				instances = this.instances;
+
 			if ( container && !offline ) {
 				var wrappers = container.find( '.cke_widget_wrapper' ),
 					l = wrappers.count(),
-					i = 0,
-					widget;
+					i = 0;
 
 				// Length is constant, because this is not a live node list.
 				// Note: since querySelectorAll returns nodes in document order,
@@ -367,10 +370,7 @@
 				return;
 			}
 
-			var instances = this.instances,
-				widget;
-
-			for ( var id in instances ) {
+			for ( id in instances ) {
 				widget = instances[ id ];
 				this.destroy( widget, offline );
 			}
