@@ -558,7 +558,7 @@
 				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, null, editor );
 
 				// Getting drop position is one of the most complex part of D&D.
-				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt ),
+				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
 					dragRange = CKEDITOR.plugins.clipboard.dragRange;
 
 				// Do nothing if it was not possible to get drop range.
@@ -1440,13 +1440,13 @@
 	 * Copy of getRangeAtDropPosition method from widget plugin.
 	 * In #11219 method in widget should be removed and everything be according to DRY.
 	 *
-	 * @param {CKEDITOR.editor} editor The source editor instance.
 	 * @param {Object} domEvent A native DOM drop event object.
+	 * @param {CKEDITOR.editor} editor The source editor instance.
 	 *
 	 * @returns {CKEDITOR.dom.range} range at drop position.
 	 *
 	 */
-	CKEDITOR.plugins.clipboard.getRangeAtDropPosition = function( editor, dropEvt ) {
+	CKEDITOR.plugins.clipboard.getRangeAtDropPosition = function( dropEvt, editor ) {
 		var $evt = dropEvt.data.$,
 			x = $evt.clientX,
 			y = $evt.clientY,
