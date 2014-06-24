@@ -58,7 +58,6 @@
 
 		_should: {
 			ignore: {
-				'test function keys typing counter': CKEDITOR.env.ie,
 				'test buggy Android keyboard model': !CKEDITOR.env.webkit
 			}
 		},
@@ -168,10 +167,16 @@
 		} ),
 
 		'test function keys typing counter': tcWithExpectedChanges( 3, function() {
-			// IE will fail this TC, because we would need to modify DOM each time.
 			assert.areSame( 0, this.undoManager.strokesRecorded[ 1 ], 'Initial undoManager.strokesRecorded[ 1 ] value' );
 
-			this.keyTools.keyEventMultiple( 3, keyCodesEnum.BACKSPACE );
+			bender.tools.selection.setWithHtml( this.editor, '<p>foobar{}</p>' );
+			var textNode = this.editor.editable().getFirst().getFirst();
+
+			for ( var i = 2; i >= 0; i-- ) {
+				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() {
+					textNode.setText( 'foo' + 'bar'.substring( 0, i ) );
+				} );
+			}
 
 			assert.areSame( 3, this.undoManager.strokesRecorded[ 1 ], 'undoManager.strokesRecorded[ 1 ] should be increased' );
 
@@ -185,7 +190,7 @@
 			// This also works in reversed case.
 			this.keyTools.typingEvents( 'FOO' );
 
-			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function( e ) {
+			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, null, function() {
 				// Textnode change required by IE.
 				textNode.setText( 'FO' );
 			} );
