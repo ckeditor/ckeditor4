@@ -810,6 +810,13 @@
 			}
 		};
 
+		/**
+		 * Resets input counter, method for internal use only.
+		 */
+		this.resetCounter = function() {
+			inputFired = 0;
+		};
+
 		this.attachListeners = function() {
 			var editable = editor.editable();
 			// We'll create a snapshot here (before DOM modification), because we'll

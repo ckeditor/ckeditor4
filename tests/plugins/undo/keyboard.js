@@ -52,6 +52,8 @@
 			this.undoManager.reset();
 			// This will reset command objects states.
 			this.undoManager.onChange();
+			// Force to reset inputFired counter, as some TCs may produce leftovers.
+			this.undoManager.eventHandler.resetCounter();
 		},
 
 		_should: {
@@ -232,34 +234,41 @@
 
 		'test undoManager selection overwriting': function() {
 			// Ensures that pressing navigation key will update selection in
-			// latest snapshot (known during navigation key).
-			this.editorBot.setData( '<p>foo bar</p>', function() {
-				var undoManager = this.editor.undoManager,
-					textNode = this.editor.editable().getFirst().getFirst(),
-					that = this;
+			// latest snapshot.
+			bender.tools.selection.setWithHtml( this.editor, '<p>foo bar</p>' );
 
-				// Initis with: foo^ bar
-				that._moveTextNodeRange( 3 );
+			var undoManager = this.editor.undoManager,
+				that = this;
 
-				this.keyTools.keyEvent( keyCodesEnum.RIGHT, null, true, function() {
-					// Pressing right arrow should move caret to 4 offset.
-					that._moveTextNodeRange( 4 );
-				} );
+			// Initis with: ^foo bar
+			that._moveTextNodeRange( 0 );
 
-				this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
-					// Should insert letter to text node, and move the caret.
-					textNode.setText( 'foo Dbar' );
-					that._moveTextNodeRange( 5 );
-				} );
+			// We need to force at least one snapshot, which will be overwritten.
+			this.editor.fire('saveSnapshot');
+			assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
-
-				var interestingSnapshot = undoManager.snapshots[ 1 ];
-				assert.isTrue( !!interestingSnapshot, 'No snapshot at 1 index' );
-
-				assert.areEqual( 4, interestingSnapshot.bookmarks[ 0 ].startOffset, 'Invalid bookmark start offset' );
-				assert.areEqual( 4, interestingSnapshot.bookmarks[ 0 ].endOffset, 'Invalid bookmark start offset' );
+			this.keyTools.keyEvent( keyCodesEnum.RIGHT, null, true, function() {
+				// Pressing right arrow should move caret to 1 offset.
+				that._moveTextNodeRange( 1 );
 			} );
+
+			var bookmark = undoManager.snapshots[ 0 ].bookmarks[ 0 ];
+
+			assert.areEqual( 1, bookmark.startOffset, 'Invalid bookmark start offset' );
+			// IE8 sets bookmark end to 0 for some weird reason.
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version != 8 )
+				assert.areEqual( 1, bookmark.endOffset, 'Invalid bookmark start offset' );
+
+			// Now go back with HOME key, and ensure that selection updated.
+			this.keyTools.keyEvent( keyCodesEnum.HOME, null, true, function() {
+				that._moveTextNodeRange( 0 );
+			} );
+
+			// Snapshot object should be replaced, so we need to refetch it.
+			bookmark = undoManager.snapshots[ 0 ].bookmarks[ 0 ];
+
+			assert.areEqual( 0, bookmark.startOffset, 'Invalid bookmark start offset' );
+			assert.areEqual( 0, bookmark.endOffset, 'Invalid bookmark start offset' );
 		},
 
 		'test undoManager extra snapshot on navigation key after recordable keystroke': function() {
