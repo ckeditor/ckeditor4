@@ -535,7 +535,7 @@
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it to the global clipboard.dnd.
-				CKEDITOR.plugins.clipboard.dnd = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor );
+				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
 
 				// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 				if ( CKEDITOR.env.safari ) {
@@ -551,28 +551,11 @@
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
-				// Create a new dataTransfer object based on the drop event.
-				// If this event was used on dragstart to create dataTransfer
-				// both dataTransfer objects will have the same id.
-				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
-
-				// If there is the same id we will replace dataTransfer with the one
-				// created on drag, because it contains drag editor, drag content and so on.
-				// Otherwise (in case of drag from external source) we save new object to
-				// the global clipboard.dnd.
-				if ( CKEDITOR.plugins.clipboard.dnd &&
-					dataTransfer.id == CKEDITOR.plugins.clipboard.dnd.id ) {
-					dataTransfer = CKEDITOR.plugins.clipboard.dnd;
-				} else {
-					CKEDITOR.plugins.clipboard.dnd = dataTransfer;
-				}
-
-				dataTransfer.setTargetEditor( editor );
-
+				// Create dataTransfer of get it, if it was created before.
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, null, editor );
 
 				// Getting drop position is one of the most complex part of D&D.
-				var dropRange = getRangeAtDropPosition( editor, evt ),
-					i;
+				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( editor, evt );
 
 				// Cancel native drop.
 				evt.data.preventDefault();
@@ -582,138 +565,116 @@
 					return;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					// Internal D&D.
-
-					// Execute D&D with a timeout because otherwise selection, after drop,
-					// on IE is in the drag position, instead of drop position.
-					setTimeout( function() {
-						var dragRanges = dataTransfer.sourceRanges,
-							dragBookmarks = [],
-							dragRange, dropBookmark;
-
-						// Save and lock snapshot so there will be only
-						// one snapshot for both remove and insert content.
-						editor.fire( 'saveSnapshot' );
-						editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
-
-						// IE 8 & 9 split text node on drop so the first node contains
-						// text before drop position and the second contains rest. If we
-						// drag the content from the same node we will be not able to get
-						// it (range became invalid), so we need to join them back.
-						//
-						// Notify that first node on IE 8 & 9 is the original node object
-						// but with shortened content.
-						//
-						// Before:
-						//   --- Text Node A ----------------------------------
-						//                                              /\
-						//                                         Drag position
-						//
-						// After (IE 8 & 9):
-						//   --- Text Node A -----  --- Text Node B -----------
-						//                        /\                    /\
-						//                   Drop position        Drag position
-						//                                          (invalid)
-						//
-						// After (other browsers):
-						//   --- Text Node A ----------------------------------
-						//                        /\                    /\
-						//                   Drop position        Drag position
-						//
-						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 &&
-							 dropRange.startContainer.type == 1 &&
-							 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-							 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRanges[ 0 ].startContainer ) ) {
-							var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-								nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
-								offset = nodeBefore.getLength();
-
-							if ( nodeAfter ) {
-								nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-								nodeAfter.remove();
-							}
-
-							dropRange.startContainer = nodeBefore;
-							dropRange.startOffset = offset;
-						}
-
-						// Because we manipulate multiple ranges we need to do it carefully,
-						// changing one range (event creating a bookmark) may make other invalid.
-						// We need to change ranges into bookmark so we can manipulate them easily in the future.
-						// We can change the range which is later in the text before we change the preceding range.
-						// We call rangeBefore to test the order of ranges.
-						for ( i = 0; i < dragRanges.length; i++ ) {
-							dragRange = dragRanges[ i ];
-							if ( !rangeBefore( dragRange, dropRange ) )
-								dragBookmarks.push( dragRange.createBookmark( 1 ) );
-						}
-
-						var dropRangeCopy = dropRange.clone();
-						dropBookmark = dropRangeCopy.createBookmark( 1 );
-
-						for ( i = 0; i < dragRanges.length; i++ ) {
-							dragRange = dragRanges[ i ];
-							if ( rangeBefore( dragRange, dropRange ) )
-								dragBookmarks.push( dragRange.createBookmark( 1 ) );
-						}
-
-						// No we can safely delete content for the drag ranges...
-						for ( i = 0; i < dragBookmarks.length; i++ ) {
-							dragRange = editor.createRange();
-							dragRange.moveToBookmark( dragBookmarks[ i ] );
-							dragRange.deleteContents();
-						}
-
-						// ...and paste content into the drop position.
-						dropRange = editor.createRange();
-						dropRange.moveToBookmark( dropBookmark );
-						dropRange.select();
-						firePasteEvents( 'html', dataTransfer.dataValue );
-
-						editor.fire( 'unlockSnapshot' );
-					}, 0 );
+					internalDnD( dropRange, dataTransfer );
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
-					// Cross editor D&D.
-
-					// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-					if ( CKEDITOR.env.gecko ) {
-						fixGeckoDisappearingCursor( editor );
-					}
-
-					// Paste event should be fired before delete contents because otherwise
-					// Chrome have a problem with drop range (Chrome split the drop
-					// range container so the offset is bigger then container length).
-					dropRange.select();
-					firePasteEvents( 'html', dataTransfer.dataValue );
-
-					// Remove dragged content and make a snapshot.
-					dataTransfer.sourceEditor.fire( 'saveSnapshot' );
-					for ( i = 0; i < dataTransfer.sourceRanges.length; i++ ) {
-						dataTransfer.sourceRanges[ i ].deleteContents();
-					}
-					dataTransfer.sourceEditor.getSelection().reset();
-					dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+					crossEditorDnD( dropRange, dataTransfer );
 				} else {
-					// Drop from external source.
-
-					// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-					if ( CKEDITOR.env.gecko ) {
-						fixGeckoDisappearingCursor( editor );
-					}
-
-					// Paste content into the drop position.
-					dropRange.select();
-
-					firePasteEvents( dataTransfer.dataType, dataTransfer.dataValue );
+					externalDnD( dropRange, dataTransfer );
 				}
 			} );
+		}
 
-			function fixGeckoDisappearingCursor( editor ) {
-				editor.once( 'afterPaste', function() {
-					editor.toolbox.focus();
-				} );
+		// Internal D&D.
+		function internalDnD( dropRange, dataTransfer ) {
+			// Execute D&D with a timeout because otherwise selection, after drop,
+			// on IE is in the drag position, instead of drop position.
+			setTimeout( function() {
+				var dragRanges = dataTransfer.sourceRanges,
+					dragBookmarks = [],
+					dragRange, dropBookmark, i,
+
+					// Functions shortcuts.
+					rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore,
+					fixIESplittedNodes = CKEDITOR.plugins.clipboard.fixIESplittedNodes;
+
+				// Save and lock snapshot so there will be only
+				// one snapshot for both remove and insert content.
+				editor.fire( 'saveSnapshot' );
+				editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+					fixIESplittedNodes( dragRanges[ 0 ], dropRange );
+				}
+
+				// Because we manipulate multiple ranges we need to do it carefully,
+				// changing one range (event creating a bookmark) may make other invalid.
+				// We need to change ranges into bookmark so we can manipulate them easily in the future.
+				// We can change the range which is later in the text before we change the preceding range.
+				// We call rangeBefore to test the order of ranges.
+				for ( i = 0; i < dragRanges.length; i++ ) {
+					dragRange = dragRanges[ i ];
+					if ( !rangeBefore( dragRange, dropRange ) )
+						dragBookmarks.push( dragRange.createBookmark( 1 ) );
+				}
+
+				var dropRangeCopy = dropRange.clone();
+				dropBookmark = dropRangeCopy.createBookmark( 1 );
+
+				for ( i = 0; i < dragRanges.length; i++ ) {
+					dragRange = dragRanges[ i ];
+					if ( rangeBefore( dragRange, dropRange ) )
+						dragBookmarks.push( dragRange.createBookmark( 1 ) );
+				}
+
+				// No we can safely delete content for the drag ranges...
+				for ( i = 0; i < dragBookmarks.length; i++ ) {
+					dragRange = editor.createRange();
+					dragRange.moveToBookmark( dragBookmarks[ i ] );
+					dragRange.deleteContents();
+				}
+
+				// ...and paste content into the drop position.
+				dropRange = editor.createRange();
+				dropRange.moveToBookmark( dropBookmark );
+				dropRange.select();
+				firePasteEvents( 'html', dataTransfer.dataValue );
+
+				editor.fire( 'unlockSnapshot' );
+			}, 0 );
+		}
+
+		// Cross editor D&D.
+		function crossEditorDnD( dropRange, dataTransfer ) {
+			var i;
+
+			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+			if ( CKEDITOR.env.gecko ) {
+				fixGeckoDisappearingCursor( editor );
 			}
 
+			// Paste event should be fired before delete contents because otherwise
+			// Chrome have a problem with drop range (Chrome split the drop
+			// range container so the offset is bigger then container length).
+			dropRange.select();
+			firePasteEvents( 'html', dataTransfer.dataValue );
+
+			// Remove dragged content and make a snapshot.
+			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+			for ( i = 0; i < dataTransfer.sourceRanges.length; i++ ) {
+				dataTransfer.sourceRanges[ i ].deleteContents();
+			}
+			dataTransfer.sourceEditor.getSelection().reset();
+			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+		}
+
+		// Drop from external source.
+		function externalDnD( dropRange, dataTransfer ) {
+			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+			if ( CKEDITOR.env.gecko ) {
+				fixGeckoDisappearingCursor( editor );
+			}
+
+			// Paste content into the drop position.
+			dropRange.select();
+
+			firePasteEvents( dataTransfer.dataType, dataTransfer.dataValue );
+		}
+
+		// Fix for Gecko bug with disappearing cursor.
+		function fixGeckoDisappearingCursor() {
+			editor.once( 'afterPaste', function() {
+				editor.toolbox.focus();
+			} );
 		}
 
 		// Create object representing Cut or Copy commands.
@@ -1397,9 +1358,107 @@
 		return data;
 	}
 
-	// Copy of getRangeAtDropPosition method from widget plugin.
-	// In #11219 method in widget should be removed and everything be according to DRY.
-	function getRangeAtDropPosition( editor, dropEvt ) {
+	/**
+	 * @private
+	 * @singleton
+	 * @class CKEDITOR.plugins.clipboard
+	 */
+	CKEDITOR.plugins.clipboard = {};
+
+	/**
+	 * @private
+	 *
+	 * IE 8 & 9 split text node on drop so the first node contains
+	 * text before drop position and the second contains rest. If we
+	 * drag the content from the same node we will be not able to get
+	 * it (range became invalid), so we need to join them back.
+	 *
+	 * Notify that first node on IE 8 & 9 is the original node object
+	 * but with shortened content.
+	 *
+	 * Before:
+	 *   --- Text Node A ----------------------------------
+	 *                                              /\
+	 *                                         Drag position
+	 *
+	 * After (IE 8 & 9):
+	 *   --- Text Node A -----  --- Text Node B -----------
+	 *                        /\                    /\
+	 *                   Drop position        Drag position
+	 *                                          (invalid)
+	 *
+	 * After (other browsers):
+	 *   --- Text Node A ----------------------------------
+	 *                        /\                    /\
+	 *                   Drop position        Drag position
+	 *
+	 * This function is in the public scope for tests usage only.
+	 */
+	CKEDITOR.plugins.clipboard.fixIESplittedNodes = function( dragRange, dropRange ) {
+		if ( dropRange.startContainer.type == 1 &&
+			 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
+			 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
+			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
+				offset = nodeBefore.getLength();
+
+			if ( nodeAfter ) {
+				nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+				nodeAfter.remove();
+			}
+
+			dropRange.startContainer = nodeBefore;
+			dropRange.startOffset = offset;
+		}
+	};
+
+	/**
+	 * @private
+	 *
+	 * Check if the beginning of the firstRange is before the beginning of the secondRange
+	 * and modification of the content in the firstRange may break secondRange.
+	 *
+	 * Notify that this function returns false if these two ranges are in two
+	 * separate nodes and do not affect each other (even if firstRange is before secondRange).
+	 *
+	 * This function is in the public scope for tests usage only.
+	 */
+	CKEDITOR.plugins.clipboard.rangeBefore = function( firstRange, secondRange ) {
+		// Both ranges has the same parent and the first has smaller offset. E.g.:
+		//
+		// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
+		// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
+		//
+		if ( firstRange.startContainer.equals( secondRange.startContainer ) &&
+			firstRange.startOffset < secondRange.startOffset )
+			return true;
+
+		// First range is inside a text node and the second is not, but if we change the
+		// first range into bookmark and split the text node then the seconds node offset
+		// will be no longer correct.
+		//
+		// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
+		//
+		if ( firstRange.startContainer.getParent().equals( secondRange.startContainer ) &&
+			firstRange.startContainer.getIndex() < secondRange.startOffset )
+			return true;
+
+		return false;
+	};
+
+	/**
+	 * Get range from the drop event.
+	 *
+	 * Copy of getRangeAtDropPosition method from widget plugin.
+	 * In #11219 method in widget should be removed and everything be according to DRY.
+	 *
+	 * @param {CKEDITOR.editor} editor The source editor instance.
+	 * @param {Object} domEvent A native DOM drop event object.
+	 *
+	 * @returns {CKEDITOR.dom.range} range at drop position.
+	 *
+	 */
+	CKEDITOR.plugins.clipboard.getRangeAtDropPosition = function( editor, dropEvt ) {
 		var $evt = dropEvt.data.$,
 			x = $evt.clientX,
 			y = $evt.clientY,
@@ -1534,35 +1593,37 @@
 			return null;
 
 		return range;
-	}
+	};
 
-	// Check if the beginning of the firstRange is before the beginning of the secondRange
-	// and modification of the content in the firstRange may break secondRange.
-	//
-	// Notify that this function returns false if these two ranges are in two
-	// separate nodes and do not affect each other (even if firstRange is before secondRange).
-	function rangeBefore( firstRange, secondRange ) {
-		// Both ranges has the same parent and the first has smaller offset. E.g.:
-		//
-		// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
-		// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
-		//
-		if ( firstRange.startContainer.equals( secondRange.startContainer ) &&
-			firstRange.startOffset < secondRange.startOffset )
-			return true;
+	/**
+	 * @private
+	 *
+	 * Initialize CKEDITOR.plugins.clipboard.dataTransfer object.
+	 *
+	 */
+	CKEDITOR.plugins.clipboard.initDataTransfer = function( evt, sourceEditor, targetEditor ) {
+		// Create a new dataTransfer object based on the drop event.
+		// If this event was used on dragstart to create dataTransfer
+		// both dataTransfer objects will have the same id.
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, sourceEditor );
 
-		// First range is inside a text node and the second is not, but if we change the
-		// first range into bookmark and split the text node then the seconds node offset
-		// will be no longer correct.
-		//
-		// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
-		//
-		if ( firstRange.startContainer.getParent().equals( secondRange.startContainer ) &&
-			firstRange.startContainer.getIndex() < secondRange.startOffset )
-			return true;
+		// If there is the same id we will replace dataTransfer with the one
+		// created on drag, because it contains drag editor, drag content and so on.
+		// Otherwise (in case of drag from external source) we save new object to
+		// the global clipboard.dnd.
+		if ( CKEDITOR.plugins.clipboard.dnd &&
+			dataTransfer.id == CKEDITOR.plugins.clipboard.dnd.id ) {
+			dataTransfer = CKEDITOR.plugins.clipboard.dnd;
+		} else {
+			CKEDITOR.plugins.clipboard.dnd = dataTransfer;
+		}
 
-		return false;
-	}
+		if ( targetEditor ) {
+			dataTransfer.setTargetEditor( targetEditor );
+		}
+
+		return dataTransfer;
+	};
 
 	// Data type used to link drag and drop events.
 	var	clipboardIdDataType =
@@ -1575,13 +1636,6 @@
 		CKEDITOR.env.ie ? 'Text' :
 		// In Chrome and Firefox we can use custom data types.
 		'cke/id';
-
-	/**
-	 * @private
-	 * @singleton
-	 * @class CKEDITOR.plugins.clipboard
-	 */
-	CKEDITOR.plugins.clipboard = {};
 
 	/**
 	 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
