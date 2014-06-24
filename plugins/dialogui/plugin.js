@@ -97,26 +97,27 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog, {
 			/**
-			 * Base class for all dialog elements with a textual label on the left.
+			 * Base class for all dialog window elements with a textual label on the left.
 			 *
 			 * @class CKEDITOR.ui.dialog.labeledElement
 			 * @extends CKEDITOR.ui.dialog.uiElement
 			 * @constructor Creates a labeledElement class instance.
-			 * @param {CKEDITOR.dialog} dialog Parent dialog object.
+			 * @param {CKEDITOR.dialog} dialog Parent dialog window object.
 			 * @param {CKEDITOR.dialog.definition.uiElement} elementDefinition
 			 * The element definition. Accepted fields:
 			 *
 			 * * `label` (Required) The label string.
 			 * * `labelLayout` (Optional) Put 'horizontal' here if the
-			 *     label element is to be layed out horizontally. Otherwise a vertical
+			 *     label element is to be laid out horizontally. Otherwise a vertical
 			 *     layout will be used.
-			 * * `widths` (Optional) This applies only for horizontal
-			 *     layouts - an 2-element array of lengths to specify the widths of the
+			 * * `widths` (Optional) This applies only to horizontal
+			 *     layouts &mdash; a two-element array of lengths to specify the widths of the
 			 *     label and the content element.
-			 * * `role` (Optional) Value for `role` attribute.
-			 * * `includeLabel` (Optional) If set to `true` will include aria-labelledby attribute.
+			 * * `role` (Optional) Value for the `role` attribute.
+			 * * `includeLabel` (Optional) If set to `true`, the `aria-labelledby` attribute
+			 *     will be included.
 			 *
-			 * @param {Array} htmlList List of HTML code to output to.
+			 * @param {Array} htmlList The list of HTML code to output to.
 			 * @param {Function} contentHtml
 			 * A function returning the HTML code string to be added inside the content
 			 * cell.
@@ -261,7 +262,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * A text area with a label on the top or left.
+			 * A text area with a label at the top or on the left.
 			 *
 			 * @class CKEDITOR.ui.dialog.textarea
 			 * @extends CKEDITOR.ui.dialog.labeledElement
@@ -1262,8 +1263,8 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 			/**
 			 * Redraws the file input and resets the file path in the file input.
-			 * The redraw logic is necessary because non-IE browsers tend to clear
-			 * the `<iframe>` containing the file input after closing the dialog.
+			 * The redrawing logic is necessary because non-IE browsers tend to clear
+			 * the `<iframe>` containing the file input after closing the dialog window.
 			 */
 			reset: function() {
 				var _ = this._,
@@ -1412,7 +1413,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 /**
  * Fired when the inner frame created by the element is ready.
- * Each time the button is used or the dialog is loaded a new
+ * Each time the button is used or the dialog window is loaded, a new
  * form might be created.
  *
  * @event formLoaded
