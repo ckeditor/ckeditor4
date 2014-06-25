@@ -34,38 +34,21 @@ function drag( editor, evt ) {
 }
 
 function drop( editor, evt, config, callback ) {
-	// document.caretRangeFromPoint returns null
-	// for inline and divbased editor if viewport is too small.
-	if ( CKEDITOR.env.webkit && editor.name != 'framed' && window.innerHeight < 300 )
-		assert.ignore();
-
-	// IE8 also has some problem with running test if the window is too small.
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && editor.name != 'framed' && document.documentElement.clientHeight < 500 )
-		assert.ignore();
-
 	var editable = editor.editable(),
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
 		pasteEventCounter = 0,
-		expectedPasteEventCount = typeof config.expectedPasteEventCount  !== 'undefined' ? config.expectedPasteEventCount : 1,
-		x = config.x[ editor.name ] ? config.x[ editor.name ]  : config.x,
-		y = config.y[ editor.name ] ? config.y[ editor.name ]  : config.y;
+		expectedPasteEventCount = typeof config.expectedPasteEventCount  !== 'undefined' ?
+			config.expectedPasteEventCount :
+			1;
 
-	// To simulate drop event we need to set selection (IE use it),
-	// clientX and clientY (IE and Chrome use it),
-	// rangeParent and rangeOffset (FF use it).
 	range.setStart( config.element, config.offset );
 	range.collapse( true );
 	range.select();
 
 	editor.focus();
 
-	evt.$.clientX = x;
-	evt.$.clientY = y;
-	if ( CKEDITOR.env.gecko ) {
-		evt.$.rangeParent = config.element.$;
-		evt.$.rangeOffset = config.offset;
-	}
+	evt.testRange = range;
 
 	editor.on( 'paste', function() {
 		pasteEventCounter++;
@@ -80,67 +63,46 @@ function drop( editor, evt, config, callback ) {
 	}, 100 );
 }
 
-var logViewTopBackup,
-	editorsDefinitions = {
-		framed: {
-			name: 'framed',
-			creator: 'replace',
-			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-			}
-		},
-		inline: {
-			name: 'inline',
-			creator: 'inline',
-			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-			}
-		},
-		divarea: {
-			name: 'divarea',
-			creator: 'replace',
-			config: {
-				extraPlugins: 'divarea',
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-			}
-		},
-		cross: {
-			name: 'cross',
-			creator: 'replace',
-			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-			}
+var editorsDefinitions = {
+	framed: {
+		name: 'framed',
+		creator: 'replace',
+		config: {
+			allowedContent: true,
+			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
 		}
 	},
-	contentsFrame = CKEDITOR.env.webkit && CKEDITOR.document && CKEDITOR.document.getWindow().$.frameElement;
-
-	contentsFrame && ( contentsFrame.style.width = '1%' );
-	contentsFrame && ( contentsFrame.style.width = '1000px' );
+	inline: {
+		name: 'inline',
+		creator: 'inline',
+		config: {
+			allowedContent: true,
+			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+		}
+	},
+	divarea: {
+		name: 'divarea',
+		creator: 'replace',
+		config: {
+			extraPlugins: 'divarea',
+			allowedContent: true,
+			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+		}
+	},
+	cross: {
+		name: 'cross',
+		creator: 'replace',
+		config: {
+			allowedContent: true,
+			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+		}
+	}
+};
 
 bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 	bender.test( bender.tools.createTestsForEditors(
 		[ editors.framed, editors.inline, editors.divarea ], {
-		setUp: function() {
-			CKEDITOR.document.getById( 'framed-container' ).hide();
-			CKEDITOR.document.getById( 'divarea-container' ).hide();
-			CKEDITOR.document.getById( 'inline-container' ).hide();
-
-			logViewTopBackup = CKEDITOR.document.findOne( '.results' ).getStyle( 'top' );
-			CKEDITOR.document.findOne( '.results' ).setStyle( 'top', 'auto' );
-		},
-
-		tearDown: function() {
-
-			CKEDITOR.document.findOne( '.results' ).setStyle( 'top', logViewTopBackup );
-		},
-
 		'test drop to header': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -150,8 +112,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				x: 260,
-				y: { framed: 33, inline: 111, divarea: 172 },
 				element:  editor.document.getById( 'h1' ).getChild( 0 ),
 				offset: 7
 			}, function() {
@@ -164,8 +124,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop the same line, before': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -174,8 +132,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				x: { framed: 60, inline: 45, divarea: 54 },
-				y: { framed: 131, inline: 112, divarea: 216 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
@@ -188,8 +144,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop the same line, after': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -198,8 +152,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				x: { framed: 151, inline: ( CKEDITOR.env.webkit ? 142 : 139 ), divarea: 151 },
-				y: { framed: 38, inline: 112, divarea: 224 },
 				element:  editor.document.getById( 'p' ).getChild( 2 ),
 				offset: 11
 			}, function() {
@@ -212,8 +164,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop after paragraph': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -222,8 +172,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				x: { framed: 251, inline: 240, divarea: 251 },
-				y: { framed: 38, inline: 112, divarea: 224 },
 				element:  editor.document.getById( 'p' ).getChild( 2 ),
 				offset: 16
 			}, function() {
@@ -236,8 +184,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop on the left from paragraph': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -246,8 +192,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				x: 15,
-				y: { framed: 38, inline: 112, divarea: 224 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0
 			}, function() {
@@ -260,8 +204,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop from external source': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -273,8 +215,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 				evt.$.dataTransfer.setData( 'text/html', 'dolor' );
 
 			drop( editor, evt, {
-				x: { framed: 60, inline: 45, divarea: 54 },
-				y: { framed: 131, inline: 112, divarea: 216 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
@@ -287,8 +227,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop html from external source': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
@@ -300,8 +238,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 				evt.$.dataTransfer.setData( 'text/html', '<b>dolor</b>' );
 
 			drop( editor, evt, {
-				x: { framed: 60, inline: 45, divarea: 54 },
-				y: { framed: 131, inline: 112, divarea: 216 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
@@ -314,16 +250,12 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test drop empty element from external source': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
 
 			drop( editor, evt, {
-				x: { framed: 60, inline: 45, divarea: 54 },
-				y: { framed: 131, inline: 112, divarea: 216 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
 				expectedPasteEventCount: 0
@@ -333,8 +265,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 		},
 
 		'test cross editor drop': function( editor ) {
-			CKEDITOR.document.getById( editor.name + '-container' ).show();
-
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock(),
 				botCross = editorBots[ 'cross' ],
@@ -346,8 +276,6 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 			drag( editorCross, evt );
 
 			drop( editor, evt, {
-				x: { framed: 60, inline: 45, divarea: 54 },
-				y: { framed: 131, inline: 112, divarea: 216 },
 				element:  editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
