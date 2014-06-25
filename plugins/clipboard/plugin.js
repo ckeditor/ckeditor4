@@ -534,15 +534,15 @@
 			// Listed on dragstart to mark internal and cross-editor D&D
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
-				// Create a dataTransfer object and save it to the global clipboard.dnd.
+				// Create a dataTransfer object and save it globally.
 				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
 			} );
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				// When DnD is done we need to remove clipboard.dnd so the future
+				// When DnD is done we need to reset dataTransfer so the future
 				// external drop will be not recognize as internal.
-				CKEDITOR.plugins.clipboard.dnd = undefined;
+				CKEDITOR.plugins.clipboard.resetDataTransfer();
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1611,6 +1611,14 @@
 		}
 
 		return dataTransfer;
+	};
+
+	/*
+	 * Remove global dataTransfer object so the new dataTransfer
+	 * will be not linked with the old one.
+	 */
+	CKEDITOR.plugins.clipboard.resetDataTransfer = function() {
+		CKEDITOR.plugins.clipboard.dnd = undefined;
 	};
 
 	// Data type used to link drag and drop events.
