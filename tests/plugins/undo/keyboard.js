@@ -20,6 +20,7 @@
 
 	var keyCodesEnum, // keyCodesEnum will be inited in first setUp call.
 		tcs = {
+		isIe8: CKEDITOR.env.ie && CKEDITOR.env.version == 8,
 		// This function assumes that your editor has only a paragraph with a text node.
 		// It changes selection in this text node
 		_moveTextNodeRange: function( newStartOffset, newEndOffset ) {
@@ -261,7 +262,7 @@
 
 			assert.areEqual( 1, bookmark.startOffset, 'Invalid bookmark start offset' );
 			// IE8 sets bookmark end to 0 for some weird reason.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version != 8 )
+			if ( !this.isIe8 )
 				assert.areEqual( 1, bookmark.endOffset, 'Invalid bookmark start offset' );
 
 			// Now go back with HOME key, and ensure that selection updated.
@@ -325,7 +326,7 @@
 			undoManager.amendSelection( img2 );
 			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
 			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
-			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+			!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
 
 			// Reset snapshots array.
 			undoManager.snapshots = [ img1 ];
@@ -337,7 +338,7 @@
 			undoManager.amendSelection( img2 );
 			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
 			assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
-			assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
+			!this.isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
 
 			// Reset snapshots array.
 			undoManager.snapshots = [ img1 ];
@@ -350,7 +351,7 @@
 			undoManager.amendSelection( img2 );
 			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots should not change' );
 			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
-			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+			!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
 
 			// Ensure that it does not breaks when snapshots array is empty.
 			undoManager.snapshots = [];
@@ -380,7 +381,7 @@
 				// Should insert letter to text node, and move the caret.
 				// Ofc IE8 will split text nodes next to selection, so we need
 				// to be aware.
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+				if ( that.isIe8 )
 					textNode.setText( 'foo D' );
 				else
 					textNode.setText( 'foo Dbar' );
