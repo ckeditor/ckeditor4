@@ -339,7 +339,7 @@
 				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.TYPE : keyGroupsEnum.FUNCTIONAL;
 
 			if ( !this.typing )
-				this.onTypingStart();
+				onTypingStart( this );
 
 			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
@@ -370,17 +370,6 @@
 			this.wasFunctionalKey = keyGroup;
 			// Fire change event.
 			this.editor.fire( 'change' );
-		},
-
-		onTypingStart: function() {
-			// It's safe to now indicate typing state.
-			this.typing = true;
-
-			// Manually mark snapshot as available.
-			this.hasUndo = true;
-			this.hasRedo = false;
-
-			this.onChange();
 		},
 		/**
 		 * Amends last snapshot, and change its selection (only in case when contents
@@ -776,6 +765,18 @@
 			return !!this.navigationKeyCodes[ keyCode ];
 		}
 	};
+
+	// Helper method called when undoManager.typing val was changed to true.
+	function onTypingStart( undoManager ) {
+		// It's safe to now indicate typing state.
+		undoManager.typing = true;
+
+		// Manually mark snapshot as available.
+		undoManager.hasUndo = true;
+		undoManager.hasRedo = false;
+
+		undoManager.onChange();
+	}
 
 	/**
 	 * Class encapsulating all the listeners which should trigger snapshot.
