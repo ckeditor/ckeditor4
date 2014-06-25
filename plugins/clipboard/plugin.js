@@ -555,7 +555,8 @@
 				evt.data.preventDefault();
 
 				// Create dataTransfer of get it, if it was created before.
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, null, editor );
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt );
+				dataTransfer.setTargetEditor( editor );
 
 				// Getting drop position is one of the most complex part of D&D.
 				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
@@ -1590,11 +1591,10 @@
 	 *
 	 * @param {Object} domEvent A native DOM drop event object.
 	 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
-	 * @param {CKEDITOR.editor} [targetEditor] The target editor instance.
 	 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 	 *
 	 */
-	CKEDITOR.plugins.clipboard.initDataTransfer = function( evt, sourceEditor, targetEditor ) {
+	CKEDITOR.plugins.clipboard.initDataTransfer = function( evt, sourceEditor ) {
 		// Create a new dataTransfer object based on the drop event.
 		// If this event was used on dragstart to create dataTransfer
 		// both dataTransfer objects will have the same id.
@@ -1613,10 +1613,6 @@
 
 		if ( sourceEditor ) {
 			CKEDITOR.plugins.clipboard.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
-		}
-
-		if ( targetEditor ) {
-			dataTransfer.setTargetEditor( targetEditor );
 		}
 
 		return dataTransfer;
