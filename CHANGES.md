@@ -1,6 +1,10 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.4.3
+
+
+
 ## CKEditor 4.4.2
 
 Important Notes:
