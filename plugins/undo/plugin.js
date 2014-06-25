@@ -382,7 +382,6 @@
 
 			this.onChange();
 		},
-
 		/**
 		 * Amends last snapshot, and change its selection (only in case when contents
 		 * are equal between these two).
@@ -408,7 +407,15 @@
 
 			return false;
 		},
-
+		/**
+		 * Method called for navigation change. At first it will check if current content doesn't differ
+		 * from the last saved snapshot.
+		 *
+		 * * If content differ it creates standard, extra snapshot.
+		 * * If it doesn't differ it will compare selection, and will amend last snapshot selection if it changed.
+		 *
+		 * @param {Boolean} skipContentCompare If set to `true` it won't compare content, and do only selection check.
+		 */
 		onNavigationKey: function( skipContentCompare ) {
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
