@@ -82,5 +82,30 @@ bender.test(
 			bot.execCommand( 'tableDelete' );
 			assert.areSame( expected, bot.getData( false, true ) );
 		} );
+	},
+
+	'test delete table directly in inline editor': function() {
+		// #12110.
+		bender.editorBot.create( {
+				name: 'tableInlineDelete',
+				creator: 'inline',
+				config: { allowedContent: true }
+			}, function( bot ) {
+				var editable = bot.editor.editable();
+
+				bot.setHtmlWithSelection( '<table>' +
+					'<tbody>' +
+						'<tr>' +
+							'<td></td>' +
+							'<td>^</td>' +
+						'</tr>' +
+					'</tbody>' +
+					'</table>' );
+				bot.execCommand( 'tableDelete' );
+
+				assert.areNotEqual( null, editable.getParent(), 'Editable should not be removed' );
+				assert.areEqual( '', bot.editor.getData() );
+
+			} );
 	}
 } );
