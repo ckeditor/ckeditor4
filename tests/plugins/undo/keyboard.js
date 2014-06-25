@@ -19,6 +19,7 @@
 	};
 
 	var keyCodesEnum, // keyCodesEnum will be inited in first setUp call.
+		keyGroups, //
 		tcs = {
 		isIe8: CKEDITOR.env.ie && CKEDITOR.env.version == 8,
 		// This function assumes that your editor has only a paragraph with a text node.
@@ -47,6 +48,10 @@
 			changeCounter = 0;
 			this.undoManager = this.editor.undoManager;
 
+			if ( !keyGroups ) {
+				keyGroups = this.undoManager.keyGroupsEnum;
+			}
+
 			bender.tools.selection.setWithHtml( this.editor, '<p>_{}_</p>' );
 
 			// For each TC we want to reset undoManager.
@@ -74,18 +79,18 @@
 		'test character typing counter': function() {
 			// strokesRecorded should reflect count of chars written.
 			var undoManager = this.undoManager;
-			assert.areSame( 0, undoManager.strokesRecorded[ 0 ], 'Initial undoManager.strokesRecorded[ 0 ] val is invalid' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'Initial undoManager.strokesRecorded[ keyGroups.PRINTABLE ] val is invalid' );
 			// Count of pressed functional keys, should not change during whole TC.
-			assert.areSame( 0, undoManager.strokesRecorded[ 1 ], 'Initial undoManager.strokesRecorded[ 1 ] val is invalid' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'Initial undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ] val is invalid' );
 
 			// Typing...
 			this.keyTools.keyEvent( keyCodesEnum.KEY_D );
-			assert.areSame( 1, undoManager.strokesRecorded[ 0 ], 'undoManager.strokesRecorded[ 0 ] was not correctly' );
-			assert.areSame( 0, undoManager.strokesRecorded[ 1 ], 'Count of functional keystrokes should remain unchanged' );
+			assert.areSame( 1, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'undoManager.strokesRecorded[ keyGroups.PRINTABLE ] was not correctly' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'Count of functional keystrokes should remain unchanged' );
 
 			this.keyTools.keyEvent( keyCodesEnum.KEY_G );
-			assert.areSame( 2, undoManager.strokesRecorded[ 0 ], 'undoManager.strokesRecorded[ 0 ] was not correctly' );
-			assert.areSame( 0, undoManager.strokesRecorded[ 1 ], 'Count of functional keystrokes should remain unchanged' );
+			assert.areSame( 2, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'undoManager.strokesRecorded[ keyGroups.PRINTABLE ] was not correctly' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'Count of functional keystrokes should remain unchanged' );
 		},
 
 		'test multiple key being pressed': function() {
@@ -110,7 +115,7 @@
 
 			this.keyTools.keyEvent( keyCodesEnum.KEY_D );
 
-			assert.areEqual( 2, undoManager.strokesRecorded[ 0 ], 'Invalid undoManager.strokesRecorded[ 0 ]' );
+			assert.areEqual( 2, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'Invalid undoManager.strokesRecorded[ keyGroups.PRINTABLE ]' );
 		},
 
 		'test undoManager.resetType() strokesRecorded reseting': function() {
@@ -168,7 +173,7 @@
 		} ),
 
 		'test function keys typing counter': tcWithExpectedChanges( 3, function() {
-			assert.areSame( 0, this.undoManager.strokesRecorded[ 1 ], 'Initial undoManager.strokesRecorded[ 1 ] value' );
+			assert.areSame( 0, this.undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'Initial undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ] value' );
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>foobar{}</p>' );
 			var textNode = this.editor.editable().getFirst().getFirst();
@@ -179,7 +184,7 @@
 				} );
 			}
 
-			assert.areSame( 3, this.undoManager.strokesRecorded[ 1 ], 'undoManager.strokesRecorded[ 1 ] should be increased' );
+			assert.areSame( 3, this.undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ] should be increased' );
 
 		} ),
 
@@ -196,12 +201,12 @@
 				textNode.setText( 'FO' );
 			} );
 
-			assert.areSame( 0, undoManager.strokesRecorded[ 0 ], 'undoManager.strokesRecorded for characters not zeroed' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'undoManager.strokesRecorded for characters not zeroed' );
 			// Hit backspace once more.
 			this.keyTools.keyEvent( keyCodesEnum.BACKSPACE );
 			// Then type a character and ensure that functional keys counter was restarted.
 			this.keyTools.keyEvent( keyCodesEnum.KEY_D );
-			assert.areSame( 0, undoManager.strokesRecorded[ 1 ], 'undoManager.strokesRecorded for functional keys not zeroed' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.FUNCTIONAL ], 'undoManager.strokesRecorded for functional keys not zeroed' );
 		},
 
 		'test strokesRecorded reset after exceeding limit': tcWithExpectedChanges( keystrokesPerSnapshotLimit, function() {
@@ -216,7 +221,7 @@
 
 			this.keyTools.keyEventMultiple( keyStrokesCount, keyCodesEnum.KEY_D );
 
-			assert.areSame( 0, undoManager.strokesRecorded[ 0 ], 'undoManager.strokesRecorded[ 0 ] is not zeroed' );
+			assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'undoManager.strokesRecorded[ keyGroups.PRINTABLE ] is not zeroed' );
 			assert.areSame( 1, snapshotEventsCount, 'Wrong editor#saveSnapshot events count' );
 		} ),
 

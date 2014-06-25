@@ -294,7 +294,7 @@
 		 * Key groups identifier mapping. Used for accessing members in {@link CKEDITOR.plugins.undo.UndoManagerEventHandler.strokesRecorded}.
 		 *
 		 * * **FUNCTIONAL** - identifier for backspace / delete key.
-		 * * **TYPE** - identifier for all non-functional keys.
+		 * * **PRINTABLE** - identifier for printable keys.
 		 *
 		 * Example usage:
 		 *
@@ -305,7 +305,7 @@
 		 * @since 4.4.3
 		*/
 		keyGroupsEnum: {
-			TYPE: 0,
+			PRINTABLE: 0,
 			FUNCTIONAL: 1
 		},
 		/**
@@ -345,14 +345,14 @@
 		*/
 		type: function( keyCode ) {
 			var keyGroupsEnum = this.keyGroupsEnum,
-				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.TYPE,
+				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE,
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
 				keyGroupChanged = keyGroup !== this.wasFunctionalKey,
 				strokesPerSnapshotExceeded = strokesRecorded >= 25,
 				// Identifier of opposite group, used later on to reset its counter.
-				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.TYPE : keyGroupsEnum.FUNCTIONAL;
+				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
 
 			if ( !this.typing )
 				onTypingStart( this );
