@@ -31,6 +31,13 @@
 			this.undoManager.reset();
 		},
 
+		_should: {
+			ignore: {
+				// IE doesn't fire input event for editable.
+				'test no snapshot after drop': CKEDITOR.env.ie
+			}
+		},
+
 		'test snapshot on click': function() {
 			var undoManager = this.undoManager,
 				that = this;
