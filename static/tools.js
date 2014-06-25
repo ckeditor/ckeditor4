@@ -1066,7 +1066,8 @@
 				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					return new CKEDITOR.dom.text( node.getText() );
 				} else {
-					clone = node.clone();
+					// Make sure ids are cloned (#12130).
+					clone = node.clone( 0, 1 );
 				}
 
 				if ( clone.type == CKEDITOR.NODE_ELEMENT ) {
@@ -1105,7 +1106,8 @@
 				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
 				// Note: IE9-11 aren't any better. They lose empty text nodes between elements when cloning.
 				// See 'test special #1' in tests.
-				clone = CKEDITOR.env.ie ? cloneNode( element ) : element.clone( 1 );
+				// Make sure ids are cloned (#12130).
+				clone = CKEDITOR.env.ie ? cloneNode( element ) : element.clone( 1, 1 );
 
 				startContainer = clone.getChild( startAddress );
 				endContainer = clone.getChild( endAddress );
