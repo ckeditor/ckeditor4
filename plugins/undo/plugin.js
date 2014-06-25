@@ -328,13 +328,15 @@
 		* @param {Number} keyCode The key code.
 		*/
 		type: function( keyCode ) {
-			// Backspace and delete.
-			var functionalKey = backspaceOrDelete[ keyCode ] ? 1 : 0,
+			var keyGroupsEnum = this.keyGroupsEnum,
+				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.TYPE,
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
-				strokesRecorded = this.strokesRecorded[ functionalKey ] + 1,
-				keyGroupChanged = functionalKey !== this.wasFunctionalKey,
-				strokesPerSnapshotExceeded = strokesRecorded >= 25;
+				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
+				keyGroupChanged = keyGroup !== this.wasFunctionalKey,
+				strokesPerSnapshotExceeded = strokesRecorded >= 25,
+				// Identifier of opposite group, used later on to reset its counter.
+				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.TYPE : keyGroupsEnum.FUNCTIONAL;
 
 			if ( !this.typing )
 				this.onTypingStart();
@@ -343,7 +345,7 @@
 				if ( keyGroupChanged ) {
 					// Key group changed:
 					// Reset the other key group recorded count.
-					this.strokesRecorded[ functionalKey ? 0 : 1 ] = 0;
+					this.strokesRecorded[ oppositeGroup ] = 0;
 					// In case of group changed we need to save snapshot before DOM modification,
 					// consider: <p>ab^</p> when user was typing "ab", and is pressing backspace.
 					// Since we're in keyup event, DOM is modified, and we have <p>a^</p> - thus
@@ -363,10 +365,9 @@
 			}
 
 			// Store recorded strokes count.
-			this.strokesRecorded[ functionalKey ] = strokesRecorded;
+			this.strokesRecorded[ keyGroup ] = strokesRecorded;
 			// This prop will tell in next itaration what kind of group was processed previously.
-			this.wasFunctionalKey = functionalKey;
-
+			this.wasFunctionalKey = keyGroup;
 			// Fire change event.
 			this.editor.fire( 'change' );
 		},
