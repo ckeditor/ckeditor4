@@ -536,11 +536,6 @@
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it to the global clipboard.dnd.
 				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
-
-				// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
-				if ( CKEDITOR.env.safari ) {
-					evt.data.$.dataTransfer.setData( 'text', evt.data.$.dataTransfer.getData( 'text' ) );
-				}
 			} );
 
 			// Clean up on dragend.
@@ -1670,6 +1665,11 @@
 		if ( evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
 			// dataTransfer object will be passed from the drag to the drop event.
 			this.$.setData( clipboardIdDataType, this.id );
+		}
+
+		// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
+		if ( evt.name == 'dragstart' && CKEDITOR.env.safari ) {
+			evt.data.$.dataTransfer.setData( 'text', evt.data.$.dataTransfer.getData( 'text' ) );
 		}
 
 		if ( editor ) {
