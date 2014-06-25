@@ -452,7 +452,10 @@
 			delete this.wasFunctionalKey;
 		},
 
-		fireChange: function() {
+		/**
+		 * Reset udno plugin state, it also reflects to undo/redo commands sate.
+		 */
+		refreshState: function() {
 			// These lines can be handled within onChange() too.
 			this.hasUndo = !!this.getNextImage( true );
 			this.hasRedo = !!this.getNextImage( false );
@@ -463,6 +466,10 @@
 
 		/**
 		 * Saves a snapshot of the document image for later retrieval.
+		 *
+		 * @param {Boolean} onContentOnly If `true` snapshot will be saved only if content has changed.
+		 * @param {CKEDITOR.plugins.undo.Image} image An optional image to save, if skipped current editor will be used.
+		 * @param {Boolean} autoFireChange If set to `false`, will not trigger `{@link CKEDITOR.editor.change}` event to editor.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			var editor = this.editor;
@@ -510,7 +517,7 @@
 			this.currentImage = image;
 
 			if ( autoFireChange !== false )
-				this.fireChange();
+				this.refreshState();
 			return true;
 		},
 
@@ -552,7 +559,7 @@
 			// content, since actualy content may differ from
 			// the original snapshot due to dom change. (#4622)
 			this.update();
-			this.fireChange();
+			this.refreshState();
 
 			editor.fire( 'change' );
 		},
