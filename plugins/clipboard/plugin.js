@@ -1584,9 +1584,14 @@
 	};
 
 	/**
-	 * @private
+	 * Initialize dataTransfer object based on the native drop event. If data
+	 * transfer object was already initialized on this event then function will
+	 * return that object.
 	 *
-	 * Initialize CKEDITOR.plugins.clipboard.dataTransfer object.
+	 * @param {Object} domEvent A native DOM drop event object.
+	 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
+	 * @param {CKEDITOR.editor} [targetEditor] The target editor instance.
+	 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 	 *
 	 */
 	CKEDITOR.plugins.clipboard.initDataTransfer = function( evt, sourceEditor, targetEditor ) {
