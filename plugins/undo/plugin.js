@@ -886,6 +886,9 @@
 			inputFired = 0;
 		};
 
+		/**
+		 * Attaches editable listeners required to provide undo functionallity.
+		 */
 		this.attachListeners = function() {
 			var editable = editor.editable();
 			// We'll create a snapshot here (before DOM modification), because we'll
