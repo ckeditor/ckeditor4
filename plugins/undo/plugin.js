@@ -183,7 +183,7 @@
 	CKEDITOR.plugins.undo = {};
 
 	/**
-	 * Undoes the snapshot which represents the current document status.
+	 * Contains a snapshot of editor content and selection at given point in time.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.undo.Image
@@ -216,6 +216,10 @@
 	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
 
 	Image.prototype = {
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if contents in `otherImage` is the same.
+		 */
 		equalsContent: function( otherImage ) {
 			var thisContents = this.contents,
 				otherContents = otherImage.contents;
@@ -231,7 +235,10 @@
 
 			return true;
 		},
-
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
+		 */
 		equalsSelection: function( otherImage ) {
 			var bookmarksA = this.bookmarks,
 				bookmarksB = otherImage.bookmarks;
@@ -251,6 +258,18 @@
 
 			return true;
 		}
+
+		/**
+		 * Contents of the editor.
+		 *
+		 * @property {String} contents
+		 */
+
+		/**
+		 * Bookmarks representing selection in image.
+		 *
+		 * @property {Object[]} bookmarks Array of bookmark2 objects, see {@link CKEDITOR.dom.range#createBookmark2} for definition.
+		 */
 	};
 
 	/**
@@ -275,7 +294,7 @@
 		 * Key groups identifier mapping. Used for accessing members in {@link CKEDITOR.plugins.undo.UndoManagerEventHandler.strokesRecorded}.
 		 *
 		 * * **FUNCTIONAL** - identifier for backspace / delete key.
-		 * * **TYPING** - identifier for all non-functional keys.
+		 * * **TYPE** - identifier for all non-functional keys.
 		 *
 		 * Example usage:
 		 *
@@ -290,12 +309,9 @@
 			FUNCTIONAL: 1
 		},
 		/**
-		 * Array storing count of key presses count in a row.
+		 * Array storing count of key presses count in a row. Use {@link #keyGroupsEnum} members as index.
 		 *
-		 * * 0 - stores characters input
-		 * * 1 - functional keys (delete/backspace)
-		 *
-		 * Strokes count will be reseted, after reaching characters per snapshot limit.
+		 * **Note:** Strokes count will be reset, after reaching characters per snapshot limit.
 		 *
 		 * @since 4.4.3
 		 */
@@ -517,6 +533,11 @@
 			return true;
 		},
 
+		/**
+		 * Sets editor contents/selection to the one stored in `image`.
+		 *
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} image
+		 */
 		restoreImage: function( image ) {
 			// Bring editor focused to restore selection.
 			var editor = this.editor,
@@ -560,7 +581,12 @@
 			editor.fire( 'change' );
 		},
 
-		// Get the closest available image.
+		/**
+		 * Get the closest available image.
+		 *
+		 * @param {Boolean} isUndo If `true` will return previous image.
+		 * @returns {CKEDITOR.plugins.undo.UndoManager.Image/null}
+		 */
 		getNextImage: function( isUndo ) {
 			var snapshots = this.snapshots,
 				currentImage = this.currentImage,
