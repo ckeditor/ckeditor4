@@ -8,6 +8,10 @@ Fixed Issues:
 * [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Drag and drop of nested block widgets.
 * [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting single non-editable element using [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting widget with nested editable inside other widget's nested editable.
 
+## CKEditor 4.4.3
+
+
+
 ## CKEditor 4.4.2
 
 Important Notes:
