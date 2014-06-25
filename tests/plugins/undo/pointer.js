@@ -7,6 +7,7 @@
 	bender.editor = {};
 
 	var tcs = {
+		isIe8: CKEDITOR.env.ie && CKEDITOR.env.version == 8,
 		// This function assumes that your editor has only a paragraph with a text node.
 		// It changes selection in this text node
 		_moveTextNodeRange: function( newStartOffset, newEndOffset ) {
@@ -50,7 +51,7 @@
 				// We need to aply content modification.
 				textNode.setText( 'foo Dbar' );
 				// Initis with: foo^ Dbar
-				that._moveTextNodeRange( 3 );
+				that._moveTextNodeRange( 5 );
 
 				that.tools.mouse.click( textNode.getParent() );
 
@@ -58,15 +59,18 @@
 				// Further clicks should not create more snapshots even if selection changed.
 				that.tools.mouse.click( textNode.getParent() );
 				that.tools.mouse.click( textNode.getParent(), function() {
-					that._moveTextNodeRange( 5 );
+					that._moveTextNodeRange( 3 );
 				} );
 
 				// No extra snapshot should be created but the last one range should be overwritten.
 				assert.areEqual( expectedSnapshots, undoManager.snapshots.length, 'Snapshots count increased' );
 
 				var interestingSnapshot = undoManager.snapshots[ expectedSnapshots - 1 ];
-				assert.areEqual( 5, interestingSnapshot.bookmarks[ 0 ].startOffset, 'Invalid bookmark start offset' );
-				assert.areEqual( 5, interestingSnapshot.bookmarks[ 0 ].endOffset, 'Invalid bookmark start offset' );
+				assert.areEqual( 3, interestingSnapshot.bookmarks[ 0 ].startOffset, 'Invalid bookmark start offset' );
+
+				if ( !this.isIe8 ) {
+					assert.areEqual( 3, interestingSnapshot.bookmarks[ 0 ].endOffset, 'Invalid bookmark end offset' );
+				}
 			} );
 		},
 
@@ -81,10 +85,12 @@
 						// There should be no snapshots at the begining, because of noSnapshot.
 						assert.areEqual( 0, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
 
+						// This will make initial snapshot.
 						that.tools.mouse.click( null, function() {
-							that._moveTextNodeRange( 0 );
+							that._moveTextNodeRange( 3 );
 						} );
 
+						// Now lets modify selection position.
 						that.tools.mouse.click( null, function() {
 							that._moveTextNodeRange( 2 );
 						} );
@@ -97,7 +103,11 @@
 						bookmark = snapshots[ 0 ].bookmarks[ 0 ];
 						// Selection should be moved.
 						assert.areEqual( 2, bookmark.startOffset, 'Invalid start offset' );
-						assert.areEqual( 2, bookmark.endOffset, 'Invalid end offset' );
+
+						if ( !this.isIe8 ) {
+							// Once again IE8 would put endOffset to 0.
+							assert.areEqual( 2, bookmark.endOffset, 'Invalid end offset' );
+						}
 					} );
 				}
 			} );
