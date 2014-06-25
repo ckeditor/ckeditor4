@@ -622,12 +622,81 @@
 
 			/**
 			 * @since 4.5
+			 * @method getSelectedHtmlFromRange
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			getSelectedHtmlFromRange: function( range ) {
-				return range.cloneContents();
-			},
+			getSelectedHtmlFromRange: ( function() {
+				function rebuildFragmentTree( fragment, node, limit ) {
+					var clone;
+
+					while ( node && !node.equals( this ) && limit( node ) ) {
+						// Don't clone children. Preserve element ids.
+						clone = node.clone( 0, 1 );
+						fragment.appendTo( clone );
+						fragment = clone;
+
+						node = node.getParent();
+					}
+
+					return fragment;
+				}
+
+				return function( range ) {
+					var path = new CKEDITOR.dom.elementPath( range.startContainer, this );
+						// Leave original range object untouched.
+						rangeClone = range.clone();
+
+					if ( path.block &&
+						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
+						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
+					{
+						rangeClone.setStartBefore( path.block );
+						rangeClone.setEndAfter( path.block );
+					}
+
+					var node = rangeClone.startContainer.getCommonAncestor( rangeClone.endContainer );
+
+					// Path is now relative to the common ancestor.
+					path = new CKEDITOR.dom.elementPath( node, this );
+
+					if ( node.type == CKEDITOR.NODE_TEXT )
+						node = node.getParent();
+
+					// Collect all <br>s and get rid of boguses.
+					var clonedFragment = rangeClone.cloneContents(),
+						boguses = new CKEDITOR.dom.nodeList( clonedFragment.$.querySelectorAll( 'br' ) ),
+						bogusesToRemove = [];
+
+					for ( var i = boguses.count(), bogus; bogus = boguses.getItem( --i ); ) {
+						// Don't remove immediately as it might distort further checks (i.e. multiple <br>s in one parent).
+						if ( isBogus( bogus ) ) {
+							bogusesToRemove.push( bogus );
+						}
+					}
+
+					// Prune collected bogus BRs.
+					while ( ( bogus = bogusesToRemove.pop() ) )
+						bogus.remove();
+
+					clonedFragment = rebuildFragmentTree.call( this, clonedFragment, node,
+						path.blockLimit.is( 'tr' ) ?
+							( function() {
+								var tableParent = path.contains( 'table' ).getParent();
+
+								return function( node ) {
+									return !node.equals( tableParent );
+								};
+							} )()
+						:
+							function( node ) {
+								return !node.equals( path.block ) && !node.equals( path.blockLimit );
+							}
+					);
+
+					return new CKEDITOR.dom.documentFragment( clonedFragment.$ );
+				};
+			} )(),
 
 			/**
 			 * @since 4.5
