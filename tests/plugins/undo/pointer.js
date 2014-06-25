@@ -150,10 +150,10 @@
 				};
 
 				// Fire minimal set of drop events.
-				this.tools.events.editableEvent( 'dragenter' );
-				this.tools.events.editableEvent( 'dragover' );
-				this.tools.events.editableEvent( 'drop' );
-				this.tools.events.editableEvent( 'input' );
+				this.tools.event.editableEvent( 'dragenter' );
+				this.tools.event.editableEvent( 'dragover' );
+				this.tools.event.editableEvent( 'drop' );
+				this.tools.event.editableEvent( 'input' );
 
 				// So input event occured, now lets fire some random key, like F4.
 				// Note taht F4 should not produce input event (it does only in FF wehere it's a bug).

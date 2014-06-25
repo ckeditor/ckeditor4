@@ -5,12 +5,12 @@
  * begin with prefix like 'fire'.
  *
  * This function has name `undoEventDispatchingTestsTools` rather than `undoTestsTools` to
- * put emphesise that it members are designed to fire events.
+ * put emphesise that it members are designed to fire event.
  *
  * Currently all the events fires only on editable.
  */
 var undoEventDispatchTestsTools = function( testSuite ) {
-	var events = {
+	var event = {
 		/**
 		 * Generic function to fire event on editable. Note it will automatically add type property to
 		 * `eventProperties`.
@@ -35,11 +35,11 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 				throw new TypeError( 'keyEvent(): eventInfo must have type property' );
 
 			eventInfo.keyCode = keyCode;
-			events.editableEvent( eventInfo.type, eventInfo );
+			event.editableEvent( eventInfo.type, eventInfo );
 		},
 
 		/**
-		 * @param {domModificationFn} function which will be executed before input / keyup events. It has to
+		 * @param {domModificationFn} function which will be executed before input / keyup event. It has to
 		 * mimic dom modification.
 		 */
 		keyEvent: function( keyCode, eventInfo, skipInputEvent, domModificationFn ) {
@@ -64,7 +64,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			if ( !skipInputEvent ) {
 				// Eventually we might fire textInput right before input event.
 				eventInfo.type = 'input';
-				events.editableEvent( 'input' );
+				event.editableEvent( 'input' );
 			}
 
 			eventInfo.type = 'keyup';
@@ -94,7 +94,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		},
 
 		/**
-		 * This function ties to mimic standard typing events. It will fire events like
+		 * This function ties to mimic standard typing event. It will fire events like
 		 * keydown, keypress, input, keyup for all given characters.
 		 */
 		typingEvents: function( inputText ) {
@@ -161,13 +161,13 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 				target: target.$
 			};
 
-			events.editableEvent( 'mousedown', domEventMockup );
+			event.editableEvent( 'mousedown', domEventMockup );
 
 			if ( domModificationFn )
 				domModificationFn();
 
-			events.editableEvent( 'click', domEventMockup );
-			events.editableEvent( 'mouseup', domEventMockup );
+			event.editableEvent( 'click', domEventMockup );
+			event.editableEvent( 'mouseup', domEventMockup );
 		}
 	};
 
@@ -175,7 +175,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		// Keyboard event dispatching functions.
 		key: keyboard,
 		// Standard event functions.
-		events: events,
+		event: event,
 		mouse: mouse
 	};
 };
