@@ -91,6 +91,7 @@
 		'test text #18': 			s( '<p>{  }</p>', 																false, 		[ 0, 0 ], 			0,				[ 0, 0 ], 			2											),
 		'test text #19': 			s( '<div>{ <p> }</p></div>', 													false, 		[ 0, 0 ], 			0,				[ 0, 1, 0 ], 		1											),
 		'test text #20': 			s( '<p>{<span>x</span> }</p>', 													false, 		null,	 			null,			null, 				null,			'<p><span>x</span> </p>'	),
+		'test text #21': 			s( '<p id="foo">x{}</p>', 														true, 		[ 0, 0 ], 			1 																				),
 
 		'test element #0': 			s( '[]', 																		true, 		[], 				0 																				),
 		'test element #1': 			s( '<p>x[]x</p>', 																true, 		[ 0 ], 				1 																				),
