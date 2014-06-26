@@ -1379,7 +1379,7 @@
 	 * This function is in the public scope for tests usage only.
 	 */
 	CKEDITOR.plugins.clipboard.fixIESplittedNodes = function( dragRange, dropRange ) {
-		if ( dropRange.startContainer.type == 1 &&
+		if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
 			 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
 			 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
 			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
@@ -1391,8 +1391,8 @@
 				nodeAfter.remove();
 			}
 
-			dropRange.startContainer = nodeBefore;
-			dropRange.startOffset = offset;
+			dropRange.setStart( nodeBefore, offset );
+			dropRange.collapse( true );
 		}
 	};
 
