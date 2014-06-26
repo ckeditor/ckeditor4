@@ -310,8 +310,56 @@
 
 				assert.areSame( '<p><a href="' + uri + '"><img src="' + SRC + '" /></a></p>', bot.editor.getData() );
 			} );
+		},
+
+		// #12132
+		'test width and height not set when not allowed': function() {
+			bender.editorBot.create( {
+				name: 'editor_disallowed_dimension',
+				config: {
+					disallowedContent : 'img{width, height}[width, height]'
+				}
+			},
+			function( bot ) {
+				var editor = bot.editor;
+
+				bot.dialog( 'image', onDialog );
+
+				function onDialog( dialog ) {
+					var imgUrl = '%BASE_PATH%_assets/logo.png';
+
+					dialog.setValueOf( 'info', 'txtUrl', imgUrl );
+
+					downloadImage( imgUrl, function() {
+						var img;
+
+						dialog.getButton( 'ok' ).click();
+
+						img = editor.document.find( 'img' ).getItem( 0 );
+
+						resume( function () {
+							assert.isNull( img.getAttribute( 'style' ), 'Styles should not be set.' );
+						} );
+					} );
+
+					wait();
+				}
+			} );
 		}
 	} );
+
+	function downloadImage( src, cb ) {
+		var img = new CKEDITOR.dom.element( 'img' );
+
+		img.once( 'load', onDone );
+		img.once( 'error', onDone );
+
+		function onDone() {
+			CKEDITOR.tools.setTimeout( cb, 0 );
+		}
+
+		img.setAttribute( 'src', src );
+	}
 
 } )();
 //]]>
