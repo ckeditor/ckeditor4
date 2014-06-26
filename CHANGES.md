@@ -10,7 +10,9 @@ Fixed Issues:
 
 ## CKEditor 4.4.3
 
+Fixed Issues:
 
+* [#12110](http://dev.ckeditor.com/ticket/12110): Fixed: Editor crash after deleting a table. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 
 ## CKEditor 4.4.2
 
