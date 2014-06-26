@@ -3,7 +3,7 @@
 ( function() {
 	'use strict';
 
-	bender.editor = { config : { autoParagraph : false } };
+	bender.editor = { creator: 'inline', config : { autoParagraph : false } };
 
 	var SRC = '%BASE_PATH%_assets/logo.png';
 
@@ -281,6 +281,7 @@
 
 		'test float:left style transformation': function() {
 			bender.editorBot.create( {
+				creator: 'inline',
 				name: 'editor_float_transformation',
 				config: {
 					allowedContent: 'p; img[src,align]'
@@ -316,6 +317,7 @@
 		'test width and height not set when not allowed': function() {
 			bender.editorBot.create( {
 				name: 'editor_disallowed_dimension',
+				creator: 'inline',
 				config: {
 					disallowedContent : 'img{width, height}[width, height]'
 				}
