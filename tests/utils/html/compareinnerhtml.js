@@ -5,7 +5,8 @@
 
 	var compatHtmlArgs,
 		originalCompatHtml = bender.tools.compatHtml,
-		htmlTools = bender.tools.html;
+		htmlTools = bender.tools.html,
+		filler = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;';
 
 	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp ) {
 		compatHtmlArgs = {
@@ -55,8 +56,10 @@
 		'simple string':									t( true, 'foo', 'foo' ),
 		'simple element':									t( true, '<b>foo</b>', '<B>foo</B>' ),
 		'bogus expected, not exists':						t( true, 'a@', 'a' ),
-		'bogus expected, exists':							t( true, 'a@', 'a<br />' ),
-		'multiple boguses':									t( true, '<p>a@</p><p>b@</p><p>c@</p>', '<p>a<br /></p><p>b</p><p>c<br /></p>' ),
+		// Obvious simplification - &nbsp; can't be a filler in this place, but that
+		// is developer's duty to use @ correctly.
+		'bogus expected, exists':							t( true, 'a@', 'a' + filler ),
+		'multiple boguses':									t( true, '<p>a@</p><p>b@</p><p>c@</p>', '<p>a' + filler + '</p><p>b</p><p>c' + filler + '</p>' ),
 		'regexp conflict [':								t( true, 'ba[r', 'ba[r' ),
 
 		'markers 1 - no opts.compareSelection':				t( true, 'ba[r]', 'ba[r]' ),
