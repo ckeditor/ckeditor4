@@ -1232,7 +1232,7 @@
 			}
 
 			var pattern = bender.tools.escapeRegExp( expected )
-				.replace( /@/g, '(<br />)?' );
+				.replace( /@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '(&nbsp;)?' );
 
 			return new RegExp( '^' + pattern + '$' ).test( actual );
 		}
