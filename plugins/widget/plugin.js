@@ -45,8 +45,10 @@
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
 					// Initially drag handler should not be visible, until its position will be
-					// repositioned. #11177
-					'left:-9999px;' +
+					// calculated (#11177).
+					// We need to hide unpositined handlers, so they don't extend
+					// widget's outline far to the left (#12024).
+					'display:none;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (#11198).
@@ -1382,7 +1384,8 @@
 			editor.fire( 'lockSnapshot' );
 			this.dragHandlerContainer.setStyles( {
 				top: newPos.y + 'px',
-				left: newPos.x + 'px'
+				left: newPos.x + 'px',
+				display: 'block'
 			} );
 			editor.fire( 'unlockSnapshot' );
 			!initialDirty && editor.resetDirty();
