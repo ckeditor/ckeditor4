@@ -63,45 +63,43 @@ function drop( editor, evt, config, callback ) {
 	}, 100 );
 }
 
-var editorsDefinitions = {
-	framed: {
-		name: 'framed',
-		creator: 'replace',
-		config: {
-			allowedContent: true,
-			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+var editors, editorBots,
+	editorsDefinitions = {
+		framed: {
+			name: 'framed',
+			creator: 'replace',
+			config: {
+				allowedContent: true,
+				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+			}
+		},
+		inline: {
+			name: 'inline',
+			creator: 'inline',
+			config: {
+				allowedContent: true,
+				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+			}
+		},
+		divarea: {
+			name: 'divarea',
+			creator: 'replace',
+			config: {
+				extraPlugins: 'divarea',
+				allowedContent: true,
+				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+			}
+		},
+		cross: {
+			name: 'cross',
+			creator: 'replace',
+			config: {
+				allowedContent: true,
+				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+			}
 		}
 	},
-	inline: {
-		name: 'inline',
-		creator: 'inline',
-		config: {
-			allowedContent: true,
-			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-		}
-	},
-	divarea: {
-		name: 'divarea',
-		creator: 'replace',
-		config: {
-			extraPlugins: 'divarea',
-			allowedContent: true,
-			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-		}
-	},
-	cross: {
-		name: 'cross',
-		creator: 'replace',
-		config: {
-			allowedContent: true,
-			toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
-		}
-	}
-};
-
-bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
-	bender.test( bender.tools.createTestsForEditors(
-		[ editors.framed, editors.inline, editors.divarea ], {
+	testsForMultipleEditor = {
 		'test drop to header': function( editor ) {
 			var bot = editorBots[ editor.name ],
 				evt = createDnDEventMock();
@@ -290,5 +288,50 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors, editorBots ) {
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', bender.tools.compatHtml( editorCross.getData(), 0, 1, 0, 1 ), 'after undo - editor cross' );
 			} );
 		}
-	} ) );
+	},
+	testsForOneEditor = {
+		'test fixIESplittedNodes': function() {
+			var editor = editors.framed,
+				bot = editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				p, text;
+
+			// Create DOM
+			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			p = editor.document.getById( 'p' );
+
+			// Set drag range.
+			dragRange.setStart( p.getChild( 0 ), 11 );
+			dragRange.collapse( true );
+
+			// Break content like IE do.
+			p.getChild( 0 ).setText( 'Lorem' );
+			text = new CKEDITOR.dom.text( ' ipsum sit amet.' );
+			text.insertAfter( p.getChild( 0 ) );
+
+			// Set drop range.
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
+
+			// Fix nodes.
+			CKEDITOR.plugins.clipboard.fixIESplittedNodes( dragRange, dropRange );
+
+			// Assert.
+			assert.areSame( 1, p.getChildCount() );
+			dragRange.select();
+			assert.areSame( '<p>Lorem ipsum{} sit amet.</p>', bender.tools.selection.getWithHtml( editor ) );
+		}
+	};
+
+bender.tools.setUpEditors( editorsDefinitions, function( e, eb ) {
+	editors = e;
+	editorBots = eb;
+
+	bender.test( CKEDITOR.tools.extend(
+		bender.tools.createTestsForEditors(
+			[ editors.framed, editors.inline, editors.divarea ],
+			testsForMultipleEditor ),
+		testsForOneEditor )
+	);
 } );
