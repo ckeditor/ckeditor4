@@ -317,10 +317,78 @@ var editors, editorBots,
 			// Fix nodes.
 			CKEDITOR.plugins.clipboard.fixIESplittedNodes( dragRange, dropRange );
 
-			// Assert.
+			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
 			dragRange.select();
 			assert.areSame( '<p>Lorem ipsum{} sit amet.</p>', bender.tools.selection.getWithHtml( editor ) );
+			dropRange.select();
+			assert.areSame( '<p>Lorem{} ipsum sit amet.</p>', bender.tools.selection.getWithHtml( editor ) );
+		},
+
+		'test rangeBefore 1': function() {
+			var editor = editors.framed,
+				bot = editorBots[ editor.name ],
+				firstRange = editor.createRange(),
+				secondRange = editor.createRange(),
+				p;
+
+			// "Lorem[1] ipsum[2] sit amet."
+			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			p = editor.document.getById( 'p' );
+
+			firstRange.setStart( p.getChild( 0 ), 5 );
+			firstRange.collapse( true );
+
+			secondRange.setStart( p.getChild( 0 ), 11 );
+			secondRange.collapse( true );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
+		},
+
+		'test rangeBefore 2': function() {
+			var editor = editors.framed,
+				bot = editorBots[ editor.name ],
+				firstRange = editor.createRange(),
+				secondRange = editor.createRange(),
+				p, text;
+
+			// "Lorem " [1] " ipsum" [2] "sit amet."
+			bot.setHtmlWithSelection( '<p id="p">Lorem </p>' );
+			p = editor.document.getById( 'p' );
+			text = new CKEDITOR.dom.text( ' ipsum' );
+			text.insertAfter( p.getChild( 0 ) );
+			text = new CKEDITOR.dom.text( ' sit amet.' );
+			text.insertAfter( p.getChild( 0 ) );
+
+			firstRange.setStart( p, 1 );
+			firstRange.collapse( true );
+
+			secondRange.setStart( p, 2 );
+			secondRange.collapse( true );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
+		},
+
+		'test rangeBefore 3': function() {
+			var editor = editors.framed,
+				bot = editorBots[ editor.name ],
+				firstRange = editor.createRange(),
+				secondRange = editor.createRange(),
+				p, text;
+
+			// "Lorem[1] ipsum" [2] "sit amet."
+			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum</p>' );
+			p = editor.document.getById( 'p' );
+			text = new CKEDITOR.dom.text( ' sit amet.' );
+			text.insertAfter( p.getChild( 0 ) );
+
+			firstRange.setStart( p.getChild( 0 ), 5 );
+			firstRange.collapse( true );
+
+			secondRange.setStart( p, 1 );
+			secondRange.collapse( true );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
 		}
 	};
 
