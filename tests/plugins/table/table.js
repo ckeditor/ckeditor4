@@ -94,12 +94,12 @@
 			} );
 		},
 
-		'test delete table': function() {
+		'test delete table wrapped in div': function() {
 			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'del-table', function( source, expected ) {
 				bot.setHtmlWithSelection( source );
 				bot.execCommand( 'tableDelete' );
-				assert.areSame( expected, bot.getData( false, true ) );
+				assert.isInnerHtmlMatching( '<p>@</p>', bot.editor.editable().getHtml(), 'div was removed too' );
 			} );
 		},
 
