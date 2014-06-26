@@ -1147,7 +1147,9 @@
 			} );
 		},
 
-		'test widgets\' commands are disabled in nested editable': function() {
+		// Behaviour has been changed in 4.5 (#12112), so we're leaving this
+		// test as a validation of this change.
+		'test widgets\' commands are enabled in nested editable': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -1172,7 +1174,7 @@
 				range.collapse( true );
 				range.select();
 
-				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.commands.testcommand1.state, 'command is disabled in nested editable' );
+				assert.areSame( CKEDITOR.TRISTATE_OFF, editor.commands.testcommand1.state, 'command is enabled in nested editable' );
 			} );
 		},
 

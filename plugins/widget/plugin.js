@@ -1710,14 +1710,6 @@
 				}
 			},
 
-			refresh: function( editor, path ) {
-				// Disable widgets' commands inside nested editables -
-				// check if blockLimit is a nested editable or a descendant of any.
-				this.setState( getNestedEditable( editor.editable(), path.blockLimit ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
-			},
-			// A hack to force command refreshing on context change.
-			context: 'div',
-
 			allowedContent: widgetDef.allowedContent,
 			requiredContent: widgetDef.requiredContent,
 			contentForms: widgetDef.contentForms,
