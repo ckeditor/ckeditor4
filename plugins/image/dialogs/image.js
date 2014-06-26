@@ -586,7 +586,7 @@
 										commit: function( type, element, internalCommit ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
-												if ( value )
+												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
 													element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
 												else
 													element.removeStyle( 'width' );
@@ -626,7 +626,7 @@
 										commit: function( type, element, internalCommit ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
-												if ( value )
+												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
 													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
 												else
 													element.removeStyle( 'height' );
