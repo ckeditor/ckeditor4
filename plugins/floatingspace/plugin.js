@@ -58,8 +58,7 @@
 					dockedOffsetX = config.floatSpaceDockedOffsetX || 0,
 					dockedOffsetY = config.floatSpaceDockedOffsetY || 0,
 					pinnedOffsetX = config.floatSpacePinnedOffsetX || 0,
-					pinnedOffsetY = config.floatSpacePinnedOffsetY || 0,
-					preferRight = !!config.floatSpacePreferRight;
+					pinnedOffsetY = config.floatSpacePinnedOffsetY || 0;
 
 				// Update the float space position.
 				function updatePos( pos, prop, val ) {
@@ -162,12 +161,13 @@
 						changeMode( 'bottom' );
 
 					var mid = viewRect.width / 2,
-						alignSide =
-								( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) ?
-										( ( editor.config.contentsLangDirection == 'rtl' || preferRight ) ? 'right' : 'left' )
-									:
-										( mid - editorRect.left > editorRect.right - mid ? 'left' : 'right' ),
-						offset;
+						alignSide, offset;
+
+					if ( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) {
+						alignSide = ( config.contentsLangDirection == 'rtl' ) || config.floatSpacePreferRight ? 'right' : 'left';
+					} else {
+						alignSide = mid - editorRect.left > editorRect.right - mid ? 'left' : 'right';
+					}
 
 					// (#9769) If viewport width is less than space width,
 					// make sure space never cross the left boundary of the viewport.
@@ -380,7 +380,8 @@
  */
 
 /**
- * Indicates that the float space should align with the right side of editor
+ * Indicates that the float space should be aligned to the right side
+ * of editable area rather than to the left (if possible).
  *
  *		config.floatSpacePreferRight = true;
  *
