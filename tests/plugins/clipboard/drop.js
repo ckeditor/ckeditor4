@@ -5,7 +5,7 @@
 
 CKEDITOR.disableAutoInline = true;
 
-function createDnDEventMock() {
+function createDragDropEventMock() {
 	return {
 		$: {
 			clientX: 0,
@@ -102,7 +102,7 @@ var editors, editorBots,
 	testsForMultipleEditor = {
 		'test drop to header': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<h1 id="h1">Header1</h1>' +
 			'<p>Lorem ipsum [dolor] sit amet.</p>' );
@@ -123,7 +123,7 @@ var editors, editorBots,
 
 		'test drop the same line, before': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum [dolor] sit amet.</p>' );
 
@@ -143,7 +143,7 @@ var editors, editorBots,
 
 		'test drop the same line, after': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
 
@@ -163,7 +163,7 @@ var editors, editorBots,
 
 		'test drop after paragraph': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
 
@@ -183,7 +183,7 @@ var editors, editorBots,
 
 		'test drop on the left from paragraph': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
 
@@ -203,7 +203,7 @@ var editors, editorBots,
 
 		'test drop from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 
@@ -226,7 +226,7 @@ var editors, editorBots,
 
 		'test drop html from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 
@@ -249,7 +249,7 @@ var editors, editorBots,
 
 		'test drop empty element from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock();
+				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
 
@@ -264,7 +264,7 @@ var editors, editorBots,
 
 		'test cross editor drop': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDnDEventMock(),
+				evt = createDragDropEventMock(),
 				botCross = editorBots[ 'cross' ],
 				editorCross = botCross.editor;
 

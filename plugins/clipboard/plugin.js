@@ -531,7 +531,7 @@
 			// #11086 IE8 cannot listen on document.
 			var dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
 
-			// Listed on dragstart to mark internal and cross-editor D&D
+			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it globally.
@@ -540,7 +540,7 @@
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				// When DnD is done we need to reset dataTransfer so the future
+				// When drag & drop is done we need to reset dataTransfer so the future
 				// external drop will be not recognize as internal.
 				CKEDITOR.plugins.clipboard.resetDataTransfer();
 			} );
@@ -553,7 +553,7 @@
 				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt );
 				dataTransfer.setTargetEditor( editor );
 
-				// Getting drop position is one of the most complex part of D&D.
+				// Getting drop position is one of the most complex part.
 				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
 					dragRange = CKEDITOR.plugins.clipboard.dragRange;
 
@@ -562,18 +562,18 @@
 					return;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					internalDnD( dragRange, dropRange, dataTransfer );
+					internalDrop( dragRange, dropRange, dataTransfer );
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
-					crossEditorDnD( dragRange, dropRange, dataTransfer );
+					crossEditorDrop( dragRange, dropRange, dataTransfer );
 				} else {
-					externalDnD( dropRange, dataTransfer );
+					externalDrop( dropRange, dataTransfer );
 				}
 			} );
 		}
 
-		// Internal D&D.
-		function internalDnD( dragRange, dropRange, dataTransfer ) {
-			// Execute D&D with a timeout because otherwise selection, after drop,
+		// Internal drag and drop (drag and drop in the same Editor).
+		function internalDrop( dragRange, dropRange, dataTransfer ) {
+			// Execute drop with a timeout because otherwise selection, after drop,
 			// on IE is in the drag position, instead of drop position.
 			setTimeout( function() {
 				var dragBookmark, dropBookmark, i,
@@ -617,8 +617,8 @@
 			}, 0 );
 		}
 
-		// Cross editor D&D.
-		function crossEditorDnD( dragRange, dropRange, dataTransfer ) {
+		// Cross editor drag and drop (drag in one Editor and drop in the other).
+		function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
 			var i;
 
 			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
@@ -642,7 +642,7 @@
 		}
 
 		// Drop from external source.
-		function externalDnD( dropRange, dataTransfer ) {
+		function externalDrop( dropRange, dataTransfer ) {
 			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
 			if ( CKEDITOR.env.gecko ) {
 				fixGeckoDisappearingCursor( editor );
@@ -1562,7 +1562,7 @@
 						return defaultRange;
 					}
 					// Otherwise we can not find any drop position and we have to return null
-					// and cancel D&D event.
+					// and cancel drop event.
 					else
 						return null;
 
@@ -1596,12 +1596,12 @@
 		// If there is the same id we will replace dataTransfer with the one
 		// created on drag, because it contains drag editor, drag content and so on.
 		// Otherwise (in case of drag from external source) we save new object to
-		// the global clipboard.dnd.
-		if ( CKEDITOR.plugins.clipboard.dnd &&
-			dataTransfer.id == CKEDITOR.plugins.clipboard.dnd.id ) {
-			dataTransfer = CKEDITOR.plugins.clipboard.dnd;
+		// the global clipboard.dragData.
+		if ( CKEDITOR.plugins.clipboard.dragData &&
+			dataTransfer.id == CKEDITOR.plugins.clipboard.dragData.id ) {
+			dataTransfer = CKEDITOR.plugins.clipboard.dragData;
 		} else {
-			CKEDITOR.plugins.clipboard.dnd = dataTransfer;
+			CKEDITOR.plugins.clipboard.dragData = dataTransfer;
 		}
 
 		if ( sourceEditor ) {
@@ -1616,7 +1616,7 @@
 	 * will be not linked with the old one.
 	 */
 	CKEDITOR.plugins.clipboard.resetDataTransfer = function() {
-		CKEDITOR.plugins.clipboard.dnd = undefined;
+		CKEDITOR.plugins.clipboard.dragData = null;
 	};
 
 	// Data type used to link drag and drop events.
@@ -1624,7 +1624,7 @@
 		// IE does not support different data types that Text and URL.
 		// In IE 9- we can use URL data type to mark that drag comes from the editor.
 		( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ? 'URL':
-		// In IE 10+ URL data type is buggie and there is no way to mark DnD without
+		// In IE 10+ URL data type is buggie and there is no way to mark drag & drop  without
 		// modifying text data (which would be displayed if user drop content to the textarea)
 		// so we just read dragged text.
 		CKEDITOR.env.ie ? 'Text' :

@@ -3,7 +3,7 @@
 
 'use strict';
 
-function createDnDEventMock() {
+function createDragDropEventMock() {
 	return {
 		data: {
 			$: {
@@ -54,8 +54,8 @@ bender.test( {
 	},
 
 	'test dataTransfer id': function() {
-		var evt1 = createDnDEventMock(),
-			evt2 = createDnDEventMock(),
+		var evt1 = createDragDropEventMock(),
+			evt2 = createDragDropEventMock(),
 			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( evt1 ),
 			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( evt1 ),
 			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( evt2 );
@@ -74,7 +74,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '[<b>foo</b>]' );
 
-		evt = createDnDEventMock();
+		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor );
@@ -93,7 +93,7 @@ bender.test( {
 		var editor = this.editors.editor1,
 			evt, dataTransfer;
 
-		evt = createDnDEventMock();
+		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
@@ -111,7 +111,7 @@ bender.test( {
 		var editor = this.editors.editor1,
 			evt, dataTransfer;
 
-		evt = createDnDEventMock();
+		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 		if ( !CKEDITOR.env.ie ) {
 			evt.data.$.dataTransfer.setData( 'text/html', '<b>foo</b>' );
@@ -144,7 +144,7 @@ bender.test( {
 
 		bot1.setHtmlWithSelection( '[<b>foo</b>]' );
 
-		evt = createDnDEventMock();
+		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor1 );
@@ -159,7 +159,7 @@ bender.test( {
 	},
 
 	'test setData getData': function() {
-		var evt = createDnDEventMock(),
+		var evt = createDragDropEventMock(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'Text', 'foo' );
@@ -169,8 +169,8 @@ bender.test( {
 	},
 
 	'test initDataTransfer binding': function() {
-		var evt1 = createDnDEventMock(),
-			evt2 = createDnDEventMock(),
+		var evt1 = createDragDropEventMock(),
+			evt2 = createDragDropEventMock(),
 			dataTransferA = CKEDITOR.plugins.clipboard.initDataTransfer( evt1 ),
 			dataTransferB = CKEDITOR.plugins.clipboard.initDataTransfer( evt1 );
 
@@ -191,7 +191,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '[<b>foo</b>]' );
 
-		var evt = createDnDEventMock(),
+		var evt = createDragDropEventMock(),
 			dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
