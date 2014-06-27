@@ -231,6 +231,7 @@
 					( !leftCell || !rightCell ) && ( getWidth( table ) + getBorderWidth( table, 'left' ) + getBorderWidth( table, 'right' ) ),
 					currentShift ] );
 			}
+			editor.fire('tableResize');
 		}
 
 		function onMouseDown( evt ) {
