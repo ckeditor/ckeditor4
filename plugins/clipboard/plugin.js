@@ -1701,74 +1701,44 @@
 				}
 			}
 		}
-	};
+		/**
+		 * Data transfer ID used to bind all dataTransfer
+		 * object based on the same event (ex. in drag and drop events).
+		 *
+		 * @property {String} id
+		 */
 
-	/**
-	 * Data transfer ID used to bind all dataTransfer
-	 * object based on the same event (ex. in drag and drop events).
-	 *
-	 * @property {String} id
-	 */
+		/**
+		 * A native DOM event object.
+		 *
+		 * @private
+		 * @property {Object} $
+		 */
 
-	/**
-	 * A native DOM event object.
-	 *
-	 * @private
-	 * @property {Object} $
-	 */
+		/**
+		 * Source editor, the editor where drag starts.
+		 * Might be undefined if drag starts outside the editor (ex. dropping files to the editor).
+		 *
+		 * @property {CKEDITOR.editor} [sourceEditor]
+		 */
 
-	/**
-	 * Source editor, the editor where drag starts.
-	 * Might be undefined if drag starts outside the editor (ex. dropping files to the editor).
-	 *
-	 * @property {CKEDITOR.editor} [sourceEditor]
-	 */
+		/**
+		 * Target editor, the editor where drop occurred.
+		 *
+		 * @property {CKEDITOR.editor} targetEditor
+		 */
 
-	/**
-	 * Target editor, the editor where drop occurred.
-	 *
-	 * @property {CKEDITOR.editor} targetEditor
-	 */
+		/**
+		 * HTML or text to be pasted.
+		 *
+		 * @property {String} dataValue
+		 */
 
-	/**
-	 * HTML or text to be pasted.
-	 *
-	 * @property {String} dataValue
-	 */
-
-	/**
-	 * Type of data in `data.dataValue`. The value might be `html` or `text`.
-	 *
-	 * @property {String} dataType
-	 */
-
-	/**
-	 * Facade for the native getData method.
-	 *
-	 * @param {String} type The type of data to retrieve.
-	 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
-	 */
-	CKEDITOR.plugins.clipboard.dataTransfer.prototype.getData = function( type ) {
-		return this.$.getData( type );
-	};
-
-	/**
-	 * Facade for the native setData method.
-	 *
-	 * @param {String} type The type of data to retrieve.
-	 * @param {String} value The data to add.
-	 */
-	CKEDITOR.plugins.clipboard.dataTransfer.prototype.setData = function( type, value ) {
-		return this.$.setData( type, value );
-	};
-
-	/**
-	 * Set target editor.
-	 *
-	 * @param {CKEDITOR.editor} editor The target editor instance.
-	 */
-	CKEDITOR.plugins.clipboard.dataTransfer.prototype.setTargetEditor = function( editor ) {
-		this.targetEditor = editor;
+		/**
+		 * Type of data in `data.dataValue`. The value might be `html` or `text`.
+		 *
+		 * @property {String} dataType
+		 */
 	};
 
 	/**
@@ -1801,19 +1771,50 @@
 	 */
 	CKEDITOR.DATA_TRANSFER_EXTERNAL = 2;
 
-	/**
-	 * Get data transfer type.
-	 *
-	 * @returns {Number} type
-	 * Possible options: DATA_TRANSFER_INTERNAL, DATA_TRANSFER_CROSS_EDITORS, DATA_TRANSFER_EXTERNAL.
-	 */
-	CKEDITOR.plugins.clipboard.dataTransfer.prototype.getTransferType = function() {
-		if ( !this.sourceEditor ) {
-			return CKEDITOR.DATA_TRANSFER_EXTERNAL;
-		} else if ( this.sourceEditor == this.targetEditor ) {
-			return CKEDITOR.DATA_TRANSFER_INTERNAL;
-		} else {
-			return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;
+	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
+		/**
+		 * Facade for the native getData method.
+		 *
+		 * @param {String} type The type of data to retrieve.
+		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
+		 */
+		getData: function( type ) {
+			return this.$.getData( type );
+		},
+
+		/**
+		 * Facade for the native setData method.
+		 *
+		 * @param {String} type The type of data to retrieve.
+		 * @param {String} value The data to add.
+		 */
+		setData: function( type, value ) {
+			return this.$.setData( type, value );
+		},
+
+		/**
+		 * Set target editor.
+		 *
+		 * @param {CKEDITOR.editor} editor The target editor instance.
+		 */
+		setTargetEditor: function( editor ) {
+			this.targetEditor = editor;
+		},
+
+		/**
+		 * Get data transfer type.
+		 *
+		 * @returns {Number} type
+		 * Possible options: DATA_TRANSFER_INTERNAL, DATA_TRANSFER_CROSS_EDITORS, DATA_TRANSFER_EXTERNAL.
+		 */
+		getTransferType: function() {
+			if ( !this.sourceEditor ) {
+				return CKEDITOR.DATA_TRANSFER_EXTERNAL;
+			} else if ( this.sourceEditor == this.targetEditor ) {
+				return CKEDITOR.DATA_TRANSFER_INTERNAL;
+			} else {
+				return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;
+			}
 		}
 	};
 } )();
