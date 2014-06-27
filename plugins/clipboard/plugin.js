@@ -1343,7 +1343,6 @@
 	}
 
 	/**
-	 * @private
 	 * @singleton
 	 * @class CKEDITOR.plugins.clipboard
 	 */
@@ -1438,7 +1437,6 @@
 	 *
 	 * @param {Object} domEvent A native DOM drop event object.
 	 * @param {CKEDITOR.editor} editor The source editor instance.
-	 *
 	 * @returns {CKEDITOR.dom.range} range at drop position.
 	 *
 	 */
@@ -1640,12 +1638,8 @@
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
 	 * @constructor Creates a class instance and .
 	 *
-	 * @param {Object} domEvent
-	 * A native DOM event object.
-	 *
-	 * @param {CKEDITOR.editor} editor The source editor instance.
-	 * If editor is defined then dataValue will be created based on
-	 * the editor contents and dataType will be 'html'.
+	 * @param {Object} domEvent A native DOM event object.
+	 * @param {CKEDITOR.editor} editor The source editor instance. If editor is defined then dataValue will be created based on the editor contents and dataType will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
 		this.$ = evt.data.$.dataTransfer;
@@ -1710,13 +1704,49 @@
 	};
 
 	/**
+	 * Data transfer ID used to bind all dataTransfer
+	 * object based on the same event (ex. in drag and drop events).
+	 *
+	 * @property {String} id
+	 */
+
+	/**
+	 * A native DOM event object.
+	 *
+	 * @private
+	 * @property {Object} $
+	 */
+
+	/**
+	 * Source editor, the editor where drag starts.
+	 * Might be undefined if drag starts outside the editor (ex. dropping files to the editor).
+	 *
+	 * @property {CKEDITOR.editor} [sourceEditor]
+	 */
+
+	/**
+	 * Target editor, the editor where drop occurred.
+	 *
+	 * @property {CKEDITOR.editor} targetEditor
+	 */
+
+	/**
+	 * HTML or text to be pasted.
+	 *
+	 * @property {String} dataValue
+	 */
+
+	/**
+	 * Type of data in `data.dataValue`. The value might be `html` or `text`.
+	 *
+	 * @property {String} dataType
+	 */
+
+	/**
 	 * Facade for the native getData method.
 	 *
 	 * @param {String} type The type of data to retrieve.
-	 *
-	 * @returns {String} type
-	 * Stored data for the given type or an
-	 * empty string if data for that type does not exist.
+	 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype.getData = function( type ) {
 		return this.$.getData( type );
@@ -1786,49 +1816,6 @@
 			return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;
 		}
 	};
-
-	/**
-	 * ID
-	 *
-	 * @property {String} id
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * $
-	 *
-	 * @private
-	 * @property {Object} $
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * sourceEditor
-	 *
-	 * @property {CKEDITOR.editor} sourceEditor
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * targetEditor
-	 *
-	 * @property {CKEDITOR.editor} targetEditor
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * dataValue
-	 *
-	 * @property {String} dataValue
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
-
-	/**
-	 * dataType
-	 *
-	 * @property {String} dataType
-	 * @member CKEDITOR.plugins.clipboard.dataTransfer
-	 */
 } )();
 
 /**
