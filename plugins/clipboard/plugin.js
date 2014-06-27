@@ -611,7 +611,8 @@
 				dropRange = editor.createRange();
 				dropRange.moveToBookmark( dropBookmark );
 				dropRange.select();
-				firePasteEvents( 'html', dataTransfer.dataValue );
+
+				firePasteWithDataTransfer( dataTransfer );
 
 				editor.fire( 'unlockSnapshot' );
 			}, 0 );
@@ -630,7 +631,8 @@
 			// Chrome have a problem with drop range (Chrome split the drop
 			// range container so the offset is bigger then container length).
 			dropRange.select();
-			firePasteEvents( 'html', dataTransfer.dataValue );
+
+			firePasteWithDataTransfer( dataTransfer );
 
 			// Remove dragged content and make a snapshot.
 			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -651,7 +653,12 @@
 			// Paste content into the drop position.
 			dropRange.select();
 
-			firePasteEvents( dataTransfer.dataType, dataTransfer.dataValue );
+			firePasteWithDataTransfer( dataTransfer );
+		}
+
+		function firePasteWithDataTransfer( dataTransfer ) {
+			if ( dataTransfer.dataValue )
+					editor.fire( 'paste', dataTransfer );
 		}
 
 		// Fix for Gecko bug with disappearing cursor.
@@ -1694,10 +1701,12 @@
 			if ( !this.dataValue ) {
 				// Try to get text data otherwise.
 				this.dataValue = this.getData( 'Text' );
+				this.dataType = 'text';
 
 				if ( this.dataValue ) {
-					CKEDITOR.tools.htmlEncode( this.getData( 'Text' ) );
-					this.dataType = 'text';
+					this.dataValue = CKEDITOR.tools.htmlEncode( this.dataValue );
+				} else {
+					this.dataValue = '';
 				}
 			}
 		}
