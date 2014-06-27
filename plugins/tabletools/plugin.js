@@ -697,6 +697,12 @@
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
+			addCmd( 'rowProperties', new CKEDITOR.dialogCommand( 'rowProperties', createDef( {
+				allowedContent: 'tr',
+				requiredContent: 'table'
+			} ) ) );
+			CKEDITOR.dialog.add( 'rowProperties', this.path + 'dialogs/tableRow.js' );
+
 			addCmd( 'rowDelete', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
@@ -902,10 +908,17 @@
 						group: 'tablerow',
 						order: 1,
 						getItems: function() {
+							var selection = editor.getSelection(),
+								cells = getSelectedCells( selection ),
+								startRow = cells[ 0 ].getParent(),
+								startRowIndex = startRow.$.rowIndex,
+								lastCell = cells[ cells.length - 1 ],
+								endRowIndex = lastCell.getParent().$.rowIndex + lastCell.$.rowSpan - 1;
 							return {
 								tablerow_insertBefore: CKEDITOR.TRISTATE_OFF,
 								tablerow_insertAfter: CKEDITOR.TRISTATE_OFF,
-								tablerow_delete: CKEDITOR.TRISTATE_OFF
+								tablerow_delete: CKEDITOR.TRISTATE_OFF,
+								tablerow_properties: startRowIndex === endRowIndex ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
 							};
 						}
 					},
@@ -929,6 +942,13 @@
 						group: 'tablerow',
 						command: 'rowDelete',
 						order: 15
+					},
+
+					tablerow_properties: {
+						label: lang.row.title,
+						group: 'tablerowproperties',
+						command: 'rowProperties',
+						order: 16
 					},
 
 					tablecolumn: {
