@@ -1027,7 +1027,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				editor.focus();
 
 				// Give a while before unlock, waiting for focus to return to the editable. (#172)
-				setTimeout( function() { editor.focusManager.unlock(); }, 0 );
+				setTimeout( function() {
+					editor.focusManager.unlock();
+					if (CKEDITOR.env.iOS)
+						editor.window.focus();
+				}, 0 );
 
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;

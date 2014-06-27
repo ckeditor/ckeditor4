@@ -165,8 +165,9 @@
 					editor.unlockSelection( 1 );
 					selLocked = 0;
 				}
-
 				instance.execute();
+				if (env.iOS)
+					editor.window.focus();
 			} );
 
 
