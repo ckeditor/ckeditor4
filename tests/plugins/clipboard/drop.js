@@ -6,7 +6,7 @@
 CKEDITOR.disableAutoInline = true;
 
 function createDnDEventMock() {
- 	return {
+	return {
 		$: {
 			clientX: 0,
 			clientY: 0,
@@ -24,7 +24,7 @@ function createDnDEventMock() {
 			// noop
 		}
 	}
- }
+}
 
 function drag( editor, evt ) {
 	var editable = editor.editable(),

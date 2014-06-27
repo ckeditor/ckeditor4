@@ -1380,8 +1380,8 @@
 	 */
 	CKEDITOR.plugins.clipboard.fixIESplittedNodes = function( dragRange, dropRange ) {
 		if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
-			 dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-			 dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
+			dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
+			dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
 			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
 				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
 				offset = nodeBefore.getLength();
@@ -1491,7 +1491,7 @@
 				//
 				// So we try to call moveToPoint with +-1px up to +-20px above or
 				// below original drop position to find nearest good drop position.
- 				for ( var i = 0; i < 20 && !sucess; i++ ) {
+				for ( var i = 0; i < 20 && !sucess; i++ ) {
 					if ( !sucess ) {
 						try {
 							$range.moveToPoint( x, y - i );
@@ -1559,8 +1559,8 @@
 					//
 					// In such case we can try to use default selection. If startContainer is not
 					// 'editable' element it is probably proper selection.
-					else if ( defaultRange && defaultRange.startContainer && !defaultRange.
-						startContainer.equals( editor.editable() ) ) {
+					else if ( defaultRange && defaultRange.startContainer &&
+						!defaultRange.startContainer.equals( editor.editable() ) ) {
 						return defaultRange;
 					}
 					// Otherwise we can not find any drop position and we have to return null
@@ -1622,7 +1622,7 @@
 	};
 
 	// Data type used to link drag and drop events.
-	var	clipboardIdDataType =
+	var clipboardIdDataType =
 		// IE does not support different data types that Text and URL.
 		// In IE 9- we can use URL data type to mark that drag comes from the editor.
 		( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ? 'URL':
@@ -1666,7 +1666,7 @@
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
 				// (ex. image with no alt). We change null to empty string.
-				this.id = "";
+				this.id = '';
 			} else {
 				// String for custom data type.
 				this.id = 'cke-' + generateUniqueId();
