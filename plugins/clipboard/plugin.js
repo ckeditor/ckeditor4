@@ -1653,11 +1653,15 @@
 		// Check if ID is already created.
 		this.id = this.$.getData( clipboardIdDataType );
 
+		function generateUniqueId() {
+			return ( new Date() ).getTime() + Math.random().toString( 16 ).substring( 2 )
+		}
+
 		// If there is no ID we need to create it. Different browsers needs different ID.
 		if ( !this.id ) {
 			if ( clipboardIdDataType == 'URL' ) {
 				// For IEs URL type ID have to look like an URL.
-				this.id = 'http://cke.' + ( new Date() ).getTime() +'/';
+				this.id = 'http://cke.' + generateUniqueId() +'/';
 			} else if ( clipboardIdDataType == 'Text' ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
@@ -1665,7 +1669,7 @@
 				this.id = "";
 			} else {
 				// String for custom data type.
-				this.id = 'cke-' + ( new Date() ).getTime();
+				this.id = 'cke-' + generateUniqueId();
 			}
 		}
 
