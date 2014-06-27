@@ -163,8 +163,10 @@
 					var mid = viewRect.width / 2,
 						alignSide, offset;
 
-					if ( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) {
-						alignSide = ( config.contentsLangDirection == 'rtl' ) || config.floatSpacePreferRight ? 'right' : 'left';
+					if ( config.floatSpacePreferRight ) {
+						alignSide = 'right';
+					} else if ( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) {
+						alignSide = config.contentsLangDirection == 'rtl' ? 'right' : 'left';
 					} else {
 						alignSide = mid - editorRect.left > editorRect.right - mid ? 'left' : 'right';
 					}
