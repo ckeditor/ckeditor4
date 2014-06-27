@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#12110](http://dev.ckeditor.com/ticket/12110): Fixed: Editor crash after deleting a table. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
+* [#11897](http://dev.ckeditor.com/ticket/11897): Fixed: Enter key in an empty formatted list item, creates a new line instead of breaking the list. Thanks to [noam-si](https://github.com/noam-si)!
 
 ## CKEditor 4.4.2
 
