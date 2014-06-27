@@ -2,12 +2,13 @@
  * Created by ALL-INKL.COM - Neue Medien Muennich - 04. Feb 2014
  * Licensed under the terms of GPL, LGPL and MPL licenses.
  * Modified by bcu@trf4.jus.br
+ * utiliza a Infra para fazer uploads nos IE 7-9
  */
 CKEDITOR.dialog.add("base64imageDialog", function(editor){
 	
 	var t = null,
 		selectedImg = null,
-		orgWidth = null, orgHeight = null,
+		orgWidth = null, orgHeight = null,objUploadImg=null,
 		imgPreview = null, urlI = null, imgScal = 1;
 	
 	/* Check File Reader Support */
@@ -27,8 +28,9 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 	function imagePreviewLoad(s) {
 		
 		/* no preview */
-		if(typeof(s) != "string" || !s) {
+		if(typeof(s) != "string" || !s || s.charAt(0)!=='d') {
 			imgPreview.getElement().setHtml("");
+			alert(s);
 			return;
 		}
 		
@@ -61,7 +63,9 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			try {
 				var p = imgPreview.getElement().$;
 				if(p) p.appendChild(this);
-			} catch(e) {}
+			} catch(e) {
+				alert ('Erro processando imagem.')
+			}
 			
 		};
 		
@@ -90,12 +94,12 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			var filetypes=CKEDITOR.config.base64image_filetypes;
 			
 			/* Read file and load preview */
-			var fileI = t.getContentElement("tab-source", "file");
+			var fileI = t.getContentElement("tab-source", "filArquivo");
 			var n = null;
 			try { n = fileI.getInputElement().$; } catch(e) { n = null; }
 			if(n && "files" in n && n.files && n.files.length > 0 && n.files[0]) {
 				if("type" in n.files[0] && !n.files[0].type.match("image.("+filetypes+")")) {
-					alert('Tipo de arquivo n„o permitido.');
+					alert('Tipo de arquivo n√£o permitido.');
 					return;
 				}
 				if(!FileReader) return;
@@ -110,6 +114,18 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 				fr.readAsDataURL(n.files[0]);
 			}
 		}
+	};
+	function imagePreviewInfra(src){
+		imgPreview.getElement().setHtml("");
+		
+		var filetypes=CKEDITOR.config.base64image_filetypes;
+			
+		/* Read file and load preview */
+		var fileI = t.getContentElement("tab-source", "filArquivo");
+		var n = null;
+		try { n = fileI.getInputElement().$; } catch(e) { n = null; }
+		imgPreview.getElement().setHtml("Loading...");
+		objUploadImg.executar();
 	};
 	
 	/* Calculate image dimensions */
@@ -155,21 +171,15 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 		elem.setValue(v+u);
 	}
 	
-	if(fsupport) {
-		
+	if(fsupport) {	
 		/* Dialog with file and url image source */
 		var sourceElements = [			
 			{
-				type: "hbox",
-				widths: ["70px"],
-				children: [					
-					{
-						type: "file",
-						id: "file",						
-						label: editor.lang.common.upload+":",
-						onChange: function(){ imagePreview("file"); }
-					}
-				]
+					type: "file",					
+					id: "filArquivo",						
+					label: "Arquivo:",
+					size: 50,					
+					onChange: function(){ imagePreview("filArquivo"); }
 			},
 			{
 				type: "html",
@@ -179,7 +189,21 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 		];
 		
 	} else {
-		var sourceElements = [];
+		var sourceElements = [		
+			{
+				type: "file",
+				id: "filArquivo",
+				size: 50,
+				label: "Arquivo:",
+				onChange: function(){ imagePreviewInfra("filArquivo"); }
+			},
+			
+			{
+				type: "html",
+				id: "preview",
+				html: new CKEDITOR.template("<div style=\"text-align:center;\"></div>").output()
+			}
+		];
 	}
 	
 	/* Dialog */
@@ -189,11 +213,24 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
         minHeight: 180,
 		onLoad: function(){			
 			imgPreview = this.getContentElement("tab-source", "preview");	
-			
-			
 		},
 		onShow: function(){
-			
+			if (!fsupport){			
+				var formUpload=this.getContentElement("tab-source","filArquivo").getInputElement().$.parentNode;
+				formUpload.id="EditorSeiUpload";
+				objUploadImg=new infraUploadCK(formUpload,CKEDITOR.config.base64imageUploadUrl,true);
+				objUploadImg.finalizou=function(arr){
+					objAjaxPlugin=new infraAjaxComplementar(null,CKEDITOR.config.base64imageAjaxUrl);
+			    objAjaxPlugin.tipo=null;
+			    objAjaxPlugin.processarResultado=function(result_arr){
+			    	imagePreviewLoad(result_arr['base64'].toString());
+			    }
+			    objAjaxPlugin.prepararExecucao = function(){
+			      return 'img='+arr['nome_upload'];
+			    }
+			    objAjaxPlugin.executar();
+				}
+			}
 			/* Remove preview */
 			imgPreview.getElement().setHtml("");
 		
@@ -233,7 +270,13 @@ CKEDITOR.dialog.add("base64imageDialog", function(editor){
 			
 			/* Get image source */
 			var src = "";
-			try { src = CKEDITOR.document.getById(editor.id+"previewimage").$.src; } catch(e) { src = ""; }
+			try { 
+				if (INFRA_IE>0 && INFRA_IE<9){
+					src = CKEDITOR.document.getById(editor.id+"previewimage").$.href;
+				} else {
+					src = CKEDITOR.document.getById(editor.id+"previewimage").$.src;	
+				}				 
+			} catch(e) { src = ""; }
 			if(typeof(src) != "string" || src == null || src === "") return;
 			
 			/* selected image or new image */
