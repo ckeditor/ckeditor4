@@ -117,7 +117,8 @@
 		init: function( editor ) {
 			var textificationFilter;
 
-			initClipboard( editor );
+			initPasteClipboard( editor );
+			initDragDrop( editor );
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
@@ -262,7 +263,7 @@
 		}
 	} );
 
-	function initClipboard( editor ) {
+	function initPasteClipboard( editor ) {
 		var preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
 			inReadOnly = 0,
@@ -395,7 +396,7 @@
 
 		function addListeners() {
 			editor.on( 'key', onKey );
-			editor.on( 'contentDom', addListenersToEditable );
+			editor.on( 'contentDom', addPasteListenersToEditable );
 
 			// For improved performance, we're checking the readOnly state on selectionChange instead of hooking a key event for that.
 			editor.on( 'selectionChange', function( evt ) {
@@ -417,7 +418,7 @@
 		}
 
 		// Add events listeners to editable.
-		function addListenersToEditable() {
+		function addPasteListenersToEditable() {
 			var editable = editor.editable();
 
 			// We'll be catching all pasted content in one line, regardless of whether
@@ -524,148 +525,6 @@
 			} );
 
 			editable.on( 'keyup', setToolbarStates );
-
-			// DRAG & DROP
-
-			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			// #11086 IE8 cannot listen on document.
-			var dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
-
-			// Listed on dragstart to mark internal and cross-editor drag & drop
-			// and save range and selected HTML.
-			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
-				// Create a dataTransfer object and save it globally.
-				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
-			} );
-
-			// Clean up on dragend.
-			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				// When drag & drop is done we need to reset dataTransfer so the future
-				// external drop will be not recognize as internal.
-				CKEDITOR.plugins.clipboard.resetDataTransfer();
-			} );
-
-			editable.attachListener( dropTarget, 'drop', function( evt ) {
-				// Cancel native drop.
-				evt.data.preventDefault();
-
-				// Create dataTransfer of get it, if it was created before.
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt );
-				dataTransfer.setTargetEditor( editor );
-
-				// Getting drop position is one of the most complex part.
-				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
-					dragRange = CKEDITOR.plugins.clipboard.dragRange;
-
-				// Do nothing if it was not possible to get drop range.
-				if ( !dropRange )
-					return;
-
-				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					internalDrop( dragRange, dropRange, dataTransfer );
-				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
-					crossEditorDrop( dragRange, dropRange, dataTransfer );
-				} else {
-					externalDrop( dropRange, dataTransfer );
-				}
-			} );
-		}
-
-		// Internal drag and drop (drag and drop in the same Editor).
-		function internalDrop( dragRange, dropRange, dataTransfer ) {
-			// Execute drop with a timeout because otherwise selection, after drop,
-			// on IE is in the drag position, instead of drop position.
-			setTimeout( function() {
-				var dragBookmark, dropBookmark, i,
-					rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore,
-					fixIESplittedNodes = CKEDITOR.plugins.clipboard.fixIESplittedNodes;
-
-				// Save and lock snapshot so there will be only
-				// one snapshot for both remove and insert content.
-				editor.fire( 'saveSnapshot' );
-				editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
-
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-					fixIESplittedNodes( dragRange, dropRange );
-				}
-
-				// Because we manipulate multiple ranges we need to do it carefully,
-				// changing one range (event creating a bookmark) may make other invalid.
-				// We need to change ranges into bookmarks so we can manipulate them easily in the future.
-				// We can change the range which is later in the text before we change the preceding range.
-				// We call rangeBefore to test the order of ranges.
-				if ( !rangeBefore( dragRange, dropRange ) )
-					dragBookmark = dragRange.createBookmark( 1 );
-
-				dropBookmark = dropRange.clone().createBookmark( 1 );
-
-				if ( rangeBefore( dragRange, dropRange ) )
-					dragBookmark = dragRange.createBookmark( 1 );
-
-				// No we can safely delete content for the drag range...
-				dragRange = editor.createRange();
-				dragRange.moveToBookmark( dragBookmark );
-				dragRange.deleteContents();
-
-				// ...and paste content into the drop position.
-				dropRange = editor.createRange();
-				dropRange.moveToBookmark( dropBookmark );
-				dropRange.select();
-
-				firePasteWithDataTransfer( dataTransfer );
-
-				editor.fire( 'unlockSnapshot' );
-			}, 0 );
-		}
-
-		// Cross editor drag and drop (drag in one Editor and drop in the other).
-		function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
-			var i;
-
-			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-			if ( CKEDITOR.env.gecko ) {
-				fixGeckoDisappearingCursor( editor );
-			}
-
-			// Paste event should be fired before delete contents because otherwise
-			// Chrome have a problem with drop range (Chrome split the drop
-			// range container so the offset is bigger then container length).
-			dropRange.select();
-
-			firePasteWithDataTransfer( dataTransfer );
-
-			// Remove dragged content and make a snapshot.
-			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
-
-			dragRange.deleteContents();
-
-			dataTransfer.sourceEditor.getSelection().reset();
-			dataTransfer.sourceEditor.fire( 'saveSnapshot' );
-		}
-
-		// Drop from external source.
-		function externalDrop( dropRange, dataTransfer ) {
-			// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-			if ( CKEDITOR.env.gecko ) {
-				fixGeckoDisappearingCursor( editor );
-			}
-
-			// Paste content into the drop position.
-			dropRange.select();
-
-			firePasteWithDataTransfer( dataTransfer );
-		}
-
-		function firePasteWithDataTransfer( dataTransfer ) {
-			if ( dataTransfer.dataValue )
-					editor.fire( 'paste', dataTransfer );
-		}
-
-		// Fix for Gecko bug with disappearing cursor.
-		function fixGeckoDisappearingCursor() {
-			editor.once( 'afterPaste', function() {
-				editor.toolbox.focus();
-			} );
 		}
 
 		// Create object representing Cut or Copy commands.
@@ -1347,6 +1206,153 @@
 			data = data.replace( /<(\/)?p>/g, '<$1div>' );
 
 		return data;
+	}
+
+	function initDragDrop( editor ) {
+		editor.on( 'contentDom', addDropListenersToEditable );
+
+		function addDropListenersToEditable() {
+			var editable = editor.editable(),
+				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+				// #11086 IE8 cannot listen on document.
+				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
+
+			// Listed on dragstart to mark internal and cross-editor drag & drop
+			// and save range and selected HTML.
+			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
+				// Create a dataTransfer object and save it globally.
+				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
+			} );
+
+			// Clean up on dragend.
+			editable.attachListener( dropTarget, 'dragend', function( evt ) {
+				// When drag & drop is done we need to reset dataTransfer so the future
+				// external drop will be not recognize as internal.
+				CKEDITOR.plugins.clipboard.resetDataTransfer();
+			} );
+
+			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				// Cancel native drop.
+				evt.data.preventDefault();
+
+				// Create dataTransfer of get it, if it was created before.
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt );
+				dataTransfer.setTargetEditor( editor );
+
+				// Getting drop position is one of the most complex part.
+				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
+					dragRange = CKEDITOR.plugins.clipboard.dragRange;
+
+				// Do nothing if it was not possible to get drop range.
+				if ( !dropRange )
+					return;
+
+				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					internalDrop( dragRange, dropRange, dataTransfer );
+				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
+					crossEditorDrop( dragRange, dropRange, dataTransfer );
+				} else {
+					externalDrop( dropRange, dataTransfer );
+				}
+			} );
+
+			// Internal drag and drop (drag and drop in the same Editor).
+			function internalDrop( dragRange, dropRange, dataTransfer ) {
+				// Execute drop with a timeout because otherwise selection, after drop,
+				// on IE is in the drag position, instead of drop position.
+				setTimeout( function() {
+					var dragBookmark, dropBookmark, i,
+						rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore,
+						fixIESplittedNodes = CKEDITOR.plugins.clipboard.fixIESplittedNodes;
+
+					// Save and lock snapshot so there will be only
+					// one snapshot for both remove and insert content.
+					editor.fire( 'saveSnapshot' );
+					editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+						fixIESplittedNodes( dragRange, dropRange );
+					}
+
+					// Because we manipulate multiple ranges we need to do it carefully,
+					// changing one range (event creating a bookmark) may make other invalid.
+					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
+					// We can change the range which is later in the text before we change the preceding range.
+					// We call rangeBefore to test the order of ranges.
+					if ( !rangeBefore( dragRange, dropRange ) )
+						dragBookmark = dragRange.createBookmark( 1 );
+
+					dropBookmark = dropRange.clone().createBookmark( 1 );
+
+					if ( rangeBefore( dragRange, dropRange ) )
+						dragBookmark = dragRange.createBookmark( 1 );
+
+					// No we can safely delete content for the drag range...
+					dragRange = editor.createRange();
+					dragRange.moveToBookmark( dragBookmark );
+					dragRange.deleteContents();
+
+					// ...and paste content into the drop position.
+					dropRange = editor.createRange();
+					dropRange.moveToBookmark( dropBookmark );
+					dropRange.select();
+					firePasteWithDataTransfer( dataTransfer );
+
+					editor.fire( 'unlockSnapshot' );
+				}, 0 );
+			}
+
+			// Cross editor drag and drop (drag in one Editor and drop in the other).
+			function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
+				var i;
+
+				// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+				if ( CKEDITOR.env.gecko ) {
+					fixGeckoDisappearingCursor( editor );
+				}
+
+				// Paste event should be fired before delete contents because otherwise
+				// Chrome have a problem with drop range (Chrome split the drop
+				// range container so the offset is bigger then container length).
+				dropRange.select();
+				firePasteWithDataTransfer( dataTransfer );
+
+				// Remove dragged content and make a snapshot.
+				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+
+				dragRange.deleteContents();
+
+				dataTransfer.sourceEditor.getSelection().reset();
+				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
+			}
+
+			// Drop from external source.
+			function externalDrop( dropRange, dataTransfer ) {
+				// Because of FF bug we need to use this hack, otherwise cursor is hidden.
+				if ( CKEDITOR.env.gecko ) {
+					fixGeckoDisappearingCursor( editor );
+				}
+
+				// Paste content into the drop position.
+				dropRange.select();
+
+				firePasteWithDataTransfer( dataTransfer );
+			}
+
+			function firePasteWithDataTransfer( dataTransfer ) {
+				if ( dataTransfer.dataValue ) {
+						editor.fire( 'paste', dataTransfer );
+				}
+			}
+
+
+			// Fix for Gecko bug with disappearing cursor.
+			function fixGeckoDisappearingCursor() {
+				editor.once( 'afterPaste', function() {
+					editor.toolbox.focus();
+				} );
+			}
+		}
 	}
 
 	/**
