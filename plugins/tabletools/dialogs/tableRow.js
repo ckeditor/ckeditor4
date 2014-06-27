@@ -5,62 +5,7 @@
 
 CKEDITOR.dialog.add( 'rowProperties', function( editor ) {
 	var langTable = editor.lang.table,
-		langRow = langTable.row,
-		langCommon = editor.lang.common,
-		validate = CKEDITOR.dialog.validate,
-		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
-		heightPattern = /^(\d+(?:\.\d+)?)px$/,
-		bind = CKEDITOR.tools.bind,
-		spacer = { type: 'html', html: '&nbsp;' },
-		rtl = editor.lang.dir == 'rtl',
-		colorDialog = editor.plugins.colordialog;
-
-	// Returns a function, which runs regular "setup" for all selected cells to find out
-	// whether the initial value of the field would be the same for all cells. If so,
-	// the value is displayed just as if a regular "setup" was executed. Otherwise,
-	// i.e. when there are several cells of different value of the property, a field
-	// gets empty value.
-	//
-	// * @param {Function} setup Setup function which returns a value instead of setting it.
-	// * @returns {Function} A function to be used in dialog definition.
-	function setupCells( setup ) {
-		return function( cells ) {
-			var fieldValue = setup( cells[ 0 ] );
-
-			// If one of the cells would have a different value of the
-			// property, set the empty value for a field.
-			for ( var i = 1; i < cells.length; i++ ) {
-				if ( setup( cells[ i ] ) !== fieldValue ) {
-					fieldValue = null;
-					break;
-				}
-			}
-
-			// Setting meaningful or empty value only makes sense
-			// when setup returns some value. Otherwise, a *default* value
-			// is used for that field.
-			if ( typeof fieldValue != 'undefined' ) {
-				this.setValue( fieldValue );
-
-				// The only way to have an empty select value in Firefox is
-				// to set a negative selectedIndex.
-				if ( CKEDITOR.env.gecko && this.type == 'select' && !fieldValue )
-					this.getInputElement().$.selectedIndex = -1;
-			}
-		};
-	}
-
-	// Reads the unit of width property of the table cell.
-	//
-	// * @param {CKEDITOR.dom.element} cell An element representing table cell.
-	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
-	function getCellWidthType( cell ) {
-		var match = widthPattern.exec(
-			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
-
-		if ( match )
-			return match[ 2 ];
-	}
+		langRow = langTable.row;
 
   var dialogadvtab = editor.plugins.dialogadvtab;
 
