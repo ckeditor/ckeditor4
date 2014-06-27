@@ -514,6 +514,44 @@
 				true, 'Direction should be preserved if different than cointainer\'s.', true );
 		},
 
+		'test enterkey: leaves empty list item with h1 format': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>x</li>' +
+					'<li><h1>^</h1></li>' +
+					'<li>y</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>x</li>' +
+				'</ul>' +
+				'<h1>^&nbsp;</h1>' +
+				'<ul>' +
+					'<li>y</li>' +
+				'</ul>',
+
+				true, 'List should be split and format preserved.', true );
+		},
+
+		'test enterkey: leaves empty list item with a paragraph': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>x</li>' +
+					'<li><p>^</p></li>' +
+					'<li>y</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>x</li>' +
+				'</ul>' +
+				'<p>^&nbsp;</p>' +
+				'<ul>' +
+					'<li>y</li>' +
+				'</ul>',
+
+				true, 'List should be split.', true );
+		},
+
 		'test enterkey: force block: style (ENTER_BR)': function() {
 			assertEnter( 'enterBR',
 				'<ul>' +
