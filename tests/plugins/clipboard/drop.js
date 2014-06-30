@@ -100,6 +100,10 @@ var editors, editorBots,
 		}
 	},
 	testsForMultipleEditor = {
+		'setUp': function() {
+			CKEDITOR.plugins.clipboard.resetDataTransfer();
+		},
+
 		'test drop to header': function( editor ) {
 			var bot = editorBots[ editor.name ],
 				evt = createDragDropEventMock();
@@ -117,7 +121,9 @@ var editors, editorBots,
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<h1 id="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				wait( function() {
+					assert.areSame( '<h1 id="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				}, 100 );
 			} );
 		},
 
@@ -298,7 +304,7 @@ var editors, editorBots,
 				p, text;
 
 			// Create DOM
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p id="p">lorem ipsum sit amet.</p>' );
 			p = editor.document.getById( 'p' );
 
 			// Set drag range.
@@ -306,7 +312,7 @@ var editors, editorBots,
 			dragRange.collapse( true );
 
 			// Break content like IE do.
-			p.getChild( 0 ).setText( 'Lorem' );
+			p.getChild( 0 ).setText( 'lorem' );
 			text = new CKEDITOR.dom.text( ' ipsum sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
@@ -320,9 +326,9 @@ var editors, editorBots,
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
 			dragRange.select();
-			assert.areSame( '<p>Lorem ipsum{} sit amet.</p>', bender.tools.selection.getWithHtml( editor ) );
+			assert.isMatching( /<p( id="?p"?)?>lorem ipsum\{\} sit amet\.(<br>)?<\/p>/, bender.tools.selection.getWithHtml( editor ).toLowerCase() );
 			dropRange.select();
-			assert.areSame( '<p>Lorem{} ipsum sit amet.</p>', bender.tools.selection.getWithHtml( editor ) );
+			assert.isMatching( /<p( id="?p"?)?>lorem\{\} ipsum sit amet\.(<br>)?<\/p>/, bender.tools.selection.getWithHtml( editor ).toLowerCase() );
 		},
 
 		'test rangeBefore 1': function() {

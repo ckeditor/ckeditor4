@@ -1392,6 +1392,7 @@
 	 */
 	CKEDITOR.plugins.clipboard.fixIESplittedNodes = function( dragRange, dropRange ) {
 		if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
+			dropRange.startOffset > 0 &&
 			dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
 			dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
 			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),

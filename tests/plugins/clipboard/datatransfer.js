@@ -81,7 +81,8 @@ bender.test( {
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType() );
-		assert.areSame( '<b>foo</b>', dataTransfer.dataValue, 'dataValue' );
+		// On Safari getSelectedHtml does not work properly.
+		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
@@ -151,7 +152,8 @@ bender.test( {
 		dataTransfer.setTargetEditor( editor2 );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS, dataTransfer.getTransferType() );
-		assert.areSame( '<b>foo</b>', dataTransfer.dataValue, 'dataValue' );
+		// On Safari getSelectedHtml does not work properly.
+		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor1, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor2, dataTransfer.targetEditor, 'targetEditor' );
@@ -196,7 +198,8 @@ bender.test( {
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType() );
-		assert.areSame( '<b>foo</b>', dataTransfer.dataValue, 'dataValue' );
+		// On Safari getSelectedHtml does not work properly.
+		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
