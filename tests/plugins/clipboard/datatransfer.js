@@ -95,17 +95,17 @@ bender.test( {
 			evt, dataTransfer;
 
 		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
+		evt.data.$.dataTransfer.setData( 'Text', '<b>foo</b>' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_EXTERNAL, dataTransfer.getTransferType() );
-		assert.areSame( 'foo', dataTransfer.dataValue, 'dataValue' );
+		assert.areSame( '&lt;b&gt;foo&lt;/b&gt;', dataTransfer.dataValue, 'dataValue' );
 		assert.areSame( 'text', dataTransfer.dataType, 'dataType' );
 		assert.isUndefined( dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
+		assert.areSame( '<b>foo</b>', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
 	},
 
 	'test dataTransfer external html': function() {
