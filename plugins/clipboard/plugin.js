@@ -1455,6 +1455,11 @@
 	 *
 	 */
 	CKEDITOR.plugins.clipboard.getRangeAtDropPosition = function( dropEvt, editor ) {
+		// If we drop content from the external source we need to call focus on IE.
+		if ( CKEDITOR.env.ie ) {
+			editor.focus();
+		}
+
 		var $evt = dropEvt.data.$,
 			x = $evt.clientX,
 			y = $evt.clientY,
@@ -1483,9 +1488,6 @@
 			return defaultRange;
 		// IE 8.
 		else if ( document.body.createTextRange ) {
-			// If we drop content from the different source we need to call focus on IE8.
-			editor.focus();
-
 			$range = editor.document.getBody().$.createTextRange();
 			try {
 				var sucess = false;
