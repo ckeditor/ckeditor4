@@ -698,7 +698,7 @@
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
 			addCmd( 'rowProperties', new CKEDITOR.dialogCommand( 'rowProperties', createDef( {
-				allowedContent: 'tr',
+				allowedContent: 'tr' + editor.plugins.dialogadvtab.allowedContent(),
 				requiredContent: 'table'
 			} ) ) );
 			CKEDITOR.dialog.add( 'rowProperties', this.path + 'dialogs/tableRow.js' );

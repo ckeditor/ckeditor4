@@ -63,7 +63,7 @@ CKEDITOR.plugins.setLang( 'table', 'en', {
 		insertBefore: 'Insert Row Before',
 		insertAfter: 'Insert Row After',
 		deleteRow: 'Delete Rows',
-		title: 'Row Properties',
+		title: 'Row Properties'
 	},
 	rows: 'Rows',
 	summary: 'Summary',
