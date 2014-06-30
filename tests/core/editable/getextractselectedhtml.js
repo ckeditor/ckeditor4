@@ -66,7 +66,7 @@
 				// </DEV>
 
 				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( tc[ 0 ], tc[ 2 ] );
+				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
@@ -87,23 +87,23 @@
 		};
 	}
 
-	function assertExtractSelectedHtmlFromRange( html, expected ) {
+	function assertExtractSelectedHtmlFromRange( html, htmlGet, htmlWithSelection ) {
 		return function() {
 			html = decodeBoguses( html );
-			expected = decodeBoguses( expected );
+			htmlGet = decodeBoguses( htmlGet );
 
 			var editable = this.editables.inline,
-				range = setWithHtml( editable, html );
+				range = setWithHtml( editable, html ),
+				docFragment = editable.extractSelectedHtmlFromRange( range );
 
-			editable.extractSelectedHtmlFromRange( range );
-
-			assert.areSame( expected, getWithHtml( editable, range ), 'HTML of editable, once extracted' );
+			// assert.areSame( htmlGet, docFragment.getHtml(), 'HTML which has been extracted' );
+			assert.areSame( htmlWithSelection, getWithHtml( editable, range ), 'HTML of editable, once extracted' );
 		};
 	}
 
 	addTests( {
 		'no block': [
-			[ '{x}', 																'x',															'[]' ],
+			[ '{x}', 																'x',															'{}' ],
 			[ '{}x', 																'',															 	'{}x' ],
 		],
 		'block': [
@@ -115,20 +115,20 @@
 		'cross-block': [
 			[ '<p>x{</p><p>}x</p>', 												'',																'<p>x{</p><p>}x</p>' ],
 			[ '<p>{x</p><p>x}</p>', 												'<p>x</p><p>x</p>',												'[]' ],
-			[ '<p>y{x</p><p>x}y</p>', 												'<p>x</p><p>x</p>',												'<p>y{}y</p>' ],
+			[ '<p>y{x</p><p>x}y</p>', 												'<p>x</p><p>x</p>',												'<p>y[]y</p>' ],
 			[ '<blockquote>y{x</blockquote><p>x}y</p>', 							'<blockquote>x</blockquote><p>x</p>',							'<blockquote>y{}</blockquote><p>y</p>' ],
 			[ '<blockquote>y{x</blockquote><div>x</div><p>x}y</p>', 				'<blockquote>x</blockquote><div>x</div><p>x</p>',				'<blockquote>y{}</blockquote><p>y</p>' ],
 			[ '<div>y<div>{x</div></div><div>x</div><p>x}y</p>', 					'<div><div>x</div></div><div>x</div><p>x</p>',					'<div>y{}</div><p>y</p>' ],
 		],
 		'inline': [
 			[ '<p>x<b>{y}</b>x</p>', 												'<b>y</b>',														'<p>x{}x</p>' ],
-			[ '<p>x<b>y{y}y</b>x</p>', 												'<b>y</b>',														'<p>x<b>y{}y</b>x</p>' ],
-			[ '<p><b>{y}</b></p>', 													'<p><b>y</b></p>',												'<p>{}</p>' ],
-			[ '<p>x<a href="#">{y}</a>x</p>', 										'<a href="#">y</a>',											'<p>x{}x</p>' ],
+			[ '<p>x<b>y{y}y</b>x</p>', 												'<b>y</b>',														'<p>x<b>y[]y</b>x</p>' ],
+			[ '<p><b>{y}</b></p>', 													'<p><b>y</b></p>',												'[]' ],
+			[ '<p>x<a href="#">{y}</a>x</p>', 										'<a href="#">y</a>',											'<p>x[]x</p>' ],
 			[ '<p>x<a href="#">x{y}x</a>x</p>', 									'<a href="#">y</a>',											'<p>x<a href="#">x{}x</a>x</p>' ],
-			[ '<p>x<b id="foo">{y}</b>x</p>', 										'<b id="foo">y</b>',											'<p>x{}x</p>' ],
-			[ '<p><b style="color:red">{y}</b></p>', 								'<p><b style="color:red">y</b></p>',							'<p>{}</p>' ],
-			[ '<p>x<b style="color:red">{y}</b>x</p>', 								'<b style="color:red">y</b>',									'<p>x{}x</p>' ],
+			[ '<p>x<b id="foo">{y}</b>x</p>', 										'<b id="foo">y</b>',											'<p>x[]x</p>' ],
+			[ '<p><b style="color:red">{y}</b></p>', 								'<p><b style="color:red">y</b></p>',							'<p>[]</p>' ],
+			[ '<p>x<b style="color:red">{y}</b>x</p>', 								'<b style="color:red">y</b>',									'<p>x[]x</p>' ],
 			[ '<p>x<i><b>{y}</b></i></p>', 											'<i><b>y</b></i>',												'<p>x{}</p>' ],
 			[ '<p><i><b>{y}</b></i></p>', 											'<p><i><b>y</b></i></p>',										'<p>{}</p>' ],
 
@@ -140,8 +140,8 @@
 			[ '<p>x{<b>y</b>}x</p>', 												'<b>y</b>',														'<p>x{}x</p>' ],
 			[ '<p><b>{x</b><b>y}</b></p>', 											'<p><b>x</b><b>y</b></p>',										'[]' ],
 			[ '<p><b>x{x</b><b>y}y</b></p>', 										'<b>x</b><b>y</b>',												'<p><b>x{}</b><b>y</b></p>' ],
-			[ '<p>x<b class="a">{y</b><b class="b">y}</b>x</p>', 					'<b class="a">y</b><b class="b">y</b>',							'<p>xx</p>' ],
-			[ '<p>x<b class="a">{y</b>x<b class="b">y}</b>x</p>', 					'<b class="a">y</b>x<b class="b">y</b>',						'<p>xx</p>' ],
+			[ '<p>x<b class="a">{y</b><b class="b">y}</b>x</p>', 					'<b class="a">y</b><b class="b">y</b>',							'<p>x[]x</p>' ],
+			[ '<p>x<b class="a">{y</b>x<b class="b">y}</b>x</p>', 					'<b class="a">y</b>x<b class="b">y</b>',						'<p>x[]x</p>' ],
 		],
 		'bogus': [
 			[ '<p>{x}@</p>', 														'<p>x</p>',														'[]' ],
