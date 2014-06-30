@@ -516,10 +516,16 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						label: lang.captioned,
 						requiredContent: features.caption.requiredContent,
 						setup: function( widget ) {
+							if(widget.data.src == '') {
+								widget.data.hasCaption = true;
+							}
 							this.setValue( widget.data.hasCaption );
 						},
 						commit: function( widget ) {
 							widget.setData( 'hasCaption', this.getValue() );
+							if( this.getValue() && widget.data.alt != '' ) {
+								editor.lang.image2.captionPlaceholder = widget.data.alt;
+							}
 						}
 					}
 				]
