@@ -220,28 +220,13 @@
 			} );
 		}
 
-		// ## START : disableNativeTableHandles and disableObjectResizing settings.
+		// Config props: disableObjectResizing and disableNativeTableHandles handler.
+		objectResizeDisabler.exec( editor );
 
 		// Enable dragging of position:absolute elements in IE.
 		try {
 			editor.document.$.execCommand( '2D-position', false, true );
 		} catch ( e ) {}
-
-		// IE, Opera and Safari may not support it and throw errors.
-		try {
-			editor.document.$.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-		} catch ( e ) {}
-
-		if ( editor.config.disableObjectResizing ) {
-			try {
-				this.getDocument().$.execCommand( 'enableObjectResizing', false, false );
-			} catch ( e ) {
-				// For browsers in which the above method failed, we can cancel the resizing on the fly (#4208)
-				this.attachListener( this, CKEDITOR.env.ie ? 'resizestart' : 'resize', function( evt ) {
-					evt.data.preventDefault();
-				} );
-			}
-		}
 
 		if ( CKEDITOR.env.gecko || CKEDITOR.env.ie && editor.document.$.compatMode == 'CSS1Compat' ) {
 			this.attachListener( this, 'keydown', function( evt ) {
@@ -297,9 +282,6 @@
 			} );
 		}
 
-		// ## END
-
-
 		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
 		title.data( 'cke-title', editor.document.$.title );
 
@@ -341,6 +323,10 @@
 				}, 1000 );
 			}
 		}, 0, this );
+	}
+
+	function resizeStartListener( evt ) {
+		evt.returnValue = false;
 	}
 
 	var framedWysiwyg = CKEDITOR.tools.createClass( {
@@ -565,6 +551,58 @@
 			}
 		}
 	} );
+	var objectResizeDisabler = {
+		exec: function( editor ) {
+			if ( CKEDITOR.env.gecko ) {
+				// FF allows to change resizing preferences by calling execCommand.
+				try {
+					var doc = editor.document.$;
+					doc.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
+					doc.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
+				} catch( e ) {}
+			} else if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 10 && editor.config.disableObjectResizing ) {
+				// It's possible to prevent resizing up to IE10.
+				this.blockResizeStart( editor );
+			}
+		},
+
+		// Disables resizing by onresizestart event. Event controlseleciton was also considered
+		// but it disables drag and drop for affected objects, the same with [unselectable="on"] attribute.
+		blockResizeStart: function( editor ) {
+			var lastListeningElement,
+				selChangeListener;
+			// We'll attach only one listener at a time, instead of adding it to every img, input, hr etc.
+			// Listener will be attached upon selectionChange, we'll also check if there was any element that
+			// got listener before (lastListeningElement) - if so we need to remove previous listener.
+			selChangeListener = editor.on( 'selectionChange', function() {
+				var selectedElement = editor.getSelection().getSelectedElement();
+
+				if ( selectedElement ) {
+					if ( lastListeningElement )
+						lastListeningElement.detachEvent( 'onresizestart', resizeStartListener );
+
+					// IE requires using attachEvent, because it does not work using W3C compilant addEventListener,
+					// tested with IE10.
+					selectedElement.$.attachEvent( 'onresizestart', resizeStartListener );
+					lastListeningElement = selectedElement.$;
+				}
+			} );
+
+			editor.once( 'beforeSetMode', function() {
+				// This event will be executed *once* wysiwyg mode is changed to any other.
+
+				// Theoretically listener would be removed automatically, because lastListeningElement is about to
+				// be remove from DOM, but we'll put some extra care here.
+				if ( lastListeningElement ) {
+					lastListeningElement.detachEvent( 'onresizestart', resizeStartListener );
+					lastListeningElement = null;
+				}
+				// Also we need to remove editor#selectionChange listener, because we'd have multiple of them, since
+				// objectResizeDisabler.exec() is called like contentDom event.
+				selChangeListener.removeListener();
+			} );
+		}
+	};
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {
