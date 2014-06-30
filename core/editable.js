@@ -699,12 +699,38 @@
 			} )(),
 
 			/**
+			 * **Note:** The range is modified so it matches desired selection after extraction.
 			 * @since 4.5
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
 			extractSelectedHtmlFromRange: function( range ) {
-				return range.deleteContents();
+				var startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
+					endPath = new CKEDITOR.dom.elementPath( range.endContainer, this );
+
+				range.enlarge( CKEDITOR.ENLARGE_INLINE );
+
+				if ( startPath.block && range.checkBoundaryOfElement( startPath.block, CKEDITOR.START ) ) {
+					range.setStartBefore( startPath.block );
+				}
+
+				if ( endPath.block && range.checkBoundaryOfElement( endPath.block, CKEDITOR.END ) ) {
+					range.setEndAfter( endPath.block );
+				}
+
+				var rangeClone = range.clone();
+				var extractBm = range.createBookmark( 1 );
+
+				rangeClone.optimize();
+				rangeClone.optimizeBookmark();
+				rangeClone.collapse( 1 );
+				var afterExtractBm = rangeClone.createBookmark( 1 );
+
+				range.moveToBookmark( extractBm );
+				range.extractContents( 1 );
+
+				range.moveToBookmark( afterExtractBm );
+				range.optimize();
 			},
 
 			/**
