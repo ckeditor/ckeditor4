@@ -1426,8 +1426,8 @@
 		// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
 		// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
 		//
-		if ( firstRange.startContainer.equals( secondRange.startContainer ) &&
-			firstRange.startOffset < secondRange.startOffset )
+		if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
+			firstRange.endOffset < secondRange.startOffset )
 			return true;
 
 		// First range is inside a text node and the second is not, but if we change the
@@ -1436,8 +1436,8 @@
 		//
 		// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
 		//
-		if ( firstRange.startContainer.getParent().equals( secondRange.startContainer ) &&
-			firstRange.startContainer.getIndex() < secondRange.startOffset )
+		if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) &&
+			firstRange.endContainer.getIndex() < secondRange.startOffset )
 			return true;
 
 		return false;

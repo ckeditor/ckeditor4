@@ -3,6 +3,9 @@
 
 'use strict';
 
+var setWithHtml = bender.tools.selection.setWithHtml,
+	getWithHtml = bender.tools.selection.getWithHtml;
+
 CKEDITOR.disableAutoInline = true;
 
 function createDragDropEventMock() {
@@ -164,6 +167,30 @@ var editors, editorBots,
 				editor.execCommand( 'undo' );
 
 				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+			} );
+		},
+
+		'test drop after range end': function( editor ) {
+			var bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			setWithHtml( editor, '<p id="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+					editor.document.getById( 'p' ).getChild( 2 ) :
+					editor.document.getById( 'p' ).getChild( 1 ),
+				offset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+					11 :
+					17
+			}, function() {
+				assert.isMatching( /<p><b>lor<\/b> dolor sit <b>em<\/b> ipsum(\[\]|\{\})amet\.(<br>)?<\/p>/, getWithHtml( editor ).toLowerCase(), 'after drop' );
+
+				editor.execCommand( 'undo' );
+
+				assert.isMatching( /<p><b>lorem<\/b> ipsum dolor sit \{\}amet\.(<br>)?<\/p>/, getWithHtml( editor ).toLowerCase(), 'after undo' );
 			} );
 		},
 
