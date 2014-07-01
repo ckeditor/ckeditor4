@@ -183,99 +183,6 @@
 	CKEDITOR.plugins.undo = {};
 
 	/**
-	 * Contains a snapshot of editor content and selection at given point in time.
-	 *
-	 * @private
-	 * @class CKEDITOR.plugins.undo.Image
-	 * @constructor Creates an Image class instance.
-	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
-	 * @param {Boolean} [contentsOnly] If set to `true` image will contain only contents, without selection.
-	 */
-	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
-			this.editor = editor;
-
-			editor.fire( 'beforeUndoImage' );
-
-			var contents = editor.getSnapshot();
-
-			// In IE, we need to remove the expando attributes.
-			if ( CKEDITOR.env.ie && contents )
-				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
-
-			this.contents = contents;
-
-			if ( !contentsOnly ) {
-				var selection = contents && editor.getSelection();
-				this.bookmarks = selection && selection.createBookmarks2( true );
-			}
-
-			editor.fire( 'afterUndoImage' );
-		};
-
-	// Attributes that browser may changing them when setting via innerHTML.
-	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
-
-	Image.prototype = {
-		/**
-		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
-		 * @returns {Boolean} Returns `true` if contents in `otherImage` is the same.
-		 */
-		equalsContent: function( otherImage ) {
-			var thisContents = this.contents,
-				otherContents = otherImage.contents;
-
-			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
-				thisContents = thisContents.replace( protectedAttrs, '' );
-				otherContents = otherContents.replace( protectedAttrs, '' );
-			}
-
-			if ( thisContents != otherContents )
-				return false;
-
-			return true;
-		},
-
-		/**
-		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
-		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
-		 */
-		equalsSelection: function( otherImage ) {
-			var bookmarksA = this.bookmarks,
-				bookmarksB = otherImage.bookmarks;
-
-			if ( bookmarksA || bookmarksB ) {
-				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length )
-					return false;
-
-				for ( var i = 0; i < bookmarksA.length; i++ ) {
-					var bookmarkA = bookmarksA[ i ],
-						bookmarkB = bookmarksB[ i ];
-
-					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) )
-						return false;
-				}
-			}
-
-			return true;
-		}
-
-		/**
-		 * Contents of the editor.
-		 *
-		 * @readonly
-		 * @property {String} contents
-		 */
-
-		/**
-		 * Bookmarks representing selection in image.
-		 *
-		 * @readonly
-		 * @property {Object[]} bookmarks Array of bookmark2 objects, see {@link CKEDITOR.dom.range#createBookmark2} for definition.
-		 */
-	};
-
-	/**
 	 * Main logic for the Redo/Undo feature.
 	 *
 	 * @private
@@ -819,6 +726,99 @@
 
 		undoManager.onChange();
 	}
+
+	/**
+	 * Contains a snapshot of editor content and selection at given point in time.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.Image
+	 * @constructor Creates an Image class instance.
+	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
+	 * @param {Boolean} [contentsOnly] If set to `true` image will contain only contents, without selection.
+	 */
+	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
+			this.editor = editor;
+
+			editor.fire( 'beforeUndoImage' );
+
+			var contents = editor.getSnapshot();
+
+			// In IE, we need to remove the expando attributes.
+			if ( CKEDITOR.env.ie && contents )
+				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
+
+			this.contents = contents;
+
+			if ( !contentsOnly ) {
+				var selection = contents && editor.getSelection();
+				this.bookmarks = selection && selection.createBookmarks2( true );
+			}
+
+			editor.fire( 'afterUndoImage' );
+		};
+
+	// Attributes that browser may changing them when setting via innerHTML.
+	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
+
+	Image.prototype = {
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if contents in `otherImage` is the same.
+		 */
+		equalsContent: function( otherImage ) {
+			var thisContents = this.contents,
+				otherContents = otherImage.contents;
+
+			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
+			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
+				thisContents = thisContents.replace( protectedAttrs, '' );
+				otherContents = otherContents.replace( protectedAttrs, '' );
+			}
+
+			if ( thisContents != otherContents )
+				return false;
+
+			return true;
+		},
+
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
+		 */
+		equalsSelection: function( otherImage ) {
+			var bookmarksA = this.bookmarks,
+				bookmarksB = otherImage.bookmarks;
+
+			if ( bookmarksA || bookmarksB ) {
+				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length )
+					return false;
+
+				for ( var i = 0; i < bookmarksA.length; i++ ) {
+					var bookmarkA = bookmarksA[ i ],
+						bookmarkB = bookmarksB[ i ];
+
+					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) )
+						return false;
+				}
+			}
+
+			return true;
+		}
+
+		/**
+		 * Contents of the editor.
+		 *
+		 * @readonly
+		 * @property {String} contents
+		 */
+
+		/**
+		 * Bookmarks representing selection in image.
+		 *
+		 * @readonly
+		 * @property {Object[]} bookmarks Array of bookmark2 objects, see {@link CKEDITOR.dom.range#createBookmark2} for definition.
+		 */
+	};
 
 	/**
 	 * Class encapsulating all the listeners which should trigger snapshot.
