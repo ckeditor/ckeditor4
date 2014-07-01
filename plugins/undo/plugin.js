@@ -235,6 +235,7 @@
 
 			return true;
 		},
+
 		/**
 		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
 		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
@@ -291,58 +292,72 @@
 
 	UndoManager.prototype = {
 		/**
-		 * Key groups identifier mapping. Used for accessing members in {@link CKEDITOR.plugins.undo.UndoManagerEventHandler.strokesRecorded}.
+		 * Key groups identifier mapping. Used for accessing members in
+		 * {@link CKEDITOR.plugins.undo.UndoManagerEventHandler#strokesRecorded}.
 		 *
-		 * * **FUNCTIONAL** - identifier for backspace / delete key.
-		 * * **PRINTABLE** - identifier for printable keys.
+		 * * `FUNCTIONAL` - identifier for backspace / delete key.
+		 * * `PRINTABLE` - identifier for printable keys.
 		 *
 		 * Example usage:
 		 *
 		 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
 		 *
-		 * @property {Object} keyGroupsEnum
-		 * @member CKEDITOR.plugins.undo.UndoManager
 		 * @since 4.4.3
-		*/
+		 * @readonly
+		 */
 		keyGroupsEnum: {
 			PRINTABLE: 0,
 			FUNCTIONAL: 1
 		},
+
 		/**
 		 * Array storing count of key presses count in a row. Use {@link #keyGroupsEnum} members as index.
 		 *
 		 * **Note:** Strokes count will be reset, after reaching characters per snapshot limit.
 		 *
 		 * @since 4.4.3
+		 * @readonly
 		 */
 		strokesRecorded: [ 0, 0 ],
+
 		/**
 		 * Codes of navigation keys like arrows, page up/down, etc.
 		 * Used by the {@link #isNavigationKey} method.
 		 *
 		 * @since 4.4.3
+		 * @readonly
 		 */
 		navigationKeyCodes: {
 			37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
 			36: 1, 35: 1, // Home, end.
 			33: 1, 34: 1 // Pgup, pgdn.
 		},
+
 		/**
 		 * When `locked` property is not `null`, the undo manager is locked, so
 		 * operations like `save` or `update` are forbidden.
 		 *
 		 * The manager can be locked/unlocked by the {@link #lock} and {@link #unlock} methods.
 		 *
-		 * @private
+		 * @readonly
 		 * @property {Object} [locked=null]
 		 */
 
 		/**
-		* Handles keystroke support for the undo manager. It's called on `keyup` event for
-		* keystrokes that can change the editor contents.
-		*
-		* @param {Number} keyCode The key code.
-		*/
+		 * Property indicating if last pressed key was functional key, or not. Changed in
+		 * {@link #type}.
+		 *
+		 * @since 4.4.3
+		 * @readonly
+		 * @property {Number} [wasFunctionalKey=0]
+		 */
+
+		/**
+		 * Handles keystroke support for the undo manager. It's called on `keyup` event for
+		 * keystrokes that can change the editor contents.
+		 *
+		 * @param {Number} keyCode The key code.
+		 */
 		type: function( keyCode ) {
 			var keyGroupsEnum = this.keyGroupsEnum,
 				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE,
@@ -387,16 +402,16 @@
 			// Fire change event.
 			this.editor.fire( 'change' );
 		},
+
 		/**
 		 * Amends last snapshot, and change its selection (only in case when contents
 		 * are equal between these two).
 		 *
+		 * @since 4.4.3
 		 * @param {Image} newSnapshot New snapshot with new selection.
 		 * @returns {Boolean} Returns `true` if selection was amended.
-		 * @since 4.4.3
 		 */
 		amendSelection: function( newSnapshot ) {
-
 			if ( !this.snapshots.length )
 				return false;
 
@@ -412,6 +427,7 @@
 
 			return false;
 		},
+
 		/**
 		 * Method called for navigation change. At first it will check if current content doesn't differ
 		 * from the last saved snapshot.
@@ -783,9 +799,9 @@
 		 * Checks whether a key is one of navigation keys (arrows, page up/down, etc.).
 		 * See also the {@link #navigationKeyCodes} property.
 		 *
+		 * @since 4.4.3
 		 * @param {Number} keyCode
 		 * @returns {Boolean}
-		 * @since 4.4.3
 		 */
 		isNavigationKey: function( keyCode ) {
 			return !!this.navigationKeyCodes[ keyCode ];
@@ -809,22 +825,20 @@
 	 *
 	 * **Note:** This class is not accessible from the global scope.
 	 *
+	 * @since 4.4.3
 	 * @private
 	 * @member CKEDITOR.plugins.undo
 	 * @class CKEDITOR.plugins.undo.UndoManagerEventHandler
 	 * @constructor Creates an UndoManagerEventHandler class instance.
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
-	 * @since 4.4.3
 	 */
 	function UndoManagerEventHandler( undoManager ) {
-		/*
-		We'll use keyboard + input events to determine if snapshot should be created.
-		Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
-		That will tell us if any printable data was inserted.
-		On `input` event we'll increase `inputFired` counter. Eventually it might be
-		canceled by paste/drop using `ignoreInputEvent` flag.
-		Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
-		*/
+		// We'll use keyboard + input events to determine if snapshot should be created.
+		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
+		// That will tell us if any printable data was inserted.
+		// On `input` event we'll increase `inputFired` counter. Eventually it might be
+		// canceled by paste/drop using `ignoreInputEvent` flag.
+		// Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
 		var editor = undoManager.editor,
 			inputFired = 0,
 			ignoreInputEvent = false,
@@ -832,6 +846,11 @@
 				ignoreInputEvent = true;
 			};
 
+		/**
+		 * The `keydown` event listener.
+		 *
+		 * @param {CKEDITOR.dom.event} evt
+		 */
 		this.onKeydown = function( evt ) {
 			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
@@ -851,6 +870,9 @@
 			}
 		};
 
+		/**
+		 * The `input` event listener.
+		 */
 		this.onInput = function() {
 			inputFired += 1;
 			// inputFired counter shouldn't be increased if paste/drop event were fired before.
@@ -860,6 +882,11 @@
 			}
 		};
 
+		/**
+		 * The `keyup` event listener.
+		 *
+		 * @param {CKEDITOR.dom.event} evt
+		 */
 		this.onKeyup = function( evt ) {
 			var keyCode = evt.data.getKey(),
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
@@ -987,13 +1014,4 @@
  * @event change
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
- */
-
-/**
- * Property indicating if last pressed key was functional key, or not. Changed in
- * {@link CKEDITOR.plugins.undo.UndoManager.type}.
- *
- * @property {Number} [wasFunctionalKey=0]
- * @member CKEDITOR.plugins.undo.UndoManagerEventHandler
- * @since 4.4.3
  */
