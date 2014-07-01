@@ -705,31 +705,43 @@
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
 			extractSelectedHtmlFromRange: function( range ) {
-				var startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
-					endPath = new CKEDITOR.dom.elementPath( range.endContainer, this );
+				var path = new CKEDITOR.dom.elementPath( range.startContainer, this ),
+					doc = this.getDocument();
 
-				range.enlarge( CKEDITOR.ENLARGE_INLINE );
+				// Include inline element if possible.
+				range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
-				if ( startPath.block && range.checkBoundaryOfElement( startPath.block, CKEDITOR.START ) ) {
-					range.setStartBefore( startPath.block );
+				// If range touches the boundary of a block element, include it immediately.
+				if ( path.block &&
+					range.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
+					range.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
+				{
+					range.setStartBefore( path.block );
+					range.setEndAfter( path.block );
 				}
 
-				if ( endPath.block && range.checkBoundaryOfElement( endPath.block, CKEDITOR.END ) ) {
-					range.setEndAfter( endPath.block );
-				}
+				// We'll play with DOM, let's hold the position of the range.
+				var bm = range.createBookmark( 1 );
 
-				var rangeClone = range.clone();
-				var extractBm = range.createBookmark( 1 );
+				// The range to be restored after extraction...
+				var targetRange = this.editor.createRange();
 
-				rangeClone.optimize();
-				rangeClone.optimizeBookmark();
-				rangeClone.collapse( 1 );
-				var afterExtractBm = rangeClone.createBookmark( 1 );
+				// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
+				targetRange.moveToPosition( doc.getById( bm.startNode ), CKEDITOR.POSITION_BEFORE_START );
 
-				range.moveToBookmark( extractBm );
-				range.extractContents( 1 );
+				// Remember desired position of the range after extraction.
+				var targetBm = targetRange.createBookmark( 1 );
 
-				range.moveToBookmark( afterExtractBm );
+				// Finally restore the "working range", once DOM is stable.
+				range.moveToBookmark( bm );
+
+				// Simply, do the job.
+				range.extractContents();
+
+				// Move working range to desired, pre-computed position.
+				range.moveToBookmark( targetBm );
+
+				// Make sure range is always anchored in an element. For consistency.
 				range.optimize();
 			},
 
