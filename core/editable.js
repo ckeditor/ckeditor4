@@ -768,8 +768,13 @@
 			 * @param {Boolean} toString
 			 * @returns {CKEDITOR.dom.documentFragment/String}
 			 */
-			extractSelectedHtml: function() {
-				return this.extractSelectedHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
+			extractSelectedHtml: function( toString ) {
+				var range = this.editor.getSelection().getRanges()[ 0 ],
+					docFragment = this.extractSelectedHtmlFromRange( range );
+
+				range.select();
+
+				return toString ? docFragment.getHtml() : docFragment;
 			},
 
 			/**
