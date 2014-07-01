@@ -97,7 +97,7 @@
 				range = setWithHtml( editable, html ),
 				docFragment = editable.extractSelectedHtmlFromRange( range );
 
-			// assert.areSame( htmlGet, docFragment.getHtml(), 'HTML which has been extracted' );
+			assert.areSame( htmlGet, docFragment.getHtml(), 'HTML which has been extracted' );
 			assert.areSame( htmlWithSelection, getWithHtml( editable, range ), 'HTML of editable, once extracted' );
 		};
 	}
