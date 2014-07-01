@@ -317,7 +317,7 @@
 				} );
 			},
 
-			'test undoManager.amendSelection': function() {
+			'test undoManager.updateSelection': function() {
 				// Initial editor content is: "<p>__</p>"
 				// and selection start/end offset is 1.
 				var img1 = new CKEDITOR.plugins.undo.Image( this.editor ),
@@ -328,7 +328,7 @@
 				undoManager.snapshots = [ img1 ];
 
 				// First - identical images, nothing should happen.
-				undoManager.amendSelection( img2 );
+				undoManager.updateSelection( img2 );
 				assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
 				assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
 				!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
@@ -340,7 +340,7 @@
 				img2bookmark.startOffset = 2;
 				img2bookmark.endOffset = 2;
 
-				undoManager.amendSelection( img2 );
+				undoManager.updateSelection( img2 );
 				assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
 				assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
 				!this.isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
@@ -353,14 +353,14 @@
 				img2bookmark.endOffset = 1;
 				img2.contents = '<p>____</p>';
 
-				undoManager.amendSelection( img2 );
+				undoManager.updateSelection( img2 );
 				assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots should not change' );
 				assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
 				!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
 
 				// Ensure that it does not breaks when snapshots array is empty.
 				undoManager.snapshots = [];
-				undoManager.amendSelection( img2 );
+				undoManager.updateSelection( img2 );
 			},
 
 			'test backspace snapshot content': function() {

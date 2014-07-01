@@ -404,31 +404,6 @@
 		},
 
 		/**
-		 * Amends last snapshot, and change its selection (only in case when contents
-		 * are equal between these two).
-		 *
-		 * @since 4.4.3
-		 * @param {Image} newSnapshot New snapshot with new selection.
-		 * @returns {Boolean} Returns `true` if selection was amended.
-		 */
-		amendSelection: function( newSnapshot ) {
-			if ( !this.snapshots.length )
-				return false;
-
-			var snapshots = this.snapshots,
-				lastImage = snapshots[ snapshots.length - 1 ];
-
-			if ( lastImage.equalsContent( newSnapshot ) ) {
-				if ( !lastImage.equalsSelection( newSnapshot ) ) {
-					snapshots[ snapshots.length - 1 ] = newSnapshot;
-					return true;
-				}
-			}
-
-			return false;
-		},
-
-		/**
 		 * Method called for navigation change. At first it will check if current content doesn't differ
 		 * from the last saved snapshot.
 		 *
@@ -441,7 +416,7 @@
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
 			if ( skipContentCompare || !this.save( true, null, false ) )
-				this.amendSelection( new Image( this.editor ) );
+				this.updateSelection( new Image( this.editor ) );
 
 			this.resetType();
 		},
@@ -601,7 +576,7 @@
 		 * Get the closest available image.
 		 *
 		 * @param {Boolean} isUndo If `true` will return previous image.
-		 * @returns {CKEDITOR.plugins.undo.UndoManager.Image/null}
+		 * @returns {CKEDITOR.plugins.undo.Image} Next image or `null`.
 		 */
 		getNextImage: function( isUndo ) {
 			var snapshots = this.snapshots,
@@ -709,6 +684,31 @@
 			snapshots.splice( i, this.index - i + 1, newImage );
 			this.index = i;
 			this.currentImage = newImage;
+		},
+
+		/**
+		 * Amends last snapshot, and changes its selection (only in case when contents
+		 * are equal between these two).
+		 *
+		 * @since 4.4.3
+		 * @param {CKEDITOR.plugins.undo.Image} newSnapshot New snapshot with new selection.
+		 * @returns {Boolean} Returns `true` if selection was amended.
+		 */
+		updateSelection: function( newSnapshot ) {
+			if ( !this.snapshots.length )
+				return false;
+
+			var snapshots = this.snapshots,
+				lastImage = snapshots[ snapshots.length - 1 ];
+
+			if ( lastImage.equalsContent( newSnapshot ) ) {
+				if ( !lastImage.equalsSelection( newSnapshot ) ) {
+					snapshots[ snapshots.length - 1 ] = newSnapshot;
+					return true;
+				}
+			}
+
+			return false;
 		},
 
 		/**
