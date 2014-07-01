@@ -680,7 +680,7 @@
 						bogus.remove();
 
 					clonedFragment = rebuildFragmentTree.call( this, clonedFragment, node,
-						path.blockLimit.is( 'tr' ) ?
+						path.blockLimit.is( { tr: 1, table: 1 } ) ?
 							( function() {
 								var tableParent = path.contains( 'table' ).getParent();
 
