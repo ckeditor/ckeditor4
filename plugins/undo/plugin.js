@@ -20,7 +20,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var undoManager = editor.undoManager = new UndoManager( editor ),
-				undoManagerEventHandler = undoManager.eventHandler = new UndoManagerEventHandler( undoManager );
+				editingHandler = undoManager.editingHandler = new NativeEditingHandler( undoManager );
 
 			var undoCommand = editor.addCommand( 'undo', {
 				exec: function() {
@@ -71,7 +71,7 @@
 			} );
 
 			// Event manager listeners should be attached on contentDom.
-			editor.on( 'contentDom', undoManagerEventHandler.attachListeners, undoManagerEventHandler );
+			editor.on( 'contentDom', editingHandler.attachListeners, editingHandler );
 
 			editor.on( 'instanceReady', function() {
 				// Saves initial snapshot.
@@ -200,7 +200,7 @@
 	UndoManager.prototype = {
 		/**
 		 * Key groups identifier mapping. Used for accessing members in
-		 * {@link CKEDITOR.plugins.undo.UndoManagerEventHandler#strokesRecorded}.
+		 * {@link CKEDITOR.plugins.undo.NativeEditingHandler#strokesRecorded}.
 		 *
 		 * * `FUNCTIONAL` - identifier for backspace / delete key.
 		 * * `PRINTABLE` - identifier for printable keys.
@@ -821,14 +821,16 @@
 	};
 
 	/**
-	 * Class encapsulating all the listeners which should trigger snapshot.
+	 * Class encapsulating all the native events listeners which have to be used in
+	 * order to handle undo manager integration for native editing actions (excluding drag and drop and paste support
+	 * handled by the clipboard plugin).
 	 *
 	 * @since 4.4.3
 	 * @private
-	 * @constructor Creates an UndoManagerEventHandler class instance.
+	 * @constructor Creates an NativeEditingHandler class instance.
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
 	 */
-	var UndoManagerEventHandler = CKEDITOR.plugins.undo.UndoManagerEventHandler = function( undoManager ) {
+	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
 		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
 		// That will tell us if any printable data was inserted.
