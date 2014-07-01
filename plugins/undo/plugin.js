@@ -263,12 +263,14 @@
 		/**
 		 * Contents of the editor.
 		 *
+		 * @readonly
 		 * @property {String} contents
 		 */
 
 		/**
 		 * Bookmarks representing selection in image.
 		 *
+		 * @readonly
 		 * @property {Object[]} bookmarks Array of bookmark2 objects, see {@link CKEDITOR.dom.range#createBookmark2} for definition.
 		 */
 	};
@@ -276,19 +278,17 @@
 	/**
 	 * Main logic for the Redo/Undo feature.
 	 *
-	 * **Note:** This class is not accessible from the global scope.
-	 *
 	 * @private
 	 * @class CKEDITOR.plugins.undo.UndoManager
 	 * @constructor Creates an UndoManager class instance.
 	 * @param {CKEDITOR.editor} editor
 	 */
-	function UndoManager( editor ) {
+	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
 		this.editor = editor;
 
 		// Reset the undo stack.
 		this.reset();
-	}
+	};
 
 	UndoManager.prototype = {
 		/**
@@ -823,16 +823,12 @@
 	/**
 	 * Class encapsulating all the listeners which should trigger snapshot.
 	 *
-	 * **Note:** This class is not accessible from the global scope.
-	 *
 	 * @since 4.4.3
 	 * @private
-	 * @member CKEDITOR.plugins.undo
-	 * @class CKEDITOR.plugins.undo.UndoManagerEventHandler
 	 * @constructor Creates an UndoManagerEventHandler class instance.
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
 	 */
-	function UndoManagerEventHandler( undoManager ) {
+	var UndoManagerEventHandler = CKEDITOR.plugins.undo.UndoManagerEventHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
 		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
 		// That will tell us if any printable data was inserted.
@@ -938,7 +934,7 @@
 				undoManager.onNavigationKey();
 			} );
 		};
-	}
+	};
 } )();
 
 /**
