@@ -1034,6 +1034,8 @@
 		 *
 		 * The dialog window name is obtained from the event's data `dialog` property or
 		 * from {@link CKEDITOR.plugins.widget.definition#dialog}.
+		 *
+		 * @returns {Boolean} Returns `true` if dialog was opened.
 		 */
 		edit: function() {
 			var evtData = { dialog: this.dialog },
@@ -1041,7 +1043,7 @@
 
 			// Edit event was blocked, but there's no dialog to be automatically opened.
 			if ( this.fire( 'edit', evtData ) === false || !evtData.dialog )
-				return;
+				return false;
 
 			this.editor.openDialog( evtData.dialog, function( dialog ) {
 				var showListener,
@@ -1049,7 +1051,7 @@
 
 				// Allow to add a custom dialog handler.
 				if ( that.fire( 'dialog', dialog ) === false )
-					return;
+					return false;
 
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
@@ -1083,6 +1085,8 @@
 					okListener.removeListener();
 				} );
 			} );
+
+			return true;
 		},
 
 		/**
@@ -3115,7 +3119,11 @@
 		// to overwrite this callback.
 
 		widget.on( 'doubleclick', function( evt ) {
-			widget.edit();
+			if ( widget.edit() ) {
+				// We have to cancel event if edit method opens a dialog, otherwise
+				// link plugin may open extra dialog (#12140).
+				evt.cancel();
+			}
 		} );
 
 		if ( widgetDef.data )
