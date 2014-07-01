@@ -1051,7 +1051,7 @@
 
 				// Allow to add a custom dialog handler.
 				if ( that.fire( 'dialog', dialog ) === false )
-					return false;
+					return;
 
 				showListener = dialog.on( 'show', function() {
 					dialog.setupContent( that );
@@ -1455,6 +1455,14 @@
 
 	/**
 	 * An event fired when a widget is double clicked.
+	 *
+	 * **Note:** in some cases event will be canceled. That's the case when i.e. placeholder
+	 * widget is inside a link - it'll cancel doubleclick event, so the link dialog won't be
+	 * shown. Use listener with low priority (e.g. 5) to be sure that your listener will be executed.
+	 *
+	 *		widget.on( 'doubleclick', function( evt ) {
+	 *			console.log( 'widget#doubleclick' );
+	 *		}, null, null, 5 );
 	 *
 	 * @event doubleclick
 	 * @param data
