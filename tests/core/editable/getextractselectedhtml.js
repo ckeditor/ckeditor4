@@ -161,6 +161,9 @@
 /*7*/		[ '<table><tbody><tr><td>{x</td></tr></tbody></table><table><tbody><tr><td>x</td></tr><tr><td>x}</td><td>y</td></tr></tbody></table>',
 																					'<table><tbody><tr><td>x</td></tr></tbody></table><table><tbody><tr><td>x</td></tr><tr><td>x</td></tr></tbody></table>',
 																																					'<table><tbody><tr><td>[]</td></tr></tbody></table><table><tbody><tr><td></td><td>y</td></tr></tbody></table>' ],
+/*8*/		[ '<table><tbody><tr><td>x{y</td><td>y</td></tr><tr><td>y}x</td><td>x</td></tr></tbody></table>',
+																					'<table><tbody><tr><td>y</td><td>y</td></tr><tr><td>y</td></tr></tbody></table>',
+																																					'<table><tbody><tr><td>x[]</td></tr><tr><td>x</td><td>x</td></tr></tbody></table>' ],
 		],
 		'lists': [
 /*1*/		[ '<ol><li>x{x}x</li></ol>', 											'x',															'<ol><li>x[]x</li></ol>' ],
