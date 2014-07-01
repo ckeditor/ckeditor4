@@ -708,6 +708,11 @@
 				var path = new CKEDITOR.dom.elementPath( range.startContainer, this ),
 					doc = this.getDocument();
 
+				// Since it is quite hard to build a valid documentFragment
+				// out of extracted contents because DOM changes, let's mimic
+				// extracted HTML with #getSelectedHtmlFromRange. Yep. It's a hack.
+				var extractedFragment = this.getSelectedHtmlFromRange( range );
+
 				// Include inline element if possible.
 				range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
@@ -743,6 +748,8 @@
 
 				// Make sure range is always anchored in an element. For consistency.
 				range.optimize();
+
+				return extractedFragment;
 			},
 
 			/**
