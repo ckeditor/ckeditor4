@@ -168,7 +168,7 @@
 		'lists': [
 /*1*/		[ '<ol><li>x{x}x</li></ol>', 											'x',															'<ol><li>x[]x</li></ol>' ],
 /*2*/		[ '<ol><li>{x}</li></ol>', 												'<ol><li>x</li></ol>',											'[]' ],
-/*3*/		[ '<div><ol><li>{x}</li></ol></div>', 									'<ol><li>x</li></ol>',											'<div>{}</div>' ],
+/*3*/		[ '<div><ol><li>{x}</li></ol></div>', 									'<ol><li>x</li></ol>',											'<div>[]</div>' ],
 /*4*/		[ '<ol><li>y{x</li><li>x}y</li></ol>', 									'<ol><li>x</li><li>x</li></ol>',								'<ol><li>y[]y</li></ol>' ],
 /*5*/		[ '<ol><li>y{x</li></ol><ol><li>x}y</li></ol>', 						'<ol><li>x</li></ol><ol><li>x</li></ol>',						'<ol><li>y[]y</li></ol>' ],
 /*6*/		[ '<ol><li><ul><li>y{x</li></ul></li><li>x}y</li></ol>', 				'<ol><li><ul><li>x</li></ul></li><li>x</li></ol>',				'<ol><li><ul><li>y[]y</li></ol>' ],
