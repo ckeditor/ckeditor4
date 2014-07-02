@@ -59,7 +59,7 @@
 				// This will reset command objects states.
 				this.undoManager.onChange();
 				// Force to reset inputFired counter, as some TCs may produce leftovers.
-				this.undoManager.eventHandler.resetCounter();
+				this.undoManager.editingHandler.resetCounter();
 			},
 
 			_should: {
