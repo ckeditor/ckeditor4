@@ -76,7 +76,7 @@ bender.test( {
 			editor = this.editors.editor1,
 			evt, dataTransfer;
 
-		bot.setHtmlWithSelection( '[<b>foo</b>]' );
+		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
@@ -85,8 +85,7 @@ bender.test( {
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType() );
-		// On Safari getSelectedHtml does not work properly.
-		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
+		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
@@ -99,17 +98,17 @@ bender.test( {
 			evt, dataTransfer;
 
 		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', '<b>foo</b>' );
+		evt.data.$.dataTransfer.setData( 'Text', 'x<b>foo</b>x' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_EXTERNAL, dataTransfer.getTransferType() );
-		assert.areSame( '&lt;b&gt;foo&lt;/b&gt;', dataTransfer.dataValue, 'dataValue' );
+		assert.areSame( 'x&lt;b&gt;foo&lt;/b&gt;x', dataTransfer.dataValue, 'dataValue' );
 		assert.areSame( 'text', dataTransfer.dataType, 'dataType' );
 		assert.isUndefined( dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( '<b>foo</b>', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
+		assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
 	},
 
 	'test dataTransfer external html': function() {
@@ -119,7 +118,7 @@ bender.test( {
 		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 		if ( !CKEDITOR.env.ie ) {
-			evt.data.$.dataTransfer.setData( 'text/html', '<b>foo</b>' );
+			evt.data.$.dataTransfer.setData( 'text/html', 'x<b>foo</b>x' );
 		}
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
@@ -134,10 +133,10 @@ bender.test( {
 			assert.areSame( 'text', dataTransfer.dataType, 'dataType' );
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
 		} else {
-			assert.areSame( '<b>foo</b>', dataTransfer.dataValue, 'dataValue' );
+			assert.areSame( 'x<b>foo</b>x', dataTransfer.dataValue, 'dataValue' );
 			assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
-			assert.areSame( '<b>foo</b>', dataTransfer.getData( 'text/html' ), 'getData( \'text/html\' )' );
+			assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'text/html' ), 'getData( \'text/html\' )' );
 		}
 	},
 
@@ -147,7 +146,7 @@ bender.test( {
 			editor2 = this.editors.editor2,
 			evt, dataTransfer;
 
-		bot1.setHtmlWithSelection( '[<b>foo</b>]' );
+		bot1.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
@@ -156,8 +155,7 @@ bender.test( {
 		dataTransfer.setTargetEditor( editor2 );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS, dataTransfer.getTransferType() );
-		// On Safari getSelectedHtml does not work properly.
-		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
+		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor1, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor2, dataTransfer.targetEditor, 'targetEditor' );
@@ -193,15 +191,14 @@ bender.test( {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
-		bot.setHtmlWithSelection( '[<b>foo</b>]' );
+		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		var evt = createDragDropEventMock(),
 			dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType() );
-		// On Safari getSelectedHtml does not work properly.
-		assert.areSame( CKEDITOR.env.safari ? 'foo' : '<b>foo</b>', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
+		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
