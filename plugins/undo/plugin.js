@@ -611,6 +611,7 @@
 			if ( lastImage.equalsContent( newSnapshot ) ) {
 				if ( !lastImage.equalsSelection( newSnapshot ) ) {
 					snapshots[ snapshots.length - 1 ] = newSnapshot;
+					this.currentImage = newSnapshot;
 					return true;
 				}
 			}

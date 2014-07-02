@@ -326,6 +326,7 @@
 					undoManager = this.editor.undoManager;
 
 				undoManager.snapshots = [ img1 ];
+				undoManager.currentImage = img1;
 
 				// First - identical images, nothing should happen.
 				undoManager.updateSelection( img2 );
@@ -344,6 +345,7 @@
 				assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
 				assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
 				!this.isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
+				assert.areSame( undoManager.currentImage, img2, 'undoManager.currentImage not updated' );
 
 				// Reset snapshots array.
 				undoManager.snapshots = [ img1 ];
