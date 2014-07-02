@@ -643,11 +643,12 @@
 				}
 
 				return function( range ) {
-					var path = new CKEDITOR.dom.elementPath( range.startContainer, this );
+					var path = range.startPath();
 						// Leave original range object untouched.
 						rangeClone = range.clone();
 
 					if ( path.block &&
+						this.contains( path.block ) &&
 						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
 						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
 					{
@@ -738,7 +739,7 @@
 
 					// If range touches the boundary of a block element, include it immediately.
 					if ( startPath.block && endPath.block ) {
-						if ( !this.equals( startPath.block ) && !this.equals( endPath.block ) ) {
+						if ( this.contains( startPath.block ) && this.contains( endPath.block ) ) {
 							if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
 								range.setStartBefore( startPath.block );
 								range.setEndAfter( endPath.block );
