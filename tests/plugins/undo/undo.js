@@ -60,6 +60,54 @@ bender.test(
 		}, 0 );
 	},
 
+	'test undoManager.updateSelection': function() {
+		// Initial editor content is: "<p>__</p>"
+		// and selection start/end offset is 1.
+		var img1 = new CKEDITOR.plugins.undo.Image( this.editor ),
+			img2 = new CKEDITOR.plugins.undo.Image( this.editor ),
+			img2bookmark = img2.bookmarks[ 0 ],
+			undoManager = this.editor.undoManager;
+
+		undoManager.snapshots = [ img1 ];
+		undoManager.currentImage = img1;
+
+		// First - identical images, nothing should happen.
+		undoManager.updateSelection( img2 );
+		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
+		assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
+		!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+
+		// Reset snapshots array.
+		undoManager.snapshots = [ img1 ];
+
+		// Now - diffrent selection, same content.
+		img2bookmark.startOffset = 2;
+		img2bookmark.endOffset = 2;
+
+		undoManager.updateSelection( img2 );
+		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
+		assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
+		!this.isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
+		assert.areSame( undoManager.currentImage, img2, 'undoManager.currentImage not updated' );
+
+		// Reset snapshots array.
+		undoManager.snapshots = [ img1 ];
+
+		// Now - same selection, diffrent content.
+		img2bookmark.startOffset = 1;
+		img2bookmark.endOffset = 1;
+		img2.contents = '<p>____</p>';
+
+		undoManager.updateSelection( img2 );
+		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots should not change' );
+		assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
+		!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+
+		// Ensure that it does not breaks when snapshots array is empty.
+		undoManager.snapshots = [];
+		undoManager.updateSelection( img2 );
+	},
+
 	// #10249
 	'check initial command states': function() {
 		var bot = this.editorBot,
