@@ -337,9 +337,9 @@
 
 						dialog.getButton( 'ok' ).click();
 
-						img = editor.document.find( 'img' ).getItem( 0 );
+						img = editor.editable().findOne( 'img' );
 
-						resume( function () {
+						resume( function() {
 							assert.isNull( img.getAttribute( 'style' ), 'Styles should not be set.' );
 						} );
 					} );
@@ -357,7 +357,7 @@
 		img.once( 'error', onDone );
 
 		function onDone() {
-			CKEDITOR.tools.setTimeout( cb, 0 );
+			setTimeout( cb, 0 );
 		}
 
 		img.setAttribute( 'src', src );
