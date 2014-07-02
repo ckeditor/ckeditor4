@@ -53,6 +53,10 @@ bender.test( {
 		} );
 	},
 
+	setUp: function() {
+		CKEDITOR.plugins.clipboard.resetDataTransfer();
+	},
+
 	'test dataTransfer id': function() {
 		var evt1 = createDragDropEventMock(),
 			evt2 = createDragDropEventMock(),
@@ -183,8 +187,6 @@ bender.test( {
 		dataTransferB = CKEDITOR.plugins.clipboard.initDataTransfer( evt2 );
 
 		assert.areNotSame( dataTransferA, dataTransferB );
-
-		CKEDITOR.plugins.clipboard.resetDataTransfer();
 	},
 
 	'test initDataTransfer constructor': function() {
@@ -203,7 +205,5 @@ bender.test( {
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-
-		CKEDITOR.plugins.clipboard.resetDataTransfer();
 	}
 } );
