@@ -4,7 +4,12 @@
 'use strict';
 
 var setWithHtml = bender.tools.selection.setWithHtml,
-	getWithHtml = bender.tools.selection.getWithHtml;
+	getWithHtml = bender.tools.selection.getWithHtml,
+	htmlMatchOpts = {
+		compareSelection: true,
+		normalizeSelection: true,
+		fixStyles: true
+	};
 
 CKEDITOR.disableAutoInline = true;
 
@@ -41,7 +46,7 @@ function drop( editor, evt, config, callback ) {
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
 		pasteEventCounter = 0,
-		expectedPasteEventCount = typeof config.expectedPasteEventCount  !== 'undefined' ?
+		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ?
 			config.expectedPasteEventCount :
 			1;
 
@@ -63,7 +68,7 @@ function drop( editor, evt, config, callback ) {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
 
 		callback();
-	}, 100 );
+	}, 10 );
 }
 
 var editors, editorBots,
@@ -72,16 +77,14 @@ var editors, editorBots,
 			name: 'framed',
 			creator: 'replace',
 			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+				allowedContent: true
 			}
 		},
 		inline: {
 			name: 'inline',
 			creator: 'inline',
 			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+				allowedContent: true
 			}
 		},
 		divarea: {
@@ -89,16 +92,14 @@ var editors, editorBots,
 			creator: 'replace',
 			config: {
 				extraPlugins: 'divarea',
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+				allowedContent: true
 			}
 		},
 		cross: {
 			name: 'cross',
 			creator: 'replace',
 			config: {
-				allowedContent: true,
-				toolbarGroups: [ { name: 'clipboard', groups: [ 'clipboard', 'undo' ] } ]
+				allowedContent: true
 			}
 		}
 	},
@@ -117,16 +118,14 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'h1' ).getChild( 0 ),
+				element: editor.document.getById( 'h1' ).getChild( 0 ),
 				offset: 7
 			}, function() {
 				assert.areSame( '<h1 id="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				wait( function() {
-					assert.areSame( '<h1 id="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
-				}, 100 );
+				assert.areSame( '<h1 id="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -139,14 +138,14 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -159,14 +158,14 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 2 ),
+				element: editor.document.getById( 'p' ).getChild( 2 ),
 				offset: 11
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -186,11 +185,11 @@ var editors, editorBots,
 					11 :
 					17
 			}, function() {
-				assert.isMatching( /<p><b>lor<\/b> dolor sit <b>em<\/b> ipsum(\[\]|\{\})amet\.(<br>)?<\/p>/, getWithHtml( editor ).toLowerCase(), 'after drop' );
+				assert.isInnerHtmlMatching( '<p id="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isMatching( /<p><b>lorem<\/b> ipsum dolor sit \{\}amet\.(<br>)?<\/p>/, getWithHtml( editor ).toLowerCase(), 'after undo' );
+				assert.isInnerHtmlMatching( '<p id="p"><b>lorem</b> ipsum dolor sit ^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after undo' );
 			} );
 		},
 
@@ -203,14 +202,14 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 2 ),
+				element: editor.document.getById( 'p' ).getChild( 2 ),
 				offset: 16
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -223,14 +222,14 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0
 			}, function() {
-				assert.isMatching( /<p id="p" style="margin-left: ?20px;?">ipsum\^Lorem dolor sit amet\.<\/p>/, bender.tools.compatHtml( bender.tools.getHtmlWithSelection( editor ), 0, 1, 0, 1 ), 'after drop' );
+				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isMatching( '<p id="p" style="margin-left:20px;?">Lorem ipsum dolor sit amet.</p>', bender.tools.compatHtml( editor.getData(), 1, 1, 1, 1 ), 'after undo' );
+				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">Lorem ipsum dolor sit amet.</p>', editor.getData(), htmlMatchOpts, 'after undo' );
 			} );
 		},
 
@@ -246,14 +245,14 @@ var editors, editorBots,
 				evt.$.dataTransfer.setData( 'text/html', 'dolor' );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -269,14 +268,14 @@ var editors, editorBots,
 				evt.$.dataTransfer.setData( 'text/html', '<b>dolor</b>' );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
 				assert.areSame( '<p id="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -287,7 +286,7 @@ var editors, editorBots,
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
 				expectedPasteEventCount: 0
 			}, function() {
@@ -301,24 +300,23 @@ var editors, editorBots,
 				botCross = editorBots[ 'cross' ],
 				editorCross = botCross.editor;
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
-			botCross.setHtmlWithSelection( '<p id="p">Lorem [ipsum <b>dolor</b>] sit amet.</p>' );
+			setWithHtml( bot.editor, '<p id="p">Lorem ipsum sit amet.</p>' );
+			setWithHtml( botCross.editor, '<p id="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
 
 			drag( editorCross, evt );
 
 			drop( editor, evt, {
-				element:  editor.document.getById( 'p' ).getChild( 0 ),
+				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
-				assert.areSame( '<p id="p">Lorem ipsum <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
-
-				assert.areSame( '<p id="p">Lorem sit amet.</p>', bender.tools.compatHtml( editorCross.getData(), 0, 1, 0, 1 ), 'after drop - editor cross' );
+				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p id="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
 
 				editor.execCommand( 'undo' );
 				editorCross.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', bender.tools.compatHtml( editor.getData(), 0, 1, 0, 1 ), 'after undo' );
-				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', bender.tools.compatHtml( editorCross.getData(), 0, 1, 0, 1 ), 'after undo - editor cross' );
+				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', editorCross.getData(), 'after undo - editor cross' );
 			} );
 		}
 	},
@@ -353,9 +351,9 @@ var editors, editorBots,
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
 			dragRange.select();
-			assert.isMatching( /<p( id="?p"?)?>lorem ipsum\{\} sit amet\.(<br>)?<\/p>/, bender.tools.selection.getWithHtml( editor ).toLowerCase() );
+			assert.isInnerHtmlMatching( '<p id="p">lorem ipsum^ sit amet\.@</p>', getWithHtml( editor ), htmlMatchOpts );
 			dropRange.select();
-			assert.isMatching( /<p( id="?p"?)?>lorem\{\} ipsum sit amet\.(<br>)?<\/p>/, bender.tools.selection.getWithHtml( editor ).toLowerCase() );
+			assert.isInnerHtmlMatching( '<p id="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
 		'test rangeBefore 1': function() {
@@ -428,6 +426,10 @@ var editors, editorBots,
 bender.tools.setUpEditors( editorsDefinitions, function( e, eb ) {
 	editors = e;
 	editorBots = eb;
+
+	for ( var name in editors ) {
+		editors[ name ].dataProcessor.writer.sortAttributes = true;
+	}
 
 	bender.test( CKEDITOR.tools.extend(
 		bender.tools.createTestsForEditors(
