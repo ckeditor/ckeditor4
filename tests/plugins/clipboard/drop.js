@@ -62,13 +62,22 @@ function drop( editor, evt, config, callback ) {
 		pasteEventCounter++;
 	} );
 
-	dropTarget.fire( 'drop', evt );
+	if ( expectedPasteEventCount ) {
+		editor.once( 'afterPaste', function() {
+			resume( finish );
+		} );
+		// Ensure async.
+		wait( function() {
+			dropTarget.fire( 'drop', evt );
+		} );
+	} else {
+		wait( finish, 100 );
+	}
 
-	wait( function() {
+	function finish() {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-
 		callback();
-	}, 10 );
+	}
 }
 
 var editors, editorBots,
@@ -114,6 +123,7 @@ var editors, editorBots,
 
 			bot.setHtmlWithSelection( '<h1 id="h1">Header1</h1>' +
 			'<p>Lorem ipsum [dolor] sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -134,6 +144,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum [dolor] sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -154,6 +165,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -174,6 +186,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			setWithHtml( editor, '<p id="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -198,6 +211,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -218,6 +232,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
+			editor.resetUndo();
 
 			drag( editor, evt );
 
@@ -238,6 +253,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			editor.resetUndo();
 
 			if ( CKEDITOR.env.ie )
 				evt.$.dataTransfer.setData( 'Text', 'dolor' );
@@ -261,6 +277,7 @@ var editors, editorBots,
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			editor.resetUndo();
 
 			if ( CKEDITOR.env.ie )
 				evt.$.dataTransfer.setData( 'Text', '<b>dolor</b>' );
@@ -283,6 +300,7 @@ var editors, editorBots,
 			var bot = editorBots[ editor.name ],
 				evt = createDragDropEventMock();
 
+			editor.resetUndo();
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
 
 			drop( editor, evt, {
@@ -302,6 +320,8 @@ var editors, editorBots,
 
 			setWithHtml( bot.editor, '<p id="p">Lorem ipsum sit amet.</p>' );
 			setWithHtml( botCross.editor, '<p id="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
+			bot.editor.resetUndo();
+			botCross.editor.resetUndo();
 
 			drag( editorCross, evt );
 
