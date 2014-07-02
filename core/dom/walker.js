@@ -527,16 +527,32 @@
 
 	var isIgnored = CKEDITOR.dom.walker.ignored();
 
-	function isEmpty( node ) {
-		var i = 0,
-			l = node.getChildCount();
+	/**
+	 * Returns a function which checks whether node is empty.
+	 *
+	 * @since 4.5
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * ignored element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.empty = function( isReject ) {
+		return function( node ) {
+			var i = 0,
+				l = node.getChildCount(),
+				isEmpty;
 
-		for ( ; i < l; ++i ) {
-			if ( !isIgnored( node.getChild( i ) ) )
-				return false;
-		}
-		return true;
-	}
+			for ( ; i < l; ++i ) {
+				if ( !isIgnored( node.getChild( i ) ) ) {
+					return !!( isReject ^ false );
+				}
+			}
+
+			return !!( isReject ^ true );
+		};
+	};
+
+	var isEmpty = CKEDITOR.dom.walker.empty();
 
 	function filterTextContainers( dtd ) {
 		var hash = {},
