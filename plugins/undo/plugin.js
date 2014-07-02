@@ -311,24 +311,6 @@
 		},
 
 		/**
-		 * Method called for navigation change. At first it will check if current content doesn't differ
-		 * from the last saved snapshot.
-		 *
-		 * * If content differ it creates standard, extra snapshot.
-		 * * If it doesn't differ it will compare selection, and will amend last snapshot selection if it changed.
-		 *
-		 * @param {Boolean} skipContentCompare If set to `true` it won't compare content, and do only selection check.
-		 */
-		onNavigationKey: function( skipContentCompare ) {
-			// We attempt to save content snapshot, if content didn't change, we'll
-			// only amend selection.
-			if ( skipContentCompare || !this.save( true, null, false ) )
-				this.updateSelection( new Image( this.editor ) );
-
-			this.resetType();
-		},
-
-		/**
 		 * Resets the undo stack.
 		 */
 		reset: function() {
@@ -839,6 +821,7 @@
 		// canceled by paste/drop using `ignoreInputEvent` flag.
 		// Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
 		var editor = undoManager.editor,
+			that = this,
 			inputFired = 0,
 			ignoreInputEvent = false,
 			ignoreInputEventListener = function() {
@@ -901,8 +884,26 @@
 				undoManager.type( keyCode );
 			} else if ( undoManager.isNavigationKey( keyCode ) ) {
 				// Note content snapshot has been checked in keydown.
-				undoManager.onNavigationKey( true );
+				that.onNavigationKey( true );
 			}
+		};
+
+		/**
+		 * Method called for navigation change. At first it will check if current content doesn't differ
+		 * from the last saved snapshot.
+		 *
+		 * * If content differ it creates standard, extra snapshot.
+		 * * If it doesn't differ it will compare selection, and will amend last snapshot selection if it changed.
+		 *
+		 * @param {Boolean} skipContentCompare If set to `true` it won't compare content, and do only selection check.
+		 */
+		this.onNavigationKey = function( skipContentCompare ) {
+			// We attempt to save content snapshot, if content didn't change, we'll
+			// only amend selection.
+			if ( skipContentCompare || !undoManager.save( true, null, false ) )
+				undoManager.updateSelection( new Image( editor ) );
+
+			undoManager.resetType();
 		};
 
 		/**
@@ -934,7 +935,7 @@
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			editable.attachListener( editable, 'click', function( evt ) {
-				undoManager.onNavigationKey();
+				that.onNavigationKey();
 			} );
 		};
 	};
