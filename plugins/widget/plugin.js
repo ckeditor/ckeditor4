@@ -1456,13 +1456,18 @@
 	/**
 	 * An event fired when a widget is double clicked.
 	 *
-	 * **Note:** in some cases event will be canceled. That's the case when i.e. placeholder
-	 * widget is inside a link - it'll cancel doubleclick event, so the link dialog won't be
-	 * shown. Use listener with low priority (e.g. 5) to be sure that your listener will be executed.
+	 * **Note:** if a default editing action is executed on double click (i.e. widget has a
+	 * {@link CKEDITOR.plugins.widget.definition#dialog dialog} defined and the {@link #event-doubleclick} event was not
+	 * cancelled) this event will be automatically cancelled, so listener added with the default priority (10)
+	 * will not be executed. Use listener with low priority (e.g. 5) to be sure that it will be executed.
 	 *
 	 *		widget.on( 'doubleclick', function( evt ) {
 	 *			console.log( 'widget#doubleclick' );
 	 *		}, null, null, 5 );
+	 *
+	 * If your widget handles double click in a special way (so default editing action is not executed)
+	 * make sure to cancel this event, because otherwise it will be propagated to {@link CKEDITOR.editor#doubleclick}
+	 * and other feature may step in (e.g. link dialog may be opened if your widget was inside a link).
 	 *
 	 * @event doubleclick
 	 * @param data
