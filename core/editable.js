@@ -704,53 +704,92 @@
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			extractSelectedHtmlFromRange: function( range ) {
-				var path = new CKEDITOR.dom.elementPath( range.startContainer, this ),
-					doc = this.getDocument();
+			extractSelectedHtmlFromRange: ( function() {
+				var isEmpty = CKEDITOR.dom.walker.empty();
 
-				// Since it is quite hard to build a valid documentFragment
-				// out of extracted contents because DOM changes, let's mimic
-				// extracted HTML with #getSelectedHtmlFromRange. Yep. It's a hack.
-				var extractedFragment = this.getSelectedHtmlFromRange( range );
+				function pruneEmptyTree( node, range, limit ) {
+					var parent;
+					while ( node && isEmpty( node ) ) {
+						parent = node.getParent();
+						range.moveToPosition( node, CKEDITOR.POSITION_BEFORE_START );
+						node.remove();
 
-				// Include inline element if possible.
-				range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
+						if ( !limit( node ) )
+							return;
 
-				// If range touches the boundary of a block element, include it immediately.
-				if ( path.block &&
-					range.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
-					range.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
-				{
-					range.setStartBefore( path.block );
-					range.setEndAfter( path.block );
+						node = parent;
+					}
 				}
 
-				// We'll play with DOM, let's hold the position of the range.
-				var bm = range.createBookmark( 1 );
+				return function( range ) {
+					var path = range.startPath(),
+						doc = this.getDocument();
 
-				// The range to be restored after extraction...
-				var targetRange = this.editor.createRange();
+					// Since it is quite hard to build a valid documentFragment
+					// out of extracted contents because DOM changes, let's mimic
+					// extracted HTML with #getSelectedHtmlFromRange. Yep. It's a hack.
+					var extractedFragment = this.getSelectedHtmlFromRange( range );
 
-				// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
-				targetRange.moveToPosition( doc.getById( bm.startNode ), CKEDITOR.POSITION_BEFORE_START );
+					// Include inline element if possible.
+					range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
-				// Remember desired position of the range after extraction.
-				var targetBm = targetRange.createBookmark( 1 );
+					var startPath = range.startPath(),
+						endPath = range.endPath();
 
-				// Finally restore the "working range", once DOM is stable.
-				range.moveToBookmark( bm );
+					// If range touches the boundary of a block element, include it immediately.
+					if ( startPath.block && endPath.block ) {
+						if ( !this.equals( startPath.block ) && !this.equals( endPath.block ) ) {
+							if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
+								range.setStartBefore( startPath.block );
+								range.setEndAfter( endPath.block );
+							}
+						}
+					}
 
-				// Simply, do the job.
-				range.extractContents();
+					// We'll play with DOM, let's hold the position of the range.
+					var bm = range.createBookmark( 1 );
 
-				// Move working range to desired, pre-computed position.
-				range.moveToBookmark( targetBm );
+					// The range to be restored after extraction...
+					var targetRange = this.editor.createRange();
 
-				// Make sure range is always anchored in an element. For consistency.
-				range.optimize();
+					// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
+					targetRange.moveToPosition( doc.getById( bm.startNode ), CKEDITOR.POSITION_BEFORE_START );
 
-				return extractedFragment;
-			},
+					// Remember desired position of the range after extraction.
+					var targetBm = targetRange.createBookmark( 1 );
+
+					// Finally restore the "working range", once DOM is stable.
+					range.moveToBookmark( bm );
+
+					// Simply, do the job.
+					range.extractContents();
+
+					// Move working range to desired, pre-computed position.
+					range.moveToBookmark( targetBm );
+
+					// Make sure range is always anchored in an element. For consistency.
+					// range.moveToClosestEditablePosition( range.endContainer );
+					range.optimize();
+
+					// Update path. It's been modified (bookmarks created, contents extracted).
+					path = range.startPath();
+
+					var node = range.startContainer;
+						parent;
+
+					if ( node.is( CKEDITOR.dtd.$tableContent ) && !node.is( 'td', 'th' ) ) {
+						pruneEmptyTree( node, range, function( node ) {
+							return path.contains( 'table' ).getParent();
+						} );
+					} else if ( node.is( CKEDITOR.dtd.$listItem ) || node.is( CKEDITOR.dtd.$list ) ) {
+						pruneEmptyTree( node, range, function( node ) {
+							return path.contains( CKEDITOR.dtd.$list ).getParent();
+						} );
+					}
+
+					return extractedFragment;
+				};
+			} )(),
 
 			/**
 			 * @since 4.5
