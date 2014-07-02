@@ -325,19 +325,15 @@
 			function( bot ) {
 				var editor = bot.editor;
 
-				bot.dialog( 'image', onDialog );
-
-				function onDialog( dialog ) {
+				bot.dialog( 'image', function( dialog ) {
 					var imgUrl = '%BASE_PATH%_assets/logo.png';
 
 					dialog.setValueOf( 'info', 'txtUrl', imgUrl );
 
 					downloadImage( imgUrl, function() {
-						var img;
-
 						dialog.getButton( 'ok' ).click();
 
-						img = editor.editable().findOne( 'img' );
+						var img = editor.editable().findOne( 'img' );
 
 						resume( function() {
 							assert.isNull( img.getAttribute( 'style' ), 'Styles should not be set.' );
@@ -345,7 +341,33 @@
 					} );
 
 					wait();
-				}
+				} );
+			} );
+		},
+
+		// This TC verifies also the above test's correctness.
+		'test width and height are automatically set': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>^</p>' );
+			bot.dialog( 'image', function( dialog ) {
+				var imgUrl = '%BASE_PATH%_assets/logo.png';
+
+				dialog.setValueOf( 'info', 'txtUrl', imgUrl );
+
+				downloadImage( imgUrl, function() {
+					dialog.getButton( 'ok' ).click();
+
+					var img = editor.editable().findOne( 'img' );
+
+					resume( function() {
+						assert.areSame( '163px', img.getStyle( 'width' ), 'Width should be set.' );
+						assert.areSame( '61px', img.getStyle( 'height' ), 'Height should be set.' );
+					} );
+				} );
+
+				wait();
 			} );
 		}
 	} );
