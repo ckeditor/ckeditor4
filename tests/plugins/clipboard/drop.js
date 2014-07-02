@@ -66,13 +66,14 @@ function drop( editor, evt, config, callback ) {
 		editor.once( 'afterPaste', function() {
 			resume( finish );
 		} );
-		// Ensure async.
-		wait( function() {
-			dropTarget.fire( 'drop', evt );
-		} );
 	} else {
 		wait( finish, 100 );
 	}
+
+	// Ensure async.
+	wait( function() {
+		dropTarget.fire( 'drop', evt );
+	} );
 
 	function finish() {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
