@@ -67,7 +67,7 @@ function drop( editor, evt, config, callback ) {
 			resume( finish );
 		} );
 	} else {
-		wait( finish, 100 );
+		wait( finish, 300 );
 	}
 
 	// Ensure async.
@@ -241,11 +241,11 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0
 			}, function() {
-				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">Lorem ipsum dolor sit amet.</p>', editor.getData(), htmlMatchOpts, 'after undo' );
+				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">Lorem ipsum dolor sit amet.@</p>', editor.getData(), htmlMatchOpts, 'after undo' );
 			} );
 		},
 
