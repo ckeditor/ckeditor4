@@ -61,51 +61,67 @@ bender.test(
 	},
 
 	'test undoManager.updateSelection': function() {
-		// Initial editor content is: "<p>__</p>"
-		// and selection start/end offset is 1.
-		var img1 = new CKEDITOR.plugins.undo.Image( this.editor ),
-			img2 = new CKEDITOR.plugins.undo.Image( this.editor ),
-			img2bookmark = img2.bookmarks[ 0 ],
-			undoManager = this.editor.undoManager;
+		var editorBotConfig = {
+				name: 'updateSelectionEditor',
+				creator: 'inline',
+				config: {}
+			},
+			isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version == 8;
 
-		undoManager.snapshots = [ img1 ];
-		undoManager.currentImage = img1;
+		// Test has its own editor, because we modify internals like snapshot array,
+		// current image (directly) and change its initial content.
+		bender.editorBot.create( editorBotConfig, function( bot ) {
+			// We'll create 2 fixed images, and work with these fixtures.
 
-		// First - identical images, nothing should happen.
-		undoManager.updateSelection( img2 );
-		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
-		assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
-		!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+			// Initial editor content is: "<p>__</p>"
+			// and selection start/end offset is 1.
+			bender.tools.selection.setWithHtml( bot.editor, '<p>_{}_</p>' );
 
-		// Reset snapshots array.
-		undoManager.snapshots = [ img1 ];
+			var editor = bot.editor,
+				img1 = new CKEDITOR.plugins.undo.Image( editor ),
+				img2 = new CKEDITOR.plugins.undo.Image( editor ),
+				img2bookmark = img2.bookmarks[ 0 ],
+				undoManager = editor.undoManager;
 
-		// Now - diffrent selection, same content.
-		img2bookmark.startOffset = 2;
-		img2bookmark.endOffset = 2;
+			undoManager.snapshots = [ img1 ];
+			undoManager.currentImage = img1;
 
-		undoManager.updateSelection( img2 );
-		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
-		assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
-		!this.isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
-		assert.areSame( undoManager.currentImage, img2, 'undoManager.currentImage not updated' );
+			// First - identical images, nothing should happen.
+			undoManager.updateSelection( img2 );
+			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
+			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
+			!isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
 
-		// Reset snapshots array.
-		undoManager.snapshots = [ img1 ];
+			// Reset snapshots array.
+			undoManager.snapshots = [ img1 ];
 
-		// Now - same selection, diffrent content.
-		img2bookmark.startOffset = 1;
-		img2bookmark.endOffset = 1;
-		img2.contents = '<p>____</p>';
+			// Now - diffrent selection, same content.
+			img2bookmark.startOffset = 2;
+			img2bookmark.endOffset = 2;
 
-		undoManager.updateSelection( img2 );
-		assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots should not change' );
-		assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
-		!this.isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+			undoManager.updateSelection( img2 );
+			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots count should not change' );
+			assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Bookmark startOffset not updated' );
+			!isIe8 && assert.areEqual( 2, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Bookmark endOffset not updated' );
+			assert.areSame( undoManager.currentImage, img2, 'undoManager.currentImage not updated' );
 
-		// Ensure that it does not breaks when snapshots array is empty.
-		undoManager.snapshots = [];
-		undoManager.updateSelection( img2 );
+			// Reset snapshots array.
+			undoManager.snapshots = [ img1 ];
+
+			// Now - same selection, diffrent content.
+			img2bookmark.startOffset = 1;
+			img2bookmark.endOffset = 1;
+			img2.contents = '<p>____</p>';
+
+			undoManager.updateSelection( img2 );
+			assert.areEqual( 1, undoManager.snapshots.length, 'Snapshots should not change' );
+			assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].startOffset, 'Invalid bookmark startOffset' );
+			!isIe8 && assert.areEqual( 1, undoManager.snapshots[ 0 ].bookmarks[ 0 ].endOffset, 'Invalid bookmark endOffset' );
+
+			// Ensure that it does not breaks when snapshots array is empty.
+			undoManager.snapshots = [];
+			undoManager.updateSelection( img2 );
+		} );
 	},
 
 	// #10249
