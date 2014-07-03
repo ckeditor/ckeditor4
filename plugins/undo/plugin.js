@@ -251,13 +251,13 @@
 		 */
 
 		/**
-		 * Property indicating if last pressed key was functional key, or not. Changed in
-		 * {@link #type}.
+		 * Contains previously processed key group, based on {@link #keyGroupsEnum}. `-1` means unknown group.
 		 *
 		 * @since 4.4.3
 		 * @readonly
-		 * @property {Number} [wasFunctionalKey=0]
+		 * @property {Number} [previousKeyGroup=-1]
 		 */
+		previousKeyGroup: -1,
 
 		/**
 		 * Handles keystroke support for the undo manager. It's called on `keyup` event for
@@ -271,7 +271,7 @@
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
-				keyGroupChanged = keyGroup !== this.wasFunctionalKey,
+				keyGroupChanged = keyGroup !== this.previousKeyGroup,
 				strokesPerSnapshotExceeded = strokesRecorded >= 25,
 				// Identifier of opposite group, used later on to reset its counter.
 				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
@@ -279,7 +279,7 @@
 			if ( !this.typing )
 				onTypingStart( this );
 
-			if ( ( keyGroupChanged && this.wasFunctionalKey !== undefined ) || strokesPerSnapshotExceeded ) {
+			if ( ( keyGroupChanged && this.previousKeyGroup !== -1 ) || strokesPerSnapshotExceeded ) {
 				if ( keyGroupChanged ) {
 					// Key group changed:
 					// Reset the other key group recorded count.
@@ -288,7 +288,7 @@
 					// consider: <p>ab^</p> when user was typing "ab", and is pressing backspace.
 					// Since we're in keyup event, DOM is modified, and we have <p>a^</p> - thus
 					// snapshot made in keydown, before modification.
-					if ( !this.save( false, this.lastKeydownImage, false ) )
+					if ( !this.save( false, this.editingHandler.lastKeydownImage, false ) )
 						// Drop further snapshots.
 						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 				} else {
@@ -305,7 +305,7 @@
 			// Store recorded strokes count.
 			this.strokesRecorded[ keyGroup ] = strokesRecorded;
 			// This prop will tell in next itaration what kind of group was processed previously.
-			this.wasFunctionalKey = keyGroup;
+			this.previousKeyGroup = keyGroup;
 			// Fire change event.
 			this.editor.fire( 'change' );
 		},
@@ -341,7 +341,7 @@
 		resetType: function() {
 			this.strokesRecorded = [ 0, 0 ];
 			this.typing = false;
-			delete this.wasFunctionalKey;
+			this.previousKeyGroup = -1;
 		},
 
 		/**
@@ -803,15 +803,23 @@
 		 */
 	};
 
+	var inputFired = 0,
+		ignoreInputEvent = false,
+		ignoreInputEventListener = function() {
+			ignoreInputEvent = true;
+		};
+
 	/**
 	 * Class encapsulating all the native events listeners which have to be used in
 	 * order to handle undo manager integration for native editing actions (excluding drag and drop and paste support
 	 * handled by the clipboard plugin).
 	 *
-	 * @since 4.4.3
 	 * @private
-	 * @constructor Creates an NativeEditingHandler class instance.
+	 * @class CKEDITOR.plugins.undo.NativeEditingHandler
+	 * @member CKEDITOR.plugins.undo Undo manager owning the handler.
+	 * @constructor
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
+	 * @since 4.4.3
 	 */
 	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
@@ -820,61 +828,74 @@
 		// On `input` event we'll increase `inputFired` counter. Eventually it might be
 		// canceled by paste/drop using `ignoreInputEvent` flag.
 		// Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
-		var editor = undoManager.editor,
-			that = this,
-			inputFired = 0,
-			ignoreInputEvent = false,
-			ignoreInputEventListener = function() {
-				ignoreInputEvent = true;
-			};
 
+		/**
+		 * Undo Manager instance owning the editing handler.
+		 *
+		 * @property {CKEDITOR.plugins.undo.UndoManager} undoManager
+		 */
+		this.undoManager = undoManager;
+
+		/**
+		 * An image of editor during the keydown event (therefore without DOM modification).
+		 *
+		 * @property {CKEDITOR.plugins.undo.Image} lastKeydownImage
+		 */
+	};
+
+	NativeEditingHandler.prototype = {
 		/**
 		 * The `keydown` event listener.
 		 *
 		 * @param {CKEDITOR.dom.event} evt
 		 */
-		this.onKeydown = function( evt ) {
+		onKeydown: function( evt ) {
 			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
 				evt.data.preventDefault();
 				return;
 			}
+
+			var keyCode = evt.data.getKey(),
+				undoManager = this.undoManager;
+
 			// We need to store an image which will be used in case of key group
 			// change.
-			undoManager.lastKeydownImage = new Image( editor );
-			var keyCode = evt.data.getKey();
+			this.lastKeydownImage = new Image( undoManager.editor );
 			if ( undoManager.isNavigationKey( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
-					undoManager.save( false, undoManager.lastKeydownImage );
+					undoManager.save( false, this.lastKeydownImage );
 					undoManager.resetType();
 				}
 			}
-		};
+		},
 
 		/**
 		 * The `input` event listener.
 		 */
-		this.onInput = function() {
+		onInput: function() {
 			inputFired += 1;
 			// inputFired counter shouldn't be increased if paste/drop event were fired before.
 			if ( ignoreInputEvent ) {
 				inputFired -= 1;
 				ignoreInputEvent = false;
 			}
-		};
+		},
 
 		/**
 		 * The `keyup` event listener.
 		 *
 		 * @param {CKEDITOR.dom.event} evt
 		 */
-		this.onKeyup = function( evt ) {
-			var keyCode = evt.data.getKey(),
+		onKeyup: function( evt ) {
+			var undoManager = this.undoManager,
+				keyCode = evt.data.getKey(),
+				editor = undoManager.editor,
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
 			// IE: backspace/del would still call keypress event, even if nothing was removed.
-			if ( ieFunctionKeysWorkaround && undoManager.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
+			if ( ieFunctionKeysWorkaround && this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
 				return;
 			}
 
@@ -884,9 +905,9 @@
 				undoManager.type( keyCode );
 			} else if ( undoManager.isNavigationKey( keyCode ) ) {
 				// Note content snapshot has been checked in keydown.
-				that.onNavigationKey( true );
+				this.onNavigationKey( true );
 			}
-		};
+		},
 
 		/**
 		 * Method called for navigation change. At first it will check if current content doesn't differ
@@ -897,36 +918,44 @@
 		 *
 		 * @param {Boolean} skipContentCompare If set to `true` it won't compare content, and do only selection check.
 		 */
-		this.onNavigationKey = function( skipContentCompare ) {
+		onNavigationKey: function( skipContentCompare ) {
+			var undoManager = this.undoManager;
+
 			// We attempt to save content snapshot, if content didn't change, we'll
 			// only amend selection.
 			if ( skipContentCompare || !undoManager.save( true, null, false ) )
-				undoManager.updateSelection( new Image( editor ) );
+				undoManager.updateSelection( new Image( undoManager.editor ) );
 
 			undoManager.resetType();
-		};
+		},
 
 		/**
 		 * Resets input counter, method for internal use only.
 		 */
-		this.resetCounter = function() {
+		resetCounter: function() {
 			inputFired = 0;
-		};
+		},
 
 		/**
 		 * Attaches editable listeners required to provide undo functionallity.
 		 */
-		this.attachListeners = function() {
-			var editable = editor.editable();
+		attachListeners: function() {
+			var editable = this.undoManager.editor.editable(),
+				that = this,
+				// Listeners should have editingHandler as this object.
+				getBoundListener = function( inputFunction ) {
+					return CKEDITOR.tools.bind( inputFunction, that );
+				};
+
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', this.onKeydown );
+			editable.attachListener( editable, 'keydown', getBoundListener( this.onKeydown ) );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
-			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', this.onInput );
+			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', getBoundListener( this.onInput ) );
 
 			// Keyup executes main snapshot logic.
-			editable.attachListener( editable, 'keyup', this.onKeyup );
+			editable.attachListener( editable, 'keyup', getBoundListener( this.onKeyup ) );
 
 			// On paste and drop we need to cancel inputFired variable.
 			// It would result with calling undoManager.type() on any following key.
@@ -937,7 +966,7 @@
 			editable.attachListener( editable, 'click', function( evt ) {
 				that.onNavigationKey();
 			} );
-		};
+		}
 	};
 } )();
 

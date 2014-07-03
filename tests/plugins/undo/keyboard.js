@@ -118,13 +118,15 @@
 				assert.areEqual( 2, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'Invalid undoManager.strokesRecorded[ keyGroups.PRINTABLE ]' );
 			},
 
-			'test undoManager.resetType() strokesRecorded reseting': function() {
+			'test undoManager.resetType()': function() {
 				var undoManager = this.undoManager;
 
 				undoManager.strokesRecorded = [ 3, 0 ];
+				undoManager.previousKeyGroup = 1;
 				undoManager.resetType();
 
 				arrayAssert.itemsAreSame( [ 0, 0 ], undoManager.strokesRecorded, 'strokesRecorded were not zeroed' );
+				assert.areEqual( -1, undoManager.previousKeyGroup, 'undoManager.previousKeyGroup' );
 			},
 
 			'test undoManager change event firing': tcWithExpectedChanges( 30, function() {
