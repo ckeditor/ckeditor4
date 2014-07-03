@@ -23,7 +23,6 @@
 
 	var setWithHtml = bender.tools.range.setWithHtml,
 		getWithHtml = bender.tools.range.getWithHtml,
-		container = new CKEDITOR.dom.element( 'div' ),
 		img_src = '%BASE_PATH%_assets/img.gif';
 
 	var tests = {

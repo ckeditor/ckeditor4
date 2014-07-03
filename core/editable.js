@@ -647,11 +647,12 @@
 					if ( range.collapsed )
 						return new CKEDITOR.dom.documentFragment( range.document );
 
-					var path = range.startPath();
+					var path = range.startPath(),
 						// Leave original range object untouched.
 						rangeClone = range.clone();
 
 					if ( path.block &&
+						path.block.equals( range.endPath().block ) &&
 						this.contains( path.block ) &&
 						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
 						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
@@ -808,7 +809,7 @@
 					// Update path. It's been modified (bookmarks created, contents extracted).
 					path = range.startPath();
 
-					var node = range.startContainer;
+					var node = range.startContainer,
 						parent;
 
 					if ( node.is( CKEDITOR.dtd.$tableContent ) && !node.is( 'td', 'th' ) ) {
