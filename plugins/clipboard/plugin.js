@@ -1289,7 +1289,7 @@
 					// No we can safely delete content for the drag range...
 					dragRange = editor.createRange();
 					dragRange.moveToBookmark( dragBookmark );
-					dragRange.deleteContents();
+					dragRange.deleteContents(); // @todo replace with the new delete content function
 
 					// ...and paste content into the drop position.
 					dropRange = editor.createRange();
@@ -1319,7 +1319,7 @@
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 
-				dragRange.deleteContents();
+				dragRange.deleteContents(); // @todo replace with the new delete content function
 
 				dataTransfer.sourceEditor.getSelection().reset();
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -1338,12 +1338,12 @@
 				firePasteWithDataTransfer( dataTransfer );
 			}
 
+			// @todo integrate with firePasteEvents.
 			function firePasteWithDataTransfer( dataTransfer ) {
 				if ( dataTransfer.dataValue ) {
 						editor.fire( 'paste', dataTransfer );
 				}
 			}
-
 
 			// Fix for Gecko bug with disappearing cursor.
 			function fixGeckoDisappearingCursor() {
@@ -1713,7 +1713,7 @@
 
 		if ( editor ) {
 			this.sourceEditor = editor;
-			this.dataValue = editor.getSelection().getSelectedHtml();
+			this.dataValue = editor.getSelection().getSelectedHtml(); // @todo replace with the new function
 			this.dataType = 'html';
 		} else {
 			// IE support only text data and throws exception if we try to get html data.
