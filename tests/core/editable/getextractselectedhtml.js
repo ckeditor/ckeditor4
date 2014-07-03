@@ -201,6 +201,15 @@
 		]
 	}, 'inline' );
 
+	addTests( {
+		'header': [
+			[ '{x}',																'x',															'[]' ],
+			[ 'x<b>{y}</b>x',														'<b>y</b>',														'x[]x' ],
+			[ '{x<b>y</b>x}',														'x<b>y</b>x',													'[]' ],
+			[ '[x<b>y</b>x]',														'x<b>y</b>x',													'[]' ],
+		]
+	}, 'header' );
+
 	bender.test( tests );
 
 	// <DEV>
