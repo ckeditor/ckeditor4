@@ -115,7 +115,7 @@ var editors, editorBots,
 	},
 	testsForMultipleEditor = {
 		'setUp': function() {
-			CKEDITOR.plugins.clipboard.resetDataTransfer();
+			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 		},
 
 		'test drop to header': function( editor ) {

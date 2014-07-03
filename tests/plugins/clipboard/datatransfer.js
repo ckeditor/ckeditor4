@@ -54,7 +54,7 @@ bender.test( {
 	},
 
 	setUp: function() {
-		CKEDITOR.plugins.clipboard.resetDataTransfer();
+		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 	},
 
 	'test id': function() {
@@ -172,29 +172,29 @@ bender.test( {
 
 	},
 
-	'test initDataTransfer binding': function() {
+	'test initDragDataTransfer binding': function() {
 		var evt1 = createDragDropEventMock(),
 			evt2 = createDragDropEventMock(),
-			dataTransferA = CKEDITOR.plugins.clipboard.initDataTransfer( evt1 ),
-			dataTransferB = CKEDITOR.plugins.clipboard.initDataTransfer( evt1 );
+			dataTransferA = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 ),
+			dataTransferB = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 );
 
 		assert.areSame( dataTransferA, dataTransferB, 'If we init dataTransfer object twice on the same event this should be the same object.' );
 
-		CKEDITOR.plugins.clipboard.resetDataTransfer();
+		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
-		dataTransferB = CKEDITOR.plugins.clipboard.initDataTransfer( evt2 );
+		dataTransferB = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
 
 		assert.areNotSame( dataTransferA, dataTransferB, 'If we init dataTransfer object twice on different events these should be different objects.' );
 	},
 
-	'test initDataTransfer constructor': function() {
+	'test initDragDataTransfer constructor': function() {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		var evt = createDragDropEventMock(),
-			dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
+			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );

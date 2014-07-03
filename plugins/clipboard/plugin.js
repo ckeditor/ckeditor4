@@ -1221,14 +1221,14 @@
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it globally.
-				clipboard.initDataTransfer( evt, editor );
+				clipboard.initDragDataTransfer( evt, editor );
 			} );
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
 				// When drag & drop is done we need to reset dataTransfer so the future
 				// external drop will be not recognize as internal.
-				clipboard.resetDataTransfer();
+				clipboard.resetDragDataTransfer();
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1236,7 +1236,7 @@
 				evt.data.preventDefault();
 
 				// Create dataTransfer of get it, if it was created before.
-				var dataTransfer = clipboard.initDataTransfer( evt );
+				var dataTransfer = clipboard.initDragDataTransfer( evt );
 				dataTransfer.setTargetEditor( editor );
 
 				// Getting drop position is one of the most complex part.
@@ -1604,7 +1604,7 @@
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
-		initDataTransfer: function( evt, sourceEditor ) {
+		initDragDataTransfer: function( evt, sourceEditor ) {
 			// Create a new dataTransfer object based on the drop event.
 			// If this event was used on dragstart to create dataTransfer
 			// both dataTransfer objects will have the same id.
@@ -1632,7 +1632,7 @@
 		 * Remove global dataTransfer object so the new dataTransfer
 		 * will be not linked with the old one.
 		 */
-		resetDataTransfer: function() {
+		resetDragDataTransfer: function() {
 			this.dragData = null;
 		}
 
