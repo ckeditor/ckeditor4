@@ -1368,24 +1368,25 @@
 		 * Notify that first node on IE 8 & 9 is the original node object
 		 * but with shortened content.
 		 *
-		 * Before:
-		 *   --- Text Node A ----------------------------------
-		 *                                              /\
-		 *                                         Drag position
+		 *		Before:
+		 *		  --- Text Node A ----------------------------------
+		 *		                                             /\
+		 *		                                        Drag position
 		 *
-		 * After (IE 8 & 9):
-		 *   --- Text Node A -----  --- Text Node B -----------
-		 *                        /\                    /\
-		 *                   Drop position        Drag position
-		 *                                          (invalid)
+		 *		After (IE 8 & 9):
+		 *		  --- Text Node A -----  --- Text Node B -----------
+		 *		                       /\                    /\
+		 *		                  Drop position        Drag position
+		 *		                                         (invalid)
 		 *
-		 * After (other browsers):
-		 *   --- Text Node A ----------------------------------
-		 *                        /\                    /\
-		 *                   Drop position        Drag position
+		 *		After (other browsers):
+		 *		  --- Text Node A ----------------------------------
+		 *		                       /\                    /\
+		 *		                  Drop position        Drag position
 		 *
-		 * This function is in the public scope for tests usage only.
+		 * **Note:** This function is in the public scope for tests usage only.
 		 *
+		 * @since 4.5
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The drag range.
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
@@ -1410,14 +1411,15 @@
 		},
 
 		/**
-		 * Check if the beginning of the firstRange is before the beginning of the secondRange
-		 * and modification of the content in the firstRange may break secondRange.
+		 * Check if the beginning of the `firstRange` is before the beginning of the `secondRange`
+		 * and modification of the content in the `firstRange` may break `secondRange`.
 		 *
-		 * Notify that this function returns false if these two ranges are in two
-		 * separate nodes and do not affect each other (even if firstRange is before secondRange).
+		 * Notify that this function returns `false` if these two ranges are in two
+		 * separate nodes and do not affect each other (even if `firstRange` is before `secondRange`).
 		 *
-		 * This function is in the public scope for tests usage only.
+		 * **Note:** This function is in the public scope for tests usage only.
 		 *
+		 * @since 4.5
 		 * @private
 		 * @param {CKEDITOR.dom.range} firstRange The first range to compare.
 		 * @param {CKEDITOR.dom.range} secondRange The second range to compare.
@@ -1447,11 +1449,9 @@
 		},
 
 		/**
-		 * Get range from the drop event.
+		 * Get range from the `drop` event.
 		 *
-		 * Copy of getRangeAtDropPosition method from widget plugin.
-		 * In #11219 method in widget should be removed and everything be according to DRY.
-		 *
+		 * @since 4.5
 		 * @param {Object} domEvent A native DOM drop event object.
 		 * @param {CKEDITOR.editor} editor The source editor instance.
 		 * @returns {CKEDITOR.dom.range} range at drop position.
@@ -1600,6 +1600,7 @@
 		 * transfer object was already initialized on this event then function will
 		 * return that object.
 		 *
+		 * @since 4.5
 		 * @param {Object} domEvent A native DOM drop event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
@@ -1631,6 +1632,8 @@
 		/*
 		 * Remove global dataTransfer object so the new dataTransfer
 		 * will be not linked with the old one.
+		 *
+		 * @since 4.5
 		 */
 		resetDragDataTransfer: function() {
 			this.dragData = null;
@@ -1640,6 +1643,7 @@
 		 * Global object to save data for drag and drop. Object must be global to handle
 		 * drag and drop from one CKEditor to the other.
 		 *
+		 * @since 4.5
 		 * @private
 		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} dragData
 		 */
@@ -1647,6 +1651,7 @@
 		/**
 		 * Range object to save drag range and remove it after drop.
 		 *
+		 * @since 4.5
 		 * @private
 		 * @property {CKEDITOR.dom.range} dragRange
 		 */
@@ -1668,8 +1673,9 @@
 	 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
 	 * between browsers.
 	 *
+	 * @since 4.5
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
-	 * @constructor Creates a class instance and .
+	 * @constructor Creates a class instance.
 	 *
 	 * @param {Object} domEvent A native DOM event object.
 	 * @param {CKEDITOR.editor} editor The source editor instance. If editor is defined then dataValue will be created based on the editor contents and dataType will be 'html'.
@@ -1688,7 +1694,7 @@
 		if ( !this.id ) {
 			if ( clipboardIdDataType == 'URL' ) {
 				// For IEs URL type ID have to look like an URL.
-				this.id = 'http://cke.' + generateUniqueId() +'/';
+				this.id = 'http://cke.' + generateUniqueId() + '/';
 			} else if ( clipboardIdDataType == 'Text' ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
@@ -1721,8 +1727,7 @@
 			try {
 				this.dataValue = this.getData( 'text/html' );
 				this.dataType = 'html';
-			} catch ( err ) {
-			}
+			} catch ( err ) {}
 
 			if ( !this.dataValue ) {
 				// Try to get text data otherwise.
@@ -1736,17 +1741,19 @@
 				}
 			}
 		}
+
 		/**
 		 * Data transfer ID used to bind all dataTransfer
 		 * object based on the same event (ex. in drag and drop events).
 		 *
+		 * @readonly
 		 * @property {String} id
 		 */
 
 		/**
 		 * A native DOM event object.
 		 *
-		 * @private
+		 * @readonly
 		 * @property {Object} $
 		 */
 
@@ -1754,24 +1761,28 @@
 		 * Source editor, the editor where drag starts.
 		 * Might be undefined if drag starts outside the editor (ex. dropping files to the editor).
 		 *
-		 * @property {CKEDITOR.editor} [sourceEditor]
+		 * @readonly
+		 * @property {CKEDITOR.editor} sourceEditor
 		 */
 
 		/**
 		 * Target editor, the editor where drop occurred.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.editor} targetEditor
 		 */
 
 		/**
 		 * HTML or text to be pasted.
 		 *
+		 * @readonly
 		 * @property {String} dataValue
 		 */
 
 		/**
 		 * Type of data in `data.dataValue`. The value might be `html` or `text`.
 		 *
+		 * @readonly
 		 * @property {String} dataType
 		 */
 	};
@@ -1780,6 +1791,7 @@
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
 	 * editor instance.
 	 *
+	 * @since 4.5
 	 * @readonly
 	 * @property {Number} [=0]
 	 * @member CKEDITOR
@@ -1790,6 +1802,7 @@
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the
 	 * instance of CKEditor but in two different editors.
 	 *
+	 * @since 4.5
 	 * @readonly
 	 * @property {Number} [=1]
 	 * @member CKEDITOR
@@ -1800,6 +1813,7 @@
 	 * Data transfer operation (drag and drop or copy and pasted) started not in the CKEditor.
 	 * The source of the data may be textarea, HTML, another application, etc..
 	 *
+	 * @since 4.5
 	 * @readonly
 	 * @property {Number} [=2]
 	 * @member CKEDITOR
@@ -1839,8 +1853,8 @@
 		/**
 		 * Get data transfer type.
 		 *
-		 * @returns {Number} type
-		 * Possible options: DATA_TRANSFER_INTERNAL, DATA_TRANSFER_CROSS_EDITORS, DATA_TRANSFER_EXTERNAL.
+		 * @returns {Number} Possible values: {@link CKEDITOR#DATA_TRANSFER_INTERNAL},
+		 * {@link CKEDITOR#DATA_TRANSFER_CROSS_EDITORS}, {@link CKEDITOR#DATA_TRANSFER_EXTERNAL}.
 		 */
 		getTransferType: function() {
 			if ( !this.sourceEditor ) {
