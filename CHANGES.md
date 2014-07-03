@@ -5,9 +5,10 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#12140](http://dev.ckeditor.com/ticket/12140): Double-clicking linked widgets will no longer open two dialogs.
 * [#12110](http://dev.ckeditor.com/ticket/12110): Fixed: Editor crash after deleting a table. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#11897](http://dev.ckeditor.com/ticket/11897): Fixed: Enter key in an empty formatted list item, creates a new line instead of breaking the list. Thanks to [noam-si](https://github.com/noam-si)!
+* [#12140](http://dev.ckeditor.com/ticket/12140): Fixed: Double-clicking linked widgets opens two dialogs.
+* [#12132](http://dev.ckeditor.com/ticket/12132): Fixed: Image is inserted with `width` and `height` styles even when they are not allowed.
 
 ## CKEditor 4.4.2
 
