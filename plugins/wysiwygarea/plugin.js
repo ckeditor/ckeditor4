@@ -325,10 +325,6 @@
 		}, 0, this );
 	}
 
-	function resizeStartListener( evt ) {
-		evt.returnValue = false;
-	}
-
 	var framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function( editor ) {
 			this.base.apply( this, arguments );
@@ -560,7 +556,7 @@
 					doc.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
 					doc.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
 				} catch( e ) {}
-			} else if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 10 && editor.config.disableObjectResizing ) {
+			} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
 				// It's possible to prevent resizing up to IE10.
 				this.blockResizeStart( editor );
 			}
@@ -569,7 +565,8 @@
 		// Disables resizing by onresizestart event. Event controlseleciton was also considered
 		// but it disables drag and drop for affected objects, the same with [unselectable="on"] attribute.
 		blockResizeStart: function( editor ) {
-			var lastListeningElement,
+			var that = this,
+				lastListeningElement,
 				selChangeListener;
 			// We'll attach only one listener at a time, instead of adding it to every img, input, hr etc.
 			// Listener will be attached upon selectionChange, we'll also check if there was any element that
@@ -579,28 +576,32 @@
 
 				if ( selectedElement ) {
 					if ( lastListeningElement )
-						lastListeningElement.detachEvent( 'onresizestart', resizeStartListener );
+						lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
 
 					// IE requires using attachEvent, because it does not work using W3C compilant addEventListener,
 					// tested with IE10.
-					selectedElement.$.attachEvent( 'onresizestart', resizeStartListener );
+					selectedElement.$.attachEvent( 'onresizestart', that.resizeStartListener );
 					lastListeningElement = selectedElement.$;
 				}
 			} );
 
-			editor.once( 'beforeSetMode', function() {
+			editor.once( 'contentDomUnload', function() {
 				// This event will be executed *once* wysiwyg mode is changed to any other.
 
 				// Theoretically listener would be removed automatically, because lastListeningElement is about to
 				// be remove from DOM, but we'll put some extra care here.
 				if ( lastListeningElement ) {
-					lastListeningElement.detachEvent( 'onresizestart', resizeStartListener );
+					lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
 					lastListeningElement = null;
 				}
 				// Also we need to remove editor#selectionChange listener, because we'd have multiple of them, since
 				// objectResizeDisabler.exec() is called like contentDom event.
 				selChangeListener.removeListener();
 			} );
+		},
+
+		resizeStartListener: function( evt ) {
+			evt.returnValue = false;
 		}
 	};
 
