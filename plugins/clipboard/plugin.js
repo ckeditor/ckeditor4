@@ -1387,6 +1387,8 @@
 		 * This function is in the public scope for tests usage only.
 		 *
 		 * @private
+		 * @param {CKEDITOR.dom.range} dragRange The drag range.
+		 * @param {CKEDITOR.dom.range} dropRange The drop range.
 		 */
 		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
 			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
@@ -1417,6 +1419,9 @@
 		 * This function is in the public scope for tests usage only.
 		 *
 		 * @private
+		 * @param {CKEDITOR.dom.range} firstRange The first range to compare.
+		 * @param {CKEDITOR.dom.range} secondRange The second range to compare.
+		 * @returns {Boolean} True if the first range in before the second range.
 		 */
 		rangeBefore: function( firstRange, secondRange ) {
 			// Both ranges has the same parent and the first has smaller offset. E.g.:
@@ -1450,7 +1455,6 @@
 		 * @param {Object} domEvent A native DOM drop event object.
 		 * @param {CKEDITOR.editor} editor The source editor instance.
 		 * @returns {CKEDITOR.dom.range} range at drop position.
-		 *
 		 */
 		getRangeAtDropPosition: function( dropEvt, editor ) {
 			// If we drop content from the external source we need to call focus on IE.
@@ -1599,7 +1603,6 @@
 		 * @param {Object} domEvent A native DOM drop event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
-		 *
 		 */
 		initDataTransfer: function( evt, sourceEditor ) {
 			// Create a new dataTransfer object based on the drop event.
@@ -1632,6 +1635,21 @@
 		resetDataTransfer: function() {
 			this.dragData = null;
 		}
+
+		/**
+		 * Global object to save data for drag and drop. Object must be global to handle
+		 * drag and drop from one CKEditor to the other.
+		 *
+		 * @private
+		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} dragData
+		 */
+
+		/**
+		 * Range object to save drag range and remove it after drop.
+		 *
+		 * @private
+		 * @property {CKEDITOR.dom.range} dragRange
+		 */
 	};
 
 	// Data type used to link drag and drop events.
