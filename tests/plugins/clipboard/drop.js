@@ -320,7 +320,7 @@ var editors, editorBots,
 				botCross = editorBots[ 'cross' ],
 				editorCross = botCross.editor;
 
-			setWithHtml( bot.editor, '<p id="p">Lorem ipsum sit amet.</p>' );
+			setWithHtml( bot.editor, '<p id="p">{}Lorem ipsum sit amet.</p>' );
 			setWithHtml( botCross.editor, '<p id="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
 			bot.editor.resetUndo();
 			botCross.editor.resetUndo();
