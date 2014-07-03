@@ -1269,7 +1269,7 @@
 					editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						clipboard.fixIESplittedNodes( dragRange, dropRange );
+						clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
 					}
 
 					// Because we manipulate multiple ranges we need to do it carefully,
@@ -1388,7 +1388,7 @@
 		 *
 		 * @private
 		 */
-		fixIESplittedNodes: function( dragRange, dropRange ) {
+		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
 			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
 				dropRange.startOffset > 0 &&
 				dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&

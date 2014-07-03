@@ -368,7 +368,7 @@ var editors, editorBots,
 			dropRange.collapse( true );
 
 			// Fix nodes.
-			CKEDITOR.plugins.clipboard.fixIESplittedNodes( dragRange, dropRange );
+			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
 
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
