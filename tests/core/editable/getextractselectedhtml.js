@@ -13,6 +13,11 @@
 			name: 'inline',
 			creator: 'inline',
 			config: config
+		},
+		header: {
+			name: 'header',
+			creator: 'inline',
+			config: config
 		}
 	};
 
@@ -49,7 +54,7 @@
 		return html.replace( /@/g, '<br>' );
 	}
 
-	function addTests( cases, prefix ) {
+	function addTests( cases, editor ) {
 		var testsGet = {},
 			testsExtract = {},
 
@@ -65,20 +70,20 @@
 				CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
-				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
+				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
 		CKEDITOR.tools.extend( tests, testsGet, testsExtract );
 	}
 
-	function assertGetSelectedHtmlFromRange( html, expected ) {
+	function assertGetSelectedHtmlFromRange( editor, html, expected ) {
 		return function() {
 			html = decodeBoguses( html );
 			expected = decodeBoguses( expected );
 
-			var editable = this.editables.inline,
+			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
 				docFragment = editable.getSelectedHtmlFromRange( range );
 
@@ -87,13 +92,13 @@
 		};
 	}
 
-	function assertExtractSelectedHtmlFromRange( html, htmlGet, htmlWithSelection ) {
+	function assertExtractSelectedHtmlFromRange( editor, html, htmlGet, htmlWithSelection ) {
 		return function() {
 			html = decodeBoguses( html );
 			htmlGet = decodeBoguses( htmlGet );
 			htmlWithSelection = decodeBoguses( htmlWithSelection );
 
-			var editable = this.editables.inline,
+			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
 				docFragment = editable.extractSelectedHtmlFromRange( range );
 
@@ -195,7 +200,7 @@
 /*14*/		[ '[<hr>]', 															'<hr>',															'[]' ],
 /*15*/		[ '[<img src="' + img_src + '">]', 										'<img src="' + img_src + '">',									'[]' ],
 		]
-	} );
+	}, 'inline' );
 
 	bender.test( tests );
 
