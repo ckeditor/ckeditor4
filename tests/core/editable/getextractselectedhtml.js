@@ -172,6 +172,11 @@
 /*4*/		[ '<ol><li>y{x</li><li>x}y</li></ol>', 									'<ol><li>x</li><li>x</li></ol>',								'<ol><li>y[]y</li></ol>' ],
 /*5*/		[ '<ol><li>y{x</li></ol><ol><li>x}y</li></ol>', 						'<ol><li>x</li></ol><ol><li>x</li></ol>',						'<ol><li>y[]y</li></ol>' ],
 /*6*/		[ '<ol><li><ul><li>y{x</li></ul></li><li>x}y</li></ol>', 				'<ol><li><ul><li>x</li></ul></li><li>x</li></ol>',				'<ol><li><ul><li>y[]y</li></ol>' ],
+/*7*/		[ '<ol><li>z</li><li>y{x</li><li>x}y</li></ol>', 						'<ol><li>x</li><li>x</li></ol>',								'<ol><li>z</li><li>y[]y</li></ol>' ],
+/*8*/		[ '<ol><li>y{x</li></ol>x<ol><li>x}y</li></ol>', 						'<ol><li>x</li></ol>x<ol><li>x</li></ol>',						'<ol><li>y[]y</li></ol>' ],
+/*9*/		[ '<ol><li>y{x</li></ol>x<ul><li>x}y</li></ul>', 						'<ol><li>x</li></ol>x<ul><li>x</li></ul>',						'<ol><li>y[]</li></ol><ul><li>y</li></ul>' ],
+/*10*/		[ '<ol><li>y{x</li></ol><ol dir="rtl"><li>x}y</li></ol>', 				'<ol><li>x</li></ol><ol dir="rtl"><li>x</li></ol>',				'<ol><li>y[]</li></ol><ol dir="rtl"><li>y</li></ol>' ],
+/*11*/		[ '<ol><li>y{x</li></ol><ol><li dir="rtl">x}y</li></ol>', 				'<ol><li>x</li></ol><ol><li dir="rtl">x</li></ol>',				'<ol><li>y[]</li><li dir="rtl">y</li></ol>' ],
 		],
 		'various anchored in element': [
 /*1 */		[ '<p>[]x</p>', 														'',																'<p>[]x</p>' ],
