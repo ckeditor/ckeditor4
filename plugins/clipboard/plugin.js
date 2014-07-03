@@ -1681,7 +1681,7 @@
 		this.id = this.$.getData( clipboardIdDataType );
 
 		function generateUniqueId() {
-			return ( new Date() ).getTime() + Math.random().toString( 16 ).substring( 2 )
+			return ( new Date() ).getTime() + Math.random().toString( 16 ).substring( 2 );
 		}
 
 		// If there is no ID we need to create it. Different browsers needs different ID.
