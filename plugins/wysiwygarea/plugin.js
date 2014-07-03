@@ -575,8 +575,7 @@
 				var selectedElement = editor.getSelection().getSelectedElement();
 
 				if ( selectedElement ) {
-					if ( lastListeningElement )
-						lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
+					reset();
 
 					// IE requires using attachEvent, because it does not work using W3C compilant addEventListener,
 					// tested with IE10.
@@ -590,14 +589,20 @@
 
 				// Theoretically listener would be removed automatically, because lastListeningElement is about to
 				// be remove from DOM, but we'll put some extra care here.
-				if ( lastListeningElement ) {
-					lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
-					lastListeningElement = null;
-				}
+				reset();
 				// Also we need to remove editor#selectionChange listener, because we'd have multiple of them, since
 				// objectResizeDisabler.exec() is called like contentDom event.
 				selChangeListener.removeListener();
 			} );
+
+			// Resets lastListeningElement onresizestart listener and sets it to null.
+			function reset() {
+				if ( !lastListeningElement )
+					return;
+
+				lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
+				lastListeningElement = null;
+			}
 		},
 
 		resizeStartListener: function( evt ) {
