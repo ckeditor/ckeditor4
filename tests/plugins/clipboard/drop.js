@@ -378,7 +378,7 @@ var editors, editorBots,
 			assert.isInnerHtmlMatching( '<p id="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test rangeBefore 1': function() {
+		'test isRangeBefore 1': function() {
 			var editor = editors.framed,
 				bot = editorBots[ editor.name ],
 				firstRange = editor.createRange(),
@@ -395,10 +395,10 @@ var editors, editorBots,
 			secondRange.setStart( p.getChild( 0 ), 11 );
 			secondRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
 		},
 
-		'test rangeBefore 2': function() {
+		'test isRangeBefore 2': function() {
 			var editor = editors.framed,
 				bot = editorBots[ editor.name ],
 				firstRange = editor.createRange(),
@@ -419,10 +419,10 @@ var editors, editorBots,
 			secondRange.setStart( p, 2 );
 			secondRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
 		},
 
-		'test rangeBefore 3': function() {
+		'test isRangeBefore 3': function() {
 			var editor = editors.framed,
 				bot = editorBots[ editor.name ],
 				firstRange = editor.createRange(),
@@ -441,7 +441,7 @@ var editors, editorBots,
 			secondRange.setStart( p, 1 );
 			secondRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.rangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
 		}
 	};
 

@@ -1261,7 +1261,7 @@
 				// Execute drop with a timeout because otherwise selection, after drop,
 				// on IE is in the drag position, instead of drop position.
 				setTimeout( function() {
-					var dragBookmark, dropBookmark, i, rangeBefore;
+					var dragBookmark, dropBookmark, i, isRangeBefore;
 
 					// Save and lock snapshot so there will be only
 					// one snapshot for both remove and insert content.
@@ -1276,13 +1276,13 @@
 					// changing one range (event creating a bookmark) may make other invalid.
 					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
 					// We can change the range which is later in the text before we change the preceding range.
-					// We call rangeBefore to test the order of ranges.
-					rangeBefore = clipboard.rangeBefore( dragRange, dropRange );
-					if ( !rangeBefore ) {
+					// We call isRangeBefore to test the order of ranges.
+					isRangeBefore = clipboard.isRangeBefore( dragRange, dropRange );
+					if ( !isRangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
 					dropBookmark = dropRange.clone().createBookmark( 1 );
-					if ( rangeBefore ) {
+					if ( isRangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
 
@@ -1423,7 +1423,7 @@
 		 * @param {CKEDITOR.dom.range} secondRange The second range to compare.
 		 * @returns {Boolean} True if the first range in before the second range.
 		 */
-		rangeBefore: function( firstRange, secondRange ) {
+		isRangeBefore: function( firstRange, secondRange ) {
 			// Both ranges has the same parent and the first has smaller offset. E.g.:
 			//
 			// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
