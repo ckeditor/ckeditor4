@@ -1259,9 +1259,7 @@
 				// Execute drop with a timeout because otherwise selection, after drop,
 				// on IE is in the drag position, instead of drop position.
 				setTimeout( function() {
-					var dragBookmark, dropBookmark, i,
-						rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore,
-						fixIESplittedNodes = CKEDITOR.plugins.clipboard.fixIESplittedNodes;
+					var dragBookmark, dropBookmark, i, rangeBefore;
 
 					// Save and lock snapshot so there will be only
 					// one snapshot for both remove and insert content.
@@ -1269,7 +1267,7 @@
 					editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						fixIESplittedNodes( dragRange, dropRange );
+						CKEDITOR.plugins.clipboard.fixIESplittedNodes( dragRange, dropRange );
 					}
 
 					// Because we manipulate multiple ranges we need to do it carefully,
@@ -1277,13 +1275,17 @@
 					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
 					// We can change the range which is later in the text before we change the preceding range.
 					// We call rangeBefore to test the order of ranges.
-					if ( !rangeBefore( dragRange, dropRange ) )
+					rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore( dragRange, dropRange );
+
+					if ( !rangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
+					}
 
 					dropBookmark = dropRange.clone().createBookmark( 1 );
 
-					if ( rangeBefore( dragRange, dropRange ) )
+					if ( rangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
+					}
 
 					// No we can safely delete content for the drag range...
 					dragRange = editor.createRange();
