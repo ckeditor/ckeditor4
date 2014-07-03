@@ -1712,15 +1712,16 @@
 			this.$.setData( clipboardIdDataType, this.id );
 		}
 
-		// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
-		if ( evt.name == 'dragstart' && CKEDITOR.env.safari ) {
-			evt.data.$.dataTransfer.setData( 'text', evt.data.$.dataTransfer.getData( 'text' ) );
-		}
-
 		if ( editor ) {
 			this.sourceEditor = editor;
 			this.dataValue = editor.getSelection().getSelectedHtml(); // @todo replace with the new function
 			this.dataType = 'html';
+
+			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
+			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.
+			if ( evt.name == 'dragstart' && CKEDITOR.env.safari ) {
+				evt.data.$.dataTransfer.setData( 'text', editor.getSelection().getSelectedText() );
+			}
 		} else {
 			// IE support only text data and throws exception if we try to get html data.
 			// This html data object may also be empty if we drag content of the textarea.
