@@ -1209,6 +1209,8 @@
 	}
 
 	function initDragDrop( editor ) {
+		var clipboard = CKEDITOR.plugins.clipboard;
+
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
 				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
@@ -1219,14 +1221,14 @@
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it globally.
-				CKEDITOR.plugins.clipboard.initDataTransfer( evt, editor );
+				clipboard.initDataTransfer( evt, editor );
 			} );
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
 				// When drag & drop is done we need to reset dataTransfer so the future
 				// external drop will be not recognize as internal.
-				CKEDITOR.plugins.clipboard.resetDataTransfer();
+				clipboard.resetDataTransfer();
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1234,12 +1236,12 @@
 				evt.data.preventDefault();
 
 				// Create dataTransfer of get it, if it was created before.
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDataTransfer( evt );
+				var dataTransfer = clipboard.initDataTransfer( evt );
 				dataTransfer.setTargetEditor( editor );
 
 				// Getting drop position is one of the most complex part.
-				var dropRange = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor ),
-					dragRange = CKEDITOR.plugins.clipboard.dragRange;
+				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
+					dragRange = clipboard.dragRange;
 
 				// Do nothing if it was not possible to get drop range.
 				if ( !dropRange )
@@ -1267,7 +1269,7 @@
 					editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						CKEDITOR.plugins.clipboard.fixIESplittedNodes( dragRange, dropRange );
+						clipboard.fixIESplittedNodes( dragRange, dropRange );
 					}
 
 					// Because we manipulate multiple ranges we need to do it carefully,
@@ -1275,14 +1277,11 @@
 					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
 					// We can change the range which is later in the text before we change the preceding range.
 					// We call rangeBefore to test the order of ranges.
-					rangeBefore = CKEDITOR.plugins.clipboard.rangeBefore( dragRange, dropRange );
-
+					rangeBefore = clipboard.rangeBefore( dragRange, dropRange );
 					if ( !rangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
-
 					dropBookmark = dropRange.clone().createBookmark( 1 );
-
 					if ( rangeBefore ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
@@ -1359,280 +1358,280 @@
 	 * @singleton
 	 * @class CKEDITOR.plugins.clipboard
 	 */
-	CKEDITOR.plugins.clipboard = {};
+	CKEDITOR.plugins.clipboard = {
+		/**
+		 * IE 8 & 9 split text node on drop so the first node contains
+		 * text before drop position and the second contains rest. If we
+		 * drag the content from the same node we will be not able to get
+		 * it (range became invalid), so we need to join them back.
+		 *
+		 * Notify that first node on IE 8 & 9 is the original node object
+		 * but with shortened content.
+		 *
+		 * Before:
+		 *   --- Text Node A ----------------------------------
+		 *                                              /\
+		 *                                         Drag position
+		 *
+		 * After (IE 8 & 9):
+		 *   --- Text Node A -----  --- Text Node B -----------
+		 *                        /\                    /\
+		 *                   Drop position        Drag position
+		 *                                          (invalid)
+		 *
+		 * After (other browsers):
+		 *   --- Text Node A ----------------------------------
+		 *                        /\                    /\
+		 *                   Drop position        Drag position
+		 *
+		 * This function is in the public scope for tests usage only.
+		 *
+		 * @private
+		 */
+		fixIESplittedNodes: function( dragRange, dropRange ) {
+			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
+				dropRange.startOffset > 0 &&
+				dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
+				dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
+				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
+					offset = nodeBefore.getLength();
 
-	/**
-	 * @private
-	 *
-	 * IE 8 & 9 split text node on drop so the first node contains
-	 * text before drop position and the second contains rest. If we
-	 * drag the content from the same node we will be not able to get
-	 * it (range became invalid), so we need to join them back.
-	 *
-	 * Notify that first node on IE 8 & 9 is the original node object
-	 * but with shortened content.
-	 *
-	 * Before:
-	 *   --- Text Node A ----------------------------------
-	 *                                              /\
-	 *                                         Drag position
-	 *
-	 * After (IE 8 & 9):
-	 *   --- Text Node A -----  --- Text Node B -----------
-	 *                        /\                    /\
-	 *                   Drop position        Drag position
-	 *                                          (invalid)
-	 *
-	 * After (other browsers):
-	 *   --- Text Node A ----------------------------------
-	 *                        /\                    /\
-	 *                   Drop position        Drag position
-	 *
-	 * This function is in the public scope for tests usage only.
-	 */
-	CKEDITOR.plugins.clipboard.fixIESplittedNodes = function( dragRange, dropRange ) {
-		if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
-			dropRange.startOffset > 0 &&
-			dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-			dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
-			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
-				offset = nodeBefore.getLength();
-
-			if ( nodeAfter ) {
-				nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-				nodeAfter.remove();
-			}
-
-			dropRange.setStart( nodeBefore, offset );
-			dropRange.collapse( true );
-		}
-	};
-
-	/**
-	 * @private
-	 *
-	 * Check if the beginning of the firstRange is before the beginning of the secondRange
-	 * and modification of the content in the firstRange may break secondRange.
-	 *
-	 * Notify that this function returns false if these two ranges are in two
-	 * separate nodes and do not affect each other (even if firstRange is before secondRange).
-	 *
-	 * This function is in the public scope for tests usage only.
-	 */
-	CKEDITOR.plugins.clipboard.rangeBefore = function( firstRange, secondRange ) {
-		// Both ranges has the same parent and the first has smaller offset. E.g.:
-		//
-		// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
-		// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
-		//
-		if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
-			firstRange.endOffset < secondRange.startOffset )
-			return true;
-
-		// First range is inside a text node and the second is not, but if we change the
-		// first range into bookmark and split the text node then the seconds node offset
-		// will be no longer correct.
-		//
-		// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
-		//
-		if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) &&
-			firstRange.endContainer.getIndex() < secondRange.startOffset )
-			return true;
-
-		return false;
-	};
-
-	/**
-	 * Get range from the drop event.
-	 *
-	 * Copy of getRangeAtDropPosition method from widget plugin.
-	 * In #11219 method in widget should be removed and everything be according to DRY.
-	 *
-	 * @param {Object} domEvent A native DOM drop event object.
-	 * @param {CKEDITOR.editor} editor The source editor instance.
-	 * @returns {CKEDITOR.dom.range} range at drop position.
-	 *
-	 */
-	CKEDITOR.plugins.clipboard.getRangeAtDropPosition = function( dropEvt, editor ) {
-		// If we drop content from the external source we need to call focus on IE.
-		if ( CKEDITOR.env.ie ) {
-			editor.focus();
-		}
-
-		var $evt = dropEvt.data.$,
-			x = $evt.clientX,
-			y = $evt.clientY,
-			$range,
-			defaultRange = editor.getSelection( true ).getRanges()[ 0 ],
-			range = editor.createRange();
-
-		// Make testing possible.
-		if ( dropEvt.data.testRange )
-			return dropEvt.data.testRange;
-
-		// Webkits.
-		if ( document.caretRangeFromPoint ) {
-			$range = editor.document.$.caretRangeFromPoint( x, y );
-			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
-			range.collapse( true );
-		}
-		// FF.
-		else if ( $evt.rangeParent ) {
-			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
-			range.collapse( true );
-		}
-		// IEs 9+.
-		else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 )
-			// On IE 9+ range by default is where we expected it.
-			return defaultRange;
-		// IE 8.
-		else if ( document.body.createTextRange ) {
-			$range = editor.document.getBody().$.createTextRange();
-			try {
-				var sucess = false;
-
-				// If user drop between text line IEs moveToPoint throws exception:
-				//
-				//		Lorem ipsum pulvinar purus et euismod
-				//
-				//		dolor sit amet,| consectetur adipiscing
-				//		               *
-				//		vestibulum tincidunt augue eget tempus.
-				//
-				// * - drop position
-				// | - expected cursor position
-				//
-				// So we try to call moveToPoint with +-1px up to +-20px above or
-				// below original drop position to find nearest good drop position.
-				for ( var i = 0; i < 20 && !sucess; i++ ) {
-					if ( !sucess ) {
-						try {
-							$range.moveToPoint( x, y - i );
-							sucess = true;
-						} catch ( err ) {
-						}
-					}
-					if ( !sucess ) {
-						try {
-							$range.moveToPoint( x, y + i );
-							sucess = true;
-						} catch ( err ) {
-						}
-					}
+				if ( nodeAfter ) {
+					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+					nodeAfter.remove();
 				}
 
-				if ( sucess ) {
-					var id = 'cke-temp-' + ( new Date() ).getTime();
-					$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+				dropRange.setStart( nodeBefore, offset );
+				dropRange.collapse( true );
+			}
+		},
 
-					var span = editor.document.getById( id );
-					range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
-					span.remove();
-				} else {
-					// If the fist method does not succeed we might be next to
-					// the short element (like header):
+		/**
+		 * Check if the beginning of the firstRange is before the beginning of the secondRange
+		 * and modification of the content in the firstRange may break secondRange.
+		 *
+		 * Notify that this function returns false if these two ranges are in two
+		 * separate nodes and do not affect each other (even if firstRange is before secondRange).
+		 *
+		 * This function is in the public scope for tests usage only.
+		 *
+		 * @private
+		 */
+		rangeBefore: function( firstRange, secondRange ) {
+			// Both ranges has the same parent and the first has smaller offset. E.g.:
+			//
+			// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
+			// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
+			//
+			if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
+				firstRange.endOffset < secondRange.startOffset )
+				return true;
+
+			// First range is inside a text node and the second is not, but if we change the
+			// first range into bookmark and split the text node then the seconds node offset
+			// will be no longer correct.
+			//
+			// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
+			//
+			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) &&
+				firstRange.endContainer.getIndex() < secondRange.startOffset )
+				return true;
+
+			return false;
+		},
+
+		/**
+		 * Get range from the drop event.
+		 *
+		 * Copy of getRangeAtDropPosition method from widget plugin.
+		 * In #11219 method in widget should be removed and everything be according to DRY.
+		 *
+		 * @param {Object} domEvent A native DOM drop event object.
+		 * @param {CKEDITOR.editor} editor The source editor instance.
+		 * @returns {CKEDITOR.dom.range} range at drop position.
+		 *
+		 */
+		getRangeAtDropPosition: function( dropEvt, editor ) {
+			// If we drop content from the external source we need to call focus on IE.
+			if ( CKEDITOR.env.ie ) {
+				editor.focus();
+			}
+
+			var $evt = dropEvt.data.$,
+				x = $evt.clientX,
+				y = $evt.clientY,
+				$range,
+				defaultRange = editor.getSelection( true ).getRanges()[ 0 ],
+				range = editor.createRange();
+
+			// Make testing possible.
+			if ( dropEvt.data.testRange )
+				return dropEvt.data.testRange;
+
+			// Webkits.
+			if ( document.caretRangeFromPoint ) {
+				$range = editor.document.$.caretRangeFromPoint( x, y );
+				range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
+				range.collapse( true );
+			}
+			// FF.
+			else if ( $evt.rangeParent ) {
+				range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
+				range.collapse( true );
+			}
+			// IEs 9+.
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 )
+				// On IE 9+ range by default is where we expected it.
+				return defaultRange;
+			// IE 8.
+			else if ( document.body.createTextRange ) {
+				$range = editor.document.getBody().$.createTextRange();
+				try {
+					var sucess = false;
+
+					// If user drop between text line IEs moveToPoint throws exception:
 					//
-					//		Lorem ipsum pulvinar purus et euismod.
+					//		Lorem ipsum pulvinar purus et euismod
 					//
-					//
-					//		SOME HEADER|        *
-					//
-					//
+					//		dolor sit amet,| consectetur adipiscing
+					//		               *
 					//		vestibulum tincidunt augue eget tempus.
 					//
 					// * - drop position
 					// | - expected cursor position
 					//
-					// In such situation elementFromPoint returns proper element. Using getClientRect
-					// it is possible to check if the cursor should be at the beginning or at the end
-					// of paragraph.
-					var $element = editor.document.$.elementFromPoint( x, y ),
-						element = new CKEDITOR.dom.element( $element ),
-						rect;
-
-					if ( !element.equals( editor.editable() ) && element.getName() != 'html' ) {
-						rect = element.getClientRect();
-
-						if ( x < rect.left ) {
-							range.setStartAt( element, CKEDITOR.POSITION_AFTER_START );
-							range.collapse( true );
-						} else {
-							range.setStartAt( element, CKEDITOR.POSITION_BEFORE_END );
-							range.collapse( true );
+					// So we try to call moveToPoint with +-1px up to +-20px above or
+					// below original drop position to find nearest good drop position.
+					for ( var i = 0; i < 20 && !sucess; i++ ) {
+						if ( !sucess ) {
+							try {
+								$range.moveToPoint( x, y - i );
+								sucess = true;
+							} catch ( err ) {
+							}
+						}
+						if ( !sucess ) {
+							try {
+								$range.moveToPoint( x, y + i );
+								sucess = true;
+							} catch ( err ) {
+							}
 						}
 					}
-					// If drop happens on no element elementFromPoint returns html or body.
-					//
-					//		*      |Lorem ipsum pulvinar purus et euismod.
-					//
-					//		       vestibulum tincidunt augue eget tempus.
-					//
-					// * - drop position
-					// | - expected cursor position
-					//
-					// In such case we can try to use default selection. If startContainer is not
-					// 'editable' element it is probably proper selection.
-					else if ( defaultRange && defaultRange.startContainer &&
-						!defaultRange.startContainer.equals( editor.editable() ) ) {
-						return defaultRange;
+
+					if ( sucess ) {
+						var id = 'cke-temp-' + ( new Date() ).getTime();
+						$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+
+						var span = editor.document.getById( id );
+						range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
+						span.remove();
+					} else {
+						// If the fist method does not succeed we might be next to
+						// the short element (like header):
+						//
+						//		Lorem ipsum pulvinar purus et euismod.
+						//
+						//
+						//		SOME HEADER|        *
+						//
+						//
+						//		vestibulum tincidunt augue eget tempus.
+						//
+						// * - drop position
+						// | - expected cursor position
+						//
+						// In such situation elementFromPoint returns proper element. Using getClientRect
+						// it is possible to check if the cursor should be at the beginning or at the end
+						// of paragraph.
+						var $element = editor.document.$.elementFromPoint( x, y ),
+							element = new CKEDITOR.dom.element( $element ),
+							rect;
+
+						if ( !element.equals( editor.editable() ) && element.getName() != 'html' ) {
+							rect = element.getClientRect();
+
+							if ( x < rect.left ) {
+								range.setStartAt( element, CKEDITOR.POSITION_AFTER_START );
+								range.collapse( true );
+							} else {
+								range.setStartAt( element, CKEDITOR.POSITION_BEFORE_END );
+								range.collapse( true );
+							}
+						}
+						// If drop happens on no element elementFromPoint returns html or body.
+						//
+						//		*      |Lorem ipsum pulvinar purus et euismod.
+						//
+						//		       vestibulum tincidunt augue eget tempus.
+						//
+						// * - drop position
+						// | - expected cursor position
+						//
+						// In such case we can try to use default selection. If startContainer is not
+						// 'editable' element it is probably proper selection.
+						else if ( defaultRange && defaultRange.startContainer &&
+							!defaultRange.startContainer.equals( editor.editable() ) ) {
+							return defaultRange;
+						}
+						// Otherwise we can not find any drop position and we have to return null
+						// and cancel drop event.
+						else
+							return null;
+
 					}
-					// Otherwise we can not find any drop position and we have to return null
-					// and cancel drop event.
-					else
-						return null;
-
+				} catch ( err ) {
+					return null;
 				}
-			} catch ( err ) {
-				return null;
 			}
+			else
+				return null;
+
+			return range;
+		},
+
+		/**
+		 * Initialize dataTransfer object based on the native drop event. If data
+		 * transfer object was already initialized on this event then function will
+		 * return that object.
+		 *
+		 * @param {Object} domEvent A native DOM drop event object.
+		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
+		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
+		 *
+		 */
+		initDataTransfer: function( evt, sourceEditor ) {
+			// Create a new dataTransfer object based on the drop event.
+			// If this event was used on dragstart to create dataTransfer
+			// both dataTransfer objects will have the same id.
+			var dataTransfer = new this.dataTransfer( evt, sourceEditor );
+
+			// If there is the same id we will replace dataTransfer with the one
+			// created on drag, because it contains drag editor, drag content and so on.
+			// Otherwise (in case of drag from external source) we save new object to
+			// the global clipboard.dragData.
+			if ( this.dragData &&
+				dataTransfer.id == this.dragData.id ) {
+				dataTransfer = this.dragData;
+			} else {
+				this.dragData = dataTransfer;
+			}
+
+			if ( sourceEditor ) {
+				this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
+			}
+
+			return dataTransfer;
+		},
+
+		/*
+		 * Remove global dataTransfer object so the new dataTransfer
+		 * will be not linked with the old one.
+		 */
+		resetDataTransfer: function() {
+			this.dragData = null;
 		}
-		else
-			return null;
-
-		return range;
-	};
-
-	/**
-	 * Initialize dataTransfer object based on the native drop event. If data
-	 * transfer object was already initialized on this event then function will
-	 * return that object.
-	 *
-	 * @param {Object} domEvent A native DOM drop event object.
-	 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
-	 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
-	 *
-	 */
-	CKEDITOR.plugins.clipboard.initDataTransfer = function( evt, sourceEditor ) {
-		// Create a new dataTransfer object based on the drop event.
-		// If this event was used on dragstart to create dataTransfer
-		// both dataTransfer objects will have the same id.
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, sourceEditor );
-
-		// If there is the same id we will replace dataTransfer with the one
-		// created on drag, because it contains drag editor, drag content and so on.
-		// Otherwise (in case of drag from external source) we save new object to
-		// the global clipboard.dragData.
-		if ( CKEDITOR.plugins.clipboard.dragData &&
-			dataTransfer.id == CKEDITOR.plugins.clipboard.dragData.id ) {
-			dataTransfer = CKEDITOR.plugins.clipboard.dragData;
-		} else {
-			CKEDITOR.plugins.clipboard.dragData = dataTransfer;
-		}
-
-		if ( sourceEditor ) {
-			CKEDITOR.plugins.clipboard.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
-		}
-
-		return dataTransfer;
-	};
-
-	/*
-	 * Remove global dataTransfer object so the new dataTransfer
-	 * will be not linked with the old one.
-	 */
-	CKEDITOR.plugins.clipboard.resetDataTransfer = function() {
-		CKEDITOR.plugins.clipboard.dragData = null;
 	};
 
 	// Data type used to link drag and drop events.
