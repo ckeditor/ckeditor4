@@ -1061,6 +1061,8 @@
 		 *
 		 * The dialog window name is obtained from the event's data `dialog` property or
 		 * from {@link CKEDITOR.plugins.widget.definition#dialog}.
+		 *
+		 * @returns {Boolean} Returns `true` if dialog was opened.
 		 */
 		edit: function() {
 			var evtData = { dialog: this.dialog },
@@ -1068,7 +1070,7 @@
 
 			// Edit event was blocked, but there's no dialog to be automatically opened.
 			if ( this.fire( 'edit', evtData ) === false || !evtData.dialog )
-				return;
+				return false;
 
 			this.editor.openDialog( evtData.dialog, function( dialog ) {
 				var showListener,
@@ -1110,6 +1112,8 @@
 					okListener.removeListener();
 				} );
 			} );
+
+			return true;
 		},
 
 		/**
@@ -1480,6 +1484,19 @@
 
 	/**
 	 * An event fired when a widget is double clicked.
+	 *
+	 * **Note:** if a default editing action is executed on double click (i.e. widget has a
+	 * {@link CKEDITOR.plugins.widget.definition#dialog dialog} defined and the {@link #event-doubleclick} event was not
+	 * cancelled) this event will be automatically cancelled, so listener added with the default priority (10)
+	 * will not be executed. Use listener with low priority (e.g. 5) to be sure that it will be executed.
+	 *
+	 *		widget.on( 'doubleclick', function( evt ) {
+	 *			console.log( 'widget#doubleclick' );
+	 *		}, null, null, 5 );
+	 *
+	 * If your widget handles double click in a special way (so default editing action is not executed)
+	 * make sure to cancel this event, because otherwise it will be propagated to {@link CKEDITOR.editor#doubleclick}
+	 * and other feature may step in (e.g. link dialog may be opened if your widget was inside a link).
 	 *
 	 * @event doubleclick
 	 * @param data
@@ -3171,7 +3188,11 @@
 		// to overwrite this callback.
 
 		widget.on( 'doubleclick', function( evt ) {
-			widget.edit();
+			if ( widget.edit() ) {
+				// We have to cancel event if edit method opens a dialog, otherwise
+				// link plugin may open extra dialog (#12140).
+				evt.cancel();
+			}
 		} );
 
 		if ( widgetDef.data )
