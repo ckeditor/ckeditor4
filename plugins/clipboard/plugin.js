@@ -1209,9 +1209,7 @@
 	}
 
 	function initDragDrop( editor ) {
-		editor.on( 'contentDom', addDropListenersToEditable );
-
-		function addDropListenersToEditable() {
+		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
 				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
 				// #11086 IE8 cannot listen on document.
@@ -1352,7 +1350,7 @@
 					editor.toolbox.focus();
 				} );
 			}
-		}
+		} );
 	}
 
 	/**
