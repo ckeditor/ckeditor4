@@ -643,6 +643,10 @@
 				}
 
 				return function( range ) {
+					// There's nothing to return if range is collapsed.
+					if ( range.collected )
+						return new CKEDITOR.dom.documentFragment( range.document );
+
 					var path = range.startPath();
 						// Leave original range object untouched.
 						rangeClone = range.clone();
@@ -723,13 +727,19 @@
 				}
 
 				return function( range ) {
-					var path = range.startPath(),
-						doc = this.getDocument();
-
 					// Since it is quite hard to build a valid documentFragment
 					// out of extracted contents because DOM changes, let's mimic
 					// extracted HTML with #getSelectedHtmlFromRange. Yep. It's a hack.
 					var extractedFragment = this.getSelectedHtmlFromRange( range );
+
+					// Collapsed range means that there's nothing to extract.
+					if ( range.collapsed ) {
+						range.optimize();
+						return extractedFragment;
+					}
+
+					var path = range.startPath(),
+						doc = range.document;
 
 					// Include inline element if possible.
 					range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
