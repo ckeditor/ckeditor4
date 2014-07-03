@@ -41,7 +41,7 @@
  * The editor selection may be retrieved using the {@link CKEDITOR.editor#getSelection} method:
  *
  *		var sel = editor.getSelection(),
- *			ranges = sel.getRange(); // CKEDITOR.dom.rangeList instance.
+ *			ranges = sel.getRanges(); // CKEDITOR.dom.rangeList instance.
  *
  *		var range = ranges[ 0 ];
  *		range.root; // -> editor's editable element.
