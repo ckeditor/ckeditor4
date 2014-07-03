@@ -192,6 +192,7 @@ var editors, editorBots,
 			drag( editor, evt );
 
 			drop( editor, evt, {
+				// IE8 split text node anyway so we need different drop position there.
 				element: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 					editor.document.getById( 'p' ).getChild( 2 ) :
 					editor.document.getById( 'p' ).getChild( 1 ),
