@@ -762,6 +762,29 @@
 					// Finally restore the "working range", once DOM is stable.
 					range.moveToBookmark( bm );
 
+					var startList = new CKEDITOR.dom.elementPath( range.startContainer, this ).contains( CKEDITOR.dtd.$list ),
+						endList = new CKEDITOR.dom.elementPath( range.endContainer, this ).contains( CKEDITOR.dtd.$list );
+
+					var mergeLists =
+							// Both lists must exist
+							startList && endList &&
+							// ...and be of the same type
+							startList.getName() == endList.getName() &&
+							// ...and share the same parent (same level in the tree)
+							startList.getParent().equals( endList.getParent() ) &&
+							// ...and must be different
+							!startList.equals( endList ) &&
+							// ...but of the same contents direction.
+							startList.getDirection( 1 ) == endList.getDirection( 1 );
+
+					var mergeListItems =
+							// Both containers must be list items
+							range.startContainer.is( CKEDITOR.dtd.$listItem ) && range.endContainer.is( CKEDITOR.dtd.$listItem ) &&
+							// ...and be siblings, which is always true when merging lists
+							( mergeLists || range.endContainer.equals( range.startContainer.getNext() ) ) &&
+							// ...and of the same contents direction.
+							range.startContainer.getDirection( 1 ) == range.endContainer.getDirection( 1 );
+
 					// Simply, do the job.
 					range.extractContents();
 
@@ -786,6 +809,17 @@
 						pruneEmptyTree( node, range, function( node ) {
 							return path.contains( CKEDITOR.dtd.$list ).getParent();
 						} );
+					}
+
+					if ( mergeLists ) {
+						var list = new CKEDITOR.dom.elementPath( range.startContainer, this ).contains( CKEDITOR.dtd.$list );
+						list.getNext().moveChildren( list );
+						list.getNext().remove();
+					}
+
+					if ( mergeListItems ) {
+						range.startContainer.getNext().moveChildren( range.startContainer );
+						range.startContainer.getNext().remove();
 					}
 
 					return extractedFragment;
