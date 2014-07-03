@@ -44,10 +44,10 @@
 	};
 
 	// <DEV>
-	var playground = CKEDITOR.document.createElement( 'dl' );
-	playground.on( 'paste', function( e ) {
-		console.log( e.data.$.clipboardData.getData( 'text/html' ) );
-	} );
+	// var playground = CKEDITOR.document.createElement( 'dl' );
+	// playground.on( 'paste', function( e ) {
+	// 	console.log( e.data.$.clipboardData.getData( 'text/html' ) );
+	// } );
 	// </DEV>
 
 	function decodeBoguses( html ) {
@@ -66,8 +66,8 @@
 				name = group + ' #' + ( i + 1 );
 
 				// <DEV>
-				CKEDITOR.dom.element.createFromHtml( '<dt>' + name + ':</dt>' ).appendTo( playground );
-				CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
+				// CKEDITOR.dom.element.createFromHtml( '<dt>' + name + ':</dt>' ).appendTo( playground );
+				// CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
 				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
@@ -205,6 +205,6 @@
 	bender.test( tests );
 
 	// <DEV>
-	playground.appendTo( CKEDITOR.document.getBody() );
+	// playground.appendTo( CKEDITOR.document.getBody() );
 	// </DEV>
 } )();

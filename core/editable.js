@@ -644,7 +644,7 @@
 
 				return function( range ) {
 					// There's nothing to return if range is collapsed.
-					if ( range.collected )
+					if ( range.collapsed )
 						return new CKEDITOR.dom.documentFragment( range.document );
 
 					var path = range.startPath();
