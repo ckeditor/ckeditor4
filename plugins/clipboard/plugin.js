@@ -1626,6 +1626,9 @@
 				this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
 			}
 
+			// Mark as drag and drop operation.
+			dataTransfer.isDrag = true;
+
 			return dataTransfer;
 		},
 
@@ -1785,6 +1788,14 @@
 		 *
 		 * @readonly
 		 * @property {String} dataType
+		 */
+
+		/**
+		 * Indicates the type of the data transfer. If true then it is drag and drop.
+		 * If false or undefined it is copy and paste.
+		 *
+		 * @readonly
+		 * @property {Boolean} isDrag
 		 */
 	};
 
