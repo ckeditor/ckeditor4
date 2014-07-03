@@ -302,8 +302,8 @@ var editors, editorBots,
 			var bot = editorBots[ editor.name ],
 				evt = createDragDropEventMock();
 
-			editor.resetUndo();
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
+			editor.resetUndo();
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
