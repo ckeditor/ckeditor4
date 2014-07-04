@@ -1,6 +1,9 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,list,htmlwriter */
 
+( function() {
+	'use strict';
+
 	CKEDITOR.tools.enableHtml5Elements( document );
 
 	/**
@@ -65,8 +68,6 @@
 		};
 	}
 
-	window.alert = function() {};
-
 	var tcs = {
 		// These tests go far beyond the strict htmlDataProcessor code testing. We
 		// are actually testing the entire parsing system here. The combination of
@@ -100,16 +101,37 @@
 						fullPage: true,
 						allowedContent: true
 					}
+				},
+				editor4: {
+					creator: 'inline',
+					name: 'test_editor4',
+					config: {
+						fillEmptyBlocks: false,
+						allowedContent: true
+					}
+				},
+				editor5: {
+					creator: 'inline',
+					name: 'test_editor5',
+					config: {
+						fillEmptyBlocks: function( el ) {
+							// Do not refactor - should return undefined in other cases.
+							if ( el.name == 'h1' )
+								return false;
+						},
+						allowedContent: true
+					}
 				}
 			}, function( editors, bots ) {
-				that.editorBot = bots.editor;
-				that.editor = editors.editor;
+				var num, name;
 
-				that.editorBot2 = bots.editor2;
-				that.editor2 = editors.editor2;
+				for ( name in editors ) {
+					num = name.match( /\d+/ );
+					num = num ? num[ 0 ] : '';
 
-				that.editorBot3 = bots.editor3;
-				that.editor3 = editors.editor3;
+					that[ name ] = editors[ name ];
+					that[ 'editorBot' + num ] = bots[ name ];
+				}
 
 				that.callback();
 			} );
@@ -526,7 +548,7 @@
 			for ( var i = 0, processor = this.editor.dataProcessor; i < sources.length; ++i ) {
 				assert.areSame(
 					results[ i ],
-					processor.toHtml( sources[ i ] )
+					bender.tools.compatHtml( processor.toHtml( sources[ i ] ), false, true )
 						// IE encodes \n in attributes.
 						.replace( /&#10;/g, '\n' ),
 					'tc ' + i
@@ -660,7 +682,7 @@
 
 		'test process style': function() {
 			var p = this.editor.dataProcessor,
-				ss = '<p>X</p><style>'
+				ss = '<p>X</p><style>',
 				se = '</style><p>X</p>';
 
 			assert.areSame( ss + 'a{}' + se,								toHtml( ss + 'a{}' + se ),						's1' );
@@ -1023,6 +1045,42 @@
 			assert.areSame( '<p>foo</p>', htmlDP.toDataFormat( '<p data-cke-expando="1">foo</p>' ), 'toDF' );
 			assert.areSame( '<p contenteditable="false">foo</p>', htmlDP.toHtml( '<p contenteditable="false" data-cke-expando="1">foo</p>' ), 'toHtml - non editable' );
 			assert.areSame( '<p contenteditable="false">foo</p>', htmlDP.toHtml( '<p contenteditable="false" data-cke-expando="1">foo</p>' ), 'toDF - non editable' );
+		},
+
+		'test config.fillEmptyBlocks - default': function() {
+			var htmlDP = this.editor.dataProcessor,
+				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
+
+			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
+			assert.areSame( '<div><h1>' + bogus + '</h1></div>', htmlDP.toHtml( '<div><h1></h1></div>' ), 'toHtml 2' );
+
+			bogus = '&nbsp;';
+
+			assert.areSame( '<p>' + bogus  + '</p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
+			assert.areSame( '<div><h1>' + bogus + '</h1></div>', htmlDP.toDataFormat( '<div><h1></h1></div>' ), 'toDF 2' );
+		},
+
+		'test config.fillEmptyBlocks - false': function() {
+			var htmlDP = this.editor4.dataProcessor;
+
+			assert.areSame( '<p></p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
+			assert.areSame( '<div><h1></h1></div>', htmlDP.toHtml( '<div><h1></h1></div>' ), 'toHtml 1' );
+
+			assert.areSame( '<p></p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
+			assert.areSame( '<div><h1></h1></div>', htmlDP.toDataFormat( '<div><h1></h1></div>' ), 'toDF 2' );
+		},
+
+		'test config.fillEmptyBlocks - callback': function() {
+			var htmlDP = this.editor5.dataProcessor,
+				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
+
+			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
+			assert.areSame( '<h1></h1>', htmlDP.toHtml( '<h1></h1>' ), 'toHtml 1' );
+
+			bogus = '&nbsp;';
+
+			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
+			assert.areSame( '<h1></h1>', htmlDP.toDataFormat( '<h1></h1>' ), 'toDF 2' );
 		}
 	};
 
@@ -1099,8 +1157,4 @@
 			'<p><onxxx>foo</onxxx>bar</p>' );
 	}
 
-alert( '>' );
-
-	<!--
-		alert( '-->' );
-	//-->
+} )();

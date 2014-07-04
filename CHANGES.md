@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10422](http://dev.ckeditor.com/ticket/10422): Fixed: [`config.fillEmptyBlocks`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fillEmptyBlocks) not working properly if a function is specified.
 * [#12110](http://dev.ckeditor.com/ticket/12110): Fixed: Editor crash after deleting a table. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#11897](http://dev.ckeditor.com/ticket/11897): Fixed: Enter key in an empty formatted list item, creates a new line instead of breaking the list. Thanks to [noam-si](https://github.com/noam-si)!
 * [#12140](http://dev.ckeditor.com/ticket/12140): Fixed: Double-clicking linked widgets opens two dialogs.
