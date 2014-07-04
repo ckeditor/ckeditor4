@@ -547,6 +547,7 @@
 			}
 		}
 	} );
+
 	var objectResizeDisabler = {
 		exec: function( editor ) {
 			if ( CKEDITOR.env.gecko ) {
@@ -566,12 +567,12 @@
 		// but it disables drag and drop for affected objects, the same with [unselectable="on"] attribute.
 		blockResizeStart: function( editor ) {
 			var that = this,
-				lastListeningElement,
-				selChangeListener;
+				lastListeningElement;
+
 			// We'll attach only one listener at a time, instead of adding it to every img, input, hr etc.
 			// Listener will be attached upon selectionChange, we'll also check if there was any element that
 			// got listener before (lastListeningElement) - if so we need to remove previous listener.
-			selChangeListener = editor.on( 'selectionChange', function() {
+			editor.editable().attachListener( editor, 'selectionChange', function() {
 				var selectedElement = editor.getSelection().getSelectedElement();
 
 				if ( selectedElement ) {
@@ -582,17 +583,6 @@
 					selectedElement.$.attachEvent( 'onresizestart', that.resizeStartListener );
 					lastListeningElement = selectedElement.$;
 				}
-			} );
-
-			editor.once( 'contentDomUnload', function() {
-				// This event will be executed *once* wysiwyg mode is changed to any other.
-
-				// Theoretically listener would be removed automatically, because lastListeningElement is about to
-				// be remove from DOM, but we'll put some extra care here.
-				reset();
-				// Also we need to remove editor#selectionChange listener, because we'd have multiple of them, since
-				// objectResizeDisabler.exec() is called like contentDom event.
-				selChangeListener.removeListener();
 			} );
 
 			// Resets lastListeningElement onresizestart listener and sets it to null.
