@@ -669,9 +669,15 @@
 					if ( node.type == CKEDITOR.NODE_TEXT )
 						node = node.getParent();
 
-					// Collect all <br>s and get rid of boguses.
 					var clonedFragment = rangeClone.cloneContents(),
-						boguses = new CKEDITOR.dom.nodeList( clonedFragment.$.querySelectorAll( 'br' ) ),
+						container = new CKEDITOR.dom.element( 'div' );
+
+					// Note: element.isBogus() fails work in documentFragment. Transfer
+					// documentFragment children to temp container to get rid of bogus <br>s.
+					clonedFragment.appendTo( container );
+
+					// Collect all <br>s and get rid of boguses.
+					var boguses = container.find( 'br' ),
 						bogusesToRemove = [];
 
 					for ( var i = boguses.count(), bogus; bogus = boguses.getItem( --i ); ) {
@@ -684,6 +690,9 @@
 					// Prune collected bogus BRs.
 					while ( ( bogus = bogusesToRemove.pop() ) )
 						bogus.remove();
+
+					// Move nodes back to documentFragment.
+					container.moveChildren( clonedFragment );
 
 					clonedFragment = rebuildFragmentTree.call( this, clonedFragment, node,
 						path.blockLimit.is( { tr: 1, table: 1 } ) ?
