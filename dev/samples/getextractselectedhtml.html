@@ -15,7 +15,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		editable#getExtractSelectedHtml
 	</h1>
 
-	<p>Use CTRL+C/X to get/extract selected HTML. Note that selection may change once get.</p>
+	<p>Use <strong>CTRL+SHIFT+C/X</strong> to get/extract selected HTML. Note that selection may change once get.</p>
+	<p>Copy/cut with <strong>CTRL+C/X</strong> and paste into Paste Bin to know what's in clipboardData.</p>
 
 	<textarea cols="80" id="editor1" name="editor1" rows="10">
 		<h1><img alt="Saturn V carrying Apollo 11" class="right" src="../../samples/assets/sample.jpg" /> Apollo 11</h1>
@@ -104,9 +105,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				key: function( evt ) {
 					var method;
 
-					if ( evt.data.keyCode == CKEDITOR.CTRL + 88 )
+					if ( evt.data.keyCode == CKEDITOR.CTRL + CKEDITOR.SHIFT + 88 )
 						method = 'extractSelectedHtml';
-					else if ( evt.data.keyCode == CKEDITOR.CTRL + 67 )
+					else if ( evt.data.keyCode == CKEDITOR.CTRL + CKEDITOR.SHIFT + 67 )
 						method = 'getSelectedHtml';
 
 					if ( method ) {
