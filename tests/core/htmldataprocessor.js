@@ -1,6 +1,9 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,list,htmlwriter */
 
+( function() {
+	'use strict';
+
 	CKEDITOR.tools.enableHtml5Elements( document );
 
 	/**
@@ -64,8 +67,6 @@
 			} );
 		};
 	}
-
-	window.alert = function() {};
 
 	var tcs = {
 		// These tests go far beyond the strict htmlDataProcessor code testing. We
@@ -660,7 +661,7 @@
 
 		'test process style': function() {
 			var p = this.editor.dataProcessor,
-				ss = '<p>X</p><style>'
+				ss = '<p>X</p><style>',
 				se = '</style><p>X</p>';
 
 			assert.areSame( ss + 'a{}' + se,								toHtml( ss + 'a{}' + se ),						's1' );
@@ -1099,8 +1100,4 @@
 			'<p><onxxx>foo</onxxx>bar</p>' );
 	}
 
-alert( '>' );
-
-	<!--
-		alert( '-->' );
-	//-->
+} )();
