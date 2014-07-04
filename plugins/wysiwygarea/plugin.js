@@ -635,6 +635,12 @@
  *
  *		config.disableObjectResizing = true;
  *
+ * **Note:** Because of incomplete implementation of editing features in browsers
+ * this option does not work for inline editors (see ticket [#10197](http://dev.ckeditor.com/ticket/10197)),
+ * does not work on IE11+ (see [#9317](http://dev.ckeditor.com/ticket/9317#comment:16) and
+ * [IE11+ issue](https://connect.microsoft.com/IE/feedback/details/742593/please-respect-execcommand-enableobjectresizing-in-contenteditable-elements))
+ * and on IE8-10 this option only blocks resizing (it can't hide resize handles).
+ *
  * @cfg
  * @member CKEDITOR.config
  */
