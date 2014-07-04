@@ -576,7 +576,10 @@
 				var selectedElement = editor.getSelection().getSelectedElement();
 
 				if ( selectedElement ) {
-					reset();
+					if ( lastListeningElement ) {
+						lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
+						lastListeningElement = null;
+					}
 
 					// IE requires using attachEvent, because it does not work using W3C compilant addEventListener,
 					// tested with IE10.
@@ -584,15 +587,6 @@
 					lastListeningElement = selectedElement.$;
 				}
 			} );
-
-			// Resets lastListeningElement onresizestart listener and sets it to null.
-			function reset() {
-				if ( !lastListeningElement )
-					return;
-
-				lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
-				lastListeningElement = null;
-			}
 		},
 
 		resizeStartListener: function( evt ) {
