@@ -445,11 +445,11 @@
 			return !last || block.name == 'form' && last.name == 'input' ;
 		}
 
-		var rules = { elements: {} };
-		var isOutput = type == 'html';
+		var rules = { elements: {} },
+			isOutput = type == 'html',
+			textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
 
 		// Build the list of text blocks.
-		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
 		for ( var i in textBlockTags ) {
 			if ( !( '#' in dtd[ i ] ) )
 				delete textBlockTags[ i ];
@@ -458,7 +458,7 @@
 		for ( i in textBlockTags )
 			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks );
 
-		// Editable element is to be checked separately.
+		// Editable element has to be checked separately.
 		rules.root = blockFilter( isOutput, false );
 		rules.elements.br = brFilter( isOutput );
 		return rules;
