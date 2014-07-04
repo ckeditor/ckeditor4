@@ -221,7 +221,7 @@
 		}
 
 		// Config props: disableObjectResizing and disableNativeTableHandles handler.
-		objectResizeDisabler.exec( editor );
+		objectResizeDisabler( editor );
 
 		// Enable dragging of position:absolute elements in IE.
 		try {
@@ -548,26 +548,22 @@
 		}
 	} );
 
-	var objectResizeDisabler = {
-		exec: function( editor ) {
-			if ( CKEDITOR.env.gecko ) {
-				// FF allows to change resizing preferences by calling execCommand.
-				try {
-					var doc = editor.document.$;
-					doc.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
-					doc.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-				} catch( e ) {}
-			} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
-				// It's possible to prevent resizing up to IE10.
-				this.blockResizeStart( editor );
-			}
-		},
+	function objectResizeDisabler( editor ) {
+		if ( CKEDITOR.env.gecko ) {
+			// FF allows to change resizing preferences by calling execCommand.
+			try {
+				var doc = editor.document.$;
+				doc.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
+				doc.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
+			} catch( e ) {}
+		} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
+			// It's possible to prevent resizing up to IE10.
+			blockResizeStart( editor );
+		}
 
-		// Disables resizing by onresizestart event. Event controlseleciton was also considered
-		// but it disables drag and drop for affected objects, the same with [unselectable="on"] attribute.
-		blockResizeStart: function( editor ) {
-			var that = this,
-				lastListeningElement;
+		// Disables resizing by preventing default action on resizestart event.
+		function blockResizeStart() {
+			var lastListeningElement;
 
 			// We'll attach only one listener at a time, instead of adding it to every img, input, hr etc.
 			// Listener will be attached upon selectionChange, we'll also check if there was any element that
@@ -577,22 +573,22 @@
 
 				if ( selectedElement ) {
 					if ( lastListeningElement ) {
-						lastListeningElement.detachEvent( 'onresizestart', that.resizeStartListener );
+						lastListeningElement.detachEvent( 'onresizestart', resizeStartListener );
 						lastListeningElement = null;
 					}
 
 					// IE requires using attachEvent, because it does not work using W3C compilant addEventListener,
 					// tested with IE10.
-					selectedElement.$.attachEvent( 'onresizestart', that.resizeStartListener );
+					selectedElement.$.attachEvent( 'onresizestart', resizeStartListener );
 					lastListeningElement = selectedElement.$;
 				}
 			} );
-		},
+		}
 
-		resizeStartListener: function( evt ) {
+		function resizeStartListener( evt ) {
 			evt.returnValue = false;
 		}
-	};
+	}
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {
