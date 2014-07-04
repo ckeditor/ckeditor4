@@ -527,7 +527,7 @@
 			for ( var i = 0, processor = this.editor.dataProcessor; i < sources.length; ++i ) {
 				assert.areSame(
 					results[ i ],
-					processor.toHtml( sources[ i ] )
+					bender.tools.compatHtml( processor.toHtml( sources[ i ] ), false, true )
 						// IE encodes \n in attributes.
 						.replace( /&#10;/g, '\n' ),
 					'tc ' + i
