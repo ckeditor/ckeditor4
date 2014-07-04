@@ -220,6 +220,6 @@ bender.test( {
 		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.isTrue( dataTransfer.isDrag, 'isDrag' );
+		assert.areSame( CKEDITOR.DATA_TRANSFER_DROP, dataTransfer.method, 'isDrag' );
 	}
 } );

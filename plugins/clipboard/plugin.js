@@ -1627,7 +1627,7 @@
 			}
 
 			// Mark as drag and drop operation.
-			dataTransfer.isDrag = true;
+			dataTransfer.method = CKEDITOR.DATA_TRANSFER_DROP;
 
 			return dataTransfer;
 		},
@@ -1791,13 +1791,32 @@
 		 */
 
 		/**
-		 * Indicates the type of the data transfer. If true then it is drag and drop.
-		 * If false or undefined it is copy and paste.
+		 * Indicates the method of the data transfer. It could be drag and drop or copy and paste.
+		 * Possible values: {@link CKEDITOR#DATA_TRANSFER_DROP}, {@link CKEDITOR#DATA_TRANSFER_PASTE}.
 		 *
 		 * @readonly
-		 * @property {Boolean} isDrag
+		 * @property {Number} method
 		 */
 	};
+
+	/**
+	 * Clipboard operation method: drag and drop.
+	 *
+	 * @since 4.5
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.DATA_TRANSFER_DROP = 0;
+	/**
+	 * Clipboard operation method: copy and paste.
+	 *
+	 * @since 4.5
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.DATA_TRANSFER_PASTE = 1;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
