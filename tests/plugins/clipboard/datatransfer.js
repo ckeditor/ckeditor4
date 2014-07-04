@@ -90,7 +90,6 @@ bender.test( {
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
-
 	},
 
 	'test drop text from external source': function() {
@@ -167,9 +166,28 @@ bender.test( {
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'Text', 'foo' );
+		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'Text - Text' );
+		assert.areSame( 'foo', dataTransfer.getData( 'text/plain' ), 'Text - text/plain' );
+		assert.areSame( 'foo', dataTransfer.getData( 'text' ), 'Text - text' );
 
-		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'data should match set data' );
+		dataTransfer.setData( 'text/plain', 'foo2' );
+		assert.areSame( 'foo2', dataTransfer.getData( 'Text' ), 'text/plain - text' );
+		assert.areSame( 'foo2', dataTransfer.getData( 'text/plain' ), 'text/plain - text/plain' );
+		assert.areSame( 'foo2', dataTransfer.getData( 'text' ), 'text/plain - text' );
 
+		dataTransfer.setData( 'text', 'foo3' );
+		assert.areSame( 'foo3', dataTransfer.getData( 'Text' ), 'text - Text' );
+		assert.areSame( 'foo3', dataTransfer.getData( 'text/plain' ), 'text - text/plain' );
+		assert.areSame( 'foo3', dataTransfer.getData( 'text' ), 'text - text' );
+
+		dataTransfer.setData( 'CKE/custom', 'bar' );
+		assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ), 'CKE/custom - cke/custom' );
+		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
+
+		dataTransfer.setData( 'plain/html', 'html' );
+		assert.areSame( 'html', dataTransfer.getData( 'plain/html' ), 'plain/html - plain/html' );
+
+		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
 	'test initDragDataTransfer binding': function() {

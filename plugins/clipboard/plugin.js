@@ -1834,13 +1834,49 @@
 
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
 		/**
+		 * dataTransfer private properties and methods.
+		 *
+		 * @private
+		 */
+		_: {
+			data: [],
+
+			normalizeType: function( t ) {
+				var type = t.toLowerCase();
+
+				if ( type == 'text' || type == 'text/plain' ) {
+					return 'Text'; // IE support only Text and URL;
+				} else if ( type == 'url' ) {
+					return 'URL'; // IE support only Text and URL;
+				} else {
+					return type;
+				}
+			}
+		},
+
+		/**
 		 * Facade for the native getData method.
 		 *
 		 * @param {String} type The type of data to retrieve.
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
-		getData: function( type ) {
-			return this.$.getData( type );
+		getData: function( t ) {
+			var type = this._.normalizeType( t ),
+				data;
+
+			try {
+				data = this.$.getData( type );
+			} catch ( e ) {}
+
+			if ( !data ) {
+				data = this._.data[ type ];
+			}
+
+			if ( !data ) {
+				data = '';
+			};
+
+			return data;
 		},
 
 		/**
@@ -1849,8 +1885,11 @@
 		 * @param {String} type The type of data to retrieve.
 		 * @param {String} value The data to add.
 		 */
-		setData: function( type, value ) {
-			return this.$.setData( type, value );
+		setData: function( t, value ) {
+			var type = this._.normalizeType( t );
+
+			this._.data[ type ] = value;
+			this.$.setData( type, value );
 		},
 
 		/**
