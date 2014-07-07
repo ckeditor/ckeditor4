@@ -561,6 +561,10 @@
 		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa">[[mytag]]</iframe></p>' ),
 		'test protected source in textarea': addProtectedSourceTC( '<p><textarea name="aa">[[mytag]]</textarea></p>' ),
 		'test protected source in textarea multiline': addProtectedSourceTC( '<p><textarea name="aa">[[aa]]\n[[bb]]</textarea></p>' ),
+		// Meta tags should be allowed in any element. (#8117)
+		'test meta tag in paragraph': addProtectedSourceTC( '<p><meta itemprop="best" content="10" /></p>' ),
+		'test meta tag directly in body': addProtectedSourceTC( '<meta itemprop="familyName" content="McFoobar" /><p>x</p>' ),
+		'test specially formatted meta tag': addProtectedSourceTC( '<META itemprop="familyName"\tcontent="McFoobar"><p>x</p>' ),
 
 		'test values of attributes are not protected': function() {
 			var processor = this.editor.dataProcessor,
