@@ -46,28 +46,31 @@
 					iframe.on( 'load', onLoad );
 
 				var frameLabel = editor.title,
-					frameDesc = editor.lang.common.editorHelp;
+					helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
 
 				if ( frameLabel ) {
-					if ( CKEDITOR.env.ie )
-						frameLabel += ', ' + frameDesc;
+					if ( CKEDITOR.env.ie && helpLabel )
+						frameLabel += ', ' + helpLabel;
 
 					iframe.setAttribute( 'title', frameLabel );
 				}
 
-				var labelId = CKEDITOR.tools.getNextId(),
-					desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + frameDesc + '</span>' );
+				if ( helpLabel ) {
+					var labelId = CKEDITOR.tools.getNextId(),
+						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
 
-				contentSpace.append( desc, 1 );
+					contentSpace.append( desc, 1 );
+					iframe.setAttribute( 'aria-describedby', labelId );
+				}
 
 				// Remove the ARIA description.
 				editor.on( 'beforeModeUnload', function( evt ) {
 					evt.removeListener();
-					desc.remove();
+					if ( desc )
+						desc.remove();
 				} );
 
 				iframe.setAttributes( {
-					'aria-describedby': labelId,
 					tabIndex: editor.tabIndex,
 					allowTransparency: 'true'
 				} );

@@ -40,6 +40,10 @@
 
 			editor.setKeystroke( CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' );
 			CKEDITOR.dialog.add( commandName, this.path + 'dialogs/a11yhelp.js' );
+
+			editor.on( 'ariaEditorHelpLabel', function( evt ) {
+				evt.data.label = editor.lang.common.editorHelp;
+			} );
 		}
 	} );
 } )();
