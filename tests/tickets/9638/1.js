@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,a11yhelp */
+/* bender-ckeditor-plugins: toolbar */
 
 ( function() {
 	'use strict';
@@ -12,15 +13,14 @@
 					name: 'editor1',
 					creator: 'inline',
 					config: {
-						extraPlugins: 'a11yhelp,toolbar'
+						extraPlugins: 'a11yhelp'
 					}
 				},
 				withoutA11y: {
 					name: 'editor2',
 					creator: 'inline',
 					config: {
-						removePlugins: 'a11yhelp',
-						extraPlugins: 'toolbar'
+						removePlugins: 'a11yhelp'
 					}
 				}
 			}, function( editors, bots ) {
