@@ -11,7 +11,7 @@ Fixed Issues:
 * [#12140](http://dev.ckeditor.com/ticket/12140): Fixed: Double-clicking linked widgets opens two dialogs.
 * [#12132](http://dev.ckeditor.com/ticket/12132): Fixed: Image is inserted with `width` and `height` styles even when they are not allowed.
 * [#9317](http://dev.ckeditor.com/ticket/9317): [IE] Fixed: [`config.disableObjectResizing`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-disableObjectResizing) does not work on IE. **Note**: We were not able to fix this issue on IE11+ because necessary events stopped working. See a [last resort workaround](http://dev.ckeditor.com/ticket/9317#comment:16) and make sure to [support our complaint](https://connect.microsoft.com/IE/feedback/details/742593/please-respect-execcommand-enableobjectresizing-in-contenteditable-elements).
-* [#9638](http://dev.ckeditor.com/ticket/9638): Added [`config.ariaEditorHelpLabel`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-ariaEditorHelpLabel) event, allowing to set/disable a11yhelp availability.
+* [#9638](http://dev.ckeditor.com/ticket/9638): Fixed: There should be no information about accessibility help available under `ALT+0` keystroke if the `a11yhelp` plugin is not available.
 
 ## CKEditor 4.4.2
 
