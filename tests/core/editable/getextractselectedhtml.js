@@ -124,7 +124,7 @@
 /* 4 */		[ '<h1>{a</h1><p>b}</p>', 												'<h1>a</h1><p>b</p>',											'<h1>[]@</h1>' ],
 /* 5 */		[ '<p>a{b</p><p>c}d</p>',											 	'<p>b</p><p>c</p>',												'<p>a[]d</p>' ],
 /* 6 */		[ '<blockquote>a{b</blockquote><p>c}d</p>', 							'<blockquote>b</blockquote><p>c</p>',							'<blockquote>a[]d</blockquote>' ],
-/* 7 */		[ '<blockquote>a{b</blockquote><div>c</div><p>d}e</p>', 				'<blockquote>b<bblockquote><div>c</div><p>d</p>',				'<blockquote>e[]e</blockquote>' ],
+/* 7 */		[ '<blockquote>a{b</blockquote><div>c</div><p>d}e</p>', 				'<blockquote>b</blockquote><div>c</div><p>d</p>',				'<blockquote>e[]e</blockquote>' ],
 /* 8 */		[ '<div>a<div>{b</div></div><div>c</div><p>d}e</p>', 					'<div><div>b</div></div><div>c</div><p>d</p>',					'<div>a<div>[]@</div></div><p>e</p>' ], /*!*/
 /* 9 */		[ '<p>a{b</p><p>}c</p>', 												'<p>b</p><br data-cke-eol="1">',								'<p>a[]c</p>' ],
 /* 10 */	[ '<p>a{</p><p>b}c</p>', 												'<br data-cke-eol="1"><p>b</p>',								'<p>a[]c</p>' ],
@@ -146,9 +146,9 @@
 /* 12 */	[ '[<br>]',																'<br>',															'[]' ],
 /* 13 */	[ 'a{<br><br>}b',														'<br><br>',														'a[]b' ],
 /* 14 */	[ '<p>[<b>a</b>]</p>',													'<b>a</b>',														'<p>[]@</p>' ],
-/* 15 */	[ '<p>a{<b>b}</b>c</p>',												'<b>y</b>',														'<p>a[]c</p>' ],
-/* 16 */	[ '<p>a{<img src="' + img_src + '"/>}b</p>',							'<img src="' + img_src + '"/>',									'<p>a[]b</p>' ],
-/* 17 */	[ '<p>a{<a href="foo"><img src="' + img_src + '"/></a>}b</p>',			'<a href="foo"><img src="' + img_src + '"/></a>',				'<p>a[]b</p>' ],
+/* 15 */	[ '<p>a{<b>b}</b>c</p>',												'<b>b</b>',														'<p>a[]c</p>' ],
+/* 16 */	[ '<p>a{<img src="' + img_src + '">}b</p>',								'<img src="' + img_src + '">',									'<p>a[]b</p>' ],
+/* 17 */	[ '<p>a{<a href="foo"><img src="' + img_src + '"></a>}b</p>',			'<a href="foo"><img src="' + img_src + '"></a>',				'<p>a[]b</p>' ],
 		],
 		'cross-inline': [
 /* 1 */		[ '<p>{a<b>b}</b>c</p>', 												'a<b>b</b>',													'<p>[]c</p>' ],
