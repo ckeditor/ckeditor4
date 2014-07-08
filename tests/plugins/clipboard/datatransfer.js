@@ -86,7 +86,7 @@ bender.test( {
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
 		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
+		assert.areSame( 'html', dataTransfer.type, 'type' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
@@ -104,7 +104,7 @@ bender.test( {
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_EXTERNAL, dataTransfer.getTransferType(), 'transferType' );
 		assert.areSame( 'x&lt;b&gt;foo&lt;/b&gt;x', dataTransfer.dataValue, 'dataValue' );
-		assert.areSame( 'text', dataTransfer.dataType, 'dataType' );
+		assert.areSame( 'text', dataTransfer.type, 'type' );
 		assert.isUndefined( dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
@@ -129,11 +129,11 @@ bender.test( {
 
 		if ( CKEDITOR.env.ie ) {
 			assert.areSame( 'foo', dataTransfer.dataValue, 'dataValue' );
-			assert.areSame( 'text', dataTransfer.dataType, 'dataType' );
+			assert.areSame( 'text', dataTransfer.type, 'type' );
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
 		} else {
 			assert.areSame( 'x<b>foo</b>x', dataTransfer.dataValue, 'dataValue' );
-			assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
+			assert.areSame( 'html', dataTransfer.type, 'type' );
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
 			assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'text/html' ), 'getData( \'text/html\' )' );
 		}
@@ -155,7 +155,7 @@ bender.test( {
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS, dataTransfer.getTransferType(), 'transferType' );
 		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
+		assert.areSame( 'html', dataTransfer.type, 'type' );
 		assert.areSame( editor1, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor2, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
@@ -217,7 +217,7 @@ bender.test( {
 
 		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
 		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.dataType, 'dataType' );
+		assert.areSame( 'html', dataTransfer.type, 'type' );
 		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
 		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( CKEDITOR.DATA_TRANSFER_DROP, dataTransfer.method, 'isDrag' );

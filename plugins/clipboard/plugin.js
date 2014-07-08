@@ -1681,7 +1681,7 @@
 	 * @constructor Creates a class instance.
 	 *
 	 * @param {Object} domEvent A native DOM event object.
-	 * @param {CKEDITOR.editor} editor The source editor instance. If editor is defined then dataValue will be created based on the editor contents and dataType will be 'html'.
+	 * @param {CKEDITOR.editor} editor The source editor instance. If editor is defined then dataValue will be created based on the editor contents and type will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
 		this.$ = evt.data.$.dataTransfer;
@@ -1718,7 +1718,7 @@
 		if ( editor ) {
 			this.sourceEditor = editor;
 			this.dataValue = editor.getSelection().getSelectedHtml(); // @todo replace with the new function
-			this.dataType = 'html';
+			this.type = 'html';
 
 			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.
@@ -1730,13 +1730,13 @@
 			// This html data object may also be empty if we drag content of the textarea.
 			try {
 				this.dataValue = this.getData( 'text/html' );
-				this.dataType = 'html';
+				this.type = 'html';
 			} catch ( err ) {}
 
 			if ( !this.dataValue ) {
 				// Try to get text data otherwise.
 				this.dataValue = this.getData( 'Text' );
-				this.dataType = 'text';
+				this.type = 'text';
 
 				if ( this.dataValue ) {
 					this.dataValue = CKEDITOR.tools.htmlEncode( this.dataValue );
@@ -1787,7 +1787,7 @@
 		 * Type of data in `data.dataValue`. The value might be `html` or `text`.
 		 *
 		 * @readonly
-		 * @property {String} dataType
+		 * @property {String} type
 		 */
 
 		/**
