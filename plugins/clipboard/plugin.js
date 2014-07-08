@@ -1680,14 +1680,16 @@
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
 	 * @constructor Creates a class instance.
 	 *
-	 * @param {Object} domEvent A native DOM event object.
-	 * @param {CKEDITOR.editor} editor The source editor instance. If editor is defined then dataValue will be created based on the editor contents and type will be 'html'.
+	 * @param {Object} [domEvent] A native DOM event object.
+	 * @param {CKEDITOR.editor} [editor] The source editor instance. If editor is defined then dataValue will be created based on the editor contents and type will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
-		this.$ = evt.data.$.dataTransfer;
+		if ( evt ) {
+			this.$ = evt.data.$.dataTransfer;
+		}
 
 		// Check if ID is already created.
-		this.id = this.$.getData( clipboardIdDataType );
+		this.id = this.getData( clipboardIdDataType );
 
 		function generateUniqueId() {
 			return ( new Date() ).getTime() + Math.random().toString( 16 ).substring( 2 );
@@ -1710,7 +1712,7 @@
 		}
 
 		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
+		if ( evt && evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
 			// dataTransfer object will be passed from the drag to the drop event.
 			this.$.setData( clipboardIdDataType, this.id );
 		}
@@ -1722,7 +1724,7 @@
 
 			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.
-			if ( evt.name == 'dragstart' && CKEDITOR.env.safari ) {
+			if ( evt && evt.name == 'dragstart' && CKEDITOR.env.safari ) {
 				evt.data.$.dataTransfer.setData( 'text', editor.getSelection().getSelectedText() );
 			}
 		} else {
@@ -1908,7 +1910,10 @@
 			var type = this._.normalizeType( t );
 
 			this._.data[ type ] = value;
-			this.$.setData( type, value );
+
+			if ( this.$ ) {
+				this.$.setData( type, value );
+			}
 		},
 
 		/**
