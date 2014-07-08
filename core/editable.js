@@ -1164,14 +1164,17 @@
 				if ( ariaLabel )
 					editable.changeAttr( 'title', ariaLabel );
 
-				// Put the voice label in different spaces, depending on element mode, so
-				// the DOM element get auto detached on mode reload or editor destroy.
-				var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
-				if ( ct ) {
-					var ariaDescId = CKEDITOR.tools.getNextId(),
-						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + this.lang.common.editorHelp + '</span>' );
-					ct.append( desc );
-					editable.changeAttr( 'aria-describedby', ariaDescId );
+				var helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+				if ( helpLabel ) {
+					// Put the voice label in different spaces, depending on element mode, so
+					// the DOM element get auto detached on mode reload or editor destroy.
+					var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
+					if ( ct ) {
+						var ariaDescId = CKEDITOR.tools.getNextId(),
+							desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + helpLabel + '</span>' );
+						ct.append( desc );
+						editable.changeAttr( 'aria-describedby', ariaDescId );
+					}
 				}
 			}
 		} );
@@ -2154,6 +2157,27 @@
  *
  * @cfg {Boolean} [ignoreEmptyParagraph=true]
  * @member CKEDITOR.config
+ */
+
+/**
+ * Event fired by the editor in order to get accessibility help label.
+ * The event is responded by a component which provides accessibility
+ * help (i.e. `a11yhelp` plugin) hence editor is notified whether help is available.
+ *
+ * Providing info:
+ *
+ *		editor.on( 'ariaEditorHelpLabel', function( evt ) {
+ *				evt.data.label = editor.lang.common.editorHelp;
+ *		} );
+ *
+ * Getting label:
+ *
+ *		var helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+ *
+ * @since 4.4.3
+ * @event ariaEditorHelpLabel
+ * @param {String} label The label to be used.
+ * @member CKEDITOR.editor
  */
 
 /**

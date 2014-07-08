@@ -223,7 +223,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCommon.notSet, '' ],
 							[ langCommon.alignLeft, 'left' ],
 							[ langCommon.alignCenter, 'center' ],
-							[ langCommon.alignRight, 'right' ]
+							[ langCommon.alignRight, 'right' ],
+							[ langCommon.alignJustify, 'justify' ]
 							],
 						setup: setupCells( function( element ) {
 							var alignAttr = element.getAttribute( 'align' ),
