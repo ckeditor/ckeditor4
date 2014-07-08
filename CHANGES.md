@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.3
 
+New Features:
+
+* [#12164](http://dev.ckeditor.com/ticket/12164): Added "Justify" option to "Horizontal Alignment" drop-down in the Table Cell dialog.
+
 Fixed Issues:
 
 * [#10422](http://dev.ckeditor.com/ticket/10422): Fixed: [`config.fillEmptyBlocks`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fillEmptyBlocks) not working properly if a function is specified.
@@ -12,7 +16,7 @@ Fixed Issues:
 * [#12132](http://dev.ckeditor.com/ticket/12132): Fixed: Image is inserted with `width` and `height` styles even when they are not allowed.
 * [#9317](http://dev.ckeditor.com/ticket/9317): [IE] Fixed: [`config.disableObjectResizing`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-disableObjectResizing) does not work on IE. **Note**: We were not able to fix this issue on IE11+ because necessary events stopped working. See a [last resort workaround](http://dev.ckeditor.com/ticket/9317#comment:16) and make sure to [support our complaint](https://connect.microsoft.com/IE/feedback/details/742593/please-respect-execcommand-enableobjectresizing-in-contenteditable-elements).
 * [#9638](http://dev.ckeditor.com/ticket/9638): Fixed: There should be no information about accessibility help available under `ALT+0` keystroke if the `a11yhelp` plugin is not available.
-* [#8117](http://dev.ckeditor.com/ticket/8117) and [#9186](http://dev.ckeditor.com/ticket/9186) Fixed: In HTML5 `<meta>` tags should be allowed everywhere, including `<body>`.
+* [#8117](http://dev.ckeditor.com/ticket/8117) and [#9186](http://dev.ckeditor.com/ticket/9186): Fixed: In HTML5 `<meta>` tags should be allowed everywhere, including `<body>`.
 
 ## CKEditor 4.4.2
 
