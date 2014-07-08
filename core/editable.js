@@ -642,29 +642,84 @@
 					return fragment;
 				}
 
+				var eol = ( function() {
+					function createEolBr( doc ) {
+						return doc.createElement( 'br', {
+							attributes: {
+								'data-cke-eol': 1
+							}
+						} );
+					}
+
+					return {
+						detect: function( info, range ) {
+							var rangeStart = range.clone(),
+								rangeEnd = range.clone(),
+
+								startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
+								endPath = new CKEDITOR.dom.elementPath( range.endContainer, this );
+
+							// Note: checkBoundaryOfElement will not work on original range as CKEDITOR.START|END
+							// means that range start|end must be literally anchored at block start|end, e.g.
+							//
+							// 		<p>a{</p><p>}b</p>
+							//
+							// will return false for both paragraphs but two similar ranges
+							//
+							// 		<p>a{}</p><p>{}b</p>
+							//
+							// will return true if checked separately.
+							rangeStart.collapse( 1 );
+							rangeEnd.collapse();
+
+							if ( startPath.block && rangeStart.checkBoundaryOfElement( startPath.block, CKEDITOR.END ) ) {
+								range.setStartAfter( startPath.block );
+								info.prependEolBr = 1;
+							}
+
+							if ( endPath.block && rangeEnd.checkBoundaryOfElement( endPath.block, CKEDITOR.START ) ) {
+								range.setEndBefore( endPath.block );
+								info.appendEolBr = 1;
+							}
+						},
+						fix: function ( info, fragment ) {
+							var doc = this.getDocument(),
+								appended;
+
+							// Append <br data-cke-eol="1"> to the fragment.
+							if ( info.appendEolBr ) {
+								appended = createEolBr( doc );
+								fragment.append( appended );
+							}
+
+							// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
+							// elements should never follow each other in DOM.
+							if ( info.prependEolBr && ( info.appendEolBr ? appended.getPrevious() : 1 ) ) {
+								fragment.append( createEolBr( doc ), 1 );
+							}
+						}
+					};
+				} )();
+
 				return function( range ) {
 					// There's nothing to return if range is collapsed.
 					if ( range.collapsed )
 						return new CKEDITOR.dom.documentFragment( range.document );
 
-					var path = range.startPath(),
 						// Leave original range object untouched.
-						rangeClone = range.clone();
+					var rangeClone = range.clone(),
 
-					if ( path.block &&
-						path.block.equals( range.endPath().block ) &&
-						this.contains( path.block ) &&
-						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.START ) &&
-						rangeClone.checkBoundaryOfElement( path.block, CKEDITOR.END ) )
-					{
-						rangeClone.setStartBefore( path.block );
-						rangeClone.setEndAfter( path.block );
-					}
+						// Info object passed between methods.
+						info = {
+							doc: this.getDocument()
+						};
+
+					eol.detect.call( this, info, rangeClone );
 
 					var node = rangeClone.startContainer.getCommonAncestor( rangeClone.endContainer );
 
 					// Path is now relative to the common ancestor.
-					path = new CKEDITOR.dom.elementPath( node, this );
+					var path = new CKEDITOR.dom.elementPath( node, this );
 
 					if ( node.type == CKEDITOR.NODE_TEXT )
 						node = node.getParent();
@@ -677,19 +732,19 @@
 					clonedFragment.appendTo( container );
 
 					// Collect all <br>s and get rid of boguses.
-					var boguses = container.find( 'br' ),
-						bogusesToRemove = [];
+					// var boguses = container.find( 'br' ),
+					// 	bogusesToRemove = [];
 
-					for ( var i = boguses.count(), bogus; bogus = boguses.getItem( --i ); ) {
-						// Don't remove immediately as it might distort further checks (i.e. multiple <br>s in one parent).
-						if ( isBogus( bogus ) ) {
-							bogusesToRemove.push( bogus );
-						}
-					}
+					// for ( var i = boguses.count(), bogus; bogus = boguses.getItem( --i ); ) {
+					// 	// Don't remove immediately as it might distort further checks (i.e. multiple <br>s in one parent).
+					// 	if ( isBogus( bogus ) ) {
+					// 		bogusesToRemove.push( bogus );
+					// 	}
+					// }
 
-					// Prune collected bogus BRs.
-					while ( ( bogus = bogusesToRemove.pop() ) )
-						bogus.remove();
+					// // Prune collected bogus BRs.
+					// while ( ( bogus = bogusesToRemove.pop() ) )
+					// 	bogus.remove();
 
 					// Move nodes back to documentFragment.
 					container.moveChildren( clonedFragment );
@@ -708,6 +763,8 @@
 								return !node.equals( path.block ) && !node.equals( path.blockLimit );
 							}
 					);
+
+					eol.fix.call( this, info, clonedFragment );
 
 					return new CKEDITOR.dom.documentFragment( clonedFragment.$ );
 				};
