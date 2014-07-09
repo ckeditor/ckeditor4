@@ -1247,6 +1247,7 @@
 				if ( !dropRange )
 					return;
 
+
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
 				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
@@ -1340,8 +1341,32 @@
 
 			// @todo integrate with firePasteEvents.
 			function firePasteWithDataTransfer( dataTransfer ) {
-				if ( dataTransfer.dataValue ) {
-						editor.fire( 'paste', dataTransfer );
+				var eventData = {
+					method: CKEDITOR.CLIPBOARD_DROP,
+					dataTransfer: dataTransfer
+				};
+
+				// IE support only text data and throws exception if we try to get html data.
+				// This html data object may also be empty if we drag content of the textarea.
+				try {
+					eventData.dataValue = dataTransfer.getData( 'text/html' );
+					eventData.type = 'html';
+				} catch ( err ) {}
+
+				if ( !eventData.dataValue ) {
+					// Try to get text data otherwise.
+					eventData.dataValue = dataTransfer.getData( 'text/plain' );
+					eventData.type = 'text';
+
+					if ( eventData.dataValue ) {
+						eventData.dataValue = CKEDITOR.tools.htmlEncode( eventData.dataValue );
+					} else {
+						eventData.dataValue = '';
+					}
+				}
+
+				if ( eventData.dataValue ) {
+						editor.fire( 'paste', eventData );
 				}
 			}
 
@@ -1688,8 +1713,25 @@
 			this.$ = evt.data.$.dataTransfer;
 		}
 
+		this._ = {
+			data: [],
+
+			normalizeType: function( t ) {
+				var type = t.toLowerCase();
+
+				if ( type == 'text' || type == 'text/plain' ) {
+					return 'Text'; // IE support only Text and URL;
+				} else if ( type == 'url' ) {
+					return 'URL'; // IE support only Text and URL;
+				} else {
+					return type;
+				}
+			}
+		};
+
 		// Check if ID is already created.
 		this.id = this.getData( clipboardIdDataType );
+
 
 		function generateUniqueId() {
 			return ( new Date() ).getTime() + Math.random().toString( 16 ).substring( 2 );
@@ -1719,32 +1761,14 @@
 
 		if ( editor ) {
 			this.sourceEditor = editor;
-			this.dataValue = editor.getSelection().getSelectedHtml(); // @todo replace with the new function
-			this.type = 'html';
+
+			// @todo replace with the new function
+			this.setData( 'text/html', editor.getSelection().getSelectedHtml() );
 
 			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.
-			if ( evt && evt.name == 'dragstart' && CKEDITOR.env.safari ) {
-				evt.data.$.dataTransfer.setData( 'text', editor.getSelection().getSelectedText() );
-			}
-		} else {
-			// IE support only text data and throws exception if we try to get html data.
-			// This html data object may also be empty if we drag content of the textarea.
-			try {
-				this.dataValue = this.getData( 'text/html' );
-				this.type = 'html';
-			} catch ( err ) {}
-
-			if ( !this.dataValue ) {
-				// Try to get text data otherwise.
-				this.dataValue = this.getData( 'Text' );
-				this.type = 'text';
-
-				if ( this.dataValue ) {
-					this.dataValue = CKEDITOR.tools.htmlEncode( this.dataValue );
-				} else {
-					this.dataValue = '';
-				}
+			if ( clipboardIdDataType != 'Text' && !this.getData( 'text/plain' ) ) {
+				this.setData( 'text/plain', editor.getSelection().getSelectedText() );
 			}
 		}
 
@@ -1778,26 +1802,11 @@
 		 * @property {CKEDITOR.editor} targetEditor
 		 */
 
-		/**
-		 * HTML or text to be pasted.
+		 /**
+		 * Private properties and methods.
 		 *
-		 * @readonly
-		 * @property {String} dataValue
-		 */
-
-		/**
-		 * Type of data in `data.dataValue`. The value might be `html` or `text`.
-		 *
-		 * @readonly
-		 * @property {String} type
-		 */
-
-		/**
-		 * Indicates the method of the data transfer. It could be drag and drop or copy and paste.
-		 * Possible values: {@link CKEDITOR#DATA_TRANSFER_DROP}, {@link CKEDITOR#DATA_TRANSFER_PASTE}.
-		 *
-		 * @readonly
-		 * @property {Number} method
+		 * @private
+		 * @property {Object} _
 		 */
 	};
 
@@ -1809,7 +1818,7 @@
 	 * @property {Number} [=0]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_DROP = 0;
+	CKEDITOR.CLIPBOARD_DROP = 0;
 	/**
 	 * Clipboard operation method: copy and paste.
 	 *
@@ -1818,7 +1827,7 @@
 	 * @property {Number} [=1]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_PASTE = 1;
+	CKEDITOR.CLIPBOARD_PASTE = 1;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
@@ -1855,27 +1864,6 @@
 
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
 		/**
-		 * dataTransfer private properties and methods.
-		 *
-		 * @private
-		 */
-		_: {
-			data: [],
-
-			normalizeType: function( t ) {
-				var type = t.toLowerCase();
-
-				if ( type == 'text' || type == 'text/plain' ) {
-					return 'Text'; // IE support only Text and URL;
-				} else if ( type == 'url' ) {
-					return 'URL'; // IE support only Text and URL;
-				} else {
-					return type;
-				}
-			}
-		},
-
-		/**
 		 * Facade for the native getData method.
 		 *
 		 * @param {String} type The type of data to retrieve.
@@ -1910,6 +1898,12 @@
 			var type = this._.normalizeType( t );
 
 			this._.data[ type ] = value;
+
+			// There is "Unexpected call to method or property access." error if you try
+			// to set data of unsupported type on IE.
+			if ( CKEDITOR.env.ie && type != 'URL' && type != 'Text' ) {
+				return;
+			}
 
 			if ( this.$ ) {
 				this.$.setData( type, value );
@@ -1973,6 +1967,11 @@
  * with priority less than 6 it may be also `auto`, what means that content type hasn't been recognised yet
  * (this will be done by content type sniffer that listens with priority 6).
  * @param {String} data.dataValue HTML to be pasted.
+ * @param {Number} method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
+ * Possible values: {@link CKEDITOR#CLIPBOARD_DROP}, {@link CKEDITOR#CLIPBOARD_PASTE}.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer Facade for the native dataTransfer object
+ * which provide access to the various data types, files and pass some date between linked events
+ * (like drag and drop).
  */
 
 /**

@@ -16,16 +16,16 @@ CKEDITOR.disableAutoInline = true;
 function createDragDropEventMock() {
 	return {
 		$: {
-			clientX: 0,
-			clientY: 0,
-
 			dataTransfer: {
+				_dataTypes : [],
+
+				// Emulate browsers native behavior for getDeta/setData.
 				setData: function( type, data ) {
-					this.type = data;
+					this._dataTypes[ type ] = data;
 				},
 				getData: function( type ) {
-					return this.type;
-				},
+					return this._dataTypes[ type ];
+				}
 			}
 		},
 		preventDefault: function() {
@@ -281,16 +281,21 @@ var editors, editorBots,
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
 
-			if ( CKEDITOR.env.ie )
+			if ( CKEDITOR.env.ie ) {
 				evt.$.dataTransfer.setData( 'Text', '<b>dolor</b>' );
-			else
+			} else {
 				evt.$.dataTransfer.setData( 'text/html', '<b>dolor</b>' );
+			}
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6
 			}, function() {
-				assert.areSame( '<p id="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				if ( CKEDITOR.env.ie ) {
+					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				} else {
+					assert.areSame( '<p id="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				}
 
 				editor.execCommand( 'undo' );
 

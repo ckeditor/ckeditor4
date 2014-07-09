@@ -3,6 +3,13 @@
 
 'use strict';
 
+var setWithHtml = bender.tools.selection.setWithHtml,
+	getWithHtml = bender.tools.selection.getWithHtml,
+	htmlMatchOpts = {
+		compareSelection: false,
+		fixStyles: true
+	};
+
 function createDragDropEventMock() {
 	return {
 		data: {
@@ -27,7 +34,7 @@ function createDragDropEventMock() {
 							return '';
 
 						return this._dataTypes[ type ];
-					},
+					}
 				}
 			}
 		}
@@ -57,6 +64,14 @@ bender.test( {
 		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 	},
 
+	assertDataTransfer: function( expected, dataTransfer ) {
+		assert.areSame( expected.transferType, dataTransfer.getTransferType(), 'transferType' );
+		assert.areSame( expected.sourceEditor, dataTransfer.sourceEditor, 'sourceEditor' );
+		assert.areSame( expected.targetEditor, dataTransfer.targetEditor, 'targetEditor' );
+		assert.areSame( expected.text, dataTransfer.getData( 'text/plain' ), 'getData( \'text/plain\' )' );
+		assert.isInnerHtmlMatching( expected.html,  dataTransfer.getData( 'text/html' ), htmlMatchOpts, 'getData( \'text/html\' )' );
+	},
+
 	'test id': function() {
 		var evt1 = createDragDropEventMock(),
 			evt2 = createDragDropEventMock(),
@@ -79,17 +94,18 @@ bender.test( {
 		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
+		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: 'bar',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test internal drag drop, no event': function() {
@@ -102,11 +118,13 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test drop text from external source': function() {
@@ -119,12 +137,13 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_EXTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x&lt;b&gt;foo&lt;/b&gt;x', dataTransfer.dataValue, 'dataValue' );
-		assert.areSame( 'text', dataTransfer.type, 'type' );
-		assert.isUndefined( dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				sourceEditor: undefined,
+				targetEditor: editor,
+				text: 'x<b>foo</b>x',
+				html: '' },
+			dataTransfer );
 	},
 
 	'test drop html from external source': function() {
@@ -132,7 +151,7 @@ bender.test( {
 			evt, dataTransfer;
 
 		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
+		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
 		if ( !CKEDITOR.env.ie ) {
 			evt.data.$.dataTransfer.setData( 'text/html', 'x<b>foo</b>x' );
 		}
@@ -140,20 +159,13 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_EXTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.isUndefined( dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-
-		if ( CKEDITOR.env.ie ) {
-			assert.areSame( 'foo', dataTransfer.dataValue, 'dataValue' );
-			assert.areSame( 'text', dataTransfer.type, 'type' );
-			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
-		} else {
-			assert.areSame( 'x<b>foo</b>x', dataTransfer.dataValue, 'dataValue' );
-			assert.areSame( 'html', dataTransfer.type, 'type' );
-			assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
-			assert.areSame( 'x<b>foo</b>x', dataTransfer.getData( 'text/html' ), 'getData( \'text/html\' )' );
-		}
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				sourceEditor: undefined,
+				targetEditor: editor,
+				text: 'bar',
+				html: CKEDITOR.env.ie ? '' : 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test drag drop between editors': function() {
@@ -165,17 +177,18 @@ bender.test( {
 		bot1.setHtmlWithSelection( '[x<b>foo</b>x]' );
 
 		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'foo' );
+		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor1 );
 		dataTransfer.setTargetEditor( editor2 );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor1, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor2, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'getData( \'Text\' )' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
+				sourceEditor: editor1,
+				targetEditor: editor2,
+				text: 'bar',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test drag drop between editors, no event': function() {
@@ -188,11 +201,13 @@ bender.test( {
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor1 );
 		dataTransfer.setTargetEditor( editor2 );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor1, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor2, dataTransfer.targetEditor, 'targetEditor' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
+				sourceEditor: editor1,
+				targetEditor: editor2,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test setData getData': function() {
@@ -277,12 +292,13 @@ bender.test( {
 			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( CKEDITOR.DATA_TRANSFER_DROP, dataTransfer.method, 'isDrag' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
 	},
 
 	'test initDragDataTransfer constructor, no event': function() {
@@ -294,11 +310,12 @@ bender.test( {
 		var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( null, editor );
 		dataTransfer.setTargetEditor( editor );
 
-		assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType(), 'transferType' );
-		assert.areSame( 'x<b>foo</b>x', bender.tools.fixHtml( dataTransfer.dataValue ), 'dataValue' );
-		assert.areSame( 'html', dataTransfer.type, 'type' );
-		assert.areSame( editor, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( editor, dataTransfer.targetEditor, 'targetEditor' );
-		assert.areSame( CKEDITOR.DATA_TRANSFER_DROP, dataTransfer.method, 'isDrag' );
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x'	},
+		dataTransfer );
 	}
 } );
