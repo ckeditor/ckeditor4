@@ -627,21 +627,6 @@
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
 			getSelectedHtmlFromRange: ( function() {
-				function rebuildFragmentTree( fragment, node, limit ) {
-					var clone;
-
-					while ( node && !node.equals( this ) && limit( node ) ) {
-						// Don't clone children. Preserve element ids.
-						clone = node.clone( 0, 1 );
-						fragment.appendTo( clone );
-						fragment = clone;
-
-						node = node.getParent();
-					}
-
-					return fragment;
-				}
-
 				var eol = ( function() {
 					function createEolBr( doc ) {
 						return doc.createElement( 'br', {
@@ -652,8 +637,9 @@
 					}
 
 					return {
-						detect: function( info, range ) {
-							var rangeStart = range.clone(),
+						detect: function( info ) {
+							var range = info.range,
+								rangeStart = range.clone(),
 								rangeEnd = range.clone(),
 
 								startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
@@ -682,20 +668,125 @@
 								info.appendEolBr = 1;
 							}
 						},
-						fix: function ( info, fragment ) {
+						fix: function ( info ) {
 							var doc = this.getDocument(),
 								appended;
 
 							// Append <br data-cke-eol="1"> to the fragment.
 							if ( info.appendEolBr ) {
 								appended = createEolBr( doc );
-								fragment.append( appended );
+								info.fragment.append( appended );
 							}
 
 							// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
 							// elements should never follow each other in DOM.
 							if ( info.prependEolBr && ( info.appendEolBr ? appended.getPrevious() : 1 ) ) {
-								fragment.append( createEolBr( doc ), 1 );
+								info.fragment.append( createEolBr( doc ), 1 );
+							}
+						}
+					};
+				} )();
+
+				var bogus = ( function() {
+					return {
+						exclude: function( info ) {
+							var boundaryNodes = info.range.getBoundaryNodes(),
+								startNode = boundaryNodes.startNode,
+								endNode = boundaryNodes.endNode;
+
+							// If bogus is the last node in range but not the only node, exclude it.
+							if ( endNode && isBogus( endNode ) && ( startNode ? !startNode.equals( endNode ) : 1 ) )
+								info.range.setEndBefore( boundaryNodes.endNode );
+						}
+					};
+				} )();
+
+				var tree = ( function() {
+					function rebuildFragmentTree( info, node, limit ) {
+						var clone;
+
+						while ( node && !node.equals( this ) && limit( node ) ) {
+							// Don't clone children. Preserve element ids.
+							clone = node.clone( 0, 1 );
+							info.fragment.appendTo( clone );
+							info.fragment = clone;
+
+							node = node.getParent();
+						}
+					}
+
+					return {
+						rebuild: function( info ) {
+							var range = info.range,
+								node = range.startContainer.getCommonAncestor( range.endContainer ),
+
+								// A path relative to the common ancestor.
+								commonPath = new CKEDITOR.dom.elementPath( node, this ),
+								startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
+								endPath = new CKEDITOR.dom.elementPath( range.endContainer, this ),
+								limit;
+
+							if ( node.type == CKEDITOR.NODE_TEXT )
+								node = node.getParent();
+
+							// Fix DOM of partially enclosed tables
+							// 		<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>
+							// Full table is returned
+							// 		<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>
+							// instead of
+							// 		<td>b</td><td>c</td>
+							if ( commonPath.blockLimit.is( { tr: 1, table: 1 } ) ) {
+								var tableParent = commonPath.contains( 'table' ).getParent();
+
+								limit = function( node ) {
+									return !node.equals( tableParent );
+								};
+							}
+
+							// Fix DOM in the following case
+							// 		<ol><li>a{b<ul><li>c}d</li></ul></li></ol>
+							// Full list is returned
+							// 		<ol><li>b<ul><li>c</li></ul></li></ol>
+							// instead of
+							// 		b<ul><li>c</li></ul>
+							else if ( commonPath.block && commonPath.block.is( CKEDITOR.dtd.$listItem ) ) {
+								var startList = startPath.contains( CKEDITOR.dtd.$list ),
+									endList = endPath.contains( CKEDITOR.dtd.$list );
+
+								if ( !startList.equals( endList ) ) {
+									var listParent = commonPath.contains( CKEDITOR.dtd.$list ).getParent();
+
+									limit = function( node ) {
+										return !node.equals( listParent );
+									};
+								}
+							}
+
+							// If not defined, use generic limit function.
+							limit = limit || function( node ) {
+								return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
+							};
+
+							rebuildFragmentTree.call( this, info, node, limit );
+						}
+					};
+				} )();
+
+				var cell = ( function() {
+					return {
+						// Handle range anchored in table row with a single cell enclosed:
+						// 		<table><tbody><tr>[<td>a</td>]</tr></tbody></table>
+						// becomes
+						// 		<table><tbody><tr><td>{a}</td></tr></tbody></table>
+						shrink: function( info ) {
+							var range = info.range,
+								startContainer = range.startContainer,
+								endContainer = range.endContainer,
+								startOffset = range.startOffset,
+								endOffset = range.endOffset;
+
+							if ( startContainer.type == CKEDITOR.NODE_ELEMENT && startContainer.equals( endContainer ) && startContainer.is( 'tr' ) && ++startOffset == endOffset ) {
+								range.shrink( CKEDITOR.SHRINK_TEXT );
 							}
 						}
 					};
@@ -706,67 +797,23 @@
 					if ( range.collapsed )
 						return new CKEDITOR.dom.documentFragment( range.document );
 
+					// Info object passed between methods.
+					var info = {
+						doc: this.getDocument(),
 						// Leave original range object untouched.
-					var rangeClone = range.clone(),
+						range: range.clone()
+					};
 
-						// Info object passed between methods.
-						info = {
-							doc: this.getDocument()
-						};
+					eol.detect.call( this, info );
+					bogus.exclude.call( this, info );
+					cell.shrink.call( this, info );
 
-					eol.detect.call( this, info, rangeClone );
+					info.fragment = info.range.cloneContents();
 
-					var node = rangeClone.startContainer.getCommonAncestor( rangeClone.endContainer );
+					tree.rebuild.call( this, info );
+					eol.fix.call( this, info );
 
-					// Path is now relative to the common ancestor.
-					var path = new CKEDITOR.dom.elementPath( node, this );
-
-					if ( node.type == CKEDITOR.NODE_TEXT )
-						node = node.getParent();
-
-					var clonedFragment = rangeClone.cloneContents(),
-						container = new CKEDITOR.dom.element( 'div' );
-
-					// Note: element.isBogus() fails work in documentFragment. Transfer
-					// documentFragment children to temp container to get rid of bogus <br>s.
-					clonedFragment.appendTo( container );
-
-					// Collect all <br>s and get rid of boguses.
-					// var boguses = container.find( 'br' ),
-					// 	bogusesToRemove = [];
-
-					// for ( var i = boguses.count(), bogus; bogus = boguses.getItem( --i ); ) {
-					// 	// Don't remove immediately as it might distort further checks (i.e. multiple <br>s in one parent).
-					// 	if ( isBogus( bogus ) ) {
-					// 		bogusesToRemove.push( bogus );
-					// 	}
-					// }
-
-					// // Prune collected bogus BRs.
-					// while ( ( bogus = bogusesToRemove.pop() ) )
-					// 	bogus.remove();
-
-					// Move nodes back to documentFragment.
-					container.moveChildren( clonedFragment );
-
-					clonedFragment = rebuildFragmentTree.call( this, clonedFragment, node,
-						path.blockLimit.is( { tr: 1, table: 1 } ) ?
-							( function() {
-								var tableParent = path.contains( 'table' ).getParent();
-
-								return function( node ) {
-									return !node.equals( tableParent );
-								};
-							} )()
-						:
-							function( node ) {
-								return !node.equals( path.block ) && !node.equals( path.blockLimit );
-							}
-					);
-
-					eol.fix.call( this, info, clonedFragment );
-
-					return new CKEDITOR.dom.documentFragment( clonedFragment.$ );
+					return new CKEDITOR.dom.documentFragment( info.fragment.$ );
 				};
 			} )(),
 
