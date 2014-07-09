@@ -70,7 +70,7 @@
 				// </DEV>
 
 				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				// testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
@@ -167,7 +167,8 @@
 /* 4 */		[ '<p><b>{a}@</b></p>', 												'<b>a</b>',														'<p>[]@</p>' ],
 /* 5 */		[ '<p>{a}<br>@</p>', 													'a',															'<p>[]<br>@</p>' ],
 /* 6 */		[ '{a<br>]@',															'a<br>',														'[]@' ],
-/* 7 */		[ '<p>{a<br>]@</p>',													'a<br>@',														'<p>[]@</p>' ],
+/* 7 */		[ '<p>{a<br>]@</p>',													'a<br>',														'<p>[]@</p>' ],
+/* 8 */		[ '<div>b<p>{a@]</p>b</div>', 											'a',															'<div>b<p>[]@</p></div>' ],
 		],
 		'tables': [
 /* 1 */		[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>', 				'a',															'<table><tbody><tr><td>[]@</td></tr></tbody></table>' ],
@@ -183,10 +184,12 @@
 /* 8 */		[ '<table><tbody><tr><td>a{b</td><td>c</td></tr><tr><td>d}e</td><td>f</td></tr></tbody></table>',
 																					'<table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td></tr></tbody></table>',
 																																					'<table><tbody><tr><td>a[]</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
-/* 9 */		[ '<p>[a</p><table><tr><td>b</td><td>c]d</td></tr></table>',			'<p>a</p><table><tr><td>b</td><td>c</td></tr></table>',			'<p>[]@</p><table><tr><td>@</td><td>d</td></tr></table>' ],
-/* 10 */	[ '<p>[a</p><table><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e]f</td></tr></table>',
-																					'<p>a</p><table><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e</td></tr></table>',
-																																					'<p>[]@</p><table><tr><td>@</td><td>f</td></tr></table>' ],
+/* 9 */		[ '<p>[a</p><table><tbody><tr><td>b</td><td>c]d</td></tr></tbody></table>',
+																					'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
+																																					'<p>[]@</p><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ],
+/* 10 */	[ '<p>[a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e]f</td></tr></tbody></table>',
+																					'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e</td></tr></tbody></table>',
+																																					'<p>[]@</p><table><tbody><tr><td>@</td><td>f</td></tr></tbody></table>' ],
 /* 11 */	[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>', 	'<p>[]@</p>' ],
 /* 12 */	[ '<table border="1" style="width:500px"><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 																					'<table border="1" style="width:500px"><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
