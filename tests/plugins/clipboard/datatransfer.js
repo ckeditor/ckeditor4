@@ -233,8 +233,8 @@ bender.test( {
 		assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ), 'CKE/custom - cke/custom' );
 		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
 
-		dataTransfer.setData( 'plain/html', 'html' );
-		assert.areSame( 'html', dataTransfer.getData( 'plain/html' ), 'plain/html - plain/html' );
+		dataTransfer.setData( 'text/html', 'html' );
+		assert.areSame( 'html', dataTransfer.getData( 'text/html' ), 'text/html - text/html' );
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},

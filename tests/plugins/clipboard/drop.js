@@ -9,7 +9,8 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		compareSelection: true,
 		normalizeSelection: true,
 		fixStyles: true
-	};
+	},
+	pasteListener;
 
 CKEDITOR.disableAutoInline = true;
 
@@ -58,15 +59,32 @@ function drop( editor, evt, config, callback ) {
 
 	evt.testRange = range;
 
-	editor.on( 'paste', function() {
-		pasteEventCounter++;
-	} );
+	pasteListener = function( evt ) {
+		resume( function() {
+			assert.areSame( config.expectedTransferType, evt.data.dataTransfer.getTransferType(), 'transferType' );
+			// Do not check Text data on IE10+.
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
+				assert.areSame( config.expectedText, evt.data.dataTransfer.getData( 'text/plain' ), 'text data' );
+			}
+			// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+			assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + evt.data.dataTransfer.getData( 'text/html' ) + 'x', 'html data' );
+			assert.areSame( CKEDITOR.CLIPBOARD_DROP, evt.data.method, 'method should be drop' );
+			assert.areSame( config.expectedDataType, evt.data.type, 'data type' );
+			assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + evt.data.dataValue + 'x', 'data value' );
 
-	if ( expectedPasteEventCount ) {
-		editor.once( 'afterPaste', function() {
-			resume( finish );
+			pasteEventCounter++;
+
+			editor.once( 'afterPaste', function() {
+				resume( finish );
+			} );
+
+			wait();
 		} );
-	} else {
+	};
+
+	editor.on( 'paste', pasteListener );
+
+	if ( !expectedPasteEventCount ) {
 		wait( finish, 300 );
 	}
 
@@ -114,8 +132,11 @@ var editors, editorBots,
 		}
 	},
 	testsForMultipleEditor = {
-		'setUp': function() {
+		'tearDown': function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+			editors.framed.removeListener( 'paste', pasteListener );
+			editors.inline.removeListener( 'paste', pasteListener );
+			editors.divarea.removeListener( 'paste', pasteListener );
 		},
 
 		'test drop to header': function( editor ) {
@@ -130,7 +151,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'h1' ).getChild( 0 ),
-				offset: 7
+				offset: 7,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'dolor',
+				expectedHtml: 'dolor',
+				expectedDataType: 'html',
+				expectedDataValue: 'dolor'
 			}, function() {
 				assert.areSame( '<h1 id="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
@@ -151,7 +177,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6
+				offset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'dolor',
+				expectedHtml: 'dolor',
+				expectedDataType: 'html',
+				expectedDataValue: 'dolor'
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
@@ -172,7 +203,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 2 ),
-				offset: 11
+				offset: 11,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'ipsum',
+				expectedHtml: 'ipsum',
+				expectedDataType: 'html',
+				expectedDataValue: 'ipsum'
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
@@ -198,7 +234,12 @@ var editors, editorBots,
 					editor.document.getById( 'p' ).getChild( 1 ),
 				offset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 					11 :
-					17
+					17,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'em ipsum',
+				expectedHtml: '<b>em</b> ipsum',
+				expectedDataType: 'html',
+				expectedDataValue: '<b>em</b> ipsum'
 			}, function() {
 				assert.isInnerHtmlMatching( '<p id="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
@@ -219,7 +260,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 2 ),
-				offset: 16
+				offset: 16,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'ipsum',
+				expectedHtml: 'ipsum',
+				expectedDataType: 'html',
+				expectedDataValue: 'ipsum'
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
@@ -240,7 +286,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0
+				offset: 0,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'ipsum',
+				expectedHtml: 'ipsum',
+				expectedDataType: 'html',
+				expectedDataValue: 'ipsum'
 			}, function() {
 				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
@@ -250,21 +301,23 @@ var editors, editorBots,
 			} );
 		},
 
-		'test drop from external source': function( editor ) {
+		'test drop text from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
 				evt = createDragDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
 
-			if ( CKEDITOR.env.ie )
-				evt.$.dataTransfer.setData( 'Text', 'dolor' );
-			else
-				evt.$.dataTransfer.setData( 'text/html', 'dolor' );
+			evt.$.dataTransfer.setData( 'Text', 'dolor' );
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6
+				offset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				expectedText: 'dolor',
+				expectedHtml: '',
+				expectedDataType: 'text',
+				expectedDataValue: 'dolor'
 			}, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
@@ -289,7 +342,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6
+				offset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				expectedText: CKEDITOR.env.ie ? '<b>dolor</b>' : '',
+				expectedHtml: CKEDITOR.env.ie ? '' : '<b>dolor</b>',
+				expectedDataType: CKEDITOR.env.ie ? 'text' : 'html',
+				expectedDataValue: CKEDITOR.env.ie ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
 			}, function() {
 				if ( CKEDITOR.env.ie ) {
 					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
@@ -334,7 +392,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6
+				offset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
+				expectedText: 'ipsum dolor ',
+				expectedHtml: 'ipsum <b>dolor</b> ',
+				expectedDataType: 'html',
+				expectedDataValue: 'ipsum <b>dolor</b> '
 			}, function() {
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				assert.areSame( '<p id="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
