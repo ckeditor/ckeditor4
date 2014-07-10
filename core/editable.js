@@ -14,11 +14,12 @@
 	CKEDITOR.editable = CKEDITOR.tools.createClass( {
 		base: CKEDITOR.dom.element,
 		/**
-		 * The constructor only stores generic editable creation logic that is commonly shared among all different editable elements.
+		 * The constructor only stores generic editable creation logic that is commonly shared among
+		 * all different editable elements.
 		 *
 		 * @constructor Creates an editable class instance.
 		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
-		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
+		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that was as the editor's
 		 * editing container, e.g. it could be either an HTML element with the `contenteditable` attribute
 		 * set to the `true` that handles WYSIWYG editing or a `<textarea>` element that handles source editing.
 		 */
@@ -2131,8 +2132,8 @@
 } )();
 
 /**
- * Whether the editor must output an empty value (`''`) if it's contents is made
- * by an empty paragraph only.
+ * Whether the editor must output an empty value (`''`) if its content only consists
+ * of an empty paragraph.
  *
  *		config.ignoreEmptyParagraph = false;
  *
@@ -2142,8 +2143,9 @@
 
 /**
  * Event fired by the editor in order to get accessibility help label.
- * The event is responded by a component which provides accessibility
- * help (i.e. `a11yhelp` plugin) hence editor is notified whether help is available.
+ * The event is responded to by a component which provides accessibility
+ * help (i.e. the `a11yhelp` plugin) hence the editor is notified whether
+ * accessibility help is available.
  *
  * Providing info:
  *
@@ -2159,14 +2161,4 @@
  * @event ariaEditorHelpLabel
  * @param {String} label The label to be used.
  * @member CKEDITOR.editor
- */
-
-/**
- * @event focus
- * @todo
- */
-
- /**
- * @event blur
- * @todo
  */
