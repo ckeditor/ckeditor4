@@ -679,9 +679,13 @@ CKEDITOR.config.disableNativeTableHandles = true;
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * The CSS file(s) to be used to apply style to the content. It should
- * reflect the CSS used in the final pages where the content is to be
- * used.
+ * The CSS file(s) to be used to apply style to editor content. It should
+ * reflect the CSS used in the target pages where the content is to be
+ * displayed.
+ *
+ * **Note:** This configuration value is ignored by [inline editor](#!/guide/dev_inline)
+ * as it uses the styles that come directly from the page that CKEditor is
+ * rendered on.
  *
  *		config.contentsCss = '/css/mysitestyles.css';
  *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
