@@ -1359,7 +1359,7 @@
 					eventData.type = 'text';
 
 					if ( eventData.dataValue ) {
-						eventData.dataValue = CKEDITOR.tools.htmlEncode( eventData.dataValue );
+						eventData.dataValue = editor.editable().textToHtml( eventData.dataValue );
 					} else {
 						eventData.dataValue = '';
 					}

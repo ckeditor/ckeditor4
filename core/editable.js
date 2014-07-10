@@ -245,6 +245,16 @@
 			insertText: function( text ) {
 				beforeInsert( this );
 
+				insert( this, 'text', this.textToHtml( text ) );
+			},
+
+			/**
+			 * Transform text to the valid HTML: create paragraphs, replace tabs with no breaking spaces etc..
+			 *
+			 * @param {String} text Text to transform.
+			 * @returns {String} Transformed HTML.
+			 */
+			textToHtml: function( text ) {
 				var editor = this.editor,
 					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode,
 					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
@@ -286,7 +296,7 @@
 					return before + '&nbsp;';
 				} ).replace( / (?=<)/g, '&nbsp;' );
 
-				insert( this, 'text', html );
+				return html;
 			},
 
 			/**
