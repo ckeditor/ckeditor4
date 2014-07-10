@@ -840,6 +840,157 @@
 					}
 				}
 
+				function optimizeBookmarkNode( node, toStart ) {
+					var parent = node.getParent();
+
+					if ( parent.is( CKEDITOR.dtd.$inline ) )
+						node[ toStart ? 'insertBefore' : 'insertAfter' ]( parent );
+				}
+
+				function mergeElements( merged, startBookmark, endBookmark ) {
+					optimizeBookmarkNode( startBookmark );
+					optimizeBookmarkNode( endBookmark, 1 );
+
+					var next;
+					while ( ( next = endBookmark.getNext() ) )
+						next.insertAfter( startBookmark );
+
+					if ( isEmpty( merged ) )
+						merged.remove();
+				}
+
+				var list = ( function() {
+					return {
+						detectMerge: function( info ) {
+							var range = info.range,
+								startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
+								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+
+								startList = startPath.contains( CKEDITOR.dtd.$list ),
+								endList = endPath.contains( CKEDITOR.dtd.$list );
+
+							info.mergeList =
+								// Both lists must exist
+								startList && endList &&
+								// ...and be of the same type
+								// startList.getName() == endList.getName() &&
+								// ...and share the same parent (same level in the tree)
+								startList.getParent().equals( endList.getParent() ) &&
+								// ...and must be different.
+								!startList.equals( endList );
+
+							info.mergeListItems =
+								startPath.block && endPath.block &&
+								// Both containers must be list items
+								startPath.block.is( CKEDITOR.dtd.$listItem ) && endPath.block.is( CKEDITOR.dtd.$listItem );
+
+							if ( info.mergeList || info.mergeListItems ) {
+								var rangeClone = range.clone();
+
+								rangeClone.setStartBefore( info.doc.getById( info.bookmark.startNode ) );
+								rangeClone.setEndAfter( info.doc.getById( info.bookmark.endNode ) );
+
+								info.mergeListBookmark = rangeClone.createBookmark( 1 );
+							}
+						},
+						merge: function( info ) {
+							if ( !info.mergeListBookmark )
+								return;
+
+							var range = info.range,
+								startNode = info.doc.getById( info.mergeListBookmark.startNode ),
+								endNode = info.doc.getById( info.mergeListBookmark.endNode ),
+
+								startPath = new CKEDITOR.dom.elementPath( startNode, this ),
+								endPath = new CKEDITOR.dom.elementPath( endNode, this );
+
+							if ( info.mergeList ) {
+								var firstList = startPath.contains( CKEDITOR.dtd.$list ),
+									secondList = endPath.contains( CKEDITOR.dtd.$list );
+
+								if ( !firstList.equals( secondList ) ) {
+									secondList.moveChildren( firstList );
+									secondList.remove();
+								}
+							}
+
+							if ( info.mergeListItems ) {
+								var firstListItem = startPath.contains( CKEDITOR.dtd.$listItem ),
+									secondListItem = endPath.contains( CKEDITOR.dtd.$listItem );
+
+								if ( !firstListItem.equals( secondListItem ) ) {
+									mergeElements( secondListItem, startNode, endNode );
+								}
+							}
+
+							// Remove bookmark nodes.
+							startNode.remove();
+							endNode.remove();
+						}
+					};
+				} )();
+
+				var extractMerge = ( function() {
+					return {
+						detect: function( info ) {
+							var startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
+								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+
+							var tableMerge = !(
+								startPath.blockLimit.is( CKEDITOR.dtd.$tableContent ) &&
+								endPath.blockLimit.is( CKEDITOR.dtd.$tableContent )
+							);
+
+							var listMerge = !(
+								startPath.contains( CKEDITOR.dtd.$listItem ) &&
+								endPath.contains( CKEDITOR.dtd.$listItem )
+							);
+
+							info.extractMerge = tableMerge && listMerge;
+						}
+					};
+				} )();
+
+				var block = ( function() {
+					return {
+						detectMerge: function( info ) {
+							var startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
+								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+
+							if ( !info.mergeListBookmark ) {
+								var rangeClone = info.range.clone();
+
+								rangeClone.setStartBefore( info.doc.getById( info.bookmark.startNode ) );
+								rangeClone.setEndAfter( info.doc.getById( info.bookmark.endNode ) );
+
+								info.mergeBlockBookmark = rangeClone.createBookmark( 1 );
+							}
+						},
+						merge: function( info ) {
+							if ( !info.mergeBlockBookmark )
+								return;
+
+							var range = info.range,
+								startNode = info.doc.getById( info.mergeBlockBookmark.startNode ),
+								endNode = info.doc.getById( info.mergeBlockBookmark.endNode ),
+
+								startPath = new CKEDITOR.dom.elementPath( startNode, this ),
+								endPath = new CKEDITOR.dom.elementPath( endNode, this );
+
+								var firstBlock = startPath.block,
+									secondBlock = endPath.block;
+
+							if ( firstBlock && !firstBlock.equals( secondBlock ) ) {
+								mergeElements( secondBlock, startNode, endNode );
+							}
+
+							// Remove bookmark nodes.
+							startNode.remove();
+							endNode.remove();
+						}
+					};
+				} )();
+
 				return function( range ) {
 					// Since it is quite hard to build a valid documentFragment
 					// out of extracted contents because DOM changes, let's mimic
@@ -852,65 +1003,36 @@
 						return extractedFragment;
 					}
 
-					var path = range.startPath(),
-						doc = range.document;
+					var info = {
+						range: range,
+						doc: range.document
+					};
 
 					// Include inline element if possible.
 					range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
-					var startPath = range.startPath(),
-						endPath = range.endPath();
-
-					// If range touches the boundary of a block element, include it immediately.
-					if ( startPath.block && endPath.block ) {
-						if ( this.contains( startPath.block ) && this.contains( endPath.block ) ) {
-							if ( range.checkStartOfBlock() && range.checkEndOfBlock() ) {
-								range.setStartBefore( startPath.block );
-								range.setEndAfter( endPath.block );
-							}
-						}
-					}
-
 					// We'll play with DOM, let's hold the position of the range.
-					var bm = range.createBookmark( 1 );
+					info.bookmark = range.createBookmark( 1 );
 
 					// The range to be restored after extraction...
 					var targetRange = this.editor.createRange();
 
 					// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
-					targetRange.moveToPosition( doc.getById( bm.startNode ), CKEDITOR.POSITION_BEFORE_START );
+					targetRange.moveToPosition( info.doc.getById( info.bookmark.startNode ), CKEDITOR.POSITION_BEFORE_START );
 
 					// Remember desired position of the range after extraction.
 					var targetBm = targetRange.createBookmark( 1 );
 
+					list.detectMerge.call( this, info );
+					block.detectMerge.call( this, info );
+
 					// Finally restore the "working range", once DOM is stable.
-					range.moveToBookmark( bm );
+					range.moveToBookmark( info.bookmark );
 
-					var startList = new CKEDITOR.dom.elementPath( range.startContainer, this ).contains( CKEDITOR.dtd.$list ),
-						endList = new CKEDITOR.dom.elementPath( range.endContainer, this ).contains( CKEDITOR.dtd.$list );
-
-					var mergeLists =
-							// Both lists must exist
-							startList && endList &&
-							// ...and be of the same type
-							startList.getName() == endList.getName() &&
-							// ...and share the same parent (same level in the tree)
-							startList.getParent().equals( endList.getParent() ) &&
-							// ...and must be different
-							!startList.equals( endList ) &&
-							// ...but of the same contents direction.
-							startList.getDirection( 1 ) == endList.getDirection( 1 );
-
-					var mergeListItems =
-							// Both containers must be list items
-							range.startContainer.is( CKEDITOR.dtd.$listItem ) && range.endContainer.is( CKEDITOR.dtd.$listItem ) &&
-							// ...and be siblings, which is always true when merging lists
-							( mergeLists || range.endContainer.equals( range.startContainer.getNext() ) ) &&
-							// ...and of the same contents direction.
-							range.startContainer.getDirection( 1 ) == range.endContainer.getDirection( 1 );
+					extractMerge.detect.call( this, info );
 
 					// Simply, do the job.
-					range.extractContents();
+					range.extractContents( info.extractMerge );
 
 					// Move working range to desired, pre-computed position.
 					range.moveToBookmark( targetBm );
@@ -920,31 +1042,29 @@
 					range.optimize();
 
 					// Update path. It's been modified (bookmarks created, contents extracted).
-					path = range.startPath();
+					// var path = range.startPath();
 
-					var node = range.startContainer,
-						parent;
+					// var node = range.startContainer,
+					// 	parent;
 
-					if ( node.is( CKEDITOR.dtd.$tableContent ) && !node.is( 'td', 'th' ) ) {
-						pruneEmptyTree( node, range, function( node ) {
-							return path.contains( 'table' ).getParent();
-						} );
-					} else if ( node.is( CKEDITOR.dtd.$listItem ) || node.is( CKEDITOR.dtd.$list ) ) {
-						pruneEmptyTree( node, range, function( node ) {
-							return path.contains( CKEDITOR.dtd.$list ).getParent();
-						} );
-					}
+					// if ( node.is( CKEDITOR.dtd.$tableContent ) && !node.is( 'td', 'th' ) ) {
+					// 	pruneEmptyTree( node, range, function( node ) {
+					// 		return path.contains( 'table' ).getParent();
+					// 	} );
+					// }
+					// else if ( node.is( CKEDITOR.dtd.$listItem ) || node.is( CKEDITOR.dtd.$list ) ) {
+					// 	pruneEmptyTree( node, range, function( node ) {
+					// 		return path.contains( CKEDITOR.dtd.$list ).getParent();
+					// 	} );
+					// }
 
-					if ( mergeLists ) {
-						var list = new CKEDITOR.dom.elementPath( range.startContainer, this ).contains( CKEDITOR.dtd.$list );
-						list.getNext().moveChildren( list );
-						list.getNext().remove();
-					}
+					list.merge.call( this, info );
+					block.merge.call( this, info );
 
-					if ( mergeListItems ) {
-						range.startContainer.getNext().moveChildren( range.startContainer );
-						range.startContainer.getNext().remove();
-					}
+					if ( isEmpty( range.startContainer ) )
+						range.startContainer.appendBogus();
+
+					range.startContainer.mergeSiblings( 1 );
 
 					return extractedFragment;
 				};
