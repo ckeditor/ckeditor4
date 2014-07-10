@@ -34,6 +34,101 @@ bender.test(
 		assert.areSame( nestedE, sel.getCommonAncestor(), 'Selection should not leak from nested editable' );
 	},
 
+
+	'test remove format outside the contenteditable=false': function() {
+		// Strong outside the non-editable should be removed.
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>[<span contenteditable="false">foo</span>]</strong></p>' );
+		bot.editor.execCommand( 'removeFormat' );
+		assert.areEqual( '<p><span contenteditable="false">foo</span></p>', bot.getData() );
+	},
+
+	'test remove format outside of multiple contenteditable=false': function() {
+		// Now remove formatting from range with two non-editables separated with a text node.
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>[<span contenteditable="false">foo</span>x<span contenteditable="false">foo</span>]</strong></p>' );
+		bot.editor.execCommand( 'removeFormat' );
+		assert.areEqual( '<p><span contenteditable="false">foo</span>x<span contenteditable="false">foo</span></p>', bot.getData() );
+	},
+
+	'test remove format won\'t strip contenteditable formatting': function() {
+		var bot = this.editorBot;
+		// For the time being our goal is not to remove styles from editables nested within non-editables.
+		// So in the following sample, formatting should not be removed.
+		bot.setHtmlWithSelection( '<p>' +
+				'<strong>' +
+					'[before' +
+					'<span contenteditable="false">' +
+						'<strong>non-editable strong</strong>' +
+						'<span contenteditable="true">' +
+							'<strong>editable strong</strong>' +
+						'</span>' +
+					'</span>' +
+					'after]' +
+				'</strong>' +
+			'</p>' );
+		var expected = '<p>' +
+				'before' +
+				'<span contenteditable="false">' +
+					'<strong>non-editable strong</strong>' +
+					'<span contenteditable="true">' +
+						'<strong>editable strong</strong>' +
+					'</span>' +
+				'</span>' +
+				'after' +
+			'</p>';
+
+		bot.editor.execCommand( 'removeFormat' );
+		assert.areEqual( expected, bot.getData(), 'Formatting was not removed' );
+	},
+
+	'test remove format selection in non-editable': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>' +
+				'<strong>[before</strong>' +
+				'<span contenteditable="false">' +
+					'<strong>noneditable strong]</strong>' +
+				'</span>' +
+				'<i>after</i>' +
+			'</p>' );
+		var expected = '<p>' +
+					'before' +
+					'<span contenteditable="false">' +
+						'<strong>noneditable strong</strong>' +
+					'</span>' +
+					'<i>after</i>' +
+			'</p>';
+
+		bot.editor.execCommand( 'removeFormat' );
+		assert.areEqual( expected, bot.getData() );
+	},
+
+	'test remove format selection in nested editable': function() {
+		var bot = this.editorBot;
+
+		bender.tools.selection.setWithHtml( this.editor, '<h1><em>fo{o</em></h1>' +
+			'<div contenteditable="false">' +
+				'<div contenteditable="true">' +
+					'<em>bar</em>]' +
+				'</div>' +
+			'</div>' +
+			'<p><em>baz</em></p>' );
+			var expected = '<h1><em>fo</em>o</h1>' +
+				'<div contenteditable="false">' +
+					'<div contenteditable="true">' +
+						'<em>bar</em>' +
+					'</div>' +
+				'</div>' +
+				'<p><em>baz</em></p>';
+
+		bot.editor.execCommand( 'removeFormat' );
+
+		var data = bot.getData();
+
+		bender.assert.isInnerHtmlMatching( expected, data );
+	},
+
 	'test editor#addRemoveFormatFilter': function() {
 		bender.editorBot.create( {
 			name: 'test_editor2',
