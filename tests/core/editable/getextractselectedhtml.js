@@ -70,7 +70,7 @@
 				// </DEV>
 
 				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
-				// testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
@@ -108,7 +108,7 @@
 
 	addTests( {
 		'no block': [
-/* 1 */		[ '{a}', 																'a',															'[]' ],
+/* 1 */		[ '{a}', 																'a',															'[]@' ],
 /* 2 */		[ '{}a', 																'',																'[]a' ],
 		],
 /* 1 */	'block': [
@@ -124,12 +124,14 @@
 /* 4 */		[ '<h1>{a</h1><p>b}</p>', 												'<h1>a</h1><p>b</p>',											'<h1>[]@</h1>' ],
 /* 5 */		[ '<p>a{b</p><p>c}d</p>',											 	'<p>b</p><p>c</p>',												'<p>a[]d</p>' ],
 /* 6 */		[ '<blockquote>a{b</blockquote><p>c}d</p>', 							'<blockquote>b</blockquote><p>c</p>',							'<blockquote>a[]d</blockquote>' ],
-/* 7 */		[ '<blockquote>a{b</blockquote><div>c</div><p>d}e</p>', 				'<blockquote>b</blockquote><div>c</div><p>d</p>',				'<blockquote>e[]e</blockquote>' ],
-/* 8 */		[ '<div>a<div>{b</div></div><div>c</div><p>d}e</p>', 					'<div><div>b</div></div><div>c</div><p>d</p>',					'<div>a<div>[]@</div></div><p>e</p>' ], /*!*/
+/* 7 */		[ '<blockquote>a{b</blockquote><div>c</div><p>d}e</p>', 				'<blockquote>b</blockquote><div>c</div><p>d</p>',				'<blockquote>a[]e</blockquote>' ],
+/* 8 */		[ '<div>a<div>{b</div></div><div>c</div><p>d}e</p>', 					'<div><div>b</div></div><div>c</div><p>d</p>',					'<div>a<div>[]e</div></div>' ], /*!*/
 /* 9 */		[ '<p>a{b</p><p>}c</p>', 												'<p>b</p><br data-cke-eol="1">',								'<p>a[]c</p>' ],
 /* 10 */	[ '<p>a{</p><p>b}c</p>', 												'<br data-cke-eol="1"><p>b</p>',								'<p>a[]c</p>' ],
 /* 11 */	[ '<p>a{b</p><p>c</p><p>}d</p>', 										'<p>b</p><p>c</p><br data-cke-eol="1">',						'<p>a[]d</p>' ],
 /* 12 */	[ '<p>ab{</p><p>c</p><p>}de</p>', 										'<br data-cke-eol="1"><p>c</p><br data-cke-eol="1">',			'<p>ab[]de</p>' ],
+/* 13 */	[ '<h1><b>{a</b></h1><p>b}</p>', 										'<h1><b>a</b></h1><p>b</p>',									'<h1>[]@</h1>' ],
+/* 14 */	[ '<h1>{a</h1><p><b>b}</b></p>', 										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@</h1>' ],
 		],
 		'inline': [
 /* 1 */		[ '<p>a<b>{b}</b>c</p>', 												'<b>b</b>',														'<p>a[]c</p>' ],
@@ -143,7 +145,7 @@
 /* 9 */		[ '<p>a<i><b>{b}</b></i></p>', 											'<i><b>b</b></i>',												'<p>a[]</p>' ],
 /* 10 */	[ '<p>a<i>b<b>{c}</b></i></p>', 										'<i><b>c</b></i>',												'<p>a<i>b[]</i></p>' ],
 /* 11 */	[ '<p><i><b>{a}</b></i></p>', 											'<i><b>a</b></i>',												'<p>[]@</p>' ],
-/* 12 */	[ '[<br>]',																'<br>',															'[]' ],
+/* 12 */	[ '[<br>]',																'<br>',															'[]@' ],
 /* 13 */	[ 'a{<br><br>}b',														'<br><br>',														'a[]b' ],
 /* 14 */	[ '<p>[<b>a</b>]</p>',													'<b>a</b>',														'<p>[]@</p>' ],
 /* 15 */	[ '<p>a{<b>b}</b>c</p>',												'<b>b</b>',														'<p>a[]c</p>' ],
@@ -168,7 +170,7 @@
 /* 5 */		[ '<p>{a}<br>@</p>', 													'a',															'<p>[]<br>@</p>' ],
 /* 6 */		[ '{a<br>]@',															'a<br>',														'[]@' ],
 /* 7 */		[ '<p>{a<br>]@</p>',													'a<br>',														'<p>[]@</p>' ],
-/* 8 */		[ '<div>b<p>{a@]</p>b</div>', 											'a',															'<div>b<p>[]@</p></div>' ],
+/* 8 */		[ '<div>b<p>{a@]</p>b</div>', 											'a',															'<div>b<p>[]@</p>b</div>' ],
 		],
 		'tables': [
 /* 1 */		[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>', 				'a',															'<table><tbody><tr><td>[]@</td></tr></tbody></table>' ],
@@ -206,10 +208,12 @@
 /* 3 */		[ '<div><ol><li>{a}</li></ol></div>', 									'a',															'<div><ol><li>[]@</li></ol></div>' ],
 /* 4 */		[ '<ol><li>a{b</li><li>c}d</li></ol>', 									'<ol><li>b</li><li>c</li></ol>',								'<ol><li>a[]d</li></ol>' ],
 /* 5 */		[ '<ol><li>a{b</li></ol><ol><li>c}d</li></ol>', 						'<ol><li>b</li></ol><ol><li>c</li></ol>',						'<ol><li>a[]d</li></ol>' ],
-/* 6 */		[ '<ol><li>a{b</li></ol><ul><li>c}d</li></ul>', 						'<ol><li>b</li></ol><ul><li>c</li></ul>',						'<ol><li>a[]</li></ol><ul><li>d</li></ul>' ],
-/* 7 */		[ '<ol><li>a<ul><li>b{c</li></ul></li><li>d}e</li></ol>', 				'<ol><li><ul><li>c</li></ul></li><li>d</li></ol>',				'<ol><li>a<ul><li>b[]e</li></ol>' ],
+/* 6 */		[ '<ol><li>a{b</li></ol><ul><li>c}d</li></ul>', 						'<ol><li>b</li></ol><ul><li>c</li></ul>',						'<ol><li>a[]d</li></ol>' ],
+/* 7 */		[ '<ol><li>a<ul><li>b{c</li></ul></li><li>d}e</li></ol>', 				'<ol><li><ul><li>c</li></ul></li><li>d</li></ol>',				'<ol><li>a<ul><li>b[]e</li></ul></li></ol>' ],
 /* 8 */		[ '<ol><li>a{b<ul><li>c}d</li><li>e</li></ul></li><li>f</li></ol>', 	'<ol><li>b<ul><li>c</li></ul></li></ol>',						'<ol><li>a[]d<ul><li>e</li></ul></li><li>f</li></ol>' ],
 /* 9 */		[ '<ol><li>a</li><li>b{c</li><li>d}e</li></ol>', 						'<ol><li>c</li><li>d</li></ol>',								'<ol><li>a</li><li>b[]e</li></ol>' ],
+/* 10 */	[ '<ol><li>a{b</li><li><b>c}d</b></li></ol>', 							'<ol><li>b</li><li><b>c</b></li></ol>',							'<ol><li>a[]<b>d</b></li></ol>' ],
+/* 11 */	[ '<ol><li><b>a{b</b></li><li><b>c}d</b></li></ol>', 					'<ol><li><b>b</b></li><li><b>c</b></li></ol>',					'<ol><li><b>a[]d</b></li></ol>' ],
 		],
 		'various anchored in element': [
 /* 1 */		[ '<p>[]a</p>', 														'',																'<p>[]a</p>' ],
@@ -225,8 +229,8 @@
 /* 11 */	[ '<p>[a]@</p>', 														'a',															'<p>[]@</p>' ],
 /* 12 */	[ '<p>[a]<br>@</p>', 													'a',															'<p>[]<br>@</p>' ],
 /* 13 */	[ '<p>[a<br>]@</p>', 													'a<br>',														'<p>[]@</p>' ],
-/* 14 */	[ '[<hr>]', 															'<hr>',															'[]' ],
-/* 15 */	[ '[<img src="' + img_src + '">]', 										'<img src="' + img_src + '">',									'[]' ],
+/* 14 */	[ '[<hr>]', 															'<hr>',															'[]@' ],
+/* 15 */	[ '[<img src="' + img_src + '">]', 										'<img src="' + img_src + '">',									'[]@' ],
 /* 16 */	[ '<p>[<img src="' + img_src + '">]</p>', 								'<img src="' + img_src + '">',									'<p>[]@</p>' ],
 /* 17 */	[ '<br>[<br>]<br>',														'<br>',															'<br>[]<br>' ],
 /* 18 */	[ '<table><thead><tr>[<th>a</th>]</tr></thead><tbody><tr><td>b</td></tr></tbody></table>',
@@ -236,10 +240,10 @@
 
 	addTests( {
 		'header': [
-/* 1 */		[ '{a}',																'a',															'[]' ],
+/* 1 */		[ '{a}',																'a',															'[]@' ],
 /* 2 */		[ 'a<b>{b}</b>c',														'<b>b</b>',														'a[]c' ],
-/* 3 */		[ '{a<b>b</b>c}',														'a<b>b</b>c',													'[]' ],
-/* 4 */		[ '[a<b>b</b>c]',														'a<b>b</b>c',													'[]' ],
+/* 3 */		[ '{a<b>b</b>c}',														'a<b>b</b>c',													'[]@' ],
+/* 4 */		[ '[a<b>b</b>c]',														'a<b>b</b>c',													'[]@' ],
 		]
 	}, 'header' );
 
