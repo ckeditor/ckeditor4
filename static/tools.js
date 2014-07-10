@@ -1113,11 +1113,11 @@
 				endContainer = clone.getChild( endAddress );
 
 				// Determine marker characters for start and end containers.
-				startMarker = startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[',
-				endMarker = endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']',
+				startMarker = startContainer.type == CKEDITOR.NODE_TEXT ? '{' : '[';
+				endMarker = endContainer.type == CKEDITOR.NODE_TEXT ? '}' : ']';
 
-				injectComment( endMarker, endContainer, range.endOffset ),
-				injectComment( startMarker, startContainer, range.startOffset )
+				injectComment( endMarker, endContainer, range.endOffset );
+				injectComment( startMarker, startContainer, range.startOffset );
 
 				// Replace comments with corresponding range markers.
 				return browserHtmlFix( clone.getHtml() ).replace( selectionMarkerComments, '$1' );
