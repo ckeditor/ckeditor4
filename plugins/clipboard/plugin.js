@@ -1223,7 +1223,9 @@
 				// Create a dataTransfer object and save it globally.
 				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
 
-				fireDragEvent( 'dragstart', evt, dataTransfer );
+				if ( !fireDragEvent( 'dragstart', evt, dataTransfer ) ) {
+					evt.data.preventDefault();
+				}
 			} );
 
 			// Clean up on dragend.
@@ -1231,7 +1233,9 @@
 				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
 
 				// Fire dragend
-				if ( fireDragEvent( 'dragend', evt, dataTransfer ) ) {
+				if ( !fireDragEvent( 'dragend', evt, dataTransfer ) ) {
+					evt.data.preventDefault();
+				} else {
 					// When drag & drop is done we need to reset dataTransfer so the future
 					// external drop will be not recognize as internal.
 					clipboard.resetDragDataTransfer();
@@ -2023,4 +2027,54 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
+ */
+
+/**
+ * Facade for native `editable.drop` event. Fired when native `drop` event on editable occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you modify drag and drop range and
+ * cancel drop event. Use it only form drag and drop operations. To manipulate dropped data use
+ * @see CKEDITOR.editor#paste event.
+ *
+ * @since 4.5
+ * @event drop
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native drop event.
+ * @param {CKEDITOR.dom.node} data.target Drop target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
+ * @param {CKEDITOR.dom.range} data.dropRange Drop range, let you manipulate with drop range.
+ */
+
+/**
+ * Facade for native `editable.dragstart` event. Fired when native `dragstart` event on editable occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you cancel `dragstart`.
+ *
+ * @since 4.5
+ * @event dragstart
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native dragstart event.
+ * @param {CKEDITOR.dom.node} data.target Drag target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ */
+
+/**
+ * Facade for native `editable.dragend` event. Fired when native `dragend` event on editable occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you cancel `dragend` event and prevent
+ * removing dataTransfer for the global scope.
+ *
+ * @since 4.5
+ * @event dragend
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native dragend event.
+ * @param {CKEDITOR.dom.node} data.target Drag target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */
