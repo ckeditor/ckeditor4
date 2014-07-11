@@ -1259,9 +1259,14 @@
 					return;
 
 				// Fire drop.
-				if ( !fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  ) ) {
+				var data = fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  )
+				if ( !data ) {
 					return;
 				}
+
+				// Let user modify drag and drop range.
+				dropRange = data.dropRange;
+				dragRange = data.dragRange;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
@@ -1411,7 +1416,7 @@
 				 	return false;
 				}
 
-				return true;
+				return eventData;
 			}
 		} );
 	}
