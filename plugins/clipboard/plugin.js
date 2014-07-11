@@ -1221,14 +1221,21 @@
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it globally.
-				clipboard.initDragDataTransfer( evt, editor );
+				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+
+				fireDragEvent( 'dragstart', evt, dataTransfer );
 			} );
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				// When drag & drop is done we need to reset dataTransfer so the future
-				// external drop will be not recognize as internal.
-				clipboard.resetDragDataTransfer();
+				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+
+				// Fire dragend
+				if ( fireDragEvent( 'dragend', evt, dataTransfer ) ) {
+					// When drag & drop is done we need to reset dataTransfer so the future
+					// external drop will be not recognize as internal.
+					clipboard.resetDragDataTransfer();
+				}
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1247,6 +1254,10 @@
 				if ( !dropRange )
 					return;
 
+				// Fire drop.
+				if ( !fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  ) ) {
+					return;
+				}
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
@@ -1374,6 +1385,29 @@
 				editor.once( 'afterPaste', function() {
 					editor.toolbox.focus();
 				} );
+			}
+
+			// Fire drag/drop events (dragstart, dragend, drop).
+			function fireDragEvent( name, evt, dataTransfer, dragRange, dropRange ) {
+				var eventData = {
+						nativeEvent: evt.data.$,
+						target: new CKEDITOR.dom.node( evt.data.$.target ),
+						dataTransfer: dataTransfer
+					};
+
+				if ( dragRange ) {
+					eventData.dragRange = dragRange;
+				}
+				if ( dropRange ) {
+					eventData.dropRange = dropRange;
+				}
+
+				if ( !editor.fire( name, eventData ) ) {
+				 	evt.data.preventDefault();
+				 	return false;
+				}
+
+				return true;
 			}
 		} );
 	}
