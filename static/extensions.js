@@ -419,8 +419,7 @@
 		}
 
 		if ( !tests.name ) {
-			tests.name = window.location.pathname
-				.replace( /^(\/|\/(?:jobs\/(?:\w+)\/tests)\/)/i, '' );
+			tests.name = bender.testData.id;
 		}
 
 		function startRunner() {
