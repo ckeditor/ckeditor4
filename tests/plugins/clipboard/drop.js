@@ -10,7 +10,8 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		normalizeSelection: true,
 		fixStyles: true
 	},
-	pasteListener;
+	pasteListener,
+	dropListener;
 
 CKEDITOR.disableAutoInline = true;
 
@@ -42,11 +43,12 @@ function drag( editor, evt ) {
 	dropTarget.fire( 'dragstart', evt );
 }
 
-function drop( editor, evt, config, callback ) {
+function drop( editor, evt, config, onDrop, onPaste ) {
 	var editable = editor.editable(),
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
 		pasteEventCounter = 0,
+		dropEventCounter = 0,
 		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ?
 			config.expectedPasteEventCount :
 			1;
@@ -82,6 +84,22 @@ function drop( editor, evt, config, callback ) {
 		} );
 	};
 
+	dropListener = function( dropEvt ) {
+		resume( function() {
+			dropEventCounter++;
+
+			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dropEvt.data.dataTransfer );
+			assert.areSame( config.element, dropEvt.data.dropRange.startContainer );
+			assert.areSame( config.offset, dropEvt.data.dropRange.startOffset );
+			assert.areSame( evt.$, dropEvt.data.nativeEvent );
+
+			onDrop && onDrop( dropEvt );
+
+			wait();
+		} );
+	};
+
+	editor.on( 'drop', dropListener );
 	editor.on( 'paste', pasteListener );
 
 	if ( !expectedPasteEventCount ) {
@@ -95,7 +113,8 @@ function drop( editor, evt, config, callback ) {
 
 	function finish() {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-		callback();
+		assert.areSame( expectedPasteEventCount, dropEventCounter, 'There should be as many drop events as paste events.' );
+		onPaste();
 	}
 }
 
@@ -134,9 +153,14 @@ var editors, editorBots,
 	testsForMultipleEditor = {
 		'tearDown': function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+
 			editors.framed.removeListener( 'paste', pasteListener );
 			editors.inline.removeListener( 'paste', pasteListener );
 			editors.divarea.removeListener( 'paste', pasteListener );
+
+			editors.framed.removeListener( 'drop', dropListener );
+			editors.inline.removeListener( 'drop', dropListener );
+			editors.divarea.removeListener( 'drop', dropListener );
 		},
 
 		'test drop to header': function( editor ) {
@@ -157,7 +181,7 @@ var editors, editorBots,
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<h1 id="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -183,7 +207,7 @@ var editors, editorBots,
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -209,7 +233,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -240,7 +264,7 @@ var editors, editorBots,
 				expectedHtml: '<b>em</b> ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: '<b>em</b> ipsum'
-			}, function() {
+			}, null, function() {
 				assert.isInnerHtmlMatching( '<p id="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -266,7 +290,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -292,7 +316,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -318,7 +342,7 @@ var editors, editorBots,
 				expectedHtml: '',
 				expectedDataType: 'text',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -348,7 +372,7 @@ var editors, editorBots,
 				expectedHtml: CKEDITOR.env.ie ? '' : '<b>dolor</b>',
 				expectedDataType: CKEDITOR.env.ie ? 'text' : 'html',
 				expectedDataValue: CKEDITOR.env.ie ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
-			}, function() {
+			}, null, function() {
 				if ( CKEDITOR.env.ie ) {
 					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				} else {
@@ -372,7 +396,7 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
 				expectedPasteEventCount: 0
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
 		},
@@ -398,7 +422,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum <b>dolor</b> ',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum <b>dolor</b> '
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				assert.areSame( '<p id="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
 
