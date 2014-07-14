@@ -2043,7 +2043,7 @@
  * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
  * to use custom data type on any browser. This event let you modify drag and drop range and
  * cancel drop event. Use it only form drag and drop operations. To manipulate dropped data use
- * @see CKEDITOR.editor#paste event.
+ * {@link CKEDITOR.editor#paste paste event}.
  *
  * @since 4.5
  * @event drop
@@ -2054,6 +2054,9 @@
  * @param {CKEDITOR.dom.node} data.target Drop target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
+ * Note that dragged html is saved as `text/html` data on `dragstart` so if you change drag range
+ * on drop dropped html will not change. You need to change it manually using
+ * {@link CKEDITOR.plugins.clipboard.dataTransfer#setData dataTransfer.setData}.
  * @param {CKEDITOR.dom.range} data.dropRange Drop range, let you manipulate with drop range.
  */
 

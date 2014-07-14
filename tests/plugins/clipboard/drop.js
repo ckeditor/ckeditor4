@@ -432,6 +432,35 @@ var editors, editorBots,
 				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', editorCross.getData(), 'after undo - editor cross' );
 			} );
+		},
+
+		'test change drag and drop range on drop': function( editor ) {
+			var bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '<p>x' +
+				'<b id="drag1">x[drag1]x</b>x' +
+				'<b id="drag2">drag2</b>x' +
+				'<b id="drop1">drop1</b>x' +
+				'<b id="drop2">drop2</b>x</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'drop1' ).getChild( 0 ),
+				offset: 0
+			}, function( evt ) {
+				evt.data.dragRange.selectNodeContents( editor.document.getById( 'drag2' ) );
+				evt.data.dropRange.setStart( editor.document.getById( 'drop2' ), 4 );
+				evt.data.dropRange.collapse( true );
+			}, function() {
+				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>xx<b id="drop1">drop1</b>x<b id="drop2">drop2</b>drag1^x</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+
+				editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>x<b id="drag2">drag2</b>x<b id="drop1">drop1</b>x<b id="drop2">drop2</b>x</p>', editor.getData(), 'after undo' );
+			} );
 		}
 	},
 	testsForOneEditor = {
