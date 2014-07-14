@@ -6,4 +6,4 @@ benderjs-ckeditor
 License
 -------
 
-???
+MIT, for license details see: [LICENSE.md](https://github.com/benderjs/benderjs-ckeditor/blob/master/LICENSE.md)

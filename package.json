@@ -11,7 +11,7 @@
 	],
 	"main": "lib/index.js",
 	"author": "CKSource (http://cksource.com/)",
-	"license": "???",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "http://github.com/benderjs/benderjs-ckeditor.git"
