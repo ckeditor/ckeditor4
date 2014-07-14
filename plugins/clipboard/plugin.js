@@ -1791,9 +1791,13 @@
 		}
 
 		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( evt && evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
-			// dataTransfer object will be passed from the drag to the drop event.
-			this.$.setData( clipboardIdDataType, this.id );
+		if ( clipboardIdDataType != 'Text' ) {
+			// Try to set ID so it will be passed from the drag to the drop event.
+			// On some browsers with some event it is not possible to setData so we
+			// need to catch exceptions.
+			try {
+				this.$.setData( clipboardIdDataType, this.id );
+			} catch ( err ) {}
 		}
 
 		if ( editor ) {
