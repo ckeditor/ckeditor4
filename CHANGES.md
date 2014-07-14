@@ -3,6 +3,12 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.3
 
+**Security Updates:**
+
+* Fixed XSS vulnerability in the Preview plugin reported by Mario Heiderich of [Cure53](https://cure53.de/).
+
+**An upgrade is highly recommended!**
+
 New Features:
 
 * [#12164](http://dev.ckeditor.com/ticket/12164): Added the "Justify" option to the "Horizontal Alignment" drop-down in the Table Cell Properties dialog window.
