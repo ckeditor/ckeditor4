@@ -1223,9 +1223,7 @@
 				// Create a dataTransfer object and save it globally.
 				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
 
-				if ( !fireDragEvent( 'dragstart', evt, dataTransfer ) ) {
-					evt.data.preventDefault();
-				}
+				fireDragEvent( 'dragstart', evt, dataTransfer );
 			} );
 
 			// Clean up on dragend.

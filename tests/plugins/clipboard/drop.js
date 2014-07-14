@@ -18,6 +18,7 @@ CKEDITOR.disableAutoInline = true;
 function createDragDropEventMock() {
 	return {
 		$: {
+			target: 'targetMock',
 			dataTransfer: {
 				_dataTypes : [],
 
@@ -38,9 +39,20 @@ function createDragDropEventMock() {
 
 function drag( editor, evt ) {
 	var editable = editor.editable(),
-		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
+		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+		dragEventCounter = 0;
+
+	editor.once( 'dragstart', function( dragEvt ) {
+		dragEventCounter++;
+
+		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
+		assert.areSame( evt.$, dragEvt.data.nativeEvent );
+		assert.areSame( 'targetMock', dragEvt.data.target.$ );
+	} );
 
 	dropTarget.fire( 'dragstart', evt );
+
+	assert.areSame( 1, dragEventCounter, 'dragstart event should be called.' );
 }
 
 function drop( editor, evt, config, onDrop, onPaste ) {
@@ -92,6 +104,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 			assert.areSame( config.element, dropEvt.data.dropRange.startContainer );
 			assert.areSame( config.offset, dropEvt.data.dropRange.startOffset );
 			assert.areSame( evt.$, dropEvt.data.nativeEvent );
+			assert.areSame( 'targetMock', dropEvt.data.target.$ );
 
 			onDrop && onDrop( dropEvt );
 
@@ -563,7 +576,81 @@ var editors, editorBots,
 			secondRange.collapse( true );
 
 			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
-		}
+		},
+
+		'test dragEnd': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				editable = editor.editable(),
+				evt = {},
+				dragendCount = 0;
+
+			evt.data = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '[]' );
+
+			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+			evt.data.$.dataTransfer.setData( 'cke/custom', 'foo' );
+
+			editor.once( 'dragend', function( dragendEvt ) {
+				dragendCount++;
+
+				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'cke/custom' ) );
+				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent );
+				assert.areSame( 'targetMock', dragendEvt.data.target.$ );
+			} );
+
+			editable.fire( 'dragend', evt.data );
+
+			assert.areSame( 1, dragendCount, 'dragend should be fired once.' );
+			assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
+		},
+
+		'test dragEnd preventDefault': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				editable = editor.editable(),
+				evt = {},
+				dragendCount = 0;
+
+			evt.data = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '[]' );
+
+			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+
+			editor.once( 'dragend', function( dragendEvt ) {
+				dragendCount++;
+
+				return false;
+			} );
+
+			editable.fire( 'dragend', evt.data );
+
+			assert.areSame( 1, dragendCount, 'dragend should be fired once.' );
+			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, CKEDITOR.plugins.clipboard.dragData, 'dragData should be not reset' );
+		},
+
+		'test dragStart preventDefault': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0;
+
+			bot.setHtmlWithSelection( '' );
+
+			editor.once( 'dragstart', function() {
+				return false;
+			}, null, null, 100 );
+
+			evt.preventDefault = function() {
+				preventDefaultCount++;
+			}
+
+			drag( editor, evt );
+
+			assert.areSame( 1, preventDefaultCount, 'preventDefault should be called' );
+		},
 	};
 
 bender.tools.setUpEditors( editorsDefinitions, function( e, eb ) {
