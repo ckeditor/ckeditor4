@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2014, CKSource - Frederico Knabben. All rights reserved.
+ * Licensed under the terms of the MIT License (see LICENSE.md).
+ */
+
 ( function( window, bender ) {
 	'use strict';
 
@@ -68,7 +73,7 @@
 
 		if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
 			throw new YUITest.ComparisonFailure(
-				YUITest.Assert._formatMessage( message, 'Values should be the same.'),
+				YUITest.Assert._formatMessage( message, 'Values should be the same.' ),
 				expected, actual
 			);
 		}

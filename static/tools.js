@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2014, CKSource - Frederico Knabben. All rights reserved.
+ * Licensed under the terms of the MIT License (see LICENSE.md).
+ */
+
 ( function( bender ) {
 	'use strict';
 
@@ -842,7 +847,12 @@
 		createTestsForEditors: function( editors, inputTests ) {
 			var outputTests = {},
 				specificTestName,
-				specialMethods = { 'init': 1, 'async:init': 1, 'setUp': 1, 'tearDown': 1 };
+				specialMethods = {
+					'init': 1,
+					'async:init': 1,
+					'setUp': 1,
+					'tearDown': 1
+				};
 
 			for ( var method in specialMethods ) {
 				if ( inputTests[ method ] ) {
@@ -938,7 +948,7 @@
 						range.collapse( 1 );
 					}
 
-					if ( ( text = text.replace( '{', replaceTextMarker ) ) && markerFound  == '{' ) {
+					if ( ( text = text.replace( '{', replaceTextMarker ) ) && markerFound == '{' ) {
 						range = new CKEDITOR.dom.range( root );
 						range.setStart( node, markerIndex );
 					}
@@ -966,7 +976,7 @@
 							// We cannot remove nodes while walking.
 							removed.push( node );
 
-						// Set end marker.
+							// Set end marker.
 						} else {
 							range.setEndAt( node, CKEDITOR.POSITION_BEFORE_START );
 
