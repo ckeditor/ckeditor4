@@ -232,10 +232,11 @@ CKEDITOR.config = {
 	fullPage: false,
 
 	/**
-	 * The height of the editing area (that includes the editor content). This
-	 * can be an integer, for pixel sizes, or any CSS-defined length unit.
+	 * The height of the editing area that includes the editor content. This configuration
+	 * option accepts an integer (to denote a value in pixels) or any CSS-defined length unit
+	 * except percent (`%`) values  which are not supported.
 	 *
-	 * **Note:** Percent units (%) are not supported.
+	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 *		config.height = 500;		// 500 pixels.
 	 *		config.height = '25em';		// CSS length.
@@ -306,12 +307,14 @@ CKEDITOR.config = {
 	tabIndex: 0,
 
 	/**
-	 * The editor UI outer width. This can be an integer, for pixel sizes, or
-	 * any CSS-defined unit.
+	 * The editor UI outer width. This configuration option accepts an integer
+	 * (to denote a value in pixels) or any CSS-defined length unit.
 	 *
 	 * Unlike the {@link CKEDITOR.config#height} setting, this
 	 * one will set the outer width of the entire editor UI, not for the
 	 * editing area only.
+	 *
+	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 *		config.width = 850;		// 850 pixels wide.
 	 *		config.width = '75%';	// CSS unit.
