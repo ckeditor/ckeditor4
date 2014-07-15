@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,autop */
 
 var doc = CKEDITOR.document,
 	tools = bender.tools;
