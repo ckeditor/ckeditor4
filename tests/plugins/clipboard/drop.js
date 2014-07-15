@@ -116,7 +116,9 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 	editor.on( 'paste', pasteListener );
 
 	if ( !expectedPasteEventCount ) {
-		wait( finish, 300 );
+		setTimeout( function() {
+			resume( finish() );
+		}, 300 );
 	}
 
 	// Ensure async.
@@ -126,7 +128,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 
 	function finish() {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-		assert.areSame( expectedPasteEventCount, dropEventCounter, 'There should be as many drop events as paste events.' );
+		assert.areSame( 1, dropEventCounter, 'There should be always one drop event.' );
 		onPaste();
 	}
 }
@@ -676,6 +678,90 @@ var editors, editorBots,
 
 			assert.areSame( 1, preventDefaultCount, 'preventDefault should be called' );
 		},
+
+		'test set custom data on dragStart': function() {
+			var editor = editors.inline,
+				editable = editor.editable(),
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0,
+				dragstartData, dropData, dragendData;
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			editor.once( 'dragstart', function( evt ) {
+				evt.data.dataTransfer.setData( 'cke/custom', 'foo' );
+				dragstartData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.on( 'drop', function( evt ) {
+				dropData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.once( 'dragend', function( evt ) {
+				dragendData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				editor.focus();
+				editable.fire( 'dragend', evt );
+
+				assert.areSame( 'foo', dragstartData, 'dragstartData' );
+				assert.areSame( 'foo', dropData, 'dropData' );
+				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
+		},
+
+		'test set custom data on drop': function() {
+			var editor = editors.inline,
+				editable = editor.editable(),
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0,
+				dragstartData, dropData, dragendData;
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			editor.once( 'dragstart', function( evt ) {
+				dragstartData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.once( 'drop', function( evt ) {
+				evt.data.dataTransfer.setData( 'cke/custom', 'foo' );
+				dropData = evt.data.dataTransfer.getData( 'cke/custom' );
+			}, null, null, 0 );
+
+			editor.once( 'dragend', function( evt ) {
+				dragendData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				editor.focus();
+				editable.fire( 'dragend', evt );
+
+				assert.areSame( '', dragstartData, 'dragstartData' );
+				assert.areSame( 'foo', dropData, 'dropData' );
+				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
+		}
 	};
 
 bender.tools.setUpEditors( editorsDefinitions, function( e, eb ) {
