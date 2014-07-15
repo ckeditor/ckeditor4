@@ -91,7 +91,7 @@ bender.test( {
 			editor = this.editors.editor1,
 			evt, dataTransfer;
 
-		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
@@ -113,7 +113,7 @@ bender.test( {
 			editor = this.editors.editor1,
 			dataTransfer;
 
-		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
 		dataTransfer.setTargetEditor( editor );
@@ -174,7 +174,7 @@ bender.test( {
 			editor2 = this.editors.editor2,
 			evt, dataTransfer;
 
-		bot1.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		evt = createDragDropEventMock();
 		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
@@ -197,7 +197,7 @@ bender.test( {
 			editor2 = this.editors.editor2,
 			dataTransfer;
 
-		bot1.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor1 );
 		dataTransfer.setTargetEditor( editor2 );
 
@@ -210,7 +210,7 @@ bender.test( {
 			dataTransfer );
 	},
 
-	'test setData getData': function() {
+	'test set-get data, data type: Text, dataTransfer with event': function() {
 		var evt = createDragDropEventMock(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
@@ -218,51 +218,96 @@ bender.test( {
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'Text - Text' );
 		assert.areSame( 'foo', dataTransfer.getData( 'text/plain' ), 'Text - text/plain' );
 		assert.areSame( 'foo', dataTransfer.getData( 'text' ), 'Text - text' );
+	},
+
+	'test set-get data, data type: text/plain, dataTransfer with event': function() {
+		var evt = createDragDropEventMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'text/plain', 'foo2' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'Text' ), 'text/plain - text' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'text/plain' ), 'text/plain - text/plain' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'text' ), 'text/plain - text' );
+	},
+
+	'test set-get data, data type: text, dataTransfer with event': function() {
+		var evt = createDragDropEventMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'text', 'foo3' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'Text' ), 'text - Text' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'text/plain' ), 'text - text/plain' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'text' ), 'text - text' );
+	},
+
+	'test set-get data, data type: CKE/custom, dataTransfer with event': function() {
+		var evt = createDragDropEventMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'CKE/custom', 'bar' );
 		assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ), 'CKE/custom - cke/custom' );
 		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
+	},
+
+	'test set-get data, data type: text/html, dataTransfer with event': function() {
+		var evt = createDragDropEventMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		dataTransfer.setData( 'text/html', 'html' );
 		assert.areSame( 'html', dataTransfer.getData( 'text/html' ), 'text/html - text/html' );
+	},
+
+	'test set-get data, undefined data, dataTransfer with event': function() {
+		var evt = createDragDropEventMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
-	'test setData getData, no event': function() {
+	'test set-get data, data type: Text, dataTransfer without event': function() {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'Text', 'foo' );
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'Text - Text' );
 		assert.areSame( 'foo', dataTransfer.getData( 'text/plain' ), 'Text - text/plain' );
 		assert.areSame( 'foo', dataTransfer.getData( 'text' ), 'Text - text' );
+	},
+
+	'test set-get data, data type: text/plain, dataTransfer without event': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'text/plain', 'foo2' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'Text' ), 'text/plain - text' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'text/plain' ), 'text/plain - text/plain' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'text' ), 'text/plain - text' );
+	},
+
+	'test set-get data, data type: text, dataTransfer without event': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'text', 'foo3' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'Text' ), 'text - Text' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'text/plain' ), 'text - text/plain' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'text' ), 'text - text' );
+	},
+
+	'test set-get data, data type: CKE/custom, dataTransfer without event': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'CKE/custom', 'bar' );
 		assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ), 'CKE/custom - cke/custom' );
 		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
+	},
+
+	'test set-get data, data type: plain/html, dataTransfer without event': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'plain/html', 'html' );
 		assert.areSame( 'html', dataTransfer.getData( 'plain/html' ), 'plain/html - plain/html' );
+	},
+
+	'test set-get data, data type: undefined data, dataTransfer without event': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
@@ -286,7 +331,7 @@ bender.test( {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
-		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var evt = createDragDropEventMock(),
 			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
@@ -305,7 +350,7 @@ bender.test( {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
-		bot.setHtmlWithSelection( '[x<b>foo</b>x]' );
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( null, editor );
 		dataTransfer.setTargetEditor( editor );
