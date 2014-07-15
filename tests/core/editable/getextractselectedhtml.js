@@ -182,10 +182,10 @@
 /* 6 */		[ '<table><tbody><tr>[<td>a</td><td>b}c</td></tr></tbody></table>', 	'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'<table><tbody><tr><td>[]@</td><td>c</td></tr></tbody></table>' ],
 /* 7 */		[ '<table><tbody><tr><td>{a</td></tr></tbody></table><table><tbody><tr><td>b</td></tr><tr><td>c}</td><td>d</td></tr></tbody></table>',
 																					'<table><tbody><tr><td>a</td></tr></tbody></table><table><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>',
-																																					'<table><tbody><tr><td>[]@</td></tr></tbody></table><table><tbody><tr><td></td><td>d</td></tr></tbody></table>' ], /*!*/
+																																					'<table><tbody><tr><td>[]@</td></tr></tbody></table><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ], /*!*/
 /* 8 */		[ '<table><tbody><tr><td>a{b</td><td>c</td></tr><tr><td>d}e</td><td>f</td></tr></tbody></table>',
 																					'<table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td></tr></tbody></table>',
-																																					'<table><tbody><tr><td>a[]</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+																																					'<table><tbody><tr><td>a[]</td><td>@</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
 /* 9 */		[ '<p>[a</p><table><tbody><tr><td>b</td><td>c]d</td></tr></tbody></table>',
 																					'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 																																					'<p>[]@</p><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ],
@@ -201,6 +201,9 @@
 /* 14 */	[ '<table><tbody><tr><td>{a</td><td>b</td></tr><tr><td>c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 																					'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></tbody></table>',
 																																					'<table><tbody><tr><td>[]e</td><td>f</td></tr></tbody></table>' ],
+/* 15 */	[ '<p>[a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e}f</p>',
+																					'<p>a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e</p>',
+																																					'<p>[]@</p><table><tbody><tr><td>@</td><td>@</td></tr></tbody></table><p>f</p>' ],
 		],
 		'lists': [
 /* 1 */		[ '<ol><li>a{b}c</li></ol>', 											'b',															'<ol><li>a[]c</li></ol>' ],
