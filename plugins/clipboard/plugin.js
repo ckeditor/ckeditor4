@@ -1341,28 +1341,28 @@
 
 			// @todo integrate with firePasteEvents.
 			function firePasteWithDataTransfer( dataTransfer ) {
-				var eventData = {
-					method: CKEDITOR.CLIPBOARD_DROP,
-					dataTransfer: dataTransfer
-				};
+				var html, text,
+					eventData = {
+						method: CKEDITOR.CLIPBOARD_DROP,
+						dataTransfer: dataTransfer
+					};
 
 				// IE support only text data and throws exception if we try to get html data.
 				// This html data object may also be empty if we drag content of the textarea.
-				try {
-					eventData.dataValue = dataTransfer.getData( 'text/html' );
+				html = dataTransfer.getData( 'text/html' );
+
+				if ( html ) {
+					eventData.dataValue = html;
 					eventData.type = 'html';
-				} catch ( err ) {}
-
-				if ( !eventData.dataValue ) {
+				} else {
 					// Try to get text data otherwise.
-					eventData.dataValue = dataTransfer.getData( 'text/plain' );
-					eventData.type = 'text';
+					text = dataTransfer.getData( 'text/plain' );
 
-					if ( eventData.dataValue ) {
+					if ( text ) {
 						var enterMode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode;
-						eventData.dataValue = CKEDITOR.tools.transformPlainTextToHtml( eventData.dataValue, enterMode );
-					} else {
-						eventData.dataValue = '';
+
+						eventData.dataValue = CKEDITOR.tools.transformPlainTextToHtml( text, enterMode );
+						eventData.type = 'text';
 					}
 				}
 
