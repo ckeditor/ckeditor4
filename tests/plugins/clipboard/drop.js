@@ -479,6 +479,26 @@ var editors, editorBots,
 
 				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>x<b id="drag2">drag2</b>x<b id="drop1">drop1</b>x<b id="drop2">drop2</b>x</p>', editor.getData(), 'after undo' );
 			} );
+		},
+
+		'test cancel drop': function( editor ) {
+			var bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				assert.areSame( '<p id="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+			} );
 		}
 	},
 	testsForOneEditor = {
