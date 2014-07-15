@@ -826,20 +826,6 @@
 			extractSelectedHtmlFromRange: ( function() {
 				var isEmpty = CKEDITOR.dom.walker.empty();
 
-				function pruneEmptyTree( node, range, limit ) {
-					var parent;
-					while ( node && isEmpty( node ) ) {
-						parent = node.getParent();
-						range.moveToPosition( node, CKEDITOR.POSITION_BEFORE_START );
-						node.remove();
-
-						if ( !limit( node ) )
-							return;
-
-						node = parent;
-					}
-				}
-
 				function optimizeBookmarkNode( node, toStart ) {
 					var parent = node.getParent();
 
@@ -859,12 +845,19 @@
 						merged.remove();
 				}
 
+				// Returns element path limited to the editable. It's simpler than
+				// range.start|endPath() as it solves tons of edge cases, i.e. when
+				// path.contains() considers parents of editable etc.
+				function getEditablePath( element, editable ) {
+					return new CKEDITOR.dom.elementPath( element, editable );
+				}
+
 				var list = ( function() {
 					return {
 						detectMerge: function( info ) {
 							var range = info.range,
-								startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
-								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+								startPath = getEditablePath( info.range.startContainer, this ),
+								endPath = getEditablePath( info.range.endContainer, this );
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
@@ -884,6 +877,7 @@
 								// Both containers must be list items
 								startPath.block.is( CKEDITOR.dtd.$listItem ) && endPath.block.is( CKEDITOR.dtd.$listItem );
 
+							// Create merge bookmark.
 							if ( info.mergeList || info.mergeListItems ) {
 								var rangeClone = range.clone();
 
@@ -901,8 +895,8 @@
 								startNode = info.doc.getById( info.mergeListBookmark.startNode ),
 								endNode = info.doc.getById( info.mergeListBookmark.endNode ),
 
-								startPath = new CKEDITOR.dom.elementPath( startNode, this ),
-								endPath = new CKEDITOR.dom.elementPath( endNode, this );
+								startPath = getEditablePath( startNode, this ),
+								endPath = getEditablePath( endNode, this );
 
 							if ( info.mergeList ) {
 								var firstList = startPath.contains( CKEDITOR.dtd.$list ),
@@ -932,31 +926,31 @@
 
 				var extractMerge = ( function() {
 					return {
+						// Detects whether use "mergeThen" argument in range.extractContents().
 						detect: function( info ) {
-							var startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
-								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+							var startPath = getEditablePath( info.range.startContainer, this ),
+								endPath = getEditablePath( info.range.endContainer, this );
 
-							var tableMerge = !(
-								startPath.blockLimit.is( CKEDITOR.dtd.$tableContent ) &&
-								endPath.blockLimit.is( CKEDITOR.dtd.$tableContent )
-							);
-
-							var listMerge = !(
+							// Don't merge if playing with lists.
+							return !(
 								startPath.contains( CKEDITOR.dtd.$listItem ) &&
 								endPath.contains( CKEDITOR.dtd.$listItem )
 							);
-
-							info.extractMerge = tableMerge && listMerge;
 						}
 					};
 				} )();
 
 				var block = ( function() {
 					return {
+						// Detects whether blocks should be merged once contents are extracted.
 						detectMerge: function( info ) {
-							var startPath = new CKEDITOR.dom.elementPath( info.range.startContainer, this ),
-								endPath = new CKEDITOR.dom.elementPath( info.range.endContainer, this );
+							if ( info.tableRanges.length )
+								return;
 
+							var startPath = getEditablePath( info.range.startContainer, this ),
+								endPath = getEditablePath( info.range.endContainer, this );
+
+							// Don't merge blocks if lists are already involved.
 							if ( !info.mergeListBookmark ) {
 								var rangeClone = info.range.clone();
 
@@ -974,19 +968,232 @@
 								startNode = info.doc.getById( info.mergeBlockBookmark.startNode ),
 								endNode = info.doc.getById( info.mergeBlockBookmark.endNode ),
 
-								startPath = new CKEDITOR.dom.elementPath( startNode, this ),
-								endPath = new CKEDITOR.dom.elementPath( endNode, this );
+								startPath = getEditablePath( startNode, this ),
+								endPath = getEditablePath( endNode, this );
 
 								var firstBlock = startPath.block,
 									secondBlock = endPath.block;
 
-							if ( firstBlock && !firstBlock.equals( secondBlock ) ) {
+							if ( firstBlock && secondBlock && !firstBlock.equals( secondBlock ) ) {
 								mergeElements( secondBlock, startNode, endNode );
 							}
 
 							// Remove bookmark nodes.
 							startNode.remove();
 							endNode.remove();
+						}
+					};
+				} )();
+
+				var table = ( function() {
+					var tableEditable = { td: 1, th: 1, caption: 1 };
+
+					return {
+						// Detects whether to purge entire list.
+						detectPurge: function( info ) {
+							var range = info.range,
+								startTable = getEditablePath( info.range.startContainer, this ).contains( 'table' ),
+								endTable = getEditablePath( info.range.endContainer, this ).contains( 'table' );
+
+							if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
+								var rangeClone = info.range.clone();
+
+								rangeClone.setStartBefore( startTable );
+								rangeClone.setEndAfter( endTable );
+
+								info.purgeTableBookmark = rangeClone.createBookmark( 1 );
+							}
+						},
+
+						// Creates sub-ranges which contain editable contents, table rows or surrounding contents.
+						detectRanges: function( info ) {
+							info.tableRanges = [];
+							info.tableRowRanges = [];
+							info.tableSurroundRanges = [];
+
+							var range = info.range,
+								walkerRange = info.range.clone(),
+								walker = new CKEDITOR.dom.walker( walkerRange ),
+
+								startPath = getEditablePath( range.startContainer, this ),
+								endPath = getEditablePath( range.endContainer, this ),
+
+								table;
+
+							// ---
+							// --- STAGE 1.
+							// ---
+							// Detect surrounding contents, which precedes or follows the table. Create
+							// a separate range for such contents. At the same time, reduce walking range
+							// to exclude surrounding contents.
+							//
+							// <p>a{b</p><table>...</table><p>c}d</p>
+							// becomes
+							// <p>a{b}</p>[<table>...</table>]<p>{c}d</p>
+
+							// Finds the very first table, which is visited by the walker.
+							walker.guard = function( node, leaving ) {
+								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'table' ) && !leaving ) {
+									table = node;
+								}
+							};
+
+							walker.checkForward( walkerRange );
+
+							// Store (1), which precedes the table.
+							//     |(1)  |
+							// <p>a{b</p>][<table>....</table><p>c}d</p>
+							//             \------ to walk ------/
+							if ( !startPath.contains( CKEDITOR.dtd.$tableContent ) && table ) {
+								var enteredRange = range.clone();
+
+								enteredRange.setEndBefore( table );
+								info.tableSurroundRanges.push( enteredRange );
+								walkerRange.setStartBefore( table );
+							}
+
+							table = null;
+							walker.reset();
+							walker.checkBackward( walkerRange );
+
+							// Store (2), which follows the table.
+							//     |(1)  |                     |(2) |
+							// <p>a{b</p>][<table>....</table>][<p>c}d</p>
+							//             \---- to walk ----/
+							if ( !endPath.contains( CKEDITOR.dtd.$tableContent ) && table ) {
+								var leftRange = range.clone();
+
+								leftRange.setStartAfter( table );
+								info.tableSurroundRanges.push( leftRange );
+								walkerRange.setEndAfter( table );
+							}
+
+							// ---
+							// --- STAGE 2.
+							// ---
+							// Detect full table rows within the range. Those will be removed as a whole.
+							//
+							// <table><tr><td>{a</td></tr><tr><td>b</td></tr><tr><td>c}d</td></tr></table>
+							//                            \--- to remove ---/
+							walker.reset();
+
+							var rowRange, row;
+							walker.guard = function( node, leaving ) {
+								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'tr' ) ) {
+									if ( leaving && row && row.equals( node ) ) {
+										rowRange = range.clone();
+										rowRange.setStartBefore( row );
+										rowRange.setEndAfter( row );
+										info.tableRowRanges.push( rowRange );
+									}
+
+									row = node;
+								}
+							};
+
+							walker.lastForward();
+
+							// ---
+							// --- STAGE 3.
+							// ---
+							// Detect table partially selected table contents, located either at the start
+							// or at the end of range. Create separate range for such contents and exclude
+							// if from further walking.
+							//
+							// <table><tbody><tr><td>y{a</td><td>x</td><td>b}c</td></tr></tbody></table>
+							//                         \----- to walk -----/
+							// becomes
+							// <table><tbody><tr><td>y{a}{</td><td>x</td><td>}{b}c</td></tr></tbody></table>
+							//                            \---- to walk ----/
+							walker.reset();
+
+							var startTableEditable = startPath.contains( tableEditable ),
+								endTableEditable = endPath.contains( tableEditable );
+
+							// The very first range inside of the table is stored (1):
+							//    					 |(1)|
+							// <table><tbody><tr><td>y{a}</td>[<td>x</td><td>b}c</td></tr></tbody></table>
+							//                                \--- to walk ---/
+							if ( startTableEditable ) {
+								var startTableEditableRange = walkerRange.clone();
+
+								if ( !endTableEditable || !endTableEditable.equals( startTableEditable ) )
+									startTableEditableRange.setEndAt( startTableEditable, CKEDITOR.POSITION_BEFORE_END );
+
+								info.tableRanges.push( startTableEditableRange );
+								walkerRange.setStartAfter( startTableEditable );
+							}
+
+							// The same happens for "trailing" range inside of the table (2).
+							//    					 |(1)|                   |(2)|
+							// <table><tbody><tr><td>y{a}</td>[<td>x</td>]<td>{b}c</td></tr></tbody></table>
+							//                                \- 2 walk -/
+							if ( endTableEditable && ( startTableEditable ? !startTableEditable.equals( endTableEditable ) : 1 ) ) {
+								var endTableEditableRange = walkerRange.clone();
+
+								endTableEditableRange.setStartAt( endTableEditable, CKEDITOR.POSITION_AFTER_START );
+								info.tableRanges.push( endTableEditableRange );
+								walkerRange.setEndBefore( endTableEditable );
+							}
+
+							// ---
+							// --- STAGE 4.
+							// ---
+							// Go for a final walk and collect all intermediate ranges which contain
+							// editable elements. They will be used to remove table contents, leaving
+							// the structure untouched.
+							var editableRange;
+							walker.guard = function( node, leaving ) {
+								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( tableEditable ) ) {
+									editableRange = range.clone();
+									editableRange.selectNodeContents( node );
+									info.tableRanges.push( editableRange );
+								}
+							};
+
+							walker.reset();
+							walker.lastForward();
+						},
+						deleteRanges: function( info ) {
+							if ( !info.tableRanges.length )
+								return;
+
+							var range;
+
+							// Delete whole rows first.
+							while ( ( range = info.tableRowRanges.pop() ) ) {
+								range.extractContents();
+							}
+
+							// Delete table cell contents.
+							while ( ( range = info.tableRanges.pop() ) ) {
+								range.extractContents();
+
+								if ( isEmpty( range.startContainer ) )
+									range.startContainer.appendBogus();
+							}
+
+							// Finally delete surroundings of the table.
+							while ( ( range = info.tableSurroundRanges.pop() ) ) {
+								range.extractContents();
+							}
+						},
+						purge: function( info ) {
+							if ( !info.purgeTableBookmark )
+								return;
+
+							var doc = info.doc,
+								range = info.range,
+								rangeClone = range.clone(),
+								// How about different enter modes?
+								block = doc.createElement( 'p' );
+
+							block.insertBefore( doc.getById( info.purgeTableBookmark.startNode ) );
+
+							rangeClone.moveToBookmark( info.purgeTableBookmark );
+							rangeClone.deleteContents();
+
+							info.range.moveToPosition( block, CKEDITOR.POSITION_AFTER_START );
 						}
 					};
 				} )();
@@ -1021,49 +1228,40 @@
 					targetRange.moveToPosition( info.doc.getById( info.bookmark.startNode ), CKEDITOR.POSITION_BEFORE_START );
 
 					// Remember desired position of the range after extraction.
-					var targetBm = targetRange.createBookmark( 1 );
+					info.targetBookmark = targetRange.createBookmark( 1 );
 
+					// Execute content-specific detections.
 					list.detectMerge.call( this, info );
+					table.detectPurge.call( this, info );
+					table.detectRanges.call( this, info );
 					block.detectMerge.call( this, info );
 
 					// Finally restore the "working range", once DOM is stable.
 					range.moveToBookmark( info.bookmark );
 
-					extractMerge.detect.call( this, info );
-
 					// Simply, do the job.
-					range.extractContents( info.extractMerge );
+					if ( info.tableRanges.length ) {
+						table.deleteRanges( info );
+					} else {
+						range.extractContents( extractMerge.detect.call( this, info ) );
+					}
 
 					// Move working range to desired, pre-computed position.
-					range.moveToBookmark( targetBm );
+					range.moveToBookmark( info.targetBookmark );
 
 					// Make sure range is always anchored in an element. For consistency.
-					// range.moveToClosestEditablePosition( range.endContainer );
 					range.optimize();
 
-					// Update path. It's been modified (bookmarks created, contents extracted).
-					// var path = range.startPath();
-
-					// var node = range.startContainer,
-					// 	parent;
-
-					// if ( node.is( CKEDITOR.dtd.$tableContent ) && !node.is( 'td', 'th' ) ) {
-					// 	pruneEmptyTree( node, range, function( node ) {
-					// 		return path.contains( 'table' ).getParent();
-					// 	} );
-					// }
-					// else if ( node.is( CKEDITOR.dtd.$listItem ) || node.is( CKEDITOR.dtd.$list ) ) {
-					// 	pruneEmptyTree( node, range, function( node ) {
-					// 		return path.contains( CKEDITOR.dtd.$list ).getParent();
-					// 	} );
-					// }
-
+					// Execute content-specific post-extract routines.
 					list.merge.call( this, info );
+					table.purge.call( this, info );
 					block.merge.call( this, info );
 
+					// Let's have a bogus next to the caret, if needed.
 					if ( isEmpty( range.startContainer ) )
 						range.startContainer.appendBogus();
 
+					// Merge inline siblings if any around the caret.
 					range.startContainer.mergeSiblings( 1 );
 
 					return extractedFragment;
