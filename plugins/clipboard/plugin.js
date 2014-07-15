@@ -1367,7 +1367,7 @@
 				}
 
 				if ( eventData.dataValue ) {
-						editor.fire( 'paste', eventData );
+					editor.fire( 'paste', eventData );
 				}
 			}
 
@@ -1717,8 +1717,8 @@
 		this._ = {
 			data: [],
 
-			normalizeType: function( t ) {
-				var type = t.toLowerCase();
+			normalizeType: function( type ) {
+				var type = type.toLowerCase();
 
 				if ( type == 'text' || type == 'text/plain' ) {
 					return 'Text'; // IE support only Text and URL;
@@ -1815,6 +1815,7 @@
 	 * @member CKEDITOR
 	 */
 	CKEDITOR.CLIPBOARD_DROP = 0;
+
 	/**
 	 * Clipboard operation method: copy and paste.
 	 *
@@ -1865,8 +1866,8 @@
 		 * @param {String} type The type of data to retrieve.
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
-		getData: function( t ) {
-			var type = this._.normalizeType( t ),
+		getData: function( type ) {
+			var type = this._.normalizeType( type ),
 				data;
 
 			try {
@@ -1890,8 +1891,8 @@
 		 * @param {String} type The type of data to retrieve.
 		 * @param {String} value The data to add.
 		 */
-		setData: function( t, value ) {
-			var type = this._.normalizeType( t );
+		setData: function( type, value ) {
+			var type = this._.normalizeType( type );
 
 			this._.data[ type ] = value;
 
