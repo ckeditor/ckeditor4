@@ -462,7 +462,12 @@ var editors, editorBots,
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'drop1' ).getChild( 0 ),
-				offset: 0
+				offset: 0,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'drag1',
+				expectedHtml: 'drag1',
+				expectedDataType: 'html',
+				expectedDataValue: 'drag1'
 			}, function( evt ) {
 				evt.data.dragRange.selectNodeContents( editor.document.getById( 'drag2' ) );
 				evt.data.dropRange.setStart( editor.document.getById( 'drop2' ), 4 );
