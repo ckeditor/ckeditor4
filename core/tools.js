@@ -454,6 +454,21 @@
 		},
 
 		/**
+		 * Gets a universally unique ID. It returns a random string
+		 * up to ISO/IEC 11578:1996, without dashes, with the "e" prefix to
+		 * make sure that ID does not starts with number.
+		 *
+		 * @returns {String} A global unique ID.
+		 */
+		getUniqueId: function() {
+			var uuid = 'e'; // make sure that id does not start with number.
+			for ( var i = 0; i < 8; i++ ) {
+				uuid = Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
+			};
+			return uuid;
+		},
+
+		/**
 		 * Creates a function override.
 		 *
 		 *		var obj = {
