@@ -100,10 +100,16 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 		resume( function() {
 			dropEventCounter++;
 
-			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dropEvt.data.dataTransfer );
-			assert.areSame( config.element, dropEvt.data.dropRange.startContainer );
-			assert.areSame( config.offset, dropEvt.data.dropRange.startOffset );
-			assert.areSame( evt.$, dropEvt.data.nativeEvent );
+			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dropEvt.data.dataTransfer , 'instanceOf dataTransfer' );
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				// IE8 modify drop range.
+				assert.isObject( dropEvt.data.dropRange.startContainer, 'startContainer' );
+				assert.isNumber( dropEvt.data.dropRange.startOffset, 'startOffset' );
+			} else {
+				assert.areSame( config.element, dropEvt.data.dropRange.startContainer, 'startContainer' );
+				assert.areSame( config.offset, dropEvt.data.dropRange.startOffset, 'startOffset' );
+			}
+			assert.areSame( evt.$, dropEvt.data.nativeEvent, 'nativeEvent' );
 			assert.areSame( 'targetMock', dropEvt.data.target.$ );
 
 			onDrop && onDrop( dropEvt );
@@ -128,7 +134,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 
 	function finish() {
 		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-		assert.areSame( 1, dropEventCounter, 'There should be always one drop event.' );
+		assert.areSame( 1, dropEventCounter, 'There should be always one drop.' );
 		onPaste();
 	}
 }
