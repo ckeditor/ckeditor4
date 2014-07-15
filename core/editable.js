@@ -245,7 +245,10 @@
 			insertText: function( text ) {
 				beforeInsert( this );
 
-				insert( this, 'text', this.textToHtml( text ) );
+				var enterMode = this.editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ?
+					CKEDITOR.ENTER_BR :
+					this.editor.activeEnterMode;
+				insert( this, 'text', CKEDITOR.tools.transformPlainTextToHtml( text, enterMode ) );
 			},
 
 			/**

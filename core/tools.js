@@ -376,6 +376,54 @@
 		},
 
 		/**
+		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
+		 *
+		 * @param {String} text Text to transform.
+		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode} in the paste position.
+		 * @returns {String} Transformed HTML.
+		 */
+		transformPlainTextToHtml: function( text, enterMode ) {
+				var isEnterBrMode = enterMode == CKEDITOR.ENTER_BR,
+					// CRLF -> LF
+					html = this.htmlEncode( text.replace( /\r\n/g, '\n' ) );
+
+				// Tab -> &nbsp x 4;
+				html = html.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+
+				var paragraphTag = enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
+				// Two line-breaks create one paragraphing block.
+				if ( !isEnterBrMode ) {
+					var duoLF = /\n{2}/g;
+					if ( duoLF.test( html ) )
+					{
+						var openTag = '<' + paragraphTag + '>', endTag = '</' + paragraphTag + '>';
+						html = openTag + html.replace( duoLF, function() { return  endTag + openTag; } ) + endTag;
+					}
+				}
+
+				// One <br> per line-break.
+				html = html.replace( /\n/g, '<br>' );
+
+				// Compensate padding <br> at the end of block, avoid loosing them during insertion.
+				if ( !isEnterBrMode ) {
+					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
+						return CKEDITOR.tools.repeat( match, 2 );
+					} );
+				}
+
+				// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
+				html = html.replace( /^ | $/g, '&nbsp;' );
+
+				// Finally, preserve whitespaces that are to be lost.
+				html = html.replace( /(>|\s) /g, function( match, before ) {
+					return before + '&nbsp;';
+				} ).replace( / (?=<)/g, '&nbsp;' );
+
+				return html;
+			},
+
+		/**
 		 * Gets a unique number for this CKEDITOR execution session. It returns
 		 * consecutive numbers starting from 1.
 		 *

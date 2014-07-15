@@ -1359,7 +1359,8 @@
 					eventData.type = 'text';
 
 					if ( eventData.dataValue ) {
-						eventData.dataValue = editor.editable().textToHtml( eventData.dataValue );
+						var enterMode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode;
+						eventData.dataValue = CKEDITOR.tools.transformPlainTextToHtml( eventData.dataValue, enterMode );
 					} else {
 						eventData.dataValue = '';
 					}
