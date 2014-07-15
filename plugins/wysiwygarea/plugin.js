@@ -640,9 +640,9 @@
  *
  * **Note:** Because of incomplete implementation of editing features in browsers
  * this option does not work for inline editors (see ticket [#10197](http://dev.ckeditor.com/ticket/10197)),
- * does not work on IE11+ (see [#9317](http://dev.ckeditor.com/ticket/9317#comment:16) and
- * [IE11+ issue](https://connect.microsoft.com/IE/feedback/details/742593/please-respect-execcommand-enableobjectresizing-in-contenteditable-elements))
- * and on IE8-10 this option only blocks resizing (it can't hide resize handles).
+ * does not work in Internet Explorer 11+ (see [#9317](http://dev.ckeditor.com/ticket/9317#comment:16) and
+ * [IE11+ issue](https://connect.microsoft.com/IE/feedback/details/742593/please-respect-execcommand-enableobjectresizing-in-contenteditable-elements)).
+ * In Internet Explorer 8-10 this option only blocks resizing, but it is unable to hide the resize handles.
  *
  * @cfg
  * @member CKEDITOR.config
@@ -679,9 +679,13 @@ CKEDITOR.config.disableNativeTableHandles = true;
 CKEDITOR.config.disableNativeSpellChecker = true;
 
 /**
- * The CSS file(s) to be used to apply style to the content. It should
- * reflect the CSS used in the final pages where the content is to be
- * used.
+ * The CSS file(s) to be used to apply style to editor content. It should
+ * reflect the CSS used in the target pages where the content is to be
+ * displayed.
+ *
+ * **Note:** This configuration value is ignored by [inline editor](#!/guide/dev_inline)
+ * as it uses the styles that come directly from the page that CKEditor is
+ * rendered on.
  *
  *		config.contentsCss = '/css/mysitestyles.css';
  *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];

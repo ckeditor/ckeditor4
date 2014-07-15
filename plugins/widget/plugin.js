@@ -1057,12 +1057,12 @@
 		 * Starts widget editing.
 		 *
 		 * This method fires the {@link CKEDITOR.plugins.widget#event-edit} event
-		 * which may be cancelled in order to prevent it from opening a dialog window.
+		 * which may be canceled in order to prevent it from opening a dialog window.
 		 *
 		 * The dialog window name is obtained from the event's data `dialog` property or
 		 * from {@link CKEDITOR.plugins.widget.definition#dialog}.
 		 *
-		 * @returns {Boolean} Returns `true` if dialog was opened.
+		 * @returns {Boolean} Returns `true` if a dialog window was opened.
 		 */
 		edit: function() {
 			var evtData = { dialog: this.dialog },
@@ -1466,7 +1466,7 @@
 
 	/**
 	 * An event fired when a dialog window for widget editing is opened.
-	 * This event can be cancelled in order to handle the editing dialog in a custom manner.
+	 * This event can be canceled in order to handle the editing dialog in a custom manner.
 	 *
 	 * @event dialog
 	 * @param {CKEDITOR.dialog} data The opened dialog window instance.
@@ -1475,7 +1475,7 @@
 	/**
 	 * An event fired when a key is pressed on a focused widget.
 	 * This event is forwarded from the {@link CKEDITOR.editor#key} event and
-	 * has the ability to block editor keystrokes if it is cancelled.
+	 * has the ability to block editor keystrokes if it is canceled.
 	 *
 	 * @event key
 	 * @param data
@@ -1485,22 +1485,22 @@
 	/**
 	 * An event fired when a widget is double clicked.
 	 *
-	 * **Note:** if a default editing action is executed on double click (i.e. widget has a
+	 * **Note:** If a default editing action is executed on double click (i.e. a widget has a
 	 * {@link CKEDITOR.plugins.widget.definition#dialog dialog} defined and the {@link #event-doubleclick} event was not
-	 * cancelled) this event will be automatically cancelled, so listener added with the default priority (10)
-	 * will not be executed. Use listener with low priority (e.g. 5) to be sure that it will be executed.
+	 * canceled), this event will be automatically canceled, so a listener added with the default priority (10)
+	 * will not be executed. Use a listener with low priority (e.g. 5) to be sure that it will be executed.
 	 *
 	 *		widget.on( 'doubleclick', function( evt ) {
 	 *			console.log( 'widget#doubleclick' );
 	 *		}, null, null, 5 );
 	 *
-	 * If your widget handles double click in a special way (so default editing action is not executed)
-	 * make sure to cancel this event, because otherwise it will be propagated to {@link CKEDITOR.editor#doubleclick}
-	 * and other feature may step in (e.g. link dialog may be opened if your widget was inside a link).
+	 * If your widget handles double click in a special way (so the default editing action is not executed),
+	 * make sure you cancel this event, because otherwise it will be propagated to {@link CKEDITOR.editor#doubleclick}
+	 * and another feature may step in (e.g. a Link dialog window may be opened if your widget was inside a link).
 	 *
 	 * @event doubleclick
 	 * @param data
-	 * @param {CKEDITOR.dom.element} data.element The double clicked element.
+	 * @param {CKEDITOR.dom.element} data.element The double-clicked element.
 	 */
 
 	/**
