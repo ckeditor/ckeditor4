@@ -1101,7 +1101,7 @@
 	function shouldAutoParagraph( editor, pathBlock, pathBlockLimit ) {
 		return editor.config.autoParagraph !== false &&
 			editor.activeEnterMode != CKEDITOR.ENTER_BR &&
-			editor.editable().equals( pathBlockLimit ) && !pathBlock;
+    		(editor.editable().equals( pathBlockLimit ) && !pathBlock) || ( pathBlock && pathBlock.equals( pathBlockLimit ) );
 	}
 
 	// Matching an empty paragraph at the end of document.
