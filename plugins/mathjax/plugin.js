@@ -202,11 +202,26 @@
 	 * @param {String} value String to trim.
 	 * @returns {String} Trimed string.
 	 */
-	CKEDITOR.plugins.mathjax.trim = function( value ) {
-		var begin = value.indexOf( '\\(' ) + 2,
-			end = value.lastIndexOf( '\\)' );
+	CKEDITOR.plugins.mathjax.trim = function( value, detail ) {
+		var beginp = value.indexOf( '\\(' ) + 2,
+			endp = value.lastIndexOf( '\\)' ),
+			beginb = value.indexOf( '\\[' ) + 2,
+			endb = value.lastIndexOf( '\\]' ),
+			begin, end, display;
 
-		return value.substring( begin, end );
+                if(beginb<2 || (beginb>beginp && beginp>=2)) {
+                        begin = beginp;
+                        end = endp;
+			display = false;
+                } else {
+                        begin = beginb;
+                        end = endb;
+			display = true;
+                }
+                return detail ? {
+			tex: value.substring( begin, end ),
+			display: display
+		} : value.substring( begin, end );
 	};
 
 	/**
