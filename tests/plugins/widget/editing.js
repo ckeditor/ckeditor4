@@ -69,17 +69,19 @@
 
 			this.editorBot.setData( '<p data-widget="test1" id="x">foo</p>', function() {
 				var widget = getWidgetById( editor, 'x' ),
-					openedDialog;
+					openedDialog,
+					retVal;
 
 				var revert = replaceMethod( editor, 'openDialog', function( dialogName ) {
 					openedDialog = dialogName;
 				} );
 
-				widget.edit();
+				retVal = widget.edit();
 
 				revert();
 
 				assert.areSame( 'widgettest1', openedDialog );
+				assert.isTrue( retVal, 'widget.edit() return value' );
 			} );
 		},
 
@@ -88,17 +90,19 @@
 
 			this.editorBot.setData( '<p data-widget="test2" id="x">foo</p>', function() {
 				var widget = getWidgetById( editor, 'x' ),
-					openedDialog = null;
+					openedDialog = null,
+					retVal;
 
 				var revert = replaceMethod( editor, 'openDialog', function( dialogName ) {
 					openedDialog = dialogName;
 				} );
 
-				widget.edit();
+				retVal = widget.edit();
 
 				revert();
 
 				assert.isNull( openedDialog );
+				assert.isFalse( retVal, 'widget.edit() return value' );
 			} );
 		},
 
@@ -145,6 +149,34 @@
 				revert();
 
 				assert.isNull( openedDialog );
+			} );
+		},
+
+		'test cancelling doubleclick when widget.edit() returns true': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p data-widget="test1" id="x">foo</p>', function() {
+				var widget = getWidgetById( editor, 'x' ),
+					widgetElement = editor.document.getById( 'x' ),
+					retVal;
+
+				// Doubleclick should be canceled if widget.edit() returns true.
+				widget.edit = function() {
+					return true;
+				};
+
+				retVal = editor.fire( 'doubleclick', { element: widgetElement } );
+
+				assert.isFalse( retVal, 'editor#doubleclick should be canceled' );
+
+				// Now opposite situation.
+				widget.edit = function() {
+					return false;
+				};
+
+				retVal = editor.fire( 'doubleclick', { element: widgetElement } );
+
+				assert.isTrue( retVal !== false, 'editor#doubleclick should not be canceled' );
 			} );
 		},
 

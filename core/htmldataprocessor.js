@@ -307,16 +307,15 @@
 		function blockFilter( isOutput, fillEmptyBlock ) {
 
 			return function( block ) {
-
-				// DO NOT apply the filer if it's a fragment node.
+				// DO NOT apply the filler if it's a fragment node.
 				if ( block.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT )
 					return;
 
 				cleanBogus( block );
 
-				if ( ( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) !== false : fillEmptyBlock ) &&
-						isEmptyBlockNeedFiller( block ) )
-				{
+				var shouldFillBlock = typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) : fillEmptyBlock;
+
+				if ( shouldFillBlock !== false && isEmptyBlockNeedFiller( block ) ) {
 					block.add( createFiller( isOutput ) );
 				}
 			};
@@ -446,21 +445,21 @@
 			return !last || block.name == 'form' && last.name == 'input' ;
 		}
 
-		var rules = { elements: {} };
-		var isOutput = type == 'html';
+		var rules = { elements: {} },
+			isOutput = type == 'html',
+			textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
 
 		// Build the list of text blocks.
-		var textBlockTags = CKEDITOR.tools.extend( {}, blockLikeTags );
 		for ( var i in textBlockTags ) {
 			if ( !( '#' in dtd[ i ] ) )
 				delete textBlockTags[ i ];
 		}
 
 		for ( i in textBlockTags )
-			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks !== false );
+			rules.elements[ i ] = blockFilter( isOutput, editor.config.fillEmptyBlocks );
 
-		// Editable element is to be checked separately.
-		rules.root = blockFilter( isOutput );
+		// Editable element has to be checked separately.
+		rules.root = blockFilter( isOutput, false );
 		rules.elements.br = brFilter( isOutput );
 		return rules;
 	}
@@ -862,7 +861,10 @@
 			( /<script[\s\S]*?<\/script>/gi ),
 
 			// <noscript> tags (get lost in IE and messed up in FF).
-			/<noscript[\s\S]*?<\/noscript>/gi
+			/<noscript[\s\S]*?<\/noscript>/gi,
+
+			// Avoid meta tags being stripped (#8117).
+			/<meta[\s\S]*?\/?>/gi
 		].concat( protectRegexes );
 
 		// First of any other protection, we must protect all comments
@@ -928,7 +930,7 @@
  *		};
  *
  * @since 3.5
- * @cfg {Boolean} [fillEmptyBlocks=true]
+ * @cfg {Boolean/Function} [fillEmptyBlocks=true]
  * @member CKEDITOR.config
  */
 

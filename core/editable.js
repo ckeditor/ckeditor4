@@ -14,11 +14,12 @@
 	CKEDITOR.editable = CKEDITOR.tools.createClass( {
 		base: CKEDITOR.dom.element,
 		/**
-		 * The constructor only stores generic editable creation logic that is commonly shared among all different editable elements.
+		 * The constructor only stores generic editable creation logic that is commonly shared among
+		 * all different editable elements.
 		 *
 		 * @constructor Creates an editable class instance.
 		 * @param {CKEDITOR.editor} editor The editor instance on which the editable operates.
-		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that been used as the editor's
+		 * @param {HTMLElement/CKEDITOR.dom.element} element Any DOM element that was as the editor's
 		 * editing container, e.g. it could be either an HTML element with the `contenteditable` attribute
 		 * set to the `true` that handles WYSIWYG editing or a `<textarea>` element that handles source editing.
 		 */
@@ -1164,14 +1165,17 @@
 				if ( ariaLabel )
 					editable.changeAttr( 'title', ariaLabel );
 
-				// Put the voice label in different spaces, depending on element mode, so
-				// the DOM element get auto detached on mode reload or editor destroy.
-				var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
-				if ( ct ) {
-					var ariaDescId = CKEDITOR.tools.getNextId(),
-						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + this.lang.common.editorHelp + '</span>' );
-					ct.append( desc );
-					editable.changeAttr( 'aria-describedby', ariaDescId );
+				var helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+				if ( helpLabel ) {
+					// Put the voice label in different spaces, depending on element mode, so
+					// the DOM element get auto detached on mode reload or editor destroy.
+					var ct = this.ui.space( this.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? 'top' : 'contents' );
+					if ( ct ) {
+						var ariaDescId = CKEDITOR.tools.getNextId(),
+							desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + ariaDescId + '" class="cke_voice_label">' + helpLabel + '</span>' );
+						ct.append( desc );
+						editable.changeAttr( 'aria-describedby', ariaDescId );
+					}
 				}
 			}
 		} );
@@ -2128,8 +2132,8 @@
 } )();
 
 /**
- * Whether the editor must output an empty value (`''`) if it's contents is made
- * by an empty paragraph only.
+ * Whether the editor must output an empty value (`''`) if its content only consists
+ * of an empty paragraph.
  *
  *		config.ignoreEmptyParagraph = false;
  *
@@ -2138,11 +2142,23 @@
  */
 
 /**
- * @event focus
- * @todo
- */
-
- /**
- * @event blur
- * @todo
+ * Event fired by the editor in order to get accessibility help label.
+ * The event is responded to by a component which provides accessibility
+ * help (i.e. the `a11yhelp` plugin) hence the editor is notified whether
+ * accessibility help is available.
+ *
+ * Providing info:
+ *
+ *		editor.on( 'ariaEditorHelpLabel', function( evt ) {
+ *				evt.data.label = editor.lang.common.editorHelp;
+ *		} );
+ *
+ * Getting label:
+ *
+ *		var helpLabel = editor.fire( 'ariaEditorHelpLabel', {} ).label;
+ *
+ * @since 4.4.3
+ * @event ariaEditorHelpLabel
+ * @param {String} label The label to be used.
+ * @member CKEDITOR.editor
  */

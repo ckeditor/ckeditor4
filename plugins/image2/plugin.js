@@ -1341,21 +1341,6 @@
 		if ( !editor.plugins.link )
 			return;
 
-		// Generally speaking, link dialog does not open if double-clicked
-		// linked widget because widget internals are read-only:
-		//
-		//		<wrapper><a><img/></a></wrapper> // <a> is not editable
-		//
-		// However, in the following case:
-		//
-		//		<a>x<wrapper><img/></wrapper>x</a> // <a> is editable
-		//
-		// it would open along with Image2 dialog, if not blocked.
-		editor.on( 'doubleclick', function( evt ) {
-			if ( evt.data.dialog && evt.data.dialog == 'link' && getFocusedWidget( editor ) )
-				evt.cancel();
-		} );
-
 		CKEDITOR.on( 'dialogDefinition', function( evt ) {
 			var dialog = evt.data;
 
