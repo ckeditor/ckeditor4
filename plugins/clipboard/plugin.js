@@ -468,7 +468,7 @@
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
-					if ( evt.data && !evt.data.$.ctrlKey )
+					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
 
