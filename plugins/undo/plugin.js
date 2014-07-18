@@ -209,7 +209,7 @@
 		 *
 		 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @readonly
 		 */
 		keyGroupsEnum: {
@@ -222,7 +222,7 @@
 		 *
 		 * **Note:** Strokes count will be reset, after reaching characters per snapshot limit.
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @readonly
 		 */
 		strokesRecorded: [ 0, 0 ],
@@ -231,7 +231,7 @@
 		 * Codes of navigation keys like arrows, page up/down, etc.
 		 * Used by the {@link #isNavigationKey} method.
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @readonly
 		 */
 		navigationKeyCodes: {
@@ -253,7 +253,7 @@
 		/**
 		 * Contains previously processed key group, based on {@link #keyGroupsEnum}. `-1` means unknown group.
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @readonly
 		 * @property {Number} [previousKeyGroup=-1]
 		 */
@@ -579,7 +579,7 @@
 		 * Amends last snapshot, and changes its selection (only in case when contents
 		 * are equal between these two).
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @param {CKEDITOR.plugins.undo.Image} newSnapshot New snapshot with new selection.
 		 * @returns {Boolean} Returns `true` if selection was amended.
 		 */
@@ -689,7 +689,7 @@
 		 * Checks whether a key is one of navigation keys (arrows, page up/down, etc.).
 		 * See also the {@link #navigationKeyCodes} property.
 		 *
-		 * @since 4.4.3
+		 * @since 4.4.4
 		 * @param {Number} keyCode
 		 * @returns {Boolean}
 		 */
@@ -819,7 +819,7 @@
 	 * @member CKEDITOR.plugins.undo Undo manager owning the handler.
 	 * @constructor
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
-	 * @since 4.4.3
+	 * @since 4.4.4
 	 */
 	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
