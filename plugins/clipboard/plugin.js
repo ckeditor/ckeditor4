@@ -1688,7 +1688,8 @@
 			// Create a new dataTransfer object based on the drop event.
 			// If this event was used on dragstart to create dataTransfer
 			// both dataTransfer objects will have the same id.
-			var dataTransfer = new this.dataTransfer( evt, sourceEditor );
+			var nativeDataTransfer = evt ? evt.data.$.dataTransfer : null,
+				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
 			// If there is the same id we will replace dataTransfer with the one
 			// created on drag, because it contains drag editor, drag content and so on.
@@ -1759,12 +1760,12 @@
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
 	 * @constructor Creates a class instance.
 	 *
-	 * @param {Object} [domEvent] A native DOM event object.
+	 * @param {Object} [nativeDataTransfer] A native data transfer object.
 	 * @param {CKEDITOR.editor} [editor] The source editor instance. If editor is defined then dataValue will be created based on the editor contents and type will be 'html'.
 	 */
-	CKEDITOR.plugins.clipboard.dataTransfer = function( evt, editor ) {
-		if ( evt ) {
-			this.$ = evt.data.$.dataTransfer;
+	CKEDITOR.plugins.clipboard.dataTransfer = function( nativeDataTransfer, editor ) {
+		if ( nativeDataTransfer ) {
+			this.$ = nativeDataTransfer;
 		}
 
 		this._ = {

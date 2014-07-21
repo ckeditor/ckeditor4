@@ -10,33 +10,27 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		fixStyles: true
 	};
 
-function createDragDropEventMock() {
+function createNativeDataTransferMock() {
 	return {
-		data: {
-			$: {
-				dataTransfer: {
-					_dataTypes : [],
-					// Emulate browsers native behavior for getDeta/setData.
-					setData: function( type, data ) {
-						if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-							throw "Unexpected call to method or property access.";
+		_dataTypes : [],
+		// Emulate browsers native behavior for getDeta/setData.
+		setData: function( type, data ) {
+			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+				throw "Unexpected call to method or property access.";
 
-						if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
-							return;
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
+				return;
 
-						this._dataTypes[ type ] = data;
-					},
-					getData: function( type ) {
-						if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-							throw "Invalid argument.";
+			this._dataTypes[ type ] = data;
+		},
+		getData: function( type ) {
+			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+				throw "Invalid argument.";
 
-						if ( !this._dataTypes[ type ] )
-							return '';
+			if ( !this._dataTypes[ type ] )
+				return '';
 
-						return this._dataTypes[ type ];
-					}
-				}
-			}
+			return this._dataTypes[ type ];
 		}
 	}
 }
@@ -73,11 +67,11 @@ bender.test( {
 	},
 
 	'test id': function() {
-		var evt1 = createDragDropEventMock(),
-			evt2 = createDragDropEventMock(),
-			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( evt1 ),
-			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( evt1 ),
-			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( evt2 );
+		var nativeData1 = createNativeDataTransferMock(),
+			nativeData2 = createNativeDataTransferMock(),
+			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
+			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
+			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
 
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
@@ -89,14 +83,14 @@ bender.test( {
 	'test internal drag drop': function() {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1,
-			evt, dataTransfer;
+			nativeData, dataTransfer;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
+		nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'Text', 'bar' );
 
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor );
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor );
 		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
@@ -129,12 +123,12 @@ bender.test( {
 
 	'test drop text from external source': function() {
 		var editor = this.editors.editor1,
-			evt, dataTransfer;
+			nativeData, dataTransfer;
 
-		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'x<b>foo</b>x' );
+		nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'Text', 'x<b>foo</b>x' );
 
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
@@ -148,15 +142,15 @@ bender.test( {
 
 	'test drop html from external source': function() {
 		var editor = this.editors.editor1,
-			evt, dataTransfer;
+			nativeData, dataTransfer;
 
-		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
+		nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'Text', 'bar' );
 		if ( !CKEDITOR.env.ie ) {
-			evt.data.$.dataTransfer.setData( 'text/html', 'x<b>foo</b>x' );
+			nativeData.setData( 'text/html', 'x<b>foo</b>x' );
 		}
 
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
@@ -172,14 +166,14 @@ bender.test( {
 		var bot1 = this.bots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
-			evt, dataTransfer;
+			nativeData, dataTransfer;
 
 		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		evt = createDragDropEventMock();
-		evt.data.$.dataTransfer.setData( 'Text', 'bar' );
+		nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'Text', 'bar' );
 
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt, editor1 );
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor1 );
 		dataTransfer.setTargetEditor( editor2 );
 
 		this.assertDataTransfer( {
@@ -211,8 +205,8 @@ bender.test( {
 	},
 
 	'test set-get data, data type: Text, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'Text', 'foo' );
 		assert.areSame( 'foo', dataTransfer.getData( 'Text' ), 'Text - Text' );
@@ -221,8 +215,8 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text/plain, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text/plain', 'foo2' );
 		assert.areSame( 'foo2', dataTransfer.getData( 'Text' ), 'text/plain - text' );
@@ -231,8 +225,8 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text', 'foo3' );
 		assert.areSame( 'foo3', dataTransfer.getData( 'Text' ), 'text - Text' );
@@ -241,8 +235,8 @@ bender.test( {
 	},
 
 	'test set-get data, data type: CKE/custom, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'CKE/custom', 'bar' );
 		assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ), 'CKE/custom - cke/custom' );
@@ -250,16 +244,16 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text/html, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text/html', 'html' );
 		assert.areSame( 'html', dataTransfer.getData( 'text/html' ), 'text/html - text/html' );
 	},
 
 	'test set-get data, undefined data, dataTransfer with event': function() {
-		var evt = createDragDropEventMock(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( evt );
+		var nativeData = createNativeDataTransferMock(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
@@ -313,8 +307,10 @@ bender.test( {
 	},
 
 	'test initDragDataTransfer binding': function() {
-		var evt1 = createDragDropEventMock(),
-			evt2 = createDragDropEventMock(),
+		var nativeData1 = createNativeDataTransferMock(),
+			nativeData2 = createNativeDataTransferMock(),
+			evt1 = { data: { $: { dataTransfer: nativeData1 } } },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } } },
 			dataTransferA = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 ),
 			dataTransferB = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 );
 
@@ -333,7 +329,8 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		var evt = createDragDropEventMock(),
+		var nativeData = createNativeDataTransferMock(),
+			evt = { data: { $: { dataTransfer: nativeData } } },
 			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
 
