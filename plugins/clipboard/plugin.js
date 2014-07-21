@@ -123,6 +123,31 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			editor.on( 'paste', function( evt ) {
+				// If dataValue is already set do not
+				if ( evt.data.dataValue || !evt.data.dataTransfer ) {
+					return;
+				}
+
+				var dataTransfer = evt.data.dataTransfer,
+					// IE support only text data and throws exception if we try to get html data.
+					// This html data object may also be empty if we drag content of the textarea.
+					value = dataTransfer.getData( 'text/html' );
+
+				if ( value ) {
+					evt.data.dataValue = value;
+					evt.data.type = 'html';
+				} else {
+					// Try to get text data otherwise.
+					value = dataTransfer.getData( 'text/plain' );
+
+					if ( value ) {
+						evt.data.dataValue = editor.editable().transformPlainTextToHtml( value );
+						evt.data.type = 'text';
+					}
+				}
+			}, null, null, 1 );
+
+			editor.on( 'paste', function( evt ) {
 				var data = evt.data.dataValue,
 					blockElements = CKEDITOR.dtd.$block;
 
@@ -242,12 +267,15 @@
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
 
-				editor.insertHtml( data.dataValue, data.type );
+				if ( data.dataValue ) {
+					editor.insertHtml( data.dataValue, data.type );
 
-				// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
-				setTimeout( function() {
-					editor.fire( 'afterPaste' );
-				}, 0 );
+					// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
+					// Fire afterPaste only if paste inserted some HTML.
+ 					setTimeout( function() {
+						editor.fire( 'afterPaste' );
+					}, 0 );
+				}
 			}, null, null, 1000 );
 
 			editor.on( 'pasteDialog', function( evt ) {
@@ -319,6 +347,15 @@
 			if ( getClipboardDataDirectly() === false ) {
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
+
+				// getClipboardDataDirectly() fire paste event in timeout. We need to
+				// cancel it because we do not want to have paste event when dialog open.
+				// We can not call preventPasteEventNow here because callback is already called.
+				// We can not use onPaste also, because it call other callback which
+				// emit paste, so we need to catch next paste and cancel it.
+				beforePasteNotCanceled && editor.once( 'paste', function( evt ) {
+					evt.cancel();
+				}, null, null, 0 );
 
 				// If beforePaste was canceled do not open dialog.
 				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
@@ -634,7 +671,10 @@
 		}
 
 		function firePasteEvents( type, data, withBeforePaste ) {
-			var eventData = { type: type };
+			var eventData = {
+				type: type,
+				method: CKEDITOR.CLIPBOARD_PASTE
+			};
 
 			if ( withBeforePaste ) {
 				// Fire 'beforePaste' event so clipboard flavor get customized
@@ -642,12 +682,6 @@
 				if ( editor.fire( 'beforePaste', eventData ) === false )
 					return false; // Event canceled
 			}
-
-			// The very last guard to make sure the paste has successfully happened.
-			// This check should be done after firing 'beforePaste' because for native paste
-			// 'beforePaste' is by default fired even for empty clipboard.
-			if ( !data )
-				return false;
 
 			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
 			eventData.dataValue = data;
@@ -1358,32 +1392,13 @@
 
 			// @todo integrate with firePasteEvents.
 			function firePasteWithDataTransfer( dataTransfer ) {
-				var html, text,
-					eventData = {
+				var eventData = {
 						method: CKEDITOR.CLIPBOARD_DROP,
-						dataTransfer: dataTransfer
+						dataTransfer: dataTransfer,
+						dataValue: ''
 					};
 
-				// IE support only text data and throws exception if we try to get html data.
-				// This html data object may also be empty if we drag content of the textarea.
-				html = dataTransfer.getData( 'text/html' );
-
-				if ( html ) {
-					eventData.dataValue = html;
-					eventData.type = 'html';
-				} else {
-					// Try to get text data otherwise.
-					text = dataTransfer.getData( 'text/plain' );
-
-					if ( text ) {
-						eventData.dataValue = editor.editable().transformPlainTextToHtml( text );
-						eventData.type = 'text';
-					}
-				}
-
-				if ( eventData.dataValue ) {
-					editor.fire( 'paste', eventData );
-				}
+				editor.fire( 'paste', eventData );
 			}
 
 			// Fix for Gecko bug with disappearing cursor.

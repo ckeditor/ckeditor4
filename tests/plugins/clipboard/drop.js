@@ -148,7 +148,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 	editor.on( 'paste', pasteListener );
 	editor.on( 'afterPaste', finishListener );
 
-	if ( !expectedPasteEventCount ) {
+	if ( !expectedPasteEventCount || !config.expectedDataValue ) {
 		setTimeout( finishListener, 0 );
 	}
 
@@ -432,7 +432,10 @@ var editors, editorBots,
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
-				expectedPasteEventCount: 0
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				expectedText: '',
+				expectedHtml: '',
+				expectedDataValue: ''
 			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );

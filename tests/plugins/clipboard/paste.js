@@ -248,20 +248,22 @@
 		'pasting empty string with editor#paste command' : function() {
 			var tc = this,
 				editor = this.editor,
-				flag = false,
-				callback = function( evt ) {
-					evt.removeListener();
-					flag = true;
-				};
+				wasPaste = false,
+				wasAfterPaste = false;
 
-			tc.on( 'paste', callback );
-			tc.on( 'afterPaste', callback );
+			editor.once( 'paste', function() {
+				wasPaste = true;
+			} );
+			editor.once( 'afterPaste', function() {
+				wasAfterPaste = true;
+			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			editor.execCommand( 'paste', '' );
 			tc.wait( function() {
 					tc.cleanUp();
-					assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
+					assert.isTrue( wasPaste, 'paste callback should be called' );
+					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
 		},
@@ -269,14 +271,15 @@
 		'pasting empty string (native version)' : function() {
 			var tc = this,
 				editor = this.editor,
-				flag = false,
-				callback = function( evt ) {
-					evt.removeListener();
-					flag = true;
-				};
+				wasPaste = false,
+				wasAfterPaste = false;
 
-			tc.on( 'paste', callback );
-			tc.on( 'afterPaste', callback );
+			editor.once( 'paste', function() {
+				wasPaste = true;
+			} );
+			editor.once( 'afterPaste', function() {
+				wasAfterPaste = true;
+			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			// Firefox does not allow to paste empty string (''), so we're basing
@@ -285,7 +288,8 @@
 			bender.tools.emulatePaste( editor, '<span data-cke-bookmark="1">a</span>' );
 			tc.wait( function() {
 					tc.cleanUp();
-					assert.isFalse( flag, 'paste and afterPaste callback shouldn\'t be called' );
+					assert.isTrue( wasPaste, 'paste callback should be called' );
+					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
 		},
