@@ -2040,6 +2040,14 @@
  * @member CKEDITOR.editor
  */
 
+ /**
+ * Fired after the {@link #paste} event if content was modified. Note the if paste
+ * event do not insert any data `afterPaste` event will not be fired.
+ *
+ * @event afterPaste
+ * @member CKEDITOR.editor
+ */
+
 /**
  * Internal event to open the Paste dialog.
  *
