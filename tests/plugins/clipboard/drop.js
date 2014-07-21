@@ -9,7 +9,10 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		compareSelection: true,
 		normalizeSelection: true,
 		fixStyles: true
-	};
+	},
+	pasteListener,
+	dropListener,
+	finishListener;
 
 CKEDITOR.disableAutoInline = true;
 
@@ -57,11 +60,8 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 	var editable = editor.editable(),
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
-		pasteEventCounter = 0,
-		dropEventCounter = 0,
-		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1,
-		pasteListener,
-		dropListener;
+		values = { pasteEventCounter: 0, dropEventCounter: 0 },
+		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1;
 
 	range.setStart( config.element, config.offset );
 	range.collapse( true );
@@ -72,82 +72,87 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 	evt.testRange = range;
 
 	dropListener = function( dropEvt ) {
-		resume( function() {
-			dropEventCounter++;
+		var ret;
 
-			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dropEvt.data.dataTransfer , 'instanceOf dataTransfer' );
+		values.dropEventCounter++;
+		values.dropInstanceOfDataTransfer = dropEvt.data.dataTransfer instanceof CKEDITOR.plugins.clipboard.dataTransfer;
+		values.dropDataText = dropEvt.data.dataTransfer.getData( 'text/plain' );
+		values.dropDataHtml = dropEvt.data.dataTransfer.getData( 'text/html' );
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			// IE8 modify drop range so we check only if start container and offset exists.
+			values.dropRangeStartContainerMatch = !!dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = !!dropEvt.data.dropRange.startOffset;
+		} else {
+			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
+		}
+		values.dropNativeEventMatch = evt.$ == dropEvt.data.nativeEvent;
+		values.dropTarget = dropEvt.data.target.$;
 
-			if ( config.expectedText && ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) ) {
-				assert.areSame( config.expectedText, dropEvt.data.dataTransfer.getData( 'text/plain' ), 'text data' );
-			}
-
-			if ( config.expectedHtml ) {
-				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
-				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + dropEvt.data.dataTransfer.getData( 'text/html' ) + 'x', 'html data' );
-			}
-
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-				// IE8 modify drop range.
-				assert.isObject( dropEvt.data.dropRange.startContainer, 'startContainer' );
-				assert.isNumber( dropEvt.data.dropRange.startOffset, 'startOffset' );
-			} else {
-				assert.areSame( config.element, dropEvt.data.dropRange.startContainer, 'startContainer' );
-				assert.areSame( config.offset, dropEvt.data.dropRange.startOffset, 'startOffset' );
-			}
-			assert.areSame( evt.$, dropEvt.data.nativeEvent, 'nativeEvent' );
-			assert.areSame( 'targetMock', dropEvt.data.target.$ );
-
-			onDrop && onDrop( dropEvt );
-
-			wait();
-		} );
+		if ( onDrop ) {
+			return onDrop( dropEvt );
+		}
 	};
 
 	pasteListener = function( evt ) {
-		resume( function() {
-			assert.areSame( config.expectedTransferType, evt.data.dataTransfer.getTransferType(), 'transferType' );
-			// Do not check Text data on IE10+.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
-				assert.areSame( config.expectedText, evt.data.dataTransfer.getData( 'text/plain' ), 'text data' );
-			}
-			// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
-			assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + evt.data.dataTransfer.getData( 'text/html' ) + 'x', 'html data' );
-			assert.areSame( CKEDITOR.CLIPBOARD_DROP, evt.data.method, 'method should be drop' );
-			assert.areSame( config.expectedDataType, evt.data.type, 'data type' );
-			assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + evt.data.dataValue + 'x', 'data value' );
-
-			pasteEventCounter++;
-
-			editor.once( 'afterPaste', function() {
-				resume( finish );
-			} );
-
-			wait();
-		} );
+		values.pasteEventCounter++;
+		values.pasteTransferType = evt.data.dataTransfer.getTransferType();
+		values.pasteDataText = evt.data.dataTransfer.getData( 'text/plain' );
+		values.pasteDataHtml = evt.data.dataTransfer.getData( 'text/html' );
+		values.pasteMethod = evt.data.method;
+		values.pasteDataType = evt.data.type;
+		values.pasteDataValue = evt.data.dataValue;
 	};
+
+	finishListener = function() {
+		resume( function() {
+			// Drop event asserts
+			assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
+			assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
+			if ( config.expectedText && ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) ) {
+				assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
+			}
+			if ( config.expectedHtml ) {
+				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.dropDataHtml + 'x', 'On drop: HTML data should match.' );
+			}
+			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start container should match.' );
+			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
+
+			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
+			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
+
+			// Paste event asserts
+			assert.areSame( expectedPasteEventCount, values.pasteEventCounter, 'Paste event should be called ' + expectedPasteEventCount + ' time(s)' );
+
+			if ( expectedPasteEventCount > 0 ) {
+				assert.areSame( config.expectedTransferType, values.pasteTransferType, 'On paste: transferType should match.' );
+				// Do not check Text data on IE10+.
+				if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
+					assert.areSame( config.expectedText, values.pasteDataText, 'On paste: text data should match.' );
+				}
+				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.pasteDataHtml + 'x', 'On paste: HTML data should match.' );
+				assert.areSame( CKEDITOR.CLIPBOARD_DROP, values.pasteMethod, 'On paste: method should be drop.' );
+				assert.areSame( config.expectedDataType, values.pasteDataType, 'On paste: data type should match.' );
+				assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + values.pasteDataValue + 'x', 'On paste: data value should match.' );
+			}
+
+			return onPaste();
+		} );
+	}
 
 	editor.on( 'drop', dropListener );
 	editor.on( 'paste', pasteListener );
+	editor.on( 'afterPaste', finishListener );
 
 	if ( !expectedPasteEventCount ) {
-		setTimeout( function() {
-			resume( finish() );
-		}, 300 );
+		setTimeout( finishListener, 300 );
 	}
 
-	// Ensure async.
-	wait( function() {
-		dropTarget.fire( 'drop', evt );
-	} );
+	dropTarget.fire( 'drop', evt );
 
-	function finish() {
-		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-		assert.areSame( 1, dropEventCounter, 'There should be always one drop.' );
-		onPaste();
-
-		editor.removeListener( 'paste', pasteListener );
-		editor.removeListener( 'drop', dropListener );
-	}
+	wait();
 }
 
 var editors, editorBots,
@@ -185,6 +190,12 @@ var editors, editorBots,
 	testsForMultipleEditor = {
 		'tearDown': function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+
+			for ( var name in editors ) {
+				editors[ name ].removeListener( 'paste', pasteListener );
+				editors[ name ].removeListener( 'drop', dropListener );
+				editors[ name ].removeListener( 'afterPaste', finishListener );
+			}
 		},
 
 		'test drop to header': function( editor ) {
