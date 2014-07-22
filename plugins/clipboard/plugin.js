@@ -291,6 +291,25 @@
 		}
 	} );
 
+	function firePasteEvents( editor, data, withBeforePaste ) {
+		if ( !data.type ) {
+			data.type = 'auto';
+		}
+
+		if ( withBeforePaste ) {
+			// Fire 'beforePaste' event so clipboard flavor get customized
+			// by other plugins.
+			if ( editor.fire( 'beforePaste', data ) === false )
+				return false; // Event canceled
+		}
+
+		if ( !data.dataValue ) {
+			data.dataValue = '';
+		}
+
+		return editor.fire( 'paste', data );
+	}
+
 	function initPasteClipboard( editor ) {
 		var preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
@@ -396,7 +415,7 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback( { type: dataType, dataValue: evt.data } );
+				callback( { type: dataType, dataValue: evt.data, method: CKEDITOR.CLIPBOARD_PASTE } );
 			}
 
 			function onDialogOpen() {
@@ -606,7 +625,7 @@
 
 				exec: function( editor, data ) {
 					var fire = function( data, withBeforePaste ) {
-							data && firePasteEvents( data.type, data.dataValue, !!withBeforePaste );
+							data &&	firePasteEvents( editor, data, !!withBeforePaste );
 
 							editor.fire( 'afterCommandExec', {
 								name: 'paste',
@@ -618,7 +637,7 @@
 
 					// Check data precisely - don't open dialog on empty string.
 					if ( typeof data == 'string' )
-						fire( { type: 'auto', dataValue: data }, 1 );
+						fire( { dataValue: data, method: CKEDITOR.CLIPBOARD_PASTE }, 1 );
 					else
 						editor.getClipboardData( fire );
 				}
@@ -668,25 +687,6 @@
 			body.removeListener( command, onExec );
 
 			return enabled;
-		}
-
-		function firePasteEvents( type, data, withBeforePaste ) {
-			var eventData = {
-				type: type,
-				method: CKEDITOR.CLIPBOARD_PASTE
-			};
-
-			if ( withBeforePaste ) {
-				// Fire 'beforePaste' event so clipboard flavor get customized
-				// by other plugins.
-				if ( editor.fire( 'beforePaste', eventData ) === false )
-					return false; // Event canceled
-			}
-
-			// Reuse eventData.type because the default one could be changed by beforePaste listeners.
-			eventData.dataValue = data;
-
-			return editor.fire( 'paste', eventData );
 		}
 
 		// Cutting off control type element in IE standards breaks the selection entirely. (#4881)
@@ -945,7 +945,7 @@
 
 		function pasteDataFromClipboard( evt ) {
 			// Default type is 'auto', but can be changed by beforePaste listeners.
-			var eventData = { type: 'auto' };
+			var eventData = { type: 'auto', method: CKEDITOR.CLIPBOARD_PASTE };
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
 			// If 'beforePaste' is canceled continue executing getClipboardDataByPastebin and then do nothing
 			// (do not fire 'paste', 'afterPaste' events). This way we can grab all - synthetically
@@ -955,10 +955,10 @@
 
 			getClipboardDataByPastebin( evt, function( data ) {
 				// Clean up.
-				data = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
+				eventData.dataValue = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
 
 				// Fire remaining events (without beforePaste)
-				beforePasteNotCanceled && firePasteEvents( eventData.type, data, 0, 1 );
+				beforePasteNotCanceled && firePasteEvents( editor, eventData );
 			} );
 		}
 
@@ -1347,7 +1347,7 @@
 					dropRange = editor.createRange();
 					dropRange.moveToBookmark( dropBookmark );
 					dropRange.select();
-					firePasteWithDataTransfer( dataTransfer );
+					firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
 
 					editor.fire( 'unlockSnapshot' );
 				}, 0 );
@@ -1366,7 +1366,7 @@
 				// Chrome have a problem with drop range (Chrome split the drop
 				// range container so the offset is bigger then container length).
 				dropRange.select();
-				firePasteWithDataTransfer( dataTransfer );
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
 
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -1387,18 +1387,7 @@
 				// Paste content into the drop position.
 				dropRange.select();
 
-				firePasteWithDataTransfer( dataTransfer );
-			}
-
-			// @todo integrate with firePasteEvents.
-			function firePasteWithDataTransfer( dataTransfer ) {
-				var eventData = {
-						method: CKEDITOR.CLIPBOARD_DROP,
-						dataTransfer: dataTransfer,
-						dataValue: ''
-					};
-
-				editor.fire( 'paste', eventData );
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
 			}
 
 			// Fix for Gecko bug with disappearing cursor.
