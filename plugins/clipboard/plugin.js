@@ -953,6 +953,7 @@
 				dataTransfer: clipboard.initPasteDataTransfer( evt )
 			};
 			eventData.dataTransfer.setTargetEditor( editor );
+			eventData.dataTransfer.cacheData();
 
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
 			// If 'beforePaste' is canceled continue executing getClipboardDataByPastebin and then do nothing
@@ -1979,6 +1980,33 @@
 				return CKEDITOR.DATA_TRANSFER_INTERNAL;
 			} else {
 				return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;
+			}
+		},
+
+		/**
+		 * Copy data from native data transfer to custom array.
+		 * This function is needed, because data from native dataTransfer
+		 * are available only in the event, it is not possible to get them
+		 * after timeout, and clipboard plugin fires paste event after
+		 * a timeout in some cases.
+		 */
+		cacheData: function() {
+			var that = this;
+
+			function getAndSetData( type ) {
+				var data = that.getData( type );
+				if ( data ) {
+					that.setData( type, data );
+				}
+			}
+
+			if ( CKEDITOR.env.ie ) {
+				getAndSetData( 'Text' );
+				getAndSetData( 'URL' );
+			} else {
+				for ( var i = 0; i < this.$.types.length; i++ ) {
+					getAndSetData( this.$.types[ i ] );
+				}
 			}
 		}
 	};
