@@ -135,7 +135,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 				}
 				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
 				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.pasteDataHtml + 'x', 'On paste: HTML data should match.' );
-				assert.areSame( CKEDITOR.CLIPBOARD_DROP, values.pasteMethod, 'On paste: method should be drop.' );
+				assert.areSame( 'drop', values.pasteMethod, 'On paste: method should be drop.' );
 				config.expectedDataType && assert.areSame( config.expectedDataType, values.pasteDataType, 'On paste: data type should match.' );
 				assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + values.pasteDataValue + 'x', 'On paste: data value should match.' );
 			}

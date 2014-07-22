@@ -415,7 +415,7 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback( { type: dataType, dataValue: evt.data, method: CKEDITOR.CLIPBOARD_PASTE } );
+				callback( { type: dataType, dataValue: evt.data, method: 'paste' } );
 			}
 
 			function onDialogOpen() {
@@ -637,7 +637,7 @@
 
 					// Check data precisely - don't open dialog on empty string.
 					if ( typeof data == 'string' )
-						fire( { dataValue: data, method: CKEDITOR.CLIPBOARD_PASTE }, 1 );
+						fire( { dataValue: data, method: 'paste' }, 1 );
 					else
 						editor.getClipboardData( fire );
 				}
@@ -945,7 +945,7 @@
 
 		function pasteDataFromClipboard( evt ) {
 			// Default type is 'auto', but can be changed by beforePaste listeners.
-			var eventData = { type: 'auto', method: CKEDITOR.CLIPBOARD_PASTE };
+			var eventData = { type: 'auto', method: 'paste' };
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
 			// If 'beforePaste' is canceled continue executing getClipboardDataByPastebin and then do nothing
 			// (do not fire 'paste', 'afterPaste' events). This way we can grab all - synthetically
@@ -1347,7 +1347,7 @@
 					dropRange = editor.createRange();
 					dropRange.moveToBookmark( dropBookmark );
 					dropRange.select();
-					firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
+					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
 
 					editor.fire( 'unlockSnapshot' );
 				}, 0 );
@@ -1366,7 +1366,7 @@
 				// Chrome have a problem with drop range (Chrome split the drop
 				// range container so the offset is bigger then container length).
 				dropRange.select();
-				firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
 
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -1387,7 +1387,7 @@
 				// Paste content into the drop position.
 				dropRange.select();
 
-				firePasteEvents( editor, { dataTransfer: dataTransfer, method: CKEDITOR.CLIPBOARD_DROP }, 1 );
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
 			}
 
 			// Fix for Gecko bug with disappearing cursor.
@@ -1854,26 +1854,6 @@
 	};
 
 	/**
-	 * Clipboard operation method: drag and drop.
-	 *
-	 * @since 4.5
-	 * @readonly
-	 * @property {Number} [=0]
-	 * @member CKEDITOR
-	 */
-	CKEDITOR.CLIPBOARD_DROP = 0;
-
-	/**
-	 * Clipboard operation method: copy and paste.
-	 *
-	 * @since 4.5
-	 * @readonly
-	 * @property {Number} [=1]
-	 * @member CKEDITOR
-	 */
-	CKEDITOR.CLIPBOARD_PASTE = 1;
-
-	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
 	 * editor instance.
 	 *
@@ -2012,8 +1992,8 @@
  * with priority less than 6 it may be also `auto`, what means that content type hasn't been recognised yet
  * (this will be done by content type sniffer that listens with priority 6).
  * @param {String} data.dataValue HTML to be pasted.
- * @param {Number} method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
- * Possible values: {@link CKEDITOR#CLIPBOARD_DROP}, {@link CKEDITOR#CLIPBOARD_PASTE}.
+ * @param {String} method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
+ * Possible values: 'drop', 'paste'.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer Facade for the native dataTransfer object
  * which provide access to the various data types, files and pass some date between linked events
  * (like drag and drop).
