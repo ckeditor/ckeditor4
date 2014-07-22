@@ -311,7 +311,8 @@
 	}
 
 	function initPasteClipboard( editor ) {
-		var preventBeforePasteEvent = 0,
+		var clipboard = CKEDITOR.plugins.clipboard,
+			preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
 			inReadOnly = 0,
 			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
@@ -945,7 +946,14 @@
 
 		function pasteDataFromClipboard( evt ) {
 			// Default type is 'auto', but can be changed by beforePaste listeners.
-			var eventData = { type: 'auto', method: 'paste' };
+			// debugger;
+			var eventData = {
+				type: 'auto',
+				method: 'paste',
+				dataTransfer: clipboard.initPasteDataTransfer( evt )
+			};
+			eventData.dataTransfer.setTargetEditor( editor );
+
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
 			// If 'beforePaste' is canceled continue executing getClipboardDataByPastebin and then do nothing
 			// (do not fire 'paste', 'afterPaste' events). This way we can grab all - synthetically
@@ -1697,6 +1705,20 @@
 
 			// Mark as drag and drop operation.
 			dataTransfer.method = CKEDITOR.DATA_TRANSFER_DROP;
+
+			return dataTransfer;
+		},
+
+		initPasteDataTransfer: function( evt ) {
+			var nativeClipboard, dataTransfer;
+
+			if ( CKEDITOR.env.ie ) {
+				nativeClipboard = window.clipboardData;
+			} else if ( evt.data ) {
+				nativeClipboard = evt.data.$.clipboardData;
+			}
+
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeClipboard );
 
 			return dataTransfer;
 		},
