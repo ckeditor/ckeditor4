@@ -352,7 +352,8 @@
 				that: that,
 				triggerEdge: triggerEdge,
 				triggerEditable: triggerEditable,
-				triggerExpand: triggerExpand
+				triggerExpand: triggerExpand,
+				elementFromMouse: elementFromMouse
 			};
 		}
 	}
@@ -428,7 +429,14 @@
 
 	var elementFromMouse = ( function() {
 		function elementFromPoint( doc, mouse ) {
-			return new CKEDITOR.dom.element( doc.$.elementFromPoint( mouse.x, mouse.y ) );
+			var pointedElement = doc.$.elementFromPoint( mouse.x, mouse.y );
+
+			if ( CKEDITOR.tools.objectCompare( pointedElement, {} ) ) {
+				// IE9QM: from times to times it will return empty object on scroll bar hover. (#12185)
+				return null;
+			}
+
+			return new CKEDITOR.dom.element( pointedElement );
 		}
 
 		return function( that, ignoreBox, forceMouse ) {
@@ -438,6 +446,7 @@
 			var doc = that.doc,
 				lineWrap = that.line.wrap,
 				mouse = forceMouse || that.mouse,
+				// Note: element might be null.
 				element = elementFromPoint( doc, mouse );
 
 			// If ignoreBox is set and element is the box, it means that we
