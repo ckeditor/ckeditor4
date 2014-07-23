@@ -478,6 +478,19 @@
 		function addPasteListenersToEditable() {
 			var editable = editor.editable();
 
+			if ( !CKEDITOR.env.ie ) {
+				editable.on( 'copy', function( evt ) {
+					clipboard.initPasteDataTransfer( evt, editor );
+					evt.data.preventDefault();
+				} );
+
+				editable.on( 'cut', function( evt ) {
+					clipboard.initPasteDataTransfer( evt, editor );
+					editor.getSelection().getRanges()[ 0 ].deleteContents(); // @todo replace with the new delete content function
+					evt.data.preventDefault();
+				} );
+			}
+
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
@@ -1709,18 +1722,22 @@
 			return dataTransfer;
 		},
 
-		initPasteDataTransfer: function( evt ) {
-			var nativeClipboard, dataTransfer;
-
+		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( CKEDITOR.env.ie ) {
-				nativeClipboard = window.clipboardData;
+				return new this.dataTransfer( window.clipboardData, sourceEditor );
 			} else if ( evt.data ) {
-				nativeClipboard = evt.data.$.clipboardData;
+				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
+
+				if ( this.copyCutData &&
+					dataTransfer.id == this.copyCutData.id ) {
+					dataTransfer = this.copyCutData;
+					dataTransfer.$ = evt.data.$.clipboardData;
+				} else {
+					this.copyCutData = dataTransfer;
+				}
+
+				return dataTransfer;
 			}
-
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeClipboard );
-
-			return dataTransfer;
 		},
 
 		/*
@@ -1995,7 +2012,7 @@
 			function getAndSetData( type ) {
 				var data = that.getData( type );
 				if ( data ) {
-					that.setData( type, data );
+					that._.data[ type ] = data;
 				}
 			}
 
