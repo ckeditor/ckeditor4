@@ -1721,9 +1721,6 @@
 				this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
 			}
 
-			// Mark as drag and drop operation.
-			dataTransfer.method = CKEDITOR.DATA_TRANSFER_DROP;
-
 			return dataTransfer;
 		},
 
