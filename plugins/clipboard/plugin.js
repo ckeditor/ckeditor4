@@ -974,13 +974,18 @@
 			// after canceling 'beforePaste' event.
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData );
 
-			getClipboardDataByPastebin( evt, function( data ) {
-				// Clean up.
-				eventData.dataValue = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
+			if ( beforePasteNotCanceled && eventData.dataTransfer.getData( 'text/html' ) ) {
+				evt.data.preventDefault();
+				firePasteEvents( editor, eventData );
+			} else {
+				getClipboardDataByPastebin( evt, function( data ) {
+					// Clean up.
+					eventData.dataValue = data.replace( /<span[^>]+data-cke-bookmark[^<]*?<\/span>/ig, '' );
 
-				// Fire remaining events (without beforePaste)
-				beforePasteNotCanceled && firePasteEvents( editor, eventData );
-			} );
+					// Fire remaining events (without beforePaste)
+					beforePasteNotCanceled && firePasteEvents( editor, eventData );
+				} );
+			}
 		}
 
 		function setToolbarStates() {
