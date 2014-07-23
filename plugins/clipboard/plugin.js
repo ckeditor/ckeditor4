@@ -1726,7 +1726,7 @@
 
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( CKEDITOR.env.ie ) {
-				return new this.dataTransfer( window.clipboardData, sourceEditor );
+				return new this.dataTransfer( null, sourceEditor );
 			} else if ( evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
 
