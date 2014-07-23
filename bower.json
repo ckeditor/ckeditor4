@@ -1,0 +1,16 @@
+{
+  "name": "ckeditor-dev",
+  "version": "4.4.3",
+  "homepage": "https://github.com/Versal/ckeditor-dev",
+  "authors": [
+    "Shaohua Zhou <shao@versal.com>"
+  ],
+  "license": "TBD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
