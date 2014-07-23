@@ -1730,7 +1730,7 @@
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( CKEDITOR.env.ie ) {
 				return new this.dataTransfer( window.clipboardData, sourceEditor );
-			} else if ( evt.data ) {
+			} else if ( evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
 
 				if ( this.copyCutData &&
@@ -1742,6 +1742,8 @@
 				}
 
 				return dataTransfer;
+			} else {
+				return new this.dataTransfer( null, sourceEditor );
 			}
 		},
 
@@ -2012,6 +2014,10 @@
 		 * a timeout in some cases.
 		 */
 		cacheData: function() {
+			if ( !this.$ ) {
+				return;
+			}
+
 			var that = this;
 
 			function getAndSetData( type ) {
