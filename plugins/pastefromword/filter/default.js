@@ -868,6 +868,9 @@
 						// Convert the merged into a span with all attributes preserved.
 						else {
 							styleText = styleText || '';
+							// ensure a trailing ';' if we're going to add more to the style value //
+							styleText += (styleText.length && styleText[ styleText.length - 1 ] !== ';') ? ';' : '';
+							
 							// IE's having those deprecated attributes, normalize them.
 							if ( attrs.color ) {
 								attrs.color != '#000000' && ( styleText += 'color:' + attrs.color + ';' );
