@@ -1,6 +1,7 @@
 # Configurations to normalize the IDE behavior.
 # http://editorconfig.org/
 
+# editorconfig.org
 root = true
 
 [*]
