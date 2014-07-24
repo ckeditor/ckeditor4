@@ -42,9 +42,21 @@ CKEDITOR.replaceClass = 'ckeditor';
 	/**
 	 * Creates a new editor instance at the end of a specific DOM element.
 	 *
-	 *		<div id="editorSpace"></div>
-	 *		...
-	 *		CKEDITOR.appendTo( 'editorSpace' );
+	 *		<!DOCTYPE html>
+	 * 		<html>
+	 * 			<head>
+	 * 				<meta charset="utf-8">
+	 * 				<title>CKEditor</title>
+	 * 				<!-- Make sure the path to CKEditor is correct. -->
+	 *				<script src="/ckeditor/ckeditor.js"></script>
+	 *			</head>
+	 *			<body>
+	 *				<div id="editorSpace"></div>
+	 *				<script>
+	 *					CKEDITOR.appendTo( 'editorSpace' );
+	 *				</script>
+	 *			</body>
+	 *		</html>
 	 *
 	 * @param {Object/String} element The DOM element, its ID, or name.
 	 * @param {Object} [config] The specific configuration to apply to this
@@ -76,6 +88,26 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *			// You can also customize the editor instance by having the function
 	 *			// modify the "config" parameter.
 	 *		} );
+	 *
+	 *		// Full page example where three <textarea> elements are replaced.
+	 *		<!DOCTYPE html>
+	 *		<html>
+	 *			<head>
+	 *				<meta charset="utf-8">
+	 *				<title>CKEditor</title>
+	 *				<!-- Make sure the path to CKEditor is correct. -->
+	 *				<script src="/ckeditor/ckeditor.js"></script>
+	 *			</head>
+	 *			<body>
+	 *				<textarea name="editor1"></textarea>
+	 *				<textarea name="editor2"></textarea>
+	 *				<textarea name="editor3"></textarea>
+	 *				<script>
+	 *					// Replace all three <textarea> elements above with CKEditor instances.
+	 *					CKEDITOR.replaceAll();
+	 *				</script>
+	 *			</body>
+	 *		</html>
 	 *
 	 * @param {String} [className] The `<textarea>` class name.
 	 * @param {Function} [function] An assertion function that must return `true` for a `<textarea>`

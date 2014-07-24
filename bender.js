@@ -11,7 +11,7 @@ var config = {
 		}
 	},
 
-	assertion: 'yui',
+	framework: 'yui',
 
 	plugins: [
 		'benderjs-yui',

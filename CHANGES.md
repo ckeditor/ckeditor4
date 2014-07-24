@@ -16,6 +16,10 @@ Fixed Issues:
 
 ## CKEditor 4.4.4
 
+Fixed Issues:
+
+* [#10916](http://dev.ckeditor.com/ticket/10916): Fixed Magicline icon in RTL environments.
+
 ## CKEditor 4.4.3
 
 **Security Updates:**

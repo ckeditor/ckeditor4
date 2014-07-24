@@ -568,7 +568,7 @@
 		var doc = that.doc,
 			// This the main box element that holds triangles and the insertion button
 			line = newElementFromHtml( '<span contenteditable="false" style="' + CSS_COMMON + 'position:absolute;border-top:1px dashed ' + that.boxColor + '"></span>', doc ),
-			iconPath = this.path + 'images/' + ( env.hidpi ? 'hidpi/' : '' ) + 'icon.png';
+			iconPath = this.path + 'images/' + ( env.hidpi ? 'hidpi/' : '' ) + 'icon' + ( that.rtl ? '-rtl' : '' ) + '.png';
 
 		extend( line, {
 
