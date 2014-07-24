@@ -1185,6 +1185,82 @@
 			this.wait();
 		},
 
+		'paste with HTML in clipboardData': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				tc = this,
+				dataValueOnPaste, htmlDataOnPaste;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+
+			this.on( 'paste', function( evt ) {
+				dataValueOnPaste = evt.data.dataValue;
+				htmlDataOnPaste = evt.data.dataTransfer.getData( 'text/html' );
+			}, 0 );
+
+			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', {
+				$: {
+					clipboardData: {
+						getData: function( type ) {
+							if ( type == 'text/html' ) {
+								return '<p>bam</p>';
+							} else {
+								return '';
+							}
+						}
+					}
+				},
+				preventDefault: function() {}
+			} );
+
+			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
+				assert.areSame( '', dataValueOnPaste, 'Data value on paste (priority 0) should be empty.' );
+				assert.areSame( '<p>bam</p>', htmlDataOnPaste, 'dataTransfer html data should be set.' );
+				tc.cleanUp();
+			} );
+			this.wait();
+		},
+
+		'paste with HTML in clipboardData - cancel on before paste': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				tc = this,
+				pasteCount = 0,
+				beforePasteCount = 0;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+
+			this.on( 'beforePaste', function( evt ) {
+				beforePasteCount++;
+				evt.cancel();
+			} );
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+			}, 0 );
+
+			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', {
+				$: {
+					clipboardData: {
+						getData: function( type ) {
+							if ( type == 'text/html' ) {
+								return '<p>bam</p>';
+							} else {
+								return '';
+							}
+						}
+					}
+				},
+				preventDefault: function() {}
+			} );
+
+			tc.wait( function() {
+				tc.cleanUp();
+				assert.areSame( 1, beforePasteCount, 'There should be 1 before paste event.' );
+				assert.areSame( 0, pasteCount, 'There should be no paste event.' );
+			}, 50 );
+		},
+
 		'#131 - trailing spaces' : function() {
 			assertPasteEvent( this.editor,
 				{ dataValue : '&nbsp; BBB&nbsp;' },
