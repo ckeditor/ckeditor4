@@ -33,11 +33,12 @@
 		tc.wait();
 	}
 
-	function assertAfterPasteContent( tc, html ) {
+	function assertAfterPasteContent( tc, html, callback ) {
 		tc.editor.on( 'afterPaste', function( evt ) {
 				evt.removeListener();
 				tc.resume( function() {
 					   assert.areSame( html, tc.editor.getData() );
+					   callback && callback();
 				   } );
 			} );
 	}
@@ -86,12 +87,21 @@
 
 		'paste text' : function() {
 			var tc = this,
-				editor = this.editor;
+				editor = this.editor,
+				pasteCount = 0;
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
 			bender.tools.emulatePaste( this.editor, '<p>bam</p>' );
 
-			assertAfterPasteContent( this, '<p>foobambar</p>' );
+			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
+				tc.cleanUp();
+				assert.areSame( 1, pasteCount, 'There should only one paste.' )
+			} );
+
 			this.wait();
 		},
 
@@ -1028,6 +1038,7 @@
 		'editor.getClipboardData - successful' : function() {
 			var tc = this,
 				editor = this.editor,
+				pasteFired = false,
 				beforePasteFired = false;
 
 			editor.once( 'beforePaste', function( evt ) {
@@ -1035,6 +1046,10 @@
 					beforePasteFired = true;
 					evt.data.type = 'test';
 				} );
+
+			editor.once( 'paste', function( evt ) {
+				pasteFired = true;
+			} );
 
 			editor.once( 'dialogShow', function( evt ) {
 					var dialog = editor._.storedDialogs.paste;
@@ -1052,6 +1067,7 @@
 
 			editor.getClipboardData( function( data ) {
 				tc.resume( function() {
+						assert.isFalse( pasteFired );
 						assert.isTrue( beforePasteFired );
 						assert.areEqual( 'test', data.type );
 						assert.areEqual( 'abc<b>def</b>', data.dataValue );
