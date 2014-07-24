@@ -429,7 +429,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				// order to properly fire the "focus" event.
 				if ( CKEDITOR.env.webkit ) {
 					var active = CKEDITOR.document.getActive();
-					!active.equals( this._.iframe ) && active.$.blur();
+					active && !active.equals( this._.iframe ) && active.$.blur();
 				}
 
 				// Restore last focused element or simply focus panel window.
@@ -444,7 +444,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var doc = this._.iframe.getFrameDocument(),
 					active = doc.getActive();
 
-				active.is( 'a' ) && ( this._.lastFocused = active );
+				active && active.is( 'a' ) && ( this._.lastFocused = active );
 			},
 
 			/**

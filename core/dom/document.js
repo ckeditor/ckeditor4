@@ -120,10 +120,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * An active element does not necessarily have focus,
 	 * but an element with focus is always the active element in a document.
 	 *
+	 * **Note:** There is an issue in IE8 and IE9, that getting activeElement property
+	 * throw sometimes an error. See #10030.
+	 *
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	getActive: function() {
-		return new CKEDITOR.dom.element( this.$.activeElement );
+		var active;
+		try {
+			active = new CKEDITOR.dom.element( this.$.activeElement );
+		} catch (e) {}
+		return active || null;
 	},
 
 	/**
