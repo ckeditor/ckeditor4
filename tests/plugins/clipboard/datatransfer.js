@@ -12,7 +12,8 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 
 function createNativeDataTransferMock() {
 	return {
-		_dataTypes : [],
+		types: [],
+		_data: [],
 		// Emulate browsers native behavior for getDeta/setData.
 		setData: function( type, data ) {
 			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
@@ -21,16 +22,17 @@ function createNativeDataTransferMock() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
 				return;
 
-			this._dataTypes[ type ] = data;
+			this._data[ type ] = data;
+			this.types.push( type );
 		},
 		getData: function( type ) {
 			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
 				throw "Invalid argument.";
 
-			if ( !this._dataTypes[ type ] )
+			if ( !this._data[ type ] )
 				return '';
 
-			return this._dataTypes[ type ];
+			return this._data[ type ];
 		}
 	}
 }
@@ -304,6 +306,50 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
+	},
+
+	'test cacheData': function() {
+		// Emulate native clipboard
+		var nativeData = createNativeDataTransferMock();
+		if ( CKEDITOR.env.ie ) {
+			nativeData.setData( 'Text', 'foo' );
+		} else {
+			nativeData.setData( 'plain/html', 'foo' );
+			nativeData.setData( 'cke/custom', 'bar' );
+		}
+
+		// CacheData
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+		dataTransfer.cacheData();
+
+		// Emulate permission denied to native clipboard.
+		var throwPermissionDenied = function() {
+			throw 'Permission denied.'
+		};
+		nativeData.setData = throwPermissionDenied;
+		nativeData.getData = throwPermissionDenied;
+
+		// Assert
+		if ( CKEDITOR.env.ie ) {
+			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
+			assert.areSame( '', dataTransfer.getData( 'URL' ) );
+		} else {
+			assert.areSame( 'foo', dataTransfer.getData( 'plain/html' ) );
+			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
+			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
+		}
+
+	},
+
+	'test cacheData with no native event should not crash': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null );
+
+		dataTransfer.setData( 'cke/custom', 'foo' )
+		dataTransfer.cacheData();
+
+		assert.areSame( 'foo', dataTransfer.getData( 'cke/custom' ) );
+		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
+
 	},
 
 	'test initDragDataTransfer binding': function() {

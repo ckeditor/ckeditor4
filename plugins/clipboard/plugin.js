@@ -2025,7 +2025,7 @@
 			if ( CKEDITOR.env.ie ) {
 				getAndSetData( 'Text' );
 				getAndSetData( 'URL' );
-			} else {
+			} else if ( this.$.types ) {
 				for ( var i = 0; i < this.$.types.length; i++ ) {
 					getAndSetData( this.$.types[ i ] );
 				}
