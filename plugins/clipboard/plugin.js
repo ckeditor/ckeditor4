@@ -976,7 +976,9 @@
 
 			if ( beforePasteNotCanceled && eventData.dataTransfer.getData( 'text/html' ) ) {
 				evt.data.preventDefault();
-				firePasteEvents( editor, eventData );
+				setTimeout( function() {
+					firePasteEvents( editor, eventData );
+				}, 0 );
 			} else {
 				getClipboardDataByPastebin( evt, function( data ) {
 					// Clean up.
