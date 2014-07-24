@@ -359,5 +359,71 @@ bender.test( {
 				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
+	},
+
+	'test initPasteDataTransfer binding': function() {
+		if ( CKEDITOR.env.ie ) {
+			assert.ignore();
+		}
+
+		var nativeData1 = createNativeDataTransferMock(),
+			nativeData2 = createNativeDataTransferMock(),
+			evt1 = { data: { $: { clipboardData: nativeData1 } } },
+			evt2 = { data: { $: { clipboardData: nativeData1 } } },
+			evt3 = { data: { $: { clipboardData: nativeData2 } } },
+			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
+			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
+			dataTransfer3 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt3 );
+
+		assert.areSame( dataTransfer1, dataTransfer2, 'If we init dataTransfer object twice on the same event this should be the same object.' );
+		assert.areNotSame( dataTransfer1, dataTransfer3, 'If we init dataTransfer object twice on different events these should be different objects.' );
+	},
+
+	'test initPasteDataTransfer constructor': function() {
+		var bot = this.bots.editor1,
+			editor = this.editors.editor1,
+			nativeData = createNativeDataTransferMock(),
+			evt = { data: { $: { clipboardData: nativeData } } };
+
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
+
+		if ( CKEDITOR.env.ie ) {
+			evt.data.$.clipboardData.setData = function() {
+				assert.fail( 'Native setData should not be touched on IE.' );
+			};
+
+			evt.data.$.clipboardData.getData = function() {
+				assert.fail( 'Native dataTransfer.getData should not be touched on IE.' );
+			};
+		}
+
+		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt, editor );
+		dataTransfer.setTargetEditor( editor );
+
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x' },
+			dataTransfer );
+	},
+
+	'test initPasteDataTransfer constructor, no event': function() {
+		var bot = this.bots.editor1,
+			editor = this.editors.editor1;
+
+		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
+
+		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( null, editor );
+		dataTransfer.setTargetEditor( editor );
+
+		this.assertDataTransfer( {
+				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				sourceEditor: editor,
+				targetEditor: editor,
+				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				html: 'x<b>foo</b>x'	},
+		dataTransfer );
 	}
 } );
