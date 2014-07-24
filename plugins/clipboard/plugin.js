@@ -1710,8 +1710,7 @@
 			// created on drag, because it contains drag editor, drag content and so on.
 			// Otherwise (in case of drag from external source) we save new object to
 			// the global clipboard.dragData.
-			if ( this.dragData &&
-				dataTransfer.id == this.dragData.id ) {
+			if ( this.dragData && dataTransfer.id == this.dragData.id ) {
 				dataTransfer = this.dragData;
 			} else {
 				this.dragData = dataTransfer;
@@ -1730,8 +1729,7 @@
 			} else if ( evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
 
-				if ( this.copyCutData &&
-					dataTransfer.id == this.copyCutData.id ) {
+				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
 					dataTransfer = this.copyCutData;
 					dataTransfer.$ = evt.data.$.clipboardData;
 				} else {
