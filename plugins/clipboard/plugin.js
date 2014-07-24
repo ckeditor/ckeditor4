@@ -651,7 +651,11 @@
 
 					// Check data precisely - don't open dialog on empty string.
 					if ( typeof data == 'string' )
-						fire( { dataValue: data, method: 'paste' }, 1 );
+						fire( {
+								dataValue: data,
+								method: 'paste',
+								dataTransfer: clipboard.initPasteDataTransfer()
+							}, 1 );
 					else
 						editor.getClipboardData( fire );
 				}

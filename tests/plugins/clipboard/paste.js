@@ -1139,6 +1139,36 @@
 			tc.wait();
 		},
 
+		'dataTranfer in paste - emulatePaste': function() {
+			var editor = this.editor;
+
+			editor.once( 'paste', function( evt ) {
+				resume( function() {
+					assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer );
+				} );
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+			bender.tools.emulatePaste( editor, '<p>bam</p>' );
+
+			this.wait();
+		},
+
+		'dataTranfer in paste - execCommand': function() {
+			var editor = this.editor;
+
+			editor.once( 'paste', function( evt ) {
+				resume( function() {
+					assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer );
+				} );
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
+			editor.execCommand( 'paste', 'xxx' );
+
+			this.wait();
+		},
+
 		'#131 - trailing spaces' : function() {
 			assertPasteEvent( this.editor,
 				{ dataValue : '&nbsp; BBB&nbsp;' },
