@@ -10,6 +10,7 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		normalizeSelection: true,
 		fixStyles: true
 	},
+	beforePasteListener,
 	pasteListener,
 	dropListener,
 	finishListener;
@@ -58,12 +59,13 @@ function drag( editor, evt ) {
 	assert.areSame( 1, dragEventCounter, 'dragstart event should be called.' );
 }
 
-function drop( editor, evt, config, onDrop, onPaste ) {
+function drop( editor, evt, config, onDrop, onFinish ) {
 	var editable = editor.editable(),
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
-		values = { pasteEventCounter: 0, dropEventCounter: 0 },
-		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1;
+		values = { beforePasteEventCounter: 0, pasteEventCounter: 0, dropEventCounter: 0 },
+		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1,
+		expectedBeforePasteEventCount = typeof config.expectedBeforePasteEventCount !== 'undefined' ? config.expectedBeforePasteEventCount : expectedPasteEventCount;
 
 	range.setStart( config.element, config.offset );
 	range.collapse( true );
@@ -96,6 +98,10 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 		}
 	};
 
+	beforePasteListener = function( evt ) {
+		values.beforePasteEventCounter++;
+	};
+
 	pasteListener = function( evt ) {
 		values.pasteEventCounter++;
 		values.pasteTransferType = evt.data.dataTransfer.getTransferType();
@@ -125,6 +131,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
 
 			// Paste event asserts
+			assert.areSame( expectedBeforePasteEventCount, values.beforePasteEventCounter, 'Before paste event should be called ' + expectedBeforePasteEventCount + ' time(s).' );
 			assert.areSame( expectedPasteEventCount, values.pasteEventCounter, 'Paste event should be called ' + expectedPasteEventCount + ' time(s)' );
 
 			if ( expectedPasteEventCount > 0 ) {
@@ -140,11 +147,13 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 				assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + values.pasteDataValue + 'x', 'On paste: data value should match.' );
 			}
 
-			return onPaste();
+			if ( onFinish )
+				return onFinish();
 		} );
 	}
 
 	editor.on( 'drop', dropListener );
+	editor.on( 'beforePaste', beforePasteListener );
 	editor.on( 'paste', pasteListener );
 	editor.on( 'afterPaste', finishListener );
 
@@ -790,6 +799,29 @@ var editors, editorBots,
 				assert.areSame( '', dragstartData, 'dragstartData' );
 				assert.areSame( 'foo', dropData, 'dropData' );
 				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
+		},
+
+		'test cancel beforePaste': function() {
+			var editor = editors.inline,
+				editable = editor.editable(),
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			editor.once( 'beforePaste', function( evt ) {
+				return false;
+			}, null, null, 11 );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedBeforePasteEventCount: 1,
+				expectedPasteEventCount: 0
 			} );
 		}
 	};
