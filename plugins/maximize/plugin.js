@@ -96,8 +96,12 @@
 		icons: 'maximize', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			// Maximize plugin isn't available in inline mode yet.
+			// Maximize plugin isn't available in inline mode yet...
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
+				return;
+
+			// ...and when sharedspace plugin is present.
+			if ( editor.plugins.sharedspace )
 				return;
 
 			var lang = editor.lang;
