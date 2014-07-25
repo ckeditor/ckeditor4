@@ -3,11 +3,9 @@
 /* bender-include: _helpers/pasting.js */
 
 /*
- *
  * TOP TIP for all tests - DO NOT use editor.setData() or editor.editable().setHtml()
- *		without setting selection. This causes on some IEs exceptions in CKEDITOR.dom.range
- *		(stack trace starts from clipboard/plugin.js: sel.selectBookmarks( bms ))
- *
+ * without setting selection. This causes on some IEs exceptions in CKEDITOR.dom.range
+ * (stack trace starts from clipboard/plugin.js: sel.selectBookmarks( bms ))
  */
 
 ( function() {
@@ -46,20 +44,7 @@
 
 	bender.test(
 	{
-		_should: {
-			ignore: CKEDITOR.env.ie ?
-				{
-					// We cannot test them in IE because this tcs will open security alert which will stop tests.
-					'editor.getClipboardData - successful': true,
-					'editor.getClipboardData - unsuccessful': true,
-					'editor.getClipboardData - canceled beforePaste': true
-				}
-				: null
-		},
-
 		setUp: function() {
-			CKEDITOR.plugins.clipboard.copyCutData = undefined;
-
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
 			this.editor.focus();
@@ -69,9 +54,11 @@
 		 * Remove all editor's paste listeners that were set by corresponding
 		 * method tc.on()
 		 */
-		cleanUp: function() {
+		tearDown: function() {
 			var editor = this.editor,
 				name;
+
+			CKEDITOR.plugins.clipboard.copyCutData = undefined;
 
 			for ( name in { paste: 1, beforePaste: 1, afterPaste: 1 } )
 				this[ name + 'Callback' ] && editor.removeListener( name, this[ name + 'Callback' ] );
@@ -81,7 +68,7 @@
 
 		/**
 		 * Add listener to the editor instance, so it'll be possible to remove it later
-		 * by tc.cleanUp method.
+		 * by tearDown method.
 		 */
 		on: function( name, callback, priority ) {
 			this.editor.on( name, callback, null, null, priority );
@@ -172,7 +159,6 @@
 
 			// Let paste and afterPaste be fired (if there's a bug somewhere).
 			tc.wait( function() {
-					tc.cleanUp();
 					assert.isTrue( flag, 'canceling beforePaste stops execution' );
 					assert.areEqual( '', editor.getData() );
 				}, 50 );
@@ -197,7 +183,6 @@
 
 			// Let afterPaste be fired (if there's a bug somewhere).
 			tc.wait( function() {
-					tc.cleanUp();
 					assert.areEqual( '', editor.getData() );
 					assert.isTrue( flag, 'canceling paste stops execution' );
 				}, 50 );
@@ -265,7 +250,6 @@
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			editor.execCommand( 'paste', '' );
 			tc.wait( function() {
-					tc.cleanUp();
 					assert.isTrue( wasPaste, 'paste callback should be called' );
 					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
@@ -291,7 +275,6 @@
 			// Bookmark has to have body because Fx produces <br> if it's empty.
 			bender.tools.emulatePaste( editor, '<span data-cke-bookmark="1">a</span>' );
 			tc.wait( function() {
-					tc.cleanUp();
 					assert.isTrue( wasPaste, 'paste callback should be called' );
 					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
@@ -1026,10 +1009,13 @@
 				}, null, null, 900 );
 
 			editor.execCommand( 'paste', 'abc' );
-			tc.cleanUp();
 		},
 
 		'editor.getClipboardData - successful': function() {
+			// We cannot test them in IE because this tcs will open security alert which will stop tests.
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
 			var tc = this,
 				editor = this.editor,
 				pasteFired = false,
@@ -1072,6 +1058,10 @@
 		},
 
 		'editor.getClipboardData - unsuccessful': function() {
+			// We cannot test them in IE because this tcs will open security alert which will stop tests.
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
 			var tc = this,
 				editor = this.editor,
 				dialogOpened = false;
@@ -1110,6 +1100,10 @@
 		},
 
 		'editor.getClipboardData - canceled beforePaste': function() {
+			// We cannot test them in IE because this tcs will open security alert which will stop tests.
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
 			var tc = this,
 				editor = this.editor,
 				dialogOpened = false,
@@ -1166,7 +1160,6 @@
 			bender.tools.emulatePaste( editor, '<p>bam</p>' );
 
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
-				tc.cleanUp();
 				assert.areSame( 1, pasteCount, 'There should only one paste.' )
 				assert.areSame( 'paste', pasteMethod, 'Method should be paste' );
 				assert.isTrue( dataTransferInPaste, 'Paste event should contain dataTranfer' );
@@ -1211,7 +1204,6 @@
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
 				assert.areSame( '', dataValueOnPaste, 'Data value on paste (priority 0) should be empty.' );
 				assert.areSame( '<p>bam</p>', htmlDataOnPaste, 'dataTransfer html data should be set.' );
-				tc.cleanUp();
 			} );
 			this.wait();
 		},
@@ -1239,7 +1231,6 @@
 			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', pasteEventMock );
 
 			tc.wait( function() {
-				tc.cleanUp();
 				assert.areSame( 1, beforePasteCount, 'There should be 1 before paste event.' );
 				assert.areSame( 0, pasteCount, 'There should be no paste event.' );
 			}, 50 );
@@ -1308,7 +1299,6 @@
 			editable.fire( 'paste', pasteEventMock );
 
 			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
-				tc.cleanUp();
 				assert.areSame( 1, pasteCount, 'Paste count' );
 				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
 				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
@@ -1347,7 +1337,6 @@
 			editable.fire( 'paste', pasteEventMock );
 
 			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
-				tc.cleanUp();
 				assert.areSame( 1, pasteCount, 'Paste count' );
 				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
 				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
