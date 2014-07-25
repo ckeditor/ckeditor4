@@ -1716,7 +1716,7 @@
 			data: [],
 
 			normalizeType: function( type ) {
-				var type = type.toLowerCase();
+				type = type.toLowerCase();
 
 				if ( type == 'text' || type == 'text/plain' ) {
 					return 'Text'; // IE support only Text and URL;
@@ -1865,8 +1865,9 @@
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
 		getData: function( type ) {
-			var type = this._.normalizeType( type ),
-				data;
+			var data;
+
+			type = this._.normalizeType( type );
 
 			try {
 				data = this.$.getData( type );
@@ -1878,7 +1879,7 @@
 
 			if ( !data ) {
 				data = '';
-			};
+			}
 
 			return data;
 		},
@@ -1890,7 +1891,7 @@
 		 * @param {String} value The data to add.
 		 */
 		setData: function( type, value ) {
-			var type = this._.normalizeType( type );
+			type = this._.normalizeType( type );
 
 			this._.data[ type ] = value;
 

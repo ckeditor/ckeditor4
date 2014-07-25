@@ -465,7 +465,7 @@
 			var uuid = 'e'; // make sure that id does not start with number.
 			for ( var i = 0; i < 8; i++ ) {
 				uuid = Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
-			};
+			}
 			return uuid;
 		},
 
