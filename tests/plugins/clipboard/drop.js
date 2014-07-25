@@ -633,14 +633,14 @@ var editors, editorBots,
 			bot.setHtmlWithSelection( '' );
 
 			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
-			evt.data.$.dataTransfer.setData( 'cke/custom', 'foo' );
+			evt.data.$.dataTransfer.setData( 'Text', 'foo' );
 
 			editor.once( 'dragend', function( dragendEvt ) {
 				dragendCount++;
 
-				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'cke/custom' ) );
-				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent );
-				assert.areSame( 'targetMock', dragendEvt.data.target.$ );
+				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
+				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent, 'nativeEvent' );
+				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
 			} );
 
 			editable.fire( 'dragend', evt.data );

@@ -1185,6 +1185,10 @@
 		},
 
 		'paste with HTML in clipboardData': function() {
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
@@ -1199,7 +1203,7 @@
 			}, 0 );
 
 			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
-			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', pasteEventMock );
+			editable.fire( 'paste', pasteEventMock );
 
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
 				assert.areSame( '', dataValueOnPaste, 'Data value on paste (priority 0) should be empty.' );
@@ -1209,6 +1213,10 @@
 		},
 
 		'paste with HTML in clipboardData - cancel on before paste': function() {
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
@@ -1228,7 +1236,7 @@
 			}, 0 );
 
 			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
-			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', pasteEventMock );
+			editable.fire( 'paste', pasteEventMock );
 
 			tc.wait( function() {
 				assert.areSame( 1, beforePasteCount, 'There should be 1 before paste event.' );

@@ -283,6 +283,10 @@ bender.test( {
 	},
 
 	'test getData Chrome Linux fix' : function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
 		var nativeData = createNativeDataTransferMock();
 		nativeData.setData( 'text/html', '<meta http-equiv="content-type" content="text/html; charset=utf-8">foo<b>bom</b>x\nbar' );
 
@@ -292,6 +296,10 @@ bender.test( {
 	},
 
 	'test getData Chrome Windows fix' : function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
 		var nativeData = createNativeDataTransferMock();
 		nativeData.setData( 'text/html',
 			'<html>\n' +
@@ -330,7 +338,7 @@ bender.test( {
 		// Assert
 		if ( CKEDITOR.env.ie ) {
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
-			assert.areSame( '', dataTransfer.getData( 'URL' ) );
+			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		} else {
 			assert.areSame( 'foo', dataTransfer.getData( 'plain/html' ) );
 			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
