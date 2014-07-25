@@ -88,10 +88,12 @@
 		'paste text' : function() {
 			var tc = this,
 				editor = this.editor,
-				pasteCount = 0;
+				pasteCount = 0,
+				pasteMethod;
 
 			this.on( 'paste', function( evt ) {
 				pasteCount++;
+				pasteMethod = evt.data.method;
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
@@ -100,6 +102,8 @@
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
 				tc.cleanUp();
 				assert.areSame( 1, pasteCount, 'There should only one paste.' )
+				assert.areSame( 'paste', pasteMethod, 'Method should be paste' );
+
 			} );
 
 			this.wait();
@@ -1170,12 +1174,13 @@
 			this.wait();
 		},
 
-		'dataTranfer in paste - execCommand': function() {
+		'dataTranfer and method in paste - execCommand': function() {
 			var editor = this.editor;
 
 			editor.once( 'paste', function( evt ) {
 				resume( function() {
 					assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer );
+					assert.areSame( 'paste', evt.data.method, 'Method should be paste' );
 				} );
 			} );
 
