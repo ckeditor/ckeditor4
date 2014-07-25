@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#10916](http://dev.ckeditor.com/ticket/10916): Fixed Magicline icon in RTL environments.
+* [#11970](http://dev.ckeditor.com/ticket/11970): Fixed: CKEditor paste event not fired when pasting with SHIFT+INS in IE.
 
 ## CKEditor 4.4.3
 
