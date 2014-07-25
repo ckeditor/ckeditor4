@@ -58,6 +58,8 @@
 		},
 
 		setUp : function() {
+			CKEDITOR.plugins.clipboard.copyCutData = undefined;
+
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
 			this.editor.focus();
@@ -1241,6 +1243,120 @@
 				assert.areSame( 1, beforePasteCount, 'There should be 1 before paste event.' );
 				assert.areSame( 0, pasteCount, 'There should be no paste event.' );
 			}, 50 );
+		},
+
+		'test cut': function() {
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = createPasteEventMock();
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'cut', pasteEventMock );
+
+			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text' );
+			assert.areSame( '<p>x^x</p>', bender.tools.getHtmlWithSelection( editor ), 'Editor content' );
+			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
+		},
+
+		'test copy': function() {
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
+			var editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = createPasteEventMock();
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'copy', pasteEventMock );
+
+			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML data' );
+			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text data' );
+			assert.areSame( '<p>x[b<b>a</b>r]x</p>', bender.tools.getHtmlWithSelection( editor ), 'Editor content' );
+			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
+		},
+
+		'test cut and paste': function() {
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
+			var tc = this,
+				editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = createPasteEventMock(),
+				pasteCount = 0,
+				pasteMethod, htmlData, textData, dataTransferType;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'cut', pasteEventMock );
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+				pasteMethod = evt.data.method;
+				htmlData = evt.data.dataTransfer.getData( 'text/html' );
+				textData = evt.data.dataTransfer.getData( 'text/plain' );
+				dataTransferType = evt.data.dataTransfer.getTransferType();
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );
+			editable.fire( 'paste', pasteEventMock );
+
+			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
+				tc.cleanUp();
+				assert.areSame( 1, pasteCount, 'Paste count' );
+				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
+				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
+				assert.areSame( 'bar', textData, 'Plain text data' );
+				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
+
+			} );
+
+			this.wait();
+		},
+
+		'test copy and paste': function() {
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
+			var tc = this,
+				editor = this.editor,
+				editable = editor.editable(),
+				pasteEventMock = createPasteEventMock(),
+				pasteCount = 0,
+				pasteMethod, htmlData, textData, dataTransferType;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
+
+			editable.fire( 'copy', pasteEventMock );
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+				pasteMethod = evt.data.method;
+				htmlData = evt.data.dataTransfer.getData( 'text/html' );
+				textData = evt.data.dataTransfer.getData( 'text/plain' );
+				dataTransferType = evt.data.dataTransfer.getTransferType();
+			} );
+
+			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );
+			editable.fire( 'paste', pasteEventMock );
+
+			assertAfterPasteContent( this, '<p>foob<b>a</b>r</p>', function() {
+				tc.cleanUp();
+				assert.areSame( 1, pasteCount, 'Paste count' );
+				assert.areSame( 'paste', pasteMethod, 'Paste method.' );
+				assert.areSame( 'b<b>a</b>r', htmlData, 'HTML data' );
+				assert.areSame( 'bar', textData, 'Plain text data' );
+				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransferType, 'Trasfer type' );
+
+			} );
+
+			this.wait();
 		},
 
 		'#131 - trailing spaces' : function() {
