@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,clipboard,pastetext */
+/* bender-include: _helpers/pasting.js */
 
 /*
  *
@@ -1192,6 +1193,7 @@
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
+				pasteEventMock = createPasteEventMock(),
 				dataValueOnPaste, htmlDataOnPaste;
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
@@ -1201,20 +1203,8 @@
 				htmlDataOnPaste = evt.data.dataTransfer.getData( 'text/html' );
 			}, 0 );
 
-			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', {
-				$: {
-					clipboardData: {
-						getData: function( type ) {
-							if ( type == 'text/html' ) {
-								return '<p>bam</p>';
-							} else {
-								return '';
-							}
-						}
-					}
-				},
-				preventDefault: function() {}
-			} );
+			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
+			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', pasteEventMock );
 
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
 				assert.areSame( '', dataValueOnPaste, 'Data value on paste (priority 0) should be empty.' );
@@ -1228,6 +1218,7 @@
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
+				pasteEventMock = createPasteEventMock(),
 				pasteCount = 0,
 				beforePasteCount = 0;
 
@@ -1242,20 +1233,8 @@
 				pasteCount++;
 			}, 0 );
 
-			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', {
-				$: {
-					clipboardData: {
-						getData: function( type ) {
-							if ( type == 'text/html' ) {
-								return '<p>bam</p>';
-							} else {
-								return '';
-							}
-						}
-					}
-				},
-				preventDefault: function() {}
-			} );
+			pasteEventMock.$.clipboardData.setData( 'text/html', '<p>bam</p>' );
+			editable.fire( CKEDITOR.env.ie ? 'beforepaste' : 'paste', pasteEventMock );
 
 			tc.wait( function() {
 				tc.cleanUp();

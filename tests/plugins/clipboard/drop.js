@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
+/* bender-include: _helpers/pasting.js */
 
 'use strict';
 
@@ -16,30 +17,6 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 	finishListener;
 
 CKEDITOR.disableAutoInline = true;
-
-function createDragDropEventMock() {
-	return {
-		$: {
-			dataTransfer: {
-				_dataTypes : [],
-
-				// Emulate browsers native behavior for getDeta/setData.
-				setData: function( type, data ) {
-					this._dataTypes[ type ] = data;
-				},
-				getData: function( type ) {
-					return this._dataTypes[ type ];
-				}
-			}
-		},
-		preventDefault: function() {
-			// noop
-		},
-		getTarget: function() {
-			return new CKEDITOR.dom.node( 'targetMock' );
-		}
-	}
-}
 
 function drag( editor, evt ) {
 	var editable = editor.editable(),
@@ -211,7 +188,7 @@ var editors, editorBots,
 
 		'test drop to header': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<h1 id="h1">Header1</h1>' +
 			'<p>Lorem ipsum [dolor] sit amet.</p>' );
@@ -238,7 +215,7 @@ var editors, editorBots,
 
 		'test drop the same line, before': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum [dolor] sit amet.</p>' );
 			editor.resetUndo();
@@ -264,7 +241,7 @@ var editors, editorBots,
 
 		'test drop the same line, after': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
@@ -290,7 +267,7 @@ var editors, editorBots,
 
 		'test drop after range end': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			setWithHtml( editor, '<p id="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
 			editor.resetUndo();
@@ -321,7 +298,7 @@ var editors, editorBots,
 
 		'test drop after paragraph': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
@@ -347,7 +324,7 @@ var editors, editorBots,
 
 		'test drop on the left from paragraph': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
@@ -373,7 +350,7 @@ var editors, editorBots,
 
 		'test drop text from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
@@ -399,7 +376,7 @@ var editors, editorBots,
 
 		'test drop html from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
@@ -433,7 +410,7 @@ var editors, editorBots,
 
 		'test drop empty element from external source': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
 			editor.resetUndo();
@@ -452,7 +429,7 @@ var editors, editorBots,
 
 		'test cross editor drop': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock(),
+				evt = createDropEventMock(),
 				botCross = editorBots[ 'cross' ],
 				editorCross = botCross.editor;
 
@@ -485,7 +462,7 @@ var editors, editorBots,
 
 		'test change drag and drop range on drop': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p>x' +
 				'<b id="drag1">x[drag1]x</b>x' +
@@ -524,7 +501,7 @@ var editors, editorBots,
 
 		'test cancel drop': function( editor ) {
 			var bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
 			editor.resetUndo();
@@ -651,7 +628,7 @@ var editors, editorBots,
 				evt = {},
 				dragendCount = 0;
 
-			evt.data = createDragDropEventMock();
+			evt.data = createDropEventMock();
 
 			bot.setHtmlWithSelection( '' );
 
@@ -679,7 +656,7 @@ var editors, editorBots,
 				evt = {},
 				dragendCount = 0;
 
-			evt.data = createDragDropEventMock();
+			evt.data = createDropEventMock();
 
 			bot.setHtmlWithSelection( '' );
 
@@ -700,7 +677,7 @@ var editors, editorBots,
 		'test dragStart preventDefault': function() {
 			var editor = editors.inline,
 				bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock(),
+				evt = createDropEventMock(),
 				preventDefaultCount = 0;
 
 			bot.setHtmlWithSelection( '' );
@@ -722,7 +699,7 @@ var editors, editorBots,
 			var editor = editors.inline,
 				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock(),
+				evt = createDropEventMock(),
 				preventDefaultCount = 0,
 				dragstartData, dropData, dragendData;
 
@@ -764,7 +741,7 @@ var editors, editorBots,
 			var editor = editors.inline,
 				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock(),
+				evt = createDropEventMock(),
 				preventDefaultCount = 0,
 				dragstartData, dropData, dragendData;
 
@@ -806,7 +783,7 @@ var editors, editorBots,
 			var editor = editors.inline,
 				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
-				evt = createDragDropEventMock();
+				evt = createDropEventMock();
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
 			editor.resetUndo();

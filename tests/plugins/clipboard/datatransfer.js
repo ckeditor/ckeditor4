@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: toolbar,clipboard */
+/* bender-include: _helpers/pasting.js */
 
 'use strict';
 
@@ -9,33 +10,6 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		compareSelection: false,
 		fixStyles: true
 	};
-
-function createNativeDataTransferMock() {
-	return {
-		types: [],
-		_data: [],
-		// Emulate browsers native behavior for getDeta/setData.
-		setData: function( type, data ) {
-			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-				throw "Unexpected call to method or property access.";
-
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
-				return;
-
-			this._data[ type ] = data;
-			this.types.push( type );
-		},
-		getData: function( type ) {
-			if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-				throw "Invalid argument.";
-
-			if ( !this._data[ type ] )
-				return '';
-
-			return this._data[ type ];
-		}
-	}
-}
 
 bender.test( {
 	'async:init': function() {
