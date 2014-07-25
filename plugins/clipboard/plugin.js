@@ -1359,9 +1359,7 @@
 					text = dataTransfer.getData( 'text/plain' );
 
 					if ( text ) {
-						var enterMode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode;
-
-						eventData.dataValue = CKEDITOR.tools.transformPlainTextToHtml( text, enterMode );
+						eventData.dataValue = editor.editable().transformPlainTextToHtml( text );
 						eventData.type = 'text';
 					}
 				}

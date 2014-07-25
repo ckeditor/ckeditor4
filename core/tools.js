@@ -378,9 +378,10 @@
 		/**
 		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
 		 *
+		 * @since 4.5
 		 * @param {String} text Text to transform.
-		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode} in the paste position.
-		 * @returns {String} Transformed HTML.
+		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode}.
+		 * @returns {String} HTML generated from the text.
 		 */
 		transformPlainTextToHtml: function( text, enterMode ) {
 				var isEnterBrMode = enterMode == CKEDITOR.ENTER_BR,

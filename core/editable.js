@@ -245,11 +245,25 @@
 			insertText: function( text ) {
 				beforeInsert( this );
 
+				insert( this, 'text', this.transformPlainTextToHtml( text ) );
+			},
+
+			/**
+			 * Set enterMode based on current selection and {@link CKEDITOR.editor#activeEnterMode}
+			 * and call {@link CKEDITOR.tools#transformPlainTextToHtml}.
+			 *
+			 * @since 4.5
+			 * @param {String} text Text to transform.
+			 * @returns {String} HTML generated from the text.
+			 */
+			transformPlainTextToHtml: function( text ) {
 				var enterMode = this.editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ?
 					CKEDITOR.ENTER_BR :
 					this.editor.activeEnterMode;
-				insert( this, 'text', CKEDITOR.tools.transformPlainTextToHtml( text, enterMode ) );
+
+				return CKEDITOR.tools.transformPlainTextToHtml( text, enterMode );
 			},
+
 
 			/**
 			 * @see CKEDITOR.editor#insertElement
