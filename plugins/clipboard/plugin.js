@@ -468,7 +468,8 @@
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
-					if ( evt.data && !evt.data.$.ctrlKey )
+					// Do not prevent event on CTRL+V and SHIFT+INS because it blocks paste (#11970).
+					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
 
