@@ -569,5 +569,13 @@ bender.test(
 				html = CKEDITOR.tools.transformPlainTextToHtml( text, CKEDITOR.ENTER_P );
 
 			assert.areSame( '<p>&lt;b&gt;foo&lt;/b&gt;</p><p>bar<br>&nbsp;&nbsp; &nbsp;boom</p>', html );
+		},
+
+		'test getUniqueId': function() {
+			var uuid = CKEDITOR.tools.getUniqueId();
+
+			assert.isString( uuid, 'UUID should be a string.' );
+			assert.isMatching( /[a-z]/, uuid[ 0 ], 'First character of UUID should be z letter.' );
+			assert.areSame( 33, uuid.length, 'UUID.length' );
 		}
 	} );
