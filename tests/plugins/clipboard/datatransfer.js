@@ -282,6 +282,30 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
+	'test getData Chrome Linux fix' : function() {
+		var nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'text/html', '<meta http-equiv="content-type" content="text/html; charset=utf-8">foo<b>bom</b>x\nbar' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData Chrome Windows fix' : function() {
+		var nativeData = createNativeDataTransferMock();
+		nativeData.setData( 'text/html',
+			'<html>\n' +
+			'<body>\n' +
+			'<!--StartFragment-->foo<b>bom</b>x\n' +
+			'bar<!--EndFragment-->\n' +
+			'</body>\n' +
+			'</html>\n' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
+	},
+
 	'test cacheData': function() {
 		// Emulate native clipboard
 		var nativeData = createNativeDataTransferMock();

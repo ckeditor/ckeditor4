@@ -1805,6 +1805,9 @@
 		}
 
 		this._ = {
+			chromeLinuxRegExp: /^\<meta.*?\>/,
+			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
+
 			data: [],
 
 			normalizeType: function( type ) {
@@ -1941,7 +1944,7 @@
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
 		getData: function( type ) {
-			var data;
+			var data, result;
 
 			type = this._.normalizeType( type );
 
@@ -1955,6 +1958,18 @@
 
 			if ( !data ) {
 				data = '';
+			}
+
+			// Chrome add <meta http-equiv="content-type" content="text/html; charset=utf-8">
+			// at the begging of the HTML data on Linux and surround by <html><body><!--StartFragment-->
+			// and <!--EndFragment--></body></html> on Windows. This code remove these tags.
+			if ( type == 'text/html' && CKEDITOR.env.chrome ) {
+				data = data.replace( this._.chromeLinuxRegExp, '' );
+
+				result = this._.chromeWindowsRegExp.exec( data );
+				if ( result && result.length > 1 ) {
+					data = result[ 1 ];
+				}
 			}
 
 			return data;
