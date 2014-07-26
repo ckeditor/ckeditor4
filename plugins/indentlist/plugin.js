@@ -284,7 +284,7 @@
 		if ( !list )
 			list = path.contains( this.context );
 
-		return list && path.block && path.block.equals( list.getFirst( listItem ) );
+		return list && path.contains( listItem ).equals( list.getFirst( listItem ) );
 	}
 
 	// Determines whether a node is a list <li> element.
