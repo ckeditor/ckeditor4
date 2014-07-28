@@ -6,6 +6,9 @@ CKEditor 4 Changelog
 New Features:
 
 * [#10931](http://dev.ckeditor.com/ticket/10931): Introduce ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely since CKEditor 4.5 some widget buttons may become enabled.
+* [#11437](http://dev.ckeditor.com/ticket/11437): Drag and Drop support.
+  * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
+  * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
 
 Fixed Issues:
 
