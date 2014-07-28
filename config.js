@@ -88,6 +88,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' },
 		{ name: 'removespan' }
 	];
+
+	config.extraPlugins = 'removeallformat';
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
