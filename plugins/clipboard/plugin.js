@@ -1231,9 +1231,7 @@
 				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
 
 				// Fire dragend
-				if ( !fireDragEvent( 'dragend', evt, dataTransfer ) ) {
-					evt.data.preventDefault();
-				} else {
+				if ( fireDragEvent( 'dragend', evt, dataTransfer ) ) {
 					// When drag & drop is done we need to reset dataTransfer so the future
 					// external drop will be not recognize as internal.
 					clipboard.resetDragDataTransfer();
