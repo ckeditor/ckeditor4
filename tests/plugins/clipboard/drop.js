@@ -10,7 +10,9 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 		normalizeSelection: true,
 		fixStyles: true
 	},
-	pasteListener;
+	pasteListener,
+	dropListener,
+	finishListener;
 
 CKEDITOR.disableAutoInline = true;
 
@@ -31,25 +33,37 @@ function createDragDropEventMock() {
 		},
 		preventDefault: function() {
 			// noop
+		},
+		getTarget: function() {
+			return new CKEDITOR.dom.node( 'targetMock' );
 		}
 	}
 }
 
 function drag( editor, evt ) {
 	var editable = editor.editable(),
-		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
+		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+		dragEventCounter = 0;
+
+	editor.once( 'dragstart', function( dragEvt ) {
+		dragEventCounter++;
+
+		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
+		assert.areSame( evt.$, dragEvt.data.nativeEvent );
+		assert.areSame( 'targetMock', dragEvt.data.target.$ );
+	} );
 
 	dropTarget.fire( 'dragstart', evt );
+
+	assert.areSame( 1, dragEventCounter, 'dragstart event should be called.' );
 }
 
-function drop( editor, evt, config, callback ) {
+function drop( editor, evt, config, onDrop, onPaste ) {
 	var editable = editor.editable(),
 		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
 		range = new CKEDITOR.dom.range( editor.document ),
-		pasteEventCounter = 0,
-		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ?
-			config.expectedPasteEventCount :
-			1;
+		values = { pasteEventCounter: 0, dropEventCounter: 0 },
+		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1;
 
 	range.setStart( config.element, config.offset );
 	range.collapse( true );
@@ -59,44 +73,88 @@ function drop( editor, evt, config, callback ) {
 
 	evt.testRange = range;
 
-	pasteListener = function( evt ) {
-		resume( function() {
-			assert.areSame( config.expectedTransferType, evt.data.dataTransfer.getTransferType(), 'transferType' );
-			// Do not check Text data on IE10+.
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
-				assert.areSame( config.expectedText, evt.data.dataTransfer.getData( 'text/plain' ), 'text data' );
-			}
-			// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
-			assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + evt.data.dataTransfer.getData( 'text/html' ) + 'x', 'html data' );
-			assert.areSame( CKEDITOR.CLIPBOARD_DROP, evt.data.method, 'method should be drop' );
-			assert.areSame( config.expectedDataType, evt.data.type, 'data type' );
-			assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + evt.data.dataValue + 'x', 'data value' );
+	dropListener = function( dropEvt ) {
+		var ret;
 
-			pasteEventCounter++;
+		values.dropEventCounter++;
+		values.dropInstanceOfDataTransfer = dropEvt.data.dataTransfer instanceof CKEDITOR.plugins.clipboard.dataTransfer;
+		values.dropDataText = dropEvt.data.dataTransfer.getData( 'text/plain' );
+		values.dropDataHtml = dropEvt.data.dataTransfer.getData( 'text/html' );
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			// IE8 modify drop range so we check only if start container and offset exists.
+			values.dropRangeStartContainerMatch = !!dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = !!dropEvt.data.dropRange.startOffset;
+		} else {
+			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
+		}
+		values.dropNativeEventMatch = evt.$ == dropEvt.data.nativeEvent;
+		values.dropTarget = dropEvt.data.target.$;
 
-			editor.once( 'afterPaste', function() {
-				resume( finish );
-			} );
-
-			wait();
-		} );
+		if ( onDrop ) {
+			return onDrop( dropEvt );
+		}
 	};
 
+	pasteListener = function( evt ) {
+		values.pasteEventCounter++;
+		values.pasteTransferType = evt.data.dataTransfer.getTransferType();
+		values.pasteDataText = evt.data.dataTransfer.getData( 'text/plain' );
+		values.pasteDataHtml = evt.data.dataTransfer.getData( 'text/html' );
+		values.pasteMethod = evt.data.method;
+		values.pasteDataType = evt.data.type;
+		values.pasteDataValue = evt.data.dataValue;
+	};
+
+	finishListener = function() {
+		resume( function() {
+			// Drop event asserts
+			assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
+			assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
+			if ( config.expectedText && ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) ) {
+				assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
+			}
+			if ( config.expectedHtml ) {
+				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.dropDataHtml + 'x', 'On drop: HTML data should match.' );
+			}
+			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start container should match.' );
+			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
+
+			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
+			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
+
+			// Paste event asserts
+			assert.areSame( expectedPasteEventCount, values.pasteEventCounter, 'Paste event should be called ' + expectedPasteEventCount + ' time(s)' );
+
+			if ( expectedPasteEventCount > 0 ) {
+				assert.areSame( config.expectedTransferType, values.pasteTransferType, 'On paste: transferType should match.' );
+				// Do not check Text data on IE10+.
+				if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
+					assert.areSame( config.expectedText, values.pasteDataText, 'On paste: text data should match.' );
+				}
+				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.pasteDataHtml + 'x', 'On paste: HTML data should match.' );
+				assert.areSame( CKEDITOR.CLIPBOARD_DROP, values.pasteMethod, 'On paste: method should be drop.' );
+				assert.areSame( config.expectedDataType, values.pasteDataType, 'On paste: data type should match.' );
+				assert.isInnerHtmlMatching( 'x' + config.expectedDataValue + 'x', 'x' + values.pasteDataValue + 'x', 'On paste: data value should match.' );
+			}
+
+			return onPaste();
+		} );
+	}
+
+	editor.on( 'drop', dropListener );
 	editor.on( 'paste', pasteListener );
+	editor.on( 'afterPaste', finishListener );
 
 	if ( !expectedPasteEventCount ) {
-		wait( finish, 300 );
+		setTimeout( finishListener, 0 );
 	}
 
-	// Ensure async.
-	wait( function() {
-		dropTarget.fire( 'drop', evt );
-	} );
+	dropTarget.fire( 'drop', evt );
 
-	function finish() {
-		assert.areSame( expectedPasteEventCount, pasteEventCounter, 'paste event should be called ' + expectedPasteEventCount + ' time(s)' );
-		callback();
-	}
+	wait();
 }
 
 var editors, editorBots,
@@ -134,9 +192,12 @@ var editors, editorBots,
 	testsForMultipleEditor = {
 		'tearDown': function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
-			editors.framed.removeListener( 'paste', pasteListener );
-			editors.inline.removeListener( 'paste', pasteListener );
-			editors.divarea.removeListener( 'paste', pasteListener );
+
+			for ( var name in editors ) {
+				editors[ name ].removeListener( 'paste', pasteListener );
+				editors[ name ].removeListener( 'drop', dropListener );
+				editors[ name ].removeListener( 'afterPaste', finishListener );
+			}
 		},
 
 		'test drop to header': function( editor ) {
@@ -157,7 +218,7 @@ var editors, editorBots,
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<h1 id="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -183,7 +244,7 @@ var editors, editorBots,
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -209,7 +270,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -240,7 +301,7 @@ var editors, editorBots,
 				expectedHtml: '<b>em</b> ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: '<b>em</b> ipsum'
-			}, function() {
+			}, null, function() {
 				assert.isInnerHtmlMatching( '<p id="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -266,7 +327,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -292,7 +353,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
-			}, function() {
+			}, null, function() {
 				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -318,7 +379,7 @@ var editors, editorBots,
 				expectedHtml: '',
 				expectedDataType: 'text',
 				expectedDataValue: 'dolor'
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
@@ -348,7 +409,7 @@ var editors, editorBots,
 				expectedHtml: CKEDITOR.env.ie ? '' : '<b>dolor</b>',
 				expectedDataType: CKEDITOR.env.ie ? 'text' : 'html',
 				expectedDataValue: CKEDITOR.env.ie ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
-			}, function() {
+			}, null, function() {
 				if ( CKEDITOR.env.ie ) {
 					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				} else {
@@ -372,7 +433,7 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
 				expectedPasteEventCount: 0
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
 		},
@@ -398,7 +459,7 @@ var editors, editorBots,
 				expectedHtml: 'ipsum <b>dolor</b> ',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum <b>dolor</b> '
-			}, function() {
+			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				assert.areSame( '<p id="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
 
@@ -407,6 +468,65 @@ var editors, editorBots,
 
 				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', editorCross.getData(), 'after undo - editor cross' );
+			} );
+		},
+
+		'test change drag and drop range on drop': function( editor ) {
+			var bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '<p>x' +
+				'<b id="drag1">x[drag1]x</b>x' +
+				'<b id="drag2">drag2</b>x' +
+				'<b id="drop1">drop1</b>x' +
+				'<b id="drop2">drop2</b>x</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'drop1' ).getChild( 0 ),
+				offset: 0,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'drag1',
+				expectedHtml: 'drag1',
+				expectedDataType: 'html',
+				expectedDataValue: 'drag1'
+			}, function( evt ) {
+				if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) && !CKEDITOR.env.safari ) {
+					assert.areSame( editor.document.getById( 'drag1' ), evt.data.dragRange.startContainer, 'dropRange.startContainer' );
+					assert.areSame( 1, evt.data.dragRange.startOffset, 'dropRange.startOffset' );
+				}
+
+				evt.data.dragRange.selectNodeContents( editor.document.getById( 'drag2' ) );
+				evt.data.dropRange.setStart( editor.document.getById( 'drop2' ), 4 );
+				evt.data.dropRange.collapse( true );
+			}, function() {
+				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>xx<b id="drop1">drop1</b>x<b id="drop2">drop2</b>drag1^x</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+
+				editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>x<b id="drag2">drag2</b>x<b id="drop1">drop1</b>x<b id="drop2">drop2</b>x</p>', editor.getData(), 'after undo' );
+			} );
+		},
+
+		'test cancel drop': function( editor ) {
+			var bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				assert.areSame( '<p id="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
 		}
 	},
@@ -510,6 +630,164 @@ var editors, editorBots,
 			secondRange.collapse( true );
 
 			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+		},
+
+		'test dragEnd event': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				editable = editor.editable(),
+				evt = {},
+				dragendCount = 0;
+
+			evt.data = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '' );
+
+			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+			evt.data.$.dataTransfer.setData( 'cke/custom', 'foo' );
+
+			editor.once( 'dragend', function( dragendEvt ) {
+				dragendCount++;
+
+				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'cke/custom' ) );
+				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent );
+				assert.areSame( 'targetMock', dragendEvt.data.target.$ );
+			} );
+
+			editable.fire( 'dragend', evt.data );
+
+			assert.areSame( 1, dragendCount, 'dragend should be fired once.' );
+			assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
+		},
+
+		'test dragEnd event - preventDefault': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				editable = editor.editable(),
+				evt = {},
+				dragendCount = 0;
+
+			evt.data = createDragDropEventMock();
+
+			bot.setHtmlWithSelection( '' );
+
+			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+
+			editor.once( 'dragend', function( dragendEvt ) {
+				dragendCount++;
+
+				return false;
+			} );
+
+			editable.fire( 'dragend', evt.data );
+
+			assert.areSame( 1, dragendCount, 'dragend should be fired once.' );
+			assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, CKEDITOR.plugins.clipboard.dragData, 'dragData should be not reset' );
+		},
+
+		'test dragStart preventDefault': function() {
+			var editor = editors.inline,
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0;
+
+			bot.setHtmlWithSelection( '' );
+
+			editor.once( 'dragstart', function() {
+				return false;
+			}, null, null, 100 );
+
+			evt.preventDefault = function() {
+				preventDefaultCount++;
+			}
+
+			drag( editor, evt );
+
+			assert.areSame( 1, preventDefaultCount, 'preventDefault should be called' );
+		},
+
+		'test set custom data on dragStart': function() {
+			var editor = editors.inline,
+				editable = editor.editable(),
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0,
+				dragstartData, dropData, dragendData;
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			editor.once( 'dragstart', function( evt ) {
+				evt.data.dataTransfer.setData( 'cke/custom', 'foo' );
+				dragstartData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.on( 'drop', function( evt ) {
+				dropData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.once( 'dragend', function( evt ) {
+				dragendData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				editor.focus();
+				editable.fire( 'dragend', evt );
+
+				assert.areSame( 'foo', dragstartData, 'dragstartData' );
+				assert.areSame( 'foo', dropData, 'dropData' );
+				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
+		},
+
+		'test set custom data on drop': function() {
+			var editor = editors.inline,
+				editable = editor.editable(),
+				bot = editorBots[ editor.name ],
+				evt = createDragDropEventMock(),
+				preventDefaultCount = 0,
+				dragstartData, dropData, dragendData;
+
+			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			editor.resetUndo();
+
+			editor.once( 'dragstart', function( evt ) {
+				dragstartData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.once( 'drop', function( evt ) {
+				evt.data.dataTransfer.setData( 'cke/custom', 'foo' );
+				dropData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			editor.once( 'dragend', function( evt ) {
+				dragendData = evt.data.dataTransfer.getData( 'cke/custom' );
+			} );
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 0 ),
+				offset: 0,
+				expectedPasteEventCount: 0
+			}, function( evt ) {
+				return false;
+			}, function() {
+				editor.focus();
+				editable.fire( 'dragend', evt );
+
+				assert.areSame( '', dragstartData, 'dragstartData' );
+				assert.areSame( 'foo', dropData, 'dropData' );
+				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
 		}
 	};
 

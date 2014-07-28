@@ -1221,14 +1221,21 @@
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
 				// Create a dataTransfer object and save it globally.
-				clipboard.initDragDataTransfer( evt, editor );
+				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+
+				fireDragEvent( 'dragstart', evt, dataTransfer );
 			} );
 
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				// When drag & drop is done we need to reset dataTransfer so the future
-				// external drop will be not recognize as internal.
-				clipboard.resetDragDataTransfer();
+				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+
+				// Fire dragend
+				if ( fireDragEvent( 'dragend', evt, dataTransfer ) ) {
+					// When drag & drop is done we need to reset dataTransfer so the future
+					// external drop will be not recognize as internal.
+					clipboard.resetDragDataTransfer();
+				}
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1247,6 +1254,15 @@
 				if ( !dropRange )
 					return;
 
+				// Fire drop.
+				var data = fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  );
+				if ( !data ) {
+					return;
+				}
+
+				// Let user modify drag and drop range.
+				dropRange = data.dropRange;
+				dragRange = data.dragRange;
 
 				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
@@ -1374,6 +1390,29 @@
 				editor.once( 'afterPaste', function() {
 					editor.toolbox.focus();
 				} );
+			}
+
+			// Fire drag/drop events (dragstart, dragend, drop).
+			function fireDragEvent( name, evt, dataTransfer, dragRange, dropRange ) {
+				var eventData = {
+						nativeEvent: evt.data.$,
+						target: evt.data.getTarget(),
+						dataTransfer: dataTransfer
+					};
+
+				if ( dragRange ) {
+					eventData.dragRange = dragRange;
+				}
+				if ( dropRange ) {
+					eventData.dropRange = dropRange;
+				}
+
+				if ( !editor.fire( name, eventData ) ) {
+					evt.data.preventDefault();
+					return false;
+				}
+
+				return eventData;
 			}
 		} );
 	}
@@ -1748,9 +1787,13 @@
 		}
 
 		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( evt && evt.name != 'drop' && clipboardIdDataType != 'Text' ) {
-			// dataTransfer object will be passed from the drag to the drop event.
-			this.$.setData( clipboardIdDataType, this.id );
+		if ( clipboardIdDataType != 'Text' ) {
+			// Try to set ID so it will be passed from the drag to the drop event.
+			// On some browsers with some event it is not possible to setData so we
+			// need to catch exceptions.
+			try {
+				this.$.setData( clipboardIdDataType, this.id );
+			} catch ( err ) {}
 		}
 
 		if ( editor ) {
@@ -1989,4 +2032,57 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
+ */
+
+/**
+ * Facade for native `drop` event. Fired when native `drop` event occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you modify drag and drop range and
+ * cancel drop event. Use it only form drag and drop operations. To manipulate dropped data use
+ * {@link CKEDITOR.editor#paste paste event}.
+ *
+ * @since 4.5
+ * @event drop
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native drop event.
+ * @param {CKEDITOR.dom.node} data.target Drop target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
+ * Note that dragged html is saved as `text/html` data on `dragstart` so if you change drag range
+ * on drop dropped html will not change. You need to change it manually using
+ * {@link CKEDITOR.plugins.clipboard.dataTransfer#setData dataTransfer.setData}.
+ * @param {CKEDITOR.dom.range} data.dropRange Drop range, let you manipulate with drop range.
+ */
+
+/**
+ * Facade for native `dragstart` event. Fired when native `dragstart` event occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you cancel `dragstart`.
+ *
+ * @since 4.5
+ * @event dragstart
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native dragstart event.
+ * @param {CKEDITOR.dom.node} data.target Drag target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ */
+
+/**
+ * Facade for native `dragend` event. Fired when native `dragend` event occur.
+ * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
+ * to use custom data type on any browser. This event let you cancel `dragend` event and prevent
+ * removing dataTransfer for the global scope.
+ *
+ * @since 4.5
+ * @event dragend
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param data
+ * @param {Object} data.nativeEvent Native dragend event.
+ * @param {CKEDITOR.dom.node} data.target Drag target.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */

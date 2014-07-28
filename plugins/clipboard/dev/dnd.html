@@ -166,8 +166,20 @@ Aenean cursus egestas ipsum.
 		CKEDITOR.replace( 'classic' );
 		CKEDITOR.inline( 'inline' );
 
+		CKCONSOLE.addEventPanel( 'dragstart', [ 'nativeEvent', 'target', 'dataTransfer' ] );
+		CKCONSOLE.addEventPanel( 'dragend', [ 'nativeEvent', 'target', 'dataTransfer' ]	);
+		CKCONSOLE.addEventPanel( 'drop',
+			[ 'nativeEvent', 'target', 'dataTransfer', 'dragRange', 'dropRange' ] );
+
+		CKCONSOLE.create( 'dragstart', { editor: 'classic' } );
+		CKCONSOLE.create( 'drop', { editor: 'classic' } );
 		CKCONSOLE.create( 'paste', { editor: 'classic' } );
+		CKCONSOLE.create( 'dragend', { editor: 'classic' } );
+
+		CKCONSOLE.create( 'dragstart', { editor: 'inline' } );
+		CKCONSOLE.create( 'drop', { editor: 'inline' } );
 		CKCONSOLE.create( 'paste', { editor: 'inline' } );
+		CKCONSOLE.create( 'dragend', { editor: 'inline' } );
 	</script>
 </body>
 </html>
