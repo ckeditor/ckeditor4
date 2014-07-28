@@ -11,16 +11,19 @@ CKEDITOR.plugins.add( 'removeallformat', {
 				//call removeFormat first
 				editor.execCommand('removeFormat');
 
-				//remove additional block level formats
+				//save selection
 				var selection = editor.getSelection();
+				var bookmarks = selection.createBookmarks2();
 
+				//remove additional block level formats
 				//http://stackoverflow.com/questions/16835365/set-cursor-to-specific-position-in-ckeditor
 				//http://stackoverflow.com/questions/15620115/ckeditor-change-selection-without-losing-it
 				//bookmarks are either normal (based on node references), serializable (based on spans)
 				//or 3rd type (based on node addresses)
-				var bookmarks = selection.createBookmarks2();
 				editor.insertText( selection.getSelectedText() );
 
+				//restore selection
+				//Not perfect but very hard to get it working all the time
 				editor.getSelection().selectBookmarks( bookmarks );
 			}
 		});
