@@ -2035,7 +2035,7 @@
  */
 
 /**
- * Facade for native `editable.drop` event. Fired when native `drop` event on editable occur.
+ * Facade for native `drop` event. Fired when native `drop` event occur.
  * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
  * to use custom data type on any browser. This event let you modify drag and drop range and
  * cancel drop event. Use it only form drag and drop operations. To manipulate dropped data use
@@ -2057,7 +2057,7 @@
  */
 
 /**
- * Facade for native `editable.dragstart` event. Fired when native `dragstart` event on editable occur.
+ * Facade for native `dragstart` event. Fired when native `dragstart` event occur.
  * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
  * to use custom data type on any browser. This event let you cancel `dragstart`.
  *
@@ -2072,7 +2072,7 @@
  */
 
 /**
- * Facade for native `editable.dragend` event. Fired when native `dragend` event on editable occur.
+ * Facade for native `dragend` event. Fired when native `dragend` event occur.
  * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
  * to use custom data type on any browser. This event let you cancel `dragend` event and prevent
  * removing dataTransfer for the global scope.
