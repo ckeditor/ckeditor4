@@ -1255,7 +1255,7 @@
 					return;
 
 				// Fire drop.
-				var data = fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  )
+				var data = fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  );
 				if ( !data ) {
 					return;
 				}
