@@ -1408,8 +1408,8 @@
 				}
 
 				if ( !editor.fire( name, eventData ) ) {
-				 	evt.data.preventDefault();
-				 	return false;
+					evt.data.preventDefault();
+					return false;
 				}
 
 				return eventData;
