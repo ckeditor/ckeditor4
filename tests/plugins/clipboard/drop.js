@@ -149,7 +149,7 @@ function drop( editor, evt, config, onDrop, onPaste ) {
 	editor.on( 'afterPaste', finishListener );
 
 	if ( !expectedPasteEventCount ) {
-		setTimeout( finishListener, 300 );
+		setTimeout( finishListener, 0 );
 	}
 
 	dropTarget.fire( 'drop', evt );
