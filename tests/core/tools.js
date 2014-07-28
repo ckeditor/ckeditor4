@@ -555,5 +555,27 @@ bender.test(
 			assert.isFalse( c( [ 'bar' ], r1 ) );
 			assert.isFalse( c( [ 'bar', 'f', 'oo' ], r1 ) );
 			assert.isFalse( c( [ 'bar', 'f', 'oo' ], r2 ) ); // Ekhem, don't try to join();
+		},
+
+		'test transformPlainTextToHtml ENTER_BR': function() {
+			var text = '<b>foo</b>\n\nbar\n\tboom',
+				html = CKEDITOR.tools.transformPlainTextToHtml( text, CKEDITOR.ENTER_BR );
+
+			assert.areSame( '&lt;b&gt;foo&lt;/b&gt;<br><br>bar<br>&nbsp;&nbsp; &nbsp;boom', html );
+		},
+
+		'test transformPlainTextToHtml ENTER_P': function() {
+			var text = '<b>foo</b>\n\nbar\n\tboom',
+				html = CKEDITOR.tools.transformPlainTextToHtml( text, CKEDITOR.ENTER_P );
+
+			assert.areSame( '<p>&lt;b&gt;foo&lt;/b&gt;</p><p>bar<br>&nbsp;&nbsp; &nbsp;boom</p>', html );
+		},
+
+		'test getUniqueId': function() {
+			var uuid = CKEDITOR.tools.getUniqueId();
+
+			assert.isString( uuid, 'UUID should be a string.' );
+			assert.isMatching( /[a-z]/, uuid[ 0 ], 'First character of UUID should be z letter.' );
+			assert.areSame( 33, uuid.length, 'UUID.length' );
 		}
 	} );

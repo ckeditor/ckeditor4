@@ -245,49 +245,25 @@
 			insertText: function( text ) {
 				beforeInsert( this );
 
-				var editor = this.editor,
-					mode = editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ? CKEDITOR.ENTER_BR : editor.activeEnterMode,
-					isEnterBrMode = mode == CKEDITOR.ENTER_BR,
-					tools = CKEDITOR.tools;
-
-				// CRLF -> LF
-				var html = tools.htmlEncode( text.replace( /\r\n/g, '\n' ) );
-
-				// Tab -> &nbsp x 4;
-				html = html.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
-
-				var paragraphTag = mode == CKEDITOR.ENTER_P ? 'p' : 'div';
-
-				// Two line-breaks create one paragraphing block.
-				if ( !isEnterBrMode ) {
-					var duoLF = /\n{2}/g;
-					if ( duoLF.test( html ) )
-					{
-						var openTag = '<' + paragraphTag + '>', endTag = '</' + paragraphTag + '>';
-						html = openTag + html.replace( duoLF, function() { return  endTag + openTag; } ) + endTag;
-					}
-				}
-
-				// One <br> per line-break.
-				html = html.replace( /\n/g, '<br>' );
-
-				// Compensate padding <br> at the end of block, avoid loosing them during insertion.
-				if ( !isEnterBrMode ) {
-					html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
-						return tools.repeat( match, 2 );
-					} );
-				}
-
-				// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
-				html = html.replace( /^ | $/g, '&nbsp;' );
-
-				// Finally, preserve whitespaces that are to be lost.
-				html = html.replace( /(>|\s) /g, function( match, before ) {
-					return before + '&nbsp;';
-				} ).replace( / (?=<)/g, '&nbsp;' );
-
-				insert( this, 'text', html );
+				insert( this, 'text', this.transformPlainTextToHtml( text ) );
 			},
+
+			/**
+			 * Set enterMode based on current selection and {@link CKEDITOR.editor#activeEnterMode}
+			 * and call {@link CKEDITOR.tools#transformPlainTextToHtml}.
+			 *
+			 * @since 4.5
+			 * @param {String} text Text to transform.
+			 * @returns {String} HTML generated from the text.
+			 */
+			transformPlainTextToHtml: function( text ) {
+				var enterMode = this.editor.getSelection().getStartElement().hasAscendant( 'pre', true ) ?
+					CKEDITOR.ENTER_BR :
+					this.editor.activeEnterMode;
+
+				return CKEDITOR.tools.transformPlainTextToHtml( text, enterMode );
+			},
+
 
 			/**
 			 * @see CKEDITOR.editor#insertElement
