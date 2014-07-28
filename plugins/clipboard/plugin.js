@@ -1396,7 +1396,7 @@
 			function fireDragEvent( name, evt, dataTransfer, dragRange, dropRange ) {
 				var eventData = {
 						nativeEvent: evt.data.$,
-						target: new CKEDITOR.dom.node( evt.data.$.target ),
+						target: evt.data.getTarget(),
 						dataTransfer: dataTransfer
 					};
 

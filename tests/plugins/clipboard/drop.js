@@ -19,7 +19,6 @@ CKEDITOR.disableAutoInline = true;
 function createDragDropEventMock() {
 	return {
 		$: {
-			target: 'targetMock',
 			dataTransfer: {
 				_dataTypes : [],
 
@@ -34,6 +33,9 @@ function createDragDropEventMock() {
 		},
 		preventDefault: function() {
 			// noop
+		},
+		getTarget: function() {
+			return new CKEDITOR.dom.node( 'targetMock' );
 		}
 	}
 }
