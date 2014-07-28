@@ -50,9 +50,11 @@ CKEDITOR.editorConfig = function( config ) {
 		'preview,' +
 		'print,' +
 		'removeformat,' +
+		'removespan,' +
 		'resize,' +
 		'save,' +
 		'selectall,' +
+		'sharedspace,' +
 		'showblocks,' +
 		'showborders,' +
 		'smiley,' +
@@ -83,9 +85,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 		{ name: 'tools' },
 		{ name: 'others' },
-		{ name: 'about' }
+		{ name: 'about' },
+		{ name: 'removespan' }
 	];
-
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%

@@ -19,7 +19,8 @@ var CKBUILDER_CONFIG = {
 		'.bender',
 		'bender-err.log',
 		'bender-out.log',
-		'node_modules'
+		'node_modules',
+		'samples'
 	],
 	plugins: {
 		a11yhelp: 1,
@@ -65,6 +66,7 @@ var CKBUILDER_CONFIG = {
 		resize: 1,
 		save: 1,
 		selectall: 1,
+		sharedspace: 1,
 		showblocks: 1,
 		showborders: 1,
 		smiley: 1,
@@ -78,5 +80,8 @@ var CKBUILDER_CONFIG = {
 		toolbar: 1,
 		undo: 1,
 		wysiwygarea: 1
+	},
+	languages : {
+		'en' : 1
 	}
 };
