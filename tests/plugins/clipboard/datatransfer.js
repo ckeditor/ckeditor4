@@ -43,8 +43,8 @@ bender.test( {
 	},
 
 	'test id': function() {
-		var nativeData1 = createNativeDataTransferMock(),
-			nativeData2 = createNativeDataTransferMock(),
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
 			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
 			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
 			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
@@ -63,7 +63,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		nativeData = createNativeDataTransferMock();
+		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor );
@@ -101,7 +101,7 @@ bender.test( {
 		var editor = this.editors.editor1,
 			nativeData, dataTransfer;
 
-		nativeData = createNativeDataTransferMock();
+		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'x<b>foo</b>x' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
@@ -120,7 +120,7 @@ bender.test( {
 		var editor = this.editors.editor1,
 			nativeData, dataTransfer;
 
-		nativeData = createNativeDataTransferMock();
+		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
 		if ( !CKEDITOR.env.ie ) {
 			nativeData.setData( 'text/html', 'x<b>foo</b>x' );
@@ -146,7 +146,7 @@ bender.test( {
 
 		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		nativeData = createNativeDataTransferMock();
+		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor1 );
@@ -181,7 +181,7 @@ bender.test( {
 	},
 
 	'test set-get data, data type: Text, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'Text', 'foo' );
@@ -191,7 +191,7 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text/plain, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text/plain', 'foo2' );
@@ -201,7 +201,7 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text', 'foo3' );
@@ -211,7 +211,7 @@ bender.test( {
 	},
 
 	'test set-get data, data type: CKE/custom, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'CKE/custom', 'bar' );
@@ -220,7 +220,7 @@ bender.test( {
 	},
 
 	'test set-get data, data type: text/html, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		dataTransfer.setData( 'text/html', 'html' );
@@ -228,7 +228,7 @@ bender.test( {
 	},
 
 	'test set-get data, undefined data, dataTransfer with event': function() {
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
@@ -287,7 +287,7 @@ bender.test( {
 			assert.ignore();
 		}
 
-		var nativeData = createNativeDataTransferMock();
+		var nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'text/html', '<meta http-equiv="content-type" content="text/html; charset=utf-8">foo<b>bom</b>x\nbar' );
 
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
@@ -300,7 +300,7 @@ bender.test( {
 			assert.ignore();
 		}
 
-		var nativeData = createNativeDataTransferMock();
+		var nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'text/html',
 			'<html>\n' +
 			'<body>\n' +
@@ -316,7 +316,7 @@ bender.test( {
 
 	'test cacheData': function() {
 		// Emulate native clipboard
-		var nativeData = createNativeDataTransferMock();
+		var nativeData = bender.tools.mockNativeDataTransfer();
 		if ( CKEDITOR.env.ie ) {
 			nativeData.setData( 'Text', 'foo' );
 		} else {
@@ -359,8 +359,8 @@ bender.test( {
 	},
 
 	'test initDragDataTransfer binding': function() {
-		var nativeData1 = createNativeDataTransferMock(),
-			nativeData2 = createNativeDataTransferMock(),
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
 			evt1 = { data: { $: { dataTransfer: nativeData1 } } },
 			evt2 = { data: { $: { dataTransfer: nativeData2 } } },
 			dataTransferA = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 ),
@@ -381,7 +381,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		var nativeData = createNativeDataTransferMock(),
+		var nativeData = bender.tools.mockNativeDataTransfer(),
 			evt = { data: { $: { dataTransfer: nativeData } } },
 			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 		dataTransfer.setTargetEditor( editor );
@@ -418,8 +418,8 @@ bender.test( {
 			assert.ignore();
 		}
 
-		var nativeData1 = createNativeDataTransferMock(),
-			nativeData2 = createNativeDataTransferMock(),
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
 			evt1 = { data: { $: { clipboardData: nativeData1 } } },
 			evt2 = { data: { $: { clipboardData: nativeData1 } } },
 			evt3 = { data: { $: { clipboardData: nativeData2 } } },
@@ -434,7 +434,7 @@ bender.test( {
 	'test initPasteDataTransfer constructor': function() {
 		var bot = this.bots.editor1,
 			editor = this.editors.editor1,
-			nativeData = createNativeDataTransferMock(),
+			nativeData = bender.tools.mockNativeDataTransfer(),
 			evt = { data: { $: { clipboardData: nativeData } } };
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );

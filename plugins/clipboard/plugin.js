@@ -373,7 +373,7 @@
 				// We can not call preventPasteEventNow here because callback is already called.
 				// We can not use onPaste also, because it call other callback which
 				// emit paste, so we need to catch next paste and cancel it.
-				beforePasteNotCanceled && editor.once( 'paste', function( evt ) {
+				!CKEDITOR.env.chrome && !CKEDITOR.env.gecko && beforePasteNotCanceled && editor.once( 'paste', function( evt ) {
 					evt.cancel();
 				}, null, null, 0 );
 
@@ -964,10 +964,14 @@
 		function pasteDataFromClipboard( evt ) {
 			// Default type is 'auto', but can be changed by beforePaste listeners.
 			var eventData = {
-				type: 'auto',
-				method: 'paste',
-				dataTransfer: clipboard.initPasteDataTransfer( evt )
-			};
+					type: 'auto',
+					method: 'paste',
+					dataTransfer: clipboard.initPasteDataTransfer( evt )
+				},
+				// True if we can fully rely on data from dataTransfer, this means that
+				// if HTML is available via native paste it is also available via getData.
+				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome || CKEDITOR.env.gecko;
+
 			eventData.dataTransfer.setTargetEditor( editor );
 			eventData.dataTransfer.cacheData();
 
@@ -978,7 +982,9 @@
 			// after canceling 'beforePaste' event.
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
-			if ( beforePasteNotCanceled && eventData.dataTransfer.getData( 'text/html' ) ) {
+			// Do not use paste bin if the browser let us get HTML from dataTranfer
+			// or we can be sure that no HTML in dataTranfer means no HTML at all.
+			if ( beforePasteNotCanceled && ( htmlAlwaysInDataTransfer || eventData.dataTransfer.getData( 'text/html' ) ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );

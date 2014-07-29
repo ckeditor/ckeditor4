@@ -270,10 +270,7 @@
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			// Firefox does not allow to paste empty string (''), so we're basing
-			// on pasteDataFromClipboard which removes bookmarks.
-			// Bookmark has to have body because Fx produces <br> if it's empty.
-			bender.tools.emulatePaste( editor, '<span data-cke-bookmark="1">a</span>' );
+			bender.tools.emulatePaste( editor, '' );
 			tc.wait( function() {
 					assert.isTrue( wasPaste, 'paste callback should be called' );
 					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
@@ -1192,7 +1189,7 @@
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
-				pasteEventMock = createPasteEventMock(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
 				dataValueOnPaste, htmlDataOnPaste;
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
@@ -1220,7 +1217,7 @@
 			var editor = this.editor,
 				editable = editor.editable(),
 				tc = this,
-				pasteEventMock = createPasteEventMock(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
 				pasteCount = 0,
 				beforePasteCount = 0;
 
@@ -1250,7 +1247,7 @@
 
 			var editor = this.editor,
 				editable = editor.editable(),
-				pasteEventMock = createPasteEventMock();
+				pasteEventMock = bender.tools.mockPasteEvent();
 
 			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
 
@@ -1268,7 +1265,7 @@
 
 			var editor = this.editor,
 				editable = editor.editable(),
-				pasteEventMock = createPasteEventMock();
+				pasteEventMock = bender.tools.mockPasteEvent();
 
 			bender.tools.setHtmlWithSelection( editor, '<p>x[b<b>a</b>r]x</p>' );
 
@@ -1287,7 +1284,7 @@
 			var tc = this,
 				editor = this.editor,
 				editable = editor.editable(),
-				pasteEventMock = createPasteEventMock(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
 				pasteCount = 0,
 				pasteMethod, htmlData, textData, dataTransferType;
 
@@ -1325,7 +1322,7 @@
 			var tc = this,
 				editor = this.editor,
 				editable = editor.editable(),
-				pasteEventMock = createPasteEventMock(),
+				pasteEventMock = bender.tools.mockPasteEvent(),
 				pasteCount = 0,
 				pasteMethod, htmlData, textData, dataTransferType;
 
