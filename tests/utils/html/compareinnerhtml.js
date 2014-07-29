@@ -46,7 +46,11 @@
 	// Tests prepareInnerHtmlPattern.
 	function tp( expected, patternSource ) {
 		return function() {
-			assert.areSame( expected.toString(), htmlTools.prepareInnerHtmlPattern( patternSource ).toString() );
+			var actual = htmlTools.prepareInnerHtmlPattern( patternSource ).toString()
+				// FF escapes '/' and Chrome does not - unify this.
+				.replace( /\\\//g, '/' );
+
+			assert.areSame( expected.toString(), actual );
 		};
 	}
 
