@@ -570,7 +570,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 	 * @param {String} propertyName The style property name.
 	 * @returns {String} The property value.
 	 */
-	getComputedStyle: CKEDITOR.env.ie ?
+	getComputedStyle: CKEDITOR.env.ie && !window.getComputedStyle ?
 		function( propertyName ) {
 			return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
 		} : function( propertyName ) {
