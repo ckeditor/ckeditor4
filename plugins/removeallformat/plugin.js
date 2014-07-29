@@ -29,7 +29,8 @@ CKEDITOR.plugins.add( 'removeallformat', {
 		});
 
 		//Define a button that will be associated with the removeallformat command
-		editor.ui.addButton( 'removeallformat', {
+		//Button name = 'RemoveAllFormat'
+		editor.ui.addButton( 'RemoveAllFormat', {
 			label: 'Remove all format',
 			command: 'removeallformat',
 			toolbar: 'cleanup'

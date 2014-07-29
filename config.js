@@ -50,7 +50,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'preview,' +
 		'print,' +
 		'removeformat,' +
-		'removespan,' +
 		'resize,' +
 		'save,' +
 		'selectall,' +
@@ -70,24 +69,20 @@ CKEDITOR.editorConfig = function( config ) {
 		'wysiwygarea';
 	// %REMOVE_END%
 
-	config.toolbarGroups = [
-		// { name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		// { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		// { name: 'forms' },
-		// '/',
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'links' },
-		// { name: 'insert' },
+	//http://ckeditor.com/forums/CKEditor/Complete-list-of-toolbar-items
+	config.toolbar_Full = [
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ],
+			items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+					'Superscript', 'RemoveFormat', 'RemoveAllFormat' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
+			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
+					'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+		{ name: 'links', items: [ 'Link', 'Unlink' ] },
 		'/',
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'tools' },
-		{ name: 'others' },
-		{ name: 'about' },
-		{ name: 'removespan' }
+		{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] }
 	];
+
+	config.toolbar = "Full";
 
 	config.extraPlugins = 'removeallformat';
 };
