@@ -87,7 +87,7 @@ if ( !CKEDITOR.loader ) {
 			var scripts = document.getElementsByTagName( 'script' );
 
 			for ( var i = 0; i < scripts.length; i++ ) {
-				var match = scripts[ i ].src.match( /(^|.*?[\\\/])(?:_source\/)?core\/loader.js(?:\?.*)?$/i );
+				var match = scripts[ i ].src.match( /(^|.*?[\\\/])(?:_source\/)?core\/loader.js(?:\?.*|;.*)?$/i );
 
 				if ( match ) {
 					path = match[ 1 ];
