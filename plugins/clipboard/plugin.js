@@ -1814,7 +1814,7 @@
 			chromeLinuxRegExp: /^\<meta.*?\>/,
 			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
 
-			data: [],
+			data: {},
 
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
@@ -2057,6 +2057,44 @@
 					getAndSetData( this.$.types[ i ] );
 				}
 			}
+		},
+
+		/**
+		 * Check if data transfer contains any data.
+		 *
+		 * @returns {Boolean} True if the object contains no data.
+		 */
+		isEmpty: function() {
+			var typesToCheck = {};
+
+			// Add custom types.
+			for ( var type in this._.data ) {
+				typesToCheck[ type ] = 1;
+			}
+
+			// Add native types.
+			if ( this.$ ) {
+				if ( CKEDITOR.env.ie ) {
+					typesToCheck[ 'Text' ] = 1;
+					typesToCheck[ 'URL' ] = 1;
+				} else if ( this.$.types ) {
+					for ( var i = 0; i < this.$.types.length; i++ ) {
+						typesToCheck[ this.$.types[ i ] ] = 1;
+					}
+				}
+			}
+
+			// Remove ID.
+			if ( clipboardIdDataType != 'Text' ) {
+				typesToCheck[ clipboardIdDataType ] = 0;
+			}
+
+			for ( var type in typesToCheck ) {
+				if ( typesToCheck[ type ] && this.getData( type ) )
+					return false;
+			};
+
+			return true;
 		}
 	};
 } )();

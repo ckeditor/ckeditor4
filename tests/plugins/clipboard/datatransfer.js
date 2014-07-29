@@ -348,7 +348,7 @@ bender.test( {
 	},
 
 	'test cacheData with no native event should not crash': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null );
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		dataTransfer.setData( 'cke/custom', 'foo' )
 		dataTransfer.cacheData();
@@ -356,6 +356,92 @@ bender.test( {
 		assert.areSame( 'foo', dataTransfer.getData( 'cke/custom' ) );
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 
+	},
+
+	'test isEmpty 1': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		assert.isTrue( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 2': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.isTrue( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 3': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'Text', '' );
+
+		assert.isTrue( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 4': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		dataTransfer.setData( 'Text', '' );
+
+		assert.isTrue( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 5': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'Text', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 6': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		dataTransfer.setData( 'Text', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 7': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		dataTransfer.setData( 'cke/custom', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 8': function() {
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		dataTransfer.setData( 'cke/custom', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 9': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		dataTransfer.setData( 'Text', 'foo' );
+		dataTransfer.setData( 'Text', '' );
+
+		assert.isTrue( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 10': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'Text', 'foo' );
+		dataTransfer.setData( 'cke/custom', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
 	},
 
 	'test initDragDataTransfer binding': function() {
