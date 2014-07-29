@@ -976,7 +976,7 @@
 			// (do not fire 'paste', 'afterPaste' events). This way we can grab all - synthetically
 			// and natively pasted content and prevent its insertion into editor
 			// after canceling 'beforePaste' event.
-			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData );
+			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			if ( beforePasteNotCanceled && eventData.dataTransfer.getData( 'text/html' ) ) {
 				evt.data.preventDefault();
@@ -1444,7 +1444,7 @@
 					eventData.dropRange = dropRange;
 				}
 
-				if ( !editor.fire( name, eventData ) ) {
+				if ( editor.fire( name, eventData ) === false ) {
 					evt.data.preventDefault();
 					return false;
 				}
