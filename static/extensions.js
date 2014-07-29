@@ -74,7 +74,8 @@
 		if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
 			throw new YUITest.ComparisonFailure(
 				YUITest.Assert._formatMessage( message, 'Values should be the same.' ),
-				expected, actual
+				bender.tools.html.prepareInnerHtmlPattern( expected ).toString(),
+				bender.tools.html.prepareInnerHtmlForComparison( actual, options )
 			);
 		}
 	};
