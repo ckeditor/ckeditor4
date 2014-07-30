@@ -10,7 +10,8 @@
 		'test image properties with link plugin enabled': function() {
 			var bot = this.editorBot,
 				editor = this.editor,
-				inputHtml = '<p><a id="imgLink" href="http://ckeditor.com">li[<img id="img1" alt="" src="assets/sample.jpg" />]nk</a></p>';
+				src = '%BASE_PATH%_assets/img.gif',
+				inputHtml = '<p><a id="imgLink" href="http://ckeditor.com">li[<img id="img1" alt="" src="' + src + '" />]nk</a></p>';
 
 			bot.setHtmlWithSelection( inputHtml );
 
@@ -26,7 +27,7 @@
 					try {
 						assert.isTrue( !!dialog, 'dialog is created' );
 						urlField = dialog.getContentElement( 'info', 'txtUrl' ).getInputElement();
-						assert.areEqual( urlField.getValue(), 'assets/sample.jpg' );
+						assert.areEqual( src, urlField.getValue() );
 					} catch ( e ) {
 						// Propagate the exception.
 						throw e;
