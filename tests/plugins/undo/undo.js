@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,autop */
+/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
 function isActive( command ) {

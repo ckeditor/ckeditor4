@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,autop */
+/* bender-tags: editor,unit,autoparagraphing */
 
 var doc = CKEDITOR.document;
 // This group of tests plays upon the framed content.
