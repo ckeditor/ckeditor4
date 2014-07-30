@@ -20,6 +20,7 @@
 		return originalCompatHtml.call( bender.tools, html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp );
 	};
 
+	// Tests compareInnerHtml and options forwarding to compatHtml.
 	function t( ret, expected, actual, options, expectedCompatHtmlArgs ) {
 		return function() {
 			// In case compatHtml was not called at all.
@@ -32,6 +33,24 @@
 						'compatHtml\'s argument: ' + arg );
 				}
 			}
+		};
+	}
+
+	// Tests prepareInnerHtmlForComparison.
+	function th( expected, innerHtmlToPrepare, options ) {
+		return function() {
+			assert.areSame( expected, htmlTools.prepareInnerHtmlForComparison( innerHtmlToPrepare, options ) );
+		};
+	}
+
+	// Tests prepareInnerHtmlPattern.
+	function tp( expected, patternSource ) {
+		return function() {
+			var actual = htmlTools.prepareInnerHtmlPattern( patternSource ).toString()
+				// FF escapes '/' and Chrome does not - unify this.
+				.replace( /\\\//g, '/' );
+
+			assert.areSame( expected.toString(), actual );
 		};
 	}
 
@@ -92,6 +111,25 @@
 		'markers 2 - no opts.compareSelection - fail':		t( false, 'ba{}r', 'ba[]r' ),
 		'markers - opts.compareSelection - fail':			t( false, 'ba{}r', 'ba[]r', { compareSelection: true } ),
 		'markers - opts.compare&normalizeSelection - fail': t( false, 'ba[]r', 'ba[]r', { compareSelection: true, normalizeSelection: true } ),
+
+		// Prepare inner HTML (because compareInnerHtml's tests cover most cases these are simpler).
+
+		'prep inner HTML - basic':						th( 'foo', 'foo' ),
+		'prep inner HTML - HTML is processed':			th( '<b>foo</b>', '<B >foo</b>' ),
+		'prep inner HTML - attributes sorting':			th( '<b bar="2" foo="1">foo</b>', '<b foo="1" bar="2">foo</b>' ),
+		'prep inner HTML - no attributes sorting':		th( '<b foo="1" bar="2">foo</b>', '<b foo="1" bar="2">foo</b>', { sortAttributes: false } ),
+		'prep inner HTML - no interws default':			th( '<b>foo <img src="x" /></b> bar', '<b>foo <img src="x" /></b> bar' ),
+		'prep inner HTML - no interws':					th( '<b>foo<img src="x" /></b>bar', '<b>foo <img src="x" /></b> bar', { noInterWS: true } ),
+		'prep inner HTML - no compare sel':				th( '<ul><li>[</li><li>a</li><li>]</li></ul>', '<ul>[<li>a</li>]</ul>' ),
+		'prep inner HTML - compare sel':				th( '<ul>[<li>a</li>]</ul>', '<ul>[<li>a</li>]</ul>', { compareSelection: true } ),
+		'prep inner HTML - no normalize sel':			th( '<p>[]a{b}c</p>', '<p>[]a{b}c</p>' ),
+		'prep inner HTML - normalize sel':				th( '<p>^a[b]c</p>', '<p>[]a{b}c</p>', { compareSelection: true, normalizeSelection: true } ),
+
+		// Prepare pattern (because compareInnerHtml's tests cover most cases these are simpler).
+
+		'prep pattern - basic':							tp( '/^foo$/', 'foo' ),
+		'prep pattern - escaping':						tp( '/^f\\.o\\*o$/', 'f.o*o' ),
+		'prep pattern - boguses':						tp( '/^f(' + filler + ')?oo(' + filler + ')?$/', 'f@oo@' ),
 
 		// Misc ---------------------------------------------------------------
 
