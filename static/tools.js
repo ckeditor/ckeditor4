@@ -48,7 +48,15 @@
 	}
 
 	var selectionMarkers = /(\[|\]|\{|\}|\^)/g,
-		selectionMarkerComments = /<!--cke-range-marker-(.)-->/gi;
+		selectionMarkerComments = /<!--cke-range-marker-(.)-->/gi,
+		noTempElementsFilter = new CKEDITOR.htmlParser.filter( {
+			elements: {
+				'^': function( el ) {
+					if ( el.attributes[ 'data-cke-temp' ] )
+						return false;
+				}
+			}
+		} );
 
 	bender.tools = {
 		/**
@@ -231,8 +239,9 @@
 		 * @param {Boolean} [fixZWS] Remove zero-width spaces (\u200b).
 		 * @param {Boolean} [fixStyles] Pass inline styles through {@link CKEDITOR.tools#parseCssText}.
 		 * @param {Boolean} [fixNbsp] Encode `\u00a0`.
+		 * @param {Boolean} [noTempElements] Strip elements with `data-cke-temp` attributes (e.g. hidden selection container).
 		 */
-		compatHtml: function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp ) {
+		compatHtml: function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements ) {
 			// Remove all indeterminate white spaces.
 			if ( noInterWS ) {
 				html = html.replace( /[\t\n\r ]+(?=<)/g, '' ).replace( />[\t\n\r ]+/g, '>' );
@@ -240,6 +249,10 @@
 
 			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				writer = new CKEDITOR.htmlParser.basicWriter();
+
+			if ( noTempElements ) {
+				fragment.filterChildren( noTempElementsFilter );
+			}
 
 			if ( sortAttributes ) {
 				writer.sortAttributes = true;
@@ -1212,6 +1225,7 @@
 		 * @param {Boolean} [options.fixNbsp=true] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.noInterWS=false] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.fixStyles=false] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.noTempElements=false] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.compareSelection=false] If set to `true` selection markers in `expected` and
 		 * `actual` will be handled in special way. This may conflict with these characters usage in attributes and
 		 * other places where comments are not allowed.
@@ -1251,7 +1265,7 @@
 			}
 
 			innerHtml = bender.tools.compatHtml( innerHtml,
-				options.noInterWS, sortAttributes, fixZWS, options.fixStyles, fixNbsp );
+				options.noInterWS, sortAttributes, fixZWS, options.fixStyles, fixNbsp, options.noTempElements );
 
 			if ( options.compareSelection ) {
 				innerHtml = innerHtml.replace( selectionMarkerComments, '$1' );
