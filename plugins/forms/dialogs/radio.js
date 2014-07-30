@@ -81,7 +81,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				label: editor.lang.forms.checkboxAndRadio.selected,
 				'default': '',
 				accessKey: 'S',
-				value: "checked",
+				value: 'checked',
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'checked' ) );
 				},
@@ -106,6 +106,24 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 							data.element = replace;
 						}
 					}
+				}
+			},
+				{
+				id: 'required',
+				type: 'checkbox',
+				label: editor.lang.forms.checkboxAndRadio.required,
+				'default': '',
+				accessKey: 'Q',
+				value: 'required',
+				setup: function( element ) {
+					this.setValue( element.getAttribute( 'required' ) );
+				},
+				commit: function( data ) {
+					var element = data.element;
+					if ( this.getValue() )
+						element.setAttribute( 'required', 'required' );
+					else
+						element.removeAttribute( 'required' );
 				}
 			}
 			]

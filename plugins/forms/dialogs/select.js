@@ -475,24 +475,49 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					}
 				},
 					{
-					id: 'chkMulti',
-					type: 'checkbox',
-					label: editor.lang.forms.select.chkMulti,
-					'default': '',
-					accessKey: 'M',
-					value: "checked",
-					setup: function( name, element ) {
-						if ( name == 'select' )
-							this.setValue( element.getAttribute( 'multiple' ) );
-						if ( CKEDITOR.env.webkit )
-							this.getElement().getParent().setStyle( 'vertical-align', 'middle' );
+					type: 'vbox',
+					children: [
+						{
+						id: 'chkMulti',
+						type: 'checkbox',
+						label: editor.lang.forms.select.chkMulti,
+						'default': '',
+						accessKey: 'M',
+						value: 'checked',
+						setup: function( name, element ) {
+							if ( name == 'select' )
+								this.setValue( element.getAttribute( 'multiple' ) );
+							if ( CKEDITOR.env.webkit )
+								this.getElement().getParent().setStyle( 'vertical-align', 'middle' );
+						},
+						commit: function( element ) {
+							if ( this.getValue() )
+								element.setAttribute( 'multiple', this.getValue() );
+							else
+								element.removeAttribute( 'multiple' );
+						}
 					},
-					commit: function( element ) {
-						if ( this.getValue() )
-							element.setAttribute( 'multiple', this.getValue() );
-						else
-							element.removeAttribute( 'multiple' );
+						{
+						id: 'required',
+						type: 'checkbox',
+						label: editor.lang.forms.select.required,
+						'default': '',
+						accessKey: 'Q',
+						value: 'checked',
+						setup: function( name, element ) {
+							if ( name == 'select' )
+								this.setValue( element.getAttribute( 'required' ) );
+							if ( CKEDITOR.env.webkit )
+								this.getElement().getParent().setStyle( 'vertical-align', 'middle' );
+						},
+						commit: function( element ) {
+							if ( this.getValue() )
+								element.setAttribute( 'required', 'required' );
+							else
+								element.removeAttribute( 'required' );
+						}
 					}
+					]
 				}
 				]
 			}

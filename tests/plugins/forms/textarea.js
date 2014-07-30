@@ -15,10 +15,11 @@ bender.test(
 				dialog.setValueOf( 'info', 'cols', 80 );
 				dialog.setValueOf( 'info', 'rows', 5 );
 				dialog.setValueOf( 'info', 'value', 'Some testing value.' );
+				dialog.setValueOf( 'info', 'required', 'checked' );
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areSame( '<p><textarea cols="80" name="test_textarea" rows="5">some testing value.</textarea></p>', editorBot.getData( true ) );
+				assert.areSame( '<p><textarea cols="80" name="test_textarea" required="required" rows="5">some testing value.</textarea></p>', editorBot.getData( true ) );
 			} );
 	},
 

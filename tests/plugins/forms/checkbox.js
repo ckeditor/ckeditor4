@@ -10,12 +10,13 @@ bender.test(
 
 		bot.dialog( 'checkbox', function( dialog ) {
 				dialog.setValueOf( 'info', 'txtName', 'name' );
-				dialog.setValueOf( 'info', 'txtValue', '' );
+				dialog.setValueOf( 'info', 'txtValue', 'value' );
 				dialog.setValueOf( 'info', 'cmbSelected', 'checked' );
+				dialog.setValueOf( 'info', 'required', 'checked' );
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areSame( '<input checked="checked" name="name" type="checkbox" />',
+				assert.areSame( '<input checked="checked" name="name" required="required" type="checkbox" value="value" />',
 								bot.getData( false, true ) );
 			} );
 	},
@@ -23,12 +24,13 @@ bender.test(
 	'test empty fields': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '[<input checked="checked" name="name" type="checkbox" value="value" />]' );
+		bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="checkbox" value="value" />]' );
 
 		bot.dialog( 'checkbox', function( dialog ) {
 				dialog.setValueOf( 'info', 'txtName', '' );
 				dialog.setValueOf( 'info', 'txtValue', '' );
 				dialog.setValueOf( 'info', 'cmbSelected', '' );
+				dialog.setValueOf( 'info', 'required', '' );
 
 				dialog.getButton( 'ok' ).click();
 

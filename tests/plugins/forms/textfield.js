@@ -12,10 +12,11 @@ bender.test( {
 			bot.dialog( 'textfield', function( dialog ) {
 				dialog.setValueOf( 'info', '_cke_saved_name', 'name' );
 				dialog.setValueOf( 'info', 'value', 'value' );
+				dialog.setValueOf( 'info', 'required', 'checked' );
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areSame( '<input name="name" type="text" value="value" />', bot.getData( true ) );
+				assert.areSame( '<input name="name" required="required" type="text" value="value" />', bot.getData( true ) );
 			} );
 		} );
 	},
@@ -28,10 +29,11 @@ bender.test( {
 				dialog.setValueOf( 'info', 'type', 'password' );
 				dialog.setValueOf( 'info', '_cke_saved_name', 'name' );
 				dialog.setValueOf( 'info', 'value', 'value' );
+				dialog.setValueOf( 'info', 'required', 'checked' );
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areSame( '<input name="name" type="password" value="value" />', bot.getData( true ) );
+				assert.areSame( '<input name="name" required="required" type="password" value="value" />', bot.getData( true ) );
 			} );
 		} );
 	},
@@ -44,6 +46,7 @@ bender.test( {
 		bot.dialog( 'textfield', function( dialog ) {
 			dialog.setValueOf( 'info', '_cke_saved_name', '' );
 			dialog.setValueOf( 'info', 'value', '' );
+			dialog.setValueOf( 'info', 'required', '' );
 
 			dialog.getButton( 'ok' ).click();
 
