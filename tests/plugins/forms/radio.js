@@ -29,6 +29,11 @@ bender.test( {
 		bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
 
 		bot.dialog( 'radio', function( dialog ) {
+			assert.areSame( 'name', dialog.getValueOf( 'info', 'name' ) );
+			assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'checked' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
+
 			dialog.setValueOf( 'info', 'name', '' );
 			dialog.setValueOf( 'info', 'value', '' );
 			dialog.setValueOf( 'info', 'checked', '' );

@@ -44,9 +44,13 @@ bender.test( {
 	'test empty fields': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '[<input name="name" type="text" value="value" />]' );
+		bot.setHtmlWithSelection( '[<input name="name" type="text" value="value" required="required" />]' );
 
 		bot.dialog( 'textfield', function( dialog ) {
+			assert.areSame( 'name', dialog.getValueOf( 'info', '_cke_saved_name' ) );
+			assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
+
 			dialog.setValueOf( 'info', '_cke_saved_name', '' );
 			dialog.setValueOf( 'info', 'value', '' );
 			dialog.setValueOf( 'info', 'required', '' );

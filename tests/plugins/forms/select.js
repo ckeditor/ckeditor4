@@ -30,6 +30,12 @@ bender.test( {
 		bot.setHtmlWithSelection( '[<select multiple="true" name="name" required="required" size="8"></select>]' );
 
 		bot.dialog( 'select', function( dialog ) {
+			assert.areSame( 'name', dialog.getValueOf( 'info', 'txtName' ) );
+			assert.areSame( '', dialog.getValueOf( 'info', 'txtValue' ) );
+			assert.areSame( '8', dialog.getValueOf( 'info', 'txtSize' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'chkMulti' ) );
+
 			dialog.setValueOf( 'info', 'txtName', '' );
 			dialog.setValueOf( 'info', 'txtValue', '' );
 			dialog.setValueOf( 'info', 'txtSize', '' );
