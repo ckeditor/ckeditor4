@@ -1297,7 +1297,7 @@
 				pasteMethod = evt.data.method;
 				htmlData = evt.data.dataTransfer.getData( 'text/html' );
 				textData = evt.data.dataTransfer.getData( 'text/plain' );
-				dataTransferType = evt.data.dataTransfer.getTransferType();
+				dataTransferType = evt.data.dataTransfer.getTransferType( evt.editor );
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );
@@ -1335,7 +1335,7 @@
 				pasteMethod = evt.data.method;
 				htmlData = evt.data.dataTransfer.getData( 'text/html' );
 				textData = evt.data.dataTransfer.getData( 'text/plain' );
-				dataTransferType = evt.data.dataTransfer.getTransferType();
+				dataTransferType = evt.data.dataTransfer.getTransferType( evt.editor );
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^</p>' );

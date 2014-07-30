@@ -81,7 +81,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 
 	pasteListener = function( evt ) {
 		values.pasteEventCounter++;
-		values.pasteTransferType = evt.data.dataTransfer.getTransferType();
+		values.pasteTransferType = evt.data.dataTransfer.getTransferType( evt.editor );
 		values.pasteDataText = evt.data.dataTransfer.getData( 'text/plain' );
 		values.pasteDataHtml = evt.data.dataTransfer.getData( 'text/html' );
 		values.pasteMethod = evt.data.method;

@@ -969,7 +969,6 @@
 				// if HTML is available via native paste it is also available via getData.
 				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome || CKEDITOR.env.gecko;
 
-			eventData.dataTransfer.setTargetEditor( editor );
 			eventData.dataTransfer.cacheData();
 
 			// Fire 'beforePaste' event so clipboard flavor get customized by other plugins.
@@ -1314,7 +1313,6 @@
 
 				// Create dataTransfer of get it, if it was created before.
 				var dataTransfer = clipboard.initDragDataTransfer( evt );
-				dataTransfer.setTargetEditor( editor );
 
 				// Getting drop position is one of the most complex part.
 				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
@@ -1334,9 +1332,9 @@
 				dropRange = data.dropRange;
 				dragRange = data.dragRange;
 
-				if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+				if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
-				} else if ( dataTransfer.getTransferType() == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
+				} else if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
 					crossEditorDrop( dragRange, dropRange, dataTransfer );
 				} else {
 					externalDrop( dropRange, dataTransfer );
@@ -1891,13 +1889,6 @@
 		 * @property {CKEDITOR.editor} sourceEditor
 		 */
 
-		/**
-		 * Target editor, the editor where drop occurred.
-		 *
-		 * @readonly
-		 * @property {CKEDITOR.editor} targetEditor
-		 */
-
 		 /**
 		 * Private properties and methods.
 		 *
@@ -2001,24 +1992,17 @@
 		},
 
 		/**
-		 * Set target editor.
-		 *
-		 * @param {CKEDITOR.editor} editor The target editor instance.
-		 */
-		setTargetEditor: function( editor ) {
-			this.targetEditor = editor;
-		},
-
-		/**
 		 * Get data transfer type.
+		 *
+		 * @param {CKEDITOR.editor} targetEditor The drop/paste target editor instance.
 		 *
 		 * @returns {Number} Possible values: {@link CKEDITOR#DATA_TRANSFER_INTERNAL},
 		 * {@link CKEDITOR#DATA_TRANSFER_CROSS_EDITORS}, {@link CKEDITOR#DATA_TRANSFER_EXTERNAL}.
 		 */
-		getTransferType: function() {
+		getTransferType: function( targetEditor ) {
 			if ( !this.sourceEditor ) {
 				return CKEDITOR.DATA_TRANSFER_EXTERNAL;
-			} else if ( this.sourceEditor == this.targetEditor ) {
+			} else if ( this.sourceEditor == targetEditor ) {
 				return CKEDITOR.DATA_TRANSFER_INTERNAL;
 			} else {
 				return CKEDITOR.DATA_TRANSFER_CROSS_EDITORS;

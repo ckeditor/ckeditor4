@@ -35,9 +35,8 @@ bender.test( {
 	},
 
 	assertDataTransfer: function( expected, dataTransfer ) {
-		assert.areSame( expected.transferType, dataTransfer.getTransferType(), 'transferType' );
+		assert.areSame( expected.transferType, dataTransfer.getTransferType( expected.targetEditor ), 'transferType' );
 		assert.areSame( expected.sourceEditor, dataTransfer.sourceEditor, 'sourceEditor' );
-		assert.areSame( expected.targetEditor, dataTransfer.targetEditor, 'targetEditor' );
 		assert.areSame( expected.text, dataTransfer.getData( 'text/plain' ), 'getData( \'text/plain\' )' );
 		assert.isInnerHtmlMatching( expected.html,  dataTransfer.getData( 'text/html' ), htmlMatchOpts, 'getData( \'text/html\' )' );
 	},
@@ -67,7 +66,6 @@ bender.test( {
 		nativeData.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -86,7 +84,6 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -105,7 +102,6 @@ bender.test( {
 		nativeData.setData( 'Text', 'x<b>foo</b>x' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
@@ -127,7 +123,6 @@ bender.test( {
 		}
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
@@ -150,7 +145,6 @@ bender.test( {
 		nativeData.setData( 'Text', 'bar' );
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData, editor1 );
-		dataTransfer.setTargetEditor( editor2 );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
@@ -169,7 +163,6 @@ bender.test( {
 
 		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor1 );
-		dataTransfer.setTargetEditor( editor2 );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
@@ -470,7 +463,6 @@ bender.test( {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			evt = { data: { $: { dataTransfer: nativeData } } },
 			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -488,7 +480,6 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( null, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -536,7 +527,6 @@ bender.test( {
 		}
 
 		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -554,7 +544,6 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( null, editor );
-		dataTransfer.setTargetEditor( editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
