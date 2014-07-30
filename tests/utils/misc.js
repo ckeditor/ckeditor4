@@ -47,6 +47,13 @@
 			} );
 
 			this.wait();
+		},
+
+		'test compatHtml\'s noTempElements': function() {
+			var sourceHtml = '<p><i data-cke-temp="1">a</i>b<img data-cke-temp="1" src="x" />c</p>';
+
+			assert.areSame( '<p>bc</p>', bender.tools.compatHtml( sourceHtml, false, false, false, false, false, true ) );
+			assert.areSame( sourceHtml, bender.tools.compatHtml( sourceHtml ) );
 		}
 	} );
 } )();

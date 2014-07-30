@@ -8,16 +8,17 @@
 		htmlTools = bender.tools.html,
 		filler = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;';
 
-	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp ) {
+	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements ) {
 		compatHtmlArgs = {
 			noInterWS: !!noInterWS,
 			sortAttributes: !!sortAttributes,
 			fixZWS: !!fixZWS,
 			fixStyles: !!fixStyles,
-			fixNbsp: !!fixNbsp
+			fixNbsp: !!fixNbsp,
+			noTempElements: !!noTempElements
 		};
 
-		return originalCompatHtml.call( bender.tools, html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp );
+		return originalCompatHtml.call( bender.tools, html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements );
 	};
 
 	// Tests compareInnerHtml and options forwarding to compatHtml.
@@ -67,6 +68,7 @@
 		'opts.sortAttributes defaults to true':		t( true, '', '', null, { sortAttributes: true } ),
 		'opts.fixZWS defaults to true':				t( true, '', '', null, { fixZWS: true } ),
 		'opts.fixNbsp defaults to true':			t( true, '', '', null, { fixNbsp: true } ),
+		'opts.noTempElements defaults to false':	t( true, '', '', null, { noTempElements: false } ),
 
 		'multiple opts':							t( true, '', '', { fixNbsp: false, fixStyles: true }, { fixZWS: true, fixNbsp: false, fixStyles: true } ),
 
@@ -124,6 +126,8 @@
 		'prep inner HTML - compare sel':				th( '<ul>[<li>a</li>]</ul>', '<ul>[<li>a</li>]</ul>', { compareSelection: true } ),
 		'prep inner HTML - no normalize sel':			th( '<p>[]a{b}c</p>', '<p>[]a{b}c</p>' ),
 		'prep inner HTML - normalize sel':				th( '<p>^a[b]c</p>', '<p>[]a{b}c</p>', { compareSelection: true, normalizeSelection: true } ),
+		'prep inner HTML - no strip temp':				th( 'a<i data-cke-temp="1">b</i>', 'a<i data-cke-temp="1">b</i>' ),
+		'prep inner HTML - strip temp':					th( 'a', 'a<i data-cke-temp="1">b</i>', { noTempElements: true } ),
 
 		// Prepare pattern (because compareInnerHtml's tests cover most cases these are simpler).
 
