@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -277,7 +277,7 @@ CKEDITOR.config.font_style = {
  * @cfg {String} [fontSize_sizes=see source]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.fontSize_sizes = '8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px';
+CKEDITOR.config.fontSize_sizes = 'Small/12px;Normal/16px;Large/24px;Huge/48px';
 
 /**
  * The text to be displayed in the Font Size combo is none of the available
