@@ -1133,12 +1133,7 @@
 				fixInitialSelection( root, sel, true );
 		}
 		else if ( CKEDITOR.env.ie ) {
-			var active;
-
-			// IE8,9 throw unspecified error when trying to access document.$.activeElement.
-			try {
-				active = this.document.getActive();
-			} catch ( e ) {}
+			var active = this.document.getActive();
 
 			// IEs 9+.
 			if ( !isMSSelection ) {
