@@ -1,10 +1,13 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: dialog,button,forms,toolbar */
 
-bender.editor = { config: { autoParagraph: false } };
+bender.editor = {
+	config: {
+		autoParagraph: false
+	}
+};
 
 bender.test( {
-
 	'test fill fields (text) ': function() {
 		var bot = this.editorBot;
 
