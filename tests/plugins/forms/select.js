@@ -20,7 +20,10 @@ bender.test( {
 
 			dialog.getButton( 'ok' ).click();
 
-			assert.areSame( '<select multiple="true" name="name" required="required" size="8"></select>', bot.getData( false, true ) );
+			// IE needs delay as it runs asynchronous code in dialog's onOk.
+			wait( function() {
+				assert.isMatching( '<select multiple="(true|multiple)" name="name" required="required" size="8"></select>', bot.getData( false, true ) );
+			}, 10 );
 		} );
 	},
 
