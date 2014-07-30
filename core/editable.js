@@ -1102,7 +1102,7 @@
 		// Check whether pathBlock equals pathBlockLimit to support nested editable (#12162).
 		return editor.config.autoParagraph !== false &&
 			editor.activeEnterMode != CKEDITOR.ENTER_BR &&
-			( editor.editable().equals( pathBlockLimit ) && !pathBlock ) || ( pathBlock && pathBlock.equals( pathBlockLimit ) );
+			( editor.editable().equals( pathBlockLimit ) && !pathBlock ) || ( pathBlock && pathBlock.getAttribute( 'contenteditable' ) == 'true' );
 	}
 
 	// Matching an empty paragraph at the end of document.
