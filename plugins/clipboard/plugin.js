@@ -889,40 +889,39 @@
 			}, 0 );
 		}
 
-		// Try to get content directly from clipboard, without native event
+		// Try to get content directly on IE from clipboard, without native event
 		// being fired before. In other words - synthetically get clipboard data
 		// if it's possible.
 		// mainPasteEvent will be fired, so if forced native paste:
 		// * worked, getClipboardDataByPastebin will grab it,
-		// * didn't work, pastebin will be empty and editor#paste won't be fired.
+		// * didn't work, dataValue and dataTransfer will be empty and editor#paste won't be fired.
+		// On browsers other then IE it is not possible to get data directly so function will
+		// return false.
 		function getClipboardDataDirectly() {
-			if ( CKEDITOR.env.ie ) {
-				// Prevent IE from pasting at the begining of the document.
-				editor.focus();
-
-				// Command will be handled by 'beforepaste', but as
-				// execIECommand( 'paste' ) will fire also 'paste' event
-				// we're canceling it.
-				preventPasteEventNow();
-
-				// #9247: Lock focus to prevent IE from hiding toolbar for inline editor.
-				var focusManager = editor.focusManager;
-				focusManager.lock();
-
-				if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
-					focusManager.unlock();
-					return false;
-				}
-				focusManager.unlock();
-			} else {
-				try {
-					if ( editor.editable().fire( mainPasteEvent ) && !editor.document.$.execCommand( 'Paste', false, null ) )
-						throw 0;
-
-				} catch ( e ) {
-					return false;
-				}
+			// On non-IE it is not possible to get data directly.
+			if ( !CKEDITOR.env.ie ) {
+				// beforePaste should be fired when dialog open so it can be canceled.
+				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
+				return false;
 			}
+
+			// Prevent IE from pasting at the begining of the document.
+			editor.focus();
+
+			// Command will be handled by 'beforepaste', but as
+			// execIECommand( 'paste' ) will fire also 'paste' event
+			// we're canceling it.
+			preventPasteEventNow();
+
+			// #9247: Lock focus to prevent IE from hiding toolbar for inline editor.
+			var focusManager = editor.focusManager;
+			focusManager.lock();
+
+			if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
+				focusManager.unlock();
+				return false;
+			}
+			focusManager.unlock();
 
 			return true;
 		}
