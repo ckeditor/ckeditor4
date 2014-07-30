@@ -74,6 +74,7 @@ var CKBUILDER_CONFIG = {
 		preview: 1,
 		print: 1,
 		removeformat: 1,
+		removeallformat: 1,
 		resize: 1,
 		save: 1,
 		selectall: 1,
