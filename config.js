@@ -77,9 +77,9 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
 			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
 					'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-		{ name: 'links', items: [ 'Link', 'Unlink' ] },
+		{ name: 'links', items: [ 'Link', 'Font' ] },
 		'/',
-		{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] }
+		{ name: 'styles', items: [ 'FontSize' ] }
 	];
 
 	config.toolbar = "Full";
