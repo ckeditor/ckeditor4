@@ -1209,6 +1209,7 @@
 		 * @param {Object} [options]
 		 * @param {Boolean} [options.sortAttributes=true] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.fixZWS=true] {@link bender.tools#compatHtml}'s option.
+		 * @param {Boolean} [options.fixNbsp=true] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.noInterWS=false] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.fixStyles=false] {@link bender.tools#compatHtml}'s option.
 		 * @param {Boolean} [options.compareSelection=false] If set to `true` selection markers in `expected` and
