@@ -26,6 +26,28 @@ bender.test( {
 		} );
 	},
 
+	test_emptyFields: function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<textarea cols="80" name="test_textarea" required="required" rows="5">some testing value.</textarea>]' );
+
+		bot.dialog( 'textarea', function( dialog ) {
+			assert.areSame( 'test_textarea', dialog.getValueOf( 'info', '_cke_saved_name' ) );
+			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
+			assert.areSame( '80', dialog.getValueOf( 'info', 'cols' ) );
+			assert.areSame( '5', dialog.getValueOf( 'info', 'rows' ) );
+
+			dialog.setValueOf( 'info', '_cke_saved_name', '' );
+			dialog.setValueOf( 'info', 'rows', '' );
+			dialog.setValueOf( 'info', 'cols', '' );
+			dialog.setValueOf( 'info', 'required', '' );
+
+			dialog.getButton( 'ok' ).click();
+
+			assert.areSame( '<textarea>some testing value.</textarea>', bot.getData( false, true ) );
+		} );
+	},
+
 	test_createSimple: function() {
 		var editorBot = this.editorBot;
 
