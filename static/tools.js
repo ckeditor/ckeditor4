@@ -1219,8 +1219,10 @@
 		 * is set to `true`.
 		 */
 		compareInnerHtml: function( expected, actual, options ) {
-			var pattern = bender.tools.html.prepareInnerHtmlPattern( expected );
-			actual = bender.tools.html.prepareInnerHtmlForComparison( actual, options );
+			var htmlTools = bender.tools.html,
+				pattern = htmlTools.prepareInnerHtmlPattern( expected );
+
+			actual = htmlTools.prepareInnerHtmlForComparison( actual, options );
 
 			return pattern.test( actual );
 		},
