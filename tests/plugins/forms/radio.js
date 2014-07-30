@@ -9,6 +9,10 @@ bender.editor = {
 
 bender.test( {
 	'test fill fields' : function() {
+		// That feature is generally broken in IEs.
+		if ( CKEDITOR.env.ie )
+			assert.ignore();
+
 		var bot = this.editorBot;
 
 		bot.dialog( 'radio', function( dialog ) {
@@ -24,6 +28,10 @@ bender.test( {
 	},
 
 	'test empty fields': function() {
+		// That feature is generally broken in IEs.
+		if ( CKEDITOR.env.ie )
+			assert.ignore();
+
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
