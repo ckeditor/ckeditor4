@@ -418,10 +418,8 @@ var editors, editorBots,
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
-				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
-				expectedText: '',
-				expectedHtml: '',
-				expectedDataValue: ''
+				expectedBeforePasteEventCount: 1,
+				expectedPasteEventCount: 0
 			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );

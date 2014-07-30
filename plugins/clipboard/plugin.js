@@ -124,7 +124,7 @@
 
 			editor.on( 'paste', function( evt ) {
 				// If dataValue is already set do not
-				if ( evt.data.dataValue || !evt.data.dataTransfer ) {
+				if ( evt.data.dataValue ) {
 					return;
 				}
 
@@ -303,6 +303,13 @@
 				return false; // Event canceled
 		}
 
+		// Do not fire paste if there is no data (dataValue and dataTranfser are empty).
+		// This check should be done after firing 'beforePaste' because for native paste
+		// 'beforePaste' is by default fired even for empty clipboard.
+		if ( !data.dataValue && data.dataTransfer.isEmpty() ) {
+			return false;
+		}
+
 		if ( !data.dataValue ) {
 			data.dataValue = '';
 		}
@@ -367,15 +374,6 @@
 			if ( getClipboardDataDirectly() === false ) {
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
-
-				// getClipboardDataDirectly() fire paste event in timeout. We need to
-				// cancel it because we do not want to have paste event when dialog open.
-				// We can not call preventPasteEventNow here because callback is already called.
-				// We can not use onPaste also, because it call other callback which
-				// emit paste, so we need to catch next paste and cancel it.
-				!CKEDITOR.env.chrome && !CKEDITOR.env.gecko && beforePasteNotCanceled && editor.once( 'paste', function( evt ) {
-					evt.cancel();
-				}, null, null, 0 );
 
 				// If beforePaste was canceled do not open dialog.
 				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.

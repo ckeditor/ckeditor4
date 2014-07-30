@@ -15,6 +15,9 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 	if ( !eventData.type )
 		eventData.type = 'auto';
 
+	eventData.method = 'paste';
+	eventData.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+
 	editor.once( 'paste', onPaste, null, null, priority );
 	editor.fire( 'paste', eventData );
 

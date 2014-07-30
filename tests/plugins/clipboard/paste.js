@@ -250,7 +250,7 @@
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			editor.execCommand( 'paste', '' );
 			tc.wait( function() {
-					assert.isTrue( wasPaste, 'paste callback should be called' );
+					assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
 					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
@@ -272,7 +272,7 @@
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
 			bender.tools.emulatePaste( editor, '' );
 			tc.wait( function() {
-					assert.isTrue( wasPaste, 'paste callback should be called' );
+					assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
 					assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
 					assert.areEqual( editor.getData(), '<p>abc</p>' );
 				}, 50 );
