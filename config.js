@@ -73,13 +73,11 @@ CKEDITOR.editorConfig = function( config ) {
 	config.toolbar_Full = [
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ],
 			items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
-					'Superscript', 'RemoveFormat', 'RemoveAllFormat' ] },
+					'Superscript', 'RemoveAllFormat' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
 			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
-					'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-		{ name: 'links', items: [ 'Link', 'Font' ] },
-		'/',
-		{ name: 'styles', items: [ 'FontSize' ] }
+					'JustifyLeft', 'JustifyRight', 'BidiLtr', 'BidiRtl' ] },
+		{ name: 'styles', items: [ 'Link', 'Font', 'FontSize' ] }
 	];
 
 	config.toolbar = "Full";
