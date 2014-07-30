@@ -4,6 +4,34 @@
  */
 
 ( function() {
+
+	function getClosestEditable( node ) {
+		var ancestors = node.getParents(),
+		i = ancestors.length;
+
+		while( i-- ) {
+			var ancestor = ancestors[ i ];
+			if ( ancestor.getAttribute( 'contenteditable' ) === "true" ) {
+				return ancestor;
+			}
+		}
+
+		return null;
+	}
+
+	function replaceRangeWithClosestEditableRoot( range ) {
+		var closestEditable = getClosestEditable( range.startContainer );
+
+		if ( range.root.equals( closestEditable ) ) {
+			return range;
+		} else {
+			var newRange = new CKEDITOR.dom.range( closestEditable );
+
+			newRange.moveToRange( range );
+			return newRange;
+		}
+	}
+
 	CKEDITOR.plugins.add( 'enterkey', {
 		init: function( editor ) {
 			editor.addCommand( 'enter', {
@@ -41,6 +69,10 @@
 			// contenteditable=false element.
 			if ( !range )
 				return;
+
+			// When range is in nested editable, we have to replace range with this one,
+			// which have root property set to closest editable, to make auto paragraphing work. (#12162)
+			range = replaceRangeWithClosestEditableRoot( range );
 
 			var doc = range.document;
 
