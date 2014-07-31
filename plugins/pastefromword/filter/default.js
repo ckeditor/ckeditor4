@@ -867,29 +867,29 @@
 						}
 						// Convert the merged into a span with all attributes preserved.
 						else {
-							styleText = styleText || '';
-							// ensure a trailing ';' if we're going to add more to the style value //
-							styleText += (styleText.length && styleText[ styleText.length - 1 ] !== ';') ? ';' : '';
-							
+							// Use array to avoid string concatenation and get rid of problems with trailing ";" (#12243).
+							styleText = ( styleText || '' ).split( ';' );
+
 							// IE's having those deprecated attributes, normalize them.
 							if ( attrs.color ) {
-								attrs.color != '#000000' && ( styleText += 'color:' + attrs.color + ';' );
+								if ( attrs.color != '#000000' )
+									styleText.push( 'color:' + attrs.color );
 								delete attrs.color;
 							}
 							if ( attrs.face ) {
-								styleText += 'font-family:' + attrs.face + ';';
+								styleText.push( 'font-family:' + attrs.face );
 								delete attrs.face;
 							}
 							// TODO: Mapping size in ranges of xx-small,
 							// x-small, small, medium, large, x-large, xx-large.
 							if ( attrs.size ) {
-								styleText += 'font-size:' +
-									( attrs.size > 3 ? 'large' : ( attrs.size < 3 ? 'small' : 'medium' ) ) + ';';
+								styleText.push( 'font-size:' +
+									( attrs.size > 3 ? 'large' : ( attrs.size < 3 ? 'small' : 'medium' ) ) );
 								delete attrs.size;
 							}
 
 							element.name = 'span';
-							element.addStyle( styleText );
+							element.addStyle( styleText.join( ';' ) );
 						}
 					},
 
