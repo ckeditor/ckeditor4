@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'removeallformat', {
 	icons: 'removeallformat',
 	//A list of plugins that are required by this plugin.
 	//Note that this property doesn't guarantee the loading order of the plugins.
-	requires : [ 'removeformat' ],
+	requires : [ 'removeformat', 'link' ],
 	init: function( editor ) {
 		editor.addCommand( 'removeallformat', {
 			//The exec method defines a function that will be fired
@@ -10,6 +10,9 @@ CKEDITOR.plugins.add( 'removeallformat', {
 			exec: function( editor ) {
 				//call removeFormat first
 				editor.execCommand('removeFormat');
+
+				//also remove link
+				editor.execCommand('unlink');
 
 				//save selection
 				var selection = editor.getSelection();
