@@ -1353,6 +1353,37 @@
 			this.wait();
 		},
 
+		'test paste if dataTransfer is not empty': function() {
+			var editor = this.editor;
+
+			this.on( 'paste', function( evt ) {
+				resume( function() {
+					assert.areSame( 'paste', evt.data.method, 'Paste method.' );
+					assert.areSame( 'foo', evt.data.dataTransfer.getData( 'cke/custom' ), 'cke/custom data' );
+					assert.areSame( '', evt.data.dataValue, 'dataValue' );
+				} );
+			} );
+
+			bender.tools.emulatePaste( editor, '', { 'cke/custom': 'foo' } );
+
+			this.wait();
+		},
+
+		'test no paste if dataTransfer and dataValue is empty': function() {
+			var editor = this.editor,
+				pasteCount = 0;
+
+			this.on( 'paste', function( evt ) {
+				pasteCount++;
+			} );
+
+			bender.tools.emulatePaste( editor, '' );
+
+			this.wait( function() {
+				assert.areSame( 0, pasteCount, 'Paste should not be fired.' );
+			}, 0 );
+		},
+
 		'#131 - trailing spaces': function() {
 			assertPasteEvent( this.editor,
 				{ dataValue: '&nbsp; BBB&nbsp;' },
