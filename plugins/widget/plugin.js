@@ -2201,58 +2201,47 @@
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
 
+		editor.on( 'dragstart', function( evt ) {
+			var target = evt.data.target;
+
+			if ( isDomDragHandler( target ) ) {
+				evt.data.dataTransfer.setData( 'cke/widget-id', widgetsRepo.getByElement( target ).id );
+			}
+		} );
+
+		editor.on( 'drop', function( evt ) {
+			var dataTransfer = evt.data.dataTransfer,
+				id = dataTransfer.getData( 'cke/widget-id' ),
+				sourceWidget;
+
+			if ( !id || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL )
+				return;
+
+			sourceWidget = widgetsRepo.instances[ id ];
+
+			if ( !sourceWidget )
+				return;
+
+			// #11132 Hack to prevent cursor loss on Firefox. Without timeout widget is
+			// correctly pasted but then cursor is invisible (although it works) and can be restored
+			// only by blurring editable.
+			if ( CKEDITOR.env.gecko )
+				setTimeout( finalizeNativeDrop, 0, editor, sourceWidget, evt.data.dropRange );
+			else
+				finalizeNativeDrop( editor, sourceWidget, evt.data.dropRange );
+
+			evt.cancel();
+		} );
+
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable(),
-				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-				// #11086 IE8 cannot listen on document.
-				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
-
-			editable.attachListener( dropTarget, 'drop', function( evt ) {
-				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
-					dataObj,
-					sourceWidget,
-					range;
-
-				if ( !dataStr )
-					return;
-
-				try {
-					dataObj = JSON.parse( dataStr );
-				} catch ( e ) {
-					// Do nothing - data couldn't be parsed so it's not a CKEditor's data.
-					return;
-				}
-
-				if ( dataObj.type != 'cke-widget' )
-					return;
-
-				evt.data.preventDefault();
-
-				// Something went wrong... maybe someone is dragging widgets between editors/windows/tabs/browsers/frames.
-				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
-					return;
-
-				// Try to determine a DOM position at which drop happened. If none of methods
-				// which we support succeeded abort.
-				range = CKEDITOR.plugins.clipboard.getRangeAtDropPosition( evt, editor );
-				if ( !range )
-					return;
-
-				// #11132 Hack to prevent cursor loss on Firefox. Without timeout widget is
-				// correctly pasted but then cursor is invisible (although it works) and can be restored
-				// only by blurring editable.
-				if ( CKEDITOR.env.gecko )
-					setTimeout( finalizeNativeDrop, 0, editor, sourceWidget, range );
-				else
-					finalizeNativeDrop( editor, sourceWidget, range );
-			} );
-
 			// Register Lineutils's utilities as properties of repo.
 			CKEDITOR.tools.extend( widgetsRepo, {
 				finder: new lineutils.finder( editor, {
 					lookups: {
 						// Element is block but not list item and not in nested editable.
 						'default': function( el ) {
+							var editable = editor.editable();
+
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 
@@ -2943,12 +2932,9 @@
 			widget.on( 'data', widget.updateDragHandlerPosition, widget );
 		}, 50 );
 
-		if ( widget.inline ) {
-			img.on( 'dragstart', function( evt ) {
-				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
-			} );
-		} else
+		if ( !widget.inline ) {
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
+		}
 
 		widget.dragHandlerContainer = container;
 	}
