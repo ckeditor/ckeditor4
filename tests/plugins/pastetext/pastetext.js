@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,clipboard */
-/* bender-ckeditor-plugins: pastefromword */
+/* bender-ckeditor-plugins: pastetext */
 
 ( function() {
 	'use strict';
@@ -7,38 +7,11 @@
 	bender.editor = true;
 
 	bender.test( {
-		'test whether default filter is loaded': function() {
-			var editor = this.editor;
-
-			editor.once( 'paste', function( evt ) {
-				resume( function() {
-					assert.areSame( '<p>text <strong>text</strong></p>', evt.data.dataValue, 'Basic filter was applied' );
-				} );
-			}, null, null, 999 );
-
-			editor.fire( 'paste', {
-				type: 'auto',
-				// This data will be recognized as pasted from Word.
-				dataValue: '<p>text <strong class="MsoNormal">text</strong></p>',
-				method: 'paste',
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer()
-			} );
-
-			wait();
-		},
-
 		'test paste data structure': function() {
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
 
-			var editor = this.editor,
-				editable = editor.editable();
-
-			CKEDITOR.env.ie && editable.once( 'beforepaste', function( evt ) {
-				console.log( 'beforepaste' );
-				evt.cancel();
-				return false;
-			}, null, null, 1001 );
+			var editor = this.editor;
 
 			editor.once( 'paste', function( evt ) {
 				evt.cancel();
@@ -62,7 +35,7 @@
 			} );
 
 			setTimeout( function() {
-				editor.execCommand( 'pastefromword' );
+				editor.execCommand( 'pastetext' );
 			} );
 			this.wait();
 		}

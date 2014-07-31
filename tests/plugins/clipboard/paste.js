@@ -1354,6 +1354,9 @@
 		},
 
 		'test paste if dataTransfer is not empty': function() {
+			if ( CKEDITOR.env.ie )
+				assert.ignore();
+
 			var editor = this.editor;
 
 			this.on( 'paste', function( evt ) {
