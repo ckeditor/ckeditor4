@@ -8,6 +8,7 @@ Fixed Issues:
 * [#10916](http://dev.ckeditor.com/ticket/10916): Fixed Magicline icon in RTL environments.
 * [#11970](http://dev.ckeditor.com/ticket/11970): Fixed: CKEditor paste event not fired when pasting with SHIFT+INS in IE.
 * [#12111](http://dev.ckeditor.com/ticket/12111): Fixed: Linked image attributes are not read when opening the image dialog by doubleclick.
+* [#10030](http://dev.ckeditor.com/ticket/10030): [IE] Fixed: Prevented "Unspecified Error" thrown in various cases when IE8-9 does not allow access to `document.activeElement`.
 
 ## CKEditor 4.4.3
 
