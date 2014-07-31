@@ -10,6 +10,7 @@ New Features:
   * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
   * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
   * [#12169](http://dev.ckeditor.com/ticket/12169): Introduce [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`editor.dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart) and [`editor.dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend) events.
+* [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
 
 Fixed Issues:
 
