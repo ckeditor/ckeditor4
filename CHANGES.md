@@ -9,6 +9,7 @@ Fixed Issues:
 * [#11970](http://dev.ckeditor.com/ticket/11970): Fixed: CKEditor paste event not fired when pasting with SHIFT+INS in IE.
 * [#12111](http://dev.ckeditor.com/ticket/12111): Fixed: Linked image attributes are not read when opening the image dialog by doubleclick.
 * [#10030](http://dev.ckeditor.com/ticket/10030): [IE] Fixed: Prevented "Unspecified Error" thrown in various cases when IE8-9 does not allow access to `document.activeElement`.
+* [#12243](http://dev.ckeditor.com/ticket/12243): Fixed: Text formatting lost while pasting from Word. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 
 ## CKEditor 4.4.3
 
