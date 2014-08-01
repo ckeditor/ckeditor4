@@ -2086,25 +2086,6 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
 	}
 
-	function finalizeNativeDrop( editor, sourceWidget, range ) {
-		// Save the snapshot with the state before moving widget.
-		// Focus widget, so when we'll undo the DnD, widget will be focused.
-		sourceWidget.focus();
-		editor.fire( 'saveSnapshot' );
-
-		// Lock snapshot to group all steps of moving widget from the original place to the new one.
-		editor.fire( 'lockSnapshot', { dontUpdate: true } );
-
-		range.select();
-
-		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
-		sourceWidget.wrapper.remove();
-		editor.widgets.destroy( sourceWidget, true );
-		editor.execCommand( 'paste', widgetHtml );
-
-		editor.fire( 'unlockSnapshot' );
-	}
-
 	function onEditableKey( widget, keyCode ) {
 		var focusedEditable = widget.focusedEditable,
 			range;
@@ -2212,9 +2193,9 @@
 		editor.on( 'drop', function( evt ) {
 			var dataTransfer = evt.data.dataTransfer,
 				id = dataTransfer.getData( 'cke/widget-id' ),
-				sourceWidget;
+				sourceWidget, wrapper;
 
-			if ( !id || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL )
+			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL )
 				return;
 
 			sourceWidget = widgetsRepo.instances[ id ];
@@ -2222,15 +2203,14 @@
 			if ( !sourceWidget )
 				return;
 
-			// #11132 Hack to prevent cursor loss on Firefox. Without timeout widget is
-			// correctly pasted but then cursor is invisible (although it works) and can be restored
-			// only by blurring editable.
-			if ( CKEDITOR.env.gecko )
-				setTimeout( finalizeNativeDrop, 0, editor, sourceWidget, evt.data.dropRange );
-			else
-				finalizeNativeDrop( editor, sourceWidget, evt.data.dropRange );
+			wrapper = sourceWidget.wrapper;
 
-			evt.cancel();
+			editor.widgets.destroy( sourceWidget, true );
+
+			evt.data.dragRange.setStartBefore( wrapper );
+			evt.data.dragRange.setEndAfter( wrapper );
+
+			evt.data.dataTransfer.setData( 'text/html', wrapper.getOuterHtml() );
 		} );
 
 		editor.on( 'contentDom', function() {

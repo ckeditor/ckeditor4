@@ -1938,19 +1938,23 @@
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
 		getData: function( type ) {
+			function isEmpty( data ) {
+				return typeof data === 'undefined' || data === null || data === '';
+			}
+
 			var data, result;
 
 			type = this._.normalizeType( type );
 
-			try {
-				data = this.$.getData( type );
-			} catch ( e ) {}
+			data = this._.data[ type ];
 
-			if ( !data ) {
-				data = this._.data[ type ];
+			if ( isEmpty( data ) ) {
+				try {
+					data = this.$.getData( type );
+				} catch ( e ) {}
 			}
 
-			if ( !data ) {
+			if ( isEmpty( data ) ) {
 				data = '';
 			}
 
@@ -1986,9 +1990,9 @@
 				return;
 			}
 
-			if ( this.$ ) {
+			try {
 				this.$.setData( type, value );
-			}
+			} catch ( e ) {}
 		},
 
 		/**
@@ -2071,8 +2075,9 @@
 			}
 
 			for ( type in typesToCheck ) {
-				if ( typesToCheck[ type ] && this.getData( type ) )
+				if ( typesToCheck[ type ] && this.getData( type ) !== '' ) {
 					return false;
+				}
 			}
 
 			return true;
