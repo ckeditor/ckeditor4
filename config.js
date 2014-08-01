@@ -77,7 +77,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
 			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
 					'JustifyLeft', 'JustifyRight', 'BidiLtr', 'BidiRtl' ] },
-		{ name: 'styles', items: [ 'SpecialChar', 'Link', 'Font', 'FontSize' ] }
+		{ name: 'styles', items: [ 'Link', 'Font', 'Styles' ] }
 	];
 
 	config.toolbar = "Full";
@@ -85,6 +85,20 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'removeallformat';
 
 	config.skin = 'versal';
+
+	config.stylesSet = [
+		{ name: 'Small', element: 'span', styles: {'font-size':'12px'} },
+		{ name: 'Normal', element: 'span', styles: {'font-size':'16px'} },
+		{ name: 'Large', element: 'big', styles: {'font-size':'24px'} },
+		{ name: 'Special Container',
+			element: 'div',
+			styles: {
+				padding: '5px 10px',
+				background: '#eee',
+				border: '1px solid #ccc'
+			}
+		}
+	];
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
