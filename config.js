@@ -89,7 +89,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.stylesSet = [
 		{ name: 'Small', element: 'span', styles: {'font-size':'12px'} },
 		{ name: 'Normal', element: 'span', styles: {'font-size':'16px'} },
-		{ name: 'Large', element: 'big', styles: {'font-size':'24px'} },
+		{ name: 'Large', element: 'span', styles: {'font-size':'24px'} },
 		{ name: 'Special Container',
 			element: 'div',
 			styles: {
