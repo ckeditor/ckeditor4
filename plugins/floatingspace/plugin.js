@@ -387,6 +387,7 @@
  *
  *		config.floatSpacePreferRight = true;
  *
+ * @since 4.5
  * @cfg {Boolean} [floatSpacePreferRight=false]
  * @member CKEDITOR.config
  */
