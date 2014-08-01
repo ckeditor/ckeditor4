@@ -2187,6 +2187,9 @@
 
 			if ( isDomDragHandler( target ) ) {
 				evt.data.dataTransfer.setData( 'cke/widget-id', widgetsRepo.getByElement( target ).id );
+
+				// IE needs focus.
+				editor.focus();
 			}
 		} );
 
