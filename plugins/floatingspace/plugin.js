@@ -58,7 +58,8 @@
 					dockedOffsetX = config.floatSpaceDockedOffsetX || 0,
 					dockedOffsetY = config.floatSpaceDockedOffsetY || 0,
 					pinnedOffsetX = config.floatSpacePinnedOffsetX || 0,
-					pinnedOffsetY = config.floatSpacePinnedOffsetY || 0;
+					pinnedOffsetY = config.floatSpacePinnedOffsetY || 0,
+					preferRight = !!config.floatSpacePreferRight;
 
 				// Update the float space position.
 				function updatePos( pos, prop, val ) {
@@ -163,7 +164,7 @@
 					var mid = viewRect.width / 2,
 						alignSide =
 								( editorRect.left > 0 && editorRect.right < viewRect.width && editorRect.width > spaceRect.width ) ?
-										( editor.config.contentsLangDirection == 'rtl' ? 'right' : 'left' )
+										( ( editor.config.contentsLangDirection == 'rtl' || preferRight ) ? 'right' : 'left' )
 									:
 										( mid - editorRect.left > editorRect.right - mid ? 'left' : 'right' ),
 						offset;
@@ -375,5 +376,14 @@
  *		config.floatSpacePinnedOffsetY = 20;
  *
  * @cfg {Number} [floatSpacePinnedOffsetY=0]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Indicates that the float space should align with the right side of editor
+ *
+ *		config.floatSpacePreferRight = true;
+ *
+ * @cfg {Boolean} [floatSpacePreferRight=false]
  * @member CKEDITOR.config
  */
