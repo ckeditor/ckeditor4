@@ -11,6 +11,7 @@ New Features:
   * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
   * [#12169](http://dev.ckeditor.com/ticket/12169): Introduce [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`editor.dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart) and [`editor.dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend) events.
 * [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
+* [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
 
 Fixed Issues:
 
