@@ -2193,24 +2193,40 @@
 		editor.on( 'drop', function( evt ) {
 			var dataTransfer = evt.data.dataTransfer,
 				id = dataTransfer.getData( 'cke/widget-id' ),
-				sourceWidget, wrapper;
+				dragRange = new CKEDITOR.dom.range( editor.document ),
+				sourceWidget;
 
-			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL )
+			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 				return;
+			}
 
 			sourceWidget = widgetsRepo.instances[ id ];
-
-			if ( !sourceWidget )
+			if ( !sourceWidget ) {
 				return;
+			}
 
-			wrapper = sourceWidget.wrapper;
+			dragRange.setStartBefore( sourceWidget.wrapper );
+			dragRange.setEndAfter( sourceWidget.wrapper );
+			evt.data.dragRange = dragRange;
+
+			evt.data.dataTransfer.setData( 'text/html', sourceWidget.wrapper.getOuterHtml() );
+		} );
+
+		editor.on( 'dragend', function( evt ) {
+			var dataTransfer = evt.data.dataTransfer,
+				id = dataTransfer.getData( 'cke/widget-id' ),
+				sourceWidget;
+
+			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+				return;
+			}
+
+			sourceWidget = widgetsRepo.instances[ id ];
+			if ( !sourceWidget ) {
+				return;
+			}
 
 			editor.widgets.destroy( sourceWidget, true );
-
-			evt.data.dragRange.setStartBefore( wrapper );
-			evt.data.dragRange.setEndAfter( wrapper );
-
-			evt.data.dataTransfer.setData( 'text/html', wrapper.getOuterHtml() );
 		} );
 
 		editor.on( 'contentDom', function() {
