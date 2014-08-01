@@ -1779,10 +1779,7 @@
 
 	// Data type used to link drag and drop events.
 	var clipboardIdDataType =
-		// IE does not support different data types that Text and URL.
-		// In IE 9- we can use URL data type to mark that drag comes from the editor.
-		( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ? 'URL':
-		// In IE 10+ URL data type is buggie and there is no way to mark drag & drop  without
+		// In IE URL data type is buggie and there is no way to mark drag & drop  without
 		// modifying text data (which would be displayed if user drop content to the textarea)
 		// so we just read dragged text.
 		CKEDITOR.env.ie ? 'Text' :
