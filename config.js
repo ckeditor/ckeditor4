@@ -76,15 +76,15 @@ CKEDITOR.editorConfig = function( config ) {
 					'Superscript', 'RemoveAllFormat' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
 			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
-					'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'BidiLtr', 'BidiRtl' ] },
-		{ name: 'styles', items: [ 'Link', 'Font', 'FontSize' ] }
+					'JustifyLeft', 'JustifyRight', 'BidiLtr', 'BidiRtl' ] },
+		{ name: 'styles', items: [ 'SpecialChar', 'Link', 'Font', 'FontSize' ] }
 	];
 
 	config.toolbar = "Full";
 
 	config.extraPlugins = 'removeallformat';
 
-  config.skin = 'versal'
+	config.skin = 'versal';
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
