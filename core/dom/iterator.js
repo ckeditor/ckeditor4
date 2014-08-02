@@ -364,7 +364,7 @@
 			touchPre;
 
 		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
-		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+		range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false );
 
 		touchPre = range.endContainer.hasAscendant( 'pre', true ) || range.startContainer.hasAscendant( 'pre', true );
 

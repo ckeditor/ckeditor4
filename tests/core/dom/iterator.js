@@ -91,6 +91,38 @@ bender.test( {
 		checkRangeIteration( source, null,  [ 'p' ], output, 'Iteration will yield one single paragraph' );
 	},
 
+	// #12178
+	'test iterating over end of line': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var source = '<h1>para1[<br /></h1><p>para2]</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	// This case may happen on Webkit/Blink.
+	'test iterating over end of line - no bogus br': function() {
+		var source = '<h1>para1[</h1><p>para2]</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over start of line': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var source = '<h1>[para1<br /></h1><p>]para2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	// This case may happen on Webkit/Blink.
+	'test iterating over start of line - no bogus br': function() {
+		var source = '<h1>[para1</h1><p>]para2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
 	'test iterating over pseudo block': function() {
 		var source = '<div><p>[paragraph</p>text]</div>';
 		var output = '<div><p>paragraph</p><p>text</p></div>';
@@ -158,7 +190,7 @@ bender.test( {
 				blockList.push( block.getName() );
 		}
 
-		arrayAssert.itemsAreEqual( [ 'td', 'td' ], blockList );
+		assert.areSame( 'td,td', blockList.join( ',' ) );
 
 		// Just to remove bookmarks.
 		ranges.moveToBookmarks( bms );
