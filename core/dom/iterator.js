@@ -361,10 +361,40 @@
 	function startIterator() {
 		var range = this.range.clone(),
 			// Indicate at least one of the range boundaries is inside a preformat block.
-			touchPre;
+			touchPre,
+			startPath,
+			endPath,
+			startAtInnerBoundary,
+			endAtInnerBoundary,
+			testRange;
+
+		// Remember if following situation takes place:
+		// * startAtInnerBoundary: <p>foo[</p>...
+		// * endAtInnerBoundary: ...<p>]bar</p>
+		// Because information about line break will be lost when shrinking range.
+		// Note that we test only if path block exist, because we must properly shrink
+		// range containing table and/or table cells.
+		// (#12178)
+		startPath = range.startPath();
+		if ( startPath.block ) {
+			testRange = range.clone();
+			testRange.collapse( true );
+			startAtInnerBoundary = testRange.checkBoundaryOfElement( startPath.block, CKEDITOR.END );
+		}
+		endPath = range.endPath();
+		if ( endPath.block ) {
+			testRange = range.clone();
+			testRange.collapse();
+			endAtInnerBoundary = testRange.checkBoundaryOfElement( endPath.block, CKEDITOR.START );
+		}
 
 		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
-		range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false );
+		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+
+		if ( startAtInnerBoundary )
+			range.setStartAt( startPath.block, CKEDITOR.POSITION_BEFORE_END );
+		if ( endAtInnerBoundary )
+			range.setEndAt( endPath.block, CKEDITOR.POSITION_AFTER_START );
 
 		touchPre = range.endContainer.hasAscendant( 'pre', true ) || range.startContainer.hasAscendant( 'pre', true );
 
