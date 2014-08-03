@@ -202,6 +202,16 @@ bender.test( {
 		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
 	},
 
+	// #12273
+	'test iterating over description list': function() {
+		var source = '<dl><dt>[foo</dt><dd>bar]</dd><dt>bom</dt></dl>',
+			output1 = '<dl><dt>foo</dt><dd>bar</dd><dt>bom</dt></dl>',
+			output2 = '<dl><dt><p>foo</p></dt><dd><p>bar</p></dd><dt>bom</dt></dl>';
+
+		checkRangeIteration( source, null, [ 'dt', 'dd' ], output1, 'Two list items.' );
+		checkRangeIteration( source, { enforceRealBlocks: true }, [ 'p', 'p' ], output2, 'Two real blocks.' );
+	},
+
 	'test when iteration range is scoped in a single block': function() {
 		var result = iterateScopedRange( '<div>^foo</div>' );
 		arrayAssert.itemsAreEqual( [ 'p' ], result.list );
