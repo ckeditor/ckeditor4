@@ -362,31 +362,18 @@
 		var range = this.range.clone(),
 			// Indicate at least one of the range boundaries is inside a preformat block.
 			touchPre,
-			startPath,
-			endPath,
-			startAtInnerBoundary,
-			endAtInnerBoundary,
-			testRange;
 
-		// Remember if following situation takes place:
-		// * startAtInnerBoundary: <p>foo[</p>...
-		// * endAtInnerBoundary: ...<p>]bar</p>
-		// Because information about line break will be lost when shrinking range.
-		// Note that we test only if path block exist, because we must properly shrink
-		// range containing table and/or table cells.
-		// (#12178)
-		startPath = range.startPath();
-		if ( startPath.block ) {
-			testRange = range.clone();
-			testRange.collapse( true );
-			startAtInnerBoundary = testRange.checkBoundaryOfElement( startPath.block, CKEDITOR.END );
-		}
-		endPath = range.endPath();
-		if ( endPath.block ) {
-			testRange = range.clone();
-			testRange.collapse();
-			endAtInnerBoundary = testRange.checkBoundaryOfElement( endPath.block, CKEDITOR.START );
-		}
+			// (#12178)
+			// Remember if following situation takes place:
+			// * startAtInnerBoundary: <p>foo[</p>...
+			// * endAtInnerBoundary: ...<p>]bar</p>
+			// Because information about line break will be lost when shrinking range.
+			// Note that we test only if path block exist, because we must properly shrink
+			// range containing table and/or table cells.
+			startPath = range.startPath(),
+			endPath = range.endPath(),
+			startAtInnerBoundary = rangeAtInnerBlockBoundary( range, startPath.block ),
+			endAtInnerBoundary = rangeAtInnerBlockBoundary( range, endPath.block, 1 );
 
 		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
 		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
@@ -517,6 +504,17 @@
 		};
 
 		return 1;
+	}
+
+	// Checks whether range starts or ends at inner block boundary.
+	// See usage comments to learn more.
+	function rangeAtInnerBlockBoundary( range, block, checkEnd ) {
+		if ( !block )
+			return false;
+
+		var testRange = range.clone();
+		testRange.collapse( !checkEnd );
+		return testRange.checkBoundaryOfElement( block, checkEnd ? CKEDITOR.START : CKEDITOR.END );
 	}
 
 	/**
