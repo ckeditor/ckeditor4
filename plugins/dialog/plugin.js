@@ -840,6 +840,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 				for ( var j in this._.contents[ content.id ] ) {
 					var elem = this._.contents[ content.id ][ j ];
+					
+					if (elem.bidi)
+						elem.getElement().on( 'keyup', keyUpHandler, elem );					
 
 					if ( elem.type == 'hbox' || elem.type == 'vbox' || !elem.getInputElement() )
 						continue;
@@ -958,6 +961,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this.foreach( function( widget ) {
 				if ( widget.setup )
 					widget.setup.apply( widget, args );
+				if (widget.bidi)
+				{
+					var bidiAttr = editor.document.getDocumentElement().getAttribute('bidi'+ widget.id);
+					if (bidiAttr)
+						widget.getInputElement().setAttribute('dir', bidiAttr);
+				}				
 			} );
 		},
 
@@ -978,6 +987,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( CKEDITOR.env.ie && this._.currentFocusIndex == widget.focusIndex )
 					widget.getInputElement().$.blur();
 
+				if (widget.bidi && widget.getValue() ) 
+				{
+					var dir = widget.getInputElement().getAttribute( 'dir' );
+					var attrName = 'bidi'+ widget.id;
+					if (dir)
+						editor.document.getDocumentElement().setAttribute(attrName, dir);
+				}
+				
 				if ( widget.commit )
 					widget.commit.apply( widget, args );
 			} );
@@ -2150,6 +2167,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}
 		};
 
+	var keyUpHandler = function( event ) {
+			var keystroke = event.data.getKeystroke();
+			/* ALT + SHIFT + Home for LTR direction */
+			if (keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36) {
+				this.getInputElement().setAttribute( 'dir', 'ltr' );
+			}
+			/* ALT + SHIFT + End for RTL direction */
+			else if (keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35) {
+				this.getInputElement().setAttribute( 'dir', 'rtl' );
+			}			
+	};
+		
 	var registerAccessKey = function( uiElement, dialog, key, downFunc, upFunc ) {
 			var procList = accessKeyProcessors[ key ] || ( accessKeyProcessors[ key ] = [] );
 			procList.push( {
