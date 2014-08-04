@@ -31,7 +31,7 @@ This file contains styles to used by Internet Explorer 7 only.
 .cke_rtl .cke_combo_button,
 .cke_rtl .cke_combo_button *,
 .cke_rtl .cke_button,
-.cke_rtl .cke_button_icon,
+.cke_rtl .cke_button_icon
 {
 	display: inline-block;
 	vertical-align: top;
