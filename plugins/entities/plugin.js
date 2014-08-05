@@ -4,11 +4,11 @@
  */
 
 ( function() {
-	// Base HTML entities.
+	// Basic HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
 
 	var entities =
-	// Latin-1 Entities
+	// Latin-1 entities
 	'quot,iexcl,cent,pound,curren,yen,brvbar,sect,uml,copy,ordf,laquo,' +
 		'not,shy,reg,macr,deg,plusmn,sup2,sup3,acute,micro,para,middot,' +
 		'cedil,sup1,ordm,raquo,frac14,frac12,frac34,iquest,times,divide,' +
@@ -21,12 +21,12 @@
 		'equiv,le,ge,sub,sup,nsub,sube,supe,oplus,otimes,perp,sdot,lceil,' +
 		'rceil,lfloor,rfloor,lang,rang,loz,spades,clubs,hearts,diams,' +
 
-		// Other Special Characters
+		// Other special characters
 		'circ,tilde,ensp,emsp,thinsp,zwnj,zwj,lrm,rlm,ndash,mdash,lsquo,' +
 		'rsquo,sbquo,ldquo,rdquo,bdquo,dagger,Dagger,permil,lsaquo,rsaquo,' +
 		'euro';
 
-	// Latin Letters Entities
+	// Latin letters entities
 	var latin = 'Agrave,Aacute,Acirc,Atilde,Auml,Aring,AElig,Ccedil,Egrave,Eacute,' +
 		'Ecirc,Euml,Igrave,Iacute,Icirc,Iuml,ETH,Ntilde,Ograve,Oacute,Ocirc,' +
 		'Otilde,Ouml,Oslash,Ugrave,Uacute,Ucirc,Uuml,Yacute,THORN,szlig,' +
@@ -35,7 +35,7 @@
 		'otilde,ouml,oslash,ugrave,uacute,ucirc,uuml,yacute,thorn,yuml,' +
 		'OElig,oelig,Scaron,scaron,Yuml';
 
-	// Greek Letters Entities.
+	// Greek letters entities.
 	var greek = 'Alpha,Beta,Gamma,Delta,Epsilon,Zeta,Eta,Theta,Iota,Kappa,Lambda,Mu,' +
 		'Nu,Xi,Omicron,Pi,Rho,Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega,alpha,' +
 		'beta,gamma,delta,epsilon,zeta,eta,theta,iota,kappa,lambda,mu,nu,xi,' +
@@ -48,8 +48,8 @@
 		var table = {},
 			regex = [];
 
-		// Entities that the browsers DOM don't transform to the final char
-		// automatically.
+		// Entities that the browsers' DOM does not automatically transform to the
+		// final character.
 		var specialTable = {
 			nbsp: '\u00A0', // IE | FF
 			shy: '\u00AD', // IE
@@ -74,14 +74,14 @@
 			entities = entities.split( ',' );
 
 			// Put all entities inside a DOM element, transforming them to their
-			// final chars.
+			// final characters.
 			var div = document.createElement( 'div' ),
 				chars;
 			div.innerHTML = '&' + entities.join( ';&' ) + ';';
 			chars = div.innerHTML;
 			div = null;
 
-			// Add all chars to the table.
+			// Add all characters to the table.
 			for ( var i = 0; i < chars.length; i++ ) {
 				var charAt = chars.charAt( i );
 				table[ charAt ] = '&' + entities[ i ] + ';';
@@ -102,7 +102,7 @@
 				htmlFilter = dataProcessor && dataProcessor.htmlFilter;
 
 			if ( htmlFilter ) {
-				// Mandatory HTML base entities.
+				// Mandatory HTML basic entities.
 				var selectedEntities = [];
 
 				if ( config.basicEntities !== false )
@@ -163,12 +163,12 @@
 /**
  * Whether to escape basic HTML entities in the document, including:
  *
- * * `nbsp`
- * * `gt`
- * * `lt`
- * * `amp`
+ * * `&nbsp;`
+ * * `&gt;`
+ * * `&lt;`
+ * * `&amp;`
  *
- * **Note:** It should not be subject to change unless when outputting a non-HTML data format like BBCode.
+ * **Note:** This option should not be changed unless when outputting a non-HTML data format like BBCode.
  *
  *		config.basicEntities = false;
  *
@@ -178,7 +178,7 @@
 CKEDITOR.config.basicEntities = true;
 
 /**
- * Whether to use HTML entities in the output.
+ * Whether to use HTML entities in the editor output.
  *
  *		config.entities = false;
  *
@@ -203,7 +203,7 @@ CKEDITOR.config.entities_latin = true;
  * Whether to convert some symbols, mathematical symbols, and Greek letters to
  * HTML entities. This may be more relevant for users typing text written in Greek.
  * The list of entities can be found in the
- * [W3C HTML 4.01 Specification, section 24.3.1(http://www.w3.org/TR/html4/sgml/entities.html#h-24.3.1).
+ * [W3C HTML 4.01 Specification, section 24.3.1](http://www.w3.org/TR/html4/sgml/entities.html#h-24.3.1).
  *
  *		config.entities_greek = false;
  *
@@ -217,8 +217,8 @@ CKEDITOR.config.entities_greek = true;
  * character table to their relative decimal numeric representation of HTML entity.
  * When set to `force`, it will convert all entities into this format.
  *
- * For example the phrase `'This is Chinese: 汉语.'` is output
- * as `'This is Chinese: &#27721;&#35821;.'`
+ * For example the phrase: `'This is Chinese: 汉语.'` would be output
+ * as: `'This is Chinese: &#27721;&#35821;.'`
  *
  *		config.entities_processNumerical = true;
  *		config.entities_processNumerical = 'force'; // Converts from '&nbsp;' into '&#160;';
@@ -228,7 +228,7 @@ CKEDITOR.config.entities_greek = true;
  */
 
 /**
- * A comma separated list of  additional entities to be used. Entity names
+ * A comma-separated list of  additional entities to be used. Entity names
  * or numbers must be used in a form that excludes the `'&amp;'` prefix and the `';'` ending.
  *
  *		config.entities_additional = '#1049'; // Adds Cyrillic capital letter Short I (Й).
