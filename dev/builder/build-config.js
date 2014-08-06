@@ -42,6 +42,7 @@ var CKBUILDER_CONFIG = {
 		contextmenu: 1,
 		dialogadvtab: 1,
 		div: 1,
+		dripuploads: 1,
 		elementspath: 1,
 		enterkey: 1,
 		entities: 1,
