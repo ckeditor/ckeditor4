@@ -99,6 +99,38 @@ CKEDITOR.editorConfig = function( config ) {
 			}
 		}
 	];
+
+	// TODO
+	// Is this the best place to put this function
+	// http://stackoverflow.com/questions/12676023/ckeditor-link-dialog-removing-protocol
+	CKEDITOR.on('dialogDefinition', function(e) {
+		// NOTE: this is an instance of CKEDITOR.dialog.definitionObject
+		var dd = e.data.definition;
+
+		if (e.data.name === 'link') {
+			dd.minHeight = 30;
+
+			// remove the unwanted tabs
+			dd.removeContents('advanced');
+			dd.removeContents('target');
+			dd.removeContents('upload');
+
+			var infoTab = dd.getContents('info');
+			// TODO
+			// not working due to a bug in 4.4.3
+			// http://ckeditor.com/forums/Plugins/Problems-removing-dialog-fields-of-link-plugin-in-4.4.3
+			//
+			// remove some elements from the 'info' tab
+			// http://rev.ckeditor.com/ckeditor/trunk/7596/_samples/api_dialog.html
+			// infoTab.remove( 'linkType' );
+			// infoTab.remove( 'protocol' );
+
+			// Set the default value for the URL field.
+			var urlField = infoTab.get( 'url' );
+			urlField['default'] = 'www.example.com';
+
+		}
+	});
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
