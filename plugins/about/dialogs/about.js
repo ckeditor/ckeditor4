@@ -5,7 +5,7 @@
 
 CKEDITOR.dialog.add( 'about', function( editor ) {
 	var lang = editor.lang.about,
-		imagePath = CKEDITOR.plugins.get( 'about' ).path + 'dialogs/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) + 'logo_ckeditor.png';
+		imagePath = CKEDITOR.getUrl( CKEDITOR.plugins.get( 'about' ).path + 'dialogs/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) + 'logo_ckeditor.png' );
 
 	return {
 		title: CKEDITOR.env.ie ? lang.dlgTitle : lang.title,
