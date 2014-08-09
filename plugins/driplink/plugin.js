@@ -71,7 +71,7 @@
 					} else
 						element = null;
 
-					editor.fire("linkDialogRequested", { element: element });
+					editor.fire("linkDialogRequested", { el: element });
 				}
 			} );
 
