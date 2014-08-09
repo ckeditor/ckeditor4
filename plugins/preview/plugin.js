@@ -83,7 +83,7 @@
 			// anchors will work properly on it. (#9047)
 			if ( CKEDITOR.env.gecko ) {
 				window._cke_htmlToLoad = eventData.dataValue;
-				sOpenUrl = pluginPath + 'preview.html';
+				sOpenUrl = CKEDITOR.getUrl( pluginPath + 'preview.html' );
 			}
 
 			var oWindow = window.open( sOpenUrl, null, 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' +
