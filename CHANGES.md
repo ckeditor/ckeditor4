@@ -5,6 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of UI Color YUI styles. Thanks to [CasherWest](https://github.com/CasherWest)!
+* [#12263](http://dev.ckeditor.com/ticket/12263): Fixed: Paste from Word filter does not normalize semicolons style text properly. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#10916](http://dev.ckeditor.com/ticket/10916): Fixed Magicline icon in RTL environments.
 * [#11970](http://dev.ckeditor.com/ticket/11970): Fixed: CKEditor paste event not fired when pasting with SHIFT+INS in IE.
 * [#12111](http://dev.ckeditor.com/ticket/12111): Fixed: Linked image attributes are not read when opening the image dialog by doubleclick.
@@ -12,7 +14,6 @@ Fixed Issues:
 * [#12243](http://dev.ckeditor.com/ticket/12243): Fixed: Text formatting lost while pasting from Word. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#12273](http://dev.ckeditor.com/ticket/12273): Fixed: Applying block style in description list breaks it.
 * [#12281](http://dev.ckeditor.com/ticket/12281): Fixed: Minor syntax issue in CSS files.
-* [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of UI Color YUI styles. Thanks to [https://github.com/CasherWest](https://github.com/CasherWest)!
 
 ## CKEditor 4.4.3
 
