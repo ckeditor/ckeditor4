@@ -59,7 +59,29 @@
 		return evt;
 	}
 
+	function dragstart( editor, evt ) {
+		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		dropTarget.fire( 'dragstart', evt );
+	}
+
+	function drop( editor, evt ) {
+		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		dropTarget.fire( 'drop', evt );
+	}
+
+	function dragend( editor, evt ) {
+		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		dropTarget.fire( 'dragend', evt );
+	}
+
 	bender.test( {
+		tearDown: function() {
+			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+		},
+
 		'test handler - block widget': function() {
 			var editor = this.editor;
 
@@ -216,140 +238,137 @@
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					dataTransfer = [];
-
-				widget.dragHandlerContainer.findOne( 'img' ).fire( 'dragstart', new CKEDITOR.dom.event( {
-					dataTransfer: {
-						setData: function( type, data ) {
-							dataTransfer.push( { type: type, data: data } );
-						}
-					}
-				} ) );
-
-				assert.areSame( 1, dataTransfer.length );
-
-				dataTransfer = dataTransfer[ 0 ];
-				assert.areSame( 'text', dataTransfer.type );
-
-				var data = JSON.parse( dataTransfer.data );
-				assert.areSame( 'cke-widget', data.type, 'data.type' );
-				assert.areSame( editor.name, data.editor, 'data.editor' );
-				assert.areSame( widget.id, data.id, 'data.id' );
-			} );
-		},
-
-		'test drop - no data': function() {
-			var editor = this.editor;
-
-			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-				editor.document.fire( 'drop', dropEvent( null ) );
-
-				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
-			} );
-		},
-
-		'test drop - not a JSON data': function() {
-			var editor = this.editor;
-
-			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-				editor.document.fire( 'drop', dropEvent( '0123abcd' ) );
-
-				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
-			} );
-		},
-
-		'test drop - not a widget data': function() {
-			var editor = this.editor;
-
-			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
-				editor.document.fire( 'drop', dropEvent( JSON.stringify( { type: 'foo', editor: editor.name, id: widget.id } ) ) );
-
-				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
-			} );
-		},
-
-		// Eg. editor from different frame.
-		'test drop - dragging from non-existing editor': function() {
-			var editor = this.editor;
-
-			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
-				editor.document.fire( 'drop', dropEvent( JSON.stringify( { type: 'cke-widget', editor: 'othereditor', id: 999 } ) ) );
-
-				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
-			} );
-		},
-
-		'test drop - dragging from other editor': function() {
-			var editor1 = this.editor,
-				bot1 = this.editorBot;
-
-			bender.editorBot.create( {
-				name: 'test_editor2',
-				config: {
-					allowedContent: true,
-					on: {
-						pluginsLoaded: function( evt ) {
-							evt.editor.dataProcessor.writer.sortAttributes = 1;
-							evt.editor.widgets.add( 'testwidget', {} );
-						}
-					}
-				},
-				startupData: '<p id="x2">foo</p><p><span data-widget="testwidget" id="w2">foo</span></p>'
-			}, function( bot2 ) {
-				var editor2Widget = getWidgetById( bot2.editor, 'w2' );
-
-				assert.isTrue( !!editor2Widget, 'widget was initialized in second editor' );
-
-				bot1.setData( '<p id="x1">foo</p><p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-					var widget = getWidgetById( editor1, 'w1' );
-
-					editor1.document.fire( 'drop', dropEvent( JSON.stringify(
-						{ type: 'cke-widget', editor: 'test_editor2', id: editor2Widget.id }
-					) ) );
-
-					assert.areSame( '<p id="x1">foo</p><p><span data-widget="testwidget" id="w1">foo</span></p>', editor1.getData() );
-					assert.areSame( '<p id="x2">foo</p><p><span data-widget="testwidget" id="w2">foo</span></p>', bot2.editor.getData() );
-				} );
-			} );
-		},
-
-		'test drop - dragging within one editor': function() {
-			var editor = this.editor;
-
-			this.editorBot.setData( '<p class="x">foo</p><p>x<span data-widget="testwidget" id="w1">foo</span>x</p>', function() {
-				var widget1 = getWidgetById( editor, 'w1' ),
-					range = editor.createRange(),
-					widget1WasDestroyed = 0;
+					evt = bender.tools.mockDropEvent();
 
 				editor.focus();
 
-				range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
-				range.collapse( true );
+				evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
 
-				widget1.on( 'destroy', function() {
-					widget1WasDestroyed += 1;
+				dragstart( editor, evt );
+
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt  } ),
+					id = dataTransfer.getData( 'cke/widget-id' );
+
+				assert.isNumber( id, 'Id should be a number.' );
+				assert.areSame( id, getWidgetById( editor, 'w1' ).id, 'Id should match.' );
+				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType( editor ), 'Source editor should equal this.editor' );
+			} );
+		},
+
+		'test drop - no widget id': function() {
+			var editor = this.editor,
+				widgets = editor.widgets;
+
+			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					evt = bender.tools.mockDropEvent(),
+					widgetWasDestroyed = 0;
+
+				widget.on( 'destroy', function() {
+					widgetWasDestroyed += 1;
 				} );
+
+				dragstart( editor, evt );
+
+				drop( editor, evt );
+
+				dragend( editor, evt );
+
+				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
+				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+			} );
+		},
+
+		'test drop - not internal drop': function() {
+			var editor = this.editor,
+				widgets = editor.widgets;
+
+			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					evt = bender.tools.mockDropEvent(),
+					widgetWasDestroyed = 0;
+
+				widget.on( 'destroy', function() {
+					widgetWasDestroyed += 1;
+				} );
+
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
+				dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+				drop( editor, evt );
+
+				dragend( editor, evt );
+
+				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
+				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+			} );
+		},
+
+		'test drop - wrong widget id': function() {
+			var editor = this.editor,
+				widgets = editor.widgets;
+
+			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					evt = bender.tools.mockDropEvent(),
+					widgetWasDestroyed = 0;
+
+				widget.on( 'destroy', function() {
+					widgetWasDestroyed += 1;
+				} );
+
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
+				dataTransfer.setData( 'cke/widget-id', -1 );
+
+				dragstart( editor, evt );
+
+				drop( editor, evt );
+
+				dragend( editor, evt );
+
+				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
+				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+			} );
+		},
+
+		'test drop - successful drag and drop': function() {
+			var editor = this.editor,
+				widgets = editor.widgets;
+
+			this.editorBot.setData( '<p class="x">foo</p><p>x<span data-widget="testwidget" id="w1">foo</span>x</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					evt = bender.tools.mockDropEvent(),
+					range = editor.createRange(),
+					widgetWasDestroyed = 0;
+
+				widget.on( 'destroy', function() {
+					widgetWasDestroyed += 1;
+				} );
+
+				editor.focus();
 
 				editor.on( 'afterPaste', function() {
 					resume( function() {
-						assert.areSame( 1, widget1WasDestroyed, 'original widget was destroyed' );
+						assert.areSame( 1, widgetWasDestroyed, 'original widget was destroyed' );
 						assert.areSame( '<p class="x">f<span data-widget="testwidget" id="w1">foo</span>oo</p><p>xx</p>', editor.getData() );
-						assert.areNotSame( widget1.id, getWidgetById( editor, 'w1' ).id, 'new widet was created' );
+						assert.areNotSame( widget.id, getWidgetById( editor, 'w1' ).id, 'new widet was created' );
 					} );
 				} );
 
 				// Ensure async.
 				wait( function() {
-					var dropContainer = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+					dragstart( editor, evt );
 
-					dropContainer.fire( 'drop', dropEvent(
-						JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget1.id } ),
-						range
-					) );
+					var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
+					dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
+					range.collapse( true );
+					evt.testRange = range;
+
+					drop( editor, evt );
+
+					dragend( editor, evt );
 				} );
 			} );
 		},
