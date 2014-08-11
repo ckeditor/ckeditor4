@@ -12,6 +12,7 @@ Fixed Issues:
 * [#12243](http://dev.ckeditor.com/ticket/12243): Fixed: Text formatting lost while pasting from Word. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#12273](http://dev.ckeditor.com/ticket/12273): Fixed: Applying block style in description list breaks it.
 * [#12281](http://dev.ckeditor.com/ticket/12281): Fixed: Minor syntax issue in CSS files.
+* [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of UI Color YUI styles.
 
 ## CKEditor 4.4.3
 
