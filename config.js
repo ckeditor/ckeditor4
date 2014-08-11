@@ -117,14 +117,11 @@ CKEDITOR.editorConfig = function( config ) {
 			dd.removeContents('upload');
 
 			var infoTab = dd.getContents('info');
-			// TODO
-			// not working due to a bug in 4.4.3
+			// a workaround because of this bug
+			// http://dev.ckeditor.com/ticket/12287
 			// http://ckeditor.com/forums/Plugins/Problems-removing-dialog-fields-of-link-plugin-in-4.4.3
-			//
-			// remove some elements from the 'info' tab
-			// http://rev.ckeditor.com/ckeditor/trunk/7596/_samples/api_dialog.html
-			// infoTab.remove( 'linkType' );
-			// infoTab.remove( 'protocol' );
+			infoTab.get( 'linkType' ).style = 'display: none';
+			infoTab.get( 'urlOptions' ).children[ 0 ].children.shift();
 
 			// Set the default value for the URL field.
 			var urlField = infoTab.get( 'url' );
