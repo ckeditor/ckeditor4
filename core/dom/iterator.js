@@ -82,7 +82,8 @@
 		whitespacesGuard = CKEDITOR.dom.walker.whitespaces( true ),
 		skipGuard = function( node ) {
 			return bookmarkGuard( node ) && whitespacesGuard( node );
-		};
+		},
+		listItemNames = { dd: 1, dt: 1, li: 1 };
 
 	// Get a reference for the next element, bookmark nodes are skipped.
 	function getNextSourceNode( node, startFromSibling, lastNode ) {
@@ -282,7 +283,7 @@
 
 				if ( !block && startBlockLimit && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
 					block = startBlockLimit;
-				else if ( !block || ( this.enforceRealBlocks && block.getName() == 'li' ) ) {
+				else if ( !block || ( this.enforceRealBlocks && block.is( listItemNames ) ) ) {
 					// Create the fixed block.
 					block = this.range.document.createElement( blockTag );
 

@@ -46,7 +46,7 @@ in Quirks mode only.
 .cke_rtl .cke_combo_button,
 .cke_rtl .cke_combo_button *,
 .cke_rtl .cke_button,
-.cke_rtl .cke_button_icon,
+.cke_rtl .cke_button_icon
 {
 	display: inline-block;
 	vertical-align: top;

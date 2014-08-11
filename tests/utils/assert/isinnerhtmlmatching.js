@@ -54,7 +54,7 @@
 				failed = false;
 
 			try {
-				assert.isInnerHtmlMatching( 'a', 'b', 'msg' );
+				assert.isInnerHtmlMatching( 'a', '<B foo="1" bar="2" aaa="3" >b</b>', { sortAttributes: false }, 'msg' );
 			} catch ( e ) {
 				error = e;
 				failed = true;
@@ -63,9 +63,11 @@
 			assert.isTrue( failed, 'failed' );
 			assert.isTrue( called, 'compareInnerHtml was called' );
 			assert.areSame( 'a', expected, 'expected' );
-			assert.areSame( 'b', actual, 'actual' );
-			assert.isNull( options, 'options' );
-			assert.areSame( 'msg', error.message, 'message' )
+			assert.areSame( '<B foo="1" bar="2" aaa="3" >b</b>', actual, 'actual' );
+			assert.isNotNull( options, 'options' );
+			assert.areSame( 'msg', error.message, 'message' );
+			assert.areSame( '/^a$/', error.expected, 'error.expected' );
+			assert.areSame( '<b foo="1" bar="2" aaa="3">b</b>', error.actual, 'error.actual' );
 		},
 
 		'test increments number of assertions': function() {

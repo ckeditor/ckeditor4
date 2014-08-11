@@ -63,10 +63,7 @@ function checkActiveFilter( source, opt, results, msg ) {
 var tools = bender.tools;
 
 bender.test( {
-	/**
-	 * Test iterator works well with collapsed range position.
-	 */
-	test_iterator_single_paragraph: function() {
+	'test iterator works well with collapsed range position': function() {
 		var msg = 'Iteration should return the paragraph in which the range anchored';
 
 		// range embrace entire paragraph content.
@@ -80,39 +77,28 @@ bender.test( {
 		checkRangeIteration( '<p>^paragraph</p>', null,  [ 'p' ], null, msg );
 	},
 
-	/**
-	 * Test iterating over multiple paragraphs. (#3352)
-	 */
-	test_iterator_multiple_paragraphs: function() {
+	// #3352
+	'test iterating over multiple paragraphs': function() {
 		var source = '<p>[para1</p><p>para2]</p>';
 		checkRangeIteration( source, null,  [ 'p', 'p' ], null, 'Iteration will yield  two paragraphs.' );
 	},
 
-	/*
-	 * Test a single range collapsed inside of an empty paragraph. (#8247)
-	 */
-	test_iterator_empty_paragraph: function() {
+	// #8247
+	'test a single range collapsed inside of an empty paragraph': function() {
 		var source = '<div><p>^</p></div>';
 		var output = '<div><p></p></div>';
 
 		checkRangeIteration( source, null,  [ 'p' ], output, 'Iteration will yield one single paragraph' );
-
 	},
 
-	/**
-	 * Test iterating over pseudo block.
-	 */
-	test_iterator_pseudoBlock: function() {
+	'test iterating over pseudo block': function() {
 		var source = '<div><p>[paragraph</p>text]</div>';
 		var output = '<div><p>paragraph</p><p>text</p></div>';
 
 		checkRangeIteration( source, null,  [ 'p', 'p' ], output, 'Iteration should create real paragraph for pseudo block.' );
 	},
 
-	/**
-	 * Test iterating over table cells.
-	 */
-	test_iterator_table_cells: function() {
+	'test iterating over table cells': function() {
 		var source =
 				'<table>' +
 				'<caption>caption</caption>' +
@@ -180,10 +166,7 @@ bender.test( {
 		assert.areSame( tools.compatHtml( output ) , tools.compatHtml( sandbox.getHtml() ) );
 	},
 
-	/**
-	 * Test iterating over list items.
-	 */
-	test_iterator_listItems: function() {
+	'test iterating over list items': function() {
 		var source =
 		'<ul>'+
 			'<li>[item1</li>'+
@@ -219,7 +202,17 @@ bender.test( {
 		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
 	},
 
-	'when iteration range is scoped in a single block': function() {
+	// #12273
+	'test iterating over description list': function() {
+		var source = '<dl><dt>[foo</dt><dd>bar]</dd><dt>bom</dt></dl>',
+			output1 = '<dl><dt>foo</dt><dd>bar</dd><dt>bom</dt></dl>',
+			output2 = '<dl><dt><p>foo</p></dt><dd><p>bar</p></dd><dt>bom</dt></dl>';
+
+		checkRangeIteration( source, null, [ 'dt', 'dd' ], output1, 'Two list items.' );
+		checkRangeIteration( source, { enforceRealBlocks: true }, [ 'p', 'p' ], output2, 'Two real blocks.' );
+	},
+
+	'test when iteration range is scoped in a single block': function() {
 		var result = iterateScopedRange( '<div>^foo</div>' );
 		arrayAssert.itemsAreEqual( [ 'p' ], result.list );
 		assert.areSame( '<div><p>foo</p></div>', result.html );

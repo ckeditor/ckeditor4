@@ -606,6 +606,21 @@
 	t.r( '<h1><b>a^b</b>c</h1>', '<p><b>ab</b>c</p>', 'tc3' );
 
 
+	t = createAssertionFunction2( tcs, 'test apply block style - bulleted lists', { element: 'h1' } );
+
+	t.a( '<ul><li>x</li><li>a^b</li><li>x</li></ul>', '<ul><li>x</li><li><h1>ab</h1></li><li>x</li></ul>', 'tc1' );
+	t.a( '<ul><li>x[y</li><li>a]b</li><li>x</li></ul>', '<ul><li><h1>xy</h1></li><li><h1>ab</h1></li><li>x</li></ul>', 'tc2' );
+	t.a( '<ul><li><p>[x</p></li><li><p>a]</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
+
+
+	// #12273
+	t = createAssertionFunction2( tcs, 'test apply block style - description lists', { element: 'h1' } );
+
+	t.a( '<dl><dt>x</dt><dd>a^b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );
+	t.a( '<dl><dt>x[y</dt><dd>a]b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
+	t.a( '<dl><dt><p>[x</p></dt><dd><p>a]</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
+
+
 	t = createAssertionFunction2( tcs, 'test do not apply block styles to non-editable blocks', { element: 'h1' } );
 
 	t.a( '<p>[x</p><p @c=f>a</p><div @c=f>b</div><p>x]</p>', '<h1>x</h1><p @c=f>a</p><div @c=f>b</div><h1>x</h1>', 'tc1' );
