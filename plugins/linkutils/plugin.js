@@ -8,6 +8,11 @@
  *
  */
 
+// add click to open link in new tab in ready only mode
+// add ctrl + click to open link in new tab in editing mode, except IE
+// Based on https://github.com/mlewand/ckeditor-plugin-openlink/blob/master/plugin.js
+// http://dev.ckeditor.com/ticket/7145
+// http://dev.ckeditor.com/ticket/11842
 'use strict';
 
 ( function() {
