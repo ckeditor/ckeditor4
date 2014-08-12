@@ -352,8 +352,7 @@
 				that: that,
 				triggerEdge: triggerEdge,
 				triggerEditable: triggerEditable,
-				triggerExpand: triggerExpand,
-				elementFromMouse: elementFromMouse
+				triggerExpand: triggerExpand
 			};
 		}
 	}
@@ -431,12 +430,10 @@
 		function elementFromPoint( doc, mouse ) {
 			var pointedElement = doc.$.elementFromPoint( mouse.x, mouse.y );
 
-			if ( CKEDITOR.tools.objectCompare( pointedElement, {} ) ) {
-				// IE9QM: from times to times it will return empty object on scroll bar hover. (#12185)
-				return null;
-			}
-
-			return new CKEDITOR.dom.element( pointedElement );
+			// IE9QM: from times to times it will return an empty object on scroll bar hover. (#12185)
+			return pointedElement && pointedElement.nodeType ?
+				new CKEDITOR.dom.element( pointedElement ) :
+				null;
 		}
 
 		return function( that, ignoreBox, forceMouse ) {

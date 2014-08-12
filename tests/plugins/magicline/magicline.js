@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,magicline */
-/* bender-ckeditor-plugins: magicline,widget */
+/* bender-ckeditor-plugins: magicline */
 
 ( function() {
 	'use strict';
@@ -600,30 +600,6 @@
 
 					assert.areEqual( '<hr />&nbsp;<hr />' , bender.tools.compatHtml( convertNbsp( editor.getData() ) ) );
 				} );
-		},
-
-		'test elementFromMouse with empty object in document.elementFromPoint': function() {
-			// In IE9QM browser sometimes return empty object from document.elementFromPoint. (#12185)
-			var revert = bender.tools.replaceMethod( this.editor.document.$, 'elementFromPoint', function( x, y ) {
-					return {};
-				} ),
-				backdoor = this.editor.plugins.magicline.backdoor;
-
-			backdoor.that.mouse = {
-				x: 0,
-				y: 0
-			};
-
-			try {
-				backdoor.elementFromMouse( backdoor.that );
-				// No exception thrown - we're fine.
-				assert.isTrue( true );
-			} catch(e) {
-				// Propagate the exception.
-				throw e;
-			} finally {
-				revert();
-			}
 		},
 
 		'command: access space with empty editable' : function() {
