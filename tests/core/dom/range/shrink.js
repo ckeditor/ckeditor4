@@ -179,6 +179,73 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
+		'test shrink does stop on block boundary end - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p>para1[</p><p>para2]</p>',
+				result = '<p>para1</p><p>[para2]</p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+			assert.areSame( result, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does stop on block boundary start - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p>[para1</p><p>]para2</p>',
+				result = '<p>[para1]</p><p>para2</p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+			assert.areSame( result, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does stop on block boundary end - SHRINK_ELEMENT, no shrink on block boundary': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p>para1[</p><p>para2]</p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false );
+			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does stop on block boundary start - SHRINK_ELEMENT, no shrink on block boundary': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p>[para1</p><p>]para2</p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true, false );
+			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does not stop on inline boundary end - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p><b>text1[</b><i>te]xt2</i></p>',
+				result = '<p><b>text1</b><i>[te]xt2</i></p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+			assert.areSame( result, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does not stop on inline boundary start - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p><b>te[xt1</b><i>]text2</i></p>',
+				result = '<p><b>te[xt1]</b><i>text2</i></p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+			assert.areSame( result, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test shrink does stop on text - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = '<p><b>text1[</b>x<i>]text2</i></p>';
+
+			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
 		'test shrink should stop on a non-editable block - SHRINK_ELEMENT': function() {
 			var ct = doc.getById( 'editable_playground' ),
 				source = '[<p contenteditable="false">x</p>]';
