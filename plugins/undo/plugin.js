@@ -8,13 +8,19 @@
  *		and other recordable changes.
  */
 
+'use strict';
+
 ( function() {
+	var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
+		backspaceOrDelete = { 8: 1, 46: 1 };
+
 	CKEDITOR.plugins.add( 'undo', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var undoManager = editor.undoManager = new UndoManager( editor );
+			var undoManager = editor.undoManager = new UndoManager( editor ),
+				editingHandler = undoManager.editingHandler = new NativeEditingHandler( undoManager );
 
 			var undoCommand = editor.addCommand( 'undo', {
 				exec: function() {
@@ -38,22 +44,11 @@
 				canUndo: false
 			} );
 
-			var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ];
-
 			editor.setKeystroke( [
 				[ keystrokes[ 0 ], 'undo' ],
 				[ keystrokes[ 1 ], 'redo' ],
 				[ keystrokes[ 2 ], 'redo' ]
 			] );
-
-			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
-			editor.on( 'contentDom', function() {
-				var editable = editor.editable();
-				editable.attachListener( editable, 'keydown', function( evt ) {
-					if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 )
-						evt.data.preventDefault();
-				} );
-			} );
 
 			undoManager.onChange = function() {
 				undoCommand.setState( undoManager.undoable() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
@@ -75,18 +70,12 @@
 				undoManager.save( evt.data && evt.data.contentOnly );
 			} );
 
-			// Registering keydown on every document recreation.(#3844)
-			editor.on( 'contentDom', function() {
-				editor.editable().on( 'keydown', function( event ) {
-					var keystroke = event.data.getKey();
+			// Event manager listeners should be attached on contentDom.
+			editor.on( 'contentDom', editingHandler.attachListeners, editingHandler );
 
-					if ( keystroke == 8 /*Backspace*/ || keystroke == 46 /*Delete*/ )
-						undoManager.type( keystroke, 0 );
-				} );
-
-				editor.editable().on( 'keypress', function( event ) {
-					undoManager.type( event.data.getKey(), 1 );
-				} );
+			editor.on( 'instanceReady', function() {
+				// Saves initial snapshot.
+				editor.fire( 'saveSnapshot' );
 			} );
 
 			// Always save an undo snapshot - the previous mode might have
@@ -194,198 +183,137 @@
 	CKEDITOR.plugins.undo = {};
 
 	/**
-	 * Undoes the snapshot which represents the current document status.
-	 *
-	 * @private
-	 * @class CKEDITOR.plugins.undo.Image
-	 * @constructor Creates an Image class instance.
-	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
-	 * @param {Boolean} [contentsOnly] If set to `true` image will contain only contents, without selection.
-	 */
-	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
-			this.editor = editor;
-
-			editor.fire( 'beforeUndoImage' );
-
-			var contents = editor.getSnapshot();
-
-			// In IE, we need to remove the expando attributes.
-			if ( CKEDITOR.env.ie && contents )
-				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
-
-			this.contents = contents;
-
-			if ( !contentsOnly ) {
-				var selection = contents && editor.getSelection();
-				this.bookmarks = selection && selection.createBookmarks2( true );
-			}
-
-			editor.fire( 'afterUndoImage' );
-		};
-
-	// Attributes that browser may changing them when setting via innerHTML.
-	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
-
-	Image.prototype = {
-		equalsContent: function( otherImage ) {
-			var thisContents = this.contents,
-				otherContents = otherImage.contents;
-
-			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
-			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
-				thisContents = thisContents.replace( protectedAttrs, '' );
-				otherContents = otherContents.replace( protectedAttrs, '' );
-			}
-
-			if ( thisContents != otherContents )
-				return false;
-
-			return true;
-		},
-
-		equalsSelection: function( otherImage ) {
-			var bookmarksA = this.bookmarks,
-				bookmarksB = otherImage.bookmarks;
-
-			if ( bookmarksA || bookmarksB ) {
-				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length )
-					return false;
-
-				for ( var i = 0; i < bookmarksA.length; i++ ) {
-					var bookmarkA = bookmarksA[ i ],
-						bookmarkB = bookmarksB[ i ];
-
-					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) )
-						return false;
-				}
-			}
-
-			return true;
-		}
-	};
-
-	/**
 	 * Main logic for the Redo/Undo feature.
-	 *
-	 * **Note:** This class is not accessible from the global scope.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.undo.UndoManager
 	 * @constructor Creates an UndoManager class instance.
 	 * @param {CKEDITOR.editor} editor
 	 */
-	function UndoManager( editor ) {
+	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
 		this.editor = editor;
 
 		// Reset the undo stack.
 		this.reset();
-	}
+	};
 
 	UndoManager.prototype = {
+		/**
+		 * Key groups identifier mapping. Used for accessing members in
+		 * {@link CKEDITOR.plugins.undo.NativeEditingHandler#strokesRecorded}.
+		 *
+		 * * `FUNCTIONAL` - identifier for backspace / delete key.
+		 * * `PRINTABLE` - identifier for printable keys.
+		 *
+		 * Example usage:
+		 *
+		 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
+		 *
+		 * @since 4.4.4
+		 * @readonly
+		 */
+		keyGroupsEnum: {
+			PRINTABLE: 0,
+			FUNCTIONAL: 1
+		},
+
+		/**
+		 * Array storing count of key presses count in a row. Use {@link #keyGroupsEnum} members as index.
+		 *
+		 * **Note:** Strokes count will be reset, after reaching characters per snapshot limit.
+		 *
+		 * @since 4.4.4
+		 * @readonly
+		 */
+		strokesRecorded: [ 0, 0 ],
+
+		/**
+		 * Codes of navigation keys like arrows, page up/down, etc.
+		 * Used by the {@link #isNavigationKey} method.
+		 *
+		 * @since 4.4.4
+		 * @readonly
+		 */
+		navigationKeyCodes: {
+			37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
+			36: 1, 35: 1, // Home, end.
+			33: 1, 34: 1 // Pgup, pgdn.
+		},
+
 		/**
 		 * When `locked` property is not `null`, the undo manager is locked, so
 		 * operations like `save` or `update` are forbidden.
 		 *
 		 * The manager can be locked/unlocked by the {@link #lock} and {@link #unlock} methods.
 		 *
-		 * @private
+		 * @readonly
 		 * @property {Object} [locked=null]
 		 */
 
 		/**
-		 * Handles keystroke support for the undo manager. It is called whenever a keystroke that
-		 * can change the editor contents is pressed.
+		 * Contains previously processed key group, based on {@link #keyGroupsEnum}. `-1` means unknown group.
 		 *
-		 * @param {Number} keystroke The key code.
-		 * @param {Boolean} isCharacter If `true`, it is a character ('a', '1', '&', ...). Otherwise it is the remove key (*Delete* or *Backspace*).
+		 * @since 4.4.4
+		 * @readonly
+		 * @property {Number} [previousKeyGroup=-1]
 		 */
-		type: function( keystroke, isCharacter ) {
-			// Create undo snap for every different modifier key.
-			var modifierSnapshot = ( !isCharacter && keystroke != this.lastKeystroke );
+		previousKeyGroup: -1,
 
-			// Create undo snap on the following cases:
-			// 1. Just start to type .
-			// 2. Typing some content after a modifier.
-			// 3. Typing some content after make a visible selection.
-			var startedTyping = !this.typing || ( isCharacter && !this.wasCharacter );
+		/**
+		 * Handles keystroke support for the undo manager. It's called on `keyup` event for
+		 * keystrokes that can change the editor contents.
+		 *
+		 * @param {Number} keyCode The key code.
+		 */
+		type: function( keyCode ) {
+			var keyGroupsEnum = this.keyGroupsEnum,
+				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE,
+				// Count of keystrokes in current a row.
+				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
+				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
+				keyGroupChanged = keyGroup !== this.previousKeyGroup,
+				strokesPerSnapshotExceeded = strokesRecorded >= 25,
+				// Identifier of opposite group, used later on to reset its counter.
+				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
 
-			var editor = this.editor;
+			if ( !this.typing )
+				onTypingStart( this );
 
-			if ( startedTyping || modifierSnapshot ) {
-				var beforeTypeImage = new Image( editor ),
-					beforeTypeCount = this.snapshots.length;
-
-				// Use setTimeout, so we give the necessary time to the
-				// browser to insert the character into the DOM.
-				CKEDITOR.tools.setTimeout( function() {
-					var currentSnapshot = editor.getSnapshot();
-
-					// In IE, we need to remove the expando attributes.
-					if ( CKEDITOR.env.ie )
-						currentSnapshot = currentSnapshot.replace( /\s+data-cke-expando=".*?"/g, '' );
-
-					// If changes have taken place, while not been captured yet (#8459),
-					// compensate the snapshot.
-					if ( beforeTypeImage.contents != currentSnapshot && beforeTypeCount == this.snapshots.length ) {
-						// It's safe to now indicate typing state.
-						this.typing = true;
-
-						// This's a special save, with specified snapshot
-						// and without auto 'fireChange'.
-						if ( !this.save( false, beforeTypeImage, false ) )
-							// Drop future snapshots.
-							this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
-
-						this.hasUndo = true;
-						this.hasRedo = false;
-
-						this.typesCount = 1;
-						this.modifiersCount = 1;
-
-						this.onChange();
-					}
-				}, 0, this );
-			}
-
-			this.lastKeystroke = keystroke;
-			this.wasCharacter = isCharacter;
-
-			// Create undo snap after typed too much (over 25 times).
-			if ( !isCharacter ) {
-				this.typesCount = 0;
-				this.modifiersCount++;
-
-				if ( this.modifiersCount > 25 ) {
-					this.save( false, null, false );
-					this.modifiersCount = 1;
+			if ( ( keyGroupChanged && this.previousKeyGroup !== -1 ) || strokesPerSnapshotExceeded ) {
+				if ( keyGroupChanged ) {
+					// Key group changed:
+					// Reset the other key group recorded count.
+					this.strokesRecorded[ oppositeGroup ] = 0;
+					// In case of group changed we need to save snapshot before DOM modification,
+					// consider: <p>ab^</p> when user was typing "ab", and is pressing backspace.
+					// Since we're in keyup event, DOM is modified, and we have <p>a^</p> - thus
+					// snapshot made in keydown, before modification.
+					if ( !this.save( false, this.editingHandler.lastKeydownImage, false ) )
+						// Drop further snapshots.
+						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
 				} else {
-					setTimeout( function() {
-						editor.fire( 'change' );
-					}, 0 );
-				}
-			} else {
-				this.modifiersCount = 0;
-				this.typesCount++;
+					// Limit of chars in snapshot exceeded:
+					// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
+					strokesRecorded = 0;
 
-				if ( this.typesCount > 25 ) {
-					this.save( false, null, false );
-					this.typesCount = 1;
-				} else {
-					setTimeout( function() {
-						editor.fire( 'change' );
-					}, 0 );
+					this.editor.fire( 'saveSnapshot' );
+					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
+					this.typing = true;
 				}
 			}
 
+			// Store recorded strokes count.
+			this.strokesRecorded[ keyGroup ] = strokesRecorded;
+			// This prop will tell in next itaration what kind of group was processed previously.
+			this.previousKeyGroup = keyGroup;
+			// Fire change event.
+			this.editor.fire( 'change' );
 		},
 
 		/**
 		 * Resets the undo stack.
 		 */
 		reset: function() {
-			// Remember last pressed key.
-			this.lastKeystroke = 0;
-
 			// Stack for all the undo and redo snapshots, they're always created/removed
 			// in consistency.
 			this.snapshots = [];
@@ -394,6 +322,7 @@
 			this.index = -1;
 
 			this.limit = this.editor.config.undoStackSize || 20;
+
 
 			this.currentImage = null;
 
@@ -410,13 +339,16 @@
 		 * @see #type
 		 */
 		resetType: function() {
+			this.strokesRecorded = [ 0, 0 ];
 			this.typing = false;
-			delete this.lastKeystroke;
-			this.typesCount = 0;
-			this.modifiersCount = 0;
+			this.previousKeyGroup = -1;
 		},
 
-		fireChange: function() {
+		/**
+		 * Reset udno plugin state, it also reflects to undo/redo commands sate.
+		 */
+		refreshState: function() {
+			// These lines can be handled within onChange() too.
 			this.hasUndo = !!this.getNextImage( true );
 			this.hasRedo = !!this.getNextImage( false );
 			// Reset typing
@@ -426,6 +358,10 @@
 
 		/**
 		 * Saves a snapshot of the document image for later retrieval.
+		 *
+		 * @param {Boolean} onContentOnly If `true` snapshot will be saved only if content has changed.
+		 * @param {CKEDITOR.plugins.undo.Image} image An optional image to save, if skipped current editor will be used.
+		 * @param {Boolean} autoFireChange If set to `false`, will not trigger `{@link CKEDITOR.editor.change}` event to editor.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			var editor = this.editor;
@@ -456,7 +392,7 @@
 
 					if ( image.equalsSelection( this.currentImage ) )
 						return false;
-				} else
+				} else if ( autoFireChange !== false )
 					editor.fire( 'change' );
 			}
 
@@ -473,10 +409,15 @@
 			this.currentImage = image;
 
 			if ( autoFireChange !== false )
-				this.fireChange();
+				this.refreshState();
 			return true;
 		},
 
+		/**
+		 * Sets editor contents/selection to the one stored in `image`.
+		 *
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} image
+		 */
 		restoreImage: function( image ) {
 			// Bring editor focused to restore selection.
 			var editor = this.editor,
@@ -491,7 +432,7 @@
 			// Start transaction - do not allow any mutations to the
 			// snapshots stack done when selecting bookmarks (much probably
 			// by selectionChange listener).
-			this.locked = 1;
+			this.locked = { level: 999 };
 
 			this.editor.loadSnapshot( image.contents );
 
@@ -506,7 +447,7 @@
 				$range.select();
 			}
 
-			this.locked = 0;
+			this.locked = null;
 
 			this.index = image.index;
 			this.currentImage = this.snapshots[ this.index ];
@@ -515,12 +456,17 @@
 			// content, since actualy content may differ from
 			// the original snapshot due to dom change. (#4622)
 			this.update();
-			this.fireChange();
+			this.refreshState();
 
 			editor.fire( 'change' );
 		},
 
-		// Get the closest available image.
+		/**
+		 * Get the closest available image.
+		 *
+		 * @param {Boolean} isUndo If `true` will return previous image.
+		 * @returns {CKEDITOR.plugins.undo.Image} Next image or `null`.
+		 */
 		getNextImage: function( isUndo ) {
 			var snapshots = this.snapshots,
 				currentImage = this.currentImage,
@@ -630,6 +576,32 @@
 		},
 
 		/**
+		 * Amends last snapshot, and changes its selection (only in case when contents
+		 * are equal between these two).
+		 *
+		 * @since 4.4.4
+		 * @param {CKEDITOR.plugins.undo.Image} newSnapshot New snapshot with new selection.
+		 * @returns {Boolean} Returns `true` if selection was amended.
+		 */
+		updateSelection: function( newSnapshot ) {
+			if ( !this.snapshots.length )
+				return false;
+
+			var snapshots = this.snapshots,
+				lastImage = snapshots[ snapshots.length - 1 ];
+
+			if ( lastImage.equalsContent( newSnapshot ) ) {
+				if ( !lastImage.equalsSelection( newSnapshot ) ) {
+					snapshots[ snapshots.length - 1 ] = newSnapshot;
+					this.currentImage = newSnapshot;
+					return true;
+				}
+			}
+
+			return false;
+		},
+
+		/**
 		 * Locks the snapshot stack to prevent any save/update operations and when necessary,
 		 * updates the tip of the snapshot stack with the DOM changes introduced during the
 		 * locked period, after the {@link #unlock} method is called.
@@ -711,6 +683,287 @@
 					}
 				}
 			}
+		},
+
+		/**
+		 * Checks whether a key is one of navigation keys (arrows, page up/down, etc.).
+		 * See also the {@link #navigationKeyCodes} property.
+		 *
+		 * @since 4.4.4
+		 * @param {Number} keyCode
+		 * @returns {Boolean}
+		 */
+		isNavigationKey: function( keyCode ) {
+			return !!this.navigationKeyCodes[ keyCode ];
+		}
+	};
+
+	// Helper method called when undoManager.typing val was changed to true.
+	function onTypingStart( undoManager ) {
+		// It's safe to now indicate typing state.
+		undoManager.typing = true;
+
+		// Manually mark snapshot as available.
+		undoManager.hasUndo = true;
+		undoManager.hasRedo = false;
+
+		undoManager.onChange();
+	}
+
+	/**
+	 * Contains a snapshot of editor content and selection at given point in time.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.Image
+	 * @constructor Creates an Image class instance.
+	 * @param {CKEDITOR.editor} editor The editor instance on which the image is created.
+	 * @param {Boolean} [contentsOnly] If set to `true` image will contain only contents, without selection.
+	 */
+	var Image = CKEDITOR.plugins.undo.Image = function( editor, contentsOnly ) {
+			this.editor = editor;
+
+			editor.fire( 'beforeUndoImage' );
+
+			var contents = editor.getSnapshot();
+
+			// In IE, we need to remove the expando attributes.
+			if ( CKEDITOR.env.ie && contents )
+				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
+
+			this.contents = contents;
+
+			if ( !contentsOnly ) {
+				var selection = contents && editor.getSelection();
+				this.bookmarks = selection && selection.createBookmarks2( true );
+			}
+
+			editor.fire( 'afterUndoImage' );
+		};
+
+	// Attributes that browser may changing them when setting via innerHTML.
+	var protectedAttrs = /\b(?:href|src|name)="[^"]*?"/gi;
+
+	Image.prototype = {
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if contents in `otherImage` is the same.
+		 */
+		equalsContent: function( otherImage ) {
+			var thisContents = this.contents,
+				otherContents = otherImage.contents;
+
+			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
+			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
+				thisContents = thisContents.replace( protectedAttrs, '' );
+				otherContents = otherContents.replace( protectedAttrs, '' );
+			}
+
+			if ( thisContents != otherContents )
+				return false;
+
+			return true;
+		},
+
+		/**
+		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
+		 */
+		equalsSelection: function( otherImage ) {
+			var bookmarksA = this.bookmarks,
+				bookmarksB = otherImage.bookmarks;
+
+			if ( bookmarksA || bookmarksB ) {
+				if ( !bookmarksA || !bookmarksB || bookmarksA.length != bookmarksB.length )
+					return false;
+
+				for ( var i = 0; i < bookmarksA.length; i++ ) {
+					var bookmarkA = bookmarksA[ i ],
+						bookmarkB = bookmarksB[ i ];
+
+					if ( bookmarkA.startOffset != bookmarkB.startOffset || bookmarkA.endOffset != bookmarkB.endOffset || !CKEDITOR.tools.arrayCompare( bookmarkA.start, bookmarkB.start ) || !CKEDITOR.tools.arrayCompare( bookmarkA.end, bookmarkB.end ) )
+						return false;
+				}
+			}
+
+			return true;
+		}
+
+		/**
+		 * Contents of the editor.
+		 *
+		 * @readonly
+		 * @property {String} contents
+		 */
+
+		/**
+		 * Bookmarks representing selection in image.
+		 *
+		 * @readonly
+		 * @property {Object[]} bookmarks Array of bookmark2 objects, see {@link CKEDITOR.dom.range#createBookmark2} for definition.
+		 */
+	};
+
+	var inputFired = 0,
+		ignoreInputEvent = false,
+		ignoreInputEventListener = function() {
+			ignoreInputEvent = true;
+		};
+
+	/**
+	 * Class encapsulating all the native events listeners which have to be used in
+	 * order to handle undo manager integration for native editing actions (excluding drag and drop and paste support
+	 * handled by the clipboard plugin).
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.NativeEditingHandler
+	 * @member CKEDITOR.plugins.undo Undo manager owning the handler.
+	 * @constructor
+	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
+	 * @since 4.4.4
+	 */
+	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
+		// We'll use keyboard + input events to determine if snapshot should be created.
+		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
+		// That will tell us if any printable data was inserted.
+		// On `input` event we'll increase `inputFired` counter. Eventually it might be
+		// canceled by paste/drop using `ignoreInputEvent` flag.
+		// Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
+
+		/**
+		 * Undo Manager instance owning the editing handler.
+		 *
+		 * @property {CKEDITOR.plugins.undo.UndoManager} undoManager
+		 */
+		this.undoManager = undoManager;
+
+		/**
+		 * An image of editor during the keydown event (therefore without DOM modification).
+		 *
+		 * @property {CKEDITOR.plugins.undo.Image} lastKeydownImage
+		 */
+	};
+
+	NativeEditingHandler.prototype = {
+		/**
+		 * The `keydown` event listener.
+		 *
+		 * @param {CKEDITOR.dom.event} evt
+		 */
+		onKeydown: function( evt ) {
+			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
+			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
+				evt.data.preventDefault();
+				return;
+			}
+
+			var keyCode = evt.data.getKey(),
+				undoManager = this.undoManager;
+
+			// We need to store an image which will be used in case of key group
+			// change.
+			this.lastKeydownImage = new Image( undoManager.editor );
+			if ( undoManager.isNavigationKey( keyCode ) ) {
+				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
+					// We already have image, so we'd like to reuse it.
+					undoManager.save( false, this.lastKeydownImage );
+					undoManager.resetType();
+				}
+			}
+		},
+
+		/**
+		 * The `input` event listener.
+		 */
+		onInput: function() {
+			inputFired += 1;
+			// inputFired counter shouldn't be increased if paste/drop event were fired before.
+			if ( ignoreInputEvent ) {
+				inputFired -= 1;
+				ignoreInputEvent = false;
+			}
+		},
+
+		/**
+		 * The `keyup` event listener.
+		 *
+		 * @param {CKEDITOR.dom.event} evt
+		 */
+		onKeyup: function( evt ) {
+			var undoManager = this.undoManager,
+				keyCode = evt.data.getKey(),
+				editor = undoManager.editor,
+				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
+
+			// IE: backspace/del would still call keypress event, even if nothing was removed.
+			if ( ieFunctionKeysWorkaround && this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
+				return;
+			}
+
+			if ( inputFired > 0 ) {
+				// Reset flag indicating input event.
+				inputFired -= 1;
+				undoManager.type( keyCode );
+			} else if ( undoManager.isNavigationKey( keyCode ) ) {
+				// Note content snapshot has been checked in keydown.
+				this.onNavigationKey( true );
+			}
+		},
+
+		/**
+		 * Method called for navigation change. At first it will check if current content doesn't differ
+		 * from the last saved snapshot.
+		 *
+		 * * If content differ it creates standard, extra snapshot.
+		 * * If it doesn't differ it will compare selection, and will amend last snapshot selection if it changed.
+		 *
+		 * @param {Boolean} skipContentCompare If set to `true` it won't compare content, and do only selection check.
+		 */
+		onNavigationKey: function( skipContentCompare ) {
+			var undoManager = this.undoManager;
+
+			// We attempt to save content snapshot, if content didn't change, we'll
+			// only amend selection.
+			if ( skipContentCompare || !undoManager.save( true, null, false ) )
+				undoManager.updateSelection( new Image( undoManager.editor ) );
+
+			undoManager.resetType();
+		},
+
+		/**
+		 * Resets input counter, method for internal use only.
+		 */
+		resetCounter: function() {
+			inputFired = 0;
+		},
+
+		/**
+		 * Attaches editable listeners required to provide undo functionallity.
+		 */
+		attachListeners: function() {
+			var editable = this.undoManager.editor.editable(),
+				that = this;
+
+			// We'll create a snapshot here (before DOM modification), because we'll
+			// need unmodified content when we got keygroup toggled in keyup.
+			editable.attachListener( editable, 'keydown', that.onKeydown, that );
+
+			// Only IE can't use input event, because it's not fired in contenteditable.
+			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
+
+			// Keyup executes main snapshot logic.
+			editable.attachListener( editable, 'keyup', that.onKeyup, that );
+
+			// On paste and drop we need to cancel inputFired variable.
+			// It would result with calling undoManager.type() on any following key.
+			editable.attachListener( editable, 'paste', ignoreInputEventListener );
+			editable.attachListener( editable, 'drop', ignoreInputEventListener );
+
+			// Click should create a snapshot if needed, but shouldn't cause change event.
+			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
+			// will conflict with evt passed to listener.
+			editable.attachListener( editable, 'click', function() {
+				that.onNavigationKey();
+			} );
 		}
 	};
 } )();
