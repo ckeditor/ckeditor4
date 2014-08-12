@@ -941,21 +941,17 @@
 		 */
 		attachListeners: function() {
 			var editable = this.undoManager.editor.editable(),
-				that = this,
-				// Listeners should have editingHandler as this object.
-				getBoundListener = function( inputFunction ) {
-					return CKEDITOR.tools.bind( inputFunction, that );
-				};
+				that = this;
 
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', getBoundListener( this.onKeydown ) );
+			editable.attachListener( editable, 'keydown', that.onKeydown, that );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
-			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', getBoundListener( this.onInput ) );
+			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
 
 			// Keyup executes main snapshot logic.
-			editable.attachListener( editable, 'keyup', getBoundListener( this.onKeyup ) );
+			editable.attachListener( editable, 'keyup', that.onKeyup, that );
 
 			// On paste and drop we need to cancel inputFired variable.
 			// It would result with calling undoManager.type() on any following key.
@@ -963,7 +959,9 @@
 			editable.attachListener( editable, 'drop', ignoreInputEventListener );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
-			editable.attachListener( editable, 'click', function( evt ) {
+			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
+			// will conflict with evt passed to listener.
+			editable.attachListener( editable, 'click', function() {
 				that.onNavigationKey();
 			} );
 		}
