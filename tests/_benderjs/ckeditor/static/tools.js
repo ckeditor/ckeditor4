@@ -770,30 +770,98 @@
 		},
 
 		/**
+		 * Returns an object which works similar to native data transfer object, has
+		 * `setData` and `getData` methods, `types` array and handle only Text and URL data
+		 * types on IE.
+		 */
+		mockNativeDataTransfer: function() {
+			return {
+				types: [],
+				_data: [],
+				// Emulate browsers native behavior for getDeta/setData.
+				setData: function( type, data ) {
+					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+						throw "Unexpected call to method or property access.";
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
+						return;
+
+					this._data[ type ] = data;
+					this.types.push( type );
+				},
+				getData: function( type ) {
+					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+						throw "Invalid argument.";
+
+					if ( !this._data[ type ] )
+						return '';
+
+					return this._data[ type ];
+				}
+			}
+		},
+
+		/**
+		 * Returns an object to mock drop event with `dataTransfer` object and `preventDefault`
+		 * `getTarget` methods. To mock target new text mode is created with 'targetMock' string.
+		 */
+		mockDropEvent: function() {
+			var dataTransfer = this.mockNativeDataTransfer();
+			return {
+				$: {
+					dataTransfer: dataTransfer
+				},
+				preventDefault: function() {
+					// noop
+				},
+				getTarget: function() {
+					return new CKEDITOR.dom.node( 'targetMock' );
+				}
+			}
+		},
+
+		/**
+		 * Returns an object to mock paste event with `clipboardData` object and `preventDefault`
+		 * `getTarget` methods. To mock target new text mode is created with 'targetMock' string.
+		 */
+		mockPasteEvent: function() {
+			var dataTransfer = this.mockNativeDataTransfer();
+			return {
+				$: {
+					ctrlKey: true,
+					clipboardData: CKEDITOR.env.ie ? undefined : dataTransfer
+				},
+				preventDefault: function() {
+					// noop
+				},
+				getTarget: function() {
+					return new CKEDITOR.dom.node( 'targetMock' );
+				}
+			}
+		},
+
+		/**
 		 * Paste given html into given editor.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor instance.
 		 * @param {String} html Html to be pasted.
 		 */
 		emulatePaste: function( editor, html ) {
-			var el = editor.editable(),
-				doc = el.getDocument(),
-				evt = CKEDITOR.env.ie ? 'beforepaste' : 'paste';
+			var editable = editor.editable(),
+				doc = editable.getDocument(),
+				evt = this.mockPasteEvent();
 
-			el.fire( evt, {
-				// Clipboard is checking for existance of evt.data.$.clipboardData.
-				// Do not fail there.
-				$: {
-					ctrlKey: true
-				}
-			} );
-
-			// Insert given HTML into the current selection, which should be in pastebin.
-			// IE>=11 doesn't support neither msieRange#pasteHtml nor inserhtml command,
-			// so for simplicity on all IEs use custom way.
 			if ( !CKEDITOR.env.ie ) {
-				doc.$.execCommand( 'inserthtml', false, html );
+				// Fire paste event with HTML in the dataTransfer object on non-IE.
+				evt.$.clipboardData.setData( 'text/html', html );
+				editable.fire( 'paste', evt );
 			} else {
+				// IE does not allow to get HTML from the `clipboardData` object so we need to
+				// use pastebin and insert given HTML into the current selection.
+				// IE>=11 doesn't support neither msieRange#pasteHtml nor inserhtml command,
+				// so for simplicity on all IEs use custom way.
+				editable.fire( 'beforepaste', evt );
+
 				var frag = new CKEDITOR.dom.element( 'div', doc );
 				frag.setHtml( html );
 
