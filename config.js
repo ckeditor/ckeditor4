@@ -26,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'filebrowser,' +
 		'find,' +
 		'flash,' +
-		'floatingspace,' +
+		// 'floatingspace,' +
 		'font,' +
 		'format,' +
 		'forms,' +
@@ -51,7 +51,7 @@ CKEDITOR.editorConfig = function( config ) {
 		// 'preview,' +
 		// 'print,' +
 		'removeformat,' +
-		'resize,' +
+		// 'resize,' +
 		'save,' +
 		'selectall,' +
 		'sharedspace,' +
