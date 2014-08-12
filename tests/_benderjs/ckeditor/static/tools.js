@@ -845,15 +845,26 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor instance.
 		 * @param {String} html Html to be pasted.
+		 * @param {Object} [data] Data in various types (key is type, value is data).
+		 * These data will be set to the clipboardData on non-IE browsers.
 		 */
-		emulatePaste: function( editor, html ) {
+		emulatePaste: function( editor, html, data ) {
 			var editable = editor.editable(),
 				doc = editable.getDocument(),
 				evt = this.mockPasteEvent();
 
 			if ( !CKEDITOR.env.ie ) {
 				// Fire paste event with HTML in the dataTransfer object on non-IE.
-				evt.$.clipboardData.setData( 'text/html', html );
+				if ( !data ) {
+					data = {};
+				}
+
+				data[ 'text/html' ] = html;
+
+				for ( var type in data ) {
+					evt.$.clipboardData.setData( type, data[ type ] );
+				}
+
 				editable.fire( 'paste', evt );
 			} else {
 				// IE does not allow to get HTML from the `clipboardData` object so we need to
