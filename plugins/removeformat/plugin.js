@@ -26,8 +26,11 @@ CKEDITOR.plugins.removeformat = {
 				var removeAttributes = editor._.removeAttributes || ( editor._.removeAttributes = editor.config.removeFormatAttributes.split( ',' ) );
 
 				var filter = CKEDITOR.plugins.removeformat.filter;
-				var ranges = editor.getSelection().getRanges( 1 ),
+				var ranges = editor.getSelection().getRanges(),
 					iterator = ranges.createIterator(),
+					isElement = function( element ) {
+						return element.type == CKEDITOR.NODE_ELEMENT;
+					},
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
@@ -77,6 +80,20 @@ CKEDITOR.plugins.removeformat = {
 							// If we have reached the end of the selection, stop looping.
 							if ( currentNode.equals( endNode ) )
 								break;
+
+							if ( currentNode.isReadOnly() ) {
+								// In case of non-editable we're skipping to the next sibling *elmenet*.
+
+								// We need to be aware that endNode can be nested within current non-editable.
+								// This condition tests if currentNode (non-editable) contains endNode. If it does
+								// then we should break the filtering
+								if ( currentNode.getPosition( endNode ) & CKEDITOR.POSITION_CONTAINS ) {
+									break;
+								}
+
+								currentNode = currentNode.getNext( isElement );
+								continue;
+							}
 
 							// Cache the next node to be processed. Do it now, because
 							// currentNode may be removed.
