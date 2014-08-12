@@ -432,7 +432,7 @@
 			// Start transaction - do not allow any mutations to the
 			// snapshots stack done when selecting bookmarks (much probably
 			// by selectionChange listener).
-			this.locked = 1;
+			this.locked = { level: 999 };
 
 			this.editor.loadSnapshot( image.contents );
 
@@ -447,7 +447,7 @@
 				$range.select();
 			}
 
-			this.locked = 0;
+			this.locked = null;
 
 			this.index = image.index;
 			this.currentImage = this.snapshots[ this.index ];
