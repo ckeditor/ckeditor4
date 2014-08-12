@@ -793,7 +793,7 @@
 					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
 						throw "Invalid argument.";
 
-					if ( !this._data[ type ] )
+					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null )
 						return '';
 
 					return this._data[ type ];
