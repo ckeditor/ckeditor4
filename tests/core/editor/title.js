@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* bender-ckeditor-plugins: wysiwygarea,floatingspace,toolbar */
 
 ( function() {
 	'use strict';
@@ -145,6 +146,21 @@
 		return editable.isInline() ? editable : editor.window.getFrame();
 	}
 
+	function getVoiceLabel( editor ) {
+		var main = new CKEDITOR.dom.element( document.getElementById( 'cke_' + editor.name ) ),
+			children = main ? main.getChildren() : null;
+
+		var max = children ? children.count() : 0;
+		for ( var i = 0; i < max; i++ ) {
+			var child = children.getItem( i );
+			if ( child && child.hasClass && child.hasClass( 'cke_voice_label' ) ) {
+				return child;
+			}
+		}
+
+		return null;
+	}
+
 	function assertTitle( expected, editor, msg ) {
 		assert.areSame(
 			expected,
@@ -168,6 +184,16 @@
 		}
 		else
 			assert.isTrue( !!~element.getAttribute( 'title' ).indexOf( editor.title ), 'editor.title used as an attribute of editable of ' + editor.name );
+	}
+
+	function assertVoiceLabelIsBasedOnTitle( editor ) {
+		var element = getVoiceLabel( editor );
+
+		if ( editor.title == false ) {
+			assert.isNull( null, element );
+		} else {
+			assert.areSame( editor.title, element.getText() );
+		}
 	}
 
 	setUpEditors();
@@ -205,6 +231,12 @@
 		'test editor.title transferred to editable element': function() {
 			for ( var i in editors )
 				assertTitleSetOnEditable( editors[ i ] );
+		},
+
+		'test voice label have properly set title': function() {
+			for ( var i in editors ) {
+				assertVoiceLabelIsBasedOnTitle( editors[ i ] );
+			}
 		},
 
 		'test restore title after instance is destroyed': function() {
