@@ -1,0 +1,28 @@
+{
+	"name": "benderjs-ckeditor",
+	"version": "0.1.0",
+	"description": "CKEditor plugin for Bender.js",
+	"keywords": [
+		"bender",
+		"benderjs",
+		"ckeditor",
+		"plugin",
+		"test"
+	],
+	"main": "lib/index.js",
+	"author": "CKSource (http://cksource.com/)",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/benderjs/benderjs-ckeditor.git"
+	},
+	"bugs": {
+		"url": "https://github.com/benderjs/benderjs-ckeditor/issues"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"when": "~3.1.0"
+	}
+}
