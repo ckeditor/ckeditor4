@@ -9,7 +9,7 @@
  */
 
 // #### Compressed Code
-// Must be updated on changes in the script as well as updated in the ckeditor.js file.
+// Compressed code in ckeditor.js must be be updated on changes in the script.
 // The Closure Compiler online service should be used when updating this manually:
 // http://closure-compiler.appspot.com/
 
