@@ -6,8 +6,7 @@
 	bender.test( {
 		'test CKEDITOR.basePath when used src="ckeditor.js?foo&bar"': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-default-params' ),
-				doc = iframe.getFrameDocument(),
-				defaultPath = CKEDITOR.basePath;
+				doc = iframe.getFrameDocument();
 
 			iframe.on( 'load', function() {
 				resume( function() {
@@ -45,8 +44,7 @@
 		Test impossible to perform with present Bender's capabilities.
 		'test CKEDITOR.basePath when used src="ckeditor.js;foo&bar"': function() {
 			var iframe = CKEDITOR.document.getById( 'iframe-semicolon-params' ),
-				doc = iframe.getFrameDocument(),
-				defaultPath = CKEDITOR.basePath;
+				doc = iframe.getFrameDocument();
 
 			iframe.on( 'load', function() {
 				resume( function() {
