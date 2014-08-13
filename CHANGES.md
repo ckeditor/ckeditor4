@@ -3,10 +3,6 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.4
 
-Important Notes:
-
-* [#12296](http://dev.ckeditor.com/ticket/12296): Merged benderjs-ckeditor into main CKEditor repository.
-
 Fixed Issues:
 
 * [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of UI Color YUI styles. Thanks to [CasherWest](https://github.com/CasherWest)!
@@ -24,6 +20,10 @@ Fixed Issues:
 * [#12281](http://dev.ckeditor.com/ticket/12281): Fixed: Minor syntax issue in CSS files.
 * [#12178](http://dev.ckeditor.com/ticket/12178): [Blink/Webkit] Fixed: Iterator does not return block if selection is located at the end of it.
 * [#12185](http://dev.ckeditor.com/ticket/12185): [IE9QM] Fixed: Error thrown when moving mouse over focused editor's scrollbar.
+
+Other Changes:
+
+* [#12296](http://dev.ckeditor.com/ticket/12296): Merged benderjs-ckeditor into main CKEditor repository.
 
 ## CKEditor 4.4.3
 
