@@ -758,6 +758,10 @@
 
 			this.editable( null );
 
+			this.filter.destroy();
+			delete this.filter;
+			delete this.activeFilter;
+
 			this.status = 'destroyed';
 
 			this.fire( 'destroy' );

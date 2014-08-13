@@ -801,7 +801,16 @@
 
 				return CKEDITOR.ENTER_BR;
 			};
-		} )()
+		} )(),
+
+		/**
+		 * Destroys the filter instance, remove it from global CKEDITOR.filter object.
+		 *
+		 * @since 4.4.4
+		 */
+		destroy: function() {
+			delete CKEDITOR.filter.instances[ this.id ];
+		}
 	};
 
 	function addAndOptimizeRules( that, newRules, featureName, standardizedRules, optimizedRules ) {
