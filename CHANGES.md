@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.4
 
+Important Notes:
+
+* [#12296](http://dev.ckeditor.com/ticket/12296): Merged benderjs-ckeditor into main CKEditor repository.
+
 Fixed Issues:
 
 * [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of UI Color YUI styles. Thanks to [CasherWest](https://github.com/CasherWest)!
