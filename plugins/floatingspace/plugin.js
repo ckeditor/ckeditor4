@@ -263,16 +263,17 @@
 			} )();
 
 		if ( topHtml ) {
-			var floatSpaceTpl = new CKEDITOR.template( '<div' +
-				' id="cke_{name}"' +
-				' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
-				' dir="{langDir}"' +
-				' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
-				' lang="{langCode}"' +
-				' role="application"' +
-				' style="{style}"' +
-				( editor.title ? ' aria-labelledby="cke_{name}_arialbl"' : ' ' ) +
-				'>' +
+			var floatSpaceTpl = new CKEDITOR.template(
+				'<div' +
+					' id="cke_{name}"' +
+					' class="cke {id} cke_reset_all cke_chrome cke_editor_{name} cke_float cke_{langDir} ' + CKEDITOR.env.cssClass + '"' +
+					' dir="{langDir}"' +
+					' title="' + ( CKEDITOR.env.gecko ? ' ' : '' ) + '"' +
+					' lang="{langCode}"' +
+					' role="application"' +
+					' style="{style}"' +
+					( editor.title ? ' aria-labelledby="cke_{name}_arialbl"' : ' ' ) +
+					'>' +
 					( editor.title ? '<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' : ' ' ) +
 					'<div class="cke_inner">' +
 						'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
