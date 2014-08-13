@@ -23,6 +23,7 @@ Fixed Issues:
 * [#12215](http://dev.ckeditor.com/ticket/12215): Fixed: Basepath resolution doesn't recognize semicolon as a query separator.
 * [#12135](http://dev.ckeditor.com/ticket/12135): Fixed: Remove format does not work on widgets.
 * [#12298](http://dev.ckeditor.com/ticket/12298): [IE11] Fixed: Clicking below body in Compatibility Mode will no longer reset selection to the first line.
+* [#12204](http://dev.ckeditor.com/ticket/12204): Fixed: Editor's voice label is not affected by [`config.title`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
 
 Other Changes:
 
