@@ -20,6 +20,7 @@ Fixed Issues:
 * [#12281](http://dev.ckeditor.com/ticket/12281): Fixed: Minor syntax issue in CSS files.
 * [#12178](http://dev.ckeditor.com/ticket/12178): [Blink/Webkit] Fixed: Iterator does not return block if selection is located at the end of it.
 * [#12185](http://dev.ckeditor.com/ticket/12185): [IE9QM] Fixed: Error thrown when moving mouse over focused editor's scrollbar.
+* [#12215](http://dev.ckeditor.com/ticket/12215): Fixed: Basepath resolution doesn't recognize semicolon as a query separator.
 
 Other Changes:
 
