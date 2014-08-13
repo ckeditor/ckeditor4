@@ -22,6 +22,7 @@ Fixed Issues:
 * [#12185](http://dev.ckeditor.com/ticket/12185): [IE9QM] Fixed: Error thrown when moving mouse over focused editor's scrollbar.
 * [#12215](http://dev.ckeditor.com/ticket/12215): Fixed: Basepath resolution doesn't recognize semicolon as a query separator.
 * [#12135](http://dev.ckeditor.com/ticket/12135): Fixed: Remove format does not work on widgets.
+* [#12298](http://dev.ckeditor.com/ticket/12298): [IE11] Fixed: Clicking below body in Compatibility Mode will no longer reset selection to the first line.
 
 Other Changes:
 

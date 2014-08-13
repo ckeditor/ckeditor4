@@ -634,7 +634,7 @@
 									// Read the current cursor.
 									var rngEnd = body.$.createTextRange();
 
-									moveRangeToPoint( rngEnd, evt.x, evt.y );
+									moveRangeToPoint( rngEnd, evt.clientX, evt.clientY );
 
 									// Handle drag directions.
 									textRng.setEndPoint(
@@ -668,7 +668,7 @@
 									 evt.$.x < html.$.clientWidth ) {
 								// Start to build the text range.
 								var textRng = body.$.createTextRange();
-								moveRangeToPoint( textRng, evt.$.x, evt.$.y );
+								moveRangeToPoint( textRng, evt.$.clientX, evt.$.clientY );
 
 								// Records the dragging start of the above text range.
 								var startRng = textRng.duplicate();
