@@ -21,6 +21,7 @@ Fixed Issues:
 * [#12178](http://dev.ckeditor.com/ticket/12178): [Blink/Webkit] Fixed: Iterator does not return block if selection is located at the end of it.
 * [#12185](http://dev.ckeditor.com/ticket/12185): [IE9QM] Fixed: Error thrown when moving mouse over focused editor's scrollbar.
 * [#12215](http://dev.ckeditor.com/ticket/12215): Fixed: Basepath resolution doesn't recognize semicolon as a query separator.
+* [#12135](http://dev.ckeditor.com/ticket/12135): Fixed: Remove format does not work on widgets.
 
 Other Changes:
 
