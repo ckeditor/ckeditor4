@@ -112,9 +112,6 @@ if ( !window.CKEDITOR ) {
 			 * @property {String}
 			 */
 			basePath: ( function() {
-				// ATTENTION: fixes to this code must be ported to
-				// var basePath in "core/loader.js".
-
 				// Find out the editor directory path, based on its <script> tag.
 				var path = window.CKEDITOR_BASEPATH || '';
 
