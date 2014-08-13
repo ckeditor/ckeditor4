@@ -370,8 +370,6 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 	}
 
-	var themedTpl;
-
 	function loadTheme( editor ) {
 		var name = editor.name,
 			element = editor.element,
@@ -381,29 +379,29 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var topHtml = editor.fire( 'uiSpace', { space: 'top', html: '' } ).html;
 		var bottomHtml = editor.fire( 'uiSpace', { space: 'bottom', html: '' } ).html;
 
-		if ( !themedTpl ) {
-			themedTpl = CKEDITOR.addTemplate( 'maincontainer', '<{outerEl}' +
+		var themedTpl = new CKEDITOR.template(
+			'<{outerEl}' +
 				' id="cke_{name}"' +
 				' class="{id} cke cke_reset cke_chrome cke_editor_{name} cke_{langDir} ' + CKEDITOR.env.cssClass + '" ' +
 				' dir="{langDir}"' +
 				' lang="{langCode}"' +
 				' role="application"' +
-				' aria-labelledby="cke_{name}_arialbl">' +
-				'<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' +
-					'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
-						'{topHtml}' +
-						'<{outerEl} id="{contentId}" class="cke_contents cke_reset" role="presentation"></{outerEl}>' +
-						'{bottomHtml}' +
-					'</{outerEl}>' +
-				'</{outerEl}>' );
-		}
+				( editor.title ? ' aria-labelledby="cke_{name}_arialbl"' : '' ) +
+				'>' +
+				( editor.title ? '<span id="cke_{name}_arialbl" class="cke_voice_label">{voiceLabel}</span>' : '' ) +
+				'<{outerEl} class="cke_inner cke_reset" role="presentation">' +
+					'{topHtml}' +
+					'<{outerEl} id="{contentId}" class="cke_contents cke_reset" role="presentation"></{outerEl}>' +
+					'{bottomHtml}' +
+				'</{outerEl}>' +
+			'</{outerEl}>' );
 
 		var container = CKEDITOR.dom.element.createFromHtml( themedTpl.output( {
 			id: editor.id,
 			name: name,
 			langDir: editor.lang.dir,
 			langCode: editor.langCode,
-			voiceLabel: [ editor.lang.editor, editor.name ].join( ', ' ),
+			voiceLabel: editor.title,
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',

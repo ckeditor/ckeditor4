@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* bender-ckeditor-plugins: wysiwygarea,floatingspace,toolbar */
 
 ( function() {
 	'use strict';
@@ -145,6 +146,10 @@
 		return editable.isInline() ? editable : editor.window.getFrame();
 	}
 
+	function getVoiceLabel( editor ) {
+		return CKEDITOR.document.getById( 'cke_' + editor.name + '_arialbl' );
+	}
+
 	function assertTitle( expected, editor, msg ) {
 		assert.areSame(
 			expected,
@@ -168,6 +173,17 @@
 		}
 		else
 			assert.isTrue( !!~element.getAttribute( 'title' ).indexOf( editor.title ), 'editor.title used as an attribute of editable of ' + editor.name );
+	}
+
+	function assertVoiceLabelIsBasedOnTitle( editor ) {
+		var element = getVoiceLabel( editor );
+
+		if ( !editor.title ) {
+			assert.isNull( element, 'editor: ' + editor.name );
+		} else {
+			assert.isNotNull( element, 'editor: ' + editor.name + ' - element' )
+			assert.areSame( editor.title, element.getText(), 'editor: ' + editor.name + ' - value' );
+		}
 	}
 
 	setUpEditors();
@@ -205,6 +221,12 @@
 		'test editor.title transferred to editable element': function() {
 			for ( var i in editors )
 				assertTitleSetOnEditable( editors[ i ] );
+		},
+
+		'test voice label have properly set title': function() {
+			for ( var i in editors ) {
+				assertVoiceLabelIsBasedOnTitle( editors[ i ] );
+			}
 		},
 
 		'test restore title after instance is destroyed': function() {
