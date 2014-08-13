@@ -370,10 +370,12 @@
 			// Because information about line break will be lost when shrinking range.
 			// Note that we test only if path block exist, because we must properly shrink
 			// range containing table and/or table cells.
+			// Note: When range is collapsed there's no way it can be shrinked.
+			// By checking if range is collapsed we also prevent #12308.
 			startPath = range.startPath(),
 			endPath = range.endPath(),
-			startAtInnerBoundary = rangeAtInnerBlockBoundary( range, startPath.block ),
-			endAtInnerBoundary = rangeAtInnerBlockBoundary( range, endPath.block, 1 );
+			startAtInnerBoundary = !range.collapsed && rangeAtInnerBlockBoundary( range, startPath.block ),
+			endAtInnerBoundary = !range.collapsed && rangeAtInnerBlockBoundary( range, endPath.block, 1 );
 
 		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
 		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );

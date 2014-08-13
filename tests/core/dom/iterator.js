@@ -152,6 +152,15 @@ bender.test( {
 		assert.areSame( 'h1,p', iterateWithRangeIterator( ranges ).join( ',' ) );
 	},
 
+	// #12308 (Note: this test wasn't able to verify #12308's patch, but it makes sense anyway).
+	'test iterating at block boundary - before bogus br': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var source = '<h1>para1^<br /></h1><p>para2</p>';
+		checkRangeIteration( source, null,  [ 'h1' ], null, 'Iteration will yield heading.' );
+	},
+
 	'test iterating over pseudo block': function() {
 		var source = '<div><p>[paragraph</p>text]</div>';
 		var output = '<div><p>paragraph</p><p>text</p></div>';
