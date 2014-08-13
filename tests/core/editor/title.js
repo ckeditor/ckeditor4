@@ -147,18 +147,7 @@
 	}
 
 	function getVoiceLabel( editor ) {
-		var main = new CKEDITOR.dom.element( document.getElementById( 'cke_' + editor.name ) ),
-			children = main ? main.getChildren() : null;
-
-		var max = children ? children.count() : 0;
-		for ( var i = 0; i < max; i++ ) {
-			var child = children.getItem( i );
-			if ( child && child.hasClass && child.hasClass( 'cke_voice_label' ) ) {
-				return child;
-			}
-		}
-
-		return null;
+		return CKEDITOR.document.getById( 'cke_' + editor.name + '_arialbl' );
 	}
 
 	function assertTitle( expected, editor, msg ) {
@@ -189,10 +178,11 @@
 	function assertVoiceLabelIsBasedOnTitle( editor ) {
 		var element = getVoiceLabel( editor );
 
-		if ( editor.title == false ) {
-			assert.isNull( null, element );
+		if ( !editor.title ) {
+			assert.isNull( element, 'editor: ' + editor.name );
 		} else {
-			assert.areSame( editor.title, element.getText() );
+			assert.isNotNull( element, 'editor: ' + editor.name + ' - element' )
+			assert.areSame( editor.title, element.getText(), 'editor: ' + editor.name + ' - value' );
 		}
 	}
 
