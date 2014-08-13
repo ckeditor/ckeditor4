@@ -86,7 +86,7 @@
 
 		styleText = ( isPrepend ? [ addingStyleText, styleText ] : [ styleText, addingStyleText ] ).join( ';' );
 
-		this.attributes.style = styleText.replace( /^;|;(?=;)/, '' );
+		this.attributes.style = styleText.replace( /^;+|;(?=;)/g, '' );
 	};
 
 	// Retrieve a style property value of the element.

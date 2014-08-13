@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,magicline */
+/* bender-ckeditor-plugins: magicline */
 
 ( function() {
 	'use strict';
@@ -74,6 +75,8 @@
 				assert.areEqual( reference[ p ], object[ p ] );
 		}
 	}
+
+	bender.editor = {};
 
 	bender.test(
 	{

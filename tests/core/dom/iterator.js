@@ -46,6 +46,21 @@ function iterateScopedRange( html, opt ) {
 	return { html: tools.compatHtml( sandbox.getOuterHtml() ), list: results };
 }
 
+function iterateWithRangeIterator( ranges, mergeConsequent, rangeIteratorOpts ) {
+	var rangesIterator = ranges.createIterator(),
+		range,
+		blockList = [];
+
+	while ( range = rangesIterator.getNextRange( mergeConsequent ) ) {
+		var iter = range.createIterator(), block;
+		CKEDITOR.tools.extend( iter, rangeIteratorOpts, true );
+		while ( ( block = iter.getNextParagraph() ) )
+			blockList.push( block.getName() );
+	}
+
+	return blockList;
+}
+
 function checkActiveFilter( source, opt, results, msg ) {
 	var sandbox = doc.getById( 'sandbox' );
 	var range = tools.setHtmlWithRange( sandbox, source )[ 0 ];
@@ -89,6 +104,52 @@ bender.test( {
 		var output = '<div><p></p></div>';
 
 		checkRangeIteration( source, null,  [ 'p' ], output, 'Iteration will yield one single paragraph' );
+	},
+
+	// #12178
+	'test iterating over end of line': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var source = '<h1>para1[<br /></h1><p>par]a2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over end of line - no bogus br': function() {
+		var source = '<h1>para1[</h1><p>par]a2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over start of line': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var source = '<h1>pa[ra1<br /></h1><p>]para2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over start of line - no bogus br': function() {
+		var source = '<h1>pa[ra1</h1><p>]para2</p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over start of line 2 - no bogus br': function() {
+		var source = '<h1>pa[ra1</h1><p><b>]para2</b></p>';
+		checkRangeIteration( source, null,  [ 'h1', 'p' ], null, 'Iteration will yield heading and paragraph.' );
+	},
+
+	// #12178
+	'test iterating over start of line 2 - no bogus br - rangeIterator': function() {
+		var source = '<h1>pa[ra1</h1><p><b>]para2</b></p>';
+
+		var sandbox = doc.getById( 'sandbox' ),
+			ranges = tools.setHtmlWithRange( sandbox, source );
+
+		assert.areSame( 'h1,p', iterateWithRangeIterator( ranges ).join( ',' ) );
 	},
 
 	'test iterating over pseudo block': function() {
@@ -139,31 +200,79 @@ bender.test( {
 	},
 
 	// #6728, #4450
+	// While this test may seem to be totally broken (why would someone create bookmakrs between <tr> and <td>?)
+	// it has a deeper sense. It tests what rangeIterator#getNextRange does.
 	'test iterating over table cells (with bookmarks among cells)': function() {
 		var source = '<table><tbody><tr>[<td id="cell1">cell1</td>][<td id="cell2">cell2</td>]</tr></tbody></table>',
 		output = source.replace( /\[|\]|\^/g, '' );
 
-		var sandbox = doc.getById( 'sandbox' );
-		var ranges = tools.setHtmlWithRange( sandbox, source );
+		var sandbox = doc.getById( 'sandbox' ),
+			ranges = tools.setHtmlWithRange( sandbox, source );
 
-		// Create bookmarks by intention.
+		// Create bookmarks intentionally.
 		var bms = ranges.createBookmarks();
 
-		// Check iteration sequence.
-		var rangeIterator = ranges.createIterator(), range, blockList = [];
-		// Merge multiple ranges.
-		while ( range = rangeIterator.getNextRange( true ) ) {
-			var iter = range.createIterator(), block;
-			while ( ( block = iter.getNextParagraph() ) )
-				blockList.push( block.getName() );
-		}
-
-		arrayAssert.itemsAreEqual( [ 'td', 'td' ], blockList );
+		assert.areSame( 'td,td', iterateWithRangeIterator( ranges ).join( ',' ), true );
 
 		// Just to remove bookmarks.
 		ranges.moveToBookmarks( bms );
 
-		assert.areSame( tools.compatHtml( output ) , tools.compatHtml( sandbox.getHtml() ) );
+		assert.areSame( tools.compatHtml( output ), tools.compatHtml( sandbox.getHtml() ) );
+	},
+
+	// See above an explanation of this test.
+	'test iterating over table cells (with bookmarks among cells) - do not merge subsequent ranges': function() {
+		var source = '<table><tbody><tr>[<td id="cell1">cell1</td>][<td id="cell2">cell2</td>]</tr></tbody></table>',
+		output = source.replace( /\[|\]|\^/g, '' );
+
+		var sandbox = doc.getById( 'sandbox' ),
+			ranges = tools.setHtmlWithRange( sandbox, source );
+
+		// Create bookmarks intentionally.
+		var bms = ranges.createBookmarks();
+
+		assert.areSame( 'td,td', iterateWithRangeIterator( ranges ).join( ',' ) );
+
+		// Just to remove bookmarks.
+		ranges.moveToBookmarks( bms );
+
+		assert.areSame( output, tools.compatHtml( sandbox.getHtml() ) );
+	},
+
+	// #6728, #4450
+	'test iterating over entire table': function() {
+		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
+			output1 = source.replace( /\[|\]|\^/g, '' ),
+			output2 = '<table><tbody><tr><th><p>cell1</p></th><td><p>cell2</p></td></tr></tbody></table>';
+
+		checkRangeIteration( source, null, [ 'th', 'td' ], output1, 'Iteration should report table cells' );
+		checkRangeIteration( source, { enforceRealBlocks: 1 }, [ 'p', 'p' ], output2, 'Iteration should establish paragraphs inside table cells' );
+	},
+
+	// #6728, #4450
+	'test iterating over entire table - use rangeIterator': function() {
+		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
+			output = source.replace( /\[|\]|\^/g, '' );
+
+		var sandbox = doc.getById( 'sandbox' ),
+			ranges = tools.setHtmlWithRange( sandbox, source );
+
+		assert.areSame( 'th,td', iterateWithRangeIterator( ranges, true ).join( ',' ) );
+
+		assert.areSame( output, tools.compatHtml( sandbox.getHtml() ) );
+	},
+
+	// #6728, #4450
+	'test iterating over entire table - use rangeIterator and enforceRealBlocks': function() {
+		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
+			output = '<table><tbody><tr><th><p>cell1</p></th><td><p>cell2</p></td></tr></tbody></table>';
+
+		var sandbox = doc.getById( 'sandbox' ),
+			ranges = tools.setHtmlWithRange( sandbox, source );
+
+		assert.areSame( 'p,p', iterateWithRangeIterator( ranges, true, { enforceRealBlocks: true } ).join( ',' ) );
+
+		assert.areSame( output, tools.compatHtml( sandbox.getHtml() ) );
 	},
 
 	'test iterating over list items': function() {
