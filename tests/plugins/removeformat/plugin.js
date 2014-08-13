@@ -59,9 +59,9 @@ bender.test(
 				'<strong>' +
 					'[before' +
 					'<span contenteditable="false">' +
-						'<strong>non-editable strong</strong>' +
+						'<em>non-editable strong</em>' +
 						'<span contenteditable="true">' +
-							'<strong>editable strong</strong>' +
+							'<em>editable strong</em>' +
 						'</span>' +
 					'</span>' +
 					'after]' +
@@ -70,9 +70,9 @@ bender.test(
 		var expected = '<p>' +
 				'before' +
 				'<span contenteditable="false">' +
-					'<strong>non-editable strong</strong>' +
+					'<em>non-editable strong</em>' +
 					'<span contenteditable="true">' +
-						'<strong>editable strong</strong>' +
+						'<em>editable strong</em>' +
 					'</span>' +
 				'</span>' +
 				'after' +
@@ -88,14 +88,14 @@ bender.test(
 		bot.setHtmlWithSelection( '<p>' +
 				'<strong>[before</strong>' +
 				'<span contenteditable="false">' +
-					'<strong>noneditable strong]</strong>' +
-				'</span>' +
+					'<em>noneditable strong</em>' +
+				'</span>]' +
 				'<i>after</i>' +
 			'</p>' );
 		var expected = '<p>' +
 					'before' +
 					'<span contenteditable="false">' +
-						'<strong>noneditable strong</strong>' +
+						'<em>noneditable strong</em>' +
 					'</span>' +
 					'<i>after</i>' +
 			'</p>';
@@ -110,10 +110,10 @@ bender.test(
 		bender.tools.selection.setWithHtml( this.editor, '<h1><em>fo{o</em></h1>' +
 			'<div contenteditable="false">' +
 				'<div contenteditable="true">' +
-					'<em>bar</em>]' +
+					'<em>bar</em>' +
 				'</div>' +
 			'</div>' +
-			'<p><em>baz</em></p>' );
+			'<p><em>}baz</em></p>' );
 			var expected = '<h1><em>fo</em>o</h1>' +
 				'<div contenteditable="false">' +
 					'<div contenteditable="true">' +
