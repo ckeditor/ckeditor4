@@ -13,7 +13,7 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( CKEDITOR.basePath, CKEDITOR.basePath );
+					assert.areSame( CKEDITOR.basePath, iCKEDITOR.basePath );
 				} );
 			} );
 
@@ -52,7 +52,7 @@
 				resume( function() {
 					var iCKEDITOR = iframe.$.contentWindow.CKEDITOR;
 
-					assert.areSame( CKEDITOR.basePath, CKEDITOR.basePath );
+					assert.areSame( CKEDITOR.basePath, iCKEDITOR.basePath );
 				} );
 			} );
 
