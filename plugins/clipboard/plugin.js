@@ -1307,6 +1307,12 @@
 				}
 			} );
 
+			// We need to call preventDefault on dragover because otherwise if
+			// we drop image it will overwrite document.
+			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				evt.data.preventDefault();
+			} );
+
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				// Cancel native drop.
 				evt.data.preventDefault();
