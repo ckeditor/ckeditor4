@@ -64,7 +64,7 @@ var CKBUILDER_CONFIG = {
 		// link: 1,
 		list: 1,
 		liststyle: 1,
-		magicline: 1,
+		// magicline: 1,
 		maximize: 1,
 		newpage: 1,
 		pagebreak: 1,
