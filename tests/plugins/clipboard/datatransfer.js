@@ -50,8 +50,8 @@ bender.test( {
 
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
-		// In IE10+ we can not use any data type besides text, so id is fixed.
-		if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 )
+		// In IE we can not use any data type besides text, so id is fixed.
+		if ( !CKEDITOR.env.ie )
 			assert.areNotSame( dataTransfer1a.id, dataTransfer2.id, 'Ids for object based on different events should be different.' );
 	},
 
@@ -89,7 +89,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -168,7 +168,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
 				sourceEditor: editor1,
 				targetEditor: editor2,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -468,7 +468,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -485,7 +485,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
 	},
@@ -532,7 +532,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -549,7 +549,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) ? '' : 'xfoox',
+				text: CKEDITOR.env.ie ? '' : 'xfoox',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
 	}
