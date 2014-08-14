@@ -6,7 +6,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 body
 {
 	/* Font */
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-family: Helvetica, Arial, sans-serif, Verdana, "Trebuchet MS";
 	font-size: 12px;
 
 	/* Text color */
@@ -20,7 +20,7 @@ body
 
 .cke_editable
 {
-	font-size: 13px;
+	font-size: 14px;
 	line-height: 1.6;
 }
 
@@ -65,6 +65,27 @@ h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
 	line-height: 1.2;
+}
+
+h1 {
+	margin: 0 0 15px 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h2 {
+	margin: 0 0 12px 0;
+	padding: 0;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+h3 {
+	margin: 0 0 10px 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 hr
@@ -129,4 +150,12 @@ a > img {
 	margin: 1px;
 	border: none;
 	outline: 1px solid #0782C1;
+}
+
+b, strong {
+	font-weight: bold;
+}
+
+p {
+	margin: 1em 0;
 }
