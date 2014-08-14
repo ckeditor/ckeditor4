@@ -777,6 +777,7 @@
 		mockNativeDataTransfer: function() {
 			return {
 				types: [],
+				files: CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? undefined : [],
 				_data: [],
 				// Emulate browsers native behavior for getDeta/setData.
 				setData: function( type, data ) {
