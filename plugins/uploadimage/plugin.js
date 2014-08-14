@@ -7,6 +7,16 @@ CKEDITOR.plugins.add( 'uploadimage', {
 	requires: 'clipboard',
 	lang: 'en', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
+		editor.on( 'paste', function( evt ) {
+			var dataTransfer = evt.data.dataTransfer;
 
+			if ( !dataTransfer.getFilesCount() ) {
+				return;
+			}
+
+			for ( var i = 0; i < dataTransfer.getFilesCount(); i++ ) {
+				console.log( dataTransfer.getFile( i ) );
+			};
+		} )
 	}
 } );
