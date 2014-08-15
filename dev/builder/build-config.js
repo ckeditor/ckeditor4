@@ -44,6 +44,7 @@ var CKBUILDER_CONFIG = {
 		div: 1,
 		dripuploads: 1,
 		driplink: 1,
+		dripshortcodes: 1,
 		elementspath: 1,
 		enterkey: 1,
 		entities: 1,
