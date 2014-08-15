@@ -89,6 +89,7 @@ var CKBUILDER_CONFIG = {
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
+		wordcount: 1,
 		wysiwygarea: 1
 	}
 };
