@@ -30,3 +30,8 @@ for i in "${plugins_dialogs[@]}"
 do
 	java -jar cklangtool/$CKLANGTOOL_VERSION/langtool.jar export -c=config -f=gettext -m=meta/ckeditor.plugin-$i-dialogs/meta.txt ../../plugins/$i/dialogs/lang/ $TARGETDIR/ckeditor.plugin-$i-dialogs/
 done
+
+# If there is an argument provided, leave only files with given name
+if [[ "$1" =~ [a-z-].po ]]; then
+  find $TARGETDIR -type f ! -iname "$1" -delete
+fi
