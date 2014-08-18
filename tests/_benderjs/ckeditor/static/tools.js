@@ -798,7 +798,7 @@
 
 					return this._data[ type ];
 				}
-			}
+			};
 		},
 
 		/**
@@ -817,7 +817,7 @@
 				getTarget: function() {
 					return new CKEDITOR.dom.node( 'targetMock' );
 				}
-			}
+			};
 		},
 
 		/**
@@ -837,7 +837,7 @@
 				getTarget: function() {
 					return new CKEDITOR.dom.node( 'targetMock' );
 				}
-			}
+			};
 		},
 
 		/**

@@ -308,7 +308,7 @@ bender.test( {
 	},
 
 	'test cacheData': function() {
-		// Emulate native clipboard
+		// Emulate native clipboard.
 		var nativeData = bender.tools.mockNativeDataTransfer();
 		if ( CKEDITOR.env.ie ) {
 			nativeData.setData( 'Text', 'foo' );
@@ -317,13 +317,13 @@ bender.test( {
 			nativeData.setData( 'cke/custom', 'bar' );
 		}
 
-		// CacheData
+		// CacheData.
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.cacheData();
 
 		// Emulate permission denied to native clipboard.
 		var throwPermissionDenied = function() {
-			throw 'Permission denied.'
+			throw 'Permission denied.';
 		};
 		nativeData.setData = throwPermissionDenied;
 		nativeData.getData = throwPermissionDenied;
@@ -343,7 +343,7 @@ bender.test( {
 	'test cacheData with no native event should not crash': function() {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
-		dataTransfer.setData( 'cke/custom', 'foo' )
+		dataTransfer.setData( 'cke/custom', 'foo' );
 		dataTransfer.cacheData();
 
 		assert.areSame( 'foo', dataTransfer.getData( 'cke/custom' ) );

@@ -123,7 +123,7 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			editor.on( 'paste', function( evt ) {
-				// If dataValue is already set do not
+				// If dataValue is already set do not override it.
 				if ( evt.data.dataValue ) {
 					return;
 				}
@@ -270,9 +270,9 @@
 				if ( data.dataValue ) {
 					editor.insertHtml( data.dataValue, data.type );
 
-					// Deferr 'afterPaste' so all other listeners for 'paste' will be fired first.
+					// Deffer 'afterPaste' so all other listeners for 'paste' will be fired first.
 					// Fire afterPaste only if paste inserted some HTML.
- 					setTimeout( function() {
+					setTimeout( function() {
 						editor.fire( 'afterPaste' );
 					}, 0 );
 				}
@@ -281,7 +281,7 @@
 			editor.on( 'pasteDialog', function( evt ) {
 				// TODO it's possible that this setTimeout is not needed any more,
 				// because of changes introduced in the same commit as this comment.
-				// Editor.getClipboardData adds listner to the dialog's events which are
+				// Editor.getClipboardData adds listener to the dialog's events which are
 				// fired after a while (not like 'showDialog').
 				setTimeout( function() {
 					// Open default paste dialog.
@@ -1750,7 +1750,7 @@
 		},
 
 		/*
-		 * Remove global dataTransfer object so the new dataTransfer
+		 * Removes global dataTransfer object so the new dataTransfer
 		 * will be not linked with the old one.
 		 *
 		 * @since 4.5
@@ -1796,9 +1796,9 @@
 	 * @since 4.5
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
 	 * @constructor Creates a class instance.
-	 *
 	 * @param {Object} [nativeDataTransfer] A native data transfer object.
-	 * @param {CKEDITOR.editor} [editor] The source editor instance. If editor is defined then dataValue will be created based on the editor contents and type will be 'html'.
+	 * @param {CKEDITOR.editor} [editor] The source editor instance. If editor is defined then dataValue will
+	 * be created based on the editor contents and type will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( nativeDataTransfer, editor ) {
 		if ( nativeDataTransfer ) {
@@ -1932,7 +1932,7 @@
 
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
 		/**
-		 * Facade for the native getData method.
+		 * Facade for the native `getData` method.
 		 *
 		 * @param {String} type The type of data to retrieve.
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
@@ -1970,7 +1970,7 @@
 		},
 
 		/**
-		 * Facade for the native setData method.
+		 * Facade for the native `setData` method.
 		 *
 		 * @param {String} type The type of data to retrieve.
 		 * @param {String} value The data to add.
@@ -1992,10 +1992,9 @@
 		},
 
 		/**
-		 * Get data transfer type.
+		 * Gets data transfer type.
 		 *
 		 * @param {CKEDITOR.editor} targetEditor The drop/paste target editor instance.
-		 *
 		 * @returns {Number} Possible values: {@link CKEDITOR#DATA_TRANSFER_INTERNAL},
 		 * {@link CKEDITOR#DATA_TRANSFER_CROSS_EDITORS}, {@link CKEDITOR#DATA_TRANSFER_EXTERNAL}.
 		 */
@@ -2041,9 +2040,9 @@
 		},
 
 		/**
-		 * Check if data transfer contains any data.
+		 * Checks if data transfer contains any data.
 		 *
-		 * @returns {Boolean} True if the object contains no data.
+		 * @returns {Boolean} `true` if the object contains no data.
 		 */
 		isEmpty: function() {
 			var typesToCheck = {};

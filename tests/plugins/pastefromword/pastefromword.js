@@ -35,7 +35,6 @@
 				editable = editor.editable();
 
 			CKEDITOR.env.ie && editable.once( 'beforepaste', function( evt ) {
-				console.log( 'beforepaste' );
 				evt.cancel();
 				return false;
 			}, null, null, 1001 );
@@ -53,7 +52,7 @@
 			editor.once( 'dialogShow', function( evt ) {
 				var dialog = editor._.storedDialogs.paste,
 					frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-					.getInputElement().getFrameDocument();
+						.getInputElement().getFrameDocument();
 
 				frameDoc.getBody().setHtml( 'foo' );
 
