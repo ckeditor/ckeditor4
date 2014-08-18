@@ -63,6 +63,7 @@ var CKEDITOR_LANGS = ( function() {
 		sr: 'Serbian (Cyrillic)',
 		'sr-latn': 'Serbian (Latin)',
 		sv: 'Swedish',
+		ta: 'Tamil',
 		th: 'Thai',
 		tr: 'Turkish',
 		tt: 'Tatar',
