@@ -324,7 +324,7 @@ a.cke_dialog_tab_disabled
 	text-align: center;
 	height: 20px;
 	width: 20px;
-	top: 5px;
+	top: 20px;
 	z-index: 5;
 	opacity: 0.8;
 	filter: alpha(opacity = 80);

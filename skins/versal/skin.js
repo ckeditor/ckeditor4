@@ -320,3 +320,5 @@ CKEDITOR.skin.chameleon = ( function() {
 // })();
 
 // %REMOVE_END%
+CKEDITOR.config.dialog_backgroundCoverColor = 'black';
+CKEDITOR.config.dialog_backgroundCoverOpacity = .65;

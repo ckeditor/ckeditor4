@@ -1997,6 +1997,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	}
 
 	function showCover( editor ) {
+    console.log(editor)
 		var win = CKEDITOR.document.getWindow();
 		var config = editor.config,
 			backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
