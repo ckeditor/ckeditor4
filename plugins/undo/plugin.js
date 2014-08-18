@@ -348,7 +348,7 @@
 
 		/**
 		 * Refreshes the state of the {@link CKEDITOR.plugins.undo.UndoManager undo manager}
-		 * as well as the state of the undo and redo commands.
+		 * as well as the state of the `undo` and `redo` commands.
 		 */
 		refreshState: function() {
 			// These lines can be handled within onChange() too.
