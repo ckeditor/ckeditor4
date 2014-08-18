@@ -897,9 +897,17 @@
 				editor = undoManager.editor,
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
-			// IE: backspace/del would still call keypress event, even if nothing was removed.
-			if ( ieFunctionKeysWorkaround && this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
-				return;
+			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
+			// with a workaround.
+			if ( ieFunctionKeysWorkaround ) {
+				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
+					// Content was not changed, we don't need to do anything.
+					return;
+				} else {
+					// Content was changed. And since no keypress event was fired, we have
+					// inputFired = 0, so undoManager.type method will not be called.
+					inputFired += 1;
+				}
 			}
 
 			if ( inputFired > 0 ) {

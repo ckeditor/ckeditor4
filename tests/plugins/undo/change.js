@@ -39,6 +39,13 @@
 			}
 		},
 
+		_should: {
+			ignore: {
+				'test backspace': CKEDITOR.env.ie,
+				'test IE backspace': !CKEDITOR.env.ie
+			}
+		},
+
 		'test setData': function() {
 			bender.editor.focus();
 
@@ -124,10 +131,18 @@
 
 		'test backspace': function() {
 			// IE: In case of backspace and delete we need to make real change to DOM content.
+			var that = this;
+			this.checkChange( function( editor ) {
+				that.keyTools.keyEvent( 8 /* backspace */ );
+			} );
+		},
+
+		'test IE backspace': function() {
+			// IE doesn't send keypress event, which is used as a `input` event.
 			var that = this,
 				textNode = this.editor.editable().getFirst().getFirst();
 			this.checkChange( function( editor ) {
-				that.keyTools.keyEvent( 8 /* backspace */, null, null, function( e ) {
+				that.keyTools.keyEvent( 8 /* backspace */, null, true, function( e ) {
 					textNode.setText( 'fo' );
 				} );
 				textNode.setText( 'foo' );
