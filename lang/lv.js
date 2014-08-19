@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		alignLeft: 'Pa kreisi',
 		alignRight: 'Pa labi',
 		alignCenter: 'Centrēti',
+		alignJustify: 'Izlīdzināt malas',
 		alignTop: 'Augšā',
 		alignMiddle: 'Vertikāli centrēts',
 		alignBottom: 'Apakšā',

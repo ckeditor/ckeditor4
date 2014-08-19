@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		alignLeft: 'Sol',
 		alignRight: 'Sağ',
 		alignCenter: 'Ortala',
+		alignJustify: 'İki Kenara Yaslanmış',
 		alignTop: 'Üst',
 		alignMiddle: 'Orta',
 		alignBottom: 'Alt',

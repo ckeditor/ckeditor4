@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		alignLeft: 'Venstre',
 		alignRight: 'Høyre',
 		alignCenter: 'Midtjuster',
+		alignJustify: 'Blokkjuster',
 		alignTop: 'Topp',
 		alignMiddle: 'Midten',
 		alignBottom: 'Bunn',

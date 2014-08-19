@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		alignLeft: 'Vlevo',
 		alignRight: 'Vpravo',
 		alignCenter: 'Na střed',
+		alignJustify: 'Zarovnat do bloku',
 		alignTop: 'Nahoru',
 		alignMiddle: 'Na střed',
 		alignBottom: 'Dolů',

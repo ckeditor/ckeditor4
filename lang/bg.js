@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		alignLeft: 'Ляво',
 		alignRight: 'Дясно',
 		alignCenter: 'Център',
+		alignJustify: 'Двустранно подравняване',
 		alignTop: 'Горе',
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',

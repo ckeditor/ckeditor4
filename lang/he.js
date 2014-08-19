@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'he' ] = {
 		alignLeft: 'לשמאל',
 		alignRight: 'לימין',
 		alignCenter: 'מרכז',
+		alignJustify: 'יישור לשוליים',
 		alignTop: 'למעלה',
 		alignMiddle: 'לאמצע',
 		alignBottom: 'לתחתית',

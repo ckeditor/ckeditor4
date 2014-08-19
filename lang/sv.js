@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		alignLeft: 'Vänster',
 		alignRight: 'Höger',
 		alignCenter: 'Centrerad',
+		alignJustify: 'Justera till marginaler',
 		alignTop: 'Överkant',
 		alignMiddle: 'Mitten',
 		alignBottom: 'Nederkant',

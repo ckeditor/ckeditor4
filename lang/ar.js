@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		alignLeft: 'يسار',
 		alignRight: 'يمين',
 		alignCenter: 'وسط',
+		alignJustify: 'ضبط',
 		alignTop: 'أعلى',
 		alignMiddle: 'وسط',
 		alignBottom: 'أسفل',

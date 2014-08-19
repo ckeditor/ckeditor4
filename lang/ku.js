@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'ku' ] = {
 		alignLeft: 'چەپ',
 		alignRight: 'ڕاست',
 		alignCenter: 'ناوەڕاست',
+		alignJustify: 'هاوستوونی',
 		alignTop: 'سەرەوە',
 		alignMiddle: 'ناوەند',
 		alignBottom: 'ژێرەوە',

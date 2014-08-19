@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignLeft: 'Ezkerrera',
 		alignRight: 'Eskuman',
 		alignCenter: 'Erdian',
+		alignJustify: 'Justifikatu',
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',

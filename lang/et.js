@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'et' ] = {
 		alignLeft: 'Vasak',
 		alignRight: 'Paremale',
 		alignCenter: 'Kesk',
+		alignJustify: 'Rööpjoondus',
 		alignTop: 'Üles',
 		alignMiddle: 'Keskele',
 		alignBottom: 'Alla',

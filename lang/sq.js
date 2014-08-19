@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		alignLeft: 'Majtas',
 		alignRight: 'Djathtas',
 		alignCenter: 'Qendër',
+		alignJustify: 'Zgjero',
 		alignTop: 'Lart',
 		alignMiddle: 'Në mes',
 		alignBottom: 'Poshtë',

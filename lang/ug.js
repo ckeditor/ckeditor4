@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		alignLeft: 'سول',
 		alignRight: 'ئوڭ',
 		alignCenter: 'ئوتتۇرا',
+		alignJustify: 'ئىككى تەرەپتىن توغرىلا',
 		alignTop: 'ئۈستى',
 		alignMiddle: 'ئوتتۇرا',
 		alignBottom: 'ئاستى',

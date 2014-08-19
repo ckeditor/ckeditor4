@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'si' ] = {
 		alignLeft: 'වම',
 		alignRight: 'දකුණ',
 		alignCenter: 'මධ්‍ය',
+		alignJustify: 'Justify', // MISSING
 		alignTop: 'ඉ',
 		alignMiddle: 'මැද',
 		alignBottom: 'පහල',

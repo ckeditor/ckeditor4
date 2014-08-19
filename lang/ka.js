@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ka' ] = {
 		alignLeft: 'მარცხენა',
 		alignRight: 'მარჯვენა',
 		alignCenter: 'შუა',
+		alignJustify: '両端揃え',
 		alignTop: 'ზემოთა',
 		alignMiddle: 'შუა',
 		alignBottom: 'ქვემოთა',

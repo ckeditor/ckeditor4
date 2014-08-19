@@ -114,11 +114,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 	numpad7: 'Klawisz 7 na klawiaturze numerycznej',
 	numpad8: 'Klawisz 8 na klawiaturze numerycznej',
 	numpad9: 'Klawisz 9 na klawiaturze numerycznej',
-	multiply: 'Multiply', // MISSING
+	multiply: 'Przemnóż',
 	add: 'Plus',
 	subtract: 'Minus',
 	decimalPoint: 'Separator dziesiętny',
-	divide: 'Divide', // MISSING
+	divide: 'Podziel',
 	f1: 'F1',
 	f2: 'F2',
 	f3: 'F3',
@@ -134,12 +134,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock',
 	semiColon: 'Średnik',
-	equalSign: 'Equal Sign', // MISSING
+	equalSign: 'Znak równości',
 	comma: 'Przecinek',
-	dash: 'Dash', // MISSING
+	dash: 'Pauza',
 	period: 'Kropka',
 	forwardSlash: 'Ukośnik prawy',
-	graveAccent: 'Grave Accent', // MISSING
+	graveAccent: 'Akcent słaby',
 	openBracket: 'Nawias kwadratowy otwierający',
 	backSlash: 'Ukośnik lewy',
 	closeBracket: 'Nawias kwadratowy zamykający',

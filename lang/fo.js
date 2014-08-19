@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		alignLeft: 'Vinstra',
 		alignRight: 'Høgra',
 		alignCenter: 'Miðsett',
+		alignJustify: 'Javnir tekstkantar',
 		alignTop: 'Ovast',
 		alignMiddle: 'Miðja',
 		alignBottom: 'Botnur',

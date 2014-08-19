@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'id' ] = {
 		alignLeft: 'Kiri',
 		alignRight: 'Kanan',
 		alignCenter: 'Tengah',
+		alignJustify: 'Rata kiri-kanan',
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',

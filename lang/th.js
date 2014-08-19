@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'th' ] = {
 		alignLeft: 'ชิดซ้าย',
 		alignRight: 'ชิดขวา',
 		alignCenter: 'กึ่งกลาง',
+		alignJustify: 'நியாயப்படுத்தவும்',
 		alignTop: 'บนสุด',
 		alignMiddle: 'กึ่งกลางแนวตั้ง',
 		alignBottom: 'ชิดด้านล่าง',

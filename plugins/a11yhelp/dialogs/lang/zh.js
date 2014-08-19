@@ -82,7 +82,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
+	backspace: '退格鍵',
 	tab: 'Tab', // MISSING
 	enter: 'Enter', // MISSING
 	shift: 'Shift', // MISSING
@@ -95,12 +95,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 	pageDown: 'Page Down', // MISSING
 	end: 'End', // MISSING
 	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
+	leftArrow: '向左箭號',
+	upArrow: '向上鍵號',
+	rightArrow: '向右鍵號',
+	downArrow: '向下鍵號',
+	insert: '插入',
+	'delete': '刪除',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING
@@ -115,7 +115,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 	numpad8: 'Numpad 8', // MISSING
 	numpad9: 'Numpad 9', // MISSING
 	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
+	add: '新增',
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING
@@ -131,17 +131,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 	f10: 'F10', // MISSING
 	f11: 'F11', // MISSING
 	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
+	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock', // MISSING
 	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	equalSign: '等號',
+	comma: '逗號',
+	dash: '虛線',
+	period: '句點',
+	forwardSlash: '斜線',
+	graveAccent: '抑音符號',
+	openBracket: '左方括號',
+	backSlash: '反斜線',
+	closeBracket: '右方括號',
+	singleQuote: '單引號'
 } );

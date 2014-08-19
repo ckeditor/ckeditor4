@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		alignLeft: 'چپ',
 		alignRight: 'راست',
 		alignCenter: 'وسط',
+		alignJustify: 'بلوک چین',
 		alignTop: 'بالا',
 		alignMiddle: 'میانه',
 		alignBottom: 'پائین',
