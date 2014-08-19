@@ -898,8 +898,8 @@
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
-			// with a workaround.
-			if ( ieFunctionKeysWorkaround ) {
+			// with a workaround. Also we need to be aware that lastKeydownImage might not be available (#12327).
+			if ( ieFunctionKeysWorkaround && this.lastKeydownImage ) {
 				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
 					// Content was not changed, we don't need to do anything.
 					return;
