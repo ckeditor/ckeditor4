@@ -51,7 +51,7 @@ Special outer level classes used in this file:
 	/* This is <span>, so transform it into a block.*/
 	display: block;
 	padding: 0;
-  height: 33px;
+	height: 33px;
 }
 
 /* The inner boundary of the interface. */
@@ -64,9 +64,10 @@ Special outer level classes used in this file:
 
 	background: #fff;
 	padding: 0;
-  position: absolute;
-  width: 720px;
-  z-index: 10002;
+	position: absolute;
+	width: 720px;
+	z-index: 10002;
+	bottom: 0;
 }
 
 /* Added to the outer boundary of the UI when in inline editing,
