@@ -323,12 +323,12 @@ CKEDITOR.skin.chameleon = ( function() {
 CKEDITOR.config.dialog_backgroundCoverColor = 'black';
 CKEDITOR.config.dialog_backgroundCoverOpacity = .65;
 CKEDITOR.config.comboOffset = {
-  "Font Name": {
-    offsetX: -60,
-    offsetY: 80
-  },
-  "Formatting Styles": {
-    offsetX: 92,
-    offsetY: 12
-  }
+	"Font Name": {
+		offsetX: -60,
+		offsetY: 80
+	},
+	"Formatting Styles": {
+		offsetX: 92,
+		offsetY: 12
+	}
 };

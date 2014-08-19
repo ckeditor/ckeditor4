@@ -70,6 +70,7 @@ Comments in this file will give more details about each of the above blocks.
 {
 	font-weight: bold;
 	font-size: 14px;
+	padding: 3px 3px 8px;
 	cursor: move;
 	position: relative;
 	border-bottom: 1px solid #eee;
@@ -259,8 +260,7 @@ a.cke_dialog_tab_disabled
 	text-align: center;
 	height: 20px;
 	width: 20px;
-  
-	top: 20px;
+	top: 5px;
 }
 
 .cke_dialog_close_button span

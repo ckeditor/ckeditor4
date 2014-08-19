@@ -65,10 +65,10 @@ Comments in this file will give more details about each of the above blocks.
 	font-size: 16px;
 	cursor: move;
 	position: relative;
-  background-color: white;
-  font-family: 'Koufiya', Georgia, serif;
+	background-color: white;
+	font-family: 'Koufiya', Georgia, serif;
 	color: rgb(124, 121, 117);
-  text-align: center;
+	text-align: center;
 
 	padding: 15px 0 0 0;
 }
@@ -114,7 +114,7 @@ Comments in this file will give more details about each of the above blocks.
 .cke_dialog .cke_resizer
 {
 	margin-top: 22px;
-  display: none;
+	display: none;
 }
 
 .cke_dialog .cke_resizer_rtl
@@ -250,23 +250,17 @@ a.cke_dialog_tab_disabled
 }
 
 .cke_dialog_close_button:before {
-  content: 'close';
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  text-decoration: underline;
-  font-family: 'AvenirNext', Avenir ,Verdana, sans-serif;
+	content: 'close';
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	text-decoration: underline;
+	font-family: 'AvenirNext', Avenir ,Verdana, sans-serif;
 }
 
 .cke_dialog_close_button:hover
 {
 	color: #3a968a;
-}
-
-.cke_hidpi .cke_dialog_close_button
-{
-	background-image: url(images/hidpi/close.png);
-	background-size: 16px;
 }
 
 .cke_dialog_close_button span
@@ -284,8 +278,8 @@ a.cke_dialog_tab_disabled
 }
 
 .cke_ltr {
-  position: absolute;
-  width: 150px;
+	position: absolute;
+	width: 150px;
 }
 
 .cke_ltr .cke_dialog_close_button
@@ -366,7 +360,7 @@ It is possible to have nested V/H-Boxes.
 }
 
 .cke_dialog_ui_hbox_last {
-  text-align: right;
+	text-align: right;
 }
 
 .cke_ltr .cke_dialog_ui_hbox_first,
@@ -402,7 +396,7 @@ It is possible to have nested V/H-Boxes.
 .cke_hc div.cke_dialog_ui_input_file
 {
 	border: 1px solid;
-  position: relative;
+	position: relative;
 }
 
 /*
@@ -458,17 +452,17 @@ textarea.cke_dialog_ui_input_textarea
 	background-color: #fff;
 	border: 1px solid #e5e5e5;
 	border-top-color: #d4d4d4;
-  border-bottom-color: #f2f2f2;
+	border-bottom-color: #f2f2f2;
 
-  font-size: 14px;
-  line-height: 16px;
-  font-family: 'AvenirNext', Avenir, Verdana, sans-serif;
+	font-size: 14px;
+	line-height: 16px;
+	font-family: 'AvenirNext', Avenir, Verdana, sans-serif;
 
 	padding: 4px 6px;
-  margin-right: 5px;
+	margin-right: 5px;
 	outline: none;
 	width: 340px;
-  color: #7c7975;
+	color: #7c7975;
 }
 
 input.cke_dialog_ui_input_text:focus,
@@ -476,8 +470,8 @@ input.cke_dialog_ui_input_password:focus,
 textarea.cke_dialog_ui_input_textarea:focus,
 select.cke_dialog_ui_input_select:focus
 {
-  outline: solid 1px #bfe3df;
-  outline-offset: -1px;
+	outline: solid 1px #bfe3df;
+	outline-offset: -1px;
 }
 
 /*
@@ -530,7 +524,7 @@ a.cke_dialog_ui_button:focus,
 a.cke_dialog_ui_button:active
 {
 	border-color: #625f5c;
-  outline: none;
+	outline: none;
 	box-shadow: 0px 0px 0px 2px #bfe3df;
 }
 
@@ -547,8 +541,8 @@ a.cke_dialog_ui_button[style*="width"]
 	color: white;
 	font-size: 14px;
 	line-height: 28px;
-  text-transform: lowercase;
-  font-family: 'AvenirNext',Avenir,Verdana,sans-serif;
+	text-transform: lowercase;
+	font-family: 'AvenirNext',Avenir,Verdana,sans-serif;
 }
 
 /* Special class appended to the Ok button. */
@@ -623,7 +617,7 @@ select.cke_dialog_ui_input_select
 }
 
 .cke_dialog_ui_labeled_content {
-  margin-top: 3px;
+	margin-top: 3px;
 }
 
 .cke_hc .cke_dialog_ui_labeled_content input:focus,
