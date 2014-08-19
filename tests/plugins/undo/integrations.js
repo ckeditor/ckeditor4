@@ -9,12 +9,6 @@
 
 	var keyCodesEnum, // keyCodesEnum will be inited in first setUp call.
 		tcs = {
-			_should: {
-				ignore: {
-					'test IE image deletion': !CKEDITOR.env.ie
-				}
-			},
-
 			setUp: function() {
 				// Inits tools used to mimic events if needed.
 				if ( !this.tools ) {
@@ -33,10 +27,10 @@
 			},
 
 			// (#12327)
-			'test IE image deletion': function() {
+			'test image deletion': function() {
 				bender.tools.selection.setWithHtml( this.editor, '<p>[<img src="%BASE_PATH%_assets/img.gif" />]Apollo 11</p>' );
 				this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, true );
-				// TC should not cause exception at IE.
+				// TC should not cause any exception.
 				assert.isTrue( true );
 			}
 		};
