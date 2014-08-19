@@ -50,12 +50,8 @@ Special outer level classes used in this file:
 {
 	/* This is <span>, so transform it into a block.*/
 	display: block;
-	border: 1px solid #b6b6b6;
 	padding: 0;
-
-	-moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
-	-webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
-	box-shadow: 0 0 3px rgba(0,0,0,.15);
+  height: 33px;
 }
 
 /* The inner boundary of the interface. */
@@ -63,11 +59,14 @@ Special outer level classes used in this file:
 {
 	/* This is <span>, so transform it into a block.*/
 	display: block;
-
+	border: 1px solid #b6b6b6;
 	-webkit-touch-callout: none;
 
 	background: #fff;
 	padding: 0;
+  position: absolute;
+  width: 720px;
+  z-index: 10002;
 }
 
 /* Added to the outer boundary of the UI when in inline editing,
