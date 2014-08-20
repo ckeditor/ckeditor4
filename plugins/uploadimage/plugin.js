@@ -51,7 +51,6 @@
 					reader = new FileReader();
 
 					reader.onload = function( evt ) {
-						console.log( evt );
 						var img = new CKEDITOR.dom.element( 'img' );
 						img.setAttributes( {
 							'src': evt.target.result,
@@ -72,29 +71,65 @@
 			} );
 
 			editor.on( 'paste', function( evt ) {
-				var data = evt.data,
-					dataTransfer = data.dataTransfer;
+				var data = evt.data;
 
-				var file = dataTransfer.getFile( 0 );
+				var temp = new CKEDITOR.dom.element( 'div' ),
+					imgs, img, i;
+				temp.appendHtml( data.dataValue );
+				imgs = temp.find( 'img' );
 
-				var xhr = new XMLHttpRequest();
+				for ( i = 0; i < imgs.count(); i++ ) {
+					img = imgs.getItem( i );
 
-				var formData = new FormData();
-				formData.append( 'upload', file );
+					if ( img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:' ) {
+						var src = img.getAttribute( 'src' ),
+							file = srcToBlob( src ),
+							xhr = new XMLHttpRequest(),
+							formData = new FormData();
 
-				xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
+						formData.append( 'upload', file );
 
-				xhr.onreadystatechange = function() {
-					if ( xhr.readyState == 4 ) { // completed
-						if ( xhr.status == 200 ) { // OK
-							console.log( 'onreadystatechange:' );
-							console.log( xhr.responseText );
+						xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
+
+						xhr.onreadystatechange = function() {
+							if ( xhr.readyState == 4 ) { // completed
+								if ( xhr.status == 200 ) { // OK
+									console.log( 'onreadystatechange:' );
+									console.log( xhr.responseText );
+								}
+							}
 						}
+
+						xhr.send( formData );
 					}
 				}
-
-				xhr.send( formData );
 			} );
 		}
 	} );
+
+	var imgHeaderRegExp = /^data:(image\/(png|jpg|jpeg));base64,/;
+
+	function srcToBlob( src ) {
+		var contentType = src.match( imgHeaderRegExp )[ 1 ],
+			base64Data = src.replace( imgHeaderRegExp, '' ),
+			byteCharacters = atob( base64Data ),
+			byteArrays = [],
+			sliceSize = 512,
+			offset, slice, byteNumbers, i, byteArray;
+
+		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
+			slice = byteCharacters.slice( offset, offset + sliceSize );
+
+			byteNumbers = new Array( slice.length );
+			for ( i = 0; i < slice.length; i++ ) {
+				byteNumbers[ i ] = slice.charCodeAt( i );
+			}
+
+			byteArray = new Uint8Array( byteNumbers );
+
+			byteArrays.push( byteArray );
+		}
+
+		return new Blob( byteArrays, { type: contentType } );
+	}
 } )();
