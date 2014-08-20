@@ -946,7 +946,9 @@
 			if ( UndoManager.isNavigationKey( keyCode ) || this.undoManager.keyGroupChanged( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
-					undoManager.save( false, this.lastKeydownImage );
+
+					// #12300
+					undoManager.save( false, this.lastKeydownImage, false );
 					undoManager.resetType();
 				}
 			}
