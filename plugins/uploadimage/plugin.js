@@ -9,18 +9,21 @@ CKEDITOR.plugins.add( 'uploadimage', {
 	init: function( editor ) {
 		editor.on( 'paste', function( evt ) {
 			var data = evt.data,
-				dataTransfer = data.dataTransfer;
+				dataTransfer = data.dataTransfer,
+				filesCount = dataTransfer.getFilesCount();
 
-			if ( data.dataValue || !dataTransfer.getFilesCount() ) {
+			if ( data.dataValue || !filesCount ) {
 				return;
 			}
-
-			evt.cancel();
 
 			var loadedFilesCount = 0,
 				file, reader, i;
 
-			for ( i = 0; i < dataTransfer.getFilesCount(); i++ ) {
+			evt.cancel();
+
+			dataTransfer.cacheData();
+
+			for ( i = 0; i < filesCount; i++ ) {
 				file = dataTransfer.getFile( i ),
 				reader = new FileReader();
 
@@ -34,7 +37,7 @@ CKEDITOR.plugins.add( 'uploadimage', {
 
 					loadedFilesCount++;
 
-					if ( loadedFilesCount == dataTransfer.getFilesCount() ) {
+					if ( loadedFilesCount == filesCount ) {
 						editor.fire( 'paste', data );
 					}
 				};
@@ -44,6 +47,9 @@ CKEDITOR.plugins.add( 'uploadimage', {
 		} );
 
 		editor.on( 'paste', function( evt ) {
+			var data = evt.data,
+				dataTransfer = data.dataTransfer;
+
 			var file = dataTransfer.getFile( 0 );
 
 			var xhr = new XMLHttpRequest();
