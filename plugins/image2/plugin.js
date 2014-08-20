@@ -874,7 +874,7 @@
 				image = el.name == 'a' ? el.children[ 0 ] : el;
 			}
 
-			if ( !image )
+			if ( !image || image.attributes[ 'data-cke-special-image' ] )
 				return;
 
 			// If there's an image, then cool, we got a widget.

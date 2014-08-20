@@ -27,7 +27,8 @@ CKEDITOR.plugins.add( 'uploadimage', {
 				reader.onload = function( evt ) {
 					var img = new CKEDITOR.dom.element( 'img' );
 					img.setAttributes( {
-						'src': evt.target.result
+						'src': evt.target.result,
+						'data-cke-special-image': 1
 					} );
 					data.dataValue += img.getOuterHtml();
 
