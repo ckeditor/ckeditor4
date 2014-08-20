@@ -8,16 +8,41 @@ CKEDITOR.plugins.add( 'uploadimage', {
 	lang: 'en', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		editor.on( 'paste', function( evt ) {
-			var dataTransfer = evt.data.dataTransfer;
+			var data = evt.data,
+				dataTransfer = data.dataTransfer;
 
-			if ( !dataTransfer.getFilesCount() ) {
+			if ( data.dataValue || !dataTransfer.getFilesCount() ) {
 				return;
 			}
 
-			for ( var i = 0; i < dataTransfer.getFilesCount(); i++ ) {
-				console.log( dataTransfer.getFile( i ) );
-			};
+			evt.cancel();
 
+			var loadedFilesCount = 0,
+				file, reader, i;
+
+			for ( i = 0; i < dataTransfer.getFilesCount(); i++ ) {
+				file = dataTransfer.getFile( i ),
+				reader = new FileReader();
+
+				reader.onload = function( evt ) {
+					var img = new CKEDITOR.dom.element( 'img' );
+					img.setAttributes( {
+						'src': evt.target.result
+					} );
+					data.dataValue += img.getOuterHtml();
+
+					loadedFilesCount++;
+
+					if ( loadedFilesCount == dataTransfer.getFilesCount() ) {
+						editor.fire( 'paste', data );
+					}
+				};
+
+				reader.readAsDataURL( file );
+			}
+		} );
+
+		editor.on( 'paste', function( evt ) {
 			var file = dataTransfer.getFile( 0 );
 
 			var xhr = new XMLHttpRequest();
@@ -37,6 +62,6 @@ CKEDITOR.plugins.add( 'uploadimage', {
 			}
 
 			xhr.send( formData );
-		} )
+		} );
 	}
 } );
