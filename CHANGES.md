@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.5
 
+Fixed Issues:
+
+* [#12315](http://dev.ckeditor.com/ticket/12315): Fixed: Marked [`config.autoParagraph`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoParagraph) as deprecated.
+
 ## CKEditor 4.4.4
 
 Fixed Issues:

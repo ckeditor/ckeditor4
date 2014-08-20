@@ -719,10 +719,12 @@ CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
  * Whether to automatically create wrapping blocks around inline content inside the document body.
  * This helps to ensure the integrity of the block *Enter* mode.
  *
- * **Note:** Changing the default value might introduce unpredictable usability issues.
+ * **Note:** This option is deprecated. Changing the default value might introduce unpredictable usability issues and is
+ * highly unrecommended.
  *
  *		config.autoParagraph = false;
  *
+ * @deprecated
  * @since 3.6
  * @cfg {Boolean} [autoParagraph=true]
  * @member CKEDITOR.config
