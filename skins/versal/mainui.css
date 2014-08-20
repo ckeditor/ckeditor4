@@ -59,14 +59,13 @@ Special outer level classes used in this file:
 {
 	/* This is <span>, so transform it into a block.*/
 	display: block;
-	border: 1px solid #b6b6b6;
 	-webkit-touch-callout: none;
 
 	background: #fff;
 	padding: 0;
 	position: absolute;
 	width: 720px;
-	z-index: 10002;
+	z-index: 9999;
 	bottom: 0;
 }
 
