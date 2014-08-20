@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -17,7 +17,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'clipboard,' +
 		'colorbutton,' +
 		'colordialog,' +
-		'contextmenu,' +
+		// 'contextmenu,' +
 		'dialogadvtab,' +
 		'div,' +
 		'elementspath,' +
@@ -26,33 +26,35 @@ CKEDITOR.editorConfig = function( config ) {
 		'filebrowser,'+
 		'find,' +
 		'flash,' +
-		'floatingspace,' +
+		// 'floatingspace,' +
 		'font,' +
 		'format,' +
 		'forms,' +
 		'horizontalrule,' +
 		'htmlwriter,' +
-		'image,' +
+		// 'image,' +
 		'iframe,' +
 		'indentlist,' +
 		'indentblock,' +
 		'justify,' +
 		'language,' +
 		'link,' +
+		'linkutils,' +
 		'list,' +
-		'liststyle,' +
+		// 'liststyle,' +
 		'magicline,' +
 		'maximize,' +
 		'newpage,' +
 		'pagebreak,' +
 		'pastefromword,' +
 		'pastetext,' +
-		'preview,' +
-		'print,' +
+		// 'preview,' +
+		// 'print,' +
 		'removeformat,' +
-		'resize,' +
+		// 'resize,' +
 		'save,' +
 		'selectall,' +
+		'sharedspace,' +
 		'showblocks,' +
 		'showborders,' +
 		'smiley,' +
@@ -60,13 +62,73 @@ CKEDITOR.editorConfig = function( config ) {
 		'specialchar,' +
 		'stylescombo,' +
 		'tab,' +
-		'table,' +
-		'tabletools,' +
+		// 'table,' +
+		// 'tabletools,' +
 		'templates,' +
 		'toolbar,' +
 		'undo,' +
 		'wysiwygarea';
 	// %REMOVE_END%
+
+	//http://ckeditor.com/forums/CKEditor/Complete-list-of-toolbar-items
+	config.toolbar_Full = [
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ],
+			items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript',
+					'Superscript', 'RemoveAllFormat' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ],
+			items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote',
+					'JustifyLeft', 'JustifyRight', 'BidiLtr', 'BidiRtl' ] },
+		{ name: 'styles', items: [ 'Link', 'Font', 'Styles' ] }
+	];
+
+	config.toolbar = "Full";
+
+	config.extraPlugins = 'removeallformat';
+
+	config.skin = 'versal';
+
+	config.stylesSet = [
+		{ name: 'Small', element: 'span', styles: {'font-size':'12px'} },
+		{ name: 'Normal', element: 'span', styles: {'font-size':'16px'} },
+		{ name: 'Large', element: 'span', styles: {'font-size':'24px'} },
+		{ name: 'Special Container',
+			element: 'div',
+			styles: {
+				padding: '5px 10px',
+				background: '#eee',
+				border: '1px solid #ccc'
+			}
+		}
+	];
+
+	// TODO
+	// Is this the best place to put this function
+	// http://stackoverflow.com/questions/12676023/ckeditor-link-dialog-removing-protocol
+	CKEDITOR.on('dialogDefinition', function(e) {
+		// NOTE: this is an instance of CKEDITOR.dialog.definitionObject
+		var dd = e.data.definition;
+
+		if (e.data.name === 'link') {
+			dd.minHeight = 30;
+
+			// remove the unwanted tabs
+			dd.removeContents('advanced');
+			dd.removeContents('target');
+			dd.removeContents('upload');
+
+			var infoTab = dd.getContents('info');
+			// a workaround because of this bug
+			// http://dev.ckeditor.com/ticket/12287
+			// http://ckeditor.com/forums/Plugins/Problems-removing-dialog-fields-of-link-plugin-in-4.4.3
+			infoTab.get( 'linkType' ).style = 'display: none';
+			infoTab.get( 'urlOptions' ).children[ 0 ].children.shift();
+
+			// Set the default value for the URL field.
+			var urlField = infoTab.get( 'url' );
+			urlField['default'] = 'www.example.com';
+
+		}
+	});
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%

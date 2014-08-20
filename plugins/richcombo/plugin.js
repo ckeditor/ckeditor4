@@ -154,7 +154,14 @@ CKEDITOR.plugins.add( 'richcombo', {
 						else
 							_.list.unmarkAll();
 
-						_.panel.showBlock( combo.id, new CKEDITOR.dom.element( el ), 4 );
+						if (!!CKEDITOR.config.comboOffset) {
+							var offsetX = CKEDITOR.config.comboOffset[combo.title].offsetX;
+							var offsetY = CKEDITOR.config.comboOffset[combo.title].offsetY;
+							_.panel.showBlock( combo.id, new CKEDITOR.dom.element( el ), 4, offsetX, offsetY);
+
+						} else {
+							_.panel.showBlock( combo.id, new CKEDITOR.dom.element( el ), 4 );
+						}
 					},
 					clickFn: clickFn
 				};
