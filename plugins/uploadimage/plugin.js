@@ -11,9 +11,7 @@
 		init: function( editor ) {
 			editor.widgets.add( 'uploadimage', {
 				upcast: function( el, data ) {
-					if ( el.name != 'img' ||
-						!el.attributes[ 'data-cke-special-image' ] ||
-						el.attributes[ 'src' ].substring( 0, 5 ) != 'data:' )
+					if ( el.name != 'img' || !el.attributes[ 'data-cke-image-to-upload' ] )
 						return;
 
 					return el;
@@ -54,7 +52,6 @@
 						var img = new CKEDITOR.dom.element( 'img' );
 						img.setAttributes( {
 							'src': evt.target.result,
-							'data-cke-special-image': 1,
 							'data-cke-file-name': file.name
 						} );
 						data.dataValue += img.getOuterHtml();
@@ -80,6 +77,10 @@
 
 				for ( i = 0; i < imgs.count(); i++ ) {
 					img = imgs.getItem( i );
+					img.setAttributses( {
+						'data-cke-special-image': 1,
+						'data-cke-image-to-upload': 1
+					} );
 
 					if ( img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:' ) {
 						var src = img.getAttribute( 'src' ),
