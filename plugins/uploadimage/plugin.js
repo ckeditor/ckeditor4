@@ -4,9 +4,30 @@
  */
 
 CKEDITOR.plugins.add( 'uploadimage', {
-	requires: 'clipboard',
+	requires: 'widget,clipboard',
 	lang: 'en', // %REMOVE_LINE_CORE%
 	init: function( editor ) {
+		editor.widgets.add( 'uploadimage', {
+			upcast: function( el, data ) {
+				if ( el.name != 'img' ||
+					!el.attributes[ 'data-cke-special-image' ] ||
+					el.attributes[ 'src' ].substring( 0, 5 ) != 'data:' )
+					return;
+
+				return el;
+			},
+
+			downcast: function() {
+				return new CKEDITOR.htmlParser.text( '' );
+			},
+
+			init: function() {
+			},
+
+			data: function( data ) {
+			}
+		} );
+
 		editor.on( 'paste', function( evt ) {
 			var data = evt.data,
 				dataTransfer = data.dataTransfer,
@@ -28,10 +49,12 @@ CKEDITOR.plugins.add( 'uploadimage', {
 				reader = new FileReader();
 
 				reader.onload = function( evt ) {
+					console.log( evt );
 					var img = new CKEDITOR.dom.element( 'img' );
 					img.setAttributes( {
 						'src': evt.target.result,
-						'data-cke-special-image': 1
+						'data-cke-special-image': 1,
+						'data-cke-file-name': file.name
 					} );
 					data.dataValue += img.getOuterHtml();
 
