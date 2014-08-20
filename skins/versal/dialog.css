@@ -51,6 +51,7 @@ Comments in this file will give more details about each of the above blocks.
 .cke_dialog_body
 {
 	z-index: 1;
+	background-color: white;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -67,10 +68,10 @@ Comments in this file will give more details about each of the above blocks.
 	position: relative;
 	background-color: white;
 	font-family: 'Koufiya', Georgia, serif;
-	color: rgb(124, 121, 117);
+	color: white;
 	text-align: center;
 
-	padding: 15px 0 0 0;
+	padding: 0;
 }
 
 /* The outer part of the dialog contants, which contains the contents body
@@ -244,9 +245,10 @@ a.cke_dialog_tab_disabled
 	height: 20px;
 	width: 20px;
 	z-index: 5;
-  color: #7c7975;
-  font-size: 14px;
-  text-align: right;
+	color: #7c7975;
+	font-size: 14px;
+	text-align: right;
+	display: none;
 }
 
 .cke_dialog_close_button:before {
@@ -284,7 +286,7 @@ a.cke_dialog_tab_disabled
 
 .cke_ltr .cke_dialog_close_button
 {
-	right: 20px;
+	right: 4px;
 }
 
 .cke_rtl .cke_dialog_close_button
@@ -294,7 +296,7 @@ a.cke_dialog_tab_disabled
 
 .cke_dialog_close_button
 {
-	top: 10px;
+	top: 1px;
 }
 
 /*
@@ -494,7 +496,7 @@ a.cke_dialog_ui_button
 	*display: inline;
 	*zoom: 1;
 
-	padding: 4px 0;
+	padding: 0;
 	margin: 0;
 
 	text-align: center;
@@ -502,9 +504,9 @@ a.cke_dialog_ui_button
 	vertical-align: middle;
 	cursor: pointer;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
 
 	background: #7c7975;
 }
@@ -540,7 +542,7 @@ a.cke_dialog_ui_button[style*="width"]
 {
 	color: white;
 	font-size: 14px;
-	line-height: 28px;
+	line-height: 25px;
 	text-transform: lowercase;
 	font-family: 'AvenirNext',Avenir,Verdana,sans-serif;
 }
@@ -575,7 +577,7 @@ a.cke_dialog_ui_button_ok:active
 {
 	display: inline-table;
 	margin: 7px 0 10px 0;
-	width: 140px;
+	width: 131px;
 	position: relative;
 	vertical-align: middle;
 }
