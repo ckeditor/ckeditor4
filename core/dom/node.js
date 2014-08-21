@@ -558,14 +558,28 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 */
 	getAscendant: function( reference, includeSelf ) {
 		var $ = this.$,
-			name;
+			conditionChecker;
 
-		if ( !includeSelf )
+		if ( !includeSelf ) {
 			$ = $.parentNode;
+		}
+
+		if ( typeof reference == 'function' ) {
+			// Custom checker provided in argument.
+			conditionChecker = reference;
+		} else {
+			// Predefined tag name checker.
+			conditionChecker = function( $ ) {
+				var name = $.nodeName.toLowerCase();
+
+				return ( typeof reference == 'string' ? name == reference : name in reference );
+			}
+		}
 
 		while ( $ ) {
-			if ( $.nodeName && ( name = $.nodeName.toLowerCase(), ( typeof reference == 'string' ? name == reference : name in reference ) ) )
+			if ( $.nodeName && conditionChecker( $ ) ) {
 				return new CKEDITOR.dom.node( $ );
+			}
 
 			try {
 				$ = $.parentNode;
@@ -573,6 +587,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 				$ = null;
 			}
 		}
+
 		return null;
 	},
 

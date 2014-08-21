@@ -592,6 +592,45 @@
 			assert.isNull( null, node.getAscendant( 'i' ) );
 		},
 
+		test_getAscendant_func_check1 : function() {
+			var node = $( 'func_check' ),
+			calls = 0;
+
+			node.getAscendant( function( elem ) {
+				calls++;
+			}, true );
+
+			assert.isTrue( calls > 0, 'Should be called at least once.' );
+		},
+
+		test_getAscendant_func_check2 : function() {
+			var node = $( 'func_check' ),
+			calls = 0,
+			found;
+
+			found = node.getAscendant( function( elem ) {
+				return true;
+			}, true );
+			assert.areSame( found.$, node.$, 'First one match.' );
+
+			found = node.getAscendant( function( elem ) {
+				return true;
+			}, false );
+			assert.areSame( found.$, node.$.parentNode, 'First ancestor match.' );
+
+			found = node.getAscendant( function( elem ) {
+				return false;
+			}, false );
+			assert.isNull( found, 'Nothing found.' );
+
+			found = node.getAscendant( function( elem ) {
+				elem = new CKEDITOR.dom.element( elem );
+
+				return elem.hasClass( 'deep2' );
+			}, true );
+			assert.areSame( found.$, $( 'deep2' ).$, 'Found element which has class deep2' );
+		},
+
 		test_hasAscendant : function() {
 			var node = $( 'getNSN1' );
 
