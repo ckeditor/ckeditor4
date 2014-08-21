@@ -57,7 +57,21 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from arrgs
 
-java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release --version="4.4.5 DEV" --overwrite $JAVA_ARGS
+VERSION="4.4.5 DEV"
+REVISION=$(git rev-parse --verify --short HEAD)
+SEMVER_REGEX="^([0-9]+)\.([0-9]+)\.([0-9]+)(\-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?$"
+
+# Get version number from tag (if available and follows semantic versioning principles).
+# Use 2>/dev/null to block "fatal: no tag exactly matches", true is needed because of "set -e".
+TAG=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match 2>/dev/null) || true
+# "Git Bash" does not support regular expressions.
+if echo $TAG | grep -E "$SEMVER_REGEX" > /dev/null
+then
+	echo "Setting version to $TAG"
+	VERSION=$TAG
+fi
+
+java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
 
 # Copy and build tests
 if [[ "$ARGS" == *\ \-t\ * ]]; then
