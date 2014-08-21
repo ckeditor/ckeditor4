@@ -129,6 +129,14 @@ bender.test(
 		bender.assert.isInnerHtmlMatching( expected, data );
 	},
 
+	// #12311
+	'test remove format for cite element': function() {
+		this.editorBot.setHtmlWithSelection( '[<p>foo <cite>bar</cite> baz</p>]' );
+		this.editor.getCommand( 'removeFormat' ).exec();
+
+		assert.areEqual( '<p>foo bar baz</p>', this.editor.getData(), 'Cite element should be removed.' );
+	},
+
 	'test editor#addRemoveFormatFilter': function() {
 		bender.editorBot.create( {
 			name: 'test_editor2',
