@@ -9,6 +9,8 @@
 		requires: 'widget,clipboard',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			var Manager = new UploadManager();
+
 			editor.widgets.add( 'uploadimage', {
 				parts: {
 					img: 'img'
@@ -139,5 +141,14 @@
 		}
 
 		return new Blob( byteArrays, { type: contentType } );
+	}
+
+	function UploadManager() {
+	}
+
+	UploadManager.prototype = {
+		upload: function( file ) {
+
+		}
 	}
 } )();
