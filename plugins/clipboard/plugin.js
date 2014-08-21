@@ -2045,10 +2045,11 @@
 		 * @returns {Boolean} `true` if the object contains no data.
 		 */
 		isEmpty: function() {
-			var typesToCheck = {};
+			var typesToCheck = {},
+				type;
 
 			// Add custom types.
-			for ( var type in this._.data ) {
+			for ( type in this._.data ) {
 				typesToCheck[ type ] = 1;
 			}
 
@@ -2069,10 +2070,10 @@
 				typesToCheck[ clipboardIdDataType ] = 0;
 			}
 
-			for ( var type in typesToCheck ) {
+			for ( type in typesToCheck ) {
 				if ( typesToCheck[ type ] && this.getData( type ) )
 					return false;
-			};
+			}
 
 			return true;
 		}
