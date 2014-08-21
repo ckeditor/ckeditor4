@@ -169,7 +169,7 @@ CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
  * @cfg
  * @member CKEDITOR.config
  */
-CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var';
+CKEDITOR.config.removeFormatTags = 'b,big,cite,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var';
 
 /**
  * A comma separated list of elements attributes to be removed when executing
