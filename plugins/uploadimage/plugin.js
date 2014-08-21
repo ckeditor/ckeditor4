@@ -10,9 +10,33 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			editor.widgets.add( 'uploadimage', {
+				parts: {
+					img: 'img'
+				},
+
 				upcast: function( el, data ) {
 					if ( el.name != 'img' || !el.attributes[ 'data-cke-image-to-upload' ] )
 						return;
+
+					var src = el.attributes[ 'src' ],
+						file = srcToBlob( src ),
+						xhr = new XMLHttpRequest(),
+						formData = new FormData();
+
+					formData.append( 'upload', file );
+
+					xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
+
+					xhr.onreadystatechange = function() {
+						if ( xhr.readyState == 4 ) { // completed
+							if ( xhr.status == 200 ) { // OK
+								console.log( 'onreadystatechange:' );
+								console.log( xhr.responseText );
+							}
+						}
+					}
+
+					xhr.send( formData );
 
 					return el;
 				},
@@ -77,33 +101,16 @@
 
 				for ( i = 0; i < imgs.count(); i++ ) {
 					img = imgs.getItem( i );
-					img.setAttributses( {
-						'data-cke-special-image': 1,
-						'data-cke-image-to-upload': 1
-					} );
 
 					if ( img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:' ) {
-						var src = img.getAttribute( 'src' ),
-							file = srcToBlob( src ),
-							xhr = new XMLHttpRequest(),
-							formData = new FormData();
-
-						formData.append( 'upload', file );
-
-						xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
-
-						xhr.onreadystatechange = function() {
-							if ( xhr.readyState == 4 ) { // completed
-								if ( xhr.status == 200 ) { // OK
-									console.log( 'onreadystatechange:' );
-									console.log( xhr.responseText );
-								}
-							}
-						}
-
-						xhr.send( formData );
+						img.setAttributes( {
+							'data-cke-special-image': 1,
+							'data-cke-image-to-upload': 1
+						} );
 					}
 				}
+
+				data.dataValue = temp.getHtml();
 			} );
 		}
 	} );
