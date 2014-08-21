@@ -539,7 +539,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * Gets the closest ancestor node of this node, specified by its name.
+	 * Gets the closest ancestor node of this node, specified by its name or custom function checker provided in first argument.
 	 *
 	 *		// Suppose we have the following HTML structure:
 	 *		// <div id="outer"><div id="inner"><p><b>Some text</b></p></div></div>
@@ -549,9 +549,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		ascendant = node.getAscendant( 'b', true );			// ascendant == <b>
 	 *		ascendant = node.getAscendant( { div:1,p:1 } );		// Searches for the first 'div' or 'p': ascendant == <div id="inner">
 	 *
+	 *		// If you want to define custom checking, you should provide it as function in first argument.
+	 *		ascendant = node.getAscendant( function ( elem ) {
+	 *			elem = new CKEDITOR.dom.element( elem );
+	 *			return elem.getId() == 'outer';
+	 *		} );												// ascendant == <div id="inner">
 	 * @since 3.6.1
-	 * @param {String} reference The name of the ancestor node to search or
-	 * an object with the node names to search for.
+	 * @param {String|Function} reference The name of the ancestor node to search or
+	 * an object with the node names to search for or
+	 * checking function which is called on every node(passed in first argument) while searching.
+	 * Should return Boolean value, defining whether node match criteria.
 	 * @param {Boolean} [includeSelf] Whether to include the current
 	 * node in the search.
 	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
@@ -570,14 +577,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		} else {
 			// Predefined tag name checker.
 			conditionChecker = function( $ ) {
-				var name = $.nodeName.toLowerCase();
+				var name = ( typeof $.nodeName == 'string' ? $.nodeName.toLowerCase() : '' );
 
 				return ( typeof reference == 'string' ? name == reference : name in reference );
 			}
 		}
 
 		while ( $ ) {
-			if ( $.nodeName && conditionChecker( $ ) ) {
+			if ( conditionChecker( $ ) ) {
 				return new CKEDITOR.dom.node( $ );
 			}
 
