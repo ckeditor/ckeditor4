@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		alignLeft: 'Bal',
 		alignRight: 'Jobbra',
 		alignCenter: 'Középre',
+		alignJustify: 'Sorkizárt',
 		alignTop: 'Tetejére',
 		alignMiddle: 'Középre',
 		alignBottom: 'Aljára',

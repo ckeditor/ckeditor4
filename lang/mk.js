@@ -80,6 +80,7 @@ CKEDITOR.lang[ 'mk' ] = {
 		alignLeft: 'Left', // MISSING
 		alignRight: 'Right', // MISSING
 		alignCenter: 'Center', // MISSING
+		alignJustify: 'Justify', // MISSING
 		alignTop: 'Top', // MISSING
 		alignMiddle: 'Middle', // MISSING
 		alignBottom: 'Bottom', // MISSING

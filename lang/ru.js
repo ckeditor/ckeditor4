@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignLeft: 'По левому краю',
 		alignRight: 'По правому краю',
 		alignCenter: 'По центру',
+		alignJustify: 'По ширине',
 		alignTop: 'Поверху',
 		alignMiddle: 'Посередине',
 		alignBottom: 'Понизу',

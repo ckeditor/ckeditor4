@@ -81,10 +81,11 @@ CKEDITOR.lang[ 'nl' ] = {
 		alignLeft: 'Links',
 		alignRight: 'Rechts',
 		alignCenter: 'Centreren',
+		alignJustify: 'Uitvullen',
 		alignTop: 'Boven',
 		alignMiddle: 'Midden',
 		alignBottom: 'Onder',
-		alignNone: 'None', // MISSING
+		alignNone: 'Geen',
 		invalidValue	: 'Ongeldige waarde.',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',

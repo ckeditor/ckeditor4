@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'bs' ] = {
 		alignLeft: 'Lijevo',
 		alignRight: 'Desno',
 		alignCenter: 'Centar',
+		alignJustify: 'Puno poravnanje',
 		alignTop: 'Vrh',
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dno',

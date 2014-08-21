@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'sr' ] = {
 		alignLeft: 'Лево',
 		alignRight: 'Десно',
 		alignCenter: 'Средина',
+		alignJustify: 'Обострано равнање',
 		alignTop: 'Врх',
 		alignMiddle: 'Средина',
 		alignBottom: 'Доле',

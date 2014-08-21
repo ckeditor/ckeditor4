@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'el' ] = {
 		alignLeft: 'Αριστερά',
 		alignRight: 'Δεξιά',
 		alignCenter: 'Κέντρο',
+		alignJustify: 'Πλήρης Στοίχιση',
 		alignTop: 'Πάνω',
 		alignMiddle: 'Μέση',
 		alignBottom: 'Κάτω',

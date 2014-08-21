@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'km' ] = {
 		alignLeft: 'ខាងឆ្វង',
 		alignRight: 'ខាងស្តាំ',
 		alignCenter: 'កណ្តាល',
+		alignJustify: '両端揃え',
 		alignTop: 'ខាងលើ',
 		alignMiddle: 'កណ្តាល',
 		alignBottom: 'ខាងក្រោម',

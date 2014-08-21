@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'mn' ] = {
 		alignLeft: 'Зүүн',
 		alignRight: 'Баруун',
 		alignCenter: 'Төвд',
+		alignJustify: 'Тэгшлэх',
 		alignTop: 'Дээд талд',
 		alignMiddle: 'Дунд',
 		alignBottom: 'Доод талд',

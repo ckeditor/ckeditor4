@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'eo' ] = {
 		alignLeft: 'Maldekstre',
 		alignRight: 'Dekstre',
 		alignCenter: 'Centre',
+		alignJustify: 'Ĝisrandigi Ambaŭflanke',
 		alignTop: 'Supre',
 		alignMiddle: 'Centre',
 		alignBottom: 'Malsupre',

@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		alignLeft: 'Vasemmalle',
 		alignRight: 'Oikealle',
 		alignCenter: 'Keskelle',
+		alignJustify: 'Tasaa molemmat reunat',
 		alignTop: 'Ylös',
 		alignMiddle: 'Keskelle',
 		alignBottom: 'Alas',

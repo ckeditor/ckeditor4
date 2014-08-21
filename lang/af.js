@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'af' ] = {
 		alignLeft: 'Links',
 		alignRight: 'Regs',
 		alignCenter: 'Sentreer',
+		alignJustify: 'Uitvul',
 		alignTop: 'Bo',
 		alignMiddle: 'Middel',
 		alignBottom: 'Onder',

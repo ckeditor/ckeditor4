@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'en-au' ] = {
 		alignLeft: 'Left', // MISSING
 		alignRight: 'Right', // MISSING
 		alignCenter: 'Centre',
+		alignJustify: 'Justify',
 		alignTop: 'Top', // MISSING
 		alignMiddle: 'Middle', // MISSING
 		alignBottom: 'Bottom', // MISSING

@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'da' ] = {
 		alignLeft: 'Venstre',
 		alignRight: 'Højre',
 		alignCenter: 'Centreret',
+		alignJustify: 'Lige margener',
 		alignTop: 'Øverst',
 		alignMiddle: 'Centreret',
 		alignBottom: 'Nederst',

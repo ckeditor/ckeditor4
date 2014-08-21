@@ -81,10 +81,11 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignLeft: 'Trái',
 		alignRight: 'Phải',
 		alignCenter: 'Giữa',
+		alignJustify: 'Sắp chữ',
 		alignTop: 'Trên',
 		alignMiddle: 'Giữa',
 		alignBottom: 'Dưới',
-		alignNone: 'None', // MISSING
+		alignNone: 'Không',
 		invalidValue	: 'Giá trị không hợp lệ.',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',

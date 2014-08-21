@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		alignLeft: '왼쪽',
 		alignRight: '오른쪽',
 		alignCenter: '가운데',
+		alignJustify: '両端揃え',
 		alignTop: '위',
 		alignMiddle: '중간',
 		alignBottom: '아래',

@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		alignLeft: 'Mărește Bara',
 		alignRight: 'Dreapta',
 		alignCenter: 'Centru',
+		alignJustify: 'Aliniere în bloc (Block Justify)',
 		alignTop: 'Sus',
 		alignMiddle: 'Mijloc',
 		alignBottom: 'Jos',

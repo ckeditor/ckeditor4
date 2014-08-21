@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'codesnippet', {
 		requires: 'widget,dialog',
-		lang: 'bg,ca,cs,da,de,el,en,en-gb,eo,es,et,fa,fi,fr,fr-ca,hr,hu,it,ja,km,ku,lt,lv,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,th,tt,ug,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'bg,ca,cs,da,de,el,en,en-gb,eo,es,et,fa,fi,fr,fr-ca,hr,hu,it,ja,km,ku,lt,lv,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,th,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'codesnippet', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 

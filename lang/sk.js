@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		alignLeft: 'Vľavo',
 		alignRight: 'Vpravo',
 		alignCenter: 'Na stred',
+		alignJustify: 'Zarovnať do bloku',
 		alignTop: 'Nahor',
 		alignMiddle: 'Na stred',
 		alignBottom: 'Dole',

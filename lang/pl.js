@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		alignLeft: 'Do lewej',
 		alignRight: 'Do prawej',
 		alignCenter: 'Do środka',
+		alignJustify: 'Wyjustuj',
 		alignTop: 'Do góry',
 		alignMiddle: 'Do środka',
 		alignBottom: 'Do dołu',

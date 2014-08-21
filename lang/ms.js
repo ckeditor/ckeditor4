@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		alignLeft: 'Kiri',
 		alignRight: 'Kanan',
 		alignCenter: 'Tengah',
+		alignJustify: 'Jajaran Blok',
 		alignTop: 'Atas',
 		alignMiddle: 'Pertengahan',
 		alignBottom: 'Bawah',

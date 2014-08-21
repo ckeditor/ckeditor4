@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'tt' ] = {
 		alignLeft: 'Сул якка',
 		alignRight: 'Уң якка',
 		alignCenter: 'Үзәккә',
+		alignJustify: 'Киңлеккә карап тигезләү',
 		alignTop: 'Өскә',
 		alignMiddle: 'Уртага',
 		alignBottom: 'Аска',

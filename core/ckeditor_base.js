@@ -9,9 +9,7 @@
  */
 
 // #### Compressed Code
-// Must be updated on changes in the script as well as updated in the ckeditor.js file.
-
-// window.CKEDITOR||(window.CKEDITOR=function(){var b={timestamp:"",version:"%VERSION%",revision:"%REV%",rnd:Math.floor(900*Math.random())+100,_:{pending:[]},status:"unloaded",basePath:function(){var a=window.CKEDITOR_BASEPATH||"";if(!a)for(var b=document.getElementsByTagName("script"),c=0;c<b.length;c++){var d=b[c].src.match(/(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i);if(d){a=d[1];break}}-1==a.indexOf(":/")&&"//"!=a.slice(0,2)&&(a=0===a.indexOf("/")?location.href.match(/^.*?:\/\/[^\/]*/)[0]+a:location.href.match(/^[^\?]*\/(?:)/)[0]+a);if(!a)throw'The CKEditor installation path could not be automatically detected. Please set the global variable "CKEDITOR_BASEPATH" before creating editor instances.';return a}(),getUrl:function(a){-1==a.indexOf(":/")&&0!==a.indexOf("/")&&(a=this.basePath+a);this.timestamp&&"/"!=a.charAt(a.length-1)&&!/[&?]t=/.test(a)&&(a+=(0<=a.indexOf("?")?"&":"?")+"t="+this.timestamp);return a},domReady:function(){function a(){try{document.addEventListener?(document.removeEventListener("DOMContentLoaded",a,!1),b()):document.attachEvent&&"complete"===document.readyState&&(document.detachEvent("onreadystatechange",a),b())}catch(d){}}function b(){for(var a;a=c.shift();)a()}var c=[];return function(b){c.push(b);"complete"===document.readyState&&setTimeout(a,1);if(1==c.length)if(document.addEventListener)document.addEventListener("DOMContentLoaded",a,!1),window.addEventListener("load",a,!1);else if(document.attachEvent){document.attachEvent("onreadystatechange",a);window.attachEvent("onload",a);b=!1;try{b=!window.frameElement}catch(e){}if(document.documentElement.doScroll&&b){var f=function(){try{document.documentElement.doScroll("left")}catch(b){setTimeout(f,1);return}a()};f()}}}}()},e=window.CKEDITOR_GETURL;if(e){var g=b.getUrl;b.getUrl=function(a){return e.call(b,a)||g.call(b,a)}}return b}());
+// Compressed code in ckeditor.js must be be updated on changes in the script.
 // The Closure Compiler online service should be used when updating this manually:
 // http://closure-compiler.appspot.com/
 
@@ -25,6 +23,8 @@ if ( !window.CKEDITOR ) {
 	 * @singleton
 	 */
 	window.CKEDITOR = ( function() {
+		var basePathSrcPattern = /(^|.*[\\\/])ckeditor\.js(?:\?.*|;.*)?$/i;
+
 		var CKEDITOR = {
 
 			/**
@@ -76,7 +76,8 @@ if ( !window.CKEDITOR ) {
 			 * @private
 			 */
 			_: {
-				pending: []
+				pending: [],
+				basePathSrcPattern: basePathSrcPattern
 			},
 
 			/**
@@ -111,9 +112,6 @@ if ( !window.CKEDITOR ) {
 			 * @property {String}
 			 */
 			basePath: ( function() {
-				// ATTENTION: fixes to this code must be ported to
-				// var basePath in "core/loader.js".
-
 				// Find out the editor directory path, based on its <script> tag.
 				var path = window.CKEDITOR_BASEPATH || '';
 
@@ -121,7 +119,7 @@ if ( !window.CKEDITOR ) {
 					var scripts = document.getElementsByTagName( 'script' );
 
 					for ( var i = 0; i < scripts.length; i++ ) {
-						var match = scripts[ i ].src.match( /(^|.*[\\\/])ckeditor(?:_basic)?(?:_source)?.js(?:\?.*)?$/i );
+						var match = scripts[ i ].src.match( basePathSrcPattern );
 
 						if ( match ) {
 							path = match[ 1 ];

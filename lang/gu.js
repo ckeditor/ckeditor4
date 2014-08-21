@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		alignLeft: 'ડાબી બાજુ ગોઠવવું',
 		alignRight: 'જમણી',
 		alignCenter: 'મધ્ય સેન્ટર',
+		alignJustify: 'બ્લૉક, અંતરાય જસ્ટિફાઇ',
 		alignTop: 'ઉપર',
 		alignMiddle: 'વચ્ચે',
 		alignBottom: 'નીચે',

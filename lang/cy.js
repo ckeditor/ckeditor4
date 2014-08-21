@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		alignLeft: 'Chwith',
 		alignRight: 'Dde',
 		alignCenter: 'Canol',
+		alignJustify: 'Unioni',
 		alignTop: 'Brig',
 		alignMiddle: 'Canol',
 		alignBottom: 'Gwaelod',

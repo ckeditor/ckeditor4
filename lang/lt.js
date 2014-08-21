@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		alignLeft: 'Kairę',
 		alignRight: 'Dešinę',
 		alignCenter: 'Centrą',
+		alignJustify: 'Lygiuoti abi puses',
 		alignTop: 'Viršūnę',
 		alignMiddle: 'Vidurį',
 		alignBottom: 'Apačią',

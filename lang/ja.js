@@ -81,6 +81,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignLeft: '左',
 		alignRight: '右',
 		alignCenter: '中央',
+		alignJustify: '両端揃え',
 		alignTop: '上',
 		alignMiddle: '中央',
 		alignBottom: '下',
