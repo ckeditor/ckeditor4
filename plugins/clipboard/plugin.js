@@ -477,16 +477,18 @@
 			var editable = editor.editable();
 
 			if ( !CKEDITOR.env.ie ) {
-				editable.on( 'copy', function( evt ) {
+				var initOnCopyCut = function( evt ) {
 					clipboard.initPasteDataTransfer( evt, editor );
 					evt.data.preventDefault();
-				} );
+				};
 
+				editable.on( 'copy', initOnCopyCut );
+				editable.on( 'cut', initOnCopyCut );
+
+				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function( evt ) {
-					clipboard.initPasteDataTransfer( evt, editor );
 					editor.getSelection().getRanges()[ 0 ].deleteContents(); // @todo replace with the new delete content function
-					evt.data.preventDefault();
-				} );
+				}, null, null, 999 );
 			}
 
 			// We'll be catching all pasted content in one line, regardless of whether
