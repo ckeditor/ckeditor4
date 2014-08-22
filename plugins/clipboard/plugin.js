@@ -1286,7 +1286,8 @@
 			var editable = editor.editable(),
 				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
 				// #11086 IE8 cannot listen on document.
-				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
+				canListenOnDocument = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
+				dropTarget = canListenOnDocument && !editable.isInline() ? editor.document : editable;
 
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
