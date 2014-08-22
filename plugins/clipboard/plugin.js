@@ -1918,10 +1918,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=0]
+	 * @property {Number} [=1]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_INTERNAL = 0;
+	CKEDITOR.DATA_TRANSFER_INTERNAL = 1;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the
@@ -1929,10 +1929,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=1]
+	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 1;
+	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 2;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started not in the CKEditor.
@@ -1940,10 +1940,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=2]
+	 * @property {Number} [=3]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_EXTERNAL = 2;
+	CKEDITOR.DATA_TRANSFER_EXTERNAL = 3;
 
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
 		/**
