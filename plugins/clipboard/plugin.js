@@ -2028,6 +2028,8 @@
 				i;
 
 			function getAndSetData( type ) {
+				type = that._.normalizeType( type );
+
 				var data = that.getData( type );
 				if ( data ) {
 					that._.data[ type ] = data;
