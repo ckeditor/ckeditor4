@@ -1705,12 +1705,12 @@
 		},
 
 		/**
-		 * Initialize dataTransfer object based on the native drop event. If data
+		 * Initialize dataTransfer object based on the drop event. If data
 		 * transfer object was already initialized on this event then function will
 		 * return that object.
 		 *
 		 * @since 4.5
-		 * @param {Object} domEvent A native DOM drop event object.
+		 * @param {CKEDITOR.dom.event} evt A drop event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
@@ -1738,6 +1738,18 @@
 			return dataTransfer;
 		},
 
+		/**
+		 * Initialize dataTransfer object based on the paste event. If data
+		 * transfer object was already initialized on this event then function will
+		 * return that object. On IE it is not possible to link copy/cut and paste event
+		 * so the method returns always a new object. The same if there is no paste event
+		 * passed to the method.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.dom.event} [evt] A paste event object.
+		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
+		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
+		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( CKEDITOR.env.ie ) {
 				return new this.dataTransfer( null, sourceEditor );
