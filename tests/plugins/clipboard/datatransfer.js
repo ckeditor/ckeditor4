@@ -314,6 +314,7 @@ bender.test( {
 			nativeData.setData( 'Text', 'foo' );
 		} else {
 			nativeData.setData( 'text/html', 'foo' );
+			nativeData.setData( 'text/plain', 'bom' );
 			nativeData.setData( 'cke/custom', 'bar' );
 		}
 
@@ -334,6 +335,7 @@ bender.test( {
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		} else {
 			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
+			assert.areSame( 'bom', dataTransfer.getData( 'text/plain' ) );
 			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		}
