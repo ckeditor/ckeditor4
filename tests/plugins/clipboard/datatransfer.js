@@ -262,11 +262,11 @@ bender.test( {
 		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
 	},
 
-	'test set-get data, data type: plain/html, dataTransfer without event': function() {
+	'test set-get data, data type: text/html, dataTransfer without event': function() {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
-		dataTransfer.setData( 'plain/html', 'html' );
-		assert.areSame( 'html', dataTransfer.getData( 'plain/html' ), 'plain/html - plain/html' );
+		dataTransfer.setData( 'text/html', 'html' );
+		assert.areSame( 'html', dataTransfer.getData( 'text/html' ), 'text/html - text/html' );
 	},
 
 	'test set-get data, data type: undefined data, dataTransfer without event': function() {
@@ -313,7 +313,7 @@ bender.test( {
 		if ( CKEDITOR.env.ie ) {
 			nativeData.setData( 'Text', 'foo' );
 		} else {
-			nativeData.setData( 'plain/html', 'foo' );
+			nativeData.setData( 'text/html', 'foo' );
 			nativeData.setData( 'cke/custom', 'bar' );
 		}
 
@@ -333,7 +333,7 @@ bender.test( {
 			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		} else {
-			assert.areSame( 'foo', dataTransfer.getData( 'plain/html' ) );
+			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
 			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		}
