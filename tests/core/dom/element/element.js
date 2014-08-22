@@ -526,14 +526,20 @@ bender.test( appendDomObjectTests(
 					Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
 					var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
 						x = Math.round( pos.x ),
-						y = Math.round( pos.y );
+						y = Math.round( pos.y ),
+						accOffset = 1;
 
-					assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
-					assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+					assertWithinOffset( 350, x, accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
+					assertWithinOffset( 450, y, accOffset, 'Position coordinates:y(350) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
 				} );
 			} );
 
 			wait();
+
+			function assertWithinOffset( expected, actual, offset, msg ) {
+				offset = ( typeof offset == 'number' ? offset : 0 );
+				assert.isTrue( expected - offset <= actual && expected + offset >= actual, msg );
+			}
 		},
 
 		// Test get last non-spaces child node.
