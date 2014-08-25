@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'tt', {
 	codeContents: 'Код эчтәлеге',
 	emptySnippetError: 'Код өзеге буш булмаска тиеш',
 	language: 'Тел',
-	title: 'Код өзеге'
+	title: 'Код өзеге',
+	pathName: 'codesnippet' // MISSING
 } );

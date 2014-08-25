@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'ja', {
 	codeContents: 'コード内容',
 	emptySnippetError: 'コードスニペットを入力してください。',
 	language: '言語',
-	title: 'コードスニペット'
+	title: 'コードスニペット',
+	pathName: 'codesnippet' // MISSING
 } );
