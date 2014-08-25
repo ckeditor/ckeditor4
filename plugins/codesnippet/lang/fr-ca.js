@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'fr-ca', {
 	codeContents: 'Code content', // MISSING
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
 	language: 'Language', // MISSING
-	title: 'Code snippet' // MISSING
+	title: 'Code snippet', // MISSING
+	pathName: 'codesnippet' // MISSING
 } );

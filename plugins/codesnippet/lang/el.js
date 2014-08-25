@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'el', {
 	codeContents: 'Περιεχόμενο κώδικα',
 	emptySnippetError: 'Δεν γίνεται να είναι κενά τα αποσπάσματα κώδικα.',
 	language: 'Γλώσσα',
-	title: 'Απόσπασμα κώδικα'
+	title: 'Απόσπασμα κώδικα',
+	pathName: 'codesnippet' // MISSING
 } );

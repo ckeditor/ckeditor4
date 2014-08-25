@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#12315](http://dev.ckeditor.com/ticket/12315): Fixed: Marked [`config.autoParagraph`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoParagraph) as deprecated.
+* [#12113](http://dev.ckeditor.com/ticket/12113): Fixed: Code snippet should be presented in elements path as "codesnippet".
 
 ## CKEditor 4.4.4
 
