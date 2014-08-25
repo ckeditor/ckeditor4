@@ -280,22 +280,30 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
+		// Get the height delta between the outer table and the content area.
+		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
+
+			// If we're setting the content area's height, then we don't need the delta.
+			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
+			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
+
 		// Set as border box width. (#5353)
 		outer.setSize( 'width', width, true );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (#8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
 
-		// Get the height delta between the outer table and the content area.
-		// If we're setting the content area's height, then we don't need the delta.
-		var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
-		contents.setStyle( 'height', Math.max( height - delta, 0 ) + 'px' );
+		contents.setStyle( 'height', resultContentsHeight + 'px' );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (#8348)
 		contentsFrame && ( contentsFrame.style.width = '100%' );
 
 		// Emit a resize event.
-		this.fire( 'resize' );
+		this.fire( 'resize', {
+			outerHeight: resultOuterHeight,
+			contentsHeight: resultContentsHeight,
+			outerWidth: width
+		} );
 	};
 
 	/**
@@ -419,9 +427,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
 			container.insertAfter( element );
-		} else {
+		} else
 			element.append( container );
-		}
 
 		editor.container = container;
 
