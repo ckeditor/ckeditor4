@@ -529,17 +529,12 @@ bender.test( appendDomObjectTests(
 						y = Math.round( pos.y ),
 						accOffset = 1;
 
-					assertWithinOffset( 350, x, accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
-					assertWithinOffset( 450, y, accOffset, 'Position coordinates:y(350) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
+					assert.isNumberInRange( 350, x - accOffset, x + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
+					assert.isNumberInRange( 450, y - accOffset, y + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
 				} );
 			} );
 
 			wait();
-
-			function assertWithinOffset( expected, actual, offset, msg ) {
-				offset = ( typeof offset == 'number' ? offset : 0 );
-				assert.isTrue( expected - offset <= actual && expected + offset >= actual, msg );
-			}
 		},
 
 		// Test get last non-spaces child node.

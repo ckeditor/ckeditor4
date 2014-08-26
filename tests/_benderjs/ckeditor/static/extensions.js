@@ -80,6 +80,28 @@
 		}
 	};
 
+	/**
+	 * Assert that expected value is in range (between min and max).
+	 *
+	 * @param {Number} expected
+	 * @param {Number} min
+	 * @param {Number} max
+	 * @param {String} [message]
+	 */
+	bender.assert.isNumberInRange = function( expected, min, max, message ) {
+		YTest.Assert._increment();
+		if ( min > max ) {
+			// Replace min with max.
+			min = [max, max = min][0];
+		}
+
+		if ( expected < min || expected > max ) {
+			throw new YUITest.ComparisonFailure(
+				YUITest.Assert._formatMessage( message ),
+				expected
+			);
+		}
+	};
 
 	// add support test ignore
 	YUITest.Ignore = function() {};
