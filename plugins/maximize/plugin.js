@@ -239,7 +239,11 @@
 
 						// Emit a resize event, because this time the size is modified in
 						// restoreStyles.
-						editor.fire( 'resize' );
+						editor.fire( 'resize', {
+							outerHeight: editor.container.$.offsetHeight,
+							contentsHeight: contents.$.offsetHeight,
+							outerWidth: editor.container.$.offsetWidth
+						} );
 					}
 
 					this.toggleState();
