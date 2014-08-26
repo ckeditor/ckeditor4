@@ -47,6 +47,28 @@ bender.test( {
 		wait();
 	},
 
+	'test maximize fire resize event with proper properties': function() {
+		var calls = 0,
+			lastResizeData;
+
+		this.editor.on( 'resize', function( e ) {
+			calls++;
+			lastResizeData = e.data;
+		} );
+
+		this.editor.resize( 200, 400 );
+
+		this.editor.execCommand( 'maximize' );
+		assert.areEqual( 2, calls, 'Event should be fired twice till now.' );
+		assert.areEqual( window.innerHeight, lastResizeData.outerHeight, 'Height should be same as window height.' );
+		assert.areEqual( window.innerWidth, lastResizeData.outerWidth, 'Width should be same as window height.' );
+
+		this.editor.execCommand( 'maximize' );
+		assert.areEqual( 3, calls, 'Event should be fired thrice till now.' );
+		assert.areEqual( 200, lastResizeData.outerWidth, 'Width should be restored.' );
+		assert.areEqual( 400, lastResizeData.outerHeight, 'Height should be restored.' );
+	},
+
 	'test maximize command work when config title is set to empty string': function() {
 		bender.editorBot.create( {
 			name: 'editor2',
