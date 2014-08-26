@@ -217,9 +217,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.ui.space( 'contents' ).setHtml( '' );
 
 			editor.mode = '';
-		} else {
+		} else
 			editor._.previousModeData = editor.getData( 1 );
-		}
 
 		// Fire the mode handler.
 		this._.modes[ newMode ]( function() {
@@ -280,18 +279,18 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		// Get the height delta between the outer table and the content area.
-		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
-
-			// If we're setting the content area's height, then we don't need the delta.
-			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
-			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
-
 		// Set as border box width. (#5353)
 		outer.setSize( 'width', width, true );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (#8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
+
+		// Get the height delta between the outer table and the content area.
+		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
+
+		// If we're setting the content area's height, then we don't need the delta.
+			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
+			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
 
 		contents.setStyle( 'height', resultContentsHeight + 'px' );
 
@@ -302,7 +301,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		this.fire( 'resize', {
 			outerHeight: resultOuterHeight,
 			contentsHeight: resultContentsHeight,
-			outerWidth: width
+			// Sometimes width is not provided.
+			outerWidth: width || outer.getSize( 'width' )
 		} );
 	};
 
