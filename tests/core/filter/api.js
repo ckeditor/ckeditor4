@@ -547,6 +547,19 @@
 			assert.areSame( CKEDITOR.ENTER_P, filter4.getAllowedEnterMode( CKEDITOR.ENTER_P ), 'f4' );
 			assert.areSame( CKEDITOR.ENTER_P, filter4.getAllowedEnterMode( CKEDITOR.ENTER_P, true ), 'f4a - reverse' );
 			assert.areSame( CKEDITOR.ENTER_BR, filter4.getAllowedEnterMode( CKEDITOR.ENTER_BR, true ), 'f4b - reverse' );
+		},
+
+		'test destroy': function() {
+			var filter = new CKEDITOR.filter( 'p' ),
+				id = filter.id;
+
+			assert.areSame( filter, CKEDITOR.filter.instances[ id ], 'filter is registered before destroy' );
+
+			filter.destroy();
+			assert.isFalse( id in CKEDITOR.filter.instances, 'filter is not registered after destroy' );
+			assert.isFalse( '_' in filter, 'filter\'s private parts are deleted' );
+			assert.isFalse( 'allowedContent' in filter, 'filter.allowedContent is deleted' );
+			assert.isFalse( 'disallowedContent' in filter, 'filter.disallowedContent is deleted' );
 		}
 	} );
 } )();

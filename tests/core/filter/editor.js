@@ -325,6 +325,20 @@
 					} );
 				} );
 			} );
+		},
+
+		'test filter is derefernced on editor.destroy()': function() {
+			bender.editorBot.create( {
+				name: 'test_editor_destroy',
+				creator: 'inline'
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.destroy();
+
+				assert.isFalse( 'filter' in editor, 'editor.filter was deleted' );
+				assert.isFalse( 'activeFilter' in editor, 'editor.activeFilter was deleted' );
+			} );
 		}
 	} );
 } )();
