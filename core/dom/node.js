@@ -584,7 +584,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		}
 
 		while ( $ ) {
-			if ( conditionChecker( $ ) ) {
+			// For user provided checker we use our CKEDITOR.dom.node.
+			var el = ( conditionChecker === reference ? new CKEDITOR.dom.node( $ ) : $ );
+			if ( conditionChecker( el ) ) {
 				return new CKEDITOR.dom.node( $ );
 			}
 

@@ -592,9 +592,9 @@
 			assert.isNull( null, node.getAscendant( 'i' ) );
 		},
 
-		test_getAscendant_func_check1 : function() {
+		test_getAscendant_func_check_calls_number : function() {
 			var node = $( 'func_check' ),
-			calls = 0;
+				calls = 0;
 
 			node.getAscendant( function( elem ) {
 				calls++;
@@ -603,32 +603,40 @@
 			assert.isTrue( calls > 0, 'Should be called at least once.' );
 		},
 
-		test_getAscendant_func_check2 : function() {
+		test_getAscendant_func_check_find_first_one : function() {
 			var node = $( 'func_check' ),
-			calls = 0,
-			found;
+				found = node.getAscendant( function( el ) {
+					return true;
+				}, true );
 
-			found = node.getAscendant( function( elem ) {
-				return true;
-			}, true );
-			assert.areSame( found.$, node.$, 'First one match.' );
+			assert.isTrue( found.equals( node ), 'First one match.' );
+		},
 
-			found = node.getAscendant( function( elem ) {
-				return true;
-			}, false );
-			assert.areSame( found.$, node.$.parentNode, 'First ancestor match.' );
+		test_getAscendant_func_check_find_first_ancestor : function() {
+			var node = $( 'func_check' ),
+				found = node.getAscendant( function( el ) {
+					return true;
+				}, false );
 
-			found = node.getAscendant( function( elem ) {
-				return false;
-			}, false );
+			assert.isTrue( found.equals( node.getParent() ), 'First ancestor match.' );
+		},
+
+		test_getAscendant_func_check_find_nothing : function() {
+			var node = $( 'func_check' ),
+				found = node.getAscendant( function( el ) {
+					return false;
+				}, false );
+
 			assert.isNull( found, 'Nothing found.' );
+		},
 
-			found = node.getAscendant( function( elem ) {
-				elem = new CKEDITOR.dom.element( elem );
+		test_getAscendant_func_check_find_first_with_class_deep2 : function() {
+			var node = $( 'func_check' ),
+				found = node.getAscendant( function( el ) {
+					return el.hasClass( 'deep2' );
+				}, true );
 
-				return elem.hasClass( 'deep2' );
-			}, true );
-			assert.areSame( found.$, $( 'deep2' ).$, 'Found element which has class deep2' );
+			assert.isTrue( found.equals( $( 'deep2' ) ), 'Found element which has class deep2' );
 		},
 
 		test_hasAscendant : function() {
