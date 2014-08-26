@@ -257,6 +257,9 @@ if ( !CKEDITOR.env ) {
 		 *		if ( CKEDITOR.env.isCompatible )
 		 *			alert( 'Your browser is pretty cool!' );
 		 *
+		 * See the [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments)
+		 * article for more information. 
+		 *
 		 * @property {Boolean}
 		 */
 		env.isCompatible =
