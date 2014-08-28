@@ -393,6 +393,35 @@
 				assert.areEqual( CKEDITOR.TRISTATE_DISABLED, redoCommand.state, 'Invalid redo command state after typing character' );
 			},
 
+			'test snapshot created on more than 25 backspaces': function() {
+				this.editorBot.setData( '<p>aaaaaaaaaaaaaaaaaaaaaaaaaccccccccccccccccccccccccc</p>', function() {
+					var undoManager = this.editor.undoManager,
+						skipInputEvent = CKEDITOR.env.ie ? false : true,
+						textNode = this.editor.editable().getFirst().getFirst();
+
+					// Reseting state.
+					undoManager.reset();
+
+					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+					this._moveTextNodeRange( 50 );
+					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+					this.keyTools.keyEventMultiple( 25, keyCodesEnum.BACKSPACE, null, skipInputEvent, modifyDOM );
+					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+					this.keyTools.keyEventMultiple( 1, keyCodesEnum.BACKSPACE, null, skipInputEvent, modifyDOM );
+					assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
+					assert.areEqual( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>', undoManager.snapshots[ 0 ].contents );
+
+					function modifyDOM() {
+						var text = textNode.getText();
+						text = text.substring( 0, text.length - 1 );
+						textNode.setText( text );
+					}
+				} );
+			},
+
 			'test no snapshot on dummy backspace': function() {
 				// Backspace which does not remove anything, shouln'd create snapshot.
 				var undoCommand = this.editor.getCommand( 'undo' ),
