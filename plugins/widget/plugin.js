@@ -2196,7 +2196,7 @@
 		editor.on( 'drop', function( evt ) {
 			var dataTransfer = evt.data.dataTransfer,
 				id = dataTransfer.getData( 'cke/widget-id' ),
-				dragRange = new CKEDITOR.dom.range( editor.document ),
+				dragRange = editor.createRange(),
 				sourceWidget;
 
 			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
@@ -2233,14 +2233,14 @@
 		} );
 
 		editor.on( 'contentDom', function() {
+			var editable = editor.editable();
+
 			// Register Lineutils's utilities as properties of repo.
 			CKEDITOR.tools.extend( widgetsRepo, {
 				finder: new lineutils.finder( editor, {
 					lookups: {
 						// Element is block but not list item and not in nested editable.
 						'default': function( el ) {
-							var editable = editor.editable();
-
 							if ( el.is( CKEDITOR.dtd.$listItem ) )
 								return;
 

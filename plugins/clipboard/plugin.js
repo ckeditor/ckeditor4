@@ -1936,14 +1936,13 @@
 		 */
 		getData: function( type ) {
 			function isEmpty( data ) {
-				return typeof data === 'undefined' || data === null || data === '';
+				return data === undefined || data === null || data === '';
 			}
-
-			var data, result;
 
 			type = this._.normalizeType( type );
 
-			data = this._.data[ type ];
+			var data = this._.data[ type ],
+				result;
 
 			if ( isEmpty( data ) ) {
 				try {
