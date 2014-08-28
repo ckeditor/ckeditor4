@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -401,7 +401,7 @@
 
 						// The base must be the first tag in the HEAD, e.g. to get relative
 						// links on styles.
-						baseTag && ( data = data.replace( /<head>/, '$&' + baseTag ) );
+						baseTag && ( data = data.replace( /<head[^>]*?>/, '$&' + baseTag ) );
 
 						// Inject the extra stuff into <head>.
 						// Attention: do not change it before testing it well. (V2)
