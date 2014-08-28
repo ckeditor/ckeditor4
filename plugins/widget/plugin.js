@@ -2213,22 +2213,6 @@
 			evt.data.dragRange = dragRange;
 
 			evt.data.dataTransfer.setData( 'text/html', sourceWidget.wrapper.getOuterHtml() );
-		} );
-
-		editor.on( 'dragend', function( evt ) {
-			var dataTransfer = evt.data.dataTransfer,
-				id = dataTransfer.getData( 'cke/widget-id' ),
-				sourceWidget;
-
-			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-				return;
-			}
-
-			sourceWidget = widgetsRepo.instances[ id ];
-			if ( !sourceWidget ) {
-				return;
-			}
-
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
