@@ -14,6 +14,8 @@
 	var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
 		backspaceOrDelete = { 8: 1, 46: 1 };
 
+	var  DEBUG = false;
+
 	CKEDITOR.plugins.add( 'undo', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
@@ -267,14 +269,14 @@
 		 *
 		 * @param {Number} keyCode The key code.
 		 */
-		type: function( keyCode ) {
+		type: function( keyCode, strokesPerSnapshotExceeded ) {
 			var keyGroupsEnum = this.keyGroupsEnum,
 				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE,
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
 				keyGroupChanged = keyGroup !== this.previousKeyGroup,
-				strokesPerSnapshotExceeded = strokesRecorded >= 25,
+				strokesPerSnapshotExceeded = ( typeof strokesPerSnapshotExceeded == 'boolean' ? strokesPerSnapshotExceeded : strokesRecorded >= 25 ),
 				// Identifier of opposite group, used later on to reset its counter.
 				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
 
@@ -806,12 +808,6 @@
 		 */
 	};
 
-	var inputFired = 0,
-		ignoreInputEvent = false,
-		ignoreInputEventListener = function() {
-			ignoreInputEvent = true;
-		};
-
 	/**
 	 * A class encapsulating all native event listeners which have to be used in
 	 * order to handle undo manager integration for native editing actions (excluding drag and drop and paste support
@@ -839,6 +835,12 @@
 		 */
 		this.undoManager = undoManager;
 
+		this.ignoreInputEvent = false;
+
+		this.inputFired = 0;
+
+		this.keyEventsStack = new KeyEventsStack();
+
 		/**
 		 * An image of the editor during the `keydown` event (therefore without DOM modification).
 		 *
@@ -862,6 +864,12 @@
 			var keyCode = evt.data.getKey(),
 				undoManager = this.undoManager;
 
+			var last = this.keyEventsStack.getLast( keyCode );
+			if ( !last ) {
+				this.keyEventsStack.push( keyCode );
+				DEBUG && console.log( 'Added:', JSON.stringify( this.keyEventsStack.stack ) );
+			}
+
 			// We need to store an image which will be used in case of key group
 			// change.
 			this.lastKeydownImage = new Image( undoManager.editor );
@@ -878,11 +886,24 @@
 		 * The `input` event listener.
 		 */
 		onInput: function() {
-			inputFired += 1;
+			DEBUG && console.log( '@@ input' );
+			var lastInput = this.keyEventsStack.getLast();
+			if ( lastInput ) {
+				lastInput.inputs++;
+				DEBUG && console.log( 'Incremented:', JSON.stringify( this.keyEventsStack.stack ) );
+				if ( lastInput.inputs > 25 ) {
+					this.undoManager.type( lastInput.keyCode, true );
+					this.keyEventsStack.resetInputs( lastInput.keyCode );
+					DEBUG && console.log( 'TYPE' );
+				}
+			}
+
+			DEBUG && console.log( '%% input' );
+			this.inputFired += 1;
 			// inputFired counter shouldn't be increased if paste/drop event were fired before.
-			if ( ignoreInputEvent ) {
-				inputFired -= 1;
-				ignoreInputEvent = false;
+			if ( this.ignoreInputEvent ) {
+				this.inputFired -= 1;
+				this.ignoreInputEvent = false;
 			}
 		},
 
@@ -897,6 +918,11 @@
 				editor = undoManager.editor,
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
+			DEBUG && console.log( '## keyUp' );
+			this.keyEventsStack.remove( keyCode );
+			DEBUG && console.log( 'Removed', keyCode, this.keyEventsStack.stack.length );
+
+
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
 			// with a workaround. Also we need to be aware that lastKeydownImage might not be available (#12327).
 			if ( ieFunctionKeysWorkaround && this.lastKeydownImage ) {
@@ -906,13 +932,13 @@
 				} else {
 					// Content was changed. And since no keypress event was fired, we have
 					// inputFired = 0, so undoManager.type method will not be called.
-					inputFired += 1;
+					this.inputFired += 1;
 				}
 			}
 
-			if ( inputFired > 0 ) {
+			if ( this.inputFired > 0 ) {
 				// Reset flag indicating input event.
-				inputFired -= 1;
+				this.inputFired -= 1;
 				undoManager.type( keyCode );
 			} else if ( undoManager.isNavigationKey( keyCode ) ) {
 				// Note content snapshot has been checked in keydown.
@@ -945,7 +971,11 @@
 		 * Resets the input counter. This method is for internal use only.
 		 */
 		resetCounter: function() {
-			inputFired = 0;
+			this.inputFired = 0;
+		},
+
+		ignoreInputEventListener: function() {
+			this.ignoreInputEvent = true;
 		},
 
 		/**
@@ -967,8 +997,8 @@
 
 			// On paste and drop we need to cancel inputFired variable.
 			// It would result with calling undoManager.type() on any following key.
-			editable.attachListener( editable, 'paste', ignoreInputEventListener );
-			editable.attachListener( editable, 'drop', ignoreInputEventListener );
+			editable.attachListener( editable, 'paste', this.ignoreInputEventListener, this );
+			editable.attachListener( editable, 'drop', this.ignoreInputEventListener, this );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
@@ -976,6 +1006,68 @@
 			editable.attachListener( editable, 'click', function() {
 				that.onNavigationKey();
 			} );
+		}
+	};
+
+	function KeyEventsStack() {
+		this.stack = [];
+	}
+
+	KeyEventsStack.prototype = {
+		push: function( keyCode ) {
+			this.stack.push( { keyCode: keyCode, inputs: 0 } );
+		},
+
+		getLastIndex: function( keyCode ) {
+			if ( typeof keyCode != 'number' ) {
+				return this.stack.length ? this.stack.length - 1 : -1;
+			} else {
+				var i = this.stack.length;
+				while( i-- ) {
+					if ( this.stack[ i ].keyCode == keyCode ) {
+						return i;
+					}
+				}
+				return -1;
+			}
+		},
+
+		getLast: function( keyCode ) {
+			var index = this.getLastIndex( keyCode );
+			if ( index != -1 ) {
+				return this.stack[ index ];
+			} else {
+				return null;
+			}
+		},
+
+		increment: function( keyCode ) {
+			var found = this.getLast( keyCode );
+			if ( !found ) {
+				throw new Error( 'Trying to increment, but could not found by keyCode: ' + keyCode + '.' );
+			}
+
+			found.inputs++;
+		},
+
+		remove: function( keyCode ) {
+			var index = this.getLastIndex( keyCode );
+
+			if ( index != -1 ) {
+				return this.stack.splice( index, 1 );
+			} else {
+				return false;
+			}
+		},
+
+		resetInputs: function( keyCode ) {
+			var last = this.getLast( keyCode );
+
+			if ( !last ) {
+				throw new Error( 'Trying to reset inputs count, but could not found by keyCode: ' + keyCode + '.' );
+			}
+
+			last.inputs = 0;
 		}
 	};
 } )();
