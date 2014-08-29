@@ -271,7 +271,7 @@
 		 */
 		type: function( keyCode, strokesPerSnapshotExceeded ) {
 			var keyGroupsEnum = this.keyGroupsEnum,
-				keyGroup = backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE,
+				keyGroup = KeyEventsStack.getKeyGroup( keyCode ),
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
@@ -1009,9 +1009,9 @@
 		}
 	};
 
-	function KeyEventsStack() {
+	var KeyEventsStack = CKEDITOR.plugins.undo.KeyEventsStack = function() {
 		this.stack = [];
-	}
+	};
 
 	KeyEventsStack.prototype = {
 		push: function( keyCode ) {
@@ -1070,6 +1070,12 @@
 			last.inputs = 0;
 		}
 	};
+
+	KeyEventsStack.getKeyGroup = function( keyCode ) {
+		var keyGroupsEnum = UndoManager.prototype.keyGroupsEnum;
+
+		return backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE;
+	}
 } )();
 
 /**
