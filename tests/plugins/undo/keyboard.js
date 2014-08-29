@@ -407,10 +407,12 @@
 					this._moveTextNodeRange( 50 );
 					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					this.keyTools.keyEventMultiple( 25, keyCodesEnum.BACKSPACE, null, skipInputEvent, modifyDOM );
-					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
-
-					this.keyTools.keyEventMultiple( 1, keyCodesEnum.BACKSPACE, null, skipInputEvent, modifyDOM );
+					var i = 26;
+					while( i-- ) {
+						this.keyTools.singleKeyEvent( 8, { type: 'keydown' } );
+						modifyDOM();
+						this.keyTools.singleKeyEvent( 0, { type: 'input' } );
+					}
 					assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
 					assert.areEqual( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>', undoManager.snapshots[ 0 ].contents );
 
