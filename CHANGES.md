@@ -11,6 +11,7 @@ Fixed Issues:
 * [#12113](http://dev.ckeditor.com/ticket/12113): Fixed: Code snippet should be presented in elements path as "codesnippet".
 * [#12311](http://dev.ckeditor.com/ticket/12311): Fixed: Remove format should also remove `<cite>` elements.
 * [#12261](http://dev.ckeditor.com/ticket/12261): Fixed: Filter has to be destroyed and removed from [`CKEDITOR.filter.instances`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter-static-property-instances) on editor destroy.
+* [#12163](http://dev.ckeditor.com/ticket/12163): Fixed: Maximize plugin should abort its initialization if the [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is initialized.
 
 ## CKEditor 4.4.4
 
