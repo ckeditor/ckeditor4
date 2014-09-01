@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'vi', {
 	codeContents: 'Nội dung mã',
 	emptySnippetError: 'Một đoạn mã không thể để trống.',
 	language: 'Ngôn ngữ',
-	title: 'Đoạn mã'
+	title: 'Đoạn mã',
+	pathName: 'codesnippet' // MISSING
 } );

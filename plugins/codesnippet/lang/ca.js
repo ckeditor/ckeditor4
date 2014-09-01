@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'ca', {
 	codeContents: 'Contingut del codi',
 	emptySnippetError: 'El fragment de codi no pot estar buit.',
 	language: 'Idioma',
-	title: 'Fragment de codi'
+	title: 'Fragment de codi',
+	pathName: 'codesnippet' // MISSING
 } );

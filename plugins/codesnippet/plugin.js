@@ -274,7 +274,8 @@
 	function registerWidget( editor ) {
 		var codeClass = editor.config.codeSnippet_codeClass,
 			newLineRegex = /\r?\n/g,
-			textarea = new CKEDITOR.dom.element( 'textarea' );
+			textarea = new CKEDITOR.dom.element( 'textarea' ),
+			lang = editor.lang.codesnippet;
 
 		editor.widgets.add( 'codeSnippet', {
 			allowedContent: 'pre; code(language-*)',
@@ -284,6 +285,7 @@
 			styleableElements: 'pre',
 			template: '<pre><code class="' + codeClass + '"></code></pre>',
 			dialog: 'codeSnippet',
+			pathName: lang.pathName,
 			mask: true,
 
 			parts: {

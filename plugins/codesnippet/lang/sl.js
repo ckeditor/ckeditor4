@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'sl', {
 	codeContents: 'Koda vsebina',
 	emptySnippetError: 'Odrezek kode ne more biti prazen.',
 	language: 'Jezik',
-	title: 'Odrezek kode'
+	title: 'Odrezek kode',
+	pathName: 'codesnippet' // MISSING
 } );

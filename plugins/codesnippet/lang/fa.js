@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'fa', {
 	codeContents: 'محتوای کد',
 	emptySnippetError: 'کد نمی تواند خالی باشد.',
 	language: 'زبان',
-	title: 'کد قطعه'
+	title: 'کد قطعه',
+	pathName: 'codesnippet' // MISSING
 } );

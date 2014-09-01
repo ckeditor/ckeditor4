@@ -7,6 +7,11 @@ var config = {
 			path: '.',
 			files: [
 				'ckeditor.js'
+			],
+			ignore: [
+				'.bender/',
+				'node_modules/',
+				'tests/'
 			]
 		}
 	},

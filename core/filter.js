@@ -801,7 +801,21 @@
 
 				return CKEDITOR.ENTER_BR;
 			};
-		} )()
+		} )(),
+
+		/**
+		 * Destroys the filter instance, removes it from global the {@link CKEDITOR.filter#instances} object.
+		 *
+		 * @since 4.4.4
+		 */
+		destroy: function() {
+			delete CKEDITOR.filter.instances[ this.id ];
+			// Deleting reference to filter instance should be enough,
+			// but since these are big objects it's safe to clean them up too.
+			delete this._;
+			delete this.allowedContent;
+			delete this.disallowedContent;
+		}
 	};
 
 	function addAndOptimizeRules( that, newRules, featureName, standardizedRules, optimizedRules ) {

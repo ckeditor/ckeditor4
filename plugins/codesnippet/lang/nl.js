@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'nl', {
 	codeContents: 'Code',
 	emptySnippetError: 'Een stuk code kan niet leeg zijn.',
 	language: 'Taal',
-	title: 'Stuk code'
+	title: 'Stuk code',
+	pathName: 'codesnippet' // MISSING
 } );
