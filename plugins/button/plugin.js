@@ -167,7 +167,7 @@
 				}
 				instance.execute();
 				if ( env.iOS ) {
-					editor.window.focus();
+					editor.focus();
 				}
 			} );
 
