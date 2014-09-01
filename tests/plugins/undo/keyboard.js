@@ -18,6 +18,22 @@
 		}
 	};
 
+	function removeLastCharFromTextNode( textNode ) {
+		var text = textNode.getText();
+		text = text.substring( 0, text.length - 1 );
+		textNode.setText( text );
+	}
+
+	function simulateHoldKey( times, keyTools, keyCode, domModification ) {
+		while( times-- ) {
+			keyTools.singleKeyEvent( keyCode, { type: 'keydown' } );
+			domModification();
+			keyTools.singleKeyEvent( 0, { type: 'input' } );
+		}
+
+		keyTools.singleKeyEvent( keyCode, { type: 'keyup' } );
+	}
+
 	var keyCodesEnum, // keyCodesEnum will be inited in first setUp call.
 		keyGroups, //
 		tcs = {
@@ -396,10 +412,9 @@
 			'test snapshot created on more than 25 backspaces': function() {
 				this.editorBot.setData( '<p>aaaaaaaaaaaaaaaaaaaaaaaaaccccccccccccccccccccccccc</p>', function() {
 					var undoManager = this.editor.undoManager,
-						skipInputEvent = CKEDITOR.env.ie ? false : true,
 						textNode = this.editor.editable().getFirst().getFirst();
 
-					// Reseting state.
+					// Resetting state.
 					undoManager.reset();
 
 					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
@@ -407,20 +422,38 @@
 					this._moveTextNodeRange( 50 );
 					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					var i = 26;
-					while( i-- ) {
-						this.keyTools.singleKeyEvent( 8, { type: 'keydown' } );
-						modifyDOM();
-						this.keyTools.singleKeyEvent( 0, { type: 'input' } );
-					}
+					simulateHoldKey( 26, this.keyTools, 8, function() {
+						removeLastCharFromTextNode( textNode );
+					} );
+
 					assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
 					assert.areEqual( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>', undoManager.snapshots[ 0 ].contents );
+				} );
+			},
 
-					function modifyDOM() {
-						var text = textNode.getText();
-						text = text.substring( 0, text.length - 1 );
-						textNode.setText( text );
-					}
+			'test undo command disable undo and enable redo ui button': function() {
+				var initData = '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>';
+
+				this.editorBot.setData( initData, function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst();
+
+					// Resetting state.
+					undoManager.reset();
+					this.editor.fire( 'saveSnapshot' );
+
+					this._moveTextNodeRange( 25 );
+					simulateHoldKey( 13, this.keyTools, 8 /*BACKSPACE*/, function() {
+						removeLastCharFromTextNode( textNode );
+					} );
+
+					this.keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keydown', ctrlKey: true } );
+					this.keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keydown', ctrlKey: true } );
+					this.keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keyup' } );
+					this.keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keyup' } );
+					assert.areEqual( CKEDITOR.TRISTATE_DISABLED, this.editor.getCommand( 'undo' ).state, 'Undo should be disabled because we undo only change.' );
+					assert.areEqual( CKEDITOR.TRISTATE_OFF, this.editor.getCommand( 'redo' ).state, 'Redo be enabled because we just uno.' );
+					assert.areEqual( initData, this.editor.getData(), 'Data should be same as initial one, because we just undo.' );
 				} );
 			},
 
