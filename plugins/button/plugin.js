@@ -166,8 +166,9 @@
 					selLocked = 0;
 				}
 				instance.execute();
-				if (env.iOS)
+				if ( env.iOS ) {
 					editor.window.focus();
+				}
 			} );
 
 
