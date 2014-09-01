@@ -1029,6 +1029,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Give a while before unlock, waiting for focus to return to the editable. (#172)
 				setTimeout( function() {
 					editor.focusManager.unlock();
+
+					// Fixed iOS focus issue (#12381).
+					// Keep in mind that editor.focus() does not work in this case.
 					if ( CKEDITOR.env.iOS ) {
 						editor.window.focus();
 					}
