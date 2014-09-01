@@ -196,12 +196,13 @@
 					// Image is ready.
 					var original = this.originalElement,
 						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+
 					original.setCustomData( 'isReady', 'true' );
 					original.removeListener( 'load', onImgLoadEvent );
 					original.removeListener( 'error', onImgLoadErrorEvent );
 					original.removeListener( 'abort', onImgLoadErrorEvent );
 
-					// Hide loader
+					// Hide loader.
 					if ( loader )
 						loader.setStyle( 'display', 'none' );
 
@@ -220,7 +221,9 @@
 
 			var onImgLoadErrorEvent = function() {
 					// Error. Image is not loaded.
-					var original = this.originalElement;
+					var original = this.originalElement,
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+
 					original.removeListener( 'load', onImgLoadEvent );
 					original.removeListener( 'error', onImgLoadErrorEvent );
 					original.removeListener( 'abort', onImgLoadErrorEvent );
@@ -231,8 +234,10 @@
 					if ( this.preview )
 						this.preview.setAttribute( 'src', noimage );
 
-					// Hide loader
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					// Hide loader.
+					if ( loader )
+						loader.setStyle( 'display', 'none' );
+
 					switchLockRatio( this, false ); // Unlock.
 				};
 
@@ -269,7 +274,7 @@
 						link = element && editor.elementPath( element ).contains( 'a', 1 ),
 						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 
-					//Hide loader.
+					// Hide loader.
 					if ( loader )
 						loader.setStyle( 'display', 'none' );
 
@@ -474,7 +479,7 @@
 										}
 
 										original.setCustomData( 'isReady', 'false' );
-										// Show loader
+										// Show loader.
 										var loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 										if ( loader )
 											loader.setStyle( 'display', '' );
