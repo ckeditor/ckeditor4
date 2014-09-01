@@ -194,14 +194,17 @@
 
 			var onImgLoadEvent = function() {
 					// Image is ready.
-					var original = this.originalElement;
+					var original = this.originalElement,
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+
 					original.setCustomData( 'isReady', 'true' );
 					original.removeListener( 'load', onImgLoadEvent );
 					original.removeListener( 'error', onImgLoadErrorEvent );
 					original.removeListener( 'abort', onImgLoadErrorEvent );
 
-					// Hide loader
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					// Hide loader.
+					if ( loader )
+						loader.setStyle( 'display', 'none' );
 
 					// New image -> new domensions
 					if ( !this.dontResetSize )
@@ -218,7 +221,9 @@
 
 			var onImgLoadErrorEvent = function() {
 					// Error. Image is not loaded.
-					var original = this.originalElement;
+					var original = this.originalElement,
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
+
 					original.removeListener( 'load', onImgLoadEvent );
 					original.removeListener( 'error', onImgLoadErrorEvent );
 					original.removeListener( 'abort', onImgLoadErrorEvent );
@@ -229,8 +234,10 @@
 					if ( this.preview )
 						this.preview.setAttribute( 'src', noimage );
 
-					// Hide loader
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					// Hide loader.
+					if ( loader )
+						loader.setStyle( 'display', 'none' );
+
 					switchLockRatio( this, false ); // Unlock.
 				};
 
@@ -264,10 +271,13 @@
 					var editor = this.getParentEditor(),
 						sel = editor.getSelection(),
 						element = sel && sel.getSelectedElement(),
-						link = element && editor.elementPath( element ).contains( 'a', 1 );
+						link = element && editor.elementPath( element ).contains( 'a', 1 ),
+						loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 
-					//Hide loader.
-					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );
+					// Hide loader.
+					if ( loader )
+						loader.setStyle( 'display', 'none' );
+
 					// Create the preview before setup the dialog contents.
 					previewPreloader = new CKEDITOR.dom.element( 'img', editor.document );
 					this.preview = CKEDITOR.document.getById( previewImageId );
@@ -464,10 +474,12 @@
 										dialog = this.getDialog();
 										var original = dialog.originalElement;
 
-										dialog.preview.removeStyle( 'display' );
+										if ( dialog.preview ) {
+											dialog.preview.removeStyle( 'display' );
+										}
 
 										original.setCustomData( 'isReady', 'false' );
-										// Show loader
+										// Show loader.
 										var loader = CKEDITOR.document.getById( imagePreviewLoaderId );
 										if ( loader )
 											loader.setStyle( 'display', '' );
@@ -477,10 +489,12 @@
 										original.on( 'abort', onImgLoadErrorEvent, dialog );
 										original.setAttribute( 'src', newUrl );
 
-										// Query the preloader to figure out the url impacted by based href.
-										previewPreloader.setAttribute( 'src', newUrl );
-										dialog.preview.setAttribute( 'src', previewPreloader.$.src );
-										updatePreview( dialog );
+										if ( dialog.preview ) {
+											// Query the preloader to figure out the url impacted by based href.
+											previewPreloader.setAttribute( 'src', newUrl );
+											dialog.preview.setAttribute( 'src', previewPreloader.$.src );
+											updatePreview( dialog );
+										}
 									}
 									// Dont show preview if no URL given.
 									else if ( dialog.preview ) {
