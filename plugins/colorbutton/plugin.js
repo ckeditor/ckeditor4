@@ -102,9 +102,12 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function renderColors( panel, type, colorBoxId ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
+				// Tells if we should include "More Colors..." button.
+				moreColorsEnabled = editor.plugins.colordialog &&
+					( config.colorButton_enableMore === undefined || config.colorButton_enableMore ),
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (#12097).
-				total = colors.length + ( config.colorButton_enableMore ? 2 : 1 );
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				if ( color == '?' ) {
@@ -198,7 +201,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 
 			// Render the "More Colors" button.
-			if ( editor.plugins.colordialog && config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
+			if ( moreColorsEnabled ) {
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan=8 align=center>' +
