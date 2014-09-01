@@ -191,7 +191,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
-						' role="option">' +
+						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
 					'</td>' );
