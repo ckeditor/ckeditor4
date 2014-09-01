@@ -258,8 +258,8 @@
  *
  * **Note:** This event will **NOT** be triggered when focus is moved internally, e.g. from
  * the editable to other part of the editor UI like dialog.
- * If you're interested on only the editable focus state listen to the {@link CKEDITOR.editable#event-focus}
- * and {@link CKEDITOR.editable#blur} events instead.
+ * If you're interested on only the editable focus state listen to the `focus`
+ * and `blur` events of the {@link CKEDITOR.editable} instead.
  *
  *		editor.on( 'blur', function( e ) {
  *			alert( 'The editor named ' + e.editor.name + ' lost the focus' );

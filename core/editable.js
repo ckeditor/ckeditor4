@@ -2162,3 +2162,24 @@
  * @param {String} label The label to be used.
  * @member CKEDITOR.editor
  */
+
+/**
+ * Event fired when user double-clicks in the editable area.
+ * The event in a convenient way allows to open a dialog for a clicked element:
+ *
+ *		editor.on( 'doubleclick', function( evt ) {
+ *			var element = evt.data.element;
+ *
+ *			if ( element.is( 'table' ) )
+ *				evt.data.dialog = 'tableProperties';
+ *		} );
+ *
+ * **Note:** To handle double-click on a widget use {@link CKEDITOR.plugins.widget#doubleclick}.
+ *
+ * @event doubleclick
+ * @param data
+ * @param {CKEDITOR.dom.element} data.element The double-clicked element.
+ * @param {String} data.dialog The dialog to be opened. If set by a listener
+ * the specified dialog will be opened.
+ * @member CKEDITOR.editor
+ */
