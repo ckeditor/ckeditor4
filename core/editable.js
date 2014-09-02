@@ -1095,23 +1095,36 @@
 							//
 							// <table><tr><td>{a</td></tr><tr><td>b</td></tr><tr><td>c}d</td></tr></table>
 							//                            \--- to remove ---/
-							walker.reset();
+							//
+							// Note: Detect only when there are no surrounding contents that precede AND
+							// follow the table within the range that was marked to be deleted:
+							//
+							// <p>fo[o</p><table><tbody><tr><td>a</td></tr><tr><td>b}c</td></tr></tbody></table><p>bar</p>
+							//                          \----- to remove -----/
+							// <p>foo</p><table><tbody>[<tr><td>a</td></tr><tr><td>b}c</td></tr></tbody></table><p>bar</p>
+							//                          \----- to remove -----/
+							// <p>fo{o</p><table><tbody><tr><td>a</td></tr><tr><td>bc</td></tr></tbody></table><p>b}ar</p>
+							//      \/                          \/                 \/                             \/
+							//	to remove                   to remove           to remove                      to remove
+							if ( info.tableSurroundRanges.length < 2 ) {
+								walker.reset();
 
-							var rowRange, row;
-							walker.guard = function( node, leaving ) {
-								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'tr' ) ) {
-									if ( leaving && row && row.equals( node ) ) {
-										rowRange = range.clone();
-										rowRange.setStartBefore( row );
-										rowRange.setEndAfter( row );
-										info.tableRowRanges.push( rowRange );
+								var rowRange, row;
+								walker.guard = function( node, leaving ) {
+									if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'tr' ) ) {
+										if ( leaving && row && row.equals( node ) ) {
+											rowRange = range.clone();
+											rowRange.setStartBefore( row );
+											rowRange.setEndAfter( row );
+											info.tableRowRanges.push( rowRange );
+										}
+
+										row = node;
 									}
+								};
 
-									row = node;
-								}
-							};
-
-							walker.lastForward();
+								walker.lastForward();
+							}
 
 							// ---
 							// --- STAGE 3.
@@ -1179,8 +1192,7 @@
 								return;
 
 							var range;
-
-							// Delete whole rows first.
+							// Delete whole rows first
 							while ( ( range = info.tableRowRanges.pop() ) ) {
 								range.extractContents();
 							}
