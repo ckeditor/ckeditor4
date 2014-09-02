@@ -961,7 +961,7 @@
 							}
 						},
 						merge: function( info ) {
-							if ( !info.mergeBlockBookmark )
+							if ( !info.mergeBlockBookmark || info.purgeTableBookmark )
 								return;
 
 							var range = info.range,
@@ -992,16 +992,36 @@
 						// Detects whether to purge entire list.
 						detectPurge: function( info ) {
 							var range = info.range,
-								startTable = getEditablePath( info.range.startContainer, this ).contains( 'table' ),
-								endTable = getEditablePath( info.range.endContainer, this ).contains( 'table' );
+								walkerRange = range.clone();
 
-							if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
-								var rangeClone = info.range.clone();
+							walkerRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-								rangeClone.setStartBefore( startTable );
-								rangeClone.setEndAfter( endTable );
+							var walker = new CKEDITOR.dom.walker( walkerRange ),
+								editablesCount = 0;
 
-								info.purgeTableBookmark = rangeClone.createBookmark( 1 );
+							// Count the number of table editables in the range. If there's more than one,
+							// table MAY be removed completely (it's a cross-cell range). Otherwise, only
+							// the contents of the cell are usually removed.
+							walker.evaluator = function( node ) {
+								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( tableEditable ) ) {
+									++editablesCount;
+								}
+							};
+
+							walker.checkForward();
+
+							if ( editablesCount > 1 ) {
+								var startTable = getEditablePath( range.startContainer, this ).contains( 'table' ),
+									endTable = getEditablePath( range.endContainer, this ).contains( 'table' );
+
+								if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
+									var rangeClone = info.range.clone();
+
+									rangeClone.setStartBefore( startTable );
+									rangeClone.setEndAfter( endTable );
+
+									info.purgeTableBookmark = rangeClone.createBookmark( 1 );
+								}
 							}
 						},
 
@@ -1218,6 +1238,11 @@
 					// Include inline element if possible.
 					range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 
+					// This got to be done before bookmarks are created because purging
+					// depends on the position of the range at the boundaries of the table,
+					// usually distorted by bookmark spans.
+					table.detectPurge.call( this, info );
+
 					// We'll play with DOM, let's hold the position of the range.
 					info.bookmark = range.createBookmark( 1 );
 
@@ -1232,7 +1257,6 @@
 
 					// Execute content-specific detections.
 					list.detectMerge.call( this, info );
-					table.detectPurge.call( this, info );
 					table.detectRanges.call( this, info );
 					block.detectMerge.call( this, info );
 
