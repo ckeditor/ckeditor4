@@ -2164,8 +2164,8 @@
  */
 
 /**
- * Event fired when user double-clicks in the editable area.
- * The event in a convenient way allows to open a dialog for a clicked element:
+ * Event fired when the user double-clicks in the editable area.
+ * The event allows to open a dialog window for a clicked element in a convenient way:
  *
  *		editor.on( 'doubleclick', function( evt ) {
  *			var element = evt.data.element;
@@ -2179,7 +2179,7 @@
  * @event doubleclick
  * @param data
  * @param {CKEDITOR.dom.element} data.element The double-clicked element.
- * @param {String} data.dialog The dialog to be opened. If set by a listener
- * the specified dialog will be opened.
+ * @param {String} data.dialog The dialog window to be opened. If set by the listener,
+ * the specified dialog window will be opened.
  * @member CKEDITOR.editor
  */
