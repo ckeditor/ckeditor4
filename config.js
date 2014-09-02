@@ -121,7 +121,7 @@ CKEDITOR.editorConfig = function( config ) {
 			// http://dev.ckeditor.com/ticket/12287
 			// http://ckeditor.com/forums/Plugins/Problems-removing-dialog-fields-of-link-plugin-in-4.4.3
 			infoTab.get( 'linkType' ).style = 'display: none';
-			infoTab.get( 'urlOptions' ).children[ 0 ].children.shift();
+			infoTab.get( 'urlOptions' ).children[ 0 ].children[ 0 ].style = 'display: none';
 
 			// Set the default value for the URL field.
 			var urlField = infoTab.get( 'url' );
