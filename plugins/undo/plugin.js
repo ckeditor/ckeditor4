@@ -857,6 +857,7 @@
 		onKeydown: function( evt ) {
 			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
+				this.resetCounter();
 				evt.data.preventDefault();
 				return;
 			}
@@ -987,7 +988,7 @@
 
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', that.onKeydown, that );
+			editable.attachListener( editable, 'keydown', that.onKeydown, that, undefined, 5 );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
 			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
