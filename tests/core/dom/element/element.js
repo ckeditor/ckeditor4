@@ -529,8 +529,8 @@ bender.test( appendDomObjectTests(
 						y = Math.round( pos.y ),
 						accOffset = 1;
 
-					assert.isNumberInRange( 350, x - accOffset, x + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
-					assert.isNumberInRange( 450, y - accOffset, y + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
+					assert.isNumberInRange( x, 350 - accOffset, 350 + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
+					assert.isNumberInRange( y, 450 - accOffset, 450 + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
 				} );
 			} );
 

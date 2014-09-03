@@ -90,9 +90,20 @@
 	 */
 	bender.assert.isNumberInRange = function( expected, min, max, message ) {
 		YTest.Assert._increment();
+		if ( typeof expected != 'number' ) {
+			throw new YUITest.AssertionError( 'Expected value should be number type.' );
+		}
+
+		if ( typeof min != 'number' ) {
+			throw new YUITest.AssertionError( 'Min value should be number type.' );
+		}
+
+		if ( typeof max != 'number' ) {
+			throw new YUITest.AssertionError( 'Max value should be number type.' );
+		}
+
 		if ( min > max ) {
-			// Replace min with max.
-			min = [max, max = min][0];
+			throw new YUITest.AssertionError( 'Min value is greater than max.' );
 		}
 
 		if ( expected < min || expected > max ) {
