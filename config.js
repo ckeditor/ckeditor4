@@ -167,18 +167,19 @@ CKEDITOR.editorConfig = function( config ) {
 		};
 
 		// 3. stopPropagation is necessary to prevent player from firing toggleEdit events
+		// presumably, stopPropagation on body should be sufficient by itself
 		var dialog = e.data.definition.dialog;
-		var dialogOnClick = function(e){
+		var stopPropagation = function(e){
 			e.stopPropagation();
 		};
 		dialog.on('show', function () {
-			this.parts.dialog.$.addEventListener('click', dialogOnClick);
+			document.body.addEventListener('click', stopPropagation);
 		});
 		// needs to delay it by using setTimeout zero
 		dialog.on('hide', function () {
 			setTimeout(function(){
-				this.parts.dialog.$.removeEventListener('click', dialogOnClick);
-			}.bind(this), 0);
+				document.body.removeEventListener('click', stopPropagation);
+			}, 0);
 		});
 	});
 };
