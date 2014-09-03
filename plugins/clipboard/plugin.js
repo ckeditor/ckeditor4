@@ -1826,10 +1826,7 @@
 
 		// If there is no ID we need to create it. Different browsers needs different ID.
 		if ( !this.id ) {
-			if ( clipboardIdDataType == 'URL' ) {
-				// For IEs URL type ID have to look like an URL.
-				this.id = 'http://cke.' + CKEDITOR.tools.getUniqueId() + '/';
-			} else if ( clipboardIdDataType == 'Text' ) {
+			if ( clipboardIdDataType == 'Text' ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
 				// (ex. image with no alt). We change null to empty string.
