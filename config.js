@@ -108,6 +108,7 @@ CKEDITOR.editorConfig = function( config ) {
 		// NOTE: this is an instance of CKEDITOR.dialog.definitionObject
 		var dd = e.data.definition;
 
+		// 1. remove other tabs and hide some input fields
 		if (e.data.name === 'link') {
 			dd.minHeight = 30;
 
@@ -128,6 +129,57 @@ CKEDITOR.editorConfig = function( config ) {
 			urlField['default'] = 'www.example.com';
 
 		}
+
+		// 2. Move the dialog to the center of the editor
+		// Save a copy of the onshow function
+		var onShowSaved = function(){};
+		if (typeof dd.onShow !== 'undefined' && typeof dd.onShow.call === 'function') {
+			onShowSaved = dd.onShow;
+		}
+
+		// http://stackoverflow.com/questions/4984338/ckeditor-dialog-positioning
+		// somehow moving this into the dialog.on('show', callback) does NOT work
+		dd.onShow = function() {
+			// Make sure the onShowSaved is called
+			var result = onShowSaved.call(this);
+
+			var dialogSize = this.getSize(),
+				container = e.editor.container.$, // $ is The native DOM object
+				editor = container.getBoundingClientRect(),
+				newPos;
+
+			// When the editor fits into one screen
+			if ( editor.top > 0 ) {
+				newPos = {
+					top: editor.top + editor.height/2 - dialogSize.height/2,
+					left: editor.left + editor.width/2 - dialogSize.width/2
+				};
+			} else {
+				var adjustedHeight = editor.top + editor.height;
+				newPos = {
+					top: adjustedHeight/2 - dialogSize.height/2,
+					left: editor.left + editor.width/2 - dialogSize.width/2
+				};
+			}
+
+			this.move(newPos.left, newPos.top);
+			return result;
+		};
+
+		// 3. stopPropagation is necessary to prevent player from firing toggleEdit events
+		var dialog = e.data.definition.dialog;
+		var dialogOnClick = function(e){
+			e.stopPropagation();
+		};
+		dialog.on('show', function () {
+			this.parts.dialog.$.addEventListener('click', dialogOnClick);
+		});
+		// needs to delay it by using setTimeout zero
+		dialog.on('hide', function () {
+			setTimeout(function(){
+				this.parts.dialog.$.removeEventListener('click', dialogOnClick);
+			}.bind(this), 0);
+		});
 	});
 };
 
