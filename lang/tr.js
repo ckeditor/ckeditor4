@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		alignTop: 'Üst',
 		alignMiddle: 'Orta',
 		alignBottom: 'Alt',
-		alignNone: 'None', // MISSING
+		alignNone: 'Hiçbiri', // MISSING
 		invalidValue	: 'Geçersiz değer.',
 		invalidHeight: 'Yükseklik değeri bir sayı olmalıdır.',
 		invalidWidth: 'Genişlik değeri bir sayı olmalıdır.',
