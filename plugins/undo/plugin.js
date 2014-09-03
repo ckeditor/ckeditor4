@@ -14,8 +14,6 @@
 	var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
 		backspaceOrDelete = { 8: 1, 46: 1 };
 
-	var  DEBUG = false;
-
 	CKEDITOR.plugins.add( 'undo', {
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'redo,redo-rtl,undo,undo-rtl', // %REMOVE_LINE_CORE%
@@ -868,7 +866,6 @@
 			var last = this.keyEventsStack.getLast( keyCode );
 			if ( !last ) {
 				this.keyEventsStack.push( keyCode );
-				DEBUG && console.log( 'Added:', JSON.stringify( this.keyEventsStack.stack ) );
 			}
 
 			// We need to store an image which will be used in case of key group
@@ -887,19 +884,15 @@
 		 * The `input` event listener.
 		 */
 		onInput: function() {
-			DEBUG && console.log( '@@ input' );
 			var lastInput = this.keyEventsStack.getLast();
 			if ( lastInput ) {
 				lastInput.inputs++;
-				DEBUG && console.log( 'Incremented:', JSON.stringify( this.keyEventsStack.stack ) );
 				if ( lastInput.inputs > 25 ) {
 					this.undoManager.type( lastInput.keyCode, true );
 					this.keyEventsStack.resetInputs( lastInput.keyCode );
-					DEBUG && console.log( 'TYPE' );
 				}
 			}
 
-			DEBUG && console.log( '%% input' );
 			this.inputFired += 1;
 			// inputFired counter shouldn't be increased if paste/drop event were fired before.
 			if ( this.ignoreInputEvent ) {
@@ -919,9 +912,7 @@
 				editor = undoManager.editor,
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
-			DEBUG && console.log( '## keyUp' );
 			this.keyEventsStack.remove( keyCode );
-			DEBUG && console.log( 'Removed', keyCode, this.keyEventsStack.stack.length );
 
 
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
@@ -1010,15 +1001,44 @@
 		}
 	};
 
+	/**
+	 * This class is responsible for keeping stack off current pressed keys.
+	 * And also count input events for each key pressed.
+	 *
+	 * @private
+	 * @class CKEDITOR.plugins.undo.KeyEventsStack
+	 * @member CKEDITOR.plugins.undo
+	 * @constructor
+	 * @since 4.4.5
+	 */
 	var KeyEventsStack = CKEDITOR.plugins.undo.KeyEventsStack = function() {
+
+		/**
+		 * @private
+		 * @type {Array}
+		 */
 		this.stack = [];
 	};
 
 	KeyEventsStack.prototype = {
+		/**
+		 * Push to stack literal object with two keys: keyCode and inputs which init value is set to 0.
+		 * It's intended to be called on keyDown event.
+		 *
+		 * @param {Number} keyCode
+		 */
 		push: function( keyCode ) {
 			this.stack.push( { keyCode: keyCode, inputs: 0 } );
 		},
 
+		/**
+		 * Return index of last registered keyCode in stack.
+		 * If no keyCode provided, then function will return index of last item.
+		 * If item not found it will return -1.
+		 *
+		 * @param {Number} [keyCode]
+		 * @returns {Number}
+		 */
 		getLastIndex: function( keyCode ) {
 			if ( typeof keyCode != 'number' ) {
 				return this.stack.length ? this.stack.length - 1 : -1;
@@ -1033,6 +1053,12 @@
 			}
 		},
 
+		/**
+		 * Return last key record in stack. If keyCode provided, it will return last record for keyCode.
+		 *
+		 * @param {Number} [keyCode]
+		 * @returns {Object|null}
+		 */
 		getLast: function( keyCode ) {
 			var index = this.getLastIndex( keyCode );
 			if ( index != -1 ) {
@@ -1042,6 +1068,11 @@
 			}
 		},
 
+		/**
+		 * Increment registered inputs for stack record for keyCode.
+		 *
+		 * @param {Number} keyCode
+		 */
 		increment: function( keyCode ) {
 			var found = this.getLast( keyCode );
 			if ( !found ) {
@@ -1051,16 +1082,27 @@
 			found.inputs++;
 		},
 
+		/**
+		 * Remove last record from stack for provided keyCode as a first argument. And returns it.
+		 *
+		 * @param {Number} keyCode
+		 * @returns {Object|False}
+		 */
 		remove: function( keyCode ) {
 			var index = this.getLastIndex( keyCode );
 
 			if ( index != -1 ) {
-				return this.stack.splice( index, 1 );
+				return this.stack.splice( index, 1 )[ 0 ];
 			} else {
 				return false;
 			}
 		},
 
+		/**
+		 * Reset inputs value to 0 for found record with specific keyCode.
+		 *
+		 * @param {Number} keyCode
+		 */
 		resetInputs: function( keyCode ) {
 			var last = this.getLast( keyCode );
 
@@ -1072,6 +1114,12 @@
 		}
 	};
 
+	/**
+	 * Returns the group to which belongs keyCode.
+	 *
+	 * @param {Number} keyCode
+	 * @returns {UndoManager.prototype.keyGroupsEnum}
+	 */
 	KeyEventsStack.getKeyGroup = function( keyCode ) {
 		var keyGroupsEnum = UndoManager.prototype.keyGroupsEnum;
 
