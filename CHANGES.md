@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#12381](http://dev.ckeditor.com/ticket/12381): Fixed: Selection trouble in iOS. Thanks to [Remiremi](https://github.com/Remiremi)!
 * [#10804](http://dev.ckeditor.com/ticket/10804): Fixed: `CKEDITOR_GETURL` isn't used with some plugins it should be used. Thanks to [Thomas Andraschko](https://github.com/tandraschko)!
 * [#9137](http://dev.ckeditor.com/ticket/9137): Fixed: `base` tag is not created when `head` has an attribute. Thanks to [naoki.fujikawa](https://github.com/naoki-fujikawa)!
 * [#12377](http://dev.ckeditor.com/ticket/12377): Fixed: Errors thrown in the image plugin when removing preview from dialog definition. Thanks to [Axinet](https://github.com/Axinet)!
