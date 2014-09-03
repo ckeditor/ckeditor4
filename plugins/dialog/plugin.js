@@ -1027,7 +1027,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				editor.focus();
 
 				// Give a while before unlock, waiting for focus to return to the editable. (#172)
-				setTimeout( function() { editor.focusManager.unlock(); }, 0 );
+				setTimeout( function() {
+					editor.focusManager.unlock();
+					if (CKEDITOR.env.iOS)
+						editor.window.focus();
+				}, 0 );
 
 			} else
 				CKEDITOR.dialog._.currentZIndex -= 10;
@@ -1980,7 +1984,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		ev.data.preventDefault( 1 );
 	}
 
-	function showCover( editor ) {
+	function _showCover( editor ) {
 		var win = CKEDITOR.document.getWindow();
 		var config = editor.config,
 			backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
@@ -2090,6 +2094,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			}, 0 );
 			scrollFunc();
 		}
+	}
+
+	function showCover( editor ) {
+		setTimeout(function() {
+			_showCover(editor);
+		}, 100);
 	}
 
 	function hideCover( editor ) {
