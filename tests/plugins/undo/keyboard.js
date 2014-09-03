@@ -71,7 +71,7 @@
 				bender.tools.selection.setWithHtml( this.editor, '<p>_{}_</p>' );
 
 				// For each TC we want to reset undoManager.
-				this.undoManager.reset();
+				this.editor.resetUndo();
 				// This will reset command objects states.
 				this.undoManager.onChange();
 				// Force to reset inputFired counter, as some TCs may produce leftovers.
@@ -274,14 +274,14 @@
 
 				// We need to force at least one snapshot, which will be overwritten.
 				this.editor.fire('saveSnapshot');
-				assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
+				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
 				this.keyTools.keyEvent( keyCodesEnum.RIGHT, null, true, function() {
 					// Pressing right arrow should move caret to 1 offset.
 					that._moveTextNodeRange( 1 );
 				} );
 
-				var bookmark = undoManager.snapshots[ 0 ].bookmarks[ 0 ];
+				var bookmark = undoManager.snapshots[ 1 ].bookmarks[ 0 ];
 
 				assert.areEqual( 1, bookmark.startOffset, 'Invalid bookmark start offset' );
 				// IE8 sets bookmark end to 0 for some weird reason.
@@ -294,7 +294,7 @@
 				} );
 
 				// Snapshot object should be replaced, so we need to refetch it.
-				bookmark = undoManager.snapshots[ 0 ].bookmarks[ 0 ];
+				bookmark = undoManager.snapshots[ 1 ].bookmarks[ 0 ];
 
 				assert.areEqual( 0, bookmark.startOffset, 'Invalid bookmark start offset' );
 				assert.areEqual( 0, bookmark.endOffset, 'Invalid bookmark start offset' );
@@ -349,7 +349,7 @@
 					extraBr = ( CKEDITOR.env.gecko || CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? '<br>' : '',
 					that = this;
 
-				assert.areEqual( 1, undoManager.snapshots.length, 'Invalid initial snapshots count' );
+				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid initial snapshots count' );
 
 				// Initis with: foo ^bar
 				this._moveTextNodeRange( 4 );
@@ -377,18 +377,18 @@
 					that._moveTextNodeRange( 3 );
 				} );
 
-				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+				assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
 
 				assert.areEqual(
 					'<p>foo bar' + extraBr + '</p>',
-					undoManager.snapshots[ 0 ].contents.toLowerCase(),
-					'Invalid content for undoManager.snapshot[0]'
+					undoManager.snapshots[ 1 ].contents.toLowerCase(),
+					'Invalid content for undoManager.snapshot[1]'
 				);
 
 				assert.areEqual(
 					'<p>foo dbar' + extraBr + '</p>',
-					undoManager.snapshots[ 1 ].contents.toLowerCase(),
-					'Invalid content for undoManager.snapshot[1]'
+					undoManager.snapshots[ 2 ].contents.toLowerCase(),
+					'Invalid content for undoManager.snapshot[2]'
 				);
 			},
 
@@ -411,23 +411,20 @@
 
 			'test snapshot created on more than 25 backspaces': function() {
 				this.editorBot.setData( '<p>aaaaaaaaaaaaaaaaaaaaaaaaaccccccccccccccccccccccccc</p>', function() {
-					var undoManager = this.editor.undoManager,
+						var undoManager = this.editor.undoManager,
 						textNode = this.editor.editable().getFirst().getFirst();
 
-					// Resetting state.
-					undoManager.reset();
+						assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+						this._moveTextNodeRange( 50 );
+						assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					this._moveTextNodeRange( 50 );
-					assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+						simulateHoldKey( 26, this.keyTools, 8, function() {
+							removeLastCharFromTextNode( textNode );
+						} );
 
-					simulateHoldKey( 26, this.keyTools, 8, function() {
-						removeLastCharFromTextNode( textNode );
-					} );
-
-					assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
-					bender.assert.isInnerHtmlMatching( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa@</p>', undoManager.snapshots[ 0 ].contents );
+						assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
+						bender.assert.isInnerHtmlMatching( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa@</p>', undoManager.snapshots[ 2 ].contents );
 				} );
 			},
 
@@ -435,25 +432,26 @@
 				var initData = '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>';
 
 				this.editorBot.setData( initData, function() {
-					var undoManager = this.editor.undoManager,
-						textNode = this.editor.editable().getFirst().getFirst();
-
-					// Resetting state.
-					undoManager.reset();
-					this.editor.fire( 'saveSnapshot' );
+					var textNode = this.editor.editable().getFirst().getFirst();
 
 					this._moveTextNodeRange( 25 );
 					simulateHoldKey( 13, this.keyTools, 8 /*BACKSPACE*/, function() {
 						removeLastCharFromTextNode( textNode );
 					} );
 
-					this.keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keydown', ctrlKey: true } );
-					this.keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keydown', ctrlKey: true } );
-					this.keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keyup' } );
-					this.keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keyup' } );
+					simulateCtrlZ( this.keyTools );
+					assert.areEqual( initData, this.editor.getData(), 'Data should be same as initial one, because we just undo.' );
+
+					simulateCtrlZ( this.keyTools );
 					assert.areEqual( CKEDITOR.TRISTATE_DISABLED, this.editor.getCommand( 'undo' ).state, 'Undo should be disabled because we undo only change.' );
 					assert.areEqual( CKEDITOR.TRISTATE_OFF, this.editor.getCommand( 'redo' ).state, 'Redo be enabled because we just uno.' );
-					assert.areEqual( initData, this.editor.getData(), 'Data should be same as initial one, because we just undo.' );
+
+					function simulateCtrlZ( keyTools ) {
+						keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keydown', ctrlKey: true } );
+						keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keydown', ctrlKey: true } );
+						keyTools.singleKeyEvent( 17 /*CTRL*/, { type: 'keyup' } );
+						keyTools.singleKeyEvent( 90 /*Z*/, { type: 'keyup' } );
+					}
 				} );
 			},
 
@@ -470,7 +468,7 @@
 				// after exceeding the chars in snapshot limit.
 				this.keyTools.keyEventMultiple( 30, keyCodesEnum.BACKSPACE, null, skipInputEvent );
 
-				assert.areEqual( 0, undoManager.snapshots.length, 'Invalid snapshots count' );
+				assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
 
 				assert.areEqual( CKEDITOR.TRISTATE_DISABLED, undoCommand.state, 'Invalid undo command state after typing character' );
 			},

@@ -21,7 +21,7 @@
 				this.undoManager = this.editor.undoManager;
 
 				// For each TC we want to reset undoManager.
-				this.undoManager.reset();
+				this.editor.resetUndo();
 				// Force to reset inputFired counter, as some TCs may produce leftovers.
 				this.undoManager.editingHandler.resetCounter();
 			},
