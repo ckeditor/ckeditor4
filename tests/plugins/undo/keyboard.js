@@ -28,7 +28,7 @@
 		while( times-- ) {
 			keyTools.singleKeyEvent( keyCode, { type: 'keydown' } );
 			domModification();
-			keyTools.singleKeyEvent( 0, { type: 'input' } );
+			keyTools.singleKeyEvent( 0, { type: ( CKEDITOR.env.ie ? 'keypress' : 'input' ) } );
 		}
 
 		keyTools.singleKeyEvent( keyCode, { type: 'keyup' } );
@@ -427,7 +427,7 @@
 					} );
 
 					assert.areEqual( 1, undoManager.snapshots.length, 'Invalid snapshots count' );
-					assert.areEqual( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa</p>', undoManager.snapshots[ 0 ].contents );
+					bender.assert.isInnerHtmlMatching( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa@</p>', undoManager.snapshots[ 0 ].contents );
 				} );
 			},
 
