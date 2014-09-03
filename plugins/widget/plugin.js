@@ -2186,10 +2186,15 @@
 			var target = evt.data.target;
 
 			if ( isDomDragHandler( target ) ) {
-				evt.data.dataTransfer.setData( 'cke/widget-id', widgetsRepo.getByElement( target ).id );
+				var widget = widgetsRepo.getByElement( target );
+
+				evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
 
 				// IE needs focus.
 				editor.focus();
+
+				// and widget need to be focused on drag start (#12172#comment:10).
+				widget.focus();
 			}
 		} );
 
