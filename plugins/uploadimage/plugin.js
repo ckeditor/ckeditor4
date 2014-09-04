@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -9,7 +9,7 @@
 		requires: 'widget,clipboard',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var Manager = new UploadManager();
+			var manager = new UploadManager();
 
 			editor.widgets.add( 'uploadimage', {
 				parts: {
@@ -20,26 +20,6 @@
 					if ( el.name != 'img' || !el.attributes[ 'data-cke-image-to-upload' ] )
 						return;
 
-					var src = el.attributes[ 'src' ],
-						file = srcToBlob( src ),
-						xhr = new XMLHttpRequest(),
-						formData = new FormData();
-
-					formData.append( 'upload', file );
-
-					xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
-
-					xhr.onreadystatechange = function() {
-						if ( xhr.readyState == 4 ) { // completed
-							if ( xhr.status == 200 ) { // OK
-								console.log( 'onreadystatechange:' );
-								console.log( xhr.responseText );
-							}
-						}
-					}
-
-					xhr.send( formData );
-
 					return el;
 				},
 
@@ -48,6 +28,7 @@
 				},
 
 				init: function() {
+					manager.upload( this.parts.img.getAttribute( 'src' ) );
 				},
 
 				data: function( data ) {
@@ -147,8 +128,25 @@
 	}
 
 	UploadManager.prototype = {
-		upload: function( file ) {
+		upload: function( data ) {
+			var file = srcToBlob( data ),
+				xhr = new XMLHttpRequest(),
+				formData = new FormData();
 
+			formData.append( 'upload', file );
+
+			xhr.open( "POST", editor.config.filebrowserImageUploadUrl, true ); // method, url, async
+
+			xhr.onreadystatechange = function() {
+				if ( xhr.readyState == 4 ) { // completed
+					if ( xhr.status == 200 ) { // OK
+						console.log( 'onreadystatechange:' );
+						console.log( xhr.responseText );
+					}
+				}
+			}
+
+			xhr.send( formData );
 		}
 	}
 } )();
