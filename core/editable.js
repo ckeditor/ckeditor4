@@ -637,13 +637,13 @@
 					}
 
 					return {
-						detect: function( info ) {
-							var range = info.range,
+						detect: function( that, editable ) {
+							var range = that.range,
 								rangeStart = range.clone(),
 								rangeEnd = range.clone(),
 
-								startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
-								endPath = new CKEDITOR.dom.elementPath( range.endContainer, this );
+								startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
+								endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable );
 
 							// Note: checkBoundaryOfElement will not work on original range as CKEDITOR.START|END
 							// means that range start|end must be literally anchored at block start|end, e.g.
@@ -660,28 +660,29 @@
 
 							if ( startPath.block && rangeStart.checkBoundaryOfElement( startPath.block, CKEDITOR.END ) ) {
 								range.setStartAfter( startPath.block );
-								info.prependEolBr = 1;
+								that.prependEolBr = 1;
 							}
 
 							if ( endPath.block && rangeEnd.checkBoundaryOfElement( endPath.block, CKEDITOR.START ) ) {
 								range.setEndBefore( endPath.block );
-								info.appendEolBr = 1;
+								that.appendEolBr = 1;
 							}
 						},
-						fix: function ( info ) {
-							var doc = this.getDocument(),
+
+						fix: function ( that, editable ) {
+							var doc = editable.getDocument(),
 								appended;
 
 							// Append <br data-cke-eol="1"> to the fragment.
-							if ( info.appendEolBr ) {
+							if ( that.appendEolBr ) {
 								appended = createEolBr( doc );
-								info.fragment.append( appended );
+								that.fragment.append( appended );
 							}
 
 							// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
 							// elements should never follow each other in DOM.
-							if ( info.prependEolBr && ( info.appendEolBr ? appended.getPrevious() : 1 ) ) {
-								info.fragment.append( createEolBr( doc ), 1 );
+							if ( that.prependEolBr && ( that.appendEolBr ? appended.getPrevious() : 1 ) ) {
+								that.fragment.append( createEolBr( doc ), 1 );
 							}
 						}
 					};
@@ -689,41 +690,41 @@
 
 				var bogus = ( function() {
 					return {
-						exclude: function( info ) {
-							var boundaryNodes = info.range.getBoundaryNodes(),
+						exclude: function( that ) {
+							var boundaryNodes = that.range.getBoundaryNodes(),
 								startNode = boundaryNodes.startNode,
 								endNode = boundaryNodes.endNode;
 
 							// If bogus is the last node in range but not the only node, exclude it.
 							if ( endNode && isBogus( endNode ) && ( startNode ? !startNode.equals( endNode ) : 1 ) )
-								info.range.setEndBefore( boundaryNodes.endNode );
+								that.range.setEndBefore( boundaryNodes.endNode );
 						}
 					};
 				} )();
 
 				var tree = ( function() {
-					function rebuildFragmentTree( info, node, limit ) {
+					function rebuildFragmentTree( that, editable, node, limit ) {
 						var clone;
 
-						while ( node && !node.equals( this ) && limit( node ) ) {
+						while ( node && !node.equals( editable ) && limit( node ) ) {
 							// Don't clone children. Preserve element ids.
 							clone = node.clone( 0, 1 );
-							info.fragment.appendTo( clone );
-							info.fragment = clone;
+							that.fragment.appendTo( clone );
+							that.fragment = clone;
 
 							node = node.getParent();
 						}
 					}
 
 					return {
-						rebuild: function( info ) {
-							var range = info.range,
+						rebuild: function( that, editable ) {
+							var range = that.range,
 								node = range.startContainer.getCommonAncestor( range.endContainer ),
 
 								// A path relative to the common ancestor.
-								commonPath = new CKEDITOR.dom.elementPath( node, this ),
-								startPath = new CKEDITOR.dom.elementPath( range.startContainer, this ),
-								endPath = new CKEDITOR.dom.elementPath( range.endContainer, this ),
+								commonPath = new CKEDITOR.dom.elementPath( node, editable ),
+								startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
+								endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable ),
 								limit;
 
 							if ( node.type == CKEDITOR.NODE_TEXT )
@@ -767,7 +768,7 @@
 								return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
 							};
 
-							rebuildFragmentTree.call( this, info, node, limit );
+							rebuildFragmentTree( that, editable, node, limit );
 						}
 					};
 				} )();
@@ -778,8 +779,8 @@
 						// 		<table><tbody><tr>[<td>a</td>]</tr></tbody></table>
 						// becomes
 						// 		<table><tbody><tr><td>{a}</td></tr></tbody></table>
-						shrink: function( info ) {
-							var range = info.range,
+						shrink: function( that ) {
+							var range = that.range,
 								startContainer = range.startContainer,
 								endContainer = range.endContainer,
 								startOffset = range.startOffset,
@@ -798,22 +799,22 @@
 						return new CKEDITOR.dom.documentFragment( range.document );
 
 					// Info object passed between methods.
-					var info = {
+					var that = {
 						doc: this.getDocument(),
 						// Leave original range object untouched.
 						range: range.clone()
 					};
 
-					eol.detect.call( this, info );
-					bogus.exclude.call( this, info );
-					cell.shrink.call( this, info );
+					eol.detect( that, this );
+					bogus.exclude( that, this );
+					cell.shrink( that, this );
 
-					info.fragment = info.range.cloneContents();
+					that.fragment = that.range.cloneContents();
 
-					tree.rebuild.call( this, info );
-					eol.fix.call( this, info );
+					tree.rebuild( that, this );
+					eol.fix( that, this );
 
-					return new CKEDITOR.dom.documentFragment( info.fragment.$ );
+					return new CKEDITOR.dom.documentFragment( that.fragment.$ );
 				};
 			} )(),
 
@@ -854,15 +855,15 @@
 
 				var list = ( function() {
 					return {
-						detectMerge: function( info ) {
-							var range = info.range,
-								startPath = getEditablePath( info.range.startContainer, this ),
-								endPath = getEditablePath( info.range.endContainer, this );
+						detectMerge: function( that, editable ) {
+							var range = that.range,
+								startPath = getEditablePath( that.range.startContainer, editable ),
+								endPath = getEditablePath( that.range.endContainer, editable );
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
 
-							info.mergeList =
+							that.mergeList =
 								// Both lists must exist
 								startList && endList &&
 								// ...and be of the same type
@@ -872,33 +873,34 @@
 								// ...and must be different.
 								!startList.equals( endList );
 
-							info.mergeListItems =
+							that.mergeListItems =
 								startPath.block && endPath.block &&
 								// Both containers must be list items
 								startPath.block.is( CKEDITOR.dtd.$listItem ) && endPath.block.is( CKEDITOR.dtd.$listItem );
 
 							// Create merge bookmark.
-							if ( info.mergeList || info.mergeListItems ) {
+							if ( that.mergeList || that.mergeListItems ) {
 								var rangeClone = range.clone();
 
-								rangeClone.setStartBefore( info.doc.getById( info.bookmark.startNode ) );
-								rangeClone.setEndAfter( info.doc.getById( info.bookmark.endNode ) );
+								rangeClone.setStartBefore( that.doc.getById( that.bookmark.startNode ) );
+								rangeClone.setEndAfter( that.doc.getById( that.bookmark.endNode ) );
 
-								info.mergeListBookmark = rangeClone.createBookmark( 1 );
+								that.mergeListBookmark = rangeClone.createBookmark( 1 );
 							}
 						},
-						merge: function( info ) {
-							if ( !info.mergeListBookmark )
+
+						merge: function( that, editable ) {
+							if ( !that.mergeListBookmark )
 								return;
 
-							var range = info.range,
-								startNode = info.doc.getById( info.mergeListBookmark.startNode ),
-								endNode = info.doc.getById( info.mergeListBookmark.endNode ),
+							var range = that.range,
+								startNode = that.doc.getById( that.mergeListBookmark.startNode ),
+								endNode = that.doc.getById( that.mergeListBookmark.endNode ),
 
-								startPath = getEditablePath( startNode, this ),
-								endPath = getEditablePath( endNode, this );
+								startPath = getEditablePath( startNode, editable ),
+								endPath = getEditablePath( endNode, editable );
 
-							if ( info.mergeList ) {
+							if ( that.mergeList ) {
 								var firstList = startPath.contains( CKEDITOR.dtd.$list ),
 									secondList = endPath.contains( CKEDITOR.dtd.$list );
 
@@ -908,7 +910,7 @@
 								}
 							}
 
-							if ( info.mergeListItems ) {
+							if ( that.mergeListItems ) {
 								var firstListItem = startPath.contains( CKEDITOR.dtd.$listItem ),
 									secondListItem = endPath.contains( CKEDITOR.dtd.$listItem );
 
@@ -927,9 +929,9 @@
 				var extractMerge = ( function() {
 					return {
 						// Detects whether use "mergeThen" argument in range.extractContents().
-						detect: function( info ) {
-							var startPath = getEditablePath( info.range.startContainer, this ),
-								endPath = getEditablePath( info.range.endContainer, this );
+						detect: function( that, editable ) {
+							var startPath = getEditablePath( that.range.startContainer, editable ),
+								endPath = getEditablePath( that.range.endContainer, editable );
 
 							// Don't merge if playing with lists.
 							return !(
@@ -943,33 +945,34 @@
 				var block = ( function() {
 					return {
 						// Detects whether blocks should be merged once contents are extracted.
-						detectMerge: function( info ) {
-							if ( info.tableRanges.length )
+						detectMerge: function( that, editable ) {
+							if ( that.tableRanges.length )
 								return;
 
-							var startPath = getEditablePath( info.range.startContainer, this ),
-								endPath = getEditablePath( info.range.endContainer, this );
+							var startPath = getEditablePath( that.range.startContainer, editable ),
+								endPath = getEditablePath( that.range.endContainer, editable );
 
 							// Don't merge blocks if lists are already involved.
-							if ( !info.mergeListBookmark ) {
-								var rangeClone = info.range.clone();
+							if ( !that.mergeListBookmark ) {
+								var rangeClone = that.range.clone();
 
-								rangeClone.setStartBefore( info.doc.getById( info.bookmark.startNode ) );
-								rangeClone.setEndAfter( info.doc.getById( info.bookmark.endNode ) );
+								rangeClone.setStartBefore( that.doc.getById( that.bookmark.startNode ) );
+								rangeClone.setEndAfter( that.doc.getById( that.bookmark.endNode ) );
 
-								info.mergeBlockBookmark = rangeClone.createBookmark( 1 );
+								that.mergeBlockBookmark = rangeClone.createBookmark( 1 );
 							}
 						},
-						merge: function( info ) {
-							if ( !info.mergeBlockBookmark || info.purgeTableBookmark )
+
+						merge: function( that, editable ) {
+							if ( !that.mergeBlockBookmark || that.purgeTableBookmark )
 								return;
 
-							var range = info.range,
-								startNode = info.doc.getById( info.mergeBlockBookmark.startNode ),
-								endNode = info.doc.getById( info.mergeBlockBookmark.endNode ),
+							var range = that.range,
+								startNode = that.doc.getById( that.mergeBlockBookmark.startNode ),
+								endNode = that.doc.getById( that.mergeBlockBookmark.endNode ),
 
-								startPath = getEditablePath( startNode, this ),
-								endPath = getEditablePath( endNode, this );
+								startPath = getEditablePath( startNode, editable ),
+								endPath = getEditablePath( endNode, editable );
 
 								var firstBlock = startPath.block,
 									secondBlock = endPath.block;
@@ -990,8 +993,8 @@
 
 					return {
 						// Detects whether to purge entire list.
-						detectPurge: function( info ) {
-							var range = info.range,
+						detectPurge: function( that, editable ) {
+							var range = that.range,
 								walkerRange = range.clone();
 
 							walkerRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
@@ -1011,32 +1014,32 @@
 							walker.checkForward();
 
 							if ( editablesCount > 1 ) {
-								var startTable = getEditablePath( range.startContainer, this ).contains( 'table' ),
-									endTable = getEditablePath( range.endContainer, this ).contains( 'table' );
+								var startTable = getEditablePath( range.startContainer, editable ).contains( 'table' ),
+									endTable = getEditablePath( range.endContainer, editable ).contains( 'table' );
 
 								if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
-									var rangeClone = info.range.clone();
+									var rangeClone = that.range.clone();
 
 									rangeClone.setStartBefore( startTable );
 									rangeClone.setEndAfter( endTable );
 
-									info.purgeTableBookmark = rangeClone.createBookmark( 1 );
+									that.purgeTableBookmark = rangeClone.createBookmark( 1 );
 								}
 							}
 						},
 
 						// Creates sub-ranges which contain editable contents, table rows or surrounding contents.
-						detectRanges: function( info ) {
-							info.tableRanges = [];
-							info.tableRowRanges = [];
-							info.tableSurroundRanges = [];
+						detectRanges: function( that, editable ) {
+							that.tableRanges = [];
+							that.tableRowRanges = [];
+							that.tableSurroundRanges = [];
 
-							var range = info.range,
-								walkerRange = info.range.clone(),
+							var range = that.range,
+								walkerRange = that.range.clone(),
 								walker = new CKEDITOR.dom.walker( walkerRange ),
 
-								startPath = getEditablePath( range.startContainer, this ),
-								endPath = getEditablePath( range.endContainer, this ),
+								startPath = getEditablePath( range.startContainer, editable ),
+								endPath = getEditablePath( range.endContainer, editable ),
 
 								table;
 
@@ -1068,7 +1071,7 @@
 								var enteredRange = range.clone();
 
 								enteredRange.setEndBefore( table );
-								info.tableSurroundRanges.push( enteredRange );
+								that.tableSurroundRanges.push( enteredRange );
 								walkerRange.setStartBefore( table );
 							}
 
@@ -1084,7 +1087,7 @@
 								var leftRange = range.clone();
 
 								leftRange.setStartAfter( table );
-								info.tableSurroundRanges.push( leftRange );
+								that.tableSurroundRanges.push( leftRange );
 								walkerRange.setEndAfter( table );
 							}
 
@@ -1106,7 +1109,7 @@
 							// <p>fo{o</p><table><tbody><tr><td>a</td></tr><tr><td>bc</td></tr></tbody></table><p>b}ar</p>
 							//      \/                          \/                 \/                             \/
 							//	to remove                   to remove           to remove                      to remove
-							if ( info.tableSurroundRanges.length < 2 ) {
+							if ( that.tableSurroundRanges.length < 2 ) {
 								walker.reset();
 
 								var rowRange, row;
@@ -1116,7 +1119,7 @@
 											rowRange = range.clone();
 											rowRange.setStartBefore( row );
 											rowRange.setEndAfter( row );
-											info.tableRowRanges.push( rowRange );
+											that.tableRowRanges.push( rowRange );
 										}
 
 										row = node;
@@ -1153,7 +1156,7 @@
 								if ( !endTableEditable || !endTableEditable.equals( startTableEditable ) )
 									startTableEditableRange.setEndAt( startTableEditable, CKEDITOR.POSITION_BEFORE_END );
 
-								info.tableRanges.push( startTableEditableRange );
+								that.tableRanges.push( startTableEditableRange );
 								walkerRange.setStartAfter( startTableEditable );
 							}
 
@@ -1165,7 +1168,7 @@
 								var endTableEditableRange = walkerRange.clone();
 
 								endTableEditableRange.setStartAt( endTableEditable, CKEDITOR.POSITION_AFTER_START );
-								info.tableRanges.push( endTableEditableRange );
+								that.tableRanges.push( endTableEditableRange );
 								walkerRange.setEndBefore( endTableEditable );
 							}
 
@@ -1180,25 +1183,26 @@
 								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( tableEditable ) ) {
 									editableRange = range.clone();
 									editableRange.selectNodeContents( node );
-									info.tableRanges.push( editableRange );
+									that.tableRanges.push( editableRange );
 								}
 							};
 
 							walker.reset();
 							walker.lastForward();
 						},
-						deleteRanges: function( info ) {
-							if ( !info.tableRanges.length )
+
+						deleteRanges: function( that, editable ) {
+							if ( !that.tableRanges.length )
 								return;
 
 							var range;
 							// Delete whole rows first
-							while ( ( range = info.tableRowRanges.pop() ) ) {
+							while ( ( range = that.tableRowRanges.pop() ) ) {
 								range.extractContents();
 							}
 
 							// Delete table cell contents.
-							while ( ( range = info.tableRanges.pop() ) ) {
+							while ( ( range = that.tableRanges.pop() ) ) {
 								range.extractContents();
 
 								if ( isEmpty( range.startContainer ) )
@@ -1206,26 +1210,27 @@
 							}
 
 							// Finally delete surroundings of the table.
-							while ( ( range = info.tableSurroundRanges.pop() ) ) {
+							while ( ( range = that.tableSurroundRanges.pop() ) ) {
 								range.extractContents();
 							}
 						},
-						purge: function( info ) {
-							if ( !info.purgeTableBookmark )
+
+						purge: function( that, editable ) {
+							if ( !that.purgeTableBookmark )
 								return;
 
-							var doc = info.doc,
-								range = info.range,
+							var doc = that.doc,
+								range = that.range,
 								rangeClone = range.clone(),
 								// How about different enter modes?
 								block = doc.createElement( 'p' );
 
-							block.insertBefore( doc.getById( info.purgeTableBookmark.startNode ) );
+							block.insertBefore( doc.getById( that.purgeTableBookmark.startNode ) );
 
-							rangeClone.moveToBookmark( info.purgeTableBookmark );
+							rangeClone.moveToBookmark( that.purgeTableBookmark );
 							rangeClone.deleteContents();
 
-							info.range.moveToPosition( block, CKEDITOR.POSITION_AFTER_START );
+							that.range.moveToPosition( block, CKEDITOR.POSITION_AFTER_START );
 						}
 					};
 				} )();
@@ -1242,7 +1247,7 @@
 						return extractedFragment;
 					}
 
-					var info = {
+					var that = {
 						range: range,
 						doc: range.document
 					};
@@ -1253,45 +1258,45 @@
 					// This got to be done before bookmarks are created because purging
 					// depends on the position of the range at the boundaries of the table,
 					// usually distorted by bookmark spans.
-					table.detectPurge.call( this, info );
+					table.detectPurge( that, this );
 
 					// We'll play with DOM, let's hold the position of the range.
-					info.bookmark = range.createBookmark( 1 );
+					that.bookmark = range.createBookmark( 1 );
 
 					// The range to be restored after extraction...
 					var targetRange = this.editor.createRange();
 
 					// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
-					targetRange.moveToPosition( info.doc.getById( info.bookmark.startNode ), CKEDITOR.POSITION_BEFORE_START );
+					targetRange.moveToPosition( that.doc.getById( that.bookmark.startNode ), CKEDITOR.POSITION_BEFORE_START );
 
 					// Remember desired position of the range after extraction.
-					info.targetBookmark = targetRange.createBookmark( 1 );
+					that.targetBookmark = targetRange.createBookmark( 1 );
 
 					// Execute content-specific detections.
-					list.detectMerge.call( this, info );
-					table.detectRanges.call( this, info );
-					block.detectMerge.call( this, info );
+					list.detectMerge( that, this );
+					table.detectRanges( that, this );
+					block.detectMerge( that, this );
 
 					// Finally restore the "working range", once DOM is stable.
-					range.moveToBookmark( info.bookmark );
+					range.moveToBookmark( that.bookmark );
 
 					// Simply, do the job.
-					if ( info.tableRanges.length ) {
-						table.deleteRanges( info );
+					if ( that.tableRanges.length ) {
+						table.deleteRanges( that );
 					} else {
-						range.extractContents( extractMerge.detect.call( this, info ) );
+						range.extractContents( extractMerge.detect( that, this ) );
 					}
 
 					// Move working range to desired, pre-computed position.
-					range.moveToBookmark( info.targetBookmark );
+					range.moveToBookmark( that.targetBookmark );
 
 					// Make sure range is always anchored in an element. For consistency.
 					range.optimize();
 
 					// Execute content-specific post-extract routines.
-					list.merge.call( this, info );
-					table.purge.call( this, info );
-					block.merge.call( this, info );
+					list.merge( that, this );
+					table.purge( that, this );
+					block.merge( that, this );
 
 					// Let's have a bogus next to the caret, if needed.
 					if ( isEmpty( range.startContainer ) )
