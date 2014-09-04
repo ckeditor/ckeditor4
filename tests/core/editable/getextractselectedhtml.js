@@ -57,8 +57,13 @@
 	// } );
 	// </DEV>
 
+		// On old IEs nbsp will always fill empty blocks.
+	var emptyBlockFiller = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;',
+		// On old IEs nbsp will never exist if element isn't empty or after <p><br>^</p>.
+		brFiller = CKEDITOR.env.needsBrFiller ? '<br />' : '';
+
 	function decodeBoguses( html ) {
-		return html.replace( /@/g, '<br />' );
+		return html.replace( /@!/g, emptyBlockFiller ).replace( /@\?/g, brFiller );
 	}
 
 	function addTests( cases, editor ) {
@@ -131,7 +136,7 @@
 		],
 		'cross-block': [
 /* 1 */		[ '<p>a{</p><p>}b</p>', 												'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
-/* 2 */		[ '<p>a{@</p><p>}b</p>', 												'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
+/* 2 */		[ '<p>a{@!</p><p>}b</p>', 												'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
 /* 3 */		[ '<p>{a</p><p>b}</p>', 												'<p>a</p><p>b</p>',												'<p>[]@</p>' ],
 /* 4 */		[ '<h1>{a</h1><p>b}</p>', 												'<h1>a</h1><p>b</p>',											'<h1>[]@</h1>' ],
 /* 5 */		[ '<p>a{b</p><p>c}d</p>',											 	'<p>b</p><p>c</p>',												'<p>a[]d</p>' ],
@@ -175,13 +180,13 @@
 /* 8 */		[ '<p>a<b class="a">{b</b>c<b class="b">d}</b>e</p>', 					'<b class="a">b</b>c<b class="b">d</b>',						'<p>a[]e</p>' ]
 		],
 		'bogus': [
-/* 1 */		[ '<p>{a}@</p>', 														'a',															'<p>[]@</p>' ],
-/* 2 */		[ '<p>{a@]</p>', 														'a',															'<p>[]@</p>' ],
-/* 3 */		[ '<p><b>{a}</b>@</p>', 												'<b>a</b>',														'<p>[]@</p>' ],
-/* 4 */		[ '<p>{a}<br />@</p>', 													'a',															'<p>[]<br />@</p>' ],
-/* 5 */		[ '{a<br />]@',															'a<br />',														'[]@' ],
-/* 6 */		[ '<p>{a<br />]@</p>',													'a<br />',														'<p>[]@</p>' ],
-/* 7 */		[ '<div>b<p>{a@]</p>b</div>', 											'a',															'<div>b<p>[]@</p>b</div>' ]
+/* 1 */		[ '<p>{a}@?</p>', 														'a',															'<p>[]@</p>' ],
+/* 2 */		[ '<p>{a@?]</p>', 														'a',															'<p>[]@</p>' ],
+/* 3 */		[ '<p><b>{a}</b>@?</p>', 												'<b>a</b>',														'<p>[]@</p>' ],
+/* 4 */		[ '<p>{a}<br />@?</p>',													'a',															'<p>[]<br />@</p>' ],
+/* 5 */		[ '{a<br />]@?',														'a<br />',														'[]@' ],
+/* 6 */		[ '<p>{a<br />]@?</p>',													'a<br />',														'<p>[]@</p>' ],
+/* 7 */		[ '<div>b<p>{a@?]</p>b</div>', 											'a',															'<div>b<p>[]@</p>b</div>' ]
 		],
 		'tables': [
 /* 1 */		[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>', 				'a',															'<table><tbody><tr><td>[]@</td></tr></tbody></table>' ],
@@ -239,10 +244,10 @@
 /* 7 */		[ '<table><tbody><tr>[<td>a</td>]</tr></tbody></table>', 				'a',															'<table><tbody><tr><td>[]@</td></tr></tbody></table>' ],
 /* 8 */		[ '<table><tbody><tr><td>a[</td><td>b</td>]</tr></tbody></table>', 		'<table><tbody><tr><td></td><td>b</td></tr></tbody></table>',	'<table><tbody><tr><td>a[]</td><td>@</td></tr></tbody></table>' ],
 /* 9 */		[ '<table><tbody><tr>[<td>a</td><td>b</td>]</tr></tbody></table>', 		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'<p>[]@</p>' ],
-/* 10 */	[ '<p>[a@]</p>', 														'a',															'<p>[]@</p>' ],
-/* 11 */	[ '<p>[a]@</p>', 														'a',															'<p>[]@</p>' ],
-/* 12 */	[ '<p>[a]<br />@</p>', 													'a',															'<p>[]<br />@</p>' ],
-/* 13 */	[ '<p>[a<br />]@</p>', 													'a<br />',														'<p>[]@</p>' ],
+/* 10 */	[ '<p>[a@?]</p>', 														'a',															'<p>[]@</p>' ],
+/* 11 */	[ '<p>[a]@?</p>', 														'a',															'<p>[]@</p>' ],
+/* 12 */	[ '<p>[a]<br />@?</p>', 												'a',															'<p>[]<br />@</p>' ],
+/* 13 */	[ '<p>[a<br />]@?</p>', 												'a<br />',														'<p>[]@</p>' ],
 /* 14 */	[ '[<hr />]', 															'<hr />',														'[]@' ],
 /* 15 */	[ '[<img src="' + img_src + '" />]', 									'<img src="' + img_src + '" />',								'[]@' ],
 /* 16 */	[ '<p>[<img src="' + img_src + '" />]</p>', 							'<img src="' + img_src + '" />',								'<p>[]@</p>' ],
