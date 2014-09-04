@@ -610,23 +610,23 @@
 					return true;
 				}, true );
 
-			assert.isTrue( found.equals( node ), 'First one match.' );
+			assert.areSame( node, found, 'First one match.' );
 		},
 
 		test_getAscendantFuncCheck_findFirstAncestor : function() {
 			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return true;
-				}, false );
+				} );
 
-			assert.isTrue( found.equals( node.getParent() ), 'First ancestor match.' );
+			assert.areSame( node.getParent(), found, 'First ancestor match.' );
 		},
 
 		test_getAscendantFuncCheckFindNothing : function() {
 			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return false;
-				}, false );
+				} );
 
 			assert.isNull( found, 'Nothing found.' );
 		},
@@ -637,7 +637,7 @@
 					return el.hasClass( 'deep2' );
 				}, true );
 
-			assert.isTrue( found.equals( $( 'deep2' ) ), 'Found element which has class deep2' );
+			assert.areSame( $( 'deep2' ), found, 'Found element which has class deep2' );
 		},
 
 		test_hasAscendant : function() {

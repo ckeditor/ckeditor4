@@ -539,7 +539,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * Gets the closest ancestor node of this node, specified by its name or custom function checker provided in first argument.
+	 * Gets the closest ancestor node of this node, specified by its name or using an evaluator function.
 	 *
 	 *		// Suppose we have the following HTML structure:
 	 *		// <div id="outer"><div id="inner"><p><b>Some text</b></p></div></div>
@@ -547,49 +547,47 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		ascendant = node.getAscendant( 'div' );				// ascendant == <div id="inner">
 	 *		ascendant = node.getAscendant( 'b' );				// ascendant == null
 	 *		ascendant = node.getAscendant( 'b', true );			// ascendant == <b>
-	 *		ascendant = node.getAscendant( { div:1,p:1 } );		// Searches for the first 'div' or 'p': ascendant == <div id="inner">
+	 *		ascendant = node.getAscendant( { div:1, p:1 } );	// Searches for the first 'div' or 'p': ascendant == <div id="inner">
 	 *
-	 *		// If you want to define custom checking, you should provide it as function in first argument.
-	 *		ascendant = node.getAscendant( function ( elem ) {
-	 *			elem = new CKEDITOR.dom.element( elem );
-	 *			return elem.getId() == 'outer';
-	 *		} );												// ascendant == <div id="inner">
+	 *		// Using custom evaluator:
+	 *		ascendant = node.getAscendant( function( el ) {
+	 *			return el.getId() == 'inner';
+	 *		} );
+	 *		// ascendant == <div id="inner">
+	 *
 	 * @since 3.6.1
-	 * @param {String|Function} reference The name of the ancestor node to search or
-	 * an object with the node names to search for or
-	 * checking function which is called on every node(passed in first argument) while searching.
-	 * Should return Boolean value, defining whether node match criteria.
+	 * @param {String/Function/Object} query The name of the ancestor node to search or
+	 * an object with the node names to search for or evaluator function.
 	 * @param {Boolean} [includeSelf] Whether to include the current
 	 * node in the search.
-	 * @returns {CKEDITOR.dom.node} The located ancestor node or null if not found.
+	 * @returns {CKEDITOR.dom.node} The located ancestor node or `null` if not found.
 	 */
-	getAscendant: function( reference, includeSelf ) {
+	getAscendant: function( query, includeSelf ) {
 		var $ = this.$,
-			conditionChecker,
-			isCustomChecker;
+			evaluator,
+			isCustomEvaluator;
 
 		if ( !includeSelf ) {
 			$ = $.parentNode;
 		}
 
-		if ( typeof reference == 'function' ) {
-			// Custom checker provided in argument.
-			conditionChecker = reference;
-			isCustomChecker = true;
+		// Custom checker provided in an argument.
+		if ( typeof query == 'function' ) {
+			isCustomEvaluator = true;
+			evaluator = query;
 		} else {
 			// Predefined tag name checker.
-			isCustomChecker = false;
-			conditionChecker = function( $ ) {
+			isCustomEvaluator = false;
+			evaluator = function( $ ) {
 				var name = ( typeof $.nodeName == 'string' ? $.nodeName.toLowerCase() : '' );
 
-				return ( typeof reference == 'string' ? name == reference : name in reference );
-			}
+				return ( typeof query == 'string' ? name == query : name in query );
+			};
 		}
 
 		while ( $ ) {
-			// For user provided checker we use our CKEDITOR.dom.node.
-			var el = ( isCustomChecker ? new CKEDITOR.dom.node( $ ) : $ );
-			if ( conditionChecker( el ) ) {
+			// For user provided checker we use CKEDITOR.dom.node.
+			if ( evaluator( isCustomEvaluator ? new CKEDITOR.dom.node( $ ) : $ ) ) {
 				return new CKEDITOR.dom.node( $ );
 			}
 
