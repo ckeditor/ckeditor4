@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.5
 
+New Features:
+
+* [#12279](http://dev.ckeditor.com/ticket/12279): Added possibility to pass custom evaluator to [`node.getAscendant()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.node-method-getAscendant).
+
 Fixed Issues:
 
 * [#12381](http://dev.ckeditor.com/ticket/12381): Fixed: Selection trouble in iOS. Thanks to [Remiremi](https://github.com/Remiremi)!
