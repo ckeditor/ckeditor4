@@ -95,8 +95,8 @@
 		YTest.Assert.isNumber( min, 'Min value should be number type.' );
 		YTest.Assert.isNumber( max, 'Max value should be number type.' );
 
-		if ( min > max ) {
-			throw new YUITest.AssertionError( 'Min value is greater than max.' );
+		if ( min >= max ) {
+			throw new YUITest.AssertionError( 'Min value is greater or equal than max.' );
 		}
 
 		if ( expected < min || expected > max ) {
