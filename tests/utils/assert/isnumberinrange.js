@@ -7,17 +7,15 @@
 
 	bender.test( {
 		'test': function() {
-			var message = 'Message describing why assert should be valid.';
-
 			// Invalid arguments.
 			assert.throwsError( YUITest.AssertionError, function() {
-				assert.isNumberInRange( 100, 102, 101, message );
+				assert.isNumberInRange( 100, 102, 101 );
 			} );
 			assert.throwsError( YUITest.AssertionError, function() {
-				assert.isNumberInRange( null, 99, 101, message );
+				assert.isNumberInRange( null, 99, 101 );
 			} );
 			assert.throwsError( YUITest.AssertionError, function() {
-				assert.isNumberInRange( 100, null, 100, message );
+				assert.isNumberInRange( 100, null, 100 );
 			} );
 			assert.throwsError( YUITest.AssertionError, function() {
 				assert.isNumberInRange( 100, 100 );
@@ -25,16 +23,16 @@
 
 			// Number is not in range.
 			assert.throwsError( YUITest.ComparisonFailure, function() {
-				assert.isNumberInRange( 100, 101, 102, message );
+				assert.isNumberInRange( 100, 101, 102 );
 			} );
 			assert.throwsError( YUITest.ComparisonFailure, function() {
-				assert.isNumberInRange( 100, 98, 99, message );
+				assert.isNumberInRange( 100, 98, 99 );
 			} );
 
 			// Number is in range.
-			assert.isNumberInRange( 100, 99, 101, message );
-			assert.isNumberInRange( 100, 100, 101, message );
-			assert.isNumberInRange( 100, 98, 100, message );
+			assert.isNumberInRange( 100, 99, 101 );
+			assert.isNumberInRange( 100, 100, 101 );
+			assert.isNumberInRange( 100, 98, 100 );
 		}
 	} );
 } )();
