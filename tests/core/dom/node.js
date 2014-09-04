@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit,dom */
 
 ( function() {
+	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		getOuterHtml = function( element ) {
@@ -405,7 +406,7 @@
 			assert.areEqual( 1, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function() {
+		'getIndex - element after empty text node1' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -416,7 +417,7 @@
 			assert.areEqual( 0, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function() {
+		'getIndex - element after empty text node2' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -590,6 +591,53 @@
 			assert.areSame( newElement( document.body ), node.getAscendant( 'body' ) );
 			assert.areSame( $( 'getNSN1' ), node.getAscendant( { div: 1, i: 1 }, true ) );
 			assert.isNull( null, node.getAscendant( 'i' ) );
+		},
+
+		test_getAscendantFuncCheck_callsNumber : function() {
+			var node = $( 'getAscendantFuncCheck' ),
+				calls = 0;
+
+			node.getAscendant( function( elem ) {
+				calls++;
+			}, true );
+
+			assert.isTrue( calls > 0, 'Should be called at least once.' );
+		},
+
+		test_getAscendantFuncCheck_findFirstOne : function() {
+			var node = $( 'getAscendantFuncCheck' ),
+				found = node.getAscendant( function( el ) {
+					return true;
+				}, true );
+
+			assert.areSame( node, found, 'First one match.' );
+		},
+
+		test_getAscendantFuncCheck_findFirstAncestor : function() {
+			var node = $( 'getAscendantFuncCheck' ),
+				found = node.getAscendant( function( el ) {
+					return true;
+				} );
+
+			assert.areSame( node.getParent(), found, 'First ancestor match.' );
+		},
+
+		test_getAscendantFuncCheckFindNothing : function() {
+			var node = $( 'getAscendantFuncCheck' ),
+				found = node.getAscendant( function( el ) {
+					return false;
+				} );
+
+			assert.isNull( found, 'Nothing found.' );
+		},
+
+		test_getAscendantFuncCheck_findFirstWithClassDeep2 : function() {
+			var node = $( 'getAscendantFuncCheck' ),
+				found = node.getAscendant( function( el ) {
+					return el.hasClass( 'deep2' );
+				}, true );
+
+			assert.areSame( $( 'deep2' ), found, 'Found element which has class deep2' );
 		},
 
 		test_hasAscendant : function() {
