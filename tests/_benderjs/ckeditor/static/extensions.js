@@ -80,6 +80,32 @@
 		}
 	};
 
+	/**
+	 * Assert that expected value is in range (between min and max).
+	 *
+	 * @param {Number} expected
+	 * @param {Number} min
+	 * @param {Number} max
+	 * @param {String} [message]
+	 */
+	bender.assert.isNumberInRange = function( expected, min, max, message ) {
+		YTest.Assert._increment();
+
+		YTest.Assert.isNumber( expected, 'Expected value should be number type.' );
+		YTest.Assert.isNumber( min, 'Min value should be number type.' );
+		YTest.Assert.isNumber( max, 'Max value should be number type.' );
+
+		if ( min >= max ) {
+			throw new YUITest.AssertionError( 'Min value is greater or equal than max.' );
+		}
+
+		if ( expected < min || expected > max ) {
+			throw new YUITest.ComparisonFailure(
+				YUITest.Assert._formatMessage( message ),
+				expected
+			);
+		}
+	};
 
 	// add support test ignore
 	YUITest.Ignore = function() {};

@@ -526,10 +526,11 @@ bender.test( appendDomObjectTests(
 					Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
 					var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
 						x = Math.round( pos.x ),
-						y = Math.round( pos.y );
+						y = Math.round( pos.y ),
+						accOffset = 1;
 
-					assert.areEqual( 350, x, 'Position coordinates:x relative to document doesn\'t match.' );
-					assert.areEqual( 450, y, 'Position coordinates:y relative to document doesn\'t match.' );
+					assert.isNumberInRange( x, 350 - accOffset, 350 + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
+					assert.isNumberInRange( y, 450 - accOffset, 450 + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
 				} );
 			} );
 
