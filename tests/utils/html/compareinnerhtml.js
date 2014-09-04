@@ -76,10 +76,11 @@
 
 		'simple string':									t( true, 'foo', 'foo' ),
 		'simple element':									t( true, '<b>foo</b>', '<B>foo</B>' ),
-		'bogus expected, not exists':						t( true, 'a@', 'a' ),
+		'bogus possible, not exists':						t( true, 'a@', 'a' ),
 		// Obvious simplification - &nbsp; can't be a filler in this place, but that
 		// is developer's duty to use @ correctly.
-		'bogus expected, exists':							t( true, 'a@', 'a' + filler ),
+		'bogus possible, exists':							t( true, 'a@', 'a' + filler ),
+		'bogus expected, exists':							t( true, 'a@!', 'a' + filler ),
 		'multiple boguses':									t( true, '<p>a@</p><p>b@</p><p>c@</p>', '<p>a' + filler + '</p><p>b</p><p>c' + filler + '</p>' ),
 		'regexp conflict [':								t( true, 'ba[r', 'ba[r' ),
 
@@ -102,6 +103,7 @@
 		'simple string - fail':								t( false, 'foo', 'bar' ),
 		'simple element - fail':							t( false, '<b>foo</b>', '<I>foo</I>' ),
 		'not expected bogus - fail':						t( false, '<p>foo<br /></p>', '<p>foo</p>' ),
+		'bogus expected, not exists':						t( false, 'a@!', 'a' ),
 
 		// Expected part has to be regexified if special characters are not escaped
 		// bad things may happen.
