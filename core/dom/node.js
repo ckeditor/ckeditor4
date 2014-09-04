@@ -565,7 +565,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 */
 	getAscendant: function( reference, includeSelf ) {
 		var $ = this.$,
-			conditionChecker;
+			conditionChecker,
+			isCustomChecker;
 
 		if ( !includeSelf ) {
 			$ = $.parentNode;
@@ -574,8 +575,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		if ( typeof reference == 'function' ) {
 			// Custom checker provided in argument.
 			conditionChecker = reference;
+			isCustomChecker = true;
 		} else {
 			// Predefined tag name checker.
+			isCustomChecker = false;
 			conditionChecker = function( $ ) {
 				var name = ( typeof $.nodeName == 'string' ? $.nodeName.toLowerCase() : '' );
 
@@ -585,7 +588,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		while ( $ ) {
 			// For user provided checker we use our CKEDITOR.dom.node.
-			var el = ( conditionChecker === reference ? new CKEDITOR.dom.node( $ ) : $ );
+			var el = ( isCustomChecker ? new CKEDITOR.dom.node( $ ) : $ );
 			if ( conditionChecker( el ) ) {
 				return new CKEDITOR.dom.node( $ );
 			}
