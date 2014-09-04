@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit,dom */
 
 ( function() {
+	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		getOuterHtml = function( element ) {
@@ -405,7 +406,7 @@
 			assert.areEqual( 1, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function() {
+		'getIndex - element after empty text node1' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -416,7 +417,7 @@
 			assert.areEqual( 0, node2.getIndex( true ) );
 		},
 
-		'getIndex - element after empty text node' : function() {
+		'getIndex - element after empty text node2' : function() {
 			var wrapper = createGetIndexTest( 'etn,el' ),
 				node1 = wrapper.getChild( 0 ),
 				node2 = wrapper.getChild( 1 );
@@ -592,8 +593,8 @@
 			assert.isNull( null, node.getAscendant( 'i' ) );
 		},
 
-		test_getAscendant_func_check_calls_number : function() {
-			var node = $( 'func_check' ),
+		test_getAscendantFuncCheck_callsNumber : function() {
+			var node = $( 'getAscendantFuncCheck' ),
 				calls = 0;
 
 			node.getAscendant( function( elem ) {
@@ -603,8 +604,8 @@
 			assert.isTrue( calls > 0, 'Should be called at least once.' );
 		},
 
-		test_getAscendant_func_check_find_first_one : function() {
-			var node = $( 'func_check' ),
+		test_getAscendantFuncCheck_findFirstOne : function() {
+			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return true;
 				}, true );
@@ -612,8 +613,8 @@
 			assert.isTrue( found.equals( node ), 'First one match.' );
 		},
 
-		test_getAscendant_func_check_find_first_ancestor : function() {
-			var node = $( 'func_check' ),
+		test_getAscendantFuncCheck_findFirstAncestor : function() {
+			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return true;
 				}, false );
@@ -621,8 +622,8 @@
 			assert.isTrue( found.equals( node.getParent() ), 'First ancestor match.' );
 		},
 
-		test_getAscendant_func_check_find_nothing : function() {
-			var node = $( 'func_check' ),
+		test_getAscendantFuncCheckFindNothing : function() {
+			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return false;
 				}, false );
@@ -630,8 +631,8 @@
 			assert.isNull( found, 'Nothing found.' );
 		},
 
-		test_getAscendant_func_check_find_first_with_class_deep2 : function() {
-			var node = $( 'func_check' ),
+		test_getAscendantFuncCheck_findFirstWithClassDeep2 : function() {
+			var node = $( 'getAscendantFuncCheck' ),
 				found = node.getAscendant( function( el ) {
 					return el.hasClass( 'deep2' );
 				}, true );
