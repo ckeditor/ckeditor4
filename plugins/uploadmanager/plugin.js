@@ -5,100 +5,10 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.plugins.add( 'uploadimage', {
-		requires: 'widget,clipboard',
+	CKEDITOR.plugins.add( 'uploadmanager', {
+		requires: '',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var manager = new UploadManager();
-			manager.url = editor.config.filebrowserImageUploadUrl;
-
-			editor.widgets.add( 'uploadimage', {
-				parts: {
-					img: 'img'
-				},
-
-				upcast: function( el, data ) {
-					if ( el.name != 'img' || !el.attributes[ 'data-cke-image-to-upload' ] )
-						return;
-
-					return el;
-				},
-
-				downcast: function() {
-					return new CKEDITOR.htmlParser.text( '' );
-				},
-
-				init: function() {
-				},
-
-				data: function( data ) {
-				}
-			} );
-
-			editor.on( 'paste', function( evt ) {
-				var data = evt.data,
-					dataTransfer = data.dataTransfer,
-					filesCount = dataTransfer.getFilesCount(),
-					file, i;
-
-				if ( data.dataValue || !filesCount ) {
-					return;
-				}
-
-				dataTransfer.cacheData();
-
-				for ( i = 0; i < filesCount; i++ ) {
-					file = dataTransfer.getFile( i );
-
-					var upload = manager.upload( file ),
-						img = new CKEDITOR.dom.element( 'img' );
-
-					img.setAttributes( {
-						// 'src': //data:black rectangle,
-						'data-cke-upload-id': upload.id
-					} );
-					data.dataValue += img.getOuterHtml();
-				}
-			} );
-
-			editor.on( 'paste', function( evt ) {
-				var data = evt.data;
-
-				var temp = new CKEDITOR.dom.element( 'div' ),
-					imgs, img, i;
-				temp.appendHtml( data.dataValue );
-				imgs = temp.find( 'img' );
-
-				for ( i = 0; i < imgs.count(); i++ ) {
-					img = imgs.getItem( i );
-
-					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
-					if ( !img.data( 'cke-upload-id' ) && !inEditableBlock( img ) && isDataInSrc ) {
-						var upload = manager.upload( img.getAttribute( 'src' ) );
-
-						img.setAttributes( {
-							'data-cke-upload-id': upload.id
-						} );
-					}
-				}
-
-				data.dataValue = temp.getHtml();
-
-				function inEditableBlock( element ) {
-					while ( element ) {
-						if ( element.data( 'cke-editable' ) )
-							return true;
-						if ( element.getAttribute( 'contentEditable' ) == 'false' )
-							return false;
-						if ( element.getAttribute( 'contentEditable' ) == 'true' )
-							return true;
-
-						element = element.getParent();
-					}
-
-					return true;
-				}
-			} );
 		}
 	} );
 
@@ -128,13 +38,15 @@
 		return new Blob( byteArrays, { type: contentType } );
 	}
 
-	function UploadManager() {
+	CKEDITOR.plugins.uploadmanager = {};
+
+	CKEDITOR.plugins.uploadmanager.manager = function() {
 		this._ = {
 			uploads: []
 		}
-	}
+	};
 
-	UploadManager.prototype = {
+	CKEDITOR.plugins.uploadmanager.manager.prototype = {
 		upload: function( fileOrData, fileName ) {
 			var id = this._.uploads.length,
 				upload = new Upload( this.url, fileOrData, fileName );
@@ -156,7 +68,7 @@
 		}
 	};
 
-	function Upload( url, fileOrData, fileName ) {
+	CKEDITOR.plugins.uploadmanager.upload = function( url, fileOrData, fileName ) {
 		var that = this;
 
 		this.url = url;
@@ -180,9 +92,9 @@
 		this.uploaded = 0;
 
 		this.changeAndFireStatus( 'created' );
-	}
+	};
 
-	Upload.prototype = {
+	CKEDITOR.plugins.uploadmanager.upload.prototype = {
 		start: function() {
 			if ( this.loaded == this.total ) {
 				this.sendFile();
