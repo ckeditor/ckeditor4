@@ -274,7 +274,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			if ( resizeInner ) {
 				outer = this.container.getFirst( function( node ) {
-					return node.hasClass( 'cke_inner' );
+					return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
 				} );
 			} else {
 				outer = container;

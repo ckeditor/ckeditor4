@@ -130,7 +130,7 @@
 				editorFocus: false,
 				exec: function() {
 					var container = editor.container.getFirst( function( node ) {
-						return node.hasClass( 'cke_inner' );
+						return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
 					} );
 					var contents = editor.ui.space( 'contents' );
 
