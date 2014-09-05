@@ -187,6 +187,24 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData(), 'main mode was used' );
 		},
 
+		// (#12162)
+		'test enter key auto paragraphing in nested editable': function() {
+			var editor = this.editors.editor;
+
+			bender.tools.selection.setWithHtml( editor, [
+				'<p>foo</p>',
+				'<div contenteditable="false">',
+					'<div contenteditable="true">',
+						'hell[o]',
+					'</div>',
+				'</div>'
+			].join( '' ) );
+
+			editor.execCommand( 'enter' );
+
+			assert.areEqual( 1, editor.editable().find( '[contenteditable="true"]' ).count(), 'Element should not be duplicated.' );
+		},
+
 		/*
 		// Commented out until we decide whether we want to block enter key completely and how.
 		'test enter key is completely blocked if neither p nor br are allowed': function() {
@@ -218,7 +236,7 @@
 		'test shift+enter key - end of block, inside inline element followed by bogus br':
 			se( 'editor', '<p><em>foo{}</em><br /></p>', '<p><em>foo<br />^</em><br /></p>' ),
 		'test shift+enter key - end of list item, inside inline element followed by bogus br':
-			se( 'editor', '<ul><li><em>foo{}</em><br /></li></ul>', '<ul><li><em>foo<br />^</em><br /></li></ul>' ),
+			se( 'editor', '<ul><li><em>foo{}</em><br /></li></ul>', '<ul><li><em>foo<br />^</em><br /></li></ul>' )
 	} );
 
 } )();
