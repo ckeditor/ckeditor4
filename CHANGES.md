@@ -19,6 +19,7 @@ Fixed Issues:
 * [#12261](http://dev.ckeditor.com/ticket/12261): Fixed: Filter has to be destroyed and removed from [`CKEDITOR.filter.instances`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter-static-property-instances) on editor destroy.
 * [#12163](http://dev.ckeditor.com/ticket/12163): Fixed: Maximize plugin should abort its initialization if the [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is initialized.
 * [#12398](http://dev.ckeditor.com/ticket/12398): Fixed: Maximize does not work on instance without a [title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
+* [#12097](http://dev.ckeditor.com/ticket/12097): Fixed: JAWS not reading number of list options correctly in colors list box.
 
 ## CKEditor 4.4.4
 
