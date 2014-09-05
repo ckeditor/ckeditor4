@@ -101,7 +101,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function renderColors( panel, type, colorBoxId ) {
 			var output = [],
-				colors = config.colorButton_colors.split( ',' );
+				colors = config.colorButton_colors.split( ',' ),
+				// Tells if we should include "More Colors..." button.
+				moreColorsEnabled = editor.plugins.colordialog &&
+					( config.colorButton_enableMore === undefined || config.colorButton_enableMore ),
+				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
+				// screen readers doesn't play nice with table, based layouts (#12097).
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				if ( color == '?' ) {
@@ -155,7 +161,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				' title="', lang.auto, '"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
 				' href="javascript:void(\'', lang.auto, '\')"' +
-				' role="option">' +
+				' role="option" aria-posinset="1" aria-setsize="', total, '">' +
 				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 					'<tr>' +
 						'<td>' +
@@ -188,21 +194,21 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
-						' role="option">' +
+						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
 					'</td>' );
 			}
 
 			// Render the "More Colors" button.
-			if ( editor.plugins.colordialog && config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
+			if ( moreColorsEnabled ) {
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan=8 align=center>' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="', lang.more, '"' +
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
-								' href="javascript:void(\'', lang.more, '\')"', ' role="option">', lang.more, '</a>' +
+								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total, '" aria-setsize="', total, '">', lang.more, '</a>' +
 						'</td>' ); // tr is later in the code.
 			}
 
