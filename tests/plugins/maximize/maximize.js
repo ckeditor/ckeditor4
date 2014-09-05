@@ -44,5 +44,24 @@ bender.test(
 		} );
 
 		wait();
+	},
+
+	'test maximize command work when config title is set to empty string': function() {
+		bender.editorBot.create( {
+			name: 'editor2',
+			config: {
+				title: ''
+			}
+		}, function( bot ) {
+			var inner = bot.editor.container.getFirst( function( node ) {
+				return node.hasClass( 'cke_inner' );
+			} );
+
+			bot.editor.execCommand( 'maximize' );
+			assert.isTrue( inner.hasClass( 'cke_maximized' ) );
+
+			bot.editor.execCommand( 'maximize' );
+			assert.isFalse( inner.hasClass( 'cke_maximized' ) );
+		} );
 	}
 } );
