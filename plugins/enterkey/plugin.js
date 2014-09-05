@@ -5,22 +5,10 @@
 
 ( function() {
 
-	function getClosestEditable( node ) {
-		var ancestors = node.getParents(),
-		i = ancestors.length;
-
-		while( i-- ) {
-			var ancestor = ancestors[ i ];
-			if ( ancestor.getAttribute( 'contenteditable' ) === "true" ) {
-				return ancestor;
-			}
-		}
-
-		return null;
-	}
-
 	function replaceRangeWithClosestEditableRoot( range ) {
-		var closestEditable = getClosestEditable( range.startContainer );
+		var closestEditable = range.startContainer.getAscendant( function( node ) {
+			return node.getAttribute( 'contenteditable' ) === 'true';
+		}, true );
 
 		if ( range.root.equals( closestEditable ) ) {
 			return range;
