@@ -85,7 +85,7 @@
 				for ( i = 0; i < imgs.count(); i++ ) {
 					img = imgs.getItem( i );
 
-					if ( img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:' ) {
+					if ( img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:' && !inEditableBlock( img ) ) {
 						img.setAttributes( {
 							'data-cke-special-image': 1,
 							'data-cke-image-to-upload': 1
@@ -94,6 +94,21 @@
 				}
 
 				data.dataValue = temp.getHtml();
+
+				function inEditableBlock( element ) {
+					while ( element ) {
+						if ( element.data( 'cke-editable' ) )
+							return true;
+						if ( element.getAttribute( 'contentEditable' ) == 'false' )
+							return false;
+						if ( element.getAttribute( 'contentEditable' ) == 'true' )
+							return true;
+
+						element = element.getParent();
+					}
+
+					return true;
+				}
 			} );
 		}
 	} );
