@@ -129,7 +129,9 @@
 				readOnly: 1,
 				editorFocus: false,
 				exec: function() {
-					var container = editor.container.getChild( 1 );
+					var container = editor.container.getFirst( function( node ) {
+						return node.hasClass( 'cke_inner' );
+					} );
 					var contents = editor.ui.space( 'contents' );
 
 					// Save current selection and scroll position in editing area.
