@@ -7,11 +7,6 @@ var config = {
 			path: '.',
 			files: [
 				'ckeditor.js'
-			],
-			ignore: [
-				'.bender/',
-				'node_modules/',
-				'tests/'
 			]
 		}
 	},
@@ -29,8 +24,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'adapters/',
-				'!/_'
+				'adapters/**',
+				'!**/_*/**'
 			],
 			jquery: [ '1.7', '1.7.2', '1.8.3', '1.9.1', '1.10.2', '2.0.0' ]
 		},
@@ -39,8 +34,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'core/',
-				'!/_'
+				'core/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE8 (#11242)
@@ -70,8 +65,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'plugins/',
-				'!/_'
+				'plugins/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE10
@@ -99,8 +94,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'tickets/',
-				'!/_'
+				'tickets/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE8 & IE9 have problems with loading iframe.
@@ -112,8 +107,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'utils/',
-				'!/_'
+				'utils/**',
+				'!**/_*/**'
 			]
 		}
 	}
