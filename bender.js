@@ -45,9 +45,6 @@ var config = {
 				// IE8 (fails only in testing env - window.window === window gives false)
 				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
 
-				// Safari (#11111)
-				'tests/core/dom/range/enlarge#test_enlarge_element12': 'env.safari',
-
 				// Safari (#11980)
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #3': 'env.safari',
