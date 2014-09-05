@@ -103,8 +103,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
 				// Tells if we should include "More Colors..." button.
-				moreColorsEnabled = editor.plugins.colordialog &&
-					( config.colorButton_enableMore === undefined || config.colorButton_enableMore ),
+				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (#12097).
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
