@@ -1083,15 +1083,12 @@
 		 * Removes last record from stack for provided keyCode as a first argument and returns it.
 		 *
 		 * @param {Number} keyCode
-		 * @returns {Object/Boolean}
 		 */
 		remove: function( keyCode ) {
 			var index = this.getLastIndex( keyCode );
 
 			if ( index != -1 ) {
-				return this.stack.splice( index, 1 )[ 0 ];
-			} else {
-				return false;
+				this.stack.splice( index, 1 );
 			}
 		},
 
