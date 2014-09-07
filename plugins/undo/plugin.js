@@ -1038,7 +1038,7 @@
 		 */
 		getLastIndex: function( keyCode ) {
 			if ( typeof keyCode != 'number' ) {
-				return this.stack.length ? this.stack.length - 1 : -1;
+				return this.stack.length - 1; // Last index or -1.
 			} else {
 				var i = this.stack.length;
 				while ( i-- ) {
