@@ -1072,9 +1072,9 @@
 		 */
 		increment: function( keyCode ) {
 			var found = this.getLast( keyCode );
-			if ( !found ) {
-				throw new Error( 'Trying to increment, but could not found by keyCode: ' + keyCode + '.' );
-			}
+			if ( !found ) { // %REMOVE_LINE%
+				throw new Error( 'Trying to increment, but could not found by keyCode: ' + keyCode + '.' ); // %REMOVE_LINE%
+			} // %REMOVE_LINE%
 
 			found.inputs++;
 		},
@@ -1103,9 +1103,9 @@
 		resetInputs: function( keyCode ) {
 			var last = this.getLast( keyCode );
 
-			if ( !last ) {
-				throw new Error( 'Trying to reset inputs count, but could not found by keyCode: ' + keyCode + '.' );
-			}
+			if ( !last ) { // %REMOVE_LINE%
+				throw new Error( 'Trying to reset inputs count, but could not found by keyCode: ' + keyCode + '.' ); // %REMOVE_LINE%
+			} // %REMOVE_LINE%
 
 			last.inputs = 0;
 		}
