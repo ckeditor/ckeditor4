@@ -811,12 +811,12 @@
 	 * order to handle undo manager integration for native editing actions (excluding drag and drop and paste support
 	 * handled by the Clipboard plugin).
 	 *
+	 * @since 4.4.4
 	 * @private
 	 * @class CKEDITOR.plugins.undo.NativeEditingHandler
 	 * @member CKEDITOR.plugins.undo Undo manager owning the handler.
 	 * @constructor
 	 * @param {CKEDITOR.plugins.undo.UndoManager} undoManager
-	 * @since 4.4.4
 	 */
 	var NativeEditingHandler = CKEDITOR.plugins.undo.NativeEditingHandler = function( undoManager ) {
 		// We'll use keyboard + input events to determine if snapshot should be created.
@@ -1002,28 +1002,25 @@
 	};
 
 	/**
-	 * This class is responsible for keeping stack off current pressed keys.
-	 * And also count input events for each key pressed.
+	 * This class represents a stack of pressed keys and stores information
+	 * about how many `input` events each caused.
 	 *
+	 * @since 4.4.5
 	 * @private
 	 * @class CKEDITOR.plugins.undo.KeyEventsStack
-	 * @member CKEDITOR.plugins.undo
 	 * @constructor
-	 * @since 4.4.5
 	 */
 	var KeyEventsStack = CKEDITOR.plugins.undo.KeyEventsStack = function() {
-
 		/**
-		 * @private
-		 * @type {Array}
+		 * @readonly
 		 */
 		this.stack = [];
 	};
 
 	KeyEventsStack.prototype = {
 		/**
-		 * Push to stack literal object with two keys: keyCode and inputs which init value is set to 0.
-		 * It's intended to be called on keyDown event.
+		 * Pushes to stack literal object with two keys: `keyCode` and `inputs` which init value is set to 0.
+		 * It is intended to be called on the `keydown` event.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1032,9 +1029,9 @@
 		},
 
 		/**
-		 * Return index of last registered keyCode in stack.
-		 * If no keyCode provided, then function will return index of last item.
-		 * If item not found it will return -1.
+		 * Returns index of last registered `keyCode` in stack.
+		 * If no `keyCode` is provided, then function will return index of last item.
+		 * If item is not found it will return `-1`.
 		 *
 		 * @param {Number} [keyCode]
 		 * @returns {Number}
@@ -1044,7 +1041,7 @@
 				return this.stack.length ? this.stack.length - 1 : -1;
 			} else {
 				var i = this.stack.length;
-				while( i-- ) {
+				while ( i-- ) {
 					if ( this.stack[ i ].keyCode == keyCode ) {
 						return i;
 					}
@@ -1054,10 +1051,10 @@
 		},
 
 		/**
-		 * Return last key record in stack. If keyCode provided, it will return last record for keyCode.
+		 * Returns last key record in stack. If keyCode provided, it will return last record for keyCode.
 		 *
 		 * @param {Number} [keyCode]
-		 * @returns {Object|null}
+		 * @returns {Object} Last matching record or `null`.
 		 */
 		getLast: function( keyCode ) {
 			var index = this.getLastIndex( keyCode );
@@ -1069,7 +1066,7 @@
 		},
 
 		/**
-		 * Increment registered inputs for stack record for keyCode.
+		 * Increments registered input events for stack record for given keyCode.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1083,10 +1080,10 @@
 		},
 
 		/**
-		 * Remove last record from stack for provided keyCode as a first argument. And returns it.
+		 * Removes last record from stack for provided keyCode as a first argument and returns it.
 		 *
 		 * @param {Number} keyCode
-		 * @returns {Object|False}
+		 * @returns {Object/Boolean}
 		 */
 		remove: function( keyCode ) {
 			var index = this.getLastIndex( keyCode );
@@ -1099,7 +1096,7 @@
 		},
 
 		/**
-		 * Reset inputs value to 0 for found record with specific keyCode.
+		 * Resets inputs value to `0` for the given `keyCode`.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1115,10 +1112,10 @@
 	};
 
 	/**
-	 * Returns the group to which belongs keyCode.
+	 * Returns the group to which passed `keyCode` belongs.
 	 *
 	 * @param {Number} keyCode
-	 * @returns {UndoManager.prototype.keyGroupsEnum}
+	 * @returns {Number}
 	 */
 	KeyEventsStack.getKeyGroup = function( keyCode ) {
 		var keyGroupsEnum = UndoManager.prototype.keyGroupsEnum;
