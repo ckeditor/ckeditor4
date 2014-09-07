@@ -871,6 +871,7 @@
 			// We need to store an image which will be used in case of key group
 			// change.
 			this.lastKeydownImage = new Image( undoManager.editor );
+
 			if ( undoManager.isNavigationKey( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
@@ -894,6 +895,7 @@
 			}
 
 			this.inputFired += 1;
+
 			// inputFired counter shouldn't be increased if paste/drop event were fired before.
 			if ( this.ignoreInputEvent ) {
 				this.inputFired -= 1;
@@ -913,7 +915,6 @@
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
 
 			this.keyEventsStack.remove( keyCode );
-
 
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
 			// with a workaround. Also we need to be aware that lastKeydownImage might not be available (#12327).
@@ -979,7 +980,7 @@
 
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', that.onKeydown, that, undefined, 5 );
+			editable.attachListener( editable, 'keydown', that.onKeydown, that, null, 5 );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
 			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
