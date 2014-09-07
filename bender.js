@@ -7,11 +7,6 @@ var config = {
 			path: '.',
 			files: [
 				'ckeditor.js'
-			],
-			ignore: [
-				'.bender/',
-				'node_modules/',
-				'tests/'
 			]
 		}
 	},
@@ -29,8 +24,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'adapters/',
-				'!/_'
+				'adapters/**',
+				'!**/_*/**'
 			],
 			jquery: [ '1.7', '1.7.2', '1.8.3', '1.9.1', '1.10.2', '2.0.0' ]
 		},
@@ -39,8 +34,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'core/',
-				'!/_'
+				'core/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE8 (#11242)
@@ -49,9 +44,6 @@ var config = {
 
 				// IE8 (fails only in testing env - window.window === window gives false)
 				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
-
-				// Safari (#11111)
-				'tests/core/dom/range/enlarge#test_enlarge_element12': 'env.safari',
 
 				// Safari (#11980)
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #2': 'env.safari',
@@ -70,8 +62,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'plugins/',
-				'!/_'
+				'plugins/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE10
@@ -102,8 +94,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'tickets/',
-				'!/_'
+				'tickets/**',
+				'!**/_*/**'
 			],
 			regressions: {
 				// IE8 & IE9 have problems with loading iframe.
@@ -115,8 +107,8 @@ var config = {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
 			paths: [
-				'utils/',
-				'!/_'
+				'utils/**',
+				'!**/_*/**'
 			]
 		}
 	}

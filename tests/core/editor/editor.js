@@ -191,22 +191,6 @@ bender.test(
 		wait();
 	},
 
-	updateElement: function( element, mode ) {
-		var editor = new CKEDITOR.editor( {}, element, mode );
-		editor.setData( 'foo' );
-
-		// Test update element explicit call.
-		if ( editor.updateElement() )
-			assert.areSame( 'foo', element.is( 'textarea' ) ? element.getValue() : element.getHtml(), 'editor data update to element' );
-
-		// Test update element implicitly on editor destroy.
-		editor.setData( 'bar' );
-		editor.destroy();
-
-		assert.areSame( 'bar', element.is( 'textarea' ) ? element.getValue() : element.getHtml(), 'editor destroy should trigger data update' );
-		element.remove();
-	},
-
 	'test blockless editor' : function() {
 		var tc = this;
 		var el = CKEDITOR.dom.element.createFromHtml( '<h1>heading</h1>' );
@@ -222,12 +206,50 @@ bender.test(
 		this.wait();
 	},
 
-	test_updateElement : function() {
-		var body = CKEDITOR.document.getBody();
-		this.updateElement( body.append( new CKEDITOR.dom.element( 'textarea' ) ),
-								 CKEDITOR.ELEMENT_MODE_REPLACE );
-		this.updateElement( body.append( CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>' ) ),
-								 CKEDITOR.ELEMENT_MODE_INLINE );
+	assertUpdatingElement: function( bot ) {
+		var editor = bot.editor,
+			element = editor.element;
+
+		bot.setData( '<p>foo</p>', function() {
+			// Test update element explicit call.
+			if ( editor.updateElement() )
+				assert.areSame( '<p>foo</p>', element.is( 'textarea' ) ? element.getValue() : element.getHtml(),
+					'editor data update to element' );
+
+			// Test update element implicitly on editor destroy.
+			bot.setData( '<p>bar</p>', function() {
+				editor.destroy();
+
+				assert.areSame( '<p>bar</p>', element.is( 'textarea' ) ? element.getValue() : element.getHtml(),
+					'editor destroy should trigger data update' );
+			} );
+		} );
+	},
+
+	'test updating element - mode replace': function() {
+		var body = CKEDITOR.document.getBody(),
+			element = body.append( new CKEDITOR.dom.element( 'textarea' ) );
+
+		element.setAttribute( 'id', 'test_updateelement_replace' );
+
+		bender.editorBot.create( {
+			name: 'test_updateelement_replace'
+		}, this.assertUpdatingElement );
+	},
+
+	'test updating element - mode inline': function() {
+		var body = CKEDITOR.document.getBody(),
+			element = body.append( new CKEDITOR.dom.element( 'div' ) );
+
+		element.setAttributes( {
+			id: 'test_updateelement_inline',
+			contenteditable: 'true'
+		} );
+
+		bender.editorBot.create( {
+			name: 'test_updateelement_inline',
+			creator: 'inline'
+		}, this.assertUpdatingElement );
 	},
 
 	'test editor.getResizable' : function() {

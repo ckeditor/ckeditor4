@@ -165,8 +165,12 @@
 					editor.unlockSelection( 1 );
 					selLocked = 0;
 				}
-
 				instance.execute();
+
+				// Fixed iOS focus issue when your press disabled button (#12381).
+				if ( env.iOS ) {
+					editor.focus();
+				}
 			} );
 
 

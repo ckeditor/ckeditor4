@@ -97,7 +97,7 @@
 				editor3: {
 					name: 'test_editor3',
 					config: {
-						protectedSource: [ /\[ \[ [^\ ] ]*?\ ]\ ]/g ],
+						protectedSource: [ /\[\[[^\]]*?\]\]/g ],
 						fullPage: true,
 						allowedContent: true
 					}

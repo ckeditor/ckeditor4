@@ -1069,11 +1069,14 @@ CKEDITOR.dom.range = function( root ) {
 
 								isWhiteSpace = /[\s\ufeff]$/.test( siblingText );
 							} else {
+								// #12221 (Chrome) plus #11111 (Safari).
+								var offsetWidth0 = CKEDITOR.env.webkit ? 1 : 0;
+
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
 								// rendering the display:none nodes we use for bookmarks. (#3363)
 								// Line-breaks (br) are rendered with zero width, which we don't want to include. (#7041)
-								if ( ( sibling.$.offsetWidth > 0 || excludeBrs && sibling.is( 'br' ) ) && !sibling.data( 'cke-bookmark' ) ) {
+								if ( ( sibling.$.offsetWidth > offsetWidth0 || excludeBrs && sibling.is( 'br' ) ) && !sibling.data( 'cke-bookmark' ) ) {
 									// We'll accept it only if we need
 									// whitespace, and this is an inline
 									// element with whitespace only.

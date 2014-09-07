@@ -200,7 +200,7 @@
 	UndoManager.prototype = {
 		/**
 		 * Key groups identifier mapping. Used for accessing members in
-		 * {@link CKEDITOR.plugins.undo.NativeEditingHandler#strokesRecorded}.
+		 * {@link #strokesRecorded}.
 		 *
 		 * * `FUNCTIONAL` &ndash; identifier for the Backspace / Delete key.
 		 * * `PRINTABLE` &ndash; identifier for printable keys.
@@ -364,7 +364,7 @@
 		 *
 		 * @param {Boolean} onContentOnly If set to `true`, the snapshot will be saved only if the content has changed.
 		 * @param {CKEDITOR.plugins.undo.Image} image An optional image to save. If skipped, current editor will be used.
-		 * @param {Boolean} autoFireChange If set to `false`, will not trigger the `{@link CKEDITOR.editor.change}` event to editor.
+		 * @param {Boolean} autoFireChange If set to `false`, will not trigger the {@link CKEDITOR.editor#change} event to editor.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			var editor = this.editor;
@@ -419,7 +419,7 @@
 		/**
 		 * Sets editor content/selection to the one stored in `image`.
 		 *
-		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} image
+		 * @param {CKEDITOR.plugins.undo.Image} image
 		 */
 		restoreImage: function( image ) {
 			// Bring editor focused to restore selection.
@@ -748,7 +748,7 @@
 
 	Image.prototype = {
 		/**
-		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @param {CKEDITOR.plugins.undo.Image} otherImage Image to compare to.
 		 * @returns {Boolean} Returns `true` if content in `otherImage` is the same.
 		 */
 		equalsContent: function( otherImage ) {
@@ -768,7 +768,7 @@
 		},
 
 		/**
-		 * @param {CKEDITOR.plugins.undo.UndoManager.Image} otherImage Image to compare to.
+		 * @param {CKEDITOR.plugins.undo.Image} otherImage Image to compare to.
 		 * @returns {Boolean} Returns `true` if selection in `otherImage` is the same.
 		 */
 		equalsSelection: function( otherImage ) {

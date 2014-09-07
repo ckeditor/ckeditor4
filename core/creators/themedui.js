@@ -270,7 +270,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var container = this.container,
 			contents = this.ui.space( 'contents' ),
 			contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
-			outer = resizeInner ? container.getChild( 1 ) : container;
+			outer;
+
+			if ( resizeInner ) {
+				outer = this.container.getFirst( function( node ) {
+					return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
+				} );
+			} else {
+				outer = container;
+			}
 
 		// Set as border box width. (#5353)
 		outer.setSize( 'width', width, true );
