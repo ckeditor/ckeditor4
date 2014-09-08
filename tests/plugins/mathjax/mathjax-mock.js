@@ -81,10 +81,16 @@
 			'test conflict with iframe plugin': function() {
 				var editor = editors[ 'with_iframe' ];
 
+				editor.on( 'afterPaste', function() {
+					resume( function() {
+						assert.areSame( 2, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be two iFrames.' );
+					} );
+				} );
+
 				editor.focus();
 				bender.tools.emulatePaste( editor, editor.document.getElementsByTag( 'p' ).getItem( 0 ).$.innerHTML );
 
-				assert.areSame( 2, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be two iFrames.' );
+				wait();
 			},
 
 			'test not a widget': function() {
