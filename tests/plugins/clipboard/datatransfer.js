@@ -348,7 +348,58 @@ bender.test( {
 
 		assert.areSame( 'foo', dataTransfer.getData( 'cke/custom' ) );
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
+	},
 
+	'test files empty': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		dataTransfer.cacheData();
+
+		assert.areSame( 0, dataTransfer.getFilesCount() );
+		assert.isFalse( !!dataTransfer.getFile( 0 ) );
+	},
+
+	'test files': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		assert.areSame( 2, dataTransfer.getFilesCount() );
+		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
+		assert.areSame( 'bar', dataTransfer.getFile( 1 ) );
+	},
+
+	'test files with cache': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( 'foo' );
+		nativeData.files.push( 'bar' );
+
+		dataTransfer.cacheData();
+
+		assert.areSame( 2, dataTransfer.getFilesCount() );
+		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
+		assert.areSame( 'bar', dataTransfer.getFile( 1 ) );
+		assert.isFalse( !!dataTransfer.getFile( 2 ) );
+
+		nativeData.files = [];
+
+		assert.areSame( 2, dataTransfer.getFilesCount() );
+		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
+		assert.areSame( 'bar', dataTransfer.getFile( 1 ) );
+		assert.isFalse( !!dataTransfer.getFile( 2 ) );
 	},
 
 	'test isEmpty 1': function() {
@@ -433,6 +484,34 @@ bender.test( {
 
 		nativeData.setData( 'Text', 'foo' );
 		dataTransfer.setData( 'cke/custom', 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 11': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( 'foo' );
+
+		assert.isFalse( dataTransfer.isEmpty() );
+	},
+
+	'test isEmpty 12': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.files.push( 'foo' );
+		dataTransfer.cacheData();
+		nativeData.files = [];
 
 		assert.isFalse( dataTransfer.isEmpty() );
 	},

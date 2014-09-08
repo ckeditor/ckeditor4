@@ -1307,6 +1307,12 @@
 				}
 			} );
 
+			// We need to call preventDefault on dragover because otherwise if
+			// we drop image it will overwrite document.
+			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				evt.data.preventDefault();
+			} );
+
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				// Cancel native drop.
 				evt.data.preventDefault();
@@ -1807,6 +1813,7 @@
 			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
 
 			data: {},
+			files: [],
 
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
@@ -2017,7 +2024,8 @@
 				return;
 			}
 
-			var that = this;
+			var that = this,
+				i;
 
 			function getAndSetData( type ) {
 				var data = that.getData( type );
@@ -2026,14 +2034,48 @@
 				}
 			}
 
+			// Copy data.
 			if ( CKEDITOR.env.ie ) {
 				getAndSetData( 'Text' );
 				getAndSetData( 'URL' );
 			} else if ( this.$.types ) {
-				for ( var i = 0; i < this.$.types.length; i++ ) {
+				for ( i = 0; i < this.$.types.length; i++ ) {
 					getAndSetData( this.$.types[ i ] );
 				}
 			}
+
+			// Copy files references.
+			if ( this.$ && this.$.files ) {
+				this._.files = [];
+
+				for ( i = 0; i < this.$.files.length; i++ ) {
+					this._.files.push( this.$.files[ i ] );
+				}
+			}
+		},
+
+		getFilesCount: function() {
+			if ( this._.files.length ) {
+				return this._.files.length;
+			}
+
+			if ( this.$ && this.$.files && this.$.files.length ) {
+				return this.$.files.length;
+			}
+
+			return 0;
+		},
+
+		getFile: function( i ) {
+			if ( this._.files.length ) {
+				return this._.files[ i ];
+			}
+
+			if ( this.$ && this.$.files && this.$.files.length ) {
+				return this.$.files[ i ];
+			}
+
+			return null;
 		},
 
 		/**
@@ -2044,6 +2086,11 @@
 		isEmpty: function() {
 			var typesToCheck = {},
 				type;
+
+			// If dataTransfer contains files it is not empty.
+			if ( this.getFilesCount() ) {
+				return false;
+			}
 
 			// Add custom types.
 			for ( type in this._.data ) {
