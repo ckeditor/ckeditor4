@@ -2024,7 +2024,8 @@
 				return;
 			}
 
-			var that = this;
+			var that = this,
+				i;
 
 			function getAndSetData( type ) {
 				var data = that.getData( type );
@@ -2038,7 +2039,7 @@
 				getAndSetData( 'Text' );
 				getAndSetData( 'URL' );
 			} else if ( this.$.types ) {
-				for ( var i = 0; i < this.$.types.length; i++ ) {
+				for ( i = 0; i < this.$.types.length; i++ ) {
 					getAndSetData( this.$.types[ i ] );
 				}
 			}
@@ -2047,7 +2048,7 @@
 			if ( this.$ && this.$.files ) {
 				this._.files = [];
 
-				for ( var i = 0; i < this.$.files.length; i++ ) {
+				for ( i = 0; i < this.$.files.length; i++ ) {
 					this._.files.push( this.$.files[ i ] );
 				}
 			}
