@@ -94,7 +94,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			// Drop event asserts
 			assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
 			assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
-			if ( config.expectedText && ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) ) {
+			if ( config.expectedText && !CKEDITOR.env.ie ) {
 				assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
 			}
 			if ( config.expectedHtml ) {
@@ -113,8 +113,8 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 
 			if ( expectedPasteEventCount > 0 ) {
 				assert.areSame( config.expectedTransferType, values.pasteTransferType, 'On paste: transferType should match.' );
-				// Do not check Text data on IE10+.
-				if ( !CKEDITOR.env.ie || CKEDITOR.env.version < 10 ) {
+				// Do not check Text data on IE.
+				if ( !CKEDITOR.env.ie ) {
 					assert.areSame( config.expectedText, values.pasteDataText, 'On paste: text data should match.' );
 				}
 				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.

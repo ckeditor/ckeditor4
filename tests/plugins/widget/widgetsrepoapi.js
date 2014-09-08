@@ -1357,17 +1357,7 @@
 				data ='<p><span data-widget="test">B</span></p>';
 
 			this.editorBot.setData( data, function() {
-				var editable = editor.editable(),
-					dragSetDataCalls = 0,
-					// Mockup of dragstart, since we call dataTransfer.setData in dragstart
-					// listener, we will use this method to increase dragSetDataCalls counter.
-					dragStartEventMockup = new CKEDITOR.dom.event( {
-						dataTransfer: {
-							setData: function( data ) {
-								dragSetDataCalls++;
-							}
-						}
-					} );
+				var editable = editor.editable();
 
 				// We need to remove data-cke-expando to remove event listeners on IE8.
 				editable.setHtml( editable.getHtml().replace( / data-cke-expando="?\d+"?/gi, '' ) );
@@ -1376,10 +1366,6 @@
 				var dragHandlers = editor.editable().find( '.cke_widget_drag_handler_container' );
 
 				assert.areEqual( 1, dragHandlers.count(), 'There should be still only one drag handler' );
-
-				// Check if dragstart event called dataTransfer.setData().
-				dragHandlers.getItem( 0 ).findOne( 'img' ).fire( 'dragstart', dragStartEventMockup );
-				assert.areEqual( 1, dragSetDataCalls, 'Dragstart listener should be executed' );
 			} );
 		},
 

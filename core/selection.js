@@ -1645,6 +1645,10 @@
 		getSelectedHtml: function() {
 			var nativeSel = this.getNative();
 
+			if ( this.isFake ) {
+				return this.getSelectedElement().getHtml();
+			}
+
 			if ( nativeSel && nativeSel.createRange )
 				return nativeSel.createRange().htmlText;
 

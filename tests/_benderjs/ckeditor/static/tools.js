@@ -793,7 +793,7 @@
 					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
 						throw "Invalid argument.";
 
-					if ( !this._data[ type ] )
+					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null )
 						return '';
 
 					return this._data[ type ];
@@ -806,7 +806,9 @@
 		 * `getTarget` methods. To mock target new text mode is created with 'targetMock' string.
 		 */
 		mockDropEvent: function() {
-			var dataTransfer = this.mockNativeDataTransfer();
+			var dataTransfer = this.mockNativeDataTransfer(),
+				target = new CKEDITOR.dom.node( 'targetMock' );
+
 			return {
 				$: {
 					dataTransfer: dataTransfer
@@ -815,7 +817,10 @@
 					// noop
 				},
 				getTarget: function() {
-					return new CKEDITOR.dom.node( 'targetMock' );
+					return target;
+				},
+				setTarget: function( t ) {
+					target = t;
 				}
 			};
 		},
@@ -825,7 +830,9 @@
 		 * `getTarget` methods. To mock target new text mode is created with 'targetMock' string.
 		 */
 		mockPasteEvent: function() {
-			var dataTransfer = this.mockNativeDataTransfer();
+			var dataTransfer = this.mockNativeDataTransfer(),
+				target = new CKEDITOR.dom.node( 'targetMock' );
+
 			return {
 				$: {
 					ctrlKey: true,
@@ -835,7 +842,10 @@
 					// noop
 				},
 				getTarget: function() {
-					return new CKEDITOR.dom.node( 'targetMock' );
+					return target;
+				},
+				setTarget: function( t ) {
+					target = t;
 				}
 			};
 		},

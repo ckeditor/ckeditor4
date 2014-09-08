@@ -1779,10 +1779,7 @@
 
 	// Data type used to link drag and drop events.
 	var clipboardIdDataType =
-		// IE does not support different data types that Text and URL.
-		// In IE 9- we can use URL data type to mark that drag comes from the editor.
-		( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) ? 'URL':
-		// In IE 10+ URL data type is buggie and there is no way to mark drag & drop  without
+		// In IE URL data type is buggie and there is no way to mark drag & drop  without
 		// modifying text data (which would be displayed if user drop content to the textarea)
 		// so we just read dragged text.
 		CKEDITOR.env.ie ? 'Text' :
@@ -1829,10 +1826,7 @@
 
 		// If there is no ID we need to create it. Different browsers needs different ID.
 		if ( !this.id ) {
-			if ( clipboardIdDataType == 'URL' ) {
-				// For IEs URL type ID have to look like an URL.
-				this.id = 'http://cke.' + CKEDITOR.tools.getUniqueId() + '/';
-			} else if ( clipboardIdDataType == 'Text' ) {
+			if ( clipboardIdDataType == 'Text' ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
 				// (ex. image with no alt). We change null to empty string.
@@ -1938,19 +1932,22 @@
 		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
 		 */
 		getData: function( type ) {
-			var data, result;
+			function isEmpty( data ) {
+				return data === undefined || data === null || data === '';
+			}
 
 			type = this._.normalizeType( type );
 
-			try {
-				data = this.$.getData( type );
-			} catch ( e ) {}
+			var data = this._.data[ type ],
+				result;
 
-			if ( !data ) {
-				data = this._.data[ type ];
+			if ( isEmpty( data ) ) {
+				try {
+					data = this.$.getData( type );
+				} catch ( e ) {}
 			}
 
-			if ( !data ) {
+			if ( isEmpty( data ) ) {
 				data = '';
 			}
 
@@ -1986,9 +1983,9 @@
 				return;
 			}
 
-			if ( this.$ ) {
+			try {
 				this.$.setData( type, value );
-			}
+			} catch ( e ) {}
 		},
 
 		/**
@@ -2071,8 +2068,9 @@
 			}
 
 			for ( type in typesToCheck ) {
-				if ( typesToCheck[ type ] && this.getData( type ) )
+				if ( typesToCheck[ type ] && this.getData( type ) !== '' ) {
 					return false;
+				}
 			}
 
 			return true;
