@@ -5,49 +5,18 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.plugins.add( 'uploadmanager', {
-		requires: '',
-		lang: 'en', // %REMOVE_LINE_CORE%
-		init: function( editor ) {
-		}
-	} );
+	CKEDITOR.plugins.add( 'uploadmanager', {} );
 
 	var imgHeaderRegExp = /^data:(image\/(png|jpg|jpeg));base64,/;
 
-	function srcToBlob( src ) {
-		var contentType = src.match( imgHeaderRegExp )[ 1 ],
-			base64Data = src.replace( imgHeaderRegExp, '' ),
-			byteCharacters = atob( base64Data ),
-			byteArrays = [],
-			sliceSize = 512,
-			offset, slice, byteNumbers, i, byteArray;
-
-		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
-			slice = byteCharacters.slice( offset, offset + sliceSize );
-
-			byteNumbers = new Array( slice.length );
-			for ( i = 0; i < slice.length; i++ ) {
-				byteNumbers[ i ] = slice.charCodeAt( i );
-			}
-
-			byteArray = new Uint8Array( byteNumbers );
-
-			byteArrays.push( byteArray );
-		}
-
-		return new Blob( byteArrays, { type: contentType } );
-	}
-
-	CKEDITOR.plugins.uploadmanager = {};
-
-	CKEDITOR.plugins.uploadmanager.manager = function() {
+	function UploadManager() {
 		this._ = {
 			uploads: []
 		}
-	};
+	}
 
-	CKEDITOR.plugins.uploadmanager.manager.prototype = {
-		upload: function( fileOrData, fileName ) {
+	UploadManager.prototype = {
+		startUpload: function( fileOrData, fileName ) {
 			var id = this._.uploads.length,
 				upload = new Upload( this.url, fileOrData, fileName );
 
@@ -68,16 +37,18 @@
 		}
 	};
 
-	CKEDITOR.plugins.uploadmanager.upload = function( url, fileOrData, fileName ) {
+	function Upload( url, fileOrData, fileName ) {
 		var that = this;
 
 		this.url = url;
 
 		if ( typeof fileOrData === 'string' ) {
 			// Data are already loaded from disc.
-			this.file = srcToBlob( fileOrData );
+			this.data = fileOrData;
+			this.file = srcToBlob( this.data );
 			this.loaded = this.total;
 		} else {
+			this.data = null;
 			this.file = fileOrData;
 			this.loaded = 0;
 		}
@@ -92,14 +63,14 @@
 		this.uploaded = 0;
 
 		this.changeAndFireStatus( 'created' );
-	};
+	}
 
-	CKEDITOR.plugins.uploadmanager.upload.prototype = {
+	Upload.prototype = {
 		start: function() {
-			if ( this.loaded == this.total ) {
-				this.sendFile();
-			} else {
+			if ( this.data ) {
 				this.loadAndSendFile();
+			} else {
+				this.sendFile();
 			}
 		},
 		loadAndSendFile: function() {
@@ -118,11 +89,12 @@
 
 			reader.onprogress = function( evt ) {
 				this.loaded = evt.loaded;
-				upload.fire( 'loading' );
+				upload.fireStatus();
 			};
 
 			reader.onload = function( evt ) {
 				upload.loaded = upload.total;
+				upload.data = evt.target.result
 
 				upload.sendFile();
 			};
@@ -141,6 +113,7 @@
 
 			upload.changeAndFireStatus( 'uploading' );
 
+
 			xhr.onabort = function( evt ) {
 				upload.changeAndFireStatus( 'abort' );
 			};
@@ -155,6 +128,7 @@
 			};
 
 			xhr.onload = function( evt ) {
+				// handle response xhr.responseText
 				upload.changeAndFireStatus( 'done' );
 			};
 
@@ -182,7 +156,36 @@
 		fireStatus: function() {
 			this.fire( 'updateStatus' );
 		}
+	};
+
+	function srcToBlob( src ) {
+		var contentType = src.match( imgHeaderRegExp )[ 1 ],
+			base64Data = src.replace( imgHeaderRegExp, '' ),
+			byteCharacters = atob( base64Data ),
+			byteArrays = [],
+			sliceSize = 512,
+			offset, slice, byteNumbers, i, byteArray;
+
+		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
+			slice = byteCharacters.slice( offset, offset + sliceSize );
+
+			byteNumbers = new Array( slice.length );
+			for ( i = 0; i < slice.length; i++ ) {
+				byteNumbers[ i ] = slice.charCodeAt( i );
+			}
+
+			byteArray = new Uint8Array( byteNumbers );
+
+			byteArrays.push( byteArray );
+		}
+
+		return new Blob( byteArrays, { type: contentType } );
 	}
 
 	CKEDITOR.event.implementOn( Upload.prototype );
+
+	CKEDITOR.plugins.uploadmanager = {
+		manager: UploadManager,
+		upload: Upload
+	};
 } )();
