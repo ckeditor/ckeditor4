@@ -65,7 +65,7 @@
 				this.undoManager = this.editor.undoManager;
 
 				if ( !keyGroups ) {
-					keyGroups = this.undoManager.keyGroupsEnum;
+					keyGroups = CKEDITOR.plugins.undo.UndoManager.keyGroupsEnum;
 				}
 
 				bender.tools.selection.setWithHtml( this.editor, '<p>_{}_</p>' );
@@ -473,16 +473,16 @@
 
 			'test undoManager.isNavigationKey': function() {
 				var naviKeys = [ 'HOME', 'END', 'RIGHT', 'LEFT', 'DOWN', 'UP', 'PAGEDOWN', 'PAGEUP' ],
-					undoManager = this.editor.undoManager,
+					isNavigationKey = CKEDITOR.plugins.undo.UndoManager.isNavigationKey,
 					curKey;
 
 				for ( var i=0; i < naviKeys.length; i++ ) {
 					curKey = naviKeys[ i ];
-					assert.isTrue( undoManager.isNavigationKey( keyCodesEnum[ curKey ] ), 'Invalid result for ' + curKey );
+					assert.isTrue( isNavigationKey( keyCodesEnum[ curKey ] ), 'Invalid result for ' + curKey );
 				}
 
-				assert.isFalse( undoManager.isNavigationKey( keyCodesEnum.BACKSPACE ), 'Invalid result for Backspace' );
-				assert.isFalse( undoManager.isNavigationKey( keyCodesEnum.KEY_D ), 'Invalid result for D key' );
+				assert.isFalse( isNavigationKey( keyCodesEnum.BACKSPACE ), 'Invalid result for Backspace' );
+				assert.isFalse( isNavigationKey( keyCodesEnum.KEY_D ), 'Invalid result for D key' );
 			}
 		};
 

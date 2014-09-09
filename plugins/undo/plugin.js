@@ -191,54 +191,14 @@
 	 * @param {CKEDITOR.editor} editor
 	 */
 	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
-		this.editor = editor;
-
-		// Reset the undo stack.
-		this.reset();
-	};
-
-	UndoManager.prototype = {
-		/**
-		 * Key groups identifier mapping. Used for accessing members in
-		 * {@link #strokesRecorded}.
-		 *
-		 * * `FUNCTIONAL` &ndash; identifier for the Backspace / Delete key.
-		 * * `PRINTABLE` &ndash; identifier for printable keys.
-		 *
-		 * Example usage:
-		 *
-		 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
-		 *
-		 * @since 4.4.4
-		 * @readonly
-		 */
-		keyGroupsEnum: {
-			PRINTABLE: 0,
-			FUNCTIONAL: 1
-		},
-
 		/**
 		 * An array storing the number of key presses, count in a row. Use {@link #keyGroupsEnum} members as index.
 		 *
 		 * **Note:** The keystroke count will be reset after reaching the limit of characters per snapshot.
 		 *
 		 * @since 4.4.4
-		 * @readonly
 		 */
-		strokesRecorded: [ 0, 0 ],
-
-		/**
-		 * Codes for navigation keys like Arrows, Page Up/Down, etc.
-		 * Used by the {@link #isNavigationKey} method.
-		 *
-		 * @since 4.4.4
-		 * @readonly
-		 */
-		navigationKeyCodes: {
-			37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
-			36: 1, 35: 1, // Home, end.
-			33: 1, 34: 1 // Pgup, pgdn.
-		},
+		this.strokesRecorded = [ 0, 0 ];
 
 		/**
 		 * When the `locked` property is not `null`, the undo manager is locked, so
@@ -250,6 +210,7 @@
 		 * @readonly
 		 * @property {Object} [locked=null]
 		 */
+		this.locked = null;
 
 		/**
 		 * Contains the previously processed key group, based on {@link #keyGroupsEnum}.
@@ -259,8 +220,15 @@
 		 * @readonly
 		 * @property {Number} [previousKeyGroup=-1]
 		 */
-		previousKeyGroup: -1,
+		this.previousKeyGroup = -1;
 
+		this.editor = editor;
+
+		// Reset the undo stack.
+		this.reset();
+	};
+
+	UndoManager.prototype = {
 		/**
 		 * Handles keystroke support for the undo manager. It is called on `keyup` event for
 		 * keystrokes that can change the editor content.
@@ -268,8 +236,8 @@
 		 * @param {Number} keyCode The key code.
 		 */
 		type: function( keyCode, strokesPerSnapshotExceeded ) {
-			var keyGroupsEnum = this.keyGroupsEnum,
-				keyGroup = KeyEventsStack.getKeyGroup( keyCode ),
+			var keyGroupsEnum = UndoManager.keyGroupsEnum,
+				keyGroup = UndoManager.getKeyGroup( keyCode ),
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
@@ -685,19 +653,65 @@
 					}
 				}
 			}
-		},
-
-		/**
-		 * Checks whether a key is one of navigation keys (Arrows, Page Up/Down, etc.).
-		 * See also the {@link #navigationKeyCodes} property.
-		 *
-		 * @since 4.4.4
-		 * @param {Number} keyCode
-		 * @returns {Boolean}
-		 */
-		isNavigationKey: function( keyCode ) {
-			return !!this.navigationKeyCodes[ keyCode ];
 		}
+	};
+
+	/**
+	 * Codes for navigation keys like Arrows, Page Up/Down, etc.
+	 * Used by the {@link #isNavigationKey} method.
+	 *
+	 * @since 4.4.4
+	 * @readonly
+	 * @static
+	 */
+	UndoManager.navigationKeyCodes = {
+		37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
+		36: 1, 35: 1, // Home, end.
+		33: 1, 34: 1 // Pgup, pgdn.
+	};
+
+	/**
+	 * Key groups identifier mapping. Used for accessing members in
+	 * {@link #strokesRecorded}.
+	 *
+	 * * `FUNCTIONAL` &ndash; identifier for the Backspace / Delete key.
+	 * * `PRINTABLE` &ndash; identifier for printable keys.
+	 *
+	 * Example usage:
+	 *
+	 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
+	 *
+	 * @since 4.4.4
+	 * @readonly
+	 */
+	UndoManager.keyGroupsEnum = {
+		PRINTABLE: 0,
+		FUNCTIONAL: 1
+	};
+
+	/**
+	 * Checks whether a key is one of navigation keys (Arrows, Page Up/Down, etc.).
+	 * See also the {@link #navigationKeyCodes} property.
+	 *
+	 * @since 4.4.4
+	 * @param {Number} keyCode
+	 * @returns {Boolean}
+	 * @static
+	 */
+	UndoManager.isNavigationKey = function( keyCode ) {
+		return !!UndoManager.navigationKeyCodes[ keyCode ];
+	};
+
+	/**
+	 * Returns the group to which passed `keyCode` belongs.
+	 *
+	 * @param {Number} keyCode
+	 * @returns {Number}
+	 */
+	UndoManager.getKeyGroup = function( keyCode ) {
+		var keyGroupsEnum = UndoManager.keyGroupsEnum;
+
+		return backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE;
 	};
 
 	// Helper method called when undoManager.typing val was changed to true.
@@ -869,7 +883,7 @@
 			// change.
 			this.lastKeydownImage = new Image( undoManager.editor );
 
-			if ( undoManager.isNavigationKey( keyCode ) ) {
+			if ( UndoManager.isNavigationKey( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
 					undoManager.save( false, this.lastKeydownImage );
@@ -937,7 +951,7 @@
 
 			if ( totalInputs > 0 ) {
 				undoManager.type( keyCode );
-			} else if ( undoManager.isNavigationKey( keyCode ) ) {
+			} else if ( UndoManager.isNavigationKey( keyCode ) ) {
 				// Note content snapshot has been checked in keydown.
 				this.onNavigationKey( true );
 			}
@@ -1121,18 +1135,6 @@
 			return total;
 		}
 	};
-
-	/**
-	 * Returns the group to which passed `keyCode` belongs.
-	 *
-	 * @param {Number} keyCode
-	 * @returns {Number}
-	 */
-	KeyEventsStack.getKeyGroup = function( keyCode ) {
-		var keyGroupsEnum = UndoManager.prototype.keyGroupsEnum;
-
-		return backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE;
-	}
 } )();
 
 /**
