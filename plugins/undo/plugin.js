@@ -325,7 +325,6 @@
 
 			this.limit = this.editor.config.undoStackSize || 20;
 
-
 			this.currentImage = null;
 
 			this.hasUndo = false;
@@ -835,8 +834,6 @@
 
 		this.ignoreInputEvent = false;
 
-		this.inputFired = 0;
-
 		this.keyEventsStack = new KeyEventsStack();
 
 		/**
@@ -844,6 +841,7 @@
 		 *
 		 * @property {CKEDITOR.plugins.undo.Image} lastKeydownImage
 		 */
+		this.lastKeydownImage = null;
 	};
 
 	NativeEditingHandler.prototype = {
@@ -855,7 +853,6 @@
 		onKeydown: function( evt ) {
 			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
-				this.resetCounter();
 				evt.data.preventDefault();
 				return;
 			}
@@ -886,20 +883,32 @@
 		 */
 		onInput: function() {
 			var lastInput = this.keyEventsStack.getLast();
+
+			// Nothing in key events stack, but input event called. Interesting...
+			// That's because on android order of events is buggy.
+			// And also keyCode is set to 0.
+			if ( !lastInput && !this.ignoreInputEvent ) {
+				lastInput = this.keyEventsStack.push( 0 );
+			}
+
 			if ( lastInput ) {
-				lastInput.inputs++;
+
+				// InputFired counter shouldn't be increased if paste/drop event were fired before.
+				if ( !this.ignoreInputEvent ) {
+					lastInput.inputs++;
+				}
+
+				// TODO: Check here total inputs. And also reset total or last 25?
+				// TODO: Sholdn't we check here whether it equals i.e. == ? Because we reset each time.
 				if ( lastInput.inputs > 25 ) {
 					this.undoManager.type( lastInput.keyCode, true );
 					this.keyEventsStack.resetInputs( lastInput.keyCode );
 				}
 			}
 
-			this.inputFired += 1;
-
-			// inputFired counter shouldn't be increased if paste/drop event were fired before.
+			// Reset flag.
 			if ( this.ignoreInputEvent ) {
-				this.inputFired -= 1;
-				this.ignoreInputEvent = false;
+				this.ignoreInputEvent = !this.ignoreInputEvent;
 			}
 		},
 
@@ -912,7 +921,8 @@
 			var undoManager = this.undoManager,
 				keyCode = evt.data.getKey(),
 				editor = undoManager.editor,
-				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete;
+				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete,
+				totalInputs = this.keyEventsStack.getTotalInputs();
 
 			this.keyEventsStack.remove( keyCode );
 
@@ -922,16 +932,10 @@
 				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
 					// Content was not changed, we don't need to do anything.
 					return;
-				} else {
-					// Content was changed. And since no keypress event was fired, we have
-					// inputFired = 0, so undoManager.type method will not be called.
-					this.inputFired += 1;
 				}
 			}
 
-			if ( this.inputFired > 0 ) {
-				// Reset flag indicating input event.
-				this.inputFired -= 1;
+			if ( totalInputs > 0 ) {
 				undoManager.type( keyCode );
 			} else if ( undoManager.isNavigationKey( keyCode ) ) {
 				// Note content snapshot has been checked in keydown.
@@ -960,13 +964,6 @@
 			undoManager.resetType();
 		},
 
-		/**
-		 * Resets the input counter. This method is for internal use only.
-		 */
-		resetCounter: function() {
-			this.inputFired = 0;
-		},
-
 		ignoreInputEventListener: function() {
 			this.ignoreInputEvent = true;
 		},
@@ -988,7 +985,7 @@
 			// Keyup executes main snapshot logic.
 			editable.attachListener( editable, 'keyup', that.onKeyup, that );
 
-			// On paste and drop we need to cancel inputFired variable.
+			// On paste and drop we need to ignore input event.
 			// It would result with calling undoManager.type() on any following key.
 			editable.attachListener( editable, 'paste', this.ignoreInputEventListener, this );
 			editable.attachListener( editable, 'drop', this.ignoreInputEventListener, this );
@@ -1026,7 +1023,8 @@
 		 * @param {Number} keyCode
 		 */
 		push: function( keyCode ) {
-			this.stack.push( { keyCode: keyCode, inputs: 0 } );
+			var length = this.stack.push( { keyCode: keyCode, inputs: 0 } );
+			return this.stack[ length - 1 ];
 		},
 
 		/**
@@ -1106,6 +1104,21 @@
 			} // %REMOVE_LINE%
 
 			last.inputs = 0;
+		},
+
+		/**
+		 * Sums up inputs amount for each key code and returns it.
+		 *
+		 * @returns {Number}
+		 */
+		getTotalInputs: function() {
+			var i = this.stack.length,
+				total = 0;
+
+			while ( i-- ) {
+				total += this.stack[ i ].inputs;
+			}
+			return total;
 		}
 	};
 
