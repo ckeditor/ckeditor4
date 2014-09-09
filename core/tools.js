@@ -69,6 +69,34 @@
 		},
 
 		/**
+		 * Finds the position of the element in the sorted array.
+		 *
+		 *		CKEDITOR.tools.findPosition( [ 1, 2, 4, 5 ], function( el ) {
+		 *			return el < 3;
+		 *		} )  // 2
+		 *
+		 * @param {Array} array Sorter array of elements.
+		 * @param {Function} compareFunction Compare function which get array
+		 * element as a parameter and returns true if the position is after that element.
+		 * @returns {Number} Position in the array where element should be inserted.
+		 */
+		findPosition: function( array, compareFunction ) {
+			var low = 0,
+				high = array.length;
+
+			while ( low < high ) {
+				var mid = ( low + high ) >> 1;
+
+				if ( compareFunction( array[ mid ] ) ) {
+					low = mid + 1;
+				} else {
+					high = mid;
+				}
+			}
+			return low;
+		},
+
+		/**
 		 * Creates a deep copy of an object.
 		 *
 		 * **Note**: Recursive references are not supported.
