@@ -157,6 +157,49 @@
 			assert.isTrue( true );
 		},
 
+		'test widgets.add - priorities': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				upcastCalled = '';
+
+			editor.widgets.add( 'prioritiesTest1', {
+				upcast: function() {
+					upcastCalled += '1';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest2', {
+				priority: 5,
+				upcast: function() {
+					upcastCalled += '2';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest3', {
+				priority: 5,
+				upcast: function() {
+					upcastCalled += '3';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest4', {
+				priority: 15,
+				upcast: function() {
+					upcastCalled += '4';
+				}
+			} );
+
+			editor.widgets.add( 'prioritiesTest5', {
+				upcast: function() {
+					upcastCalled += '5';
+				}
+			} );
+
+			bot.setData( '<p>foo</p>', function() {
+				assert.areSame( '23154', upcastCalled );
+			} );
+		},
+
 		'test widgets.wrapElement - inline': function() {
 			var editor = this.editor;
 
