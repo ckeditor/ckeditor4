@@ -10,6 +10,7 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var manager = new CKEDITOR.plugins.uploadmanager.manager();
+
 			manager.url = editor.config.filebrowserImageUploadUrl;
 
 			editor.filter.allow( 'img[data-widget]' );
@@ -52,7 +53,7 @@
 						img = new CKEDITOR.dom.element( 'img' );
 
 					img.setAttributes( {
-						'src': 'foo', //data:black rectangle,
+						'src': loadingImage,
 						'data-cke-upload-id': upload.id,
 						'data-widget': 'uploadimage'
 					} );
@@ -100,4 +101,6 @@
 			} );
 		}
 	} );
+
+	var loadingImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB94JCQopEbeZwMsAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAD0lEQVQoz2NgGAWjYCgBAAKyAAGlkzepAAAAAElFTkSuQmCC';
 } )();
