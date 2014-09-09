@@ -896,32 +896,27 @@
 		 * The `input` event listener.
 		 */
 		onInput: function() {
-			var lastInput = this.keyEventsStack.getLast();
+			// Input event is ignored if paste/drop event were fired before.
+			if ( this.ignoreInputEvent ) {
+				// Reset flag - ignore only once.
+				this.ignoreInputEvent = !this.ignoreInputEvent;
+				return;
+			}
 
+			var lastInput = this.keyEventsStack.getLast();
 			// Nothing in key events stack, but input event called. Interesting...
 			// That's because on android order of events is buggy.
 			// And also keyCode is set to 0.
-			if ( !lastInput && !this.ignoreInputEvent ) {
+			if ( !lastInput ) {
 				lastInput = this.keyEventsStack.push( 0 );
 			}
 
-			if ( lastInput ) {
-				// InputFired counter shouldn't be increased if paste/drop event were fired before.
-				if ( !this.ignoreInputEvent ) {
-					this.keyEventsStack.increment( lastInput.keyCode );
-				}
+			this.keyEventsStack.increment( lastInput.keyCode );
 
-				// TODO: Check here total inputs. And also reset total or last 25?
-				// TODO: Sholdn't we check here whether it equals i.e. == ? Because we reset each time.
-				if ( lastInput.inputs > this.undoManager.limit ) {
-					this.undoManager.type( lastInput.keyCode, true );
-					this.keyEventsStack.resetInputs( lastInput.keyCode );
-				}
-			}
-
-			// Reset flag.
-			if ( this.ignoreInputEvent ) {
-				this.ignoreInputEvent = !this.ignoreInputEvent;
+			// Exceeded limit.
+			if ( this.keyEventsStack.getTotalInputs() > this.undoManager.limit ) {
+				this.undoManager.type( lastInput.keyCode, true );
+				this.keyEventsStack.resetInputs();
 			}
 		},
 
@@ -1110,13 +1105,20 @@
 		 * @param {Number} keyCode
 		 */
 		resetInputs: function( keyCode ) {
-			var last = this.getLast( keyCode );
+			if ( typeof keyCode == 'number' ) {
+				var last = this.getLast( keyCode );
 
-			if ( !last ) { // %REMOVE_LINE%
-				throw new Error( 'Trying to reset inputs count, but could not found by keyCode: ' + keyCode + '.' ); // %REMOVE_LINE%
-			} // %REMOVE_LINE%
+				if ( !last ) { // %REMOVE_LINE%
+					throw new Error( 'Trying to reset inputs count, but could not found by keyCode: ' + keyCode + '.' ); // %REMOVE_LINE%
+				} // %REMOVE_LINE%
 
-			last.inputs = 0;
+				last.inputs = 0;
+			} else {
+				var i = this.stack.length;
+				while ( i-- ) {
+					this.stack[ i ].inputs = 0;
+				}
+			}
 		},
 
 		/**
