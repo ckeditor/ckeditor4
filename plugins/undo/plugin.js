@@ -835,8 +835,8 @@
 		// We'll use keyboard + input events to determine if snapshot should be created.
 		// Since `input` event is fired before `keyup`. We can tell in `keyup` event if input occured.
 		// That will tell us if any printable data was inserted.
-		// On `input` event we'll increase `inputFired` counter. Eventually it might be
-		// canceled by paste/drop using `ignoreInputEvent` flag.
+		// On `input` event we'll increase input fired counter for proper key code.
+		// Eventually it might be canceled by paste/drop using `ignoreInputEvent` flag.
 		// Order of events can be found in http://www.w3.org/TR/DOM-Level-3-Events/
 
 		/**
@@ -846,8 +846,15 @@
 		 */
 		this.undoManager = undoManager;
 
+		/**
+		 * For internal use only. When set to `true` will prevent from executing `onInput` method once.
+		 * @type {Boolean} ignoreInputEvent
+		 */
 		this.ignoreInputEvent = false;
 
+		/**
+		 * @type {CKEDITOR.plugins.undo.KeyEventsStack}
+		 */
 		this.keyEventsStack = new KeyEventsStack();
 
 		/**
@@ -874,6 +881,7 @@
 			var keyCode = evt.data.getKey(),
 				undoManager = this.undoManager;
 
+			// Gets last record for provided keyCode. If not found will create one.
 			var last = this.keyEventsStack.getLast( keyCode );
 			if ( !last ) {
 				this.keyEventsStack.push( keyCode );
@@ -911,6 +919,7 @@
 				lastInput = this.keyEventsStack.push( 0 );
 			}
 
+			// Increment inputs counter for provided key code.
 			this.keyEventsStack.increment( lastInput.keyCode );
 
 			// Exceeded limit.
@@ -932,6 +941,7 @@
 				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete,
 				totalInputs = this.keyEventsStack.getTotalInputs();
 
+			// Remove record from stack for provided key code.
 			this.keyEventsStack.remove( keyCode );
 
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
@@ -972,6 +982,9 @@
 			undoManager.resetType();
 		},
 
+		/**
+		 * This method set `ignoreInputEvent` to true which means that execution of `onInput` method will be skipped once.
+		 */
 		ignoreInputEventListener: function() {
 			this.ignoreInputEvent = true;
 		},
