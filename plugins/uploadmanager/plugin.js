@@ -68,9 +68,9 @@
 	Upload.prototype = {
 		start: function() {
 			if ( this.data ) {
-				this.loadAndSendFile();
-			} else {
 				this.sendFile();
+			} else {
+				this.loadAndSendFile();
 			}
 		},
 		loadAndSendFile: function() {
