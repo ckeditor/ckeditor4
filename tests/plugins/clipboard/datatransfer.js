@@ -597,7 +597,7 @@ bender.test( {
 	},
 
 	'test initPasteDataTransfer constructor': function() {
-		var isPasteEventFreelyAvailable = CKEDITOR.plugins.clipboard.isPasteEventFreelyAvailable,
+		var isDataFreelyAvailableInPasteEvent = CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent,
 			isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			bot = this.bots.editor1,
 			editor = this.editors.editor1,
@@ -606,7 +606,7 @@ bender.test( {
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		if ( isPasteEventFreelyAvailable ) {
+		if ( isDataFreelyAvailableInPasteEvent ) {
 			evt.data.$.clipboardData.setData = function() {
 				assert.fail( 'Native setData should not be touched on IE.' );
 			};

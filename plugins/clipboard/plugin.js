@@ -476,7 +476,7 @@
 		function addPasteListenersToEditable() {
 			var editable = editor.editable();
 
-			if ( CKEDITOR.plugins.clipboard.isPasteEventFreelyAvailable ) {
+			if ( CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent ) {
 				var initOnCopyCut = function( evt ) {
 					clipboard.initPasteDataTransfer( evt, editor );
 					evt.data.preventDefault();
@@ -1476,10 +1476,10 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isPasteEventFreelyAvailable: !CKEDITOR.env.ie,
+		isDataFreelyAvailableInPasteEvent: !CKEDITOR.env.ie,
 
 		/**
-		 * True if the environment support MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
+		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
 		 *
 		 * @since 4.5
 		 * @readonly
@@ -1788,7 +1788,7 @@
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
-			if ( !this.isPasteEventFreelyAvailable ) {
+			if ( !this.isDataFreelyAvailableInPasteEvent ) {
 				return new this.dataTransfer( null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
