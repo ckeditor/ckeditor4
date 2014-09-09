@@ -778,7 +778,7 @@
 			return {
 				types: [],
 				files: CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? undefined : [],
-				_data: [],
+				_data: {},
 				// Emulate browsers native behavior for getDeta/setData.
 				setData: function( type, data ) {
 					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
@@ -787,7 +787,13 @@
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
 						return;
 
-					this._data[ type ] = data;
+					if ( type == 'text/plain' || type == 'Text' ) {
+						this._data[ 'text/plain' ] = data;
+						this._data[ 'Text' ] = data;
+					} else {
+						this._data[ type ] = data;
+					}
+
 					this.types.push( type );
 				},
 				getData: function( type ) {

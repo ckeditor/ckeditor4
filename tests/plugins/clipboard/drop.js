@@ -20,7 +20,7 @@ CKEDITOR.disableAutoInline = true;
 
 function drag( editor, evt ) {
 	var editable = editor.editable(),
-		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+		dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 		dragEventCounter = 0;
 
 	editor.once( 'dragstart', function( dragEvt ) {
@@ -37,8 +37,9 @@ function drag( editor, evt ) {
 }
 
 function drop( editor, evt, config, onDrop, onFinish ) {
-	var editable = editor.editable(),
-		dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document,
+	var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+		editable = editor.editable(),
+		dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 		range = new CKEDITOR.dom.range( editor.document ),
 		values = { beforePasteEventCounter: 0, pasteEventCounter: 0, dropEventCounter: 0 },
 		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1,
@@ -94,7 +95,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			// Drop event asserts
 			assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
 			assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
-			if ( config.expectedText && !CKEDITOR.env.ie ) {
+			if ( config.expectedText && isCustomDataTypesSupported ) {
 				assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
 			}
 			if ( config.expectedHtml ) {
@@ -114,7 +115,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			if ( expectedPasteEventCount > 0 ) {
 				assert.areSame( config.expectedTransferType, values.pasteTransferType, 'On paste: transferType should match.' );
 				// Do not check Text data on IE.
-				if ( !CKEDITOR.env.ie ) {
+				if ( isCustomDataTypesSupported ) {
 					assert.areSame( config.expectedText, values.pasteDataText, 'On paste: text data should match.' );
 				}
 				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
@@ -375,31 +376,32 @@ var editors, editorBots,
 		},
 
 		'test drop html from external source': function( editor ) {
-			var bot = editorBots[ editor.name ],
+			var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+				bot = editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
 
-			if ( CKEDITOR.env.ie ) {
-				evt.$.dataTransfer.setData( 'Text', '<b>dolor</b>' );
-			} else {
+			if ( isCustomDataTypesSupported ) {
 				evt.$.dataTransfer.setData( 'text/html', '<b>dolor</b>' );
+			} else {
+				evt.$.dataTransfer.setData( 'Text', '<b>dolor</b>' );
 			}
 
 			drop( editor, evt, {
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
-				expectedText: CKEDITOR.env.ie ? '<b>dolor</b>' : '',
-				expectedHtml: CKEDITOR.env.ie ? '' : '<b>dolor</b>',
-				expectedDataType: CKEDITOR.env.ie ? 'text' : 'html',
-				expectedDataValue: CKEDITOR.env.ie ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
+				expectedText: !isCustomDataTypesSupported ? '<b>dolor</b>' : '',
+				expectedHtml: !isCustomDataTypesSupported ? '' : '<b>dolor</b>',
+				expectedDataType: !isCustomDataTypesSupported ? 'text' : 'html',
+				expectedDataValue: !isCustomDataTypesSupported ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
 			}, null, function() {
-				if ( CKEDITOR.env.ie ) {
-					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
-				} else {
+				if ( isCustomDataTypesSupported ) {
 					assert.areSame( '<p id="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				} else {
+					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				}
 
 				editor.execCommand( 'undo' );

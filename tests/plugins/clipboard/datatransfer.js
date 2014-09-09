@@ -51,7 +51,7 @@ bender.test( {
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
 		// In IE we can not use any data type besides text, so id is fixed.
-		if ( !CKEDITOR.env.ie )
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported )
 			assert.areNotSame( dataTransfer1a.id, dataTransfer2.id, 'Ids for object based on different events should be different.' );
 	},
 
@@ -77,7 +77,8 @@ bender.test( {
 	},
 
 	'test internal drag drop, no event': function() {
-		var bot = this.bots.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot = this.bots.editor1,
 			editor = this.editors.editor1,
 			dataTransfer;
 
@@ -89,7 +90,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -113,12 +114,13 @@ bender.test( {
 	},
 
 	'test drop html from external source': function() {
-		var editor = this.editors.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			editor = this.editors.editor1,
 			nativeData, dataTransfer;
 
 		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
-		if ( !CKEDITOR.env.ie ) {
+		if ( isCustomDataTypesSupported ) {
 			nativeData.setData( 'text/html', 'x<b>foo</b>x' );
 		}
 
@@ -129,7 +131,7 @@ bender.test( {
 				sourceEditor: undefined,
 				targetEditor: editor,
 				text: 'bar',
-				html: CKEDITOR.env.ie ? '' : 'x<b>foo</b>x' },
+				html: isCustomDataTypesSupported ? 'x<b>foo</b>x' : '' },
 			dataTransfer );
 	},
 
@@ -156,7 +158,8 @@ bender.test( {
 	},
 
 	'test drag drop between editors, no event': function() {
-		var bot1 = this.bots.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot1 = this.bots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
 			dataTransfer;
@@ -168,7 +171,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
 				sourceEditor: editor1,
 				targetEditor: editor2,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
@@ -262,11 +265,11 @@ bender.test( {
 		assert.areSame( 'bar', dataTransfer.getData( 'CKE/Custom' ), 'CKE/custom - CKE/Custom' );
 	},
 
-	'test set-get data, data type: plain/html, dataTransfer without event': function() {
+	'test set-get data, data type: text/html, dataTransfer without event': function() {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
-		dataTransfer.setData( 'plain/html', 'html' );
-		assert.areSame( 'html', dataTransfer.getData( 'plain/html' ), 'plain/html - plain/html' );
+		dataTransfer.setData( 'text/html', 'html' );
+		assert.areSame( 'html', dataTransfer.getData( 'text/html' ), 'text/html - text/html' );
 	},
 
 	'test set-get data, data type: undefined data, dataTransfer without event': function() {
@@ -308,13 +311,16 @@ bender.test( {
 	},
 
 	'test cacheData': function() {
-		// Emulate native clipboard.
-		var nativeData = bender.tools.mockNativeDataTransfer();
-		if ( CKEDITOR.env.ie ) {
-			nativeData.setData( 'Text', 'foo' );
-		} else {
-			nativeData.setData( 'plain/html', 'foo' );
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			// Emulate native clipboard.
+			nativeData = bender.tools.mockNativeDataTransfer();
+
+		if ( isCustomDataTypesSupported ) {
+			nativeData.setData( 'text/html', 'foo' );
+			nativeData.setData( 'text/plain', 'bom' );
 			nativeData.setData( 'cke/custom', 'bar' );
+		} else {
+			nativeData.setData( 'Text', 'foo' );
 		}
 
 		// CacheData.
@@ -329,12 +335,13 @@ bender.test( {
 		nativeData.getData = throwPermissionDenied;
 
 		// Assert
-		if ( CKEDITOR.env.ie ) {
-			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
+		if ( isCustomDataTypesSupported ) {
+			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
+			assert.areSame( 'bom', dataTransfer.getData( 'text/plain' ) );
+			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		} else {
-			assert.areSame( 'foo', dataTransfer.getData( 'plain/html' ) );
-			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
+			assert.areSame( 'foo', dataTransfer.getData( 'Text' ) );
 			assert.areSame( '', dataTransfer.getData( 'cke/undefined' ) );
 		}
 
@@ -534,7 +541,8 @@ bender.test( {
 	},
 
 	'test initDragDataTransfer constructor': function() {
-		var bot = this.bots.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
@@ -547,13 +555,14 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
 
 	'test initDragDataTransfer constructor, no event': function() {
-		var bot = this.bots.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
@@ -564,13 +573,13 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
 	},
 
 	'test initPasteDataTransfer binding': function() {
-		if ( CKEDITOR.env.ie ) {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
@@ -588,14 +597,16 @@ bender.test( {
 	},
 
 	'test initPasteDataTransfer constructor': function() {
-		var bot = this.bots.editor1,
+		var isDataFreelyAvailableInPasteEvent = CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent,
+			isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot = this.bots.editor1,
 			editor = this.editors.editor1,
 			nativeData = bender.tools.mockNativeDataTransfer(),
 			evt = { data: { $: { clipboardData: nativeData } } };
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		if ( CKEDITOR.env.ie ) {
+		if ( isDataFreelyAvailableInPasteEvent ) {
 			evt.data.$.clipboardData.setData = function() {
 				assert.fail( 'Native setData should not be touched on IE.' );
 			};
@@ -611,13 +622,14 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x' },
 			dataTransfer );
 	},
 
 	'test initPasteDataTransfer constructor, no event': function() {
-		var bot = this.bots.editor1,
+		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
+			bot = this.bots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
@@ -628,7 +640,7 @@ bender.test( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				sourceEditor: editor,
 				targetEditor: editor,
-				text: CKEDITOR.env.ie ? '' : 'xfoox',
+				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
 	}

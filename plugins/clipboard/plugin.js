@@ -476,17 +476,19 @@
 		function addPasteListenersToEditable() {
 			var editable = editor.editable();
 
-			if ( !CKEDITOR.env.ie ) {
-				editable.on( 'copy', function( evt ) {
+			if ( CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent ) {
+				var initOnCopyCut = function( evt ) {
 					clipboard.initPasteDataTransfer( evt, editor );
 					evt.data.preventDefault();
-				} );
+				};
 
+				editable.on( 'copy', initOnCopyCut );
+				editable.on( 'cut', initOnCopyCut );
+
+				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function( evt ) {
-					clipboard.initPasteDataTransfer( evt, editor );
 					editor.getSelection().getRanges()[ 0 ].deleteContents(); // @todo replace with the new delete content function
-					evt.data.preventDefault();
-				} );
+				}, null, null, 999 );
 			}
 
 			// We'll be catching all pasted content in one line, regardless of whether
@@ -1284,7 +1286,8 @@
 			var editable = editor.editable(),
 				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
 				// #11086 IE8 cannot listen on document.
-				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
+				canListenOnDocument = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
 
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
@@ -1466,6 +1469,42 @@
 	 * @class CKEDITOR.plugins.clipboard
 	 */
 	CKEDITOR.plugins.clipboard = {
+		/**
+		 * True if the environment allows to get data from the paste event without security dialog on the paste event.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {Boolean}
+		 */
+		isDataFreelyAvailableInPasteEvent: !CKEDITOR.env.ie,
+
+		/**
+		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {Boolean}
+		 */
+		isCustomDataTypesSupported: !CKEDITOR.env.ie,
+
+		/**
+		 * Returns the element should be used as target for the drop event.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @returns {CKEDITOR.dom.domObject} the element should be used as target for the drop event.
+		 */
+		getDropTarget: function( editor ) {
+			var editable = editor.editable();
+
+			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
+			// #11086 IE8 cannot listen on document.
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ) {
+				return editable;
+			} else {
+				return editor.document;
+			}
+		},
 		/**
 		 * IE 8 & 9 split text node on drop so the first node contains
 		 * text before drop position and the second contains rest. If we
@@ -1703,12 +1742,12 @@
 		},
 
 		/**
-		 * Initialize dataTransfer object based on the native drop event. If data
+		 * Initialize dataTransfer object based on the drop event. If data
 		 * transfer object was already initialized on this event then function will
 		 * return that object.
 		 *
 		 * @since 4.5
-		 * @param {Object} domEvent A native DOM drop event object.
+		 * @param {CKEDITOR.dom.event} evt A drop event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
@@ -1736,8 +1775,20 @@
 			return dataTransfer;
 		},
 
+		/**
+		 * Initialize dataTransfer object based on the paste event. If data
+		 * transfer object was already initialized on this event then function will
+		 * return that object. On IE it is not possible to link copy/cut and paste event
+		 * so the method returns always a new object. The same if there is no paste event
+		 * passed to the method.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.dom.event} [evt] A paste event object.
+		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
+		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
+		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
-			if ( CKEDITOR.env.ie ) {
+			if ( !this.isDataFreelyAvailableInPasteEvent ) {
 				return new this.dataTransfer( null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
@@ -1784,14 +1835,13 @@
 	};
 
 	// Data type used to link drag and drop events.
-	var clipboardIdDataType =
-		// In IE URL data type is buggie and there is no way to mark drag & drop  without
-		// modifying text data (which would be displayed if user drop content to the textarea)
-		// so we just read dragged text.
-		CKEDITOR.env.ie ? 'Text' :
-		// In Chrome and Firefox we can use custom data types.
-		'cke/id';
-
+	//
+	// In IE URL data type is buggie and there is no way to mark drag & drop  without
+	// modifying text data (which would be displayed if user drop content to the textarea)
+	// so we just read dragged text.
+	//
+	// In Chrome and Firefox we can use custom data types.
+	var clipboardIdDataType = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ? 'cke/id' : 'Text';
 	/**
 	 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
 	 * between browsers.
@@ -1904,10 +1954,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=0]
+	 * @property {Number} [=1]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_INTERNAL = 0;
+	CKEDITOR.DATA_TRANSFER_INTERNAL = 1;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the
@@ -1915,10 +1965,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=1]
+	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 1;
+	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 2;
 
 	/**
 	 * Data transfer operation (drag and drop or copy and pasted) started not in the CKEditor.
@@ -1926,10 +1976,10 @@
 	 *
 	 * @since 4.5
 	 * @readonly
-	 * @property {Number} [=2]
+	 * @property {Number} [=3]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.DATA_TRANSFER_EXTERNAL = 2;
+	CKEDITOR.DATA_TRANSFER_EXTERNAL = 3;
 
 	CKEDITOR.plugins.clipboard.dataTransfer.prototype = {
 		/**
@@ -1986,7 +2036,7 @@
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
-			if ( CKEDITOR.env.ie && type != 'URL' && type != 'Text' ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && type != 'URL' && type != 'Text' ) {
 				return;
 			}
 
@@ -2028,6 +2078,8 @@
 				i;
 
 			function getAndSetData( type ) {
+				type = that._.normalizeType( type );
+
 				var data = that.getData( type );
 				if ( data ) {
 					that._.data[ type ] = data;
@@ -2035,13 +2087,15 @@
 			}
 
 			// Copy data.
-			if ( CKEDITOR.env.ie ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				if ( this.$.types ) {
+					for ( i = 0; i < this.$.types.length; i++ ) {
+						getAndSetData( this.$.types[ i ] );
+					}
+				}
+			} else {
 				getAndSetData( 'Text' );
 				getAndSetData( 'URL' );
-			} else if ( this.$.types ) {
-				for ( i = 0; i < this.$.types.length; i++ ) {
-					getAndSetData( this.$.types[ i ] );
-				}
 			}
 
 			// Copy files references.
@@ -2099,13 +2153,15 @@
 
 			// Add native types.
 			if ( this.$ ) {
-				if ( CKEDITOR.env.ie ) {
+				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+					if ( this.$.types ) {
+						for ( var i = 0; i < this.$.types.length; i++ ) {
+							typesToCheck[ this.$.types[ i ] ] = 1;
+						}
+					}
+				} else {
 					typesToCheck[ 'Text' ] = 1;
 					typesToCheck[ 'URL' ] = 1;
-				} else if ( this.$.types ) {
-					for ( var i = 0; i < this.$.types.length; i++ ) {
-						typesToCheck[ this.$.types[ i ] ] = 1;
-					}
 				}
 			}
 

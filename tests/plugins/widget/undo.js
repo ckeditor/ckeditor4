@@ -340,7 +340,7 @@
 
 				// Ensure async.
 				wait( function() {
-					var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document,
+					var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 						evt = bender.tools.mockDropEvent();
 
 					evt.testRange = range;
