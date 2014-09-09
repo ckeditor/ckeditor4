@@ -1736,7 +1736,8 @@
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
-			upcasts;
+			upcasts,
+			priority = widgetDef.priority ? widgetDef.priority : 10;
 
 		if ( !upcast )
 			return;
@@ -1744,12 +1745,21 @@
 		// Multiple upcasts defined in string.
 		if ( typeof upcast == 'string' ) {
 			upcasts = upcast.split( ',' );
-			while ( upcasts.length )
-				widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
+			while ( upcasts.length ) {
+				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef.name, priority );
+			}
 		}
 		// Single rule which is automatically activated.
-		else
-			widgetsRepo._.upcasts.push( [ upcast, widgetDef.name ] );
+		else {
+			addUpcast( upcast, widgetDef.name, priority );
+		}
+
+		function addUpcast( upcast, name, priority ) {
+			var pos = CKEDITOR.tools.findPosition( widgetsRepo._.upcasts, function( element ) {
+				return element[ 2 ] <= priority;
+			} );
+			widgetsRepo._.upcasts.splice( pos, 0, [ upcast, name, priority ] );
+		}
 	}
 
 	function blurWidget( widgetsRepo, widget ) {
