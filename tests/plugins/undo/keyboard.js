@@ -10,6 +10,7 @@
 	bender.editor = {
 		startupData: '<p>foo</p>',
 		config: {
+			undoStackSize: keystrokesPerSnapshotLimit,
 			on: {
 				change: function() {
 					changeCounter++;

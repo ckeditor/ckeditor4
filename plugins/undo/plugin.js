@@ -242,7 +242,7 @@
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
 				keyGroupChanged = keyGroup !== this.previousKeyGroup,
-				strokesPerSnapshotExceeded = ( typeof strokesPerSnapshotExceeded == 'boolean' ? strokesPerSnapshotExceeded : strokesRecorded >= 25 ),
+				strokesPerSnapshotExceeded = ( typeof strokesPerSnapshotExceeded == 'boolean' ? strokesPerSnapshotExceeded : strokesRecorded >= this.limit ),
 				// Identifier of opposite group, used later on to reset its counter.
 				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
 
@@ -906,15 +906,14 @@
 			}
 
 			if ( lastInput ) {
-
 				// InputFired counter shouldn't be increased if paste/drop event were fired before.
 				if ( !this.ignoreInputEvent ) {
-					lastInput.inputs++;
+					this.keyEventsStack.increment( lastInput.keyCode );
 				}
 
 				// TODO: Check here total inputs. And also reset total or last 25?
 				// TODO: Sholdn't we check here whether it equals i.e. == ? Because we reset each time.
-				if ( lastInput.inputs > 25 ) {
+				if ( lastInput.inputs > this.undoManager.limit ) {
 					this.undoManager.type( lastInput.keyCode, true );
 					this.keyEventsStack.resetInputs( lastInput.keyCode );
 				}
