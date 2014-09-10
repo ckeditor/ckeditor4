@@ -440,6 +440,9 @@
 			},
 
 			'test snapshot created on more than 25 changes by holding different keys - one after another': function() {
+				// #12425
+				assert.ignore();
+
 				this.editorBot.setData( '<p>Hi</p>', function() {
 					var undoManager = this.editor.undoManager,
 						textNode = this.editor.editable().getFirst().getFirst();
