@@ -969,6 +969,10 @@
 				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
 					// Content was not changed, we don't need to do anything.
 					return;
+				} else {
+					// Content was changed. And since no keypress event was fired, we have
+					// inputFired = 0, so undoManager.type method will not be called.
+					totalInputs++;
 				}
 			}
 
