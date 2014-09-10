@@ -1321,7 +1321,17 @@
 			// We need to call preventDefault on dragover because otherwise if
 			// we drop image it will overwrite document.
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
-				evt.data.preventDefault();
+
+				// If we do not prevent default dragover on IE the file path
+				// will be loaded and we will lose content. On the other hand
+				// if we prevent it the cursor will not we shown, so we prevent
+				// dragover only on IE, on versions which support file API and only
+				// if the event contains files.
+				if ( CKEDITOR.env.ie &&
+					CKEDITOR.plugins.clipboard.isFileApiSupported &&
+					evt.data.$.dataTransfer.types.contains( 'Files' ) ) {
+					evt.data.preventDefault();
+				}
 			} );
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
@@ -1478,6 +1488,15 @@
 		 * @property {Boolean}
 		 */
 		isCustomDataTypesSupported: !CKEDITOR.env.ie,
+
+		/**
+		 * True if the environment supports File API.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {Boolean}
+		 */
+		isFileApiSupported: !CKEDITOR.env.ie || CKEDITOR.env.version > 9,
 
 		/**
 		 * Returns the element should be used as target for the drop event.
