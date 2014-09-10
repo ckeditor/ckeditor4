@@ -25,12 +25,24 @@
 		textNode.setText( text );
 	}
 
-	function simulateHoldKey( times, keyTools, keyCode, domModification ) {
+	function addCharactersToTextNode( textNode, characters ) {
+		textNode.setText( textNode.getText() + characters );
+	}
+
+	function curryAddCharactersToTextNode( textNode, characters ) {
+		return function () {
+			addCharactersToTextNode( textNode, characters );
+		}
+	}
+
+	function simulateHoldKey( times, keyTools, keyCode, domModification, beforeKeyUp ) {
 		while( times-- ) {
 			keyTools.singleKeyEvent( keyCode, { type: 'keydown' } );
 			domModification();
 			keyTools.singleKeyEvent( 0, { type: ( CKEDITOR.env.ie ? 'keypress' : 'input' ) } );
 		}
+
+		beforeKeyUp && beforeKeyUp();
 
 		keyTools.singleKeyEvent( keyCode, { type: 'keyup' } );
 	}
@@ -411,7 +423,7 @@
 			'test snapshot created on more than 25 backspaces': function() {
 				this.editorBot.setData( '<p>aaaaaaaaaaaaaaaaaaaaaaaaaccccccccccccccccccccccccc</p>', function() {
 						var undoManager = this.editor.undoManager,
-						textNode = this.editor.editable().getFirst().getFirst();
+							textNode = this.editor.editable().getFirst().getFirst();
 
 						assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
@@ -424,6 +436,49 @@
 
 						assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
 						bender.assert.isInnerHtmlMatching( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa@</p>', undoManager.snapshots[ 2 ].contents );
+				} );
+			},
+
+			'test snapshot created on more than 25 changes by holding different keys - one after another': function() {
+				this.editorBot.setData( '<p>Hi</p>', function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst();
+
+					this._moveTextNodeRange( 2 );
+
+					assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+					simulateHoldKey( 20, this.keyTools, 70 /*f*/, function() {
+						addCharactersToTextNode( textNode, 'f' );
+					} );
+
+					simulateHoldKey( 20, this.keyTools, 80 /*p*/, function() {
+						addCharactersToTextNode( textNode, 'p' );
+					} );
+
+					assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
+					bender.assert.isInnerHtmlMatching( '<p>HIffffffffffffffffffffppppp@</p>', undoManager.snapshots[ 2 ].contents );
+				} );
+			},
+
+			'test snapshot created on more than 25 changes by holding different keys - both at the same time': function() {
+				this.editorBot.setData( '<p>Hi</p>', function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst(),
+						addCharacterF = curryAddCharactersToTextNode( textNode, 'f' ),
+						addCharacterD = curryAddCharactersToTextNode( textNode, 'd' ),
+						keyTools = this.keyTools;
+
+					this._moveTextNodeRange( 2 );
+
+					assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+
+					simulateHoldKey( 20, keyTools, 70 /*f*/, addCharacterF, function() {
+						simulateHoldKey( 10, keyTools, 68 /*d*/, addCharacterD );
+					} );
+
+					assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
+					bender.assert.isInnerHtmlMatching( '<p>Hiffffffffffffffffffffddddd@</p>', undoManager.snapshots[ 2 ].contents );
 				} );
 			},
 
