@@ -178,6 +178,14 @@
 			body.removeAttribute( 'disabled' );
 		}
 
+		// Fix problem with cursor not appearing in iOS (iPad) when clicking below the body (#10770).
+		if( typeof(this.editor.config.height) == number ) {
+			var configHeight = (this.editor.config.height).toString() + "px";
+			body.style.minHeight = configHeight;
+		} else {
+			body.style.minHeight = this.editor.config;
+		}
+
 		delete this._.isLoadingData;
 
 		// Play the magic to alter element reference to the reloaded one.
