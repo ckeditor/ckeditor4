@@ -110,12 +110,12 @@
 
 		// Actual content height, figured out by appending check the last element's document position.
 		function contentHeight() {
-			// Append a temporary marker element.
-			markerContainer.append( marker );
-			var height = marker.getDocumentPosition( doc ).y + marker.$.offsetHeight;
-			marker.remove();
+			var editable = editor.editable(),
+				children = editable.getChildren(),
+				childrenCount = children.count(),
+				lastChild = childrenCount ? children.getItem((childrenCount - 1)) : editable;
 
-			return height;
+			return lastChild.getDocumentPosition( doc ).y + lastChild.$.offsetHeight;
 		}
 
 		function resizeEditor() {
