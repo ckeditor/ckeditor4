@@ -908,6 +908,14 @@
 		 * @property {CKEDITOR.dom.element} wrapper
 		 */
 
+		/**
+		 * The widget priority to determine the order on upcasting. Upcast method of the widget with lower
+		 * priority will be called before upcast with the higher priority.
+		 *
+		 * @readonly
+		 * @property {Number} priority
+		 */
+
 		widgetsRepo.fire( 'instanceCreated', this );
 
 		setupWidget( this, widgetDef );
