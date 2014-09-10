@@ -236,15 +236,14 @@
 		 * @param {Number} keyCode The key code.
 		 */
 		type: function( keyCode, strokesPerSnapshotExceeded ) {
-			var keyGroupsEnum = UndoManager.keyGroupsEnum,
-				keyGroup = UndoManager.getKeyGroup( keyCode ),
+			var keyGroup = UndoManager.getKeyGroup( keyCode ),
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
 				keyGroupChanged = keyGroup !== this.previousKeyGroup,
 				strokesPerSnapshotExceeded = ( typeof strokesPerSnapshotExceeded == 'boolean' ? strokesPerSnapshotExceeded : strokesRecorded >= this.limit ),
 				// Identifier of opposite group, used later on to reset its counter.
-				oppositeGroup = keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL;
+				oppositeGroup = UndoManager.getOppositeKeyGroup( keyGroup );
 
 			if ( !this.typing )
 				onTypingStart( this );
@@ -706,12 +705,22 @@
 	 * Returns the group to which passed `keyCode` belongs.
 	 *
 	 * @param {Number} keyCode
-	 * @returns {Number}
+	 * @returns {UndoManager.keyGroupsEnum}
 	 */
 	UndoManager.getKeyGroup = function( keyCode ) {
 		var keyGroupsEnum = UndoManager.keyGroupsEnum;
 
 		return backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE;
+	};
+
+	/**
+	 * @param {UndoManager.keyGroupsEnum}
+	 * @returns {UndoManager.keyGroupsEnum}
+	 * @static
+	 */
+	UndoManager.getOppositeKeyGroup = function( keyGroup ) {
+		var keyGroupsEnum = UndoManager.keyGroupsEnum;
+		return ( keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL );
 	};
 
 	// Helper method called when undoManager.typing val was changed to true.
