@@ -913,7 +913,7 @@
 		 * priority will be called before upcast with the higher priority.
 		 *
 		 * @readonly
-		 * @property {Number} priority
+		 * @property {Number} upcastPriority
 		 */
 
 		widgetsRepo.fire( 'instanceCreated', this );
@@ -1745,7 +1745,7 @@
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
 			upcasts,
-			priority = widgetDef.priority ? widgetDef.priority : 10;
+			priority = widgetDef.upcastPriority ? widgetDef.upcastPriority : 10;
 
 		if ( !upcast )
 			return;

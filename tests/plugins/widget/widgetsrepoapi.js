@@ -157,7 +157,7 @@
 			assert.isTrue( true );
 		},
 
-		'test widgets.add - priorities': function() {
+		'test widgets.add - upcast priorities': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				upcastCalled = '';
@@ -169,21 +169,21 @@
 			} );
 
 			editor.widgets.add( 'prioritiesTest2', {
-				priority: 5,
+				upcastPriority: 5,
 				upcast: function() {
 					upcastCalled += '2';
 				}
 			} );
 
 			editor.widgets.add( 'prioritiesTest3', {
-				priority: 5,
+				upcastPriority: 5,
 				upcast: function() {
 					upcastCalled += '3';
 				}
 			} );
 
 			editor.widgets.add( 'prioritiesTest4', {
-				priority: 15,
+				upcastPriority: 15,
 				upcast: function() {
 					upcastCalled += '4';
 				}
