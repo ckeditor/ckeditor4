@@ -95,6 +95,13 @@
 			// Disable undo manager when in read-only mode.
 			editor.on( 'readOnly', toggleUndoManager );
 
+			// When pressing `Tab` key while editable is focused, `keyup` event is not fired.
+			// Which means that record for `tab` key stays in key events stack.
+			// We assume that when editor is blurred `tab` key is already up.
+			editor.on( 'blur', function () {
+				editingHandler.keyEventsStack.remove( 9 /*Tab*/ );
+			} );
+
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Undo', {
 					label: editor.lang.undo.undo,
@@ -887,6 +894,9 @@
 				return;
 			}
 
+			// Cleaning tab functional keys.
+			this.keyEventsStack.cleanUp( evt );
+
 			var keyCode = evt.data.getKey(),
 				undoManager = this.undoManager;
 
@@ -1156,6 +1166,26 @@
 				total += this.stack[ i ].inputs;
 			}
 			return total;
+		},
+
+		/**
+		 * Sometimes `keyup` event is not registered for functional keys.
+		 * For example `Alt + Tab`. Which results that.
+		 *
+		 * @param {CKEDITOR.dom.event}
+		 */
+		cleanUp: function( event ) {
+			var nativeEvent = event.data.$;
+
+			if ( !( nativeEvent.ctrlKey || nativeEvent.metaKey ) ) {
+				this.remove( 17 );
+			}
+			if ( !nativeEvent.shiftKey ) {
+				this.remove( 16 );
+			}
+			if ( !nativeEvent.altKey ) {
+				this.remove( 18 );
+			}
 		}
 	};
 } )();
