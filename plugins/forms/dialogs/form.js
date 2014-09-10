@@ -62,6 +62,7 @@ CKEDITOR.dialog.add( 'form', function( editor ) {
 			elements: [
 				{
 				id: 'txtName',
+				bidi: true,
 				type: 'text',
 				label: editor.lang.common.name,
 				'default': '',

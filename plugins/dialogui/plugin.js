@@ -238,6 +238,16 @@ CKEDITOR.plugins.add( 'dialogui', {
 							}, 0 );
 							keyPressedOnMe = false;
 						}
+						if ( me.bidi ) {
+							var keystroke = evt.data.getKeystroke();
+							// ALT + SHIFT + Home for LTR direction
+							if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 ) 
+								me.getInputElement().setAttribute( 'dir', 'ltr' );
+			
+							// ALT + SHIFT + End for RTL direction
+							else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 ) 
+								me.getInputElement().setAttribute( 'dir', 'rtl' );
+						}
 					}, null, null, 1000 );
 				} );
 
@@ -305,6 +315,21 @@ CKEDITOR.plugins.add( 'dialogui', {
 				if ( elementDefinition.dir )
 					attributes.dir = elementDefinition.dir;
 
+				dialog.on( 'load', function() {
+					me.getInputElement().on( 'keyup', function( evt ) {
+						if ( me.bidi ) {
+							var keystroke = evt.data.getKeystroke();
+							// ALT + SHIFT + Home for LTR direction
+							if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 ) 
+								me.getInputElement().setAttribute( 'dir', 'ltr' );
+		
+							// ALT + SHIFT + End for RTL direction
+							else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 ) 
+								me.getInputElement().setAttribute( 'dir', 'rtl' );
+						}
+					}, null, null, 1000 );
+				} );
+				
 				var innerHTML = function() {
 						attributes[ 'aria-labelledby' ] = this._.labelId;
 						this._.required && ( attributes[ 'aria-required' ] = this._.required );
@@ -995,9 +1020,44 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @returns {CKEDITOR.ui.dialog.textInput} The current UI element.
 			 */
 			setValue: function( value ) {
+				 if ( this.bidi && value ) {
+					 var lre = "\u202A", rle = "\u202B";
+					 var marker = value.charAt( 0 );
+					 var dir = ( marker == lre ? "ltr" : ( marker == rle ? "rtl" : "" ) );
+					 if ( dir ) {
+						 value = value.replace( /\u202A/g,"" ).replace( /\u202B/g,"" );
+						 this.getInputElement().setAttribute( 'dir', dir );
+						 this.getInputElement().setAttribute( 'bidiSet', 'on' );
+					 }
+				 }
 				!value && ( value = '' );
 				return CKEDITOR.ui.dialog.uiElement.prototype.setValue.apply( this, arguments );
 			},
+			
+			/**
+			 * Gets the value of the currently selected textInput.
+			 *
+			 * @returns {CKEDITOR.ui.dialog.textInput} The current UI element.
+			 */			 
+			getValue: function() {
+				if ( this.bidi ) {
+					var bidiSet = this.getInputElement().getAttribute( 'bidiSet' );
+					if ( bidiSet == 'on' )
+						this.getInputElement().removeAttribute( 'bidiSet' );
+					
+					var value = this.getInputElement().getValue();
+					if ( value && !bidiSet ) {
+						var dir = this.getInputElement().getAttribute( 'dir' );
+						if ( dir ) {
+							var marker = value.charAt( 0 );
+							var lre = "\u202A", rle = "\u202B";
+							if ( marker != lre && marker != rle )
+								this.getInputElement().setValue( ( dir == "ltr" ? lre : ( dir == "rtl" ? rle : '' ) ) + value );
+						}
+					}
+				}				
+				return CKEDITOR.ui.dialog.uiElement.prototype.getValue.apply( this, null );
+			},			
 
 			keyboardFocusable: true
 		}, commonPrototype, true );
