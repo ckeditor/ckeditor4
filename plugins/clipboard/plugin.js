@@ -314,6 +314,14 @@
 			data.dataValue = '';
 		}
 
+		// Because of FF bug we need to use this hack, otherwise cursor is hidden
+		// or it is not possible to move it (#12420).
+		if ( CKEDITOR.env.gecko && data.method == 'drop' ) {
+			editor.once( 'afterPaste', function() {
+				editor.toolbox.focus();
+			} );
+		}
+
 		return editor.fire( 'paste', data );
 	}
 
@@ -1389,6 +1397,7 @@
 					dropRange = editor.createRange();
 					dropRange.moveToBookmark( dropBookmark );
 					dropRange.select();
+
 					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
 
 					editor.fire( 'unlockSnapshot' );
@@ -1398,11 +1407,6 @@
 			// Cross editor drag and drop (drag in one Editor and drop in the other).
 			function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
 				var i;
-
-				// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-				if ( CKEDITOR.env.gecko ) {
-					fixGeckoDisappearingCursor( editor );
-				}
 
 				// Paste event should be fired before delete contents because otherwise
 				// Chrome have a problem with drop range (Chrome split the drop
@@ -1421,22 +1425,10 @@
 
 			// Drop from external source.
 			function externalDrop( dropRange, dataTransfer ) {
-				// Because of FF bug we need to use this hack, otherwise cursor is hidden.
-				if ( CKEDITOR.env.gecko ) {
-					fixGeckoDisappearingCursor( editor );
-				}
-
 				// Paste content into the drop position.
 				dropRange.select();
 
 				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
-			}
-
-			// Fix for Gecko bug with disappearing cursor.
-			function fixGeckoDisappearingCursor() {
-				editor.once( 'afterPaste', function() {
-					editor.toolbox.focus();
-				} );
 			}
 
 			// Fire drag/drop events (dragstart, dragend, drop).
