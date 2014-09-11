@@ -25,11 +25,22 @@
 				},
 
 				init: function() {
-					console.log( 'init' );
-					var upload = manager.getUpload( this.parts.img.data( 'cke-upload-id' ) );
+					var that = this,
+						upload = manager.getUpload( this.parts.img.data( 'cke-upload-id' ) );
 
 					upload.on( 'updateStatus', function() {
-						console.log( upload.data );
+						console.log( upload.status );
+						if ( upload.status == 'uploading' ) {
+							that.parts.img.setAttribute( 'src', upload.data );
+						} else if ( upload.status == 'done' ) {
+							var filename = upload.response.split( '|' )[ 0 ],
+								imgHtml = '<img src="http://ckeditor.dev/ckfinder/userfiles/images/' + filename + '">',
+								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
+								img = CKEDITOR.dom.element.createFromHtml( processedImg );
+							img.replace( that.wrapper );
+
+							editor.fire( 'dataReady' );
+						}
 					} );
 				}
 			} );
