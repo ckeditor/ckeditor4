@@ -1021,7 +1021,7 @@
 
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', that.onKeydown, that, null, 5 );
+			editable.attachListener( editable, 'keydown', that.onKeydown, that, null );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
 			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
