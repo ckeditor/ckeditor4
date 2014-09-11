@@ -88,7 +88,7 @@
 			};
 
 			reader.onprogress = function( evt ) {
-				this.loaded = evt.loaded;
+				upload.loaded = evt.loaded;
 				upload.fireStatus();
 			};
 
@@ -123,12 +123,12 @@
 			};
 
 			xhr.onprogress = function( evt ) {
-				this.uploaded = evt.loaded;
+				upload.uploaded = evt.loaded;
 				upload.fireStatus();
 			};
 
 			xhr.onload = function( evt ) {
-				// handle response xhr.responseText
+				upload.response = xhr.responseText;
 				upload.changeAndFireStatus( 'done' );
 			};
 
