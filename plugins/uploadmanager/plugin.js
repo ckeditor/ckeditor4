@@ -7,7 +7,7 @@
 ( function() {
 	CKEDITOR.plugins.add( 'uploadmanager', {} );
 
-	var imgHeaderRegExp = /^data:(image\/(png|jpg|jpeg));base64,/;
+	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
 	function UploadManager() {
 		this._ = {
@@ -166,8 +166,8 @@
 	};
 
 	function srcToBlob( src ) {
-		var contentType = src.match( imgHeaderRegExp )[ 1 ],
-			base64Data = src.replace( imgHeaderRegExp, '' ),
+		var contentType = src.match( base64HeaderRegExp )[ 1 ],
+			base64Data = src.replace( base64HeaderRegExp, '' ),
 			byteCharacters = atob( base64Data ),
 			byteArrays = [],
 			sliceSize = 512,
