@@ -9,9 +9,8 @@
 		requires: 'widget,clipboard,uploadmanager',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var manager = new CKEDITOR.plugins.uploadmanager.manager();
-
-			manager.url = editor.config.filebrowserImageUploadUrl;
+			var manager = new CKEDITOR.plugins.uploadmanager.manager(),
+				uploadUrl = editor.config.filebrowserImageUploadUrl;
 
 			editor.filter.allow( 'img[data-widget]' );
 
@@ -26,15 +25,14 @@
 
 				init: function() {
 					var that = this,
-						upload = manager.getUpload( this.parts.img.data( 'cke-upload-id' ) );
+						upload = manager.getLoader( this.parts.img.data( 'cke-upload-id' ) );
 
 					upload.on( 'updateStatus', function() {
 						console.log( upload.status );
 						if ( upload.status == 'uploading' ) {
 							that.parts.img.setAttribute( 'src', upload.data );
-						} else if ( upload.status == 'done' ) {
-							var filename = upload.response.split( '|' )[ 0 ],
-								imgHtml = '<img src="http://ckeditor.dev/ckfinder/userfiles/images/' + filename + '">',
+						} else if ( upload.status == 'uploaded' ) {
+							var imgHtml = '<img src="http://ckeditor.dev/ckfinder/userfiles/images/' + upload.filename + '">',
 								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
 								img = CKEDITOR.dom.element.createFromHtml( processedImg );
 							img.replace( that.wrapper );
@@ -55,17 +53,17 @@
 					return;
 				}
 
-				dataTransfer.cacheData();
-
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					var upload = manager.startUpload( file ),
+					var loader = manager.createLoader( file ),
 						img = new CKEDITOR.dom.element( 'img' );
+
+					loader.loadAndUpload( uploadUrl );
 
 					img.setAttributes( {
 						'src': loadingImage,
-						'data-cke-upload-id': upload.id,
+						'data-cke-upload-id': loader.id,
 						'data-widget': 'uploadimage'
 					} );
 					data.dataValue += img.getOuterHtml();
@@ -74,6 +72,8 @@
 
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
+
+				console.log( 'paste' );
 
 				var temp = new CKEDITOR.dom.element( 'div' ),
 					imgs, img, i;
@@ -85,10 +85,12 @@
 
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
 					if ( !img.data( 'cke-upload-id' ) && inEditableBlock( img ) && isDataInSrc ) {
-						var upload = manager.startUpload( img.getAttribute( 'src' ) );
+						var loader = manager.createLoader( img.getAttribute( 'src' ) );
+
+						loader.upload( uploadUrl );
 
 						img.setAttributes( {
-							'data-cke-upload-id': upload.id
+							'data-cke-upload-id': loader.id
 						} );
 					}
 				}

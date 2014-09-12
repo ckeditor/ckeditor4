@@ -11,36 +11,32 @@
 
 	function UploadManager() {
 		this._ = {
-			uploads: []
+			loaders: []
 		}
 	}
 
 	UploadManager.prototype = {
-		startUpload: function( fileOrData, fileName ) {
-			var id = this._.uploads.length,
-				upload = new Upload( this.url, fileOrData, fileName );
+		createLoader: function( fileOrData, fileName ) {
+			var id = this._.loaders.length,
+				loader = new FileLoader( fileOrData, fileName );
 
-			upload.id = id;
-			this._.uploads[ id ] = upload;
+			loader.id = id;
+			this._.loaders[ id ] = loader;
 
-			upload.start();
-
-			return upload;
+			return loader;
 		},
-		getUpload: function( id ) {
-			return this._.uploads[ id ];
+		getLoader: function( id ) {
+			return this._.loaders[ id ];
 		},
 		refreshStatuses: function() {
-			for ( var i = 0; i < uploads.length; i++ ) {
-				uploads[ i ].fireStatus();
+			for ( var i = 0; i < loaders.length; i++ ) {
+				loaders[ i ].fireStatus();
 			}
 		}
 	};
 
-	function Upload( url, fileOrData, fileName ) {
+	function FileLoader( fileOrData, fileName ) {
 		var that = this;
-
-		this.url = url;
 
 		if ( typeof fileOrData === 'string' ) {
 			// Data are already loaded from disc.
@@ -65,79 +61,89 @@
 		this.changeAndFireStatus( 'created' );
 	}
 
-	Upload.prototype = {
-		start: function() {
-			if ( this.data ) {
-				this.sendFile();
-			} else {
-				this.loadAndSendFile();
-			}
+	FileLoader.prototype = {
+		loadAndUpload: function( url ) {
+			var loader = this;
+			this.once( 'loaded', function() {
+				//
+				setTimeout( function() {
+					loader.upload( url );
+				}, 0 );
+			} );
+
+			this.load();
 		},
-		loadAndSendFile: function() {
+		load: function() {
 			var reader = new FileReader(),
-				upload = this;
+				loader = this;
 
-			upload.changeAndFireStatus( 'loading' );
-
-			reader.onabort = function( evt ) {
-				upload.changeAndFireStatus( 'abort' );
-			};
-
-			reader.onerror = function( evt ) {
-				upload.changeAndFireStatus( 'error' );
-			};
-
-			reader.onprogress = function( evt ) {
-				upload.loaded = evt.loaded;
-				upload.fireStatus();
-			};
-
-			reader.onload = function( evt ) {
-				upload.loaded = upload.total;
-				upload.data = evt.target.result
-
-				upload.sendFile();
-			};
+			loader.changeAndFireStatus( 'loading' );
 
 			this.abort = function() {
 				reader.abort();
-			}
+			};
+
+			reader.onabort = function( evt ) {
+				loader.changeAndFireStatus( 'abort' );
+			};
+
+			reader.onerror = function( evt ) {
+				loader.changeAndFireStatus( 'error' );
+			};
+
+			reader.onprogress = function( evt ) {
+				loader.loaded = evt.loaded;
+				loader.fireStatus();
+			};
+
+			reader.onload = function( evt ) {
+				loader.loaded = loader.total;
+				loader.data = evt.target.result;
+				loader.changeAndFireStatus( 'loaded' );
+			};
 
 			reader.readAsDataURL( this.file );
 		},
 
-		sendFile: function() {
+		upload: function( url ) {
 			var xhr = new XMLHttpRequest(),
 				formData = new FormData(),
-				upload = this;
+				loader = this;
 
-			upload.changeAndFireStatus( 'uploading' );
+			loader.changeAndFireStatus( 'uploading' );
 
+			loader.abort = function() {
+				xhr.abort();
+			};
 
 			xhr.onabort = function( evt ) {
-				upload.changeAndFireStatus( 'abort' );
+				loader.changeAndFireStatus( 'abort' );
 			};
 
 			xhr.onerror = function( evt ) {
-				upload.changeAndFireStatus( 'error' );
+				loader.changeAndFireStatus( 'error' );
 			};
 
 			xhr.onprogress = function( evt ) {
-				upload.uploaded = evt.loaded;
-				upload.fireStatus();
+				loader.uploaded = evt.loaded;
+				loader.fireStatus();
 			};
 
 			xhr.onload = function( evt ) {
-				upload.response = xhr.responseText;
-				upload.changeAndFireStatus( 'done' );
+				var parts = xhr.responseText.split( '|' );
+
+				loader.filename = parts[ 0 ];
+				loader.message = parts[ 1 ];
+
+				if ( !loader.filename && loader.message ) {
+					loader.changeAndFireStatus( 'error' );
+				} else {
+					loader.changeAndFireStatus( 'uploaded' );
+				}
 			};
 
-			upload.abort = function() {
-				xhr.abort();
-			}
-
 			formData.append( 'upload', this.file );
-			xhr.open( "POST", this.url, true );
+			xhr.open( "POST", url, true );
 			xhr.send( formData );
 		},
 		changeAndFireStatus: function( newStatus ) {
@@ -145,8 +151,9 @@
 
 			this.status = newStatus;
 
-			if ( newStatus =='created' || newStatus =='error' ||
-				newStatus =='abort' || newStatus =='done' ) {
+			if ( newStatus =='created' ||
+				newStatus =='error' || newStatus =='abort' ||
+				newStatus =='loaded' || newStatus =='uploaded' ) {
 				this.abort = noopFunction;
 			}
 
@@ -166,6 +173,8 @@
 			sliceSize = 512,
 			offset, slice, byteNumbers, i, byteArray;
 
+		console.log( contentType );
+
 		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
 			slice = byteCharacters.slice( offset, offset + sliceSize );
 
@@ -182,10 +191,10 @@
 		return new Blob( byteArrays, { type: contentType } );
 	}
 
-	CKEDITOR.event.implementOn( Upload.prototype );
+	CKEDITOR.event.implementOn( FileLoader.prototype );
 
 	CKEDITOR.plugins.uploadmanager = {
 		manager: UploadManager,
-		upload: Upload
+		loader: FileLoader
 	};
 } )();
