@@ -958,7 +958,7 @@
 			);
 
 			var editable = el.findOne( '#el3' ),
-				f = this.editor.widgets._tests_getNestedEditable;
+				f = CKEDITOR.plugins.widget.getNestedEditable;
 
 			assert.isNull( f( el, el.findOne( '#el1' ) ), 'el1' );
 			assert.isNull( f( el, el.findOne( '#el2' ) ), 'el2' );
