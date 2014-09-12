@@ -47,7 +47,8 @@
 				var data = evt.data,
 					dataTransfer = data.dataTransfer,
 					filesCount = dataTransfer.getFilesCount(),
-					file, i;
+					supportedExtentions = { 'jpg': 1, 'jpeg': 1, 'png': 1 },
+					file, ext, i;
 
 				if ( data.dataValue || !filesCount ) {
 					return;
@@ -56,24 +57,34 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					var loader = manager.createLoader( file ),
-						img = new CKEDITOR.dom.element( 'img' );
+					ext = getExtention( file.name );
 
-					loader.loadAndUpload( uploadUrl );
+					if ( supportedExtentions[ ext ] ) {
+						var loader = manager.createLoader( file ),
+							img = new CKEDITOR.dom.element( 'img' );
 
-					img.setAttributes( {
-						'src': loadingImage,
-						'data-cke-upload-id': loader.id,
-						'data-widget': 'uploadimage'
-					} );
-					data.dataValue += img.getOuterHtml();
+						loader.loadAndUpload( uploadUrl );
+
+						img.setAttributes( {
+							'src': loadingImage,
+							'data-cke-upload-id': loader.id,
+							'data-widget': 'uploadimage'
+						} );
+						data.dataValue += img.getOuterHtml();
+					}
+				}
+
+				function getExtention( filename ) {
+					var splited = filename.split( '.' );
+					if ( splited.length === 1 || ( splited[ 0 ] === '' && splited.length === 2 ) ) {
+						return '';
+					}
+					return splited.pop().toLowerCase();
 				}
 			} );
 
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
-
-				console.log( 'paste' );
 
 				var temp = new CKEDITOR.dom.element( 'div' ),
 					imgs, img, i;
