@@ -84,7 +84,7 @@
 					img = imgs.getItem( i );
 
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
-					if ( !img.data( 'cke-upload-id' ) && !inEditableBlock( img ) && isDataInSrc ) {
+					if ( !img.data( 'cke-upload-id' ) && inEditableBlock( img ) && isDataInSrc ) {
 						var upload = manager.startUpload( img.getAttribute( 'src' ) );
 
 						img.setAttributes( {
