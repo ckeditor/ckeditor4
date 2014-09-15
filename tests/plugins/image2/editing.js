@@ -20,7 +20,11 @@
 			'<figure class="image" id="y">' +
 				'<img src="_assets/bar.png" alt="yalt" />' +
 				'<figcaption>boo</figcaption>' +
-			'</figure>';
+			'</figure>',
+		imgs = [
+			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
+			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' }
+		];
 
 	function assertDialogFields( dialog, data ) {
 		for ( var i in data )
@@ -105,7 +109,119 @@
 						'Paragraph got split.' );
 				};
 
-			assertWidgetDialog( editorBot, 'image', '', null, null, '<p><span>foo^bar</span></p>', onResume );
+			assertWidgetDialog( editorBot, 'image', '', null, null, '<p><span>foo^bar</span></p>', onResume )
+		},
+
+		/**
+		 * #12126
+		 *
+		 * 1. Open image2 dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Dimensions inputs should be empty.
+		 * 4. Set another proper image url and focus out.
+		 * 5. Again dimensions inputs should be empty.
+		 */
+		'test dimensions not set automatically when disabled in option': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2',
+					image2_emptyDimensionsOnLoad: true
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+					heightInput = dialog.getContentElement( 'info','height' ),
+					widthInput = dialog.getContentElement( 'info','width' );
+
+					dialog.setValueOf( 'info', 'src', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						dialog.getContentElement( 'info','height' ).getValue();
+						assert.areSame( '', widthInput.getValue() );
+						assert.areSame( '', heightInput.getValue() );
+
+						if ( i == 0 ) {
+							dialog.setValueOf( 'info', 'src', imgs[ ++i ].url );
+							downloadImage( imgs[ i ].url, onDownload );
+							wait();
+						}
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		/**
+		 * #12126
+		 *
+		 * 1. Open image2 dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Click button "Reset Size".
+		 * 4. Set some proper image url and focus out.
+		 * 5. Dimensions inputs should be empty.
+		 */
+		'test dimension should be empty after resetting size and loading image': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions2',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'image2',
+					image2_emptyDimensionsOnLoad: true
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+					resetBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'lock' ).domId ).find( '.cke_btn_reset' ).getItem( 0 );
+
+					dialog.setValueOf( 'info', 'src', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						resetBtn.fire( 'click' );
+						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info','width' ).getValue() );
+						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info','height' ).getValue() );
+
+						dialog.setValueOf( 'info', 'src', imgs[ ++i ].url );
+						downloadImage( imgs[ i ].url, function() {
+							resume( function() {
+								assert.areSame( '', dialog.getContentElement( 'info','width' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info','height' ).getValue() );
+							} );
+						} );
+
+						wait();
+					}
+
+					wait();
+				} );
+			} );
 		}
 	} );
+
+	function downloadImage( src, cb ) {
+		var img = new CKEDITOR.dom.element( 'img' );
+
+		img.once( 'load', onDone );
+		img.once( 'error', onDone );
+
+		function onDone() {
+			setTimeout( cb, 10 );
+		}
+
+		img.setAttribute( 'src', src );
+	}
 } )();
