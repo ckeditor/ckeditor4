@@ -63,6 +63,22 @@
 			editor.execCommand( 'paste', html );
 
 			wait();
+		},
+
+		// #12411
+		'test span as a direct child no break': function() {
+			bender.editorBot.create( {
+				name: 'editor2',
+				startupData: '<span>he?</span>',
+				config: {
+					autoParagraph: false,
+					extraPlugins: 'divarea'
+				}
+			},
+			function( bot ) {
+				// If we get here it means that nothing fails :)
+				assert.pass();
+			} );
 		}
 	} );
 } )();
