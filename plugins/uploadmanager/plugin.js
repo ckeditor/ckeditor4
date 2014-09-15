@@ -28,9 +28,9 @@
 		getLoader: function( id ) {
 			return this._.loaders[ id ];
 		},
-		refreshStatuses: function() {
+		updateAll: function() {
 			for ( var i = 0; i < loaders.length; i++ ) {
-				loaders[ i ].fireStatus();
+				loaders[ i ].update();
 			}
 		}
 	};
@@ -58,7 +58,7 @@
 		this.total = this.file.size;
 		this.uploaded = 0;
 
-		this.changeAndFireStatus( 'created' );
+		this.changeStatusAndFire( 'created' );
 	}
 
 	FileLoader.prototype = {
@@ -77,29 +77,29 @@
 			var reader = new FileReader(),
 				loader = this;
 
-			loader.changeAndFireStatus( 'loading' );
+			loader.changeStatusAndFire( 'loading' );
 
 			this.abort = function() {
 				reader.abort();
 			};
 
 			reader.onabort = function( evt ) {
-				loader.changeAndFireStatus( 'abort' );
+				loader.changeStatusAndFire( 'abort' );
 			};
 
 			reader.onerror = function( evt ) {
-				loader.changeAndFireStatus( 'error' );
+				loader.changeStatusAndFire( 'error' );
 			};
 
 			reader.onprogress = function( evt ) {
 				loader.loaded = evt.loaded;
-				loader.fireStatus();
+				loader.update();
 			};
 
 			reader.onload = function( evt ) {
 				loader.loaded = loader.total;
 				loader.data = evt.target.result;
-				loader.changeAndFireStatus( 'loaded' );
+				loader.changeStatusAndFire( 'loaded' );
 			};
 
 			reader.readAsDataURL( this.file );
@@ -110,23 +110,23 @@
 				formData = new FormData(),
 				loader = this;
 
-			loader.changeAndFireStatus( 'uploading' );
+			loader.changeStatusAndFire( 'uploading' );
 
 			loader.abort = function() {
 				xhr.abort();
 			};
 
 			xhr.onabort = function( evt ) {
-				loader.changeAndFireStatus( 'abort' );
+				loader.changeStatusAndFire( 'abort' );
 			};
 
 			xhr.onerror = function( evt ) {
-				loader.changeAndFireStatus( 'error' );
+				loader.changeStatusAndFire( 'error' );
 			};
 
 			xhr.onprogress = function( evt ) {
 				loader.uploaded = evt.loaded;
-				loader.fireStatus();
+				loader.update();
 			};
 
 			xhr.onload = function( evt ) {
@@ -136,9 +136,9 @@
 				loader.message = parts[ 1 ];
 
 				if ( !loader.filename && loader.message ) {
-					loader.changeAndFireStatus( 'error' );
+					loader.changeStatusAndFire( 'error' );
 				} else {
-					loader.changeAndFireStatus( 'uploaded' );
+					loader.changeStatusAndFire( 'uploaded' );
 				}
 			};
 
@@ -146,7 +146,7 @@
 			xhr.open( "POST", url, true );
 			xhr.send( formData );
 		},
-		changeAndFireStatus: function( newStatus ) {
+		changeStatusAndFire: function( newStatus ) {
 			var noopFunction = function() {};
 
 			this.status = newStatus;
@@ -158,10 +158,10 @@
 			}
 
 			this.fire( newStatus );
-			this.fireStatus();
+			this.update();
 		},
-		fireStatus: function() {
-			this.fire( 'updateStatus' );
+		update: function() {
+			this.fire( 'update' );
 		}
 	};
 

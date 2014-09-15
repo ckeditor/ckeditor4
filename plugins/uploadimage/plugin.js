@@ -27,7 +27,7 @@
 					var that = this,
 						upload = manager.getLoader( this.parts.img.data( 'cke-upload-id' ) );
 
-					upload.on( 'updateStatus', function() {
+					upload.on( 'update', function() {
 						console.log( upload.status );
 						if ( upload.status == 'uploading' ) {
 							that.parts.img.setAttribute( 'src', upload.data );
