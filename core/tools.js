@@ -69,6 +69,26 @@
 		},
 
 		/**
+		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
+		 *
+		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
+		 *			return el >= 3;
+		 *		} ); // 2
+		 *
+		 * @since 4.5
+		 * @param {Array} array Array to search in.
+		 * @param {Function} compareFunction Compare function.
+		 * @returns {Number} The index of the first matching element or `-1` if none matches.
+		 */
+		getIndex: function( arr, compareFunction ) {
+			for ( var i = 0; i < arr.length; ++i ) {
+				if ( compareFunction( arr[ i ] ) )
+					return i;
+			}
+			return -1;
+		},
+
+		/**
 		 * Creates a deep copy of an object.
 		 *
 		 * **Note**: Recursive references are not supported.

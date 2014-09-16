@@ -1736,7 +1736,8 @@
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
-			upcasts;
+			upcasts,
+			priority = widgetDef.upcastPriority || 10;
 
 		if ( !upcast )
 			return;
@@ -1744,12 +1745,27 @@
 		// Multiple upcasts defined in string.
 		if ( typeof upcast == 'string' ) {
 			upcasts = upcast.split( ',' );
-			while ( upcasts.length )
-				widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
+			while ( upcasts.length ) {
+				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef.name, priority );
+			}
 		}
 		// Single rule which is automatically activated.
-		else
-			widgetsRepo._.upcasts.push( [ upcast, widgetDef.name ] );
+		else {
+			addUpcast( upcast, widgetDef.name, priority );
+		}
+
+		function addUpcast( upcast, name, priority ) {
+			// Find index of the first higher (in terms of value) priority upcast.
+			var index = CKEDITOR.tools.getIndex( widgetsRepo._.upcasts, function( element ) {
+				return element[ 2 ] > priority;
+			} );
+			// Add at the end if it is the highest priority so far.
+			if ( index < 0 ) {
+				index = widgetsRepo._.upcasts.length;
+			}
+
+			widgetsRepo._.upcasts.splice( index, 0, [ upcast, name, priority ] );
+		}
 	}
 
 	function blurWidget( widgetsRepo, widget ) {
@@ -3451,6 +3467,14 @@
  *		} );
  *
  * @property {Object} upcasts
+ */
+
+/**
+ * The {@link #upcast} method(s) priority. The upcast with lower priority number will be called before
+ * the one with higher number. The default priority is `10`.
+ *
+ * @since 4.5
+ * @property {Number} [upcastPriority=10]
  */
 
 /**
