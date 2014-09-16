@@ -923,7 +923,7 @@
 			// Input event is ignored if paste/drop event were fired before.
 			if ( this.ignoreInputEvent ) {
 				// Reset flag - ignore only once.
-				this.ignoreInputEvent = !this.ignoreInputEvent;
+				this.ignoreInputEvent = false;
 				return;
 			}
 
