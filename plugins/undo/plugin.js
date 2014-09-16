@@ -1026,11 +1026,11 @@
 			// need unmodified content when we got keygroup toggled in keyup.
 			editable.attachListener( editable, 'keydown', function( evt ) {
 				that.onKeydown( evt );
+				// On IE keypress isn't fired for functional keys.
 				if ( CKEDITOR.env.ie && UndoManager.getKeyGroup( evt.data.getKey() ) == UndoManager.keyGroupsEnum.FUNCTIONAL ) {
 					that.onInput();
 				}
-
-			} , that );
+			} );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
 			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
@@ -1040,8 +1040,8 @@
 
 			// On paste and drop we need to ignore input event.
 			// It would result with calling undoManager.type() on any following key.
-			editable.attachListener( editable, 'paste', this.ignoreInputEventListener, this );
-			editable.attachListener( editable, 'drop', this.ignoreInputEventListener, this );
+			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that );
+			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
@@ -1054,8 +1054,8 @@
 			// Which means that record for `tab` key stays in key events stack.
 			// We assume that when editor is blurred `tab` key is already up.
 			editable.attachListener( this.undoManager.editor, 'blur', function () {
-				this.keyEventsStack.remove( 9 /*Tab*/ );
-			}, this );
+				that.keyEventsStack.remove( 9 /*Tab*/ );
+			} );
 		}
 	};
 
