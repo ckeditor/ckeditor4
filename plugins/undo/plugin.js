@@ -979,17 +979,12 @@
 			// Remove record from stack for provided key code.
 			this.keyEventsStack.remove( keyCode );
 
-			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
-			// with a workaround. Also we need to be aware that lastKeydownImage might not be available (#12327).
-			if ( ieFunctionalKeysBug && this.lastKeydownImage ) {
-				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
-					// Content was not changed, we don't need to do anything.
-					return;
-				} else {
-					// Content was changed. And since no keypress event was fired, we have
-					// inputFired = 0, so undoManager.type method will not be called.
-					totalInputs++;
-				}
+			// Second part of the workaround for IEs functional keys bug. We need to check whether something has really
+			// changed because we blindly mocked the keypress event.
+			// Also we need to be aware that lastKeydownImage might not be available (#12327).
+			if ( ieFunctionalKeysBug && this.lastKeydownImage &&
+				this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
+				return;
 			}
 
 			if ( totalInputs > 0 ) {
@@ -1040,7 +1035,8 @@
 			editable.attachListener( editable, 'keydown', function( evt ) {
 				that.onKeydown( evt );
 
-				// On IE keypress isn't fired for functional keys.
+				// On IE keypress isn't fired for functional (backspace/delete) keys.
+				// Let's pretend that something's changed.
 				if ( CKEDITOR.env.ie && UndoManager.ieFunctionalKeysBug( evt.data.getKey() ) ) {
 					that.onInput();
 				}
