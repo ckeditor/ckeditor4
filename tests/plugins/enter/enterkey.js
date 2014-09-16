@@ -188,8 +188,8 @@
 		},
 
 		// (#12162)
-		'test enter key auto paragraphing in nested editable': function() {
-			var editor = this.editors.editor;
+		'test enter key directly in nested editable': function() {
+			var editor = this.editors.editorNoAutoParagraph;
 
 			bender.tools.selection.setWithHtml( editor, [
 				'<p>foo</p>',
