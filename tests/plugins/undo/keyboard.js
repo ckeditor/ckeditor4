@@ -36,10 +36,16 @@
 	}
 
 	function simulateHoldKey( times, keyTools, keyCode, domModification, beforeKeyUp ) {
+		var UndoManager = CKEDITOR.plugins.undo.UndoManager;
+
 		while( times-- ) {
 			keyTools.singleKeyEvent( keyCode, { type: 'keydown' } );
 			domModification();
-			keyTools.singleKeyEvent( 0, { type: ( CKEDITOR.env.ie ? 'keypress' : 'input' ) } );
+
+			// On IE there is no any event fired when functional key is down.
+			if ( !( CKEDITOR.env.ie && UndoManager.getKeyGroup( keyCode ) == UndoManager.keyGroupsEnum.FUNCTIONAL ) ) {
+				keyTools.singleKeyEvent( 0, { type: ( CKEDITOR.env.ie ? 'keypress' : 'input' ) } );
+			}
 		}
 
 		beforeKeyUp && beforeKeyUp();
