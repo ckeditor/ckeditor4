@@ -1769,6 +1769,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				if ( !indices.slice )
 					rawNode = getChild( rawNode, indices );
 				else {
+					indices = indices.slice();
 					while ( indices.length > 0 && rawNode )
 						rawNode = getChild( rawNode, indices.shift() );
 				}
