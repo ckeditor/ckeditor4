@@ -7,7 +7,7 @@
 
 	function replaceRangeWithClosestEditableRoot( range ) {
 		var closestEditable = range.startContainer.getAscendant( function( node ) {
-			return node.getAttribute( 'contenteditable' ) === 'true';
+			return node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'true';
 		}, true );
 
 		if ( range.root.equals( closestEditable ) ) {
