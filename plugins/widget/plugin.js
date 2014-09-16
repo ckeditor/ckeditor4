@@ -1745,7 +1745,7 @@
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
 			upcasts,
-			priority = widgetDef.upcastPriority ? widgetDef.upcastPriority : 10;
+			priority = widgetDef.upcastPriority || 10;
 
 		if ( !upcast )
 			return;
