@@ -680,7 +680,8 @@
 	 *
 	 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
 	 *
-	 * @since 4.4.4
+	 * @since 4.4.5
+	 * @static
 	 * @readonly
 	 */
 	UndoManager.keyGroupsEnum = {
@@ -704,8 +705,10 @@
 	/**
 	 * Returns the group to which passed `keyCode` belongs.
 	 *
+	 * @since 4.4.5
+	 * @static
 	 * @param {Number} keyCode
-	 * @returns {UndoManager.keyGroupsEnum}
+	 * @returns {Number}
 	 */
 	UndoManager.getKeyGroup = function( keyCode ) {
 		var keyGroupsEnum = UndoManager.keyGroupsEnum;
@@ -714,9 +717,10 @@
 	};
 
 	/**
-	 * @param {UndoManager.keyGroupsEnum}
-	 * @returns {UndoManager.keyGroupsEnum}
+	 * @since 4.4.5
 	 * @static
+	 * @param {Number} keyGroup
+	 * @returns {Number}
 	 */
 	UndoManager.getOppositeKeyGroup = function( keyGroup ) {
 		var keyGroupsEnum = UndoManager.keyGroupsEnum;
@@ -999,7 +1003,7 @@
 		},
 
 		/**
-		 * This method set `ignoreInputEvent` to true which means that execution of `onInput` method will be skipped once.
+		 * Makes the next `input` event to be ignored.
 		 */
 		ignoreInputEventListener: function() {
 			this.ignoreInputEvent = true;
@@ -1061,7 +1065,7 @@
 
 	KeyEventsStack.prototype = {
 		/**
-		 * Pushes to stack literal object with two keys: `keyCode` and `inputs` which init value is set to 0.
+		 * Pushes to stack literal object with two keys: `keyCode` and `inputs` which initial value is set to `0`.
 		 * It is intended to be called on the `keydown` event.
 		 *
 		 * @param {Number} keyCode
@@ -1072,7 +1076,7 @@
 		},
 
 		/**
-		 * Returns index of last registered `keyCode` in stack.
+		 * Returns index of last registered `keyCode` in the stack.
 		 * If no `keyCode` is provided, then function will return index of last item.
 		 * If item is not found it will return `-1`.
 		 *
@@ -1094,7 +1098,8 @@
 		},
 
 		/**
-		 * Returns last key record in stack. If keyCode provided, it will return last record for keyCode.
+		 * Returns last key recorded in the stack. If `keyCode` provided, then it will return last record for
+		 * this `keyCode`.
 		 *
 		 * @param {Number} [keyCode]
 		 * @returns {Object} Last matching record or `null`.
@@ -1109,7 +1114,7 @@
 		},
 
 		/**
-		 * Increments registered input events for stack record for given keyCode.
+		 * Increments registered input events for stack record for given `keyCode`.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1123,7 +1128,7 @@
 		},
 
 		/**
-		 * Removes last record from stack for provided keyCode as a first argument and returns it.
+		 * Removes last record from the stack for provided `keyCode`.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1136,9 +1141,9 @@
 		},
 
 		/**
-		 * Resets inputs value to `0` for the given `keyCode`.
+		 * Resets inputs value to `0` for the given `keyCode` or in entire stack if `keyCode` is not specified.
 		 *
-		 * @param {Number} keyCode
+		 * @param {Number} [keyCode]
 		 */
 		resetInputs: function( keyCode ) {
 			if ( typeof keyCode == 'number' ) {
@@ -1173,10 +1178,12 @@
 		},
 
 		/**
-		 * Sometimes `keyup` event is not registered for functional keys.
-		 * For example `Alt + Tab`. Which results that.
+		 * Cleans the stack based on provided `keyup` event object. The rationale behind this method
+		 * is that some keystrokes causes `keydown` to being fired in editor, but not `keyup`. For instance,
+		 * `ALT+TAB` will fire `keydown`, but since editor is blurred by it, then there is no `keyup` so
+		 * the keystroke is not removed from the stack.
 		 *
-		 * @param {CKEDITOR.dom.event}
+		 * @param {CKEDITOR.dom.event} event
 		 */
 		cleanUp: function( event ) {
 			var nativeEvent = event.data.$;
