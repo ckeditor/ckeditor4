@@ -285,7 +285,7 @@
 					strokesRecorded = 0;
 
 					this.editor.fire( 'saveSnapshot' );
-					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.reset().
+					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.resetType().
 					this.typing = true;
 				}
 			}
