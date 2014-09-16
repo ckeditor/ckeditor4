@@ -192,7 +192,7 @@
 	 */
 	var UndoManager = CKEDITOR.plugins.undo.UndoManager = function( editor ) {
 		/**
-		 * An array storing the number of key presses, count in a row. Use {@link #keyGroupsEnum} members as index.
+		 * An array storing the number of key presses, count in a row. Use {@link #keyGroups} members as index.
 		 *
 		 * **Note:** The keystroke count will be reset after reaching the limit of characters per snapshot.
 		 *
@@ -213,7 +213,7 @@
 		this.locked = null;
 
 		/**
-		 * Contains the previously processed key group, based on {@link #keyGroupsEnum}.
+		 * Contains the previously processed key group, based on {@link #keyGroups}.
 		 * `-1` means an unknown group.
 		 *
 		 * @since 4.4.4
@@ -680,13 +680,13 @@
 	 *
 	 * Example usage:
 	 *
-	 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
+	 *		undoManager.strokesRecorded[ undoManager.keyGroups.FUNCTIONAL ];
 	 *
 	 * @since 4.4.5
 	 * @readonly
 	 * @static
 	 */
-	UndoManager.keyGroupsEnum = {
+	UndoManager.keyGroups = {
 		PRINTABLE: 0,
 		FUNCTIONAL: 1
 	};
@@ -713,9 +713,9 @@
 	 * @returns {Number}
 	 */
 	UndoManager.getKeyGroup = function( keyCode ) {
-		var keyGroupsEnum = UndoManager.keyGroupsEnum;
+		var keyGroups = UndoManager.keyGroups;
 
-		return backspaceOrDelete[ keyCode ] ? keyGroupsEnum.FUNCTIONAL : keyGroupsEnum.PRINTABLE;
+		return backspaceOrDelete[ keyCode ] ? keyGroups.FUNCTIONAL : keyGroups.PRINTABLE;
 	};
 
 	/**
@@ -725,8 +725,21 @@
 	 * @returns {Number}
 	 */
 	UndoManager.getOppositeKeyGroup = function( keyGroup ) {
-		var keyGroupsEnum = UndoManager.keyGroupsEnum;
-		return ( keyGroup == keyGroupsEnum.FUNCTIONAL ? keyGroupsEnum.PRINTABLE : keyGroupsEnum.FUNCTIONAL );
+		var keyGroups = UndoManager.keyGroups;
+		return ( keyGroup == keyGroups.FUNCTIONAL ? keyGroups.PRINTABLE : keyGroups.FUNCTIONAL );
+	};
+
+	/**
+	 * Whether in this environment and for specified `keyCode` we need to use workaround
+	 * for functional (backspace, delete) keys not firing `keypress` event on Internet Explorer.
+	 *
+	 * @since 4.4.5
+	 * @static
+	 * @param {Number} keyCode
+	 * @returns {Boolean}
+	 */
+	UndoManager.ieFunctionalKeysBug = function( keyCode ) {
+		return CKEDITOR.env.ie && UndoManager.getKeyGroup( keyCode ) == UndoManager.keyGroups.FUNCTIONAL;
 	};
 
 	// Helper method called when undoManager.typing val was changed to true.
@@ -960,7 +973,7 @@
 			var undoManager = this.undoManager,
 				keyCode = evt.data.getKey(),
 				editor = undoManager.editor,
-				ieFunctionKeysWorkaround = CKEDITOR.env.ie && keyCode in backspaceOrDelete,
+				ieFunctionalKeysBug = UndoManager.ieFunctionalKeysBug( keyCode ),
 				totalInputs = this.keyEventsStack.getTotalInputs();
 
 			// Remove record from stack for provided key code.
@@ -968,7 +981,7 @@
 
 			// IE: doesn't call keypress for backspace/del keys so we need to handle it manually
 			// with a workaround. Also we need to be aware that lastKeydownImage might not be available (#12327).
-			if ( ieFunctionKeysWorkaround && this.lastKeydownImage ) {
+			if ( ieFunctionalKeysBug && this.lastKeydownImage ) {
 				if ( this.lastKeydownImage.equalsContent( new Image( editor, true ) ) ) {
 					// Content was not changed, we don't need to do anything.
 					return;
@@ -1026,8 +1039,9 @@
 			// need unmodified content when we got keygroup toggled in keyup.
 			editable.attachListener( editable, 'keydown', function( evt ) {
 				that.onKeydown( evt );
+
 				// On IE keypress isn't fired for functional keys.
-				if ( CKEDITOR.env.ie && UndoManager.getKeyGroup( evt.data.getKey() ) == UndoManager.keyGroupsEnum.FUNCTIONAL ) {
+				if ( CKEDITOR.env.ie && UndoManager.ieFunctionalKeysBug( evt.data.getKey() ) ) {
 					that.onInput();
 				}
 			} );

@@ -43,7 +43,7 @@
 			domModification();
 
 			// On IE there is no any event fired when functional key is down.
-			if ( !( CKEDITOR.env.ie && UndoManager.getKeyGroup( keyCode ) == UndoManager.keyGroupsEnum.FUNCTIONAL ) ) {
+			if ( !UndoManager.ieFunctionalKeysBug( keyCode ) ) {
 				keyTools.singleKeyEvent( 0, { type: ( CKEDITOR.env.ie ? 'keypress' : 'input' ) } );
 			}
 		}
@@ -84,7 +84,7 @@
 				this.undoManager = this.editor.undoManager;
 
 				if ( !keyGroups ) {
-					keyGroups = CKEDITOR.plugins.undo.UndoManager.keyGroupsEnum;
+					keyGroups = CKEDITOR.plugins.undo.UndoManager.keyGroups;
 				}
 
 				bender.tools.selection.setWithHtml( this.editor, '<p>_{}_</p>' );
