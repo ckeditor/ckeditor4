@@ -189,20 +189,27 @@
 
 		// (#12162)
 		'test enter key directly in nested editable': function() {
-			var editor = this.editors.editorNoAutoParagraph;
+			var editor = this.editors.editorNoAutoParagraph,
+				expected = '<p>foo</p>' +
+				'<div contenteditable="false">' +
+					'<div contenteditable="true">' +
+						'<p>hell@</p>' +
+						'<p>@</p>' +
+					'</div>' +
+				'</div>';
 
-			bender.tools.selection.setWithHtml( editor, [
-				'<p>foo</p>',
-				'<div contenteditable="false">',
-					'<div contenteditable="true">',
-						'hell[o]',
-					'</div>',
-				'</div>'
-			].join( '' ) );
+			bender.tools.selection.setWithHtml( editor,
+				'<p>foo</p>' +
+				'<div contenteditable="false">' +
+					'<div contenteditable="true">' +
+						'hell[o]' +
+					'</div>' +
+				'</div>' );
 
 			editor.execCommand( 'enter' );
 
-			assert.areEqual( 1, editor.editable().find( '[contenteditable="true"]' ).count(), 'Element should not be duplicated.' );
+			assert.isInnerHtmlMatching( expected, editor.editable().getHtml().replace( / data-cke-expando="\d+"/g, '' ),
+				'New paragraphs should be created.' );
 		},
 
 		/*
