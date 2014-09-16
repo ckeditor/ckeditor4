@@ -39,6 +39,8 @@ Fixed Issues:
 * [#12163](http://dev.ckeditor.com/ticket/12163): Fixed: Maximize plugin should abort its initialization if the [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is initialized.
 * [#12398](http://dev.ckeditor.com/ticket/12398): Fixed: Maximize does not work on instance without a [title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
 * [#12097](http://dev.ckeditor.com/ticket/12097): Fixed: JAWS not reading number of list options correctly in colors list box.
+* [#12411](http://dev.ckeditor.com/ticket/12411): Fixed: [Page Break](http://ckeditor.com/addon/pagebreak) used directly in the editable breaks the editor.
+* [#12162](http://dev.ckeditor.com/ticket/12162): Fixed: Auto paragraphing and enter key in nested editables.
 
 ## CKEditor 4.4.4
 

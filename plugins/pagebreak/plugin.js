@@ -134,7 +134,7 @@
 			span: {
 				match: function( element ) {
 					var parent = element.parent;
-					return parent && parent.name == 'div' && parent.styles[ 'page-break-after' ];
+					return parent && parent.name == 'div' && parent.styles && parent.styles[ 'page-break-after' ];
 				},
 				styles: 'display'
 			}
