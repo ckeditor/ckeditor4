@@ -1537,6 +1537,14 @@
 CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
+ * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
+ *
+ * @cfg {Boolean} [image2_emptyDimensionsOnLoad=false]
+ * @member CKEDITOR.config
+ * @since 4.5.0
+ */
+
+/**
  * CSS classes applied to aligned images. Useful to take control over the way
  * the images are aligned, i.e. to customize output HTML and integrate external stylesheets.
  *
