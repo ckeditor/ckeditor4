@@ -83,6 +83,30 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'figure', element.getName( 'figure' ) );
 		},
 
+		'test getChild - single index': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<ul><li>zero</li><li>one</li></ul>' );
+
+			assert.areSame( 'zero', element.getChild( 0 ).getHtml() );
+			assert.areSame( 'one', element.getChild( 1 ).getHtml() );
+		},
+
+		'test getChild - array selector': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div><ul><li>zero</li><li>one</li></ul></div>' );
+
+			assert.areSame( 'ul', element.getChild( [ 0 ] ).getName() );
+			assert.areSame( 'one', element.getChild( [ 0, 1 ] ).getHtml() );
+			assert.isNull( element.getChild( [ 0, 2 ] ) );
+			assert.isNull( element.getChild( [ 1, 0 ] ) );
+		},
+
+		'test getChild does not modify array': function() {
+			var selector = [ 1, 0 ],
+				element = CKEDITOR.dom.element.createFromHtml( '<div><ul><li>zero</li><li>one</li></ul></div>' );
+
+			element.getChild( selector );
+			assert.areSame( 2, selector.length );
+		},
+
 		test_append1 : function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.append( newElement( 'b' ) );
