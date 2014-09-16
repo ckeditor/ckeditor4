@@ -269,14 +269,15 @@
 				strokesRecorded = 0;
 
 				this.editor.fire( 'saveSnapshot' );
+			} else {
+				// Fire change event.
+				this.editor.fire( 'change' );
 			}
 
 			// Store recorded strokes count.
 			this.strokesRecorded[ keyGroup ] = strokesRecorded;
 			// This prop will tell in next itaration what kind of group was processed previously.
 			this.previousKeyGroup = keyGroup;
-			// Fire change event.
-			this.editor.fire( 'change' );
 		},
 
 		/**

@@ -10,7 +10,6 @@
 	bender.editor = {
 		startupData: '<p>foo</p>',
 		config: {
-			undoStackSize: keystrokesPerSnapshotLimit,
 			on: {
 				change: function() {
 					changeCounter++;
@@ -163,11 +162,15 @@
 			},
 
 			'test undoManager change event firing': tcWithExpectedChanges( 30, function() {
-				// Change event should be fired on each key.
-				var keyPressesCount = 30;
+				var textNode = this.editor.editable().getFirst().getFirst(),
+					// Change event should be fired on each key.
+					keyPressesCount = 30;
 
-				for ( var i = 0; i < keyPressesCount; i++ )
-					this.keyTools.keyEvent( keyCodesEnum.KEY_D );
+				for ( var i = 0; i < keyPressesCount; i++ ) {
+					this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
+						addCharactersToTextNode( textNode, 'd' );
+					} );
+				}
 			} ),
 
 			'test undoManager change event for functional keys': tcWithExpectedChanges( 2, function() {
@@ -246,15 +249,17 @@
 
 			'test strokesRecorded reset after exceeding limit': tcWithExpectedChanges( keystrokesPerSnapshotLimit, function() {
 				// This count should be equal to limit of keys inbetween snapshot.
-				var keyStrokesCount = keystrokesPerSnapshotLimit,
-					snapshotEventsCount = 0,
+				var snapshotEventsCount = 0,
+					textNode = this.editor.editable().getFirst().getFirst(),
 					undoManager = this.undoManager;
 
 				this.editor.on( 'saveSnapshot', function() {
 					snapshotEventsCount++;
 				}, null, null, -1000 );
 
-				this.keyTools.keyEventMultiple( keyStrokesCount, keyCodesEnum.KEY_D );
+				this.keyTools.keyEventMultiple( keystrokesPerSnapshotLimit, keyCodesEnum.KEY_D, null, false, function() {
+					addCharactersToTextNode( textNode, 'd' );
+				} );
 
 				assert.areSame( 0, undoManager.strokesRecorded[ keyGroups.PRINTABLE ], 'undoManager.strokesRecorded[ keyGroups.PRINTABLE ] is not zeroed' );
 				assert.areSame( 1, snapshotEventsCount, 'Wrong editor#saveSnapshot events count' );
@@ -510,6 +515,33 @@
 					this.editor.execCommand( 'undo' );
 
 					assert.areSame( '<p>fooddddd</p>', this.editor.getData(), 'After undo' );
+				} );
+			},
+
+			'test one change event fired once per 25 hold keys': function() {
+				this.editorBot.setData( '<p>foo</p>', function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst(),
+						changeFired = 0,
+						data;
+
+					this.editor.resetUndo();
+
+					this._moveTextNodeRange( 3 );
+
+					var listener = this.editor.on( 'change', function() {
+						changeFired += 1;
+						data = this.getData();
+					} );
+
+					simulateHoldKey( undoManager.strokesLimit, this.keyTools, keyCodesEnum.KEY_D, function() {
+						addCharactersToTextNode( textNode, 'd' );
+					} );
+
+					listener.removeListener();
+
+					assert.areSame( 1, changeFired );
+					assert.areSame( '<p>fooddddddddddddddddddddddddd</p>', data );
 				} );
 			},
 

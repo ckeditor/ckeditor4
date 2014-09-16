@@ -74,7 +74,7 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 		/**
 		 * Calls keyEvent() with given ammount of times.
 		 */
-		keyEventMultiple: function( repeatTimes, keyCode, eventInfo, skipInputEvent,domModificationFn ) {
+		keyEventMultiple: function( repeatTimes, keyCode, eventInfo, skipInputEvent, domModificationFn ) {
 			for ( var i = 0; i < repeatTimes; i++ )
 				this.keyEvent( keyCode, eventInfo, skipInputEvent, domModificationFn );
 		},
