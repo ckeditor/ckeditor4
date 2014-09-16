@@ -69,31 +69,23 @@
 		},
 
 		/**
-		 * Finds the position of the element in the sorted array.
+		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
 		 *
-		 *		CKEDITOR.tools.findPosition( [ 1, 2, 4, 5 ], function( el ) {
-		 *			return el < 3;
-		 *		} )  // 2
+		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
+		 *			return el >= 3;
+		 *		} ); // 2
 		 *
-		 * @param {Array} array Sorter array of elements.
-		 * @param {Function} compareFunction Compare function which get array
-		 * element as a parameter and returns true if the position is after that element.
-		 * @returns {Number} Position in the array where element should be inserted.
+		 * @since 4.5
+		 * @param {Array} array Array to search in.
+		 * @param {Function} compareFunction Compare function.
+		 * @returns {Number} The index of the first matching element or `-1` if none matches.
 		 */
-		findPosition: function( array, compareFunction ) {
-			var low = 0,
-				high = array.length;
-
-			while ( low < high ) {
-				var mid = ( low + high ) >> 1;
-
-				if ( compareFunction( array[ mid ] ) ) {
-					low = mid + 1;
-				} else {
-					high = mid;
-				}
+		getIndex: function( arr, compareFunction ) {
+			for ( var i = 0; i < arr.length; ++i ) {
+				if ( compareFunction( arr[ i ] ) )
+					return i;
 			}
-			return low;
+			return -1;
 		},
 
 		/**

@@ -58,30 +58,16 @@ bender.test(
 			assert.isFalse( CKEDITOR.tools.isArray( window.x ) );
 		},
 
-		'test findPosition after same': function() {
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el <= 0; } ), '1' );
-			assert.areSame( 2, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el <= 2; } ), '2' );
-			assert.areSame( 3, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el <= 5; } ), '3' );
-			assert.areSame( 3, CKEDITOR.tools.findPosition( [ 1, 1, 1 ], function( el ) { return el <= 1; } ), '4' );
-
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el <= 0; } ), '5' );
-			assert.areSame( 4, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el <= 5; } ), '6' );
-			assert.areSame( 2, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el <= 2; } ), '7' );
-			assert.areSame( 2, CKEDITOR.tools.findPosition( [ 1, 2, 4, 6 ], function( el ) { return el <= 3; } ), '8' );
-			assert.areSame( 4, CKEDITOR.tools.findPosition( [ 1, 1, 1, 1 ], function( el ) { return el <= 1; } ), '9' );
+		'test getIndex - not found': function() {
+			assert.areSame( -1, CKEDITOR.tools.getIndex( [ 1, 2, 3 ], function( el ) { return el == 4; } ) );
 		},
 
-		'test findPosition before same': function() {
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el < 0; } ), '1' );
-			assert.areSame( 1, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el < 2; } ), '2' );
-			assert.areSame( 3, CKEDITOR.tools.findPosition( [ 1, 2, 3 ], function( el ) { return el < 5; } ), '3' );
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 1, 1 ], function( el ) { return el < 1; } ), '4' );
+		'test getIndex - found first': function() {
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2, 2, 2, 3, 2, 2 ], function( el ) { return el == 2; } ) );
+		},
 
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el < 0; } ), '5' );
-			assert.areSame( 4, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el < 5; } ), '6' );
-			assert.areSame( 1, CKEDITOR.tools.findPosition( [ 1, 2, 3, 4 ], function( el ) { return el < 2; } ), '7' );
-			assert.areSame( 2, CKEDITOR.tools.findPosition( [ 1, 2, 4, 6 ], function( el ) { return el < 3; } ), '8' );
-			assert.areSame( 0, CKEDITOR.tools.findPosition( [ 1, 1, 1, 1 ], function( el ) { return el < 1; } ), '9' );
+		'test getIndex - found on last position': function() {
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2 ], function( el ) { return el == 2; } ) );
 		},
 
 		test_htmlEncode1: function() {

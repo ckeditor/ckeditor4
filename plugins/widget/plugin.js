@@ -1763,10 +1763,16 @@
 		}
 
 		function addUpcast( upcast, name, priority ) {
-			var pos = CKEDITOR.tools.findPosition( widgetsRepo._.upcasts, function( element ) {
-				return element[ 2 ] <= priority;
+			// Find index of the first higher (in terms of value) priority upcast.
+			var index = CKEDITOR.tools.getIndex( widgetsRepo._.upcasts, function( element ) {
+				return element[ 2 ] > priority;
 			} );
-			widgetsRepo._.upcasts.splice( pos, 0, [ upcast, name, priority ] );
+			// Add at the end if it is the highest priority so far.
+			if ( index < 0 ) {
+				index = widgetsRepo._.upcasts.length;
+			}
+
+			widgetsRepo._.upcasts.splice( index, 0, [ upcast, name, priority ] );
 		}
 	}
 
