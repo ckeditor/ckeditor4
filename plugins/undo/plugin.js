@@ -95,13 +95,6 @@
 			// Disable undo manager when in read-only mode.
 			editor.on( 'readOnly', toggleUndoManager );
 
-			// When pressing `Tab` key while editable is focused, `keyup` event is not fired.
-			// Which means that record for `tab` key stays in key events stack.
-			// We assume that when editor is blurred `tab` key is already up.
-			editor.on( 'blur', function () {
-				editingHandler.keyEventsStack.remove( 9 /*Tab*/ );
-			} );
-
 			if ( editor.ui.addButton ) {
 				editor.ui.addButton( 'Undo', {
 					label: editor.lang.undo.undo,
@@ -1040,6 +1033,13 @@
 			editable.attachListener( editable, 'click', function() {
 				that.onNavigationKey();
 			} );
+
+			// When pressing `Tab` key while editable is focused, `keyup` event is not fired.
+			// Which means that record for `tab` key stays in key events stack.
+			// We assume that when editor is blurred `tab` key is already up.
+			editable.attachListener( this.undoManager.editor, 'blur', function () {
+				this.keyEventsStack.remove( 9 /*Tab*/ );
+			}, this );
 		}
 	};
 
