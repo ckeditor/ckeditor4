@@ -258,36 +258,17 @@
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
-				keyGroupChanged = keyGroup !== this.previousKeyGroup,
 				strokesPerSnapshotExceeded =
-					( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit ),
-				// Identifier of opposite group, used later on to reset its counter.
-				oppositeGroup = UndoManager.getOppositeKeyGroup( keyGroup );
+					( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit );
 
 			if ( !this.typing )
 				onTypingStart( this );
 
-			if ( ( keyGroupChanged && this.previousKeyGroup !== -1 ) || strokesPerSnapshotExceeded ) {
-				if ( keyGroupChanged ) {
-					// Key group changed:
-					// Reset the other key group recorded count.
-					this.strokesRecorded[ oppositeGroup ] = 0;
-					// In case of group changed we need to save snapshot before DOM modification,
-					// consider: <p>ab^</p> when user was typing "ab", and is pressing backspace.
-					// Since we're in keyup event, DOM is modified, and we have <p>a^</p> - thus
-					// snapshot made in keydown, before modification.
-					if ( !this.save( false, this.editingHandler.lastKeydownImage, false ) )
-						// Drop further snapshots.
-						this.snapshots.splice( this.index + 1, this.snapshots.length - this.index - 1 );
-				} else {
-					// Limit of chars in snapshot exceeded:
-					// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
-					strokesRecorded = 0;
+			if ( strokesPerSnapshotExceeded ) {
+				// Reset the count of strokes, so it'll be later assigned to this.strokesRecorded.
+				strokesRecorded = 0;
 
-					this.editor.fire( 'saveSnapshot' );
-					// Force typing state to be enabled. It was reset because saveSnapshot is calling this.resetType().
-					this.typing = true;
-				}
+				this.editor.fire( 'saveSnapshot' );
 			}
 
 			// Store recorded strokes count.
@@ -296,6 +277,17 @@
 			this.previousKeyGroup = keyGroup;
 			// Fire change event.
 			this.editor.fire( 'change' );
+		},
+
+		/**
+		 * Whether the new `keyCode` belongs to different group than the previous one ({@link #previousKeyGroup}).
+		 *
+		 * @since 4.4.5
+		 * @param {Number} keyCode
+		 * @returns {Boolean}
+		 */
+		keyGroupChanged: function( keyCode ) {
+			return UndoManager.getKeyGroup( keyCode ) != this.previousKeyGroup;
 		},
 
 		/**
@@ -942,7 +934,7 @@
 			// change.
 			this.lastKeydownImage = new Image( undoManager.editor );
 
-			if ( UndoManager.isNavigationKey( keyCode ) ) {
+			if ( UndoManager.isNavigationKey( keyCode ) || this.undoManager.keyGroupChanged( keyCode ) ) {
 				if ( undoManager.strokesRecorded[ 0 ] || undoManager.strokesRecorded[ 1 ] ) {
 					// We already have image, so we'd like to reuse it.
 					undoManager.save( false, this.lastKeydownImage );
@@ -973,7 +965,7 @@
 			this.keyEventsStack.increment( lastInput.keyCode );
 
 			// Exceeded limit.
-			if ( this.keyEventsStack.getTotalInputs() > this.undoManager.strokesLimit ) {
+			if ( this.keyEventsStack.getTotalInputs() >= this.undoManager.strokesLimit ) {
 				this.undoManager.type( lastInput.keyCode, true );
 				this.keyEventsStack.resetInputs();
 			}

@@ -261,19 +261,28 @@
 			} ),
 
 			'test undoManager.typing property': function() {
+				bender.tools.selection.setWithHtml( this.editor, '<p>foo {}bar</p>' );
+
 				var undoManager = this.undoManager,
+					textNode = this.editor.editable().getFirst().getFirst(),
 					iterationsCount = 15,
 					i;
+
+				this.editor.resetUndo();
 
 				assert.isFalse( undoManager.typing, 'Invalid undoManager.typing val' );
 
 				for ( i = 0; i < iterationsCount; i++ ) {
-					this.keyTools.keyEvent( keyCodesEnum.KEY_D );
+					this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
+						addCharactersToTextNode( textNode, 'd' );
+					} );
 					assert.isTrue( undoManager.typing, 'Invalid undoManager.typing at character key ' + i + '. iteration' );
 				}
 				// Now lets use functional keys and ensure that typing is still true.
 				for ( i = 0; i < iterationsCount; i++ ) {
-					this.keyTools.keyEvent( keyCodesEnum.BACKSPACE );
+					this.keyTools.keyEvent( keyCodesEnum.BACKSPACE, null, false, function() {
+						removeLastCharFromTextNode( textNode );
+					} );
 					assert.isTrue( undoManager.typing, 'Invalid undoManager.typing at functional keys ' + i + '. iteration' );
 				}
 			},
@@ -427,21 +436,28 @@
 			},
 
 			'test snapshot created on more than 25 backspaces': function() {
-				this.editorBot.setData( '<p>aaaaaaaaaaaaaaaaaaaaaaaaaccccccccccccccccccccccccc</p>', function() {
-						var undoManager = this.editor.undoManager,
-							textNode = this.editor.editable().getFirst().getFirst();
+				this.editorBot.setData( '<p>12345678901234567890123451234567890123456789012345</p>', function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst(),
+						// On IE we will have the snapshot created earlier, because
+						// we must mock the keypress when key is hold, so DOM isn't changed yet.
+						expected = CKEDITOR.env.ie ?
+							'<p>12345678901234567890123451@</p>' :
+							'<p>1234567890123456789012345@</p>';
 
-						assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+					this.editor.resetUndo();
 
-						this._moveTextNodeRange( 50 );
-						assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
+					assert.areEqual( 1, undoManager.snapshots.length, 'At the beginning' );
 
-						simulateHoldKey( 26, this.keyTools, 8, function() {
-							removeLastCharFromTextNode( textNode );
-						} );
+					this._moveTextNodeRange( 50 );
+					assert.areEqual( 1, undoManager.snapshots.length, 'After setting selection' );
 
-						assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
-						bender.assert.isInnerHtmlMatching( '<p>aaaaaaaaaaaaaaaaaaaaaaaaa@</p>', undoManager.snapshots[ 2 ].contents );
+					simulateHoldKey( undoManager.strokesLimit, this.keyTools, 8 /*BACKSPACE*/, function() {
+						removeLastCharFromTextNode( textNode );
+					} );
+
+					assert.areEqual( 2, undoManager.snapshots.length, 'After backspace' );
+					bender.assert.isInnerHtmlMatching( expected, undoManager.snapshots[ 1 ].contents );
 				} );
 			},
 
@@ -467,6 +483,33 @@
 
 					assert.areEqual( 3, undoManager.snapshots.length, 'Invalid snapshots count' );
 					bender.assert.isInnerHtmlMatching( '<p>HIffffffffffffffffffffppppp@</p>', undoManager.snapshots[ 2 ].contents );
+				} );
+			},
+
+			'test snapshot created when holding backspace after typing': function() {
+				this.editorBot.setData( '<p>foo</p>', function() {
+					var undoManager = this.editor.undoManager,
+						textNode = this.editor.editable().getFirst().getFirst();
+
+					this.editor.resetUndo();
+
+					this._moveTextNodeRange( 3 );
+
+					for ( var i = 0; i < 5; i++ ) {
+						this.keyTools.keyEvent( keyCodesEnum.KEY_D, null, false, function() {
+							addCharactersToTextNode( textNode, 'd' );
+						} );
+					}
+
+					simulateHoldKey( 3, this.keyTools, 8 /*BACKSPACE*/, function() {
+						removeLastCharFromTextNode( textNode );
+					} );
+
+					assert.areSame( '<p>foodd</p>', this.editor.getData(), 'After deleting' );
+
+					this.editor.execCommand( 'undo' );
+
+					assert.areSame( '<p>fooddddd</p>', this.editor.getData(), 'After undo' );
 				} );
 			},
 
