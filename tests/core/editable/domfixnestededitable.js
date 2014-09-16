@@ -25,12 +25,16 @@
 			var editor = this.editors.editor1,
 				editable = editor.editable(),
 				expected =
-					'<p>foo</p>' +
+					'<p>foo@</p>' +
 					'<div contenteditable="false">' +
 						'<div contenteditable="true">' +
-							'<p>[]hello<br></p>' +
+							'<p>^hello@</p>' +
 						'</div>' +
-					'</div>';
+					'</div>',
+				htmlMatchingOpts = {
+					compareSelection: true,
+					normalizeSelection: true
+				};
 
 			bender.tools.selection.setWithHtml( editor,
 				'<p>f[o]o</p>' +
@@ -48,7 +52,8 @@
 			range.setEnd( nestedEditable, 0 );
 			sel.selectRanges( [ range ] );
 
-			assert.areEqual( expected, bender.tools.selection.getWithHtml( editor ), 'Paragraph should be added.' );
+			assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( editor ),
+				htmlMatchingOpts, 'Paragraph should be added.' );
 		}
 	} );
 } )();
