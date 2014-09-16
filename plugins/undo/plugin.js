@@ -234,6 +234,8 @@
 		 * keystrokes that can change the editor content.
 		 *
 		 * @param {Number} keyCode The key code.
+		 * @param {Boolean} [strokesPerSnapshotExceeded] When set to `true` the method will
+		 * behave as strokes limit was exceeded regardless of {@link #strokesRecorded} value.
 		 */
 		type: function( keyCode, strokesPerSnapshotExceeded ) {
 			var keyGroup = UndoManager.getKeyGroup( keyCode ),
@@ -659,7 +661,7 @@
 	 * Codes for navigation keys like Arrows, Page Up/Down, etc.
 	 * Used by the {@link #isNavigationKey} method.
 	 *
-	 * @since 4.4.4
+	 * @since 4.4.5
 	 * @readonly
 	 * @static
 	 */
@@ -681,8 +683,8 @@
 	 *		undoManager.strokesRecorded[ undoManager.keyGroupsEnum.FUNCTIONAL ];
 	 *
 	 * @since 4.4.5
-	 * @static
 	 * @readonly
+	 * @static
 	 */
 	UndoManager.keyGroupsEnum = {
 		PRINTABLE: 0,
@@ -693,10 +695,10 @@
 	 * Checks whether a key is one of navigation keys (Arrows, Page Up/Down, etc.).
 	 * See also the {@link #navigationKeyCodes} property.
 	 *
-	 * @since 4.4.4
+	 * @since 4.4.5
+	 * @static
 	 * @param {Number} keyCode
 	 * @returns {Boolean}
-	 * @static
 	 */
 	UndoManager.isNavigationKey = function( keyCode ) {
 		return !!UndoManager.navigationKeyCodes[ keyCode ];
@@ -860,13 +862,18 @@
 		this.undoManager = undoManager;
 
 		/**
-		 * For internal use only. When set to `true` will prevent from executing `onInput` method once.
-		 * @type {Boolean} ignoreInputEvent
+		 * See {@link #ignoreInputEventListener}.
+		 *
+		 * @since 4.4.5
+		 * @private
 		 */
 		this.ignoreInputEvent = false;
 
 		/**
-		 * @type {CKEDITOR.plugins.undo.KeyEventsStack}
+		 * A stack of pressed keys.
+		 *
+		 * @since 4.4.5
+		 * @property {CKEDITOR.plugins.undo.KeyEventsStack} keyEventsStack
 		 */
 		this.keyEventsStack = new KeyEventsStack();
 
@@ -929,8 +936,7 @@
 
 			var lastInput = this.keyEventsStack.getLast();
 			// Nothing in key events stack, but input event called. Interesting...
-			// That's because on android order of events is buggy.
-			// And also keyCode is set to 0.
+			// That's because on Android order of events is buggy and also keyCode is set to 0.
 			if ( !lastInput ) {
 				lastInput = this.keyEventsStack.push( 0 );
 			}
@@ -1018,7 +1024,7 @@
 
 			// We'll create a snapshot here (before DOM modification), because we'll
 			// need unmodified content when we got keygroup toggled in keyup.
-			editable.attachListener( editable, 'keydown', that.onKeydown, that, null );
+			editable.attachListener( editable, 'keydown', that.onKeydown, that );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
 			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
@@ -1178,7 +1184,7 @@
 		},
 
 		/**
-		 * Cleans the stack based on provided `keyup` event object. The rationale behind this method
+		 * Cleans the stack based on provided `keydown` event object. The rationale behind this method
 		 * is that some keystrokes causes `keydown` to being fired in editor, but not `keyup`. For instance,
 		 * `ALT+TAB` will fire `keydown`, but since editor is blurred by it, then there is no `keyup` so
 		 * the keystroke is not removed from the stack.
