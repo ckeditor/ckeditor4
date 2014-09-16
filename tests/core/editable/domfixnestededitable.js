@@ -1,83 +1,52 @@
 /* bender-tags: editor,unit,autoparagraphing */
-/* bender-ckeditor-plugins: enterkey */
 
 ( function () {
 	'use strict';
 
 	var doc = CKEDITOR.document;
 
-	// This group of tests plays upon the framed content.
 	bender.test( {
 		// Initialize the editor instance.
-		'async:init' : function() {
+		'async:init': function() {
 			var that = this;
 
 			bender.tools.setUpEditors( {
-				"editor1": {
-					name: "editor1"
-				},
-				"editor2": {
-					name: "editor2",
-					config: {
-						autoParagraph: false
-					}
+				editor1: {
+					name: 'editor1'
 				}
 			}, function( editors, bots ) {
 				that.editors = editors;
-
-				// Allow editor creation to complete.
-				setTimeout( function() { that.callback(); }, 0 );
+				that.callback();
 			} );
-		},
-
-		setupEditor : function( data, callback ) {
-			var tc = this, editor = tc.editors.editor1;
-			editor.setData( data, function() {
-				CKEDITOR.document.getBody().focus();
-				editor.focus();
-				setTimeout( function() { tc.resume( callback ); }, 200 );
-			} );
-			tc.wait();
 		},
 
 		// (#12162)
-		testDomFixNestedEditable: function() {
-			var tc = this,
-				editor = this.editors.editor1,
+		'test autoparagraphing in nested editable': function() {
+			var editor = this.editors.editor1,
 				editable = editor.editable(),
-				expected = [
-					'<p>foo</p>',
-					'<div contenteditable="false">',
-						'<div contenteditable="true">',
-							'<p>[]hello<br></p>',
-						'</div>',
-					'</div>'
-				].join( '' );
+				expected =
+					'<p>foo</p>' +
+					'<div contenteditable="false">' +
+						'<div contenteditable="true">' +
+							'<p>[]hello<br></p>' +
+						'</div>' +
+					'</div>';
 
-			bender.tools.selection.setWithHtml( editor, [
-				'<p>foo</p>',
-				'<div contenteditable="false">',
-					'<div contenteditable="true">',
-						'h[e]llo',
-					'</div>',
-				'</div>'
-			].join( '' ) );
+			bender.tools.selection.setWithHtml( editor,
+				'<p>f[o]o</p>' +
+				'<div contenteditable="false">' +
+					'<div contenteditable="true">' +
+						'hello' +
+					'</div>' +
+				'</div>' );
 
-			var widget = editable.findOne( 'div[contenteditable="true"]' ),
-			sel = editor.getSelection(),
-			range = sel.getRanges()[ 0 ],
-			firstElement = sel.getStartElement(),
-			currentPath = new CKEDITOR.dom.elementPath( firstElement, editor.editable() );
+			var nestedEditable = editable.findOne( 'div[contenteditable="true"]' ),
+				sel = editor.getSelection(),
+				range = editor.createRange();
 
-			range.setStart( widget, 0 );
-			range.setEnd( widget, 0 );
+			range.setStart( nestedEditable, 0 );
+			range.setEnd( nestedEditable, 0 );
 			sel.selectRanges( [ range ] );
-
-			editor.fire( 'selectionChange', {
-				selection : sel,
-				path : currentPath,
-				element : firstElement
-			} );
 
 			assert.areEqual( expected, bender.tools.selection.getWithHtml( editor ), 'Paragraph should be added.' );
 		}
