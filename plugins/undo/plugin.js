@@ -257,9 +257,10 @@
 			var keyGroup = UndoManager.getKeyGroup( keyCode ),
 				// Count of keystrokes in current a row.
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
-				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
-				strokesPerSnapshotExceeded =
-					( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit );
+				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1;
+
+			strokesPerSnapshotExceeded =
+				( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit );
 
 			if ( !this.typing )
 				onTypingStart( this );
