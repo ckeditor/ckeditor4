@@ -222,6 +222,22 @@
 		 */
 		this.previousKeyGroup = -1;
 
+		/**
+		 * Maximum number of snapshots in the stack. Configurable via {@link CKEDITOR.config#undoStackSize}.
+		 *
+		 * @readonly
+		 * @property {Number} [limit]
+		 */
+		this.limit = editor.config.undoStackSize || 20;
+
+		/**
+		 * Maximum number of characters typed/deleted in one undo step.
+		 *
+		 * @since 4.4.5
+		 * @readonly
+		 */
+		this.strokesLimit = 25;
+
 		this.editor = editor;
 
 		// Reset the undo stack.
@@ -243,7 +259,8 @@
 				// Note if strokesPerSnapshotExceeded will be exceeded, it'll be restarted.
 				strokesRecorded = this.strokesRecorded[ keyGroup ] + 1,
 				keyGroupChanged = keyGroup !== this.previousKeyGroup,
-				strokesPerSnapshotExceeded = ( typeof strokesPerSnapshotExceeded == 'boolean' ? strokesPerSnapshotExceeded : strokesRecorded >= this.limit ),
+				strokesPerSnapshotExceeded =
+					( strokesPerSnapshotExceeded || strokesRecorded >= this.strokesLimit ),
 				// Identifier of opposite group, used later on to reset its counter.
 				oppositeGroup = UndoManager.getOppositeKeyGroup( keyGroup );
 
@@ -291,8 +308,6 @@
 
 			// Current snapshot history index.
 			this.index = -1;
-
-			this.limit = this.editor.config.undoStackSize || 20;
 
 			this.currentImage = null;
 
@@ -958,7 +973,7 @@
 			this.keyEventsStack.increment( lastInput.keyCode );
 
 			// Exceeded limit.
-			if ( this.keyEventsStack.getTotalInputs() > this.undoManager.limit ) {
+			if ( this.keyEventsStack.getTotalInputs() > this.undoManager.strokesLimit ) {
 				this.undoManager.type( lastInput.keyCode, true );
 				this.keyEventsStack.resetInputs();
 			}

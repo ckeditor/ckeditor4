@@ -457,11 +457,11 @@
 
 					assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					simulateHoldKey( 20, this.keyTools, 70 /*f*/, function() {
+					simulateHoldKey( undoManager.strokesLimit, this.keyTools, 70 /*f*/, function() {
 						addCharactersToTextNode( textNode, 'f' );
 					} );
 
-					simulateHoldKey( 20, this.keyTools, 80 /*p*/, function() {
+					simulateHoldKey( undoManager.strokesLimit, this.keyTools, 80 /*p*/, function() {
 						addCharactersToTextNode( textNode, 'p' );
 					} );
 
@@ -482,7 +482,7 @@
 
 					assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
-					simulateHoldKey( 20, keyTools, 70 /*f*/, addCharacterF, function() {
+					simulateHoldKey( undoManager.strokesLimit - 5, keyTools, 70 /*f*/, addCharacterF, function() {
 						simulateHoldKey( 10, keyTools, 68 /*d*/, addCharacterD );
 					} );
 
