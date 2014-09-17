@@ -344,7 +344,7 @@
 
 					// Update currentValue and corresponding argument in args array.
 					// Updated values will be used in next for-loop step.
-					if ( ret != undefined )
+					if ( ret != null )
 						args[ 0 ] = currentValue = ret;
 
 					// ret == undefined will continue loop as nothing has happened.

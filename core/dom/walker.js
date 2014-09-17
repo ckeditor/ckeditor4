@@ -338,7 +338,7 @@
 	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.blockBoundary = function( customNodeNames ) {
-		return function( node, type ) {
+		return function( node ) {
 			return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary( customNodeNames ) );
 		};
 	};
@@ -613,7 +613,7 @@
 		do {
 			tail = tail.getPreviousSourceNode();
 		}
-		while ( toSkip( tail ) )
+		while ( toSkip( tail ) );
 
 		if ( tail && ( CKEDITOR.env.needsBrFiller ? tail.is && tail.is( 'br' ) : tail.getText && tailNbspRegex.test( tail.getText() ) ) )
 			return tail;

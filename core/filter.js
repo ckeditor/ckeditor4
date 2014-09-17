@@ -1223,7 +1223,7 @@
 	// Create pseudo element that will be passed through filter
 	// to check if tested string is allowed.
 	function mockElementFromString( str ) {
-		var element = parseRulesString( str )[ '$1' ],
+		var element = parseRulesString( str ).$1,
 			styles = element.styles,
 			classes = element.classes;
 
@@ -1337,7 +1337,7 @@
 	function optimizeRules( optimizedRules, rules ) {
 		var elementsRules = optimizedRules.elements,
 			genericRules = optimizedRules.generic,
-			i, l, j, rule, element, priority;
+			i, l, rule, element, priority;
 
 		for ( i = 0, l = rules.length; i < l; ++i ) {
 			// Shallow copy. Do not modify original rule.
@@ -1589,8 +1589,7 @@
 	// Copy element's styles and classes back to attributes array.
 	function updateAttributes( element ) {
 		var attrs = element.attributes,
-			stylesArr = [],
-			name, styles;
+			styles;
 
 		// Will be recreated later if any of styles/classes exists.
 		delete attrs.style;
@@ -1687,8 +1686,6 @@
 	}
 
 	function validateElement( element ) {
-		var attrs;
-
 		switch ( element.name ) {
 			case 'a':
 				// Code borrowed from htmlDataProcessor, so ACF does the same clean up.
@@ -1723,15 +1720,6 @@
 	//
 	// REMOVE ELEMENT ---------------------------------------------------------
 	//
-
-	// Checks whether node is allowed by DTD.
-	function allowedIn( node, parentDtd ) {
-		if ( node.type == CKEDITOR.NODE_ELEMENT )
-			return parentDtd[ node.name ];
-		if ( node.type == CKEDITOR.NODE_TEXT )
-			return parentDtd[ '#' ];
-		return true;
-	}
 
 	// Check whether all children will be valid in new context.
 	// Note: it doesn't verify if text node is valid, because
@@ -1825,8 +1813,7 @@
 
 		var parent = element.parent,
 			shouldAutoP = parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT || parent.name == 'body',
-			i, j, child, p, node,
-			toBeRemoved = [];
+			i, child, p;
 
 		for ( i = children.length; i > 0; ) {
 			child = children[ --i ];
@@ -1867,7 +1854,7 @@
 	// isn't first/last child of its parent.
 	// Then replace element with its children.
 	// <p>a</p><p>b</p> => <p>a</p><br>b => a<br>b
-	function stripBlockBr( element, toBeChecked ) {
+	function stripBlockBr( element ) {
 		var br;
 
 		if ( element.previous && !isBrOrBlock( element.previous ) ) {

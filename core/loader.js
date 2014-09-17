@@ -9,7 +9,7 @@
  */
 
 if ( typeof CKEDITOR == 'undefined' )
-	CKEDITOR = {};
+	CKEDITOR = {}; // jshint ignore:line
 
 if ( !CKEDITOR.loader ) {
 	/**

@@ -246,7 +246,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {CKEDITOR.dom.node} The appended node.
 		 */
 		appendText: function( text ) {
-			if ( this.$.text != undefined )
+			if ( this.$.text != null )
 				this.$.text += text;
 			else
 				this.append( new CKEDITOR.dom.text( text ) );
@@ -520,7 +520,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 								tabIndex = null;
 
 							return tabIndex;
-							break;
 
 						case 'checked':
 							var attr = this.$.attributes.getNamedItem( name ),
@@ -631,7 +630,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				// have tabindex (like a div). So, we must try to get it
 				// from the attribute.
 				// https://bugs.webkit.org/show_bug.cgi?id=20596
-				if ( tabIndex == undefined ) {
+				if ( tabIndex === undefined ) {
 					tabIndex = parseInt( this.getAttribute( 'tabindex' ), 10 );
 
 					// If the element don't have the tabindex attribute,
@@ -708,15 +707,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// Cache the lowercased name inside a closure.
 			var nodeName = this.$.nodeName.toLowerCase();
 
-			if ( CKEDITOR.env.ie && !( document.documentMode > 8 ) ) {
+			if ( CKEDITOR.env.ie && ( document.documentMode <= 8 ) ) {
 				var scopeName = this.$.scopeName;
 				if ( scopeName != 'HTML' )
 					nodeName = scopeName.toLowerCase() + ':' + nodeName;
 			}
 
-			return ( this.getName = function() {
+			this.getName = function() {
 				return nodeName;
-			} )();
+			};
+
+			return this.getName();
 		},
 
 		/**
@@ -950,12 +951,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 								return true;
 							}
 
-							// Attributes to be ignored.
+						// Attributes to be ignored.
+						/* falls through */
 						case 'data-cke-expando':
 							continue;
 
-							/*jsl:fallthru*/
-
+						/* jsl:fallthru */
+						/* falls through */
 						default:
 							if ( attribute.specified ) {
 								return true;
@@ -1398,7 +1400,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				body = doc.getBody(),
 				quirks = doc.$.compatMode == 'BackCompat';
 
-			if ( document.documentElement[ 'getBoundingClientRect' ] ) {
+			if ( document.documentElement.getBoundingClientRect ) {
 				var box = this.$.getBoundingClientRect(),
 					$doc = doc.$,
 					$docElem = $doc.documentElement;
@@ -1466,7 +1468,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				}
 			}
 
-			if ( !document.documentElement[ 'getBoundingClientRect' ] ) {
+			if ( !document.documentElement.getBoundingClientRect ) {
 				// In Firefox, we'll endup one pixel before the element positions,
 				// so we must add it here.
 				if ( CKEDITOR.env.gecko && !quirks ) {
@@ -1541,8 +1543,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				if ( /body|html/.test( parent.getName() ) )
 					parent.getWindow().$.scrollBy( x, y );
 				else {
-					parent.$[ 'scrollLeft' ] += x;
-					parent.$[ 'scrollTop' ] += y;
+					parent.$.scrollLeft += x;
+					parent.$.scrollTop += y;
 				}
 			}
 

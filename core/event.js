@@ -44,7 +44,7 @@ if ( !CKEDITOR.event ) {
 		var eventProto = CKEDITOR.event.prototype;
 
 		for ( var prop in eventProto ) {
-			if ( targetObject[ prop ] == undefined )
+			if ( targetObject[ prop ] == null )
 				targetObject[ prop ] = eventProto[ prop ];
 		}
 	};
@@ -194,14 +194,15 @@ if ( !CKEDITOR.event ) {
 			 * @see CKEDITOR.event#on
 			 */
 			once: function() {
-				var fn = arguments[ 1 ];
+				var args = Array.prototype.slice.call( arguments ),
+					fn = args[ 1 ];
 
-				arguments[ 1 ] = function( evt ) {
+				args[ 1 ] = function( evt ) {
 					evt.removeListener();
 					return fn.apply( this, arguments );
 				};
 
-				return this.on.apply( this, arguments );
+				return this.on.apply( this, args );
 			},
 
 			/**

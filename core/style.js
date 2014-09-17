@@ -553,7 +553,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		stylesDef = styleDefinition.styles;
 
 		// Builds the StyleText.
-		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '',
+		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes.style ) || '',
 			specialStylesText = '';
 
 		if ( stylesText.length )
@@ -819,7 +819,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// If the read-only inclusion is not available in the definition, try
 		// to get it from the root data (most often it's the editable).
-		if ( includeReadonly == undefined )
+		if ( includeReadonly == null )
 			includeReadonly = range.root.getCustomData( 'cke_includeReadonly' );
 
 		// Get the DTD definition for the element. Defaults to "span".
@@ -1276,7 +1276,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var block,
 			doc = range.document,
-			previousPreBlock,
 			newBlock;
 
 		while ( ( block = iterator.getNextParagraph() ) ) {
@@ -1384,7 +1383,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Exclude the ones at header OR at tail,
 		// and ignore bookmark content between them.
 		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+data-cke-bookmark.*?\/span>))*\n(?!$)/gi,
-			blockName = preBlock.getName(),
 			pres = [],
 			splitedHtml = replace( preBlock.getOuterHtml(), duoBrRegex, function( match, charBefore, bookmark ) {
 				return charBefore + '</pre>' + bookmark + '<pre>';
@@ -1424,7 +1422,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			blockHtml = replace( blockHtml, /^[ \t]*\n/, '' );
 			blockHtml = replace( blockHtml, /\n$/, '' );
 			// 2. Convert spaces or tabs at the beginning or at the end to &nbsp;
-			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
+			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset ) {
 				if ( match.length == 1 ) // one space, preserve it
 					return '&nbsp;';
 				else if ( !offset ) // beginning of block
@@ -1538,10 +1536,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// before apply. During clean up this function keep data-* attribute in contrast
 	// to removeFromElement.
 	function removeFromInsideElement( element ) {
-		var def = this._.definition,
-			attribs = def.attributes,
-			styles = def.styles,
-			overrides = getOverrides( this ),
+		var overrides = getOverrides( this ),
 			innerElements = element.getElementsByTag( this.element ),
 			innerElement;
 
@@ -1639,7 +1634,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function getElement( style, targetDocument, element ) {
 		var el,
-			def = style._.definition,
 			elementName = style.element;
 
 		// The "*" element name will always be a span for this function.
@@ -1715,9 +1709,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Includes the style definitions.
 		var styleText = CKEDITOR.style.getStyleText( styleDefinition );
 		if ( styleText ) {
-			if ( !attribs[ 'style' ] )
+			if ( !attribs.style )
 				length++;
-			attribs[ 'style' ] = styleText;
+			attribs.style = styleText;
 		}
 
 		// Appends the "length" information to the object.
@@ -1769,7 +1763,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// The returning attributes list is an array, because we
 					// could have different override definitions for the same
 					// attribute name.
-					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
+					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || [] );
 					for ( var attName in attrs ) {
 						// Each item in the attributes array is also an array,
 						// where [0] is the attribute name and [1] is the

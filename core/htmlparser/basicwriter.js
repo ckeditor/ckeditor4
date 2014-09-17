@@ -32,7 +32,7 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 		 * @param {Object} attributes The attributes defined for this tag. The
 		 * attributes could be used to inspect the tag.
 		 */
-		openTag: function( tagName, attributes ) {
+		openTag: function( tagName ) {
 			this._.output.push( '<', tagName );
 		},
 
