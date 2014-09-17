@@ -318,7 +318,7 @@
 		/**
 		 * Gets the button state.
 		 *
-		 * @returns {Number} state Indicates the button state. One of {@link CKEDITOR#TRISTATE_ON},
+		 * @returns {Number} The button state. One of {@link CKEDITOR#TRISTATE_ON},
 		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
 		getState: function( state ) {
@@ -366,9 +366,9 @@
 	 * @param {String} name The button name.
 	 * @param {Object} definition The button definition.
 	 * @param {String} definition.label The textual part of the button (if visible) and its tooltip.
-	 * @param {String} definition.command The command to be executed once the button is activated. 
-	 * @param {String} definition.toolbar The {@link CKEDITOR.config.toolbarGroups toolbar group} into which
-	 * the button will be added. An optional index value determines the button position within the group.
+	 * @param {String} definition.command The command to be executed once the button is activated.
+	 * @param {String} definition.toolbar The {@link CKEDITOR.config#toolbarGroups toolbar group} into which
+	 * the button will be added. An optional index value (separated by a comma) determines the button position within the group.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
