@@ -89,8 +89,9 @@
 											left = next;
 											continue;
 										}
-									} else
+									} else {
 										found = 1;
+									}
 
 									break;
 								}

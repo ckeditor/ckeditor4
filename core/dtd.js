@@ -70,15 +70,19 @@ CKEDITOR.dtd = ( function() {
 
 	var P = {}, F = {},
 		// Intersection of flow elements set and phrasing elements set.
-		PF = { a: 1, abbr: 1, area: 1, audio: 1, b: 1, bdi: 1, bdo: 1, br: 1, button: 1, canvas: 1, cite: 1,
+		PF = {
+			a: 1, abbr: 1, area: 1, audio: 1, b: 1, bdi: 1, bdo: 1, br: 1, button: 1, canvas: 1, cite: 1,
 			code: 1, command: 1, datalist: 1, del: 1, dfn: 1, em: 1, embed: 1, i: 1, iframe: 1, img: 1,
 			input: 1, ins: 1, kbd: 1, keygen: 1, label: 1, map: 1, mark: 1, meter: 1, noscript: 1, object: 1,
 			output: 1, progress: 1, q: 1, ruby: 1, s: 1, samp: 1, script: 1, select: 1, small: 1, span: 1,
-			strong: 1, sub: 1, sup: 1, textarea: 1, time: 1, u: 1, 'var': 1, video: 1, wbr: 1 },
+			strong: 1, sub: 1, sup: 1, textarea: 1, time: 1, u: 1, 'var': 1, video: 1, wbr: 1
+		},
 		// F - PF (Flow Only).
-		FO = { address: 1, article: 1, aside: 1, blockquote: 1, details: 1, div: 1, dl: 1, fieldset: 1,
+		FO = {
+			address: 1, article: 1, aside: 1, blockquote: 1, details: 1, div: 1, dl: 1, fieldset: 1,
 			figure: 1, footer: 1, form: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, header: 1, hgroup: 1,
-			hr: 1, menu: 1, nav: 1, ol: 1, p: 1, pre: 1, section: 1, table: 1, ul: 1 },
+			hr: 1, menu: 1, nav: 1, ol: 1, p: 1, pre: 1, section: 1, table: 1, ul: 1
+		},
 		// Metadata elements.
 		M = { command: 1, link: 1, meta: 1, noscript: 1, script: 1, style: 1 },
 		// Empty.
@@ -239,9 +243,11 @@ CKEDITOR.dtd = ( function() {
 		 *
 		 * **Note:** As an exception `<li>` is not considered as a block limit, as it's generally used as a text block.
 		 */
-		$blockLimit: { article: 1, aside: 1, audio: 1, body: 1, caption: 1, details: 1, dir: 1, div: 1, dl: 1,
+		$blockLimit: {
+			article: 1, aside: 1, audio: 1, body: 1, caption: 1, details: 1, dir: 1, div: 1, dl: 1,
 			fieldset: 1, figcaption: 1, figure: 1, footer: 1, form: 1, header: 1, hgroup: 1, menu: 1, nav: 1,
-			ol: 1, section: 1, table: 1, td: 1, th: 1, tr: 1, ul: 1, video: 1 },
+			ol: 1, section: 1, table: 1, td: 1, th: 1, tr: 1, ul: 1, video: 1
+		},
 
 		/**
 		 * List of elements that contain character data.
@@ -251,15 +257,19 @@ CKEDITOR.dtd = ( function() {
 		/**
 		 * List of elements that are accepted as inline editing hosts.
 		 */
-		$editable: { address: 1, article: 1, aside: 1, blockquote: 1, body: 1, details: 1, div: 1, fieldset: 1,
+		$editable: {
+			address: 1, article: 1, aside: 1, blockquote: 1, body: 1, details: 1, div: 1, fieldset: 1,
 			figcaption: 1, footer: 1, form: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, header: 1, hgroup: 1,
-			nav: 1, p: 1, pre: 1, section: 1 },
+			nav: 1, p: 1, pre: 1, section: 1
+		},
 
 		/**
 		 * List of empty (self-closing) elements, like `<br>` or `<img>`.
 		 */
-		$empty: { area: 1, base: 1, basefont: 1, br: 1, col: 1, command: 1, dialog: 1, embed: 1, hr: 1, img: 1,
-			input: 1, isindex: 1, keygen: 1, link: 1, meta: 1, param: 1, source: 1, track: 1, wbr: 1 },
+		$empty: {
+			area: 1, base: 1, basefont: 1, br: 1, col: 1, command: 1, dialog: 1, embed: 1, hr: 1, img: 1,
+			input: 1, isindex: 1, keygen: 1, link: 1, meta: 1, param: 1, source: 1, track: 1, wbr: 1
+		},
 
 		/**
 		 * List of inline (`<span>` like) elements.
@@ -284,21 +294,27 @@ CKEDITOR.dtd = ( function() {
 		/**
 		 * Elements that accept text nodes, but are not possible to edit into the browser.
 		 */
-		$nonEditable: { applet: 1, audio: 1, button: 1, embed: 1, iframe: 1, map: 1, object: 1, option: 1,
-			param: 1, script: 1, textarea: 1, video: 1 },
+		$nonEditable: {
+			applet: 1, audio: 1, button: 1, embed: 1, iframe: 1, map: 1, object: 1, option: 1,
+			param: 1, script: 1, textarea: 1, video: 1
+		},
 
 		/**
 		 * Elements that are considered objects, therefore selected as a whole in the editor.
 		 */
-		$object: { applet: 1, audio: 1, button: 1, hr: 1, iframe: 1, img: 1, input: 1, object: 1, select: 1,
-			table: 1, textarea: 1, video: 1 },
+		$object: {
+			applet: 1, audio: 1, button: 1, hr: 1, iframe: 1, img: 1, input: 1, object: 1, select: 1,
+			table: 1, textarea: 1, video: 1
+		},
 
 		/**
 		 * List of elements that can be ignored if empty, like `<b>` or `<span>`.
 		 */
-		$removeEmpty: { abbr: 1, acronym: 1, b: 1, bdi: 1, bdo: 1, big: 1, cite: 1, code: 1, del: 1, dfn: 1,
+		$removeEmpty: {
+			abbr: 1, acronym: 1, b: 1, bdi: 1, bdo: 1, big: 1, cite: 1, code: 1, del: 1, dfn: 1,
 			em: 1, font: 1, i: 1, ins: 1, label: 1, kbd: 1, mark: 1, meter: 1, output: 1, q: 1, ruby: 1, s: 1,
-			samp: 1, small: 1, span: 1, strike: 1, strong: 1, sub: 1, sup: 1, time: 1, tt: 1, u: 1, 'var': 1 },
+			samp: 1, small: 1, span: 1, strike: 1, strong: 1, sub: 1, sup: 1, time: 1, tt: 1, u: 1, 'var': 1
+		},
 
 		/**
 		 * List of elements that have tabindex set to zero by default.
@@ -318,8 +334,10 @@ CKEDITOR.dtd = ( function() {
 		/**
 		 * List of elements that are not to exist standalone that must live under it's parent element.
 		 */
-		$intermediate: { caption: 1, colgroup: 1, dd: 1, dt: 1, figcaption: 1, legend: 1, li: 1, optgroup: 1,
-			option: 1, rp: 1, rt: 1, summary: 1, tbody: 1, td: 1, tfoot: 1, th: 1, thead: 1, tr: 1 }
+		$intermediate: {
+			caption: 1, colgroup: 1, dd: 1, dt: 1, figcaption: 1, legend: 1, li: 1, optgroup: 1,
+			option: 1, rp: 1, rt: 1, summary: 1, tbody: 1, td: 1, tfoot: 1, th: 1, thead: 1, tr: 1
+		}
 	} );
 
 	return dtd;

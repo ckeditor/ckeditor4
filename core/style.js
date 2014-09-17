@@ -39,13 +39,17 @@ CKEDITOR.STYLE_INLINE = 2;
 CKEDITOR.STYLE_OBJECT = 3;
 
 ( function() {
-	var blockElements = { address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1,
+	var blockElements = {
+			address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1,
 			pre: 1, section: 1, header: 1, footer: 1, nav: 1, article: 1, aside: 1, figure: 1,
 			dialog: 1, hgroup: 1, time: 1, meter: 1, menu: 1, command: 1, keygen: 1, output: 1,
-			progress: 1, details: 1, datagrid: 1, datalist: 1 },
+			progress: 1, details: 1, datagrid: 1, datalist: 1
+		},
 
-		objectElements = { a: 1, blockquote: 1, embed: 1, hr: 1, img: 1, li: 1, object: 1, ol: 1, table: 1, td: 1,
-			tr: 1, th: 1, ul: 1, dl: 1, dt: 1, dd: 1, form: 1, audio: 1, video: 1 };
+		objectElements = {
+			a: 1, blockquote: 1, embed: 1, hr: 1, img: 1, li: 1, object: 1, ol: 1, table: 1, td: 1,
+			tr: 1, th: 1, ul: 1, dl: 1, dt: 1, dd: 1, form: 1, audio: 1, video: 1
+		};
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/,
 		varRegex = /#\((.+?)\)/g;
@@ -415,13 +419,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
-						} else if ( fullMatch )
+						} else if ( fullMatch ) {
 							return false;
+						}
 					}
 					if ( fullMatch )
 						return true;
-				} else
+				} else {
 					return true;
+				}
 			}
 
 			return false;
@@ -913,14 +919,16 @@ CKEDITOR.STYLE_OBJECT = 3;
 							styleRange.setEndAfter( includedNode );
 
 						}
-					} else
+					} else {
 						applyStyle = true;
+					}
 				}
 				// Style isn't applicable to current element, so apply style to
 				// range ending at previously chosen position, or nowhere if we haven't
 				// yet started styleRange.
-				else
+				else {
 					applyStyle = true;
+				}
 
 				// Get the next node to be processed.
 				// If we're currently on a non-editable element or non-styleable element,
@@ -1302,8 +1310,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 					newBlock && block.copyAttributes( newBlock );
 					replaceBlock( block, newBlock );
-				} else
+				} else {
 					removeFromElement.call( this, block );
+				}
 			}
 		}
 
@@ -1340,8 +1349,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( newBlockIsPre ) {
 			// Merge previous <pre> blocks.
 			mergePre( newBlock );
-		} else if ( removeBlock )
+		} else if ( removeBlock ) {
 			removeNoAttribsElement( newBlock );
+		}
 	}
 
 	// Merge a <pre> block with a previous sibling if available.
@@ -1434,8 +1444,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var newBlockClone = newBlock.clone();
 				newBlockClone.setHtml( blockHtml );
 				docFrag.append( newBlockClone );
-			} else
+			} else {
 				newBlock.setHtml( blockHtml );
+			}
 		}
 
 		return docFrag || newBlock;
@@ -1469,8 +1480,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			newBlock.$.outerHTML = '<pre>' + preHtml + '</pre>';
 			newBlock.copyAttributes( temp.getFirst() );
 			newBlock = temp.getFirst().remove();
-		} else
+		} else {
 			newBlock.setHtml( preHtml );
+		}
 
 		return newBlock;
 	}
@@ -2000,8 +2012,9 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 				editor._.stylesDefinitions = stylesSet[ styleSetName ];
 				callback( editor._.stylesDefinitions );
 			} );
-		} else
+		} else {
 			callback( this._.stylesDefinitions );
+		}
 	}
 } );
 

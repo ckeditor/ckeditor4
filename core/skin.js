@@ -51,8 +51,9 @@
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( getConfigPath() + 'skin.js' ), function() {
 					loadCss( part, fn );
 				} );
-			} else
+			} else {
 				loadCss( part, fn );
+			}
 		},
 
 		/**
@@ -85,7 +86,7 @@
 				this.icons[ name ] = {
 					path: path,
 					offset: offset || 0,
-					bgsize : bgsize || '16px'
+					bgsize: bgsize || '16px'
 				};
 			}
 		},
@@ -130,29 +131,31 @@
 	};
 
 	function getCssPath( part ) {
-			// Check for ua-specific version of skin part.
-			var uas = CKEDITOR.skin[ 'ua_' + part ], env = CKEDITOR.env;
-			if ( uas ) {
+		// Check for ua-specific version of skin part.
+		var uas = CKEDITOR.skin[ 'ua_' + part ], env = CKEDITOR.env;
+		if ( uas ) {
 
-				// Having versioned UA checked first.
-				uas = uas.split( ',' ).sort( function( a, b ) { return a > b ? -1 : 1; } );
+			// Having versioned UA checked first.
+			uas = uas.split( ',' ).sort( function( a, b ) {
+				return a > b ? -1 : 1;
+			} );
 
-				// Loop through all ua entries, checking is any of them match the current ua.
-				for ( var i = 0, ua; i < uas.length; i++ ) {
-					ua = uas[ i ];
+			// Loop through all ua entries, checking is any of them match the current ua.
+			for ( var i = 0, ua; i < uas.length; i++ ) {
+				ua = uas[ i ];
 
-					if ( env.ie ) {
-						if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
-							ua = 'ie';
-					}
+				if ( env.ie ) {
+					if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
+						ua = 'ie';
+				}
 
-					if ( env[ ua ] ) {
-						part += '_' + uas[ i ];
-						break;
-					}
+				if ( env[ ua ] ) {
+					part += '_' + uas[ i ];
+					break;
 				}
 			}
-			return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
+		}
+		return CKEDITOR.getUrl( getConfigPath() + part + '.css' );
 	}
 
 	function loadCss( part, callback ) {
@@ -214,8 +217,8 @@
 		var node = document.getById( uiColorStylesheetId );
 		if ( !node ) {
 			node = document.getHead().append( 'style' );
-			node.setAttribute( "id", uiColorStylesheetId );
-			node.setAttribute( "type", "text/css" );
+			node.setAttribute( 'id', uiColorStylesheetId );
+			node.setAttribute( 'type', 'text/css' );
 		}
 		return node;
 	}

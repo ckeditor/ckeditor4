@@ -149,7 +149,7 @@ if ( !CKEDITOR.env ) {
 		 * @property {Boolean} chrome
 		 */
 
-		 /**
+		/**
 		 * Indicates that CKEditor is running in Safari (including the mobile version).
 		 *
 		 *		if ( CKEDITOR.env.safari )
@@ -258,7 +258,7 @@ if ( !CKEDITOR.env ) {
 		 *			alert( 'Your browser is pretty cool!' );
 		 *
 		 * See the [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments)
-		 * article for more information. 
+		 * article for more information.
 		 *
 		 * @property {Boolean}
 		 */

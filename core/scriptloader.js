@@ -115,7 +115,8 @@ CKEDITOR.scriptLoader = ( function() {
 					var script = new CKEDITOR.dom.element( 'script' );
 					script.setAttributes( {
 						type: 'text/javascript',
-						src: url } );
+						src: url
+					} );
 
 					if ( callback ) {
 						if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {

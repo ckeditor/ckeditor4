@@ -200,8 +200,9 @@
 					if ( CKEDITOR.env.ie ) {
 						focusEvent = 'focusin';
 						blurEvent = 'focusout';
-					} else
+					} else {
 						CKEDITOR.event.useCapture = 1;
+					}
 				}
 
 				var listeners = {

@@ -74,8 +74,9 @@
 
 				return userGuard( node, movingOut );
 			};
-		} else
+		} else {
 			guard = stopGuard;
+		}
 
 		if ( this.current )
 			node = this.current[ getSourceNodeFn ]( false, type, guard );
@@ -109,8 +110,9 @@
 			if ( !this.evaluator || this.evaluator( node ) !== false ) {
 				if ( !breakOnFalse )
 					return node;
-			} else if ( breakOnFalse && this.evaluator )
+			} else if ( breakOnFalse && this.evaluator ) {
 				return false;
+			}
 
 			node = node[ getSourceNodeFn ]( false, type, guard );
 		}
@@ -300,9 +302,11 @@
 	// table-row-group, table-header-group, table-footer-group, table-row,
 	// table-column-group, table-column, table-cell, table-caption, or whose node
 	// name is hr, br (when enterMode is br only) is a block boundary.
-	var blockBoundaryDisplayMatch = { block: 1, 'list-item': 1, table: 1, 'table-row-group': 1,
+	var blockBoundaryDisplayMatch = {
+			block: 1, 'list-item': 1, table: 1, 'table-row-group': 1,
 			'table-header-group': 1, 'table-footer-group': 1, 'table-row': 1, 'table-column-group': 1,
-			'table-column': 1, 'table-cell': 1, 'table-caption': 1 },
+			'table-column': 1, 'table-cell': 1, 'table-caption': 1
+		},
 		outOfFlowPositions = { absolute: 1, fixed: 1 };
 
 	/**

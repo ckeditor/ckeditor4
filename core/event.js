@@ -285,8 +285,9 @@ if ( !CKEDITOR.event ) {
 									try {
 										retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 									} catch ( er ) {}
-								} else
+								} else {
 									retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+								}
 
 								if ( retData === false )
 									canceled = 1;

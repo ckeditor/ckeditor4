@@ -720,9 +720,10 @@
 
 				// Create test element from string.
 				element = mockElementFromString( test );
-			} else
+			} else {
 				// Create test element from CKEDITOR.style.
 				element = mockElementFromStyle( test );
+			}
 
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element ),
@@ -749,13 +750,14 @@
 			} );
 
 			// Element has been marked for removal.
-			if ( toBeRemoved.length > 0 )
+			if ( toBeRemoved.length > 0 ) {
 				result = false;
 			// Compare only left to right, because clone may be only trimmed version of original element.
-			else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) )
+			} else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
 				result = false;
-			else
+			} else {
 				result = true;
+			}
 
 			// Cache result of this test - we can build cache only for string tests.
 			if ( typeof test == 'string' )
@@ -1249,8 +1251,9 @@
 		if ( styles ) {
 			styles = copy( styles );
 			attrs.style = CKEDITOR.tools.writeCssText( styles, true );
-		} else
+		} else {
 			styles = {};
+		}
 
 		var el = {
 			name: styleDef.element,
@@ -1387,8 +1390,9 @@
 				styles = parseProperties( props, 'styles' );
 				attrs = parseProperties( props, 'attrs' );
 				classes = parseProperties( props, 'classes' );
-			} else
+			} else {
 				styles = attrs = classes = null;
+			}
 
 			// Add as an unnamed rule, because there can be two rules
 			// for one elements set defined in string format.
@@ -1659,8 +1663,9 @@
 			if ( stylesArr.length )
 				attrs.style = stylesArr.sort().join( '; ' );
 		}
-		else if ( origStyles )
+		else if ( origStyles ) {
 			attrs.style = origStyles;
+		}
 
 		if ( !status.allClasses || status.hadInvalidClass ) {
 			for ( i = 0; i < classes.length; ++i ) {
@@ -1674,8 +1679,9 @@
 			if ( origClasses && classesArr.length < origClasses.split( /\s+/ ).length )
 				isModified = true;
 		}
-		else if ( origClasses )
+		else if ( origClasses ) {
 			attrs[ 'class' ] = origClasses;
+		}
 
 		return isModified;
 	}
@@ -2174,8 +2180,9 @@
 							if ( existingClassesPattern.indexOf( cl ) == -1 )
 								el.classes.push( cl );
 						}
-					} else
+					} else {
 						el.attributes[ attrName ] = defAttrs[ attrName ];
+					}
 
 				}
 

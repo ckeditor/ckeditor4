@@ -22,7 +22,13 @@
  */
 CKEDITOR.dom.node = function( domNode ) {
 	if ( domNode ) {
-		var type = domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' : domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' : domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' : domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' : domNode.nodeType == CKEDITOR.NODE_DOCUMENT_FRAGMENT ? 'documentFragment' : 'domObject'; // Call the base constructor otherwise.
+		var type =
+			domNode.nodeType == CKEDITOR.NODE_DOCUMENT ? 'document' :
+			domNode.nodeType == CKEDITOR.NODE_ELEMENT ? 'element' :
+			domNode.nodeType == CKEDITOR.NODE_TEXT ? 'text' :
+			domNode.nodeType == CKEDITOR.NODE_COMMENT ? 'comment' :
+			domNode.nodeType == CKEDITOR.NODE_DOCUMENT_FRAGMENT ? 'documentFragment' :
+			'domObject'; // Call the base constructor otherwise.
 
 		return new CKEDITOR.dom[ type ]( domNode );
 	}
