@@ -286,7 +286,8 @@
 		}
 
 		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
-		title.data( 'cke-title', editor.document.$.title );
+		// document.title is malfunctioning on Chrome, so get value from the element (#12402).
+		title.data( 'cke-title', title.getText() );
 
 		// [IE] JAWS will not recognize the aria label we used on the iframe
 		// unless the frame window title string is used as the voice label,
