@@ -258,17 +258,18 @@ if ( !window.CKEDITOR ) {
 						} catch ( e ) {}
 
 						if ( document.documentElement.doScroll && toplevel ) {
-							function scrollCheck() {
-								try {
-									document.documentElement.doScroll( 'left' );
-								} catch ( e ) {
-									setTimeout( scrollCheck, 1 );
-									return;
-								}
-								onReady();
-							}
 							scrollCheck();
 						}
+					}
+
+					function scrollCheck() {
+						try {
+							document.documentElement.doScroll( 'left' );
+						} catch ( e ) {
+							setTimeout( scrollCheck, 1 );
+							return;
+						}
+						onReady();
 					}
 				};
 

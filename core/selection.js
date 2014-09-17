@@ -560,16 +560,16 @@
 				restoreSel = 0;
 			} );
 
+			// Save a cloned version of current selection.
+			function saveSel() {
+				lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
+				lastSel.lock();
+			}
+
 			// Browsers could loose the selection once the editable lost focus,
 			// in such case we need to reproduce it by saving a locked selection
 			// and restoring it upon focus gain.
 			if ( CKEDITOR.env.ie || isInline ) {
-				// Save a cloned version of current selection.
-				function saveSel() {
-					lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
-					lastSel.lock();
-				}
-
 				// For old IEs, we can retrieve the last correct DOM selection upon the "beforedeactivate" event.
 				// For the rest, a more frequent check is required for each selection change made.
 				if ( isMSSelection )
@@ -619,13 +619,6 @@
 				// the normal behavior on old IEs. (#1659, #7932)
 				if ( doc.$.compatMode != 'BackCompat' ) {
 					if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
-						function moveRangeToPoint( range, x, y ) {
-							// Error prune in IE7. (#9034, #9110)
-							try {
-								range.moveToPoint( x, y );
-							} catch ( e ) {}
-						}
-
 						html.on( 'mousedown', function( evt ) {
 							evt = evt.data;
 
@@ -691,25 +684,6 @@
 								html.on( 'mouseup', onSelectEnd );
 							}
 						} );
-
-						function removeListeners() {
-							outerDoc.removeListener( 'mouseup', onSelectEnd );
-							html.removeListener( 'mouseup', onSelectEnd );
-						}
-
-						function onSelectEnd() {
-							removeListeners();
-
-							// The event is not fired when clicking on the scrollbars,
-							// so we can safely check the following to understand
-							// whether the empty space following <body> has been clicked.
-							var sel = CKEDITOR.document.$.selection,
-								range = sel.createRange();
-
-							// The selection range is reported on host, but actually it should applies to the content doc.
-							if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
-								range.select();
-						}
 					}
 				}
 			}
@@ -777,6 +751,32 @@
 			// Automatically select non-editable element when navigating into
 			// it by left/right or backspace/del keys.
 			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
+
+			function moveRangeToPoint( range, x, y ) {
+				// Error prune in IE7. (#9034, #9110)
+				try {
+					range.moveToPoint( x, y );
+				} catch ( e ) {}
+			}
+
+			function removeListeners() {
+				outerDoc.removeListener( 'mouseup', onSelectEnd );
+				html.removeListener( 'mouseup', onSelectEnd );
+			}
+
+			function onSelectEnd() {
+				removeListeners();
+
+				// The event is not fired when clicking on the scrollbars,
+				// so we can safely check the following to understand
+				// whether the empty space following <body> has been clicked.
+				var sel = CKEDITOR.document.$.selection,
+					range = sel.createRange();
+
+				// The selection range is reported on host, but actually it should applies to the content doc.
+				if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+					range.select();
+			}
 		} );
 
 		editor.on( 'setData', function() {
@@ -854,46 +854,46 @@
 
 			var fillingCharBefore, resetSelection;
 
-			function beforeData() {
-				var editable = editor.editable();
-				if ( !editable )
-					return;
-
-				var fillingChar = getFillingChar( editable );
-
-				if ( fillingChar ) {
-					// If cursor is right blinking by side of the filler node, save it for restoring,
-					// as the following text substitution will blind it. (#7437)
-					var sel = editor.document.$.defaultView.getSelection();
-					if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
-						resetSelection = 1;
-
-					fillingCharBefore = fillingChar.getText();
-					fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
-				}
-			}
-
-			function afterData() {
-				var editable = editor.editable();
-				if ( !editable )
-					return;
-
-				var fillingChar = getFillingChar( editable );
-
-				if ( fillingChar ) {
-					fillingChar.setText( fillingCharBefore );
-
-					if ( resetSelection ) {
-						editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
-						resetSelection = 0;
-					}
-				}
-			}
-
 			editor.on( 'beforeUndoImage', beforeData );
 			editor.on( 'afterUndoImage', afterData );
 			editor.on( 'beforeGetData', beforeData, null, null, 0 );
 			editor.on( 'getData', afterData );
+		}
+
+		function beforeData() {
+			var editable = editor.editable();
+			if ( !editable )
+				return;
+
+			var fillingChar = getFillingChar( editable );
+
+			if ( fillingChar ) {
+				// If cursor is right blinking by side of the filler node, save it for restoring,
+				// as the following text substitution will blind it. (#7437)
+				var sel = editor.document.$.defaultView.getSelection();
+				if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
+					resetSelection = 1;
+
+				fillingCharBefore = fillingChar.getText();
+				fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
+			}
+		}
+
+		function afterData() {
+			var editable = editor.editable();
+			if ( !editable )
+				return;
+
+			var fillingChar = getFillingChar( editable );
+
+			if ( fillingChar ) {
+				fillingChar.setText( fillingCharBefore );
+
+				if ( resetSelection ) {
+					editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
+					resetSelection = 0;
+				}
+			}
 		}
 	} );
 
@@ -1314,8 +1314,7 @@
 					range.collapse( start );
 
 					// Gets the element that encloses the range entirely.
-					var parent = range.parentElement(),
-						doc = parent.ownerDocument;
+					var parent = range.parentElement();
 
 					// Empty parent element, e.g. <i>^</i>
 					if ( !parent.hasChildNodes() )
@@ -1455,7 +1454,7 @@
 							range = new CKEDITOR.dom.range( this.root );
 
 							for ( ; j < parentElement.childNodes.length && parentElement.childNodes[ j ] != element; j++ ) {
-								/*jsl:pass*/
+
 							}
 
 							range.setStart( new CKEDITOR.dom.node( parentElement ), j );
@@ -1730,8 +1729,7 @@
 			this._.cache = {};
 			this.isFake = 0;
 
-			var editor = this.root.editor,
-				listener;
+			var editor = this.root.editor;
 
 			// Invalidate any fake selection available in the editor.
 			if ( editor && editor._.fakeSelection ) {
@@ -1742,12 +1740,14 @@
 
 					removeHiddenSelectionContainer( editor );
 				}
+				// jshint ignore:start
 				// TODO after #9786 use commented out lines instead of console.log.
 				else { // %REMOVE_LINE%
 					window.console && console.log( 'Wrong selection instance resets fake selection.' ); // %REMOVE_LINE%
 				} // %REMOVE_LINE%
 				// else // %REMOVE_LINE%
 				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection.', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
+				// jshint ignore:end
 			}
 
 			this.rev = nextRev++;
@@ -1886,8 +1886,8 @@
 					// situations, but just on those needed.
 					var next = startNode.getNext( notWhitespaces );
 					var inPre = startNode.hasAscendant( 'pre' );
-					isStartMarkerAlone = ( !( next && next.getText && next.getText().match( fillerTextRegex ) ) // already a filler there?
-					&& ( inPre || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) ) ) );
+					isStartMarkerAlone = ( !( next && next.getText && next.getText().match( fillerTextRegex ) ) && // already a filler there?
+						( inPre || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) ) ) );
 
 					// Append a temporary <span>&#65279;</span> before the selection.
 					// This is needed to avoid IE destroying selections inside empty
@@ -1971,7 +1971,6 @@
 					range = ranges[ i ];
 
 					var nativeRange = this.document.$.createRange();
-					var startContainer = range.startContainer;
 
 					if ( range.collapsed && CKEDITOR.env.webkit && rangeRequiresFix( range ) ) {
 						// Append a zero-width space so WebKit will not try to

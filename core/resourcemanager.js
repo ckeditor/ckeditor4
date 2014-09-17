@@ -208,8 +208,8 @@ CKEDITOR.resourceManager.prototype = {
 
 		CKEDITOR.scriptLoader.load( urls, function( completed, failed ) {
 			if ( failed.length ) {
-				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' )
-					+ '" was not found at "' + failed[ 0 ] + '".';
+				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' ) +
+					'" was not found at "' + failed[ 0 ] + '".';
 			}
 
 			for ( var i = 0; i < completed.length; i++ ) {

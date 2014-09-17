@@ -436,7 +436,7 @@
 	// @param {CKEDITOR.dom.element} editablesContainer
 	// @param {CKEDITOR.dom.element[]} [remainingEditables]
 	function getNestedEditableIn( editablesContainer, remainingEditables ) {
-		if ( remainingEditables == undefined )
+		if ( remainingEditables == null )
 			remainingEditables = findNestedEditables( editablesContainer );
 
 		var editable;

@@ -702,7 +702,7 @@
 		},
 
 		attributes: {
-			'class': function( value, element ) {
+			'class': function( value ) {
 				// Remove all class names starting with "cke_".
 				return CKEDITOR.tools.ltrim( value.replace( /(?:^|\s+)cke_[^\s]*/g, '' ) ) || false;
 			}
@@ -712,7 +712,7 @@
 	if ( CKEDITOR.env.ie ) {
 		// IE outputs style attribute in capital letters. We should convert
 		// them back to lower case, while not hurting the values (#5930)
-		defaultHtmlFilterRulesForAll.attributes.style = function( value, element ) {
+		defaultHtmlFilterRulesForAll.attributes.style = function( value ) {
 			return value.replace( /(^|;)([^\:]+)/g, function( match ) {
 				return match.toLowerCase();
 			} );

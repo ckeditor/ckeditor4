@@ -39,9 +39,6 @@
 		createIterator: function() {
 			var rangeList = this,
 				bookmark = CKEDITOR.dom.walker.bookmark(),
-				guard = function( node ) {
-					return !( node.is && node.is( 'tr' ) );
-				},
 				bookmarks = [],
 				current;
 
@@ -54,7 +51,7 @@
 				 * ranges into single, e.g. consequent table cells.
 				 */
 				getNextRange: function( mergeConsequent ) {
-					current = current == undefined ? 0 : current + 1;
+					current = current === undefined ? 0 : current + 1;
 
 					var range = rangeList[ current ];
 

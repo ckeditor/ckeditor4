@@ -968,7 +968,8 @@ CKEDITOR.dom.range = function( root ) {
 			switch ( unit ) {
 				case CKEDITOR.ENLARGE_INLINE:
 					var enlargeInlineOnly = 1;
-					/*jsl:fallthru*/
+
+				/* falls through */
 				case CKEDITOR.ENLARGE_ELEMENT:
 
 					if ( this.collapsed )
@@ -1188,7 +1189,7 @@ CKEDITOR.dom.range = function( root ) {
 						var walker = new CKEDITOR.dom.walker( walkerRange ),
 							node;
 
-						walker.guard = function( node, movingOut ) {
+						walker.guard = function( node ) {
 							// Stop if you exit block.
 							return !( node.type == CKEDITOR.NODE_ELEMENT && node.isBlockBoundary() );
 						};
@@ -1492,8 +1493,7 @@ CKEDITOR.dom.range = function( root ) {
 				var startContainer = this.startContainer,
 					endContainer = this.endContainer,
 					startOffset = this.startOffset,
-					endOffset = this.endOffset,
-					collapsed = this.collapsed;
+					endOffset = this.endOffset;
 
 				// Whether the start/end boundary is moveable.
 				var moveStart = 1,

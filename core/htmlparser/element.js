@@ -464,8 +464,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {String} className The class name to be removed.
 		 */
 		removeClass: function( className ) {
-			var classes = this.attributes[ 'class' ],
-				index;
+			var classes = this.attributes[ 'class' ];
 
 			if ( !classes )
 				return;

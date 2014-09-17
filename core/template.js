@@ -11,7 +11,6 @@
 ( function() {
 	var cache = {},
 		rePlaceholder = /{([^}]+)}/g,
-		reQuote = /'/g,
 		reEscapableChars = /([\\'])/g,
 		reNewLine = /\n/g,
 		reCarriageReturn = /\r/g;

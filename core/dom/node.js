@@ -297,7 +297,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			index++;
 			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
 		}
-		while ( ( current = current.previousSibling ) )
+		while ( ( current = current.previousSibling ) );
 
 		return index;
 	},
@@ -409,7 +409,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			// http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html#ID-412266927
 			retval = previous && previous.nodeType != 10 && new CKEDITOR.dom.node( previous );
 		}
-		while ( retval && evaluator && !evaluator( retval ) )
+		while ( retval && evaluator && !evaluator( retval ) );
 		return retval;
 	},
 
@@ -430,7 +430,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			next = next.nextSibling;
 			retval = next && new CKEDITOR.dom.node( next );
 		}
-		while ( retval && evaluator && !evaluator( retval ) )
+		while ( retval && evaluator && !evaluator( retval ) );
 		return retval;
 	},
 
@@ -468,7 +468,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		do {
 			parents[ closerFirst ? 'push' : 'unshift' ]( node );
 		}
-		while ( ( node = node.getParent() ) )
+		while ( ( node = node.getParent() ) );
 
 		return parents;
 	},

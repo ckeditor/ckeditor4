@@ -160,7 +160,7 @@
 			 * @returns {Object} An object containing the `removeListener`
 			 * function that can be used to remove the listener at any time.
 			 */
-			attachListener: function( obj, event, fn, scope, listenerData, priority ) {
+			attachListener: function( obj /*, event, fn, scope, listenerData, priority*/ ) {
 				!this._.listeners && ( this._.listeners = [] );
 				// Register the listener.
 				var args = Array.prototype.slice.call( arguments, 1 ),
@@ -532,7 +532,7 @@
 				editor.keystrokeHandler.attach( this );
 
 				// Update focus states.
-				this.on( 'blur', function( evt ) {
+				this.on( 'blur', function() {
 					this.hasFocus = false;
 				}, null, null, -1 );
 
@@ -883,7 +883,6 @@
 			blockLimit = path.blockLimit,
 			selection = evt.data.selection,
 			range = selection.getRanges()[ 0 ],
-			enterMode = editor.activeEnterMode,
 			selectionUpdateNeeded;
 
 		if ( CKEDITOR.env.gecko || ( CKEDITOR.env.ie && CKEDITOR.env.needsBrFiller ) ) {
@@ -966,21 +965,12 @@
 		}
 	}
 
-	function isBlankParagraph( block ) {
-		return block.getOuterHtml().match( emptyParagraphRegexp );
-	}
-
 	function isNotEmpty( node ) {
 		return isNotWhitespace( node ) && isNotBookmark( node );
 	}
 
 	function isNbsp( node ) {
 		return node.type == CKEDITOR.NODE_TEXT && CKEDITOR.tools.trim( node.getText() ).match( /^(?:&nbsp;|\xa0)$/ );
-	}
-
-	// Elements that could blink the cursor anchoring beside it, like hr, page-break. (#6554)
-	function nonEditable( element ) {
-		return element.isBlockBoundary() && CKEDITOR.dtd.$empty[ element.getName() ];
 	}
 
 	function isNotBubbling( fn, src ) {
@@ -1002,21 +992,6 @@
 			structural = { table: 1, ul: 1, ol: 1, dl: 1 };
 
 		if ( path.contains( structural ) ) {
-			function guard( forwardGuard ) {
-				return function( node, isWalkOut ) {
-					// Save the encountered node as selected if going down the DOM structure
-					// and the node is structured element.
-					if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
-						selected = node;
-
-					// Stop the walker when either traversing another non-empty node at the same
-					// DOM level as in previous step.
-					// NOTE: When going forwards, stop if encountered a bogus.
-					if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) )
-						return false;
-				};
-			}
-
 			// Clone the original range.
 			var walkerRng = range.clone();
 
@@ -1067,6 +1042,21 @@
 		}
 
 		return null;
+
+		function guard( forwardGuard ) {
+			return function( node, isWalkOut ) {
+				// Save the encountered node as selected if going down the DOM structure
+				// and the node is structured element.
+				if ( isWalkOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( structural ) )
+					selected = node;
+
+				// Stop the walker when either traversing another non-empty node at the same
+				// DOM level as in previous step.
+				// NOTE: When going forwards, stop if encountered a bogus.
+				if ( !isWalkOut && isNotEmpty( node ) && !( forwardGuard && isBogus( node ) ) )
+					return false;
+			};
+		}
 	}
 
 	// Whether in given context (pathBlock, pathBlockLimit and editor settings)
@@ -1171,7 +1161,6 @@
 		// guarantee it's result to be a valid DOM tree.
 		function insert( editable, type, data ) {
 			var editor = editable.editor,
-				doc = editable.getDocument(),
 				selection = editor.getSelection(),
 				// HTML insertion only considers the first range.
 				// Note: getRanges will be overwritten for tests since we want to test
@@ -1511,7 +1500,7 @@
 
 		function cleanupAfterInsertion( that ) {
 			var range = that.range,
-				node, testRange, parent, movedIntoInline,
+				node, testRange, movedIntoInline,
 				bogusNeededBlocks = that.bogusNeededBlocks,
 				// Create a bookmark to defend against the following range deconstructing operations.
 				bm = range.createBookmark();
@@ -1940,9 +1929,7 @@
 			var container = range.startContainer,
 				table = container.getAscendant( 'table', 1 ),
 				testRange,
-				walker,
 				deeperSibling,
-				doc = range.document,
 				appendToStart = false;
 
 			fixEmptyCells( table.getElementsByTag( 'td' ) );

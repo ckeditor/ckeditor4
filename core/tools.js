@@ -198,7 +198,7 @@
 				var source = arguments[ i ];
 				for ( var propertyName in source ) {
 					// Only copy existed fields if in overwrite mode.
-					if ( overwrite === true || target[ propertyName ] == undefined ) {
+					if ( overwrite === true || target[ propertyName ] == null ) {
 						// Only copy  specified fields if list is provided.
 						if ( !propertiesList || ( propertyName in propertiesList ) )
 							target[ propertyName ] = source[ propertyName ];

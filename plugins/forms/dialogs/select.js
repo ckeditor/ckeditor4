@@ -65,7 +65,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 	function removeAllOptions( combo ) {
 		combo = getSelect( combo );
 		while ( combo.getChild( 0 ) && combo.getChild( 0 ).remove() ) {
-			/*jsl:pass*/
+
 		}
 	}
 	// Moves the selected option by a number of steps (also negative).

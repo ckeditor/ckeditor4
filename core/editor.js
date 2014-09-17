@@ -164,13 +164,13 @@
 		this.on( 'selectionChange', function( evt ) {
 			updateCommandsContext( this, evt.data.path );
 		} );
-		this.on( 'activeFilterChange', function( evt ) {
+		this.on( 'activeFilterChange', function() {
 			updateCommandsContext( this, this.elementPath(), true );
 		} );
 		this.on( 'mode', updateCommands );
 
 		// Handle startup focus.
-		this.on( 'instanceReady', function( event ) {
+		this.on( 'instanceReady', function() {
 			this.config.startupFocus && this.focus();
 		} );
 
@@ -191,7 +191,7 @@
 		do {
 			var name = 'editor' + ( ++nameCounter );
 		}
-		while ( CKEDITOR.instances[ name ] )
+		while ( CKEDITOR.instances[ name ] );
 
 		return name;
 	}
@@ -308,7 +308,7 @@
 
 		// The instance config may override the customConfig setting to avoid
 		// loading the default ~/config.js file.
-		if ( instanceConfig && instanceConfig.customConfig != undefined )
+		if ( instanceConfig && instanceConfig.customConfig != null )
 			editor.config.customConfig = instanceConfig.customConfig;
 
 		// Load configs from the custom configuration files.
@@ -355,7 +355,7 @@
 		 * @property {Boolean}
 		 */
 		editor.blockless = editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
-			!( editor.element.is( 'textarea' ) || CKEDITOR.dtd[ editor.element.getName() ][ 'p' ] ) :
+			!( editor.element.is( 'textarea' ) || CKEDITOR.dtd[ editor.element.getName() ].p ) :
 			false;
 
 		/**
@@ -692,24 +692,7 @@
 			// If are replacing a textarea, we must
 			if ( element.is( 'textarea' ) ) {
 				if ( form ) {
-					function onSubmit( evt ) {
-						editor.updateElement();
-
-						// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
-						// it was cancelled, prevent submitting the form.
-						if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
-							// When user press save button event (evt) is undefined (see save plugin).
-							// This method works because it throws error so originalSubmit won't be called.
-							// Also this error won't be shown because it will be caught in save plugin.
-							evt.data.preventDefault();
-						}
-					}
 					form.on( 'submit', onSubmit );
-
-					function isFunction( f ) {
-						// For IE8 typeof fun == object so we cannot use it.
-						return !!( f && f.call && f.apply );
-					}
 
 					// Check if there is no element/elements input with name == "submit".
 					// If they exists they will overwrite form submit function (form.$.submit).
@@ -736,6 +719,24 @@
 						form.removeListener( 'submit', onSubmit );
 					} );
 				}
+			}
+
+			function onSubmit( evt ) {
+				editor.updateElement();
+
+				// #8031 If textarea had required attribute and editor is empty fire 'required' event and if
+				// it was cancelled, prevent submitting the form.
+				if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
+					// When user press save button event (evt) is undefined (see save plugin).
+					// This method works because it throws error so originalSubmit won't be called.
+					// Also this error won't be shown because it will be caught in save plugin.
+					evt.data.preventDefault();
+				}
+			}
+
+			function isFunction( f ) {
+				// For IE8 typeof fun == object so we cannot use it.
+				return !!( f && f.call && f.apply );
 			}
 		},
 
@@ -995,7 +996,7 @@
 		 * read-only (`true`, default) or be restored and made editable (`false`).
 		 */
 		setReadOnly: function( isReadOnly ) {
-			isReadOnly = ( isReadOnly == undefined ) || isReadOnly;
+			isReadOnly = ( isReadOnly == null ) || isReadOnly;
 
 			if ( this.readOnly != isReadOnly ) {
 				this.readOnly = isReadOnly;
