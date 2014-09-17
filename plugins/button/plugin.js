@@ -85,7 +85,7 @@
 	};
 
 	/**
-	 * Represents button handler object.
+	 * Represents the button handler object.
 	 *
 	 * @class
 	 * @singleton
@@ -111,8 +111,8 @@
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
 		 * to be used by.
-		 * @param {Array} output The output array to which append the HTML relative
-		 * to this button.
+		 * @param {Array} output The output array to which the HTML code related to
+		 * this button should be appended.
 		 */
 		render: function( editor, output ) {
 			var env = CKEDITOR.env,
@@ -279,7 +279,10 @@
 		},
 
 		/**
-		 * @todo
+		 * Sets the button state.
+		 *
+		 * @param {Number} state Indicates the button state. One of {@link CKEDITOR#TRISTATE_ON},
+		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
 		setState: function( state ) {
 			if ( this._.state == state )
@@ -313,7 +316,10 @@
 		},
 
 		/**
-		 * @todo
+		 * Gets the button state.
+		 *
+		 * @returns {Number} state Indicates the button state. One of {@link CKEDITOR#TRISTATE_ON},
+		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
 		getState: function( state ) {
 			return this._.state;
@@ -324,10 +330,10 @@
 		 *
 		 * It may be this button instance if it has at least one of
 		 * `allowedContent` and `requiredContent` properties. Otherwise,
-		 * if command is bound to this button by `command` property, then
+		 * if a command is bound to this button by the `command` property, then
 		 * that command will be returned.
 		 *
-		 * This method implements {@link CKEDITOR.feature#toFeature} interface method.
+		 * This method implements the {@link CKEDITOR.feature#toFeature} interface method.
 		 *
 		 * @since 4.1
 		 * @param {CKEDITOR.editor} Editor instance.
@@ -359,6 +365,10 @@
 	 * @member CKEDITOR.ui
 	 * @param {String} name The button name.
 	 * @param {Object} definition The button definition.
+	 * @param {String} definition.label The textual part of the button (if visible) and its tooltip.
+	 * @param {String} definition.command The command to be executed once the button is activated. 
+	 * @param {String} definition.toolbar The {@link CKEDITOR.config.toolbarGroups toolbar group} into which
+	 * the button will be added. An optional index value determines the button position within the group.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );
