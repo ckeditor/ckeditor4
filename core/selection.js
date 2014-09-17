@@ -621,7 +621,9 @@
 					if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
 						function moveRangeToPoint( range, x, y ) {
 							// Error prune in IE7. (#9034, #9110)
-							try { range.moveToPoint( x, y ); } catch ( e ) {}
+							try {
+								range.moveToPoint( x, y );
+							} catch ( e ) {}
 						}
 
 						html.on( 'mousedown', function( evt ) {
@@ -652,7 +654,6 @@
 							}
 
 							function onSelectEnd() {
-
 								html.removeListener( 'mousemove', onHover );
 								removeListeners();
 
@@ -664,8 +665,8 @@
 							// We're sure that the click happens at the region
 							// below body, but not on scrollbar.
 							if ( evt.getTarget().is( 'html' ) &&
-									 evt.$.y < html.$.clientHeight &&
-									 evt.$.x < html.$.clientWidth ) {
+									evt.$.y < html.$.clientHeight &&
+									evt.$.x < html.$.clientWidth ) {
 								// Start to build the text range.
 								var textRng = body.$.createTextRange();
 								moveRangeToPoint( textRng, evt.$.clientX, evt.$.clientY );
@@ -689,7 +690,6 @@
 								outerDoc.on( 'mouseup', onSelectEnd );
 								html.on( 'mouseup', onSelectEnd );
 							}
-
 						} );
 
 						function removeListeners() {
@@ -703,11 +703,12 @@
 							// The event is not fired when clicking on the scrollbars,
 							// so we can safely check the following to understand
 							// whether the empty space following <body> has been clicked.
-								var sel = CKEDITOR.document.$.selection,
-									range = sel.createRange();
-								// The selection range is reported on host, but actually it should applies to the content doc.
-								if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
-									range.select();
+							var sel = CKEDITOR.document.$.selection,
+								range = sel.createRange();
+
+							// The selection range is reported on host, but actually it should applies to the content doc.
+							if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+								range.select();
 						}
 					}
 				}
@@ -746,8 +747,9 @@
 			// Use document instead of editable in non-IEs for observing mouseup
 			// since editable won't fire the event if selection process started within iframe and ended out
 			// of the editor (#9851).
-			else
+			else {
 				editable.attachListener( CKEDITOR.env.ie ? editable : doc.getDocumentElement(), 'mouseup', checkSelectionChangeTimeout, editor );
+			}
 
 			if ( CKEDITOR.env.webkit ) {
 				// Before keystroke is handled by editor, check to remove the filling char.
@@ -1147,8 +1149,9 @@
 					fixInitialSelection( root, null, true );
 			}
 			// IEs 7&8.
-			else if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) )
+			else if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) ) {
 				fixInitialSelection( root, null, true );
+			}
 		}
 
 		// Check whether browser focus is really inside of the editable element.
@@ -1273,8 +1276,11 @@
 				var range = sel.getRangeAt( 0 ),
 					startContainer = range.startContainer;
 
-				if ( startContainer == range.endContainer && startContainer.nodeType == 1 && ( range.endOffset - range.startOffset ) == 1 && styleObjectElements[ startContainer.childNodes[ range.startOffset ].nodeName.toLowerCase() ] )
+				if ( startContainer == range.endContainer && startContainer.nodeType == 1 &&
+					( range.endOffset - range.startOffset ) == 1 &&
+					styleObjectElements[ startContainer.childNodes[ range.startOffset ].nodeName.toLowerCase() ] ) {
 					type = CKEDITOR.SELECTION_ELEMENT;
+				}
 
 			}
 
@@ -1303,113 +1309,113 @@
 				// Finds the container and offset for a specific boundary
 				// of an IE range.
 				var getBoundaryInformation = function( range, start ) {
-						// Creates a collapsed range at the requested boundary.
-						range = range.duplicate();
-						range.collapse( start );
+					// Creates a collapsed range at the requested boundary.
+					range = range.duplicate();
+					range.collapse( start );
 
-						// Gets the element that encloses the range entirely.
-						var parent = range.parentElement(),
-							doc = parent.ownerDocument;
+					// Gets the element that encloses the range entirely.
+					var parent = range.parentElement(),
+						doc = parent.ownerDocument;
 
-						// Empty parent element, e.g. <i>^</i>
-						if ( !parent.hasChildNodes() )
-							return { container: parent, offset: 0 };
+					// Empty parent element, e.g. <i>^</i>
+					if ( !parent.hasChildNodes() )
+						return { container: parent, offset: 0 };
 
-						var siblings = parent.children,
-							child, sibling,
-							testRange = range.duplicate(),
-							startIndex = 0,
-							endIndex = siblings.length - 1,
-							index = -1,
-							position, distance, container;
+					var siblings = parent.children,
+						child, sibling,
+						testRange = range.duplicate(),
+						startIndex = 0,
+						endIndex = siblings.length - 1,
+						index = -1,
+						position, distance, container;
 
-						// Binary search over all element childs to test the range to see whether
-						// range is right on the boundary of one element.
-						while ( startIndex <= endIndex ) {
-							index = Math.floor( ( startIndex + endIndex ) / 2 );
-							child = siblings[ index ];
-							testRange.moveToElementText( child );
-							position = testRange.compareEndPoints( 'StartToStart', range );
+					// Binary search over all element childs to test the range to see whether
+					// range is right on the boundary of one element.
+					while ( startIndex <= endIndex ) {
+						index = Math.floor( ( startIndex + endIndex ) / 2 );
+						child = siblings[ index ];
+						testRange.moveToElementText( child );
+						position = testRange.compareEndPoints( 'StartToStart', range );
 
-							if ( position > 0 )
-								endIndex = index - 1;
-							else if ( position < 0 )
-								startIndex = index + 1;
+						if ( position > 0 )
+							endIndex = index - 1;
+						else if ( position < 0 )
+							startIndex = index + 1;
+						else
+							return { container: parent, offset: getNodeIndex( child ) };
+					}
+
+					// All childs are text nodes,
+					// or to the right hand of test range are all text nodes. (#6992)
+					if ( index == -1 || index == siblings.length - 1 && position < 0 ) {
+						// Adapt test range to embrace the entire parent contents.
+						testRange.moveToElementText( parent );
+						testRange.setEndPoint( 'StartToStart', range );
+
+						// IE report line break as CRLF with range.text but
+						// only LF with textnode.nodeValue, normalize them to avoid
+						// breaking character counting logic below. (#3949)
+						distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
+
+						siblings = parent.childNodes;
+
+						// Actual range anchor right beside test range at the boundary of text node.
+						if ( !distance ) {
+							child = siblings[ siblings.length - 1 ];
+
+							if ( child.nodeType != CKEDITOR.NODE_TEXT )
+								return { container: parent, offset: siblings.length };
 							else
-								return { container: parent, offset: getNodeIndex( child ) };
+								return { container: child, offset: child.nodeValue.length };
 						}
 
-						// All childs are text nodes,
-						// or to the right hand of test range are all text nodes. (#6992)
-						if ( index == -1 || index == siblings.length - 1 && position < 0 ) {
-							// Adapt test range to embrace the entire parent contents.
-							testRange.moveToElementText( parent );
-							testRange.setEndPoint( 'StartToStart', range );
-
-							// IE report line break as CRLF with range.text but
-							// only LF with textnode.nodeValue, normalize them to avoid
-							// breaking character counting logic below. (#3949)
-							distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
-
-							siblings = parent.childNodes;
-
-							// Actual range anchor right beside test range at the boundary of text node.
-							if ( !distance ) {
-								child = siblings[ siblings.length - 1 ];
-
-								if ( child.nodeType != CKEDITOR.NODE_TEXT )
-									return { container: parent, offset: siblings.length };
-								else
-									return { container: child, offset: child.nodeValue.length };
+						// Start the measuring until distance overflows, meanwhile count the text nodes.
+						var i = siblings.length;
+						while ( distance > 0 && i > 0 ) {
+							sibling = siblings[ --i ];
+							if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
+								container = sibling;
+								distance -= sibling.nodeValue.length;
 							}
+						}
 
-							// Start the measuring until distance overflows, meanwhile count the text nodes.
-							var i = siblings.length;
-							while ( distance > 0 && i > 0 ) {
-								sibling = siblings[ --i ];
+						return { container: container, offset: -distance };
+					}
+					// Test range was one offset beyond OR behind the anchored text node.
+					else {
+						// Adapt one side of test range to the actual range
+						// for measuring the offset between them.
+						testRange.collapse( position > 0 ? true : false );
+						testRange.setEndPoint( position > 0 ? 'StartToStart' : 'EndToStart', range );
+
+						// IE report line break as CRLF with range.text but
+						// only LF with textnode.nodeValue, normalize them to avoid
+						// breaking character counting logic below. (#3949)
+						distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
+
+						// Actual range anchor right beside test range at the inner boundary of text node.
+						if ( !distance )
+							return { container: parent, offset: getNodeIndex( child ) + ( position > 0 ? 0 : 1 ) };
+
+						// Start the measuring until distance overflows, meanwhile count the text nodes.
+						while ( distance > 0 ) {
+							try {
+								sibling = child[ position > 0 ? 'previousSibling' : 'nextSibling' ];
 								if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
-									container = sibling;
 									distance -= sibling.nodeValue.length;
+									container = sibling;
 								}
+								child = sibling;
 							}
-
-							return { container: container, offset: -distance };
-						}
-						// Test range was one offset beyond OR behind the anchored text node.
-						else {
-							// Adapt one side of test range to the actual range
-							// for measuring the offset between them.
-							testRange.collapse( position > 0 ? true : false );
-							testRange.setEndPoint( position > 0 ? 'StartToStart' : 'EndToStart', range );
-
-							// IE report line break as CRLF with range.text but
-							// only LF with textnode.nodeValue, normalize them to avoid
-							// breaking character counting logic below. (#3949)
-							distance = testRange.text.replace( /(\r\n|\r)/g, '\n' ).length;
-
-							// Actual range anchor right beside test range at the inner boundary of text node.
-							if ( !distance )
-								return { container: parent, offset: getNodeIndex( child ) + ( position > 0 ? 0 : 1 ) };
-
-							// Start the measuring until distance overflows, meanwhile count the text nodes.
-							while ( distance > 0 ) {
-								try {
-									sibling = child[ position > 0 ? 'previousSibling' : 'nextSibling' ];
-									if ( sibling.nodeType == CKEDITOR.NODE_TEXT ) {
-										distance -= sibling.nodeValue.length;
-										container = sibling;
-									}
-									child = sibling;
-								}
-								// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
-								catch ( e ) {
-									return { container: parent, offset: getNodeIndex( child ) };
-								}
+							// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
+							catch ( e ) {
+								return { container: parent, offset: getNodeIndex( child ) };
 							}
-
-							return { container: container, offset: position > 0 ? -distance : container.nodeValue.length + distance };
 						}
-					};
+
+						return { container: container, offset: position > 0 ? -distance : container.nodeValue.length + distance };
+					}
+				};
 
 				return function() {
 					// IE doesn't have range support (in the W3C way), so we
@@ -1462,30 +1468,30 @@
 
 					return [];
 				};
-			} )() : function() {
+			} )() :
+			function() {
+				// On browsers implementing the W3C range, we simply
+				// tranform the native ranges in CKEDITOR.dom.range
+				// instances.
 
-					// On browsers implementing the W3C range, we simply
-					// tranform the native ranges in CKEDITOR.dom.range
-					// instances.
+				var ranges = [],
+					range,
+					sel = this.getNative();
 
-					var ranges = [],
-						range,
-						sel = this.getNative();
-
-					if ( !sel )
-						return ranges;
-
-					for ( var i = 0; i < sel.rangeCount; i++ ) {
-						var nativeRange = sel.getRangeAt( i );
-
-						range = new CKEDITOR.dom.range( this.root );
-
-						range.setStart( new CKEDITOR.dom.node( nativeRange.startContainer ), nativeRange.startOffset );
-						range.setEnd( new CKEDITOR.dom.node( nativeRange.endContainer ), nativeRange.endOffset );
-						ranges.push( range );
-					}
+				if ( !sel )
 					return ranges;
-				};
+
+				for ( var i = 0; i < sel.rangeCount; i++ ) {
+					var nativeRange = sel.getRangeAt( i );
+
+					range = new CKEDITOR.dom.range( this.root );
+
+					range.setStart( new CKEDITOR.dom.node( nativeRange.startContainer ), nativeRange.startOffset );
+					range.setEnd( new CKEDITOR.dom.node( nativeRange.endContainer ), nativeRange.endOffset );
+					ranges.push( range );
+				}
+				return ranges;
+			};
 
 			return function( onlyEditables ) {
 				var cache = this._.cache,
@@ -1706,8 +1712,9 @@
 					removeHiddenSelectionContainer( editor );
 				}
 				// TODO after #9786 use commented out lines instead of console.log.
-				else // %REMOVE_LINE%
+				else { // %REMOVE_LINE%
 					window.console && console.log( 'Wrong selection instance resets fake selection.' ); // %REMOVE_LINE%
+				} // %REMOVE_LINE%
 				// else // %REMOVE_LINE%
 				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection.', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
 			}
@@ -1796,7 +1803,8 @@
 				// Try to make a object selection, be careful with selecting phase element in IE
 				// will breaks the selection in non-framed environment.
 				var selected = range.getEnclosedNode();
-				if ( selected && selected.type == CKEDITOR.NODE_ELEMENT && selected.getName() in styleObjectElements && !( selected.is( 'a' ) && selected.getText() ) ) {
+				if ( selected && selected.type == CKEDITOR.NODE_ELEMENT && selected.getName() in styleObjectElements &&
+					!( selected.is( 'a' ) && selected.getText() ) ) {
 					try {
 						ieRange = selected.$.createControlRange();
 						ieRange.addElement( selected.$ );
@@ -1807,7 +1815,8 @@
 
 				// IE doesn't support selecting the entire table row/cell, move the selection into cells, e.g.
 				// <table><tbody><tr>[<td>cell</b></td>... => <table><tbody><tr><td>[cell</td>...
-				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in nonCells || range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in nonCells ) {
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.getName() in nonCells ||
+					range.endContainer.type == CKEDITOR.NODE_ELEMENT && range.endContainer.getName() in nonCells ) {
 					range.shrink( CKEDITOR.NODE_ELEMENT, true );
 					// The range might get collapsed (#7975). Update cached variable.
 					collapsed = range.collapsed;
@@ -1880,8 +1889,9 @@
 
 						// Remove our temporary stuff.
 						range.document.$.selection.clear();
-					} else
+					} else {
 						ieRange.select();
+					}
 
 					range.moveToPosition( dummySpan, CKEDITOR.POSITION_BEFORE_START );
 					dummySpan.remove();
@@ -1946,8 +1956,9 @@
 						if ( next && !fillingChar.getPrevious() && next.type == CKEDITOR.NODE_ELEMENT && next.getName() == 'br' ) {
 							removeFillingChar( this.root );
 							range.moveToPosition( next, CKEDITOR.POSITION_BEFORE_START );
-						} else
+						} else {
 							range.moveToPosition( fillingChar, CKEDITOR.POSITION_AFTER_END );
+						}
 					}
 
 					nativeRange.setStart( range.startContainer.$, range.startOffset );
@@ -1961,8 +1972,9 @@
 						if ( e.toString().indexOf( 'NS_ERROR_ILLEGAL_VALUE' ) >= 0 ) {
 							range.collapse( 1 );
 							nativeRange.setEnd( range.endContainer.$, range.endOffset );
-						} else
+						} else {
 							throw e;
+						}
 					}
 
 					// Select the range.
@@ -2123,7 +2135,6 @@
 		 *		editor.getSelection().scrollIntoView();
 		 */
 		scrollIntoView: function() {
-
 			// Scrolls the first range into view.
 			if ( this.type != CKEDITOR.SELECTION_NONE )
 				this.getRanges()[ 0 ].scrollIntoView();
@@ -2139,8 +2150,9 @@
 
 			var nativ = this.getNative();
 
-			try { nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ](); }
-			catch ( er ) {}
+			try {
+				nativ && nativ[ isMSSelection ? 'empty' : 'removeAllRanges' ]();
+			} catch ( er ) {}
 
 			this.reset();
 		}

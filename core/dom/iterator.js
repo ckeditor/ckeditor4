@@ -134,8 +134,9 @@
 					// Inherit activeFilter from the nested iterator.
 					this.activeFilter = this._.nestedEditable.iterator.activeFilter;
 					return this._.nestedEditable.iterator.getNextParagraph( blockTag );
-				} else
+				} else {
 					this._.nestedEditable = null;
+				}
 			}
 
 			// Block-less range should be checked first.
@@ -281,9 +282,10 @@
 					checkLimits = { div: 1, th: 1, td: 1 };
 				block = startPath.block;
 
-				if ( !block && startBlockLimit && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] && range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) )
+				if ( !block && startBlockLimit && !this.enforceRealBlocks && checkLimits[ startBlockLimit.getName() ] &&
+					range.checkStartOfBlock() && range.checkEndOfBlock() && !startBlockLimit.equals( range.root ) ) {
 					block = startBlockLimit;
-				else if ( !block || ( this.enforceRealBlocks && block.is( listItemNames ) ) ) {
+				} else if ( !block || ( this.enforceRealBlocks && block.is( listItemNames ) ) ) {
 					// Create the fixed block.
 					block = this.range.document.createElement( blockTag );
 

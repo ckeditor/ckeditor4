@@ -67,9 +67,9 @@
 			this.elementMode = mode;
 
 			this.name = ( this.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO ) && ( element.getId() || element.getNameAtt() );
-		}
-		else
+		} else {
 			this.elementMode = CKEDITOR.ELEMENT_MODE_NONE;
+		}
 
 		// Declare the private namespace.
 		this._ = {};

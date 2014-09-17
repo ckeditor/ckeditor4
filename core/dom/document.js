@@ -65,7 +65,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 */
 	appendStyleText: function( cssStyleText ) {
 		if ( this.$.createStyleSheet ) {
-			var styleSheet = this.$.createStyleSheet( "" );
+			var styleSheet = this.$.createStyleSheet( '' );
 			styleSheet.cssText = cssStyleText;
 		} else {
 			var style = new CKEDITOR.dom.element( 'style', this );
