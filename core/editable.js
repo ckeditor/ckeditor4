@@ -291,6 +291,8 @@
 					this.insertElementIntoSelection( element );
 				else
 					this.insertElementIntoRange( element, range );
+
+				this.editor.fire( 'afterInsert' );
 			},
 
 			/**
