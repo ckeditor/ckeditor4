@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
+/* global undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -31,7 +32,7 @@
 	function curryAddCharactersToTextNode( textNode, characters ) {
 		return function () {
 			addCharactersToTextNode( textNode, characters );
-		}
+		};
 	}
 
 	function simulateHoldKey( times, keyTools, keyCode, domModification, beforeKeyUp ) {
@@ -493,8 +494,7 @@
 
 			'test snapshot created when holding backspace after typing': function() {
 				this.editorBot.setData( '<p>foo</p>', function() {
-					var undoManager = this.editor.undoManager,
-						textNode = this.editor.editable().getFirst().getFirst();
+					var textNode = this.editor.editable().getFirst().getFirst();
 
 					this.editor.resetUndo();
 

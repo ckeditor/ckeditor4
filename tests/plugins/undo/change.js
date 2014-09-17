@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
+/* global undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -49,7 +50,7 @@
 		'test setData': function() {
 			bender.editor.focus();
 
-			bender.editor.setData( 'bar', function( editor ) {
+			bender.editor.setData( 'bar', function() {
 				resume( function() {
 					assert.areSame( 1, changeCounter );
 				} );
@@ -59,7 +60,7 @@
 
 		'test typing': function() {
 			var that = this;
-			this.checkChange( function( editor ) {
+			this.checkChange( function() {
 				that.keyTools.typingEvents( 'a' );
 			} );
 		},
@@ -132,7 +133,7 @@
 		'test backspace': function() {
 			// IE: In case of backspace and delete we need to make real change to DOM content.
 			var that = this;
-			this.checkChange( function( editor ) {
+			this.checkChange( function() {
 				that.keyTools.keyEvent( 8 /* backspace */ );
 			} );
 		},
@@ -141,8 +142,8 @@
 			// IE doesn't send keypress event, which is used as a `input` event.
 			var that = this,
 				textNode = this.editor.editable().getFirst().getFirst();
-			this.checkChange( function( editor ) {
-				that.keyTools.keyEvent( 8 /* backspace */, null, true, function( e ) {
+			this.checkChange( function() {
+				that.keyTools.keyEvent( 8 /* backspace */, null, true, function() {
 					textNode.setText( 'fo' );
 				} );
 				textNode.setText( 'foo' );
@@ -153,8 +154,8 @@
 			var that = this,
 				textNode = this.editor.editable().getFirst().getFirst();
 			// In case of backspace and delete we need to make real change to DOM content.
-			this.checkChange( function( editor ) {
-				that.keyTools.keyEvent( 46 /* delete */, null, null, function( e ) {
+			this.checkChange( function() {
+				that.keyTools.keyEvent( 46 /* delete */, null, null, function() {
 					// Textnode change required by IE.
 					textNode.setText( 'f' );
 				} );

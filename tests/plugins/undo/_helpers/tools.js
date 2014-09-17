@@ -1,3 +1,5 @@
+/* exported undoEventDispatchTestsTools */
+
 'use strict';
 
 /**

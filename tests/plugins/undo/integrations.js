@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,image */
 /* bender-include: _helpers/tools.js */
+/* global undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
