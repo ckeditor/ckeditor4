@@ -1,0 +1,71 @@
+{
+	"excludeFiles": [
+		".bender/*",
+		"dev/*",
+		"node_modules/*",
+		"plugins/*/lib/*",
+		"plugins/**/lang/*",
+		"plugins/uicolor/yui/*",
+		"plugins/htmlwriter/samples/assets/outputforflash/*",
+		"tests/core/dom/_assets/*",
+		"tests/core/selection/_helpers/rangy.js",
+		"tests/plugins/mathjax/_assets/truncated-mathjax/*"
+	],
+	"requireCurlyBraces": [
+		"switch", "try", "catch"
+	],
+	"requireSpaceAfterKeywords": [
+		"if", "else", "for", "while", "do", "switch", "return", "try", "catch"
+	],
+	"requireSpaceBeforeBlockStatements": true,
+	"requireParenthesesAroundIIFE": true,
+	"requireSpacesInConditionalExpression": {
+		"afterTest": true,
+		"beforeConsequent": true,
+		"afterConsequent": true,
+		"beforeAlternate": true
+	},
+	"requireSpacesInFunctionExpression": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"disallowSpacesInFunctionExpression": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireBlocksOnNewline": true,
+	"requireSpacesInsideObjectBrackets": "all",
+	"requireSpacesInsideArrayBrackets": "all",
+	"requireSpacesInsideParentheses": "all",
+	"disallowSpaceAfterObjectKeys": true,
+	"requireCommaBeforeLineBreak": true,
+	"requireOperatorBeforeLineBreak": [
+		"?", "=", "+", "-", "/", "*", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=",
+		"-=", "/=", "^="
+	],
+	"requireSpaceBeforeBinaryOperators": [
+		"+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=", "-=",
+		"/=", "^="
+	],
+	"requireSpaceAfterBinaryOperators": [
+		"+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=", "-=",
+		"/=", "^="
+	],
+	"disallowSpaceAfterPrefixUnaryOperators": [
+		"++", "--", "+", "-", "~", "!"
+	],
+	"disallowSpaceBeforePostfixUnaryOperators": [
+		"++", "--"
+	],
+	"disallowKeywords": [
+		"with"
+	],
+	"validateLineBreaks": "LF",
+	"validateQuoteMarks": {
+		"mark": "'",
+		"escape": true
+	},
+	"validateIndentation": "\t",
+	"disallowMixedSpacesAndTabs": true,
+	"disallowTrailingWhitespace": true,
+	"maximumLineLength": 200,
+	"disallowYodaConditions": true
+}

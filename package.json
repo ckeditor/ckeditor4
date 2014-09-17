@@ -4,7 +4,8 @@
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs-jquery": "~0.2.0",
-		"benderjs-yui": "~0.2.0"
+		"benderjs-yui": "~0.2.0",
+		"jscs": "^1.5.9"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
