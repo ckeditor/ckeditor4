@@ -236,6 +236,34 @@
 			assert.areSame( '<p>xfoox</p>', editorData, 'event was fired after data was inserted' );
 		},
 
+		'test checkWidgets event on insertHtmlIntoRange': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				widgets = editor.widgets,
+				checked = 0,
+				eventData, editorData;
+
+			var listener = widgets.on( 'checkWidgets', function( evt ) {
+				checked += 1;
+				eventData = evt.data;
+				editorData = editor.getData();
+			} );
+
+			this.editorBot.setHtmlWithSelection( '<p>xx^</p>' );
+
+			var range = editor.createRange();
+			range.setStart( editable.getChild( [ 0, 0 ] ), 1 );
+			range.collapse();
+
+			editable.insertHtmlIntoRange( 'foo', 'html', range );
+
+			listener.removeListener();
+
+			assert.areSame( 1, checked );
+			assert.isTrue( eventData.initOnlyNew, 'data.initOnlyNew was passed' );
+			assert.areSame( '<p>xfoox</p>', editorData, 'event was fired after data was inserted' );
+		},
+
 		'test checkWidgets event on insertText': function() {
 			var editor = this.editor,
 				widgets = editor.widgets,
