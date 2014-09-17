@@ -1,0 +1,11 @@
+.bender/*
+dev/*
+lang/*
+node_modules/*
+plugins/*/lib/*
+plugins/**/lang/*
+plugins/uicolor/yui/*
+plugins/htmlwriter/samples/assets/outputforflash/*
+tests/core/dom/_assets/*
+tests/core/selection/_helpers/rangy.js
+tests/plugins/mathjax/_assets/truncated-mathjax/*

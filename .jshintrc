@@ -1,0 +1,25 @@
+{
+	"browser": true,
+
+	"es3": true,
+	"immed": true,
+	"latedef": "nofunc",
+	"nonbsp": true,
+	"undef": true,
+	"unused": true,
+
+	"newcap": false,
+	"noempty": false,
+	"strict": false,
+
+	"boss": true,
+	"eqnull": true,
+	"evil": true,
+	"expr": true,
+	"funcscope": true,
+	"globalstrict": true,
+	"loopfunc": true,
+	"validthis": true,
+
+	"predef": [ "CKEDITOR", "assert", "arrayAssert", "bender", "resume", "wait", "YUITest" ]
+}
