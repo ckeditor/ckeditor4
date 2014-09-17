@@ -259,7 +259,7 @@
 
 			listener.removeListener();
 
-			assert.areSame( 1, checked );
+			assert.areSame( 1, checked, 'checkWidgets' );
 			assert.isTrue( eventData.initOnlyNew, 'data.initOnlyNew was passed' );
 			assert.areSame( '<p>xfoox</p>', editorData, 'event was fired after data was inserted' );
 		},

@@ -2626,10 +2626,7 @@
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.
-		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
-		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
-
-		function checkNewWidgets() {
+		editor.on( 'afterInsert', function() {
 			editor.fire( 'lockSnapshot' );
 
 			// Init only new for performance reason.
@@ -2637,7 +2634,7 @@
 			widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
 			editor.fire( 'unlockSnapshot' );
-		}
+		}, null, null, 999 );
 	}
 
 	// Helper for coordinating which widgets should be

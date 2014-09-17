@@ -231,20 +231,39 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor#insertHtml
-			 */
-			insertHtml: function( data, mode ) {
-				beforeInsert( this );
-				// Default mode is 'html'.
-				insert( this, mode || 'html', data );
-			},
-
-			/**
 			 * @see CKEDITOR.editor#insertText
 			 */
 			insertText: function( text ) {
+				this.insertHtml( this.transformPlainTextToHtml( text ), 'text' );
+			},
+
+			/**
+			 * @see CKEDITOR.editor#insertHtml
+			 */
+			insertHtml: function( data, mode ) {
+				// HTML insertion only considers the first range.
+				// Note: getRanges will be overwritten for tests since we want to test
+				// 		custom ranges and bypass native selections.
+				var range = this.editor.getSelection().getRanges()[ 0 ];
+
 				beforeInsert( this );
-				insert( this, 'text', this.transformPlainTextToHtml( text ) );
+
+				// Default mode is 'html'.
+				insert( this, mode || 'html', data, range );
+
+				// Make the final range selection.
+				range.select();
+
+				afterInsert( this );
+
+				this.editor.fire( 'afterInsert' );
+			},
+
+			insertHtmlIntoRange: function( data, mode, range ) {
+				// Default mode is 'html'
+				insert( this, mode || 'html', data, range );
+
+				this.editor.fire( 'afterInsert' );
 			},
 
 			/**
@@ -1260,14 +1279,8 @@
 
 		// Inserts the given (valid) HTML into the range position (with range content deleted),
 		// guarantee it's result to be a valid DOM tree.
-		function insert( editable, type, data ) {
+		function insert( editable, type, data, range ) {
 			var editor = editable.editor,
-				selection = editor.getSelection(),
-				// HTML insertion only considers the first range.
-				// Note: getRanges will be overwritten for tests since we want to test
-				// 		custom ranges and bypass native selections.
-				// TODO what should we do with others? Remove?
-				range = selection.getRanges()[ 0 ],
 				dontFilter = false;
 
 			if ( type == 'unfiltered_html' ) {
@@ -1320,11 +1333,6 @@
 			// Set final range position and clean up.
 
 			cleanupAfterInsertion( that );
-
-			// Make the final range selection.
-			range.select();
-
-			afterInsert( editable );
 		}
 
 		// Prepare range to its data deletion.
