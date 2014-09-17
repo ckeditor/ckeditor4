@@ -956,7 +956,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						case 'data-cke-expando':
 							continue;
 
-						/* jsl:fallthru */
+
 						/* falls through */
 						default:
 							if ( attribute.specified ) {

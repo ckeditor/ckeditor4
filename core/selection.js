@@ -1454,7 +1454,7 @@
 							range = new CKEDITOR.dom.range( this.root );
 
 							for ( ; j < parentElement.childNodes.length && parentElement.childNodes[ j ] != element; j++ ) {
-								/*jsl:pass*/
+
 							}
 
 							range.setStart( new CKEDITOR.dom.node( parentElement ), j );

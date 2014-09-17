@@ -968,7 +968,7 @@ CKEDITOR.dom.range = function( root ) {
 			switch ( unit ) {
 				case CKEDITOR.ENLARGE_INLINE:
 					var enlargeInlineOnly = 1;
-				/*jsl:fallthru*/
+
 				/* falls through */
 				case CKEDITOR.ENLARGE_ELEMENT:
 

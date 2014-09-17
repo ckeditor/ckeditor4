@@ -655,7 +655,7 @@
 								}
 								editor.fire( 'saveSnapshot' );
 								while ( finder.replace( dialog, dialog.getValueOf( 'replace', 'txtFindReplace' ), dialog.getValueOf( 'replace', 'txtReplace' ), dialog.getValueOf( 'replace', 'txtReplaceCaseChk' ), dialog.getValueOf( 'replace', 'txtReplaceWordChk' ), false, true ) ) {
-									/*jsl:pass*/
+
 								}
 
 								if ( finder.replaceCounter ) {

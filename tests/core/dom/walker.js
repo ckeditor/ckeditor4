@@ -249,7 +249,7 @@ bender.test(
 				return true;
 			};
 
-			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) {  }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>', 'simple', '<i>', '<b>', ' test' , '<p>' ], nodes );
 		},
@@ -272,7 +272,7 @@ bender.test(
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) ) { /*jsl:pass*/ }
+			while ( ( node = walker.previous() ) ) {  }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', '<i>', 'a ', '<b>', 'This is ', '<p>' ], nodes );
 		},
@@ -292,7 +292,7 @@ bender.test(
 				return !( node.type == CKEDITOR.NODE_ELEMENT && node.is( 'i' ) ); // Stop on <i> element.
 			};
 
-			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) {  }
 
 			assertNodesList( [ '<p>', 'This is ', '<b>', 'a ', '<i>' ], nodes );
 		},
@@ -315,7 +315,7 @@ bender.test(
 				return true;
 			};
 
-			while ( ( node = walker.previous() ) ) { /*jsl:pass*/ }
+			while ( ( node = walker.previous() ) ) {  }
 
 			assertNodesList( [ '<p>', ' test', '<b>', '<i>', 'simple', 'a ', 'This is ' ], nodes );
 		},
@@ -338,7 +338,7 @@ bender.test(
 				return true;
 			};
 
-			while ( ( node = walker.next() ) ) { /*jsl:pass*/ }
+			while ( ( node = walker.next() ) ) {  }
 
 			assertNodesList( [ '<span>' ], nodes );
 

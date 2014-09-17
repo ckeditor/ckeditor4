@@ -2620,7 +2620,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				cursor = element,
 				tabId;
 			while ( ( cursor = cursor.getParent() ) && cursor.$.className.search( 'cke_dialog_page_contents' ) == -1 ) {
-				/*jsl:pass*/
+
 			}
 
 			// Some widgets don't have parent tabs (e.g. OK and Cancel buttons).
