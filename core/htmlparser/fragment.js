@@ -202,8 +202,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			if ( element.returnPoint ) {
 				currentNode = element.returnPoint;
 				delete element.returnPoint;
-			} else
+			} else {
 				currentNode = moveCurrent ? target : savedCurrent;
+			}
 		}
 
 		// Auto paragraphing should happen when inline content enters the root element.
@@ -211,9 +212,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 			// Check for parent that can contain block.
 			if ( ( parent == root || parent.name == 'body' ) && fixingBlock &&
-					 ( !parent.name || CKEDITOR.dtd[ parent.name ][ fixingBlock ] ) )
-			{
+					( !parent.name || CKEDITOR.dtd[ parent.name ][ fixingBlock ] ) ) {
 				var name, realName;
+
 				if ( node.attributes && ( realName = node.attributes[ 'data-cke-real-element-type' ] ) )
 					name = realName;
 				else
@@ -221,9 +222,9 @@ CKEDITOR.htmlParser.fragment = function() {
 
 				// Text node, inline elements are subjected, except for <script>/<style>.
 				return name && name in CKEDITOR.dtd.$inline &&
-				       !( name in CKEDITOR.dtd.head ) &&
-				       !node.isOrphan ||
-				       node.type == CKEDITOR.NODE_TEXT;
+					!( name in CKEDITOR.dtd.head ) &&
+					!node.isOrphan ||
+					node.type == CKEDITOR.NODE_TEXT;
 			}
 		}
 
@@ -257,8 +258,9 @@ CKEDITOR.htmlParser.fragment = function() {
 			else if ( tagName == 'br' && inPre ) {
 				currentNode.add( new CKEDITOR.htmlParser.text( '\n' ) );
 				return;
-			} else if ( tagName == 'textarea' )
+			} else if ( tagName == 'textarea' ) {
 				inTextarea = true;
+			}
 
 			if ( tagName == 'br' ) {
 				pendingBRs.push( element );
@@ -323,8 +325,9 @@ CKEDITOR.htmlParser.fragment = function() {
 							break;
 						}
 					}
-				} else
+				} else {
 					break;
+				}
 			}
 
 			checkPending( tagName );

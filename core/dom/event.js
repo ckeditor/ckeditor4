@@ -142,11 +142,11 @@ CKEDITOR.dom.event.prototype = {
 	 * @returns {Number} return.x
 	 * @returns {Number} return.y
 	 */
-	getPageOffset : function() {
+	getPageOffset: function() {
 		var doc = this.getTarget().getDocument().$;
 		var pageX = this.$.pageX || this.$.clientX + ( doc.documentElement.scrollLeft || doc.body.scrollLeft );
 		var pageY = this.$.pageY || this.$.clientY + ( doc.documentElement.scrollTop || doc.body.scrollTop );
-		return { x : pageX, y : pageY };
+		return { x: pageX, y: pageY };
 	}
 };
 

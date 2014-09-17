@@ -33,7 +33,7 @@
 
 /**
  * Transforms input data into HTML to be loaded into the editor.
- * While the editor is able to handle non-HTML data (like BBCode), it can only 
+ * While the editor is able to handle non-HTML data (like BBCode), it can only
  * handle HTML data at runtime. The role of the data processor is to transform
  * the input data into HTML through this function.
  *
@@ -53,7 +53,7 @@
  * Transforms HTML into data to be output by the editor, in the format
  * expected by the data processor.
  *
- * While the editor is able to handle non-HTML data (like BBCode), it can only 
+ * While the editor is able to handle non-HTML data (like BBCode), it can only
  * handle HTML data at runtime. The role of the data processor is to transform
  * the HTML data containined by the editor into a specific data format through
  * this function.

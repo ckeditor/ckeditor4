@@ -104,9 +104,15 @@
 		 */
 		getAscendant: function( condition ) {
 			var checkFn =
-				typeof condition == 'function' ?	condition :
-				typeof condition == 'string' ?		function( el ) { return el.name == condition; } :
-													function( el ) { return el.name in condition; };
+				typeof condition == 'function' ?
+					condition :
+				typeof condition == 'string' ?
+					function( el ) {
+						return el.name == condition;
+					} :
+					function( el ) {
+						return el.name in condition;
+					};
 
 			var parent = this.parent;
 

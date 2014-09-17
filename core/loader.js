@@ -21,8 +21,17 @@ if ( !CKEDITOR.loader ) {
 	CKEDITOR.loader = ( function() {
 		// Table of script names and their dependencies.
 		var scripts = {
-			'_bootstrap': [ 'config', 'creators/inline', 'creators/themedui', 'editable', 'ckeditor', 'plugins', 'scriptloader', 'style', 'tools', /* The following are entries that we want to force loading at the end to avoid dependence recursion */ 'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin' ],
-			'ckeditor': [ 'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event', 'htmldataprocessor', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter', 'htmlparser/basicwriter', 'template', 'tools' ],
+			'_bootstrap': [
+				'config', 'creators/inline', 'creators/themedui', 'editable', 'ckeditor', 'plugins',
+				'scriptloader', 'style', 'tools',
+				// The following are entries that we want to force loading at the end to avoid dependence recursion.
+				'dom/comment', 'dom/elementpath', 'dom/text', 'dom/rangelist', 'skin'
+			],
+			'ckeditor': [
+				'ckeditor_basic', 'dom', 'dtd', 'dom/document', 'dom/element', 'dom/iterator', 'editor', 'event',
+				'htmldataprocessor', 'htmlparser', 'htmlparser/element', 'htmlparser/fragment', 'htmlparser/filter',
+				'htmlparser/basicwriter', 'template', 'tools'
+			],
 			'ckeditor_base': [],
 			'ckeditor_basic': [ 'editor_basic', 'env', 'event' ],
 			'command': [],
@@ -45,7 +54,10 @@ if ( !CKEDITOR.loader ) {
 			'dom/window': [ 'dom/domobject' ],
 			'dtd': [ 'tools' ],
 			'editable': [ 'editor', 'tools' ],
-			'editor': [ 'command', 'config', 'editor_basic', 'filter', 'focusmanager', 'keystrokehandler', 'lang', 'plugins', 'tools', 'ui' ],
+			'editor': [
+				'command', 'config', 'editor_basic', 'filter', 'focusmanager', 'keystrokehandler', 'lang',
+				'plugins', 'tools', 'ui'
+			],
 			'editor_basic': [ 'event' ],
 			'env': [],
 			'event': [],
@@ -133,7 +145,7 @@ if ( !CKEDITOR.loader ) {
 				// We must guarantee the execution order of the scripts, so we
 				// need to load them one by one. (#4145)
 				// The following if/else block has been taken from the scriptloader core code.
-				if ( typeof( script.onreadystatechange ) !== "undefined" ) {
+				if ( typeof( script.onreadystatechange ) !== 'undefined' ) {
 					/** @ignore */
 					script.onreadystatechange = function() {
 						if ( script.readyState == 'loaded' || script.readyState == 'complete' ) {

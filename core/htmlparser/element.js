@@ -41,7 +41,9 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 		prefixed = realName.match( /^cke:(.*)/ );
 	prefixed && ( realName = prefixed[ 1 ] );
 
-	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] || CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] || CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
+	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] ||
+		CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] ||
+		CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
 
 	this.isEmpty = !!CKEDITOR.dtd.$empty[ name ];
 	this.isUnknown = !CKEDITOR.dtd[ name ];
@@ -232,8 +234,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 						delete attributes[ a ];
 						a = newAttrName;
 						continue;
-					} else
+					} else {
 						break;
+					}
 				}
 
 				if ( newAttrName ) {

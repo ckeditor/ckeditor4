@@ -201,8 +201,9 @@ CKEDITOR.resourceManager.prototype = {
 				if ( !( url in urlsNames ) )
 					urlsNames[ url ] = [];
 				urlsNames[ url ].push( name );
-			} else
+			} else {
 				resources[ name ] = this.get( name );
+			}
 		}
 
 		CKEDITOR.scriptLoader.load( urls, function( completed, failed ) {
