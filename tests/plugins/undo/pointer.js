@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,undo */
 /* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
+/* global undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -29,7 +30,7 @@
 
 			this.undoManager = this.editor.undoManager;
 			// For each TC we want to reset undoManager.
-			this.undoManager.reset();
+			this.editor.resetUndo();
 		},
 
 		_should: {
@@ -82,8 +83,8 @@
 				noSnapshot: true,
 				callback: function() {
 					resume( function() {
-						// There should be no snapshots at the begining, because of noSnapshot.
-						assert.areEqual( 0, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
+						// There should be one snapshot at the begining, because of noSnapshot.
+						assert.areEqual( 1, that.editor.undoManager.snapshots.length, 'Invalid snapshots count' );
 
 						// This will make initial snapshot.
 						that.tools.mouse.click( null, function() {
@@ -98,9 +99,9 @@
 						var snapshots = that.editor.undoManager.snapshots,
 							bookmark;
 
-						assert.areEqual( 1, snapshots.length, 'Invalid snapshots count' );
+						assert.areEqual( 2, snapshots.length, 'Invalid snapshots count' );
 
-						bookmark = snapshots[ 0 ].bookmarks[ 0 ];
+						bookmark = snapshots[ 1 ].bookmarks[ 0 ];
 						// Selection should be moved.
 						assert.areEqual( 2, bookmark.startOffset, 'Invalid start offset' );
 

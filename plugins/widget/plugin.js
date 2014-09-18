@@ -60,7 +60,7 @@
 				'}' +
 				'.cke_widget_drag_handler_container:hover{' +
 					'opacity:1' +
-				'}'+
+				'}' +
 				'img.cke_widget_drag_handler{' +
 					'cursor:move;' +
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
@@ -501,8 +501,9 @@
 						this.instances[ widget.id ] = widget;
 
 						return widget;
-					} else
+					} else {
 						return null;
+					}
 				}
 
 				// Widget already has been initialized, so try to get widget by element.
@@ -1010,8 +1011,6 @@
 		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
 		 */
 		destroy: function( offline ) {
-			var editor = this.editor;
-
 			this.fire( 'destroy' );
 
 			if ( this.editables ) {
@@ -1709,10 +1708,10 @@
 									cancelListener.removeListener();
 								} );
 							} );
-						}
-						// Dialog hasn't been set, so insert widget now.
-						else
+						} else {
+							// Dialog hasn't been set, so insert widget now.
 							finalizeCreation();
+						}
 					}, null, null, 999 );
 
 					instance.edit();
@@ -1865,10 +1864,10 @@
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
 				widgetsRepo.wrapElement( element );
-			}
-			// Otherwise - something is wrong... clean this up.
-			else
+			} else {
+				// Otherwise - something is wrong... clean this up.
 				wrapper.remove();
+			}
 		}
 	}
 
@@ -2102,6 +2101,63 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
 	}
 
+	function finalizeNativeDrop( editor, sourceWidget, range ) {
+		// Save the snapshot with the state before moving widget.
+		// Focus widget, so when we'll undo the DnD, widget will be focused.
+		sourceWidget.focus();
+		editor.fire( 'saveSnapshot' );
+
+		// Lock snapshot to group all steps of moving widget from the original place to the new one.
+		editor.fire( 'lockSnapshot', { dontUpdate: true } );
+
+		range.select();
+
+		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
+		sourceWidget.wrapper.remove();
+		editor.widgets.destroy( sourceWidget, true );
+		editor.execCommand( 'paste', widgetHtml );
+
+		editor.fire( 'unlockSnapshot' );
+	}
+
+	function getRangeAtDropPosition( editor, dropEvt ) {
+		var $evt = dropEvt.data.$,
+			$range,
+			range = editor.createRange();
+
+		// Make testing possible.
+		if ( dropEvt.data.testRange )
+			return dropEvt.data.testRange;
+
+		// Webkits.
+		if ( document.caretRangeFromPoint ) {
+			$range = editor.document.$.caretRangeFromPoint( $evt.clientX, $evt.clientY );
+			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
+			range.collapse( true );
+		}
+		// FF.
+		else if ( $evt.rangeParent ) {
+			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
+			range.collapse( true );
+		}
+		// IEs.
+		else if ( document.body.createTextRange ) {
+			$range = editor.document.getBody().$.createTextRange();
+			$range.moveToPoint( $evt.clientX, $evt.clientY );
+			var id = 'cke-temp-' + ( new Date() ).getTime();
+			$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
+
+			var span = editor.document.getById( id );
+			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
+			span.remove();
+		}
+		else {
+			return null;
+		}
+
+		return range;
+	}
+
 	function onEditableKey( widget, keyCode ) {
 		var focusedEditable = widget.focusedEditable,
 			range;
@@ -2330,10 +2386,10 @@
 						evt.data.preventDefault();
 						if ( !CKEDITOR.env.ie )
 							widget.focus();
-					}
-					// Reset widget so mouseup listener is not confused.
-					else
+					} else {
+						// Reset widget so mouseup listener is not confused.
 						widget = null;
+					}
 				}
 			} );
 
@@ -2353,7 +2409,7 @@
 			// It is not possible to prevent that default action,
 			// so we force fake selection after everything happened.
 			if ( CKEDITOR.env.ie ) {
-				editable.attachListener( evtRoot, 'mouseup', function( evt ) {
+				editable.attachListener( evtRoot, 'mouseup', function() {
 					if ( widget ) {
 						setTimeout( function() {
 							widget.focus();
@@ -2443,12 +2499,13 @@
 			}
 			// It may happen that there's no widget even if editable was found -
 			// e.g. if selection was automatically set in editable although widget wasn't initialized yet.
-			else if ( newWidget && nestedEditable )
+			else if ( newWidget && nestedEditable ) {
 				setFocusedEditable( widgetsRepo, newWidget, nestedEditable );
+			}
 		} );
 
 		// Invalidate old widgets early - immediately on dataReady.
-		editor.on( 'dataReady', function( evt ) {
+		editor.on( 'dataReady', function() {
 			// Deselect and blur all widgets.
 			stateUpdater( widgetsRepo ).commit();
 		} );
@@ -2481,8 +2538,7 @@
 
 	function setupWidgetsLifecycleEnd( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
-			downcastingSessions = {},
-			nestedEditableScope = false;
+			downcastingSessions = {};
 
 		// Listen before htmlDP#htmlFilter is applied to cache all widgets, because we'll
 		// loose data-cke-* attributes.
@@ -2552,7 +2608,7 @@
 				for ( e in toBe.editables ) {
 					editableElement = toBe.editables[ e ];
 
-					delete editableElement.attributes[ 'contenteditable' ];
+					delete editableElement.attributes.contenteditable;
 					editableElement.setHtml( widget.editables[ e ].getData() );
 				}
 
@@ -2936,7 +2992,11 @@
 			widget.on( 'data', widget.updateDragHandlerPosition, widget );
 		}, 50 );
 
-		if ( !widget.inline ) {
+		if ( widget.inline ) {
+			img.on( 'dragstart', function( evt ) {
+				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
+			} );
+		} else {
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
 		}
 
@@ -3123,17 +3183,17 @@
 			var keyCode = evt.data.keyCode;
 
 			// ENTER.
-			if ( keyCode == 13 )
+			if ( keyCode == 13 ) {
 				widget.edit();
-			// CTRL+C or CTRL+X.
-			else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
+				// CTRL+C or CTRL+X.
+			} else if ( keyCode == CKEDITOR.CTRL + 67 || keyCode == CKEDITOR.CTRL + 88 ) {
 				copySingleWidget( widget, keyCode == CKEDITOR.CTRL + 88 );
 				return; // Do not preventDefault.
-			}
-			// Pass chosen keystrokes to other plugins or default fake sel handlers.
-			// Pass all CTRL/ALT keystrokes.
-			else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) || ( CKEDITOR.ALT & keyCode ) )
+			} else if ( keyCode in keystrokesNotBlockedByWidget || ( CKEDITOR.CTRL & keyCode ) || ( CKEDITOR.ALT & keyCode ) ) {
+				// Pass chosen keystrokes to other plugins or default fake sel handlers.
+				// Pass all CTRL/ALT keystrokes.
 				return;
+			}
 
 			return false;
 		}, null, null, 999 );
@@ -3245,13 +3305,13 @@
 				return this.checkElementMatch( elementPath.lastElement, 0, editor );
 			},
 
-			checkApplicable: function( elementPath, editor, filter ) {
+			checkApplicable: function( elementPath, editor ) {
 				// Before CKEditor 4.4 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
 					return false;
 
-				return this.checkElement( elementPath.lastElement, editor );
+				return this.checkElement( elementPath.lastElement );
 			},
 
 			checkElementMatch: checkElementMatch,
@@ -3263,10 +3323,9 @@
 			 * widget whose name matches the {@link #widget widget name} specified in the style definition.
 			 *
 			 * @param {CKEDITOR.dom.element} element
-			 * @param {CKEDITOR.editor} editor
 			 * @returns {Boolean}
 			 */
-			checkElement: function( element, editor ) {
+			checkElement: function( element ) {
 				if ( !isDomWidgetWrapper( element ) )
 					return false;
 
@@ -3357,7 +3416,7 @@
 			if ( !editor )
 				return false;
 
-			if ( !this.checkElement( element, editor ) )
+			if ( !this.checkElement( element ) )
 				return false;
 
 			var widget = editor.widgets.getByElement( element, true );

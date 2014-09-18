@@ -209,7 +209,7 @@ bender.test(
 		ed.fire( 'saveSnapshot' );
 
 		// Check undo manager is locked.
-		var msg = 'check locked undo manager (after save) - ';
+		msg = 'check locked undo manager (after save) - ';
 		assert.isFalse( isActive( undo ), msg + 'undoable' );
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 
@@ -802,7 +802,7 @@ bender.test(
 	},
 
 	'test CTRL+Z/Y/SHIFT+Z default actions are not blocked in source mode': function() {
-		var bot = this.editorBot
+		var bot = this.editorBot;
 
 		bot.editor.setMode( 'source', function() {
 			var prevented = 0,

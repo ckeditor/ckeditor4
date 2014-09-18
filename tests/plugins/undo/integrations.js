@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,image */
 /* bender-include: _helpers/tools.js */
+/* global undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -21,9 +22,7 @@
 				this.undoManager = this.editor.undoManager;
 
 				// For each TC we want to reset undoManager.
-				this.undoManager.reset();
-				// Force to reset inputFired counter, as some TCs may produce leftovers.
-				this.undoManager.editingHandler.resetCounter();
+				this.editor.resetUndo();
 			},
 
 			// (#12327)

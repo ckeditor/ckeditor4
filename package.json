@@ -5,7 +5,7 @@
 	"devDependencies": {
 		"benderjs-jquery": "~0.2.0",
 		"benderjs-yui": "~0.2.0",
-		"jscs": "^1.5.9",
+		"jscs": "^1.6.0",
 		"jshint": "^2.5.2"
 	},
 	"scripts": {
