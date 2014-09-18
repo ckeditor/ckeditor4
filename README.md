@@ -64,10 +64,10 @@ builder, for its first time at least.
 
 ### Testing Environment
 
-Read more how to set up the environment and execute tests in the [CKEditor Testing Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
+Read more on how to set up the environment and execute tests in the [CKEditor Testing Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
 ### License
 
 Licensed under the GPL, LGPL and MPL licenses, at your choice.
 
-For full details about license, please check the LICENSE.md file.
+For full details about the license, please check the LICENSE.md file.
