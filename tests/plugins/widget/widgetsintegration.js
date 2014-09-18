@@ -270,7 +270,7 @@
 				range.setStart( editable.getChild( [ 0, 0 ] ), 1 );
 				range.collapse();
 
-				editable.insertHtmlIntoRange( html, 'html', range );
+				editable.insertHtmlIntoRange( html, range );
 
 				listener.removeListener();
 

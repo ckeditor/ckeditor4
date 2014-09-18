@@ -24,7 +24,7 @@
 				afterInsertData = evt.data;
 			} );
 
-			editable.insertHtmlIntoRange( insertedHtml, 'html', range );
+			editable.insertHtmlIntoRange( insertedHtml, range );
 
 			assert.isInnerHtmlMatching( expectedHtml, editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
