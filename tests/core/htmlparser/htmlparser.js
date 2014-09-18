@@ -238,6 +238,78 @@
 			var elP = CKEDITOR.htmlParser.fragment.fromHtml( '<p foo="&lt;&quot;&gt;">bar</p>' ).children[ 0 ];
 
 			assert.areSame( '<">', elP.attributes.foo );
+		},
+
+		'test parsing incorrect attribute': function() {
+			var parser = new CKEDITOR.htmlParser();
+
+			// Pass this through the browser:
+			//		document.body.innerHTML = '<img bar=\'-/"/-value\'">';
+			// and you get:
+			//		<img bar="-/&quot;/-value" "="">
+			// and this HTML will not be fixed by the browser
+			// even if you pass it again.
+			//
+			// Good thing is that the browser always
+			// outputs attributes' values wrapped with "", never ''.
+			//
+			// ...
+			//
+			// Except IE11 which prints:
+			//		<img "="" bar='-/"/-value'>
+			//
+			// Fortunately, switching the quotes won't break much, because:
+			//		document.body.innerHTML = '<img bar=\"-/\'/-value\"\'>';
+			// gives:
+			//		<img bar="-/'/-value" '="">
+
+			check( '<img bar="-/&quot;/-value" "="">',		'-/"/-value',		'1' );
+			check( '<img "="" bar=\'-/"/-value\'>',			null,				'2' );
+			check( '<img bar="-/\'/-value" \'="">',			'-/\'/-value',		'3' );
+			check( '<img "="abc" bar="xyz">',				null,				'4' );
+
+			function check( html, barValue, msg ) {
+				var onTagOpenCalled = false;
+
+				parser.onTagOpen = function( tagName, attributes ) {
+					onTagOpenCalled = true;
+
+					assert.areSame( 'img', tagName, 'tagName - ' + msg );
+
+					if ( barValue )
+						assert.areSame( barValue, attributes.bar, 'attributes.bar\'s value is correct - ' + msg );
+					else
+						assert.isFalse( 'bar' in attributes, 'attributes.bar should not exist - ' + msg );
+				};
+
+				parser.parse( html );
+				assert.isTrue( onTagOpenCalled, 'tag was found - ' + msg );
+			}
+		},
+
+		'test parsing incorrect attribute - check against greediness': function() {
+			var parser = new CKEDITOR.htmlParser();
+
+			check( '<img "=""><b foo="x">x</b>',						'img,b',	'x',	'1' );
+			check( '<img "="" /><b foo="x">x</b>',						'img,b',	'x',	'2' );
+			check( '<span "=""><b foo="x">x</b></span>',				'span,b',	'x',	'3' );
+			check( '<img bar="-/\'/-value" \'=""><b foo="\'x">x</b>',	'img,b',	'\'x',	'4' );
+			check( '<img "="">"<b foo="x">x</b>',						'img,b',	'x',	'5' );
+			check( '<img \'=""><b foo="x">x</b>\'',						'img,b',	'x',	'6' );
+
+			function check( html, expectedTags, fooValue, msg ) {
+				var tags = [];
+
+				parser.onTagOpen = function( tagName, attributes ) {
+					tags.push( tagName );
+					if ( tagName == 'b' ) {
+						assert.areSame( fooValue, attributes.foo, 'b[foo] - ' + msg );
+					}
+				};
+
+				parser.parse( html );
+				assert.areSame( expectedTags, tags.join( ',' ), 'tags - ' + msg );
+			}
 		}
 	} );
 
