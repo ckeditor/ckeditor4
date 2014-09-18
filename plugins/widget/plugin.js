@@ -2626,14 +2626,18 @@
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.
-		editor.on( 'afterInsert', function() {
-			editor.fire( 'lockSnapshot' );
+		editor.on( 'afterInsert', function( evt ) {
+			if ( evt.data.intoSelection ) {
+				editor.fire( 'lockSnapshot' );
 
-			// Init only new for performance reason.
-			// Focus inited if only widget was processed.
-			widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
+				// Init only new for performance reason.
+				// Focus inited if only widget was processed.
+				widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
-			editor.fire( 'unlockSnapshot' );
+				editor.fire( 'unlockSnapshot' );
+			} else {
+				widgetsRepo.checkWidgets( { initOnlyNew: true } );
+			}
 		}, null, null, 999 );
 	}
 
