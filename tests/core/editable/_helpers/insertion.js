@@ -64,7 +64,7 @@ var insertionDT = ( function() {
 		assertInsertion: function( editablesNames, source, insertion, expected, enterMode, message ) {
 			var editableName, result, editor, modes, mode,
 				root, checkAllModes, rangeList, revertChanges, revertChanges2,
-				expectedForMode, afterInsertCount;
+				expectedForMode, afterInsertCount, afterInsertData;
 
 			editablesNames = editablesNames.split( ',' );
 			// Check all supported modes if expected value is a string or regexp.
@@ -146,8 +146,9 @@ var insertionDT = ( function() {
 				editor = this.editorsPool[ editableName ];
 				root = editor.editable();
 
-				editor.on( 'afterInsert', function() {
+				editor.on( 'afterInsert', function( evt ) {
 					afterInsertCount++;
+					afterInsertData = evt.data;
 				} );
 
 				// Set enter mode to the given value or reset to the default one.
@@ -179,6 +180,7 @@ var insertionDT = ( function() {
 						( message || 'editor\'s content should equal expected value' ) +
 						' (editable: "' + editableName + '" & mode: "' + mode + '")' );
 					assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsert event after every insertion.' );
+					assert.isTrue( afterInsertData.intoSelection );
 				}
 			}
 

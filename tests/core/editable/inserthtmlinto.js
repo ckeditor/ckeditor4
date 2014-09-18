@@ -17,16 +17,18 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				editable = editor.editable(),
-				afterInsertCount = 0;
+				afterInsertCount = 0, afterInsertData;
 
-			editor.on( 'afterInsert', function() {
+			editor.on( 'afterInsert', function( evt ) {
 				afterInsertCount++;
+				afterInsertData = evt.data;
 			} );
 
 			editable.insertHtmlIntoRange( insertedHtml, 'html', range );
 
 			assert.isInnerHtmlMatching( expectedHtml, editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
+			assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be false' );
 		},
 
 		'test insertHtmlIntoRange - block': function() {

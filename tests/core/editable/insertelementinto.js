@@ -14,7 +14,13 @@
 		'test insertElementIntoRange': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				editable = editor.editable();
+				editable = editor.editable(),
+				afterInsertCount = 0, afterInsertData;
+
+			editor.on( 'afterInsert', function( evt ) {
+				afterInsertCount++;
+				afterInsertData = evt.data;
+			} );
 
 			bot.setData( '<p>foobar</p>', function() {
 				var range = editor.createRange(),
@@ -26,6 +32,8 @@
 
 				assert.isTrue( editable.insertElementIntoRange( element, range ), 'Insertion is successful.' );
 				assert.areSame( '<p>fo</p><div>hi!</div><p>ar</p>', bot.getData( true, true ) );
+				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
+				assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be false' );
 			} );
 		},
 
@@ -67,7 +75,13 @@
 		'test insertElementIntoSelection': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				editable = editor.editable();
+				editable = editor.editable(),
+				afterInsertCount = 0, afterInsertData;
+
+			editor.on( 'afterInsert', function( evt ) {
+				afterInsertCount++;
+				afterInsertData = evt.data;
+			} );
 
 			bot.setData( '', function() {
 				var element = CKEDITOR.dom.element.createFromHtml( '<div>hi!</div>' );
@@ -76,6 +90,8 @@
 
 				editable.insertElementIntoSelection( element );
 				assert.areSame( '<p>foo</p><div>hi!</div><p>^bar</p>', bot.htmlWithSelection() );
+				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
+				assert.isTrue( afterInsertData.intoSelection, 'intoSelection should be true' );
 			} );
 		},
 
@@ -98,7 +114,13 @@
 		'test insertElement with range parameter': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				editable = editor.editable();
+				editable = editor.editable(),
+				afterInsertCount = 0, afterInsertData;
+
+			editor.on( 'afterInsert', function( evt ) {
+				afterInsertCount++;
+				afterInsertData = evt.data;
+			} );
 
 			bot.setData( '<p>foobar</p>', function() {
 				var range = editor.createRange(),
@@ -110,6 +132,8 @@
 				editable.insertElement( element, range );
 
 				assert.areSame( '<p>foo</p><div>hi!</div><p>bar</p>', bot.getData( true, true ) );
+				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
+				assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be true' );
 			} );
 		}
 	} );
