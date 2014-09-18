@@ -33,7 +33,7 @@
 				assert.isTrue( editable.insertElementIntoRange( element, range ), 'Insertion is successful.' );
 				assert.areSame( '<p>fo</p><div>hi!</div><p>ar</p>', bot.getData( true, true ) );
 				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
-				assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be false' );
+				assert.isTrue( afterInsertData.intoRange, 'intoRange should be true' );
 			} );
 		},
 
@@ -91,7 +91,7 @@
 				editable.insertElementIntoSelection( element );
 				assert.areSame( '<p>foo</p><div>hi!</div><p>^bar</p>', bot.htmlWithSelection() );
 				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
-				assert.isTrue( afterInsertData.intoSelection, 'intoSelection should be true' );
+				assert.isFalse( afterInsertData.intoRange, 'intoRange should be false.' );
 			} );
 		},
 
@@ -133,7 +133,7 @@
 
 				assert.areSame( '<p>foo</p><div>hi!</div><p>bar</p>', bot.getData( true, true ) );
 				assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
-				assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be true' );
+				assert.isTrue( afterInsertData.intoRange, 'intoRange should be true' );
 			} );
 		}
 	} );

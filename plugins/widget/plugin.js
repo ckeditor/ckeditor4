@@ -2627,7 +2627,9 @@
 
 		// Listen with high priority to check widgets after data was inserted.
 		editor.on( 'afterInsert', function( evt ) {
-			if ( evt.data.intoSelection ) {
+			if ( evt.data.intoRange ) {
+				widgetsRepo.checkWidgets( { initOnlyNew: true } );
+			} else {
 				editor.fire( 'lockSnapshot' );
 
 				// Init only new for performance reason.
@@ -2635,8 +2637,6 @@
 				widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
 				editor.fire( 'unlockSnapshot' );
-			} else {
-				widgetsRepo.checkWidgets( { initOnlyNew: true } );
 			}
 		}, null, null, 999 );
 	}

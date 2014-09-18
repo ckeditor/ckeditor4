@@ -272,7 +272,7 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsert', { 'intoSelection': true } );
+				this.editor.fire( 'afterInsert', { 'intoRange': false } );
 			},
 
 			/**
@@ -288,7 +288,7 @@
 				// Default mode is 'html'
 				insert( this, mode || 'html', data, range );
 
-				this.editor.fire( 'afterInsert', { 'intoSelection': false } );
+				this.editor.fire( 'afterInsert', { 'intoRange': true } );
 			},
 
 			/**
@@ -357,7 +357,7 @@
 				range.insertNode( element );
 
 				if ( fireInsertEvent ) {
-					this.editor.fire( 'afterInsert', { 'intoSelection': false } );
+					this.editor.fire( 'afterInsert', { 'intoRange': true } );
 				}
 
 				// Return true if insertion was successful.
@@ -413,7 +413,7 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsert', { 'intoSelection': true } );
+				this.editor.fire( 'afterInsert', { 'intoRange': false } );
 			},
 
 			/**
@@ -2296,7 +2296,7 @@
  * @since 4.5
  * @event afterInsert
  * @param data
- * @param {Boolean} data.intoSelection If `false` range parameter was given to the insert method.
+ * @param {Boolean} data.intoRange If `true` range parameter was given to the insert method.
  * In such case selection will not be touched after insertion and it should be fixed manually if needed.
  * @member CKEDITOR.editor
  */

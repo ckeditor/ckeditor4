@@ -180,7 +180,7 @@ var insertionDT = ( function() {
 						( message || 'editor\'s content should equal expected value' ) +
 						' (editable: "' + editableName + '" & mode: "' + mode + '")' );
 					assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsert event after every insertion.' );
-					assert.isTrue( afterInsertData.intoSelection );
+					assert.isFalse( afterInsertData.intoRange, 'intoRange parameter should be false.' );
 				}
 			}
 

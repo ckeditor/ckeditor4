@@ -28,7 +28,7 @@
 
 			assert.isInnerHtmlMatching( expectedHtml, editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
-			assert.isFalse( afterInsertData.intoSelection, 'intoSelection should be false' );
+			assert.isTrue( afterInsertData.intoRange, 'intoRange should be true' );
 		},
 
 		'test insertHtmlIntoRange - block': function() {
