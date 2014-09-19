@@ -106,11 +106,18 @@
 		},
 
 		upload: function( url ) {
-			var xhr = new XMLHttpRequest(),
-				formData = new FormData(),
-				loader = this;
+			var xhr = new XMLHttpRequest();
 
-			loader.changeStatusAndFire( 'uploading' );
+			this.uploadUrl = url;
+
+			this.changeStatusAndFire( 'uploading' );
+
+			this.attachUploadListeners( xhr );
+			this.sendRequest( xhr );
+		},
+
+		attachUploadListeners: function( xhr ) {
+			var loader = this;
 
 			loader.abort = function() {
 				xhr.abort();
@@ -130,22 +137,31 @@
 			};
 
 			xhr.onload = function( evt ) {
-				var parts = xhr.responseText.split( '|' );
-
-				loader.filename = parts[ 0 ];
-				loader.message = parts[ 1 ];
-
-				if ( !loader.filename && loader.message ) {
-					loader.changeStatusAndFire( 'error' );
-				} else {
-					loader.changeStatusAndFire( 'uploaded' );
-				}
+				loader.handleResponse( xhr );
 			};
+		},
+
+		sendRequest: function( xhr, url ) {
+			var formData = new FormData();
 
 			formData.append( 'upload', this.file );
-			xhr.open( "POST", url, true );
+			xhr.open( "POST", this.uploadUrl, true );
 			xhr.send( formData );
 		},
+
+		handleResponse: function( xhr ) {
+			var parts = xhr.responseText.split( '|' );
+
+			this.filename = parts[ 0 ];
+			this.message = parts[ 1 ];
+
+			if ( !this.filename && this.message ) {
+				this.changeStatusAndFire( 'error' );
+			} else {
+				this.changeStatusAndFire( 'uploaded' );
+			}
+		},
+
 		changeStatusAndFire: function( newStatus ) {
 			var noopFunction = function() {};
 
@@ -160,6 +176,7 @@
 			this.fire( newStatus );
 			this.update();
 		},
+
 		update: function() {
 			this.fire( 'update' );
 		}
