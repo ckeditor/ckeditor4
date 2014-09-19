@@ -49,6 +49,9 @@ CKEDITOR.ENTER_DIV = 3;
  * reflected in all editor instances, if not specified otherwise for a particular
  * instance.
  *
+ * Read more about setting CKEditor configuration in the
+ * [Developer's Guide](#!/guide/dev_configuration).
+ *
  * @class
  * @singleton
  */
