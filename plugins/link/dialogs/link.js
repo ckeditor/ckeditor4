@@ -110,7 +110,7 @@
 		return {
 			title: linkLang.title,
 			minWidth: 350,
-			minHeight: 230,
+			minHeight: 240,
 			contents: [
 				{
 				id: 'info',
@@ -826,7 +826,27 @@
 							commit: commitAdvParams
 						}
 						]
-					}
+					},
+						{
+							type: 'hbox',
+							widths: [ '45%', '55%' ],
+							children: [
+								{
+									type: 'checkbox',
+									id: 'download',
+									label: linkLang.download,
+									setup: function( data ) {
+										if ( data.download !== undefined )
+											this.setValue( 'checked', 'checked' );
+									},
+									commit: function( data ) {
+										if ( this.getValue() ) {
+											data.download = this.getValue();
+										}
+									}
+								}
+							]
+						}
 					]
 				}
 				]
