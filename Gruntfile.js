@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function( grunt ) {
 	grunt.initConfig( {
 		imagemin: {
@@ -16,5 +18,5 @@ module.exports = function( grunt ) {
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
-	grunt.registerTask( 'optimizeimages', [ 'imagemin' ] );
+	grunt.registerTask( 'images', [ 'imagemin' ] );
 };
