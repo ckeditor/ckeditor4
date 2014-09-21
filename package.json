@@ -6,7 +6,9 @@
 		"benderjs-jquery": "~0.2.0",
 		"benderjs-yui": "~0.2.0",
 		"jscs": "^1.6.0",
-		"jshint": "^2.5.2"
+		"jshint": "^2.5.2",
+		"grunt": "^0.4.5",
+		"grunt-contrib-imagemin": "^0.8.1"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"

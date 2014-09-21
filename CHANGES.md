@@ -24,6 +24,7 @@ Fixed Issues:
 * [#12162](http://dev.ckeditor.com/ticket/12162): Fixed: Auto paragraphing and enter key in nested editables.
 * [#12354](http://dev.ckeditor.com/ticket/12354): Fixed: Various issues in undo manager when holding keys.
 * [#12402](http://dev.ckeditor.com/ticket/12402): Fixed: Workaround for Blink's bug with `document.title` which breaks updating title in the full HTML mode.
+* [#12338](http://dev.ckeditor.com/ticket/12338): Fixed: CKEditor package contains unoptimised images.
 
 ## CKEditor 4.4.4
 
