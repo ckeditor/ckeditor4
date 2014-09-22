@@ -26,6 +26,7 @@ Fixed Issues:
 * [#12402](http://dev.ckeditor.com/ticket/12402): Fixed: Workaround for Blink's bug with `document.title` which breaks updating title in the full HTML mode.
 * [#12338](http://dev.ckeditor.com/ticket/12338): Fixed: CKEditor package contains unoptimised images.
 * [#12324](http://dev.ckeditor.com/ticket/12324): [IE8] Fixed: Undo steps not recorded when changing caret position by clicking below body.
+* [#12332](http://dev.ckeditor.com/ticket/12332): Fixed: Lowered DOM events listeners' priorities in Undo Manager in order to avoid ambiguity.
 
 ## CKEditor 4.4.4
 
