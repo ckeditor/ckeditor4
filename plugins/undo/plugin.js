@@ -1041,7 +1041,8 @@
 		 * Attaches editable listeners required to provide the undo functionality.
 		 */
 		attachListeners: function() {
-			var editable = this.undoManager.editor.editable(),
+			var editor = this.undoManager.editor,
+				editable = editor.editable(),
 				that = this;
 
 			// We'll create a snapshot here (before DOM modification), because we'll
@@ -1070,7 +1071,8 @@
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
 			// will conflict with evt passed to listener.
-			editable.attachListener( editable, 'click', function() {
+			// #12324 comment:4
+			editable.attachListener( editable.isInline() ? editable : editor.document.getDocumentElement(), 'click', function() {
 				that.onNavigationKey();
 			} );
 

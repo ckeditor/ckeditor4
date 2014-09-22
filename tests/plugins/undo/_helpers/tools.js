@@ -25,6 +25,8 @@ var undoEventDispatchTestsTools = function( testSuite ) {
 			var ckEvent = new CKEDITOR.dom.event( eventProperties );
 
 			testSuite.editor.editable().fire( eventType, ckEvent );
+			// Fire event on the <html> element - pretend event's bubbling.
+			testSuite.editor.document.getDocumentElement().fire( eventType, ckEvent );
 		}
 	};
 
