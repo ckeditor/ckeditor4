@@ -18,11 +18,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script>
 		var editor = CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'image2,uploadimage',
-			filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
-			filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?Type=Images',
-			filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=FileUpload&type=Files&response_type=txt',
-			filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=FileUpload&type=Images&response_type=txt'
-			// filebrowserImageUploadUrl: './receiver.php'
+			uploadUrl: '/ckfinder/core/connector/php/connector.php?command=FileUpload&type=Files&response_type=txt'
 		} );
 
 	</script>

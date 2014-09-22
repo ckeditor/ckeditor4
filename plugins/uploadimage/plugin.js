@@ -10,7 +10,10 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var manager = new CKEDITOR.plugins.uploadmanager.manager(),
-				uploadUrl = editor.config.filebrowserImageUploadUrl;
+				uploadUrl = editor.config.imageUploadUrl ? editor.config.imageUploadUrl :
+					editor.config.uploadUrl ? editor.config.uploadUrl :
+					editor.config.filebrowserImageUploadUrl ? editor.config.filebrowserImageUploadUrl + '&response_type=txt' :
+					editor.config.filebrowserUploadUrl ? editor.config.filebrowserUploadUrl + '&response_type=txt' : '';
 
 			editor.filter.allow( 'img[data-widget]' );
 

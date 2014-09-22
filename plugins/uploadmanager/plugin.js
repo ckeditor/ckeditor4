@@ -109,15 +109,21 @@
 		},
 
 		upload: function( url ) {
-			var xhr = new XMLHttpRequest();
+			if ( !url ) {
+				this.message = editor.lang.uploadmanager.noUrlError;
+				this.changeStatusAndFire( 'error' );
+			} else {
+				var xhr = new XMLHttpRequest();
 
-			this.uploadUrl = url;
+				this.uploadUrl = url;
 
-			this.changeStatusAndFire( 'uploading' );
+				this.changeStatusAndFire( 'uploading' );
 
-			this.attachUploadListeners( xhr );
+				this.attachUploadListeners( xhr );
 
-			this.sendRequest( xhr );
+				this.sendRequest( xhr );
+			}
+
 		},
 
 		attachUploadListeners: function( xhr ) {
