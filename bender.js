@@ -1,3 +1,5 @@
+/* jshint browser: false, node: true */
+
 'use strict';
 
 var config = {

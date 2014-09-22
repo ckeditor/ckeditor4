@@ -1041,7 +1041,8 @@
 		 * Attaches editable listeners required to provide the undo functionality.
 		 */
 		attachListeners: function() {
-			var editable = this.undoManager.editor.editable(),
+			var editor = this.undoManager.editor,
+				editable = editor.editable(),
 				that = this;
 
 			// We'll create a snapshot here (before DOM modification), because we'll
@@ -1054,32 +1055,33 @@
 				if ( UndoManager.ieFunctionalKeysBug( evt.data.getKey() ) ) {
 					that.onInput();
 				}
-			} );
+			}, null, null, 999 );
 
 			// Only IE can't use input event, because it's not fired in contenteditable.
-			editable.attachListener( editable, CKEDITOR.env.ie ? 'keypress' : 'input', that.onInput, that );
+			editable.attachListener( editable, ( CKEDITOR.env.ie ? 'keypress' : 'input' ), that.onInput, that, null, 999 );
 
 			// Keyup executes main snapshot logic.
-			editable.attachListener( editable, 'keyup', that.onKeyup, that );
+			editable.attachListener( editable, 'keyup', that.onKeyup, that, null, 999 );
 
 			// On paste and drop we need to ignore input event.
 			// It would result with calling undoManager.type() on any following key.
-			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that );
-			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that );
+			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that, null, 999 );
+			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that, null, 999 );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
 			// will conflict with evt passed to listener.
-			editable.attachListener( editable, 'click', function() {
+			// #12324 comment:4
+			editable.attachListener( editable.isInline() ? editable : editor.document.getDocumentElement(), 'click', function() {
 				that.onNavigationKey();
-			} );
+			}, null, null, 999 );
 
 			// When pressing `Tab` key while editable is focused, `keyup` event is not fired.
 			// Which means that record for `tab` key stays in key events stack.
 			// We assume that when editor is blurred `tab` key is already up.
 			editable.attachListener( this.undoManager.editor, 'blur', function() {
 				that.keyEventsStack.remove( 9 /*Tab*/ );
-			} );
+			}, null, null, 999 );
 		}
 	};
 
