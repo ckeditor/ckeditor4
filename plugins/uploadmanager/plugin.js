@@ -5,7 +5,9 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.plugins.add( 'uploadmanager', {} );
+	CKEDITOR.plugins.add( 'uploadmanager', {
+		lang: 'en' // %REMOVE_LINE_CORE%
+	} );
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
@@ -88,6 +90,7 @@
 			};
 
 			reader.onerror = function( evt ) {
+				loader.message = editor.lang.uploadmanager.loadError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -113,6 +116,7 @@
 			this.changeStatusAndFire( 'uploading' );
 
 			this.attachUploadListeners( xhr );
+
 			this.sendRequest( xhr );
 		},
 
@@ -128,6 +132,7 @@
 			};
 
 			xhr.onerror = function( evt ) {
+				loader.message = editor.lang.uploadmanager.networkError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -137,11 +142,19 @@
 			};
 
 			xhr.onload = function( evt ) {
-				loader.handleResponse( xhr );
+				if ( xhr.status != 200 ) {
+					loader.message = editor.lang.uploadmanager[ 'httpError' + xhr.status ];
+					if ( !loader.message ) {
+						loader.message = editor.lang.uploadmanager[ 'httpError' ].replace( '%1', xhr.status );
+					}
+					loader.changeStatusAndFire( 'error' );
+				} else {
+					loader.handleResponse( xhr );
+				}
 			};
 		},
 
-		sendRequest: function( xhr, url ) {
+		sendRequest: function( xhr ) {
 			var formData = new FormData();
 
 			formData.append( 'upload', this.file );

@@ -38,6 +38,10 @@
 							img.replace( that.wrapper );
 
 							editor.fire( 'dataReady' );
+						} else if ( upload.status == 'error' || upload.status == 'abort' ) {
+							console.log( upload.message );
+							that.wrapper.remove();
+							that.destroy( 1 );
 						}
 					} );
 				}
