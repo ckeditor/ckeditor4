@@ -205,7 +205,7 @@
 							newBlock = doc.createElement( mode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 							if ( dirLoose )
-								newBlock.setAttribute('dir', orgDir);
+								newBlock.setAttribute( 'dir', orgDir );
 
 							style && newBlock.setAttribute( 'style', style );
 							className && newBlock.setAttribute( 'class', className );
@@ -214,8 +214,9 @@
 							block.moveChildren( newBlock );
 						}
 						// The original path block is not a list item, just copy the block to out side of the list.
-						else
+						else {
 							newBlock = path.block;
+						}
 
 						// If block is the first or last child of the parent
 						// list, move it out of the list:
@@ -349,8 +350,9 @@
 						// Otherwise, duplicate the previous block.
 						newBlock = previousBlock.clone();
 					}
-				} else if ( nextBlock )
+				} else if ( nextBlock ) {
 					newBlock = nextBlock.clone();
+				}
 
 				if ( !newBlock ) {
 					// We have already created a new list item. (#6849)
@@ -363,8 +365,9 @@
 					}
 				}
 				// Force the enter block unless we're talking of a list item.
-				else if ( forceMode && !newBlock.is( 'li' ) )
+				else if ( forceMode && !newBlock.is( 'li' ) ) {
 					newBlock.renameNode( blockTag );
+				}
 
 				// Recreate the inline elements tree, which was available
 				// before hitting enter, so the same styles will be available in
@@ -424,17 +427,12 @@
 
 			var doc = range.document;
 
-			// Determine the block element to be used.
-			var blockTag = ( mode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
-
 			var isEndOfBlock = range.checkEndOfBlock();
 
 			var elementPath = new CKEDITOR.dom.elementPath( editor.getSelection().getStartElement() );
 
 			var startBlock = elementPath.block,
 				startBlockTag = startBlock && elementPath.block.getName();
-
-			var isPre = false;
 
 			if ( !forceMode && startBlockTag == 'li' ) {
 				enterBlock( editor, mode, range, forceMode );
