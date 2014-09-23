@@ -363,6 +363,10 @@
 		},
 
 		'test walker.invisible() - whitespaces in empty inline element surrounded by whitespaces': function() {
+			// IE8 loses empty text nodes when parsing HTML.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+				assert.ignore();
+
 			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline2' ).getFirst() ) );
 		},
 
