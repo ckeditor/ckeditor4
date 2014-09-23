@@ -27,7 +27,7 @@
 		_should: {
 			ignore: {
 				'test shift+enter key - end of block, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
-				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
+				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller
 			}
 		},
 
@@ -81,7 +81,7 @@
 		},
 
 		// #8321
-		'test enter key at the end of block with inline styles' : function() {
+		'test enter key at the end of block with inline styles': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -92,7 +92,7 @@
 		},
 
 		// #7946 TODO: Add editor doc quirks mode tests.
-		'test enter key key scrolls document' : function() {
+		'test enter key key scrolls document': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -111,7 +111,7 @@
 		},
 
 		// Start of #8812
-		'test ener key at the end of contents with comment' : function() {
+		'test ener key at the end of contents with comment': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( 'test ^<!-- --> ' );
@@ -119,7 +119,7 @@
 			assert.areSame( '<p>test <!-- --></p><p>&nbsp;</p>', bot.getData( false, true ) );
 		},
 
-		'test enter key in the middle of contents with comments' : function() {
+		'test enter key in the middle of contents with comments': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
@@ -129,7 +129,7 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 		},
 
-		'test enter key in the middle of contents with comments (2)' : function() {
+		'test enter key in the middle of contents with comments (2)': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
