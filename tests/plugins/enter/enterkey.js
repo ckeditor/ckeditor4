@@ -23,6 +23,19 @@
 		};
 	}
 
+	function e( editorName, htmlWithSeleciton, expectedHtmlWithSelection ) {
+		return function() {
+			var editor = this.editors[ editorName ];
+
+			selectionTools.setWithHtml( editor, htmlWithSeleciton );
+			editor.execCommand( 'enter' );
+
+			var output = selectionTools.getWithHtml( editor );
+
+			assert.isInnerHtmlMatching( expectedHtmlWithSelection, output, matchOpts );
+		};
+	}
+
 	bender.test( {
 		_should: {
 			ignore: {
@@ -232,6 +245,10 @@
 			}
 		},
 		*/
+
+		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
+		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
+		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
 
 		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
 		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
