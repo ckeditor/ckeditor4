@@ -398,14 +398,17 @@
 	};
 
 	/**
-	 * Returns a function which checks whether the node is invisible in wysiwyg mode.
+	 * Returns a function which checks whether the node is invisible in the WYSIWYG mode.
 	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
 	 * @returns {Function}
 	 */
 	CKEDITOR.dom.walker.invisible = function( isReject ) {
-		var whitespace = CKEDITOR.dom.walker.whitespaces();
+		var whitespace = CKEDITOR.dom.walker.whitespaces(),
+			// #12221 (Chrome) plus #11111 (Safari).
+			offsetWidth0 = CKEDITOR.env.webkit ? 1 : 0;
+
 		return function( node ) {
 			var invisible;
 
@@ -416,12 +419,11 @@
 				if ( node.type == CKEDITOR.NODE_TEXT )
 					node = node.getParent();
 
-			// Nodes that take no spaces in wysiwyg:
-			// 1. White-spaces but not including NBSP;
-			// 2. Empty inline elements, e.g. <b></b> we're checking here
-			// 'offsetHeight' instead of 'offsetWidth' for properly excluding
-			// all sorts of empty paragraph, e.g. <br />.
-				invisible = !node.$.offsetHeight;
+				// Nodes that take no spaces in wysiwyg:
+				// 1. White-spaces but not including NBSP.
+				// 2. Empty inline elements, e.g. <b></b>.
+				// 3. <br> elements (bogus, surrounded by text) (#12423).
+				invisible = node.$.offsetWidth <= offsetWidth0;
 			}
 
 			return !!( isReject ^ invisible );
