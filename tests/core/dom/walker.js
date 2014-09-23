@@ -346,8 +346,44 @@
 
 		},
 
-		test_nbsp_is_visible: function() {
-			assert.isTrue( !!CKEDITOR.dom.walker.invisible( true )( doc.getById( 'nbsp' ).getFirst() ) );
+		'test walker.invisible() - br surrounded by text': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'brInText' ) ) );
+		},
+
+		'test walker.invisible() - bogus br': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'bogusBr' ) ) );
+		},
+
+		'test walker.invisible() - nbsp': function() {
+			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nbsp' ).getFirst() ) );
+		},
+
+		'test walker.invisible() - whitespaces in empty inline element surrounded by text': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline' ).getFirst() ) );
+		},
+
+		'test walker.invisible() - whitespaces in empty inline element surrounded by whitespaces': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline2' ).getFirst() ) );
+		},
+
+		'test walker.invisible() - empty inline element': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'emptyInline' ) ) );
+		},
+
+		'test walker.invisible() - inline element containing whitespaces, surrounded by text': function() {
+			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline' ) ) );
+		},
+
+		'test walker.invisible() - inline element containing whitespaces, surrounded by whitespaces': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'wsInline2' ) ) );
+		},
+
+		'test walker.invisible() - non empty inline element': function() {
+			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nonEmptyInline' ).getFirst() ) );
+		},
+
+		'test walker.invisible() - block with a bogus br only': function() {
+			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'filledBlock' ) ) );
 		},
 
 		'test walker.temp': function() {
