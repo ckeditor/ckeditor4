@@ -40,7 +40,7 @@
 								img = CKEDITOR.dom.element.createFromHtml( processedImg );
 							img.replace( that.wrapper );
 
-							editor.fire( 'dataReady' );
+							editor.widgets.checkWidgets( { initOnlyNew: true } );
 						} else if ( upload.status == 'error' || upload.status == 'abort' ) {
 							console.log( upload.message );
 							editor.widgets.del( that );
