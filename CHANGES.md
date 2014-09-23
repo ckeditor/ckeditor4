@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#12423](http://dev.ckeditor.com/ticket/12423): Fixed: Enter key moved cursor to strange position on Safari 8.0.
 * [#12381](http://dev.ckeditor.com/ticket/12381): Fixed: Selection trouble in iOS. Thanks to [Remiremi](https://github.com/Remiremi)!
 * [#10804](http://dev.ckeditor.com/ticket/10804): Fixed: `CKEDITOR_GETURL` isn't used with some plugins it should be used. Thanks to [Thomas Andraschko](https://github.com/tandraschko)!
 * [#9137](http://dev.ckeditor.com/ticket/9137): Fixed: `base` tag is not created when `head` has an attribute. Thanks to [naoki.fujikawa](https://github.com/naoki-fujikawa)!
