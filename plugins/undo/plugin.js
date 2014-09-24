@@ -225,7 +225,7 @@
 		this.previousKeyGroup = -1;
 
 		/**
-		 * Maximum number of snapshots in the stack. Configurable via {@link CKEDITOR.config#undoStackSize}.
+		 * The maximum number of snapshots in the stack. Configurable via {@link CKEDITOR.config#undoStackSize}.
 		 *
 		 * @readonly
 		 * @property {Number} [limit]
@@ -233,7 +233,7 @@
 		this.limit = editor.config.undoStackSize || 20;
 
 		/**
-		 * Maximum number of characters typed/deleted in one undo step.
+		 * The maximum number of characters typed/deleted in one undo step.
 		 *
 		 * @since 4.4.5
 		 * @readonly
@@ -252,8 +252,8 @@
 		 * keystrokes that can change the editor content.
 		 *
 		 * @param {Number} keyCode The key code.
-		 * @param {Boolean} [strokesPerSnapshotExceeded] When set to `true` the method will
-		 * behave as strokes limit was exceeded regardless of {@link #strokesRecorded} value.
+		 * @param {Boolean} [strokesPerSnapshotExceeded] When set to `true`, the method will
+		 * behave as if the strokes limit was exceeded regardless of the {@link #strokesRecorded} value.
 		 */
 		type: function( keyCode, strokesPerSnapshotExceeded ) {
 			var keyGroup = UndoManager.getKeyGroup( keyCode ),
@@ -284,7 +284,7 @@
 		},
 
 		/**
-		 * Whether the new `keyCode` belongs to different group than the previous one ({@link #previousKeyGroup}).
+		 * Whether the new `keyCode` belongs to a different group than the previous one ({@link #previousKeyGroup}).
 		 *
 		 * @since 4.4.5
 		 * @param {Number} keyCode
@@ -671,7 +671,7 @@
 	};
 
 	/**
-	 * Codes for navigation keys like Arrows, Page Up/Down, etc.
+	 * Codes for navigation keys like *Arrows*, *Page Up/Down*, etc.
 	 * Used by the {@link #isNavigationKey} method.
 	 *
 	 * @since 4.4.5
@@ -680,15 +680,15 @@
 	 */
 	UndoManager.navigationKeyCodes = {
 		37: 1, 38: 1, 39: 1, 40: 1, // Arrows.
-		36: 1, 35: 1, // Home, end.
-		33: 1, 34: 1 // Pgup, pgdn.
+		36: 1, 35: 1, // Home, End.
+		33: 1, 34: 1 // PgUp, PgDn.
 	};
 
 	/**
 	 * Key groups identifier mapping. Used for accessing members in
 	 * {@link #strokesRecorded}.
 	 *
-	 * * `FUNCTIONAL` &ndash; identifier for the Backspace / Delete key.
+	 * * `FUNCTIONAL` &ndash; identifier for the *Backspace* / *Delete* key.
 	 * * `PRINTABLE` &ndash; identifier for printable keys.
 	 *
 	 * Example usage:
@@ -705,7 +705,7 @@
 	};
 
 	/**
-	 * Checks whether a key is one of navigation keys (Arrows, Page Up/Down, etc.).
+	 * Checks whether a key is one of navigation keys (*Arrows*, *Page Up/Down*, etc.).
 	 * See also the {@link #navigationKeyCodes} property.
 	 *
 	 * @since 4.4.5
@@ -718,7 +718,7 @@
 	};
 
 	/**
-	 * Returns the group to which passed `keyCode` belongs.
+	 * Returns the group to which the passed `keyCode` belongs.
 	 *
 	 * @since 4.4.5
 	 * @static
@@ -743,8 +743,8 @@
 	};
 
 	/**
-	 * Whether in this environment and for specified `keyCode` we need to use workaround
-	 * for functional (backspace, delete) keys not firing `keypress` event on Internet Explorer.
+	 * Whether we need to use a workaround for functional (*Backspace*, *Delete*) keys not firing
+	 * the `keypress` event in Internet Explorer in this environment and for the specified `keyCode`.
 	 *
 	 * @since 4.4.5
 	 * @static
@@ -1087,7 +1087,7 @@
 
 	/**
 	 * This class represents a stack of pressed keys and stores information
-	 * about how many `input` events each caused.
+	 * about how many `input` events each key press has caused.
 	 *
 	 * @since 4.4.5
 	 * @private
@@ -1103,7 +1103,7 @@
 
 	KeyEventsStack.prototype = {
 		/**
-		 * Pushes to stack literal object with two keys: `keyCode` and `inputs` which initial value is set to `0`.
+		 * Pushes a literal object with two keys: `keyCode` and `inputs` (whose initial value is set to `0`) to stack.
 		 * It is intended to be called on the `keydown` event.
 		 *
 		 * @param {Number} keyCode
@@ -1114,9 +1114,9 @@
 		},
 
 		/**
-		 * Returns index of last registered `keyCode` in the stack.
-		 * If no `keyCode` is provided, then function will return index of last item.
-		 * If item is not found it will return `-1`.
+		 * Returns the index of the last registered `keyCode` in the stack.
+		 * If no `keyCode` is provided, then the function will return the index of the last item.
+		 * If an item is not found, it will return `-1`.
 		 *
 		 * @param {Number} [keyCode]
 		 * @returns {Number}
@@ -1136,8 +1136,8 @@
 		},
 
 		/**
-		 * Returns last key recorded in the stack. If `keyCode` provided, then it will return last record for
-		 * this `keyCode`.
+		 * Returns the last key recorded in the stack. If `keyCode` is provided, then it will return
+		 * the  last record for this `keyCode`.
 		 *
 		 * @param {Number} [keyCode]
 		 * @returns {Object} Last matching record or `null`.
@@ -1152,7 +1152,7 @@
 		},
 
 		/**
-		 * Increments registered input events for stack record for given `keyCode`.
+		 * Increments registered input events for stack record for a given `keyCode`.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1166,7 +1166,7 @@
 		},
 
 		/**
-		 * Removes last record from the stack for provided `keyCode`.
+		 * Removes the last record from the stack for the provided `keyCode`.
 		 *
 		 * @param {Number} keyCode
 		 */
@@ -1179,7 +1179,8 @@
 		},
 
 		/**
-		 * Resets inputs value to `0` for the given `keyCode` or in entire stack if `keyCode` is not specified.
+		 * Resets the `inputs` value to `0` for a given `keyCode` or in entire stack if a
+		 * `keyCode` is not specified.
 		 *
 		 * @param {Number} [keyCode]
 		 */
@@ -1201,7 +1202,7 @@
 		},
 
 		/**
-		 * Sums up inputs amount for each key code and returns it.
+		 * Sums up inputs number for each key code and returns it.
 		 *
 		 * @returns {Number}
 		 */
@@ -1216,10 +1217,10 @@
 		},
 
 		/**
-		 * Cleans the stack based on provided `keydown` event object. The rationale behind this method
-		 * is that some keystrokes causes `keydown` to being fired in editor, but not `keyup`. For instance,
-		 * `ALT+TAB` will fire `keydown`, but since editor is blurred by it, then there is no `keyup` so
-		 * the keystroke is not removed from the stack.
+		 * Cleans the stack based on a provided `keydown` event object. The rationale behind this method
+		 * is that some keystrokes cause the `keydown` event to be fired in the editor, but not the `keyup` event.
+		 * For instance, *Alt+Tab* will fire `keydown`, but since the editor is blurred by it, then there is
+		 * no `keyup`, so the keystroke is not removed from the stack.
 		 *
 		 * @param {CKEDITOR.dom.event} event
 		 */
