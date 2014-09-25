@@ -320,7 +320,7 @@ CKEDITOR.skin.chameleon = ( function() {
 // })();
 
 // %REMOVE_END%
-CKEDITOR.config.dialog_backgroundCoverColor = '#f2f1ed';
+CKEDITOR.config.dialog_backgroundCoverColor = '#000';
 CKEDITOR.config.dialog_backgroundCoverOpacity = .65;
 CKEDITOR.config.comboOffset = {
 	"Font Name": {
