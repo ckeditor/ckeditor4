@@ -57,6 +57,7 @@ common.align = Label for the Alignment field of a dialog window.
 common.alignLeft = Left alignment option text.
 common.alignRight = Right alignment option text.
 common.alignCenter = Center alignment option text.
+common.alignJustify = 
 common.alignTop = Top alignment option text.
 common.alignMiddle = Middle alignment option text.
 common.alignBottom = Bottom alignment option text.
