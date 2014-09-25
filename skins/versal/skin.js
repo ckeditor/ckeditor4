@@ -328,7 +328,7 @@ CKEDITOR.config.comboOffset = {
 		offsetY: 80
 	},
 	"Formatting Styles": {
-		offsetX: 92,
+		offsetX: -58,
 		offsetY: 12
 	}
 };
