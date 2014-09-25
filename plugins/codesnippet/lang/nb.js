@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'nb', {
 	emptySnippetError: 'En kodesnutt kan ikke være tom.',
 	language: 'Språk',
 	title: 'Kodesnutt',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

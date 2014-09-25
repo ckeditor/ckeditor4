@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'he', {
 	emptySnippetError: 'קטע קוד לא יכול להיות ריק.',
 	language: 'שפה',
 	title: 'קטע קוד',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

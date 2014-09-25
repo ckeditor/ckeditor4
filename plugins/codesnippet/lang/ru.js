@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'ru', {
 	emptySnippetError: 'Сниппет не может быть пустым',
 	language: 'Язык',
 	title: 'Сниппет',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'hu', {
 	emptySnippetError: 'A kódtöredék nem lehet üres.',
 	language: 'Nyelv',
 	title: 'Kódtöredék',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

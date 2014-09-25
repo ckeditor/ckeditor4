@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'vi', {
 	emptySnippetError: 'Một đoạn mã không thể để trống.',
 	language: 'Ngôn ngữ',
 	title: 'Đoạn mã',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );
