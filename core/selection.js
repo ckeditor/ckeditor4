@@ -149,22 +149,23 @@
 
 			// Text selection position might get mangled by
 			// subsequent dom modification, save it now for restoring. (#8617)
-			if ( keepSelection !== false )
-			{
+			if ( keepSelection !== false ) {
 				var bm,
-					doc = element.getDocument(),
-					sel = doc.getSelection().getNative(),
+					sel = element.getDocument().getSelection().getNative(),
 					// Be error proof.
 					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
 				if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
-					bm = [ sel.anchorOffset, sel.focusOffset ];
+					bm = [
+						{ node: sel.anchorNode, offset: sel.anchorOffset },
+						{ node: sel.focusNode, offset: sel.focusOffset }
+					];
 
 					// Anticipate the offset change brought by the removed char.
 					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
 						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
-					startAffected && bm[ 0 ]--;
-					endAffected && bm[ 1 ]--;
+					startAffected && bm[ 0 ].offset--;
+					endAffected && bm[ 1 ].offset--;
 
 					// Revert the bookmark order on reverse selection.
 					isReversedSelection( sel ) && bm.unshift( bm.pop() );
@@ -178,11 +179,10 @@
 
 			// Restore the bookmark.
 			if ( bm ) {
-				var rng = sel.getRangeAt( 0 );
-				rng.setStart( rng.startContainer, bm[ 0 ] );
-				rng.setEnd( rng.startContainer, bm[ 1 ] );
+				range.setStart( bm[ 0 ].node, bm[ 0 ].offset );
+				range.setEnd( bm[ 1 ].node, bm[ 1 ].offset );
 				sel.removeAllRanges();
-				sel.addRange( rng );
+				sel.addRange( range );
 			}
 		}
 	}
