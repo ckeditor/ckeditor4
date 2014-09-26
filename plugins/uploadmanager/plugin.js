@@ -148,7 +148,7 @@
 			};
 
 			xhr.onload = function( evt ) {
-				if ( xhr.status != 200 ) {
+				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = editor.lang.uploadmanager[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
 						loader.message = editor.lang.uploadmanager[ 'httpError' ].replace( '%1', xhr.status );
