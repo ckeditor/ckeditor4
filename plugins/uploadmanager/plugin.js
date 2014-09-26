@@ -169,14 +169,22 @@
 		},
 
 		handleResponse: function( xhr ) {
-			var parts = xhr.responseText.split( '|' );
+			try {
+				var response = JSON.parse( xhr.responseText );
+			} catch ( e ) {
+				this.message = editor.lang.uploadmanager.responseError;
+				this.changeStatusAndFire( 'error' );
+				return;
+			}
 
-			this.filename = parts[ 0 ];
-			this.message = parts[ 1 ];
+			if ( response.error ) {
+				this.message = response.error.message;
+			}
 
-			if ( !this.filename && this.message ) {
+			if ( !response.uploaded ) {
 				this.changeStatusAndFire( 'error' );
 			} else {
+				this.filename = response.fileName;
 				this.changeStatusAndFire( 'uploaded' );
 			}
 		},

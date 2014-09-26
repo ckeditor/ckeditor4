@@ -8,5 +8,6 @@ CKEDITOR.plugins.setLang( 'uploadmanager', 'en', {
 	'httpError404': 'HTTP error occurred during file uploading (404: file not found).',
 	'httpError403': 'HTTP error occurred during file uploading (403: Forbidden).',
 	'httpError': 'HTTP error occurred during file uploading (error status: %1).',
-	'noUrlError': 'Upload URL is not defined.'
+	'noUrlError': 'Upload URL is not defined.',
+	'responseError': 'Incorrect server response format.'
 } );
