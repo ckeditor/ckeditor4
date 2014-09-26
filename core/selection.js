@@ -166,9 +166,6 @@
 						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
 					startAffected && bm[ 0 ].offset--;
 					endAffected && bm[ 1 ].offset--;
-
-					// Revert the bookmark order on reverse selection.
-					isReversedSelection( sel ) && bm.unshift( bm.pop() );
 				}
 			}
 
@@ -177,12 +174,13 @@
 			// invisible char from it.
 			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
 
-			// Restore the bookmark.
+			// Restore the bookmark preserving selection's direction.
 			if ( bm ) {
 				range.setStart( bm[ 0 ].node, bm[ 0 ].offset );
-				range.setEnd( bm[ 1 ].node, bm[ 1 ].offset );
+				range.collapse( true );
 				sel.removeAllRanges();
 				sel.addRange( range );
+				sel.extend( bm[ 1 ].node, bm[ 1 ].offset );
 			}
 		}
 	}
@@ -192,16 +190,6 @@
 			// #10291 if filling char is followed by a space replace it with nbsp.
 			return match[ 1 ] ? '\xa0' : '';
 		} );
-	}
-
-	function isReversedSelection( sel ) {
-		if ( !sel.isCollapsed ) {
-			var range = sel.getRangeAt( 0 );
-			// Potentially alter an reversed selection range.
-			range.setStart( sel.anchorNode, sel.anchorOffset );
-			range.setEnd( sel.focusNode, sel.focusOffset );
-			return range.collapsed;
-		}
 	}
 
 	// Read the comments in selection constructor.
