@@ -1,4 +1,4 @@
-﻿/* global alert */
+/* global alert */
 
 /**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
@@ -746,9 +746,15 @@
 				padding: 0
 			} );
 
+<<<<<<< HEAD
 			// Paste fails in Safari when the body tag has 'user-select: none'. (#12506)
 			if ( CKEDITOR.env.safari )
 				pastebin.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
+=======
+			// Paste fails in Safari when the body tag has 'user-select: none'
+			pastebin.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
+
+>>>>>>> For https://github.com/ckeditor/ckeditor-dev/pull/131, pasting in safari
 
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
