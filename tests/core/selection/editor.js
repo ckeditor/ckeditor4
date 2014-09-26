@@ -444,6 +444,82 @@ bender.test( {
 		} );
 	},
 
+	'test filling char is removed and restored when taking snapshot': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.areSame( 1, fillingChar.getLength(), 'Filling char exists after setting selection in empty inline element' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+
+		editor.fire( 'beforeUndoImage' );
+		assert.areSame( 0, fillingChar.getLength(), 'Filling char is empty after beforeUndoImage' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after beforeUndoImage' );
+
+		editor.fire( 'afterUndoImage' );
+		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char contains ZWS after afterUndoImage' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after afterUndoImage' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 1, range.startOffset, 'Selection was restored - offset after ZWS' );
+	},
+
+	// #12489
+	'test filling char is removed and restored when taking snapshot if selection is not right after the filling char': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abcd' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 3 ); // ZWSab^cd
+
+		fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+
+		editor.fire( 'beforeUndoImage' );
+		assert.areSame( 'abcd', fillingChar.getText(), 'Filling char does not contain ZWS after beforeUndoImage' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after beforeUndoImage' );
+
+		editor.fire( 'afterUndoImage' );
+		assert.areSame( '\u200babcd', fillingChar.getText(), 'Filling char contains ZWS after afterUndoImage' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after afterUndoImage' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
+	},
+
 	'test selection in source mode': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_source',
