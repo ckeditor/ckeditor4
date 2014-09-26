@@ -41,7 +41,7 @@
 						if ( upload.status == 'uploading' ) {
 							that.parts.img.setAttribute( 'src', upload.data );
 						} else if ( upload.status == 'uploaded' ) {
-							var imgHtml = '<img src="http://ckeditor.dev/ckfinder/userfiles/images/' + upload.filename + '">',
+							var imgHtml = '<img src="' + upload.url + '">',
 								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
 								img = CKEDITOR.dom.element.createFromHtml( processedImg );
 							img.replace( that.wrapper );

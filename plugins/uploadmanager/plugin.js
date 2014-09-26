@@ -172,7 +172,7 @@
 			try {
 				var response = JSON.parse( xhr.responseText );
 			} catch ( e ) {
-				this.message = editor.lang.uploadmanager.responseError;
+				this.message = editor.lang.uploadmanager.responseError.replace( '%1', xhr.responseText );
 				this.changeStatusAndFire( 'error' );
 				return;
 			}
@@ -184,7 +184,8 @@
 			if ( !response.uploaded ) {
 				this.changeStatusAndFire( 'error' );
 			} else {
-				this.filename = response.fileName;
+				this.fileName = response.fileName;
+				this.url = response.url;
 				this.changeStatusAndFire( 'uploaded' );
 			}
 		},
