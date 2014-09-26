@@ -101,6 +101,8 @@ CKEDITOR.editorConfig = function( config ) {
 		}
 	];
 
+	config.disallowedContent = 'a{*}';
+
 	// TODO
 	// Is this the best place to put this function
 	// http://stackoverflow.com/questions/12676023/ckeditor-link-dialog-removing-protocol
