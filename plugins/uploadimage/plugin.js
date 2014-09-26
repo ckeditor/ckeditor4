@@ -35,28 +35,24 @@
 							return;
 						}
 
+						editor.fire( 'lockSnapshot' );
+
 						console.log( upload.status );
 						if ( upload.status == 'uploading' ) {
-							editor.fire( 'lockSnapshot' );
-
 							that.parts.img.setAttribute( 'src', upload.data );
-
-							editor.fire( 'unlockSnapshot' );
 						} else if ( upload.status == 'uploaded' ) {
-							editor.fire( 'lockSnapshot' );
-
 							var imgHtml = '<img src="http://ckeditor.dev/ckfinder/userfiles/images/' + upload.filename + '">',
 								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
 								img = CKEDITOR.dom.element.createFromHtml( processedImg );
 							img.replace( that.wrapper );
 
 							editor.widgets.checkWidgets( { initOnlyNew: true } );
-
-							editor.fire( 'unlockSnapshot' );
 						} else if ( upload.status == 'error' || upload.status == 'abort' ) {
 							console.log( upload.message );
 							editor.widgets.del( that );
 						}
+
+						editor.fire( 'unlockSnapshot' );
 					} );
 
 					upload.update();
