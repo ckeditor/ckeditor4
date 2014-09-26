@@ -840,7 +840,9 @@
 	} );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor;
+		var editor = evt.editor,
+			fillingCharBefore,
+			resetSelectionAt;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
@@ -851,8 +853,6 @@
 			editor.on( 'beforeSetMode', function() {
 				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
-
-			var fillingCharBefore, resetSelection;
 
 			editor.on( 'beforeUndoImage', beforeData );
 			editor.on( 'afterUndoImage', afterData );
@@ -870,9 +870,11 @@
 			if ( fillingChar ) {
 				// If cursor is right blinking by side of the filler node, save it for restoring,
 				// as the following text substitution will blind it. (#7437)
+				// Store the offset, so we can restore selection at the precise position. (#12489)
+				// Note - offset==0 (selection before ZWS) is incorrect, so we don't want to restore it anyway.
 				var sel = editor.document.$.defaultView.getSelection();
 				if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
-					resetSelection = 1;
+					resetSelectionAt = sel.anchorOffset;
 
 				fillingCharBefore = fillingChar.getText();
 				fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
@@ -889,9 +891,9 @@
 			if ( fillingChar ) {
 				fillingChar.setText( fillingCharBefore );
 
-				if ( resetSelection ) {
-					editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
-					resetSelection = 0;
+				if ( resetSelectionAt ) {
+					editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, resetSelectionAt );
+					resetSelectionAt = 0;
 				}
 			}
 		}
