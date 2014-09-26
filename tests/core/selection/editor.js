@@ -37,6 +37,27 @@ bender.test( {
 		assert.areSame( expected || source, bender.tools.getHtmlWithSelection( ed ) );
 	},
 
+	setSelectionInEmptyInlineElement: function( editor ) {
+		var editable = editor.editable(),
+			range = editor.createRange();
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+	},
+
+	assertFillingChar: function( editable, parent, contents, msg ) {
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.isTrue( !!fillingChar, 'Filling char exists - ' + msg );
+		assert.areSame( parent, fillingChar.getParent(), 'Filling char parent - ' + msg );
+		assert.areSame( contents, fillingChar.getText(), 'Filling char contents - ' + msg );
+
+		return fillingChar;
+	},
+
 	'test editor selection with no focus' : function() {
 		var ed = this.editor;
 
@@ -453,24 +474,16 @@ bender.test( {
 			editable = editor.editable(),
 			range = editor.createRange();
 
-		editable.setHtml( '<p>x<u></u>x</p>' );
+		this.setSelectionInEmptyInlineElement( editor );
 
-		var uEl = editable.findOne( 'u' );
-
-		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
-		editor.getSelection().selectRanges( [ range ] );
-
-		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.areSame( 1, fillingChar.getLength(), 'Filling char exists after setting selection in empty inline element' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
 
 		editor.fire( 'beforeUndoImage' );
-		assert.areSame( 0, fillingChar.getLength(), 'Filling char is empty after beforeUndoImage' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after beforeUndoImage' );
+		this.assertFillingChar( editable, uEl, '', 'after beforeUndoImage' );
 
 		editor.fire( 'afterUndoImage' );
-		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char contains ZWS after afterUndoImage' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
@@ -487,33 +500,23 @@ bender.test( {
 			editable = editor.editable(),
 			range = editor.createRange();
 
-		editable.setHtml( '<p>x<u></u>x</p>' );
+		this.setSelectionInEmptyInlineElement( editor );
 
-		var uEl = editable.findOne( 'u' );
-
-		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
-		editor.getSelection().selectRanges( [ range ] );
-
-		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abcd' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 3 ); // ZWSab^cd
 
-		fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+		this.assertFillingChar( editable, uEl, '\u200babcd', 'after type' );
 
 		editor.fire( 'beforeUndoImage' );
-		assert.areSame( 'abcd', fillingChar.getText(), 'Filling char does not contain ZWS after beforeUndoImage' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after beforeUndoImage' );
+		this.assertFillingChar( editable, uEl, 'abcd', 'after beforeUndoImage' );
 
 		editor.fire( 'afterUndoImage' );
-		assert.areSame( '\u200babcd', fillingChar.getText(), 'Filling char contains ZWS after afterUndoImage' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, '\u200babcd', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
@@ -530,25 +533,17 @@ bender.test( {
 			editable = editor.editable(),
 			range = editor.createRange();
 
-		editable.setHtml( '<p>x<u></u>x</p>' );
+		this.setSelectionInEmptyInlineElement( editor );
 
-		var uEl = editable.findOne( 'u' );
-
-		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
-		editor.getSelection().selectRanges( [ range ] );
-
-		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
 
-		fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
 
 		// Mock LEFT arrow.
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
@@ -574,25 +569,17 @@ bender.test( {
 				normalizeSelection: true
 			};
 
-		editable.setHtml( '<p>x<u></u>x</p>' );
+		this.setSelectionInEmptyInlineElement( editor );
 
-		var uEl = editable.findOne( 'u' );
-
-		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
-		editor.getSelection().selectRanges( [ range ] );
-
-		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
 
-		fillingChar = editable.getCustomData( 'cke-fillingChar' );
-		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
-		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
 
 		// Select all contents.
 		range.selectNodeContents( editable.findOne( 'p' ) );
