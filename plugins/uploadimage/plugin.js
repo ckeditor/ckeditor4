@@ -41,7 +41,10 @@
 						if ( upload.status == 'uploading' ) {
 							that.parts.img.setAttribute( 'src', upload.data );
 						} else if ( upload.status == 'uploaded' ) {
-							var imgHtml = '<img src="' + upload.url + '">',
+							// Set width and height to prevent blinking.
+							var imgHtml = '<img src="' + upload.url + '" ' +
+											'width="' + that.parts.img.$.naturalWidth + '" ' +
+											'height="' + that.parts.img.$.naturalHeight +'">',
 								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
 								img = CKEDITOR.dom.element.createFromHtml( processedImg );
 							img.replace( that.wrapper );
