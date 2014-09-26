@@ -520,6 +520,89 @@ bender.test( {
 		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
 	},
 
+	// #8617
+	'test selection is preserved when removing filling char on left-arrow': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+
+		fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+
+		// Mock LEFT arrow.
+		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on left-arrow press' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( uEl.getFirst(), range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in abc^' );
+	},
+
+	// #12419
+	'test selection is preserved when removing filling char on select all': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange(),
+			htmlMatchingOpts = {
+				compareSelection: true,
+				normalizeSelection: true
+			};
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.areSame( '\u200b', fillingChar.getText(), 'Filling char exists after setting selection in empty inline element' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after setting selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+
+		fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.isTrue( !!fillingChar, 'Filling char still exists after typing' );
+		assert.areSame( uEl, fillingChar.getParent(), 'Filling char is a child of inline element after typing' );
+
+		// Select all contents.
+		range.selectNodeContents( editable.findOne( 'p' ) );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on selection change' );
+		assert.isInnerHtmlMatching( '<p>[x<u>abc</u>x]</p>', bender.tools.selection.getWithHtml( editor ),
+			htmlMatchingOpts, 'Selection is correctly set' );
+	},
+
 	'test selection in source mode': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_source',
