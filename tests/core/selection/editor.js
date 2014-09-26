@@ -590,6 +590,44 @@ bender.test( {
 			htmlMatchingOpts, 'Selection is correctly set' );
 	},
 
+	'test direction of selection is preserved when removing filling char': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+
+		// Happens when typing and making selection from right to left...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		range = editor.document.$.createRange();
+		// ZWSabc]
+		range.setStart( fillingChar.$, 4 );
+		var nativeSel = editor.document.$.getSelection();
+		nativeSel.removeAllRanges();
+		nativeSel.addRange( range );
+		// ZWSa[bc
+		nativeSel.extend( fillingChar.$, 2 );
+
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+
+		// Mock LEFT arrow.
+		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on left-arrow press' );
+
+		nativeSel = editor.document.$.getSelection();
+		assert.areSame( 3, nativeSel.anchorOffset, 'sel.anchorOffset' );
+		assert.areSame( 1, nativeSel.focusOffset, 'sel.focusOffset' );
+	},
+
 	'test selection in source mode': function() {
 		bender.editorBot.create( {
 			name: 'test_editor_source',
