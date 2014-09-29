@@ -85,15 +85,34 @@
 		},
 		listItemNames = { dd: 1, dt: 1, li: 1 };
 
-	// Get a reference for the next element, bookmark nodes are skipped.
-	function getNextSourceNode( node, startFromSibling, lastNode ) {
-		var next = node.getNextSourceNode( startFromSibling, null, lastNode );
-		while ( !bookmarkGuard( next ) )
-			next = next.getNextSourceNode( startFromSibling, null, lastNode );
-		return next;
-	}
-
 	iterator.prototype = {
+		/**
+		 * Gets a reference for the next element, bookmark nodes are skipped.
+		 *
+		 * @private
+		 * @param node {CKEDITOR.dom.node}
+		 * @param startFromSibling {Boolean}
+		 * @param lastNode {CKEDITOR.dom.node}
+		 * @returns {CKEDITOR.dom.node}
+		 */
+		getNextSourceNode: function( node, startFromSibling, lastNode ) {
+			var rootNode = this.range.root, next;
+
+			// Here we are checking in guard function whether current element
+			// reach lastNode(default behaviour) and root node to prevent against
+			// getting out of editor instance root DOM object.
+			// #12484
+			function guardFunction( node ) {
+				return !( node.equals( lastNode ) || node.equals( rootNode ) );
+			}
+
+			next = node.getNextSourceNode( startFromSibling, null, guardFunction );
+			while ( !bookmarkGuard( next ) ) {
+				next = next.getNextSourceNode( startFromSibling, null, guardFunction );
+			}
+			return next;
+		},
+
 		/**
 		 * Returns next paragraph-like element or `null` if reached the end of range.
 		 *
@@ -197,8 +216,9 @@
 
 							// The found boundary must be set as the next one at this
 							// point. (#1717)
-							if ( nodeName != 'br' )
+							if ( nodeName != 'br' ) {
 								this._.nextNode = currentNode;
+							}
 						}
 
 						closeRange = 1;
@@ -259,7 +279,7 @@
 				if ( includeNode )
 					range.setEndAt( currentNode, CKEDITOR.POSITION_AFTER_END );
 
-				currentNode = getNextSourceNode( currentNode, continueFromSibling, lastNode );
+				currentNode = this.getNextSourceNode( currentNode, continueFromSibling, lastNode );
 				isLast = !currentNode;
 
 				// We have found a block boundary. Let's close the range and move out of the
@@ -325,7 +345,7 @@
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : this.getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode  ) );
 				}
 			}
 
@@ -351,8 +371,9 @@
 			// Get a reference for the next element. This is important because the
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
-			if ( !this._.nextNode )
-				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : getNextSourceNode( block, 1, lastNode );
+			if ( !this._.nextNode ) {
+				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : this.getNextSourceNode( block, 1, lastNode );
+			}
 
 			return block;
 		}
@@ -401,7 +422,7 @@
 			walker = new CKEDITOR.dom.walker( range.clone() );
 			walker.evaluator = ignoreBookmarkTextEvaluator;
 			var lastNode = walker.previous();
-			this._.lastNode = lastNode.getNextSourceNode( true );
+			this._.lastNode = lastNode.getNextSourceNode( true, null, range.root );
 
 			// We may have an empty text node at the end of block due to [3770].
 			// If that node is the lastNode, it would cause our logic to leak to the

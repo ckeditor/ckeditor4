@@ -480,7 +480,7 @@ CKEDITOR.dom.range = function( root ) {
 				this.endContainer = this.startContainer;
 				this.endOffset = this.startOffset;
 			} else {
-				this.startContainer = this.endContainer;
+				this.setStartContainer( this.endContainer );
 				this.startOffset = this.endOffset;
 			}
 
@@ -1693,7 +1693,7 @@ CKEDITOR.dom.range = function( root ) {
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ startNode.getName() ] )
 				startOffset = startNode.getIndex(), startNode = startNode.getParent();
 
-			this.startContainer = startNode;
+			this.setStartContainer( startNode );
 			this.startOffset = startOffset;
 
 			if ( !this.endContainer ) {
@@ -1726,7 +1726,7 @@ CKEDITOR.dom.range = function( root ) {
 			this.endOffset = endOffset;
 
 			if ( !this.startContainer ) {
-				this.startContainer = endNode;
+				this.setStartContainer( endNode );
 				this.startOffset = endOffset;
 			}
 
@@ -2517,6 +2517,24 @@ CKEDITOR.dom.range = function( root ) {
 
 			// Get rid of the reference node. It is no longer necessary.
 			reference.remove();
+		},
+
+		/**
+		 * Setter method for start container.
+		 *
+		 * @private
+		 * @param startContainer {CKEDITOR.dom.element}
+		 */
+		setStartContainer: function( startContainer ) {
+			var that = this,// %REMOVE_LINE%
+				isRootAscendantOrSelf = !!startContainer.getAscendant( function( el ) {// %REMOVE_LINE%
+					return that.root.$ == el.$;// %REMOVE_LINE%
+				}, true );// %REMOVE_LINE%
+
+			if ( !isRootAscendantOrSelf ) {// %REMOVE_LINE%
+				console && console.log && console.log( 'Element', startContainer, ' is not a descendant of root', this.root );// %REMOVE_LINE%
+			}// %REMOVE_LINE%
+			this.startContainer = startContainer;
 		}
 	};
 } )();
