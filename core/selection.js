@@ -156,10 +156,7 @@
 					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
 				if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
-					bm = [
-						{ node: sel.anchorNode, offset: sel.anchorOffset },
-						{ node: sel.focusNode, offset: sel.focusOffset }
-					];
+					bm = createNativeSelectionBookmark( sel );
 
 					// Anticipate the offset change brought by the removed char.
 					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
@@ -176,11 +173,7 @@
 
 			// Restore the bookmark preserving selection's direction.
 			if ( bm ) {
-				range.setStart( bm[ 0 ].node, bm[ 0 ].offset );
-				range.collapse( true );
-				sel.removeAllRanges();
-				sel.addRange( range );
-				sel.extend( bm[ 1 ].node, bm[ 1 ].offset );
+				moveNativeSelectionToBookmark( element.getDocument().$, bm );
 			}
 		}
 	}
@@ -190,6 +183,24 @@
 			// #10291 if filling char is followed by a space replace it with nbsp.
 			return match[ 1 ] ? '\xa0' : '';
 		} );
+	}
+
+	function createNativeSelectionBookmark( sel ) {
+		return [
+			{ node: sel.anchorNode, offset: sel.anchorOffset },
+			{ node: sel.focusNode, offset: sel.focusOffset }
+		];
+	}
+
+	function moveNativeSelectionToBookmark( document, bm ) {
+		var sel = document.getSelection(),
+			range = document.createRange();
+
+		range.setStart( bm[ 0 ].node, bm[ 0 ].offset );
+		range.collapse( true );
+		sel.removeAllRanges();
+		sel.addRange( range );
+		sel.extend( bm[ 1 ].node, bm[ 1 ].offset );
 	}
 
 	// Read the comments in selection constructor.
@@ -830,7 +841,7 @@
 	CKEDITOR.on( 'instanceReady', function( evt ) {
 		var editor = evt.editor,
 			fillingCharBefore,
-			resetSelectionAt;
+			selectionBookmark;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
@@ -856,13 +867,13 @@
 			var fillingChar = getFillingChar( editable );
 
 			if ( fillingChar ) {
-				// If cursor is right blinking by side of the filler node, save it for restoring,
-				// as the following text substitution will blind it. (#7437)
-				// Store the offset, so we can restore selection at the precise position. (#12489)
-				// Note - offset==0 (selection before ZWS) is incorrect, so we don't want to restore it anyway.
-				var sel = editor.document.$.defaultView.getSelection();
-				if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
-					resetSelectionAt = sel.anchorOffset;
+				// If the selection's focus or anchor is located in the filling char's text node,
+				// we need to restore the selection in afterData, because it will be lost
+				// when setting text. Selection's direction must be preserved.
+				// (#7437, #12489, #12491 comment:3)
+				var sel = editor.document.$.getSelection();
+				if ( sel.type != 'None' && ( sel.anchorNode == fillingChar.$ || sel.focusNode == fillingChar.$ ) )
+					selectionBookmark = createNativeSelectionBookmark( sel );
 
 				fillingCharBefore = fillingChar.getText();
 				fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
@@ -879,9 +890,9 @@
 			if ( fillingChar ) {
 				fillingChar.setText( fillingCharBefore );
 
-				if ( resetSelectionAt ) {
-					editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, resetSelectionAt );
-					resetSelectionAt = 0;
+				if ( selectionBookmark ) {
+					moveNativeSelectionToBookmark( editor.document.$, selectionBookmark );
+					selectionBookmark = null;
 				}
 			}
 		}
