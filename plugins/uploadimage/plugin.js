@@ -28,10 +28,15 @@
 
 				init: function() {
 					var that = this,
-						upload = manager.getLoader( this.parts.img.data( 'cke-upload-id' ) );
+						id = this.parts.img.data( 'cke-upload-id' ),
+						upload = manager.getLoader( id );
 
-					upload.on( 'update', function() {
-						if ( !that.wrapper ) {
+					upload.on( 'update', function( evt ) {
+						if ( !that.wrapper || !that.wrapper.getParent() ) {
+							if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
+								upload.abort();
+							}
+							evt.removeListener();
 							return;
 						}
 
