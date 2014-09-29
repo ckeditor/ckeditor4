@@ -55,6 +55,10 @@
 							img.replace( that.wrapper );
 
 							editor.widgets.checkWidgets( { initOnlyNew: true } );
+
+							// Ensure that old widgets instance will be removed.
+							// If this init is because of paste then checkWidgets will not remove it.
+							editor.widgets.destroy( that, true );
 						} else if ( upload.status == 'error' || upload.status == 'abort' ) {
 							console.log( upload.message );
 							editor.widgets.del( that );
