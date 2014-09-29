@@ -149,25 +149,20 @@
 
 			// Text selection position might get mangled by
 			// subsequent dom modification, save it now for restoring. (#8617)
-			if ( keepSelection !== false )
-			{
+			if ( keepSelection !== false ) {
 				var bm,
-					doc = element.getDocument(),
-					sel = doc.getSelection().getNative(),
+					sel = element.getDocument().getSelection().getNative(),
 					// Be error proof.
 					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
 				if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
-					bm = [ sel.anchorOffset, sel.focusOffset ];
+					bm = createNativeSelectionBookmark( sel );
 
 					// Anticipate the offset change brought by the removed char.
 					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
 						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
-					startAffected && bm[ 0 ]--;
-					endAffected && bm[ 1 ]--;
-
-					// Revert the bookmark order on reverse selection.
-					isReversedSelection( sel ) && bm.unshift( bm.pop() );
+					startAffected && bm[ 0 ].offset--;
+					endAffected && bm[ 1 ].offset--;
 				}
 			}
 
@@ -176,13 +171,9 @@
 			// invisible char from it.
 			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
 
-			// Restore the bookmark.
+			// Restore the bookmark preserving selection's direction.
 			if ( bm ) {
-				var rng = sel.getRangeAt( 0 );
-				rng.setStart( rng.startContainer, bm[ 0 ] );
-				rng.setEnd( rng.startContainer, bm[ 1 ] );
-				sel.removeAllRanges();
-				sel.addRange( rng );
+				moveNativeSelectionToBookmark( element.getDocument().$, bm );
 			}
 		}
 	}
@@ -194,14 +185,22 @@
 		} );
 	}
 
-	function isReversedSelection( sel ) {
-		if ( !sel.isCollapsed ) {
-			var range = sel.getRangeAt( 0 );
-			// Potentially alter an reversed selection range.
-			range.setStart( sel.anchorNode, sel.anchorOffset );
-			range.setEnd( sel.focusNode, sel.focusOffset );
-			return range.collapsed;
-		}
+	function createNativeSelectionBookmark( sel ) {
+		return [
+			{ node: sel.anchorNode, offset: sel.anchorOffset },
+			{ node: sel.focusNode, offset: sel.focusOffset }
+		];
+	}
+
+	function moveNativeSelectionToBookmark( document, bm ) {
+		var sel = document.getSelection(),
+			range = document.createRange();
+
+		range.setStart( bm[ 0 ].node, bm[ 0 ].offset );
+		range.collapse( true );
+		sel.removeAllRanges();
+		sel.addRange( range );
+		sel.extend( bm[ 1 ].node, bm[ 1 ].offset );
 	}
 
 	// Read the comments in selection constructor.
@@ -840,7 +839,9 @@
 	} );
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor;
+		var editor = evt.editor,
+			fillingCharBefore,
+			selectionBookmark;
 
 		// On WebKit only, we need a special "filling" char on some situations
 		// (#1272). Here we set the events that should invalidate that char.
@@ -851,8 +852,6 @@
 			editor.on( 'beforeSetMode', function() {
 				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
-
-			var fillingCharBefore, resetSelection;
 
 			editor.on( 'beforeUndoImage', beforeData );
 			editor.on( 'afterUndoImage', afterData );
@@ -868,11 +867,13 @@
 			var fillingChar = getFillingChar( editable );
 
 			if ( fillingChar ) {
-				// If cursor is right blinking by side of the filler node, save it for restoring,
-				// as the following text substitution will blind it. (#7437)
-				var sel = editor.document.$.defaultView.getSelection();
-				if ( sel.type == 'Caret' && sel.anchorNode == fillingChar.$ )
-					resetSelection = 1;
+				// If the selection's focus or anchor is located in the filling char's text node,
+				// we need to restore the selection in afterData, because it will be lost
+				// when setting text. Selection's direction must be preserved.
+				// (#7437, #12489, #12491 comment:3)
+				var sel = editor.document.$.getSelection();
+				if ( sel.type != 'None' && ( sel.anchorNode == fillingChar.$ || sel.focusNode == fillingChar.$ ) )
+					selectionBookmark = createNativeSelectionBookmark( sel );
 
 				fillingCharBefore = fillingChar.getText();
 				fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
@@ -889,9 +890,9 @@
 			if ( fillingChar ) {
 				fillingChar.setText( fillingCharBefore );
 
-				if ( resetSelection ) {
-					editor.document.$.defaultView.getSelection().setPosition( fillingChar.$, fillingChar.getLength() );
-					resetSelection = 0;
+				if ( selectionBookmark ) {
+					moveNativeSelectionToBookmark( editor.document.$, selectionBookmark );
+					selectionBookmark = null;
 				}
 			}
 		}
