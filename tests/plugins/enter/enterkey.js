@@ -23,11 +23,24 @@
 		};
 	}
 
+	function e( editorName, htmlWithSeleciton, expectedHtmlWithSelection ) {
+		return function() {
+			var editor = this.editors[ editorName ];
+
+			selectionTools.setWithHtml( editor, htmlWithSeleciton );
+			editor.execCommand( 'enter' );
+
+			var output = selectionTools.getWithHtml( editor );
+
+			assert.isInnerHtmlMatching( expectedHtmlWithSelection, output, matchOpts );
+		};
+	}
+
 	bender.test( {
 		_should: {
 			ignore: {
 				'test shift+enter key - end of block, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
-				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
+				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller
 			}
 		},
 
@@ -81,7 +94,7 @@
 		},
 
 		// #8321
-		'test enter key at the end of block with inline styles' : function() {
+		'test enter key at the end of block with inline styles': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -92,7 +105,7 @@
 		},
 
 		// #7946 TODO: Add editor doc quirks mode tests.
-		'test enter key key scrolls document' : function() {
+		'test enter key key scrolls document': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
@@ -111,7 +124,7 @@
 		},
 
 		// Start of #8812
-		'test ener key at the end of contents with comment' : function() {
+		'test ener key at the end of contents with comment': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( 'test ^<!-- --> ' );
@@ -119,7 +132,7 @@
 			assert.areSame( '<p>test <!-- --></p><p>&nbsp;</p>', bot.getData( false, true ) );
 		},
 
-		'test enter key in the middle of contents with comments' : function() {
+		'test enter key in the middle of contents with comments': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
@@ -129,7 +142,7 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 		},
 
-		'test enter key in the middle of contents with comments (2)' : function() {
+		'test enter key in the middle of contents with comments (2)': function() {
 			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
@@ -232,6 +245,10 @@
 			}
 		},
 		*/
+
+		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
+		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
+		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
 
 		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
 		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),

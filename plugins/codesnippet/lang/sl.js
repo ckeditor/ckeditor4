@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'sl', {
 	emptySnippetError: 'Odrezek kode ne more biti prazen.',
 	language: 'Jezik',
 	title: 'Odrezek kode',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

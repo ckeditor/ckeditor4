@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'sk', {
 	title: 'Vlastnosti placeholdera',
 	toolbar: 'Vytvoriť placeholder',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Názov placeholdera',
+	invalidName: 'Placeholder nemôže byť prázdny a nemôže obsahovať žiadny z nasledujúcich znakov: [,],<,>',
+	pathName: 'placeholder'
 } );

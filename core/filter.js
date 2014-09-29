@@ -806,9 +806,9 @@
 		} )(),
 
 		/**
-		 * Destroys the filter instance, removes it from global the {@link CKEDITOR.filter#instances} object.
+		 * Destroys the filter instance and removes it from the global {@link CKEDITOR.filter#instances} object.
 		 *
-		 * @since 4.4.4
+		 * @since 4.4.5
 		 */
 		destroy: function() {
 			delete CKEDITOR.filter.instances[ this.id ];

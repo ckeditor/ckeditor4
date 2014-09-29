@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'de', {
 	label: 'Stil',
-	panelTitle: 'Formatierungenstil',
+	panelTitle: 'Formatierungsstile',
 	panelTitle1: 'Block Stilart',
 	panelTitle2: 'Inline Stilart',
 	panelTitle3: 'Objekt Stilart'

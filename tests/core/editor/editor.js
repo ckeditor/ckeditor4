@@ -213,17 +213,21 @@ bender.test(
 		bot.setData( '<p>foo</p>', function() {
 			// Test update element explicit call.
 			if ( editor.updateElement() )
-				assert.areSame( '<p>foo</p>', element.is( 'textarea' ) ? element.getValue() : element.getHtml(),
+				assert.areSame( '<p>foo</p>', getHtml( element ),
 					'editor data update to element' );
 
 			// Test update element implicitly on editor destroy.
 			bot.setData( '<p>bar</p>', function() {
 				editor.destroy();
 
-				assert.areSame( '<p>bar</p>', element.is( 'textarea' ) ? element.getValue() : element.getHtml(),
+				assert.areSame( '<p>bar</p>', getHtml( element ),
 					'editor destroy should trigger data update' );
 			} );
 		} );
+
+		function getHtml( element ) {
+			return element.is( 'textarea' ) ? element.getValue() : bender.tools.compatHtml( element.getHtml() );
+		}
 	},
 
 	'test updating element - mode replace': function() {

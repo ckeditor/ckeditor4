@@ -4,10 +4,10 @@
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'en-gb', {
-	button: 'Insert code snippet',
+	button: 'Insert Code Snippet',
 	codeContents: 'Code content',
 	emptySnippetError: 'A code snippet cannot be empty.',
 	language: 'Language',
 	title: 'Code snippet',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

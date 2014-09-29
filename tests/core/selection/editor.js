@@ -37,6 +37,27 @@ bender.test( {
 		assert.areSame( expected || source, bender.tools.getHtmlWithSelection( ed ) );
 	},
 
+	setSelectionInEmptyInlineElement: function( editor ) {
+		var editable = editor.editable(),
+			range = editor.createRange();
+
+		editable.setHtml( '<p>x<u></u>x</p>' );
+
+		var uEl = editable.findOne( 'u' );
+
+		range.moveToPosition( uEl, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+	},
+
+	assertFillingChar: function( editable, parent, contents, msg ) {
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+		assert.isTrue( !!fillingChar, 'Filling char exists - ' + msg );
+		assert.areSame( parent, fillingChar.getParent(), 'Filling char parent - ' + msg );
+		assert.areSame( contents, fillingChar.getText(), 'Filling char contents - ' + msg );
+
+		return fillingChar;
+	},
+
 	'test editor selection with no focus' : function() {
 		var ed = this.editor;
 
@@ -442,6 +463,211 @@ bender.test( {
 
 			wait();
 		} );
+	},
+
+	'test filling char is removed and restored when taking snapshot': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+
+		editor.fire( 'beforeUndoImage' );
+		this.assertFillingChar( editable, uEl, '', 'after beforeUndoImage' );
+
+		editor.fire( 'afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after afterUndoImage' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 1, range.startOffset, 'Selection was restored - offset after ZWS' );
+	},
+
+	// #12489
+	'test filling char is removed and restored when taking snapshot if selection is not right after the filling char': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abcd' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 3 ); // ZWSab^cd
+
+		this.assertFillingChar( editable, uEl, '\u200babcd', 'after type' );
+
+		editor.fire( 'beforeUndoImage' );
+		this.assertFillingChar( editable, uEl, 'abcd', 'after beforeUndoImage' );
+
+		editor.fire( 'afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, '\u200babcd', 'after afterUndoImage' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
+	},
+
+	// #8617
+	'test selection is preserved when removing filling char on left-arrow': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+
+		// Mock LEFT arrow.
+		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on left-arrow press' );
+
+		range = editor.getSelection().getRanges()[ 0 ];
+		assert.areSame( uEl.getFirst(), range.startContainer, 'Selection was restored - container' );
+		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in abc^' );
+	},
+
+	// #12419
+	'test selection is preserved when removing filling char on select all': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange(),
+			htmlMatchingOpts = {
+				compareSelection: true,
+				normalizeSelection: true
+			};
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+
+		// Happens when typing and navigating...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+
+		// Select all contents.
+		range.selectNodeContents( editable.findOne( 'p' ) );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on selection change' );
+		assert.isInnerHtmlMatching( '<p>[x<u>abc</u>x]</p>', bender.tools.selection.getWithHtml( editor ),
+			htmlMatchingOpts, 'Selection is correctly set' );
+	},
+
+	'test direction of selection is preserved when removing filling char': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+
+		// Happens when typing and making selection from right to left...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		range = editor.document.$.createRange();
+		// ZWSabc]
+		range.setStart( fillingChar.$, 4 );
+		var nativeSel = editor.document.$.getSelection();
+		nativeSel.removeAllRanges();
+		nativeSel.addRange( range );
+		// ZWSa[bc
+		nativeSel.extend( fillingChar.$, 2 );
+
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+
+		// Mock LEFT arrow.
+		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
+
+		assert.areSame( 'abc', uEl.getHtml(), 'Filling char is removed on left-arrow press' );
+
+		nativeSel = editor.document.$.getSelection();
+		assert.areSame( 3, nativeSel.anchorOffset, 'sel.anchorOffset' );
+		assert.areSame( 1, nativeSel.focusOffset, 'sel.focusOffset' );
+	},
+
+	// This particular scenario is reproducible when after typing in an empty inline element
+	// user tries to select text by mouse from right to left in that element - selection is lost.
+	// #12491 comment:3
+	'test direction of selection is preserved when taking snapshot': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editor,
+			bot = this.editorBot,
+			editable = editor.editable(),
+			range = editor.createRange();
+
+		this.setSelectionInEmptyInlineElement( editor );
+
+		var uEl = editable.findOne( 'u' ),
+			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+
+		// Happens when typing and making selection from right to left...
+		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		range = editor.document.$.createRange();
+		// ZWSabc]
+		range.setStart( fillingChar.$, 4 );
+		var nativeSel = editor.document.$.getSelection();
+		nativeSel.removeAllRanges();
+		nativeSel.addRange( range );
+		// ZWSa[bc
+		nativeSel.extend( fillingChar.$, 2 );
+
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after type' );
+
+		editor.fire( 'beforeUndoImage' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after beforeUndoImage' );
+
+		editor.fire( 'afterUndoImage' );
+		this.assertFillingChar( editable, uEl, '\u200babc', 'after afterUndoImage' );
+
+		nativeSel = editor.document.$.getSelection();
+		assert.areSame( 4, nativeSel.anchorOffset, 'sel.anchorOffset' );
+		assert.areSame( 2, nativeSel.focusOffset, 'sel.focusOffset' );
 	},
 
 	'test selection in source mode': function() {

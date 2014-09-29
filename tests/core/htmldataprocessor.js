@@ -579,14 +579,15 @@
 
 			assert.areSame(
 				'<p a="1\n1" foo="' + prot + '">x</p>',
-				toHtml( '<p a="1\n1" foo="' + script + '">x</p>' ),
+				// Use compatHtml in order to sort attributes (yep, IE again).
+				bender.tools.compatHtml( toHtml( '<p a="1\n1" foo="' + script + '">x</p>' ), false, true ),
 				'tc2'
 			);
 
 			assert.areSame(
 				'<p bar="' + prot + prot + '" foo="' + prot + '">x</p>',
 				// Use fixHtml in order to sort attributes (yep, IE again).
-				bender.tools.fixHtml( toHtml( '<p bar="' + script + script + '" foo="' + script + '">x</p>' ) ),
+				bender.tools.compatHtml( toHtml( '<p bar="' + script + script + '" foo="' + script + '">x</p>' ), false, true ),
 				'tc3'
 			);
 

@@ -21,32 +21,39 @@ Fixed Issues:
 * [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Fixed: Drag and drop of nested block widgets.
 * [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting single non-editable element using [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting widget with nested editable inside other widget's nested editable.
 
+## CKEditor 4.4.6
+
+Fixed Issues:
+
+* [#12489](http://dev.ckeditor.com/ticket/12423) and [#12491](http://dev.ckeditor.com/ticket/12423): Fixed: Various issues related to restoring selection after making operations on filler char. See the [fixed cases](http://dev.ckeditor.com/ticket/12491#comment:4).
+
 ## CKEditor 4.4.5
 
 New Features:
 
-* [#12279](http://dev.ckeditor.com/ticket/12279): Added possibility to pass custom evaluator to [`node.getAscendant()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.node-method-getAscendant).
+* [#12279](http://dev.ckeditor.com/ticket/12279): Added a possibility to pass a custom evaluator to [`node.getAscendant()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.node-method-getAscendant).
 
 Fixed Issues:
 
-* [#12381](http://dev.ckeditor.com/ticket/12381): Fixed: Selection trouble in iOS. Thanks to [Remiremi](https://github.com/Remiremi)!
-* [#10804](http://dev.ckeditor.com/ticket/10804): Fixed: `CKEDITOR_GETURL` isn't used with some plugins it should be used. Thanks to [Thomas Andraschko](https://github.com/tandraschko)!
-* [#9137](http://dev.ckeditor.com/ticket/9137): Fixed: `base` tag is not created when `head` has an attribute. Thanks to [naoki.fujikawa](https://github.com/naoki-fujikawa)!
-* [#12377](http://dev.ckeditor.com/ticket/12377): Fixed: Errors thrown in the image plugin when removing preview from dialog definition. Thanks to [Axinet](https://github.com/Axinet)!
+* [#12423](http://dev.ckeditor.com/ticket/12423): [Safari7.1+] Fixed: *Enter* key moved cursor to a strange position.
+* [#12381](http://dev.ckeditor.com/ticket/12381): [iOS] Fixed: Selection issue. Thanks to [Remiremi](https://github.com/Remiremi)!
+* [#10804](http://dev.ckeditor.com/ticket/10804): Fixed: `CKEDITOR_GETURL` is not used with some plugins where it should be used. Thanks to [Thomas Andraschko](https://github.com/tandraschko)!
+* [#9137](http://dev.ckeditor.com/ticket/9137): Fixed: The `<base>` tag is not created when `<head>` has an attribute. Thanks to [naoki.fujikawa](https://github.com/naoki-fujikawa)!
+* [#12377](http://dev.ckeditor.com/ticket/12377): Fixed: Errors thrown in the [Image](http://ckeditor.com/addon/image) plugin when removing preview from the dialog window definition. Thanks to [Axinet](https://github.com/Axinet)!
+* [#12162](http://dev.ckeditor.com/ticket/12162): Fixed: Auto paragraphing and *Enter* key in nested editables.
 * [#12315](http://dev.ckeditor.com/ticket/12315): Fixed: Marked [`config.autoParagraph`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoParagraph) as deprecated.
-* [#12113](http://dev.ckeditor.com/ticket/12113): Fixed: Code snippet should be presented in elements path as "codesnippet".
-* [#12311](http://dev.ckeditor.com/ticket/12311): Fixed: Remove format should also remove `<cite>` elements.
+* [#12113](http://dev.ckeditor.com/ticket/12113): Fixed: A [code snippet](http://ckeditor.com/addon/codesnippet) should be presented in the [elements path](http://ckeditor.com/addon/elementspath) as "code snippet" (translatable).
+* [#12311](http://dev.ckeditor.com/ticket/12311): Fixed: [Remove Format](http://ckeditor.com/addon/removeformat) should also remove `<cite>` elements.
 * [#12261](http://dev.ckeditor.com/ticket/12261): Fixed: Filter has to be destroyed and removed from [`CKEDITOR.filter.instances`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter-static-property-instances) on editor destroy.
-* [#12163](http://dev.ckeditor.com/ticket/12163): Fixed: Maximize plugin should abort its initialization if the [Shared Spaces plugin](http://ckeditor.com/addon/sharedspace) is initialized.
-* [#12398](http://dev.ckeditor.com/ticket/12398): Fixed: Maximize does not work on instance without a [title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
-* [#12097](http://dev.ckeditor.com/ticket/12097): Fixed: JAWS not reading number of list options correctly in colors list box.
+* [#12398](http://dev.ckeditor.com/ticket/12398): Fixed: [Maximize](http://ckeditor.com/addon/maximize) does not work on an instance without a [title](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
+* [#12097](http://dev.ckeditor.com/ticket/12097): Fixed: JAWS not reading the number of options correctly in the [Text Color and Background Color](http://ckeditor.com/addon/colorbutton) button menu.
 * [#12411](http://dev.ckeditor.com/ticket/12411): Fixed: [Page Break](http://ckeditor.com/addon/pagebreak) used directly in the editable breaks the editor.
-* [#12162](http://dev.ckeditor.com/ticket/12162): Fixed: Auto paragraphing and enter key in nested editables.
 * [#12354](http://dev.ckeditor.com/ticket/12354): Fixed: Various issues in undo manager when holding keys.
-* [#12402](http://dev.ckeditor.com/ticket/12402): Fixed: Workaround for Blink's bug with `document.title` which breaks updating title in the full HTML mode.
-* [#12338](http://dev.ckeditor.com/ticket/12338): Fixed: CKEditor package contains unoptimised images.
-* [#12324](http://dev.ckeditor.com/ticket/12324): [IE8] Fixed: Undo steps not recorded when changing caret position by clicking below body.
-* [#12332](http://dev.ckeditor.com/ticket/12332): Fixed: Lowered DOM events listeners' priorities in Undo Manager in order to avoid ambiguity.
+* [#12324](http://dev.ckeditor.com/ticket/12324): [IE8] Fixed: Undo steps are not recorded when changing the caret position by clicking below the body.
+* [#12332](http://dev.ckeditor.com/ticket/12332): Fixed: Lowered DOM events listeners' priorities in undo manager in order to avoid ambiguity.
+* [#12402](http://dev.ckeditor.com/ticket/12402): [Blink] Fixed: Workaround for Blink bug with `document.title` which breaks updating title in the full HTML mode.
+* [#12338](http://dev.ckeditor.com/ticket/12338): Fixed: The CKEditor package contains unoptimized images.
+
 
 ## CKEditor 4.4.4
 

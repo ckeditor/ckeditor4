@@ -82,23 +82,23 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
+	backspace: 'Rücklöschtaste',
+	tab: 'Tab',
+	enter: 'Eingabe',
 	shift: 'Umschalt',
 	ctrl: 'Strg',
 	alt: 'Alt',
 	pause: 'Pause',
-	capslock: 'Caps Lock', // MISSING
+	capslock: 'Feststell',
 	escape: 'Escape',
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
+	pageUp: 'Bild auf',
+	pageDown: 'Bild ab',
 	end: 'Ende',
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
+	home: 'Pos1',
+	leftArrow: 'Linke Pfeiltaste',
+	upArrow: 'Obere Pfeiltaste',
+	rightArrow: 'Rechte Pfeiltaste',
+	downArrow: 'Untere Pfeiltaste',
 	insert: 'Einfügen',
 	'delete': 'Entfernen',
 	leftWindowKey: 'Linke Windowstaste',
@@ -114,11 +114,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 	numpad7: 'Ziffernblock 7',
 	numpad8: 'Ziffernblock 8',
 	numpad9: 'Ziffernblock 9',
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
+	multiply: 'Multiplizieren',
+	add: 'Addieren',
+	subtract: 'Subtrahieren',
+	decimalPoint: 'Punkt',
+	divide: 'Dividieren',
 	f1: 'F1',
 	f2: 'F2',
 	f3: 'F3',
@@ -131,17 +131,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 	f10: 'F10',
 	f11: 'F11',
 	f12: 'F12',
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
+	numLock: 'Ziffernblock feststellen',
+	scrollLock: 'Rollen',
 	semiColon: 'Semikolon',
 	equalSign: 'Gleichheitszeichen',
 	comma: 'Komma',
 	dash: 'Bindestrich',
 	period: 'Punkt',
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	forwardSlash: 'Schrägstrich',
+	graveAccent: 'Gravis',
+	openBracket: 'Öffnende eckige Klammer',
+	backSlash: 'Rückwärtsgewandter Schrägstrich',
+	closeBracket: 'Schließende eckige Klammer',
+	singleQuote: 'Einfaches Anführungszeichen'
 } );

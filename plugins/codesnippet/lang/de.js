@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'de', {
 	emptySnippetError: 'Ein Codeschnipsel kann nicht leer sein.',
 	language: 'Sprache',
 	title: 'Codeschnipsel',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

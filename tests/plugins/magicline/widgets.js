@@ -745,6 +745,8 @@
 			}
 		} ),
 
+		/* See #12474
+
 		// --- ACF in nested ------------------------------------------------------------------------------------
 
 		'test ACF command[next], out of widget': c( nestedTplAc.output( { id: 'u' } ), {
@@ -790,5 +792,7 @@
 				return hotNode;
 			}
 		} )
+
+		*/
 	} );
 } )();

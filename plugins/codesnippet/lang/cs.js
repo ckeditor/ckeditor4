@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'cs', {
 	emptySnippetError: 'Úryvek kódu nemůže být prázdný.',
 	language: 'Jazyk',
 	title: 'Úryvek kódu',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

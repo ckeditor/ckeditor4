@@ -132,6 +132,30 @@ bender.test(
 		} );
 	},
 
+	'test selectRanges - in empty block': function() {
+		if ( !CKEDITOR.env.needsBrFiller )
+			assert.ignore();
+
+		var editor = this.editor,
+			range = editor.createRange();
+
+		editor.editable().setHtml( '<p>foo</p><p id="target"><br /></p><p>bar</p>' );
+
+		var p = editor.document.getById( 'target' );
+		range.moveToPosition( p, CKEDITOR.POSITION_AFTER_START );
+
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.isInnerHtmlMatching(
+			'<p>foo</p><p id="target">^<br /></p><p>bar</p>',
+			bender.tools.selection.getWithHtml( editor ),
+			{
+				compareSelection: true,
+				normalizeSelection: true
+			},
+			'selection was placed in the empty paragraph' );
+	},
+
 	test_getSelectedElement : function() {
 		testSelectedElement( '[<img />]', 'img' );
 		testSelectedElement( '[<hr />]', 'hr' );

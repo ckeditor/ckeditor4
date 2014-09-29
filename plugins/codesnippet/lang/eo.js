@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'eo', {
 	emptySnippetError: 'Kodaĵero ne povas esti malplena.',
 	language: 'Lingvo',
 	title: 'Kodaĵero',
-	pathName: 'codesnippet' // MISSING
+	pathName: 'code snippet' // MISSING
 } );

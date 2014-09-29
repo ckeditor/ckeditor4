@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'tr', {
 	title: 'Yer tutucu özellikleri',
 	toolbar: 'Yer tutucu oluşturun',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'Yer Tutucu Adı',
+	invalidName: 'Yer tutucu adı boş bırakılamaz ve şu karakterleri içeremez: [, ], <, >',
+	pathName: 'yertutucu'
 } );
