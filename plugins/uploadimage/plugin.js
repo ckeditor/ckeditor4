@@ -24,18 +24,15 @@
 				},
 
 				onuploading: function( upload ) {
-					editor.fire( 'lockSnapshot' );
-
 					this.parts.img.setAttribute( 'src', upload.data );
-
-					editor.fire( 'unlockSnapshot' );
 				},
 
-				transformUploaded: function( upload ) {
+				onuploaded: function( upload ) {
 					// Set width and height to prevent blinking.
-					return '<img src="' + upload.url + '" ' +
+					var html = '<img src="' + upload.url + '" ' +
 							'width="' + this.parts.img.$.naturalWidth + '" ' +
 							'height="' + this.parts.img.$.naturalHeight +'">';
+					this.replaceWith( html );
 				}
 			} );
 
@@ -58,10 +55,7 @@
 						var loader = manager.createLoader( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
-						img.setAttributes( {
-							'data-cke-upload-id': loader.id,
-							'data-widget': 'uploadwidget'
-						} );
+						CKEDITOR.plugins.uploadwidget.markElement( img, 'uploadwidget', loader.id );
 					}
 				}
 

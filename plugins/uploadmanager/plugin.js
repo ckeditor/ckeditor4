@@ -240,9 +240,11 @@
 			return config[ 'uploadUrl' ];
 		} else if ( type && config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] ) {
 			return config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] + '&responseType=json';
-		} else {
+		} else if ( config[ 'filebrowserUploadUrl' ] ) {
 			return config[ 'filebrowserUploadUrl' ] + '&responseType=json';
 		}
+
+		throw "Upload URL is not defined.";
 	}
 
 	function ucFirst( str ) {
@@ -251,12 +253,34 @@
 		return f + str.substr( 1 );
 	}
 
+	function isExtentionSupported( file, supportedExtentions ) {
+		if ( !supportedExtentions ) {
+			return true;
+		}
+
+		var ext = getExtention( file.name );
+
+		supportedExtentions = ',' + supportedExtentions + ',';
+
+		return supportedExtentions.indexOf( ',' + ext + ','  ) > -1;
+	}
+
+	function getExtention( filename ) {
+		var splited = filename.split( '.' );
+		if ( splited.length === 1 || ( splited[ 0 ] === '' && splited.length === 2 ) ) {
+			return '';
+		}
+		return splited.pop().toLowerCase();
+	}
+
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
 	CKEDITOR.plugins.uploadmanager = {
 		manager: UploadManager,
 		loader: FileLoader,
-		getUploadUrl: getUploadUrl
+		getUploadUrl: getUploadUrl,
+		isExtentionSupported: isExtentionSupported
+
 	};
 
 	CKEDITOR.editor.prototype.uploadManager = new UploadManager();
