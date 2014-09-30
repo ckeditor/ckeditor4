@@ -10,7 +10,7 @@
 		return function( allowed, data, msg ) {
 			assert[ allowed ? 'isTrue' : 'isFalse' ]( filter.check( data, true, strictCheck ), msg || ( 'Assertion (' + number + ') failed.' ) );
 			number += 1;
-		}
+		};
 	}
 
 	function st( styleDef ) {

@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* global acfTestTools */
 
 ( function() {
 	'use strict';
@@ -54,7 +55,7 @@
 						extraAllowedContent: 'b; img[width,height]',
 						disallowedContent: 'strong; img{width,height}'
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				that.editorBots = bots;
 				that.editors = editors;

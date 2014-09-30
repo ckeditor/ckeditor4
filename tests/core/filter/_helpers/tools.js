@@ -1,3 +1,5 @@
+/* exported acfTestTools */
+
 'use strict';
 
 var acfTestTools = ( function() {
