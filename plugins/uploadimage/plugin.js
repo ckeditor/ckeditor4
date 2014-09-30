@@ -6,116 +6,47 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadimage', {
-		requires: 'widget,clipboard,uploadmanager',
+		requires: 'uploadwidget',
 		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var manager = new CKEDITOR.plugins.uploadmanager.manager(),
-				uploadUrl = editor.config.imageUploadUrl ? editor.config.imageUploadUrl :
-					editor.config.uploadUrl ? editor.config.uploadUrl :
-					editor.config.filebrowserImageUploadUrl ? editor.config.filebrowserImageUploadUrl + '&responseType=json' :
-					editor.config.filebrowserUploadUrl ? editor.config.filebrowserUploadUrl + '&responseType=json' : '';
+			CKEDITOR.plugins.uploadwidget.add( editor, 'uploadimage', {
+				supportedExtentions: 'jpg,jpeg,png',
 
-			editor.filter.allow( 'img[data-widget]' );
+				uploadUrl: CKEDITOR.plugins.uploadmanager.getUploadUrl( editor.config, 'image' ),
 
-			editor.widgets.add( 'uploadimage', {
+				fileToElement: function( file ) {
+					var img = new CKEDITOR.dom.element( 'img' );
+					img.setAttribute( 'src', loadingImage );
+					return img;
+				},
+
 				parts: {
 					img: 'img'
 				},
 
-				downcast: function() {
-					return new CKEDITOR.htmlParser.text( '' );
+				onuploading: function( upload ) {
+					editor.fire( 'lockSnapshot' );
+
+					this.parts.img.setAttribute( 'src', upload.data );
+
+					editor.fire( 'unlockSnapshot' );
 				},
 
-				init: function() {
-					var that = this,
-						id = this.parts.img.data( 'cke-upload-id' ),
-						upload = manager.getLoader( id );
-
-					upload.on( 'update', function( evt ) {
-						if ( !that.wrapper || !that.wrapper.getParent() ) {
-							if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
-								upload.abort();
-							}
-							evt.removeListener();
-							return;
-						}
-
-						editor.fire( 'lockSnapshot' );
-
-						console.log( upload.status );
-						if ( upload.status == 'uploading' ) {
-							that.parts.img.setAttribute( 'src', upload.data );
-						} else if ( upload.status == 'uploaded' ) {
-							// Set width and height to prevent blinking.
-							var imgHtml = '<img src="' + upload.url + '" ' +
-											'width="' + that.parts.img.$.naturalWidth + '" ' +
-											'height="' + that.parts.img.$.naturalHeight +'">',
-								processedImg = editor.dataProcessor.toHtml( imgHtml, { context: that.wrapper.getParent().getName() } ),
-								img = CKEDITOR.dom.element.createFromHtml( processedImg );
-							img.replace( that.wrapper );
-
-							editor.widgets.checkWidgets( { initOnlyNew: true } );
-
-							// Ensure that old widgets instance will be removed.
-							// If this init is because of paste then checkWidgets will not remove it.
-							editor.widgets.destroy( that, true );
-						} else if ( upload.status == 'error' || upload.status == 'abort' ) {
-							console.log( upload.message );
-							editor.widgets.del( that );
-						}
-
-						editor.fire( 'unlockSnapshot' );
-					} );
-
-					upload.update();
+				transformUploaded: function( upload ) {
+					// Set width and height to prevent blinking.
+					return '<img src="' + upload.url + '" ' +
+							'width="' + this.parts.img.$.naturalWidth + '" ' +
+							'height="' + this.parts.img.$.naturalHeight +'">';
 				}
 			} );
 
 			editor.on( 'paste', function( evt ) {
-				var data = evt.data,
-					dataTransfer = data.dataTransfer,
-					filesCount = dataTransfer.getFilesCount(),
-					supportedExtentions = { 'jpg': 1, 'jpeg': 1, 'png': 1 },
-					file, ext, i;
-
-				if ( data.dataValue || !filesCount ) {
-					return;
-				}
-
-				for ( i = 0; i < filesCount; i++ ) {
-					file = dataTransfer.getFile( i );
-
-					ext = getExtention( file.name );
-
-					if ( supportedExtentions[ ext ] ) {
-						var loader = manager.createLoader( file ),
-							img = new CKEDITOR.dom.element( 'img' );
-
-						loader.loadAndUpload( uploadUrl );
-
-						img.setAttributes( {
-							'src': loadingImage,
-							'data-cke-upload-id': loader.id,
-							'data-widget': 'uploadimage'
-						} );
-						data.dataValue += img.getOuterHtml();
-					}
-				}
-
-				function getExtention( filename ) {
-					var splited = filename.split( '.' );
-					if ( splited.length === 1 || ( splited[ 0 ] === '' && splited.length === 2 ) ) {
-						return '';
-					}
-					return splited.pop().toLowerCase();
-				}
-			} );
-
-			editor.on( 'paste', function( evt ) {
-				var data = evt.data;
+				var manager = editor.uploadManager,
+					data = evt.data;
 
 				var temp = new CKEDITOR.dom.element( 'div' ),
 					imgs, img, i;
+
 				temp.appendHtml( data.dataValue );
 				imgs = temp.find( 'img' );
 
@@ -123,13 +54,14 @@
 					img = imgs.getItem( i );
 
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
+
 					if ( !img.data( 'cke-upload-id' ) && inEditableBlock( img ) && isDataInSrc ) {
 						var loader = manager.createLoader( img.getAttribute( 'src' ) );
-
 						loader.upload( uploadUrl );
 
 						img.setAttributes( {
-							'data-cke-upload-id': loader.id
+							'data-cke-upload-id': loader.id,
+							'data-widget': 'uploadwidget'
 						} );
 					}
 				}

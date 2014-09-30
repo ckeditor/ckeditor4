@@ -29,11 +29,6 @@
 		},
 		getLoader: function( id ) {
 			return this._.loaders[ id ];
-		},
-		updateAll: function() {
-			for ( var i = 0; i < loaders.length; i++ ) {
-				loaders[ i ].update();
-			}
 		}
 	};
 
@@ -236,10 +231,33 @@
 		return new Blob( byteArrays, { type: contentType } );
 	}
 
+	function getUploadUrl( config, type ) {
+		var url = config[ type + 'UploadUrl' ];
+
+		if ( type && config[ type + 'UploadUrl' ] ) {
+			return config[ type + 'UploadUrl' ];
+		} else if ( config[ 'uploadUrl' ] ) {
+			return config[ 'uploadUrl' ];
+		} else if ( type && config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] ) {
+			return config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] + '&responseType=json';
+		} else {
+			return config[ 'filebrowserUploadUrl' ] + '&responseType=json';
+		}
+	}
+
+	function ucFirst( str ) {
+		str += '';
+		var f = str.charAt( 0 ).toUpperCase();
+		return f + str.substr( 1 );
+	}
+
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
 	CKEDITOR.plugins.uploadmanager = {
 		manager: UploadManager,
-		loader: FileLoader
+		loader: FileLoader,
+		getUploadUrl: getUploadUrl
 	};
+
+	CKEDITOR.editor.prototype.uploadManager = new UploadManager();
 } )();
