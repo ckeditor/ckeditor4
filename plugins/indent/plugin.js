@@ -361,7 +361,7 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		getContext: function( path ) {
-			return path.contains( this.context );
+			return path ? path.contains( this.context ) : null;
 		}
 	};
 
