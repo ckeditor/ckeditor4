@@ -7,7 +7,6 @@
 ( function() {
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
-		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			CKEDITOR.plugins.uploadwidget.add( editor, 'uploadimage', {
 				supportedExtentions: 'jpg,jpeg,png',
