@@ -8,6 +8,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<title>Upload image dev sample</title>
 	<script src="../../../ckeditor.js"></script>
+	<script src="filereaderplugin.js"></script>
 	<script src="../../uploadmanager/dev/uploadDebugger.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 </head>
@@ -18,7 +19,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</textarea>
 	<script>
 		var editor = CKEDITOR.replace( 'editor1', {
-			extraPlugins: 'image2,uploadimage',
+			extraPlugins: 'image2,uploadimage,filereader',
 			imageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
 		} );
 
