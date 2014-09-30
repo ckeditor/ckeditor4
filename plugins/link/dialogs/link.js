@@ -807,6 +807,24 @@
 				// Collect data from fields.
 				this.commitContent( data );
 
+				// Overwrite, always set target="_blank"
+				data.target = {
+					dependent: "",
+					fullscreen: "",
+					height: "",
+					left: "",
+					location: "",
+					menubar: "",
+					name: "_blank",
+					resizable: "",
+					scrollbars: "",
+					status: "",
+					toolbar: "",
+					top: "",
+					type: "_blank",
+					width: ""
+				};
+
 				var selection = editor.getSelection(),
 					attributes = plugin.getLinkAttributes( editor, data );
 
