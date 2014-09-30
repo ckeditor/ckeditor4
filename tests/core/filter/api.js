@@ -171,9 +171,9 @@
 		'test allowedContent array - string format': function() {
 			var filter = new CKEDITOR.filter( 'p' );
 
-			filter.allow( 'a b', 'rule1' );
+			filter.allow( 'a b-c d', 'rule1' );
 			assertRule( filter, 'rule1', {
-				elements: { a: true, b: true }
+				elements: { a: true, 'b-c': true, d: true }
 			} );
 
 			filter.allow( '*[attr1]', 'rule2' );
