@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.6
 
+New Features:
+
+* [#12501](http://dev.ckeditor.com/ticket/12501): Allowed dashes in element names in the [string format of allowed content rules](http://docs.ckeditor.com/#!/guide/dev_allowed_content_rules-section-string-format).
+
 Fixed Issues:
 
 * [#12489](http://dev.ckeditor.com/ticket/12423) and [#12491](http://dev.ckeditor.com/ticket/12423): Fixed: Various issues related to restoring selection after making operations on filler char. See the [fixed cases](http://dev.ckeditor.com/ticket/12491#comment:4).

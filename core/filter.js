@@ -1369,8 +1369,8 @@
 		}
 	}
 
-	//                  <   elements   ><                      styles, attributes and classes                       >< separator >
-	var rulePattern = /^([a-z0-9*\s]+)((?:\s*\{[!\w\-,\s\*]+\}\s*|\s*\[[!\w\-,\s\*]+\]\s*|\s*\([!\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
+	//                  <   elements   ><                       styles, attributes and classes                        >< separator >
+	var rulePattern = /^([a-z0-9\-*\s]+)((?:\s*\{[!\w\-,\s\*]+\}\s*|\s*\[[!\w\-,\s\*]+\]\s*|\s*\([!\w\-,\s\*]+\)\s*){0,3})(?:;\s*|$)/i,
 		groupsPatterns = {
 			styles: /{([^}]+)}/,
 			attrs: /\[([^\]]+)\]/,
