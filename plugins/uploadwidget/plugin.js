@@ -9,7 +9,9 @@
 		requires: 'widget,clipboard,uploadmanager',
 
 		init: function() {
-			editor.filter.allow( '*[data-widget]' );
+			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
+
+
 		}
 	} );
 
