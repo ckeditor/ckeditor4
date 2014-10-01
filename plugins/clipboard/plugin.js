@@ -739,6 +739,10 @@
 				padding: 0
 			} );
 
+			// Paste fails in Safari when the body tag has 'user-select: none'. (#12506)
+			if ( CKEDITOR.env.safari )
+				pastebin.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
+
 			// Check if the paste bin now establishes new editing host.
 			var isEditingHost = pastebin.getParent().isReadOnly();
 
