@@ -5,12 +5,14 @@
 
 ( function() {
 	'use strict';
+	var Widget;
 
 	bender.editor = {
 		config: {
 			allowedContent: true,
 			on: {
 				loaded: function( evt ) {
+					Widget = CKEDITOR.plugins.widget;
 					evt.editor.widgets.add( 'test', {} );
 					evt.editor.widgets.add( 'testblock', { inline: false } );
 					evt.editor.widgets.add( 'testinline', { inline: true } );
@@ -1529,6 +1531,39 @@
 					assert.areSame( 'p,i', callback2.join( ',' ), 'Second callback was not executed on b element' );
 				} );
 			} );
+		},
+
+		'test Widget.isDomNestedEditable': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( 'hello' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+
+			node = CKEDITOR.dom.element.createFromHtml( '<p>hello</p>' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+
+			node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
+			assert.isTrue( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.getNestedEditable': function() {
+			var node1 = CKEDITOR.dom.element.createFromHtml( [
+					'<div data-cke-widget-editable data-id="1">',
+						'<div>',
+							'<div data-cke-widget-editable data-id="2">',
+								'<div data-id="guard">',
+									'<p data-id="3"></p>',
+								'</div>',
+							'</div>',
+						'</div>',
+					'</div>'
+				].join( '' ) ),
+				guard = node1.findOne( '[data-id="guard"]' ),
+				node2 = node1.findOne( '[data-id="2"]' ),
+				node3 = node1.findOne( '[data-id="3"]' );
+
+			assert.isNull( Widget.getNestedEditable( null, null ) );
+			assert.isNull( Widget.getNestedEditable( guard, null ) );
+			assert.isTrue( Widget.getNestedEditable( null, node3 ).equals( node2 ) );
+			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
 		}
 	} );
 } )();
