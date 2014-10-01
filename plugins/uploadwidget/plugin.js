@@ -6,17 +6,16 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		requires: 'widget,clipboard,uploadmanager',
+		requires: 'widget,clipboard,filetools',
 
 		init: function() {
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
-
-
 		}
 	} );
 
-	function add( editor, name, def ) {
-		var manager = editor.uploadManager,
+	function addUploadWidget( editor, name, def ) {
+		var filetools = CKEDITOR.filetools,
+			uploads = editor.uploadsRepository,
 			// Plugins which support all file type has lower priority then plugins which support specific types.
 			priority = def.supportedExtentions ? 10 : 20;
 
@@ -34,9 +33,9 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( CKEDITOR.plugins.uploadmanager.isExtentionSupported( file, def.supportedExtentions ) ) {
+					if ( filetools.isExtentionSupported( file, def.supportedExtentions ) ) {
 						var el = def.fileToElement( file ),
-							loader = manager.createLoader( file );
+							loader = uploads.create( file );
 
 						if ( el ) {
 							loader.loadAndUpload( def.uploadUrl );
@@ -58,12 +57,12 @@
 			init: function() {
 				var widget = this,
 					id = this.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ),
-					upload = manager.getLoader( id );
+					loader = uploads.get( id );
 
-				upload.on( 'update', function( evt ) {
+				loader.on( 'update', function( evt ) {
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
-							upload.abort();
+							loader.abort();
 						}
 						evt.removeListener();
 						return;
@@ -71,22 +70,22 @@
 
 					editor.fire( 'lockSnapshot' );
 
-					console.log( upload.status );
-					if ( typeof widget[ 'on' + upload.status ] === 'function' ) {
-						if ( widget[ 'on' + upload.status ]( upload ) === false ) {
+					console.log( loader.status );
+					if ( typeof widget[ 'on' + loader.status ] === 'function' ) {
+						if ( widget[ 'on' + loader.status ]( loader ) === false ) {
 							return;
 						}
 					}
 
-					if ( upload.status == 'error' || upload.status == 'abort' ) {
-						console.log( upload.message );
+					if ( loader.status == 'error' || loader.status == 'abort' ) {
+						console.log( loader.message );
 						editor.widgets.del( widget );
 					}
 
 					editor.fire( 'unlockSnapshot' );
 				} );
 
-				upload.update();
+				loader.update();
 			},
 
 			replaceWith: function( html ) {
@@ -113,8 +112,12 @@
 		} );
 	}
 
-	CKEDITOR.plugins.uploadwidget = {
-		add: add,
+	if ( !CKEDITOR.filetools ) {
+		CKEDITOR.filetools = {};
+	}
+
+	CKEDITOR.tools.extend( CKEDITOR.filetools, {
+		addUploadWidget: addUploadWidget,
 		markElement: markElement
-	};
+	} );
 } )();

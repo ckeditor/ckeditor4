@@ -8,10 +8,12 @@
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
 		init: function( editor ) {
-			CKEDITOR.plugins.uploadwidget.add( editor, 'uploadimage', {
+			var filetools = CKEDITOR.filetools;
+
+			filetools.addUploadWidget( editor, 'uploadimage', {
 				supportedExtentions: 'jpg,jpeg,png',
 
-				uploadUrl: CKEDITOR.plugins.uploadmanager.getUploadUrl( editor.config, 'image' ),
+				uploadUrl: filetools.getUploadUrl( editor.config, 'image' ),
 
 				fileToElement: function( file ) {
 					var img = new CKEDITOR.dom.element( 'img' );
@@ -37,7 +39,7 @@
 			} );
 
 			editor.on( 'paste', function( evt ) {
-				var manager = editor.uploadManager,
+				var uploads = editor.uploadsRepository,
 					data = evt.data;
 
 				var temp = new CKEDITOR.dom.element( 'div' ),
@@ -52,7 +54,7 @@
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
 
 					if ( !img.data( 'cke-upload-id' ) && inEditableBlock( img ) && isDataInSrc ) {
-						var loader = manager.createLoader( img.getAttribute( 'src' ) );
+						var loader = uploads.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
 						CKEDITOR.plugins.uploadwidget.markElement( img, 'uploadwidget', loader.id );

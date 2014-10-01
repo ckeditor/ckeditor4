@@ -2,7 +2,7 @@
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
-CKEDITOR.plugins.setLang( 'uploadmanager', 'en', {
+CKEDITOR.plugins.setLang( 'filetools', 'en', {
 	'loadError': 'Error occurred during file reading.',
 	'networkError': 'Network error occurred during file uploading.',
 	'httpError404': 'HTTP error occurred during file uploading (404: file not found).',

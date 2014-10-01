@@ -5,20 +5,20 @@
 'use strict';
 
 ( function() {
-	CKEDITOR.plugins.add( 'uploadmanager', {
+	CKEDITOR.plugins.add( 'filetools', {
 		lang: 'en' // %REMOVE_LINE_CORE%
 	} );
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
-	function UploadManager() {
+	function UploadsRepository() {
 		this._ = {
 			loaders: []
 		}
 	}
 
-	UploadManager.prototype = {
-		createLoader: function( fileOrData, fileName ) {
+	UploadsRepository.prototype = {
+		create: function( fileOrData, fileName ) {
 			var id = this._.loaders.length,
 				loader = new FileLoader( fileOrData, fileName );
 
@@ -27,7 +27,7 @@
 
 			return loader;
 		},
-		getLoader: function( id ) {
+		get: function( id ) {
 			return this._.loaders[ id ];
 		}
 	};
@@ -62,7 +62,6 @@
 		loadAndUpload: function( url ) {
 			var loader = this;
 			this.once( 'loaded', function() {
-				//
 				setTimeout( function() {
 					loader.upload( url );
 				}, 0 );
@@ -85,7 +84,7 @@
 			};
 
 			reader.onerror = function( evt ) {
-				loader.message = editor.lang.uploadmanager.loadError;
+				loader.message = editor.lang.filetools.loadError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -105,7 +104,7 @@
 
 		upload: function( url ) {
 			if ( !url ) {
-				this.message = editor.lang.uploadmanager.noUrlError;
+				this.message = editor.lang.filetools.noUrlError;
 				this.changeStatusAndFire( 'error' );
 			} else {
 				var xhr = new XMLHttpRequest();
@@ -133,7 +132,7 @@
 			};
 
 			xhr.onerror = function( evt ) {
-				loader.message = editor.lang.uploadmanager.networkError;
+				loader.message = editor.lang.filetools.networkError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -144,9 +143,9 @@
 
 			xhr.onload = function( evt ) {
 				if ( xhr.status < 200 || xhr.status > 299 ) {
-					loader.message = editor.lang.uploadmanager[ 'httpError' + xhr.status ];
+					loader.message = editor.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
-						loader.message = editor.lang.uploadmanager[ 'httpError' ].replace( '%1', xhr.status );
+						loader.message = editor.lang.filetools[ 'httpError' ].replace( '%1', xhr.status );
 					}
 					loader.changeStatusAndFire( 'error' );
 				} else {
@@ -167,7 +166,7 @@
 			try {
 				var response = JSON.parse( xhr.responseText );
 			} catch ( e ) {
-				this.message = editor.lang.uploadmanager.responseError.replace( '%1', xhr.responseText );
+				this.message = editor.lang.filetools.responseError.replace( '%1', xhr.responseText );
 				this.changeStatusAndFire( 'error' );
 				return;
 			}
@@ -275,13 +274,16 @@
 
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
-	CKEDITOR.plugins.uploadmanager = {
-		manager: UploadManager,
-		loader: FileLoader,
+	CKEDITOR.editor.prototype.uploadsRepository = new UploadsRepository();
+
+	if ( !CKEDITOR.filetools ) {
+		CKEDITOR.filetools = {};
+	}
+
+	CKEDITOR.tools.extend( CKEDITOR.filetools, {
+		fileLoader: FileLoader,
 		getUploadUrl: getUploadUrl,
-		isExtentionSupported: isExtentionSupported
-
-	};
-
-	CKEDITOR.editor.prototype.uploadManager = new UploadManager();
+		isExtentionSupported: isExtentionSupported,
+		getExtention: getExtention
+	} );
 } )();
