@@ -575,8 +575,8 @@
 					this.hasFocus = true;
 					// Pending until this editable has attached.
 					editor.once( 'contentDom', function() {
-						editor.focusManager.focus();
-					} );
+						editor.focusManager.focus( this );
+					}, this );
 				}
 
 				// Apply tab index on demand, with original direction saved.
