@@ -42,7 +42,7 @@
 						[
 							{
 								check: 'img',
-								right: function( el, tools ) {
+								right: function( el ) {
 									el.attributes.foo = '1';
 								}
 							}
@@ -146,14 +146,22 @@
 						// Transformation 1.1.
 						{
 							element: 'b',
-							left: function( el ) { return !!el.attributes.foo; },
-							right: function( el ) { el.attributes.ok = '1'; }
+							left: function( el ) {
+								return !!el.attributes.foo;
+							},
+							right: function( el ) {
+								el.attributes.ok = '1';
+							}
 						},
 						// Transformation 1.2.
 						{
 							element: 'b',
-							left: function( el ) { return !!el.attributes.bar; },
-							right: function( el ) { el.attributes.ok = '2'; }
+							left: function( el ) {
+								return !!el.attributes.bar;
+							},
+							right: function( el ) {
+								el.attributes.ok = '2';
+							}
 						}
 					],
 					// Group 2.
@@ -161,7 +169,9 @@
 						// Transformation 2.1.
 						{
 							left: new CKEDITOR.style( { element: 'i', attributes: { bar: '2' } } ),
-							right: function( el ) { el.attributes.ok = '3'; }
+							right: function( el ) {
+								el.attributes.ok = '3';
+							}
 						}
 					],
 					// Group 3.
@@ -169,7 +179,9 @@
 						// Transformation 3.1.
 						{
 							left: new CKEDITOR.style( { element: 's', attributes: { 'class': 'xyz abc' } } ),
-							right: function( el ) { el.attributes.ok = '4'; }
+							right: function( el ) {
+								el.attributes.ok = '4';
+							}
 						}
 					]
 				] );
@@ -195,8 +207,7 @@
 			bender.editorBot.create( {
 				name: 'test_form_transformations'
 			}, function( bot ) {
-				var editor = bot.editor,
-					filter = editor.filter;
+				var editor = bot.editor;
 
 				editor.addFeature( {
 					allowedContent: 'strong[foo]',
@@ -283,8 +294,7 @@
 					allowedContent: 'p b em'
 				}
 			}, function( bot ) {
-				var editor = bot.editor,
-					filter = editor.filter;
+				var editor = bot.editor;
 
 				editor.addFeature( {
 					allowedContent: 'strong[foo]',
@@ -350,8 +360,7 @@
 					allowedContent: 'h1{float}; h2[align]; h3[align]{float}; h4[*]{*}'
 				}
 			}, function( bot ) {
-				var editor = bot.editor,
-					filter = editor.filter;
+				var editor = bot.editor;
 
 				editor.filter.addTransformations( [
 					[ 'h1{float}: alignmentToStyle', 'h1[align]: alignmentToAttribute' ],

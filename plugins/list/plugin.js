@@ -30,8 +30,8 @@
 		}
 	}
 
-	// Inheirt inline styles from another element.
-	function inheirtInlineStyles( parent, el ) {
+	// Inherit inline styles from another element.
+	function inheritInlineStyles( parent, el ) {
 		var style = parent.getAttribute( 'style' );
 
 		// Put parent styles before child styles.
@@ -187,7 +187,7 @@
 							if ( dirLoose && !child.getDirection() )
 								child.setAttribute( 'dir', orgDir );
 
-							inheirtInlineStyles( li, child );
+							inheritInlineStyles( li, child );
 
 							className && child.addClass( className );
 

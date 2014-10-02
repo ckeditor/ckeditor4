@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* global acfTestTools */
 
 ( function() {
 	'use strict';
@@ -88,14 +89,14 @@
 			var filter = createFilter( 'p' ),
 				executed = [];
 
-			filter.filter.addElementCallback( function( el ) {
+			filter.filter.addElementCallback( function() {
 				executed.push( 'a' );
 			} );
-			filter.filter.addElementCallback( function( el ) {
+			filter.filter.addElementCallback( function() {
 				executed.push( 'b' );
 				return CKEDITOR.FILTER_SKIP_TREE;
 			} );
-			filter.filter.addElementCallback( function( el ) {
+			filter.filter.addElementCallback( function() {
 				executed.push( 'c' );
 			} );
 
