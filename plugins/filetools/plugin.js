@@ -38,7 +38,7 @@
 		if ( typeof fileOrData === 'string' ) {
 			// Data are already loaded from disc.
 			this.data = fileOrData;
-			this.file = srcToBlob( this.data );
+			this.file = srcToFile( this.data );
 			this.loaded = this.total;
 		} else {
 			this.data = null;
@@ -157,7 +157,7 @@
 		sendRequest: function( xhr ) {
 			var formData = new FormData();
 
-			formData.append( 'upload', this.file );
+			formData.append( 'upload', this.file, this.fileName );
 			xhr.open( "POST", this.uploadUrl, true );
 			xhr.send( formData );
 		},
@@ -204,15 +204,13 @@
 		}
 	};
 
-	function srcToBlob( src ) {
+	function srcToFile( src ) {
 		var contentType = src.match( base64HeaderRegExp )[ 1 ],
 			base64Data = src.replace( base64HeaderRegExp, '' ),
 			byteCharacters = atob( base64Data ),
 			byteArrays = [],
 			sliceSize = 512,
 			offset, slice, byteNumbers, i, byteArray;
-
-		console.log( contentType );
 
 		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
 			slice = byteCharacters.slice( offset, offset + sliceSize );
@@ -227,7 +225,9 @@
 			byteArrays.push( byteArray );
 		}
 
-		return new Blob( byteArrays, { type: contentType } );
+		var file =  new Blob( byteArrays, { type: contentType } );
+		file.name = contentType.replace( '/', '.' );
+		return file;
 	}
 
 	function getUploadUrl( config, type ) {

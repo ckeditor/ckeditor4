@@ -989,7 +989,7 @@
 				},
 				// True if we can fully rely on data from dataTransfer, this means that
 				// if HTML is available via native paste it is also available via getData.
-				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome || CKEDITOR.env.gecko;
+				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome;
 
 			eventData.dataTransfer.cacheData();
 

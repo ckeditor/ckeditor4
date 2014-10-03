@@ -8,12 +8,13 @@
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
 		init: function( editor ) {
-			var filetools = CKEDITOR.filetools;
+			var filetools = CKEDITOR.filetools,
+				uploadUrl = filetools.getUploadUrl( editor.config, 'image' );
 
 			filetools.addUploadWidget( editor, 'uploadimage', {
 				supportedExtentions: 'jpg,jpeg,png',
 
-				uploadUrl: filetools.getUploadUrl( editor.config, 'image' ),
+				uploadUrl: uploadUrl,
 
 				fileToElement: function( file ) {
 					var img = new CKEDITOR.dom.element( 'img' );
@@ -57,7 +58,7 @@
 						var loader = uploads.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
-						CKEDITOR.plugins.uploadwidget.markElement( img, 'uploadwidget', loader.id );
+						filetools.markElement( img, 'uploadimage', loader.id );
 					}
 				}
 
