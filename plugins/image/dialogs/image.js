@@ -217,6 +217,8 @@
 
 					this.firstLoad = false;
 					this.dontResetSize = false;
+
+					updatePreview(this);
 				};
 
 			var onImgLoadErrorEvent = function() {
