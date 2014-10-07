@@ -1448,6 +1448,11 @@
 				dropRange.select();
 
 				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
+
+				// Usually we reset DataTranfer on dragend,
+				// but dragend is called on the same element as dragstart
+				// so it will not be called on on external drop.
+				clipboard.resetDragDataTransfer();
 			}
 
 			// Fire drag/drop events (dragstart, dragend, drop).
