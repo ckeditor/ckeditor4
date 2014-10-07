@@ -12,7 +12,12 @@
 
 			filetools.addUploadWidget( editor, 'filereader', {
 				onloaded: function( upload ) {
-					this.replaceWith( atob( upload.data.split( ',' )[ 1 ] ) );
+					var data = upload.data;
+					if ( data && data.indexOf( ',' ) >= 0 && data.indexOf( ',' ) < data.length - 1 ) {
+						this.replaceWith( atob( upload.data.split( ',' )[ 1 ] ) );
+					} else {
+						editor.widgets.del( this );
+					}
 				},
 			} );
 
