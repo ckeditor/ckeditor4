@@ -1656,10 +1656,12 @@
 				range.collapse( true );
 			}
 			// IEs 9+.
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 )
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8  && defaultRange ) {
 				// On IE 9+ range by default is where we expected it.
+				// defaultRange may be undefined if dragover was canceled (file drop).
 				return defaultRange;
-			// IE 8.
+			}
+			// IE 8 and all IEs if !defaultRange.
 			else if ( document.body.createTextRange ) {
 				$range = editor.document.getBody().$.createTextRange();
 				try {
