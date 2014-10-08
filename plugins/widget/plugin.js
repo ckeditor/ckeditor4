@@ -104,6 +104,11 @@
 		afterInit: function( editor ) {
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
+		},
+
+		init: function( editor ) {
+
+			console.log( editor.name, 'widget' );
 		}
 	} );
 

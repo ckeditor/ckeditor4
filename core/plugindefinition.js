@@ -15,6 +15,12 @@
  *
  * This class is not really part of the API, so its constructor should not be called.
  *
+ * See also:
+ *
+ * * [The Plugin SDK](#!/guide/plugin_sdk_intro)
+ * * [Creating a CKEditor plugin in 20 Lines of Code](#!/guide/plugin_sdk_sample)
+ * * [Creating a Simple Plugin Tutorial](#!/guide/plugin_sdk_sample_1)
+ *
  * @class CKEDITOR.pluginDefinition
  * @abstract
  */
@@ -24,10 +30,16 @@
  * does not determine the loading order of the plugins.
  *
  *		CKEDITOR.plugins.add( 'sample', {
+ *			requires: 'button,selection'
+ *		} );
+ *
+ * Or:
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
  *			requires: [ 'button', 'selection' ]
  *		} );
  *
- * @property {Array} requires
+ * @property {String/String[]} requires
  */
 
 /**
@@ -42,24 +54,54 @@
  * in the list is loaded.
  *
  *		CKEDITOR.plugins.add( 'sample', {
+ *			lang: 'en,fr'
+ *		} );
+ *
+ * Or:
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
  *			lang: [ 'en', 'fr' ]
  *		} );
  *
- * @property {Array} lang
+ * @property {String/String[]} lang
+ */
+
+/**
+ * A function called when plugin definition is loaded for the first time.
+ * It is usually used to execute some code once for the entire page,
+ * for instance, code that uses the {@link CKEDITOR}'s methods like the {@link CKEDITOR#addCss} method.
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
+ *			onLoad: function() {
+ *				CKEDITOR.addCss( '.cke_some_class { ... }' );
+ *			}
+ *		} );
+ *
+ * Read more about the initialization order in the {@link #init} method method documentation.
+ *
+ * @method onLoad
  */
 
 /**
  * A function called on initialization of every editor instance created in the
- * page before the {@link #init} call task. The `beforeInit` function will be called for
- * all plugins, after that the `init` function is called for all of them. This
- * feature makes it possible to initialize things that could be used in the
- * `init` function of other plugins.
+ * page before the {@link #init} call task. This feature makes it possible to
+ * initialize things that could be used in the `init` function of other plugins.
  *
- *		CKEDITOR.plugins.add( 'sample', {
+ *		CKEDITOR.plugins.add( 'sample1', {
  *			beforeInit: function( editor ) {
- *				alert( 'Editor "' + editor.name + '" is to be initialized!' );
+ *				editor.foo = 'bar';
  *			}
  *		} );
+ *
+ *		CKEDITOR.plugins.add( 'sample2', {
+ *			init: function( editor ) {
+ *				// This will work regardless of order in which
+ *				// plugins sample1 and sample2 where initialized.
+ *				console.log( editor.foo ); // 'bar'
+ *			}
+ *		} );
+ *
+ * Read more about the initialization order in the {@link #init} documentation.
  *
  * @method beforeInit
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
@@ -70,11 +112,50 @@
  *
  *		CKEDITOR.plugins.add( 'sample', {
  *			init: function( editor ) {
- *				alert( 'Editor "' + editor.name + '" is being initialized!' );
+ *				console.log( 'Editor "' + editor.name + '" is being initialized!' );
  *			}
  *		} );
  *
+ * Initialization order:
+ *
+ * 1. The {@link #beforeInit} methods of all enabled plugins are executed.
+ * 2. The {@link #init} methods of all enabled plugins are executed.
+ * 3. The {@link #afterInit} methods of all enabled plugins are executed.
+ * 4. The {@link CKEDITOR.editor#pluginsLoaded} event is fired.
+ *
+ * **Note:** The order in which the init methods are called does not depend on the plugins' {@link #requires requirements}
+ * or the order set in the {@link CKEDITOR.config#plugins} option. It may be random and therefore it is
+ * recommended to use the {@link #beforeInit} and {@link #afterInit} methods in order to assure
+ * the right execution sequence.
+ *
+ * See also the {@link #onLoad} method.
+ *
  * @method init
+ * @param {CKEDITOR.editor} editor The editor instance being initialized.
+ */
+
+/**
+ * A function called on initialization of every editor instance created in the
+ * page after the {@link #init} call task. This feature makes it possible to use things
+ * that were initialized in the `init` function of other plugins.
+ *
+ *		CKEDITOR.plugins.add( 'sample1', {
+ *			afterInit: function( editor ) {
+ *				// This will work regardless of order in which
+ *				// plugins sample1 and sample2 where initialized.
+ *				console.log( editor.foo ); // 'bar'
+ *			}
+ *		} );
+ *
+ *		CKEDITOR.plugins.add( 'sample2', {
+ *			init: function( editor ) {
+ *				editor.foo = 'bar';
+ *			}
+ *		} );
+ *
+ * Read more about the initialization order in the {@link #init} method documentation.
+ *
+ * @method afterInit
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
  */
 
