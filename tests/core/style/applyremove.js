@@ -591,6 +591,11 @@
 		}
 	};
 
+
+	//
+	// Block styles -----------------------------------------------------------
+	//
+
 	var t = createAssertionFunction2( tcs, 'test apply block style - paragraphs', { element: 'h1' } );
 
 	t.a( '<p>x</p><p>a^b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1' );
@@ -620,6 +625,10 @@
 	t.a( '<dl><dt>x[y</dt><dd>a]b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
 	t.a( '<dl><dt><p>[x</p></dt><dd><p>a]</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
 
+
+	//
+	// Non-editable content ---------------------------------------------------
+	//
 
 	t = createAssertionFunction2( tcs, 'test do not apply block styles to non-editable blocks', { element: 'h1' } );
 
@@ -719,6 +728,10 @@
 	removeInlineFromNonEditableBlocks( t );
 
 
+	//
+	// Nested editables -------------------------------------------------------
+	//
+
 	t = createAssertionFunction2( tcs, 'test apply block styles on nested editables', { element: 'h1' } );
 
 	t.a( '[<div @c=f><div @c=t>b</div></div>]', '<div @c=f><div @c=t><h1>b</h1></div></div>', 'tc1' );
@@ -795,6 +808,10 @@
 			'tc3' );
 	} )();
 
+
+	//
+	// Misc -------------------------------------------------------------------
+	//
 
 	t = createAssertionFunction2( tcs, 'test apply style with data- attribute', { element: 'span', attributes: { 'data-element': 'a', lang: 'en' } } );
 
