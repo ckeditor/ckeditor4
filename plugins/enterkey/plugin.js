@@ -4,22 +4,6 @@
  */
 
 ( function() {
-
-	function replaceRangeWithClosestEditableRoot( range ) {
-		var closestEditable = range.startContainer.getAscendant( function( node ) {
-			return node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'true';
-		}, true );
-
-		if ( range.root.equals( closestEditable ) ) {
-			return range;
-		} else {
-			var newRange = new CKEDITOR.dom.range( closestEditable );
-
-			newRange.moveToRange( range );
-			return newRange;
-		}
-	}
-
 	CKEDITOR.plugins.add( 'enterkey', {
 		init: function( editor ) {
 			editor.addCommand( 'enter', {
@@ -556,5 +540,20 @@
 
 		// Return the first range.
 		return ranges[ 0 ];
+	}
+
+	function replaceRangeWithClosestEditableRoot( range ) {
+		var closestEditable = range.startContainer.getAscendant( function( node ) {
+			return node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'true';
+		}, true );
+
+		if ( range.root.equals( closestEditable ) ) {
+			return range;
+		} else {
+			var newRange = new CKEDITOR.dom.range( closestEditable );
+
+			newRange.moveToRange( range );
+			return newRange;
+		}
 	}
 } )();
