@@ -67,7 +67,6 @@
 		},
 
 		init: function( editor ) {
-			console.log( editor.name, 'image2' );
 			// Adapts configuration from original image plugin. Should be removed
 			// when we'll rename image2 to image.
 			var config = editor.config,
