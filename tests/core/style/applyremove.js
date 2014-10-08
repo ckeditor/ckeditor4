@@ -8,6 +8,7 @@
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		fixHtml = bender.tools.fixHtml,
+		rangeTools = bender.tools.range,
 		doc = CKEDITOR.document,
 		playground;
 
@@ -30,7 +31,7 @@
 	}
 
 	function assertAppliedStyle2( container, definitionOrStyle, htmlWithRange, expectedOutput, msg ) {
-		var range = bender.tools.setHtmlWithRange( container, expandShortcuts( htmlWithRange ), container )[ 0 ];
+		var range = rangeTools.setWithHtml( container, expandShortcuts( htmlWithRange ) );
 
 		getStyle( definitionOrStyle ).applyToRange( range );
 
@@ -38,7 +39,7 @@
 	}
 
 	function assertRemovedStyle2( container, definitionOrStyle, htmlWithRange, expectedOutput, msg ) {
-		var range = bender.tools.setHtmlWithRange( container, expandShortcuts( htmlWithRange ), container )[ 0 ];
+		var range = rangeTools.setWithHtml( container, expandShortcuts( htmlWithRange ) );
 
 		getStyle( definitionOrStyle ).removeFromRange( range );
 
@@ -592,7 +593,7 @@
 			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
-			assertAppliedStyle2( playground, { element: 'h1' }, '<p>^<br></p>', '<h1><br></h1>' );
+			assertAppliedStyle2( playground, { element: 'h1' }, '<p>[]<br></p>', '<h1><br></h1>' );
 		}
 	};
 
@@ -603,32 +604,36 @@
 
 	var t = createAssertionFunction2( tcs, 'test apply block style - paragraphs', { element: 'h1' } );
 
-	t.a( '<p>x</p><p>a^b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1' );
-	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2' );
-	t.a( '<p>x</p><p>a[b</p><p>c]d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3' );
-	t.a( '<p><b>a^b</b>c</p>', '<h1><b>ab</b>c</h1>', 'tc4' );
+	t.a( '<p>x</p><p>a{}b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1a' );
+	t.a( '<p>x</p><p>a[]b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1b' );
+	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2a' );
+	t.a( '<p>x</p><p>{ab}</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2b' );
+	t.a( '<p>x</p><p>a{b</p><p>c}d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3a' );
+	t.a( '<p>x</p><p>a[b</p><p>c]d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3b' );
+	t.a( '<p><b>a{}b</b>c</p>', '<h1><b>ab</b>c</h1>', 'tc4' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block style', { element: 'h1' } );
 
-	t.r( '<h1>x</h1><h1>a^b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1' );
-	t.r( '<h1>x</h1><h1>a[b</h1><h1>c]d</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><p>cd</p><h1>x</h1>', 'tc2' );
-	t.r( '<h1><b>a^b</b>c</h1>', '<p><b>ab</b>c</p>', 'tc3' );
+	t.r( '<h1>x</h1><h1>a{}b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1a' );
+	t.r( '<h1>x</h1><h1>a[]b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1b' );
+	t.r( '<h1>x</h1><h1>a{b</h1><h1>c}d</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><p>cd</p><h1>x</h1>', 'tc2' );
+	t.r( '<h1><b>a{}b</b>c</h1>', '<p><b>ab</b>c</p>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply block style - bulleted lists', { element: 'h1' } );
 
-	t.a( '<ul><li>x</li><li>a^b</li><li>x</li></ul>', '<ul><li>x</li><li><h1>ab</h1></li><li>x</li></ul>', 'tc1' );
-	t.a( '<ul><li>x[y</li><li>a]b</li><li>x</li></ul>', '<ul><li><h1>xy</h1></li><li><h1>ab</h1></li><li>x</li></ul>', 'tc2' );
-	t.a( '<ul><li><p>[x</p></li><li><p>a]</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
+	t.a( '<ul><li>x</li><li>a{}b</li><li>x</li></ul>', '<ul><li>x</li><li><h1>ab</h1></li><li>x</li></ul>', 'tc1' );
+	t.a( '<ul><li>x{y</li><li>a}b</li><li>x</li></ul>', '<ul><li><h1>xy</h1></li><li><h1>ab</h1></li><li>x</li></ul>', 'tc2' );
+	t.a( '<ul><li><p>{x</p></li><li><p>a}</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
 
 
 	// #12273
 	t = createAssertionFunction2( tcs, 'test apply block style - description lists', { element: 'h1' } );
 
-	t.a( '<dl><dt>x</dt><dd>a^b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );
-	t.a( '<dl><dt>x[y</dt><dd>a]b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
-	t.a( '<dl><dt><p>[x</p></dt><dd><p>a]</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
+	t.a( '<dl><dt>x</dt><dd>a{}b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );
+	t.a( '<dl><dt>x{y</dt><dd>a}b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
+	t.a( '<dl><dt><p>{x</p></dt><dd><p>a}</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
 
 
 	//
@@ -637,7 +642,7 @@
 
 	t = createAssertionFunction2( tcs, 'test do not apply block styles to non-editable blocks', { element: 'h1' } );
 
-	t.a( '<p>[x</p><p @c=f>a</p><div @c=f>b</div><p>x]</p>', '<h1>x</h1><p @c=f>a</p><div @c=f>b</div><h1>x</h1>', 'tc1' );
+	t.a( '<p>{x</p><p @c=f>a</p><div @c=f>b</div><p>x}</p>', '<h1>x</h1><p @c=f>a</p><div @c=f>b</div><h1>x</h1>', 'tc1' );
 	t.a( '[<p @c=f>a</p>]', '<p @c=f>a</p>', 'tc2' );
 	t.a( '[<div @c=f><p>a</p></div>]', '<div @c=f><p>a</p></div>', 'tc3' );
 	t.a( '[<div @c=f><p>a</p>b</div>]', '<div @c=f><p>a</p>b</div>', 'tc4' );
@@ -645,14 +650,14 @@
 
 	t = createAssertionFunction2( tcs, 'test do not remove block styles from non-editable blocks', { element: 'h1' } );
 
-	t.r( '<h1>[x</h1><h1 @c=f>a</h1><h1>x]</h1>', '<p>x</p><h1 @c=f>a</h1><p>x</p>', 'tc1' );
+	t.r( '<h1>{x</h1><h1 @c=f>a</h1><h1>x}</h1>', '<p>x</p><h1 @c=f>a</h1><p>x</p>', 'tc1' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply block styles to blocks with non-editable inline elements', { element: 'h1' } );
 
 	t.a( '<p>[x<i @c=f>a</i>x]</p>', '<h1>x<i @c=f>a</i>x</h1>', 'tc1' );
 	t.a( '<p>[x</p><p><i @c=f>a</i></p><p>x]</p>', '<h1>x</h1><h1><i @c=f>a</i></h1><h1>x</h1>', 'tc2' );
-	t.a( '<p>x<i @c=f>a</i>x^y</p>', '<h1>x<i @c=f>a</i>xy</h1>', 'tc3' );
+	t.a( '<p>x<i @c=f>a</i>x{}y</p>', '<h1>x<i @c=f>a</i>xy</h1>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block styles from blocks with non-editable inline elements', { element: 'h1' } );
@@ -744,7 +749,7 @@
 	t.a( '[<div @c=f><div>x<div><div @c=t>b</div></div></div></div>]', '<div @c=f><div>x<div><div @c=t><h1>b</h1></div></div></div></div>', 'tc3' );
 	t.a( '[<div @c=f><div @c=t>b</div>x<div @c=t>c</div></div>]', '<div @c=f><div @c=t><h1>b</h1></div>x<div @c=t><h1>c</h1></div></div>', 'tc4' );
 	t.a( '[<div @c=f><p @c=t>b</p></div>]', '<div @c=f><p @c=t>b</p></div>', 'tc5' );
-	t.a( '<div @c=f><div @c=t><p>a^b</p></div></div>', '<div @c=f><div @c=t><h1>ab</h1></div></div>', 'tc6' );
+	t.a( '<div @c=f><div @c=t><p>a{}b</p></div></div>', '<div @c=f><div @c=t><h1>ab</h1></div></div>', 'tc6' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block styles from nested editables', { element: 'h1' } );
@@ -754,7 +759,7 @@
 	t.r( '[<div @c=f><div>x<div><div @c=t><h1>b</h1></div></div></div></div>]', '<div @c=f><div>x<div><div @c=t><p>b</p></div></div></div></div>', 'tc3' );
 	t.r( '[<div @c=f><div @c=t><h1>b</h1></div>x<div @c=t><h1>c</h1></div></div>]', '<div @c=f><div @c=t><p>b</p></div>x<div @c=t><p>c</p></div></div>', 'tc4' );
 	t.r( '[<div @c=f><h1 @c=t>b</h1></div>]', '<div @c=f><h1 @c=t>b</h1></div>', 'tc5' );
-	t.r( '<div @c=f><div @c=t><h1>a^b</h1></div></div>', '<div @c=f><div @c=t><p>ab</p></div></div>', 'tc6' );
+	t.r( '<div @c=f><div @c=t><h1>a{}b</h1></div></div>', '<div @c=f><div @c=t><p>ab</p></div></div>', 'tc6' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply inline styles on nested editables', { element: 'b' } );
@@ -820,15 +825,15 @@
 
 	t = createAssertionFunction2( tcs, 'test apply style with data- attribute', { element: 'span', attributes: { 'data-element': 'a', lang: 'en' } } );
 
-	t.a( '<p>[x<span data-element="b" lang="en">foo</span>y]</p>', '<p><span data-element="a" lang="en">x<span data-element="b">foo</span>y</span></p>', 'tc1' );
-	t.a( '<p>[x<span data-element="a" lang="en">foo</span>y]</p>', '<p><span data-element="a" lang="en">x<span data-element="a">foo</span>y</span></p>', 'tc2' );
-	t.a( '<p>x<span data-element="a" lang="en">f[o]o</span>y</p>', '<p>x<span data-element="a" lang="en">f<span data-element="a" lang="en">o</span>o</span>y</p>', 'tc3' );
+	t.a( '<p>{x<span data-element="b" lang="en">foo</span>y}</p>', '<p><span data-element="a" lang="en">x<span data-element="b">foo</span>y</span></p>', 'tc1' );
+	t.a( '<p>{x<span data-element="a" lang="en">foo</span>y}</p>', '<p><span data-element="a" lang="en">x<span data-element="a">foo</span>y</span></p>', 'tc2' );
+	t.a( '<p>x<span data-element="a" lang="en">f{o}o</span>y</p>', '<p>x<span data-element="a" lang="en">f<span data-element="a" lang="en">o</span>o</span>y</p>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove style with data- attribute', { element: 'span', attributes: { 'data-element': 'a' } } );
 
-	t.r( '<p>[x<span data-element="a">x<span data-element="a">x</span>x</span>x]</p>', '<p>xxxxx</p>', 'tc1' );
-	t.r( '<p>[x<span data-element="a">x<span data-element="a" foo="1">x</span>x</span>x]</p>', '<p>xx<span foo="1">x</span>xx</p>', 'tc2' );
+	t.r( '<p>{x<span data-element="a">x<span data-element="a">x</span>x</span>x}</p>', '<p>xxxxx</p>', 'tc1' );
+	t.r( '<p>{x<span data-element="a">x<span data-element="a" foo="1">x</span>x</span>x}</p>', '<p>xx<span foo="1">x</span>xx</p>', 'tc2' );
 
 
 	bender.test( tcs );
