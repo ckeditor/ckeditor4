@@ -132,7 +132,7 @@
 			range.setStart( playground.getChild( 1 ), 0 );
 			range.setEnd( playground, 2 );
 
-			assertAppliedStyle( playground, range, { element : 'i' }, 'this <i><b>is some </b></i>sample text' );
+			assertAppliedStyle( playground, range, { element: 'i' }, 'this <i><b>is some </b></i>sample text' );
 		},
 
 		test_inline3: function() {
@@ -264,7 +264,7 @@
 			range.setEnd( playground, 5 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'span', attributes : { 'class' : 'b' } },
+				{ element: 'span', attributes: { 'class': 'b' } },
 				'<span class="b">this <span class="a">is</span> some sample text</span>' );
 		},
 
@@ -276,7 +276,7 @@
 			range.setEnd( playground, 5 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'span', styles : { 'font-size' : '1.5em' } },
+				{ element: 'span', styles: { 'font-size': '1.5em' } },
 				'<span style="font-size:1.5em;">this <span style="font-weight:600;">is</span> some sample text</span>' );
 		},
 
@@ -287,7 +287,7 @@
 			range.setStart( playground.getChild( 1 ).getFirst(), 3 );
 			range.setEnd( playground, 3 );
 
-			assertAppliedStyle( playground, range, { element : 'i' }, 'this <b>is <i>some sample</i></b><i> text</i>' );
+			assertAppliedStyle( playground, range, { element: 'i' }, 'this <b>is <i>some sample</i></b><i> text</i>' );
 		},
 
 		test_inline15: function() {
@@ -299,7 +299,7 @@
 			range.setStart( para.getFirst(), 0 );
 			range.setEnd( para.getFirst(), 7 );
 
-			var style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Arial,Helvetica,sans-serif' } );
+			var style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Arial,Helvetica,sans-serif' } );
 			style.applyToRange( range );
 
 			assert.areSame( fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this is</span> some sample text' ),
@@ -311,11 +311,14 @@
 			range.setStart( para.getFirst().getFirst(), 5 );
 			range.setEnd( para.getChild( 1 ), 5 );
 
-			style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Georgia,serif' } );
+			style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Georgia,serif' } );
 			style.applyToRange( range );
 
-			assert.areSame( fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this <span style="font-family:georgia,serif;">is</span></span><span style="font-family:georgia,serif;"> some</span> sample text' ),
-					fixHtml( getInnerHtml( playground ) ), 'Second range' );
+			assert.areSame(
+				fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this <span style="font-family:georgia,serif;">' +
+					'is</span></span><span style="font-family:georgia,serif;"> some</span> sample text' ),
+				fixHtml( getInnerHtml( playground ) ), 'Second range'
+			);
 		},
 
 		test_inline16: function() {
@@ -328,7 +331,7 @@
 			range.setEnd( para.getFirst(), 10 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'b', styles : { color : 'red', 'font-weight' : '700' } },
+				{ element: 'b', styles: { color: 'red', 'font-weight': '700' } },
 				'<b lang="pt" style="color:red;font-size:11pt;">this<b style="font-weight:700;"> is some sample text</b></b>' );
 		},
 
@@ -339,7 +342,7 @@
 			range.setStart( playground, 0 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 4 );
 
-			assertAppliedStyle( playground, range, { element : 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
+			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
 		},
 
 		test_def_styles_attr: function() {
@@ -349,8 +352,8 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
 
-			var style1 = new CKEDITOR.style( { element : 'span', attributes : { style : 'font-weight:bold' } } ),
-			style2 = new CKEDITOR.style( { element : 'span', attributes : { style : 'font-style:italic' } } );
+			var style1 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-weight:bold' } } ),
+			style2 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-style:italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -365,8 +368,8 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
 
-			var style1 = new CKEDITOR.style( { element : 'span', styles : { 'font-weight' : 'bold' } } ),
-			style2 = new CKEDITOR.style( { element : 'span', styles : { 'font-style' : 'italic' } } );
+			var style1 = new CKEDITOR.style( { element: 'span', styles: { 'font-weight': 'bold' } } ),
+			style2 = new CKEDITOR.style( { element: 'span', styles: { 'font-style': 'italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -375,11 +378,11 @@
 		},
 
 		'test "ins" style applied to the block contents': function() {
-			assertAppliedStyle2( playground, { element : 'ins' }, '[<p>inserted text</p>]', '<p><ins>inserted text</ins></p>' );
+			assertAppliedStyle2( playground, { element: 'ins' }, '[<p>inserted text</p>]', '<p><ins>inserted text</ins></p>' );
 		},
 
 		'test "del" style applied to the outer of "ins" on block contents': function() {
-			assertAppliedStyle2( playground, { element : 'del' }, '[<p><ins>deleted text</ins></p>]', '<p><del><ins>deleted text</ins></del></p>' );
+			assertAppliedStyle2( playground, { element: 'del' }, '[<p><ins>deleted text</ins></p>]', '<p><del><ins>deleted text</ins></del></p>' );
 		},
 
 		'test apply anchor style': function() {
@@ -404,7 +407,7 @@
 			range.setStart( playground, 1 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 6 );
 
-			assertAppliedStyle( playground, range, { element : 'i' },
+			assertAppliedStyle( playground, range, { element: 'i' },
 				'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">ckeditor<\/a>.' );
 		},
 
@@ -417,21 +420,22 @@
 
 			var styleDef =
 			{
-				element		: 'span',
-				styles		: { 'font-family' : '#(family)' },
-				overrides	: [ { element : 'font', attributes : { 'face' : null } } ]
+				element: 'span',
+				styles: { 'font-family': '#(family)' },
+				overrides: [ { element: 'font', attributes: { 'face': null } } ]
 			};
 
-			var style = new CKEDITOR.style( styleDef, { 'family' : 'Arial,Helvetica,sans-serif' } );
+			var style = new CKEDITOR.style( styleDef, { 'family': 'Arial,Helvetica,sans-serif' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family' : 'Comic Sans MS,cursive' } );
+			style = new CKEDITOR.style( styleDef, { 'family': 'Comic Sans MS,cursive' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family' : 'Courier New,Courier,monospace' } );
+			style = new CKEDITOR.style( styleDef, { 'family': 'Courier New,Courier,monospace' } );
 			style.applyToRange( range );
 
-			var output = '<span style="font-family:courier new,courier,monospace;">outter</span><table><tbody><tr><td><span style="font-family:courier new,courier,monospace;">text</span></td></tr></tbody></table><span style="font-family:courier new,courier,monospace;">outter</span>';
+			var output = '<span style="font-family:courier new,courier,monospace;">outter</span><table><tbody><tr><td>' +
+				'<span style="font-family:courier new,courier,monospace;">text</span></td></tr></tbody></table><span style="font-family:courier new,courier,monospace;">outter</span>';
 
 			assert.areSame( fixHtml( output ), fixHtml( getInnerHtml( element ) ) );
 		},
@@ -444,7 +448,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( element );
 
-			assertAppliedStyle( playground, range, { element : 'i', attributes : { title : 'z' } },
+			assertAppliedStyle( playground, range, { element: 'i', attributes: { title: 'z' } },
 				'<p><i title="z">text</i></p><i title="z">outter</i>' );
 		},
 
@@ -458,7 +462,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_i1' ), CKEDITOR.POSITION_BEFORE_END );
 
-			var style = new CKEDITOR.style( { element : 'b' } );
+			var style = new CKEDITOR.style( { element: 'b' } );
 			style.removeFromRange( range );
 
 			assert.areSame( 'this is some <b><i id="_i1">styles</i></b><i></i> text', getInnerHtml( element ) );
@@ -473,7 +477,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_b1' ), CKEDITOR.POSITION_BEFORE_END );
 
-			var style = new CKEDITOR.style( { element : 'b' } );
+			var style = new CKEDITOR.style( { element: 'b' } );
 			style.removeFromRange( range );
 			// This is some <b>styles</b>^ text
 			assert.areSame( doc.getById( '_b1' ).getParent().$, range.startContainer.$ );
@@ -490,7 +494,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_i1' ), CKEDITOR.POSITION_AFTER_START );
 
-			var style = new CKEDITOR.style( { element : 'b' , overrides : [ 'strong' ] } );
+			var style = new CKEDITOR.style( { element: 'b' , overrides: [ 'strong' ] } );
 			style.removeFromRange( range );
 
 			// text <span><i>^</i></span><span><b><i>styles</i></b></span>
@@ -506,11 +510,12 @@
 
 			var style = new CKEDITOR.style(
 				{
-					element		: 'span',
-					attributes	: { 'class' : '#(family)' },
-					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
-				}
-				, { family : 'fontcourier' } );
+					element: 'span',
+					attributes: { 'class': '#(family)' },
+					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+				},
+				{ family: 'fontcourier' }
+			);
 
 			style.applyToRange( range );
 
@@ -518,13 +523,14 @@
 
 			range.selectNodeContents( element );
 
-			var style = new CKEDITOR.style(
+			style = new CKEDITOR.style(
 				{
-					element		: 'span',
-					attributes	: { 'class' : '#(family)' },
-					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
-				}
-				, { family : 'fontcomic' } );
+					element: 'span',
+					attributes: { 'class': '#(family)' },
+					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+				},
+				{ family: 'fontcomic' }
+			);
 
 			style.applyToRange( range );
 
@@ -535,7 +541,7 @@
 		'test remove heading style': function() {
 			function doTest( enterMode, expected ) {
 				var range = bender.tools.setHtmlWithRange( playground, '<h1>h[eadi]ng</h1>' )[ 0 ];
-				var style = new CKEDITOR.style( { element : 'h1' } );
+				var style = new CKEDITOR.style( { element: 'h1' } );
 				style._.enterMode = enterMode;
 				style.removeFromRange( range );
 				assert.areSame( expected, getInnerHtml( playground ) );
@@ -552,11 +558,10 @@
 			var range = bender.tools.setHtmlWithRange( ct, '[some text and <a href="javascript:void(0)">a link</a>]' )[ 0 ];
 			var style = new CKEDITOR.style(
 			{
-				element : 'span',
-				styles : { 'color' : 'red' },
+				element: 'span',
+				styles: { color: 'red' },
 				childRule: function( element ) {
-					return element.getName() != 'a' ||
-						   element.getElementsByTag( 'a' ).count();
+					return element.getName() != 'a' || element.getElementsByTag( 'a' ).count();
 				}
 			} );
 
@@ -573,8 +578,8 @@
 			var ct = playground;
 			var range = bender.tools.setHtmlWithRange( ct, 'abc [<b class="a">def</b>] ghi' )[ 0 ];
 
-			var style1 = new CKEDITOR.style( { element : 'b', type : CKEDITOR.STYLE_INLINE } ),
-				style2 = new CKEDITOR.style( { element : 'b', type : CKEDITOR.STYLE_INLINE, alwaysRemoveElement : 1 } );
+			var style1 = new CKEDITOR.style( { element: 'b', type: CKEDITOR.STYLE_INLINE } ),
+				style2 = new CKEDITOR.style( { element: 'b', type: CKEDITOR.STYLE_INLINE, alwaysRemoveElement: 1 } );
 
 			style1.removeFromRange( range );
 			assert.areSame( 'abc <b class="a">def</b> ghi', getInnerHtml( playground ) );
@@ -773,10 +778,10 @@
 	}
 
 	t = createAssertionFunction2( tcs, 'test remove inline styles from nested editables', { element: 'b' } );
-	removeInlineFromNonEditableBlocks( t );
+	removeInlineFromNestedEditables( t );
 
 	t = createAssertionFunction2( tcs, 'test remove inline styles from nested editables - includeReadonly', { element: 'b', includeReadonly: true } );
-	removeInlineFromNonEditableBlocks( t );
+	removeInlineFromNestedEditables( t );
 
 
 	( function() {
