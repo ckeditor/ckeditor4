@@ -10,7 +10,7 @@
 
 if ( !CKEDITOR.event ) {
 	/**
-	 * Creates an event class instance. This constructor is rearely used, being
+	 * Creates an event class instance. This constructor is rarely used, being
 	 * the {@link #implementOn} function used in class prototypes directly
 	 * instead.
 	 *
