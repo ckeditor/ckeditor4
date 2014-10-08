@@ -116,101 +116,6 @@
 			assert.areSame( '<p>[foo]</p>', output, 'test style remove from document' );
 		},
 
-		test_inline1: function() {
-			playground.setHtml( 'this is some sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getFirst(), 5 );
-			range.setEnd( playground.getFirst(), 7 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is</b> some sample text' );
-		},
-
-		test_inline2: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getChild( 1 ), 0 );
-			range.setEnd( playground, 2 );
-
-			assertAppliedStyle( playground, range, { element: 'i' }, 'this <i><b>is some </b></i>sample text' );
-		},
-
-		test_inline3: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getChild( 1 ), 0 );
-			range.setEnd( playground.getChild( 1 ).getFirst(), 2 );
-
-			assertAppliedStyle( playground, range, { element: 'i' }, 'this <b><i>is</i> some </b>sample text' );
-		},
-
-		// Inline - Remove inner duplicates.
-		test_inline4: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 3 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is some sample text</b>' );
-		},
-
-		// Inline - Merge with next.
-		test_inline5: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 1 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is some </b>sample text' );
-		},
-
-		// Inline - Merge with previous.
-		test_inline6: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 2 );
-			range.setEnd( playground.getChild( 2 ), 6 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is some sample</b> text' );
-		},
-
-		// Inline - Merge several with next.
-		test_inline7: function() {
-			playground.setHtml( '<i><u>this </u></i><b><i><u>is</u> some</i> sample</b> text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 1 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b><i><u>this is</u> some</i> sample</b> text' );
-		},
-
-		// Inline - Merge several with previous.
-		test_inline8: function() {
-			playground.setHtml( 'this <b>is <i>some <u>sample</u></i></b><i><u> text</u></i>' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 2 );
-			range.setEnd( playground, 3 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is <i>some <u>sample text</u></i></b>' );
-		},
-
-		test_inline9: function() {
-			playground.setHtml( 'this <i>is some </i>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground.getChild( 1 ), 0 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this </b><i>is some </i>sample text' );
-		},
-
 		test_inline10: function() {
 			playground.setHtml( 'this is some sample text' );
 
@@ -635,6 +540,45 @@
 	t.a( '<dl><dt>x{y</dt><dd>a}b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
 	t.a( '<dl><dt><p>{x</p></dt><dd><p>a}</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
 
+
+	//
+	// Inline styles ----------------------------------------------------------
+	//
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - single element', { element: 'b' } );
+
+	t.a( '<p>x</p><p>a{}b</p><p>x</p>', '<p>x</p><p>a<b></b>b</p><p>x</p>', 'tc1a' );
+	t.a( '<p>x</p><p>a[]b</p><p>x</p>', '<p>x</p><p>a<b></b>b</p><p>x</p>', 'tc1b' );
+	t.a( '<p>x</p><p>{ab}</p><p>x</p>', '<p>x</p><p><b>ab</b></p><p>x</p>', 'tc2a' );
+	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><p><b>ab</b></p><p>x</p>', 'tc2b' );
+	t.a( '<p>{x</p><p>a}b</p><p>x</p>', '<p><b>x</b></p><p><b>a</b>b</p><p>x</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - over an inline element', { element: 'i' } );
+
+	t.a( '<p>this <b>[is some </b>]sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc1' );
+	t.a( '<p>this <b>{is some }</b>sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc2' );
+	t.a( '<p>this [<b>is some </b>}sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc3' );
+	t.a( '<p>this {<b>is some </b>sample} text</p>', '<p>this <i><b>is some </b>sample</i> text</p>', 'tc4' );
+	t.a( '<p>this <b>{is} some </b>sample text</p>', '<p>this <b><i>is</i> some </b>sample text</p>', 'tc5' );
+	t.a( '<p>{this <b>}is some </b>sample text</p>', '<p><i>this </i><b>is some </b>sample text</p>', 'tc6' );
+	t.a( '<p>{this <b>]is some </b>sample text</p>', '<p><i>this </i><b>is some </b>sample text</p>', 'tc7' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - remove identical duplicates', { element: 'b' } );
+
+	t.a( '<p>{this <b>is some </b>sample text}</p>', '<p><b>this is some sample text</b></p>', 'tc1' );
+	t.a( '<p>this <b>{is some </b>sample} text</p>', '<p>this <b>is some sample</b> text</p>', 'tc2' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - merge', { element: 'b' } );
+
+	t.a( '<p>{this }<b>is some </b>sample text</p>', '<p><b>this is some </b>sample text</p>', 'tc1' );
+	t.a( '<p>this <b>is some </b>{sample} text</p>', '<p>this <b>is some sample</b> text</p>', 'tc2' );
+	t.a( '<p>[<i><u>this </u></i>]<b><i><u>is</u> some</i> sample</b> text</p>', '<p><b><i><u>this is</u> some</i> sample</b> text</p>', 'tc3a' );
+	t.a( '<p><i><u>{this }</u></i><b><i><u>is</u> some</i> sample</b> text</p>', '<p><b><i><u>this is</u> some</i> sample</b> text</p>', 'tc3b' );
+	t.a( '<p>this <b>is <i>some <u>sample</u></i></b>[<i><u> text</u></i>]</p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4a' );
+	t.a( '<p>this <b>is <i>some <u>sample</u></i></b><i><u>{ text}</u></i></p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4b' );
 
 	//
 	// Non-editable content ---------------------------------------------------
