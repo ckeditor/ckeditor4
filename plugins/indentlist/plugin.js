@@ -46,7 +46,7 @@
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && firstItemInPath.call( this, editor.elementPath(), list ) )
+							if ( this.isIndent && CKEDITOR.plugins.indentlist.firstItemInPath( this.context, editor.elementPath(), list ) )
 								return;
 
 							// Exec related global indentation command. Global
@@ -80,7 +80,7 @@
 					refresh: this.isIndent ?
 							function( editor, path ) {
 								var list = this.getContext( path ),
-									inFirstListItem = firstItemInPath.call( this, path, list );
+									inFirstListItem = CKEDITOR.plugins.indentlist.firstItemInPath( this.context, path, list );
 
 								if ( !list || !this.isIndent || inFirstListItem )
 									return TRISTATE_DISABLED;
@@ -277,16 +277,6 @@
 		return 0;
 	}
 
-	// Check whether a first child of a list is in the path.
-	// The list can be extracted from path or given explicitly
-	// e.g. for better performance if cached.
-	function firstItemInPath( path, list ) {
-		if ( !list )
-			list = path.contains( this.context );
-
-		return list && path.block && path.block.equals( list.getFirst( listItem ) );
-	}
-
 	// Determines whether a node is a list <li> element.
 	function listItem( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.is( 'li' );
@@ -295,4 +285,26 @@
 	function neitherWhitespacesNorBookmark( node ) {
 		return isNotWhitespaces( node ) && isNotBookmark( node );
 	}
+
+	CKEDITOR.plugins.indentlist = {};
+
+	/**
+	 * Check whether a first child of a list is in the path.
+	 * The list can be extracted from path or given explicitly
+	 * e.g. for better performance if cached.
+	 *
+	 * @param {Object} query
+	 * @param {CKEDITOR.dom.elementPath} path
+	 * @param {CKEDITOR.dom.element} list
+	 * @returns {Boolean}
+	 * @static
+	 * @since 4.4.6
+	 * @member {CKEDITOR.plugins.indentlist}
+	 */
+	CKEDITOR.plugins.indentlist.firstItemInPath = function( query, path, list ) {
+		if ( !list )
+			list = path.contains( query );
+
+		return list && path.contains( listItem ).equals( list.getFirst( listItem ) );
+	};
 } )();
