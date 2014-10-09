@@ -74,6 +74,12 @@ addTests( 'test outdent nest list keeps styles on list root', 'outdent', [
 	  '<p>foo</p><ul style="font-size:24px;"><li>bar</li></ul>' ]
 ] );
 
+// #12141
+addTests( 'test indent not remove second list item when items are wrapped in paragraph', 'indent', [
+	[ '<ul><li><p>f^oo</p></li><li><p>bar</p></li></ul>',
+	  '<ul style="margin-left:40px;"><li><p>foo</p></li><li><p>bar</p></li></ul>' ]
+] );
+
 // ### Finished adding tests.
 
 function addTests( title, command, testsToAdd ) {
