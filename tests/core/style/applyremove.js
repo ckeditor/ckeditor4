@@ -580,6 +580,124 @@
 	t.a( '<p>this <b>is <i>some <u>sample</u></i></b>[<i><u> text</u></i>]</p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4a' );
 	t.a( '<p>this <b>is <i>some <u>sample</u></i></b><i><u>{ text}</u></i></p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4b' );
 
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override single element style', { element: 'b', overrides: 'i' } );
+
+	t.a( '<p>{this <i>is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1' );
+	// This is a theoretical case, because style will be active in this selection, so
+	// the UI should only make it possible to remove it.
+	t.a( '<p>this <i>is {some} sample</i> text</p>', '<p>this <i>is <b>some</b> sample</i> text</p>', 'tc2' );
+	// Does not seem to be the right result. We keep this TC as a backwards compat test.
+	t.a( '<p>this <i>is {some </i>sample} text</p>', '<p>this <i>is <b>some </b></i><b>sample</b> text</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override single element style', { element: 'b', overrides: 'i' } );
+
+	t.r( '<p>{this <i>is some </i>sample} text</p>', '<p>this is some sample text</p>', 'tc1' );
+	t.r( '<p>this <i>is {some} sample</i> text</p>', '<p>this <i>is </i>some<i> sample</i> text</p>', 'tc2' );
+	t.r( '<p>{this <i>is} some </i>sample text</p>', '<p>this is<i> some </i>sample text</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply/remove inline style - override multiple single element style',
+		{ element: 'b', overrides: [ 'i', 'u' ] } );
+
+	t.a( '<p>{this <i>is some </i><u>sample</u> text}</p>', '<p><b>this is some sample text</b></p>', 'tc1' );
+	t.r( '<p><b>this {is</b><i> some </i><u>sample }text</u></p>', '<p><b>this </b>is some sample <u>text</u></p>', 'tc2' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override style with attrs/styles',
+		{
+			element: 'b',
+			overrides: [
+				{ element: 'i', attributes: { foo: '1' } },
+				{ element: 'u', styles: { 'font-size': '12px' } },
+				{ element: 's', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	// If this TC looks broken to you, then read all the TCs below.
+	// Although... when compared to how removing style works (next section), then applying style is
+	// obviously incorrect.
+	t.a( '<p>{this <i>is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.1' );
+	t.a( '<p>{this <i foo="1">is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.2' );
+	t.a( '<p>{this <i foo="2">is some </i>sample} text</p>', '<p><b>this <i foo="2">is some </i>sample</b> text</p>', 'tc1.3' );
+	t.a( '<p>{this <i foo="1" bar="1">is some </i>sample} text</p>', '<p><b>this <i bar="1">is some </i>sample</b> text</p>', 'tc1.4' );
+
+	t.a( '<p>{this <u>is some </u>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc2.1' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.a( '<p>{this <u style="font-size:12px;">is some </u>sample} text</p>',
+		'<p><b>this <u style="font-size:12px;">is some </u>sample</b> text</p>', 'tc2.2' );
+
+	t.a( '<p>{this <s>is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.1' );
+	t.a( '<p>{this <s foo="1">is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.2' );
+	t.a( '<p>{this <s foo="1" bar="2">is some </s>sample} text</p>', '<p><b>this <s bar="2">is some </s>sample</b> text</p>', 'tc3.3' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.a( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
+		'<p><b>this <s style="font-size:12px;">is some </s>sample</b> text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override style with attrs/styles - collisions',
+		{
+			element: 'b',
+			attributes: { foo: '2' },
+			styles: { 'font-size': '20px' },
+			overrides: [
+				{ element: 'b', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.2' );
+	t.a( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.3' );
+	t.a( '<p>{this <b foo="1" bar="1">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this <b bar="1">is some </b>sample</b> text</p>', 'tc1.4' );
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc2.1' );
+	t.a( '<p>{this <b style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc2.2' );
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.2' );
+	t.a( '<p>{this <b foo="1" bar="2">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this <b bar="2">is some </b>sample</b> text</p>', 'tc3.3' );
+	t.a( '<p>{this <b style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override style with attrs/styles',
+		{
+			element: 'b',
+			overrides: [
+				{ element: 'i', attributes: { foo: '1' } },
+				{ element: 'u', styles: { 'font-size': '12px' } },
+				{ element: 's', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	// Compare with tc2.1...
+	t.r( '<p>{this <i>is some </i>sample} text</p>', '<p>this <i>is some </i>sample text</p>', 'tc1.1' );
+	t.r( '<p>{this <i foo="1">is some </i>sample} text</p>', '<p>this is some sample text</p>', 'tc1.2' );
+	t.r( '<p>{this <i foo="2">is some </i>sample} text</p>', '<p>this <i foo="2">is some </i>sample text</p>', 'tc1.3' );
+	t.r( '<p>{this <i foo="1" bar="1">is some </i>sample} text</p>', '<p>this <i bar="1">is some </i>sample text</p>', 'tc1.4' );
+
+	// Compare with tc1.1 and tc3.1...
+	t.r( '<p>{this <u>is some </u>sample} text</p>', '<p>this is some sample text</p>', 'tc2.1' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.r( '<p>{this <u style="font-size:12px;">is some </u>sample} text</p>',
+		'<p>this <u style="font-size:12px;">is some </u>sample text</p>', 'tc2.2' );
+
+	// Compare with tc2.1...
+	t.r( '<p>{this <s>is some </s>sample} text</p>', '<p>this <s>is some </s>sample text</p>', 'tc3.1' );
+	t.r( '<p>{this <s foo="1">is some </s>sample} text</p>', '<p>this is some sample text</p>', 'tc3.2' );
+	t.r( '<p>{this <s foo="1" bar="2">is some </s>sample} text</p>', '<p>this <s bar="2">is some </s>sample text</p>', 'tc3.3' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.r( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
+		'<p>this <s style="font-size:12px;">is some </s>sample text</p>', 'tc3.4' );
+
+
 	//
 	// Non-editable content ---------------------------------------------------
 	//
