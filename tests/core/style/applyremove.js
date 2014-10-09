@@ -622,7 +622,7 @@
 	t.a( '<p>{this <i>is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.1' );
 	t.a( '<p>{this <i foo="1">is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.2' );
 	t.a( '<p>{this <i foo="2">is some </i>sample} text</p>', '<p><b>this <i foo="2">is some </i>sample</b> text</p>', 'tc1.3' );
-	t.a( '<p>{this <i foo="1" bar="1">is some </i>sample} text</p>', '<p><b>this <i bar="1">is some </i>sample</b> text</p>', 'tc1.4' );
+	t.a( '<p>{this <i bar="1" foo="1">is some </i>sample} text</p>', '<p><b>this <i bar="1">is some </i>sample</b> text</p>', 'tc1.4' );
 
 	t.a( '<p>{this <u>is some </u>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc2.1' );
 	// This behavior is broken. We keep this TC as a backwards compat test.
@@ -631,7 +631,7 @@
 
 	t.a( '<p>{this <s>is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.1' );
 	t.a( '<p>{this <s foo="1">is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.2' );
-	t.a( '<p>{this <s foo="1" bar="2">is some </s>sample} text</p>', '<p><b>this <s bar="2">is some </s>sample</b> text</p>', 'tc3.3' );
+	t.a( '<p>{this <s bar="2" foo="1">is some </s>sample} text</p>', '<p><b>this <s bar="2">is some </s>sample</b> text</p>', 'tc3.3' );
 	// This behavior is broken. We keep this TC as a backwards compat test.
 	t.a( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
 		'<p><b>this <s style="font-size:12px;">is some </s>sample</b> text</p>', 'tc3.4' );
@@ -651,7 +651,7 @@
 	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.1' );
 	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.2' );
 	t.a( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.3' );
-	t.a( '<p>{this <b foo="1" bar="1">is some </b>sample} text</p>',
+	t.a( '<p>{this <b bar="1" foo="1">is some </b>sample} text</p>',
 		'<p><b foo="2" style="font-size:20px;">this <b bar="1">is some </b>sample</b> text</p>', 'tc1.4' );
 
 	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc2.1' );
@@ -660,7 +660,7 @@
 
 	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.1' );
 	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.2' );
-	t.a( '<p>{this <b foo="1" bar="2">is some </b>sample} text</p>',
+	t.a( '<p>{this <b bar="2" foo="1">is some </b>sample} text</p>',
 		'<p><b foo="2" style="font-size:20px;">this <b bar="2">is some </b>sample</b> text</p>', 'tc3.3' );
 	t.a( '<p>{this <b style="font-size:12px;">is some </b>sample} text</p>',
 		'<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.4' );
@@ -696,6 +696,79 @@
 	// This behavior is broken. We keep this TC as a backwards compat test.
 	t.r( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
 		'<p>this <s style="font-size:12px;">is some </s>sample text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - strictly matches overrides or the style',
+		{
+			element: 'b',
+			attributes: { foo: '1' },
+			overrides: [
+				{ element: 'b', attributes: { foo: '2' } }
+			]
+		}
+	);
+
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>',
+		'<p><b foo="2">this </b>is some sample<b foo="2"> text</b></p>', 'tc1' );
+	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
+		'<p><b bar="3" foo="2">this </b><b bar="3">is some sample</b><b bar="3" foo="2"> text</b></p>', 'tc2' );
+	// Well... maybe not so strictly.
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc3' );
+	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
+	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
+	t.r( '<p><b foo="3">this {is some sample} text</b></p>', '<p><b foo="3">this is some sample text</b></p>', 'tc6' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - strictly matches the style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>',
+		'<p><b foo="2">this is some sample text</b></p>', 'tc1' );
+	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
+		'<p><b bar="3" foo="2">this is some sample text</b></p>', 'tc2' );
+	// Well... maybe not so strictly.
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc3' );
+	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
+	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override similar style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc2' );
+	t.a( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc3' );
+	t.a( '<p>{this <b foo="1" style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="1">this <b style="font-size:12px;">is some </b>sample</b> text</p>', 'tc4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override similar style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc1.1' );
+	t.r( '<p><b foo="1">this {is some sample} text</b></p>', '<p><b foo="1">this </b>is some sample<b foo="1"> text</b></p>', 'tc1.2' );
+	// Compare with the previous section...
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>', '<p><b foo="2">this is some sample text</b></p>', 'tc1.3' );
+	t.r( '<p><b foo="1" style="font-size:12px;">this {is some sample} text</b></p>',
+		'<p><b foo="1" style="font-size:12px;">this </b><b style="font-size:12px;">is some sample</b><b foo="1" style="font-size:12px;"> text</b></p>', 'tc1.4' );
+
+	t.r( '<p>{this <b>is some </b>sample} text</p>', '<p>this is some sample text</p>', 'tc2.1' );
+	t.r( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p>this is some sample text</p>', 'tc2.2' );
+	t.r( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p>this <b foo="2">is some </b>sample text</p>', 'tc2.3' );
+	t.r( '<p>{this <b foo="1" style="font-size:12px;">is some </b>sample} text</p>',
+		'<p>this <b style="font-size:12px;">is some </b>sample text</p>', 'tc2.4' );
 
 
 	//
