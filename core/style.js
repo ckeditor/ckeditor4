@@ -471,8 +471,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 						//      matches the attribute value exactly.
 						//    - The override definition value is a regex that
 						//      has matches in the attribute value.
-						if ( attValue === null || ( typeof attValue == 'string' && actualAttrValue == attValue ) || attValue.test( actualAttrValue ) )
+						if ( attValue === null )
 							return true;
+						if ( typeof attValue == 'string' ) {
+							if ( actualAttrValue == attValue )
+								return true;
+						} else if ( attValue.test( actualAttrValue ) ) {
+							return true;
+						}
 					}
 				}
 			}
