@@ -302,9 +302,10 @@
 	 * @member {CKEDITOR.plugins.indentlist}
 	 */
 	CKEDITOR.plugins.indentlist.firstItemInPath = function( query, path, list ) {
+		var firstListItemInPath = path.contains( listItem );
 		if ( !list )
 			list = path.contains( query );
 
-		return list && path.contains( listItem ).equals( list.getFirst( listItem ) );
+		return list && firstListItemInPath && firstListItemInPath.equals( list.getFirst( listItem ) );
 	};
 } )();
