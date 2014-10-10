@@ -281,7 +281,7 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.filetools, {
-		fileLoader: FileLoader,
+		FileLoader: FileLoader,
 		getUploadUrl: getUploadUrl,
 		isExtentionSupported: isExtentionSupported,
 		getExtention: getExtention
