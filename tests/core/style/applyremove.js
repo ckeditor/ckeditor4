@@ -545,6 +545,17 @@
 	// Inline styles ----------------------------------------------------------
 	//
 
+	//
+	// NOTE -------------------------------------------------------------------
+	//
+	// These tests were created as a documentation of the current behavior of
+	// the styles system. Many of the results we foundare not correct or at least not optimal.
+	// Therefore, when after doing changes to the styles system you find out that some of
+	// them fail, check whether the new result makes more sense and correct the test.
+	//
+	// NOTE -------------------------------------------------------------------
+	//
+
 	t = createAssertionFunction2( tcs, 'test apply inline style - single element', { element: 'b' } );
 
 	t.a( '<p>x</p><p>a{}b</p><p>x</p>', '<p>x</p><p>a<b></b>b</p><p>x</p>', 'tc1a' );
