@@ -95,7 +95,7 @@
 
 			reader.onload = function( evt ) {
 				loader.loaded = loader.total;
-				loader.data = evt.target.result;
+				loader.data = reader.result;
 				loader.changeStatusAndFire( 'loaded' );
 			};
 
