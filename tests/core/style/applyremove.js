@@ -712,8 +712,7 @@
 		'<p><b foo="2">this </b>is some sample<b foo="2"> text</b></p>', 'tc1' );
 	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
 		'<p><b bar="3" foo="2">this </b><b bar="3">is some sample</b><b bar="3" foo="2"> text</b></p>', 'tc2' );
-	// Well... maybe not so strictly.
-	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc3' );
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc3' );
 	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
 	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
 	t.r( '<p><b foo="3">this {is some sample} text</b></p>', '<p><b foo="3">this is some sample text</b></p>', 'tc6' );
@@ -730,8 +729,7 @@
 		'<p><b foo="2">this is some sample text</b></p>', 'tc1' );
 	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
 		'<p><b bar="3" foo="2">this is some sample text</b></p>', 'tc2' );
-	// Well... maybe not so strictly.
-	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc3' );
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc3' );
 	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
 	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
 
@@ -757,7 +755,7 @@
 		}
 	);
 
-	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this </b>is some sample<b> text</b></p>', 'tc1.1' );
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc1.1' );
 	t.r( '<p><b foo="1">this {is some sample} text</b></p>', '<p><b foo="1">this </b>is some sample<b foo="1"> text</b></p>', 'tc1.2' );
 	// Compare with the previous section...
 	t.r( '<p><b foo="2">this {is some sample} text</b></p>', '<p><b foo="2">this is some sample text</b></p>', 'tc1.3' );

@@ -1166,7 +1166,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( element == startPath.block || element == startPath.blockLimit )
 					break;
 
-				if ( me.checkElementRemovable( element ) )
+				if ( me.checkElementRemovable( element, true ) )
 					breakStart = element;
 			}
 
@@ -1176,7 +1176,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				if ( element == endPath.block || element == endPath.blockLimit )
 					break;
 
-				if ( me.checkElementRemovable( element ) )
+				if ( me.checkElementRemovable( element, true ) )
 					breakEnd = element;
 			}
 
