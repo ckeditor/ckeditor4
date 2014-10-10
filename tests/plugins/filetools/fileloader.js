@@ -4,12 +4,34 @@
 'use strict';
 
 ( function() {
-	var FileLoader,
+	var FileReaderBackup, XMLHttpRequestBackup,
+		FileLoader,
 		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==";
+
+	function FileReaderMock() {
+		return {
+			readAsDataURL: function( file ) {
+			}
+		}
+	}
+
+	function XMLHttpRequestMock() {
+	}
 
 	bender.test( {
 		'setUp': function() {
+			FileReaderBackup = window.FileReader;
+			XMLHttpRequestBackup = window.XMLHttpRequest;
+
+			window.FileReader = FileReaderMock;
+			window.XMLHttpRequest = XMLHttpRequestMock;
+
 			FileLoader = CKEDITOR.filetools.FileLoader;
+		},
+
+		'tearDown': function() {
+			window.FileReader = FileReaderBackup;
+			window.XMLHttpRequest = XMLHttpRequestBackup;
 		},
 
 		'test constructor string, no name': function() {
