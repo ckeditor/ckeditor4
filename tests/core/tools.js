@@ -58,6 +58,18 @@ bender.test(
 			assert.isFalse( CKEDITOR.tools.isArray( window.x ) );
 		},
 
+		'test getIndex - not found': function() {
+			assert.areSame( -1, CKEDITOR.tools.getIndex( [ 1, 2, 3 ], function( el ) { return el == 4; } ) );
+		},
+
+		'test getIndex - found first': function() {
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2, 2, 2, 3, 2, 2 ], function( el ) { return el == 2; } ) );
+		},
+
+		'test getIndex - found on last position': function() {
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2 ], function( el ) { return el == 2; } ) );
+		},
+
 		test_htmlEncode1: function() {
 			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', CKEDITOR.tools.htmlEncode( '<b>Test</b>' ) );
 		},
@@ -555,5 +567,27 @@ bender.test(
 			assert.isFalse( c( [ 'bar' ], r1 ) );
 			assert.isFalse( c( [ 'bar', 'f', 'oo' ], r1 ) );
 			assert.isFalse( c( [ 'bar', 'f', 'oo' ], r2 ) ); // Ekhem, don't try to join();
+		},
+
+		'test transformPlainTextToHtml ENTER_BR': function() {
+			var text = '<b>foo</b>\n\nbar\n\tboom',
+				html = CKEDITOR.tools.transformPlainTextToHtml( text, CKEDITOR.ENTER_BR );
+
+			assert.areSame( '&lt;b&gt;foo&lt;/b&gt;<br><br>bar<br>&nbsp;&nbsp; &nbsp;boom', html );
+		},
+
+		'test transformPlainTextToHtml ENTER_P': function() {
+			var text = '<b>foo</b>\n\nbar\n\tboom',
+				html = CKEDITOR.tools.transformPlainTextToHtml( text, CKEDITOR.ENTER_P );
+
+			assert.areSame( '<p>&lt;b&gt;foo&lt;/b&gt;</p><p>bar<br>&nbsp;&nbsp; &nbsp;boom</p>', html );
+		},
+
+		'test getUniqueId': function() {
+			var uuid = CKEDITOR.tools.getUniqueId();
+
+			assert.isString( uuid, 'UUID should be a string.' );
+			assert.isMatching( /[a-z]/, uuid[ 0 ], 'First character of UUID should be z letter.' );
+			assert.areSame( 33, uuid.length, 'UUID.length' );
 		}
 	} );

@@ -81,6 +81,9 @@ var config = {
 				// Firefox (#11399)
 				'tests/plugins/widget/nestededitables#test selection in nested editable is preserved after opening and closing dialog - inline editor': 'env.gecko',
 
+				// IE8 (http://dev.ckeditor.com/ticket/12008#comment:6)
+				'tests/plugins/widget/nestedwidgets#test pasting widget with nested editable into nested editable': 'env.ie && env.version == 8',
+
 				// Firefox (#12104)
 				'tests/plugins/widget/widgetselection#test focusing widget': 'env.gecko',
 				'tests/plugins/widget/widgetselection#test focusing by click': 'env.gecko',
