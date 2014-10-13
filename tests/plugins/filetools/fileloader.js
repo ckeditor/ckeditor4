@@ -218,6 +218,8 @@
 
 			loader.upload( 'http:\/\/url\/' );
 
+			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
 			wait( function() {
 				observer.assert( [
 					'uploading[uploading,name.jpg,0/82/82,-,data:image/png;base64,-]',
