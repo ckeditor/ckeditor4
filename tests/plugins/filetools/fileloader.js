@@ -7,7 +7,9 @@
 	var FileReaderBackup = window.FileReader,
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader,
-		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==";
+		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==",
+		testFile = getTestFile();
+
 
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
@@ -23,7 +25,7 @@
 
 										switch ( scenario[ i ] ) {
 											case 'progress':
-												evt = { loaded: 50 };
+												evt = { loaded: 41 };
 												break;
 											case 'load':
 												reader.result = 'result';
@@ -64,11 +66,11 @@
 
 										switch ( scenario[ i ] ) {
 											case 'progress':
-												evt = { loaded: 50 };
+												evt = { loaded: 41 };
 												break;
 											case 'load':
 												xhr.status = 200;
-												xhr.responseText = '{"fileName":"name2.jpg","uploaded":1,"url":"http:\/\/url\/name2.jpg"}'
+												xhr.responseText = '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}'
 												break;
 										}
 
@@ -126,6 +128,47 @@
 		return observer;
 	}
 
+	function srcToFile( src ) {
+		var base64HeaderRegExp = /^data:(\S*?);base64,/,
+			contentType = src.match( base64HeaderRegExp )[ 1 ],
+			base64Data = src.replace( base64HeaderRegExp, '' ),
+			byteCharacters = atob( base64Data ),
+			byteArrays = [],
+			sliceSize = 512,
+			offset, slice, byteNumbers, i, byteArray;
+
+		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
+			slice = byteCharacters.slice( offset, offset + sliceSize );
+
+			byteNumbers = new Array( slice.length );
+			for ( i = 0; i < slice.length; i++ ) {
+				byteNumbers[ i ] = slice.charCodeAt( i );
+			}
+
+			byteArray = new Uint8Array( byteNumbers );
+
+			byteArrays.push( byteArray );
+		}
+
+		return new Blob( byteArrays, { type: contentType } );
+	}
+
+	function getTestFile() {
+		var file = srcToFile( pngBase64 );
+		file.name = 'name.png';
+		return file;
+	}
+
+	function waitFor( object, evtName, fun ) {
+		object.on( evtName, function() {
+			setTimeout( function() {
+				resume( fun );
+			}, 0 );
+		} );
+
+		wait();
+	}
+
 	bender.test( {
 		'setUp': function() {
 			FileLoader = CKEDITOR.filetools.FileLoader;
@@ -163,55 +206,49 @@
 		},
 
 		'test constructor file, no name': function() {
-			var fileMock = { name: 'foo', size: 100 },
-				loader = new FileLoader( fileMock );
+			var loader = new FileLoader( testFile );
 
-			assert.areSame( 'foo', loader.fileName );
+			assert.areSame( 'name.png', loader.fileName );
 			assert.isNull( loader.data );
 			assert.isObject( loader.file );
-			assert.areSame( 100, loader.total );
+			assert.areSame( 82, loader.total );
 			assert.areSame( 0, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
 
 		'test constructor file, filename': function() {
-			var fileMock = { name: 'foo', size: 100 },
-				loader = new FileLoader( fileMock, 'bar' );
+			var loader = new FileLoader( testFile, 'bar' );
 
 			assert.areSame( 'bar', loader.fileName );
 			assert.isNull( loader.data );
 			assert.isObject( loader.file );
-			assert.areSame( 100, loader.total );
+			assert.areSame( 82, loader.total );
 			assert.areSame( 0, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
 
 		'test load': function() {
-			var fileMock = { size: 100 },
-				loader = new FileLoader( fileMock, 'name.jpg' ),
+			var loader = new FileLoader( testFile, 'name.png' ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
 
 			loader.load();
 
-			wait( function() {
+			waitFor( loader, 'loaded', function() {
 				observer.assert( [
-					'loading[loading,name.jpg,0/0/100,-,-,-]',
-					'update[loading,name.jpg,0/0/100,-,-,-]',
-					'update[loading,name.jpg,0/50/100,-,-,-]',
-					'loaded[loaded,name.jpg,0/100/100,-,result,-]',
-					'update[loaded,name.jpg,0/100/100,-,result,-]' ] );
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'loaded[loaded,name.png,0/82/82,-,result,-]',
+					'update[loaded,name.png,0/82/82,-,result,-]' ] );
 			}, 3 );
 		},
 
-
-
 		'test upload': function() {
-			var fileMock = { size: 100 },
-				loader = new FileLoader( pngBase64, 'name.jpg' ),
+			var loader = new FileLoader( pngBase64, 'name.png' ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
@@ -220,14 +257,38 @@
 
 			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
 
-			wait( function() {
+			waitFor( loader, 'uploaded', function() {
 				observer.assert( [
-					'uploading[uploading,name.jpg,0/82/82,-,data:image/png;base64,-]',
-					'update[uploading,name.jpg,0/82/82,-,data:image/png;base64,-]',
-					'update[uploading,name.jpg,50/82/82,-,data:image/png;base64,-]',
-					'uploaded[uploaded,name2.jpg,82/82/82,-,data:image/png;base64,http://url/name2.jpg]',
-					'update[uploaded,name2.jpg,82/82/82,-,data:image/png;base64,http://url/name2.jpg]' ] );
+					'uploading[uploading,name.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,name.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,name.png,41/82/82,-,data:image/png;base64,-]',
+					'uploaded[uploaded,name2.png,82/82/82,-,data:image/png;base64,http://url/name2.png]',
+					'update[uploaded,name2.png,82/82/82,-,data:image/png;base64,http://url/name2.png]' ] );
 			}, 3 );
+		},
+
+		'test loadAndUpload': function() {
+			var loader = new FileLoader( testFile, 'name.png' ),
+				observer = observeEvents( loader );
+
+			createFileReaderMock( [ 'progress', 'load' ] );
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			waitFor( loader, 'uploaded', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'loaded[loaded,name.png,0/82/82,-,result,-]',
+					'update[loaded,name.png,0/82/82,-,result,-]',
+					'uploading[uploading,name.png,0/82/82,-,result,-]',
+					'update[uploading,name.png,0/82/82,-,result,-]',
+					'update[uploading,name.png,41/82/82,-,result,-]',
+					'uploaded[uploaded,name2.png,82/82/82,-,result,http://url/name2.png]',
+					'update[uploaded,name2.png,82/82/82,-,result,http://url/name2.png]' ] );
+			} );
 		}
 	} );
 } )();
