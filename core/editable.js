@@ -272,7 +272,7 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsert', { 'intoRange': false } );
+				this.editor.fire( 'afterInsert', { intoRange: false } );
 			},
 
 			/**
@@ -288,7 +288,7 @@
 				// Default mode is 'html'
 				insert( this, mode || 'html', data, range );
 
-				this.editor.fire( 'afterInsert', { 'intoRange': true } );
+				this.editor.fire( 'afterInsert', { intoRange: true } );
 			},
 
 			/**
@@ -313,8 +313,7 @@
 				var editor = this.editor,
 					enterMode = editor.config.enterMode,
 					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ]
-					fireInsertEvent = fireInsertEvent === undefined ? 1 : fireInsertEvent;
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
 				if ( range.checkReadOnly() )
 					return false;
@@ -356,8 +355,8 @@
 				// Insert the new node.
 				range.insertNode( element );
 
-				if ( fireInsertEvent ) {
-					this.editor.fire( 'afterInsert', { 'intoRange': true } );
+				if ( fireInsertEvent === undefined || fireInsertEvent ) {
+					this.editor.fire( 'afterInsert', { intoRange: true } );
 				}
 
 				// Return true if insertion was successful.
