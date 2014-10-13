@@ -4,24 +4,48 @@
 'use strict';
 
 ( function() {
-	var FileReaderBackup, XMLHttpRequestBackup,
+	var FileReaderBackup = window.FileReader,
+		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader,
 		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==";
 
-	function FileReaderMock() {
-		var reader = {
-			readAsDataURL: function( file ) {
-				setTimeout( function() {
-					reader.onprogress( { loaded: 100 } );
-				}, 0 );
+	function createFileReaderMock( scenario ) {
+		var isAborted = false;
 
-				setTimeout( function() {
-					reader.onload( { target: { result: 'foo' } } );
-				}, 1 );
-			}
+		window.FileReader = function() {
+			var reader = {
+					readAsDataURL: function( file ) {
+						for ( var i = 0; i < scenario.length; i++ ) {
+							if ( !isAborted ) {
+								( function( i ) {
+									setTimeout( function() {
+										var evt;
+
+										switch ( scenario[ i ] ) {
+											case 'progress':
+												evt = { loaded: 50 };
+												break;
+											case 'load':
+												reader.result = 'foo';
+												evt = { target: { result: 'foo' } };
+												break;
+										}
+
+										reader[ 'on' + scenario[ i ] ]( evt );
+									}, i );
+								} )( i );
+							}
+						}
+					},
+
+					abort: function() {
+						isAborted = true;
+
+					}
+				}
+
+			return reader;
 		}
-
-		return reader;
 	}
 
 	function XMLHttpRequestMock() {
@@ -30,32 +54,29 @@
 	function observeEvents( loader ) {
 		var observer = { events: '' };
 
-		function saveEvent( evt ) {
-			observer.events += evt.name + ','
+		function stdObserver( evt ) {
+			var message = evt.message || '-',
+				data = loader.data || '-'
+
+
+			observer.events += evt.name + '[' + loader.status + ',' +
+				loader.loaded + '/' + loader.total + ',' +
+				message  + ',' + data + '],';
 		}
 
-		loader.on( 'abort', saveEvent );
-		loader.on( 'error', saveEvent );
-		loader.on( 'loading', saveEvent );
-		loader.on( 'loaded', saveEvent );
-		loader.on( 'uploading', saveEvent );
-		loader.on( 'uploaded', saveEvent );
-
-		loader.on( 'update', function( evt ) {
-			observer.events += 'update[' + loader.status + '],'
-		} );
+		loader.on( 'abort', stdObserver );
+		loader.on( 'error', stdObserver );
+		loader.on( 'loading', stdObserver );
+		loader.on( 'loaded', stdObserver );
+		loader.on( 'uploading', stdObserver );
+		loader.on( 'uploaded', stdObserver );
+		loader.on( 'update', stdObserver );
 
 		return observer;
 	}
 
 	bender.test( {
 		'setUp': function() {
-			FileReaderBackup = window.FileReader;
-			XMLHttpRequestBackup = window.XMLHttpRequest;
-
-			window.FileReader = FileReaderMock;
-			window.XMLHttpRequest = XMLHttpRequestMock;
-
 			FileLoader = CKEDITOR.filetools.FileLoader;
 		},
 
@@ -71,6 +92,7 @@
 			assert.areSame( pngBase64, loader.data );
 			assert.isObject( loader.file );
 			assert.areSame( 82, loader.total );
+			assert.areSame( 82, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
@@ -82,6 +104,7 @@
 			assert.areSame( pngBase64, loader.data );
 			assert.isObject( loader.file );
 			assert.areSame( 82, loader.total );
+			assert.areSame( 82, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
@@ -94,6 +117,7 @@
 			assert.isNull( loader.data );
 			assert.isObject( loader.file );
 			assert.areSame( 100, loader.total );
+			assert.areSame( 0, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
@@ -106,19 +130,28 @@
 			assert.isNull( loader.data );
 			assert.isObject( loader.file );
 			assert.areSame( 100, loader.total );
+			assert.areSame( 0, loader.loaded );
 			assert.areSame( 0, loader.uploaded );
 			assert.areSame( 'created', loader.status );
 		},
 
 		'test load': function() {
-			var fileMock = { name: 'foo', size: 100 },
+			var fileMock = { size: 100 },
 				loader = new FileLoader( fileMock, 'bar' ),
 				observer = observeEvents( loader );
+
+			createFileReaderMock( [ 'progress', 'load' ] );
 
 			loader.load();
 
 			wait( function() {
-				assert.areSame( 'loading,update[loading],update[loading],loaded,update[loaded],', observer.events );
+				assert.areSame(
+					'loading[loading,0/100,-,-],' +
+					'update[loading,0/100,-,-],' +
+					'update[loading,50/100,-,-],' +
+					'loaded[loaded,100/100,-,foo],' +
+					'update[loaded,100/100,-,foo],'
+					, observer.events );
 			}, 3 );
 		}
 	} );

@@ -39,10 +39,12 @@
 			// Data are already loaded from disc.
 			this.data = fileOrData;
 			this.file = srcToFile( this.data );
+			this.total = this.file.size;
 			this.loaded = this.total;
 		} else {
 			this.data = null;
 			this.file = fileOrData;
+			this.total = this.file.size;
 			this.loaded = 0;
 		}
 
@@ -52,7 +54,6 @@
 			this.fileName = this.file.name;
 		}
 
-		this.total = this.file.size;
 		this.uploaded = 0;
 
 		this.changeStatusAndFire( 'created' );
