@@ -94,7 +94,8 @@
 
 		function stdObserver( evt ) {
 			var message = loader.message || '-',
-				data = loader.data || '-';
+				data = loader.data || '-',
+				url = loader.url || '-';
 
 				if ( data.length > 21 )
 					data = data.substring( 0, 21 );
@@ -102,22 +103,15 @@
 
 			observer.events += evt.name + '[' + loader.status + ',' + loader.fileName + ',' +
 				loader.uploaded + '/' + loader.loaded + '/' + loader.total + ',' +
-				message  + ',' + data + ']|';
+				message  + ',' + data + ',' +url + ']|';
 		}
 
 		loader.on( 'loading', stdObserver );
 		loader.on( 'loaded', stdObserver );
-
 		loader.on( 'uploading', stdObserver );
 		loader.on( 'uploaded', stdObserver );
-		loader.on( 'uploaded', function() {
-			observer.events += '[' + loader.url + ']|';
-			observer.events = observer.events.replace( ']|[', ',' );
-		} );
-
 		loader.on( 'abort', stdObserver );
 		loader.on( 'error', stdObserver );
-
 		loader.on( 'update', stdObserver );
 
 		observer.assert = function( expected ) {
@@ -205,11 +199,11 @@
 
 			wait( function() {
 				observer.assert( [
-					'loading[loading,name.jpg,0/0/100,-,-]',
-					'update[loading,name.jpg,0/0/100,-,-]',
-					'update[loading,name.jpg,0/50/100,-,-]',
-					'loaded[loaded,name.jpg,0/100/100,-,result]',
-					'update[loaded,name.jpg,0/100/100,-,result]' ] );
+					'loading[loading,name.jpg,0/0/100,-,-,-]',
+					'update[loading,name.jpg,0/0/100,-,-,-]',
+					'update[loading,name.jpg,0/50/100,-,-,-]',
+					'loaded[loaded,name.jpg,0/100/100,-,result,-]',
+					'update[loaded,name.jpg,0/100/100,-,result,-]' ] );
 			}, 3 );
 		},
 
@@ -226,11 +220,11 @@
 
 			wait( function() {
 				observer.assert( [
-					'uploading[uploading,name.jpg,0/82/82,-,data:image/png;base64]',
-					'update[uploading,name.jpg,0/82/82,-,data:image/png;base64]',
-					'update[uploading,name.jpg,50/82/82,-,data:image/png;base64]',
+					'uploading[uploading,name.jpg,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,name.jpg,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,name.jpg,50/82/82,-,data:image/png;base64,-]',
 					'uploaded[uploaded,name2.jpg,82/82/82,-,data:image/png;base64,http://url/name2.jpg]',
-					'update[uploaded,name2.jpg,82/82/82,-,data:image/png;base64]' ] );
+					'update[uploaded,name2.jpg,82/82/82,-,data:image/png;base64,http://url/name2.jpg]' ] );
 			}, 3 );
 		}
 	} );
