@@ -150,6 +150,7 @@
 					}
 					loader.changeStatusAndFire( 'error' );
 				} else {
+					loader.uploaded = loader.total;
 					loader.handleResponse( xhr );
 				}
 			};
