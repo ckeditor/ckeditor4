@@ -20,20 +20,27 @@
 						for ( var i = 0; i < scenario.length; i++ ) {
 							if ( !isAborted ) {
 								( function( i ) {
-									setTimeout( function() {
-										var evt;
+									var action;
+									if ( typeof scenario[ i ] === 'string' ) {
+										action =  function() {
+											var evt;
 
-										switch ( scenario[ i ] ) {
-											case 'progress':
-												evt = { loaded: 41 };
-												break;
-											case 'load':
-												reader.result = 'result';
-												break;
+											switch ( scenario[ i ] ) {
+												case 'progress':
+													evt = { loaded: 41 };
+													break;
+												case 'load':
+													reader.result = 'result';
+													break;
+											}
+
+											reader[ 'on' + scenario[ i ] ]( evt );
 										}
+									} else {
+										action = scenario[ i ];
+									}
 
-										reader[ 'on' + scenario[ i ] ]( evt );
-									}, i );
+									setTimeout( action, i );
 								} )( i );
 							}
 						}
@@ -42,6 +49,9 @@
 					abort: function() {
 						isAborted = true;
 
+						setTimeout( function() {
+							reader.onabort();
+						}, 0 );
 					}
 				};
 
@@ -61,21 +71,28 @@
 						for ( var i = 0; i < scenario.length; i++ ) {
 							if ( !isAborted ) {
 								( function( i ) {
-									setTimeout( function() {
-										var evt;
+									var action;
+									if ( typeof scenario[ i ] === 'string' ) {
+										action = function() {
+											var evt;
 
-										switch ( scenario[ i ] ) {
-											case 'progress':
-												evt = { loaded: 41 };
-												break;
-											case 'load':
-												xhr.status = 200;
-												xhr.responseText = '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}'
-												break;
+											switch ( scenario[ i ] ) {
+												case 'progress':
+													evt = { loaded: 41 };
+													break;
+												case 'load':
+													xhr.status = 200;
+													xhr.responseText = '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}'
+													break;
+											}
+
+											xhr[ 'on' + scenario[ i ] ]( evt );
 										}
+									} else {
+										action = scenario[ i ];
+									}
 
-										xhr[ 'on' + scenario[ i ] ]( evt );
-									}, i );
+									setTimeout( action, i );
 								} )( i );
 							}
 						}
@@ -84,6 +101,9 @@
 					abort: function() {
 						isAborted = true;
 
+						setTimeout( function() {
+							reader.onabort();
+						}, 0 );
 					}
 				};
 
@@ -119,6 +139,8 @@
 		observer.assert = function( expected ) {
 			var events = observer.events.split( '|' );
 			events.pop();
+
+			assert.areSame( expected.length, events.length, 'Events and expected length should be the same.' );
 
 			for ( var i = 0; i < events.length; i++ ) {
 				assert.areSame( expected[ i ], events[ i ] );
@@ -159,14 +181,12 @@
 		return file;
 	}
 
-	function waitFor( object, evtName, fun ) {
+	function resumeAfter( object, evtName, fun ) {
 		object.on( evtName, function() {
 			setTimeout( function() {
 				resume( fun );
 			}, 0 );
 		} );
-
-		wait();
 	}
 
 	bender.test( {
@@ -230,14 +250,12 @@
 		},
 
 		'test load': function() {
-			var loader = new FileLoader( testFile, 'name.png' ),
+			var loader = new FileLoader( testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
 
-			loader.load();
-
-			waitFor( loader, 'loaded', function() {
+			resumeAfter( loader, 'loaded', function() {
 				observer.assert( [
 					'loading[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/0/82,-,-,-]',
@@ -245,6 +263,10 @@
 					'loaded[loaded,name.png,0/82/82,-,result,-]',
 					'update[loaded,name.png,0/82/82,-,result,-]' ] );
 			}, 3 );
+
+			loader.load();
+
+			wait();
 		},
 
 		'test upload': function() {
@@ -253,11 +275,7 @@
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
 
-			loader.upload( 'http:\/\/url\/' );
-
-			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
-
-			waitFor( loader, 'uploaded', function() {
+			resumeAfter( loader, 'uploaded', function() {
 				observer.assert( [
 					'uploading[uploading,name.png,0/82/82,-,data:image/png;base64,-]',
 					'update[uploading,name.png,0/82/82,-,data:image/png;base64,-]',
@@ -265,18 +283,22 @@
 					'uploaded[uploaded,name2.png,82/82/82,-,data:image/png;base64,http://url/name2.png]',
 					'update[uploaded,name2.png,82/82/82,-,data:image/png;base64,http://url/name2.png]' ] );
 			}, 3 );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
+			wait();
 		},
 
 		'test loadAndUpload': function() {
-			var loader = new FileLoader( testFile, 'name.png' ),
+			var loader = new FileLoader( testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
 
-			loader.loadAndUpload( 'http:\/\/url\/' );
-
-			waitFor( loader, 'uploaded', function() {
+			resumeAfter( loader, 'uploaded', function() {
 				observer.assert( [
 					'loading[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/0/82,-,-,-]',
@@ -289,6 +311,70 @@
 					'uploaded[uploaded,name2.png,82/82/82,-,result,http://url/name2.png]',
 					'update[uploaded,name2.png,82/82/82,-,result,http://url/name2.png]' ] );
 			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test abort on create': function() {
+			var loader = new FileLoader( testFile ),
+				observer = observeEvents( loader );
+
+			resumeAfter( loader, 'abort', function() {
+				observer.assert( [
+					'abort[abort,name.png,0/0/82,-,-,-]',
+					'update[abort,name.png,0/0/82,-,-,-]' ] );
+			} );
+
+			loader.abort();
+
+			wait();
+		},
+
+		'test abort on loading': function() {
+			var loader = new FileLoader( testFile ),
+				observer = observeEvents( loader ),
+				abort = function() {
+					loader.abort();
+				};
+
+			createFileReaderMock( [ abort ] );
+
+			resumeAfter( loader, 'abort', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'abort[abort,name.png,0/0/82,-,-,-]',
+					'update[abort,name.png,0/0/82,-,-,-]' ] );
+			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test abort on loading2': function() {
+			var loader = new FileLoader( testFile ),
+				observer = observeEvents( loader ),
+				abort = function() {
+					loader.abort();
+				};
+
+			createFileReaderMock( [ 'progress', abort ] );
+
+			resumeAfter( loader, 'abort', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'abort[abort,name.png,0/41/82,-,-,-]',
+					'update[abort,name.png,0/41/82,-,-,-]' ] );
+			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
 		}
 	} );
 } )();

@@ -187,14 +187,16 @@
 		},
 
 		changeStatusAndFire: function( newStatus ) {
-			var noopFunction = function() {};
+			var defaultAbortFunction = function() {
+				this.changeStatusAndFire( 'abort' );
+			};
 
 			this.status = newStatus;
 
 			if ( newStatus =='created' ||
 				newStatus =='error' || newStatus =='abort' ||
 				newStatus =='loaded' || newStatus =='uploaded' ) {
-				this.abort = noopFunction;
+				this.abort = defaultAbortFunction;
 			}
 
 			this.fire( newStatus );
