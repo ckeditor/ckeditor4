@@ -160,6 +160,8 @@ CKEDITOR.dtd = ( function() {
 		legend: P,
 		li: F,
 		link: E,
+		// Can't be a descendant of article, aside, footer, header, nav, but we don't need this
+		// complication. As well as checking if it's used only once.
 		main: F,
 		map: F,
 		mark: P, // Treat as normal inline element (not a transparent one).
