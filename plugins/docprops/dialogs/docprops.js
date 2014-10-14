@@ -583,14 +583,15 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				{
 				type: 'html',
 				id: 'previewHtml',
-				html: '<iframe src="' + previewSrc + '" style="width: 100%; height: 310px" hidefocus="true" frameborder="0" ' +
-					'id="cke_docProps_preview_iframe"></iframe>',
+				html: '<iframe src="' + previewSrc + '" style="width: 100%; height: 310px" hidefocus="true" frameborder="0"></iframe>',
 				onLoad: function() {
+					var iframe = this.getElement();
+
 					this.getDialog().on( 'selectPage', function( ev ) {
 						if ( ev.data.page == 'preview' ) {
 							var self = this;
 							setTimeout( function() {
-								var doc = CKEDITOR.document.getById( 'cke_docProps_preview_iframe' ).getFrameDocument(),
+								var doc = iframe.getFrameDocument(),
 									html = doc.getElementsByTag( 'html' ).getItem( 0 ),
 									head = doc.getHead(),
 									body = doc.getBody();
@@ -598,7 +599,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 							}, 50 );
 						}
 					} );
-					CKEDITOR.document.getById( 'cke_docProps_preview_iframe' ).getAscendant( 'table' ).setStyle( 'height', '100%' );
+					iframe.getAscendant( 'table' ).setStyle( 'height', '100%' );
 				}
 			}
 			]
