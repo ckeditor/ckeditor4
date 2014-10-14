@@ -479,13 +479,34 @@
 			wait();
 		},
 
-		'test error on load': function() {
+		'test abort on error': function() {
 			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
 				loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
 				};
+
+			createFileReaderMock( [ 'progress', 'error', abort ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'error[error,name.png,0/41/82,errorMsg,-,-]',
+					'update[error,name.png,0/41/82,errorMsg,-,-]', ] );
+			} );
+
+			loader.load();
+
+			wait();
+		},
+
+		'test error on load': function() {
+			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'error' ] );
 
