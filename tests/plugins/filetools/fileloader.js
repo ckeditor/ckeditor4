@@ -203,7 +203,7 @@
 
 
 		'test constructor string, no name': function() {
-			var loader = new FileLoader( pngBase64 );
+			var loader = new FileLoader( {}, pngBase64 );
 
 			assert.areSame( 'image.png', loader.fileName );
 			assert.areSame( pngBase64, loader.data );
@@ -215,7 +215,7 @@
 		},
 
 		'test constructor string, filename': function() {
-			var loader = new FileLoader( pngBase64, 'foo' );
+			var loader = new FileLoader( {}, pngBase64, 'foo' );
 
 			assert.areSame( 'foo', loader.fileName );
 			assert.areSame( pngBase64, loader.data );
@@ -227,7 +227,7 @@
 		},
 
 		'test constructor file, no name': function() {
-			var loader = new FileLoader( testFile );
+			var loader = new FileLoader( {}, testFile );
 
 			assert.areSame( 'name.png', loader.fileName );
 			assert.isNull( loader.data );
@@ -239,7 +239,7 @@
 		},
 
 		'test constructor file, filename': function() {
-			var loader = new FileLoader( testFile, 'bar' );
+			var loader = new FileLoader( {}, testFile, 'bar' );
 
 			assert.areSame( 'bar', loader.fileName );
 			assert.isNull( loader.data );
@@ -251,7 +251,7 @@
 		},
 
 		'test load': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -271,7 +271,7 @@
 		},
 
 		'test upload': function() {
-			var loader = new FileLoader( pngBase64, 'name.png' ),
+			var loader = new FileLoader( {}, pngBase64, 'name.png' ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
@@ -293,7 +293,7 @@
 		},
 
 		'test loadAndUpload': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -317,7 +317,7 @@
 		},
 
 		'test abort on create': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader );
 
 			resumeAfter( loader, 'abort', function() {
@@ -332,7 +332,7 @@
 		},
 
 		'test abort on loading': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -354,7 +354,7 @@
 		},
 
 		'test abort on loading2': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -377,7 +377,7 @@
 		},
 
 		'test abort on loaded': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -400,7 +400,7 @@
 		},
 
 		'test abort on uploading': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -426,7 +426,7 @@
 		},
 
 		'test abort on uploading 2': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -453,7 +453,7 @@
 		},
 
 		'test abort on uploaded': function() {
-			var loader = new FileLoader( testFile ),
+			var loader = new FileLoader( {}, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -475,6 +475,30 @@
 			} );
 
 			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test error on load': function() {
+			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader ),
+				abort = function() {
+					loader.abort();
+				};
+
+			createFileReaderMock( [ 'progress', 'error' ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'error[error,name.png,0/41/82,errorMsg,-,-]',
+					'update[error,name.png,0/41/82,errorMsg,-,-]', ] );
+			} );
+
+			loader.load();
 
 			wait();
 		}

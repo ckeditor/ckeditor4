@@ -6,12 +6,18 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'en' // %REMOVE_LINE_CORE%
+		lang: 'en', // %REMOVE_LINE_CORE%
+
+		beforeInit: function( editor ) {
+			editor.uploadsRepository = new UploadsRepository( editor );
+		}
 	} );
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
-	function UploadsRepository() {
+	function UploadsRepository( editor ) {
+		this.editor = editor;
+
 		this._ = {
 			loaders: []
 		}
@@ -20,7 +26,7 @@
 	UploadsRepository.prototype = {
 		create: function( fileOrData, fileName ) {
 			var id = this._.loaders.length,
-				loader = new FileLoader( fileOrData, fileName );
+				loader = new FileLoader( this.editor, fileOrData, fileName );
 
 			loader.id = id;
 			this._.loaders[ id ] = loader;
@@ -32,8 +38,10 @@
 		}
 	};
 
-	function FileLoader( fileOrData, fileName ) {
+	function FileLoader( editor, fileOrData, fileName ) {
 		var that = this;
+
+		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
 			// Data are already loaded from disc.
@@ -93,7 +101,7 @@
 			};
 
 			reader.onerror = function( evt ) {
-				loader.message = editor.lang.filetools.loadError;
+				loader.message = loader.lang.filetools.loadError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -113,7 +121,7 @@
 
 		upload: function( url ) {
 			if ( !url ) {
-				this.message = editor.lang.filetools.noUrlError;
+				this.message = this.lang.filetools.noUrlError;
 				this.changeStatusAndFire( 'error' );
 			} else {
 				var xhr = new XMLHttpRequest();
@@ -141,7 +149,7 @@
 			};
 
 			xhr.onerror = function( evt ) {
-				loader.message = editor.lang.filetools.networkError;
+				loader.message = loader.lang.filetools.networkError;
 				loader.changeStatusAndFire( 'error' );
 			};
 
@@ -152,9 +160,9 @@
 
 			xhr.onload = function( evt ) {
 				if ( xhr.status < 200 || xhr.status > 299 ) {
-					loader.message = editor.lang.filetools[ 'httpError' + xhr.status ];
+					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
-						loader.message = editor.lang.filetools[ 'httpError' ].replace( '%1', xhr.status );
+						loader.message = loader.lang.filetools[ 'httpError' ].replace( '%1', xhr.status );
 					}
 					loader.changeStatusAndFire( 'error' );
 				} else {
@@ -176,7 +184,7 @@
 			try {
 				var response = JSON.parse( xhr.responseText );
 			} catch ( e ) {
-				this.message = editor.lang.filetools.responseError.replace( '%1', xhr.responseText );
+				this.message = this.lang.filetools.responseError.replace( '%1', xhr.responseText );
 				this.changeStatusAndFire( 'error' );
 				return;
 			}
@@ -286,8 +294,6 @@
 	}
 
 	CKEDITOR.event.implementOn( FileLoader.prototype );
-
-	CKEDITOR.editor.prototype.uploadsRepository = new UploadsRepository();
 
 	if ( !CKEDITOR.filetools ) {
 		CKEDITOR.filetools = {};
