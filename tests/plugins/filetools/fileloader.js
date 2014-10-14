@@ -504,7 +504,7 @@
 		},
 
 		'test error on load': function() {
-			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
+			var editorMock = { lang: { filetools: { loadError: 'loadError' } } },
 				loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
@@ -515,11 +515,58 @@
 					'loading[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/41/82,-,-,-]',
-					'error[error,name.png,0/41/82,errorMsg,-,-]',
-					'update[error,name.png,0/41/82,errorMsg,-,-]', ] );
+					'error[error,name.png,0/41/82,loadError,-,-]',
+					'update[error,name.png,0/41/82,loadError,-,-]', ] );
 			} );
 
 			loader.load();
+
+			wait();
+		},
+
+		'test error on upload': function() {
+			var editorMock = { lang: { filetools: { networkError: 'networkError' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createFileReaderMock( [ 'progress', 'load' ] );
+			createXMLHttpRequestMock( [ 'progress', 'error' ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'uploading[uploading,name.png,0/82/82,-,result,-]',
+					'update[uploading,name.png,0/82/82,-,result,-]',
+					'update[uploading,name.png,41/82/82,-,result,-]',
+					'error[error,name.png,41/82/82,networkError,result,-]',
+					'update[error,name.png,41/82/82,networkError,result,-]', ] );
+			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test error no url': function() {
+			var editorMock = { lang: { filetools: { noUrlError: 'noUrlError' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createFileReaderMock( [ 'progress', 'load' ] );
+			createXMLHttpRequestMock( [ 'progress', 'error' ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'error[error,name.png,0/82/82,noUrlError,result,-]',
+					'update[error,name.png,0/82/82,noUrlError,result,-]', ] );
+			} );
+
+			loader.loadAndUpload();
 
 			wait();
 		}
