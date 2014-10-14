@@ -102,7 +102,7 @@
 						isAborted = true;
 
 						setTimeout( function() {
-							reader.onabort();
+							xhr.onabort();
 						}, 0 );
 					}
 				};
