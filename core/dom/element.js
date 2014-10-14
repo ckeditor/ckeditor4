@@ -138,6 +138,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		element.addClass( 'classB' ); // <div class="classA classB">
 		 *		element.addClass( 'classA' ); // <div class="classA classB">
 		 *
+		 * **Note:** Since CKEditor 4.5 this method cannot be used with multiple classes (`'classA classB'`).
+		 *
 		 * @chainable
 		 * @method addClass
 		 * @param {String} className The name of the class to be added.
