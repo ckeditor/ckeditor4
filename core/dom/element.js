@@ -120,6 +120,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		supportsClassLists = !!testElement.classList,
 		rclass = /[\n\t\r]/g;
 
+	function hasClass( classNames, className ) {
+		// Source: jQuery.
+		return ( ' ' + classNames + ' ' ).replace( rclass, ' ' ).indexOf( ' ' + className + ' ' ) > -1;
+	}
+
 	CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_ELEMENT}.
@@ -154,8 +159,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function( className ) {
 				var c = this.$.className;
 				if ( c ) {
-					var regex = new RegExp( '(?:^|\\s)' + className + '(?:\\s|$)' );
-					if ( !regex.test( c ) )
+					if ( !hasClass( c, className ) )
 						c += ' ' + className;
 				}
 				this.$.className = c || className;
@@ -190,16 +194,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		:
 			function( className ) {
 				var c = this.getAttribute( 'class' );
-				if ( c ) {
-					var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' );
-					if ( regex.test( c ) ) {
-						c = c.replace( regex, '' ).replace( /^\s+/, '' );
+				if ( c && hasClass( c, className ) ) {
+					c = c
+						.replace( new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' ), '' )
+						.replace( /^\s+/, '' );
 
-						if ( c )
-							this.setAttribute( 'class', c );
-						else
-							this.removeAttribute( 'class' );
-					}
+					if ( c )
+						this.setAttribute( 'class', c );
+					else
+						this.removeAttribute( 'class' );
 				}
 
 				return this;
@@ -212,8 +215,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Boolean}
 		 */
 		hasClass: function( className ) {
-			// Source: jQuery.
-			return ( ' ' + this.$.className + ' ' ).replace( rclass, ' ' ).indexOf( ' ' + className + ' ' ) > -1;
+			return hasClass( this.$.className, className );
 		},
 
 		/**
