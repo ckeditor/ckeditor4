@@ -190,6 +190,14 @@
 		} );
 	}
 
+	// For unknown reason plugin is not loaded if the code coverage is enabled
+	// and there is no editor instance.
+	bender.editor = {
+		config: {
+			extraPlugins: 'filetools'
+		}
+	};
+
 	bender.test( {
 		'setUp': function() {
 			FileLoader = CKEDITOR.filetools.FileLoader;
