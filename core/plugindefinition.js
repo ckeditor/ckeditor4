@@ -5,15 +5,21 @@
 
 /**
  * @fileOverview Defines the "virtual" {@link CKEDITOR.pluginDefinition} class which
- *		contains the defintion of a plugin. This file is for documentation
+ *		contains the defintion of a plugin. This file serves documentation
  *		purposes only.
  */
 
 /**
- * Virtual class which just illustrates the features of plugin objects to be
+ * A virtual class that just illustrates the features of plugin objects which are
  * passed to the {@link CKEDITOR.plugins#add} method.
  *
- * This class is not really part of the API, so its constructor should not be called.
+ * This class is not really a part of the API, so its constructor should not be called.
+ *
+ * See also:
+ *
+ * * [The Plugin SDK](#!/guide/plugin_sdk_intro)
+ * * [Creating a CKEditor plugin in 20 Lines of Code](#!/guide/plugin_sdk_sample)
+ * * [Creating a Simple Plugin Tutorial](#!/guide/plugin_sdk_sample_1)
  *
  * @class CKEDITOR.pluginDefinition
  * @abstract
@@ -24,57 +30,132 @@
  * does not determine the loading order of the plugins.
  *
  *		CKEDITOR.plugins.add( 'sample', {
+ *			requires: 'button,selection'
+ *		} );
+ *
+ * Or:
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
  *			requires: [ 'button', 'selection' ]
  *		} );
  *
- * @property {Array} requires
+ * @property {String/String[]} requires
  */
 
 /**
- * A list of language files available for this plugin. These files are stored inside
- * the `lang` directory inside the plugin directory, follow the name
+ * The list of language files available for this plugin. These files are stored inside
+ * the `lang` directory in the plugin directory, follow the name
  * pattern of `langCode.js`, and contain the language definition created with
  * {@link CKEDITOR.plugins#setLang}.
  *
  * When the plugin is being loaded, the editor checks this list to see if
- * a language file of the current editor language ({@link CKEDITOR.editor#langCode})
+ * a language file in the current editor language ({@link CKEDITOR.editor#langCode})
  * is available, and if so, loads it. Otherwise, the file represented by the first item
  * in the list is loaded.
+ *
+ *		CKEDITOR.plugins.add( 'sample', {
+ *			lang: 'en,fr'
+ *		} );
+ *
+ * Or:
  *
  *		CKEDITOR.plugins.add( 'sample', {
  *			lang: [ 'en', 'fr' ]
  *		} );
  *
- * @property {Array} lang
+ * @property {String/String[]} lang
  */
 
 /**
- * A function called on initialization of every editor instance created in the
- * page before the {@link #init} call task. The `beforeInit` function will be called for
- * all plugins, after that the `init` function is called for all of them. This
- * feature makes it possible to initialize things that could be used in the
- * `init` function of other plugins.
+ * A function called when the plugin definition is loaded for the first time.
+ * It is usually used to execute some code once for the entire page,
+ * for instance code that uses the {@link CKEDITOR}'s methods such as the {@link CKEDITOR#addCss} method.
  *
  *		CKEDITOR.plugins.add( 'sample', {
- *			beforeInit: function( editor ) {
- *				alert( 'Editor "' + editor.name + '" is to be initialized!' );
+ *			onLoad: function() {
+ *				CKEDITOR.addCss( '.cke_some_class { ... }' );
  *			}
  *		} );
+ *
+ * Read more about the initialization order in the {@link #init} method documentation.
+ *
+ * @method onLoad
+ */
+
+/**
+ * A function called on initialization of every editor instance created on the
+ * page before the {@link #init} call task. This feature makes it possible to
+ * initialize things that could be used in the `init` function of other plugins.
+ *
+ *		CKEDITOR.plugins.add( 'sample1', {
+ *			beforeInit: function( editor ) {
+ *				editor.foo = 'bar';
+ *			}
+ *		} );
+ *
+ *		CKEDITOR.plugins.add( 'sample2', {
+ *			init: function( editor ) {
+ *				// This will work regardless of order in which
+ *				// plugins sample1 and sample2 where initialized.
+ *				console.log( editor.foo ); // 'bar'
+ *			}
+ *		} );
+ *
+ * Read more about the initialization order in the {@link #init} method documentation.
  *
  * @method beforeInit
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
  */
 
 /**
- * Function called on initialization of every editor instance created in the page.
+ * A function called on initialization of every editor instance created on the page.
  *
  *		CKEDITOR.plugins.add( 'sample', {
  *			init: function( editor ) {
- *				alert( 'Editor "' + editor.name + '" is being initialized!' );
+ *				console.log( 'Editor "' + editor.name + '" is being initialized!' );
  *			}
  *		} );
  *
+ * Initialization order:
+ *
+ * 1. The {@link #beforeInit} methods of all enabled plugins are executed.
+ * 2. The {@link #init} methods of all enabled plugins are executed.
+ * 3. The {@link #afterInit} methods of all enabled plugins are executed.
+ * 4. The {@link CKEDITOR.editor#pluginsLoaded} event is fired.
+ *
+ * **Note:** The order in which the `init` methods are called does not depend on the plugins' {@link #requires requirements}
+ * or the order set in the {@link CKEDITOR.config#plugins} option. It may be random and therefore it is
+ * recommended to use the {@link #beforeInit} and {@link #afterInit} methods in order to ensure
+ * the right execution sequence.
+ *
+ * See also the {@link #onLoad} method.
+ *
  * @method init
+ * @param {CKEDITOR.editor} editor The editor instance being initialized.
+ */
+
+/**
+ * A function called on initialization of every editor instance created on the
+ * page after the {@link #init} call task. This feature makes it possible to use things
+ * that were initialized in the `init` function of other plugins.
+ *
+ *		CKEDITOR.plugins.add( 'sample1', {
+ *			afterInit: function( editor ) {
+ *				// This will work regardless of order in which
+ *				// plugins sample1 and sample2 where initialized.
+ *				console.log( editor.foo ); // 'bar'
+ *			}
+ *		} );
+ *
+ *		CKEDITOR.plugins.add( 'sample2', {
+ *			init: function( editor ) {
+ *				editor.foo = 'bar';
+ *			}
+ *		} );
+ *
+ * Read more about the initialization order in the {@link #init} method documentation.
+ *
+ * @method afterInit
  * @param {CKEDITOR.editor} editor The editor instance being initialized.
  */
 
@@ -84,10 +165,10 @@
  * (defaults are `16px x 16px`) and stored under `plugin_name/icons/hidpi/` directory.
  *
  * The common place for additional HiDPI images used by the plugin (**but not icons**)
- * is `plugin_name/images/hidpi/` directory.
+ * is the `plugin_name/images/hidpi/` directory.
  *
  * This property is optional and only makes sense if `32px x 32px` icons
- * and high-resolution images actually exist. If this flag is set `true`, the editor
+ * and high-resolution images actually exist. If this flag is set to `true`, the editor
  * will automatically detect the HiDPI environment and attempt to load the
  * high-resolution resources.
  *

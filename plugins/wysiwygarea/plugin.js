@@ -686,7 +686,8 @@ CKEDITOR.config.disableNativeSpellChecker = true;
  *
  * **Note:** This configuration value is ignored by [inline editor](#!/guide/dev_inline)
  * as it uses the styles that come directly from the page that CKEditor is
- * rendered on.
+ * rendered on. It is also ignored in the {@link #fullPage full page mode} in
+ * which developer has a full control over the HTML.
  *
  *		config.contentsCss = '/css/mysitestyles.css';
  *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
