@@ -187,16 +187,17 @@
 		},
 
 		changeStatusAndFire: function( newStatus ) {
-			var defaultAbortFunction = function() {
-				this.changeStatusAndFire( 'abort' );
-			};
-
 			this.status = newStatus;
 
-			if ( newStatus =='created' ||
-				newStatus =='error' || newStatus =='abort' ||
+			if ( newStatus =='created' ) {
+				this.abort = function() {
+					this.changeStatusAndFire( 'abort' );
+				};
+			}
+
+			if ( newStatus =='error' || newStatus =='abort' ||
 				newStatus =='loaded' || newStatus =='uploaded' ) {
-				this.abort = defaultAbortFunction;
+				this.abort = function() {};
 			}
 
 			this.fire( newStatus );
