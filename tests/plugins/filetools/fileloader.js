@@ -140,7 +140,8 @@
 			var events = observer.events.split( '|' );
 			events.pop();
 
-			assert.areSame( expected.length, events.length, 'Events and expected length should be the same.' );
+			assert.areSame( expected.length, events.length,
+				'Events and expected length should be the same. Actual events:\n' + observer.events.replace( /\|/g, '\n' ) );
 
 			for ( var i = 0; i < events.length; i++ ) {
 				assert.areSame( expected[ i ], events[ i ] );
