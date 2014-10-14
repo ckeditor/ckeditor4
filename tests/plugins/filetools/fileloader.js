@@ -303,8 +303,6 @@
 					'loading[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/41/82,-,-,-]',
-					'loaded[loaded,name.png,0/82/82,-,result,-]',
-					'update[loaded,name.png,0/82/82,-,result,-]',
 					'uploading[uploading,name.png,0/82/82,-,result,-]',
 					'update[uploading,name.png,0/82/82,-,result,-]',
 					'update[uploading,name.png,41/82/82,-,result,-]',

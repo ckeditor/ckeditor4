@@ -62,11 +62,19 @@
 	FileLoader.prototype = {
 		loadAndUpload: function( url ) {
 			var loader = this;
-			this.once( 'loaded', function() {
-				setTimeout( function() {
-					loader.upload( url );
-				}, 0 );
-			} );
+
+			this.once( 'loaded', function( evt ) {
+				// Cancel both 'loaded' and 'update' events,
+				// because 'loaded' is terminated state.
+				evt.cancel();
+
+				loader.once( 'update', function( evt ) {
+					evt.cancel();
+				}, null, null, 0 );
+
+				// Start uploading.
+				loader.upload( url );
+			}, null, null, 0 );
 
 			this.load();
 		},
