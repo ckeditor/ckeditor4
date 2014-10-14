@@ -154,7 +154,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function( className ) {
 				var c = this.$.className;
 				if ( c ) {
-					var regex = new RegExp( '(?:^|\\s)' + className + '(?:\\s|$)', '' );
+					var regex = new RegExp( '(?:^|\\s)' + className + '(?:\\s|$)' );
 					if ( !regex.test( c ) )
 						c += ' ' + className;
 				}
@@ -191,7 +191,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function( className ) {
 				var c = this.getAttribute( 'class' );
 				if ( c ) {
-					var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', 'i' );
+					var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' );
 					if ( regex.test( c ) ) {
 						c = c.replace( regex, '' ).replace( /^\s+/, '' );
 
