@@ -686,12 +686,12 @@
 				this.attachClass( 'cke_editable' );
 
 				// The element mode css class.
-				this.attachClass( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
-					'cke_editable_inline' :
-					editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ||
-					editor.elementMode == CKEDITOR.ELEMENT_MODE_APPENDTO ?
-					'cke_editable_themed' : ''
-				);
+				if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+					this.attachClass( 'cke_editable_inline' );
+				} else if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ||
+					editor.elementMode == CKEDITOR.ELEMENT_MODE_APPENDTO ) {
+					this.attachClass( 'cke_editable_themed' );
+				}
 
 				this.attachClass( 'cke_contents_' + editor.config.contentsLangDirection );
 
