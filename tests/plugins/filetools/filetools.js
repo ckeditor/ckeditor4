@@ -4,11 +4,12 @@
 'use strict';
 
 ( function() {
-	var getUploadUrl;
+	var getUploadUrl, isExtentionSupported;
 
 	bender.test( {
 		'setUp': function() {
 			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
+			isExtentionSupported = CKEDITOR.filetools.isExtentionSupported;
 		},
 
 		'test getUploadUrl 1': function() {
@@ -76,6 +77,18 @@
 			} );
 
 			assert.areSame( 'filebrowserUploadUrl&responseType=json', uploadUrl );
-		}
+		},
+
+		'test isExtentionSupported 1': function() {
+			assert.isTrue( isExtentionSupported( { name: 'foo.jpg' } ) );
+		},
+
+		'test isExtentionSupported 2': function() {
+			assert.isTrue( isExtentionSupported( { name: 'foo.jpg' }, [ 'png', 'jpg', 'gif' ] ) );
+		},
+
+		'test isExtentionSupported 3': function() {
+			assert.isFalse( isExtentionSupported( { name: 'foo.jpg' }, [ 'png', 'gif' ] ) );
+		},
 	} );
 } )();
