@@ -6,6 +6,12 @@
 ( function() {
 	var getUploadUrl, isExtentionSupported, getExtention;
 
+	bender.editor = {
+		config: {
+			extraPlugins: 'filetools'
+		}
+	};
+
 	bender.test( {
 		'setUp': function() {
 			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
@@ -120,5 +126,31 @@
 		'test getExtention 5': function() {
 			assert.areSame( 'bom', getExtention( 'foo.bar.bom' ) );
 		},
+
+		'test UploadsRepository': function() {
+			var repository = this.editor.uploadsRepository;
+
+			assert.areSame( 0, repository._.loaders.length );
+			assert.isUndefined( repository.get( 0 ) );
+
+			var loader1 = repository.create( { name: 'name1' } );
+
+			assert.areSame( 0, loader1.id );
+			assert.areSame( 'name1', loader1.fileName );
+
+			assert.areSame( 1, repository._.loaders.length );
+			assert.areSame( 'name1', repository.get( 0 ).fileName );
+			assert.isUndefined( repository.get( 1 ) );
+
+			var loader2 = repository.create( { name: 'name2' } );
+
+			assert.areSame( 1, loader2.id );
+			assert.areSame( 'name2', loader2.fileName );
+
+			assert.areSame( 2, repository._.loaders.length );
+			assert.areSame( 'name1', repository.get( 0 ).fileName );
+			assert.areSame( 'name2', repository.get( 1 ).fileName );
+			assert.isUndefined( repository.get( 2 ) );
+		}
 	} );
 } )();
