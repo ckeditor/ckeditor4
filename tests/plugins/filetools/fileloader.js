@@ -8,7 +8,8 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader,
 		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==",
-		testFile = getTestFile();
+		testFile = getTestFile(),
+		lastFormData;
 
 
 	function createFileReaderMock( scenario ) {
@@ -65,6 +66,8 @@
 					},
 
 					send: function( formData ) {
+						lastFormData = formData;
+
 						for ( var i = 0; i < scenario.length; i++ ) {
 							if ( !isAborted ) {
 								( function( i ) {
@@ -764,6 +767,55 @@
 			} );
 
 			loader.update();
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test replace sendRequest and handleResponse': function() {
+			var loader = new FileLoader( {}, testFile ),
+				observer = observeEvents( loader ),
+				sendRequestBackup = FileLoader.prototype.sendRequest,
+				handleResponseBackup = FileLoader.prototype.handleResponse,
+				sendRequestCounter = 0,
+				handleResponseCounter = 0,
+				sendForm;
+
+			FileLoader.prototype.sendRequest = function( xhr ) {
+				sendRequestCounter++;
+				xhr.send( 'custom form' );
+			};
+
+			FileLoader.prototype.handleResponse = function( xhr ) {
+				handleResponseCounter++;
+
+				var response = xhr.responseText.split( '|' );
+
+				this.fileName = response[ 0 ];
+				this.url = response[ 1 ];
+				this.message = response[ 2 ];
+				this.changeStatusAndFire( 'uploaded' );
+			};
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: 'customName.png|customUrl|customMessage' } );
+
+			resumeAfter( loader, 'uploaded', function() {
+				FileLoader.prototype.sendRequest = sendRequestBackup;
+				FileLoader.prototype.handleResponse = handleResponseBackup;
+
+				assert.areSame( 1, sendRequestCounter, 'sendRequestCounter' );
+				assert.areSame( 1, handleResponseCounter, 'handleResponseCounter' );
+				assert.areSame( 'custom form', lastFormData );
+
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'uploaded[uploaded,customName.png,82/0/82,customMessage,-,customUrl]',
+					'update[uploaded,customName.png,82/0/82,customMessage,-,customUrl]' ] );
+			} );
+
 			loader.upload( 'http:\/\/url\/' );
 
 			wait();
