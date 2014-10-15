@@ -48,10 +48,7 @@
 
 					abort: function() {
 						isAborted = true;
-
-						setTimeout( function() {
-							reader.onabort();
-						}, 0 );
+						reader.onabort();
 					}
 				};
 
@@ -504,6 +501,30 @@
 					'update[loading,name.png,0/41/82,-,-,-]',
 					'error[error,name.png,0/41/82,errorMsg,-,-]',
 					'update[error,name.png,0/41/82,errorMsg,-,-]', ] );
+			} );
+
+			loader.load();
+
+			wait();
+		},
+
+		'test abort on abort (abort twice)': function() {
+			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader ),
+				abort = function() {
+					loader.abort();
+				};
+
+			createFileReaderMock( [ 'progress', abort, abort ] );
+
+			resumeAfter( loader, 'abort', function() {
+				observer.assert( [
+					'loading[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/0/82,-,-,-]',
+					'update[loading,name.png,0/41/82,-,-,-]',
+					'abort[abort,name.png,0/41/82,-,-,-]',
+					'update[abort,name.png,0/41/82,-,-,-]' ] );
 			} );
 
 			loader.load();
