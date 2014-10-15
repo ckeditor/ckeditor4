@@ -79,6 +79,15 @@
 			assert.areSame( 'filebrowserUploadUrl&responseType=json', uploadUrl );
 		},
 
+		'test getUploadUrl - throw error if no matching config': function() {
+			try {
+				getUploadUrl( {} );
+				assert.fail( 'getUploadUrl should throw error if no matching configuration option was found.' );
+			} catch ( err ) {
+				assert.areSame( 'Upload URL is not defined.', err );
+			}
+		},
+
 		'test isExtentionSupported 1': function() {
 			assert.isTrue( isExtentionSupported( { name: 'foo.jpg' } ) );
 		},
