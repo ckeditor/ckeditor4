@@ -253,8 +253,6 @@
 	}
 
 	function getUploadUrl( config, type ) {
-		var url = config[ type + 'UploadUrl' ];
-
 		if ( type && config[ type + 'UploadUrl' ] ) {
 			return config[ type + 'UploadUrl' ];
 		} else if ( config[ 'uploadUrl' ] ) {
