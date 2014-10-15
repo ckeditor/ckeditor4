@@ -4,12 +4,13 @@
 'use strict';
 
 ( function() {
-	var getUploadUrl, isExtentionSupported;
+	var getUploadUrl, isExtentionSupported, getExtention;
 
 	bender.test( {
 		'setUp': function() {
 			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
 			isExtentionSupported = CKEDITOR.filetools.isExtentionSupported;
+			getExtention = CKEDITOR.filetools.getExtention;
 		},
 
 		'test getUploadUrl 1': function() {
@@ -98,6 +99,26 @@
 
 		'test isExtentionSupported 3': function() {
 			assert.isFalse( isExtentionSupported( { name: 'foo.jpg' }, [ 'png', 'gif' ] ) );
+		},
+
+		'test getExtention 1': function() {
+			assert.areSame( '', getExtention( 'foo' ) );
+		},
+
+		'test getExtention 2': function() {
+			assert.areSame( '', getExtention( 'foo.' ) );
+		},
+
+		'test getExtention 3': function() {
+			assert.areSame( '', getExtention( '.foo' ) );
+		},
+
+		'test getExtention 4': function() {
+			assert.areSame( 'bar', getExtention( 'foo.bar' ) );
+		},
+
+		'test getExtention 5': function() {
+			assert.areSame( 'bom', getExtention( 'foo.bar.bom' ) );
 		},
 	} );
 } )();
