@@ -56,7 +56,7 @@
 		}
 	}
 
-	function createXMLHttpRequestMock( scenario ) {
+	function createXMLHttpRequestMock( scenario, response ) {
 		var isAborted = false;
 
 		window.XMLHttpRequest = function() {
@@ -78,8 +78,9 @@
 													evt = { loaded: 41 };
 													break;
 												case 'load':
-													xhr.status = 200;
-													xhr.responseText = '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}'
+													xhr.status = ( response && response.responseStatus ) ? response.responseStatus : 200;
+													xhr.responseText = ( response && response.responseText ) ? response.responseText :
+													 '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}';
 													break;
 											}
 
@@ -596,6 +597,147 @@
 			} );
 
 			loader.loadAndUpload();
+
+			wait();
+		},
+
+		'test error incorrect response': function() {
+			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseText: 'incorrect' } );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,responseError incorrect,-,-]',
+					'update[error,name.png,82/0/82,responseError incorrect,-,-]', ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test error in response': function() {
+			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: '{' +
+					'"fileName":"name2.png",' +
+					'"uploaded":0,' +
+					'"url":"http:\/\/url\/name2.png",' +
+					'"error":{' +
+						'"message":"errorFromServer"' +
+					'}' +
+				'}' } );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,errorFromServer,-,-]',
+					'update[error,name.png,82/0/82,errorFromServer,-,-]', ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test response with message': function() {
+			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: '{' +
+					'"fileName":"name2.png",' +
+					'"uploaded":1,' +
+					'"url":"http:\/\/url\/name2.png",' +
+					'"error":{' +
+						'"message":"messageFromServer"' +
+					'}' +
+				'}' } );
+
+			resumeAfter( loader, 'uploaded', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'uploaded[uploaded,name2.png,82/0/82,messageFromServer,-,http://url/name2.png]',
+					'update[uploaded,name2.png,82/0/82,messageFromServer,-,http://url/name2.png]', ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test error 404 with message': function() {
+			var editorMock = { lang: { filetools: { httpError404: 'httpError404' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,httpError404,-,-]',
+					'update[error,name.png,82/0/82,httpError404,-,-]', ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test error 404 general message': function() {
+			var editorMock = { lang: { filetools: { httpError: 'httpError %1' } } },
+				loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,httpError 404,-,-]',
+					'update[error,name.png,82/0/82,httpError 404,-,-]', ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test upload ok on status 202': function() {
+			var loader = new FileLoader( {}, testFile ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 202 } );
+
+			resumeAfter( loader, 'uploaded', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
 
 			wait();
 		}
