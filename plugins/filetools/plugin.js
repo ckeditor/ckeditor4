@@ -159,6 +159,8 @@
 			};
 
 			xhr.onload = function( evt ) {
+				loader.uploaded = loader.total;
+
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
@@ -166,7 +168,6 @@
 					}
 					loader.changeStatusAndFire( 'error' );
 				} else {
-					loader.uploaded = loader.total;
 					loader.handleResponse( xhr );
 				}
 			};
