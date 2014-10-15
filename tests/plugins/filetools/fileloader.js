@@ -740,6 +740,33 @@
 			loader.upload( 'http:\/\/url\/' );
 
 			wait();
+		},
+
+		'test update': function() {
+			var loader = new FileLoader( {}, testFile ),
+				observer = observeEvents( loader ),
+				update = function() {
+					loader.update();
+				};
+
+			createXMLHttpRequestMock( [ 'progress', update, 'load', update ] );
+
+			resumeAfter( loader, 'uploaded', function() {
+				observer.assert( [
+					'update[created,name.png,0/0/82,-,-,-]',
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+			} );
+
+			loader.update();
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
 		}
 	} );
 } )();
