@@ -76,6 +76,15 @@
 				lastUploadUrl = url;
 			};
 		},
+
+		'tearDown': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			// Clear uploads repository.
+			editor.uploadsRepository._.loaders = [];
+		},
+
 		'test upload (integration test)': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
