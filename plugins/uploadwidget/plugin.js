@@ -8,7 +8,7 @@
 	CKEDITOR.plugins.add( 'uploadwidget', {
 		requires: 'widget,clipboard,filetools',
 
-		init: function() {
+		init: function( editor ) {
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
 		}
 	} );
