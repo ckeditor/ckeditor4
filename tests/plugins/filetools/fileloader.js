@@ -8,7 +8,7 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader,
 		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==",
-		testFile = getTestFile(),
+		testFile = bender.tools.getTestFile(),
 		lastFormData;
 
 
@@ -152,37 +152,6 @@
 		return observer;
 	}
 
-	function srcToFile( src ) {
-		var base64HeaderRegExp = /^data:(\S*?);base64,/,
-			contentType = src.match( base64HeaderRegExp )[ 1 ],
-			base64Data = src.replace( base64HeaderRegExp, '' ),
-			byteCharacters = atob( base64Data ),
-			byteArrays = [],
-			sliceSize = 512,
-			offset, slice, byteNumbers, i, byteArray;
-
-		for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
-			slice = byteCharacters.slice( offset, offset + sliceSize );
-
-			byteNumbers = new Array( slice.length );
-			for ( i = 0; i < slice.length; i++ ) {
-				byteNumbers[ i ] = slice.charCodeAt( i );
-			}
-
-			byteArray = new Uint8Array( byteNumbers );
-
-			byteArrays.push( byteArray );
-		}
-
-		return new Blob( byteArrays, { type: contentType } );
-	}
-
-	function getTestFile() {
-		var file = srcToFile( pngBase64 );
-		file.name = 'name.png';
-		return file;
-	}
-
 	function resumeAfter( object, evtName, fun ) {
 		object.on( evtName, function() {
 			setTimeout( function() {
@@ -208,8 +177,6 @@
 			window.FileReader = FileReaderBackup;
 			window.XMLHttpRequest = XMLHttpRequestBackup;
 		},
-
-
 
 		'test constructor string, no name': function() {
 			var loader = new FileLoader( {}, pngBase64 );
