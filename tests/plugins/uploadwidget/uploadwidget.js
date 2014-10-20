@@ -12,6 +12,60 @@
 		}
 	};
 
+	function pasteFiles( editor, files ) {
+		var	nativeData = bender.tools.mockNativeDataTransfer();
+
+		nativeData.files = files;
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		editor.fire( 'paste', {
+			dataTransfer: dataTransfer,
+			dataValue: ''
+		} );
+	}
+
+	function addTestUploadWidget( editor, name, def ) {
+		if ( !def ) {
+			def = {}
+		}
+
+		CKEDITOR.tools.extend( def, {
+			uploadUrl: 'uploadUrl',
+
+			fileToElement: function( file ) {
+				var span = new CKEDITOR.dom.element( 'span' );
+				span.setText( 'uploading...' );
+				return span;
+			},
+
+			onuploaded: function( upload ) {
+				this.replaceWith( 'uploaded' );
+			}
+		} );
+
+		filetools.addUploadWidget( editor, name, def );
+	}
+
+	function assertUploadingWidgets( editor, expectedWidgetsCount ) {
+		var widgets = CKEDITOR.dom.element.createFromHtml( editor.editable().getHtml() ).find( 'span[data-widget="testuploadwidget"]' ),
+			widget, i;
+
+		if ( !expectedWidgetsCount ) {
+			expectedWidgetsCount = 1;
+		}
+
+		assert.areSame( expectedWidgetsCount, widgets.count() );
+
+		for ( i = 0; i < widgets.count(); i++ ) {
+			widget = widgets.getItem( i );
+			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
+			assert.areSame( 'uploading...', widget.getHtml() );
+		};
+
+		assert.areSame( '', editor.getData() );
+	}
+
 	bender.test( {
 		'setUp': function() {
 			filetools = CKEDITOR.filetools;
@@ -22,41 +76,15 @@
 				lastUploadUrl = url;
 			};
 		},
-		'test upload': function() {
+		'test upload (integration test)': function() {
 			var bot = this.editorBot,
-				editor = bot.editor,
-				nativeData = bender.tools.mockNativeDataTransfer();
+				editor = bot.editor;
 
-			nativeData.files = [ bender.tools.getTestFile() ];
+			addTestUploadWidget( editor, 'testuploadwidget' );
 
-			var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
-			filetools.addUploadWidget( editor, 'testuploadwidget', {
-				uploadUrl: 'uploadUrl',
-
-				fileToElement: function( file ) {
-					var span = new CKEDITOR.dom.element( 'span' );
-					span.setText( 'uploading...' );
-					return span;
-				},
-
-				onuploaded: function( upload ) {
-					this.replaceWith( 'uploaded' );
-				}
-			} );
-
-			editor.fire( 'paste', {
-				dataTransfer: dataTransfer,
-				dataValue: ''
-			} );
-
-			var widgets = CKEDITOR.dom.element.createFromHtml( editor.editable().getHtml() ).find( 'span[data-widget="testuploadwidget"]' );
-			assert.areSame( 1, widgets.count() );
-			var widget = widgets.getItem( 0 );
-			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
-			assert.areSame( 'uploading...', widget.getHtml() );
-
-			assert.areSame( '', editor.getData() );
+			assertUploadingWidgets( editor );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
