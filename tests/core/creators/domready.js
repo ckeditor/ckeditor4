@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,jquery */
 /* bender-ckeditor-plugins: wysiwygarea */
 
 CKEDITOR.replaceClass = 'ckeditor';
