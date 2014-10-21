@@ -287,6 +287,20 @@
 			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
 			wait();
+		},
+
+		'test no fileToElement method': function() {
+			var editor = mockEditorForPaste();
+
+			filetools.addUploadWidget( editor, 'noFileToElement', {} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( '', evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile() ] );
+
+			wait();
 		}
 	} );
 } )();
