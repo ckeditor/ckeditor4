@@ -431,10 +431,36 @@
 		}
 	};
 
-	bender.startRunner = function( tests ) {
-		var testId = window.location.pathname
-			.replace( /^(\/|\/(?:jobs\/(?:\w+)\/tests)\/)/i, '' );
+	function onReady( callback ) {
+		function complete() {
+			if ( document.addEventListener ||
+				event.type === 'load' ||
+				document.readyState === 'complete' ) {
 
+				if ( document.removeEventListener ) {
+					document.removeEventListener( 'DOMContentLoaded', complete, false );
+					window.removeEventListener( 'load', complete, false );
+				} else {
+					document.detachEvent( 'onreadystatechange', complete );
+					window.detachEvent( 'onload', complete );
+				}
+
+				callback();
+			}
+		}
+
+		if ( document.readyState === 'complete' ) {
+			setTimeout( callback );
+		} else if ( document.addEventListener ) {
+			document.addEventListener( 'DOMContentLoaded', complete, false );
+			window.addEventListener( 'load', complete, false );
+		} else {
+			document.attachEvent( 'onreadystatechange', complete );
+			window.attachEvent( 'onload', complete );
+		}
+	}
+
+	bender.startRunner = function( tests ) {
 		tests = tests || bender.deferredTests;
 
 		if ( bender.deferredTests ) {
@@ -480,7 +506,7 @@
 			bender.oldTest( tests );
 		}
 
-		$( startRunner );
+		onReady( startRunner );
 	};
 
 	bender.getAbsolutePath = function( path ) {
