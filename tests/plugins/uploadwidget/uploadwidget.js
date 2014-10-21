@@ -4,7 +4,7 @@
 'use strict';
 
 ( function() {
-	var filetools, lastUploadUrl;
+	var filetools, resumeAfter, lastUploadUrl;
 
 	bender.editor = {
 		config: {
@@ -69,6 +69,7 @@
 	bender.test( {
 		'setUp': function() {
 			filetools = CKEDITOR.filetools;
+			resumeAfter = bender.tools.resumeAfter;
 
 			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
 

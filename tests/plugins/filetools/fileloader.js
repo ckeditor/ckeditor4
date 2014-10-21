@@ -6,7 +6,7 @@
 ( function() {
 	var FileReaderBackup = window.FileReader,
 		XMLHttpRequestBackup = window.XMLHttpRequest,
-		FileLoader,
+		FileLoader, resumeAfter,
 		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==",
 		testFile = bender.tools.getTestFile(),
 		lastFormData;
@@ -152,14 +152,6 @@
 		return observer;
 	}
 
-	function resumeAfter( object, evtName, fun ) {
-		object.on( evtName, function() {
-			setTimeout( function() {
-				resume( fun );
-			}, 0 );
-		} );
-	}
-
 	// For unknown reason plugin is not loaded if the code coverage is enabled
 	// and there is no editor instance.
 	bender.editor = {
@@ -171,6 +163,7 @@
 	bender.test( {
 		'setUp': function() {
 			FileLoader = CKEDITOR.filetools.FileLoader;
+			resumeAfter = bender.tools.resumeAfter;
 		},
 
 		'tearDown': function() {
