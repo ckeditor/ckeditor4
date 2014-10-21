@@ -12,7 +12,7 @@
 				uploadUrl = filetools.getUploadUrl( editor.config, 'image' );
 
 			filetools.addUploadWidget( editor, 'uploadimage', {
-				supportedExtentions: 'jpg,jpeg,png,gif',
+				supportedExtensions: 'jpg,jpeg,png,gif',
 
 				uploadUrl: uploadUrl,
 

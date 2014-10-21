@@ -17,7 +17,7 @@
 		var filetools = CKEDITOR.filetools,
 			uploads = editor.uploadsRepository,
 			// Plugins which support all file type has lower priority then plugins which support specific types.
-			priority = def.supportedExtentions ? 10 : 20;
+			priority = def.supportedExtensions ? 10 : 20;
 
 		if ( def.fileToElement ) {
 			editor.on( 'paste', function( evt ) {
@@ -33,7 +33,7 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( filetools.isExtentionSupported( file, def.supportedExtentions ) ) {
+					if ( filetools.isExtentionSupported( file, def.supportedExtensions ) ) {
 						var el = def.fileToElement( file ),
 							loader = uploads.create( file );
 
