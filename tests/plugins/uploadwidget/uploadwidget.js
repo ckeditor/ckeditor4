@@ -4,7 +4,8 @@
 'use strict';
 
 ( function() {
-	var filetools, resumeAfter, lastUploadUrl;
+	var filetools, resumeAfter, lastUploadUrl,
+		loadAndUploadCount = 0;
 
 	bender.editor = {
 		config: {
@@ -12,7 +13,7 @@
 		}
 	};
 
-	function pasteFiles( editor, files ) {
+	function pasteFiles( editor, files, dataValue ) {
 		var	nativeData = bender.tools.mockNativeDataTransfer();
 
 		nativeData.files = files;
@@ -21,7 +22,7 @@
 
 		editor.fire( 'paste', {
 			dataTransfer: dataTransfer,
-			dataValue: ''
+			dataValue: dataValue ? dataValue : ''
 		} );
 	}
 
@@ -86,6 +87,10 @@
 			filetools = CKEDITOR.filetools;
 			resumeAfter = bender.tools.resumeAfter;
 
+			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function() {
+				loadAndUploadCount++;
+			}
+
 			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
 
 			CKEDITOR.filetools.FileLoader.prototype.upload = function( url ) {
@@ -99,6 +104,7 @@
 
 			// Clear uploads repository.
 			editor.uploadsRepository._.loaders = [];
+			loadAndUploadCount = 0;
 		},
 
 		'test upload (integration test)': function() {
@@ -110,6 +116,8 @@
 			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
 			assertUploadingWidgets( editor, 'testuploadwidget' );
+
+			assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
@@ -194,6 +202,89 @@
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+
+			wait();
+		},
+
+		'test paste multiple files': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'pngWidget', {
+				supportedExtensions: [ 'png' ],
+
+				fileToElement: function( file ) {
+					var span = new CKEDITOR.dom.element( 'span' );
+					span.setText( 'png' );
+					return span;
+				}
+			} );
+			addTestUploadWidget( editor, 'txtWidget', {
+				supportedExtensions: [ 'txt' ],
+
+				fileToElement: function( file ) {
+					var span = new CKEDITOR.dom.element( 'span' );
+					span.setText( 'txt' );
+					return span;
+				}
+			} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame(
+					'<span data-cke-upload-id="0" data-widget="pngWidget">png</span>' +
+					'<span data-cke-upload-id="1" data-widget="pngWidget">png</span>', evt.data.dataValue,
+					'Only one type of file should be supported but all of the files on this type.' );
+			} );
+
+			pasteFiles( editor, [
+				bender.tools.getTestFile( 'test1.png' ),
+				bender.tools.getTestFile( 'test2.txt' ),
+				bender.tools.getTestFile( 'test3.png' ) ] );
+
+			wait();
+		},
+
+		'test paste no files': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'noFilesWidget' );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( '', evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [] );
+
+			wait();
+		},
+
+		'test no file handling if data value is not empty': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'noFilesWidget' );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( 'some data', evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile() ], 'some data' );
+
+			wait();
+		},
+
+		'test fileToElement returns null': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'pngWidget', {
+				fileToElement: function( file ) {
+					return null;
+				}
+			} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( '', evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
 			wait();
 		}
