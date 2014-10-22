@@ -92,6 +92,15 @@ var config = {
 			}
 		},
 
+		'External Plugins': {
+			applications: [ 'ckeditor' ],
+			basePath: 'plugins/',
+			paths: [
+				'*/tests/**',
+				'!**/_*/**'
+			]
+		},
+
 		'Tickets': {
 			applications: [ 'ckeditor' ],
 			basePath: 'tests/',
