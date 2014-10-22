@@ -612,6 +612,12 @@
 					assert.areSame( 'abort', loader.status );
 				} );
 			} );
+		},
+
+		'test markElement': function() {
+			var element = new CKEDITOR.dom.element( 'p' );
+			CKEDITOR.filetools.markElement( element, 'widgetName', 1 );
+			assert.areSame( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
 		}
 	} );
 } )();
