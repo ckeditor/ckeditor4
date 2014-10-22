@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: uploadwidget,toolbar,undo */
+/* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
 
 'use strict';
 
@@ -9,7 +9,7 @@
 
 	bender.editor = {
 		config: {
-			extraPlugins: 'uploadwidget,toolbar,undo'
+			extraPlugins: 'uploadwidget,toolbar,undo,basicstyles'
 		}
 	};
 
@@ -49,7 +49,7 @@
 	}
 
 	function assertUploadingWidgets( editor, widgetName, expectedWidgetsCount ) {
-		var widgets = CKEDITOR.dom.element.createFromHtml( editor.editable().getHtml() ).find( 'span[data-widget="' + widgetName + '"]' ),
+		var widgets = CKEDITOR.dom.element.createFromHtml( '<div>' + editor.editable().getHtml() + '</div>' ).find( 'span[data-widget="' + widgetName + '"]' ),
 			widget, i;
 
 		if ( expectedWidgetsCount === undefined ) {
@@ -369,6 +369,248 @@
 				editor.execCommand( 'redo' );
 
 				assert.areSame( '<p>xx</p>', editor.getData(), 'After redo.' );
+			} );
+		},
+
+		'test error during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testErrorDuring' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testErrorDuring">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testErrorDuring' );
+				assert.areSame( '<p>xx</p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'error' );
+
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After error.' );
+				assertUploadingWidgets( editor, 'testErrorDuring', 0 );
+			} );
+		},
+
+		'test changes and undo during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				p;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoDuring' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p><p id="p">foo</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoDuring' );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
+
+				p = editor.document.getById( 'p' );
+				editor.getSelection().selectElement( p );
+
+				editor.execCommand( 'bold' );
+
+				assertUploadingWidgets( editor, 'testUndoDuring' );
+				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
+
+				editor.execCommand( 'undo' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoDuring' );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p>[<p id="p">foo</p>]', bender.tools.selection.getWithHtml( editor ) );
+			} );
+		},
+
+		'test changes, undo and redo during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				p;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoRedoDuring' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p><p id="p">foo</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedoDuring">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
+
+				p = editor.document.getById( 'p' );
+				editor.getSelection().selectElement( p );
+
+				editor.execCommand( 'bold' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
+				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
+
+				editor.execCommand( 'undo' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
+
+				editor.execCommand( 'redo' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
+				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p><p id="p"><strong>[foo]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+			} );
+		},
+
+		'test changes during upload and undo after upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				p;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoRedoAfter' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p><p id="p">foo</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedoAfter">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoAfter' );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
+
+				p = editor.document.getById( 'p' );
+				editor.getSelection().selectElement( p );
+
+				editor.execCommand( 'bold' );
+
+				assertUploadingWidgets( editor, 'testUndoRedoAfter' );
+				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p><p id="p"><strong>[foo]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+
+				editor.execCommand( 'undo' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p>[<p id="p">foo</p>]', bender.tools.selection.getWithHtml( editor ) );
+
+				editor.execCommand( 'redo' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p><p id="p"><strong>[foo]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+			} );
+		},
+
+		'test copy upload widget': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				p;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testCopy' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p><p id="p">x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testCopy">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testCopy' );
+				assert.areSame( '<p>xx</p><p id="p">x</p>', editor.getData() );
+
+				p = editor.document.getById( 'p' );
+				editor.getSelection().selectElement( p );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testCopy">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testCopy', 2 );
+				assert.areSame( '<p>xx</p><p></p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p><p>uploaded{}</p>', bender.tools.selection.getWithHtml( editor ) );
+
+				editor.execCommand( 'undo' );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx</p>[<p id="p">x</p>]', bender.tools.selection.getWithHtml( editor ) );
+
+				editor.execCommand( 'undo' );
+
+				assert.isInnerHtmlMatching( '<p>x{}x</p><p id="p">x</p>', bender.tools.selection.getWithHtml( editor ) );
+			} );
+		},
+
+		'test remove during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoDuring' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoDuring' );
+				assert.areSame( '<p>xx</p>', editor.getData() );
+
+				bot.setData( '', function() {
+					assertUploadingWidgets( editor, 'testUndoDuring', 0 );
+					assert.areSame( '', editor.getData() );
+
+					loader.changeStatusAndFire( 'progress' );
+
+					assert.areSame( 'abort', loader.status );
+
+					editor.execCommand( 'undo' );
+
+					assert.areSame( '<p>xx</p>', editor.getData() );
+					assert.areSame( 'abort', loader.status );
+				} );
 			} );
 		}
 	} );
