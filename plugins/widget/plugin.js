@@ -450,7 +450,7 @@
 			}
 
 			return function( element, checkWrapperOnly ) {
-				if ( !element )
+				if ( !element || element.type != CKEDITOR.NODE_ELEMENT )
 					return null;
 
 				var id = getWidgetId( element );
