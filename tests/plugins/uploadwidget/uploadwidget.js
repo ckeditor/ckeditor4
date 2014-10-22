@@ -618,6 +618,67 @@
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.filetools.markElement( element, 'widgetName', 1 );
 			assert.areSame( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
+		},
+
+		'test custom event lister': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				onErrorCount = 0, uploadId;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testOnError', {
+				onerror: function( upload ) {
+					onErrorCount++;
+					uploadId = upload.id;
+				}
+			} );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnError">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'error' );
+
+				assert.areSame( 'error', loader.status );
+				assert.areSame( 1, onErrorCount );
+				assert.areSame( loader.id, uploadId );
+				assertUploadingWidgets( editor, 'testOnError', 0 );
+			} );
+		},
+
+		'test custom event lister with prevent default': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() ),
+				onErrorCount = 0, uploadId;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testOnAbortFalse', {
+				onerror: function( upload ) {
+					onErrorCount++;
+					uploadId = upload.id;
+					return false;
+				}
+			} );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnAbortFalse">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'error' );
+
+				assert.areSame( 'error', loader.status );
+				assert.areSame( 1, onErrorCount );
+				assert.areSame( loader.id, uploadId );
+				assertUploadingWidgets( editor, 'testOnAbortFalse' );
+			} );
 		}
 	} );
 } )();
