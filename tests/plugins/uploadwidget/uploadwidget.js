@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: uploadwidget */
+/* bender-ckeditor-plugins: uploadwidget,toolbar,undo */
 
 'use strict';
 
@@ -9,7 +9,7 @@
 
 	bender.editor = {
 		config: {
-			extraPlugins: 'uploadwidget'
+			extraPlugins: 'uploadwidget,toolbar,undo'
 		}
 	};
 
@@ -63,8 +63,6 @@
 			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
 			assert.areSame( 'uploading...', widget.getHtml() );
 		};
-
-		assert.areSame( '', editor.getData() );
 	}
 
 	function mockEditorForPaste() {
@@ -105,6 +103,8 @@
 			// Clear uploads repository.
 			editor.uploadsRepository._.loaders = [];
 			loadAndUploadCount = 0;
+
+			editor.resetUndo();
 		},
 
 		'test upload (integration test)': function() {
@@ -116,6 +116,7 @@
 			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
 			assertUploadingWidgets( editor, 'testuploadwidget' );
+			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
 			assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
 
@@ -301,6 +302,74 @@
 			pasteFiles( editor, [ bender.tools.getTestFile() ] );
 
 			wait();
+		},
+
+		'test undo and redo': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoRedo' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedo">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoRedo' );
+				assert.areSame( '<p>xx</p>', editor.getData() );
+
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assert.isInnerHtmlMatching( '<p>xuploaded{}x</p>', bender.tools.selection.getWithHtml( editor ), 'After redo.' );
+
+				editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After undo.' );
+
+				editor.execCommand( 'redo' );
+
+				assert.isInnerHtmlMatching( '<p>xuploaded{}x</p>', bender.tools.selection.getWithHtml( editor ), 'After redo.' );
+			} );
+		},
+
+		'test undo during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testUndoDuring' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assertUploadingWidgets( editor, 'testUndoDuring' );
+				assert.areSame( '<p>xx</p>', editor.getData() );
+
+				editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After undo.' );
+
+				loader.changeStatusAndFire( 'progress' );
+
+				assert.areSame( 'abort', loader.status );
+
+				editor.execCommand( 'redo' );
+
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After redo.' );
+			} );
 		}
 	} );
 } )();
