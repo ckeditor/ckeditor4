@@ -90,7 +90,9 @@
 
 			replaceWith: function( html ) {
 				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } ),
-					el = CKEDITOR.dom.element.createFromHtml( processedHtml );
+					el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
+					wasSelected = this.wrapper.hasClass( 'cke_widget_selected' ),
+					range;
 
 				el.replace( this.wrapper );
 
@@ -99,6 +101,12 @@
 				// Ensure that old widgets instance will be removed.
 				// If this init is because of paste then checkWidgets will not remove it.
 				editor.widgets.destroy( this, true );
+
+				if ( wasSelected ) {
+					range = editor.createRange();
+					range.setStartAt( el, CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+				}
 			}
 		} );
 
