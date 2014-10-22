@@ -29,7 +29,10 @@ var config = {
 				'adapters/**',
 				'!**/_*/**'
 			],
-			jquery: [ '1.7', '1.7.2', '1.8.3', '1.9.1', '1.10.2', '2.0.0' ]
+			// Latest of the old API (1.8.3)
+			// Latest of the 1.* branch
+			// Latest of the 2.* branch
+			jquery: [ '1.8.3', '1.11.1', '2.1.1' ]
 		},
 
 		'Core': {
