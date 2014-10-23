@@ -88,9 +88,16 @@
 				loader.update();
 			},
 
+			// TODO: Use insertHtmlIntoRange (#12448) and handle multiple elements.
 			replaceWith: function( html ) {
-				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } ),
-					el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
+				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } );
+
+				if ( processedHtml.trim() == '' ) {
+					editor.widgets.del( this );
+					return;
+				}
+
+				var el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
 					wasSelected = this.wrapper.hasClass( 'cke_widget_selected' ),
 					range;
 
