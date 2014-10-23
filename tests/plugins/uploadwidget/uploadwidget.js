@@ -679,6 +679,72 @@
 				assert.areSame( loader.id, uploadId );
 				assertUploadingWidgets( editor, 'testOnAbortFalse' );
 			} );
+		},
+
+		'test replaceWith 1 element': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function( upload ) {
+					this.replaceWith( '<strong>uploaded</strong>' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
+			} );
+		},
+
+		'test replaceWith empty element': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function( upload ) {
+					this.replaceWith( '' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>xx</p>', editor.getData() );
+			} );
+		},
+
+		'test replaceWith multiple elements': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function( upload ) {
+					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
+			} );
 		}
 	} );
 } )();
