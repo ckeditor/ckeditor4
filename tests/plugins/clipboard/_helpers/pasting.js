@@ -54,3 +54,16 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 			assertPaste( data );
 	}
 }
+
+function pasteFiles( editor, files, dataValue ) {
+	var	nativeData = bender.tools.mockNativeDataTransfer();
+
+	nativeData.files = files;
+
+	var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+	editor.fire( 'paste', {
+		dataTransfer: dataTransfer,
+		dataValue: dataValue ? dataValue : ''
+	} );
+}

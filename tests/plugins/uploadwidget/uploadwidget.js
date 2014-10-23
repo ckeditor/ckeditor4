@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
+/* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 
 'use strict';
 
@@ -12,19 +13,6 @@
 			extraPlugins: 'uploadwidget,toolbar,undo,basicstyles'
 		}
 	};
-
-	function pasteFiles( editor, files, dataValue ) {
-		var	nativeData = bender.tools.mockNativeDataTransfer();
-
-		nativeData.files = files;
-
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		editor.fire( 'paste', {
-			dataTransfer: dataTransfer,
-			dataValue: dataValue ? dataValue : ''
-		} );
-	}
 
 	function addTestUploadWidget( editor, name, def ) {
 		if ( !def ) {
