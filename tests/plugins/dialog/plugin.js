@@ -55,6 +55,8 @@ bender.test(
 		tc.wait();
 	},
 
+	// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
+	// by very closed and poor dialog API.
 	'test dialog\'s field are disabled when not allowed': function() {
 		var ed = this.editor,
 			tc = this;
@@ -135,7 +137,96 @@ bender.test(
 					dialog.selectPage( 'tab3' );
 					assert.isTrue( dialog.getContentElement( 'tab3', 'bim' ).getInputElement().isVisible() );
 
-					dialog.getButton( 'ok' ).click();
+					wait( function() {
+						dialog.getButton( 'cancel' ).click();
+					}, 100 );
+				} );
+			}, 200 );
+		} );
+		wait();
+	},
+
+	// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
+	// by very closed and poor dialog API.
+	// #12546
+	'test dialog\'s HTML field always count as allowed field unless requiredContent is specified': function() {
+		var ed = this.editor,
+			tc = this;
+
+		CKEDITOR.dialog.add( 'testDialog4', function() {
+			return {
+				title: 'Test Dialog 4',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Test 1',
+						elements: [
+							{
+								type: 'html',
+								id: 'field1',
+								html: 'foo'
+							}
+						]
+					},
+					{
+						id: 'tab2a',
+						label: 'Test 2a',
+						elements: [
+							{
+								type: 'html',
+								id: 'field2a',
+								html: 'foo',
+								requiredContent: 'x'
+							}
+						]
+					},
+					{
+						id: 'tab2b',
+						label: 'Test 2b',
+						elements: [
+							{
+								type: 'html',
+								id: 'field2b',
+								html: 'foo',
+								requiredContent: 'p'
+							}
+						]
+					},
+					{
+						id: 'tab3',
+						label: 'Test 3',
+						requiredContent: 'y',
+						elements: [
+							{
+								type: 'html',
+								id: 'field3',
+								html: 'foo'
+							}
+						]
+					}
+				]
+			};
+		} );
+
+		ed.openDialog( 'testDialog4', function( dialog ) {
+			setTimeout( function() {
+				resume( function() {
+					assert.areSame( 2, dialog.getPageCount() );
+					assert.isTrue( dialog.parts.tabs.getChild( 0 ).isVisible(), 'tab1' );
+					// Tab 2a is hidden.
+					assert.isFalse( dialog.parts.tabs.getChild( 1 ).isVisible(), 'tab2a' );
+					assert.isTrue( dialog.parts.tabs.getChild( 2 ).isVisible(), 'tab2b' );
+					// Tab 3 wasn't created at all.
+					assert.isNull( dialog.parts.tabs.getChild( 3 ), 'tab3' );
+
+					assert.isTrue( dialog.getContentElement( 'tab1', 'field1' ).getInputElement().isVisible(), 'field1' );
+
+					dialog.selectPage( 'tab2b' );
+					assert.isTrue( dialog.getContentElement( 'tab2b', 'field2b' ).getInputElement().isVisible(), 'field2b' );
+
+					wait( function() {
+						dialog.getButton( 'cancel' ).click();
+					}, 100 );
 				} );
 			}, 200 );
 		} );
