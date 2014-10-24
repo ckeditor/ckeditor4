@@ -37,7 +37,7 @@
 	}
 
 	function assertUploadingWidgets( editor, widgetName, expectedWidgetsCount ) {
-		var widgets = CKEDITOR.dom.element.createFromHtml( '<div>' + editor.editable().getHtml() + '</div>' ).find( 'span[data-widget="' + widgetName + '"]' ),
+		var widgets = editor.editable().find( 'span[data-widget="' + widgetName + '"]' ),
 			widget, i;
 
 		if ( expectedWidgetsCount === undefined ) {
