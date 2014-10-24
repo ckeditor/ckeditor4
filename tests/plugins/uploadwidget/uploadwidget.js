@@ -73,15 +73,14 @@
 			filetools = CKEDITOR.filetools;
 			resumeAfter = bender.tools.resumeAfter;
 
-			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function() {
+			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
+				lastUploadUrl = url;
 			}
 
 			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
 
-			CKEDITOR.filetools.FileLoader.prototype.upload = function( url ) {
-				lastUploadUrl = url;
-			};
+			CKEDITOR.filetools.FileLoader.prototype.upload = function() {};
 		},
 
 		'tearDown': function() {
@@ -107,6 +106,7 @@
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
 			assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
+			assert.areSame( 'uploadUrl', lastUploadUrl );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
