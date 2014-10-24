@@ -92,7 +92,7 @@
 			replaceWith: function( html ) {
 				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } );
 
-				if ( processedHtml.trim() == '' ) {
+				if ( processedHtml.trim() === '' ) {
 					editor.widgets.del( this );
 					return;
 				}

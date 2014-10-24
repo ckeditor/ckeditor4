@@ -2,6 +2,8 @@
 /* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 
+/*global pasteFiles */
+
 'use strict';
 
 ( function() {
@@ -22,13 +24,13 @@
 		CKEDITOR.tools.extend( def, {
 			uploadUrl: 'uploadUrl',
 
-			fileToElement: function( file ) {
+			fileToElement: function() {
 				var span = new CKEDITOR.dom.element( 'span' );
 				span.setText( 'uploading...' );
 				return span;
 			},
 
-			onuploaded: function( upload ) {
+			onuploaded: function() {
 				this.replaceWith( 'uploaded' );
 			}
 		} );
@@ -50,7 +52,7 @@
 			widget = widgets.getItem( i );
 			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
 			assert.areSame( 'uploading...', widget.getHtml() );
-		};
+		}
 	}
 
 	function mockEditorForPaste() {
@@ -76,7 +78,7 @@
 			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
-			}
+			};
 
 			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
 
@@ -119,7 +121,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'generalWidget1', {
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'general' );
 					return span;
@@ -128,7 +130,7 @@
 			addTestUploadWidget( editor, 'specificWidget1', {
 				supportedExtensions: [ 'txt' ],
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'specific' );
 					return span;
@@ -148,7 +150,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'generalWidget2', {
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'general' );
 					return span;
@@ -157,7 +159,7 @@
 			addTestUploadWidget( editor, 'specificWidget2', {
 				supportedExtentions: [ 'txt' ],
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'specific' );
 					return span;
@@ -179,7 +181,7 @@
 			addTestUploadWidget( editor, 'specificWidget3', {
 				supportedExtensions: [ 'txt' ],
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'specific' );
 					return span;
@@ -229,7 +231,7 @@
 			addTestUploadWidget( editor, 'pngWidget', {
 				supportedExtensions: [ 'png' ],
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'png' );
 					return span;
@@ -238,7 +240,7 @@
 			addTestUploadWidget( editor, 'txtWidget', {
 				supportedExtensions: [ 'txt' ],
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
 					span.setText( 'txt' );
 					return span;
@@ -292,7 +294,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'pngWidget', {
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					return null;
 				}
 			} );
@@ -706,7 +708,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function( upload ) {
+				onuploaded: function() {
 					this.replaceWith( '<strong>uploaded</strong>' );
 				}
 			} );
@@ -728,7 +730,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function( upload ) {
+				onuploaded: function() {
 					this.replaceWith( '' );
 				}
 			} );
@@ -753,7 +755,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function( upload ) {
+				onuploaded: function() {
 					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
 				}
 			} );

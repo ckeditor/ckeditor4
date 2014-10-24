@@ -2,6 +2,8 @@
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 
+/*global pasteFiles */
+
 'use strict';
 
 ( function() {
@@ -24,8 +26,7 @@
 				extraPlugins: 'uploadimage,image2',
 				filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
 			}
-		},
-
+		}
 	};
 
 	function assertUploadingWidgets( editor, expectedSrc ) {
@@ -38,7 +39,7 @@
 			widget = widgets.getItem( i );
 			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
 			assert.areSame( expectedSrc, widget.getAttribute( 'src' ).substring( 0, 55 ) );
-		};
+		}
 	}
 
 	var tests = {
@@ -55,7 +56,7 @@
 			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
-			}
+			};
 
 			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
 
@@ -67,12 +68,11 @@
 			for ( editorName in editors ) {
 				// Clear uploads repository.
 				editors[ editorName ].uploadsRepository._.loaders = [];
-			};
+			}
 		},
 
 		'test classic with image1 (integration test)': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
 
@@ -87,7 +87,7 @@
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			loader.url = 'http://foo/test.jpg'
+			loader.url = 'http://foo/test.jpg';
 			loader.changeStatusAndFire( 'uploaded' );
 
 			assert.areSame( '<p><img src="http://foo/test.jpg" style="height:1px; width:1px" /></p>', editor.getData() );
@@ -99,8 +99,7 @@
 		},
 
 		'test inline with image2 (integration test)': function() {
-			var bot = editorBots[ 'inline' ],
-				editor = editors[ 'inline' ];
+			var editor = editors.inline;
 
 			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
 
@@ -115,7 +114,7 @@
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			loader.url = 'http://foo/test.jpg'
+			loader.url = 'http://foo/test.jpg';
 			loader.changeStatusAndFire( 'uploaded' );
 
 			assert.areSame( '<p><img width="1" height="1" alt="" src="http://foo/test.jpg" /></p>', editor.getData() );
@@ -127,8 +126,8 @@
 		},
 
 		'test paste img as html (integration test)': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var bot = editorBots.classic,
+				editor = editors.classic;
 
 			bot.setData( '', function() {
 				pasteFiles( editor, [], '<p>x<img src="' + bender.tools.pngBase64 + '">x</p>' );
@@ -144,7 +143,7 @@
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
-				loader.url = 'http://foo/test.jpg'
+				loader.url = 'http://foo/test.jpg';
 				loader.changeStatusAndFire( 'uploaded' );
 
 				assert.areSame( '<p>x<img src="http://foo/test.jpg" style="height:1px; width:1px" />x</p>', editor.getData() );
@@ -157,10 +156,9 @@
 		},
 
 		'test supportedExtensions png': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
@@ -170,10 +168,9 @@
 		},
 
 		'test supportedExtensions jpg': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
@@ -183,10 +180,9 @@
 		},
 
 		'test supportedExtensions jpeg': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
@@ -196,10 +192,9 @@
 		},
 
 		'test supportedExtensions gif': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
@@ -209,11 +204,11 @@
 		},
 
 		'test not supportedExtensions txt': function() {
-			var bot = editorBots[ 'classic' ],
-				editor = editors[ 'classic' ];
+			var bot = editorBots.classic,
+				editor = editors.classic;
 
 			bot.setData( '', function() {
-				resumeAfter( editor, 'paste', function( evt ) {
+				resumeAfter( editor, 'paste', function() {
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 				} );
 
@@ -224,7 +219,7 @@
 		},
 
 		'test paste single image': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
@@ -245,7 +240,7 @@
 		},
 
 		'test paste nested image': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var imgs = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).find( 'img[data-widget="uploadimage"]' ),
@@ -256,7 +251,7 @@
 				for ( i = 0; i < imgs.count(); i++ ) {
 					img = imgs.getItem( i );
 					assert.areSame( i + '', img.getAttribute( 'data-cke-upload-id' ) );
-				};
+				}
 
 				assert.areSame( 0, loadAndUploadCount );
 				assert.areSame( 2, uploadCount );
@@ -272,7 +267,7 @@
 		},
 
 		'test paste no image': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				assert.areSame( 'foo', evt.data.dataValue );
@@ -290,7 +285,7 @@
 		},
 
 		'test paste no data in image': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
@@ -311,7 +306,7 @@
 		},
 
 		'test paste image already marked': function() {
-			var editor = editors[ 'classic' ],
+			var editor = editors.classic,
 				uploads = editor.uploadsRepository;
 
 			resumeAfter( editor, 'paste', function( evt ) {
@@ -336,7 +331,7 @@
 		},
 
 		'test omit images in non contentEditable': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
@@ -360,7 +355,7 @@
 		},
 
 		'test handle images in nested editable': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
@@ -386,7 +381,7 @@
 		},
 
 		'test handle images in nested editable using cke-editable': function() {
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );

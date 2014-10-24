@@ -51,7 +51,7 @@
 
 		'test getUploadUrl 4': function() {
 			var uploadUrl = getUploadUrl( {
-				'filebrowserUploadUrl': 'filebrowserUploadUrl',
+				'filebrowserUploadUrl': 'filebrowserUploadUrl'
 			}, 'image' );
 
 			assert.areSame( 'filebrowserUploadUrl&responseType=json', uploadUrl );

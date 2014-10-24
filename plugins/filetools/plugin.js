@@ -20,7 +20,7 @@
 
 		this._ = {
 			loaders: []
-		}
+		};
 	}
 
 	UploadsRepository.prototype = {
@@ -39,8 +39,6 @@
 	};
 
 	function FileLoader( editor, fileOrData, fileName ) {
-		var that = this;
-
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
@@ -96,11 +94,11 @@
 				reader.abort();
 			};
 
-			reader.onabort = function( evt ) {
+			reader.onabort = function() {
 				loader.changeStatusAndFire( 'abort' );
 			};
 
-			reader.onerror = function( evt ) {
+			reader.onerror = function() {
 				loader.message = loader.lang.filetools.loadError;
 				loader.changeStatusAndFire( 'error' );
 			};
@@ -110,7 +108,7 @@
 				loader.update();
 			};
 
-			reader.onload = function( evt ) {
+			reader.onload = function() {
 				loader.loaded = loader.total;
 				loader.data = reader.result;
 				loader.changeStatusAndFire( 'loaded' );
@@ -144,11 +142,11 @@
 				xhr.abort();
 			};
 
-			xhr.onabort = function( evt ) {
+			xhr.onabort = function() {
 				loader.changeStatusAndFire( 'abort' );
 			};
 
-			xhr.onerror = function( evt ) {
+			xhr.onerror = function() {
 				loader.message = loader.lang.filetools.networkError;
 				loader.changeStatusAndFire( 'error' );
 			};
@@ -158,7 +156,7 @@
 				loader.update();
 			};
 
-			xhr.onload = function( evt ) {
+			xhr.onload = function() {
 				loader.uploaded = loader.total;
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
@@ -177,7 +175,7 @@
 			var formData = new FormData();
 
 			formData.append( 'upload', this.file, this.fileName );
-			xhr.open( "POST", this.uploadUrl, true );
+			xhr.open( 'POST', this.uploadUrl, true );
 			xhr.send( formData );
 		},
 
@@ -206,14 +204,14 @@
 		changeStatusAndFire: function( newStatus ) {
 			this.status = newStatus;
 
-			if ( newStatus =='created' ) {
+			if ( newStatus == 'created' ) {
 				this.abort = function() {
 					this.changeStatusAndFire( 'abort' );
 				};
 			}
 
-			if ( newStatus =='error' || newStatus =='abort' ||
-				newStatus =='loaded' || newStatus =='uploaded' ) {
+			if ( newStatus == 'error' || newStatus == 'abort' ||
+				newStatus == 'loaded' || newStatus == 'uploaded' ) {
 				this.abort = function() {};
 			}
 
@@ -263,7 +261,7 @@
 			return config[ 'filebrowserUploadUrl' ] + '&responseType=json';
 		}
 
-		throw "Upload URL is not defined.";
+		throw 'Upload URL is not defined.';
 	}
 
 	function ucFirst( str ) {

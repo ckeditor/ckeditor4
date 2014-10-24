@@ -7,7 +7,7 @@
 	var FileReaderBackup = window.FileReader,
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
-		pngBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==",
+		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
 		testFile = bender.tools.getTestFile(),
 		lastFormData;
 
@@ -36,7 +36,7 @@
 											}
 
 											reader[ 'on' + scenario[ i ] ]( evt );
-										}
+										};
 									} else {
 										action = scenario[ i ];
 									}
@@ -54,7 +54,7 @@
 				};
 
 			return reader;
-		}
+		};
 	}
 
 	function createXMLHttpRequestMock( scenario, response ) {
@@ -83,12 +83,12 @@
 												case 'load':
 													xhr.status = ( response && response.responseStatus ) ? response.responseStatus : 200;
 													xhr.responseText = ( response && response.responseText ) ? response.responseText :
-													 '{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}';
+														'{"fileName":"name2.png","uploaded":1,"url":"http:\/\/url\/name2.png"}';
 													break;
 											}
 
 											xhr[ 'on' + scenario[ i ] ]( evt );
-										}
+										};
 									} else {
 										action = scenario[ i ];
 									}
@@ -109,7 +109,7 @@
 				};
 
 			return xhr;
-		}
+		};
 	}
 
 	function observeEvents( loader ) {
@@ -120,13 +120,13 @@
 				data = loader.data || '-',
 				url = loader.url || '-';
 
-				if ( data.length > 21 )
-					data = data.substring( 0, 21 );
+			if ( data.length > 21 )
+				data = data.substring( 0, 21 );
 
 
 			observer.events += evt.name + '[' + loader.status + ',' + loader.fileName + ',' +
 				loader.uploaded + '/' + loader.loaded + '/' + loader.total + ',' +
-				message  + ',' + data + ',' +url + ']|';
+				message  + ',' + data + ',' + url + ']|';
 		}
 
 		loader.on( 'loading', stdObserver );
@@ -146,7 +146,7 @@
 
 			for ( var i = 0; i < events.length; i++ ) {
 				assert.areSame( expected[ i ], events[ i ] );
-			};
+			}
 		};
 
 		return observer;
@@ -464,7 +464,7 @@
 					'update[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/41/82,-,-,-]',
 					'error[error,name.png,0/41/82,errorMsg,-,-]',
-					'update[error,name.png,0/41/82,errorMsg,-,-]', ] );
+					'update[error,name.png,0/41/82,errorMsg,-,-]' ] );
 			} );
 
 			loader.load();
@@ -509,7 +509,7 @@
 					'update[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/41/82,-,-,-]',
 					'error[error,name.png,0/41/82,loadError,-,-]',
-					'update[error,name.png,0/41/82,loadError,-,-]', ] );
+					'update[error,name.png,0/41/82,loadError,-,-]' ] );
 			} );
 
 			loader.load();
@@ -534,7 +534,7 @@
 					'update[uploading,name.png,0/82/82,-,result,-]',
 					'update[uploading,name.png,41/82/82,-,result,-]',
 					'error[error,name.png,41/82/82,networkError,result,-]',
-					'update[error,name.png,41/82/82,networkError,result,-]', ] );
+					'update[error,name.png,41/82/82,networkError,result,-]' ] );
 			} );
 
 			loader.loadAndUpload( 'http:\/\/url\/' );
@@ -556,7 +556,7 @@
 					'update[loading,name.png,0/0/82,-,-,-]',
 					'update[loading,name.png,0/41/82,-,-,-]',
 					'error[error,name.png,0/82/82,noUrlError,result,-]',
-					'update[error,name.png,0/82/82,noUrlError,result,-]', ] );
+					'update[error,name.png,0/82/82,noUrlError,result,-]' ] );
 			} );
 
 			loader.loadAndUpload();
@@ -577,7 +577,7 @@
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'error[error,name.png,82/0/82,responseError incorrect,-,-]',
-					'update[error,name.png,82/0/82,responseError incorrect,-,-]', ] );
+					'update[error,name.png,82/0/82,responseError incorrect,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -606,7 +606,7 @@
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'error[error,name.png,82/0/82,errorFromServer,-,-]',
-					'update[error,name.png,82/0/82,errorFromServer,-,-]', ] );
+					'update[error,name.png,82/0/82,errorFromServer,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -635,7 +635,7 @@
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'uploaded[uploaded,name2.png,82/0/82,messageFromServer,-,http://url/name2.png]',
-					'update[uploaded,name2.png,82/0/82,messageFromServer,-,http://url/name2.png]', ] );
+					'update[uploaded,name2.png,82/0/82,messageFromServer,-,http://url/name2.png]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -656,7 +656,7 @@
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'error[error,name.png,82/0/82,httpError404,-,-]',
-					'update[error,name.png,82/0/82,httpError404,-,-]', ] );
+					'update[error,name.png,82/0/82,httpError404,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -677,7 +677,7 @@
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'error[error,name.png,82/0/82,httpError 404,-,-]',
-					'update[error,name.png,82/0/82,httpError 404,-,-]', ] );
+					'update[error,name.png,82/0/82,httpError 404,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
@@ -738,8 +738,7 @@
 				sendRequestBackup = FileLoader.prototype.sendRequest,
 				handleResponseBackup = FileLoader.prototype.handleResponse,
 				sendRequestCounter = 0,
-				handleResponseCounter = 0,
-				sendForm;
+				handleResponseCounter = 0;
 
 			FileLoader.prototype.sendRequest = function( xhr ) {
 				sendRequestCounter++;

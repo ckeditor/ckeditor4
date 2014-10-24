@@ -16,7 +16,7 @@
 
 				uploadUrl: uploadUrl,
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					var img = new CKEDITOR.dom.element( 'img' );
 					img.setAttribute( 'src', loadingImage );
 					return img;
@@ -34,7 +34,7 @@
 					// Set width and height to prevent blinking.
 					var html = '<img src="' + upload.url + '" ' +
 							'width="' + this.parts.img.$.naturalWidth + '" ' +
-							'height="' + this.parts.img.$.naturalHeight +'">';
+							'height="' + this.parts.img.$.naturalHeight + '">';
 					this.replaceWith( html );
 				}
 			} );
@@ -82,5 +82,7 @@
 		}
 	} );
 
+	// jscs:disable maximumLineLength
 	var loadingImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB94JCQopEbeZwMsAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAD0lEQVQoz2NgGAWjYCgBAAKyAAGlkzepAAAAAElFTkSuQmCC';
+	// jscs:enable maximumLineLength
 } )();

@@ -18,7 +18,7 @@
 					} else {
 						editor.widgets.del( this );
 					}
-				},
+				}
 			} );
 
 			editor.on( 'paste', function( evt ) {

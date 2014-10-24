@@ -5,9 +5,9 @@
 'use strict';
 
 var htmlMatchOpts = {
-	compareSelection: false,
-	fixStyles: true
-};
+		compareSelection: false,
+		fixStyles: true
+	};
 
 bender.editors = {
 	editor1: {
@@ -299,7 +299,7 @@ bender.test( {
 		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
 	},
 
-	'test getData Firefox fix' : function() {
+	'test getData Firefox fix': function() {
 		if ( !CKEDITOR.env.gecko ) {
 			assert.ignore();
 		}
