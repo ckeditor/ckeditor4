@@ -5,7 +5,7 @@
 'use strict';
 
 ( function() {
-	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl;
+	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter;
 
 	var editorsDefinitions = {
 		classic: {
@@ -42,6 +42,10 @@
 	}
 
 	var tests = {
+		'init': function() {
+			resumeAfter = bender.tools.resumeAfter;
+		},
+
 		'setUp': function() {
 			var editorName;
 
@@ -149,6 +153,73 @@
 				assert.areSame( 0, loadAndUploadCount );
 				assert.areSame( 1, uploadCount );
 				assert.areSame( 'http://foo/upload', lastUploadUrl );
+			} );
+		},
+
+		'test supportedExtensions png': function() {
+			var bot = editorBots[ 'classic' ],
+				editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile( 'test.png' ) ] );
+
+			wait();
+		},
+
+		'test supportedExtensions jpg': function() {
+			var bot = editorBots[ 'classic' ],
+				editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+
+			wait();
+		},
+
+		'test supportedExtensions jpeg': function() {
+			var bot = editorBots[ 'classic' ],
+				editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpeg' ) ] );
+
+			wait();
+		},
+
+		'test supportedExtensions gif': function() {
+			var bot = editorBots[ 'classic' ],
+				editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestFile( 'test.gif' ) ] );
+
+			wait();
+		},
+
+		'test not supportedExtensions txt': function() {
+			var bot = editorBots[ 'classic' ],
+				editor = editors[ 'classic' ];
+
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function( evt ) {
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+				} );
+
+				pasteFiles( editor, [ bender.tools.getTestFile( 'test.txt' ) ] );
+
+				wait();
 			} );
 		}
 	};
