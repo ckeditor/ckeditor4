@@ -195,6 +195,34 @@
 			wait();
 		},
 
+		'test multiple supported extension': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'multiSupportedExtension', {
+				supportedExtensions: [ 'png,jpg' ],
+
+				fileToElement: function( file ) {
+					var span = new CKEDITOR.dom.element( 'span' );
+					span.setText( file.name );
+					return span;
+				}
+			} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame(
+					'<span data-cke-upload-id="0" data-widget="multiSupportedExtension">test.jpg</span>' +
+					'<span data-cke-upload-id="1" data-widget="multiSupportedExtension">test.png</span>',
+					evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [
+				bender.tools.getTestFile( 'test.jpg' ),
+				bender.tools.getTestFile( 'test.txt' ),
+				bender.tools.getTestFile( 'test.png' ) ] );
+
+			wait();
+		},
+
 		'test paste multiple files': function() {
 			var editor = mockEditorForPaste();
 
