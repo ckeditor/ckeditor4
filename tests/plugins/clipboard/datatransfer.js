@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 /* bender-include: _helpers/pasting.js */
 
