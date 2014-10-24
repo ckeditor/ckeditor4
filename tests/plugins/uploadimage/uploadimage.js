@@ -221,6 +221,194 @@
 
 				wait();
 			} );
+		},
+
+		'test paste single image': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
+
+				assert.areSame( '0', img.getAttribute( 'data-cke-upload-id' ) );
+				assert.areSame( 'uploadimage', img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 1, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
+			} );
+
+			wait();
+		},
+
+		'test paste nested image': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var imgs = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).find( 'img[data-widget="uploadimage"]' ),
+					img, i;
+
+				assert.areSame( 2, imgs.count(), 'Expected imgs count should be 2' );
+
+				for ( i = 0; i < imgs.count(); i++ ) {
+					img = imgs.getItem( i );
+					assert.areSame( i + '', img.getAttribute( 'data-cke-upload-id' ) );
+				};
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 2, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<div>x<img src="' + bender.tools.pngBase64 + '">x' +
+							'<p>x<img src="' + bender.tools.pngBase64 + '">x</p></div>'
+			} );
+
+			wait();
+		},
+
+		'test paste no image': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( 'foo', evt.data.dataValue );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: 'foo'
+			} );
+
+			wait();
+		},
+
+		'test paste no data in image': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
+
+				assert.isNull( img.getAttribute( 'data-cke-upload-id' ) );
+				assert.isNull( img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<img src="http://foo/bar.jpg">'
+			} );
+
+			wait();
+		},
+
+		'test paste image already marked': function() {
+			var editor = editors[ 'classic' ],
+				uploads = editor.uploadsRepository;
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
+
+				assert.areSame( '0', img.getAttribute( 'data-cke-upload-id' ) );
+				assert.areSame( 'uploadimage', img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+			} );
+
+			// Fill upload repository.
+			uploads.create( bender.tools.getTestFile() );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<img src="' + bender.tools.pngBase64 + '" data-widget="uploadimage" data-cke-upload-id="0">'
+			} );
+
+			wait();
+		},
+
+		'test omit images in non contentEditable': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
+
+				assert.isNull( img.getAttribute( 'data-cke-upload-id' ) );
+				assert.isNull( img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue:
+							'<div contentEditable="false">' +
+								'<img src="' + bender.tools.pngBase64 + '">' +
+							'</div>'
+			} );
+
+			wait();
+		},
+
+		'test handle images in nested editable': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
+
+				assert.areSame( '0', img.getAttribute( 'data-cke-upload-id' ) );
+				assert.areSame( 'uploadimage', img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 1, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue:
+							'<div contentEditable="false">' +
+								'<div contentEditable="true">' +
+									'<img src="' + bender.tools.pngBase64 + '">' +
+								'</div>' +
+							'</div>'
+			} );
+
+			wait();
+		},
+
+		'test handle images in nested editable using cke-editable': function() {
+			var editor = editors[ 'classic' ];
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
+
+				assert.areSame( '0', img.getAttribute( 'data-cke-upload-id' ) );
+				assert.areSame( 'uploadimage', img.getAttribute( 'data-widget' ) );
+
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 1, uploadCount );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue:
+							'<div contentEditable="false">' +
+								'<div data-cke-editable="1">' +
+									'<img src="' + bender.tools.pngBase64 + '">' +
+								'</div>' +
+							'</div>'
+			} );
+
+			wait();
 		}
 	};
 
