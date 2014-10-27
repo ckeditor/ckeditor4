@@ -53,7 +53,11 @@ bender.test(
 	'test editor focus - toolbar focused': function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.execCommand( 'toolbarFocus' );
-		this.assertFocus();
+
+		// IEs move focus asynchronously in some cases...
+		wait( function() {
+			this.assertFocus();
+		}, 100 );
 	},
 
 	// #11647
