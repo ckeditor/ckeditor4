@@ -70,6 +70,15 @@
 		return editor;
 	}
 
+	// Safari has different range then other browsers and we need to normalize it.
+	function shrinkRange( editor ) {
+		var range = editor.getSelection().getRanges()[ 0 ]
+
+		range.shrink( CKEDITOR.SHRINK_ELEMENT );
+		range.shrink( CKEDITOR.SHRINK_TEXT );
+		range.select();
+	}
+
 	bender.test( {
 		'setUp': function() {
 			filetools = CKEDITOR.filetools;
@@ -455,7 +464,9 @@
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p>[<p id="p">foo@</p>]', bender.tools.selection.getWithHtml( editor ) );
+				shrinkRange( editor );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After undo.' );
 			} );
 		},
 
@@ -504,7 +515,7 @@
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
 			} );
 		},
 
@@ -539,15 +550,21 @@
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+				shrinkRange( editor );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'Before undo' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p>[<p id="p">foo@</p>]', bender.tools.selection.getWithHtml( editor ) );
+				shrinkRange( editor );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After undo' );
 
 				editor.execCommand( 'redo' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ) );
+				shrinkRange( editor );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After redo' );
 			} );
 		},
 
@@ -570,29 +587,33 @@
 				loader.changeStatusAndFire( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy' );
-				assert.areSame( '<p>xx</p><p id="p">x</p>', editor.getData() );
+				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">x</p>', editor.getData() );
 
 				p = editor.document.getById( 'p' );
 				editor.getSelection().selectElement( p );
+				// Every browser expect Safari removes id attribute automatically.
+				p.removeAttribute( 'id' );
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testCopy">uploading...</span>' );
 
 				loader.changeStatusAndFire( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy', 2 );
-				assert.areSame( '<p>xx</p><p></p>', editor.getData() );
+				assert.isInnerHtmlMatching( '<p>xx</p><p></p>', editor.getData() );
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded{}@</p>', bender.tools.selection.getWithHtml( editor ) );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p>[<p id="p">x@</p>]', bender.tools.selection.getWithHtml( editor ) );
+				shrinkRange( editor );
+
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[x@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>x{}x@</p><p id="p">x@</p>', bender.tools.selection.getWithHtml( editor ) );
+				assert.isInnerHtmlMatching( '<p>x^x@</p><p id="p">x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
 			} );
 		},
 
