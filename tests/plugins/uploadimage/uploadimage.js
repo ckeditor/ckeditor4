@@ -7,7 +7,8 @@
 'use strict';
 
 ( function() {
-	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter;
+	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
+		IMG_URL = '%BASE_PATH%_assets/logo.png';
 
 	var editorsDefinitions = {
 		classic: {
@@ -77,7 +78,7 @@
 			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
 
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
-			assert.areSame( '', editor.getData(), 'getData on loading.' );
+			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
@@ -87,15 +88,18 @@
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			loader.url = 'http://foo/test.jpg';
-			loader.changeStatusAndFire( 'uploaded' );
+			// IE needs to wait for image to be loaded so it can read width and height of the image.
+			wait( function() {
+				loader.url = IMG_URL;
+				loader.changeStatusAndFire( 'uploaded' );
 
-			assert.areSame( '<p><img src="http://foo/test.jpg" style="height:1px; width:1px" /></p>', editor.getData() );
-			assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				assert.isInnerHtmlMatching( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-			assert.areSame( 1, loadAndUploadCount );
-			assert.areSame( 0, uploadCount );
-			assert.areSame( 'http://foo/upload', lastUploadUrl );
+				assert.areSame( 1, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+				assert.areSame( 'http://foo/upload', lastUploadUrl );
+			}, 10 );
 		},
 
 		'test inline with image2 (integration test)': function() {
@@ -104,7 +108,7 @@
 			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
 
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
-			assert.areSame( '', editor.getData(), 'getData on loading.' );
+			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
@@ -114,15 +118,18 @@
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			loader.url = 'http://foo/test.jpg';
-			loader.changeStatusAndFire( 'uploaded' );
+			// IE needs to wait for image to be loaded so it can read width and height of the image.
+			wait( function() {
+				loader.url = IMG_URL;
+				loader.changeStatusAndFire( 'uploaded' );
 
-			assert.areSame( '<p><img width="1" height="1" alt="" src="http://foo/test.jpg" /></p>', editor.getData() );
-			assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				assert.isInnerHtmlMatching( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData(), { sortAttributes: 1 } );
+				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-			assert.areSame( 1, loadAndUploadCount );
-			assert.areSame( 0, uploadCount );
-			assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
+				assert.areSame( 1, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+				assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
+			}, 10 );
 		},
 
 		'test paste img as html (integration test)': function() {
@@ -143,15 +150,18 @@
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
-				loader.url = 'http://foo/test.jpg';
-				loader.changeStatusAndFire( 'uploaded' );
+				// IE needs to wait for image to be loaded so it can read width and height of the image.
+				wait( function() {
+					loader.url = IMG_URL;
+					loader.changeStatusAndFire( 'uploaded' );
 
-				assert.areSame( '<p>x<img src="http://foo/test.jpg" style="height:1px; width:1px" />x</p>', editor.getData() );
-				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+					assert.isInnerHtmlMatching( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>', editor.getData() );
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-				assert.areSame( 0, loadAndUploadCount );
-				assert.areSame( 1, uploadCount );
-				assert.areSame( 'http://foo/upload', lastUploadUrl );
+					assert.areSame( 0, loadAndUploadCount );
+					assert.areSame( 1, uploadCount );
+					assert.areSame( 'http://foo/upload', lastUploadUrl );
+				}, 10 );
 			} );
 		},
 
@@ -299,7 +309,7 @@
 
 			editor.fire( 'paste', {
 				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
-				dataValue: '<img src="http://foo/bar.jpg">'
+				dataValue: '<img src="' + IMG_URL + '">'
 			} );
 
 			wait();
