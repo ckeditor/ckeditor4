@@ -1395,7 +1395,8 @@
 
 			var sortAttributes = ( 'sortAttributes' in options ) ? options.sortAttributes : true,
 				fixZWS = ( 'fixZWS' in options ) ? options.fixZWS : true,
-				fixNbsp = ( 'fixNbsp' in options ) ? options.fixNbsp : true;
+				fixNbsp = ( 'fixNbsp' in options ) ? options.fixNbsp : true,
+				normalizeSelection = ( 'normalizeSelection' in options ) ? options.normalizeSelection : true;
 
 			if ( options.compareSelection ) {
 				innerHtml = innerHtml.replace( selectionMarkers, '<!--cke-range-marker-$1-->' );
@@ -1406,7 +1407,7 @@
 
 			if ( options.compareSelection ) {
 				innerHtml = innerHtml.replace( selectionMarkerComments, '$1' );
-				if ( options.normalizeSelection ) {
+				if ( normalizeSelection ) {
 					innerHtml = innerHtml.replace( /\{/g, '[' ).replace( /\}/g, ']' ).replace( /\[\]/g, '^' );
 				}
 			}
