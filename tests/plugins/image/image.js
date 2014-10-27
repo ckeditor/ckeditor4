@@ -352,7 +352,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor;
 
-			bot.setHtmlWithSelection( '<p>^</p>' );
+			bot.setHtmlWithSelection( '<p>^foo</p>' );
 			bot.dialog( 'image', function( dialog ) {
 				var imgUrl = '%BASE_PATH%_assets/logo.png';
 
