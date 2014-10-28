@@ -202,18 +202,6 @@
 		},
 
 		'test not supportedTypes tiff': function() {
-			var editor = editors.classic;
-
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
-			} );
-
-			pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
-
-			wait();
-		},
-
-		'test not supportedTypes txt': function() {
 			var bot = editorBots.classic,
 				editor = editors.classic;
 
@@ -222,7 +210,7 @@
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 				} );
 
-				pasteFiles( editor, [ bender.tools.getTestTxtFile( 'test.txt' ) ] );
+				pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
 
 				wait();
 			} );
