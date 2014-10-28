@@ -46,13 +46,6 @@
 	var tests = {
 		'init': function() {
 			resumeAfter = bender.tools.resumeAfter;
-		},
-
-		'setUp': function() {
-			var editorName;
-
-			uploadCount = 0;
-			loadAndUploadCount = 0;
 
 			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
@@ -65,6 +58,13 @@
 				uploadCount++;
 				lastUploadUrl = url;
 			};
+		},
+
+		'setUp': function() {
+			var editorName;
+
+			uploadCount = 0;
+			loadAndUploadCount = 0;
 
 			for ( editorName in editors ) {
 				// Clear uploads repository.
