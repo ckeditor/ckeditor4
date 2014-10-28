@@ -10,6 +10,8 @@
  * File overview: Clipboard support.
  */
 
+ /* global alert */
+
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
@@ -249,7 +251,7 @@
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
+					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
 				}
 
 				if ( dataObj.startsWithEOL )
@@ -715,7 +717,11 @@
 			body.on( command, onExec );
 
 			// IE7: document.execCommand has problem to paste into positioned element.
-			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() ).execCommand( command );
+			if ( CKEDITOR.env.version > 7 ) {
+				doc.$.execCommand( command );
+			} else {
+				doc.$.selection.createRange().execCommand( command );
+			}
 
 			body.removeListener( command, onExec );
 
@@ -1138,7 +1144,6 @@
 		return switchEnterMode( config, data );
 	}
 
-	// Filter can be editor dependent.
 	function getTextificationFilter() {
 		var filter = new CKEDITOR.htmlParser.filter();
 

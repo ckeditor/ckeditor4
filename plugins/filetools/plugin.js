@@ -162,7 +162,7 @@
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
 					if ( !loader.message ) {
-						loader.message = loader.lang.filetools[ 'httpError' ].replace( '%1', xhr.status );
+						loader.message = loader.lang.filetools.httpError.replace( '%1', xhr.status );
 					}
 					loader.changeStatusAndFire( 'error' );
 				} else {
@@ -253,12 +253,12 @@
 	function getUploadUrl( config, type ) {
 		if ( type && config[ type + 'UploadUrl' ] ) {
 			return config[ type + 'UploadUrl' ];
-		} else if ( config[ 'uploadUrl' ] ) {
-			return config[ 'uploadUrl' ];
+		} else if ( config.uploadUrl ) {
+			return config.uploadUrl;
 		} else if ( type && config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] ) {
 			return config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] + '&responseType=json';
-		} else if ( config[ 'filebrowserUploadUrl' ] ) {
-			return config[ 'filebrowserUploadUrl' ] + '&responseType=json';
+		} else if ( config.filebrowserUploadUrl ) {
+			return config.filebrowserUploadUrl + '&responseType=json';
 		}
 
 		throw 'Upload URL is not defined.';

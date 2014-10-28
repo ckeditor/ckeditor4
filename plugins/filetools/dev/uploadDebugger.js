@@ -5,16 +5,13 @@
 'use strict';
 
 ( function() {
-	var xhr = XMLHttpRequest;
-
 	XMLHttpRequest.prototype.baseSend = XMLHttpRequest.prototype.send;
 
 	XMLHttpRequest.prototype.send = function( data ) {
-		var that = this,
-			baseOnProgress = this.onprogress,
+		var baseOnProgress = this.onprogress,
 			baseOnLoad = this.onload;
 
-		this.onprogress = function( evt ) {};
+		this.onprogress = function() {};
 
 		this.onload = function( evt ) {
 			var total = 1000 * 10,

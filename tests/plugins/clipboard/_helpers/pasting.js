@@ -1,4 +1,5 @@
 /* exported assertPasteEvent */
+/* exported pasteFiles */
 
 'use strict';
 

@@ -72,7 +72,7 @@
 
 	// Safari has different range then other browsers and we need to normalize it.
 	function shrinkRange( editor ) {
-		var range = editor.getSelection().getRanges()[ 0 ]
+		var range = editor.getSelection().getRanges()[ 0 ];
 
 		range.shrink( CKEDITOR.SHRINK_ELEMENT );
 		range.shrink( CKEDITOR.SHRINK_TEXT );
