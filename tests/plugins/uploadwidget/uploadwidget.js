@@ -111,19 +111,157 @@
 
 			addTestUploadWidget( editor, 'testuploadwidget' );
 
-			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+			bot.setData( '', function() {
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
-			assertUploadingWidgets( editor, 'testuploadwidget' );
-			assert.areSame( '', editor.getData(), 'getData on uploading.' );
+				assertUploadingWidgets( editor, 'testuploadwidget' );
+				assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
-			assert.areSame( 'uploadUrl', lastUploadUrl );
+				assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
+				assert.areSame( 'uploadUrl', lastUploadUrl );
 
-			var loader = editor.uploadsRepository.get( 0 );
+				var loader = editor.uploadsRepository.get( 0 );
 
-			loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatusAndFire( 'uploaded' );
 
-			assert.areSame( '<p>uploaded</p>', editor.getData() );
+				assert.areSame( '<p>uploaded</p>', editor.getData() );
+			} );
+		},
+
+		'test markElement': function() {
+			var element = new CKEDITOR.dom.element( 'p' );
+			CKEDITOR.filetools.markElement( element, 'widgetName', 1 );
+			assert.isInnerHtmlMatching( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
+		},
+
+		'test replaceWith 1 element': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function() {
+					this.replaceWith( '<strong>uploaded</strong>' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
+			} );
+		},
+
+		'test replaceWith empty element': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function() {
+					this.replaceWith( '' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>xx</p>', editor.getData() );
+			} );
+		},
+
+		'test replaceWith multiple elements': function() {
+			// replaceWith must use insertHtmlIntoRange to handle multiple elements.
+			assert.ignore();
+
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onuploaded: function() {
+					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
+				}
+			} );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				loader.changeStatusAndFire( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+				assert.isInnerHtmlMatching( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
+			} );
+		},
+
+		'test custom event lister': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() ),
+				onErrorCount = 0, uploadId;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testOnError', {
+				onerror: function( upload ) {
+					onErrorCount++;
+					uploadId = upload.id;
+				}
+			} );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnError">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'error' );
+
+				assert.areSame( 'error', loader.status );
+				assert.areSame( 1, onErrorCount );
+				assert.areSame( loader.id, uploadId );
+				assertUploadingWidgets( editor, 'testOnError', 0 );
+			} );
+		},
+
+		'test custom event lister with prevent default': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() ),
+				onErrorCount = 0, uploadId;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testOnAbortFalse', {
+				onerror: function( upload ) {
+					onErrorCount++;
+					uploadId = upload.id;
+					return false;
+				}
+			} );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnAbortFalse">uploading...</span>' );
+
+				loader.changeStatusAndFire( 'error' );
+
+				assert.areSame( 'error', loader.status );
+				assert.areSame( 1, onErrorCount );
+				assert.areSame( loader.id, uploadId );
+				assertUploadingWidgets( editor, 'testOnAbortFalse' );
+			} );
 		},
 
 		'test mark specific widget before general': function() {
@@ -650,142 +788,6 @@
 					assert.areSame( '<p>xx</p>', editor.getData() );
 					assert.areSame( 'abort', loader.status );
 				} );
-			} );
-		},
-
-		'test markElement': function() {
-			var element = new CKEDITOR.dom.element( 'p' );
-			CKEDITOR.filetools.markElement( element, 'widgetName', 1 );
-			assert.isInnerHtmlMatching( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
-		},
-
-		'test custom event lister': function() {
-			var bot = this.editorBot,
-				editor = bot.editor,
-				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestPngFile() ),
-				onErrorCount = 0, uploadId;
-
-			loader.loadAndUpload( 'uploadUrl' );
-
-			addTestUploadWidget( editor, 'testOnError', {
-				onerror: function( upload ) {
-					onErrorCount++;
-					uploadId = upload.id;
-				}
-			} );
-
-			bot.setData( '', function() {
-				bot.setHtmlWithSelection( '<p>x^x</p>' );
-
-				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnError">uploading...</span>' );
-
-				loader.changeStatusAndFire( 'error' );
-
-				assert.areSame( 'error', loader.status );
-				assert.areSame( 1, onErrorCount );
-				assert.areSame( loader.id, uploadId );
-				assertUploadingWidgets( editor, 'testOnError', 0 );
-			} );
-		},
-
-		'test custom event lister with prevent default': function() {
-			var bot = this.editorBot,
-				editor = bot.editor,
-				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestPngFile() ),
-				onErrorCount = 0, uploadId;
-
-			loader.loadAndUpload( 'uploadUrl' );
-
-			addTestUploadWidget( editor, 'testOnAbortFalse', {
-				onerror: function( upload ) {
-					onErrorCount++;
-					uploadId = upload.id;
-					return false;
-				}
-			} );
-
-			bot.setData( '', function() {
-				bot.setHtmlWithSelection( '<p>x^x</p>' );
-
-				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnAbortFalse">uploading...</span>' );
-
-				loader.changeStatusAndFire( 'error' );
-
-				assert.areSame( 'error', loader.status );
-				assert.areSame( 1, onErrorCount );
-				assert.areSame( loader.id, uploadId );
-				assertUploadingWidgets( editor, 'testOnAbortFalse' );
-			} );
-		},
-
-		'test replaceWith 1 element': function() {
-			var bot = this.editorBot,
-				editor = bot.editor,
-				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestPngFile() );
-
-			loader.loadAndUpload( 'uploadUrl' );
-
-			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
-					this.replaceWith( '<strong>uploaded</strong>' );
-				}
-			} );
-
-			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
-
-				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
-			} );
-		},
-
-		'test replaceWith empty element': function() {
-			var bot = this.editorBot,
-				editor = bot.editor,
-				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestPngFile() );
-
-			loader.loadAndUpload( 'uploadUrl' );
-
-			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
-					this.replaceWith( '' );
-				}
-			} );
-
-			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
-
-				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>xx</p>', editor.getData() );
-			} );
-		},
-
-		'test replaceWith multiple elements': function() {
-			// replaceWith must use insertHtmlIntoRange to handle multiple elements.
-			assert.ignore();
-
-			var bot = this.editorBot,
-				editor = bot.editor,
-				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestPngFile() );
-
-			loader.loadAndUpload( 'uploadUrl' );
-
-			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
-					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
-				}
-			} );
-
-			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
-
-				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
 			} );
 		}
 	} );
