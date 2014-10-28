@@ -891,11 +891,9 @@
 
 		resumeAfter: function( object, evtName, fun ) {
 			object.once( evtName, function( evt ) {
-				setTimeout( function() {
-					resume( function() {
-						fun( evt );
-					} );
-				}, 0 );
+				resume( function() {
+					fun( evt );
+				}, null, null, 99999 );
 			} );
 		},
 
