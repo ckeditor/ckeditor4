@@ -4,7 +4,7 @@
 'use strict';
 
 ( function() {
-	var getUploadUrl, isExtentionSupported, getExtention;
+	var getUploadUrl, isTypeSupported, getExtention;
 
 	bender.editor = {
 		config: {
@@ -15,7 +15,7 @@
 	bender.test( {
 		'setUp': function() {
 			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
-			isExtentionSupported = CKEDITOR.filetools.isExtentionSupported;
+			isTypeSupported = CKEDITOR.filetools.isTypeSupported;
 			getExtention = CKEDITOR.filetools.getExtention;
 		},
 
@@ -95,36 +95,16 @@
 			}
 		},
 
-		'test isExtentionSupported 1': function() {
-			assert.isTrue( isExtentionSupported( { name: 'foo.jpg' } ) );
+		'test isTypeSupported 1': function() {
+			assert.isTrue( isTypeSupported( { type: 'image/jpeg' } ) );
 		},
 
-		'test isExtentionSupported 2': function() {
-			assert.isTrue( isExtentionSupported( { name: 'foo.jpg' }, [ 'png', 'jpg', 'gif' ] ) );
+		'test isTypeSupported 2': function() {
+			assert.isTrue( isTypeSupported( { type: 'image/jpeg' }, /image\/(png|jpeg|gif)/ ) );
 		},
 
-		'test isExtentionSupported 3': function() {
-			assert.isFalse( isExtentionSupported( { name: 'foo.jpg' }, [ 'png', 'gif' ] ) );
-		},
-
-		'test getExtention 1': function() {
-			assert.areSame( '', getExtention( 'foo' ) );
-		},
-
-		'test getExtention 2': function() {
-			assert.areSame( '', getExtention( 'foo.' ) );
-		},
-
-		'test getExtention 3': function() {
-			assert.areSame( '', getExtention( '.foo' ) );
-		},
-
-		'test getExtention 4': function() {
-			assert.areSame( 'bar', getExtention( 'foo.bar' ) );
-		},
-
-		'test getExtention 5': function() {
-			assert.areSame( 'bom', getExtention( 'foo.bar.bom' ) );
+		'test isTypeSupported 3': function() {
+			assert.isFalse( isTypeSupported( { type: 'image/jpeg' }, /image\/(png|gif)/ ) );
 		},
 
 		'test UploadsRepository': function() {

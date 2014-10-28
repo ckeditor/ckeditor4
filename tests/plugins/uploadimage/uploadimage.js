@@ -75,7 +75,7 @@
 		'test classic with image1 (integration test)': function() {
 			var editor = editors.classic;
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
@@ -105,7 +105,7 @@
 		'test inline with image2 (integration test)': function() {
 			var editor = editors.inline;
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
@@ -165,55 +165,55 @@
 			} );
 		},
 
-		'test supportedExtensions png': function() {
+		'test supportedTypes png': function() {
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.png' ) ] );
+			pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
 
 			wait();
 		},
 
-		'test supportedExtensions jpg': function() {
+		'test supportedTypes jpg': function() {
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+			pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
 
 			wait();
 		},
 
-		'test supportedExtensions jpeg': function() {
+		'test supportedTypes gif': function() {
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpeg' ) ] );
+			pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
 
 			wait();
 		},
 
-		'test supportedExtensions gif': function() {
+		'test not supportedTypes tiff': function() {
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.gif' ) ] );
+			pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
 
 			wait();
 		},
 
-		'test not supportedExtensions txt': function() {
+		'test not supportedTypes txt': function() {
 			var bot = editorBots.classic,
 				editor = editors.classic;
 
@@ -222,7 +222,7 @@
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 				} );
 
-				pasteFiles( editor, [ bender.tools.getTestFile( 'test.txt' ) ] );
+				pasteFiles( editor, [ bender.tools.getTestTxtFile( 'test.txt' ) ] );
 
 				wait();
 			} );
@@ -330,7 +330,7 @@
 			} );
 
 			// Fill upload repository.
-			uploads.create( bender.tools.getTestFile() );
+			uploads.create( bender.tools.getTestPngFile() );
 
 			editor.fire( 'paste', {
 				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),

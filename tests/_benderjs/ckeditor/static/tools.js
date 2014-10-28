@@ -857,6 +857,7 @@
 		},
 
 		pngBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
+		txtBase64: 'data:text/plain;base64,Zm9v',
 
 		srcToFile: function( src ) {
 			var base64HeaderRegExp = /^data:(\S*?);base64,/,
@@ -883,9 +884,15 @@
 			return new Blob( byteArrays, { type: contentType } );
 		},
 
-		getTestFile: function( fileName ) {
+		getTestPngFile: function( fileName ) {
 			var file = this.srcToFile( this.pngBase64 );
 			file.name = fileName ? fileName : 'name.png';
+			return file;
+		},
+
+		getTestTxtFile: function( fileName ) {
+			var file = this.srcToFile( this.txtBase64 );
+			file.name = fileName ? fileName : 'name.txt';
 			return file;
 		},
 

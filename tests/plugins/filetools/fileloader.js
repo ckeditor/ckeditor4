@@ -8,7 +8,7 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
-		testFile = bender.tools.getTestFile(),
+		testFile = bender.tools.getTestPngFile(),
 		lastFormData;
 
 

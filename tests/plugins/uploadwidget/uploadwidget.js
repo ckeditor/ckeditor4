@@ -111,7 +111,7 @@
 
 			addTestUploadWidget( editor, 'testuploadwidget' );
 
-			pasteFiles( editor, [ bender.tools.getTestFile() ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			assertUploadingWidgets( editor, 'testuploadwidget' );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
@@ -137,7 +137,7 @@
 				}
 			} );
 			addTestUploadWidget( editor, 'specificWidget1', {
-				supportedExtensions: [ 'txt' ],
+				supportedTypes: /text\/plain/,
 
 				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -150,7 +150,7 @@
 				assert.isInnerHtmlMatching( '<span data-cke-upload-id="0" data-widget="specificWidget1">specific</span>', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.txt' ) ] );
+			pasteFiles( editor, [ bender.tools.getTestTxtFile( 'test.txt' ) ] );
 
 			wait();
 		},
@@ -166,7 +166,7 @@
 				}
 			} );
 			addTestUploadWidget( editor, 'specificWidget2', {
-				supportedExtentions: [ 'txt' ],
+				supportedTypes: /text\/plain/,
 
 				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -179,7 +179,7 @@
 				assert.isInnerHtmlMatching( '<span data-cke-upload-id="0" data-widget="generalWidget2">general</span>', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test.png' ) ] );
 
 			wait();
 		},
@@ -188,7 +188,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'specificWidget3', {
-				supportedExtensions: [ 'txt' ],
+				supportedTypes: /text\/plain/,
 
 				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -201,7 +201,7 @@
 				assert.areSame( '', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile( 'test.jpg' ) ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test.png' ) ] );
 
 			wait();
 		},
@@ -210,7 +210,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'multiSupportedExtension', {
-				supportedExtensions: [ 'png,jpg' ],
+				supportedTypes: /image\/(jpeg|png)/,
 
 				fileToElement: function( file ) {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -221,15 +221,15 @@
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				assert.isInnerHtmlMatching(
-					'<span data-cke-upload-id="0" data-widget="multiSupportedExtension">test.jpg</span>' +
-					'<span data-cke-upload-id="1" data-widget="multiSupportedExtension">test.png</span>',
+					'<span data-cke-upload-id="0" data-widget="multiSupportedExtension">test1.png</span>' +
+					'<span data-cke-upload-id="1" data-widget="multiSupportedExtension">test3.png</span>',
 					evt.data.dataValue );
 			} );
 
 			pasteFiles( editor, [
-				bender.tools.getTestFile( 'test.jpg' ),
-				bender.tools.getTestFile( 'test.txt' ),
-				bender.tools.getTestFile( 'test.png' ) ] );
+				bender.tools.getTestPngFile( 'test1.png' ),
+				bender.tools.getTestTxtFile( 'test2.txt' ),
+				bender.tools.getTestPngFile( 'test3.png' ) ] );
 
 			wait();
 		},
@@ -238,7 +238,7 @@
 			var editor = mockEditorForPaste();
 
 			addTestUploadWidget( editor, 'pngWidget', {
-				supportedExtensions: [ 'png' ],
+				supportedTypes: /image\/png/,
 
 				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -247,7 +247,7 @@
 				}
 			} );
 			addTestUploadWidget( editor, 'txtWidget', {
-				supportedExtensions: [ 'txt' ],
+				supportedTypes: /text\/plain/,
 
 				fileToElement: function() {
 					var span = new CKEDITOR.dom.element( 'span' );
@@ -264,9 +264,9 @@
 			} );
 
 			pasteFiles( editor, [
-				bender.tools.getTestFile( 'test1.png' ),
-				bender.tools.getTestFile( 'test2.txt' ),
-				bender.tools.getTestFile( 'test3.png' ) ] );
+				bender.tools.getTestPngFile( 'test1.png' ),
+				bender.tools.getTestTxtFile( 'test2.txt' ),
+				bender.tools.getTestPngFile( 'test3.png' ) ] );
 
 			wait();
 		},
@@ -294,7 +294,7 @@
 				assert.areSame( 'some data', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile() ], 'some data' );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ], 'some data' );
 
 			wait();
 		},
@@ -312,7 +312,7 @@
 				assert.areSame( '', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile() ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			wait();
 		},
@@ -326,7 +326,7 @@
 				assert.areSame( '', evt.data.dataValue );
 			} );
 
-			pasteFiles( editor, [ bender.tools.getTestFile() ] );
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			wait();
 		},
@@ -335,7 +335,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -369,7 +369,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -403,7 +403,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -430,7 +430,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -474,7 +474,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -523,7 +523,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -572,7 +572,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -621,7 +621,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -663,7 +663,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				onErrorCount = 0, uploadId;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -693,7 +693,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() ),
+				loader = uploads.create( bender.tools.getTestPngFile() ),
 				onErrorCount = 0, uploadId;
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -724,7 +724,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -746,7 +746,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 
@@ -771,7 +771,7 @@
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
-				loader = uploads.create( bender.tools.getTestFile() );
+				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
 

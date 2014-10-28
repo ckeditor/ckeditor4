@@ -270,24 +270,12 @@
 		return f + str.substr( 1 );
 	}
 
-	function isExtentionSupported( file, supportedExtentions ) {
-		if ( !supportedExtentions ) {
+	function isTypeSupported( file, supportedTypes ) {
+		if ( !supportedTypes ) {
 			return true;
 		}
 
-		var ext = getExtention( file.name );
-
-		supportedExtentions = ',' + supportedExtentions + ',';
-
-		return supportedExtentions.indexOf( ',' + ext + ','  ) > -1;
-	}
-
-	function getExtention( filename ) {
-		var splited = filename.split( '.' );
-		if ( splited.length === 1 || ( splited[ 0 ] === '' && splited.length === 2 ) ) {
-			return '';
-		}
-		return splited.pop().toLowerCase();
+		return !!file.type.match( supportedTypes );
 	}
 
 	CKEDITOR.event.implementOn( FileLoader.prototype );
@@ -300,7 +288,6 @@
 		UploadsRepository: UploadsRepository,
 		FileLoader: FileLoader,
 		getUploadUrl: getUploadUrl,
-		isExtentionSupported: isExtentionSupported,
-		getExtention: getExtention
+		isTypeSupported: isTypeSupported
 	} );
 } )();

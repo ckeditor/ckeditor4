@@ -34,7 +34,7 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( filetools.isExtentionSupported( file, 'txt,html,htm' ) ) {
+					if ( filetools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 						var el = new CKEDITOR.dom.element( 'span' ),
 							loader = editor.uploadsRepository.create( file );
 
