@@ -8,7 +8,10 @@
 
 ( function() {
 	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
-		IMG_URL = '%BASE_PATH%_assets/logo.png';
+		IMG_URL = '%BASE_PATH%_assets/logo.png',
+		LOADING_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC',
+		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC';
+
 
 	var editorsDefinitions = {
 		classic: {
@@ -77,7 +80,7 @@
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
-			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
@@ -85,7 +88,7 @@
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatusAndFire( 'uploading' );
 
-			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
+			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
 			// IE needs to wait for image to be loaded so it can read width and height of the image.
@@ -107,7 +110,7 @@
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
-			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
@@ -115,7 +118,7 @@
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatusAndFire( 'uploading' );
 
-			assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
+			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
 			// IE needs to wait for image to be loaded so it can read width and height of the image.
@@ -139,7 +142,7 @@
 			bot.setData( '', function() {
 				pasteFiles( editor, [], '<p>x<img src="' + bender.tools.pngBase64 + '">x</p>' );
 
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
+				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on loading.' );
 
 				var loader = editor.uploadsRepository.get( 0 );
@@ -147,7 +150,7 @@
 				loader.data = bender.tools.pngBase64;
 				loader.changeStatusAndFire( 'uploading' );
 
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC' );
+				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
 				// IE needs to wait for image to be loaded so it can read width and height of the image.
@@ -169,7 +172,7 @@
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+				assertUploadingWidgets( editor, LOADING_IMG );
 			} );
 
 			pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
@@ -181,7 +184,7 @@
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+				assertUploadingWidgets( editor, LOADING_IMG );
 			} );
 
 			pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
@@ -193,7 +196,7 @@
 			var editor = editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC' );
+				assertUploadingWidgets( editor, LOADING_IMG );
 			} );
 
 			pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
