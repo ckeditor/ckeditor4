@@ -8,8 +8,7 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
-		testFile = bender.tools.getTestPngFile(),
-		lastFormData;
+		testFile, lastFormData;
 
 
 	function createFileReaderMock( scenario ) {
@@ -156,14 +155,19 @@
 	// and there is no editor instance.
 	bender.editor = {
 		config: {
-			extraPlugins: 'filetools'
+			extraPlugins: 'filetools,clipboard'
 		}
 	};
 
 	bender.test( {
 		'setUp': function() {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				assert.ignore();
+			}
+
 			FileLoader = CKEDITOR.filetools.FileLoader;
 			resumeAfter = bender.tools.resumeAfter;
+			testFile = bender.tools.getTestPngFile();
 		},
 
 		'tearDown': function() {

@@ -81,6 +81,10 @@
 
 	bender.test( {
 		'setUp': function() {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				assert.ignore();
+			}
+
 			filetools = CKEDITOR.filetools;
 			resumeAfter = bender.tools.resumeAfter;
 

@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,clipboard */
-/* bender-ckeditor-plugins: filetools */
+/* bender-ckeditor-plugins: filetools,clipboard */
 
 'use strict';
 
@@ -8,12 +8,16 @@
 
 	bender.editor = {
 		config: {
-			extraPlugins: 'filetools'
+			extraPlugins: 'filetools,clipboard'
 		}
 	};
 
 	bender.test( {
 		'setUp': function() {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				assert.ignore();
+			}
+
 			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
 			isTypeSupported = CKEDITOR.filetools.isTypeSupported;
 			getExtention = CKEDITOR.filetools.getExtention;

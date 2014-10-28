@@ -64,6 +64,10 @@
 		},
 
 		'setUp': function() {
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				assert.ignore();
+			}
+
 			var editorName;
 
 			uploadCount = 0;
