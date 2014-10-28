@@ -12,6 +12,7 @@ Fixed Issues:
 * [#12506](http://dev.ckeditor.com/ticket/12506): [Safari] Fixed: Can't paste into inline editor if page has `user-select: none` style. Thanks to [shaohua](https://github.com/shaohua)!
 * [#12489](http://dev.ckeditor.com/ticket/12423) and [#12491](http://dev.ckeditor.com/ticket/12423): Fixed: Various issues related to restoring selection after making operations on filler char. See the [fixed cases](http://dev.ckeditor.com/ticket/12491#comment:4).
 * [#11647](http://dev.ckeditor.com/ticket/11647): Fixed: The [`editor.blur`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-blur) event is not fired on first blur after initializing the inline editor on already focused element.
+* [#12601](http://dev.ckeditor.com/ticket/12601): Fixed: [Strikethrough](http://ckeditor.com/addon/basicstyles) button tooltip spelling.
 
 ## CKEditor 4.4.5
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -147,11 +147,11 @@ CKEDITOR.config.coreStyles_italic = { element: 'em', overrides: 'i' };
 CKEDITOR.config.coreStyles_underline = { element: 'u' };
 
 /**
- * The style definition that applies the <strike>strike-through</strike> style to the text.
+ * The style definition that applies the <strike>strikethrough</strike> style to the text.
  *
  *		CKEDITOR.config.coreStyles_strike = {
  *			element: 'span',
- *			attributes: { 'class': 'StrikeThrough' },
+ *			attributes: { 'class': 'Strikethrough' },
  *			overrides: 'strike'
  *		};
  *
