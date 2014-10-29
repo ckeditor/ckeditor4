@@ -4,6 +4,7 @@
  */
 'use strict';
 
+// Slow down upload process.
 ( function() {
 	XMLHttpRequest.prototype.baseSend = XMLHttpRequest.prototype.send;
 
@@ -14,11 +15,13 @@
 		this.onprogress = function() {};
 
 		this.onload = function( evt ) {
+			// Total file size.
 			var total = 1000 * 10,
 				loaded = 0;
 
 			function progress() {
 				setTimeout( function() {
+					// Load 1000 bytes every 300 milliseconds.
 					loaded += 1000;
 
 					if ( loaded < total ) {

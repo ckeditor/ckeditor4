@@ -9,12 +9,40 @@
 		lang: 'en', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
+			/**
+			 * An instance of {@link CKEDITOR.filetools.UploadsRepository upload repository}.
+			 * It allows you to create and get {@link CKEDITOR.filetools.FileLoader file loaders}.
+			 *
+			 *		var loader = editor.uploadsRepository.create( file );
+			 *		loader.loadAndUpload( 'http://foo/bar' );
+			 *
+			 * @since 4.5
+			 * @readonly
+			 * @property {CKEDITOR.filetools.UploadsRepository} uploadsRepository
+			 * @member CKEDITOR.editor
+			 */
 			editor.uploadsRepository = new UploadsRepository( editor );
 		}
 	} );
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
+	/**
+	 * An UploadsRepository class. It allows you to create and get
+	 * {@link CKEDITOR.filetools.FileLoader file loaders}.
+	 *
+	 * An instance of the repository is available as a {@link CKEDITOR.editor#uploadsRepository}.
+	 *
+	 *		var loader = editor.uploadsRepository.create( file );
+	 *		loader.loadAndUpload( 'http://foo/bar' );
+	 *
+	 * To find more information about handling files @see CKEDITOR.filetools.FileLoader.
+	 *
+	 * @since 4.5
+	 * @class CKEDITOR.filetools.UploadsRepository
+	 * @constructor Creates an instance of the repository.
+	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get the language data.
+	 */
 	function UploadsRepository( editor ) {
 		this.editor = editor;
 
@@ -24,6 +52,13 @@
 	}
 
 	UploadsRepository.prototype = {
+		/**
+		 * Creates a {@link CKEDITOR.filetools.FileLoader file loader}, saves it and sets the unique id for it.
+		 *
+		 * @param {Blob|String} fileOrData @see CKEDITOR.filetools.FileLoader
+		 * @param {String} fileName @see CKEDITOR.filetools.FileLoader
+		 * @returns {CKEDITOR.filetools.FileLoader} Created FileLoader.
+		 */
 		create: function( fileOrData, fileName ) {
 			var id = this._.loaders.length,
 				loader = new FileLoader( this.editor, fileOrData, fileName );
@@ -33,18 +68,58 @@
 
 			return loader;
 		},
+
+		/**
+		 * Gets an {@link CKEDITOR.filetools.FileLoader file loader} with given id.
+		 *
+		 * @param {Number} id File loader id.
+		 * @returns {CKEDITOR.filetools.FileLoader} FileLoader with given id.
+		 */
 		get: function( id ) {
 			return this._.loaders[ id ];
 		}
 	};
 
+	/**
+	 * `FileLoader` class is a wrapper which handle two file operations: loading the contents of a file stored on the user's
+	 * computer and uploading a file to a server. Note that you do not need to load file to upload it.
+	 *
+	 * There are two possible ways to crate `FileLoader`: with file or with data as a Base64 string. Note that if constructor gets
+	 * data as a Base64 string there is no need to load data, they are already loaded.
+	 *
+	 * `FileLoader` is created for a single load and upload process so if you abort the process
+	 * you need to create a new `FileLoader`.
+	 *
+	 * All process parameters are stored in the public properties.
+	 *
+	 * `FileLoader` implements events so you can listen on them to react on changes. There are two types of events: events to
+	 * notify listeners about changes and event to let listener synchronize with current status. The first group of events contains
+	 * `loading`, `loaded`, `uploading`, `uploaded`, `error` and `abort`. These events are called only once, when status change. The second
+	 * type is `update` event. It is fired ever time status change, progress change or `update()` method is called.
+	 *
+	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request or response handling
+	 * you need to overwrite {@link CKEDITOR.filetools.FileLoader#sendRequest sendRequest} or
+	 * {@link CKEDITOR.filetools.FileLoader#handleResponse handleResponse} method.
+	 *
+	 * To create `FileLoader` use {@link CKEDITOR.filetools.UploadsRepository}.
+	 *
+	 * @since 4.5
+	 * @class CKEDITOR.filetools.FileLoader
+	 * @mixins CKEDITOR.event
+	 * @constructor Sets initial values of all properties.
+	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get language data.
+	 * @param {Blob|String} fileOrData file object of string data encoded with Base64.
+	 * @param {String} [fileName] File name. If not set and the second parameter is file then its name will be uses.
+	 * If not set and the second parameter is Base64 data file name will be created based on MIME type by replacing '/' with '.',
+	 * for example for `image/png` file name will be `image.png`.
+	 */
 	function FileLoader( editor, fileOrData, fileName ) {
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
 			// Data are already loaded from disc.
 			this.data = fileOrData;
-			this.file = srcToFile( this.data );
+			this.file = dataToFile( this.data );
 			this.total = this.file.size;
 			this.loaded = this.total;
 		} else {
@@ -62,10 +137,115 @@
 
 		this.uploaded = 0;
 
-		this.changeStatusAndFire( 'created' );
+		this.status = 'created';
+
+		this.abort = function() {
+			this.changeStatusAndFire( 'abort' );
+		};
 	}
+	/**
+	 * The loader status. Possible values:
+	 *
+	 *  * 'created' - loader have been created, but no load nor upload starts,
+	 *  * 'loading' - loading file from the user's storage,
+	 *  * 'loaded' - file have been loaded, process is done,
+	 *  * 'uploading' - uploading file to the server,
+	 *  * 'uploaded' - file have been uploaded, process is done,
+	 *  * 'error' - process stops because of an error, more details in message property,
+	 *  * 'abort' - process stops by users action.
+	 *
+	 * @property {String} status
+	 */
+
+	/**
+	 * String data encoded with Base64. If `FileLoader` is created with Base64 string then `data` is that string.
+	 * If file was passed to the constructor then data is null until loading is done.
+	 *
+	 * @property {String} data
+	 */
+
+	/**
+	 * File object which represents handled file. This property is set for both constructor options (file or data).
+	 *
+	 * @property {Blob} file
+	 */
+
+	/**
+	 * The name of the file. If there is no file name it is create from MIME type.
+	 * For example for `image/png` file name will be `image.png`.
+	 *
+	 * @property {String} fileName
+	 */
+
+	/**
+	 * Number of loaded bytes. If `FileLoader` was created with data string loaded equals total.
+	 *
+	 * @property {Number} loaded
+	 */
+
+	/**
+	 * Number of uploaded bytes.
+	 *
+	 * @property {Number} uploaded
+	 */
+
+	/**
+	 * Total file size in bytes.
+	 *
+	 * @property {Number} total
+	 */
+
+	/**
+	 * Error message or additional information received from the server.
+	 *
+	 * @property {String} message
+	 */
+
+	/**
+	 * URL to the file when it is uploaded, received from the server.
+	 *
+	 * @property {String} url
+	 */
+
+	/**
+	 * The target of the upload.
+	 *
+	 * @property {String} uploadUrl
+	 */
+
+	/**
+	 * If `FileLoader` was created using {@link CKEDITOR.filetools.UploadsRepository}
+	 * it gets an identifier which is stored in this property.
+	 *
+	 * @property {Number} id
+	 */
+
+	/**
+	 * This function has a different behavior depends on current `status`.
+	 *
+	 * If the status is `loading` or `uploading` current operation will be aborted.
+	 * Also if the status is `created`, `loading` or `uploading` status will be changed to `abort`
+	 * and `abort` event will be called.
+	 *
+	 * If the status is 'loaded', 'uploaded', 'error' or 'abort' this method will do nothing.
+	 *
+	 * @method abort
+	 */
+
 
 	FileLoader.prototype = {
+		/**
+		 * Loads file from the storage on user's computer to the data attribute and upload it to the server.
+		 *
+		 * The order statuses for the success load and upload is:
+		 *
+		 *  * created,
+		 *  * loading,
+		 *  * uploading,
+		 *  * uploaded.
+		 *
+		 * @param {String} url Upload URL.
+		 */
 		loadAndUpload: function( url ) {
 			var loader = this;
 
@@ -84,6 +264,16 @@
 
 			this.load();
 		},
+
+		/**
+		 * Loads file from the storage on user's computer to the data attribute.
+		 *
+		 * The order of the statuses for the success load is:
+		 *
+		 *  * created,
+		 *  * loading,
+		 *  * loaded.
+		 */
 		load: function() {
 			var reader = new FileReader(),
 				loader = this;
@@ -117,6 +307,17 @@
 			reader.readAsDataURL( this.file );
 		},
 
+		/**
+		 * Uploads file to the server.
+		 *
+		 * The order of the statuses for the success upload is:
+		 *
+		 *  * created,
+		 *  * uploading,
+		 *  * uploaded.
+		 *
+		 * @param {String} url Upload URL.
+		 */
 		upload: function( url ) {
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
@@ -132,9 +333,13 @@
 
 				this.sendRequest( xhr );
 			}
-
 		},
 
+		/**
+		 * Attach listeners to the XML HTTP request object.
+		 *
+		 * @param {XMLHttpRequest} xhr XML HTTP request object.
+		 */
 		attachUploadListeners: function( xhr ) {
 			var loader = this;
 
@@ -171,6 +376,21 @@
 			};
 		},
 
+		/**
+		 * Send asynchronous request. Overwrite this method for a custom request.
+		 *
+		 * For example to send data directly (without a form):
+		 *
+		 * 		CKEDITOR.filetools.FileLoader.prototype.sendRequest = function() {
+		 * 			xhr.open( 'POST', this.uploadUrl, true );
+		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
+		 * 			xhr.setRequestHeader( 'X-File-Name', this.fileName );
+		 * 			xhr.setRequestHeader( 'X-File-Size', this.total );
+		 * 			xhr.send( this.file );
+		 * 		};
+		 *
+		 * @param {XMLHttpRequest} xhr XML HTTP Request object with attached listeners.
+		 */
 		sendRequest: function( xhr ) {
 			var formData = new FormData();
 
@@ -179,6 +399,24 @@
 			xhr.send( formData );
 		},
 
+		/**
+		 * Handle response from the server. Overwrite this method for custom response handling.
+		 *
+		 * For example if the response is 'fileUrl|errorMessage':
+		 *
+		 * 		CKEDITOR.filetools.FileLoader.prototype.handleResponse = function( xhr ) {
+		 * 			var repsonse = xhr.responseText.split( '|' );
+		 * 			if ( repsonse[ 1 ] ) {
+		 * 				this.message = repsonse[ 1 ];
+		 * 				this.changeStatusAndFire( 'error' );
+		 * 			} else {
+		 * 				this.url = response[ 0 ];
+		 * 				this.changeStatusAndFire( 'uploaded' );
+		 * 			}
+		 * 		};
+		 *
+		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
+		 */
 		handleResponse: function( xhr ) {
 			try {
 				var response = JSON.parse( xhr.responseText );
@@ -201,14 +439,14 @@
 			}
 		},
 
+		/**
+		 * Change status to the new status, update `abort` function if needed and fire two events:
+		 * new status and update.
+		 *
+		 * @param {String} newStatus New status to be set.
+		 */
 		changeStatusAndFire: function( newStatus ) {
 			this.status = newStatus;
-
-			if ( newStatus == 'created' ) {
-				this.abort = function() {
-					this.changeStatusAndFire( 'abort' );
-				};
-			}
 
 			if ( newStatus == 'error' || newStatus == 'abort' ||
 				newStatus == 'loaded' || newStatus == 'uploaded' ) {
@@ -219,14 +457,75 @@
 			this.update();
 		},
 
+		/**
+		 * Fire update event.
+		 */
 		update: function() {
 			this.fire( 'update' );
 		}
+
+		/**
+		 * Event fired when status change to `loading`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event loading
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired when status change to `loaded`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event loaded
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired when status change to `uploading`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event uploading
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired when status change to `uploaded`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event uploaded
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired when status change to `error`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event error
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired when status change to `abort`. Is will be fired once for the `FileLoader`.
+		 *
+		 * @event abort
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
+
+		/**
+		 * Event fired every time `FileLoader` status or progress changed or `update()` method is called.
+		 * This event was designed to allow showing visualization of the progress and refresh that visualization
+		 * every time state changes. Note that multiple `update` events may be fired with the same status.
+		 *
+		 * @event update
+		 * @member CKEDITOR.filetools.FileLoader
+		 */
 	};
 
-	function srcToFile( src ) {
-		var contentType = src.match( base64HeaderRegExp )[ 1 ],
-			base64Data = src.replace( base64HeaderRegExp, '' ),
+	/**
+	 * Transform Base64 string data into file and creates name for that file based on the mime type.
+	 *
+	 * @private
+	 * @param  {String} data Base64 string data.
+	 * @returns {Blob} File.
+	 */
+	function dataToFile( data ) {
+		var contentType = data.match( base64HeaderRegExp )[ 1 ],
+			base64Data = data.replace( base64HeaderRegExp, '' ),
 			byteCharacters = atob( base64Data ),
 			byteArrays = [],
 			sliceSize = 512,
@@ -250,6 +549,31 @@
 		return file;
 	}
 
+	/**
+	 * Check given config looking for the upload URL.
+	 *
+	 * If type is defined 4 configuration options will be check in the order
+	 * (examples for type 'image'):
+	 *
+	 *  * `[type]UploadUrl`, ex. `imageUploadUrl`,
+	 *  * `uploadUrl`,
+	 *  * `filebrowser[type with uppercase first character]uploadUrl`, ex. `filebrowserImageUploadUrl`,
+	 *  * `filebrowserUploadUrl`.
+	 *
+	 * If type is not defined 2 configuration options will be checked:
+	 *
+	 *  * `uploadUrl`,
+	 *  * `filebrowserUploadUrl`.
+	 *
+	 * `filebrowser[type]uploadUrl` and `filebrowserUploadUrl` are checked for backward compatibility with the filebrowser plugin.
+	 *
+	 * For both `filebrowser[type]uploadUrl` and `filebrowserUploadUrl` is added `&responseType=json` to the end of the URL.
+	 *
+	 * @member CKEDITOR.filetools
+	 * @param {Object} config Configuration file.
+	 * @param {String} [type] Upload file type.
+	 * @returns {String} Upload URL.
+	 */
 	function getUploadUrl( config, type ) {
 		if ( type && config[ type + 'UploadUrl' ] ) {
 			return config[ type + 'UploadUrl' ];
@@ -264,12 +588,42 @@
 		throw 'Upload URL is not defined.';
 	}
 
+	/**
+	 * URL where files should be uploaded.
+	 *
+	 * @since 4.5
+	 * @cfg {String} [uploadUrl='' (empty string = disabled)]
+	 * @member CKEDITOR.config
+	 */
+
+	/**
+	 * Changes the first letter of the string to the upper case.
+	 *
+	 * Example.: 'foo' -> 'Foo'
+	 *
+	 * @private
+	 * @param {String} str Input string.
+	 * @returns {String} String with uppers case first letter.
+	 */
 	function ucFirst( str ) {
 		str += '';
 		var f = str.charAt( 0 ).toUpperCase();
 		return f + str.substr( 1 );
 	}
 
+	/**
+	 * Checked if the MIME type of given file is supported.
+	 * If no `supportedTypes` regular expression is given all type are considered as supported.
+	 *
+	 * 		isTypeSupported( { type: 'image/png' } ); // true
+	 * 		isTypeSupported( { type: 'image/png' }, /image\/(png|jpeg)/ ); // true
+	 * 		isTypeSupported( { type: 'image/png' }, /image\/(gif|jpeg)/ ); // false
+	 *
+	 * @member CKEDITOR.filetools
+	 * @param {Blob}  file File to check.
+	 * @param {Array}  [supportedTypes] Regular expression to check MIME type of the file.
+	 * @returns {Boolean} True if file is supported.
+	 */
 	function isTypeSupported( file, supportedTypes ) {
 		if ( !supportedTypes ) {
 			return true;
@@ -280,6 +634,13 @@
 
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
+	/**
+	 * Helpers tools to load and upload file.
+	 *
+	 * @since 4.5
+	 * @singleton
+	 * @class CKEDITOR.filetools
+	 */
 	if ( !CKEDITOR.filetools ) {
 		CKEDITOR.filetools = {};
 	}
