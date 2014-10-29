@@ -1839,7 +1839,7 @@
 				// after removing all elements.
 				if ( parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
 					child.type == CKEDITOR.NODE_ELEMENT &&
-					!DTD[ parent.name ][ child.name ]
+					!(DTD[ parent.name ] && DTD[ parent.name ][ child.name ])
 				)
 					toBeChecked.push( { check: 'el-up', el: child } );
 			}
