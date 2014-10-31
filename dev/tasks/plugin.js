@@ -5,7 +5,7 @@
 var fs = require( 'fs' );
 
 module.exports = function( grunt ) {
-	grunt.registerTask( 'plugin-install', 'Installs external plugin in the plugins/ directory.', function( pluginName ) {
+	grunt.registerTask( 'plugin-install', 'Installs external plugin to the plugins/ directory.', function( pluginName ) {
 		var externalDir = grunt.config.get( 'plugin.externalDir' ),
 			installationDir = grunt.config.get( 'plugin.installationDir' ),
 			externalPluginDir = externalDir + pluginName,
@@ -20,8 +20,9 @@ module.exports = function( grunt ) {
 		if ( !grunt.file.isFile( externalPluginDir + '/plugin.js' ) ) {
 			grunt.fail.warn( 'The "' + externalPluginDir + '/plugin.js" file should exist.' );
 		}
-		if ( pathExists( installationPluginDir ) ) {
-			grunt.fail.warn( 'The "' + pluginName + '" plugin is already installed.' );
+		if ( isPluginInstalled( pluginName ) ) {
+			grunt.log.writeln( 'The "' + pluginName + '" plugin is already installed. Aborting.' );
+			return;
 		}
 
 		grunt.log.verbose.writeln( 'Trying to create a symlink...' );
@@ -52,8 +53,8 @@ module.exports = function( grunt ) {
 		if ( !pluginName ) {
 			grunt.fail.fatal( 'Name of the plugin must be specified.' );
 		}
-		if ( !pathExists( installationPluginDir ) ) {
-			grunt.fail.writeln( 'The "' + pluginName + '" plugin is not installed.' );
+		if ( !isPluginInstalled( pluginName ) ) {
+			grunt.log.writeln( 'The "' + pluginName + '" plugin is not installed. Aborting.' );
 			return;
 		}
 		if ( !isSymlink( installationPluginDir ) ) {
@@ -79,6 +80,55 @@ module.exports = function( grunt ) {
 		}
 
 		grunt.log.ok( 'Uninstalled plugin "' + pluginName + '" from "' + installationPluginDir + '" directory.' );
+	} );
+
+	grunt.registerTask( 'plugins-list', 'Lists all installed external plugins.', function() {
+		assertExternalDir();
+
+		var installedPlugins = getExternalPlugins().filter( isPluginInstalled );
+		if ( !installedPlugins.length ) {
+			grunt.log.writeln( 'There are no external plugins installed.' );
+		}
+		grunt.log.writeln( 'Installed plugins:' );
+		grunt.log.writeln( installedPlugins.join( ', ' ) );
+	} );
+
+	grunt.registerTask( 'plugins-list-external', 'Lists all available external plugins.', function() {
+		assertExternalDir();
+
+		var plugins = getExternalPlugins();
+		if ( !plugins.length ) {
+			grunt.log.writeln( 'There are no external plugins available.' );
+		}
+		grunt.log.writeln( 'Available plugins:' );
+		grunt.log.writeln( plugins.join( ', ' ) );
+	} );
+
+	grunt.registerTask( 'plugins-install', 'Installs all external plugins specified in package.json to the plugins/ directory.', function() {
+		var pluginsToInstall = grunt.config.get( 'pkg.ckeditorPlugins' );
+
+		if ( !pluginsToInstall || !Object.keys( pluginsToInstall ).length ) {
+			grunt.log.writeln( 'No plugins configured in the package.json file.' );
+			return;
+		}
+
+		pluginsToInstall = Object.keys( pluginsToInstall );
+
+		grunt.log.writeln( 'Installing: ' + pluginsToInstall.join( ', ' ) + '...' );
+		grunt.task.run( pluginsToInstall.map( function( pluginName ) {
+			return 'plugin-install:' + pluginName
+		} ) );
+	} );
+
+	grunt.registerTask( 'plugins-uninstall', 'Uninstalls all external plugins from the plugins/ directory.', function() {
+		assertExternalDir();
+
+		var pluginsToUnInstall = getExternalPlugins().filter( isPluginInstalled );
+
+		grunt.log.writeln( 'Uninstalling: ' + pluginsToUnInstall.join( ', ' ) + '...' );
+		grunt.task.run( pluginsToUnInstall.map( function( pluginName ) {
+			return 'plugin-uninstall:' + pluginName
+		} ) );
 	} );
 
 
@@ -131,5 +181,32 @@ module.exports = function( grunt ) {
 			// Remove empty lines from the end of the file.
 			.replace( /\n+$/g, '' )
 			.split( /\n/ );
+	}
+
+	// Returns an array of directories names inside dir.
+	function getDirs( dir ) {
+		var fileNames = fs.readdirSync( dir );
+
+		return fileNames.filter( function( fileName ) {
+			return fs.lstatSync( dir + fileName ).isDirectory();
+		} );
+	}
+
+	// Returns an array of external plugins names.
+	function getExternalPlugins() {
+		return getDirs( grunt.config.get( 'plugin.externalDir' ) );
+	}
+
+	// Checks whether a plugin is installed.
+	function isPluginInstalled( pluginName ) {
+		return pathExists( grunt.config.get( 'plugin.installationDir' ) + pluginName );
+	}
+
+	// Checks that the external plugins directory exists.
+	function assertExternalDir() {
+		var externalDir = grunt.config.get( 'plugin.externalDir' );
+		if ( !grunt.file.isDir( externalDir ) ) {
+			grunt.fail.fatal( 'The "' + externalDir + '" directory must exist.' );
+		}
 	}
 };
