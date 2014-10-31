@@ -12,6 +12,7 @@ module.exports = function( grunt ) {
 			installationPluginDir = installationDir + pluginName;
 
 		if ( !pluginName ) {
+			grunt.log.writeln( 'Use: grunt plugin-install:<pluginName>' );
 			grunt.fail.fatal( 'Name of the plugin must be specified.' );
 		}
 		if ( !grunt.file.isDir( externalPluginDir ) ) {
@@ -51,6 +52,7 @@ module.exports = function( grunt ) {
 			installationPluginDir = installationDir + pluginName;
 
 		if ( !pluginName ) {
+			grunt.log.writeln( 'Use: grunt plugin-uninstall:<pluginName>' );
 			grunt.fail.fatal( 'Name of the plugin must be specified.' );
 		}
 		if ( !isPluginInstalled( pluginName ) ) {
