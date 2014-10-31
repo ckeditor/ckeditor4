@@ -4,6 +4,13 @@
 
 module.exports = function( grunt ) {
 	grunt.initConfig( {
+		pkg: grunt.file.readJSON( 'package.json' ),
+
+		plugin: {
+			externalDir: '../ckeditor-plugins/',
+			installationDir: 'plugins/'
+		},
+
 		imagemin: {
 			plugins: {
 				files: [ {
@@ -39,5 +46,6 @@ module.exports = function( grunt ) {
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
-	grunt.registerTask( 'images', [ 'imagemin' ] );
+	grunt.loadTasks( 'dev/tasks' );
+	grunt.registerTask( 'images', 'Optimizes images which are not processed later by the CKBuilder (i.e. icons).', [ 'imagemin' ] );
 };
