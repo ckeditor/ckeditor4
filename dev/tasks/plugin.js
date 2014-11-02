@@ -14,34 +14,29 @@ module.exports = function( grunt ) {
 			installationPluginDir = installationDir + pluginName;
 
 		if ( !pluginName ) {
-			grunt.log.writeln( 'Use: grunt plugin-install:<pluginName>' );
-			grunt.fail.fatal( 'Name of the plugin must be specified.' );
+			grunt.fail.fatal(
+				'Name of the plugin must be specified.\n' +
+				'Use: grunt plugin-install:<pluginName>'
+			);
 		}
 		assertExternalPluginDir( pluginName );
 		if ( isPluginInstalled( pluginName ) ) {
-			grunt.log.writeln( 'The "' + pluginName + '" plugin is already installed. Aborting.' );
+			grunt.log.writeln( 'The "' + pluginName + '" plugin is already installed.' );
 			return;
 		}
 
-		grunt.log.verbose.writeln( 'Trying to create a symlink...' );
 		try {
+			grunt.log.writeln( 'Creating a symlink...' );
 			fs.symlinkSync( externalPluginDir, installationPluginDir );
-			grunt.log.verbose.ok( 'Created a symlink.' );
-		} catch ( e ) {
-			grunt.log.error( e.message );
-			grunt.fail.fatal( 'Error when creating a symlink.' );
-		}
 
-		grunt.log.verbose.writeln( 'Trying to add the plugin to files ignored by Git...' );
-		try {
+			grunt.log.writeln( 'Adding the plugin to files ignored by Git...' );
 			addPluginDirToGitExclude( installationPluginDir );
-			grunt.log.verbose.ok( 'Added plugin to files ignored by Git.' );
 		} catch ( e ) {
 			grunt.log.error( e.message );
-			grunt.fail.fatal( 'Error when creating a symlink.' );
+			grunt.fail.fatal( 'Error when installing the plugin.' );
 		}
 
-		grunt.log.ok( 'Installed plugin "' + pluginName + '" in "' + installationPluginDir + '" directory.' );
+		grunt.log.ok( 'Installed the plugin "' + pluginName + '" in "' + installationPluginDir + '" directory.' );
 	} );
 
 	grunt.registerTask( 'plugin-uninstall', 'Uninstalls external plugin from the plugins/ directory.', function( pluginName ) {
@@ -49,49 +44,45 @@ module.exports = function( grunt ) {
 			installationPluginDir = installationDir + pluginName;
 
 		if ( !pluginName ) {
-			grunt.log.writeln( 'Use: grunt plugin-uninstall:<pluginName>' );
-			grunt.fail.fatal( 'Name of the plugin must be specified.' );
+			grunt.fail.fatal(
+				'Name of the plugin must be specified.\n' +
+				'Use: grunt plugin-uninstall:<pluginName>'
+			);
 		}
 		if ( !isPluginInstalled( pluginName ) ) {
-			grunt.log.writeln( 'The "' + pluginName + '" plugin is not installed. Aborting.' );
+			grunt.log.writeln( 'The "' + pluginName + '" plugin is not installed.' );
 			return;
 		}
 		if ( !isSymlink( installationPluginDir ) ) {
 			grunt.fail.warn( 'The "' + installationPluginDir + '" directory is not a symlink so plugin cannot be removed.' );
 		}
 
-		grunt.log.verbose.writeln( 'Trying to remove a symlink...' );
 		try {
+			grunt.log.writeln( 'Removing a symlink...' );
 			fs.unlink( installationPluginDir );
-			grunt.log.verbose.ok( 'Removed a symlink.' );
-		} catch ( e ) {
-			grunt.log.error( e.message );
-			grunt.fail.fatal( 'Error when removing a symlink.' );
-		}
 
-		grunt.log.verbose.writeln( 'Trying to remove the plugin from files ignored by Git...' );
-		try {
+			grunt.log.writeln( 'Remove the plugin from files ignored by Git...' );
 			removePluginDirFromGitExclude( installationPluginDir );
-			grunt.log.verbose.ok( 'Added plugin to files ignored by Git.' );
 		} catch ( e ) {
 			grunt.log.error( e.message );
-			grunt.fail.fatal( 'Error when creating a symlink.' );
+			grunt.fail.fatal( 'Error when uninstalling the plugin.' );
 		}
 
-		grunt.log.ok( 'Uninstalled plugin "' + pluginName + '" from "' + installationPluginDir + '" directory.' );
+		grunt.log.ok( 'Uninstalled the plugin "' + pluginName + '" from "' + installationPluginDir + '" directory.' );
 	} );
 
 	grunt.registerTask( 'plugin-update', 'Updates plugin to the commit ref/branch/tag specified in package.json.', function( pluginName ) {
 		if ( !pluginName ) {
-			grunt.log.writeln( 'Use: grunt plugin-update:<pluginName>' );
-			grunt.fail.fatal( 'Name of the plugin must be specified.' );
+			grunt.fail.fatal(
+				'Name of the plugin must be specified.\n' +
+				'Use: grunt plugin-update:<pluginName>'
+			);
 		}
 		assertExternalPluginDir( pluginName );
 
 		var pluginConfig = getPluginConfig( pluginName );
 		if ( !pluginConfig ) {
-			grunt.log.writeln( 'Plugin "' + pluginName + '" is not configured in the package.json file.' );
-			return;
+			grunt.fail.warn( 'Plugin "' + pluginName + '" is not configured in the package.json file.' );
 		}
 
 		grunt.log.writeln( 'Updating plugin "' + pluginName + '" to "' + pluginConfig.remote + '/' + pluginConfig.version + '"...' );
@@ -101,7 +92,10 @@ module.exports = function( grunt ) {
 		try {
 			// Kinda weak way to check the status. But let's see if it does the job for now.
 			if ( gitStatus() ) {
-				grunt.log.error( 'Cannot update plugin "' + pluginName + '" due to messed status (e.g. uncommited changes or untracked files).' );
+				grunt.log.error(
+					'Cannot update the plugin "' + pluginName + '" due to messed status ' +
+					'(e.g. uncommited changes or untracked files).'
+				);
 				return;
 			}
 
@@ -120,12 +114,12 @@ module.exports = function( grunt ) {
 			}
 		} catch ( e ) {
 			grunt.log.error( e.message );
-			grunt.fail.fatal( 'Error when updating plugin "' + pluginName + '".' );
+			grunt.fail.fatal( 'Error when updating the plugin "' + pluginName + '".' );
 		} finally {
 			shjs.popd();
 		}
 
-		grunt.log.ok( 'Updated plugin "' + pluginName + '".' );
+		grunt.log.ok( 'Updated the plugin "' + pluginName + '".' );
 	} );
 
 	grunt.registerTask( 'plugins-list', 'Lists all installed external plugins.', function() {
@@ -160,7 +154,7 @@ module.exports = function( grunt ) {
 
 		var pluginsToInstallNames = Object.keys( pluginsToInstall );
 
-		grunt.log.writeln( 'Installing: ' + pluginsToInstallNames.join( ', ' ) + '...' );
+		grunt.log.writeln( 'Installing plugins: ' + pluginsToInstallNames.join( ', ' ) + '...' );
 		grunt.task.run( pluginsToInstallNames.map( function( pluginName ) {
 			return 'plugin-install:' + pluginName
 		} ) );
@@ -171,7 +165,7 @@ module.exports = function( grunt ) {
 
 		var pluginsToUnInstall = getExternalPlugins().filter( isPluginInstalled );
 
-		grunt.log.writeln( 'Uninstalling: ' + pluginsToUnInstall.join( ', ' ) + '...' );
+		grunt.log.writeln( 'Uninstalling plugins: ' + pluginsToUnInstall.join( ', ' ) + '...' );
 		grunt.task.run( pluginsToUnInstall.map( function( pluginName ) {
 			return 'plugin-uninstall:' + pluginName
 		} ) );
