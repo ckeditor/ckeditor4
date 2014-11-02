@@ -2,25 +2,22 @@
 
 'use strict';
 
-var fs = require( 'fs' );
+var fs = require( 'fs' ),
+	shjs = require( 'shelljs' );
+
+shjs.config.silent = true;
 
 module.exports = function( grunt ) {
 	grunt.registerTask( 'plugin-install', 'Installs external plugin to the plugins/ directory.', function( pluginName ) {
-		var externalDir = grunt.config.get( 'plugin.externalDir' ),
-			installationDir = grunt.config.get( 'plugin.installationDir' ),
-			externalPluginDir = externalDir + pluginName,
+		var installationDir = grunt.config.get( 'plugin.installationDir' ),
+			externalPluginDir = getExternalPluginDir( pluginName ),
 			installationPluginDir = installationDir + pluginName;
 
 		if ( !pluginName ) {
 			grunt.log.writeln( 'Use: grunt plugin-install:<pluginName>' );
 			grunt.fail.fatal( 'Name of the plugin must be specified.' );
 		}
-		if ( !grunt.file.isDir( externalPluginDir ) ) {
-			grunt.fail.fatal( 'The "' + externalPluginDir + '" directory must exist.' );
-		}
-		if ( !grunt.file.isFile( externalPluginDir + '/plugin.js' ) ) {
-			grunt.fail.warn( 'The "' + externalPluginDir + '/plugin.js" file should exist.' );
-		}
+		assertExternalPluginDir( pluginName );
 		if ( isPluginInstalled( pluginName ) ) {
 			grunt.log.writeln( 'The "' + pluginName + '" plugin is already installed. Aborting.' );
 			return;
@@ -84,6 +81,53 @@ module.exports = function( grunt ) {
 		grunt.log.ok( 'Uninstalled plugin "' + pluginName + '" from "' + installationPluginDir + '" directory.' );
 	} );
 
+	grunt.registerTask( 'plugin-update', 'Updates plugin to the commit ref/branch/tag specified in package.json.', function( pluginName ) {
+		if ( !pluginName ) {
+			grunt.log.writeln( 'Use: grunt plugin-update:<pluginName>' );
+			grunt.fail.fatal( 'Name of the plugin must be specified.' );
+		}
+		assertExternalPluginDir( pluginName );
+
+		var pluginConfig = getPluginConfig( pluginName );
+		if ( !pluginConfig ) {
+			grunt.log.writeln( 'Plugin "' + pluginName + '" is not configured in the package.json file.' );
+			return;
+		}
+
+		grunt.log.writeln( 'Updating plugin "' + pluginName + '" to "' + pluginConfig.remote + '/' + pluginConfig.version + '"...' );
+
+		shjs.pushd( getExternalPluginDir( pluginName ) );
+
+		try {
+			// Kinda weak way to check the status. But let's see if it does the job for now.
+			if ( gitStatus() ) {
+				grunt.log.error( 'Cannot update plugin "' + pluginName + '" due to messed status (e.g. uncommited changes or untracked files).' );
+				return;
+			}
+
+			grunt.log.writeln( 'Fetching changes from the remote "' + pluginConfig.remote + '"...' );
+			gitFetch( pluginConfig.remote );
+
+			// We could use `git show-ref --verify refs/<tags|heads>/<version>`
+			// but KISS...
+			if ( !pluginConfig.isCommit ) {
+				grunt.log.writeln( 'Reseting to "' + pluginConfig.remote + '/' + pluginConfig.version + '"...' );
+				gitCheckout( pluginConfig.version );
+				gitResetHard( pluginConfig.remote, pluginConfig.version );
+			} else {
+				grunt.log.writeln( 'Checking out "' + pluginConfig.version + '"...' );
+				gitCheckout( pluginConfig.version );
+			}
+		} catch ( e ) {
+			grunt.log.error( e.message );
+			grunt.fail.fatal( 'Error when updating plugin "' + pluginName + '".' );
+		} finally {
+			shjs.popd();
+		}
+
+		grunt.log.ok( 'Updated plugin "' + pluginName + '".' );
+	} );
+
 	grunt.registerTask( 'plugins-list', 'Lists all installed external plugins.', function() {
 		assertExternalDir();
 
@@ -114,10 +158,10 @@ module.exports = function( grunt ) {
 			return;
 		}
 
-		pluginsToInstall = Object.keys( pluginsToInstall );
+		var pluginsToInstallNames = Object.keys( pluginsToInstall );
 
-		grunt.log.writeln( 'Installing: ' + pluginsToInstall.join( ', ' ) + '...' );
-		grunt.task.run( pluginsToInstall.map( function( pluginName ) {
+		grunt.log.writeln( 'Installing: ' + pluginsToInstallNames.join( ', ' ) + '...' );
+		grunt.task.run( pluginsToInstallNames.map( function( pluginName ) {
 			return 'plugin-install:' + pluginName
 		} ) );
 	} );
@@ -210,5 +254,70 @@ module.exports = function( grunt ) {
 		if ( !grunt.file.isDir( externalDir ) ) {
 			grunt.fail.fatal( 'The "' + externalDir + '" directory must exist.' );
 		}
+	}
+
+	function assertExternalPluginDir( pluginName ) {
+		var externalPluginDir = getExternalPluginDir( pluginName );
+
+		if ( !grunt.file.isDir( externalPluginDir ) ) {
+			grunt.fail.fatal( 'The "' + externalPluginDir + '" directory must exist.' );
+		}
+	}
+
+	function getExternalPluginDir( pluginName ) {
+		return grunt.config.get( 'plugin.externalDir' ) + pluginName;
+	}
+
+	function getPluginConfig( pluginName ) {
+		var pluginsConfig = grunt.config.get( 'pkg.ckeditorPlugins' );
+
+		if ( pluginsConfig && ( pluginName in pluginsConfig ) ) {
+			var pluginConfig = pluginsConfig[ pluginName ];
+
+			// Normalization. Default version and default origin.
+			if ( typeof pluginConfig != 'object' ) {
+				pluginConfig = {
+					version: pluginConfig
+				};
+			}
+			if ( typeof pluginConfig.version != 'string' ) {
+				pluginConfig.version = 'master';
+			}
+			if ( !pluginConfig.remote ) {
+				pluginConfig.remote = 'origin';
+			}
+
+			return pluginConfig;
+		} else {
+			return null;
+		}
+	}
+
+	function shExec( cmd ) {
+		var ret = shjs.exec( cmd );
+
+		if ( ret.code ) {
+			throw new Error(
+				'Error while executing `' + cmd + '`:\n\n' +
+				ret.output
+			);
+		}
+		return ret.output;
+	}
+
+	function gitStatus() {
+		return shExec( 'git status --porcelain' );
+	}
+
+	function gitFetch( remote ) {
+		return shExec( 'git fetch ' + remote );
+	}
+
+	function gitCheckout( ref ) {
+		return shExec( 'git checkout ' + ref );
+	}
+
+	function gitResetHard( remote, ref ) {
+		return shExec( 'git reset --hard ' + remote + '/' + ref );
 	}
 };
