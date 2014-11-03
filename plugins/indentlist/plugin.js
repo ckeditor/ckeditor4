@@ -286,6 +286,12 @@
 		return isNotWhitespaces( node ) && isNotBookmark( node );
 	}
 
+	/**
+	 * Global namespace for methods exposed by the indentlist plugin.
+	 *
+	 * @singleton
+	 * @class
+	 */
 	CKEDITOR.plugins.indentlist = {};
 
 	/**
@@ -293,13 +299,13 @@
 	 * The list can be extracted from path or given explicitly
 	 * e.g. for better performance if cached.
 	 *
-	 * @param {Object} query
+	 * @since 4.4.6
+	 * @static
+	 * @member CKEDITOR.plugins.indentlist
+	 * @param {Object} query See {@link CKEDITOR.dom.elementPath#contains}.
 	 * @param {CKEDITOR.dom.elementPath} path
 	 * @param {CKEDITOR.dom.element} list
 	 * @returns {Boolean}
-	 * @static
-	 * @since 4.4.6
-	 * @member {CKEDITOR.plugins.indentlist}
 	 */
 	CKEDITOR.plugins.indentlist.firstItemInPath = function( query, path, list ) {
 		var firstListItemInPath = path.contains( listItem );
