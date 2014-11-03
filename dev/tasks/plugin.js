@@ -122,52 +122,112 @@ module.exports = function( grunt ) {
 		grunt.log.ok( 'Updated the plugin "' + pluginName + '".' );
 	} );
 
+	// TODO Add information about branch or tag to which the plugin is checked out.
 	grunt.registerTask( 'plugins-list', 'Lists all installed external plugins.', function() {
 		assertExternalDir();
 
 		var installedPlugins = getExternalPlugins().filter( isPluginInstalled );
 		if ( !installedPlugins.length ) {
 			grunt.log.writeln( 'There are no external plugins installed.' );
+			return;
 		}
 		grunt.log.writeln( 'Installed plugins:' );
-		grunt.log.writeln( installedPlugins.join( ', ' ) );
+		grunt.log.writeln( '* ' + installedPlugins.join( '\n* ' ) );
 	} );
 
-	grunt.registerTask( 'plugins-list-external', 'Lists all available external plugins.', function() {
+	grunt.registerTask( 'plugins-list-all', 'Lists all available external plugins.', function() {
 		assertExternalDir();
 
 		var plugins = getExternalPlugins();
 		if ( !plugins.length ) {
 			grunt.log.writeln( 'There are no external plugins available.' );
+			return;
 		}
 		grunt.log.writeln( 'Available plugins:' );
-		grunt.log.writeln( plugins.join( ', ' ) );
+		grunt.log.writeln( '* ' + plugins.join( '\n* ' ) );
 	} );
 
 	grunt.registerTask( 'plugins-install', 'Installs all external plugins specified in package.json to the plugins/ directory.', function() {
-		var pluginsToInstall = grunt.config.get( 'pkg.ckeditorPlugins' );
+		var pluginsToInstall = getPluginsNamesFromConfig();
 
-		if ( !pluginsToInstall || !Object.keys( pluginsToInstall ).length ) {
-			grunt.log.writeln( 'No plugins configured in the package.json file.' );
+		if ( !pluginsToInstall.length ) {
+			grunt.log.writeln( 'There are no plugins configured in the package.json file.' );
 			return;
 		}
 
-		var pluginsToInstallNames = Object.keys( pluginsToInstall );
-
-		grunt.log.writeln( 'Installing plugins: ' + pluginsToInstallNames.join( ', ' ) + '...' );
-		grunt.task.run( pluginsToInstallNames.map( function( pluginName ) {
-			return 'plugin-install:' + pluginName
+		grunt.log.writeln( 'Installing plugins: ' + pluginsToInstall.join( ', ' ) + '...' );
+		grunt.task.run( pluginsToInstall.map( function( pluginName ) {
+			return 'plugin-install:' + pluginName;
 		} ) );
 	} );
 
 	grunt.registerTask( 'plugins-uninstall', 'Uninstalls all external plugins from the plugins/ directory.', function() {
 		assertExternalDir();
 
-		var pluginsToUnInstall = getExternalPlugins().filter( isPluginInstalled );
+		var pluginsToUninstall = getExternalPlugins().filter( isPluginInstalled );
 
-		grunt.log.writeln( 'Uninstalling plugins: ' + pluginsToUnInstall.join( ', ' ) + '...' );
-		grunt.task.run( pluginsToUnInstall.map( function( pluginName ) {
-			return 'plugin-uninstall:' + pluginName
+		if ( !pluginsToUninstall.length ) {
+			grunt.log.writeln( 'There are no external plugins installed.' );
+			return;
+		}
+
+		grunt.log.writeln( 'Uninstalling plugins: ' + pluginsToUninstall.join( ', ' ) + '...' );
+		grunt.task.run( pluginsToUninstall.map( function( pluginName ) {
+			return 'plugin-uninstall:' + pluginName;
+		} ) );
+	} );
+
+	grunt.registerTask( 'plugins-update',
+		'Updates installed external plugins to the versions specified in package.json. ' +
+		'When used with the :install option the task will also install the plugins specified in package.json.', function( install ) {
+		assertExternalDir();
+
+		var installedPlugins = getExternalPlugins().filter( isPluginInstalled ),
+			pluginsToInstall = getPluginsNamesFromConfig(),
+			tasks = [];
+
+		if ( install ) {
+			// Uinstall plugins which are not specified in package.json.
+			tasks = tasks.concat(
+				installedPlugins
+					.filter( function( pluginName ) {
+						return pluginsToInstall.indexOf( pluginName ) == -1;
+					} )
+					.map( function( pluginName ) {
+						return 'plugin-uninstall:' + pluginName;
+					} )
+			);
+
+			// Install plugins which are not yet installed.
+			tasks = tasks.concat(
+				pluginsToInstall
+					.filter( function( pluginName ) {
+						return installedPlugins.indexOf( pluginName ) == -1;
+					} )
+					.map( function( pluginName ) {
+						return 'plugin-install:' + pluginName;
+					} )
+			);
+
+			// Finally, update all installed plugins.
+			// We could use the --install parameter instead of :install, but then we would
+			// need to use grunt.option( 'install', false ) before calling plugins-update recursively ;/.
+			tasks.push( 'plugins-update' );
+
+			grunt.task.run( tasks );
+			return;
+		}
+
+
+		if ( !installedPlugins.length ) {
+			grunt.log.writeln( 'There are no external plugins installed.' );
+			return;
+		} else {
+			grunt.log.writeln( 'Updating plugins: ' + installedPlugins.join( ', ' ) + '...' );
+		}
+
+		grunt.task.run( installedPlugins.map( function( pluginName ) {
+			return 'plugin-update:' + pluginName;
 		} ) );
 	} );
 
@@ -285,6 +345,16 @@ module.exports = function( grunt ) {
 		} else {
 			return null;
 		}
+	}
+
+	// Returns names of plugins specified in the package.json.
+	function getPluginsNamesFromConfig() {
+		var plugins = grunt.config.get( 'pkg.ckeditorPlugins' );
+
+		if ( !plugins )
+			return [];
+
+		return Object.keys( plugins );
 	}
 
 	function shExec( cmd ) {
