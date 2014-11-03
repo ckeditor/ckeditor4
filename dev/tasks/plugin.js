@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 
 		try {
 			grunt.log.writeln( 'Removing a symlink...' );
-			fs.unlink( installationPluginDir );
+			fs.unlinkSync( installationPluginDir );
 
 			grunt.log.writeln( 'Remove the plugin from files ignored by Git...' );
 			removePluginDirFromGitExclude( installationPluginDir );
