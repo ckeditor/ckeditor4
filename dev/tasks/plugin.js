@@ -305,6 +305,7 @@ module.exports = function( grunt ) {
 	// Checks that the external plugins directory exists.
 	function assertExternalDir() {
 		var externalDir = grunt.config.get( 'plugin.externalDir' );
+
 		if ( !grunt.file.isDir( externalDir ) ) {
 			grunt.fail.fatal( 'The "' + externalDir + '" directory must exist.' );
 		}
