@@ -7,7 +7,7 @@
 		query = { ul: 1, ol: 1 };
 
 	bender.test( {
-		'test element direct in list': function() {
+		'test firstItemInPath: element direct in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
 					'<ul>',
 						'<li id="one" >one</li>',
@@ -26,7 +26,7 @@
 
 		},
 
-		'test element with paragraph in list': function() {
+		'test firstItemInPath: element with paragraph in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
 					'<ul>',
 						'<li><p id="one">one</p></li>',
