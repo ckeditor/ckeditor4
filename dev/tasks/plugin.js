@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
 
 		try {
 			grunt.log.writeln( 'Creating a symlink...' );
-			fs.symlinkSync( '../' + externalPluginDir, installationPluginDir );
+			fs.symlinkSync( '../' + externalPluginDir, installationPluginDir, 'dir' );
 
 			grunt.log.writeln( 'Adding the plugin to files ignored by Git...' );
 			addPluginDirToGitExclude( installationPluginDir );
