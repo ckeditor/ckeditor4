@@ -60,9 +60,16 @@
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				var style = styles[ value ];
+				var previousValue = this.getValue(),
+					style = styles[ value ];
+
+				// When applying one style over another, first remove the previous one (#12403).
+				if ( previousValue && value != previousValue ) {
+					editor.removeStyle( styles[ previousValue ] );
+				}
 
 				editor[ this.getValue() == value ? 'removeStyle' : 'applyStyle' ]( style );
+
 				editor.fire( 'saveSnapshot' );
 			},
 
