@@ -15,6 +15,9 @@ Fixed Issues:
 * [#12601](http://dev.ckeditor.com/ticket/12601): Fixed: [Strikethrough](http://ckeditor.com/addon/basicstyles) button tooltip spelling.
 * [#12546](http://dev.ckeditor.com/ticket/12546): Fixed: Preview tab in docprops dialog is always disabled.
 
+Other Changes:
+* [#12550](http://dev.ckeditor.com/ticket/12550): Added CKEDITOR.dtd.main.
+
 ## CKEditor 4.4.5
 
 New Features:
