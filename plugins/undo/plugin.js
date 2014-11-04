@@ -343,7 +343,7 @@
 		 *
 		 * @param {Boolean} onContentOnly If set to `true`, the snapshot will be saved only if the content has changed.
 		 * @param {CKEDITOR.plugins.undo.Image} image An optional image to save. If skipped, current editor will be used.
-		 * @param {Boolean} autoFireChange If set to `false`, will not trigger the {@link CKEDITOR.editor#change} event to editor.
+		 * @param {Boolean} [autoFireChange=true] If set to `false`, will not trigger the {@link CKEDITOR.editor#change} event to editor.
 		 */
 		save: function( onContentOnly, image, autoFireChange ) {
 			var editor = this.editor;
