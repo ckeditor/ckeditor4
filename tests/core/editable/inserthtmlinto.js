@@ -19,7 +19,7 @@
 				editable = editor.editable(),
 				afterInsertCount = 0, afterInsertData;
 
-			editor.on( 'afterInsert', function( evt ) {
+			editor.on( 'afterInsertHtml', function( evt ) {
 				afterInsertCount++;
 				afterInsertData = evt.data;
 			} );
@@ -27,7 +27,7 @@
 			editable.insertHtmlIntoRange( insertedHtml, range );
 
 			assert.isInnerHtmlMatching( expectedHtml, editable.getHtml(), 'Editor content.' );
-			assert.areSame( 1, afterInsertCount, 'afterInsert should be fired once.' );
+			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
 			assert.isTrue( afterInsertData.intoRange, 'intoRange should be true' );
 		},
 

@@ -272,7 +272,7 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsert', { intoRange: false } );
+				this.editor.fire( 'afterInsertHtml', { intoRange: false } );
 			},
 
 			/**
@@ -288,7 +288,7 @@
 				// Default mode is 'html'
 				insert( this, mode || 'html', data, range );
 
-				this.editor.fire( 'afterInsert', { intoRange: true } );
+				this.editor.fire( 'afterInsertHtml', { intoRange: true } );
 			},
 
 			/**
@@ -2283,10 +2283,10 @@
  */
 
  /**
- * Event fired after data insertion using any insert method.
+ * Event fired after data insertion using insertHtml or insertHtmlIntoRange methods.
  *
  * @since 4.5
- * @event afterInsert
+ * @event afterInsertHtml
  * @param data
  * @param {Boolean} data.intoRange If `true` range parameter was given to the insert method.
  * In such case selection will not be touched after insertion and it should be fixed manually if needed.

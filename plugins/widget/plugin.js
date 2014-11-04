@@ -2626,7 +2626,7 @@
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.
-		editor.on( 'afterInsert', function( evt ) {
+		editor.on( 'afterInsertHtml', function( evt ) {
 			if ( evt.data.intoRange ) {
 				widgetsRepo.checkWidgets( { initOnlyNew: true } );
 			} else {
