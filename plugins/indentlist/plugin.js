@@ -18,8 +18,7 @@
 	CKEDITOR.plugins.add( 'indentlist', {
 		requires: 'indent',
 		init: function( editor ) {
-			var globalHelpers = CKEDITOR.plugins.indent,
-				editable = editor;
+			var globalHelpers = CKEDITOR.plugins.indent;
 
 			// Register commands.
 			globalHelpers.registerCommands( editor, {
@@ -27,7 +26,7 @@
 				outdentlist: new commandDefinition( editor, 'outdentlist' )
 			} );
 
-			function commandDefinition( editor, name ) {
+			function commandDefinition( editor ) {
 				globalHelpers.specificDefinition.apply( this, arguments );
 
 				// Require ul OR ol list.

@@ -27,7 +27,7 @@
 				outdentblock: new commandDefinition( editor, 'outdentblock' )
 			} );
 
-			function commandDefinition( editor, name ) {
+			function commandDefinition() {
 				globalHelpers.specificDefinition.apply( this, arguments );
 
 				this.allowedContent = {
