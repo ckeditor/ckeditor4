@@ -1019,6 +1019,8 @@
 		 *
 		 *		CKEDITOR.instances.editor1.insertHtml( '<p>This is a new paragraph.</p>' );
 		 *
+		 * Fires {@link #event-insertHtml} and {@link #event-afterInsertHtml}.
+		 *
 		 * @param {String} html HTML code to be inserted into the editor.
 		 * @param {String} [mode='html'] The mode in which the HTML code will be inserted. One of the following:
 		 *
@@ -1041,6 +1043,8 @@
 		 *
 		 *		CKEDITOR.instances.editor1.insertText( ' line1 \n\n line2' );
 		 *
+		 * Fires {@link #event-insertText} and {@link #event-afterInsertHtml}.
+		 *
 		 * @since 3.5
 		 * @param {String} text Text to be inserted into the editor.
 		 */
@@ -1054,6 +1058,8 @@
 		 *
 		 *		var element = CKEDITOR.dom.element.createFromHtml( '<img src="hello.png" border="0" title="Hello" />' );
 		 *		CKEDITOR.instances.editor1.insertElement( element );
+		 *
+		 * Fires {@link #event-insertElement}.
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be inserted
 		 * into the editor.

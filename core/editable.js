@@ -272,23 +272,25 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsertHtml', { intoRange: false } );
+				this.editor.fire( 'afterInsertHtml' );
 			},
 
 			/**
 			 * Inserts an HTML into the position in the editor determined by range.
 			 *
+			 * Fires {@link CKEDITOR.editor#event-afterInsertHtml}.
+			 *
 			 * @since 4.5
 			 * @param {String} data HTML code to be inserted into the editor.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
 			 * @param {String} [mode='html'] Mode in which HTML will be inserted.
-			 * See {@link CKEDITOR.editor#insertHtml}.
+			 * See {@link CKEDITOR.editor#method-insertHtml}.
 			 */
 			insertHtmlIntoRange: function( data, range, mode ) {
 				// Default mode is 'html'
 				insert( this, mode || 'html', data, range );
 
-				this.editor.fire( 'afterInsertHtml', { intoRange: true } );
+				this.editor.fire( 'afterInsertHtml', { intoRange: range } );
 			},
 
 			/**
@@ -2288,7 +2290,10 @@
  * @since 4.5
  * @event afterInsertHtml
  * @param data
- * @param {Boolean} data.intoRange If `true` range parameter was given to the insert method.
- * In such case selection will not be touched after insertion and it should be fixed manually if needed.
+ * @param  {CKEDITOR.dom.range} data.intoRange Optional. If set, contains range parameter given to
+ * the {@link CKEDITOR.editable#insertHtmlIntoRange} method. In such case selection was
+ * not touched after insertion and it should be fixed manually if needed.
+ * If not set, {@link CKEDITOR.editable#insertHtml} was called and the HTML was inserted
+ * into current selection.
  * @member CKEDITOR.editor
  */
