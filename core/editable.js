@@ -306,10 +306,9 @@
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
-			 * @param {Boolean} [fireInsertEvent=true] Whether `afterInsert` event should be fired.
 			 * @returns {Boolean} Informs whether insertion was successful.
 			 */
-			insertElementIntoRange: function( element, range, fireInsertEvent ) {
+			insertElementIntoRange: function( element, range ) {
 				var editor = this.editor,
 					enterMode = editor.config.enterMode,
 					elementName = element.getName(),
@@ -355,10 +354,6 @@
 				// Insert the new node.
 				range.insertNode( element );
 
-				if ( fireInsertEvent === undefined || fireInsertEvent ) {
-					this.editor.fire( 'afterInsert', { intoRange: true } );
-				}
-
 				// Return true if insertion was successful.
 				return true;
 			},
@@ -380,7 +375,7 @@
 					isBlock = CKEDITOR.dtd.$block[ elementName ];
 
 				// Insert element into first range only and ignore the rest (#11183).
-				if ( this.insertElementIntoRange( element, range, 0 ) ) {
+				if ( this.insertElementIntoRange( element, range ) ) {
 					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
 
 					// If we're inserting a block element, the new cursor position must be
@@ -411,8 +406,6 @@
 				selection.selectRanges( [ range ] );
 
 				afterInsert( this );
-
-				this.editor.fire( 'afterInsert', { 'intoRange': false } );
 			},
 
 			/**

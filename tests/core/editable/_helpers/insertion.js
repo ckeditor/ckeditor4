@@ -97,7 +97,7 @@ var insertionDT = ( function() {
 						while ( 1 ) {
 							var startContainer = range.startContainer,
 								startOffset = range.startOffset;
-							// Limit the fix only to non-block elements.(#3950)
+							// Limit the fix only to non-block elements. (#3950)
 							if (
 								startOffset ==
 								(
@@ -179,8 +179,11 @@ var insertionDT = ( function() {
 					assert[ expectedForMode.exec ? 'isMatching' : 'areSame' ]( expectedForMode, result,
 						( message || 'editor\'s content should equal expected value' ) +
 						' (editable: "' + editableName + '" & mode: "' + mode + '")' );
-					assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsert event after every insertion.' );
-					assert.isFalse( afterInsertData.intoRange, 'intoRange parameter should be false.' );
+
+					if ( mode != 'insertElement' ) {
+						assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsert event after every insertion.' );
+						assert.isFalse( afterInsertData.intoRange, 'intoRange parameter should be false.' );
+					}
 				}
 			}
 
