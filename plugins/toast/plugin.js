@@ -45,17 +45,8 @@ toast.prototype = {
 		var toast = this,
 			container = this.editor.container,
 			toastArea = container.findOne( '.cke_toasts_area' ),
-			progress, message, type, toastElement;
-
-		if ( this.progress ) {
-			progress = Math.round( this.progress * 100 );
-			message = this.message +  ' ' + progress + '%... ';
-			type = 'info';
-		} else {
-			progress = false,
-			message = this.message,
-			type = this.type;
-		}
+			progress = this.getPrecentageProgress(),
+			toastElement;
 
 		if ( !toastArea ) {
 			toastArea = new CKEDITOR.dom.element( 'div' );
@@ -64,9 +55,9 @@ toast.prototype = {
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
-			'<div class="cke_toast cke_toast_' + type + '" id="' + this.id + '">' +
-				( progress ? '<span style="width: ' + progress + '%" class="cke_toast_progress"></span>' : '' ) +
-				'<p class="cke_toast_message">' + message + '</p>' +
+			'<div class="cke_toast ' + this.getClass() + '" id="' + this.id + '">' +
+				( progress ? this.createProgressElement().getOuterHtml() : '' ) +
+				'<p class="cke_toast_message">' + this.getDisplayMessage() + '</p>' +
 				'<a class="cke_toast_close" href="javascript:void(0)" title="Close" role="button">' +
 					'<span class="cke_label">X</span>' +
 				'</a>' +
@@ -79,11 +70,91 @@ toast.prototype = {
 		toastArea.append( toastElement );
 	},
 
+	getClass: function() {
+		if ( this.type == 'progress' ) {
+			return 'cke_toast_info';
+		} else {
+			return 'cke_toast_' + this.type;
+		}
+	},
+
+	getPrecentageProgress: function() {
+		if ( this.progress ) {
+			return Math.round( this.progress * 100 ) + '%';
+		} else {
+			return 0;
+		}
+	},
+
+	createProgressElement: function() {
+		var element = new CKEDITOR.dom.element( 'span' );
+		element.addClass( 'cke_toast_progress' );
+		element.setStyle( 'width', this.getPrecentageProgress() );
+		return element;
+	},
+
+	getDisplayMessage: function() {
+		if ( this.progress ) {
+			return this.message +  ' ' + this.getPrecentageProgress() + '... ';
+		} else {
+			return this.message;
+		}
+	},
+
 	hide: function() {
 		var element = this.getElement();
 
 		if ( element ) {
 			element.remove();
+		}
+	},
+
+	update: function( options ) {
+		var element = this.getElement(),
+			messageElement, progressElement;
+
+		if ( element ) {
+			messageElement = element.findOne( '.cke_toast_message' );
+			progressElement = element.findOne( '.cke_toast_progress' );
+		}
+
+		if ( options.type ) {
+			if ( element ) {
+				element.removeClass( this.getClass() );
+			}
+
+			this.type = options.type;
+
+			if ( element ) {
+				element.addClass( this.getClass() );
+			}
+		}
+
+		if ( options.message || options.progress ) {
+			if ( options.message ) {
+				this.message = options.message;
+			}
+
+			if ( options.progress ) {
+				this.progress = options.progress;
+			}
+
+			if ( messageElement ) {
+				messageElement.setHtml( this.getDisplayMessage() );
+			}
+
+			if ( options.progress ) {
+				if ( progressElement ) {
+					element.setStyle( 'width', this.getPrecentageProgress() );
+				} else if ( element && !progressElement ) {
+					progressElement = this.createProgressElement();
+					progressElement.insertBefore( messageElement );
+				}
+			}
+		}
+
+		if ( !element && options.important ) {
+			this.show();
 		}
 	},
 
