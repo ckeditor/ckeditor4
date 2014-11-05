@@ -45,7 +45,7 @@
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && CKEDITOR.plugins.indentlist.firstItemInPath( this.context, editor.elementPath(), list ) )
+							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, editor.elementPath(), list ) )
 								return;
 
 							// Exec related global indentation command. Global
@@ -79,7 +79,7 @@
 					refresh: this.isIndent ?
 							function( editor, path ) {
 								var list = this.getContext( path ),
-									inFirstListItem = CKEDITOR.plugins.indentlist.firstItemInPath( this.context, path, list );
+									inFirstListItem = CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list );
 
 								if ( !list || !this.isIndent || inFirstListItem )
 									return TRISTATE_DISABLED;
@@ -291,22 +291,21 @@
 	 * @singleton
 	 * @class
 	 */
-	CKEDITOR.plugins.indentlist = {};
+	CKEDITOR.plugins.indentList = {};
 
 	/**
-	 * Check whether a first child of a list is in the path.
-	 * The list can be extracted from path or given explicitly
+	 * Checks whether the first child of the list is in the path.
+	 * The list can be extracted from the path or given explicitly
 	 * e.g. for better performance if cached.
 	 *
 	 * @since 4.4.6
-	 * @static
-	 * @member CKEDITOR.plugins.indentlist
-	 * @param {Object} query See {@link CKEDITOR.dom.elementPath#contains}.
+	 * @param {Object} query See the {@link CKEDITOR.dom.elementPath#contains} method arguments.
 	 * @param {CKEDITOR.dom.elementPath} path
-	 * @param {CKEDITOR.dom.element} list
+	 * @param {CKEDITOR.dom.element} [list]
 	 * @returns {Boolean}
+	 * @member CKEDITOR.plugins.indentList
 	 */
-	CKEDITOR.plugins.indentlist.firstItemInPath = function( query, path, list ) {
+	CKEDITOR.plugins.indentList.firstItemInPath = function( query, path, list ) {
 		var firstListItemInPath = path.contains( listItem );
 		if ( !list )
 			list = path.contains( query );
