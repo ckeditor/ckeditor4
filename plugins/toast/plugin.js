@@ -80,11 +80,15 @@ toast.prototype = {
 	},
 
 	hide: function() {
-		var toastElement = this.editor.container.getDocument().getById( this.id );
+		var element = this.getElement();
 
-		if ( toastElement ) {
-			toastElement.remove();
+		if ( element ) {
+			element.remove();
 		}
+	},
+
+	getElement: function() {
+		return this.editor.container.getDocument().getById( this.id );
 	}
 };
 
