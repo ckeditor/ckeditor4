@@ -79,7 +79,7 @@ toast.prototype = {
 	},
 
 	getPrecentageProgress: function() {
-		if ( this.progress ) {
+		if ( this.type == 'progress' ) {
 			return Math.round( this.progress * 100 ) + '%';
 		} else {
 			return 0;
@@ -94,7 +94,7 @@ toast.prototype = {
 	},
 
 	getDisplayMessage: function() {
-		if ( this.progress ) {
+		if ( this.type == 'progress' ) {
 			return this.message +  ' ' + this.getPrecentageProgress() + '... ';
 		} else {
 			return this.message;
