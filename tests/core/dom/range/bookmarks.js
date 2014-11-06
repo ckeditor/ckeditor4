@@ -10,7 +10,27 @@ function createPlayground( html ) {
 	// Replace dots with elements and then remove all of them leaving
 	// split text nodes.
 	html = html.replace( /\./g, '<i class="split"></i>' );
+
+	// Creating empty elements...
+	html = html.replace( /\((\S+?)\)/g, function( match, $0 ) {
+		return '<i class="empty" data-id="' + $0 + '"></i>';
+	} );
+
 	playground.setHtml( html );
+
+	// ... and then replacing then with empty text nodes.
+	var empty = playground.find( '.empty' );
+	for ( var i = 0; i < empty.count(); i++ ) {
+		var current = empty.getItem( i ),
+			emptyTextNode = new CKEDITOR.dom.text( '' );
+
+		// Setting custom id to have reference for later usage.
+		emptyTextNode.setCustomData( 'id', current.getAttribute( 'data-id' ) );
+		emptyTextNode.insertAfter( current.getPrevious() );
+
+		// Removing unwanted element.
+		current.remove();
+	}
 
 	// Hack to avoid merging text nodes by IE 8.
 	// We are leaving references to them, so IE won't merge them.
@@ -86,18 +106,26 @@ function findNode( container, query ) {
 		return container;
 
 	var textQuery = query.indexOf( '#' ) == 0 ? query.slice( 1 ) : false,
+		emptyTextQuery = query.match( /^(\(\S+?\))$/g ),
 		range = new CKEDITOR.dom.range( container ),
 		node,
 		walker;
+
+	if ( emptyTextQuery ) {
+		query = query.replace( /^\(|\)$/g, '' );
+	}
 
 	range.selectNodeContents( container );
 	walker = new CKEDITOR.dom.walker( range );
 
 	while ( ( node = walker.next() ) ) {
-		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery )
+		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery ) {
 			return node;
-		else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) )
+		} else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) ) {
 			return node;
+		} else if ( emptyTextQuery && node.type == CKEDITOR.NODE_TEXT && node.getCustomData( 'id' ) == query ) {
+			return node;
+		}
 	}
 }
 
@@ -153,6 +181,11 @@ addBookmark2TCs( tcs, {
 		'k offset 0': [ 'i.j<i>k</i>l.m', { sc: '#k', so: 0 }, { sc: '#k', so: 0 } ],
 		'l offset 0': [ 'i.j<i>k</i>l.m', { sc: '#l', so: 0 }, { sc: '#lm', so: 0 } ],
 		'm offset 1': [ 'i.j<i>k</i>l.m', { sc: '#m', so: 1 }, { sc: '#lm', so: 2 } ]
+	},
+
+	'collapsed in text with empty text nodes': {
+		'ab empty node at the end': [ 'ab.(foo)', { sc: '(foo)', so: 0}, { sc: '#ab', so: 2 } ],
+		'ab empty node at the end with element in the middle': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ]
 	},
 
 	'collapsed in element': {
