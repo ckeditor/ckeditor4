@@ -6,21 +6,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+	<title>Toast Notifications Dev Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 </head>
 <body>
-	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
-	</h1>
-	<form action="sample_posteddata.php" method="post">
+	<h1 class="samples">Toast Notifications Dev Sample</h1>
 		<div class="description">
-			<p>
-				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
-			</p>
+			<p>Play with toast using buttons. Note that if you close progress toast it will be shown again when upload is done.</p>
+			<p>You can also play with toasts using console:
 <pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>' )
+var editor = CKEDITOR.instances.editor1;
+
+var warning = editor.makeToast( 'Foo', 'warning' );
+warning.hide();
+
+var progress = editor.makeToast( 'Bar', 'progress', 0.1 );
+progress.update( { progress: 0.5 } );
+progress.update( { type: 'success', message: 'Done!', important: true } );
 </pre>
 		</div>
 		<textarea cols="80" id="editor1" name="editor1" rows="10">
@@ -31,16 +34,37 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
 				extraPlugins: 'toast'
 			} );
 
-			editor.on( 'instanceReady', function() {
+			function emulateProgress() {
+				var toast = editor.makeToast( 'Uploading image.png', 'progress', 0 ),
+					scenario = [
+						{ progress: 0.05 },
+						{ progress: 0.1 }, { progress: 0.15 },
+						{ progress: 0.2 }, { progress: 0.25 },
+						{ progress: 0.3 }, { progress: 0.35 },
+						{ progress: 0.4 }, { progress: 0.45 },
+						{ progress: 0.5 }, { progress: 0.55 },
+						{ progress: 0.6 }, { progress: 0.65 },
+						{ progress: 0.7 }, { progress: 0.75 },
+						{ progress: 0.8 }, { progress: 0.85 },
+						{ progress: 0.9 }, { progress: 0.95 },
+						{ type: 'success', message: 'File image.png uploaded.', important: true }
+					];
 
-			} );
+				var interval = setInterval( function() {
+					if( !scenario.length ) {
+						clearInterval( interval );
+					} else {
+						toast.update( scenario.shift() );
+					}
+				}, 300 );
+			}
 		</script>
 		</a>
 		<p>
-			<input onclick="editor.makeToast( 'Uploading image.png', 'progress', 0.8 );" type="button" value="Show progress toast">
-			<input onclick="editor.makeToast( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante mau convallis.', 'success' );" type="button" value="Show success toast">
 			<input onclick="editor.makeToast( 'Vitae risus eget ante mau convallis.', 'warning' );" type="button" value="Show warning toast">
+			<input onclick="editor.makeToast( 'Success!', 'success' );" type="button" value="Show success toast">
 			<input onclick="editor.makeToast( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante mau convallis.', 'info' );" type="button" value="Show info toast">
+			<input onclick="emulateProgress();" type="button" value="Show progress toast">
 		</p>
 	</form>
 	<div id="footer">
