@@ -5,19 +5,10 @@
 
 CKEDITOR.plugins.add( 'toast', {
 	init: function( editor ) {
-		editor.makeToast = function( message, type, durationOrProgress ) {
-			var duration, progress;
-
-			if ( type == 'progress' ) {
-				progress = durationOrProgress;
-			} else {
-				duration = durationOrProgress;
-			}
-
+		editor.makeToast = function( message, type, progress ) {
 			var toast = new CKEDITOR.plugins.toast( editor, {
 				message: message,
 				type: type,
-				duration: duration,
 				progress: progress
 			} );
 
@@ -28,14 +19,10 @@ CKEDITOR.plugins.add( 'toast', {
 	}
 } );
 
-CKEDITOR.DURATION_LONG = 5000;
-CKEDITOR.DURATION_SHORT = 2000;
-
 function toast( editor, options ) {
 	this.editor = editor;
 	this.message = options.message;
-	this.type = options.type;
-	this.duration = options.duration;
+	this.type = options.type ? options.type : 'info';
 	this.progress = options.progress;
 	this.id = CKEDITOR.tools.getUniqueId();
 }
