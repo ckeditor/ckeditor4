@@ -31,6 +31,7 @@
 	};
 	
 	var saveInlineCmd = {
+		readOnly: 1,
 		
 		exec: function(editor) {
 			
