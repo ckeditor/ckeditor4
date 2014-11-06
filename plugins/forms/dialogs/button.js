@@ -59,6 +59,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				{
 					id: 'name',
 					type: 'text',
+					bidi: true,
 					label: editor.lang.common.name,
 					'default': '',
 					setup: function( element ) {
