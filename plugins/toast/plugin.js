@@ -16,6 +16,26 @@ CKEDITOR.plugins.add( 'toast', {
 
 			return toast;
 		};
+
+		editor.on( 'key', function( evt ) {
+			if ( evt.data.keyCode == 27 /* ESC */ ) {
+				var toastArea = editor.container.findOne( '.cke_toasts_area' );
+
+				if ( !toastArea ) {
+					return;
+				}
+
+				var lastToast = toastArea.getLast();
+
+				if ( !lastToast ) {
+					return;
+				}
+
+				lastToast.remove();
+
+				evt.cancel();
+			}
+		} );
 	}
 } );
 
@@ -45,7 +65,7 @@ toast.prototype = {
 			'<div class="cke_toast ' + this.getClass() + '" id="' + this.id + '">' +
 				( progress ? this.createProgressElement().getOuterHtml() : '' ) +
 				'<p class="cke_toast_message">' + this.getDisplayMessage() + '</p>' +
-				'<a class="cke_toast_close" href="javascript:void(0)" title="Close" role="button">' +
+				'<a class="cke_toast_close" href="javascript:void(0)" title="Close" role="button" tabindex="-1">' +
 					'<span class="cke_label">X</span>' +
 				'</a>' +
 			'</div>' );
