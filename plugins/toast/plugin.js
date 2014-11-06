@@ -145,7 +145,7 @@ toast.prototype = {
 
 			if ( options.progress ) {
 				if ( progressElement ) {
-					element.setStyle( 'width', this.getPrecentageProgress() );
+					progressElement.setStyle( 'width', this.getPrecentageProgress() );
 				} else if ( element && !progressElement ) {
 					progressElement = this.createProgressElement();
 					progressElement.insertBefore( messageElement );
