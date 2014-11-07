@@ -1,9 +1,14 @@
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, list, indentlist, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard, enterkey, list, indentlist, indentblock, sourcearea
+
+General note: In this test case both indentlist and indentblock plugins are enabled.
+
+----
 
 1. Put caret at the first item in the first list.
+2. Click `indent` button at the toolbar.
 
-**Expected:** Indent button should be disabled.
+**Expected:** Whole list should be indented.
 
 ----
 
@@ -16,7 +21,7 @@
 
 1. Put caret at the first item in the second list.
 
-**Expected:** Indent button should be disabled.
+**Expected:** Whole list should be indented.
 
 ----
 
