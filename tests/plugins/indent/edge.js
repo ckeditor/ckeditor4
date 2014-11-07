@@ -74,6 +74,34 @@ addTests( 'test outdent nest list keeps styles on list root', 'outdent', [
 	  '<p>foo</p><ul style="font-size:24px;"><li>bar</li></ul>' ]
 ] );
 
+// #12141
+// { indentBlock: true, hasParagraph: false, caretAtFirst: true }
+addTests( 'test indent add margin to the whole list when items are not wrapped in paragraph and caret is in the first one', 'indent', [
+	[ '<ul><li>f^oo</li><li>bar</li></ul>',
+	  '<ul style="margin-left:40px;"><li>foo</li><li>bar</li></ul>' ]
+] );
+
+// #12141
+// { indentBlock: true, hasParagraph: false, caretAtFirst: false }
+addTests( 'test indent nests list item when items are not wrapped in paragraph and caret is in the second one', 'indent', [
+	[ '<ul><li>foo</li><li>b^ar</li></ul>',
+	  '<ul><li>foo<ul><li>bar</li></ul></li></ul>' ]
+] );
+
+// #12141
+// { indentBlock: true, hasParagraph: true, caretAtFirst: true }
+addTests( 'test indent add margin to the whole list when items are wrapped in paragraph and caret is in the first one', 'indent', [
+	[ '<ul><li><p>f^oo</p></li><li><p>bar</p></li></ul>',
+	  '<ul style="margin-left:40px;"><li><p>foo</p></li><li><p>bar</p></li></ul>' ]
+] );
+
+// #12141
+// { indentBlock: true, hasParagraph: true, caretAtFirst: false }
+addTests( 'test indent nest list item when items are wrapped in paragraph and caret is in the second one', 'indent', [
+	[ '<ul><li><p>foo</p></li><li><p>b^ar</p></li></ul>',
+	  '<ul><li><p>foo</p><ul><li><p>bar</p></li></ul></li></ul>' ]
+] );
+
 // ### Finished adding tests.
 
 function addTests( title, command, testsToAdd ) {

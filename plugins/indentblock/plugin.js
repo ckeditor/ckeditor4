@@ -27,7 +27,7 @@
 				outdentblock: new commandDefinition( editor, 'outdentblock' )
 			} );
 
-			function commandDefinition( editor, name ) {
+			function commandDefinition() {
 				globalHelpers.specificDefinition.apply( this, arguments );
 
 				this.allowedContent = {
@@ -53,23 +53,18 @@
 						refresh: function( editor, path ) {
 							var firstBlock = path.block || path.blockLimit;
 
+							// Switch context from somewhere inside list item to list item,
+							// if not found just assign self (doing nothing).
+							if ( !firstBlock.is( $listItem ) ) {
+								firstBlock = firstBlock.getAscendant( $listItem ) || firstBlock;
+							}
+
 							// Switch context from list item to list
 							// because indentblock can indent entire list
 							// but not a single list element.
 
 							if ( firstBlock.is( $listItem ) )
 								firstBlock = firstBlock.getParent();
-
-							// If firstBlock isn't list item, but still there's
-							// some ascendant (i.e. <ul>), then this is not
-							// a job for indentblock, e.g.:
-							//
-							//		<ul>
-							//			<li><p>foo</p></li>
-							//		</ul>
-
-							else if ( firstBlock.getAscendant( $listItem ) )
-								return TRISTATE_DISABLED;
 
 							//	[-] Context in the path or ENTER_BR
 							//
