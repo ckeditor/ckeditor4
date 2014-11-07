@@ -49,7 +49,8 @@
 
 		editor.on( 'toHtml', function( evt ) {
 			var evtData = evt.data,
-				data = evtData.dataValue;
+				data = evtData.dataValue,
+				fixBodyTag;
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
@@ -116,10 +117,20 @@
 			// can be properly filtered.
 			data = unprotectRealComments( data );
 
+			if ( evtData.fixForBody === false ) {
+				fixBodyTag = false;
+			} else {
+				fixBodyTag = getFixBodyTag( evtData.enterMode, editor.config.autoParagraph );
+			}
+
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( evtData.enterMode, editor.config.autoParagraph ) );
+			data = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, fixBodyTag );
+
+			// The empty body need to be fixed by adding 'p' or 'div' into it (#12630).
+			data = fixEmptyBody( data, fixBodyTag );
+
+			evtData.dataValue = data;
 		}, null, null, 5 );
 
 		// Filter incoming "data".
@@ -904,6 +915,16 @@
 		data = data.replace( /<(title|iframe|textarea)([^>]*)>([\s\S]*?)<\/\1>/g, function( match, tagName, tagAttributes, innerText ) {
 			return '<' + tagName + tagAttributes + '>' + unprotectSource( unprotectRealComments( innerText ), editor ) + '</' + tagName + '>';
 		} );
+
+		return data;
+	}
+
+	// Adds 'p' or 'div' to the empty body, so the selection will be properly set later (#12630).
+	function fixEmptyBody( data, fixBodyTag ) {
+		if ( fixBodyTag && data.name == 'body' && !data.children.length ) {
+			var fixBodyElement = new CKEDITOR.htmlParser.element( fixBodyTag );
+			data.add( fixBodyElement );
+		}
 
 		return data;
 	}
