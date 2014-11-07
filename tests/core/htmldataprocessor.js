@@ -121,6 +121,20 @@
 						},
 						allowedContent: true
 					}
+				},
+				editorP: {
+					name: 'editorP',
+					config: {
+						enterMode: CKEDITOR.ENTER_P,
+						allowedContent: true
+					}
+				},
+				editorDiv: {
+					name: 'editorDiv',
+					config: {
+						enterMode: CKEDITOR.ENTER_DIV,
+						allowedContent: true
+					}
 				}
 			}, function( editors, bots ) {
 				var num, name;
@@ -1086,6 +1100,24 @@
 
 			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
 			assert.areSame( '<h1></h1>', htmlDP.toDataFormat( '<h1></h1>' ), 'toDF 2' );
+		},
+
+		'test emptyBody - enterMode P': function() {
+			var htmlDP = this.editorP.dataProcessor;
+
+			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '' ), 'toHtml' );
+		},
+
+		'test emptyBody - enterMode Div': function() {
+			var htmlDP = this.editorDiv.dataProcessor;
+
+			assert.isInnerHtmlMatching( '<div>@</div>', htmlDP.toHtml( '' ), 'toHtml' );
+		},
+
+		'test emptyBody - enterMode Br': function() {
+			var htmlDP = this.editor.dataProcessor;
+
+			assert.isInnerHtmlMatching( '@', htmlDP.toHtml( '' ), 'toHtml' );
 		}
 	};
 
