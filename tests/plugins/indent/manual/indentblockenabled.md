@@ -1,6 +1,6 @@
 @bender-tags: 4.4.6, tc
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard, enterkey, list, indentlist, indentblock, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, clipboard, enterkey, htmlwriter, list, indentlist, indentblock, sourcearea
 
 General note: In this test case both indentlist and indentblock plugins are enabled.
 
