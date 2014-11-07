@@ -14,7 +14,9 @@
 		TRISTATE_OFF = CKEDITOR.TRISTATE_OFF;
 
 	CKEDITOR.plugins.add( 'indent', {
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'indent,indent-rtl,outdent,outdent-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -454,7 +456,7 @@
 
 		// Housekeeping. Make sure selectionChange will be called.
 		// Also re-select previously saved bookmarks.
-		command.on( 'exec', function( evt ) {
+		command.on( 'exec', function() {
 			editor.forceNextSelectionCheck();
 			selection.selectBookmarks( bookmarks );
 		}, command, null, 100 );
