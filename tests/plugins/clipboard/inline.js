@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: clipboard */
+/* bender-include: _helpers/pasting.js */
 
 ( function() {
 	'use strict';

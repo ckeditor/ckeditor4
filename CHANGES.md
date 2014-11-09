@@ -1,6 +1,27 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.5
+
+New Features:
+
+* [#10931](http://dev.ckeditor.com/ticket/10931): Introduce ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely since CKEditor 4.5 some widget buttons may become enabled.
+* [#11437](http://dev.ckeditor.com/ticket/11437): Drag and Drop support.
+  * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
+  * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
+  * [#12169](http://dev.ckeditor.com/ticket/12169): Introduce [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`editor.dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart) and [`editor.dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend) events.
+* [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
+* [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
+* [#12416](http://dev.ckeditor.com/ticket/12416): Added [`widget.definition.upcastPriority`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.definition-property-upcastPriority) property which gives more control over widgets upcasting order to the widget author.
+
+Fixed Issues:
+
+* [#12018](http://dev.ckeditor.com/ticket/12018): [Nested widgets] Fixed and reviewed: Nested widgets garbage collection.
+* [#12024](http://dev.ckeditor.com/ticket/12024): [Nested widgets][FF] Fixed: Outline is extended to the left by unpositioned drag handlers.
+* [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Fixed: Drag and drop of nested block widgets.
+* [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting single non-editable element using [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting widget with nested editable inside other widget's nested editable.
+* [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify passed array.
+
 ## CKEditor 4.4.6
 
 New Features:

@@ -69,6 +69,26 @@
 		},
 
 		/**
+		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
+		 *
+		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
+		 *			return el >= 3;
+		 *		} ); // 2
+		 *
+		 * @since 4.5
+		 * @param {Array} array Array to search in.
+		 * @param {Function} compareFunction Compare function.
+		 * @returns {Number} The index of the first matching element or `-1` if none matches.
+		 */
+		getIndex: function( arr, compareFunction ) {
+			for ( var i = 0; i < arr.length; ++i ) {
+				if ( compareFunction( arr[ i ] ) )
+					return i;
+			}
+			return -1;
+		},
+
+		/**
 		 * Creates a deep copy of an object.
 		 *
 		 * **Note**: Recursive references are not supported.
@@ -376,6 +396,56 @@
 		},
 
 		/**
+		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
+		 *
+		 * @since 4.5
+		 * @param {String} text Text to transform.
+		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode}.
+		 * @returns {String} HTML generated from the text.
+		 */
+		transformPlainTextToHtml: function( text, enterMode ) {
+			var isEnterBrMode = enterMode == CKEDITOR.ENTER_BR,
+				// CRLF -> LF
+				html = this.htmlEncode( text.replace( /\r\n/g, '\n' ) );
+
+			// Tab -> &nbsp x 4;
+			html = html.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+
+			var paragraphTag = enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
+
+			// Two line-breaks create one paragraphing block.
+			if ( !isEnterBrMode ) {
+				var duoLF = /\n{2}/g;
+				if ( duoLF.test( html ) ) {
+					var openTag = '<' + paragraphTag + '>', endTag = '</' + paragraphTag + '>';
+					html = openTag + html.replace( duoLF, function() {
+						return endTag + openTag;
+					} ) + endTag;
+				}
+			}
+
+			// One <br> per line-break.
+			html = html.replace( /\n/g, '<br>' );
+
+			// Compensate padding <br> at the end of block, avoid loosing them during insertion.
+			if ( !isEnterBrMode ) {
+				html = html.replace( new RegExp( '<br>(?=</' + paragraphTag + '>)' ), function( match ) {
+					return CKEDITOR.tools.repeat( match, 2 );
+				} );
+			}
+
+			// Preserve spaces at the ends, so they won't be lost after insertion (merged with adjacent ones).
+			html = html.replace( /^ | $/g, '&nbsp;' );
+
+			// Finally, preserve whitespaces that are to be lost.
+			html = html.replace( /(>|\s) /g, function( match, before ) {
+				return before + '&nbsp;';
+			} ).replace( / (?=<)/g, '&nbsp;' );
+
+			return html;
+		},
+
+		/**
 		 * Gets a unique number for this CKEDITOR execution session. It returns
 		 * consecutive numbers starting from 1.
 		 *
@@ -403,6 +473,21 @@
 		 */
 		getNextId: function() {
 			return 'cke_' + this.getNextNumber();
+		},
+
+		/**
+		 * Gets a universally unique ID. It returns a random string
+		 * up to ISO/IEC 11578:1996, without dashes, with the "e" prefix to
+		 * make sure that ID does not starts with number.
+		 *
+		 * @returns {String} A global unique ID.
+		 */
+		getUniqueId: function() {
+			var uuid = 'e'; // Make sure that id does not start with number.
+			for ( var i = 0; i < 8; i++ ) {
+				uuid += Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
+			}
+			return uuid;
 		},
 
 		/**

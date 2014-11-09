@@ -47,8 +47,10 @@
 					'width:' + DRAG_HANDLER_SIZE + 'px;' +
 					'height:0;' +
 					// Initially drag handler should not be visible, until its position will be
-					// repositioned. #11177
-					'left:-9999px;' +
+					// calculated (#11177).
+					// We need to hide unpositined handlers, so they don't extend
+					// widget's outline far to the left (#12024).
+					'display:none;' +
 					'opacity:0.75;' +
 					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
 					// Prevent drag handler from being misplaced (#11198).
@@ -280,7 +282,7 @@
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
 		 * Reinitializes widgets on widget wrappers for which widget instances
-		 * cannot be found.
+		 * cannot be found. Takes nested widgets into account too.
 		 *
 		 * This method triggers the {@link #event-checkWidgets} event whose listeners
 		 * can cancel the method's execution or modify its options.
@@ -323,7 +325,7 @@
 		},
 
 		/**
-		 * Destroys the widget instance.
+		 * Destroys the widget instance and all its nested widgets (widgets inside its nested editables).
 		 *
 		 * @param {CKEDITOR.plugins.widget} widget The widget instance to be destroyed.
 		 * @param {Boolean} [offline] Whether the widget is offline (detached from the DOM tree) &mdash;
@@ -343,12 +345,36 @@
 		 *
 		 * @param {Boolean} [offline] Whether the widgets are offline (detached from the DOM tree) &mdash;
 		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
+		 * @param {CKEDITOR.dom.element} [container] Container within widgets will be destroyed.
+		 * This option will be ignored if `offline` flag was set to `true`, because in such case
+		 * it is not possible to find widgets within passed block.
 		 */
-		destroyAll: function( offline ) {
-			var instances = this.instances,
-				widget;
+		destroyAll: function( offline, container ) {
+			var widget,
+				id,
+				instances = this.instances;
 
-			for ( var id in instances ) {
+			if ( container && !offline ) {
+				var wrappers = container.find( '.cke_widget_wrapper' ),
+					l = wrappers.count(),
+					i = 0;
+
+				// Length is constant, because this is not a live node list.
+				// Note: since querySelectorAll returns nodes in document order,
+				// outer widgets are always placed before their nested widgets and therefore
+				// are destroyed before them.
+				for ( ; i < l; ++i ) {
+					widget = this.getByElement( wrappers.getItem( i ), true );
+					// Widget might not be found, because it could be a nested widget,
+					// which would be destroyed when destroying its parent.
+					if ( widget )
+						this.destroy( widget );
+				}
+
+				return;
+			}
+
+			for ( id in instances ) {
 				widget = instances[ id ];
 				this.destroy( widget, offline );
 			}
@@ -1006,7 +1032,7 @@
 		},
 
 		/**
-		 * Destroys a nested editable.
+		 * Destroys a nested editable and all nested widgets.
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
@@ -1019,6 +1045,7 @@
 			this.editor.focusManager.remove( editable );
 
 			if ( !offline ) {
+				this.repository.destroyAll( false, editable );
 				editable.removeClass( 'cke_widget_editable' );
 				editable.removeClass( 'cke_widget_editable_focused' );
 				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-enter-mode' ] );
@@ -1163,6 +1190,7 @@
 
 				// Finally, process editable's data. This data wasn't processed when loading
 				// editor's data, becuase they need to be processed separately, with its own filters and settings.
+				editable._.initialSetData = true;
 				editable.setData( editable.getHtml() );
 
 				return true;
@@ -1361,7 +1389,8 @@
 			editor.fire( 'lockSnapshot' );
 			this.dragHandlerContainer.setStyles( {
 				top: newPos.y + 'px',
-				left: newPos.x + 'px'
+				left: newPos.x + 'px',
+				display: 'block'
 			} );
 			editor.fire( 'unlockSnapshot' );
 			!initialDirty && editor.resetDirty();
@@ -1509,6 +1538,7 @@
 		// Call the base constructor.
 		CKEDITOR.dom.element.call( this, element.$ );
 		this.editor = editor;
+		this._ = {};
 		var filter = this.filter = config.filter;
 
 		// If blockless editable - always use BR mode.
@@ -1526,9 +1556,20 @@
 		 * and the {@link CKEDITOR.editor#filter}. This ensures that the data was filtered and prepared to be
 		 * edited like the {@link CKEDITOR.editor#method-setData editor data}.
 		 *
+		 * Before content is changed all nested widgets are destroyed. Afterwards, after new content is loaded
+		 * all nested widgets are initialized.
+		 *
 		 * @param {String} data
 		 */
 		setData: function( data ) {
+			// For performance reasons don't call destroyAll when initializing nested editable,
+			// because there are not widgets inside.
+			if ( !this._.initialSetData ) {
+				// Destroy all nested widgets before setting data.
+				this.editor.widgets.destroyAll( false, this );
+			}
+			this._.initialSetData = false;
+
 			data = this.editor.dataProcessor.toHtml( data, {
 				context: this.getName(),
 				filter: this.filter,
@@ -1687,14 +1728,6 @@
 				}
 			},
 
-			refresh: function( editor, path ) {
-				// Disable widgets' commands inside nested editables -
-				// check if blockLimit is a nested editable or a descendant of any.
-				this.setState( getNestedEditable( editor.editable(), path.blockLimit ) ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF );
-			},
-			// A hack to force command refreshing on context change.
-			context: 'div',
-
 			allowedContent: widgetDef.allowedContent,
 			requiredContent: widgetDef.requiredContent,
 			contentForms: widgetDef.contentForms,
@@ -1704,7 +1737,8 @@
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
-			upcasts;
+			upcasts,
+			priority = widgetDef.upcastPriority || 10;
 
 		if ( !upcast )
 			return;
@@ -1712,11 +1746,26 @@
 		// Multiple upcasts defined in string.
 		if ( typeof upcast == 'string' ) {
 			upcasts = upcast.split( ',' );
-			while ( upcasts.length )
-				widgetsRepo._.upcasts.push( [ widgetDef.upcasts[ upcasts.pop() ], widgetDef.name ] );
-		} else {
-			// Single rule which is automatically activated.
-			widgetsRepo._.upcasts.push( [ upcast, widgetDef.name ] );
+			while ( upcasts.length ) {
+				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef.name, priority );
+			}
+		}
+		// Single rule which is automatically activated.
+		else {
+			addUpcast( upcast, widgetDef.name, priority );
+		}
+
+		function addUpcast( upcast, name, priority ) {
+			// Find index of the first higher (in terms of value) priority upcast.
+			var index = CKEDITOR.tools.getIndex( widgetsRepo._.upcasts, function( element ) {
+				return element[ 2 ] > priority;
+			} );
+			// Add at the end if it is the highest priority so far.
+			if ( index < 0 ) {
+				index = widgetsRepo._.upcasts.length;
+			}
+
+			widgetsRepo._.upcasts.splice( index, 0, [ upcast, name, priority ] );
 		}
 	}
 
@@ -1742,7 +1791,7 @@
 
 		var editable = this.editor.editable(),
 			instances = this.instances,
-			newInstances, i, count, wrapper;
+			newInstances, i, count, wrapper, notYetInitialized;
 
 		if ( !editable )
 			return;
@@ -1763,10 +1812,15 @@
 			// Create widgets on existing wrappers if they do not exists.
 			for ( i = 0, count = wrappers.count(); i < count; i++ ) {
 				wrapper = wrappers.getItem( i );
+				notYetInitialized = !this.getByElement( wrapper, true );
 
-				// Check if there's no instance for this widget and that
-				// wrapper is not inside some temporary element like copybin (#11088).
-				if ( !this.getByElement( wrapper, true ) && !findParent( wrapper, isDomTemp ) ) {
+				// Check if:
+				// * there's no instance for this widget
+				// * wrapper is not inside some temporary element like copybin (#11088)
+				// * it was a nested widget's wrapper which has been detached from DOM,
+				// when nested editable has been initialized (it overwrites its innerHTML
+				// and initializes nested widgets).
+				if ( notYetInitialized && !findParent( wrapper, isDomTemp ) && editable.contains( wrapper ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
@@ -2098,7 +2152,8 @@
 			var span = editor.document.getById( id );
 			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
 			span.remove();
-		} else {
+		}
+		else {
 			return null;
 		}
 
@@ -2201,51 +2256,47 @@
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
 
+		editor.on( 'dragstart', function( evt ) {
+			var target = evt.data.target;
+
+			if ( isDomDragHandler( target ) ) {
+				var widget = widgetsRepo.getByElement( target );
+
+				evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
+
+				// IE needs focus.
+				editor.focus();
+
+				// and widget need to be focused on drag start (#12172#comment:10).
+				widget.focus();
+			}
+		} );
+
+		editor.on( 'drop', function( evt ) {
+			var dataTransfer = evt.data.dataTransfer,
+				id = dataTransfer.getData( 'cke/widget-id' ),
+				dragRange = editor.createRange(),
+				sourceWidget;
+
+			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+				return;
+			}
+
+			sourceWidget = widgetsRepo.instances[ id ];
+			if ( !sourceWidget ) {
+				return;
+			}
+
+			dragRange.setStartBefore( sourceWidget.wrapper );
+			dragRange.setEndAfter( sourceWidget.wrapper );
+			evt.data.dragRange = dragRange;
+
+			evt.data.dataTransfer.setData( 'text/html', sourceWidget.wrapper.getOuterHtml() );
+			editor.widgets.destroy( sourceWidget, true );
+		} );
+
 		editor.on( 'contentDom', function() {
-			var editable = editor.editable(),
-				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-				// #11086 IE8 cannot listen on document.
-				dropTarget = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ? editable : editor.document;
-
-			editable.attachListener( dropTarget, 'drop', function( evt ) {
-				var dataStr = evt.data.$.dataTransfer.getData( 'text' ),
-					dataObj,
-					sourceWidget,
-					range;
-
-				if ( !dataStr )
-					return;
-
-				try {
-					dataObj = JSON.parse( dataStr );
-				} catch ( e ) {
-					// Do nothing - data couldn't be parsed so it's not a CKEditor's data.
-					return;
-				}
-
-				if ( dataObj.type != 'cke-widget' )
-					return;
-
-				evt.data.preventDefault();
-
-				// Something went wrong... maybe someone is dragging widgets between editors/windows/tabs/browsers/frames.
-				if ( dataObj.editor != editor.name || !( sourceWidget = widgetsRepo.instances[ dataObj.id ] ) )
-					return;
-
-				// Try to determine a DOM position at which drop happened. If none of methods
-				// which we support succeeded abort.
-				range = getRangeAtDropPosition( editor, evt );
-				if ( !range )
-					return;
-
-				// #11132 Hack to prevent cursor loss on Firefox. Without timeout widget is
-				// correctly pasted but then cursor is invisible (although it works) and can be restored
-				// only by blurring editable.
-				if ( CKEDITOR.env.gecko )
-					setTimeout( finalizeNativeDrop, 0, editor, sourceWidget, range );
-				else
-					finalizeNativeDrop( editor, sourceWidget, range );
-			} );
+			var editable = editor.editable();
 
 			// Register Lineutils's utilities as properties of repo.
 			CKEDITOR.tools.extend( widgetsRepo, {
@@ -2259,11 +2310,26 @@
 							if ( !el.is( CKEDITOR.dtd.$block ) )
 								return;
 
-							while ( el ) {
-								if ( isDomNestedEditable( el ) )
+							// Allow drop line inside, but never before or after nested editable (#12006).
+							if ( isDomNestedEditable( el ) )
+								return;
+
+							// If element is nested editable, make sure widget can be dropped there (#12006).
+							var nestedEditable = getNestedEditable( editable, el );
+							if ( nestedEditable ) {
+								var draggedWidget = widgetsRepo._.draggedWidget;
+
+								// Don't let the widget to be dropped into its own nested editable.
+								if ( widgetsRepo.getByElement( nestedEditable ) == draggedWidget )
 									return;
 
-								el = el.getParent();
+								var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ],
+									draggedRequiredContent = draggedWidget.requiredContent;
+
+								// There will be no relation if the filter of nested editable does not allow
+								// requiredContent of dragged widget.
+								if ( filter && draggedRequiredContent && !filter.check( draggedRequiredContent ) )
+									return;
 							}
 
 							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
@@ -2946,10 +3012,13 @@
 			editor = this.editor,
 			editable = editor.editable(),
 			listeners = [],
-			sorted = [],
+			sorted = [];
 
-			// Harvest all possible relations and display some closest.
-			relations = finder.greedySearch(),
+		// Mark dragged widget for repository#finder.
+		this.repository._.draggedWidget = this;
+
+		// Harvest all possible relations and display some closest.
+		var relations = finder.greedySearch(),
 
 			buffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 				locations = locator.locate( relations );
@@ -3459,6 +3528,14 @@
  *		} );
  *
  * @property {Object} upcasts
+ */
+
+/**
+ * The {@link #upcast} method(s) priority. The upcast with lower priority number will be called before
+ * the one with higher number. The default priority is `10`.
+ *
+ * @since 4.5
+ * @property {Number} [upcastPriority=10]
  */
 
 /**
