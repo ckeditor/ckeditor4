@@ -386,6 +386,10 @@
 			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nonEmptyInline' ).getFirst() ) );
 		},
 
+		'test walker.invisible() - inline element containing a ZWS character': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'zwsInline' ) ) );
+		},
+
 		'test walker.invisible() - block with a bogus br only': function() {
 			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'filledBlock' ) ) );
 		},
