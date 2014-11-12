@@ -1021,7 +1021,7 @@
 		 *
 		 * @param {String} html HTML code to be inserted into the editor.
 		 * @param {String} [mode='html'] The mode in which the HTML code will be inserted. One of the following:
-		 * 
+		 *
 		 * * `"html"` &ndash; The content being inserted will completely override the styles
 		 *    at the selected position.
 		 * * `"unfiltered_html"` &ndash; Like `"html"` but the content is not filtered with {@link CKEDITOR.filter}.
@@ -1757,11 +1757,11 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * is rebuilt. Thus, e.g. you need to attach DOM event listeners
  * on editable one more time.
  *
- * For inline editor this event is fired only once &mdash; when the 
+ * For inline editor this event is fired only once &mdash; when the
  * editor is initialized for the first time. This is because setting
  * editor content does not cause editable destruction and creation.
  *
- * The {@link #contentDom} event goes along with {@link #contentDomUnload} 
+ * The {@link #contentDom} event goes along with {@link #contentDomUnload}
  * which is fired before the content DOM structure is destroyed. This is the
  * right moment to detach content DOM event listener. Otherwise
  * browsers like IE or Opera may throw exceptions when accessing
