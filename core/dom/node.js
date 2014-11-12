@@ -332,7 +332,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			// last iteration was in normalizing mode,
 			// current iteration is not in normalizing mode,
 			// result text of normalization is empty string which means that element will be removed.
-			if ( normalized && lastIsNormalizing && !isNormalizing && !( ( typeof lastNormalizingText == 'string' ? lastNormalizingText : '' ) + aheadText ) && this.$.nodeType == CKEDITOR.NODE_TEXT ) {
+			if ( normalized && lastIsNormalizing && !isNormalizing && ( ( typeof lastNormalizingText == 'string' ? lastNormalizingText : '' ) + aheadText ).length === 0 && this.$.nodeType == CKEDITOR.NODE_TEXT ) {
 				return -1;
 			}
 

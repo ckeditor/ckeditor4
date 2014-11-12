@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,dom,range,jquery */
+/* global $ */
 
 'use strict';
 
@@ -110,7 +111,7 @@ function findNode( container, query ) {
 	if ( query == 'root' )
 		return container;
 
-	var textQuery = query.indexOf( '#' ) == 0 ? query.slice( 1 ) : false,
+	var textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
 		emptyTextQuery = query.match( /^(\(\S+?\))$/g ),
 		range = new CKEDITOR.dom.range( container ),
 		node,
@@ -189,7 +190,7 @@ addBookmark2TCs( tcs, {
 	},
 
 	'collapsed in text with empty text nodes': {
-		'ab.(^foo)': [ 'ab.(foo)', { sc: '(foo)', so: 0}, { sc: '#ab', so: 2 } ],
+		'ab.(^foo)': [ 'ab.(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
 		'a<i>b</i>(^foo)': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
 		'(foo).ab': [ '(foo).ab', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ],
 		'(^foo).ab.(bar)': [ '(foo).ab.(bar)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ]/*,*/
