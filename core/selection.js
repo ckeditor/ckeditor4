@@ -84,8 +84,28 @@
 	// #### checkSelectionChange : END
 
 	var isVisible = CKEDITOR.dom.walker.invisible( 1 );
+
+	// May absorb the caret if:
+	// * is a visible node,
+	// * is a non-empty element (this rule will accept elements like <strong></strong> because they
+	//	they were not accepted by the isVisible() check, not not <br> which cannot absorb the caret).
+	//	See #12612.
+	function mayAbsorbCaret( node ) {
+		if ( isVisible( node ) )
+			return true;
+
+		if ( node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$empty ) )
+			return true;
+
+		return false;
+	}
+
 	function rangeRequiresFix( range ) {
-		function isTextCt( node, isAtEnd ) {
+		// Whether we must prevent from absorbing caret by this context node.
+		// Also checks whether there's an editable position next to that node.
+		function ctxRequiresFix( node, isAtEnd ) {
+			// It's ok for us if a text node absorbs the caret, because
+			// the caret container element isn't changed then.
 			if ( !node || node.type == CKEDITOR.NODE_TEXT )
 				return false;
 
@@ -100,14 +120,14 @@
 
 		var ct = range.startContainer;
 
-		var previous = range.getPreviousNode( isVisible, null, ct ),
-			next = range.getNextNode( isVisible, null, ct );
+		var previous = range.getPreviousNode( mayAbsorbCaret, null, ct ),
+			next = range.getNextNode( mayAbsorbCaret, null, ct );
 
-		// Any adjacent text container may absorb the cursor, e.g.
+		// Any adjacent text container may absorb the caret, e.g.
 		// <p><strong>text</strong>^foo</p>
 		// <p>foo^<strong>text</strong></p>
 		// <div>^<p>foo</p></div>
-		if ( isTextCt( previous ) || isTextCt( next, 1 ) )
+		if ( ctxRequiresFix( previous ) || ctxRequiresFix( next, 1 ) )
 			return true;
 
 		// Empty block/inline element is also affected. <span>^</span>, <p>^</p> (#7222)
