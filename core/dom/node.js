@@ -242,7 +242,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( parentNode ) {
 				// Get the node index. For performance, call getIndex
 				// directly, instead of creating a new node object.
-				address.unshift( this.getIndex.call( { $: node }, normalized ) );
+				var currentIndex = this.getIndex.call( { $: node }, normalized );
+
+				if ( currentIndex != -1 ) {
+					address.unshift( currentIndex );
+				}
 			}
 
 			node = parentNode;
@@ -284,18 +288,52 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		var current = this.$,
 			index = -1,
-			isNormalizing;
+			isNormalizing = false,
+			lastIsNormalizing = false,
+			normalizingText = '',
+			aheadText = '';
 
 		if ( !this.$.parentNode )
 			return index;
 
+		if ( normalized ) {
+			// Going ahead and collecting text content from all text node until reach element.
+			while ( ( current = current.nextSibling ) && current.nodeType == CKEDITOR.NODE_TEXT ) {
+				aheadText += current.textContent;
+			}
+
+			// Reset current element.
+			current = this.$;
+		}
+
+		var lastNormalizingText;
 		do {
+			lastIsNormalizing = isNormalizing;
+			if ( current.nodeType == CKEDITOR.NODE_TEXT ) {
+				normalizingText += current.textContent;
+				lastNormalizingText = normalizingText;
+			}
+
 			// Bypass blank node and adjacent text nodes.
-			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
+			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) ) {
 				continue;
+			}
 
 			index++;
 			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
+
+			// Means that we are in normalizing mode,
+			// last iteration was in normalizing mode,
+			// current iteration is not in normalizing mode,
+			// result text of normalization is empty string which means that element will be removed.
+			if ( normalized && lastIsNormalizing && !isNormalizing && !( ( typeof lastNormalizingText == 'string' ? lastNormalizingText : '' ) + aheadText ) && this.$.nodeType == CKEDITOR.NODE_TEXT ) {
+				return -1;
+			}
+
+			if ( !isNormalizing && lastIsNormalizing ) {
+				lastNormalizingText = normalizingText;
+				normalizingText = '';
+			}
 		}
 		while ( ( current = current.previousSibling ) );
 
