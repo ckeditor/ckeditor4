@@ -653,7 +653,7 @@ CKEDITOR.dom.range = function( root ) {
 				return sum;
 			}
 
-			function normalize( limit ) {
+			function normalize( limit, range ) {
 				var container = limit.container,
 					offset = limit.offset;
 
@@ -672,8 +672,13 @@ CKEDITOR.dom.range = function( root ) {
 
 				// The last step - fix the offset inside text node by adding
 				// lengths of preceding text nodes which will be merged with container.
-				if ( container.type == CKEDITOR.NODE_TEXT )
-					offset += getLengthOfPrecedingTextNodes( container );
+				if ( container.type == CKEDITOR.NODE_TEXT ) {
+					if ( container.getText() === '' ) {
+						offset = range.document.getByAddress( container.getAddress( true ), true ).getText().length;
+					} else {
+						offset += getLengthOfPrecedingTextNodes( container );
+					}
+				}
 
 				limit.container = container;
 				limit.offset = offset;
@@ -691,10 +696,10 @@ CKEDITOR.dom.range = function( root ) {
 					};
 
 				if ( normalized ) {
-					normalize( bmStart );
+					normalize( bmStart, this );
 
 					if ( !collapsed )
-						normalize( bmEnd );
+						normalize( bmEnd, this );
 				}
 
 				return {
