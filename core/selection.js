@@ -131,6 +131,7 @@
 			return true;
 
 		// Empty block/inline element is also affected. <span>^</span>, <p>^</p> (#7222)
+		// If you found this line confusing check #12655.
 		if ( !( previous || next ) && !( ct.type == CKEDITOR.NODE_ELEMENT && ct.isBlockBoundary() && ct.getBogus() ) )
 			return true;
 
