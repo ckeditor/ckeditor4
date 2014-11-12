@@ -26,7 +26,12 @@ function createPlayground( html ) {
 
 		// Setting custom id to have reference for later usage.
 		emptyTextNode.setCustomData( 'id', current.getAttribute( 'data-id' ) );
-		emptyTextNode.insertAfter( current.getPrevious() );
+		var previous = current.getPrevious();
+		if ( previous ) {
+			emptyTextNode.insertAfter( previous );
+		} else {
+			emptyTextNode.insertBefore( current );
+		}
 
 		// Removing unwanted element.
 		current.remove();
@@ -184,8 +189,11 @@ addBookmark2TCs( tcs, {
 	},
 
 	'collapsed in text with empty text nodes': {
-		'ab empty node at the end': [ 'ab.(foo)', { sc: '(foo)', so: 0}, { sc: '#ab', so: 2 } ],
-		'ab empty node at the end with element in the middle': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ]
+		'ab.(^foo)': [ 'ab.(foo)', { sc: '(foo)', so: 0}, { sc: '#ab', so: 2 } ],
+		'a<i>b</i>(^foo)': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
+		'(foo).ab': [ '(foo).ab', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ],
+		'(^foo).ab.(bar)': [ '(foo).ab.(bar)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ]/*,*/
+		//'(foo).ab.(^bar)': [ '(foo).ab.(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ] This is not implemented yet.
 	},
 
 	'collapsed in element': {
