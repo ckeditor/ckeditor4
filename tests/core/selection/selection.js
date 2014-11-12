@@ -163,6 +163,11 @@ bender.test( {
 	},
 
 	'test selectRanges - after empty inline element': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
 		var editor = this.editor,
 			range = editor.createRange();
 
@@ -177,6 +182,11 @@ bender.test( {
 	},
 
 	'test selectRanges - after empty inline element with the filler char': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
 		var editor = this.editor,
 			range = editor.createRange();
 
@@ -198,6 +208,11 @@ bender.test( {
 	},
 
 	'test selectRanges - after empty inline element with an empty text node': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
 		var editor = this.editor,
 			range = editor.createRange();
 
