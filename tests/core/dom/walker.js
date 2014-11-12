@@ -354,6 +354,14 @@
 			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'bogusBr' ) ) );
 		},
 
+		'test walker.invisible() - br followed by bogus br': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'brFollowedByBogus' ) ) );
+		},
+
+		'test walker.invisible() - bogus br following normal br': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'bogusBr2' ) ) );
+		},
+
 		'test walker.invisible() - nbsp': function() {
 			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nbsp' ).getFirst() ) );
 		},
