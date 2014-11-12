@@ -269,14 +269,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 	/**
 	 * Gets the index of a node in an array of its `parent.childNodes`.
+	 * Returns `-1` if not found or if param `normalized` is set to true
+	 * and element is removed while normalization process.
 	 *
 	 * Let us assume having the following `childNodes` array:
 	 *
-	 *		[ emptyText, element1, text, text, element2 ]
-	 *		element1.getIndex();		// 1
-	 *		element1.getIndex( true );	// 0
-	 *		element2.getIndex();		// 4
-	 *		element2.getIndex( true );	// 2
+	 *		[ emptyText, element1, text, text, element2, emptyText2 ]
+	 *		emptyText.getIndex()			// 0
+	 *		emptyText.getIndex( true )		// -1
+	 *		element1.getIndex();			// 1
+	 *		element1.getIndex( true );		// 0
+	 *		element2.getIndex();			// 4
+	 *		element2.getIndex( true );		// 2
+	 *		emptyText2.getIndex();			// 5
+	 *		emptyText2.getIndex( true );	// -1
 	 *
 	 * @param {Boolean} normalized When `true`, empty text nodes and one followed
 	 * by another one text node are not counted in.
