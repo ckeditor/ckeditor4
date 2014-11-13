@@ -296,7 +296,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			index = -1;
 
 		if ( !this.$.parentNode )
-			return index;
+			return -1;
 
 		if ( !normalized ) {
 			do {
@@ -307,51 +307,41 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			return index;
 		}
 
-		var isNormalizing = false,
-			lastIsNormalizing = false,
-			normalizingText = '',
-			aheadText = '',
-			lastNormalizingText;
+		// The idea is - all empty text nodes will be virtually merged into their adjacent text nodes.
+		// If an empty text node does not have an adjacent non-empty text node we can return -1 straight away,
+		// because it and all its sibling text nodes will be merged into an empty text node and then totally ignored.
+		if ( current.nodeType == CKEDITOR.NODE_TEXT && !current.nodeValue ) {
+			var adjacent = getAdjacentNonEmptyTextNode( current ) || getAdjacentNonEmptyTextNode( current, true );
 
-		// Going ahead and collecting text content from all text node until reach element.
-		while ( ( current = current.nextSibling ) && current.nodeType == CKEDITOR.NODE_TEXT ) {
-			aheadText += current.textContent;
+			if ( !adjacent )
+				return -1;
 		}
 
-		// Reset current element.
-		current = this.$;
+		var isNormalizing;
 
 		do {
-			lastIsNormalizing = isNormalizing;
-			if ( current.nodeType == CKEDITOR.NODE_TEXT ) {
-				normalizingText += current.textContent;
-				lastNormalizingText = normalizingText;
-			}
-
 			// Bypass blank node and adjacent text nodes.
-			if ( current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) ) {
+			if ( current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
 				continue;
-			}
 
 			index++;
 			isNormalizing = current.nodeType == CKEDITOR.NODE_TEXT;
-
-			// Means that we are in normalizing mode,
-			// last iteration was in normalizing mode,
-			// current iteration is not in normalizing mode,
-			// result text of normalization is empty string which means that element will be removed.
-			if ( lastIsNormalizing && !isNormalizing && ( ( typeof lastNormalizingText == 'string' ? lastNormalizingText : '' ) + aheadText ).length === 0 && this.$.nodeType == CKEDITOR.NODE_TEXT ) {
-				return -1;
-			}
-
-			if ( !isNormalizing && lastIsNormalizing ) {
-				lastNormalizingText = normalizingText;
-				normalizingText = '';
-			}
 		}
 		while ( ( current = current.previousSibling ) );
 
 		return index;
+
+		function getAdjacentNonEmptyTextNode( node, lookForward ) {
+			var sibling = lookForward ? node.nextSibling : node.previousSibling;
+
+			if ( !sibling || sibling.nodeType != CKEDITOR.NODE_TEXT ) {
+				return null;
+			}
+
+			// If found a non-empty text node, then return it.
+			// If not, then continue search.
+			return sibling.nodeValue ? sibling : getAdjacentNonEmptyTextNode( sibling, lookForward );
+		}
 	},
 
 	/**
