@@ -127,8 +127,8 @@
 			// well as apply the filter.
 			data = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, fixBodyTag );
 
-			// The empty body need to be fixed by adding 'p' or 'div' into it (#12630).
-			data = fixEmptyBody( data, fixBodyTag );
+			// The empty editable need to be fixed by adding 'p' or 'div' into it (#12630).
+			data = fixEmptyEditable( data, fixBodyTag );
 
 			evtData.dataValue = data;
 		}, null, null, 5 );
@@ -919,9 +919,9 @@
 		return data;
 	}
 
-	// Adds 'p' or 'div' to the empty body, so the selection will be properly set later (#12630).
-	function fixEmptyBody( data, fixBodyTag ) {
-		if ( fixBodyTag && data.name == 'body' && !data.children.length ) {
+	// Adds 'p' or 'div' to the empty editable, so the selection will be properly set later (#12630).
+	function fixEmptyEditable( data, fixBodyTag ) {
+		if ( fixBodyTag && !data.children.length && CKEDITOR.dtd[ data.name ][ fixBodyTag ] ) {
 			var fixBodyElement = new CKEDITOR.htmlParser.element( fixBodyTag );
 			data.add( fixBodyElement );
 		}
