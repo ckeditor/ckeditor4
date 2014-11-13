@@ -293,35 +293,25 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		// getIndex is called on a plain object: { $ : node }
 
 		var current = this.$,
-			index = -1;
+			index = -1,
+			isNormalizing;
 
 		if ( !this.$.parentNode )
 			return -1;
 
-		if ( !normalized ) {
-			do {
-				index++;
-			}
-			while ( ( current = current.previousSibling ) );
-
-			return index;
-		}
-
 		// The idea is - all empty text nodes will be virtually merged into their adjacent text nodes.
 		// If an empty text node does not have an adjacent non-empty text node we can return -1 straight away,
 		// because it and all its sibling text nodes will be merged into an empty text node and then totally ignored.
-		if ( current.nodeType == CKEDITOR.NODE_TEXT && !current.nodeValue ) {
+		if ( normalized && current.nodeType == CKEDITOR.NODE_TEXT && !current.nodeValue ) {
 			var adjacent = getAdjacentNonEmptyTextNode( current ) || getAdjacentNonEmptyTextNode( current, true );
 
 			if ( !adjacent )
 				return -1;
 		}
 
-		var isNormalizing;
-
 		do {
 			// Bypass blank node and adjacent text nodes.
-			if ( current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
+			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
 				continue;
 
 			index++;
