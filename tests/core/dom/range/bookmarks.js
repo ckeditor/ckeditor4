@@ -1,12 +1,12 @@
-/* bender-tags: editor,unit,dom,range,jquery */
-/* global $ */
+/* bender-tags: editor,unit,dom,range */
 
 'use strict';
 
 var doc = CKEDITOR.document;
 
 function createPlayground( html ) {
-	var playground = doc.getById( 'playground' );
+	var playground = doc.createElement( 'div' );
+	CKEDITOR.document.getBody().append( playground );
 
 	// Replace dots with elements and then remove all of them leaving
 	// split text nodes.
@@ -20,14 +20,16 @@ function createPlayground( html ) {
 	playground.setHtml( html );
 
 	// ... and then replacing then with empty text nodes.
-	var empty = playground.find( '.empty' );
+	var empty = playground.find( '.empty' ),
+		split = playground.find( '.split' ),
+		i;
 
 	// ... but IE8 doesn't support custom data on text nodes, so we must ignore these tests.
 	if ( empty.count() && CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 		assert.ignore();
 	}
 
-	for ( var i = 0; i < empty.count(); i++ ) {
+	for ( i = 0; i < empty.count(); i++ ) {
 		var current = empty.getItem( i ),
 			emptyTextNode = new CKEDITOR.dom.text( '' );
 
@@ -40,7 +42,9 @@ function createPlayground( html ) {
 	// We are leaving references to them, so IE won't merge them.
 	findNode( playground, '#weLoveIE8' );
 
-	$( '#playground .split' ).remove();
+	for ( i = 0; i < split.count(); i++ ) {
+		split.getItem( i ).remove();
+	}
 
 	return playground;
 }
