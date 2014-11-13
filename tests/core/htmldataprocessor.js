@@ -1102,22 +1102,28 @@
 			assert.areSame( '<h1></h1>', htmlDP.toDataFormat( '<h1></h1>' ), 'toDF 2' );
 		},
 
-		'test emptyBody - enterMode P': function() {
+		'test empty editable - enterMode P': function() {
 			var htmlDP = this.editorP.dataProcessor;
 
 			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '' ), 'toHtml' );
 		},
 
-		'test emptyBody - enterMode Div': function() {
+		'test empty editable - enterMode Div': function() {
 			var htmlDP = this.editorDiv.dataProcessor;
 
 			assert.isInnerHtmlMatching( '<div>@</div>', htmlDP.toHtml( '' ), 'toHtml' );
 		},
 
-		'test emptyBody - enterMode Br': function() {
+		'test empty editable - enterMode Br': function() {
 			var htmlDP = this.editor.dataProcessor;
 
 			assert.isInnerHtmlMatching( '@', htmlDP.toHtml( '' ), 'toHtml' );
+		},
+
+		'test empty editable - inline': function() {
+			var htmlDP = this.editor2.dataProcessor;
+
+			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '' ), 'toHtml' );
 		}
 	};
 
