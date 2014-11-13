@@ -624,6 +624,8 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: ( function() {
+			var isNotText = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT, true );
+
 			// Returns true for limit anchored in element and placed between text nodes.
 			//
 			//               v
@@ -653,7 +655,7 @@ CKEDITOR.dom.range = function( root ) {
 				return sum;
 			}
 
-			function normalize( limit, range ) {
+			function normalize( limit ) {
 				var container = limit.container,
 					offset = limit.offset;
 
@@ -673,10 +675,40 @@ CKEDITOR.dom.range = function( root ) {
 				// The last step - fix the offset inside text node by adding
 				// lengths of preceding text nodes which will be merged with container.
 				if ( container.type == CKEDITOR.NODE_TEXT ) {
-					if ( container.getText() === '' ) {
-						offset = range.document.getByAddress( container.getAddress( true ), true ).getText().length;
+					var precedingLength = getLengthOfPrecedingTextNodes( container );
+
+					// Normal case - text node is not empty.
+					if ( container.getText() ) {
+						offset += precedingLength;
+
+					// Awful case - the text node is empty and thus will be totally lost.
+					// In this case we are trying to normalize the limit to the left:
+					// * either to the preceding text node,
+					// * or to the "gap" after the preceding element.
 					} else {
-						offset += getLengthOfPrecedingTextNodes( container );
+						// Find the closest non-text sibling.
+						var precedingContainer = container.getPrevious( isNotText );
+
+						// If there are any characters on the left, that means that we can anchor
+						// there, because this text node will not be lost.
+						if ( precedingLength ) {
+							offset = precedingLength;
+
+							if ( precedingContainer ) {
+								// The text node is the first node after the closest non-text sibling.
+								container = precedingContainer.getNext();
+							} else {
+								// But if there was no non-text sibling, then the text node is the first child.
+								container = container.getParent().getFirst();
+							}
+
+						// If there are no characters on the left, then anchor after the previous non-text node.
+						// E.g. (see tests for a legend :D):
+						// <b>x</b>(foo)({}bar) -> <b>x</b>[](foo)(bar)
+						} else {
+							container = container.getParent();
+							offset = precedingContainer ? ( precedingContainer.getIndex( true ) + 1 ) : 0;
+						}
 					}
 				}
 
@@ -696,10 +728,10 @@ CKEDITOR.dom.range = function( root ) {
 					};
 
 				if ( normalized ) {
-					normalize( bmStart, this );
+					normalize( bmStart );
 
 					if ( !collapsed )
-						normalize( bmEnd, this );
+						normalize( bmEnd );
 				}
 
 				return {
