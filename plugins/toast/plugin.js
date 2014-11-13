@@ -51,6 +51,7 @@ toast.prototype = {
 	show: function() {
 		var toast = this,
 			container = this.editor.container,
+			ui = this.editor.ui,
 			toastArea = container.findOne( '.cke_toasts_area' ),
 			progress = this.getPrecentageProgress(),
 			toastElement;
@@ -58,7 +59,15 @@ toast.prototype = {
 		if ( !toastArea ) {
 			toastArea = new CKEDITOR.dom.element( 'div' );
 			toastArea.addClass( 'cke_toasts_area' );
-			container.findOne( '.cke_contents' ).append( toastArea );
+
+			if ( !container.hasClass( 'cke_editable_inline' ) ) {
+				// Classic editor
+				ui.space( 'contents' ).append( toastArea );
+			} else {
+
+				// Inline editor
+				ui.space( 'top' ).append( toastArea );
+			}
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(

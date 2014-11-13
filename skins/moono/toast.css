@@ -5,14 +5,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_toasts_area
 {
-	position: absolute;
+	/*position: absolute;*/
 	left: 50%;
 	top: 0;
 }
 
 .cke_toast
 {
-	position: relative;
+	/*position: relative;*/
 	left: -50%;
 	margin-top: 10px;
 	width: 300px;
