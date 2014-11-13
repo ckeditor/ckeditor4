@@ -127,8 +127,11 @@
 			// well as apply the filter.
 			data = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, fixBodyTag );
 
-			// The empty editable need to be fixed by adding 'p' or 'div' into it (#12630).
-			data = fixEmptyEditable( data, fixBodyTag );
+			// The empty root element needs to be fixed by adding 'p' or 'div' into it.
+			// This avoids the need to create that element on the first focus (#12630).
+			if ( fixBodyTag ) {
+				fixEmptyRoot( data, fixBodyTag );
+			}
 
 			evtData.dataValue = data;
 		}, null, null, 5 );
@@ -919,14 +922,12 @@
 		return data;
 	}
 
-	// Adds 'p' or 'div' to the empty editable, so the selection will be properly set later (#12630).
-	function fixEmptyEditable( data, fixBodyTag ) {
-		if ( fixBodyTag && !data.children.length && CKEDITOR.dtd[ data.name ][ fixBodyTag ] ) {
+	// Creates a block if the root element is empty.
+	function fixEmptyRoot( root, fixBodyTag ) {
+		if ( !root.children.length && CKEDITOR.dtd[ root.name ][ fixBodyTag ] ) {
 			var fixBodyElement = new CKEDITOR.htmlParser.element( fixBodyTag );
-			data.add( fixBodyElement );
+			root.add( fixBodyElement );
 		}
-
-		return data;
 	}
 } )();
 
