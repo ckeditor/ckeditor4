@@ -13,7 +13,7 @@ function createPlayground( html ) {
 	html = html.replace( /\./g, '<i class="split"></i>' );
 
 	// Creating empty elements...
-	html = html.replace( /\((\S+?)\)/g, function( match, $0 ) {
+	html = html.replace( /\((\w+)\)/g, function( match, $0 ) {
 		return '<i class="empty" data-id="' + $0 + '"></i>';
 	} );
 
@@ -27,15 +27,7 @@ function createPlayground( html ) {
 
 		// Setting custom id to have reference for later usage.
 		emptyTextNode.setCustomData( 'id', current.getAttribute( 'data-id' ) );
-		var previous = current.getPrevious();
-		if ( previous ) {
-			emptyTextNode.insertAfter( previous );
-		} else {
-			emptyTextNode.insertBefore( current );
-		}
-
-		// Removing unwanted element.
-		current.remove();
+		emptyTextNode.replace( current );
 	}
 
 	// Hack to avoid merging text nodes by IE 8.
@@ -112,7 +104,7 @@ function findNode( container, query ) {
 		return container;
 
 	var textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
-		emptyTextQuery = query.match( /^(\(\S+?\))$/g ),
+		emptyTextQuery = query.match( /^\(\w+\)$/g ),
 		range = new CKEDITOR.dom.range( container ),
 		node,
 		walker;
@@ -155,7 +147,9 @@ var tcs = {
 };
 
 // TC format:
-// 0 - HTML to be tested. Note that text nodes are split in place of '.' characters.
+// 0 - HTML to be tested.
+//		* '.' means that text nodes are split at that position,
+//		* '(foo)' means an empty text node identified as 'foo'.
 // 1 - Input range - 'sc' means startContainer and it's passed through findNode(), 'so' means startOffset.
 //		If 'ec' and 'eo' are not passed range is collapsed to start.
 // 2 - Output range (the same format as input).
@@ -190,11 +184,12 @@ addBookmark2TCs( tcs, {
 	},
 
 	'collapsed in text with empty text nodes': {
-		'ab.(^foo)': [ 'ab.(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
-		'a<i>b</i>(^foo)': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
-		'(foo).ab': [ '(foo).ab', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ],
-		'(^foo).ab.(bar)': [ '(foo).ab.(bar)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ]/*,*/
-		//'(foo).ab.(^bar)': [ '(foo).ab.(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ] This is not implemented yet.
+		'ab.(foo) - range in foo': [ 'ab.(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
+		'a<i>b</i>(foo) - range in foo': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
+		'(foo).ab - range in foo': [ '(foo).ab', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ],
+		'(foo).ab.(bar) - range in foo': [ '(foo).ab.(bar)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ]
+		// This is not implemented yet.
+		// '(foo).ab.(bar) - range in bar': [ '(foo).ab.(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ]
 	},
 
 	'collapsed in element': {
