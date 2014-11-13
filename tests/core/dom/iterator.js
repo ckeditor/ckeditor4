@@ -78,6 +78,18 @@ function checkActiveFilter( source, opt, results, msg ) {
 var tools = bender.tools;
 
 bender.test( {
+	// Ticket: 12484.
+	'test iterator don\'t go beyond the sandbox' : function() {
+		var source = '[<p><i>hello</i><i>moto</i></p>]',
+			sandbox = doc.getById( 'sandbox' ),
+			range = tools.setHtmlWithRange( sandbox, source, sandbox )[ 0 ],
+			p = range.root.findOne( 'p' ),
+			iter = range.createIterator(),
+			empty = iter.getNextSourceNode( p, 1, p.getLast() );
+
+		assert.isNull( empty );
+	},
+
 	'test iterator works well with collapsed range position': function() {
 		var msg = 'Iteration should return the paragraph in which the range anchored';
 
