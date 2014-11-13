@@ -21,6 +21,12 @@ function createPlayground( html ) {
 
 	// ... and then replacing then with empty text nodes.
 	var empty = playground.find( '.empty' );
+
+	// ... but IE8 doesn't support custom data on text nodes, so we must ignore these tests.
+	if ( empty.count() && CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+		assert.ignore();
+	}
+
 	for ( var i = 0; i < empty.count(); i++ ) {
 		var current = empty.getItem( i ),
 			emptyTextNode = new CKEDITOR.dom.text( '' );
