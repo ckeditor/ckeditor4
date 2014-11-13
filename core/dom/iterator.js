@@ -89,10 +89,11 @@
 		/**
 		 * Gets a reference for the next element, bookmark nodes are skipped.
 		 *
+		 * @since 4.4.6
 		 * @private
-		 * @param node {CKEDITOR.dom.node}
-		 * @param startFromSibling {Boolean}
-		 * @param lastNode {CKEDITOR.dom.node}
+		 * @param {CKEDITOR.dom.node} node
+		 * @param {Boolean} startFromSibling
+		 * @param {CKEDITOR.dom.node} lastNode
 		 * @returns {CKEDITOR.dom.node}
 		 */
 		getNextSourceNode: function( node, startFromSibling, lastNode ) {
