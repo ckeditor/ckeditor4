@@ -409,18 +409,7 @@
 				node2 = wrapper.getChild( 1 );
 
 			assert.areEqual( 0, node1.getIndex() );
-			assert.areEqual( 0, node1.getIndex( true ) );
-			assert.areEqual( 1, node2.getIndex() );
-			assert.areEqual( 0, node2.getIndex( true ) );
-		},
-
-		'getIndex - element after empty text node2': function() {
-			var wrapper = createGetIndexTest( 'etn,el' ),
-				node1 = wrapper.getChild( 0 ),
-				node2 = wrapper.getChild( 1 );
-
-			assert.areEqual( 0, node1.getIndex() );
-			assert.areEqual( 0, node1.getIndex( true ) );
+			assert.areEqual( -1, node1.getIndex( true ) );
 			assert.areEqual( 1, node2.getIndex() );
 			assert.areEqual( 0, node2.getIndex( true ) );
 		},
@@ -460,9 +449,9 @@
 				node3 = wrapper.getChild( 2 );
 
 			assert.areEqual( 0, node1.getIndex() );
-			assert.areEqual( 0, node1.getIndex( true ) );
+			assert.areEqual( -1, node1.getIndex( true ) );
 			assert.areEqual( 1, node2.getIndex() );
-			assert.areEqual( 0, node2.getIndex( true ) );
+			assert.areEqual( -1, node2.getIndex( true ) );
 			assert.areEqual( 2, node3.getIndex() );
 			assert.areEqual( 0, node3.getIndex( true ) );
 		},
@@ -565,6 +554,23 @@
 
 			assert.areEqual( 2, node3.getIndex() );
 			assert.areEqual( -1, node3.getIndex( true ) );
+		},
+
+		'getIndex - el, tn, etn, etn, etn, el': function() {
+			var wrapper = createGetIndexTest( 'el,tn,etn,etn,etn,el' ),
+				node2 = wrapper.getChild( 1 ),
+				node4 = wrapper.getChild( 3 ),
+				node5 = wrapper.getChild( 4 ),
+				node6 = wrapper.getChild( 5 );
+
+			assert.areEqual( 1, node2.getIndex() );
+			assert.areEqual( 1, node2.getIndex( true ) );
+			assert.areEqual( 3, node4.getIndex() );
+			assert.areEqual( 1, node4.getIndex( true ) );
+			assert.areEqual( 4, node5.getIndex() );
+			assert.areEqual( 1, node5.getIndex( true ) );
+			assert.areEqual( 5, node6.getIndex() );
+			assert.areEqual( 2, node6.getIndex( true ) );
 		},
 
 		test_getNextSourceNode: function() {
