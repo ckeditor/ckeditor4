@@ -242,11 +242,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( parentNode ) {
 				// Get the node index. For performance, call getIndex
 				// directly, instead of creating a new node object.
-				var currentIndex = this.getIndex.call( { $: node }, normalized );
-
-				if ( currentIndex != -1 ) {
-					address.unshift( currentIndex );
-				}
+				address.unshift( this.getIndex.call( { $: node }, normalized ) );
 			}
 
 			node = parentNode;
