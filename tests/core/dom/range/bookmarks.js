@@ -183,13 +183,14 @@ addBookmark2TCs( tcs, {
 		'm offset 1': [ 'i.j<i>k</i>l.m', { sc: '#m', so: 1 }, { sc: '#lm', so: 2 } ]
 	},
 
-	'collapsed in text with empty text nodes': {
-		'ab.(foo) - range in foo': [ 'ab.(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
+	'collapsed in empty text nodes': {
+		'ab(foo) - range in foo': [ 'ab(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
 		'a<i>b</i>(foo) - range in foo': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
-		'(foo).ab - range in foo': [ '(foo).ab', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ],
-		'(foo).ab.(bar) - range in foo': [ '(foo).ab.(bar)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 0 } ]
-		// This is not implemented yet.
-		// '(foo).ab.(bar) - range in bar': [ '(foo).ab.(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ]
+		'(foo)ab - range in foo': [ '(foo)ab', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ],
+		'(foo)ab(bar) - range in foo': [ '(foo)ab(bar)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ],
+		'(foo)ab(bar) - range in bar': [ '(foo)ab(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ],
+		'<i>a</i>(foo)(bar)<u>b</u> - range in bar': [ '<i>a</i>(foo)(bar)<u>b</u>', { sc: '(bar)', so: 0 }, { sc: 'root', so: 1 } ],
+		'(foo)<i>a</i> - range in foo': [ '(foo)<i>a</i>', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ]
 	},
 
 	'collapsed in element': {
