@@ -1153,9 +1153,9 @@
 		}
 		else if ( CKEDITOR.env.gecko ) {
 			if ( sel && this.document.getActive().equals( root ) &&
-				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
+				sel.anchorNode && ( sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT || sel.anchorNode == root.$ ) )
 				fixInitialSelection( root, sel, true );
-		}
+			}
 		else if ( CKEDITOR.env.ie ) {
 			var active = this.document.getActive();
 
