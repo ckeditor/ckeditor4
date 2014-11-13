@@ -265,18 +265,24 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 	/**
 	 * Gets the index of a node in an array of its `parent.childNodes`.
+	 * Returns `-1` if node does not have a parent or when `normalized` argument is set to `true`
+	 * and the text node is empty and will be removed while normalization.
 	 *
 	 * Let us assume having the following `childNodes` array:
 	 *
-	 *		[ emptyText, element1, text, text, element2 ]
-	 *		element1.getIndex();		// 1
-	 *		element1.getIndex( true );	// 0
-	 *		element2.getIndex();		// 4
-	 *		element2.getIndex( true );	// 2
+	 *		[ emptyText, element1, text, text, element2, emptyText2 ]
 	 *
-	 * @param {Boolean} normalized When `true`, empty text nodes and one followed
-	 * by another one text node are not counted in.
-	 * @returns {Number} Index of a node.
+	 *		emptyText.getIndex()			// 0
+	 *		emptyText.getIndex( true )		// -1
+	 *		element1.getIndex();			// 1
+	 *		element1.getIndex( true );		// 0
+	 *		element2.getIndex();			// 4
+	 *		element2.getIndex( true );		// 2
+	 *		emptyText2.getIndex();			// 5
+	 *		emptyText2.getIndex( true );	// -1
+	 *
+	 * @param {Boolean} normalized When `true`, adjacent text nodes are merged and empty text nodes are removed.
+	 * @returns {Number} Index of a node or `-1` if node does not have a parent or is removed while normalization.
 	 */
 	getIndex: function( normalized ) {
 		// Attention: getAddress depends on this.$
@@ -287,7 +293,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			isNormalizing;
 
 		if ( !this.$.parentNode )
-			return index;
+			return -1;
+
+		// The idea is - all empty text nodes will be virtually merged into their adjacent text nodes.
+		// If an empty text node does not have an adjacent non-empty text node we can return -1 straight away,
+		// because it and all its sibling text nodes will be merged into an empty text node and then totally ignored.
+		if ( normalized && current.nodeType == CKEDITOR.NODE_TEXT && !current.nodeValue ) {
+			var adjacent = getAdjacentNonEmptyTextNode( current ) || getAdjacentNonEmptyTextNode( current, true );
+
+			if ( !adjacent )
+				return -1;
+		}
 
 		do {
 			// Bypass blank node and adjacent text nodes.
@@ -300,6 +316,18 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		while ( ( current = current.previousSibling ) );
 
 		return index;
+
+		function getAdjacentNonEmptyTextNode( node, lookForward ) {
+			var sibling = lookForward ? node.nextSibling : node.previousSibling;
+
+			if ( !sibling || sibling.nodeType != CKEDITOR.NODE_TEXT ) {
+				return null;
+			}
+
+			// If found a non-empty text node, then return it.
+			// If not, then continue search.
+			return sibling.nodeValue ? sibling : getAdjacentNonEmptyTextNode( sibling, lookForward );
+		}
 	},
 
 	/**

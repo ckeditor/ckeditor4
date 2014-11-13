@@ -16,6 +16,7 @@ Fixed Issues:
 * [#12546](http://dev.ckeditor.com/ticket/12546): Fixed: Preview tab in docprops dialog is always disabled.
 * [#12300](http://dev.ckeditor.com/ticket/12300): Fixed: The [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event fired on first navigation key press after typing.
 * [#12141](http://dev.ckeditor.com/ticket/12141): Fixed: List items are lost when indenting a list item with a content wrapped with a block element.
+* [#12515](http://dev.ckeditor.com/ticket/12515): Fixed: Cursor is in the wrong position when executing undo command after adding image and typing some text.
 
 Other Changes:
 * [#12550](http://dev.ckeditor.com/ticket/12550): Added CKEDITOR.dtd.main.

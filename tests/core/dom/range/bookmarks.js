@@ -1,22 +1,50 @@
-/* bender-tags: editor,unit,dom,range,jquery */
+/* bender-tags: editor,unit,dom,range */
 
 'use strict';
 
 var doc = CKEDITOR.document;
 
 function createPlayground( html ) {
-	var playground = doc.getById( 'playground' );
+	var playground = doc.createElement( 'div' );
+	CKEDITOR.document.getBody().append( playground );
 
 	// Replace dots with elements and then remove all of them leaving
 	// split text nodes.
 	html = html.replace( /\./g, '<i class="split"></i>' );
+
+	// Creating empty elements...
+	html = html.replace( /\((\w+)\)/g, function( match, $0 ) {
+		return '<i class="empty" data-id="' + $0 + '"></i>';
+	} );
+
 	playground.setHtml( html );
+
+	// ... and then replacing then with empty text nodes.
+	var empty = playground.find( '.empty' ),
+		split = playground.find( '.split' ),
+		i;
+
+	// ... but IE8 doesn't support custom data on text nodes, so we must ignore these tests.
+	if ( empty.count() && CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+		assert.ignore();
+	}
+
+	for ( i = 0; i < empty.count(); i++ ) {
+		var current = empty.getItem( i ),
+			emptyTextNode = new CKEDITOR.dom.text( '' );
+
+		// Setting custom id to have reference for later usage.
+		emptyTextNode.setCustomData( 'id', current.getAttribute( 'data-id' ) );
+		emptyTextNode.replace( current );
+	}
 
 	// Hack to avoid merging text nodes by IE 8.
 	// We are leaving references to them, so IE won't merge them.
 	findNode( playground, '#weLoveIE8' );
 
-	$( '#playground .split' ).remove();
+	for ( i = 0; i < split.count(); i++ ) {
+		split.getItem( i ).remove();
+	}
 
 	return playground;
 }
@@ -85,19 +113,27 @@ function findNode( container, query ) {
 	if ( query == 'root' )
 		return container;
 
-	var textQuery = query.indexOf( '#' ) == 0 ? query.slice( 1 ) : false,
+	var textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
+		emptyTextQuery = query.match( /^\(\w+\)$/g ),
 		range = new CKEDITOR.dom.range( container ),
 		node,
 		walker;
+
+	if ( emptyTextQuery ) {
+		query = query.replace( /^\(|\)$/g, '' );
+	}
 
 	range.selectNodeContents( container );
 	walker = new CKEDITOR.dom.walker( range );
 
 	while ( ( node = walker.next() ) ) {
-		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery )
+		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery ) {
 			return node;
-		else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) )
+		} else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) ) {
 			return node;
+		} else if ( emptyTextQuery && node.type == CKEDITOR.NODE_TEXT && node.getCustomData( 'id' ) == query ) {
+			return node;
+		}
 	}
 }
 
@@ -121,7 +157,9 @@ var tcs = {
 };
 
 // TC format:
-// 0 - HTML to be tested. Note that text nodes are split in place of '.' characters.
+// 0 - HTML to be tested.
+//		* '.' means that text nodes are split at that position,
+//		* '(foo)' means an empty text node identified as 'foo'.
 // 1 - Input range - 'sc' means startContainer and it's passed through findNode(), 'so' means startOffset.
 //		If 'ec' and 'eo' are not passed range is collapsed to start.
 // 2 - Output range (the same format as input).
@@ -153,6 +191,16 @@ addBookmark2TCs( tcs, {
 		'k offset 0': [ 'i.j<i>k</i>l.m', { sc: '#k', so: 0 }, { sc: '#k', so: 0 } ],
 		'l offset 0': [ 'i.j<i>k</i>l.m', { sc: '#l', so: 0 }, { sc: '#lm', so: 0 } ],
 		'm offset 1': [ 'i.j<i>k</i>l.m', { sc: '#m', so: 1 }, { sc: '#lm', so: 2 } ]
+	},
+
+	'collapsed in empty text nodes': {
+		'ab(foo) - range in foo': [ 'ab(foo)', { sc: '(foo)', so: 0 }, { sc: '#ab', so: 2 } ],
+		'a<i>b</i>(foo) - range in foo': [ 'a<i>b</i>(foo)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 2 } ],
+		'(foo)ab - range in foo': [ '(foo)ab', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ],
+		'(foo)ab(bar) - range in foo': [ '(foo)ab(bar)', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ],
+		'(foo)ab(bar) - range in bar': [ '(foo)ab(bar)', { sc: '(bar)', so: 0 }, { sc: '#ab', so: 2 } ],
+		'<i>a</i>(foo)(bar)<u>b</u> - range in bar': [ '<i>a</i>(foo)(bar)<u>b</u>', { sc: '(bar)', so: 0 }, { sc: 'root', so: 1 } ],
+		'(foo)<i>a</i> - range in foo': [ '(foo)<i>a</i>', { sc: '(foo)', so: 0 }, { sc: 'root', so: 0 } ]
 	},
 
 	'collapsed in element': {
