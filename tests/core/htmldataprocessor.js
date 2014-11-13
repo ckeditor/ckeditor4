@@ -121,20 +121,6 @@
 						},
 						allowedContent: true
 					}
-				},
-				editorP: {
-					name: 'editorP',
-					config: {
-						enterMode: CKEDITOR.ENTER_P,
-						allowedContent: true
-					}
-				},
-				editorDiv: {
-					name: 'editorDiv',
-					config: {
-						enterMode: CKEDITOR.ENTER_DIV,
-						allowedContent: true
-					}
 				}
 			}, function( editors, bots ) {
 				var num, name;
@@ -1102,28 +1088,49 @@
 			assert.areSame( '<h1></h1>', htmlDP.toDataFormat( '<h1></h1>' ), 'toDF 2' );
 		},
 
-		'test empty editable - enterMode P': function() {
-			var htmlDP = this.editorP.dataProcessor;
-
-			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '' ), 'toHtml' );
-		},
-
-		'test empty editable - enterMode Div': function() {
-			var htmlDP = this.editorDiv.dataProcessor;
-
-			assert.isInnerHtmlMatching( '<div>@</div>', htmlDP.toHtml( '' ), 'toHtml' );
-		},
-
-		'test empty editable - enterMode Br': function() {
+		'test empty root - context: body, enterMode: P': function() {
 			var htmlDP = this.editor.dataProcessor;
 
-			assert.isInnerHtmlMatching( '@', htmlDP.toHtml( '' ), 'toHtml' );
+			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '', {
+				context: 'body',
+				enterMode: CKEDITOR.ENTER_P
+			} ), 'toHtml' );
 		},
 
-		'test empty editable - inline': function() {
-			var htmlDP = this.editor2.dataProcessor;
+		'test empty root - context: body, enterMode: DIV': function() {
+			var htmlDP = this.editor.dataProcessor;
 
-			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '' ), 'toHtml' );
+			assert.isInnerHtmlMatching( '<div>@</div>', htmlDP.toHtml( '', {
+				context: 'body',
+				enterMode: CKEDITOR.ENTER_DIV
+			} ), 'toHtml' );
+		},
+
+		'test empty root - context: body, enterMode: BR': function() {
+			var htmlDP = this.editor.dataProcessor;
+
+			assert.isInnerHtmlMatching( '@', htmlDP.toHtml( '', {
+				context: 'body',
+				enterMode: CKEDITOR.ENTER_BR
+			} ), 'toHtml' );
+		},
+
+		'test empty root - context: div, enterMode: P': function() {
+			var htmlDP = this.editor.dataProcessor;
+
+			assert.isInnerHtmlMatching( '<p>@</p>', htmlDP.toHtml( '', {
+				context: 'div',
+				enterMode: CKEDITOR.ENTER_P
+			} ), 'toHtml' );
+		},
+
+		'test empty root - context: h1, enterMode: BR': function() {
+			var htmlDP = this.editor.dataProcessor;
+
+			assert.isInnerHtmlMatching( '@', htmlDP.toHtml( '', {
+				context: 'h1',
+				enterMode: CKEDITOR.ENTER_BR
+			} ), 'toHtml' );
 		}
 	};
 
