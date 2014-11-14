@@ -89,7 +89,7 @@
 	// * is a visible node,
 	// * is a non-empty element (this rule will accept elements like <strong></strong> because they
 	//	they were not accepted by the isVisible() check, not not <br> which cannot absorb the caret).
-	//	See #12612.
+	//	See #12621.
 	function mayAbsorbCaret( node ) {
 		if ( isVisible( node ) )
 			return true;
