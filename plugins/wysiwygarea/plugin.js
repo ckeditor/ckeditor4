@@ -142,30 +142,6 @@
 		script = doc.getElementById( 'cke_basetagscrpt' );
 		script && script.parentNode.removeChild( script );
 
-		if ( CKEDITOR.env.gecko ) {
-			// Force Gecko to change contentEditable from false to true on domReady
-			// (because it's previously set to true on iframe's body creation).
-			// Otherwise del/backspace and some other editable features will be broken in Fx <4
-			// See: #107 and https://bugzilla.mozilla.org/show_bug.cgi?id=440916
-			body.contentEditable = false;
-
-			// Remove any leading <br> which is between the <body> and the comment.
-			// This one fixes Firefox 3.6 bug: the browser inserts a leading <br>
-			// on document.write if the body has contenteditable="true".
-			if ( CKEDITOR.env.version < 20000 ) {
-				body.innerHTML = body.innerHTML.replace( /^.*<!-- cke-content-start -->/, '' );
-
-				// The above hack messes up the selection in FF36.
-				// To clean this up, manually select collapsed range that
-				// starts within the body.
-				setTimeout( function() {
-					var range = new CKEDITOR.dom.range( new CKEDITOR.dom.document( doc ) );
-					range.setStart( new CKEDITOR.dom.node( body ), 0 );
-					editor.getSelection().selectRanges( [ range ] );
-				}, 0 );
-			}
-		}
-
 		body.contentEditable = true;
 
 		if ( CKEDITOR.env.ie ) {
