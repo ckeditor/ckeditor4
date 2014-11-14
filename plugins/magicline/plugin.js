@@ -1840,8 +1840,8 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * {@link CKEDITOR.dtd#$block} elements as accessible by the magic line.
  *
  *		// Enables the greedy "put everywhere" mode.
- *		CKEDITOR.config.magicline_putEverywhere = true;
+ *		CKEDITOR.config.magicline_everywhere = true;
  *
- * @cfg {Boolean} [magicline_putEverywhere=false]
+ * @cfg {Boolean} [magicline_everywhere=false]
  * @member CKEDITOR.config
  */
