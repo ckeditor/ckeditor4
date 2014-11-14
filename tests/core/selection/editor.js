@@ -6,6 +6,11 @@ function noSelectionOnBlur( editor ) {
 	return editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE || CKEDITOR.env.ie;
 }
 
+var htmlMatchingOpts = {
+	compareSelection: true,
+	normalizeSelection: true
+};
+
 bender.test( {
 	'async:init': function() {
 		var that = this;
@@ -18,15 +23,20 @@ bender.test( {
 					allowedContent: true
 				}
 			},
-			editor2: {
+			editorInline: {
 				creator: 'inline',
-				name: 'test_editor2'
+				name: 'test_editor_inline'
 			},
+			editorFramed: {
+				name: 'test_editor_framed'
+			}
 		}, function( editors, bots ) {
 			that.editorBot = bots.editor;
 			that.editor = editors.editor;
-			that.editorBot2 = bots.editor2;
-			that.editor2 = editors.editor2;
+			that.editorBotInline = bots.editorInline;
+			that.editorInline = editors.editorInline;
+			that.editorBotFramed = bots.editorFramed;
+			that.editorFramed = editors.editorFramed;
 			that.callback();
 		} );
 	},
@@ -366,37 +376,56 @@ bender.test( {
 
 	// #10115
 	// Of course this test doesn't check if caret is visible.
-	// It only verifies if fixDom works correctly and does not confilct
+	// It only verifies if fixInitialSelection works correctly and does not confilct
 	// with browser or editor (#9507) fixing selection.
-	'test selection after set data on autoparagraphing editor': function() {
+	'test initial selection after set data in autoparagraphing editor': function() {
 		doc.getById( 'input1' ).focus();
 
-		bender.editorBot.create( {
-			name: 'test_editor_10115'
-		}, function( bot ) {
-			var editor = bot.editor;
+		var editor = this.editorFramed;
 
-			// Ensure async.
-			setTimeout( function() {
-				editor.setData( '', function() {
-					resume( function() {
-						var editable = editor.editable(),
-							dataOnFocus;
+		// Ensure async.
+		setTimeout( function() {
+			editor.setData( '', function() {
+				resume( function() {
+					var editable = editor.editable();
 
-						editable.once( 'focus', function() {
-							dataOnFocus = editable.getHtml();
-						} );
-						editable.focus();
-						assert.isMatching( /<p>\^.*<\/p>/, bender.tools.getHtmlWithSelection( editor ), 'Selection is in the right place.' );
+					editable.focus();
+					assert.isInnerHtmlMatching( '<p>^@</p>', bender.tools.selection.getWithHtml( editor ),
+						htmlMatchingOpts, 'Selection is in the right place.' );
 
-						// Check if DOM was fixed before focus is fired.
-						assert.isMatching( /<p>.*<\/p>/i, dataOnFocus, 'DOM is already fixed on focus.' );
-					} );
+					editor.insertText( 'foo' );
+					assert.isInnerHtmlMatching( '<p>foo^@</p>', bender.tools.selection.getWithHtml( editor ),
+						htmlMatchingOpts, 'Text was inserted in the right place.' );
 				} );
 			} );
-
-			wait();
 		} );
+
+		wait();
+	},
+
+	'test initial selection after set data in autoparagraphing inline editor': function() {
+		doc.getById( 'input1' ).focus();
+
+		var editor = this.editorInline;
+
+		// Ensure async.
+		setTimeout( function() {
+			editor.setData( '', function() {
+				resume( function() {
+					var editable = editor.editable();
+
+					editable.focus();
+					assert.isInnerHtmlMatching( '<p>^@</p>', bender.tools.selection.getWithHtml( editor ),
+						htmlMatchingOpts, 'Selection is in the right place.' );
+
+					editor.insertText( 'foo' );
+					assert.isInnerHtmlMatching( '<p>foo^@</p>', bender.tools.selection.getWithHtml( editor ),
+						htmlMatchingOpts, 'Text was inserted in the right place.' );
+				} );
+			} );
+		} );
+
+		wait();
 	},
 
 	// #10315
@@ -563,11 +592,7 @@ bender.test( {
 		var editor = this.editor,
 			bot = this.editorBot,
 			editable = editor.editable(),
-			range = editor.createRange(),
-			htmlMatchingOpts = {
-				compareSelection: true,
-				normalizeSelection: true
-			};
+			range = editor.createRange();
 
 		this.setSelectionInEmptyInlineElement( editor );
 
@@ -725,8 +750,8 @@ bender.test( {
 
 	// #11500 & #5217#comment:32
 	'test selection unlocked on setData in inline editor': function() {
-		var editor = this.editor2,
-			bot = this.editorBot2;
+		var editor = this.editorInline,
+			bot = this.editorBotInline;
 
 		editor.focus();
 		bot.setHtmlWithSelection( '<p>foo[bar]bom</p>' );
