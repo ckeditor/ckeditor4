@@ -50,24 +50,12 @@ function toast( editor, options ) {
 toast.prototype = {
 	show: function() {
 		var toast = this,
-			container = this.editor.container,
-			ui = this.editor.ui,
-			toastArea = container.findOne( '.cke_toasts_area' ),
+			toastArea = getToastArea(),
 			progress = this.getPrecentageProgress(),
 			toastElement;
 
 		if ( !toastArea ) {
-			toastArea = new CKEDITOR.dom.element( 'div' );
-			toastArea.addClass( 'cke_toasts_area' );
-
-			if ( !container.hasClass( 'cke_editable_inline' ) ) {
-				// Classic editor
-				ui.space( 'contents' ).append( toastArea );
-			} else {
-
-				// Inline editor
-				ui.space( 'top' ).append( toastArea );
-			}
+			toastArea = createToastArea();
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
@@ -84,6 +72,50 @@ toast.prototype = {
 		} );
 
 		toastArea.append( toastElement );
+
+		function getToastArea() {
+			return toast.editor.container.getDocument().findOne( '.cke_toasts_area_' + toast.editor.name );
+		}
+
+		function createToastArea() {
+			var editor = this.editor,
+				config = editor.config,
+				contents = editor.contents,
+				win = CKEDITOR.document.getWindow(),
+
+				// Use event buffers to reduce CPU load when tons of events are fired.
+				uiBuffer = CKEDITOR.tools.eventsBuffer( 100, layout ),
+				changeBuffer = CKEDITOR.tools.eventsBuffer( 500, layout ),
+
+				documentPosition = contents.getDocumentPosition(),
+				cssLength = CKEDITOR.tools.cssLength,
+
+				toastArea = new CKEDITOR.dom.element( 'div' );
+
+			toastArea.addClass( 'cke_toasts_area' );
+			toastArea.addClass( 'cke_toasts_area_' + editor.name );
+
+			toastArea.setStyle( 'z-index', config.baseFloatZIndex );
+			toastArea.setStyle( 'left', cssLength( documentPosition.x ) );
+			toastArea.setStyle( 'top', cssLength( documentPosition.y ) );
+
+			toastArea.insertAfter( contents );
+
+			win.on( 'scroll', uiBuffer.input );
+			win.on( 'resize', uiBuffer.input );
+			editor.on( 'change', changeBuffer.input );
+
+			editor.on( 'destroy', function() {
+				win.removeListener( 'scroll', uiBuffer.input );
+				win.removeListener( 'resize', uiBuffer.input );
+				toastArea.remove();
+			} );
+
+			function layout() {
+			}
+
+			return toastArea;
+		}
 	},
 
 	getClass: function() {

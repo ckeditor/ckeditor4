@@ -5,15 +5,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_toasts_area
 {
-	/*position: absolute;*/
-	left: 50%;
-	top: 0;
+	position: absolute;
 }
 
 .cke_toast
 {
-	/*position: relative;*/
-	left: -50%;
+	position: relative;
 	margin-top: 10px;
 	width: 300px;
 	color: white;
