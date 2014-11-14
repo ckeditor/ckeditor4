@@ -162,6 +162,7 @@
 		doc = new CKEDITOR.dom.document( doc );
 
 		this.setup();
+		this.fixInitialSelection();
 
 		if ( CKEDITOR.env.ie ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );
@@ -326,6 +327,8 @@
 
 				if ( isSnapshot ) {
 					this.setHtml( data );
+					this.fixInitialSelection();
+
 					// Fire dataReady for the consistency with inline editors
 					// and because it makes sense. (#10370)
 					editor.fire( 'dataReady' );

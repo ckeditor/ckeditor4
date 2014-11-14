@@ -416,6 +416,7 @@
 					data = this.editor.dataProcessor.toHtml( data );
 
 				this.setHtml( data );
+				this.fixInitialSelection();
 
 				// Editable is ready after first setData.
 				if ( this.status == 'unloaded' )
@@ -465,13 +466,66 @@
 			},
 
 			/**
-			 * Check if the editable is one of the host page element, indicates the
+			 * Checks if the editable is one of the host page element, indicates the
 			 * an inline editing environment.
 			 *
 			 * @returns {Boolean}
 			 */
 			isInline: function() {
 				return this.getDocument().equals( CKEDITOR.document );
+			},
+
+			/**
+			 * Fixes the selection and focus which may be in incorrect state after
+			 * editable's inner HTML has been overwritten.
+			 *
+			 * To understand the problem see:
+			 *
+			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/focusaftersettingdata
+			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/focusafterundoing
+			 * * http://tests.ckeditor.dev:1030/tests/plugins/newpage/manual/selectionafternewpage
+			 *
+			 * @private
+			 */
+			fixInitialSelection: function() {
+				if ( !this.hasFocus ) {
+					return;
+				}
+
+				this.focus();
+
+				var that = this,
+					$doc = this.getDocument().$,
+					$sel = $doc.getSelection();
+
+				if ( requiresFix() ) {
+					var range = new CKEDITOR.dom.range( this );
+					range.moveToElementEditStart( this );
+
+					var $range = $doc.createRange();
+					$range.setStart( range.startContainer.$, range.startOffset );
+					$range.collapse( true );
+
+					$sel.removeAllRanges();
+					$sel.addRange( $range );
+				}
+
+				function requiresFix() {
+					// This condition covers most broken cases after setting data.
+					if ( $sel.anchorNode && $sel.anchorNode == that.$ ) {
+						return true;
+					}
+
+					// Fix for:
+					// http://tests.ckeditor.dev:1030/tests/core/selection/manual/focusaftersettingdata
+					// (the inline editor TC)
+					if ( CKEDITOR.env.webkit ) {
+						var active = that.getDocument().getActive();
+						if ( active && active.equals( that ) && !$sel.anchorNode ) {
+							return true;
+						}
+					}
+				}
 			},
 
 			/**
