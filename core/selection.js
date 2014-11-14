@@ -1153,7 +1153,7 @@
 		}
 		else if ( CKEDITOR.env.gecko ) {
 			if ( sel && this.document.getActive().equals( root ) &&
-				sel.anchorNode && ( sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT || sel.anchorNode == root.$ ) )
+				sel.anchorNode && ( sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT || ( sel.isCollapsed && sel.anchorNode == root.$ && sel.anchorOffset === 0 ) ) )
 				fixInitialSelection( root, sel, true );
 			}
 		else if ( CKEDITOR.env.ie ) {
