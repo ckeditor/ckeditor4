@@ -1,0 +1,20 @@
+<p>Editor 1:</p>
+<textarea id="editor1" cols="10" rows="10"><p>Initial content</p></textarea>
+
+<p>Editor 2:</p>
+<div id="editor2" contenteditable="true"><p>Initial content</p></div>
+
+<script>
+( function() {
+	showBlocks( 1, CKEDITOR.replace( 'editor1' ) );
+	showBlocks( 2, CKEDITOR.inline( 'editor2' ) );
+
+	CKEDITOR.disableAutoInline = true;
+
+	function showBlocks( editorNum, editor ) {
+		editor.on( 'instanceReady', function() {
+			editor.execCommand( 'showblocks' );
+		} );
+	}
+} )();
+</script>
