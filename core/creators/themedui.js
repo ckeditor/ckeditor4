@@ -433,6 +433,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		}
 
 		editor.container = container;
+		editor.contents = editor.ui.space( 'contents' );
 
 		// Make top and bottom spaces unelectable, but not content space,
 		// otherwise the editable area would be affected.
