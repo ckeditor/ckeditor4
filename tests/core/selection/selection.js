@@ -8,6 +8,13 @@ bender.editor = {
 	}
 };
 
+var htmlComparisonOpts = {
+	compareSelection: true,
+	normalizeSelection: true
+};
+
+var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT );
+
 bender.test( {
 	'test contructor': function() {
 		// Make the DOM selection at the beginning of the document.
@@ -151,11 +158,75 @@ bender.test( {
 		assert.isInnerHtmlMatching(
 			'<p>foo</p><p id="target">^<br /></p><p>bar</p>',
 			bender.tools.selection.getWithHtml( editor ),
-			{
-				compareSelection: true,
-				normalizeSelection: true
-			},
+			htmlComparisonOpts,
 			'selection was placed in the empty paragraph' );
+	},
+
+	'test selectRanges - after empty inline element': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			range = editor.createRange();
+
+		editor.editable().setHtml( '<p>foo<strong id="target"></strong></p>' );
+
+		var strong = editor.document.getById( 'target' );
+		range.moveToPosition( strong, CKEDITOR.POSITION_AFTER_END );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( strong, editor.getSelection().getRanges()[ 0 ].getPreviousNode( isElement ),
+			'the selection was located after the strong element' );
+	},
+
+	'test selectRanges - after empty inline element with the filler char': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			range = editor.createRange();
+
+		editor.editable().setHtml( '<p>foo<strong id="target"></strong></p>' );
+
+		// Set the selection inside the strong element, so the filler char is created.
+		var strong = editor.document.getById( 'target' );
+		range.moveToPosition( strong, CKEDITOR.POSITION_AFTER_START );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( 'strong', editor.getSelection().getStartElement().getName(),
+			'the selection was correctly placed inside empty strong element' );
+
+		range.moveToPosition( strong, CKEDITOR.POSITION_AFTER_END );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( strong, editor.getSelection().getRanges()[ 0 ].getPreviousNode( isElement ),
+			'the selection was located after the strong element' );
+	},
+
+	'test selectRanges - after empty inline element with an empty text node': function() {
+		// IE8 can't handle this selection.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			range = editor.createRange();
+
+		editor.editable().setHtml( '<p>foo<strong id="target">x</strong></p>' );
+
+		// Set the selection inside the strong element, so the filler char is created.
+		var strong = editor.document.getById( 'target' );
+		strong.getFirst().setText( '' );
+
+		range.moveToPosition( strong, CKEDITOR.POSITION_AFTER_END );
+		editor.getSelection().selectRanges( [ range ] );
+
+		assert.areSame( strong, editor.getSelection().getRanges()[ 0 ].getPreviousNode( isElement ),
+			'the selection was located after the strong element' );
 	},
 
 	'test getSelectedElement': function() {
