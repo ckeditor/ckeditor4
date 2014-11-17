@@ -56,10 +56,7 @@ var config = {
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #9': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #3': 'env.safari',
-				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #8': 'env.safari',
-
-				// Firefox (#12104)
-				'tests/core/editor/focus#test blur after setData': 'env.gecko'
+				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #8': 'env.safari'
 			}
 		},
 
@@ -83,12 +80,6 @@ var config = {
 
 				// Firefox (#11399)
 				'tests/plugins/widget/nestededitables#test selection in nested editable is preserved after opening and closing dialog - inline editor': 'env.gecko',
-
-				// Firefox (#12104)
-				'tests/plugins/widget/widgetselection#test focusing widget': 'env.gecko',
-				'tests/plugins/widget/widgetselection#test focusing by click': 'env.gecko',
-				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by click': 'env.gecko',
-				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by method': 'env.gecko',
 
 				// https://bugzilla.mozilla.org/show_bug.cgi?id=911201
 				'tests/plugins/magicline/widgets#test commands[previous], first block in nested': 'env.gecko',
