@@ -316,7 +316,7 @@
 					evt.preventDefault();
 			} );
 
-			editor.on( 'focus', function( evt ) {
+			editor.on( 'focus', function() {
 				fireLayout( 1 );
 				editor.on( 'change', changeBuffer.input );
 				win.on( 'scroll', uiBuffer.input );
@@ -400,4 +400,16 @@
  * @since 4.5
  * @cfg {Boolean} [floatSpacePreferRight=false]
  * @member CKEDITOR.config
+ */
+
+/**
+ * Fired when the viewport or editor parameters changes and floating space needs to check and
+ * eventually update its position and dimensions.
+ *
+ * @since 4.5
+ * @event floatingSpaceLayout
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor The editor instance.
+ * @param data
+ * @param {Boolean} data.show True if floating space should show up as a result of this event.
  */
