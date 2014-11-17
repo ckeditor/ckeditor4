@@ -121,6 +121,8 @@ var widgetTestsTools = ( function() {
 					} );
 				} );
 
+				// We lose focus somewhere in the previous tests. Regain it, so command's state is refreshed.
+				editor.focus();
 				editor.execCommand( widgetDef.name );
 				wait();
 			} );
