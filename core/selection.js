@@ -792,14 +792,32 @@
 
 		// When loaded data are ready check whether hidden selection container was not loaded.
 		editor.on( 'loadSnapshot', function() {
-			// TODO replace with el.find() which will be introduced in #9764,
-			// because it may happen that hidden sel container won't be the last element.
-			var el = editor.editable().getLast( function( node ) {
-				return node.type == CKEDITOR.NODE_ELEMENT;
-			} );
+			var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ),
+				// TODO replace with el.find() which will be introduced in #9764,
+				// because it may happen that hidden sel container won't be the last element.
+				last = editor.editable().getLast( isElement );
 
-			if ( el && el.hasAttribute( 'data-cke-hidden-sel' ) )
-				el.remove();
+			if ( last && last.hasAttribute( 'data-cke-hidden-sel' ) ) {
+				last.remove();
+
+				// Firefox does a very unfortunate thing. When a non-editable element is the only
+				// element in the editable, when we remove the hidden selection container, Firefox
+				// will insert a bogus <br> at the beginning of the editable...
+				// See: https://bugzilla.mozilla.org/show_bug.cgi?id=911201
+				//
+				// This behavior is never desired because this <br> pushes the content lower, but in
+				// this case it is especially dangerous, because it happens when a bookmark is being restored.
+				// Since this <br> is inserted at the beginning it changes indexes and thus breaks the bookmark2
+				// what results in errors.
+				//
+				// So... let's revert what Firefox broke.
+				if ( CKEDITOR.env.gecko ) {
+					var first = editor.editable().getFirst( isElement );
+					if ( first && first.is( 'br' ) && first.getAttribute( '_moz_editor_bogus_node' ) ) {
+						first.remove();
+					}
+				}
+			}
 		}, null, null, 100 );
 
 		editor.on( 'key', function( evt ) {
