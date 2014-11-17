@@ -6,12 +6,10 @@
 	var tcs = {},
 		tools = widgetTestsTools,
 		inlineEditorConfig = {
-			language: 'en',
-			autoParagraph: false
+			language: 'en'
 		},
 		alignClassesEditorConfig = {
 			language: 'en',
-			autoParagraph: false,
 			image2_alignClasses: [ 'l', 'c', 'r' ]
 		};
 
