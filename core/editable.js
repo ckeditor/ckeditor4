@@ -479,38 +479,51 @@
 			 * Fixes the selection and focus which may be in incorrect state after
 			 * editable's inner HTML has been overwritten.
 			 *
+			 * If the editable did not have focus, then the selection will be fixed when the editable
+			 * is focused for the first time. If the editable already had focus, then the selection will
+			 * be fixed immediately.
+			 *
 			 * To understand the problem see:
 			 *
 			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/focusaftersettingdata
 			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/focusafterundoing
+			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/selectionafterfocusing
 			 * * http://tests.ckeditor.dev:1030/tests/plugins/newpage/manual/selectionafternewpage
 			 *
 			 * @private
 			 */
 			fixInitialSelection: function() {
+				var that = this;
+
+				// If editable did not have focus, fix the selection when it is first focused.
 				if ( !this.hasFocus ) {
-					return;
+					this.once( 'focus', function() {
+						fixSelection();
+					}, null, null, -999 );
+				// If editable had focus, fix the selection immediately.
+				} else {
+					this.focus();
+					fixSelection();
 				}
 
-				this.focus();
+				function fixSelection() {
+					var $doc = that.getDocument().$,
+						$sel = $doc.getSelection();
 
-				var that = this,
-					$doc = this.getDocument().$,
-					$sel = $doc.getSelection();
+					if ( requiresFix( $sel ) ) {
+						var range = new CKEDITOR.dom.range( that );
+						range.moveToElementEditStart( that );
 
-				if ( requiresFix() ) {
-					var range = new CKEDITOR.dom.range( this );
-					range.moveToElementEditStart( this );
+						var $range = $doc.createRange();
+						$range.setStart( range.startContainer.$, range.startOffset );
+						$range.collapse( true );
 
-					var $range = $doc.createRange();
-					$range.setStart( range.startContainer.$, range.startOffset );
-					$range.collapse( true );
-
-					$sel.removeAllRanges();
-					$sel.addRange( $range );
+						$sel.removeAllRanges();
+						$sel.addRange( $range );
+					}
 				}
 
-				function requiresFix() {
+				function requiresFix( $sel ) {
 					// This condition covers most broken cases after setting data.
 					if ( $sel.anchorNode && $sel.anchorNode == that.$ ) {
 						return true;
