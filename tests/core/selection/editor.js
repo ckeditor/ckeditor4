@@ -68,44 +68,6 @@ bender.test( {
 		return fillingChar;
 	},
 
-	'test editor selection with no focus' : function() {
-		var ed = this.editor;
-
-		// Make selection outside of editable.
-		var docSel = doc.getSelection();
-		docSel.selectElement( doc.getById( 'p1' ) );
-
-		var sel = ed.getSelection();
-
-		// Empty selection retrieved for :
-		// 1. Inline instance where document selection is made outside of editable.
-		// 2. IE when editable doesn't have focus.
-		if ( noSelectionOnBlur( ed ) ) {
-			assert.areSame( CKEDITOR.SELECTION_NONE, sel.getType(), 'selection type' );
-			arrayAssert.isEmpty( sel.getRanges(), 'selection ranges' );
-			assert.isNull( sel.getStartElement(), 'selection start element' );
-			assert.isNull( sel.getSelectedElement(), 'selection selected element' );
-			assert.areSame( '', sel.getSelectedText(), 'selection selected text ' );
-		}
-		// Text selection collapsed at the *start* of editable for theme instance.
-		else
-		{
-			assert.areSame( CKEDITOR.SELECTION_TEXT, sel.getType(), 'selection type' );
-			var ranges = sel.getRanges(), range = ranges[ 0 ];
-			assert.areSame( ranges.length, 1 );
-			assert.isTrue( range.collapsed );
-			assert.isTrue( range.checkBoundaryOfElement( ed.editable().getFirst(), CKEDITOR.START ) );
-		}
-
-		ed.focus();
-		// Test editor selection received.
-		sel = ed.getSelection();
-		var editable = ed.editable();
-		assert.isTrue( sel instanceof CKEDITOR.dom.selection, 'get selection should return dom selection instance.' );
-		assert.areSame( editable.getDocument().$, sel.document.$, 'selection.document is equivalent to editor\'s document' );
-		assert.areSame( editable.$, sel.root.$, 'selection.boundary is equivalent to the editable element' );
-	},
-
 	'test selection on initial focus': function() {
 		var ed = this.editor;
 		ed.editable().focus();
