@@ -88,7 +88,13 @@ var config = {
 				'tests/plugins/widget/widgetselection#test focusing widget': 'env.gecko',
 				'tests/plugins/widget/widgetselection#test focusing by click': 'env.gecko',
 				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by click': 'env.gecko',
-				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by method': 'env.gecko'
+				'tests/plugins/widget/widgetselection#test focus editor when focusing widget by method': 'env.gecko',
+
+				// https://bugzilla.mozilla.org/show_bug.cgi?id=911201
+				'tests/plugins/magicline/widgets#test commands[previous], first block in nested': 'env.gecko',
+				'tests/plugins/magicline/widgets#test commands[next], block after block in nested': 'env.gecko',
+				'tests/plugins/magicline/widgets#test commands[previous], block before block in nested': 'env.gecko',
+				'tests/plugins/magicline/widgets#test commands[next], last block in nested': 'env.gecko'
 			}
 		},
 
