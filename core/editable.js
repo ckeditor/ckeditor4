@@ -495,6 +495,16 @@
 			fixInitialSelection: function() {
 				var that = this;
 
+				// Deal with IE8- (the old MS selection) first.
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+					if ( this.hasFocus ) {
+						this.focus();
+						fixMSSelection();
+					}
+
+					return;
+				}
+
 				// If editable did not have focus, fix the selection when it is first focused.
 				if ( !this.hasFocus ) {
 					this.once( 'focus', function() {
@@ -537,6 +547,29 @@
 						if ( active && active.equals( that ) && !$sel.anchorNode ) {
 							return true;
 						}
+					}
+				}
+
+				function fixMSSelection() {
+					var $doc = that.getDocument().$,
+						$sel = $doc.selection,
+						active = that.getDocument().getActive();
+
+					if ( $sel.type == 'None' && active.equals( that ) ) {
+						var range = new CKEDITOR.dom.range( that ),
+							parentElement,
+							$range = $doc.body.createTextRange();
+
+						range.moveToElementEditStart( that );
+
+						parentElement = range.startContainer;
+						if ( parentElement.type != CKEDITOR.NODE_ELEMENT ) {
+							parentElement = parentElement.getParent();
+						}
+
+						$range.moveToElementText( parentElement.$ );
+						$range.collapse( true );
+						$range.select();
 					}
 				}
 			},
