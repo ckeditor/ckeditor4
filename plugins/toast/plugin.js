@@ -50,12 +50,12 @@ function toast( editor, options ) {
 toast.prototype = {
 	show: function() {
 		var toast = this,
-			toastArea = getToastArea(),
+			toastArea = this.getToastArea(),
 			progress = this.getPrecentageProgress(),
 			toastElement;
 
 		if ( !toastArea ) {
-			toastArea = createToastArea();
+			toastArea = this.createToastArea();
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
@@ -73,48 +73,103 @@ toast.prototype = {
 
 		toastArea.append( toastElement );
 
-		function getToastArea() {
-			return toast.editor.container.getDocument().findOne( '.cke_toasts_area_' + toast.editor.name );
+		this.layout();
+	},
+
+	getToastArea: function() {
+		return this.editor.container.getDocument().findOne( '.cke_toasts_area_' + this.editor.name );
+	},
+
+	createToastArea: function() {
+		var editor = this.editor,
+			config = editor.config,
+			contents = editor.contents,
+			toastArea = new CKEDITOR.dom.element( 'div' );
+
+		toastArea.addClass( 'cke_toasts_area' );
+		toastArea.addClass( 'cke_toasts_area_' + editor.name );
+		toastArea.setStyle( 'z-index', config.baseFloatZIndex - 2 );
+
+		toastArea.insertAfter( contents );
+
+		this.attachListeners();
+
+		return toastArea;
+	},
+
+	attachListeners: function() {
+		var win = CKEDITOR.document.getWindow(),
+			toast = this,
+			editor = this.editor;
+
+		this.uiBuffer = CKEDITOR.tools.eventsBuffer( 100, this.layout, this ),
+		this.changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this.layout, this ),
+
+		win.on( 'scroll', this.uiBuffer.input );
+		win.on( 'resize', this.uiBuffer.input );
+		editor.on( 'change', this.changeBuffer.input );
+		editor.on( 'floatingSpaceLayout', toast.layout, toast, null, 20 );
+		editor.on( 'blur', this.layout, toast, null, 20 );
+
+		editor.on( 'destroy', function() {
+			toast.detachListeners();
+			toast.getToastArea().remove();
+		} );
+	},
+
+	detachListeners: function() {
+		var win = CKEDITOR.document.getWindow(),
+			editor = this.editor;
+
+		win.removeListener( 'scroll', this.uiBuffer.input );
+		win.removeListener( 'resize', this.uiBuffer.input );
+		editor.removeListener( 'change', this.changeBuffer.input );
+		editor.removeListener( 'floatingSpaceLayout', this.layout );
+		editor.removeListener( 'blur', this.layout );
+	},
+
+	layout: function() {
+		var toastArea = this.getToastArea(),
+			win = CKEDITOR.document.getWindow(),
+			editor = this.editor,
+			scrollPosition = win.getScrollPosition(),
+			contentsRect = editor.contents.getClientRect(),
+			contentsPosition = editor.contents.getDocumentPosition(),
+			top = editor.ui.space( 'top' ),
+			topRect = top.getClientRect(),
+			toastAreaRect = toastArea.getClientRect(),
+			cssLength = CKEDITOR.tools.cssLength;
+
+		toastArea.setStyle( 'left', cssLength( contentsPosition.x ) );
+
+		if ( top.isVisible() && topRect.bottom > contentsRect.top && topRect.bottom < contentsRect.bottom - toastAreaRect.height ) {
+			setBelowToolbar();
+		} else if ( contentsRect.top > 0 ) {
+			setTopStandard();
+		} else if ( contentsPosition.y + contentsRect.height - toastAreaRect.height > scrollPosition.y ) {
+			setTopFixed();
+		} else {
+			setBottom();
 		}
 
-		function createToastArea() {
-			var editor = this.editor,
-				config = editor.config,
-				contents = editor.contents,
-				win = CKEDITOR.document.getWindow(),
+		function setTopStandard() {
+			toastArea.setStyle( 'position', 'absolute' );
+			toastArea.setStyle( 'top', cssLength( contentsPosition.y ) );
+		}
 
-				// Use event buffers to reduce CPU load when tons of events are fired.
-				uiBuffer = CKEDITOR.tools.eventsBuffer( 100, layout ),
-				changeBuffer = CKEDITOR.tools.eventsBuffer( 500, layout ),
+		function setBelowToolbar() {
+			toastArea.setStyle( 'position', 'fixed' );
+			toastArea.setStyle( 'top', cssLength( topRect.bottom ) );
+		}
 
-				documentPosition = contents.getDocumentPosition(),
-				cssLength = CKEDITOR.tools.cssLength,
+		function setTopFixed() {
+			toastArea.setStyle( 'position', 'fixed' );
+			toastArea.setStyle( 'top', 0 );
+		}
 
-				toastArea = new CKEDITOR.dom.element( 'div' );
-
-			toastArea.addClass( 'cke_toasts_area' );
-			toastArea.addClass( 'cke_toasts_area_' + editor.name );
-
-			toastArea.setStyle( 'z-index', config.baseFloatZIndex );
-			toastArea.setStyle( 'left', cssLength( documentPosition.x ) );
-			toastArea.setStyle( 'top', cssLength( documentPosition.y ) );
-
-			toastArea.insertAfter( contents );
-
-			win.on( 'scroll', uiBuffer.input );
-			win.on( 'resize', uiBuffer.input );
-			editor.on( 'change', changeBuffer.input );
-
-			editor.on( 'destroy', function() {
-				win.removeListener( 'scroll', uiBuffer.input );
-				win.removeListener( 'resize', uiBuffer.input );
-				toastArea.remove();
-			} );
-
-			function layout() {
-			}
-
-			return toastArea;
+		function setBottom() {
+			toastArea.setStyle( 'position', 'absolute' );
+			toastArea.setStyle( 'top', cssLength( contentsPosition.y + contentsRect.height - toastAreaRect.height ) );
 		}
 	},
 

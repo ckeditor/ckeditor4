@@ -3,15 +3,10 @@ Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-.cke_toasts_area
-{
-	position: absolute;
-}
-
 .cke_toast
 {
 	position: relative;
-	margin-top: 10px;
+	margin: 10px 0;
 	width: 300px;
 	color: white;
 	border-radius: 3px;
