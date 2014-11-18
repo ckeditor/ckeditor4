@@ -96,7 +96,7 @@ toast.prototype = {
 			toast = this,
 			editor = this.editor;
 
-		this.uiBuffer = CKEDITOR.tools.eventsBuffer( 100, this.layout, this ),
+		this.uiBuffer = CKEDITOR.tools.eventsBuffer( 10, this.layout, this ),
 		this.changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this.layout, this ),
 
 		win.on( 'scroll', this.uiBuffer.input );
