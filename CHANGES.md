@@ -11,17 +11,18 @@ Fixed Issues:
 
 * [#12506](http://dev.ckeditor.com/ticket/12506): [Safari] Fixed: Can't paste into inline editor if page has `user-select: none` style. Thanks to [shaohua](https://github.com/shaohua)!
 * [#12489](http://dev.ckeditor.com/ticket/12423) and [#12491](http://dev.ckeditor.com/ticket/12423): Fixed: Various issues related to restoring selection after making operations on filler char. See the [fixed cases](http://dev.ckeditor.com/ticket/12491#comment:4).
+* [#12621](http://dev.ckeditor.com/ticket/12621): Fixed: Cannot remove inline styles (bold, italic, etc.) in empty lines.
+* [#12630](http://dev.ckeditor.com/ticket/12630): [Chrome] Fixed: Selection is placed outside paragraph when clicked the New Page button. This patch significantly simplified the way how the initial selection (a selection after contents of the editable is overwritten) is being fixed. That might have fixed many related scenarios on all browsers.
 * [#11647](http://dev.ckeditor.com/ticket/11647): Fixed: The [`editor.blur`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-blur) event is not fired on first blur after initializing the inline editor on already focused element.
 * [#12601](http://dev.ckeditor.com/ticket/12601): Fixed: [Strikethrough](http://ckeditor.com/addon/basicstyles) button tooltip spelling.
-* [#12546](http://dev.ckeditor.com/ticket/12546): Fixed: Preview tab in docprops dialog is always disabled.
+* [#12546](http://dev.ckeditor.com/ticket/12546): Fixed: Preview tab in the [Document Properties](http://ckeditor.com/addon/docprops) dialog is always disabled.
 * [#12300](http://dev.ckeditor.com/ticket/12300): Fixed: The [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event fired on first navigation key press after typing.
 * [#12141](http://dev.ckeditor.com/ticket/12141): Fixed: List items are lost when indenting a list item with a content wrapped with a block element.
-* [#12515](http://dev.ckeditor.com/ticket/12515): Fixed: Cursor is in the wrong position when executing undo command after adding image and typing some text.
-* [#12621](http://dev.ckeditor.com/ticket/12621): Fixed: Can't remove styles in empty lines.
-* [#12630](http://dev.ckeditor.com/ticket/12630): [Chrome] Fixed: Selection is placed outside paragraph when clicked the New Page button. This patch significantly simplified the way how the initial selection (a selection after contents of the editable is overwritten) is being fixed. That might have fixed many related scenarios on all browsers.
+* [#12515](http://dev.ckeditor.com/ticket/12515): Fixed: Cursor is in the wrong position when undoing after adding image and typing some text.
 
 Other Changes:
-* [#12550](http://dev.ckeditor.com/ticket/12550): Added CKEDITOR.dtd.main.
+
+* [#12550](http://dev.ckeditor.com/ticket/12550): Added the `<main>` element to the [`CKEDITOR.dtd`](http://docs.ckeditor.com/#!/api/CKEDITOR.dtd).
 
 ## CKEditor 4.4.5
 
