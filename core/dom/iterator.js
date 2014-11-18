@@ -87,34 +87,6 @@
 
 	iterator.prototype = {
 		/**
-		 * Gets a reference for the next element, bookmark nodes are skipped.
-		 *
-		 * @since 4.4.6
-		 * @private
-		 * @param {CKEDITOR.dom.node} node
-		 * @param {Boolean} startFromSibling
-		 * @param {CKEDITOR.dom.node} lastNode
-		 * @returns {CKEDITOR.dom.node}
-		 */
-		getNextSourceNode: function( node, startFromSibling, lastNode ) {
-			var rootNode = this.range.root, next;
-
-			// Here we are checking in guard function whether current element
-			// reach lastNode(default behaviour) and root node to prevent against
-			// getting out of editor instance root DOM object.
-			// #12484
-			function guardFunction( node ) {
-				return !( node.equals( lastNode ) || node.equals( rootNode ) );
-			}
-
-			next = node.getNextSourceNode( startFromSibling, null, guardFunction );
-			while ( !bookmarkGuard( next ) ) {
-				next = next.getNextSourceNode( startFromSibling, null, guardFunction );
-			}
-			return next;
-		},
-
-		/**
 		 * Returns next paragraph-like element or `null` if reached the end of range.
 		 *
 		 * @param {String} [blockTag='p'] Name of a block element which will be established by
@@ -377,6 +349,34 @@
 			}
 
 			return block;
+		},
+
+		/**
+		 * Gets a reference for the next element, bookmark nodes are skipped.
+		 *
+		 * @since 4.4.6
+		 * @private
+		 * @param {CKEDITOR.dom.node} node
+		 * @param {Boolean} startFromSibling
+		 * @param {CKEDITOR.dom.node} lastNode
+		 * @returns {CKEDITOR.dom.node}
+		 */
+		getNextSourceNode: function( node, startFromSibling, lastNode ) {
+			var rootNode = this.range.root, next;
+
+			// Here we are checking in guard function whether current element
+			// reach lastNode(default behaviour) and root node to prevent against
+			// getting out of editor instance root DOM object.
+			// #12484
+			function guardFunction( node ) {
+				return !( node.equals( lastNode ) || node.equals( rootNode ) );
+			}
+
+			next = node.getNextSourceNode( startFromSibling, null, guardFunction );
+			while ( !bookmarkGuard( next ) ) {
+				next = next.getNextSourceNode( startFromSibling, null, guardFunction );
+			}
+			return next;
 		}
 	};
 

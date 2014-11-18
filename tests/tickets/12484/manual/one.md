@@ -4,7 +4,7 @@
 
 1. Focus editable area.
 2. Select all text by pressing `Ctrl + a`.
-3. Press `delete` or `backspace` button to remove all content.
-4. Click proper button to create ordered list.
+3. Press `delete` or `backspace` key to remove all content.
+4. Click the ordered list button.
 
 **Expected:** Sould be crated one element list inside editor. Nothing outside shouldn't be touched.
