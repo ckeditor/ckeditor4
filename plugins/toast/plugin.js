@@ -50,12 +50,11 @@ function toast( editor, options ) {
 toast.prototype = {
 	show: function() {
 		var toast = this,
-			toastArea = this.getToastArea(),
 			progress = this.getPrecentageProgress(),
 			toastElement;
 
-		if ( !toastArea ) {
-			toastArea = this.createToastArea();
+		if ( !this.toastArea ) {
+			this.toastArea = this.createToastArea();
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
@@ -71,13 +70,9 @@ toast.prototype = {
 			toast.hide();
 		} );
 
-		toastArea.append( toastElement );
+		this.toastArea.append( toastElement );
 
 		this.layout();
-	},
-
-	getToastArea: function() {
-		return this.editor.container.getDocument().findOne( '.cke_toasts_area_' + this.editor.name );
 	},
 
 	createToastArea: function() {
@@ -112,7 +107,7 @@ toast.prototype = {
 
 		editor.on( 'destroy', function() {
 			toast.detachListeners();
-			toast.getToastArea().remove();
+			toast.toastArea.remove();
 		} );
 	},
 
@@ -128,7 +123,7 @@ toast.prototype = {
 	},
 
 	layout: function() {
-		var toastArea = this.getToastArea(),
+		var toastArea = this.toastArea,
 			win = CKEDITOR.document.getWindow(),
 			editor = this.editor,
 			scrollPosition = win.getScrollPosition(),
