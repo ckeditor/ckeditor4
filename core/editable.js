@@ -490,6 +490,7 @@
 			 * * http://tests.ckeditor.dev:1030/tests/core/selection/manual/selectionafterfocusing
 			 * * http://tests.ckeditor.dev:1030/tests/plugins/newpage/manual/selectionafternewpage
 			 *
+			 * @since 4.4.6
 			 * @private
 			 */
 			fixInitialSelection: function() {
