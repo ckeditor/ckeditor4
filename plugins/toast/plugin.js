@@ -138,9 +138,10 @@ toast.prototype = {
 			top = editor.ui.space( 'top' ),
 			topRect = top.getClientRect(),
 			toastAreaRect = toastArea.getClientRect(),
+			viewRect = win.getViewPaneSize(),
+			toastWidth = 300,
+			toastMargin = 20,
 			cssLength = CKEDITOR.tools.cssLength;
-
-		toastArea.setStyle( 'left', cssLength( contentsPosition.x ) );
 
 		if ( top.isVisible() && topRect.bottom > contentsRect.top && topRect.bottom < contentsRect.bottom - toastAreaRect.height ) {
 			setBelowToolbar();
@@ -170,6 +171,48 @@ toast.prototype = {
 		function setBottom() {
 			toastArea.setStyle( 'position', 'absolute' );
 			toastArea.setStyle( 'top', cssLength( contentsPosition.y + contentsRect.height - toastAreaRect.height ) );
+		}
+
+		var leftBase = toastArea.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPosition.x;
+
+		if ( contentsRect.width < toastWidth + toastMargin ) {
+			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
+				setRight();
+			} else {
+				setLeft();
+			}
+		} else {
+			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
+				setLeft();
+			} else if ( contentsPosition.x + contentsRect.width / 2 + toastWidth / 2 + toastMargin > scrollPosition.x + viewRect.width ) {
+				setRightFixed();
+			} else if ( contentsRect.left + contentsRect.width - toastWidth - toastMargin < 0 ) {
+				setRight();
+			} else if ( contentsRect.left + contentsRect.width / 2 - toastWidth / 2 < 0 ) {
+				setLeftFixed();
+			} else {
+				setCenter();
+			}
+		}
+
+		function setLeft() {
+			toastArea.setStyle( 'left', cssLength( leftBase ) );
+		}
+
+		function setLeftFixed() {
+			toastArea.setStyle( 'left', cssLength( leftBase - contentsPosition.x + scrollPosition.x ) );
+		}
+
+		function setCenter() {
+			toastArea.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - toastWidth / 2 ) );
+		}
+
+		function setRight() {
+			toastArea.setStyle( 'left', cssLength( leftBase + contentsRect.width - toastWidth - toastMargin ) );
+		}
+
+		function setRightFixed() {
+			toastArea.setStyle( 'left', cssLength( leftBase - contentsPosition.x + scrollPosition.x + viewRect.width - toastWidth - toastMargin ) );
 		}
 	},
 

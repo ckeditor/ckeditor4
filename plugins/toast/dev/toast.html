@@ -9,6 +9,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<title>Toast Notifications Dev Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
+	<style type="text/css">
+		body
+		{
+			padding: 500px 3000px 500px 2000px;
+		}
+	</style>
 </head>
 <body>
 	<h1 class="samples">Toast Notifications Dev Sample</h1>
@@ -31,7 +37,8 @@ progress.update( { type: 'success', message: 'Done!', important: true } );
 		</textarea>
 		<script>
 			var editor = CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'toast'
+				extraPlugins: 'toast',
+				toolbar: [ [ 'Source' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ], [ 'Image', 'Table', 'SpecialChar' ] ]
 			} );
 
 			function emulateProgress() {
