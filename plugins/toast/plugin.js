@@ -83,14 +83,13 @@ toast.prototype = {
 	createToastArea: function() {
 		var editor = this.editor,
 			config = editor.config,
-			contents = editor.contents,
 			toastArea = new CKEDITOR.dom.element( 'div' );
 
 		toastArea.addClass( 'cke_toasts_area' );
 		toastArea.addClass( 'cke_toasts_area_' + editor.name );
 		toastArea.setStyle( 'z-index', config.baseFloatZIndex - 2 );
 
-		toastArea.insertAfter( contents );
+		CKEDITOR.document.getBody().append( toastArea );
 
 		this.attachListeners();
 
