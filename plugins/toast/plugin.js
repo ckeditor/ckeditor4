@@ -54,7 +54,11 @@ toast.prototype = {
 			toastElement;
 
 		if ( !this.toastArea ) {
-			this.toastArea = this.createToastArea();
+			this.toastArea = this.getToastArea();
+
+			if ( !this.toastArea ) {
+				this.toastArea = this.createToastArea();
+			}
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
@@ -73,6 +77,10 @@ toast.prototype = {
 		this.toastArea.append( toastElement );
 
 		this.layout();
+	},
+
+	getToastArea: function() {
+		return this.editor.container.getDocument().findOne( '.cke_toasts_area_' + this.editor.name );
 	},
 
 	createToastArea: function() {
