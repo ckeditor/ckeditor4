@@ -10,7 +10,7 @@
 	* `Editor 1: focus` should be logged once.
 1. Wait for data change (2s).
 	* Nothing should be logged.
-	* There should be a blinking caret in the editor.
+	* The caret should be blinking in the editor.
 1. Click outside the editor.
 	* `Editor 1: blur` should be logged once.
 
@@ -20,6 +20,6 @@
 	* `Editor 2: focus` should be logged once.
 1. Wait for data change (2s).
 	* Nothing should be logged.
-	* There should be a blinking caret in the editor.
+	* The caret should be blinking in the editor.
 1. Click outside the editor.
 	* `Editor 2: blur` should be logged once.
