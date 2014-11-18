@@ -146,6 +146,7 @@ toast.prototype = {
 				parseInt( element.getComputedStyle( 'margin-right' ), 10 );
 		}
 
+		// Horizontal layout
 		if ( top.isVisible() && topRect.bottom > contentsRect.top && topRect.bottom < contentsRect.bottom - toastAreaRect.height ) {
 			setBelowToolbar();
 		} else if ( contentsRect.top > 0 ) {
@@ -176,15 +177,18 @@ toast.prototype = {
 			toastArea.setStyle( 'top', cssLength( contentsPosition.y + contentsRect.height - toastAreaRect.height ) );
 		}
 
+		// Vertical layout
 		var leftBase = toastArea.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPosition.x;
 
 		if ( contentsRect.width < toastWidth + toastMargin ) {
+			// Content is narrower than toast
 			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
 				setRight();
 			} else {
 				setLeft();
 			}
 		} else {
+			// Content is wider than toast
 			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
 				setLeft();
 			} else if ( contentsPosition.x + contentsRect.width / 2 + toastWidth / 2 + toastMargin > scrollPosition.x + viewRect.width ) {
