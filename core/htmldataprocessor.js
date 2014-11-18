@@ -49,7 +49,8 @@
 
 		editor.on( 'toHtml', function( evt ) {
 			var evtData = evt.data,
-				data = evtData.dataValue;
+				data = evtData.dataValue,
+				fixBodyTag;
 
 			// The source data is already HTML, but we need to clean
 			// it up and apply the filter.
@@ -116,10 +117,23 @@
 			// can be properly filtered.
 			data = unprotectRealComments( data );
 
+			if ( evtData.fixForBody === false ) {
+				fixBodyTag = false;
+			} else {
+				fixBodyTag = getFixBodyTag( evtData.enterMode, editor.config.autoParagraph );
+			}
+
 			// Now use our parser to make further fixes to the structure, as
 			// well as apply the filter.
-			evtData.dataValue = CKEDITOR.htmlParser.fragment.fromHtml(
-				data, evtData.context, evtData.fixForBody === false ? false : getFixBodyTag( evtData.enterMode, editor.config.autoParagraph ) );
+			data = CKEDITOR.htmlParser.fragment.fromHtml( data, evtData.context, fixBodyTag );
+
+			// The empty root element needs to be fixed by adding 'p' or 'div' into it.
+			// This avoids the need to create that element on the first focus (#12630).
+			if ( fixBodyTag ) {
+				fixEmptyRoot( data, fixBodyTag );
+			}
+
+			evtData.dataValue = data;
 		}, null, null, 5 );
 
 		// Filter incoming "data".
@@ -906,6 +920,14 @@
 		} );
 
 		return data;
+	}
+
+	// Creates a block if the root element is empty.
+	function fixEmptyRoot( root, fixBodyTag ) {
+		if ( !root.children.length && CKEDITOR.dtd[ root.name ][ fixBodyTag ] ) {
+			var fixBodyElement = new CKEDITOR.htmlParser.element( fixBodyTag );
+			root.add( fixBodyElement );
+		}
 	}
 } )();
 

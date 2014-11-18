@@ -738,7 +738,7 @@
 			var editor = this.editor,
 				bot = this.editorBot;
 
-			this.editorBot.setData( '<p id="w1" data-widget="test2">X</p><p id="w2" data-widget="test2">X</p>', function() {
+			this.editorBot.setData( '<p>X</p><p id="w1" data-widget="test2">X</p><p id="w2" data-widget="test2">X</p>', function() {
 				var editable = editor.editable(),
 					widget1 = getWidgetById( editor, 'w1' ),
 					widget2 = getWidgetById( editor, 'w2' );

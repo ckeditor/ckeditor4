@@ -700,7 +700,7 @@ bender.test( {
 	'Test moving to sibling non-editable blocks by arrow keys': function() {
 		var editor = this.editor;
 
-		this.editorBot.setData( '<p id="p1" contenteditable="false">X</p><p id="p2" contenteditable="false">X</p><p id="p3" contenteditable="false">X</p>', function() {
+		this.editorBot.setData( '<p>X</p><p id="p1" contenteditable="false">X</p><p id="p2" contenteditable="false">X</p><p id="p3" contenteditable="false">X</p>', function() {
 			var p1 = editor.document.getById( 'p1' ),
 				p2 = editor.document.getById( 'p2' ),
 				p3 = editor.document.getById( 'p3' ),
@@ -727,10 +727,6 @@ bender.test( {
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ); // LEFT
 			assert.areSame( p1, editor.getSelection().getSelectedElement(), 'Move left 2 - selectedElement' );
 			assert.isTrue( !!editor.getSelection().isFake, 'Move left 2 - isFake' );
-
-			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ); // LEFT
-			assert.areSame( p1, editor.getSelection().getSelectedElement(), 'Move left 3 - selectedElement' );
-			assert.isTrue( !!editor.getSelection().isFake, 'Move left 3 - isFake' );
 		} );
 	},
 

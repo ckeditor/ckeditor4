@@ -18,6 +18,7 @@ Fixed Issues:
 * [#12141](http://dev.ckeditor.com/ticket/12141): Fixed: List items are lost when indenting a list item with a content wrapped with a block element.
 * [#12515](http://dev.ckeditor.com/ticket/12515): Fixed: Cursor is in the wrong position when executing undo command after adding image and typing some text.
 * [#12621](http://dev.ckeditor.com/ticket/12621): Fixed: Can't remove styles in empty lines.
+* [#12630](http://dev.ckeditor.com/ticket/12630): [Chrome] Fixed: Selection is placed outside paragraph when clicked the New Page button. This patch significantly simplified the way how the initial selection (a selection after contents of the editable is overwritten) is being fixed. That might have fixed many related scenarios on all browsers.
 
 Other Changes:
 * [#12550](http://dev.ckeditor.com/ticket/12550): Added CKEDITOR.dtd.main.
