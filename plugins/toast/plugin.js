@@ -133,9 +133,18 @@ toast.prototype = {
 			topRect = top.getClientRect(),
 			toastAreaRect = toastArea.getClientRect(),
 			viewRect = win.getViewPaneSize(),
-			toastWidth = 300,
-			toastMargin = 20,
+			toastWidth = this.toastWidth,
+			toastMargin = this.toastMargin,
+			element,
 			cssLength = CKEDITOR.tools.cssLength;
+
+		// Cache for optimization
+		if ( !toastWidth || !toastMargin ) {
+			element = this.getElement();
+			toastWidth = this.toastWidth = element.getClientRect().width;
+			toastMargin = this.toastMargin = parseInt( element.getComputedStyle( 'margin-left' ), 10 ) +
+				parseInt( element.getComputedStyle( 'margin-right' ), 10 );
+		}
 
 		if ( top.isVisible() && topRect.bottom > contentsRect.top && topRect.bottom < contentsRect.bottom - toastAreaRect.height ) {
 			setBelowToolbar();
