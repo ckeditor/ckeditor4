@@ -65,10 +65,41 @@
 
 				// When applying one style over another, first remove the previous one (#12403).
 				if ( previousValue && value != previousValue ) {
-					editor.removeStyle( styles[ previousValue ] );
+					var previousStyle = styles[ previousValue ],
+						range = editor.getSelection().getRanges()[ 0 ];
+
+					// If the range is collapsed we can't simply use the editor.removeStyle method
+					// because it will remove the entire element and we want to split it instead.
+					if ( range.collapsed ) {
+						var path = editor.elementPath(),
+							// Find the style element.
+							matching = path.contains( function( el ) {
+								return previousStyle.checkElementRemovable( el );
+							} );
+
+						if ( matching ) {
+							// If we are at the boundary of the style element, just move out.
+							if ( range.checkBoundaryOfElement( matching, CKEDITOR.START ) ) {
+								range.moveToPosition( matching, CKEDITOR.POSITION_BEFORE_START );
+							} else if ( range.checkBoundaryOfElement( matching, CKEDITOR.END ) ) {
+								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+							} else {
+								// Split the element and clone the elements that were in the path
+								// (between the startContainer and the matching element)
+								// into the new place.
+								range.splitElement( matching );
+								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
+							}
+
+							editor.getSelection().selectRanges( [ range ] );
+						}
+					} else {
+						editor.removeStyle( previousStyle );
+					}
 				}
 
-				editor[ this.getValue() == value ? 'removeStyle' : 'applyStyle' ]( style );
+				editor[ previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
 
 				editor.fire( 'saveSnapshot' );
 			},
@@ -105,6 +136,30 @@
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		} );
+	}
+
+	// Clones the subtree between subtreeStart (exclusive) and the
+	// leaf (inclusive) and inserts it into the range.
+	//
+	// @param range
+	// @param {CKEDITOR.dom.element[]} elements Elements path in the standard order: leaf -> root.
+	// @param {CKEDITOR.dom.element/null} substreeStart The start of the subtree.
+	// If null, then the leaf belongs to the subtree.
+	function cloneSubtreeIntoRange( range, elements, subtreeStart ) {
+		var current = elements.pop();
+		if ( !current ) {
+			return;
+		}
+		// Rewind the elements array up to the subtreeStart and then start the real cloning.
+		if ( subtreeStart ) {
+			return cloneSubtreeIntoRange( range, elements, current.equals( subtreeStart ) ? null : subtreeStart );
+		}
+
+		var clone = current.clone();
+		range.insertNode( clone );
+		range.moveToPosition( clone, CKEDITOR.POSITION_AFTER_START );
+
+		cloneSubtreeIntoRange( range, elements );
 	}
 
 	CKEDITOR.plugins.add( 'font', {
