@@ -19,6 +19,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	animation: fadeIn 0.7s;
 }
 
+.cke_toast_message a {
+	color: #12306F;
+}
+
 @-webkit-keyframes fadeIn
 {
 	from {opacity: 0.4;}
