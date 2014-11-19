@@ -2522,6 +2522,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Setter method for start container.
 		 *
+		 * @since 4.4.6
 		 * @private
 		 * @param startContainer {CKEDITOR.dom.element}
 		 */
@@ -2542,6 +2543,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Setter method for end container.
 		 *
+		 * @since 4.4.6
 		 * @private
 		 * @param endContainer {CKEDITOR.dom.element}
 		 */
