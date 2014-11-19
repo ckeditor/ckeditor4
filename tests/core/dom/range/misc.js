@@ -255,6 +255,22 @@
 			range.removeEmptyBlocksAtEnd( true );
 
 			assert.areEqual( '<div>te[xt<div>]x</div></div>', bender.tools.getHtmlWithRanges( playground, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test _setStartContainer': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				start = new CKEDITOR.dom.element( 'a', doc );
+
+			range._setStartContainer( start );
+			assert.areSame( start, range.startContainer );
+		},
+
+		'test _setEndContainer': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				end = new CKEDITOR.dom.element( 'a', doc );
+
+			range._setEndContainer( end );
+			assert.areSame( end, range.endContainer );
 		}
 	};
 

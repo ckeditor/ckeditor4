@@ -78,6 +78,18 @@ function checkActiveFilter( source, opt, results, msg ) {
 var tools = bender.tools;
 
 bender.test( {
+	// Ticket: 12484.
+	'test iterator does not go beyond the sandbox': function() {
+		var source = '[<p><i>hello</i><i>moto</i></p>]',
+			sandbox = doc.getById( 'sandbox' ),
+			range = tools.setHtmlWithRange( sandbox, source, sandbox )[ 0 ],
+			p = range.root.findOne( 'p' ),
+			iter = range.createIterator(),
+			empty = iter._getNextSourceNode( p, 1, p.getLast() );
+
+		assert.isNull( empty );
+	},
+
 	'test iterator works well with collapsed range position': function() {
 		var msg = 'Iteration should return the paragraph in which the range anchored';
 
@@ -170,7 +182,7 @@ bender.test( {
 
 	'test iterating over table cells': function() {
 		var source =
-				'<table>' +
+			'<table>' +
 				'<caption>caption</caption>' +
 				'<tbody>' +
 				'	<tr>' +
@@ -184,11 +196,11 @@ bender.test( {
 				'		<td>cell2]</td>' +
 				'	</tr>' +
 				'</tbody>' +
-				'</table>';
+			'</table>';
 
 		var output1 = source.replace( /\[|\]/g, '' );
 		var output2 =
-				'<table>' +
+			'<table>' +
 				'<caption>caption</caption>' +
 				'<tbody>' +
 				'	<tr>' +
@@ -202,7 +214,7 @@ bender.test( {
 				'		<td><p>cell2</p></td>' +
 				'	</tr>' +
 				'</tbody>' +
-				'</table>';
+			'</table>';
 
 		checkRangeIteration( source, null,  [ 'th', 'p', 'td' ], output1, 'Iteration should report paragraph or table cells' );
 		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' ], output2, 'Iteration should establish paragraph if it\'s not available inside table cell' );
@@ -286,35 +298,35 @@ bender.test( {
 
 	'test iterating over list items': function() {
 		var source =
-		'<ul>'+
-			'<li>[item1</li>'+
-			'<li><p>item2</p></li>'+
-			'<li>'+
-				'<ul>'+
-					'<li>item3</li>'+
-				'</ul>'+
-				'<ul>'+
-					'<li><p>item5</p></li>'+
-				'</ul>'+
-			'</li>'+
-			'<li>item5]</li>'+
-		'</ul>';
+			'<ul>' +
+				'<li>[item1</li>' +
+				'<li><p>item2</p></li>' +
+				'<li>' +
+					'<ul>' +
+						'<li>item3</li>' +
+					'</ul>' +
+					'<ul>' +
+						'<li><p>item5</p></li>' +
+					'</ul>' +
+				'</li>' +
+				'<li>item5]</li>' +
+			'</ul>';
 
 		var output1 = source.replace( /\[|\]/g, '' );
 		var output2 =
-				'<ul>'+
-					'<li><p>item1</p></li>'+
-					'<li><p>item2</p></li>'+
-					'<li>'+
-						'<ul>'+
-							'<li><p>item3</p></li>'+
-						'</ul>'+
-						'<ul>'+
-							'<li><p>item5</p></li>'+
-						'</ul>'+
-					'</li>'+
-					'<li><p>item5</p></li>'+
-				'</ul>';
+			'<ul>' +
+				'<li><p>item1</p></li>' +
+				'<li><p>item2</p></li>' +
+				'<li>' +
+					'<ul>' +
+						'<li><p>item3</p></li>' +
+					'</ul>' +
+					'<ul>' +
+						'<li><p>item5</p></li>' +
+					'</ul>' +
+				'</li>' +
+				'<li><p>item5</p></li>' +
+			'</ul>';
 
 		checkRangeIteration( source, null,  [ 'li', 'p', 'li' , 'p', 'li' ], output1, 'Iteration should report paragraph or list item' );
 		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' , 'p', 'p' ], output2, 'Iteration should establish paragraph if not exists inside list item' );
