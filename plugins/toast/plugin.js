@@ -66,7 +66,7 @@ toast.prototype = {
 		toastElement = CKEDITOR.dom.element.createFromHtml(
 			'<div class="cke_toast ' + this.getClass() + '" id="' + this.id + '">' +
 				( progress ? this.createProgressElement().getOuterHtml() : '' ) +
-				'<p class="cke_toast_message">' + this.getDisplayMessage() + '</p>' +
+				'<p class="cke_toast_message">' + this.message + '</p>' +
 				'<a class="cke_toast_close" href="javascript:void(0)" title="Close" role="button" tabindex="-1">' +
 					'<span class="cke_label">X</span>' +
 				'</a>' +
@@ -260,14 +260,6 @@ toast.prototype = {
 		return element;
 	},
 
-	getDisplayMessage: function() {
-		if ( this.type == 'progress' ) {
-			return this.message +  ' ' + this.getPrecentageProgress() + '... ';
-		} else {
-			return this.message;
-		}
-	},
-
 	hide: function() {
 		var element = this.getElement();
 
@@ -315,7 +307,7 @@ toast.prototype = {
 			}
 
 			if ( messageElement ) {
-				messageElement.setHtml( this.getDisplayMessage() );
+				messageElement.setHtml( this.message );
 			}
 
 			if ( options.progress ) {
