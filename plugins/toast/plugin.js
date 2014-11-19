@@ -19,19 +19,21 @@ CKEDITOR.plugins.add( 'toast', {
 
 		editor.on( 'key', function( evt ) {
 			if ( evt.data.keyCode == 27 /* ESC */ ) {
-				var toastArea = editor.container.findOne( '.cke_toasts_area' );
+				var toastArea = editor.container.getDocument().getById( 'cke_toasts_area_' + editor.name );
 
 				if ( !toastArea ) {
 					return;
 				}
 
-				var lastToast = toastArea.getLast();
+				var element = toastArea.getLast();
 
-				if ( !lastToast ) {
+				if ( !element ) {
 					return;
 				}
 
-				lastToast.remove();
+				var toast = CKEDITOR.plugins.toast.getByElement( element );
+
+				toast.hide();
 
 				evt.cancel();
 			}
@@ -76,11 +78,13 @@ toast.prototype = {
 
 		this.toastArea.append( toastElement );
 
+		CKEDITOR.plugins.toast.repository[ this.id ] = this;
+
 		this.layout();
 	},
 
 	getToastArea: function() {
-		return this.editor.container.getDocument().findOne( '.cke_toasts_area_' + this.editor.name );
+		return this.editor.container.getDocument().getById( 'cke_toasts_area_' + this.editor.name );
 	},
 
 	createToastArea: function() {
@@ -89,7 +93,7 @@ toast.prototype = {
 			toastArea = new CKEDITOR.dom.element( 'div' );
 
 		toastArea.addClass( 'cke_toasts_area' );
-		toastArea.addClass( 'cke_toasts_area_' + editor.name );
+		toastArea.setAttribute( 'id', 'cke_toasts_area_' + editor.name );
 		toastArea.setStyle( 'z-index', config.baseFloatZIndex - 2 );
 
 		CKEDITOR.document.getBody().append( toastArea );
@@ -276,6 +280,8 @@ toast.prototype = {
 			this.toastArea.remove();
 			this.toastArea = null;
 		}
+
+		delete CKEDITOR.plugins.toast.repository[ this.id ];
 	},
 
 	update: function( options ) {
@@ -333,3 +339,8 @@ toast.prototype = {
 };
 
 CKEDITOR.plugins.toast = toast;
+CKEDITOR.plugins.toast.repository = {};
+
+CKEDITOR.plugins.toast.getByElement = function( element ) {
+	return CKEDITOR.plugins.toast.repository[ element.getId() ];
+};
