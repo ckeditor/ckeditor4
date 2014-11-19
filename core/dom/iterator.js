@@ -252,7 +252,7 @@
 				if ( includeNode )
 					range.setEndAt( currentNode, CKEDITOR.POSITION_AFTER_END );
 
-				currentNode = this.getNextSourceNode( currentNode, continueFromSibling, lastNode );
+				currentNode = this._getNextSourceNode( currentNode, continueFromSibling, lastNode );
 				isLast = !currentNode;
 
 				// We have found a block boundary. Let's close the range and move out of the
@@ -318,7 +318,7 @@
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : this.getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode  ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : this._getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode  ) );
 				}
 			}
 
@@ -345,7 +345,7 @@
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
 			if ( !this._.nextNode ) {
-				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : this.getNextSourceNode( block, 1, lastNode );
+				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : this._getNextSourceNode( block, 1, lastNode );
 			}
 
 			return block;
@@ -361,7 +361,7 @@
 		 * @param {CKEDITOR.dom.node} lastNode
 		 * @returns {CKEDITOR.dom.node}
 		 */
-		getNextSourceNode: function( node, startFromSibling, lastNode ) {
+		_getNextSourceNode: function( node, startFromSibling, lastNode ) {
 			var rootNode = this.range.root, next;
 
 			// Here we are checking in guard function whether current element
