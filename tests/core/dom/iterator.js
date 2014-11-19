@@ -85,7 +85,7 @@ bender.test( {
 			range = tools.setHtmlWithRange( sandbox, source, sandbox )[ 0 ],
 			p = range.root.findOne( 'p' ),
 			iter = range.createIterator(),
-			empty = iter.getNextSourceNode( p, 1, p.getLast() );
+			empty = iter._getNextSourceNode( p, 1, p.getLast() );
 
 		assert.isNull( empty );
 	},
