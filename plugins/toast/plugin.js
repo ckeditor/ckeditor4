@@ -134,9 +134,9 @@ toast.prototype = {
 		var toastArea = this.toastArea,
 			win = CKEDITOR.document.getWindow(),
 			editor = this.editor,
-			scrollPosition = win.getScrollPosition(),
+			scrollPos = win.getScrollPosition(),
 			contentsRect = editor.contents.getClientRect(),
-			contentsPosition = editor.contents.getDocumentPosition(),
+			contentsPos = editor.contents.getDocumentPosition(),
 			top = editor.ui.space( 'top' ),
 			topRect = top.getClientRect(),
 			toastAreaRect = toastArea.getClientRect(),
@@ -159,7 +159,7 @@ toast.prototype = {
 			setBelowToolbar();
 		} else if ( contentsRect.top > 0 ) {
 			setTopStandard();
-		} else if ( contentsPosition.y + contentsRect.height - toastAreaRect.height > scrollPosition.y ) {
+		} else if ( contentsPos.y + contentsRect.height - toastAreaRect.height > scrollPos.y ) {
 			setTopFixed();
 		} else {
 			setBottom();
@@ -167,7 +167,7 @@ toast.prototype = {
 
 		function setTopStandard() {
 			toastArea.setStyle( 'position', 'absolute' );
-			toastArea.setStyle( 'top', cssLength( contentsPosition.y ) );
+			toastArea.setStyle( 'top', cssLength( contentsPos.y ) );
 		}
 
 		function setBelowToolbar() {
@@ -182,24 +182,24 @@ toast.prototype = {
 
 		function setBottom() {
 			toastArea.setStyle( 'position', 'absolute' );
-			toastArea.setStyle( 'top', cssLength( contentsPosition.y + contentsRect.height - toastAreaRect.height ) );
+			toastArea.setStyle( 'top', cssLength( contentsPos.y + contentsRect.height - toastAreaRect.height ) );
 		}
 
 		// Vertical layout
-		var leftBase = toastArea.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPosition.x;
+		var leftBase = toastArea.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPos.x;
 
 		if ( contentsRect.width < toastWidth + toastMargin ) {
 			// Content is narrower than toast
-			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
+			if ( contentsPos.x + toastWidth + toastMargin > scrollPos.x + viewRect.width ) {
 				setRight();
 			} else {
 				setLeft();
 			}
 		} else {
 			// Content is wider than toast
-			if ( contentsPosition.x + toastWidth + toastMargin > scrollPosition.x + viewRect.width ) {
+			if ( contentsPos.x + toastWidth + toastMargin > scrollPos.x + viewRect.width ) {
 				setLeft();
-			} else if ( contentsPosition.x + contentsRect.width / 2 + toastWidth / 2 + toastMargin > scrollPosition.x + viewRect.width ) {
+			} else if ( contentsPos.x + contentsRect.width / 2 + toastWidth / 2 + toastMargin > scrollPos.x + viewRect.width ) {
 				setRightFixed();
 			} else if ( contentsRect.left + contentsRect.width - toastWidth - toastMargin < 0 ) {
 				setRight();
@@ -215,7 +215,7 @@ toast.prototype = {
 		}
 
 		function setLeftFixed() {
-			toastArea.setStyle( 'left', cssLength( leftBase - contentsPosition.x + scrollPosition.x ) );
+			toastArea.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x ) );
 		}
 
 		function setCenter() {
@@ -227,7 +227,7 @@ toast.prototype = {
 		}
 
 		function setRightFixed() {
-			toastArea.setStyle( 'left', cssLength( leftBase - contentsPosition.x + scrollPosition.x + viewRect.width - toastWidth - toastMargin ) );
+			toastArea.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x + viewRect.width - toastWidth - toastMargin ) );
 		}
 	},
 
