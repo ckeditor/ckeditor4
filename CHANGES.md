@@ -10,6 +10,7 @@ New Features:
 Fixed Issues:
 
 * [#12506](http://dev.ckeditor.com/ticket/12506): [Safari] Fixed: Can't paste into inline editor if page has `user-select: none` style. Thanks to [shaohua](https://github.com/shaohua)!
+* [#12683](http://dev.ckeditor.com/ticket/12683): Fixed: [Filter](http://docs.ckeditor.com/#!/guide/dev_acf) fails to remove custom tags. Thanks to [timselier](https://github.com/timselier)!
 * [#12489](http://dev.ckeditor.com/ticket/12423) and [#12491](http://dev.ckeditor.com/ticket/12423): Fixed: Various issues related to restoring selection after making operations on filler char. See the [fixed cases](http://dev.ckeditor.com/ticket/12491#comment:4).
 * [#12621](http://dev.ckeditor.com/ticket/12621): Fixed: Cannot remove inline styles (bold, italic, etc.) in empty lines.
 * [#12630](http://dev.ckeditor.com/ticket/12630): [Chrome] Fixed: Selection is placed outside paragraph when clicked the New Page button. This patch significantly simplified the way how the initial selection (a selection after contents of the editable is overwritten) is being fixed. That might have fixed many related scenarios on all browsers.

@@ -861,6 +861,15 @@
 				// Make sure we reset the enter mode even if test fails.
 				editors.themed.setActiveEnterMode( null );
 			}
+		},
+
+		'test filtering custom tags': function() {
+			var filter = createFilter( 'p bar' );
+
+			filter( '<p><bar>bar</bar></p>',						'<p><bar>bar</bar></p>' );
+			filter( '<bar><foo>bar</foo></bar>',					'<bar>bar</bar>' );
+			// #12683
+			filter( '<bar><h1>bar</h1></bar>',						'<p>bar</p>' );
 		}
 	};
 } )();
