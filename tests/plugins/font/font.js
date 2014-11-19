@@ -122,6 +122,38 @@
 			} );
 		},
 
+		'test apply font size over another font size (deeply nested text selection)': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>f{o}o</em></span>x</p>' );
+			bot.combo( 'FontSize', function( combo ) {
+				combo.onClick( 24 );
+				assert.isInnerHtmlMatching(
+					'<p>x<span style="font-size:48px"><em>f</em></span><span style="font-size:24px"><em>o</em></span><span style="font-size:48px"><em>o</em></span>x@</p>',
+					editor.editable().getHtml(), htmlMatchingOpts );
+			} );
+		},
+
+		'test apply font size over another font size (deeply nested collapsed selection)': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>f<u class="y">{}o</u>o</em></span>x</p>' );
+			bot.combo( 'FontSize', function( combo ) {
+				combo.onClick( 24 );
+
+				this.wait( function() {
+					editor.getSelection().getRanges()[ 0 ].insertNode( new CKEDITOR.dom.text( 'bar', editor.document ) );
+					assert.isInnerHtmlMatching(
+						'<p>x<span style="font-size:48px"><em>f</em></span>' +
+						'<em><u class="y"><span style="font-size:24px">bar</span></u></em>' +
+						'<span style="font-size:48px"><em><u class="y">o</u>o</em></span>x@</p>',
+						editor.editable().getHtml(), htmlMatchingOpts );
+				}, 0 );
+			} );
+		},
+
 		'test apply font size over font family (check possible false positive match)': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
