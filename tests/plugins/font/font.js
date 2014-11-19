@@ -3,7 +3,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			extraAllowedContent: 'em u(*)'
+		}
+	};
 
 	var htmlMatchingOpts = {
 			fixStyles: true
@@ -144,7 +148,7 @@
 				combo.onClick( 24 );
 
 				this.wait( function() {
-					editor.getSelection().getRanges()[ 0 ].insertNode( new CKEDITOR.dom.text( 'bar', editor.document ) );
+					editor.insertText( 'bar' );
 					assert.isInnerHtmlMatching(
 						'<p>x<span style="font-size:48px"><em>f</em></span>' +
 						'<em><u class="y"><span style="font-size:24px">bar</span></u></em>' +
