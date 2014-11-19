@@ -98,13 +98,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	display: none;
 }
 
-.cke_toast_warning a.close
+.cke_toast_warning a.cke_toast_close
 {
 	opacity: 0.8;
 	filter: alpha(opacity = 80);
 }
 
-.cke_toast_warning a.close:hover
+.cke_toast_warning a.cke_toast_close:hover
 {
 	opacity: 1;
 	filter: alpha(opacity = 100);
