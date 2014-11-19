@@ -115,7 +115,9 @@ toast.prototype = {
 
 		editor.on( 'destroy', function() {
 			toast.detachListeners();
-			toast.toastArea.remove();
+			if ( toast.toastArea ) {
+				toast.toastArea.remove();
+			}
 		} );
 	},
 
@@ -267,6 +269,12 @@ toast.prototype = {
 
 		if ( element ) {
 			element.remove();
+		}
+
+		if ( this.toastArea && !this.toastArea.getChildCount() ) {
+			this.detachListeners();
+			this.toastArea.remove();
+			this.toastArea = null;
 		}
 	},
 
