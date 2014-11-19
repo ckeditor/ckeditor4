@@ -460,9 +460,9 @@ CKEDITOR.dom.range = function( root ) {
 		clone: function() {
 			var clone = new CKEDITOR.dom.range( this.root );
 
-			clone.startContainer = this.startContainer;
+			clone._setStartContainer( this.startContainer );
 			clone.startOffset = this.startOffset;
-			clone.endContainer = this.endContainer;
+			clone._setEndContainer( this.endContainer );
 			clone.endOffset = this.endOffset;
 			clone.collapsed = this.collapsed;
 
@@ -477,10 +477,10 @@ CKEDITOR.dom.range = function( root ) {
 		 */
 		collapse: function( toStart ) {
 			if ( toStart ) {
-				this.endContainer = this.startContainer;
+				this._setEndContainer( this.startContainer );
 				this.endOffset = this.startOffset;
 			} else {
-				this.setStartContainer( this.endContainer );
+				this._setStartContainer( this.endContainer );
 				this.startOffset = this.endOffset;
 			}
 
@@ -1693,11 +1693,11 @@ CKEDITOR.dom.range = function( root ) {
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ startNode.getName() ] )
 				startOffset = startNode.getIndex(), startNode = startNode.getParent();
 
-			this.setStartContainer( startNode );
+			this._setStartContainer( startNode );
 			this.startOffset = startOffset;
 
 			if ( !this.endContainer ) {
-				this.endContainer = startNode;
+				this._setEndContainer( startNode );
 				this.endOffset = startOffset;
 			}
 
@@ -1722,11 +1722,11 @@ CKEDITOR.dom.range = function( root ) {
 			if ( endNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ endNode.getName() ] )
 				endOffset = endNode.getIndex() + 1, endNode = endNode.getParent();
 
-			this.endContainer = endNode;
+			this._setEndContainer( endNode );
 			this.endOffset = endOffset;
 
 			if ( !this.startContainer ) {
-				this.setStartContainer( endNode );
+				this._setStartContainer( endNode );
 				this.startOffset = endOffset;
 			}
 
@@ -2525,16 +2525,38 @@ CKEDITOR.dom.range = function( root ) {
 		 * @private
 		 * @param startContainer {CKEDITOR.dom.element}
 		 */
-		setStartContainer: function( startContainer ) {
-			var that = this,// %REMOVE_LINE%
-				isRootAscendantOrSelf = !!startContainer.getAscendant( function( el ) {// %REMOVE_LINE%
-					return that.root.$ == el.$;// %REMOVE_LINE%
-				}, true );// %REMOVE_LINE%
+		_setStartContainer: function( startContainer ) {
+			// %REMOVE_START%
+			var that = this,
+				isRootAscendantOrSelf = !!startContainer.getAscendant( function( el ) {
+					return that.root.$ == el.$;
+				}, true );
 
-			if ( !isRootAscendantOrSelf ) {// %REMOVE_LINE%
-				console && console.log && console.log( 'Element', startContainer, ' is not a descendant of root', this.root );// %REMOVE_LINE%
-			}// %REMOVE_LINE%
+			if ( !isRootAscendantOrSelf ) {
+				console && console.log && console.log( 'Element', startContainer, ' is not a descendant of root', this.root );
+			}
+			// %REMOVE_END%
 			this.startContainer = startContainer;
+		},
+
+		/**
+		 * Setter method for end container.
+		 *
+		 * @private
+		 * @param endContainer {CKEDITOR.dom.element}
+		 */
+		_setEndContainer: function( endContainer ) {
+			// %REMOVE_START%
+			var that = this,
+				isRootAscendantOrSelf = !!endContainer.getAscendant( function( el ) {
+					return that.root.$ == el.$;
+				}, true );
+
+			if ( !isRootAscendantOrSelf ) {
+				console && console.log && console.log( 'Element', endContainer, ' is not a descendant of root', this.root );
+			}
+			// %REMOVE_END%
+			this.endContainer = endContainer;
 		}
 	};
 } )();
