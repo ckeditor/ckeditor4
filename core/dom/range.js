@@ -2528,13 +2528,10 @@ CKEDITOR.dom.range = function( root ) {
 		 */
 		_setStartContainer: function( startContainer ) {
 			// %REMOVE_START%
-			var that = this,
-				isRootAscendantOrSelf = !!startContainer.getAscendant( function( el ) {
-					return that.root.$ == el.$;
-				}, true );
+			var isRootAscendantOrSelf = this.root.equals( startContainer ) || this.root.contains( startContainer );
 
 			if ( !isRootAscendantOrSelf ) {
-				console && console.log && console.log( 'Element', startContainer, ' is not a descendant of root', this.root );
+				window.console && console.log && console.log( 'Element', startContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
 			}
 			// %REMOVE_END%
 			this.startContainer = startContainer;
@@ -2549,13 +2546,10 @@ CKEDITOR.dom.range = function( root ) {
 		 */
 		_setEndContainer: function( endContainer ) {
 			// %REMOVE_START%
-			var that = this,
-				isRootAscendantOrSelf = !!endContainer.getAscendant( function( el ) {
-					return that.root.$ == el.$;
-				}, true );
+			var isRootAscendantOrSelf = this.root.equals( endContainer ) || this.root.contains( endContainer );
 
 			if ( !isRootAscendantOrSelf ) {
-				console && console.log && console.log( 'Element', endContainer, ' is not a descendant of root', this.root );
+				window.console && console.log && console.log( 'Element', endContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
 			}
 			// %REMOVE_END%
 			this.endContainer = endContainer;
