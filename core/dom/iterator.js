@@ -34,7 +34,15 @@
 		if ( arguments.length < 1 )
 			return;
 
+		/**
+		 * @readonly
+		 * @property {CKEDITOR.dom.range}
+		 */
 		this.range = range;
+
+		/**
+		 * @property {Boolean} [forceBrBreak=false]
+		 */
 		this.forceBrBreak = 0;
 
 		// (#3730).
@@ -352,7 +360,8 @@
 		},
 
 		/**
-		 * Gets a reference for the next element, bookmark nodes are skipped.
+		 * Gets the next element to check or `null` when reached the `lastNode` or the
+		 * {@link #range}'s {@link CKEDITOR.dom.range#root root}. Bookmarks are skipped.
 		 *
 		 * @since 4.4.6
 		 * @private
@@ -362,7 +371,8 @@
 		 * @returns {CKEDITOR.dom.node}
 		 */
 		_getNextSourceNode: function( node, startFromSibling, lastNode ) {
-			var rootNode = this.range.root, next;
+			var rootNode = this.range.root,
+				next;
 
 			// Here we are checking in guard function whether current element
 			// reach lastNode(default behaviour) and root node to prevent against

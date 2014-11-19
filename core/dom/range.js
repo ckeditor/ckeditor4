@@ -2520,11 +2520,11 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Setter method for start container.
+		 * Setter for the {@link #startContainer}.
 		 *
 		 * @since 4.4.6
 		 * @private
-		 * @param startContainer {CKEDITOR.dom.element}
+		 * @param {CKEDITOR.dom.element} startContainer
 		 */
 		_setStartContainer: function( startContainer ) {
 			// %REMOVE_START%
@@ -2538,11 +2538,11 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Setter method for end container.
+		 * Setter for the {@link #endContainer}.
 		 *
 		 * @since 4.4.6
 		 * @private
-		 * @param endContainer {CKEDITOR.dom.element}
+		 * @param {CKEDITOR.dom.element} endContainer
 		 */
 		_setEndContainer: function( endContainer ) {
 			// %REMOVE_START%
