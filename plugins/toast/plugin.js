@@ -51,6 +51,10 @@ function toast( editor, options ) {
 
 toast.prototype = {
 	show: function() {
+		if ( this.editor.fire( 'toastShow', { toast: this } ) === false ) {
+			return;
+		}
+
 		var toast = this,
 			progress = this.getPrecentageProgress(),
 			toastElement;
@@ -261,6 +265,10 @@ toast.prototype = {
 	},
 
 	hide: function() {
+		if ( this.editor.fire( 'toastHide', { toast: this } ) === false ) {
+			return;
+		}
+
 		var element = this.getElement();
 
 		if ( element ) {
@@ -277,6 +285,10 @@ toast.prototype = {
 	},
 
 	update: function( options ) {
+		if ( this.editor.fire( 'toastUpdate', { toast: this, options: options } ) === false ) {
+			return;
+		}
+
 		var element = this.getElement(),
 			messageElement, progressElement;
 

@@ -86,6 +86,16 @@ progress.update( { type: 'success', message: 'Done!', important: true } );
 			function showInfo() {
 				editor.makeToast( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante  <a href=\"http://test/\">mae</a> convallis.', 'info' );
 			}
+
+			editor.on( 'toastShow', function( evt ) {
+				console.log( evt );
+			} );
+			editor.on( 'toastUpdate', function( evt ) {
+				console.log( evt );
+			} );
+			editor.on( 'toastHide', function( evt ) {
+				console.log( evt );
+			} );
 		</script>
 		<p>
 			<input onclick="showWarning();" type="button" value="Show warning toast">
