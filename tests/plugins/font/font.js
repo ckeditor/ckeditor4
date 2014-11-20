@@ -69,6 +69,23 @@
 			} );
 		},
 
+		'test apply font size over another font size (collapsed selection in empty span)': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>[]</em></span>x</p>' );
+			bot.combo( 'FontSize', function( combo ) {
+				combo.onClick( 24 );
+
+				this.wait( function() {
+					// We lose (dunno where) the empty span on IE8, so let's insert something.
+					editor.insertText( 'bar' );
+					assert.isInnerHtmlMatching( '<p>x<em><span style="font-size:24px">bar</span></em>x@</p>', editor.editable().getHtml(), htmlMatchingOpts );
+					assert.areSame( 1, editor.editable().find( 'span' ).count(), 'there is only one span in the editable' );
+				}, 0 );
+			} );
+		},
+
 		'test apply font size over another font size (collapsed selection at the existing span boundary)': function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
