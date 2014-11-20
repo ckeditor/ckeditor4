@@ -4,7 +4,8 @@
 bender.editor = {
 	config: {
 		enterMode: CKEDITOR.ENTER_P,
-		allowedContent: true // Disable filter.
+		allowedContent: true, // Disable filter.
+		removePlugins: 'indentblock' // For the build mode.
 	}
 };
 
