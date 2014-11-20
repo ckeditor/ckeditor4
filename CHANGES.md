@@ -22,6 +22,7 @@ Fixed Issues:
 * [#12515](http://dev.ckeditor.com/ticket/12515): Fixed: Cursor is in the wrong position when undoing after adding image and typing some text.
 * [#12484](http://dev.ckeditor.com/ticket/12484): [Blink/Webkit] Fixed: DOM is changed outside the editor area in certain case.
 * [#12688](http://dev.ckeditor.com/ticket/12688): Improved the tests of the [styles system](http://docs.ckeditor.com/#!/api/CKEDITOR.style) and fixed two minor issues.
+* [#12403](http://dev.ckeditor.com/ticket/12403): Fixed: Changing the font style should not lead to nesting it in the previous style element.
 
 Other Changes:
 
