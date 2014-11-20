@@ -78,10 +78,27 @@
 							} );
 
 						if ( matching ) {
+							var startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START ),
+								endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END ),
+								node, bm;
+
+							// If we are at both boundaries it means that the element is empty.
+							// Remove it but in a way that we won't lose other empty inline elements inside it.
+							// Example: <p>x<span style="font-size:48px"><em>[]</em></span>x</p>
+							// Result: <p>x<em>[]</em>x</p>
+							if ( startBoundary && endBoundary ) {
+								bm = range.createBookmark();
+								// Replace the element with its children (TODO element.replaceWithChildren).
+								while ( ( node = matching.getFirst() ) ) {
+									node.insertBefore( matching );
+								}
+								matching.remove();
+								range.moveToBookmark( bm );
+
 							// If we are at the boundary of the style element, just move out.
-							if ( range.checkBoundaryOfElement( matching, CKEDITOR.START ) ) {
+							} else if ( startBoundary ) {
 								range.moveToPosition( matching, CKEDITOR.POSITION_BEFORE_START );
-							} else if ( range.checkBoundaryOfElement( matching, CKEDITOR.END ) ) {
+							} else if ( endBoundary ) {
 								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
 							} else {
 								// Split the element and clone the elements that were in the path
