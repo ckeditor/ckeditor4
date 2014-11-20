@@ -100,6 +100,16 @@
 			} );
 		},
 
+		// #12690
+		'test setSelection - in empty inline element': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p>x<span style="font-size:48px"><strong>[]</strong></span>x</p>' );
+
+			var sel = editor.getSelection();
+			assert.areSame( 'strong', sel.getStartElement().getName() );
+		},
+
 		'test getSelection - element': function() {
 			var editor = this.editor,
 				htmlWithRange = '<p>[x]</p>';

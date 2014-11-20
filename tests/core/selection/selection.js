@@ -229,6 +229,23 @@ bender.test( {
 			'the selection was located after the strong element' );
 	},
 
+	// #12690
+	'test selectRanges - inside empty inline element': function() {
+		var editor = this.editor,
+			range = editor.createRange();
+
+		editor.editable().setHtml( '<p>x<span style="font-size:48px"><strong id="target"></strong></span>x</p>' );
+
+		var strong = editor.document.getById( 'target' );
+		range.setStart( strong, 0 );
+		range.collapse( true );
+
+		editor.getSelection().selectRanges( [ range ] );
+
+		var sel = editor.getSelection();
+		assert.isTrue( strong.equals( sel.getStartElement() ) );
+	},
+
 	'test getSelectedElement': function() {
 		testSelectedElement( '[<img />]', 'img' );
 		testSelectedElement( '[<hr />]', 'hr' );

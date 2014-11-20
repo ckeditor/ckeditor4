@@ -85,7 +85,11 @@ var config = {
 				'tests/plugins/magicline/widgets#test commands[previous], first block in nested': 'env.gecko',
 				'tests/plugins/magicline/widgets#test commands[next], block after block in nested': 'env.gecko',
 				'tests/plugins/magicline/widgets#test commands[previous], block before block in nested': 'env.gecko',
-				'tests/plugins/magicline/widgets#test commands[next], last block in nested': 'env.gecko'
+				'tests/plugins/magicline/widgets#test commands[next], last block in nested': 'env.gecko',
+
+				// Safari (#12690)
+				'tests/plugins/font/font#test apply font size over another font size (collapsed selection in empty span)': 'env.safari',
+				'tests/plugins/font/font#test apply font size over another font size (deeply nested collapsed selection)': 'env.safari'
 			}
 		},
 
@@ -117,7 +121,11 @@ var config = {
 			paths: [
 				'utils/**',
 				'!**/_*/**'
-			]
+			],
+			regressions: {
+				// Safari (#12690)
+				'tests/utils/selection/setgetwithhtml#test setSelection - in empty inline element': 'env.safari'
+			}
 		}
 	}
 };
