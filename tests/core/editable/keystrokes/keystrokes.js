@@ -1,17 +1,16 @@
 /* bender-tags: editor,unit */
 
-bender.editor =
-{
-	config : {
-		autoParagraph : false,
-		allowedContent : true // Disable filter.
+bender.editor = {
+	config: {
+		autoParagraph: false,
+		allowedContent: true
 	}
 };
 
-var DEL = 46, BACKSPACE = 8;
+var DEL = 46,
+	BACKSPACE = 8;
 
-bender.test(
-{
+bender.test( {
 	assertKeystroke: function( key, keyModifiers, input, output, msg ) {
 		var ed = this.editor, bot = this.editorBot;
 
@@ -28,7 +27,7 @@ bender.test(
 		ed.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 			keyCode: key,
 			ctrlKey: keyModifiers & CKEDITOR.CTRL,
-			shiftKey: keyModifiers & CKEDITOR.SHIFT,
+			shiftKey: keyModifiers & CKEDITOR.SHIFT
 		} ) );
 
 		// Assert Key blocked.
@@ -41,7 +40,7 @@ bender.test(
 		assert.areSame( output, bender.tools.getHtmlWithSelection( ed ), msg );
 	},
 
-	'test handle del/backspace at the boundary of table cell' : function() {
+	'test handle del/backspace at the boundary of table cell': function() {
 		this.assertKeystroke( DEL, 0,
 		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>' ,
 		'<table><tbody><tr><td>foo^</td><td>bar</td></tr></tbody></table>', 'del doesn\'t change the selection' );
@@ -74,7 +73,7 @@ bender.test(
 		'<table><tbody><tr><td>foo</td><td>^bar</td></tr></tbody></table>', 'backspace del doesn\'t change the selection - CTRL' );
 	},
 
-	'test handle del with full table content selected' : function() {
+	'test handle del with full table content selected': function() {
 		// Table cell text selected.
 		this.assertKeystroke( DEL, 0,
 		'<table><tbody><tr><td>[foo]</td></tr></tbody></table>' ,
@@ -109,7 +108,7 @@ bender.test(
 		'^', 'table a1 - CTRL' );
 	},
 
-	'test handle del with full list content selected' : function() {
+	'test handle del with full list content selected': function() {
 		// List item text selected.
 		this.assertKeystroke( DEL, 0, '<ul><li>[foo]</li></ul>' , '^', 'list a1' );
 		this.assertKeystroke( DEL, 0, '<ul><li>[foo</li><li>bar]</li></ul>' , '^', 'list a2' );
@@ -128,7 +127,7 @@ bender.test(
 	},
 
 	// #10646
-	'test handle del with full nested list content selected' : function() {
+	'test handle del with full nested list content selected': function() {
 		// A content in a parent list: before selected.
 		this.assertKeystroke( DEL, 0, '<ul><li>x<ul><li>[foo]</li></ul></li></ul>', '<ul><li>x^</li></ul>', 'list 1' );
 

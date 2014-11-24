@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,insertion */
+/* global insertionDT */
 
 ( function() {
 	'use strict';

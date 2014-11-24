@@ -1,11 +1,12 @@
 /* bender-tags: editor,unit,insertion */
+/* global insertionDT */
 
 ( function() {
 	'use strict';
 
 	insertionDT.run( {
-		autoParagraph : false,
-		allowedContent : true // Disable filter.
+		autoParagraph: false,
+		allowedContent: true
 	}, {
 		// Rules:
 		// 1. If text is being inserted into selection for which toolbar may indicate
@@ -103,7 +104,7 @@
 		// text -> text
 		//
 
-		'G1. text into text' : function() {
+		'G1. text into text': function() {
 			// Assertions names:
 			// b[egin] e[nd] m[iddle]
 			// n[ot]e[mpty] e[mpty]
@@ -125,7 +126,7 @@
 			a( 'f[o]o',			'f^o',															'mne 2' );
 		},
 
-		'G1. spaces into text' : function() {
+		'G1. spaces into text': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a.insertion = '&nbsp;';
@@ -157,7 +158,7 @@
 		// text -> inline elements
 		//
 
-		'G2. text next to inline element' : function() {
+		'G2. text next to inline element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( '^<br />foo',				'bam^<br />foo',									'before br' );
@@ -170,117 +171,117 @@
 			a( '[foo<span><b>]bar</b></span>baz',	'bam^<span><b>bar</b></span>baz',			'before nested' );
 
 			// Rule 1.
-			a( '[<b>]a</b>',	{ html : 'bam^<b>a</b>', text : '<b>bam^a</b>' },				'before b 2' );
-			a( '<b>a[</b>]',	{ html : '<b>a</b>bam^', text : '<b>abam^</b>' },				'after b 2' );
-			a( '<a href="#">a[</a>]',	{ html : '<a href="#">a</a>bam^', text : '<a href="#">abam^</a>' },				'after a 1' );
+			a( '[<b>]a</b>',	{ html: 'bam^<b>a</b>', text: '<b>bam^a</b>' },					'before b 2' );
+			a( '<b>a[</b>]',	{ html: '<b>a</b>bam^', text: '<b>abam^</b>' },					'after b 2' );
+			a( '<a href="#">a[</a>]',	{ html: '<a href="#">a</a>bam^', text: '<a href="#">abam^</a>' },				'after a 1' );
 			a( 'foo<span><b>bar[</b></span>baz]',
-				{	html : 'foo<span><b>bar</b></span>bam^',
-					text : 'foo<span><b>barbam^</b></span>' },									'after nested 1' );
+				{	html: 'foo<span><b>bar</b></span>bam^',
+					text: 'foo<span><b>barbam^</b></span>' },									'after nested 1' );
 			a( 'foo<span><b>bar</b>[</span>baz]',
-				{	html : 'foo<span><b>bar</b></span>bam^',
-					text : 'foo<span><b>bar</b>bam^</span>' },									'after nested 2' );
+				{	html: 'foo<span><b>bar</b></span>bam^',
+					text: 'foo<span><b>bar</b>bam^</span>' },									'after nested 2' );
 		},
 
-		'G2. text into inline element' : function() {
+		'G2. text into inline element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1.
 			a( 'foo<span>^bar</span>baz',
-				{	html : 'foobam^<span>bar</span>baz',
-					text : 'foo<span>bam^bar</span>baz' },										'beginning 1' );
+				{	html: 'foobam^<span>bar</span>baz',
+					text: 'foo<span>bam^bar</span>baz' },										'beginning 1' );
 			a( 'foo<span>bar^</span>baz',
-				{	html : 'foo<span>bar</span>bam^baz',
-					text : 'foo<span>barbam^</span>baz' },										'end 1' );
+				{	html: 'foo<span>bar</span>bam^baz',
+					text: 'foo<span>barbam^</span>baz' },										'end 1' );
 			a( 'foo<u>x[y]z</u>baz',
-				{	html : 'foo<u>x</u>bam^<u>z</u>baz',
-					text : 'foo<u>xbam^z</u>baz' },												'middle' );
+				{	html: 'foo<u>x</u>bam^<u>z</u>baz',
+					text: 'foo<u>xbam^z</u>baz' },												'middle' );
 			// See more tests for splitting in special TC.
 			a( 'foo<u>x<b>[y]</b>z</u>baz',
-				{	html : 'foo<u>x</u>bam^<u>z</u>baz',
-					text : 'foo<u>x<b>bam^</b>z</u>baz' },										'middle 2' );
+				{	html: 'foo<u>x</u>bam^<u>z</u>baz',
+					text: 'foo<u>x<b>bam^</b>z</u>baz' },										'middle 2' );
 			a( 'x[<span>a]b</span>x',
-				{	html : 'xbam^<span>b</span>x',
-					text : 'x<span>bam^b</span>x' },											'beginning 2' );
+				{	html: 'xbam^<span>b</span>x',
+					text: 'x<span>bam^b</span>x' },												'beginning 2' );
 			a( 'x<span>a[b</span>]x',
-				{	html : 'x<span>a</span>bam^x',
-					text : 'x<span>abam^</span>x' },											'end 2' );
+				{	html: 'x<span>a</span>bam^x',
+					text: 'x<span>abam^</span>x' },												'end 2' );
 		},
 
-		'G2. text into selection containing entire inline element' : function() {
+		'G2. text into selection containing entire inline element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( '[<br />]',					'bam^',												'replace 1' );
 
 			// Rule 1.
-			a( 'x[<b>bar</b>]y',			{	html : 'xbam^y',
-												text : 'x<b>bam^</b>y' },						'inside 1' );
-			a( 'x<b>[bar</b>]y',			{	html : 'xbam^y',
-												text : 'x<b>bam^</b>y' },						'inside 2' );
-			a( 'x[<b>bar]</b>y',			{	html : 'xbam^y',
-												text : 'x<b>bam^</b>y' },						'inside 3' );
-			a( 'x<b>[bar]</b>y',			{	html : 'xbam^y',
-												text : 'x<b>bam^</b>y' },						'inside 4' );
+			a( 'x[<b>bar</b>]y',			{	html: 'xbam^y',
+												text: 'x<b>bam^</b>y' },						'inside 1' );
+			a( 'x<b>[bar</b>]y',			{	html: 'xbam^y',
+												text: 'x<b>bam^</b>y' },						'inside 2' );
+			a( 'x[<b>bar]</b>y',			{	html: 'xbam^y',
+												text: 'x<b>bam^</b>y' },						'inside 3' );
+			a( 'x<b>[bar]</b>y',			{	html: 'xbam^y',
+												text: 'x<b>bam^</b>y' },						'inside 4' );
 		},
 
-		'G2. text into selection containing inline element (part of or entire) and text outside this element' : function() {
+		'G2. text into selection containing inline element (part of or entire) and text outside this element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
-			a( '[foo<span>bar]</span>baz',	'bam^baz', 											'remove 1' );
-			a( '[foo<span>xyz</span>]baz',	'bam^baz', 											'remove 2' );
+			a( '[foo<span>bar]</span>baz',	'bam^baz',											'remove 1' );
+			a( '[foo<span>xyz</span>]baz',	'bam^baz',											'remove 2' );
 			a( '[foo<span>x]yz</span>baz',	'bam^<span>yz</span>baz',							'trim 1' );
 
 			// Rule 1. (+ note 1.)
 			a( 'foo[<span>xyz</span>baz]',
-				{	html : 'foobam^',
-					text : 'foo<span>bam^</span>' }, 											'inside 1' );
+				{	html: 'foobam^',
+					text: 'foo<span>bam^</span>' },												'inside 1' );
 			a( 'foo<span>xy[z</span>baz]',
-				{	html : 'foo<span>xy</span>bam^',
-					text : 'foo<span>xybam^</span>' }, 											'inside 2' );
+				{	html: 'foo<span>xy</span>bam^',
+					text: 'foo<span>xybam^</span>' },											'inside 2' );
 		},
 
-		'G2. text into selection containing entire inline elements' : function() {
+		'G2. text into selection containing entire inline elements': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1. (+ note 1.)
 			a( 'foo<b>[bar</b><b>bom]</b>baz',
-				{	html : 'foobam^baz',
-					text : 'foo<b>bam^</b>baz' },												'inside 1' );
+				{	html: 'foobam^baz',
+					text: 'foo<b>bam^</b>baz' },												'inside 1' );
 			a( 'foo[<b>bar</b><b>bom</b>]baz',
-				{	html : 'foobam^baz',
-					text : 'foo<b>bam^</b>baz' },												'inside 2' );
+				{	html: 'foobam^baz',
+					text: 'foo<b>bam^</b>baz' },												'inside 2' );
 			a( 'foo<b>[bar</b> <span>cke</span><br />\n\t <b>bom]</b>baz',
-				{	html : 'foobam^baz',
-					text : 'foo<b>bam^</b>baz' },												'inside 3' );
+				{	html: 'foobam^baz',
+					text: 'foo<b>bam^</b>baz' },												'inside 3' );
 			a( 'foo[<b>bar</b><b>baz</b>bim]bom',
-				{	html : 'foobam^bom',
-					text : 'foo<b>bam^</b>bom' },												'inside 4' );
+				{	html: 'foobam^bom',
+					text: 'foo<b>bam^</b>bom' },												'inside 4' );
 
 			// Different endings - only startContainer matters.
 			a( 'foo[<i><u>b</u>im</i><b>bar</b><b>bom]</b>baz',
-				{	html : 'foobam^baz',
-					text : 'foo<i><u>bam^</u></i>baz' },										'inside 5' );
+				{	html: 'foobam^baz',
+					text: 'foo<i><u>bam^</u></i>baz' },											'inside 5' );
 
 			a(	'foo[bim<b>bar</b><b>bom]</b>baz',		'foobam^baz',							'outside 1' );
 		},
 
-		'G2. text into not entirely selected inline elements' : function() {
+		'G2. text into not entirely selected inline elements': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			// Rule 1. (+ note 1.)
 			a( 'foo<u>b[ar</u> <u>baz]</u>baz',
-				{	html : 'foo<u>b</u>bam^baz',
-					text : 'foo<u>bbam^</u>baz' },												'inside 1' );
+				{	html: 'foo<u>b</u>bam^baz',
+					text: 'foo<u>bbam^</u>baz' },												'inside 1' );
 			a( 'foo<u>b[ar</u> <i>ba]z</i>baz',
-				{	html : 'foo<u>b</u>bam^<i>z</i>baz',
-					text : 'foo<u>bbam^</u><i>z</i>baz' },										'inside 2' );
+				{	html: 'foo<u>b</u>bam^<i>z</i>baz',
+					text: 'foo<u>bbam^</u><i>z</i>baz' },										'inside 2' );
 			// Rule 2.
 			// See more tests for merging in special TC.
 			a( 'foo<u>b[ar</u> <u>ba]z</u>baz',
-				{	html : 'foo<u>b</u>bam^<u>z</u>baz',
-					text : 'foo<u>bbam^z</u>baz' },												'inside 3' );
+				{	html: 'foo<u>b</u>bam^<u>z</u>baz',
+					text: 'foo<u>bbam^z</u>baz' },												'inside 3' );
 		},
 
-		'G2. text between inline elements' : function() {
+		'G2. text between inline elements': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'x<b>a</b>^<b>c</b>y',			'x<b>a</b>bam^<b>c</b>y',						'between 1' );
@@ -290,13 +291,13 @@
 
 			// Rule 1.
 			a( 'x<b>a</b>[<u>d</u>]<b>c</b>y',
-				{	html : 'x<b>a</b>bam^<b>c</b>y',
-					text : 'x<b>a</b><u>bam^</u><b>c</b>y' },									'between 5' );
+				{	html: 'x<b>a</b>bam^<b>c</b>y',
+					text: 'x<b>a</b><u>bam^</u><b>c</b>y' },									'between 5' );
 			// Rule 2.
 			// See more tests for merging in special TC.
 			a( 'x<b>a[</b>def]<b>c</b>y',
-				{	html : 'x<b>a</b>bam^<b>c</b>y',
-					text : 'x<b>abam^c</b>y' },													'between 6' );
+				{	html: 'x<b>a</b>bam^<b>c</b>y',
+					text: 'x<b>abam^c</b>y' },													'between 6' );
 		},
 
 		//
@@ -304,7 +305,7 @@
 		// text -> block elements
 		//
 
-		'G3. text into block element' : function() {
+		'G3. text into block element': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '<p>^</p>',						'<p>bam^</p>',									'into 1' );
@@ -315,10 +316,10 @@
 			a( 'x<p><b>foo</b>^</p>x',			'x<p><b>foo</b>bam^</p>x',						'into 5' );
 			a( 'x<p>^<b>foo</b></p>x',			'x<p>bam^<b>foo</b></p>x',						'into 6' );
 			a( 'x<p>[<b>foo</b>]</p>x',
-				{ html : 'x<p>bam^</p>x', text : 'x<p><b>bam^</b></p>x' },						'into 7' );
+				{ html: 'x<p>bam^</p>x', text: 'x<p><b>bam^</b></p>x' },						'into 7' );
 		},
 
-		'G3. text next to block element' : function() {
+		'G3. text next to block element': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '^<p>x</p>',				'bam^<p>x</p>',											'before p' );
@@ -329,7 +330,7 @@
 		},
 
 		// Rule 4.
-		'G3. text into block element + line break' : function() {
+		'G3. text into block element + line break': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '[foo<p>]bar</p>baz',		'bam^<p>bar</p>baz',								'case 1' );
@@ -337,20 +338,20 @@
 
 			a( 'x[<p>a<b>foo</b>]bar</p>x',		'xbam^<p>bar</p>x',								'case 3' );
 			a( 'x<p>bar[<b>foo</b>a</p>]x',
-				{ html : 'x<p>barbam^</p>x', text : 'x<p>bar<b>bam^</b></p>x' },				'case 4' );
+				{ html: 'x<p>barbam^</p>x', text: 'x<p>bar<b>bam^</b></p>x' },					'case 4' );
 
 			a( '<p>x</p>[<p>a<b>f</b>]bar</p>',		'<p>x</p>bam^<p>bar</p>',					'case 5' );
 			a( '<p>bar[<b>f</b>a</p>]<p>x</p>',
-				{ html : '<p>barbam^</p><p>x</p>', text : '<p>bar<b>bam^</b></p><p>x</p>' },	'case 6' );
+				{ html: '<p>barbam^</p><p>x</p>', text: '<p>bar<b>bam^</b></p><p>x</p>' },		'case 6' );
 
 			a( '<p>bar<b>[f</b>a</p>]<p>x</p>',
-				{ html : '<p>barbam^</p><p>x</p>', text : '<p>bar<b>bam^</b></p><p>x</p>' },	'case 7' );
+				{ html: '<p>barbam^</p><p>x</p>', text: '<p>bar<b>bam^</b></p><p>x</p>' },		'case 7' );
 
 			a( '<p>b[b</p><div>a]a</div>',	'<p>bbam^</p><div>a</div>',							'case 8' );
 
 			a( '<div><p>a<b>[b</b>c</p>d</div>e]f',
-				{	html : '<div><p>abam^</p></div>f',
-					text : '<div><p>a<b>bam^</b></p></div>f' },									'case 9' );
+				{	html: '<div><p>abam^</p></div>f',
+					text: '<div><p>a<b>bam^</b></p></div>f' },									'case 9' );
 
 			a(
 				'<table><tbody><tr><td>AA</td><td>B[B</td></tr></tbody></table><table><tbody><tr><td>C]C</td><td>DD</td></tr></tbody></table>',
@@ -359,7 +360,7 @@
 		},
 
 		// Rule 4. + 5.
-		'G3. text into block elements' : function() {
+		'G3. text into block elements': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 
 			a( '<p>AA[A</p><div>B]BB</div>',			'<p>AAbam^</p><div>BB</div>',			'don\'t merge 1' );
@@ -384,14 +385,14 @@
 			a( '<p>AA[A</p><div>C</div><hr><p>B]BB</p>',	'<p>AAbam^BB</p>',					'merge 4' );
 
 			a( '<p>A<b>A[A</b></p><p>B]BB</p>',
-				{ html : '<p>A<b>A</b>bam^BB</p>', text : '<p>A<b>Abam^</b>BB</p>' },			'merge 5' );
+				{ html: '<p>A<b>A</b>bam^BB</p>', text: '<p>A<b>Abam^</b>BB</p>' },				'merge 5' );
 			// Combo! Rule 2. + 4. + 5.
 			a( '<p>A<b>A<u>[A</u></b></p><p><b><u>B]B</u></b>B</p>',
-				{	html : '<p>A<b>A</b>bam^<b><u>B</u></b>B</p>',
-					text : '<p>A<b>A<u>bam^B</u></b>B</p>' },									'merge 6' );
+				{	html: '<p>A<b>A</b>bam^<b><u>B</u></b>B</p>',
+					text: '<p>A<b>A<u>bam^B</u></b>B</p>' },									'merge 6' );
 			a( '<ul><li>A<b>C[D</b></li></ul> <ul><li>A<b>C]D</b></li></ul>',
-				{	html : '<ul><li>A<b>C</b>bam^<b>D</b></li></ul>',
-					text : '<ul><li>A<b>Cbam^D</b></li></ul>' },								'merge 6b' );
+				{	html: '<ul><li>A<b>C</b>bam^<b>D</b></li></ul>',
+					text: '<ul><li>A<b>Cbam^D</b></li></ul>' },									'merge 6b' );
 
 			a( '<ul><li>A[A</li><li>B]B</li><li>CC</li></ul>',
 				'<ul><li>Abam^B</li><li>CC</li></ul>',											'merge 7' );
@@ -422,7 +423,7 @@
 		// inline elements -> text
 		//
 
-		'G4. inline element into text' : function() {
+		'G4. inline element into text': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>bam</b>', 'html', CKEDITOR.ENTER_BR );
 
 			// Rule 3.
@@ -444,7 +445,7 @@
 			a( 'foo^bar',		'foo<br />^bar',												'me 2' );
 		},
 
-		'G4. inline element and text into text' : function() {
+		'G4. inline element and text into text': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>bam</b>bom', 'html', CKEDITOR.ENTER_BR );
 
 			a( '^',				'<b>bam</b>bom^',												'into empty editable' );
@@ -472,7 +473,7 @@
 		// inline elements -> inline elements
 		//
 
-		'G5. inline element next to inline element (different name)' : function() {
+		'G5. inline element next to inline element (different name)': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>a</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '^<br />c',				'<b>a^</b><br />c',										'before br' );
@@ -492,7 +493,7 @@
 			a( '[foo<u><b style="color: red">a</b>]c</u>',	'<b>a^</b><u>c</u>',				'remove styled el' );
 		},
 
-		'G5. inline element next to inline element (same name)' : function() {
+		'G5. inline element next to inline element (same name)': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<br />', null, CKEDITOR.ENTER_BR );
 
 			a( '^<br />a',				'<br />^<br />a',										'before br' );
@@ -513,16 +514,15 @@
 
 			a.insertion = '';
 			a( '<a href="#">a</a>[b]<a href="#">c</a>',
-			   '<a href="#">a^c</a>', 					'merge link in place' );
+				'<a href="#">a^c</a>',															'merge link in place' );
 
 			a.insertion = '<a href="#">b</a>';
-			a( '<a href="#">a^</a>',
-			   '<a href="#">ab^</a>', 					'merge inserted link' );
+			a( '<a href="#">a^</a>',	'<a href="#">ab^</a>',									'merge inserted link' );
 
 			// More TCs can be found in corresponding 'GS. merging adjacent inline elements'.
 		},
 
-		'G5. inline element into inline element' : function() {
+		'G5. inline element into inline element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>d</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '<u>c^</u>',				'<u>c</u><b>d^</b>',									'into a1' );
@@ -533,11 +533,11 @@
 			a.mode = null; // Test also 'text', because it can contain <brs />.
 
 			a( '<u>c^</u>',
-				{ html : '<u>c</u>d<br />e^', text : '<u>cd<br />e^</u>' },						'into b1' );
+				{ html: '<u>c</u>d<br />e^', text: '<u>cd<br />e^</u>' },						'into b1' );
 			a( '<u>^c</u>',
-				{ html : 'd<br />e^<u>c</u>', text : '<u>d<br />e^c</u>' },						'into b2' );
+				{ html: 'd<br />e^<u>c</u>', text: '<u>d<br />e^c</u>' },						'into b2' );
 			a( '<u>a[b]c</u>',
-				{ html : '<u>a</u>d<br />e^<u>c</u>', text : '<u>ad<br />e^c</u>' },			'into b3' );
+				{ html: '<u>a</u>d<br />e^<u>c</u>', text: '<u>ad<br />e^c</u>' },				'into b3' );
 
 			a.insertion = '<u>d</u>';
 			a.mode = 'html';
@@ -553,7 +553,7 @@
 			a( '<u>a[b]c</u>',			'<u>a</u>d<u>e</u>f^<u>c</u>',							'into d3' );
 		},
 
-		'G5. inline element into selected inline element' : function() {
+		'G5. inline element into selected inline element': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '<b>d</b>', 'html', CKEDITOR.ENTER_BR );
 
 			a( '<u>[c]</u>',				'<b>d^</b>',										'replace a1' );
@@ -562,8 +562,8 @@
 			a.insertion = 'd<br />e';
 			a.mode = null; // Test also 'text', because it can contain <brs />.
 
-			a( '<u>[c]</u>',			{ html : 'd<br />e^', text : '<u>d<br />e^</u>' },		'replace b1' );
-			a( '[<u>c</u>]',			{ html : 'd<br />e^', text : '<u>d<br />e^</u>' },		'replace b2' );
+			a( '<u>[c]</u>',			{ html: 'd<br />e^', text: '<u>d<br />e^</u>' },		'replace b1' );
+			a( '[<u>c</u>]',			{ html: 'd<br />e^', text: '<u>d<br />e^</u>' },		'replace b2' );
 
 			a.insertion = '<u>d</u>';
 			a.mode = 'html';
@@ -577,7 +577,7 @@
 		// inline elements -> block elements
 		//
 
-		'G6. inline element into block element' : function() {
+		'G6. inline element into block element': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<b>d</b>', 'html' );
 
 			a( '<p>^</p>',					'<p><b>d^</b></p>',									'into 1' );
@@ -605,7 +605,7 @@
 		},
 
 		// Rule 4. + 5.
-		'G6. inline element into block elements' : function() {
+		'G6. inline element into block elements': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<b>bam</b>', 'html' );
 
 			a( '<p>a[a</p><p>b]b</p>',					'<p>a<b>bam^</b>b</p>',					'merge 1' );
@@ -625,7 +625,7 @@
 		// block elements -> elements
 		//
 
-		'G7-9. splitting' : function() {
+		'G7-9. splitting': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p><p>bar</p>' );
 
 			a( '<p>a^b</p>',
@@ -686,14 +686,14 @@
 			a( '<h1>a^b</h1>',				'<h1>a</h1><form>bam^</form><h1>b</h1>',			'case 8b' );
 		},
 
-		'G7-9. splitting - reuse element' : function() {
+		'G7-9. splitting - reuse element': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p title="1">bam</p>y', 'html' );
 
 			a( '<p title="2">a^b</p>',
 				'<p title="2">ax</p><p title="1">bam</p><p title="2">y^b</p>',					'case 1a' );
 		},
 
-		'G7-9. splitting - multi selection' : function() {
+		'G7-9. splitting - multi selection': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'x<p>bam</p>y' );
 
 			a( '<p>a[b</p><p>c]d</p>',
@@ -719,7 +719,7 @@
 		},
 
 		// See _docs/blockselections.txt
-		'G7-9. splitting - text + eol' : function() {
+		'G7-9. splitting - text + eol': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br data-cke-eol="1" />bam' );
 
 			a( '<p>a^b</p>',				'<p>a</p><p>bam^b</p>',								'case 1a' );
@@ -759,7 +759,7 @@
 		},
 
 		// These cases were previously handled positively. Test for regressions.
-		'G7-9. splitting - text + eol - reverted cases' : function() {
+		'G7-9. splitting - text + eol - reverted cases': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<br />bam' );
 
 			a( '<p>a^b</p>',				'<p>a<br />bam^b</p>',								'case 1' );
@@ -786,7 +786,7 @@
 			a( '<div>a^b</div>',			'<div>a<br /><br />^b</div>',						'case 6d' );
 		},
 
-		'G7-9. filtering content' : function() {
+		'G7-9. filtering content': function() {
 			// Form chosen, so it's not stripped by rule 7.
 			var a = this.createAssertInsertionFunction( 'h1', '<form>bam</form>', 'html' );
 
@@ -819,49 +819,49 @@
 		//
 
 		// Part of rule 2.
-		'GS. inline elements splitting for HTML being pasted' : function() {
+		'GS. inline elements splitting for HTML being pasted': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'foo<u>w<b>x[y]z</b></u>baz',
-				{	html : 'foo<u>w<b>x</b></u>bam^<u><b>z</b></u>baz',
-					text : 'foo<u>w<b>xbam^z</b></u>baz' },										'split nested' );
+				{	html: 'foo<u>w<b>x</b></u>bam^<u><b>z</b></u>baz',
+					text: 'foo<u>w<b>xbam^z</b></u>baz' },										'split nested' );
 			a( 'foo<u>x<b>[y]</b>z</u>baz',
-				{	html : 'foo<u>x</u>bam^<u>z</u>baz',
-					text : 'foo<u>x<b>bam^</b>z</u>baz' },										'split nested 2' );
+				{	html: 'foo<u>x</u>bam^<u>z</u>baz',
+					text: 'foo<u>x<b>bam^</b>z</u>baz' },										'split nested 2' );
 			a( 'foo<u title="a">x^z</u>baz',
-				{	html : 'foo<u title="a">x</u>bam^<u title="a">z</u>baz',
-					text : 'foo<u title="a">xbam^z</u>baz' },									'copy attributes' );
+				{	html: 'foo<u title="a">x</u>bam^<u title="a">z</u>baz',
+					text: 'foo<u title="a">xbam^z</u>baz' },									'copy attributes' );
 
 			a( '<p>a<b>c^d</b>e</p>',
-				{	html : '<p>a<b>c</b>bam^<b>d</b>e</p>',
-					text : '<p>a<b>cbam^d</b>e</p>' },											'preserve block' );
+				{	html: '<p>a<b>c</b>bam^<b>d</b>e</p>',
+					text: '<p>a<b>cbam^d</b>e</p>' },											'preserve block' );
 		},
 
 		// Rule 2.
-		'GS. merging adjacent inline elements' : function() {
+		'GS. merging adjacent inline elements': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, 'bam', null, CKEDITOR.ENTER_BR );
 
 			a( 'x[<b>a</b>def]<b>c</b>y',
-				{	html : 'xbam^<b>c</b>y',
-					text : 'x<b>bam^c</b>y' },													'merge 1a' );
+				{	html: 'xbam^<b>c</b>y',
+					text: 'x<b>bam^c</b>y' },													'merge 1a' );
 			a( 'x<u>b[ar</u><br /><u>ba]z</u>y',
-				{	html : 'x<u>b</u>bam^<u>z</u>y',
-					text : 'x<u>bbam^z</u>y' },													'merge 1b' );
+				{	html: 'x<u>b</u>bam^<u>z</u>y',
+					text: 'x<u>bbam^z</u>y' },													'merge 1b' );
 			a( 'x<u>b[<b>a</b>r</u> <u>ba]<b>z</b></u>y',
-				{	html : 'x<u>b</u>bam^<u><b>z</b></u>y',
-					text : 'x<u>b<b>bam^z</b></u>y' },											'merge 1c' );
+				{	html: 'x<u>b</u>bam^<u><b>z</b></u>y',
+					text: 'x<u>b<b>bam^z</b></u>y' },											'merge 1c' );
 			a( 'x<u>b[</u> <u>ba<b><i>]z</i></b></u>y',
-				{	html : 'x<u>b</u>bam^<u><b><i>z</i></b></u>y',
-					text : 'x<u>bbam^<b><i>z</i></b></u>y' },									'merge 1d' );
+				{	html: 'x<u>b</u>bam^<u><b><i>z</i></b></u>y',
+					text: 'x<u>bbam^<b><i>z</i></b></u>y' },									'merge 1d' );
 			a( 'x<b>a[b</b>cde]<b>f</b>y',
-				{	html : 'x<b>a</b>bam^<b>f</b>y',
-					text : 'x<b>abam^f</b>y' },													'merge 1e' );
+				{	html: 'x<b>a</b>bam^<b>f</b>y',
+					text: 'x<b>abam^f</b>y' },													'merge 1e' );
 			a( 'x<b>ab[</b>cde<b>f]e</b>y',
-				{	html : 'x<b>ab</b>bam^<b>e</b>y',
-					text : 'x<b>abbam^e</b>y' },												'merge 1f' );
+				{	html: 'x<b>ab</b>bam^<b>e</b>y',
+					text: 'x<b>abbam^e</b>y' },												'merge 1f' );
 			a( 'x<b><u>a[a</u>b</b>cde]<b>f</b>y',
-				{	html : 'x<b><u>a</u></b>bam^<b>f</b>y',
-					text : 'x<b><u>abam^</u>f</b>y' },											'merge 1g' );
+				{	html: 'x<b><u>a</u></b>bam^<b>f</b>y',
+					text: 'x<b><u>abam^</u>f</b>y' },											'merge 1g' );
 
 			a.insertion = '<b>bam</b>';
 			a.mode = 'html';
@@ -890,7 +890,7 @@
 		},
 
 		// Rule 2. does not apply.
-		'GS. merging adjacent inline elements - exceptions' : function() {
+		'GS. merging adjacent inline elements - exceptions': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '', null, CKEDITOR.ENTER_BR );
 
 			a.insertion = '<br />';
@@ -912,7 +912,7 @@
 		},
 
 		// Rule 3.
-		'GS. moving caret to the element which is at the very end of insertion' : function() {
+		'GS. moving caret to the element which is at the very end of insertion': function() {
 			var a = this.createAssertInsertionFunction( this.editablesNames, '', 'html', CKEDITOR.ENTER_BR );
 
 			a.insertion = 'cc<b>dd</b>';
@@ -922,9 +922,9 @@
 			a( 'aa^aa',			'aacc<b>dd</b> ^aa',											'rule 3. example 2.' );
 
 			a.insertion = '';
-			a( '<a href="#">a[</a>b]', 					'<a href="#">a^</a>', 					'move into inline link' );
-			a( '<i><a href="#">a[</a></i>b]', 			'<i><a href="#">a^</a></i>', 			'move into inline link' );
-			a( '<i><a href="#">a&nbsp;[</a></i>b]', 	'<i><a href="#">a&nbsp;</a></i>^', 		'dont move into inline link end with &nbsp;' );
+			a( '<a href="#">a[</a>b]',					'<a href="#">a^</a>',					'move into inline link' );
+			a( '<i><a href="#">a[</a></i>b]',			'<i><a href="#">a^</a></i>',			'move into inline link' );
+			a( '<i><a href="#">a&nbsp;[</a></i>b]',		'<i><a href="#">a&nbsp;</a></i>^',		'dont move into inline link end with &nbsp;' );
 
 			a.insertion = 'cc<b>dd</b>&nbsp;';
 			a( 'aa^aa',			'aacc<b>dd</b>&nbsp;^aa',										'rule 3. example 2.' );
@@ -958,7 +958,7 @@
 		},
 
 		// Rule 7.
-		'GS. single line handling' : function() {
+		'GS. single line handling': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p>' );
 
 			a( 'a^b',						'a<p>bam^</p>b',									'case 0' );
@@ -974,8 +974,8 @@
 
 			// Keep styles for html flavor and inherit for text.
 			a( '<p><b>a<i>^b</i></b>c</p>',
-				{	html : '<p><b>a</b>bam^<b><i>b</i></b>c</p>',
-					text : '<p><b>a<i>bam^b</i></b>c</p>' },									'case 3a' );
+				{	html: '<p><b>a</b>bam^<b><i>b</i></b>c</p>',
+					text: '<p><b>a<i>bam^b</i></b>c</p>' },									'case 3a' );
 
 			a.mode = 'html';
 			a.insertion = '<div><b>ba</b>r</div>';
@@ -991,10 +991,10 @@
 			a( '<p><b>a^b</b>c</p>',			'<p><b>aba</b>r^<b>b</b>c</p>',					'case 5a' );
 		},
 
-		'GS. cleanup empty blocks' : function() {
+		'GS. cleanup empty blocks': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>bam</p>' );
 
- 			a( '<p>[foo</p><p>bar]</p>', '<p>bam^</p>', 'remove empty P at the end' );
+			a( '<p>[foo</p><p>bar]</p>', '<p>bam^</p>', 'remove empty P at the end' );
 			a( '<p>[foo</p><div><p>bar]</p></div>', '<p>bam^</p>', 'remove empty DIV>P at the end' );
 			a( '<p>[foo</p><ul><li>bar]</li></div>', '<p>bam^</p>', 'remove empty UL>LI at the end' );
 			a( '<p>[foo</p><ul><li>bar]</li><li>baz</li></ul></div>', '<p>bam^</p><ul><li>baz</li></ul>', 'Not remove UL>LIs at the end' );
@@ -1006,7 +1006,7 @@
 		},
 
 		// Rule 7. doesn't apply here.
-		'GS. single line handling - exceptions' : function() {
+		'GS. single line handling - exceptions': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '', 'html', CKEDITOR.ENTER_BR );
 
 			a.insertion = '<br data-cke-eol="1" /><p>bar</p>';
@@ -1041,7 +1041,7 @@
 					'<p>x</p><h1>abc^</h1><p>x</p>',											'case 6b' );
 		},
 
-		'GS. block bogus' : function() {
+		'GS. block bogus': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '' );
 
 			if ( CKEDITOR.env.needsBrFiller ) {
@@ -1069,13 +1069,13 @@
 		},
 
 		// Rule 8.
-		'GS. blocks inheriting inline styles in text mode' : function() {
+		'GS. blocks inheriting inline styles in text mode': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', '<p>abc</p><p>def</p>' );
 
 			// Case from docs.
 			a( '<p><b>x^y</b></p>',
-				{	html : '<p><b>x</b></p><p>abc</p><p>def^</p><p><b>y</b></p>',
-					text : '<p><b>x</b></p><p><b>abc</b></p><p><b>def^</b></p><p><b>y</b></p>' },
+				{	html: '<p><b>x</b></p><p>abc</p><p>def^</p><p><b>y</b></p>',
+					text: '<p><b>x</b></p><p><b>abc</b></p><p><b>def^</b></p><p><b>y</b></p>' },
 																								'case 1a' );
 
 			a.mode = 'text';
@@ -1140,12 +1140,12 @@
 			a( '<p><b>x^y</b></p>',
 				'<p><b>x</b></p><p><b>abc^y</b></p>',											'case 8b' );
 
-			var a = this.createAssertInsertionFunction( 'h1', '<p>abc</p><p>def</p>' );
+			a = this.createAssertInsertionFunction( 'h1', '<p>abc</p><p>def</p>' );
 
 			// TODO correct result for text should be: '<b>xabc def^y</b>'
 			a( '<b>x^y</b>',
-				{	html : '<b>x</b>abc def^<b>y</b>',
-					text : '<b>xabc</b> <b>def^y</b>' },										'case 9a' );
+				{	html: '<b>x</b>abc def^<b>y</b>',
+					text: '<b>xabc</b> <b>def^y</b>' },											'case 9a' );
 		},
 
 		'#136 - remove &lt;br&gt; before and after inserted block': function() {

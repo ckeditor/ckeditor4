@@ -1,13 +1,14 @@
 /* bender-tags: editor,unit,insertion */
+/* global insertionDT */
 
 ( function() {
 	'use strict';
 
 	insertionDT.run( {
-		autoParagraph : true,
-		allowedContent : true // Disable filter.
+		autoParagraph: true,
+		allowedContent: true // Disable filter.
 	}, {
-		'basic cases' : function() {
+		'basic cases': function() {
 			var a = this.createAssertInsertionFunction( 'body,div', 'bam' );
 			a( '<p>^</p>', '<p>bam^</p>',											'into empty paragraph' );
 			a( '<p title="1">a^b</p>', '<p title="1">abam^b</p>',					'into p' );

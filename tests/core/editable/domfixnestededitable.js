@@ -1,9 +1,7 @@
 /* bender-tags: editor,unit,autoparagraphing */
 
-( function () {
+( function() {
 	'use strict';
-
-	var doc = CKEDITOR.document;
 
 	bender.test( {
 		// Initialize the editor instance.
@@ -14,7 +12,7 @@
 				editor1: {
 					name: 'editor1'
 				}
-			}, function( editors, bots ) {
+			}, function( editors ) {
 				that.editors = editors;
 				that.callback();
 			} );
