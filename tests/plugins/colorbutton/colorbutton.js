@@ -7,7 +7,7 @@
 	bender.editor = true;
 
 	bender.test( {
-		'test opening text/background color' : function() {
+		'test opening text/background color': function() {
 			var ed = this.editor, bot = this.editorBot;
 			var txtColorBtn = ed.ui.get( 'TextColor' ),
 				bgColorBtn = ed.ui.get( 'BGColor' );

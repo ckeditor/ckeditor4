@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: codesnippet,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
