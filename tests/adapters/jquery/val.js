@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit,jquery */
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea */
+/* global $ */
 
 'use strict';
 
