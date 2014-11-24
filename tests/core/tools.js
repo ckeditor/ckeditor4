@@ -1,9 +1,9 @@
 /* bender-tags: editor,unit */
 
 var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
-				   CKEDITOR.env.webkit ? '-webkit-' :
-				   CKEDITOR.env.ie ? '-ms-' :
-				   '';
+		CKEDITOR.env.webkit ? '-webkit-' :
+		CKEDITOR.env.ie ? '-ms-' :
+		'';
 
 bender.test(
 {
@@ -14,24 +14,22 @@ bender.test(
 
 		test_extend: function() {
 			var fakeFn = function() {};
-			var fakeObj = { fake1 : 1, fake2 : 2 };
+			var fakeObj = { fake1: 1, fake2: 2 };
 			var fakeArray = [ 'Test', 10, fakeFn, fakeObj ];
 
-			var target =
-			{
-				prop1 : 'Test',
-				prop2 : 10,
-				prop3 : fakeFn,
-				prop4 : fakeObj,
-				prop5 : fakeArray
+			var target = {
+				prop1: 'Test',
+				prop2: 10,
+				prop3: fakeFn,
+				prop4: fakeObj,
+				prop5: fakeArray
 			};
 
-			CKEDITOR.tools.extend( target,
-				{
-					prop3 : 'Wrong',
-					prop6 : 'Good',
-					prop7 : fakeArray
-				} );
+			CKEDITOR.tools.extend( target, {
+				prop3: 'Wrong',
+				prop6: 'Good',
+				prop7: fakeArray
+			} );
 
 			assert.areSame( 'Test'		, target.prop1, 'prop1 doesn\'t match' );
 			assert.areSame( 10			, target.prop2, 'prop2 doesn\'t match' );
@@ -71,8 +69,8 @@ bender.test(
 		},
 
 		test_htmlDecode: function() {
-				assert.areSame( '<a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
-				assert.areSame( '<a & b ><a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
+			assert.areSame( '<a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
+			assert.areSame( '<a & b ><a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
 		},
 
 		test_htmlEncode_3874: function() {
@@ -88,7 +86,7 @@ bender.test(
 		},
 
 		test_cssStyleToDomStyle2: function() {
-			assert.areSame( ( CKEDITOR.env.ie && !( document.documentMode > 8 ) ) ? 'styleFloat' : 'cssFloat', CKEDITOR.tools.cssStyleToDomStyle( 'float' ) );
+			assert.areSame( ( CKEDITOR.env.ie && document.documentMode <= 8 ) ? 'styleFloat' : 'cssFloat', CKEDITOR.tools.cssStyleToDomStyle( 'float' ) );
 		},
 
 		test_getNextNumber: function() {
@@ -123,13 +121,11 @@ bender.test(
 		},
 
 		test_clone: function() {
-			var obj =
-			{
-				name : 'John',
-				cars :
-				{
-					Mercedes : { color : 'blue' },
-					Porsche : { color : 'red' }
+			var obj = {
+				name: 'John',
+				cars: {
+					Mercedes: { color: 'blue' },
+					Porsche: { color: 'red' }
 				}
 			};
 
@@ -196,10 +192,8 @@ bender.test(
 		},
 
 		test_createClass: function() {
-			var A = CKEDITOR.tools.createClass(
-				{
-					_ :
-					{
+			var A = CKEDITOR.tools.createClass( {
+					_: {
 						type: function() {
 							return 'A:';
 						}
@@ -207,39 +201,34 @@ bender.test(
 					$: function( name ) {
 						this._name = name;
 					},
-					proto :
-					{
+					proto: {
 						name: function() {
 							// Call private method.
-							return  this._.type() + this._name;
+							return this._.type() + this._name;
 						}
 					}
 				} );
 
-			var B = CKEDITOR.tools.createClass(
-					{
-						base : A,
+			var B = CKEDITOR.tools.createClass( {
+						base: A,
 						$: function() {
 							// Call super constructor.
 							this.base.apply( this, arguments );
 						},
-						proto :
-						{
+						proto: {
 							type: function() {
 								return 'B:';
 							}
 						}
 					} );
 
-			var C = CKEDITOR.tools.createClass(
-				{
-					base : B,
+			var C = CKEDITOR.tools.createClass( {
+					base: B,
 					$: function() {
 						// Call super constructor recursively.
 						this.base.apply( this, arguments );
 					},
-					proto :
-					{
+					proto: {
 						// Overrides super class method.
 						name: function() {
 							// Call the super method.
@@ -326,7 +315,7 @@ bender.test(
 			assert.areSame( '42px', cssLength( 42 ) );
 			assert.areSame( '-42px', cssLength( -42 ) );
 			assert.areSame( '42.42px', cssLength( 42.42 ) );
-			assert.areSame( '', cssLength( 0/0 ) );	// Gives NaN
+			assert.areSame( '', cssLength( 0 / 0 ) );	// Gives NaN
 
 			assert.areSame( '', cssLength( '' ) );
 			assert.areSame( ' ', cssLength( ' ' ) );
@@ -353,7 +342,7 @@ bender.test(
 
 			// Coool...
 			var len = 0;
-			for ( var k in obj )
+			for ( var k in obj ) // jshint ignore:line
 				len++;
 
 			assert.areSame( 2, len );

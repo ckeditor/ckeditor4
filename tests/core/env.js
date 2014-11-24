@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 
-'use strict'
+'use strict';
 
 function countTrue( names ) {
 	names = names.split( ',' );

@@ -2,7 +2,7 @@
 
 bender.test(
 {
-	test_inherit : function() {
+	test_inherit: function() {
 		// Create a testClass that inherits from CKEDITOR.event.
 		var testClass = function() {
 			CKEDITOR.event.call( this );
@@ -43,9 +43,9 @@ bender.test(
 		assert.areSame( 'a,b', calls.toString() );
 	},
 
-	test_implementOn : function() {
+	test_implementOn: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
-		var testObject = { someprop : 'Test' };
+		var testObject = { someprop: 'Test' };
 		CKEDITOR.event.implementOn( testObject );
 
 		assert.areSame( 'Test', testObject.someprop );
@@ -82,7 +82,7 @@ bender.test(
 		assert.areSame( 'a,b', calls.toString() );
 	},
 
-	test_eventNameCase : function() {
+	test_eventNameCase: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -110,7 +110,7 @@ bender.test(
 		assert.areSame( 1, counter, '"SomeEvent" calls doesn\'t match' );
 	},
 
-	test_scope : function() {
+	test_scope: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -137,7 +137,7 @@ bender.test(
 		assert.areSame( 2, counter, 'wrong number of calls' );
 	},
 
-	test_listenerData : function() {
+	test_listenerData: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -160,7 +160,7 @@ bender.test(
 		assert.areSame( 2, counter, 'wrong number of calls' );
 	},
 
-	test_data : function() {
+	test_data: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -183,7 +183,7 @@ bender.test(
 		assert.areSame( 2, counter, 'wrong number of calls' );
 	},
 
-	test_editor : function() {
+	test_editor: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -203,7 +203,7 @@ bender.test(
 		assert.areSame( 1, counter, 'wrong number of calls' );
 	},
 
-	test_stop : function() {
+	test_stop: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -211,19 +211,19 @@ bender.test(
 		var counter = 0;
 
 		testObject.on( 'someEvent', function( ev ) {
-				ev.stop();
-				counter++;
-			} );
+			ev.stop();
+			counter++;
+		} );
 
-		testObject.on( 'someEvent', function( ev ) {
-				counter++;
-			} );
+		testObject.on( 'someEvent', function() {
+			counter++;
+		} );
 
 		assert.areSame( true, testObject.fire( 'someEvent' ), 'fire must return "false"' );
 		assert.areSame( 1, counter, 'number of calls doesn\'t match' );
 	},
 
-	test_cancel : function() {
+	test_cancel: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -231,19 +231,19 @@ bender.test(
 		var counter = 0;
 
 		testObject.on( 'someEvent', function( ev ) {
-				ev.cancel();
-				counter++;
-			} );
+			ev.cancel();
+			counter++;
+		} );
 
-		testObject.on( 'someEvent', function( ev ) {
-				counter++;
-			} );
+		testObject.on( 'someEvent', function() {
+			counter++;
+		} );
 
 		assert.areSame( false, testObject.fire( 'someEvent' ), 'fire must return "true"' );
 		assert.areSame( 1, counter, 'number of calls doesn\'t match' );
 	},
 
-	test_dataManipulation : function() {
+	test_dataManipulation: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -251,78 +251,78 @@ bender.test(
 		var counter = 0;
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test1', ev.data );
-				ev.data = 'Test2';
-				counter++;
-			} );
+			assert.areSame( 'Test1', ev.data );
+			ev.data = 'Test2';
+			counter++;
+		} );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test2', ev.data );
-				ev.data = 'Test3';
-				counter++;
-			} );
+			assert.areSame( 'Test2', ev.data );
+			ev.data = 'Test3';
+			counter++;
+		} );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test3', ev.data );
-				ev.data = 'Test4';
-				counter++;
-			} );
+			assert.areSame( 'Test3', ev.data );
+			ev.data = 'Test4';
+			counter++;
+		} );
 
 		assert.areSame( 'Test4', testObject.fire( 'someEvent', 'Test1' ), 'fire must return "Test4"' );
 		assert.areSame( 3, counter, 'number of calls doesn\'t match' );
 	},
 
-	test_priority : function() {
+	test_priority: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
 
 		var calls = [];
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'e' );
-			}, null, null, 11 );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'e' );
+		}, null, null, 11 );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'c' );
-			} );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'c' );
+		} );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'a' );
-			}, null, null, 9 );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'a' );
+		}, null, null, 9 );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'f' );
-			}, null, null, 11 );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'f' );
+		}, null, null, 11 );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'd' );
-			} );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'd' );
+		} );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'b' );
-			}, null, null, 9 );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'b' );
+		}, null, null, 9 );
 
 		testObject.fire( 'someEvent', 'Test data' );
 		assert.areSame( 'a,b,c,d,e,f', calls.toString() );
 	},
 
-	test_removeListener : function() {
+	test_removeListener: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
 
 		var calls = [];
 
-		var listener = function( ev ) {
-				calls.push( 'a' );
-			};
+		var listener = function() {
+			calls.push( 'a' );
+		};
 
 		testObject.on( 'someEvent', listener );
 
-		testObject.on( 'someEvent', function( ev ) {
-				calls.push( 'b' );
-			} );
+		testObject.on( 'someEvent', function() {
+			calls.push( 'b' );
+		} );
 
 		testObject.fire( 'someEvent', 'Test data' );
 		assert.areSame( 'a,b', calls.toString() );
@@ -335,20 +335,20 @@ bender.test(
 		assert.areSame( 'b', calls.toString() );
 	},
 
-	test_fireOnce : function() {
+	test_fireOnce: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
 
 		var counter = 0;
 
-		testObject.on( 'someEvent', function( ev ) {
-				counter++;
-			} );
+		testObject.on( 'someEvent', function() {
+			counter++;
+		} );
 
-		testObject.on( 'someEvent', function( ev ) {
-				counter++;
-			} );
+		testObject.on( 'someEvent', function() {
+			counter++;
+		} );
 
 		assert.areSame( true, testObject.fireOnce( 'someEvent' ), 'fireOnce must return "false"' );
 		assert.areSame( 2, counter, 'number of calls doesn\'t match' );
@@ -359,7 +359,7 @@ bender.test(
 		assert.areSame( 0, counter, 'number of calls doesn\'t match' );
 	},
 
-	test_nestedCancel : function() {
+	test_nestedCancel: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -368,17 +368,17 @@ bender.test(
 			isCanceledB,
 			isCanceledC;
 
-		testObject.on( 'A', function( ev ) {
-				isCanceledB = testObject.fire( 'B' );
-				isCanceledC = testObject.fire( 'C' );
-			} );
+		testObject.on( 'A', function() {
+			isCanceledB = testObject.fire( 'B' );
+			isCanceledC = testObject.fire( 'C' );
+		} );
 
 		testObject.on( 'B', function( ev ) {
-				ev.cancel();
-			} );
+			ev.cancel();
+		} );
 
-		testObject.on( 'C', function( ev ) {
-			} );
+		testObject.on( 'C', function() {
+		} );
 
 		isCanceledA = testObject.fire( 'A' );
 
@@ -387,7 +387,7 @@ bender.test(
 		assert.areSame( true, isCanceledC, 'event C must not be canceled' );
 	},
 
-	test_event_removeListener : function() {
+	test_event_removeListener: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -397,13 +397,13 @@ bender.test(
 		// Add two listeners for the same event "A".
 
 		testObject.on( 'A', function( ev ) {
-				counter++;
-				ev.removeListener();
-			} );
+			counter++;
+			ev.removeListener();
+		} );
 
-		testObject.on( 'A', function( ev ) {
-				counter++;
-			} );
+		testObject.on( 'A', function() {
+			counter++;
+		} );
 
 		// Fire the event twice.
 		testObject.fire( 'A' );
@@ -412,7 +412,7 @@ bender.test(
 		assert.areSame( 3, counter );
 	},
 
-	test_once : function() {
+	test_once: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -423,15 +423,15 @@ bender.test(
 
 		// Add two listeners for the same event "A".
 
-		testObject.once( 'A', function( ev ) {
-				context1 = this;
-				fired += '1';
-			} );
+		testObject.once( 'A', function() {
+			context1 = this;
+			fired += '1';
+		} );
 
-		testObject.once( 'A', function( ev ) {
-				context2 = this;
-				fired += '2';
-			}, contextPassed, null, 1 );
+		testObject.once( 'A', function() {
+			context2 = this;
+			fired += '2';
+		}, contextPassed, null, 1 );
 
 		// Fire the event twice.
 		testObject.fire( 'A' );
@@ -442,7 +442,7 @@ bender.test(
 		assert.areSame( context2, contextPassed );
 	},
 
-	test_once_2 : function() {
+	test_once_2: function() {
 		// Create a testObject and implement CKEDITOR.event on it.
 		var testObject = {};
 		CKEDITOR.event.implementOn( testObject );
@@ -451,13 +451,13 @@ bender.test(
 
 		// Add two listeners for the same event "A".
 
-		testObject.once( 'A', function( ev ) {
-				return false; // Cancel event.
-			} );
+		testObject.once( 'A', function() {
+			return false; // Cancel event.
+		} );
 
-		testObject.once( 'A', function( ev ) {
-				fired2 = true;
-			} );
+		testObject.once( 'A', function() {
+			fired2 = true;
+		} );
 
 		testObject.fire( 'A' );
 
@@ -470,7 +470,7 @@ bender.test(
 
 		var evtCouter = 0;
 
-		testObject.on( 'evt', function( evt ) {
+		testObject.on( 'evt', function() {
 			evtCouter++;
 		} );
 

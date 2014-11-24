@@ -11,14 +11,15 @@ bender.test(
 
 		var env = CKEDITOR.env;
 		var uas = CKEDITOR.skin[ 'ua_' + part ].split( ',' );
-		uas = uas.sort( function( a, b ) { return a > b ? -1 : 1; } );
+		uas = uas.sort( function( a, b ) {
+			return a > b ? -1 : 1;
+		} );
 
 		for ( var i = 0, ua ; i < uas.length ; i++ ) {
 			ua = uas[ i ];
 
 			if ( env.ie ) {
-				if ( ( ua.replace( /^ie/, '' ) == env.version ) ||
-					 ( env.quirks && ua == 'iequirks' ) )
+				if ( ( ua.replace( /^ie/, '' ) == env.version ) || ( env.quirks && ua == 'iequirks' ) )
 					ua = 'ie';
 			}
 
@@ -34,11 +35,11 @@ bender.test(
 	},
 
 	// Check through all attached stylesheets to see if all skins parts are loaded.
-	checkPartLoaded : function( part, callback ) {
+	checkPartLoaded: function( part, callback ) {
 		var css = this.cssFileToCheck( part );
 
 		setTimeout( function checkLoaded() {
-			for ( var i = 0, sheet, index; i < document.styleSheets.length; i++ ) {
+			for ( var i = 0, sheet; i < document.styleSheets.length; i++ ) {
 				sheet = document.styleSheets[ i ];
 				if ( sheet.href && sheet.href == css ) {
 					callback();
