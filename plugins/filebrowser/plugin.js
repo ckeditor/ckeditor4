@@ -127,10 +127,10 @@
 			return url;
 		else {
 			for ( var i in params )
-				queryString.push( i + "=" + encodeURIComponent( params[ i ] ) );
+				queryString.push( i + '=' + encodeURIComponent( params[ i ] ) );
 		}
 
-		return url + ( ( url.indexOf( "?" ) != -1 ) ? "&" : "?" ) + queryString.join( "&" );
+		return url + ( ( url.indexOf( '?' ) != -1 ) ? '&' : '?' ) + queryString.join( '&' );
 	}
 
 	// Make a string's first character uppercase.
@@ -310,8 +310,8 @@
 	// @param String
 	//            elementId The element id (or ids, separated with a semicolon) to check.
 	function isConfigured( definition, tabId, elementId ) {
-		if ( elementId.indexOf( ";" ) !== -1 ) {
-			var ids = elementId.split( ";" );
+		if ( elementId.indexOf( ';' ) !== -1 ) {
+			var ids = elementId.split( ';' );
 			for ( var i = 0; i < ids.length; i++ ) {
 				if ( isConfigured( definition, tabId, ids[ i ] ) )
 					return true;

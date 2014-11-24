@@ -81,12 +81,13 @@
 	};
 
 	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'flashvars', 'allowScriptAccess', 'allowFullScreen' ];
-	for ( var i = 0; i < names.length; i++ )
+	for ( var i = 0; i < names.length; i++ ) {
 		attributesMap[ names[ i ] ] = [ {
-		type: ATTRTYPE_EMBED, name: names[ i ]
-	}, {
-		type: ATTRTYPE_PARAM, name: names[ i ]
-	} ];
+			type: ATTRTYPE_EMBED, name: names[ i ]
+		}, {
+			type: ATTRTYPE_PARAM, name: names[ i ]
+		} ];
+	}
 
 	// These attributes are "true" by default and not present in editor data (when "true").
 	// Note that, though default value of "allowFullScreen" is "true", it is not listed here.
@@ -111,17 +112,20 @@
 						continue;
 					if ( objectNode.getAttribute( attrDef.name ) !== null ) {
 						var value = objectNode.getAttribute( attrDef.name );
-						if ( isCheckbox )
+						if ( isCheckbox ) {
 							this.setValue( value.toLowerCase() == 'true' );
-						else
+						} else {
 							this.setValue( value );
+						}
 						return;
-					} else if ( isCheckbox )
-						this.setValue( !!attrDef[ 'default' ] );
+					} else if ( isCheckbox ) {
+						this.setValue( !!attrDef['default'] );
+					}
 					break;
 				case ATTRTYPE_PARAM:
-					if ( !objectNode )
+					if ( !objectNode ) {
 						continue;
+					}
 					if ( attrDef.name in paramMap ) {
 						value = paramMap[ attrDef.name ];
 						if ( isCheckbox )
@@ -129,8 +133,9 @@
 						else
 							this.setValue( value );
 						return;
-					} else if ( isCheckbox )
+					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
+					}
 					break;
 				case ATTRTYPE_EMBED:
 					if ( !embedNode )
@@ -142,8 +147,9 @@
 						else
 							this.setValue( value );
 						return;
-					} else if ( isCheckbox )
+					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
+					}
 			}
 		}
 	}
@@ -195,8 +201,9 @@
 					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
 						embedNode.removeAttribute( attrDef.name );
-					else
+					else {
 						embedNode.setAttribute( attrDef.name, value );
+					}
 			}
 		}
 	}
@@ -240,8 +247,9 @@
 								value = item.getAttribute( 'value' );
 							paramMap[ name ] = value;
 						}
-					} else if ( realElement.getName() == 'cke:embed' )
+					} else if ( realElement.getName() == 'cke:embed' ) {
 						embedNode = realElement;
+					}
 
 					this.objectNode = objectNode;
 					this.embedNode = embedNode;
@@ -300,8 +308,9 @@
 				if ( this.fakeImage ) {
 					newFakeImage.replace( this.fakeImage );
 					editor.getSelection().selectElement( newFakeImage );
-				} else
+				} else {
 					editor.insertElement( newFakeImage );
+				}
 			},
 
 			onHide: function() {
@@ -309,22 +318,18 @@
 					this.preview.setHtml( '' );
 			},
 
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: editor.lang.common.generalTab,
 				accessKey: 'I',
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						type: 'hbox',
 						widths: [ '280px', '110px' ],
 						align: 'right',
-						children: [
-							{
+						children: [ {
 							id: 'src',
 							type: 'text',
 							label: editor.lang.common.url,
@@ -356,7 +361,7 @@
 								}, this );
 							}
 						},
-							{
+						{
 							type: 'button',
 							id: 'browse',
 							filebrowser: 'info:src',
@@ -365,16 +370,13 @@
 							// TODO: We need something better than a fixed size here.
 							style: 'display:inline-block;margin-top:14px;',
 							label: editor.lang.common.browseServer
-						}
-						]
-					}
-					]
+						} ]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '25%', '25%', '25%', '25%', '25%' ],
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'width',
 						requiredContent: 'embed[width]',
@@ -384,7 +386,7 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'height',
 						requiredContent: 'embed[height]',
@@ -394,7 +396,7 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'hSpace',
 						requiredContent: 'embed[hspace]',
@@ -404,7 +406,7 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'vSpace',
 						requiredContent: 'embed[vspace]',
@@ -413,53 +415,45 @@
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateVSpace ),
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
 
-					{
+				{
 					type: 'vbox',
-					children: [
-						{
+					children: [ {
 						type: 'html',
 						id: 'preview',
 						style: 'width:95%;',
 						html: previewAreaHtml
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'Upload',
 				hidden: true,
 				filebrowser: 'uploadButton',
 				label: editor.lang.common.upload,
-				elements: [
-					{
+				elements: [ {
 					type: 'file',
 					id: 'upload',
 					label: editor.lang.common.upload,
 					size: 38
 				},
-					{
+				{
 					type: 'fileButton',
 					id: 'uploadButton',
 					label: editor.lang.common.uploadSubmit,
 					filebrowser: 'info:src',
 					'for': [ 'Upload', 'upload' ]
-				}
-				]
+				} ]
 			},
-				{
+			{
 				id: 'properties',
 				label: editor.lang.flash.propertiesTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'scale',
 						type: 'select',
 						requiredContent: 'embed[scale]',
@@ -471,11 +465,11 @@
 							[ editor.lang.flash.scaleAll, 'showall' ],
 							[ editor.lang.flash.scaleNoBorder, 'noborder' ],
 							[ editor.lang.flash.scaleFit, 'exactfit' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'allowScriptAccess',
 						type: 'select',
 						requiredContent: 'embed[allowscriptaccess]',
@@ -487,17 +481,15 @@
 							[ editor.lang.flash.accessAlways, 'always' ],
 							[ editor.lang.flash.accessSameDomain, 'samedomain' ],
 							[ editor.lang.flash.accessNever, 'never' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'wmode',
 						type: 'select',
 						requiredContent: 'embed[wmode]',
@@ -509,11 +501,11 @@
 							[ editor.lang.flash.windowModeWindow, 'window' ],
 							[ editor.lang.flash.windowModeOpaque, 'opaque' ],
 							[ editor.lang.flash.windowModeTransparent, 'transparent' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'quality',
 						type: 'select',
 						requiredContent: 'embed[quality]',
@@ -528,17 +520,15 @@
 							[ editor.lang.flash.qualityMedium, 'medium' ],
 							[ editor.lang.flash.qualityAutoLow, 'autolow' ],
 							[ editor.lang.flash.qualityLow, 'low' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'align',
 						type: 'select',
 						requiredContent: 'object[align]',
@@ -556,7 +546,7 @@
 							[ editor.lang.common.alignRight, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
 							[ editor.lang.common.alignTop, 'top' ]
-							],
+						],
 						setup: loadValue,
 						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {
 							var value = this.getValue();
@@ -564,21 +554,18 @@
 							value && ( extraAttributes.align = value );
 						}
 					},
-						{
+					{
 						type: 'html',
 						html: '<div></div>'
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'fieldset',
 					label: CKEDITOR.tools.htmlEncode( editor.lang.flash.flashvars ),
-					children: [
-						{
+					children: [ {
 						type: 'vbox',
 						padding: 0,
-						children: [
-							{
+						children: [ {
 							type: 'checkbox',
 							id: 'menu',
 							label: editor.lang.flash.chkMenu,
@@ -586,7 +573,7 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'play',
 							label: editor.lang.flash.chkPlay,
@@ -594,7 +581,7 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'loop',
 							label: editor.lang.flash.chkLoop,
@@ -602,42 +589,35 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'allowFullScreen',
 							label: editor.lang.flash.chkFull,
 							'default': true,
 							setup: loadValue,
 							commit: commitValue
-						}
-						]
-					}
-					]
-				}
-				]
+						} ]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'advanced',
 				label: editor.lang.common.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'id',
 						requiredContent: 'object[id]',
 						label: editor.lang.common.id,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '45%', '55%' ],
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'bgcolor',
 						requiredContent: 'embed[bgcolor]',
@@ -645,17 +625,16 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'class',
 						requiredContent: 'embed(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'text',
 					id: 'style',
 					requiredContent: 'embed{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
@@ -663,10 +642,8 @@
 					label: editor.lang.common.cssStyle,
 					setup: loadValue,
 					commit: commitValue
-				}
-				]
-			}
-			]
+				} ]
+			} ]
 		};
 	} );
 } )();

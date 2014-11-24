@@ -31,13 +31,11 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				editor.insertElement( element );
 			this.commitContent( { element: element } );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.checkboxAndRadio.radioTitle,
 			title: editor.lang.forms.checkboxAndRadio.radioTitle,
-			elements: [
-				{
+			elements: [ {
 				id: 'name',
 				type: 'text',
 				label: editor.lang.common.name,
@@ -57,7 +55,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				id: 'value',
 				type: 'text',
 				label: editor.lang.forms.checkboxAndRadio.value,
@@ -75,13 +73,13 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						element.removeAttribute( 'value' );
 				}
 			},
-				{
+			{
 				id: 'checked',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.selected,
 				'default': '',
 				accessKey: 'S',
-				value: "checked",
+				value: 'checked',
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'checked' ) );
 				},
@@ -107,9 +105,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						}
 					}
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
 } );

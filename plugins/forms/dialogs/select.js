@@ -8,9 +8,9 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 		combo = getSelect( combo );
 		var oOption;
 		if ( documentObject )
-			oOption = documentObject.createElement( "OPTION" );
+			oOption = documentObject.createElement( 'OPTION' );
 		else
-			oOption = document.createElement( "OPTION" );
+			oOption = document.createElement( 'OPTION' );
 
 		if ( combo && oOption && oOption.getName() == 'option' ) {
 			if ( CKEDITOR.env.ie ) {
@@ -30,8 +30,9 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				oOption.setText( optionText.length > 0 ? optionText : '' );
 				oOption.setValue( optionValue );
 			}
-		} else
+		} else {
 			return false;
+		}
 
 		return oOption;
 	}
@@ -128,7 +129,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 			delete this.selectBox;
 			this.setupContent( 'clear' );
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "select" ) {
+			if ( element && element.getName() == 'select' ) {
 				this.selectBox = element;
 				this.setupContent( element.getName(), element );
 
@@ -158,14 +159,12 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 				}
 			}
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.select.selectInfo,
 			title: editor.lang.forms.select.selectInfo,
 			accessKey: '',
-			elements: [
-				{
+			elements: [ {
 				id: 'txtName',
 				type: 'text',
 				widths: [ '25%', '75%' ],
@@ -190,7 +189,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				id: 'txtValue',
 				type: 'text',
 				widths: [ '25%', '75%' ],
@@ -209,11 +208,10 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						this.setValue( element.$.value );
 				}
 			},
-				{
+			{
 				type: 'hbox',
 				widths: [ '175px', '170px' ],
-				children: [
-					{
+				children: [ {
 					id: 'txtSize',
 					type: 'text',
 					labelLayout: 'horizontal',
@@ -238,34 +236,31 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							element.removeAttribute( 'size' );
 					}
 				},
-					{
+				{
 					type: 'html',
 					html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.forms.select.lines ) + '</span>'
-				}
-				]
+				} ]
 			},
-				{
+			{
 				type: 'html',
 				html: '<span>' + CKEDITOR.tools.htmlEncode( editor.lang.forms.select.opAvail ) + '</span>'
 			},
-				{
+			{
 				type: 'hbox',
 				widths: [ '115px', '115px', '100px' ],
-				children: [
-					{
+				children: [ {
 					type: 'vbox',
-					children: [
-						{
+					children: [ {
 						id: 'txtOptName',
 						type: 'text',
 						label: editor.lang.forms.select.opText,
 						style: 'width:115px',
-						setup: function( name, element ) {
+						setup: function( name ) {
 							if ( name == 'clear' )
-								this.setValue( "" );
+								this.setValue( '' );
 						}
 					},
-						{
+					{
 						type: 'select',
 						id: 'cmbName',
 						label: '',
@@ -306,23 +301,21 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 								}
 							}
 						}
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'vbox',
-					children: [
-						{
+					children: [ {
 						id: 'txtOptValue',
 						type: 'text',
 						label: editor.lang.forms.select.opValue,
 						style: 'width:115px',
-						setup: function( name, element ) {
+						setup: function( name ) {
 							if ( name == 'clear' )
-								this.setValue( "" );
+								this.setValue( '' );
 						}
 					},
-						{
+					{
 						type: 'select',
 						id: 'cmbValue',
 						label: '',
@@ -350,17 +343,14 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 									this.getDialog().getContentElement( 'info', 'txtValue' ).setValue( oValue );
 							}
 						}
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'vbox',
 					padding: 5,
-					children: [
-						{
+					children: [ {
 						type: 'button',
 						id: 'btnAdd',
-						style: '',
 						label: editor.lang.forms.select.btnAdd,
 						title: editor.lang.forms.select.btnAdd,
 						style: 'width:100%;',
@@ -376,11 +366,11 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							addOption( names, optName.getValue(), optName.getValue(), dialog.getParentEditor().document );
 							addOption( values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document );
 
-							optName.setValue( "" );
-							optValue.setValue( "" );
+							optName.setValue( '' );
+							optValue.setValue( '' );
 						}
 					},
-						{
+					{
 						type: 'button',
 						id: 'btnModify',
 						label: editor.lang.forms.select.btnModify,
@@ -401,7 +391,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							}
 						}
 					},
-						{
+					{
 						type: 'button',
 						id: 'btnUp',
 						style: 'width:100%;',
@@ -417,7 +407,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							changeOptionPosition( values, -1, dialog.getParentEditor().document );
 						}
 					},
-						{
+					{
 						type: 'button',
 						id: 'btnDown',
 						style: 'width:100%;',
@@ -432,16 +422,13 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 							changeOptionPosition( names, 1, dialog.getParentEditor().document );
 							changeOptionPosition( values, 1, dialog.getParentEditor().document );
 						}
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				{
+			{
 				type: 'hbox',
 				widths: [ '40%', '20%', '40%' ],
-				children: [
-					{
+				children: [ {
 					type: 'button',
 					id: 'btnSetValue',
 					label: editor.lang.forms.select.btnSetValue,
@@ -454,7 +441,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						txtValue.setValue( values.getValue() );
 					}
 				},
-					{
+				{
 					type: 'button',
 					id: 'btnDelete',
 					label: editor.lang.forms.select.btnDelete,
@@ -470,17 +457,17 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						removeSelectedOptions( names );
 						removeSelectedOptions( values );
 
-						optName.setValue( "" );
-						optValue.setValue( "" );
+						optName.setValue( '' );
+						optValue.setValue( '' );
 					}
 				},
-					{
+				{
 					id: 'chkMulti',
 					type: 'checkbox',
 					label: editor.lang.forms.select.chkMulti,
 					'default': '',
 					accessKey: 'M',
-					value: "checked",
+					value: 'checked',
 					setup: function( name, element ) {
 						if ( name == 'select' )
 							this.setValue( element.getAttribute( 'multiple' ) );
@@ -493,11 +480,8 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						else
 							element.removeAttribute( 'multiple' );
 					}
-				}
-				]
-			}
-			]
-		}
-		]
+				} ]
+			} ]
+		} ]
 	};
 } );

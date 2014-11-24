@@ -30,14 +30,12 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 			}
 			this.commitContent( { element: element } );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.checkboxAndRadio.checkboxTitle,
 			title: editor.lang.forms.checkboxAndRadio.checkboxTitle,
 			startupFocus: 'txtName',
-			elements: [
-				{
+			elements: [ {
 				id: 'txtName',
 				type: 'text',
 				label: editor.lang.common.name,
@@ -58,7 +56,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				id: 'txtValue',
 				type: 'text',
 				label: editor.lang.forms.checkboxAndRadio.value,
@@ -83,18 +81,19 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 							checkbox.replace( element );
 							editor.getSelection().selectElement( checkbox );
 							data.element = checkbox;
-						} else
+						} else {
 							element.removeAttribute( 'value' );
+						}
 					}
 				}
 			},
-				{
+			{
 				id: 'cmbSelected',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.selected,
 				'default': '',
 				accessKey: 'S',
-				value: "checked",
+				value: 'checked',
 				setup: function( element ) {
 					this.setValue( element.getAttribute( 'checked' ) );
 				},
@@ -122,9 +121,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 							element.removeAttribute( 'checked' );
 					}
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
 } );

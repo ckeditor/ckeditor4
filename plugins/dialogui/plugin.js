@@ -150,8 +150,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								type: 'hbox',
 								widths: elementDefinition.widths,
 								padding: 0,
-								children: [
-									{
+								children: [ {
 									type: 'html',
 									html: '<label class="cke_dialog_ui_labeled_label' + requiredClass + '"' +
 										' id="' + _.labelId + '"' +
@@ -160,13 +159,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 											CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
 										'</span>'
 								},
-									{
+								{
 									type: 'html',
 									html: '<span class="cke_dialog_ui_labeled_content"' + ( elementDefinition.controlStyle ? ' style="' + elementDefinition.controlStyle + '"' : '' ) + '>' +
 										contentHtml.call( this, dialog, elementDefinition ) +
 										'</span>'
-								}
-								]
+								} ]
 							};
 							CKEDITOR.dialog._.uiElementBuilders.hbox.build( dialog, hboxDefinition, html );
 						}
@@ -344,9 +342,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this.validate = elementDefinition.validate;
 
 				var innerHTML = function() {
-						var myDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
-							id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextId() + '_checkbox'
-						}, true ),
+						var myDefinition = CKEDITOR.tools.extend(
+								{},
+								elementDefinition,
+								{
+									id: elementDefinition.id ? elementDefinition.id + '_checkbox' : CKEDITOR.tools.getNextId() + '_checkbox'
+								},
+								true
+							),
 							html = [];
 
 						var labelId = CKEDITOR.tools.getNextId() + '_label';
@@ -359,7 +362,15 @@ CKEDITOR.plugins.add( 'dialogui', {
 							myDefinition.style = myDefinition.inputStyle;
 
 						_.checkbox = new CKEDITOR.ui.dialog.uiElement( dialog, myDefinition, html, 'input', null, attributes );
-						html.push( ' <label id="', labelId, '" for="', attributes.id, '"' + ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>', CKEDITOR.tools.htmlEncode( elementDefinition.label ), '</label>' );
+						html.push(
+							' <label id="',
+							labelId,
+							'" for="',
+							attributes.id,
+							'"' + ( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>',
+							CKEDITOR.tools.htmlEncode( elementDefinition.label ),
+							'</label>'
+						);
 						return html.join( '' );
 					};
 
@@ -572,9 +583,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 				_.inputId = CKEDITOR.tools.getNextId() + '_select';
 
 				var innerHTML = function() {
-						var myDefinition = CKEDITOR.tools.extend( {}, elementDefinition, {
-							id: elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextId() + '_select'
-						}, true ),
+						var myDefinition = CKEDITOR.tools.extend(
+								{},
+								elementDefinition,
+								{
+									id: ( elementDefinition.id ? elementDefinition.id + '_select' : CKEDITOR.tools.getNextId() + '_select' )
+								},
+								true
+							),
 							html = [],
 							innerHTML = [],
 							attributes = { 'id': _.inputId, 'class': 'cke_dialog_ui_input_select', 'aria-labelledby': this._.labelId };
@@ -636,33 +652,37 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				/** @ignore */
 				var innerHTML = function() {
-						_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
+					_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
 
-						var html = [
-							'<iframe' +
-								' frameborder="0"' +
-								' allowtransparency="0"' +
-								' class="cke_dialog_ui_input_file"' +
-								' role="presentation"' +
-								' id="', _.frameId, '"' +
-								' title="', elementDefinition.label, '"' +
-								' src="javascript:void(' ];
+					// jscs:disable validateIndentation
+					var html = [
+						'<iframe' +
+							' frameborder="0"' +
+							' allowtransparency="0"' +
+							' class="cke_dialog_ui_input_file"' +
+							' role="presentation"' +
+							' id="', _.frameId, '"' +
+							' title="', elementDefinition.label, '"' +
+							' src="javascript:void('
+					];
 
-						// Support for custom document.domain on IE. (#10165)
-						html.push( CKEDITOR.env.ie ?
-							'(function(){' + encodeURIComponent(
-								'document.open();' +
-								'(' + CKEDITOR.tools.fixDomain + ')();' +
-								'document.close();'
-							) + '})()'
-							:
-							'0' );
+					// Support for custom document.domain on IE. (#10165)
+					html.push( CKEDITOR.env.ie ?
+						'(function(){' + encodeURIComponent(
+							'document.open();' +
+							'(' + CKEDITOR.tools.fixDomain + ')();' +
+							'document.close();'
+						) + '})()'
+						:
+						'0'
+					);
 
-						html.push( ')">' +
-							'</iframe>' );
+					html.push( ')">' +
+						'</iframe>' );
+					// jscs:enable validateIndentation
 
-						return html.join( '' );
-					};
+					return html.join( '' );
+				};
 
 				// IE BUG: Parent container does not resize to contain the iframe automatically.
 				dialog.on( 'load', function() {
@@ -1031,12 +1051,14 @@ CKEDITOR.plugins.add( 'dialogui', {
 				option.$.text = label;
 				option.$.value = ( value === undefined || value === null ) ? label : value;
 				if ( index === undefined || index === null ) {
-					if ( CKEDITOR.env.ie )
+					if ( CKEDITOR.env.ie ) {
 						selectElement.add( option.$ );
-					else
+					} else {
 						selectElement.add( option.$, null );
-				} else
+					}
+				} else {
 					selectElement.add( option.$, index );
+				}
 				return this;
 			},
 
@@ -1310,6 +1332,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 					var inputId = _.frameId + '_input';
 
+					// jscs:disable validateIndentation
 					frameDocument.$.write( [
 						'<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
 							'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
@@ -1323,7 +1346,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 								'<input style="width:100%" id="', inputId, '" aria-labelledby="', _.labelId, '" type="file" name="',
 									CKEDITOR.tools.htmlEncode( elementDefinition.id || 'cke_upload' ),
 									'" size="',
-									CKEDITOR.tools.htmlEncode( size > 0 ? size : "" ),
+									CKEDITOR.tools.htmlEncode( size > 0 ? size : '' ),
 								'" />',
 							'</form>',
 						'</body></html>',
@@ -1335,6 +1358,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
 						'</script>'
 					].join( '' ) );
+					// jscs:enable validateIndentation
 
 					frameDocument.$.close();
 
