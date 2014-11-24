@@ -12,8 +12,9 @@ function assertFilter( expectedOutput, input, filter, msg, method ) {
 	if ( msg == 'applyTo' || msg == 'write' ) {
 		method = msg;
 		msg = null;
-	} else if ( !method )
+	} else if ( !method ) {
 		method = 'applyTo';
+	}
 
 	if ( method == 'write' )
 		fragment.writeHtml( writer, filter );
@@ -73,8 +74,7 @@ function addNormalAndNonEditableRules( filter ) {
 
 bender.test( {
 	'test addRules with priorieties': function() {
-		var filter = new CKEDITOR.htmlParser.filter(),
-			order = [];
+		var filter = new CKEDITOR.htmlParser.filter();
 
 		filter.addRules( {
 			text: function( value ) {
@@ -105,8 +105,7 @@ bender.test( {
 	},
 
 	'test addRules with priorieties - same priorities': function() {
-		var filter = new CKEDITOR.htmlParser.filter(),
-			order = [];
+		var filter = new CKEDITOR.htmlParser.filter();
 
 		filter.addRules( {
 			elements: {
@@ -136,8 +135,7 @@ bender.test( {
 	},
 
 	'test addRules with priorieties - backward compatibility': function() {
-		var filter = new CKEDITOR.htmlParser.filter(),
-			order = [];
+		var filter = new CKEDITOR.htmlParser.filter();
 
 		filter.addRules( {
 			text: function( value ) {
@@ -170,7 +168,7 @@ bender.test( {
 	'test text rules': function() {
 		var filter = new CKEDITOR.htmlParser.filter();
 		filter.addRules( {
-			text: function( value ) {
+			text: function() {
 				return 'bar';
 			}
 		} );
@@ -251,7 +249,7 @@ bender.test( {
 		} );
 		filter.addRules( {
 			attributes: {
-				foo: function( value, element ) {
+				foo: function( value ) {
 					assert.areSame( 'bum', value, 'Updated value was passed to the next filter' );
 
 					return value;
@@ -267,7 +265,7 @@ bender.test( {
 		var filter = new CKEDITOR.htmlParser.filter();
 		filter.addRules( {
 			attributes: {
-				foo: function( value, element ) {
+				foo: function( value ) {
 					if ( value == 'bom' )
 						return false;
 				}
@@ -275,7 +273,7 @@ bender.test( {
 		} );
 		filter.addRules( {
 			attributes: {
-				foo: function( value, element ) {
+				foo: function( value ) {
 					assert.areSame( 'bum', value, 'Attribute "bom" was removed, so don\'t pass it to next filters' );
 					return value;
 				}
@@ -370,7 +368,7 @@ bender.test( {
 
 		filter.addRules( {
 			elements: {
-				div: function( element ) {
+				div: function() {
 					assert.fail( 'This filter should not be applied.' );
 				}
 			},
@@ -398,7 +396,7 @@ bender.test( {
 				'^': function( element ) {
 					element.attributes[ 'data-^' ] = order++;
 				},
-				'$': function( element, attrs ) {
+				'$': function( element ) {
 					element.attributes[ 'data-$' ] = order++;
 				},
 				'p': function( element ) {
@@ -516,7 +514,7 @@ bender.test( {
 				b: function( element ) {
 					delete element.name;
 				},
-				i: function( element ) {
+				i: function() {
 					return false;
 				}
 			}
@@ -532,13 +530,13 @@ bender.test( {
 			},
 
 			elements: {
-				b: function( element ) {
+				b: function() {
 					assert.fail( 'Element <b> should have been removed by previous filter.' );
 				},
-				i: function( element ) {
+				i: function() {
 					assert.fail( 'Element <i> should have been removed by previous filter.' );
 				},
-				u: function( element ) {
+				u: function() {
 					// Returns <s> element.
 					return new CKEDITOR.htmlParser.fragment.fromHtml( '<s f2="1">X</s>' ).children[ 0 ];
 				}
@@ -551,7 +549,7 @@ bender.test( {
 			},
 
 			elements: {
-				u: function( element ) {
+				u: function() {
 					assert.fail( 'Element <u> should have been removed by previous filter.' );
 				},
 				s: function( element ) {
@@ -604,7 +602,7 @@ bender.test( {
 		assert.areSame( '<p><b>foobar</b><i>fuubar</i></p>', writer.getHtml( true ) );
 
 		// Now - check with filterRoot == true.
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>foo</b><i>fuu</i>', 'p' );
+		fragment = CKEDITOR.htmlParser.fragment.fromHtml( '<b>foo</b><i>fuu</i>', 'p' );
 		fragment.filterChildren( filter, true );
 		fragment.writeHtml( writer );
 
@@ -823,7 +821,7 @@ bender.test( {
 		var group1 = new CKEDITOR.htmlParser.filterRulesGroup(),
 			group2 = new CKEDITOR.htmlParser.filterRulesGroup();
 
-		assert.isTrue( !!group1 )
+		assert.isTrue( !!group1 );
 		assert.isTrue( !!group2 );
 		assert.areNotSame( group1.rules, group2.rules );
 		assert.isArray( group1.rules );

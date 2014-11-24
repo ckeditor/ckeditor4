@@ -6,8 +6,7 @@ bender.editor = true;
 var keyCombo1 = CKEDITOR.CTRL + 10,
 	keyCombo2 = CKEDITOR.ALT + 20,
 	command1 = 'command#1',
-	command2 = 'command#2',
-	command3 = 'command#3';
+	command2 = 'command#2';
 
 function clearStrokes( keystrokes ) {
 	delete keystrokes[ keyCombo1 ];
@@ -16,7 +15,7 @@ function clearStrokes( keystrokes ) {
 
 bender.test(
 {
-	'test keystroke assignment' : function() {
+	'test keystroke assignment': function() {
 		var editor = this.editor,
 			keystrokes = editor.keystrokeHandler.keystrokes;
 
@@ -26,7 +25,7 @@ bender.test(
 		assert.areEqual( command1, keystrokes[ keyCombo1 ] );
 	},
 
-	'test keystroke array assignment' : function() {
+	'test keystroke array assignment': function() {
 		var editor = this.editor,
 			keystrokes = editor.keystrokeHandler.keystrokes;
 
@@ -35,7 +34,7 @@ bender.test(
 		editor.setKeystroke(
 		[
 			[ keyCombo1, command1 ],
-			[ keyCombo2, command2 ],
+			[ keyCombo2, command2 ]
 		] );
 
 		assert.areEqual( command1, keystrokes[ keyCombo1 ] );
@@ -44,11 +43,12 @@ bender.test(
 
 	'test editor#key event': function() {
 		var fired = 0,
-			evtData = null,
-			listener = this.editor.on( 'key', function( evt ) {
-				fired += 1;
-				evtData = evt.data;
-			} );
+			evtData = null;
+
+		this.editor.on( 'key', function( evt ) {
+			fired += 1;
+			evtData = evt.data;
+		} );
 
 		this.editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 			keyCode: 66,

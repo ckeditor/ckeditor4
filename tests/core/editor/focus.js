@@ -2,7 +2,7 @@
 
 function logFn( msg ) {
 	return function() {
-		window.console && console.log( msg );
+		window.console && console.log( msg ); // jshint ignore:line
 	};
 }
 

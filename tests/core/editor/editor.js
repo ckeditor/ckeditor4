@@ -3,18 +3,16 @@
 CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;
 
-bender.test(
-{
-
-	test_name : function() {
+bender.test( {
+	test_name: function() {
 		assert.areSame( 'editor1', CKEDITOR.instances.editor1.name );
 	},
 
-	test_element : function() {
+	test_element: function() {
 		assert.areSame( document.getElementById( 'editor1' ), CKEDITOR.instances.editor1.element.$ );
 	},
 
-	'ignore:test_config' : function() {
+	'ignore:test_config': function() {
 		// The instance default config must match the CKEDITOR.config.
 
 		var config = CKEDITOR.instances.editor1.config;
@@ -23,44 +21,44 @@ bender.test(
 			assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
 	},
 
-	'ignore:test_config_inpage' : function() {
+	'ignore:test_config_inpage': function() {
 		var self = this;
 
-		CKEDITOR.replace( 'editor2',
-			{
-				// The custom setting to be checked.
-				test1 : 'ball',
-				baseHref : 'test',
+		CKEDITOR.replace( 'editor2', {
+			// The custom setting to be checked.
+			test1: 'ball',
+			baseHref: 'test',
 
-				on :
-				{
-					instanceReady : function() {
-						self.resume( function() {
-							var config = CKEDITOR.instances.editor2.config;
+			on: {
+				instanceReady: function() {
+					self.resume( function() {
+						var config = CKEDITOR.instances.editor2.config;
 
-							assert.areSame( 'ball', config.test1, '"test1" doesn\'t match' );
-							assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
+						assert.areSame( 'ball', config.test1, '"test1" doesn\'t match' );
+						assert.areSame( 'test', config.baseHref, '"baseHref" doesn\'t match' );
 
-							// All other settings must match CKEDITOR.config.
-							for ( var prop in CKEDITOR.config ) {
-								if ( prop != 'test1' && prop != 'baseHref' )
-									assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
-							}
-						} );
-					}
+						// All other settings must match CKEDITOR.config.
+						for ( var prop in CKEDITOR.config ) {
+							if ( prop != 'test1' && prop != 'baseHref' )
+								assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
+						}
+					} );
 				}
-			} );
+			}
+		} );
 
 		this.wait();
 	},
 
-	test_config_customConfig : function() {
+	test_config_customConfig: function() {
 		var tc = this;
 		// Pass in-page settings to the instance.
-		CKEDITOR.replace( 'editor3', { customConfig : '%TEST_DIR%_assets/custom_config_1.js', test1 : 'ball', baseHref : 'test',
-			on :
-			{
-				configLoaded : function( event ) {
+		CKEDITOR.replace( 'editor3', {
+			customConfig: '%TEST_DIR%_assets/custom_config_1.js',
+			test1: 'ball',
+			baseHref: 'test',
+			on: {
+				configLoaded: function( event ) {
 					tc.resume( function() {
 						var config = event.editor.config;
 
@@ -75,9 +73,10 @@ bender.test(
 								continue;
 
 							// Creators might add required plugin to core.
-							if ( prop != 'plugins'
-									 && prop != 'customConfig' && prop != 'test_custom1' && prop != 'test_custom2' && prop != 'test1' && prop != 'baseHref' )
+							if ( prop != 'plugins' && prop != 'customConfig' && prop != 'test_custom1' &&
+								prop != 'test_custom2' && prop != 'test1' && prop != 'baseHref' ) {
 								assert.areSame( CKEDITOR.config[ prop ], config[ prop ], '"' + prop + '" doesn\'t match' );
+							}
 						}
 					} );
 				}
@@ -122,7 +121,7 @@ bender.test(
 		for ( i = 0; i <= 1; i++ ) {
 			var useOldAPI = Boolean( i ),
 				// Helper var with human-readable info what interface version is called.
-				interfaceName = useOldAPI ? 'old API params inline' :'new API params as object';
+				interfaceName = useOldAPI ? 'old API params inline' : 'new API params as object';
 
 			events = [];
 
@@ -191,7 +190,7 @@ bender.test(
 		wait();
 	},
 
-	'test blockless editor' : function() {
+	'test blockless editor': function() {
 		var tc = this;
 		var el = CKEDITOR.dom.element.createFromHtml( '<h1>heading</h1>' );
 		CKEDITOR.document.getBody().append( el );
@@ -199,9 +198,9 @@ bender.test(
 		var editor = new CKEDITOR.editor( {}, el, CKEDITOR.ELEMENT_MODE_INLINE );
 		editor.on( 'loaded', function( evt ) {
 			tc.resume( function() {
-				   evt.removeListener();
-				   assert.isTrue( editor.blockless );
-			   } );
+				evt.removeListener();
+				assert.isTrue( editor.blockless );
+			} );
 		} );
 		this.wait();
 	},
@@ -256,7 +255,7 @@ bender.test(
 		}, this.assertUpdatingElement );
 	},
 
-	'test editor.getResizable' : function() {
+	'test editor.getResizable': function() {
 		var editor = CKEDITOR.instances.editor1,
 			resizeable = editor.getResizable(),
 			innerResizeable = editor.getResizable( true );
