@@ -1,20 +1,20 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @ignore
- * File overview: DOM iterator, which iterates over list items, lines and paragraphs.
+ * File overview: DOM iterator which iterates over list items, lines and paragraphs.
  */
 
 'use strict';
 
 ( function() {
 	/**
-	 * Represents iterator class. It can be used to iterate
+	 * Represents the iterator class. It can be used to iterate
 	 * over all elements (or even text nodes in case of {@link #enlargeBr} set to `false`)
-	 * which establish "paragraph-like" spaces within passed range.
+	 * which establish "paragraph-like" spaces within the passed range.
 	 *
 	 *		// <h1>[foo</h1><p>bar]</p>
 	 *		var iterator = range.createIterator();
@@ -22,8 +22,8 @@
 	 *		iterator.getNextParagraph(); // p element
 	 *
 	 *		// <ul><li>[foo</li><li>bar]</li>
-	 *		// With enforceRealBlocks set to false iterator will return two list item elements.
-	 *		// With enforceRealBlocks set to true iterator will return two paragraphs and the DOM will be changed to:
+	 *		// With enforceRealBlocks set to false the iterator will return two list item elements.
+	 *		// With enforceRealBlocks set to true the iterator will return two paragraphs and the DOM will be changed to:
 	 *		// <ul><li><p>foo</p></li><li><p>bar</p></li>
 	 *
 	 * @class CKEDITOR.dom.iterator
@@ -47,16 +47,16 @@
 
 		// (#3730).
 		/**
-		 * Whether include `<br>`s into the enlarged range. Should be
-		 * set to `false` when using iterator in {@link CKEDITOR#ENTER_BR} mode.
+		 * Whether to include `<br>` elements in the enlarged range. Should be
+		 * set to `false` when using the iterator in the {@link CKEDITOR#ENTER_BR} mode.
 		 *
 		 * @property {Boolean} [enlargeBr=true]
 		 */
 		this.enlargeBr = 1;
 
 		/**
-		 * Whether iterator should create transformable block
-		 * if the current one contains text and it cannot be transformed.
+		 * Whether the iterator should create a transformable block
+		 * if the current one contains text and cannot be transformed.
 		 * For example new blocks will be established in elements like
 		 * `<li>` or `<td>`.
 		 *
@@ -77,7 +77,7 @@
 
 	/**
 	 * Iterator's active filter. It is set by the {@link #getNextParagraph} method
-	 * when it enters nested editable.
+	 * when it enters a nested editable.
 	 *
 	 * @since 4.3
 	 * @readonly
@@ -95,10 +95,10 @@
 
 	iterator.prototype = {
 		/**
-		 * Returns next paragraph-like element or `null` if reached the end of range.
+		 * Returns the next paragraph-like element or `null` if the end of a range is reached.
 		 *
 		 * @param {String} [blockTag='p'] Name of a block element which will be established by
-		 * iterator in block-less elements (see {@link #enforceRealBlocks}).
+		 * the iterator in block-less elements (see {@link #enforceRealBlocks}).
 		 */
 		getNextParagraph: function( blockTag ) {
 			// The block element to be returned.
@@ -360,8 +360,8 @@
 		},
 
 		/**
-		 * Gets the next element to check or `null` when reached the `lastNode` or the
-		 * {@link #range}'s {@link CKEDITOR.dom.range#root root}. Bookmarks are skipped.
+		 * Gets the next element to check or `null` when the `lastNode` or the
+		 * {@link #range}'s {@link CKEDITOR.dom.range#root root} is reached. Bookmarks are skipped.
 		 *
 		 * @since 4.4.6
 		 * @private
@@ -554,7 +554,7 @@
 	}
 
 	/**
-	 * Creates {CKEDITOR.dom.iterator} instance for this range.
+	 * Creates a {CKEDITOR.dom.iterator} instance for this range.
 	 *
 	 * @member CKEDITOR.dom.range
 	 * @returns {CKEDITOR.dom.iterator}

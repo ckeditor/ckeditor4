@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -265,8 +265,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 	/**
 	 * Gets the index of a node in an array of its `parent.childNodes`.
-	 * Returns `-1` if node does not have a parent or when `normalized` argument is set to `true`
-	 * and the text node is empty and will be removed while normalization.
+	 * Returns `-1` if a node does not have a parent or when the `normalized` argument is set to `true`
+	 * and the text node is empty and will be removed during the normalization.
 	 *
 	 * Let us assume having the following `childNodes` array:
 	 *
@@ -282,7 +282,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		emptyText2.getIndex( true );	// -1
 	 *
 	 * @param {Boolean} normalized When `true`, adjacent text nodes are merged and empty text nodes are removed.
-	 * @returns {Number} Index of a node or `-1` if node does not have a parent or is removed while normalization.
+	 * @returns {Number} Index of a node or `-1` if a node does not have a parent or is removed during the normalization.
 	 */
 	getIndex: function( normalized ) {
 		// Attention: getAddress depends on this.$

@@ -286,7 +286,7 @@
 	}
 
 	/**
-	 * Global namespace for methods exposed by the indentlist plugin.
+	 * Global namespace for methods exposed by the Indent List plugin.
 	 *
 	 * @singleton
 	 * @class

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -466,7 +466,7 @@
 			},
 
 			/**
-			 * Checks if the editable is one of the host page element, indicates the
+			 * Checks if the editable is one of the host page elements, indicates
 			 * an inline editing environment.
 			 *
 			 * @returns {Boolean}
@@ -477,7 +477,7 @@
 
 			/**
 			 * Fixes the selection and focus which may be in incorrect state after
-			 * editable's inner HTML has been overwritten.
+			 * editable's inner HTML was overwritten.
 			 *
 			 * If the editable did not have focus, then the selection will be fixed when the editable
 			 * is focused for the first time. If the editable already had focus, then the selection will
