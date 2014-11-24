@@ -46,6 +46,7 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 	popupToolbar: 'Toolbar',
 	popupTop: 'Top Position',
 	rel: 'Relationship',
+	download: 'Force Download',
 	selectAnchor: 'Select an Anchor',
 	styles: 'Style',
 	tabIndex: 'Tab Index',
