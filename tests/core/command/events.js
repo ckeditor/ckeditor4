@@ -6,7 +6,6 @@
 	bender.editor = {};
 
 	bender.test( {
-
 		'test beforeCommandExec canceling': function() {
 			var cmdCalled = false;
 
@@ -15,7 +14,7 @@
 			}, null, null, 1 );
 
 			this.editor.addCommand( 'mockupCommand', {
-				exec: function( editor ) {
+				exec: function() {
 					cmdCalled = true;
 				}
 			} );
@@ -28,7 +27,7 @@
 			var cmdCalled = false;
 
 			this.editor.addCommand( 'mockupCommand', {
-				exec: function( editor ) {
+				exec: function() {
 					cmdCalled = true;
 				}
 			} );
