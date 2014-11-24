@@ -6,15 +6,14 @@
 
 	bender.editor = true;
 
-	bender.test(
-	{
-		setUp : function() {
+	bender.test( {
+		setUp: function() {
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
 			this.editor.focus();
 		},
 
-		'pasteDialog event' : function() {
+		'pasteDialog event': function() {
 			var tc = this,
 				editor = this.editor;
 
@@ -43,8 +42,8 @@
 					evt.removeListener();
 
 					tc.resume( function() {
-							assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
-						} );
+						assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
+					} );
 				} );
 
 			editor.on( 'dialogShow', function( evt ) {
@@ -118,7 +117,9 @@
 						} );
 				} );
 
-			setTimeout( function() { editor.execCommand( 'paste' ); } );
+			setTimeout( function() {
+				editor.execCommand( 'paste' );
+			} );
 			tc.wait();
 		},
 

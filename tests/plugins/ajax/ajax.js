@@ -133,7 +133,7 @@
 				contentType = 'application/x-www-form-urlencoded';
 
 			assertAjaxPost( url, data, contentType, function() {
-				CKEDITOR.ajax.post( url, data, contentType, function( respData ) {
+				CKEDITOR.ajax.post( url, data, contentType, function() {
 					resume( function() {
 						assert.isTrue( true, 'Callback called' );
 					} );
@@ -149,7 +149,7 @@
 				contentType = 'application/json';
 
 			assertAjaxPost( url, data, contentType, function() {
-				CKEDITOR.ajax.post( url, data, contentType, function( respData ) {
+				CKEDITOR.ajax.post( url, data, contentType, function() {
 					resume( function() {
 						assert.isTrue( true, 'Callback called' );
 					} );
@@ -164,7 +164,7 @@
 				data = 'key=value';
 
 			assertAjaxPost( url, data, 'application/x-www-form-urlencoded; charset=UTF-8', function() {
-				CKEDITOR.ajax.post( url, data, null, function( respData ) {
+				CKEDITOR.ajax.post( url, data, null, function() {
 					resume( function() {
 						assert.isTrue( true, 'Callback called' );
 					} );

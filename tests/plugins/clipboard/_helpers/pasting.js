@@ -1,7 +1,10 @@
+/* exported assertPasteEvent */
+
+'use strict';
+
 function assertPasteEvent( editor, eventData, expected, message, async ) {
 	var priority = 999,
-		executed = false,
-		onPaste;
+		executed = false;
 
 	message = message ? message + ' - ' : '';
 
@@ -42,7 +45,7 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 
 		if ( async )
 			resume( function() {
-				 assertPaste( data );
+				assertPaste( data );
 			} );
 		else
 			assertPaste( data );
