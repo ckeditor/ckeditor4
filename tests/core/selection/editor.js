@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,autoparagraphing */
+/* global doc, checkRangeEqual, assertSelectionsAreEqual */
 
 'use strict';
 
@@ -41,7 +42,7 @@ bender.test( {
 		} );
 	},
 
-	assertGetSelection : function( source, expected ) {
+	assertGetSelection: function( source, expected ) {
 		var ed = this.editor;
 		bender.tools.setHtmlWithSelection( ed, source );
 		assert.areSame( expected || source, bender.tools.getHtmlWithSelection( ed ) );
@@ -90,7 +91,7 @@ bender.test( {
 	},
 
 	// Lock lock/unlock selection.
-	'test editor selection lock on blur' : function() {
+	'test editor selection lock on blur': function() {
 		var ed = this.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
@@ -104,32 +105,29 @@ bender.test( {
 		range.select();
 
 		this.wait( function() {
-			   doc.getById( 'input1' ).focus();
-			   var sel = ed.getSelection();
-			   assert.isNotNull( sel, 'should be able to retrieve locked selection' );
-			   assert.isTrue( !!sel.isLocked, 'selection should be locked' );
+			doc.getById( 'input1' ).focus();
+			var sel = ed.getSelection();
+			assert.isNotNull( sel, 'should be able to retrieve locked selection' );
+			assert.isTrue( !!sel.isLocked, 'selection should be locked' );
 
-			   var savedRange = sel.getRanges()[ 0 ];
-			   // Check saved range.
-			   assert.isTrue( checkRangeEqual( range, savedRange ),
-							  "saved range doesn't match original" );
+			var savedRange = sel.getRanges()[ 0 ];
+			// Check saved range.
+			assert.isTrue( checkRangeEqual( range, savedRange ), 'saved range does not match original' );
 
-			   ed.focus();
-			   sel = ed.getSelection();
-			   assert.isFalse( !!sel.isLocked, 'selection should be unlocked' );
+			ed.focus();
+			sel = ed.getSelection();
+			assert.isFalse( !!sel.isLocked, 'selection should be unlocked' );
 
-			   var restoredRange = sel.getRanges()[ 0 ];
-			   // Check range is restored.
-			   assert.isTrue( checkRangeEqual( range, restoredRange ),
-							  "restored range doesn't match original" );
-
-		   }, 200 );		// 200ms delay for triggering selection change.
+			var restoredRange = sel.getRanges()[ 0 ];
+			// Check range is restored.
+			assert.isTrue( checkRangeEqual( range, restoredRange ), 'restored range does not match original' );
+		}, 200 ); // 200ms delay for triggering selection change.
 	},
 
-	'test "selectionChange" fires properly' : function() {
+	'test "selectionChange" fires properly': function() {
 		var ed = this.editor, editable = ed.editable(), firedTimes = 0;
 		var onSelectionChange = function( evt ) {
-			firedTimes ++;
+			firedTimes += 1;
 			ed.forceNextSelectionCheck();
 
 			// selection and path provided on the event obj
@@ -143,7 +141,7 @@ bender.test( {
 		};
 
 		// Avoid swallowing assertion errors inside event handler.
-		ed.define( 'selectionChange', { errorProof : 0 } );
+		ed.define( 'selectionChange', { errorProof: 0 } );
 		ed.on( 'selectionChange', onSelectionChange );
 
 		ed.forceNextSelectionCheck();
@@ -153,12 +151,12 @@ bender.test( {
 
 		// selection change has a 200ms delay.
 		this.wait( function() {
-			   ed.removeListener( 'selectionChange', onSelectionChange );
-			   assert.areSame( 2, firedTimes, 'times of selectionChange fired doesn\'t match.' );
-		   }, 200 );
+			ed.removeListener( 'selectionChange', onSelectionChange );
+			assert.areSame( 2, firedTimes, 'times of selectionChange fired doesn\'t match.' );
+		}, 200 );
 	},
 
-	'test "selectionChange" not fired when editor selection is locked' : function() {
+	'test "selectionChange" not fired when editor selection is locked': function() {
 		var ed = this.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
@@ -172,13 +170,13 @@ bender.test( {
 
 		doc.getById( 'input1' ).focus();
 
-		function shouldFail( evt ) {
+		function shouldFail() {
 			// No "selectionChange" when editor is blurred.
 			assert.fail( 'selection change should\'t be fired.' );
 		}
 
 		ed.on( 'selectionChange', shouldFail );
-		ed.selectionChange( true )
+		ed.selectionChange( true );
 		ed.removeListener( 'selectionChange', shouldFail );
 
 		assert.isTrue( true );
@@ -247,7 +245,7 @@ bender.test( {
 
 			assert.areSame( 0, selectionChange, 'Selection was up to date' );
 			bot.setData( '<p>foo<strong>bar</strong></p>', function() {
-				var listener = editor.on( 'selectionChange', function( evt ) {
+				var listener = editor.on( 'selectionChange', function() {
 					selectionChange++;
 				} );
 
@@ -270,18 +268,18 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on editor focus': function() {
-		 var ed = this.editor;
-		 ed.on( 'selectionChange', function( evt ) {
-			 evt.removeListener();
-			 assert.isTrue( true );
-		 } );
+		var ed = this.editor;
+		ed.on( 'selectionChange', function( evt ) {
+			evt.removeListener();
+			assert.isTrue( true );
+		} );
 
-		 doc.getById( 'input1' ).focus();
-		 ed.forceNextSelectionCheck();
-		 ed.focus();
-	 },
+		doc.getById( 'input1' ).focus();
+		ed.forceNextSelectionCheck();
+		ed.focus();
+	},
 
-	'test collapsed text selection' : function() {
+	'test collapsed text selection': function() {
 		this.assertGetSelection( '^' );
 		this.assertGetSelection( '<p>^</p>' );
 		this.assertGetSelection( '<h1>^</h1>' );
@@ -312,9 +310,8 @@ bender.test( {
 		}
 	},
 
-	'test selection after DOM unload' : function() {
-		var bot = this.editorBot,
-			editor = this.editor;
+	'test selection after DOM unload': function() {
+		var editor = this.editor;
 
 		editor.focus();
 		bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
@@ -425,15 +422,19 @@ bender.test( {
 
 						// TC2 - on getData
 						// <p>foo^<em>...
-						var range = editor.createRange();
+						range = editor.createRange();
 						range.setStart( editor.document.getById( 'p' ), 1 );
 						editor.getSelection().selectRanges( [ range ] );
 
 						assert.isMatching( /^<p id="p">foo\u200b<em>bar<\/em><\/p>$/, editor.editable().getHtml(), 'Filling char was inserted 2' );
 
 						editor.dataProcessor = {
-							toHtml: function( html ) { return html },
-							toDataFormat: function( html ) { return html }
+							toHtml: function( html ) {
+								return html;
+							},
+							toDataFormat: function( html ) {
+								return html;
+							}
 						};
 
 						assert.isMatching( /^<p id="p">foo<em>bar<\/em><\/p>$/, editor.getData(), 'Filling char was removed on getData' );
@@ -441,7 +442,7 @@ bender.test( {
 
 						// TC3 - on undo image
 						// <p>foo^<em>...
-						var range = editor.createRange();
+						range = editor.createRange();
 						range.setStart( editor.document.getById( 'p' ), 1 );
 						editor.getSelection().selectRanges( [ range ] );
 
@@ -461,7 +462,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -487,7 +487,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -520,7 +519,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -552,7 +550,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -582,7 +579,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -623,7 +619,6 @@ bender.test( {
 			assert.ignore();
 
 		var editor = this.editor,
-			bot = this.editorBot,
 			editable = editor.editable(),
 			range = editor.createRange();
 
