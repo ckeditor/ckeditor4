@@ -321,8 +321,6 @@
 				event.methodName = methodName;
 				if ( testObject instanceof YUITest.TestCase ) {
 					event.testCase = testObject;
-				} else {
-					event.testSuite = testSuite;
 				}
 
 				this.fire( event );
@@ -534,7 +532,7 @@
 } )( this, bender );
 
 // workaround for IE8 - window.resume / window.wait won't work in this environment...
-var resume = bender.Y.Test.Case.prototype.resume = ( function() {
+var resume = bender.Y.Test.Case.prototype.resume = ( function() { // jshint ignore:line
 		var org = bender.Y.Test.Case.prototype.resume;
 
 		return function( segment ) {
@@ -546,7 +544,7 @@ var resume = bender.Y.Test.Case.prototype.resume = ( function() {
 		};
 	} )(),
 
-	wait = function( callback ) {
+	wait = function( callback ) { // jshint ignore:line
 		var args = [].slice.apply( arguments );
 
 		if ( args.length == 1 && typeof callback == 'function' ) {
