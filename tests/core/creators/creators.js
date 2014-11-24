@@ -10,7 +10,9 @@ bender.test( {
 		assert.isFunction( editor.addMode );
 
 		// Check mode provider.
-		editor.addMode( 'foo', function( callback ) { callback(); } ) ;
+		editor.addMode( 'foo', function( callback ) {
+			callback();
+		} );
 
 		// Check mode event fired.
 		editor.on( 'mode', function( evt ) {
@@ -168,7 +170,7 @@ bender.test( {
 
 		var editor = CKEDITOR.appendTo( 'foo', {
 			on: {
-				instanceReady: function( evt ) {
+				instanceReady: function() {
 					resume( function() {
 						assert.areSame( 'editor1', editor.name, 'editor.name' );
 						checkEvents();
@@ -200,7 +202,7 @@ bender.test( {
 
 		var editor = CKEDITOR.inline( target.$, {
 			on: {
-				instanceReady: function( evt ) {
+				instanceReady: function() {
 					resume( function() {
 						assert.areSame( 'foo', editor.name, 'editor.name' );
 						tc.checkEditorProperties( editor );
@@ -232,7 +234,7 @@ bender.test( {
 
 		var editor = CKEDITOR.inline( target.$, {
 			on: {
-				instanceReady: function( evt ) {
+				instanceReady: function() {
 					resume( function() {
 						assert.areSame( 'foo', editor.name, 'editor.name' );
 						tc.checkEditorProperties( editor );

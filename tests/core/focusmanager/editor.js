@@ -3,13 +3,11 @@
 
 CKEDITOR.focusManager._.blurDelay = 0;
 
-bender.editor =
-{
-	startupData : 'foo'
+bender.editor = {
+	startupData: 'foo'
 };
 
-bender.test(
-{
+bender.test( {
 	assertFocus: function( truly ) {
 
 		var ed = this.editor,
@@ -19,14 +17,14 @@ bender.test(
 		assert[ truly === false ? 'isFalse' : 'isTrue' ]( ed.container.hasClass( 'cke_focus' ), ' editor container receives focused class name.' );
 	},
 
-	'test editor focus - editable focused' : function() {
-		var ed = this.editor, bot = this.editorBot;
+	'test editor focus - editable focused': function() {
+		var bot = this.editorBot;
 		bot.focus( function() {
 			this.assertFocus();
 		} );
 	},
 
-	'test editor blur - focus move out of editor' : function() {
+	'test editor blur - focus move out of editor': function() {
 		var tc = this;
 		var outer = CKEDITOR.document.getById( 'focusable' );
 		bender.tools.focus( outer, function() {
@@ -34,16 +32,16 @@ bender.test(
 		} );
 	},
 
-	'test editor focus - combo opened' : function() {
-		var ed = this.editor, bot = this.editorBot;
+	'test editor focus - combo opened': function() {
+		var bot = this.editorBot;
 		bot.combo( 'Format', function( combo ) {
 			this.assertFocus();
 			combo._.panel.hide();
 		} );
 	},
 
-	'test editor focus - dialog opened' : function() {
-		var ed = this.editor, bot = this.editorBot;
+	'test editor focus - dialog opened': function() {
+		var bot = this.editorBot;
 		bot.dialog( 'about', function( dialog ) {
 			this.assertFocus();
 			dialog.hide();
@@ -51,7 +49,7 @@ bender.test(
 	},
 
 	'test editor focus - toolbar focused': function() {
-		var ed = this.editor, bot = this.editorBot;
+		var bot = this.editorBot;
 		bot.execCommand( 'toolbarFocus' );
 
 		// IEs move focus asynchronously in some cases...

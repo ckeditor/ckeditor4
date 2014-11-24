@@ -6,19 +6,16 @@
 	// We're gonna do that later, manually.
 	CKEDITOR.disableAutoInline = true;
 
-	bender.test(
-	{
-		'inline duplicates' : function() {
+	bender.test( {
+		'inline duplicates': function() {
 			var fail = false;
 
 			CKEDITOR.inlineAll();
 
-			try
-			{
+			try {
 				CKEDITOR.inline( 'editable' );
 				fail = true;
-			}
-			catch ( e ) {}
+			} catch ( e ) {}
 
 			assert.isFalse( fail, 'Expected error not thrown.' );
 		},
@@ -28,12 +25,10 @@
 
 			CKEDITOR.replace( 'editor' );
 
-			try
-			{
+			try {
 				CKEDITOR.replace( 'editor' );
 				fail = true;
-			}
-			catch ( e ) {}
+			} catch ( e ) {}
 
 			assert.isFalse( fail, 'Expected error not thrown.' );
 		}
