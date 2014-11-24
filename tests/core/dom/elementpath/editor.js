@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit */
 
-var tools = bender.tools,
-	doc = CKEDITOR.document;
+var tools = bender.tools;
 
 function assertPath( path, tags, block, blockLimit ) {
 	assert.areSame( block, path.block ? path.block.getName() : '', 'path block' );

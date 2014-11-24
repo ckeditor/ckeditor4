@@ -3,11 +3,7 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
-
-	var tests =
-	{
+	var tests = {
 		'rangeGetNextEditableNode': function( html, childIndex, startOffset, previous ) {
 			var ct = new CKEDITOR.dom.element( 'div' );
 			ct.setHtml( html );

@@ -3,12 +3,10 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+	var doc = CKEDITOR.document;
 
-	var tests =
-	{
-		test_setStart : function() {
+	var tests = {
+		test_setStart: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'playground' ), 1 );
 
@@ -19,7 +17,7 @@
 			assert.isTrue( range.collapsed );
 		},
 
-		test_setEnd : function() {
+		test_setEnd: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEnd( doc.getById( 'playground' ), 1 );
 
@@ -30,7 +28,7 @@
 			assert.isTrue( range.collapsed );
 		},
 
-		test_setStartAfter : function() {
+		test_setStartAfter: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAfter( doc.getById( '_B' ) );
 			range.setStartAfter( doc.getById( '_H1' ).getFirst() );
@@ -42,7 +40,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_setStartBefore : function() {
+		test_setStartBefore: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartBefore( doc.getById( '_B' ) );
 			range.setStartBefore( doc.getById( '_H1' ).getFirst() );
@@ -54,7 +52,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_setEndAfter : function() {
+		test_setEndAfter: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndAfter( doc.getById( '_H1' ).getFirst() );
 			range.setEndAfter( doc.getById( '_B' ) );
@@ -66,7 +64,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_setEndBefore : function() {
+		test_setEndBefore: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndBefore( doc.getById( '_H1' ).getFirst() );
 			range.setEndBefore( doc.getById( '_B' ) );
@@ -78,7 +76,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_setStartAt_1 : function() {
+		test_setStartAt_1: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_Span' ), CKEDITOR.POSITION_AFTER_START );
 
@@ -87,7 +85,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setStartAt_2 : function() {
+		test_setStartAt_2: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_END );
 
@@ -96,7 +94,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setStartAt_3 : function() {
+		test_setStartAt_3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_START );
 
@@ -105,7 +103,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setStartAt_4 : function() {
+		test_setStartAt_4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_Span' ), CKEDITOR.POSITION_AFTER_END );
 
@@ -114,7 +112,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setEndAt_1 : function() {
+		test_setEndAt_1: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_AFTER_START );
 
@@ -123,7 +121,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setEndAt_2 : function() {
+		test_setEndAt_2: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_END );
 
@@ -132,7 +130,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_setEndAt_3 : function() {
+		test_setEndAt_3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_START );
 

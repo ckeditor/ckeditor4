@@ -3,19 +3,18 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+	var doc = CKEDITOR.document,
+		html2 = document.getElementById( 'playground2' ).innerHTML;
 
 	function getRange( startId, endId ) {
 		var range = new CKEDITOR.dom.range( CKEDITOR.document );
-		range.moveToBookmark( { startNode : startId, endNode : endId, serializable : true } );
+		range.moveToBookmark( { startNode: startId, endNode: endId, serializable: true } );
 		return range;
 	}
 
-	var tests =
-	{
+	var tests = {
 		setUp: function() {
-			 document.getElementById( 'playground2' ).innerHTML = html2;
+			document.getElementById( 'playground2' ).innerHTML = html2;
 		},
 
 		// @param CKEDITOR.dom.range range Range object which will be tested.
@@ -39,7 +38,7 @@
 		},
 
 		// #8732
-		'test enlarge element (HTML comments)' : function() {
+		'test enlarge element (HTML comments)': function() {
 			// IE9+Compat throws exception with the below content.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				assert.ignore();
@@ -53,7 +52,7 @@
 		},
 
 		// #4950
-		'test enlarge element 16' : function() {
+		'test enlarge element 16': function() {
 			var ct = doc.getById( 'editable_playground' );
 			var source = '<p><b>A</b> <b>B</b> [C]D</p>';
 			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
@@ -61,7 +60,7 @@
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		test_enlarge_block1 : function() {
+		test_enlarge_block1: function() {
 			var range = getRange( 'S5', null );
 			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
@@ -72,7 +71,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_element9 : function() {
+		test_enlarge_element9: function() {
 			// <p>Test<i> [Enlarge</i>]</p>
 			// <p>Test<i> [Enlarge</i>]</p>
 
@@ -124,7 +123,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element11 : function() {
+		test_enlarge_element11: function() {
 			// <p>Test <i>[Enlarge]</i></p>
 			// <p>Test [<i>Enlarge</i>]</p>
 
@@ -141,7 +140,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_element12 : function() {
+		test_enlarge_element12: function() {
 			// <p>Test <i><b></b>[Enlarge]</i></p>
 			// <p>Test [<i><b></b>Enlarge</i>]</p>
 
@@ -158,7 +157,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_element13 : function() {
+		test_enlarge_element13: function() {
 			// <p>Test <i><b></b>[Enlarge]</i></p>
 			// <p>Test [<i><b></b>Enlarge</i>]</p>
 
@@ -178,7 +177,7 @@
 		},
 
 		// Enlarge without including line-breaks; (#7087)
-		test_enlarge_element15 : function() {
+		test_enlarge_element15: function() {
 			// <p><i>[Enlarge]</i><br /></p>
 			// <p>[<i>Enlarge</i>]<br /></p>
 
@@ -272,7 +271,7 @@
 			this.assertRangeContainers( range, 1, 2, expectedSelectContainer );
 		},
 
-		test_enlarge_list1 : function() {
+		test_enlarge_list1: function() {
 			var range = getRange( 'S1', null );
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
 
@@ -283,7 +282,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_list2 : function() {
+		test_enlarge_list2: function() {
 			var range = getRange( 'S2', 'E2' );
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
 
@@ -294,7 +293,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_list3 : function() {
+		test_enlarge_list3: function() {
 			var range = getRange( 'S3', null );
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
 
@@ -305,7 +304,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_list4 : function() {
+		test_enlarge_list4: function() {
 			var range = getRange( 'S4', null );
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
 
@@ -316,7 +315,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_list5 : function() {
+		test_enlarge_list5: function() {
 			var range = getRange( 'S9', null );
 			var bookmark = range.createBookmark();
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
@@ -329,7 +328,7 @@
 			range.moveToBookmark( bookmark );
 		},
 
-		test_enlarge_block2 : function() {
+		test_enlarge_block2: function() {
 			var range = getRange( 'S10', null );
 			var bookmark = range.createBookmark();
 			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
@@ -342,7 +341,7 @@
 			range.moveToBookmark( bookmark );
 		},
 
-		test_enlarge_block3 : function() {
+		test_enlarge_block3: function() {
 			var range = getRange( 'S6', null );
 			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
@@ -353,7 +352,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_block4 : function() {
+		test_enlarge_block4: function() {
 			var range = getRange( 'S7', null );
 			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
@@ -364,7 +363,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_enlarge_block5 : function() {
+		test_enlarge_block5: function() {
 			var range = getRange( 'S8', null );
 			range.enlarge( CKEDITOR.ENLARGE_BLOCK_CONTENTS );
 
@@ -377,7 +376,7 @@
 		 * Test enlarge list when there's no nodes between
 		 * range start and the block boundary.
 		 */
-		test_enlarge_block6 : function() {
+		test_enlarge_block6: function() {
 			var range = getRange( 'S11', null );
 			range.enlarge( CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS );
 
@@ -390,7 +389,7 @@
 		 * We should stop enlarging the range when it ends right after BR,
 		 * this's the case when a line selection is made in IE/Opera. (#7490)
 		 */
-		test_enlarge_brs : function() {
+		test_enlarge_brs: function() {
 			var target = CKEDITOR.document.getById( '_EnlargeP19' ),
 				range = bender.tools.setHtmlWithRange( target, '[line1<br />line2<br />]line3' )[ 0 ];
 
@@ -891,7 +890,7 @@
 				assert.isFalse( range.collapsed, 'range.collapsed' );
 			},
 
-		test_enlarge_element5 : function() {
+		test_enlarge_element5: function() {
 				// <p>Test<b> <i>[Enlarge</i> this]</b></p>
 				// <p>Test<b> [<i>Enlarge</i> this]</b></p>
 
@@ -994,7 +993,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
 				assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}:
+			} :
 			function() {
 				// <p>Test <b><i>[Enlarge</i> this</b></p><p><b><i>Enlarge</i> this]</b></p>
 				// <p>Test [<b><i>Enlarge</i> this</b></p><p><b><i>Enlarge</i> this</b></p>]
@@ -1017,9 +1016,3 @@
 
 	bender.test( tests );
 } )();
-
-	//<![CDATA[
-
-html2 = document.getElementById( 'playground2' ).innerHTML;
-
-	//]]>

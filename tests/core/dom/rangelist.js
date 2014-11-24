@@ -1,10 +1,12 @@
 /* bender-tags: editor,unit,dom */
 
-var doc = CKEDITOR.document;
+( function() {
+	'use strict';
 
-bender.test(
-{
-		test__constructor : function() {
+	var doc = CKEDITOR.document;
+
+	bender.test( {
+		test__constructor: function() {
 			var rlist = new CKEDITOR.dom.rangeList(),
 				range = new CKEDITOR.dom.range( doc );
 
@@ -46,4 +48,5 @@ bender.test(
 
 			assert.areEqual( 1, ranges2.length, 'Adjacent nodes merged' );
 		}
-} );
+	} );
+} )();

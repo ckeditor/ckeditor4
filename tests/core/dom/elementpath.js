@@ -229,5 +229,5 @@ bender.test( {
 		var path = this.elPath( 'e5_1', 'e5' );
 
 		assert.isFalse( path.isContextFor( 'p' ) );
-	},
+	}
 } );

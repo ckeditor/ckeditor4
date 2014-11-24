@@ -3,8 +3,8 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+	var doc = CKEDITOR.document,
+		html1 = document.getElementById( 'playground' ).innerHTML;
 
 	function appendBogus( element ) {
 		var bogus = CKEDITOR.dom.element.createFromHtml( CKEDITOR.env.needsNbspFiller ? '&nbsp;' : '<br />' );
@@ -12,13 +12,12 @@
 		return bogus;
 	}
 
-	var tests =
-	{
+	var tests = {
 		setUp: function() {
-			 document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'playground' ).innerHTML = html1;
 		},
 
-		test_checkStartOfBlock1 : function() {
+		test_checkStartOfBlock1: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -31,7 +30,7 @@
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock2 : function() {
+		test_checkStartOfBlock2: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -44,7 +43,7 @@
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock3 : function() {
+		test_checkStartOfBlock3: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -57,7 +56,7 @@
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock4 : function() {
+		test_checkStartOfBlock4: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -85,7 +84,7 @@
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock6 : function() {
+		test_checkStartOfBlock6: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p> Test </p>' );
 			p = p.getFirst();
@@ -98,7 +97,7 @@
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock7 : function() {
+		test_checkStartOfBlock7: function() {
 			var el = doc.getById( 'playground' );
 			el.setHtml( '<p><b>Test</b></p>' );
 			el = el.getFirst().getFirst();
@@ -109,7 +108,7 @@
 			assert.isTrue( range.checkStartOfBlock() );
 		},
 
-		test_checkStartOfBlock8 : function() {
+		test_checkStartOfBlock8: function() {
 			var el = doc.getById( 'playground' );
 			el.setHtml( '<p>A<b>Test</b>B</p>' );
 			el = el.getFirst().getFirst().getNext();
@@ -120,7 +119,7 @@
 			assert.isFalse( range.checkStartOfBlock() );
 		},
 
-		test_checkEndOfBlock1 : function() {
+		test_checkEndOfBlock1: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -133,7 +132,7 @@
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock2 : function() {
+		test_checkEndOfBlock2: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -146,7 +145,7 @@
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock3 : function() {
+		test_checkEndOfBlock3: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -159,7 +158,7 @@
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock4 : function() {
+		test_checkEndOfBlock4: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p>Test</p>' );
 			p = p.getFirst();
@@ -172,7 +171,7 @@
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock5 : function() {
+		test_checkEndOfBlock5: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p> Test </p>' );
 			p = p.getFirst();
@@ -185,7 +184,7 @@
 			assert.isFalse( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock6 : function() {
+		test_checkEndOfBlock6: function() {
 			var p = doc.getById( 'playground' );
 			p.setHtml( '<p> Test </p>' );
 			p = p.getFirst();
@@ -198,7 +197,7 @@
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock7 : function() {
+		test_checkEndOfBlock7: function() {
 			var el = doc.getById( 'playground' );
 			el.setHtml( '<p><b>Test</b></p>' );
 			el = el.getFirst().getFirst();
@@ -209,7 +208,7 @@
 			assert.isTrue( range.checkEndOfBlock() );
 		},
 
-		test_checkEndOfBlock8 : function() {
+		test_checkEndOfBlock8: function() {
 			var el = doc.getById( 'playground' );
 			el.setHtml( '<p>A<b>Test</b>B</p>' );
 			el = el.getFirst().getFirst().getNext();
@@ -289,9 +288,3 @@
 
 	bender.test( tests );
 } )();
-
-	//<![CDATA[
-
-html1 = document.getElementById( 'playground' ).innerHTML;
-
-	//]]>

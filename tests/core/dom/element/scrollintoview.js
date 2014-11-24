@@ -1,13 +1,13 @@
 /* bender-tags: editor,unit,dom */
 
-var doc = CKEDITOR.document, win = doc.getWindow();
+var doc = CKEDITOR.document,
+	win = doc.getWindow();
 
-bender.test(
-{
+bender.test( {
 	// Reset scroll to top/bottom.
 	resetScroll: function( toBottom ) {
 		var maxScrollTop = win.$.scrollMaxY || doc.$.documentElement.scrollHeight - doc.$.documentElement.clientHeight;
-		win.$.scrollTo( 0, toBottom ?  maxScrollTop: 0 );
+		win.$.scrollTo( 0, toBottom ? maxScrollTop : 0 );
 	},
 
 	// Assert element position is inside of the view port, with an offset to the top/bottom.
@@ -22,16 +22,15 @@ bender.test(
 			assert.isTrue( rect.top < offset, 'check element at the top of page' );
 	},
 
-	notScrolledAssertion : function() {
+	notScrolledAssertion: function() {
 		var org = win.getScrollPosition();
 		return function() {
 			var curr = win.getScrollPosition();
 			assert.areSame( org.y, curr.y, 'check page not scrolled' );
-		}
+		};
 	},
 
 	'test not scrolled': function() {
-
 		this.resetScroll();
 		var promise = this.notScrolledAssertion();
 		doc.getById( 'target1' ).scrollIntoView();

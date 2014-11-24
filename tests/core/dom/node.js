@@ -373,7 +373,7 @@
 
 			// test with element from an iframe context
 			assert.isFalse( doc.equals( docIframe.getBody().getDocument() ) );
-			assert.areSame( childContext.document, docIframe.$ );
+			assert.areSame( childContext.document, docIframe.$ ); // jshint ignore:line
 		},
 
 		'getIndex - single node': function() {
