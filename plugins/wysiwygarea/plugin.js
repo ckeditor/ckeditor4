@@ -342,8 +342,7 @@
 						docType = config.docType;
 
 					// Build the additional stuff to be included into <head>.
-					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() )
-						                .replace( /<style>/, '<style data-cke-temp="1">' );
+					var headExtra = CKEDITOR.tools.buildStyleHtml( iframeCssFixes() ).replace( /<style>/, '<style data-cke-temp="1">' );
 
 					if ( !fullPage )
 						headExtra += CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss );
@@ -464,8 +463,12 @@
 
 					// Work around Firefox bug - error prune when called from XUL (#320),
 					// defer it thanks to the async nature of this method.
-					try { doc.write( data ); } catch ( e ) {
-						setTimeout( function() { doc.write( data ); }, 0 );
+					try {
+						doc.write( data );
+					} catch ( e ) {
+						setTimeout( function() {
+							doc.write( data );
+						}, 0 );
 					}
 				}
 			},
@@ -538,7 +541,7 @@
 				var doc = editor.document.$;
 				doc.execCommand( 'enableObjectResizing', false, !editor.config.disableObjectResizing );
 				doc.execCommand( 'enableInlineTableEditing', false, !editor.config.disableNativeTableHandles );
-			} catch( e ) {}
+			} catch ( e ) {}
 		} else if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 && editor.config.disableObjectResizing ) {
 			// It's possible to prevent resizing up to IE10.
 			blockResizeStart( editor );
@@ -575,10 +578,11 @@
 
 	// DOM modification here should not bother dirty flag.(#4385)
 	function restoreDirty( editor ) {
-		if ( !editor.checkDirty() )
+		if ( !editor.checkDirty() ) {
 			setTimeout( function() {
-			editor.resetDirty();
-		}, 0 );
+				editor.resetDirty();
+			}, 0 );
+		}
 	}
 
 	function iframeCssFixes() {

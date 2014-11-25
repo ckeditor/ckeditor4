@@ -10,8 +10,7 @@ CKEDITOR.addTemplates( 'default', {
 	imagesPath: CKEDITOR.getUrl( CKEDITOR.plugins.getPath( 'templates' ) + 'templates/images/' ),
 
 	// The templates definitions.
-	templates: [
-		{
+	templates: [ {
 		title: 'Image and Title',
 		image: 'template1.gif',
 		description: 'One main image with a title and text that surround the image.',
@@ -24,7 +23,7 @@ CKEDITOR.addTemplates( 'default', {
 			'Type the text here' +
 			'</p>'
 	},
-		{
+	{
 		title: 'Strange Template',
 		image: 'template2.gif',
 		description: 'A template that defines two colums, each one with a title, and some text.',
@@ -52,7 +51,7 @@ CKEDITOR.addTemplates( 'default', {
 			'More text goes here.' +
 			'</p>'
 	},
-		{
+	{
 		title: 'Text and Table',
 		image: 'template3.gif',
 		description: 'A title with some text and a table.',
@@ -84,6 +83,5 @@ CKEDITOR.addTemplates( 'default', {
 				'Type the text here' +
 			'</p>' +
 			'</div>'
-	}
-	]
+	} ]
 } );

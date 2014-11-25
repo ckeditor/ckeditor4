@@ -48,8 +48,9 @@
 					baseXml.loadXML( data );
 				}
 			}
-			else if ( window.DOMParser )
+			else if ( window.DOMParser ) {
 				baseXml = ( new DOMParser() ).parseFromString( data, 'text/xml' );
+			}
 		}
 
 		/**

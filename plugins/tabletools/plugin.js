@@ -564,8 +564,9 @@
 		}
 		// Be able to merge cells only if actual dimension of selected
 		// cells equals to the caculated rectangle.
-		else
+		else {
 			return ( totalRowSpan * totalColSpan ) == dimension;
+		}
 	}
 
 	function verticalSplitCell( selection, isDetect ) {
@@ -601,8 +602,9 @@
 				if ( candidateCell.parentNode == newCellTr.$ && c > colIndex ) {
 					newCell.insertBefore( new CKEDITOR.dom.element( candidateCell ) );
 					break;
-				} else
+				} else {
 					candidateCell = null;
+				}
 			}
 
 			// The destination row is empty, append at will.

@@ -237,26 +237,24 @@
 				}
 				// Properly restore the selection, (#4822) but don't break
 				// because of this, e.g. updated table caption.
-				else
+				else {
 					try {
-					selection.selectBookmarks( bms );
-				} catch ( er ) {}
+						selection.selectBookmarks( bms );
+					} catch ( er ) {
+					}
+				}
 			},
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: editor.lang.table.title,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
 					widths: [ null, null ],
 					styles: [ 'vertical-align:top' ],
-					children: [
-						{
+					children: [ {
 						type: 'vbox',
 						padding: 0,
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'txtRows',
 							'default': 3,
@@ -269,7 +267,7 @@
 							},
 							commit: commitValue
 						},
-							{
+						{
 							type: 'text',
 							id: 'txtCols',
 							'default': 2,
@@ -282,11 +280,11 @@
 							},
 							commit: commitValue
 						},
-							{
+						{
 							type: 'html',
 							html: '&nbsp;'
 						},
-							{
+						{
 							type: 'select',
 							id: 'selHeaders',
 							requiredContent: 'th',
@@ -297,7 +295,7 @@
 								[ editor.lang.table.headersRow, 'row' ],
 								[ editor.lang.table.headersColumn, 'col' ],
 								[ editor.lang.table.headersBoth, 'both' ]
-								],
+							],
 							setup: function( selectedTable ) {
 								// Fill in the headers field.
 								var dialog = this.getDialog();
@@ -321,7 +319,7 @@
 							},
 							commit: commitValue
 						},
-							{
+						{
 							type: 'text',
 							id: 'txtBorder',
 							requiredContent: 'table[border]',
@@ -340,7 +338,7 @@
 									selectedTable.removeAttribute( 'border' );
 							}
 						},
-							{
+						{
 							id: 'cmbAlign',
 							type: 'select',
 							requiredContent: 'table[align]',
@@ -351,7 +349,7 @@
 								[ editor.lang.common.alignLeft, 'left' ],
 								[ editor.lang.common.alignCenter, 'center' ],
 								[ editor.lang.common.alignRight, 'right' ]
-								],
+							],
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
 							},
@@ -361,18 +359,15 @@
 								else
 									selectedTable.removeAttribute( 'align' );
 							}
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'vbox',
 						padding: 0,
-						children: [
-							{
+						children: [ {
 							type: 'hbox',
 							widths: [ '5em' ],
-							children: [
-								{
+							children: [ {
 								type: 'text',
 								id: 'txtWidth',
 								requiredContent: 'table{width}',
@@ -392,14 +387,12 @@
 									this.setValue( val );
 								},
 								commit: commitValue
-							}
-							]
+							} ]
 						},
-							{
+						{
 							type: 'hbox',
 							widths: [ '5em' ],
-							children: [
-								{
+							children: [ {
 								type: 'text',
 								id: 'txtHeight',
 								requiredContent: 'table{height}',
@@ -419,14 +412,13 @@
 									val && this.setValue( val );
 								},
 								commit: commitValue
-							}
-							]
+							} ]
 						},
-							{
+						{
 							type: 'html',
 							html: '&nbsp;'
 						},
-							{
+						{
 							type: 'text',
 							id: 'txtCellSpace',
 							requiredContent: 'table[cellspacing]',
@@ -444,7 +436,7 @@
 									selectedTable.removeAttribute( 'cellSpacing' );
 							}
 						},
-							{
+						{
 							type: 'text',
 							id: 'txtCellPad',
 							requiredContent: 'table[cellpadding]',
@@ -461,21 +453,18 @@
 								else
 									selectedTable.removeAttribute( 'cellPadding' );
 							}
-						}
-						]
-					}
-					]
+						} ]
+					} ]
 				},
-					{
+				{
 					type: 'html',
 					align: 'right',
 					html: ''
 				},
-					{
+				{
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'txtCaption',
 						requiredContent: 'caption',
@@ -522,7 +511,7 @@
 							}
 						}
 					},
-						{
+					{
 						type: 'text',
 						id: 'txtSummary',
 						requiredContent: 'table[summary]',
@@ -536,14 +525,11 @@
 							else
 								selectedTable.removeAttribute( 'summary' );
 						}
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
-				]
-		};
+			dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
+		] };
 	}
 
 	CKEDITOR.dialog.add( 'table', function( editor ) {

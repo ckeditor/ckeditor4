@@ -36,12 +36,13 @@
 
 					// Make the first button focus accessible for IE. (#3417)
 					// Adobe AIR instead need while of delay.
-					if ( CKEDITOR.env.ie || CKEDITOR.env.air )
+					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
 						setTimeout( function() {
+							editor.toolbox.focus();
+						}, 100 );
+					} else {
 						editor.toolbox.focus();
-					}, 100 );
-					else
-						editor.toolbox.focus();
+					}
 				}
 			}
 		}
@@ -49,7 +50,9 @@
 
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
 			var endFlag;
@@ -70,7 +73,11 @@
 							// Cycle through the toolbars, starting from the one
 							// closest to the current item.
 							while ( !toolbar || !toolbar.items.length ) {
-								toolbar = keystroke == 9 ? ( ( toolbar ? toolbar.next : item.toolbar.next ) || editor.toolbox.toolbars[ 0 ] ) : ( ( toolbar ? toolbar.previous : item.toolbar.previous ) || editor.toolbox.toolbars[ editor.toolbox.toolbars.length - 1 ] );
+								if ( keystroke == 9 ) {
+									toolbar = ( ( toolbar ? toolbar.next : item.toolbar.next ) || editor.toolbox.toolbars[ 0 ] );
+								} else {
+									toolbar = ( ( toolbar ? toolbar.previous : item.toolbar.previous ) || editor.toolbox.toolbars[ editor.toolbox.toolbars.length - 1 ] );
+								}
 
 								// Look for the first item that accepts focus.
 								if ( toolbar.items.length ) {
@@ -171,7 +178,8 @@
 
 				var output = [
 					'<span id="', labelId, '" class="cke_voice_label">', editor.lang.toolbar.toolbars, '</span>',
-					'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">' ];
+					'<span id="' + editor.ui.spaceId( 'toolbox' ) + '" class="cke_toolbox" role="group" aria-labelledby="', labelId, '" onmousedown="return false;">'
+				];
 
 				var expanded = editor.config.toolbarStartupExpanded !== false,
 					groupStarted, pendingSeparator;
@@ -620,7 +628,7 @@
 
 	function getPrivateToolbarGroups( editor ) {
 		return editor._.toolbarGroups || ( editor._.toolbarGroups = [
-			{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+			{ name: 'document',    groups: [ 'mode', 'document', 'doctools' ] },
 			{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 			{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 			{ name: 'forms' },

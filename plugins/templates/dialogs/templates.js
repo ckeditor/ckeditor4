@@ -36,8 +36,11 @@
 			// Build the inner HTML of our new item DIV.
 			var html = '<table style="width:350px;" class="cke_tpl_preview" role="presentation"><tr>';
 
-			if ( template.image && imagesPath )
-				html += '<td class="cke_tpl_preview_img"><img src="' + CKEDITOR.getUrl( imagesPath + template.image ) + '"' + ( CKEDITOR.env.ie6Compat ? ' onload="this.width=this.width"' : '' ) + ' alt="" title=""></td>';
+			if ( template.image && imagesPath ) {
+				html += '<td class="cke_tpl_preview_img"><img src="' +
+					CKEDITOR.getUrl( imagesPath + template.image ) + '"' +
+					( CKEDITOR.env.ie6Compat ? ' onload="this.width=this.width"' : '' ) + ' alt="" title=""></td>';
+			}
 
 			html += '<td style="white-space:normal;"><span class="cke_tpl_title">' + template.title + '</span><br/>';
 
@@ -136,23 +139,20 @@
 			minWidth: CKEDITOR.env.ie ? 440 : 400,
 			minHeight: 340,
 
-			contents: [
-				{
+			contents: [ {
 				id: 'selectTpl',
 				label: lang.title,
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 5,
-					children: [
-						{
+					children: [ {
 						id: 'selectTplText',
 						type: 'html',
 						html: '<span>' +
 							lang.selectPromptMsg +
 							'</span>'
 					},
-						{
+					{
 						id: 'templatesList',
 						type: 'html',
 						focus: true,
@@ -161,17 +161,14 @@
 							'</div>' +
 							'<span class="cke_voice_label" id="' + templateListLabelId + '">' + lang.options + '</span>'
 					},
-						{
+					{
 						id: 'chkInsertOpt',
 						type: 'checkbox',
 						label: lang.insertOption,
 						'default': config.templates_replaceContent
-					}
-					]
-				}
-				]
-			}
-			],
+					} ]
+				} ]
+			} ],
 
 			buttons: [ CKEDITOR.dialog.cancelButton ],
 
