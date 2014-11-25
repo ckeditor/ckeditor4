@@ -95,8 +95,6 @@ Special outer level classes used in this file:
 
 	/* Ideally this should be "auto", but it shows scrollbars in IE7. */
 	overflow: hidden;
-
-	position: relative;
 }
 
 .cke_top
