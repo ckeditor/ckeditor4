@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,justify,toolbar */
+/* global widgetTestsTools, image2TestsTools */
 
 ( function() {
 	'use strict';
@@ -104,7 +105,7 @@
 			widget.setData( data );
 
 			assert.areSame( fixHtml( expected ),
-				fixHtml( bot.getData() ), 'Widget data considers ACF rules.' )
+				fixHtml( bot.getData() ), 'Widget data considers ACF rules.' );
 
 			assert.areEqual( !!( fields.width && fields.height ),
 				!!widget.resizer, 'Resizer displayed according to ACF rules.' );
@@ -123,7 +124,7 @@
 		assert.areSame( right, rightCmd.state, 'rightCmd.state' );
 		assert.areSame( center, centerCmd.state, 'centerCmd.state' );
 		assert.areSame( justify, justifyCmd.state, 'justifyCmd.state' );
-	};
+	}
 
 	bender.test( {
 		'async:init': function() {

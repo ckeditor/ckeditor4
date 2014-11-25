@@ -28,8 +28,7 @@
 
 	bender.test( {
 		'test addLine': function() {
-			var bot = this.editorBot,
-				body = CKEDITOR.document.getBody();
+			var body = CKEDITOR.document.getBody();
 
 			for ( var i = 0; i < 10; i++ ) {
 				line = liner.addLine();
@@ -39,9 +38,10 @@
 		},
 
 		'test remove lines (destroy)': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				i;
 
-			for ( var i = lines.length; i--; )
+			for ( i = lines.length; i--; )
 				liner[ i % 2 ? 'visible' : 'hidden' ][ lines[ i ].getUniqueId() ] = lines[ i ];
 
 			assert.areSame( 5, CKEDITOR.tools.objectKeys( liner.visible ).length );
@@ -49,7 +49,7 @@
 
 			bot.editor.destroy();
 
-			for ( var i = lines.length; i--; )
+			for ( i = lines.length; i--; )
 				assert.isNull( lines[ i ].getParent(), 'Line removed from DOM.' );
 		},
 
@@ -90,7 +90,7 @@
 		},
 
 		'test hideVisible': function() {
-			var line1, line2, uid;
+			var line1, line2;
 
 			// Clean-up liner first.
 			liner.removeAll();

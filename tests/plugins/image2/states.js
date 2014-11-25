@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,link */
+/* global image2TestsTools */
 
 ( function() {
 	'use strict';

@@ -5,7 +5,7 @@
 	'use strict';
 
 	var editorBots,
-		jsContent = 'javascript:someFunction();',
+		jsContent = 'javascript:someFunction();', // jshint ignore:line
 		linkContent = 'http://ckeditor.com';
 
 	bender.test( {

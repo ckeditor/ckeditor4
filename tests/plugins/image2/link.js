@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,link,toolbar */
+/* global widgetTestsTools, image2TestsTools */
 
 ( function() {
 	'use strict';
@@ -171,7 +172,7 @@
 					widget = getById( bot.editor, 'x' );
 					assert.isUndefined( widget.parts.link, 'Widget.parts.link is not registered' );
 					assert.isTrue( !!bot.editor.getSelection().isFake, 'Fake selection once unlinked' );
-					assert.areSame( bot.editor.widgets.focused, widget, 'Widget remains focused once unlinked' )
+					assert.areSame( bot.editor.widgets.focused, widget, 'Widget remains focused once unlinked' );
 					assertStructure( widget, afterStructure );
 					assertCommandStates( bot.editor, commandStates );
 					assert.areSame( fixHtml( expected ), fixHtml( bot.getData() ), 'Unlinked the widget' );
@@ -185,7 +186,7 @@
 		// 	-> asserts field values in link dialog (fields)
 		dialogFields: function( name, fields ) {
 			var bot = this.editorBot,
-				tab, t, f;
+				tab;
 
 			bot.setData( bender.tools.getValueAsHtml( name ), function() {
 				var widget = getById( bot.editor, 'x' );
@@ -195,10 +196,10 @@
 
 				bot.dialog( 'link', function( dialog ) {
 					try {
-						for ( t in fields ) {
+						for ( var t in fields ) {
 							tab = fields[ t ];
 
-							for ( f in tab )
+							for ( var f in tab )
 								assert.isMatching( tab[ f ], dialog.getValueOf( t, f ), 'Field ' + t + '.' + f + ': value must match.' );
 						}
 					} catch ( e ) {
@@ -393,7 +394,7 @@
 					},
 					advanced: {
 						advId: 'foo',
-						advLangDir: 'rtl',
+						advLangDir: 'rtl'
 					}
 				}
 			}, inlineStructureWithLink, [ 2, 2 ] );
@@ -576,8 +577,7 @@
 				editor = bot.editor;
 
 			bot.setData( '<p><a href="http://ping">x<img alt="x" id="x" src="_assets/foo.png" />x</a></p>', function() {
-				var widget = getById( bot.editor, 'x' ),
-					dialogs = [];
+				var widget = getById( bot.editor, 'x' );
 
 				widget.focus();
 

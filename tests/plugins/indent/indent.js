@@ -173,15 +173,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<p>x^</p>' );
 
 			t.s( 2, 0 );
-			t.i( '<p style="margin-left:10px;">x^</p>', 													'Indent it once.' );
+			t.i( '<p style="margin-left:10px;">x^</p>',														'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<p style="margin-left:20px;">x^</p>', 													'Indent it twice.' );
+			t.i( '<p style="margin-left:20px;">x^</p>',														'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<p style="margin-left:10px;">x^</p>', 													'Outdent it back.' );
+			t.o( '<p style="margin-left:10px;">x^</p>',														'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<p>x^</p>', 																				'Outdent it back again.' );
+			t.o( '<p>x^</p>',																				'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<p>x^</p>', 																				'Remaining at minimum intent level.' );
+			t.o( '<p>x^</p>',																				'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -189,15 +189,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<p>xx[x</p><p>yy]y</p>' );
 
 			t.s( 2, 0 );
-			t.i( '<p style="margin-left:10px;">xx[x</p><p style="margin-left:10px;">yy]y</p>', 				'Indent it once.' );
+			t.i( '<p style="margin-left:10px;">xx[x</p><p style="margin-left:10px;">yy]y</p>',				'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<p style="margin-left:20px;">xx[x</p><p style="margin-left:20px;">yy]y</p>', 				'Indent it twice.' );
+			t.i( '<p style="margin-left:20px;">xx[x</p><p style="margin-left:20px;">yy]y</p>',				'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<p style="margin-left:10px;">xx[x</p><p style="margin-left:10px;">yy]y</p>', 				'Outdent it back.' );
+			t.o( '<p style="margin-left:10px;">xx[x</p><p style="margin-left:10px;">yy]y</p>',				'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<p>xx[x</p><p>yy]y</p>', 																	'Outdent it back again.' );
+			t.o( '<p>xx[x</p><p>yy]y</p>',																	'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<p>xx[x</p><p>yy]y</p>', 																	'Remaining at minimum intent level.' );
+			t.o( '<p>xx[x</p><p>yy]y</p>',																	'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -206,15 +206,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li>x^</li><li>y</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul style="margin-left:10px;"><li>x^</li><li>y</li></ul>', 								'Indent it once.' );
+			t.i( '<ul style="margin-left:10px;"><li>x^</li><li>y</li></ul>',								'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul style="margin-left:20px;"><li>x^</li><li>y</li></ul>', 								'Indent it twice.' );
+			t.i( '<ul style="margin-left:20px;"><li>x^</li><li>y</li></ul>',								'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<ul style="margin-left:10px;"><li>x^</li><li>y</li></ul>', 								'Outdent it back.' );
+			t.o( '<ul style="margin-left:10px;"><li>x^</li><li>y</li></ul>',								'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x^</li><li>y</li></ul>', 															'Outdent it back again.' );
+			t.o( '<ul><li>x^</li><li>y</li></ul>',															'Outdent it back again.' );
 			t.s( 2, 2 );
-			t.o( '<p>x^</p><ul><li>y</li></ul>', 															'Extract paragraph from list element.' );
+			t.o( '<p>x^</p><ul><li>y</li></ul>',															'Extract paragraph from list element.' );
 			t.s( 2, 0 );
 		},
 
@@ -222,19 +222,19 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li>x</li><li>y^</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>',					 								'First indent is nesting.' );
+			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'First indent is nesting.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>', 						'Second indent is margin.' );
+			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>',						'Second indent is margin.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul style="margin-left:20px;"><li>y^</li></ul></li></ul>', 						'Third indent is margin.' );
+			t.i( '<ul><li>x<ul style="margin-left:20px;"><li>y^</li></ul></li></ul>',						'Third indent is margin.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>', 						'Outdent margin back.' );
+			t.o( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>',						'Outdent margin back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 												'Outdent margin back.' );
+			t.o( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Outdent margin back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li><li>y^</li></ul>', 															'Outdent nesting back.' );
+			t.o( '<ul><li>x</li><li>y^</li></ul>',															'Outdent nesting back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li></ul><p>y^</p>', 															'Extract paragraph from list element.' );
+			t.o( '<ul><li>x</li></ul><p>y^</p>',															'Extract paragraph from list element.' );
 			t.s( 2, 0 );
 		},
 
@@ -242,15 +242,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li>x</li><li>y[y</li><li>z]z</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul><li>y[y</li><li>z]z</li></ul></li></ul>',					 				'First indent is nesting two elements.' );
+			t.i( '<ul><li>x<ul><li>y[y</li><li>z]z</li></ul></li></ul>',									'First indent is nesting two elements.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y[y</li><li>z]z</li></ul></li></ul>', 			'Second indent is margin to nested list.' );
+			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y[y</li><li>z]z</li></ul></li></ul>',			'Second indent is margin to nested list.' );
 			t.s( 2, 2 );
 			t.o( '<ul><li>x<ul><li>y[y</li><li>z]z</li></ul></li></ul>',									'Outdent margin back.' );
 			t.s( 2, 2 );
 			t.o( '<ul><li>x</li><li>y[y</li><li>z]z</li></ul>',												'Outdent nesting back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li></ul><p>y[y</p><p>z]z</p>', 												'Extract paragraphs from selected elements.' );
+			t.o( '<ul><li>x</li></ul><p>y[y</p><p>z]z</p>',													'Extract paragraphs from selected elements.' );
 			t.s( 2, 0 );
 		},
 
@@ -294,15 +294,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li>x[x</li><li>y]y</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul style="margin-left:10px;"><li>x[x</li><li>y]y</li></ul>', 							'Indent it once.' );
+			t.i( '<ul style="margin-left:10px;"><li>x[x</li><li>y]y</li></ul>',								'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul style="margin-left:20px;"><li>x[x</li><li>y]y</li></ul>', 							'Indent it twice.' );
+			t.i( '<ul style="margin-left:20px;"><li>x[x</li><li>y]y</li></ul>',								'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<ul style="margin-left:10px;"><li>x[x</li><li>y]y</li></ul>', 							'Outdent it back.' );
+			t.o( '<ul style="margin-left:10px;"><li>x[x</li><li>y]y</li></ul>',								'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x[x</li><li>y]y</li></ul>', 														'Outdent it back again.' );
+			t.o( '<ul><li>x[x</li><li>y]y</li></ul>',														'Outdent it back again.' );
 			t.s( 2, 2 );
-			t.o( '<p>x[x</p><p>y]y</p>', 																	'Extract paragraph from list element.' );
+			t.o( '<p>x[x</p><p>y]y</p>',																	'Extract paragraph from list element.' );
 			t.s( 2, 0 );
 		},
 
@@ -320,7 +320,7 @@
 			t.o( '<p style="margin-left:10px;">[x</p><ul><li><p style="margin-left:10px;">x</p></li><li><p style="margin-left:10px;">y</p></li></ul><p style="margin-left:10px;">x]</p>',
 																											'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<p>[x</p><ul><li><p>x</p></li><li><p>y</p></li></ul><p>x]</p>', 							'Outdent it back again.' );
+			t.o( '<p>[x</p><ul><li><p>x</p></li><li><p>y</p></li></ul><p>x]</p>',							'Outdent it back again.' );
 			t.s( 2, 0 );
 		},
 
@@ -337,7 +337,7 @@
 			t.o( '<p style="margin-left:10px;">x[x</p><ul><li><p style="margin-left:10px;">x]</p></li><li>y</li></ul>',
 																											'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<p>x[x</p><ul><li><p>x]</p></li><li>y</li></ul>', 										'Outdent it back again.' );
+			t.o( '<p>x[x</p><ul><li><p>x]</p></li><li>y</li></ul>',											'Outdent it back again.' );
 			t.s( 2, 0 );
 		},
 
@@ -351,7 +351,7 @@
 			t.s( 2, 2 );
 			t.o( '<ul><li>x<ul><li>[y</li></ul></li></ul><p>x]x</p>',										'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li><li>[y</li></ul><p>x]x</p>', 												'Outdent it back again.' );
+			t.o( '<ul><li>x</li><li>[y</li></ul><p>x]x</p>',												'Outdent it back again.' );
 			t.s( 2, 2 );
 		},
 
@@ -359,15 +359,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li><ol><li>x^</li></ol></li><li>y</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li><ol style="margin-left:10px;"><li>x^</li></ol></li><li>y</li></ul>', 				'Indent it once.' );
+			t.i( '<ul><li><ol style="margin-left:10px;"><li>x^</li></ol></li><li>y</li></ul>',				'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li><ol style="margin-left:20px;"><li>x^</li></ol></li><li>y</li></ul>', 				'Indent it twice.' );
+			t.i( '<ul><li><ol style="margin-left:20px;"><li>x^</li></ol></li><li>y</li></ul>',				'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ol style="margin-left:10px;"><li>x^</li></ol></li><li>y</li></ul>', 				'Outdent it back.' );
+			t.o( '<ul><li><ol style="margin-left:10px;"><li>x^</li></ol></li><li>y</li></ul>',				'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ol><li>x^</li></ol></li><li>y</li></ul>', 										'Outdent it back again.' );
+			t.o( '<ul><li><ol><li>x^</li></ol></li><li>y</li></ul>',										'Outdent it back again.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>&nbsp;</li><li>x^</li><li>y</li></ul>', 											'Collapse the inner list.' );
+			t.o( '<ul><li>&nbsp;</li><li>x^</li><li>y</li></ul>',											'Collapse the inner list.' );
 			t.s( 2, 2 );
 		},
 
@@ -375,15 +375,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li><ul><li>x^</li></ul></li><li>y</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li><ul style="margin-left:10px;"><li>x^</li></ul></li><li>y</li></ul>', 				'Indent it once.' );
+			t.i( '<ul><li><ul style="margin-left:10px;"><li>x^</li></ul></li><li>y</li></ul>',				'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li><ul style="margin-left:20px;"><li>x^</li></ul></li><li>y</li></ul>', 				'Indent it twice.' );
+			t.i( '<ul><li><ul style="margin-left:20px;"><li>x^</li></ul></li><li>y</li></ul>',				'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ul style="margin-left:10px;"><li>x^</li></ul></li><li>y</li></ul>', 				'Outdent it back.' );
+			t.o( '<ul><li><ul style="margin-left:10px;"><li>x^</li></ul></li><li>y</li></ul>',				'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ul><li>x^</li></ul></li><li>y</li></ul>', 										'Outdent it back again.' );
+			t.o( '<ul><li><ul><li>x^</li></ul></li><li>y</li></ul>',										'Outdent it back again.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>&nbsp;</li><li>x^</li><li>y</li></ul>', 											'Collapse the inner list.' );
+			t.o( '<ul><li>&nbsp;</li><li>x^</li><li>y</li></ul>',											'Collapse the inner list.' );
 			t.s( 2, 2 );
 		},
 
@@ -391,15 +391,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li><ol><li>x[x</li></ol></li><li>y]y</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li><ol style="margin-left:10px;"><li>x[x</li></ol></li><li>y]y</li></ul>', 			'Indent it once.' );
+			t.i( '<ul><li><ol style="margin-left:10px;"><li>x[x</li></ol></li><li>y]y</li></ul>',			'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li><ol style="margin-left:20px;"><li>x[x</li></ol></li><li>y]y</li></ul>', 			'Indent it twice.' );
+			t.i( '<ul><li><ol style="margin-left:20px;"><li>x[x</li></ol></li><li>y]y</li></ul>',			'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ol style="margin-left:10px;"><li>x[x</li></ol></li><li>y]y</li></ul>', 			'Outdent it back.' );
+			t.o( '<ul><li><ol style="margin-left:10px;"><li>x[x</li></ol></li><li>y]y</li></ul>',			'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li><ol><li>x[x</li></ol></li><li>y]y</li></ul>', 									'Outdent it back again.' );
+			t.o( '<ul><li><ol><li>x[x</li></ol></li><li>y]y</li></ul>',										'Outdent it back again.' );
 			t.s( 2, 2 );
-			t.o( /<ol><li>x\[x<\/li><\/ol><p>y\]y<\/p>/, 													'Collapse the outer list.' );
+			t.o( /<ol><li>x\[x<\/li><\/ol><p>y\]y<\/p>/,													'Collapse the outer list.' );
 			t.s( 2, 2 );
 		},
 
@@ -425,13 +425,16 @@
 			var t = createIndentOutdentTester( editors.enterP, '<p>[x</p><table><tbody><tr><td>y</td><td></td></tr></tbody></table><p>z]</p>' );
 
 			t.s( 2, 0 );
-			t.i( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td><td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
+			t.i( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td>' +
+				'<td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
 																											'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<p style="margin-left:20px;">[x</p><table><tbody><tr><td><p style="margin-left:20px;">y</p></td><td style="margin-left:20px;">&nbsp;</td></tr></tbody></table><p style="margin-left:20px;">z]</p>',
+			t.i( '<p style="margin-left:20px;">[x</p><table><tbody><tr><td><p style="margin-left:20px;">y</p></td>' +
+				'<td style="margin-left:20px;">&nbsp;</td></tr></tbody></table><p style="margin-left:20px;">z]</p>',
 																											'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td><td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
+			t.o( '<p style="margin-left:10px;">[x</p><table><tbody><tr><td><p style="margin-left:10px;">y</p></td>' +
+				'<td style="margin-left:10px;">&nbsp;</td></tr></tbody></table><p style="margin-left:10px;">z]</p>',
 																											'Outdent it back.' );
 			t.s( 2, 2 );
 			t.o( '<p>[x</p><table><tbody><tr><td><p>y</p></td><td>&nbsp;</td></tr></tbody></table><p>z]</p>',
@@ -443,15 +446,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<div>x^</div>' );
 
 			t.s( 2, 0 );
-			t.i( '<div style="margin-left:10px;">x^</div>', 												'Indent it once.' );
+			t.i( '<div style="margin-left:10px;">x^</div>',													'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<div style="margin-left:20px;">x^</div>', 												'Indent it twice.' );
+			t.i( '<div style="margin-left:20px;">x^</div>',													'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<div style="margin-left:10px;">x^</div>', 												'Outdent it back.' );
+			t.o( '<div style="margin-left:10px;">x^</div>',													'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<div>x^</div>', 																			'Outdent it back again.' );
+			t.o( '<div>x^</div>',																			'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<div>x^</div>', 																			'Remaining at minimum intent level.' );
+			t.o( '<div>x^</div>',																			'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -459,15 +462,15 @@
 			var t = createIndentOutdentTester( editors.enterP, '<div><div>x^</div></div>' );
 
 			t.s( 2, 0 );
-			t.i( '<div><div style="margin-left:10px;">x^</div></div>', 										'Indent it once.' );
+			t.i( '<div><div style="margin-left:10px;">x^</div></div>',										'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<div><div style="margin-left:20px;">x^</div></div>', 										'Indent it twice.' );
+			t.i( '<div><div style="margin-left:20px;">x^</div></div>',										'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<div><div style="margin-left:10px;">x^</div></div>', 										'Outdent it back.' );
+			t.o( '<div><div style="margin-left:10px;">x^</div></div>',										'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<div><div>x^</div></div>', 																'Outdent it back again.' );
+			t.o( '<div><div>x^</div></div>',																'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<div><div>x^</div></div>', 																'Remaining at minimum intent level.' );
+			t.o( '<div><div>x^</div></div>',																'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -481,9 +484,9 @@
 			t.s( 2, 2 );
 			t.o( '<div><p style="margin-left:10px;">x[x</p><div style="margin-left:10px;">y]y</div></div>', 'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<div><p>x[x</p><div>y]y</div></div>', 													'Outdent it back again.' );
+			t.o( '<div><p>x[x</p><div>y]y</div></div>',														'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<div><p>x[x</p><div>y]y</div></div>', 													'Remaining at minimum intent level.' );
+			t.o( '<div><p>x[x</p><div>y]y</div></div>',														'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -493,13 +496,13 @@
 			t.s( 2, 0 );
 			t.i( '<dl style="margin-left:10px;"><dt>x^</dt><dd>y</dd></dl>',								'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<dl style="margin-left:20px;"><dt>x^</dt><dd>y</dd></dl>', 								'Indent it twice.' );
+			t.i( '<dl style="margin-left:20px;"><dt>x^</dt><dd>y</dd></dl>',								'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<dl style="margin-left:10px;"><dt>x^</dt><dd>y</dd></dl>', 								'Outdent it back.' );
+			t.o( '<dl style="margin-left:10px;"><dt>x^</dt><dd>y</dd></dl>',								'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<dl><dt>x^</dt><dd>y</dd></dl>', 															'Outdent it back again.' );
+			t.o( '<dl><dt>x^</dt><dd>y</dd></dl>',															'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<dl><dt>x^</dt><dd>y</dd></dl>', 															'Remaining at minimum intent level.' );
+			t.o( '<dl><dt>x^</dt><dd>y</dd></dl>',															'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -513,9 +516,9 @@
 			t.s( 2, 2 );
 			t.o( '<dl style="margin-left:10px;"><dt>x[x</dt><dd>y]y</dd></dl>',								'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>', 														'Outdent it back again.' );
+			t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>',														'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>', 														'Remaining at minimum intent level.' );
+			t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>',														'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -539,21 +542,21 @@
 			var t = createIndentOutdentTester( editors.indentClasses, '<ul><li>x</li><li>y^</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 												'Indent it once.' );
+			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul class="1st"><li>y^</li></ul></li></ul>', 									'Indent it again.' );
+			t.i( '<ul><li>x<ul class="1st"><li>y^</li></ul></li></ul>',										'Indent it again.' );
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul class="2nd"><li>y^</li></ul></li></ul>', 									'Indent it again.' );
+			t.i( '<ul><li>x<ul class="2nd"><li>y^</li></ul></li></ul>',										'Indent it again.' );
 			t.s( 0, 2 );
-			t.i( '<ul><li>x<ul class="2nd"><li>y^</li></ul></li></ul>', 									'Can\'t indent any further.' );
+			t.i( '<ul><li>x<ul class="2nd"><li>y^</li></ul></li></ul>',										'Can\'t indent any further.' );
 			t.s( 0, 2 );
-			t.o( '<ul><li>x<ul class="1st"><li>y^</li></ul></li></ul>', 									'Outdent it once.' );
+			t.o( '<ul><li>x<ul class="1st"><li>y^</li></ul></li></ul>',										'Outdent it once.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 												'Outdent it again.' );
+			t.o( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Outdent it again.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li><li>y^</li></ul>', 															'Outdent it again.' );
+			t.o( '<ul><li>x</li><li>y^</li></ul>',															'Outdent it again.' );
 			t.s( 2, 2 );
-			t.o( '<ul><li>x</li></ul><p>y^</p>', 															'Extract paragraph.' );
+			t.o( '<ul><li>x</li></ul><p>y^</p>',															'Extract paragraph.' );
 			t.s( 2, 0 );
 		},
 
@@ -561,15 +564,15 @@
 			var t = createIndentOutdentTester( editors.indentUnit, '<p>x^</p>' );
 
 			t.s( 2, 0 );
-			t.i( '<p style="margin-left:10em;">x^</p>', 													'Indent it once.' );
+			t.i( '<p style="margin-left:10em;">x^</p>',														'Indent it once.' );
 			t.s( 2, 2 );
-			t.i( '<p style="margin-left:20em;">x^</p>', 													'Indent it twice.' );
+			t.i( '<p style="margin-left:20em;">x^</p>',														'Indent it twice.' );
 			t.s( 2, 2 );
-			t.o( '<p style="margin-left:10em;">x^</p>', 													'Outdent it back.' );
+			t.o( '<p style="margin-left:10em;">x^</p>',														'Outdent it back.' );
 			t.s( 2, 2 );
-			t.o( '<p>x^</p>', 																				'Outdent it back again.' );
+			t.o( '<p>x^</p>',																				'Outdent it back again.' );
 			t.s( 2, 0 );
-			t.o( '<p>x^</p>', 																				'Remaining at minimum intent level.' );
+			t.o( '<p>x^</p>',																				'Remaining at minimum intent level.' );
 			t.s( 2, 0 );
 		},
 
@@ -577,7 +580,7 @@
 			var t = createIndentOutdentTester( editors.indentList, '<p>fo^o</p><ul><li>x</li><li>y</li></ul>' );
 
 			t.s( 0, 0 );
-			t.i( '<p>fo^o</p><ul><li>x</li><li>y</li></ul>', 												'Cannot indent blocks.' );
+			t.i( '<p>fo^o</p><ul><li>x</li><li>y</li></ul>',												'Cannot indent blocks.' );
 			t.s( 0, 0 );
 		},
 
@@ -585,9 +588,9 @@
 			var t = createIndentOutdentTester( editors.indentList, '<ul><li>x^</li><li>y</li></ul>' );
 
 			t.s( 0, 2 );
-			t.i( '<ul><li>x^</li><li>y</li></ul>', 															'Cannot indent blocks.' );
+			t.i( '<ul><li>x^</li><li>y</li></ul>',															'Cannot indent blocks.' );
 			t.s( 0, 2 );
-			t.o( '<p>x^</p><ul><li>y</li></ul>', 															'Collapse the list into paragraph.' );
+			t.o( '<p>x^</p><ul><li>y</li></ul>',															'Collapse the list into paragraph.' );
 			t.s( 0, 0 );
 		},
 
@@ -595,9 +598,9 @@
 			var t = createIndentOutdentTester( editors.indentList, '<ul><li>x</li><li>y^</li></ul>' );
 
 			t.s( 2, 2 );
-			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 												'Can nest lists.' );
+			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Can nest lists.' );
 			t.s( 0, 2 );
-			t.o( '<ul><li>x</li><li>y^</li></ul>', 															'Can outdent nested lists.' );
+			t.o( '<ul><li>x</li><li>y^</li></ul>',															'Can outdent nested lists.' );
 			t.s( 2, 2 );
 		},
 
@@ -605,7 +608,7 @@
 			var t = createIndentOutdentTester( editors.indentList, '<p>foo</p><ul><li>[x</li><li>y]</li></ul>' );
 
 			t.s( 0, 2 );
-			t.o( '<p>foo</p><p>[x</p><p>y]</p>', 															'Collapse list when cross-selection.' );
+			t.o( '<p>foo</p><p>[x</p><p>y]</p>',															'Collapse list when cross-selection.' );
 			t.s( 0, 0 );
 		},
 
@@ -619,11 +622,11 @@
 			var t = createIndentOutdentTester( editors.indentList, '<ul><li>x</li><li>[y</li></ul><p>fo]o</p>' );
 
 			t.s( 2, 2,																						'Can indent and outdent since path is in list.' );
-			t.i( '<ul><li>x<ul><li>[y</li></ul></li></ul><p>fo]o</p>', 										'Indent list once.' );
+			t.i( '<ul><li>x<ul><li>[y</li></ul></li></ul><p>fo]o</p>',										'Indent list once.' );
 			t.s( 0, 2,																						'Cannot indent again - first element of a list.' );
-			t.o( '<ul><li>x</li><li>[y</li></ul><p>fo]o</p>', 												'Outdent list once.' );
+			t.o( '<ul><li>x</li><li>[y</li></ul><p>fo]o</p>',												'Outdent list once.' );
 			t.s( 2, 2,																						'Can indent and outdent since path is in list.' );
-			t.o( '<ul><li>x</li></ul><p>[y</p><p>fo]o</p>', 												'Outdented and collapsed list element.' );
+			t.o( '<ul><li>x</li></ul><p>[y</p><p>fo]o</p>',													'Outdented and collapsed list element.' );
 			t.s( 0, 0 );
 		},
 
@@ -653,13 +656,13 @@
 			var t = createIndentOutdentTester( editors.enterBR, 'f^oo' );
 
 			t.s( 2, 0 );
-			t.i( '<div style="margin-left:10px;">f^oo</div>', 													'Indent entire block.' );
+			t.i( '<div style="margin-left:10px;">f^oo</div>',												'Indent entire block.' );
 			t.s( 2, 2 );
-			t.i( '<div style="margin-left:20px;">f^oo</div>', 													'Indent entire block twice.' );
+			t.i( '<div style="margin-left:20px;">f^oo</div>',												'Indent entire block twice.' );
 			t.s( 2, 2 );
-			t.o( '<div style="margin-left:10px;">f^oo</div>', 													'Outdent entire block.' );
+			t.o( '<div style="margin-left:10px;">f^oo</div>',												'Outdent entire block.' );
 			t.s( 2, 2 );
-			t.o( '<div>f^oo</div>', 																			'Outdent entire block again.' );
+			t.o( '<div>f^oo</div>',																			'Outdent entire block again.' );
 			t.s( 2, 0 );
 		},
 
@@ -667,7 +670,7 @@
 			var t = createIndentOutdentTester( editors.enterBR, 'x<ul><li>y^</li></ul>z' );
 
 			t.s( 2, 2 );
-			t.o( /xy\^(<br \/>)?z/, 																						'Collapse entire list.' );
+			t.o( /xy\^(<br \/>)?z/,																			'Collapse entire list.' );
 			t.s( 2, 0 );
 		},
 
@@ -675,13 +678,13 @@
 			var t = createIndentOutdentTester( editors.indentClassesBR, 'f^oo' );
 
 			t.s( 2, 0 );
-			t.i( '<div class="1st">f^oo</div>', 																'Indent entire block.' );
+			t.i( '<div class="1st">f^oo</div>',																'Indent entire block.' );
 			t.s( 2, 2 );
-			t.i( '<div class="2nd">f^oo</div>', 																'Indent entire block twice.' );
+			t.i( '<div class="2nd">f^oo</div>',																'Indent entire block twice.' );
 			t.s( 0, 2 );
-			t.o( '<div class="1st">f^oo</div>', 																'Outdent entire block.' );
+			t.o( '<div class="1st">f^oo</div>',																'Outdent entire block.' );
 			t.s( 2, 2 );
-			t.o( '<div>f^oo</div>', 																			'Outdent entire block again.' );
+			t.o( '<div>f^oo</div>',																			'Outdent entire block again.' );
 			t.s( 2, 0 );
 		},
 
@@ -692,53 +695,53 @@
 			// other tests.
 			editors.enterP.resetUndo();
 
-			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 													'Indent entire list.' );
-			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>', 							'Indent entire list twice.' );
-			t.u( '<ul><li>x<ul><li>y^</li></ul></li></ul>',														'Undo once.' );
-			t.u( '<ul><li>x</li><li>y^</li></ul>', 																'Undo twice.' );
-			t.u( '<ul><li>x</li><li>y^</li></ul>', 																'Undo - nothing more can be undone.' );
-			t.r( '<ul><li>x<ul><li>y^</li></ul></li></ul>',														'Redo once.' );
-			t.r( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>', 							'Redo twice.' );
-			t.r( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>', 							'Redo - nothing more can be redone.' );
+			t.i( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Indent entire list.' );
+			t.i( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>',						'Indent entire list twice.' );
+			t.u( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Undo once.' );
+			t.u( '<ul><li>x</li><li>y^</li></ul>',															'Undo twice.' );
+			t.u( '<ul><li>x</li><li>y^</li></ul>',															'Undo - nothing more can be undone.' );
+			t.r( '<ul><li>x<ul><li>y^</li></ul></li></ul>',													'Redo once.' );
+			t.r( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>',						'Redo twice.' );
+			t.r( '<ul><li>x<ul style="margin-left:10px;"><li>y^</li></ul></li></ul>',						'Redo - nothing more can be redone.' );
 		},
 
 		'test keystrokes - paragraph': function() {
 			var t = createIndentOutdentTester( editors.enterP, '<p>x^</p>' );
 
-			t.ki( '<p>x^</p>', 																					'Keystrokes indent lists only.' );
-			t.ko( '<p>x^</p>', 																					'Keystrokes outdent lists only.' );
+			t.ki( '<p>x^</p>',																				'Keystrokes indent lists only.' );
+			t.ko( '<p>x^</p>',																				'Keystrokes outdent lists only.' );
 		},
 
 		'test keystrokes - list, non-first element': function() {
 			var t = createIndentOutdentTester( editors.enterP, '<ul><li>x</li><li>y^</li></ul>' );
 
-			t.ki( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 													'Nest list once.' );
-			t.ki( '<ul><li>x<ul><li>y^</li></ul></li></ul>', 													'Cannot indent list more.' );
-			t.ko( '<ul><li>x</li><li>y^</li></ul>', 															'Outdent list once.' );
-			t.ko( '<ul><li>x</li></ul><p>y^</p>', 																'Collapse list.' );
-			t.ko( '<ul><li>x</li></ul><p>y^</p>', 																'Cannot outdent any more.' );
+			t.ki( '<ul><li>x<ul><li>y^</li></ul></li></ul>',												'Nest list once.' );
+			t.ki( '<ul><li>x<ul><li>y^</li></ul></li></ul>',												'Cannot indent list more.' );
+			t.ko( '<ul><li>x</li><li>y^</li></ul>',															'Outdent list once.' );
+			t.ko( '<ul><li>x</li></ul><p>y^</p>',															'Collapse list.' );
+			t.ko( '<ul><li>x</li></ul><p>y^</p>',															'Cannot outdent any more.' );
 		},
 
 		'test keystrokes - list, first element': function() {
 			var t = createIndentOutdentTester( editors.indentList, '<ul><li>x^</li></ul>' );
 
-			t.ki( '<ul><li>x^</li></ul>', 																		'Indentlist doesn\'t indent entire lists.' );
-			t.ko( '<p>x^</p>', 																					'Indentlist collapses entire lists.' );
+			t.ki( '<ul><li>x^</li></ul>',																	'Indentlist doesn\'t indent entire lists.' );
+			t.ko( '<p>x^</p>',																				'Indentlist collapses entire lists.' );
 		},
 
 		'test indent next to inline non-editable': function() {
 			var t1 = createIndentOutdentTester( editors.enterP, '<p><span contenteditable="false">xxx</span>^</p>' );
 
 			t1.s( 2, 0 );
-			t1.i( '<p style="margin-left:10px;"><span contenteditable="false">xxx</span>^</p>',					'Indent it once.' );
+			t1.i( '<p style="margin-left:10px;"><span contenteditable="false">xxx</span>^</p>',				'Indent it once.' );
 			t1.s( 2, 2 );
 
 			var t2 = createIndentOutdentTester( editors.enterP, '<p>a<span contenteditable="false">bb</span>c^</p>' );
 
 			t2.s( 2, 0 );
-			t2.i( '<p style="margin-left:10px;">a<span contenteditable="false">bb</span>c^</p>',				'Indent it once.' );
+			t2.i( '<p style="margin-left:10px;">a<span contenteditable="false">bb</span>c^</p>',			'Indent it once.' );
 			t2.s( 2, 2 );
-			t2.u( '<p>a<span contenteditable="false">bb</span>c^</p>',											'Undo once.' );
+			t2.u( '<p>a<span contenteditable="false">bb</span>c^</p>',										'Undo once.' );
 			t2.s( 2, 0 );
 		}
 	};

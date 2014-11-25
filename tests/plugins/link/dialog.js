@@ -66,7 +66,7 @@
 					config: CKEDITOR.tools.extend( {}, config, {
 						extraPlugins: 'divarea'
 					} )
-				},
+				}
 			}, function( editors, bots ) {
 				editorBots = bots;
 				that.callback( editors );

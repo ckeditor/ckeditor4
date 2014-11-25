@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,justify,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -37,10 +38,10 @@
 			widget = getWidgetById( editor, 'x' );
 
 			for ( var i in testCase.data )
-				assert.areSame( testCase.data[ i ], widget.data[ i ], 	'[' + j + '] ' + 'Widget.data.' + i + ' properly set.' );
+				assert.areSame( testCase.data[ i ], widget.data[ i ],	'[' + j + '] ' + 'Widget.data.' + i + ' properly set.' );
 
-			assert.areSame( testCase.inline, widget.inline, 			'[' + j + '] ' + 'Widget must have a proper inline property.' );
-			assert.areSame( widget, editor.widgets.focused, 			'[' + j + '] ' + 'Widget remains focused.' );
+			assert.areSame( testCase.inline, widget.inline,				'[' + j + '] ' + 'Widget must have a proper inline property.' );
+			assert.areSame( widget, editor.widgets.focused,				'[' + j + '] ' + 'Widget remains focused.' );
 
 			j++;
 

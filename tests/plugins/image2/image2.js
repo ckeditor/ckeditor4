@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,widget */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -387,7 +388,7 @@
 				height: '',
 				hasCaption: true,
 				link: link
-			}, 'caption1' )
+			}, 'caption1' );
 		},
 		newData: newDialogData( {
 			align: 'left',
@@ -417,7 +418,7 @@
 				assert.areSame( caption, widget.parts.caption.getText(), 'parts.caption.getText ' + msg );
 			else
 				assert.isFalse( !!widget.parts.caption, 'there\'s no caption' );
-		}
+		};
 	}
 
 	function newDialogData( data ) {

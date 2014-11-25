@@ -147,11 +147,11 @@
 					email: {
 						address: 'foo',
 						subject: 'bar',
-						body: 'bam',
+						body: 'bam'
 					}
 				}, {
 					'data-cke-saved-href': 'mailto:foo?subject=bar&body=bam',
-					href: 'mailto:foo?subject=bar&body=bam',
+					href: 'mailto:foo?subject=bar&body=bam'
 				},
 				[
 					'accessKey',
@@ -185,7 +185,7 @@
 					}
 				}, {
 					'data-cke-saved-href': 'http://x',
-					href: 'http://x',
+					href: 'http://x'
 				},
 				[
 					'accessKey',
@@ -219,7 +219,7 @@
 					}
 				}, {
 					'data-cke-saved-href': '#a',
-					href: '#a',
+					href: '#a'
 				},
 				[
 					'accessKey',
@@ -242,7 +242,8 @@
 		},
 
 		'test link attributes - target popup': function() {
-			var html = '<a href="http://foo" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,fullscreen=yes,scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;">foo</a>';
+			var html = '<a href="http://foo" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,' +
+				'fullscreen=yes,scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -269,8 +270,9 @@
 					}
 				}, {
 					'data-cke-saved-href': 'http://foo',
-					'data-cke-pa-onclick': 'window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,fullscreen=yes,scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;',
-					href: 'http://foo',
+					'data-cke-pa-onclick': 'window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,fullscreen=yes,' +
+						'scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;',
+					href: 'http://foo'
 				},
 				[
 					'accessKey',

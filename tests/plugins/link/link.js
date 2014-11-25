@@ -68,8 +68,7 @@
 		},
 
 		'test edit link (text selected)': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<a href="http://cksource.com" name="test">[foo]</a>' );
 
@@ -178,9 +177,11 @@
 		},
 
 		'test empty anchor passes filter': function() {
+			// jscs:disable maximumLineLength
 			var matchRegex = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 				/^<p><img alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/><\/p>$/ :
 				/^<p><img align="" alt="[^"]+" class="cke_anchor" data-cke-real-element-type="anchor" data-cke-real-node-type="1" data-cke-realelement="[^"]+" src="data:image[^"]+" title="[^"]+" \/>(<br \/>)?<\/p>$/;
+			// jscs:enable maximumLineLength
 
 			this.editorBot.assertInputOutput(
 				'<p><a name="#idid"></a></p>',

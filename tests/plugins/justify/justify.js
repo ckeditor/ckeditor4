@@ -8,7 +8,7 @@ bender.editor = {
 
 bender.test(
 {
-	assertCommandState : function( left, right, center, justify, editor ) {
+	assertCommandState: function( left, right, center, justify, editor ) {
 		editor = editor || this.editor;
 
 		var leftCmd = editor.getCommand( 'justifyleft' );
@@ -23,7 +23,7 @@ bender.test(
 	},
 
 	// Justify should align selected image.
-	'test aligment command on selected image' : function() {
+	'test aligment command on selected image': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404" style="float:left;"/>]</p>' );
@@ -44,7 +44,7 @@ bender.test(
 		assert.areSame( '<p><img src="http://tests/404" style="float:left;" /></p>', bot.getData( true ) );
 	},
 
-	'test aligment command on selected image (align attribute)' : function() {
+	'test aligment command on selected image (align attribute)': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404" align="left"/>]</p>' );
@@ -62,7 +62,7 @@ bender.test(
 	},
 
 	// Justify should align paragraph.
-	'test aligment command on paragraph' : function() {
+	'test aligment command on paragraph': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<p>[<img src="http://tests/404"/>bar]</p>' );

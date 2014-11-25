@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,justify,toolbar */
+/* global widgetTestsTools, image2TestsTools */
 
 ( function() {
 	'use strict';
@@ -11,8 +12,6 @@
 
 	var getWidgetById = widgetTestsTools.getWidgetById,
 		fixHtml = image2TestsTools.fixHtml,
-		classes2Array = widgetTestsTools.classes2Array,
-
 		styleDef = {
 			name: '80\'s pop',
 			type: 'widget',
@@ -227,7 +226,6 @@
 		'test ACF integration - widget using styles': function() {
 			var bot = this.editorBots.editorACFStyles,
 				editor = bot.editor,
-				style = new CKEDITOR.style( styleDef ),
 
 				html = '<figure class="cap gonna never xxx" style="float: right">' +
 					'<img alt="rick" src="_assets/foo.png" />' +
@@ -250,7 +248,6 @@
 		'test ACF integration - widget using classes': function() {
 			var bot = this.editorBots.editorACFClasses,
 				editor = bot.editor,
-				style = new CKEDITOR.style( styleDef ),
 
 				html = '<figure class="cap gonna never ar xxx">' +
 					'<img alt="rick" src="_assets/foo.png" />' +
