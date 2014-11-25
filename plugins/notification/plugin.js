@@ -80,16 +80,16 @@ notification.prototype = {
 			close = this.editor.lang.common.close;
 
 		if ( !this.notificationArea ) {
-			this.notificationArea = this.getNotificationArea();
+			this.notificationArea = this._getNotificationArea();
 
 			if ( !this.notificationArea ) {
-				this.notificationArea = this.createNotificationArea();
+				this.notificationArea = this._createNotificationArea();
 			}
 		}
 
 		notificationElement = CKEDITOR.dom.element.createFromHtml(
 			'<div class="cke_notification ' + this.getClass() + '" id="' + this.id + '" role="alert" aria-label="' + this.type + '">' +
-				( progress ? this.createProgressElement().getOuterHtml() : '' ) +
+				( progress ? this._createProgressElement().getOuterHtml() : '' ) +
 				'<p class="cke_notification_message">' + this.message + '</p>' +
 				'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
 					'<span class="cke_label">X</span>' +
@@ -104,14 +104,14 @@ notification.prototype = {
 
 		CKEDITOR.plugins.notification.repository[ this.id ] = this;
 
-		this.layout();
+		this._layout();
 	},
 
-	getNotificationArea: function() {
+	_getNotificationArea: function() {
 		return this.editor.container.getDocument().getById( 'cke_notifications_area_' + this.editor.name );
 	},
 
-	createNotificationArea: function() {
+	_createNotificationArea: function() {
 		var editor = this.editor,
 			config = editor.config,
 			notificationArea = new CKEDITOR.dom.element( 'div' );
@@ -122,45 +122,45 @@ notification.prototype = {
 
 		CKEDITOR.document.getBody().append( notificationArea );
 
-		this.attachListeners();
+		this._attachListeners();
 
 		return notificationArea;
 	},
 
-	attachListeners: function() {
+	_attachListeners: function() {
 		var win = CKEDITOR.document.getWindow(),
 			notification = this,
 			editor = this.editor;
 
-		this.uiBuffer = CKEDITOR.tools.eventsBuffer( 10, this.layout, this ),
-		this.changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this.layout, this ),
+		this._uiBuffer = CKEDITOR.tools.eventsBuffer( 10, this._layout, this ),
+		this._changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this._layout, this ),
 
-		win.on( 'scroll', this.uiBuffer.input );
-		win.on( 'resize', this.uiBuffer.input );
-		editor.on( 'change', this.changeBuffer.input );
-		editor.on( 'floatingSpaceLayout', notification.layout, notification, null, 20 );
-		editor.on( 'blur', this.layout, notification, null, 20 );
+		win.on( 'scroll', this._uiBuffer.input );
+		win.on( 'resize', this._uiBuffer.input );
+		editor.on( 'change', this._changeBuffer.input );
+		editor.on( 'floatingSpaceLayout', notification._layout, notification, null, 20 );
+		editor.on( 'blur', this._layout, notification, null, 20 );
 
 		editor.on( 'destroy', function() {
-			notification.detachListeners();
+			notification._detachListeners();
 			if ( notification.notificationArea ) {
 				notification.notificationArea.remove();
 			}
 		} );
 	},
 
-	detachListeners: function() {
+	_detachListeners: function() {
 		var win = CKEDITOR.document.getWindow(),
 			editor = this.editor;
 
-		win.removeListener( 'scroll', this.uiBuffer.input );
-		win.removeListener( 'resize', this.uiBuffer.input );
-		editor.removeListener( 'change', this.changeBuffer.input );
-		editor.removeListener( 'floatingSpaceLayout', this.layout );
-		editor.removeListener( 'blur', this.layout );
+		win.removeListener( 'scroll', this._uiBuffer.input );
+		win.removeListener( 'resize', this._uiBuffer.input );
+		editor.removeListener( 'change', this._changeBuffer.input );
+		editor.removeListener( 'floatingSpaceLayout', this._layout );
+		editor.removeListener( 'blur', this._layout );
 	},
 
-	layout: function() {
+	_layout: function() {
 		var notificationArea = this.notificationArea,
 			win = CKEDITOR.document.getWindow(),
 			editor = this.editor,
@@ -171,16 +171,16 @@ notification.prototype = {
 			topRect = top.getClientRect(),
 			notificationAreaRect = notificationArea.getClientRect(),
 			viewRect = win.getViewPaneSize(),
-			notificationWidth = this.notificationWidth,
-			notificationMargin = this.notificationMargin,
+			notificationWidth = this._notificationWidth,
+			notificationMargin = this._notificationMargin,
 			element,
 			cssLength = CKEDITOR.tools.cssLength;
 
 		// Cache for optimization
 		if ( !notificationWidth || !notificationMargin ) {
 			element = this.getElement();
-			notificationWidth = this.notificationWidth = element.getClientRect().width;
-			notificationMargin = this.notificationMargin = parseInt( element.getComputedStyle( 'margin-left' ), 10 ) +
+			notificationWidth = this._notificationWidth = element.getClientRect().width;
+			notificationMargin = this._notificationMargin = parseInt( element.getComputedStyle( 'margin-left' ), 10 ) +
 				parseInt( element.getComputedStyle( 'margin-right' ), 10 );
 		}
 
@@ -277,7 +277,7 @@ notification.prototype = {
 		}
 	},
 
-	createProgressElement: function() {
+	_createProgressElement: function() {
 		var element = new CKEDITOR.dom.element( 'span' );
 		element.addClass( 'cke_notification_progress' );
 		element.setStyle( 'width', this.getPrecentageProgress() );
@@ -296,7 +296,7 @@ notification.prototype = {
 		}
 
 		if ( this.notificationArea && !this.notificationArea.getChildCount() ) {
-			this.detachListeners();
+			this._detachListeners();
 			this.notificationArea.remove();
 			this.notificationArea = null;
 		}
@@ -350,7 +350,7 @@ notification.prototype = {
 				if ( progressElement ) {
 					progressElement.setStyle( 'width', this.getPrecentageProgress() );
 				} else if ( element && !progressElement ) {
-					progressElement = this.createProgressElement();
+					progressElement = this._createProgressElement();
 					progressElement.insertBefore( messageElement );
 				}
 			}
