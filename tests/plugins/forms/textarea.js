@@ -1,11 +1,14 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: forms,toolbar */
 
-bender.editor = { config : { autoParagraph : false } };
+bender.editor = {
+	config: {
+		autoParagraph: false
+	}
+};
 
-bender.test(
-{
-	test_createFillFields : function() {
+bender.test( {
+	test_createFillFields: function() {
 		var editorBot = this.editorBot;
 
 		editorBot.setHtmlWithSelection( '<p>^</p>' );
@@ -22,7 +25,7 @@ bender.test(
 			} );
 	},
 
-	test_createSimple : function() {
+	test_createSimple: function() {
 		var editorBot = this.editorBot;
 
 		editorBot.setHtmlWithSelection( '<p>^</p>' );

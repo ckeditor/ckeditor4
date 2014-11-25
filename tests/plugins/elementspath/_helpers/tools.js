@@ -1,3 +1,5 @@
+/* exported elementspathTestsTools */
+
 var elementspathTestsTools = ( function() {
 	'use strict';
 

@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: elementspath */
+/* global elementspathTestsTools */
 
 ( function() {
 	'use strict';
@@ -20,7 +21,7 @@
 		// Assertion picked from elementspathTestsTools.
 		assertPath: elementspathTestsTools.assertPath,
 
-		'test elements path on selection change' : function() {
+		'test elements path on selection change': function() {
 			var bot = this.editorBot;
 			bot.setHtmlWithSelection( '<table><tr><td><p>^</p></td></tr></table>' );
 			this.assertPath( 'table,tbody,tr,td,p' );
@@ -28,7 +29,7 @@
 			this.assertPath( 'div,p,span,b,i,u' );
 		},
 
-		'test elements path with contenteditable' : function() {
+		'test elements path with contenteditable': function() {
 			this.editorBot.setHtmlWithSelection( bender.tools.getValueAsHtml( 'mixedContentEditableTree' ) );
 			this.assertPath( 'div,p,strong,span' );
 		},

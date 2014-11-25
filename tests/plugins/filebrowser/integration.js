@@ -53,7 +53,7 @@
 							dialog.hide();
 						}
 					} );
-				}
+				};
 			} );
 
 			this.editor.openDialog( 'testDialog' );

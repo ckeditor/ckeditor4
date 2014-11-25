@@ -29,7 +29,7 @@
 		var names = [],
 			i = 0;
 
-		for ( names[ i++ ] in cfg );
+		for ( names[ i++ ] in cfg ); // jshint ignore:line
 
 		function next() {
 			var name = names.shift();
@@ -57,7 +57,7 @@
 		bender.tools.setHtmlWithSelection( editor, data );
 
 		if ( action === true )
-			editor.execCommand( 'enter' )
+			editor.execCommand( 'enter' );
 		else
 			action( editor );
 

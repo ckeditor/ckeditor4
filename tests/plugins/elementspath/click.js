@@ -3,8 +3,9 @@
 
 ( function() {
 	'use strict';
+
 	// Elements path feature is only available in themed UI creators.
-	bender.editor = { creator : 'replace' };
+	bender.editor = { creator: 'replace' };
 
 	bender.test( {
 
@@ -12,14 +13,14 @@
 
 		assertHtmlEqual: function( expected, actual ) {
 			// Note: assertion removes brs from actual results (FF issue).
-			assert.areEqual( this.fixHtml( expected ), this.fixHtml( actual ).replace( /\<br\s*\/\>/g, '' ) );
+			assert.areEqual( this.fixHtml( expected ), this.fixHtml( actual ).replace( /<br\s*\/\>/g, '' ) );
 		},
 
-		'test function availability' : function() {
+		'test function availability': function() {
 			assert.isInstanceOf( Function, this.editor._.elementsPath.onClick );
 		},
 
-		'test clicking typical strong element' : function() {
+		'test clicking typical strong element': function() {
 			var bot = this.editorBot,
 				editor = this.editor,
 				expectedHtml = '<p><strong>[test]</strong></p>';
