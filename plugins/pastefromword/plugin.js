@@ -73,7 +73,7 @@
 						// Event continuation with the original data.
 						if ( isLazyLoad )
 							editor.fire( 'paste', data );
-						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) )
+						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) // jshint ignore:line
 							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
 
 					} );
@@ -83,14 +83,6 @@
 					isLazyLoad && evt.cancel();
 				}
 			}, null, null, 3 );
-
-			function resetFromWord( evt ) {
-				evt && evt.removeListener();
-				editor.removeListener( 'beforePaste', forceHtmlMode );
-				forceFromWord && setTimeout( function() {
-					forceFromWord = 0;
-				}, 0 );
-			}
 		}
 
 	} );

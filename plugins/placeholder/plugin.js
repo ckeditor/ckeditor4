@@ -47,7 +47,7 @@
 					this.setData( 'name', this.element.getText().slice( 2, -2 ) );
 				},
 
-				data: function( data ) {
+				data: function() {
 					this.element.setText( '[[' + this.data.name + ']]' );
 				}
 			} );

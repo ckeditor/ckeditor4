@@ -272,7 +272,7 @@
 								groupStarted = 0;
 							}
 
-							function addItem( item ) {
+							function addItem( item ) { // jshint ignore:line
 								var itemObj = item.render( editor, output );
 								index = toolbarObj.items.push( itemObj ) - 1;
 
@@ -361,9 +361,9 @@
 
 					editor.setKeystroke( CKEDITOR.ALT + ( CKEDITOR.env.ie || CKEDITOR.env.webkit ? 189 : 109 ) /*-*/, 'toolbarCollapse' );
 
-					output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand )
-						+ '" id="' + editor.ui.spaceId( 'toolbar_collapser' )
-						+ '" tabIndex="-1" class="cke_toolbox_collapser' );
+					output.push( '<a title="' + ( expanded ? editor.lang.toolbar.toolbarCollapse : editor.lang.toolbar.toolbarExpand ) +
+						'" id="' + editor.ui.spaceId( 'toolbar_collapser' ) +
+						'" tabIndex="-1" class="cke_toolbox_collapser' );
 
 					if ( !expanded )
 						output.push( ' cke_toolbox_collapser_min' );

@@ -128,7 +128,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				var _ = initPrivateObject.call( this, elementDefinition );
 				_.labelId = CKEDITOR.tools.getNextId() + '_label';
-				var children = this._.children = [];
+				this._.children = [];
 
 				var innerHTML = function() {
 						var html = [],
@@ -203,8 +203,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				initPrivateObject.call( this, elementDefinition );
 				var domId = this._.inputId = CKEDITOR.tools.getNextId() + '_textInput',
-					attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: elementDefinition.type },
-					i;
+					attributes = { 'class': 'cke_dialog_ui_input_' + elementDefinition.type, id: domId, type: elementDefinition.type };
 
 				// Set the validator, if any.
 				if ( elementDefinition.validate )
@@ -510,7 +509,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var me = this;
 
 				// Register an event handler for processing button clicks.
-				dialog.on( 'load', function( eventInfo ) {
+				dialog.on( 'load', function() {
 					var element = this.getElement();
 
 					( function() {
@@ -537,7 +536,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var labelId = CKEDITOR.tools.getNextId() + '_label';
 				CKEDITOR.ui.dialog.uiElement.call( this, dialog, outerDefinition, htmlList, 'a', null, {
 					style: elementDefinition.style,
-					href: 'javascript:void(0)',
+					href: 'javascript:void(0)', // jshint ignore:line
 					title: elementDefinition.label,
 					hidefocus: 'true',
 					'class': elementDefinition[ 'class' ],
@@ -601,9 +600,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 						html.push( '>' );
 
 						// Add multiple and size attributes from element definition.
-						if ( elementDefinition.size != undefined )
+						if ( elementDefinition.size !== undefined )
 							attributes.size = elementDefinition.size;
-						if ( elementDefinition.multiple != undefined )
+						if ( elementDefinition.multiple !== undefined )
 							attributes.multiple = elementDefinition.multiple;
 
 						cleanInnerDefinition( myDefinition );
@@ -711,11 +710,11 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @param {Array} htmlList List of HTML code to output to.
 			 */
 			fileButton: function( dialog, elementDefinition, htmlList ) {
+				var me = this;
 				if ( arguments.length < 3 )
 					return;
 
-				var _ = initPrivateObject.call( this, elementDefinition ),
-					me = this;
+				initPrivateObject.call( this, elementDefinition );
 
 				if ( elementDefinition.validate )
 					this.validate = elementDefinition.validate;
@@ -838,10 +837,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 		}, true );
 
-		CKEDITOR.ui.dialog.html.prototype = new CKEDITOR.ui.dialog.uiElement;
+		CKEDITOR.ui.dialog.html.prototype = new CKEDITOR.ui.dialog.uiElement();
 
 		/** @class CKEDITOR.ui.dialog.labeledElement */
-		CKEDITOR.ui.dialog.labeledElement.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
+		CKEDITOR.ui.dialog.labeledElement.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 			/**
 			 * Sets the label text of the element.
 			 *
@@ -878,7 +877,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, true );
 
 		/** @class CKEDITOR.ui.dialog.button */
-		CKEDITOR.ui.dialog.button.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
+		CKEDITOR.ui.dialog.button.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 			/**
 			 * Simulates a click to the button.
 			 *
@@ -959,7 +958,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, true );
 
 		/** @class CKEDITOR.ui.dialog.textInput */
-		CKEDITOR.ui.dialog.textInput.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement, {
+		CKEDITOR.ui.dialog.textInput.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement(), {
 			/**
 			 * Gets the text input DOM element under this UI object.
 			 *
@@ -1025,7 +1024,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		CKEDITOR.ui.dialog.textarea.prototype = new CKEDITOR.ui.dialog.textInput();
 
 		/** @class CKEDITOR.ui.dialog.select */
-		CKEDITOR.ui.dialog.select.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement, {
+		CKEDITOR.ui.dialog.select.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement(), {
 			/**
 			 * Gets the DOM element of the select box.
 			 *
@@ -1090,7 +1089,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.checkbox */
-		CKEDITOR.ui.dialog.checkbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
+		CKEDITOR.ui.dialog.checkbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 			/**
 			 * Gets the checkbox DOM element.
 			 *
@@ -1155,7 +1154,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.radio */
-		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
+		CKEDITOR.ui.dialog.radio.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 			/**
 			 * Selects one of the radio buttons in this button group.
 			 *
@@ -1231,7 +1230,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		}, commonPrototype, true );
 
 		/** @class CKEDITOR.ui.dialog.file */
-		CKEDITOR.ui.dialog.file.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement, commonPrototype, {
+		CKEDITOR.ui.dialog.file.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.labeledElement(), commonPrototype, {
 			/**
 			 * Gets the `<input>` element of this file input.
 			 *
@@ -1415,7 +1414,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			keyboardFocusable: true
 		}, true );
 
-		CKEDITOR.ui.dialog.fileButton.prototype = new CKEDITOR.ui.dialog.button;
+		CKEDITOR.ui.dialog.fileButton.prototype = new CKEDITOR.ui.dialog.button();
 
 		CKEDITOR.ui.dialog.fieldset.prototype = CKEDITOR.tools.clone( CKEDITOR.ui.dialog.hbox.prototype );
 

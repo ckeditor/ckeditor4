@@ -41,7 +41,7 @@
 					if ( item )
 						editor[ item.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( item.style );
 				},
-				refresh: function( editor, path ) {
+				refresh: function( editor ) {
 					this.setState( plugin.getCurrentLangElement( editor ) ?
 						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				}

@@ -33,7 +33,7 @@
 				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
 				triggers: config.magicline_everywhere ? DTD_BLOCK : { table: 1, hr: 1, div: 1, ul: 1, ol: 1, dl: 1, form: 1, blockquote: 1 }
 			},
-			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
+			scrollTimeout, checkMouseTimeoutPending, checkMouseTimer;
 
 		// %REMOVE_START%
 		// Internal DEBUG uses tools located in the topmost window.
@@ -72,8 +72,7 @@
 		function addListeners() {
 			var editable = editor.editable(),
 				doc = editor.document,
-				win = editor.window,
-				listener;
+				win = editor.window;
 
 			// Global stuff is being initialized here.
 			extend( that, {
@@ -170,7 +169,7 @@
 
 			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
-			editable.attachListener( editable, 'keyup', function( event ) {
+			editable.attachListener( editable, 'keyup', function() {
 				that.hiddenMode = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			} );
@@ -179,9 +178,7 @@
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
-				var keyStroke = event.data.getKeystroke(),
-					selection = editor.getSelection(),
-					selected = selection.getStartElement();
+				var keyStroke = event.data.getKeystroke();
 
 				switch ( keyStroke ) {
 					// Shift pressed
@@ -219,7 +216,7 @@
 
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
-			editable.attachListener( win, 'scroll', function( event ) {
+			editable.attachListener( win, 'scroll', function() {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -247,7 +244,7 @@
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function() {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -261,7 +258,7 @@
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function() {
 				that.hiddenMode = 0;
 				that.mouseDown = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
@@ -277,7 +274,7 @@
 			] );
 
 			// Revert magicline hot node on undo/redo.
-			editor.on( 'loadSnapshot', function( event ) {
+			editor.on( 'loadSnapshot', function() {
 				var elements, element, i;
 
 				for ( var t in { p: 1, br: 1, div: 1 } ) {
@@ -904,7 +901,8 @@
 						removeOld = that.hotNode &&							// Old hotNode must exist.
 							that.hotNode.getText() == hotNodeChar &&		// Old hotNode hasn't been changed.
 							that.element.equals( that.hotNode ) &&			// Caret is inside old hotNode.
-							that.lastCmdDirection === !!insertAfter;		// Command is executed in the same direction.
+							// Command is executed in the same direction.
+							that.lastCmdDirection === !!insertAfter; // jshint ignore:line
 
 					accessFocusSpace( that, function( accessNode ) {
 						if ( removeOld && that.hotNode )

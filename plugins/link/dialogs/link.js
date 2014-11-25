@@ -199,7 +199,7 @@
 									return true;
 
 								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/ ).test( this.getValue() ) ) {
-									alert( commonLang.invalidValue );
+									alert( commonLang.invalidValue ); // jshint ignore:line
 									return false;
 								}
 
@@ -228,7 +228,7 @@
 								this.allowOnChange = false;
 							}
 						} ],
-						setup: function( data ) {
+						setup: function() {
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().show();
 						}
@@ -251,7 +251,7 @@
 						type: 'fieldset',
 						id: 'selectAnchorText',
 						label: linkLang.selectAnchor,
-						setup: function( data ) {
+						setup: function() {
 							anchors = plugin.getEditorAnchors( editor );
 
 							this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
@@ -323,7 +323,7 @@
 									data.anchor.id = this.getValue();
 								}
 							} ],
-							setup: function( data ) {
+							setup: function() {
 								this.getElement()[ anchors && anchors.length ? 'show' : 'hide' ]();
 							}
 						} ]
@@ -335,11 +335,11 @@
 						html: '<div role="note" tabIndex="-1">' + CKEDITOR.tools.htmlEncode( linkLang.noAnchors ) + '</div>',
 						// Focus the first element defined in above html.
 						focus: true,
-						setup: function( data ) {
+						setup: function() {
 							this.getElement()[ anchors && anchors.length ? 'hide' : 'show' ]();
 						}
 					} ],
-					setup: function( data ) {
+					setup: function() {
 						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 							this.getElement().hide();
 					}
@@ -409,7 +409,7 @@
 							data.email.body = this.getValue();
 						}
 					} ],
-					setup: function( data ) {
+					setup: function() {
 						if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 							this.getElement().hide();
 					}

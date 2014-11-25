@@ -40,7 +40,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 				} );
 			}
 
-			return function( event ) {
+			return function() {
 				// Remove CR from input data for reliable comparison with editor data.
 				var newData = this.getValueOf( 'main', 'data' ).replace( /\r/g, '' ),
 					that = this;

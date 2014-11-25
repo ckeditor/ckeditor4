@@ -148,7 +148,7 @@
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
+				editor.contextMenu.addListener( function( element ) {
 					if ( !element || element.isReadOnly() )
 						return null;
 
@@ -572,7 +572,7 @@
 			// Compose the URL.
 			switch ( data.type ) {
 				case 'url':
-					var protocol = ( data.url && data.url.protocol != undefined ) ? data.url.protocol : 'http://',
+					var protocol = ( data.url && data.url.protocol !== undefined ) ? data.url.protocol : 'http://',
 						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
 
 					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
@@ -604,7 +604,7 @@
 
 							if ( emailProtection == 'encode' ) {
 								linkHref = [
-									'javascript:void(location.href=\'mailto:\'+',
+									'javascript:void(location.href=\'mailto:\'+', // jshint ignore:line
 									protectEmailAddressAsEncodedString( address )
 								];
 								// parameters are optional.
@@ -622,7 +622,7 @@
 							email.name = nameAndDomain[ 0 ];
 							email.domain = nameAndDomain[ 1 ];
 
-							linkHref = [ 'javascript:', protectEmailLinkAsFunction( editor, email ) ];
+							linkHref = [ 'javascript:', protectEmailLinkAsFunction( editor, email ) ]; // jshint ignore:line
 					}
 
 					set[ 'data-cke-saved-href' ] = linkHref.join( '' );

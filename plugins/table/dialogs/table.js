@@ -37,7 +37,7 @@
 				pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
 
 			if ( !pass ) {
-				alert( msg );
+				alert( msg ); // jshint ignore:line
 				this.select();
 			}
 
@@ -65,7 +65,7 @@
 				var styles = dialog.getContentElement( 'advanced', 'advStyles' );
 
 				if ( styles ) {
-					styles.on( 'change', function( evt ) {
+					styles.on( 'change', function() {
 						// Synchronize width value.
 						var width = this.getStyle( 'width', '' ),
 							txtWidth = dialog.getContentElement( 'info', 'txtWidth' );
@@ -129,7 +129,6 @@
 					bms = this._.selectedElement && selection.createBookmarks();
 
 				var table = this._.selectedElement || makeElement( 'table' ),
-					me = this,
 					data = {};
 
 				this.commitContent( data, table );
@@ -327,7 +326,7 @@
 							'default': editor.filter.check( 'table[border]' ) ? 1 : 0,
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
-							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidBorder ),
+							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidBorder ),
 							setup: function( selectedTable ) {
 								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
 							},

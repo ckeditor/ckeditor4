@@ -3,7 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'textfield', function( editor ) {
-	var autoAttributes = { value: 1, size: 1, maxLength: 1 };
 
 	var acceptedTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 };
 

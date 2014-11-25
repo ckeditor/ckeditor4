@@ -23,7 +23,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 						type: 'textarea',
 						label: lang.dialogInput,
 
-						onLoad: function( widget ) {
+						onLoad: function() {
 							var that = this;
 
 							if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) {
@@ -62,7 +62,7 @@ CKEDITOR.dialog.add( 'mathjax', function( editor ) {
 								'<iframe style="border:0;width:0;height:0;font-size:20px" scrolling="no" frameborder="0" allowTransparency="true" src="' + CKEDITOR.plugins.mathjax.fixSrc + '"></iframe>' +
 							'</div>',
 
-						onLoad: function( widget ) {
+						onLoad: function() {
 							var iFrame = CKEDITOR.document.getById( this.domId ).getChild( 0 );
 							preview = new CKEDITOR.plugins.mathjax.frameWrapper( iFrame, editor );
 						},

@@ -14,8 +14,7 @@ CKEDITOR.plugins.add( 'table', {
 		if ( editor.blockless )
 			return;
 
-		var table = CKEDITOR.plugins.table,
-			lang = editor.lang.table;
+		var lang = editor.lang.table;
 
 		editor.addCommand( 'table', new CKEDITOR.dialogCommand( 'table', {
 			context: 'table',

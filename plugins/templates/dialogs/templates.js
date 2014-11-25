@@ -4,7 +4,6 @@
  */
 
 ( function() {
-	var doc = CKEDITOR.document;
 
 	CKEDITOR.dialog.add( 'templates', function( editor ) {
 		// Constructs the HTML view of the specified templates data.

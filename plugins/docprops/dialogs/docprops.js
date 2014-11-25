@@ -145,7 +145,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				]
 			};
 		};
-	var previewSrc = 'javascript:' +
+	var previewSrc = 'javascript:' + // jshint ignore:line
 		'void((function(){' + encodeURIComponent(
 			'document.open();' +
 			( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +

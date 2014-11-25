@@ -126,7 +126,7 @@
 									dialog.lockRatio = true;
 							}
 						}
-					} else if ( value != undefined )
+					} else if ( value !== undefined )
 						dialog.lockRatio = value;
 					else {
 						dialog.userlockRatio = 1;
@@ -349,7 +349,7 @@
 						var imgTagName = this.imageEditMode;
 
 						// Image dialog and Input element.
-						if ( dialogType == 'image' && imgTagName == 'input' && confirm( editor.lang.image.button2Img ) ) {
+						if ( dialogType == 'image' && imgTagName == 'input' && confirm( editor.lang.image.button2Img ) ) { // jshint ignore:line
 							// Replace INPUT-> IMG
 							imgTagName = 'img';
 							this.imageElement = editor.document.createElement( 'img' );
@@ -357,7 +357,7 @@
 							editor.insertElement( this.imageElement );
 						}
 						// ImageButton dialog and Image element.
-						else if ( dialogType != 'image' && imgTagName == 'img' && confirm( editor.lang.image.img2Button ) ) {
+						else if ( dialogType != 'image' && imgTagName == 'img' && confirm( editor.lang.image.img2Button ) ) { // jshint ignore:line
 							// Replace IMG -> INPUT
 							imgTagName = 'input';
 							this.imageElement = editor.document.createElement( 'input' );
@@ -587,7 +587,7 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidWidth );
+												alert( editor.lang.common.invalidWidth ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
@@ -628,7 +628,7 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidHeight );
+												alert( editor.lang.common.invalidHeight ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
@@ -680,8 +680,9 @@
 										// Activate (Un)LockRatio button
 										if ( ratioButton ) {
 											ratioButton.on( 'click', function( evt ) {
-												var locked = switchLockRatio( this ),
-													oImageOriginal = this.originalElement,
+												switchLockRatio( this );
+
+												var oImageOriginal = this.originalElement,
 													width = this.getValueOf( 'info', 'txtWidth' );
 
 												if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' && width ) {

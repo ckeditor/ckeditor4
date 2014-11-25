@@ -357,7 +357,6 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 						onClick: function() {
 							//Add new option.
 							var dialog = this.getDialog(),
-								parentEditor = dialog.getParentEditor(),
 								optName = dialog.getContentElement( 'info', 'txtOptName' ),
 								optValue = dialog.getContentElement( 'info', 'txtOptValue' ),
 								names = dialog.getContentElement( 'info', 'cmbName' ),

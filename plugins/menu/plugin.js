@@ -343,7 +343,7 @@ CKEDITOR.plugins.add( 'menu', {
 						this._.showSubTimeout = CKEDITOR.tools.setTimeout( this._.showSubMenu, editor.config.menu_subMenuDelay || 400, this, [ index ] );
 					}, this );
 
-					this._.itemOutFn = CKEDITOR.tools.addFunction( function( index ) {
+					this._.itemOutFn = CKEDITOR.tools.addFunction( function() {
 						clearTimeout( this._.showSubTimeout );
 					}, this );
 
@@ -488,7 +488,7 @@ CKEDITOR.plugins.add( 'menu', {
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
 					title: this.label,
-					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
+					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
 					hoverFn: menu._.itemOverFn,
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,

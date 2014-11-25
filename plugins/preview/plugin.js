@@ -66,7 +66,7 @@
 
 			if ( CKEDITOR.env.ie ) {
 				window._cke_htmlToLoad = eventData.dataValue;
-				ieLocation = 'javascript:void( (function(){' +
+				ieLocation = 'javascript:void( (function(){' + // jshint ignore:line
 					'document.open();' +
 					// Support for custom document.domain.
 					// Strip comments and replace parent with window.opener in the function body.

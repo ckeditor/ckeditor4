@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'print', {
 		var pluginName = 'print';
 
 		// Register the command.
-		var command = editor.addCommand( pluginName, CKEDITOR.plugins.print );
+		editor.addCommand( pluginName, CKEDITOR.plugins.print );
 
 		// Register the toolbar button.
 		editor.ui.addButton && editor.ui.addButton( 'Print', {

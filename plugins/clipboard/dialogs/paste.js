@@ -127,9 +127,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						var src =
 							CKEDITOR.env.air ?
-								'javascript:void(0)' :
+								'javascript:void(0)' : // jshint ignore:line
 							CKEDITOR.env.ie ?
-								'javascript:void((function(){' + encodeURIComponent(
+								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
 									'document.close();'

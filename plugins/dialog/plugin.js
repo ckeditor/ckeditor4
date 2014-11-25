@@ -1,5 +1,4 @@
-﻿/* global: alert, confirm */
-/**
+﻿/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -108,7 +107,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				this.focus();
 		}
 
-		msg && alert( msg );
+		msg && alert( msg ); // jshint ignore:line
 
 		this.fire( 'validated', { valid: isValid, msg: msg } );
 	}
@@ -162,7 +161,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		// IFrame shim for dialog that masks activeX in IE. (#7619)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks ) {
-			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())',
+			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())', // jshint ignore:line
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 					' frameBorder="0"' +
 					' class="cke_iframe_shim"' +
@@ -368,7 +367,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		this.on( 'cancel', function( evt ) {
 			iterContents( function( item ) {
 				if ( item.isChanged() ) {
-					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) )
+					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) ) // jshint ignore:line
 						evt.data.hide = false;
 					return true;
 				}

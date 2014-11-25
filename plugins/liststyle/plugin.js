@@ -47,7 +47,7 @@
 				}
 			} );
 
-			editor.contextMenu.addListener( function( element, selection ) {
+			editor.contextMenu.addListener( function( element ) {
 				if ( !element || element.isReadOnly() )
 					return null;
 

@@ -128,8 +128,7 @@
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected, electedTabIndex, element, elementTabIndex;
 
 	if ( curTabIndex <= 0 ) {
@@ -204,8 +203,7 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected,
 		electedTabIndex = 0,
 		elementTabIndex;

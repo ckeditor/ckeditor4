@@ -9,6 +9,7 @@
  */
 
 ( function() {
+	/* global ActiveXObject */
 	CKEDITOR.plugins.add( 'xml', {} );
 
 	/**
@@ -38,7 +39,7 @@
 				} catch ( e ) {
 					try {
 						baseXml = new ActiveXObject( 'Microsoft.XmlDom' );
-					} catch ( e ) {}
+					} catch ( err ) {}
 				}
 
 				if ( baseXml ) {

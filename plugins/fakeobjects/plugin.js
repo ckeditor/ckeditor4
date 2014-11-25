@@ -151,8 +151,8 @@
 			var width = realAttrs.width,
 				height = realAttrs.height;
 
-			width != undefined && ( fakeStyle.rules.width = cssLength( width ) );
-			height != undefined && ( fakeStyle.rules.height = cssLength( height ) );
+			width !== undefined && ( fakeStyle.rules.width = cssLength( width ) );
+			height !== undefined && ( fakeStyle.rules.height = cssLength( height ) );
 			fakeStyle.populate( attributes );
 		}
 

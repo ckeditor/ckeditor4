@@ -101,7 +101,7 @@
 				moveBuffer.input();
 			} );
 
-			this.editable.attachListener( this.inline ? this.editable : this.frame, 'mouseout', function( evt ) {
+			this.editable.attachListener( this.inline ? this.editable : this.frame, 'mouseout', function() {
 				moveBuffer.reset();
 			} );
 		},
@@ -204,7 +204,7 @@
 							this.store( el, type );
 					}
 				}
-			} while ( !isLimit( el ) && ( el = el.getParent() ) )
+			} while ( !isLimit( el ) && ( el = el.getParent() ) );
 		},
 
 		/**
@@ -242,7 +242,7 @@
 			function iterate( el, xStart, yStart, step, condition ) {
 				var y = yStart,
 					tryouts = 0,
-					found, uid;
+					found;
 
 				while ( condition( y ) ) {
 					y += step;
@@ -440,8 +440,6 @@
 		 * @returns {Object} {@link #locations}.
 		 */
 		locate: ( function() {
-			var rel, uid;
-
 			function locateSibling( rel, type ) {
 				var sib = rel.element[ type === CKEDITOR.LINEUTILS_BEFORE ? 'getPrevious' : 'getNext' ]();
 
@@ -465,9 +463,11 @@
 			}
 
 			return function( relations ) {
+				var rel;
+
 				this.locations = {};
 
-				for ( uid in relations ) {
+				for ( var uid in relations ) {
 					rel = relations[ uid ];
 					rel.elementRect = rel.element.getClientRect();
 
@@ -496,9 +496,9 @@
 		 */
 		sort: ( function() {
 			var locations, sorted,
-				dist, uid, type, i;
+				dist, i;
 
-			function distance( y ) {
+			function distance( y, uid, type ) {
 				return Math.abs( y - locations[ uid ][ type ] );
 			}
 
@@ -506,9 +506,9 @@
 				locations = this.locations;
 				sorted = [];
 
-				for ( uid in locations ) {
-					for ( type in locations[ uid ] ) {
-						dist = distance( y );
+				for ( var uid in locations ) {
+					for ( var type in locations[ uid ] ) {
+						dist = distance( y, uid, type );
 
 						// An array is empty.
 						if ( !sorted.length )

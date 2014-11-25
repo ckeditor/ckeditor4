@@ -96,8 +96,8 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						var isChecked = !!this.getValue();
 
 						if ( isElementChecked != isChecked ) {
-							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' )
-								+ '></input>', editor.document );
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' ) +
+								'></input>', editor.document );
 							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );

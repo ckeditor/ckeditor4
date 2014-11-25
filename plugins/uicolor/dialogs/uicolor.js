@@ -28,7 +28,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 		id: 'yuiColorPicker',
 		type: 'html',
 		html: "<div id='" + pickerId + "' class='cke_uicolor_picker' style='width: 360px; height: 200px; position: relative;'></div>",
-		onLoad: function( event ) {
+		onLoad: function() {
 			var url = CKEDITOR.getUrl( 'plugins/uicolor/yui/' );
 
 			// Create new color picker widget.

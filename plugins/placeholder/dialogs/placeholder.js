@@ -14,7 +14,7 @@
 CKEDITOR.dialog.add( 'placeholder', function( editor ) {
 	var lang = editor.lang.placeholder,
 		generalLabel = editor.lang.common.generalTab,
-		validNameRegex = /^[^\[\]\<\>]+$/;
+		validNameRegex = /^[^\[\]<>]+$/;
 
 	return {
 		title: lang.title,

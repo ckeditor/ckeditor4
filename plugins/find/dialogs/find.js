@@ -563,7 +563,7 @@
 								dialog.getValueOf( 'find', 'txtFindWordChk' ),
 								dialog.getValueOf( 'find', 'txtFindCyclic' )
 							) ) {
-								alert( lang.notFoundMsg );
+								alert( lang.notFoundMsg ); // jshint ignore:line
 							}
 						}
 					} ]
@@ -628,7 +628,7 @@
 								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
 								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
 							) ) {
-								alert( lang.notFoundMsg );
+								alert( lang.notFoundMsg ); // jshint ignore:line
 							}
 						}
 					} ]
@@ -653,7 +653,6 @@
 						isChanged: false,
 						onClick: function() {
 							var dialog = this.getDialog();
-							var replaceNums;
 
 							finder.replaceCounter = 0;
 
@@ -677,10 +676,10 @@
 							}
 
 							if ( finder.replaceCounter ) {
-								alert( lang.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) );
+								alert( lang.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) ); // jshint ignore:line
 								editor.fire( 'saveSnapshot' );
 							} else {
-								alert( lang.notFoundMsg );
+								alert( lang.notFoundMsg ); // jshint ignore:line
 							}
 						}
 					} ]
@@ -790,7 +789,7 @@
 					return this.getContentElement( 'find', 'txtFindFind' );
 			}
 		};
-	};
+	}
 
 	CKEDITOR.dialog.add( 'find', function( editor ) {
 		return findDialog( editor, 'find' );

@@ -9,8 +9,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
-		heightPattern = /^(\d+(?:\.\d+)?)px$/,
-		bind = CKEDITOR.tools.bind,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
@@ -143,7 +141,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							label: langCommon.height,
 							width: '100px',
 							'default': '',
-							validate: validate[ 'number' ]( langCell.invalidHeight ),
+							validate: validate.number( langCell.invalidHeight ),
 
 							// Extra labelling of height unit type.
 							onLoad: function() {
@@ -365,7 +363,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'bgColorChoose',
-							class: 'colorChooser',
+							class: 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
 								// Stick the element to the bottom (#5587)
@@ -410,7 +408,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'borderColorChoose',
-							class: 'colorChooser',
+							class: 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {

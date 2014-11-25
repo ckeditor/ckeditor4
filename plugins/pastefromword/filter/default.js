@@ -531,7 +531,7 @@
 			},
 
 			// A simple filter which always rejecting.
-			falsyFilter: function( value ) {
+			falsyFilter: function() {
 				return false;
 			},
 
@@ -749,8 +749,7 @@
 								// Extract selectors and style properties.
 								.replace( /(.+?)\{(.+?)\}/g, function( rule, selectors, styleBlock ) {
 									selectors = selectors.split( ',' );
-									var length = selectors.length,
-										selector;
+									var length = selectors.length;
 									for ( var i = 0; i < length; i++ ) {
 										// Assume MS-Word mostly generate only simple
 										// selector( [Type selector][Class selector]).
@@ -930,10 +929,8 @@
 						}
 
 						// Update the src attribute of image element with href.
-						var children = element.children,
-							attrs = element.attributes,
-							styleText = attrs && attrs.style,
-							firstChild = children && children[ 0 ];
+						var attrs = element.attributes,
+							styleText = attrs && attrs.style;
 
 						// Assume MS-Word mostly carry font related styles on <span>,
 						// adapting them to editor's convention.
@@ -941,10 +938,10 @@
 							attrs.style = stylesFilter( [
 								// Drop 'inline-height' style which make lines overlapping.
 								[ 'line-height' ],
-								[ ( /^font-family$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'font_style' ], 'family' ) : null ],
-								[ ( /^font-size$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'fontSize_style' ], 'size' ) : null ],
-								[ ( /^color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_foreStyle' ], 'color' ) : null ],
-								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
+								[ ( /^font-family$/ ), null, !removeFontStyles ? styleMigrateFilter( config.font_style, 'family' ) : null ],
+								[ ( /^font-size$/ ), null, !removeFontStyles ? styleMigrateFilter( config.fontSize_style, 'size' ) : null ],
+								[ ( /^color$/ ), null, !removeFontStyles ? styleMigrateFilter( config.colorButton_foreStyle, 'color' ) : null ],
+								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config.colorButton_backStyle, 'color' ) : null ]
 							] )( styleText, element ) || '';
 						}
 
@@ -958,12 +955,12 @@
 					},
 
 					// Migrate basic style formats to editor configured ones.
-					b: elementMigrateFilter( config[ 'coreStyles_bold' ] ),
-					i: elementMigrateFilter( config[ 'coreStyles_italic' ] ),
-					u: elementMigrateFilter( config[ 'coreStyles_underline' ] ),
-					s: elementMigrateFilter( config[ 'coreStyles_strike' ] ),
-					sup: elementMigrateFilter( config[ 'coreStyles_superscript' ] ),
-					sub: elementMigrateFilter( config[ 'coreStyles_subscript' ] ),
+					b: elementMigrateFilter( config.coreStyles_bold ),
+					i: elementMigrateFilter( config.coreStyles_italic ),
+					u: elementMigrateFilter( config.coreStyles_underline ),
+					s: elementMigrateFilter( config.coreStyles_strike ),
+					sup: elementMigrateFilter( config.coreStyles_superscript ),
+					sub: elementMigrateFilter( config.coreStyles_subscript ),
 
 					// Remove full paths from links to anchors.
 					a: function( element ) {
@@ -1162,7 +1159,7 @@
 		try {
 			data = dataProcessor.toHtml( data );
 		} catch ( e ) {
-			alert( editor.lang.pastefromword.error );
+			alert( editor.lang.pastefromword.error ); // jshint ignore:line
 		}
 
 		// Below post processing those things that are unable to delivered by filter rules.

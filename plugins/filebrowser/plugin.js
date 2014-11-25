@@ -148,7 +148,7 @@
 	//
 	// @param {CKEDITOR.event}
 	//            evt The event object.
-	function browseServer( evt ) {
+	function browseServer() {
 		var dialog = this.getDialog();
 		var editor = dialog.getParentEditor();
 
@@ -174,7 +174,7 @@
 	//
 	// @param {CKEDITOR.event}
 	//            evt The event object.
-	function uploadFile( evt ) {
+	function uploadFile() {
 		var dialog = this.getDialog();
 		var editor = dialog.getParentEditor();
 
@@ -222,7 +222,7 @@
 		if ( !elements || !elements.length )
 			return;
 
-		var element, fileInput;
+		var element;
 
 		for ( var i = elements.length; i--; ) {
 			element = elements[ i ];
@@ -339,7 +339,7 @@
 
 		// The "data" argument may be used to pass the error message to the editor.
 		if ( typeof data == 'string' && data )
-			alert( data );
+			alert( data ); // jshint ignore:line
 
 		if ( fileUrl )
 			updateTargetElement( fileUrl, this._.filebrowserSe );
@@ -347,7 +347,7 @@
 
 	CKEDITOR.plugins.add( 'filebrowser', {
 		requires: 'popup',
-		init: function( editor, pluginPath ) {
+		init: function( editor ) {
 			editor._.filebrowserFn = CKEDITOR.tools.addFunction( setUrl, editor );
 			editor.on( 'destroy', function() {
 				CKEDITOR.tools.removeFunction( this._.filebrowserFn );
@@ -367,7 +367,7 @@
 			if ( ( element = definition.contents[ i ] ) ) {
 				attachFileBrowser( evt.editor, evt.data.name, definition, element.elements );
 				if ( element.hidden && element.filebrowser )
-					element.hidden = !isConfigured( definition, element[ 'id' ], element.filebrowser );
+					element.hidden = !isConfigured( definition, element.id, element.filebrowser );
 
 			}
 		}

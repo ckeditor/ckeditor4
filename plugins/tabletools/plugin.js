@@ -320,38 +320,6 @@
 		return cursorPosition;
 	}
 
-	function getFocusElementAfterDelCols( cells ) {
-		var cellIndexList = [],
-			table = cells[ 0 ] && cells[ 0 ].getAscendant( 'table' ),
-			i, length, targetIndex, targetCell;
-
-		// get the cellIndex list of delete cells
-		for ( i = 0, length = cells.length; i < length; i++ )
-			cellIndexList.push( cells[ i ].$.cellIndex );
-
-		// get the focusable column index
-		cellIndexList.sort();
-		for ( i = 1, length = cellIndexList.length; i < length; i++ ) {
-			if ( cellIndexList[ i ] - cellIndexList[ i - 1 ] > 1 ) {
-				targetIndex = cellIndexList[ i - 1 ] + 1;
-				break;
-			}
-		}
-
-		if ( !targetIndex )
-			targetIndex = cellIndexList[ 0 ] > 0 ? ( cellIndexList[ 0 ] - 1 ) : ( cellIndexList[ cellIndexList.length - 1 ] + 1 );
-
-		// scan row by row to get the target cell
-		var rows = table.$.rows;
-		for ( i = 0, length = rows.length; i < length; i++ ) {
-			targetCell = rows[ i ].cells[ targetIndex ];
-			if ( targetCell )
-				break;
-		}
-
-		return targetCell ? new CKEDITOR.dom.element( targetCell ) : table.getPrevious();
-	}
-
 	function insertCell( selection, insertBefore ) {
 		var startElement = selection.getStartElement();
 		var cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 );
@@ -672,8 +640,6 @@
 
 		return newCell;
 	}
-	// Context menu on table caption incorrect (#3834)
-	var contextMenuTags = { thead: 1, tbody: 1, tfoot: 1, td: 1, tr: 1, th: 1 };
 
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',

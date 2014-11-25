@@ -13,7 +13,6 @@
 				template +
 				'<figcaption>{captionPlaceholder}</figcaption>' +
 			'</figure>' ),
-		alignmentsArr = [ 'left', 'center', 'right' ],
 		alignmentsObj = { left: 0, center: 1, right: 2 },
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
@@ -1248,7 +1247,7 @@
 				}
 			}
 
-			function onMouseUp( evt ) {
+			function onMouseUp() {
 				var l;
 
 				while ( ( l = listeners.pop() ) )
@@ -1326,7 +1325,7 @@
 				// Cache "enabled" on first use. This is because filter#checkFeature may
 				// not be available during plugin's afterInit in the future — a moment when
 				// alignCommandIntegrator is called.
-				if ( enabled == undefined )
+				if ( enabled === undefined )
 					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
 
 				// Don't allow justify commands when widget alignment is disabled (#11004).

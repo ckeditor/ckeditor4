@@ -252,7 +252,7 @@
 						var buttonNode = CKEDITOR.document.getById( button._.id );
 						buttonNode.getChild( 1 ).setHtml( label );
 						buttonNode.setAttribute( 'title', label );
-						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
+						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' ); // jshint ignore:line
 					}
 
 					// Restore selection and scroll position in editing area.

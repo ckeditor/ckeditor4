@@ -18,17 +18,6 @@
 		}
 	}
 
-	function getNonEmptyChildren( element ) {
-		var retval = [];
-		var children = element.getChildren();
-		for ( var i = 0; i < children.count(); i++ ) {
-			var child = children.getItem( i );
-			if ( !( child.type === CKEDITOR.NODE_TEXT && ( /^[ \t\n\r]+$/ ).test( child.getText() ) ) )
-				retval.push( child );
-		}
-		return retval;
-	}
-
 	// Dialog reused by both 'creatediv' and 'editdiv' commands.
 	// @param {Object} editor
 	// @param {String} command	The command name which indicate what the current command is.

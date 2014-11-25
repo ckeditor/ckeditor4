@@ -70,7 +70,7 @@
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
+				editor.contextMenu.addListener( function( element ) {
 					if ( getSelectedImage( editor, element ) )
 						return { image: CKEDITOR.TRISTATE_OFF };
 				} );

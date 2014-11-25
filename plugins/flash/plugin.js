@@ -77,7 +77,7 @@
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
+				editor.contextMenu.addListener( function( element ) {
 					if ( element && element.is( 'img' ) && !element.isReadOnly() && element.data( 'cke-real-element-type' ) == 'flash' )
 						return { flash: CKEDITOR.TRISTATE_OFF };
 				} );

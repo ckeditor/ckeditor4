@@ -96,8 +96,6 @@
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
 
-	var defaultToPixel = CKEDITOR.tools.cssLength;
-
 	function loadValue( objectNode, embedNode, paramMap ) {
 		var attributes = attributesMap[ this.id ];
 		if ( !attributes )
@@ -342,8 +340,8 @@
 									updatePreview = function( src ) {
 										// Query the preloader to figure out the url impacted by based href.
 										previewPreloader.setAttribute( 'src', src );
-										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) )
-											+ '" type="application/x-shockwave-flash"></embed>' );
+										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) ) +
+											'" type="application/x-shockwave-flash"></embed>' );
 									};
 								// Preview element
 								dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
@@ -355,7 +353,7 @@
 										updatePreview( evt.data.value );
 								} );
 								// Sync when input value changed.
-								this.getInputElement().on( 'change', function( evt ) {
+								this.getInputElement().on( 'change', function() {
 
 									updatePreview( this.getValue() );
 								}, this );

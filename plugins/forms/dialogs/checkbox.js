@@ -105,8 +105,8 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 							isChecked = !!this.getValue();
 
 						if ( isElementChecked != isChecked ) {
-							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="checkbox"' + ( isChecked ? ' checked="checked"' : '' )
-								+ '/>', editor.document );
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="checkbox"' + ( isChecked ? ' checked="checked"' : '' ) +
+								'/>', editor.document );
 
 							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );

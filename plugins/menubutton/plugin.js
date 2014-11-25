@@ -68,7 +68,6 @@ CKEDITOR.plugins.add( 'menubutton', {
 			 */
 			$: function( definition ) {
 				// We don't want the panel definition in this object.
-				var panelDefinition = definition.panel;
 				delete definition.panel;
 
 				this.base( definition );

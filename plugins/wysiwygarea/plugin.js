@@ -27,7 +27,7 @@
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
-				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'
+				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())' // jshint ignore:line
 					:
 					'';
 
@@ -307,7 +307,7 @@
 	}
 
 	var framedWysiwyg = CKEDITOR.tools.createClass( {
-		$: function( editor ) {
+		$: function() {
 			this.base.apply( this, arguments );
 
 			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( function( win ) {
@@ -573,15 +573,6 @@
 
 		function resizeStartListener( evt ) {
 			evt.returnValue = false;
-		}
-	}
-
-	// DOM modification here should not bother dirty flag.(#4385)
-	function restoreDirty( editor ) {
-		if ( !editor.checkDirty() ) {
-			setTimeout( function() {
-				editor.resetDirty();
-			}, 0 );
 		}
 	}
 

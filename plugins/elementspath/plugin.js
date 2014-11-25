@@ -144,11 +144,8 @@
 				return true;
 			} );
 
-		editor.on( 'selectionChange', function( ev ) {
-			var env = CKEDITOR.env,
-				editable = editor.editable(),
-				selection = ev.data.selection,
-				html = [],
+		editor.on( 'selectionChange', function() {
+			var html = [],
 				elementsList = elementsPath.list = [],
 				namesList = [],
 				filters = elementsPath.filters,
@@ -200,7 +197,7 @@
 						id: idBase + index,
 						label: label,
 						text: name,
-						jsTitle: 'javascript:void(\'' + name + '\')',
+						jsTitle: 'javascript:void(\'' + name + '\')', // jshint ignore:line
 						index: index,
 						keyDownFn: onKeyDownHandler,
 						clickFn: onClickHanlder

@@ -8,8 +8,7 @@
  */
 
 ( function() {
-	var listNodeNames = { ol: 1, ul: 1 },
-		emptyTextRegex = /^[\n\r\t ]*$/;
+	var listNodeNames = { ol: 1, ul: 1 };
 
 	var whitespaces = CKEDITOR.dom.walker.whitespaces(),
 		bookmarks = CKEDITOR.dom.walker.bookmark(),
@@ -143,7 +142,7 @@
 					// If the next block is an <li> with another list tree as the first
 					// child, we'll need to append a filler (<br>/NBSP) or the list item
 					// wouldn't be editable. (#6724)
-					if ( !currentListItem.getChildCount() && CKEDITOR.env.needsNbspFiller && !( doc.$.documentMode > 7 ) )
+					if ( !currentListItem.getChildCount() && CKEDITOR.env.needsNbspFiller && doc.$.documentMode <= 7 )
 						currentListItem.append( doc.createText( '\xa0' ) );
 					currentListItem.append( listData.listNode );
 					currentIndex = listData.nextIndex;
@@ -271,8 +270,7 @@
 			}
 
 			if ( database ) {
-				var currentNode = retval.getFirst(),
-					listRoot = listArray[ 0 ].parent;
+				var currentNode = retval.getFirst();
 
 				while ( currentNode ) {
 					if ( currentNode.type == CKEDITOR.NODE_ELEMENT ) {
@@ -541,8 +539,7 @@
 			// Run state check first of all.
 			this.refresh( editor, editor.elementPath() );
 
-			var doc = editor.document,
-				config = editor.config,
+			var config = editor.config,
 				selection = editor.getSelection(),
 				ranges = selection && selection.getRanges();
 
@@ -601,7 +598,6 @@
 					var path = editor.elementPath( block ),
 						pathElements = path.elements,
 						pathElementsCount = pathElements.length,
-						listNode = null,
 						processedFlag = 0,
 						blockLimit = path.blockLimit,
 						element;
@@ -684,15 +680,10 @@
 		}
 	};
 
-	var dtd = CKEDITOR.dtd;
-	var tailNbspRegex = /[\t\r\n ]*(?:&nbsp;|\xa0)$/;
+	// Merge list adjacent, of same type lists.
+	function mergeListSiblings( listNode ) {
 
-		// Merge list adjacent, of same type lists.
-	function mergeListSiblings( listNode )
-	{
-		var mergeSibling;
-		( mergeSibling = function( rtl )
-		{
+		function mergeSibling( rtl ) {
 			var sibling = listNode[ rtl ? 'getPrevious' : 'getNext' ]( nonEmpty );
 			if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( listNode.getName() ) ) {
 				// Move children order by merge direction.(#3820)
@@ -701,22 +692,10 @@
 				listNode.remove();
 				listNode = sibling;
 			}
-		} )();
-		mergeSibling( 1 );
-	}
-
-	function indexOfFirstChildElement( element, tagNameList ) {
-		var child,
-			children = element.children,
-			length = children.length;
-
-		for ( var i = 0; i < length; i++ ) {
-			child = children[ i ];
-			if ( child.name && ( child.name in tagNameList ) )
-				return i;
 		}
 
-		return length;
+		mergeSibling();
+		mergeSibling( 1 );
 	}
 
 	// Check if node is block element that recieves text.
@@ -863,7 +842,7 @@
 			editor.on( 'key', function( evt ) {
 				// Use getKey directly in order to ignore modifiers.
 				// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
-				var key = evt.data.domEvent.getKey();
+				var key = evt.data.domEvent.getKey(), li;
 
 				// DEl/BACKSPACE
 				if ( editor.mode == 'wysiwyg' && key in { 8: 1, 46: 1 } ) {
@@ -962,7 +941,9 @@
 
 					} else {
 
-						var next, nextLine, li = path.contains( 'li' );
+						var next, nextLine;
+
+						li = path.contains( 'li' );
 
 						if ( li ) {
 							walker.range.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );

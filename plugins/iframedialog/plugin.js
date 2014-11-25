@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 					} );
 				};
 
-			iframeElement.prototype = new CKEDITOR.ui.dialog.uiElement;
+			iframeElement.prototype = new CKEDITOR.ui.dialog.uiElement();
 
 			CKEDITOR.dialog.addUIElement( 'iframe', {
 				build: function( dialog, elementDefinition, output ) {
