@@ -19,7 +19,7 @@ var tests = {
 			bot.editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 				keyCode: key,
 				ctrlKey: keyModifiers & CKEDITOR.CTRL,
-				shiftKey: keyModifiers & CKEDITOR.SHIFT,
+				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
 			var output = bot.getData( true );

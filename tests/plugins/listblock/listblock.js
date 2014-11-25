@@ -72,7 +72,7 @@
 			var anchor = elem.getFirst().getFirst(),
 				// Note that both expected values needs to have single quotes escaped, since js string itself
 				// is wrapped with single quotes.
-				decoratedExpectedHref = 'javascript:void(\'' + this._escapeSingleQuote( expected.value ) + '\')',
+				decoratedExpectedHref = 'javascript:void(\'' + this._escapeSingleQuote( expected.value ) + '\')', // jshint ignore:line
 				decoratedExpectedOnclick = 'CKEDITOR.tools.callFunction(clickFnId,\'' + this._escapeSingleQuote( expected.value ) + '\'); return false;';
 
 			// All IEs have changed onclick attr.

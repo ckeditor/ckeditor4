@@ -11,7 +11,7 @@
 			allowedContent: true,
 			on: {
 				contentDomInvalidated: function() {
-					invalidatedEventCounter++
+					invalidatedEventCounter++;
 				}
 			}
 		}
@@ -34,8 +34,8 @@
 					'<li>B</li>' +
 					'<li>C</li>' +
 					'<li>D</li>' +
-				'</ul>', function() {
-
+				'</ul>',
+				function() {
 					// Selection:
 					// <ul>
 					//  	<li>A</li>
@@ -51,7 +51,8 @@
 					editor.execCommand( 'indent' );
 
 					assert.areSame( 1, invalidatedEventCounter, 'contentDomInvalidated event should occurred once.' );
-			} );
+				}
+			);
 		},
 
 		'test change list type': function() {
@@ -64,8 +65,8 @@
 				'<ol>' +
 					'<li>A</li>' +
 					'<li>B</li>' +
-				'</ol>', function() {
-
+				'</ol>',
+				function() {
 					editor.getSelection().selectElement( editable.findOne( 'ol' ) );
 
 					editor.execCommand( 'bulletedlist' );
@@ -74,7 +75,8 @@
 					assert.areSame( 1, editable.find( 'ul' ).count() );
 
 					assert.areSame( 1, invalidatedEventCounter, 'contentDomInvalidated event should occurred once.' );
-			} );
+				}
+			);
 		}
 	} );
 
