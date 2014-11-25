@@ -195,7 +195,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
 						}
 					},
-					commit: function( data ) {
+					commit: function() {
 						var editor = this.getDialog().getParentEditor(),
 							body = this.getInputElement().getFrameDocument().getBody(),
 							bogus = body.getBogus(),

@@ -1,4 +1,5 @@
-﻿/**
+﻿/* global: alert, confirm */
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -567,7 +568,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (#2661).
 		// This is still needed after [2708] and [2709] because text fields in hidden TR tags are still broken.
 		if ( CKEDITOR.env.ie6Compat ) {
-			this.on( 'load', function( evt ) {
+			this.on( 'load', function() {
 				var outer = this.getElement(),
 					inner = outer.getFirst();
 				inner.remove();
@@ -587,7 +588,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			page && this.addPage( page );
 		}
 
-		this.parts[ 'tabs' ].on( 'click', function( evt ) {
+		this.parts.tabs.on( 'click', function( evt ) {
 			var target = evt.data.getTarget();
 			// If we aren't inside a tab, bail out.
 			if ( target.hasClass( 'cke_dialog_tab' ) ) {
@@ -1067,7 +1068,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var pageHtml = [],
 				titleHtml = contents.label ? ' title="' + CKEDITOR.tools.htmlEncode( contents.label ) + '"' : '',
-				elements = contents.elements,
 				vbox = CKEDITOR.dialog._.uiElementBuilders.vbox.build( this, {
 					type: 'vbox',
 					className: 'cke_dialog_page_contents',
@@ -1806,7 +1806,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	function initDragAndDrop( dialog ) {
 		var lastCoords = null,
 			abstractDialogCoords = null,
-			element = dialog.getElement().getFirst(),
 			editor = dialog.getParentEditor(),
 			magnetDistance = editor.config.dialog_magnetDistance,
 			margins = CKEDITOR.skin.margins || [ 0, 0, 0, 0 ];
@@ -1846,7 +1845,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			evt.data.preventDefault();
 		}
 
-		function mouseUpHandler( evt ) {
+		function mouseUpHandler() {
 			CKEDITOR.document.removeListener( 'mousemove', mouseMoveHandler );
 			CKEDITOR.document.removeListener( 'mouseup', mouseUpHandler );
 
@@ -2048,7 +2047,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			html.push( '</div>' );
 
 			coverElement = CKEDITOR.dom.element.createFromHtml( html.join( '' ) );
-			coverElement.setOpacity( backgroundCoverOpacity != undefined ? backgroundCoverOpacity : 0.5 );
+			coverElement.setOpacity( backgroundCoverOpacity !== undefined ? backgroundCoverOpacity : 0.5 );
 
 			coverElement.on( 'keydown', cancelEvent );
 			coverElement.on( 'keypress', cancelEvent );
@@ -2197,7 +2196,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				dialog.selectPage( dialog._.accessKeyMap[ key ] );
 		};
 
-	var tabAccessKeyDown = function( dialog, key ) {};
+	var tabAccessKeyDown = function() {};
 
 	( function() {
 		CKEDITOR.ui.dialog = {
@@ -2259,7 +2258,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					attributes = ( attributesArg && attributesArg.call ? attributesArg( elementDefinition ) : attributesArg ) || {},
 					innerHTML = ( contentsArg && contentsArg.call ? contentsArg.call( this, dialog, elementDefinition ) : contentsArg ) || '',
 					domId = this.domId = attributes.id || CKEDITOR.tools.getNextId() + '_uiElement',
-					id = this.id = elementDefinition.id,
 					i;
 
 				if ( elementDefinition.requiredContent && !dialog.getParentEditor().filter.check( elementDefinition.requiredContent ) ) {
@@ -2277,7 +2275,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				if ( elementDefinition.className )
 					classes[ elementDefinition.className ] = 1;
 				if ( elementDefinition.disabled )
-					classes[ 'cke_disabled' ] = 1;
+					classes.cke_disabled = 1;
 
 				var attributeClasses = ( attributes[ 'class' ] && attributes[ 'class' ].split ) ? attributes[ 'class' ].split( ' ' ) : [];
 				for ( i = 0; i < attributeClasses.length; i++ ) {
@@ -2530,7 +2528,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 								styles.push( 'height:' + cssLength( heights[ i ] ) );
 							else if ( elementDefinition && elementDefinition.expand )
 								styles.push( 'height:' + Math.floor( 100 / childHtmlList.length ) + '%' );
-							if ( elementDefinition && elementDefinition.padding != undefined )
+							if ( elementDefinition && elementDefinition.padding !== undefined )
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
 							// In IE Quirks alignment has to be done on table cells. (#7324)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
@@ -2753,7 +2751,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * are defined to always include the `CTRL` key, its value should always
 		 * include a `'CTRL+'` prefix.
 		 */
-		accessKeyDown: function( dialog, key ) {
+		accessKeyDown: function() {
 			this.focus();
 		},
 
@@ -2768,7 +2766,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 * are defined to always include the `CTRL` key, its value should always
 		 * include a `'CTRL+'` prefix.
 		 */
-		accessKeyUp: function( dialog, key ) {},
+		accessKeyUp: function() {},
 
 		/**
 		 * Disables a UI element.
@@ -2822,7 +2820,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	};
 
 	/** @class CKEDITOR.ui.dialog.hbox */
-	CKEDITOR.ui.dialog.hbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement, {
+	CKEDITOR.ui.dialog.hbox.prototype = CKEDITOR.tools.extend( new CKEDITOR.ui.dialog.uiElement(), {
 		/**
 		 * Gets a child UI element inside this container.
 		 *
@@ -2927,7 +2925,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					 */
 					var value = this && this.getValue ? this.getValue() : args[ 0 ];
 
-					var msg = undefined,
+					var msg,
 						relation = CKEDITOR.VALIDATE_AND,
 						functions = [],
 						i;

@@ -42,7 +42,7 @@
 			};
 		},
 
-		onLoad: function( editor ) {
+		onLoad: function() {
 			CKEDITOR.dialog.add( 'codeSnippet', this.path + 'dialogs/codesnippet.js' );
 		},
 

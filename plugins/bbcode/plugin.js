@@ -153,7 +153,7 @@
 					// Two special handling - image and email, protect them
 					// as "span" with an attribute marker.
 					if ( part == 'email' || part == 'img' )
-						attribs[ 'bbcode' ] = part;
+						attribs.bbcode = part;
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
@@ -254,7 +254,7 @@
 			}
 		}
 
-		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+		parser.onTagOpen = function( tagName, attributes ) {
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// This is a tag to be removed if empty, so do not add it immediately.

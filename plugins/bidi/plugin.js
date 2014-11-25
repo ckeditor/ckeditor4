@@ -182,10 +182,10 @@
 								return node.getName() in guardElements;
 							}
 
-							return !!( isNodeElement( node ) && isGuard( node ) && !( node.is( enterTagName ) && isNodeElement( node.getParent() ) && node.getParent().is( 'blockquote' ) )
+							return !!( isNodeElement( node ) && isGuard( node ) && !( node.is( enterTagName ) && isNodeElement( node.getParent() ) && node.getParent().is( 'blockquote' ) ) &&
 							// Element must be fully included in the range as well. (#6485).
-							&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING
-							&& ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
+							node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING &&
+							( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 						};
 
 						while ( ( block = walker.next() ) )

@@ -19,8 +19,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		var config = editor.config,
 			lang = editor.lang.colorbutton;
 
-		var clickFn;
-
 		if ( !CKEDITOR.env.hc ) {
 			addButton( 'TextColor', 'fore', lang.textColorTitle, 10 );
 			addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
@@ -100,7 +98,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-
 		function renderColors( panel, type, colorBoxId ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
@@ -111,16 +108,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
+				var applyColorStyle = arguments.callee;
+				function onColorDialogClose( evt ) {
+					this.removeListener( 'ok', onColorDialogClose );
+					this.removeListener( 'cancel', onColorDialogClose );
+
+					evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
+				}
+
 				if ( color == '?' ) {
-					var applyColorStyle = arguments.callee;
-
-					function onColorDialogClose( evt ) {
-						this.removeListener( 'ok', onColorDialogClose );
-						this.removeListener( 'cancel', onColorDialogClose );
-
-						evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
-					}
-
 					editor.openDialog( 'colordialog', function() {
 						this.on( 'ok', onColorDialogClose );
 						this.on( 'cancel', onColorDialogClose );

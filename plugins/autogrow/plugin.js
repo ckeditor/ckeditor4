@@ -34,7 +34,7 @@
 			scrollable,
 			marker,
 			configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
-			configMinHeight = editor.config.autoGrow_minHeight != undefined ? editor.config.autoGrow_minHeight : 200,
+			configMinHeight = editor.config.autoGrow_minHeight !== undefined ? editor.config.autoGrow_minHeight : 200,
 			configMaxHeight = editor.config.autoGrow_maxHeight || Infinity,
 			maxHeightIsUnlimited = !editor.config.autoGrow_maxHeight;
 

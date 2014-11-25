@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 		var initPrivateObject = function( elementDefinition ) {
 				this._ || ( this._ = {} );
 				this._[ 'default' ] = this._.initValue = elementDefinition[ 'default' ] || '';
-				this._.required = elementDefinition[ 'required' ] || false;
+				this._.required = elementDefinition.required || false;
 				var args = [ this._ ];
 				for ( var i = 1; i < arguments.length; i++ )
 					args.push( arguments[ i ] );

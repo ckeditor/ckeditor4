@@ -115,6 +115,24 @@
 		 * this button should be appended.
 		 */
 		render: function( editor, output ) {
+			function updateState() {
+				// "this" is a CKEDITOR.ui.button instance.
+				var mode = editor.mode;
+
+				if ( mode ) {
+					// Restore saved button state.
+					var state = this.modes[ mode ] ? modeStates[ mode ] !== undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+					state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
+
+					this.setState( state );
+
+					// Let plugin to disable button.
+					if ( this.refresh )
+						this.refresh();
+				}
+			}
+
 			var env = CKEDITOR.env,
 				id = this._.id = CKEDITOR.tools.getNextId(),
 				stateName = '',
@@ -177,25 +195,6 @@
 			// Indicate a mode sensitive button.
 			if ( this.modes ) {
 				var modeStates = {};
-
-				function updateState() {
-					// "this" is a CKEDITOR.ui.button instance.
-
-					var mode = editor.mode;
-
-					if ( mode ) {
-						// Restore saved button state.
-						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-
-						state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
-
-						this.setState( state );
-
-						// Let plugin to disable button.
-						if ( this.refresh )
-							this.refresh();
-					}
-				}
 
 				editor.on( 'beforeModeUnload', function() {
 					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
@@ -322,7 +321,7 @@
 		 * @returns {Number} The button state. One of {@link CKEDITOR#TRISTATE_ON},
 		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
-		getState: function( state ) {
+		getState: function() {
 			return this._.state;
 		},
 

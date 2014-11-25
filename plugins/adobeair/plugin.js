@@ -93,7 +93,7 @@
 					text && node.append( parent.getDocument().createText( text ) );
 				}
 
-				return function( html, mode ) {
+				return function( html ) {
 					// document.write() or document.writeln() fail silently after
 					// the page load event in Adobe AIR.
 					// DOM manipulation could be used instead.

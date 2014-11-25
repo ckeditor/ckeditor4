@@ -1,4 +1,6 @@
-﻿/**
+﻿/* global alert */
+
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -603,7 +605,7 @@
 			body.on( command, onExec );
 
 			// IE7: document.execCommand has problem to paste into positioned element.
-			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() )[ 'execCommand' ]( command );
+			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() ).execCommand( command );
 
 			body.removeListener( command, onExec );
 
