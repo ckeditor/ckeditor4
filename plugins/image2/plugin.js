@@ -18,7 +18,9 @@
 		regexPercent = /^\s*(\d+\%)\s*$/i;
 
 	CKEDITOR.plugins.add( 'image2', {
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		requires: 'widget,dialog',
 		icons: 'image',
 		hidpi: true,
@@ -262,8 +264,9 @@
 
 			// If now widget was destroyed just update wrapper's alignment.
 			// According to the new state.
-			else
+			else {
 				setWrapperAlign( this.widget, alignClasses );
+			}
 		}
 
 		return {
@@ -694,8 +697,9 @@
 
 					editable.insertElementIntoRange( replacing, range );
 				}
-				else
+				else {
 					replacing.replace( replaced );
+				}
 			}
 
 			return function( shift ) {
@@ -785,10 +789,12 @@
 				// 			<img />
 				// 		</p>
 				// 	</div>
-				if ( hasCaption )
-					wrapper.addClass( alignClasses[ 1 ] );
-			} else if ( align != 'none' )
+				if ( hasCaption ) {
+					wrapper.addClass( alignClasses[1] );
+				}
+			} else if ( align != 'none' ) {
 				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
+			}
 		} else {
 			if ( align == 'center' ) {
 				if ( hasCaption )
@@ -861,12 +867,13 @@
 			}
 
 			// No center wrapper has been found.
-			else if ( name == 'figure' && el.hasClass( captionedClass ) )
+			else if ( name == 'figure' && el.hasClass( captionedClass ) ) {
 				image = el.getFirst( 'img' ) || el.getFirst( 'a' ).getFirst( 'img' );
 
-			// Upcast linked image like <a><img/></a>.
-			else if ( isLinkedOrStandaloneImage( el ) )
-				image = el.name == 'a' ? el.children[ 0 ] : el;
+				// Upcast linked image like <a><img/></a>.
+			} else if ( isLinkedOrStandaloneImage( el ) ) {
+				image = el.name == 'a' ? el.children[0] : el;
+			}
 
 			if ( !image )
 				return;
@@ -1068,8 +1075,9 @@
 			// and which could be corrupted (e.g. resizer span has been lost).
 			if ( oldResizeWrapper.is( 'span' ) )
 				oldResizeWrapper.remove();
-		} else
+		} else {
 			widget.wrapper.append( resizer );
+		}
 
 		// Calculate values of size variables and mouse offsets.
 		resizer.on( 'mousedown', function( evt ) {
@@ -1192,8 +1200,9 @@
 						}
 
 						// Case: II.
-						else
+						else {
 							adjustToY();
+						}
 					}
 				}
 
@@ -1210,8 +1219,9 @@
 						}
 
 						// Case: I.
-						else
+						else {
 							adjustToY();
+						}
 					} else {
 						// Case: III.
 						if ( moveDiffY <= 0 )
@@ -1219,10 +1229,11 @@
 
 						// Case: II.
 						else {
-							if ( moveRatio >= ratio )
+							if ( moveRatio >= ratio ) {
 								adjustToX();
-							else
+							} else {
 								adjustToY();
+							}
 						}
 					}
 				}
@@ -1232,8 +1243,9 @@
 				if ( newWidth >= 15 && newHeight >= 15 ) {
 					image.setAttributes( { width: newWidth, height: newHeight } );
 					updateData = true;
-				} else
+				} else {
 					updateData = false;
+				}
 			}
 
 			function onMouseUp( evt ) {
@@ -1378,8 +1390,9 @@
 
 						// Set collected data to widget.
 						widget.setData( 'link', data );
-					} else
+					} else {
 						onOk.apply( this, arguments );
+					}
 				};
 			}
 		} );

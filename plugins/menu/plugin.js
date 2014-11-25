@@ -494,7 +494,7 @@ CKEDITOR.plugins.add( 'menu', {
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
-					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label : arrowLabel } ) : '',
+					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
 					role: this.role ? this.role : 'menuitem',
 					ariaChecked: ariaChecked
 				};

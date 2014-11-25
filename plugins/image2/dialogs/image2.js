@@ -499,7 +499,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 									[ commonLang.alignNone, 'none' ],
 									[ commonLang.alignLeft, 'left' ],
 									[ commonLang.alignCenter, 'center' ],
-									[ commonLang.alignRight, 'right' ] ],
+									[ commonLang.alignRight, 'right' ]
+								],
 								label: commonLang.align,
 								setup: function( widget ) {
 									this.setValue( widget.data.align );

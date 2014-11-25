@@ -136,7 +136,7 @@
 				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
 				var regex = new RegExp( '<span[^>]*?' + cls + '.*?<\/span>', 'ig' );
 				evt.data.dataValue = evt.data.dataValue.replace( regex, function( match ) {
-					return  match.replace( /(<iframe.*?\/iframe>)/i, '' );
+					return match.replace( /(<iframe.*?\/iframe>)/i, '' );
 				} );
 			} );
 		}

@@ -269,8 +269,9 @@
 
 					// Reached the edge of an element and found an ancestor or...
 					// A line, that covers that pixel. Better let's have another try.
-					else if ( !contains( el, found ) )
+					else if ( !contains( el, found ) ) {
 						continue;
+					}
 
 					tryouts = 0;
 
@@ -285,13 +286,13 @@
 
 					// Try to find an element iterating *up* from the starting point.
 					neg = iterate.call( this, el.$, x, y, -1, function( y ) {
-							return y > 0;
-						} ),
+						return y > 0;
+					} ),
 
 					// Try to find an element iterating *down* from the starting point.
 					pos = iterate.call( this, el.$, x, y, 1, function( y ) {
-							return y < paneHeight;
-						} );
+						return y < paneHeight;
+					} );
 
 				if ( neg ) {
 					this.traverseSearch( neg );

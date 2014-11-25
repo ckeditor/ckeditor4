@@ -318,8 +318,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 					if ( !( value || text ) ) {
 						text = this.label;
 						textElement.addClass( 'cke_combo_inlinelabel' );
-					} else
+					} else {
 						textElement.removeClass( 'cke_combo_inlinelabel' );
+					}
 
 					textElement.setText( typeof text != 'undefined' ? text : value );
 				}

@@ -62,9 +62,9 @@
 
 		// Simple irrelevant elements filter.
 		that.isRelevant = function( node ) {
-			return isHtml( node ) 			// 	-> Node must be an existing HTML element.
-				&& !isLine( that, node ) 	// 	-> Node can be neither the box nor its child.
-				&& !isFlowBreaker( node ); 	// 	-> Node can be neither floated nor positioned nor aligned.
+			return isHtml( node ) && // -> Node must be an existing HTML element.
+				!isLine( that, node ) && // -> Node can be neither the box nor its child.
+				!isFlowBreaker( node ); // -> Node can be neither floated nor positioned nor aligned.
 		};
 
 		editor.on( 'contentDom', addListeners, this );
@@ -311,12 +311,13 @@
 				checkMouseTimer = null;
 				updateWindowSize( that );
 
-				if ( checkMouseTimeoutPending 								//	-> There must be an event pending.
-					&& !that.hiddenMode 									// 	-> Can't be in hidden mode.
-					&& editor.focusManager.hasFocus 						// 	-> Editor must have focus.
-					&& !that.line.mouseNear() 								// 	-> Mouse pointer can't be close to the box.
-					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
-				{
+				if (
+					checkMouseTimeoutPending &&								// There must be an event pending.
+					!that.hiddenMode &&										// Can't be in hidden mode.
+					editor.focusManager.hasFocus &&							// Editor must have focus.
+					!that.line.mouseNear() &&								// Mouse pointer can't be close to the box.
+					( that.element = elementFromMouse( that, true ) )		// There must be valid element.
+				) {
 					// If trigger exists, and trigger is correct -> show the box.
 					// Don't show the line if trigger is a descendant of some tabu-list element.
 					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
@@ -498,8 +499,9 @@
 					return null;
 
 				return trigger;
-			} else
+			} else {
 				return null;
+			}
 		}
 
 		return null;
@@ -589,18 +591,21 @@
 			// Looks are as follows: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
 			lineChildren: [
 				extend(
-					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
-						'" contenteditable="false">&#8629;</span>', doc ), {
-					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-						+ 'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;'
-						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' )
-						+ ( env.hidpi ? 'background-size: 9px 10px;' : '' ),
-					looks: [
-						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
-						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
-						'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
-					]
-				} ),
+					newElementFromHtml(
+						'<span title="' + that.editor.lang.magicline.title +
+						'" contenteditable="false">&#8629;</span>', doc
+					), {
+						base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;' +
+								'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;' +
+								( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ) +
+								( env.hidpi ? 'background-size: 9px 10px;' : '' ),
+						looks: [
+							'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
+							'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
+							'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
+						]
+					}
+				),
 				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
 					looks: [
@@ -700,8 +705,9 @@
 				// Set Y coordinate (top) for single-edge trigger.
 				else if ( !upper )
 					styleSet.top = lower.size.top - lower.size.margin.top;
-				else if ( !lower )
+				else if ( !lower ) {
 					styleSet.top = upper.size.bottom + upper.size.margin.bottom;
+				}
 
 				// Set box button modes if close to the viewport horizontal edge
 				// or look forced by the trigger.
@@ -963,19 +969,19 @@
 					// Consider only non-accessible elements (they cannot have any children)
 					// since they cannot be given a caret inside, to run the command
 					// the regular way (1. & 2.).
-					if ( isHtml( neighbor ) && neighbor.is( that.triggers ) && neighbor.is( DTD_NONACCESSIBLE ) &&
+					if (
+						isHtml( neighbor ) && neighbor.is( that.triggers ) && neighbor.is( DTD_NONACCESSIBLE ) &&
+						(
+							// Check whether neighbor is first/last-child.
+							!getNonEmptyNeighbour( that, neighbor, !insertAfter ) ||
+							// Check for a sibling of a neighbour that also is a trigger.
 							(
-									// Check whether neighbor is first/last-child.
-									!getNonEmptyNeighbour( that, neighbor, !insertAfter )
-								||
-									// Check for a sibling of a neighbour that also is a trigger.
-									(
-										( neighborSibling = getNonEmptyNeighbour( that, neighbor, !insertAfter ) ) &&
-										isHtml( neighborSibling ) &&
-										neighborSibling.is( that.triggers )
-									)
+								( neighborSibling = getNonEmptyNeighbour( that, neighbor, !insertAfter ) ) &&
+								isHtml( neighborSibling ) &&
+								neighborSibling.is( that.triggers )
 							)
-						) {
+						)
+					) {
 						doAccess( neighbor );
 						return;
 					}
@@ -1282,11 +1288,13 @@
 		// 	\-> Reject an element which is a flow breaker.
 		// 	\-> Reject an element which has a child above/below the mouse pointer.
 		//	\-> Reject an element which belongs to list items.
-		if ( isFlowBreaker( element ) ||
+		if (
+			isFlowBreaker( element ) ||
 			isChildBetweenPointerAndEdge( that, element, bottomTrigger ) ||
-			element.getParent().is( DTD_LISTITEM ) ) {
-				that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
-				return null;
+			element.getParent().is( DTD_LISTITEM )
+		) {
+			that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
+			return null;
 		}
 
 		// Get sibling according to bottomTrigger.
@@ -1302,25 +1310,26 @@
 			if ( element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ) {
 				updateEditableSize( that );
 
-				if ( bottomTrigger && inBetween( mouse.y,
+				if (
+					bottomTrigger && inBetween( mouse.y,
 					element.size.bottom - fixedOffset, view.pane.height ) &&
-					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height ) ) {
-						triggerLook = LOOK_BOTTOM;
-				}
-				else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) )
+					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height )
+				) {
+					triggerLook = LOOK_BOTTOM;
+				} else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) ) {
 					triggerLook = LOOK_TOP;
-
-			}
-			else
+				}
+			} else {
 				triggerLook = LOOK_NORMAL;
+			}
 
 			triggerSetup = [ null, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
-					bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
-					TYPE_EDGE,
-					triggerLook,
-					element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
+				bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
+				TYPE_EDGE,
+				triggerLook,
+				element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
 						( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
-				] );
+			] );
 
 			that.debug.log( 'Configured edge trigger of ' + ( bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ) ); // %REMOVE_LINE%
 		}
@@ -1338,18 +1347,20 @@
 			// 	\-> Reject an elementSibling which is a flow breaker.
 			//	\-> Reject an elementSibling which isn't a trigger.
 			//	\-> Reject an elementSibling which belongs to list items.
-			if ( isFlowBreaker( elementSibling ) ||
+			if (
+				isFlowBreaker( elementSibling ) ||
 				!isTrigger( that, elementSibling ) ||
-				elementSibling.getParent().is( DTD_LISTITEM ) ) {
-					that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
-					return null;
+				elementSibling.getParent().is( DTD_LISTITEM )
+			) {
+				that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
+				return null;
 			}
 
 			// Prepare a trigger.
 			triggerSetup = [ elementSibling, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
-					EDGE_MIDDLE,
-					TYPE_EDGE
-				] );
+				EDGE_MIDDLE,
+				TYPE_EDGE
+			] );
 
 			that.debug.log( 'Configured edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
 		}
@@ -1535,11 +1546,11 @@
 
 		// This is default element selector used by the engine.
 		function expandSelector( that, node ) {
-			return !( isTextNode( node )
-				|| isComment( node )
-				|| isFlowBreaker( node )
-				|| isLine( that, node )
-				|| ( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
+			return !( isTextNode( node ) ||
+				isComment( node ) ||
+				isFlowBreaker( node ) ||
+				isLine( that, node ) ||
+				( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
 		}
 
 		// This method checks whether mouse-y is between the top edge of upper
@@ -1574,10 +1585,12 @@
 			var upper = trigger.upper,
 				lower = trigger.lower;
 
-			if ( !upper || !lower 											// NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
-				|| isFlowBreaker( lower ) || isFlowBreaker( upper )			// NOT: one of the elements is floated or positioned
-				|| lower.equals( upper ) || upper.equals( lower ) 			// NOT: two trigger elements, one equals another.
-				|| lower.contains( upper ) || upper.contains( lower ) ) { 	// NOT: two trigger elements, one contains another.
+			if (
+				!upper || !lower ||											// NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
+				isFlowBreaker( lower ) || isFlowBreaker( upper ) ||			// NOT: one of the elements is floated or positioned
+				lower.equals( upper ) || upper.equals( lower ) ||			// NOT: two trigger elements, one equals another.
+				lower.contains( upper ) || upper.contains( lower )
+			) {	// NOT: two trigger elements, one contains another.
 				that.debug.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
 
 				return false;
@@ -1613,8 +1626,8 @@
 
 	function getSize( that, element, ignoreScroll, force ) {
 		var getStyle = ( function() {
-			// Better "cache and reuse" than "call again and again".
-			var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
+				// Better "cache and reuse" than "call again and again".
+				var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
 
 				return env.ie ?
 					function( propertyName ) {

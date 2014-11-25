@@ -73,8 +73,9 @@
 				}
 			}
 			// raw style text form.
-			else
+			else {
 				addingStyleText += name;
+			}
 
 			isPrepend = value;
 		}
@@ -166,7 +167,7 @@
 		unorderedPatterns = { 'disc': /[l\u00B7\u2002]/, 'circle': /[\u006F\u00D8]/, 'square': /[\u006E\u25C6]/ },
 		listMarkerPatterns = { 'ol': orderedPatterns, 'ul': unorderedPatterns },
 		romans = [ [ 1000, 'M' ], [ 900, 'CM' ], [ 500, 'D' ], [ 400, 'CD' ], [ 100, 'C' ], [ 90, 'XC' ], [ 50, 'L' ], [ 40, 'XL' ], [ 10, 'X' ], [ 9, 'IX' ], [ 5, 'V' ], [ 4, 'IV' ], [ 1, 'I' ] ],
-		alpahbets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		alpahbets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 	// Convert roman numbering back to decimal.
 	function fromRoman( str ) {
@@ -273,8 +274,9 @@
 					return true;
 				}
 				// Current list disconnected.
-				else
+				else {
 					previousListId = previousListItemMargin = listBaseIndent = null;
+				}
 
 				return false;
 			},
@@ -400,7 +402,7 @@
 				for ( var i = 0; i < children.length; i++ ) {
 					child = children[ i ];
 
-					if ( 'cke:li' == child.name ) {
+					if ( child.name == 'cke:li' ) {
 						child.name = 'li';
 						listItem = child;
 						listItemAttrs = listItem.attributes;
@@ -508,16 +510,18 @@
 									list = parent.parent;
 
 								list.add( listItem );
-							} else
+							} else {
 								list.add( listItem );
+							}
 
 							children.splice( i--, 1 );
 						}
 
 						lastListItem = listItem;
 						lastIndent = listItemIndent;
-					} else if ( list )
+					} else if ( list ) {
 						list = lastIndent = lastListItem = null;
+					}
 				}
 
 				for ( i = 0; i < openedLists.length; i++ )
@@ -813,8 +817,9 @@
 							// We suffer from attribute/style lost in this situation.
 							delete element.name;
 							element.add( new CKEDITOR.htmlParser.element( 'br' ) );
-						} else
-							elementMigrateFilter( config[ 'format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ] )( element );
+						} else {
+							elementMigrateFilter( config['format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' )] )( element );
+						}
 					},
 
 					'div': function( element ) {
@@ -859,8 +864,7 @@
 							styleText = attrs.style,
 							parent = element.parent;
 
-						if ( 'font' == parent.name ) // Merge nested <font> tags.
-						{
+						if ( parent.name == 'font' ) { // Merge nested <font> tags.
 							CKEDITOR.tools.extend( parent.attributes, element.attributes );
 							styleText && parent.addStyle( styleText );
 							delete element.name;
@@ -941,7 +945,7 @@
 								[ ( /^font-size$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'fontSize_style' ], 'size' ) : null ],
 								[ ( /^color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_foreStyle' ], 'color' ) : null ],
 								[ ( /^background-color$/ ), null, !removeFontStyles ? styleMigrateFilter( config[ 'colorButton_backStyle' ], 'color' ) : null ]
-								] )( styleText, element ) || '';
+							] )( styleText, element ) || '';
 						}
 
 						if ( !attrs.style )

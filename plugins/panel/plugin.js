@@ -142,8 +142,9 @@
 						holder = doc.getBody();
 						holder.unselectable();
 						CKEDITOR.env.air && CKEDITOR.tools.callFunction( onLoad );
-					} else
+					} else {
 						holder = this.document.getById( this.id );
+					}
 
 					this._.holder = holder;
 				}

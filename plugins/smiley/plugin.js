@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.add( 'smiley', {
 	requires: 'dialog',
+	// jscs:disable maximumLineLength
 	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	// jscs:enable maximumLineLength
 	icons: 'smiley', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
@@ -53,7 +55,8 @@ CKEDITOR.config.smiley_images = [
 	'regular_smile.png', 'sad_smile.png', 'wink_smile.png', 'teeth_smile.png', 'confused_smile.png', 'tongue_smile.png',
 	'embarrassed_smile.png', 'omg_smile.png', 'whatchutalkingabout_smile.png', 'angry_smile.png', 'angel_smile.png', 'shades_smile.png',
 	'devil_smile.png', 'cry_smile.png', 'lightbulb.png', 'thumbs_down.png', 'thumbs_up.png', 'heart.png',
-	'broken_heart.png', 'kiss.png', 'envelope.png' ];
+	'broken_heart.png', 'kiss.png', 'envelope.png'
+];
 
 /**
  * The description to be used for each of the smileys defined in the

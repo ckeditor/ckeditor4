@@ -8,7 +8,9 @@
 ( function() {
 	CKEDITOR.plugins.add( 'link', {
 		requires: 'dialog,fakeobjects',
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:disable maximumLineLength
 		icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
@@ -98,8 +100,9 @@
 
 						// Pass the link to be selected along with event data.
 						evt.data.link = element;
-					} else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) )
+					} else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) ) {
 						evt.data.dialog = 'anchor';
+					}
 				}
 			}, null, null, 0 );
 
@@ -608,8 +611,9 @@
 								argList && linkHref.push( '+\'', escapeSingleQuote( argList ), '\'' );
 
 								linkHref.push( ')' );
-							} else
+							} else {
 								linkHref = [ 'mailto:', address, argList ];
+							}
 
 							break;
 						default:
@@ -651,8 +655,9 @@
 					onclickList.push( featureList.join( ',' ), '\'); return false;' );
 					set[ 'data-cke-pa-onclick' ] = onclickList.join( '' );
 				}
-				else if ( data.target.type != 'notSet' && data.target.name )
+				else if ( data.target.type != 'notSet' && data.target.name ) {
 					set.target = data.target.name;
+				}
 			}
 
 			// Advanced attributes.
@@ -729,8 +734,9 @@
 					if ( anchor.hasAttribute( 'href' ) ) {
 						anchor.removeAttributes( { name: 1, 'data-cke-saved-name': 1 } );
 						anchor.removeClass( 'cke_anchor' );
-					} else
+					} else {
 						anchor.remove( 1 );
+					}
 				}
 			}
 			sel.selectBookmarks( bms );
