@@ -26,13 +26,11 @@
 		 */
 		test_insert_checkbox: function() {
 			var bot = this.editorBot,
-				editor = bot.editor,
-				command = 'checkbox';
+				editor = bot.editor;
 
 			// waiting for dialog to open.
 			bot.dialog( 'checkbox', function( dialog ) {
-				var dialog = editor._.storedDialogs[ command ],
-					nameField = dialog.getContentElement( 'info', 'txtName' ),
+				var nameField = dialog.getContentElement( 'info', 'txtName' ),
 					valueField = dialog.getContentElement( 'info', 'txtValue' ),
 					checkedField = dialog.getContentElement( 'info', 'cmbSelected' );
 
@@ -43,21 +41,19 @@
 				dialog.hide();
 
 				assert.areEqual( '<p><input checked="checked" name="name" type="checkbox" /></p>',
-								bender.tools.fixHtml( editor.getData(), true, false ), 'Inserted checkbox doesn\'t match.' );
+					bender.tools.fixHtml( editor.getData(), true, false ), 'Inserted checkbox doesn\'t match.' );
 			} );
 		},
 
 		test_update_checkbox: function() {
 			var bot = this.editorBot,
-				editor = bot.editor,
-				command = 'checkbox';
+				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '[<input checked="checked" name="name" type="checkbox" value="value" />]' );
 
 			// waiting for dialog to open.
 			bot.dialog( 'checkbox', function( dialog ) {
-				var dialog = editor._.storedDialogs[ command ],
-					nameField = dialog.getContentElement( 'info', 'txtName' ),
+				var nameField = dialog.getContentElement( 'info', 'txtName' ),
 					valueField = dialog.getContentElement( 'info', 'txtValue' ),
 					checkedField = dialog.getContentElement( 'info', 'cmbSelected' );
 

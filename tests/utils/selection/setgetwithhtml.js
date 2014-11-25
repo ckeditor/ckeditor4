@@ -114,7 +114,7 @@
 			var editor = this.editor,
 				htmlWithRange = '<p>[x]</p>';
 
-			var selection = bender.tools.selection.setWithHtml( editor, htmlWithRange );
+			bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
 			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
 			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
@@ -124,7 +124,7 @@
 			var editor = this.editor,
 				htmlWithRange = '<p>{x}</p>';
 
-			var selection = bender.tools.selection.setWithHtml( editor, htmlWithRange );
+			bender.tools.selection.setWithHtml( editor, htmlWithRange );
 
 			assert.isMatching( /<p>[\[\{]x[\]\}](<br>)?<\/p>/gi, bender.tools.selection.getWithHtml( editor ), 'getSelection' );
 			assert.isMatching( '<p>x(<br>)?</p>', bender.tools.fixHtml( editor.editable().getHtml(), 1, 1 ), 'editable innerHTML' );
@@ -139,7 +139,7 @@
 
 			try {
 				bender.tools.selection.getWithHtml( editor );
-			} catch( e ) {
+			} catch ( e ) {
 				error = e;
 			} finally {
 				revert();

@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: widget,entities */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -10,8 +11,7 @@
 		}
 	};
 
-	var getWidgetById = widgetTestsTools.getWidgetById,
-		fixHtml = widgetTestsTools.fixHtml;
+	var fixHtml = widgetTestsTools.fixHtml;
 
 	bender.test( {
 		'test entities in nested editable': function() {
@@ -27,9 +27,6 @@
 			} );
 
 			this.editorBot.setData( data, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					editable = widget.editables.foo;
-
 				assert.areSame( fixHtml( data ), fixHtml( editor.getData() ), 'Entities preserved correctly in nested editable.' );
 			} );
 		}

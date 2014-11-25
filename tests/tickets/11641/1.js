@@ -18,7 +18,7 @@
 					name: 'inline',
 					creator: 'inline'
 				}
-			}, function( e, bots ) {
+			}, function( e ) {
 				editors = e;
 				that.callback();
 			} );
@@ -30,7 +30,7 @@
 
 			assert.isNotNull( head.findOne( 'style[data-cke-temp="1"]' ), 'before' );
 
-			var editor = editors[ 'classic' ];
+			var editor = editors.classic;
 			// Wait & ensure async.
 			wait( function() {
 				editor.setMode( 'source', function() {

@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit,utils */
 
-( function () {
+( function() {
 	'use strict';
 
 	var assert = bender.assert;

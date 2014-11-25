@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,pastefromword */
 /* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax,basicstyles */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -16,9 +17,9 @@
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: input },
 			function( data, msg ) {
-				assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
+				assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase(), msg );
 			}, 'tc1', true );
-		}
+		};
 	}
 
 	bender.test( {

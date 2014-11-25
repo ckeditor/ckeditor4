@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,pastefromword */
 /* bender-ckeditor-plugins: clipboard,pastefromword,ajax */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -23,11 +24,11 @@
 				function( data, msg ) {
 					// Pass through data processor to filter the output from garbage which is produced
 					// by pastefromword plugin for this case.
-					assert.areSame( compat( output ), compat( editor.dataProcessor.toHtml( data.dataValue ) ) );
+					assert.areSame( compat( output ), compat( editor.dataProcessor.toHtml( data.dataValue ) ), msg );
 				},
 				'tc1', true
 			);
-		}
+		};
 	}
 
 	bender.test( {

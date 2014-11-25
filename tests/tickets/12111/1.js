@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: link,image */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {};
@@ -19,7 +19,7 @@
 				element: bot.editor.editable().findOne( 'img#img1' )
 			};
 
-			editor.once( 'dialogShow', function( event ) {
+			editor.once( 'dialogShow', function() {
 				var dialog = CKEDITOR.dialog.getCurrent(),
 					urlField;
 
@@ -45,4 +45,4 @@
 			wait();
 		}
 	} );
-})();
+} )();

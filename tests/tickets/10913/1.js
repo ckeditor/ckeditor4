@@ -8,7 +8,7 @@ CKEDITOR.plugins.addExternal( 'plugin4', '%TEST_DIR%_assets/plugin4/' );
 bender.editor = {
 	creator: 'replace',
 	config: {
-		extraPlugins : 'plugin1,plugin2,plugin3,plugin4'
+		extraPlugins: 'plugin1,plugin2,plugin3,plugin4'
 	}
 };
 
