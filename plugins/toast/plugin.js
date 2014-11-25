@@ -4,6 +4,8 @@
  */
 
 CKEDITOR.plugins.add( 'toast', {
+	lang: 'en', // %REMOVE_LINE_CORE%
+
 	init: function( editor ) {
 		editor.makeToast = function( message, type, progress ) {
 			var toast = new CKEDITOR.plugins.toast( editor, {
@@ -31,6 +33,8 @@ CKEDITOR.plugins.add( 'toast', {
 					return;
 				}
 
+				say( editor.lang.toast.closed );
+
 				var toast = CKEDITOR.plugins.toast.getByElement( element );
 
 				toast.hide();
@@ -38,6 +42,21 @@ CKEDITOR.plugins.add( 'toast', {
 				evt.cancel();
 			}
 		} );
+
+		function say( text ) {
+			var message = new CKEDITOR.dom.element( 'div' );
+			message.setStyle( 'position', 'fixed' );
+			message.setStyle( 'margin-left', '-9999' );
+			message.setAttribute( 'aria-live', 'assertive' );
+			message.setAttribute( 'aria-atomic', 'true' );
+			message.setText( text );
+
+			CKEDITOR.document.getBody().append( message );
+
+			setTimeout( function() {
+				message.remove();
+			}, 100 );
+		}
 	}
 } );
 
@@ -57,7 +76,8 @@ toast.prototype = {
 
 		var toast = this,
 			progress = this.getPrecentageProgress(),
-			toastElement;
+			toastElement,
+			close = this.editor.lang.common.close;
 
 		if ( !this.toastArea ) {
 			this.toastArea = this.getToastArea();
@@ -68,10 +88,10 @@ toast.prototype = {
 		}
 
 		toastElement = CKEDITOR.dom.element.createFromHtml(
-			'<div class="cke_toast ' + this.getClass() + '" id="' + this.id + '">' +
+			'<div class="cke_toast ' + this.getClass() + '" id="' + this.id + '" role="alert" aria-label="' + this.type + '">' +
 				( progress ? this.createProgressElement().getOuterHtml() : '' ) +
 				'<p class="cke_toast_message">' + this.message + '</p>' +
-				'<a class="cke_toast_close" href="javascript:void(0)" title="Close" role="button" tabindex="-1">' +
+				'<a class="cke_toast_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
 					'<span class="cke_label">X</span>' +
 				'</a>' +
 			'</div>' );
@@ -295,17 +315,21 @@ toast.prototype = {
 		if ( element ) {
 			messageElement = element.findOne( '.cke_toast_message' );
 			progressElement = element.findOne( '.cke_toast_progress' );
+
+			element.removeAttribute( 'role' );
 		}
 
 		if ( options.type ) {
 			if ( element ) {
 				element.removeClass( this.getClass() );
+				element.removeAttribute( 'aria-label' );
 			}
 
 			this.type = options.type;
 
 			if ( element ) {
 				element.addClass( this.getClass() );
+				element.setAttribute( 'aria-label', this.type );
 			}
 		}
 
@@ -334,6 +358,8 @@ toast.prototype = {
 
 		if ( !element && options.important ) {
 			this.show();
+		} else if ( element && options.important ) {
+			element.setAttribute( 'role', 'alert' );
 		}
 	},
 
