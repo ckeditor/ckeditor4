@@ -1,3 +1,3 @@
-CKEDITOR.cleanWord = function( data, editor ) {
+CKEDITOR.cleanWord = function() {
 	return 'ok';
 };

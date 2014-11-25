@@ -23,7 +23,7 @@
 			} );
 		},
 
-		'test create table' : function() {
+		'test create table': function() {
 			var bot = this.editorBots.editor;
 
 			bot.dialog( 'tableProperties', function( dialog ) {
@@ -59,10 +59,8 @@
 					dialog.fire( 'ok' );
 					dialog.hide();
 
-					assert.areSame( bender.tools.compatHtml(
-						bender.tools.fixHtml( expected ) ),
-									bot.getData( true ) );
-					} );
+					assert.areSame( bender.tools.compatHtml( bender.tools.fixHtml( expected ) ), bot.getData( true ) );
+				} );
 			} );
 		},
 
@@ -96,7 +94,7 @@
 
 		'test delete table wrapped in div': function() {
 			var bot = this.editorBots.editor;
-			bender.tools.testInputOut( 'del-table', function( source, expected ) {
+			bender.tools.testInputOut( 'del-table', function( source ) {
 				bot.setHtmlWithSelection( source );
 				bot.execCommand( 'tableDelete' );
 				assert.isInnerHtmlMatching( '<p>@</p>', bot.editor.editable().getHtml(), 'div was removed too' );

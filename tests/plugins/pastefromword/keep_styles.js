@@ -1,13 +1,14 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: pastefromword,basicstyles,font,colorbutton */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
-		config : {
-			pasteFromWordRemoveStyles : false,
-			pasteFromWordRemoveFontStyles : false
+		config: {
+			pasteFromWordRemoveStyles: false,
+			pasteFromWordRemoveFontStyles: false
 		}
 	};
 
@@ -15,16 +16,12 @@
 
 	function testWordFilter( editor ) {
 		return function( input, output ) {
-			assertPasteEvent( editor,
-			{
+			assertPasteEvent( editor, {
 				dataValue: compact( input, 1 )
-			}, function( data, msg ) {
-
-				assert.areSame( compact( output ),
-					compact( data.dataValue, 1 ) );
-			}
-			, 'tc1', true );
-		}
+			}, function( data ) {
+				assert.areSame( compact( output ), compact( data.dataValue, 1 ) );
+			}, 'tc1', true );
+		};
 	}
 
 	bender.test( {

@@ -1,17 +1,23 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: sourcearea */
 
+( function() {
+	'use strict';
+
 	CKEDITOR.disableAutoInline = true;
+
 	var doc = CKEDITOR.document,
 		tools = bender.tools;
 
-	bender.editor = { creator: 'replace', config: { startupMode: 'source' } };
+	bender.editor = {
+		creator: 'replace',
+		config: { startupMode: 'source' }
+	};
 
 	// This group of tests plays upon the source area editable.
-	bender.test(
-	{
+	bender.test( {
 		// Test all editable APIs.
-		testFocus : function() {
+		testFocus: function() {
 			var editor = this.editor;
 			var editable = editor.editable();
 
@@ -22,10 +28,12 @@
 
 			doc.getById( 'text_input' ).focus();
 			// Focus manager blurring is asynchronous.
-			this.wait( function() { assert.isFalse( editor.focusManager.hasFocus ); }, 200 );
+			this.wait( function() {
+				assert.isFalse( editor.focusManager.hasFocus );
+			}, 200 );
 		},
 
-		testData : function() {
+		testData: function() {
 			var editor = this.editor;
 			editor.setData( '<p>foo</p>' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.editable().getValue() ), 'set data' );
@@ -37,4 +45,6 @@
 			this.editor.editable( null );
 			assert.isFalse( editable.hasClass( 'cke_editable' ) );
 		}
-} );
+	} );
+
+} )();

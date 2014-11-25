@@ -4,11 +4,13 @@
 ( function() {
 	'use strict';
 
-	bender.editor = { config : {}, allowedForTests: 'table[width];td[id]' };
+	bender.editor = {
+		config: {},
+		allowedForTests: 'table[width];td[id]'
+	};
 
-	bender.test(
-	{
-		doTest : function( name, command ) {
+	bender.test( {
+		doTest: function( name, command ) {
 			var bot = this.editorBot;
 			bender.tools.testInputOut( name, function( source, expected ) {
 				bot.setHtmlWithSelection( source );
@@ -16,8 +18,8 @@
 
 				var output = bot.getData( true );
 				output = output.replace( /\u00a0/g, '&nbsp;' );
-				assert.areSame( bender.tools.compatHtml( expected ), output )
-			} )
+				assert.areSame( bender.tools.compatHtml( expected ), output );
+			} );
 		},
 
 		'test insert row before': function() {
@@ -120,7 +122,7 @@
 
 				bot.execCommand( 'cellHorizontalSplit' );
 				assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) );
-			} )
+			} );
 		},
 
 		// (#11438)

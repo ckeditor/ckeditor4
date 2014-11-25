@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: richcombo,format,stylescombo,font,toolbar */
 
 bender.test( {
-	'test rich combos state when editor is readonly' : function() {
+	'test rich combos state when editor is readonly': function() {
 		bender.editorBot.create( {
 			name: 'readonly',
 			config: {

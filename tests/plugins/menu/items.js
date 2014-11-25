@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: menu */
 
 bender.editor = {
-	config : {
+	config: {
 		allowedContent: true
 	}
 };
@@ -39,7 +39,7 @@ bender.test( {
 			outputHtml;
 
 		definition = definition || {};
-		callback = callback || function( html ) {};
+		callback = callback || function() {};
 
 		var mock = this.getMenuItemMockup( definition );
 
@@ -65,11 +65,11 @@ bender.test( {
 		assert.areNotEqual( -1 , String( html ).search( expectedSubstring ), assertMessage );
 	},
 
-	'test default role' : function() {
+	'test default role': function() {
 		this._testMenuItemRender( 'menuitem', {} );
 	},
 
-	'test default menuitem state ON' : function() {
+	'test default menuitem state ON': function() {
 		// Ensures that menuitem does not get aria-checked attr, since it would
 		// violate specs.
 		this._testMenuItemRender( 'menuitem', {}, function( html ) {
@@ -77,7 +77,7 @@ bender.test( {
 		} );
 	},
 
-	'test menuitemcheckbox role' : function() {
+	'test menuitemcheckbox role': function() {
 		var definition = {
 				role: 'menuitemcheckbox'
 			};
@@ -85,7 +85,7 @@ bender.test( {
 		this._testMenuItemRender( 'menuitemcheckbox', definition );
 	},
 
-	'test menuitemcheckbox sate OFF' : function() {
+	'test menuitemcheckbox sate OFF': function() {
 		var definition = {
 				role: 'menuitemcheckbox',
 				state: CKEDITOR.TRISTATE_ON
@@ -96,7 +96,7 @@ bender.test( {
 		} );
 	},
 
-	'test menuitemcheckbox state ON' : function() {
+	'test menuitemcheckbox state ON': function() {
 		var definition = {
 				role: 'menuitemcheckbox',
 				state: CKEDITOR.TRISTATE_OFF
@@ -107,7 +107,7 @@ bender.test( {
 		} );
 	},
 
-	'test menuitemcheckbox undefined state' : function() {
+	'test menuitemcheckbox undefined state': function() {
 		var definition = {
 				role: 'menuitemcheckbox'
 			};
@@ -117,14 +117,14 @@ bender.test( {
 		} );
 	},
 
-	'test menuitemradio role' : function() {
+	'test menuitemradio role': function() {
 		var definition = {
 				role: 'menuitemradio'
 			};
 		this._testMenuItemRender( 'menuitemradio', definition );
 	},
 
-	'test menuitemradio state ON' : function() {
+	'test menuitemradio state ON': function() {
 		var definition = {
 				role: 'menuitemradio',
 				state: CKEDITOR.TRISTATE_ON

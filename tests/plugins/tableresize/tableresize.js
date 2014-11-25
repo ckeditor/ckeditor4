@@ -7,13 +7,12 @@ function createMoveEventMock( table ) {
 	var definedX;
 
 	return {
-		move: function( x ) {
+		move: function() {
 			definedX = this.getPageOffset().x + 20;
 		},
 
 		getPageOffset: function() {
-			var x = 0,
-				pillars = table.getCustomData( '_cke_table_pillars' );
+			var pillars = table.getCustomData( '_cke_table_pillars' );
 
 			return {
 				x:
@@ -49,8 +48,8 @@ function createMoveEventMock( table ) {
 			clientX: 0,
 			clientY: 0
 		}
-	}
-};
+	};
+}
 
 var editorsDefinitions = {
 		classic: {
@@ -77,7 +76,6 @@ function init( table, editor ) {
 function resize( table, callback ) {
 	var doc = table.getDocument(),
 		resizer = getResizer( doc ),
-		body = doc.getBody(),
 		moveEvtMock = createMoveEventMock( table ),
 		evtMock = {	preventDefault: function() {} };
 
@@ -140,7 +138,7 @@ bender.tools.setUpEditors( editorsDefinitions, function( editors ) {
 			wait();
 		},
 
-		'test inline editor': function( editor ) {
+		'test inline editor': function() {
 			var editor = editors.inline,
 				doc = editor.document,
 				insideTable = editor.document.getById( 'inside' ),

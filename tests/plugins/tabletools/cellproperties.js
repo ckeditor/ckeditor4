@@ -25,7 +25,7 @@
 						dialog.hide();
 					}
 
-					assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) )
+					assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) );
 				} );
 			} );
 		},
@@ -129,6 +129,6 @@
 				dialog.setValueOf( 'info', 'width', 10 );
 				dialog.setValueOf( 'info', 'widthType', 'px' );
 			} );
-		},
+		}
 	} );
 } )();

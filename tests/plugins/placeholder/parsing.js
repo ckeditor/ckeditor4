@@ -1,12 +1,13 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: placeholder */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
 		config: {
-			autoParagraph : false
+			autoParagraph: false
 		}
 	};
 

@@ -3,10 +3,9 @@
 
 bender.editor = true;
 
-bender.test(
-{
+bender.test( {
 	// #4355
-	'test command exec not require editor focus' : function() {
+	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 			assert.ignore();
 
@@ -20,16 +19,16 @@ bender.test(
 		// Maximize command will take some time.
 		bot.execCommand( 'maximize' );
 		wait( function() {
-			   bot.execCommand( 'maximize' );
-			   assert.isFalse( focused );
-		   }, 0 );
+				bot.execCommand( 'maximize' );
+				assert.isFalse( focused );
+			}, 0 );
 	},
 
 	'test maximize in source mode': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 			assert.ignore();
 
-		var bot = this.editorBot, tc = this;
+		var bot = this.editorBot;
 		// Switch to source mode.
 		this.editor.setMode( 'source', function() {
 			// Maximize command will take some time.
