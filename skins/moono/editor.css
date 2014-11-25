@@ -43,8 +43,8 @@ other files.
    (e.g. display labels on specific buttons) */
 @import url("presets.css");
 
-/* Styles to toast notifications. */
-@import url("toast.css");
+/* Styles to notifications. */
+@import url("notification.css");
 
 /* Important!
    To avoid showing the editor UI while its styles are still not available, the

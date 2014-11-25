@@ -6,7 +6,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Toast Notifications Dev Sample</title>
+	<title>Notifications Dev Sample</title>
 	<script src="../../../ckeditor.js"></script>
 	<link href="../../../samples/sample.css" rel="stylesheet">
 	<style type="text/css">
@@ -17,17 +17,17 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</style>
 </head>
 <body>
-	<h1 class="samples">Toast Notifications Dev Sample</h1>
+	<h1 class="samples">Notifications Dev Sample</h1>
 		<div class="description">
-			<p>Play with toast using buttons. Note that if you close progress toast it will be shown again when upload is done.</p>
-			<p>You can also play with toasts using console:
+			<p>Play with notification using buttons. Note that if you close progress notification it will be shown again when upload is done.</p>
+			<p>You can also play with notifications using console:
 <pre class="samples">
 var editor = CKEDITOR.instances.editor1;
 
-var warning = editor.makeToast( 'Foo', 'warning' );
+var warning = editor.showNotification( 'Foo', 'warning' );
 warning.hide();
 
-var progress = editor.makeToast( 'Bar', 'progress', 0.1 );
+var progress = editor.showNotification( 'Bar', 'progress', 0.1 );
 progress.update( { progress: 0.5 } );
 progress.update( { type: 'success', message: 'Done!', important: true } );
 </pre>
@@ -37,12 +37,12 @@ progress.update( { type: 'success', message: 'Done!', important: true } );
 		</textarea>
 		<script>
 			var editor = CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'toast',
+				extraPlugins: 'notification',
 				toolbar: [ [ 'Source' ], [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ], [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ], [ 'Image', 'Table', 'SpecialChar' ], [ 'Link' ] ]
 			} );
 
 			function emulateProgress() {
-				var toast = editor.makeToast( 'Uploading image.png', 'progress', 0 ),
+				var notification = editor.showNotification( 'Uploading image.png', 'progress', 0 ),
 					scenario = [
 						{ progress: 0.05, message: 'Uploading image.png 5%...' },
 						{ progress: 0.1, message: 'Uploading image.png 10%...' },
@@ -70,38 +70,38 @@ progress.update( { type: 'success', message: 'Done!', important: true } );
 					if( !scenario.length ) {
 						clearInterval( interval );
 					} else {
-						toast.update( scenario.shift() );
+						notification.update( scenario.shift() );
 					}
 				}, 300 );
 			}
 
 			function showWarning() {
-				editor.makeToast( 'Vitae risus eget ante <a href="http://test/">mau</a> convallis.', 'warning' );
+				editor.showNotification( 'Vitae risus eget ante <a href="http://test/">mau</a> convallis.', 'warning' );
 			}
 
 			function showSuccess() {
-				editor.makeToast( 'Success! <a href=\"http://test/\">more</a>', 'success' );
+				editor.showNotification( 'Success! <a href=\"http://test/\">more</a>', 'success' );
 			}
 
 			function showInfo() {
-				editor.makeToast( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante  <a href=\"http://test/\">mae</a> convallis.', 'info' );
+				editor.showNotification( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante  <a href=\"http://test/\">mae</a> convallis.', 'info' );
 			}
 
-			editor.on( 'toastShow', function( evt ) {
+			editor.on( 'notificationShow', function( evt ) {
 				console.log( evt );
 			} );
-			editor.on( 'toastUpdate', function( evt ) {
+			editor.on( 'notificationUpdate', function( evt ) {
 				console.log( evt );
 			} );
-			editor.on( 'toastHide', function( evt ) {
+			editor.on( 'notificationHide', function( evt ) {
 				console.log( evt );
 			} );
 		</script>
 		<p>
-			<input onclick="showWarning();" type="button" value="Show warning toast">
-			<input onclick="showSuccess();" type="button" value="Show success toast">
-			<input onclick="showInfo();" type="button" value="Show info toast">
-			<input onclick="emulateProgress();" type="button" value="Show progress toast">
+			<input onclick="showWarning();" type="button" value="Show warning notification">
+			<input onclick="showSuccess();" type="button" value="Show success notification">
+			<input onclick="showInfo();" type="button" value="Show info notification">
+			<input onclick="emulateProgress();" type="button" value="Show progress notification">
 		</p>
 	</form>
 	<div id="footer">

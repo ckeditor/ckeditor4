@@ -108,11 +108,11 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 		CKEDITOR.disableAutoInline = true;
 
 		var editor = CKEDITOR.inline( 'editable1', {
-			extraPlugins: 'toast'
+			extraPlugins: 'notification'
 		} );
 
 		function emulateProgress() {
-			var toast = editor.makeToast( 'Uploading image.png', 'progress', 0 ),
+			var notification = editor.showNotification( 'Uploading image.png', 'progress', 0 ),
 				scenario = [
 					{ progress: 0.05, message: 'Uploading image.png 5%...' },
 					{ progress: 0.1, message: 'Uploading image.png 10%...' },
@@ -140,28 +140,28 @@ var editor = CKEDITOR.inline( document.getElementById( 'editable' ) );
 				if( !scenario.length ) {
 					clearInterval( interval );
 				} else {
-					toast.update( scenario.shift() );
+					notification.update( scenario.shift() );
 				}
 			}, 300 );
 		}
 
 		function showWarning() {
-			editor.makeToast( 'Vitae risus eget ante <a href="http://test/">mau</a> convallis.', 'warning' );
+			editor.showNotification( 'Vitae risus eget ante <a href="http://test/">mau</a> convallis.', 'warning' );
 		}
 
 		function showSuccess() {
-			editor.makeToast( 'Success! <a href=\"http://test/\">more</a>', 'success' );
+			editor.showNotification( 'Success! <a href=\"http://test/\">more</a>', 'success' );
 		}
 
 		function showInfo() {
-			editor.makeToast( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante  <a href=\"http://test/\">mae</a> convallis.', 'info' );
+			editor.showNotification( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante  <a href=\"http://test/\">mae</a> convallis.', 'info' );
 		}
 	</script>
 	<p>
-		<input onclick="showWarning();" type="button" value="Show warning toast">
-		<input onclick="showSuccess();" type="button" value="Show success toast">
-		<input onclick="showInfo();" type="button" value="Show info toast">
-		<input onclick="emulateProgress();" type="button" value="Show progress toast">
+		<input onclick="showWarning();" type="button" value="Show warning notification">
+		<input onclick="showSuccess();" type="button" value="Show success notification">
+		<input onclick="showInfo();" type="button" value="Show info notification">
+		<input onclick="emulateProgress();" type="button" value="Show progress notification">
 	</p>
 	<div id="footer">
 		<hr>
