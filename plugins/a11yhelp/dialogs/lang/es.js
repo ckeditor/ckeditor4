@@ -85,12 +85,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 	backspace: 'Backspace', // MISSING
 	tab: 'Tab', // MISSING
 	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
+	shift: 'Mayús.',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pausa',
+	capslock: 'Bloq. Mayús.',
+	escape: 'Escape',
 	pageUp: 'Page Up', // MISSING
 	pageDown: 'Page Down', // MISSING
 	end: 'End', // MISSING
@@ -140,8 +140,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 	period: 'Period', // MISSING
 	forwardSlash: 'Forward Slash', // MISSING
 	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
+	openBracket: 'Abrir llave',
 	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	closeBracket: 'Cerrar llave',
+	singleQuote: 'Comillas simples'
 } );

@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'lt', {
 	button: 'Įterpkite kodo gabaliuką',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Kodo turinys',
+	emptySnippetError: 'Kodo fragmentas negali būti tusčias.',
+	language: 'Kalba',
+	title: 'Kodo fragmentas',
+	pathName: 'kodo fragmentas'
 } );

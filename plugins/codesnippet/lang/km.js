@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'km', {
-	button: 'Insert code snippet', // MISSING
+	button: 'Insert Code Snippet', // MISSING
 	codeContents: 'មាតិកាកូដ',
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
 	language: 'ភាសា',

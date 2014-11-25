@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'da', {
 	button: 'Indsæt koden her',
 	codeContents: 'Code content', // MISSING
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	language: 'Sprog',
+	title: 'Kodestykke',
+	pathName: 'kodestykke'
 } );

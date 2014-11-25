@@ -57,10 +57,10 @@ CKEDITOR.lang[ 'ms' ] = {
 		cssStyle: 'Stail',
 		ok: 'OK',
 		cancel: 'Batal',
-		close: 'Close', // MISSING
+		close: 'Tutup',
 		preview: 'Prebiu',
 		resize: 'Resize', // MISSING
-		generalTab: 'General', // MISSING
+		generalTab: 'Umum',
 		advancedTab: 'Advanced',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		alignMiddle: 'Pertengahan',
 		alignBottom: 'Bawah',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue	: 'Nilai tidak sah.',
 		invalidHeight: 'Height must be a number.', // MISSING
 		invalidWidth: 'Width must be a number.', // MISSING
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING

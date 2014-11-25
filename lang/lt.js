@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'lt' ] = {
 	// ARIA description.
 	editor: 'Pilnas redaktorius',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Pilno redagtoriaus skydelis',
 
 	// Common messages and labels.
 	common: {
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		alignTop: 'Viršūnę',
 		alignMiddle: 'Vidurį',
 		alignBottom: 'Apačią',
-		alignNone: 'None', // MISSING
+		alignNone: 'Niekas',
 		invalidValue	: 'Neteisinga reikšmė.',
 		invalidHeight: 'Aukštis turi būti nurodytas skaičiais.',
 		invalidWidth: 'Plotis turi būti nurodytas skaičiais.',

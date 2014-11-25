@@ -6,7 +6,7 @@
 CKEDITOR.plugins.setLang( 'placeholder', 'ku', {
 	title: 'خاسیەتی شوێن هەڵگر',
 	toolbar: 'درووستکردنی شوێن هەڵگر',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	name: 'ناوی شوێنگر',
+	invalidName: 'شوێنگر نابێت بەتاڵ بێت یان هەریەکێک لەم نووسانەی خوارەوەی تێدابێت: [, ], <, >',
+	pathName: 'شوێنگر'
 } );
