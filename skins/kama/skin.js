@@ -21,7 +21,7 @@ For this skin, the following tasks are achieved in this file:
 	2. Register browser specific skin files.
 	3. Define the "Chameleon" feature.
 	4. Register the skin icons, to have them used on the development version of
-	  the skin.
+		the skin.
 */
 
 // 1. Register the skin
@@ -112,7 +112,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		css = cssId + ' .cke_inner,' +
 			cssId + ' .cke_dialog_tab' +
 			'{' +
-		    'background-color:$color;' +
+			'background-color:$color;' +
 				'background:-webkit-gradient(linear,0 -15,0 40,from(#fff),to($color));' +
 				getLinearBackground( 'top,#fff -15px,$color 40px' ) +
 			'}' +

@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* global CKCONSOLE */
+
 'use strict';
 
 ( function() {

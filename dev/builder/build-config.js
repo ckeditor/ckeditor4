@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* exported CKBUILDER_CONFIG */
+
 var CKBUILDER_CONFIG = {
 	skin: 'moono',
 	ignore: [

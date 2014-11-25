@@ -5,10 +5,11 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* jshint browser: false, node: true */
+
 'use strict';
 
-var path = require( 'path' ),
-	fs = require( 'fs' ),
+var fs = require( 'fs' ),
 	argv = require( 'optimist' ).argv,
 	util = require( 'util' ),
 	exec = require( 'child_process' ).exec,
@@ -63,10 +64,9 @@ else if ( !( argv.i && argv.l ) ) {
 }
 
 // Check if convert is installed.
-exec( 'convert -version', function( error, stdout, stderr ) {
+exec( 'convert -version', function( error ) {
 	if ( error )
 		gracefulFailure( 'Convert not found in PATH. See http://www.imagemagick.org/ for more help.' );
-
 } );
 
 // Check if PNG exist.
