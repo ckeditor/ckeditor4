@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,dialog,basicstyles,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -26,7 +28,7 @@
 	function dropEvent( data, range ) {
 		var evt = new CKEDITOR.dom.event( {
 			dataTransfer: {
-				getData: function( type ) {
+				getData: function() {
 					return data;
 				}
 			}
@@ -47,7 +49,7 @@
 					evt.editor.widgets.add( 'test1', widgetDefinition1 );
 					evt.editor.widgets.add( 'test2', widgetDefinition2 );
 
-					CKEDITOR.dialog.add( 'test2', function( editor ) {
+					CKEDITOR.dialog.add( 'test2', function() {
 						return {
 							title: 'Test2',
 							contents: [
@@ -438,6 +440,6 @@
 				assert.areSame( 0, obj2Array( editor.widgets.instances ).length, '0 widgets after redo' );
 				assertCommands( editor, true, false, 'after redo' );
 			} );
-		},
+		}
 	} );
 } )();

@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -37,7 +39,7 @@
 						extraPlugins: 'testWidget',
 						allowedContent: true
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				that.editorBots = bots;
 				that.editors = editors;
@@ -109,8 +111,7 @@
 		},
 
 		'test checkElementMatch equals checkElementRemovable': function() {
-			var editor = this.editors.editor,
-				style = st( { type: 'widget', widget: 'someOtherWidget' } );
+			var style = st( { type: 'widget', widget: 'someOtherWidget' } );
 
 			assert.areSame( style.checkElementRemovable, style.checkElementMatch );
 		},
@@ -122,10 +123,14 @@
 			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' );
 
-				widget.checkStyleActive = function() { return true; };
+				widget.checkStyleActive = function() {
+					return true;
+				};
 				assert.isTrue( style.checkElementMatch( widget.wrapper, 0, editor ) );
 
-				widget.checkStyleActive = function() { return false; };
+				widget.checkStyleActive = function() {
+					return false;
+				};
 				assert.isFalse( style.checkElementMatch( widget.wrapper, 0, editor ) );
 			} );
 		},
@@ -248,10 +253,10 @@
 				style.checkApplicable = function() {
 					return false;
 				};
-				widget.applyStyle = function( arg ) {
+				widget.applyStyle = function() {
 					executed = true;
 				};
-				widget.removeStyle = function( arg ) {
+				widget.removeStyle = function() {
 					executed = true;
 				};
 
@@ -264,8 +269,7 @@
 		},
 
 		'test buildPreview': function() {
-			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'testWidget' } );
+			var style = st( { name: 'Foo', type: 'widget', widget: 'testWidget' } );
 
 			assert.areSame( 'Foo', style.buildPreview(), 'buildPreview returns style\'s name' );
 			assert.areSame( 'Bar', style.buildPreview( 'Bar' ), 'buildPreview returns provided label if defined' );
@@ -280,8 +284,7 @@
 		},
 
 		'test toAllowedContentRules - no editor': function() {
-			var editor = this.editors.editor,
-				style = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { 'class': 'foo bar' } } );
+			var style = st( { name: 'Foo', type: 'widget', widget: 'foo', attributes: { 'class': 'foo bar' } } );
 
 			assert.isNull( style.toAllowedContentRules() );
 		},

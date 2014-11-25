@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,dialog */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -19,7 +21,7 @@
 					evt.editor.widgets.add( 'test2', {
 					} );
 
-					CKEDITOR.dialog.add( 'widgettest1', function( editor ) {
+					CKEDITOR.dialog.add( 'widgettest1', function() {
 						return {
 							title: 'Test1',
 							contents: [
@@ -51,7 +53,7 @@
 									]
 								}
 							]
-						}
+						};
 					} );
 				}
 			}
@@ -59,7 +61,6 @@
 	};
 
 	var fixHtml = widgetTestsTools.fixHtml,
-		data2Attr = widgetTestsTools.data2Attribute,
 		getWidgetById = widgetTestsTools.getWidgetById,
 		replaceMethod = bender.tools.replaceMethod;
 
@@ -455,7 +456,7 @@
 					},
 					template: '<div id="w1">{foo}</div>',
 					init: function() {
-						this.on( 'edit', function( evt ) {
+						this.on( 'edit', function() {
 							editFired += 1;
 						}, null, null, 999 );
 					}
@@ -597,7 +598,7 @@
 
 				data: function() {
 					// Trigger transformation after closing dialog.
-					if ( editFired == 0 )
+					if ( editFired === 0 )
 						return;
 
 					// Control whether test case works correctly.

@@ -45,7 +45,7 @@
 					removePlugins: 'a11yhelp',
 					on: {
 						pluginsLoaded: function() {
-							this.on( 'ariaEditorHelpLabel', function( evt ) {
+							this.on( 'ariaEditorHelpLabel', function() {
 								fired += 1;
 							} );
 						}

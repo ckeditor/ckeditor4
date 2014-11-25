@@ -1,11 +1,12 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		obj2Array = widgetTestsTools.obj2Array,
+	var obj2Array = widgetTestsTools.obj2Array,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	var widgetData =
@@ -46,7 +47,7 @@
 					config: {
 						allowedContent: true
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				var name, editor;
 
@@ -258,6 +259,5 @@
 				assert.areSame( wn2.wrapper, wn2.dragHandlerContainer.getParent(), '2nd nested widget\'s drag handler is directly in the wrapper' );
 			} );
 		}
-
 	} );
 } )();

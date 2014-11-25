@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,basicstyles,clipboard,dialog,link,toolbar,stylescombo,font,colorbutton,language,indentblock */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -37,7 +39,6 @@
 	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
-
 		'test basic styles': function() {
 			var editor = this.editor,
 				cItalic = editor.getCommand( 'italic' ),
@@ -118,7 +119,7 @@
 					bar: {
 						selector: '.bar',
 						allowedContent: 'a[href,id]'
-					},
+					}
 				}
 			} );
 
@@ -164,7 +165,7 @@
 								callback();
 						} );
 					}
-			} );
+				} );
 		},
 
 		'test style combo': function() {
@@ -205,21 +206,21 @@
 					selectElement( editor, '#x' );
 					checkStylesCombo( CKEDITOR.TRISTATE_OFF, 17, 'x (2)' );
 
- 					function checkStylesCombo( state, stylesCount, msg ) {
- 						stylesCombo.onOpen( editor );
+					function checkStylesCombo( state, stylesCount, msg ) {
+						stylesCombo.onOpen( editor );
 
- 						assert.areSame( state, stylesCombo.getState(), msg + ' state' );
+						assert.areSame( state, stylesCombo.getState(), msg + ' state' );
 
 						var elements = getItemElements( stylesCombo ),
 							count = 0;
 
-	 					for ( var i in elements ) {
-	 						if ( elements[ i ].getStyle( 'display' ) != 'none' )
-	 							count++;
-	 					}
+						for ( var i in elements ) {
+							if ( elements[ i ].getStyle( 'display' ) != 'none' )
+								count++;
+						}
 
-	 					assert.areSame( stylesCount, count, msg + ' count' );
- 					}
+						assert.areSame( stylesCount, count, msg + ' count' );
+					}
 				} );
 		},
 
@@ -264,8 +265,7 @@
 					'<div class="color">color</div>' +
 					'<div class="indent">indent</div>' +
 					'<div class="all">all</div>' +
-				'</div>',
-				function() {
+				'</div>', function() {
 					var w1 = getWidgetById( editor, 'w1' ),
 						fontFamilyCombo = editor.ui.get( 'Font' ),
 						fontSizeCombo = editor.ui.get( 'FontSize' ),
@@ -289,34 +289,34 @@
 
 					checkState( 'color', { color: true, bg: true } );
 
- 					selectEditable( editor, w1, 'indent' );
+					selectEditable( editor, w1, 'indent' );
 
- 					checkState( 'indent', { indent: true } );
+					checkState( 'indent', { indent: true } );
 
- 					selectEditable( editor, w1, 'all' );
+					selectEditable( editor, w1, 'all' );
 
- 					checkState( 'all', { font: true, size: true, color: true, bg: true, indent: true } );
+					checkState( 'all', { font: true, size: true, color: true, bg: true, indent: true } );
 
 					selectElement( editor, '#x' );
 
 					checkState( 'x(2)', { font: true, size: true, color: true, bg: true, indent: true } );
 
- 					function checkState( elementName, expexted ) {
- 						assert.areSame( expexted.font ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
- 							fontFamilyCombo.getState(), elementName + ' - family ' + expexted.font );
+					function checkState( elementName, expexted ) {
+						assert.areSame( expexted.font ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							fontFamilyCombo.getState(), elementName + ' - family ' + expexted.font );
 
-	 					assert.areSame( expexted.size ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-	 						fontSizeCombo.getState(), elementName + ' - size ' + expexted.size );
+						assert.areSame( expexted.size ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							fontSizeCombo.getState(), elementName + ' - size ' + expexted.size );
 
-	 					assert.areSame( expexted.color ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-	 						textColor.getState(), elementName + ' - text ' + expexted.color );
+						assert.areSame( expexted.color ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							textColor.getState(), elementName + ' - text ' + expexted.color );
 
-	 					assert.areSame( expexted.bg ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-	 						bgColor.getState(), elementName + ' - background ' + expexted.bg );
+						assert.areSame( expexted.bg ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							bgColor.getState(), elementName + ' - background ' + expexted.bg );
 
-	 					assert.areSame( expexted.indent ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-	 						indent.getState(), elementName + ' - indent ' + expexted.indent );
- 					}
+						assert.areSame( expexted.indent ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+							indent.getState(), elementName + ' - indent ' + expexted.indent );
+					}
 				} );
 		}
 	} );

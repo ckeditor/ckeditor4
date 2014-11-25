@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,elementspath */
+/* bender-include: ../elementspath/_helpers/tools.js */
+/* global elementspathTestsTools */
 
 ( function() {
 	'use strict';
@@ -47,7 +49,7 @@
 			};
 		},
 
-		 _should: {
+		_should: {
 			ignore: {
 				'test widgets wrapper default name': ignoreTests,
 				'test widget editable path name overriding': ignoreTests,

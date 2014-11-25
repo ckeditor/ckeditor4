@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -17,8 +19,7 @@
 		}
 	};
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		getWidgetById = widgetTestsTools.getWidgetById;
+	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	function dropEvent( data, range ) {
 		var evt = new CKEDITOR.dom.event( {
@@ -251,8 +252,6 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
 				editor.document.fire( 'drop', dropEvent( JSON.stringify( { type: 'cke-widget', editor: 'othereditor', id: 999 } ) ) );
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
@@ -281,8 +280,6 @@
 				assert.isTrue( !!editor2Widget, 'widget was initialized in second editor' );
 
 				bot1.setData( '<p id="x1">foo</p><p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
-					var widget = getWidgetById( editor1, 'w1' );
-
 					editor1.document.fire( 'drop', dropEvent( JSON.stringify(
 						{ type: 'cke-widget', editor: 'test_editor2', id: editor2Widget.id }
 					) ) );

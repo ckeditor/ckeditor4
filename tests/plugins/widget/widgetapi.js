@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -114,8 +116,6 @@
 
 		'test initialization - defaults is a function': function() {
 			var editor = this.editor,
-				order = [],
-				widget,
 				foo = 0;
 
 			var widgetDef = {
@@ -442,8 +442,7 @@
 			editor.widgets.add( widgetName, {} );
 
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle1" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					element = widget.element;
+				var widget = getWidgetById( editor, 'w1' );
 
 				var style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
 					style2 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bar' } } );
@@ -471,8 +470,7 @@
 			editor.widgets.add( widgetName, {} );
 
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle2" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					element = widget.element;
+				var widget = getWidgetById( editor, 'w1' );
 
 				var style = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } );
 
@@ -697,7 +695,7 @@
 			var editor = this.editor;
 
 			editor.widgets.add( 'pastingencoding', {
-				upcast: function( el, data ) {
+				upcast: function( el ) {
 					return el.name == 'b' && el.hasClass( 'pastingencoding' );
 				}
 			} );

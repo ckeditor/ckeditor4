@@ -45,7 +45,7 @@
 						baseHref: '/foo/bar/404/',
 						allowedContent: true
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				that.editorBots = bots;
 				that.editors = editors;
@@ -53,7 +53,7 @@
 			} );
 		},
 
-		'test load full-page data' : function() {
+		'test load full-page data': function() {
 			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'fullpage1', function( source, expected ) {
 				bot.setData( source, function() {

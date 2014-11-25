@@ -10,9 +10,8 @@ bender.editor = {
 	allowedForTests: 'p[id,dir]; div; em[id]'
 };
 
-bender.test(
-{
-	doUndoCommand : function( input, cmd ) {
+bender.test( {
+	doUndoCommand: function( input, cmd ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( input );
 		bot.editor.resetUndo();
@@ -33,7 +32,7 @@ bender.test(
 		}, 0 );
 	},
 
-	doUndoDialog : function( input, dlgName, fn ) {
+	doUndoDialog: function( input, dlgName, fn ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( input );
 		bot.editor.resetUndo();
@@ -180,16 +179,16 @@ bender.test(
 	},
 
 	// #7912
-	'test undo enter key' : function() {
+	'test undo enter key': function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'enter' );
 	},
 
 	// #8299
-	'test undo hr insertion' : function() {
+	'test undo hr insertion': function() {
 		this.doUndoCommand( '<p>foo^bar</p>', 'horizontalrule' );
 	},
 
-	'test lock/unlock undo manager' : function() {
+	'test lock/unlock undo manager': function() {
 		var ed = this.editor,
 			edt = ed.editable(),
 			undo = ed.getCommand( 'undo' ),
@@ -638,7 +637,7 @@ bender.test(
 	},
 
 	// #9230
-	'test automatic DOM changes handling' : function() {
+	'test automatic DOM changes handling': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
 			root = editor.editable(),
@@ -668,8 +667,7 @@ bender.test(
 		assert.areEqual( 'abc', root.getHtml(), 'Initial data is correct' );
 
 		// Manually fire selectionChange so autoParagraphing is executed.
-		editor.fire( 'selectionChange',
-			 { selection : sel, path : currentPath, element : firstElement } );
+		editor.fire( 'selectionChange', { selection: sel, path: currentPath, element: firstElement } );
 
 		assert.isMatching( /<p>abc(<br>)?<\/p>/i, root.getHtml(), 'Auto paragraphing executed correctly' );
 		assert.isFalse( isActive( undo ), 'Auto paragraphing hasn\'t created undo snapshot' );
@@ -692,7 +690,7 @@ bender.test(
 		}, 0 );
 	},
 
-	'test multiple undo/redo' : function() {
+	'test multiple undo/redo': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<p>fo[ob]ar</p>' );
 		bot.editor.resetUndo();
@@ -730,7 +728,7 @@ bender.test(
 	},
 
 	// #8258
-	'test undo image insertion (dialog)' : function() {
+	'test undo image insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'image', function( dialog ) {
 			dialog.setValueOf( 'info', 'txtUrl', '../../_assets/logo.png' );
 			dialog.getButton( 'ok' ).click();
@@ -738,7 +736,7 @@ bender.test(
 	},
 
 	// #8258
-	'test undo iframe insertion (dialog)' : function() {
+	'test undo iframe insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'iframe', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', 'about:blank' );
 			dialog.getButton( 'ok' ).click();
@@ -746,14 +744,14 @@ bender.test(
 	},
 
 	// #8258
-	'test undo flash insertion (dialog)' : function() {
+	'test undo flash insertion (dialog)': function() {
 		this.doUndoDialog( '<p>foo^bar</p>', 'flash', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', '../../_assets/sample.swf' );
 			dialog.getButton( 'ok' ).click();
 		} ) ;
 	},
 
-	'test undo with "control" type selection in IE' : function() {
+	'test undo with "control" type selection in IE': function() {
 		if ( !CKEDITOR.env.ie || ( document.documentMode || CKEDITOR.env.version ) > 8 )
 			assert.ignore();
 

@@ -21,7 +21,9 @@
 			um.snapshots = [];
 			um.index = -1;
 			um.currentImage = {
-				equalsContent: function() { return true; }
+				equalsContent: function() {
+					return true;
+				}
 			};
 
 			assert.isNull( um.getNextImage( REDO ) );
@@ -33,13 +35,17 @@
 			um.index = -1;
 
 			um.currentImage = {
-				equalsContent: function() { return false; }
+				equalsContent: function() {
+					return false;
+				}
 			};
 			assert.isNull( um.getNextImage( UNDO ) );
 			assert.areSame( um.snapshots[ 0 ], um.getNextImage( REDO ) );
 
 			um.currentImage = {
-				equalsContent: function() { return true; }
+				equalsContent: function() {
+					return true;
+				}
 			};
 			assert.isNull( um.getNextImage( UNDO ) );
 			assert.isNull( um.getNextImage( REDO ) );
@@ -50,14 +56,18 @@
 			um.index = 0;
 
 			um.currentImage = {
-				equalsContent: function() { return false; }
+				equalsContent: function() {
+					return false;
+				}
 			};
 			// Assert below is a bit confusing, but there shouldn't be such situation.
 			// assert.areSame( um.snapshots[ 0 ], um.getNextImage( UNDO ) );
 			assert.isNull( um.getNextImage( REDO ) );
 
 			um.currentImage = {
-				equalsContent: function() { return true; }
+				equalsContent: function() {
+					return true;
+				}
 			};
 			assert.isNull( um.getNextImage( UNDO ) );
 			assert.isNull( um.getNextImage( REDO ) );
@@ -68,7 +78,9 @@
 			um.index = 0;
 
 			um.currentImage = {
-				equalsContent: function ( img ) { return img.equals; }
+				equalsContent: function( img ) {
+					return img.equals;
+				}
 			};
 			assert.isNull( um.getNextImage( UNDO ) );
 			assert.areSame( um.snapshots[ 2 ], um.getNextImage( REDO ) );
@@ -79,7 +91,9 @@
 			um.index = 2;
 
 			um.currentImage = {
-				equalsContent: function ( img ) { return img.equals; }
+				equalsContent: function( img ) {
+					return img.equals;
+				}
 			};
 
 			// Assert below is a bit confusing, but there shouldn't be such situation.

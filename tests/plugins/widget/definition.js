@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -16,7 +18,6 @@
 	};
 
 	var fixHtml = widgetTestsTools.fixHtml,
-		data2Attr = widgetTestsTools.data2Attribute,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
@@ -88,6 +89,7 @@
 
 				editor.widgets.add( 'testup1', widgetDef );
 
+				// jscs:disable maximumLineLength
 				assert.isMatching( /^<p>foo<span .*data-cke-widget-wrapper="1".*><b data-cke-widget-data="%7B%7D" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="testup1">bar<\/b><\/span><\/p>$/,
 					fixHtml( dataP.toHtml( '<p>foo<b>bar</b></p>' ) ),										'upcast b' );
 
@@ -108,6 +110,7 @@
 
 				assert.isMatching( /^<p>foo<span .*data-cke-widget-wrapper="1".*><b data-cke-widget-data="%7B%7D" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="testup1"><i>bar<\/i><\/b><\/span><\/p>$/,
 					fixHtml( dataP.toHtml( '<p>foo<b><i>bar</i></b></p>' ) ),								'do upcast twice' );
+				// jscs:enable maximumLineLength
 			} );
 		},
 
@@ -127,6 +130,7 @@
 
 				editor.widgets.add( 'testup2', widgetDef );
 
+				// jscs:disable maximumLineLength
 				assert.isMatching( /^<p>foo<span .*data-cke-widget-wrapper="1".*><b data-cke-widget-data="%7B%7D" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="testup2">bar<\/b><\/span><\/p>$/,
 					fixHtml( dataP.toHtml( '<p>foo<b>bar</b></p>' ) ),										'upcast b' );
 
@@ -135,6 +139,7 @@
 
 				assert.isMatching( /^<p>foo<u foo="1">bar<\/u><\/p>$/,
 					fixHtml( dataP.toHtml( '<p>foo<u foo="1">bar</u></p>' ) ),								'do not upcast u' );
+				// jscs:enable maximumLineLength
 			} );
 		},
 
@@ -155,8 +160,10 @@
 
 				editor.widgets.add( 'testup3', widgetDef );
 
+				// jscs:disable maximumLineLength
 				assert.isMatching( /^<p>foo<span .*data-cke-widget-wrapper="1".*><i data-cke-widget-data="%7B%7D" data-cke-widget-keep-attr="0" data-cke-widget-upcasted="1" data-widget="testup3"><b>bar<\/b><\/i><\/span><\/p>$/,
 					fixHtml( dataP.toHtml( '<p>foo<b>bar</b></p>' ) ),										'upcast b' );
+				// jscs:enable maximumLineLength
 			} );
 		},
 
@@ -228,12 +235,11 @@
 				name: 'editor_down1',
 				config: { allowedContent: true }
 			}, function( bot ) {
-				var editor = bot.editor,
-					dataP = editor.dataProcessor;
+				var editor = bot.editor;
 
 				var widgetDef = {
 					downcasts: {
-						down1: function( el ) {
+						down1: function() {
 							return CKEDITOR.htmlParser.fragment.fromHtml( 'foo', 'b' );
 						},
 						down2: function( el ) {
@@ -276,8 +282,7 @@
 				name: 'editor_down5',
 				config: { allowedContent: true }
 			}, function( bot ) {
-				var editor = bot.editor,
-					dataP = editor.dataProcessor;
+				var editor = bot.editor;
 
 				var widgetDef = {
 					downcast: function( el ) {
@@ -298,8 +303,7 @@
 				name: 'editor_down6',
 				config: { allowedContent: true }
 			}, function( bot ) {
-				var editor = bot.editor,
-					dataP = editor.dataProcessor;
+				var editor = bot.editor;
 
 				var widgetDef = {
 					upcast: function( el ) {
@@ -466,7 +470,7 @@
 					foo: 1
 				},
 
-				data: function( evt ) {
+				data: function() {
 					dataFired += 1;
 				}
 			};
@@ -515,8 +519,7 @@
 		},
 
 		'test overriding template in widgetDefinition event': function() {
-			var editor = this.editor,
-				element;
+			var editor = this.editor;
 
 			editor.once( 'widgetDefinition', function( evt ) {
 				evt.data.template = '<b>{foo}</b>';

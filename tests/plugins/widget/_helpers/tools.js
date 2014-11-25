@@ -1,3 +1,5 @@
+/* exported widgetTestsTools */
+
 var widgetTestsTools = ( function() {
 	'use strict';
 
@@ -156,7 +158,7 @@ var widgetTestsTools = ( function() {
 
 	function fixHtml( html, ignoreStyle ) {
 		// Because IE modify style attribute we should fix it or totally ignore style attribute.
-		var html = html.replace( /style="([^"]*)"/g, function( styleStr ) {
+		html = html.replace( /style="([^"]*)"/g, function( styleStr ) {
 			// If there are too many problems with styles just ignore them.
 			if ( ignoreStyle )
 				return '';
@@ -219,7 +221,7 @@ var widgetTestsTools = ( function() {
 			assert.areEqual( fixHtml( data ), fixHtml( editorBot.getData() ), 'Editor html after performing downcast is not matching.' );
 
 			if ( expectedWidgetName ) {
-				for ( var i = instancesArray.length-1; i >= 0; i-- )
+				for ( var i = instancesArray.length - 1; i >= 0; i-- )
 					assert.areEqual( expectedWidgetName, instancesArray[ i ].name, 'Widget at index ' + i + ' has widget invalid definition name.' );
 			}
 		} );

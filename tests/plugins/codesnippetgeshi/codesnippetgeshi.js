@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: codesnippet,codesnippetgeshi,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -20,8 +21,7 @@
 
 	bender.test( {
 		'test ajax querying': function() {
-			var editor = this.editor,
-				originalAjax = CKEDITOR.ajax.post,
+			var originalAjax = CKEDITOR.ajax.post,
 				ajaxCalled = 0,
 				ajaxData,
 				ajaxContentType,
@@ -60,7 +60,7 @@
 					restoreOriginalCallbacks();
 				} );
 			} catch ( e ) {
-				if ( e instanceof YUITest.Wait == false )
+				if ( e instanceof YUITest.Wait === false )
 					restoreOriginalCallbacks();
 				// Propagate the exception.
 				throw e;

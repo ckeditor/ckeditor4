@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -213,7 +215,7 @@
 
 				widget.focus();
 
-				var result = listen( editor, [ widget ] )
+				var result = listen( editor, [ widget ] );
 
 				editor.getSelection().selectElement( editor.document.getById( 'a' ) );
 

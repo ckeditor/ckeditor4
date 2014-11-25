@@ -30,7 +30,7 @@
 	}
 
 	function curryAddCharactersToTextNode( textNode, characters ) {
-		return function () {
+		return function() {
 			addCharactersToTextNode( textNode, characters );
 		};
 	}
@@ -38,7 +38,7 @@
 	function simulateHoldKey( times, keyTools, keyCode, domModification, beforeKeyUp ) {
 		var UndoManager = CKEDITOR.plugins.undo.UndoManager;
 
-		while( times-- ) {
+		while ( times-- ) {
 			keyTools.singleKeyEvent( keyCode, { type: 'keydown' } );
 			domModification();
 
@@ -305,7 +305,7 @@
 				that._moveTextNodeRange( 0 );
 
 				// We need to force at least one snapshot, which will be overwritten.
-				this.editor.fire('saveSnapshot');
+				this.editor.fire( 'saveSnapshot' );
 				assert.areEqual( 2, undoManager.snapshots.length, 'Invalid snapshots count' );
 
 				this.keyTools.keyEvent( keyCodesEnum.RIGHT, null, true, function() {
@@ -616,7 +616,7 @@
 					isNavigationKey = CKEDITOR.plugins.undo.UndoManager.isNavigationKey,
 					curKey;
 
-				for ( var i=0; i < naviKeys.length; i++ ) {
+				for ( var i = 0; i < naviKeys.length; i++ ) {
 					curKey = naviKeys[ i ];
 					assert.isTrue( isNavigationKey( keyCodesEnum[ curKey ] ), 'Invalid result for ' + curKey );
 				}
