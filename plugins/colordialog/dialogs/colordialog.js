@@ -268,18 +268,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			clearSelected();
 			clearHighlight();
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'picker',
 			label: lang.title,
 			accessKey: 'I',
-			elements: [
-				{
+			elements: [ {
 				type: 'hbox',
 				padding: 0,
 				widths: [ '70%', '10%', '30%' ],
-				children: [
-					{
+				children: [ {
 					type: 'html',
 					html: '<div></div>',
 					onLoad: function() {
@@ -291,20 +288,19 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						( focused || this.getElement().getElementsByTag( 'td' ).getItem( 0 ) ).focus();
 					}
 				},
-					spacer,
+				spacer,
 				{
 					type: 'vbox',
 					padding: 0,
 					widths: [ '70%', '5%', '25%' ],
-					children: [
-						{
+					children: [ {
 						type: 'html',
 						html: '<span>' + lang.highlight + '</span>\
 												<div id="' + hicolorId + '" style="border: 1px solid; height: 74px; width: 74px;"></div>\
 												<div id="' + hicolorTextId + '">&nbsp;</div><span>' + lang.selected + '</span>\
 												<div id="' + selHiColorId + '" style="border: 1px solid; height: 20px; width: 74px;"></div>'
 					},
-						{
+					{
 						type: 'text',
 						label: lang.selected,
 						labelStyle: 'display:none',
@@ -319,19 +315,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 							}
 						}
 					},
-						spacer,
+					spacer,
 					{
 						type: 'button',
 						id: 'clear',
 						label: lang.clear,
 						onClick: clearSelected
-					}
-					]
-				}
-				]
-			}
-			]
-		}
-		]
+					} ]
+				} ]
+			} ]
+		} ]
 	};
 } );

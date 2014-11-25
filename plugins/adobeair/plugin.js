@@ -136,8 +136,9 @@
 							var attrs = CKEDITOR.htmlParser.fragment.fromHtml( startTag ).children[ 0 ].attributes;
 							attrs && doc.getBody().setAttributes( attrs );
 						} );
-					} else
+					} else {
 						original_write.apply( this, arguments );
+					}
 				};
 			} );
 
@@ -160,8 +161,9 @@
 						holder = panel._.holder;
 						convertInlineHandlers( holder );
 					} )();
-				} else if ( ui instanceof CKEDITOR.dialog )
+				} else if ( ui instanceof CKEDITOR.dialog ) {
 					convertInlineHandlers( ui._.element );
+				}
 			} );
 		},
 		init: function( editor ) {

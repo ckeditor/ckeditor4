@@ -223,8 +223,6 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		// functions.
 		definition = new definitionObject( this, definition );
 
-		var doc = CKEDITOR.document;
-
 		var themeBuilt = buildDialog( editor );
 
 		// Initialize some basic parameters.
@@ -498,8 +496,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						this.hide();
 				}
 				stopPropagation = 1; // Always block the propagation (#4269)
-			} else
+			} else {
 				return;
+			}
 
 			keypressHandler( evt );
 		}
@@ -559,8 +558,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					initialFocus && initialFocus.focus();
 				}
 				// Focus the first field in layout order.
-				else
+				else {
 					changeFocus( 1 );
+				}
 			}
 		}, this, null, 0xffffffff );
 
@@ -647,9 +647,13 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	// Re-layout the dialog on window resize.
 	function resizeWithWindow( dialog ) {
 		var win = CKEDITOR.document.getWindow();
-		function resizeHandler() { dialog.layout(); }
+		function resizeHandler() {
+			dialog.layout();
+		}
 		win.on( 'resize', resizeHandler );
-		dialog.on( 'hide', function() { win.removeListener( 'resize', resizeHandler ); } );
+		dialog.on( 'hide', function() {
+			win.removeListener( 'resize', resizeHandler );
+		} );
 	}
 
 	CKEDITOR.dialog.prototype = {
@@ -794,7 +798,10 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				element.setStyle( 'display', 'block' );
 
 			// First, set the dialog to an appropriate size.
-			this.resize( this._.contentSize && this._.contentSize.width || definition.width || definition.minWidth, this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight );
+			this.resize(
+				this._.contentSize && this._.contentSize.width || definition.width || definition.minWidth,
+				this._.contentSize && this._.contentSize.height || definition.height || definition.minHeight
+			);
 
 			// Reset all inputs back to their default value.
 			this.reset();
@@ -898,15 +905,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			// Switch to absolute position when viewport is smaller than dialog size.
 			if ( !CKEDITOR.env.ie6Compat ) {
-				if ( dialogSize.height + ( posY > 0 ? posY : 0 ) > viewSize.height ||
-						 dialogSize.width + ( posX > 0 ? posX : 0 ) > viewSize.width )
+				if ( dialogSize.height + ( posY > 0 ? posY : 0 ) > viewSize.height || dialogSize.width + ( posX > 0 ? posX : 0 ) > viewSize.width ) {
 					el.setStyle( 'position', 'absolute' );
-				else
+				} else {
 					el.setStyle( 'position', 'fixed' );
+				}
 			}
 
-			this.move( this._.moved ? this._.position.x : posX,
-					this._.moved ? this._.position.y : posY );
+			this.move( this._.moved ? this._.position.x : posX, this._.moved ? this._.position.y : posY );
 		},
 
 		/**
@@ -917,9 +923,11 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		 */
 		foreach: function( fn ) {
 			for ( var i in this._.contents ) {
-				for ( var j in this._.contents[ i ] )
-					fn.call( this, this._.contents[ i ][ j ] );
+				for ( var j in this._.contents[ i ] ) {
+					fn.call( this, this._.contents[i][j] );
+				}
 			}
+
 			return this;
 		},
 
@@ -1037,8 +1045,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					}
 				}, 0 );
 
-			} else
+			} else {
 				CKEDITOR.dialog._.currentZIndex -= 10;
+			}
 
 			delete this._.parentDialog;
 			// Reset the initial values of the dialog.
@@ -1095,17 +1104,17 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var tabId = 'cke_' + contents.id + '_' + CKEDITOR.tools.getNextNumber(),
 				tab = CKEDITOR.dom.element.createFromHtml( [
 					'<a class="cke_dialog_tab"',
-						( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),
-						titleHtml,
-						( !!contents.hidden ? ' style="display:none"' : '' ),
-						' id="', tabId, '"',
-						env.gecko && !env.hc ? '' : ' href="javascript:void(0)"',
-						' tabIndex="-1"',
-						' hidefocus="true"',
-						' role="tab">',
-							contents.label,
+					( this._.pageCount > 0 ? ' cke_last' : 'cke_first' ),
+					titleHtml,
+					( !!contents.hidden ? ' style="display:none"' : '' ),
+					' id="', tabId, '"',
+					env.gecko && !env.hc ? '' : ' href="javascript:void(0)"',
+					' tabIndex="-1"',
+					' hidefocus="true"',
+					' role="tab">',
+					contents.label,
 					'</a>'
-					].join( '' ) );
+				].join( '' ) );
 
 			page.setAttribute( 'aria-labelledby', tabId );
 
@@ -1172,8 +1181,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				setTimeout( function() {
 					clearOrRecoverTextInputValue( selected[ 1 ], 1 );
 				}, 0 );
-			} else
+			} else {
 				selected[ 1 ].show();
+			}
 
 			this._.currentTabId = id;
 			this._.currentTabIndex = CKEDITOR.tools.indexOf( this._.tabIdList, id );
@@ -2004,7 +2014,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				'; top: 0px; left: 0px; ',
 				( !CKEDITOR.env.ie6Compat ? 'background-color: ' + backgroundColorStyle : '' ),
 				'" class="cke_dialog_background_cover">'
-				];
+			];
 
 			if ( CKEDITOR.env.ie6Compat ) {
 				// Support for custom document.domain in IE.
@@ -2046,8 +2056,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			coverElement.appendTo( CKEDITOR.document.getBody() );
 			covers[ coverKey ] = coverElement;
-		} else
+		} else {
 			coverElement.show();
+		}
 
 		// Makes the dialog cover a focus holder as well.
 		editor.focusManager.add( coverElement );
@@ -2318,8 +2329,8 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Override isChanged if it is defined in element definition.
 				if ( typeof( elementDefinition.isChanged ) == 'boolean' )
 					this.isChanged = function() {
-					return elementDefinition.isChanged;
-				};
+						return elementDefinition.isChanged;
+					};
 				if ( typeof( elementDefinition.isChanged ) == 'function' )
 					this.isChanged = elementDefinition.isChanged;
 
@@ -2421,25 +2432,34 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						for ( i = 0; i < childHtmlList.length; i++ ) {
 							var className = 'cke_dialog_ui_hbox_child',
 								styles = [];
-							if ( i === 0 )
+							if ( i === 0 ) {
 								className = 'cke_dialog_ui_hbox_first';
-							if ( i == childHtmlList.length - 1 )
+							}
+							if ( i == childHtmlList.length - 1 ) {
 								className = 'cke_dialog_ui_hbox_last';
+							}
+
 							html.push( '<td class="', className, '" role="presentation" ' );
 							if ( widths ) {
-								if ( widths[ i ] )
-									styles.push( 'width:' + cssLength( widths[ i ] ) );
-							} else
+								if ( widths[ i ] ) {
+									styles.push( 'width:' + cssLength( widths[i] ) );
+								}
+							} else {
 								styles.push( 'width:' + Math.floor( 100 / childHtmlList.length ) + '%' );
-							if ( height )
+							}
+							if ( height ) {
 								styles.push( 'height:' + cssLength( height ) );
-							if ( elementDefinition && elementDefinition.padding != undefined )
+							}
+							if ( elementDefinition && elementDefinition.padding !== undefined ) {
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
+							}
 							// In IE Quirks alignment has to be done on table cells. (#7324)
-							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
+							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align ) {
 								styles.push( 'text-align:' + children[ i ].align );
-							if ( styles.length > 0 )
+							}
+							if ( styles.length > 0 ) {
 								html.push( 'style="' + styles.join( '; ' ) + '" ' );
+							}
 							html.push( '>', childHtmlList[ i ], '</td>' );
 						}
 						html.push( '</tr></tbody>' );

@@ -50,7 +50,9 @@
 	}
 
 	// Maintain the map of smiley-to-description.
+	// jscs:disable maximumLineLength
 	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
+	// jscs:enable maximumLineLength
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
@@ -143,8 +145,9 @@
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
-						} else if ( attributesMap[ part ] )
-							attribs[ attributesMap[ part ] ] = optionPart;
+						} else if ( attributesMap[ part ] ) {
+							attribs[attributesMap[part]] = optionPart;
+						}
 					}
 
 					// Two special handling - image and email, protect them
@@ -155,8 +158,9 @@
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
 				// Closing tag
-				else if ( parts[ 3 ] )
-					this.onTagClose( bbcodeMap[ part ] );
+				else if ( parts[ 3 ] ) {
+					this.onTagClose( bbcodeMap[part] );
+				}
 			}
 
 			if ( bbcode.length > lastIndex )
@@ -464,7 +468,7 @@
 				return this._.rules[ tagName ] && this._.rules[ tagName ][ ruleName ];
 			},
 
-			openTag : function( tag ) {
+			openTag: function( tag ) {
 				if ( tag in bbcodeMap ) {
 					if ( this.getRule( tag, 'breakBeforeOpen' ) )
 						this.lineBreak( 1 );
@@ -473,7 +477,7 @@
 				}
 			},
 
-			openTagClose : function( tag ) {
+			openTagClose: function( tag ) {
 				if ( tag == 'br' )
 					this._.output.push( '\n' );
 				else if ( tag in bbcodeMap ) {
@@ -483,7 +487,7 @@
 				}
 			},
 
-			attribute : function( name, val ) {
+			attribute: function( name, val ) {
 				if ( name == 'option' ) {
 					// Force simply ampersand in attributes.
 					if ( typeof val == 'string' )
@@ -615,8 +619,9 @@
 						if ( element.attributes.listType ) {
 							if ( element.attributes.listType != 'decimal' )
 								element.attributes.style = 'list-style-type:' + element.attributes.listType;
-						} else
+						} else {
 							element.name = 'ul';
+						}
 
 						delete element.attributes.listType;
 					},
@@ -672,8 +677,9 @@
 										value = 'A';
 										break;
 								}
-							} else if ( tagName == 'ol' )
+							} else if ( tagName == 'ol' ) {
 								value = 1;
+							}
 
 							tagName = 'list';
 						} else if ( tagName == 'blockquote' ) {

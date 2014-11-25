@@ -196,8 +196,9 @@
 
 				this.ready = true;
 			}, this ) );
-		} else
+		} else {
 			this.ready = true;
+		}
 
 		/**
 		 * If specified, this function should asynchronously load highlighter-specific

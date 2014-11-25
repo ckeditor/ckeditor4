@@ -84,7 +84,9 @@
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
@@ -107,11 +109,12 @@
 					// Strip <span> around white-spaces when not in forced 'html' content type.
 					// This spans are created only when pasting plain text into Webkit,
 					// but for safety reasons remove them always.
-					if ( evt.data.type != 'html' )
+					if ( evt.data.type != 'html' ) {
 						data = data.replace( /<span class="Apple-tab-span"[^>]*>([^<]*)<\/span>/gi, function( all, spaces ) {
-						// Replace tabs with 4 spaces like Fx does.
-						return spaces.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
-					} );
+							// Replace tabs with 4 spaces like Fx does.
+							return spaces.replace( /\t/g, '&nbsp;&nbsp; &nbsp;' );
+						} );
+					}
 
 					// This br is produced only when copying & pasting HTML content.
 					if ( data.indexOf( '<br class="Apple-interchange-newline">' ) > -1 ) {
@@ -309,8 +312,9 @@
 								callback( null );
 						}, 10 );
 					} );
-				} else
+				} else {
 					callback( null );
+				}
 			}
 
 			function onPaste( evt ) {
@@ -506,7 +510,7 @@
 				type: type,
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
-				exec: function( data ) {
+				exec: function() {
 					// Attempts to execute the Cut and Copy operations.
 					function tryToCutCopy( type ) {
 						if ( CKEDITOR.env.ie )
@@ -525,8 +529,9 @@
 
 					var success = tryToCutCopy( this.type );
 
-					if ( !success )
+					if ( !success ) {
 						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // Show cutError or copyError.
+					}
 
 					return success;
 				}
@@ -754,8 +759,9 @@
 			}
 			// Transparency is not enough since positioned non-editing host always shows
 			// resize handler, pull it off the screen instead.
-			else
+			else {
 				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
+			}
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
 
@@ -777,7 +783,7 @@
 			// this selection will be restored. We overwrite stored selection, so it's restored
 			// in pastebin. (#9552)
 			if ( CKEDITOR.env.ie ) {
-				blurListener = editable.once( 'blur', function( evt ) {
+				blurListener = editable.once( 'blur', function() {
 					editor.lockSelection( selPastebin );
 				} );
 			}
@@ -949,8 +955,9 @@
 			// Text or <br>.
 			if ( !data.match( /^([^<]|<br( ?\/)?>)*$/gi ) )
 				return 'html';
-		} else
+		} else {
 			return 'html';
+		}
 
 		return 'htmlifiedtext';
 	}
@@ -962,7 +969,7 @@
 		function repeatParagraphs( repeats ) {
 			// Repeat blocks floor((n+1)/2) times.
 			// Even number of repeats - add <br> at the beginning of last <p>.
-			return CKEDITOR.tools.repeat( '</p><p>', ~~ ( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
+			return CKEDITOR.tools.repeat( '</p><p>', ~~( repeats / 2 ) ) + ( repeats % 2 == 1 ? '<br>' : '' );
 		}
 
 			// Replace adjacent white-spaces (EOLs too - Fx sometimes keeps them) with one space.
@@ -1024,7 +1031,7 @@
 	}
 
 	// Filter can be editor dependent.
-	function getTextificationFilter( editor ) {
+	function getTextificationFilter() {
 		var filter = new CKEDITOR.htmlParser.filter();
 
 		// Elements which creates vertical breaks (have vert margins) - took from HTML5 spec.
@@ -1179,8 +1186,9 @@
 			data = data.replace( /(<\/p><p>)+/g, function( match ) {
 				return CKEDITOR.tools.repeat( '<br>', match.length / 7 * 2 );
 			} ).replace( /<\/?p>/g, '' );
-		} else if ( config.enterMode == CKEDITOR.ENTER_DIV )
+		} else if ( config.enterMode == CKEDITOR.ENTER_DIV ) {
 			data = data.replace( /<(\/)?p>/g, '<$1div>' );
+		}
 
 		return data;
 	}
