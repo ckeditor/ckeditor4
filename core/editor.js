@@ -1411,6 +1411,20 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * The element which contains editor contents. It is provided by a specific editor creator
+ * after editor UI is created and is not intended to be modified. It might be `iframe` or
+ * another element with `contenteditable` attribute. Use this position of this element
+ * if you need to set the position related to the contents (ex. over it).
+ *
+ *		var editor = CKEDITOR.instances.editor1;
+ *		alert( editor.contents.getName() ); // 'iframe'
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.dom.element} contents
+ */
+
+/**
  * The document that stores the editor content.
  *
  * * For the classic (`iframe`-based) editor it is equal to the document inside the

@@ -3,6 +3,47 @@ Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
+/**
+ * Progress notification structure:
+ *
+ * +---div.cke_notification cke_notification_info--------------------------+
+ * |                                                                       |
+ * | +---div.cke_notification_progress-----------------------------------+ |
+ * | |                                                                   | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---p.cke_notification_message--------------------------------------+ |
+ * | | Foo                                                               | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---a.cke_notification_close----------------------------------------+ |
+ * | | +---span.cke_label----------------------------------------------+ | |
+ * | | | X                                                             | | |
+ * | | +---------------------------------------------------------------+ | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ *
+ *
+ * Warning notification structure:
+ *
+ * +---div.cke_notification cke_notification_warning-----------------------+
+ * |                                                                       |
+ * | +---p.cke_notification_message--------------------------------------+ |
+ * | | Foo                                                               | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---a.cke_notification_close----------------------------------------+ |
+ * | | +---span.cke_label----------------------------------------------+ | |
+ * | | | X                                                             | | |
+ * | | +---------------------------------------------------------------+ | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ *
+ * Success and info notifications have the same structure as warning, but use
+ * `cke_notification_success` and `cke_notification_info` instead of `cke_notification_warning`.
+ */
 .cke_notification
 {
 	position: relative;
