@@ -363,7 +363,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'bgColorChoose',
-							class: 'colorChooser', // jshint ignore:line
+							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
 								// Stick the element to the bottom (#5587)
@@ -408,7 +408,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'borderColorChoose',
-							class: 'colorChooser', // jshint ignore:line
+							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {
