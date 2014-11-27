@@ -85,7 +85,7 @@
 
 		'test create concurrent editor: inline on bound textarea': function() {
 			try {
-				CKEDITOR.inline( textarea, {
+				CKEDITOR.inline( 'editor1', {
 					on: {
 						instanceReady: function() {
 							resume( function() {

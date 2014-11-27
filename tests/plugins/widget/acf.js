@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,toolbar,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -14,9 +16,7 @@
 		}
 	};
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		obj2Array = widgetTestsTools.obj2Array,
-		getWidgetById = widgetTestsTools.getWidgetById;
+	var obj2Array = widgetTestsTools.obj2Array;
 
 	bender.test( {
 		'test widget without buttons should not be added to ACF': function() {

@@ -213,8 +213,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 							if ( CKEDITOR.env.iOS ) {
 								if ( !this._.hideTimeout )
 									this._.hideTimeout = CKEDITOR.tools.setTimeout( doHide, 0, this );
-							} else
+							} else {
 								doHide.call( this );
+							}
 						}
 
 						function doHide() {
@@ -268,7 +269,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						if ( block.autoSize ) {
 							var panelDoc = block.element.getDocument();
-							var width = ( CKEDITOR.env.webkit? block.element : panelDoc.getBody() )[ '$' ].scrollWidth;
+							var width = ( CKEDITOR.env.webkit ? block.element : panelDoc.getBody() ).$.scrollWidth;
 
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
@@ -293,8 +294,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 							// Fix IE < 8 visibility.
 							panel._.currentBlock.element.setStyle( 'display', 'none' ).removeStyle( 'display' );
-						} else
+						} else {
 							target.removeStyle( 'height' );
+						}
 
 						// Flip panel layout horizontally in RTL with known width.
 						if ( rtl )
@@ -483,7 +485,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			allowBlur: function( allow ) // Prevent editor from hiding the panel. #3222.
 			{
 				var panel = this._.panel;
-				if ( allow != undefined )
+				if ( allow !== undefined )
 					panel.allowBlur = allow;
 
 				return panel.allowBlur;

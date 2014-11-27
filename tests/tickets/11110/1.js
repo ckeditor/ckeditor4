@@ -24,7 +24,7 @@
 						assert.areSame( '<p>x<iframe frameborder="0" scrolling="no" src="error404"></iframe>x</p>',
 							bender.tools.compatHtml( editor.getData(), true, true ) );
 					} );
-				} )
+				} );
 
 				wait( function() {
 					editor.execCommand( 'paste', html );
@@ -57,7 +57,7 @@
 						assert.areSame( '<p>xx</p>', editor.dataProcessor.toHtml( '<p>x<img src="x">x</p>' ),
 							'check that fakeobjects does not allow plain images' );
 					} );
-				} )
+				} );
 
 				wait( function() {
 					editor.execCommand( 'paste', html );

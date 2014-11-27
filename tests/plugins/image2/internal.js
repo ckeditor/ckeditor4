@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2 */
+/* global widgetTestsTools, image2TestsTools */
 
 ( function() {
 	'use strict';
@@ -10,7 +11,7 @@
 
 	function assertWrapperAlignFloat( expected, msg ) {
 		return function( widget ) {
-			assert.areSame( expected, CKEDITOR.tools.trim( widget.wrapper.getStyle( 'float' ) ) );
+			assert.areSame( expected, CKEDITOR.tools.trim( widget.wrapper.getStyle( 'float' ) ), msg );
 		};
 	}
 
@@ -52,8 +53,7 @@
 		widgetTestsTools.assertWidget( config );
 	}
 
-	var getWidgetById = widgetTestsTools.getWidgetById,
-		fixHtml = image2TestsTools.fixHtml,
+	var fixHtml = image2TestsTools.fixHtml,
 
 		defs = {
 			alignInline: {
@@ -156,7 +156,7 @@
 					'</span>' +
 					'<figcaption data-cke-display-name="caption" data-cke-filter="\\d+">[^<]+</figcaption>' +
 					'(<br />)?' +
-				'</figure>' ),
+				'</figure>' )
 		},
 
 		bots;

@@ -157,60 +157,60 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		title: lang.title,
 		minWidth: 600,
 		minHeight: 400,
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.common.generalTab,
 			expand: true,
 			elements: [
 				{
-				type: 'html',
-				id: 'legends',
-				style: 'white-space:normal;',
-				focus: function() { this.getElement().focus(); },
-				html: buildHelpContents() + '<style type="text/css">' +
-					'.cke_accessibility_legend' +
-					'{' +
-						'width:600px;' +
-						'height:400px;' +
-						'padding-right:5px;' +
-						'overflow-y:auto;' +
-						'overflow-x:hidden;' +
-					'}' +
-					// Some adjustments are to be done for Quirks to work "properly" (#5757)
-					'.cke_browser_quirks .cke_accessibility_legend,' +
-					'{' +
-						'height:390px' +
-					'}' +
-					// Override non-wrapping white-space rule in reset css.
-					'.cke_accessibility_legend *' +
-					'{' +
-						'white-space:normal;' +
-					'}' +
-					'.cke_accessibility_legend h1' +
-					'{' +
-						'font-size: 20px;' +
-						'border-bottom: 1px solid #AAA;' +
-						'margin: 5px 0px 15px;' +
-					'}' +
-					'.cke_accessibility_legend dl' +
-					'{' +
-						'margin-left: 5px;' +
-					'}' +
-					'.cke_accessibility_legend dt' +
-					'{' +
-						'font-size: 13px;' +
-						'font-weight: bold;' +
-					'}' +
-					'.cke_accessibility_legend dd' +
-					'{' +
-						'margin:10px' +
-					'}' +
-					'</style>'
-			}
+					type: 'html',
+					id: 'legends',
+					style: 'white-space:normal;',
+					focus: function() {
+						this.getElement().focus();
+					},
+					html: buildHelpContents() + '<style type="text/css">' +
+						'.cke_accessibility_legend' +
+						'{' +
+							'width:600px;' +
+							'height:400px;' +
+							'padding-right:5px;' +
+							'overflow-y:auto;' +
+							'overflow-x:hidden;' +
+						'}' +
+						// Some adjustments are to be done for Quirks to work "properly" (#5757)
+						'.cke_browser_quirks .cke_accessibility_legend,' +
+						'{' +
+							'height:390px' +
+						'}' +
+						// Override non-wrapping white-space rule in reset css.
+						'.cke_accessibility_legend *' +
+						'{' +
+							'white-space:normal;' +
+						'}' +
+						'.cke_accessibility_legend h1' +
+						'{' +
+							'font-size: 20px;' +
+							'border-bottom: 1px solid #AAA;' +
+							'margin: 5px 0px 15px;' +
+						'}' +
+						'.cke_accessibility_legend dl' +
+						'{' +
+							'margin-left: 5px;' +
+						'}' +
+						'.cke_accessibility_legend dt' +
+						'{' +
+							'font-size: 13px;' +
+							'font-weight: bold;' +
+						'}' +
+						'.cke_accessibility_legend dd' +
+						'{' +
+							'margin:10px' +
+						'}' +
+						'</style>'
+				}
 			]
-		}
-		],
+		} ],
 		buttons: [ CKEDITOR.dialog.cancelButton ]
 	};
 } );

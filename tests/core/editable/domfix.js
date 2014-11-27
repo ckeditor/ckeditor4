@@ -1,13 +1,11 @@
 /* bender-tags: editor,unit,autoparagraphing */
 
-var doc = CKEDITOR.document,
-	tools = bender.tools;
+var doc = CKEDITOR.document;
 
 // This group of tests plays upon the framed content.
-bender.test(
-{
+bender.test( {
 	// Initialize the editor instance.
-	'async:init' : function() {
+	'async:init': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
 		editor.on( 'loaded', function() {
@@ -22,23 +20,30 @@ bender.test(
 			editor.fire( 'contentDom' );
 			tc.editor = editor;
 			// Allow editor creation to complete.
-			setTimeout( function() { tc.callback(); }, 0 );
+			setTimeout( function() {
+				tc.callback();
+			}, 0 );
 		} );
 	},
 
-	setupEditor : function( data, callback ) {
-		var tc = this, editor = tc.editor;
+	setupEditor: function( data, callback ) {
+		var tc = this,
+			editor = tc.editor;
+
 		editor.setData( data, function() {
 			CKEDITOR.document.getBody().focus();
 			editor.focus();
-			setTimeout( function() { tc.resume( callback ); }, 200 );
+			setTimeout( function() {
+				tc.resume( callback );
+			}, 200 );
 		} );
 		tc.wait();
 	},
 
 	// Test auto wrapping content that lives directly in body element with paragraph.
 	testAutoParagraphing: function() {
-		var tc = this, editor = this.editor;
+		var editor = this.editor;
+
 		this.setupEditor( '', function() {
 			var start = editor.getSelection().getStartElement(),
 					path = new CKEDITOR.dom.elementPath( start );

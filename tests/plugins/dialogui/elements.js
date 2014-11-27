@@ -21,7 +21,9 @@
 
 		'test CKEDITOR.ui.dialog.labeledElement wai-aria role': function() {
 			var outputHtml = [],
-				contentFunction = function() { return ''; };
+				contentFunction = function() {
+					return '';
+				};
 
 			new CKEDITOR.ui.dialog.labeledElement( this.getDialogMockup(), {}, outputHtml, contentFunction );
 

@@ -116,7 +116,7 @@
 				'<div contenteditable="false" id="f">' +
 					'<div>foo</div>' +
 				'</div>' +
-				'<p>x</p>'
+				'<p>x</p>';
 
 			bot.setData( html, function() {
 				editor.getSelection().fake( editor.document.getById( 'f' ) );

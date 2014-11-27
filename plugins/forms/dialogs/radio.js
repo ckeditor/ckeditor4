@@ -31,13 +31,11 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				editor.insertElement( element );
 			this.commitContent( { element: element } );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.checkboxAndRadio.radioTitle,
 			title: editor.lang.forms.checkboxAndRadio.radioTitle,
-			elements: [
-				{
+			elements: [ {
 				id: 'name',
 				type: 'text',
 				label: editor.lang.common.name,
@@ -57,7 +55,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				id: 'value',
 				type: 'text',
 				label: editor.lang.forms.checkboxAndRadio.value,
@@ -75,7 +73,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						element.removeAttribute( 'value' );
 				}
 			},
-				{
+			{
 				id: 'checked',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.selected,
@@ -98,8 +96,8 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 						var isChecked = !!this.getValue();
 
 						if ( isElementChecked != isChecked ) {
-							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' )
-								+ '></input>', editor.document );
+							var replace = CKEDITOR.dom.element.createFromHtml( '<input type="radio"' + ( isChecked ? ' checked="checked"' : '' ) +
+								'></input>', editor.document );
 							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
 							editor.getSelection().selectElement( replace );
@@ -108,7 +106,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				id: 'required',
 				type: 'checkbox',
 				label: editor.lang.forms.checkboxAndRadio.required,
@@ -125,9 +123,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 					else
 						element.removeAttribute( 'required' );
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
 } );

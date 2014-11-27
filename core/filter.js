@@ -327,7 +327,8 @@
 
 			var node, element, check,
 				toBeChecked = [],
-				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ];
+				enterTag = enterModeTags[ enterMode || ( this.editor ? this.editor.enterMode : CKEDITOR.ENTER_P ) ],
+				parentDtd;
 
 			// Remove elements in reverse order - from leaves to root, to avoid conflicts.
 			while ( ( node = toBeRemoved.pop() ) ) {
@@ -345,6 +346,9 @@
 				if ( !element.parent )
 					continue;
 
+				// Handle custom elements as inline elements (#12683).
+				parentDtd = DTD[ element.parent.name ] || DTD.span;
+
 				switch ( check.check ) {
 					// Check if element itself is correct.
 					case 'it':
@@ -359,17 +363,13 @@
 					// Check if element is in correct context. If not - remove element.
 					case 'el-up':
 						// Check if e.g. li is a child of body after ul has been removed.
-						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
-							!DTD[ element.parent.name ][ element.name ]
-						)
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT && !parentDtd[ element.name ] )
 							removeElement( element, enterTag, toBeChecked );
 						break;
 
 					// Check if element is in correct context. If not - remove parent.
 					case 'parent-down':
-						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
-							!DTD[ element.parent.name ][ element.name ]
-						)
+						if ( element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT && !parentDtd[ element.name ] )
 							removeElement( element.parent, enterTag, toBeChecked );
 						break;
 				}
@@ -1813,7 +1813,7 @@
 
 		var parent = element.parent,
 			shouldAutoP = parent.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT || parent.name == 'body',
-			i, child, p;
+			i, child, p, parentDtd;
 
 		for ( i = children.length; i > 0; ) {
 			child = children[ --i ];
@@ -1834,12 +1834,14 @@
 			// Child which doesn't need to be auto paragraphed.
 			else {
 				p = null;
+				parentDtd = DTD[ parent.name ] || DTD.span;
+
 				child.insertAfter( element );
 				// If inserted into invalid context, mark it and check
 				// after removing all elements.
 				if ( parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT &&
 					child.type == CKEDITOR.NODE_ELEMENT &&
-					!DTD[ parent.name ][ child.name ]
+					!parentDtd[ child.name ]
 				)
 					toBeChecked.push( { check: 'el-up', el: child } );
 			}

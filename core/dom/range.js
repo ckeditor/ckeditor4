@@ -460,9 +460,9 @@ CKEDITOR.dom.range = function( root ) {
 		clone: function() {
 			var clone = new CKEDITOR.dom.range( this.root );
 
-			clone.startContainer = this.startContainer;
+			clone._setStartContainer( this.startContainer );
 			clone.startOffset = this.startOffset;
-			clone.endContainer = this.endContainer;
+			clone._setEndContainer( this.endContainer );
 			clone.endOffset = this.endOffset;
 			clone.collapsed = this.collapsed;
 
@@ -477,10 +477,10 @@ CKEDITOR.dom.range = function( root ) {
 		 */
 		collapse: function( toStart ) {
 			if ( toStart ) {
-				this.endContainer = this.startContainer;
+				this._setEndContainer( this.startContainer );
 				this.endOffset = this.startOffset;
 			} else {
-				this.startContainer = this.endContainer;
+				this._setStartContainer( this.endContainer );
 				this.startOffset = this.endOffset;
 			}
 
@@ -624,6 +624,8 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean} return.is2 This is "bookmark2".
 		 */
 		createBookmark2: ( function() {
+			var isNotText = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_TEXT, true );
+
 			// Returns true for limit anchored in element and placed between text nodes.
 			//
 			//               v
@@ -672,8 +674,43 @@ CKEDITOR.dom.range = function( root ) {
 
 				// The last step - fix the offset inside text node by adding
 				// lengths of preceding text nodes which will be merged with container.
-				if ( container.type == CKEDITOR.NODE_TEXT )
-					offset += getLengthOfPrecedingTextNodes( container );
+				if ( container.type == CKEDITOR.NODE_TEXT ) {
+					var precedingLength = getLengthOfPrecedingTextNodes( container );
+
+					// Normal case - text node is not empty.
+					if ( container.getText() ) {
+						offset += precedingLength;
+
+					// Awful case - the text node is empty and thus will be totally lost.
+					// In this case we are trying to normalize the limit to the left:
+					// * either to the preceding text node,
+					// * or to the "gap" after the preceding element.
+					} else {
+						// Find the closest non-text sibling.
+						var precedingContainer = container.getPrevious( isNotText );
+
+						// If there are any characters on the left, that means that we can anchor
+						// there, because this text node will not be lost.
+						if ( precedingLength ) {
+							offset = precedingLength;
+
+							if ( precedingContainer ) {
+								// The text node is the first node after the closest non-text sibling.
+								container = precedingContainer.getNext();
+							} else {
+								// But if there was no non-text sibling, then the text node is the first child.
+								container = container.getParent().getFirst();
+							}
+
+						// If there are no characters on the left, then anchor after the previous non-text node.
+						// E.g. (see tests for a legend :D):
+						// <b>x</b>(foo)({}bar) -> <b>x</b>[](foo)(bar)
+						} else {
+							container = container.getParent();
+							offset = precedingContainer ? ( precedingContainer.getIndex( true ) + 1 ) : 0;
+						}
+					}
+				}
 
 				limit.container = container;
 				limit.offset = offset;
@@ -1656,11 +1693,11 @@ CKEDITOR.dom.range = function( root ) {
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ startNode.getName() ] )
 				startOffset = startNode.getIndex(), startNode = startNode.getParent();
 
-			this.startContainer = startNode;
+			this._setStartContainer( startNode );
 			this.startOffset = startOffset;
 
 			if ( !this.endContainer ) {
-				this.endContainer = startNode;
+				this._setEndContainer( startNode );
 				this.endOffset = startOffset;
 			}
 
@@ -1685,11 +1722,11 @@ CKEDITOR.dom.range = function( root ) {
 			if ( endNode.type == CKEDITOR.NODE_ELEMENT && CKEDITOR.dtd.$empty[ endNode.getName() ] )
 				endOffset = endNode.getIndex() + 1, endNode = endNode.getParent();
 
-			this.endContainer = endNode;
+			this._setEndContainer( endNode );
 			this.endOffset = endOffset;
 
 			if ( !this.startContainer ) {
-				this.startContainer = endNode;
+				this._setStartContainer( endNode );
 				this.startOffset = endOffset;
 			}
 
@@ -2480,6 +2517,42 @@ CKEDITOR.dom.range = function( root ) {
 
 			// Get rid of the reference node. It is no longer necessary.
 			reference.remove();
+		},
+
+		/**
+		 * Setter for the {@link #startContainer}.
+		 *
+		 * @since 4.4.6
+		 * @private
+		 * @param {CKEDITOR.dom.element} startContainer
+		 */
+		_setStartContainer: function( startContainer ) {
+			// %REMOVE_START%
+			var isRootAscendantOrSelf = this.root.equals( startContainer ) || this.root.contains( startContainer );
+
+			if ( !isRootAscendantOrSelf ) {
+				window.console && console.log && console.log( 'Element', startContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+			}
+			// %REMOVE_END%
+			this.startContainer = startContainer;
+		},
+
+		/**
+		 * Setter for the {@link #endContainer}.
+		 *
+		 * @since 4.4.6
+		 * @private
+		 * @param {CKEDITOR.dom.element} endContainer
+		 */
+		_setEndContainer: function( endContainer ) {
+			// %REMOVE_START%
+			var isRootAscendantOrSelf = this.root.equals( endContainer ) || this.root.contains( endContainer );
+
+			if ( !isRootAscendantOrSelf ) {
+				window.console && console.log && console.log( 'Element', endContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+			}
+			// %REMOVE_END%
+			this.endContainer = endContainer;
 		}
 	};
 } )();

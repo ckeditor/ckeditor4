@@ -8,10 +8,9 @@ bender.editor = {
 	allowedForTests: 'b'
 };
 
-bender.test(
-{
+bender.test( {
 	// Executes ENTER on input, type some text and check output.
-	enterKey : function( html ) {
+	enterKey: function( html ) {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( html );
 		bot.execCommand( 'enter' );
@@ -25,5 +24,4 @@ bender.test(
 		assert.areSame( '<b>foo</b><br />bar', this.enterKey( '<b>foo^</b>bar' ) );
 		assert.areSame( '<br /><b>foo</b>', this.enterKey( '<b>^foo</b>' ) );
 	}
-
 } );

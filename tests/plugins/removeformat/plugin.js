@@ -114,13 +114,14 @@ bender.test(
 				'</div>' +
 			'</div>' +
 			'<p><em>}baz</em></p>' );
-			var expected = '<h1><em>fo</em>o</h1>' +
-				'<div contenteditable="false">' +
-					'<div contenteditable="true">' +
-						'<em>bar</em>' +
-					'</div>' +
+
+		var expected = '<h1><em>fo</em>o</h1>' +
+			'<div contenteditable="false">' +
+				'<div contenteditable="true">' +
+					'<em>bar</em>' +
 				'</div>' +
-				'<p><em>baz</em></p>';
+			'</div>' +
+			'<p><em>baz</em></p>';
 
 		bot.editor.execCommand( 'removeFormat' );
 

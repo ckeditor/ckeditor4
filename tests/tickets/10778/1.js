@@ -14,8 +14,7 @@
 
 	bender.test( {
 		'Create link followed by space inside bold text': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p><strong>[test] </strong>text</p>' );
 

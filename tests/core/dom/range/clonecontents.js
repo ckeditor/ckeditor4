@@ -4,15 +4,15 @@
 	'use strict';
 
 	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+		doc = CKEDITOR.document,
+		html1 = document.getElementById( 'playground' ).innerHTML;
 
-	var tests =
-	{
+	var tests = {
 		setUp: function() {
-			 document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'playground' ).innerHTML = html1;
 		},
 
-		test_cloneContents_W3C_1 : function() {
+		test_cloneContents_W3C_1: function() {
 			// W3C DOM Range Specs - Section 2.7 - Example 1
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -39,7 +39,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_W3C_2 : function() {
+		test_cloneContents_W3C_2: function() {
 			// W3C DOM Range Specs - Section 2.7 - Example 2
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -66,7 +66,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_W3C_3 : function() {
+		test_cloneContents_W3C_3: function() {
 			// W3C DOM Range Specs - Section 2.6 - Example 3
 
 			var range = new CKEDITOR.dom.range( doc );
@@ -94,7 +94,7 @@
 		},
 
 		// W3C DOM Range Specs - Section 2.6 - Example 4
-		test_cloneContents_W3C_4 : function() {
+		test_cloneContents_W3C_4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( '_H1' ).getFirst(), 1 );
@@ -120,7 +120,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_Other : function() {
+		test_cloneContents_Other: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( '_H1' ), 0 );
@@ -146,7 +146,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_Other_2 : function() {
+		test_cloneContents_Other_2: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( 'playground' ), 0 );
@@ -172,7 +172,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_cloneContents_Other_3 : function() {
+		test_cloneContents_Other_3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.selectNodeContents( doc.getById( '_B' ) );
@@ -223,9 +223,3 @@
 
 	bender.test( tests );
 } )();
-
-	//<![CDATA[
-
-html1 = document.getElementById( 'playground' ).innerHTML;
-
-	//]]>

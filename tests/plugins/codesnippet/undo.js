@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: codesnippet,undo,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -31,7 +32,7 @@
 							}
 						}
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				that.editorBots = bots;
 				that.editors = editors;

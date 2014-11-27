@@ -6,17 +6,17 @@ CKEDITOR.plugins.setLang( 'toolbar', 'af', {
 	toolbarCollapse: 'Verklein werkbalk',
 	toolbarExpand: 'Vergroot werkbalk',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokument',
+		clipboard: 'Knipbord/Undo',
+		editing: 'Verander',
+		forms: 'Vorms',
+		basicstyles: 'Eenvoudige Styl',
+		paragraph: 'Paragraaf',
+		links: 'Skakels',
+		insert: 'Toevoeg',
+		styles: 'Style',
+		colors: 'Kleure',
+		tools: 'Gereedskap'
 	},
-	toolbars: 'Editor toolbars' // MISSING
+	toolbars: 'Werkbalke'
 } );

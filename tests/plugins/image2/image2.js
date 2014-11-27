@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,widget */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -6,12 +7,10 @@
 	var tcs = {},
 		tools = widgetTestsTools,
 		inlineEditorConfig = {
-			language: 'en',
-			autoParagraph: false
+			language: 'en'
 		},
 		alignClassesEditorConfig = {
 			language: 'en',
-			autoParagraph: false,
 			image2_alignClasses: [ 'l', 'c', 'r' ]
 		};
 
@@ -389,7 +388,7 @@
 				height: '',
 				hasCaption: true,
 				link: link
-			}, 'caption1' )
+			}, 'caption1' );
 		},
 		newData: newDialogData( {
 			align: 'left',
@@ -419,7 +418,7 @@
 				assert.areSame( caption, widget.parts.caption.getText(), 'parts.caption.getText ' + msg );
 			else
 				assert.isFalse( !!widget.parts.caption, 'there\'s no caption' );
-		}
+		};
 	}
 
 	function newDialogData( data ) {

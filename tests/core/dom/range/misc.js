@@ -3,17 +3,17 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+	var doc = CKEDITOR.document,
+		html1 = document.getElementById( 'playground' ).innerHTML,
+		html2 = document.getElementById( 'playground2' ).innerHTML;
 
-	var tests =
-	{
+	var tests = {
 		setUp: function() {
-			 document.getElementById( 'playground' ).innerHTML = html1;
-			 document.getElementById( 'playground2' ).innerHTML = html2;
+			document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'playground2' ).innerHTML = html2;
 		},
 
-		test__constructor : function() {
+		test__constructor: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			assert.isNotNull( range, 'range must not be null' );
@@ -32,14 +32,14 @@
 			assert.areSame( container.$, range.root.$, 'range boundary element must match.' );
 		},
 
-		test_collapsed : function() {
+		test_collapsed: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_P' ), CKEDITOR.POSITION_AFTER_START );
 
 			assert.isTrue( range.collapsed );
 		},
 
-		test_collapse : function() {
+		test_collapse: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_Para' ), CKEDITOR.POSITION_AFTER_START );
 			range.setEndAt( doc.getById( '_Span' ), CKEDITOR.POSITION_BEFORE_END );
@@ -55,7 +55,7 @@
 			assert.isTrue( range.collapsed, 'collapsed' );
 		},
 
-		test_selectNodeContents_Element : function() {
+		test_selectNodeContents_Element: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			// Test with an Element node.
@@ -68,7 +68,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_selectNodeContents_Text : function() {
+		test_selectNodeContents_Text: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			// Test with a Text node.
@@ -81,7 +81,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_collapse_ToStart : function() {
+		test_collapse_ToStart: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.selectNodeContents( doc.getById( '_P' ) );
@@ -94,7 +94,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		test_collapse_ToEnd : function() {
+		test_collapse_ToEnd: function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.selectNodeContents( doc.getById( '_Para' ) );
@@ -110,7 +110,7 @@
 		/**
 		 *  Test trim with text range.
 		 */
-		test_trim : function() {
+		test_trim: function() {
 			var text = doc.getById( '_trim_ct' ).getFirst();
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( text, 2 );
@@ -127,11 +127,10 @@
 		/**
 		 * Trim range which collapsed at text node boundary.
 		 */
-		test_trim_3790 : function() {
+		test_trim_3790: function() {
 
 			var ct = doc.getById( '_trim_ct' );
 			ct.setHtml( '<span id="_SPAN1">text</span>' );
-			var text = doc.getById( '_trim_ct' ).getFirst();
 
 			// <span id="_SPAN1">text^</span>
 			var range = new CKEDITOR.dom.range( doc );
@@ -148,11 +147,10 @@
 		/**
 		 * Trim range which collapsed inside text node.
 		 */
-		test_trim_3790_2 : function() {
+		test_trim_3790_2: function() {
 
 			var ct = doc.getById( '_trim_ct' );
 			ct.setHtml( '<span id="_SPAN1">text</span>' );
-			var text = doc.getById( '_trim_ct' ).getFirst();
 
 			// <span id="_SPAN1">te^xt</span>
 			var range = new CKEDITOR.dom.range( doc );
@@ -167,7 +165,7 @@
 		},
 
 		// Test enclosed node doesn't exist.
-		test_enclosed_node : function() {
+		test_enclosed_node: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_enclosed' ), 1 );
 			range.setEnd( doc.getById( '_enclosed_i' ), 1 );
@@ -177,7 +175,7 @@
 		},
 
 		// Test enclosed node doesn't exist.
-		test_enclosed_node2 : function() {
+		test_enclosed_node2: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_enclosed' ).getLast(), 1 );
 			range.setEnd( doc.getById( '_enclosed' ).getLast(), 5 );
@@ -187,7 +185,7 @@
 		},
 
 		// Test enclosed node exist.
-		test_enclosed_node3 : function() {
+		test_enclosed_node3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_enclosed' ).getFirst(), 6 );
 			range.setEnd( doc.getById( '_enclosed' ).getLast(), 0 );
@@ -230,7 +228,7 @@
 			assert.isFalse( range.checkReadOnly() );
 		},
 
-		'test removeEmptyBlocksAtEnd - at the beginning' : function() {
+		'test removeEmptyBlocksAtEnd - at the beginning': function() {
 			var source = '<div><div><p>[</p></div>te]xt</div>',
 				playground = doc.getById( 'editable_playground' ),
 				range = bender.tools.setHtmlWithRange( playground, source )[ 0 ];
@@ -239,7 +237,7 @@
 			assert.areEqual( '<div>[te]xt</div>', bender.tools.getHtmlWithRanges( playground, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		'test removeEmptyBlocksAtEnd - at the end' : function() {
+		'test removeEmptyBlocksAtEnd - at the end': function() {
 			var source = '<div>te[xt<div><p>]</p></div></div>',
 				playground = doc.getById( 'editable_playground' ),
 				range = bender.tools.setHtmlWithRange( playground, source )[ 0 ];
@@ -255,15 +253,24 @@
 			range.removeEmptyBlocksAtEnd( true );
 
 			assert.areEqual( '<div>te[xt<div>]x</div></div>', bender.tools.getHtmlWithRanges( playground, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		'test _setStartContainer': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				start = new CKEDITOR.dom.element( 'a', doc );
+
+			range._setStartContainer( start );
+			assert.areSame( start, range.startContainer );
+		},
+
+		'test _setEndContainer': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				end = new CKEDITOR.dom.element( 'a', doc );
+
+			range._setEndContainer( end );
+			assert.areSame( end, range.endContainer );
 		}
 	};
 
 	bender.test( tests );
 } )();
-
-	//<![CDATA[
-
-html1 = document.getElementById( 'playground' ).innerHTML;
-html2 = document.getElementById( 'playground2' ).innerHTML;
-
-	//]]>

@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore,widgetcore */
 /* bender-ckeditor-plugins: widget */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -135,8 +137,7 @@
 		},
 
 		'test widgets.add - dialog': function() {
-			var editor = this.editor,
-				widgets = editor.widgets;
+			var editor = this.editor;
 
 			var widgetDef = {
 				dialog: {
@@ -319,7 +320,7 @@
 			assert.isMatching( new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><span data-cke-widget-keep-attr="0" data-widget="test">foo</span></span>bar</p>$' ), writeFrag( frag ) );
 		},
 
-		'test widgets.wrapElement - force block mode' : function() {
+		'test widgets.wrapElement - force block mode': function() {
 			var el = CKEDITOR.dom.element.createFromHtml( '<span>foo</span>' );
 
 			var wrapper = this.editor.widgets.wrapElement( el, 'testblock' );
@@ -329,7 +330,7 @@
 			assert.isTrue( wrapper.hasClass( 'cke_widget_block' ), 'has cke_widget_block class' );
 		},
 
-		'test widgets.wrapElement - force block mode on htmlParser.element' : function() {
+		'test widgets.wrapElement - force block mode on htmlParser.element': function() {
 			var frag = new CKEDITOR.htmlParser.fragment.fromHtml( '<span>foo</span>' ),
 				el = frag.children[ 0 ];
 
@@ -401,11 +402,9 @@
 		},
 
 		'test widgets.wrapElement - detached node - htmlParser.element': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.htmlParser.fragment.fromHtml( 'foo', 'b' );
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			var wrapper = this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'span', wrapper.name, 'inline wrapper name' );
 			assert.areSame( el, wrapper.children[ 0 ], 'inline wrapper first child' );
@@ -416,11 +415,9 @@
 		},
 
 		'test widgets.wrapElement - adds widget-data attribute': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' );
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.getAttribute( 'data-widget' ) );
 			assert.isTrue( el.hasAttribute( 'data-cke-widget-keep-attr' ) );
@@ -428,11 +425,9 @@
 		},
 
 		'test widgets.wrapElement - adds widget-data attribute - htmlParser.element': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.htmlParser.fragment.fromHtml( 'foo', 'b' );
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.attributes[ 'data-widget' ] );
 			assert.isTrue( 'data-cke-widget-keep-attr' in el.attributes );
@@ -440,11 +435,9 @@
 		},
 
 		'test widgets.wrapElement - remembers that element had widget-data attribute': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.dom.element.createFromHtml( '<b data-widget="test">foo</b>' );
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.getAttribute( 'data-widget' ) );
 			assert.isTrue( el.hasAttribute( 'data-cke-widget-keep-attr' ) );
@@ -452,11 +445,9 @@
 		},
 
 		'test widgets.wrapElement - remembers that element had widget-data attribute - htmlParser.element': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.htmlParser.fragment.fromHtml( '<b data-widget="test">foo</b>' ).children[ 0 ];
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.attributes[ 'data-widget' ] );
 			assert.isTrue( 'data-cke-widget-keep-attr' in el.attributes );
@@ -464,11 +455,9 @@
 		},
 
 		'test widgets.wrapElement - does not override data-cke-widget-keep-attr': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.dom.element.createFromHtml( '<b data-cke-widget-keep-attr="0" data-widget="test">foo</b>' );
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.getAttribute( 'data-widget' ) );
 			assert.isTrue( el.hasAttribute( 'data-cke-widget-keep-attr' ) );
@@ -476,11 +465,9 @@
 		},
 
 		'test widgets.wrapElement - does not override data-cke-widget-keep-attr - htmlParser.element': function() {
-			var editor = this.editor;
-
 			var el = CKEDITOR.htmlParser.fragment.fromHtml( '<b data-cke-widget-keep-attr="0" data-widget="test">foo</b>' ).children[ 0 ];
 
-			var wrapper = editor.widgets.wrapElement( el, 'test' );
+			this.editor.widgets.wrapElement( el, 'test' );
 
 			assert.areSame( 'test', el.attributes[ 'data-widget' ] );
 			assert.isTrue( 'data-cke-widget-keep-attr' in el.attributes );
@@ -919,8 +906,6 @@
 				'</div>' +
 				'<p><em data-widget="testinline">bar</em></p>',
 				function() {
-					var widgetOuter = getWidgetById( editor, 'x' );
-
 					var widgetInnerBlock = editor.widgets.getByElement( editor.document.getById( 'y' ) ),
 						widgetInnerInline = editor.widgets.getByElement( editor.document.getById( 'z' ) );
 
@@ -1076,7 +1061,7 @@
 		'test widgets.checkWidgets': function() {
 			var editor = this.editor,
 				editorBot = this.editorBot,
-				data ='<p><span data-widget="test">A</span><span data-widget="test">B</span></p>';
+				data = '<p><span data-widget="test">A</span><span data-widget="test">B</span></p>';
 
 			editorBot.setData( data, function() {
 				var editable = editor.editable(),
@@ -1316,7 +1301,7 @@
 					widgetHtml +
 					// Add the cke_widget_new class and change id.
 					widgetHtml.replace( /cke_widget_wrapper/, 'cke_widget_wrapper cke_widget_new' ).replace( /id="?w1"?/, 'id="w2"' )
-				 );
+				);
 
 				editor.widgets.checkWidgets( { focusInited: true, initOnlyNew: true } );
 
@@ -1397,7 +1382,7 @@
 
 		'test widgets.checkWidgets draghandler re usage': function() {
 			var editor = this.editor,
-				data ='<p><span data-widget="test">B</span></p>';
+				data = '<p><span data-widget="test">B</span></p>';
 
 			this.editorBot.setData( data, function() {
 				var editable = editor.editable();
@@ -1446,7 +1431,7 @@
 
 		'test widgets.checkWidgets mask re usage': function() {
 			var editor = this.editor,
-				data ='<p><span data-widget="testmaskreusage">B</span></p>';
+				data = '<p><span data-widget="testmaskreusage">B</span></p>';
 
 			editor.widgets.add( 'testmaskreusage', {
 				mask: true

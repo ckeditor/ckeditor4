@@ -1,20 +1,20 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @ignore
- * File overview: DOM iterator, which iterates over list items, lines and paragraphs.
+ * File overview: DOM iterator which iterates over list items, lines and paragraphs.
  */
 
 'use strict';
 
 ( function() {
 	/**
-	 * Represents iterator class. It can be used to iterate
+	 * Represents the iterator class. It can be used to iterate
 	 * over all elements (or even text nodes in case of {@link #enlargeBr} set to `false`)
-	 * which establish "paragraph-like" spaces within passed range.
+	 * which establish "paragraph-like" spaces within the passed range.
 	 *
 	 *		// <h1>[foo</h1><p>bar]</p>
 	 *		var iterator = range.createIterator();
@@ -22,8 +22,8 @@
 	 *		iterator.getNextParagraph(); // p element
 	 *
 	 *		// <ul><li>[foo</li><li>bar]</li>
-	 *		// With enforceRealBlocks set to false iterator will return two list item elements.
-	 *		// With enforceRealBlocks set to true iterator will return two paragraphs and the DOM will be changed to:
+	 *		// With enforceRealBlocks set to false the iterator will return two list item elements.
+	 *		// With enforceRealBlocks set to true the iterator will return two paragraphs and the DOM will be changed to:
 	 *		// <ul><li><p>foo</p></li><li><p>bar</p></li>
 	 *
 	 * @class CKEDITOR.dom.iterator
@@ -34,21 +34,29 @@
 		if ( arguments.length < 1 )
 			return;
 
+		/**
+		 * @readonly
+		 * @property {CKEDITOR.dom.range}
+		 */
 		this.range = range;
+
+		/**
+		 * @property {Boolean} [forceBrBreak=false]
+		 */
 		this.forceBrBreak = 0;
 
 		// (#3730).
 		/**
-		 * Whether include `<br>`s into the enlarged range. Should be
-		 * set to `false` when using iterator in {@link CKEDITOR#ENTER_BR} mode.
+		 * Whether to include `<br>` elements in the enlarged range. Should be
+		 * set to `false` when using the iterator in the {@link CKEDITOR#ENTER_BR} mode.
 		 *
 		 * @property {Boolean} [enlargeBr=true]
 		 */
 		this.enlargeBr = 1;
 
 		/**
-		 * Whether iterator should create transformable block
-		 * if the current one contains text and it cannot be transformed.
+		 * Whether the iterator should create a transformable block
+		 * if the current one contains text and cannot be transformed.
 		 * For example new blocks will be established in elements like
 		 * `<li>` or `<td>`.
 		 *
@@ -69,7 +77,7 @@
 
 	/**
 	 * Iterator's active filter. It is set by the {@link #getNextParagraph} method
-	 * when it enters nested editable.
+	 * when it enters a nested editable.
 	 *
 	 * @since 4.3
 	 * @readonly
@@ -85,20 +93,12 @@
 		},
 		listItemNames = { dd: 1, dt: 1, li: 1 };
 
-	// Get a reference for the next element, bookmark nodes are skipped.
-	function getNextSourceNode( node, startFromSibling, lastNode ) {
-		var next = node.getNextSourceNode( startFromSibling, null, lastNode );
-		while ( !bookmarkGuard( next ) )
-			next = next.getNextSourceNode( startFromSibling, null, lastNode );
-		return next;
-	}
-
 	iterator.prototype = {
 		/**
-		 * Returns next paragraph-like element or `null` if reached the end of range.
+		 * Returns the next paragraph-like element or `null` if the end of a range is reached.
 		 *
 		 * @param {String} [blockTag='p'] Name of a block element which will be established by
-		 * iterator in block-less elements (see {@link #enforceRealBlocks}).
+		 * the iterator in block-less elements (see {@link #enforceRealBlocks}).
 		 */
 		getNextParagraph: function( blockTag ) {
 			// The block element to be returned.
@@ -197,8 +197,9 @@
 
 							// The found boundary must be set as the next one at this
 							// point. (#1717)
-							if ( nodeName != 'br' )
+							if ( nodeName != 'br' ) {
 								this._.nextNode = currentNode;
+							}
 						}
 
 						closeRange = 1;
@@ -259,7 +260,7 @@
 				if ( includeNode )
 					range.setEndAt( currentNode, CKEDITOR.POSITION_AFTER_END );
 
-				currentNode = getNextSourceNode( currentNode, continueFromSibling, lastNode );
+				currentNode = this._getNextSourceNode( currentNode, continueFromSibling, lastNode );
 				isLast = !currentNode;
 
 				// We have found a block boundary. Let's close the range and move out of the
@@ -325,7 +326,7 @@
 					// the current range, which could be an <li> child (nested
 					// lists) or the next sibling <li>.
 
-					this._.nextNode = ( block.equals( lastNode ) ? null : getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode ) );
+					this._.nextNode = ( block.equals( lastNode ) ? null : this._getNextSourceNode( range.getBoundaryNodes().endNode, 1, lastNode  ) );
 				}
 			}
 
@@ -351,10 +352,41 @@
 			// Get a reference for the next element. This is important because the
 			// above block can be removed or changed, so we can rely on it for the
 			// next interation.
-			if ( !this._.nextNode )
-				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : getNextSourceNode( block, 1, lastNode );
+			if ( !this._.nextNode ) {
+				this._.nextNode = ( isLast || block.equals( lastNode ) || !lastNode ) ? null : this._getNextSourceNode( block, 1, lastNode );
+			}
 
 			return block;
+		},
+
+		/**
+		 * Gets the next element to check or `null` when the `lastNode` or the
+		 * {@link #range}'s {@link CKEDITOR.dom.range#root root} is reached. Bookmarks are skipped.
+		 *
+		 * @since 4.4.6
+		 * @private
+		 * @param {CKEDITOR.dom.node} node
+		 * @param {Boolean} startFromSibling
+		 * @param {CKEDITOR.dom.node} lastNode
+		 * @returns {CKEDITOR.dom.node}
+		 */
+		_getNextSourceNode: function( node, startFromSibling, lastNode ) {
+			var rootNode = this.range.root,
+				next;
+
+			// Here we are checking in guard function whether current element
+			// reach lastNode(default behaviour) and root node to prevent against
+			// getting out of editor instance root DOM object.
+			// #12484
+			function guardFunction( node ) {
+				return !( node.equals( lastNode ) || node.equals( rootNode ) );
+			}
+
+			next = node.getNextSourceNode( startFromSibling, null, guardFunction );
+			while ( !bookmarkGuard( next ) ) {
+				next = next.getNextSourceNode( startFromSibling, null, guardFunction );
+			}
+			return next;
 		}
 	};
 
@@ -401,7 +433,7 @@
 			walker = new CKEDITOR.dom.walker( range.clone() );
 			walker.evaluator = ignoreBookmarkTextEvaluator;
 			var lastNode = walker.previous();
-			this._.lastNode = lastNode.getNextSourceNode( true );
+			this._.lastNode = lastNode.getNextSourceNode( true, null, range.root );
 
 			// We may have an empty text node at the end of block due to [3770].
 			// If that node is the lastNode, it would cause our logic to leak to the
@@ -522,7 +554,7 @@
 	}
 
 	/**
-	 * Creates {CKEDITOR.dom.iterator} instance for this range.
+	 * Creates a {CKEDITOR.dom.iterator} instance for this range.
 	 *
 	 * @member CKEDITOR.dom.range
 	 * @returns {CKEDITOR.dom.iterator}

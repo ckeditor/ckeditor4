@@ -1,4 +1,5 @@
-﻿/**
+﻿/* global ActiveXObject */
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -23,10 +24,12 @@
 		function createXMLHttpRequest() {
 			// In IE, using the native XMLHttpRequest for local files may throw
 			// "Access is Denied" errors.
-			if ( !CKEDITOR.env.ie || location.protocol != 'file:' )
+			if ( !CKEDITOR.env.ie || location.protocol != 'file:' ) {
 				try {
-				return new XMLHttpRequest();
-			} catch ( e ) {}
+					return new XMLHttpRequest();
+				} catch ( e ) {
+				}
+			}
 
 			try {
 				return new ActiveXObject( 'Msxml2.XMLHTTP' );

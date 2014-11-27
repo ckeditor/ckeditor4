@@ -161,6 +161,25 @@
 				} );
 				textNode.setText( 'foo' );
 			} );
+		},
+
+		// #12300
+		'test change event not fired after navigation key': function() {
+			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
+
+			var textNode = this.editor.editable().getFirst().getFirst(),
+				keyTools = this.keyTools,
+				keyCodesEnum = keyTools.keyCodesEnum;
+
+			this.checkChange( function() {
+				keyTools.keyEvent( keyCodesEnum.KEY_D, null, null, function() {
+					// Textnode change required by IE.
+					textNode.setText( 'food' );
+				} );
+
+				// After setting text - caret is moved to beginning. We don't care - it does not change nothing.
+				keyTools.keyEvent( keyCodesEnum.LEFT, null, true );
+			} );
 		}
 	} );
 

@@ -81,7 +81,7 @@ CKEDITOR.dtd = ( function() {
 		FO = {
 			address: 1, article: 1, aside: 1, blockquote: 1, details: 1, div: 1, dl: 1, fieldset: 1,
 			figure: 1, footer: 1, form: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, header: 1, hgroup: 1,
-			hr: 1, menu: 1, nav: 1, ol: 1, p: 1, pre: 1, section: 1, table: 1, ul: 1
+			hr: 1, main: 1, menu: 1, nav: 1, ol: 1, p: 1, pre: 1, section: 1, table: 1, ul: 1
 		},
 		// Metadata elements.
 		M = { command: 1, link: 1, meta: 1, noscript: 1, script: 1, style: 1 },
@@ -105,8 +105,8 @@ CKEDITOR.dtd = ( function() {
 		abbr: P,
 		address: F,
 		area: E,
-		article: X( { style: 1 }, F ),
-		aside: X( { style: 1 }, F ),
+		article: F,
+		aside: F,
 		audio: X( { source: 1, track: 1 }, F ),
 		b: P,
 		base: E,
@@ -128,7 +128,7 @@ CKEDITOR.dtd = ( function() {
 		del: P, // Treat as normal inline element (not a transparent one).
 		details: X( { summary: 1 }, F ),
 		dfn: P,
-		div: X( { style: 1 }, F ),
+		div: F,
 		dl: { dt: 1, dd: 1 },
 		dt: F,
 		em: P,
@@ -160,6 +160,9 @@ CKEDITOR.dtd = ( function() {
 		legend: P,
 		li: F,
 		link: E,
+		// Can't be a descendant of article, aside, footer, header, nav, but we don't need this
+		// complication. As well as checking if it's used only once.
+		main: F,
 		map: F,
 		mark: P, // Treat as normal inline element (not a transparent one).
 		menu: X( { li: 1 }, F ),
@@ -183,7 +186,7 @@ CKEDITOR.dtd = ( function() {
 		s: P,
 		samp: P,
 		script: T,
-		section: X( { style: 1 }, F ),
+		section: F,
 		select: { optgroup: 1, option: 1 },
 		small: P,
 		source: E,
@@ -245,7 +248,7 @@ CKEDITOR.dtd = ( function() {
 		 */
 		$blockLimit: {
 			article: 1, aside: 1, audio: 1, body: 1, caption: 1, details: 1, dir: 1, div: 1, dl: 1,
-			fieldset: 1, figcaption: 1, figure: 1, footer: 1, form: 1, header: 1, hgroup: 1, menu: 1, nav: 1,
+			fieldset: 1, figcaption: 1, figure: 1, footer: 1, form: 1, header: 1, hgroup: 1, main: 1, menu: 1, nav: 1,
 			ol: 1, section: 1, table: 1, td: 1, th: 1, tr: 1, ul: 1, video: 1
 		},
 
@@ -260,7 +263,7 @@ CKEDITOR.dtd = ( function() {
 		$editable: {
 			address: 1, article: 1, aside: 1, blockquote: 1, body: 1, details: 1, div: 1, fieldset: 1,
 			figcaption: 1, footer: 1, form: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, header: 1, hgroup: 1,
-			nav: 1, p: 1, pre: 1, section: 1
+			main: 1, nav: 1, p: 1, pre: 1, section: 1
 		},
 
 		/**

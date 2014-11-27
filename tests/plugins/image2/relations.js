@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,image,forms,link,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -34,8 +35,7 @@
 
 	bender.test( {
 		'test disable Image plugin when Image2 is loaded': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bot.dialog( 'image', function( dialog ) {
 				try {

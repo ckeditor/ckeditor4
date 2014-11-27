@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -44,7 +45,7 @@
 				name: 'enterP',
 				data: '<p style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</p>',
+				'</p>'
 			}, function( editor ) {
 				var instances = obj2Array( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -60,7 +61,7 @@
 				data: '<p style="text-align:center">' +
 					'<span>sibling</span>' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</p>',
+				'</p>'
 			}, function( editor ) {
 				var instances = obj2Array( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -76,7 +77,7 @@
 				name: 'enterP',
 				data: '<div style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>',
+				'</div>'
 			}, function( editor ) {
 				var instances = obj2Array( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -92,7 +93,7 @@
 				name: 'enterBR',
 				data: '<div style="text-align:center">' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>',
+				'</div>'
 			}, function( editor ) {
 				var instances = obj2Array( editor.widgets.instances ),
 					widget = instances[ 0 ];
@@ -109,7 +110,7 @@
 				data: '<div style="text-align:center">' +
 					'sibling' +
 					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
-				'</div>',
+				'</div>'
 			}, function( editor ) {
 				var instances = obj2Array( editor.widgets.instances ),
 					widget = instances[ 0 ];

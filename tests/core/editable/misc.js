@@ -13,7 +13,7 @@ bender.test( {
 				config: {
 					allowedContent: true
 				}
-			},
+			}
 		}, function( editors, bots ) {
 			that.editorBots = bots;
 			that.editors = editors;

@@ -1,3 +1,5 @@
+/* exported image2TestsTools */
+
 var image2TestsTools = ( function() {
 	'use strict';
 
@@ -67,7 +69,7 @@ var image2TestsTools = ( function() {
 						} );
 					} );
 				};
-			} )( contexts[ i ] )
+			} )( contexts[ i ] );
 		}
 	}
 
@@ -91,7 +93,7 @@ var image2TestsTools = ( function() {
 			var expected = removeId( config.htmlAfter || config.newState._.html ),
 				data = removeId( bot.getData() );
 
-			assert.areSame( fixHtml( expected ), fixHtml( data ), config.msg )
+			assert.areSame( fixHtml( expected ), fixHtml( data ), config.msg );
 		} );
 	}
 
@@ -103,7 +105,7 @@ var image2TestsTools = ( function() {
 		return html.replace( /id="x"/g, '' );
 	}
 
-	function fillContext( context, state, removeId ) {
+	function fillContext( context, state ) {
 		return new CKEDITOR.template( fixHtml( context ) ).output( { state: state._.html } );
 	}
 

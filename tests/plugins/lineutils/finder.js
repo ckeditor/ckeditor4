@@ -66,7 +66,7 @@
 				lookupEls1 = [];
 				lookupEls2 = [];
 			} );
-		}
+		};
 	}
 
 	function assertLookupElements( elements, msg, sort ) {
@@ -151,7 +151,7 @@
 
 		'test lookup greedy find: invisible': greedyTest( {
 			data: 'a<blockquote style="display: none">x</blockquote><div style="display: none">y</div>',
-			assert: function( editor ) {
+			assert: function() {
 				assertLookupElements( [], 'Invisible elements are not considered.' );
 			}
 		} ),

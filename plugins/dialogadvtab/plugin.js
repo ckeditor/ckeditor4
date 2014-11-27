@@ -40,7 +40,7 @@
 	var defaultTabConfig = { id: 1, dir: 1, classes: 1, styles: 1 };
 
 	CKEDITOR.plugins.add( 'dialogadvtab', {
-		requires : 'dialog',
+		requires: 'dialog',
 
 		// Returns allowed content rule for the content created by this plugin.
 		allowedContent: function( tabConfig ) {
@@ -78,13 +78,11 @@
 				id: 'advanced',
 				label: lang.advancedTab,
 				title: lang.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 1,
 					children: []
-				}
-				]
+				} ]
 			};
 
 			var contents = [];
@@ -115,7 +113,7 @@
 							[ lang.notSet, '' ],
 							[ lang.langDirLTR, 'ltr' ],
 							[ lang.langDirRTL, 'rtl' ]
-							],
+						],
 						setup: setupAdvParams,
 						commit: commitAdvParams
 					} );
@@ -170,8 +168,7 @@
 					contents.push( {
 						type: 'hbox',
 						widths: [ '45%', '55%' ],
-						children: [
-							{
+						children: [ {
 							id: 'advCSSClasses',
 							att: 'class',
 							type: 'text',
@@ -181,8 +178,7 @@
 							setup: setupAdvParams,
 							commit: commitAdvParams
 
-						}
-						]
+						} ]
 					} );
 				}
 

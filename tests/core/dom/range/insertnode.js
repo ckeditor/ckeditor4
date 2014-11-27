@@ -3,17 +3,17 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
+	var doc = CKEDITOR.document,
+		html1 = document.getElementById( 'playground' ).innerHTML,
+		html2 = document.getElementById( 'playground2' ).innerHTML;
 
-	var tests =
-	{
+	var tests = {
 		setUp: function() {
-			 document.getElementById( 'playground' ).innerHTML = html1;
-			 document.getElementById( 'playground2' ).innerHTML = html2;
+			document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'playground2' ).innerHTML = html2;
 		},
 
-		test_insertNode_ElementContents : function() {
+		test_insertNode_ElementContents: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -29,7 +29,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_ElementCollapsed : function() {
+		test_insertNode_ElementCollapsed: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -45,7 +45,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_ElementNotCollapsed : function() {
+		test_insertNode_ElementNotCollapsed: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -62,7 +62,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_DiffElements : function() {
+		test_insertNode_DiffElements: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -82,7 +82,7 @@
 			assert.isTrue( range.startContainer.getChild( range.startOffset ).equals( newNode ), 'Start must be on new node' );
 		},
 
-		test_insertNode_TextCollapsed : function() {
+		test_insertNode_TextCollapsed: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -98,7 +98,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		test_insertNode_TextNotCollapsed : function() {
+		test_insertNode_TextNotCollapsed: function() {
 			var newNode = new CKEDITOR.dom.element( 'span' );
 			newNode.setHtml( 'test_' );
 
@@ -135,10 +135,3 @@
 
 	bender.test( tests );
 } )();
-
-	//<![CDATA[
-
-html1 = document.getElementById( 'playground' ).innerHTML;
-html2 = document.getElementById( 'playground2' ).innerHTML;
-
-	//]]>

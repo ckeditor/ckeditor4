@@ -18,17 +18,6 @@
 		}
 	}
 
-	function getNonEmptyChildren( element ) {
-		var retval = [];
-		var children = element.getChildren();
-		for ( var i = 0; i < children.count(); i++ ) {
-			var child = children.getItem( i );
-			if ( !( child.type === CKEDITOR.NODE_TEXT && ( /^[ \t\n\r]+$/ ).test( child.getText() ) ) )
-				retval.push( child );
-		}
-		return retval;
-	}
-
 	// Dialog reused by both 'creatediv' and 'editdiv' commands.
 	// @param {Object} editor
 	// @param {String} command	The command name which indicate what the current command is.
@@ -87,8 +76,9 @@
 						field.commit = function( element ) {
 							var fieldValue = this.getValue();
 							// ignore default element attribute values
-							if ( 'dir' == field.id && element.getComputedStyle( 'direction' ) == fieldValue )
+							if ( field.id == 'dir' && element.getComputedStyle( 'direction' ) == fieldValue ) {
 								return;
+							}
 
 							if ( fieldValue )
 								element.setAttribute( field.id, fieldValue );
@@ -117,9 +107,6 @@
 			var bookmarks = selection.createBookmarks();
 			var i, iterator;
 
-			// Calcualte a default block tag if we need to create blocks.
-			var blockTag = editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p';
-
 			// collect all included elements from dom-iterator
 			for ( i = 0; i < ranges.length; i++ ) {
 				iterator = ranges[ i ].createIterator();
@@ -141,7 +128,7 @@
 			CKEDITOR.dom.element.clearAllMarkers( database );
 
 			var blockGroups = groupByDivLimit( containedBlocks );
-			var ancestor, blockEl, divElement;
+			var ancestor, divElement;
 
 			for ( i = 0; i < blockGroups.length; i++ ) {
 				var currentNode = blockGroups[ i ][ 0 ];
@@ -165,7 +152,6 @@
 				}
 
 				// Wrapped blocks counting
-				var fixedBlock = null;
 				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
@@ -197,7 +183,8 @@
 		function groupByDivLimit( nodes ) {
 			var groups = [],
 				lastDivLimit = null,
-				path, block;
+				block;
+
 			for ( var i = 0; i < nodes.length; i++ ) {
 				block = nodes[ i ];
 				var limit = getDivContainer( block );
@@ -240,17 +227,14 @@
 			title: editor.lang.div.title,
 			minWidth: 400,
 			minHeight: 165,
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: editor.lang.common.generalTab,
 				title: editor.lang.common.generalTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'elementStyle',
 						type: 'select',
 						style: 'width: 100%;',
@@ -259,7 +243,7 @@
 						// Options are loaded dynamically.
 						items: [
 							[ editor.lang.common.notSet, '' ]
-							],
+						],
 						onChange: function() {
 							commitInternally.call( this, [ 'info:elementStyle', 'info:class', 'advanced:dir', 'advanced:style' ] );
 						},
@@ -273,54 +257,48 @@
 								var style = styles[ styleName ];
 								style.applyToObject( element, editor );
 							}
-							else
+							else {
 								element.removeAttribute( 'style' );
+							}
 						}
 					},
-						{
+					{
 						id: 'class',
 						type: 'text',
 						requiredContent: 'div(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						'default': ''
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'advanced',
 				label: editor.lang.common.advancedTab,
 				title: editor.lang.common.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 1,
-					children: [
-						{
+					children: [ {
 						type: 'hbox',
 						widths: [ '50%', '50%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'id',
 							requiredContent: 'div[id]',
 							label: editor.lang.common.id,
 							'default': ''
 						},
-							{
+						{
 							type: 'text',
 							id: 'lang',
 							requiredContent: 'div[lang]',
 							label: editor.lang.common.langCode,
 							'default': ''
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'hbox',
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'style',
 							requiredContent: 'div{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
@@ -330,23 +308,20 @@
 							commit: function( element ) {
 								element.setAttribute( 'style', this.getValue() );
 							}
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'hbox',
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'title',
 							requiredContent: 'div[title]',
 							style: 'width: 100%;',
 							label: editor.lang.common.advisoryTitle,
 							'default': ''
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'select',
 						id: 'dir',
 						requiredContent: 'div[dir]',
@@ -355,21 +330,12 @@
 						'default': '',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[
-							editor.lang.common.langDirLtr,
-							'ltr'
-							],
-							[
-							editor.lang.common.langDirRtl,
-							'rtl'
-							]
-							]
-					}
-					]
-				}
+							[ editor.lang.common.langDirLtr, 'ltr' ],
+							[ editor.lang.common.langDirRtl, 'rtl' ]
+						]
+					} ] }
 				]
-			}
-			],
+			} ],
 			onLoad: function() {
 				setupFields.call( this );
 
@@ -447,9 +413,11 @@
 	CKEDITOR.dialog.add( 'creatediv', function( editor ) {
 		return divDialog( editor, 'creatediv' );
 	} );
+
 	CKEDITOR.dialog.add( 'editdiv', function( editor ) {
 		return divDialog( editor, 'editdiv' );
 	} );
+
 } )();
 
 /**

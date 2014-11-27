@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'af' ] = {
 	// ARIA description.
-	editor: 'Teksverwerker',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editor: 'Woordverwerker',
+	editorPanel: 'Woordverwerkerpaneel',
 
 	// Common messages and labels.
 	common: {
@@ -32,18 +32,18 @@ CKEDITOR.lang[ 'af' ] = {
 		url: 'URL',
 		protocol: 'Protokol',
 		upload: 'Oplaai',
-		uploadSubmit: 'Stuur na bediener',
-		image: 'Afbeelding',
+		uploadSubmit: 'Stuur aan die bediener',
+		image: 'Beeld',
 		flash: 'Flash',
 		form: 'Vorm',
 		checkbox: 'Merkhokkie',
 		radio: 'Radioknoppie',
 		textField: 'Teksveld',
-		textarea: 'Teks-area',
-		hiddenField: 'Blinde veld',
+		textarea: 'Teksarea',
+		hiddenField: 'Versteekteveld',
 		button: 'Knop',
 		select: 'Keuseveld',
-		imageButton: 'Afbeeldingsknop',
+		imageButton: 'Beeldknop',
 		notSet: '<geen instelling>',
 		id: 'Id',
 		name: 'Naam',
@@ -59,14 +59,14 @@ CKEDITOR.lang[ 'af' ] = {
 		cancel: 'Kanselleer',
 		close: 'Sluit',
 		preview: 'Voorbeeld',
-		resize: 'Sleep om te herskaal',
+		resize: 'Skalierung',
 		generalTab: 'Algemeen',
 		advancedTab: 'Gevorderd',
-		validateNumberFailed: 'Hierdie waarde is nie \'n getal nie.',
-		confirmNewPage: 'Alle wysiginge sal verlore gaan. Is u seker dat u \'n nuwe bladsy wil laai?',
-		confirmCancel: 'Sommige opsies is gewysig. Is u seker dat u hierdie dialoogvenster wil sluit?',
+		validateNumberFailed: 'Hierdie waarde is nie \'n nommer nie.',
+		confirmNewPage: 'Alle wysiginge sal verlore gaan. Is jy seker dat jy \'n nuwe bladsy wil laai?',
+		confirmCancel: 'Sommige opsies is gewysig. Is jy seker dat jy hierdie dialoogvenster wil sluit?',
 		options: 'Opsies',
-		target: 'Doel',
+		target: 'Teiken',
 		targetNew: 'Nuwe venster (_blank)',
 		targetTop: 'Boonste venster (_top)',
 		targetSelf: 'Selfde venster (_self)',
@@ -77,22 +77,22 @@ CKEDITOR.lang[ 'af' ] = {
 		cssClasses: 'CSS klasse',
 		width: 'Breedte',
 		height: 'Hoogte',
-		align: 'Oplyn',
+		align: 'Orienteerung',
 		alignLeft: 'Links',
 		alignRight: 'Regs',
-		alignCenter: 'Sentreer',
-		alignJustify: 'Uitvul',
+		alignCenter: 'Middel',
+		alignJustify: 'Eweredig',
 		alignTop: 'Bo',
 		alignMiddle: 'Middel',
 		alignBottom: 'Onder',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Geen',
+		invalidValue	: 'Ongeldige waarde',
 		invalidHeight: 'Hoogte moet \'n getal wees',
 		invalidWidth: 'Breedte moet \'n getal wees.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: 'Die waarde vir die "%1" veld moet \'n posetiewe getal wees met of sonder \'n geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
+		invalidHtmlLength: 'Die waarde vir die  "%1" veld moet \'n posetiewe getal wees met of sonder \'n geldige HTML eenheid (px of %).',
+		invalidInlineStyle: 'Ongeldige CSS. Formaat is een of meer sleutel-wert paare, "naam : wert" met kommapunte gesky.',
+		cssLengthTooltip: 'Voeg \'n getal wert in pixel in, of \'n waarde met geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nie beskikbaar nie</span>'

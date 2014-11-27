@@ -55,7 +55,7 @@ CKEDITOR.plugins.setLang( 'link', 'fr', {
 	targetPopup: '<fenêtre popup>',
 	targetPopupName: 'Nom de la fenêtre popup',
 	title: 'Lien',
-	toAnchor: 'Transformer le lien en ancre dans le texte',
+	toAnchor: 'Ancre',
 	toEmail: 'E-mail',
 	toUrl: 'URL',
 	toolbar: 'Lien',

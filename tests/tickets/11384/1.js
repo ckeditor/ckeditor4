@@ -28,7 +28,6 @@
 				var sel = editor.getSelection(),
 					paragraph = editor.editable().getFirst(),
 					textNode = paragraph.getFirst(),
-					editable = editor.editable(),
 					itThrew = false;
 
 				// Set seleciton 12[345678]90.
@@ -51,7 +50,7 @@
 					resume( function() {
 						revert();
 						assert.isFalse( itThrew, 'selectRanges has not thrown an error' );
-					} )
+					} );
 				} );
 
 				// Ensure async.

@@ -16,7 +16,7 @@ function getTest( casee ) {
 		editor.insertText( casee );
 
 		assert.areSame( '<p>A<strong>B' + casee.replace( '&', '&amp;' ) + 'C</strong>D</p>', bot.getData() );
-	}
+	};
 }
 
 bender.editor = { creator: 'replace', config: {

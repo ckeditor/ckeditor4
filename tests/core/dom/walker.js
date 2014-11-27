@@ -354,6 +354,14 @@
 			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'bogusBr' ) ) );
 		},
 
+		'test walker.invisible() - br followed by bogus br': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'brFollowedByBogus' ) ) );
+		},
+
+		'test walker.invisible() - bogus br following normal br': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'bogusBr2' ) ) );
+		},
+
 		'test walker.invisible() - nbsp': function() {
 			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nbsp' ).getFirst() ) );
 		},
@@ -384,6 +392,10 @@
 
 		'test walker.invisible() - non empty inline element': function() {
 			assert.isFalse( CKEDITOR.dom.walker.invisible()( doc.getById( 'nonEmptyInline' ).getFirst() ) );
+		},
+
+		'test walker.invisible() - inline element containing a ZWS character': function() {
+			assert.isTrue( CKEDITOR.dom.walker.invisible()( doc.getById( 'zwsInline' ) ) );
 		},
 
 		'test walker.invisible() - block with a bogus br only': function() {

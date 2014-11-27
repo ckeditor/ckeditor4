@@ -1,17 +1,19 @@
 /* bender-tags: editor,unit */
 
+( function() {
+	'use strict';
+
 	var doc = CKEDITOR.document,
 		tools = bender.tools;
 
 	CKEDITOR.focusManager._.blurDelay = 0;
 
 	// This group of tests plays upon the editable div.
-	bender.test(
-	{
+	bender.test( {
 		// Initialize the editor instance.
-		'async:init' : function() {
+		'async:init': function() {
 			var tc = this;
-			var editor = new CKEDITOR.editor( { autoParagraph : false } );
+			var editor = new CKEDITOR.editor( { autoParagraph: false } );
 			editor.on( 'loaded', function() {
 				tc.editor = editor;
 				tc.callback();
@@ -19,7 +21,7 @@
 		},
 
 		// Setup reset editor to blank as well as keeping the editor focused.
-		setUp : function() {
+		setUp: function() {
 			var tc = this;
 			var editor = tc.editor;
 			if ( !editor.editable() )
@@ -28,7 +30,7 @@
 		},
 
 		// Test all editable APIs.
-		testFocus : function() {
+		testFocus: function() {
 			var editor = this.editor;
 			var editable = editor.editable();
 			bender.tools.focus( this.editor, function() {
@@ -40,14 +42,14 @@
 			} );
 		},
 
-		testData : function() {
+		testData: function() {
 			var editor = this.editor;
 			editor.setData( '<p>foo</p>' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.editable().getHtml() ), 'set data' );
 			assert.areSame( '<p>foo</p>', tools.compatHtml( editor.getData() ), 'retrieve data' );
 		},
 
-		testAttachListeners : function() {
+		testAttachListeners: function() {
 			var editor = this.editor,
 				editable = editor.editable();
 
@@ -76,7 +78,7 @@
 			editor.editable( doc.getById( 'editable' ) );
 		},
 
-		'testAttachClass' : function() {
+		'testAttachClass': function() {
 			var ed = this.editor,
 				edt = ed.editable();
 
@@ -86,7 +88,7 @@
 			assert.isFalse( edt.hasClass( 'foo' ), 'check class cleaned up' );
 		},
 
-		'testChangeAttr' : function() {
+		'testChangeAttr': function() {
 			var ed = this.editor;
 
 			// Attach a new editable for test.
@@ -115,4 +117,6 @@
 			assert.isUndefined( this.editor.window );
 			assert.isUndefined( this.editor.document );
 		}
-} );
+	} );
+
+} )();

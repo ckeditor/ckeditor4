@@ -1,3 +1,5 @@
+/* exported insertionDT */
+
 'use strict';
 
 var insertionDT = ( function() {
@@ -50,7 +52,7 @@ var insertionDT = ( function() {
 				// Be sure that the data produced by the editor is not formatted.
 				editor.dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
 
-				if ( --pending == 0 )
+				if ( --pending === 0 )
 					bender.test( that );
 			}
 		},
@@ -96,11 +98,15 @@ var insertionDT = ( function() {
 							var startContainer = range.startContainer,
 								startOffset = range.startOffset;
 							// Limit the fix only to non-block elements.(#3950)
-							if ( startOffset ==
-							     ( startContainer.getChildCount ?
-							      startContainer.getChildCount() :
-							      startContainer.getLength() ) &&
-							     !startContainer.isBlockBoundary() )
+							if (
+								startOffset ==
+								(
+									startContainer.getChildCount ?
+										startContainer.getChildCount() :
+										startContainer.getLength()
+								) &&
+								!startContainer.isBlockBoundary()
+							)
 								range.setStartAfter( startContainer );
 							else
 								break;
@@ -128,7 +134,7 @@ var insertionDT = ( function() {
 							node = node.getParent();
 					}
 
-					return node.$ ? node: null;
+					return node.$ ? node : null;
 				}
 			} );
 			revertChanges2 = replaceMethods( CKEDITOR.dom.range.prototype, {
@@ -160,10 +166,10 @@ var insertionDT = ( function() {
 					// versions of the tests, replace non-breaking-space char with &nbsp;
 					result = result.replace( /\u00a0/g, '&nbsp;' );
 
-					expectedForMode = checkAllModes ? expected: expected[ mode ];
+					expectedForMode = checkAllModes ? expected : expected[ mode ];
 
 					// Use assert.isMatching if expected is a regexp (has exec method).
-					assert[ expectedForMode.exec ? 'isMatching': 'areSame' ]( expectedForMode, result,
+					assert[ expectedForMode.exec ? 'isMatching' : 'areSame' ]( expectedForMode, result,
 						( message || 'editor\'s content should equal expected value' ) +
 						' (editable: "' + editableName + '" & mode: "' + mode + '")' );
 				}
@@ -184,9 +190,9 @@ var insertionDT = ( function() {
 				}
 
 				return function() {
-					for ( name in oldFns )
+					for ( var name in oldFns )
 						obj[ name ] = oldFns[ name ];
-				}
+				};
 			}
 		},
 

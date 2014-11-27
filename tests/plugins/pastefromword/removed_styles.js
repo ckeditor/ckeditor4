@@ -1,13 +1,14 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
-		config : {
-			pasteFromWordRemoveStyles : 1,
-			pasteFromWordRemoveFontStyles : 1
+		config: {
+			pasteFromWordRemoveStyles: 1,
+			pasteFromWordRemoveFontStyles: 1
 		}
 	};
 
@@ -15,16 +16,12 @@
 
 	function testWordFilter( editor ) {
 		return function( input, output ) {
-			assertPasteEvent( editor,
-			{
+			assertPasteEvent( editor, {
 				dataValue: compact( input, 1 )
-			}, function( data, msg ) {
-
-				assert.areSame( compact( output ),
-					compact( data.dataValue, 1 ) );
-			}
-			, 'tc1', true );
-		}
+			}, function( data ) {
+				assert.areSame( compact( output ), compact( data.dataValue, 1 ) );
+			}, 'tc1', true );
+		};
 	}
 
 	bender.test( {
@@ -36,5 +33,4 @@
 			bender.tools.testInputOut( 'list_1', testWordFilter( this.editor ) );
 		}
 	} );
-
 } )();

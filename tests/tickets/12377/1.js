@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,image */
 /* bender-ckeditor-plugins: image,toolbar */
 
-(function() {
+( function() {
 	'use strict';
 
 	bender.editor = {};
@@ -9,7 +9,6 @@
 	bender.test( {
 		'test image dialog with removed preview and basic panel - image loaded': function() {
 			var bot = this.editorBot,
-				editor = this.editor,
 				src = '%BASE_PATH%_assets/img.gif',
 				src2 = '%BASE_PATH%_assets/logo.png';
 
@@ -42,7 +41,6 @@
 
 		'test image dialog with removed preview and basic panel - image load error': function() {
 			var bot = this.editorBot,
-				editor = this.editor,
 				src = 'img404.gif',
 				src2 = 'anotherimg404.gif';
 
@@ -73,4 +71,4 @@
 			} );
 		}
 	} );
-})();
+} )();

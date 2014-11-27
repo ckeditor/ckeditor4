@@ -1,11 +1,12 @@
 /* bender-tags: editor,unit,insertion */
+/* global insertionDT */
 
 ( function() {
 	'use strict';
 
 	insertionDT.run( {
-		autoParagraph : false,
-		allowedContent : true // Disable filter.
+		autoParagraph: false,
+		allowedContent: true
 	}, {
 		'plain text htmlification': function() {
 			var a = this.createAssertInsertionFunction( 'body', '', 'insertText' );
@@ -24,11 +25,11 @@
 			a( '^', '<p>foo</p><p><br />bar^</p>',												'3 LFs - blocks and BR' );
 
 			a.insertion = '\t';
-			a( '^foo', '&nbsp;&nbsp; &nbsp;^foo', 													'tab -> whitespaces x 4' );
+			a( '^foo', '&nbsp;&nbsp; &nbsp;^foo',												'tab -> whitespaces x 4' );
 			a.insertion = 'foo  bar';
-			a( '^', 'foo &nbsp;bar^', 															'consequent whitespaces' );
+			a( '^', 'foo &nbsp;bar^',															'consequent whitespaces' );
 			a.insertion = 'foo\t  \n bar';
-			a( '^', 'foo&nbsp;&nbsp; &nbsp; &nbsp;<br />&nbsp;bar^', 							'whitespaces between tab and LF' );
+			a( '^', 'foo&nbsp;&nbsp; &nbsp; &nbsp;<br />&nbsp;bar^',							'whitespaces between tab and LF' );
 			a.insertion = 'foo  \n\n  bar';
 			a( '^', '<p>foo' + ( !CKEDITOR.env.needsNbspFiller ? ' &nbsp;' : '' ) + '</p><p>&nbsp; bar^</p>', 'whitespaces between paragraphs' );
 

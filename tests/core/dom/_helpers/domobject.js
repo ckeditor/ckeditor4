@@ -1,8 +1,9 @@
+/* exported appendDomObjectTests */
+
 var appendDomObjectTests = function( objectFactory, tests ) {
-	return CKEDITOR.tools.extend( tests,
-	{
+	return CKEDITOR.tools.extend( tests, {
 		// tests for objectFactory
-		test_objectFactory : function() {
+		test_objectFactory: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest2' ),
 				c = objectFactory( 'domObjectTest1' );
@@ -21,13 +22,13 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.areEqual( a.$, c.$ );
 		},
 
-		test_domObject_equals : function() {
+		test_domObject_equals: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest1' );
 			assert.isTrue( a.equals( b ) );
 		},
 
-		test_domObject_equals2 : function() {
+		test_domObject_equals2: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest2' ),
 				c = objectFactory( 'domObjectNonExistingElement' ),
@@ -38,24 +39,24 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.isFalse( a.equals( b ) );
 			assert.isFalse( a.equals( c ) );
 			assert.isFalse( a.equals( d ) );
-			assert.isFalse( a.equals( { $ : true } ) );
+			assert.isFalse( a.equals( { $: true } ) );
 		},
 
-		test_domObject_private1 : function() {
+		test_domObject_private1: function() {
 			var a = objectFactory( 'domObjectTest1' );
 			var b = objectFactory( 'domObjectTest1' );
 
 			assert.areSame( a.getPrivate(), b.getPrivate() );
 		},
 
-		test_domObject_private2 : function() {
+		test_domObject_private2: function() {
 			var a = objectFactory( 'domObjectTest1' );
 			var b = objectFactory( 'domObjectTest2' );
 
 			assert.areNotSame( a.getPrivate(), b.getPrivate() );
 		},
 
-		test_domObject_custom_data_1 : function() {
+		test_domObject_custom_data_1: function() {
 			var obj = {},
 				str = 'aaa"><&gt;&lt;',
 				a = objectFactory( 'domObjectTest1' ),
@@ -77,7 +78,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.isNull( c.getCustomData( 'x' ) );
 		},
 
-		test_domObject_removeCustomData : function() {
+		test_domObject_removeCustomData: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest1' ),
 				c = objectFactory( 'domObjectTest2' );
@@ -95,7 +96,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.isNull( a.removeCustomData( 'x' ) );
 
 			// the "true undefined" :D
-			a.setCustomData( 'y', ( function( u ) { return u; }() ) );
+			a.setCustomData( 'y', undefined );
 
 			// check if undefined properties are also removed
 			assert.isUndefined( a.removeCustomData( 'y' ) );
@@ -107,7 +108,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.isNull( a.removeCustomData( 'z' ) );
 		},
 
-		test_domObject_clearCustomData : function() {
+		test_domObject_clearCustomData: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest1' ),
 				c = objectFactory( 'domObjectTest2' );
@@ -121,7 +122,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.areSame( 1, c.getCustomData( 'x' ) );
 		},
 
-		'test custom data after cloning' : function() {
+		'test custom data after cloning': function() {
 			var a = objectFactory( 'domObjectTest1' );
 
 			if ( typeof a.clone != 'function' )
@@ -143,7 +144,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			assert.areEqual( 1, a.getCustomData( 'x' ) );
 		},
 
-		test_domObject_getUniquieId : function() {
+		test_domObject_getUniquieId: function() {
 			var a = objectFactory( 'domObjectTest1' ),
 				b = objectFactory( 'domObjectTest1' ),
 				c = objectFactory( 'domObjectTest2' );
@@ -156,7 +157,7 @@ var appendDomObjectTests = function( objectFactory, tests ) {
 			var evtCouter = 0,
 				a = objectFactory( 'domObjectTest1' );
 
-			a.on( 'evt', function( evt ) {
+			a.on( 'evt', function() {
 				evtCouter++;
 			} );
 

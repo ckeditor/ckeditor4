@@ -295,7 +295,7 @@
 				// 3. Strip whitepsaces around semicolon.
 				// 4. Always end with semicolon
 				return retval.replace( /(?:^|;)\s*([A-Z-_]+)(:\s*)/ig,
-						function( match, property, colon ) {
+						function( match, property ) {
 							return property.toLowerCase() + ': ';
 						} )
 					.replace( /\s+(?:;\s*|$)/g, ';' )
@@ -595,8 +595,7 @@
 				element.setHtml( html );
 			}
 
-			var doc = element.getDocument(),
-				ranges = [],
+			var ranges = [],
 				// Walk prepared to traverse the inner dom tree of this element.
 				walkerRange = new CKEDITOR.dom.range( root );
 
@@ -1097,7 +1096,7 @@
 						}
 					}
 				}
-			};
+			}
 
 			return function( element, html ) {
 				root = element.getDocument().getBody();
@@ -1138,7 +1137,7 @@
 				}
 
 				return range;
-			}
+			};
 		} )(),
 
 		/**
@@ -1202,7 +1201,7 @@
 				return clone;
 			}
 
-			var html, clone,
+			var clone,
 				startMarker, endMarker,
 				addressLength, startAddress, endAddress,
 				startContainer, endContainer;
@@ -1294,7 +1293,7 @@
 			}
 
 			return bender.tools.range.getWithHtml( editor.editable(), ranges[ 0 ] );
-		},
+		}
 	};
 
 	bender.tools.html = {

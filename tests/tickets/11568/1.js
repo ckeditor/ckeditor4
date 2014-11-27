@@ -6,7 +6,7 @@
 
 	bender.editor = {
 		config: {
-			stylesSet : [ {
+			stylesSet: [ {
 				name: 'Square Bulleted List',
 				element: 'ul',
 				styles: { 'list-style-type': 'square' }

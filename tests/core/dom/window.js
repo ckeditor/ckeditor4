@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,dom */
+/* global appendDomObjectTests */
 
 var loadCalled,
 	testWindow = new CKEDITOR.dom.window( window ),

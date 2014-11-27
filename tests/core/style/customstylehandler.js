@@ -10,7 +10,7 @@
 			bender.tools.setUpEditors( {
 				editor: {
 					name: 'editor1'
-				},
+				}
 			}, function( editors, bots ) {
 				that.editorBots = bots;
 				that.editors = editors;
@@ -109,16 +109,17 @@
 
 		'test editor#applyStyle and editor#removeStyle execute custom style methods': function() {
 			var applied = 0,
-				removed = 0,
-				styleClass = CKEDITOR.style.addCustomHandler( {
-					type: 'testEditorMethods1',
-					apply: function() {
-						applied += 1;
-					},
-					remove: function() {
-						removed += 1;
-					}
-				} );
+				removed = 0;
+
+			CKEDITOR.style.addCustomHandler( {
+				type: 'testEditorMethods1',
+				apply: function() {
+					applied += 1;
+				},
+				remove: function() {
+					removed += 1;
+				}
+			} );
 
 			var style = new CKEDITOR.style( { type: 'testEditorMethods1' } );
 

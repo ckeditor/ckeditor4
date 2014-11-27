@@ -45,7 +45,7 @@
 				filter;
 
 			if ( filterRules )
-			 	filter = new CKEDITOR.filter( filterRules );
+				filter = new CKEDITOR.filter( filterRules );
 
 			if ( tcs[ name ] )
 				throw new Error( 'Test named "' + name + '" already exists' );

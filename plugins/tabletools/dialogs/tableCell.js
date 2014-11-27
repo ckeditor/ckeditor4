@@ -9,8 +9,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
-		heightPattern = /^(\d+(?:\.\d+)?)px$/,
-		bind = CKEDITOR.tools.bind,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
@@ -66,30 +64,25 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		title: langCell.title,
 		minWidth: CKEDITOR.env.ie && CKEDITOR.env.quirks ? 450 : 410,
 		minHeight: CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ? 230 : 220,
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: langCell.title,
 			accessKey: 'I',
-			elements: [
-				{
+			elements: [ {
 				type: 'hbox',
 				widths: [ '40%', '5%', '40%' ],
-				children: [
-					{
+				children: [ {
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						type: 'hbox',
 						widths: [ '70%', '30%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'width',
 							width: '100px',
 							label: langCommon.width,
-							validate: validate[ 'number' ]( langCell.invalidWidth ),
+							validate: validate.number( langCell.invalidWidth ),
 
 							// Extra labelling of width unit type.
 							onLoad: function() {
@@ -126,7 +119,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							},
 							'default': ''
 						},
-							{
+						{
 							type: 'select',
 							id: 'widthType',
 							label: editor.lang.table.widthUnit,
@@ -135,22 +128,20 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							items: [
 								[ langTable.widthPx, 'px' ],
 								[ langTable.widthPc, '%' ]
-								],
+							],
 							setup: setupCells( getCellWidthType )
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'hbox',
 						widths: [ '70%', '30%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'height',
 							label: langCommon.height,
 							width: '100px',
 							'default': '',
-							validate: validate[ 'number' ]( langCell.invalidHeight ),
+							validate: validate.number( langCell.invalidHeight ),
 
 							// Extra labelling of height unit type.
 							onLoad: function() {
@@ -180,14 +171,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								element.removeAttribute( 'height' );
 							}
 						},
-							{
+						{
 							id: 'htmlHeightType',
 							type: 'html',
 							html: '<br />' + langTable.widthPx
-						}
-						]
+						} ]
 					},
-						spacer,
+					spacer,
 					{
 						type: 'select',
 						id: 'wordWrap',
@@ -196,7 +186,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						items: [
 							[ langCell.yes, 'yes' ],
 							[ langCell.no, 'no' ]
-							],
+						],
 						setup: setupCells( function( element ) {
 							var wordWrapAttr = element.getAttribute( 'noWrap' ),
 								wordWrapStyle = element.getStyle( 'white-space' );
@@ -213,7 +203,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							element.removeAttribute( 'noWrap' );
 						}
 					},
-						spacer,
+					spacer,
 					{
 						type: 'select',
 						id: 'hAlign',
@@ -225,7 +215,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCommon.alignCenter, 'center' ],
 							[ langCommon.alignRight, 'right' ],
 							[ langCommon.alignJustify, 'justify' ]
-							],
+						],
 						setup: setupCells( function( element ) {
 							var alignAttr = element.getAttribute( 'align' ),
 								textAlignStyle = element.getStyle( 'text-align' );
@@ -243,7 +233,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							selectedCell.removeAttribute( 'align' );
 						}
 					},
-						{
+					{
 						type: 'select',
 						id: 'vAlign',
 						label: langCell.vAlign,
@@ -254,7 +244,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							[ langCommon.alignMiddle, 'middle' ],
 							[ langCommon.alignBottom, 'bottom' ],
 							[ langCell.alignBaseline, 'baseline' ]
-							],
+						],
 						setup: setupCells( function( element ) {
 							var vAlignAttr = element.getAttribute( 'vAlign' ),
 								vAlignStyle = element.getStyle( 'vertical-align' );
@@ -282,15 +272,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 							element.removeAttribute( 'vAlign' );
 						}
-					}
-					]
+					} ]
 				},
-					spacer,
+				spacer,
 				{
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						type: 'select',
 						id: 'cellType',
 						label: langCell.cellType,
@@ -298,7 +286,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						items: [
 							[ langCell.data, 'td' ],
 							[ langCell.header, 'th' ]
-							],
+						],
 						setup: setupCells( function( selectedCell ) {
 							return selectedCell.getName();
 						} ),
@@ -306,7 +294,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							selectedCell.renameNode( this.getValue() );
 						}
 					},
-						spacer,
+					spacer,
 					{
 						type: 'text',
 						id: 'rowSpan',
@@ -326,7 +314,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								selectedCell.removeAttribute( 'rowSpan' );
 						}
 					},
-						{
+					{
 						type: 'text',
 						id: 'colSpan',
 						label: langCell.colSpan,
@@ -345,13 +333,12 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 								selectedCell.removeAttribute( 'colSpan' );
 						}
 					},
-						spacer,
+					spacer,
 					{
 						type: 'hbox',
 						padding: 0,
 						widths: [ '60%', '40%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'bgColor',
 							label: langCell.bgColor,
@@ -376,7 +363,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'bgColorChoose',
-							"class": 'colorChooser',
+							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
 								// Stick the element to the bottom (#5587)
@@ -389,16 +376,14 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									this.focus();
 								}, this );
 							}
-						} : spacer
-						]
+						} : spacer ]
 					},
-						spacer,
+					spacer,
 					{
 						type: 'hbox',
 						padding: 0,
 						widths: [ '60%', '40%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'borderColor',
 							label: langCell.borderColor,
@@ -423,7 +408,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						colorDialog ? {
 							type: 'button',
 							id: 'borderColorChoose',
-							"class": 'colorChooser',
+							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {
@@ -437,16 +422,11 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									this.focus();
 								}, this );
 							}
-						} : spacer
-						]
-					}
-					]
-				}
-				]
-			}
-			]
-		}
-		],
+						} : spacer ]
+					} ]
+				} ]
+			} ]
+		} ],
 		onShow: function() {
 			this.cells = CKEDITOR.plugins.tabletools.getSelectedCells( this._.editor.getSelection() );
 			this.setupContent( this.cells );

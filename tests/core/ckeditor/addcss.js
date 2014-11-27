@@ -2,9 +2,14 @@
 
 CKEDITOR.addCss( 'p{float:left;}' );
 
-bender.editor = { startupData : '<p>foo</p>', config : { contentsLangDirection : 'rtl' } };
-bender.test(
-{
+bender.editor = {
+	startupData: '<p>foo</p>',
+	config: {
+		contentsLangDirection: 'rtl'
+	}
+};
+
+bender.test( {
 	'test content styles': function() {
 		var editable = this.editor.editable();
 		var p = editable.getFirst();

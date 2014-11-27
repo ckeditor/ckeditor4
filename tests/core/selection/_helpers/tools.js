@@ -1,3 +1,6 @@
+/* global rangy */
+/* exported testSelection, testSelectedElement, testSelectedText, testStartElement, assertSelectionsAreEqual */
+
 var tools = bender.tools,
 	doc = CKEDITOR.document;
 
@@ -25,19 +28,19 @@ function testSelection( markup ) {
 
 	var sourceRanges = makeRanges( markup );
 	var domSel = rangy.getSelection();
+	var i, range, length;
 
 	// Clear out current selection.
 	domSel.removeAllRanges();
 
 	// Make the selection.
-	for ( var i = 0, range, length = sourceRanges.length;
-		  range = sourceRanges[ i ], i < length; i++ ) {
+	for ( i = 0, range, length = sourceRanges.length; range = sourceRanges[ i ], i < length; i++ ) {
 		domSel.addRange( convertRange( range ) );
 	}
 
 	/* Test selection::getRanges */
 	var sel = doc.getSelection(), readRanges = sel.getRanges();
-	for ( var i = 0, length = readRanges.length; i < length; i++ )
+	for ( i = 0, length = readRanges.length; i < length; i++ )
 		assert.isTrue( checkRangeEqual( readRanges[ i ], sourceRanges[ i ] ), 'get ranges result doesn\'t match original on selection: ' + markup );
 
 	/* Test selection::selectRanges */
@@ -45,7 +48,7 @@ function testSelection( markup ) {
 
 	// Retrieve the updated ranges after hand.
 	var madeRanges = sel.getRanges();
-	for ( var i = 0; i < domSel.rangeCount; i++ )
+	for ( i = 0; i < domSel.rangeCount; i++ )
 		assert.isTrue( checkRangeEqual( sourceRanges[ i ], madeRanges[ i ] ), 'select ranges result doesn\'t match original on selection: ' + markup );
 }
 
@@ -121,9 +124,8 @@ function checkRangeEqual( one, theOther ) {
 		// Stop when we're encountering a text node (filler and empty text nodes are excluded)
 		// or when we've already walked "through" an element.
 		else if ( node.type == CKEDITOR.NODE_TEXT ?
-				CKEDITOR.tools.trim( node.getText() ).length
-				&& node.getText() != '\u200B'
-				: isOut && ( node.equals( walker.currentElement ) ) ) {
+			CKEDITOR.tools.trim( node.getText() ).length && node.getText() != '\u200B' :
+			isOut && ( node.equals( walker.currentElement ) ) ) {
 			equals = false;
 		}
 	};
@@ -172,13 +174,12 @@ function checkSelection( type, startElement, selectedElement, selectedText, rang
 	if ( ranges.length ) {
 		for ( var i = 0; i < selRanges.length; i++ )
 			assert.isTrue( checkRangeEqual( ranges[ i ], selRanges[ i ] ), 'check selection range failed at position:' + i );
-	}
-	else if ( typeof ranges == 'number' )
+	} else if ( typeof ranges == 'number' ) {
 		assert.areSame( ranges, selRanges.length, 'selection ranges count failed' );
+	}
 }
 
 function assertSelectionsAreEqual( sel1, sel2 ) {
 	checkSelection.call( sel1, sel2.getType(), sel2.getStartElement(),
-						 sel2.getSelectedElement(), sel2.getSelectedText(),
-						 sel2.getRanges() );
+		sel2.getSelectedElement(), sel2.getSelectedText(), sel2.getRanges() );
 }

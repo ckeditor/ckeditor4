@@ -10,10 +10,9 @@
 		tc,
 		pending = 3,
 
-		readyHandler =
-		{
-			instanceReady : function() {
-				if ( !pending-- )
+		readyHandler = {
+			instanceReady: function() {
+				if ( !( pending-- )  )
 					tc.callback();
 			}
 		};
@@ -22,41 +21,36 @@
 		return element.getAttribute( 'tabindex' );
 	}
 
-	bender.test(
-	{
-		'async:init' : function() {
+	bender.test( {
+		'async:init': function() {
 			tc = this;
 
 			// No initial tabIndex, nothing forced.
-			ed1 = CKEDITOR.inline( el1 = doc.getById( 'editable1' ),
-				{
-					on : readyHandler
-				} );
+			ed1 = CKEDITOR.inline( el1 = doc.getById( 'editable1' ), {
+				on: readyHandler
+			} );
 
 			// Initial tabIndex, nothing forced.
-			ed2 = CKEDITOR.inline( el2 = doc.getById( 'editable2' ),
-				{
-					on : readyHandler
-				} );
+			ed2 = CKEDITOR.inline( el2 = doc.getById( 'editable2' ), {
+				on: readyHandler
+			} );
 
 			// No initial tabIndex, value forced.
-			ed3 = CKEDITOR.inline( el3 = doc.getById( 'editable3' ),
-				{
-					on : readyHandler,
-					tabIndex : 100
-				} );
+			ed3 = CKEDITOR.inline( el3 = doc.getById( 'editable3' ), {
+				on: readyHandler,
+				tabIndex: 100
+			} );
 
 			// Initial tabIndex, value forced.
-			ed4 = CKEDITOR.inline( el4 = doc.getById( 'editable4' ),
-				{
-					on : readyHandler,
-					tabIndex : 10
-				} );
+			ed4 = CKEDITOR.inline( el4 = doc.getById( 'editable4' ), {
+				on: readyHandler,
+				tabIndex: 10
+			} );
 		},
 
 		// Check whether element's tabIndex and config values
 		// are used correctly.
-		'test tabIndex inheritance' : function() {
+		'test tabIndex inheritance': function() {
 			assert.areEqual( 0, ed1.tabIndex );
 			assert.areEqual( 42, ed2.tabIndex );
 			assert.areEqual( 100, ed3.tabIndex );

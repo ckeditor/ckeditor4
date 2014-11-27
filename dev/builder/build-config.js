@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* exported CKBUILDER_CONFIG */
+
 var CKBUILDER_CONFIG = {
 	skin: 'moono',
 	ignore: [
@@ -14,7 +16,7 @@ var CKBUILDER_CONFIG = {
 		'.DS_Store',
 		'.gitignore',
 		'.gitattributes',
-		'Gruntfile.js',
+		'gruntfile.js',
 		'.idea',
 		'.jscsrc',
 		'.jshintignore',

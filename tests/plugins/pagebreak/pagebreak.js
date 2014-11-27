@@ -75,7 +75,7 @@
 					extraPlugins: 'divarea'
 				}
 			},
-			function( bot ) {
+			function() {
 				// If we get here it means that nothing fails :)
 				assert.pass();
 			} );

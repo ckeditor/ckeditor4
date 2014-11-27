@@ -114,7 +114,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 		 * @param {Object} attributes The attributes defined for this tag. The
 		 * attributes could be used to inspect the tag.
 		 */
-		openTag: function( tagName, attributes ) {
+		openTag: function( tagName ) {
 			var rules = this._.rules[ tagName ];
 
 			if ( this._.afterCloser && rules && rules.needsSpace && this._.needsSpace )

@@ -1,8 +1,10 @@
 /* bender-tags: editor,unit,dom */
 
-bender.test(
-{
-		test_appendTo : function() {
+( function() {
+	'use strict';
+
+	bender.test( {
+		test_appendTo: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -13,7 +15,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_append : function() {
+		test_append: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -24,7 +26,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_getFirst : function() {
+		test_getFirst: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -34,7 +36,7 @@ bender.test(
 			assert.isTrue( first.equals( inner ) );
 		},
 
-		test_getLast : function() {
+		test_getLast: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner =
@@ -45,7 +47,7 @@ bender.test(
 			assert.isTrue( last.equals( lastInner ) );
 		},
 
-		test_moveChildren : function() {
+		test_moveChildren: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -60,7 +62,7 @@ bender.test(
 			assert.isTrue( element.getLast().equals( inner2 ) );
 		},
 
-		test_moveChildren2 : function() {
+		test_moveChildren2: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -76,7 +78,7 @@ bender.test(
 			assert.isTrue( anotherFrag.getLast().equals( inner2 ) );
 		},
 
-		test_appendText : function() {
+		test_appendText: function() {
 			var element = new CKEDITOR.dom.element( 'script' );
 			element.appendText( 'Test appendText' );
 			assert.areEqual( 'Test appendText', element.$.text );
@@ -160,7 +162,7 @@ bender.test(
 				assert.areSame( 'text', ct.getText() );
 			},
 
-		test_insertAfter : function() {
+		test_insertAfter: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner = new CKEDITOR.dom.element( 'b' );
@@ -171,7 +173,7 @@ bender.test(
 			assert.isTrue( container.getLast().equals( inner ) );
 		},
 
-		test_getChildCount : function() {
+		test_getChildCount: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -182,7 +184,7 @@ bender.test(
 			assert.areEqual( 2, frag.getChildCount() );
 		},
 
-		test_getChild : function() {
+		test_getChild: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -193,7 +195,7 @@ bender.test(
 			assert.isTrue( inner2.equals( frag.getChild( 1 ) ) );
 		},
 
-		test_getChildren : function() {
+		test_getChildren: function() {
 			var frag =
 					new CKEDITOR.dom.documentFragment( CKEDITOR.document );
 			var inner1 = new CKEDITOR.dom.element( 'b' ),
@@ -216,4 +218,5 @@ bender.test(
 			assert.isTrue( doc.equals( frag1.getDocument() ) );
 			assert.isTrue( innerDoc.equals( frag2.getDocument() ) );
 		}
-} );
+	} );
+} )();

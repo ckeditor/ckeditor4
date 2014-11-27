@@ -1,11 +1,10 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: bidi,justify,indent,table,div,toolbar */
 
-bender.editor = { config : { enterMode : CKEDITOR.ENTER_P } };
+bender.editor = { config: { enterMode: CKEDITOR.ENTER_P } };
 
-bender.test(
-{
-	'test apply RTL' : function() {
+bender.test( {
+	'test apply RTL': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[<p>foo<br />bar</p><p>baz</p>]' );
@@ -13,7 +12,7 @@ bender.test(
 		assert.areSame( '<p dir="rtl">foo<br />bar</p><p dir="rtl">baz</p>', bot.getData( false, true ) );
 	},
 
-	'test apply RTL (list)' : function() {
+	'test apply RTL (list)': function() {
 		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '[<ul><li>item1</li><li>item2</li></ul>]' );
@@ -21,7 +20,7 @@ bender.test(
 		assert.areSame( '<ul dir="rtl"><li>item1</li><li>item2</li></ul>', bot.getData( false, true ) );
 	},
 
-	'test apply RTL (table)' : function() {
+	'test apply RTL (table)': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'apply_rtl_table', function( source, expected ) {
 			bot.setHtmlWithSelection( source );
@@ -30,7 +29,7 @@ bender.test(
 		} );
 	},
 
-	'test apply LTR (table cell)' : function() {
+	'test apply LTR (table cell)': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'apply_ltr_table', function( source, expected ) {
 			bot.setHtmlWithSelection( source );
@@ -39,7 +38,7 @@ bender.test(
 		} );
 	},
 
-	'test apply direction mirror contents style' : function() {
+	'test apply direction mirror contents style': function() {
 		var ed = this.editor, bot = this.editorBot;
 		bender.tools.testInputOut( 'apply_dir_mirror', function( source, expected ) {
 			bot.setHtmlWithSelection( source );

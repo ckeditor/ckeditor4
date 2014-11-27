@@ -12,7 +12,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'magicline', {
-		lang: 'ar,bg,ca,cs,cy,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: initPlugin
 	} );
 
@@ -33,7 +33,7 @@
 				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
 				triggers: config.magicline_everywhere ? DTD_BLOCK : { table: 1, hr: 1, div: 1, ul: 1, ol: 1, dl: 1, form: 1, blockquote: 1 }
 			},
-			scrollTimeout, checkMouseTimeoutPending, checkMouseTimeout, checkMouseTimer;
+			scrollTimeout, checkMouseTimeoutPending, checkMouseTimer;
 
 		// %REMOVE_START%
 		// Internal DEBUG uses tools located in the topmost window.
@@ -62,9 +62,9 @@
 
 		// Simple irrelevant elements filter.
 		that.isRelevant = function( node ) {
-			return isHtml( node ) 			// 	-> Node must be an existing HTML element.
-				&& !isLine( that, node ) 	// 	-> Node can be neither the box nor its child.
-				&& !isFlowBreaker( node ); 	// 	-> Node can be neither floated nor positioned nor aligned.
+			return isHtml( node ) && // -> Node must be an existing HTML element.
+				!isLine( that, node ) && // -> Node can be neither the box nor its child.
+				!isFlowBreaker( node ); // -> Node can be neither floated nor positioned nor aligned.
 		};
 
 		editor.on( 'contentDom', addListeners, this );
@@ -72,8 +72,7 @@
 		function addListeners() {
 			var editable = editor.editable(),
 				doc = editor.document,
-				win = editor.window,
-				listener;
+				win = editor.window;
 
 			// Global stuff is being initialized here.
 			extend( that, {
@@ -170,7 +169,7 @@
 
 			// This one deactivates hidden mode of an editor which
 			// prevents the box from being shown.
-			editable.attachListener( editable, 'keyup', function( event ) {
+			editable.attachListener( editable, 'keyup', function() {
 				that.hiddenMode = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
 			} );
@@ -179,9 +178,7 @@
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
-				var keyStroke = event.data.getKeystroke(),
-					selection = editor.getSelection(),
-					selected = selection.getStartElement();
+				var keyStroke = event.data.getKeystroke();
 
 				switch ( keyStroke ) {
 					// Shift pressed
@@ -219,7 +216,7 @@
 
 			// This one removes box on scroll event.
 			// It is to avoid box displacement.
-			editable.attachListener( win, 'scroll', function( event ) {
+			editable.attachListener( win, 'scroll', function() {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -247,7 +244,7 @@
 			// and don't reveal it until the mouse is released.
 			// It is to prevent box insertion e.g. while scrolling
 			// (w/ scrollbar), selecting and so on.
-			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function() {
 				if ( editor.mode != 'wysiwyg' )
 					return;
 
@@ -261,7 +258,7 @@
 			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
 			// so it is totally useless to check for scroll finish
 			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function( event ) {
+			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function() {
 				that.hiddenMode = 0;
 				that.mouseDown = 0;
 				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
@@ -277,7 +274,7 @@
 			] );
 
 			// Revert magicline hot node on undo/redo.
-			editor.on( 'loadSnapshot', function( event ) {
+			editor.on( 'loadSnapshot', function() {
 				var elements, element, i;
 
 				for ( var t in { p: 1, br: 1, div: 1 } ) {
@@ -311,12 +308,13 @@
 				checkMouseTimer = null;
 				updateWindowSize( that );
 
-				if ( checkMouseTimeoutPending 								//	-> There must be an event pending.
-					&& !that.hiddenMode 									// 	-> Can't be in hidden mode.
-					&& editor.focusManager.hasFocus 						// 	-> Editor must have focus.
-					&& !that.line.mouseNear() 								// 	-> Mouse pointer can't be close to the box.
-					&& ( that.element = elementFromMouse( that, true ) ) ) 	// 	-> There must be valid element.
-				{
+				if (
+					checkMouseTimeoutPending &&								// There must be an event pending.
+					!that.hiddenMode &&										// Can't be in hidden mode.
+					editor.focusManager.hasFocus &&							// Editor must have focus.
+					!that.line.mouseNear() &&								// Mouse pointer can't be close to the box.
+					( that.element = elementFromMouse( that, true ) )		// There must be valid element.
+				) {
 					// If trigger exists, and trigger is correct -> show the box.
 					// Don't show the line if trigger is a descendant of some tabu-list element.
 					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
@@ -498,8 +496,9 @@
 					return null;
 
 				return trigger;
-			} else
+			} else {
 				return null;
+			}
 		}
 
 		return null;
@@ -589,18 +588,21 @@
 			// Looks are as follows: [ LOOK_TOP, LOOK_BOTTOM, LOOK_NORMAL ].
 			lineChildren: [
 				extend(
-					newElementFromHtml( '<span title="' + that.editor.lang.magicline.title +
-						'" contenteditable="false">&#8629;</span>', doc ), {
-					base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;'
-						+ 'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;'
-						+ ( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' )
-						+ ( env.hidpi ? 'background-size: 9px 10px;' : '' ),
-					looks: [
-						'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
-						'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
-						'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
-					]
-				} ),
+					newElementFromHtml(
+						'<span title="' + that.editor.lang.magicline.title +
+						'" contenteditable="false">&#8629;</span>', doc
+					), {
+						base: CSS_COMMON + 'height:17px;width:17px;' + ( that.rtl ? 'left' : 'right' ) + ':17px;' +
+								'background:url(' + iconPath + ') center no-repeat ' + that.boxColor + ';cursor:pointer;' +
+								( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ) +
+								( env.hidpi ? 'background-size: 9px 10px;' : '' ),
+						looks: [
+							'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
+							'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
+							'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
+						]
+					}
+				),
 				extend( newElementFromHtml( TRIANGLE_HTML, doc ), {
 					base: CSS_TRIANGLE + 'left:0px;border-left-color:' + that.boxColor + ';',
 					looks: [
@@ -700,8 +702,9 @@
 				// Set Y coordinate (top) for single-edge trigger.
 				else if ( !upper )
 					styleSet.top = lower.size.top - lower.size.margin.top;
-				else if ( !lower )
+				else if ( !lower ) {
 					styleSet.top = upper.size.bottom + upper.size.margin.bottom;
+				}
 
 				// Set box button modes if close to the viewport horizontal edge
 				// or look forced by the trigger.
@@ -898,7 +901,8 @@
 						removeOld = that.hotNode &&							// Old hotNode must exist.
 							that.hotNode.getText() == hotNodeChar &&		// Old hotNode hasn't been changed.
 							that.element.equals( that.hotNode ) &&			// Caret is inside old hotNode.
-							that.lastCmdDirection === !!insertAfter;		// Command is executed in the same direction.
+							// Command is executed in the same direction.
+							that.lastCmdDirection === !!insertAfter; // jshint ignore:line
 
 					accessFocusSpace( that, function( accessNode ) {
 						if ( removeOld && that.hotNode )
@@ -963,19 +967,19 @@
 					// Consider only non-accessible elements (they cannot have any children)
 					// since they cannot be given a caret inside, to run the command
 					// the regular way (1. & 2.).
-					if ( isHtml( neighbor ) && neighbor.is( that.triggers ) && neighbor.is( DTD_NONACCESSIBLE ) &&
+					if (
+						isHtml( neighbor ) && neighbor.is( that.triggers ) && neighbor.is( DTD_NONACCESSIBLE ) &&
+						(
+							// Check whether neighbor is first/last-child.
+							!getNonEmptyNeighbour( that, neighbor, !insertAfter ) ||
+							// Check for a sibling of a neighbour that also is a trigger.
 							(
-									// Check whether neighbor is first/last-child.
-									!getNonEmptyNeighbour( that, neighbor, !insertAfter )
-								||
-									// Check for a sibling of a neighbour that also is a trigger.
-									(
-										( neighborSibling = getNonEmptyNeighbour( that, neighbor, !insertAfter ) ) &&
-										isHtml( neighborSibling ) &&
-										neighborSibling.is( that.triggers )
-									)
+								( neighborSibling = getNonEmptyNeighbour( that, neighbor, !insertAfter ) ) &&
+								isHtml( neighborSibling ) &&
+								neighborSibling.is( that.triggers )
 							)
-						) {
+						)
+					) {
 						doAccess( neighbor );
 						return;
 					}
@@ -1282,11 +1286,13 @@
 		// 	\-> Reject an element which is a flow breaker.
 		// 	\-> Reject an element which has a child above/below the mouse pointer.
 		//	\-> Reject an element which belongs to list items.
-		if ( isFlowBreaker( element ) ||
+		if (
+			isFlowBreaker( element ) ||
 			isChildBetweenPointerAndEdge( that, element, bottomTrigger ) ||
-			element.getParent().is( DTD_LISTITEM ) ) {
-				that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
-				return null;
+			element.getParent().is( DTD_LISTITEM )
+		) {
+			that.debug.logEnd( 'ABORT. element is wrong', element ); // %REMOVE_LINE%
+			return null;
 		}
 
 		// Get sibling according to bottomTrigger.
@@ -1302,25 +1308,26 @@
 			if ( element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ) {
 				updateEditableSize( that );
 
-				if ( bottomTrigger && inBetween( mouse.y,
+				if (
+					bottomTrigger && inBetween( mouse.y,
 					element.size.bottom - fixedOffset, view.pane.height ) &&
-					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height ) ) {
-						triggerLook = LOOK_BOTTOM;
-				}
-				else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) )
+					inBetween( element.size.bottom, view.pane.height - fixedOffset, view.pane.height )
+				) {
+					triggerLook = LOOK_BOTTOM;
+				} else if ( inBetween( mouse.y, 0, element.size.top + fixedOffset ) ) {
 					triggerLook = LOOK_TOP;
-
-			}
-			else
+				}
+			} else {
 				triggerLook = LOOK_NORMAL;
+			}
 
 			triggerSetup = [ null, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
-					bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
-					TYPE_EDGE,
-					triggerLook,
-					element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
+				bottomTrigger ? EDGE_BOTTOM : EDGE_TOP,
+				TYPE_EDGE,
+				triggerLook,
+				element.equals( that.editable[ bottomTrigger ? 'getLast' : 'getFirst' ]( that.isRelevant ) ) ?
 						( bottomTrigger ? LOOK_BOTTOM : LOOK_TOP ) : LOOK_NORMAL
-				] );
+			] );
 
 			that.debug.log( 'Configured edge trigger of ' + ( bottomTrigger ? 'EDGE_BOTTOM' : 'EDGE_TOP' ) ); // %REMOVE_LINE%
 		}
@@ -1338,18 +1345,20 @@
 			// 	\-> Reject an elementSibling which is a flow breaker.
 			//	\-> Reject an elementSibling which isn't a trigger.
 			//	\-> Reject an elementSibling which belongs to list items.
-			if ( isFlowBreaker( elementSibling ) ||
+			if (
+				isFlowBreaker( elementSibling ) ||
 				!isTrigger( that, elementSibling ) ||
-				elementSibling.getParent().is( DTD_LISTITEM ) ) {
-					that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
-					return null;
+				elementSibling.getParent().is( DTD_LISTITEM )
+			) {
+				that.debug.logEnd( 'ABORT. elementSibling is wrong', elementSibling ); // %REMOVE_LINE%
+				return null;
 			}
 
 			// Prepare a trigger.
 			triggerSetup = [ elementSibling, element ][ bottomTrigger ? 'reverse' : 'concat' ]().concat( [
-					EDGE_MIDDLE,
-					TYPE_EDGE
-				] );
+				EDGE_MIDDLE,
+				TYPE_EDGE
+			] );
 
 			that.debug.log( 'Configured edge trigger of EDGE_MIDDLE' ); // %REMOVE_LINE%
 		}
@@ -1535,11 +1544,11 @@
 
 		// This is default element selector used by the engine.
 		function expandSelector( that, node ) {
-			return !( isTextNode( node )
-				|| isComment( node )
-				|| isFlowBreaker( node )
-				|| isLine( that, node )
-				|| ( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
+			return !( isTextNode( node ) ||
+				isComment( node ) ||
+				isFlowBreaker( node ) ||
+				isLine( that, node ) ||
+				( node.type == CKEDITOR.NODE_ELEMENT && node.$ && node.is( 'br' ) ) );
 		}
 
 		// This method checks whether mouse-y is between the top edge of upper
@@ -1574,10 +1583,12 @@
 			var upper = trigger.upper,
 				lower = trigger.lower;
 
-			if ( !upper || !lower 											// NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
-				|| isFlowBreaker( lower ) || isFlowBreaker( upper )			// NOT: one of the elements is floated or positioned
-				|| lower.equals( upper ) || upper.equals( lower ) 			// NOT: two trigger elements, one equals another.
-				|| lower.contains( upper ) || upper.contains( lower ) ) { 	// NOT: two trigger elements, one contains another.
+			if (
+				!upper || !lower ||											// NOT: EDGE_MIDDLE trigger ALWAYS has two elements.
+				isFlowBreaker( lower ) || isFlowBreaker( upper ) ||			// NOT: one of the elements is floated or positioned
+				lower.equals( upper ) || upper.equals( lower ) ||			// NOT: two trigger elements, one equals another.
+				lower.contains( upper ) || upper.contains( lower )
+			) {	// NOT: two trigger elements, one contains another.
 				that.debug.logEnd( 'REJECTED. No upper or no lower or they contain each other.' ); // %REMOVE_LINE%
 
 				return false;
@@ -1613,8 +1624,8 @@
 
 	function getSize( that, element, ignoreScroll, force ) {
 		var getStyle = ( function() {
-			// Better "cache and reuse" than "call again and again".
-			var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
+				// Better "cache and reuse" than "call again and again".
+				var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
 
 				return env.ie ?
 					function( propertyName ) {
@@ -1840,8 +1851,8 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * {@link CKEDITOR.dtd#$block} elements as accessible by the magic line.
  *
  *		// Enables the greedy "put everywhere" mode.
- *		CKEDITOR.config.magicline_putEverywhere = true;
+ *		CKEDITOR.config.magicline_everywhere = true;
  *
- * @cfg {Boolean} [magicline_putEverywhere=false]
+ * @cfg {Boolean} [magicline_everywhere=false]
  * @member CKEDITOR.config
  */

@@ -25,9 +25,8 @@ CKEDITOR.on( 'instanceLoaded', function() {
 
 bender.editor = {};
 
-bender.test(
-{
-	'test open dialog from local' : function() {
+bender.test( {
+	'test open dialog from local': function() {
 		var ed = this.editor, tc = this;
 		ed.openDialog( 'testDialog1', function( dialog ) {
 			tc.resume( function() {
@@ -41,7 +40,7 @@ bender.test(
 		tc.wait();
 	},
 
-	'test open dialog from url' : function() {
+	'test open dialog from url': function() {
 		var ed = this.editor, tc = this;
 		ed.openDialog( 'testDialog2', function( dialog ) {
 			tc.resume( function() {
@@ -58,8 +57,7 @@ bender.test(
 	// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
 	// by very closed and poor dialog API.
 	'test dialog\'s field are disabled when not allowed': function() {
-		var ed = this.editor,
-			tc = this;
+		var ed = this.editor;
 
 		CKEDITOR.dialog.add( 'testDialog3', function() {
 			return {
@@ -150,8 +148,7 @@ bender.test(
 	// by very closed and poor dialog API.
 	// #12546
 	'test dialog\'s HTML field always count as allowed field unless requiredContent is specified': function() {
-		var ed = this.editor,
-			tc = this;
+		var ed = this.editor;
 
 		CKEDITOR.dialog.add( 'testDialog4', function() {
 			return {

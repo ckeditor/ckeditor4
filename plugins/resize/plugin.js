@@ -5,6 +5,34 @@
 
 CKEDITOR.plugins.add( 'resize', {
 	init: function( editor ) {
+		function dragHandler( evt ) {
+			var dx = evt.data.$.screenX - origin.x,
+			dy = evt.data.$.screenY - origin.y,
+			width = startSize.width,
+			height = startSize.height,
+			internalWidth = width + dx * ( resizeDir == 'rtl' ? -1 : 1 ),
+			internalHeight = height + dy;
+
+			if ( resizeHorizontal )
+				width = Math.max( config.resize_minWidth, Math.min( internalWidth, config.resize_maxWidth ) );
+
+			if ( resizeVertical )
+				height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
+
+			// DO NOT impose fixed size with single direction resize. (#6308)
+			editor.resize( resizeHorizontal ? width : null, height );
+		}
+
+		function dragEndHandler() {
+			CKEDITOR.document.removeListener( 'mousemove', dragHandler );
+			CKEDITOR.document.removeListener( 'mouseup', dragEndHandler );
+
+			if ( editor.document ) {
+				editor.document.removeListener( 'mousemove', dragHandler );
+				editor.document.removeListener( 'mouseup', dragEndHandler );
+			}
+		}
+
 		var config = editor.config;
 		var spaceId = editor.ui.spaceId( 'resizer' );
 
@@ -13,44 +41,16 @@ CKEDITOR.plugins.add( 'resize', {
 		var resizeDir = editor.element ? editor.element.getDirection( 1 ) : 'ltr';
 
 		!config.resize_dir && ( config.resize_dir = 'vertical' );
-		( config.resize_maxWidth == undefined ) && ( config.resize_maxWidth = 3000 );
-		( config.resize_maxHeight == undefined ) && ( config.resize_maxHeight = 3000 );
-		( config.resize_minWidth == undefined ) && ( config.resize_minWidth = 750 );
-		( config.resize_minHeight == undefined ) && ( config.resize_minHeight = 250 );
+		( config.resize_maxWidth === undefined ) && ( config.resize_maxWidth = 3000 );
+		( config.resize_maxHeight === undefined ) && ( config.resize_maxHeight = 3000 );
+		( config.resize_minWidth === undefined ) && ( config.resize_minWidth = 750 );
+		( config.resize_minHeight === undefined ) && ( config.resize_minHeight = 250 );
 
 		if ( config.resize_enabled !== false ) {
 			var container = null,
 				origin, startSize,
 				resizeHorizontal = ( config.resize_dir == 'both' || config.resize_dir == 'horizontal' ) && ( config.resize_minWidth != config.resize_maxWidth ),
 				resizeVertical = ( config.resize_dir == 'both' || config.resize_dir == 'vertical' ) && ( config.resize_minHeight != config.resize_maxHeight );
-
-			function dragHandler( evt ) {
-				var dx = evt.data.$.screenX - origin.x,
-					dy = evt.data.$.screenY - origin.y,
-					width = startSize.width,
-					height = startSize.height,
-					internalWidth = width + dx * ( resizeDir == 'rtl' ? -1 : 1 ),
-					internalHeight = height + dy;
-
-				if ( resizeHorizontal )
-					width = Math.max( config.resize_minWidth, Math.min( internalWidth, config.resize_maxWidth ) );
-
-				if ( resizeVertical )
-					height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
-
-				// DO NOT impose fixed size with single direction resize. (#6308)
-				editor.resize( resizeHorizontal ? width : null, height );
-			}
-
-			function dragEndHandler( evt ) {
-				CKEDITOR.document.removeListener( 'mousemove', dragHandler );
-				CKEDITOR.document.removeListener( 'mouseup', dragEndHandler );
-
-				if ( editor.document ) {
-					editor.document.removeListener( 'mousemove', dragHandler );
-					editor.document.removeListener( 'mouseup', dragEndHandler );
-				}
-			}
 
 			var mouseDownFn = CKEDITOR.tools.addFunction( function( $event ) {
 				if ( !container )

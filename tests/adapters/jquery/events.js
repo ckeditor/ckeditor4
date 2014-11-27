@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit,jquery */
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea */
+/* global $ */
 
 'use strict';
 
@@ -146,7 +147,7 @@ bender.test( {
 			this.destroy();
 		} );
 
-		$( '#destroyEditor' ).ckeditor().on( 'destroy.ckeditor', function( event, editor ) {
+		$( '#destroyEditor' ).ckeditor().on( 'destroy.ckeditor', function( event ) {
 			resume( function() {
 				assert.areSame( 'destroyEditor', instantiatedEditor, 'Given editor should match.' );
 				assert.areSame( 'destroy', event.type, 'Event type should be \'destroy\'.' );

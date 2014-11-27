@@ -227,8 +227,9 @@ CKEDITOR.plugins.add( 'listblock', {
 							}
 						}
 					}
-					else
+					else {
 						this.element.focus();
+					}
 
 					selected && setTimeout( function() {
 						selected.focus();

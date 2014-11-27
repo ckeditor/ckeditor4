@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,pastefromword */
 /* bender-ckeditor-plugins: clipboard,pastefromword,ajax */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -18,7 +19,7 @@
 		assertPasteEvent(
 			editor, { dataValue: input },
 			function( data, msg ) {
-				assert.isMatching( output, compat( editor.dataProcessor.toHtml( data.dataValue ) ) );
+				assert.isMatching( output, compat( editor.dataProcessor.toHtml( data.dataValue ) ), msg );
 			},
 			'tc1', true
 		);

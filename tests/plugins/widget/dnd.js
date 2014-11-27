@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -40,8 +42,7 @@
 		}
 	};
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		getWidgetById = widgetTestsTools.getWidgetById,
+	var getWidgetById = widgetTestsTools.getWidgetById,
 		assertRelations = lineutilsTestsTools.assertRelations;
 
 	function dropEvent( data, range ) {

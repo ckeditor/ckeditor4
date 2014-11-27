@@ -39,5 +39,18 @@ bender.test( {
 		} );
 
 		tc.wait();
+	},
+
+	// #12546
+	'test preview tab is available': function() {
+		var bot = this.editorBot;
+
+		bot.dialog( 'docProps', function( dialog ) {
+			var tabs = dialog.parts.tabs.getChildren();
+
+			assert.isTrue( !tabs.getItem( 3 ).hasClass( 'cke_dialog_tab_disabled' ), 'Tab preview should be enabled.' );
+
+			dialog.getButton( 'ok' ).click();
+		} );
 	}
 } );

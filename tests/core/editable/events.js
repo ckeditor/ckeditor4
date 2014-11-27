@@ -18,7 +18,7 @@ function addTests( tcs, creator ) {
 				creator == 'divarea' ?	'divarea,sourcearea' :
 										'',
 			on: {
-				instanceReady: function( evt ) {
+				instanceReady: function() {
 					resume( function() {
 						eventsRecorder.assert(
 							creator == 'replace' ?	[ 'setData', 'afterSetData', 'contentDom', 'dataReady' ] :

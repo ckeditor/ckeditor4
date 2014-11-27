@@ -30,7 +30,7 @@ function record( callback ) {
 			if ( callback )
 				return callback( node );
 		}
-	}
+	};
 }
 
 var assertItems = arrayAssert.itemsAreEqual;

@@ -17,7 +17,7 @@
  */
 CKEDITOR.htmlParser = function() {
 	this._ = {
-		htmlPartsRegex: new RegExp( '<(?:(?:\\/([^>]+)>)|(?:!--([\\S|\\s]*?)-->)|(?:([^\\s>]+)\\s*((?:(?:"[^"]*")|(?:\'[^\']*\')|[^"\'>])*)\\/?>))', 'g' )
+		htmlPartsRegex: /<(?:(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->)|(?:([^\/\s>]+)((?:\s+[\w\-:.]+(?:\s*=\s*?(?:(?:"[^"]*")|(?:'[^']*')|[^\s"'\/>]+))?)*)[\S\s]*?(\/?)>))/g
 	};
 };
 
@@ -170,7 +170,7 @@ CKEDITOR.htmlParser = function() {
 					var attribs = {},
 						attribMatch,
 						attribsPart = parts[ 4 ],
-						selfClosing = !!( attribsPart && attribsPart.charAt( attribsPart.length - 1 ) == '/' );
+						selfClosing = !!parts[ 5 ];
 
 					if ( attribsPart ) {
 						while ( ( attribMatch = attribsRegex.exec( attribsPart ) ) ) {

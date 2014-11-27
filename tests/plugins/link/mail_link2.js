@@ -1,18 +1,18 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: link,button,toolbar */
 
-bender.editor = { config :
-{
-	autoParagraph : false,
-	forceSimpleAmpersand : true,
-	emailProtection : 'mt(BODY,SUBJECT,NAME,DOMAIN)'
-} };
+bender.editor = {
+	config: {
+		autoParagraph: false,
+		forceSimpleAmpersand: true,
+		emailProtection: 'mt(BODY,SUBJECT,NAME,DOMAIN)'
+	}
+};
 
 var protectedMailLink = '<a href=\"javascript:mt(\'I\\\'m%20looking%20for%20the%20AJD%20position.\',\'Job%20Request\',\'job\',\'cksource.com\')\">AJD</a>';
 
-bender.test(
-{
-	'test created protected mail link' : function() {
+bender.test( {
+	'test created protected mail link': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<a href="#">[AJD]</a>' );
 		bot.dialog( 'link', function( dialog ) {

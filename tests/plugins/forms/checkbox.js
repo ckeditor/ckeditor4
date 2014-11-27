@@ -8,7 +8,7 @@ bender.editor = {
 };
 
 bender.test( {
-	'test fill fields' : function() {
+	'test fill fields': function() {
 		var bot = this.editorBot;
 
 		bot.dialog( 'checkbox', function( dialog ) {

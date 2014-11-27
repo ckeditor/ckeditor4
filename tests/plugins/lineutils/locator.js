@@ -19,7 +19,7 @@
 				instanceReady: function() {
 					finder = new CKEDITOR.plugins.lineutils.finder( this, {
 						lookups: {
-							'lookup': function( el ) {
+							lookup: function() {
 								return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER | CKEDITOR.LINEUTILS_INSIDE;
 							}
 						}
@@ -36,7 +36,7 @@
 	}
 
 	function assertSorted( expected, sorted ) {
-		assert.areSame( expected.length, sorted.length, 'All locations has been returned.' )
+		assert.areSame( expected.length, sorted.length, 'All locations has been returned.' );
 
 		for ( var i = sorted.length; i--; ) {
 			assert.areSame( expected[ i ].uid, sorted[ i ].uid, 'Uid of the location is correct.' );
@@ -91,6 +91,6 @@
 					{ uid: uid( doc, 'c' ), type: '1', dist: 20 }
 				], locator.sort( 120, 3 ) );
 			}
-		} ),
+		} )
 	} );
 } )();

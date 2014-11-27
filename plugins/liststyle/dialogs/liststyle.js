@@ -38,12 +38,10 @@
 				title: lang.bulletedTitle,
 				minWidth: 300,
 				minHeight: 50,
-				contents: [
-					{
+				contents: [ {
 					id: 'info',
 					accessKey: 'I',
-					elements: [
-						{
+					elements: [ {
 						type: 'select',
 						label: lang.type,
 						id: 'type',
@@ -54,7 +52,7 @@
 							[ lang.circle, 'circle' ],
 							[ lang.disc, 'disc' ],
 							[ lang.square, 'square' ]
-							],
+						],
 						setup: function( element ) {
 							var value = element.getStyle( 'list-style-type' ) || mapListStyle[ element.getAttribute( 'type' ) ] || element.getAttribute( 'type' ) || '';
 
@@ -67,10 +65,8 @@
 							else
 								element.removeStyle( 'list-style-type' );
 						}
-					}
-					]
-				}
-				],
+					} ]
+				} ],
 				onShow: function() {
 					var editor = this.getParentEditor(),
 						element = getListElement( editor, 'ul' );
@@ -93,7 +89,7 @@
 				[ lang.lowerAlpha, 'lower-alpha' ],
 				[ lang.upperAlpha, 'upper-alpha' ],
 				[ lang.decimal, 'decimal' ]
-				];
+			];
 
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 7 ) {
 				listStyleOptions.concat( [
@@ -101,23 +97,20 @@
 					[ lang.decimalLeadingZero, 'decimal-leading-zero' ],
 					[ lang.georgian, 'georgian' ],
 					[ lang.lowerGreek, 'lower-greek' ]
-					] );
+				] );
 			}
 
 			return {
 				title: lang.numberedTitle,
 				minWidth: 300,
 				minHeight: 50,
-				contents: [
-					{
+				contents: [ {
 					id: 'info',
 					accessKey: 'I',
-					elements: [
-						{
+					elements: [ {
 						type: 'hbox',
 						widths: [ '25%', '75%' ],
-						children: [
-							{
+						children: [ {
 							label: lang.start,
 							type: 'text',
 							id: 'start',
@@ -149,7 +142,7 @@
 								}
 							}
 						},
-							{
+						{
 							type: 'select',
 							label: lang.type,
 							id: 'type',
@@ -167,12 +160,9 @@
 								else
 									element.removeStyle( 'list-style-type' );
 							}
-						}
-						]
-					}
-					]
-				}
-				],
+						} ]
+					} ]
+				} ],
 				onShow: function() {
 					var editor = this.getParentEditor(),
 						element = getListElement( editor, 'ol' );

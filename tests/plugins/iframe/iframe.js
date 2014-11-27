@@ -1,11 +1,14 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: iframe,dialogadvtab,toolbar */
 
-bender.editor = { config : { autoParagraph : false } };
+bender.editor = {
+	config: {
+		autoParagraph: false
+	}
+};
 
-bender.test(
-{
-	'test create iframe' : function() {
+bender.test( {
+	'test create iframe': function() {
 		var bot = this.editorBot;
 		bot.dialog( 'iframe', function( dialog ) {
 			dialog.setValueOf( 'info', 'src', 'http://ckeditor.com' );
@@ -16,7 +19,7 @@ bender.test(
 			dialog.getButton( 'ok' ).click();
 
 			assert.areEqual( '<iframe frameborder="0" height="500" scrolling="no" src="http://ckeditor.com" ' +
-							 'style="height:100px;width:100px;" width="100%"></iframe>', bot.getData( true ) );
+				'style="height:100px;width:100px;" width="100%"></iframe>', bot.getData( true ) );
 		} );
 	},
 
@@ -34,10 +37,7 @@ bender.test(
 
 			dialog.getButton( 'ok' ).click();
 
-			assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://cksource.com" width="400"></iframe>',
-							 bot.getData( true ) );
+			assert.areEqual( '<iframe frameborder="0" scrolling="no" src="http://cksource.com" width="400"></iframe>', bot.getData( true ) );
 		} );
 	}
 } );
-
-//]]>

@@ -1,3 +1,5 @@
+/* exported quirksTools */
+
 var quirksTools = ( function() {
 	'use strict';
 
@@ -30,7 +32,7 @@ var quirksTools = ( function() {
 			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
 				keyCode: key,
 				ctrlKey: keyModifiers & CKEDITOR.CTRL,
-				shiftKey: keyModifiers & CKEDITOR.SHIFT,
+				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
 			assert.areSame( decodeBoguses( expected ),

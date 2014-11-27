@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: xml */
 
 ( function() {
-	'use strict'
+	'use strict';
 
 	bender.test( {
 		'test xml.baseXml': function() {

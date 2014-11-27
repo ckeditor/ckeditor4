@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'button', function( editor ) {
 	function commitAttributes( element ) {
 		var val = this.getValue();
@@ -50,51 +51,49 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				editor.getSelection().selectElement( newElement );
 			}
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.button.title,
 			title: editor.lang.forms.button.title,
 			elements: [
 				{
-				id: 'name',
-				type: 'text',
-				label: editor.lang.common.name,
-				'default': '',
-				setup: function( element ) {
-					this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
+					id: 'name',
+					type: 'text',
+					label: editor.lang.common.name,
+					'default': '',
+					setup: function( element ) {
+						this.setValue( element.data( 'cke-saved-name' ) || element.getAttribute( 'name' ) || '' );
+					},
+					commit: commitAttributes
 				},
-				commit: commitAttributes
-			},
 				{
-				id: 'value',
-				type: 'text',
-				label: editor.lang.forms.button.text,
-				accessKey: 'V',
-				'default': '',
-				setup: function( element ) {
-					this.setValue( element.getAttribute( 'value' ) || '' );
+					id: 'value',
+					type: 'text',
+					label: editor.lang.forms.button.text,
+					accessKey: 'V',
+					'default': '',
+					setup: function( element ) {
+						this.setValue( element.getAttribute( 'value' ) || '' );
+					},
+					commit: commitAttributes
 				},
-				commit: commitAttributes
-			},
 				{
-				id: 'type',
-				type: 'select',
-				label: editor.lang.forms.button.type,
-				'default': 'button',
-				accessKey: 'T',
-				items: [
-					[ editor.lang.forms.button.typeBtn, 'button' ],
-					[ editor.lang.forms.button.typeSbm, 'submit' ],
-					[ editor.lang.forms.button.typeRst, 'reset' ]
+					id: 'type',
+					type: 'select',
+					label: editor.lang.forms.button.type,
+					'default': 'button',
+					accessKey: 'T',
+					items: [
+						[ editor.lang.forms.button.typeBtn, 'button' ],
+						[ editor.lang.forms.button.typeSbm, 'submit' ],
+						[ editor.lang.forms.button.typeRst, 'reset' ]
 					],
-				setup: function( element ) {
-					this.setValue( element.getAttribute( 'type' ) || '' );
-				},
-				commit: commitAttributes
-			}
+					setup: function( element ) {
+						this.setValue( element.getAttribute( 'type' ) || '' );
+					},
+					commit: commitAttributes
+				}
 			]
-		}
-		]
+		} ]
 	};
 } );

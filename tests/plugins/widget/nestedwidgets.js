@@ -1,11 +1,12 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		obj2Array = widgetTestsTools.obj2Array,
+	var obj2Array = widgetTestsTools.obj2Array,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	var widgetData =
@@ -46,7 +47,7 @@
 					config: {
 						allowedContent: true
 					}
-				},
+				}
 			}, function( editors, bots ) {
 				var name, editor;
 
@@ -344,6 +345,5 @@
 				} );
 			} );
 		}
-
 	} );
 } )();

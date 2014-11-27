@@ -9,7 +9,9 @@ bender.editor = {
 		on: {
 			loaded: function( evt ) {
 				var editor = evt.editor;
-				editor.addMode( 'source', function( callback ) { callback(); } );
+				editor.addMode( 'source', function( callback ) {
+					callback();
+				} );
 			},
 
 			instanceReady: function( evt ) {
@@ -22,13 +24,9 @@ bender.editor = {
 	}
 };
 
-bender.test(
-{
-	/**
-	 *  Test the wysiwyg mode provider.
-	 */
-	test_setMode : function() {
-		var tc = this;
+bender.test( {
+	// Test the wysiwyg mode provider.
+	test_setMode: function() {
 		var editor = this.editor;
 		editor.setMode( 'source', function() {
 			editor.setMode( 'wysiwyg', function() {
@@ -45,14 +43,14 @@ bender.test(
 		wait();
 	},
 
-	test_focus : function() {
+	test_focus: function() {
 		var ed = this.editor, bot = this.editorBot;
 		bot.focus( function() {
 			assert.isTrue( ed.focusManager.hasFocus );
 		} );
 	},
 
-	test_setData : function() {
+	test_setData: function() {
 		var editor = this.editor;
 		var editable = this.editor.editable();
 
@@ -66,7 +64,7 @@ bender.test(
 		wait();
 	},
 
-	'test editable listeners after setData' : function() {
+	'test editable listeners after setData': function() {
 		var editor = this.editor,
 			editable = editor.editable(),
 			obj = {},
@@ -91,7 +89,7 @@ bender.test(
 		wait();
 	},
 
-	_testInsertion : function( insertFn, input, result ) {
+	_testInsertion: function( insertFn, input, result ) {
 		!result && ( result = input );
 		var editor = this.editor;
 		editor.editable().setHtml( '' );
@@ -104,8 +102,8 @@ bender.test(
 		editor[ insertFn ]( input );
 
 		this.wait( function() {
-			   assert.areSame( result, editor.getData(), insertFn );
-		   }, 0 );
+			assert.areSame( result, editor.getData(), insertFn );
+		}, 0 );
 	},
 
 	test_detach: function() {

@@ -84,8 +84,28 @@
 	// #### checkSelectionChange : END
 
 	var isVisible = CKEDITOR.dom.walker.invisible( 1 );
+
+	// May absorb the caret if:
+	// * is a visible node,
+	// * is a non-empty element (this rule will accept elements like <strong></strong> because they
+	//	they were not accepted by the isVisible() check, not not <br> which cannot absorb the caret).
+	//	See #12621.
+	function mayAbsorbCaret( node ) {
+		if ( isVisible( node ) )
+			return true;
+
+		if ( node.type == CKEDITOR.NODE_ELEMENT && !node.is( CKEDITOR.dtd.$empty ) )
+			return true;
+
+		return false;
+	}
+
 	function rangeRequiresFix( range ) {
-		function isTextCt( node, isAtEnd ) {
+		// Whether we must prevent from absorbing caret by this context node.
+		// Also checks whether there's an editable position next to that node.
+		function ctxRequiresFix( node, isAtEnd ) {
+			// It's ok for us if a text node absorbs the caret, because
+			// the caret container element isn't changed then.
 			if ( !node || node.type == CKEDITOR.NODE_TEXT )
 				return false;
 
@@ -100,17 +120,18 @@
 
 		var ct = range.startContainer;
 
-		var previous = range.getPreviousNode( isVisible, null, ct ),
-			next = range.getNextNode( isVisible, null, ct );
+		var previous = range.getPreviousNode( mayAbsorbCaret, null, ct ),
+			next = range.getNextNode( mayAbsorbCaret, null, ct );
 
-		// Any adjacent text container may absorb the cursor, e.g.
+		// Any adjacent text container may absorb the caret, e.g.
 		// <p><strong>text</strong>^foo</p>
 		// <p>foo^<strong>text</strong></p>
 		// <div>^<p>foo</p></div>
-		if ( isTextCt( previous ) || isTextCt( next, 1 ) )
+		if ( ctxRequiresFix( previous ) || ctxRequiresFix( next, 1 ) )
 			return true;
 
 		// Empty block/inline element is also affected. <span>^</span>, <p>^</p> (#7222)
+		// If you found this line confusing check #12655.
 		if ( !( previous || next ) && !( ct.type == CKEDITOR.NODE_ELEMENT && ct.isBlockBoundary() && ct.getBogus() ) )
 			return true;
 
@@ -201,44 +222,6 @@
 		sel.removeAllRanges();
 		sel.addRange( range );
 		sel.extend( bm[ 1 ].node, bm[ 1 ].offset );
-	}
-
-	// Read the comments in selection constructor.
-	function fixInitialSelection( root, nativeSel, doFocus ) {
-		// It may happen that setting proper selection will
-		// cause focus to be fired (even without actually focusing root).
-		// Cancel it because focus shouldn't be fired when retriving selection. (#10115)
-		var listener = root.on( 'focus', function( evt ) {
-			evt.cancel();
-		}, null, null, -100 );
-
-		// FF && Webkit.
-		if ( !CKEDITOR.env.ie ) {
-			var range = new CKEDITOR.dom.range( root );
-			range.moveToElementEditStart( root );
-
-			var nativeRange = root.getDocument().$.createRange();
-			nativeRange.setStart( range.startContainer.$, range.startOffset );
-			nativeRange.collapse( 1 );
-
-			nativeSel.removeAllRanges();
-			nativeSel.addRange( nativeRange );
-		}
-		else {
-			// IE in specific case may also fire selectionchange.
-			// We cannot block bubbling selectionchange, so at least we
-			// can prevent from falling into inf recursion caused by fix for #9699
-			// (see wysiwygarea plugin).
-			// http://dev.ckeditor.com/ticket/10438#comment:13
-			var listener2 = root.getDocument().on( 'selectionchange', function( evt ) {
-				evt.cancel();
-			}, null, null, -100 );
-		}
-
-		doFocus && root.focus();
-
-		listener.removeListener();
-		listener2 && listener2.removeListener();
 	}
 
 	// Creates cke_hidden_sel container and puts real selection there.
@@ -809,14 +792,32 @@
 
 		// When loaded data are ready check whether hidden selection container was not loaded.
 		editor.on( 'loadSnapshot', function() {
-			// TODO replace with el.find() which will be introduced in #9764,
-			// because it may happen that hidden sel container won't be the last element.
-			var el = editor.editable().getLast( function( node ) {
-				return node.type == CKEDITOR.NODE_ELEMENT;
-			} );
+			var isElement = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_ELEMENT ),
+				// TODO replace with el.find() which will be introduced in #9764,
+				// because it may happen that hidden sel container won't be the last element.
+				last = editor.editable().getLast( isElement );
 
-			if ( el && el.hasAttribute( 'data-cke-hidden-sel' ) )
-				el.remove();
+			if ( last && last.hasAttribute( 'data-cke-hidden-sel' ) ) {
+				last.remove();
+
+				// Firefox does a very unfortunate thing. When a non-editable element is the only
+				// element in the editable, when we remove the hidden selection container, Firefox
+				// will insert a bogus <br> at the beginning of the editable...
+				// See: https://bugzilla.mozilla.org/show_bug.cgi?id=911201
+				//
+				// This behavior is never desired because this <br> pushes the content lower, but in
+				// this case it is especially dangerous, because it happens when a bookmark is being restored.
+				// Since this <br> is inserted at the beginning it changes indexes and thus breaks the bookmark2
+				// what results in errors.
+				//
+				// So... let's revert what Firefox broke.
+				if ( CKEDITOR.env.gecko ) {
+					var first = editor.editable().getFirst( isElement );
+					if ( first && first.is( 'br' ) && first.getAttribute( '_moz_editor_bogus_node' ) ) {
+						first.remove();
+					}
+				}
+			}
 		}, null, null, 100 );
 
 		editor.on( 'key', function( evt ) {
@@ -1111,48 +1112,6 @@
 			this.isFake = selection.isFake;
 			this.isLocked = selection.isLocked;
 			return this;
-		}
-
-		// On WebKit, it may happen that we've already have focus
-		// on the editable element while still having no selection
-		// available. We normalize it here by replicating the
-		// behavior of other browsers.
-		//
-		// Webkit's condition covers also the case when editable hasn't been focused
-		// at all. Thanks to this hack Webkit always has selection in the right place.
-		//
-		// On FF and IE we only fix the first case, when editable was activated
-		// but the selection is broken - usually this happens after setData if editor was focused.
-
-		var sel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection();
-
-		if ( CKEDITOR.env.webkit ) {
-			if ( sel.type == 'None' && this.document.getActive().equals( root ) || sel.type == 'Caret' && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
-				fixInitialSelection( root, sel );
-		}
-		else if ( CKEDITOR.env.gecko ) {
-			if ( sel && this.document.getActive().equals( root ) &&
-				sel.anchorNode && sel.anchorNode.nodeType == CKEDITOR.NODE_DOCUMENT )
-				fixInitialSelection( root, sel, true );
-		}
-		else if ( CKEDITOR.env.ie ) {
-			var active = this.document.getActive();
-
-			// IEs 9+.
-			if ( !isMSSelection ) {
-				var anchorNode = sel && sel.anchorNode;
-
-				if ( anchorNode )
-					anchorNode = new CKEDITOR.dom.node( anchorNode );
-
-				if ( active && active.equals( this.document.getDocumentElement() ) &&
-					anchorNode && ( root.equals( anchorNode ) || root.contains( anchorNode ) ) )
-					fixInitialSelection( root, null, true );
-			}
-			// IEs 7&8.
-			else if ( sel.type == 'None' && active && active.equals( this.document.getDocumentElement() ) ) {
-				fixInitialSelection( root, null, true );
-			}
 		}
 
 		// Check whether browser focus is really inside of the editable element.

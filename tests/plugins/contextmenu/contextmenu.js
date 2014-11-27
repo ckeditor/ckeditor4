@@ -36,7 +36,6 @@
 				name: 'editor3',
 				creator: 'inline'
 			}, function( bot ) {
-				var editor = bot.editor
 				bot.setHtmlWithSelection( '<strong>[aaa]</strong> bbb' );
 
 				bot.contextmenu( function() {

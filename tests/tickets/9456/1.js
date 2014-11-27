@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,pastefromword */
 /* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -11,9 +12,9 @@
 	function testWordFilter( editor ) {
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: compat( input, 1 ) }, function( data, msg ) {
-				assert.areSame( compat( output ), compat( data.dataValue ) );
+				assert.areSame( compat( output ), compat( data.dataValue ), msg );
 			}, 'tc1', true );
-		}
+		};
 	}
 
 	bender.test( {

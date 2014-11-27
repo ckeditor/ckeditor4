@@ -24,7 +24,7 @@ bender.test( {
 		bender.tools.setUpEditors( {
 			editor: {
 				name: 'editor1'
-			},
+			}
 		}, function( editors, bots ) {
 			that.editorBots = bots;
 			that.editors = editors;

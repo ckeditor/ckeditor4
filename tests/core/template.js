@@ -4,17 +4,17 @@
 	'use strict';
 
 	bender.test( {
-		'template output string' : function() {
+		'template output string': function() {
 			var tpl = new CKEDITOR.template( '<a href="#" id="{id}" title="{text}">{text}</a>' );
 
 			// Unspecified variables should remain.
 			assert.areSame( '<a href="#" id="{id}" title="{text}">{text}</a>', tpl.output( {} ) );
-			assert.areSame( '<a href="#" id="btn" title="{text}">{text}</a>', tpl.output( { id : 'btn' } ) );
+			assert.areSame( '<a href="#" id="btn" title="{text}">{text}</a>', tpl.output( { id: 'btn' } ) );
 
-			assert.areSame( '<a href="#" id="btn" title="foo">foo</a>', tpl.output( { id : 'btn', text : 'foo' } ) );
+			assert.areSame( '<a href="#" id="btn" title="foo">foo</a>', tpl.output( { id: 'btn', text: 'foo' } ) );
 		},
 
-		'add/retrieve global template' : function() {
+		'add/retrieve global template': function() {
 			// Customize one of the following templates.
 			CKEDITOR.on( 'template', function( evt ) {
 				var data = evt.data;
@@ -24,7 +24,7 @@
 
 			// Define new templates.
 			var tpl = CKEDITOR.addTemplate( 'tpl1', '{foo}' );
-			var params = { foo : 'bar' };
+			var params = { foo: 'bar' };
 			assert.areSame( 'bar', tpl.output( params ) );
 
 			tpl = CKEDITOR.addTemplate( 'tpl2', '{foo}' );
@@ -48,11 +48,11 @@
 		},
 
 		'special characters (in replacement): single quote': function() {
-			this.assertTemplateOutput( "'", "{str}", { str: "'" } );
+			this.assertTemplateOutput( '\'', '{str}', { str: '\'' } );
 		},
 
 		'special characters: escaped single quote': function() {
-			this.assertTemplateOutput( "\\'", "\\'" );
+			this.assertTemplateOutput( '\\\'', '\\\'' );
 		},
 
 		'special characters: escaped double quote': function() {

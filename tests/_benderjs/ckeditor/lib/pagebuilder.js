@@ -3,6 +3,8 @@
  * Licensed under the terms of the MIT License (see LICENSE.md).
  */
 
+/* jshint browser: false, node: true */
+
 'use strict';
 
 var path = require( 'path' ),

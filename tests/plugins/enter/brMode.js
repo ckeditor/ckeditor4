@@ -5,12 +5,11 @@
 	bender.editor = {
 		config: {
 			enterMode: CKEDITOR.ENTER_BR,
-			allowedContent: true // Disable filter.
+			allowedContent: true
 		}
 	};
 
-	bender.test(
-	{
+	bender.test( {
 		doTest: function( input, expected, msg ) {
 			var ed = this.editor;
 			bender.tools.setHtmlWithSelection( ed,  input );
@@ -27,7 +26,7 @@
 			this.doTest( '<h1>foo^</h1>bar', CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? '<h1>foo^</h1><br />bar' : '<h1>foo</h1>^<br />bar', 'end of heading' );
 			this.doTest( '<h1 dir="rtl">foo^</h1>', '<h1 dir="rtl">foo</h1><div dir="rtl">^&nbsp;</div>', 'end of heading (with direction)' );
 			this.doTest( '<pre>foo^bar</pre>', /^<pre>foo(\r\n|\r|\n|<br \/>)\^bar<\/pre>$/, 'in pre' );
-		},
+		}
 
 		/*
 		// Commented out until we decide whether we want to block enter key completely and how.

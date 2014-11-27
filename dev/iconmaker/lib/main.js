@@ -3,13 +3,14 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* jshint browser: false, node: true */
+
 'use strict';
 
 var path = require( 'path' ),
 	exec = require( 'child_process' ).exec,
 	fs = require( 'fs' ),
 	util = require( 'util' ),
-	crypto = require( 'crypto' ),
 	png = require( 'png-js' ),
 	tmp = require( 'tmp' ),
 	q = require( 'q' ),
@@ -28,7 +29,7 @@ function iconmaker( png, locations, size, cold ) {
 	for ( var row in locations ) {
 		( function( row ) {
 			chain = chain.then( function( stats ) {
-				return extractIconArray( { png: png, size: size, cold: cold ? '[C]' : '' }, locations[ row ], parseInt( row ), stats );
+				return extractIconArray( { png: png, size: size, cold: cold ? '[C]' : '' }, locations[ row ], parseInt( row, 10 ), stats );
 			} );
 		} )( row );
 	}
@@ -82,7 +83,7 @@ function extractIcon( that, iconPath, row, column, stats ) {
 		var command = util.format( convertTpl, png, size, size, 2 * column * size, 2 * row * size, tmpIconPath );
 
 		// Extract the icon to temporary file using convert utiility.
-		exec( command, function( error, stdout, stderr ) {
+		exec( command, function() {
 			// Check if extracted icon is different than the old one.
 			compareIcons( iconPath, tmpIconPath, function( areSame ) {
 				console.log( '[i] Checking for changes of (%s,%s): %s', row, column, iconPath );
@@ -121,7 +122,7 @@ function updateIcon( iconPath, tmpIconPath, dirName, cold ) {
 
 function compareIcons( icon1, icon2, callback ) {
 	try {
-		fs.statSync( icon1 )
+		fs.statSync( icon1 );
 	} catch ( error ) {
 		// File doesn't exists. This is a new icon. So yes, it's different.
 		return callback( false );

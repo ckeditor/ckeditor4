@@ -1,18 +1,22 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: blockquote,toolbar */
 
-bender.editor = { config : { enterMode : CKEDITOR.ENTER_P, allowedContent: true } };
+bender.editor = {
+		config: {
+		enterMode: CKEDITOR.ENTER_P,
+		allowedContent: true
+	}
+};
 
-bender.test(
-{
-	'test apply blockquote' : function() {
+bender.test( {
+	'test apply blockquote': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<p>foo</p><p>bar</p>]' );
 		bot.execCommand( 'blockquote' );
 		assert.areSame( '<blockquote><p>foo</p><p>bar</p></blockquote>', bot.getData( 1 ) );
 	},
 
-	'test command state(ON) in blockquote' : function() {
+	'test command state(ON) in blockquote': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<blockquote><p>^foo</p></blockquote>' );
 

@@ -1,20 +1,18 @@
 /* bender-tags: editor,unit */
 
-var testEditable = CKEDITOR.tools.createClass(
-{
-	base : CKEDITOR.editable,
-	_ : {},
-	proto :
-	{
-		insertHtml : function( data ) {
+var testEditable = CKEDITOR.tools.createClass( {
+	base: CKEDITOR.editable,
+	_: {},
+	proto: {
+		insertHtml: function( data ) {
 			this._.html = data;
 		},
 
-		insertElement : function( element ) {
+		insertElement: function( element ) {
 			this._.element = element;
 		},
 
-		insertText : function( text ) {
+		insertText: function( text ) {
 			this._.text = text;
 		},
 
@@ -26,10 +24,10 @@ var testEditable = CKEDITOR.tools.createClass(
 			return this._[ isSnapshot ? 'snapshot' : 'data' ] || '';
 		},
 
-		focus : function() {
+		focus: function() {
 			this._.focus = true;
 		},
-		detach : function() {
+		detach: function() {
 			var _ = this._;
 			_.html = _.element = _.text = _.snapshot = _.data = _.focus = undefined;
 			testEditable.baseProto.detach.call( this );
@@ -37,13 +35,12 @@ var testEditable = CKEDITOR.tools.createClass(
 	}
 } );
 
-var doc = CKEDITOR.document,
-	tools = bender.tools;
+var doc = CKEDITOR.document;
 
 bender.test(
 {
 	// Initialize the editor instance.
-	'async:init' : function() {
+	'async:init': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
 		editor.on( 'loaded', function() {
@@ -54,7 +51,7 @@ bender.test(
 	},
 
 	// Test all editable APIs.
-	testEditable : function() {
+	testEditable: function() {
 		var editable = this.editor.editable();
 		assert.areSame( editable.$, doc.getBody().$ );
 		assert.areSame( this.editor, editable.editor );
@@ -76,7 +73,7 @@ bender.test(
 	},
 
 	// Test editable destruction.
-	testDetach : function() {
+	testDetach: function() {
 		var editable = this.editor.editable();
 		this.editor.editable( null );
 
@@ -93,7 +90,7 @@ bender.test(
 		assert.isUndefined( editable._.text );
 	},
 
-	'test listeners attaching/detaching' : function() {
+	'test listeners attaching/detaching': function() {
 		var editor = this.editor,
 			editable = new testEditable( editor, doc.getBody() ),
 			obj = {},
@@ -127,7 +124,7 @@ bender.test(
 		var editor = this.editor,
 			editable = new testEditable( editor, doc.getBody() ),
 			obj = {},
-			fired = 0
+			fired = 0;
 
 		editor.editable( editable );
 

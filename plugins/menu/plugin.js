@@ -343,7 +343,7 @@ CKEDITOR.plugins.add( 'menu', {
 						this._.showSubTimeout = CKEDITOR.tools.setTimeout( this._.showSubMenu, editor.config.menu_subMenuDelay || 400, this, [ index ] );
 					}, this );
 
-					this._.itemOutFn = CKEDITOR.tools.addFunction( function( index ) {
+					this._.itemOutFn = CKEDITOR.tools.addFunction( function() {
 						clearTimeout( this._.showSubTimeout );
 					}, this );
 
@@ -488,13 +488,13 @@ CKEDITOR.plugins.add( 'menu', {
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
 					title: this.label,
-					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
+					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
 					hoverFn: menu._.itemOverFn,
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
-					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label : arrowLabel } ) : '',
+					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
 					role: this.role ? this.role : 'menuitem',
 					ariaChecked: ariaChecked
 				};

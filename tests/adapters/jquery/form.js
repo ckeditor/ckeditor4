@@ -1,6 +1,7 @@
 /* bender-tags: editor,unit,jquery */
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea,save,toolbar */
+/* global $ */
 
 var FOO = '<p>foo</p>';
 
@@ -56,7 +57,7 @@ bender.test( {
 			} );
 		} );
 
-		$( '#form-save' ).ajaxForm( function( event ) {
+		$( '#form-save' ).ajaxForm( function() {
 			resume( function() {
 				assertTextareaValue( 'editor-save', FOO, 'ajaxForm method should be called when command \'save\' is executed (if jQuery and jQuery.form are included).' );
 			} );
@@ -66,14 +67,14 @@ bender.test( {
 	},
 
 	'test overwrite save button with adapter': function() {
-		$( '#editor-overwrite-save' ).ckeditor().editor.on( 'save', function( e ) {
+		$( '#editor-overwrite-save' ).ckeditor().editor.on( 'save', function() {
 			resume( function() {
 				assert.isTrue( true, 'This method should be called instead of ajaxForm.' );
 			} );
 			return false;
 		} );
 
-		$( '#form-overwrite-save' ).ajaxForm( function( event ) {
+		$( '#form-overwrite-save' ).ajaxForm( function() {
 			resume( function() {
 				assert.fail( 'Save button should be overwritten and this method shouldn\'t be called' );
 			} );

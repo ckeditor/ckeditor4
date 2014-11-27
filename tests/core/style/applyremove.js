@@ -8,6 +8,7 @@
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		fixHtml = bender.tools.fixHtml,
+		rangeTools = bender.tools.range,
 		doc = CKEDITOR.document,
 		playground;
 
@@ -30,7 +31,7 @@
 	}
 
 	function assertAppliedStyle2( container, definitionOrStyle, htmlWithRange, expectedOutput, msg ) {
-		var range = bender.tools.setHtmlWithRange( container, expandShortcuts( htmlWithRange ), container )[ 0 ];
+		var range = rangeTools.setWithHtml( container, expandShortcuts( htmlWithRange ) );
 
 		getStyle( definitionOrStyle ).applyToRange( range );
 
@@ -38,7 +39,7 @@
 	}
 
 	function assertRemovedStyle2( container, definitionOrStyle, htmlWithRange, expectedOutput, msg ) {
-		var range = bender.tools.setHtmlWithRange( container, expandShortcuts( htmlWithRange ), container )[ 0 ];
+		var range = rangeTools.setWithHtml( container, expandShortcuts( htmlWithRange ) );
 
 		getStyle( definitionOrStyle ).removeFromRange( range );
 
@@ -115,101 +116,6 @@
 			assert.areSame( '<p>[foo]</p>', output, 'test style remove from document' );
 		},
 
-		test_inline1: function() {
-			playground.setHtml( 'this is some sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getFirst(), 5 );
-			range.setEnd( playground.getFirst(), 7 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is</b> some sample text' );
-		},
-
-		test_inline2: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getChild( 1 ), 0 );
-			range.setEnd( playground, 2 );
-
-			assertAppliedStyle( playground, range, { element : 'i' }, 'this <i><b>is some </b></i>sample text' );
-		},
-
-		test_inline3: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground.getChild( 1 ), 0 );
-			range.setEnd( playground.getChild( 1 ).getFirst(), 2 );
-
-			assertAppliedStyle( playground, range, { element: 'i' }, 'this <b><i>is</i> some </b>sample text' );
-		},
-
-		// Inline - Remove inner duplicates.
-		test_inline4: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 3 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is some sample text</b>' );
-		},
-
-		// Inline - Merge with next.
-		test_inline5: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 1 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is some </b>sample text' );
-		},
-
-		// Inline - Merge with previous.
-		test_inline6: function() {
-			playground.setHtml( 'this <b>is some </b>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 2 );
-			range.setEnd( playground.getChild( 2 ), 6 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is some sample</b> text' );
-		},
-
-		// Inline - Merge several with next.
-		test_inline7: function() {
-			playground.setHtml( '<i><u>this </u></i><b><i><u>is</u> some</i> sample</b> text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground, 1 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b><i><u>this is</u> some</i> sample</b> text' );
-		},
-
-		// Inline - Merge several with previous.
-		test_inline8: function() {
-			playground.setHtml( 'this <b>is <i>some <u>sample</u></i></b><i><u> text</u></i>' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 2 );
-			range.setEnd( playground, 3 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, 'this <b>is <i>some <u>sample text</u></i></b>' );
-		},
-
-		test_inline9: function() {
-			playground.setHtml( 'this <i>is some </i>sample text' );
-
-			var range = new CKEDITOR.dom.range( doc );
-			range.setStart( playground, 0 );
-			range.setEnd( playground.getChild( 1 ), 0 );
-
-			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this </b><i>is some </i>sample text' );
-		},
-
 		test_inline10: function() {
 			playground.setHtml( 'this is some sample text' );
 
@@ -264,7 +170,7 @@
 			range.setEnd( playground, 5 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'span', attributes : { 'class' : 'b' } },
+				{ element: 'span', attributes: { 'class': 'b' } },
 				'<span class="b">this <span class="a">is</span> some sample text</span>' );
 		},
 
@@ -276,7 +182,7 @@
 			range.setEnd( playground, 5 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'span', styles : { 'font-size' : '1.5em' } },
+				{ element: 'span', styles: { 'font-size': '1.5em' } },
 				'<span style="font-size:1.5em;">this <span style="font-weight:600;">is</span> some sample text</span>' );
 		},
 
@@ -287,7 +193,7 @@
 			range.setStart( playground.getChild( 1 ).getFirst(), 3 );
 			range.setEnd( playground, 3 );
 
-			assertAppliedStyle( playground, range, { element : 'i' }, 'this <b>is <i>some sample</i></b><i> text</i>' );
+			assertAppliedStyle( playground, range, { element: 'i' }, 'this <b>is <i>some sample</i></b><i> text</i>' );
 		},
 
 		test_inline15: function() {
@@ -299,7 +205,7 @@
 			range.setStart( para.getFirst(), 0 );
 			range.setEnd( para.getFirst(), 7 );
 
-			var style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Arial,Helvetica,sans-serif' } );
+			var style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Arial,Helvetica,sans-serif' } );
 			style.applyToRange( range );
 
 			assert.areSame( fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this is</span> some sample text' ),
@@ -311,11 +217,14 @@
 			range.setStart( para.getFirst().getFirst(), 5 );
 			range.setEnd( para.getChild( 1 ), 5 );
 
-			style = new CKEDITOR.style( { element : 'span', styles : { 'font-family' : '#(family)' } }, { family : 'Georgia,serif' } );
+			style = new CKEDITOR.style( { element: 'span', styles: { 'font-family': '#(family)' } }, { family: 'Georgia,serif' } );
 			style.applyToRange( range );
 
-			assert.areSame( fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this <span style="font-family:georgia,serif;">is</span></span><span style="font-family:georgia,serif;"> some</span> sample text' ),
-					fixHtml( getInnerHtml( playground ) ), 'Second range' );
+			assert.areSame(
+				fixHtml( '<span style="font-family:arial,helvetica,sans-serif;">this <span style="font-family:georgia,serif;">' +
+					'is</span></span><span style="font-family:georgia,serif;"> some</span> sample text' ),
+				fixHtml( getInnerHtml( playground ) ), 'Second range'
+			);
 		},
 
 		test_inline16: function() {
@@ -328,7 +237,7 @@
 			range.setEnd( para.getFirst(), 10 );
 
 			assertAppliedStyle( playground, range,
-				{ element : 'b', styles : { color : 'red', 'font-weight' : '700' } },
+				{ element: 'b', styles: { color: 'red', 'font-weight': '700' } },
 				'<b lang="pt" style="color:red;font-size:11pt;">this<b style="font-weight:700;"> is some sample text</b></b>' );
 		},
 
@@ -339,7 +248,7 @@
 			range.setStart( playground, 0 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 4 );
 
-			assertAppliedStyle( playground, range, { element : 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
+			assertAppliedStyle( playground, range, { element: 'b' }, '<b>this is </b><a href="http://example.com/"><b>some</b> sample</a> text' );
 		},
 
 		test_def_styles_attr: function() {
@@ -349,8 +258,8 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
 
-			var style1 = new CKEDITOR.style( { element : 'span', attributes : { style : 'font-weight:bold' } } ),
-			style2 = new CKEDITOR.style( { element : 'span', attributes : { style : 'font-style:italic' } } );
+			var style1 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-weight:bold' } } ),
+			style2 = new CKEDITOR.style( { element: 'span', attributes: { style: 'font-style:italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -365,8 +274,8 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( el );
 
-			var style1 = new CKEDITOR.style( { element : 'span', styles : { 'font-weight' : 'bold' } } ),
-			style2 = new CKEDITOR.style( { element : 'span', styles : { 'font-style' : 'italic' } } );
+			var style1 = new CKEDITOR.style( { element: 'span', styles: { 'font-weight': 'bold' } } ),
+			style2 = new CKEDITOR.style( { element: 'span', styles: { 'font-style': 'italic' } } );
 
 			style1.applyToRange( range );
 			style2.applyToRange( range );
@@ -375,11 +284,11 @@
 		},
 
 		'test "ins" style applied to the block contents': function() {
-			assertAppliedStyle2( playground, { element : 'ins' }, '[<p>inserted text</p>]', '<p><ins>inserted text</ins></p>' );
+			assertAppliedStyle2( playground, { element: 'ins' }, '[<p>inserted text</p>]', '<p><ins>inserted text</ins></p>' );
 		},
 
 		'test "del" style applied to the outer of "ins" on block contents': function() {
-			assertAppliedStyle2( playground, { element : 'del' }, '[<p><ins>deleted text</ins></p>]', '<p><del><ins>deleted text</ins></del></p>' );
+			assertAppliedStyle2( playground, { element: 'del' }, '[<p><ins>deleted text</ins></p>]', '<p><del><ins>deleted text</ins></del></p>' );
 		},
 
 		'test apply anchor style': function() {
@@ -404,7 +313,7 @@
 			range.setStart( playground, 1 );
 			range.setEnd( playground.getChild( 1 ).getFirst(), 6 );
 
-			assertAppliedStyle( playground, range, { element : 'i' },
+			assertAppliedStyle( playground, range, { element: 'i' },
 				'this is some <strong><i>sample</i> text<\/strong>. you are using <a href="http://www.fckeditor.net/">ckeditor<\/a>.' );
 		},
 
@@ -417,21 +326,22 @@
 
 			var styleDef =
 			{
-				element		: 'span',
-				styles		: { 'font-family' : '#(family)' },
-				overrides	: [ { element : 'font', attributes : { 'face' : null } } ]
+				element: 'span',
+				styles: { 'font-family': '#(family)' },
+				overrides: [ { element: 'font', attributes: { 'face': null } } ]
 			};
 
-			var style = new CKEDITOR.style( styleDef, { 'family' : 'Arial,Helvetica,sans-serif' } );
+			var style = new CKEDITOR.style( styleDef, { 'family': 'Arial,Helvetica,sans-serif' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family' : 'Comic Sans MS,cursive' } );
+			style = new CKEDITOR.style( styleDef, { 'family': 'Comic Sans MS,cursive' } );
 			style.applyToRange( range );
 
-			style = new CKEDITOR.style( styleDef, { 'family' : 'Courier New,Courier,monospace' } );
+			style = new CKEDITOR.style( styleDef, { 'family': 'Courier New,Courier,monospace' } );
 			style.applyToRange( range );
 
-			var output = '<span style="font-family:courier new,courier,monospace;">outter</span><table><tbody><tr><td><span style="font-family:courier new,courier,monospace;">text</span></td></tr></tbody></table><span style="font-family:courier new,courier,monospace;">outter</span>';
+			var output = '<span style="font-family:courier new,courier,monospace;">outter</span><table><tbody><tr><td>' +
+				'<span style="font-family:courier new,courier,monospace;">text</span></td></tr></tbody></table><span style="font-family:courier new,courier,monospace;">outter</span>';
 
 			assert.areSame( fixHtml( output ), fixHtml( getInnerHtml( element ) ) );
 		},
@@ -444,7 +354,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.selectNodeContents( element );
 
-			assertAppliedStyle( playground, range, { element : 'i', attributes : { title : 'z' } },
+			assertAppliedStyle( playground, range, { element: 'i', attributes: { title: 'z' } },
 				'<p><i title="z">text</i></p><i title="z">outter</i>' );
 		},
 
@@ -458,7 +368,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_i1' ), CKEDITOR.POSITION_BEFORE_END );
 
-			var style = new CKEDITOR.style( { element : 'b' } );
+			var style = new CKEDITOR.style( { element: 'b' } );
 			style.removeFromRange( range );
 
 			assert.areSame( 'this is some <b><i id="_i1">styles</i></b><i></i> text', getInnerHtml( element ) );
@@ -473,7 +383,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_b1' ), CKEDITOR.POSITION_BEFORE_END );
 
-			var style = new CKEDITOR.style( { element : 'b' } );
+			var style = new CKEDITOR.style( { element: 'b' } );
 			style.removeFromRange( range );
 			// This is some <b>styles</b>^ text
 			assert.areSame( doc.getById( '_b1' ).getParent().$, range.startContainer.$ );
@@ -490,7 +400,7 @@
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_i1' ), CKEDITOR.POSITION_AFTER_START );
 
-			var style = new CKEDITOR.style( { element : 'b' , overrides : [ 'strong' ] } );
+			var style = new CKEDITOR.style( { element: 'b' , overrides: [ 'strong' ] } );
 			style.removeFromRange( range );
 
 			// text <span><i>^</i></span><span><b><i>styles</i></b></span>
@@ -506,11 +416,12 @@
 
 			var style = new CKEDITOR.style(
 				{
-					element		: 'span',
-					attributes	: { 'class' : '#(family)' },
-					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
-				}
-				, { family : 'fontcourier' } );
+					element: 'span',
+					attributes: { 'class': '#(family)' },
+					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+				},
+				{ family: 'fontcourier' }
+			);
 
 			style.applyToRange( range );
 
@@ -518,13 +429,14 @@
 
 			range.selectNodeContents( element );
 
-			var style = new CKEDITOR.style(
+			style = new CKEDITOR.style(
 				{
-					element		: 'span',
-					attributes	: { 'class' : '#(family)' },
-					overrides	: [ { element : 'span', attributes : { 'class' : /^font(?:comic|courier|times)$/ } } ]
-				}
-				, { family : 'fontcomic' } );
+					element: 'span',
+					attributes: { 'class': '#(family)' },
+					overrides: [ { element: 'span', attributes: { 'class': /^font(?:comic|courier|times)$/ } } ]
+				},
+				{ family: 'fontcomic' }
+			);
 
 			style.applyToRange( range );
 
@@ -535,7 +447,7 @@
 		'test remove heading style': function() {
 			function doTest( enterMode, expected ) {
 				var range = bender.tools.setHtmlWithRange( playground, '<h1>h[eadi]ng</h1>' )[ 0 ];
-				var style = new CKEDITOR.style( { element : 'h1' } );
+				var style = new CKEDITOR.style( { element: 'h1' } );
 				style._.enterMode = enterMode;
 				style.removeFromRange( range );
 				assert.areSame( expected, getInnerHtml( playground ) );
@@ -552,11 +464,10 @@
 			var range = bender.tools.setHtmlWithRange( ct, '[some text and <a href="javascript:void(0)">a link</a>]' )[ 0 ];
 			var style = new CKEDITOR.style(
 			{
-				element : 'span',
-				styles : { 'color' : 'red' },
+				element: 'span',
+				styles: { color: 'red' },
 				childRule: function( element ) {
-					return element.getName() != 'a' ||
-						   element.getElementsByTag( 'a' ).count();
+					return element.getName() != 'a' || element.getElementsByTag( 'a' ).count();
 				}
 			} );
 
@@ -573,8 +484,8 @@
 			var ct = playground;
 			var range = bender.tools.setHtmlWithRange( ct, 'abc [<b class="a">def</b>] ghi' )[ 0 ];
 
-			var style1 = new CKEDITOR.style( { element : 'b', type : CKEDITOR.STYLE_INLINE } ),
-				style2 = new CKEDITOR.style( { element : 'b', type : CKEDITOR.STYLE_INLINE, alwaysRemoveElement : 1 } );
+			var style1 = new CKEDITOR.style( { element: 'b', type: CKEDITOR.STYLE_INLINE } ),
+				style2 = new CKEDITOR.style( { element: 'b', type: CKEDITOR.STYLE_INLINE, alwaysRemoveElement: 1 } );
 
 			style1.removeFromRange( range );
 			assert.areSame( 'abc <b class="a">def</b> ghi', getInnerHtml( playground ) );
@@ -587,43 +498,295 @@
 			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
-			assertAppliedStyle2( playground, { element: 'h1' }, '<p>^<br></p>', '<h1><br></h1>' );
+			assertAppliedStyle2( playground, { element: 'h1' }, '<p>[]<br></p>', '<h1><br></h1>' );
 		}
 	};
 
+
+	//
+	// Block styles -----------------------------------------------------------
+	//
+
 	var t = createAssertionFunction2( tcs, 'test apply block style - paragraphs', { element: 'h1' } );
 
-	t.a( '<p>x</p><p>a^b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1' );
-	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2' );
-	t.a( '<p>x</p><p>a[b</p><p>c]d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3' );
-	t.a( '<p><b>a^b</b>c</p>', '<h1><b>ab</b>c</h1>', 'tc4' );
+	t.a( '<p>x</p><p>a{}b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1a' );
+	t.a( '<p>x</p><p>a[]b</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc1b' );
+	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2a' );
+	t.a( '<p>x</p><p>{ab}</p><p>x</p>', '<p>x</p><h1>ab</h1><p>x</p>', 'tc2b' );
+	t.a( '<p>x</p><p>a{b</p><p>c}d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3a' );
+	t.a( '<p>x</p><p>a[b</p><p>c]d</p><p>x</p>', '<p>x</p><h1>ab</h1><h1>cd</h1><p>x</p>', 'tc3b' );
+	t.a( '<p><b>a{}b</b>c</p>', '<h1><b>ab</b>c</h1>', 'tc4' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block style', { element: 'h1' } );
 
-	t.r( '<h1>x</h1><h1>a^b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1' );
-	t.r( '<h1>x</h1><h1>a[b</h1><h1>c]d</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><p>cd</p><h1>x</h1>', 'tc2' );
-	t.r( '<h1><b>a^b</b>c</h1>', '<p><b>ab</b>c</p>', 'tc3' );
+	t.r( '<h1>x</h1><h1>a{}b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1a' );
+	t.r( '<h1>x</h1><h1>a[]b</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><h1>x</h1>', 'tc1b' );
+	t.r( '<h1>x</h1><h1>a{b</h1><h1>c}d</h1><h1>x</h1>', '<h1>x</h1><p>ab</p><p>cd</p><h1>x</h1>', 'tc2' );
+	t.r( '<h1><b>a{}b</b>c</h1>', '<p><b>ab</b>c</p>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply block style - bulleted lists', { element: 'h1' } );
 
-	t.a( '<ul><li>x</li><li>a^b</li><li>x</li></ul>', '<ul><li>x</li><li><h1>ab</h1></li><li>x</li></ul>', 'tc1' );
-	t.a( '<ul><li>x[y</li><li>a]b</li><li>x</li></ul>', '<ul><li><h1>xy</h1></li><li><h1>ab</h1></li><li>x</li></ul>', 'tc2' );
-	t.a( '<ul><li><p>[x</p></li><li><p>a]</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
+	t.a( '<ul><li>x</li><li>a{}b</li><li>x</li></ul>', '<ul><li>x</li><li><h1>ab</h1></li><li>x</li></ul>', 'tc1' );
+	t.a( '<ul><li>x{y</li><li>a}b</li><li>x</li></ul>', '<ul><li><h1>xy</h1></li><li><h1>ab</h1></li><li>x</li></ul>', 'tc2' );
+	t.a( '<ul><li><p>{x</p></li><li><p>a}</p><p>b</p></li><li>x</li></ul>', '<ul><li><h1>x</h1></li><li><h1>a</h1><p>b</p></li><li>x</li></ul>', 'tc3' );
 
 
 	// #12273
 	t = createAssertionFunction2( tcs, 'test apply block style - description lists', { element: 'h1' } );
 
-	t.a( '<dl><dt>x</dt><dd>a^b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );
-	t.a( '<dl><dt>x[y</dt><dd>a]b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
-	t.a( '<dl><dt><p>[x</p></dt><dd><p>a]</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
+	t.a( '<dl><dt>x</dt><dd>a{}b</dd><dt>x</dt></dl>', '<dl><dt>x</dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc1' );
+	t.a( '<dl><dt>x{y</dt><dd>a}b</dd><dt>x</dt></dl>', '<dl><dt><h1>xy</h1></dt><dd><h1>ab</h1></dd><dt>x</dt></dl>', 'tc2' );
+	t.a( '<dl><dt><p>{x</p></dt><dd><p>a}</p><p>b</p></dd><dt>x</dt></dl>', '<dl><dt><h1>x</h1></dt><dd><h1>a</h1><p>b</p></dd><dt>x</dt></dl>', 'tc3' );
 
+
+	//
+	// Inline styles ----------------------------------------------------------
+	//
+
+	//
+	// NOTE -------------------------------------------------------------------
+	//
+	// These tests were created as a documentation of the current behavior of
+	// the styles system. Many of the results we foundare not correct or at least not optimal.
+	// Therefore, when after doing changes to the styles system you find out that some of
+	// them fail, check whether the new result makes more sense and correct the test.
+	//
+	// NOTE -------------------------------------------------------------------
+	//
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - single element', { element: 'b' } );
+
+	t.a( '<p>x</p><p>a{}b</p><p>x</p>', '<p>x</p><p>a<b></b>b</p><p>x</p>', 'tc1a' );
+	t.a( '<p>x</p><p>a[]b</p><p>x</p>', '<p>x</p><p>a<b></b>b</p><p>x</p>', 'tc1b' );
+	t.a( '<p>x</p><p>{ab}</p><p>x</p>', '<p>x</p><p><b>ab</b></p><p>x</p>', 'tc2a' );
+	t.a( '<p>x</p><p>[ab]</p><p>x</p>', '<p>x</p><p><b>ab</b></p><p>x</p>', 'tc2b' );
+	t.a( '<p>{x</p><p>a}b</p><p>x</p>', '<p><b>x</b></p><p><b>a</b>b</p><p>x</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - over an inline element', { element: 'i' } );
+
+	t.a( '<p>this <b>[is some </b>]sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc1' );
+	t.a( '<p>this <b>{is some }</b>sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc2' );
+	t.a( '<p>this [<b>is some </b>}sample text</p>', '<p>this <i><b>is some </b></i>sample text</p>', 'tc3' );
+	t.a( '<p>this {<b>is some </b>sample} text</p>', '<p>this <i><b>is some </b>sample</i> text</p>', 'tc4' );
+	t.a( '<p>this <b>{is} some </b>sample text</p>', '<p>this <b><i>is</i> some </b>sample text</p>', 'tc5' );
+	t.a( '<p>{this <b>}is some </b>sample text</p>', '<p><i>this </i><b>is some </b>sample text</p>', 'tc6' );
+	t.a( '<p>{this <b>]is some </b>sample text</p>', '<p><i>this </i><b>is some </b>sample text</p>', 'tc7' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - remove identical duplicates', { element: 'b' } );
+
+	t.a( '<p>{this <b>is some </b>sample text}</p>', '<p><b>this is some sample text</b></p>', 'tc1' );
+	t.a( '<p>this <b>{is some </b>sample} text</p>', '<p>this <b>is some sample</b> text</p>', 'tc2' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - merge', { element: 'b' } );
+
+	t.a( '<p>{this }<b>is some </b>sample text</p>', '<p><b>this is some </b>sample text</p>', 'tc1' );
+	t.a( '<p>this <b>is some </b>{sample} text</p>', '<p>this <b>is some sample</b> text</p>', 'tc2' );
+	t.a( '<p>[<i><u>this </u></i>]<b><i><u>is</u> some</i> sample</b> text</p>', '<p><b><i><u>this is</u> some</i> sample</b> text</p>', 'tc3a' );
+	t.a( '<p><i><u>{this }</u></i><b><i><u>is</u> some</i> sample</b> text</p>', '<p><b><i><u>this is</u> some</i> sample</b> text</p>', 'tc3b' );
+	t.a( '<p>this <b>is <i>some <u>sample</u></i></b>[<i><u> text</u></i>]</p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4a' );
+	t.a( '<p>this <b>is <i>some <u>sample</u></i></b><i><u>{ text}</u></i></p>', '<p>this <b>is <i>some <u>sample text</u></i></b></p>', 'tc4b' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override single element style', { element: 'b', overrides: 'i' } );
+
+	t.a( '<p>{this <i>is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1' );
+	// This is a theoretical case, because style will be active in this selection, so
+	// the UI should only make it possible to remove it.
+	t.a( '<p>this <i>is {some} sample</i> text</p>', '<p>this <i>is <b>some</b> sample</i> text</p>', 'tc2' );
+	// Does not seem to be the right result. We keep this TC as a backwards compat test.
+	t.a( '<p>this <i>is {some </i>sample} text</p>', '<p>this <i>is <b>some </b></i><b>sample</b> text</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override single element style', { element: 'b', overrides: 'i' } );
+
+	t.r( '<p>{this <i>is some </i>sample} text</p>', '<p>this is some sample text</p>', 'tc1' );
+	t.r( '<p>this <i>is {some} sample</i> text</p>', '<p>this <i>is </i>some<i> sample</i> text</p>', 'tc2' );
+	t.r( '<p>{this <i>is} some </i>sample text</p>', '<p>this is<i> some </i>sample text</p>', 'tc3' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply/remove inline style - override multiple single element style',
+		{ element: 'b', overrides: [ 'i', 'u' ] } );
+
+	t.a( '<p>{this <i>is some </i><u>sample</u> text}</p>', '<p><b>this is some sample text</b></p>', 'tc1' );
+	t.r( '<p><b>this {is</b><i> some </i><u>sample }text</u></p>', '<p><b>this </b>is some sample <u>text</u></p>', 'tc2' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override style with attrs/styles',
+		{
+			element: 'b',
+			overrides: [
+				{ element: 'i', attributes: { foo: '1' } },
+				{ element: 'u', styles: { 'font-size': '12px' } },
+				{ element: 's', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	// If this TC looks broken to you, then read all the TCs below.
+	// Although... when compared to how removing style works (next section), then applying style is
+	// obviously incorrect.
+	t.a( '<p>{this <i>is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.1' );
+	t.a( '<p>{this <i foo="1">is some </i>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc1.2' );
+	t.a( '<p>{this <i foo="2">is some </i>sample} text</p>', '<p><b>this <i foo="2">is some </i>sample</b> text</p>', 'tc1.3' );
+	t.a( '<p>{this <i bar="1" foo="1">is some </i>sample} text</p>', '<p><b>this <i bar="1">is some </i>sample</b> text</p>', 'tc1.4' );
+
+	t.a( '<p>{this <u>is some </u>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc2.1' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.a( '<p>{this <u style="font-size:12px;">is some </u>sample} text</p>',
+		'<p><b>this <u style="font-size:12px;">is some </u>sample</b> text</p>', 'tc2.2' );
+
+	t.a( '<p>{this <s>is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.1' );
+	t.a( '<p>{this <s foo="1">is some </s>sample} text</p>', '<p><b>this is some sample</b> text</p>', 'tc3.2' );
+	t.a( '<p>{this <s bar="2" foo="1">is some </s>sample} text</p>', '<p><b>this <s bar="2">is some </s>sample</b> text</p>', 'tc3.3' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.a( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
+		'<p><b>this <s style="font-size:12px;">is some </s>sample</b> text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override style with attrs/styles - collisions',
+		{
+			element: 'b',
+			attributes: { foo: '2' },
+			styles: { 'font-size': '20px' },
+			overrides: [
+				{ element: 'b', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.2' );
+	t.a( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc1.3' );
+	t.a( '<p>{this <b bar="1" foo="1">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this <b bar="1">is some </b>sample</b> text</p>', 'tc1.4' );
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc2.1' );
+	t.a( '<p>{this <b style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc2.2' );
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.2' );
+	t.a( '<p>{this <b bar="2" foo="1">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this <b bar="2">is some </b>sample</b> text</p>', 'tc3.3' );
+	t.a( '<p>{this <b style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="2" style="font-size:20px;">this is some sample</b> text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override style with attrs/styles',
+		{
+			element: 'b',
+			overrides: [
+				{ element: 'i', attributes: { foo: '1' } },
+				{ element: 'u', styles: { 'font-size': '12px' } },
+				{ element: 's', attributes: { foo: null }, styles: { 'font-size': null } }
+			]
+		}
+	);
+
+	// Compare with tc2.1...
+	t.r( '<p>{this <i>is some </i>sample} text</p>', '<p>this <i>is some </i>sample text</p>', 'tc1.1' );
+	t.r( '<p>{this <i foo="1">is some </i>sample} text</p>', '<p>this is some sample text</p>', 'tc1.2' );
+	t.r( '<p>{this <i foo="2">is some </i>sample} text</p>', '<p>this <i foo="2">is some </i>sample text</p>', 'tc1.3' );
+	t.r( '<p>{this <i foo="1" bar="1">is some </i>sample} text</p>', '<p>this <i bar="1">is some </i>sample text</p>', 'tc1.4' );
+
+	// Compare with tc1.1 and tc3.1...
+	t.r( '<p>{this <u>is some </u>sample} text</p>', '<p>this is some sample text</p>', 'tc2.1' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.r( '<p>{this <u style="font-size:12px;">is some </u>sample} text</p>',
+		'<p>this <u style="font-size:12px;">is some </u>sample text</p>', 'tc2.2' );
+
+	// Compare with tc2.1...
+	t.r( '<p>{this <s>is some </s>sample} text</p>', '<p>this <s>is some </s>sample text</p>', 'tc3.1' );
+	t.r( '<p>{this <s foo="1">is some </s>sample} text</p>', '<p>this is some sample text</p>', 'tc3.2' );
+	t.r( '<p>{this <s foo="1" bar="2">is some </s>sample} text</p>', '<p>this <s bar="2">is some </s>sample text</p>', 'tc3.3' );
+	// This behavior is broken. We keep this TC as a backwards compat test.
+	t.r( '<p>{this <s style="font-size:12px;">is some </s>sample} text</p>',
+		'<p>this <s style="font-size:12px;">is some </s>sample text</p>', 'tc3.4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - strictly matches overrides or the style',
+		{
+			element: 'b',
+			attributes: { foo: '1' },
+			overrides: [
+				{ element: 'b', attributes: { foo: '2' } }
+			]
+		}
+	);
+
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>',
+		'<p><b foo="2">this </b>is some sample<b foo="2"> text</b></p>', 'tc1' );
+	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
+		'<p><b bar="3" foo="2">this </b><b bar="3">is some sample</b><b bar="3" foo="2"> text</b></p>', 'tc2' );
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc3' );
+	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
+	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
+	t.r( '<p><b foo="3">this {is some sample} text</b></p>', '<p><b foo="3">this is some sample text</b></p>', 'tc6' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - strictly matches the style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>',
+		'<p><b foo="2">this is some sample text</b></p>', 'tc1' );
+	t.r( '<p><b bar="3" foo="2">this {is some sample} text</b></p>',
+		'<p><b bar="3" foo="2">this is some sample text</b></p>', 'tc2' );
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc3' );
+	t.r( '<p>this <b foo="1">{is some sample}</b> text</p>', '<p>this is some sample text</p>', 'tc4' );
+	t.r( '<p>this {<b foo="1">is some sample</b>} text</p>', '<p>this is some sample text</p>', 'tc5' );
+
+
+	t = createAssertionFunction2( tcs, 'test apply inline style - override similar style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.a( '<p>{this <b>is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc1' );
+	t.a( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc2' );
+	t.a( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p><b foo="1">this is some sample</b> text</p>', 'tc3' );
+	t.a( '<p>{this <b foo="1" style="font-size:12px;">is some </b>sample} text</p>',
+		'<p><b foo="1">this <b style="font-size:12px;">is some </b>sample</b> text</p>', 'tc4' );
+
+
+	t = createAssertionFunction2( tcs, 'test remove inline style - override similar style',
+		{
+			element: 'b',
+			attributes: { foo: '1' }
+		}
+	);
+
+	t.r( '<p><b>this {is some sample} text</b></p>', '<p><b>this is some sample text</b></p>', 'tc1.1' );
+	t.r( '<p><b foo="1">this {is some sample} text</b></p>', '<p><b foo="1">this </b>is some sample<b foo="1"> text</b></p>', 'tc1.2' );
+	// Compare with the previous section...
+	t.r( '<p><b foo="2">this {is some sample} text</b></p>', '<p><b foo="2">this is some sample text</b></p>', 'tc1.3' );
+	t.r( '<p><b foo="1" style="font-size:12px;">this {is some sample} text</b></p>',
+		'<p><b foo="1" style="font-size:12px;">this </b><b style="font-size:12px;">is some sample</b><b foo="1" style="font-size:12px;"> text</b></p>', 'tc1.4' );
+
+	t.r( '<p>{this <b>is some </b>sample} text</p>', '<p>this is some sample text</p>', 'tc2.1' );
+	t.r( '<p>{this <b foo="1">is some </b>sample} text</p>', '<p>this is some sample text</p>', 'tc2.2' );
+	t.r( '<p>{this <b foo="2">is some </b>sample} text</p>', '<p>this <b foo="2">is some </b>sample text</p>', 'tc2.3' );
+	t.r( '<p>{this <b foo="1" style="font-size:12px;">is some </b>sample} text</p>',
+		'<p>this <b style="font-size:12px;">is some </b>sample text</p>', 'tc2.4' );
+
+
+	//
+	// Non-editable content ---------------------------------------------------
+	//
 
 	t = createAssertionFunction2( tcs, 'test do not apply block styles to non-editable blocks', { element: 'h1' } );
 
-	t.a( '<p>[x</p><p @c=f>a</p><div @c=f>b</div><p>x]</p>', '<h1>x</h1><p @c=f>a</p><div @c=f>b</div><h1>x</h1>', 'tc1' );
+	t.a( '<p>{x</p><p @c=f>a</p><div @c=f>b</div><p>x}</p>', '<h1>x</h1><p @c=f>a</p><div @c=f>b</div><h1>x</h1>', 'tc1' );
 	t.a( '[<p @c=f>a</p>]', '<p @c=f>a</p>', 'tc2' );
 	t.a( '[<div @c=f><p>a</p></div>]', '<div @c=f><p>a</p></div>', 'tc3' );
 	t.a( '[<div @c=f><p>a</p>b</div>]', '<div @c=f><p>a</p>b</div>', 'tc4' );
@@ -631,14 +794,14 @@
 
 	t = createAssertionFunction2( tcs, 'test do not remove block styles from non-editable blocks', { element: 'h1' } );
 
-	t.r( '<h1>[x</h1><h1 @c=f>a</h1><h1>x]</h1>', '<p>x</p><h1 @c=f>a</h1><p>x</p>', 'tc1' );
+	t.r( '<h1>{x</h1><h1 @c=f>a</h1><h1>x}</h1>', '<p>x</p><h1 @c=f>a</h1><p>x</p>', 'tc1' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply block styles to blocks with non-editable inline elements', { element: 'h1' } );
 
 	t.a( '<p>[x<i @c=f>a</i>x]</p>', '<h1>x<i @c=f>a</i>x</h1>', 'tc1' );
 	t.a( '<p>[x</p><p><i @c=f>a</i></p><p>x]</p>', '<h1>x</h1><h1><i @c=f>a</i></h1><h1>x</h1>', 'tc2' );
-	t.a( '<p>x<i @c=f>a</i>x^y</p>', '<h1>x<i @c=f>a</i>xy</h1>', 'tc3' );
+	t.a( '<p>x<i @c=f>a</i>x{}y</p>', '<h1>x<i @c=f>a</i>xy</h1>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block styles from blocks with non-editable inline elements', { element: 'h1' } );
@@ -719,6 +882,10 @@
 	removeInlineFromNonEditableBlocks( t );
 
 
+	//
+	// Nested editables -------------------------------------------------------
+	//
+
 	t = createAssertionFunction2( tcs, 'test apply block styles on nested editables', { element: 'h1' } );
 
 	t.a( '[<div @c=f><div @c=t>b</div></div>]', '<div @c=f><div @c=t><h1>b</h1></div></div>', 'tc1' );
@@ -726,7 +893,7 @@
 	t.a( '[<div @c=f><div>x<div><div @c=t>b</div></div></div></div>]', '<div @c=f><div>x<div><div @c=t><h1>b</h1></div></div></div></div>', 'tc3' );
 	t.a( '[<div @c=f><div @c=t>b</div>x<div @c=t>c</div></div>]', '<div @c=f><div @c=t><h1>b</h1></div>x<div @c=t><h1>c</h1></div></div>', 'tc4' );
 	t.a( '[<div @c=f><p @c=t>b</p></div>]', '<div @c=f><p @c=t>b</p></div>', 'tc5' );
-	t.a( '<div @c=f><div @c=t><p>a^b</p></div></div>', '<div @c=f><div @c=t><h1>ab</h1></div></div>', 'tc6' );
+	t.a( '<div @c=f><div @c=t><p>a{}b</p></div></div>', '<div @c=f><div @c=t><h1>ab</h1></div></div>', 'tc6' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove block styles from nested editables', { element: 'h1' } );
@@ -736,7 +903,7 @@
 	t.r( '[<div @c=f><div>x<div><div @c=t><h1>b</h1></div></div></div></div>]', '<div @c=f><div>x<div><div @c=t><p>b</p></div></div></div></div>', 'tc3' );
 	t.r( '[<div @c=f><div @c=t><h1>b</h1></div>x<div @c=t><h1>c</h1></div></div>]', '<div @c=f><div @c=t><p>b</p></div>x<div @c=t><p>c</p></div></div>', 'tc4' );
 	t.r( '[<div @c=f><h1 @c=t>b</h1></div>]', '<div @c=f><h1 @c=t>b</h1></div>', 'tc5' );
-	t.r( '<div @c=f><div @c=t><h1>a^b</h1></div></div>', '<div @c=f><div @c=t><p>ab</p></div></div>', 'tc6' );
+	t.r( '<div @c=f><div @c=t><h1>a{}b</h1></div></div>', '<div @c=f><div @c=t><p>ab</p></div></div>', 'tc6' );
 
 
 	t = createAssertionFunction2( tcs, 'test apply inline styles on nested editables', { element: 'b' } );
@@ -760,10 +927,10 @@
 	}
 
 	t = createAssertionFunction2( tcs, 'test remove inline styles from nested editables', { element: 'b' } );
-	removeInlineFromNonEditableBlocks( t );
+	removeInlineFromNestedEditables( t );
 
 	t = createAssertionFunction2( tcs, 'test remove inline styles from nested editables - includeReadonly', { element: 'b', includeReadonly: true } );
-	removeInlineFromNonEditableBlocks( t );
+	removeInlineFromNestedEditables( t );
 
 
 	( function() {
@@ -796,17 +963,21 @@
 	} )();
 
 
+	//
+	// Misc -------------------------------------------------------------------
+	//
+
 	t = createAssertionFunction2( tcs, 'test apply style with data- attribute', { element: 'span', attributes: { 'data-element': 'a', lang: 'en' } } );
 
-	t.a( '<p>[x<span data-element="b" lang="en">foo</span>y]</p>', '<p><span data-element="a" lang="en">x<span data-element="b">foo</span>y</span></p>', 'tc1' );
-	t.a( '<p>[x<span data-element="a" lang="en">foo</span>y]</p>', '<p><span data-element="a" lang="en">x<span data-element="a">foo</span>y</span></p>', 'tc2' );
-	t.a( '<p>x<span data-element="a" lang="en">f[o]o</span>y</p>', '<p>x<span data-element="a" lang="en">f<span data-element="a" lang="en">o</span>o</span>y</p>', 'tc3' );
+	t.a( '<p>{x<span data-element="b" lang="en">foo</span>y}</p>', '<p><span data-element="a" lang="en">x<span data-element="b">foo</span>y</span></p>', 'tc1' );
+	t.a( '<p>{x<span data-element="a" lang="en">foo</span>y}</p>', '<p><span data-element="a" lang="en">x<span data-element="a">foo</span>y</span></p>', 'tc2' );
+	t.a( '<p>x<span data-element="a" lang="en">f{o}o</span>y</p>', '<p>x<span data-element="a" lang="en">f<span data-element="a" lang="en">o</span>o</span>y</p>', 'tc3' );
 
 
 	t = createAssertionFunction2( tcs, 'test remove style with data- attribute', { element: 'span', attributes: { 'data-element': 'a' } } );
 
-	t.r( '<p>[x<span data-element="a">x<span data-element="a">x</span>x</span>x]</p>', '<p>xxxxx</p>', 'tc1' );
-	t.r( '<p>[x<span data-element="a">x<span data-element="a" foo="1">x</span>x</span>x]</p>', '<p>xx<span foo="1">x</span>xx</p>', 'tc2' );
+	t.r( '<p>{x<span data-element="a">x<span data-element="a">x</span>x</span>x}</p>', '<p>xxxxx</p>', 'tc1' );
+	t.r( '<p>{x<span data-element="a">x<span data-element="a" foo="1">x</span>x</span>x}</p>', '<p>xx<span foo="1">x</span>xx</p>', 'tc2' );
 
 
 	bender.test( tcs );

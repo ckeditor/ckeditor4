@@ -3,8 +3,6 @@
 ( function() {
 	'use strict';
 
-	var tools = bender.tools;
-
 	bender.test( {
 		'test default value': function() {
 			bender.editorBot.create( {

@@ -105,7 +105,7 @@
 							'-webkit-overflow-scrolling': 'touch'
 						} );
 
-						var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function( ev ) {
+						var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function() {
 							this.isLoaded = true;
 							if ( this.onLoad )
 								this.onLoad();
@@ -142,8 +142,9 @@
 						holder = doc.getBody();
 						holder.unselectable();
 						CKEDITOR.env.air && CKEDITOR.tools.callFunction( onLoad );
-					} else
+					} else {
 						holder = this.document.getById( this.id );
+					}
 
 					this._.holder = holder;
 				}
@@ -167,8 +168,8 @@
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
 				var src =
-					CKEDITOR.env.air ? 'javascript:void(0)' :
-					CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent(
+					CKEDITOR.env.air ? 'javascript:void(0)' : // jshint ignore:line
+					CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( // jshint ignore:line
 						'document.open();' +
 						// In IE, the document domain must be set any time we call document.open().
 						'(' + CKEDITOR.tools.fixDomain + ')();' +

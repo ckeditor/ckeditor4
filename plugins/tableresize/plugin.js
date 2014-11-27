@@ -103,7 +103,8 @@
 				y: tbodyPosition.y,
 				width: pillarWidth,
 				height: tbody.$.offsetHeight,
-				rtl: rtl } );
+				rtl: rtl
+			} );
 		}
 
 		return pillars;
@@ -230,7 +231,8 @@
 					leftCell, leftCell && getWidth( leftCell ),
 					rightCell, rightCell && getWidth( rightCell ),
 					( !leftCell || !rightCell ) && ( getWidth( table ) + getBorderWidth( table, 'left' ) + getBorderWidth( table, 'right' ) ),
-					currentShift ] );
+					currentShift
+				] );
 			}
 		}
 

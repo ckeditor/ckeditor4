@@ -282,7 +282,7 @@
 						'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
 					'</div>' +
 				'</div>' ),
-                floatSpace = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( {
+				floatSpace = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( {
 					content: topHtml,
 					id: editor.id,
 					langDir: editor.lang.dir,

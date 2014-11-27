@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,contextmenu */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -17,8 +19,7 @@
 		}
 	};
 
-	var fixHtml = widgetTestsTools.fixHtml,
-		getWidgetById = widgetTestsTools.getWidgetById;
+	var getWidgetById = widgetTestsTools.getWidgetById;
 
 	bender.test( {
 		'test contextMenu event firing': function() {
@@ -92,8 +93,7 @@
 			editor.widgets.add( 'testdata', {} );
 
 			this.editorBot.setData( '<p>foo</p><div data-widget="testdata" id="w1">foo</div>', function() {
-				var w1 = getWidgetById( editor, 'w1' ),
-					range = editor.createRange();
+				var w1 = getWidgetById( editor, 'w1' );
 
 				w1.on( 'contextMenu', function( evt ) {
 					evt.data.testData = CKEDITOR.TRISTATE_OFF;
@@ -120,7 +120,7 @@
 
 				editor.contextMenu.hide();
 
-				assert.areSame( 1, itemsExist, 'there is one testData item in context menu' )
+				assert.areSame( 1, itemsExist, 'there is one testData item in context menu' );
 			} );
 		}
 	} );

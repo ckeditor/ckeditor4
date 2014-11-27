@@ -68,8 +68,9 @@
 							// Avoid selecting empty block makes the cursor blind.
 							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) )
 								resultRange.selectNodeContents( next );
-						} else
+						} else {
 							return true;
+						}
 
 						resultRange.select( true );
 						return true;
@@ -127,8 +128,7 @@
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected, electedTabIndex, element, elementTabIndex;
 
 	if ( curTabIndex <= 0 ) {
@@ -165,8 +165,9 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 							break;
 						passedCurrent = 1;
 					}
-				} else if ( enteredCurrent && !this.contains( element ) )
+				} else if ( enteredCurrent && !this.contains( element ) ) {
 					passedCurrent = 1;
+				}
 			}
 
 			if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
@@ -202,8 +203,7 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected,
 		electedTabIndex = 0,
 		elementTabIndex;
@@ -221,8 +221,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 						break;
 					passedCurrent = 1;
 				}
-			} else if ( enteredCurrent && !this.contains( element ) )
+			} else if ( enteredCurrent && !this.contains( element ) ) {
 				passedCurrent = 1;
+			}
 		}
 
 		if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )

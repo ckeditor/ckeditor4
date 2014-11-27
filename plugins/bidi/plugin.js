@@ -95,11 +95,13 @@
 		// if we need to apply explicit direction on this element.
 		if ( useComputedState ) {
 			element.removeAttribute( 'dir' );
-			if ( dir != element.getComputedStyle( 'direction' ) )
+			if ( dir != element.getComputedStyle( 'direction' ) ) {
 				element.setAttribute( 'dir', dir );
-		} else
+			}
+		} else {
 			// Set new direction for this element.
 			element.setAttribute( 'dir', dir );
+		}
 
 		editor.forceNextSelectionCheck();
 
@@ -170,9 +172,20 @@
 							end = bookmarks[ i++ ].endNode;
 
 						walker.evaluator = function( node ) {
-							return !!( node.type == CKEDITOR.NODE_ELEMENT && node.getName() in guardElements && !( node.getName() == ( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) && node.getParent().type == CKEDITOR.NODE_ELEMENT && node.getParent().getName() == 'blockquote' )
+							var enterTagName = ( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+
+							function isNodeElement( node ) {
+								return node ? ( node.type == CKEDITOR.NODE_ELEMENT ) : false;
+							}
+
+							function isGuard( node ) {
+								return node.getName() in guardElements;
+							}
+
+							return !!( isNodeElement( node ) && isGuard( node ) && !( node.is( enterTagName ) && isNodeElement( node.getParent() ) && node.getParent().is( 'blockquote' ) ) &&
 							// Element must be fully included in the range as well. (#6485).
-							&& node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING && ( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
+							node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING &&
+							( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 						};
 
 						while ( ( block = walker.next() ) )
@@ -198,7 +211,9 @@
 	}
 
 	CKEDITOR.plugins.add( 'bidi', {
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'bidiltr,bidirtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {

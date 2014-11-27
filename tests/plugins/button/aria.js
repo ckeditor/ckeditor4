@@ -5,13 +5,13 @@ bender.editor = {
 	config: {
 		toolbar: [ [ 'custom_btn', 'disabled_btn' ] ],
 		on: {
-			'pluginsLoaded' : function( evt ) {
+			'pluginsLoaded': function( evt ) {
 				var editor = evt.editor;
 				editor.ui.addButton( 'custom_btn', {
-					label : 'aria label'
+					label: 'aria label'
 				} );
 				editor.ui.addButton( 'disabled_btn', {
-					label : 'disabled button',
+					label: 'disabled button',
 					modes: {} // This button should be disabled because it does not work in any of modes.
 				} );
 			}
@@ -29,26 +29,30 @@ bender.test( {
 			'aria-labelledby': /^cke_\d+_label$/
 		};
 	},
-	'test default button attributes' : function() {
+
+	'test default button attributes': function() {
 		var btn = this.getUiItem( 'custom_btn' ),
 			expectedAttributes = this.typicalButtonAttributes;
 
 		this.assertAttribtues( expectedAttributes, btn );
 	},
-	'test disabled button' : function() {
+
+	'test disabled button': function() {
 		var btn = this.getUiItem( 'disabled_btn' ),
 			expectedAttributes = this.typicalButtonAttributes;
 
 		expectedAttributes[ 'aria-disabled' ] = 'true';
 		this.assertAttribtues( expectedAttributes, btn );
 	},
-	'test button label' : function() {
+
+	'test button label': function() {
 		var btn = this.getButtonDomElement( this.getUiItem( 'custom_btn' ) ),
 			label = CKEDITOR.document.getById( btn.getAttribute( 'aria-labelledby' ) );
 
 		assert.isTrue( !!label, 'Label element not found' );
 		assert.areEqual( 'aria label', label.getText(), 'innerText of label doesn\'t match' );
 	},
+
 	// Asserts that button has given attributes, with given values.
 	// Expected attribute value may be a regexp.
 	// @param {Object} expectedAttributes
@@ -70,12 +74,14 @@ bender.test( {
 				assert.areSame( expectedValue, attributeValue, 'Invalid value for attribute ' + attrName + '.' );
 		}
 	},
+
 	// Returns button object.
 	// @param {String} name Name of the button in ui.
 	// @return {CKEDITOR.ui.button}
 	getUiItem: function( name ) {
 		return this.editor.ui.get( name );
 	},
+
 	// Returns html element for given menu.
 	// @param {CKEDITOR.ui.button} uiButton
 	// @return {CKEDITOR.dom.element}

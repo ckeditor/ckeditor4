@@ -1,11 +1,10 @@
 /* bender-tags: editor,unit,autoparagraphing */
 
 var doc = CKEDITOR.document;
-// This group of tests plays upon the framed content.
-bender.test(
-{
+
+bender.test( {
 	// Initialize the editor instance.
-	'async:init' : function() {
+	'async:init': function() {
 		var tc = this;
 		var editor = new CKEDITOR.editor();
 		editor.on( 'loaded', function() {
@@ -14,7 +13,9 @@ bender.test(
 			editor.fire( 'contentDom' );
 			tc.editor = editor;
 			// Allow editor creation to complete.
-			setTimeout( function() { tc.callback(); }, 0 );
+			setTimeout( function() {
+				tc.callback();
+			}, 0 );
 		} );
 	},
 

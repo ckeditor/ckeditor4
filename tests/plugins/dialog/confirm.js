@@ -20,7 +20,7 @@
 
 			this._confirmMockup = {
 				calledTimes: 0,
-				execute: function( message ) {
+				execute: function() {
 					tc._confirmMockup.calledTimes++;
 					return true;
 				}

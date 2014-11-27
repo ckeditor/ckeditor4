@@ -6,7 +6,9 @@
 ( function() {
 	CKEDITOR.plugins.add( 'iframe', {
 		requires: 'dialog,fakeobjects',
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'iframe', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
@@ -59,7 +61,7 @@
 
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
-				editor.contextMenu.addListener( function( element, selection ) {
+				editor.contextMenu.addListener( function( element ) {
 					if ( element && element.is( 'img' ) && element.data( 'cke-real-element-type' ) == 'iframe' )
 						return { iframe: CKEDITOR.TRISTATE_OFF };
 				} );

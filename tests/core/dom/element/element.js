@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,dom */
+/* global appendDomObjectTests, YUI */
 
 var getInnerHtml = bender.tools.getInnerHtml,
 	getOuterHtml = function( element ) {
@@ -14,40 +15,40 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.element( document.getElementById( id ) );
 	},
 	{
-		test_$ : function() {
+		test_$: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.areSame( document.getElementById( 'test1' ), element.$ );
 		},
 
-		test_getId1 : function() {
+		test_getId1: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.areEqual( 'test1', element.getId() );
 		},
 
-		test_getId2 : function() {
+		test_getId2: function() {
 			// Used body to ommit head element when searching, because YUI add div to it.
 			// See http://yuilibrary.com/forum-archive/forum/viewtopic.php@f=18&t=12285.html
 			var element = newElement( document.body.getElementsByTagName( 'div' )[ 0 ] );
 			assert.isNull( element.getId() );
 		},
 
-		test_getNameAtt1 : function() {
+		test_getNameAtt1: function() {
 			var element = newElement( document.getElementsByName( 'named1' )[ 0 ] );
 			assert.areEqual( 'named1', element.getNameAtt() );
 		},
 
-		test_getNameAtt2 : function() {
+		test_getNameAtt2: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.isNull( element.getNameAtt() );
 		},
 
-		test_getName : function() {
+		test_getName: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.areEqual( 'textarea', element.getName(), 'First call' );
 			assert.areEqual( 'textarea', element.getName(), 'Second call' );
 		},
 
-		test_hide : function() {
+		test_hide: function() {
 			var nativeElement = document.getElementById( 'test1' );
 			nativeElement.style.display = '';
 
@@ -57,7 +58,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'none', nativeElement.style.display );
 		},
 
-		test_show : function() {
+		test_show: function() {
 			var nativeElement = document.getElementById( 'test1' );
 			nativeElement.style.display = '';
 
@@ -67,13 +68,13 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( '', nativeElement.style.display );
 		},
 
-		test_createFromHtml : function() {
+		test_createFromHtml: function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<p>My test</p>' );
 			assert.areEqual( 'p', element.getName(), 'element name doesn\'t match' );
 			assert.areEqual( 'My test', element.$.innerHTML, 'the innerHTML doesn\'t match' );
 		},
 
-		test_createFromHtml2 : function() {
+		test_createFromHtml2: function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<div><x:x><p>Test</p></div>' );
 			assert.areNotEqual( 'Test', element.getChild( 0, 0 ).innerHTML );
 		},
@@ -107,32 +108,32 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 2, selector.length );
 		},
 
-		test_append1 : function() {
+		test_append1: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.append( newElement( 'b' ) );
 			assert.areEqual( 'b', document.getElementById( 'append' ).firstChild.nodeName.toLowerCase() );
 		},
 
-		test_append2 : function() {
+		test_append2: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.append( 'i' );
 			assert.areEqual( 'i', document.getElementById( 'append' ).lastChild.nodeName.toLowerCase() );
 		},
 
-		test_appendText1 : function() {
+		test_appendText1: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '' );
 			element.appendText( 'Test appendText' );
 			assert.areEqual( 'Test appendText', document.getElementById( 'append' ).innerHTML );
 		},
 
-		test_appendText2 : function() {
+		test_appendText2: function() {
 			var element = newElement( 'script' );
 			element.appendText( 'Test appendText' );
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
-		test_setHtml : function() {
+		test_setHtml: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '<b>Test</b>' );
 			assert.areEqual( '<b>test</b>', document.getElementById( 'append' ).innerHTML.toLowerCase(), 'First call doesn\'t match' );
@@ -147,74 +148,75 @@ bender.test( appendDomObjectTests(
 			assert.isMatching( /^<figure>foo<\/figure>$/i, element.getHtml() );
 		},
 
-		test_getDocument1 : function() {
+		test_getDocument1: function() {
 			var element = newElement( 'div' );
 			assert.areSame( document, element.getDocument().$, 'First call' );
 			assert.areSame( document, element.getDocument().$, 'Second call' );
 		},
 
-		test_getDocument2 : function() {
+		test_getDocument2: function() {
 			var element = newElement( document.body );
 			assert.areSame( document, element.getDocument().$, 'First call' );
 			assert.areSame( document, element.getDocument().$, 'Second call' );
 		},
 
-		test_getFirst1 : function() {
+		test_getFirst1: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '<b>Test</b>' );
 			var first = element.getFirst();
 			assert.areSame( 'b', first.getName() );
 		},
 
-		test_getFirst2 : function() {
+		test_getFirst2: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( 'Test' );
 			var first = element.getFirst();
 			assert.areSame( 'Test', first.$.nodeValue );
 		},
 
-		test_getFirst3 : function() {
+		test_getFirst3: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '' );
 			var first = element.getFirst();
 			assert.isNull( first );
 		},
 
-		test_setAttribute1 : function() {
+		test_setAttribute1: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			element.setAttribute( 'class', 'Test' );
 
 			assert.areSame( 'Test', document.getElementById( 'test1' ).className );
 		},
 
-		test_setAttribute2 : function() {
+		test_setAttribute2: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			element.setAttribute( 'style', 'position: absolute;' );
 
 			assert.areEqual( 'position: absolute;', bender.tools.getAttribute( element, 'style' ) );
 		},
 
-		test_setAttribute3 : function() {
+		test_setAttribute3: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			element.setAttribute( 'name', 'TestName' );
 
 			assert.areEqual( 'TestName', document.getElementById( 'test1' ).name );
 		},
 
-		test_setAttribute4 : function() {
+		test_setAttribute4: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			element.setAttribute( 'rows', 5 );
 
 			assert.areEqual( 5, document.getElementById( 'test1' ).rows );
 		},
 
-		test_setAttributes : function() {
+		test_setAttributes: function() {
 			var element = newElement( document.getElementById( 'test2' ) );
 			element.setAttributes( {
-				'class'	: 'Test',
-				'style'	: 'position: absolute;',
-				'name'	: 'TestName',
-				'rows'	: 5 } );
+				'class': 'Test',
+				style: 'position: absolute;',
+				name: 'TestName',
+				rows: 5
+			} );
 
 			assert.areSame( 'Test', document.getElementById( 'test1' ).className, 'class is wrong' );
 			assert.areEqual( 'position: absolute;', bender.tools.getAttribute( element, 'style' ), 'style is wrong' );
@@ -222,14 +224,14 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 5, document.getElementById( 'test1' ).rows, 'rows is wrong' );
 		},
 
-		test_setStyle1 : function() {
+		test_setStyle1: function() {
 			var element = newElement( document.getElementById( 'setStyle' ) );
 			element.setStyle( 'position', 'absolute' );
 
 			assert.areEqual( 'absolute', document.getElementById( 'setStyle' ).style.position );
 		},
 
-		test_setStyle2 : function() {
+		test_setStyle2: function() {
 			var element = newElement( document.getElementById( 'setStyle' ) );
 			element.setStyle( 'float', 'right' );
 
@@ -240,43 +242,43 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'float', div.getAttribute( 'style' ).split( ':' )[ 0 ].toLowerCase() );
 		},
 
-		test_setStyles : function() {
+		test_setStyles: function() {
 			var element = newElement( document.getElementById( 'setStyle' ) );
 			element.setStyles( {
-					'position' : 'absolute',
-					'float' : 'right'
-				} );
+				position: 'absolute',
+				'float': 'right'
+			} );
 
 			assert.areEqual( 'absolute', document.getElementById( 'setStyle' ).style.position );
 			assert.areEqual( 'right', element.getStyle( 'float' ) );
 		},
 
-		test_setText1 : function() {
+		test_setText1: function() {
 			var element = newElement( document.getElementById( 'setText' ) );
 			element.setText( 'A & B' );
 			assert.areSame( 'A &amp; B', document.getElementById( 'setText' ).innerHTML );
 		},
 
-		test_setText2 : function() {
+		test_setText2: function() {
 			var element = newElement( document.getElementById( 'setText' ) );
 			element.setText( 'C & D' );
 			assert.areSame( 'C &amp; D', document.getElementById( 'setText' ).innerHTML );
 		},
 
-		test_addClass1 : function() {
+		test_addClass1: function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass2 : function() {
+		test_addClass2: function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass3 : function() {
+		test_addClass3: function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -284,7 +286,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_addClass4 : function() {
+		test_addClass4: function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -295,7 +297,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_removeClass1 : function() {
+		test_removeClass1: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
@@ -306,7 +308,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass2 : function() {
+		test_removeClass2: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB classC classD"></div>' );
@@ -323,7 +325,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass3 : function() {
+		test_removeClass3: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB"></div>' );
@@ -338,7 +340,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div class="classa"></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeAttribute1 : function() {
+		test_removeAttribute1: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
@@ -348,7 +350,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeAttribute2 : function() {
+		test_removeAttribute2: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div style="position:absolute"></div>' );
@@ -358,7 +360,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeAttribute3 : function() {
+		test_removeAttribute3: function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div title="Test"></div>' );
@@ -368,42 +370,40 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_remove : function() {
+		test_remove: function() {
 			var element = newElement( document.getElementById( 'removeInner' ) );
 			element.remove();
 
 			assert.areSame( '', getInnerHtml( 'removeOuter' ) );
 		},
 
-		test_getAttribute_tabindex1 : function() {
+		test_getAttribute_tabindex1: function() {
 			var element = newElement( document.getElementById( 'tabIndex10' ) );
 			assert.areEqual( 10, bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		test_getAttribute_tabindex2 : function() {
+		test_getAttribute_tabindex2: function() {
 			var element = newElement( document.getElementById( 'tabIndexDef' ) );
 			assert.isNull( bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		test_getAttribute_tabindex3 : function() {
+		test_getAttribute_tabindex3: function() {
 			var element = newElement( document.getElementById( 'tabIndexInputDef' ) );
 			assert.isNull( bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		test_getAttribute_tabindex4 : function() {
+		test_getAttribute_tabindex4: function() {
 			var element = newElement( document.getElementById( 'tabIndexInput20' ) );
 			assert.areEqual( 20, bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		test_getAttribute_tabindex5 : function() {
+		test_getAttribute_tabindex5: function() {
 			var element = newElement( document.getElementById( 'tabIndexScriptDef' ) );
 			assert.areEqual( null, bender.tools.getAttribute( element, 'tabindex' ) );
 		},
 
-		/**
-		 * Test set and retrieve 'checked' attribute value. (#4527)
-		 */
-		test_getAttribute_checked : function() {
+		// Test set and retrieve 'checked' attribute value. (#4527)
+		test_getAttribute_checked: function() {
 			var unchecked1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" />' ),
 				checked1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" checked="checked" />' ),
 				checked2 = new CKEDITOR.dom.element( 'input' );
@@ -415,7 +415,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'checked', checked2.getAttribute( 'checked' ) );
 		},
 
-		test_getAttribute_contenteditable : function() {
+		test_getAttribute_contenteditable: function() {
 			var body = CKEDITOR.document.getBody();
 			var element = body.append( CKEDITOR.dom.element.createFromHtml( '<div contenteditable="true"></div>' ) );
 			assert.areEqual( 'true', element.getAttribute( 'contenteditable' ) );
@@ -425,10 +425,8 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( null, element.getAttribute( 'contenteditable' ) );
 		},
 
-		/**
-		 *  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute.
-		 */
-		/*test_getAttribute_ignoreExpandoAttributes : function()
+		//  Test getAttribute and getAttribute will ingore  '_cke_expando' attribute.
+		/*test_getAttribute_ignoreExpandoAttributes: function()
 		{
 			var element = newElement( document.getElementById( 'testExpandoAttributes' ) );
 
@@ -445,67 +443,67 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( element.hasAttributes(), 'hasAttributes should be false' );
 		},*/
 
-		test_getTabIndex1 : function() {
+		test_getTabIndex1: function() {
 			var element = newElement( document.getElementById( 'tabIndex10' ) );
 			assert.areSame( 10, element.getTabIndex() );
 		},
 
-		test_getTabIndex2 : function() {
+		test_getTabIndex2: function() {
 			var element = newElement( document.getElementById( 'tabIndexDef' ) );
 			assert.areSame( -1, element.getTabIndex() );
 		},
 
-		test_getTabIndex3 : function() {
+		test_getTabIndex3: function() {
 			var element = newElement( document.getElementById( 'tabIndexInputDef' ) );
 			assert.areSame( 0, element.getTabIndex() );
 		},
 
-		test_getTabIndex4 : function() {
+		test_getTabIndex4: function() {
 			var element = newElement( document.getElementById( 'tabIndexInput20' ) );
 			assert.areSame( 20, element.getTabIndex() );
 		},
 
-		test_getTabIndex5 : function() {
+		test_getTabIndex5: function() {
 			var element = newElement( document.getElementById( 'tabIndexScriptDef' ) );
 			assert.areSame( -1, element.getTabIndex() );
 		},
 
-		test_getText1 : function() {
+		test_getText1: function() {
 			var element = newElement( document.getElementById( 'getText' ) );
 
 			// IE gives us a different result, which is ok for us (see code comments).
-			if ( CKEDITOR.env.ie && !( document.documentMode > 8 ) )
+			if ( CKEDITOR.env.ie && document.documentMode <= 8 )
 				assert.areSame( 'Some \nsample text for testing', element.getText().replace( /\r\n|\r/g, '\n' ) );
 			else
 				assert.areSame( 'Some  sample text    for    testing', element.getText() );
 		},
 
-		test_getText2 : function() {
+		test_getText2: function() {
 			var element = newElement( document.getElementById( 'getText2' ).getElementsByTagName( 'b' )[ 0 ] );
 			assert.areSame( ' ', element.getText() );
 		},
 
-		test_getText3 : function() {
+		test_getText3: function() {
 			var element = newElement( document.getElementById( 'getText3' ) );
 
 			// IE gives us a different result, which is ok for us (see code comments).
-			if ( CKEDITOR.env.ie && !( document.documentMode > 8 ) )
+			if ( CKEDITOR.env.ie && document.documentMode <= 8 )
 				assert.areSame( 'A B', element.getText() );
 			else
 				assert.areSame( 'A\nB', element.getText().replace( /\r\n|\r/g, '\n' ) );
 		},
 
-		test_hasAttributes1 : function() {
+		test_hasAttributes1: function() {
 			var element = newElement( document.getElementsByTagName( 'big' )[ 0 ] );
 			assert.isFalse( element.hasAttributes() );
 		},
 
-		test_hasAttributes2 : function() {
+		test_hasAttributes2: function() {
 			var element = newElement( document.getElementsByTagName( 'small' )[ 0 ] );
 			assert.isTrue( element.hasAttributes() );
 		},
 
-		test_hasAttribute : function() {
+		test_hasAttribute: function() {
 			var td = newElement( document.getElementById( 'td1' ) );
 
 			assert.isTrue( td.hasAttribute( 'id' ), 'id' );
@@ -521,7 +519,7 @@ bender.test( appendDomObjectTests(
 		// Test for 2 IE bugs:
 		// - value attribute is never specified even if it exists.
 		// - input attributes needs to be checked different way than other attributes.
-		test_hasAttribute_input : function() {
+		test_hasAttribute_input: function() {
 			var inputWithAttrs = newElement( document.getElementById( 'inputWithAttrs' ) ),
 				inputWithoutAttrs = newElement( document.getElementById( 'inputWithoutAttrs' ) ),
 				checkboxWithAttrs = newElement( document.getElementById( 'checkboxWithAttrs' ) ),
@@ -543,7 +541,7 @@ bender.test( appendDomObjectTests(
 		},
 
 
-		test_getDocumentPosition : function() {
+		test_getDocumentPosition: function() {
 			// Assign the page location of the element.
 			YUI().use( 'dom-screen', 'node', function( Y ) {
 				resume( function() {
@@ -562,7 +560,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		// Test get last non-spaces child node.
-		test_getLast : function() {
+		test_getLast: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			var span1 = newElement( 'span' );
 			element.append( span1 );
@@ -573,13 +571,13 @@ bender.test( appendDomObjectTests(
 		},
 
 		// Test 'display:none' and 'visibity:hidden' elements.
-		test_invisible : function() {
+		test_invisible: function() {
 			assert.isFalse( doc.getById( 'invisible1' ).isVisible() );
 			assert.isFalse( doc.getById( 'invisible2' ).isVisible() );
 		},
 
 		// #7070
-		test_getBogus : function() {
+		test_getBogus: function() {
 			// Test padding block bogus BR for non-IEs.
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
@@ -592,7 +590,7 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( !!doc.getById( 'bogus_tc5' ).getBogus() );
 		},
 
-		test_appendHtml : function() {
+		test_appendHtml: function() {
 			var element = doc.getById( 'appendHtml' );
 
 			element.appendHtml( '<i>text</i>test' );
@@ -600,7 +598,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( '<div id="appendhtml"><i>text</i>test</div>', getOuterHtml( element ) );
 		},
 
-		test_breakParent : function() {
+		test_breakParent: function() {
 			var parent = doc.getById( 'breakParent' ).getFirst(),
 				element = parent.getFirst().getNext();
 
@@ -609,7 +607,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( '<i>text1</i><b>text2</b><i>text3</i>', getInnerHtml( 'breakParent' ) );
 		},
 
-		test_contains : function() {
+		test_contains: function() {
 			var body = CKEDITOR.document.getBody(),
 				parent = doc.getById( 'contains' ),
 				el = doc.getById( 'contains1' ),
@@ -628,18 +626,18 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( body.contains( el2.getFirst() ) );
 		},
 
-		test_getChildren : function() {
+		test_getChildren: function() {
 			var element = doc.getById( 'getChildren' );
 			assert.areEqual( 3, element.getChildren().count() );
 		},
 
-		test_getComputedStyle : function() {
+		test_getComputedStyle: function() {
 			var element = doc.getById( 'getChildren' );
 			assert.areEqual( 'block', element.getComputedStyle( 'display' ) );
 			assert.areEqual( 'inline', element.getFirst().getComputedStyle( 'display' ) );
 		},
 
-		test_getElementsByTag : function() {
+		test_getElementsByTag: function() {
 			var element = doc.getById( 'getChildren' ),
 				elements = element.getElementsByTag( 'b' );
 
@@ -647,7 +645,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'b', elements.getItem( 0 ).getName() );
 		},
 
-		test_isIdentical : function() {
+		test_isIdentical: function() {
 				// <b name="a" class="test">tessst</b>
 			var element1 = doc.getById( 'isIdentical' ).getFirst(),
 				// <b class="test" name="a"></b>
@@ -682,7 +680,7 @@ bender.test( appendDomObjectTests(
 			}
 		},
 
-		test_isIdentical2 : function() {
+		test_isIdentical2: function() {
 				// <b style="color: red; width: 10px">a</b>
 			var element1 = doc.getById( 'isIdentical2' ).getFirst(),
 				// <b style="width:10px;color:red;">a</b>
@@ -703,7 +701,7 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( element3.isIdentical( element4 ), 'different styles' );
 		},
 
-		'test isIdentical ignore child nodes' : function() {
+		'test isIdentical ignore child nodes': function() {
 			var el1 = CKEDITOR.dom.element.createFromHtml( '<b class="foo" style="color: red; width: 10px">foo</b>' ),
 				el2 = el1.clone();
 
@@ -712,7 +710,7 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( el1.isIdentical( el2 ) );
 		},
 
-		test_isEmptyInlineRemoveable : function() {
+		test_isEmptyInlineRemoveable: function() {
 			var element1 = doc.getById( 'isEmptyInlineRemoveable' ).getFirst(),
 				element2 = element1.getNext(),
 				element3 = element2.getNext();
@@ -722,7 +720,7 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( element3.isEmptyInlineRemoveable() );
 		},
 
-		test_moveChildren : function() {
+		test_moveChildren: function() {
 			var element1 = doc.getById( 'moveChildren1' ),
 				element2 = doc.getById( 'moveChildren2' );
 
@@ -731,14 +729,14 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 2, element2.getChildren().count() );
 		},
 
-		test_mergeSiblings : function() {
+		test_mergeSiblings: function() {
 			var element = doc.getById( 'mergeSiblings' ).getFirst();
 
 			element.mergeSiblings( false );
 			assert.areEqual( '<b>text1text2</b>', bender.tools.fixHtml( doc.getById( 'mergeSiblings' ).getHtml() ) );
 		},
 
-		test_removeAttributes : function() {
+		test_removeAttributes: function() {
 			var element = doc.getById( 'removeAttributes' );
 
 			element.removeAttributes( [ 'id', 'class' ] );
@@ -748,7 +746,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'test2', element.getAttribute( 'title' ) );
 		},
 
-		test_removeStyle : function() {
+		test_removeStyle: function() {
 			var element = doc.getById( 'removeStyle' );
 
 			element.removeStyle( 'display' );
@@ -762,19 +760,19 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( '', element.getStyle( 'color' ) );
 		},
 
-		test_getPositionedAncestor : function() {
+		test_getPositionedAncestor: function() {
 			var element = doc.getById( 'getPositionedAncestor' );
 
 			assert.areEqual( element.getParent().getParent(), element.getPositionedAncestor() );
 		},
 
-		test_getFrameDocument : function() {
+		test_getFrameDocument: function() {
 			var frame = doc.getById( 'getFrameDocument' );
 
 			assert.isTrue( frame.getFrameDocument() instanceof CKEDITOR.dom.document );
 		},
 
-		test_copyAttributes : function() {
+		test_copyAttributes: function() {
 			var element1 = doc.getById( 'copyAttributes1' ),
 				element2 = doc.getById( 'copyAttributes2' );
 
@@ -787,7 +785,7 @@ bender.test( appendDomObjectTests(
 		// Because on IE td element contains colspan and rowspan attributes
 		// even if they are not defined explicit we need to test if copyAttributes
 		// check if attribute is specified properly.
-		test_copyAttributes_td : function() {
+		test_copyAttributes_td: function() {
 			var td1 = doc.getById( 'td1' ),
 				td2 = doc.getById( 'td2' );
 
@@ -800,7 +798,7 @@ bender.test( appendDomObjectTests(
 		/**
 		 * Test copy the 'checked' attribute. (#4527)
 		 */
-		test_copyAttributes_checked : function() {
+		test_copyAttributes_checked: function() {
 			var original1 = new CKEDITOR.dom.element.createFromHtml( '<input type="checkbox" checked="checked" />' ),
 				original2 = new CKEDITOR.dom.element( 'input' ),
 				clone1 = new CKEDITOR.dom.element( 'input' ),
@@ -814,7 +812,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'checked', clone2.getAttribute( 'checked' ) );
 		},
 
-		test_renameNode : function() {
+		test_renameNode: function() {
 			var element = doc.getById( 'renameNode' );
 
 			element.renameNode( 'p' );
@@ -826,7 +824,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 2, element.getChildCount() );
 		},
 
-		test_renameNode_8663 : function() {
+		test_renameNode_8663: function() {
 			var element = doc.getById( 'renameNode2' );
 
 			assert.areEqual( 'div', element.getName(), 'Before rename' );
@@ -834,11 +832,11 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'p', element.getName(), 'After rename' );
 		},
 
-		test_getDirection : function() {
+		test_getDirection: function() {
 			assert.areEqual( 'rtl', doc.getById( 'getDirection' ).getDirection() );
 		},
 
-		test_data : function() {
+		test_data: function() {
 			var element = doc.getById( 'data' );
 			assert.areEqual( 'testing', element.data( 'test' ) );
 			element.data( 'test', false );
@@ -846,7 +844,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		// Test when element to compare has more attributes .
-		test_element_identical : function() {
+		test_element_identical: function() {
 			var element1 = CKEDITOR.dom.element.createFromHtml( '<span class="foo"></span>' ),
 				element2 = CKEDITOR.dom.element.createFromHtml( '<span class="foo"></span>' );
 
@@ -854,14 +852,14 @@ bender.test( appendDomObjectTests(
 		},
 
 		// #8527
-		'test empty anchor editable' : function() {
+		'test empty anchor editable': function() {
 			assert.isFalse( doc.getById( 'empty_anchor_1' ).isEditable() );
 			assert.isFalse( doc.getById( 'empty_anchor_2' ).isEditable() );
 			assert.isTrue( doc.getById( 'text_anchor_1' ).isEditable() );
 			assert.isTrue( doc.getById( 'text_anchor_2' ).isEditable() );
 		},
 
-		test_is : function() {
+		test_is: function() {
 			var element = newElement( 'p' );
 
 			assert.isTrue( element.is( 'p' ) );
@@ -902,7 +900,7 @@ bender.test( appendDomObjectTests(
 			assert.isInstanceOf( CKEDITOR.dom.element, found );
 			assert.areSame( 'X', found.getHtml() );
 
-			var found = el.findOne( '.findRoot .findRoot' );
+			found = el.findOne( '.findRoot .findRoot' );
 
 			assert.isNull( found, 'Selector is contextualized' );
 		},
@@ -921,8 +919,9 @@ bender.test( appendDomObjectTests(
 						text = CKEDITOR.tools.trim( node.getText() );
 						if ( text )
 							tokens.push( '#' + text );
-					} else
+					} else {
 						tokens.push( 'not implemented type' );
+					}
 
 					if ( callback )
 						return callback( node );
@@ -971,6 +970,6 @@ bender.test( appendDomObjectTests(
 
 			el.forEach( recorder.fn, CKEDITOR.NODE_ELEMENT, true );
 			assert.areSame( 'p,i,div,h1,h2,b', recorder.tokens.join( ',' ) );
-		},
+		}
 	}
 ) );

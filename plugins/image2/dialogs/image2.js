@@ -46,7 +46,6 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		features = editor.widgets.registered.image.features,
 
 		// Functions inherited from image2 plugin.
-		checkHasNaturalRatio = helpers.checkHasNaturalRatio,
 		getNatural = helpers.getNatural,
 
 		// Global variables referring to the dialog's context.
@@ -76,7 +75,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
 		if ( !isValid )
-			alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] );
+			alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] ); // jshint ignore:line
 
 		return isValid;
 	}
@@ -499,7 +498,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 									[ commonLang.alignNone, 'none' ],
 									[ commonLang.alignLeft, 'left' ],
 									[ commonLang.alignCenter, 'center' ],
-									[ commonLang.alignRight, 'right' ] ],
+									[ commonLang.alignRight, 'right' ]
+								],
 								label: commonLang.align,
 								setup: function( widget ) {
 									this.setValue( widget.data.align );

@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,basicstyles,clipboard,dialog */
+/* bender-include: _helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -11,7 +13,7 @@
 				instanceReady: function( evt ) {
 					evt.editor.dataProcessor.writer.sortAttributes = 1;
 
-					CKEDITOR.dialog.add( 'test1', function( editor ) {
+					CKEDITOR.dialog.add( 'test1', function() {
 						return {
 							title: 'Test1',
 							contents: [
@@ -26,7 +28,7 @@
 									]
 								}
 							]
-						}
+						};
 					} );
 				}
 			}
@@ -34,7 +36,6 @@
 	};
 
 	var fixHtml = widgetTestsTools.fixHtml,
-		data2Attr = widgetTestsTools.data2Attribute,
 		getWidgetById = widgetTestsTools.getWidgetById;
 
 	function keysLength( obj ) {
@@ -123,7 +124,7 @@
 				assert.areSame( String( CKEDITOR.ENTER_P ), eBar.getAttribute( 'data-cke-enter-mode' ), 'has data-cke-enter-mode attribute' );
 				assert.areSame( CKEDITOR.ENTER_P, eBar.enterMode, 'editable.enterMode' );
 				assert.areSame( CKEDITOR.ENTER_BR, eBar.shiftEnterMode, 'editable.shiftEnterMode' );
-				assert.isNumber( parseInt( eBar.getAttribute( 'data-cke-filter' ) ), 'has data-cke-filter attribute' )
+				assert.isNumber( parseInt( eBar.getAttribute( 'data-cke-filter' ), 10 ), 'has data-cke-filter attribute' );
 				assert.isInstanceOf( CKEDITOR.filter, eBar.filter, 'editable.filter is instance of CKEDITOR.filter' );
 				assert.areSame( eBar.filter, CKEDITOR.filter.instances[ eBar.getAttribute( 'data-cke-filter' ) ],
 					'data-cke-filter points to an existing filter instance' );
@@ -700,8 +701,9 @@
 							assert.areSame( focusedEditable, widget.focusedEditable, 'widget has focused editable' + msg );
 							assert.isInstanceOf( CKEDITOR.plugins.widget.nestedEditable, widget.focusedEditable,
 								'widget.focusedEditable is instance of widget.nestedEditable' + msg );
-						} else
+						} else {
 							assert.isFalse( !!widget.focusedEditable, 'widget does not have focued editable' + msg );
+						}
 					}
 
 					var allEditables = [ eFoo1, eBar1, eFoo2 ],
@@ -712,8 +714,9 @@
 							assert.isTrue( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' has focused class' + msg );
 							assert.areSame( editable.enterMode, editor.activeEnterMode, '#' + editable.$.id + '\'s enter mode propagated to editor' );
 							assert.areSame( editable.shiftEnterMode, editor.activeShiftEnterMode, '#' + editable.$.id + '\'s shift enter mode propagated to editor' );
-						} else
+						} else {
 							assert.isFalse( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' does not have focused class' + msg );
+						}
 					}
 
 					if ( CKEDITOR.env.gecko && focusedEditable )
@@ -740,7 +743,6 @@
 
 			this.editorBot.setData( '<p id="x">X</p><div data-widget="testsel1" id="w1"><div id="foo">B</div><p>C</p><div id="bar">D</div></div>', function() {
 				var widget1 = getWidgetById( editor, 'w1' ),
-					widget2 = getWidgetById( editor, 'w2' ),
 					eFoo1 = widget1.editables.foo,
 					eBar1 = widget1.editables.bar;
 
@@ -849,8 +851,7 @@
 
 			wait( function() {
 				this.editorBot.setData( '<p id="x">X</p><div data-widget="testdestroy1" id="w1"><p id="foo">B</p></div>', function() {
-					var widget = getWidgetById( editor, 'w1' ),
-						eFoo = widget.editables.foo;
+					var widget = getWidgetById( editor, 'w1' );
 
 					// Destroy in offline mode.
 					editor.widgets.destroy( widget, true );
@@ -1059,7 +1060,7 @@
 				var widget1 = getWidgetById( editor, 'w1' ),
 					fired = 0;
 
-				widget1.on( 'doubleclick', function( evt ) {
+				widget1.on( 'doubleclick', function() {
 					fired += 1;
 				}, null, null, 1 );
 				// High priority to overtake widget's default double click handler.

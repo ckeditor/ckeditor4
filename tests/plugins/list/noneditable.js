@@ -16,8 +16,7 @@
 
 	bender.test( {
 		'test applying list to selection containing non-editable inline elements': function() {
-			var editor = this.editor,
-				editable = editor.editable();
+			var editor = this.editor;
 
 			editor.focus();
 
@@ -41,8 +40,7 @@
 		},
 
 		'test removing list from a selection containing non-editable inline elements': function() {
-			var editor = this.editor,
-				editable = editor.editable();
+			var editor = this.editor;
 
 			editor.focus();
 
@@ -93,8 +91,7 @@
 		},
 
 		'test applying list to a non-editable blocks, standard selection': function() {
-			var editor = this.editor,
-				bot = this.editorBot;
+			var editor = this.editor;
 
 			this.editorBot.setHtmlWithSelection(
 				'<p>x[x</p>' +
@@ -117,8 +114,7 @@
 		},
 
 		'test removing list from a non-editable blocks, standard selection': function() {
-			var editor = this.editor,
-				bot = this.editorBot;
+			var editor = this.editor;
 
 			this.editorBot.setHtmlWithSelection(
 				'<ol>' +

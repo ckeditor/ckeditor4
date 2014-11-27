@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'da' ] = {
 	// ARIA description.
 	editor: 'Rich Text Editor',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Rich Text Editor panel',
 
 	// Common messages and labels.
 	common: {
@@ -85,8 +85,8 @@ CKEDITOR.lang[ 'da' ] = {
 		alignTop: 'Øverst',
 		alignMiddle: 'Centreret',
 		alignBottom: 'Nederst',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Ingen',
+		invalidValue	: 'Ugyldig værdi.',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
 		invalidCssLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px, %, in, cm, mm, em, ex, pt, eller pc).',

@@ -4,9 +4,6 @@
 ( function() {
 	'use strict';
 
-	var getInnerHtml = bender.tools.getInnerHtml,
-		doc = CKEDITOR.document;
-
 	bender.editor = {
 		config: {
 			// Disable autoP to not conceal errors.
@@ -22,7 +19,7 @@
 			assert.areSame( output, editor.getData(), 'output HTML' );
 		},
 
-		'test wrapping entire root contents' : function() {
+		'test wrapping entire root contents': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -32,7 +29,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo</p>' );
 		},
 
-		'test wrapping entire root contents - backwards' : function() {
+		'test wrapping entire root contents - backwards': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -42,7 +39,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo</p>' );
 		},
 
-		'test wrapping entire root contents - bidir' : function() {
+		'test wrapping entire root contents - bidir': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -53,7 +50,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo</p>' );
 		},
 
-		'test wrapping entire root contents - block name' : function() {
+		'test wrapping entire root contents - block name': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -63,7 +60,7 @@
 			this.assertFixBlock( this.editor, range, true, 'div', '<div>foo</div>' );
 		},
 
-		'test wrapping contents - to start' : function() {
+		'test wrapping contents - to start': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -73,7 +70,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo</p><p>x</p>bar' );
 		},
 
-		'test wrapping contents - to end' : function() {
+		'test wrapping contents - to end': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -83,7 +80,7 @@
 			this.assertFixBlock( this.editor, range, false, 'p', 'foo<p>x</p><p>bar</p>' );
 		},
 
-		'test wrapping contents up to first block' : function() {
+		'test wrapping contents up to first block': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -93,7 +90,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo</p><h1>bar</h1>' );
 		},
 
-		'test wrapping contents includes br' : function() {
+		'test wrapping contents includes br': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -103,7 +100,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<p>foo<br />bar</p>' );
 		},
 
-		'test wrapping contents stops at block boundary' : function() {
+		'test wrapping contents stops at block boundary': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -113,7 +110,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', '<div><p>foo</p></div>bar' );
 		},
 
-		'test wrapping contents stops at block limit' : function() {
+		'test wrapping contents stops at block limit': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -123,7 +120,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', 'x<table><tbody><tr><td><p>foo</p></td></tr></tbody></table>x' );
 		},
 
-		'test wrapping contents stops at block limit - backwards' : function() {
+		'test wrapping contents stops at block limit - backwards': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 
@@ -133,7 +130,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', 'x<table><tbody><tr><td><p>foo</p></td></tr></tbody></table>x' );
 		},
 
-		'test wrapping contents stops at block and block limit' : function() {
+		'test wrapping contents stops at block and block limit': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
 

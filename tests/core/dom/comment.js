@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,dom */
+/* global appendDomObjectTests */
 
 bender.test( appendDomObjectTests(
 	( function() {

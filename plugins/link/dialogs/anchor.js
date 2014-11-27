@@ -38,8 +38,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					// Selecting fake element for IE. (#11377)
 					if ( CKEDITOR.env.ie )
 						editor.getSelection().selectElement( newFake );
-				} else
+				} else {
 					this._.selectedElement.setAttributes( attributes );
+				}
 			} else {
 				var sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
@@ -82,27 +83,23 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.link.anchor.title,
 			accessKey: 'I',
-			elements: [
-				{
+			elements: [ {
 				type: 'text',
 				id: 'txtName',
 				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
 					if ( !this.getValue() ) {
-						alert( editor.lang.link.anchor.errorName );
+						alert( editor.lang.link.anchor.errorName ); // jshint ignore:line
 						return false;
 					}
 					return true;
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
 } );

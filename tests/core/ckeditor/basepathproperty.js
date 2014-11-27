@@ -37,7 +37,7 @@
 			function a( src ) {
 				assert.isMatching( pattern, src, src );
 			}
-		},
+		}
 
 		/*
 		#12215

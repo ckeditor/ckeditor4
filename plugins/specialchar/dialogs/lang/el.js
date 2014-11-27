@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'el', {
 	copy: 'Σύμβολο πνευματικών δικαιωμάτων',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Αριστερός χαρακτήρας διπλού εισαγωγικού',
-	not: 'Not sign', // MISSING
+	not: 'Σύμβολο άρνησης',
 	reg: 'Σύμβολο σημάτων κατατεθέν',
 	macr: 'Μακρόν',
 	deg: 'Σύμβολο βαθμού',

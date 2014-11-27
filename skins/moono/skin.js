@@ -21,7 +21,7 @@ For this skin, the following tasks are achieved in this file:
 	2. Register browser specific skin files.
 	3. Define the "Chameleon" feature.
 	4. Register the skin icons, to have them used on the development version of
-	  the skin.
+		the skin.
 */
 
 // 1. Register the skin
@@ -107,13 +107,13 @@ CKEDITOR.skin.chameleon = ( function() {
 	// Use this function just to avoid having to repeat all these rules on
 	// several places of our template.
 	verticalGradient = ( function() {
-		var template = new CKEDITOR.template( 'background:#{to};'+
-			'background-image:-webkit-gradient(linear,lefttop,leftbottom,from({from}),to({to}));'+
-			'background-image:-moz-linear-gradient(top,{from},{to});'+
-			'background-image:-webkit-linear-gradient(top,{from},{to});'+
-			'background-image:-o-linear-gradient(top,{from},{to});'+
-			'background-image:-ms-linear-gradient(top,{from},{to});'+
-			'background-image:linear-gradient(top,{from},{to});'+
+		var template = new CKEDITOR.template( 'background:#{to};' +
+			'background-image:-webkit-gradient(linear,lefttop,leftbottom,from({from}),to({to}));' +
+			'background-image:-moz-linear-gradient(top,{from},{to});' +
+			'background-image:-webkit-linear-gradient(top,{from},{to});' +
+			'background-image:-o-linear-gradient(top,{from},{to});' +
+			'background-image:-ms-linear-gradient(top,{from},{to});' +
+			'background-image:linear-gradient(top,{from},{to});' +
 			'filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=\'{from}\',endColorstr=\'{to}\');' );
 
 		return function( from, to ) {

@@ -4,10 +4,10 @@
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'ku', {
-	button: 'تیتکی کۆد دابنێ',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	button: 'تێخستنی تیتکی کۆد',
+	codeContents: 'ناوەڕۆکی کۆد',
+	emptySnippetError: 'تیتکی کۆد نابێت بەتاڵ بێت.',
+	language: 'زمان',
+	title: 'تیتکی کۆد',
+	pathName: 'تیتکی کۆد'
 } );

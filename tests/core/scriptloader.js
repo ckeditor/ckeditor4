@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* global testVar, testVar1, testVar2, testVar3 */
 
 var tests = {
 //		test_loadCode : function()
@@ -13,7 +14,7 @@ var tests = {
 	'test load': function() {
 		var tc = this;
 
-		function callback( data ) {
+		function callback() {
 			tc.resume( function() {
 				assert.areSame( 'Test!', testVar );
 			} );

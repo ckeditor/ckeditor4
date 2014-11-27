@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit,dom */
+/* global appendDomObjectTests */
 
 bender.test( appendDomObjectTests(
 	function( id ) {
@@ -9,12 +10,12 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.document( {} );
 	},
 	{
-		test_$ : function() {
+		test_$: function() {
 			var doc = new CKEDITOR.dom.document( document );
 			assert.areSame( document, doc.$ );
 		},
 
-		test_appendStyleSheet : function() {
+		test_appendStyleSheet: function() {
 			var cssUrl = CKEDITOR.basePath + 'tests/_assets/sample.css';
 
 			var doc = new CKEDITOR.dom.document( document );
@@ -32,56 +33,56 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( succeed, 'The link element was not found' );
 		},
 
-		test_equals1 : function() {
+		test_equals1: function() {
 			// Actually checks the real need for equals().
 			var doc1 = new CKEDITOR.dom.document( document );
 			assert.isFalse( doc1 == document );
 		},
 
-		test_equals2 : function() {
+		test_equals2: function() {
 			// Actually checks the real need for equals().
 			var doc1 = new CKEDITOR.dom.document( document );
 			var doc2 = new CKEDITOR.dom.document( document );
 			assert.isFalse( doc1 == doc2, 'doc1 == doc2' );
 		},
 
-		test_equals3 : function() {
+		test_equals3: function() {
 			var doc1 = new CKEDITOR.dom.document( document );
 			var doc2 = new CKEDITOR.dom.document( document );
 			assert.isTrue( doc1.equals( doc2 ), 'doc1.equals( doc2 )' );
 			assert.isTrue( doc2.equals( doc1 ), 'doc2.equals( doc1 )' );
 		},
 
-		test_getById1 : function() {
+		test_getById1: function() {
 			var doc = new CKEDITOR.dom.document( document );
 			var element = doc.getById( 'test1' );
 			assert.areSame( document.getElementById( 'test1' ), element.$ );
 		},
 
-		test_getById2 : function() {
+		test_getById2: function() {
 			var doc = new CKEDITOR.dom.document( document );
 			var element = doc.getById( 'test_invalid' );
 			assert.isNull( element );
 		},
 
-		test_getHead : function() {
+		test_getHead: function() {
 			var doc = new CKEDITOR.dom.document( document );
 			assert.areSame( document.getElementsByTagName( 'head' )[ 0 ], doc.getHead().$ );
 		},
 
-		test_getBody : function() {
+		test_getBody: function() {
 			var doc = new CKEDITOR.dom.document( document );
 			assert.areSame( document.body, doc.getBody().$, '1st call failed' );
 			assert.areSame( document.body, doc.getBody().$, '2nd call failed' );
 		},
-		test_createText : function() {
+		test_createText: function() {
 			var doc = new CKEDITOR.dom.document( document ), contentText = 'text content';
 			var textNode = doc.createText( contentText );
 			assert.areSame( contentText, textNode.getText(),
 				'Create text node content doesn\'t match.' );
 		},
 
-// 		test_getByAddress1 : function()
+// 		test_getByAddress1: function()
 // 		{
 // 			var doc = new CKEDITOR.dom.document( document );
 // 			var node = doc.getByAddress( [ 1, 1, 0, 1, 0, 0 ] );
@@ -89,7 +90,7 @@ bender.test( appendDomObjectTests(
 // 				'Addressing target doesn\'t match.' );
 // 		},
 
-		test_getElementsByTag : function() {
+		test_getElementsByTag: function() {
 			var nodeList = new CKEDITOR.dom.document( document ).getElementsByTag( 'span' ),
 				results = [];
 			for ( var i = 0; i < nodeList.count(); i++ ) {
@@ -122,7 +123,7 @@ bender.test( appendDomObjectTests(
 			assert.isInstanceOf( CKEDITOR.dom.element, found );
 			assert.areSame( 'i', found.getName() );
 
-			var found = doc.findOne( 'xyz' );
+			found = doc.findOne( 'xyz' );
 
 			assert.isNull( found );
 		},

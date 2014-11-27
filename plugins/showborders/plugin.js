@@ -39,20 +39,20 @@
 			// where nested table cells could be incorrect.
 			( CKEDITOR.env.ie6Compat ? [
 				'.%1 table.%2,',
-					'.%1 table.%2 td, .%1 table.%2 th',
-					'{',
-					'border : #d3d3d3 1px dotted',
-					'}'
-				] : [
+				'.%1 table.%2 td, .%1 table.%2 th',
+				'{',
+				'border : #d3d3d3 1px dotted',
+				'}'
+			] : [
 				'.%1 table.%2,',
 				'.%1 table.%2 > tr > td, .%1 table.%2 > tr > th,',
 				'.%1 table.%2 > tbody > tr > td, .%1 table.%2 > tbody > tr > th,',
 				'.%1 table.%2 > thead > tr > td, .%1 table.%2 > thead > tr > th,',
 				'.%1 table.%2 > tfoot > tr > td, .%1 table.%2 > tfoot > tr > th',
 				'{',
-					'border : #d3d3d3 1px dotted',
+				'border : #d3d3d3 1px dotted',
 				'}'
-				] ).join( '' );
+			] ).join( '' );
 
 			cssStyleText = cssTemplate.replace( /%2/g, showBorderClassName ).replace( /%1/g, 'cke_show_borders ' );
 

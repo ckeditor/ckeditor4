@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'pl', {
 	emptySnippetError: 'Kod nie może być pusty.',
 	language: 'Język',
 	title: 'Fragment kodu',
-	pathName: 'code snippet' // MISSING
+	pathName: 'fragment kodu'
 } );

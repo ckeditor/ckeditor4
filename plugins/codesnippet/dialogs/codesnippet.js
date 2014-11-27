@@ -24,11 +24,13 @@
 			width = Math.min( size.width - 70, 800 ),
 			// Make it use 2/3 of the viewport height.
 			height = size.height / 1.5;
-			// Low resolution settings.
-			if ( clientHeight < 650 )
-				height = clientHeight - 220;
 
-		return  {
+		// Low resolution settings.
+		if ( clientHeight < 650 ) {
+			height = clientHeight - 220;
+		}
+
+		return {
 			title: lang.title,
 			minHeight: 200,
 			resizable: CKEDITOR.DIALOG_RESIZE_NONE,
@@ -71,7 +73,7 @@
 								'height:' + height + 'px;' +
 								'tab-size:4;' +
 								'text-align:left;',
-								'class': 'cke_source'
+							'class': 'cke_source'
 						}
 					]
 				}

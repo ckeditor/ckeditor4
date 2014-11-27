@@ -9,27 +9,26 @@ function removeAllInstances() {
 	}
 }
 
-bender.test(
-{
-	setUp : function() {
+bender.test( {
+	setUp: function() {
 		removeAllInstances();
 	},
 
-	test_replaceId : function() {
+	test_replaceId: function() {
 		CKEDITOR.replace( 'editor1' );
 		assert.isObject( CKEDITOR.instances.editor1, 'editor instance not found' );
 		assert.areSame( 'editor1', CKEDITOR.instances.editor1.name, 'instance name doesn\'t match' );
 		assert.areSame( document.getElementById( 'editor1' ), CKEDITOR.instances.editor1.element.$, 'instance element doesn\'t match' );
 	},
 
-	test_replaceName : function() {
+	test_replaceName: function() {
 		CKEDITOR.replace( 'editor2' );
 		assert.isObject( CKEDITOR.instances.editor2, 'editor instance not found' );
 		assert.areSame( 'editor2', CKEDITOR.instances.editor2.name, 'instance name doesn\'t match' );
 		assert.areSame( document.getElementsByName( 'editor2' )[ 0 ], CKEDITOR.instances.editor2.element.$, 'instance element doesn\'t match' );
 	},
 
-	test_replaceElement : function() {
+	test_replaceElement: function() {
 		CKEDITOR.replace( document.getElementById( 'editor5' ) );
 		assert.isObject( CKEDITOR.instances.editor5, 'editor instance not found' );
 		assert.areSame( 'editor5', CKEDITOR.instances.editor5.name, 'instance name doesn\'t match' );
@@ -37,11 +36,13 @@ bender.test(
 	},
 
 
-	test_replaceError : function() {
-		assert.throwsError( Error, function() { CKEDITOR.replace( 'error' ); } );
+	test_replaceError: function() {
+		assert.throwsError( Error, function() {
+			CKEDITOR.replace( 'error' );
+		} );
 	},
 
-	test_replaceAll_Class : function() {
+	test_replaceAll_Class: function() {
 		CKEDITOR.replaceAll( 'myclass' );
 
 		assert.isObject( CKEDITOR.instances.editor3, 'editor3 instance not found' );
@@ -58,10 +59,10 @@ bender.test(
 		assert.isUndefined( CKEDITOR.instances.editor8, 'editor9 should be undefined' );
 	},
 
-	test_replaceAll_Function : function() {
+	test_replaceAll_Function: function() {
 		CKEDITOR.replaceAll( function( textarea ) {
-				return ( textarea.id != 'editor6' && textarea.id != 'editor8' );
-			} );
+			return ( textarea.id != 'editor6' && textarea.id != 'editor8' );
+		} );
 
 		assert.isObject( CKEDITOR.instances.editor7, 'editor7 instance not found' );
 		assert.areSame( 'editor7', CKEDITOR.instances.editor7.name, 'editor7 instance name doesn\'t match' );

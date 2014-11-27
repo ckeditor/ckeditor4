@@ -4,10 +4,9 @@
 ( function() {
 	'use strict';
 
-	bender.editor = { creator : 'replace' };
+	bender.editor = { creator: 'replace' };
 
-	bender.test(
-	{
+	bender.test( {
 		'fast switching between modes': function() {
 			var tc = this,
 				editor = this.editor,
@@ -16,11 +15,9 @@
 
 			function loop() {
 				if ( --counter ) {
-					try
-					{
+					try {
 						editor.setMode( editor.mode == 'source' ? 'wysiwyg' : 'source', loop );
-					}
-					catch ( e ) {
+					} catch ( e ) {
 						errorCaught = true;
 					}
 				}
