@@ -8,7 +8,7 @@ bender.editor = {
 };
 
 bender.test( {
-	'test fill fields' : function() {
+	'test fill fields': function() {
 		// That feature is generally broken in IEs.
 		if ( CKEDITOR.env.ie )
 			assert.ignore();

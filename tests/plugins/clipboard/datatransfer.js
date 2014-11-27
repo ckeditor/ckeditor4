@@ -4,12 +4,10 @@
 
 'use strict';
 
-var setWithHtml = bender.tools.selection.setWithHtml,
-	getWithHtml = bender.tools.selection.getWithHtml,
-	htmlMatchOpts = {
-		compareSelection: false,
-		fixStyles: true
-	};
+var htmlMatchOpts = {
+	compareSelection: false,
+	fixStyles: true
+};
 
 bender.test( {
 	'async:init': function() {
@@ -278,7 +276,7 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
-	'test getData Chrome Linux fix' : function() {
+	'test getData Chrome Linux fix': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
 		}
@@ -291,7 +289,7 @@ bender.test( {
 		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
 	},
 
-	'test getData Chrome Windows fix' : function() {
+	'test getData Chrome Windows fix': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
 		}

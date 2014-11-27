@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* global CKCONSOLE */
+
 'use strict';
 
 ( function() {
@@ -18,7 +20,7 @@
 					'<li>value: <span class="ckconsole_value" data-value="value"></span></li>' +
 				'</ul>',
 
-				refresh: function( editor ) {
+				refresh: function() {
 					return {
 						header: 'Paste',
 						type: pasteType,

@@ -276,8 +276,7 @@
 		},
 
 		'paste events - forcePasteAsPlainText': function() {
-			var beforeType,
-				tc = this;
+			var beforeType;
 
 			testEditor( this, { forcePasteAsPlainText: true }, function( editor ) {
 				editor.on( 'beforePaste', function( evt ) {
@@ -1026,11 +1025,11 @@
 				evt.data.type = 'test';
 			} );
 
-			editor.once( 'paste', function( evt ) {
+			editor.once( 'paste', function() {
 				pasteFired = true;
 			} );
 
-			editor.once( 'dialogShow', function( evt ) {
+			editor.once( 'dialogShow', function() {
 				var dialog = editor._.storedDialogs.paste;
 				assert.isTrue( !!dialog );
 
@@ -1143,8 +1142,7 @@
 		},
 
 		'dataTranfer and method in paste - emulatePaste': function() {
-			var tc = this,
-				editor = this.editor,
+			var editor = this.editor,
 				pasteCount = 0,
 				pasteMethod,
 				dataTransferInPaste;
@@ -1159,7 +1157,7 @@
 			bender.tools.emulatePaste( editor, '<p>bam</p>' );
 
 			assertAfterPasteContent( this, '<p>foobambar</p>', function() {
-				assert.areSame( 1, pasteCount, 'There should only one paste.' )
+				assert.areSame( 1, pasteCount, 'There should only one paste.' );
 				assert.areSame( 'paste', pasteMethod, 'Method should be paste' );
 				assert.isTrue( dataTransferInPaste, 'Paste event should contain dataTranfer' );
 			} );
@@ -1190,7 +1188,6 @@
 
 			var editor = this.editor,
 				editable = editor.editable(),
-				tc = this,
 				pasteEventMock = bender.tools.mockPasteEvent(),
 				dataValueOnPaste, htmlDataOnPaste;
 
@@ -1230,7 +1227,7 @@
 				evt.cancel();
 			} );
 
-			this.on( 'paste', function( evt ) {
+			this.on( 'paste', function() {
 				pasteCount++;
 			}, 0 );
 
@@ -1283,8 +1280,7 @@
 			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
 				assert.ignore();
 
-			var tc = this,
-				editor = this.editor,
+			var editor = this.editor,
 				editable = editor.editable(),
 				pasteEventMock = bender.tools.mockPasteEvent(),
 				pasteCount = 0,
@@ -1321,8 +1317,7 @@
 			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
 				assert.ignore();
 
-			var tc = this,
-				editor = this.editor,
+			var editor = this.editor,
 				editable = editor.editable(),
 				pasteEventMock = bender.tools.mockPasteEvent(),
 				pasteCount = 0,
@@ -1378,7 +1373,7 @@
 			var editor = this.editor,
 				pasteCount = 0;
 
-			this.on( 'paste', function( evt ) {
+			this.on( 'paste', function() {
 				pasteCount++;
 			} );
 

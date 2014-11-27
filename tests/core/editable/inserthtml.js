@@ -823,7 +823,7 @@
 		// non-editable content
 		//
 
-		'G9. non-editable inline element' : function() {
+		'G9. non-editable inline element': function() {
 			var span = '<span contenteditable="false">xxx</span>',
 				a = this.createAssertInsertionFunction( 'body,div', span, 'html' );
 
@@ -832,7 +832,7 @@
 			a( '<p>a[b</p><p>c]d</p>',			'<p>a[' + span + ']d</p>',						'case 1c' );
 		},
 
-		'G9. non-editable inline element with inline content' : function() {
+		'G9. non-editable inline element with inline content': function() {
 			var span = '<span contenteditable="false"><b>xxx</b></span>',
 				a = this.createAssertInsertionFunction( 'body,div', span, 'html' );
 
@@ -841,7 +841,7 @@
 			a( '<p>a[b</p><p>c]d</p>',			'<p>a[' + span + ']d</p>',						'case 1c' );
 		},
 
-		'G9. non-editable block element' : function() {
+		'G9. non-editable block element': function() {
 			var div = '<div contenteditable="false">xxx</div>',
 				a = this.createAssertInsertionFunction( 'body,div', div, 'html' );
 
@@ -849,7 +849,7 @@
 			a( '<p>a[b</p><p>c]d</p>',			'<p>a</p>[' + div + ']<p>d</p>',				'case 1b' );
 		},
 
-		'G9. non-editable block element with nested editable' : function() {
+		'G9. non-editable block element with nested editable': function() {
 			var div = '<div contenteditable="false">xx<p contenteditable="true">yy</p></div>',
 				a = this.createAssertInsertionFunction( 'body,div', div, 'html' );
 

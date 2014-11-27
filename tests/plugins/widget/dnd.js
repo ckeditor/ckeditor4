@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,widgetcore */
 /* bender-ckeditor-plugins: widget,undo,clipboard */
 /* bender-include: _helpers/tools.js */
-/* global widgetTestsTools */
+/* global widgetTestsTools, lineutilsTestsTools */
 
 ( function() {
 	'use strict';
@@ -44,21 +44,6 @@
 
 	var getWidgetById = widgetTestsTools.getWidgetById,
 		assertRelations = lineutilsTestsTools.assertRelations;
-
-	function dropEvent( data, range ) {
-		var evt = new CKEDITOR.dom.event( {
-			dataTransfer: {
-				getData: function( type ) {
-					assert.areSame( 'text', type, 'retrieved data type' );
-					return data;
-				}
-			}
-		} );
-
-		evt.testRange = range;
-
-		return evt;
-	}
 
 	function dragstart( editor, evt ) {
 		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
@@ -257,8 +242,7 @@
 		},
 
 		'test drop - no widget id': function() {
-			var editor = this.editor,
-				widgets = editor.widgets;
+			var editor = this.editor;
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
@@ -281,8 +265,7 @@
 		},
 
 		'test drop - not internal drop': function() {
-			var editor = this.editor,
-				widgets = editor.widgets;
+			var editor = this.editor;
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
@@ -306,8 +289,7 @@
 		},
 
 		'test drop - wrong widget id': function() {
-			var editor = this.editor,
-				widgets = editor.widgets;
+			var editor = this.editor;
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
@@ -333,8 +315,7 @@
 		},
 
 		'test drop - successful drag and drop': function() {
-			var editor = this.editor,
-				widgets = editor.widgets;
+			var editor = this.editor;
 
 			this.editorBot.setData( '<p class="x">foo</p><p>x<span data-widget="testwidget" id="w1">foo</span>x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),

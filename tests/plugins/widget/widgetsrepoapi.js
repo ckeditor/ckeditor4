@@ -670,7 +670,7 @@
 
 					assert.areEqual( 1, keysLength( editor.widgets.instances ), '1 widget reimained' );
 					assert.isNull( w1.wrapper, 'main widget\'s wrapper was reset' );
-					assert.isNotNull( w2.wrapper, 'nested widget\s wrapper was not reset' );
+					assert.isNotNull( w2.wrapper, 'nested widgets wrapper was not reset' );
 					assert.areSame( w2, getWidgetById( editor, 'w2' ), 'nested widget still exists' );
 				}
 			);
@@ -1162,8 +1162,6 @@
 					'<div data-widget="testblock" id="w2">foo</div>';
 
 			editorBot.setData( data, function() {
-				var w1 = getWidgetById( editor, 'w1' );
-
 				assert.areSame( 4, keysLength( editor.widgets.instances ), 'There should be 4 widgets in repo after init.' );
 
 				getWidgetById( editor, 'wn1', true ).wrapper.remove();

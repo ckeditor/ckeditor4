@@ -1,3 +1,5 @@
+/* exported lineutilsTestsTools */
+
 var lineutilsTestsTools = ( function() {
 	'use strict';
 

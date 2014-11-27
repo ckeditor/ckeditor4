@@ -781,14 +781,14 @@
 				// Emulate browsers native behavior for getDeta/setData.
 				setData: function( type, data ) {
 					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-						throw "Unexpected call to method or property access.";
+						throw 'Unexpected call to method or property access.';
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
 						return;
 
 					if ( type == 'text/plain' || type == 'Text' ) {
 						this._data[ 'text/plain' ] = data;
-						this._data[ 'Text' ] = data;
+						this._data.Text = data;
 					} else {
 						this._data[ type ] = data;
 					}
@@ -797,7 +797,7 @@
 				},
 				getData: function( type ) {
 					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
-						throw "Invalid argument.";
+						throw 'Invalid argument.';
 
 					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null )
 						return '';

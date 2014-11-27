@@ -1,12 +1,14 @@
 /* bender-tags: editor,unit */
 
-var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
-		CKEDITOR.env.webkit ? '-webkit-' :
-		CKEDITOR.env.ie ? '-ms-' :
-		'';
+( function() {
+	'use strict';
 
-bender.test(
-{
+	var vendorPrefix = CKEDITOR.env.gecko ? '-moz-' :
+			CKEDITOR.env.webkit ? '-webkit-' :
+			CKEDITOR.env.ie ? '-ms-' :
+			'';
+
+	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
 				CKEDITOR.document.getById( elementId ).getAttribute( 'style' ) ), msg );
@@ -57,15 +59,21 @@ bender.test(
 		},
 
 		'test getIndex - not found': function() {
-			assert.areSame( -1, CKEDITOR.tools.getIndex( [ 1, 2, 3 ], function( el ) { return el == 4; } ) );
+			assert.areSame( -1, CKEDITOR.tools.getIndex( [ 1, 2, 3 ], function( el ) {
+				return el == 4;
+			} ) );
 		},
 
 		'test getIndex - found first': function() {
-			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2, 2, 2, 3, 2, 2 ], function( el ) { return el == 2; } ) );
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2, 2, 2, 3, 2, 2 ], function( el ) {
+				return el == 2;
+			} ) );
 		},
 
 		'test getIndex - found on last position': function() {
-			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2 ], function( el ) { return el == 2; } ) );
+			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2 ], function( el ) {
+				return el == 2;
+			} ) );
 		},
 
 		test_htmlEncode1: function() {
@@ -580,3 +588,5 @@ bender.test(
 			assert.areSame( 33, uuid.length, 'UUID.length' );
 		}
 	} );
+
+} )();

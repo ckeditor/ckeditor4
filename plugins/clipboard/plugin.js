@@ -500,7 +500,7 @@
 				editable.on( 'cut', initOnCopyCut );
 
 				// Delete content with the low priority so one can overwrite cut data.
-				editable.on( 'cut', function( evt ) {
+				editable.on( 'cut', function() {
 					editor.getSelection().getRanges()[ 0 ].deleteContents(); // @todo replace with the new delete content function
 				}, null, null, 999 );
 			}
@@ -1306,9 +1306,6 @@
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
-				// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-				// #11086 IE8 cannot listen on document.
-				canListenOnDocument = !CKEDITOR.env.ie || CKEDITOR.env.version > 8,
 				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
 
 			// Listed on dragstart to mark internal and cross-editor drag & drop
@@ -1387,7 +1384,7 @@
 				// Execute drop with a timeout because otherwise selection, after drop,
 				// on IE is in the drag position, instead of drop position.
 				setTimeout( function() {
-					var dragBookmark, dropBookmark, i, isRangeBefore;
+					var dragBookmark, dropBookmark, isRangeBefore;
 
 					// Save and lock snapshot so there will be only
 					// one snapshot for both remove and insert content.
@@ -1430,8 +1427,6 @@
 
 			// Cross editor drag and drop (drag in one Editor and drop in the other).
 			function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
-				var i;
-
 				// Paste event should be fired before delete contents because otherwise
 				// Chrome have a problem with drop range (Chrome split the drop
 				// range container so the offset is bigger then container length).
@@ -1749,19 +1744,20 @@
 						else if ( defaultRange && defaultRange.startContainer &&
 							!defaultRange.startContainer.equals( editor.editable() ) ) {
 							return defaultRange;
-						}
+
 						// Otherwise we can not find any drop position and we have to return null
 						// and cancel drop event.
-						else
+						} else {
 							return null;
+						}
 
 					}
 				} catch ( err ) {
 					return null;
 				}
-			}
-			else
+			} else {
 				return null;
+			}
 
 			return range;
 		},
@@ -1884,7 +1880,7 @@
 		}
 
 		this._ = {
-			chromeLinuxRegExp: /^\<meta.*?\>/,
+			chromeLinuxRegExp: /^<meta.*?>/,
 			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
 
 			data: {},
@@ -1965,7 +1961,7 @@
 		 * @property {CKEDITOR.editor} sourceEditor
 		 */
 
-		 /**
+		/**
 		 * Private properties and methods.
 		 *
 		 * @private
@@ -2185,8 +2181,8 @@
 						}
 					}
 				} else {
-					typesToCheck[ 'Text' ] = 1;
-					typesToCheck[ 'URL' ] = 1;
+					typesToCheck.Text = 1;
+					typesToCheck.URL = 1;
 				}
 			}
 

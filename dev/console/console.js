@@ -261,22 +261,22 @@ CKCONSOLE.addEventPanel = function( evtName, types, mapping ) {
 		content = '<ul class="ckconsole_list">';
 
 	if ( !types ) {
-		var types = [];
+		types = [];
 	}
 	if ( !mapping ) {
-			mapping = function( evt ) {
-				var ret = {};
+		mapping = function( evt ) {
+			var ret = {};
 
-				for ( var i = 0; i < types.length; i++ ) {
-					ret[ types[ i ] ] = evt.data[ types[ i ] ];
-				};
-				return ret;
+			for ( var i = 0; i < types.length; i++ ) {
+				ret[ types[ i ] ] = evt.data[ types[ i ] ];
 			}
+			return ret;
+		};
 	}
 
 	for ( var i = 0; i < types.length; i++ ) {
-		content += '<li>'+ types[ i ] + ': <span class="ckconsole_value" data-value="'+ types[ i ] + '"></span></li>';
-	};
+		content += '<li>' + types[ i ] + ': <span class="ckconsole_value" data-value="' + types[ i ] + '"></span></li>';
+	}
 	content += '</ul>';
 
 	CKCONSOLE.add( evtName, {
@@ -285,7 +285,7 @@ CKCONSOLE.addEventPanel = function( evtName, types, mapping ) {
 				type: 'box',
 				content: content,
 
-				refresh: function( editor ) {
+				refresh: function() {
 					values.header = evtName;
 					return values;
 				},
@@ -301,11 +301,11 @@ CKCONSOLE.addEventPanel = function( evtName, types, mapping ) {
 				type: 'log',
 				on: function( editor, log, logFn ) {
 					editor.on( evtName, function( evt ) {
-						var logStr = evtName + '; '
+						var logStr = evtName + '; ';
 						values = mapping( evt );
 
 						for ( var i = 0; i < types.length; i++ ) {
-							logStr += types[ i ] + ': ' + values[ types[ i ] ] +'; ';
+							logStr += types[ i ] + ': ' + values[ types[ i ] ] + '; ';
 						}
 
 						logFn( logStr )();
@@ -314,4 +314,4 @@ CKCONSOLE.addEventPanel = function( evtName, types, mapping ) {
 			}
 		]
 	} );
-}
+};

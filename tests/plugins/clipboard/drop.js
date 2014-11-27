@@ -19,8 +19,7 @@ var setWithHtml = bender.tools.selection.setWithHtml,
 CKEDITOR.disableAutoInline = true;
 
 function drag( editor, evt ) {
-	var editable = editor.editable(),
-		dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+	var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 		dragEventCounter = 0;
 
 	editor.once( 'dragstart', function( dragEvt ) {
@@ -38,7 +37,6 @@ function drag( editor, evt ) {
 
 function drop( editor, evt, config, onDrop, onFinish ) {
 	var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-		editable = editor.editable(),
 		dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 		range = new CKEDITOR.dom.range( editor.document ),
 		values = { beforePasteEventCounter: 0, pasteEventCounter: 0, dropEventCounter: 0 },
@@ -54,8 +52,6 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 	evt.testRange = range;
 
 	dropListener = function( dropEvt ) {
-		var ret;
-
 		values.dropEventCounter++;
 		values.dropInstanceOfDataTransfer = dropEvt.data.dataTransfer instanceof CKEDITOR.plugins.clipboard.dataTransfer;
 		values.dropDataText = dropEvt.data.dataTransfer.getData( 'text/plain' );
@@ -76,7 +72,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 		}
 	};
 
-	beforePasteListener = function( evt ) {
+	beforePasteListener = function() {
 		values.beforePasteEventCounter++;
 	};
 
@@ -128,7 +124,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			if ( onFinish )
 				return onFinish();
 		} );
-	}
+	};
 
 	editor.on( 'drop', dropListener );
 	editor.on( 'beforePaste', beforePasteListener );
@@ -267,8 +263,7 @@ var editors, editorBots,
 		},
 
 		'test drop after range end': function( editor ) {
-			var bot = editorBots[ editor.name ],
-				evt = bender.tools.mockDropEvent();
+			var evt = bender.tools.mockDropEvent();
 
 			setWithHtml( editor, '<p id="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
 			editor.resetUndo();
@@ -430,7 +425,7 @@ var editors, editorBots,
 		'test cross editor drop': function( editor ) {
 			var bot = editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
-				botCross = editorBots[ 'cross' ],
+				botCross = editorBots.cross,
 				editorCross = botCross.editor;
 
 			setWithHtml( bot.editor, '<p id="p">{}Lorem ipsum sit amet.</p>' );
@@ -512,7 +507,7 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0,
 				expectedPasteEventCount: 0
-			}, function( evt ) {
+			}, function() {
 				return false;
 			}, function() {
 				assert.areSame( '<p id="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
@@ -550,7 +545,7 @@ var editors, editorBots,
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
 			dragRange.select();
-			assert.isInnerHtmlMatching( '<p id="p">lorem ipsum^ sit amet\.@</p>', getWithHtml( editor ), htmlMatchOpts );
+			assert.isInnerHtmlMatching( '<p id="p">lorem ipsum^ sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 			dropRange.select();
 			assert.isInnerHtmlMatching( '<p id="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
@@ -662,7 +657,7 @@ var editors, editorBots,
 
 			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 
-			editor.once( 'dragend', function( dragendEvt ) {
+			editor.once( 'dragend', function() {
 				dragendCount++;
 
 				return false;
@@ -688,7 +683,7 @@ var editors, editorBots,
 
 			evt.preventDefault = function() {
 				preventDefaultCount++;
-			}
+			};
 
 			drag( editor, evt );
 
@@ -700,7 +695,6 @@ var editors, editorBots,
 				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
-				preventDefaultCount = 0,
 				dragstartData, dropData, dragendData;
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
@@ -725,7 +719,7 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0,
 				expectedPasteEventCount: 0
-			}, function( evt ) {
+			}, function() {
 				return false;
 			}, function() {
 				editor.focus();
@@ -742,7 +736,6 @@ var editors, editorBots,
 				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
-				preventDefaultCount = 0,
 				dragstartData, dropData, dragendData;
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
@@ -767,7 +760,7 @@ var editors, editorBots,
 				element: editor.document.getById( 'p' ).getChild( 0 ),
 				offset: 0,
 				expectedPasteEventCount: 0
-			}, function( evt ) {
+			}, function() {
 				return false;
 			}, function() {
 				editor.focus();
@@ -781,14 +774,13 @@ var editors, editorBots,
 
 		'test cancel beforePaste': function() {
 			var editor = editors.inline,
-				editable = editor.editable(),
 				bot = editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
 			editor.resetUndo();
 
-			editor.once( 'beforePaste', function( evt ) {
+			editor.once( 'beforePaste', function() {
 				return false;
 			}, null, null, 11 );
 

@@ -2103,63 +2103,6 @@
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
 	}
 
-	function finalizeNativeDrop( editor, sourceWidget, range ) {
-		// Save the snapshot with the state before moving widget.
-		// Focus widget, so when we'll undo the DnD, widget will be focused.
-		sourceWidget.focus();
-		editor.fire( 'saveSnapshot' );
-
-		// Lock snapshot to group all steps of moving widget from the original place to the new one.
-		editor.fire( 'lockSnapshot', { dontUpdate: true } );
-
-		range.select();
-
-		var widgetHtml = sourceWidget.wrapper.getOuterHtml();
-		sourceWidget.wrapper.remove();
-		editor.widgets.destroy( sourceWidget, true );
-		editor.execCommand( 'paste', widgetHtml );
-
-		editor.fire( 'unlockSnapshot' );
-	}
-
-	function getRangeAtDropPosition( editor, dropEvt ) {
-		var $evt = dropEvt.data.$,
-			$range,
-			range = editor.createRange();
-
-		// Make testing possible.
-		if ( dropEvt.data.testRange )
-			return dropEvt.data.testRange;
-
-		// Webkits.
-		if ( document.caretRangeFromPoint ) {
-			$range = editor.document.$.caretRangeFromPoint( $evt.clientX, $evt.clientY );
-			range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
-			range.collapse( true );
-		}
-		// FF.
-		else if ( $evt.rangeParent ) {
-			range.setStart( CKEDITOR.dom.node( $evt.rangeParent ), $evt.rangeOffset );
-			range.collapse( true );
-		}
-		// IEs.
-		else if ( document.body.createTextRange ) {
-			$range = editor.document.getBody().$.createTextRange();
-			$range.moveToPoint( $evt.clientX, $evt.clientY );
-			var id = 'cke-temp-' + ( new Date() ).getTime();
-			$range.pasteHTML( '<span id="' + id + '">\u200b</span>' );
-
-			var span = editor.document.getById( id );
-			range.moveToPosition( span, CKEDITOR.POSITION_BEFORE_START );
-			span.remove();
-		}
-		else {
-			return null;
-		}
-
-		return range;
-	}
-
 	function onEditableKey( widget, keyCode ) {
 		var focusedEditable = widget.focusedEditable,
 			range;

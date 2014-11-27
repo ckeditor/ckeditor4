@@ -49,7 +49,7 @@
 				} );
 			} );
 
-			editor.once( 'dialogShow', function( evt ) {
+			editor.once( 'dialogShow', function() {
 				var dialog = editor._.storedDialogs.paste,
 					frameDoc = dialog.getContentElement( 'general', 'editing_area' )
 						.getInputElement().getFrameDocument();
