@@ -103,6 +103,51 @@
 			range.collapse();
 
 			this.checkInsertHtmlIntoRange( '<img src="foo">', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y</p>' );
+		},
+
+		'test insertHtml with range': function() {
+			tools.setHtmlWithSelection( this.editor, '<p>foobar</p>' );
+
+			var range = this.editor.createRange(),
+				textNode = this.editor.editable().getChild( [ 0, 0 ] ),
+				bot = this.editorBot,
+				editor = bot.editor,
+				editable = editor.editable(),
+				afterInsertCount = 0, afterInsertData;
+
+			range.setStart( textNode, 2 );
+			range.setEnd( textNode, 4 );
+
+			editor.on( 'afterInsertHtml', function( evt ) {
+				afterInsertCount++;
+				afterInsertData = evt.data;
+			} );
+
+			editable.insertHtml( '<b>b</b>', 'html', range );
+
+			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar</p>', editable.getHtml(), 'Editor content.' );
+			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
+			assert.areSame( range, afterInsertData.intoRange, 'intoRange should contain range' );
+		},
+
+		'test insertHtmlIntoSelection': function() {
+			tools.setHtmlWithSelection( this.editor, '<p>fo[ob]ar</p>' );
+
+			var bot = this.editorBot,
+				editor = bot.editor,
+				editable = editor.editable(),
+				afterInsertCount = 0, afterInsertData;
+
+			editor.on( 'afterInsertHtml', function( evt ) {
+				afterInsertCount++;
+				afterInsertData = evt.data;
+			} );
+
+			editable.insertHtmlIntoSelection( '<b>b</b>' );
+
+			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar</p>', editable.getHtml(), 'Editor content.' );
+			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
+			assert.isUndefined( afterInsertData.intoRange, 'intoRange should be undefined' );
 		}
 	} );
 

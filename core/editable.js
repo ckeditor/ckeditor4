@@ -256,7 +256,22 @@
 			/**
 			 * @see CKEDITOR.editor#insertHtml
 			 */
-			insertHtml: function( data, mode ) {
+			insertHtml: function( data, mode, range ) {
+				if ( !range )
+					this.insertHtmlIntoSelection( data, mode );
+				else
+					this.insertHtmlIntoRange( data, range, mode );
+			},
+
+			/**
+			 * Inserts an HTML into the currently selected position in the editor.
+			 *
+			 * @since 4.5
+			 * @param {String} data HTML code to be inserted into the editor.
+			 * @param {String} [mode='html'] Mode in which HTML will be inserted.p
+			 * See {@link CKEDITOR.editor#method-insertHtml}.
+			 */
+			insertHtmlIntoSelection: function( data, mode ) {
 				// HTML insertion only considers the first range.
 				// Note: getRanges will be overwritten for tests since we want to test
 				// 		custom ranges and bypass native selections.
