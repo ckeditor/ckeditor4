@@ -182,7 +182,7 @@ var insertionDT = ( function() {
 
 					if ( mode != 'insertElement' ) {
 						assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsertHtml event after every insertion.' );
-						assert.isFalse( afterInsertData.intoRange, 'intoRange parameter should be false.' );
+						assert.isUndefined( afterInsertData.intoRange, 'intoRange parameter should be undefined.' );
 					}
 				}
 			}

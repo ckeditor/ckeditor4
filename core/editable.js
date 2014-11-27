@@ -272,7 +272,7 @@
 
 				afterInsert( this );
 
-				this.editor.fire( 'afterInsertHtml' );
+				this.editor.fire( 'afterInsertHtml', {} );
 			},
 
 			/**
