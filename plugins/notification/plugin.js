@@ -200,7 +200,7 @@ notification.prototype = {
 		}
 
 		var notification = this,
-			notificationElement,
+			notificationElement, notificationMessageElement, notificationCloseElement,
 			close = this.editor.lang.common.close;
 
 		if ( !this._notificationArea ) {
@@ -211,14 +211,26 @@ notification.prototype = {
 			}
 		}
 
-		notificationElement = CKEDITOR.dom.element.createFromHtml(
-			'<div class="cke_notification ' + this.getClass() + '" id="' + this.id + '" role="alert" aria-label="' + this.type + '">' +
-				( this.type == 'progress' ? this._createProgressElement().getOuterHtml() : '' ) +
-				'<p class="cke_notification_message">' + this.message + '</p>' +
-				'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
-					'<span class="cke_label">X</span>' +
-				'</a>' +
-			'</div>' );
+		notificationElement = new CKEDITOR.dom.element( 'div' );
+		notificationElement.addClass( 'cke_notification' );
+		notificationElement.addClass( this.getClass() );
+		notificationElement.setAttribute( 'id', this.id );
+		notificationElement.setAttribute( 'role', 'alert' );
+		notificationElement.setAttribute( 'aria-label', this.type );
+
+		if ( this.type == 'progress' )
+			notificationElement.append( this._createProgressElement() );
+
+		notificationMessageElement = new CKEDITOR.dom.element( 'p' );
+		notificationMessageElement.addClass( 'cke_notification_message' );
+		notificationMessageElement.setHtml( this.message );
+		notificationElement.append( notificationMessageElement );
+
+		notificationCloseElement = CKEDITOR.dom.element.createFromHtml(
+			'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
+				'<span class="cke_label">X</span>' +
+			'</a>' );
+		notificationElement.append( notificationCloseElement );
 
 		notificationElement.findOne( '.cke_notification_close' ).on( 'click', function() {
 			notification.hide();
