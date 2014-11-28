@@ -1,4 +1,4 @@
-/**
+/*
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -7,6 +7,8 @@ CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {
+		editor.notificationArea = new CKEDITOR.plugins.notification.area( editor );
+
 		/**
 		 * Create and show the notification. By default the notification is shown over the editors contents, in the
 		 * viewport if it is possible.
@@ -34,7 +36,7 @@ CKEDITOR.plugins.add( 'notification', {
 				duration = progressOrDuration;
 			}
 
-			var notification = new CKEDITOR.plugins.notification( editor, {
+			var notification = new CKEDITOR.plugins.notification.notification( editor, {
 				message: message,
 				type: type,
 				progress: progress,
@@ -49,15 +51,9 @@ CKEDITOR.plugins.add( 'notification', {
 		// Close the last notification on ESC.
 		editor.on( 'key', function( evt ) {
 			if ( evt.data.keyCode == 27 /* ESC */ ) {
-				var notificationArea = editor.container.getDocument().getById( 'cke_notifications_area_' + editor.name );
+				var notifications = editor.notificationArea.notifications;
 
-				if ( !notificationArea ) {
-					return;
-				}
-
-				var element = notificationArea.getLast();
-
-				if ( !element ) {
+				if ( !notifications.length ) {
 					return;
 				}
 
@@ -68,9 +64,8 @@ CKEDITOR.plugins.add( 'notification', {
 				// why it does not do other actions.
 				say( editor.lang.notification.closed );
 
-				var notification = CKEDITOR.plugins.notification.getByElement( element );
-
-				notification.hide();
+				// Hide last.
+				notifications[ notifications.length - 1 ].hide();
 
 				evt.cancel();
 			}
@@ -128,8 +123,10 @@ function notification( editor, options ) {
 	this.message = options.message;
 	this.type = options.type ? options.type : 'info';
 	this.progress = options.progress;
-	this.id = CKEDITOR.tools.getUniqueId();
 	this.duration = options.duration;
+	this.id = CKEDITOR.tools.getUniqueId();
+	this.element = this._createElement();
+	this.area = this.editor.notificationArea;
 }
 
 /**
@@ -181,37 +178,8 @@ function notification( editor, options ) {
  * Area where notifications are put. Its position is set dynamically by `_layout` method.
  *
  * @private
- * @property {CKEDITOR.dom.element} _notificationArea
+ * @property {CKEDITOR.dom.element} area
  */
-
-/**
- * Width of the notification. Cached for the performance.
- *
- * @private
- * @property {CKEDITOR.dom.element} _notificationWidth
- */
-
-/**
- * Margin of the notification. Cached for the performance.
- *
- * @private
- * @property {CKEDITOR.dom.element} _notificationMargin
- */
-
-/**
- * Event buffer object for UI events to optimize performance.
- *
- * @private
- * @property {Object} _uiBuffer
- */
-
-/**
- * Event buffer object for editor change events to optimize performance.
- *
- * @private
- * @property {Object} _changeBuffer
- */
-
 
 notification.prototype = {
 	/**
@@ -224,48 +192,7 @@ notification.prototype = {
 			return;
 		}
 
-		var notification = this,
-			notificationElement, notificationMessageElement, notificationCloseElement,
-			close = this.editor.lang.common.close;
-
-		if ( !this._notificationArea ) {
-			this._notificationArea = this.editor.container.getDocument().getById( 'cke_notifications_area_' + this.editor.name );
-
-			if ( !this._notificationArea ) {
-				this._notificationArea = this._createNotificationArea();
-			}
-		}
-
-		notificationElement = new CKEDITOR.dom.element( 'div' );
-		notificationElement.addClass( 'cke_notification' );
-		notificationElement.addClass( this.getClass() );
-		notificationElement.setAttribute( 'id', this.id );
-		notificationElement.setAttribute( 'role', 'alert' );
-		notificationElement.setAttribute( 'aria-label', this.type );
-
-		if ( this.type == 'progress' )
-			notificationElement.append( this._createProgressElement() );
-
-		notificationMessageElement = new CKEDITOR.dom.element( 'p' );
-		notificationMessageElement.addClass( 'cke_notification_message' );
-		notificationMessageElement.setHtml( this.message );
-		notificationElement.append( notificationMessageElement );
-
-		notificationCloseElement = CKEDITOR.dom.element.createFromHtml(
-			'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
-				'<span class="cke_label">X</span>' +
-			'</a>' );
-		notificationElement.append( notificationCloseElement );
-
-		notificationElement.findOne( '.cke_notification_close' ).on( 'click', function() {
-			notification.hide();
-		} );
-
-		this._notificationArea.append( notificationElement );
-
-		CKEDITOR.plugins.notification.repository[ this.id ] = this;
-
-		this._layout();
+		this.area.add( this );
 
 		this._hideAfterTimeout();
 	},
@@ -288,28 +215,20 @@ notification.prototype = {
 			return;
 		}
 
-		var element = this.getElement(),
-			messageElement, progressElement;
-
-		if ( element ) {
-			messageElement = element.findOne( '.cke_notification_message' );
+		var element = this.element,
+			messageElement = element.findOne( '.cke_notification_message' ),
 			progressElement = element.findOne( '.cke_notification_progress' );
 
-			element.removeAttribute( 'role' );
-		}
+		element.removeAttribute( 'role' );
 
 		if ( options.type ) {
-			if ( element ) {
-				element.removeClass( this.getClass() );
-				element.removeAttribute( 'aria-label' );
-			}
+			element.removeClass( this._getClass() );
+			element.removeAttribute( 'aria-label' );
 
 			this.type = options.type;
 
-			if ( element ) {
-				element.addClass( this.getClass() );
-				element.setAttribute( 'aria-label', this.type );
-			}
+			element.addClass( this._getClass() );
+			element.setAttribute( 'aria-label', this.type );
 		}
 
 		if ( options.message || options.progress ) {
@@ -321,24 +240,24 @@ notification.prototype = {
 				this.progress = options.progress;
 			}
 
-			if ( messageElement ) {
-				messageElement.setHtml( this.message );
-			}
+			messageElement.setHtml( this.message );
 
 			if ( options.progress ) {
 				if ( progressElement ) {
-					progressElement.setStyle( 'width', this.getPercentageProgress() );
-				} else if ( element && !progressElement ) {
+					progressElement.setStyle( 'width', this._getPercentageProgress() );
+				} else if ( !progressElement ) {
 					progressElement = this._createProgressElement();
 					progressElement.insertBefore( messageElement );
 				}
 			}
 		}
 
-		if ( !element && options.important ) {
-			this.show();
-		} else if ( element && options.important ) {
+		if ( options.important ) {
 			element.setAttribute( 'role', 'alert' );
+
+			if ( !this.isVisible() ) {
+				this.area.add( this );
+			}
 		}
 
 		// Overwrite even if it is undefined.
@@ -358,28 +277,44 @@ notification.prototype = {
 			return;
 		}
 
-		var element = this.getElement();
-
-		if ( element ) {
-			element.remove();
-		}
-
-		if ( this._notificationArea && !this._notificationArea.getChildCount() ) {
-			this._detachListeners();
-			this._notificationArea.remove();
-			this._notificationArea = null;
-		}
-
-		delete CKEDITOR.plugins.notification.repository[ this.id ];
+		this.area.remove( this );
 	},
 
-	/**
-	 * Get notification DOM element or `null` if not found.
-	 *
-	 * @returns {CKEDITOR.dom.element} element Notification DOM element.
-	 */
-	getElement: function() {
-		return this.editor.container.getDocument().getById( this.id );
+	isVisible: function() {
+		return !!this.area.notifications[ this.id ];
+	},
+
+	_createElement: function() {
+		var notification = this,
+			notificationElement, notificationMessageElement, notificationCloseElement,
+			close = this.editor.lang.common.close;
+
+		notificationElement = new CKEDITOR.dom.element( 'div' );
+		notificationElement.addClass( 'cke_notification' );
+		notificationElement.addClass( this._getClass() );
+		notificationElement.setAttribute( 'id', this.id );
+		notificationElement.setAttribute( 'role', 'alert' );
+		notificationElement.setAttribute( 'aria-label', this.type );
+
+		if ( this.type == 'progress' )
+			notificationElement.append( this._createProgressElement() );
+
+		notificationMessageElement = new CKEDITOR.dom.element( 'p' );
+		notificationMessageElement.addClass( 'cke_notification_message' );
+		notificationMessageElement.setHtml( this.message );
+		notificationElement.append( notificationMessageElement );
+
+		notificationCloseElement = CKEDITOR.dom.element.createFromHtml(
+			'<a class="cke_notification_close" href="javascript:void(0)" title="' + close + '" role="button" tabindex="-1">' +
+				'<span class="cke_label">X</span>' +
+			'</a>' );
+		notificationElement.append( notificationCloseElement );
+
+		notificationElement.findOne( '.cke_notification_close' ).on( 'click', function() {
+			notification.hide();
+		} );
+
+		return notificationElement;
 	},
 
 	/**
@@ -387,7 +322,7 @@ notification.prototype = {
 	 *
 	 * @returns {String} Notification CSS class.
 	 */
-	getClass: function() {
+	_getClass: function() {
 		if ( this.type == 'progress' ) {
 			return 'cke_notification_info';
 		} else {
@@ -396,11 +331,24 @@ notification.prototype = {
 	},
 
 	/**
+	 * Create progress element for the notification element.
+	 *
+	 * @private
+	 * @returns {CKEDITOR.dom.element} [description]
+	 */
+	_createProgressElement: function() {
+		var element = new CKEDITOR.dom.element( 'span' );
+		element.addClass( 'cke_notification_progress' );
+		element.setStyle( 'width', this._getPercentageProgress() );
+		return element;
+	},
+
+	/**
 	 * Get progress as a percentage (ex. `0.3` -> `30%`).
 	 *
 	 * @returns {String} Progress as a percentage.
 	 */
-	getPercentageProgress: function() {
+	_getPercentageProgress: function() {
 		if ( this.type == 'progress' ) {
 			return Math.round( this.progress * 100 ) + '%';
 		} else {
@@ -434,20 +382,91 @@ notification.prototype = {
 				}, duration );
 			} );
 		}
+	}
+};
+
+function area( editor ) {
+	var that = this;
+
+	this.editor = editor;
+	this.notifications = [];
+	this.element = this._createElement(),
+
+	editor.on( 'destroy', function() {
+		that._detachListeners();
+		that.element.remove();
+	} );
+}
+
+
+/**
+ * Width of the notification. Cached for the performance.
+ *
+ * @private
+ * @property {CKEDITOR.dom.element} _notificationWidth
+ */
+
+/**
+ * Margin of the notification. Cached for the performance.
+ *
+ * @private
+ * @property {CKEDITOR.dom.element} _notificationMargin
+ */
+
+/**
+ * Event buffer object for UI events to optimize performance.
+ *
+ * @private
+ * @property {Object} _uiBuffer
+ */
+
+/**
+ * Event buffer object for editor change events to optimize performance.
+ *
+ * @private
+ * @property {Object} _changeBuffer
+ */
+
+area.prototype = {
+	add: function( notification ) {
+		this.notifications.push( notification );
+
+		this.element.append( notification.element );
+
+		if ( this.element.getChildCount() == 1 ) {
+			CKEDITOR.document.getBody().append( this.element );
+			this._attachListeners();
+		}
+
+		this._layout();
+	},
+
+	remove: function( notification ) {
+		var i = this.notifications.indexOf( notification );
+
+		if ( i < 0 ) {
+			return;
+		}
+
+		this.notifications.splice( i, 1 );
+
+		notification.element.remove();
+
+		if ( !this.element.getChildCount() ) {
+			this._detachListeners();
+			this.element.remove();
+		}
 	},
 
 	/**
-	 * Create progress element for the notification element.
+	 * Map of the visible notifications needed to get notification object by element. Elements ids are keys,
+	 * notification objects are values.
 	 *
 	 * @private
-	 * @returns {CKEDITOR.dom.element} [description]
+	 * @static
+	 * @type {Object}
 	 */
-	_createProgressElement: function() {
-		var element = new CKEDITOR.dom.element( 'span' );
-		element.addClass( 'cke_notification_progress' );
-		element.setStyle( 'width', this.getPercentageProgress() );
-		return element;
-	},
+	// _notifications = {},
 
 	/**
 	 * Creates the notification area element, where all notifications are placed and attach all listeners to it.
@@ -455,7 +474,7 @@ notification.prototype = {
 	 * @private
 	 * @returns {CKEDITOR.dom.element} Notification area element.
 	 */
-	_createNotificationArea: function() {
+	_createElement: function() {
 		var editor = this.editor,
 			config = editor.config,
 			notificationArea = new CKEDITOR.dom.element( 'div' );
@@ -463,10 +482,6 @@ notification.prototype = {
 		notificationArea.addClass( 'cke_notifications_area' );
 		notificationArea.setAttribute( 'id', 'cke_notifications_area_' + editor.name );
 		notificationArea.setStyle( 'z-index', config.baseFloatZIndex - 2 );
-
-		CKEDITOR.document.getBody().append( notificationArea );
-
-		this._attachListeners();
 
 		return notificationArea;
 	},
@@ -489,13 +504,6 @@ notification.prototype = {
 		editor.on( 'change', this._changeBuffer.input );
 		editor.on( 'floatingSpaceLayout', notification._layout, notification, null, 20 );
 		editor.on( 'blur', this._layout, notification, null, 20 );
-
-		editor.on( 'destroy', function() {
-			notification._detachListeners();
-			if ( notification._notificationArea ) {
-				notification._notificationArea.remove();
-			}
-		} );
 	},
 
 	/**
@@ -520,27 +528,28 @@ notification.prototype = {
 	 * @private
 	 */
 	_layout: function() {
-		var notificationArea = this._notificationArea,
+		var area = this.element,
 			editor = this.editor,
 			contentsRect = editor.ui.contentsElement.getClientRect(),
 			contentsPos = editor.ui.contentsElement.getDocumentPosition(),
 			top = editor.ui.space( 'top' ),
 			topRect = top.getClientRect(),
-			notificationAreaRect = notificationArea.getClientRect(),
+			areaRect = area.getClientRect(),
+			notification,
 			notificationWidth = this._notificationWidth,
 			notificationMargin = this._notificationMargin,
 			win = CKEDITOR.document.getWindow(),
 			scrollPos = win.getScrollPosition(),
 			viewRect = win.getViewPaneSize(),
-			element,
 			cssLength = CKEDITOR.tools.cssLength;
 
 		// Cache for optimization
 		if ( !notificationWidth || !notificationMargin ) {
-			element = this.getElement();
-			notificationWidth = this._notificationWidth = element.getClientRect().width;
-			notificationMargin = this._notificationMargin = parseInt( element.getComputedStyle( 'margin-left' ), 10 ) +
-				parseInt( element.getComputedStyle( 'margin-right' ), 10 );
+			notification = this.element.getChild( 0 );
+			notificationWidth = this._notificationWidth = notification.getClientRect().width;
+			notificationMargin = this._notificationMargin =
+				parseInt( notification.getComputedStyle( 'margin-left' ), 10 ) +
+				parseInt( notification.getComputedStyle( 'margin-right' ), 10 );
 		}
 
 		// --------------------------------------- Horizontal layout ----------------------------------------
@@ -561,7 +570,7 @@ notification.prototype = {
 		// +------------------------------------------+          +------------------------------------------+
 		if ( top.isVisible() &&
 			topRect.bottom > contentsRect.top &&
-			topRect.bottom < contentsRect.bottom - notificationAreaRect.height ) {
+			topRect.bottom < contentsRect.bottom - areaRect.height ) {
 			setBelowToolbar();
 
 		// +---Viewport-------------------------------+
@@ -589,7 +598,7 @@ notification.prototype = {
 		// | +--------------------------------------+ |
 		// |                                          |
 		// +------------------------------------------+
-		} else if ( contentsPos.y + contentsRect.height - notificationAreaRect.height > scrollPos.y ) {
+		} else if ( contentsPos.y + contentsRect.height - areaRect.height > scrollPos.y ) {
 			setTopFixed();
 
 		//   +---Content----------------------------+              +---Content----------------------------+
@@ -609,28 +618,28 @@ notification.prototype = {
 		}
 
 		function setTopStandard() {
-			notificationArea.setStyle( 'position', 'absolute' );
-			notificationArea.setStyle( 'top', cssLength( contentsPos.y ) );
+			area.setStyle( 'position', 'absolute' );
+			area.setStyle( 'top', cssLength( contentsPos.y ) );
 		}
 
 		function setBelowToolbar() {
-			notificationArea.setStyle( 'position', 'fixed' );
-			notificationArea.setStyle( 'top', cssLength( topRect.bottom ) );
+			area.setStyle( 'position', 'fixed' );
+			area.setStyle( 'top', cssLength( topRect.bottom ) );
 		}
 
 		function setTopFixed() {
-			notificationArea.setStyle( 'position', 'fixed' );
-			notificationArea.setStyle( 'top', 0 );
+			area.setStyle( 'position', 'fixed' );
+			area.setStyle( 'top', 0 );
 		}
 
 		function setBottom() {
-			notificationArea.setStyle( 'position', 'absolute' );
-			notificationArea.setStyle( 'top', cssLength( contentsPos.y + contentsRect.height - notificationAreaRect.height ) );
+			area.setStyle( 'position', 'absolute' );
+			area.setStyle( 'top', cssLength( contentsPos.y + contentsRect.height - areaRect.height ) );
 		}
 
 		// ---------------------------------------- Vertical layout -----------------------------------------
 
-		var leftBase = notificationArea.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPos.x;
+		var leftBase = area.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPos.x;
 
 		// Content is narrower than notification
 		if ( contentsRect.width < notificationWidth + notificationMargin ) {
@@ -732,49 +741,31 @@ notification.prototype = {
 		}
 
 		function setLeft() {
-			notificationArea.setStyle( 'left', cssLength( leftBase ) );
+			area.setStyle( 'left', cssLength( leftBase ) );
 		}
 
 		function setLeftFixed() {
-			notificationArea.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x ) );
+			area.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x ) );
 		}
 
 		function setCenter() {
-			notificationArea.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 ) );
+			area.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 ) );
 		}
 
 		function setRight() {
-			notificationArea.setStyle( 'left', cssLength( leftBase + contentsRect.width - notificationWidth - notificationMargin ) );
+			area.setStyle( 'left', cssLength( leftBase + contentsRect.width - notificationWidth - notificationMargin ) );
 		}
 
 		function setRightFixed() {
-			notificationArea.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x + viewRect.width -
+			area.setStyle( 'left', cssLength( leftBase - contentsPos.x + scrollPos.x + viewRect.width -
 				notificationWidth - notificationMargin ) );
 		}
 	}
 };
 
-CKEDITOR.plugins.notification = notification;
-
-/**
- * Map of the visible notifications needed to get notification object by element. Elements ids are keys,
- * notification objects are values.
- *
- * @private
- * @static
- * @type {Object}
- */
-CKEDITOR.plugins.notification.repository = {};
-
-/**
- * Get notification object by its element. Note that element must exists in the notification area.
- *
- * @static
- * @param {CKEDITOR.dom.element} element Notification DOM element.
- * @returns {CKEDITOR.plugins.notification} Notification object.
- */
-CKEDITOR.plugins.notification.getByElement = function( element ) {
-	return CKEDITOR.plugins.notification.repository[ element.getId() ];
+CKEDITOR.plugins.notification = {
+	notification: notification,
+	area: area
 };
 
 /**
