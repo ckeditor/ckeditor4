@@ -16,7 +16,7 @@ CKEDITOR.plugins.add( 'notification', {
 		 * @since 4.5
 		 * @member CKEDITOR.editor
 		 * @param {String} message Message displayed on the notification.
-		 * @param {String} [type='info'] Type of the notification. Might be 'info', 'warning', 'success' or 'progress'.
+		 * @param {String} [type='info'] Type of the notification. Can be 'info', 'warning', 'success' or 'progress'.
 		 * @param {Number} [progress=0] If the type is `progress` the third parameter may be a progress from 0 to 1.
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
@@ -32,7 +32,7 @@ CKEDITOR.plugins.add( 'notification', {
 			return notification;
 		};
 
-		// Close last notification on ESC.
+		// Close the last notification on ESC.
 		editor.on( 'key', function( evt ) {
 			if ( evt.data.keyCode == 27 /* ESC */ ) {
 				var notificationArea = editor.container.getDocument().getById( 'cke_notifications_area_' + editor.name );
@@ -47,11 +47,11 @@ CKEDITOR.plugins.add( 'notification', {
 					return;
 				}
 
-				// As long as this is not a common practice to inform screen-reader users about action in this case this
-				// is the best solution (unfortunately there is no standard for accessibility for notifications).
+				// As long as this is not a common practice to inform screen-reader users about actions, in this case
+				// this is the best solution (unfortunately there is no standard for accessibility for notifications).
 				// Notification has an `alert` aria role what means that it does not get a focus nor is needed to be
 				// closed (unlike `alertdialog`). However notification will capture ESC key so we need to inform user
-				// why it does not do other action.
+				// why it does not do other actions.
 				say( editor.lang.notification.closed );
 
 				var notification = CKEDITOR.plugins.notification.getByElement( element );
@@ -83,11 +83,11 @@ CKEDITOR.plugins.add( 'notification', {
 /**
  * Notification class. Notifications are uses to show user short messages. They might be used to show result of
  * asynchronous actions or informations about changes in the editors content. They should be used instead of
- * alert dialogs. They should NOT be used if user response is required nor to user with dialogs (ex. dialog validation).
+ * alert dialogs. They should NOT be used if user response is required nor used with dialogs (ex. dialog validation).
  *
  * There are four types, see {@link #type}.
  *
- * Note that constructor just create a `notification` object. To show it use {@link #show show method}:
+ * Note that constructor just create a `notification` object. To show it use {@link #show show} method:
  *
  * 		var notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
  * 		notification.show();
@@ -97,7 +97,7 @@ CKEDITOR.plugins.add( 'notification', {
  * 		editor.showNotification( 'Foo' );
  *
  * All of the notification actions (`show`, `update` and `hide`) fires cancelable events so you can integrate editor
- * notifications whit the website notifications.
+ * notifications with the website notifications.
  *
  * @since 4.5
  * @class CKEDITOR.plugins.notification
@@ -131,7 +131,7 @@ function notification( editor, options ) {
 /**
  * Notification type. There are four types:
  *
- * * `info` (default) - Information for the user (ex. "File is uploading", "ACF modified some content."),
+ * * `info` (default) - Information for the user (ex. "File is uploading", "ACF modified content."),
  * * `warning` - Warning or error messages (ex. "This type of files is not supported",
  *		"You cannot paste script."),
  * * `success` - Information that operation finish successfully (ex. "File uploaded.", "Data imported.").
@@ -141,7 +141,7 @@ function notification( editor, options ) {
  */
 
 /**
- * If the type is `progress` this may be a progress from 0 to 1.
+ * If the type is `progress` this is the progress from 0 to 1.
  *
  * @property {Number} progress
  */
@@ -240,8 +240,8 @@ notification.prototype = {
 	 * @param {String} [options.message] {@link CKEDITOR.plugins.notification#constructor}
 	 * @param {String} [options.type] {@link CKEDITOR.plugins.notification#constructor}
 	 * @param {Number} [options.progress] {@link CKEDITOR.plugins.notification#constructor}
-	 * @param {Boolean} [options.important=false] If update is important notification will be read by screen readers and shown
-	 * if it was hidden
+	 * @param {Boolean} [options.important=false] If update is important, notification will be shown
+	 * if it was hidden and read by screen readers.
 	 */
 	update: function( options ) {
 		if ( this.editor.fire( 'notificationUpdate', { notification: this, options: options } ) === false ) {
@@ -303,7 +303,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Remove notification element. This method also remove notification area and detach listeners it it was the last
+	 * Remove notification element. This method also remove notification area and detach listeners if it was the last
 	 * notification.
 	 *
 	 * Fire {@link CKEDITOR.editor#notificationHide} event.
@@ -338,9 +338,9 @@ notification.prototype = {
 	},
 
 	/**
-	 * Get notification class.
+	 * Get notification CSS class.
 	 *
-	 * @returns {String} Notification class.
+	 * @returns {String} Notification CSS class.
 	 */
 	getClass: function() {
 		if ( this.type == 'progress' ) {
@@ -351,9 +351,9 @@ notification.prototype = {
 	},
 
 	/**
-	 * Get progress as a percentage (ex. 0.3 -> '30%').
+	 * Get progress as a percentage (ex. `0.3` -> `30%`).
 	 *
-	 * @returns {String} Progress as a percentage
+	 * @returns {String} Progress as a percentage.
 	 */
 	getPercentageProgress: function() {
 		if ( this.type == 'progress' ) {
@@ -364,7 +364,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Create progress element in the notification element.
+	 * Create progress element for the notification element.
 	 *
 	 * @returns {CKEDITOR.dom.element} [description]
 	 */
@@ -684,7 +684,7 @@ CKEDITOR.plugins.notification = notification;
 
 /**
  * Map of the visible notifications needed to get notification object by element. Elements ids are keys,
- * notification object are values.
+ * notification objects are values.
  *
  * @private
  * @static
@@ -705,7 +705,7 @@ CKEDITOR.plugins.notification.getByElement = function( element ) {
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#show} method is called, before the notification is shown.
- * If this event will be canceled, notification will be not show. It is created to modify notification before it is shown,
+ * If this event will be canceled, notification will be not shown. It is created to modify notification before it is shown,
  * execute additional actions or prevent editor notifications and handle then in the custom way.
  *
  * @since 4.5
@@ -732,7 +732,7 @@ CKEDITOR.plugins.notification.getByElement = function( element ) {
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#hide} method is called, before the notification is hidden.
- * If this event will be canceled, notification will be not hidden. It is created to execute additional actions on update
+ * If this event will be canceled, notification will be not hidden. It is created to execute additional actions on hide
  * or handle notifications in the custom way.
  *
  * @since 4.5
