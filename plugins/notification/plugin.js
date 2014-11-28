@@ -17,14 +17,28 @@ CKEDITOR.plugins.add( 'notification', {
 		 * @member CKEDITOR.editor
 		 * @param {String} message Message displayed on the notification.
 		 * @param {String} [type='info'] Type of the notification. Can be 'info', 'warning', 'success' or 'progress'.
-		 * @param {Number} [progress=0] If the type is `progress` the third parameter may be a progress from 0 to 1.
+		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from 0 to 1
+		 * (default 0). Otherwise the the third parameter may be a notification duration: how many miliseconds after the
+		 * next change event notification should be closed automatically. 0 means that notification will not be closed
+		 * automatically, user needs to close it manually. By default it is 5000 for `info` and `success`
+		 * and 0 for `warning` and `progress`.
+		 *
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
-		editor.showNotification = function( message, type, progress ) {
+		editor.showNotification = function( message, type, progressOrDuration ) {
+			var progress, duration;
+
+			if ( type == 'progress' ) {
+				progress = progressOrDuration;
+			} else {
+				duration = progressOrDuration;
+			}
+
 			var notification = new CKEDITOR.plugins.notification( editor, {
 				message: message,
 				type: type,
-				progress: progress
+				progress: progress,
+				duration: duration
 			} );
 
 			notification.show();
@@ -105,8 +119,9 @@ CKEDITOR.plugins.add( 'notification', {
  * @param {CKEDITOR.editor} editor The editor instance.
  * @param {Object} options
  * @param {String} options.message Message displayed on the notification.
- * @param {String} [options.type='info'] Type of the notification. Might be 'info', 'warning', 'success' or 'progress'.
+ * @param {String} [options.type='info'] Type of the notificationsee {@link #type}.
  * @param {Number} [options.progress=0] If the type is `progress` this may be a progress from 0 to 1.
+ * @param {Number} [options.duration] How long notification will be visible, see {@link #duration}.
  */
 function notification( editor, options ) {
 	this.editor = editor;
@@ -114,6 +129,7 @@ function notification( editor, options ) {
 	this.type = options.type ? options.type : 'info';
 	this.progress = options.progress;
 	this.id = CKEDITOR.tools.getUniqueId();
+	this.duration = options.duration;
 }
 
 /**
@@ -135,7 +151,8 @@ function notification( editor, options ) {
  * * `warning` - Warning or error messages (ex. "This type of files is not supported",
  *		"You cannot paste script."),
  * * `success` - Information that operation finish successfully (ex. "File uploaded.", "Data imported.").
- * * `progress` - Show user progress of the operation.
+ * * `progress` - Show user progress of the operation. When operations id done the type of the notification
+ * 		should be changed to `success`.
  *
  * @property {String} type
  */
@@ -144,6 +161,14 @@ function notification( editor, options ) {
  * If the type is `progress` this is the progress from 0 to 1.
  *
  * @property {Number} progress
+ */
+
+/**
+ * Notification duration, how many miliseconds after the next change event notification should be closed automatically.
+ * 0 means that notification will not be closed automatically, user needs to close it manually.
+ * By default it is 5000 for `info` and `success` and 0 for `warning` and `progress`.
+ *
+ * @property {Number} duration
  */
 
 /**
@@ -241,6 +266,8 @@ notification.prototype = {
 		CKEDITOR.plugins.notification.repository[ this.id ] = this;
 
 		this._layout();
+
+		this._hideAfterTimeout();
 	},
 
 	/**
@@ -249,9 +276,10 @@ notification.prototype = {
 	 * Fire {@link CKEDITOR.editor#notificationUpdate} event.
 	 *
 	 * @param {Object} options
-	 * @param {String} [options.message] {@link CKEDITOR.plugins.notification#constructor}
-	 * @param {String} [options.type] {@link CKEDITOR.plugins.notification#constructor}
-	 * @param {Number} [options.progress] {@link CKEDITOR.plugins.notification#constructor}
+	 * @param {String} [options.message] {@link #message}
+	 * @param {String} [options.type] {@link #type}
+	 * @param {Number} [options.progress] {@link #progress}
+	 * @param {Number} [options.duration] {@link #duration}
 	 * @param {Boolean} [options.important=false] If update is important, notification will be shown
 	 * if it was hidden and read by screen readers.
 	 */
@@ -312,6 +340,11 @@ notification.prototype = {
 		} else if ( element && options.important ) {
 			element.setAttribute( 'role', 'alert' );
 		}
+
+		// Overwrite even if it is undefined.
+		this.duration = options.duration;
+
+		this._hideAfterTimeout();
 	},
 
 	/**
@@ -376,8 +409,37 @@ notification.prototype = {
 	},
 
 	/**
+	 * Hide notification after the timeout after the first change event.
+	 *
+	 * @private
+	 */
+	_hideAfterTimeout: function() {
+		var notification = this,
+			duration;
+
+		if ( this._hideTimeoutId ) {
+			clearTimeout( this._hideTimeoutId );
+		}
+
+		if ( typeof this.duration == 'number' ) {
+			duration = this.duration;
+		} else if ( this.type == 'info' || this.type == 'success' ) {
+			duration = 5000;
+		}
+
+		if ( duration ) {
+			this.editor.once( 'change', function() {
+				notification._hideTimeoutId = setTimeout( function() {
+					notification.hide();
+				}, duration );
+			} );
+		}
+	},
+
+	/**
 	 * Create progress element for the notification element.
 	 *
+	 * @private
 	 * @returns {CKEDITOR.dom.element} [description]
 	 */
 	_createProgressElement: function() {
