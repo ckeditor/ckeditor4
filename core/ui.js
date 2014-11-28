@@ -166,3 +166,17 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  * @returns {Object} The UI element.
  * @todo We lack the "UI element" abstract super class.
  */
+
+/**
+ * The element which contains editor contents. It is provided by a specific editor creator
+ * after editor UI is created and is not intended to be modified. It might be `div` which contains `iframe` or
+ * another element with `contenteditable` attribute. Use position of this element
+ * if you need to set the position related to the contents (ex. over it).
+ *
+ *		var editor = CKEDITOR.instances.editor1;
+ *		alert( editor.ui.contentsElement.getName() ); // 'div'
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.dom.element} contentsElement
+ */

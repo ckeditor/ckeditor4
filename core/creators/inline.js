@@ -71,7 +71,7 @@
 
 			// Editable itself is the outermost element.
 			editor.container = element;
-			editor.contents = element;
+			editor.ui.contentsElement = element;
 
 			// Load and process editor data.
 			editor.setData( editor.getData( 1 ) );
