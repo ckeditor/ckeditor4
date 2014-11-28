@@ -459,17 +459,17 @@ notification.prototype = {
 	 */
 	_layout: function() {
 		var notificationArea = this._notificationArea,
-			win = CKEDITOR.document.getWindow(),
 			editor = this.editor,
-			scrollPos = win.getScrollPosition(),
 			contentsRect = editor.ui.contentsElement.getClientRect(),
 			contentsPos = editor.ui.contentsElement.getDocumentPosition(),
 			top = editor.ui.space( 'top' ),
 			topRect = top.getClientRect(),
 			notificationAreaRect = notificationArea.getClientRect(),
-			viewRect = win.getViewPaneSize(),
 			notificationWidth = this._notificationWidth,
 			notificationMargin = this._notificationMargin,
+			win = CKEDITOR.document.getWindow(),
+			scrollPos = win.getScrollPosition(),
+			viewRect = win.getViewPaneSize(),
 			element,
 			cssLength = CKEDITOR.tools.cssLength;
 
