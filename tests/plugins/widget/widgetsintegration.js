@@ -227,6 +227,9 @@
 				editor.widgets.del( widget );
 
 				editor.focus();
+				var range = editor.createRange();
+				range.moveToPosition( editor.editable().findOne( 'p' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
 
 				var listener = widgets.on( 'checkWidgets', function( evt ) {
 					checked += 1;

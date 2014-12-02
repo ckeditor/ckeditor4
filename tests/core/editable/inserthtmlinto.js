@@ -32,36 +32,32 @@
 		},
 
 		'test insertHtmlIntoRange - block': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>foobar</p>' );
+			this.editor.editable().setHtml( '<p>foobar</p>' );
 
 			var range = this.editor.createRange(),
 				textNode = this.editor.editable().getChild( [ 0, 0 ] );
 			range.setStart( textNode, 2 );
 			range.setEnd( textNode, 4 );
 
-			this.checkInsertHtmlIntoRange( '<div>div</div>', range, '<p>fodivar</p>' ); // Works the same way as insertHtml
+			this.checkInsertHtmlIntoRange( '<div>div</div>', range, '<p>fodivar@</p>' ); // Works the same way as insertHtml
 		},
 
 		'test insertHtmlIntoRange - inline': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>foobar</p>' );
+			this.editor.editable().setHtml( '<p>foobar</p>' );
 
 			var range = this.editor.createRange(),
 				textNode = this.editor.editable().getChild( [ 0, 0 ] );
 			range.setStart( textNode, 2 );
 			range.setEnd( textNode, 4 );
 
-			this.checkInsertHtmlIntoRange( '<b>b</b><i>i</i>', range, '<p>fo<b>b</b><i>i</i>ar</p>' );
+			this.checkInsertHtmlIntoRange( '<b>b</b><i>i</i>', range, '<p>fo<b>b</b><i>i</i>ar@</p>' );
 		},
 
 		'test insertHtmlIntoRange - inline, the same range': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>fo[ob]ar</p>' );
+			var range = bender.tools.range.setWithHtml( this.editor.editable(), '<p>fo{ob}ar</p>' );
+			this.editor.getSelection().selectRanges( [ range ] );
 
-			var range = this.editor.createRange(),
-				editable = this.editor.editable();
-			range.setStart( editable.getChild( [ 0, 0 ] ), 2 );
-			range.setEnd( editable.getChild( [ 0, 2 ] ), 0 );
-
-			this.checkInsertHtmlIntoRange( '<b>b</b><i>i</i>', range, '<p>fo<b>b</b><i>i</i>ar</p>' );
+			this.checkInsertHtmlIntoRange( '<b>b</b><i>i</i>', range, '<p>fo<b>b</b><i>i</i>ar@</p>' );
 		},
 
 		'test insertHtmlIntoRange - collapsed': function() {
@@ -72,41 +68,41 @@
 			range.setStart( textNode, 3 );
 			range.collapse();
 
-			this.checkInsertHtmlIntoRange( '<b>b</b>', range, '<p>foo<b>b</b>bar</p>' );
+			this.checkInsertHtmlIntoRange( '<b>b</b>', range, '<p>foo<b>b</b>bar@</p>' );
 		},
 
 		'test insertHtmlIntoRange - read-only': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y[]</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y{}</p>' );
 
 			var range = this.editor.createRange();
 			range.setStart( this.editor.document.getById( 'x' ).getFirst(), 3 );
 			range.collapse();
 
-			this.checkInsertHtmlIntoRange( '<div>div</div>', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y</p>' );
+			this.checkInsertHtmlIntoRange( '<div>div</div>', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y@</p>' );
 		},
 
 		'test insertHtmlIntoRange - empty': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y[]</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y{}</p>' );
 
 			var range = this.editor.createRange();
 			range.setStart( this.editor.document.getById( 'x' ).getFirst(), 3 );
 			range.collapse();
 
-			this.checkInsertHtmlIntoRange( '', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y</p>' );
+			this.checkInsertHtmlIntoRange( '', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y@</p>' );
 		},
 
 		'test insertHtmlIntoRange - removed content': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y[]</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y{}</p>' );
 
 			var range = this.editor.createRange();
 			range.setStart( this.editor.document.getById( 'x' ).getFirst(), 3 );
 			range.collapse();
 
-			this.checkInsertHtmlIntoRange( '<img src="foo">', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y</p>' );
+			this.checkInsertHtmlIntoRange( '<img src="foo">', range, '<p>x</p><p contenteditable="false" id="x">foobar</p><p>y@</p>' );
 		},
 
 		'test insertHtml with range': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>foobar</p>' );
+			this.editor.editable().setHtml( '<p>foobar</p>' );
 
 			var range = this.editor.createRange(),
 				textNode = this.editor.editable().getChild( [ 0, 0 ] ),
@@ -125,13 +121,13 @@
 
 			editable.insertHtml( '<b>b</b>', 'html', range );
 
-			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar</p>', editable.getHtml(), 'Editor content.' );
+			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar@</p>', editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
 			assert.areSame( range, afterInsertData.intoRange, 'intoRange should contain range' );
 		},
 
 		'test insertHtmlIntoSelection': function() {
-			tools.setHtmlWithSelection( this.editor, '<p>fo[ob]ar</p>' );
+			bender.tools.selection.setWithHtml( this.editor, '<p>fo{ob}ar</p>' );
 
 			var bot = this.editorBot,
 				editor = bot.editor,
@@ -145,7 +141,7 @@
 
 			editable.insertHtmlIntoSelection( '<b>b</b>' );
 
-			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar</p>', editable.getHtml(), 'Editor content.' );
+			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar@</p>', editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
 			assert.isUndefined( afterInsertData.intoRange, 'intoRange should be undefined' );
 		}
