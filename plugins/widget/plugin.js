@@ -1615,7 +1615,7 @@
 	// @param {CKEDITOR.plugins.widget.definition} widgetDef
 	function addWidgetCommand( editor, widgetDef ) {
 		editor.addCommand( widgetDef.name, {
-			exec: function(editor, customData) {
+			exec: function( editor, customData ) {
 				var focused = editor.widgets.focused;
 				// If a widget of the same type is focused, start editing.
 				if ( focused && focused.name == widgetDef.name )
