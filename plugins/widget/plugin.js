@@ -2638,7 +2638,7 @@
 
 				editor.fire( 'unlockSnapshot' );
 			}
-		}, null, null, 999 );
+		} );
 	}
 
 	// Helper for coordinating which widgets should be
