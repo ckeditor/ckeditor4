@@ -29,8 +29,7 @@ CKEDITOR.plugins.add( 'notification', {
 		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from 0 to 1
 		 * (default 0). Otherwise the the third parameter may be a notification duration: how many miliseconds after the
 		 * next change event notification should be closed automatically. 0 means that notification will not be closed
-		 * automatically, user needs to close it manually. By default it is 5000 for `info` and `success`
-		 * and 0 for `warning` and `progress`.
+		 * automatically, user needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
 		 *
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
@@ -170,7 +169,8 @@ function notification( editor, options ) {
 /**
  * Notification duration, how many miliseconds after the next change event notification should be closed automatically.
  * 0 means that notification will not be closed automatically, user needs to close it manually.
- * By default it is 5000 for `info` and `success` and 0 for `warning` and `progress`.
+ * By default it is 0 for `warning` and `progress`. For `info` and `success` value it is the of
+ * {@link CKEDITOR.config#notification_duration notification_duration} configuration option or 5000 if not set.
  *
  * @property {Number} duration
  */
@@ -401,7 +401,12 @@ notification.prototype = {
 		if ( typeof this.duration == 'number' ) {
 			duration = this.duration;
 		} else if ( this.type == 'info' || this.type == 'success' ) {
-			duration = 5000;
+			if ( typeof this.editor.config.notification_duration == 'number' ) {
+				duration = this.editor.config.notification_duration;
+			} else {
+				duration = 5000;
+			}
+
 		}
 
 		if ( duration ) {
@@ -825,6 +830,17 @@ area.prototype = {
 
 CKEDITOR.plugins.notification = notification;
 CKEDITOR.plugins.notification.area = area;
+
+/**
+ * How many milliseconds after the `change` event `info` and `success` notifications should be closed automatically.
+ * 0 means that notifications will not be closed automatically.
+ * Note that `warning` and `progress` notifications will not be closed automatically.
+ *
+ * @since 4.5
+ * @cfg {Function} [notification_duration=5000]
+ * @member CKEDITOR.config
+ */
+
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#show} method is called, before the
