@@ -1564,6 +1564,71 @@
 			assert.isNull( Widget.getNestedEditable( guard, null ) );
 			assert.isTrue( Widget.getNestedEditable( null, node3 ).equals( node2 ) );
 			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
+		},
+
+		'test Widget.is* methods': function() {
+			var Widget = CKEDITOR.plugins.widget;
+
+			assert.isFunction( Widget.isParserWidgetElement );
+			assert.isFunction( Widget.isDomWidgetElement );
+			assert.isFunction( Widget.isWidgetInline );
+			assert.isFunction( Widget.isParserWidgetWrapper );
+			assert.isFunction( Widget.isDomWidgetWrapper );
+			assert.isFunction( Widget.isDomNestedEditable );
+			assert.isFunction( Widget.isDomTemp );
+			assert.isFunction( Widget.isDomDragHandler );
+			assert.isFunction( Widget.isDomDragHandlerContainer );
+			assert.isFunction( Widget.isParserWidgetElement );
+
+			var parserEl1 = new CKEDITOR.htmlParser.element( 'em' ),
+				parserEl2 = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
+				parserEl3 = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
+				parserEl4 = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
+				parserEl5 = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } );
+
+			assert.isFalse( Widget.isParserWidgetElement( parserEl1 ) );
+			assert.isTrue( Widget.isParserWidgetElement( parserEl2 ) );
+			assert.isFalse( Widget.isParserWidgetElement( parserEl3 ) );
+
+			var domElement = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
+				domWidgetElement1 = CKEDITOR.dom.element.createFromHtml( '<em data-widget="test" >foo</em>' ),
+				domWidgetElement2 = CKEDITOR.dom.element.createFromHtml( '<em data-widget="false" ></em>' ),
+				domWidgetWrapper1 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
+				domWidgetWrapper2 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
+				domNestedEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
+				domTemp = CKEDITOR.dom.element.createFromHtml( '<em data-cke-temp></em>' ),
+				dragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
+				dragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
+
+			assert.isFalse( Widget.isDomWidgetElement( domElement ) );
+			assert.isTrue( Widget.isDomWidgetElement( domWidgetElement1 ) );
+			assert.isTrue( Widget.isDomWidgetElement( domWidgetElement2 ) );
+
+			assert.isTrue( Widget.isWidgetInline( { inline: true } ) );
+			assert.isFalse( Widget.isWidgetInline( { inline: false } ) );
+			assert.isTrue( Widget.isWidgetInline( {}, 'img' ) );
+			assert.isFalse( Widget.isWidgetInline( {}, 'figure' ) );
+
+			assert.isFalse( Widget.isParserWidgetWrapper( parserEl1 ) );
+			assert.isTrue( Widget.isParserWidgetWrapper( parserEl4 ) );
+			assert.isTrue( Widget.isParserWidgetWrapper( parserEl5 ) );
+
+			assert.isFalse( Widget.isDomWidgetWrapper( domElement ) );
+			assert.isTrue( Widget.isDomWidgetWrapper( domWidgetWrapper1 ) );
+			assert.isTrue( Widget.isDomWidgetWrapper( domWidgetWrapper2 ) );
+
+			assert.isFalse( Widget.isDomNestedEditable( domElement ) );
+			assert.isFalse( Widget.isDomNestedEditable( domWidgetWrapper1 ) );
+			assert.isTrue( Widget.isDomNestedEditable( domNestedEditable ) );
+
+			assert.isFalse( Widget.isDomTemp( domNestedEditable ) );
+			assert.isTrue( Widget.isDomTemp( domTemp ) );
+
+			assert.isFalse( Widget.isDomDragHandler( domTemp ) );
+			assert.isTrue( Widget.isDomDragHandler( dragHandler ) );
+
+			assert.isFalse( Widget.isDomDragHandlerContainer( dragHandler ) );
+			assert.isTrue( Widget.isDomDragHandlerContainer( dragHandlerContainer ) );
 		}
 	} );
 } )();

@@ -1464,7 +1464,7 @@
 	 * @since 4.5.0
 	 */
 	Widget.isParserWidgetWrapper = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-cke-widget-wrapper' ];
+		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-cke-widget-wrapper' ];
 	};
 
 	/**
