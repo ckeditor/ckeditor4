@@ -231,15 +231,18 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor#insertText
+			 * Low-level method for inserting text into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertText} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {String} text
 			 */
 			insertText: function( text ) {
 				this.insertHtml( this.transformPlainTextToHtml( text ), 'text' );
 			},
 
 			/**
-			 * Set enterMode based on current selection and {@link CKEDITOR.editor#activeEnterMode}
-			 * and call {@link CKEDITOR.tools#transformPlainTextToHtml}.
+			 * Transforms plain text to HTML based on current selection and {@link CKEDITOR.editor#activeEnterMode}.
 			 *
 			 * @since 4.5
 			 * @param {String} text Text to transform.
@@ -254,7 +257,14 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor#insertHtml
+			 * Low-level method for inserting HTML into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertHtml} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {String} data The HTML to be inserted.
+			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
+			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
+			 * instead of into the selection.
 			 */
 			insertHtml: function( data, mode, range ) {
 				if ( !range )
@@ -264,12 +274,13 @@
 			},
 
 			/**
-			 * Inserts an HTML into the currently selected position in the editor.
+			 * Inserts HTML into the selection. See also the {@link #insertHtml} method.
+			 *
+			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
 			 * @since 4.5
-			 * @param {String} data HTML code to be inserted into the editor.
-			 * @param {String} [mode='html'] Mode in which HTML will be inserted.p
-			 * See {@link CKEDITOR.editor#method-insertHtml}.
+			 * @param {String} data The HTML to be inserted.
+			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 */
 			insertHtmlIntoSelection: function( data, mode ) {
 				// HTML insertion only considers the first range.
@@ -291,9 +302,9 @@
 			},
 
 			/**
-			 * Inserts an HTML into the position in the editor determined by range.
+			 * Inserts HTML into the position in the editor determined by the range.
 			 *
-			 * Fires {@link CKEDITOR.editor#event-afterInsertHtml}.
+			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
 			 * @since 4.5
 			 * @param {String} data HTML code to be inserted into the editor.
@@ -309,7 +320,13 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor#insertElement
+			 * Low-level method for inserting an element into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {CKEDITOR.dom.element} element The element to insert.
+			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
+			 * instead of into the selection.
 			 */
 			insertElement: function( element, range ) {
 				if ( !range )
@@ -319,7 +336,7 @@
 			},
 
 			/**
-			 * Inserts an element into the position in the editor determined by range.
+			 * Inserts an element into the position in the editor determined by  therange.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
@@ -376,7 +393,7 @@
 			},
 
 			/**
-			 * Inserts an element into the currently selected position in the editor.
+			 * Inserts an element into the selection.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
@@ -2296,19 +2313,5 @@
  * @param {CKEDITOR.dom.element} data.element The double-clicked element.
  * @param {String} data.dialog The dialog window to be opened. If set by the listener,
  * the specified dialog window will be opened.
- * @member CKEDITOR.editor
- */
-
- /**
- * Event fired after data insertion using insertHtml or insertHtmlIntoRange methods.
- *
- * @since 4.5
- * @event afterInsertHtml
- * @param data
- * @param  {CKEDITOR.dom.range} data.intoRange Optional. If set, contains range parameter given to
- * the {@link CKEDITOR.editable#insertHtmlIntoRange} method. In such case selection was
- * not touched after insertion and it should be fixed manually if needed.
- * If not set, {@link CKEDITOR.editable#insertHtml} was called and the HTML was inserted
- * into current selection.
  * @member CKEDITOR.editor
  */
