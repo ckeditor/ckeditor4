@@ -220,20 +220,68 @@
 				checked = 0,
 				eventData, editorData;
 
-			var listener = widgets.on( 'checkWidgets', function( evt ) {
-				checked += 1;
-				eventData = evt.data;
-				editorData = editor.getData();
+			this.editorBot.setData( '<p data-widget="test2" id="w1">A</p><p>x</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					html = widget.wrapper.getOuterHtml();
+
+				editor.widgets.del( widget );
+
+				editor.focus();
+				var range = editor.createRange();
+				range.moveToPosition( editor.editable().findOne( 'p' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+
+				var listener = widgets.on( 'checkWidgets', function( evt ) {
+					checked += 1;
+					eventData = evt.data;
+					editorData = editor.getData();
+				} );
+
+				editor.insertHtml( html );
+
+				listener.removeListener();
+
+				assert.areSame( 1, checked );
+				assert.isTrue( eventData.initOnlyNew, 'data.initOnlyNew was passed' );
+				assert.isTrue( !!eventData.focusInited, 'data.focusInited was passed' );
+				assert.areSame( '<p data-widget="test2" id="w1">A</p><p>x</p>', editorData, 'event was fired after data was inserted' );
 			} );
+		},
 
-			this.editorBot.setHtmlWithSelection( '<p>x^x</p>' );
-			editor.insertHtml( 'foo' );
+		'test checkWidgets event on insertHtmlIntoRange': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				widgets = editor.widgets,
+				checked = 0,
+				eventData, editorData;
 
-			listener.removeListener();
+			this.editorBot.setData( '<p data-widget="test2" id="w1">A</p><p>xx</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					html = widget.wrapper.getOuterHtml();
 
-			assert.areSame( 1, checked );
-			assert.isTrue( eventData.initOnlyNew, 'data.initOnlyNew was passed' );
-			assert.areSame( '<p>xfoox</p>', editorData, 'event was fired after data was inserted' );
+				editor.widgets.del( widget );
+
+				editor.focus();
+
+				var listener = widgets.on( 'checkWidgets', function( evt ) {
+					checked += 1;
+					eventData = evt.data;
+					editorData = editor.getData();
+				} );
+
+				var range = editor.createRange();
+				range.setStart( editable.getChild( [ 0, 0 ] ), 1 );
+				range.collapse();
+
+				editable.insertHtmlIntoRange( html, range );
+
+				listener.removeListener();
+
+				assert.areSame( 1, checked, 'checkWidgets' );
+				assert.isTrue( eventData.initOnlyNew, 'data.initOnlyNew was passed' );
+				assert.isUndefined( eventData.focusInited, 'data.initOnlyNew was not passed' );
+				assert.areSame( '<p>x</p><p data-widget="test2" id="w1">A</p><p>x</p>', editorData, 'event was fired after data was inserted' );
+			} );
 		},
 
 		'test checkWidgets event on insertText': function() {

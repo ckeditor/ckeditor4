@@ -231,25 +231,18 @@
 			},
 
 			/**
-			 * @see CKEDITOR.editor#insertHtml
-			 */
-			insertHtml: function( data, mode ) {
-				beforeInsert( this );
-				// Default mode is 'html'.
-				insert( this, mode || 'html', data );
-			},
-
-			/**
-			 * @see CKEDITOR.editor#insertText
+			 * Low-level method for inserting text into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertText} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {String} text
 			 */
 			insertText: function( text ) {
-				beforeInsert( this );
-				insert( this, 'text', this.transformPlainTextToHtml( text ) );
+				this.insertHtml( this.transformPlainTextToHtml( text ), 'text' );
 			},
 
 			/**
-			 * Set enterMode based on current selection and {@link CKEDITOR.editor#activeEnterMode}
-			 * and call {@link CKEDITOR.tools#transformPlainTextToHtml}.
+			 * Transforms plain text to HTML based on current selection and {@link CKEDITOR.editor#activeEnterMode}.
 			 *
 			 * @since 4.5
 			 * @param {String} text Text to transform.
@@ -263,9 +256,79 @@
 				return CKEDITOR.tools.transformPlainTextToHtml( text, enterMode );
 			},
 
+			/**
+			 * Low-level method for inserting HTML into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertHtml} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {String} data The HTML to be inserted.
+			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
+			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
+			 * instead of into the selection.
+			 */
+			insertHtml: function( data, mode, range ) {
+				if ( !range )
+					this.insertHtmlIntoSelection( data, mode );
+				else
+					this.insertHtmlIntoRange( data, range, mode );
+			},
 
 			/**
-			 * @see CKEDITOR.editor#insertElement
+			 * Inserts HTML into the selection. See also the {@link #insertHtml} method.
+			 *
+			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
+			 *
+			 * @since 4.5
+			 * @param {String} data The HTML to be inserted.
+			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
+			 */
+			insertHtmlIntoSelection: function( data, mode ) {
+				// HTML insertion only considers the first range.
+				// Note: getRanges will be overwritten for tests since we want to test
+				// 		custom ranges and bypass native selections.
+				var range = this.editor.getSelection().getRanges()[ 0 ];
+
+				beforeInsert( this );
+
+				// Default mode is 'html'.
+				insert( this, mode || 'html', data, range );
+
+				// Make the final range selection.
+				range.select();
+
+				afterInsert( this );
+
+				this.editor.fire( 'afterInsertHtml', {} );
+			},
+
+			/**
+			 * Inserts HTML into the position in the editor determined by the range.
+			 *
+			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
+			 *
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnashot save undo snapshots}.
+			 *
+			 * @since 4.5
+			 * @param {String} data HTML code to be inserted into the editor.
+			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
+			 * @param {String} [mode='html'] Mode in which HTML will be inserted.
+			 * See {@link CKEDITOR.editor#method-insertHtml}.
+			 */
+			insertHtmlIntoRange: function( data, range, mode ) {
+				// Default mode is 'html'
+				insert( this, mode || 'html', data, range );
+
+				this.editor.fire( 'afterInsertHtml', { intoRange: range } );
+			},
+
+			/**
+			 * Low-level method for inserting an element into the editable.
+			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
+			 * for this purpose.
+			 *
+			 * @param {CKEDITOR.dom.element} element The element to insert.
+			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
+			 * instead of into the selection.
 			 */
 			insertElement: function( element, range ) {
 				if ( !range )
@@ -275,7 +338,9 @@
 			},
 
 			/**
-			 * Inserts an element into the position in the editor determined by range.
+			 * Inserts an element into the position in the editor determined by the range.
+			 *
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnashot save undo snapshots}.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
@@ -332,7 +397,7 @@
 			},
 
 			/**
-			 * Inserts an element into the currently selected position in the editor.
+			 * Inserts an element into the selection.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
@@ -1260,14 +1325,8 @@
 
 		// Inserts the given (valid) HTML into the range position (with range content deleted),
 		// guarantee it's result to be a valid DOM tree.
-		function insert( editable, type, data ) {
+		function insert( editable, type, data, range ) {
 			var editor = editable.editor,
-				selection = editor.getSelection(),
-				// HTML insertion only considers the first range.
-				// Note: getRanges will be overwritten for tests since we want to test
-				// 		custom ranges and bypass native selections.
-				// TODO what should we do with others? Remove?
-				range = selection.getRanges()[ 0 ],
 				dontFilter = false;
 
 			if ( type == 'unfiltered_html' ) {
@@ -1320,11 +1379,6 @@
 			// Set final range position and clean up.
 
 			cleanupAfterInsertion( that );
-
-			// Make the final range selection.
-			range.select();
-
-			afterInsert( editable );
 		}
 
 		// Prepare range to its data deletion.

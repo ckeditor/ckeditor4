@@ -64,7 +64,7 @@ var insertionDT = ( function() {
 		assertInsertion: function( editablesNames, source, insertion, expected, enterMode, message ) {
 			var editableName, result, editor, modes, mode,
 				root, checkAllModes, rangeList, revertChanges, revertChanges2,
-				expectedForMode;
+				expectedForMode, afterInsertCount, afterInsertData;
 
 			editablesNames = editablesNames.split( ',' );
 			// Check all supported modes if expected value is a string or regexp.
@@ -97,7 +97,7 @@ var insertionDT = ( function() {
 						while ( 1 ) {
 							var startContainer = range.startContainer,
 								startOffset = range.startOffset;
-							// Limit the fix only to non-block elements.(#3950)
+							// Limit the fix only to non-block elements. (#3950)
 							if (
 								startOffset ==
 								(
@@ -146,12 +146,19 @@ var insertionDT = ( function() {
 				editor = this.editorsPool[ editableName ];
 				root = editor.editable();
 
+				editor.on( 'afterInsertHtml', function( evt ) {
+					afterInsertCount++;
+					afterInsertData = evt.data;
+				} );
+
 				// Set enter mode to the given value or reset to the default one.
 				editor.enterMode = enterMode || editor._.defaultEnterMode;
 
 				for ( mode in modes ) {
 					// Selection::getRanges() will read from this variable.
 					rangeList = new CKEDITOR.dom.rangeList( tools.setHtmlWithRange( root, source, root ) );
+
+					afterInsertCount = 0;
 
 					if ( mode == 'insertElement' )
 						editor.insertElement( CKEDITOR.dom.element.createFromHtml( insertion, editor.document ) );
@@ -172,6 +179,11 @@ var insertionDT = ( function() {
 					assert[ expectedForMode.exec ? 'isMatching' : 'areSame' ]( expectedForMode, result,
 						( message || 'editor\'s content should equal expected value' ) +
 						' (editable: "' + editableName + '" & mode: "' + mode + '")' );
+
+					if ( mode != 'insertElement' ) {
+						assert.areSame( 1, afterInsertCount, 'There should be 1 afterInsertHtml event after every insertion.' );
+						assert.isUndefined( afterInsertData.intoRange, 'intoRange parameter should be undefined.' );
+					}
 				}
 			}
 

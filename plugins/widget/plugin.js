@@ -2626,18 +2626,19 @@
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.
-		editor.on( 'insertText', checkNewWidgets, null, null, 999 );
-		editor.on( 'insertHtml', checkNewWidgets, null, null, 999 );
+		editor.on( 'afterInsertHtml', function( evt ) {
+			if ( evt.data.intoRange ) {
+				widgetsRepo.checkWidgets( { initOnlyNew: true } );
+			} else {
+				editor.fire( 'lockSnapshot' );
 
-		function checkNewWidgets() {
-			editor.fire( 'lockSnapshot' );
+				// Init only new for performance reason.
+				// Focus inited if only widget was processed.
+				widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
 
-			// Init only new for performance reason.
-			// Focus inited if only widget was processed.
-			widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
-
-			editor.fire( 'unlockSnapshot' );
-		}
+				editor.fire( 'unlockSnapshot' );
+			}
+		} );
 	}
 
 	// Helper for coordinating which widgets should be

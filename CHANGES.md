@@ -13,6 +13,7 @@ New Features:
 * [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
 * [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
 * [#12416](http://dev.ckeditor.com/ticket/12416): Added [`widget.definition.upcastPriority`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.definition-property-upcastPriority) property which gives more control over widgets upcasting order to the widget author.
+* [#12448](http://dev.ckeditor.com/ticket/12448): Set of new methods, params and events giving the developer more control over HTML insertion. See the [`editable.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtml) param `range`, the [`editable.insertHtmlIntoRange()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtmlIntoRange) method and the [`editor.afterInsertHtml`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-afterInsertHtml) event.
 
 Fixed Issues:
 
