@@ -1,5 +1,3 @@
-/* global alert */
-
 /**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -9,8 +7,6 @@
  * @ignore
  * File overview: Clipboard support.
  */
-
- /* global alert */
 
 //
 // COPY & PASTE EXECUTION FLOWS:
@@ -640,7 +636,8 @@
 					var success = tryToCutCopy( this.type );
 
 					if ( !success ) {
-						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // Show cutError or copyError.
+						// Show cutError or copyError.
+						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
 					}
 
 					return success;
