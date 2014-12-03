@@ -97,12 +97,13 @@ CKEDITOR.plugins.add( 'table', {
 
 		// If the "contextmenu" plugin is loaded, register the listeners.
 		if ( editor.contextMenu ) {
-			editor.contextMenu.addListener( function() {
-				// menu item state is resolved on commands.
-				return {
-					tabledelete: CKEDITOR.TRISTATE_OFF,
-					table: CKEDITOR.TRISTATE_OFF
-				};
+			editor.contextMenu.addListener( function( element, selection, path ) {
+				if ( path.contains( 'table', 1 ) ) {
+					return {
+						tabledelete: CKEDITOR.TRISTATE_OFF,
+						table: CKEDITOR.TRISTATE_OFF
+					};
+				}
 			} );
 		}
 	}
