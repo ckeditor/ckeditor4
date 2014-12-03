@@ -15,8 +15,9 @@
 	"requireCurlyBraces": [
 		"switch", "try", "catch"
 	],
+	"requireSpaceBeforeKeywords": true,
 	"requireSpaceAfterKeywords": [
-		"if", "else", "for", "while", "do", "switch", "return", "try", "catch"
+		"do", "for", "if", "else", "switch", "case", "try", "catch", "void", "while", "with", "return", "typeof"
 	],
 	"requireSpaceBeforeBlockStatements": true,
 	"requireParenthesesAroundIIFE": true,
@@ -26,47 +27,40 @@
 		"afterConsequent": true,
 		"beforeAlternate": true
 	},
-	"requireSpacesInFunctionExpression": {
+	"requireSpacesInFunction": {
 		"beforeOpeningCurlyBrace": true
 	},
-	"disallowSpacesInFunctionExpression": {
+	"disallowSpacesInFunction": {
 		"beforeOpeningRoundBrace": true
 	},
+	"disallowSpacesInCallExpression": true,
 	"requireBlocksOnNewline": true,
 	"requireSpacesInsideObjectBrackets": "all",
 	"requireSpacesInsideArrayBrackets": "all",
 	"requireSpacesInsideParentheses": "all",
 	"disallowSpaceAfterObjectKeys": true,
+	"requireSpaceBeforeObjectValues": true,
 	"requireCommaBeforeLineBreak": true,
-	"requireOperatorBeforeLineBreak": [
-		"?", "=", "+", "-", "/", "*", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=",
-		"-=", "/=", "^="
-	],
-	"requireSpaceBeforeBinaryOperators": [
-		"+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=", "-=",
-		"/=", "^="
-	],
-	"requireSpaceAfterBinaryOperators": [
-		"+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<=", "|", "||", "&", "&&", "^", "+=", "*=", "-=",
-		"/=", "^="
-	],
-	"disallowSpaceAfterPrefixUnaryOperators": [
-		"++", "--", "+", "-", "~", "!"
-	],
-	"disallowSpaceBeforePostfixUnaryOperators": [
-		"++", "--"
-	],
+	"requireOperatorBeforeLineBreak": true,
+	"disallowSpaceAfterPrefixUnaryOperators": true,
+	"disallowSpaceBeforePostfixUnaryOperators": true,
+	"requireSpaceBeforeBinaryOperators": true,
+	"requireSpaceAfterBinaryOperators": true,
 	"disallowKeywords": [
 		"with"
 	],
+	"disallowMultipleLineStrings": true,
+	"disallowMixedSpacesAndTabs": true,
+	"disallowTrailingWhitespace": true,
+	"maximumLineLength": 200,
+	"requireDotNotation": true,
+	"requireDotNotation": true,
+	"disallowYodaConditions": true,
+	"disallowNewlineBeforeBlockStatements": true,
 	"validateLineBreaks": "LF",
 	"validateQuoteMarks": {
 		"mark": "'",
 		"escape": true
 	},
-	"validateIndentation": "\t",
-	"disallowMixedSpacesAndTabs": true,
-	"disallowTrailingWhitespace": true,
-	"maximumLineLength": 200,
-	"disallowYodaConditions": true
+	"validateIndentation": "\t"
 }
