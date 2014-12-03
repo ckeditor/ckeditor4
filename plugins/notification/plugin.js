@@ -434,7 +434,7 @@ function area( editor ) {
 	this.element = this._createElement(),
 
 	editor.on( 'destroy', function() {
-		that._detachListeners();
+		that._removeListeners();
 		that.element.remove();
 	} );
 }
@@ -529,7 +529,7 @@ area.prototype = {
 		notification.element.remove();
 
 		if ( !this.element.getChildCount() ) {
-			this._detachListeners();
+			this._removeListeners();
 			this.element.remove();
 		}
 	},
@@ -577,7 +577,7 @@ area.prototype = {
 	 *
 	 * @private
 	 */
-	_detachListeners: function() {
+	_removeListeners: function() {
 		var win = CKEDITOR.document.getWindow(),
 			editor = this.editor;
 
