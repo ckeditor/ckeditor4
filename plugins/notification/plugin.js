@@ -375,7 +375,7 @@ notification.prototype = {
 	 * @returns {String} Progress as a percentage.
 	 */
 	_getPercentageProgress: function() {
-		if ( this.type == 'progress' ) {
+		if ( this.progress ) {
 			return Math.round( this.progress * 100 ) + '%';
 		} else {
 			return 0;
