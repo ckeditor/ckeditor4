@@ -245,26 +245,24 @@ notification.prototype = {
 
 			element.addClass( this._getClass() );
 			element.setAttribute( 'aria-label', this.type );
+
+			if ( this.type == 'progress' && !progressElement ) {
+				progressElement = this._createProgressElement();
+				progressElement.insertBefore( messageElement );
+			} else if ( this.type != 'progress' && progressElement ) {
+				progressElement.remove();
+			}
 		}
 
-		if ( options.message || options.progress ) {
-			if ( options.message ) {
-				this.message = options.message;
-			}
-
-			if ( options.progress ) {
-				this.progress = options.progress;
-			}
-
+		if ( options.message !== undefined ) {
+			this.message = options.message;
 			messageElement.setHtml( this.message );
+		}
 
-			if ( options.progress ) {
-				if ( progressElement ) {
-					progressElement.setStyle( 'width', this._getPercentageProgress() );
-				} else if ( !progressElement ) {
-					progressElement = this._createProgressElement();
-					progressElement.insertBefore( messageElement );
-				}
+		if ( options.progress  !== undefined ) {
+			this.progress = options.progress;
+			if ( progressElement ) {
+				progressElement.setStyle( 'width', this._getPercentageProgress() );
 			}
 		}
 
