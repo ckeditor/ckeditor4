@@ -129,7 +129,7 @@ function notification( editor, options ) {
 	this.type = options.type ? options.type : 'info';
 	this.progress = options.progress;
 	this.duration = options.duration;
-	this.id = CKEDITOR.tools.getUniqueId();
+	this.id = 'cke-' + CKEDITOR.tools.getUniqueId();
 	this.element = this._createElement();
 	this.area = this.editor.notificationArea;
 }
