@@ -231,7 +231,7 @@ bender.test( {
 		assertNotifications( editor, [] ); // nothing should happen
 	},
 
-	'test do not close using Backspace': function() {
+	'test do not close on other than ESC key': function() {
 		var editor = this.editor,
 			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo', type: 'warning' } );
 
@@ -239,7 +239,7 @@ bender.test( {
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 
-		editor.fire( 'key', { keyCode: 8, domEvent: { getKey: sinon.stub().returns( 8 ) } } ); /* Backspace */
+		editor.fire( 'key', { keyCode: 65, domEvent: { getKey: sinon.stub().returns( 65 ) } } ); /* A */
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 	},
