@@ -4,6 +4,7 @@
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs-jquery": "~0.2.0",
+		"benderjs-sinon": "~0.1.0",
 		"benderjs-yui": "~0.2.0",
 		"grunt": "^0.4.5",
 		"grunt-contrib-imagemin": "^0.8.1",
