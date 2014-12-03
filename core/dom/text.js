@@ -97,18 +97,14 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 		var doc = this.getDocument();
 		var retval = new CKEDITOR.dom.text( this.$.splitText( offset ), doc );
 
-		if ( parent.childNodes.length == count )
-		{
+		if ( parent.childNodes.length == count ) {
 			// If the offset is after the last char, IE creates the text node
 			// on split, but don't include it into the DOM. So, we have to do
 			// that manually here.
-			if ( offset >= length )
-			{
+			if ( offset >= length ) {
 				retval = doc.createText( '' );
 				retval.insertAfter( this );
-			}
-			else
-			{
+			} else {
 				// IE BUG: IE8+ does not update the childNodes array in DOM after splitText(),
 				// we need to make some DOM changes to make it update. (#3436)
 				var workaround = doc.createText( '' );

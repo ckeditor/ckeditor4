@@ -6,17 +6,17 @@ var loadCalled,
 	t;
 
 testWindow.on( 'load', function() {
-		t = document.createElement( 'textarea' );
-		t.id = 'fred';
+	t = document.createElement( 'textarea' );
+	t.id = 'fred';
 
-		document.body.appendChild( t );
+	document.body.appendChild( t );
 
-		loadCalled = true;
-	} );
+	loadCalled = true;
+} );
 
 testWindow.on( 'beforeunload', function() {
-		t.value = new Date();
-	} );
+	t.value = new Date();
+} );
 
 bender.test( appendDomObjectTests(
 	function( id ) {

@@ -317,8 +317,8 @@ CKEDITOR.dom.range = function( root ) {
 					clone = levelClone;
 			}
 
-			if ( action == 2 ) // 2 = Clone.
-			{
+			// 2 = Clone.
+			if ( action == 2 ) {
 				// No changes in the DOM should be done, so fix the split text (if any).
 
 				var startTextNode = range.startContainer;
@@ -754,8 +754,8 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {Object} bookmark
 		 */
 		moveToBookmark: function( bookmark ) {
-			if ( bookmark.is2 ) // Created with createBookmark2().
-			{
+			// Created with createBookmark2().
+			if ( bookmark.is2 ) {
 				// Get the start information.
 				var startContainer = this.document.getByAddress( bookmark.start, bookmark.normalized ),
 					startOffset = bookmark.startOffset;
@@ -772,8 +772,9 @@ CKEDITOR.dom.range = function( root ) {
 					this.setEnd( endContainer, endOffset );
 				else
 					this.collapse( true );
-			} else // Created with createBookmark().
-			{
+			}
+			// Created with createBookmark().
+			else {
 				var serializable = bookmark.serializable,
 					startNode = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
 					endNode = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
@@ -812,12 +813,13 @@ CKEDITOR.dom.range = function( root ) {
 
 			if ( startNode.type == CKEDITOR.NODE_ELEMENT ) {
 				childCount = startNode.getChildCount();
-				if ( childCount > startOffset )
+				if ( childCount > startOffset ) {
 					startNode = startNode.getChild( startOffset );
-				else if ( childCount < 1 )
+				} else if ( childCount < 1 ) {
 					startNode = startNode.getPreviousSourceNode();
-				else // startOffset > childCount but childCount is not 0
-				{
+				}
+				// startOffset > childCount but childCount is not 0
+				else {
 					// Try to take the node just after the current position.
 					startNode = startNode.$;
 					while ( startNode.lastChild )
@@ -830,14 +832,16 @@ CKEDITOR.dom.range = function( root ) {
 					startNode = startNode.getNextSourceNode() || startNode;
 				}
 			}
+
 			if ( endNode.type == CKEDITOR.NODE_ELEMENT ) {
 				childCount = endNode.getChildCount();
-				if ( childCount > endOffset )
+				if ( childCount > endOffset ) {
 					endNode = endNode.getChild( endOffset ).getPreviousSourceNode( true );
-				else if ( childCount < 1 )
+				} else if ( childCount < 1 ) {
 					endNode = endNode.getPreviousSourceNode();
-				else // endOffset > childCount but childCount is not 0
-				{
+				}
+				// endOffset > childCount but childCount is not 0.
+				else {
 					// Try to take the node just before the current position.
 					endNode = endNode.$;
 					while ( endNode.lastChild )
@@ -2091,8 +2095,7 @@ CKEDITOR.dom.range = function( root ) {
 			walkerRange.collapse( checkStart );
 
 			// Expand the range to element boundary.
-			walkerRange[ checkStart ? 'setStartAt' : 'setEndAt' ]
-			( element, checkStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+			walkerRange[ checkStart ? 'setStartAt' : 'setEndAt' ]( element, checkStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
 
 			// Create the walker, which will check if we have anything useful
 			// in the range.
@@ -2115,8 +2118,7 @@ CKEDITOR.dom.range = function( root ) {
 
 			// [IE] Special handling for range start in text with a leading NBSP,
 			// we it to be isolated, for bogus check.
-			if ( CKEDITOR.env.ie && startOffset && startContainer.type == CKEDITOR.NODE_TEXT )
-			{
+			if ( CKEDITOR.env.ie && startOffset && startContainer.type == CKEDITOR.NODE_TEXT ) {
 				var textBefore = CKEDITOR.tools.ltrim( startContainer.substring( 0, startOffset ) );
 				if ( nbspRegExp.test( textBefore ) )
 					this.trim( 0, 1 );
@@ -2155,8 +2157,7 @@ CKEDITOR.dom.range = function( root ) {
 
 			// [IE] Special handling for range end in text with a following NBSP,
 			// we it to be isolated, for bogus check.
-			if ( CKEDITOR.env.ie && endContainer.type == CKEDITOR.NODE_TEXT )
-			{
+			if ( CKEDITOR.env.ie && endContainer.type == CKEDITOR.NODE_TEXT ) {
 				var textAfter = CKEDITOR.tools.rtrim( endContainer.substring( endOffset ) );
 				if ( nbspRegExp.test( textAfter ) )
 					this.trim( 1, 0 );

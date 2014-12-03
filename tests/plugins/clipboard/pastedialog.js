@@ -18,16 +18,16 @@
 				editor = this.editor;
 
 			editor.on( 'dialogShow', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-							var dialog = editor._.storedDialogs.paste;
-							assert.isTrue( !!dialog );
+				tc.resume( function() {
+					var dialog = editor._.storedDialogs.paste;
+					assert.isTrue( !!dialog );
 
-							dialog.fire( 'cancel' );
-							dialog.hide();
-						} );
+					dialog.fire( 'cancel' );
+					dialog.hide();
 				} );
+			} );
 
 			editor.fire( 'pasteDialog' );
 			tc.wait();
@@ -39,34 +39,34 @@
 				editor = this.editor;
 
 			editor.on( 'pasteDialogCommit', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-						assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
-					} );
+				tc.resume( function() {
+					assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
 				} );
+			} );
 
 			editor.on( 'dialogShow', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-							var dialog = editor._.storedDialogs.paste;
-							assert.isTrue( !!dialog );
+				tc.resume( function() {
+					var dialog = editor._.storedDialogs.paste;
+					assert.isTrue( !!dialog );
 
-							var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-								.getInputElement().getFrameDocument();
+					var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
+						.getInputElement().getFrameDocument();
 
-							// IE needs some time to create editable body.
-							setTimeout( function() {
-									frameDoc.getBody().setHtml( 'abc<b>def</b>' );
+					// IE needs some time to create editable body.
+					setTimeout( function() {
+						frameDoc.getBody().setHtml( 'abc<b>def</b>' );
 
-									dialog.fire( 'ok' );
-									dialog.hide();
-								}, 10 );
+						dialog.fire( 'ok' );
+						dialog.hide();
+					}, 10 );
 
-							tc.wait();
-						} );
+					tc.wait();
 				} );
+			} );
 
 			// Editor.execCommand( 'paste' ) opens IE security alert which breaks tests.
 			editor.openDialog( 'paste' );
@@ -79,43 +79,43 @@
 				beforePasteFired = false;
 
 			editor.on( 'beforePaste', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-							assert.areEqual( 'auto', evt.data.type );
-							beforePasteFired = true;
-							tc.wait();
-						} );
+				tc.resume( function() {
+					assert.areEqual( 'auto', evt.data.type );
+					beforePasteFired = true;
+					tc.wait();
 				} );
+			} );
 
 			editor.on( 'paste', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-							assert.isTrue( beforePasteFired );
-							assert.areEqual( 'html', evt.data.type );
-							assert.areEqual( 'abc<b>def</b>', evt.data.dataValue );
-						} );
+				tc.resume( function() {
+					assert.isTrue( beforePasteFired );
+					assert.areEqual( 'html', evt.data.type );
+					assert.areEqual( 'abc<b>def</b>', evt.data.dataValue );
 				} );
+			} );
 
 			editor.on( 'dialogShow', function( evt ) {
-					evt.removeListener();
+				evt.removeListener();
 
-					tc.resume( function() {
-							var dialog = editor._.storedDialogs.paste;
-							assert.isTrue( !!dialog );
+				tc.resume( function() {
+					var dialog = editor._.storedDialogs.paste;
+					assert.isTrue( !!dialog );
 
-							var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-								.getInputElement().getFrameDocument();
+					var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
+						.getInputElement().getFrameDocument();
 
-							frameDoc.getBody().setHtml( 'abc<b>def</b>' );
+					frameDoc.getBody().setHtml( 'abc<b>def</b>' );
 
-							dialog.fire( 'ok' );
-							dialog.hide();
+					dialog.fire( 'ok' );
+					dialog.hide();
 
-							tc.wait();
-						} );
+					tc.wait();
 				} );
+			} );
 
 			setTimeout( function() {
 				editor.execCommand( 'paste' );

@@ -891,21 +891,21 @@
 			},
 
 		test_enlarge_element5: function() {
-				// <p>Test<b> <i>[Enlarge</i> this]</b></p>
-				// <p>Test<b> [<i>Enlarge</i> this]</b></p>
+			// <p>Test<b> <i>[Enlarge</i> this]</b></p>
+			// <p>Test<b> [<i>Enlarge</i> this]</b></p>
 
-				var range = new CKEDITOR.dom.range( doc );
-				range.setStart( doc.getById( '_EnlargeI1' ).getFirst(), 0 );
-				range.setEnd( doc.getById( '_EnlargeB1' ).getChild( 2 ), 5 );
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_EnlargeI1' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_EnlargeB1' ).getChild( 2 ), 5 );
 
-				range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-				assert.areSame( document.getElementById( '_EnlargeB1' ), range.startContainer.$, 'range.startContainer' );
-				assert.areSame( 1, range.startOffset, 'range.startOffset' );
-				assert.areSame( document.getElementById( '_EnlargeB1' ).childNodes[ 2 ], range.endContainer.$, 'range.endContainer' );
-				assert.areSame( 5, range.endOffset, 'range.endOffset' );
-				assert.isFalse( range.collapsed, 'range.collapsed' );
-			},
+			assert.areSame( document.getElementById( '_EnlargeB1' ), range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_EnlargeB1' ).childNodes[ 2 ], range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 5, range.endOffset, 'range.endOffset' );
+			assert.isFalse( range.collapsed, 'range.collapsed' );
+		},
 
 		test_enlarge_element6: CKEDITOR.env.version > 8 ?
 			function() {

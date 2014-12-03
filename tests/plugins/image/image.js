@@ -74,12 +74,12 @@
 		'test read image (inline v.s. attributes)': function() {
 			var bot = this.editorBot;
 
-			bot.setHtmlWithSelection
-			(
-			'[<img src="' + SRC + '" ' +
-			'border="1" height="43" width="212" vspace="0" hspace="0" align="left" ' +
-			'style="border:solid 2px blue;width:414px;height:86px;margin:10px 5px;vertical-align:bottom;float:right">]'
+			bot.setHtmlWithSelection(
+				'[<img src="' + SRC + '" ' +
+				'border="1" height="43" width="212" vspace="0" hspace="0" align="left" ' +
+				'style="border:solid 2px blue;width:414px;height:86px;margin:10px 5px;vertical-align:bottom;float:right">]'
 			);
+
 			bot.dialog( 'image', function( dialog ) {
 				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
 						heightField = dialog.getContentElement( 'info', 'txtHeight' ),
@@ -102,11 +102,10 @@
 		'test read image (border/margin styles)': function() {
 			var bot = this.editorBot;
 
-			bot.setHtmlWithSelection
-			(
-			'[<img src="' + SRC + '" ' +
-			'style="border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
-			'margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;">]'
+			bot.setHtmlWithSelection(
+				'[<img src="' + SRC + '" ' +
+				'style="border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
+				'margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;">]'
 			);
 
 			bot.dialog( 'image', function( dialog ) {
@@ -125,11 +124,10 @@
 		'test read image (unrecognized border styles)': function() {
 			var bot = this.editorBot;
 
-			bot.setHtmlWithSelection
-			(
-			'[<img src="' + SRC + '" ' +
-			'style="border-style:solid;border-bottom-width:1px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
-			'margin: 10px 5px 11px;">]'
+			bot.setHtmlWithSelection(
+				'[<img src="' + SRC + '" ' +
+				'style="border-style:solid;border-bottom-width:1px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
+				'margin: 10px 5px 11px;">]'
 			);
 
 			bot.dialog( 'image', function( dialog ) {
@@ -142,7 +140,6 @@
 				assert.isNaN( parseInt( vspaceField.getValue(), 10 ) );
 
 				dialog.getButton( 'ok' ).click();
-
 			} );
 		},
 

@@ -14,28 +14,28 @@ bender.test(
 		var testInstance = new testClass();
 
 		testInstance.on( 'someEvent', function( ev ) {
-				assert.areSame( testInstance, this, 'Scope 1 is not valid' );
+			assert.areSame( testInstance, this, 'Scope 1 is not valid' );
 
-				assert.areSame( 'someEvent', ev.name, 'ev.name (1) is wrong' );
-				assert.areSame( testInstance, ev.sender, 'ev.sender (1) is wrong' );
-				assert.isUndefined( ev.editor, 'ev.editor (1) is wrong' );
-				assert.isUndefined( ev.data, 'ev.data (1) is wrong' );
-				assert.isUndefined( ev.listenerData, 'ev.listenerData (1) is wrong' );
+			assert.areSame( 'someEvent', ev.name, 'ev.name (1) is wrong' );
+			assert.areSame( testInstance, ev.sender, 'ev.sender (1) is wrong' );
+			assert.isUndefined( ev.editor, 'ev.editor (1) is wrong' );
+			assert.isUndefined( ev.data, 'ev.data (1) is wrong' );
+			assert.isUndefined( ev.listenerData, 'ev.listenerData (1) is wrong' );
 
-				calls.push( 'a' );
-			} );
+			calls.push( 'a' );
+		} );
 
 		testInstance.on( 'someEvent', function( ev ) {
-				assert.areSame( testInstance, this, 'Scope 2 is not valid' );
+			assert.areSame( testInstance, this, 'Scope 2 is not valid' );
 
-				assert.areSame( 'someEvent', ev.name, 'ev.name (2) is wrong' );
-				assert.areSame( testInstance, ev.sender, 'ev.sender (2) is wrong' );
-				assert.isUndefined( ev.editor, 'ev.editor (2) is wrong' );
-				assert.isUndefined( ev.data, 'ev.data (2) is wrong' );
-				assert.isUndefined( ev.listenerData, 'ev.listenerData (2) is wrong' );
+			assert.areSame( 'someEvent', ev.name, 'ev.name (2) is wrong' );
+			assert.areSame( testInstance, ev.sender, 'ev.sender (2) is wrong' );
+			assert.isUndefined( ev.editor, 'ev.editor (2) is wrong' );
+			assert.isUndefined( ev.data, 'ev.data (2) is wrong' );
+			assert.isUndefined( ev.listenerData, 'ev.listenerData (2) is wrong' );
 
-				calls.push( 'b' );
-			} );
+			calls.push( 'b' );
+		} );
 
 		assert.areSame( true, testInstance.fire( 'someEvent' ) );
 
@@ -53,28 +53,28 @@ bender.test(
 		var calls = [];
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( testObject, this, 'Scope 1 is not valid' );
+			assert.areSame( testObject, this, 'Scope 1 is not valid' );
 
-				assert.areSame( 'someEvent', ev.name, 'ev.name (1) is wrong' );
-				assert.areSame( testObject, ev.sender, 'ev.sender (1) is wrong' );
-				assert.isUndefined( ev.editor, 'ev.editor (1) is wrong' );
-				assert.isUndefined( ev.data, 'ev.data (1) is wrong' );
-				assert.isUndefined( ev.listenerData, 'ev.listenerData (1) is wrong' );
+			assert.areSame( 'someEvent', ev.name, 'ev.name (1) is wrong' );
+			assert.areSame( testObject, ev.sender, 'ev.sender (1) is wrong' );
+			assert.isUndefined( ev.editor, 'ev.editor (1) is wrong' );
+			assert.isUndefined( ev.data, 'ev.data (1) is wrong' );
+			assert.isUndefined( ev.listenerData, 'ev.listenerData (1) is wrong' );
 
-				calls.push( 'a' );
-			} );
+			calls.push( 'a' );
+		} );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( testObject, this, 'Scope 2 is not valid' );
+			assert.areSame( testObject, this, 'Scope 2 is not valid' );
 
-				assert.areSame( 'someEvent', ev.name, 'ev.name (2) is wrong' );
-				assert.areSame( testObject, ev.sender, 'ev.sender (2) is wrong' );
-				assert.isUndefined( ev.editor, 'ev.editor (2) is wrong' );
-				assert.isUndefined( ev.data, 'ev.data (2) is wrong' );
-				assert.isUndefined( ev.listenerData, 'ev.listenerData (2) is wrong' );
+			assert.areSame( 'someEvent', ev.name, 'ev.name (2) is wrong' );
+			assert.areSame( testObject, ev.sender, 'ev.sender (2) is wrong' );
+			assert.isUndefined( ev.editor, 'ev.editor (2) is wrong' );
+			assert.isUndefined( ev.data, 'ev.data (2) is wrong' );
+			assert.isUndefined( ev.listenerData, 'ev.listenerData (2) is wrong' );
 
-				calls.push( 'b' );
-			} );
+			calls.push( 'b' );
+		} );
 
 		assert.areSame( true, testObject.fire( 'someEvent' ) );
 
@@ -92,14 +92,14 @@ bender.test(
 		// Event Names are case sensitive.
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'someEvent', ev.name, 'ev.name (someEvent) is wrong' );
-				counter++;
-			} );
+			assert.areSame( 'someEvent', ev.name, 'ev.name (someEvent) is wrong' );
+			counter++;
+		} );
 
 		testObject.on( 'SomeEvent', function( ev ) {
-				assert.areSame( 'SomeEvent', ev.name, 'ev.name (SomeEvent) is wrong' );
-				counter++;
-			} );
+			assert.areSame( 'SomeEvent', ev.name, 'ev.name (SomeEvent) is wrong' );
+			counter++;
+		} );
 
 		testObject.fire( 'someEvent' );
 		assert.areSame( 1, counter, '"someEvent" calls doesn\'t match' );
@@ -121,16 +121,16 @@ bender.test(
 		var testScope = {};
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( testObject, this, 'scope (testObject) is wrong' );
-				assert.areSame( testObject, ev.sender, 'sender (testObject) is wrong' );
-				counter++;
-			} );
+			assert.areSame( testObject, this, 'scope (testObject) is wrong' );
+			assert.areSame( testObject, ev.sender, 'sender (testObject) is wrong' );
+			counter++;
+		} );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( testScope, this, 'scope (testScope) is wrong' );
-				assert.areSame( testObject, ev.sender, 'sender (testScope) is wrong' );
-				counter++;
-			}, testScope );
+			assert.areSame( testScope, this, 'scope (testScope) is wrong' );
+			assert.areSame( testObject, ev.sender, 'sender (testScope) is wrong' );
+			counter++;
+		}, testScope );
 
 		testObject.fire( 'someEvent' );
 
@@ -146,14 +146,14 @@ bender.test(
 		var counter = 0;
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test1', ev.listenerData, 'listenerData (1) is wrong' );
-				counter++;
-			}, null, 'Test1'  );
+			assert.areSame( 'Test1', ev.listenerData, 'listenerData (1) is wrong' );
+			counter++;
+		}, null, 'Test1'  );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test2', ev.listenerData, 'listenerData (2) is wrong' );
-				counter++;
-			}, null, 'Test2' );
+			assert.areSame( 'Test2', ev.listenerData, 'listenerData (2) is wrong' );
+			counter++;
+		}, null, 'Test2' );
 
 		testObject.fire( 'someEvent' );
 
@@ -169,14 +169,14 @@ bender.test(
 		var counter = 0;
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test data', ev.data, 'data (1) is wrong' );
-				counter++;
-			} );
+			assert.areSame( 'Test data', ev.data, 'data (1) is wrong' );
+			counter++;
+		} );
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( 'Test data', ev.data, 'data (2) is wrong' );
-				counter++;
-			} );
+			assert.areSame( 'Test data', ev.data, 'data (2) is wrong' );
+			counter++;
+		} );
 
 		testObject.fire( 'someEvent', 'Test data' );
 
@@ -194,9 +194,9 @@ bender.test(
 		var editor = {};
 
 		testObject.on( 'someEvent', function( ev ) {
-				assert.areSame( editor, ev.editor, 'editor is wrong' );
-				counter++;
-			} );
+			assert.areSame( editor, ev.editor, 'editor is wrong' );
+			counter++;
+		} );
 
 		testObject.fire( 'someEvent', null, editor );
 

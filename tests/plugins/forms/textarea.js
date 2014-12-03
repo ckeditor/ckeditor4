@@ -61,12 +61,12 @@ bender.test( {
 
 	test_specialValues: function() {
 		var values = [
-			'<HTML> content: <textarea>sample</textarea> tag.',
-			'Line 1\nLine 2',
-			'    Spaces before.',
-			'Spaces after.   ' ];
-
-		var editorBot = this.editorBot,
+				'<HTML> content: <textarea>sample</textarea> tag.',
+				'Line 1\nLine 2',
+				'    Spaces before.',
+				'Spaces after.   '
+			],
+			editorBot = this.editorBot,
 			currentIndex = 0;
 
 		function testValue( index ) {

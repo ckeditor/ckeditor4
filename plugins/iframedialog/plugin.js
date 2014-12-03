@@ -32,7 +32,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 				height: '100%'
 			};
 
-			if ( typeof( onContentLoad ) == 'function' )
+			if ( typeof onContentLoad == 'function' )
 				element.onContentLoad = onContentLoad;
 			else {
 				element.onContentLoad = function() {
@@ -135,7 +135,7 @@ CKEDITOR.plugins.add( 'iframedialog', {
 					};
 					var myHtml = [];
 
-					if ( typeof( elementDefinition.onContentLoad ) == 'function' )
+					if ( typeof elementDefinition.onContentLoad == 'function' )
 						attributes.onload = 'CKEDITOR.tools.callFunction(%1);';
 
 					CKEDITOR.ui.dialog.uiElement.call( this, dialog, elementDefinition, myHtml, 'iframe', {

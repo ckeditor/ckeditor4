@@ -40,11 +40,12 @@
 							padding: '0px',
 							margin: '0px',
 							'font-size': '0px'		// Make BRs invisible
-						} );
+						}
+					);
 
 					tc.resume( function() {
-							callback( editor, editable, editor.plugins.magicline.backdoor );
-						} );
+						callback( editor, editable, editor.plugins.magicline.backdoor );
+					} );
 				}
 			}
 		} ) );
@@ -532,8 +533,8 @@
 
 					// Access focus space before HR.
 					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
-							accessNode.insertBefore( hr );
-						} );
+						accessNode.insertBefore( hr );
+					} );
 
 					assert.areEqual( '<p>Foo</p><p>&nbsp;</p><hr />', bender.tools.compatHtml( convertNbsp( editor.getData() ) ) );
 				} );
@@ -553,8 +554,8 @@
 
 					// Access focus space before HR.
 					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
-							accessNode.insertBefore( hr );
-						} );
+						accessNode.insertBefore( hr );
+					} );
 
 					assert.areEqual( '<div>Foo</div><div>&nbsp;</div><hr />', bender.tools.compatHtml( convertNbsp( editor.getData() ) ) );
 				} );
@@ -574,8 +575,8 @@
 
 					// Access focus space before HR.
 					backdoor.accessFocusSpace( backdoor.that, function( accessNode ) {
-							accessNode.insertBefore( hr );
-						} );
+						accessNode.insertBefore( hr );
+					} );
 
 					assert.areEqual( '<hr />&nbsp;<hr />' , bender.tools.compatHtml( convertNbsp( editor.getData() ) ) );
 				} );

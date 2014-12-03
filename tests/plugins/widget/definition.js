@@ -580,24 +580,27 @@
 				editables: editables
 			} );
 
-			editorBot.setData( '<div data-widget="testeditables1" id="w1">' +
-				'<p id="foo">A</p><p id="bar">B</p><span>C</span></div><p class="bom">D</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
-				assert.areSame( 'A', widget.editables.el1.getText(), 'el1 was found' );
-				assert.areSame( 'B', widget.editables.el2.getText(), 'el2 was found' );
-				assert.isFalse( !!widget.editables.el3, 'el3 was not found' );
-				assert.isFalse( !!widget.editables.el5, 'el5 was not found because it is not allowed editable element (span)' );
-
-				assert.areSame( '#foo', editables.el1, 'original object was not modified' );
-
-				assert.isTrue( widget.element.contains( widget.editables.el1 ), 'widget contains editable el1' );
-
-				editorBot.setData( '<div data-widget="testeditables1" id="w1" class="editable">X</div><div class="editable">Y</div>', function() {
+			editorBot.setData(
+				'<div data-widget="testeditables1" id="w1">' +
+				'<p id="foo">A</p><p id="bar">B</p><span>C</span></div><p class="bom">D</p>',
+				function() {
 					var widget = getWidgetById( editor, 'w1' );
-					assert.areSame( editor.document.getById( 'w1' ), widget.editables.el4, 'el4 was found' );
-				} );
-			} );
+
+					assert.areSame( 'A', widget.editables.el1.getText(), 'el1 was found' );
+					assert.areSame( 'B', widget.editables.el2.getText(), 'el2 was found' );
+					assert.isFalse( !!widget.editables.el3, 'el3 was not found' );
+					assert.isFalse( !!widget.editables.el5, 'el5 was not found because it is not allowed editable element (span)' );
+
+					assert.areSame( '#foo', editables.el1, 'original object was not modified' );
+
+					assert.isTrue( widget.element.contains( widget.editables.el1 ), 'widget contains editable el1' );
+
+					editorBot.setData( '<div data-widget="testeditables1" id="w1" class="editable">X</div><div class="editable">Y</div>', function() {
+						var widget = getWidgetById( editor, 'w1' );
+						assert.areSame( editor.document.getById( 'w1' ), widget.editables.el4, 'el4 was found' );
+					} );
+				}
+			);
 		},
 
 		'test mask': function() {

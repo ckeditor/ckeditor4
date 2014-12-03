@@ -482,8 +482,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			/**
 			 * @todo
 			 */
-			allowBlur: function( allow ) // Prevent editor from hiding the panel. #3222.
-			{
+			allowBlur: function( allow ) {
+				// Prevent editor from hiding the panel. (#3222)
 				var panel = this._.panel;
 				if ( allow !== undefined )
 					panel.allowBlur = allow;

@@ -143,8 +143,8 @@
 						savedScroll = [ $textarea.scrollLeft, $textarea.scrollTop ];
 					}
 
-					if ( this.state == CKEDITOR.TRISTATE_OFF ) // Go fullscreen if the state is off.
-					{
+					// Go fullscreen if the state is off.
+					if ( this.state == CKEDITOR.TRISTATE_OFF ) {
 						// Add event handler for resizing.
 						mainWindow.on( 'resize', resizeHandler );
 
@@ -202,9 +202,9 @@
 
 						// Fixing positioning editor chrome in Firefox break design mode. (#5149)
 						CKEDITOR.env.gecko && refreshCursor( editor );
-
-					} else if ( this.state == CKEDITOR.TRISTATE_ON ) // Restore from fullscreen if the state is on.
-					{
+					}
+					// Restore from fullscreen if the state is on.
+					else if ( this.state == CKEDITOR.TRISTATE_ON ) {
 						// Remove event handler for resizing.
 						mainWindow.removeListener( 'resize', resizeHandler );
 

@@ -78,13 +78,13 @@
 				};
 
 			assertWidgetDialog( editorBot, 'image', '', null, {
-					src: '',
-					alt: '',
-					width: '',
-					height: '',
-					align: 'none',
-					hasCaption: false
-				}, '<p>x^x</p>', onResume );
+				src: '',
+				alt: '',
+				width: '',
+				height: '',
+				align: 'none',
+				hasCaption: false
+			}, '<p>x^x</p>', onResume );
 		},
 
 		'test create block widget in wrong context': function() {

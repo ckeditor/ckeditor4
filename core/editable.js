@@ -1911,8 +1911,8 @@
 																			// This means that caret is between these nodes.
 				startPath.contains( previousNode ) &&						// Elements path of start of selection has
 				endPath.contains( nextNode ) &&								// to contain prevNode and vice versa.
-				nextNode.isIdentical( previousNode ) )						// Check if elements are identical.
-			{
+				nextNode.isIdentical( previousNode )						// Check if elements are identical.
+			) {
 				// Merge blocks and repeat.
 				nextNode.moveChildren( previousNode );
 				nextNode.remove();
@@ -1978,8 +1978,8 @@
 			if ( dataWrapper.getChildCount() == 1 &&					// Only one node bein inserted.
 				checkIfElement( block = dataWrapper.getFirst() ) &&		// And it's an element.
 				block.is( stripSingleBlockTags ) &&						// That's <p> or <div> or header.
-				!block.hasAttribute( 'contenteditable' ) )				// It's not a non-editable block or nested editable.
-			{
+				!block.hasAttribute( 'contenteditable' )				// It's not a non-editable block or nested editable.
+			) {
 				// Check children not containing block.
 				children = block.getElementsByTag( '*' );
 				for ( var i = 0, child, count = children.count(); i < count; i++ ) {

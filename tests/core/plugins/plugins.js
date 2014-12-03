@@ -7,9 +7,9 @@ bender.test(
 
 		CKEDITOR.plugins.load( 'myplugin', function() {
 			this.resume( function() {
-					assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
-				} );
-		} , this );
+				assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
+			} );
+		}, this );
 
 		this.wait();
 	},
@@ -21,11 +21,9 @@ bender.test(
 		// Override native setTimeout to catch all errors.
 		window.setTimeout = function( fn, timeout ) {
 			originalSetTimeout( function() {
-				try
-				{
+				try {
 					fn.apply( this, Array.prototype.slice.call( arguments ) );
-				}
-				catch ( err ) {
+				} catch ( err ) {
 					errors.push( err );
 
 					// Do not fail silently on other errors.
@@ -35,18 +33,21 @@ bender.test(
 			}, timeout );
 		};
 
-		CKEDITOR.plugins.add( 'errorplugin1' , {
+		CKEDITOR.plugins.add( 'errorplugin1', {
 			requires: 'errorplugin3,errorplugin2'
 		} );
-		CKEDITOR.plugins.add( 'errorplugin2' , {
+
+		CKEDITOR.plugins.add( 'errorplugin2', {
 			requires: 'errorplugin3,errorplugin4'
 		} );
-		CKEDITOR.plugins.add( 'errorplugin3' , {
+
+		CKEDITOR.plugins.add( 'errorplugin3', {
 			init: function( editor ) {
 				editor.plugin3Inited = true;
 			}
 		} );
-		CKEDITOR.plugins.add( 'errorplugin4' , {
+
+		CKEDITOR.plugins.add( 'errorplugin4', {
 			init: function( editor ) {
 				editor.plugin4Inited = true;
 			}

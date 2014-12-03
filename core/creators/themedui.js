@@ -65,8 +65,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {String} [data] Since 3.3. Initial value for the instance.
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
-	CKEDITOR.appendTo = function( element, config, data )
-	{
+	CKEDITOR.appendTo = function( element, config, data ) {
 		return createInstance( element, config, data, CKEDITOR.ELEMENT_MODE_APPENDTO );
 	};
 

@@ -351,7 +351,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			iterContents( function( item ) {
 				if ( item.validate ) {
 					var retval = item.validate( this ),
-						invalid = typeof( retval ) == 'string' || retval === false;
+						invalid = ( typeof retval == 'string' ) || retval === false;
 
 					if ( invalid ) {
 						evt.data.hide = false;
@@ -1087,7 +1087,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					enabledFields++;
 
 				contentMap[ cursor.id ] = cursor;
-				if ( typeof( cursor.getChild ) == 'function' )
+				if ( typeof cursor.getChild == 'function' )
 					children.push.apply( children, cursor.getChild() );
 			}
 
@@ -2324,15 +2324,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				( this._ || ( this._ = {} ) ).dialog = dialog;
 
 				// Override isChanged if it is defined in element definition.
-				if ( typeof( elementDefinition.isChanged ) == 'boolean' )
+				if ( typeof elementDefinition.isChanged == 'boolean' )
 					this.isChanged = function() {
 						return elementDefinition.isChanged;
 					};
-				if ( typeof( elementDefinition.isChanged ) == 'function' )
+				if ( typeof elementDefinition.isChanged == 'function' )
 					this.isChanged = elementDefinition.isChanged;
 
 				// Overload 'get(set)Value' on definition.
-				if ( typeof( elementDefinition.setValue ) == 'function' ) {
+				if ( typeof elementDefinition.setValue == 'function' ) {
 					this.setValue = CKEDITOR.tools.override( this.setValue, function( org ) {
 						return function( val ) {
 							org.call( this, elementDefinition.setValue.call( this, val ) );
@@ -2340,7 +2340,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					} );
 				}
 
-				if ( typeof( elementDefinition.getValue ) == 'function' ) {
+				if ( typeof elementDefinition.getValue == 'function' ) {
 					this.getValue = CKEDITOR.tools.override( this.getValue, function( org ) {
 						return function() {
 							return elementDefinition.getValue.call( this, org.call( this ) );
@@ -2930,18 +2930,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 						i;
 
 					for ( i = 0; i < args.length; i++ ) {
-						if ( typeof( args[ i ] ) == 'function' )
+						if ( typeof args[ i ] == 'function' )
 							functions.push( args[ i ] );
 						else
 							break;
 					}
 
-					if ( i < args.length && typeof( args[ i ] ) == 'string' ) {
+					if ( i < args.length && typeof args[ i ] == 'string' ) {
 						msg = args[ i ];
 						i++;
 					}
 
-					if ( i < args.length && typeof( args[ i ] ) == 'number' )
+					if ( i < args.length && typeof args[ i ] == 'number' )
 						relation = args[ i ];
 
 					var passed = ( relation == CKEDITOR.VALIDATE_AND ? true : false );

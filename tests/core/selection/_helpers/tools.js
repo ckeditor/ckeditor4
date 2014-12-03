@@ -81,9 +81,7 @@ function convertRange( range ) {
 		rng = rangy.createRange( range.document.$ );
 		rng.setStart( range.startContainer.$, range.startOffset );
 		rng.setEnd( range.endContainer.$, range.endOffset );
-	}
-	else
-	{
+	} else {
 		rng = new CKEDITOR.dom.range( new CKEDITOR.dom.document( range.getDocument() ) );
 		rng.setStart( new CKEDITOR.dom.node( range.startContainer ), range.startOffset );
 		rng.setEnd( new CKEDITOR.dom.node( range.endContainer ), range.endOffset );

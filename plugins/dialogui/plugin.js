@@ -653,7 +653,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 				var innerHTML = function() {
 					_.frameId = CKEDITOR.tools.getNextId() + '_fileInput';
 
-					// jscs:disable validateIndentation
 					var html = [
 						'<iframe' +
 							' frameborder="0"' +
@@ -676,9 +675,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 						'0'
 					);
 
-					html.push( ')">' +
-						'</iframe>' );
-					// jscs:enable validateIndentation
+					html.push( ')"></iframe>' );
 
 					return html.join( '' );
 				};
@@ -1331,7 +1328,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 					var inputId = _.frameId + '_input';
 
-					// jscs:disable validateIndentation
 					frameDocument.$.write( [
 						'<html dir="' + langDir + '" lang="' + langCode + '"><head><title></title></head><body style="margin: 0; overflow: hidden; background: transparent;">',
 							'<form enctype="multipart/form-data" method="POST" dir="' + langDir + '" lang="' + langCode + '" action="',
@@ -1357,7 +1353,6 @@ CKEDITOR.plugins.add( 'dialogui', {
 							'window.onbeforeunload = function() {window.parent.CKEDITOR.tools.callFunction(' + unloadNumber + ')}',
 						'</script>'
 					].join( '' ) );
-					// jscs:enable validateIndentation
 
 					frameDocument.$.close();
 

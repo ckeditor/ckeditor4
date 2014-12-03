@@ -137,7 +137,9 @@
 			} );
 		}
 
-		if ( typeof( test = node.testObject ) == 'string' ) {
+		test = node.testObject;
+
+		if ( typeof test == 'string' ) {
 			updateResult( node.parent, test );
 			// Ignore all tests in this whole test case
 		} else {

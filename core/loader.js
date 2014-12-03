@@ -145,7 +145,7 @@ if ( !CKEDITOR.loader ) {
 				// We must guarantee the execution order of the scripts, so we
 				// need to load them one by one. (#4145)
 				// The following if/else block has been taken from the scriptloader core code.
-				if ( typeof( script.onreadystatechange ) !== 'undefined' ) {
+				if ( typeof script.onreadystatechange !== 'undefined' ) {
 					/** @ignore */
 					script.onreadystatechange = function() {
 						if ( script.readyState == 'loaded' || script.readyState == 'complete' ) {
