@@ -299,7 +299,7 @@ notification.prototype = {
 	 * @returns {Boolean} true if notification is in the notification area.
 	 */
 	isVisible: function() {
-		return !!this.area.notifications[ this.id ];
+		return CKEDITOR.tools.indexOf( this.area.notifications, this ) >= 0;
 	},
 
 	/**
