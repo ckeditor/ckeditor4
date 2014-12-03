@@ -782,8 +782,8 @@
 				// Use old trigger that was saved by 'place' method. Look: line.place
 				var trigger = that.line.trigger;
 
-				accessNode[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ]
-					( trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
+				accessNode[ trigger.is( EDGE_TOP ) ? 'insertBefore' : 'insertAfter' ](
+					trigger.is( EDGE_TOP ) ? trigger.lower : trigger.upper );
 			}, true );
 
 			that.editor.focus();

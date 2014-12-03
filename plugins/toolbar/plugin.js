@@ -377,9 +377,7 @@
 			} );
 
 			editor.on( 'destroy', function() {
-
-				if ( this.toolbox )
-				{
+				if ( this.toolbox ) {
 					var toolbars,
 						index = 0,
 						i, items, instance;

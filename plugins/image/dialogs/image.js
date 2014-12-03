@@ -34,8 +34,9 @@
 									value = Math.round( oImageOriginal.$.width * ( value / oImageOriginal.$.height ) );
 								if ( !isNaN( value ) )
 									dialog.setValueOf( 'info', 'txtWidth', value );
-							} else //this.id = txtWidth.
-							{
+							}
+							// this.id = txtWidth.
+							else {
 								if ( value && value != '0' )
 									value = Math.round( oImageOriginal.$.height * ( value / oImageOriginal.$.width ) );
 								if ( !isNaN( value ) )
@@ -168,8 +169,8 @@
 					function checkDimension( size, defaultValue ) {
 						var aMatch = size.match( regexGetSize );
 						if ( aMatch ) {
-							if ( aMatch[ 2 ] == '%' ) // % is allowed.
-							{
+							// % is allowed.
+							if ( aMatch[ 2 ] == '%' ) {
 								aMatch[ 1 ] += '%';
 								switchLockRatio( dialog, false ); // Unlock ratio
 							}
@@ -294,8 +295,7 @@
 
 						// Look for Image element.
 						var linkChildren = link.getChildren();
-						if ( linkChildren.count() == 1 ) // 1 child.
-						{
+						if ( linkChildren.count() == 1 ) {
 							var childTagName = linkChildren.getItem( 0 ).getName();
 							if ( childTagName == 'img' || childTagName == 'input' ) {
 								this.imageElement = linkChildren.getItem( 0 );
@@ -371,8 +371,9 @@
 							this.imageElement = this.cleanImageElement;
 							delete this.cleanImageElement;
 						}
-					} else // Create a new image.
-					{
+					}
+					// Create a new image.
+					else {
 						// Image dialog -> create IMG element.
 						if ( dialogType == 'image' )
 							this.imageElement = editor.document.createElement( 'img' );
@@ -407,14 +408,15 @@
 						} else {
 							editor.insertElement( this.imageElement );
 						}
-					} else // Image already exists.
-					{
-						//Add a new link element.
+					}
+					// Image already exists.
+					else {
+						// Add a new link element.
 						if ( !this.linkEditMode && this.addLink ) {
 							editor.insertElement( this.linkElement );
 							this.imageElement.appendTo( this.linkElement );
 						}
-						//Remove Link, Image exists.
+						// Remove Link, Image exists.
 						else if ( this.linkEditMode && !this.addLink ) {
 							editor.getSelection().selectElement( this.linkElement );
 							editor.insertElement( this.imageElement );
@@ -467,9 +469,9 @@
 									var dialog = this.getDialog(),
 										newUrl = this.getValue();
 
-									//Update original image
-									if ( newUrl.length > 0 ) //Prevent from load before onShow
-									{
+									// Update original image.
+									// Prevent from load before onShow.
+									if ( newUrl.length > 0 ) {
 										dialog = this.getDialog();
 										var original = dialog.originalElement;
 

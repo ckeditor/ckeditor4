@@ -1057,9 +1057,7 @@
 				a.insertion = '<p>bam<br /></p>';
 				a( '<p>^<br /></p>',			'<p>bam^</p>',									'two bogus collide' );
 				a( '<p>foo^<br />bar</p>',		'<p>foobam^<br />bar</p>',						'bogu meet linebreak' );
-			}
-			else
-			{
+			} else {
 				a.insertion = 'bam';
 				a( '<p>^&nbsp;</p>',			'<p>bam^</p>',									'text inserted before bogus' );
 

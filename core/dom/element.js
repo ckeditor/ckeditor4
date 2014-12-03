@@ -1107,8 +1107,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			}
 
 			return function( inlineOnly ) {
-				if ( !( inlineOnly === false || CKEDITOR.dtd.$removeEmpty[ this.getName() ] || this.is( 'a' ) ) ) // Merge empty links and anchors also. (#5567)
-				{
+				// Merge empty links and anchors also. (#5567)
+				if ( !( inlineOnly === false || CKEDITOR.dtd.$removeEmpty[ this.getName() ] || this.is( 'a' ) ) ) {
 					return;
 				}
 

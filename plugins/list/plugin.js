@@ -105,6 +105,7 @@
 				baseIndex = 0;
 			if ( !listArray || listArray.length < baseIndex + 1 )
 				return null;
+
 			var i,
 				doc = listArray[ baseIndex ].parent.getDocument(),
 				retval = new CKEDITOR.dom.documentFragment( doc ),
@@ -114,6 +115,7 @@
 				currentListItem = null,
 				orgDir, block,
 				paragraphName = ( paragraphMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+
 			while ( 1 ) {
 				var item = listArray[ currentIndex ],
 					itemGrandParent = item.grandparent;
@@ -604,8 +606,8 @@
 
 					// First, try to group by a list ancestor.
 					for ( var i = pathElementsCount - 1; i >= 0 && ( element = pathElements[ i ] ); i-- ) {
-						if ( listNodeNames[ element.getName() ] && blockLimit.contains( element ) ) // Don't leak outside block limit (#3940).
-						{
+						// Don't leak outside block limit (#3940).
+						if ( listNodeNames[ element.getName() ] && blockLimit.contains( element ) ) {
 							// If we've encountered a list inside a block limit
 							// The last group object of the block limit element should
 							// no longer be valid. Since paragraphs after the list
@@ -981,9 +983,7 @@
 								joinNextLineToCursor( editor, cursor, nextLine );
 								evt.cancel();
 							}
-						}
-						else
-						{
+						} else {
 							// Handle Del key pressed before the list.
 							walker.range.setEndAt( editable, CKEDITOR.POSITION_BEFORE_END );
 							next = walker.next();

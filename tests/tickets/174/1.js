@@ -20,9 +20,7 @@
 					} catch ( e ) {
 						errorCaught = true;
 					}
-				}
-				else
-				{
+				} else {
 					tc.resume( function() {
 						assert.areEqual( 0, counter );
 						assert.isFalse( errorCaught, 'Error shouldn\'t be caught.' );

@@ -93,8 +93,8 @@
 
 			if ( tabText ) {
 				editor.on( 'key', function( ev ) {
-					if ( ev.data.keyCode == 9 ) // TAB
-					{
+					// TAB
+					if ( ev.data.keyCode == 9 ) {
 						editor.insertHtml( tabText );
 						ev.cancel();
 					}

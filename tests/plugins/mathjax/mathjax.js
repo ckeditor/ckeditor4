@@ -56,8 +56,8 @@
 				mathJaxLib: mathJaxLib,
 				extraAllowedContent: 'p{font-size}',
 				extraPlugins: 'font',
-				on:{
-					'instanceReady': function() {
+				on: {
+					instanceReady: function() {
 						editor.setData( '<p>A<span class="math-tex">\\(1 + 1 = 2\\)</span>B</p>' );
 					}
 				}
