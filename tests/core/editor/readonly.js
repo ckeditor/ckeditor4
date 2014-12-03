@@ -17,6 +17,11 @@
 				creator: 'inline',
 				readOnly: true
 			},
+			inline_textarea_readonly: {
+				name: 'inline_textarea_readonly',
+				creator: 'inline',
+				readOnly: true
+			},
 			inline_textarea_config: {
 				name: 'inline_textarea_config',
 				creator: 'inline',
@@ -33,6 +38,11 @@
 			},
 			framed_disabled: {
 				name: 'framed_disabled',
+				creator: 'replace',
+				readOnly: true
+			},
+			framed_readonly: {
+				name: 'framed_readonly',
 				creator: 'replace',
 				readOnly: true
 			},
