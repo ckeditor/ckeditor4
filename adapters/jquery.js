@@ -47,8 +47,9 @@
 			:
 				CKEDITOR.config.jqueryOverrideVal;
 
-	if ( typeof $ == 'undefined' )
-		return;
+	if ( typeof $ == 'undefined' ) {
+		throw new Error( 'jQuery should be loaded before CKEditor adapter. Have you mistaken loaded scripts order?' );
+	}
 
 	// jQuery object methods.
 	$.extend( $.fn, {
