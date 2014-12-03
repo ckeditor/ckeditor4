@@ -492,6 +492,8 @@ area.prototype = {
 	 * Add the notification to the notification area. If it is the first notification then area will be also attached to
 	 * the document and listers will be attached.
 	 *
+	 * Note that the proper way to show notification is to call {@link CKEDITOR.plugins.notification#show} method.
+	 *
 	 * @param {CKEDITOR.plugins.notification} notification Notification to add.
 	 */
 	add: function( notification ) {
@@ -510,6 +512,8 @@ area.prototype = {
 	/**
 	 * Remove the notification from the notification area. If it is the last notification then area will be also
 	 * detached from the document and listers will be detached.
+	 *
+	 * Note that the proper way to hide notification is to call {@link CKEDITOR.plugins.notification#hide} method.
 	 *
 	 * @param {CKEDITOR.plugins.notification} notification Notification to remove.
 	 */
