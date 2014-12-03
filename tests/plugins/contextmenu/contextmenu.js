@@ -57,7 +57,8 @@
 				name: 'editor4',
 				config: {
 					allowedContent: true
-			} }, function( bot ) {
+				}
+			}, function( bot ) {
 				bot.setData( html, function() {
 					var editor = bot.editor,
 						editable = editor.editable(),

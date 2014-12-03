@@ -53,13 +53,15 @@
 			var tc = this;
 
 			editor = new CKEDITOR.replace( 'editor_mathjax', {
-					mathJaxLib: mathJaxLib,
-					extraAllowedContent: 'p{font-size}',
-					extraPlugins: 'font',
-					on: { 'instanceReady': function() {
+				mathJaxLib: mathJaxLib,
+				extraAllowedContent: 'p{font-size}',
+				extraPlugins: 'font',
+				on:{
+					'instanceReady': function() {
 						editor.setData( '<p>A<span class="math-tex">\\(1 + 1 = 2\\)</span>B</p>' );
-					} }
-				} );
+					}
+				}
+			} );
 
 			CKEDITOR.once( 'mathJaxUpdateDone', function() {
 				tc.callback();

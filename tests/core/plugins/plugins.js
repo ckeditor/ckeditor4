@@ -7,8 +7,8 @@ bender.test(
 
 		CKEDITOR.plugins.load( 'myplugin', function() {
 			this.resume( function() {
-					assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
-				} );
+				assert.isTrue( CKEDITOR.plugins.get( 'myplugin' ).definition );
+			} );
 		} , this );
 
 		this.wait();

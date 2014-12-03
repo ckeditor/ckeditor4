@@ -41,7 +41,8 @@ bender.test( {
 	},
 
 	'test toolbarStartupExpanded=false': function() {
-		bender.editorBot.create( {
+		bender.editorBot.create(
+			{
 				name: 'editor1',
 				config: {
 					toolbarCanCollapse: true,
@@ -69,7 +70,8 @@ bender.test( {
 	},
 
 	'test toolbarStartupExpanded=true': function() {
-		bender.editorBot.create( {
+		bender.editorBot.create(
+			{
 				name: 'editor2',
 				config: {
 					toolbarCanCollapse: true,
@@ -81,7 +83,8 @@ bender.test( {
 	},
 
 	'test toolbarCanCollapse=true': function() {
-		bender.editorBot.create( {
+		bender.editorBot.create(
+			{
 				name: 'editor3',
 				config: {
 					toolbarCanCollapse: true

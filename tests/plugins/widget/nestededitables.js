@@ -555,86 +555,89 @@
 				}
 			} );
 
-			this.editorBot.setData( '<p id="x">X</p><div data-widget="testsel1" id="w1"><p id="foo">B</p><p>C</p><p id="bar">D</p></div>' +
-				'<div data-widget="testsel1" id="w2"><p id="foo"><span>B</span></p></div>', function() {
-				var widget1 = getWidgetById( editor, 'w1' ),
-					widget2 = getWidgetById( editor, 'w2' ),
-					eFoo1 = widget1.editables.foo,
-					eBar1 = widget1.editables.bar,
-					eFoo2 = widget2.editables.foo,
-					selectionChanged = 0;
+			this.editorBot.setData(
+				'<p id="x">X</p><div data-widget="testsel1" id="w1"><p id="foo">B</p><p>C</p><p id="bar">D</p></div>' +
+				'<div data-widget="testsel1" id="w2"><p id="foo"><span>B</span></p></div>',
+				function() {
+					var widget1 = getWidgetById( editor, 'w1' ),
+						widget2 = getWidgetById( editor, 'w2' ),
+						eFoo1 = widget1.editables.foo,
+						eBar1 = widget1.editables.bar,
+						eFoo2 = widget2.editables.foo,
+						selectionChanged = 0;
 
-				editor.getSelection().selectElement( editor.document.getById( 'x' ) );
+					editor.getSelection().selectElement( editor.document.getById( 'x' ) );
 
-				editor.on( 'selectionChange', function() {
-					selectionChanged += 1;
-				} );
+					editor.on( 'selectionChange', function() {
+						selectionChanged += 1;
+					} );
 
-				assertEditables( 0, null, null, 'start' );
+					assertEditables( 0, null, null, 'start' );
 
-				var range = editor.createRange();
-				range.setStart( eFoo1, 0 );
-				range.collapse( 1 );
-				range.select();
+					var range = editor.createRange();
+					range.setStart( eFoo1, 0 );
+					range.collapse( 1 );
+					range.select();
 
-				assertEditables( 1, eFoo1, widget1, '#foo 1' );
+					assertEditables( 1, eFoo1, widget1, '#foo 1' );
 
-				range.setStart( eBar1, CKEDITOR.POSITION_AFTER_START );
-				range.setEndAt( eBar1, CKEDITOR.POSITION_BEFORE_END );
-				range.select();
+					range.setStart( eBar1, CKEDITOR.POSITION_AFTER_START );
+					range.setEndAt( eBar1, CKEDITOR.POSITION_BEFORE_END );
+					range.select();
 
-				assertEditables( 2, eBar1, widget1, '#bar 1' );
+					assertEditables( 2, eBar1, widget1, '#bar 1' );
 
-				range.setStart( eFoo2.getFirst(), CKEDITOR.POSITION_AFTER_START );
-				range.setEndAt( eFoo2.getFirst(), CKEDITOR.POSITION_BEFORE_END );
-				range.select();
+					range.setStart( eFoo2.getFirst(), CKEDITOR.POSITION_AFTER_START );
+					range.setEndAt( eFoo2.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
 
-				assertEditables( 3, eFoo2, widget2, '#foo 2' );
+					assertEditables( 3, eFoo2, widget2, '#foo 2' );
 
-				editor.getSelection().selectElement( editor.document.getById( 'x' ) );
+					editor.getSelection().selectElement( editor.document.getById( 'x' ) );
 
-				assertEditables( 4, null, null, 'end' );
+					assertEditables( 4, null, null, 'end' );
 
-				function assertEditables( selC, focusedEditable, widgetHoldingFocusedEditable, msg ) {
-					msg = ' - ' + msg;
+					function assertEditables( selC, focusedEditable, widgetHoldingFocusedEditable, msg ) {
+						msg = ' - ' + msg;
 
-					assert.areSame( selC, selectionChanged, 'selectionChange fired' + msg );
+						assert.areSame( selC, selectionChanged, 'selectionChange fired' + msg );
 
-					if ( widgetHoldingFocusedEditable )
-						assert.areSame( widgetHoldingFocusedEditable, editor.widgets.widgetHoldingFocusedEditable, 'widget holds focused editable' + msg );
-					else
-						assert.isFalse( !!editor.widgets.widgetHoldingFocusedEditable, 'none widget holds focused editable' + msg );
+						if ( widgetHoldingFocusedEditable )
+							assert.areSame( widgetHoldingFocusedEditable, editor.widgets.widgetHoldingFocusedEditable, 'widget holds focused editable' + msg );
+						else
+							assert.isFalse( !!editor.widgets.widgetHoldingFocusedEditable, 'none widget holds focused editable' + msg );
 
-					var allWidgets = [ widget1, widget2 ],
-						widget;
+						var allWidgets = [ widget1, widget2 ],
+							widget;
 
-					while ( ( widget = allWidgets.shift() ) ) {
-						if ( widgetHoldingFocusedEditable === widget ) {
-							assert.areSame( focusedEditable, widget.focusedEditable, 'widget has focused editable' + msg );
-							assert.isInstanceOf( CKEDITOR.plugins.widget.nestedEditable, widget.focusedEditable,
-								'widget.focusedEditable is instance of widget.nestedEditable' + msg );
-						} else {
-							assert.isFalse( !!widget.focusedEditable, 'widget does not have focued editable' + msg );
+						while ( ( widget = allWidgets.shift() ) ) {
+							if ( widgetHoldingFocusedEditable === widget ) {
+								assert.areSame( focusedEditable, widget.focusedEditable, 'widget has focused editable' + msg );
+								assert.isInstanceOf( CKEDITOR.plugins.widget.nestedEditable, widget.focusedEditable,
+									'widget.focusedEditable is instance of widget.nestedEditable' + msg );
+							} else {
+								assert.isFalse( !!widget.focusedEditable, 'widget does not have focued editable' + msg );
+							}
 						}
-					}
 
-					var allEditables = [ eFoo1, eBar1, eFoo2 ],
-						editable;
+						var allEditables = [ eFoo1, eBar1, eFoo2 ],
+							editable;
 
-					while ( ( editable = allEditables.shift() ) ) {
-						if ( focusedEditable === editable ) {
-							assert.isTrue( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' has focused class' + msg );
-							assert.areSame( editable.enterMode, editor.activeEnterMode, '#' + editable.$.id + '\'s enter mode propagated to editor' );
-							assert.areSame( editable.shiftEnterMode, editor.activeShiftEnterMode, '#' + editable.$.id + '\'s shift enter mode propagated to editor' );
-						} else {
-							assert.isFalse( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' does not have focused class' + msg );
+						while ( ( editable = allEditables.shift() ) ) {
+							if ( focusedEditable === editable ) {
+								assert.isTrue( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' has focused class' + msg );
+								assert.areSame( editable.enterMode, editor.activeEnterMode, '#' + editable.$.id + '\'s enter mode propagated to editor' );
+								assert.areSame( editable.shiftEnterMode, editor.activeShiftEnterMode, '#' + editable.$.id + '\'s shift enter mode propagated to editor' );
+							} else {
+								assert.isFalse( editable.hasClass( 'cke_widget_editable_focused' ), '#' + editable.$.id + ' does not have focused class' + msg );
+							}
 						}
-					}
 
-					if ( CKEDITOR.env.gecko && focusedEditable )
-						assert.isTrue( !!focusedEditable.getBogus(), 'bogus was appended to editable' + msg );
+						if ( CKEDITOR.env.gecko && focusedEditable )
+							assert.isTrue( !!focusedEditable.getBogus(), 'bogus was appended to editable' + msg );
+					}
 				}
-			} );
+			);
 		},
 
 		'test editables\' enter modes propagated to editor': function() {

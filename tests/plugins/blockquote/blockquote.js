@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: blockquote,toolbar */
 
 bender.editor = {
-		config: {
+	config: {
 		enterMode: CKEDITOR.ENTER_P,
 		allowedContent: true
 	}

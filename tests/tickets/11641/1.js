@@ -13,7 +13,7 @@
 			bender.tools.setUpEditors( {
 				classic: {
 					name: 'classic'
-					},
+				},
 				inline: {
 					name: 'inline',
 					creator: 'inline'

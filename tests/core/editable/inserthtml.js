@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit,insertion */
 /* global insertionDT */
+/* jscs:disable validateIndentation */
 
 ( function() {
 	'use strict';

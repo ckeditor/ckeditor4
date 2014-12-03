@@ -1,7 +1,6 @@
 /* bender-tags: editor,unit */
 
-bender.test(
-{
+bender.test( {
 	// Return a set of css files for the specified skin part.
 	cssFileToCheck: function( part ) {
 		var base = CKEDITOR.skin.path();
@@ -60,15 +59,15 @@ bender.test(
 			// Make sure css parts are all loaded.
 			tc.checkPartLoaded( 'editor', function() {
 				resume( function() {
-						// Load one other skin part.
-						skin.loadPart( 'dialog' );
-						tc.checkPartLoaded( 'dialog', function() {
-							// Success, if we reach this point.
-							assert.isTrue( true );
-							resume();
-						} );
-						wait();
+					// Load one other skin part.
+					skin.loadPart( 'dialog' );
+					tc.checkPartLoaded( 'dialog', function() {
+						// Success, if we reach this point.
+						assert.isTrue( true );
+						resume();
 					} );
+					wait();
+				} );
 			} );
 		} );
 

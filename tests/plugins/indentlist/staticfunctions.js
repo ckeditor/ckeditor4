@@ -9,10 +9,12 @@
 	bender.test( {
 		'test firstItemInPath: element direct in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
+					/* jscs:disable validateIndentation */
 					'<ul>',
 						'<li id="one">one</li>',
 						'<li id="two">two</li>',
 					'</ul>'
+					/* jscs:enable validateIndentation */
 				].join( '' ) ),
 				one = root.findOne( '#one' ),
 				two = root.findOne( '#two' ),
@@ -27,10 +29,12 @@
 
 		'test firstItemInPath: element with paragraph in list': function() {
 			var root = CKEDITOR.dom.element.createFromHtml( [
+					/* jscs:disable validateIndentation */
 					'<ul>',
 						'<li><p id="one">one</p></li>',
 						'<li><p id="two">two</p></li>',
 					'</ul>'
+					/* jscs:enable validateIndentation */
 				].join( '' ) ),
 				one = root.findOne( '#one' ),
 				two = root.findOne( '#two' ),

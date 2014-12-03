@@ -18,10 +18,12 @@ bender.test( {
 
 		// Maximize command will take some time.
 		bot.execCommand( 'maximize' );
-		wait( function() {
+		wait(
+			function() {
 				bot.execCommand( 'maximize' );
 				assert.isFalse( focused );
-			}, 0 );
+			}, 0
+		);
 	},
 
 	'test maximize in source mode': function() {
