@@ -11,7 +11,6 @@ CKEDITOR.plugins.add( 'notification', {
 		 * {@link CKEDITOR.plugins.notification.area Notification area} instance.
 		 *
 		 * @member CKEDITOR.editor
-		 * @private
 		 * @property {CKEDITOR.plugins.notification.area} notificationArea
 		 */
 		editor.notificationArea = new CKEDITOR.plugins.notification.area( editor );
