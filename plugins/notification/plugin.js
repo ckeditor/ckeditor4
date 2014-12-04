@@ -403,7 +403,6 @@ notification.prototype = {
 			} else {
 				duration = 5000;
 			}
-
 		}
 
 		if ( duration ) {
@@ -518,7 +517,7 @@ area.prototype = {
 	 * @param {CKEDITOR.plugins.notification} notification Notification to remove.
 	 */
 	remove: function( notification ) {
-		var i = this.notifications.indexOf( notification );
+		var i = CKEDITOR.tools.indexOf( this.notifications, notification );
 
 		if ( i < 0 ) {
 			return;
