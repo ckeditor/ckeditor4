@@ -5,7 +5,6 @@
 'use strict';
 
 var htmlMatchOpts = {
-		compareSelection: false,
 		fixStyles: true
 	};
 

@@ -22,7 +22,7 @@
 								( function( i ) {
 									var action;
 									if ( typeof scenario[ i ] === 'string' ) {
-										action =  function() {
+										action = function() {
 											var evt;
 
 											switch ( scenario[ i ] ) {

@@ -8,7 +8,11 @@
 
 ( function() {
 	var filetools, resumeAfter, lastUploadUrl,
-		loadAndUploadCount = 0;
+		loadAndUploadCount = 0,
+		htmlMatchingOpts = {
+			compareSelection: true,
+			normalizeSelection: true
+		};
 
 	bender.editor = {
 		config: {
@@ -608,7 +612,7 @@
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After undo.' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After undo.' );
 			} );
 		},
 
@@ -657,7 +661,7 @@
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
@@ -694,19 +698,19 @@
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'Before undo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'Before undo' );
 
 				editor.execCommand( 'undo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After undo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After undo' );
 
 				editor.execCommand( 'redo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true }, 'After redo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo' );
 			} );
 		},
 
@@ -745,17 +749,17 @@
 
 				loader.changeStatusAndFire( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
 				editor.execCommand( 'undo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[x@]</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[x@]</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>x^x@</p><p id="p">x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true } );
+				assert.isInnerHtmlMatching( '<p>x^x@</p><p id="p">x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
