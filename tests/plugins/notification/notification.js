@@ -76,6 +76,10 @@ bender.test( {
 		editor.removeListener( 'notificationShow', listener );
 		editor.removeListener( 'notificationUpdate', listener );
 		editor.removeListener( 'notificationHide', listener );
+
+		if ( this.clock ) {
+			this.clock.restore();
+		}
 	},
 
 	'test showNotification info': function() {
@@ -131,17 +135,21 @@ bender.test( {
 
 		assertNotifications( editor, [] );
 
+		this.clock = sinon.useFakeTimers();
+
 		notification.show();
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'info', duration: 100 } ] );
 
-		wait( function() {
-			assertNotifications( editor, [ { message: 'Foo', type: 'info', duration: 100 } ] );
-			editor.fire( 'change' );
-			wait( function() {
-				assertNotifications( editor, [] );
-			}, 110 );
-		}, 110 );
+		this.clock.tick( 110 );
+
+		assertNotifications( editor, [ { message: 'Foo', type: 'info', duration: 100 } ] );
+
+		editor.fire( 'change' );
+
+		this.clock.tick( 110 );
+
+		assertNotifications( editor, [] );
 	},
 
 	'test close after change - warning': function() {
@@ -150,22 +158,60 @@ bender.test( {
 
 		assertNotifications( editor, [] );
 
+		this.clock = sinon.useFakeTimers();
+
 		notification.show();
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 
-		wait( function() {
-			assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
+		this.clock.tick( 110 );
+
+		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
+
+		editor.fire( 'change' );
+
+		this.clock.tick( 110 );
+
+		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
+	},
+
+	'test close after change - default value': function() {
+		var tc = this;
+
+		bender.editorBot.create( {
+			creator: 'inline',
+			name: 'editor_duration',
+			config: {
+				extraPlugins: 'toolbar,undo,notification'
+			}
+		},
+		function( bot ) {
+			var editor = bot.editor,
+				notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
+
+			tc.clock = sinon.useFakeTimers();
+
+			notification.show();
+
 			editor.fire( 'change' );
-			wait( function() {
-				assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
-			}, 110 );
-		}, 110 );
+
+			assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: true } ] );
+
+			tc.clock.tick( 4900 );
+
+			assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: true } ] );
+
+			tc.clock.tick( 5100 );
+
+			assertNotifications( editor, [] );
+		} );
 	},
 
 	'test remove close timeout after update': function() {
 		var editor = this.editor,
 			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo', type: 'info' } );
+
+		this.clock = sinon.useFakeTimers();
 
 		notification.show();
 
@@ -173,9 +219,9 @@ bender.test( {
 
 		notification.update( { type: 'warning' } );
 
-		wait( function() {
-			assertNotifications( editor, [ { message: 'Foo', type: 'warning', alert: false } ] );
-		}, 110 );
+		this.clock.tick( 110 );
+
+		assertNotifications( editor, [ { message: 'Foo', type: 'warning', alert: false } ] );
 	},
 
 	'test close using X': function() {
@@ -197,6 +243,8 @@ bender.test( {
 			doc = new CKEDITOR.dom.document( document ),
 			ariaElement;
 
+		this.clock = sinon.useFakeTimers();
+
 		notification.show();
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
@@ -208,10 +256,10 @@ bender.test( {
 		ariaElement = doc.findOne( 'div[aria-live="assertive"][aria-atomic="true"]' );
 		assert.isObject( ariaElement, 'Aria element should be created.' );
 
-		wait( function() {
-			ariaElement = doc.findOne( 'div[aria-live="assertive"][aria-atomic="true"]' );
-			assert.isNull( ariaElement, 'Aria element should be removed.' );
-		}, 110 );
+		this.clock.tick( 110 );
+
+		ariaElement = doc.findOne( 'div[aria-live="assertive"][aria-atomic="true"]' );
+		assert.isNull( ariaElement, 'Aria element should be removed.' );
 	},
 
 	'test close using ESC (twice)': function() {
