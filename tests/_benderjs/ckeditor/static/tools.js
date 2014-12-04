@@ -1405,7 +1405,7 @@
 		 * @param {Boolean} [options.compareSelection=false] If set to `true` selection markers in `expected` and
 		 * `actual` will be handled in special way. This may conflict with these characters usage in attributes and
 		 * other places where comments are not allowed.
-		 * @param {Boolean} [options.normalizeSelection=true] Whether `{` and `}` should be treated like `[` and `]`
+		 * @param {Boolean} [options.normalizeSelection=false] Whether `{` and `}` should be treated like `[` and `]`
 		 * Additionally, collapsed selection will be replaced with `^`. This options works only if `compareSelection`
 		 * is set to `true`.
 		 */
