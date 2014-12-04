@@ -113,7 +113,7 @@
 						//  </ul>                        =>      </ul>
 
 						if ( firstChild || lastChild )
-							block[ firstChild ? 'insertBefore' : 'insertAfter' ]( blockGrandParent );
+							block[ lastChild ? 'insertAfter' : 'insertBefore' ]( blockGrandParent );
 
 						// If the empty block is neither first nor last child
 						// then split the list and the block as an element
