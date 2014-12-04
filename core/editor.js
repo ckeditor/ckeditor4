@@ -329,20 +329,27 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		editor.readOnly = !!(
-			config.readOnly || (
-				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
-						editor.element.is( 'textarea' ) ?
-								editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' )
-							:
-								editor.element.isReadOnly()
-					:
-						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ?
-								editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' )
-							:
-								false
-			)
-		);
+		editor.readOnly = isEditorReadOnly();
+
+		function isEditorReadOnly() {
+			if ( config.readOnly ) {
+				return true;
+			}
+
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+				if ( editor.element.is( 'textarea' ) ) {
+					return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
+				} else {
+					return editor.element.isReadOnly();
+				}
+			} else {
+				if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+					return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
+				}
+
+				return false;
+			}
+		}
 
 		/**
 		 * Indicates that the editor is running in an environment where
