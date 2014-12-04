@@ -238,6 +238,8 @@
 			 * @param {String} text
 			 */
 			insertText: function( text ) {
+				// Focus the editor before calling transformPlainTextToHtml. (#12726)
+				this.editor.focus();
 				this.insertHtml( this.transformPlainTextToHtml( text ), 'text' );
 			},
 
@@ -283,12 +285,15 @@
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 */
 			insertHtmlIntoSelection: function( data, mode ) {
+				var editor = this.editor;
+
+				editor.focus();
+				editor.fire( 'saveSnapshot' );
+
 				// HTML insertion only considers the first range.
 				// Note: getRanges will be overwritten for tests since we want to test
-				// 		custom ranges and bypass native selections.
-				var range = this.editor.getSelection().getRanges()[ 0 ];
-
-				beforeInsert( this );
+				// custom ranges and bypass native selections.
+				var range = editor.getSelection().getRanges()[ 0 ];
 
 				// Default mode is 'html'.
 				insert( this, mode || 'html', data, range );
@@ -402,11 +407,13 @@
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
 			insertElementIntoSelection: function( element ) {
-				// Prepare for the insertion. For example - focus editor (#11848).
-				beforeInsert( this );
+				var editor = this.editor;
 
-				var editor = this.editor,
-					enterMode = editor.activeEnterMode,
+				// Prepare for the insertion. For example - focus editor (#11848).
+				editor.focus();
+				editor.fire( 'saveSnapshot' );
+
+				var enterMode = editor.activeEnterMode,
 					selection = editor.getSelection(),
 					range = selection.getRanges()[ 0 ],
 					elementName = element.getName(),
@@ -2011,13 +2018,6 @@
 
 		return insert;
 	} )();
-
-	function beforeInsert( editable ) {
-		// TODO: For unknown reason we must call directly on the editable to put the focus immediately.
-		editable.editor.focus();
-
-		editable.editor.fire( 'saveSnapshot' );
-	}
 
 	function afterInsert( editable ) {
 		var editor = editable.editor;
