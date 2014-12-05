@@ -249,6 +249,7 @@
 		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
 		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
 		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
+		'test enter key - single empty list item':		e( 'editor', '<ul><li>foo<ul><li>[]</li></ul></li></ul>', '<ul><li>foo</li><li>^@</li></ul>' ),
 
 		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
 		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),
