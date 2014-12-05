@@ -177,7 +177,7 @@
 	 */
 
 	/**
-	 * Number of loaded bytes. If `FileLoader` was created with data string {@link #loaded} equals {@link #total}.
+	 * Number of loaded bytes. If `FileLoader` was created with data string {@link #propertt-loaded} equals {@link #total}.
 	 *
 	 * @property {Number} loaded
 	 */
