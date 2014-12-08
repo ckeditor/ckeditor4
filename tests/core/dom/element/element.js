@@ -265,20 +265,20 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'C &amp; D', document.getElementById( 'setText' ).innerHTML );
 		},
 
-		test_addClass1: function() {
+		'test addClass - basic case': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass2: function() {
+		'test addClass2 - one class added twice': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classA' );
 			assert.areSame( 'classA', element.$.className );
 		},
 
-		test_addClass3: function() {
+		'test addClass - multiple classes': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -286,7 +286,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_addClass4: function() {
+		'test addClass - multiple classes, multiple duplicates': function() {
 			var element = newElement( 'div' );
 			element.addClass( 'classA' );
 			element.addClass( 'classB' );
@@ -297,7 +297,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 'classA classB classC', element.$.className );
 		},
 
-		test_removeClass1: function() {
+		'test removeClass - basic case': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
@@ -308,7 +308,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass2: function() {
+		'test removeClass - multiple classes': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB classC classD"></div>' );
@@ -325,7 +325,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		test_removeClass3: function() {
+		'test removeClass - case insensitive': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB"></div>' );
