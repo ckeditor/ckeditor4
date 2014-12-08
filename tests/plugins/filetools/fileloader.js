@@ -10,7 +10,6 @@
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
 		testFile, lastFormData;
 
-
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
 

@@ -1,8 +1,7 @@
 /* bender-tags: editor,unit,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-
-/*global pasteFiles */
+/* global pasteFiles */
 
 'use strict';
 
@@ -11,7 +10,6 @@
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		LOADING_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC',
 		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC';
-
 
 	var editorsDefinitions = {
 		classic: {
