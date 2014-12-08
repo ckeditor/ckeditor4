@@ -325,7 +325,7 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div></div>', getInnerHtml( 'removeClass' ) );
 		},
 
-		'test removeClass - case insensitive': function() {
+		'test removeClass - case insensitive, non existing classes': function() {
 			document.getElementById( 'removeClass' ).innerHTML = '';
 
 			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA classB"></div>' );
@@ -338,6 +338,34 @@ bender.test( appendDomObjectTests(
 			assert.areSame( '<div class="classa"></div>', getInnerHtml( 'removeClass' ) );
 			element.removeClass( 'classYYY' );
 			assert.areSame( '<div class="classa"></div>', getInnerHtml( 'removeClass' ) );
+		},
+
+		'test hasClass - parsed element': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div class=" classA\t classB \nclassC\t"></div>' );
+
+			assert.isTrue( element.hasClass( 'classA' ), 'classA' );
+			assert.isTrue( element.hasClass( 'classB' ), 'classB' );
+			assert.isTrue( element.hasClass( 'classC' ), 'classC' );
+			assert.isFalse( element.hasClass( 'class' ), 'class' );
+		},
+
+		'test hasClass - after addClass/removeClass': function() {
+			var element = newElement( 'div' );
+
+			assert.isFalse( element.hasClass( 'classA' ), 'before' );
+
+			element.addClass( 'classA' );
+			assert.isTrue( element.hasClass( 'classA' ), 'after added' );
+
+			element.removeClass( 'classA' );
+			assert.isFalse( element.hasClass( 'classA' ), 'after removed' );
+		},
+
+		'test hasClass - case sensitive': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<div class="classA"></div>' );
+
+			assert.isFalse( element.hasClass( 'classa' ), 'classa' );
+			assert.isFalse( element.hasClass( 'Classa' ), 'classa' );
 		},
 
 		test_removeAttribute1: function() {
