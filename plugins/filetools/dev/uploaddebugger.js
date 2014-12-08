@@ -2,9 +2,12 @@
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 'use strict';
 
-// Slow down upload process.
+// Slow down the upload process.
+// This trick works only on Chrome.
+
 ( function() {
 	XMLHttpRequest.prototype.baseSend = XMLHttpRequest.prototype.send;
 

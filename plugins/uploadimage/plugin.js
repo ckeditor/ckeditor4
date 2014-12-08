@@ -2,15 +2,18 @@
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 'use strict';
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
+
 		init: function( editor ) {
 			var filetools = CKEDITOR.filetools,
 				uploadUrl = filetools.getUploadUrl( editor.config, 'image' );
 
+			// Handle images which are available in the dataTransfer.
 			filetools.addUploadWidget( editor, 'uploadimage', {
 				supportedTypes: /image\/(jpeg|png|gif)/,
 
@@ -39,12 +42,11 @@
 				}
 			} );
 
-			// Handle paste from image or text processors where image is as a src attribute.
+			// Handle images which are not available in the dataTransfer.
+			// This means that we need to read them from the <img src="data:..."> elements.
 			editor.on( 'paste', function( evt ) {
-				var uploads = editor.uploadsRepository,
-					data = evt.data;
-
-				var temp = new CKEDITOR.dom.element( 'div' ),
+				var data = evt.data,
+					temp = new CKEDITOR.dom.element( 'div' ),
 					imgs, img, i;
 
 				temp.appendHtml( data.dataValue );
@@ -57,8 +59,8 @@
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
 
 					// We are not uploading images in non-editable blocs.
-					if ( !img.data( 'cke-upload-id' ) && inEditableBlock( img ) && isDataInSrc ) {
-						var loader = uploads.create( img.getAttribute( 'src' ) );
+					if ( isDataInSrc && !img.data( 'cke-upload-id' ) && inEditableBlock( img ) ) {
+						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
 						filetools.markElement( img, 'uploadimage', loader.id );
@@ -95,7 +97,7 @@
 	 * URL where images should be uploaded.
 	 *
 	 * @since 4.5
-	 * @cfg {String} [imageIploadUrl='' (empty string = disabled)]
+	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
 	 * @member CKEDITOR.config
 	 */
 } )();

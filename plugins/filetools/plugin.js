@@ -633,10 +633,9 @@
 		 * 		CKEDITOR.filetools.isTypeSupported( { type: 'image/png' }, /image\/(png|jpeg)/ ); // true
 		 * 		CKEDITOR.filetools.isTypeSupported( { type: 'image/png' }, /image\/(gif|jpeg)/ ); // false
 		 *
-		 * @member CKEDITOR.filetools
 		 * @param {Blob} file File to check.
 		 * @param {RegExp} [supportedTypes] Regular expression to check MIME type of the file.
-		 * @returns {Boolean} `true` if file is supported.
+		 * @returns {Boolean} `true` if the file type is supported.
 		 */
 		isTypeSupported: function( file, supportedTypes ) {
 			if ( !supportedTypes ) {
