@@ -52,11 +52,12 @@
 
 	UploadsRepository.prototype = {
 		/**
-		 * Creates a {@link CKEDITOR.filetools.FileLoader file loader}, saves it and sets the unique id for it.
+		 * Creates a {@link CKEDITOR.filetools.FileLoader file loader} instance with a unique id.
+		 * The instance can be later retrieved from the repository using the {@link #get} method.
 		 *
-		 * @param {Blob/String} fileOrData @see CKEDITOR.filetools.FileLoader
-		 * @param {String} fileName @see CKEDITOR.filetools.FileLoader
-		 * @returns {CKEDITOR.filetools.FileLoader} Created FileLoader.
+		 * @param {Blob/String} fileOrData See {@link CKEDITOR.filetools.FileLoader}.
+		 * @param {String} fileName See {@link CKEDITOR.filetools.FileLoader}.
+		 * @returns {CKEDITOR.filetools.FileLoader} The created file loader instance.
 		 */
 		create: function( fileOrData, fileName ) {
 			var id = this._.loaders.length,
@@ -69,10 +70,10 @@
 		},
 
 		/**
-		 * Gets a {@link CKEDITOR.filetools.FileLoader file loader} with a given id.
+		 * Gets a {@link CKEDITOR.filetools.FileLoader file loader} instance with a given id.
 		 *
 		 * @param {Number} id File loader id.
-		 * @returns {CKEDITOR.filetools.FileLoader} FileLoader with a given id.
+		 * @returns {CKEDITOR.filetools.FileLoader} File loader instance with a given id.
 		 */
 		get: function( id ) {
 			return this._.loaders[ id ];
@@ -80,11 +81,12 @@
 	};
 
 	/**
-	 * `FileLoader` class is a wrapper which handles two file operations: loading the contents of the file stored on the user's
-	 * device and uploading the file to a server. Note that you do not need to load file to upload it.
+	 * The `FileLoader` class is a wrapper which handles two file operations: loading the contents of the file stored on the user's
+	 * device into the memory and uploading the file to a server.
 	 *
-	 * There are two possible ways to crate `FileLoader`: with file or with data as a Base64 string. Note that if constructor gets
-	 * data as a Base64 string there is no need to load data, they are already loaded.
+	 * There are two possible ways to crate a `FileLoader` instance: with a [Blob](https://developer.mozilla.org/en/docs/Web/API/Blob)
+	 * (e.g. got from the {@link CKEDITOR.plugins.clipboard.dataTransfer#getFile} method) or with a data as a Base64 string.
+	 * Note that if the constructor gets the data as a Base64 string there is no need to load data, they are already loaded.
 	 *
 	 * `FileLoader` is created for a single load and upload process so if you abort the process
 	 * you need to create a new `FileLoader`.
@@ -106,7 +108,7 @@
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the class and sets initial values of all properties.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get language data.
-	 * @param {Blob/String} fileOrData file object of string data encoded with Base64.
+	 * @param {Blob/String} fileOrData A [blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) or a data string encoded with Base64.
 	 * @param {String} [fileName] File name. If not set and the second parameter is a file then its name will be uses.
 	 * If not set and the second parameter is a Base64 data strng, then the file name will be created based on
 	 * the MIME type by replacing '/' with '.', for example for an `image/png` the file name will be `image.png`.
@@ -177,7 +179,8 @@
 	 */
 
 	/**
-	 * Number of loaded bytes. If `FileLoader` was created with data string {@link #propertt-loaded} equals {@link #total}.
+	 * Number of loaded bytes. If `FileLoader` was created with data string,
+	 * then the {@link #property-loaded} value equals the {@link #total} value.
 	 *
 	 * @property {Number} loaded
 	 */

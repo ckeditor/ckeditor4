@@ -2100,11 +2100,12 @@
 		},
 
 		/**
-		 * Copy data from native data transfer to custom array.
-		 * This function is needed, because data from native dataTransfer
-		 * are available only in the event, it is not possible to get them
-		 * after timeout, and clipboard plugin fires paste event after
-		 * a timeout in some cases.
+		 * Copies a data from the native data transfer to a private cache.
+		 * This function is needed because the data from native the data transfer
+		 * is available only by the event. It is not possible to get the data from after a timeout
+		 * but the `clipboard` plugin fires the {@link CKEDITOR.editor#paste} event asynchronously.
+		 * Therefore, this method is executed so the data can be retrieved at any point of the
+		 * pasting process.
 		 */
 		cacheData: function() {
 			if ( !this.$ ) {
@@ -2145,6 +2146,11 @@
 			}
 		},
 
+		/**
+		 * TODO
+		 *
+		 * @returns {TODO}
+		 */
 		getFilesCount: function() {
 			if ( this._.files.length ) {
 				return this._.files.length;
@@ -2157,6 +2163,11 @@
 			return 0;
 		},
 
+		/**
+		 * TODO
+		 *
+		 * @param {TODO} i
+		 */
 		getFile: function( i ) {
 			if ( this._.files.length ) {
 				return this._.files[ i ];
