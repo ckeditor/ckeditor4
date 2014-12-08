@@ -1,6 +1,7 @@
 {
 	"excludeFiles": [
 		".bender/*",
+		"dev/builder/release/*",
 		"lang/*",
 		"node_modules/*",
 		"plugins/*/lib/*",
