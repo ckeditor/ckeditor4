@@ -1121,7 +1121,7 @@
 						children: [ {
 							type: 'text',
 							id: 'txtGenClass',
-							requiredContent: 'img(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
+							requiredContent: 'img[class]',
 							label: editor.lang.common.cssClass,
 							'default': '',
 							setup: function( type, element ) {
