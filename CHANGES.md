@@ -23,6 +23,9 @@ Fixed Issues:
 * [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting single non-editable element using [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting widget with nested editable inside other widget's nested editable.
 * [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify passed array.
 
+Other Changes:
+
+* [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for [`addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
 
 ## CKEditor 4.4.7
 
