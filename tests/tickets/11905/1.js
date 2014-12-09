@@ -1,4 +1,4 @@
-(function () {
+( function() {
 	var destroyBtn = CKEDITOR.document.getById( 'destroy' ),
 		createBtn = CKEDITOR.document.getById( 'create' ),
 		editor1 = null;
@@ -27,7 +27,7 @@
 				editor1.resize( dim.outerWidth, dim.outerHeight );
 			}
 
-			editor1.on( 'resize', function(e) {
+			editor1.on( 'resize', function( e ) {
 				localStorage.setItem( 'dimensions', JSON.stringify( e.data ) );
 			} );
 
@@ -37,4 +37,4 @@
 	}
 
 	createEditor();
-}());
+}() );
