@@ -342,13 +342,11 @@
 				} else {
 					return editor.element.isReadOnly();
 				}
-			} else {
-				if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
-					return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
-				}
-
-				return false;
+			} else if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+				return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
 			}
+
+			return false;
 		}
 
 		/**
