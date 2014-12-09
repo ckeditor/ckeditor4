@@ -59,14 +59,10 @@ bender.test( {
 		this.editor.resize( 200, 400 );
 
 		this.editor.execCommand( 'maximize' );
-		// #12357
-//		assert.areEqual( 2, calls, 'Event should be fired twice till now.' );
 		assert.areEqual( window.innerHeight || document.documentElement.clientHeight, lastResizeData.outerHeight, 'Height should be same as window height.' );
 		assert.areEqual( window.innerWidth || document.documentElement.clientWidth, lastResizeData.outerWidth, 'Width should be same as window height.' );
 
-		// #12357
 		this.editor.execCommand( 'maximize' );
-//		assert.areEqual( 3, calls, 'Event should be fired thrice till now.' );
 		assert.areEqual( 200, lastResizeData.outerWidth, 'Width should be restored.' );
 		assert.areEqual( 400, lastResizeData.outerHeight, 'Height should be restored.' );
 	},
