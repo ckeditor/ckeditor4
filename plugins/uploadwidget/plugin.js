@@ -127,7 +127,13 @@
 							loader = uploads.create( file );
 
 						if ( el ) {
-							loader.loadAndUpload( def.uploadUrl );
+							if ( def.loadingType == 'load' ) {
+								loader.load();
+							} else if ( def.loadingType == 'upload' ) {
+								loader.upload( def.uploadUrl );
+							} else {
+								loader.loadAndUpload( def.uploadUrl );
+							}
 
 							markElement( el, name, loader.id );
 
@@ -256,20 +262,34 @@
 			 * Regular expression to check if the file type is supported by this widget.
 			 * If not defined all files will be handled.
 			 *
-			 * @property {String} supportedTypes
+			 * @property {String} [supportedTypes]
 			 */
 
 			/**
 			 * URL to which the file will be uploaded. It should be taken from configuration using
 			 * {@link CKEDITOR.filetools#getUploadUrl}.
 			 *
-			 * @property {String} uploadUrl
+			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * What type of loading operation should be executed as a result of pasting file. Possible options are:
+			 *
+			 * * 'load' - {@link CKEDITOR.filetools.FileLoader#load} method will be executed, this loading type should
+			 * be used if you want only load file data without uploading it,
+			 * * 'upload' - {@link CKEDITOR.filetools.FileLoader#upload} method will be executed, file will be uploaded,
+			 * without loading it to the memory, this loading type should be used if you want to upload big file,
+			 * otherwise you can meet out of memory error,
+			 * * 'loadAndUpload' - default behavior, {@link CKEDITOR.filetools.FileLoader#loadAndUpload} method will be
+			 * executed, file will be loaded first and uploaded immediately after loading is done.
+			 *
+			 * @property {String} [loadingType=loadAndUpload]
 			 */
 
 			/**
 			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `loading`.
 			 *
-			 * @property {Function} onloading
+			 * @property {Function} [onloading]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -277,7 +297,7 @@
 			/**
 			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `loaded`.
 			 *
-			 * @property {Function} onloaded
+			 * @property {Function} [onloaded]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -285,7 +305,7 @@
 			/**
 			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `uploading`.
 			 *
-			 * @property {Function} onuploading
+			 * @property {Function} [onuploading]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -295,7 +315,7 @@
 			 * At that point upload is done and the uploading widget should we replaced with the final HTML using
 			 * {@link #replaceWith} method.
 			 *
-			 * @property {Function} onuploaded
+			 * @property {Function} [onuploaded]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -304,7 +324,7 @@
 			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `error`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
-			 * @property {Function} onerror
+			 * @property {Function} [onerror]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -313,7 +333,7 @@
 			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `abort`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
-			 * @property {Function} onabort
+			 * @property {Function} [onabort]
 			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */

@@ -7,7 +7,7 @@
 
 ( function() {
 	var filetools, resumeAfter, lastUploadUrl,
-		loadAndUploadCount = 0,
+		loadAndUploadCount, loadCount, uploadCount,
 		htmlMatchingOpts = {
 			compareSelection: true,
 			normalizeSelection: true
@@ -96,9 +96,18 @@
 				lastUploadUrl = url;
 			};
 
-			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
+			CKEDITOR.filetools.FileLoader.prototype.load = function() {
+				loadCount++;
+			};
 
-			CKEDITOR.filetools.FileLoader.prototype.upload = function() {};
+			CKEDITOR.filetools.FileLoader.prototype.upload = function( url ) {
+				uploadCount++;
+				lastUploadUrl = url;
+			};
+
+			loadAndUploadCount = 0;
+			loadCount = 0;
+			uploadCount = 0;
 		},
 
 		'tearDown': function() {
@@ -107,7 +116,6 @@
 
 			// Clear uploads repository.
 			editor.uploadsRepository._.loaders = [];
-			loadAndUploadCount = 0;
 
 			editor.resetUndo();
 		},
@@ -375,6 +383,50 @@
 				bender.tools.getTestPngFile( 'test1.png' ),
 				bender.tools.getTestTxtFile( 'test2.txt' ),
 				bender.tools.getTestPngFile( 'test3.png' ) ] );
+
+			wait();
+		},
+
+		'test loadingType load': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'loadingTypeLoad', {
+				loadingType: 'load',
+
+				fileToElement: function( file ) {
+					return new CKEDITOR.dom.element( 'span' );
+				}
+			} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( 1, loadCount, 'Load should be called.' );
+				assert.areSame( 0, uploadCount, 'Upload should not be called.' );
+				assert.areSame( 0, loadAndUploadCount, 'LoadAndUpload should not be called once.' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test1.png' ) ] );
+
+			wait();
+		},
+
+		'test loadingType upload': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'loadingTypeLoad', {
+				loadingType: 'upload',
+
+				fileToElement: function( file ) {
+					return new CKEDITOR.dom.element( 'span' );
+				}
+			} );
+
+			resumeAfter( editor, 'paste', function( evt ) {
+				assert.areSame( 0, loadCount, 'Load should not be called.' );
+				assert.areSame( 1, uploadCount, 'Upload should be called once.' );
+				assert.areSame( 0, loadAndUploadCount, 'LoadAndUpload should not be called once.' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test1.png' ) ] );
 
 			wait();
 		},
