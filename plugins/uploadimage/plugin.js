@@ -50,6 +50,12 @@
 					return;
 				}
 
+				// For performance reason do not parse data if it does not contain img tag and data attribute.
+				var pastedDataString = evt.data.dataValue.toLowerCase();
+				if ( pastedDataString.indexOf( '<img' ) < 0 || pastedDataString.indexOf( 'data:' ) < 0 ) {
+					return;
+				}
+
 				var data = evt.data,
 					// Prevent XSS attacks.
 					tempDoc = document.implementation.createHTMLDocument(),
