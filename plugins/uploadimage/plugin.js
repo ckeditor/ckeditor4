@@ -62,7 +62,11 @@
 					temp = new CKEDITOR.dom.element( tempDoc.body ),
 					imgs, img, i;
 
+				// Without this isReadOnly will not works properly.
+				temp.data( 'cke-editable', 1 );
+
 				temp.appendHtml( data.dataValue );
+
 				imgs = temp.find( 'img' );
 
 				for ( i = 0; i < imgs.count(); i++ ) {
@@ -72,7 +76,7 @@
 					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
 
 					// We are not uploading images in non-editable blocs.
-					if ( isDataInSrc && !img.data( 'cke-upload-id' ) && inEditableBlock( img ) ) {
+					if ( isDataInSrc && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
 						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
@@ -81,22 +85,6 @@
 				}
 
 				data.dataValue = temp.getHtml();
-
-				// Check if the element is in the editable block. Function assumes that the root block is editable.
-				function inEditableBlock( element ) {
-					while ( element ) {
-						if ( element.data( 'cke-editable' ) )
-							return true;
-						if ( element.getAttribute( 'contentEditable' ) == 'false' )
-							return false;
-						if ( element.getAttribute( 'contentEditable' ) == 'true' )
-							return true;
-
-						element = element.getParent();
-					}
-
-					return true;
-				}
 			} );
 		}
 	} );
