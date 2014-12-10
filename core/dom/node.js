@@ -788,20 +788,20 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		else {
 			// Degrade for old browsers which don't support "isContentEditable", e.g. FF3
 
-			while ( element ) {
-				if ( element.data( 'cke-editable' ) )
-					break;
-
-				if ( element.getAttribute( 'contentEditable' ) == 'false' )
+			while ( elment ) {
+				if ( element.data( 'cke-editable' ) ) {
+					return false;
+				} else if ( element.getAttribute( 'contentEditable' ) == 'false' ) {
 					return true;
-				else if ( element.getAttribute( 'contentEditable' ) == 'true' )
-					break;
+				} else if ( element.getAttribute( 'contentEditable' ) == 'true' ) {
+					return false;
+				}
 
 				element = element.getParent();
 			}
 
 			// Reached the root of DOM tree, no editable found.
-			return !element;
+			return true;
 		}
 	}
 } );
