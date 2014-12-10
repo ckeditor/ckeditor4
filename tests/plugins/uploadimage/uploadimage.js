@@ -407,6 +407,21 @@
 			} );
 
 			wait();
+		},
+
+		'test XSS attack': function() {
+			var editor = editors.inline;
+
+			window.attacked = sinon.spy();
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<img src="x" onerror="window.attacked();">'
+			} );
+
+			wait( function() {
+				assert.areSame( 0, window.attacked.callCount );
+			}, 100 );
 		}
 	};
 

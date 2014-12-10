@@ -45,8 +45,15 @@
 			// Handle images which are not available in the dataTransfer.
 			// This means that we need to read them from the <img src="data:..."> elements.
 			editor.on( 'paste', function( evt ) {
+				// Do not execute this paste lister if it will not be possible to upload file.
+				if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+					return;
+				}
+
 				var data = evt.data,
-					temp = new CKEDITOR.dom.element( 'div' ),
+					// Prevent XSS attacks.
+					tempDoc = document.implementation.createHTMLDocument(),
+					temp = new CKEDITOR.dom.element( tempDoc.body ),
 					imgs, img, i;
 
 				temp.appendHtml( data.dataValue );
