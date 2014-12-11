@@ -372,8 +372,8 @@
 			function( bot ) {
 				bot.dialog( 'image', function( dialog ) {
 					var i = 0,
-						heightInput = dialog.getContentElement( 'info','txtHeight' ),
-						widthInput = dialog.getContentElement( 'info','txtWidth' );
+						heightInput = dialog.getContentElement( 'info', 'txtHeight' ),
+						widthInput = dialog.getContentElement( 'info', 'txtWidth' );
 
 					dialog.setValueOf( 'info', 'txtUrl', imgs[ i ].url );
 					downloadImage( imgs[ i ].url, onDownload );
@@ -383,11 +383,11 @@
 					}
 
 					function onResume() {
-						dialog.getContentElement( 'info','txtHeight' ).getValue();
+						dialog.getContentElement( 'info', 'txtHeight' ).getValue();
 						assert.areSame( '', widthInput.getValue() );
 						assert.areSame( '', heightInput.getValue() );
 
-						if ( i == 0 ) {
+						if ( i === 0 ) {
 							dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
 							downloadImage( imgs[ i ].url, onDownload );
 							wait();
@@ -430,14 +430,14 @@
 
 					function onResume() {
 						resetBtn.fire( 'click' );
-						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info','txtWidth' ).getValue() );
-						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info','txtHeight' ).getValue() );
+						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
 
 						dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
 						downloadImage( imgs[ i ].url, function() {
 							resume( function() {
-								assert.areSame( '', dialog.getContentElement( 'info','txtWidth' ).getValue() );
-								assert.areSame( '', dialog.getContentElement( 'info','txtHeight' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
 							} );
 						} );
 

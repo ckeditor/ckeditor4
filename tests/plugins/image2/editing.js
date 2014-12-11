@@ -109,7 +109,7 @@
 						'Paragraph got split.' );
 				};
 
-			assertWidgetDialog( editorBot, 'image', '', null, null, '<p><span>foo^bar</span></p>', onResume )
+			assertWidgetDialog( editorBot, 'image', '', null, null, '<p><span>foo^bar</span></p>', onResume );
 		},
 
 		/**
@@ -133,8 +133,8 @@
 			function( bot ) {
 				bot.dialog( 'image', function( dialog ) {
 					var i = 0,
-					heightInput = dialog.getContentElement( 'info','height' ),
-					widthInput = dialog.getContentElement( 'info','width' );
+					heightInput = dialog.getContentElement( 'info', 'height' ),
+					widthInput = dialog.getContentElement( 'info', 'width' );
 
 					dialog.setValueOf( 'info', 'src', imgs[ i ].url );
 					downloadImage( imgs[ i ].url, onDownload );
@@ -144,11 +144,11 @@
 					}
 
 					function onResume() {
-						dialog.getContentElement( 'info','height' ).getValue();
+						dialog.getContentElement( 'info', 'height' ).getValue();
 						assert.areSame( '', widthInput.getValue() );
 						assert.areSame( '', heightInput.getValue() );
 
-						if ( i == 0 ) {
+						if ( i === 0 ) {
 							dialog.setValueOf( 'info', 'src', imgs[ ++i ].url );
 							downloadImage( imgs[ i ].url, onDownload );
 							wait();
@@ -192,14 +192,14 @@
 
 					function onResume() {
 						resetBtn.fire( 'click' );
-						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info','width' ).getValue() );
-						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info','height' ).getValue() );
+						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info', 'width' ).getValue() );
+						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info', 'height' ).getValue() );
 
 						dialog.setValueOf( 'info', 'src', imgs[ ++i ].url );
 						downloadImage( imgs[ i ].url, function() {
 							resume( function() {
-								assert.areSame( '', dialog.getContentElement( 'info','width' ).getValue() );
-								assert.areSame( '', dialog.getContentElement( 'info','height' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'width' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'height' ).getValue() );
 							} );
 						} );
 
