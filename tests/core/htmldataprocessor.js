@@ -1061,15 +1061,18 @@
 
 			bogus = '&nbsp;';
 
-			assert.areSame( '<p>' + bogus  + '</p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
+			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
 			assert.areSame( '<div><h1>' + bogus + '</h1></div>', htmlDP.toDataFormat( '<div><h1></h1></div>' ), 'toDF 2' );
 		},
 
 		'test config.fillEmptyBlocks - false': function() {
-			var htmlDP = this.editor4.dataProcessor;
+			var htmlDP = this.editor4.dataProcessor,
+				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
 
-			assert.areSame( '<p></p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
-			assert.areSame( '<div><h1></h1></div>', htmlDP.toHtml( '<div><h1></h1></div>' ), 'toHtml 1' );
+			// Even though filler fillEmptyBlocks is set to false, we should still put bogus to HTML,
+			// which will be displayed in editable. (#12735)
+			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
+			assert.areSame( '<div><h1>' + bogus + '</h1></div>', htmlDP.toHtml( '<div><h1></h1></div>' ), 'toHtml 1' );
 
 			assert.areSame( '<p></p>', htmlDP.toDataFormat( '<p></p>' ), 'toDF 1' );
 			assert.areSame( '<div><h1></h1></div>', htmlDP.toDataFormat( '<div><h1></h1></div>' ), 'toDF 2' );
@@ -1080,7 +1083,7 @@
 				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
 
 			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
-			assert.areSame( '<h1></h1>', htmlDP.toHtml( '<h1></h1>' ), 'toHtml 1' );
+			assert.areSame( '<h1>' + bogus + '</h1>', htmlDP.toHtml( '<h1></h1>' ), 'toHtml 2' );
 
 			bogus = '&nbsp;';
 
