@@ -151,19 +151,20 @@
 					return dialog.lockRatio;
 				};
 
-			var resetSize = function( dialog, widthValue, heightValue ) {
+			var resetSize = function( dialog, emptyValues ) {
 					var oImageOriginal = dialog.originalElement,
-						ready = oImageOriginal.getCustomData( 'isReady' ) == 'true'
+						ready = oImageOriginal.getCustomData( 'isReady' ) == 'true';
 
 					if ( ready ) {
 						var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-							heightField = dialog.getContentElement( 'info', 'txtHeight' );
+							heightField = dialog.getContentElement( 'info', 'txtHeight' ),
+							widthValue, heightValue;
 
-						if ( widthValue == undefined ) {
+						if ( emptyValues ) {
+							widthValue = 0;
+							heightValue = 0;
+						} else {
 							widthValue = oImageOriginal.$.width;
-						}
-
-						if ( heightValue == undefined ) {
 							heightValue = oImageOriginal.$.height;
 						}
 
@@ -220,11 +221,7 @@
 
 					// New image -> new dimensions
 					if ( !this.dontResetSize ) {
-						if ( editor.config.image_emptyDimensionsOnLoad != true ) {
-							resetSize( this );
-						} else {
-							resetSize( this, 0, 0 );
-						}
+						resetSize( this, editor.config.image_emptyDimensionsOnLoad );
 					}
 
 					if ( this.firstLoad ) {
