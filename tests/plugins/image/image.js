@@ -366,7 +366,7 @@
 				name: 'editor_disabled_autodimensions',
 				creator: 'inline',
 				config: {
-					image_emptyDimensionsOnLoad: true
+					image_prefillDimensions: false
 				}
 			},
 			function( bot ) {
@@ -413,7 +413,7 @@
 				name: 'editor_disabled_autodimensions2',
 				creator: 'inline',
 				config: {
-					image_emptyDimensionsOnLoad: true
+					image_prefillDimensions: false
 				}
 			},
 			function( bot ) {

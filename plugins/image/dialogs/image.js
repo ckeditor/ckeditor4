@@ -221,7 +221,7 @@
 
 					// New image -> new dimensions
 					if ( !this.dontResetSize ) {
-						resetSize( this, editor.config.image_emptyDimensionsOnLoad );
+						resetSize( this, editor.config.image_prefillDimensions === false );
 					}
 
 					if ( this.firstLoad ) {

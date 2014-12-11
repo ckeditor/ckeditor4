@@ -127,7 +127,7 @@
 				creator: 'inline',
 				config: {
 					extraPlugins: 'image2',
-					image2_emptyDimensionsOnLoad: true
+					image2_prefillDimensions: false
 				}
 			},
 			function( bot ) {
@@ -175,7 +175,7 @@
 				creator: 'inline',
 				config: {
 					extraPlugins: 'image2',
-					image2_emptyDimensionsOnLoad: true
+					image2_prefillDimensions: false
 				}
 			},
 			function( bot ) {

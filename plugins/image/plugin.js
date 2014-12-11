@@ -156,7 +156,7 @@
 /**
  * Determine whether dimensions inputs should be automatically filled when image src changes in image dialog.
  *
- * @cfg {Boolean} [image_emptyDimensionsOnLoad=false]
+ * @cfg {Boolean} [image_prefillDimensions=true]
  * @member CKEDITOR.config
  * @since 4.5.0
  */

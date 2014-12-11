@@ -1539,7 +1539,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
  *
- * @cfg {Boolean} [image2_emptyDimensionsOnLoad=false]
+ * @cfg {Boolean} [image2_prefillDimensions=true]
  * @member CKEDITOR.config
  * @since 4.5.0
  */
