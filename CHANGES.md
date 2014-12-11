@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.7
 
+Fixed Issues:
+
+* [#12747](http://dev.ckeditor.com/ticket/12747): [IE8-10] Fixed: Opening a drop-down for a specific selection when editor is maximized results in incorrect drop-down panel position.
+
 ## CKEditor 4.4.6
 
 **Security Updates:**
