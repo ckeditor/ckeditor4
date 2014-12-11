@@ -1148,8 +1148,6 @@
 		'<p><img onerror="%xss%" src="produce404" /></p>' );
 
 	// #11635
-
-	bender.test( tcs );
 	addXssTC( tcs, 'video onerror', '<p><video onerror="%xss%">foo</video></p>' );
 	addXssTC( tcs, 'video onerror + src', '<p><video onerror="%xss%" src="produce404">foo</video></p>' );
 	addXssTC( tcs, 'video src + onerror',
@@ -1207,4 +1205,5 @@
 			'<p><onxxx>foo</onxxx>bar</p>' );
 	}
 
+	bender.test( tcs );
 } )();
