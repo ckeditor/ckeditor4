@@ -1401,7 +1401,9 @@
 	CKEDITOR.event.implementOn( Widget.prototype );
 
 	/**
-	 * Gets nested editable if node is its descendant or the editable itself.
+	 * Gets the {@link #isDomNestedEditable nested editable}
+	 * (returned as a {@link CKEDITOR.dom.element}, not {@link CKEDITOR.plugins.widget.nestedEditable})
+	 * closest to the `node` or the `node` if it is a nested editable itself.
 	 *
 	 * @since 4.5.0
 	 * @static
@@ -1420,66 +1422,104 @@
 	};
 
 	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.htmlParser.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isParserWidgetElement = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
-	};
-
-	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.dom.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isDomWidgetElement = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
-	};
-
-	/**
-	 * Whether for this definition and element widget should be created in inline or block mode.
+	 * Checks whether the `node` is a widget's drag handle element.
 	 *
 	 * @since 4.5.0
 	 * @static
-	 * @param {Object} widgetDef
-	 * @param {String} elementName
+	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
 	 */
-	Widget.isWidgetInline = function( widgetDef, elementName ) {
-		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
+	Widget.isDomDragHandler = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-drag-handler' );
 	};
 
 	/**
+	 * Checks whether the `node` is a container of the widget's drag handle element.
+	 *
 	 * @since 4.5.0
 	 * @static
-	 * @param {CKEDITOR.htmlParser.element} element
+	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
 	 */
-	Widget.isParserWidgetWrapper = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-cke-widget-wrapper' ];
+	Widget.isDomDragHandlerContainer = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_widget_drag_handler_container' );
 	};
 
 	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#editables nested editable}.
+	 * Note that this function checks only whether it is the right element, not whether
+	 * the passed `node` is an instance of {@link CKEDITOR.plugins.widget.nestedEditable}.
+	 *
 	 * @since 4.5.0
 	 * @static
-	 * @param {CKEDITOR.dom.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isDomWidgetWrapper = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
-	};
-
-	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.dom.element}
+	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
 	 */
 	Widget.isDomNestedEditable = function( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomWidgetElement = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.element} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomWidgetWrapper = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-wrapper' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isParserWidgetElement = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-widget' ];
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.element} node
+	 * @returns {Boolean}
+	 */
+	Widget.isParserWidgetWrapper = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-cke-widget-wrapper' ];
+	};
+
+	/**
+	 * Checks whether for the given widget definition and element widget should be created in inline or block mode.
+	 *
+	 * See also: {@link CKEDITOR.plugins.widget.definition#inline} and {@link CKEDITOR.plugins.widget#element}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.plugins.widget.definition} widgetDef The widget definition.
+	 * @param {String} elementName The name of the widget element.
+	 * @returns {Boolean}
+	 */
+	Widget.isWidgetInline = function( widgetDef, elementName ) {
+		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
 	};
 
 	/**
@@ -1490,26 +1530,6 @@
 	 */
 	Widget.isDomTemp = function( element ) {
 		return element.hasAttribute( 'data-cke-temp' );
-	};
-
-	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.dom.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isDomDragHandler = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
-	};
-
-	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.dom.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isDomDragHandlerContainer = function( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
 	};
 
 	/**
