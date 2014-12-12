@@ -1403,12 +1403,11 @@
 	/**
 	 * Gets nested editable if node is its descendant or the editable itself.
 	 *
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
 	 * @param {CKEDITOR.dom.node} node Start search from this node.
 	 * @returns {CKEDITOR.dom.element/null} Element or `null` if not found.
-	 * @member CKEDITOR.plugins.widget
-	 * @since 4.5.0
-	 * @static
 	 */
 	Widget.getNestedEditable = function( guard, node ) {
 		if ( !node || node.equals( guard ) )
@@ -1421,22 +1420,20 @@
 	};
 
 	/**
-	 * @param {CKEDITOR.htmlParser.element}
-	 * @returns {boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
 	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.element}
+	 * @returns {Boolean}
 	 */
 	Widget.isParserWidgetElement = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomWidgetElement = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
@@ -1445,78 +1442,71 @@
 	/**
 	 * Whether for this definition and element widget should be created in inline or block mode.
 	 *
+	 * @since 4.5.0
+	 * @static
 	 * @param {Object} widgetDef
 	 * @param {String} elementName
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isWidgetInline = function( widgetDef, elementName ) {
 		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
 	};
 
 	/**
-	 * @param {CKEDITOR.htmlParser.element} element
-	 * @returns {boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
 	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.element} element
+	 * @returns {Boolean}
 	 */
 	Widget.isParserWidgetWrapper = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-cke-widget-wrapper' ];
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomWidgetWrapper = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomNestedEditable = function( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomTemp = function( element ) {
 		return element.hasAttribute( 'data-cke-temp' );
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomDragHandler = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
 	};
 
 	/**
+	 * @since 4.5.0
+	 * @static
 	 * @param {CKEDITOR.dom.element}
 	 * @returns {Boolean}
-	 * @member CKEDITOR.plugins.widget
-	 * @static
-	 * @since 4.5.0
 	 */
 	Widget.isDomDragHandlerContainer = function( element ) {
 		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
