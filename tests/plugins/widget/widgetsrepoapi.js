@@ -18,7 +18,6 @@
 		domWidgetWrapper1 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
 		domWidgetWrapper2 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
 		domNestedEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
-		domTemp = CKEDITOR.dom.element.createFromHtml( '<em data-cke-temp></em>' ),
 		dragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
 		dragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
 
@@ -1588,11 +1587,9 @@
 		'test Widget.is* functions existence': function() {
 			assert.isFunction( Widget.isParserWidgetElement );
 			assert.isFunction( Widget.isDomWidgetElement );
-			assert.isFunction( Widget.isWidgetInline );
 			assert.isFunction( Widget.isParserWidgetWrapper );
 			assert.isFunction( Widget.isDomWidgetWrapper );
 			assert.isFunction( Widget.isDomNestedEditable );
-			assert.isFunction( Widget.isDomTemp );
 			assert.isFunction( Widget.isDomDragHandler );
 			assert.isFunction( Widget.isDomDragHandlerContainer );
 			assert.isFunction( Widget.isParserWidgetElement );
@@ -1610,13 +1607,6 @@
 			assert.isTrue( Widget.isDomWidgetElement( domWidgetElement2 ) );
 		},
 
-		'test Widget.isWidgetInline': function() {
-			assert.isTrue( Widget.isWidgetInline( { inline: true } ) );
-			assert.isFalse( Widget.isWidgetInline( { inline: false } ) );
-			assert.isTrue( Widget.isWidgetInline( {}, 'img' ) );
-			assert.isFalse( Widget.isWidgetInline( {}, 'figure' ) );
-		},
-
 		'test Widget.isParserWidgetWrapper': function() {
 			assert.isFalse( Widget.isParserWidgetWrapper( parserEl1 ) );
 			assert.isTrue( Widget.isParserWidgetWrapper( parserEl4 ) );
@@ -1629,13 +1619,8 @@
 			assert.isTrue( Widget.isDomWidgetWrapper( domWidgetWrapper2 ) );
 		},
 
-		'test Widget.isDomTemp': function() {
-			assert.isFalse( Widget.isDomTemp( domNestedEditable ) );
-			assert.isTrue( Widget.isDomTemp( domTemp ) );
-		},
-
 		'test Widget.isDomDragHandler': function() {
-			assert.isFalse( Widget.isDomDragHandler( domTemp ) );
+			assert.isFalse( Widget.isDomDragHandler( dragHandlerContainer ) );
 			assert.isTrue( Widget.isDomDragHandler( dragHandler ) );
 		},
 

@@ -603,7 +603,7 @@
 				if ( widgetName )
 					element.data( 'widget', widgetName );
 
-				isInline = Widget.isWidgetInline( widgetDef, element.getName() );
+				isInline = isWidgetInline( widgetDef, element.getName() );
 
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline ) );
@@ -630,7 +630,7 @@
 				if ( widgetName )
 					element.attributes[ 'data-widget' ] = widgetName;
 
-				isInline = Widget.isWidgetInline( widgetDef, element.name );
+				isInline = isWidgetInline( widgetDef, element.name );
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
 
@@ -1508,31 +1508,6 @@
 	};
 
 	/**
-	 * Checks whether for the given widget definition and element widget should be created in inline or block mode.
-	 *
-	 * See also: {@link CKEDITOR.plugins.widget.definition#inline} and {@link CKEDITOR.plugins.widget#element}.
-	 *
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.plugins.widget.definition} widgetDef The widget definition.
-	 * @param {String} elementName The name of the widget element.
-	 * @returns {Boolean}
-	 */
-	Widget.isWidgetInline = function( widgetDef, elementName ) {
-		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
-	};
-
-	/**
-	 * @since 4.5.0
-	 * @static
-	 * @param {CKEDITOR.dom.element}
-	 * @returns {Boolean}
-	 */
-	Widget.isDomTemp = function( element ) {
-		return element.hasAttribute( 'data-cke-temp' );
-	};
-
-	/**
 	 * An event fired when a widget is ready (fully initialized). This event is fired after:
 	 *
 	 * * {@link #init} is called,
@@ -1951,7 +1926,7 @@
 				// * it was a nested widget's wrapper which has been detached from DOM,
 				// when nested editable has been initialized (it overwrites its innerHTML
 				// and initializes nested widgets).
-				if ( notYetInitialized && !findParent( wrapper, Widget.isDomTemp ) && editable.contains( wrapper ) ) {
+				if ( notYetInitialized && !findParent( wrapper, isDomTemp ) && editable.contains( wrapper ) ) {
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
@@ -2172,6 +2147,23 @@
 
 		// Finally we can add this element.
 		parent.add( element, index );
+	}
+
+	// Checks whether for the given widget definition and element widget should be created in inline or block mode.
+	//
+	// See also: {@link CKEDITOR.plugins.widget.definition#inline} and {@link CKEDITOR.plugins.widget#element}.
+	//
+	// @param {CKEDITOR.plugins.widget.definition} widgetDef The widget definition.
+	// @param {String} elementName The name of the widget element.
+	// @returns {Boolean}
+	function isWidgetInline( widgetDef, elementName ) {
+		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
+	}
+
+	// @param {CKEDITOR.dom.element}
+	// @returns {Boolean}
+	function isDomTemp( element ) {
+		return element.hasAttribute( 'data-cke-temp' );
 	}
 
 	function onEditableKey( widget, keyCode ) {
