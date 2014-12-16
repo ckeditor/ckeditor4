@@ -1584,17 +1584,6 @@
 			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
 		},
 
-		'test Widget.is* functions existence': function() {
-			assert.isFunction( Widget.isParserWidgetElement );
-			assert.isFunction( Widget.isDomWidgetElement );
-			assert.isFunction( Widget.isParserWidgetWrapper );
-			assert.isFunction( Widget.isDomWidgetWrapper );
-			assert.isFunction( Widget.isDomNestedEditable );
-			assert.isFunction( Widget.isDomDragHandler );
-			assert.isFunction( Widget.isDomDragHandlerContainer );
-			assert.isFunction( Widget.isParserWidgetElement );
-		},
-
 		'test Widget.isParserWidgetElement': function() {
 			assert.isFalse( Widget.isParserWidgetElement( parserEl1 ) );
 			assert.isTrue( Widget.isParserWidgetElement( parserEl2 ) );
