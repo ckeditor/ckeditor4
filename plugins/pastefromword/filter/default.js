@@ -642,29 +642,30 @@
 			// Return `1` is element was moved, `0` otherwise.
 			moveToText: function( element ) {
 				var children = element.children,
-					hasManyChildren = children.length > 1,
-					hasNotTextChild = ( children.length == 1 && children[ 0 ].type != CKEDITOR.NODE_TEXT );
+					isEmpty = !children.length,
+					hasTextOnly = ( children.length == 1 && children[ 0 ].type == CKEDITOR.NODE_TEXT );
 
 				// Do not move elements marked as moved. Otherwise we will have infinite loop if two elements
 				// (<s> and <u>) would try to move.
-				if ( !element._.moved && ( hasManyChildren || hasNotTextChild ) ) {
-					// Wrap every child text node.
-					element.forEach( function( node ) {
-						if ( node.type == CKEDITOR.NODE_TEXT ) {
-
-							var wrapper = new CKEDITOR.htmlParser.element( element.name, element.attributes );
-							wrapper._.moved = 1;
-
-							node.wrapWith( wrapper );
-						}
-					} );
-
-					// Replace element with children.
-					element.name = null;
-					return 1;
-				} else {
+				if ( element._.moved || isEmpty || hasTextOnly ) {
 					return 0;
 				}
+
+				// Wrap every child text node.
+				element.forEach( function( node ) {
+					if ( node.type == CKEDITOR.NODE_TEXT ) {
+
+						var wrapper = new CKEDITOR.htmlParser.element( element.name, element.attributes );
+						wrapper._.moved = 1;
+
+						node.wrapWith( wrapper );
+					}
+				} );
+
+				// Replace element with children.
+				element.name = null;
+
+				return 1;
 			}
 		},
 
