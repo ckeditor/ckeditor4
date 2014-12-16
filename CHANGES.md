@@ -27,6 +27,7 @@ Fixed Issues:
 Other Changes:
 
 * [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for [`addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
+* [#11856](http://dev.ckeditor.com/ticket/11856): jQuery adapter throw an meaningful error if CKEditor or jQuery is not loaded.
 
 ## CKEditor 4.4.7
 
