@@ -117,3 +117,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
+
+.cke_reset_all table{
+	table-layout: auto;
+}
