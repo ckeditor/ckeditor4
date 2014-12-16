@@ -6,20 +6,20 @@
 ( function() {
 	'use strict';
 	var Widget,
-		parserEl1 = new CKEDITOR.htmlParser.element( 'em' ),
-		parserEl2 = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
-		parserEl3 = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
-		parserEl4 = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
-		parserEl5 = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } ),
+		parserEm = new CKEDITOR.htmlParser.element( 'em' ),
+		parserEmDataWidgetTest = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
+		parserEmDataWidgetFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
+		parserElDataWidgetWrapperFalse= new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
+		parserElDataWidgetWrapperTrue = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } ),
 
-		domElement = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
-		domWidgetElement1 = CKEDITOR.dom.element.createFromHtml( '<em data-widget="test" >foo</em>' ),
-		domWidgetElement2 = CKEDITOR.dom.element.createFromHtml( '<em data-widget="false" ></em>' ),
-		domWidgetWrapper1 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
-		domWidgetWrapper2 = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
-		domNestedEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
-		dragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
-		dragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
+		domEm = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
+		domEmDataWidgetTest = CKEDITOR.dom.element.createFromHtml( '<em data-widget="test" >foo</em>' ),
+		domEmDataWidgetFalse = CKEDITOR.dom.element.createFromHtml( '<em data-widget="false" ></em>' ),
+		domEmDataWidgetWrapperFalse = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
+		domEmDataWidgetWrapperTrue = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
+		domEmWidgetEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
+		domEmWidgetDragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
+		domEmWidgetDragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
 
 	bender.editor = {
 		config: {
@@ -1557,9 +1557,9 @@
 			node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
 			assert.isTrue( Widget.isDomNestedEditable( node ) );
 
-			assert.isFalse( Widget.isDomNestedEditable( domElement ) );
-			assert.isFalse( Widget.isDomNestedEditable( domWidgetWrapper1 ) );
-			assert.isTrue( Widget.isDomNestedEditable( domNestedEditable ) );
+			assert.isFalse( Widget.isDomNestedEditable( domEm ) );
+			assert.isFalse( Widget.isDomNestedEditable( domEmDataWidgetWrapperFalse ) );
+			assert.isTrue( Widget.isDomNestedEditable( domEmWidgetEditable ) );
 		},
 
 		'test Widget.getNestedEditable': function() {
@@ -1585,37 +1585,37 @@
 		},
 
 		'test Widget.isParserWidgetElement': function() {
-			assert.isFalse( Widget.isParserWidgetElement( parserEl1 ) );
-			assert.isTrue( Widget.isParserWidgetElement( parserEl2 ) );
-			assert.isFalse( Widget.isParserWidgetElement( parserEl3 ) );
+			assert.isFalse( Widget.isParserWidgetElement( parserEm ) );
+			assert.isTrue( Widget.isParserWidgetElement( parserEmDataWidgetTest ) );
+			assert.isFalse( Widget.isParserWidgetElement( parserEmDataWidgetFalse ) );
 		},
 
 		'test Widget.isDomWidgetElement': function() {
-			assert.isFalse( Widget.isDomWidgetElement( domElement ) );
-			assert.isTrue( Widget.isDomWidgetElement( domWidgetElement1 ) );
-			assert.isTrue( Widget.isDomWidgetElement( domWidgetElement2 ) );
+			assert.isFalse( Widget.isDomWidgetElement( domEm ) );
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetTest ) );
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetFalse ) );
 		},
 
 		'test Widget.isParserWidgetWrapper': function() {
-			assert.isFalse( Widget.isParserWidgetWrapper( parserEl1 ) );
-			assert.isTrue( Widget.isParserWidgetWrapper( parserEl4 ) );
-			assert.isTrue( Widget.isParserWidgetWrapper( parserEl5 ) );
+			assert.isFalse( Widget.isParserWidgetWrapper( parserEm ) );
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperFalse ) );
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperTrue ) );
 		},
 
 		'test Widget.isDomWidgetWrapper': function() {
-			assert.isFalse( Widget.isDomWidgetWrapper( domElement ) );
-			assert.isTrue( Widget.isDomWidgetWrapper( domWidgetWrapper1 ) );
-			assert.isTrue( Widget.isDomWidgetWrapper( domWidgetWrapper2 ) );
+			assert.isFalse( Widget.isDomWidgetWrapper( domEm ) );
+			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperFalse ) );
+			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperTrue ) );
 		},
 
 		'test Widget.isDomDragHandler': function() {
-			assert.isFalse( Widget.isDomDragHandler( dragHandlerContainer ) );
-			assert.isTrue( Widget.isDomDragHandler( dragHandler ) );
+			assert.isFalse( Widget.isDomDragHandler( domEmWidgetDragHandlerContainer ) );
+			assert.isTrue( Widget.isDomDragHandler( domEmWidgetDragHandler ) );
 		},
 
 		'test Widget.isDomDragHandlerContainer': function() {
-			assert.isFalse( Widget.isDomDragHandlerContainer( dragHandler ) );
-			assert.isTrue( Widget.isDomDragHandlerContainer( dragHandlerContainer ) );
+			assert.isFalse( Widget.isDomDragHandlerContainer( domEmWidgetDragHandler ) );
+			assert.isTrue( Widget.isDomDragHandlerContainer( domEmWidgetDragHandlerContainer ) );
 		}
 	} );
 } )();
