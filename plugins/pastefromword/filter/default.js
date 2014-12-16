@@ -636,8 +636,37 @@
 
 			// A filter which will be used to apply inline css style according the stylesheet
 			// definition rules, is generated lazily when filtering.
-			applyStyleFilter: null
+			applyStyleFilter: null,
 
+			// Move element close to the child text elements.
+			// Return `1` is element was moved, `0` otherwise.
+			moveToText: function( element ) {
+				var children = element.children,
+					isEmpty = !children.length,
+					hasTextOnly = ( children.length == 1 && children[ 0 ].type == CKEDITOR.NODE_TEXT );
+
+				// Do not move elements marked as moved. Otherwise we will have infinite loop if two elements
+				// (<s> and <u>) would try to move.
+				if ( element._.moved || isEmpty || hasTextOnly ) {
+					return 0;
+				}
+
+				// Wrap every child text node.
+				element.forEach( function( node ) {
+					if ( node.type == CKEDITOR.NODE_TEXT ) {
+
+						var wrapper = new CKEDITOR.htmlParser.element( element.name, element.attributes );
+						wrapper._.moved = 1;
+
+						node.wrapWith( wrapper );
+					}
+				} );
+
+				// Replace element with children.
+				element.name = null;
+
+				return 1;
+			}
 		},
 
 		getRules: function( editor, filter ) {
@@ -652,6 +681,7 @@
 				createListBulletMarker = this.utils.createListBulletMarker,
 				flattenList = filters.flattenList,
 				assembleList = filters.assembleList,
+				moveToText = filters.moveToText,
 				isListBulletIndicator = this.utils.isListBulletIndicator,
 				containsNothingButSpaces = this.utils.isContainingOnlySpaces,
 				resolveListItem = this.utils.resolveList,
@@ -817,7 +847,7 @@
 							delete element.name;
 							element.add( new CKEDITOR.htmlParser.element( 'br' ) );
 						} else {
-							elementMigrateFilter( config['format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' )] )( element );
+							elementMigrateFilter( config[ 'format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ] )( element );
 						}
 					},
 
@@ -957,10 +987,21 @@
 					// Migrate basic style formats to editor configured ones.
 					b: elementMigrateFilter( config.coreStyles_bold ),
 					i: elementMigrateFilter( config.coreStyles_italic ),
-					u: elementMigrateFilter( config.coreStyles_underline ),
-					s: elementMigrateFilter( config.coreStyles_strike ),
 					sup: elementMigrateFilter( config.coreStyles_superscript ),
 					sub: elementMigrateFilter( config.coreStyles_subscript ),
+
+					// Move <s> and <u> close to the text elements so other styles (like color) will be applied also
+					// on underline and strike. Call `elementMigrateFilter` on elements which were not moved (#12750).
+					s: function( element ) {
+							if ( !moveToText( element ) ) {
+								elementMigrateFilter( config.coreStyles_strike )( element );
+							}
+						},
+					u: function( element ) {
+							if ( !moveToText( element ) ) {
+								elementMigrateFilter( config.coreStyles_underline )( element );
+							}
+						},
 
 					// Remove full paths from links to anchors.
 					a: function( element ) {

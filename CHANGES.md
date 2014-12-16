@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#12747](http://dev.ckeditor.com/ticket/12747): [IE8-10] Fixed: Opening a drop-down for a specific selection when editor is maximized results in incorrect drop-down panel position.
 * [#12735](http://dev.ckeditor.com/ticket/12735): Fixed: [`Config.fillEmptyBlocks`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fillEmptyBlocks) should only apply when outputting data.
+* [#12750](http://dev.ckeditor.com/ticket/12750): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword): strikethrough and underscore should have the same color as font.
 
 ## CKEditor 4.4.6
 
@@ -75,7 +76,7 @@ Fixed Issues:
 Fixed Issues:
 
 * [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of [UI Color](http://ckeditor.com/addon/uicolor) YUI styles. Thanks to [CasherWest](https://github.com/CasherWest)!
-* [#12263](http://dev.ckeditor.com/ticket/12263): Fixed: [Paste from Word]((http://ckeditor.com/addon/pastefromword)) filter does not properly normalize semicolons style text. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
+* [#12263](http://dev.ckeditor.com/ticket/12263): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) filter does not properly normalize semicolons style text. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#12243](http://dev.ckeditor.com/ticket/12243): Fixed: Text formatting lost when pasting from Word. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
 * [#111739](http://dev.ckeditor.com/ticket/11739): Fixed: `keypress` listeners should not be used in the undo manager. A complete rewrite of keyboard handling in the undo manager was made. Numerous smaller issues were fixed, among others:
   * [#10926](http://dev.ckeditor.com/ticket/10926): [Chrome@Android] Fixed: Typing does not record snapshots and does not fire the [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
