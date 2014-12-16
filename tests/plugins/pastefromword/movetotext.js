@@ -89,25 +89,25 @@
 			'test strike, color, font, size, bold': createPasteTest(
 				editors.classic,
 				// Input
-				'<p class="MsoNormal"><b><s><span style="font-size:20.0pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor:red">foo<o:p></o:p></span></s></b></p>',
+				'<p class="MsoNormal"><b><s><span style="font-size:22.2pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor:red">foo<o:p></o:p></span></s></b></p>',
 				// Output
-				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:20.0pt;"><s>foo</s></span></span></span></strong></p>'
+				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:22.2pt;"><s>foo</s></span></span></span></strong></p>'
 			),
 
 			'test underline, color, font, size, bold': createPasteTest(
 				editors.classic,
 				// Input
-				'<p class="MsoNormal"><b><u><span style="font-size:20.0pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor: red">foo<o:p></o:p></span></u></b></p>',
+				'<p class="MsoNormal"><b><u><span style="font-size:22.2pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor: red">foo<o:p></o:p></span></u></b></p>',
 				// Output
-				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:20.0pt;"><u>foo</u></span></span></span></strong></p>'
+				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:22.2pt;"><u>foo</u></span></span></span></strong></p>'
 			),
 
 			'test strike, underline, color, font, size, bold': createPasteTest(
 				editors.classic,
 				// Input
-				'<p class="MsoNormal"><b><s><u><span style="font-size:20.0pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor: red">foo<o:p></o:p></span></u></s></b></p>',
+				'<p class="MsoNormal"><b><s><u><span style="font-size:22.2pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor: red">foo<o:p></o:p></span></u></s></b></p>',
 				// Output
-				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:20.0pt;"><s><u>foo</u></s></span></span></span></strong></p>'
+				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:22.2pt;"><s><u>foo</u></s></span></span></span></strong></p>'
 			),
 
 			'test empty paragraph end, strike, underline, color': createPasteTest(
@@ -135,9 +135,9 @@
 			'test two colors, strike, underline': createPasteTest(
 				editors.classic,
 				// Input
-				'<p class="MsoNormal"><s><u><span style="color:red">Foo </span><span style="color:#92D050">bar</span><span style="color:red"><o:p></o:p></span></u></s></p>',
+				'<p class="MsoNormal"><s><u><span style="color:red">Foo </span><span style="color:green">bar</span><span style="color:red"><o:p></o:p></span></u></s></p>',
 				// Output
-				'<p><span style="color:red;"><s><u>Foo </u></s></span><span style="color:#92D050;"><s><u>bar</u></s></span><span style="color:red;"></span></p>'
+				'<p><span style="color:red;"><s><u>Foo </u></s></span><span style="color:green;"><s><u>bar</u></s></span><span style="color:red;"></span></p>'
 			),
 
 			'test customStyle, strike': createPasteTest(
@@ -175,9 +175,9 @@
 			'test customStyle, strike, underline, color, font, size, bold': createPasteTest(
 				editors.customStyle,
 				// Input
-				'<p class="MsoNormal"><b><s><u><span style="font-size:20.0pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor:red">foo<o:p></o:p></span></u></s></b></p>',
+				'<p class="MsoNormal"><b><s><u><span style="font-size:22.2pt;line-height:107%;font-family:&quot;Comic Sans MS&quot;;\ncolor:red">foo<o:p></o:p></span></u></s></b></p>',
 				// Output
-				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:20.0pt;"><sub><sup>foo</sup></sub></span></span></span></strong></p>'
+				'<p><strong><span style="color:red;"><span style="font-family:comic sans ms;"><span style="font-size:22.2pt;"><sub><sup>foo</sup></sub></span></span></span></strong></p>'
 			)
 		} );
 	} );
