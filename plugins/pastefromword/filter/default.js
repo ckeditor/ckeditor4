@@ -647,13 +647,13 @@
 
 				// Do not move elements marked as moved. Otherwise we will have infinite loop if two elements
 				// (<s> and <u>) would try to move.
-				if ( !element.moved && ( hasManyChildren || hasNotTextChild ) ) {
+				if ( !element._.moved && ( hasManyChildren || hasNotTextChild ) ) {
 					// Wrap every child text node.
 					element.forEach( function( node ) {
 						if ( node.type == CKEDITOR.NODE_TEXT ) {
 
 							var wrapper = new CKEDITOR.htmlParser.element( element.name, element.attributes );
-							wrapper.moved = 1;
+							wrapper._.moved = 1;
 
 							node.wrapWith( wrapper );
 						}
