@@ -1398,7 +1398,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				y = 0,
 				doc = this.getDocument(),
 				body = doc.getBody(),
-				quirks = doc.$.compatMode == 'BackCompat';
+				quirks = CKEDITOR.env.quirks;
 
 			if ( document.documentElement.getBoundingClientRect ) {
 				var box = this.$.getBoundingClientRect(),
@@ -1424,11 +1424,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					needAdjustScrollAndBorders = ( quirks && inBody ) || ( !quirks && inDocElem );
 				}
 
+				// #12747.
+				// See #12758 to know more about document.(documentElement|body).scroll(Left|Top) in Webkit.
 				if ( needAdjustScrollAndBorders ) {
-					x = box.left + ( quirks ? body.$.scrollLeft : $docElem.scrollLeft );
-					x -= clientLeft;
-					y = box.top + ( quirks ? body.$.scrollTop : $docElem.scrollTop );
-					y -= clientTop;
+					var scrollRelativeElement = quirks || CKEDITOR.env.webkit ? body.$ : $docElem;
+
+					x = box.left + scrollRelativeElement.scrollLeft - clientLeft;
+					y = box.top + scrollRelativeElement.scrollTop - clientTop;
 				}
 			} else {
 				var current = this,
