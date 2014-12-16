@@ -539,6 +539,18 @@ bender.test( appendDomObjectTests(
 			wait();
 		},
 
+		'test getDocumentPosition with document scrolled': function() {
+			var scrolledElement = CKEDITOR.document.findOne( '#scrolled' );
+
+			// Scroll the window.
+			scrolledElement.focus();
+
+			var scrolledElementPosition = scrolledElement.getDocumentPosition();
+
+			assert.areSame( 3500, scrolledElementPosition.x, 'Horizontal position read correctly.' );
+			assert.areSame( 3000, scrolledElementPosition.y, 'Vertical position read correctly.' );
+		},
+
 		// Test get last non-spaces child node.
 		test_getLast: function() {
 			var element = newElement( document.getElementById( 'append' ) );
