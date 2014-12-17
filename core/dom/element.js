@@ -1453,9 +1453,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				}
 
 				if ( needAdjustScrollAndBorders ) {
-					x = box.left + ( !quirks && $docElem.scrollLeft || body.$.scrollLeft );
+					x = box.left + ( quirks ? body.$.scrollLeft : $docElem.scrollLeft );
 					x -= clientLeft;
-					y = box.top + ( !quirks && $docElem.scrollTop || body.$.scrollTop );
+					y = box.top + ( quirks ? body.$.scrollTop : $docElem.scrollTop );
 					y -= clientTop;
 				}
 			} else {

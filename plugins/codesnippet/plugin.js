@@ -25,6 +25,12 @@
 			 * Sets the custom syntax highlighter. See {@link CKEDITOR.plugins.codesnippet.highlighter}
 			 * to learn how to register a custom highlighter.
 			 *
+			 * **Note**:
+			 *
+			 * * This method can only be called while initialisating plugins (in one of
+			 * the three callbacks).
+			 * * This method is accessible through `editor.plugins.codesnippet` namespace only.
+			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
 			 * @param {CKEDITOR.plugins.codesnippet.highlighter} highlighter

@@ -328,9 +328,11 @@
 
 				cleanBogus( block );
 
-				var shouldFillBlock = typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) : fillEmptyBlock;
+				// Add fillers to input (always) and to output (if fillEmptyBlock is ok with that).
+				var shouldFillBlock = !isOutput ||
+					( typeof fillEmptyBlock == 'function' ? fillEmptyBlock( block ) : fillEmptyBlock ) !== false;
 
-				if ( shouldFillBlock !== false && isEmptyBlockNeedFiller( block ) ) {
+				if ( shouldFillBlock && isEmptyBlockNeedFiller( block ) ) {
 					block.add( createFiller( isOutput ) );
 				}
 			};

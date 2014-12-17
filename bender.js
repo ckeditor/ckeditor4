@@ -17,6 +17,7 @@ var config = {
 
 	plugins: [
 		'benderjs-yui',
+		'benderjs-sinon',
 		'benderjs-jquery',
 		'tests/_benderjs/ckeditor'
 	],
