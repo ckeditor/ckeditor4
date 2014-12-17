@@ -76,6 +76,8 @@
 						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) // jshint ignore:line
 							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
 
+						// Reset forceFromWord.
+						forceFromWord = 0;
 					} );
 
 					// The cleanup rules are to be loaded, we should just cancel

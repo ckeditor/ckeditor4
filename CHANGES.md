@@ -8,6 +8,7 @@ Fixed Issues:
 * [#12747](http://dev.ckeditor.com/ticket/12747): [IE8-10] Fixed: Opening a drop-down for a specific selection when editor is maximized results in incorrect drop-down panel position.
 * [#12735](http://dev.ckeditor.com/ticket/12735): Fixed: [`Config.fillEmptyBlocks`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fillEmptyBlocks) should only apply when outputting data.
 * [#12750](http://dev.ckeditor.com/ticket/12750): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword): strikethrough and underscore should have the same color as font.
+* [#10032](http://dev.ckeditor.com/ticket/10032): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) filter is executed for every paste after using the button.
 
 ## CKEditor 4.4.6
 
