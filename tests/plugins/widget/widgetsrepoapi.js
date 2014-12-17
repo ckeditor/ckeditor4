@@ -1584,37 +1584,66 @@
 			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
 		},
 
-		'test Widget.isParserWidgetElement': function() {
+		'test Widget.isParserWidgetElement - <em></em>': function() {
 			assert.isFalse( Widget.isParserWidgetElement( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="test"></em>': function() {
 			assert.isTrue( Widget.isParserWidgetElement( parserEmDataWidgetTest ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="false"></em>': function() {
 			assert.isFalse( Widget.isParserWidgetElement( parserEmDataWidgetFalse ) );
 		},
 
-		'test Widget.isDomWidgetElement': function() {
+		'test Widget.isDomWidgetElement - <em></em>': function() {
 			assert.isFalse( Widget.isDomWidgetElement( domEm ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="test"></em>': function() {
 			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetTest ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="false"></em>': function() {
 			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetFalse ) );
 		},
 
-		'test Widget.isParserWidgetWrapper': function() {
+		'test Widget.isParserWidgetWrapper - <em></em>': function() {
 			assert.isFalse( Widget.isParserWidgetWrapper( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="false"></em>': function() {
 			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="true"></em>': function() {
 			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperTrue ) );
 		},
 
-		'test Widget.isDomWidgetWrapper': function() {
+		'test Widget.isDomWidgetWrapper - <em></em>': function() {
 			assert.isFalse( Widget.isDomWidgetWrapper( domEm ) );
+		},
+
+		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="false" ></em>': function() {
 			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperFalse ) );
+		},
+		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="true" ></em>': function() {
 			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperTrue ) );
 		},
 
-		'test Widget.isDomDragHandler': function() {
+		'test Widget.isDomDragHandler - <em class="cke_widget_drag_handler_container"></em>': function() {
 			assert.isFalse( Widget.isDomDragHandler( domEmWidgetDragHandlerContainer ) );
+		},
+
+		'test Widget.isDomDragHandler - <em data-cke-widget-drag-handler></em>': function() {
 			assert.isTrue( Widget.isDomDragHandler( domEmWidgetDragHandler ) );
 		},
 
-		'test Widget.isDomDragHandlerContainer': function() {
+		'test Widget.isDomDragHandlerContainer - <em data-cke-widget-drag-handler></em>': function() {
 			assert.isFalse( Widget.isDomDragHandlerContainer( domEmWidgetDragHandler ) );
+		},
+
+		'test Widget.isDomDragHandlerContainer - <em class="cke_widget_drag_handler_container"></em>': function() {
 			assert.isTrue( Widget.isDomDragHandlerContainer( domEmWidgetDragHandlerContainer ) );
 		}
 	} );
