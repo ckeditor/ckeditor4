@@ -1624,9 +1624,6 @@
 			assert.isFalse( Widget.isDomWidgetWrapper( domEm ) );
 		},
 
-		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="false" ></em>': function() {
-			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperFalse ) );
-		},
 		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="true" ></em>': function() {
 			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperTrue ) );
 		},
