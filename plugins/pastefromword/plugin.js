@@ -65,7 +65,6 @@
 
 				// MS-WORD format sniffing.
 				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
-					forceFromWord = 0;
 					// If filter rules aren't loaded then cancel 'paste' event,
 					// load them and when they'll get loaded fire new paste event
 					// for which data will be filtered in second execution of
@@ -77,6 +76,8 @@
 						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) // jshint ignore:line
 							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
 
+						// Reset forceFromWord.
+						forceFromWord = 0;
 					} );
 
 					// The cleanup rules are to be loaded, we should just cancel
