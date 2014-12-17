@@ -3,8 +3,39 @@
 'use strict';
 
 module.exports = function( grunt ) {
+	// First register the "default" task, so it can be analyzed by other tasks.
+	grunt.registerTask( 'default', [ 'jshint:git', 'jscs:git' ] );
+
+	// Files that will be ignored by the "jscs" and "jshint" tasks.
+	var ignoreFiles = [
+		// Automatically loaded from .gitignore. Add more if necessary.
+
+		'lang/**',
+		'plugins/*/lib/**',
+		'plugins/**/lang/**',
+		'plugins/uicolor/yui/**',
+		'plugins/htmlwriter/samples/assets/outputforflash/**',
+		'tests/adapters/jquery/_assets/**',
+		'tests/core/dom/_assets/**',
+		'tests/core/selection/_helpers/rangy.js',
+		'tests/plugins/mathjax/_assets/truncated-mathjax/**'
+	];
+
+	// Basic configuration which will be overloaded by the tasks.
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
+
+		jshint: {
+			options: {
+				ignores: ignoreFiles
+			}
+		},
+
+		jscs: {
+			options: {
+				excludeFiles: ignoreFiles
+			}
+		},
 
 		plugin: {
 			externalDir: '../ckeditor-plugins/',
@@ -45,7 +76,9 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
+	// Finally load the tasks.
 	grunt.loadTasks( 'dev/tasks' );
+
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 	grunt.registerTask( 'images', 'Optimizes images which are not processed later by the CKBuilder (i.e. icons).', [ 'imagemin' ] );
 };

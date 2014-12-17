@@ -1,14 +1,17 @@
 *			text=auto
 
-*.cgi		eol=lf
-*.css		text
 *.htaccess	eol=lf
+*.cgi		eol=lf
+*.sh		eol=lf
+
+*.css		text
 *.htm		text
 *.html		text
 *.js		text
+*.json		text
 *.php		text
-*.sh		eol=lf
 *.txt		text
+*.md		text
 
 *.png		-text
 *.gif		-text
