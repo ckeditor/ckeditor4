@@ -311,7 +311,7 @@
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnashot save undo snapshots}.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots}.
 			 *
 			 * @since 4.5
 			 * @param {String} data HTML code to be inserted into the editor.
@@ -345,7 +345,7 @@
 			/**
 			 * Inserts an element into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnashot save undo snapshots}.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots}.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
