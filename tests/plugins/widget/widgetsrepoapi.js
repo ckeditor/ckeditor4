@@ -1547,18 +1547,30 @@
 			} );
 		},
 
-		'test Widget.isDomNestedEditable': function() {
+		'test Widget.isDomNestedEditable - hello': function() {
 			var node = CKEDITOR.dom.element.createFromHtml( 'hello' );
 			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
 
-			node = CKEDITOR.dom.element.createFromHtml( '<p>hello</p>' );
+		'test Widget.isDomNestedEditable - <p>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p>hello</p>' );
 			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
 
-			node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
+		'test Widget.isDomNestedEditable - <p data-cke-widget-editable>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
 			assert.isTrue( Widget.isDomNestedEditable( node ) );
+		},
 
+		'test Widget.isDomNestedEditable - <em></em>': function() {
 			assert.isFalse( Widget.isDomNestedEditable( domEm ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-wrapper="false" ></em>': function() {
 			assert.isFalse( Widget.isDomNestedEditable( domEmDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-editable ></em>': function() {
 			assert.isTrue( Widget.isDomNestedEditable( domEmWidgetEditable ) );
 		},
 
