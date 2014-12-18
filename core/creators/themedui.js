@@ -217,9 +217,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.ui.space( 'contents' ).setHtml( '' );
 
 			editor.mode = '';
-		} else {
+		} else
 			editor._.previousModeData = editor.getData( 1 );
-		}
 
 		// Fire the mode handler.
 		this._.modes[ newMode ]( function() {
@@ -287,15 +286,24 @@ CKEDITOR.replaceClass = 'ckeditor';
 		contentsFrame && ( contentsFrame.style.width = '1%' );
 
 		// Get the height delta between the outer table and the content area.
+		var contentsOuterDelta = ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 ),
+
 		// If we're setting the content area's height, then we don't need the delta.
-		var delta = isContentHeight ? 0 : ( outer.$.offsetHeight || 0 ) - ( contents.$.clientHeight || 0 );
-		contents.setStyle( 'height', Math.max( height - delta, 0 ) + 'px' );
+			resultContentsHeight = Math.max( height - ( isContentHeight ? 0 : contentsOuterDelta ), 0 ),
+			resultOuterHeight = ( isContentHeight ? height + contentsOuterDelta : height );
+
+		contents.setStyle( 'height', resultContentsHeight + 'px' );
 
 		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (#8348)
 		contentsFrame && ( contentsFrame.style.width = '100%' );
 
 		// Emit a resize event.
-		this.fire( 'resize' );
+		this.fire( 'resize', {
+			outerHeight: resultOuterHeight,
+			contentsHeight: resultContentsHeight,
+			// Sometimes width is not provided.
+			outerWidth: width || outer.getSize( 'width' )
+		} );
 	};
 
 	/**
@@ -419,9 +427,8 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
 			container.insertAfter( element );
-		} else {
+		} else
 			element.append( container );
-		}
 
 		editor.container = container;
 
@@ -482,6 +489,10 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  * @event resize
  * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Object} data Available since CKEditor 4.5.0.
+ * @param {Number} data.outerHeight Entire height area, which the editor covers.
+ * @param {Number} data.contentsHeight Editable area height in pixels.
+ * @param {Number} data.outerWidth Entire width area, which the editor covers.
  */
 
 /**
