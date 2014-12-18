@@ -9,7 +9,7 @@
 		parserEm = new CKEDITOR.htmlParser.element( 'em' ),
 		parserEmDataWidgetTest = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
 		parserEmDataWidgetFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
-		parserElDataWidgetWrapperFalse= new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
+		parserElDataWidgetWrapperFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
 		parserElDataWidgetWrapperTrue = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } ),
 
 		domEm = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
