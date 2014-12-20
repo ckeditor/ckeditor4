@@ -59,8 +59,9 @@
 			win: editor.window
 		}, def, true );
 
-		this.frame = this.win.getFrame();
 		this.inline = this.editable.isInline();
+		if ( !this.inline )
+			this.frame = this.win.getFrame();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
 
