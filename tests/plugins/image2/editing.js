@@ -24,7 +24,8 @@
 		imgs = [
 			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
 			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' }
-		];
+		],
+		downloadImage = bender.tools.downloadImage;
 
 	function assertDialogFields( dialog, data ) {
 		for ( var i in data )
@@ -213,17 +214,4 @@
 			} );
 		}
 	} );
-
-	function downloadImage( src, cb ) {
-		var img = new CKEDITOR.dom.element( 'img' );
-
-		img.once( 'load', onDone );
-		img.once( 'error', onDone );
-
-		function onDone() {
-			setTimeout( cb, 10 );
-		}
-
-		img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
-	}
 } )();

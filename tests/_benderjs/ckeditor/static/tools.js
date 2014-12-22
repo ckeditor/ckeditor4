@@ -990,8 +990,37 @@
 			}
 
 			return outputTests;
-		}
+		},
 
+		/**
+		 * Downloads image and call callback after that.
+		 *
+		 * @param {String} src Image source.
+		 * @param {Function} callback Callback function with image (CKEDITOR.dom.element)
+		 * or `null` in case of error or abort.
+		 */
+		downloadImage: function( src, callback ) {
+			var img = new CKEDITOR.dom.element( 'img' );
+
+			img.once( 'load', function() {
+				// Because this function may be used to wait until editor download image, the callback in
+				// this test helper must be called later then editors.
+				setTimeout( function() {
+					callback( img );
+				}, 10 );
+			} );
+
+			img.once( 'error', function() {
+				callback( null );
+			} );
+
+			img.once( 'abort', function() {
+				callback( null );
+			} );
+
+			// Add random string to be sure that the image will be downloaded, not taken from cache.
+			img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
+		}
 	};
 
 	bender.tools.range = {
