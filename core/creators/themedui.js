@@ -217,8 +217,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.ui.space( 'contents' ).setHtml( '' );
 
 			editor.mode = '';
-		} else
+		} else {
 			editor._.previousModeData = editor.getData( 1 );
+		}
 
 		// Fire the mode handler.
 		this._.modes[ newMode ]( function() {
@@ -427,8 +428,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
 			container.insertAfter( element );
-		} else
+		} else {
 			element.append( container );
+		}
 
 		editor.container = container;
 

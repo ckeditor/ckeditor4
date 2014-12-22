@@ -17,8 +17,8 @@
 			var editor = this.editor,
 			lastResizeData = 0;
 
-			editor.on( 'resize', function(e) {
-				lastResizeData = e.data;
+			editor.on( 'resize', function( evt ) {
+				lastResizeData = evt.data;
 			} );
 
 			editor.resize( 100, 400 );
@@ -33,5 +33,5 @@
 			assert.areSame( 400, lastResizeData.contentsHeight, 'Content height should be same as passed one in 2nd argument.' );
 			assert.areSame( 400, getEditorContentHeight( editor ), 'Content height should be properly set.' );
 		}
-	} )
+	} );
 } )();
