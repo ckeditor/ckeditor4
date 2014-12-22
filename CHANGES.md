@@ -16,6 +16,7 @@ New Features:
 * [#12448](http://dev.ckeditor.com/ticket/12448): Set of new methods, params and events giving the developer more control over HTML insertion. See the [`editable.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtml) param `range`, the [`editable.insertHtmlIntoRange()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtmlIntoRange) method and the [`editor.afterInsertHtml`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-afterInsertHtml) event.
 * [#12036](http://dev.ckeditor.com/ticket/12036): Initialize editor in [`readOnly`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode when `<textarea>` has `readonly` attribute.
 * [#11905](http://dev.ckeditor.com/ticket/11905): [`resize` event](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-event-resize) pass dimensions in data.
+* [#12126](http://dev.ckeditor.com/ticket/12126): Introduced [`image_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image_prefillDimensions) and [`image2_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_prefillDimensions) to make pre-filling 'width' and 'height' configurable.
 
 Fixed Issues:
 
