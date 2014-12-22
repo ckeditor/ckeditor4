@@ -789,7 +789,7 @@
 				// 		</p>
 				// 	</div>
 				if ( hasCaption ) {
-					wrapper.addClass( alignClasses[1] );
+					wrapper.addClass( alignClasses[ 1 ] );
 				}
 			} else if ( align != 'none' ) {
 				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
@@ -871,7 +871,7 @@
 
 				// Upcast linked image like <a><img/></a>.
 			} else if ( isLinkedOrStandaloneImage( el ) ) {
-				image = el.name == 'a' ? el.children[0] : el;
+				image = el.name == 'a' ? el.children[ 0 ] : el;
 			}
 
 			if ( !image )
