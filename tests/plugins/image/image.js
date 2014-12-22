@@ -486,7 +486,7 @@
 			setTimeout( cb, 0 );
 		}
 
-		img.setAttribute( 'src', src );
+		img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 	}
 
 } )();

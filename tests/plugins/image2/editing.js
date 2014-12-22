@@ -152,6 +152,8 @@
 							dialog.setValueOf( 'info', 'src', imgs[ ++i ].url );
 							downloadImage( imgs[ i ].url, onDownload );
 							wait();
+						} else {
+							dialog.hide();
 						}
 					}
 
@@ -222,6 +224,6 @@
 			setTimeout( cb, 10 );
 		}
 
-		img.setAttribute( 'src', src );
+		img.setAttribute( 'src', src + '?' + Math.random().toString( 16 ).substring( 2 ) );
 	}
 } )();
