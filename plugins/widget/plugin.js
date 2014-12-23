@@ -1635,7 +1635,7 @@
 					// Append wrapper to a temporary document. This will unify the environment
 					// in which #data listeners work when creating and editing widget.
 					temp.append( wrapper );
-					instance = editor.widgets.initOn( element, widgetDef, customData );
+					instance = editor.widgets.initOn( element, widgetDef, customData && customData.startupData );
 
 					// Instance could be destroyed during initialization.
 					// In this case finalize creation if some new widget
