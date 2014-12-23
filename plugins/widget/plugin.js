@@ -270,7 +270,7 @@
 			var walker = new CKEDITOR.dom.walker( range ),
 				wrapper;
 
-			walker.evaluator = isDomWidgetWrapper;
+			walker.evaluator = Widget.isDomWidgetWrapper;
 
 			while ( ( wrapper = walker.next() ) )
 				updater.select( this.getByElement( wrapper ) );
@@ -417,7 +417,7 @@
 		 */
 		finalizeCreation: function( container ) {
 			var wrapper = container.getFirst();
-			if ( wrapper && isDomWidgetWrapper( wrapper ) ) {
+			if ( wrapper && Widget.isDomWidgetWrapper( wrapper ) ) {
 				this.editor.insertElement( wrapper );
 
 				var widget = this.getByElement( wrapper );
@@ -533,7 +533,7 @@
 				instance;
 
 			for ( var i = newWidgets.count(); i--; ) {
-				instance = this.initOn( newWidgets.getItem( i ).getFirst( isDomWidgetElement ) );
+				instance = this.initOn( newWidgets.getItem( i ).getFirst( Widget.isDomWidgetElement ) );
 				if ( instance )
 					newInstances.push( instance );
 			}
@@ -655,7 +655,6 @@
 		},
 
 		// Expose for tests.
-		_tests_getNestedEditable: getNestedEditable,
 		_tests_createEditableFilter: createEditableFilter
 	};
 
@@ -1402,6 +1401,113 @@
 	CKEDITOR.event.implementOn( Widget.prototype );
 
 	/**
+	 * Gets the {@link #isDomNestedEditable nested editable}
+	 * (returned as a {@link CKEDITOR.dom.element}, not {@link CKEDITOR.plugins.widget.nestedEditable})
+	 * closest to the `node` or the `node` if it is a nested editable itself.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
+	 * @param {CKEDITOR.dom.node} node Start search from this node.
+	 * @returns {CKEDITOR.dom.element/null} Element or `null` if not found.
+	 */
+	Widget.getNestedEditable = function( guard, node ) {
+		if ( !node || node.equals( guard ) )
+			return null;
+
+		if ( Widget.isDomNestedEditable( node ) )
+			return node;
+
+		return Widget.getNestedEditable( guard, node.getParent() );
+	};
+
+	/**
+	 * Checks whether the `node` is a widget's drag handle element.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomDragHandler = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-drag-handler' );
+	};
+
+	/**
+	 * Checks whether the `node` is a container of the widget's drag handle element.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomDragHandlerContainer = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_widget_drag_handler_container' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#editables nested editable}.
+	 * Note that this function checks only whether it is the right element, not whether
+	 * the passed `node` is an instance of {@link CKEDITOR.plugins.widget.nestedEditable}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomNestedEditable = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomWidgetElement = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-widget' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.dom.element} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomWidgetWrapper = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-wrapper' );
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.node} node
+	 * @returns {Boolean}
+	 */
+	Widget.isParserWidgetElement = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-widget' ];
+	};
+
+	/**
+	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
+	 *
+	 * @since 4.5.0
+	 * @static
+	 * @param {CKEDITOR.htmlParser.element} node
+	 * @returns {Boolean}
+	 */
+	Widget.isParserWidgetWrapper = function( node ) {
+		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-cke-widget-wrapper' ];
+	};
+
+	/**
 	 * An event fired when a widget is ready (fully initialized). This event is fired after:
 	 *
 	 * * {@link #init} is called,
@@ -1824,7 +1930,7 @@
 					// Add cke_widget_new class because otherwise
 					// widget will not be created on such wrapper.
 					wrapper.addClass( 'cke_widget_new' );
-					newInstances.push( this.initOn( wrapper.getFirst( isDomWidgetElement ) ) );
+					newInstances.push( this.initOn( wrapper.getFirst( Widget.isDomWidgetElement ) ) );
 				}
 			}
 		}
@@ -1861,7 +1967,7 @@
 
 		for ( ; i < l; ++i ) {
 			wrapper = wrappers.getItem( i );
-			element = wrapper.getFirst( isDomWidgetElement );
+			element = wrapper.getFirst( Widget.isDomWidgetElement );
 			// If wrapper contains widget element - unwrap it and wrap again.
 			if ( element.type == CKEDITOR.NODE_ELEMENT && element.data( 'widget' ) ) {
 				element.replace( wrapper );
@@ -1921,7 +2027,7 @@
 				// Wrapper found - find widget element, add it to be
 				// cleaned up (unwrapped) and wrapped and stop iterating in this branch.
 				if ( 'data-cke-widget-wrapper' in element.attributes ) {
-					element = element.getFirst( isParserWidgetElement );
+					element = element.getFirst( Widget.isParserWidgetElement );
 
 					if ( element )
 						toBeWrapped.push( [ element ] );
@@ -1991,21 +2097,6 @@
 		return false;
 	}
 
-	// Gets nested editable if node is its descendant or the editable itself.
-	//
-	// @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
-	// @param {CKEDITOR.dom.node} node Start search from this node.
-	// @returns {CKEDITOR.dom.element} Element or null.
-	function getNestedEditable( guard, node ) {
-		if ( !node || node.equals( guard ) )
-			return null;
-
-		if ( isDomNestedEditable( node ) )
-			return node;
-
-		return getNestedEditable( guard, node.getParent() );
-	}
-
 	function getWrapperAttributes( inlineWidget ) {
 		return {
 			// tabindex="-1" means that it can receive focus by code.
@@ -2058,49 +2149,21 @@
 		parent.add( element, index );
 	}
 
-	// @param {CKEDITOR.htmlParser.element}
-	function isParserWidgetElement( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && !!element.attributes[ 'data-widget' ];
-	}
-
-	// @param {CKEDITOR.dom.element}
-	function isDomWidgetElement( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-widget' );
-	}
-
-	// Whether for this definition and element widget should be created in inline or block mode.
+	// Checks whether for the given widget definition and element widget should be created in inline or block mode.
+	//
+	// See also: {@link CKEDITOR.plugins.widget.definition#inline} and {@link CKEDITOR.plugins.widget#element}.
+	//
+	// @param {CKEDITOR.plugins.widget.definition} widgetDef The widget definition.
+	// @param {String} elementName The name of the widget element.
+	// @returns {Boolean}
 	function isWidgetInline( widgetDef, elementName ) {
 		return typeof widgetDef.inline == 'boolean' ? widgetDef.inline : !!CKEDITOR.dtd.$inline[ elementName ];
 	}
 
-	// @param {CKEDITOR.htmlParser.element}
-	function isParserWidgetWrapper( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.attributes[ 'data-cke-widget-wrapper' ];
-	}
-
 	// @param {CKEDITOR.dom.element}
-	function isDomWidgetWrapper( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-wrapper' );
-	}
-
-	// @param {CKEDITOR.dom.element}
-	function isDomNestedEditable( node ) {
-		return node.type == CKEDITOR.NODE_ELEMENT && node.hasAttribute( 'data-cke-widget-editable' );
-	}
-
-	// @param {CKEDITOR.dom.element}
+	// @returns {Boolean}
 	function isDomTemp( element ) {
 		return element.hasAttribute( 'data-cke-temp' );
-	}
-
-	// @param {CKEDITOR.dom.element}
-	function isDomDragHandler( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasAttribute( 'data-cke-widget-drag-handler' );
-	}
-
-	// @param {CKEDITOR.dom.element}
-	function isDomDragHandlerContainer( element ) {
-		return element.type == CKEDITOR.NODE_ELEMENT && element.hasClass( 'cke_widget_drag_handler_container' );
 	}
 
 	function onEditableKey( widget, keyCode ) {
@@ -2202,7 +2265,7 @@
 		editor.on( 'dragstart', function( evt ) {
 			var target = evt.data.target;
 
-			if ( isDomDragHandler( target ) ) {
+			if ( Widget.isDomDragHandler( target ) ) {
 				var widget = widgetsRepo.getByElement( target );
 
 				evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
@@ -2254,11 +2317,11 @@
 								return;
 
 							// Allow drop line inside, but never before or after nested editable (#12006).
-							if ( isDomNestedEditable( el ) )
+							if ( Widget.isDomNestedEditable( el ) )
 								return;
 
 							// If element is nested editable, make sure widget can be dropped there (#12006).
-							var nestedEditable = getNestedEditable( editable, el );
+							var nestedEditable = Widget.getNestedEditable( editable, el );
 							if ( nestedEditable ) {
 								var draggedWidget = widgetsRepo._.draggedWidget;
 
@@ -2327,7 +2390,7 @@
 						return;
 					}
 
-					if ( !getNestedEditable( widget.wrapper, target ) ) {
+					if ( !Widget.getNestedEditable( widget.wrapper, target ) ) {
 						evt.data.preventDefault();
 						if ( !CKEDITOR.env.ie )
 							widget.focus();
@@ -2369,7 +2432,7 @@
 			var widget = widgetsRepo.getByElement( evt.data.element );
 
 			// Not in widget or in nested editable.
-			if ( !widget || getNestedEditable( widget.wrapper, evt.data.element ) )
+			if ( !widget || Widget.getNestedEditable( widget.wrapper, evt.data.element ) )
 				return;
 
 			return widget.fire( 'doubleclick', { element: evt.data.element } );
@@ -2430,7 +2493,7 @@
 		widgetsRepo.on( 'checkSelection', widgetsRepo.checkSelection, widgetsRepo );
 
 		editor.on( 'selectionChange', function( evt ) {
-			var nestedEditable = getNestedEditable( editor.editable(), evt.data.selection.getStartElement() ),
+			var nestedEditable = Widget.getNestedEditable( editor.editable(), evt.data.selection.getStartElement() ),
 				newWidget = nestedEditable && widgetsRepo.getByElement( nestedEditable ),
 				oldWidget = widgetsRepo.widgetHoldingFocusedEditable;
 
@@ -2506,7 +2569,7 @@
 				if ( 'data-cke-widget-id' in attrs ) {
 					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
 					if ( widget ) {
-						widgetElement = element.getFirst( isParserWidgetElement );
+						widgetElement = element.getFirst( Widget.isParserWidgetElement );
 						toBeDowncasted.push( {
 							wrapper: element,
 							element: widgetElement,
@@ -2592,7 +2655,7 @@
 
 			// Used to determine whether only widget was pasted.
 			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+				Widget.isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
@@ -2904,7 +2967,7 @@
 
 		var editor = widget.editor,
 			// Use getLast to find wrapper's direct descendant (#12022).
-			container = widget.wrapper.getLast( isDomDragHandlerContainer ),
+			container = widget.wrapper.getLast( Widget.isDomDragHandlerContainer ),
 			img;
 
 		// Reuse drag handler if already exists (#11281).
@@ -3117,7 +3180,7 @@
 				var target = evt.data.getTarget();
 
 				// Allow text dragging inside nested editables or dragging inline widget's drag handler.
-				if ( !getNestedEditable( widget, target ) && !( widget.inline && isDomDragHandler( target ) ) )
+				if ( !Widget.getNestedEditable( widget, target ) && !( widget.inline && Widget.isDomDragHandler( target ) ) )
 					evt.data.preventDefault();
 			} );
 		}
@@ -3272,10 +3335,10 @@
 			 * @returns {Boolean}
 			 */
 			checkElement: function( element ) {
-				if ( !isDomWidgetWrapper( element ) )
+				if ( !Widget.isDomWidgetWrapper( element ) )
 					return false;
 
-				var widgetElement = element.getFirst( isDomWidgetElement );
+				var widgetElement = element.getFirst( Widget.isDomWidgetElement );
 				return widgetElement && widgetElement.data( 'widget' ) == this.widget;
 			},
 

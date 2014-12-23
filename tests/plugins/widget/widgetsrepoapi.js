@@ -5,12 +5,28 @@
 
 ( function() {
 	'use strict';
+	var Widget,
+		parserEm = new CKEDITOR.htmlParser.element( 'em' ),
+		parserEmDataWidgetTest = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': 'test' } ),
+		parserEmDataWidgetFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-widget': false } ),
+		parserElDataWidgetWrapperFalse = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'false' } ),
+		parserElDataWidgetWrapperTrue = new CKEDITOR.htmlParser.element( 'em', { 'data-cke-widget-wrapper': 'true' } ),
+
+		domEm = CKEDITOR.dom.element.createFromHtml( '<em></em>' ),
+		domEmDataWidgetTest = CKEDITOR.dom.element.createFromHtml( '<em data-widget="test" >foo</em>' ),
+		domEmDataWidgetFalse = CKEDITOR.dom.element.createFromHtml( '<em data-widget="false" ></em>' ),
+		domEmDataWidgetWrapperFalse = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="false" ></em>' ),
+		domEmDataWidgetWrapperTrue = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-wrapper="true" ></em>' ),
+		domEmWidgetEditable = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-editable ></em>' ),
+		domEmWidgetDragHandler = CKEDITOR.dom.element.createFromHtml( '<em data-cke-widget-drag-handler></em>' ),
+		domEmWidgetDragHandlerContainer = CKEDITOR.dom.element.createFromHtml( '<em class="cke_widget_drag_handler_container"></em>' );
 
 	bender.editor = {
 		config: {
 			allowedContent: true,
 			on: {
 				loaded: function( evt ) {
+					Widget = CKEDITOR.plugins.widget;
 					evt.editor.widgets.add( 'test', {} );
 					evt.editor.widgets.add( 'testblock', { inline: false } );
 					evt.editor.widgets.add( 'testinline', { inline: true } );
@@ -958,7 +974,7 @@
 			);
 
 			var editable = el.findOne( '#el3' ),
-				f = this.editor.widgets._tests_getNestedEditable;
+				f = CKEDITOR.plugins.widget.getNestedEditable;
 
 			assert.isNull( f( el, el.findOne( '#el1' ) ), 'el1' );
 			assert.isNull( f( el, el.findOne( '#el2' ) ), 'el2' );
@@ -1529,6 +1545,115 @@
 					assert.areSame( 'p,i', callback2.join( ',' ), 'Second callback was not executed on b element' );
 				} );
 			} );
+		},
+
+		'test Widget.isDomNestedEditable - hello': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( 'hello' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <p>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p>hello</p>' );
+			assert.isFalse( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <p data-cke-widget-editable>hello</p>': function() {
+			var node = CKEDITOR.dom.element.createFromHtml( '<p data-cke-widget-editable>hello</p>' );
+			assert.isTrue( Widget.isDomNestedEditable( node ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em></em>': function() {
+			assert.isFalse( Widget.isDomNestedEditable( domEm ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-wrapper="false" ></em>': function() {
+			assert.isFalse( Widget.isDomNestedEditable( domEmDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isDomNestedEditable - <em data-cke-widget-editable ></em>': function() {
+			assert.isTrue( Widget.isDomNestedEditable( domEmWidgetEditable ) );
+		},
+
+		'test Widget.getNestedEditable': function() {
+			var node1 = CKEDITOR.dom.element.createFromHtml( [
+					'<div data-cke-widget-editable data-id="1">',
+						'<div>',
+							'<div data-cke-widget-editable data-id="2">',
+								'<div data-id="guard">',
+									'<p data-id="3"></p>',
+								'</div>',
+							'</div>',
+						'</div>',
+					'</div>'
+				].join( '' ) ),
+				guard = node1.findOne( '[data-id="guard"]' ),
+				node2 = node1.findOne( '[data-id="2"]' ),
+				node3 = node1.findOne( '[data-id="3"]' );
+
+			assert.isNull( Widget.getNestedEditable( null, null ) );
+			assert.isNull( Widget.getNestedEditable( guard, null ) );
+			assert.isTrue( Widget.getNestedEditable( null, node3 ).equals( node2 ) );
+			assert.isTrue( Widget.getNestedEditable( node1, node2 ).equals( node2 ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em></em>': function() {
+			assert.isFalse( Widget.isParserWidgetElement( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="test"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetElement( parserEmDataWidgetTest ) );
+		},
+
+		'test Widget.isParserWidgetElement - <em data-widget="false"></em>': function() {
+			assert.isFalse( Widget.isParserWidgetElement( parserEmDataWidgetFalse ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em></em>': function() {
+			assert.isFalse( Widget.isDomWidgetElement( domEm ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="test"></em>': function() {
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetTest ) );
+		},
+
+		'test Widget.isDomWidgetElement - <em data-widget="false"></em>': function() {
+			assert.isTrue( Widget.isDomWidgetElement( domEmDataWidgetFalse ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em></em>': function() {
+			assert.isFalse( Widget.isParserWidgetWrapper( parserEm ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="false"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperFalse ) );
+		},
+
+		'test Widget.isParserWidgetWrapper - <em data-cke-widget-wrapper="true"></em>': function() {
+			assert.isTrue( Widget.isParserWidgetWrapper( parserElDataWidgetWrapperTrue ) );
+		},
+
+		'test Widget.isDomWidgetWrapper - <em></em>': function() {
+			assert.isFalse( Widget.isDomWidgetWrapper( domEm ) );
+		},
+
+		'test Widget.isDomWidgetWrapper - <em data-cke-widget-wrapper="true" ></em>': function() {
+			assert.isTrue( Widget.isDomWidgetWrapper( domEmDataWidgetWrapperTrue ) );
+		},
+
+		'test Widget.isDomDragHandler - <em class="cke_widget_drag_handler_container"></em>': function() {
+			assert.isFalse( Widget.isDomDragHandler( domEmWidgetDragHandlerContainer ) );
+		},
+
+		'test Widget.isDomDragHandler - <em data-cke-widget-drag-handler></em>': function() {
+			assert.isTrue( Widget.isDomDragHandler( domEmWidgetDragHandler ) );
+		},
+
+		'test Widget.isDomDragHandlerContainer - <em data-cke-widget-drag-handler></em>': function() {
+			assert.isFalse( Widget.isDomDragHandlerContainer( domEmWidgetDragHandler ) );
+		},
+
+		'test Widget.isDomDragHandlerContainer - <em class="cke_widget_drag_handler_container"></em>': function() {
+			assert.isTrue( Widget.isDomDragHandlerContainer( domEmWidgetDragHandlerContainer ) );
 		}
 	} );
 } )();
