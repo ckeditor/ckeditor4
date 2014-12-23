@@ -112,8 +112,14 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	border: 2px groove #E0DFE3;
 }
 
-.cke_reset_all select {
+.cke_reset_all select
+{
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+}
+
+.cke_reset_all table
+{
+	table-layout: auto;
 }
