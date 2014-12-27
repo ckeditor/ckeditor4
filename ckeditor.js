@@ -20,6 +20,10 @@ else {
 	CKEDITOR._autoLoad = 'ckeditor';
 
 	// Include the loader script.
+if (false)
+	// MP 12/22/2014: Following this code path we get this error:
+	// Failed to execute 'write' on 'Document': It isn't possible to write into a document from an asynchronously-loaded external script unless it is explicitly opened.
+	// See also core/loader.js
 	if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
 		var script = document.createElement( 'script' );
 		script.type = 'text/javascript';
@@ -28,6 +32,11 @@ else {
 	} else {
 		document.write( '<script type="text/javascript" src="' + CKEDITOR.getUrl( 'core/loader.js' ) + '"></script>' );
 	}
+else
+	$('head').append($('<script>').attr({
+	    type: 'text/javascript',
+	    src: CKEDITOR.getUrl('core/loader.js')
+	}));
 
 }
 

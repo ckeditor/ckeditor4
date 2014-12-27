@@ -202,6 +202,8 @@ if ( !CKEDITOR.loader ) {
 				// If the page is fully loaded, we can't use document.write
 				// but if the script is run while the body is loading then it's safe to use it
 				// Unfortunately, Firefox <3.6 doesn't support document.readyState, so it won't get this improvement
+if (false)
+	// See comments in ../ckeditor.js
 				if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
 					pendingLoad.push( scriptName );
 
@@ -213,6 +215,11 @@ if ( !CKEDITOR.loader ) {
 
 					document.write( '<script src="' + scriptSrc + '" type="text/javascript"><\/script>' );
 				}
+else
+	$('head').append($('<script>').attr({
+	    type: 'text/javascript',
+	    src: scriptSrc
+	}));
 			}
 		};
 	} )();
