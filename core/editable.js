@@ -681,7 +681,7 @@
 
 							// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
 							// elements should never follow each other in DOM.
-							if ( that.prependEolBr && ( that.appendEolBr ? appended.getPrevious() : 1 ) ) {
+							if ( that.prependEolBr && ( !appended || appended.getPrevious() ) ) {
 								that.fragment.append( createEolBr( doc ), 1 );
 							}
 						}
@@ -696,17 +696,17 @@
 								endNode = boundaryNodes.endNode;
 
 							// If bogus is the last node in range but not the only node, exclude it.
-							if ( endNode && isBogus( endNode ) && ( startNode ? !startNode.equals( endNode ) : 1 ) )
-								that.range.setEndBefore( boundaryNodes.endNode );
+							if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) )
+								that.range.setEndBefore( endNode );
 						}
 					};
 				} )();
 
 				var tree = ( function() {
-					function rebuildFragmentTree( that, editable, node, limit ) {
+					function rebuildFragmentTree( that, editable, node, checkLimit ) {
 						var clone;
 
-						while ( node && !node.equals( editable ) && limit( node ) ) {
+						while ( node && !node.equals( editable ) && checkLimit( node ) ) {
 							// Don't clone children. Preserve element ids.
 							clone = node.clone( 0, 1 );
 							that.fragment.appendTo( clone );
@@ -719,7 +719,7 @@
 					return {
 						rebuild: function( that, editable ) {
 							var range = that.range,
-								node = range.startContainer.getCommonAncestor( range.endContainer ),
+								node = range.getCommonAncestor(),
 
 								// A path relative to the common ancestor.
 								commonPath = new CKEDITOR.dom.elementPath( node, editable ),
@@ -764,9 +764,11 @@
 							}
 
 							// If not defined, use generic limit function.
-							limit = limit || function( node ) {
-								return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
-							};
+							if ( !limit ) {
+								limit = function( node ) {
+									return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
+								};
+							}
 
 							rebuildFragmentTree( that, editable, node, limit );
 						}
@@ -806,8 +808,8 @@
 					};
 
 					eol.detect( that, this );
-					bogus.exclude( that, this );
-					cell.shrink( that, this );
+					bogus.exclude( that );
+					cell.shrink( that );
 
 					that.fragment = that.range.cloneContents();
 
