@@ -129,16 +129,16 @@
 		};
 	}
 
-// '@' meaning			(needs br		|	need nbsp)
+// # '@' meaning in HTML patterns
 //
-// * input HTML:
-//   * @		-		<br>			|	nothing
-//   * @!		-		<br>			|	nbsp
-//
-// * output HTML:
-//   * @		-		like compareInnerHtml							(we use it for uncertain cases)
-//   * @!		-		like compareInnerHtml							(we use it for empty blocks)
-//   * @1		-		expected <br>	|	expected nothing			(we use it for <li> i <td>)
+// pattern				|	needs br filler			|	needs nbsp filler
+// ------------------------------------------------------------------------------------------------------------
+// input HTML	|	@	|	<br>					|	nothing
+//				|	@!	|	<br>					|	nbsp
+// ------------------------------------------------------------------------------------------------------------
+// output HTML	|	@	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for uncertain cases)
+//				|	@!	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for empty blocks)
+//				|	@1	|	expected <br>			|	expected nothing			(we use it for <li> and <td>)
 
 	addTests( {
 		'no block': [
