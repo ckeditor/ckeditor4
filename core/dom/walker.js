@@ -539,8 +539,7 @@
 	CKEDITOR.dom.walker.empty = function( isReject ) {
 		return function( node ) {
 			var i = 0,
-				l = node.getChildCount(),
-				isEmpty;
+				l = node.getChildCount();
 
 			for ( ; i < l; ++i ) {
 				if ( !isIgnored( node.getChild( i ) ) ) {

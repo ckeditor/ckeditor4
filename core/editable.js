@@ -669,7 +669,7 @@
 							}
 						},
 
-						fix: function ( that, editable ) {
+						fix: function( that, editable ) {
 							var doc = editable.getDocument(),
 								appended;
 
@@ -858,7 +858,7 @@
 						detectMerge: function( that, editable ) {
 							var range = that.range,
 								startPath = getEditablePath( that.range.startContainer, editable ),
-								endPath = getEditablePath( that.range.endContainer, editable );
+								endPath = getEditablePath( that.range.endContainer, editable ),
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
@@ -893,8 +893,7 @@
 							if ( !that.mergeListBookmark )
 								return;
 
-							var range = that.range,
-								startNode = that.doc.getById( that.mergeListBookmark.startNode ),
+							var startNode = that.doc.getById( that.mergeListBookmark.startNode ),
 								endNode = that.doc.getById( that.mergeListBookmark.endNode ),
 
 								startPath = getEditablePath( startNode, editable ),
@@ -945,12 +944,9 @@
 				var block = ( function() {
 					return {
 						// Detects whether blocks should be merged once contents are extracted.
-						detectMerge: function( that, editable ) {
+						detectMerge: function( that ) {
 							if ( that.tableRanges.length )
 								return;
-
-							var startPath = getEditablePath( that.range.startContainer, editable ),
-								endPath = getEditablePath( that.range.endContainer, editable );
 
 							// Don't merge blocks if lists are already involved.
 							if ( !that.mergeListBookmark ) {
@@ -967,15 +963,14 @@
 							if ( !that.mergeBlockBookmark || that.purgeTableBookmark )
 								return;
 
-							var range = that.range,
-								startNode = that.doc.getById( that.mergeBlockBookmark.startNode ),
+							var startNode = that.doc.getById( that.mergeBlockBookmark.startNode ),
 								endNode = that.doc.getById( that.mergeBlockBookmark.endNode ),
 
 								startPath = getEditablePath( startNode, editable ),
-								endPath = getEditablePath( endNode, editable );
+								endPath = getEditablePath( endNode, editable ),
 
-								var firstBlock = startPath.block,
-									secondBlock = endPath.block;
+								firstBlock = startPath.block,
+								secondBlock = endPath.block;
 
 							if ( firstBlock && secondBlock && !firstBlock.equals( secondBlock ) ) {
 								mergeElements( secondBlock, startNode, endNode );
@@ -1179,7 +1174,7 @@
 							// editable elements. They will be used to remove table contents, leaving
 							// the structure untouched.
 							var editableRange;
-							walker.guard = function( node, leaving ) {
+							walker.guard = function( node ) {
 								if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( tableEditable ) ) {
 									editableRange = range.clone();
 									editableRange.selectNodeContents( node );
@@ -1191,7 +1186,7 @@
 							walker.lastForward();
 						},
 
-						deleteRanges: function( that, editable ) {
+						deleteRanges: function( that ) {
 							if ( !that.tableRanges.length )
 								return;
 
@@ -1215,7 +1210,7 @@
 							}
 						},
 
-						purge: function( that, editable ) {
+						purge: function( that ) {
 							if ( !that.purgeTableBookmark )
 								return;
 
