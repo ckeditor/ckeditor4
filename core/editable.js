@@ -848,19 +848,22 @@
 						merged.remove();
 				}
 
-				// Returns element path limited to the editable. It's simpler than
-				// range.start|endPath() as it solves tons of edge cases, i.e. when
-				// path.contains() considers parents of editable etc.
-				function getEditablePath( element, editable ) {
-					return new CKEDITOR.dom.elementPath( element, editable );
+				function pathContains( startElement, root, check ) {
+					return getPath( startElement, root ).contains( check );
+				}
+
+				// Using this function (thus explicitely specified root) instead of
+				// root.startPath()/endPath() because input range may not be rooted in the editable.
+				function getPath( startElement, root ) {
+					return new CKEDITOR.dom.elementPath( startElement, root );
 				}
 
 				var list = ( function() {
 					return {
 						detectMerge: function( that, editable ) {
 							var range = that.range,
-								startPath = getEditablePath( that.range.startContainer, editable ),
-								endPath = getEditablePath( that.range.endContainer, editable ),
+								startPath = getPath( that.range.startContainer, editable ),
+								endPath = getPath( that.range.endContainer, editable ),
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
@@ -898,8 +901,8 @@
 							var startNode = that.mergeListBookmark.startNode,
 								endNode = that.mergeListBookmark.endNode,
 
-								startPath = getEditablePath( startNode, editable ),
-								endPath = getEditablePath( endNode, editable );
+								startPath = getPath( startNode, editable ),
+								endPath = getPath( endNode, editable );
 
 							if ( that.mergeList ) {
 								var firstList = startPath.contains( CKEDITOR.dtd.$list ),
@@ -931,13 +934,10 @@
 					return {
 						// Detects whether use "mergeThen" argument in range.extractContents().
 						detect: function( that, editable ) {
-							var startPath = getEditablePath( that.range.startContainer, editable ),
-								endPath = getEditablePath( that.range.endContainer, editable );
-
 							// Don't merge if playing with lists.
 							return !(
-								startPath.contains( CKEDITOR.dtd.$listItem ) &&
-								endPath.contains( CKEDITOR.dtd.$listItem )
+								pathContains( that.range.startContainer, editable, CKEDITOR.dtd.$listItem ) &&
+								pathContains( that.range.endContainer, editable, CKEDITOR.dtd.$listItem )
 							);
 						}
 					};
@@ -968,8 +968,8 @@
 							var startNode = that.mergeBlockBookmark.startNode,
 								endNode = that.mergeBlockBookmark.endNode,
 
-								startPath = getEditablePath( startNode, editable ),
-								endPath = getEditablePath( endNode, editable ),
+								startPath = getPath( startNode, editable ),
+								endPath = getPath( endNode, editable ),
 
 								firstBlock = startPath.block,
 								secondBlock = endPath.block;
@@ -1011,8 +1011,8 @@
 							walker.checkForward();
 
 							if ( editablesCount > 1 ) {
-								var startTable = getEditablePath( range.startContainer, editable ).contains( 'table' ),
-									endTable = getEditablePath( range.endContainer, editable ).contains( 'table' );
+								var startTable = pathContains( range.startContainer, editable, 'table' ),
+									endTable = pathContains( range.endContainer, editable, 'table' );
 
 								if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
 									var rangeClone = that.range.clone();
@@ -1035,8 +1035,8 @@
 								walkerRange = that.range.clone(),
 								walker = new CKEDITOR.dom.walker( walkerRange ),
 
-								startPath = getEditablePath( range.startContainer, editable ),
-								endPath = getEditablePath( range.endContainer, editable ),
+								startPath = getPath( range.startContainer, editable ),
+								endPath = getPath( range.endContainer, editable ),
 
 								table;
 
