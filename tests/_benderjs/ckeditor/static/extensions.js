@@ -417,48 +417,17 @@
 	};
 
 	// keep reference to adapter's test function
-	bender.oldTest = bender.test;
+	bender.orgTest = bender.test;
 
 	bender.test = function( tests ) {
 		if ( bender.deferred ) {
-			if ( bender.deferred ) {
-				delete bender.deferred;
-			}
+			delete bender.deferred;
 
 			bender.deferredTests = tests;
 		} else {
 			bender.startRunner( tests );
 		}
 	};
-
-	function onReady( callback ) {
-		function complete() {
-			if ( document.addEventListener ||
-				event.type === 'load' ||
-				document.readyState === 'complete' ) {
-
-				if ( document.removeEventListener ) {
-					document.removeEventListener( 'DOMContentLoaded', complete, false );
-					window.removeEventListener( 'load', complete, false );
-				} else {
-					document.detachEvent( 'onreadystatechange', complete );
-					window.detachEvent( 'onload', complete );
-				}
-
-				callback();
-			}
-		}
-
-		if ( document.readyState === 'complete' ) {
-			setTimeout( callback );
-		} else if ( document.addEventListener ) {
-			document.addEventListener( 'DOMContentLoaded', complete, false );
-			window.addEventListener( 'load', complete, false );
-		} else {
-			document.attachEvent( 'onreadystatechange', complete );
-			window.attachEvent( 'onload', complete );
-		}
-	}
 
 	bender.startRunner = function( tests ) {
 		tests = tests || bender.deferredTests;
@@ -475,7 +444,9 @@
 			tests.name = bender.testData.id;
 		}
 
-		function startRunner() {
+		onDocumentReady( start );
+
+		function start() {
 			// catch exceptions
 			if ( bender.editor ) {
 				if ( tests[ 'async:init' ] || tests.init ) {
@@ -503,11 +474,38 @@
 				}
 			}
 
-			bender.oldTest( tests );
+			bender.orgTest( tests );
+		}
+	};
+
+	function onDocumentReady( callback ) {
+		function complete() {
+			if ( document.addEventListener ||
+				event.type === 'load' ||
+				document.readyState === 'complete' ) {
+
+				if ( document.removeEventListener ) {
+					document.removeEventListener( 'DOMContentLoaded', complete, false );
+					window.removeEventListener( 'load', complete, false );
+				} else {
+					document.detachEvent( 'onreadystatechange', complete );
+					window.detachEvent( 'onload', complete );
+				}
+
+				callback();
+			}
 		}
 
-		onReady( startRunner );
-	};
+		if ( document.readyState === 'complete' ) {
+			setTimeout( callback );
+		} else if ( document.addEventListener ) {
+			document.addEventListener( 'DOMContentLoaded', complete, false );
+			window.addEventListener( 'load', complete, false );
+		} else {
+			document.attachEvent( 'onreadystatechange', complete );
+			window.attachEvent( 'onload', complete );
+		}
+	}
 
 	bender.getAbsolutePath = function( path ) {
 		var suffixIndex, suffix, temp;
