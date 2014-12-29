@@ -449,16 +449,23 @@
 		function start() {
 			// catch exceptions
 			if ( bender.editor ) {
-				if ( tests[ 'async:init' ] || tests.init ) {
-					throw 'The "init/async:init" is not supported in conjunction' +
-						' with bender.editor, use "setUp" instead.';
-				}
+				var init = tests.init,
+					asyncInit = tests[ 'async:init' ];
 
 				tests[ 'async:init' ] = function() {
 					bender.editorBot.create( bender.editor, function( bot ) {
 						bender.editor = bender.testCase.editor = bot.editor;
 						bender.testCase.editorBot = bot;
-						bender.testCase.callback();
+
+						if ( init ) {
+							init.call( bender.testCase );
+						}
+
+						if ( asyncInit ) {
+							asyncInit.call( bender.testCase );
+						} else {
+							bender.testCase.callback();
+						}
 					} );
 				};
 
