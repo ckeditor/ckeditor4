@@ -848,22 +848,16 @@
 						merged.remove();
 				}
 
-				function pathContains( startElement, root, check ) {
-					return getPath( startElement, root ).contains( check );
-				}
-
-				// Using this function (thus explicitely specified root) instead of
-				// root.startPath()/endPath() because input range may not be rooted in the editable.
 				function getPath( startElement, root ) {
 					return new CKEDITOR.dom.elementPath( startElement, root );
 				}
 
 				var list = ( function() {
 					return {
-						detectMerge: function( that, editable ) {
+						detectMerge: function( that ) {
 							var range = that.range,
-								startPath = getPath( that.range.startContainer, editable ),
-								endPath = getPath( that.range.endContainer, editable ),
+								startPath = that.range.startPath(),
+								endPath = that.range.endPath(),
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
@@ -933,11 +927,11 @@
 				var extractMerge = ( function() {
 					return {
 						// Detects whether use "mergeThen" argument in range.extractContents().
-						detect: function( that, editable ) {
+						detect: function( that ) {
 							// Don't merge if playing with lists.
 							return !(
-								pathContains( that.range.startContainer, editable, CKEDITOR.dtd.$listItem ) &&
-								pathContains( that.range.endContainer, editable, CKEDITOR.dtd.$listItem )
+								that.range.startPath().contains( CKEDITOR.dtd.$listItem ) &&
+								that.range.endPath().contains( CKEDITOR.dtd.$listItem )
 							);
 						}
 					};
@@ -990,7 +984,7 @@
 
 					return {
 						// Detects whether to purge entire list.
-						detectPurge: function( that, editable ) {
+						detectPurge: function( that ) {
 							var range = that.range,
 								walkerRange = range.clone();
 
@@ -1011,8 +1005,8 @@
 							walker.checkForward();
 
 							if ( editablesCount > 1 ) {
-								var startTable = pathContains( range.startContainer, editable, 'table' ),
-									endTable = pathContains( range.endContainer, editable, 'table' );
+								var startTable = range.startPath().contains( 'table' ),
+									endTable = range.endPath().contains( 'table' );
 
 								if ( startTable && endTable && range.checkBoundaryOfElement( startTable, CKEDITOR.START ) && range.checkBoundaryOfElement( endTable, CKEDITOR.END ) ) {
 									var rangeClone = that.range.clone();
@@ -1026,7 +1020,7 @@
 						},
 
 						// Creates sub-ranges which contain editable contents, table rows or surrounding contents.
-						detectRanges: function( that, editable ) {
+						detectRanges: function( that ) {
 							that.tableRanges = [];
 							that.tableRowRanges = [];
 							that.tableSurroundRanges = [];
@@ -1035,8 +1029,8 @@
 								walkerRange = that.range.clone(),
 								walker = new CKEDITOR.dom.walker( walkerRange ),
 
-								startPath = getPath( range.startContainer, editable ),
-								endPath = getPath( range.endContainer, editable ),
+								startPath = range.startPath(),
+								endPath = range.endPath(),
 
 								table;
 
@@ -1255,7 +1249,7 @@
 					// This got to be done before bookmarks are created because purging
 					// depends on the position of the range at the boundaries of the table,
 					// usually distorted by bookmark spans.
-					table.detectPurge( that, this );
+					table.detectPurge( that );
 
 					// We'll play with DOM, let's hold the position of the range.
 					that.bookmark = range.createBookmark();
@@ -1270,8 +1264,8 @@
 					that.targetBookmark = targetRange.createBookmark();
 
 					// Execute content-specific detections.
-					list.detectMerge( that, this );
-					table.detectRanges( that, this );
+					list.detectMerge( that );
+					table.detectRanges( that );
 					block.detectMerge( that, this );
 
 					// Finally restore the "working range", once DOM is stable.
@@ -1281,7 +1275,7 @@
 					if ( that.tableRanges.length ) {
 						table.deleteRanges( that );
 					} else {
-						range.extractContents( extractMerge.detect( that, this ) );
+						range.extractContents( extractMerge.detect( that ) );
 					}
 
 					// Move working range to desired, pre-computed position.
