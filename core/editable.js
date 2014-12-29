@@ -884,10 +884,10 @@
 							if ( that.mergeList || that.mergeListItems ) {
 								var rangeClone = range.clone();
 
-								rangeClone.setStartBefore( that.doc.getById( that.bookmark.startNode ) );
-								rangeClone.setEndAfter( that.doc.getById( that.bookmark.endNode ) );
+								rangeClone.setStartBefore( that.bookmark.startNode );
+								rangeClone.setEndAfter( that.bookmark.endNode );
 
-								that.mergeListBookmark = rangeClone.createBookmark( 1 );
+								that.mergeListBookmark = rangeClone.createBookmark();
 							}
 						},
 
@@ -895,8 +895,8 @@
 							if ( !that.mergeListBookmark )
 								return;
 
-							var startNode = that.doc.getById( that.mergeListBookmark.startNode ),
-								endNode = that.doc.getById( that.mergeListBookmark.endNode ),
+							var startNode = that.mergeListBookmark.startNode,
+								endNode = that.mergeListBookmark.endNode,
 
 								startPath = getEditablePath( startNode, editable ),
 								endPath = getEditablePath( endNode, editable );
@@ -954,10 +954,10 @@
 							if ( !that.mergeListBookmark ) {
 								var rangeClone = that.range.clone();
 
-								rangeClone.setStartBefore( that.doc.getById( that.bookmark.startNode ) );
-								rangeClone.setEndAfter( that.doc.getById( that.bookmark.endNode ) );
+								rangeClone.setStartBefore( that.bookmark.startNode );
+								rangeClone.setEndAfter( that.bookmark.endNode );
 
-								that.mergeBlockBookmark = rangeClone.createBookmark( 1 );
+								that.mergeBlockBookmark = rangeClone.createBookmark();
 							}
 						},
 
@@ -965,8 +965,8 @@
 							if ( !that.mergeBlockBookmark || that.purgeTableBookmark )
 								return;
 
-							var startNode = that.doc.getById( that.mergeBlockBookmark.startNode ),
-								endNode = that.doc.getById( that.mergeBlockBookmark.endNode ),
+							var startNode = that.mergeBlockBookmark.startNode,
+								endNode = that.mergeBlockBookmark.endNode,
 
 								startPath = getEditablePath( startNode, editable ),
 								endPath = getEditablePath( endNode, editable ),
@@ -1020,7 +1020,7 @@
 									rangeClone.setStartBefore( startTable );
 									rangeClone.setEndAfter( endTable );
 
-									that.purgeTableBookmark = rangeClone.createBookmark( 1 );
+									that.purgeTableBookmark = rangeClone.createBookmark();
 								}
 							}
 						},
@@ -1222,7 +1222,7 @@
 								// How about different enter modes?
 								block = doc.createElement( 'p' );
 
-							block.insertBefore( doc.getById( that.purgeTableBookmark.startNode ) );
+							block.insertBefore( that.purgeTableBookmark.startNode );
 
 							rangeClone.moveToBookmark( that.purgeTableBookmark );
 							rangeClone.deleteContents();
@@ -1258,16 +1258,16 @@
 					table.detectPurge( that, this );
 
 					// We'll play with DOM, let's hold the position of the range.
-					that.bookmark = range.createBookmark( 1 );
+					that.bookmark = range.createBookmark();
 
 					// The range to be restored after extraction...
 					var targetRange = this.editor.createRange();
 
 					// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
-					targetRange.moveToPosition( that.doc.getById( that.bookmark.startNode ), CKEDITOR.POSITION_BEFORE_START );
+					targetRange.moveToPosition( that.bookmark.startNode, CKEDITOR.POSITION_BEFORE_START );
 
 					// Remember desired position of the range after extraction.
-					that.targetBookmark = targetRange.createBookmark( 1 );
+					that.targetBookmark = targetRange.createBookmark();
 
 					// Execute content-specific detections.
 					list.detectMerge( that, this );
