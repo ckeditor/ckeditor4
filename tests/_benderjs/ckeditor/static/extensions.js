@@ -447,27 +447,11 @@
 		onDocumentReady( start );
 
 		function start() {
-			// catch exceptions
-			if ( bender.editor ) {
-				var init = tests.init,
-					asyncInit = tests[ 'async:init' ];
+			if ( bender.editor || bender.editors ) {
+				bender._init = tests.init;
+				bender._asyncInit = tests[ 'async:init' ];
 
-				tests[ 'async:init' ] = function() {
-					bender.editorBot.create( bender.editor, function( bot ) {
-						bender.editor = bender.testCase.editor = bot.editor;
-						bender.testCase.editorBot = bot;
-
-						if ( init ) {
-							init.call( bender.testCase );
-						}
-
-						if ( asyncInit ) {
-							asyncInit.call( bender.testCase );
-						} else {
-							bender.testCase.callback();
-						}
-					} );
-				};
+				tests[ 'async:init' ] = setUpEditor;
 
 				if ( bender.runner._running ) {
 					wait();
@@ -482,6 +466,79 @@
 			}
 
 			bender.orgTest( tests );
+
+			// async:init stage 1: set up bender.editor
+			function setUpEditor() {
+				if ( !bender.editor ) {
+					// If there is no bender.editor jump to stage 2.
+					setUpEditors();
+					return;
+				}
+
+				bender.editorBot.create( bender.editor, function( bot ) {
+					bender.editor = bender.testCase.editor = bot.editor;
+					bender.testCase.editorBot = bot;
+					setUpEditors();
+				} );
+			}
+
+			// async:init stage 2: set up bender.editors
+			function setUpEditors() {
+				if ( !bender.editors ) {
+					// If there is no bender.editor jump to stage 3.
+					callback();
+					return;
+				}
+
+				var editorsDefinitions = bender.editors,
+					names = [],
+					editors = {},
+					bots = {};
+
+				for ( var e in editorsDefinitions ) {
+					names.push( e );
+				}
+
+				next();
+
+				function next() {
+					var name = names.shift();
+
+					if ( !name ) {
+						bender.editors = bender.testCase.editors = editors;
+						bender.testCase.editorsBots = bots;
+						callback();
+						return;
+					}
+
+					bender.editorBot.create( editorsDefinitions[ name ], function( bot ) {
+						bots[ name ] = bot;
+						editors[ name ] = bot.editor;
+						next();
+					} );
+				}
+			}
+
+			// async:init  stage 3: call original async/async:init and finish async:init (testCase.callback).
+			function callback() {
+				if ( bender._init ) {
+					var init = bender._init;
+
+					delete bender._init;
+
+					init.call( bender.testCase );
+				}
+
+				if ( bender._asyncInit ) {
+					var asyncInit = bender._asyncInit;
+
+					delete bender._asyncInit;
+
+					asyncInit.call( bender.testCase );
+				} else {
+					bender.testCase.callback();
+				}
+			}
 		}
 	};
 

@@ -7,10 +7,6 @@ bender.editor = {
 };
 
 bender.test( {
-	'init': function() {
-		assert.areSame( 'foo', this.editor.name, 'Editor name.' );
-	},
-
 	'test': function() {
 		assert.areSame( 'foo', this.editor.name, 'this.editor' );
 		assert.areSame( 'foo', this.editorBot.editor.name, 'this.editorBot' );
