@@ -212,47 +212,84 @@
 		],
 
 		'tables': [
+			// #1
 			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@1</td></tr></tbody></table>' ],
+			// #2
 			[ '<div><table><tbody><tr><td>{a}</td></tr></tbody></table></div>',		'a',															'<div><table><tbody><tr><td>[]@1</td></tr></tbody></table></div>' ],
+			// #3
 			[ '<table><tbody><tr><td>a{b}c</td></tr></tbody></table>',				'b',															'<table><tbody><tr><td>a[]c</td></tr></tbody></table>' ],
+			// #4
 			[ '<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a[]</td><td>d</td></tr></tbody></table>' ],
+			// #5
 			[ '<div><table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table></div>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<div><table><tbody><tr><td>a[]</td><td>d</td></tr></tbody></table></div>' ],
+			// #6
 			[ '<table><tbody><tr>[<td>a</td><td>b}c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]@1</td><td>c</td></tr></tbody></table>' ],
+			// #7
+			[ '<table><tbody><tr>[<td>a</td>]<td>b</td></tr></tbody></table>',
+				'a',
+				'<table><tbody><tr><td>[]@1</td><td>b</td></tr></tbody></table>' ],
+			// #8
 			[ '<table><tbody><tr><td>{a</td></tr></tbody></table><table><tbody><tr><td>b</td></tr><tr><td>c}</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td></tr></tbody></table><table><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]@1</td></tr></tbody></table><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ], /*!*/
+			// #9
 			[ '<table><tbody><tr><td>a{b</td><td>c</td></tr><tr><td>d}e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a[]</td><td>@</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+			// #10
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>c]d</td></tr></tbody></table>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<p>[]@!</p><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ],
+			// #11
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e]f</td></tr></tbody></table>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e</td></tr></tbody></table>',
 				'<p>[]@!</p><table><tbody><tr><td>@</td><td>f</td></tr></tbody></table>' ],
+			// #12
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>[]@!</p>' ],
+			// #13
 			[ '<table border="1" style="width:500px"><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table border="1" style="width:500px"><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>[]@!</p>' ],
-			// #13 Single row selection.
+			// #14 Single row selection.
 			[ '<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>{c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>c</td><td>d</td></tr></tbody></table>',
-				'<table><tbody><tr><td>a</td><td>b[]</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
-			// #14 Two rows selection.
+				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>[]@!</td><td>@!</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+			// #15 Two rows selection.
 			[ '<table><tbody><tr><td>{a</td><td>b</td></tr><tr><td>c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></tbody></table>',
-				'<table><tbody><tr><td>[]e</td><td>f</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>[]@!</td><td>@!</td></tr><tr><td>@!</td><td>@!</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+			// #16
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e}f</p>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e</p>',
-				'<p>[]@!</p><table><tbody><tr><td>@</td><td>@</td></tr></tbody></table><p>f</p>' ]
+				'<p>[]@!</p><table><tbody><tr><td>@</td><td>@</td></tr></tbody></table><p>f</p>' ],
+			// #17
+			[ '<p>a</p>[<table><tbody><tr><td>x</td><td>x</td></tr></tbody></table>]<p>b</p>',
+				'<table><tbody><tr><td>x</td><td>x</td></tr></tbody></table>',
+				'<p>a</p><p>[]@!</p><p>b</p>' ],
+			// #18
+			[ '<p>x</p><table><tbody><tr>[<td>a</td>]</tr></tbody></table>',
+				'a',
+				'<p>x</p><table><tbody><tr><td>[]@1</td></tr></tbody></table>' ],
+			// #19
+			[ '<p>x</p><table><tbody><tr><td>a[</td><td>b</td>]</tr></tbody></table>',
+				'<table><tbody><tr><td></td><td>b</td></tr></tbody></table>',
+				'<p>x</p><table><tbody><tr><td>a[]</td><td>@</td></tr></tbody></table>' ],
+			// #20
+			[ '<p>x</p><table><tbody><tr>[<td>a</td><td>b</td>]</tr></tbody></table>',
+				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
+				'<p>x</p><p>[]@!</p>' ],
+			// #21
+			[ '<table><thead><tr>[<th>a</th>]</tr></thead><tbody><tr><td>b</td></tr></tbody></table>',
+				'a',
+				'<table><thead><tr><th>[]@!</th></tr></thead><tbody><tr><td>b</td></tr></tbody></table>' ]
 		],
 
 		'lists': [
@@ -276,9 +313,6 @@
 			[ '<p>a<b>[b]</b>c</p>',												'<b>b</b>',														'<p>a[]c</p>' ],
 			[ '<p>a<a href="#">[b]</a>c</p>',										'<a href="#">b</a>',											'<p>a[]c</p>' ],
 			[ '<p>a[<b>b</b>]c</p>',												'<b>b</b>',														'<p>a[]c</p>' ],
-			[ '<table><tbody><tr>[<td>a</td>]</tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@1</td></tr></tbody></table>' ],
-			[ '<table><tbody><tr><td>a[</td><td>b</td>]</tr></tbody></table>',		'<table><tbody><tr><td></td><td>b</td></tr></tbody></table>',	'<table><tbody><tr><td>a[]</td><td>@</td></tr></tbody></table>' ],
-			[ '<table><tbody><tr>[<td>a</td><td>b</td>]</tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'<p>[]@!</p>' ],
 			[ '<p>[a@]</p>',														'a',															'<p>[]@!</p>' ],
 			[ '<p>[a]@</p>',														'a',															'<p>[]@!</p>' ],
 			[ '<p>[a]<br />@</p>',													'a',															'<p>[]<br />@</p>' ],
@@ -286,9 +320,7 @@
 			[ '[<hr />]',															'<hr />',														'[]@' ],
 			[ '[<img src="' + img_src + '" />]',									'<img src="' + img_src + '" />',								'[]@' ],
 			[ '<p>[<img src="' + img_src + '" />]</p>',								'<img src="' + img_src + '" />',								'<p>[]@!</p>' ],
-			[ '<br />[<br />]<br />',												'<br />',														'<br />[]<br />' ],
-			[ '<table><thead><tr>[<th>a</th>]</tr></thead><tbody><tr><td>b</td></tr></tbody></table>',
-																					'a',															'<table><tbody><tr><td>b</td></tr></tbody></table>' ]
+			[ '<br />[<br />]<br />',												'<br />',														'<br />[]<br />' ]
 		]
 	}, 'inline' );
 
