@@ -870,12 +870,19 @@
 					}
 				}
 
+				function rangeFromBookmark( root, bookmark ) {
+					var range = new CKEDITOR.dom.range( root );
+					range.setStartAfter( bookmark.startNode );
+					range.setEndBefore( bookmark.endNode );
+					return range;
+				}
+
 				var list = ( function() {
 					return {
-						detectMerge: function( that ) {
-							var range = that.range,
-								startPath = that.range.startPath(),
-								endPath = that.range.endPath(),
+						detectMerge: function( that, editable ) {
+							var range = rangeFromBookmark( editable, that.bookmark ),
+								startPath = range.startPath(),
+								endPath = range.endPath(),
 
 								startList = startPath.contains( CKEDITOR.dtd.$list ),
 								endList = endPath.contains( CKEDITOR.dtd.$list );
@@ -958,13 +965,13 @@
 				var block = ( function() {
 					return {
 						// Detects whether blocks should be merged once contents are extracted.
-						detectMerge: function( that ) {
+						detectMerge: function( that, editable ) {
 							if ( that.tableRanges.length )
 								return;
 
 							// Don't merge blocks if lists are already involved.
 							if ( !that.mergeListBookmark ) {
-								var rangeClone = that.range.clone();
+								var rangeClone = new CKEDITOR.dom.range( editable );
 
 								rangeClone.setStartBefore( that.bookmark.startNode );
 								rangeClone.setEndAfter( that.bookmark.endNode );
@@ -1038,13 +1045,13 @@
 						},
 
 						// Creates sub-ranges which contain editable contents, table rows or surrounding contents.
-						detectRanges: function( that ) {
+						detectRanges: function( that, editable ) {
 							that.tableRanges = [];
 							that.tableRowRanges = [];
 							that.tableSurroundRanges = [];
 
-							var range = that.range,
-								walkerRange = that.range.clone(),
+							var range = rangeFromBookmark( editable, that.bookmark ),
+								walkerRange = range.clone(),
 								walker = new CKEDITOR.dom.walker( walkerRange ),
 
 								startPath = range.startPath(),
@@ -1273,28 +1280,35 @@
 
 					// We'll play with DOM, let's hold the position of the range.
 					that.bookmark = range.createBookmark();
+					// While bookmarked, make unaccessible, to make sure that none of the methods
+					// will try to use it (they should use that.bookmark).
+					// This is done because ranges get desynchronized with the DOM when more bookmarks
+					// is created (as for instance that.targetBookmark).
+					delete that.range;
 
-					// The range to be restored after extraction...
+					// The range to be restored after extraction should be kept
+					// outside of the range, so it's not removed by range.extractContents.
 					var targetRange = this.editor.createRange();
-
-					// ...should be placed before start bookmark, as if it was BACKSPACE to be pressed.
 					targetRange.moveToPosition( that.bookmark.startNode, CKEDITOR.POSITION_BEFORE_START );
-
-					// Remember desired position of the range after extraction.
 					that.targetBookmark = targetRange.createBookmark();
 
 					// Execute content-specific detections.
-					list.detectMerge( that );
-					table.detectRanges( that );
+					list.detectMerge( that, this );
+					table.detectRanges( that, this );
 					block.detectMerge( that, this );
-
-					// Finally restore the "working range", once DOM is stable.
-					range.moveToBookmark( that.bookmark );
 
 					// Simply, do the job.
 					if ( that.tableRanges.length ) {
 						table.deleteRanges( that );
+
+						// Done here only to remove bookmark's spans.
+						range.moveToBookmark( that.bookmark );
+						that.range = range;
 					} else {
+						// To use the range we need to restore the bookmark and make
+						// the range accessible again.
+						range.moveToBookmark( that.bookmark );
+						that.range = range;
 						range.extractContents( extractMerge.detect( that ) );
 					}
 
