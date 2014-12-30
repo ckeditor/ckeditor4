@@ -1187,17 +1187,19 @@
 								return;
 
 							var range;
-							// Delete whole rows first
-							while ( ( range = that.tableRowRanges.pop() ) ) {
-								range.extractContents();
-							}
 
 							// Delete table cell contents.
+							// Do this before removing whole rows, to avoid working on ranges in document fragments.
 							while ( ( range = that.tableRanges.pop() ) ) {
 								range.extractContents();
 
 								if ( isEmpty( range.startContainer ) )
 									range.startContainer.appendBogus();
+							}
+
+							// Delete whole rows.
+							while ( ( range = that.tableRowRanges.pop() ) ) {
+								range.extractContents();
 							}
 
 							// Finally delete surroundings of the table.
