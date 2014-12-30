@@ -4,27 +4,18 @@
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		inline: {
+			name: 'inline',
+			creator: 'inline'
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				inline: {
-					name: 'inline',
-					creator: 'inline'
-				}
-			}, function( editors, bots ) {
-				that.editors = editors;
-				that.editorBots = bots;
-
-				that.callback();
-			} );
-		},
-
 		'test paste into a non-empty range': function() {
 			var editor = this.editors.inline;
 
-			this.editorBots.inline.setData( '<p>1234567890</p>', function() {
+			this.editorsBots.inline.setData( '<p>1234567890</p>', function() {
 				var sel = editor.getSelection(),
 					paragraph = editor.editable().getFirst(),
 					textNode = paragraph.getFirst(),

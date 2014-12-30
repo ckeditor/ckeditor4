@@ -6,6 +6,40 @@
 
 	var createFilter = acfTestTools.createFilter;
 
+	bender.editors = {
+		editor: {
+			name: 'editor1'
+		},
+		editorCustomAllowedContent: {
+			name: 'editor2',
+			config: {
+				allowedContent: 'p b i'
+			}
+		},
+		editorDisallowedContent: {
+			name: 'editor3',
+			config: {
+				extraPlugins: 'basicstyles,toolbar',
+				disallowedContent: 'strong; *[bar]'
+			}
+		},
+		editorBothContents: {
+			name: 'editor4',
+			config: {
+				allowedContent: 'p strong em[foo]; h1 h2',
+				disallowedContent: 'strong; *[bar]'
+			}
+		},
+		editorTransformations: {
+			name: 'editor5',
+			config: {
+				extraPlugins: 'basicstyles,image,toolbar',
+				extraAllowedContent: 'b; img[width,height]',
+				disallowedContent: 'strong; img{width,height}'
+			}
+		}
+	};
+
 	function ruleSortCompare( ruleA, ruleB ) {
 		var elementsA = CKEDITOR.tools.objectKeys( ruleA.elements ).sort().join( ',' ),
 			elementsB = CKEDITOR.tools.objectKeys( ruleB.elements ).sort().join( ',' );
@@ -21,48 +55,6 @@
 	}
 
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1'
-				},
-				editorCustomAllowedContent: {
-					name: 'editor2',
-					config: {
-						allowedContent: 'p b i'
-					}
-				},
-				editorDisallowedContent: {
-					name: 'editor3',
-					config: {
-						extraPlugins: 'basicstyles,toolbar',
-						disallowedContent: 'strong; *[bar]'
-					}
-				},
-				editorBothContents: {
-					name: 'editor4',
-					config: {
-						allowedContent: 'p strong em[foo]; h1 h2',
-						disallowedContent: 'strong; *[bar]'
-					}
-				},
-				editorTransformations: {
-					name: 'editor5',
-					config: {
-						extraPlugins: 'basicstyles,image,toolbar',
-						extraAllowedContent: 'b; img[width,height]',
-						disallowedContent: 'strong; img{width,height}'
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		'test default values - editor\'s filter': function() {
 			var filter = this.editors.editor.filter;
 
@@ -460,7 +452,7 @@
 		},
 
 		'test transformations - content forms': function() {
-			var bot = this.editorBots.editorTransformations;
+			var bot = this.editorsBots.editorTransformations;
 
 			bot.setData( '<p><b>foo</b> <strong>bar</strong></p>', function() {
 				assert.areSame( '<p><b>foo</b> <b>bar</b></p>', bot.getData() );
@@ -468,7 +460,7 @@
 		},
 
 		'test transformations - attributes': function() {
-			var bot = this.editorBots.editorTransformations;
+			var bot = this.editorsBots.editorTransformations;
 
 			bot.setData( '<p><img alt="" src="../../_assets/img.gif" style="height:100px; width:50px" /></p>', function() {
 				assert.areSame( '<p><img alt="" height="100" src="../../_assets/img.gif" width="50" /></p>', bot.getData( true ) );

@@ -3,21 +3,13 @@
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		editor1: {
+			name: 'editor1'
+		}
+	};
+
 	bender.test( {
-		// Initialize the editor instance.
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor1: {
-					name: 'editor1'
-				}
-			}, function( editors ) {
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		// (#12162)
 		'test autoparagraphing in nested editable': function() {
 			var editor = this.editors.editor1,

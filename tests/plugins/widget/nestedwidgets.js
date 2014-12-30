@@ -36,40 +36,34 @@
 		assert.areSame( elementName, widget.element.getName(), msg + ' - element name' );
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'inline', // Speed.
+			config: {
+				allowedContent: true
+			}
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
+		'init': function() {
+			var editor, name;
 
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'inline', // Speed.
-					config: {
-						allowedContent: true
+			for ( name in this.editors ) {
+				editor = this.editors[ name ];
+				editor.dataProcessor.writer.sortAttributes = 1;
+				editor.widgets.add( 'testcontainer', {
+					editables: {
+						ned: '.ned'
 					}
-				}
-			}, function( editors, bots ) {
-				var name, editor;
-
-				for ( name in editors ) {
-					editor = editors[ name ];
-					editor.dataProcessor.writer.sortAttributes = 1;
-					editor.widgets.add( 'testcontainer', {
-						editables: {
-							ned: '.ned'
-						}
-					} );
-					editor.widgets.add( 'test1', {
-						upcast: function( el ) {
-							return el.hasClass( 'test1' );
-						}
-					} );
-				}
-
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+				} );
+				editor.widgets.add( 'test1', {
+					upcast: function( el ) {
+						return el.hasClass( 'test1' );
+					}
+				} );
+			}
 		},
 
 		'test init nested widgets on editor.setData': function() {
@@ -80,7 +74,7 @@
 				instances += 1;
 			} );
 
-			this.editorBots.editor.setData( generateWidgetsData( 2 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 2 ), function() {
 				listener.removeListener();
 
 				assert.areSame( 6, instances, '6 instances were created' );
@@ -96,7 +90,7 @@
 		'test init nested widgets on nestedEditable.setData': function() {
 			var editor = this.editors.editor;
 
-			this.editorBots.editor.setData( generateWidgetsData( 2 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 2 ), function() {
 				var widget = getWidgetById( editor, 'wp-0' ),
 					instances = 0;
 
@@ -115,7 +109,7 @@
 		'test init nested widgets when pasting widget with nested widgets': function() {
 			var editor = this.editors.editor;
 
-			this.editorBots.editor.setData( '<p id="pasteTarget">foo</p>' + generateWidgetsData( 2 ), function() {
+			this.editorsBots.editor.setData( '<p id="pasteTarget">foo</p>' + generateWidgetsData( 2 ), function() {
 				var widget = getWidgetById( editor, 'wp-0' ),
 					widgetHtml = widget.wrapper.getHtml();
 
@@ -152,7 +146,7 @@
 		'test init nested widgets when pasting into nested editable': function() {
 			var editor = this.editors.editor;
 
-			this.editorBots.editor.setData( generateWidgetsData( 2 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 2 ), function() {
 				var widget = getWidgetById( editor, 'wp-0' ),
 					widgetHtml = widget.wrapper.getHtml();
 
@@ -190,11 +184,11 @@
 			var editor = this.editors.editor,
 				undo = editor.getCommand( 'undo' );
 
-			this.editorBots.editor.setHtmlWithSelection( '<p>^foo</p>' );
+			this.editorsBots.editor.setHtmlWithSelection( '<p>^foo</p>' );
 			editor.focus();
 			editor.resetUndo();
 
-			this.editorBots.editor.setData( generateWidgetsData( 1 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 1 ), function() {
 				// Wait some additional time to include any asynchronous
 				// effects of setting data.
 				wait( function() {
@@ -218,7 +212,7 @@
 				undo = editor.getCommand( 'undo' ),
 				redo = editor.getCommand( 'redo' );
 
-			this.editorBots.editor.setData( generateWidgetsData( 1 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 1 ), function() {
 				editor.resetUndo();
 				editor.fire( 'saveSnapshot' );
 
@@ -249,7 +243,7 @@
 		'test drag handler is created for every widget': function() {
 			var editor = this.editors.editor;
 
-			this.editorBots.editor.setData( generateWidgetsData( 1 ), function() {
+			this.editorsBots.editor.setData( generateWidgetsData( 1 ), function() {
 				var w1 = getWidgetById( editor, 'wp-0' ),
 					wn1 = getWidgetById( editor, 'wn-0-0' ),
 					wn2 = getWidgetById( editor, 'wn-0-1' );
@@ -262,7 +256,7 @@
 
 		'test all widgets are destroyed once when setting editor data': function() {
 			var editor = this.editors.editor,
-				bot = this.editorBots.editor,
+				bot = this.editorsBots.editor,
 				destroyed = [];
 
 			bot.setData( generateWidgetsData( 1 ), function() {
@@ -281,7 +275,7 @@
 
 		'test all nested widgets are destroyed when setting nested editable data': function() {
 			var editor = this.editors.editor,
-				bot = this.editorBots.editor,
+				bot = this.editorsBots.editor,
 				destroyed = [];
 
 			bot.setData( generateWidgetsData( 2 ), function() {
@@ -305,7 +299,7 @@
 		// #12008
 		'test pasting widget with nested editable into nested editable': function() {
 			var editor = this.editors.editor,
-				bot = this.editorBots.editor;
+				bot = this.editorsBots.editor;
 
 			editor.widgets.add( 'testpaste1', {
 				editables: {

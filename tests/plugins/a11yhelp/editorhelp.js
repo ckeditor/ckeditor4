@@ -4,32 +4,24 @@
 ( function() {
 	'use strict';
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				withA11y: {
-					name: 'editor1',
-					creator: 'inline',
-					config: {
-						extraPlugins: 'a11yhelp'
-					}
-				},
-				withoutA11y: {
-					name: 'editor2',
-					creator: 'inline',
-					config: {
-						removePlugins: 'a11yhelp'
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+	bender.editors = {
+		withA11y: {
+			name: 'editor1',
+			creator: 'inline',
+			config: {
+				extraPlugins: 'a11yhelp'
+			}
 		},
+		withoutA11y: {
+			name: 'editor2',
+			creator: 'inline',
+			config: {
+				removePlugins: 'a11yhelp'
+			}
+		}
+	};
 
+	bender.test( {
 		'test editor with a11y plugin has aria-describedby': function() {
 			var editor = this.editors.withA11y,
 				describedBy = editor.editable().getAttribute( 'aria-describedby' );

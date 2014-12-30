@@ -3,21 +3,13 @@
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		editor: {
+			name: 'editor1'
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1'
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		'test addCustomHandler registers custom handler': function() {
 			CKEDITOR.style.addCustomHandler( {
 				type: 'testAdd1'

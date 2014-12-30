@@ -36,6 +36,23 @@
 		};
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			config: {
+				enterMode: CKEDITOR.ENTER_P,
+				allowedContent: true
+			}
+		},
+
+		editorNoAutoParagraph: {
+			name: 'editor2',
+			config: {
+				autoParagraph: false
+			}
+		}
+	};
+
 	bender.test( {
 		_should: {
 			ignore: {
@@ -44,38 +61,13 @@
 			}
 		},
 
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					config: {
-						enterMode: CKEDITOR.ENTER_P,
-						allowedContent: true
-					}
-				},
-
-				editorNoAutoParagraph: {
-					name: 'editor2',
-					config: {
-						autoParagraph: false
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		// #7912
 		'test enter key after invisible element': function() {
 			// IE restrain making selection in invisible element.
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
 
-			var bot = this.editorBots.editor,
+			var bot = this.editorsBots.editor,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>foo<span style="display:none;">bar^</span></p>' );
@@ -95,7 +87,7 @@
 
 		// #8321
 		'test enter key at the end of block with inline styles': function() {
-			var bot = this.editorBots.editor,
+			var bot = this.editorsBots.editor,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p><b><i>foo^</i></b></p>' );
@@ -106,7 +98,7 @@
 
 		// #7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
-			var bot = this.editorBots.editor,
+			var bot = this.editorsBots.editor,
 				editor = bot.editor;
 
 			editor.focus();
@@ -125,7 +117,7 @@
 
 		// Start of #8812
 		'test ener key at the end of contents with comment': function() {
-			var bot = this.editorBots.editor;
+			var bot = this.editorsBots.editor;
 
 			bot.setHtmlWithSelection( 'test ^<!-- --> ' );
 			bot.execCommand( 'enter' );
@@ -133,7 +125,7 @@
 		},
 
 		'test enter key in the middle of contents with comments': function() {
-			var bot = this.editorBots.editor;
+			var bot = this.editorsBots.editor;
 
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
 			bot.execCommand( 'enter' );
@@ -143,7 +135,7 @@
 		},
 
 		'test enter key in the middle of contents with comments (2)': function() {
-			var bot = this.editorBots.editor;
+			var bot = this.editorsBots.editor;
 
 			bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
 			bot.execCommand( 'enter' );
@@ -153,7 +145,7 @@
 		// End of #8812
 
 		'test enter key uses editor.activeEnterMode': function() {
-			var bot = this.editorBots.editorNoAutoParagraph;
+			var bot = this.editorsBots.editorNoAutoParagraph;
 
 			bot.editor.setActiveEnterMode( CKEDITOR.ENTER_BR, CKEDITOR.ENTER_DIV );
 
@@ -178,7 +170,7 @@
 		},
 
 		'test enter key is influenced by the active filter': function() {
-			var bot = this.editorBots.editorNoAutoParagraph;
+			var bot = this.editorsBots.editorNoAutoParagraph;
 
 			bot.setHtmlWithSelection( 'foo^bar' );
 

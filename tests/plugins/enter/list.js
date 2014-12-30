@@ -10,49 +10,10 @@
 		},
 		oldIE = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
-	function setUpEditors() {
-		var cfg = {
-			enterP: {
-				name: 'enterP',
-				config: {
-					enterMode: CKEDITOR.ENTER_P
-				}
-			},
-			enterBR: {
-				name: 'enterBR',
-				config: {
-					enterMode: CKEDITOR.ENTER_BR
-				}
-			}
-		};
-
-		var names = [],
-			i = 0;
-
-		for ( names[ i++ ] in cfg ); // jshint ignore:line
-
-		function next() {
-			var name = names.shift();
-
-			if ( !name ) {
-				bender.test( tests );
-				return;
-			}
-
-			cfg[ name ].config = CKEDITOR.tools.extend( globalCfg, cfg[ name ].config, true );
-
-			bender.editorBot.create( cfg[ name ], function( bot ) {
-				editors[ name ] = bot.editor;
-				bot.editor.insertText( name );
-				next();
-			} );
-		}
-
-		next();
-	}
+	editors = {};
 
 	function assertEnter( name, data, expected, action, message, selMatters ) {
-		var editor = editors[ name ];
+		var editor = bender.editors[ name ];
 
 		bender.tools.setHtmlWithSelection( editor, data );
 
@@ -70,9 +31,33 @@
 			message || 'Assertion failed.' );
 	}
 
-	setUpEditors();
+	bender.editors = {
+		enterP: {
+			name: 'enterP',
+			config: {
+				enterMode: CKEDITOR.ENTER_P
+			}
+		},
+		enterBR: {
+			name: 'enterBR',
+			config: {
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}
+	};
 
-	var tests = {
+	for ( var name in bender.editors ) {
+		CKEDITOR.tools.extend( bender.editors[ name ].config, globalCfg );
+	}
+
+	bender.test( {
+		init: function() {
+			var name;
+
+			for ( name in bender.editors ) {
+				bender.editors[ name ].insertText( name );
+			}
+		},
 		/**
 		 * Press enter key before nested list should introduce placeholder in new list item.
 		 */
@@ -600,5 +585,5 @@
 
 				true, 'Dir change forces block.', true );
 		}
-	};
+	} );
 } )();

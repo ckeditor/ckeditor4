@@ -7,21 +7,13 @@
 	var createFilter = acfTestTools.createFilter,
 		createFilterTester = acfTestTools.createFilterTester;
 
+	bender.editors = {
+		editor: {
+			name: 'editor1'
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1'
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		'test elementCallbacks property': function() {
 			var filter = new CKEDITOR.filter( 'p' );
 

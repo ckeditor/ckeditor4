@@ -9,37 +9,30 @@
 		config = {
 			autoParagraph: false,
 			extraAllowedContent: 'img[id]; p div{text-align}'
-		}, editorBots;
+		};
 
 	function assertUpcast( config, callback ) {
-		var bot = editorBots[ config.name ];
+		var bot = bender.editorsBots[ config.name ];
 
 		bot.setData( config.data, function() {
 			callback( bot.editor );
 		} );
 	}
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				enterP: {
-					name: 'enterP',
-					config: config
-				},
-				enterBR: {
-					name: 'enterBR',
-					config: CKEDITOR.tools.extend( {}, config, {
-						enterMode: CKEDITOR.ENTER_BR
-					} )
-				}
-			}, function( editors, bots ) {
-				editorBots = bots;
-				that.callback( editors );
-			} );
+	bender.editors = {
+		enterP: {
+			name: 'enterP',
+			config: config
 		},
+		enterBR: {
+			name: 'enterBR',
+			config: CKEDITOR.tools.extend( {}, config, {
+				enterMode: CKEDITOR.ENTER_BR
+			} )
+		}
+	};
 
+	bender.test( {
 		'test upcast: ENTER_P, non-captioned, centered->P{text-align}': function() {
 			assertUpcast( {
 				name: 'enterP',

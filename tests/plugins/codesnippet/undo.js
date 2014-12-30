@@ -8,40 +8,32 @@
 	var obj2Array = widgetTestsTools.obj2Array,
 		highlighter;
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				asyncHighlighter: {
-					name: 'asyncHighlighter',
-					config: {
-						on: {
-							pluginsLoaded: function() {
-								highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
-									init: function( ready ) {
-										ready();
-									},
-									languages: {
-										php: 'PHP',
-										javascript: 'JS'
-									}
-								} );
-
-								this.plugins.codesnippet.setHighlighter( highlighter );
+	bender.editors = {
+		asyncHighlighter: {
+			name: 'asyncHighlighter',
+			config: {
+				on: {
+					pluginsLoaded: function() {
+						highlighter = new CKEDITOR.plugins.codesnippet.highlighter( {
+							init: function( ready ) {
+								ready();
+							},
+							languages: {
+								php: 'PHP',
+								javascript: 'JS'
 							}
-						}
+						} );
+
+						this.plugins.codesnippet.setHighlighter( highlighter );
 					}
 				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
+			}
+		}
+	};
 
+	bender.test( {
 		'test undo snapshot while highlighting (async)': function() {
-			var bot = this.editorBots.asyncHighlighter,
+			var bot = this.editorsBots.asyncHighlighter,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>foo^</p>' );
@@ -66,7 +58,7 @@
 		},
 
 		'test undo after editing sinppet with dialog and synchronous highlighter': function() {
-			var bot = this.editorBots.asyncHighlighter,
+			var bot = this.editorsBots.asyncHighlighter,
 				editor = bot.editor;
 
 			highlighter.highlighter = function( code, language, callback ) {
@@ -102,7 +94,7 @@
 		},
 
 		'test undo after editing sinppet with dialog and asynchronous highlighter': function() {
-			var bot = this.editorBots.asyncHighlighter,
+			var bot = this.editorsBots.asyncHighlighter,
 				editor = bot.editor;
 
 			highlighter.highlighter = function( code, language, callback ) {

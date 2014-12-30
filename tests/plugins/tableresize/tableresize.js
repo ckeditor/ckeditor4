@@ -51,16 +51,6 @@ function createMoveEventMock( table ) {
 	};
 }
 
-var editorsDefinitions = {
-		classic: {
-			name: 'classic'
-		},
-		inline: {
-			name: 'inline',
-			creator: 'inline'
-		}
-	};
-
 function init( table, editor ) {
 	var evtMock = createMoveEventMock( table ),
 		mouseElement = !editor ? new CKEDITOR.dom.document( document ) :
@@ -96,81 +86,89 @@ function getResizer( doc ) {
 	return doc.find( 'div[data-cke-temp]' ).getItem( 0 );
 }
 
-bender.tools.setUpEditors( editorsDefinitions, function( editors ) {
-	bender.test( {
-		assertIsResized: function( table, name ) {
-			var width = parseInt( table.getStyle( 'width' ), 10 );
-			assert.isTrue( width > 40, name + ' should be resized.' );
-		},
+bender.editors = {
+	classic: {
+		name: 'classic'
+	},
+	inline: {
+		name: 'inline',
+		creator: 'inline'
+	}
+};
 
-		assertIsNotTouched: function( table, name ) {
-			assert.areSame( '', table.getStyle( 'width' ), name + ' should not be touched.' );
-		},
+bender.test( {
+	assertIsResized: function( table, name ) {
+		var width = parseInt( table.getStyle( 'width' ), 10 );
+		assert.isTrue( width > 40, name + ' should be resized.' );
+	},
 
-		'test classic editor': function() {
-			var editor = editors.classic,
-				doc = editor.document,
-				globalDoc = new CKEDITOR.dom.document( document ),
-				insideTable = doc.getElementsByTag( 'table' ).getItem( 0 ),
-				outsideTable = globalDoc.getById( 'outside' );
+	assertIsNotTouched: function( table, name ) {
+		assert.areSame( '', table.getStyle( 'width' ), name + ' should not be touched.' );
+	},
 
-			init( insideTable, editor );
+	'test classic editor': function() {
+		var editor = this.editors.classic,
+			doc = editor.document,
+			globalDoc = new CKEDITOR.dom.document( document ),
+			insideTable = doc.getElementsByTag( 'table' ).getItem( 0 ),
+			outsideTable = globalDoc.getById( 'outside' );
 
-			assert.areSame( 1, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be inited.' );
-			assert.areSame( 0, globalDoc.find( 'div[data-cke-temp]' ).count(), 'Global document should not be touched.' );
+		init( insideTable, editor );
 
-			this.assertIsNotTouched( insideTable, 'insideTable' );
-			this.assertIsNotTouched( outsideTable, 'outsideTable' );
+		assert.areSame( 1, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be inited.' );
+		assert.areSame( 0, globalDoc.find( 'div[data-cke-temp]' ).count(), 'Global document should not be touched.' );
 
-			resize( insideTable, function() {
-				resume( function() {
-					this.assertIsResized( insideTable, 'insideTable' );
-					this.assertIsNotTouched( outsideTable, 'outsideTable' );
+		this.assertIsNotTouched( insideTable, 'insideTable' );
+		this.assertIsNotTouched( outsideTable, 'outsideTable' );
 
-					// With true to avoid updating textarea what may cause test fail after refreshing window -
-					// Firefox will load the cached old value.
-					editor.destroy( true );
+		resize( insideTable, function() {
+			resume( function() {
+				this.assertIsResized( insideTable, 'insideTable' );
+				this.assertIsNotTouched( outsideTable, 'outsideTable' );
 
-					assert.areSame( 0, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be removed.' );
-				} );
+				// With true to avoid updating textarea what may cause test fail after refreshing window -
+				// Firefox will load the cached old value.
+				editor.destroy( true );
+
+				assert.areSame( 0, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be removed.' );
 			} );
+		} );
 
-			wait();
-		},
+		wait();
+	},
 
-		'test inline editor': function() {
-			var editor = editors.inline,
-				doc = editor.document,
-				insideTable = editor.document.getById( 'inside' ),
-				outsideTable = CKEDITOR.document.getById( 'outside' );
+	'test inline editor': function() {
+		var editor = this.editors.inline,
+			doc = editor.document,
+			insideTable = editor.document.getById( 'inside' ),
+			outsideTable = CKEDITOR.document.getById( 'outside' );
 
-			init( insideTable, editor );
+		init( insideTable, editor );
 
-			assert.areSame( 1, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be inited.' );
+		assert.areSame( 1, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be inited.' );
 
-			this.assertIsNotTouched( insideTable, 'outsideTable' );
-			this.assertIsNotTouched( outsideTable, 'outsideTable' );
+		this.assertIsNotTouched( insideTable, 'outsideTable' );
+		this.assertIsNotTouched( outsideTable, 'outsideTable' );
 
-			resize( insideTable, function() {
-				resume( function() {
-					this.assertIsResized( insideTable, 'insideTable' );
+		resize( insideTable, function() {
+			resume( function() {
+				this.assertIsResized( insideTable, 'insideTable' );
 
-					init( outsideTable );
-					resize( outsideTable, function() {
-						resume( function() {
-							this.assertIsNotTouched( outsideTable, 'outsideTable' );
+				init( outsideTable );
+				resize( outsideTable, function() {
+					resume( function() {
+						this.assertIsNotTouched( outsideTable, 'outsideTable' );
 
-							editor.destroy();
+						editor.destroy();
 
-							assert.areSame( 0, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be removed.' );
-						} );
+						assert.areSame( 0, doc.find( 'div[data-cke-temp]' ).count(), 'Resizer should be removed.' );
 					} );
-
-					wait();
 				} );
-			} );
 
-			wait();
-		}
-	} );
+				wait();
+			} );
+		} );
+
+		wait();
+	}
 } );
