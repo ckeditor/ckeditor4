@@ -913,39 +913,6 @@
 		},
 
 		/**
-		 * Creates editors defined in `editorsDefinitions` and passes them along with editorBots to the callback.
-		 *
-		 * @param {Object} editors Definitions map of the editors definitions in the same format as `editorBot` use.
-		 * @param {Function} callback Function called when all of the editors will be created.
-		 */
-		setUpEditors: function( editorsDefinitions, callback ) {
-			var names = [],
-				editors = {},
-				bots = {};
-
-			for ( var e in editorsDefinitions ) {
-				names.push( e );
-			}
-
-			next();
-
-			function next() {
-				var name = names.shift();
-
-				if ( !name ) {
-					callback( editors, bots );
-					return;
-				}
-
-				bender.editorBot.create( editorsDefinitions[ name ], function( bot ) {
-					bots[ name ] = bot;
-					editors[ name ] = bot.editor;
-					next();
-				} );
-			}
-		},
-
-		/**
 		 * Multiplies inputTests for every editor.
 		 *
 		 * @param {Object} editorsDefinitions editors definitions.
