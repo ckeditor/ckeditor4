@@ -493,11 +493,11 @@
 				var editorsDefinitions = bender.editors,
 					names = [],
 					editors = {},
-					bots = {};
+					bots = {},
+					i = 0;
 
-				for ( var e in editorsDefinitions ) {
-					names.push( e );
-				}
+				// The funniest for-in loop I've ever seen.
+				for ( names[ i++ ] in editorsDefinitions ); // jshint ignore:line
 
 				next();
 
