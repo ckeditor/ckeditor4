@@ -242,9 +242,11 @@
 			[ '<table border="1" style="width:500px"><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table border="1" style="width:500px"><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>[]@!</p>' ],
+			// #13 Single row selection.
 			[ '<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>{c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>c</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b[]</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+			// #14 Two rows selection.
 			[ '<table><tbody><tr><td>{a</td><td>b</td></tr><tr><td>c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]e</td><td>f</td></tr></tbody></table>' ],

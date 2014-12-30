@@ -852,6 +852,24 @@
 					return new CKEDITOR.dom.elementPath( startElement, root );
 				}
 
+				// Prerequisites:
+				// * range is collapsed
+				// * range is not located in a text node
+				//
+				// This function is only valid for small number of cases e.g.
+				// <tr>^<td><br></td>
+				//
+				// A more sophisticated method may need to be found
+				// to handle different cases.
+				function fixUneditableRangePosition( range ) {
+					if ( !range.startContainer.getDtd()[ '#' ] ) {
+						var editableNode = range.getNextEditableNode();
+						if ( editableNode ) {
+							range.moveToPosition( editableNode, CKEDITOR.POSITION_BEFORE_START );
+						}
+					}
+				}
+
 				var list = ( function() {
 					return {
 						detectMerge: function( that ) {
@@ -1285,6 +1303,11 @@
 
 					// Make sure range is always anchored in an element. For consistency.
 					range.optimize();
+
+					// It my happen that the uncollapsed range which referred to a valid selection,
+					// will be placed in uneditable location after being collapsed:
+					// <tr>[<td>x</td>]</tr>
+					fixUneditableRangePosition( range );
 
 					// Execute content-specific post-extract routines.
 					list.merge( that, this );
