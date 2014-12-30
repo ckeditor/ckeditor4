@@ -948,11 +948,11 @@
 		/**
 		 * Multiplies inputTests for every editor.
 		 *
-		 * @param {Object} editors
+		 * @param {Object} editorsDefinitions editors definitions.
 		 * @param {Object} inputTests Tests to apply on every editor.
 		 * @returns {Object} Created tests for every editor.
 		 */
-		createTestsForEditors: function( editors, inputTests ) {
+		createTestsForEditors: function( editorsNames, inputTests ) {
 			var outputTests = {},
 				specificTestName,
 				specialMethods = {
@@ -960,7 +960,8 @@
 					'async:init': 1,
 					'setUp': 1,
 					'tearDown': 1
-				};
+				},
+				i, editorName;
 
 			for ( var method in specialMethods ) {
 				if ( inputTests[ method ] ) {
@@ -968,13 +969,15 @@
 				}
 			}
 
-			for ( var editorName in editors ) {
+			for ( i = 0; i < editorsNames.length; i++ ) {
+				editorName = editorsNames[ i ];
+
 				for ( var testName in inputTests ) {
 					if ( specialMethods[ testName ] ) {
 						continue;
 					}
 
-					specificTestName = testName + ' (' + editors[ editorName ].name + ')';
+					specificTestName = testName + ' (' + editorName + ')';
 
 					// Avoid silent failure.
 					if ( outputTests[ specificTestName ] ) {
@@ -983,7 +986,7 @@
 
 					outputTests[ specificTestName ] = ( function( testName, editorName ) {
 						return function() {
-							inputTests[ testName ]( editors[ editorName ] );
+							inputTests[ testName ]( bender.editors[ editorName ] );
 						};
 					} )( testName, editorName );
 				}
