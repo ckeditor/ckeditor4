@@ -151,13 +151,25 @@
 					return dialog.lockRatio;
 				};
 
-			var resetSize = function( dialog ) {
-					var oImageOriginal = dialog.originalElement;
-					if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
+			var resetSize = function( dialog, emptyValues ) {
+					var oImageOriginal = dialog.originalElement,
+						ready = oImageOriginal.getCustomData( 'isReady' ) == 'true';
+
+					if ( ready ) {
 						var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-							heightField = dialog.getContentElement( 'info', 'txtHeight' );
-						widthField && widthField.setValue( oImageOriginal.$.width );
-						heightField && heightField.setValue( oImageOriginal.$.height );
+							heightField = dialog.getContentElement( 'info', 'txtHeight' ),
+							widthValue, heightValue;
+
+						if ( emptyValues ) {
+							widthValue = 0;
+							heightValue = 0;
+						} else {
+							widthValue = oImageOriginal.$.width;
+							heightValue = oImageOriginal.$.height;
+						}
+
+						widthField && widthField.setValue( widthValue );
+						heightField && heightField.setValue( heightValue );
 					}
 					updatePreview( dialog );
 				};
@@ -207,9 +219,10 @@
 					if ( loader )
 						loader.setStyle( 'display', 'none' );
 
-					// New image -> new domensions
-					if ( !this.dontResetSize )
-						resetSize( this );
+					// New image -> new dimensions
+					if ( !this.dontResetSize ) {
+						resetSize( this, editor.config.image_prefillDimensions === false );
+					}
 
 					if ( this.firstLoad ) {
 						CKEDITOR.tools.setTimeout( function() {
