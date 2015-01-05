@@ -4,10 +4,6 @@
 	'use strict';
 
 	var editors = {},
-		globalCfg = {
-			plugins: 'entities,button,enterkey,list,toolbar',
-			allowedContent: true
-		},
 		oldIE = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 	editors = {};
@@ -46,9 +42,10 @@
 		}
 	};
 
-	for ( var name in bender.editors ) {
-		CKEDITOR.tools.extend( bender.editors[ name ].config, globalCfg );
-	}
+	bender.editorsConfig = {
+		plugins: 'entities,button,enterkey,list,toolbar',
+		allowedContent: true
+	};
 
 	bender.test( {
 		init: function() {

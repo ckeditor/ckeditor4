@@ -66,14 +66,6 @@
 			}
 		};
 
-	for ( var d in defs ) {
-		CKEDITOR.tools.extend( defs[ d ].config, {
-			language: 'en',
-			extraAllowedContent: 'figure img[id]; p{text-align}',
-			autoParagraph: false
-		} );
-	}
-
 	function assertVisibleFields( bot, fields ) {
 		bot.editor.once( 'dialogShow', function( evt ) {
 			var dialog = evt.data;
@@ -127,6 +119,12 @@
 	}
 
 	bender.editors = defs;
+
+	bender.editorsConfig = {
+		language: 'en',
+		extraAllowedContent: 'figure img[id]; p{text-align}',
+		autoParagraph: false
+	};
 
 	bender.test( {
 		'test image: src only': function() {

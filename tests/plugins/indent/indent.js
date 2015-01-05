@@ -3,14 +3,7 @@
 ( function() {
 	'use strict';
 
-	var cfg = {
-			indentOffset: 10,
-			indentUnit: 'px',
-			autoParagraph: true,
-			plugins: 'toolbar,list,indentlist,indentblock,undo'
-		},
-		enterModeAbbr = {},
-		name;
+	var enterModeAbbr = {};
 
 	enterModeAbbr[ CKEDITOR.ENTER_P ] = 'P';
 	enterModeAbbr[ CKEDITOR.ENTER_BR ] = 'BR';
@@ -141,10 +134,12 @@
 		}
 	};
 
-	// Extend editor's config with global one.
-	for ( name in bender.editors ) {
-		bender.editors[ name ].config = CKEDITOR.tools.extend( bender.editors[ name ].config || {}, cfg );
-	}
+	bender.editorsConfig = {
+		indentOffset: 10,
+		indentUnit: 'px',
+		autoParagraph: true,
+		plugins: 'toolbar,list,indentlist,indentblock,undo'
+	};
 
 	bender.test( {
 		'test block': function() {

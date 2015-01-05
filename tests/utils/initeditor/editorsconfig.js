@@ -18,12 +18,12 @@ bender.editors = {
 			language: 'fr',
 			uiColor: 'red'
 		}
-	},
+	}
 };
 
 bender.editorsConfig = {
 	language: 'pl'
-}
+};
 
 bender.test( {
 	'test none': function() {

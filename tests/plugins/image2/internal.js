@@ -158,13 +158,11 @@
 		}
 	};
 
-	for ( var d in bender.editors ) {
-		CKEDITOR.tools.extend( bender.editors[ d ].config, {
-			allowedContent: true,
-			autoParagraph: false,
-			language: 'en'
-		} );
-	}
+	bender.editorsConfig = {
+		allowedContent: true,
+		autoParagraph: false,
+		language: 'en'
+	};
 
 	bender.test( {
 		'test non-captioned: center unaligned image': function() {

@@ -5,11 +5,7 @@
 ( function() {
 	'use strict';
 
-	var obj2Array = widgetTestsTools.obj2Array,
-		config = {
-			autoParagraph: false,
-			extraAllowedContent: 'img[id]; p div{text-align}'
-		};
+	var obj2Array = widgetTestsTools.obj2Array;
 
 	function assertUpcast( config, callback ) {
 		var bot = bender.editorsBots[ config.name ];
@@ -21,15 +17,19 @@
 
 	bender.editors = {
 		enterP: {
-			name: 'enterP',
-			config: config
+			name: 'enterP'
 		},
 		enterBR: {
 			name: 'enterBR',
-			config: CKEDITOR.tools.extend( {}, config, {
+			config: {
 				enterMode: CKEDITOR.ENTER_BR
-			} )
+			}
 		}
+	};
+
+	bender.editorsConfig = {
+		autoParagraph: false,
+		extraAllowedContent: 'img[id]; p div{text-align}'
 	};
 
 	bender.test( {

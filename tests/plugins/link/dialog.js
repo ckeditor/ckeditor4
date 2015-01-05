@@ -4,10 +4,6 @@
 ( function() {
 	'use strict';
 
-	var config = {
-			extraAllowedContent: 'a[id,name]'
-		};
-
 	function assertAnchorDiscovery( bot, expIds, expNames ) {
 		bot.dialog( 'link', function( dialog ) {
 			dialog.setValueOf( 'info', 'linkType', 'anchor' );
@@ -37,8 +33,7 @@
 				'<a id="aa" name="ab">a</a>' +
 				'<a id="ba" name="bb">b</a>' +
 				'<a id="ca" name="cb"></a>' +
-			'</p>',
-			config: config
+			'</p>'
 		},
 		inline: {
 			name: 'inline',
@@ -47,8 +42,7 @@
 				'<a id="ma" name="mb">m</a>' +
 				'<a id="na" name="nb">n</a>' +
 				'<a id="oa" name="ob"></a>' +
-			'</p>',
-			config: config
+			'</p>'
 		},
 		divarea: {
 			name: 'divarea',
@@ -58,10 +52,14 @@
 				'<a id="ua" name="ub">u</a>' +
 				'<a id="wa" name="wb"></a>' +
 			'</p>',
-			config: CKEDITOR.tools.extend( {}, config, {
+			config: {
 				extraPlugins: 'divarea'
-			} )
+			}
 		}
+	};
+
+	bender.editorsConfig = {
+		extraAllowedContent: 'a[id,name]'
 	};
 
 	bender.test( {
