@@ -502,7 +502,8 @@
 				next();
 
 				function next() {
-					var name = names.shift();
+					var name = names.shift(),
+						definition = editorsDefinitions[ name ];
 
 					if ( !name ) {
 						bender.editors = bender.testCase.editors = editors;
@@ -511,15 +512,19 @@
 						return;
 					}
 
-					if ( bender.editorsConfig ) {
-						if ( !editorsDefinitions[ name ].config ) {
-							editorsDefinitions[ name ].config = {};
-						}
-
-						CKEDITOR.tools.extend( editorsDefinitions[ name ].config, bender.editorsConfig );
+					if ( !definition.name ) {
+						definition.name = name;
 					}
 
-					bender.editorBot.create( editorsDefinitions[ name ], function( bot ) {
+					if ( bender.editorsConfig ) {
+						if ( !definition.config ) {
+							definition.config = {};
+						}
+
+						CKEDITOR.tools.extend( definition.config, bender.editorsConfig );
+					}
+
+					bender.editorBot.create( definition, function( bot ) {
 						bots[ name ] = bot;
 						editors[ name ] = bot.editor;
 						next();
