@@ -511,6 +511,14 @@
 						return;
 					}
 
+					if ( bender.editorsConfig ) {
+						if ( !editorsDefinitions[ name ].config ) {
+							editorsDefinitions[ name ].config = {};
+						}
+
+						CKEDITOR.tools.extend( editorsDefinitions[ name ].config, bender.editorsConfig );
+					}
+
 					bender.editorBot.create( editorsDefinitions[ name ], function( bot ) {
 						bots[ name ] = bot;
 						editors[ name ] = bot.editor;
