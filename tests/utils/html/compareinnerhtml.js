@@ -6,7 +6,8 @@
 	var compatHtmlArgs,
 		originalCompatHtml = bender.tools.compatHtml,
 		htmlTools = bender.tools.html,
-		filler = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;';
+		filler = CKEDITOR.env.needsBrFiller ? '<br />' : '',
+		fillerPattern = filler ? '(<br />)?' : '';
 
 	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements ) {
 		compatHtmlArgs = {
@@ -103,7 +104,7 @@
 		'simple string - fail':								t( false, 'foo', 'bar' ),
 		'simple element - fail':							t( false, '<b>foo</b>', '<I>foo</I>' ),
 		'not expected bogus - fail':						t( false, '<p>foo<br /></p>', '<p>foo</p>' ),
-		'bogus expected, not exists':						t( false, 'a@!', 'a' ),
+		'bogus expected, not exists':						t( !CKEDITOR.env.needsBrFiller, 'a@!', 'a' ),
 
 		// Expected part has to be regexified if special characters are not escaped
 		// bad things may happen.
@@ -135,7 +136,7 @@
 
 		'prep pattern - basic':							tp( '/^foo$/', 'foo' ),
 		'prep pattern - escaping':						tp( '/^f\\.o\\*o$/', 'f.o*o' ),
-		'prep pattern - boguses':						tp( '/^f(' + filler + ')?oo(' + filler + ')?$/', 'f@oo@' ),
+		'prep pattern - boguses':						tp( '/^f' + fillerPattern + 'oo' + fillerPattern + '$/', 'f@oo@' ),
 
 		// Misc ---------------------------------------------------------------
 
