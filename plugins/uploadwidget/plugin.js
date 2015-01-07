@@ -197,6 +197,7 @@
 					console.log( loader.status );
 					if ( typeof widget[ 'on' + loader.status ] === 'function' ) {
 						if ( widget[ 'on' + loader.status ]( loader ) === false ) {
+							editor.fire( 'unlockSnapshot' );
 							return;
 						}
 					}
