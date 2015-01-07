@@ -56,18 +56,8 @@
 	// } );
 	// </DEV>
 
-		// On old IEs nbsp will always fill empty blocks.
-	var emptyBlockFiller = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;',
-		// On old IEs nbsp will never exist if element isn't empty or after <p><br>^</p>.
-		brFiller = CKEDITOR.env.needsBrFiller ? '<br />' : '',
-		tdLiFiller = CKEDITOR.env.needsBrFiller ? '@!' : '@';
-
 	function decodeInputFillers( html ) {
-		return html.replace( /@!/g, emptyBlockFiller ).replace( /@/g, brFiller );
-	}
-
-	function decodeOutputFillers( html ) {
-		return html.replace( /@1/g, tdLiFiller );
+		return html.replace( /@/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' );
 	}
 
 	function addTests( cases, editor ) {
@@ -117,7 +107,6 @@
 	function assertExtractSelectedHtmlFromRange( editor, html, htmlGet, htmlWithSelection ) {
 		return function() {
 			html = decodeInputFillers( html );
-			htmlWithSelection = decodeOutputFillers( htmlWithSelection );
 
 			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
@@ -130,14 +119,12 @@
 
 // # '@' meaning in HTML patterns
 //
-// pattern				|	needs br filler			|	needs nbsp filler
+// pattern				|	needs br filler					|	needs nbsp filler
 // ------------------------------------------------------------------------------------------------------------
-// input HTML	|	@	|	<br>					|	nothing						(we use it to simulate bogus <br> in non-empty blocks)
-//				|	@!	|	<br>					|	nbsp						(we use it for empty blocks)
+// input HTML	|	@	|	<br>							|	nothing						(we use it to simulate bogus <br> in non-empty blocks)
 // ------------------------------------------------------------------------------------------------------------
-// output HTML	|	@	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for uncertain cases)
-//				|	@!	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for empty blocks)
-//				|	@1	|	expected <br>			|	expected nothing			(we use it for <li> and <td>)
+// output HTML	|	@	|	like compareInnerHtml (accept)	|	like compareInnerHtml		(we use it for uncertain cases)
+//				|	@!	|	like compareInnerHtml (expect)	|	like compareInnerHtml		(we use it for empty blocks)
 
 	addTests( {
 		'block': [
@@ -204,9 +191,9 @@
 
 		'tables': [
 			// #1
-			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@1</td></tr></tbody></table>' ],
+			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
 			// #2
-			[ '<div><table><tbody><tr><td>{a}</td></tr></tbody></table></div>',		'a',															'<div><table><tbody><tr><td>[]@1</td></tr></tbody></table></div>' ],
+			[ '<div><table><tbody><tr><td>{a}</td></tr></tbody></table></div>',		'a',															'<div><table><tbody><tr><td>[]@!</td></tr></tbody></table></div>' ],
 			// #3
 			[ '<table><tbody><tr><td>a{b}c</td></tr></tbody></table>',				'b',															'<table><tbody><tr><td>a[]c</td></tr></tbody></table>' ],
 			// #4
@@ -220,15 +207,15 @@
 			// #6
 			[ '<table><tbody><tr>[<td>a</td><td>b}c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
-				'<table><tbody><tr><td>[]@1</td><td>c</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>[]@!</td><td>c</td></tr></tbody></table>' ],
 			// #7
 			[ '<table><tbody><tr>[<td>a</td>]<td>b</td></tr></tbody></table>',
 				'a',
-				'<table><tbody><tr><td>[]@1</td><td>b</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>[]@!</td><td>b</td></tr></tbody></table>' ],
 			// #8 Partial table + paragragh + partial table.
 			[ '<table><tbody><tr><td>{a</td></tr></tbody></table><p>x</p><table><tbody><tr><td>b</td></tr><tr><td>c}</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td></tr></tbody></table><p>x</p><table><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>',
-				'<table><tbody><tr><td>[]@!</td></tr></tbody></table><table><tbody><tr><td>@1</td></tr><tr><td>@1</td><td>d</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>[]@!</td></tr></tbody></table><table><tbody><tr><td>@!</td></tr><tr><td>@!</td><td>d</td></tr></tbody></table>' ],
 			// #9
 			[ '<table><tbody><tr><td>a{b</td><td>c</td></tr><tr><td>d}e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td></tr></tbody></table>',
@@ -240,7 +227,7 @@
 			// #11
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e]f</td></tr></tbody></table>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e</td></tr></tbody></table>',
-				'<p>[]@!</p><table><tbody><tr><td>@1</td><td>@1</td></tr><tr><td>@1</td><td>f</td></tr></tbody></table>' ],
+				'<p>[]@!</p><table><tbody><tr><td>@!</td><td>@!</td></tr><tr><td>@!</td><td>f</td></tr></tbody></table>' ],
 			// #12
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
@@ -252,11 +239,11 @@
 			// #14 Single row selection.
 			[ '<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>{c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>c</td><td>d</td></tr></tbody></table>',
-				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>[]@!</td><td>@1</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>[]@!</td><td>@!</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
 			// #15 Two rows selection.
 			[ '<table><tbody><tr><td>{a</td><td>b</td></tr><tr><td>c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></tbody></table>',
-				'<table><tbody><tr><td>[]@!</td><td>@1</td></tr><tr><td>@1</td><td>@1</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
+				'<table><tbody><tr><td>[]@!</td><td>@!</td></tr><tr><td>@!</td><td>@!</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
 			// #16
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e}f</p>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e</p>',
@@ -268,15 +255,15 @@
 			// #18
 			[ '<p>x</p><table><tbody><tr>[<td>a</td>]</tr></tbody></table>',
 				'a',
-				'<p>x</p><table><tbody><tr><td>[]@1</td></tr></tbody></table>' ],
+				'<p>x</p><table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
 			// #19
 			[ '<p>x</p><table><tbody><tr><td>a[</td><td>b</td>]</tr></tbody></table>',
 				'<table><tbody><tr><td></td><td>b</td></tr></tbody></table>',
-				'<p>x</p><table><tbody><tr><td>a[]</td><td>@</td></tr></tbody></table>' ],
+				'<p>x</p><table><tbody><tr><td>a[]</td><td>@!</td></tr></tbody></table>' ],
 			// #20
 			[ '<p>x</p><table><tbody><tr>[<td>a</td><td>b</td>]</tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
-				'<p>x</p><p>[]@1</p>' ],
+				'<p>x</p><p>[]@!</p>' ],
 			// #21
 			[ '<table><thead><tr>[<th>a</th>]</tr></thead><tbody><tr><td>b</td></tr></tbody></table>',
 				'a',
@@ -301,8 +288,8 @@
 
 		'lists': [
 			[ '<ol><li>a{b}c</li></ol>',											'b',															'<ol><li>a[]c</li></ol>' ],
-			[ '<ol><li>{a}</li></ol>',												'a',															'<ol><li>[]@1</li></ol>' ],
-			[ '<div><ol><li>{a}</li></ol></div>',									'a',															'<div><ol><li>[]@1</li></ol></div>' ],
+			[ '<ol><li>{a}</li></ol>',												'a',															'<ol><li>[]@!</li></ol>' ],
+			[ '<div><ol><li>{a}</li></ol></div>',									'a',															'<div><ol><li>[]@!</li></ol></div>' ],
 			[ '<ol><li>a{b</li><li>c}d</li></ol>',									'<ol><li>b</li><li>c</li></ol>',								'<ol><li>a[]d</li></ol>' ],
 			[ '<ol><li>a{b</li></ol><ol><li>c}d</li></ol>',							'<ol><li>b</li></ol><ol><li>c</li></ol>',						'<ol><li>a[]d</li></ol>' ],
 			[ '<ol><li>a{b</li></ol><ul><li>c}d</li></ul>',							'<ol><li>b</li></ol><ul><li>c</li></ul>',						'<ol><li>a[]d</li></ol>' ],
