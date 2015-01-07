@@ -526,18 +526,6 @@
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 
-	// Changes the first letter of the string to the upper case.
-	//
-	// Example.: 'foo' -> 'Foo'
-	//
-	// @param {String} str Input string.
-	// @returns {String} String with uppers case first letter.
-	function ucFirst( str ) {
-		str += '';
-		var f = str.charAt( 0 ).toUpperCase();
-		return f + str.substr( 1 );
-	}
-
 	// Transforms Base64 string data into file and creates name for that file based on the mime type.
 	//
 	// @private
@@ -615,12 +603,14 @@
 		 * @returns {String} Upload URL.
 		 */
 		getUploadUrl: function( config, type ) {
+			var capitalize = CKEDITOR.tools.capitalize;
+
 			if ( type && config[ type + 'UploadUrl' ] ) {
 				return config[ type + 'UploadUrl' ];
 			} else if ( config.uploadUrl ) {
 				return config.uploadUrl;
-			} else if ( type && config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] ) {
-				return config[ 'filebrowser' + ucFirst( type ) + 'UploadUrl' ] + '&responseType=json';
+			} else if ( type && config[ 'filebrowser' + capitalize( type, 1 ) + 'UploadUrl' ] ) {
+				return config[ 'filebrowser' + capitalize( type, 1 ) + 'UploadUrl' ] + '&responseType=json';
 			} else if ( config.filebrowserUploadUrl ) {
 				return config.filebrowserUploadUrl + '&responseType=json';
 			}
