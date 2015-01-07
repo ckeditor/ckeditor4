@@ -39,6 +39,7 @@
 	 *
 	 * @since 4.5
 	 * @class CKEDITOR.filetools.UploadsRepository
+	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the repository.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get the language data.
 	 */
@@ -55,6 +56,8 @@
 		 * Creates a {@link CKEDITOR.filetools.FileLoader file loader} instance with a unique id.
 		 * The instance can be later retrieved from the repository using the {@link #get} method.
 		 *
+		 * Fires {@link CKEDITOR.filetools.UploadsRepository#created created} event.
+		 *
 		 * @param {Blob/String} fileOrData See {@link CKEDITOR.filetools.FileLoader}.
 		 * @param {String} fileName See {@link CKEDITOR.filetools.FileLoader}.
 		 * @returns {CKEDITOR.filetools.FileLoader} The created file loader instance.
@@ -65,6 +68,8 @@
 
 			loader.id = id;
 			this._.loaders[ id ] = loader;
+
+			this.fire( 'created', loader );
 
 			return loader;
 		},
@@ -78,6 +83,14 @@
 		get: function( id ) {
 			return this._.loaders[ id ];
 		}
+
+		/**
+		 * Event fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} is created.
+		 *
+		 * @event created
+		 * @member CKEDITOR.fileTools.uploadsRepository
+		 * @param {CKEDITOR.fileTools.fileLoader} data Created FileLoader.
+		 */
 	};
 
 	/**
@@ -518,6 +531,7 @@
 		 */
 	};
 
+	CKEDITOR.event.implementOn( UploadsRepository.prototype );
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
 	//

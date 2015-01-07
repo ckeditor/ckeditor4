@@ -135,6 +135,19 @@
 			assert.areSame( 'name1', repository.get( 0 ).fileName );
 			assert.areSame( 'name2', repository.get( 1 ).fileName );
 			assert.isUndefined( repository.get( 2 ) );
+		},
+
+
+		'test UploadsRepository create event': function() {
+			var repository = this.editor.uploadsRepository,
+				listener = sinon.spy();
+
+			repository.on( 'created', listener );
+
+			var loader = repository.create( { name: 'foo' } );
+
+			assert.isTrue( listener.calledOnce, 'Should be called once.' );
+			assert.isTrue( listener.calledWithMatch( { data: loader } ), 'Should be called with loader.' );
 		}
 	} );
 } )();
