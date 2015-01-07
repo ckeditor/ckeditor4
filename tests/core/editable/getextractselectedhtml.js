@@ -132,8 +132,8 @@
 //
 // pattern				|	needs br filler			|	needs nbsp filler
 // ------------------------------------------------------------------------------------------------------------
-// input HTML	|	@	|	<br>					|	nothing
-//				|	@!	|	<br>					|	nbsp
+// input HTML	|	@	|	<br>					|	nothing						(we use it to simulate bogus <br> in non-empty blocks)
+//				|	@!	|	<br>					|	nbsp						(we use it for empty blocks)
 // ------------------------------------------------------------------------------------------------------------
 // output HTML	|	@	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for uncertain cases)
 //				|	@!	|	like compareInnerHtml	|	like compareInnerHtml		(we use it for empty blocks)
@@ -149,7 +149,7 @@
 
 		'cross-block': [
 			[ '<p>a{</p><p>}b</p>',													'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
-			[ '<p>a{@!</p><p>}b</p>',												'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
+			[ '<p>a{@</p><p>}b</p>',												'<br data-cke-eol="1" />',										'<p>a[]b</p>' ],
 			[ '<p>{a</p><p>b}</p>',													'<p>a</p><p>b</p>',												'<p>[]@!</p>' ],
 			[ '<h1>{a</h1><p>b}</p>',												'<h1>a</h1><p>b</p>',											'<h1>[]@!</h1>' ],
 			[ '<p>a{b</p><p>c}d</p>',												'<p>b</p><p>c</p>',												'<p>a[]d</p>' ],
