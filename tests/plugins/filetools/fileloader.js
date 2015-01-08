@@ -743,15 +743,15 @@
 				sendRequestCounter = 0,
 				handleResponseCounter = 0;
 
-			FileLoader.prototype.sendRequest = function( xhr ) {
+			FileLoader.prototype.sendRequest = function() {
 				sendRequestCounter++;
-				xhr.send( 'custom form' );
+				this.xhr.send( 'custom form' );
 			};
 
-			FileLoader.prototype.handleResponse = function( xhr ) {
+			FileLoader.prototype.handleResponse = function() {
 				handleResponseCounter++;
 
-				var response = xhr.responseText.split( '|' );
+				var response = this.xhr.responseText.split( '|' );
 
 				this.fileName = response[ 0 ];
 				this.url = response[ 1 ];
@@ -779,6 +779,66 @@
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test xhr property': function() {
+			var loader = new FileLoader( {}, testFile ),
+				report = '';
+
+			createFileReaderMock( [ 'progress', 'load' ] );
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
+			function listener( evt ) {
+				console.log( evt.name );
+				if ( loader.xhr ) {
+					report += '+';
+				} else {
+					report += '-';
+				}
+			}
+
+			loader.on( 'loading', listener );
+			loader.on( 'loaded', listener );
+			loader.on( 'uploading', listener );
+			loader.on( 'uploaded', listener );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.areSame( '-++', report );
+			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test reader property': function() {
+			var loader = new FileLoader( {}, testFile ),
+				report = '';
+
+			createFileReaderMock( [ 'progress', 'load' ] );
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
+			function listener( evt ) {
+				console.log( evt.name );
+				if ( loader.reader ) {
+					report += '+';
+				} else {
+					report += '-';
+				}
+			}
+
+			loader.on( 'loading', listener );
+			loader.on( 'loaded', listener );
+			loader.on( 'uploading', listener );
+			loader.on( 'uploaded', listener );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.areSame( '+++', report );
+			} );
+
+			loader.loadAndUpload( 'http:\/\/url\/' );
 
 			wait();
 		}

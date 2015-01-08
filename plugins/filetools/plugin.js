@@ -229,6 +229,19 @@
 	 */
 
 	/**
+	 *
+	 * Native `FileReader` used to load file.
+	 *
+	 * @property {FileReader} reader
+	 */
+
+	/**
+	 * Native `XMLHttpRequest` used to upload file.
+	 *
+	 * @property {XMLHttpRequest} xhr
+	 */
+
+	/**
 	 * If `FileLoader` was created using {@link CKEDITOR.filetools.UploadsRepository}
 	 * it gets an identifier which is stored in this property.
 	 *
@@ -290,13 +303,16 @@
 		 * * `loaded`.
 		 */
 		load: function() {
-			var reader = new FileReader(),
-				loader = this;
+			var loader = this;
+
+			this.reader = new FileReader();
+
+			var reader = this.reader;
 
 			loader.changeStatusAndFire( 'loading' );
 
 			this.abort = function() {
-				reader.abort();
+				loader.reader.abort();
 			};
 
 			reader.onabort = function() {
@@ -338,15 +354,15 @@
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatusAndFire( 'error' );
 			} else {
-				var xhr = new XMLHttpRequest();
+				this.xhr = new XMLHttpRequest();
 
 				this.uploadUrl = url;
 
 				this.changeStatusAndFire( 'uploading' );
 
-				this.attachUploadListeners( xhr );
+				this.attachUploadListeners();
 
-				this.sendRequest( xhr );
+				this.sendRequest();
 			}
 		},
 
@@ -355,8 +371,9 @@
 		 *
 		 * @param {XMLHttpRequest} xhr XML HTTP request object.
 		 */
-		attachUploadListeners: function( xhr ) {
-			var loader = this;
+		attachUploadListeners: function() {
+			var loader = this,
+				xhr = this.xhr;
 
 			loader.abort = function() {
 				xhr.abort();
@@ -396,7 +413,9 @@
 		 *
 		 * For example to send data directly (without a form):
 		 *
-		 * 		CKEDITOR.filetools.FileLoader.prototype.sendRequest = function() {
+		 * 		CKEDITOR.fileTools.fileLoader.prototype.sendRequest = function() {
+		 * 			var xhr = this.xhr;
+		 *
 		 * 			xhr.open( 'POST', this.uploadUrl, true );
 		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
 		 * 			xhr.setRequestHeader( 'X-File-Name', this.fileName );
@@ -406,8 +425,9 @@
 		 *
 		 * @param {XMLHttpRequest} xhr XML HTTP Request object with attached listeners.
 		 */
-		sendRequest: function( xhr ) {
-			var formData = new FormData();
+		sendRequest: function() {
+			var formData = new FormData(),
+				xhr = this.xhr;
 
 			formData.append( 'upload', this.file, this.fileName );
 			xhr.open( 'POST', this.uploadUrl, true );
@@ -432,11 +452,11 @@
 		 *
 		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
 		 */
-		handleResponse: function( xhr ) {
+		handleResponse: function() {
 			try {
-				var response = JSON.parse( xhr.responseText );
+				var response = JSON.parse( this.xhr.responseText );
 			} catch ( e ) {
-				this.message = this.lang.filetools.responseError.replace( '%1', xhr.responseText );
+				this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
 				this.changeStatusAndFire( 'error' );
 				return;
 			}
