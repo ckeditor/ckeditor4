@@ -852,21 +852,9 @@
 					return new CKEDITOR.dom.elementPath( startElement, root );
 				}
 
-				// Prerequisites:
-				// * range is collapsed
-				// * range is not located in a text node
-				//
-				// This function is only valid for small number of cases e.g.
-				// <tr>^<td><br></td>
-				//
-				// A more sophisticated method may need to be found
-				// to handle different cases.
 				function fixUneditableRangePosition( range ) {
 					if ( !range.startContainer.getDtd()[ '#' ] ) {
-						var editableNode = range.getNextEditableNode();
-						if ( editableNode ) {
-							range.moveToPosition( editableNode, CKEDITOR.POSITION_BEFORE_START );
-						}
+						range.moveToClosestEditablePosition( null, true );
 					}
 				}
 
