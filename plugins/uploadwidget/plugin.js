@@ -230,7 +230,7 @@
 				}
 
 				var el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
-					wasSelected = this.wrapper.hasClass( 'cke_widget_selected' ),
+					wasSelected = ( this == editor.widgets.focused ),
 					range;
 
 				el.replace( this.wrapper );
