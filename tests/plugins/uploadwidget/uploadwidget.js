@@ -393,12 +393,12 @@
 			addTestUploadWidget( editor, 'loadingTypeLoad', {
 				loadingType: 'load',
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					return new CKEDITOR.dom.element( 'span' );
 				}
 			} );
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assert.areSame( 1, loadCount, 'Load should be called.' );
 				assert.areSame( 0, uploadCount, 'Upload should not be called.' );
 				assert.areSame( 0, loadAndUploadCount, 'LoadAndUpload should not be called once.' );
@@ -415,12 +415,12 @@
 			addTestUploadWidget( editor, 'loadingTypeLoad', {
 				loadingType: 'upload',
 
-				fileToElement: function( file ) {
+				fileToElement: function() {
 					return new CKEDITOR.dom.element( 'span' );
 				}
 			} );
 
-			resumeAfter( editor, 'paste', function( evt ) {
+			resumeAfter( editor, 'paste', function() {
 				assert.areSame( 0, loadCount, 'Load should not be called.' );
 				assert.areSame( 1, uploadCount, 'Upload should be called once.' );
 				assert.areSame( 0, loadAndUploadCount, 'LoadAndUpload should not be called once.' );

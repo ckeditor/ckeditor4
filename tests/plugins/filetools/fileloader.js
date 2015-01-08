@@ -790,8 +790,7 @@
 			createFileReaderMock( [ 'progress', 'load' ] );
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
 
-			function listener( evt ) {
-				console.log( evt.name );
+			function listener() {
 				if ( loader.xhr ) {
 					report += '+';
 				} else {
@@ -820,8 +819,7 @@
 			createFileReaderMock( [ 'progress', 'load' ] );
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
 
-			function listener( evt ) {
-				console.log( evt.name );
+			function listener() {
 				if ( loader.reader ) {
 					report += '+';
 				} else {
