@@ -6,8 +6,9 @@
 	var compatHtmlArgs,
 		originalCompatHtml = bender.tools.compatHtml,
 		htmlTools = bender.tools.html,
-		filler = CKEDITOR.env.needsBrFiller ? '<br />' : '',
-		fillerPattern = filler ? '(<br />)?' : '';
+		fillerBr = CKEDITOR.env.needsBrFiller ? '<br />' : '',
+		fillerBoth = CKEDITOR.env.needsBrFiller ? '<br />' : '&nbsp;',
+		fillerBrPattern = fillerBr ? '(<br />)?' : '';
 
 	bender.tools.compatHtml = function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements ) {
 		compatHtmlArgs = {
@@ -78,11 +79,13 @@
 		'simple string':									t( true, 'foo', 'foo' ),
 		'simple element':									t( true, '<b>foo</b>', '<B>foo</B>' ),
 		'bogus possible, not exists':						t( true, 'a@', 'a' ),
+		'bogus possible, not exists - br/nbsp':				t( true, 'a@@', 'a' ),
 		// Obvious simplification - &nbsp; can't be a filler in this place, but that
 		// is developer's duty to use @ correctly.
-		'bogus possible, exists':							t( true, 'a@', 'a' + filler ),
-		'bogus expected, exists':							t( true, 'a@!', 'a' + filler ),
-		'multiple boguses':									t( true, '<p>a@</p><p>b@</p><p>c@</p>', '<p>a' + filler + '</p><p>b</p><p>c' + filler + '</p>' ),
+		'bogus possible, exists':							t( true, 'a@', 'a' + fillerBr ),
+		'bogus expected, exists':							t( true, 'a@!', 'a' + fillerBr ),
+		'bogus possible, exists - br/nbsp':					t( true, 'a@@', 'a' + fillerBoth ),
+		'multiple boguses':									t( true, '<p>a@</p><p>b@</p><p>c@</p>', '<p>a' + fillerBr + '</p><p>b</p><p>c' + fillerBr + '</p>' ),
 		'regexp conflict [':								t( true, 'ba[r', 'ba[r' ),
 
 		'markers 1 - no opts.compareSelection':				t( true, 'ba[r]', 'ba[r]' ),
@@ -105,6 +108,8 @@
 		'simple element - fail':							t( false, '<b>foo</b>', '<I>foo</I>' ),
 		'not expected bogus - fail':						t( false, '<p>foo<br /></p>', '<p>foo</p>' ),
 		'bogus expected, not exists':						t( !CKEDITOR.env.needsBrFiller, 'a@!', 'a' ),
+		'br bogus expected, nbsp given':					t( false, 'a@', 'a&nbsp;' ),
+		'br/nbsp bogus expected, nbsp/br given':			t( false, 'a@@', 'a' + CKEDITOR.env.needsBrFiller ? '&nbsp;' : '<br />' ),
 
 		// Expected part has to be regexified if special characters are not escaped
 		// bad things may happen.
@@ -136,7 +141,7 @@
 
 		'prep pattern - basic':							tp( '/^foo$/', 'foo' ),
 		'prep pattern - escaping':						tp( '/^f\\.o\\*o$/', 'f.o*o' ),
-		'prep pattern - boguses':						tp( '/^f' + fillerPattern + 'oo' + fillerPattern + '$/', 'f@oo@' ),
+		'prep pattern - boguses':						tp( '/^f' + fillerBrPattern + 'oo' + fillerBrPattern + '$/', 'f@oo@' ),
 
 		// Misc ---------------------------------------------------------------
 

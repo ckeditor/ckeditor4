@@ -198,7 +198,7 @@
 				'<div contenteditable="false">' +
 					'<div contenteditable="true">' +
 						'<p>hell@</p>' +
-						'<p>@</p>' +
+						'<p>@@</p>' +
 					'</div>' +
 				'</div>';
 
@@ -237,7 +237,7 @@
 		},
 		*/
 
-		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
+		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@@</p><p>^foo@</p>' ),
 		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
 		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
 
