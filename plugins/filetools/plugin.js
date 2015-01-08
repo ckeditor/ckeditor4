@@ -153,7 +153,7 @@
 		this.status = 'created';
 
 		this.abort = function() {
-			this.changeStatusAndFire( 'abort' );
+			this.changeStatus( 'abort' );
 		};
 	}
 
@@ -309,19 +309,19 @@
 
 			var reader = this.reader;
 
-			loader.changeStatusAndFire( 'loading' );
+			loader.changeStatus( 'loading' );
 
 			this.abort = function() {
 				loader.reader.abort();
 			};
 
 			reader.onabort = function() {
-				loader.changeStatusAndFire( 'abort' );
+				loader.changeStatus( 'abort' );
 			};
 
 			reader.onerror = function() {
 				loader.message = loader.lang.filetools.loadError;
-				loader.changeStatusAndFire( 'error' );
+				loader.changeStatus( 'error' );
 			};
 
 			reader.onprogress = function( evt ) {
@@ -332,7 +332,7 @@
 			reader.onload = function() {
 				loader.loaded = loader.total;
 				loader.data = reader.result;
-				loader.changeStatusAndFire( 'loaded' );
+				loader.changeStatus( 'loaded' );
 			};
 
 			reader.readAsDataURL( this.file );
@@ -352,13 +352,13 @@
 		upload: function( url ) {
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
-				this.changeStatusAndFire( 'error' );
+				this.changeStatus( 'error' );
 			} else {
 				this.xhr = new XMLHttpRequest();
 
 				this.uploadUrl = url;
 
-				this.changeStatusAndFire( 'uploading' );
+				this.changeStatus( 'uploading' );
 
 				this.attachRequestListeners();
 
@@ -380,12 +380,12 @@
 			};
 
 			xhr.onabort = function() {
-				loader.changeStatusAndFire( 'abort' );
+				loader.changeStatus( 'abort' );
 			};
 
 			xhr.onerror = function() {
 				loader.message = loader.lang.filetools.networkError;
-				loader.changeStatusAndFire( 'error' );
+				loader.changeStatus( 'error' );
 			};
 
 			xhr.onprogress = function( evt ) {
@@ -401,7 +401,7 @@
 					if ( !loader.message ) {
 						loader.message = loader.lang.filetools.httpError.replace( '%1', xhr.status );
 					}
-					loader.changeStatusAndFire( 'error' );
+					loader.changeStatus( 'error' );
 				} else {
 					loader.handleResponse( xhr );
 				}
@@ -443,10 +443,10 @@
 		 * 			var repsonse = xhr.responseText.split( '|' );
 		 * 			if ( repsonse[ 1 ] ) {
 		 * 				this.message = repsonse[ 1 ];
-		 * 				this.changeStatusAndFire( 'error' );
+		 * 				this.changeStatus( 'error' );
 		 * 			} else {
 		 * 				this.url = response[ 0 ];
-		 * 				this.changeStatusAndFire( 'uploaded' );
+		 * 				this.changeStatus( 'uploaded' );
 		 * 			}
 		 * 		};
 		 *
@@ -457,7 +457,7 @@
 				var response = JSON.parse( this.xhr.responseText );
 			} catch ( e ) {
 				this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
-				this.changeStatusAndFire( 'error' );
+				this.changeStatus( 'error' );
 				return;
 			}
 
@@ -466,11 +466,11 @@
 			}
 
 			if ( !response.uploaded ) {
-				this.changeStatusAndFire( 'error' );
+				this.changeStatus( 'error' );
 			} else {
 				this.fileName = response.fileName;
 				this.url = response.url;
-				this.changeStatusAndFire( 'uploaded' );
+				this.changeStatus( 'uploaded' );
 			}
 		},
 
@@ -480,7 +480,7 @@
 		 *
 		 * @param {String} newStatus New status to be set.
 		 */
-		changeStatusAndFire: function( newStatus ) {
+		changeStatus: function( newStatus ) {
 			this.status = newStatus;
 
 			if ( newStatus == 'error' || newStatus == 'abort' ||

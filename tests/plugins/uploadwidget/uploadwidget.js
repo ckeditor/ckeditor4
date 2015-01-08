@@ -137,7 +137,7 @@
 
 				var loader = editor.uploadsRepository.get( 0 );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.areSame( '<p>uploaded</p>', editor.getData() );
 			} );
@@ -164,7 +164,7 @@
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 				assert.isInnerHtmlMatching( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
@@ -186,7 +186,7 @@
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 				assert.isInnerHtmlMatching( '<p>xx</p>', editor.getData() );
@@ -211,7 +211,7 @@
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 				assert.isInnerHtmlMatching( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
@@ -239,7 +239,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnError">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'error' );
+				loader.changeStatus( 'error' );
 
 				assert.areSame( 'error', loader.status );
 				assert.areSame( 1, onErrorCount );
@@ -270,7 +270,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testOnAbortFalse">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'error' );
+				loader.changeStatus( 'error' );
 
 				assert.areSame( 'error', loader.status );
 				assert.areSame( 1, onErrorCount );
@@ -543,12 +543,12 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedo">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoRedo' );
 				assert.areSame( '<p>xx</p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.isInnerHtmlMatching( '<p>xuploaded{}x@</p>', bender.tools.selection.getWithHtml( editor ), 'After redo.' );
 
@@ -577,7 +577,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
 				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData() );
@@ -586,7 +586,7 @@
 
 				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After undo.' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assert.areSame( 'abort', loader.status );
 
@@ -611,12 +611,12 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testErrorDuring">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testErrorDuring' );
 				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'error' );
+				loader.changeStatus( 'error' );
 
 				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After error.' );
 				assertUploadingWidgets( editor, 'testErrorDuring', 0 );
@@ -639,7 +639,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
 				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">foo@</p>', editor.getData() );
@@ -654,12 +654,12 @@
 
 				editor.execCommand( 'undo' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
 				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">foo@</p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				shrinkRange( editor );
 
@@ -683,7 +683,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedoDuring">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
 				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
@@ -698,19 +698,19 @@
 
 				editor.execCommand( 'undo' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
 				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
 
 				editor.execCommand( 'redo' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoRedoDuring' );
 				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
@@ -732,7 +732,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoRedoAfter">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoRedoAfter' );
 				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
@@ -745,7 +745,7 @@
 				assertUploadingWidgets( editor, 'testUndoRedoAfter' );
 				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				shrinkRange( editor );
 
@@ -781,7 +781,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testCopy">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy' );
 				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">x</p>', editor.getData() );
@@ -793,12 +793,12 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testCopy">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy', 2 );
 				assert.isInnerHtmlMatching( '<p>xx</p><p></p>', editor.getData() );
 
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
@@ -829,7 +829,7 @@
 
 				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testUndoDuring">uploading...</span>' );
 
-				loader.changeStatusAndFire( 'progress' );
+				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
 				assert.areSame( '<p>xx</p>', editor.getData() );
@@ -838,7 +838,7 @@
 					assertUploadingWidgets( editor, 'testUndoDuring', 0 );
 					assert.areSame( '', editor.getData() );
 
-					loader.changeStatusAndFire( 'progress' );
+					loader.changeStatus( 'progress' );
 
 					assert.areSame( 'abort', loader.status );
 

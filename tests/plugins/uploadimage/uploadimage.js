@@ -88,7 +88,7 @@
 			var loader = editor.uploadsRepository.get( 0 );
 
 			loader.data = bender.tools.pngBase64;
-			loader.changeStatusAndFire( 'uploading' );
+			loader.changeStatus( 'uploading' );
 
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
@@ -96,7 +96,7 @@
 			// IE needs to wait for image to be loaded so it can read width and height of the image.
 			wait( function() {
 				loader.url = IMG_URL;
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.isInnerHtmlMatching( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
 				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
@@ -118,7 +118,7 @@
 			var loader = editor.uploadsRepository.get( 0 );
 
 			loader.data = bender.tools.pngBase64;
-			loader.changeStatusAndFire( 'uploading' );
+			loader.changeStatus( 'uploading' );
 
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
@@ -126,7 +126,7 @@
 			// IE needs to wait for image to be loaded so it can read width and height of the image.
 			wait( function() {
 				loader.url = IMG_URL;
-				loader.changeStatusAndFire( 'uploaded' );
+				loader.changeStatus( 'uploaded' );
 
 				assert.isInnerHtmlMatching( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData(), { sortAttributes: 1 } );
 				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
@@ -150,7 +150,7 @@
 				var loader = editor.uploadsRepository.get( 0 );
 
 				loader.data = bender.tools.pngBase64;
-				loader.changeStatusAndFire( 'uploading' );
+				loader.changeStatus( 'uploading' );
 
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
@@ -158,7 +158,7 @@
 				// IE needs to wait for image to be loaded so it can read width and height of the image.
 				wait( function() {
 					loader.url = IMG_URL;
-					loader.changeStatusAndFire( 'uploaded' );
+					loader.changeStatus( 'uploaded' );
 
 					assert.isInnerHtmlMatching( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>', editor.getData() );
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );

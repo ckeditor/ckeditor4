@@ -756,7 +756,7 @@
 				this.fileName = response[ 0 ];
 				this.url = response[ 1 ];
 				this.message = response[ 2 ];
-				this.changeStatusAndFire( 'uploaded' );
+				this.changeStatus( 'uploaded' );
 			};
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
