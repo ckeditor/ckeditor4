@@ -547,8 +547,14 @@ bender.test( appendDomObjectTests(
 
 			var scrolledElementPosition = scrolledElement.getDocumentPosition();
 
-			assert.areSame( 3500, scrolledElementPosition.x, 'Horizontal position read correctly.' );
-			assert.areSame( 3000, scrolledElementPosition.y, 'Vertical position read correctly.' );
+			assert.isNumberInRange(
+				scrolledElementPosition.x, 3499, 3501,
+				'Horizontal position read correctly.'
+			);
+			assert.isNumberInRange(
+				scrolledElementPosition.y, 2999, 3001,
+				'Vertical position read correctly.'
+			);
 		},
 
 		// Test get last non-spaces child node.
