@@ -6,6 +6,11 @@
 	'use strict';
 
 	var tools = widgetTestsTools,
+		/*nestedTplAc = new CKEDITOR.template( '<div id="{id}" class="u">' +
+			'<div class="nested">' +
+				'<blockquote>u</blockquote>' +
+			'</div>' +
+		'</div>' ),*/
 		nonEditTpl = new CKEDITOR.template( '<div id="{id}" class="w">' +
 			'<div class="wa">wa</div>' +
 			'<div class="wb">wb</div>' +
