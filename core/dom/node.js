@@ -776,16 +776,17 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		element.isReadOnly(); // true
 	 *
 	 * @since 3.5
-	 * @param {Boolean} [hidden=false] This parameter needs to be `true` to check hidden or detached elements. Note that
-	 * root element should have `data-cke-editable` attribute if testing node should be not read only by default.
+	 * @param {Boolean} [checkOnlyAttributes=false] If `true` only attributes will be checked, native methods will not
+	 * be used. This parameter needs to be `true` to check hidden or detached elements. Note that root element
+	 * should have `data-cke-editable` attribute if testing node should be not read only by default.
 	 * @returns {Boolean}
 	 */
-	isReadOnly: function( hidden ) {
+	isReadOnly: function( checkOnlyAttributes ) {
 		var element = this;
 		if ( this.type != CKEDITOR.NODE_ELEMENT )
 			element = this.getParent();
 
-		if ( !hidden && element && typeof element.$.isContentEditable != 'undefined' )
+		if ( !checkOnlyAttributes && element && typeof element.$.isContentEditable != 'undefined' )
 			return !( element.$.isContentEditable || element.data( 'cke-editable' ) );
 		else {
 			// Degrade for old browsers which don't support "isContentEditable", e.g. FF3
