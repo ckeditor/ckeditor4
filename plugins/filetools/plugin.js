@@ -360,7 +360,7 @@
 
 				this.changeStatusAndFire( 'uploading' );
 
-				this.attachUploadListeners();
+				this.attachRequestListeners();
 
 				this.sendRequest();
 			}
@@ -371,7 +371,7 @@
 		 *
 		 * @param {XMLHttpRequest} xhr XML HTTP request object.
 		 */
-		attachUploadListeners: function() {
+		attachRequestListeners: function() {
 			var loader = this,
 				xhr = this.xhr;
 
