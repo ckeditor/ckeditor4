@@ -2348,6 +2348,7 @@ CKEDITOR.dom.range = function( root ) {
 			var range,
 				found = 0,
 				sibling,
+				isElement,
 				positions = [ CKEDITOR.POSITION_AFTER_END, CKEDITOR.POSITION_BEFORE_START ];
 
 			if ( element ) {
@@ -2368,13 +2369,19 @@ CKEDITOR.dom.range = function( root ) {
 				sibling = range[ isMoveForward ? 'getNextEditableNode' : 'getPreviousEditableNode' ]();
 				if ( sibling ) {
 					found = 1;
+					isElement = sibling.type == CKEDITOR.NODE_ELEMENT;
 
 					// Special case - eval accepts block element only if it's a non-editable block,
 					// which we want to select, not place collapsed selection next to it (which browsers
 					// can't handle).
-					if ( sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( CKEDITOR.dtd.$block ) && sibling.getAttribute( 'contenteditable' ) == 'false' ) {
+					if ( isElement && sibling.is( CKEDITOR.dtd.$block ) && sibling.getAttribute( 'contenteditable' ) == 'false' ) {
 						range.setStartAt( sibling, CKEDITOR.POSITION_BEFORE_START );
 						range.setEndAt( sibling, CKEDITOR.POSITION_AFTER_END );
+					}
+					// Handle empty blocks which can be selection containers on old IEs.
+					else if ( !CKEDITOR.env.needsBrFiller && isElement && sibling.is( CKEDITOR.dom.walker.validEmptyBlockContainers ) ) {
+						range.setEnd( sibling, 0 );
+						range.collapse();
 					} else {
 						range.moveToPosition( sibling, positions[ isMoveForward ? 1 : 0 ] );
 					}

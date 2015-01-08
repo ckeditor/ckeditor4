@@ -71,6 +71,15 @@
 				this.rangeMoveToClosestEditable( '<div><b>f</b></div><div id="start">e</div>' ) );
 		},
 
+		test_moveToClosestEditable6e: function() {
+			var expected = CKEDITOR.env.needsBrFiller ?
+				'<p>ab^</p><p></p><div id="start">e</div>' :
+				'<p>ab</p><p>^</p><div id="start">e</div>';
+
+			assert.areSame( expected,
+				this.rangeMoveToClosestEditable( '<p>ab</p><p></p><div id="start">e</div>' ) );
+		},
+
 		test_moveToClosestEditable7: function() {
 			assert.areSame( '<div>editable^<div><div id="start">e</div></div></div>',
 				this.rangeMoveToClosestEditable( '<div>editable<div><div id="start">e</div></div></div>' ) );
@@ -191,6 +200,15 @@
 				this.rangeMoveToClosestEditable( '<div id="start">e</div><ul><li>foo</li></ul>', true ) );
 		},
 
+		test_moveToClosestEditable15c: function() {
+			var expected = CKEDITOR.env.needsBrFiller ?
+				'<ul><li>foo^</li><li></li></ul><div id="start">e</div>' :
+				'<ul><li>foo</li><li>^</li></ul><div id="start">e</div>';
+
+			assert.areSame( expected,
+				this.rangeMoveToClosestEditable( '<ul><li>foo</li><li></li></ul><div id="start">e</div>' ) );
+		},
+
 		test_moveToClosestEditable16a: function() {
 			assert.areSame( '<table><tbody><tr><td>foo^</td></tr></tbody></table><div id="start">e</div>',
 				this.rangeMoveToClosestEditable( '<table><tbody><tr><td>foo</td></tr></tbody></table><div id="start">e</div>' ) );
@@ -199,6 +217,15 @@
 		test_moveToClosestEditable16b: function() {
 			assert.areSame( '<div id="start">e</div><table><tbody><tr><td>^foo</td></tr></tbody></table>',
 				this.rangeMoveToClosestEditable( '<div id="start">e</div><table><tbody><tr><td>foo</td></tr></tbody></table>', true ) );
+		},
+
+		test_moveToClosestEditable16c: function() {
+			var expected = CKEDITOR.env.needsBrFiller ?
+				'<table><tbody><tr><td>foo^</td><td></td></tr></tbody></table><div id="start">e</div>' :
+				'<table><tbody><tr><td>foo</td><td>^</td></tr></tbody></table><div id="start">e</div>';
+
+			assert.areSame( expected,
+				this.rangeMoveToClosestEditable( '<table><tbody><tr><td>foo</td><td></td></tr></tbody></table><div id="start">e</div>' ) );
 		},
 
 		test_moveToClosestEditable17a: function() {
