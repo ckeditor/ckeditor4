@@ -304,7 +304,9 @@
 				ret = range.moveToClosestEditablePosition();
 
 			assert.isTrue( ret );
-			assert.areSame( '<p>ab[]</p><p>cd</p>', bender.tools.range.getWithHtml( ct, range ) );
+			assert.isInnerHtmlMatching( '<p>ab[]</p><p>cd</p>', bender.tools.range.getWithHtml( ct, range ), {
+				compareSelection: true
+			} );
 		},
 
 		'test moveToClosestEditablePosition without specifying element, with isMoveForward': function() {
@@ -313,7 +315,9 @@
 				ret = range.moveToClosestEditablePosition( null, true );
 
 			assert.isTrue( ret );
-			assert.areSame( '<p>ab</p><p>[]cd</p>', bender.tools.range.getWithHtml( ct, range ) );
+			assert.isInnerHtmlMatching( '<p>ab</p><p>[]cd</p>', bender.tools.range.getWithHtml( ct, range ), {
+				compareSelection: true
+			} );
 		}
 	};
 
