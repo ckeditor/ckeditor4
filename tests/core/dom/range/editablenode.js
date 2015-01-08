@@ -135,6 +135,27 @@
 			assert.areSame( null, this.rangeGetNextEditableNode( '<p id="s">ab</p>', 0, 2 ) );
 		},
 
+		'test getNextEditableNode - 17a': function() {
+			// <table>^<tr>
+			assert.areSame( 'ab', this.rangeGetNextEditableNode( '<table id="s"><tr><td>ab</td></tr></table>', false, 0 ) );
+		},
+
+		'test getNextEditableNode - 17b': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
+				assert.ignore();
+
+			// <table>^<tr>
+			assert.areSame( 'br', this.rangeGetNextEditableNode( '<table id="s"><tr><td><br></td><td>ab</td></tr></table>', false, 0 ) );
+		},
+
+		// Similarly to tests 14 and 15.
+		'test getNextEditableNode - 17c': function() {
+			var expected = CKEDITOR.env.needsBrFiller ? 'ab' : 'td';
+
+			// <table>^<tr>
+			assert.areSame( expected, this.rangeGetNextEditableNode( '<table id="s"><tr><td></td><th>ab</th></tr></table>', false, 0 ) );
+		},
+
 		'test getPreviousEditableNode - 1': function() {
 			// ab^
 			assert.areSame( 'ab', this.rangeGetNextEditableNode( '<p id="s">ab</p>', 0, 2 , true ) );

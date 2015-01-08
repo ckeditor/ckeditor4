@@ -564,8 +564,9 @@
 		return hash;
 	}
 
-	// Block elements which can contain text nodes (without ul, ol, dl, etc.).
-	var dtdTextBlock = filterTextContainers( CKEDITOR.dtd.$block );
+	// Block elements which can contain text nodes (without ul, ol, dl, etc.)
+	// plus table's text containers.
+	var dtdTextBlock = CKEDITOR.tools.extend( filterTextContainers( CKEDITOR.dtd.$block ), { caption: 1, td: 1, th: 1 } );
 
 	function isEditable( node ) {
 		// Skip temporary elements, bookmarks and whitespaces.

@@ -498,6 +498,8 @@
 				node8 = CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' ),
 				node9a = CKEDITOR.dom.element.createFromHtml( '<li></li>' ),
 				node9b = CKEDITOR.dom.element.createFromHtml( '<p></p>' ),
+				node9c = CKEDITOR.dom.element.createFromHtml( '<table><tr><td></td></tr></table>' ).findOne( 'td' ),
+				node9d = CKEDITOR.dom.element.createFromHtml( '<table><tr><caption></caption></tr></table>' ).findOne( 'caption' ),
 				node10 = CKEDITOR.dom.element.createFromHtml( '<hr />' );
 
 			assert.isTrue( isEditable( node1 ), 'text' );
@@ -513,6 +515,8 @@
 			// Empty blocks can be editable if br filler is not needed.
 			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9a ), 'empty li' );
 			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9b ), 'empty p' );
+			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9c ), 'empty td' );
+			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9d ), 'empty caption' );
 
 			assert.isFalse( isNotEditable( node1 ) );
 			assert.isTrue( isNotEditable( node2 ) );
