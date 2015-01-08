@@ -212,7 +212,7 @@
 		},
 
 		test_moveToClosestEditable19a: function() {
-			if ( CKEDITOR.env.ie )
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			assert.areSame( '<div id="start">bar</div><p>^<br /></p>',
@@ -220,7 +220,7 @@
 		},
 
 		test_moveToClosestEditable19b: function() {
-			if ( !CKEDITOR.env.ie )
+			if ( !CKEDITOR.env.needsNbspFiller )
 				assert.ignore();
 
 			assert.areSame( '<div id="start">bar</div><p>^&nbsp;</p>',
