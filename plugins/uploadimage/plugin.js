@@ -29,12 +29,12 @@
 					img: 'img'
 				},
 
-				onuploading: function( upload ) {
+				onUploading: function( upload ) {
 					// Show the image during the upload.
 					this.parts.img.setAttribute( 'src', upload.data );
 				},
 
-				onuploaded: function( upload ) {
+				onUploaded: function( upload ) {
 					// Set width and height to prevent blinking.
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + this.parts.img.$.naturalWidth + '" ' +

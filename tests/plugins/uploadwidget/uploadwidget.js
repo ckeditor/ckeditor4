@@ -33,7 +33,7 @@
 				return span;
 			},
 
-			onuploaded: function() {
+			onUploaded: function() {
 				this.replaceWith( 'uploaded' );
 			}
 		} );
@@ -158,7 +158,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
+				onUploaded: function() {
 					this.replaceWith( '<strong>uploaded</strong>' );
 				}
 			} );
@@ -180,7 +180,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
+				onUploaded: function() {
 					this.replaceWith( '' );
 				}
 			} );
@@ -205,7 +205,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
-				onuploaded: function() {
+				onUploaded: function() {
 					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
 				}
 			} );
@@ -228,7 +228,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testOnError', {
-				onerror: function( upload ) {
+				onError: function( upload ) {
 					onErrorCount++;
 					uploadId = upload.id;
 				}
@@ -258,7 +258,7 @@
 			loader.loadAndUpload( 'uploadUrl' );
 
 			addTestUploadWidget( editor, 'testOnAbortFalse', {
-				onerror: function( upload ) {
+				onError: function( upload ) {
 					onErrorCount++;
 					uploadId = upload.id;
 					return false;

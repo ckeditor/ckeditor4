@@ -11,7 +11,7 @@
 			var fileTools = CKEDITOR.fileTools;
 
 			fileTools.addUploadWidget( editor, 'filereader', {
-				onloaded: function( upload ) {
+				onLoaded: function( upload ) {
 					var data = upload.data;
 					if ( data && data.indexOf( ',' ) >= 0 && data.indexOf( ',' ) < data.length - 1 ) {
 						this.replaceWith( atob( upload.data.split( ',' )[ 1 ] ) );

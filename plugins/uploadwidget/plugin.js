@@ -28,11 +28,11 @@
 	 * To create upload widget you need to define two transformation methods:
 	 *
 	 * * {@link CKEDITOR.fileTools.uploadWidgetDefinition#fileToElement fileToElement} method which will be called on pasted and transform
-	 * file into upload widget and {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploaded onuploaded} where
+	 * file into upload widget and {@link CKEDITOR.fileTools.uploadWidgetDefinition#onUploaded onUploaded} where
 	 * * {@link CKEDITOR.fileTools.uploadWidgetDefinition#replaceWith replaceWith} method which will be called to replace upload widget with
 	 * the final HTML when upload is done.
 	 * If you want to show an additional progress you can also define {@link CKEDITOR.fileTools.uploadWidgetDefinition#onloading onloading} and
-	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploading onuploading}.
+	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#onUploading onUploading}.
 	 *
 	 * The simplest uploading widget which uploads file and creates a link to it may looks like this:
 	 *
@@ -46,7 +46,7 @@
 	 *				return a;
 	 *			},
 	 *
-	 *			onuploaded: function( upload ) {
+	 *			onUploaded: function( upload ) {
 	 *				this.replaceWith( '<a href="' + upload.url + '" target="_blank">' + upload.fileName + '</a>' );
 	 *			}
 	 *		} );
@@ -58,11 +58,11 @@
 	 * Note that if you want to handle a big file, e.g. a video, you may need to use `upload` instead of
 	 * `loadAndUpload` because the file may be to too big to load it to the memory at once.
 	 *
-	 * Note that if you do not upload file you need to define `onloded` instead of `onuploaded`.
+	 * Note that if you do not upload file you need to define `onloded` instead of `onUploaded`.
 	 * For example, if you want to read the content of the file:
 	 *
 	 *		fileTools.addUploadWidget( editor, 'fileReader', {
-	 *			onloaded: function( loader ) {
+	 *			onLoaded: function( loader ) {
 	 *				// ...
 	 *			}
 	 *		} );
@@ -181,7 +181,8 @@
 			init: function() {
 				var widget = this,
 					id = this.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ),
-					loader = uploads.get( id );
+					loader = uploads.get( id ),
+					capitalize = CKEDITOR.tools.capitalize;
 
 				loader.on( 'update', function( evt ) {
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
@@ -195,8 +196,11 @@
 					editor.fire( 'lockSnapshot' );
 
 					console.log( loader.status );
-					if ( typeof widget[ 'on' + loader.status ] === 'function' ) {
-						if ( widget[ 'on' + loader.status ]( loader ) === false ) {
+
+					var methodName = 'on' + capitalize( loader.status );
+
+					if ( typeof widget[ methodName ] === 'function' ) {
+						if ( widget[ methodName ]( loader ) === false ) {
 							editor.fire( 'unlockSnapshot' );
 							return;
 						}
@@ -215,7 +219,7 @@
 
 			/**
 			 * Replaces upload widget with the final HTML. This method should be called when upload is done,
-			 * in common case in the {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploaded} callback.
+			 * in common case in the {@link CKEDITOR.fileTools.uploadWidgetDefinition#onUploaded} callback.
 			 *
 			 * @property {Function}
 			 * @param {String} html HTML to replace the upload widget.
@@ -290,7 +294,7 @@
 			/**
 			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `loading`.
 			 *
-			 * @property {Function} [onloading]
+			 * @property {Function} [onLoading]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -298,7 +302,7 @@
 			/**
 			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `loaded`.
 			 *
-			 * @property {Function} [onloaded]
+			 * @property {Function} [onLoaded]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -306,7 +310,7 @@
 			/**
 			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `uploading`.
 			 *
-			 * @property {Function} [onuploading]
+			 * @property {Function} [onUploading]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -316,7 +320,7 @@
 			 * At that point upload is done and the uploading widget should we replaced with the final HTML using
 			 * {@link #replaceWith} method.
 			 *
-			 * @property {Function} [onuploaded]
+			 * @property {Function} [onUploaded]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -325,7 +329,7 @@
 			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `error`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
-			 * @property {Function} [onerror]
+			 * @property {Function} [onError]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
@@ -334,7 +338,7 @@
 			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `abort`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
-			 * @property {Function} [onabort]
+			 * @property {Function} [onAbort]
 			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
