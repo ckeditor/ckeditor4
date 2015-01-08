@@ -88,32 +88,32 @@
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s">ab<span data-cke-bookmark="1"></span></p><p>cd</p>', 0, 2 ) );
 		},
 
-		'test getNextEditableNode - 13 - IE': function() {
-			if ( !CKEDITOR.env.ie )
+		'test getNextEditableNode - 13': function() {
+			if ( CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^</p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13a - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13a': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^<br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><br></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13b - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13b': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^<bookmark><br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><span data-cke-bookmark="1"></span><br></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13c - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13c': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^ <br></p>
