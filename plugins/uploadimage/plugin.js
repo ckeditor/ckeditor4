@@ -10,11 +10,11 @@
 		requires: 'uploadwidget',
 
 		init: function( editor ) {
-			var filetools = CKEDITOR.filetools,
-				uploadUrl = filetools.getUploadUrl( editor.config, 'image' );
+			var fileTools = CKEDITOR.fileTools,
+				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
 			// Handle images which are available in the dataTransfer.
-			filetools.addUploadWidget( editor, 'uploadimage', {
+			fileTools.addUploadWidget( editor, 'uploadimage', {
 				supportedTypes: /image\/(jpeg|png|gif)/,
 
 				uploadUrl: uploadUrl,
@@ -80,7 +80,7 @@
 						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
-						filetools.markElement( img, 'uploadimage', loader.id );
+						fileTools.markElement( img, 'uploadimage', loader.id );
 					}
 				}
 

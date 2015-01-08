@@ -164,7 +164,7 @@
 				assert.ignore();
 			}
 
-			FileLoader = CKEDITOR.filetools.FileLoader;
+			FileLoader = CKEDITOR.fileTools.fileLoader;
 			resumeAfter = bender.tools.resumeAfter;
 			testFile = bender.tools.getTestPngFile();
 		},

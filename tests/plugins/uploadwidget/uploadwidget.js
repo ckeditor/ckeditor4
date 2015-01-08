@@ -6,7 +6,7 @@
 'use strict';
 
 ( function() {
-	var filetools, resumeAfter, lastUploadUrl,
+	var fileTools, resumeAfter, lastUploadUrl,
 		loadAndUploadCount, loadCount, uploadCount,
 		htmlMatchingOpts = {
 			compareSelection: true,
@@ -38,7 +38,7 @@
 			}
 		} );
 
-		filetools.addUploadWidget( editor, name, def );
+		fileTools.addUploadWidget( editor, name, def );
 	}
 
 	function assertUploadingWidgets( editor, widgetName, expectedWidgetsCount ) {
@@ -66,7 +66,7 @@
 			lang: {}
 		};
 
-		editor.uploadsRepository = new CKEDITOR.filetools.UploadsRepository( editor );
+		editor.uploadsRepository = new CKEDITOR.fileTools.uploadsRepository( editor );
 
 		CKEDITOR.event.implementOn( editor );
 
@@ -88,19 +88,19 @@
 				assert.ignore();
 			}
 
-			filetools = CKEDITOR.filetools;
+			fileTools = CKEDITOR.fileTools;
 			resumeAfter = bender.tools.resumeAfter;
 
-			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
 			};
 
-			CKEDITOR.filetools.FileLoader.prototype.load = function() {
+			CKEDITOR.fileTools.fileLoader.prototype.load = function() {
 				loadCount++;
 			};
 
-			CKEDITOR.filetools.FileLoader.prototype.upload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
 				uploadCount++;
 				lastUploadUrl = url;
 			};
@@ -145,7 +145,7 @@
 
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
-			CKEDITOR.filetools.markElement( element, 'widgetName', 1 );
+			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );
 			assert.isInnerHtmlMatching( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
 		},
 
@@ -517,7 +517,7 @@
 		'test no fileToElement method': function() {
 			var editor = mockEditorForPaste();
 
-			filetools.addUploadWidget( editor, 'noFileToElement', {} );
+			fileTools.addUploadWidget( editor, 'noFileToElement', {} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				assert.areSame( '', evt.data.dataValue );

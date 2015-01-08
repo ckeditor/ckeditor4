@@ -18,9 +18,9 @@
 				assert.ignore();
 			}
 
-			getUploadUrl = CKEDITOR.filetools.getUploadUrl;
-			isTypeSupported = CKEDITOR.filetools.isTypeSupported;
-			getExtention = CKEDITOR.filetools.getExtention;
+			getUploadUrl = CKEDITOR.fileTools.getUploadUrl;
+			isTypeSupported = CKEDITOR.fileTools.isTypeSupported;
+			getExtention = CKEDITOR.fileTools.getExtention;
 		},
 
 		'test getUploadUrl 1': function() {

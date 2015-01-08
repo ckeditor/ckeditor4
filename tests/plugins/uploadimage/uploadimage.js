@@ -48,14 +48,14 @@
 		'init': function() {
 			resumeAfter = bender.tools.resumeAfter;
 
-			CKEDITOR.filetools.FileLoader.prototype.loadAndUpload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
 			};
 
-			CKEDITOR.filetools.FileLoader.prototype.load = function() {};
+			CKEDITOR.fileTools.fileLoader.prototype.load = function() {};
 
-			CKEDITOR.filetools.FileLoader.prototype.upload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
 				uploadCount++;
 				lastUploadUrl = url;
 			};

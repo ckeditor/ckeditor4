@@ -19,7 +19,7 @@
 
 	/**
 	 * This function creates an upload widget and, if
-	 * {@link CKEDITOR.filetools.uploadWidgetDefinition#fileToElement fileToElement property}
+	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#fileToElement fileToElement property}
 	 * is defined, paste event for files.
 	 *
 	 * Upload widget helps to handle content being asynchronously uploaded inside the editor. It solves problems such as:
@@ -27,17 +27,17 @@
 	 *
 	 * To create upload widget you need to define two transformation methods:
 	 *
-	 * * {@link CKEDITOR.filetools.uploadWidgetDefinition#fileToElement fileToElement} method which will be called on pasted and transform
-	 * file into upload widget and {@link CKEDITOR.filetools.uploadWidgetDefinition#onuploaded onuploaded} where
-	 * * {@link CKEDITOR.filetools.uploadWidgetDefinition#replaceWith replaceWith} method which will be called to replace upload widget with
+	 * * {@link CKEDITOR.fileTools.uploadWidgetDefinition#fileToElement fileToElement} method which will be called on pasted and transform
+	 * file into upload widget and {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploaded onuploaded} where
+	 * * {@link CKEDITOR.fileTools.uploadWidgetDefinition#replaceWith replaceWith} method which will be called to replace upload widget with
 	 * the final HTML when upload is done.
-	 * If you want to show an additional progress you can also define {@link CKEDITOR.filetools.uploadWidgetDefinition#onloading onloading} and
-	 * {@link CKEDITOR.filetools.uploadWidgetDefinition#onuploading onuploading}.
+	 * If you want to show an additional progress you can also define {@link CKEDITOR.fileTools.uploadWidgetDefinition#onloading onloading} and
+	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploading onuploading}.
 	 *
 	 * The simplest uploading widget which uploads file and creates a link to it may looks like this:
 	 *
-	 * 		CKEDITOR.filetools.addUploadWidget( editor, 'uploadfile', {
-	 *			uploadUrl: CKEDITOR.filetools.getUploadUrl( editor.config ),
+	 * 		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadfile', {
+	 *			uploadUrl: CKEDITOR.fileTools.getUploadUrl( editor.config ),
 	 *
 	 *			fileToElement: function( file ) {
 	 *				var a = new CKEDITOR.dom.element( 'a' );
@@ -51,8 +51,8 @@
 	 *			}
 	 *		} );
 	 *
-	 * By default an upload widget creates a {@link CKEDITOR.filetools.FileLoader} and calls
-	 * {@link CKEDITOR.filetools.FileLoader#loadAndUpload} method. If you want want to use only `load`
+	 * By default an upload widget creates a {@link CKEDITOR.fileTools.fileLoader} and calls
+	 * {@link CKEDITOR.fileTools.fileLoader#loadAndUpload} method. If you want want to use only `load`
 	 * or only `upload` you can skip `fileToElement` property. Then the default paste listen will not be created.
 	 *
 	 * Note that if you want to handle a big file, e.g. a video, you may need to use `upload` instead of
@@ -61,7 +61,7 @@
 	 * Note that if you do not upload file you need to define `onloded` instead of `onuploaded`.
 	 * For example, if you want to read the content of the file:
 	 *
-	 *		filetools.addUploadWidget( editor, 'fileReader', {
+	 *		fileTools.addUploadWidget( editor, 'fileReader', {
 	 *			onloaded: function( loader ) {
 	 *				// ...
 	 *			}
@@ -81,7 +81,7 @@
 	 *				file = evt.data.dataTransfer.getFile( i );
 	 *
 	 *				// Handle only HTML and text files.
-	 *				if ( filetools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
+	 *				if ( fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 	 *					var el = new CKEDITOR.dom.element( 'span' ),
 	 *						loader = editor.uploadsRepository.create( file );
 	 *
@@ -90,20 +90,20 @@
 	 *					loader.load();
 	 *
 	 *					// Mark element to become fileReader widget.
-	 *					filetools.markElement( el, 'fileReader', loader.id );
+	 *					fileTools.markElement( el, 'fileReader', loader.id );
 	 *
 	 *					evt.data.dataValue += el.getOuterHtml();
 	 *				}
 	 *			}
 	 *		} );
 	 *
-	 * @member CKEDITOR.filetools
+	 * @member CKEDITOR.fileTools
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 * @param {String} name The name of the upload widget.
-	 * @param {CKEDITOR.filetools.uploadWidgetDefinition} def Upload widget definition.
+	 * @param {CKEDITOR.fileTools.uploadWidgetDefinition} def Upload widget definition.
 	 */
 	function addUploadWidget( editor, name, def ) {
-		var filetools = CKEDITOR.filetools,
+		var fileTools = CKEDITOR.fileTools,
 			uploads = editor.uploadsRepository,
 			// Plugins which support all file type has lower priority than plugins which support specific types.
 			priority = def.supportedTypes ? 10 : 20;
@@ -122,7 +122,7 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( filetools.isTypeSupported( file, def.supportedTypes ) ) {
+					if ( fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
 							loader = uploads.create( file );
 
@@ -146,7 +146,7 @@
 
 		/**
 		 * This is an abstract class that describes a definition of an upload widget.
-		 * It is a type of {@link CKEDITOR.filetools#addUploadWidget} method's second argument.
+		 * It is a type of {@link CKEDITOR.fileTools#addUploadWidget} method's second argument.
 		 *
 		 * Note that, because upload widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
@@ -155,11 +155,11 @@
 		 * should not be overwritten.
 		 *
 		 * Also, upload widget definition defines few properties ({@link #fileToElement}, {@link #supportedTypes} and {@link #uploadUrl})
-		 * used in the {@link CKEDITOR.editor#paste} listener which is registered by {@link CKEDITOR.filetools#addUploadWidget}
+		 * used in the {@link CKEDITOR.editor#paste} listener which is registered by {@link CKEDITOR.fileTools#addUploadWidget}
 		 * if the upload widget definition contains {@link #fileToElement} callback.
 		 *
 		 * @abstract
-		 * @class CKEDITOR.filetools.uploadWidgetDefinition
+		 * @class CKEDITOR.fileTools.uploadWidgetDefinition
 		 * @mixins CKEDITOR.plugins.widget.definition
 		 */
 		CKEDITOR.tools.extend( def, {
@@ -215,7 +215,7 @@
 
 			/**
 			 * Replaces upload widget with the final HTML. This method should be called when upload is done,
-			 * in common case in the {@link CKEDITOR.filetools.uploadWidgetDefinition#onuploaded} callback.
+			 * in common case in the {@link CKEDITOR.fileTools.uploadWidgetDefinition#onuploaded} callback.
 			 *
 			 * @property {Function}
 			 * @param {String} html HTML to replace the upload widget.
@@ -268,7 +268,7 @@
 
 			/**
 			 * URL to which the file will be uploaded. It should be taken from configuration using
-			 * {@link CKEDITOR.filetools#getUploadUrl}.
+			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
 			 */
@@ -276,66 +276,66 @@
 			/**
 			 * What type of loading operation should be executed as a result of pasting file. Possible options are:
 			 *
-			 * * 'load' - {@link CKEDITOR.filetools.FileLoader#load} method will be executed, this loading type should
+			 * * 'load' - {@link CKEDITOR.fileTools.fileLoader#load} method will be executed, this loading type should
 			 * be used if you want only load file data without uploading it,
-			 * * 'upload' - {@link CKEDITOR.filetools.FileLoader#upload} method will be executed, file will be uploaded,
+			 * * 'upload' - {@link CKEDITOR.fileTools.fileLoader#upload} method will be executed, file will be uploaded,
 			 * without loading it to the memory, this loading type should be used if you want to upload big file,
 			 * otherwise you can meet out of memory error,
-			 * * 'loadAndUpload' - default behavior, {@link CKEDITOR.filetools.FileLoader#loadAndUpload} method will be
+			 * * 'loadAndUpload' - default behavior, {@link CKEDITOR.fileTools.fileLoader#loadAndUpload} method will be
 			 * executed, file will be loaded first and uploaded immediately after loading is done.
 			 *
 			 * @property {String} [loadingType=loadAndUpload]
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `loading`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `loading`.
 			 *
 			 * @property {Function} [onloading]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `loaded`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `loaded`.
 			 *
 			 * @property {Function} [onloaded]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `uploading`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `uploading`.
 			 *
 			 * @property {Function} [onuploading]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `uploaded`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `uploaded`.
 			 * At that point upload is done and the uploading widget should we replaced with the final HTML using
 			 * {@link #replaceWith} method.
 			 *
 			 * @property {Function} [onuploaded]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `error`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `error`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
 			 * @property {Function} [onerror]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 
 			/**
-			 * Function called when the {@link CKEDITOR.filetools.FileLoader#status status of the upload} changes to `abort`.
+			 * Function called when the {@link CKEDITOR.fileTools.fileLoader#status status of the upload} changes to `abort`.
 			 * The default behavior is to remove the widget and it can be canceled if this function returns `false`.
 			 *
 			 * @property {Function} [onabort]
-			 * @param {CKEDITOR.filetools.FileLoader} loader Loaders instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} loader Loaders instance.
 			 * @returns {Boolean} If `false` default behavior will be canceled.
 			 */
 		} );
@@ -346,10 +346,10 @@
 	/**
 	 * Marks element which should be transformed into an upload widget.
 	 *
-	 * @member CKEDITOR.filetools
+	 * @member CKEDITOR.fileTools
 	 * @param {CKEDITOR.dom.element} element Element to be marked.
 	 * @param {String} widgetName Name of the upload widget.
-	 * @param {Number} loaderId The id of a related {@link CKEDITOR.filetools.FileLoader}.
+	 * @param {Number} loaderId The id of a related {@link CKEDITOR.fileTools.fileLoader}.
 	 */
 	function markElement( element, widgetName, loaderId  ) {
 		element.setAttributes( {
@@ -359,11 +359,11 @@
 	}
 
 	// Two plugins extends this object.
-	if ( !CKEDITOR.filetools ) {
-		CKEDITOR.filetools = {};
+	if ( !CKEDITOR.fileTools ) {
+		CKEDITOR.fileTools = {};
 	}
 
-	CKEDITOR.tools.extend( CKEDITOR.filetools, {
+	CKEDITOR.tools.extend( CKEDITOR.fileTools, {
 		addUploadWidget: addUploadWidget,
 		markElement: markElement
 	} );

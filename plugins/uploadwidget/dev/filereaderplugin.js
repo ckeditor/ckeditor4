@@ -8,9 +8,9 @@
 	CKEDITOR.plugins.add( 'filereader', {
 		requires: 'uploadwidget',
 		init: function( editor ) {
-			var filetools = CKEDITOR.filetools;
+			var fileTools = CKEDITOR.fileTools;
 
-			filetools.addUploadWidget( editor, 'filereader', {
+			fileTools.addUploadWidget( editor, 'filereader', {
 				onloaded: function( upload ) {
 					var data = upload.data;
 					if ( data && data.indexOf( ',' ) >= 0 && data.indexOf( ',' ) < data.length - 1 ) {
@@ -34,7 +34,7 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( filetools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
+					if ( fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 						var el = new CKEDITOR.dom.element( 'span' ),
 							loader = editor.uploadsRepository.create( file );
 
@@ -42,7 +42,7 @@
 
 						loader.load();
 
-						filetools.markElement( el, 'filereader', loader.id );
+						fileTools.markElement( el, 'filereader', loader.id );
 
 						data.dataValue += el.getOuterHtml();
 					}

@@ -11,15 +11,15 @@
 
 		beforeInit: function( editor ) {
 			/**
-			 * An instance of {@link CKEDITOR.filetools.UploadsRepository upload repository}.
-			 * It allows you to create and get {@link CKEDITOR.filetools.FileLoader file loaders}.
+			 * An instance of {@link CKEDITOR.fileTools.uploadsRepository upload repository}.
+			 * It allows you to create and get {@link CKEDITOR.fileTools.fileLoader file loaders}.
 			 *
 			 *		var loader = editor.uploadsRepository.create( file );
 			 *		loader.loadAndUpload( 'http://foo/bar' );
 			 *
 			 * @since 4.5
 			 * @readonly
-			 * @property {CKEDITOR.filetools.UploadsRepository} uploadsRepository
+			 * @property {CKEDITOR.fileTools.uploadsRepository} uploadsRepository
 			 * @member CKEDITOR.editor
 			 */
 			editor.uploadsRepository = new UploadsRepository( editor );
@@ -27,18 +27,18 @@
 	} );
 
 	/**
-	 * {@link CKEDITOR.filetools.FileLoader File loaders} repository. It allows you to create and get
-	 * {@link CKEDITOR.filetools.FileLoader file loaders}.
+	 * {@link CKEDITOR.fileTools.fileLoader File loaders} repository. It allows you to create and get
+	 * {@link CKEDITOR.fileTools.fileLoader file loaders}.
 	 *
 	 * An instance of the repository is available as a {@link CKEDITOR.editor#uploadsRepository}.
 	 *
 	 *		var loader = editor.uploadsRepository.create( file );
 	 *		loader.loadAndUpload( 'http://foo/bar' );
 	 *
-	 * To find more information about handling files see the {@link CKEDITOR.filetools.FileLoader} class.
+	 * To find more information about handling files see the {@link CKEDITOR.fileTools.fileLoader} class.
 	 *
 	 * @since 4.5
-	 * @class CKEDITOR.filetools.UploadsRepository
+	 * @class CKEDITOR.fileTools.uploadsRepository
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the repository.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get the language data.
@@ -53,14 +53,14 @@
 
 	UploadsRepository.prototype = {
 		/**
-		 * Creates a {@link CKEDITOR.filetools.FileLoader file loader} instance with a unique id.
+		 * Creates a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a unique id.
 		 * The instance can be later retrieved from the repository using the {@link #get} method.
 		 *
-		 * Fires {@link CKEDITOR.filetools.UploadsRepository#created created} event.
+		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#created created} event.
 		 *
-		 * @param {Blob/String} fileOrData See {@link CKEDITOR.filetools.FileLoader}.
-		 * @param {String} fileName See {@link CKEDITOR.filetools.FileLoader}.
-		 * @returns {CKEDITOR.filetools.FileLoader} The created file loader instance.
+		 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
+		 * @param {String} fileName See {@link CKEDITOR.fileTools.fileLoader}.
+		 * @returns {CKEDITOR.fileTools.fileLoader} The created file loader instance.
 		 */
 		create: function( fileOrData, fileName ) {
 			var id = this._.loaders.length,
@@ -75,10 +75,10 @@
 		},
 
 		/**
-		 * Gets a {@link CKEDITOR.filetools.FileLoader file loader} instance with a given id.
+		 * Gets a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a given id.
 		 *
 		 * @param {Number} id File loader id.
-		 * @returns {CKEDITOR.filetools.FileLoader} File loader instance with a given id.
+		 * @returns {CKEDITOR.fileTools.fileLoader} File loader instance with a given id.
 		 */
 		get: function( id ) {
 			return this._.loaders[ id ];
@@ -114,10 +114,10 @@
 	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request or response handling
 	 * you need to overwrite {@link #sendRequest sendRequest} or {@link #handleResponse handleResponse} method.
 	 *
-	 * To create a `FileLoader` instance use the {@link CKEDITOR.filetools.UploadsRepository} class.
+	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
 	 *
 	 * @since 4.5
-	 * @class CKEDITOR.filetools.FileLoader
+	 * @class CKEDITOR.fileTools.fileLoader
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the class and sets initial values of all properties.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get language data.
@@ -242,7 +242,7 @@
 	 */
 
 	/**
-	 * If `FileLoader` was created using {@link CKEDITOR.filetools.UploadsRepository}
+	 * If `FileLoader` was created using {@link CKEDITOR.fileTools.uploadsRepository}
 	 * it gets an identifier which is stored in this property.
 	 *
 	 * @property {Number} id
@@ -439,7 +439,7 @@
 		 *
 		 * For example if the response is 'fileUrl|errorMessage':
 		 *
-		 * 		CKEDITOR.filetools.FileLoader.prototype.handleResponse = function( xhr ) {
+		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function( xhr ) {
 		 * 			var repsonse = xhr.responseText.split( '|' );
 		 * 			if ( repsonse[ 1 ] ) {
 		 * 				this.message = repsonse[ 1 ];
@@ -503,42 +503,42 @@
 		 * Event fired when status change to `loading`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event loading
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
 		 * Event fired when status change to `loaded`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event loaded
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
 		 * Event fired when status change to `uploading`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event uploading
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
 		 * Event fired when status change to `uploaded`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event uploaded
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
 		 * Event fired when status change to `error`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event error
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
 		 * Event fired when status change to `abort`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event abort
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
@@ -547,7 +547,7 @@
 		 * every time state changes. Note that multiple `update` events may be fired with the same status.
 		 *
 		 * @event update
-		 * @member CKEDITOR.filetools.FileLoader
+		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 	};
 
@@ -596,20 +596,20 @@
 	//
 
 	// Two plugins extends this object.
-	if ( !CKEDITOR.filetools ) {
+	if ( !CKEDITOR.fileTools ) {
 		/**
 		 * Helpers to load and upload file.
 		 *
 		 * @since 4.5
 		 * @singleton
-		 * @class CKEDITOR.filetools
+		 * @class CKEDITOR.fileTools
 		 */
-		CKEDITOR.filetools = {};
+		CKEDITOR.fileTools = {};
 	}
 
-	CKEDITOR.tools.extend( CKEDITOR.filetools, {
-		UploadsRepository: UploadsRepository,
-		FileLoader: FileLoader,
+	CKEDITOR.tools.extend( CKEDITOR.fileTools, {
+		uploadsRepository: UploadsRepository,
+		fileLoader: FileLoader,
 
 		/**
 		 * Gets upload URL from the {@link CKEDITOR.config configuration}. Because of backwards compatibility
@@ -656,9 +656,9 @@
 		 * Checked if the MIME type of given file is supported.
 		 * If no `supportedTypes` regular expression is given all type are considered as supported.
 		 *
-		 * 		CKEDITOR.filetools.isTypeSupported( { type: 'image/png' } ); // true
-		 * 		CKEDITOR.filetools.isTypeSupported( { type: 'image/png' }, /image\/(png|jpeg)/ ); // true
-		 * 		CKEDITOR.filetools.isTypeSupported( { type: 'image/png' }, /image\/(gif|jpeg)/ ); // false
+		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' } ); // true
+		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' }, /image\/(png|jpeg)/ ); // true
+		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' }, /image\/(gif|jpeg)/ ); // false
 		 *
 		 * @param {Blob} file File to check.
 		 * @param {RegExp} [supportedTypes] Regular expression to check MIME type of the file.
