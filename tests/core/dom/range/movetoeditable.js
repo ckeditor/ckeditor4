@@ -6,7 +6,7 @@
 	var doc = CKEDITOR.document;
 
 	var tests = {
-		rangeMoveToClosestEditable: function( html, isMoveToEnd, retValue ) {
+		rangeMoveToClosestEditable: function( html, isMoveForward, retValue ) {
 			if ( retValue === undefined )
 				retValue = true;
 
@@ -16,7 +16,7 @@
 			var startNode = doc.getById( 'start' ),
 				range = new CKEDITOR.dom.range( ct );
 
-			assert.areSame( retValue, !!range.moveToClosestEditablePosition( startNode, isMoveToEnd ), 'Method returned value' );
+			assert.areSame( retValue, !!range.moveToClosestEditablePosition( startNode, isMoveForward ), 'Method returned value' );
 
 			if ( retValue )
 				return bender.tools.fixHtml( bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
@@ -269,6 +269,24 @@
 
 			assert.areSame( ct, range.startContainer, 'startContainer' );
 			assert.isTrue( range.startContainer.getChild( range.startOffset - 1 ).is( 'hr' ), 'range is anchored next to hr' );
+		},
+
+		'test moveToClosestEditablePosition without specifying element': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				range = bender.tools.range.setWithHtml( ct, '<p>ab</p>[]<p>cd</p>' ),
+				ret = range.moveToClosestEditablePosition();
+
+			assert.isTrue( ret );
+			assert.areSame( '<p>ab[]</p><p>cd</p>', bender.tools.range.getWithHtml( ct, range ) );
+		},
+
+		'test moveToClosestEditablePosition without specifying element, with isMoveForward': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				range = bender.tools.range.setWithHtml( ct, '<p>ab</p>[]<p>cd</p>' ),
+				ret = range.moveToClosestEditablePosition( null, true );
+
+			assert.isTrue( ret );
+			assert.areSame( '<p>ab</p><p>[]cd</p>', bender.tools.range.getWithHtml( ct, range ) );
 		}
 	};
 
