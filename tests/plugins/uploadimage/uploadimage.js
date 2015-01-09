@@ -419,7 +419,7 @@
 
 			editor.fire( 'paste', {
 				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
-				dataValue: '<img src="x" onerror="window.attacked();">'
+				dataValue: '<img src="x" onerror="window.attacked();">' + bender.tools.pngBase64
 			} );
 
 			wait( function() {
