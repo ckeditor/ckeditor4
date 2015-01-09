@@ -320,7 +320,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				if ( me.bidi ) {
 					dialog.on( 'load', function() {
-							me.getInputElement().on( 'keyup', toggleBidiKeyUpHandler );
+						me.getInputElement().on( 'keyup', toggleBidiKeyUpHandler );
 					}, me );
 				}
 
@@ -1073,6 +1073,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the direction marker and `dir` attribute of the input element.
 			 *
+			 * @since 4.5.0
 			 * @param {String} dir The direction. Pass `null` to reset.
 			 */
 			setDirectionMarker: function( dir ) {
@@ -1093,6 +1094,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the value of direction marker.
 			 *
+			 * @since 4.5.0
 			 * @returns {String} `'ltr'`, `'rtl'` or `null` if marker is not set.
 			 */
 			getDirectionMarker: function() {
