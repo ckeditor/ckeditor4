@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#10986](http://dev.ckeditor.com/ticket/10986): Added support for changing dialog's input and textarea text directions by using *Shift+Alt+Home/End* keystrokes. The direction is stored in the value of the input by prepending [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) or [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) marker to it. Read more in the [documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.textInput-property-bidi) Thanks to [edithkk](https://github.com/edithkk)!
 * [#10931](http://dev.ckeditor.com/ticket/10931): Introduce ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely since CKEditor 4.5 some widget buttons may become enabled.
 * [#11437](http://dev.ckeditor.com/ticket/11437): Drag and Drop support.
   * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
