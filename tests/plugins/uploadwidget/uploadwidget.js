@@ -83,7 +83,7 @@
 	}
 
 	bender.test( {
-		'setUp': function() {
+		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
@@ -110,7 +110,7 @@
 			uploadCount = 0;
 		},
 
-		'tearDown': function() {
+		tearDown: function() {
 			var bot = this.editorBot,
 				editor = bot.editor;
 

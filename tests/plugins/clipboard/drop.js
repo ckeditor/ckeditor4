@@ -173,7 +173,7 @@ bender.editors = {
 };
 
 var testsForMultipleEditor = {
-		'tearDown': function() {
+		tearDown: function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
 			for ( var name in this.editors ) {

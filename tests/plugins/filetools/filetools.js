@@ -13,7 +13,7 @@
 	};
 
 	bender.test( {
-		'setUp': function() {
+		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}

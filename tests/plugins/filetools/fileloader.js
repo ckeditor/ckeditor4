@@ -159,7 +159,7 @@
 	};
 
 	bender.test( {
-		'setUp': function() {
+		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
@@ -169,7 +169,7 @@
 			testFile = bender.tools.getTestPngFile();
 		},
 
-		'tearDown': function() {
+		tearDown: function() {
 			window.FileReader = FileReaderBackup;
 			window.XMLHttpRequest = XMLHttpRequestBackup;
 		},

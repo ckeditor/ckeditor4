@@ -45,7 +45,7 @@
 	}
 
 	var tests = {
-		'init': function() {
+		init: function() {
 			resumeAfter = bender.tools.resumeAfter;
 
 			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
@@ -61,7 +61,7 @@
 			};
 		},
 
-		'setUp': function() {
+		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
