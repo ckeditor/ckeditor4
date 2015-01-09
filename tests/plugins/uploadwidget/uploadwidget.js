@@ -11,7 +11,8 @@
 		htmlMatchingOpts = {
 			compareSelection: true,
 			normalizeSelection: true
-		};
+		},
+		sortAttributes = bender.tools.sortAttributes;
 
 	bender.editor = {
 		config: {
@@ -146,7 +147,7 @@
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );
-			assert.isInnerHtmlMatching( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
+			assert.areSame( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', sortAttributes( element.getOuterHtml() ) );
 		},
 
 		'test replaceWith 1 element': function() {
@@ -167,7 +168,7 @@
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
+				assert.areSame( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
 			} );
 		},
 
@@ -189,7 +190,7 @@
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>xx</p>', editor.getData() );
+				assert.areSame( '<p>xx</p>', editor.getData() );
 			} );
 		},
 
@@ -214,7 +215,7 @@
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.isInnerHtmlMatching( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
+				assert.areSame( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
 			} );
 		},
 
@@ -300,7 +301,8 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.isInnerHtmlMatching( '<span data-cke-upload-id="0" data-widget="specificWidget1">specific</span>', evt.data.dataValue );
+				assert.areSame( '<span data-cke-upload-id="0" data-widget="specificWidget1">specific</span>',
+					sortAttributes( evt.data.dataValue ) );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestTxtFile( 'test.txt' ) ] );
@@ -329,7 +331,8 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.isInnerHtmlMatching( '<span data-cke-upload-id="0" data-widget="generalWidget2">general</span>', evt.data.dataValue );
+				assert.areSame( '<span data-cke-upload-id="0" data-widget="generalWidget2">general</span>',
+					sortAttributes( evt.data.dataValue ) );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test.png' ) ] );
@@ -373,10 +376,10 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.isInnerHtmlMatching(
+				assert.areSame(
 					'<span data-cke-upload-id="0" data-widget="multiSupportedExtension">test1.png</span>' +
 					'<span data-cke-upload-id="1" data-widget="multiSupportedExtension">test3.png</span>',
-					evt.data.dataValue );
+					sortAttributes( evt.data.dataValue ) );
 			} );
 
 			pasteFiles( editor, [
@@ -454,9 +457,10 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.isInnerHtmlMatching(
+				assert.areSame(
 					'<span data-cke-upload-id="0" data-widget="pngWidget">png</span>' +
-					'<span data-cke-upload-id="1" data-widget="pngWidget">png</span>', evt.data.dataValue,
+					'<span data-cke-upload-id="1" data-widget="pngWidget">png</span>',
+					sortAttributes( evt.data.dataValue ),
 					'Only one type of file should be supported but all of the files on this type.' );
 			} );
 
@@ -554,7 +558,7 @@
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After undo.' );
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After undo.' );
 
 				editor.execCommand( 'redo' );
 
@@ -580,11 +584,11 @@
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData() );
+				assert.areSame( '<p>xx</p>', editor.getData() );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After undo.' );
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After undo.' );
 
 				loader.changeStatus( 'progress' );
 
@@ -592,7 +596,7 @@
 
 				editor.execCommand( 'redo' );
 
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After redo.' );
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After redo.' );
 			} );
 		},
 
@@ -614,11 +618,11 @@
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testErrorDuring' );
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData() );
+				assert.areSame( '<p>xx</p>', editor.getData() );
 
 				loader.changeStatus( 'error' );
 
-				assert.isInnerHtmlMatching( '<p>xx@</p>', editor.getData(), 'After error.' );
+				assert.areSame( '<p>xx</p>', editor.getData(), 'After error.' );
 				assertUploadingWidgets( editor, 'testErrorDuring', 0 );
 			} );
 		},
@@ -642,7 +646,7 @@
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
-				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">foo@</p>', editor.getData() );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
 
 				p = editor.document.getById( 'p' );
 				editor.getSelection().selectElement( p );
@@ -650,14 +654,14 @@
 				editor.execCommand( 'bold' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
-				assert.isInnerHtmlMatching( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
+				assert.areSame( '<p>xx</p><p id="p"><strong>foo</strong></p>', editor.getData() );
 
 				editor.execCommand( 'undo' );
 
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testUndoDuring' );
-				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">foo@</p>', editor.getData() );
+				assert.areSame( '<p>xx</p><p id="p">foo</p>', editor.getData() );
 
 				loader.changeStatus( 'uploaded' );
 
@@ -749,19 +753,22 @@
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'Before undo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'Before undo' );
 
 				editor.execCommand( 'undo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After undo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p">[foo@]</p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After undo' );
 
 				editor.execCommand( 'redo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo' );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p id="p"><strong>[foo@]</strong></p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo' );
 			} );
 		},
 
@@ -784,7 +791,7 @@
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy' );
-				assert.isInnerHtmlMatching( '<p>xx</p><p id="p">x</p>', editor.getData() );
+				assert.areSame( '<p>xx</p><p id="p">x</p>', editor.getData() );
 
 				p = editor.document.getById( 'p' );
 				editor.getSelection().selectElement( p );
@@ -796,21 +803,24 @@
 				loader.changeStatus( 'progress' );
 
 				assertUploadingWidgets( editor, 'testCopy', 2 );
-				assert.isInnerHtmlMatching( '<p>xx</p><p></p>', editor.getData() );
+				assert.areSame( '<p>xx</p><p></p>', editor.getData() );
 
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
 				editor.execCommand( 'undo' );
 
 				shrinkRange( editor );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[x@]</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[x@]</p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p>x^x@</p><p id="p">x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+				assert.isInnerHtmlMatching( '<p>x^x@</p><p id="p">x@</p>',
+					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 

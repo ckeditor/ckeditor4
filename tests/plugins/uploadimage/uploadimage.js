@@ -9,27 +9,29 @@
 	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		LOADING_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC',
-		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC';
+		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC',
 
-	var editorsDefinitions = {
-		classic: {
-			name: 'classic',
-			creator: 'replace',
-			config: {
-				extraPlugins: 'uploadimage,image',
-				removePlugins: 'image2',
-				imageUploadUrl: 'http://foo/upload'
+		editorsDefinitions = {
+			classic: {
+				name: 'classic',
+				creator: 'replace',
+				config: {
+					extraPlugins: 'uploadimage,image',
+					removePlugins: 'image2',
+					imageUploadUrl: 'http://foo/upload'
+				}
+			},
+			inline: {
+				name: 'inline',
+				creator: 'inline',
+				config: {
+					extraPlugins: 'uploadimage,image2',
+					filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
+				}
 			}
 		},
-		inline: {
-			name: 'inline',
-			creator: 'inline',
-			config: {
-				extraPlugins: 'uploadimage,image2',
-				filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
-			}
-		}
-	};
+
+		sortAttributes = bender.tools.sortAttributes;
 
 	function assertUploadingWidgets( editor, expectedSrc ) {
 		var widgets = editor.editable().find( 'img[data-widget="uploadimage"]' ),
@@ -83,7 +85,7 @@
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			assertUploadingWidgets( editor, LOADING_IMG );
-			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
+			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
@@ -98,7 +100,7 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+				assert.areSame( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', sortAttributes( editor.getData() ) );
 				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 				assert.areSame( 1, loadAndUploadCount );
@@ -113,7 +115,7 @@
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
 			assertUploadingWidgets( editor, LOADING_IMG );
-			assert.isInnerHtmlMatching( '', editor.getData(), 'getData on loading.' );
+			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadsRepository.get( 0 );
 
@@ -128,7 +130,7 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData(), { sortAttributes: 1 } );
+				assert.areSame( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', sortAttributes( editor.getData() ) );
 				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 				assert.areSame( 1, loadAndUploadCount );
@@ -160,7 +162,8 @@
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
-					assert.isInnerHtmlMatching( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>', editor.getData() );
+					assert.areSame( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>',
+						sortAttributes( editor.getData() ) );
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 					assert.areSame( 0, loadAndUploadCount );
