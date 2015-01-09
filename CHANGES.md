@@ -28,6 +28,7 @@ Fixed Issues:
 
 Other Changes:
 
+* [#8024](http://dev.ckeditor.com/ticket/8024): Swapped behavior of the Split Table Cell Vertically and Horizontally features to be more intuitive. Thanks to [kevinisagit](https://github.com/kevinisagit)!
 * [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for [`addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
 * [#11856](http://dev.ckeditor.com/ticket/11856): jQuery adapter throw an meaningful error if CKEditor or jQuery is not loaded.
 * [#12150](http://dev.ckeditor.com/ticket/12150): Expose [`getNestedEditable`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-static-method-getNestedEditable) and `is*` [widget helper](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget) functions.
