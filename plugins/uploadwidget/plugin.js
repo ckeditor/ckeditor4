@@ -226,14 +226,14 @@
 			 */
 			replaceWith: function( html ) {
 				// TODO: Use insertHtmlIntoRange (#12448) and handle multiple elements.
-				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } );
 
-				if ( processedHtml.trim() === '' ) {
+				if ( html.trim() === '' ) {
 					editor.widgets.del( this );
 					return;
 				}
 
-				var el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
+				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } ),
+					el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
 					wasSelected = ( this == editor.widgets.focused ),
 					range;
 
