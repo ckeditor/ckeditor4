@@ -8,7 +8,7 @@
 ( function() {
 	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
-		LOADING_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPC',
+		LOADING_IMG = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAA',
 		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC',
 
 		editorsDefinitions = {
