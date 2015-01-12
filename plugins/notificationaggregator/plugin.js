@@ -18,13 +18,6 @@
 	CKEDITOR.plugins.add( 'notificationaggregator', {
 		requires: 'notification',
 		init: function( editor ) {
-			// We need to use timeout, otherwise we would get an exception, about
-			// undefined 'getClientRect' method of some ui element. This is due to
-			// uninited UI.
-			window.setTimeout( function() {
-				window.aggr = new Aggregator( editor, 'fo', 'ba' );
-				var cancel = window.aggr.createThread();
-			}, 20 );
 		}
 	} );
 
@@ -32,9 +25,9 @@
 	 * This type helps to create a notification where progress of a multiple entities is
 	 * tracked.
 	 *
-	 *
+	 * Once finished the notification state will be reset.
 	 */
-	function Aggregator( editor, message, singleEntryMessage ) {
+	function Aggregator( editor, message ) {
 		this.editor = editor;
 		/**
 		 * Array of unique numbers generated with {@link #createThread} calls. If an id is
@@ -43,6 +36,16 @@
 		 * @private
 		 */
 		this._threads = [];
+
+		/**
+		 * A template for message.
+		 *
+		 * It takes gets variables:
+		 *
+		 * * **current** - A count of completed threads.
+		 * * **max** - The maximal count of threads.
+		 */
+		this._message = new CKEDITOR.template( String( message ) );
 	}
 
 	Aggregator.prototype = {
@@ -56,6 +59,13 @@
 		 */
 		notification: null,
 
+		/**
+		 * Maximal count of threads before {@Link #finish} was called.
+		 *
+		 * @private
+		 */
+		_maxThreadsCount: 0,
+
 		createThread: function() {
 			var initialThread = !this._threads.length,
 				ret;
@@ -63,21 +73,41 @@
 			if ( initialThread ) {
 				// It's a first call.
 				var notifOptions = this._getNotificationOptions();
-				//notifOptions.message = 'foobar';
 				this.notification = new CKEDITOR.plugins.notification( this.editor, notifOptions );
-			} else {
 			}
 
 			ret = this._increaseThreads();
 
 			if ( initialThread ) {
 				this.notification.show();
+			} else {
+				// Notification already exists, so we need to update the content.
+				this._updateNotification();
 			}
 
 			return ret;
 		},
 
 		_updateNotification: function() {
+			var maxCount = this._maxThreadsCount,
+				currentCount = maxCount - this._threads.length,
+				msg;
+
+			if ( this._threads.length === 0 ) {
+				// All threads loaded, loading is finished.
+				this.finish();
+			} else {
+				// Generate a message.
+				msg = this._message.output( {
+					current: currentCount,
+					max: maxCount
+				} );
+
+				this.notification.update( {
+					message: msg,
+					progress: Number( currentCount / maxCount )
+				} );
+			}
 		},
 
 		/**
@@ -87,9 +117,12 @@
 		 */
 		_increaseThreads: function() {
 			var id = CKEDITOR.tools.getNextId(),
-				threads = this._threads;
+				that = this,
+				threads = that._threads;
 
 			threads.push( id );
+
+			that._maxThreadsCount = threads.length;
 
 			return function() {
 				var index = CKEDITOR.tools.indexOf( threads, id );
@@ -99,6 +132,8 @@
 				}
 
 				threads.splice( index, 1 );
+				// State changed so we need to call _updateNotification.
+				that._updateNotification();
 			};
 		},
 
@@ -111,13 +146,28 @@
 		 * @returns {Object}
 		 */
 		_getNotificationOptions: function() {
-			return {};
+			return {
+				type: 'progress'
+			};
 		},
 
 		/**
-		 * Called when all threads are done.
+		 * Resets the internal state of aggregator.
+		 *
+		 * @private
+		 */
+		_reset: function() {
+			this._maxThreadsCount = 0;
+			this._threads = [];
+		},
+
+		/**
+		 * Called when all threads are done. Default implementation will hide the notification.
 		 */
 		finish: function() {
+			this._reset();
+			this.notification.hide();
+			this.editor.showNotification( 'foobar', 'success', 2000 );
 		}
 	};
 
