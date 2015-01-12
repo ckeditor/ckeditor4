@@ -2147,9 +2147,9 @@
 		},
 
 		/**
-		 * TODO
+		 * Get count of files in dataTransfer object.
 		 *
-		 * @returns {TODO}
+		 * @returns {Number} Count of files.
 		 */
 		getFilesCount: function() {
 			if ( this._.files.length ) {
@@ -2164,9 +2164,10 @@
 		},
 
 		/**
-		 * TODO
+		 * Get file of given index.
 		 *
-		 * @param {TODO} i
+		 * @param {Number} i Index.
+		 * @returns {File} File instance.
 		 */
 		getFile: function( i ) {
 			if ( this._.files.length ) {

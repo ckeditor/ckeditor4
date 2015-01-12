@@ -92,7 +92,6 @@
 	// jscs:disable maximumLineLength
 	// Black rectangle which is shown before image is loaded.
 	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
-
 	// jscs:enable maximumLineLength
 
 	/**

@@ -27,8 +27,7 @@
 	} );
 
 	/**
-	 * {@link CKEDITOR.fileTools.fileLoader File loaders} repository. It allows you to create and get
-	 * {@link CKEDITOR.fileTools.fileLoader file loaders}.
+	 * File loaders repository. It allows you to create and get {@link CKEDITOR.fileTools.fileLoader file loaders}.
 	 *
 	 * An instance of the repository is available as a {@link CKEDITOR.editor#uploadsRepository}.
 	 *
@@ -88,14 +87,13 @@
 		 * Event fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} is created.
 		 *
 		 * @event created
-		 * @member CKEDITOR.fileTools.uploadsRepository
 		 * @param {CKEDITOR.fileTools.fileLoader} data Created FileLoader.
 		 */
 	};
 
 	/**
-	 * The `FileLoader` class is a wrapper which handles two file operations: loading the contents of the file stored on the user's
-	 * device into the memory and uploading the file to a server.
+	 * The `FileLoader` class is a wrapper which handles two file operations: loading the contents of the file stored on
+	 * the user's device into the memory and uploading the file to a server.
 	 *
 	 * There are two possible ways to crate a `FileLoader` instance: with a [Blob](https://developer.mozilla.org/en/docs/Web/API/Blob)
 	 * (e.g. got from the {@link CKEDITOR.plugins.clipboard.dataTransfer#getFile} method) or with a data as a Base64 string.
@@ -106,25 +104,61 @@
 	 *
 	 * All process parameters are stored in the public properties.
 	 *
-	 * `FileLoader` implements events so you can listen on them to react on changes. There are two types of events: events to
-	 * notify listeners about changes and event to let listener synchronize with current status. The first group of events contains
-	 * `loading`, `loaded`, `uploading`, `uploaded`, `error` and `abort`. These events are called only once,
-	 * when status change. The second type is `update` event. It is fired ever time status change, progress change or `update()` method is called.
+	 * `FileLoader` implements events so you can listen on them to react on changes. There are two types of events:
+	 * events to notify listeners about changes and event to let listener synchronize with current {@link #status}.
 	 *
-	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request or response handling
-	 * you need to overwrite {@link #sendRequest sendRequest} or {@link #handleResponse handleResponse} method.
+	 * The first group of events contains {@link #event-loading}, {@link #event-loaded}, {@link #event-uploading},
+	 * {@link #event-uploaded}, {@link #event-error} and {@link #event-abort}. These events are called only once,
+	 * when {@link #status} change.
+	 *
+	 * The second type is {@link #event-update} event. It is fired ever time {@link #status} change, progress change or
+	 * {@link #method-update} method is called. Is is created to synchronize visual representation of the loader with
+	 * its status. For example if the dialog contains uploading progress it should be refresh on
+	 * {@link #event-update} listener. Then when user close and reopen this dialog {@link #method-update} method should
+	 * be called so the progress will be refreshed.
+	 *
+	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request
+	 * or response handling you need to overwrite {@link #sendRequest sendRequest} or {@link #handleResponse handleResponse}
+	 * method.
 	 *
 	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
+	 *
+	 * Here is a simple usage of `FileLoader`:
+	 *
+	 *	editor.on( 'paste', function( evt ) {
+	 *		for ( var i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *			var file = evt.data.dataTransfer.getFile( i );
+	 *
+	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
+	 *				var loader = editor.uploadsRepository.create( file );
+	 *
+	 *				loader.on( 'update', function () {
+	 *					document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
+	 *				} );
+	 *
+	 *				loader.on( 'error', function () {
+	 *					alert( 'Error!' );
+	 *				} );
+	 *
+	 *				loader.loadAndUpload( 'http://upload.url/' );
+	 *
+	 *				evt.data.dataValue += 'loading...'
+	 *			}
+	 *		}
+	 *	} );
+	 *
+	 * Note that `FileLoader` use file API which is support since Internet Explorer 10.
 	 *
 	 * @since 4.5
 	 * @class CKEDITOR.fileTools.fileLoader
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the class and sets initial values of all properties.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get language data.
-	 * @param {Blob/String} fileOrData A [blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) or a data string encoded with Base64.
+	 * @param {Blob/String} fileOrData A [blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) or a data
+	 * string encoded with Base64.
 	 * @param {String} [fileName] File name. If not set and the second parameter is a file then its name will be uses.
 	 * If not set and the second parameter is a Base64 data strng, then the file name will be created based on
-	 * the MIME type by replacing '/' with '.', for example for an `image/png` the file name will be `image.png`.
+	 * the MIME type by replacing '/' with '.', for example for `image/png` the file name will be `image.png`.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
 		this.lang = editor.lang;
@@ -193,7 +227,7 @@
 
 	/**
 	 * Number of loaded bytes. If `FileLoader` was created with data string,
-	 * then the {@link #property-loaded} value equals the {@link #total} value.
+	 * then the loaded value equals the {@link #total} value.
 	 *
 	 * @property {Number} loaded
 	 */
@@ -230,13 +264,13 @@
 
 	/**
 	 *
-	 * Native `FileReader` used to load file.
+	 * Native `FileReader` reference used to load file.
 	 *
 	 * @property {FileReader} reader
 	 */
 
 	/**
-	 * Native `XMLHttpRequest` used to upload file.
+	 * Native `XMLHttpRequest` reference used to upload file.
 	 *
 	 * @property {XMLHttpRequest} xhr
 	 */
@@ -251,12 +285,12 @@
 	/**
 	 * Aborts the process.
 	 *
-	 * This method has a different behavior dependin on the current {@link #status}.
+	 * This method has a different behavior depending on the current {@link #status}.
 	 *
-	 * * If the status is `loading` or `uploading` current operation will be aborted.
-	 * * Ff the status is `created`, `loading` or `uploading` status will be changed to `abort`
+	 * * If the {@link #status} is `loading` or `uploading` current operation will be aborted.
+	 * * If the {@link #status} is `created`, `loading` or `uploading` {@link #status} will be changed to `abort`
 	 * and `abort` event will be called.
-	 * * If the status is `loaded`, `uploaded`, `error` or `abort` this method will do nothing.
+	 * * If the {@link #status} is `loaded`, `uploaded`, `error` or `abort` this method will do nothing.
 	 *
 	 * @method abort
 	 */
@@ -265,7 +299,7 @@
 		/**
 		 * Loads file from the storage on user's computer to the data attribute and upload it to the server.
 		 *
-		 * The order statuses for the success load and upload is:
+		 * The order {@link #status statuses} for the success load and upload is:
 		 *
 		 * * `created`,
 		 * * `loading`,
@@ -296,7 +330,7 @@
 		/**
 		 * Loads file from the storage on user's computer to the data attribute.
 		 *
-		 * The order of the statuses for the success load is:
+		 * The order of the {@link #status statuses} for the success load is:
 		 *
 		 * * `created`,
 		 * * `loading`,
@@ -369,6 +403,7 @@
 		/**
 		 * Attach listeners to the XML HTTP request object.
 		 *
+		 * @private
 		 * @param {XMLHttpRequest} xhr XML HTTP request object.
 		 */
 		attachRequestListeners: function() {
@@ -423,6 +458,7 @@
 		 * 			xhr.send( this.file );
 		 * 		};
 		 *
+		 * @private
 		 * @param {XMLHttpRequest} xhr XML HTTP Request object with attached listeners.
 		 */
 		sendRequest: function() {
@@ -439,8 +475,8 @@
 		 *
 		 * For example if the response is 'fileUrl|errorMessage':
 		 *
-		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function( xhr ) {
-		 * 			var repsonse = xhr.responseText.split( '|' );
+		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function() {
+		 * 			var repsonse = this.xhr.responseText.split( '|' );
 		 * 			if ( repsonse[ 1 ] ) {
 		 * 				this.message = repsonse[ 1 ];
 		 * 				this.changeStatus( 'error' );
@@ -450,6 +486,7 @@
 		 * 			}
 		 * 		};
 		 *
+		 * @private
 		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
 		 */
 		handleResponse: function() {
@@ -475,9 +512,10 @@
 		},
 
 		/**
-		 * Changes status to the new status, update `abort` function if needed and fire two events:
-		 * new status and update.
+		 * Changes {@link #status} to the new status, update {@link #method-abort} method if needed and fire two events:
+		 * new status and {@link #event-update}.
 		 *
+		 * @private
 		 * @param {String} newStatus New status to be set.
 		 */
 		changeStatus: function( newStatus ) {
@@ -493,61 +531,56 @@
 		},
 
 		/**
-		 * Fires the {@link #event-update} event.
+		 * Update state of the `FileLoader` listeners. This method should be called if state of the visual representation
+		 * of the upload process is out of synchronization and needs to be refresh (e.g. because of undo operation or
+		 * dialog with upload is closed and reopen). Fires the {@link #event-update} event.
 		 */
 		update: function() {
 			this.fire( 'update' );
 		}
 
 		/**
-		 * Event fired when status change to `loading`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `loading`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event loading
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired when status change to `loaded`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `loaded`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event loaded
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired when status change to `uploading`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `uploading`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event uploading
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired when status change to `uploaded`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `uploaded`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event uploaded
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired when status change to `error`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `error`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event error
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired when status change to `abort`. Is will be fired once for the `FileLoader`.
+		 * Event fired when {@link #status} change to `abort`. Is will be fired once for the `FileLoader`.
 		 *
 		 * @event abort
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 
 		/**
-		 * Event fired every time `FileLoader` status or progress changed or `update()` method is called.
+		 * Event fired every time `FileLoader` {@link #status} or progress changed or `update()` method is called.
 		 * This event was designed to allow showing visualization of the progress and refresh that visualization
 		 * every time state changes. Note that multiple `update` events may be fired with the same status.
 		 *
 		 * @event update
-		 * @member CKEDITOR.fileTools.fileLoader
 		 */
 	};
 
