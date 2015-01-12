@@ -235,8 +235,13 @@
 			var rangeRoot = range.getCommonAncestor(),
 				nearestListBlock = rangeRoot;
 
-			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) )
+			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) ) {
+				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (#12796)
+				if ( editor.element.equals( nearestListBlock ) ) {
+					return 0;
+				}
 				nearestListBlock = nearestListBlock.getParent();
+			}
 
 			// Avoid having selection boundaries out of the list.
 			// <ul><li>[...</li></ul><p>...]</p> => <ul><li>[...]</li></ul><p>...</p>
