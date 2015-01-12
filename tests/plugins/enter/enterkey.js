@@ -1,4 +1,3 @@
-/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,enterkey */
 
 ( function() {
@@ -67,7 +66,7 @@
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
 
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>foo<span style="display:none;">bar^</span></p>' );
@@ -87,7 +86,7 @@
 
 		// #8321
 		'test enter key at the end of block with inline styles': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p><b><i>foo^</i></b></p>' );
@@ -98,7 +97,7 @@
 
 		// #7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor;
 
 			editor.focus();
@@ -117,7 +116,7 @@
 
 		// Start of #8812
 		'test ener key at the end of contents with comment': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( 'test ^<!-- --> ' );
 			bot.execCommand( 'enter' );
@@ -125,7 +124,7 @@
 		},
 
 		'test enter key in the middle of contents with comments': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
 			bot.execCommand( 'enter' );
@@ -135,7 +134,7 @@
 		},
 
 		'test enter key in the middle of contents with comments (2)': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 
 			bot.setHtmlWithSelection( '<b>foo</b>bar^baz<!-- --><b>qux</b>' );
 			bot.execCommand( 'enter' );
@@ -145,7 +144,7 @@
 		// End of #8812
 
 		'test enter key uses editor.activeEnterMode': function() {
-			var bot = this.editorsBots.editorNoAutoParagraph;
+			var bot = this.editorBots.editorNoAutoParagraph;
 
 			bot.editor.setActiveEnterMode( CKEDITOR.ENTER_BR, CKEDITOR.ENTER_DIV );
 
@@ -170,7 +169,7 @@
 		},
 
 		'test enter key is influenced by the active filter': function() {
-			var bot = this.editorsBots.editorNoAutoParagraph;
+			var bot = this.editorBots.editorNoAutoParagraph;
 
 			bot.setHtmlWithSelection( 'foo^bar' );
 

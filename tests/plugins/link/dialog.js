@@ -68,19 +68,19 @@
 		},
 
 		'test discovery of anchors (framed)': function() {
-			assertAnchorDiscovery( this.editorsBots.framed,
+			assertAnchorDiscovery( this.editorBots.framed,
 				[ 'aa', 'ba', 'ca', '' ],
 				[ 'ab', 'bb', 'cb', '' ] );
 		},
 
 		'test discovery of anchors (inline)': function() {
-			assertAnchorDiscovery( this.editorsBots.inline,
+			assertAnchorDiscovery( this.editorBots.inline,
 				[ 'ga', 'ha', 'ma', 'na', 'oa', 'ta', 'ua', 'wa', '' ],
 				[ 'gb', 'hb', 'mb', 'nb', 'ob', 'tb', 'ub', 'wb', '' ] );
 		},
 
 		'test discovery of anchors (divarea)': function() {
-			assertAnchorDiscovery( this.editorsBots.divarea,
+			assertAnchorDiscovery( this.editorBots.divarea,
 				[ 'ta', 'ua', 'wa', '' ],
 				[ 'tb', 'ub', 'wb', '' ] );
 		}

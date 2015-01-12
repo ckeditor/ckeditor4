@@ -45,7 +45,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'someOtherWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var wrapper = getWidgetById( editor, 'w1' ).wrapper;
 
 				assert.isFalse( style.checkApplicable( style.checkApplicable( widgetPath( 'w1', editor ) ) ), 'checkApplicable' );
@@ -66,7 +66,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p><p>foo<b data-widget="testWidget" id="w2">x</b></p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p><p>foo<b data-widget="testWidget" id="w2">x</b></p>', function() {
 				assert.isTrue( style.checkApplicable( widgetPath( 'w1', editor ), editor ), 'block widget' );
 				assert.isTrue( style.checkApplicable( widgetPath( 'w2', editor ), editor ), 'inline widget' );
 			} );
@@ -76,7 +76,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'someOtherWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				assert.isFalse( style.checkApplicable( widgetPath( 'w1', editor ), editor ) );
 			} );
 		},
@@ -86,7 +86,7 @@
 				style = st( { type: 'widget', widget: 'testWidget' } ),
 				path;
 
-			this.editorsBots.editor.setData( '<p id="p1">x</p><div data-widget="testWidget" id="w1"><p class="editable"><b>x</b></p></div>', function() {
+			this.editorBots.editor.setData( '<p id="p1">x</p><div data-widget="testWidget" id="w1"><p class="editable"><b>x</b></p></div>', function() {
 				var widget = getWidgetById( editor, 'w1' );
 				path = new CKEDITOR.dom.elementPath( editor.document.getById( 'p1' ), editor.editable() );
 				assert.isFalse( style.checkApplicable( path, editor ), 'some other element' );
@@ -112,7 +112,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.checkStyleActive = function() {
@@ -131,7 +131,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
 					passedArgument;
 
@@ -152,7 +152,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p id="p1">x</p>', function() {
+			this.editorBots.editor.setData( '<p id="p1">x</p>', function() {
 				assert.isFalse( style.checkElementMatch( editor.document.getById( 'p1' ), 0, editor ) );
 				// No need to test more because internally we use the same verification
 				// as in checkApplicable.
@@ -163,7 +163,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p><p data-widget="testWidget" id="w2">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p><p data-widget="testWidget" id="w2">x</p>', function() {
 				var widget1 = getWidgetById( editor, 'w1' ),
 					widget2 = getWidgetById( editor, 'w2' ),
 					applied1 = 0,
@@ -208,7 +208,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
 					passedArgument;
 
@@ -235,7 +235,7 @@
 			var editor = this.editors.editor,
 				style = st( { type: 'widget', widget: 'testWidget' } );
 
-			this.editorsBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
 					executed = false;
 

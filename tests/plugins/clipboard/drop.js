@@ -184,7 +184,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop to header': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<h1 id="h1">Header1</h1>' +
@@ -211,7 +211,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop the same line, before': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum [dolor] sit amet.</p>' );
@@ -237,7 +237,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop the same line, after': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
@@ -293,7 +293,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop after paragraph': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
@@ -319,7 +319,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop on the left from paragraph': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
@@ -345,7 +345,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop text from external source': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
@@ -372,7 +372,7 @@ var testsForMultipleEditor = {
 
 		'test drop html from external source': function( editor ) {
 			var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-				bot = bender.editorsBots[ editor.name ],
+				bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
@@ -406,7 +406,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test drop empty element from external source': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
@@ -423,9 +423,9 @@ var testsForMultipleEditor = {
 		},
 
 		'test cross editor drop': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
-				botCross = bender.editorsBots.cross,
+				botCross = bender.editorBots.cross,
 				editorCross = botCross.editor;
 
 			setWithHtml( bot.editor, '<p id="p">{}Lorem ipsum sit amet.</p>' );
@@ -456,7 +456,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test change drag and drop range on drop': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p>x' +
@@ -495,7 +495,7 @@ var testsForMultipleEditor = {
 		},
 
 		'test cancel drop': function( editor ) {
-			var bot = bender.editorsBots[ editor.name ],
+			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
@@ -523,7 +523,7 @@ var testsForMultipleEditor = {
 
 		'test fixIESplittedNodes': function() {
 			var editor = this.editors.framed,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				dragRange = editor.createRange(),
 				dropRange = editor.createRange(),
 				p, text;
@@ -558,7 +558,7 @@ var testsForMultipleEditor = {
 
 		'test isRangeBefore 1': function() {
 			var editor = this.editors.framed,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				firstRange = editor.createRange(),
 				secondRange = editor.createRange(),
 				p;
@@ -578,7 +578,7 @@ var testsForMultipleEditor = {
 
 		'test isRangeBefore 2': function() {
 			var editor = this.editors.framed,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				firstRange = editor.createRange(),
 				secondRange = editor.createRange(),
 				p, text;
@@ -602,7 +602,7 @@ var testsForMultipleEditor = {
 
 		'test isRangeBefore 3': function() {
 			var editor = this.editors.framed,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				firstRange = editor.createRange(),
 				secondRange = editor.createRange(),
 				p, text;
@@ -624,7 +624,7 @@ var testsForMultipleEditor = {
 
 		'test dragEnd event': function() {
 			var editor = this.editors.inline,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				editable = editor.editable(),
 				evt = {},
 				dragendCount = 0;
@@ -652,7 +652,7 @@ var testsForMultipleEditor = {
 
 		'test dragEnd event - preventDefault': function() {
 			var editor = this.editors.inline,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				editable = editor.editable(),
 				evt = {},
 				dragendCount = 0;
@@ -677,7 +677,7 @@ var testsForMultipleEditor = {
 
 		'test dragStart preventDefault': function() {
 			var editor = this.editors.inline,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
 				preventDefaultCount = 0;
 
@@ -699,7 +699,7 @@ var testsForMultipleEditor = {
 		'test set custom data on dragStart': function() {
 			var editor = this.editors.inline,
 				editable = editor.editable(),
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
 				dragstartData, dropData, dragendData;
 
@@ -740,7 +740,7 @@ var testsForMultipleEditor = {
 		'test set custom data on drop': function() {
 			var editor = this.editors.inline,
 				editable = editor.editable(),
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
 				dragstartData, dropData, dragendData;
 
@@ -780,7 +780,7 @@ var testsForMultipleEditor = {
 
 		'test cancel beforePaste': function() {
 			var editor = this.editors.inline,
-				bot = this.editorsBots[ editor.name ],
+				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );

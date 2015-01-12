@@ -507,7 +507,7 @@
 
 					if ( !name ) {
 						bender.editors = bender.testCase.editors = editors;
-						bender.editorsBots = bender.testCase.editorsBots = bots;
+						bender.editorBots = bender.testCase.editorBots = bots;
 						callback();
 						return;
 					}

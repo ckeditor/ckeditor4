@@ -88,7 +88,7 @@
 	}
 
 	function test( name, html, data, expected ) {
-		var bot = bender.editorsBots[ name ];
+		var bot = bender.editorBots[ name ];
 
 		bot.setData( html, function() {
 			var widget = getWidgetById( bot.editor, 'x' ),
@@ -248,7 +248,7 @@
 		},
 
 		'test justify plugin integration when (alignment disallowed)': function() {
-			var bot = this.editorsBots.no_align;
+			var bot = this.editorBots.no_align;
 
 			bot.setData( 'x<img alt="b" height="2" id="x" src="_assets/foo.png" width="1" />', function() {
 				getWidgetById( bot.editor, 'x' ).focus();
@@ -257,7 +257,7 @@
 		},
 
 		'test justify plugin integration (alignment allowed)': function() {
-			var bot = this.editorsBots.all_allowed;
+			var bot = this.editorBots.all_allowed;
 
 			bot.setData( 'x<img alt="b" height="2" id="x" style="float:left" src="_assets/foo.png" width="1" />', function() {
 				getWidgetById( bot.editor, 'x' ).focus();

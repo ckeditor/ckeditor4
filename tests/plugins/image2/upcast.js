@@ -8,7 +8,7 @@
 	var obj2Array = widgetTestsTools.obj2Array;
 
 	function assertUpcast( config, callback ) {
-		var bot = bender.editorsBots[ config.name ];
+		var bot = bender.editorBots[ config.name ];
 
 		bot.setData( config.data, function() {
 			callback( bot.editor );

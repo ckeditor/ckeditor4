@@ -28,7 +28,7 @@
 		},
 
 		'test blocked JavaScript content in href attribute': function() {
-			var bot = this.editorsBots.notAllowedJS;
+			var bot = this.editorBots.notAllowedJS;
 
 			bot.setData( '', function() {
 				bot.editor.focus();
@@ -50,7 +50,7 @@
 		},
 
 		'test not blocked JavaScript content in href attribute': function() {
-			var bot = this.editorsBots.allowedJS;
+			var bot = this.editorBots.allowedJS;
 
 			bot.setData( '', function() {
 				bot.editor.focus();

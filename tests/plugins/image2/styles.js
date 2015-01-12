@@ -67,7 +67,7 @@
 
 	bender.test( {
 		'test style non-captioned, right-aligned widget': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor,
 				style = new CKEDITOR.style( styleDef );
 
@@ -89,7 +89,7 @@
 		},
 
 		'test style captioned widget': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor,
 				style = new CKEDITOR.style( styleDef ),
 
@@ -126,7 +126,7 @@
 		},
 
 		'test transition: add caption to non-captioned, right-aligned, styled widget': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor,
 				style = new CKEDITOR.style( styleDef ),
 
@@ -157,7 +157,7 @@
 		},
 
 		'test transition: center non-captioned, right-aligned, styled widget': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor,
 				style = new CKEDITOR.style( styleDef ),
 
@@ -185,7 +185,7 @@
 		},
 
 		'test transition: center captioned, right-aligned, styled widget': function() {
-			var bot = this.editorsBots.editor,
+			var bot = this.editorBots.editor,
 				editor = bot.editor,
 				style = new CKEDITOR.style( styleDef ),
 
@@ -216,7 +216,7 @@
 		},
 
 		'test ACF integration - widget using styles': function() {
-			var bot = this.editorsBots.editorACFStyles,
+			var bot = this.editorBots.editorACFStyles,
 				editor = bot.editor,
 
 				html = '<figure class="cap gonna never xxx" style="float: right">' +
@@ -238,7 +238,7 @@
 		},
 
 		'test ACF integration - widget using classes': function() {
-			var bot = this.editorsBots.editorACFClasses,
+			var bot = this.editorBots.editorACFClasses,
 				editor = bot.editor,
 
 				html = '<figure class="cap gonna never ar xxx">' +

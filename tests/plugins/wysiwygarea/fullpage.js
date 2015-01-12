@@ -46,7 +46,7 @@
 
 	bender.test( {
 		'test load full-page data': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'fullpage1', function( source, expected ) {
 				bot.setData( source, function() {
 					assert.areSame( bender.tools.compatHtml( expected ),
@@ -56,7 +56,7 @@
 		},
 
 		'test load full-page data (with doctype)': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'fullpage2', function( source, expected ) {
 				bot.setData( source, function() {
 					assert.areSame( bender.tools.compatHtml( expected ),
@@ -66,7 +66,7 @@
 		},
 
 		'test base tag is placed before every element it affects in the head': function() {
-			var bot = this.editorsBots.editor_basehref;
+			var bot = this.editorBots.editor_basehref;
 
 			bot.setData( '<p>foo</p>', function() {
 				var base = getBaseElement( bot.editor );
@@ -78,7 +78,7 @@
 
 		// #9137
 		'test base tag is correctly added when head has an attribute': function() {
-			var bot = this.editorsBots.editor_basehref;
+			var bot = this.editorBots.editor_basehref;
 
 			bot.setData( '<head foo="xxx"><title>x</title><body><p>foo</p></body>', function() {
 				var base = getBaseElement( bot.editor );

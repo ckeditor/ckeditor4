@@ -19,7 +19,7 @@ bender.test( {
 		if ( CKEDITOR.env.ie )
 			assert.ignore();
 
-		var bot = this.editorsBots.editor;
+		var bot = this.editorBots.editor;
 
 		bot.setData( '<p>foo<img src="../../_assets/img.gif" alt="" />foo</p>', function() {
 			var editor = bot.editor,
@@ -44,7 +44,7 @@ bender.test( {
 		if ( CKEDITOR.env.ie )
 			assert.ignore();
 
-		var bot = this.editorsBots.editor;
+		var bot = this.editorBots.editor;
 
 		bot.setData( '<p>foo<input type="text" value="" />foo</p>', function() {
 			var editor = bot.editor,
@@ -64,7 +64,7 @@ bender.test( {
 
 	// #11727.
 	'test click on a non-editable image does not select it': function() {
-		var bot = this.editorsBots.editor;
+		var bot = this.editorBots.editor;
 
 		bot.setData( '<p>foo</p><div contenteditable="false"><img src="../../_assets/img.gif" alt="" /></div><p>foo</p>', function() {
 			var editor = bot.editor,
@@ -82,7 +82,7 @@ bender.test( {
 
 	// #11727.
 	'test click on deeply nested non-editable image does not select it': function() {
-		var bot = this.editorsBots.editor;
+		var bot = this.editorBots.editor;
 
 		bot.setData( '<p>foo</p><div contenteditable="false"><p><span><img src="../../_assets/img.gif" alt="" /></span></p></div><p>foo</p>', function() {
 			var editor = bot.editor,

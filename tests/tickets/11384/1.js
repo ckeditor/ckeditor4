@@ -15,7 +15,7 @@
 		'test paste into a non-empty range': function() {
 			var editor = this.editors.inline;
 
-			this.editorsBots.inline.setData( '<p>1234567890</p>', function() {
+			this.editorBots.inline.setData( '<p>1234567890</p>', function() {
 				var sel = editor.getSelection(),
 					paragraph = editor.editable().getFirst(),
 					textNode = paragraph.getFirst(),

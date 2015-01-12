@@ -33,7 +33,7 @@
 
 	bender.test( {
 		'test undo snapshot while highlighting (async)': function() {
-			var bot = this.editorsBots.asyncHighlighter,
+			var bot = this.editorBots.asyncHighlighter,
 				editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>foo^</p>' );
@@ -58,7 +58,7 @@
 		},
 
 		'test undo after editing sinppet with dialog and synchronous highlighter': function() {
-			var bot = this.editorsBots.asyncHighlighter,
+			var bot = this.editorBots.asyncHighlighter,
 				editor = bot.editor;
 
 			highlighter.highlighter = function( code, language, callback ) {
@@ -94,7 +94,7 @@
 		},
 
 		'test undo after editing sinppet with dialog and asynchronous highlighter': function() {
-			var bot = this.editorsBots.asyncHighlighter,
+			var bot = this.editorBots.asyncHighlighter,
 				editor = bot.editor;
 
 			highlighter.highlighter = function( code, language, callback ) {

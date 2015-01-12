@@ -16,7 +16,7 @@
 
 	bender.test( {
 		'test selection and focus are not lost in editor A when setting data in editor B': function() {
-			var bots = this.editorsBots;
+			var bots = this.editorBots;
 
 			bots.inline1.setHtmlWithSelection( '<p>foo[bar]bom</p>' );
 			bots.inline1.editor.focus();
@@ -29,7 +29,7 @@
 		},
 
 		'test selection and focus are not lost in editor A when setting data in editor B which had locked selection': function() {
-			var bots = this.editorsBots;
+			var bots = this.editorBots;
 
 			// Focus editor B so it locks the selection when blurred.
 			bots.inline2.setHtmlWithSelection( '<p>x[x]x</p>' );

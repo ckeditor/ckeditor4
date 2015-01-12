@@ -16,7 +16,7 @@
 
 	bender.test( {
 		'test create table': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 
 			bot.dialog( 'tableProperties', function( dialog ) {
 				// Check defaults.
@@ -38,7 +38,7 @@
 		},
 
 		'test add caption/summary': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'add-caption', function( source, expected ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'tableProperties', function( dialog ) {
@@ -57,7 +57,7 @@
 		},
 
 		'test table populates dialog': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'read-table', function( source ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'tableProperties', function( dialog ) {
@@ -73,7 +73,7 @@
 		},
 
 		'test table populates dialog - table width': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'read-table-width', function( source ) {
 				bot.setHtmlWithSelection( source );
 				bot.dialog( 'tableProperties', function( dialog ) {
@@ -85,7 +85,7 @@
 		},
 
 		'test delete table wrapped in div': function() {
-			var bot = this.editorsBots.editor;
+			var bot = this.editorBots.editor;
 			bender.tools.testInputOut( 'del-table', function( source ) {
 				bot.setHtmlWithSelection( source );
 				bot.execCommand( 'tableDelete' );
@@ -95,7 +95,7 @@
 
 		// #12110.
 		'test delete table directly in inline editor': function() {
-			var bot = this.editorsBots.inline,
+			var bot = this.editorBots.inline,
 				editable = bot.editor.editable();
 
 			bot.setHtmlWithSelection(

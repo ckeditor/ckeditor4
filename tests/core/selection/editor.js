@@ -172,7 +172,7 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on empty data loaded': function() {
-		var bot = this.editorsBots.editor,
+		var bot = this.editorBots.editor,
 			editor = this.editors.editor,
 			selectionChange = 0,
 			sel;
@@ -195,7 +195,7 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on non-empty data loaded': function() {
-		var bot = this.editorsBots.editor,
+		var bot = this.editorBots.editor,
 			editor = this.editors.editor,
 			selectionChange = 0,
 			sel;
@@ -220,7 +220,7 @@ bender.test( {
 
 	// #7174
 	'test "selectionChange" fired after the same selection set after data loaded': function() {
-		var bot = this.editorsBots.editor,
+		var bot = this.editorBots.editor,
 			editor = this.editors.editor,
 			selectionChange = 0;
 
@@ -680,7 +680,7 @@ bender.test( {
 	// But the more cases we test the better, so let's see.
 	'test selection unlocked on setData in framed editor': function() {
 		var editor = this.editors.editor,
-			bot = this.editorsBots.editor;
+			bot = this.editorBots.editor;
 
 		editor.focus();
 		bot.setHtmlWithSelection( '<p>foo[bar]bom</p>' );
@@ -697,7 +697,7 @@ bender.test( {
 	// #11500 & #5217#comment:32
 	'test selection unlocked on setData in inline editor': function() {
 		var editor = this.editors.editorInline,
-			bot = this.editorsBots.editorInline;
+			bot = this.editorBots.editorInline;
 
 		editor.focus();
 		bot.setHtmlWithSelection( '<p>foo[bar]bom</p>' );

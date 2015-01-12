@@ -22,7 +22,7 @@
 
 		// true is default value for allowFullScreen property
 		'test param allowFullScreen present in code with true value': function() {
-			var bot = this.editorsBots.one;
+			var bot = this.editorBots.one;
 
 			bot.setData( '', function() {
 				bot.dialog( 'flash', function( dialog ) {
@@ -51,7 +51,7 @@
 		},
 
 		'test param allowFullScreen present in code with false value': function() {
-			var bot = this.editorsBots.one;
+			var bot = this.editorBots.one;
 
 			bot.setData( '', function() {
 				bot.dialog( 'flash', function( dialog ) {

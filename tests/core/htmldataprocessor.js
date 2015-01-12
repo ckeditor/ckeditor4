@@ -33,7 +33,7 @@
 				xssed = true;
 			};
 
-			this.editorsBots.editor2.setData( input, function() {
+			this.editorBots.editor2.setData( input, function() {
 				// Wait, because onxxx may not be synchronous.
 				wait( function() {
 					assert.isFalse( xssed, 'XSSed!' );
@@ -62,7 +62,7 @@
 					'</html>',
 				editor = this.editors.editor3;
 
-			this.editorsBots.editor3.setData( input, function() {
+			this.editorBots.editor3.setData( input, function() {
 				this.assertHtml( input, editor.getData(), 'Editor data does not match.' );
 			} );
 		};

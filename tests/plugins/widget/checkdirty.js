@@ -28,7 +28,7 @@
 		'test check dirty is false after widget focus': function() {
 			var editor = this.editors.editor;
 
-			this.editorsBots.editor.setData( data, function() {
+			this.editorBots.editor.setData( data, function() {
 				var widget = getWidgetById( editor, 'w1' );
 
 				editor.resetDirty();
@@ -40,7 +40,7 @@
 		'test check dirty is false after widget blur': function() {
 			var editor = this.editors.editor;
 
-			this.editorsBots.editor.setData( data, function() {
+			this.editorBots.editor.setData( data, function() {
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.focus();
@@ -57,7 +57,7 @@
 		'test check dirty keeps to be true after widget focus': function() {
 			var editor = this.editors.editor;
 
-			this.editorsBots.editor.setData( data, function() {
+			this.editorBots.editor.setData( data, function() {
 				var widget = getWidgetById( editor, 'w1' );
 
 				// Make some changes in editor.
@@ -72,7 +72,7 @@
 		'test check dirty keeps to be false after widget blur': function() {
 			var editor = this.editors.editor;
 
-			this.editorsBots.editor.setData( data, function() {
+			this.editorBots.editor.setData( data, function() {
 				var widget = getWidgetById( editor, 'w1' );
 
 				widget.focus();

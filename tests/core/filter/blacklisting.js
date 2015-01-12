@@ -452,7 +452,7 @@
 		},
 
 		'test transformations - content forms': function() {
-			var bot = this.editorsBots.editorTransformations;
+			var bot = this.editorBots.editorTransformations;
 
 			bot.setData( '<p><b>foo</b> <strong>bar</strong></p>', function() {
 				assert.areSame( '<p><b>foo</b> <b>bar</b></p>', bot.getData() );
@@ -460,7 +460,7 @@
 		},
 
 		'test transformations - attributes': function() {
-			var bot = this.editorsBots.editorTransformations;
+			var bot = this.editorBots.editorTransformations;
 
 			bot.setData( '<p><img alt="" src="../../_assets/img.gif" style="height:100px; width:50px" /></p>', function() {
 				assert.areSame( '<p><img alt="" height="100" src="../../_assets/img.gif" width="50" /></p>', bot.getData( true ) );

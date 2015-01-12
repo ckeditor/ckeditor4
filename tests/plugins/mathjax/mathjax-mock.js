@@ -102,7 +102,7 @@
 			// #11777
 			'test &amp; encoding': function() {
 				var editor = this.editors.classic,
-					bot = this.editorsBots.classic;
+					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {
@@ -128,7 +128,7 @@
 			// #11777
 			'test &amp;amp; encoding': function() {
 				var editor = this.editors.classic,
-					bot = this.editorsBots.classic;
+					bot = this.editorBots.classic;
 
 				// Create an empty mathjax widget and set the content later, in WYSIWYG mode.
 				bot.setData( '<p><span class="math-tex">\\(\\)</span></p>', function() {

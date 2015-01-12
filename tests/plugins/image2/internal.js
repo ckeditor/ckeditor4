@@ -167,7 +167,7 @@
 	bender.test( {
 		'test non-captioned: center unaligned image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.image,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -178,7 +178,7 @@
 
 		'test non-captioned: center floated image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageAlignedRight,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignFloat( 'right', 'Widget\'s wrapper has float.' ),
@@ -189,7 +189,7 @@
 
 		'test non-captioned: float centered image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageCentered,
 				data: { align: 'right' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -200,7 +200,7 @@
 
 		'test non-captioned: remove align of centered image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageCentered,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -211,7 +211,7 @@
 
 		'test non-captioned: remove align of floated image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageAlignedLeft,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignFloat( 'left', 'Widget\'s wrapper has float.' ),
@@ -222,7 +222,7 @@
 
 		'test captioned: center unaligned figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captioned,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -233,7 +233,7 @@
 
 		'test captioned: center floated figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedAlignLeft,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignFloat( 'left', 'Widget\'s wrapper has float.' ),
@@ -244,7 +244,7 @@
 
 		'test captioned: float centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedCentered,
 				data: { align: 'right' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -255,7 +255,7 @@
 
 		'test captioned: remove align of centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedCentered,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -266,7 +266,7 @@
 
 		'test captioned: remove align of floated figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedAlignLeft,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignFloat( 'left', 'Widget\'s wrapper has float.' ),
@@ -279,7 +279,7 @@
 
 		'test transition: center, add caption to unaligned image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.image,
 				data: { align: 'center', hasCaption: true },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -290,7 +290,7 @@
 
 		'test transition: remove align and caption of centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedCentered,
 				data: { align: 'none', hasCaption: false },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -301,7 +301,7 @@
 
 		'test transition: remove caption of centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedCentered,
 				data: { hasCaption: false },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -312,7 +312,7 @@
 
 		'test transition: add caption to centered image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageCentered,
 				data: { hasCaption: true },
 				assertCreated: assertWrapperAlignFloat( '', 'Widget\'s wrapper has no float.' ),
@@ -323,7 +323,7 @@
 
 		'test transition: add caption to floated image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageAlignedLeft,
 				data: { hasCaption: true },
 				assertCreated: assertWrapperAlignFloat( 'left', 'Widget\'s wrapper has float.' ),
@@ -336,7 +336,7 @@
 
 		'test block wrapping: wrap widget in a block when it becomes inline (caption lost)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedAlignLeft,
 				data: { hasCaption: false },
 				dom: new RegExp(
@@ -348,7 +348,7 @@
 
 		'test block wrapping: wrap widget in a block when it becomes inline (align lost)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.imageCentered,
 				data: { align: 'none' },
 				dom: new RegExp(
@@ -360,7 +360,7 @@
 
 		'test block wrapping: wrap widget in a block when it becomes inline (caption and align lost)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.captionedAlignLeft,
 				data: {
 					hasCaption: false,
@@ -375,7 +375,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets captioned)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: htmls.image,
 				data: { hasCaption: true },
 				dom: doms.captioned
@@ -384,7 +384,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets captioned, siblings before)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>xx' + htmls.image + '</p>',
 				data: { hasCaption: true },
 				dom: new RegExp(
@@ -402,7 +402,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets captioned, siblings after)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>' + htmls.image + 'xx</p>',
 				data: { hasCaption: true },
 				dom: new RegExp(
@@ -420,7 +420,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets captioned, two siblings)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>x' + htmls.image + 'x</p>',
 				data: { hasCaption: true },
 				dom: new RegExp(
@@ -439,7 +439,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets centered)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>' + htmls.image + '</p>',
 				data: { align: 'center' },
 				dom: new RegExp(
@@ -454,7 +454,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets centered, siblings before)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>xx' + htmls.image + '</p>',
 				data: { align: 'center' },
 				dom: new RegExp(
@@ -470,7 +470,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets centered, siblings after)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>' + htmls.image + 'xx</p>',
 				data: { align: 'center' },
 				dom: new RegExp(
@@ -486,7 +486,7 @@
 
 		'test block wrapping: de-wrap widget from block when it becomes a block (gets centered, two siblings)': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignInline,
+				bot: this.editorBots.alignInline,
 				html: '<p>x' + htmls.image + 'x</p>',
 				data: { align: 'center' },
 				dom: new RegExp(
@@ -505,7 +505,7 @@
 
 		'test non-captioned (alignClasses): center unaligned image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.image,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignClasses( null ),
@@ -516,7 +516,7 @@
 
 		'test non-captioned (alignClasses): center aligned image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.imageAlignedClassLeft,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignClasses( 'l' ),
@@ -527,7 +527,7 @@
 
 		'test non-captioned (alignClasses): align centered image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.imageCenteredClass,
 				data: { align: 'right' },
 				assertCreated: assertWrapperAlignClasses( 'c', true ),
@@ -538,7 +538,7 @@
 
 		'test non-captioned (alignClasses): remove align of centered image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.imageCenteredClass,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignClasses( 'c', true ),
@@ -549,7 +549,7 @@
 
 		'test non-captioned (alignClasses): remove align of aligned image': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.imageAlignedClassRight,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignClasses( 'r' ),
@@ -560,7 +560,7 @@
 
 		'test captioned (alignClasses): center unaligned figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.captioned,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignClasses( null ),
@@ -571,7 +571,7 @@
 
 		'test captioned (alignClasses): center aligned figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.captionedAlignedClassLeft,
 				data: { align: 'center' },
 				assertCreated: assertWrapperAlignClasses( 'l' ),
@@ -582,7 +582,7 @@
 
 		'test captioned (alignClasses): align centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.captionedCenteredClass,
 				data: { align: 'right' },
 				assertCreated: assertWrapperAlignClasses( 'c' ),
@@ -593,7 +593,7 @@
 
 		'test captioned (alignClasses): remove align of centered figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.captionedCenteredClass,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignClasses( 'c' ),
@@ -604,7 +604,7 @@
 
 		'test captioned (alignClasses): remove align of aligned figure': function() {
 			assertWidget( {
-				bot: this.editorsBots.alignClasses,
+				bot: this.editorBots.alignClasses,
 				html: htmls.captionedAlignedClassRight,
 				data: { align: 'none' },
 				assertCreated: assertWrapperAlignClasses( 'r' ),
