@@ -737,7 +737,15 @@
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
-	 * Or in a completely custom way:
+	 * Note: When using a command widget's `startupData` can be passed as the command argument:
+	 *
+	 *		editor.execCommand( 'simplebox', {
+	 *			startupData: {
+	 *				align: 'left'
+	 *			}
+	 *		} );
+	 *
+	 * A widget can also be created in a completely custom way:
 	 *
 	 *		var element = editor.createElement( 'div' );
 	 *		editor.insertElement( element );
@@ -1762,7 +1770,7 @@
 	// @param {CKEDITOR.plugins.widget.definition} widgetDef
 	function addWidgetCommand( editor, widgetDef ) {
 		editor.addCommand( widgetDef.name, {
-			exec: function() {
+			exec: function( editor, commandData ) {
 				var focused = editor.widgets.focused;
 				// If a widget of the same type is focused, start editing.
 				if ( focused && focused.name == widgetDef.name )
@@ -1782,7 +1790,7 @@
 					// Append wrapper to a temporary document. This will unify the environment
 					// in which #data listeners work when creating and editing widget.
 					temp.append( wrapper );
-					instance = editor.widgets.initOn( element, widgetDef );
+					instance = editor.widgets.initOn( element, widgetDef, commandData && commandData.startupData );
 
 					// Instance could be destroyed during initialization.
 					// In this case finalize creation if some new widget
