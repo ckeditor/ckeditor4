@@ -11,8 +11,7 @@
 		htmlMatchingOpts = {
 			compareSelection: true,
 			normalizeSelection: true
-		},
-		sortAttributes = bender.tools.sortAttributes;
+		};
 
 	bender.editor = {
 		config: {
@@ -147,7 +146,7 @@
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );
-			assert.areSame( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', sortAttributes( element.getOuterHtml() ) );
+			assert.sameData( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
 		},
 
 		'test replaceWith 1 element': function() {
@@ -301,8 +300,7 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.areSame( '<span data-cke-upload-id="0" data-widget="specificWidget1">specific</span>',
-					sortAttributes( evt.data.dataValue ) );
+				assert.sameData( '<span data-cke-upload-id="0" data-widget="specificWidget1">specific</span>', evt.data.dataValue );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestTxtFile( 'test.txt' ) ] );
@@ -331,8 +329,7 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.areSame( '<span data-cke-upload-id="0" data-widget="generalWidget2">general</span>',
-					sortAttributes( evt.data.dataValue ) );
+				assert.sameData( '<span data-cke-upload-id="0" data-widget="generalWidget2">general</span>', evt.data.dataValue );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test.png' ) ] );
@@ -376,10 +373,10 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.areSame(
+				assert.sameData(
 					'<span data-cke-upload-id="0" data-widget="multiSupportedExtension">test1.png</span>' +
 					'<span data-cke-upload-id="1" data-widget="multiSupportedExtension">test3.png</span>',
-					sortAttributes( evt.data.dataValue ) );
+					evt.data.dataValue );
 			} );
 
 			pasteFiles( editor, [
@@ -457,10 +454,10 @@
 			} );
 
 			resumeAfter( editor, 'paste', function( evt ) {
-				assert.areSame(
+				assert.sameData(
 					'<span data-cke-upload-id="0" data-widget="pngWidget">png</span>' +
 					'<span data-cke-upload-id="1" data-widget="pngWidget">png</span>',
-					sortAttributes( evt.data.dataValue ),
+					evt.data.dataValue,
 					'Only one type of file should be supported but all of the files on this type.' );
 			} );
 

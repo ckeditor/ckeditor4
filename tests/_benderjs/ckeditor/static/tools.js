@@ -283,16 +283,6 @@
 		},
 
 		/**
-		 * Use {@link bender.tools.compatHtml} to sort attributes.
-		 *
-		 * @param {String} html The HTML string.
-		 * @return {String} HTML with sorted attributes.
-		 */
-		sortAttributes: function( html ) {
-			return bender.tools.compatHtml( html, false, true );
-		},
-
-		/**
 		 * Wrapper of bender.dom.element::getAttribute for style text normalization.
 		 * @param element
 		 * @param attrName

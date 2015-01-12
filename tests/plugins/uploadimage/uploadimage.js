@@ -29,9 +29,7 @@
 					filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
 				}
 			}
-		},
-
-		sortAttributes = bender.tools.sortAttributes;
+		};
 
 	function assertUploadingWidgets( editor, expectedSrc ) {
 		var widgets = editor.editable().find( 'img[data-widget="uploadimage"]' ),
@@ -100,7 +98,7 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.areSame( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', sortAttributes( editor.getData() ) );
+				assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
 				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 				assert.areSame( 1, loadAndUploadCount );
@@ -130,7 +128,7 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.areSame( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', sortAttributes( editor.getData() ) );
+				assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
 				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 				assert.areSame( 1, loadAndUploadCount );
@@ -162,8 +160,7 @@
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
-					assert.areSame( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>',
-						sortAttributes( editor.getData() ) );
+					assert.sameData( '<p>x<img src="' + IMG_URL + '" style="height:1px; width:1px" />x</p>', editor.getData() );
 					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
 					assert.areSame( 0, loadAndUploadCount );
