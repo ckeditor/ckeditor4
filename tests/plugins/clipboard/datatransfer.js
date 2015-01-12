@@ -9,25 +9,16 @@ var htmlMatchOpts = {
 	fixStyles: true
 };
 
-bender.test( {
-	'async:init': function() {
-		var that = this;
-
-		bender.tools.setUpEditors( {
-			editor1: {
-				name: 'editor1'
-			},
-			editor2: {
-				name: 'editor2'
-			}
-		}, function( editors, bots ) {
-			that.bots = bots;
-			that.editors = editors;
-
-			that.callback();
-		} );
+bender.editors = {
+	editor1: {
+		name: 'editor1'
 	},
+	editor2: {
+		name: 'editor2'
+	}
+};
 
+bender.test( {
 	setUp: function() {
 		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 	},
@@ -54,7 +45,7 @@ bender.test( {
 	},
 
 	'test internal drag drop': function() {
-		var bot = this.bots.editor1,
+		var bot = this.editorBots.editor1,
 			editor = this.editors.editor1,
 			nativeData, dataTransfer;
 
@@ -76,7 +67,7 @@ bender.test( {
 
 	'test internal drag drop, no event': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot = this.bots.editor1,
+			bot = this.editorBots.editor1,
 			editor = this.editors.editor1,
 			dataTransfer;
 
@@ -134,7 +125,7 @@ bender.test( {
 	},
 
 	'test drag drop between editors': function() {
-		var bot1 = this.bots.editor1,
+		var bot1 = this.editorBots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
 			nativeData, dataTransfer;
@@ -157,7 +148,7 @@ bender.test( {
 
 	'test drag drop between editors, no event': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot1 = this.bots.editor1,
+			bot1 = this.editorBots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
 			dataTransfer;
@@ -540,7 +531,7 @@ bender.test( {
 
 	'test initDragDataTransfer constructor': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot = this.bots.editor1,
+			bot = this.editorBots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
@@ -560,7 +551,7 @@ bender.test( {
 
 	'test initDragDataTransfer constructor, no event': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot = this.bots.editor1,
+			bot = this.editorBots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
@@ -597,7 +588,7 @@ bender.test( {
 	'test initPasteDataTransfer constructor': function() {
 		var isDataFreelyAvailableInPasteEvent = CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent,
 			isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot = this.bots.editor1,
+			bot = this.editorBots.editor1,
 			editor = this.editors.editor1,
 			nativeData = bender.tools.mockNativeDataTransfer(),
 			evt = { data: { $: { clipboardData: nativeData } } };
@@ -627,7 +618,7 @@ bender.test( {
 
 	'test initPasteDataTransfer constructor, no event': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
-			bot = this.bots.editor1,
+			bot = this.editorBots.editor1,
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );

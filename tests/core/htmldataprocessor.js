@@ -26,14 +26,14 @@
 			output = output ? output.replace( /%xss%/g, 'testXss()' ) : input;
 
 		tcs[ name ] = function() {
-			var editor = this.editor2,
+			var editor = this.editors.editor2,
 				xssed = false;
 
 			window.testXss = function() {
 				xssed = true;
 			};
 
-			this.editorBot2.setData( input, function() {
+			this.editorBots.editor2.setData( input, function() {
 				// Wait, because onxxx may not be synchronous.
 				wait( function() {
 					assert.isFalse( xssed, 'XSSed!' );
@@ -60,13 +60,59 @@
 					bodyHtml +
 					'</body>' +
 					'</html>',
-				editor = this.editor3;
+				editor = this.editors.editor3;
 
-			this.editorBot3.setData( input, function() {
+			this.editorBots.editor3.setData( input, function() {
 				this.assertHtml( input, editor.getData(), 'Editor data does not match.' );
 			} );
 		};
 	}
+
+	bender.editor = {
+		name: 'test_editor',
+		config: {
+			enterMode: CKEDITOR.ENTER_BR,
+			allowedContent: true
+		}
+	};
+
+	bender.editors = {
+		editor2: {
+			creator: 'inline',
+			name: 'test_editor2',
+			config: {
+				allowedContent: true
+			}
+		},
+		editor3: {
+			name: 'test_editor3',
+			config: {
+				protectedSource: [ /\[\[[^\]]*?\]\]/g ],
+				fullPage: true,
+				allowedContent: true
+			}
+		},
+		editor4: {
+			creator: 'inline',
+			name: 'test_editor4',
+			config: {
+				fillEmptyBlocks: false,
+				allowedContent: true
+			}
+		},
+		editor5: {
+			creator: 'inline',
+			name: 'test_editor5',
+			config: {
+				fillEmptyBlocks: function( el ) {
+					// Do not refactor - should return undefined in other cases.
+					if ( el.name == 'h1' )
+						return false;
+				},
+				allowedContent: true
+			}
+		}
+	};
 
 	var tcs = {
 		// These tests go far beyond the strict htmlDataProcessor code testing. We
@@ -75,68 +121,6 @@
 		// sense.
 
 //		shouldIgnoreAllBut : [ 'test_toDataFormat_ticket_2886_1' ],
-
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'test_editor',
-					config: {
-						enterMode: CKEDITOR.ENTER_BR,
-						allowedContent: true
-					}
-				},
-				editor2: {
-					creator: 'inline',
-					name: 'test_editor2',
-					config: {
-						allowedContent: true
-					}
-				},
-				editor3: {
-					name: 'test_editor3',
-					config: {
-						protectedSource: [ /\[\[[^\]]*?\]\]/g ],
-						fullPage: true,
-						allowedContent: true
-					}
-				},
-				editor4: {
-					creator: 'inline',
-					name: 'test_editor4',
-					config: {
-						fillEmptyBlocks: false,
-						allowedContent: true
-					}
-				},
-				editor5: {
-					creator: 'inline',
-					name: 'test_editor5',
-					config: {
-						fillEmptyBlocks: function( el ) {
-							// Do not refactor - should return undefined in other cases.
-							if ( el.name == 'h1' )
-								return false;
-						},
-						allowedContent: true
-					}
-				}
-			}, function( editors, bots ) {
-				var num, name;
-
-				for ( name in editors ) {
-					num = name.match( /\d+/ );
-					num = num ? num[ 0 ] : '';
-
-					that[ name ] = editors[ name ];
-					that[ 'editorBot' + num ] = bots[ name ];
-				}
-
-				that.callback();
-			} );
-		},
-
 		setUp: function() {
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
@@ -1066,7 +1050,7 @@
 		},
 
 		'test config.fillEmptyBlocks - false': function() {
-			var htmlDP = this.editor4.dataProcessor,
+			var htmlDP = this.editors.editor4.dataProcessor,
 				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
 
 			// Even though filler fillEmptyBlocks is set to false, we should still put bogus to HTML,
@@ -1079,7 +1063,7 @@
 		},
 
 		'test config.fillEmptyBlocks - callback': function() {
-			var htmlDP = this.editor5.dataProcessor,
+			var htmlDP = this.editors.editor5.dataProcessor,
 				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
 
 			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );

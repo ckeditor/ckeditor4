@@ -36,40 +36,34 @@
 		assert.areSame( elementName, widget.element.getName(), msg + ' - element name' );
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'inline', // Speed.
+			config: {
+				allowedContent: true
+			}
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
+		'init': function() {
+			var editor, name;
 
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'inline', // Speed.
-					config: {
-						allowedContent: true
+			for ( name in this.editors ) {
+				editor = this.editors[ name ];
+				editor.dataProcessor.writer.sortAttributes = 1;
+				editor.widgets.add( 'testcontainer', {
+					editables: {
+						ned: '.ned'
 					}
-				}
-			}, function( editors, bots ) {
-				var name, editor;
-
-				for ( name in editors ) {
-					editor = editors[ name ];
-					editor.dataProcessor.writer.sortAttributes = 1;
-					editor.widgets.add( 'testcontainer', {
-						editables: {
-							ned: '.ned'
-						}
-					} );
-					editor.widgets.add( 'test1', {
-						upcast: function( el ) {
-							return el.hasClass( 'test1' );
-						}
-					} );
-				}
-
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+				} );
+				editor.widgets.add( 'test1', {
+					upcast: function( el ) {
+						return el.hasClass( 'test1' );
+					}
+				} );
+			}
 		},
 
 		'test init nested widgets on editor.setData': function() {

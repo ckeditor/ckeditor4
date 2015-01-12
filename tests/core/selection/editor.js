@@ -12,38 +12,27 @@ var htmlMatchingOpts = {
 	normalizeSelection: true
 };
 
-bender.test( {
-	'async:init': function() {
-		var that = this;
-		bender.tools.setUpEditors( {
-			editor: {
-				startupData: '<p>foo</p>',
-				config: {
-					autoParagraph: false,
-					fillEmptyBlocks: false,
-					allowedContent: true
-				}
-			},
-			editorInline: {
-				creator: 'inline',
-				name: 'test_editor_inline'
-			},
-			editorFramed: {
-				name: 'test_editor_framed'
-			}
-		}, function( editors, bots ) {
-			that.editorBot = bots.editor;
-			that.editor = editors.editor;
-			that.editorBotInline = bots.editorInline;
-			that.editorInline = editors.editorInline;
-			that.editorBotFramed = bots.editorFramed;
-			that.editorFramed = editors.editorFramed;
-			that.callback();
-		} );
+bender.editors = {
+	editor: {
+		startupData: '<p>foo</p>',
+		config: {
+			autoParagraph: false,
+			fillEmptyBlocks: false,
+			allowedContent: true
+		}
 	},
+	editorInline: {
+		creator: 'inline',
+		name: 'test_editor_inline'
+	},
+	editorFramed: {
+		name: 'test_editor_framed'
+	}
+};
 
+bender.test( {
 	assertGetSelection: function( source, expected ) {
-		var ed = this.editor;
+		var ed = this.editors.editor;
 		bender.tools.setHtmlWithSelection( ed, source );
 		assert.areSame( expected || source, bender.tools.getHtmlWithSelection( ed ) );
 	},
@@ -70,13 +59,13 @@ bender.test( {
 	},
 
 	'test selection on initial focus': function() {
-		var ed = this.editor;
+		var ed = this.editors.editor;
 		ed.editable().focus();
 		assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (#9507).' );
 	},
 
 	'test selection on initial focus - ensure new doc': function() {
-		var ed = this.editor;
+		var ed = this.editors.editor;
 
 		// Ensure async.
 		setTimeout( function() {
@@ -92,7 +81,7 @@ bender.test( {
 
 	// Lock lock/unlock selection.
 	'test editor selection lock on blur': function() {
-		var ed = this.editor, editable = ed.editable();
+		var ed = this.editors.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
 			assert.ignore();
@@ -125,7 +114,7 @@ bender.test( {
 	},
 
 	'test "selectionChange" fires properly': function() {
-		var ed = this.editor, editable = ed.editable(), firedTimes = 0;
+		var ed = this.editors.editor, editable = ed.editable(), firedTimes = 0;
 		var onSelectionChange = function( evt ) {
 			firedTimes += 1;
 			ed.forceNextSelectionCheck();
@@ -157,7 +146,7 @@ bender.test( {
 	},
 
 	'test "selectionChange" not fired when editor selection is locked': function() {
-		var ed = this.editor, editable = ed.editable();
+		var ed = this.editors.editor, editable = ed.editable();
 
 		if ( !noSelectionOnBlur( ed ) )
 			assert.ignore();
@@ -183,8 +172,8 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on empty data loaded': function() {
-		var bot = this.editorBot,
-			editor = this.editor,
+		var bot = this.editorBots.editor,
+			editor = this.editors.editor,
 			selectionChange = 0,
 			sel;
 
@@ -206,8 +195,8 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on non-empty data loaded': function() {
-		var bot = this.editorBot,
-			editor = this.editor,
+		var bot = this.editorBots.editor,
+			editor = this.editors.editor,
 			selectionChange = 0,
 			sel;
 
@@ -231,8 +220,8 @@ bender.test( {
 
 	// #7174
 	'test "selectionChange" fired after the same selection set after data loaded': function() {
-		var bot = this.editorBot,
-			editor = this.editor,
+		var bot = this.editorBots.editor,
+			editor = this.editors.editor,
 			selectionChange = 0;
 
 		bot.setData( '<p>foo<strong>bar</strong></p>', function() {
@@ -268,7 +257,7 @@ bender.test( {
 	},
 
 	'test "selectionChange" fired on editor focus': function() {
-		var ed = this.editor;
+		var ed = this.editors.editor;
 		ed.on( 'selectionChange', function( evt ) {
 			evt.removeListener();
 			assert.isTrue( true );
@@ -311,7 +300,7 @@ bender.test( {
 	},
 
 	'test selection after DOM unload': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 
 		editor.focus();
 		bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
@@ -340,7 +329,7 @@ bender.test( {
 	'test initial selection after set data in autoparagraphing editor': function() {
 		doc.getById( 'input1' ).focus();
 
-		var editor = this.editorFramed;
+		var editor = this.editors.editorFramed;
 
 		// Ensure async.
 		setTimeout( function() {
@@ -365,7 +354,7 @@ bender.test( {
 	'test initial selection after set data in autoparagraphing inline editor': function() {
 		doc.getById( 'input1' ).focus();
 
-		var editor = this.editorInline;
+		var editor = this.editors.editorInline;
 
 		// Ensure async.
 		setTimeout( function() {
@@ -461,7 +450,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -486,7 +475,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -518,7 +507,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -549,7 +538,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -578,7 +567,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -618,7 +607,7 @@ bender.test( {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			editable = editor.editable(),
 			range = editor.createRange();
 
@@ -690,8 +679,8 @@ bender.test( {
 	// selection is locked when blurring framed editor.
 	// But the more cases we test the better, so let's see.
 	'test selection unlocked on setData in framed editor': function() {
-		var editor = this.editor,
-			bot = this.editorBot;
+		var editor = this.editors.editor,
+			bot = this.editorBots.editor;
 
 		editor.focus();
 		bot.setHtmlWithSelection( '<p>foo[bar]bom</p>' );
@@ -707,8 +696,8 @@ bender.test( {
 
 	// #11500 & #5217#comment:32
 	'test selection unlocked on setData in inline editor': function() {
-		var editor = this.editorInline,
-			bot = this.editorBotInline;
+		var editor = this.editors.editorInline,
+			bot = this.editorBots.editorInline;
 
 		editor.focus();
 		bot.setHtmlWithSelection( '<p>foo[bar]bom</p>' );

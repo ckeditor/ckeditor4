@@ -3,10 +3,9 @@
 ( function() {
 	'use strict';
 
-	var editors = {},
-		tests = {},
+	var tests = {},
 		editorName,
-		toDo = {
+		editorsDefinitions = {
 			inline_textarea: {
 				name: 'inline_textarea',
 				creator: 'inline',
@@ -80,37 +79,17 @@
 			}
 		};
 
-	for ( editorName in toDo )
-		tests[ 'test startup readOnly on ' + editorName ] = getTest( editorName );
+	bender.editors = editorsDefinitions;
 
-	setUpEditors();
+	for ( editorName in bender.editors ) {
+		tests[ 'test startup readOnly on ' + editorName ] = getTest( editorName );
+	}
+
+	bender.test( tests );
 
 	function getTest( editorName ) {
 		return function() {
-			assert.areSame( toDo[ editorName ].readOnly, editors[ editorName ].readOnly );
+			assert.areSame( editorsDefinitions[ editorName ].readOnly, bender.editors[ editorName ].readOnly );
 		};
-	}
-
-	function setUpEditors() {
-		var names = [];
-
-		for ( var name in toDo )
-			names.push( name );
-
-		next();
-
-		function next() {
-			var name = names.shift();
-
-			if ( !name ) {
-				bender.test( tests );
-				return;
-			}
-
-			bender.editorBot.create( toDo[ name ], function( bot ) {
-				editors[ name ] = bot.editor;
-				next();
-			} );
-		}
 	}
 } )();

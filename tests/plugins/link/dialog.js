@@ -4,11 +4,6 @@
 ( function() {
 	'use strict';
 
-	var config = {
-			extraAllowedContent: 'a[id,name]'
-		},
-		editorBots;
-
 	function assertAnchorDiscovery( bot, expIds, expNames ) {
 		bot.dialog( 'link', function( dialog ) {
 			dialog.setValueOf( 'info', 'linkType', 'anchor' );
@@ -30,67 +25,62 @@
 		} );
 	}
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				framed: {
-					name: 'framed',
-					creator: 'replace',
-					startupData: '<p>' +
-						'<a id="aa" name="ab">a</a>' +
-						'<a id="ba" name="bb">b</a>' +
-						'<a id="ca" name="cb"></a>' +
-					'</p>',
-					config: config
-				},
-				inline: {
-					name: 'inline',
-					creator: 'inline',
-					startupData: '<p>' +
-						'<a id="ma" name="mb">m</a>' +
-						'<a id="na" name="nb">n</a>' +
-						'<a id="oa" name="ob"></a>' +
-					'</p>',
-					config: config
-				},
-				divarea: {
-					name: 'divarea',
-					creator: 'replace',
-					startupData: '<p>' +
-						'<a id="ta" name="tb">t</a>' +
-						'<a id="ua" name="ub">u</a>' +
-						'<a id="wa" name="wb"></a>' +
-					'</p>',
-					config: CKEDITOR.tools.extend( {}, config, {
-						extraPlugins: 'divarea'
-					} )
-				}
-			}, function( editors, bots ) {
-				editorBots = bots;
-				that.callback( editors );
-			} );
+	bender.editors = {
+		framed: {
+			name: 'framed',
+			creator: 'replace',
+			startupData: '<p>' +
+				'<a id="aa" name="ab">a</a>' +
+				'<a id="ba" name="bb">b</a>' +
+				'<a id="ca" name="cb"></a>' +
+			'</p>'
 		},
+		inline: {
+			name: 'inline',
+			creator: 'inline',
+			startupData: '<p>' +
+				'<a id="ma" name="mb">m</a>' +
+				'<a id="na" name="nb">n</a>' +
+				'<a id="oa" name="ob"></a>' +
+			'</p>'
+		},
+		divarea: {
+			name: 'divarea',
+			creator: 'replace',
+			startupData: '<p>' +
+				'<a id="ta" name="tb">t</a>' +
+				'<a id="ua" name="ub">u</a>' +
+				'<a id="wa" name="wb"></a>' +
+			'</p>',
+			config: {
+				extraPlugins: 'divarea'
+			}
+		}
+	};
 
+	bender.editorsConfig = {
+		extraAllowedContent: 'a[id,name]'
+	};
+
+	bender.test( {
 		tearDown: function() {
 			CKEDITOR.dialog.getCurrent().hide();
 		},
 
 		'test discovery of anchors (framed)': function() {
-			assertAnchorDiscovery( editorBots.framed,
+			assertAnchorDiscovery( this.editorBots.framed,
 				[ 'aa', 'ba', 'ca', '' ],
 				[ 'ab', 'bb', 'cb', '' ] );
 		},
 
 		'test discovery of anchors (inline)': function() {
-			assertAnchorDiscovery( editorBots.inline,
+			assertAnchorDiscovery( this.editorBots.inline,
 				[ 'ga', 'ha', 'ma', 'na', 'oa', 'ta', 'ua', 'wa', '' ],
 				[ 'gb', 'hb', 'mb', 'nb', 'ob', 'tb', 'ub', 'wb', '' ] );
 		},
 
 		'test discovery of anchors (divarea)': function() {
-			assertAnchorDiscovery( editorBots.divarea,
+			assertAnchorDiscovery( this.editorBots.divarea,
 				[ 'ta', 'ua', 'wa', '' ],
 				[ 'tb', 'ub', 'wb', '' ] );
 		}

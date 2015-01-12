@@ -1,4 +1,3 @@
-/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,enterkey */
 
 ( function() {
@@ -36,37 +35,29 @@
 		};
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			config: {
+				enterMode: CKEDITOR.ENTER_P,
+				allowedContent: true
+			}
+		},
+
+		editorNoAutoParagraph: {
+			name: 'editor2',
+			config: {
+				autoParagraph: false
+			}
+		}
+	};
+
 	bender.test( {
 		_should: {
 			ignore: {
 				'test shift+enter key - end of block, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
 				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller
 			}
-		},
-
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					config: {
-						enterMode: CKEDITOR.ENTER_P,
-						allowedContent: true
-					}
-				},
-
-				editorNoAutoParagraph: {
-					name: 'editor2',
-					config: {
-						autoParagraph: false
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
 		},
 
 		// #7912

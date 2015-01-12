@@ -4,25 +4,17 @@
 ( function() {
 	'use strict';
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1'
-				},
-				inline: {
-					name: 'editor2',
-					creator: 'inline'
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+	bender.editors = {
+		editor: {
+			name: 'editor1'
 		},
+		inline: {
+			name: 'editor2',
+			creator: 'inline'
+		}
+	};
 
+	bender.test( {
 		'test create table': function() {
 			var bot = this.editorBots.editor;
 

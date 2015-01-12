@@ -4,26 +4,17 @@
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		fullPage: {
+			name: 'fullpage',
+			config: {
+				fullPage: true,
+				allowedContent: true
+			}
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				fullPage: {
-					name: 'fullpage',
-					config: {
-						fullPage: true,
-						allowedContent: true
-					}
-				}
-			}, function( editors, bots ) {
-				that.editors = editors;
-				that.bots = bots;
-
-				that.callback();
-			} );
-		},
-
 		'test placeholder in title': function() {
 			var sourceHtml = '<!DOCTYPE html>' +
 				'<html lang="en">' +
@@ -33,7 +24,7 @@
 				'<body></body>' +
 				'</html>';
 
-			this.bots.fullPage.setData( sourceHtml, function() {
+			this.editorBots.fullPage.setData( sourceHtml, function() {
 				var data = this.editors.fullPage.getData();
 				assert.isTrue( data.indexOf( '<title>foo[[bar]]bom</title>' ) > -1, 'Title should not be modified' );
 			} );
@@ -42,7 +33,7 @@
 		'test placeholder in textarea': function() {
 			var sourceHtml = '<p><textarea cols="10" rows="10">foo[[bar]]bom</textarea></p>';
 
-			this.bots.fullPage.setData( sourceHtml, function() {
+			this.editorBots.fullPage.setData( sourceHtml, function() {
 				var data = this.editors.fullPage.getData();
 				assert.isMatching( /<textarea [^>]+>foo\[\[bar\]\]bom<\/textarea>/, data,
 					'Textarea should not be modified' );
@@ -55,7 +46,7 @@
 
 			var sourceHtml = '<p><boo>foo[[bar]]bom</boo></p>';
 
-			this.bots.fullPage.setData( sourceHtml, function() {
+			this.editorBots.fullPage.setData( sourceHtml, function() {
 				var data = this.editors.fullPage.getData();
 				assert.isMatching( /<p><boo>foo\[\[bar\]\]bom<\/boo><\/p>/, data, 'Custom element survived' );
 				assert.areSame( 1, CKEDITOR.tools.objectKeys( this.editors.fullPage.widgets.instances ).length,
