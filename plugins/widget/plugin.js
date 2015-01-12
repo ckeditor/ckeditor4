@@ -737,7 +737,15 @@
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
-	 * Or in a completely custom way:
+	 * Note: When using a command widget's `startupData` can be passed as the command argument:
+	 *
+	 *		editor.execCommand( 'simplebox', {
+	 *			startupData: {
+	 *				align: 'left'
+	 *			}
+	 *		} );
+	 *
+	 * A widget can also be created in a completely custom way:
 	 *
 	 *		var element = editor.createElement( 'div' );
 	 *		editor.insertElement( element );
