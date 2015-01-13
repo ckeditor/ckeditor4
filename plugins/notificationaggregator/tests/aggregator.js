@@ -7,12 +7,14 @@
 
 	bender.editor = {};
 
-	var notificationInstanceMock = {
-			show: sinon.spy(),
-			hide: sinon.spy(),
-			update: sinon.spy()
-		},
-		NotificationMock,
+	// A type that is going to mimic generic notification type.
+	var NotificationMock = sinon.spy( function() {
+			return {
+				show: sinon.spy(),
+				hide: sinon.spy(),
+				update: sinon.spy()
+			};
+		} ),
 		Aggregator;
 
 	bender.test( {
@@ -21,12 +23,9 @@
 			Aggregator = CKEDITOR.plugins.notificationaggregator;
 			// We'll replace original notification type so we can track calls, and
 			// reduce dependencies.
-			// Recreate stub each TC, so eg. callCount will be reset.
-			NotificationMock = sinon.stub().returns( notificationInstanceMock );
+			// Reassign and reset the spy each TC, so eg. callCount will be reset.
 			CKEDITOR.plugins.notification = NotificationMock;
-
-			notificationInstanceMock.show.reset();
-			notificationInstanceMock.hide.reset();
+			NotificationMock.reset();
 		},
 
 		'test exposes Aggregator type': function() {
@@ -66,7 +65,8 @@
 			} );
 
 			// Ensure thad notification show was called.
-			sinon.assert.calledOnce( notificationInstanceMock.show );
+			sinon.assert.calledOnce( NotificationMock.lastCall.returnValue.show );
+
 			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
 		},
 
@@ -101,9 +101,7 @@
 
 		'test finished': function() {
 			var instance = new Aggregator( this.editor ),
-				notif = {
-					hide: sinon.spy()
-				};
+				notif = new NotificationMock();
 			instance.notification = notif;
 
 			instance.finished();
@@ -177,9 +175,7 @@
 					percentage: 75
 				};
 			instance._message.output = sinon.spy();
-			instance.notification = {
-				update: sinon.spy()
-			};
+			instance.notification = new NotificationMock();
 
 			instance._tasks = [ 1 ];
 			instance._tasksCount = 4;
@@ -194,9 +190,7 @@
 		'test _updateNotification notification update': function() {
 			var instance = new Aggregator( this.editor );
 			instance._message.output = sinon.stub().returns( 'foo' );
-			instance.notification = {
-				update: sinon.spy()
-			};
+			instance.notification = new NotificationMock();
 
 			instance._tasks = [ 1, 2, 3 ];
 			instance._tasksCount = 4;
