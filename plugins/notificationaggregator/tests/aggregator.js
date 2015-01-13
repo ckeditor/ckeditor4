@@ -75,6 +75,8 @@
 			// If there is already at least one thread, we need to reuse notification.
 			var aggr = new Aggregator( this.editor, {} );
 			aggr._threads = [ 0 ];
+			// Create a dummy notification, so aggregate will think it have one.
+			aggr.notification = {};
 			aggr._updateNotification = sinon.spy();
 
 			aggr.createThread();
@@ -99,16 +101,17 @@
 		},
 
 		'test finished': function() {
-			var instance = new Aggregator( this.editor, {} );
+			var instance = new Aggregator( this.editor, {} ),
+				notif = {
+					hide: sinon.spy()
+				};
 			instance._reset = sinon.spy();
-			instance.notification = {
-				hide: sinon.spy()
-			};
+			instance.notification = notif;
 
 			instance.finished();
 
 			assert.areSame( 1, instance._reset.callCount, '_reset call count' );
-			assert.areSame( 1, instance.notification.hide.callCount, 'notification.update call count' );
+			assert.areSame( 1, notif.hide.callCount, 'notification.update call count' );
 		},
 
 		'test isFinished': function() {
