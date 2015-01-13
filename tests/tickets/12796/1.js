@@ -14,11 +14,14 @@ bender.test( {
 			editor.focus();
 			bender.tools.selection.setWithHtml( editor, '<ul>[<li>1</li></ul><ol><li>2</li>]</ol>' );
 
+			var originalEditable = editor.editable(),
+				originalEditableParent = originalEditable.getParent();
+
 			bot.execCommand( 'outdent' );
 
-			var parentId = CKEDITOR.document.getById( 'editor1' ).getParent().$.id;
-
-			assert.areEqual( 'outerListItem', parentId, 'editor unwrapped parent li' );
+			var body = CKEDITOR.document.getBody();
+			assert.isTrue( body.contains( originalEditableParent ), 'editable\'s parent was not removed from the body element' );
+			assert.areSame( originalEditableParent, originalEditable.getParent(), 'editable\'s parent did not change' );
 		} );
 	}
 } );
