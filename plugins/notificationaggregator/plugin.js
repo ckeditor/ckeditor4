@@ -13,12 +13,8 @@
 
 	'use strict';
 
-	window.aggr = null;
-
 	CKEDITOR.plugins.add( 'notificationaggregator', {
-		requires: 'notification',
-		init: function( editor ) {
-		}
+		requires: 'notification'
 	} );
 
 	/**
