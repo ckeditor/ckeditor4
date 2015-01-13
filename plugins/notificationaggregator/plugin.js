@@ -32,31 +32,33 @@
 	 *
 	 * Simple usage case:
 	 *
-	 *	// Create new notification aggregator instance.
-	 *	var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
+	 *		// Create new notification aggregator instance.
+	 *		var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
 	 *
-	 *	// Create 3 tasks.
-	 *	var tasks = [
-	 *		aggregator.createTask(),
-	 *		aggregator.createTask(),
-	 *		aggregator.createTask()
-	 *	];
-	 *	// At this point notification has a message: "Loading process, step 0 of 3...".
+	 *		// Create 3 tasks.
+	 *		var tasks = [
+	 *			aggregator.createTask(),
+	 *			aggregator.createTask(),
+	 *			aggregator.createTask()
+	 *		];
+	 *		// At this point notification has a message: "Loading process, step 0 of 3...".
 	 *
-	 *	// Let's close first one immediately.
-	 *	tasks[ 0 ](); // "Loading process, step 1 of 3...".
+	 *		// Let's close first one immediately.
+	 *		tasks[ 0 ](); // "Loading process, step 1 of 3...".
 	 *
-	 *	// One second later message will be "Loading process, step 2 of 3...".
-	 *	window.setTimeout( tasks[ 1 ], 1000 );
+	 *		// One second later message will be "Loading process, step 2 of 3...".
+	 *		window.setTimeout( tasks[ 1 ], 1000 );
 	 *
-	 *	// Two seconds after the previous message last task will be completed, meaining that
-	 *	// notification will be closed.
-	 *	window.setTimeout( tasks[ 2 ], 3000 );
+	 *		// Two seconds after the previous message last task will be completed, meaining that
+	 *		// notification will be closed.
+	 *		window.setTimeout( tasks[ 2 ], 3000 );
 	 *
+	 * @since 4.5.0
 	 * @class CKEDITOR.plugins.notificationaggregator
 	 * @mixins CKEDITOR.event
+	 * @constructor Creates a notification aggregator instance.
 	 * @param {CKEDITOR.editor} editor
-	 * @param {String} message A template of message to be displayd in notification, for template parameters
+	 * @param {String} message A template of message to be displayed in notification, for template parameters
 	 * see {@link #_message}.
 	 */
 	function Aggregator( editor, message ) {
@@ -70,12 +72,16 @@
 		this._tasks = [];
 
 		/**
-		 * A template for message.
+		 * A template for the message.
 		 *
-		 * It takes gets variables:
+		 * Template can use following variables:
 		 *
 		 * * **current** - A count of completed tasks.
 		 * * **max** - The maximal count of tasks.
+		 * * **percentage** - Percentage count.
+		 *
+		 * @type {CKEDITOR.template}
+		 * @private
 		 */
 		this._message = new CKEDITOR.template( String( message ) );
 	}
@@ -84,15 +90,14 @@
 		/**
 		 * Notification created by the aggregator.
 		 *
-		 * It's modified as tasks are being closed with callback returned by the
-		 * {@link #createTask}.
+		 * Notification object is modified as aggregator tasks are being closed.
 		 *
 		 * @type {CKEDITOR.plugins.notification/null}
 		 */
 		notification: null,
 
 		/**
-		 * Maximal count of tasks before {@Link #finished} was called.
+		 * Maximal count of tasks before {@link #finished} was called.
 		 *
 		 * @private
 		 */
@@ -135,7 +140,7 @@
 		},
 
 		/**
-		 * Called when all tasks are done. Default implementation will hide the notification.
+		 * Called when all tasks are done. The default implementation is to hide the notification.
 		 */
 		finished: function() {
 			this.notification.hide();
@@ -143,13 +148,13 @@
 		},
 
 		/**
-		 * A private function that will inform public API about finish event.
+		 * A private function that will inform public API about the finish event.
 		 *
 		 * @private
 		 */
 		_finish: function() {
 			this._reset();
-			
+
 			var evt = this.fire( 'finished' );
 
 			if ( evt !== false ) {
@@ -157,6 +162,12 @@
 			}
 		},
 
+		/**
+		 * Updates the notification. It also detects if all tasks are finished,
+		 * if so it will trigger finish procedure.
+		 *
+		 * @private
+		 */
 		_updateNotification: function() {
 			var maxCount = this._tasksCount,
 				currentCount = maxCount - this._tasks.length,
@@ -182,8 +193,9 @@
 		},
 
 		/**
-		 * Increase tasks count, and returns callback for created task entry.
+		 * Increases task count, and returns a callback for the created task entry.
 		 *
+		 * @private
 		 * @returns {Function}
 		 */
 		_increaseTasks: function() {
@@ -209,7 +221,7 @@
 		},
 
 		/**
-		 * Resets the internal state of aggregator.
+		 * Resets the internal state of an aggregator.
 		 *
 		 * @private
 		 */
