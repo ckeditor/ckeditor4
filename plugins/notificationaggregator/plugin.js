@@ -36,20 +36,20 @@
 	function Aggregator( editor, message ) {
 		this.editor = editor;
 		/**
-		 * Array of unique numbers generated with {@link #createThread} calls. If an id is
+		 * Array of unique numbers generated with {@link #createTask} calls. If an id is
 		 * removed from the array, then we consider it completed.
 		 *
 		 * @private
 		 */
-		this._threads = [];
+		this._tasks = [];
 
 		/**
 		 * A template for message.
 		 *
 		 * It takes gets variables:
 		 *
-		 * * **current** - A count of completed threads.
-		 * * **max** - The maximal count of threads.
+		 * * **current** - A count of completed tasks.
+		 * * **max** - The maximal count of tasks.
 		 */
 		this._message = new CKEDITOR.template( String( message ) );
 	}
@@ -58,36 +58,36 @@
 		/**
 		 * Notification created by the aggregator.
 		 *
-		 * It's modified as threads are being closed with callback returned by the
-		 * {@link #createThread}.
+		 * It's modified as tasks are being closed with callback returned by the
+		 * {@link #createTask}.
 		 *
 		 * @type {CKEDITOR.plugins.notification}
 		 */
 		notification: null,
 
 		/**
-		 * Maximal count of threads before {@Link #finish} was called.
+		 * Maximal count of tasks before {@Link #finish} was called.
 		 *
 		 * @private
 		 */
-		_maxThreadsCount: 0,
+		_maxTasksCount: 0,
 
-		createThread: function() {
-			var initialThread = !this.notification,
+		createTask: function() {
+			var initialTask = !this.notification,
 				ret;
 
-			if ( initialThread ) {
+			if ( initialTask ) {
 				// It's a first call.
 				var notifOptions = this._getNotificationOptions();
 				this.notification = new CKEDITOR.plugins.notification( this.editor, notifOptions );
 			}
 
-			ret = this._increaseThreads();
+			ret = this._increaseTasks();
 
 			// Update the contents.
 			this._updateNotification();
 
-			if ( initialThread ) {
+			if ( initialTask ) {
 				this.notification.show();
 			}
 
@@ -95,15 +95,15 @@
 		},
 
 		/**
-		 * @returns {Boolean} Returns `true` if all the notification threads are done
-		 * (or there are no threads at all).
+		 * @returns {Boolean} Returns `true` if all the notification tasks are done
+		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this._threads.length === 0;
+			return this._tasks.length === 0;
 		},
 
 		/**
-		 * Called when all threads are done. Default implementation will hide the notification.
+		 * Called when all tasks are done. Default implementation will hide the notification.
 		 */
 		finished: function() {
 			this._reset();
@@ -125,12 +125,12 @@
 		},
 
 		_updateNotification: function() {
-			var maxCount = this._maxThreadsCount,
-				currentCount = maxCount - this._threads.length,
+			var maxCount = this._maxTasksCount,
+				currentCount = maxCount - this._tasks.length,
 				msg;
 
 			if ( this.isFinished() ) {
-				// All threads loaded, loading is finished.
+				// All tasks loaded, loading is finished.
 				this._finish();
 			} else {
 				// Generate a message.
@@ -147,27 +147,27 @@
 		},
 
 		/**
-		 * Increase threads count, and returns callback for created thread entry.
+		 * Increase tasks count, and returns callback for created task entry.
 		 *
 		 * @returns {Function}
 		 */
-		_increaseThreads: function() {
+		_increaseTasks: function() {
 			var id = CKEDITOR.tools.getNextId(),
 				that = this,
-				threads = that._threads;
+				tasks = that._tasks;
 
-			threads.push( id );
+			tasks.push( id );
 
-			that._maxThreadsCount = threads.length;
+			that._maxTasksCount = tasks.length;
 
 			return function() {
-				var index = CKEDITOR.tools.indexOf( threads, id );
-				// One thread state can be finished only once.
+				var index = CKEDITOR.tools.indexOf( tasks, id );
+				// One task state can be finished only once.
 				if ( index < 0 ) {
 					return;
 				}
 
-				threads.splice( index, 1 );
+				tasks.splice( index, 1 );
 				// State changed so we need to call _updateNotification.
 				that._updateNotification();
 			};
@@ -193,8 +193,8 @@
 		 * @private
 		 */
 		_reset: function() {
-			this._maxThreadsCount = 0;
-			this._threads = [];
+			this._maxTasksCount = 0;
+			this._tasks = [];
 		}
 	};
 
