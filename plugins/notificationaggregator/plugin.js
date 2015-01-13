@@ -25,7 +25,33 @@
 	 * This type helps to create a notification where progress of a multiple entities is
 	 * tracked.
 	 *
+	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are closed, it
+	 * means that the whole process is done.
+	 *
 	 * Once finished the notification state will be reset.
+	 *
+	 * Simple usage case:
+	 *
+	 *	// Create new notification aggregator instance.
+	 *	var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
+	 *
+	 *	// Create 3 tasks.
+	 *	var tasks = [
+	 *		aggregator.createTask(),
+	 *		aggregator.createTask(),
+	 *		aggregator.createTask()
+	 *	];
+	 *	// At this point notification has a message: "Loading process, step 0 of 3...".
+	 *
+	 *	// Let's close first one immediately.
+	 *	tasks[ 0 ](); // "Loading process, step 1 of 3...".
+	 *
+	 *	// One second later message will be "Loading process, step 2 of 3...".
+	 *	window.setTimeout( tasks[ 1 ], 1000 );
+	 *
+	 *	// Two seconds after the previous message last task will be completed, meaining that
+	 *	// notification will be closed.
+	 *	window.setTimeout( tasks[ 2 ], 3000 );
 	 *
 	 * @class CKEDITOR.plugins.notificationaggregator
 	 * @mixins CKEDITOR.event
@@ -66,12 +92,17 @@
 		notification: null,
 
 		/**
-		 * Maximal count of tasks before {@Link #finish} was called.
+		 * Maximal count of tasks before {@Link #finished} was called.
 		 *
 		 * @private
 		 */
 		_tasksCount: 0,
 
+		/**
+		 * Creates a new task and returns a callback to close created task.
+		 *
+		 * @returns {Function}
+		 */
 		createTask: function() {
 			var initialTask = !this.notification,
 				ret;
