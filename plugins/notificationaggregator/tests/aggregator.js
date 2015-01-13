@@ -56,6 +56,7 @@
 			// If aggregate has no threads, it should create notification object in createThread method.
 			var aggr = new Aggregator( this.editor, {} );
 			aggr._getNotificationOptions = sinon.stub().returns( {} );
+			aggr._updateNotification = sinon.spy();
 
 			aggr.createThread();
 
@@ -67,6 +68,7 @@
 
 			// Ensure thad notification show was called.
 			sinon.assert.calledOnce( notificationInstanceMock.show );
+			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
 		},
 
 		'test createThread reuses a notification when have threads': function() {
@@ -78,7 +80,7 @@
 			aggr.createThread();
 
 			assert.areSame( 0, NotificationMock.callCount, 'Notification constructor call count' );
-			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count'  );
+			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
 		},
 
 		'test createThread return value': function() {
@@ -94,6 +96,31 @@
 			assert.areSame( expectedCallback, ret, 'Return value' );
 			// Ensure that methods was used.
 			sinon.assert.calledOnce( aggr._increaseThreads );
+		},
+
+		'test finish': function() {
+			var instance = new Aggregator( this.editor, {} );
+			instance._reset = sinon.spy();
+			instance.notification = {
+				hide: sinon.spy()
+			};
+
+			instance.finish();
+
+			assert.areSame( 1, instance._reset.callCount, '_reset call count' );
+			assert.areSame( 1, instance.notification.hide.callCount, 'notification.update call count' );
+		},
+
+		'test isFinished': function() {
+			var instance = new Aggregator( this.editor, {} );
+			instance._threads = [ 1, 2 ];
+			assert.isFalse( instance.isFinished(), 'Return value' );
+		},
+
+		'test isFinished empty': function() {
+			var instance = new Aggregator( this.editor, {} );
+			instance._threads = [];
+			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test _increaseThreads': function() {
@@ -204,19 +231,6 @@
 
 			assert.areSame( 0, instance._maxThreadsCount, 'instance._maxThreadsCount zeroed' );
 			assert.areSame( 0, instance._threads.length, 'instance._threads cleared' );
-		},
-
-		'test finish': function() {
-			var instance = new Aggregator( this.editor, {} );
-			instance._reset = sinon.spy();
-			instance.notification = {
-				hide: sinon.spy()
-			};
-
-			instance.finish();
-
-			assert.areSame( 1, instance._reset.callCount, '_reset call count' );
-			assert.areSame( 1, instance.notification.hide.callCount, 'notification.update call count' );
 		},
 
 		//_getMock: function() {

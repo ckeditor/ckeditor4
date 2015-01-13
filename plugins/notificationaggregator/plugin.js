@@ -67,7 +67,7 @@
 		_maxThreadsCount: 0,
 
 		createThread: function() {
-			var initialThread = !this._threads.length,
+			var initialThread = !this.notification,
 				ret;
 
 			if ( initialThread ) {
@@ -78,14 +78,31 @@
 
 			ret = this._increaseThreads();
 
+			// Update the contents.
+			this._updateNotification();
+
 			if ( initialThread ) {
 				this.notification.show();
-			} else {
-				// Notification already exists, so we need to update the content.
-				this._updateNotification();
 			}
 
 			return ret;
+		},
+
+		/**
+		 * @returns {Boolean} Returns `true` if all the notification threads are done
+		 * (or there are no threads at all).
+		 */
+		isFinished: function() {
+			return this._threads.length === 0;
+		},
+
+		/**
+		 * Called when all threads are done. Default implementation will hide the notification.
+		 */
+		finish: function() {
+			this._reset();
+			this.notification.hide();
+			this.notification = null;
 		},
 
 		_updateNotification: function() {
@@ -93,7 +110,7 @@
 				currentCount = maxCount - this._threads.length,
 				msg;
 
-			if ( this._threads.length === 0 ) {
+			if ( this.isFinished() ) {
 				// All threads loaded, loading is finished.
 				this.finish();
 			} else {
@@ -159,15 +176,6 @@
 		_reset: function() {
 			this._maxThreadsCount = 0;
 			this._threads = [];
-		},
-
-		/**
-		 * Called when all threads are done. Default implementation will hide the notification.
-		 */
-		finish: function() {
-			this._reset();
-			this.notification.hide();
-			this.editor.showNotification( 'foobar', 'success', 2000 );
 		}
 	};
 
