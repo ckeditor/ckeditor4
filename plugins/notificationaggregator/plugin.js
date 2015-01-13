@@ -70,7 +70,7 @@
 		 *
 		 * @private
 		 */
-		_maxTasksCount: 0,
+		_tasksCount: 0,
 
 		createTask: function() {
 			var initialTask = !this.notification,
@@ -125,7 +125,7 @@
 		},
 
 		_updateNotification: function() {
-			var maxCount = this._maxTasksCount,
+			var maxCount = this._tasksCount,
 				currentCount = maxCount - this._tasks.length,
 				msg;
 
@@ -158,7 +158,7 @@
 
 			tasks.push( id );
 
-			that._maxTasksCount = tasks.length;
+			that._tasksCount = tasks.length;
 
 			return function() {
 				var index = CKEDITOR.tools.indexOf( tasks, id );
@@ -193,7 +193,7 @@
 		 * @private
 		 */
 		_reset: function() {
-			this._maxTasksCount = 0;
+			this._tasksCount = 0;
 			this._tasks = [];
 		}
 	};

@@ -38,7 +38,7 @@
 
 			assert.areSame( this.editor, aggr.editor, 'Correct editor is stored' );
 			assert.isInstanceOf( Array, aggr._tasks, 'Created valid _tasks property' );
-			assert.areSame( 0, aggr._maxTasksCount, 'Initial _maxTasksCount value' );
+			assert.areSame( 0, aggr._tasksCount, 'Initial _tasksCount value' );
 
 			assert.isInstanceOf( CKEDITOR.template, aggr._message, '_message property type' );
 		},
@@ -136,7 +136,7 @@
 			assert.areSame( 1, instance._tasks.length, '_tasks array increased' );
 			assert.isInstanceOf( Function, ret, 'Return type' );
 			assert.areSame( 7, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
-			assert.areSame( 1, instance._maxTasksCount, '_maxTasksCount increased' );
+			assert.areSame( 1, instance._tasksCount, '_tasksCount increased' );
 
 		},
 
@@ -151,7 +151,7 @@
 			ret();
 
 			assert.areSame( 0, instance._tasks.length, '_tasks array increased' );
-			assert.areSame( 1, instance._maxTasksCount, '_maxTasksCount remains the same' );
+			assert.areSame( 1, instance._tasksCount, '_tasksCount remains the same' );
 			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
 		},
 
@@ -184,7 +184,7 @@
 			};
 
 			instance._tasks = [ 1 ];
-			instance._maxTasksCount = 4;
+			instance._tasksCount = 4;
 
 			instance._updateNotification();
 
@@ -201,7 +201,7 @@
 			};
 
 			instance._tasks = [ 1, 2, 3 ];
-			instance._maxTasksCount = 4;
+			instance._tasksCount = 4;
 
 			instance._updateNotification();
 
@@ -218,7 +218,7 @@
 			var instance = new Aggregator( this.editor );
 			instance._finish = sinon.spy();
 			instance._tasks = [];
-			instance._maxTasksCount = 2;
+			instance._tasksCount = 2;
 
 			instance._updateNotification();
 
@@ -254,11 +254,11 @@
 		'test _reset': function() {
 			var instance = new Aggregator( this.editor );
 			instance._tasks = [ 1, 2 ];
-			instance._maxTasksCount = 3;
+			instance._tasksCount = 3;
 
 			instance._reset();
 
-			assert.areSame( 0, instance._maxTasksCount, 'instance._maxTasksCount zeroed' );
+			assert.areSame( 0, instance._tasksCount, 'instance._tasksCount zeroed' );
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
 		},
 
