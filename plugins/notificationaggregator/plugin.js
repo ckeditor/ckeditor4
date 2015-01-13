@@ -167,24 +167,21 @@
 		_updateNotification: function() {
 			var maxCount = this._tasksCount,
 				currentCount = maxCount - this._tasks.length,
-				percentage = Math.floor( currentCount / maxCount  * 100 ),
-				msg;
+				// Msg that we're going to put in notification.
+				msg = this._message.output( {
+					current: currentCount,
+					max: maxCount,
+					percentage: Math.floor( currentCount / maxCount  * 100 )
+				} );
+
+			this.notification.update( {
+				message: msg,
+				progress: Number( currentCount / maxCount )
+			} );
 
 			if ( this.isFinished() ) {
 				// All tasks loaded, loading is finished.
 				this._finish();
-			} else {
-				// Generate a message.
-				msg = this._message.output( {
-					current: currentCount,
-					max: maxCount,
-					percentage: percentage
-				} );
-
-				this.notification.update( {
-					message: msg,
-					progress: Number( currentCount / maxCount )
-				} );
 			}
 		},
 

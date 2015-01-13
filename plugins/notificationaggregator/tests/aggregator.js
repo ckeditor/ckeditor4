@@ -9,7 +9,8 @@
 
 	var notificationInstanceMock = {
 			show: sinon.spy(),
-			hide: sinon.spy()
+			hide: sinon.spy(),
+			update: sinon.spy()
 		},
 		NotificationMock,
 		Aggregator;
@@ -213,6 +214,7 @@
 		'test _updateNotification finished': function() {
 			// When there are no more tasks, notification should be considered as finished.
 			var instance = new Aggregator( this.editor );
+			instance.notification = new NotificationMock();
 			instance._finish = sinon.spy();
 			instance._tasks = [];
 			instance._tasksCount = 2;
@@ -220,6 +222,7 @@
 			instance._updateNotification();
 
 			assert.areSame( 1, instance._finish.callCount, 'notification.finished call count' );
+			assert.areSame( 1, instance.notification.update.callCount, 'notification.update call count' );
 		},
 
 		'test _finish': function() {
