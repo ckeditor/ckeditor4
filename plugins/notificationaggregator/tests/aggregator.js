@@ -1,11 +1,9 @@
-/* bender-tags: editor */
+/* bender-tags: unit */
 /* bender-ckeditor-plugins: notificationaggregator */
 
 ( function() {
 
 	'use strict';
-
-	bender.editor = {};
 
 	// A type that is going to mimic generic notification type.
 	var NotificationMock = sinon.spy( function() {
@@ -21,6 +19,8 @@
 		setUp: function() {
 			// Assign type to more convenient variable.
 			Aggregator = CKEDITOR.plugins.notificationaggregator;
+			// We don't need real editor, just mock it.
+			this.editor = {};
 			// We'll replace original notification type so we can track calls, and
 			// reduce dependencies.
 			// Reassign and reset the spy each TC, so eg. callCount will be reset.
