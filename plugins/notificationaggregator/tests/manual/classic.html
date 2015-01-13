@@ -1,0 +1,86 @@
+<div>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">
+		&lt;p&gt;&lt;strong&gt;Apollo 11&lt;/strong&gt; was the spaceflight that landed the first humans, Americans Neil Armstrong and Buzz Aldrin, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.&lt;/p&gt;&lt;p&gt;Armstrong spent about three and a half two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected&lt;/p&gt;
+	</textarea>
+	<script>
+		var editor = CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'notificationaggregator',
+			toolbar: [ [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ] ]
+		} );
+
+		function showLoading() {
+			// Init notification aggregator.
+			var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
+
+			// Create 3 tasks.
+			var tasks = [
+				aggregator.createTask(),
+				aggregator.createTask(),
+				aggregator.createTask()
+			];
+
+			// At this point notification has a message: "Loading process, step 0 of 3...".
+
+			// Let's close first one immediately.
+			tasks[ 0 ](); // "Loading process, step 1 of 3...".
+
+			// One second later message will be "Loading process, step 2 of 3...".
+			window.setTimeout( tasks[ 1 ], 1000 );
+
+			// Two seconds after previous message last task will be completed, meaining that notification
+			// will be closed.
+			window.setTimeout( tasks[ 2 ], 3000 );
+		}
+
+		function withSuccess() {
+			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'Wait for success notif ( {current} / {max} )' ),
+				tasks = [],
+				curCallback;
+
+			notification.on( 'finished', function( evt ) {
+				evt.editor.showNotification( 'Everything is working just fine.', 'success', 2000 );
+			} );
+
+			for ( var i = 0; i < 20; i++ ) {
+				tasks.push( notification.createTask() );
+			}
+
+			var interval = setInterval( function() {
+				if( !tasks.length ) {
+					clearInterval( interval );
+				} else {
+					curCallback = tasks.shift();
+					curCallback();
+				}
+			}, 100 );
+		}
+
+		function showRemaining() {
+			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'This notif should not disappear {percentage}%...' ),
+				tasks = [],
+				curCallback;
+
+			notification.on( 'finished', function( evt ) {
+				evt.cancel();
+			} );
+
+			for ( var i = 0; i < 5; i++ ) {
+				tasks.push( notification.createTask() );
+			}
+
+			var interval = setInterval( function() {
+				if( !tasks.length ) {
+					clearInterval( interval );
+				} else {
+					curCallback = tasks.shift();
+					curCallback();
+				}
+			}, 300 );
+		}
+	</script>
+	<p>
+		<input onclick="showLoading();" type="button" value="Default (hiding)">
+		<input onclick="showRemaining();" type="button" value="Progress permanent">
+		<input onclick="withSuccess();" type="button" value="Progress with a success follow-up">
+	</p>
+</div>
