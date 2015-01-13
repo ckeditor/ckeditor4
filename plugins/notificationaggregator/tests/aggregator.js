@@ -54,7 +54,7 @@
 
 		'test createTask creates a notification': function() {
 			// If aggregate has no tasks, it should create notification object in createTask method.
-			var aggr = new Aggregator( this.editor, {} );
+			var aggr = new Aggregator( this.editor );
 			aggr._updateNotification = sinon.spy();
 
 			aggr.createTask();
@@ -71,7 +71,7 @@
 
 		'test createTask reuses a notification when have tasks': function() {
 			// If there is already at least one task, we need to reuse notification.
-			var aggr = new Aggregator( this.editor, {} );
+			var aggr = new Aggregator( this.editor );
 			aggr._tasks = [ 0 ];
 			// Create a dummy notification, so aggregate will think it have one.
 			aggr.notification = {};
@@ -84,7 +84,7 @@
 		},
 
 		'test createTask return value': function() {
-			var aggr = new Aggregator( this.editor, {} ),
+			var aggr = new Aggregator( this.editor ),
 				expectedCallback = function() {
 				},
 				ret;
@@ -99,7 +99,7 @@
 		},
 
 		'test finished': function() {
-			var instance = new Aggregator( this.editor, {} ),
+			var instance = new Aggregator( this.editor ),
 				notif = {
 					hide: sinon.spy()
 				};
@@ -111,19 +111,19 @@
 		},
 
 		'test isFinished': function() {
-			var instance = new Aggregator( this.editor, {} );
+			var instance = new Aggregator( this.editor );
 			instance._tasks = [ 1, 2 ];
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
-			var instance = new Aggregator( this.editor, {} );
+			var instance = new Aggregator( this.editor );
 			instance._tasks = [];
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test _increaseTasks': function() {
-			var instance = new Aggregator( this.editor, {} ),
+			var instance = new Aggregator( this.editor ),
 				getNextId = sinon.stub( CKEDITOR.tools, 'getNextId' ).returns( 7 ),
 				ret = instance._increaseTasks();
 
@@ -137,7 +137,7 @@
 		},
 
 		'test _increaseTasks return fn': function() {
-			var instance = new Aggregator( this.editor, {} ),
+			var instance = new Aggregator( this.editor ),
 				ret;
 
 			instance._updateNotification = sinon.spy();
@@ -154,7 +154,7 @@
 		'test _increaseTasks returned fn multiple calls': function() {
 			// Ensure that if function returned by _increaseTasks() will be called multiple times, it won't
 			// cause any exception.
-			var instance = new Aggregator( this.editor, {} ),
+			var instance = new Aggregator( this.editor ),
 				restoreCallback;
 
 			instance._updateNotification = sinon.spy();
@@ -169,7 +169,7 @@
 		},
 
 		'test _updateNotification template calls': function() {
-			var instance = new Aggregator( this.editor, {} ),
+			var instance = new Aggregator( this.editor ),
 				expectedParams = {
 					max: 4,
 					current: 3,
