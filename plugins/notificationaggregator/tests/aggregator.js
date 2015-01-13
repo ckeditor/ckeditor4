@@ -103,12 +103,10 @@
 				notif = {
 					hide: sinon.spy()
 				};
-			instance._reset = sinon.spy();
 			instance.notification = notif;
 
 			instance.finished();
 
-			assert.areSame( 1, instance._reset.callCount, '_reset call count' );
 			assert.areSame( 1, notif.hide.callCount, 'notification.update call count' );
 		},
 
@@ -228,11 +226,13 @@
 			var instance = new Aggregator( this.editor ),
 				finishedListener = sinon.spy();
 
+			instance._reset = sinon.spy();
 			instance.finished = sinon.spy();
 			instance.on( 'finished', finishedListener );
 
 			instance._finish();
 
+			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
 			assert.areSame( 1, instance.finished.callCount, 'instance.finished call count' );
 			assert.areSame( 1, finishedListener.callCount, 'finished listener call count' );
 		},

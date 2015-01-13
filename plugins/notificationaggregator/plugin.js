@@ -138,7 +138,6 @@
 		 * Called when all tasks are done. Default implementation will hide the notification.
 		 */
 		finished: function() {
-			this._reset();
 			this.notification.hide();
 			this.notification = null;
 		},
@@ -149,6 +148,8 @@
 		 * @private
 		 */
 		_finish: function() {
+			this._reset();
+			
 			var evt = this.fire( 'finished' );
 
 			if ( evt !== false ) {
