@@ -237,7 +237,7 @@
 
 			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) ) {
 				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (#12796)
-				if ( editor.element.equals( nearestListBlock ) ) {
+				if ( editor.editable().equals( nearestListBlock ) ) {
 					return 0;
 				}
 				nearestListBlock = nearestListBlock.getParent();
