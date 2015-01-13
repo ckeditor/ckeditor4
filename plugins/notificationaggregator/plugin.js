@@ -151,7 +151,7 @@
 		_finish: function() {
 			this._reset();
 
-			var evt = this.fire( 'finished' );
+			var evt = this.fire( 'finished', {}, this.editor );
 
 			if ( evt !== false ) {
 				this.finished();

@@ -223,8 +223,11 @@
 		},
 
 		'test _finish': function() {
-			var instance = new Aggregator( this.editor ),
-				finishedListener = sinon.spy();
+			var editor = this.editor,
+				instance = new Aggregator( editor ),
+				finishedListener = sinon.spy( function( evt ) {
+					assert.areSame( editor, evt.editor, 'Correct editor assinged to the event' );
+				} );
 
 			instance._reset = sinon.spy();
 			instance.finished = sinon.spy();
