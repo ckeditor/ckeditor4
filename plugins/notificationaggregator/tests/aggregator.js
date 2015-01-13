@@ -216,13 +216,39 @@
 		'test _updateNotification finished': function() {
 			// When there are no more threads, notification should be considered as finished.
 			var instance = new Aggregator( this.editor );
-			instance.finished = sinon.spy();
+			instance._finish = sinon.spy();
 			instance._threads = [];
 			instance._maxThreadsCount = 2;
 
 			instance._updateNotification();
 
-			assert.areSame( 1, instance.finished.callCount, 'notification.finished call count' );
+			assert.areSame( 1, instance._finish.callCount, 'notification.finished call count' );
+		},
+
+		'test _finish': function() {
+			var instance = new Aggregator( this.editor ),
+				finishedListener = sinon.spy();
+
+			instance.finished = sinon.spy();
+			instance.on( 'finished', finishedListener );
+
+			instance._finish();
+
+			assert.areSame( 1, instance.finished.callCount, 'instance.finished call count' );
+			assert.areSame( 1, finishedListener.callCount, 'finished listener call count' );
+		},
+
+		'test _finish canceling event': function() {
+			var instance = new Aggregator( this.editor );
+
+			instance.finished = sinon.spy();
+			instance.on( 'finished', function( evt ) {
+				evt.cancel();
+			} );
+
+			instance._finish();
+
+			assert.areSame( 0, instance.finished.callCount, 'instance.finished was not called' );
 		},
 
 		'test _reset': function() {

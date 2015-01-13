@@ -26,6 +26,12 @@
 	 * tracked.
 	 *
 	 * Once finished the notification state will be reset.
+	 *
+	 * @class CKEDITOR.plugins.notificationaggregator
+	 * @mixins CKEDITOR.event
+	 * @param {CKEDITOR.editor} editor
+	 * @param {String} message A template of message to be displayd in notification, for template parameters
+	 * see {@link #_message}.
 	 */
 	function Aggregator( editor, message ) {
 		this.editor = editor;
@@ -105,6 +111,19 @@
 			this.notification = null;
 		},
 
+		/**
+		 * A private function that will inform public API about finish event.
+		 *
+		 * @private
+		 */
+		_finish: function() {
+			var evt = this.fire( 'finished' );
+
+			if ( evt !== false ) {
+				this.finished();
+			}
+		},
+
 		_updateNotification: function() {
 			var maxCount = this._maxThreadsCount,
 				currentCount = maxCount - this._threads.length,
@@ -112,7 +131,7 @@
 
 			if ( this.isFinished() ) {
 				// All threads loaded, loading is finished.
-				this.finished();
+				this._finish();
 			} else {
 				// Generate a message.
 				msg = this._message.output( {
@@ -178,6 +197,8 @@
 			this._threads = [];
 		}
 	};
+
+	CKEDITOR.event.implementOn( Aggregator.prototype );
 
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationaggregator = Aggregator;
