@@ -98,14 +98,14 @@
 			sinon.assert.calledOnce( aggr._increaseThreads );
 		},
 
-		'test finish': function() {
+		'test finished': function() {
 			var instance = new Aggregator( this.editor, {} );
 			instance._reset = sinon.spy();
 			instance.notification = {
 				hide: sinon.spy()
 			};
 
-			instance.finish();
+			instance.finished();
 
 			assert.areSame( 1, instance._reset.callCount, '_reset call count' );
 			assert.areSame( 1, instance.notification.hide.callCount, 'notification.update call count' );
@@ -213,13 +213,13 @@
 		'test _updateNotification finished': function() {
 			// When there are no more threads, notification should be considered as finished.
 			var instance = new Aggregator( this.editor );
-			instance.finish = sinon.spy();
+			instance.finished = sinon.spy();
 			instance._threads = [];
 			instance._maxThreadsCount = 2;
 
 			instance._updateNotification();
 
-			assert.areSame( 1, instance.finish.callCount, 'notification.finish call count' );
+			assert.areSame( 1, instance.finished.callCount, 'notification.finished call count' );
 		},
 
 		'test _reset': function() {

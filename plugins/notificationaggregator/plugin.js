@@ -99,7 +99,7 @@
 		/**
 		 * Called when all threads are done. Default implementation will hide the notification.
 		 */
-		finish: function() {
+		finished: function() {
 			this._reset();
 			this.notification.hide();
 			this.notification = null;
@@ -112,7 +112,7 @@
 
 			if ( this.isFinished() ) {
 				// All threads loaded, loading is finished.
-				this.finish();
+				this.finished();
 			} else {
 				// Generate a message.
 				msg = this._message.output( {
