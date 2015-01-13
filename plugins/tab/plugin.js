@@ -93,9 +93,9 @@
 
 			if ( tabText ) {
 				editor.on( 'key', function( ev ) {
-					// TAB
+					// TAB.
 					if ( ev.data.keyCode == 9 ) {
-						editor.insertHtml( tabText );
+						editor.insertText( tabText );
 						ev.cancel();
 					}
 				} );

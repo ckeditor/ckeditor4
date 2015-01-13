@@ -1098,7 +1098,7 @@
 			}
 
 			return function( element, html ) {
-				root = element.getDocument().getBody();
+				root = element;
 
 				// First, let's assume that there will be no range.
 				range = null;

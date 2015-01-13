@@ -132,6 +132,12 @@
 				text.setText( '' );
 
 				assert.areSame( '<p>x<br>{}<br></p>', bender.tools.fixHtml( getRange( playground, range ), 1, 1 ), 'getRange' );
-			} )
+			} ),
+
+		'test range.root': function() {
+			var range = setRange( playground, '<p>x{}</p>' );
+
+			assert.areSame( playground, range.root );
+		}
 	} );
 } )();
