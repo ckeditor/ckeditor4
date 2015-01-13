@@ -176,7 +176,8 @@
 			var instance = new Aggregator( this.editor, {} ),
 				expectedParams = {
 					max: 4,
-					current: 3
+					current: 3,
+					percentage: 75
 				};
 			instance._message.output = sinon.spy();
 			instance.notification = {

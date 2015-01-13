@@ -127,6 +127,7 @@
 		_updateNotification: function() {
 			var maxCount = this._tasksCount,
 				currentCount = maxCount - this._tasks.length,
+				percentage = Math.floor( currentCount / maxCount  * 100 ),
 				msg;
 
 			if ( this.isFinished() ) {
@@ -136,7 +137,8 @@
 				// Generate a message.
 				msg = this._message.output( {
 					current: currentCount,
-					max: maxCount
+					max: maxCount,
+					percentage: percentage
 				} );
 
 				this.notification.update( {
