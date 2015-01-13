@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: toolbar,undo,notificationaggregator */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: notificationaggregator */
 
 ( function() {
 
@@ -55,16 +55,14 @@
 		'test createTask creates a notification': function() {
 			// If aggregate has no tasks, it should create notification object in createTask method.
 			var aggr = new Aggregator( this.editor, {} );
-			aggr._getNotificationOptions = sinon.stub().returns( {} );
 			aggr._updateNotification = sinon.spy();
 
 			aggr.createTask();
 
 			assert.areSame( 1, NotificationMock.callCount, 'Notification constructor call count' );
-			sinon.assert.calledWithExactly( NotificationMock, this.editor, {} );
-
-			// Ensure that it used _getNotificationOptions().
-			sinon.assert.calledOnce( aggr._getNotificationOptions );
+			sinon.assert.calledWithExactly( NotificationMock, this.editor, {
+				type: 'progress'
+			} );
 
 			// Ensure thad notification show was called.
 			sinon.assert.calledOnce( notificationInstanceMock.show );
@@ -261,16 +259,7 @@
 
 			assert.areSame( 0, instance._tasksCount, 'instance._tasksCount zeroed' );
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
-		},
-
-		//_getMock: function() {
-		//	var ret = new Aggregator( this.editor );
-		//	ret.notification = {
-		//		update: sinon.spy()
-		//	};
-		//
-		//	return ret;
-		//}
+		}
 	} );
 
 } )();

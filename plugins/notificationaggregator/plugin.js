@@ -87,7 +87,7 @@
 		 * It's modified as tasks are being closed with callback returned by the
 		 * {@link #createTask}.
 		 *
-		 * @type {CKEDITOR.plugins.notification}
+		 * @type {CKEDITOR.plugins.notification/null}
 		 */
 		notification: null,
 
@@ -109,8 +109,9 @@
 
 			if ( initialTask ) {
 				// It's a first call.
-				var notifOptions = this._getNotificationOptions();
-				this.notification = new CKEDITOR.plugins.notification( this.editor, notifOptions );
+				this.notification = new CKEDITOR.plugins.notification( this.editor, {
+					type: 'progress'
+				} );
 			}
 
 			ret = this._increaseTasks();
@@ -203,20 +204,6 @@
 				tasks.splice( index, 1 );
 				// State changed so we need to call _updateNotification.
 				that._updateNotification();
-			};
-		},
-
-		/**
-		 * Returns options object used for notification.
-		 *
-		 * For more details see {@link CKEDITOR.plugins.notification#update}.
-		 *
-		 * @private
-		 * @returns {Object}
-		 */
-		_getNotificationOptions: function() {
-			return {
-				type: 'progress'
 			};
 		},
 
