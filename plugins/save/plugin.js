@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -29,6 +29,44 @@
 			}
 		}
 	};
+	
+	var saveInlineCmd = {
+		readOnly: 1,
+		
+		exec: function(editor) {
+			
+			if ( editor.fire( 'save' ) ) {
+			
+				var containerId = editor.container.getId(),
+				content = editor.getData(), 
+				encodedContent = encodeURIComponent(content).replace(
+					/[!'()*]/g, 
+					function(c) {
+						return '%' + c.charCodeAt(0).toString(16);
+					}
+				),
+				actionUrl = editor.container.$.getAttribute('data-actionUrl'),
+				callback = function(responseText){
+					if (responseText === null){
+						alert(editor.lang.save.ko);
+					} else {
+						editor.commands.save.disable();
+						alert(responseText);
+					}
+				};
+				
+				CKEDITOR.ajax.post( 
+					actionUrl, 
+					'editorID='+containerId+'&editabledata='+encodedContent, 
+					null, 
+					callback
+				);
+				
+			}
+			
+		}
+		
+	};
 
 	var pluginName = 'save';
 
@@ -40,18 +78,40 @@
 		icons: 'save', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			// Save plugin is for replace mode only.
-			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
+			
+			if ( editor.elementMode === CKEDITOR.ELEMENT_MODE_REPLACE ){
+				
+				var command = editor.addCommand( pluginName, saveCmd );
+				command.modes = { wysiwyg: !!( editor.element.$.form ) };
+				
+			} else if ( 
+				editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE 
+				&& ('ajax' in CKEDITOR) 
+				&& editor.element.$.hasAttribute('data-actionUrl') 
+			){
+				
+				var command = editor.addCommand( pluginName, saveInlineCmd );
+				
+				// On inline editors the save button is disabled unless the editor is dirty.
+				// This makes easier to keep track of what editors contain unsaved changes
+				// when having multiple inline editors on the same page.
+				editor.on('change', function(){ editor.checkDirty()?editor.commands.save.enable():editor.commands.save.disable(); });
+				editor.on('instanceReady', function () { editor.commands.save.disable(); });
+
+			} else {
+				
+				// Save plugin is only for replace mode, 
+				// and also inline mode if ckeditor ajax plugin is available 
+				// and the container has a data-actionUrl attribute.
 				return;
-
-			var command = editor.addCommand( pluginName, saveCmd );
-			command.modes = { wysiwyg: !!( editor.element.$.form ) };
-
+			}
+			
 			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save.toolbar,
 				command: pluginName,
 				toolbar: 'document,10'
 			} );
+
 		}
 	} );
 } )();
