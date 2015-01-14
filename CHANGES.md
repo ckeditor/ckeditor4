@@ -7,6 +7,7 @@ Fixed Issues:
 
 * [#12157](http://dev.ckeditor.com/ticket/12157): Fixed: Lost text formatting when pressing `tab` when [tabSpaces](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-tabSpaces) config option was greater than zero.
 * [#12777](http://dev.ckeditor.com/ticket/12777): Fixed: The `table-layout` CSS property should be reset by skins. Thanks to [vita10gy](https://github.com/vita10gy)!
+* [#12812](http://dev.ckeditor.com/ticket/12812): Fixed: A uncaught security exception is thrown when [lineutils](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.lineutils) are used in an inline editor loaded in a cross-domain iframe. Thanks to [Vitaliy Zurian](https://github.com/thecatontheflat)!
 * [#12747](http://dev.ckeditor.com/ticket/12747): [IE8-10] Fixed: Opening a drop-down for a specific selection when editor is maximized results in incorrect drop-down panel position.
 * [#12735](http://dev.ckeditor.com/ticket/12735): Fixed: [`Config.fillEmptyBlocks`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fillEmptyBlocks) should only apply when outputting data.
 * [#12750](http://dev.ckeditor.com/ticket/12750): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword): strikethrough and underscore should have the same color as font.
