@@ -264,10 +264,13 @@
 
 		/**
 		 * An array storing the calculated progress of tasks weights.
+		 * @type {Number[]}
 		 */
 		this._doneWeights = [];
+
 		/**
 		 * An array storing maximal weights declared per task.
+		 * @type {Number[]}
 		 */
 		this._weights = [];
 	}
@@ -275,7 +278,17 @@
 	AggregatorComplex.prototype = new Aggregator();
 
 	/**
+	 * Creates a new task that can be updated to indicate the progress.
+	 *
 	 * @param {Number} [weight=1]
+	 * @returns {Object} A set of function for updating task state.
+	 * @returns {Function} return.done A function to be called once the task is done.
+	 * @returns {Function} return.update A function to be called to let aggregator know,
+	 * that the this single tash has made an progression.
+	 *
+	 * It takes a single parameter:
+	 *
+	 * * **weight** - Number - A number between `0` and `weight` given to the `createTask` method.
 	 */
 	AggregatorComplex.prototype.createTask = function( weight ) {
 		if ( weight === undefined ) {
@@ -342,7 +355,7 @@
 		Aggregator.prototype._reset( this );
 	};
 
-	// Returns a sum of array items.
+	// Returns a sum of an array items.
 	function arraySum( arr ) {
 		var ret = 0,
 			i;
@@ -356,6 +369,5 @@
 
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationaggregator = Aggregator;
-
 	CKEDITOR.plugins.notificationaggregator.Complex = AggregatorComplex;
 } )();
