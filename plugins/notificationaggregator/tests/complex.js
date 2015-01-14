@@ -13,12 +13,14 @@
 				update: sinon.spy()
 			};
 		} ),
-		AggregatorComplex;
+		AggregatorComplex,
+		Aggregator;
 
 	bender.test( {
 		setUp: function() {
-			// Assign type to more convenient variable.
-			AggregatorComplex = CKEDITOR.plugins.notificationaggregator.Complex;
+			// Assign types to more convenient variable.
+			Aggregator = CKEDITOR.plugins.notificationaggregator;
+			AggregatorComplex = Aggregator.Complex;
 			// We don't need real editor, just mock it.
 			this.editor = {};
 
@@ -106,6 +108,25 @@
 			ret.update( 201 );
 
 			assert.areEqual( 200, instance._doneWeights[ 0 ], 'Invalid value in _doneWeights' );
+		},
+
+		'test createTask ret.done': function() {
+			var instance = new AggregatorComplex( this.editor ),
+				originDone = sinon.spy(),
+				originTaskCreate = sinon.stub( Aggregator.prototype, 'createTask' ).returns( originDone ),
+				ret = instance.createTask( 300 );
+
+			// Force arrays to be correct.
+			instance._weights = [ 300 ];
+			instance._doneWeights = [ 0 ];
+
+			ret.done();
+
+			// Restore original createTask in prototype.
+			originTaskCreate.restore();
+
+			assert.areSame( 300, instance._doneWeights[ 0 ], 'Invalid value in _doneWeights' );
+			assert.areSame( 1, originDone.callCount, 'Aggregator.createTask callback call count' );
 		},
 
 		'test getPercentage one weight': function() {

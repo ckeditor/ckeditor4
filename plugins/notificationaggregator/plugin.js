@@ -283,14 +283,20 @@
 		}
 
 		var that = this,
-			weightIndex = this._weights.push( weight ) - 1;
+			weightIndex = this._weights.push( weight ) - 1,
+			taskDone;
 
 		this._doneWeights[ weightIndex ] = 0;
 
 		// Note that parent createTask will call _updateNotification, so it should be called
 		// at the very end.
+		taskDone = Aggregator.prototype.createTask.call( this );
+
 		return {
-			done: Aggregator.prototype.createTask.call( this ),
+			done: function() {
+				that._doneWeights[ weightIndex ] = that._weights[ weightIndex ];
+				taskDone();
+			},
 			update: function( weight ) {
 				var maxWeight = that._weights[ weightIndex ],
 					// Note that newWeight can't be higher than that._weights[ weightIndex ]!
