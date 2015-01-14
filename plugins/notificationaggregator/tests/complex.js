@@ -58,6 +58,7 @@
 				ret = instance.createTask( 300 );
 
 			ret.done = sinon.spy();
+			instance._updateNotification = sinon.spy();
 
 			// Force arrays to be correct.
 			instance._weights = [ 300 ];
@@ -71,6 +72,7 @@
 			assert.areSame( 200, instance._doneWeights[ 0 ], 'Invalid value in _doneWeights after second call' );
 
 			assert.areSame( 0, ret.done.callCount, 'ret.done was not called' );
+			assert.areSame( 2, instance._updateNotification.callCount, 'instance._updateNotification call count' );
 		},
 
 		'test createTask ret.update with full weight': function() {

@@ -277,6 +277,10 @@
 
 				if ( newWeight == maxWeight ) {
 					this.done();
+				} else {
+					// In other case we want to update notification.
+					// We don't have to do that in case above, because done() will call it.
+					that._updateNotification();
 				}
 			}
 		};
