@@ -128,6 +128,29 @@
 		},
 
 		/**
+		 * Note: For an empty aggregator (without any tasks created) it will return 100.
+		 *
+		 * @param {Boolean} round If `true`, returned number will be rounded.
+		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
+		 */
+		getPercentage: function( rounded ) {
+			var tasksCount = this._tasksCount,
+				ret;
+
+			if ( this.isFinished() ) {
+				return 100;
+			}
+
+			ret = (tasksCount - this._tasks.length ) / tasksCount  * 100;
+
+			if ( rounded ) {
+				return Math.round( ret );
+			} else {
+				return ret;
+			}
+		},
+
+		/**
 		 * @returns {Boolean} Returns `true` if all the notification tasks are done
 		 * (or there are no tasks at all).
 		 */
@@ -165,18 +188,18 @@
 		 * @private
 		 */
 		_updateNotification: function() {
-			var maxCount = this._tasksCount,
-				currentCount = maxCount - this._tasks.length,
+			var tasksCount = this._tasksCount,
+				percentage = this.getPercentage( true ),
 				// Msg that we're going to put in notification.
 				msg = this._message.output( {
-					current: currentCount,
-					max: maxCount,
-					percentage: Math.floor( currentCount / maxCount  * 100 )
+					current: tasksCount - this._tasks.length,
+					max: tasksCount,
+					percentage: percentage
 				} );
 
 			this.notification.update( {
 				message: msg,
-				progress: Number( currentCount / maxCount )
+				progress: percentage / 100
 			} );
 
 			if ( this.isFinished() ) {
@@ -287,9 +310,7 @@
 	};
 
 	/**
-	 * Note: For empty aggregator (without any tasks created) it will return 100.
-	 *
-	 * @todo: I'm wondering what's better `getPercentage` or `getProgress`
+	 * Note: For an empty aggregator (without any tasks created) it will return 100.
 	 *
 	 * @param {Boolean} round If `true`, returned number will be rounded.
 	 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.

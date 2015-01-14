@@ -99,6 +99,25 @@
 			sinon.assert.calledOnce( aggr._increaseTasks );
 		},
 
+		'test getPercentage': function() {
+			var instance = new Aggregator( this.editor ),
+				ret;
+			instance._tasks = [ 1 ];
+			instance._tasksCount = 4;
+
+			ret = instance.getPercentage();
+
+			assert.areSame( 75, ret, 'Return value' );
+		},
+
+		'test getPercentage empty': function() {
+			// Ensure that 100 proc is returned for empty aggregator.
+			var instance = new Aggregator( this.editor ),
+				ret = instance.getPercentage();
+
+			assert.areSame( 100, ret, 'Return value' );
+		},
+
 		'test finished': function() {
 			var instance = new Aggregator( this.editor ),
 				notif = new NotificationMock();
@@ -175,6 +194,7 @@
 					percentage: 75
 				};
 			instance._message.output = sinon.spy();
+			instance.getPercentage = sinon.stub().returns( 75 );
 			instance.notification = new NotificationMock();
 
 			instance._tasks = [ 1 ];
@@ -184,7 +204,8 @@
 
 			sinon.assert.calledWithExactly( instance._message.output, expectedParams );
 
-			assert.areSame( 1, instance._message.output.callCount );
+			assert.areSame( 1, instance.getPercentage.callCount, 'instance.getPercentage call count' );
+			assert.areSame( 1, instance._message.output.callCount, 'instance._message.output call count' );
 		},
 
 		'test _updateNotification notification update': function() {
