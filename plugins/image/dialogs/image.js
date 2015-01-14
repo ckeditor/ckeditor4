@@ -219,6 +219,9 @@
 
 					this.firstLoad = false;
 					this.dontResetSize = false;
+
+					// Possible fix for #12818.
+					updatePreview( this );
 				};
 
 			var onImgLoadErrorEvent = function() {
