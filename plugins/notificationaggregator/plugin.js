@@ -336,6 +336,12 @@
 		}
 	};
 
+	AggregatorComplex.prototype._reset = function() {
+		this._weights = [];
+		this._doneWeights = [];
+		Aggregator.prototype._reset( this );
+	};
+
 	// Returns a sum of array items.
 	function arraySum( arr ) {
 		var ret = 0,

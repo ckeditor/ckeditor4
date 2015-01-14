@@ -98,7 +98,8 @@
 			// If a task is created with maximal weight of 200, we need to ensure that if developer
 			// calls ret.update( 201 ) it will update the _doneWeights entry will be updated to the
 			// maximal weight, instead of incorrect value.
-			var instance = new AggregatorComplex( this.editor ),
+			var originTaskCreate = sinon.stub( Aggregator.prototype, 'createTask' ).returns( sinon.spy() ),
+				instance = new AggregatorComplex( this.editor ),
 				ret = instance.createTask( 200 );
 
 			// Force arrays to be correct.
@@ -107,6 +108,7 @@
 
 			ret.update( 201 );
 
+			originTaskCreate.restore();
 			assert.areEqual( 200, instance._doneWeights[ 0 ], 'Invalid value in _doneWeights' );
 		},
 
@@ -173,6 +175,18 @@
 
 			assert.areSame( 100, ret, 'Invalid return value' );
 		},
+
+		'test _reset': function() {
+			var instance = new AggregatorComplex( this.editor );
+
+			instance._weights = [ 1 ];
+			instance._doneWeights = [ 1 ];
+
+			instance._reset();
+
+			assert.areSame( 0, instance._weights.length, 'Invalid instance._weights length' );
+			assert.areSame( 0, instance._doneWeights.length, 'Invalid instance._doneWeights length' );
+		}
 	} );
 
 } )();
