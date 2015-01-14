@@ -226,6 +226,99 @@
 
 	CKEDITOR.event.implementOn( Aggregator.prototype );
 
+	/**
+	 * This is more powerful Aggregator class that allows you to update progress of your tasks
+	 * more frequently, rather than update them only once they are done. Therefore it allows you
+	 * to provide a better feedback for the end user.
+	 *
+	 * @since 4.5.0
+	 * @class CKEDITOR.plugins.notificationaggregator.Complex
+	 * @extends CKEDITOR.plugins.notificationaggregator
+	 * @constructor Creates a complex notification aggregator instance.
+	 */
+	function AggregatorComplex( editor, message ) {
+		Aggregator.call( this, editor, message );
+
+		/**
+		 * An array storing the calculated progress of tasks weights.
+		 */
+		this._doneWeights = [];
+		/**
+		 * An array storing maximal weights declared per task.
+		 */
+		this._weights = [];
+	}
+
+	AggregatorComplex.prototype = new Aggregator();
+
+	/**
+	 * @param {Number} [weight=1]
+	 */
+	AggregatorComplex.prototype.createTask = function( weight ) {
+		if ( weight === undefined ) {
+			weight = 1;
+		}
+
+		var that = this,
+			weightIndex = this._weights.push( weight ) - 1;
+
+		this._doneWeights[ weightIndex ] = 0;
+
+		// Note that parent createTask will call _updateNotification, so it should be called
+		// at the very end.
+		return {
+			done: Aggregator.prototype.createTask.call( this ),
+			update: function( weight ) {
+				var maxWeight = that._weights[ weightIndex ],
+					// Note that newWeight can't be higher than that._weights[ weightIndex ]!
+					newWeight = Math.min( maxWeight, weight );
+
+				that._doneWeights[ weightIndex ] = newWeight;
+
+				if ( newWeight == maxWeight ) {
+					this.done();
+				}
+			}
+		};
+	};
+
+	/**
+	 * Note: For empty aggregator (without any tasks created) it will return 100.
+	 *
+	 * @todo: I'm wondering what's better `getPercentage` or `getProgress`
+	 *
+	 * @param {Boolean} round If `true`, returned number will be rounded.
+	 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
+	 */
+	AggregatorComplex.prototype.getPercentage = function( rounded ) {
+		// In case there are no weights at all we'll return 100.
+		if ( this._weights.length === 0 ) {
+			return 100;
+		}
+
+		var ret = arraySum( this._doneWeights ) / arraySum( this._weights ) * 100;
+
+		if ( rounded ) {
+			return Math.round( ret );
+		} else {
+			return ret;
+		}
+	};
+
+	// Returns a sum of array items.
+	function arraySum( arr ) {
+		var ret = 0,
+			i;
+
+		for ( i = arr.length - 1; i >= 0; i-- ) {
+			ret += arr[ i ];
+		}
+
+		return ret;
+	}
+
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationaggregator = Aggregator;
+
+	CKEDITOR.plugins.notificationaggregator.Complex = AggregatorComplex;
 } )();
