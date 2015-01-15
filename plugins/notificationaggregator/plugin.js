@@ -221,23 +221,15 @@
 		 * @returns {Function}
 		 */
 		_increaseTasks: function( options ) {
-			var id = CKEDITOR.tools.getNextId(),
-				that = this,
-				tasks = that._tasks;
+			var id = CKEDITOR.tools.getNextNumber(),
+				that = this;
 
-			tasks.push( id );
-			that._tasksCount = tasks.length;
+			that._tasks.push( id );
+			that._tasksCount = that._tasks.length;
 
+			// Returns a function that will remove unique id from the tasks array.
 			return function() {
-				var index = CKEDITOR.tools.indexOf( tasks, id );
-				// One task state can be finished only once.
-				if ( index < 0 ) {
-					return;
-				}
-
-				tasks.splice( index, 1 );
-				// State changed so we need to call _updateNotification.
-				that._updateNotification();
+				return that._removeTask( id );
 			};
 		},
 

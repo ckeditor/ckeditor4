@@ -142,10 +142,10 @@
 
 		'test _increaseTasks': function() {
 			var instance = new Aggregator( this.editor ),
-				getNextId = sinon.stub( CKEDITOR.tools, 'getNextId' ).returns( 7 ),
+				getNextNumber = sinon.stub( CKEDITOR.tools, 'getNextNumber' ).returns( 7 ),
 				ret = instance._increaseTasks();
 
-			getNextId.restore();
+			getNextNumber.restore();
 
 			assert.areSame( 1, instance._tasks.length, '_tasks array increased' );
 			assert.isInstanceOf( Function, ret, 'Return type' );
@@ -158,15 +158,14 @@
 			var instance = new Aggregator( this.editor ),
 				ret;
 
-			instance._updateNotification = sinon.spy();
+			instance._removeTask = sinon.spy();
 
 			ret = instance._increaseTasks();
 
 			ret();
 
-			assert.areSame( 0, instance._tasks.length, '_tasks array increased' );
-			assert.areSame( 1, instance._tasksCount, '_tasksCount remains the same' );
-			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 1, instance._removeTask.callCount, 'instance._removeTask call count' );
+			assert.areSame( 'number', typeof instance._removeTask.args[ 0 ][ 0 ], 'Parameter type given to instance._removeTask' );
 		},
 
 		'test _increaseTasks returned fn multiple calls': function() {
