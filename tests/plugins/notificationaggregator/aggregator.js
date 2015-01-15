@@ -13,12 +13,14 @@
 				update: sinon.spy()
 			};
 		} ),
-		Aggregator;
+		Aggregator,
+		Task;
 
 	bender.test( {
 		setUp: function() {
 			// Assign type to more convenient variable.
 			Aggregator = CKEDITOR.plugins.notificationaggregator;
+			Task = CKEDITOR.plugins.notificationaggregator.Task;
 			// We don't need real editor, just mock it.
 			this.editor = {};
 			// We'll replace original notification type so we can track calls, and
@@ -99,23 +101,25 @@
 			sinon.assert.calledOnce( aggr._increaseTasks );
 		},
 
-		'test getPercentage': function() {
+		'test getPercentage rounded': function() {
 			var instance = new Aggregator( this.editor ),
 				ret;
-			instance._tasks = [ 1 ];
-			instance._tasksCount = 4;
 
-			ret = instance.getPercentage();
+			instance._tasks = [ this._getTaskMock( 123.45, 1000 ) ];
+			instance._getDoneWeights = sinon.stub().returns( 123.45 );
+			instance._getWeights = sinon.stub().returns( 1000 );
 
-			assert.areSame( 75, ret, 'Return value' );
+			ret = instance.getPercentage( true );
+
+			assert.areSame( 12, ret, 'Invalid return value' );
 		},
 
 		'test getPercentage empty': function() {
-			// Ensure that 100 proc is returned for empty aggregator.
+			// Ensure that nothing bad happens if htere are no weights at all.
 			var instance = new Aggregator( this.editor ),
 				ret = instance.getPercentage();
 
-			assert.areSame( 100, ret, 'Return value' );
+			assert.areSame( 100, ret, 'Invalid return value' );
 		},
 
 		'test finished': function() {
@@ -130,59 +134,41 @@
 
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor );
-			instance._tasks = [ 1, 2 ];
+			instance._getDoneTasks = sinon.stub().returns( 2 );
+			instance._tasksCount = 2;
+			assert.isTrue( instance.isFinished(), 'Return value' );
+		},
+
+		'test isFinished falsy': function() {
+			var instance = new Aggregator( this.editor );
+			instance._getDoneTasks = sinon.stub().returns( 1 );
+			instance._tasksCount = 2;
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
 			var instance = new Aggregator( this.editor );
-			instance._tasks = [];
+			instance._getDoneTasks = sinon.stub().returns( 0 );
+			instance._tasksCount = 0;
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test _increaseTasks': function() {
 			var instance = new Aggregator( this.editor ),
-				getNextNumber = sinon.stub( CKEDITOR.tools, 'getNextNumber' ).returns( 7 ),
-				ret = instance._increaseTasks();
-
-			getNextNumber.restore();
+				ret = instance._increaseTasks( { weight: 20 } );
 
 			assert.areSame( 1, instance._tasks.length, '_tasks array increased' );
-			assert.isInstanceOf( Function, ret, 'Return type' );
-			assert.areSame( 7, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
+			assert.isInstanceOf( Task, ret, 'Return type' );
+			assert.areSame( ret, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
 			assert.areSame( 1, instance._tasksCount, '_tasksCount increased' );
-
+			assert.areSame( 20, ret._weight );
 		},
 
-		'test _increaseTasks return fn': function() {
+		'test _increaseTasks default value': function() {
 			var instance = new Aggregator( this.editor ),
-				ret;
+				ret = instance._increaseTasks( {} );
 
-			instance._removeTask = sinon.spy();
-
-			ret = instance._increaseTasks();
-
-			ret();
-
-			assert.areSame( 1, instance._removeTask.callCount, 'instance._removeTask call count' );
-			assert.areSame( 'number', typeof instance._removeTask.args[ 0 ][ 0 ], 'Parameter type given to instance._removeTask' );
-		},
-
-		'test _increaseTasks returned fn multiple calls': function() {
-			// Ensure that if function returned by _increaseTasks() will be called multiple times, it won't
-			// cause any exception.
-			var instance = new Aggregator( this.editor ),
-				restoreCallback;
-
-			instance._updateNotification = sinon.spy();
-
-			restoreCallback = instance._increaseTasks();
-
-			restoreCallback();
-			restoreCallback();
-			restoreCallback();
-
-			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 1, ret._weight );
 		},
 
 		'test _updateNotification template calls': function() {
@@ -193,11 +179,10 @@
 					percentage: 75
 				};
 			instance._message.output = sinon.spy();
+			instance._tasksCount = 4;
+			instance._getDoneTasks = sinon.stub().returns( 3 );
 			instance.getPercentage = sinon.stub().returns( 75 );
 			instance.notification = new NotificationMock();
-
-			instance._tasks = [ 1 ];
-			instance._tasksCount = 4;
 
 			instance._updateNotification();
 
@@ -207,13 +192,12 @@
 			assert.areSame( 1, instance._message.output.callCount, 'instance._message.output call count' );
 		},
 
-		'test _updateNotification notification update': function() {
+		'test _updateNotification notification call': function() {
 			var instance = new Aggregator( this.editor );
 			instance._message.output = sinon.stub().returns( 'foo' );
-			instance.notification = new NotificationMock();
-
-			instance._tasks = [ 1, 2, 3 ];
 			instance._tasksCount = 4;
+			instance.getPercentage = sinon.stub().returns( 25 );
+			instance.notification = new NotificationMock();
 
 			instance._updateNotification();
 
@@ -230,13 +214,11 @@
 			var instance = new Aggregator( this.editor );
 			instance.notification = new NotificationMock();
 			instance._finish = sinon.spy();
-			instance._tasks = [];
-			instance._tasksCount = 2;
+			instance.isFinished = sinon.stub().returns( true );
 
 			instance._updateNotification();
 
 			assert.areSame( 1, instance._finish.callCount, 'notification.finished call count' );
-			assert.areSame( 1, instance.notification.update.callCount, 'notification.update call count' );
 		},
 
 		'test _finish': function() {
@@ -270,7 +252,7 @@
 			assert.areSame( 0, instance.finished.callCount, 'instance.finished was not called' );
 		},
 
-				'test _removeTask': function() {
+		'test _removeTask': function() {
 			var instance = new Aggregator( this.editor );
 
 			instance._updateNotification = sinon.spy();
@@ -300,6 +282,28 @@
 			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
 		},
 
+		'test _getWeights': function() {
+			var instance = new Aggregator( this.editor );
+
+			instance._tasks = [
+				this._getTaskMock( 0, 10 ),
+				this._getTaskMock( 0, 15 )
+			];
+
+			assert.areSame( 25, instance._getWeights(), 'Invalid return value' );
+		},
+
+		'test _getDoneWeights': function() {
+			var instance = new Aggregator( this.editor );
+
+			instance._tasks = [
+				this._getTaskMock( 10, 15 ),
+				this._getTaskMock( 15, 15 )
+			];
+
+			assert.areSame( 25, instance._getDoneWeights(), 'Invalid return value' );
+		},
+
 		'test _reset': function() {
 			var instance = new Aggregator( this.editor );
 			instance._tasks = [ 1, 2 ];
@@ -309,6 +313,23 @@
 
 			assert.areSame( 0, instance._tasksCount, 'instance._tasksCount zeroed' );
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
+		},
+
+		_getTaskMock: function( doneWeight, weight ) {
+			if ( typeof doneWeight != 'number' ) {
+				doneWeight = 0;
+			}
+			if ( typeof weight != 'number' ) {
+				weight = 1;
+			}
+
+			return {
+				_doneWeight: doneWeight,
+				_weight: weight,
+				isDone: function() {
+					return this._doneWeight === this._weight;
+				}
+			};
 		}
 	} );
 

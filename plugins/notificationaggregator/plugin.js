@@ -105,12 +105,16 @@
 		_tasksCount: 0,
 
 		/**
-		 * Creates a new task and returns a callback to close created task.
+		 * Creates a new task that can be updated to indicate the progress.
 		 *
 		 * @param [options] Options object for the task creation.
-		 * @returns {Function}
+		 * @param [options.weight=1]
+		 * @returns {CKEDITOR.plugins.notificationaggregator.Task} An object that represents the task state, and allows
+		 * for it manipulation.
 		 */
 		createTask: function( options ) {
+			options = options || {};
+
 			var initialTask = !this.notification,
 				ret;
 
@@ -140,14 +144,12 @@
 		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
 		 */
 		getPercentage: function( rounded ) {
-			var tasksCount = this._tasksCount,
-				ret;
-
-			if ( this.isFinished() ) {
+			// In case there are no weights at all we'll return 100.
+			if ( this._tasks.length === 0 ) {
 				return 100;
 			}
 
-			ret = (tasksCount - this._tasks.length ) / tasksCount  * 100;
+			var ret = this._getDoneWeights() / this._getWeights() * 100;
 
 			if ( rounded ) {
 				return Math.round( ret );
@@ -218,19 +220,18 @@
 		 *
 		 * @private
 		 * @param options
-		 * @returns {Function}
+		 * @returns {CKEDITOR.plugins.notificationaggregator.Task}
 		 */
 		_increaseTasks: function( options ) {
-			var id = CKEDITOR.tools.getNextNumber(),
-				that = this;
+			// Provide a default value.
+			options.weight = options.weight || 1;
 
-			that._tasks.push( id );
-			that._tasksCount = that._tasks.length;
+			var task = new Task( this, options.weight );
 
-			// Returns a function that will remove unique id from the tasks array.
-			return function() {
-				return that._removeTask( id );
-			};
+			this._tasks.push( task );
+			this._tasksCount = this._tasks.length;
+
+			return task;
 		},
 
 		/**
@@ -239,7 +240,13 @@
 		 * @returns {Number}
 		 */
 		_getDoneTasks: function() {
-			return this._tasksCount - this._tasks.length;
+			var ret = 0;
+			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+				if ( this._tasks[ i ].isDone() ) {
+					ret += 1;
+				}
+			}
+			return ret;
 		},
 
 		/**
@@ -266,106 +273,36 @@
 				// And we also should inform the UI about this change.
 				this._updateNotification();
 			}
-		}
-	};
+		},
 
-	CKEDITOR.event.implementOn( Aggregator.prototype );
+		/**
+		 * Gets a done wieght sum of all the contained tasks.
+		 *
+		 * @returns {Number}
+		 */
+		_getDoneWeights: function() {
+			var ret = 0;
+			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+				ret += this._tasks[ i ]._doneWeight;
+			}
+			return ret;
+		},
 
-	/**
-	 * This is more powerful Aggregator class that allows you to update progress of your tasks
-	 * more frequently, rather than update them only once they are done. Therefore it allows you
-	 * to provide a better feedback for the end user.
-	 *
-	 * @since 4.5.0
-	 * @class CKEDITOR.plugins.notificationaggregator.Complex
-	 * @extends CKEDITOR.plugins.notificationaggregator
-	 * @constructor Creates a complex notification aggregator instance.
-	 */
-	function AggregatorComplex( editor, message ) {
-		Aggregator.call( this, editor, message );
-	}
-
-	AggregatorComplex.prototype = new Aggregator();
-
-	/**
-	 * Creates a new task that can be updated to indicate the progress.
-	 *
-	 * @param [options]
-	 * @param [options.weight=1]
-	 * @returns {CKEDITOR.plugins.notificationaggregator.Task} An object that represents the task state, and allows
-	 * for it manipulation.
-	 */
-	AggregatorComplex.prototype.createTask = function( options ) {
-		// Override method only to set the default values if needed.
-		options = options || {};
-		options.weight = options.weight || 1;
-
-		return Aggregator.prototype.createTask.call( this, options );
-	};
-
-	/**
-	 * @private
-	 * @returns {CKEDITOR.plugins.notificationaggregator.Task}
-	 */
-	AggregatorComplex.prototype._increaseTasks = function( options ) {
-		// _increaseTasks should return an Task instance.
-		var tasks = this._tasks,
-			ret =  new Task( this, options.weight );
-		tasks.push( ret );
-		this._tasksCount = tasks.length;
-		return ret;
-	};
-
-	AggregatorComplex.prototype.getPercentage = function( rounded ) {
-		// In case there are no weights at all we'll return 100.
-		if ( this._tasks.length === 0 ) {
-			return 100;
-		}
-
-		var ret = this._getDoneWeights() / this._getWeights() * 100;
-
-		if ( rounded ) {
-			return Math.round( ret );
-		} else {
+		/**
+		 * Gets a wieght sum of all the contained tasks.
+		 *
+		 * @returns {Number}
+		 */
+		_getWeights: function() {
+			var ret = 0;
+			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+				ret += this._tasks[ i ]._weight;
+			}
 			return ret;
 		}
 	};
 
-	AggregatorComplex.prototype._getDoneTasks = function() {
-		var ret = 0;
-		for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
-			if ( this._tasks[ i ].isDone() ) {
-				ret += 1;
-			}
-		}
-		return ret;
-	};
-
-	/**
-	 * Sums done weight properties from all the contained tasks.
-	 *
-	 * @returns {Number}
-	 */
-	AggregatorComplex.prototype._getDoneWeights = function() {
-		var ret = 0;
-		for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
-			ret += this._tasks[ i ]._doneWeight;
-		}
-		return ret;
-	};
-
-	/**
-	 * Sums weight properties from all the contained tasks.
-	 *
-	 * @returns {Number}
-	 */
-	AggregatorComplex.prototype._getWeights = function() {
-		var ret = 0;
-		for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
-			ret += this._tasks[ i ]._weight;
-		}
-		return ret;
-	};
+	CKEDITOR.event.implementOn( Aggregator.prototype );
 
 	/**
 	 * This type represents a Task, and exposes methods to manipulate task state.
@@ -422,6 +359,5 @@
 
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationaggregator = Aggregator;
-	CKEDITOR.plugins.notificationaggregator.Complex = AggregatorComplex;
 	CKEDITOR.plugins.notificationaggregator.Task = Task;
 } )();

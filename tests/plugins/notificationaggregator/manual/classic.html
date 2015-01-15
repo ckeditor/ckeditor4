@@ -22,20 +22,24 @@
 			// At this point notification has a message: "Loading process, step 0 of 3...".
 
 			// Let's close first one immediately.
-			tasks[ 0 ](); // "Loading process, step 1 of 3...".
+			tasks[ 0 ].done(); // "Loading process, step 1 of 3...".
 
 			// One second later message will be "Loading process, step 2 of 3...".
-			window.setTimeout( tasks[ 1 ], 1000 );
+			window.setTimeout( function() {
+				tasks[ 1 ].done();
+			}, 1000 );
 
 			// Two seconds after previous message last task will be completed, meaining that notification
 			// will be closed.
-			window.setTimeout( tasks[ 2 ], 3000 );
+			window.setTimeout( function() {
+				tasks[ 2 ].done();
+			}, 3000 );
 		}
 
 		function withSuccess() {
 			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'Wait for success notif ( {current} / {max} )' ),
 				tasks = [],
-				curCallback;
+				curTask;
 
 			notification.on( 'finished', function( evt ) {
 				evt.editor.showNotification( 'Everything is working just fine.', 'success', 2000 );
@@ -49,8 +53,8 @@
 				if( !tasks.length ) {
 					clearInterval( interval );
 				} else {
-					curCallback = tasks.shift();
-					curCallback();
+					curTask = tasks.shift();
+					curTask.done();
 				}
 			}, 100 );
 		}
@@ -58,7 +62,7 @@
 		function showRemaining() {
 			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'This notif should not disappear {percentage}%...' ),
 				tasks = [],
-				curCallback;
+				curTask;
 
 			notification.on( 'finished', function( evt ) {
 				evt.cancel();
@@ -72,8 +76,8 @@
 				if( !tasks.length ) {
 					clearInterval( interval );
 				} else {
-					curCallback = tasks.shift();
-					curCallback();
+					curTask = tasks.shift();
+					curTask.done();
 				}
 			}, 300 );
 		}
