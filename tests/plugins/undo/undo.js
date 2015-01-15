@@ -751,6 +751,22 @@ bender.test( {
 		} ) ;
 	},
 
+	// #12597
+	'test no beforeUndoImage event fire while composition': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			calls = 0;
+
+		bot.editor.on( 'beforeUndoImage', function() {
+			calls++;
+		} );
+
+		var evt = new CKEDITOR.dom.event( { keyCode: 229 } );
+		editor.editable().fire( 'keydown', evt );
+
+		assert.areSame( 0, calls, 'There should be no calls' );
+	},
+
 	'test undo with "control" type selection in IE': function() {
 		if ( !CKEDITOR.env.ie || ( document.documentMode || CKEDITOR.env.version ) > 8 )
 			assert.ignore();

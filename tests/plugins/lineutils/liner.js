@@ -108,6 +108,21 @@
 			assert.isTrue( CKEDITOR.tools.isEmpty( liner.visible ), 'Line removed from visible.' );
 			assert.isFalse( line2.isVisible(), 'Line hidden in DOM.' );
 			assert.areSame( 2, CKEDITOR.tools.objectKeys( liner.hidden ).length, 'Line moved to hidden.' );
+		},
+
+		// #12812
+		'test the constructor does not access window\'s parent frame in case of inline editor': function() {
+			bender.editorBot.create( {
+				creator: 'inline',
+				name: 'inline1'
+			}, function( bot ) {
+				var editor = bot.editor,
+					spy = sinon.spy( editor.window, 'getFrame' ),
+					liner = new CKEDITOR.plugins.lineutils.liner( editor );
+
+				assert.isFalse( spy.called, 'the editor.window.getFrame() was not called' );
+				assert.isFalse( 'frame' in liner, 'liner.frame was not set' );
+			} );
 		}
 	} );
 } )();

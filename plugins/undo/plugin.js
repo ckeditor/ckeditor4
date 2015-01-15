@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -921,6 +921,13 @@
 		 * @param {CKEDITOR.dom.event} evt
 		 */
 		onKeydown: function( evt ) {
+			var keyCode = evt.data.getKey();
+
+			// The composition is in progress - ignore the key. (#12597)
+			if ( keyCode === 229 ) {
+				return;
+			}
+
 			// Block undo/redo keystrokes when at the bottom/top of the undo stack (#11126 and #11677).
 			if ( CKEDITOR.tools.indexOf( keystrokes, evt.data.getKeystroke() ) > -1 ) {
 				evt.data.preventDefault();
@@ -930,8 +937,7 @@
 			// Cleaning tab functional keys.
 			this.keyEventsStack.cleanUp( evt );
 
-			var keyCode = evt.data.getKey(),
-				undoManager = this.undoManager;
+			var undoManager = this.undoManager;
 
 			// Gets last record for provided keyCode. If not found will create one.
 			var last = this.keyEventsStack.getLast( keyCode );

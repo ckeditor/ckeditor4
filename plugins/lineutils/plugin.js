@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -59,8 +59,9 @@
 			win: editor.window
 		}, def, true );
 
-		this.frame = this.win.getFrame();
 		this.inline = this.editable.isInline();
+		if ( !this.inline )
+			this.frame = this.win.getFrame();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
 

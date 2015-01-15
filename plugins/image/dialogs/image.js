@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -232,6 +232,9 @@
 
 					this.firstLoad = false;
 					this.dontResetSize = false;
+
+					// Possible fix for #12818.
+					updatePreview( this );
 				};
 
 			var onImgLoadErrorEvent = function() {
