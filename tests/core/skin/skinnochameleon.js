@@ -18,7 +18,7 @@
 				editor: {
 					startupData: '<p>foo</p>',
 					config: {
-						skin: 'myskin,%BASE_PATH%/_assets/skins/myskin/',
+						skin: 'skinnochameleon,%TEST_DIR%/_assets/skins/skinnochameleon/',
 						uiColor: '#333888'
 					}
 				}
@@ -33,6 +33,9 @@
 			assert.isNull( error );
 
 			bender.error = origErrorFunc;
+
+			assert.areSame( 'ready', this.editor.status );
+			assert.areSame( 'skinnochameleon', CKEDITOR.skin );
 		}
 
 	} );
