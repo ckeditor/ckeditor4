@@ -283,18 +283,6 @@
 	 */
 	function AggregatorComplex( editor, message ) {
 		Aggregator.call( this, editor, message );
-
-		/**
-		 * An array storing the calculated progress of tasks weights.
-		 * @type {Number[]}
-		 */
-		this._doneWeights = [];
-
-		/**
-		 * An array storing maximal weights declared per task.
-		 * @type {Number[]}
-		 */
-		this._weights = [];
 	}
 
 	AggregatorComplex.prototype = new Aggregator();
@@ -403,7 +391,7 @@
 		},
 
 		update: function( weight ) {
-			// Note that newWeight can't be higher than that._weights[ weightIndex ]!
+			// Note that newWeight can't be higher than _doneWeight.
 			this._doneWeight = Math.min( this._weight, weight );
 
 			if ( this.isDone() ) {
