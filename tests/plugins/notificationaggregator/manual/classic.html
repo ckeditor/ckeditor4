@@ -8,35 +8,7 @@
 			toolbar: [ [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ] ]
 		} );
 
-		function showLoading() {
-			// Init notification aggregator.
-			var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
-
-			// Create 3 tasks.
-			var tasks = [
-				aggregator.createTask(),
-				aggregator.createTask(),
-				aggregator.createTask()
-			];
-
-			// At this point notification has a message: "Loading process, step 0 of 3...".
-
-			// Let's close first one immediately.
-			tasks[ 0 ].done(); // "Loading process, step 1 of 3...".
-
-			// One second later message will be "Loading process, step 2 of 3...".
-			window.setTimeout( function() {
-				tasks[ 1 ].done();
-			}, 1000 );
-
-			// Two seconds after previous message last task will be completed, meaining that notification
-			// will be closed.
-			window.setTimeout( function() {
-				tasks[ 2 ].done();
-			}, 3000 );
-		}
-
-		function withSuccess() {
+		function createNotification() {
 			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'Wait for success notif ( {current} / {max} )' ),
 				tasks = [],
 				curTask;
@@ -58,33 +30,8 @@
 				}
 			}, 100 );
 		}
-
-		function showRemaining() {
-			var notification = new CKEDITOR.plugins.notificationaggregator( editor, 'This notif should not disappear {percentage}%...' ),
-				tasks = [],
-				curTask;
-
-			notification.on( 'finished', function( evt ) {
-				evt.cancel();
-			} );
-
-			for ( var i = 0; i < 5; i++ ) {
-				tasks.push( notification.createTask() );
-			}
-
-			var interval = setInterval( function() {
-				if( !tasks.length ) {
-					clearInterval( interval );
-				} else {
-					curTask = tasks.shift();
-					curTask.done();
-				}
-			}, 300 );
-		}
 	</script>
 	<p>
-		<input onclick="showLoading();" type="button" value="Default (hiding)">
-		<input onclick="showRemaining();" type="button" value="Progress permanent">
-		<input onclick="withSuccess();" type="button" value="Progress with a success follow-up">
+		<input onclick="createNotification();" type="button" value="Create notification aggregator">
 	</p>
 </div>
