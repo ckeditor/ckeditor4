@@ -135,7 +135,8 @@
 				for ( i = 0; i < filesCount; i++ ) {
 					file = dataTransfer.getFile( i );
 
-					if ( fileTools.isTypeSupported( file, def.supportedTypes ) ) {
+					// No def.supportedTypes means all types are supported.
+					if ( !def.supportedTypes || fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
 							loader = uploads.create( file );
 

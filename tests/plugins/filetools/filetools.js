@@ -100,14 +100,10 @@
 		},
 
 		'test isTypeSupported 1': function() {
-			assert.isTrue( isTypeSupported( { type: 'image/jpeg' } ) );
-		},
-
-		'test isTypeSupported 2': function() {
 			assert.isTrue( isTypeSupported( { type: 'image/jpeg' }, /image\/(png|jpeg|gif)/ ) );
 		},
 
-		'test isTypeSupported 3': function() {
+		'test isTypeSupported 2': function() {
 			assert.isFalse( isTypeSupported( { type: 'image/jpeg' }, /image\/(png|gif)/ ) );
 		},
 

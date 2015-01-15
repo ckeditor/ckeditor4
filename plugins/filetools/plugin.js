@@ -687,21 +687,15 @@
 
 		/**
 		 * Checked if the MIME type of given file is supported.
-		 * If no `supportedTypes` regular expression is given all type are considered as supported.
 		 *
-		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' } ); // true
 		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' }, /image\/(png|jpeg)/ ); // true
 		 * 		CKEDITOR.fileTools.isTypeSupported( { type: 'image/png' }, /image\/(gif|jpeg)/ ); // false
 		 *
 		 * @param {Blob} file File to check.
-		 * @param {RegExp} [supportedTypes] Regular expression to check MIME type of the file.
+		 * @param {RegExp} supportedTypes Regular expression to check MIME type of the file.
 		 * @returns {Boolean} `true` if the file type is supported.
 		 */
 		isTypeSupported: function( file, supportedTypes ) {
-			if ( !supportedTypes ) {
-				return true;
-			}
-
 			return !!file.type.match( supportedTypes );
 		}
 	} );
