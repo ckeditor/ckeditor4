@@ -38,34 +38,6 @@
 			assert.areSame( 50, ret._weight, 'ret._weight' );
 		},
 
-		'test isFinished': function() {
-			var instance = new AggregatorComplex( this.editor );
-
-			instance._tasks = [
-				this._getTaskMock( 10, 10 ),
-				this._getTaskMock( 30, 30 )
-			];
-
-			instance._getDoneWeights = sinon.stub().returns( 40 );
-			instance._getWeights = sinon.stub().returns( 40 );
-
-			assert.isTrue( instance.isFinished(), 'Return value' );
-		},
-
-		'test isFinished falsy': function() {
-			var instance = new AggregatorComplex( this.editor );
-
-			instance._tasks = [
-				this._getTaskMock( 10, 100 ),
-				this._getTaskMock( 10, 100 )
-			];
-
-			instance._getDoneWeights = sinon.stub().returns( 20 );
-			instance._getWeights = sinon.stub().returns( 2000 );
-
-			assert.isFalse( instance.isFinished(), 'Return value' );
-		},
-
 		'test getPercentage': function() {
 			var instance = new AggregatorComplex( this.editor ),
 				ret;

@@ -161,7 +161,7 @@
 		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this._tasks.length === 0;
+			return this._getDoneTasks() === this._tasksCount;
 		},
 
 		/**
@@ -322,7 +322,7 @@
 	 * * **weight** - Number - A number between `0` and `weight` given to the `createTask` method.
 	 */
 	AggregatorComplex.prototype.createTask = function( options ) {
-		// Set the default value if needed.
+		// Override method only to set the default values if needed.
 		options = options || {};
 		options.weight = options.weight || 1;
 
@@ -330,8 +330,9 @@
 	};
 
 	AggregatorComplex.prototype._increaseTasks = function( options ) {
-		var ret =  new AggregatorTask( this, options.weight ),
-			tasks = this._tasks;
+		// _increaseTasks should return a Task instance.
+		var tasks = this._tasks,
+			ret =  new AggregatorTask( this, options.weight );
 		tasks.push( ret );
 		this._tasksCount = tasks.length;
 		return ret;
@@ -356,10 +357,6 @@
 		} else {
 			return ret;
 		}
-	};
-
-	AggregatorComplex.prototype.isFinished = function() {
-		return this._getDoneWeights() == this._getWeights();
 	};
 
 	AggregatorComplex.prototype._getDoneTasks = function() {
