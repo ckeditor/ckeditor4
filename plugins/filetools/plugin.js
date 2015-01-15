@@ -506,7 +506,7 @@
 				this.changeStatus( 'error' );
 			} else {
 				this.fileName = response.fileName;
-				this.url = response.url;
+				this.url = encodeURI( response.url );
 				this.changeStatus( 'uploaded' );
 			}
 		},
