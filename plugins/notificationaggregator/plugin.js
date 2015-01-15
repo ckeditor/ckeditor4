@@ -330,9 +330,9 @@
 	};
 
 	AggregatorComplex.prototype._increaseTasks = function( options ) {
-		// _increaseTasks should return a Task instance.
+		// _increaseTasks should return an Task instance.
 		var tasks = this._tasks,
-			ret =  new AggregatorTask( this, options.weight );
+			ret =  new Task( this, options.weight );
 		tasks.push( ret );
 		this._tasksCount = tasks.length;
 		return ret;
@@ -401,18 +401,18 @@
 	 * @since 4.5.0
 	 * @class CKEDITOR.plugins.notificationaggregator
 	 * @constructor Creates a notification aggregator instance.
-	 * @param {CKEDITOR.plugins.notificationaggregator.Complex} aggregator Aggregator instance owning the
+	 * @param {CKEDITOR.plugins.notificationaggregator} aggregator Aggregator instance owning the
 	 * task.
 	 * @param {Number} weight
 	 */
-	function AggregatorTask( aggregator, weight ) {
+	function Task( aggregator, weight ) {
 		this.aggregator = aggregator;
 		this._weight = weight;
 		// Task always starts with 0 done weight.
 		this._doneWeight = 0;
 	}
 
-	AggregatorTask.prototype = {
+	Task.prototype = {
 		done: function() {
 			this._doneWeight = this._weight;
 			this.aggregator._updateNotification();
@@ -446,5 +446,5 @@
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationaggregator = Aggregator;
 	CKEDITOR.plugins.notificationaggregator.Complex = AggregatorComplex;
-	CKEDITOR.plugins.notificationaggregator.Task = AggregatorTask;
+	CKEDITOR.plugins.notificationaggregator.Task = Task;
 } )();
