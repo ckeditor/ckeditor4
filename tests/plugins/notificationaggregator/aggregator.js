@@ -271,6 +271,36 @@
 			assert.areSame( 0, instance.finished.callCount, 'instance.finished was not called' );
 		},
 
+				'test _removeTask': function() {
+			var instance = new Aggregator( this.editor );
+
+			instance._updateNotification = sinon.spy();
+			instance._tasks = [ 1, 2, 3 ];
+			instance._tasksCount = 3;
+
+			instance._removeTask( 2 );
+
+			assert.areSame( 2, instance._tasks.length, 'instance._tasks length' );
+			assert.areSame( 2, instance._tasksCount, 'instance._tasksCount updated' );
+			arrayAssert.itemsAreSame( [ 1, 3 ], instance._tasks );
+			assert.areSame( 1, instance._updateNotification.callCount, 'instance._updateNotification call count' );
+
+		},
+
+		'test _removeTask subsequent': function() {
+			// Ensure that subsequent remove attempt for the same task won't result with an error.
+			var instance = new Aggregator( this.editor );
+
+			instance._updateNotification = sinon.spy();
+			instance._tasks = [ 1, 2 ];
+
+			instance._removeTask( 1 );
+			// And the second call.
+			instance._removeTask( 1 );
+
+			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
+		},
+
 		'test _reset': function() {
 			var instance = new Aggregator( this.editor );
 			instance._tasks = [ 1, 2 ];

@@ -258,6 +258,22 @@
 		_reset: function() {
 			this._tasksCount = 0;
 			this._tasks = [];
+		},
+
+		/**
+		 * Removes given task from the {@link #_tasks} array and updates the ui.
+		 *
+		 * @param task Task to be removed.
+		 */
+		_removeTask: function( task ) {
+			var key = CKEDITOR.tools.indexOf( this._tasks, task );
+
+			if ( key !== -1 ) {
+				this._tasks.splice( key, 1 );
+				this._tasksCount = this._tasks.length;
+				// And we also should inform the UI about this change.
+				this._updateNotification();
+			}
 		}
 	};
 
@@ -382,17 +398,16 @@
 		return ret;
 	};
 
-	AggregatorComplex.prototype._removeTask = function( task ) {
-		var key = CKEDITOR.tools.indexOf( this._tasks, task );
-
-		if ( key !== -1 ) {
-			this._tasks.splice( key, 1 );
-			this._tasksCount = this._tasks.length;
-			// And we also should inform the UI about this change.
-			this._updateNotification();
-		}
-	};
-
+	/**
+	 * This type represents a Task, and exposes methods to manipulate task state.
+	 *
+	 * @since 4.5.0
+	 * @class CKEDITOR.plugins.notificationaggregator
+	 * @constructor Creates a notification aggregator instance.
+	 * @param {CKEDITOR.plugins.notificationaggregator.Complex} aggregator Aggregator instance owning the
+	 * task.
+	 * @param {Number} weight
+	 */
 	function AggregatorTask( aggregator, weight ) {
 		this.aggregator = aggregator;
 		this._weight = weight;
@@ -419,6 +434,9 @@
 			}
 		},
 
+		/**
+		 * Cancels the task, removing it from the aggregator.
+		 */
 		cancel: function() {
 			this.aggregator._removeTask( this );
 		},

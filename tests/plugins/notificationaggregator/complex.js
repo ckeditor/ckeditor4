@@ -147,24 +147,6 @@
 
 		},
 
-		'test _removeTask subsequent': function() {
-			// Ensure that subsequent remove attempt for the same task won't result with an error.
-			var instance = new AggregatorComplex( this.editor ),
-				taskToRemove = this._getTaskMock( 0, 15 );
-
-			instance._updateNotification = sinon.spy();
-			instance._tasks = [
-				this._getTaskMock( 0, 10 ),
-				taskToRemove
-			];
-
-			instance._removeTask( taskToRemove );
-			// And the second call.
-			instance._removeTask( taskToRemove );
-
-			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
-		},
-
 		_getTaskMock: function( doneWeight, weight ) {
 			if ( typeof doneWeight != 'number' ) {
 				doneWeight = 0;
