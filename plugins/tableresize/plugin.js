@@ -389,9 +389,9 @@
 
 					// Make sure the table we found is inside the container
 					// (eg. we should not use tables the editor is embedded within)
-					if ( !editor.container.contains(table) )
+					if ( !editor.editable().contains( table ) ) {
 						return;
-
+					}
 
 					if ( !( pillars = table.getCustomData( '_cke_table_pillars' ) ) ) {
 						// Cache table pillars calculation result.
