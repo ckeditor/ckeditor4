@@ -923,7 +923,7 @@
 		onKeydown: function( evt ) {
 			var keyCode = evt.data.getKey();
 
-			// #12597
+			// The composition is in progress - ignore the key. (#12597)
 			if ( keyCode === 229 ) {
 				return;
 			}
