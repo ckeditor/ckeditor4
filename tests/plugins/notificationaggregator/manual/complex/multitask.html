@@ -13,8 +13,8 @@
 			var aggregator = new CKEDITOR.plugins.notificationaggregator.Complex( editor, 'Loading {current} of {max}... {percentage}%' ),
 				// Create 2 tasks.
 				tasks = [
-					aggregator.createTask( 10 ),
-					aggregator.createTask( 40 )
+					aggregator.createTask( { weight: 10 } ),
+					aggregator.createTask( { weight: 40 } )
 				];
 
 
