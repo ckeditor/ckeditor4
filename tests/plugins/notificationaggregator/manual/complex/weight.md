@@ -17,3 +17,5 @@
 
 
 Feel free to change the order of steeps 2-4
+
+**ProTip:** You can mess around with the tasks using console, (once aggregator is inited) they're in global ```tasks``` variable.

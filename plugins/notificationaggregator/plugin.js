@@ -304,14 +304,8 @@
 	 *
 	 * @param [options]
 	 * @param [options.weight=1]
-	 * @returns {Object} An object with a set of functions for updating the task state.
-	 * @returns {Function} return.done A function to be called once the task is done.
-	 * @returns {Function} return.update A function to be called to let aggregator know,
-	 * that the this single tash has made an progression.
-	 *
-	 * It takes a single parameter:
-	 *
-	 * * **weight** - Number - A number between `0` and `weight` given to the `createTask` method.
+	 * @returns {CKEDITOR.plugins.notificationaggregator.Task} An object that represents the task state, and allows
+	 * for it manipulation.
 	 */
 	AggregatorComplex.prototype.createTask = function( options ) {
 		// Override method only to set the default values if needed.
@@ -321,6 +315,10 @@
 		return Aggregator.prototype.createTask.call( this, options );
 	};
 
+	/**
+	 * @private
+	 * @returns {CKEDITOR.plugins.notificationaggregator.Task}
+	 */
 	AggregatorComplex.prototype._increaseTasks = function( options ) {
 		// _increaseTasks should return an Task instance.
 		var tasks = this._tasks,
@@ -330,12 +328,6 @@
 		return ret;
 	};
 
-	/**
-	 * Note: For an empty aggregator (without any tasks created) it will return 100.
-	 *
-	 * @param {Boolean} round If `true`, returned number will be rounded.
-	 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
-	 */
 	AggregatorComplex.prototype.getPercentage = function( rounded ) {
 		// In case there are no weights at all we'll return 100.
 		if ( this._tasks.length === 0 ) {
@@ -430,6 +422,11 @@
 			this.aggregator._removeTask( this );
 		},
 
+		/**
+		 * Checks if the task is done.
+		 *
+		 * @returns {Boolean}
+		 */
 		isDone: function() {
 			return this._weight === this._doneWeight;
 		}
