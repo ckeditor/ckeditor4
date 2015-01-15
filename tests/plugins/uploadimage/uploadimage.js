@@ -6,30 +6,30 @@
 'use strict';
 
 ( function() {
-	var editors, editorBots, uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
+	var uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		LOADING_IMG = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAA',
-		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC',
+		LOADED_IMG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC';
 
-		editorsDefinitions = {
-			classic: {
-				name: 'classic',
-				creator: 'replace',
-				config: {
-					extraPlugins: 'uploadimage,image',
-					removePlugins: 'image2',
-					imageUploadUrl: 'http://foo/upload'
-				}
-			},
-			inline: {
-				name: 'inline',
-				creator: 'inline',
-				config: {
-					extraPlugins: 'uploadimage,image2',
-					filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
-				}
+	bender.editors = {
+		classic: {
+			name: 'classic',
+			creator: 'replace',
+			config: {
+				extraPlugins: 'uploadimage,image',
+				removePlugins: 'image2',
+				imageUploadUrl: 'http://foo/upload'
 			}
-		};
+		},
+		inline: {
+			name: 'inline',
+			creator: 'inline',
+			config: {
+				extraPlugins: 'uploadimage,image2',
+				filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
+			}
+		}
+	};
 
 	function assertUploadingWidgets( editor, expectedSrc ) {
 		var widgets = editor.editable().find( 'img[data-widget="uploadimage"]' ),
@@ -44,7 +44,7 @@
 		}
 	}
 
-	var tests = {
+	bender.test( {
 		init: function() {
 			resumeAfter = bender.tools.resumeAfter;
 
@@ -71,14 +71,14 @@
 			uploadCount = 0;
 			loadAndUploadCount = 0;
 
-			for ( editorName in editors ) {
+			for ( editorName in this.editors ) {
 				// Clear uploads repository.
-				editors[ editorName ].uploadsRepository._.loaders = [];
+				this.editors[ editorName ].uploadsRepository._.loaders = [];
 			}
 		},
 
 		'test classic with image1 (integration test)': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
@@ -108,7 +108,7 @@
 		},
 
 		'test inline with image2 (integration test)': function() {
-			var editor = editors.inline;
+			var editor = this.editors.inline;
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
@@ -138,8 +138,8 @@
 		},
 
 		'test paste img as html (integration test)': function() {
-			var bot = editorBots.classic,
-				editor = editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
 			bot.setData( '', function() {
 				pasteFiles( editor, [], '<p>x<img src="' + bender.tools.pngBase64 + '">x</p>' );
@@ -171,7 +171,7 @@
 		},
 
 		'test supportedTypes png': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, LOADING_IMG );
@@ -183,7 +183,7 @@
 		},
 
 		'test supportedTypes jpg': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, LOADING_IMG );
@@ -195,7 +195,7 @@
 		},
 
 		'test supportedTypes gif': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function() {
 				assertUploadingWidgets( editor, LOADING_IMG );
@@ -207,8 +207,8 @@
 		},
 
 		'test not supportedTypes tiff': function() {
-			var bot = editorBots.classic,
-				editor = editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
 			bot.setData( '', function() {
 				resumeAfter( editor, 'paste', function() {
@@ -222,7 +222,7 @@
 		},
 
 		'test paste single image': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
@@ -243,7 +243,7 @@
 		},
 
 		'test paste nested image': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var imgs = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).find( 'img[data-widget="uploadimage"]' ),
@@ -270,7 +270,7 @@
 		},
 
 		'test paste no image': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				assert.areSame( 'foo', evt.data.dataValue );
@@ -288,7 +288,7 @@
 		},
 
 		'test paste no data in image': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
@@ -309,7 +309,7 @@
 		},
 
 		'test paste image already marked': function() {
-			var editor = editors.classic,
+			var editor = this.editors.classic,
 				uploads = editor.uploadsRepository;
 
 			resumeAfter( editor, 'paste', function( evt ) {
@@ -334,7 +334,7 @@
 		},
 
 		'test omit images in non contentEditable': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
@@ -358,7 +358,7 @@
 		},
 
 		'test handle images in nested editable': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
@@ -384,7 +384,7 @@
 		},
 
 		'test handle images in nested editable using cke-editable': function() {
-			var editor = editors.classic;
+			var editor = this.editors.classic;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).findOne( 'img' );
@@ -410,7 +410,7 @@
 		},
 
 		'test XSS attack': function() {
-			var editor = editors.inline;
+			var editor = this.editors.inline;
 
 			window.attacked = sinon.spy();
 
@@ -423,12 +423,5 @@
 				assert.areSame( 0, window.attacked.callCount );
 			}, 100 );
 		}
-	};
-
-	bender.tools.setUpEditors( editorsDefinitions, function( e, eB ) {
-		editors = e;
-		editorBots = eB;
-
-		bender.test( tests );
 	} );
 } )();
