@@ -543,11 +543,11 @@
 
 			for ( ; i < l; ++i ) {
 				if ( !isIgnored( node.getChild( i ) ) ) {
-					return !!( isReject ^ false );
+					return !!isReject;
 				}
 			}
 
-			return !!( isReject ^ true );
+			return !isReject;
 		};
 	};
 
