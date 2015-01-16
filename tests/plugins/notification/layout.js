@@ -40,7 +40,8 @@ bender.editor = {
 function createLayoutTest( mockValues, expected ) {
 	return function() {
 		var editor = this.editor,
-			area = editor.notificationArea;
+			area = editor.notificationArea,
+			body = CKEDITOR.document.getBody();
 
 		sinon.stub( editor.ui, 'space' ).withArgs( 'top' ).returns( {
 			getClientRect: function() {
@@ -79,6 +80,10 @@ function createLayoutTest( mockValues, expected ) {
 			},
 			on: function() {}
 		} );
+		sinon.stub( body, 'getDocumentPosition', function() {
+				return { x: 0, y: 0 };
+			} );
+		sinon.stub( CKEDITOR.document, 'getBody' ).returns( body );
 
 		sinon.stub( area.element, 'getClientRect' ).returns( {
 			height: 47
@@ -110,6 +115,7 @@ bender.test( {
 		editor.ui.contentsElement.getClientRect.restore();
 		editor.ui.contentsElement.getDocumentPosition.restore();
 		CKEDITOR.document.getWindow.restore();
+		CKEDITOR.document.getBody.restore();
 		editor.notificationArea.element.getClientRect.restore();
 
 		while ( notifications.length ) {
