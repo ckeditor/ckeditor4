@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#12825](http://dev.ckeditor.com/ticket/12825): Fixed: Preventing [Table Resize](http://ckeditor.com/addon/tableresize) plugin from operating on elements outside the editor. Thanks to [Paul Martin](https://github.com/Paul-Martin)!
 * [#12157](http://dev.ckeditor.com/ticket/12157): Fixed: Lost text formatting when pressing *Tab* when [`config.tabSpaces`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-tabSpaces) config option was greater than zero.
 * [#12777](http://dev.ckeditor.com/ticket/12777): Fixed: The `table-layout` CSS property should be reset by skins. Thanks to [vita10gy](https://github.com/vita10gy)!
 * [#12812](http://dev.ckeditor.com/ticket/12812): Fixed: A uncaught security exception is thrown when [lineutils](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.lineutils) are used in an inline editor loaded in a cross-domain iframe. Thanks to [Vitaliy Zurian](https://github.com/thecatontheflat)!
