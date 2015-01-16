@@ -10,7 +10,7 @@
 
 		function createAggregator() {
 			// Init notification aggregator.
-			var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading {current} of {max}... {percentage}%' ),
+			var aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading {current} of {max}... {percentage}%' ),
 				// Create 2 tasks.
 				tasks = [
 					aggregator.createTask( { weight: 10 } ),

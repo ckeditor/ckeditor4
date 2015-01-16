@@ -28,7 +28,7 @@
 	 * Simple usage case:
 	 *
 	 *		// Create new notification aggregator instance.
-	 *		var aggregator = new CKEDITOR.plugins.notificationaggregator( editor, 'Loading process, step {current} of {max}...' );
+	 *		var aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading process, step {current} of {max}...' );
 	 *
 	 *		// Create 3 tasks.
 	 *		var tasks = [
@@ -49,7 +49,7 @@
 	 *		window.setTimeout( tasks[ 2 ], 3000 );
 	 *
 	 * @since 4.5.0
-	 * @class CKEDITOR.plugins.notificationaggregator
+	 * @class CKEDITOR.plugins.notificationAggregator
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a notification aggregator instance.
 	 * @param {CKEDITOR.editor} editor
@@ -108,7 +108,7 @@
 		 *
 		 * @param [options] Options object for the task creation.
 		 * @param [options.weight=1]
-		 * @returns {CKEDITOR.plugins.notificationaggregator.task} An object that represents the task state, and allows
+		 * @returns {CKEDITOR.plugins.notificationAggregator.task} An object that represents the task state, and allows
 		 * for it manipulation.
 		 */
 		createTask: function( options ) {
@@ -219,7 +219,7 @@
 		 *
 		 * @private
 		 * @param options
-		 * @returns {CKEDITOR.plugins.notificationaggregator.task}
+		 * @returns {CKEDITOR.plugins.notificationAggregator.task}
 		 */
 		_increaseTasks: function( options ) {
 			// Provide a default value.
@@ -307,9 +307,9 @@
 	 * This type represents a Task, and exposes methods to manipulate task state.
 	 *
 	 * @since 4.5.0
-	 * @class CKEDITOR.plugins.notificationaggregator
+	 * @class CKEDITOR.plugins.notificationAggregator
 	 * @constructor Creates a notification aggregator instance.
-	 * @param {CKEDITOR.plugins.notificationaggregator} aggregator Aggregator instance owning the
+	 * @param {CKEDITOR.plugins.notificationAggregator} aggregator Aggregator instance owning the
 	 * task.
 	 * @param {Number} weight
 	 */
@@ -357,6 +357,6 @@
 	};
 
 	// Expose Aggregator type.
-	CKEDITOR.plugins.notificationaggregator = Aggregator;
-	CKEDITOR.plugins.notificationaggregator.Task = Task;
+	CKEDITOR.plugins.notificationAggregator = Aggregator;
+	CKEDITOR.plugins.notificationAggregator.task = Task;
 } )();

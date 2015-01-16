@@ -11,8 +11,8 @@
 	bender.test( {
 		setUp: function() {
 			// Assign types to more convenient variable.
-			Aggregator = CKEDITOR.plugins.notificationaggregator;
-			Task = Aggregator.Task;
+			Aggregator = CKEDITOR.plugins.notificationAggregator;
+			Task = Aggregator.task;
 			// We don't need real editor, just mock it.
 			this.editor = {};
 			// Aggregator mock.

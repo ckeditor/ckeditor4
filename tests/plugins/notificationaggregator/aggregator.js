@@ -19,8 +19,8 @@
 	bender.test( {
 		setUp: function() {
 			// Assign type to more convenient variable.
-			Aggregator = CKEDITOR.plugins.notificationaggregator;
-			Task = CKEDITOR.plugins.notificationaggregator.Task;
+			Aggregator = CKEDITOR.plugins.notificationAggregator;
+			Task = CKEDITOR.plugins.notificationAggregator.task;
 			// We don't need real editor, just mock it.
 			this.editor = {};
 			// We'll replace original notification type so we can track calls, and
@@ -31,7 +31,7 @@
 		},
 
 		'test exposes Aggregator type': function() {
-			assert.isInstanceOf( Function, CKEDITOR.plugins.notificationaggregator, 'Aggregator type is not exposed' );
+			assert.isInstanceOf( Function, CKEDITOR.plugins.notificationAggregator, 'Aggregator type is not exposed' );
 		},
 
 		'test constructor': function() {
