@@ -119,9 +119,7 @@
 
 			if ( initialTask ) {
 				// It's a first call.
-				this.notification = new CKEDITOR.plugins.notification( this.editor, {
-					type: 'progress'
-				} );
+				this.notification = this._createNotification();
 			}
 
 			ret = this._increaseTasks( options );
@@ -212,6 +210,17 @@
 				// All tasks loaded, loading is finished.
 				this._finish();
 			}
+		},
+
+		/**
+		 * Creates a notification object.
+		 *
+		 * @returns {CKEDITOR.plugins.notification}
+		 */
+		_createNotification: function() {
+			return new CKEDITOR.plugins.notification( this.editor, {
+				type: 'progress'
+			} );
 		},
 
 		/**

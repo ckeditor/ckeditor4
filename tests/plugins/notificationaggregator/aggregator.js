@@ -56,18 +56,20 @@
 
 		'test createTask creates a notification': function() {
 			// If aggregate has no tasks, it should create notification object in createTask method.
-			var aggr = new Aggregator( this.editor );
+			var aggr = new Aggregator( this.editor ),
+				notification = {
+					show: sinon.spy()
+				};
 			aggr._updateNotification = sinon.spy();
+			aggr._createNotification = sinon.stub().returns( notification );
 
 			aggr.createTask();
 
-			assert.areSame( 1, NotificationMock.callCount, 'Notification constructor call count' );
-			sinon.assert.calledWithExactly( NotificationMock, this.editor, {
-				type: 'progress'
-			} );
+			assert.areSame( 1, aggr._createNotification.callCount, '_createNotification call count' );
+			assert.areSame( notification, aggr.notification, 'notification property' );
 
 			// Ensure thad notification show was called.
-			sinon.assert.calledOnce( NotificationMock.lastCall.returnValue.show );
+			assert.areSame( 1, notification.show.callCount, 'notification show call count' );
 
 			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
 		},
@@ -313,6 +315,17 @@
 
 			assert.areSame( 0, instance._tasksCount, 'instance._tasksCount zeroed' );
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
+		},
+
+		'test _createNotification': function() {
+			var mock = {
+					editor: {},
+					_createNotification: Aggregator.prototype._createNotification
+				},
+				ret = mock._createNotification();
+
+			assert.areSame( 1, NotificationMock.callCount, 'Notification constructor call count' );
+			assert.isTrue( NotificationMock.returned( ret ), 'ret was returned by NotificationMock' );
 		},
 
 		_getTaskMock: function( doneWeight, weight ) {
