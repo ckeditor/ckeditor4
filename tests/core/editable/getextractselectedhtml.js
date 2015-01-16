@@ -7,7 +7,7 @@
 		allowedContent: true
 	};
 
-	var editors = {
+	bender.editors = {
 		inline: {
 			name: 'inline',
 			creator: 'inline',
@@ -33,19 +33,11 @@
 			}
 		},
 
-		'async:init': function() {
-			var that = this;
+		'init': function() {
+			this.editables = {};
 
-			bender.tools.setUpEditors( editors, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.editables = {};
-
-				for ( var e in editors )
-					that.editables[ e ] = editors[ e ].editable();
-
-				that.callback();
-			} );
+			for ( var e in this.editors )
+				this.editables[ e ] = this.editors[ e ].editable();
 		}
 	};
 
