@@ -1,4 +1,3 @@
-
 /**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -65,12 +64,28 @@
 		this.editor = editor;
 
 		/**
+		 * Notification created by the aggregator.
+		 *
+		 * Notification object is modified as aggregator tasks are being closed.
+		 *
+		 * @property {CKEDITOR.plugins.notification/null}
+		 */
+		this.notification = null,
+
+		/**
 		 * Array of unique numbers generated with {@link #createTask} calls. If an id is
 		 * removed from the array, then we consider it completed.
 		 *
 		 * @private
 		 */
 		this._tasks = [];
+
+		/**
+		 * Maximal count of tasks before {@link #finished} was called.
+		 *
+		 * @private
+		 */
+		this._tasksCount = 0;
 
 		/**
 		 * A template for the message.
@@ -81,35 +96,19 @@
 		 * * **max** - The maximal count of tasks.
 		 * * **percentage** - Percentage count.
 		 *
-		 * @type {CKEDITOR.template}
 		 * @private
+		 * @property {CKEDITOR.template}
 		 */
 		this._message = new CKEDITOR.template( String( message ) );
 	}
 
 	Aggregator.prototype = {
 		/**
-		 * Notification created by the aggregator.
-		 *
-		 * Notification object is modified as aggregator tasks are being closed.
-		 *
-		 * @type {CKEDITOR.plugins.notification/null}
-		 */
-		notification: null,
-
-		/**
-		 * Maximal count of tasks before {@link #finished} was called.
-		 *
-		 * @private
-		 */
-		_tasksCount: 0,
-
-		/**
 		 * Creates a new task that can be updated to indicate the progress.
 		 *
 		 * @param [options] Options object for the task creation.
 		 * @param [options.weight=1]
-		 * @returns {CKEDITOR.plugins.notificationaggregator.Task} An object that represents the task state, and allows
+		 * @returns {CKEDITOR.plugins.notificationaggregator.task} An object that represents the task state, and allows
 		 * for it manipulation.
 		 */
 		createTask: function( options ) {
@@ -220,7 +219,7 @@
 		 *
 		 * @private
 		 * @param options
-		 * @returns {CKEDITOR.plugins.notificationaggregator.Task}
+		 * @returns {CKEDITOR.plugins.notificationaggregator.task}
 		 */
 		_increaseTasks: function( options ) {
 			// Provide a default value.
