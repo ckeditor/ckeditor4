@@ -4,9 +4,10 @@
 
 ----
 
-**General note: ** Change your language to `Japanese` with input mode `Hiragana`.
+**General note:** Change your language to "Japanese" with input mode "Hiragana".
 
-1. Put caret at the end of `Apollo 11` sentence.
-2. Hit `Shift` + `Enter`.
-3. Type `a` letter twice.
-**Expected result** There should be two characters `あ` visible.
+1. Put caret at the end of "Apollo 11" sentence.
+2. Press *Shift+Enter*.
+3. Press letter "a" twice.
+
+**Expected result:** There should be two "あ" characters visible.
