@@ -117,7 +117,7 @@
 				this.notification = this._createNotification();
 			}
 
-			ret = this._increaseTasks( options );
+			ret = this._addTask( options );
 
 			// Update the contents.
 			this._updateNotification();
@@ -241,13 +241,14 @@
 		},
 
 		/**
-		 * Increases task count, and returns a callback for the created task entry.
+		 * Creates a {@link CKEDITOR.plugins.notificationAggregator.Task} instance based
+		 * on `options`, and adds it to tasks list.
 		 *
 		 * @private
-		 * @param options
+		 * @param options Options object coming from {@link #createTask} method.
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task}
 		 */
-		_increaseTasks: function( options ) {
+		_addTask: function( options ) {
 			var task = new Task( this, options.weight );
 			this._tasks.push( task );
 			return task;

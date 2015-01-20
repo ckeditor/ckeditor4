@@ -92,14 +92,14 @@
 				expectedCallback = function() {
 				},
 				ret;
-			aggr._increaseTasks = sinon.stub().returns( expectedCallback );
+			aggr._addTask = sinon.stub().returns( expectedCallback );
 			aggr._updateNotification = sinon.spy();
 
 			ret = aggr.createTask();
 
 			assert.areSame( expectedCallback, ret, 'Return value' );
 			// Ensure that methods was used.
-			sinon.assert.calledOnce( aggr._increaseTasks );
+			sinon.assert.calledOnce( aggr._addTask );
 		},
 
 		'test createTask default options.weight': function() {
@@ -109,13 +109,13 @@
 				inputOptions = {},
 				optionsArgument;
 
-			instance._increaseTasks = sinon.spy();
+			instance._addTask = sinon.spy();
 			instance._updateNotification = sinon.spy();
 
 			instance.createTask( inputOptions );
 
-			// Options object that was given to _increaseTasks method.
-			optionsArgument = instance._increaseTasks.args[ 0 ][ 0 ];
+			// Options object that was given to _addTask method.
+			optionsArgument = instance._addTask.args[ 0 ][ 0 ];
 
 			assert.areSame( 1, optionsArgument.weight, 'Default weight was assigned' );
 			assert.isUndefined( inputOptions.weight, 'Input object was not modified' );
@@ -178,9 +178,9 @@
 			assert.areSame( 2, instance.getTasksCount() );
 		},
 
-		'test _increaseTasks': function() {
+		'test _addTask': function() {
 			var instance = new Aggregator( this.editor ),
-				ret = instance._increaseTasks( { weight: 20 } );
+				ret = instance._addTask( { weight: 20 } );
 
 			assert.areSame( 1, instance._tasks.length, '_tasks array increased' );
 			assert.isInstanceOf( Task, ret, 'Return type' );
