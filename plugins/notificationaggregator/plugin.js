@@ -155,7 +155,7 @@
 		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this._getDoneTasks() === this.getTasksCount();
+			return this.getDoneTasks() === this.getTasksCount();
 		},
 
 		/**
@@ -164,6 +164,21 @@
 		finished: function() {
 			this.notification.hide();
 			this.notification = null;
+		},
+
+		/**
+		 * Returns the count of done tasks.
+		 *
+		 * @returns {Number}
+		 */
+		getDoneTasks: function() {
+			var ret = 0;
+			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+				if ( this._tasks[ i ].isDone() ) {
+					ret += 1;
+				}
+			}
+			return ret;
 		},
 
 		/**
@@ -198,7 +213,7 @@
 			var percentage = this.getPercentage( true ),
 				// Msg that we're going to put in notification.
 				msg = this._message.output( {
-					current: this._getDoneTasks(),
+					current: this.getDoneTasks(),
 					max: this.getTasksCount(),
 					percentage: percentage
 				} );
@@ -236,21 +251,6 @@
 			var task = new Task( this, options.weight );
 			this._tasks.push( task );
 			return task;
-		},
-
-		/**
-		 * Returns the count of done tasks.
-		 *
-		 * @returns {Number}
-		 */
-		_getDoneTasks: function() {
-			var ret = 0;
-			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
-				if ( this._tasks[ i ].isDone() ) {
-					ret += 1;
-				}
-			}
-			return ret;
 		},
 
 		/**

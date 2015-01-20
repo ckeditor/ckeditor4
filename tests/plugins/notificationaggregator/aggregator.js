@@ -154,21 +154,21 @@
 
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor );
-			instance._getDoneTasks = sinon.stub().returns( 2 );
+			instance.getDoneTasks = sinon.stub().returns( 2 );
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished falsy': function() {
 			var instance = new Aggregator( this.editor );
-			instance._getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasks = sinon.stub().returns( 1 );
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
 			var instance = new Aggregator( this.editor );
-			instance._getDoneTasks = sinon.stub().returns( 0 );
+			instance.getDoneTasks = sinon.stub().returns( 0 );
 			instance.getTasksCount = sinon.stub().returns( 0 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
@@ -199,7 +199,7 @@
 				};
 			instance._message.output = sinon.spy();
 			instance.getTasksCount = sinon.stub().returns( 4 );
-			instance._getDoneTasks = sinon.stub().returns( 3 );
+			instance.getDoneTasks = sinon.stub().returns( 3 );
 			instance.getPercentage = sinon.stub().returns( 75 );
 			instance.notification = new NotificationMock();
 
