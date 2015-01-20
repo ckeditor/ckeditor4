@@ -105,7 +105,9 @@
 		 * for it manipulation.
 		 */
 		createTask: function( options ) {
-			options = options || {};
+			options = CKEDITOR.tools.clone( options ) || {};
+			// Provide a default value.
+			options.weight = options.weight || 1;
 
 			var initialTask = !this.notification,
 				ret;
@@ -231,9 +233,6 @@
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task}
 		 */
 		_increaseTasks: function( options ) {
-			// Provide a default value.
-			options.weight = options.weight || 1;
-
 			var task = new Task( this, options.weight );
 			this._tasks.push( task );
 			return task;

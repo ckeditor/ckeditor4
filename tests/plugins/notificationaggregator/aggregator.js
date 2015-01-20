@@ -102,6 +102,25 @@
 			sinon.assert.calledOnce( aggr._increaseTasks );
 		},
 
+		'test createTask default options.weight': function() {
+			// Ensure that createTask will set a default value for options.weight.
+			// We'll also ensure that inputOptions was not modified.
+			var instance = new Aggregator( this.editor ),
+				inputOptions = {},
+				optionsArgument;
+
+			instance._increaseTasks = sinon.spy();
+			instance._updateNotification = sinon.spy();
+
+			instance.createTask( inputOptions );
+
+			// Options object that was given to _increaseTasks method.
+			optionsArgument = instance._increaseTasks.args[ 0 ][ 0 ];
+
+			assert.areSame( 1, optionsArgument.weight, 'Default weight was assigned' );
+			assert.isUndefined( inputOptions.weight, 'Input object was not modified' );
+		},
+
 		'test getPercentage rounded': function() {
 			var instance = new Aggregator( this.editor ),
 				ret;
@@ -169,13 +188,6 @@
 			assert.isInstanceOf( Task, ret, 'Return type' );
 			assert.areSame( ret, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
 			assert.areSame( 20, ret._weight );
-		},
-
-		'test _increaseTasks default value': function() {
-			var instance = new Aggregator( this.editor ),
-				ret = instance._increaseTasks( {} );
-
-			assert.areSame( 1, ret._weight );
 		},
 
 		'test _updateNotification template calls': function() {
