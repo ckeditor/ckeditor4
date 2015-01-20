@@ -35,7 +35,8 @@ var quirksTools = ( function() {
 				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
-			var db = decodeBoguses( expected );
+			// Old
+			//var db = decodeBoguses( expected );
 
 			// Old
 			//var htmlWithSelection = bender.tools.getHtmlWithSelection( editor.editable(), editor.document ).replace( /\u200b/g, '' );
@@ -43,7 +44,7 @@ var quirksTools = ( function() {
 			var htmlWithSelection2 = bender.tools.selection.getWithHtml( editor );
 			var message = '(' + keyNames[ key ] + ') Correct DOM state after the keystroke';
 
-			assert.isInnerHtmlMatching( db, htmlWithSelection2, message );
+			assert.isInnerHtmlMatching( expected, htmlWithSelection2, message );
 
 			// Old
 			//assert.areSame(
