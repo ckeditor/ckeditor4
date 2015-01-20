@@ -70,13 +70,20 @@
 					mode = newMode;
 				}
 
-				return function( show ) {
+				return function( evt ) {
 					// #10112 Do not fail on editable-less editor.
 					if ( !( editable = editor.editable() ) )
 						return;
 
+					var show = ( evt && evt.name == 'focus' );
+
 					// Show up the space on focus gain.
-					show && floatSpace.show();
+					if ( show ) {
+						floatSpace.show();
+					}
+
+
+					editor.fire( 'floatingSpaceLayout', { show: show } );
 
 					// Reset the horizontal position for below measurement.
 					floatSpace.removeStyle( 'left' );
@@ -98,7 +105,7 @@
 						mode = 'pin';
 						changeMode( 'pin' );
 						// Call for a refresh to the actual layout.
-						fireLayout( 1 );
+						layout( evt );
 						return;
 					}
 
@@ -265,15 +272,6 @@
 				};
 			} )();
 
-		function fireLayout( show ) {
-			editor.fire( 'floatingSpaceLayout', { show: show } );
-		}
-
-		editor.on( 'floatingSpaceLayout', function( evt ) {
-			var show = evt && evt.data && evt.data.show;
-			layout( show );
-		} );
-
 		if ( topHtml ) {
 			var floatSpaceTpl = new CKEDITOR.template(
 				'<div' +
@@ -303,8 +301,8 @@
 				} ) ) ),
 
 				// Use event buffers to reduce CPU load when tons of events are fired.
-				changeBuffer = CKEDITOR.tools.eventsBuffer( 500, fireLayout ),
-				uiBuffer = CKEDITOR.tools.eventsBuffer( 100, fireLayout );
+				changeBuffer = CKEDITOR.tools.eventsBuffer( 500, layout ),
+				uiBuffer = CKEDITOR.tools.eventsBuffer( 100, layout );
 
 			// There's no need for the floatSpace to be selectable.
 			floatSpace.unselectable();
@@ -316,8 +314,8 @@
 					evt.preventDefault();
 			} );
 
-			editor.on( 'focus', function() {
-				fireLayout( 1 );
+			editor.on( 'focus', function( evt ) {
+				layout( evt );
 				editor.on( 'change', changeBuffer.input );
 				win.on( 'scroll', uiBuffer.input );
 				win.on( 'resize', uiBuffer.input );
