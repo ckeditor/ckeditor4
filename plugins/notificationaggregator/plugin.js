@@ -119,14 +119,32 @@
 
 			ret = this._addTask( options );
 
-			// Update the contents.
-			this._updateNotification();
+			// Update the aggregator.
+			this.update();
 
 			if ( initialTask ) {
 				this.notification.show();
 			}
 
 			return ret;
+		},
+
+		/**
+		 * Triggers an update on aggregator, meaning that its UI will be refreshed.
+		 *
+		 * If aggregator is finished, then `finished` event will be fired.
+		 */
+		update: function() {
+			this._updateNotification();
+
+			if ( this.isFinished() ) {
+				// All tasks loaded, loading is finished.
+				this._reset();
+
+				if ( this.fire( 'finished', {}, this.editor ) !== false ) {
+					this.finished();
+				}
+			}
 		},
 
 		/**
@@ -189,21 +207,6 @@
 		},
 
 		/**
-		 * A private function that will inform public API about the finish event.
-		 *
-		 * @private
-		 */
-		_finish: function() {
-			this._reset();
-
-			var evt = this.fire( 'finished', {}, this.editor );
-
-			if ( evt !== false ) {
-				this.finished();
-			}
-		},
-
-		/**
 		 * Updates the notification. It also detects if all tasks are finished,
 		 * if so it will trigger finish procedure.
 		 *
@@ -222,11 +225,6 @@
 				message: msg,
 				progress: percentage / 100
 			} );
-
-			if ( this.isFinished() ) {
-				// All tasks loaded, loading is finished.
-				this._finish();
-			}
 		},
 
 		/**
@@ -274,7 +272,7 @@
 			if ( key !== -1 ) {
 				this._tasks.splice( key, 1 );
 				// And we also should inform the UI about this change.
-				this._updateNotification();
+				this.update();
 			}
 		},
 
@@ -333,7 +331,7 @@
 			// Note that newWeight can't be higher than _doneWeight.
 			this._doneWeight = Math.min( this._weight, weight );
 			// Aggregator UI needs to be updated.
-			this.aggregator._updateNotification();
+			this.aggregator.update();
 		},
 
 		/**

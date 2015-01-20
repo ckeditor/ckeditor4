@@ -17,7 +17,7 @@
 			this.editor = {};
 			// Aggregator mock.
 			this.aggregator = {
-				_updateNotification: sinon.spy()
+				update: sinon.spy()
 			};
 		},
 
@@ -36,7 +36,7 @@
 			assert.areSame( 200, instance._doneWeight, 'Invalid value in _doneWeight after second call' );
 
 			assert.areSame( 0, instance.done.callCount, 'instance.done was not called' );
-			assert.areSame( 2, instance.aggregator._updateNotification.callCount, 'instance.aggregator._updateNotification call count' );
+			assert.areSame( 2, instance.aggregator.update.callCount, 'instance.aggregator.update call count' );
 		},
 
 		'test update with too big weight': function() {

@@ -59,7 +59,7 @@
 				notification = {
 					show: sinon.spy()
 				};
-			aggr._updateNotification = sinon.spy();
+			aggr.update = sinon.spy();
 			aggr._createNotification = sinon.stub().returns( notification );
 
 			aggr.createTask();
@@ -70,7 +70,7 @@
 			// Ensure thad notification show was called.
 			assert.areSame( 1, notification.show.callCount, 'notification show call count' );
 
-			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 1, aggr.update.callCount, 'update call count' );
 		},
 
 		'test createTask reuses a notification when have tasks': function() {
@@ -79,12 +79,12 @@
 			aggr._tasks = [ 0 ];
 			// Create a dummy notification, so aggregate will think it have one.
 			aggr.notification = {};
-			aggr._updateNotification = sinon.spy();
+			aggr.update = sinon.spy();
 
 			aggr.createTask();
 
 			assert.areSame( 0, NotificationMock.callCount, 'Notification constructor call count' );
-			assert.areSame( 1, aggr._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 1, aggr.update.callCount, 'update call count' );
 		},
 
 		'test createTask return value': function() {
@@ -93,7 +93,7 @@
 				},
 				ret;
 			aggr._addTask = sinon.stub().returns( expectedCallback );
-			aggr._updateNotification = sinon.spy();
+			aggr.update = sinon.spy();
 
 			ret = aggr.createTask();
 
@@ -110,7 +110,7 @@
 				optionsArgument;
 
 			instance._addTask = sinon.spy();
-			instance._updateNotification = sinon.spy();
+			instance.update = sinon.spy();
 
 			instance.createTask( inputOptions );
 
@@ -188,6 +188,51 @@
 			assert.areSame( 20, ret._weight );
 		},
 
+		'test update': function() {
+			var instance = new Aggregator( this.editor );
+			instance.isFinished = sinon.stub().returns( false );
+			instance._updateNotification = sinon.spy();
+			instance._reset = sinon.spy();
+
+			instance.update();
+
+			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 0, instance._reset.callCount, '_reset was not called' );
+		},
+
+		'test update finished': function() {
+			var instance = new Aggregator( this.editor );
+			instance.isFinished = sinon.stub().returns( true );
+			instance._updateNotification = sinon.spy();
+			instance._reset = sinon.spy();
+			instance.fire = sinon.spy();
+			instance.finished = sinon.spy();
+
+			instance.update();
+
+			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
+			assert.areSame( 1, instance._reset.callCount, '_reset was not called' );
+
+			// Ensure that event was called.
+			sinon.assert.calledWithExactly( instance.fire, 'finished', {}, this.editor );
+
+			assert.areSame( 1, instance.finished.callCount, 'finished call count' );
+		},
+
+		'test update - cancel finished event': function() {
+			var instance = new Aggregator( this.editor );
+			instance.isFinished = sinon.stub().returns( true );
+			instance._updateNotification = sinon.spy();
+			instance._reset = sinon.spy();
+			instance.fire = sinon.stub().returns( false );
+			instance.finished = sinon.spy();
+
+			instance.update();
+
+			// Method finished should not be called.
+			assert.areSame( 0, instance.finished.callCount, 'finished call count' );
+		},
+
 		'test _updateNotification template calls': function() {
 			var instance = new Aggregator( this.editor ),
 				expectedParams = {
@@ -227,60 +272,17 @@
 			assert.areSame( 1, instance.notification.update.callCount, 'notification.update call count' );
 		},
 
-		'test _updateNotification finished': function() {
-			// When there are no more tasks, notification should be considered as finished.
-			var instance = new Aggregator( this.editor );
-			instance.notification = new NotificationMock();
-			instance._finish = sinon.spy();
-			instance.isFinished = sinon.stub().returns( true );
-
-			instance._updateNotification();
-
-			assert.areSame( 1, instance._finish.callCount, 'notification.finished call count' );
-		},
-
-		'test _finish': function() {
-			var editor = this.editor,
-				instance = new Aggregator( editor ),
-				finishedListener = sinon.spy( function( evt ) {
-					assert.areSame( editor, evt.editor, 'Correct editor assinged to the event' );
-				} );
-
-			instance._reset = sinon.spy();
-			instance.finished = sinon.spy();
-			instance.on( 'finished', finishedListener );
-
-			instance._finish();
-
-			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
-			assert.areSame( 1, instance.finished.callCount, 'instance.finished call count' );
-			assert.areSame( 1, finishedListener.callCount, 'finished listener call count' );
-		},
-
-		'test _finish canceling event': function() {
-			var instance = new Aggregator( this.editor );
-
-			instance.finished = sinon.spy();
-			instance.on( 'finished', function( evt ) {
-				evt.cancel();
-			} );
-
-			instance._finish();
-
-			assert.areSame( 0, instance.finished.callCount, 'instance.finished was not called' );
-		},
-
 		'test _removeTask': function() {
 			var instance = new Aggregator( this.editor );
 
-			instance._updateNotification = sinon.spy();
+			instance.update = sinon.spy();
 			instance._tasks = [ 1, 2, 3 ];
 
 			instance._removeTask( 2 );
 
 			assert.areSame( 2, instance._tasks.length, 'instance._tasks length' );
 			arrayAssert.itemsAreSame( [ 1, 3 ], instance._tasks );
-			assert.areSame( 1, instance._updateNotification.callCount, 'instance._updateNotification call count' );
+			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
 
 		},
 
@@ -288,7 +290,7 @@
 			// Ensure that subsequent remove attempt for the same task won't result with an error.
 			var instance = new Aggregator( this.editor );
 
-			instance._updateNotification = sinon.spy();
+			instance.update = sinon.spy();
 			instance._tasks = [ 1, 2 ];
 
 			instance._removeTask( 1 );
