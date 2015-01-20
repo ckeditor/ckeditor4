@@ -137,7 +137,7 @@
 		 */
 		getPercentage: function( rounded ) {
 			// In case there are no weights at all we'll return 100.
-			if ( this._tasks.length === 0 ) {
+			if ( this.getTasksCount() === 0 ) {
 				return 100;
 			}
 

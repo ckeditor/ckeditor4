@@ -122,24 +122,22 @@
 		},
 
 		'test getPercentage rounded': function() {
-			var instance = new Aggregator( this.editor ),
-				ret;
+			var instance = new Aggregator( this.editor );
 
-			instance._tasks = [ this._getTaskMock( 123.45, 1000 ) ];
 			instance._getDoneWeights = sinon.stub().returns( 123.45 );
 			instance._getWeights = sinon.stub().returns( 1000 );
+			instance.getTasksCount = sinon.stub().returns( 1 );
 
-			ret = instance.getPercentage( true );
-
-			assert.areSame( 12, ret, 'Invalid return value' );
+			assert.areSame( 12, instance.getPercentage( true ), 'Invalid return value' );
 		},
 
 		'test getPercentage empty': function() {
 			// Ensure that nothing bad happens if htere are no weights at all.
-			var instance = new Aggregator( this.editor ),
-				ret = instance.getPercentage();
+			var instance = new Aggregator( this.editor );
 
-			assert.areSame( 100, ret, 'Invalid return value' );
+			instance.getTasksCount = sinon.stub().returns( 0 );
+
+			assert.areSame( 100, instance.getPercentage(), 'Invalid return value' );
 		},
 
 		'test finished': function() {
