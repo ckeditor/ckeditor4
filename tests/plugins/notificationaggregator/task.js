@@ -39,19 +39,6 @@
 			assert.areSame( 2, instance.aggregator._updateNotification.callCount, 'instance.aggregator._updateNotification call count' );
 		},
 
-		'test update with full weight': function() {
-			// Here we'll call update with a full weight, that should result with callind done() method.
-			var instance = new Task( this.aggregator, 200 );
-
-			// ALright we have task object, before moving forward lets replace done method with a spy.
-			instance.done = sinon.spy();
-
-			instance.update( 200 );
-
-			assert.areSame( 200, instance._doneWeight, 'instance._doneWeight' );
-			assert.areSame( 1, instance.done.callCount, 'instance.done call count' );
-		},
-
 		'test update with too big weight': function() {
 			// If a task is created with maximal weight of 200, we need to ensure that if developer
 			// calls ret.update( 201 ) it will update the _doneWeights entry will be updated to the
@@ -64,11 +51,16 @@
 		},
 
 		'test done': function() {
-			var instance = new Task( this.aggregator, 300 );
+			// Method done() should simply call update method with _weight property as an argument.
+			var instance = new Task( this.aggregator );
+
+			instance._weight = 200;
+			instance.update = sinon.spy();
 
 			instance.done();
 
-			assert.areSame( 300, instance._doneWeight, 'Invalid value in _doneWeight' );
+			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
+			sinon.assert.calledWithExactly( instance.update, 200 );
 		},
 
 		'test isDone': function() {

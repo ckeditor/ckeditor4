@@ -331,21 +331,14 @@
 
 	Task.prototype = {
 		done: function() {
-			this._doneWeight = this._weight;
-			this.aggregator._updateNotification();
+			this.update( this._weight );
 		},
 
 		update: function( weight ) {
 			// Note that newWeight can't be higher than _doneWeight.
 			this._doneWeight = Math.min( this._weight, weight );
-
-			if ( this.isDone() ) {
-				this.done();
-			} else {
-				// In other case we want to update notification.
-				// We don't have to do that in case above, because done() will call it.
-				this.aggregator._updateNotification();
-			}
+			// Aggregator UI needs to be updated.
+			this.aggregator._updateNotification();
 		},
 
 		/**
