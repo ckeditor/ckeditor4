@@ -10,10 +10,12 @@ CKEDITOR.plugins.add( 'notification', {
 		/**
 		 * {@link CKEDITOR.plugins.notification.area Notification area} instance.
 		 *
+		 * @since 4.5
+		 * @private
 		 * @member CKEDITOR.editor
 		 * @property {CKEDITOR.plugins.notification.area} notificationArea
 		 */
-		editor.notificationArea = new CKEDITOR.plugins.notification.area( editor );
+		editor.notificationArea = new area( editor );
 
 		/**
 		 * Create and show the notification. By default the notification is shown over the editors contents, in the
@@ -422,6 +424,7 @@ notification.prototype = {
  *
  * @since 4.5
  * @class CKEDITOR.plugins.notification.area
+ * @private
  * @constructor
  * @param {CKEDITOR.editor} editor The editor instance.
  */
@@ -830,7 +833,6 @@ area.prototype = {
 };
 
 CKEDITOR.plugins.notification = notification;
-CKEDITOR.plugins.notification.area = area;
 
 /**
  * How many milliseconds after the `change` event `info` and `success` notifications should be closed automatically.
