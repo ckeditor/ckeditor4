@@ -794,10 +794,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			while ( element ) {
 				if ( element.data( 'cke-editable' ) ) {
 					return false;
-				} else if ( element.getAttribute( 'contentEditable' ) == 'false' ) {
-					return true;
-				} else if ( element.getAttribute( 'contentEditable' ) == 'true' ) {
-					return false;
+				} else if ( element.hasAttribute( 'contenteditable' ) ) {
+					return element.getAttribute( 'contenteditable' ) == 'false';
 				}
 
 				element = element.getParent();

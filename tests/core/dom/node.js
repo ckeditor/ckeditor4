@@ -227,25 +227,31 @@
 			assert.isFalse( target.getFirst().isReadOnly(), 'Element marked as "cke-editable" is not ready-only.' );
 		},
 
-		'test isReadOnly - hidden div is isReadOnly': function() {
+		'test isReadOnly - div is isReadOnly (attrs check)': function() {
 			var el = newElement( 'div' );
 
 			assert.isTrue( el.isReadOnly( 1 ) );
 		},
 
-		'test isReadOnly - hidden div with data-cke-editable is not isReadOnly': function() {
+		'test isReadOnly - div with data-cke-editable is not isReadOnly (attrs check)': function() {
 			var el = newElement( 'div' );
 			el.data( 'cke-editable', 1 );
 
 			assert.isFalse( el.isReadOnly( 1 ) );
 		},
 
-		'test isReadOnly - hidden div contenteditable="false" child is isReadOnly': function() {
+		'test isReadOnly - div contenteditable="false" child is isReadOnly (attrs check)': function() {
 			var el = newElement( 'div' );
-			el.data( 'cke-editable', 1 );
 
 			el.setHtml( '<div contenteditable="false"><p>foo</p></div>' );
 			assert.isTrue( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div contenteditable="true" child is not isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			el.setHtml( '<div contenteditable="true"><p>foo</p></div>' );
+			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
 		},
 
 		test_appendTo: function() {
