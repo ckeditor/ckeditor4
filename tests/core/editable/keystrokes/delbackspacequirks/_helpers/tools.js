@@ -44,7 +44,12 @@ var quirksTools = ( function() {
 			var htmlWithSelection2 = bender.tools.selection.getWithHtml( editor );
 			var message = '(' + keyNames[ key ] + ') Correct DOM state after the keystroke';
 
-			assert.isInnerHtmlMatching( expected, htmlWithSelection2, message );
+			assert.isInnerHtmlMatching(
+				expected,
+				htmlWithSelection2,
+				{ compareSelection: true, normalizeSelection: true },
+				message
+			);
 
 			// Old
 			//assert.areSame(
