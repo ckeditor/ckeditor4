@@ -81,13 +81,6 @@
 		this._tasks = [];
 
 		/**
-		 * Maximal count of tasks before {@link #finished} was called.
-		 *
-		 * @private
-		 */
-		this._tasksCount = 0;
-
-		/**
 		 * A template for the message.
 		 *
 		 * Template can use following variables:
@@ -160,7 +153,7 @@
 		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this._getDoneTasks() === this._tasksCount;
+			return this._getDoneTasks() === this.getTasksCount();
 		},
 
 		/**
@@ -169,6 +162,13 @@
 		finished: function() {
 			this.notification.hide();
 			this.notification = null;
+		},
+
+		/**
+		 * @returns {Number} Returns a total tasks count.
+		 */
+		getTasksCount: function() {
+			return this._tasks.length;
 		},
 
 		/**
@@ -197,7 +197,7 @@
 				// Msg that we're going to put in notification.
 				msg = this._message.output( {
 					current: this._getDoneTasks(),
-					max: this._tasksCount,
+					max: this.getTasksCount(),
 					percentage: percentage
 				} );
 
@@ -235,10 +235,7 @@
 			options.weight = options.weight || 1;
 
 			var task = new Task( this, options.weight );
-
 			this._tasks.push( task );
-			this._tasksCount = this._tasks.length;
-
 			return task;
 		},
 
@@ -263,7 +260,6 @@
 		 * @private
 		 */
 		_reset: function() {
-			this._tasksCount = 0;
 			this._tasks = [];
 		},
 
@@ -277,7 +273,6 @@
 
 			if ( key !== -1 ) {
 				this._tasks.splice( key, 1 );
-				this._tasksCount = this._tasks.length;
 				// And we also should inform the UI about this change.
 				this._updateNotification();
 			}

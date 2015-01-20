@@ -40,7 +40,6 @@
 
 			assert.areSame( this.editor, aggr.editor, 'Correct editor is stored' );
 			assert.isInstanceOf( Array, aggr._tasks, 'Created valid _tasks property' );
-			assert.areSame( 0, aggr._tasksCount, 'Initial _tasksCount value' );
 
 			assert.isInstanceOf( CKEDITOR.template, aggr._message, '_message property type' );
 		},
@@ -137,22 +136,29 @@
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor );
 			instance._getDoneTasks = sinon.stub().returns( 2 );
-			instance._tasksCount = 2;
+			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished falsy': function() {
 			var instance = new Aggregator( this.editor );
 			instance._getDoneTasks = sinon.stub().returns( 1 );
-			instance._tasksCount = 2;
+			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
 			var instance = new Aggregator( this.editor );
 			instance._getDoneTasks = sinon.stub().returns( 0 );
-			instance._tasksCount = 0;
+			instance.getTasksCount = sinon.stub().returns( 0 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
+		},
+
+		'test getTasksCount': function() {
+			var instance = new Aggregator( this.editor );
+			instance._tasks = [ 0, 0 ];
+
+			assert.areSame( 2, instance.getTasksCount() );
 		},
 
 		'test _increaseTasks': function() {
@@ -162,7 +168,6 @@
 			assert.areSame( 1, instance._tasks.length, '_tasks array increased' );
 			assert.isInstanceOf( Task, ret, 'Return type' );
 			assert.areSame( ret, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
-			assert.areSame( 1, instance._tasksCount, '_tasksCount increased' );
 			assert.areSame( 20, ret._weight );
 		},
 
@@ -181,7 +186,7 @@
 					percentage: 75
 				};
 			instance._message.output = sinon.spy();
-			instance._tasksCount = 4;
+			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance._getDoneTasks = sinon.stub().returns( 3 );
 			instance.getPercentage = sinon.stub().returns( 75 );
 			instance.notification = new NotificationMock();
@@ -197,7 +202,7 @@
 		'test _updateNotification notification call': function() {
 			var instance = new Aggregator( this.editor );
 			instance._message.output = sinon.stub().returns( 'foo' );
-			instance._tasksCount = 4;
+			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance.getPercentage = sinon.stub().returns( 25 );
 			instance.notification = new NotificationMock();
 
@@ -259,12 +264,10 @@
 
 			instance._updateNotification = sinon.spy();
 			instance._tasks = [ 1, 2, 3 ];
-			instance._tasksCount = 3;
 
 			instance._removeTask( 2 );
 
 			assert.areSame( 2, instance._tasks.length, 'instance._tasks length' );
-			assert.areSame( 2, instance._tasksCount, 'instance._tasksCount updated' );
 			arrayAssert.itemsAreSame( [ 1, 3 ], instance._tasks );
 			assert.areSame( 1, instance._updateNotification.callCount, 'instance._updateNotification call count' );
 
@@ -309,11 +312,9 @@
 		'test _reset': function() {
 			var instance = new Aggregator( this.editor );
 			instance._tasks = [ 1, 2 ];
-			instance._tasksCount = 3;
 
 			instance._reset();
 
-			assert.areSame( 0, instance._tasksCount, 'instance._tasksCount zeroed' );
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
 		},
 
