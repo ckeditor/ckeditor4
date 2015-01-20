@@ -15,7 +15,7 @@ var quirksTools = ( function() {
 		normalizeSelection = ( normalizeSelection === false ) ? false : true;
 
 		function decodeBoguses( html ) {
-			return html.replace( /@/g, '<br />' );
+			return html.replace( /@/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' );
 		}
 
 		return function() {
@@ -25,7 +25,6 @@ var quirksTools = ( function() {
 
 			html = decodeBoguses( html );
 
-			//bot.htmlWithSelection( html );
 			bender.tools.selection.setWithHtml( editor, html );
 
 			var listener = editor.on( 'key', function() {
@@ -38,28 +37,16 @@ var quirksTools = ( function() {
 				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
-			// Old
-			//var db = decodeBoguses( expected );
-
-			// Old
-			//var htmlWithSelection = bender.tools.getHtmlWithSelection( editor.editable(), editor.document ).replace( /\u200b/g, '' );
-
-			var htmlWithSelection2 = bender.tools.selection.getWithHtml( editor );
+			var htmlWithSelection = bender.tools.selection.getWithHtml( editor );
 			var message = '(' + keyNames[ key ] + ') Correct DOM state after the keystroke';
 
 			assert.isInnerHtmlMatching(
 				expected,
-				htmlWithSelection2,
+				htmlWithSelection,
 				{ compareSelection: true, normalizeSelection: normalizeSelection },
 				message
 			);
 
-			// Old
-			//assert.areSame(
-			//	db,
-			//	htmlWithSelection,
-			//	message
-			//);
 			assert.areSame( handled, handledNatively, '(' + keyNames[ key ] + ') Keystroke handled by the browser' );
 
 			listener.removeListener();
