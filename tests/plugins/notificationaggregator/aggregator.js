@@ -212,6 +212,7 @@
 		'test _updateNotification notification call': function() {
 			var instance = new Aggregator( this.editor );
 			instance._message.output = sinon.stub().returns( 'foo' );
+			instance.getDoneTasks = sinon.stub().returns( 1 );
 			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance.getPercentage = sinon.stub().returns( 25 );
 			instance.notification = new NotificationMock();
@@ -304,6 +305,7 @@
 				this._getTaskMock( 0, 10 ),
 				this._getTaskMock( 0, 15 )
 			];
+			instance.getTasksCount = sinon.stub().returns( 2 );
 
 			assert.areSame( 25, instance._getWeights(), 'Invalid return value' );
 		},
@@ -315,6 +317,7 @@
 				this._getTaskMock( 10, 15 ),
 				this._getTaskMock( 15, 15 )
 			];
+			instance.getTasksCount = sinon.stub().returns( 2 );
 
 			assert.areSame( 25, instance._getDoneWeights(), 'Invalid return value' );
 		},

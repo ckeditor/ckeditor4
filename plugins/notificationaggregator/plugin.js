@@ -173,7 +173,7 @@
 		 */
 		getDoneTasks: function() {
 			var ret = 0;
-			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
 				if ( this._tasks[ i ].isDone() ) {
 					ret += 1;
 				}
@@ -284,7 +284,7 @@
 		 */
 		_getDoneWeights: function() {
 			var ret = 0;
-			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
 				ret += this._tasks[ i ]._doneWeight;
 			}
 			return ret;
@@ -297,7 +297,7 @@
 		 */
 		_getWeights: function() {
 			var ret = 0;
-			for ( var i = this._tasks.length - 1; i >= 0; i-- ) {
+			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
 				ret += this._tasks[ i ]._weight;
 			}
 			return ret;
