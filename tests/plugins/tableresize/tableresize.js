@@ -93,6 +93,10 @@ bender.editors = {
 	inline: {
 		name: 'inline',
 		creator: 'inline'
+	},
+	intable: {
+		name: 'intable',
+		creator: 'inline'
 	}
 };
 
@@ -170,5 +174,17 @@ bender.test( {
 		} );
 
 		wait();
+	},
+
+	'test preventing creating pillars on tables out of editor': function() {
+		var editor = this.editors.intable,
+			wrapperTable = editor.editable().getAscendant( 'table' );
+
+		var evt = new CKEDITOR.dom.event( {
+			target: editor.editable().findOne( 'h1' ).$
+		} );
+		editor.editable().fire( 'mousemove', evt );
+
+		assert.isNull( wrapperTable.getCustomData( '_cke_table_pillars' ) );
 	}
 } );
