@@ -36,7 +36,7 @@
 			this.editorBot.setData( '', function() {
 				editor.resetUndo();
 
-				b( '<p>x</p><p>[]y</p>', '<p>x[]y</p>' ).call( tc );
+				b( '<p>x</p><p>^y</p>', '<p>x^y</p>' ).call( tc );
 
 				editor.execCommand( 'undo' );
 				assert.areSame( '<p>x</p><p>y</p>', editor.getData(), 'after 1st undo' );
@@ -106,9 +106,9 @@
 
 		// Boguses.
 		'test backspace, bogus #1':		b( '<p>@</p><p>^y</p>',											'<p>^y</p>' ),
-		'test backspace, bogus #2':		b( '<p>@</p><p>^@</p>',											'<p>^@</p>' ),
-		'test backspace, bogus #3':		b( '<p>x</p><p>^@</p>',											'<p>x^@</p>' ),
-		'test backspace, bogus #4':		b( '<p><br>@</p><p>^@</p>',										'<p><br />^@</p>' ),
+		'test backspace, bogus #2':		b( '<p>@</p><p>^@</p>',											'<p>^@!</p>' ),
+		'test backspace, bogus #3':		b( '<p>x</p><p>^@</p>',											'<p>x^@!</p>' ),
+		'test backspace, bogus #4':		b( '<p><br>@</p><p>^@</p>',										'<p><br />^@!</p>' ),
 
 		// False positives. Some of them are buggy, but it's a different case e.g. not merging blocks.
 		'test backspace, no action #1':	bf( '<p>x</p><p>y^y</p>' ),
@@ -156,10 +156,10 @@
 		'test delete, merge #4':			d( '<p><em>x^</em></p><div><p><em>y</em></p><p>z</p></div>',		'<p><em>x^y</em></p><div><p>z</p></div>' ),
 
 		// Boguses.
-		'test delete, bogus #1':			d( '<p>x^</p><p>@</p>',												'<p>x^@</p>' ),
-		'test delete, bogus #2':			d( '<p>@^</p><p>@</p>',												'<p>^@</p>' ),
+		'test delete, bogus #1':			d( '<p>x^</p><p>@</p>',												'<p>x^@!</p>' ),
+		'test delete, bogus #2':			d( '<p>@^</p><p>@</p>',												'<p>^@!</p>' ),
 		'test delete, bogus #3':			d( '<p>^@</p><p>x</p>',												'<p>^x</p>' ),
-		'test delete, bogus #4':			d( '<p>^@</p><p><br>@</p>',											'<p>^<br />@</p>' ),
+		'test delete, bogus #4':			d( '<p>^@</p><p><br>@</p>',											'<p>^<br />@!</p>' ),
 
 		// False positives. Some of them are buggy, but it's a different case e.g. not merging blocks.
 		'test delete, no action #1':		df( '<p>x^x</p><p>y</p>' ),
