@@ -35,8 +35,22 @@ var quirksTools = ( function() {
 				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
-			assert.areSame( decodeBoguses( expected ),
-				bender.tools.getHtmlWithSelection( editor.editable(), editor.document ).replace( /\u200b/g, '' ), '(' + keyNames[ key ] + ') Correct DOM state after the keystroke' );
+			var db = decodeBoguses( expected );
+
+			// Old
+			//var htmlWithSelection = bender.tools.getHtmlWithSelection( editor.editable(), editor.document ).replace( /\u200b/g, '' );
+
+			var htmlWithSelection2 = bender.tools.selection.getWithHtml( editor );
+			var message = '(' + keyNames[ key ] + ') Correct DOM state after the keystroke';
+
+			assert.isInnerHtmlMatching( db, htmlWithSelection2, message );
+
+			// Old
+			//assert.areSame(
+			//	db,
+			//	htmlWithSelection,
+			//	message
+			//);
 			assert.areSame( handled, handledNatively, '(' + keyNames[ key ] + ') Keystroke handled by the browser' );
 
 			listener.removeListener();

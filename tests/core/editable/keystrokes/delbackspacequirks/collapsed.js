@@ -36,7 +36,7 @@
 			this.editorBot.setData( '', function() {
 				editor.resetUndo();
 
-				b( '<p>x</p><p>^y</p>', '<p>x^y</p>' ).call( tc );
+				b( '<p>x</p><p>[]y</p>', '<p>x[]y</p>' ).call( tc );
 
 				editor.execCommand( 'undo' );
 				assert.areSame( '<p>x</p><p>y</p>', editor.getData(), 'after 1st undo' );
