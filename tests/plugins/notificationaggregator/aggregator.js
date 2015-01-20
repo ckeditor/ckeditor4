@@ -131,7 +131,7 @@
 
 			instance.finished();
 
-			assert.areSame( 1, notif.hide.callCount, 'notification.update call count' );
+			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
 		},
 
 		'test isFinished': function() {
