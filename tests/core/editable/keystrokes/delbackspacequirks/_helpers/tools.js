@@ -11,7 +11,9 @@ var quirksTools = ( function() {
 			8: 'BACKSPACE'
 		};
 
-	function assertKeystroke( key, keyModifiers, handled, html, expected ) {
+	function assertKeystroke( key, keyModifiers, handled, html, expected, normalizeSelection ) {
+		normalizeSelection = ( normalizeSelection === false ) ? false : true;
+
 		function decodeBoguses( html ) {
 			return html.replace( /@/g, '<br />' );
 		}
@@ -23,7 +25,8 @@ var quirksTools = ( function() {
 
 			html = decodeBoguses( html );
 
-			bot.htmlWithSelection( html );
+			//bot.htmlWithSelection( html );
+			bender.tools.selection.setWithHtml( editor, html );
 
 			var listener = editor.on( 'key', function() {
 				++handledNatively;
@@ -47,7 +50,7 @@ var quirksTools = ( function() {
 			assert.isInnerHtmlMatching(
 				expected,
 				htmlWithSelection2,
-				{ compareSelection: true, normalizeSelection: true },
+				{ compareSelection: true, normalizeSelection: normalizeSelection },
 				message
 			);
 
@@ -72,11 +75,11 @@ var quirksTools = ( function() {
 	}
 
 	function bf( html ) {
-		return assertKeystroke.apply( this, [ BACKSPACE, 0, 1, html, html ] );
+		return assertKeystroke.apply( this, [ BACKSPACE, 0, 1, html, html, false ] );
 	}
 
 	function df( html ) {
-		return assertKeystroke.apply( this, [ DEL, 0, 1, html, html ] );
+		return assertKeystroke.apply( this, [ DEL, 0, 1, html, html, false ] );
 	}
 
 	return {
