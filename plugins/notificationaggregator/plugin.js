@@ -53,10 +53,12 @@
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a notification aggregator instance.
 	 * @param {CKEDITOR.editor} editor
-	 * @param {String} message A template of message to be displayed in notification, for template parameters
+	 * @param {String} message A template for message to be displayed in notification, for template parameters
 	 * see {@link #_message}.
+	 * @param {String} singularMessage A template for message to be displayed in notification when there's only
+	 * one task remaining. See {@link #_singularMessage}.
 	 */
-	function Aggregator( editor, message ) {
+	function Aggregator( editor, message, singularMessage ) {
 		/**
 		 * @readonly
 		 * @property {CKEDITOR.editor} editor
@@ -81,7 +83,7 @@
 		this._tasks = [];
 
 		/**
-		 * A template for the message.
+		 * A template for the notification message.
 		 *
 		 * Template can use following variables:
 		 *
@@ -93,6 +95,24 @@
 		 * @property {CKEDITOR.template}
 		 */
 		this._message = new CKEDITOR.template( String( message ) );
+
+		/**
+		 * A template for the notification message if only one task is loading.
+		 *
+		 * Sometimes there might be a need to specify special message when there
+		 * is only one task loading, and the standard messages in other cases.
+		 *
+		 * Eg. you might want show a message "Translating a widget" rather than
+		 * "Translating widgets (1 of 1)", but still you would want to have a message
+		 * "Translating widgets (2 of 3)" if more widgets are translated at the same
+		 * time.
+		 *
+		 * Template variables are the same as in {@link #_message}.
+		 *
+		 * @private
+		 * @property {CKEDITOR.template/null}
+		 */
+		this._singularMessage = singularMessage ? new CKEDITOR.template( singularMessage ) : null;
 	}
 
 	Aggregator.prototype = {
@@ -213,17 +233,45 @@
 		 * @private
 		 */
 		_updateNotification: function() {
-			var percentage = this.getPercentage( true ),
-				// Msg that we're going to put in notification.
-				msg = this._message.output( {
-					current: this.getDoneTasks(),
-					max: this.getTasksCount(),
-					percentage: percentage
-				} );
+			//var percentage = this.getPercentage( true ),
+			//	// Msg that we're going to put in notification.
+			//	msg = this._message.output( {
+			//		current: this.getDoneTasks(),
+			//		max: this.getTasksCount(),
+			//		percentage: percentage
+			//	} );
 
 			this.notification.update( {
-				message: msg,
-				progress: percentage / 100
+				message: this._getNotificationMessage(),
+				progress: this.getPercentage( true ) / 100
+			} );
+		},
+
+		/**
+		 * Returns a message used in the notification.
+		 *
+		 * @private
+		 * @returns {String}
+		 */
+		_getNotificationMessage: function() {
+			var tasksCount = this.getTasksCount(),
+				doneTasks = this.getDoneTasks(),
+				remainingTasks = tasksCount - doneTasks,
+				percentage = this.getPercentage( true ),
+				template;
+
+			// If there's only one remaining task and we have a singular message,
+			// we should use it.
+			if ( remainingTasks === 1 && this._singularMessage ) {
+				template = this._singularMessage;
+			} else {
+				template = this._message;
+			}
+
+			return template.output( {
+				current: doneTasks,
+				max: tasksCount,
+				percentage: percentage
 			} );
 		},
 

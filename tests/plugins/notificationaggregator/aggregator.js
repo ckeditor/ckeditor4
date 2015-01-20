@@ -35,13 +35,23 @@
 		},
 
 		'test constructor': function() {
-			var notifConfig = {},
-				aggr = new Aggregator( this.editor, notifConfig );
+			var aggr = new Aggregator( this.editor, 'msg', 'single msg' );
 
 			assert.areSame( this.editor, aggr.editor, 'Correct editor is stored' );
 			assert.isInstanceOf( Array, aggr._tasks, 'Created valid _tasks property' );
 
 			assert.isInstanceOf( CKEDITOR.template, aggr._message, '_message property type' );
+			assert.isInstanceOf( CKEDITOR.template, aggr._singularMessage, '_singularMessage property type' );
+
+			// Test message values.
+			assert.areSame( 'msg', aggr._message.output() );
+			assert.areSame( 'single msg', aggr._singularMessage.output() );
+		},
+
+		'test constructor no singular message': function() {
+			var aggr = new Aggregator( this.editor, 'msg' );
+
+			assert.isNull( aggr._singularMessage, '_singularMessage value' );
 		},
 
 		'test instances does not share _tasks': function() {
@@ -233,25 +243,22 @@
 			assert.areSame( 0, instance.finished.callCount, 'finished call count' );
 		},
 
-		'test _updateNotification template calls': function() {
+		'test _updateNotification': function() {
 			var instance = new Aggregator( this.editor ),
 				expectedParams = {
-					max: 4,
-					current: 3,
-					percentage: 75
+					message: 'foo',
+					progress: 0.75
 				};
-			instance._message.output = sinon.spy();
-			instance.getTasksCount = sinon.stub().returns( 4 );
-			instance.getDoneTasks = sinon.stub().returns( 3 );
+
+			instance._getNotificationMessage = sinon.stub().returns( 'foo' );
 			instance.getPercentage = sinon.stub().returns( 75 );
 			instance.notification = new NotificationMock();
 
 			instance._updateNotification();
 
-			sinon.assert.calledWithExactly( instance._message.output, expectedParams );
+			sinon.assert.calledWithExactly( instance.notification.update, expectedParams );
 
 			assert.areSame( 1, instance.getPercentage.callCount, 'instance.getPercentage call count' );
-			assert.areSame( 1, instance._message.output.callCount, 'instance._message.output call count' );
 		},
 
 		'test _updateNotification notification call': function() {
@@ -331,6 +338,56 @@
 			instance._reset();
 
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
+		},
+
+		'test _getNotificationMessage': function() {
+			var instance = new Aggregator( this.editor );
+			instance._message = {
+				output: sinon.stub().returns( 'foo' )
+			};
+			instance.getTasksCount = sinon.stub().returns( 4 );
+			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getPercentage = sinon.stub().returns( 25 );
+
+			assert.areSame( 'foo', instance._getNotificationMessage() );
+			sinon.assert.calledWithExactly( instance._message.output, {
+				current: 1,
+				max: 4,
+				percentage: 25
+			} );
+		},
+
+		'test _getNotificationMessage single': function() {
+			// When only single task is remaining and special message was defined,
+			// we should use special singular message.
+			var instance = new Aggregator( this.editor );
+			instance._singularMessage = {
+				output: sinon.stub().returns( 'bar' )
+			};
+			instance.getTasksCount = sinon.stub().returns( 2 );
+			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getPercentage = sinon.stub().returns( 50 );
+
+			assert.areSame( 'bar', instance._getNotificationMessage() );
+			sinon.assert.calledWithExactly( instance._singularMessage.output, {
+				current: 1,
+				max: 2,
+				percentage: 50
+			} );
+		},
+
+		'test _getNotificationMessage missing singular': function() {
+			// Ensure that if only one task is remaining, BUT NO SPECIAL MESSAGE was
+			// defined for singular case, the standard message is used.
+			var instance = new Aggregator( this.editor );
+			instance._message = {
+				output: sinon.stub().returns( 'bar' )
+			};
+			instance.getTasksCount = sinon.stub().returns( 2 );
+			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getPercentage = sinon.stub().returns( 50 );
+
+			assert.areSame( 'bar', instance._getNotificationMessage() );
 		},
 
 		'test _createNotification': function() {
