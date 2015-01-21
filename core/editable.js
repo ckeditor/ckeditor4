@@ -2400,6 +2400,8 @@
 		if ( ( bogus = startBlock.getBogus() ) )
 			bogus.remove();
 
+		range.enlarge( CKEDITOR.ENLARGE_INLINE );
+
 		// Delete range contents. Do NOT merge. Merging is weird.
 		range.deleteContents();
 
@@ -2419,6 +2421,12 @@
 		// Make sure the result selection is collapsed.
 		range = editor.getSelection().getRanges()[ 0 ];
 		range.collapse( 1 );
+
+		range.optimize();
+		if ( range.startContainer.getHtml() === '' ) {
+			range.startContainer.appendBogus();
+		}
+
 		range.select();
 
 		return true;
