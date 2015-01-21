@@ -227,20 +227,11 @@
 		},
 
 		/**
-		 * Updates the notification. It also detects if all tasks are finished,
-		 * if so it will trigger finish procedure.
+		 * Updates the notification content.
 		 *
 		 * @private
 		 */
 		_updateNotification: function() {
-			//var percentage = this.getPercentage( true ),
-			//	// Msg that we're going to put in notification.
-			//	msg = this._message.output( {
-			//		current: this.getDoneTasks(),
-			//		max: this.getTasksCount(),
-			//		percentage: percentage
-			//	} );
-
 			this.notification.update( {
 				message: this._getNotificationMessage(),
 				progress: this.getPercentage( true ) / 100
