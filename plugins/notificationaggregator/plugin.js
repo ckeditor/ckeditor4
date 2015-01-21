@@ -102,7 +102,7 @@
 		 * @private
 		 * @property {CKEDITOR.template}
 		 */
-		this._message = new CKEDITOR.template( String( message ) );
+		this._message = new CKEDITOR.template( message );
 
 		/**
 		 * A template for the notification message if only one task is loading.
