@@ -1,13 +1,13 @@
 /* bender-tags: editor,unit,skin */
 
-( function(){
+( function() {
 	'use strict';
 
-	var error = null;
+	var caughtError = null,
+		originalErrorFunc = bender.error;
 
-	var origErrorFunc = bender.error;
 	bender.error = function( e ) {
-		error = e;
+		caughtError = e;
 	};
 
 	bender.test( {
@@ -22,22 +22,18 @@
 						uiColor: '#333888'
 					}
 				}
-			}, function ( e ) {
-				tc.editor = e.editor;
+			}, function( editors ) {
+				tc.editor = editors.editor;
 				setTimeout( tc.callback, 0 );
 			} );
 		},
 
 		'test skin with no chameleon functionality and custom uiColor': function() {
-			// If we are here, it means that there are no errors, so everything is fine.
-			assert.isNull( error );
+			bender.error = originalErrorFunc;
 
-			bender.error = origErrorFunc;
-
-			assert.areSame( 'ready', this.editor.status );
+			assert.isNull( caughtError, 'An error is not thrown during editor initialisation' );
+			assert.areSame( 'ready', this.editor.status, 'Editor is really ready' );
 			assert.areSame( 'skinnochameleon', CKEDITOR.skin );
 		}
-
 	} );
-
 }() );
