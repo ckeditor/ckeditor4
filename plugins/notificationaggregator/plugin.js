@@ -380,17 +380,37 @@
 	 * @param {Number} weight
 	 */
 	function Task( aggregator, weight ) {
+		/**
+		 * An aggregator object associated with the task.
+		 */
 		this.aggregator = aggregator;
+
+		/**
+		 * Total weight for the task.
+		 */
 		this._weight = weight;
-		// Task always starts with 0 done weight.
+
+		/**
+		 * Done weight.
+		 *
+		 * @private
+		 */
 		this._doneWeight = 0;
 	}
 
 	Task.prototype = {
+		/**
+		 * Marks task as done.
+		 */
 		done: function() {
 			this.update( this._weight );
 		},
 
+		/**
+		 * Updates the done weight of a task.
+		 *
+		 * @param {Number} weight Number telling how much of a total {@link #_weight} is done.
+		 */
 		update: function( weight ) {
 			// Note that newWeight can't be higher than _doneWeight.
 			this._doneWeight = Math.min( this._weight, weight );
