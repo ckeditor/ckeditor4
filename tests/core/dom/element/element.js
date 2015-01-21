@@ -548,11 +548,11 @@ bender.test( appendDomObjectTests(
 			var scrolledElementPosition = scrolledElement.getDocumentPosition();
 
 			assert.isNumberInRange(
-				scrolledElementPosition.x, 3499, 3501,
+				scrolledElementPosition.x, 3498, 3502,
 				'Horizontal position read correctly.'
 			);
 			assert.isNumberInRange(
-				scrolledElementPosition.y, 2999, 3001,
+				scrolledElementPosition.y, 2998, 3002,
 				'Vertical position read correctly.'
 			);
 		},
