@@ -134,6 +134,27 @@
 		 * @property {CKEDITOR.template}
 		 */
 		this._counter = new CKEDITOR.template( counter || editor.lang.notificationaggregator.counter );
+
+		/**
+		 * Stores the sum of wieght for all the contained tasks.
+		 *
+		 * @private
+		 */
+		this._totalWeights = 0;
+
+		/**
+		 * Stores the sum of done wieght for all the contained tasks.
+		 *
+		 * @private
+		 */
+		this._doneWeights = 0;
+
+		/**
+		 * Stores a count of done tasks.
+		 *
+		 * @private
+		 */
+		this._doneTasks = 0;
 	}
 
 	Aggregator.prototype = {
@@ -151,14 +172,25 @@
 			options.weight = options.weight || 1;
 
 			var initialTask = !this.notification,
-				ret;
+				that = this,
+				task;
 
 			if ( initialTask ) {
 				// It's a first call.
 				this.notification = this._createNotification();
 			}
 
-			ret = this._addTask( options );
+			task = this._addTask( options );
+
+			task.on( 'updated', function( evt ) {
+				that._onTaskUpdate( this, evt );
+			} );
+
+			task.on( 'done', this._onTaskDone, this );
+
+			task.on( 'canceled', function() {
+				that._removeTask( this );
+			} );
 
 			// Update the aggregator.
 			this.update();
@@ -167,7 +199,7 @@
 				this.notification.show();
 			}
 
-			return ret;
+			return task;
 		},
 
 		/**
@@ -200,7 +232,7 @@
 				return 100;
 			}
 
-			var ret = this._getDoneWeights() / this._getWeights() * 100;
+			var ret = this._doneWeights / this._totalWeights * 100;
 
 			if ( rounded ) {
 				return Math.round( ret );
@@ -214,7 +246,7 @@
 		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this.getDoneTasks() === this.getTasksCount();
+			return this.getDoneTasksCount() === this.getTasksCount();
 		},
 
 		/**
@@ -226,25 +258,17 @@
 		},
 
 		/**
-		 * Returns the count of done tasks.
-		 *
-		 * @returns {Number}
-		 */
-		getDoneTasks: function() {
-			var ret = 0;
-			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
-				if ( this._tasks[ i ].isDone() ) {
-					ret += 1;
-				}
-			}
-			return ret;
-		},
-
-		/**
 		 * @returns {Number} Returns a total tasks count.
 		 */
 		getTasksCount: function() {
 			return this._tasks.length;
+		},
+
+		/**
+		 * @returns {Number} Returns number of done tasks.
+		 */
+		getDoneTasksCount: function() {
+			return this._doneTasks;
 		},
 
 		/**
@@ -267,7 +291,7 @@
 		 */
 		_getNotificationMessage: function() {
 			var tasksCount = this.getTasksCount(),
-				doneTasks = this.getDoneTasks(),
+				doneTasks = this.getDoneTasksCount(),
 				remainingTasks = tasksCount - doneTasks,
 				// Template params common for _counter and _message
 				templateParams = {
@@ -311,8 +335,9 @@
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task}
 		 */
 		_addTask: function( options ) {
-			var task = new Task( this, options.weight );
+			var task = new Task( options.weight );
 			this._tasks.push( task );
+			this._totalWeights += options.weight;
 			return task;
 		},
 
@@ -323,6 +348,9 @@
 		 */
 		_reset: function() {
 			this._tasks = [];
+			this._totalWeights = 0;
+			this._doneWeights = 0;
+			this._doneTasks = 0;
 		},
 
 		/**
@@ -334,6 +362,12 @@
 			var key = CKEDITOR.tools.indexOf( this._tasks, task );
 
 			if ( key !== -1 ) {
+				// If task was already updated with some weight, we need to remove
+				// this weight from our cache.
+				if ( task._doneWeight ) {
+					this._doneWeights -= task._doneWeight;
+				}
+
 				this._tasks.splice( key, 1 );
 				// And we also should inform the UI about this change.
 				this.update();
@@ -341,50 +375,45 @@
 		},
 
 		/**
-		 * Gets a done wieght sum of all the contained tasks.
+		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.Task#update}
+		 * event.
 		 *
-		 * @returns {Number}
+		 * @private
+		 * @param {CKEDITOR.plugins.notificationAggregator.Task} task
+		 * @param evt Event object for {@link CKEDITOR.plugins.notificationAggregator.Task#update}.
 		 */
-		_getDoneWeights: function() {
-			var ret = 0;
-			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
-				ret += this._tasks[ i ]._doneWeight;
-			}
-			return ret;
+		_onTaskUpdate: function( task, evt ) {
+			this._doneWeights += evt.data;
+			this.update();
 		},
 
 		/**
-		 * Gets a wieght sum of all the contained tasks.
+		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.Task#done}
+		 * event.
 		 *
-		 * @returns {Number}
+		 * Note: function is executed with {@link CKEDITOR.plugins.notificationAggregator.Task}
+		 * instance in a scope.
+		 *
+		 * @private
 		 */
-		_getWeights: function() {
-			var ret = 0;
-			for ( var i = this.getTasksCount() - 1; i >= 0; i-- ) {
-				ret += this._tasks[ i ]._weight;
-			}
-			return ret;
+		_onTaskDone: function( evt ) {
+			this._doneTasks += 1;
+			this.update();
 		}
 	};
 
 	CKEDITOR.event.implementOn( Aggregator.prototype );
 
 	/**
-	 * This type represents a Task, and exposes methods to manipulate task state.
+	 * This type represents a single task in aggregator, and exposes methods to manipulate its state.
 	 *
 	 * @since 4.5.0
 	 * @class CKEDITOR.plugins.notificationAggregator
+	 * @mixins CKEDITOR.event
 	 * @constructor Creates a notification aggregator instance.
-	 * @param {CKEDITOR.plugins.notificationAggregator} aggregator Aggregator instance owning the
-	 * task.
 	 * @param {Number} weight
 	 */
-	function Task( aggregator, weight ) {
-		/**
-		 * An aggregator object associated with the task.
-		 */
-		this.aggregator = aggregator;
-
+	function Task( weight ) {
 		/**
 		 * Total weight for the task.
 		 */
@@ -412,17 +441,33 @@
 		 * @param {Number} weight Number telling how much of a total {@link #_weight} is done.
 		 */
 		update: function( weight ) {
+			// If task is already done there is no need to update it, and we don't expect
+			// progress to be reversed.
+			if ( this.isDone() ) {
+				return;
+			}
+
 			// Note that newWeight can't be higher than _doneWeight.
-			this._doneWeight = Math.min( this._weight, weight );
-			// Aggregator UI needs to be updated.
-			this.aggregator.update();
+			var newWeight = Math.min( this._weight, weight ),
+				weightChange = newWeight - this._doneWeight;
+
+			this._doneWeight = newWeight;
+
+			// Fire updated event even if task, despite task being done with this update.
+			this.fire( 'updated', weightChange );
+
+			if ( this.isDone() ) {
+				this.fire( 'done' );
+			}
 		},
 
 		/**
-		 * Cancels the task, removing it from the aggregator.
+		 * Cancels the task.
 		 */
 		cancel: function() {
-			this.aggregator._removeTask( this );
+			// We'll fire cancel event it's up to aggregator to listen for this event,
+			// and remove the task.
+			this.fire( 'canceled' );
 		},
 
 		/**
@@ -434,6 +479,38 @@
 			return this._weight === this._doneWeight;
 		}
 	};
+
+	CKEDITOR.event.implementOn( Task.prototype );
+
+	/**
+	 * Fired when the loading is done.
+	 *
+	 * It can be canceled, in this case {@link #finished} won't be called.
+	 *
+	 * @event finished
+	 * @member CKEDITOR.plugins.notificationAggregator
+	 */
+
+	/**
+	 * Fired upon each weight update of the task.
+	 *
+	 *		var myTask = new Task( 100 );
+	 *		myTask.update( 30 );
+	 *		// Fires updated event with evt.data = 30.
+	 *		myTask.update( 10 );
+	 *		// Fires updated event with evt.data = 10.
+	 *
+	 * @event updated
+	 * @param {Number} data The difference between new weight and the last one.
+	 * @member CKEDITOR.plugins.notificationAggregator.Task
+	 */
+
+	/**
+	 * Fired when the task is done.
+	 *
+	 * @event done
+	 * @member CKEDITOR.plugins.notificationAggregator.Task
+	 */
 
 	// Expose Aggregator type.
 	CKEDITOR.plugins.notificationAggregator = Aggregator;

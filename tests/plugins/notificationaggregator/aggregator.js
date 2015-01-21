@@ -115,17 +115,61 @@
 
 		'test createTask return value': function() {
 			var aggr = new Aggregator( this.editor, '' ),
-				expectedCallback = function() {
+				taskMock = {
+					on: sinon.spy()
 				},
 				ret;
-			aggr._addTask = sinon.stub().returns( expectedCallback );
+			aggr._addTask = sinon.stub().returns( taskMock );
 			aggr.update = sinon.spy();
 
 			ret = aggr.createTask();
 
-			assert.areSame( expectedCallback, ret, 'Return value' );
+			assert.areSame( taskMock, ret, 'Return value' );
 			// Ensure that methods was used.
 			sinon.assert.calledOnce( aggr._addTask );
+		},
+
+		'test createTask adds listeners': function() {
+			// Ensure that task will get listeners in createTask.
+			var aggr = new Aggregator( this.editor, '' ),
+				taskMock = {
+					on: sinon.spy()
+				},
+				ret;
+			aggr._addTask = sinon.stub().returns( taskMock );
+			aggr.update = sinon.spy();
+
+			ret = aggr.createTask();
+
+			assert.areSame( 3, taskMock.on.callCount, 'Added listeners count' );
+			sinon.assert.calledWithExactly( taskMock.on, 'done', aggr._onTaskDone, aggr );
+		},
+
+		'test createTask inline cancelListener': function() {
+			// Ensure that task will get listeners in createTask.
+			var aggr = new Aggregator( this.editor, '' ),
+				taskMock = {
+					on: sinon.spy()
+				},
+				cancelListener,
+				ret;
+
+			aggr._addTask = sinon.stub().returns( taskMock );
+			aggr.update = sinon.spy();
+			aggr._removeTask = sinon.spy();
+			// Aggregator has some weight done.
+
+			ret = aggr.createTask();
+
+			// Calling the listener.
+			cancelListener = taskMock.on.args[ 2 ][ 1 ];
+			cancelListener.call( taskMock );
+
+			// Asserting.
+			assert.areSame( 1, aggr._removeTask.callCount, '_removeTask call count' );
+			sinon.assert.calledWithExactly( aggr._removeTask, taskMock );
+			// Ensure that the calll context is aggr object.
+			sinon.assert.calledOn( aggr._removeTask, aggr );
 		},
 
 		'test createTask default options.weight': function() {
@@ -135,7 +179,9 @@
 				inputOptions = {},
 				optionsArgument;
 
-			instance._addTask = sinon.spy();
+			instance._addTask = sinon.stub().returns( {
+				on: sinon.spy()
+			} );
 			instance.update = sinon.spy();
 
 			instance.createTask( inputOptions );
@@ -150,8 +196,8 @@
 		'test getPercentage rounded': function() {
 			var instance = new Aggregator( this.editor, '' );
 
-			instance._getDoneWeights = sinon.stub().returns( 123.45 );
-			instance._getWeights = sinon.stub().returns( 1000 );
+			instance._doneWeights = 123.45;
+			instance._totalWeights = 1000;
 			instance.getTasksCount = sinon.stub().returns( 1 );
 
 			assert.areSame( 12, instance.getPercentage( true ), 'Invalid return value' );
@@ -178,21 +224,21 @@
 
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasks = sinon.stub().returns( 2 );
+			instance.getDoneTasksCount = sinon.stub().returns( 2 );
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished falsy': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasks = sinon.stub().returns( 0 );
+			instance.getDoneTasksCount = sinon.stub().returns( 0 );
 			instance.getTasksCount = sinon.stub().returns( 0 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
@@ -212,6 +258,16 @@
 			assert.isInstanceOf( Task, ret, 'Return type' );
 			assert.areSame( ret, instance._tasks[ 0 ], 'Return value in _tasks[ 0 ]' );
 			assert.areSame( 20, ret._weight );
+		},
+
+		'test _addTask increases weight': function() {
+			// Ensure that aggregator weight cache (_totalWeights) is increased by the
+			// addTask call.
+			var instance = new Aggregator( this.editor, '' );
+
+			instance._addTask( { weight: 20 } );
+
+			assert.areSame( 20, instance._totalWeights );
 		},
 
 		'test update': function() {
@@ -280,7 +336,7 @@
 		'test _updateNotification notification call': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance._message.output = sinon.stub().returns( 'foo' );
-			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance.getPercentage = sinon.stub().returns( 25 );
 			instance.notification = new NotificationMock();
@@ -306,7 +362,23 @@
 			assert.areSame( 2, instance._tasks.length, 'instance._tasks length' );
 			arrayAssert.itemsAreSame( [ 1, 3 ], instance._tasks );
 			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
+		},
 
+		'test _removeTask subtracts doneWeight': function() {
+			// If aggregator has some _doneWeights already added, and removed task
+			// has non-zero _doneWeight then it should be subtracted from the aggregator.
+			var instance = new Aggregator( this.editor, '' ),
+				taskMock = {
+					_doneWeight: 10
+				};
+
+			instance.update = sinon.spy();
+			instance._tasks = [ taskMock ];
+			instance._doneWeights = 30;
+
+			instance._removeTask( taskMock );
+
+			assert.areSame( 20, instance._doneWeights, 'instance._doneWeights reduced' );
 		},
 
 		'test _removeTask subsequent': function() {
@@ -321,30 +393,6 @@
 			instance._removeTask( 1 );
 
 			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
-		},
-
-		'test _getWeights': function() {
-			var instance = new Aggregator( this.editor, '' );
-
-			instance._tasks = [
-				this._getTaskMock( 0, 10 ),
-				this._getTaskMock( 0, 15 )
-			];
-			instance.getTasksCount = sinon.stub().returns( 2 );
-
-			assert.areSame( 25, instance._getWeights(), 'Invalid return value' );
-		},
-
-		'test _getDoneWeights': function() {
-			var instance = new Aggregator( this.editor, '' );
-
-			instance._tasks = [
-				this._getTaskMock( 10, 15 ),
-				this._getTaskMock( 15, 15 )
-			];
-			instance.getTasksCount = sinon.stub().returns( 2 );
-
-			assert.areSame( 25, instance._getDoneWeights(), 'Invalid return value' );
 		},
 
 		'test _reset': function() {
@@ -362,7 +410,7 @@
 				output: sinon.stub().returns( 'foo' )
 			};
 			instance.getTasksCount = sinon.stub().returns( 4 );
-			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 25 );
 			instance._counter.output = sinon.stub().returns( '(1 of 4)' );
 
@@ -383,7 +431,7 @@
 				output: sinon.stub().returns( 'bar' )
 			};
 			instance.getTasksCount = sinon.stub().returns( 2 );
-			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 50 );
 			instance._counter.output = sinon.stub().returns( '1/2' );
 
@@ -404,7 +452,7 @@
 				output: sinon.stub().returns( 'bar' )
 			};
 			instance.getTasksCount = sinon.stub().returns( 2 );
-			instance.getDoneTasks = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 50 );
 
 			assert.areSame( 'bar', instance._getNotificationMessage() );
@@ -421,21 +469,29 @@
 			assert.isTrue( NotificationMock.returned( ret ), 'ret was returned by NotificationMock' );
 		},
 
-		_getTaskMock: function( doneWeight, weight ) {
-			if ( typeof doneWeight != 'number' ) {
-				doneWeight = 0;
-			}
-			if ( typeof weight != 'number' ) {
-				weight = 1;
-			}
+		'test _onTaskUpdate': function() {
+			var instance = new Aggregator( this.editor, '' ),
+				taskMock = {},
+				updateEvent = {
+					data: 30
+				};
 
-			return {
-				_doneWeight: doneWeight,
-				_weight: weight,
-				isDone: function() {
-					return this._doneWeight === this._weight;
-				}
-			};
+			instance.update = sinon.spy();
+			instance._onTaskUpdate( taskMock, updateEvent );
+
+			assert.areSame( 30, instance._doneWeights, '_doneWeights was modified' );
+			assert.areSame( 1, instance.update.callCount, 'instance.update called' );
+		},
+
+		'test _onTaskDone': function() {
+			var instance = new Aggregator( this.editor, '' );
+
+			instance.update = sinon.spy();
+
+			instance._onTaskDone();
+
+			assert.areSame( 1, instance._doneTasks, '_doneTasks was not incremented' );
+			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
 		}
 	} );
 
