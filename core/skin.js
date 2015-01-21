@@ -195,16 +195,24 @@
 			var uiStyle = getStylesheet( CKEDITOR.document );
 
 			return ( this.setUiColor = function( color ) {
-				var chameleon = CKEDITOR.skin.chameleon;
-
-				var replace = [ [ uiColorRegexp, color ] ];
 				this.uiColor = color;
 
+				var chameleon = CKEDITOR.skin.chameleon,
+					editorStyleContent = '',
+					panelStyleContent = '';
+
+				if ( typeof chameleon == 'function' ) {
+					editorStyleContent = chameleon( this, 'editor' );
+					panelStyleContent = chameleon( this, 'panel' );
+				}
+
+				var replace = [ [ uiColorRegexp, color ] ];
+
 				// Update general style.
-				updateStylesheets( [ uiStyle ], chameleon( this, 'editor' ), replace );
+				updateStylesheets( [ uiStyle ], editorStyleContent, replace );
 
 				// Update panel styles.
-				updateStylesheets( uiColorMenus, chameleon( this, 'panel' ), replace );
+				updateStylesheets( uiColorMenus, panelStyleContent, replace );
 			} ).call( this, color );
 		}
 	} );
