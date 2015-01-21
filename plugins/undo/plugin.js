@@ -379,6 +379,10 @@
 				}
 			}
 
+			// create new content image after change event is fired 
+			// to update the image before pushing it to snapshots
+			var image = new Image( editor );
+
 			// Drop future snapshots.
 			snapshots.splice( this.index + 1, snapshots.length - this.index - 1 );
 
