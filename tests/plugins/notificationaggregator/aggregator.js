@@ -22,7 +22,13 @@
 			Aggregator = CKEDITOR.plugins.notificationAggregator;
 			Task = CKEDITOR.plugins.notificationAggregator.task;
 			// We don't need real editor, just mock it.
-			this.editor = {};
+			this.editor = {
+				lang: {
+					notificationaggregator: {
+						counter: ''
+					}
+				}
+			};
 			// We'll replace original notification type so we can track calls, and
 			// reduce dependencies.
 			// Reassign and reset the spy each TC, so eg. callCount will be reset.
@@ -35,6 +41,8 @@
 		},
 
 		'test constructor': function() {
+			this.editor.lang.notificationaggregator.counter = 'foo';
+
 			var aggr = new Aggregator( this.editor, 'msg', 'single msg' );
 
 			assert.areSame( this.editor, aggr.editor, 'Correct editor is stored' );
@@ -42,16 +50,24 @@
 
 			assert.isInstanceOf( CKEDITOR.template, aggr._message, '_message property type' );
 			assert.isInstanceOf( CKEDITOR.template, aggr._singularMessage, '_singularMessage property type' );
+			assert.isInstanceOf( CKEDITOR.template, aggr._counter, '_counter property type' );
 
 			// Test message values.
 			assert.areSame( 'msg', aggr._message.output() );
 			assert.areSame( 'single msg', aggr._singularMessage.output() );
+			assert.areSame( 'foo', aggr._counter.output() );
 		},
 
 		'test constructor no singular message': function() {
 			var aggr = new Aggregator( this.editor, 'msg' );
 
 			assert.isNull( aggr._singularMessage, '_singularMessage value' );
+		},
+
+		'test constructor custom counter': function() {
+			var aggr = new Aggregator( this.editor, 'msg', 'single msg', 'custom counter' );
+
+			assert.areSame( 'custom counter', aggr._counter.output() );
 		},
 
 		'test instances does not share _tasks': function() {
@@ -348,9 +364,11 @@
 			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance.getDoneTasks = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 25 );
+			instance._counter.output = sinon.stub().returns( '(1 of 4)' );
 
 			assert.areSame( 'foo', instance._getNotificationMessage() );
 			sinon.assert.calledWithExactly( instance._message.output, {
+				counter: '(1 of 4)',
 				current: 1,
 				max: 4,
 				percentage: 25
@@ -367,9 +385,11 @@
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			instance.getDoneTasks = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 50 );
+			instance._counter.output = sinon.stub().returns( '1/2' );
 
 			assert.areSame( 'bar', instance._getNotificationMessage() );
 			sinon.assert.calledWithExactly( instance._singularMessage.output, {
+				counter: '1/2',
 				current: 1,
 				max: 2,
 				percentage: 50

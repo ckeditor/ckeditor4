@@ -13,7 +13,8 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'notificationaggregator', {
-		requires: 'notification'
+		requires: 'notification',
+		lang: 'en'
 	} );
 
 	/**
@@ -55,10 +56,17 @@
 	 * @param {CKEDITOR.editor} editor
 	 * @param {String} message A template for message to be displayed in notification, for template parameters
 	 * see {@link #_message}.
-	 * @param {String} singularMessage A template for message to be displayed in notification when there's only
+	 * @param {String/null} [singularMessage=null] An optional template for message to be displayed in notification when there's only
 	 * one task remaining. See {@link #_singularMessage}.
+	 *
+	 * If `null` the `message` template will be used.
+	 * @param {String/null} [counter=null] An optional template for counter.
+	 *
+	 * eg. `({current} of {max})`
+	 *
+	 * If `null` it will use default counter from lang file.
 	 */
-	function Aggregator( editor, message, singularMessage ) {
+	function Aggregator( editor, message, singularMessage, counter ) {
 		/**
 		 * @readonly
 		 * @property {CKEDITOR.editor} editor
@@ -113,6 +121,19 @@
 		 * @property {CKEDITOR.template/null}
 		 */
 		this._singularMessage = singularMessage ? new CKEDITOR.template( singularMessage ) : null;
+
+		/**
+		 * A template for counter in notifications.
+		 *
+		 * Template can use following variables:
+		 *
+		 * * **current** - A count of completed tasks.
+		 * * **max** - The maximal count of tasks.
+		 *
+		 * @private
+		 * @property {CKEDITOR.template}
+		 */
+		this._counter = new CKEDITOR.template( counter || editor.lang.notificationaggregator.counter );
 	}
 
 	Aggregator.prototype = {
@@ -248,8 +269,16 @@
 			var tasksCount = this.getTasksCount(),
 				doneTasks = this.getDoneTasks(),
 				remainingTasks = tasksCount - doneTasks,
-				percentage = this.getPercentage( true ),
+				// Template params common for _counter and _message
+				templateParams = {
+					current: doneTasks,
+					max: tasksCount
+				},
 				template;
+
+			// Expand template params with props needed by _message.
+			templateParams.counter = this._counter.output( templateParams );
+			templateParams.percentage = this.getPercentage( true );
 
 			// If there's only one remaining task and we have a singular message,
 			// we should use it.
@@ -259,11 +288,7 @@
 				template = this._message;
 			}
 
-			return template.output( {
-				current: doneTasks,
-				max: tasksCount,
-				percentage: percentage
-			} );
+			return template.output( templateParams );
 		},
 
 		/**
