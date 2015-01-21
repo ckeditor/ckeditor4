@@ -22,9 +22,9 @@
 	 * tracked.
 	 *
 	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are closed, it
-	 * means that the whole process is done.
+	 * means that the whole process is finished.
 	 *
-	 * Once finished the notification state will be reset.
+	 * Once finished the aggregator state will be reset.
 	 *
 	 * Simple usage case:
 	 *
@@ -40,14 +40,18 @@
 	 *		// At this point notification has a message: "Loading process, step 0 of 3...".
 	 *
 	 *		// Let's close first one immediately.
-	 *		tasks[ 0 ](); // "Loading process, step 1 of 3...".
+	 *		tasks[ 0 ].done(); // "Loading process, step 1 of 3...".
 	 *
 	 *		// One second later message will be "Loading process, step 2 of 3...".
-	 *		window.setTimeout( tasks[ 1 ], 1000 );
+	 *		window.setTimeout( function() {}
+	 *			tasks[ 1 ].done();
+	 *		}, 1000 );
 	 *
 	 *		// Two seconds after the previous message last task will be completed, meaining that
 	 *		// notification will be closed.
-	 *		window.setTimeout( tasks[ 2 ], 3000 );
+	 *		window.setTimeout( function() {}
+	 *			tasks[ 2 ].done();
+	 *		}, 3000 );
 	 *
 	 * @since 4.5.0
 	 * @class CKEDITOR.plugins.notificationAggregator
