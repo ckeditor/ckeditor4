@@ -18,13 +18,14 @@
 	} );
 
 	/**
-	 * This type helps to create a notification where progress of a multiple entities is
+	 * This type helps to create a notification where the progress of a multiple entities is
 	 * tracked.
 	 *
 	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are closed, it
 	 * means that the whole process is finished.
 	 *
-	 * Once finished the aggregator state will be reset.
+	 * Once finished the aggregator state will be reset. You can customize that behavior by
+	 * extending the type and overriding {@link #finished} method.
 	 *
 	 * Simple usage case:
 	 *
@@ -68,7 +69,7 @@
 	 *
 	 * eg. `({current} of {max})`
 	 *
-	 * If `null` it will use default counter from lang file.
+	 * If `null` it will use default counter from the lang file.
 	 */
 	function Aggregator( editor, message, singularMessage, counter ) {
 		/**
@@ -87,10 +88,10 @@
 		this.notification = null,
 
 		/**
-		 * Array of unique numbers generated with {@link #createTask} calls. If an id is
-		 * removed from the array, then we consider it completed.
+		 * Array tasks tracked by the aggregator.
 		 *
 		 * @private
+		 * @property {CKEDITOR.plugins.notificationAggregator.task[]}
 		 */
 		this._tasks = [];
 
@@ -102,6 +103,7 @@
 		 * * **current** - A count of completed tasks.
 		 * * **max** - The maximal count of tasks.
 		 * * **percentage** - Percentage count.
+		 * * **counter** - A counter with remaining task count, eg. `(1 of 3)`.
 		 *
 		 * @private
 		 * @property {CKEDITOR.template}
@@ -140,7 +142,7 @@
 		this._counter = new CKEDITOR.template( counter || editor.lang.notificationaggregator.counter );
 
 		/**
-		 * Stores the sum of wieght for all the contained tasks.
+		 * Stores the sum of wieghts for all the contained tasks.
 		 *
 		 * @private
 		 */
@@ -166,7 +168,8 @@
 		 * Creates a new task that can be updated to indicate the progress.
 		 *
 		 * @param [options] Options object for the task creation.
-		 * @param [options.weight=1]
+		 * @param [options.weight=1] For more information about weight, see
+		 * {@link CKEDITOR.plugins.notificationAggregator.task} overview.
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task} An object that represents the task state, and allows
 		 * for it manipulation.
 		 */
@@ -225,7 +228,7 @@
 		},
 
 		/**
-		 * Note: For an empty aggregator (without any tasks created) it will return 100.
+		 * Note: For an empty aggregator (without any tasks created) it will return `100`.
 		 *
 		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
 		 */
@@ -262,7 +265,7 @@
 		},
 
 		/**
-		 * @returns {Number} Returns number of done tasks.
+		 * @returns {Number} Returns the number of done tasks.
 		 */
 		getDoneTasksCount: function() {
 			return this._doneTasks;
@@ -324,8 +327,8 @@
 		},
 
 		/**
-		 * Creates a {@link CKEDITOR.plugins.notificationAggregator.Task} instance based
-		 * on `options`, and adds it to tasks list.
+		 * Creates a {@link CKEDITOR.plugins.notificationAggregator.task} instance based
+		 * on `options`, and adds it to the tasks list.
 		 *
 		 * @private
 		 * @param options Options object coming from {@link #createTask} method.
@@ -351,7 +354,7 @@
 		},
 
 		/**
-		 * Removes given task from the {@link #_tasks} array and updates the ui.
+		 * Removes given task from the {@link #_tasks} array and updates the UI.
 		 *
 		 * @param task Task to be removed.
 		 */
@@ -372,12 +375,12 @@
 		},
 
 		/**
-		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.Task#update}
+		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.task#update}
 		 * event.
 		 *
 		 * @private
-		 * @param {CKEDITOR.plugins.notificationAggregator.Task} task
-		 * @param evt Event object for {@link CKEDITOR.plugins.notificationAggregator.Task#update}.
+		 * @param {CKEDITOR.plugins.notificationAggregator.task} task
+		 * @param evt Event object for {@link CKEDITOR.plugins.notificationAggregator.task#update}.
 		 */
 		_onTaskUpdate: function( task, evt ) {
 			this._doneWeights += evt.data;
@@ -385,10 +388,10 @@
 		},
 
 		/**
-		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.Task#done}
+		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.task#done}
 		 * event.
 		 *
-		 * Note: function is executed with {@link CKEDITOR.plugins.notificationAggregator.Task}
+		 * Note: function is executed with {@link CKEDITOR.plugins.notificationAggregator.task}
 		 * instance in a scope.
 		 *
 		 * @private
@@ -402,17 +405,39 @@
 	CKEDITOR.event.implementOn( Aggregator.prototype );
 
 	/**
+	 * # Overview
+	 *
 	 * This type represents a single task in aggregator, and exposes methods to manipulate its state.
 	 *
+	 * ## Weights
+	 *
+	 * Task progess is based on its **weight**.
+	 *
+	 * As you create a task, you need to declare its weight. As you want to update to inform about the
+	 * progress, you'll need to {@link #update} the task, telling how much of this weight is done.
+	 *
+	 * Eg. if you declare that your task has a weight equal `50` and then call `update` with `10`,
+	 * you'll end up with telling that the task is done in 20%.
+	 *
+	 * ### Example Usage of Weights
+	 *
+	 * Lets say that you use tasks for file uploading.
+	 *
+	 * A single task is associated to a single file upload. You can use file size in bytes as a weight,
+	 * and then as a file upload progresses you just call `update` method with number of bytes actually
+	 * downloaded.
+	 *
 	 * @since 4.5.0
-	 * @class CKEDITOR.plugins.notificationAggregator
+	 * @class CKEDITOR.plugins.notificationAggregator.task
 	 * @mixins CKEDITOR.event
-	 * @constructor Creates a notification aggregator instance.
+	 * @constructor Creates a task instance for notification aggregator.
 	 * @param {Number} weight
 	 */
 	function Task( weight ) {
 		/**
 		 * Total weight for the task.
+		 *
+		 * @private
 		 */
 		this._weight = weight;
 
@@ -499,14 +524,14 @@
 	 *
 	 * @event updated
 	 * @param {Number} data The difference between new weight and the last one.
-	 * @member CKEDITOR.plugins.notificationAggregator.Task
+	 * @member CKEDITOR.plugins.notificationAggregator.task
 	 */
 
 	/**
 	 * Fired when the task is done.
 	 *
 	 * @event done
-	 * @member CKEDITOR.plugins.notificationAggregator.Task
+	 * @member CKEDITOR.plugins.notificationAggregator.task
 	 */
 
 	// Expose Aggregator type.
