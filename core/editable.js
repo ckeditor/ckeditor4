@@ -495,8 +495,8 @@
 			fixInitialSelection: function() {
 				var that = this;
 
-				// Deal with IE8- (the old MS selection) first.
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				// Deal with IE8- IEQM (the old MS selection) first.
+				if ( CKEDITOR.env.ie && ( CKEDITOR.env.version < 9 || CKEDITOR.env.quirks ) ) {
 					if ( this.hasFocus ) {
 						this.focus();
 						fixMSSelection();
