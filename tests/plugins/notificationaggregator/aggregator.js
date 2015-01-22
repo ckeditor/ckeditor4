@@ -193,16 +193,6 @@
 			assert.isUndefined( inputOptions.weight, 'Input object was not modified' );
 		},
 
-		'test getPercentage rounded': function() {
-			var instance = new Aggregator( this.editor, '' );
-
-			instance._doneWeights = 123.45;
-			instance._totalWeights = 1000;
-			instance.getTasksCount = sinon.stub().returns( 1 );
-
-			assert.areSame( 12, instance.getPercentage( true ), 'Invalid return value' );
-		},
-
 		'test getPercentage empty': function() {
 			// Ensure that nothing bad happens if htere are no weights at all.
 			var instance = new Aggregator( this.editor, '' );

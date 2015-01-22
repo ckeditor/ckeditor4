@@ -227,7 +227,6 @@
 		/**
 		 * Note: For an empty aggregator (without any tasks created) it will return 100.
 		 *
-		 * @param {Boolean} round If `true`, returned number will be rounded.
 		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
 		 */
 		getPercentage: function( rounded ) {
@@ -236,13 +235,7 @@
 				return 100;
 			}
 
-			var ret = this._doneWeights / this._totalWeights * 100;
-
-			if ( rounded ) {
-				return Math.round( ret );
-			} else {
-				return ret;
-			}
+			return this._doneWeights / this._totalWeights * 100;
 		},
 
 		/**
@@ -283,7 +276,7 @@
 		_updateNotification: function() {
 			this.notification.update( {
 				message: this._getNotificationMessage(),
-				progress: this.getPercentage( true ) / 100
+				progress: this.getPercentage() / 100
 			} );
 		},
 
@@ -306,7 +299,7 @@
 
 			// Expand template params with props needed by _message.
 			templateParams.counter = this._counter.output( templateParams );
-			templateParams.percentage = this.getPercentage( true );
+			templateParams.percentage = Math.round( this.getPercentage() );
 
 			// If there's only one remaining task and we have a singular message,
 			// we should use it.
