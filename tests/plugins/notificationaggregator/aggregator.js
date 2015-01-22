@@ -172,27 +172,6 @@
 			sinon.assert.calledOn( aggr._removeTask, aggr );
 		},
 
-		'test createTask default options.weight': function() {
-			// Ensure that createTask will set a default value for options.weight.
-			// We'll also ensure that inputOptions was not modified.
-			var instance = new Aggregator( this.editor, '' ),
-				inputOptions = {},
-				optionsArgument;
-
-			instance._addTask = sinon.stub().returns( {
-				on: sinon.spy()
-			} );
-			instance.update = sinon.spy();
-
-			instance.createTask( inputOptions );
-
-			// Options object that was given to _addTask method.
-			optionsArgument = instance._addTask.args[ 0 ][ 0 ];
-
-			assert.areSame( 1, optionsArgument.weight, 'Default weight was assigned' );
-			assert.isUndefined( inputOptions.weight, 'Input object was not modified' );
-		},
-
 		'test getPercentage empty': function() {
 			// Ensure that nothing bad happens if htere are no weights at all.
 			var instance = new Aggregator( this.editor, '' );

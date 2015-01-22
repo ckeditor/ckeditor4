@@ -15,6 +15,20 @@
 			this.editor = {};
 		},
 
+		'test constructor': function() {
+			var instance = new Task( 10 );
+
+			assert.areSame( 10, instance._weight, '_weight property assigned' );
+			assert.areSame( 0, instance._doneWeight, '_doneWeight property assigned' );
+		},
+
+		'test constructor sets default weight': function() {
+			// Lets ensure that the constructor sets the default weight.
+			var instance = new Task();
+
+			assert.areSame( 1, instance._weight, 'Default value assigned for weight' );
+		},
+
 		'test subsequent update': function() {
 			// In this test we'll make 2 calls to update() method, and ensure that weight DO NOT sum internally,
 			// but each value replaces the previous one.

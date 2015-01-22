@@ -168,15 +168,13 @@
 		 * Creates a new task that can be updated to indicate the progress.
 		 *
 		 * @param [options] Options object for the task creation.
-		 * @param [options.weight=1] For more information about weight, see
+		 * @param [options.weight] For more information about weight, see
 		 * {@link CKEDITOR.plugins.notificationAggregator.task} overview.
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task} An object that represents the task state, and allows
 		 * for it manipulation.
 		 */
 		createTask: function( options ) {
-			options = CKEDITOR.tools.clone( options ) || {};
-			// Provide a default value.
-			options.weight = options.weight || 1;
+			options = options || {};
 
 			var initialTask = !this.notification,
 				that = this,
@@ -337,7 +335,7 @@
 		_addTask: function( options ) {
 			var task = new Task( options.weight );
 			this._tasks.push( task );
-			this._totalWeights += options.weight;
+			this._totalWeights += task._weight;
 			return task;
 		},
 
@@ -431,7 +429,7 @@
 	 * @class CKEDITOR.plugins.notificationAggregator.task
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a task instance for notification aggregator.
-	 * @param {Number} weight
+	 * @param {Number} [weight=1]
 	 */
 	function Task( weight ) {
 		/**
@@ -439,7 +437,7 @@
 		 *
 		 * @private
 		 */
-		this._weight = weight;
+		this._weight = weight === undefined ? 1 : weight;
 
 		/**
 		 * Done weight.
