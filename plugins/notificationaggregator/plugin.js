@@ -18,8 +18,7 @@
 	} );
 
 	/**
-	 * This type helps to create a notification where the progress of a multiple entities is
-	 * tracked.
+	 * This type helps to create a notification which tracks the progress of a multiple entities.
 	 *
 	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are closed, it
 	 * means that the whole process is finished.
@@ -27,9 +26,9 @@
 	 * Once finished the aggregator state will be reset. You can customize that behavior by
 	 * extending the type and overriding {@link #finished} method.
 	 *
-	 * Simple usage case:
+	 * Simple usage example:
 	 *
-	 *		// Create new notification aggregator instance.
+	 *		// Create a new notification aggregator instance.
 	 *		var aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading process, step {current} of {max}...' );
 	 *
 	 *		// Create 3 tasks.
@@ -88,7 +87,7 @@
 		this.notification = null,
 
 		/**
-		 * Array tasks tracked by the aggregator.
+		 * Array of tasks tracked by the aggregator.
 		 *
 		 * @private
 		 * @property {CKEDITOR.plugins.notificationAggregator.task[]}
@@ -103,7 +102,7 @@
 		 * * **current** - A count of completed tasks.
 		 * * **max** - The maximal count of tasks.
 		 * * **percentage** - Percentage count.
-		 * * **counter** - A counter with remaining task count, eg. `(1 of 3)`.
+		 * * **counter** - A counter with remaining task count, eg. "(1 of 3)".
 		 *
 		 * @private
 		 * @property {CKEDITOR.template}
@@ -142,14 +141,14 @@
 		this._counter = new CKEDITOR.template( counter || editor.lang.notificationaggregator.counter );
 
 		/**
-		 * Stores the sum of wieghts for all the contained tasks.
+		 * Stores the sum of declared weights for all the contained tasks.
 		 *
 		 * @private
 		 */
 		this._totalWeights = 0;
 
 		/**
-		 * Stores the sum of done wieght for all the contained tasks.
+		 * Stores the sum of done weights for all the contained tasks.
 		 *
 		 * @private
 		 */
@@ -230,7 +229,7 @@
 		 *
 		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
 		 */
-		getPercentage: function( rounded ) {
+		getPercentage: function() {
 			// In case there are no weights at all we'll return 100.
 			if ( this.getTasksCount() === 0 ) {
 				return 100;
@@ -316,6 +315,7 @@
 		/**
 		 * Creates a notification object.
 		 *
+		 * @private
 		 * @returns {CKEDITOR.plugins.notification}
 		 */
 		_createNotification: function() {
@@ -354,7 +354,8 @@
 		/**
 		 * Removes given task from the {@link #_tasks} array and updates the UI.
 		 *
-		 * @param task Task to be removed.
+		 * @private
+		 * @param {CKEDITOR.plugins.notificationAggregator.task} task Task to be removed.
 		 */
 		_removeTask: function( task ) {
 			var key = CKEDITOR.tools.indexOf( this._tasks, task );
@@ -386,13 +387,13 @@
 		},
 
 		/**
-		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.task#done}
-		 * event.
+		 * A listener called upon task `done` event.
 		 *
 		 * Note: function is executed with {@link CKEDITOR.plugins.notificationAggregator.task}
 		 * instance in a scope.
 		 *
 		 * @private
+		 * @param evt Event object of done event.
 		 */
 		_onTaskDone: function( evt ) {
 			this._doneTasks += 1;
@@ -436,6 +437,7 @@
 		 * Total weight for the task.
 		 *
 		 * @private
+		 * @property {Number}
 		 */
 		this._weight = weight === undefined ? 1 : weight;
 
