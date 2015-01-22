@@ -14,6 +14,9 @@
 
 	bender.test( {
 		setUp: function() {
+			// Preventing removing empty <small> tag.
+			delete CKEDITOR.dtd.$removeEmpty.small;
+
 			if ( !CKEDITOR.env.webkit )
 				assert.ignore();
 		},
