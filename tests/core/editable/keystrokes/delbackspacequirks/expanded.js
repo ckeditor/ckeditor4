@@ -81,6 +81,8 @@
 		'test backspace and delete, bogus #2':			bd( '<p>x[x</p><p>x]@</p>', '<p>x^@</p>' ),
 		'test backspace and delete, bogus #3':			bd( '<p>[@</p><p>]@</p>', '<p>^@</p>' ),
 		'test backspace and delete, bogus #4':			bd( '<p>@[</p><p>]@</p>', '<p>^@</p>' ),
+
+		// #12503.
 		'test backspace and delete, bogus #5':			bd( '<h1>{Foo</h1><p>bar</p><p><small>baz}</small></p>', '<h1>^@!</h1>' ),
 
 		// Merge inline elements after keystroke.
