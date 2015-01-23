@@ -10,6 +10,11 @@
 		requires: 'uploadwidget',
 
 		init: function( editor ) {
+			// Do not execute this paste lister if it will not be possible to upload file.
+			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+				return;
+			}
+
 			var fileTools = CKEDITOR.fileTools,
 				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
@@ -45,11 +50,6 @@
 			// Handle images which are not available in the dataTransfer.
 			// This means that we need to read them from the <img src="data:..."> elements.
 			editor.on( 'paste', function( evt ) {
-				// Do not execute this paste lister if it will not be possible to upload file.
-				if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
-					return;
-				}
-
 				// For performance reason do not parse data if it does not contain img tag and data attribute.
 				var pastedDataString = evt.data.dataValue.toLowerCase();
 				if ( pastedDataString.indexOf( '<img' ) < 0 || pastedDataString.indexOf( 'data:' ) < 0 ) {
