@@ -419,9 +419,13 @@
 				dataValue: '<img src="x" onerror="window.attacked();">' + bender.tools.pngBase64
 			} );
 
-			wait( function() {
-				assert.areSame( 0, window.attacked.callCount );
-			}, 100 );
+			editor.once( 'afterPaste', function() {
+				resume( function() {
+					assert.areSame( 0, window.attacked.callCount );
+				} );
+			} );
+
+			wait();
 		}
 	} );
 } )();
