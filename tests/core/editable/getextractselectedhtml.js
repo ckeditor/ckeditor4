@@ -25,15 +25,7 @@
 		img_src = '%BASE_PATH%_assets/img.gif';
 
 	var tests = {
-		_should: {
-			ignore: {
-				// 'test get: bogus #2': !CKEDITOR.env.needsBrFiller,
-				// 'test get: bogus #8': !CKEDITOR.env.needsBrFiller,
-				// 'test get: various anchored in element #10': !CKEDITOR.env.needsBrFiller,
-			}
-		},
-
-		'init': function() {
+		init: function() {
 			this.editables = {};
 
 			for ( var e in this.editors )
@@ -68,8 +60,8 @@
 				// CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
-				testsGet[ 'test get: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extract: ' + name ] = assertExtractHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				testsGet[ 'test getHtmlFromRange: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
+				testsExtract[ 'test extractHtmlFromRange: ' + name ] = assertExtractHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
@@ -322,6 +314,54 @@
 			[ '{}a',																'',																'[]a' ]
 		]
 	}, 'header' );
+
+	CKEDITOR.tools.extend( tests, {
+		'test getSelectedHtml': function() {
+			var editor = this.editors.inline;
+			bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
+
+			var frag = editor.editable().getSelectedHtml();
+
+			assert.isInstanceOf( CKEDITOR.dom.documentFragment, frag );
+			assert.areSame( 'ob', frag.getHtml() );
+		},
+
+		'test getSelectedHtml with toString option': function() {
+			var editor = this.editors.inline;
+			bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
+
+			assert.areSame( 'ob', editor.editable().getSelectedHtml( true ) );
+		},
+
+		'test extractSelectedHtml': function() {
+			var editor = this.editors.inline;
+			bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
+
+			// We need to precisely check if selection was set, because
+			// after the selected part of the DOM is extracted browser would
+			// make a similar selection in similar place. This way we're distinguishing who made it.
+			sinon.spy( CKEDITOR.dom.selection.prototype, 'selectRanges' );
+
+			var frag = editor.editable().extractSelectedHtml(),
+				selectionWasSetOnce = CKEDITOR.dom.selection.prototype.selectRanges.calledOnce;
+
+			CKEDITOR.dom.selection.prototype.selectRanges.restore();
+
+			assert.areSame( 'ob', frag.getHtml(), 'extracted HTML' );
+			assert.isTrue( selectionWasSetOnce, 'new selection has been set' );
+			assert.isInnerHtmlMatching( '<p>fo^ar@</p>', bender.tools.selection.getWithHtml( editor ),
+				{ compareSelection: true, normalizeSelection: true }, 'contents of the editor' );
+		},
+
+		'test extractSelectedHtml with toString option': function() {
+			var editor = this.editors.inline;
+			bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
+
+			assert.areSame( 'ob', editor.editable().extractSelectedHtml( true ) );
+			assert.isInnerHtmlMatching( '<p>fo^ar@</p>', bender.tools.selection.getWithHtml( editor ),
+				{ compareSelection: true, normalizeSelection: true }, 'contents of the editor' );
+		}
+	} );
 
 	bender.test( tests );
 

@@ -1444,7 +1444,7 @@
 				var range = this.editor.getSelection().getRanges()[ 0 ],
 					docFragment = this.extractHtmlFromRange( range );
 
-				range.select();
+				this.editor.getSelection().selectRanges( [ range ] );
 
 				return toString ? docFragment.getHtml() : docFragment;
 			},
