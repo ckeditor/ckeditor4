@@ -68,8 +68,8 @@
 				// CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
-				testsGet[ 'test get: ' + name ] = assertGetSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extract: ' + name ] = assertExtractSelectedHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				testsGet[ 'test get: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
+				testsExtract[ 'test extract: ' + name ] = assertExtractHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
 			}
 		}
 
@@ -83,26 +83,26 @@
 		normalizeSelection: false
 	};
 
-	function assertGetSelectedHtmlFromRange( editor, html, expected ) {
+	function assertGetHtmlFromRange( editor, html, expected ) {
 		return function() {
 			html = decodeInputFillers( html );
 
 			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
-				docFragment = editable.getSelectedHtmlFromRange( range );
+				docFragment = editable.getHtmlFromRange( range );
 
 			assert.isInnerHtmlMatching( expected, docFragment.getHtml(), compareInnerHtmlOptions, 'Selected HTML' );
 			assert.isInnerHtmlMatching( html, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, untouched once get' );
 		};
 	}
 
-	function assertExtractSelectedHtmlFromRange( editor, html, htmlGet, htmlWithSelection ) {
+	function assertExtractHtmlFromRange( editor, html, htmlGet, htmlWithSelection ) {
 		return function() {
 			html = decodeInputFillers( html );
 
 			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
-				docFragment = editable.extractSelectedHtmlFromRange( range );
+				docFragment = editable.extractHtmlFromRange( range );
 
 			assert.isInnerHtmlMatching( htmlGet, docFragment.getHtml(), compareInnerHtmlOptions, 'HTML which has been extracted' );
 			assert.isInnerHtmlMatching( htmlWithSelection, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, once extracted' );

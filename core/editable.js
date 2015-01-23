@@ -624,11 +624,11 @@
 			 * A base of the {@link #getSelectedHtml} method.
 			 *
 			 * @since 4.5
-			 * @method getSelectedHtmlFromRange
+			 * @method getHtmlFromRange
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			getSelectedHtmlFromRange: ( function() {
+			getHtmlFromRange: ( function() {
 				var eol = ( function() {
 					function createEolBr( doc ) {
 						return doc.createElement( 'br', {
@@ -832,7 +832,7 @@
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			extractSelectedHtmlFromRange: ( function() {
+			extractHtmlFromRange: ( function() {
 				var isEmpty = CKEDITOR.dom.walker.empty();
 
 				function optimizeBookmarkNode( node, toStart ) {
@@ -1311,8 +1311,8 @@
 				return function( range ) {
 					// Since it is quite hard to build a valid documentFragment
 					// out of extracted contents because DOM changes, let's mimic
-					// extracted HTML with #getSelectedHtmlFromRange. Yep. It's a hack.
-					var extractedFragment = this.getSelectedHtmlFromRange( range );
+					// extracted HTML with #getHtmlFromRange. Yep. It's a hack.
+					var extractedFragment = this.getHtmlFromRange( range );
 
 					// Collapsed range means that there's nothing to extract.
 					if ( range.collapsed ) {
@@ -1414,14 +1414,14 @@
 			 * See also:
 			 *
 			 * * the {@link #extractSelectedHtml} method,
-			 * * the {@link #getSelectedHtmlFromRange} method.
+			 * * the {@link #getHtmlFromRange} method.
 			 *
 			 * @since 4.5
 			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
 			 * @returns {CKEDITOR.dom.documentFragment/String}
 			 */
 			getSelectedHtml: function( toString ) {
-				var docFragment = this.getSelectedHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
+				var docFragment = this.getHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
 
 				return toString ? docFragment.getHtml() : docFragment;
 			},
@@ -1434,7 +1434,7 @@
 			 * See also:
 			 *
 			 * * the {@link #getSelectedHtml} method,
-			 * * the {@link #extractSelectedHtmlFromRange} method.
+			 * * the {@link #extractHtmlFromRange} method.
 			 *
 			 * @since 4.5
 			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
@@ -1442,7 +1442,7 @@
 			 */
 			extractSelectedHtml: function( toString ) {
 				var range = this.editor.getSelection().getRanges()[ 0 ],
-					docFragment = this.extractSelectedHtmlFromRange( range );
+					docFragment = this.extractHtmlFromRange( range );
 
 				range.select();
 
