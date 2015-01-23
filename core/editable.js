@@ -680,199 +680,29 @@
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			getHtmlFromRange: ( function() {
-				var eol = ( function() {
-					function createEolBr( doc ) {
-						return doc.createElement( 'br', {
-							attributes: {
-								'data-cke-eol': 1
-							}
-						} );
-					}
+			getHtmlFromRange: function( range ) {
+				// There's nothing to return if range is collapsed.
+				if ( range.collapsed )
+					return new CKEDITOR.dom.documentFragment( range.document );
 
-					return {
-						detect: function( that, editable ) {
-							var range = that.range,
-								rangeStart = range.clone(),
-								rangeEnd = range.clone(),
-
-								startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
-								endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable );
-
-							// Note: checkBoundaryOfElement will not work on original range as CKEDITOR.START|END
-							// means that range start|end must be literally anchored at block start|end, e.g.
-							//
-							// 		<p>a{</p><p>}b</p>
-							//
-							// will return false for both paragraphs but two similar ranges
-							//
-							// 		<p>a{}</p><p>{}b</p>
-							//
-							// will return true if checked separately.
-							rangeStart.collapse( 1 );
-							rangeEnd.collapse();
-
-							if ( startPath.block && rangeStart.checkBoundaryOfElement( startPath.block, CKEDITOR.END ) ) {
-								range.setStartAfter( startPath.block );
-								that.prependEolBr = 1;
-							}
-
-							if ( endPath.block && rangeEnd.checkBoundaryOfElement( endPath.block, CKEDITOR.START ) ) {
-								range.setEndBefore( endPath.block );
-								that.appendEolBr = 1;
-							}
-						},
-
-						fix: function( that, editable ) {
-							var doc = editable.getDocument(),
-								appended;
-
-							// Append <br data-cke-eol="1"> to the fragment.
-							if ( that.appendEolBr ) {
-								appended = createEolBr( doc );
-								that.fragment.append( appended );
-							}
-
-							// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
-							// elements should never follow each other in DOM.
-							if ( that.prependEolBr && ( !appended || appended.getPrevious() ) ) {
-								that.fragment.append( createEolBr( doc ), 1 );
-							}
-						}
-					};
-				} )();
-
-				var bogus = ( function() {
-					return {
-						exclude: function( that ) {
-							var boundaryNodes = that.range.getBoundaryNodes(),
-								startNode = boundaryNodes.startNode,
-								endNode = boundaryNodes.endNode;
-
-							// If bogus is the last node in range but not the only node, exclude it.
-							if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) )
-								that.range.setEndBefore( endNode );
-						}
-					};
-				} )();
-
-				var tree = ( function() {
-					function rebuildFragmentTree( that, editable, node, checkLimit ) {
-						var clone;
-
-						while ( node && !node.equals( editable ) && checkLimit( node ) ) {
-							// Don't clone children. Preserve element ids.
-							clone = node.clone( 0, 1 );
-							that.fragment.appendTo( clone );
-							that.fragment = clone;
-
-							node = node.getParent();
-						}
-					}
-
-					return {
-						rebuild: function( that, editable ) {
-							var range = that.range,
-								node = range.getCommonAncestor(),
-
-								// A path relative to the common ancestor.
-								commonPath = new CKEDITOR.dom.elementPath( node, editable ),
-								startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
-								endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable ),
-								limit;
-
-							if ( node.type == CKEDITOR.NODE_TEXT )
-								node = node.getParent();
-
-							// Fix DOM of partially enclosed tables
-							// 		<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>
-							// Full table is returned
-							// 		<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>
-							// instead of
-							// 		<td>b</td><td>c</td>
-							if ( commonPath.blockLimit.is( { tr: 1, table: 1 } ) ) {
-								var tableParent = commonPath.contains( 'table' ).getParent();
-
-								limit = function( node ) {
-									return !node.equals( tableParent );
-								};
-							}
-
-							// Fix DOM in the following case
-							// 		<ol><li>a{b<ul><li>c}d</li></ul></li></ol>
-							// Full list is returned
-							// 		<ol><li>b<ul><li>c</li></ul></li></ol>
-							// instead of
-							// 		b<ul><li>c</li></ul>
-							else if ( commonPath.block && commonPath.block.is( CKEDITOR.dtd.$listItem ) ) {
-								var startList = startPath.contains( CKEDITOR.dtd.$list ),
-									endList = endPath.contains( CKEDITOR.dtd.$list );
-
-								if ( !startList.equals( endList ) ) {
-									var listParent = commonPath.contains( CKEDITOR.dtd.$list ).getParent();
-
-									limit = function( node ) {
-										return !node.equals( listParent );
-									};
-								}
-							}
-
-							// If not defined, use generic limit function.
-							if ( !limit ) {
-								limit = function( node ) {
-									return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
-								};
-							}
-
-							rebuildFragmentTree( that, editable, node, limit );
-						}
-					};
-				} )();
-
-				var cell = ( function() {
-					return {
-						// Handle range anchored in table row with a single cell enclosed:
-						// 		<table><tbody><tr>[<td>a</td>]</tr></tbody></table>
-						// becomes
-						// 		<table><tbody><tr><td>{a}</td></tr></tbody></table>
-						shrink: function( that ) {
-							var range = that.range,
-								startContainer = range.startContainer,
-								endContainer = range.endContainer,
-								startOffset = range.startOffset,
-								endOffset = range.endOffset;
-
-							if ( startContainer.type == CKEDITOR.NODE_ELEMENT && startContainer.equals( endContainer ) && startContainer.is( 'tr' ) && ++startOffset == endOffset ) {
-								range.shrink( CKEDITOR.SHRINK_TEXT );
-							}
-						}
-					};
-				} )();
-
-				return function( range ) {
-					// There's nothing to return if range is collapsed.
-					if ( range.collapsed )
-						return new CKEDITOR.dom.documentFragment( range.document );
-
-					// Info object passed between methods.
-					var that = {
-						doc: this.getDocument(),
-						// Leave original range object untouched.
-						range: range.clone()
-					};
-
-					eol.detect( that, this );
-					bogus.exclude( that );
-					cell.shrink( that );
-
-					that.fragment = that.range.cloneContents();
-
-					tree.rebuild( that, this );
-					eol.fix( that, this );
-
-					return new CKEDITOR.dom.documentFragment( that.fragment.$ );
+				// Info object passed between methods.
+				var that = {
+					doc: this.getDocument(),
+					// Leave original range object untouched.
+					range: range.clone()
 				};
-			} )(),
+
+				getHtmlFromRange.eol.detect( that, this );
+				getHtmlFromRange.bogus.exclude( that );
+				getHtmlFromRange.cell.shrink( that );
+
+				that.fragment = that.range.cloneContents();
+
+				getHtmlFromRange.tree.rebuild( that, this );
+				getHtmlFromRange.eol.fix( that, this );
+
+				return new CKEDITOR.dom.documentFragment( that.fragment.$ );
+			},
 
 			/**
 			 * A base of the {@link #extractSelectedHtml} method.
@@ -3093,6 +2923,178 @@
 
 		removableParent.remove();
 	}
+
+	//
+	// Helpers for editable.getHtmlFromRange.
+	//
+	var getHtmlFromRange = ( function() {
+		var eol = {
+			detect: function( that, editable ) {
+				var range = that.range,
+					rangeStart = range.clone(),
+					rangeEnd = range.clone(),
+
+					startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
+					endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable );
+
+				// Note: checkBoundaryOfElement will not work on original range as CKEDITOR.START|END
+				// means that range start|end must be literally anchored at block start|end, e.g.
+				//
+				// 		<p>a{</p><p>}b</p>
+				//
+				// will return false for both paragraphs but two similar ranges
+				//
+				// 		<p>a{}</p><p>{}b</p>
+				//
+				// will return true if checked separately.
+				rangeStart.collapse( 1 );
+				rangeEnd.collapse();
+
+				if ( startPath.block && rangeStart.checkBoundaryOfElement( startPath.block, CKEDITOR.END ) ) {
+					range.setStartAfter( startPath.block );
+					that.prependEolBr = 1;
+				}
+
+				if ( endPath.block && rangeEnd.checkBoundaryOfElement( endPath.block, CKEDITOR.START ) ) {
+					range.setEndBefore( endPath.block );
+					that.appendEolBr = 1;
+				}
+			},
+
+			fix: function( that, editable ) {
+				var doc = editable.getDocument(),
+					appended;
+
+				// Append <br data-cke-eol="1"> to the fragment.
+				if ( that.appendEolBr ) {
+					appended = eol.createEolBr( doc );
+					that.fragment.append( appended );
+				}
+
+				// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
+				// elements should never follow each other in DOM.
+				if ( that.prependEolBr && ( !appended || appended.getPrevious() ) ) {
+					that.fragment.append( eol.createEolBr( doc ), 1 );
+				}
+			},
+
+			createEolBr: function( doc ) {
+				return doc.createElement( 'br', {
+					attributes: {
+						'data-cke-eol': 1
+					}
+				} );
+			}
+		};
+
+		var bogus = {
+			exclude: function( that ) {
+				var boundaryNodes = that.range.getBoundaryNodes(),
+					startNode = boundaryNodes.startNode,
+					endNode = boundaryNodes.endNode;
+
+				// If bogus is the last node in range but not the only node, exclude it.
+				if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) )
+					that.range.setEndBefore( endNode );
+			}
+		};
+
+		var tree = {
+			rebuild: function( that, editable ) {
+				var range = that.range,
+					node = range.getCommonAncestor(),
+
+					// A path relative to the common ancestor.
+					commonPath = new CKEDITOR.dom.elementPath( node, editable ),
+					startPath = new CKEDITOR.dom.elementPath( range.startContainer, editable ),
+					endPath = new CKEDITOR.dom.elementPath( range.endContainer, editable ),
+					limit;
+
+				if ( node.type == CKEDITOR.NODE_TEXT )
+					node = node.getParent();
+
+				// Fix DOM of partially enclosed tables
+				// 		<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>
+				// Full table is returned
+				// 		<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>
+				// instead of
+				// 		<td>b</td><td>c</td>
+				if ( commonPath.blockLimit.is( { tr: 1, table: 1 } ) ) {
+					var tableParent = commonPath.contains( 'table' ).getParent();
+
+					limit = function( node ) {
+						return !node.equals( tableParent );
+					};
+				}
+
+				// Fix DOM in the following case
+				// 		<ol><li>a{b<ul><li>c}d</li></ul></li></ol>
+				// Full list is returned
+				// 		<ol><li>b<ul><li>c</li></ul></li></ol>
+				// instead of
+				// 		b<ul><li>c</li></ul>
+				else if ( commonPath.block && commonPath.block.is( CKEDITOR.dtd.$listItem ) ) {
+					var startList = startPath.contains( CKEDITOR.dtd.$list ),
+						endList = endPath.contains( CKEDITOR.dtd.$list );
+
+					if ( !startList.equals( endList ) ) {
+						var listParent = commonPath.contains( CKEDITOR.dtd.$list ).getParent();
+
+						limit = function( node ) {
+							return !node.equals( listParent );
+						};
+					}
+				}
+
+				// If not defined, use generic limit function.
+				if ( !limit ) {
+					limit = function( node ) {
+						return !node.equals( commonPath.block ) && !node.equals( commonPath.blockLimit );
+					};
+				}
+
+				tree.rebuildFragment( that, editable, node, limit );
+			},
+
+			rebuildFragment: function( that, editable, node, checkLimit ) {
+				var clone;
+
+				while ( node && !node.equals( editable ) && checkLimit( node ) ) {
+					// Don't clone children. Preserve element ids.
+					clone = node.clone( 0, 1 );
+					that.fragment.appendTo( clone );
+					that.fragment = clone;
+
+					node = node.getParent();
+				}
+			}
+		};
+
+		var cell = {
+			// Handle range anchored in table row with a single cell enclosed:
+			// 		<table><tbody><tr>[<td>a</td>]</tr></tbody></table>
+			// becomes
+			// 		<table><tbody><tr><td>{a}</td></tr></tbody></table>
+			shrink: function( that ) {
+				var range = that.range,
+					startContainer = range.startContainer,
+					endContainer = range.endContainer,
+					startOffset = range.startOffset,
+					endOffset = range.endOffset;
+
+				if ( startContainer.type == CKEDITOR.NODE_ELEMENT && startContainer.equals( endContainer ) && startContainer.is( 'tr' ) && ++startOffset == endOffset ) {
+					range.shrink( CKEDITOR.SHRINK_TEXT );
+				}
+			}
+		};
+
+		return {
+			eol: eol,
+			bogus: bogus,
+			tree: tree,
+			cell: cell
+		};
+	} )();
 
 } )();
 
