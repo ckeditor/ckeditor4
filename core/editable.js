@@ -3000,9 +3000,6 @@
 				},
 
 				deleteRanges: function( that ) {
-					if ( !that.tableContentsRanges )
-						return;
-
 					var range;
 
 					// Delete table cell contents.
