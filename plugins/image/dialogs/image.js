@@ -599,20 +599,39 @@
 										commit: function( type, element, internalCommit ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
-												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
-													element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
-												else
+												if ( value ) {
+													if ( editor.activeFilter.check( 'img[width]' ) ) {
+														element.setAttribute( 'width', value );
+														element.removeStyle( 'width' );
+													} else if ( editor.activeFilter.check( 'img{width}' ) ) {
+														element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
+														element.removeAttribute( 'width' );
+													}
+												} else {
+													element.removeAttribute( 'width' );
 													element.removeStyle( 'width' );
-
-												!internalCommit && element.removeAttribute( 'width' );
+												}
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
 													var oImageOriginal = this.getDialog().originalElement;
-													if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
-														element.setStyle( 'width', oImageOriginal.$.width + 'px' );
+													if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
+														if ( editor.activeFilter.check( 'img[width]' ) ) {
+															element.setAttribute( 'width',  oImageOriginal.$.width );
+															element.removeStyle( 'width' );
+														} else if ( editor.activeFilter.check( 'img{width}' ) ) {
+															element.setStyle( 'width',  oImageOriginal.$.width + 'px' );
+															element.removeAttribute( 'width' );
+														}
+													}
 												} else {
-													element.setStyle( 'width', CKEDITOR.tools.cssLength( value ) );
+													if ( editor.activeFilter.check( 'img[width]' ) ) {
+														element.setAttribute( 'width',  value );
+														element.removeStyle( 'width' );
+													} else if ( editor.activeFilter.check( 'img{width}' ) ) {
+														element.setStyle( 'width',  CKEDITOR.tools.cssLength( value ) );
+														element.removeAttribute( 'width' );
+													}
 												}
 											} else if ( type == CLEANUP ) {
 												element.removeAttribute( 'width' );
@@ -640,20 +659,39 @@
 										commit: function( type, element, internalCommit ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
-												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
-													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
-												else
-													element.removeStyle( 'height' );
-
-												!internalCommit && element.removeAttribute( 'height' );
+												if ( value ) {
+													if ( editor.activeFilter.check( 'img[height]' ) ) {
+														element.setAttribute( 'height', value );
+														element.removeStyle( 'height' );
+													} else if ( editor.activeFilter.check( 'img{height}' ) ) {
+														element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
+														element.removeAttribute( 'height' );
+													}
+												} else {
+													element.removeAttribute( 'width' );
+													element.removeStyle( 'width' );
+												}
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
 													var oImageOriginal = this.getDialog().originalElement;
-													if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
-														element.setStyle( 'height', oImageOriginal.$.height + 'px' );
+													if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
+														if ( editor.activeFilter.check( 'img[height]' ) ) {
+															element.setAttribute( 'height',  oImageOriginal.$.height );
+															element.removeStyle( 'height' );
+														} else if ( editor.activeFilter.check( 'img{height}' ) ) {
+															element.setStyle( 'height',  oImageOriginal.$.height + 'px' );
+															element.removeAttribute( 'height' );
+														}
+													}
 												} else {
-													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
+													if ( editor.activeFilter.check( 'img[height]' ) ) {
+														element.setAttribute( 'height',  value );
+														element.removeStyle( 'height' );
+													} else if ( editor.activeFilter.check( 'img{height}' ) ) {
+														element.setStyle( 'height',  CKEDITOR.tools.cssLength( value ) );
+														element.removeAttribute( 'height' );
+													}
 												}
 											} else if ( type == CLEANUP ) {
 												element.removeAttribute( 'height' );
