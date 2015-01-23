@@ -57,7 +57,7 @@
 
 				var data = evt.data,
 					// Prevent XSS attacks.
-					tempDoc = document.implementation.createHTMLDocument( 'temp' ),
+					tempDoc = document.implementation.createHTMLDocument( '' ),
 					temp = new CKEDITOR.dom.element( tempDoc.body ),
 					imgs, img, i;
 
