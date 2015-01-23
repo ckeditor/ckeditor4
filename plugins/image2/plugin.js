@@ -424,7 +424,7 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (#11004).
-				if ( editor.filter.checkFeature( this.features.dimension ) )
+				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true )
 					setupResizer( this );
 
 				this.shiftState = helpers.stateShifter( this.editor );
@@ -1332,6 +1332,7 @@
 				if ( !enabled )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				else {
+					// jscs:disable
 					this.setState(
 						( widget.data.align == value ) ?
 								CKEDITOR.TRISTATE_ON
@@ -1340,6 +1341,7 @@
 										CKEDITOR.TRISTATE_OFF
 									:
 										CKEDITOR.TRISTATE_DISABLED );
+					// jscs:enable
 				}
 
 				evt.cancel();
@@ -1541,6 +1543,14 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * @since 4.5.0
  * @cfg {Boolean} [image2_prefillDimensions=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Disables the image resizer. By default the resizer is enabled.
+ *
+ * @since 4.5.0
+ * @cfg {Boolean} [image2_disableResizer=false]
  * @member CKEDITOR.config
  */
 
