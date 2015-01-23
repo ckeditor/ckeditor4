@@ -1,3 +1,2 @@
-CKEDITOR.skin = 'skinnochameleon';
-
-// That's enough.
+CKEDITOR.skin.chameleon = null;
+CKEDITOR.skin.name = 'skinnochameleon';

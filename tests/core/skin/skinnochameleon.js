@@ -26,7 +26,7 @@
 
 			assert.isNull( caughtError, 'An error is not thrown during editor initialisation' );
 			assert.areSame( 'ready', this.editors.editor.status, 'Editor is really ready' );
-			assert.areSame( 'skinnochameleon', CKEDITOR.skin );
+			assert.areSame( 'skinnochameleon', CKEDITOR.skin.name );
 		}
 	} );
 }() );
