@@ -2857,7 +2857,7 @@
 				var common = range.getCommonAncestor();
 
 				if ( common.is( CKEDITOR.dtd.$tableContent ) && !common.is( tableEditable ) ) {
-					common = common.getAscendant( 'table', true ) || common;
+					common = common.getAscendant( 'table', true );
 				}
 
 				return common;
