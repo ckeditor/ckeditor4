@@ -2658,22 +2658,6 @@
 			return range;
 		}
 
-		// Check whether a range crosses boundary of any element of a specified name.
-		function checkRangeCrosses( range, elementNames ) {
-			var walker = new CKEDITOR.dom.walker( range ),
-				contains = false;
-
-			walker.guard = function( node ) {
-				if ( node.type == CKEDITOR.NODE_ELEMENT && node.is( elementNames ) ) {
-					contains = true;
-					return false;
-				}
-			};
-			walker.checkForward();
-
-			return contains;
-		}
-
 		var list = {
 			detectMerge: function( that, editable ) {
 				var range = createRangeFromBookmark( editable, that.bookmark ),
@@ -2952,14 +2936,6 @@
 					// by the normal algorithm.
 					if ( !startTable && !endTable ) {
 						return;
-					}
-
-					// If range starts and ends in the same table, check whether it touches
-					// any table elements (otherwise it's a selection within one td/th/caption).
-					if ( startTable && endTable && startTable.equals( endTable ) ) {
-						if ( !checkRangeCrosses( range, CKEDITOR.dtd.$tableContent ) ) {
-							return;
-						}
 					}
 
 					// Handle two disjoint tables case:
