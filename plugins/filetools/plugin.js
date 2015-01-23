@@ -209,12 +209,14 @@
 	 * String data encoded with Base64. If `FileLoader` is created with Base64 string then `data` is that string.
 	 * If a file was passed to the constructor, then data is `null` until loading is completed.
 	 *
+	 * @readonly
 	 * @property {String} data
 	 */
 
 	/**
 	 * File object which represents handled file. This property is set for both constructor options (file or data).
 	 *
+	 * @readonly
 	 * @property {Blob} file
 	 */
 
@@ -222,6 +224,7 @@
 	 * The name of the file. If there is no file name it is create from the MIME type.
 	 * For example for the MIME type `image/png`, the file name will be `image.png`.
 	 *
+	 * @readonly
 	 * @property {String} fileName
 	 */
 
@@ -229,36 +232,42 @@
 	 * Number of loaded bytes. If `FileLoader` was created with data string,
 	 * then the loaded value equals the {@link #total} value.
 	 *
+	 * @readonly
 	 * @property {Number} loaded
 	 */
 
 	/**
 	 * Number of uploaded bytes.
 	 *
+	 * @readonly
 	 * @property {Number} uploaded
 	 */
 
 	/**
 	 * Total file size in bytes.
 	 *
+	 * @readonly
 	 * @property {Number} total
 	 */
 
 	/**
 	 * Error message or additional information received from the server.
 	 *
+	 * @readonly
 	 * @property {String} message
 	 */
 
 	/**
 	 * URL to the file when it is uploaded, received from the server.
 	 *
+	 * @readonly
 	 * @property {String} url
 	 */
 
 	/**
 	 * The target of the upload.
 	 *
+	 * @readonly
 	 * @property {String} uploadUrl
 	 */
 
@@ -266,12 +275,14 @@
 	 *
 	 * Native `FileReader` reference used to load file.
 	 *
+	 * @readonly
 	 * @property {FileReader} reader
 	 */
 
 	/**
 	 * Native `XMLHttpRequest` reference used to upload file.
 	 *
+	 * @readonly
 	 * @property {XMLHttpRequest} xhr
 	 */
 
@@ -279,6 +290,7 @@
 	 * If `FileLoader` was created using {@link CKEDITOR.fileTools.uploadsRepository}
 	 * it gets an identifier which is stored in this property.
 	 *
+	 * @readonly
 	 * @property {Number} id
 	 */
 
