@@ -621,6 +621,58 @@
 			},
 
 			/**
+			 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
+			 * or a string). This method is designed to work as a user would expect the copy functionality to work.
+			 * For instance, if the following selection has been made:
+			 *
+			 *		<p>a<b>b{c}d</b>e</p>
+			 *
+			 * The following HTML will be returned:
+			 *
+			 *		<b>c</b>
+			 *
+			 * As you can see, the information about the bold has been preserved, even though the selection was
+			 * anchored inside the `<b>` element.
+			 *
+			 * See also:
+			 *
+			 * * the {@link #extractSelectedHtml} method,
+			 * * the {@link #getHtmlFromRange} method.
+			 *
+			 * @since 4.5
+			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+			 * @returns {CKEDITOR.dom.documentFragment/String}
+			 */
+			getSelectedHtml: function( toString ) {
+				var docFragment = this.getHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
+
+				return toString ? docFragment.getHtml() : docFragment;
+			},
+
+			/**
+			 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
+			 * or a string) and removes the selected part of the DOM. This method is designed to work as user would
+			 * expect the cut and delete functionalities to work.
+			 *
+			 * See also:
+			 *
+			 * * the {@link #getSelectedHtml} method,
+			 * * the {@link #extractHtmlFromRange} method.
+			 *
+			 * @since 4.5
+			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+			 * @returns {CKEDITOR.dom.documentFragment/String}
+			 */
+			extractSelectedHtml: function( toString ) {
+				var range = this.editor.getSelection().getRanges()[ 0 ],
+					docFragment = this.extractHtmlFromRange( range );
+
+				this.editor.getSelection().selectRanges( [ range ] );
+
+				return toString ? docFragment.getHtml() : docFragment;
+			},
+
+			/**
 			 * A base of the {@link #getSelectedHtml} method.
 			 *
 			 * @since 4.5
@@ -1396,58 +1448,6 @@
 					return extractedFragment;
 				};
 			} )(),
-
-			/**
-			 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
-			 * or a string). This method is designed to work as a user would expect the copy functionality to work.
-			 * For instance, if the following selection has been made:
-			 *
-			 *		<p>a<b>b{c}d</b>e</p>
-			 *
-			 * The following HTML will be returned:
-			 *
-			 *		<b>c</b>
-			 *
-			 * As you can see, the information about the bold has been preserved, even though the selection was
-			 * anchored inside the `<b>` element.
-			 *
-			 * See also:
-			 *
-			 * * the {@link #extractSelectedHtml} method,
-			 * * the {@link #getHtmlFromRange} method.
-			 *
-			 * @since 4.5
-			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
-			 * @returns {CKEDITOR.dom.documentFragment/String}
-			 */
-			getSelectedHtml: function( toString ) {
-				var docFragment = this.getHtmlFromRange( this.editor.getSelection().getRanges()[ 0 ] );
-
-				return toString ? docFragment.getHtml() : docFragment;
-			},
-
-			/**
-			 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
-			 * or a string) and removes the selected part of the DOM. This method is designed to work as user would
-			 * expect the cut and delete functionalities to work.
-			 *
-			 * See also:
-			 *
-			 * * the {@link #getSelectedHtml} method,
-			 * * the {@link #extractHtmlFromRange} method.
-			 *
-			 * @since 4.5
-			 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
-			 * @returns {CKEDITOR.dom.documentFragment/String}
-			 */
-			extractSelectedHtml: function( toString ) {
-				var range = this.editor.getSelection().getRanges()[ 0 ],
-					docFragment = this.extractHtmlFromRange( range );
-
-				this.editor.getSelection().selectRanges( [ range ] );
-
-				return toString ? docFragment.getHtml() : docFragment;
-			},
 
 			/**
 			 * Editable element bootstrapping.
