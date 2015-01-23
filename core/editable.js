@@ -2978,9 +2978,9 @@
 					// <p>ab</p><table>..[..</table>][<p>c}d</p>
 					else if ( !endTable ) {
 						that.tableSurroundingRange = surroundingRange;
-						surroundingRange.setStartAt( endTable, CKEDITOR.POSITION_AFTER_START );
+						surroundingRange.setStartAt( startTable, CKEDITOR.POSITION_AFTER_END );
 
-						range.setEndAt( startTable, CKEDITOR.POSITION_AFTER_START );
+						range.setEndAt( startTable, CKEDITOR.POSITION_AFTER_END );
 					}
 
 					// Use already calculated or calculate for the remaining range.
