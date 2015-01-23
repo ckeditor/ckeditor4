@@ -61,7 +61,7 @@
 	 * Upload widget use {@link CKEDITOR.fileTools.fileLoader} as a helper to upload file. {@link CKEDITOR.fileTools.fileLoader}
 	 * instance is created when the file is pasted and proper method is called, by default it is
 	 * {@link CKEDITOR.fileTools.fileLoader#loadAndUpload} method. If you want to use only `load`
-	 * or only `upload` you can use {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadingType loadingType} property.
+	 * or only `upload` you can use {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadMethod loadMethod} property.
 	 *
 	 * Note that if you want to handle a big file, e.g. a video, you may need to use `upload` instead of
 	 * `loadAndUpload` because the file may be to too big to load it to the memory at once.
@@ -71,7 +71,7 @@
 	 * For example, if you want to read the content of the file:
 	 *
 	 *		CKEDITOR.fileTools.addUploadWidget( editor, 'fileReader', {
-	 *			loadingType: 'load',
+	 *			loadMethod: 'load',
 	 *			supportedTypes: /text\/(plain|html)/,
 	 *
 	 *			fileToElement: function( file ) {
@@ -126,6 +126,7 @@
 				var data = evt.data,
 					dataTransfer = data.dataTransfer,
 					filesCount = dataTransfer.getFilesCount(),
+					loadMethod = def.loadMethod || 'loadAndUpload',
 					file, i;
 
 				if ( data.dataValue || !filesCount ) {
@@ -141,13 +142,7 @@
 							loader = uploads.create( file );
 
 						if ( el ) {
-							if ( def.loadingType == 'load' ) {
-								loader.load();
-							} else if ( def.loadingType == 'upload' ) {
-								loader.upload( def.uploadUrl );
-							} else {
-								loader.loadAndUpload( def.uploadUrl );
-							}
+							loader[ loadMethod ]( def.uploadUrl );
 
 							markElement( el, name, loader.id );
 
@@ -169,7 +164,7 @@
 		 * should not be overwritten.
 		 *
 		 * Also, upload widget definition defines few properties ({@link #fileToElement}, {@link #supportedTypes},
-		 * {@link #loadingType loadingType} and {@link #uploadUrl}) used in the {@link CKEDITOR.editor#paste} listener
+		 * {@link #loadMethod loadMethod} and {@link #uploadUrl}) used in the {@link CKEDITOR.editor#paste} listener
 		 * which is registered by {@link CKEDITOR.fileTools#addUploadWidget} if the upload widget definition contains
 		 * {@link #fileToElement} callback.
 		 *
@@ -304,7 +299,7 @@
 			 * without loading it to the memory, this loading type should be used if you want to upload big file,
 			 * otherwise you can meet out of memory error.
 			 *
-			 * @property {String} [loadingType=loadAndUpload]
+			 * @property {String} [loadMethod=loadAndUpload]
 			 */
 
 			/**

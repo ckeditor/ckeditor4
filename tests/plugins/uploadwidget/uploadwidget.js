@@ -387,11 +387,11 @@
 			wait();
 		},
 
-		'test loadingType load': function() {
+		'test loadMethod load': function() {
 			var editor = mockEditorForPaste();
 
-			addTestUploadWidget( editor, 'loadingTypeLoad', {
-				loadingType: 'load',
+			addTestUploadWidget( editor, 'loadMethodLoad', {
+				loadMethod: 'load',
 
 				fileToElement: function() {
 					return new CKEDITOR.dom.element( 'span' );
@@ -409,11 +409,11 @@
 			wait();
 		},
 
-		'test loadingType upload': function() {
+		'test loadMethod upload': function() {
 			var editor = mockEditorForPaste();
 
-			addTestUploadWidget( editor, 'loadingTypeLoad', {
-				loadingType: 'upload',
+			addTestUploadWidget( editor, 'loadMethodLoad', {
+				loadMethod: 'upload',
 
 				fileToElement: function() {
 					return new CKEDITOR.dom.element( 'span' );
