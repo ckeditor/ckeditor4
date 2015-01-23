@@ -55,7 +55,7 @@
 		 * Creates a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a unique id.
 		 * The instance can be later retrieved from the repository using the {@link #get} method.
 		 *
-		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#created created} event.
+		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#instanceCreated instanceCreated} event.
 		 *
 		 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
 		 * @param {String} fileName See {@link CKEDITOR.fileTools.fileLoader}.
@@ -68,7 +68,7 @@
 			loader.id = id;
 			this._.loaders[ id ] = loader;
 
-			this.fire( 'created', loader );
+			this.fire( 'instanceCreated', loader );
 
 			return loader;
 		},
@@ -86,7 +86,7 @@
 		/**
 		 * Event fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} is created.
 		 *
-		 * @event created
+		 * @event instanceCreated
 		 * @param {CKEDITOR.fileTools.fileLoader} data Created FileLoader.
 		 */
 	};

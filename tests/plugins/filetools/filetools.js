@@ -134,11 +134,11 @@
 		},
 
 
-		'test UploadsRepository create event': function() {
+		'test UploadsRepository instanceCreated event': function() {
 			var repository = this.editor.uploadsRepository,
 				listener = sinon.spy();
 
-			repository.on( 'created', listener );
+			repository.on( 'instanceCreated', listener );
 
 			var loader = repository.create( { name: 'foo' } );
 
