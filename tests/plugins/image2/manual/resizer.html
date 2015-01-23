@@ -1,0 +1,29 @@
+<div id="editor1" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<div id="editor2" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<div id="editor3" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<div id="editor4" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		disallowedContent : 'img{width, height}[width, height]',
+		image2_disableResizer: true
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		disallowedContent : 'img{width, height}[width, height]'
+	} );
+
+	CKEDITOR.replace( 'editor3', {
+		image2_disableResizer: true
+	} );
+
+	CKEDITOR.replace( 'editor4' );
+</script>
