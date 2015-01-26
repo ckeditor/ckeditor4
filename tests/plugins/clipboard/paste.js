@@ -793,43 +793,62 @@
 			} );
 		},
 
-		'html textification': function() {
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>' },
-				{ type: 'text', dataValue: '<p>a<br>b</p>' },
-				'strip styles' );
+		'html textification <p class="test" style="color:red">a<br style="display:none">b</p>': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>'
+				}, { type: 'text', dataValue: '<p>a<br>b</p>' }, 'strip styles' );
+		},
 
+		'html textification a<i>b</i><p>c<b>d</b>e<br>f</p>g': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a<i>b</i><p>c<b>d</b>e<br>f</p>g' },
 				{ type: 'text', dataValue: 'ab<p>cde<br>f</p>g' },
 				'strip inline elements' );
+		},
 
+		'html textification <ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>' },
 				{ type: 'text', dataValue: '<p>A1<br>A2</p><p>B1<br>B2</p><p>C1</p>' },
 				'lists' );
+		},
+
+		'html textification <dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
 				{ type: 'text', dataValue: '<p>AT<br>AD</p><p>BT<br>BD1<br>BD2</p>' },
 				'def lists' );
+		},
+
+		'html textification a <div>b</div> <div title="1">c</div> d <div>e</div>': function() {
 
 			// Without attrib this will be handled as normal htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a <div>b</div> <div title="1">c</div> d <div>e</div>' },
 				{ type: 'text', dataValue: 'a<br>b<br>c<br>d<br>e<br>' },
 				'divs' );
+		},
+
+		'html textification <div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>' },
 				{ type: 'text', dataValue: '<p>a</p>b<br>c<p>d<br>e</p>' },
 				'divs 2' );
+		},
+
+		'html textification X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X': function() {
 
 			// TODO we should correct tbody,thead,tfoot,caption order if not done by parser.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X' },
 				{ type: 'text', dataValue: 'X<p>C<br>A1 A2<br>B1 B2</p>X' },
 				'tables' );
+		},
+
+		'html textification <table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>': function() {
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>' },
@@ -955,7 +974,7 @@
 				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-						{ type: 'text', dataValue: 'AT<br>AD<br><br>BT<br>BD1<br>BD2' },
+						{ type: 'text', dataValue: 'AT<br />AD<br /><br />BT<br />BD1<br />BD2' },
 						'def lists' );
 				} );
 		},
