@@ -247,7 +247,7 @@
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
+					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
 				}
 
 				if ( dataObj.startsWithEOL )
@@ -1142,153 +1142,21 @@
 	}
 
 	function getTextificationFilter() {
-		var filter = new CKEDITOR.htmlParser.filter();
-
-		// Elements which creates vertical breaks (have vert margins) - took from HTML5 spec.
-		// http://dev.w3.org/html5/markup/Overview.html#toc
-		var replaceWithParaIf = { blockquote: 1, dl: 1, fieldset: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ol: 1, p: 1, table: 1, ul: 1 },
-
-			// All names except of <br>.
-			stripInlineIf = CKEDITOR.tools.extend( { br: 0 }, CKEDITOR.dtd.$inline ),
-
-			// What's finally allowed (cke:br will be removed later).
-			allowedIf = { p: 1, br: 1, 'cke:br': 1 },
-
-			knownIf = CKEDITOR.dtd,
-
-			// All names that will be removed (with content).
-			removeIf = CKEDITOR.tools.extend( { area: 1, basefont: 1, embed: 1, iframe: 1, map: 1, object: 1, param: 1 }, CKEDITOR.dtd.$nonBodyContent, CKEDITOR.dtd.$cdata );
-
-		var flattenTableCell = function( element ) {
-				delete element.name;
-				element.add( new CKEDITOR.htmlParser.text( ' ' ) );
-			},
-			// Squash adjacent headers into one. <h1>A</h1><h2>B</h2> -> <h1>A<br>B</h1><h2></h2>
-			// Empty ones will be removed later.
-			squashHeader = function( element ) {
-				var next = element,
-					br, el;
-
-				while ( ( next = next.next ) && next.name && next.name.match( /^h\d$/ ) ) {
-					// TODO shitty code - waitin' for htmlParse.element fix.
-					br = new CKEDITOR.htmlParser.element( 'cke:br' );
-					br.isEmpty = true;
-					element.add( br );
-					while ( ( el = next.children.shift() ) )
-						element.add( el );
-				}
-			};
-
-		filter.addRules( {
-			elements: {
-				h1: squashHeader,
-				h2: squashHeader,
-				h3: squashHeader,
-				h4: squashHeader,
-				h5: squashHeader,
-				h6: squashHeader,
-
-				img: function( element ) {
-					var alt = CKEDITOR.tools.trim( element.attributes.alt || '' ),
-						txt = ' ';
-
-					// Replace image with its alt if it doesn't look like an url or is empty.
-					if ( alt && !alt.match( /(^http|\.(jpe?g|gif|png))/i ) )
-						txt = ' [' + alt + '] ';
-
-					return new CKEDITOR.htmlParser.text( txt );
-				},
-
-				td: flattenTableCell,
-				th: flattenTableCell,
-
-				$: function( element ) {
-					var initialName = element.name,
-						br;
-
-					// Remove entirely.
-					if ( removeIf[ initialName ] )
-						return false;
-
-					// Remove all attributes.
-					element.attributes = {};
-
-					// Pass brs.
-					if ( initialName == 'br' )
-						return element;
-
-					// Elements that we want to replace with paragraphs.
-					if ( replaceWithParaIf[ initialName ] )
-						element.name = 'p';
-
-					// Elements that we want to strip (tags only, without the content).
-					else if ( stripInlineIf[ initialName ] )
-						delete element.name;
-
-					// Surround other known element with <brs> and strip tags.
-					else if ( knownIf[ initialName ] ) {
-						// TODO shitty code - waitin' for htmlParse.element fix.
-						br = new CKEDITOR.htmlParser.element( 'cke:br' );
-						br.isEmpty = true;
-
-						// Replace hrs (maybe sth else too?) with only one br.
-						if ( CKEDITOR.dtd.$empty[ initialName ] )
-							return br;
-
-						element.add( br, 0 );
-						br = br.clone();
-						br.isEmpty = true;
-						element.add( br );
-						delete element.name;
-					}
-
-					// Final cleanup - if we can still find some not allowed elements then strip their names.
-					if ( !allowedIf[ element.name ] )
-						delete element.name;
-
-					return element;
-				}
-			}
-		}, {
-			// Apply this filter to every element.
-			applyToAll: true
-		} );
+		var filter = new CKEDITOR.filter( '' );
 
 		return filter;
 	}
 
-	function htmlTextification( config, data, filter ) {
-		var fragment = new CKEDITOR.htmlParser.fragment.fromHtml( data ),
+	function htmlTextification( editor, data, filter ) {
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 
-		fragment.writeHtml( writer, filter );
-		data = writer.getHtml();
+		writer.reset();
 
-		// Cleanup cke:brs.
-		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' )	// Remove spaces around tags.
-			.replace( /(<cke:br \/>){2,}/g, '<cke:br />' )			// Join multiple adjacent cke:brs
-			.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' )		// Strip cke:brs adjacent to original brs or ps.
-			.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' )
-			.replace( /<(cke:)?br( \/)?>/g, '<br>' )				// Finally - rename cke:brs to brs and fix <br /> to <br>.
-			.replace( /<p><\/p>/g, '' );							// Remove empty paragraphs.
+		filter.applyTo( fragment, true, false, editor.activeEnterMode );
+		fragment.writeHtml( writer );
 
-		// Fix nested ps. E.g.:
-		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
-		// <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p>G
-		var nested = 0;
-		data = data.replace( /<\/?p>/g, function( match ) {
-			if ( match == '<p>' ) {
-				if ( ++nested > 1 )
-					return '</p><p>';
-			} else {
-				if ( --nested > 0 )
-					return '</p><p>';
-			}
-
-			return match;
-		} ).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
-
-		return switchEnterMode( config, data );
+		return writer.getHtml();
 	}
 
 	function switchEnterMode( config, data ) {
