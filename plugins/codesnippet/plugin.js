@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -27,9 +27,9 @@
 			 *
 			 * **Note**:
 			 *
-			 * * This method can only be called while initialisating plugins (in one of
+			 * * This method can only be called while initialising plugins (in one of
 			 * the three callbacks).
-			 * * This method is accessible through `editor.plugins.codesnippet` namespace only.
+			 * * This method is accessible through the `editor.plugins.codesnippet` namespace only.
 			 *
 			 * @since 4.4
 			 * @member CKEDITOR.plugins.codesnippet
