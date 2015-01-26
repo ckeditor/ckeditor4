@@ -1144,6 +1144,8 @@
 	function getTextificationFilter() {
 		var filter = new CKEDITOR.filter( '' );
 
+		filter.allow( 'br' );
+
 		return filter;
 	}
 
