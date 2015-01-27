@@ -9,15 +9,7 @@ CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
 
 	init: function( editor ) {
-		/**
-		 * {@link CKEDITOR.plugins.notification.area Notification area} instance.
-		 *
-		 * @since 4.5
-		 * @private
-		 * @property {CKEDITOR.plugins.notification.area} notificationArea
-		 * @member CKEDITOR.editor
-		 */
-		editor.notificationArea = new Area( editor );
+		editor._.notificationArea = new Area( editor );
 
 		/**
 		 * Create and show the notification. By default the notification is shown over the editors contents, in the
@@ -59,7 +51,7 @@ CKEDITOR.plugins.add( 'notification', {
 		// Close the last notification on ESC.
 		editor.on( 'key', function( evt ) {
 			if ( evt.data.keyCode == 27 /* ESC */ ) {
-				var notifications = editor.notificationArea.notifications;
+				var notifications = editor._.notificationArea.notifications;
 
 				if ( !notifications.length ) {
 					return;
@@ -134,7 +126,7 @@ function Notification( editor, options ) {
 	this.duration = options.duration;
 	this.id = 'cke-' + CKEDITOR.tools.getUniqueId();
 	this.element = this._createElement();
-	this.area = this.editor.notificationArea;
+	this.area = this.editor._.notificationArea;
 }
 
 /**

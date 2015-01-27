@@ -4,7 +4,7 @@
 'use strict';
 
 function assertNotifications( editor, expectedNotifications ) {
-	var actualNotifications = editor.notificationArea.notifications;
+	var actualNotifications = editor._.notificationArea.notifications;
 
 	assert.areSame( expectedNotifications.length, actualNotifications.length, 'Expected and actual notifications count are different' );
 
@@ -67,10 +67,10 @@ var listener;
 bender.test( {
 	tearDown: function() {
 		var editor = this.editor,
-			notifications = editor.notificationArea.notifications;
+			notifications = editor._.notificationArea.notifications;
 
 		while ( notifications.length ) {
-			editor.notificationArea.remove( notifications[ 0 ] );
+			editor._.notificationArea.remove( notifications[ 0 ] );
 		}
 
 		editor.removeListener( 'notificationShow', listener );

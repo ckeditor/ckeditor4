@@ -40,7 +40,7 @@ bender.editor = {
 function createLayoutTest( mockValues, expected ) {
 	return function() {
 		var editor = this.editor,
-			area = editor.notificationArea,
+			area = editor._.notificationArea,
 			body = CKEDITOR.document.getBody();
 
 		sinon.stub( editor.ui, 'space' ).withArgs( 'top' ).returns( {
@@ -108,7 +108,7 @@ function createLayoutTest( mockValues, expected ) {
 bender.test( {
 	'tearDown': function() {
 		var editor = this.editor,
-			notifications = editor.notificationArea.notifications;
+			notifications = editor._.notificationArea.notifications;
 
 		// Unwrap stubs
 		editor.ui.space.restore();
@@ -116,10 +116,10 @@ bender.test( {
 		editor.ui.contentsElement.getDocumentPosition.restore();
 		CKEDITOR.document.getWindow.restore();
 		CKEDITOR.document.getBody.restore();
-		editor.notificationArea.element.getClientRect.restore();
+		editor._.notificationArea.element.getClientRect.restore();
 
 		while ( notifications.length ) {
-			editor.notificationArea.remove( notifications[ 0 ] );
+			editor._.notificationArea.remove( notifications[ 0 ] );
 		}
 	},
 

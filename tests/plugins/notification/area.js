@@ -12,16 +12,16 @@ bender.editor = {
 bender.test( {
 	tearDown: function() {
 		var editor = this.editor,
-			notifications = editor.notificationArea.notifications;
+			notifications = editor._.notificationArea.notifications;
 
 		while ( notifications.length ) {
-			editor.notificationArea.remove( notifications[ 0 ] );
+			editor._.notificationArea.remove( notifications[ 0 ] );
 		}
 	},
 
 	'test add': function() {
 		var editor = this.editor,
-			area = editor.notificationArea,
+			area = editor._.notificationArea,
 			doc = new CKEDITOR.dom.document( document );
 
 		assert.areSame( 0, area.notifications.length );
@@ -43,7 +43,7 @@ bender.test( {
 
 	'test remove': function() {
 		var editor = this.editor,
-			area = editor.notificationArea,
+			area = editor._.notificationArea,
 			doc = new CKEDITOR.dom.document( document ),
 			notification1 = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } ),
 			notification2 = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } ),
@@ -84,7 +84,7 @@ bender.test( {
 		var win = CKEDITOR.document.getWindow(),
 			doc = new CKEDITOR.dom.document( document ),
 			editor = this.editor,
-			area = editor.notificationArea;
+			area = editor._.notificationArea;
 
 		area.add( new CKEDITOR.plugins.notification( editor, { message: 'Foo' } ) );
 
