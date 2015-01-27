@@ -844,7 +844,7 @@
 			// TODO we should correct tbody,thead,tfoot,caption order if not done by parser.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'X<table> <caption>C</caption> <tr><th>A1</th><td>A2</td></tr> <tr><td>B1</td><th>B2</th></tr> </table>X' },
-				{ type: 'text', dataValue: 'X<p>C<br>A1 A2<br>B1 B2</p>X' },
+				{ type: 'text', dataValue: 'X<p>C</p><p>A1A2</p><p>B1B2</p>X' },
 				'tables' );
 		},
 
@@ -852,7 +852,7 @@
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<table> <tr><td>A1</td> <td><table><tr><td>B1</td><td>B2</td></table></td></tr> <tr><td>C1</td></tr> </table>' },
-				{ type: 'text', dataValue: '<p>A1</p><p>B1 B2</p><p>C1</p>' },
+				{ type: 'text', dataValue: '<p>A1</p><p>B1B2</p><p>C1</p>' },
 				'tables 2' );
 		},
 
@@ -904,7 +904,7 @@
 		'html textification 4': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'x<object>y</object>z <p>a<iframe src=".">b</iframe>c</p>' },
-				{ type: 'text', dataValue: 'xz<p>ac</p>' },
+				{ type: 'text', dataValue: 'xyz<p>abc</p>' },
 				'remove elements' );
 
 			// input -> value? select -> current value?
@@ -946,21 +946,21 @@
 		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="This is a title">B</p>': function() {
 			assertPasteEvent( this.editor, {
 				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="This is a title">B</p>'
-			}, { type: 'text', dataValue: '<p>A [This is a title] B</p>' }, 'img alt to text' );
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'img alt to text' );
 		},
 
 		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>': function() {
 			// Quite popular case in the Internet.
 			assertPasteEvent( this.editor, {
 				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>'
-			}, { type: 'text', dataValue: '<p>A B</p>' }, 'dumb alt' );
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'dumb alt' );
 		},
 
 		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="">B</p>': function() {
 			// Popular too.
 			assertPasteEvent( this.editor, {
 				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="">B</p>'
-			}, { type: 'text', dataValue: '<p>A B</p>' }, 'dumb alt' );
+			}, { type: 'text', dataValue: '<p>AB</p>' }, 'dumb alt' );
 		},
 
 		'html textification 6 - tricks <p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>': function() {

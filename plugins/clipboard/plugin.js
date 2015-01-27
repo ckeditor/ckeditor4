@@ -247,7 +247,7 @@
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
+					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter( editor.config.pasteFilter ) ) );
 				}
 
 				if ( dataObj.startsWithEOL )
@@ -1141,12 +1141,28 @@
 		return switchEnterMode( config, data );
 	}
 
-	function getTextificationFilter() {
-		var filter = new CKEDITOR.filter( '' );
+	var filtersFactory = ( function() {
+		var filters = {};
 
-		filter.allow( 'br' );
+		function createSemanticContentFilter() {
+			return new CKEDITOR.filter( '' );
+		}
 
-		return filter;
+		return {
+			get: function( type ) {
+				if ( type == 'plain-text' ) {
+					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
+				} else if ( type == 'semantic-content' ) {
+					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
+				} else {
+					return new CKEDITOR.filter( type || 'br' );
+				}
+			}
+
+		};
+	}() );
+	function getTextificationFilter( type ) {
+		return filtersFactory.get( type );
 	}
 
 	function htmlTextification( editor, data, filter ) {
