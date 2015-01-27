@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'div', 'pt', {
 	IdInputLabel: 'ID',
 	advisoryTitleInputLabel: 'Título',
-	cssClassInputLabel: 'Classes de Estilo de Folhas Classes',
+	cssClassInputLabel: 'Classes de folhas de estilo',
 	edit: 'Editar Div',
 	inlineStyleInputLabel: 'Estilho em Linha',
 	langDirLTRLabel: 'Esquerda à Direita (LTR)',

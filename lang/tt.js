@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'tt' ] = {
 		alignTop: 'Өскә',
 		alignMiddle: 'Уртага',
 		alignBottom: 'Аска',
-		alignNone: 'None', // MISSING
+		alignNone: 'Һичбер',
 		invalidValue	: 'Дөрес булмаган кыйммәт',
 		invalidHeight: 'Биеклек сан булырга тиеш',
 		invalidWidth: 'Киңлек сан булырга тиеш',

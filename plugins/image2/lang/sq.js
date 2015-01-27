@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'image2', 'sq', {
 	infoTab: 'Informacione mbi Fotografinë',
 	lockRatio: 'Mbyll Racionin',
 	menu: 'Karakteristikat e Fotografisë',
-	pathName: 'image', // MISSING
+	pathName: 'foto',
 	pathNameCaption: 'caption', // MISSING
 	resetSize: 'Rikthe Madhësinë',
 	resizer: 'Click and drag to resize', // MISSING

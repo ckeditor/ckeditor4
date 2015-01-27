@@ -3,7 +3,7 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'tt', {
-	armenian: 'Armenian numbering', // MISSING
+	armenian: 'Әрмән номерлавы',
 	bulletedTitle: 'Маркерлы тезмә үзлекләре',
 	circle: 'Түгәрәк',
 	decimal: 'Унарлы (1, 2, 3, ...)',
@@ -15,7 +15,7 @@ CKEDITOR.plugins.setLang( 'liststyle', 'tt', {
 	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)', // MISSING
 	none: 'Һичбер',
 	notset: '<билгеләнмәгән>',
-	numberedTitle: 'Numbered List Properties', // MISSING
+	numberedTitle: 'Номерлы тезмә үзлекләре',
 	square: 'Шакмак',
 	start: 'Башлау',
 	type: 'Төр',

@@ -50,13 +50,13 @@ CKEDITOR.plugins.setLang( 'table', 'tt', {
 	headersColumn: 'Беренче багана',
 	headersNone: 'Һичбер',
 	headersRow: 'Беренче юл',
-	invalidBorder: 'Border size must be a number.', // MISSING
+	invalidBorder: 'Чик киңлеге сан булырга тиеш',
 	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
 	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
 	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
+	invalidHeight: 'Таблица биеклеге сан булырга тиеш',
 	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
+	invalidWidth: 'Таблица киңлеге сан булырга тиеш',
 	menu: 'Таблица үзлекләре',
 	row: {
 		menu: 'Юл',

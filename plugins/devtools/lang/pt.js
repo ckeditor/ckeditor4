@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'devtools', 'pt', {
-	title: 'Informação do Elemento',
-	dialogName: 'Nome da janela do diálogo',
-	tabName: 'Nome do Separador',
-	elementId: 'Id. do Elemento',
+	title: 'Informação do elemento',
+	dialogName: 'Nome da janela de diálogo',
+	tabName: 'Nome do separador',
+	elementId: 'ID do elemento',
 	elementType: 'Tipo de Elemento'
 } );

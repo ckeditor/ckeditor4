@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		title: 'Propriedades do Botão',
 		text: 'Texto (Valor)',
 		type: 'Tipo',
-		typeBtn: 'Button',
+		typeBtn: 'Botão',
 		typeSbm: 'Submit',
 		typeRst: 'Reset'
 	},
@@ -59,10 +59,10 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		maxChars: 'Nr. Máximo de Caracteres',
 		type: 'Tipo',
 		typeText: 'Texto',
-		typePass: 'Palavra-chave',
+		typePass: 'Senha',
 		typeEmail: 'Email',
 		typeSearch: 'Pesquisar',
-		typeTel: 'Numero de telefone',
+		typeTel: 'Telefone',
 		typeUrl: 'URL'
 	}
 } );

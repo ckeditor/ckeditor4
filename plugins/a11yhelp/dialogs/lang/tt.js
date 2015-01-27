@@ -65,7 +65,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 		},
 			{
 			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			legend: '${toolbarCollapse} басыгыз'
 		},
 			{
 			name: ' Access previous focus space command', // MISSING

@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'colordialog', 'pt', {
 	clear: 'Limpar',
 	highlight: 'Realçar',
-	options: 'Opções da Cor',
-	selected: 'Cor Selecionada',
-	title: 'Selecionar Cor'
+	options: 'Opções de cor',
+	selected: 'Cor selecionada',
+	title: 'Selecionar cor'
 } );

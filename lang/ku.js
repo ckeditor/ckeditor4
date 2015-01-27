@@ -55,7 +55,7 @@ CKEDITOR.lang[ 'ku' ] = {
 		advisoryTitle: 'ڕاوێژکاری سەردێڕ',
 		cssStyle: 'شێواز',
 		ok: 'باشە',
-		cancel: 'هەڵوەشاندن',
+		cancel: 'پاشگەزبوونەوە',
 		close: 'داخستن',
 		preview: 'پێشبینین',
 		resize: 'گۆڕینی ئەندازە',
