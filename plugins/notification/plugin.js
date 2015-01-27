@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'notification', {
 		editor._.notificationArea = new Area( editor );
 
 		/**
-		 * Create and show the notification. By default the notification is shown over the editors contents, in the
+		 * Creates and shows a new notification. By default the notification is shown over the editors contents, in the
 		 * viewport if it is possible.
 		 *
 		 * See {@link CKEDITOR.plugins.notification}.
@@ -20,10 +20,10 @@ CKEDITOR.plugins.add( 'notification', {
 		 * @since 4.5
 		 * @member CKEDITOR.editor
 		 * @param {String} message Message displayed on the notification.
-		 * @param {String} [type='info'] Type of the notification. Can be 'info', 'warning', 'success' or 'progress'.
-		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from 0 to 1
-		 * (default 0). Otherwise the the third parameter may be a notification duration: how many miliseconds after the
-		 * next change event notification should be closed automatically. 0 means that notification will not be closed
+		 * @param {String} [type='info'] Type of the notification. Can be `'info'`, `'warning'`, `'success'` or `'progress'`.
+		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from `0` to `1`
+		 * (defaults to `0`). Otherwise the the third parameter may be a notification duration: how many milliseconds after the
+		 * next change event notification should be closed automatically. `0` means that notification will not be closed
 		 * automatically, user needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
@@ -94,23 +94,23 @@ CKEDITOR.plugins.add( 'notification', {
 } );
 
 /**
- * Notification class. Notifications are uses to show user short messages. They might be used to show result of
+ * Notification class. Notifications are used to show user short messages. They might be used to show result of
  * asynchronous actions or informations about changes in the editors content. They should be used instead of
- * alert dialogs. They should NOT be used if user response is required nor used with dialogs (ex. dialog validation).
+ * alert dialogs. They should **not** be used if user response is required, nor with dialogs (e.g. dialog validation).
  *
  * There are four types of notifications, see the {@link #type} property.
  *
- * Note that constructor just creates a notification instance. To show it use the {@link #show} method:
+ * Note that the notification constructor only creates a notification instance. To show it use the {@link #show} method:
  *
  *		var notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
  *		notification.show();
  *
- * Or you can use the {@link CKEDITOR.editor#showNotification} method:
+ * You can also use the {@link CKEDITOR.editor#showNotification} method:
  *
  *		editor.showNotification( 'Foo' );
  *
  * All of the notification actions ({@link #show}, {@link #update} and {@link #hide}) fire cancelable events
- * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with the website notifications.
+ * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with your website notifications.
  *
  * @since 4.5
  * @class CKEDITOR.plugins.notification
@@ -153,26 +153,27 @@ function Notification( editor, options ) {
 /**
  * Notification type. There are four types:
  *
- * * `info` (default) - Information for the user (ex. "File is uploading", "ACF modified content."),
- * * `warning` - Warning or error messages (ex. "This type of files is not supported",
- *		"You cannot paste script."),
- * * `success` - Information that operation finish successfully (ex. "File uploaded.", "Data imported.").
- * * `progress` - Show user progress of the operation. When operations id done the type of the notification
- * 		should be changed to `success`.
+ * * `info` (default) &ndash; Information for the user (e.g. "File is uploading.", "ACF modified content."),
+ * * `warning` &ndash; Warning or error messages (e.g. "This type of files is not supported.",
+ * "You cannot paste script."),
+ * * `success` &ndash; Information that an operation finished successfully (e.g. "File uploaded.", "Data imported.").
+ * * `progress` &ndash; Shows user a progress of the operation. When operations is done the type of the notification
+ * should be changed to `success`.
  *
  * @readonly
  * @property {String} type
  */
 
 /**
- * If the type is `progress` this is the progress from 0 to 1.
+ * If the {@link #type} is `'progress'` this is the progress from `0` to `1`.
  *
  * @readonly
  * @property {Number} progress
  */
 
 /**
- * Notification duration, how many miliseconds after the next change event notification should be closed automatically.
+ * Notification duration. Determines how many milliseconds after the next {@link CKEDITOR.editor#change} event
+ * the notification should be closed automatically.
  * 0 means that notification will not be closed automatically, user needs to close it manually.
  * By default it is 0 for `warning` and `progress`. For `info` and `success` value it is the of
  * {@link CKEDITOR.config#notification_duration notification_duration} configuration option or 5000 if not set.
@@ -190,7 +191,7 @@ function Notification( editor, options ) {
 
 /**
  * Notification DOM element. There is one element per notification. It is created when the notification is created,
- * even if it not shown. If notification is hidden element is detached from document but not deleted, it will be reused if
+ * even if it is not shown. If notification is hidden element is detached from document but not deleted. It will be reused if
  * notification will be shown again.
  *
  * @readonly
@@ -209,7 +210,7 @@ Notification.prototype = {
 	 * Adds notification element to the notification area. Notification will be hidden automatically if {@link #duration}
 	 * was set.
 	 *
-	 * Fire {@link CKEDITOR.editor#notificationShow} event.
+	 * Fires the {@link CKEDITOR.editor#notificationShow} event.
 	 */
 	show: function() {
 		if ( this.editor.fire( 'notificationShow', { notification: this } ) === false ) {
@@ -224,7 +225,7 @@ Notification.prototype = {
 	/**
 	 * Updates notification object and element.
 	 *
-	 * Fire {@link CKEDITOR.editor#notificationUpdate} event.
+	 * Fires the {@link CKEDITOR.editor#notificationUpdate} event.
 	 *
 	 * @param {Object} options
 	 * @param {String} [options.message] {@link #message}
@@ -292,7 +293,7 @@ Notification.prototype = {
 	/**
 	 * Removes notification element from the notification area.
 	 *
-	 * Fire {@link CKEDITOR.editor#notificationHide} event.
+	 * Fires the {@link CKEDITOR.editor#notificationHide} event.
 	 */
 	hide: function() {
 		if ( this.editor.fire( 'notificationHide', { notification: this } ) === false ) {
@@ -305,7 +306,7 @@ Notification.prototype = {
 	/**
 	 * Returns `true` if the notification is in the notification area.
 	 *
-	 * @returns {Boolean} true if notification is in the notification area.
+	 * @returns {Boolean} `true` if notification is in the notification area.
 	 */
 	isVisible: function() {
 		return CKEDITOR.tools.indexOf( this.area.notifications, this ) >= 0;

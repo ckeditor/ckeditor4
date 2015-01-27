@@ -82,7 +82,6 @@
 						floatSpace.show();
 					}
 
-
 					editor.fire( 'floatingSpaceLayout', { show: show } );
 
 					// Reset the horizontal position for below measurement.
@@ -401,7 +400,7 @@
  */
 
 /**
- * Fired when the viewport or editor parameters changes and floating space needs to check and
+ * Fired when the viewport or editor parameters changes and the floating space needs to check and
  * eventually update its position and dimensions.
  *
  * @since 4.5

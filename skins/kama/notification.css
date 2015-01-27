@@ -58,7 +58,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	animation: fadeIn 0.7s;
 }
 
-.cke_notification_message a {
+.cke_notification_message a
+{
 	color: #12306F;
 }
 
@@ -70,8 +71,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 @keyframes fadeIn
 {
-	from {opacity: 0.4;}
-	to {opacity: 0.95;}
+	from { opacity: 0.4; }
+	to { opacity: 0.95; }
 }
 
 .cke_notification_success

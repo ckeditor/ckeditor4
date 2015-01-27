@@ -168,13 +168,16 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  */
 
 /**
- * The element which contains editor contents. It is provided by a specific editor creator
- * after editor UI is created and is not intended to be modified. It might be `div` which contains `iframe` or
- * another element with `contenteditable` attribute. Use position of this element
- * if you need to set the position related to the contents (ex. over it).
+ * The element in the {@link CKEDITOR#document host page's document} which contains the editor content.
+ * If the [fixed editor UI](http://sdk.ckeditor.com/samples/fixedui.html) is used, then it will be set to
+ * `editor.ui.space( 'contents' )` &mdash; i.e. the `<div>` which contains an `<iframe>` (in case of the classic UI)
+ * or {@link CKEDITOR.editable} (in case of the inline UI). Otherwise it is set to the {@link CKEDITOR.editable} itself.
+ *
+ * Use position of this element if you need to position elements placed in the host page's document relatively to the
+ * editor content.
  *
  *		var editor = CKEDITOR.instances.editor1;
- *		alert( editor.ui.contentsElement.getName() ); // 'div'
+ *		console.log( editor.ui.contentsElement.getName() ); // 'div'
  *
  * @since 4.5
  * @readonly
