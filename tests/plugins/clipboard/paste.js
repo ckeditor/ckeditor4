@@ -810,7 +810,7 @@
 		'html textification <ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<ul> <li>A1</li> <li>A2 <ol> <li>B1</li> <li>B2</li> </ol></li> </ul> <ol> <li>C1</li> </ol>' },
-				{ type: 'text', dataValue: '<p>A1<br>A2</p><p>B1<br>B2</p><p>C1</p>' },
+				{ type: 'text', dataValue: '<p>A1</p><p>A2</p><p>B1</p><p>B2</p><p>C1</p>' },
 				'lists' );
 		},
 
