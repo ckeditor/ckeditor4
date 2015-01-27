@@ -4,7 +4,7 @@
 CKEDITOR.disableAutoInline = true;
 
 bender.test( {
-	'test outdent does not unwrap parent li': function() {
+	'test outdent does not unwrap parent li with multiple lists and both lists selected': function() {
 		bender.editorBot.create( {
 			creator: 'inline',
 			name: 'editor1'
@@ -12,7 +12,7 @@ bender.test( {
 			var editor = bot.editor;
 
 			editor.focus();
-			bender.tools.selection.setWithHtml( editor, '<ul>[<li>1</li></ul><ol><li>2</li>]</ol>' );
+			bender.tools.selection.setWithHtml( editor, '<ul><li>[1</li></ul><ol><li>2]</li></ol>' );
 
 			var originalEditable = editor.editable(),
 				originalEditableParent = originalEditable.getParent();
@@ -24,7 +24,7 @@ bender.test( {
 			assert.areSame( originalEditableParent, originalEditable.getParent(), 'editable\'s parent did not change' );
 
 			// It is not necessarily the most expected result (I would expect both lists to be outdented),
-			// but this is how the alogirthm works in an iframed editor at the moment.
+			// but this is how the algorithm works in an iframed editor at the moment.
 			assert.areSame( '<p>1</p><ol><li>2</li></ol>', editor.getData(), 'the first of the selected lists was outdented' );
 		} );
 	}
