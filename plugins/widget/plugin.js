@@ -257,8 +257,7 @@
 				widget;
 
 			// Widget is focused so commit and finish checking.
-			if ( selectedElement && selectedElement.type == CKEDITOR.NODE_ELEMENT &&
-				( widget = this.getByElement( selectedElement, true ) ) )
+			if ( selectedElement && ( widget = this.getByElement( selectedElement, true ) ) )
 				return updater.focus( widget ).select( widget ).commit();
 
 			var range = sel.getRanges()[ 0 ];
