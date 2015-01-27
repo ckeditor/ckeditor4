@@ -521,6 +521,16 @@
 			}, 110 );
 		},
 
+		'test eventsBuffer contex': function() {
+			var spy = sinon.spy(),
+				ctxObj = {},
+				buffer = CKEDITOR.tools.eventsBuffer( 100, spy, ctxObj );
+
+			buffer.input();
+
+			assert.areSame( ctxObj, spy.getCall( 0 ).thisValue, 'callback was executed with the right context' );
+		},
+
 		'test capitalize': function() {
 			var c = CKEDITOR.tools.capitalize;
 
