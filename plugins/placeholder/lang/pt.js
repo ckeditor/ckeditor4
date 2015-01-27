@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'pt', {
-	title: 'Propriedades dos Símbolos',
+	title: 'Propriedades dos marcadores',
 	toolbar: 'Símbolo',
-	name: 'Nome do Símbolo',
-	invalidName: 'O símbolo não pode estar em branco e não pode conter qualquer dos seguintes carateres: [, ], <, >',
+	name: 'Nome do marcador',
+	invalidName: 'O marcador não pode estar em branco e não pode conter qualquer dos seguintes carateres: [, ], <, >',
 	pathName: 'símbolo'
 } );

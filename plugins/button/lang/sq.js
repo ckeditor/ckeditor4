@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'button', 'pt', {
-	selectedLabel: '%1 (Selecionado)'
+CKEDITOR.plugins.setLang( 'button', 'sq', {
+	selectedLabel: '%1 (Përzgjedhur)'
 } );

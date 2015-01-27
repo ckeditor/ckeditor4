@@ -34,9 +34,9 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	noEmail: 'Электрон почта адресын языгыз',
 	noUrl: 'Сылталаманы языгыз',
 	other: '<бүтән>',
-	popupDependent: 'Dependent (Netscape)', // MISSING
+	popupDependent: 'Бәйле (Netscape)',
 	popupFeatures: 'Popup Window Features', // MISSING
-	popupFullScreen: 'Full Screen (IE)', // MISSING
+	popupFullScreen: 'Тулы экран (IE)',
 	popupLeft: 'Left Position', // MISSING
 	popupLocationBar: 'Location Bar', // MISSING
 	popupMenuBar: 'Menu Bar', // MISSING
@@ -50,10 +50,10 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	styles: 'Стиль',
 	tabIndex: 'Tab Index', // MISSING
 	target: 'Максат',
-	targetFrame: '<frame>', // MISSING
+	targetFrame: '<frame>',
 	targetFrameName: 'Target Frame Name', // MISSING
-	targetPopup: '<popup window>', // MISSING
-	targetPopupName: 'Popup Window Name', // MISSING
+	targetPopup: '<popup window>',
+	targetPopupName: 'Попап тәрәзәсе исеме',
 	title: 'Сылталама',
 	toAnchor: 'Якорьне текст белән бәйләү',
 	toEmail: 'Электрон почта',

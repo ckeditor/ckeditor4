@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'sq', {
 	bgColor: 'Ngjyra e Prapavijës',
-	bgFixed: 'Non-scrolling (Fixed) Background', // MISSING
+	bgFixed: 'Prapavijë pa zvarritje (fiks)',
 	bgImage: 'URL e Fotografisë së Prapavijës',
 	charset: 'Character Set Encoding', // MISSING
 	charsetASCII: 'ASCII',

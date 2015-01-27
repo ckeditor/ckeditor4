@@ -2,6 +2,7 @@
 Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'selectall', 'pt', {
-	toolbar: 'Selecionar tudo'
+CKEDITOR.plugins.setLang( 'elementspath', 'tt', {
+	eleLabel: 'Elements path', // MISSING
+	eleTitle: '%1 элемент'
 } );

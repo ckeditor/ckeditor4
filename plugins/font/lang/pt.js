@@ -5,10 +5,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'pt', {
 	fontSize: {
 		label: 'Tamanho',
-		voiceLabel: 'Tamanho da Letra',
-		panelTitle: 'Tamanho da Letra'
+		voiceLabel: 'Tamanho da letra',
+		panelTitle: 'Tamanho da letra'
 	},
-	label: 'Tipo de Letra',
+	label: 'Fonte',
 	panelTitle: 'Nome do Tipo de Letra',
 	voiceLabel: 'Tipo de Letra'
 } );

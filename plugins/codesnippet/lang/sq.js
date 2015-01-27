@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'sq', {
 	button: 'Shto kod copëze',
-	codeContents: 'Code content', // MISSING
+	codeContents: 'Përmbajtja e kodit',
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
+	language: 'Gjuha',
 	title: 'Code snippet', // MISSING
 	pathName: 'code snippet' // MISSING
 } );

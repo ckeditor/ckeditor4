@@ -14,6 +14,7 @@ var CKBUILDER_CONFIG = {
 		'bender-out.log',
 		'dev',
 		'.DS_Store',
+		'.editorconfig',
 		'.gitignore',
 		'.gitattributes',
 		'gruntfile.js',

@@ -17,12 +17,12 @@ CKEDITOR.plugins.setLang( 'specialchar', 'tt', {
 	curren: 'Акча берәмлеге тамгасы',
 	yen: 'Иена тамгасы',
 	brvbar: 'Broken bar', // MISSING
-	sect: 'Section sign', // MISSING
+	sect: 'Параграф билгесе',
 	uml: 'Диерезис',
 	copy: 'Хокук иясе булу билгесе',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Ачылучы чыршысыман җәя',
-	not: 'Not sign', // MISSING
+	not: 'Юклык ишарəсе',
 	reg: 'Теркәләнгән булу билгесе',
 	macr: 'Макрон',
 	deg: 'Градус билгесе',
@@ -31,7 +31,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'tt', {
 	acute: 'Басым билгесе',
 	micro: 'Микро билгесе',
 	para: 'Параграф билгесе',
-	middot: 'Middle dot', // MISSING
+	middot: 'Уртадагы нокта',
 	cedil: 'Седиль',
 	sup1: 'Беренче өске индекс',
 	ordm: 'Masculine ordinal indicator', // MISSING
@@ -116,10 +116,10 @@ CKEDITOR.plugins.setLang( 'specialchar', 'tt', {
 	hellip: 'Ятма эллипс',
 	trade: 'Сәүдә маркасы билгесе',
 	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
+	bull: 'Маркер',
+	rarr: 'Уң якка ук',
+	rArr: 'Уң якка икеләтә ук',
+	hArr: 'Ике якка икеләтә ук',
 	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
+	asymp: 'якынча'
 } );

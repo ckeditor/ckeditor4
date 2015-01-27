@@ -5,8 +5,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	bgColor: 'Cor de Fundo',
 	bgFixed: 'Fundo Fixo',
-	bgImage: 'Caminho para a Imagem de Fundo',
-	charset: 'Codificação de Caracteres',
+	bgImage: 'Caminho para a imagem de fundo',
+	charset: 'Codificação de caracteres',
 	charsetASCII: 'ASCII',
 	charsetCE: 'Europa Central',
 	charsetCR: 'Cirílico',
@@ -36,7 +36,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'pt', {
 	metaKeywords: 'Palavras de Indexação do Documento (separadas por virgula)',
 	other: '<outro>',
 	previewHtml: '<p>Isto é algum <strong>texto amostra</strong>. Está a usar o <a href="javascript:void(0)">CKEditor</a>.</p>',
-	title: 'Propriedades do Documento',
+	title: 'Propriedades do documento',
 	txtColor: 'Cor do Texto',
 	xhtmlDec: 'Incluir Declarações XHTML'
 } );

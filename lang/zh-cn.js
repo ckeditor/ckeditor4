@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		alignTop: '顶端',
 		alignMiddle: '居中',
 		alignBottom: '底部',
-		alignNone: 'None', // MISSING
+		alignNone: '无',
 		invalidValue	: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',

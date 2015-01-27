@@ -3,7 +3,7 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'tt', {
-	alertUrl: 'Please type the image URL', // MISSING
+	alertUrl: 'Рәсемгә сылталама языгыз',
 	alt: 'Альтернатив текст',
 	border: 'Чик',
 	btnUpload: 'Серверга җибәрү',
@@ -14,7 +14,7 @@ CKEDITOR.plugins.setLang( 'image', 'tt', {
 	linkTab: 'Сылталама',
 	lockRatio: 'Lock Ratio', // MISSING
 	menu: 'Рәсем үзлекләре',
-	resetSize: 'Reset Size', // MISSING
+	resetSize: 'Баштагы зурлык',
 	title: 'Рәсем үзлекләре',
 	titleButton: 'Рәсемле төймə үзлекләре',
 	upload: 'Йөкләү',

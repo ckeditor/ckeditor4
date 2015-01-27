@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'pt' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor',
-	editorPanel: 'Painel do Rich Text Editor',
+	editor: 'Editor de texto enriquecido',
+	editorPanel: 'Painel do editor de texto enriquecido',
 
 	// Common messages and labels.
 	common: {
@@ -28,11 +28,11 @@ CKEDITOR.lang[ 'pt' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'Pressione ALT+0 para ajuda',
 
-		browseServer: 'Explorar Servidor',
+		browseServer: 'Navegar no servidor',
 		url: 'URL',
 		protocol: 'Protocolo',
 		upload: 'Enviar',
-		uploadSubmit: 'Enviá-lo para o Servidor',
+		uploadSubmit: 'Enviar para o servidor',
 		image: 'Imagem',
 		flash: 'Flash',
 		form: 'Formulário',
@@ -40,7 +40,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		radio: 'Botão',
 		textField: 'Campo do Texto',
 		textarea: 'Área do Texto',
-		hiddenField: 'Campo Ocultado',
+		hiddenField: 'Campo oculto',
 		button: 'Botão',
 		select: 'Campo da Seleção',
 		imageButton: 'Botão da Imagem',
@@ -74,7 +74,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		langDirLTR: 'Esquerda para a Direita (EPD)',
 		langDirRTL: 'Direita para a Esquerda (DPE)',
 		styles: 'Estilo',
-		cssClasses: 'Classes de Estilo das Folhas',
+		cssClasses: 'Classes de folhas de estilo',
 		width: 'Largura',
 		height: 'Altura',
 		align: 'Alinhamento',
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'pt' ] = {
 		alignTop: 'Topo',
 		alignMiddle: 'Centro',
 		alignBottom: 'Base',
-		alignNone: 'None', // MISSING
+		alignNone: 'Nenhum',
 		invalidValue	: 'Valor inválido.',
 		invalidHeight: 'A altura deve ser um número.',
 		invalidWidth: 'A largura deve ser um número. ',

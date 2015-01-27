@@ -5,5 +5,5 @@
 
 CKEDITOR.plugins.setLang( 'language', 'pt', {
 	button: 'Definir Idioma',
-	remove: 'Remover Idioma'
+	remove: 'Remover idioma'
 } );

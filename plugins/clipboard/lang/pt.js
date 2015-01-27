@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt', {
 	cut: 'Cortar',
 	cutError: 'A configuração de segurança do navegador não permite a execução automática de operações de cortar. Por favor use o teclado (Ctrl/Cmd+X).',
 	paste: 'Colar',
-	pasteArea: 'Colar Área',
+	pasteArea: 'Colar área',
 	pasteMsg: 'Por favor, cole dentro da seguinte caixa usando o teclado (<STRONG>Ctrl/Cmd+V</STRONG>) e prima <STRONG>OK</STRONG>.',
 	securityMsg: 'Devido ás definições de segurança do teu browser, o editor não pode aceder ao clipboard diretamente. É necessário que voltes a colar as informações nesta janela.',
 	title: 'Colar'

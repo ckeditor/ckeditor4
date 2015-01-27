@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'find', 'pt', {
 	find: 'Procurar',
 	findOptions: 'Find Options',
-	findWhat: 'Texto a Procurar:',
+	findWhat: 'Texto a procurar:',
 	matchCase: 'Maiúsculas/Minúsculas',
 	matchCyclic: 'Match cyclic',
 	matchWord: 'Coincidir com toda a palavra',

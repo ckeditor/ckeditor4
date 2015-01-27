@@ -19,7 +19,7 @@
 CKEDITOR.lang[ 'sq' ] = {
 	// ARIA description.
 	editor: 'Redaktues i Pasur Teksti',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Paneli i redaktuesit të tekstit të plotë',
 
 	// Common messages and labels.
 	common: {
@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		alignTop: 'Lart',
 		alignMiddle: 'Në mes',
 		alignBottom: 'Poshtë',
-		alignNone: 'None', // MISSING
+		alignNone: 'Asnjë',
 		invalidValue	: 'Vlerë e pavlefshme',
 		invalidHeight: 'Lartësia duhet të jetë një numër',
 		invalidWidth: 'Gjerësia duhet të jetë një numër',
