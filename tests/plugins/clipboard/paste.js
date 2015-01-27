@@ -856,31 +856,35 @@
 				'tables 2' );
 		},
 
-		'html textification 2': function() {
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p title="1">a<br><br><br></p><p>b</p>' },
-				{ type: 'text', dataValue: '<p>a<br><br><br></p><p>b</p>' },
-				'preserve original new lines' );
+		'html textification 2 <p title="1">a<br><br><br></p><p>b</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p title="1">a<br><br><br></p><p>b</p>'
+			}, { type: 'text', dataValue: '<p>a<br /><br /><br /></p><p>b</p>' }, 'preserve original new lines' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<div title="1"><br><br></div><p>a</p>' },
-				{ type: 'text', dataValue: '<br><br><p>a</p>' },
-				'preserve original new lines 2' );
+		'html textification 2 <div title="1"><br><br></div><p>a</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<div title="1"><br><br></div><p>a</p>'
+			}, { type: 'text', dataValue: '<p><br /><br /></p><p>a</p>' }, 'preserve original new lines 2' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<br>B<br><div title="1">C</div>D<br>E' },
-				{ type: 'text', dataValue: 'A<br>B<br>C<br>D<br>E' },
-				'correct order and new line after div' );
+		'html textification 2 A<br>B<br><div title="1">C</div>D<br>E': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: 'A<br>B<br><div title="1">C</div>D<br>E'
+			}, { type: 'text', dataValue: 'A<br />B<br /><p>C</p>D<br />E' }, 'correct order and new line after div' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<br>B<div title="1">C</div><br>D<br>E' },
-				{ type: 'text', dataValue: 'A<br>B<br>C<br>D<br>E' },
-				'correct order and new line before div' );
+		'html textification 2 A<br>B<div title="1">C</div><br>D<br>E': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: 'A<br>B<div title="1">C</div><br>D<br>E'
+			}, { type: 'text', dataValue: 'A<br />B<p>C</p><br />D<br />E' }, 'correct order and new line before div' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F' },
-				{ type: 'text', dataValue: 'A<p>B</p>C<p>D</p><p>E</p>F' },
-				'transparent divs' );
+		'html textification 2 A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: 'A<div><div><p>B</p>C<ul><li>D</li></ul></div> <p>E</p></div>F'
+				}, { type: 'text', dataValue: 'A<p>B</p><p>C</p><p>D</p><p>E</p>F' }, 'transparent divs' );
 		},
 
 		'html textification 3 - ticket #8834': function() {
@@ -888,12 +892,12 @@
 			// because otherwise this will be handled as htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				{ type: 'text', dataValue: '<p>Line 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
+				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
 				'tt #8834' );
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				{ type: 'text', dataValue: '<p>Line 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
+				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
 				'tt #8834' );
 		},
 
@@ -907,30 +911,29 @@
 			// possible problems: applet, area, fieldset, hgroup (-> h1<br>h2), select, audio, video,
 		},
 
-		'html textification 5 - complex cases': function() {
-			assertPasteEvent(
-				this.editor,
-				{
-					type: 'text', dataValue: '<section><h1>HH</h1><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></section>' +
-					'<table><tbody><tr><td><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></td></tr></tbody></table>'
-				},
-				{
-					type: 'text', dataValue: '<p>HH</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p>'
-				},
-				'complex case 1'
-			);
+		'html textification 5 - complex cases #1': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text',
+				dataValue: '<section><h1>HH</h1><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></section>' + '<table><tbody><tr><td><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p></td></tr></tbody></table>'
+			}, {
+				type: 'text',
+				dataValue: '<p>HH</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p>'
+			}, 'complex case 1' );
+		},
 
-			assertPasteEvent(
-				this.editor,
-				{
-					type: 'text', dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
-					'<ul><li>BBB</li><li>BBB</li></ul><p>5AAAA</p></td><td><p>6AAAA</p><p>7AAAA</p></td></tr></table></aside></div></section>'
-				},
-				{
-					type: 'text', dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB<br>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
-				},
-				'complex case 2'
-			);
+		'html textification 5 - complex cases #2': function() {
+
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<section><div><p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><aside><table><tr><td><p>4AAAA</p>' +
+						'<ul><li>BBB</li><li>BBB</li></ul><p>5AAAA</p></td><td><p>6AAAA</p><p>7AAAA</p></td></tr></table></aside></div></section>'
+				}, {
+					type: 'text',
+					dataValue: '<p>1AAAA</p><p>2AAAA</p><p>3AAAA</p><p>4AAAA</p><p>BBB</p><p>BBB</p><p>5AAAA</p><p>6AAAA</p><p>7AAAA</p>'
+				}, 'complex case 2' );
+		},
+
+		'html textification 5 - complex cases #3': function() {
 
 			assertPasteEvent(
 				this.editor,
@@ -940,32 +943,37 @@
 			);
 		},
 
-		'html textification 6 - tricks': function() {
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="This is a title">B</p>' },
-				{ type: 'text', dataValue: '<p>A [This is a title] B</p>' },
-				'img alt to text' );
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="This is a title">B</p>': function() {
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="This is a title">B</p>'
+			}, { type: 'text', dataValue: '<p>A [This is a title] B</p>' }, 'img alt to text' );
+		},
 
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>': function() {
 			// Quite popular case in the Internet.
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>' },
-				{ type: 'text', dataValue: '<p>A B</p>' },
-				'dumb alt' );
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="sth.jpg?1=2">B</p>'
+			}, { type: 'text', dataValue: '<p>A B</p>' }, 'dumb alt' );
+		},
 
+		'html textification 6 - tricks <p>A<img src="sth.jpg" alt="">B</p>': function() {
 			// Popular too.
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="">B</p>' },
-				{ type: 'text', dataValue: '<p>A B</p>' },
-				'dumb alt' );
+			assertPasteEvent( this.editor, {
+				type: 'text', dataValue: '<p>A<img src="sth.jpg" alt="">B</p>'
+			}, { type: 'text', dataValue: '<p>A B</p>' }, 'dumb alt' );
+		},
 
-			assertPasteEvent( this.editor,
-				{ type: 'text', dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>' },
-				{ type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' },
-				'remove empty blocks' );
+		'html textification 6 - tricks <p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>': function() {
+			assertPasteEvent( this.editor, {
+					type: 'text',
+					dataValue: '<p>A</p><p> </p><p>B</p><p> \t\n\n</p><p>C</p><ul></ul><p>D</p>'
+				}, { type: 'text', dataValue: '<p>A</p><p>B</p><p>C</p><p>D</p>' }, 'remove empty blocks' );
+		},
 
+		'html textification 6 - tricks <p>A</p> <h1>T1</h1> <h2>T2</h2> <h3>T3</h3> <p>C</p> <h4>T4</h4> D <h5>T5</h5>': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p>A</p> <h1>T1</h1> <h2>T2</h2> <h3>T3</h3> <p>C</p> <h4>T4</h4> D <h5>T5</h5>' },
-				{ type: 'text', dataValue: '<p>A</p><p>T1<br>T2<br>T3</p><p>C</p><p>T4</p>D<p>T5</p>' },
+				{ type: 'text', dataValue: '<p>A</p><p>T1</p><p>T2</p><p>T3</p><p>C</p><p>T4</p>D<p>T5</p>' },
 				'squash adjacent headers' );
 		},
 
@@ -974,7 +982,7 @@
 				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-						{ type: 'text', dataValue: 'AT<br />AD<br /><br />BT<br />BD1<br />BD2' },
+						{ type: 'text', dataValue: 'AT<br />AD<br />BT<br />BD1<br />BD2' },
 						'def lists' );
 				} );
 		},
@@ -984,7 +992,7 @@
 				function( editor ) {
 					assertPasteEvent( editor,
 						{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-						{ type: 'text', dataValue: '<div>AT<br>AD</div><div>BT<br>BD1<br>BD2</div>' },
+						{ type: 'text', dataValue: '<div><div>AT</div><div>AD<div><div>BT</div><div>BD1</div><div>BD2</div></div></div></div>' },
 						'def lists' );
 				} );
 		},
