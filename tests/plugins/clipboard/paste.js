@@ -827,7 +827,7 @@
 			// Without attrib this will be handled as normal htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a <div>b</div> <div title="1">c</div> d <div>e</div>' },
-				{ type: 'text', dataValue: 'a<br>b<br>c<br>d<br>e<br>' },
+				{ type: 'text', dataValue: 'a<p>b</p><p>c</p> d<p>e</p>' },
 				'divs' );
 		},
 
@@ -835,7 +835,7 @@
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<div> <p>a</p> b</div> <div>c <ul> <li>d</li> <li>e</li> </ul></div>' },
-				{ type: 'text', dataValue: '<p>a</p>b<br>c<p>d<br>e</p>' },
+				{ type: 'text', dataValue: '<p>a</p><p>b</p><p>c</p><p>d</p><p>e</p>' },
 				'divs 2' );
 		},
 
