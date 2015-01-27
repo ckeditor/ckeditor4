@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+'use strict';
+
 CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
 
@@ -12,16 +14,16 @@ CKEDITOR.plugins.add( 'notification', {
 		 *
 		 * @since 4.5
 		 * @private
-		 * @member CKEDITOR.editor
 		 * @property {CKEDITOR.plugins.notification.area} notificationArea
+		 * @member CKEDITOR.editor
 		 */
-		editor.notificationArea = new area( editor );
+		editor.notificationArea = new Area( editor );
 
 		/**
 		 * Create and show the notification. By default the notification is shown over the editors contents, in the
 		 * viewport if it is possible.
 		 *
-		 * @see CKEDITOR.plugins.notification
+		 * See {@link CKEDITOR.plugins.notification}.
 		 *
 		 * @since 4.5
 		 * @member CKEDITOR.editor
@@ -31,7 +33,6 @@ CKEDITOR.plugins.add( 'notification', {
 		 * (default 0). Otherwise the the third parameter may be a notification duration: how many miliseconds after the
 		 * next change event notification should be closed automatically. 0 means that notification will not be closed
 		 * automatically, user needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
-		 *
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
 		editor.showNotification = function( message, type, progressOrDuration ) {
@@ -101,31 +102,31 @@ CKEDITOR.plugins.add( 'notification', {
  * asynchronous actions or informations about changes in the editors content. They should be used instead of
  * alert dialogs. They should NOT be used if user response is required nor used with dialogs (ex. dialog validation).
  *
- * There are four types of notifications, see {@link #type}.
+ * There are four types of notifications, see the {@link #type} property.
  *
- * Note that constructor just create a `notification` object. To show it use {@link #show show} method:
+ * Note that constructor just creates a notification instance. To show it use the {@link #show} method:
  *
- * 		var notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
- * 		notification.show();
+ *		var notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
+ *		notification.show();
  *
- * Or user can use {@link CKEDITOR.editor#showNotification editor.showNotification} method:
+ * Or you can use the {@link CKEDITOR.editor#showNotification} method:
  *
- * 		editor.showNotification( 'Foo' );
+ *		editor.showNotification( 'Foo' );
  *
- * All of the notification actions (`show`, `update` and `hide`) fires cancelable events so you can integrate editor
- * notifications with the website notifications.
+ * All of the notification actions ({@link #show}, {@link #update} and {@link #hide}) fire cancelable events
+ * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with the website notifications.
  *
  * @since 4.5
  * @class CKEDITOR.plugins.notification
- * @constructor Create a notification object. Call `show` to show created notification.
+ * @constructor Create a notification object. Call {@link #show} to show created notification.
  * @param {CKEDITOR.editor} editor The editor instance.
  * @param {Object} options
  * @param {String} options.message Message displayed on the notification.
- * @param {String} [options.type='info'] Type of the notificationsee {@link #type}.
+ * @param {String} [options.type='info'] Type of the notification, see {@link #type}.
  * @param {Number} [options.progress=0] If the type is `progress` this may be a progress from 0 to 1.
  * @param {Number} [options.duration] How long notification will be visible, see {@link #duration}.
  */
-function notification( editor, options ) {
+function Notification( editor, options ) {
 	this.editor = editor;
 	this.message = options.message;
 	this.type = options.type ? options.type : 'info';
@@ -139,12 +140,14 @@ function notification( editor, options ) {
 /**
  * The editor instance.
  *
+ * @readonly
  * @property {CKEDITOR.editor} editor
  */
 
 /**
  * Message displayed on the notification.
  *
+ * @readonly
  * @property {String} message
  */
 
@@ -158,12 +161,14 @@ function notification( editor, options ) {
  * * `progress` - Show user progress of the operation. When operations id done the type of the notification
  * 		should be changed to `success`.
  *
+ * @readonly
  * @property {String} type
  */
 
 /**
  * If the type is `progress` this is the progress from 0 to 1.
  *
+ * @readonly
  * @property {Number} progress
  */
 
@@ -173,12 +178,14 @@ function notification( editor, options ) {
  * By default it is 0 for `warning` and `progress`. For `info` and `success` value it is the of
  * {@link CKEDITOR.config#notification_duration notification_duration} configuration option or 5000 if not set.
  *
+ * @readonly
  * @property {Number} duration
  */
 
 /**
  * Notification unique id.
  *
+ * @readonly
  * @property {Number} id
  */
 
@@ -187,20 +194,20 @@ function notification( editor, options ) {
  * even if it not shown. If notification is hidden element is detached from document but not deleted, it will be reused if
  * notification will be shown again.
  *
- * @private
+ * @readonly
  * @property {CKEDITOR.dom.element} element
  */
 
 /**
  * {@link CKEDITOR.plugins.notification.area Notifications area} reference.
  *
- * @private
+ * @readonly
  * @property {CKEDITOR.plugins.notification.area} area
  */
 
-notification.prototype = {
+Notification.prototype = {
 	/**
-	 * Add notification element to the notification area. Notification will be hidden automatically if {@link #duration}
+	 * Adds notification element to the notification area. Notification will be hidden automatically if {@link #duration}
 	 * was set.
 	 *
 	 * Fire {@link CKEDITOR.editor#notificationShow} event.
@@ -216,7 +223,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Update notification object and element.
+	 * Updates notification object and element.
 	 *
 	 * Fire {@link CKEDITOR.editor#notificationUpdate} event.
 	 *
@@ -283,7 +290,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Remove notification element from notification area.
+	 * Removes notification element from the notification area.
 	 *
 	 * Fire {@link CKEDITOR.editor#notificationHide} event.
 	 */
@@ -296,7 +303,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Returns true if notification is in the notification area.
+	 * Returns `true` if the notification is in the notification area.
 	 *
 	 * @returns {Boolean} true if notification is in the notification area.
 	 */
@@ -344,7 +351,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Get notification CSS class.
+	 * Gets notification CSS class.
 	 *
 	 * @private
 	 * @returns {String} Notification CSS class.
@@ -358,7 +365,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Create progress element for the notification element.
+	 * Creates progress element for the notification element.
 	 *
 	 * @private
 	 * @returns {CKEDITOR.dom.element} Progress element for the notification element.
@@ -371,7 +378,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Get progress as a percentage (ex. `0.3` -> `30%`).
+	 * Gets progress as a percentage (ex. `0.3` -> `30%`).
 	 *
 	 * @private
 	 * @returns {String} Progress as a percentage.
@@ -385,7 +392,7 @@ notification.prototype = {
 	},
 
 	/**
-	 * Hide notification after the timeout after the first change event.
+	 * Hides notification after the timeout after the first change event.
 	 *
 	 * @private
 	 */
@@ -418,17 +425,17 @@ notification.prototype = {
 };
 
 /**
- * Notification area where all notification are put. Area is layout dynamically. When the first notification is added
- * area is shown and all listeners are added. When the last notification is removed area is hidden and all listeners are
- * removed.
+ * Notification area sis an area where all notifications are put. Area is layout dynamically.
+ * When the first notification is added area is shown and all listeners are added.
+ * When the last notification is removed area is hidden and all listeners are removed.
  *
  * @since 4.5
- * @class CKEDITOR.plugins.notification.area
  * @private
+ * @class CKEDITOR.plugins.notification.area
  * @constructor
  * @param {CKEDITOR.editor} editor The editor instance.
  */
-function area( editor ) {
+function Area( editor ) {
 	var that = this;
 
 	this.editor = editor;
@@ -444,12 +451,14 @@ function area( editor ) {
 /**
  * The editor instance.
  *
+ * @readonly
  * @property {CKEDITOR.editor} editor
  */
 
 /**
  * Array of added notifications.
  *
+ * @readonly
  * @property {Array} notifications
  */
 
@@ -457,7 +466,7 @@ function area( editor ) {
  * Notification area DOM element. This element is created when area object is created. It will be attached to the document
  * when the first notification is added and removed when the last notification is removed.
  *
- * @private
+ * @readonly
  * @property {CKEDITOR.dom.element} element
  */
 
@@ -489,12 +498,12 @@ function area( editor ) {
  * @property {Object} _changeBuffer
  */
 
-area.prototype = {
+Area.prototype = {
 	/**
 	 * Add the notification to the notification area. If it is the first notification then area will be also attached to
 	 * the document and listers will be attached.
 	 *
-	 * Note that the proper way to show notification is to call {@link CKEDITOR.plugins.notification#show} method.
+	 * Note that the proper way to show a notification is to call {@link CKEDITOR.plugins.notification#show} method.
 	 *
 	 * @param {CKEDITOR.plugins.notification} notification Notification to add.
 	 */
@@ -512,10 +521,10 @@ area.prototype = {
 	},
 
 	/**
-	 * Remove the notification from the notification area. If it is the last notification then area will be also
+	 * Removes the notification from the notification area. If it is the last notification then area will be also
 	 * detached from the document and listers will be detached.
 	 *
-	 * Note that the proper way to hide notification is to call {@link CKEDITOR.plugins.notification#hide} method.
+	 * Note that the proper way to hide a notification is to call {@link CKEDITOR.plugins.notification#hide} method.
 	 *
 	 * @param {CKEDITOR.plugins.notification} notification Notification to remove.
 	 */
@@ -555,7 +564,7 @@ area.prototype = {
 	},
 
 	/**
-	 * Attach listeners to the notification area.
+	 * Attaches listeners to the notification area.
 	 *
 	 * @private
 	 */
@@ -575,7 +584,7 @@ area.prototype = {
 	},
 
 	/**
-	 * Detach listeners from the notification area.
+	 * Detaches listeners from the notification area.
 	 *
 	 * @private
 	 */
@@ -591,7 +600,7 @@ area.prototype = {
 	},
 
 	/**
-	 * Set the position of the notification area based on the editor content, toolbar and viewport position and dimensions.
+	 * Sets the position of the notification area based on the editor content, toolbar and viewport position and dimensions.
 	 *
 	 * @private
 	 */
@@ -832,24 +841,25 @@ area.prototype = {
 	}
 };
 
-CKEDITOR.plugins.notification = notification;
+CKEDITOR.plugins.notification = Notification;
 
 /**
- * How many milliseconds after the `change` event `info` and `success` notifications should be closed automatically.
- * 0 means that notifications will not be closed automatically.
+ * How many milliseconds after the {@link CKEDITOR.editor#change} event notifications of the `info` and `success`
+ * {@link CKEDITOR.plugins.notification#type type} should be closed automatically.
+ * `0` means that notifications will not be closed automatically.
  * Note that `warning` and `progress` notifications will not be closed automatically.
  *
  * @since 4.5
- * @cfg {Function} [notification_duration=5000]
+ * @cfg {Number} [notification_duration=5000]
  * @member CKEDITOR.config
  */
 
-
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#show} method is called, before the
- * notification is shown. If this event will be canceled, notification will be not shown. It is created to modify
- * notification before it is shown, execute additional actions or prevent editor notifications and handle then in
- * the custom way.
+ * notification is shown. If this event will be canceled, notification will be not shown.
+ *
+ * Using this event allows to fully customize how a notification will be shown. It may be used to integrate
+ * the CKEditor notifications system with the web page's notifications.
  *
  * @since 4.5
  * @event notificationShow
@@ -861,8 +871,10 @@ CKEDITOR.plugins.notification = notification;
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#update} method is called, before the
- * notification is updated. If this event will be canceled, notification will be not updated. It is created to execute
- * additional actions on notification update or handle notifications in the custom way.
+ * notification is updated. If this event will be canceled, notification will be not updated.
+ *
+ * Using this event allows to fully customize how a notification will be updated. It may be used to integrate
+ * the CKEditor notifications system with the web page's notifications.
  *
  * @since 4.5
  * @event notificationUpdate
@@ -876,8 +888,10 @@ CKEDITOR.plugins.notification = notification;
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#hide} method is called, before the
- * notification is hidden. If this event will be canceled, notification will be not hidden. It is created to execute
- * additional actions on hide or handle notifications in the custom way.
+ * notification is hidden. If this event will be canceled, then the notification will not be hidden.
+ *
+ * Using this event allows to fully customize how a notification will be hidden. It may be used to integrate
+ * the CKEditor notifications system with the web page's notifications.
  *
  * @since 4.5
  * @event notificationHide
