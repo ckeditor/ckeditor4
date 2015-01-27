@@ -797,13 +797,13 @@
 			assertPasteEvent( this.editor, {
 					type: 'text',
 					dataValue: '<p class="test" style="color:red">a<br style="display:none">b</p>'
-				}, { type: 'text', dataValue: '<p>a<br>b</p>' }, 'strip styles' );
+				}, { type: 'text', dataValue: '<p>a<br />b</p>' }, 'strip styles' );
 		},
 
 		'html textification a<i>b</i><p>c<b>d</b>e<br>f</p>g': function() {
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: 'a<i>b</i><p>c<b>d</b>e<br>f</p>g' },
-				{ type: 'text', dataValue: 'ab<p>cde<br>f</p>g' },
+				{ type: 'text', dataValue: 'ab<p>cde<br />f</p>g' },
 				'strip inline elements' );
 		},
 
@@ -818,7 +818,7 @@
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<dl> <dt>AT</dt> <dd>AD <dl> <dt>BT</dt> <dd>BD1</dd><dd>BD2</dd> </dl></dd> </dl>' },
-				{ type: 'text', dataValue: '<p>AT<br>AD</p><p>BT<br>BD1<br>BD2</p>' },
+				{ type: 'text', dataValue: '<p>AT</p><p>AD</p><p>BT</p><p>BD1</p><p>BD2</p>' },
 				'def lists' );
 		},
 
