@@ -74,10 +74,14 @@ CKEDITOR.plugins.add( 'notification', {
 		// Send the message to the screen readers.
 		function say( text ) {
 			var message = new CKEDITOR.dom.element( 'div' );
-			message.setStyle( 'position', 'fixed' );
-			message.setStyle( 'margin-left', '-9999' );
-			message.setAttribute( 'aria-live', 'assertive' );
-			message.setAttribute( 'aria-atomic', 'true' );
+			message.setStyles( {
+				position: 'fixed',
+				'margin-left': '-9999'
+			} );
+			message.setAttributes( {
+				'aria-live': 'assertive',
+				'aria-atomic': 'true'
+			} );
 			message.setText( text );
 
 			CKEDITOR.document.getBody().append( message );
@@ -119,14 +123,17 @@ CKEDITOR.plugins.add( 'notification', {
  * @param {Number} [options.duration] How long notification will be visible, see {@link #duration}.
  */
 function Notification( editor, options ) {
-	this.editor = editor;
-	this.message = options.message;
-	this.type = options.type ? options.type : 'info';
-	this.progress = options.progress;
-	this.duration = options.duration;
-	this.id = 'cke-' + CKEDITOR.tools.getUniqueId();
+	CKEDITOR.tools.extend( this, options, {
+		editor: editor,
+		id: 'cke-' + CKEDITOR.tools.getUniqueId(),
+		area: editor._.notificationArea
+	} );
+
+	if ( !options.type ) {
+		this.type = 'info';
+	}
+
 	this.element = this._createElement();
-	this.area = this.editor._.notificationArea;
 }
 
 /**
@@ -260,8 +267,9 @@ Notification.prototype = {
 			messageElement.setHtml( this.message );
 		}
 
-		if ( options.progress  !== undefined ) {
+		if ( options.progress !== undefined ) {
 			this.progress = options.progress;
+
 			if ( progressElement ) {
 				progressElement.setStyle( 'width', this._getPercentageProgress() );
 			}
@@ -317,9 +325,11 @@ Notification.prototype = {
 		notificationElement = new CKEDITOR.dom.element( 'div' );
 		notificationElement.addClass( 'cke_notification' );
 		notificationElement.addClass( this._getClass() );
-		notificationElement.setAttribute( 'id', this.id );
-		notificationElement.setAttribute( 'role', 'alert' );
-		notificationElement.setAttribute( 'aria-label', this.type );
+		notificationElement.setAttributes( {
+			id: this.id,
+			role: 'alert',
+			'aria-label': this.type
+		} );
 
 		if ( this.type == 'progress' )
 			notificationElement.append( this._createProgressElement() );
@@ -335,7 +345,7 @@ Notification.prototype = {
 			'</a>' );
 		notificationElement.append( notificationCloseElement );
 
-		notificationElement.findOne( '.cke_notification_close' ).on( 'click', function() {
+		notificationCloseElement.on( 'click', function() {
 			notification.hide();
 		} );
 
@@ -349,11 +359,9 @@ Notification.prototype = {
 	 * @returns {String} Notification CSS class.
 	 */
 	_getClass: function() {
-		if ( this.type == 'progress' ) {
-			return 'cke_notification_info';
-		} else {
-			return 'cke_notification_' + this.type;
-		}
+		return ( this.type == 'progress' ) ?
+			'cke_notification_info' :
+			( 'cke_notification_' + this.type );
 	},
 
 	/**
@@ -376,11 +384,7 @@ Notification.prototype = {
 	 * @returns {String} Progress as a percentage.
 	 */
 	_getPercentageProgress: function() {
-		if ( this.progress ) {
-			return Math.round( this.progress * 100 ) + '%';
-		} else {
-			return 0;
-		}
+		return Math.round( ( this.progress || 0 ) * 100 ) + '%';
 	},
 
 	/**
@@ -399,11 +403,9 @@ Notification.prototype = {
 		if ( typeof this.duration == 'number' ) {
 			duration = this.duration;
 		} else if ( this.type == 'info' || this.type == 'success' ) {
-			if ( typeof this.editor.config.notification_duration == 'number' ) {
-				duration = this.editor.config.notification_duration;
-			} else {
-				duration = 5000;
-			}
+			duration = ( typeof this.editor.config.notification_duration == 'number' ) ?
+				this.editor.config.notification_duration :
+				5000;
 		}
 
 		if ( duration ) {
@@ -432,7 +434,9 @@ function Area( editor ) {
 
 	this.editor = editor;
 	this.notifications = [];
-	this.element = this._createElement(),
+	this.element = this._createElement();
+	this._uiBuffer = CKEDITOR.tools.eventsBuffer( 10, this._layout, this );
+	this._changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this._layout, this );
 
 	editor.on( 'destroy', function() {
 		that._removeListeners();
@@ -562,17 +566,13 @@ Area.prototype = {
 	 */
 	_attachListeners: function() {
 		var win = CKEDITOR.document.getWindow(),
-			notification = this,
 			editor = this.editor;
-
-		this._uiBuffer = CKEDITOR.tools.eventsBuffer( 10, this._layout, this ),
-		this._changeBuffer = CKEDITOR.tools.eventsBuffer( 500, this._layout, this ),
 
 		win.on( 'scroll', this._uiBuffer.input );
 		win.on( 'resize', this._uiBuffer.input );
 		editor.on( 'change', this._changeBuffer.input );
-		editor.on( 'floatingSpaceLayout', notification._layout, notification, null, 20 );
-		editor.on( 'blur', this._layout, notification, null, 20 );
+		editor.on( 'floatingSpaceLayout', this._layout, this, null, 20 );
+		editor.on( 'blur', this._layout, this, null, 20 );
 	},
 
 	/**
@@ -688,23 +688,31 @@ Area.prototype = {
 		}
 
 		function setTopStandard() {
-			area.setStyle( 'position', 'absolute' );
-			area.setStyle( 'top', cssLength( contentsPos.y ) );
+			area.setStyles( {
+				position: 'absolute',
+				top: cssLength( contentsPos.y )
+			} );
 		}
 
 		function setBelowToolbar() {
-			area.setStyle( 'position', 'fixed' );
-			area.setStyle( 'top', cssLength( topRect.bottom ) );
+			area.setStyles( {
+				position: 'fixed',
+				top: cssLength( topRect.bottom )
+			} );
 		}
 
 		function setTopFixed() {
-			area.setStyle( 'position', 'fixed' );
-			area.setStyle( 'top', 0 );
+			area.setStyles( {
+				position: 'fixed',
+				top: 0
+			} );
 		}
 
 		function setBottom() {
-			area.setStyle( 'position', 'absolute' );
-			area.setStyle( 'top', cssLength( contentsPos.y + contentsRect.height - areaRect.height ) );
+			area.setStyles( {
+				position: 'absolute',
+				top: cssLength( contentsPos.y + contentsRect.height - areaRect.height )
+			} );
 		}
 
 		// ---------------------------------------- Vertical layout -----------------------------------------
@@ -738,7 +746,8 @@ Area.prototype = {
 			} else {
 				setLeft();
 			}
-		// Content is wider than notification
+
+		// Content is wider than notification.
 		} else {
 
 			//                       +--+Viewport+------------------------+

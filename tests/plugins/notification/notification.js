@@ -49,7 +49,7 @@ function assertNotificationElement( expectedNotification, element ) {
 			if ( expectedNotification.progress ) {
 				assert.areSame( Math.round( expectedNotification.progress * 100 ) + '%', progressElement.getStyle( 'width' ) );
 			} else {
-				assert.areSame( '0px', progressElement.getStyle( 'width' ) );
+				assert.areSame( '0%', progressElement.getStyle( 'width' ) );
 			}
 			break;
 	}
