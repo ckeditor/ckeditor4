@@ -36,6 +36,6 @@ function build( data ) {
 module.exports = {
 	name: 'bender-testbuilder-ckeditor',
 	attach: function() {
-		this.testbuilders.push( build );
+		this.testbuilders.add( 'ckeditor', build );
 	}
 };

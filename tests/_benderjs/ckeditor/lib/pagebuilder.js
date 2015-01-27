@@ -23,9 +23,7 @@ module.exports = {
 	build: null,
 
 	attach: function() {
-		var bender = this,
-			html,
-			idx;
+		var bender = this;
 
 		function build( data ) {
 			var head = [ '<head>\n', '<title>', data.id, '</title>\n' ];
@@ -60,13 +58,8 @@ module.exports = {
 
 		module.exports.build = build;
 
-		html = bender.plugins[ 'bender-pagebuilder-html' ];
+		var priority = bender.pagebuilders.getPriority( 'html' );
 
-		// add plugin before pagebuilder-html
-		if ( html && ( idx = bender.pagebuilders.indexOf( html.build ) ) > -1 ) {
-			bender.pagebuilders.splice( idx, 0, build );
-		} else {
-			bender.pagebuilders.push( build );
-		}
+		bender.pagebuilders.add( 'ckeditor', build, priority - 1 );
 	}
 };
