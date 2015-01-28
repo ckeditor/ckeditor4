@@ -51,7 +51,7 @@
 			// This means that we need to read them from the <img src="data:..."> elements.
 			editor.on( 'paste', function( evt ) {
 				// For performance reason do not parse data if it does not contain img tag and data attribute.
-				if ( !evt.data.dataValue.match( /<img(.|[\r\n])*data:/i ) ) {
+				if ( !evt.data.dataValue.match( /<img[\s\S]+data:/i ) ) {
 					return;
 				}
 
