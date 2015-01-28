@@ -1,0 +1,23 @@
+<div style="padding: 3000px 3000px 3000px 3000px;">
+	<div id="editor1" contenteditable="true" style="width:150px;">
+		<p><strong>Apollo 11</strong></p>
+		<p>Spaceflight that landed the first humans on the Moon.</p>
+	</div>
+	<p style="width:700px;">
+		<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification">
+		<input onclick="manualPlayground.showSuccess();" type="button" value="Show success notification">
+		<input onclick="manualPlayground.showInfo();" type="button" value="Show info notification">
+		<input onclick="manualPlayground.emulateProgress();" type="button" value="Show progress notification">
+	</p>
+	<script>
+		CKEDITOR.disableAutoInline = true;
+
+		var editor = CKEDITOR.inline( 'editor1', {
+			extraPlugins: 'notification',
+			toolbar: [ [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ] ]
+		} );
+
+		manualPlayground.init();
+		window.scrollTo( 2950, 2950 );
+	</script>
+</div>

@@ -75,8 +75,14 @@
 					if ( !( editable = editor.editable() ) )
 						return;
 
+					var show = ( evt && evt.name == 'focus' );
+
 					// Show up the space on focus gain.
-					evt && evt.name == 'focus' && floatSpace.show();
+					if ( show ) {
+						floatSpace.show();
+					}
+
+					editor.fire( 'floatingSpaceLayout', { show: show } );
 
 					// Reset the horizontal position for below measurement.
 					floatSpace.removeStyle( 'left' );
@@ -391,4 +397,16 @@
  * @since 4.5
  * @cfg {Boolean} [floatSpacePreferRight=false]
  * @member CKEDITOR.config
+ */
+
+/**
+ * Fired when the viewport or editor parameters changes and the floating space needs to check and
+ * eventually update its position and dimensions.
+ *
+ * @since 4.5
+ * @event floatingSpaceLayout
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor The editor instance.
+ * @param data
+ * @param {Boolean} data.show True if floating space should show up as a result of this event.
  */

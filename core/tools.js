@@ -1164,19 +1164,24 @@
 		 * @since 4.2.1
 		 * @param {Number} minInterval Minimum interval between `output` calls in milliseconds.
 		 * @param {Function} output Function that will be executed as `output`.
+		 * @param {Object} [scopeObj] The object used to scope the listener call (the `this` object).
 		 * @returns {Object}
 		 * @returns {Function} return.input Buffer's input method.
 		 * @returns {Function} return.reset Resets buffered events &mdash; `output` will not be executed
 		 * until next `input` is triggered.
 		 */
-		eventsBuffer: function( minInterval, output ) {
+		eventsBuffer: function( minInterval, output, scopeObj ) {
 			var scheduled,
 				lastOutput = 0;
 
 			function triggerOutput() {
 				lastOutput = ( new Date() ).getTime();
 				scheduled = false;
-				output();
+				if ( scopeObj ) {
+					output.call( scopeObj );
+				} else {
+					output();
+				}
 			}
 
 			return {

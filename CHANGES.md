@@ -19,6 +19,7 @@ New Features:
 * [#12036](http://dev.ckeditor.com/ticket/12036): Initialize editor in [`readOnly`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode when `<textarea>` has `readonly` attribute.
 * [#11905](http://dev.ckeditor.com/ticket/11905): [`resize` event](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-event-resize) pass dimensions in data.
 * [#12126](http://dev.ckeditor.com/ticket/12126): Introduced [`image_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image_prefillDimensions) and [`image2_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_prefillDimensions) to make pre-filling 'width' and 'height' configurable.
+* [#11580](http://dev.ckeditor.com/ticket/11580): Introduced the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
 
 Fixed Issues:
 

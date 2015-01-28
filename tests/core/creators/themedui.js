@@ -1,4 +1,6 @@
+/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: wysiwygarea,toolbar,table */
+
 ( function() {
 	'use strict';
 
@@ -32,6 +34,13 @@
 			assert.areSame( 100, lastResizeData.outerWidth, 'Outer width should be same as passed one in 1st argument.' );
 			assert.areSame( 400, lastResizeData.contentsHeight, 'Content height should be same as passed one in 2nd argument.' );
 			assert.areSame( 400, getEditorContentHeight( editor ), 'Content height should be properly set.' );
+		},
+
+		'test initial properties': function() {
+			var editor = this.editor;
+
+			assert.areSame( 'cke_' + editor.name, editor.container.getId() );
+			assert.areSame( editor.ui.space( 'contents' ), editor.ui.contentsElement );
 		}
 	} );
 } )();

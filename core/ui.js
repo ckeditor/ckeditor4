@@ -166,3 +166,20 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  * @returns {Object} The UI element.
  * @todo We lack the "UI element" abstract super class.
  */
+
+/**
+ * The element in the {@link CKEDITOR#document host page's document} which contains the editor content.
+ * If the [fixed editor UI](http://sdk.ckeditor.com/samples/fixedui.html) is used, then it will be set to
+ * `editor.ui.space( 'contents' )` &mdash; i.e. the `<div>` which contains an `<iframe>` (in case of the classic UI)
+ * or {@link CKEDITOR.editable} (in case of the inline UI). Otherwise it is set to the {@link CKEDITOR.editable} itself.
+ *
+ * Use position of this element if you need to position elements placed in the host page's document relatively to the
+ * editor content.
+ *
+ *		var editor = CKEDITOR.instances.editor1;
+ *		console.log( editor.ui.contentsElement.getName() ); // 'div'
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.dom.element} contentsElement
+ */
