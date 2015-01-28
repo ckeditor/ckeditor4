@@ -232,31 +232,40 @@
 					type = dataObj.type,
 					data = dataObj.dataValue,
 					trueType,
+					pasteFilter = editor.config.pasteFilter,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html';
 
-				// If forced type is 'html' we don't need to know true data type.
-				if ( type == 'html' || dataObj.preSniffing == 'html' )
-					trueType = 'html';
-				else
-					trueType = recogniseContentType( data );
-
-				// Unify text markup.
-				if ( trueType == 'htmlifiedtext' )
-					data = htmlifiedTextHtmlification( editor.config, data );
-				// Strip presentional markup & unify text markup.
-				else if ( type == 'text' && trueType == 'html' ) {
-					// Init filter only if needed and cache it.
-					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter( editor.config.pasteFilter ) ) );
+				if ( pasteFilter == 'plain-text' ) {
+					type = 'text';
 				}
 
-				if ( dataObj.startsWithEOL )
-					data = '<br data-cke-eol="1">' + data;
-				if ( dataObj.endsWithEOL )
-					data += '<br data-cke-eol="1">';
+				// If forced type is 'html' we don't need to know true data type.
+				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
+					trueType = 'html';
+				} else {
+					trueType = recogniseContentType( data );
+				}
 
-				if ( type == 'auto' )
+				// Unify text markup.
+				if ( trueType == 'htmlifiedtext' ) {
+					data = htmlifiedTextHtmlification( editor.config, data );
+					// Strip presentional markup & unify text markup.
+				} else if ( type == 'text' && trueType == 'html' ) {
+					// Init filter only if needed and cache it.
+					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter( pasteFilter ) ) );
+				}
+
+				if ( dataObj.startsWithEOL ) {
+					data = '<br data-cke-eol="1">' + data;
+				}
+				if ( dataObj.endsWithEOL ) {
+					data += '<br data-cke-eol="1">';
+				}
+
+				if ( type == 'auto' ) {
 					type = ( trueType == 'html' || defaultType == 'html' ) ? 'html' : 'text';
+				}
 
 				dataObj.type = type;
 				dataObj.dataValue = data;
@@ -1145,7 +1154,15 @@
 		var filters = {};
 
 		function createSemanticContentFilter() {
-			return new CKEDITOR.filter( '' );
+			var tags = [];
+
+			for ( var tag in CKEDITOR.dtd ) {
+				if ( tag.charAt( 0 ) !== '$' && tag !== 'div' && tag !== 'span' ) {
+					tags.push( tag );
+				}
+			}
+
+			return new CKEDITOR.filter( tags.join( ' ' ) );
 		}
 
 		return {
@@ -1158,7 +1175,6 @@
 					return new CKEDITOR.filter( type || 'br' );
 				}
 			}
-
 		};
 	}() );
 	function getTextificationFilter( type ) {
