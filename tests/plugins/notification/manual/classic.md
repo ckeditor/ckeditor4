@@ -1,5 +1,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, notification
+@bender-include: _helpers/manualplayground.js
 
 * If you don't see the editor, scroll the page to the center.
 * Play with notification using buttons.
