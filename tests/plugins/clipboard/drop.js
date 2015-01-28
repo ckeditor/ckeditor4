@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
 /* bender-include: _helpers/pasting.js */
 
@@ -173,7 +173,7 @@ bender.editors = {
 };
 
 var testsForMultipleEditor = {
-		'tearDown': function() {
+		tearDown: function() {
 			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
 			for ( var name in this.editors ) {
@@ -367,6 +367,8 @@ var testsForMultipleEditor = {
 				editor.execCommand( 'undo' );
 
 				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+
+				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
 		},
 
@@ -402,6 +404,8 @@ var testsForMultipleEditor = {
 				editor.execCommand( 'undo' );
 
 				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+
+				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
 		},
 
@@ -419,6 +423,8 @@ var testsForMultipleEditor = {
 				expectedPasteEventCount: 0
 			}, null, function() {
 				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+
+				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
 		},
 

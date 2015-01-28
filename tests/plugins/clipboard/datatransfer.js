@@ -1,13 +1,12 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 /* bender-include: _helpers/pasting.js */
 
 'use strict';
 
 var htmlMatchOpts = {
-	compareSelection: false,
-	fixStyles: true
-};
+		fixStyles: true
+	};
 
 bender.editors = {
 	editor1: {
@@ -297,6 +296,20 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData Firefox fix': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/plain', 'file://foo/bar.txt' );
+		nativeData.files = [ 'bar.txt' ];
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( '', dataTransfer.getData( 'Text' ) );
 	},
 
 	'test cacheData': function() {

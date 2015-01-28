@@ -857,6 +857,88 @@
 		},
 
 		/**
+		 * 1x1 pixels PNG image for tests usage.
+		 * @type {String}
+		 */
+		pngBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
+
+		/**
+		 * 'foo' text as a base64 data for tests usage.
+		 * @type {String}
+		 */
+		txtBase64: 'data:text/plain;base64,Zm9v',
+
+		/**
+		 * Transforms given base64 string data into file (Blob).
+		 *
+		 * @param {String} base64 string data
+		 * @returns {Blob} file
+		 */
+		srcToFile: function( src ) {
+			var base64HeaderRegExp = /^data:(\S*?);base64,/,
+				contentType = src.match( base64HeaderRegExp )[ 1 ],
+				base64Data = src.replace( base64HeaderRegExp, '' ),
+				byteCharacters = atob( base64Data ),
+				byteArrays = [],
+				sliceSize = 512,
+				offset, slice, byteNumbers, i, byteArray;
+
+			for ( offset = 0; offset < byteCharacters.length; offset += sliceSize ) {
+				slice = byteCharacters.slice( offset, offset + sliceSize );
+
+				byteNumbers = new Array( slice.length );
+				for ( i = 0; i < slice.length; i++ ) {
+					byteNumbers[ i ] = slice.charCodeAt( i );
+				}
+
+				byteArray = new Uint8Array( byteNumbers );
+
+				byteArrays.push( byteArray );
+			}
+
+			return new Blob( byteArrays, { type: contentType } );
+		},
+
+		/**
+		 * Gets PNG file for tests usage.
+		 *
+		 * @param {String} [fileName=name.png] file name.
+		 * @return {Blob} PNG file.
+		 */
+		getTestPngFile: function( fileName ) {
+			var file = this.srcToFile( this.pngBase64 );
+			file.name = fileName ? fileName : 'name.png';
+			return file;
+		},
+
+		/**
+		 * Gets text file for tests usage.
+		 *
+		 * @param {String} [fileName=name.txt] file name.
+		 * @return {Blob} text file.
+		 */
+		getTestTxtFile: function( fileName ) {
+			var file = this.srcToFile( this.txtBase64 );
+			file.name = fileName ? fileName : 'name.txt';
+			return file;
+		},
+
+		/**
+		 * Calls resume and given callback function as a last listener of given event.
+		 *
+		 * @param {Object} object Object we are listening event on.
+		 * @param {String} evtName Event name.
+		 * @param {Function} callback Callback function.
+		 */
+		resumeAfter: function( object, evtName, callback ) {
+			object.once( evtName, function( evt ) {
+				resume( function() {
+					callback( evt );
+				}, null, null, 99999 );
+			} );
+		},
+
+		/**
 		 * Paste given html into given editor.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor instance.
@@ -1323,7 +1405,7 @@
 		 * @param {Boolean} [options.compareSelection=false] If set to `true` selection markers in `expected` and
 		 * `actual` will be handled in special way. This may conflict with these characters usage in attributes and
 		 * other places where comments are not allowed.
-		 * @param {Boolean} [options.normalizeSelection=true] Whether `{` and `}` should be treated like `[` and `]`
+		 * @param {Boolean} [options.normalizeSelection=false] Whether `{` and `}` should be treated like `[` and `]`
 		 * Additionally, collapsed selection will be replaced with `^`. This options works only if `compareSelection`
 		 * is set to `true`.
 		 */

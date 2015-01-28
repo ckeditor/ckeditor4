@@ -1,5 +1,3 @@
-/* global alert */
-
 /**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -249,7 +247,7 @@
 				// Strip presentional markup & unify text markup.
 				else if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter( editor ) ) );
+					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
 				}
 
 				if ( dataObj.startsWithEOL )
@@ -638,7 +636,8 @@
 					var success = tryToCutCopy( this.type );
 
 					if ( !success ) {
-						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // Show cutError or copyError.
+						// Show cutError or copyError.
+						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
 					}
 
 					return success;
@@ -715,7 +714,11 @@
 			body.on( command, onExec );
 
 			// IE7: document.execCommand has problem to paste into positioned element.
-			( CKEDITOR.env.version > 7 ? doc.$ : doc.$.selection.createRange() ).execCommand( command );
+			if ( CKEDITOR.env.version > 7 ) {
+				doc.$.execCommand( command );
+			} else {
+				doc.$.selection.createRange().execCommand( command );
+			}
 
 			body.removeListener( command, onExec );
 
@@ -989,7 +992,7 @@
 				},
 				// True if we can fully rely on data from dataTransfer, this means that
 				// if HTML is available via native paste it is also available via getData.
-				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome || CKEDITOR.env.gecko;
+				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome;
 
 			eventData.dataTransfer.cacheData();
 
@@ -1138,7 +1141,6 @@
 		return switchEnterMode( config, data );
 	}
 
-	// Filter can be editor dependent.
 	function getTextificationFilter() {
 		var filter = new CKEDITOR.htmlParser.filter();
 
@@ -1448,6 +1450,11 @@
 				dropRange.select();
 
 				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
+
+				// Usually we reset DataTranfer on dragend,
+				// but dragend is called on the same element as dragstart
+				// so it will not be called on on external drop.
+				clipboard.resetDragDataTransfer();
 			}
 
 			// Fire drag/drop events (dragstart, dragend, drop).
@@ -1651,10 +1658,12 @@
 				range.collapse( true );
 			}
 			// IEs 9+.
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 )
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8  && defaultRange ) {
 				// On IE 9+ range by default is where we expected it.
+				// defaultRange may be undefined if dragover was canceled (file drop).
 				return defaultRange;
-			// IE 8.
+			}
+			// IE 8 and all IEs if !defaultRange.
 			else if ( document.body.createTextRange ) {
 				$range = editor.document.getBody().$.createTextRange();
 				try {
@@ -2040,6 +2049,13 @@
 					data = result[ 1 ];
 				}
 			}
+			// Firefox on Linux put files paths as a text/plain data if there are files
+			// in the dataTransfer object. We need to hide it, because files should be
+			// handled on paste only if dataValue is empty.
+			else if ( type == 'Text' && CKEDITOR.env.gecko && this.getFilesCount() &&
+				data.substring( 0, 7 ) == 'file://' ) {
+				data = '';
+			}
 
 			return data;
 		},
@@ -2084,11 +2100,12 @@
 		},
 
 		/**
-		 * Copy data from native data transfer to custom array.
-		 * This function is needed, because data from native dataTransfer
-		 * are available only in the event, it is not possible to get them
-		 * after timeout, and clipboard plugin fires paste event after
-		 * a timeout in some cases.
+		 * Copies a data from the native data transfer to a private cache.
+		 * This function is needed because the data from native the data transfer
+		 * is available only by the event. It is not possible to get the data from after a timeout
+		 * but the `clipboard` plugin fires the {@link CKEDITOR.editor#paste} event asynchronously.
+		 * Therefore, this method is executed so the data can be retrieved at any point of the
+		 * pasting process.
 		 */
 		cacheData: function() {
 			if ( !this.$ ) {
@@ -2129,6 +2146,11 @@
 			}
 		},
 
+		/**
+		 * Get count of files in dataTransfer object.
+		 *
+		 * @returns {Number} Count of files.
+		 */
 		getFilesCount: function() {
 			if ( this._.files.length ) {
 				return this._.files.length;
@@ -2141,6 +2163,12 @@
 			return 0;
 		},
 
+		/**
+		 * Get file of given index.
+		 *
+		 * @param {Number} i Index.
+		 * @returns {File} File instance.
+		 */
 		getFile: function( i ) {
 			if ( this._.files.length ) {
 				return this._.files[ i ];

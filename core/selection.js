@@ -2087,15 +2087,28 @@
 		 * @returns {CKEDITOR.dom.selection} This selection object, after the ranges were selected.
 		 */
 		selectBookmarks: function( bookmarks ) {
-			var ranges = [];
+			var ranges = [],
+				node;
+
 			for ( var i = 0; i < bookmarks.length; i++ ) {
 				var range = new CKEDITOR.dom.range( this.root );
 				range.moveToBookmark( bookmarks[ i ] );
 				ranges.push( range );
 			}
 
+			// It may happen that the content change during loading, before selection is set so bookmark leads to text node.
+			if ( bookmarks.isFake ) {
+				node = ranges[ 0 ].getEnclosedNode();
+				if ( node && node.type != CKEDITOR.NODE_ELEMENT ) {
+					// %REMOVE_START%
+					window.console && console.log( 'Selection is no longer fake.' ); // jshint ignore:line
+					// %REMOVE_END%
+					bookmarks.isFake = 0;
+				}
+			}
+
 			if ( bookmarks.isFake )
-				this.fake( ranges[ 0 ].getEnclosedNode() );
+				this.fake( node );
 			else
 				this.selectRanges( ranges );
 

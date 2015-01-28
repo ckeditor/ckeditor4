@@ -107,6 +107,17 @@
 		}
 	};
 
+	/**
+	 * Asserts that HTML data are the same. Use {@link bender.tools.compatHtml} to sort attributes, fix styles and encode Nbsp.
+	 *
+	 * @param {String} expected
+	 * @param {String} actual
+	 * @param {String} [message]
+	 */
+	bender.assert.sameData = function( expected, actual, message ) {
+		assert.areSame( expected, bender.tools.compatHtml( actual, false, true, false, true, true ), message );
+	};
+
 	// add support test ignore
 	YUITest.Ignore = function() {};
 

@@ -1,4 +1,4 @@
-/* exported assertPasteEvent */
+/* exported assertPasteEvent, pasteFiles */
 
 'use strict';
 
@@ -53,4 +53,17 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 		else
 			assertPaste( data );
 	}
+}
+
+function pasteFiles( editor, files, dataValue ) {
+	var	nativeData = bender.tools.mockNativeDataTransfer();
+
+	nativeData.files = files;
+
+	var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+	editor.fire( 'paste', {
+		dataTransfer: dataTransfer,
+		dataValue: dataValue ? dataValue : ''
+	} );
 }
