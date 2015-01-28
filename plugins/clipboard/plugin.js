@@ -117,8 +117,6 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var textificationFilter;
-
 			initPasteClipboard( editor );
 			initDragDrop( editor );
 
@@ -232,13 +230,9 @@
 					type = dataObj.type,
 					data = dataObj.dataValue,
 					trueType,
-					pasteFilter = editor.config.pasteFilter,
 					// Default is 'html'.
-					defaultType = editor.config.clipboard_defaultContentType || 'html';
-
-				if ( pasteFilter == 'plain-text' ) {
-					type = 'text';
-				}
+					defaultType = editor.config.clipboard_defaultContentType || 'html',
+					internal = dataObj.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL;
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -250,10 +244,15 @@
 				// Unify text markup.
 				if ( trueType == 'htmlifiedtext' ) {
 					data = htmlifiedTextHtmlification( editor.config, data );
-					// Strip presentional markup & unify text markup.
-				} else if ( type == 'text' && trueType == 'html' ) {
+				}
+
+				// Strip presentional markup & unify text markup.
+				// Forced plain text (dialog or forcePAPT).
+				if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = htmlTextification( editor, data, textificationFilter || ( textificationFilter = getTextificationFilter( pasteFilter ) ) );
+					data = filterContent( editor, data, 'plain-text' );
+				} else if ( !internal && editor.config.pasteFilter ) {
+					data = filterContent( editor, data, editor.config.pasteFilter );
 				}
 
 				if ( dataObj.startsWithEOL ) {
@@ -1181,9 +1180,10 @@
 		return filtersFactory.get( type );
 	}
 
-	function htmlTextification( editor, data, filter ) {
+	function filterContent( editor, data, filterType ) {
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
-			writer = new CKEDITOR.htmlParser.basicWriter();
+			writer = new CKEDITOR.htmlParser.basicWriter(),
+			filter = getTextificationFilter( filterType );
 
 		writer.reset();
 
@@ -2299,4 +2299,18 @@
  * @param {Object} data.nativeEvent Native dragend event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ */
+
+/**
+ * Define filter which cut down pasted content. Possible options are:
+ *
+ * * 'plain-text'
+ * * 'semantic-content'
+ * * 'h1 h2 p div' // Custom rules compatible with Advanced Content Filter.
+ *
+ *		config.pasteFilter = 'plain-text';
+ *
+ * @since 4.X.X
+ * @cfg {String} [pasteFilter='semantic-content']
+ * @member CKEDITOR.config
  */
