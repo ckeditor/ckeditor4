@@ -7,5 +7,3 @@
 * Using scroll, check if position of notification is correct.
 
 **Note:** `info` and `success` notifications should close automatically after 5 sec or on `ESC` key if editor is focused.
-
-**Note:** if you close notification it will be shown again if update is important.
