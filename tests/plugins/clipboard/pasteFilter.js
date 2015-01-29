@@ -44,42 +44,46 @@
 		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>'
 	};
 
-	bender.test( {
-		setUp: function() {
-			CKEDITOR.plugins.clipboard.resetDragDataTransfer();
-		},
+	var tests = {};
 
-		'test plain': function() {
-			var bot = this.editorBots.editorPlain,
-				editor = bot.editor;
+	tests.setUp = function() {
+		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+	};
 
-			editor.execCommand( 'paste', contents.listWithSpan );
+	function curryCreateTest( tests ) {
+		return function( testName, editorName, pastedContent, expectedContent ) {
+			tests[ testName ] = function() {
+				var bot = this.editorBots[ editorName ],
+					editor = bot.editor;
 
-			assert.areSame( '<p>hefkdjfkdjllo</p><p>moto</p>', editor.getData() );
-		},
+				editor.execCommand( 'paste', pastedContent );
 
-		'test semantic': function() {
-			var bot = this.editorBots.editorSemantic,
-				editor = bot.editor;
+				assert.areSame( expectedContent, editor.getData() );
+			};
+		};
+	}
 
-			editor.execCommand( 'paste', contents.listWithSpan );
-			assert.areSame( '<ul><li>hefkdjfkdjllo</li><li>moto</li></ul>', editor.getData() );
-		},
+	var createTest = curryCreateTest( tests );
 
-		'test custom': function() {
-			var bot = this.editorBots.editorCustom,
-				editor = bot.editor;
+	createTest(
+		'test plain', 'editorPlain', contents.listWithSpan,
+		'<p>hefkdjfkdjllo</p><p>moto</p>'
+	);
 
-			editor.execCommand( 'paste', contents.various );
-			assert.areSame( '<h1>Header 1</h1><p>Header <span>3</span></p><p>Heeey</p>', editor.getData() );
-		},
+	createTest(
+		'test semantic', 'editorSemantic', contents.listWithSpan,
+		'<ul><li>hefkdjfkdjllo</li><li>moto</li></ul>'
+	);
 
-		'test semantic papt': function() {
-			var bot = this.editorBots.editorSemanticPAPT,
-				editor = bot.editor;
+	createTest(
+		'test custom', 'editorCustom', contents.various,
+		'<h1>Header 1</h1><p>Header <span>3</span></p><p>Heeey</p>'
+	);
 
-			editor.execCommand( 'paste', contents.various );
-			assert.areSame( '<p>Header 1</p><p>Header 3</p><p>Heeey</p>', editor.getData() );
-		}
-	} );
+	createTest(
+		'test semantic papt', 'editorSemanticPAPT', contents.various,
+		'<p>Header 1</p><p>Header 3</p><p>Heeey</p>'
+	);
+
+	bender.test( tests );
 }() );
