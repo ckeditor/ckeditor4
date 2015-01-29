@@ -220,17 +220,20 @@
 		},
 
 		/**
-		 * Note: For an empty aggregator (without any tasks created) it will return `100`.
+		 * Returns a number from `0` to `1` representing the done weights to total weights ratio
+		 * (how much of the tasks is done).
 		 *
-		 * @returns {Number} Returns done percentage as a number ranging from `0` to `100`.
+		 * Note: For an empty aggregator (without any tasks created) it will return `1`.
+		 *
+		 * @returns {Number} Returns done percentage as a number ranging from `0` to `1`.
 		 */
 		getPercentage: function() {
-			// In case there are no weights at all we'll return 100.
+			// In case there are no weights at all we'll return 1.
 			if ( this.getTasksCount() === 0 ) {
-				return 100;
+				return 1;
 			}
 
-			return this._doneWeights / this._totalWeights * 100;
+			return this._doneWeights / this._totalWeights;
 		},
 
 		/**
@@ -271,7 +274,7 @@
 		_updateNotification: function() {
 			this.notification.update( {
 				message: this._getNotificationMessage(),
-				progress: this.getPercentage() / 100
+				progress: this.getPercentage()
 			} );
 		},
 
@@ -294,7 +297,7 @@
 
 			// Expand template params with props needed by _message.
 			templateParams.counter = this._counter.output( templateParams );
-			templateParams.percentage = Math.round( this.getPercentage() );
+			templateParams.percentage = Math.round( this.getPercentage() * 100 );
 
 			// If there's only one remaining task and we have a singular message,
 			// we should use it.

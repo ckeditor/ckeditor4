@@ -151,7 +151,7 @@
 
 			instance.getTasksCount = sinon.stub().returns( 0 );
 
-			assert.areSame( 100, instance.getPercentage(), 'Invalid return value' );
+			assert.areSame( 1, instance.getPercentage(), 'Invalid return value' );
 		},
 
 		'test finished': function() {
@@ -265,7 +265,7 @@
 				};
 
 			instance._getNotificationMessage = sinon.stub().returns( 'foo' );
-			instance.getPercentage = sinon.stub().returns( 75 );
+			instance.getPercentage = sinon.stub().returns( 0.75 );
 			instance.notification = new NotificationMock();
 
 			instance._updateNotification();
@@ -280,7 +280,7 @@
 			instance._message.output = sinon.stub().returns( 'foo' );
 			instance.getDoneTasksCount = sinon.stub().returns( 1 );
 			instance.getTasksCount = sinon.stub().returns( 4 );
-			instance.getPercentage = sinon.stub().returns( 25 );
+			instance.getPercentage = sinon.stub().returns( 0.25 );
 			instance.notification = new NotificationMock();
 
 			instance._updateNotification();
@@ -353,7 +353,7 @@
 			};
 			instance.getTasksCount = sinon.stub().returns( 4 );
 			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getPercentage = sinon.stub().returns( 25 );
+			instance.getPercentage = sinon.stub().returns( 0.25 );
 			instance._counter.output = sinon.stub().returns( '(1 of 4)' );
 
 			assert.areSame( 'foo', instance._getNotificationMessage() );
@@ -374,7 +374,7 @@
 			};
 			instance.getTasksCount = sinon.stub().returns( 2 );
 			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getPercentage = sinon.stub().returns( 50 );
+			instance.getPercentage = sinon.stub().returns( 0.5 );
 			instance._counter.output = sinon.stub().returns( '1/2' );
 
 			assert.areSame( 'bar', instance._getNotificationMessage() );
