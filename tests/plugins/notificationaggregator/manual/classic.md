@@ -1,6 +1,6 @@
 @bender-tags: 4.5.0, tc
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, notificationaggregator
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, notificationaggregator
 
 ## Success Follow-up
 
