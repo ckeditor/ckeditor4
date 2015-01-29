@@ -81,15 +81,7 @@
 		 * @readonly
 		 * @property {CKEDITOR.plugins.notification/null}
 		 */
-		this.notification = null,
-
-		/**
-		 * Array of tasks tracked by the aggregator.
-		 *
-		 * @private
-		 * @property {CKEDITOR.plugins.notificationAggregator.task[]}
-		 */
-		this._tasks = [];
+		this.notification = null;
 
 		/**
 		 * A template for the notification message.
@@ -123,26 +115,36 @@
 		 */
 		this._singularMessage = singularMessage ? new CKEDITOR.template( singularMessage ) : null;
 
+		// Set the _tasks, _totalWeights, _doneWeights, _doneTasks properties.
+		this._reset();
+
+		/**
+		 * Array of tasks tracked by the aggregator.
+		 *
+		 * @private
+		 * @property {CKEDITOR.plugins.notificationAggregator.task[]} _tasks
+		 */
+
 		/**
 		 * Stores the sum of declared weights for all the contained tasks.
 		 *
 		 * @private
+		 * @property {Number} _totalWeights
 		 */
-		this._totalWeights = 0;
 
 		/**
 		 * Stores the sum of done weights for all the contained tasks.
 		 *
 		 * @private
+		 * @property {Number} _doneWeights
 		 */
-		this._doneWeights = 0;
 
 		/**
 		 * Stores a count of done tasks.
 		 *
 		 * @private
+		 * @property {Number} _doneTasks
 		 */
-		this._doneTasks = 0;
 	}
 
 	Aggregator.prototype = {
