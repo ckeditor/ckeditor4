@@ -29,6 +29,13 @@
 			assert.areSame( 1, instance._weight, 'Default value assigned for weight' );
 		},
 
+		'test constructor sets default weight (0 is treated as invalid)': function() {
+			// Lets ensure that the constructor sets the default weight if invalid one was passed.
+			var instance = new Task( 0 );
+
+			assert.areSame( 1, instance._weight, 'Default value assigned for weight' );
+		},
+
 		'test subsequent update': function() {
 			// In this test we'll make 2 calls to update() method, and ensure that weight DO NOT sum internally,
 			// but each value replaces the previous one.

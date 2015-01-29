@@ -410,7 +410,7 @@
 		 * @private
 		 * @property {Number}
 		 */
-		this._weight = weight === undefined ? 1 : weight;
+		this._weight = weight || 1;
 
 		/**
 		 * Done weight.
