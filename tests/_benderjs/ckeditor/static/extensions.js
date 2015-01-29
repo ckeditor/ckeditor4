@@ -102,6 +102,7 @@
 		if ( expected < min || expected > max ) {
 			throw new YUITest.ComparisonFailure(
 				YUITest.Assert._formatMessage( message ),
+				'Greater than ' + min + ' and lower than ' + max + '.',
 				expected
 			);
 		}
