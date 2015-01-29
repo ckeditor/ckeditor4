@@ -3,7 +3,7 @@
 	"version": "4.4.8",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
-		"benderjs": "~0.2.0",
+		"benderjs": "~0.2.1",
 		"benderjs-jquery": "~0.3.0",
 		"benderjs-sinon": "~0.2.1",
 		"benderjs-yui": "~0.2.3",
