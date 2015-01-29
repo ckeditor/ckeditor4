@@ -41,9 +41,24 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	insertAfterNode: function( node ) {
 		node = node.$;
 		node.parentNode.insertBefore( this.$, node.nextSibling );
+	},
+
+	/**
+	 * Gets HTML of this DocumentFragment's children.
+	 *
+	 * @since 4.5
+	 * @returns {String} The HTML of this DocumentFragment's children.
+	 */
+	getHtml: function() {
+		var container = new CKEDITOR.dom.element( 'div' );
+
+		// Note node.clone( 1 ) would purge ids.
+		new CKEDITOR.dom.documentFragment( this.$.cloneNode( 1 ) ).appendTo( container );
+
+		return container.getHtml();
 	}
 }, true, {
-	'append': 1, 'appendBogus': 1, 'getFirst': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,
+	'append': 1, 'appendBogus': 1, 'getFirst': 1, 'getHtml': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,
 	'appendTo': 1, 'moveChildren': 1, 'insertBefore': 1, 'insertAfterNode': 1, 'replace': 1, 'trim': 1, 'type': 1,
 	'ltrim': 1, 'rtrim': 1, 'getDocument': 1, 'getChildCount': 1, 'getChild': 1, 'getChildren': 1
 } );

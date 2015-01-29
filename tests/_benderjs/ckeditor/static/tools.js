@@ -1390,8 +1390,14 @@
 		 * `actual` is processed by a parser they will be replaced by comments. Therefore these characters can't
 		 * appear in attributes and other places where comments will be lost. Set `options.compareSelection` to `true`
 		 * in order to enable selection markers special handling.
-		 * * `@` &ndash; will be treated like a possible bogus `<br>` marker. "Possible" means that
-		 * assertion will pass regardless of whether bogus `<br>` is found or not in the `actual`.
+		 * * `@` &ndash; will be treated like a possible  bogus `<br>` filler marker on browsers
+		 * which use it (see {@link CKEDITOR.env#needsBrFiller}). "Possible" means that
+		 * assertion will pass regardless of whether bogus filler is found or not in the `actual`.
+		 * * `@!` &ndash; (since 4.5.0) will be treated like an expected bogus `<br>` filler marker on browsers
+		 * which use it (see {@link CKEDITOR.env#needsBrFiller}).
+		 * * `@@` &ndash; (since 4.5.0) will be treated like a possible `<br>` or `&nbsp;` filler
+		 * (depending on {@link CKEDITOR.env#needsBrFiller}). This options is useful when IE8 incorrectly yields
+		 * `&nbsp;` in empty blocks.
 		 *
 		 * @param {String} expected
 		 * @param {String} actual
@@ -1463,7 +1469,9 @@
 		 */
 		prepareInnerHtmlPattern: function( pattern ) {
 			pattern = bender.tools.escapeRegExp( pattern )
-				.replace( /@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '(&nbsp;)?' );
+				.replace( /@@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '(&nbsp;)?' )
+				.replace( /@!/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' )
+				.replace( /@/g, CKEDITOR.env.needsBrFiller ? '(<br />)?' : '' );
 
 			return new RegExp( '^' + pattern + '$' );
 		}
