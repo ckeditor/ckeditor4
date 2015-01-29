@@ -232,7 +232,13 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
+					internal;
+
+				if ( dataObj.dataTransfer ) {
 					internal = dataObj.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL;
+				} else {
+					internal = false;
+				}
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
