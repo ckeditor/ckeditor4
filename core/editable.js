@@ -2454,8 +2454,8 @@
 	//
 	// Helpers for editable.getHtmlFromRange.
 	//
-	var getHtmlFromRangeHelpers = ( function() {
-		var eol = {
+	var getHtmlFromRangeHelpers = {
+		eol: {
 			detect: function( that, editable ) {
 				var range = that.range,
 					rangeStart = range.clone(),
@@ -2494,14 +2494,14 @@
 
 				// Append <br data-cke-eol="1"> to the fragment.
 				if ( that.appendEolBr ) {
-					appended = eol.createEolBr( doc );
+					appended = this.createEolBr( doc );
 					that.fragment.append( appended );
 				}
 
 				// Prepend <br data-cke-eol="1"> to the fragment but avoid duplicates. Such
 				// elements should never follow each other in DOM.
 				if ( that.prependEolBr && ( !appended || appended.getPrevious() ) ) {
-					that.fragment.append( eol.createEolBr( doc ), 1 );
+					that.fragment.append( this.createEolBr( doc ), 1 );
 				}
 			},
 
@@ -2512,9 +2512,9 @@
 					}
 				} );
 			}
-		};
+		},
 
-		var bogus = {
+		bogus: {
 			exclude: function( that ) {
 				var boundaryNodes = that.range.getBoundaryNodes(),
 					startNode = boundaryNodes.startNode,
@@ -2524,9 +2524,9 @@
 				if ( endNode && isBogus( endNode ) && ( !startNode || !startNode.equals( endNode ) ) )
 					that.range.setEndBefore( endNode );
 			}
-		};
+		},
 
-		var tree = {
+		tree: {
 			rebuild: function( that, editable ) {
 				var range = that.range,
 					node = range.getCommonAncestor(),
@@ -2580,7 +2580,7 @@
 					};
 				}
 
-				tree.rebuildFragment( that, editable, node, limit );
+				this.rebuildFragment( that, editable, node, limit );
 			},
 
 			rebuildFragment: function( that, editable, node, checkLimit ) {
@@ -2595,9 +2595,9 @@
 					node = node.getParent();
 				}
 			}
-		};
+		},
 
-		var cell = {
+		cell: {
 			// Handle range anchored in table row with a single cell enclosed:
 			// 		<table><tbody><tr>[<td>a</td>]</tr></tbody></table>
 			// becomes
@@ -2613,15 +2613,8 @@
 					range.shrink( CKEDITOR.SHRINK_TEXT );
 				}
 			}
-		};
-
-		return {
-			eol: eol,
-			bogus: bogus,
-			tree: tree,
-			cell: cell
-		};
-	} )();
+		}
+	};
 
 	//
 	// Helpers for editable.extractHtmlFromRange.
