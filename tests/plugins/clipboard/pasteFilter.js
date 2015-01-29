@@ -5,6 +5,20 @@
 	'use strict';
 
 	bender.editors = {
+		editorNoConfiguration: {
+			name: 'editorNoConfiguration',
+			config: {
+				allowedContent: true
+			}
+		},
+
+		editorForcedPAPT: {
+			name: 'editorForcedPAPT',
+			config: {
+				forcePasteAsPlainText: true
+			}
+		},
+
 		editorPlain: {
 			name: 'editorPlain',
 			config: {
@@ -34,6 +48,14 @@
 			config: {
 				pasteFilter: 'semantic-content',
 				forcePasteAsPlainText: true,
+				allowedContent: true
+			}
+		},
+
+		editorModifyInstance: {
+			name: 'editorModifyInstance',
+			config: {
+				pasteFilter: 'h2',
 				allowedContent: true
 			}
 		}
@@ -71,6 +93,20 @@
 
 	var createTest = curryCreateTest( tests );
 
+	tests[ 'editor no configuration' ] = function() {
+		var bot = this.editorBots.editorNoConfiguration;
+
+		assert.isUndefined( bot.editor.pasteFilter );
+	};
+
+	tests[ 'editor defined pasteFilter if forcePAPT' ] = function() {
+		var bot = this.editorBots.editorForcedPAPT,
+			editor = bot.editor,
+			pasteFilter = editor.pasteFilter;
+
+		assert.isObject( pasteFilter );
+	};
+
 	tests[ 'exposed pasteFilter in editor' ] = function() {
 		var bot = this.editorBots.editorPlain,
 			editor = bot.editor,
@@ -88,6 +124,26 @@
 
 		assert.areSame( 1, Object.keys( allowedElements ).length, 'there is only one element' );
 		assert.isTrue( allowedElements.br );
+	};
+
+	tests[ 'allow to modify pasteFilter in editor' ] = function() {
+		var bot = this.editorBots.editorModifyInstance,
+			editor = bot.editor,
+			pasteFilter = editor.pasteFilter;
+
+		editor.execCommand( 'paste', '<h2>Second head</h2>' );
+		assert.areSame( '<h2>Second head</h2>', editor.getData() );
+
+		pasteFilter.disallow( 'h2' );
+
+		editor.setData( '', function() {
+			resume( function() {
+				editor.execCommand( 'paste', '<h2>Second head</h2>' );
+				assert.areSame( '<p>Second head</p>', editor.getData() );
+			} );
+		} );
+
+		wait();
 	};
 
 	createTest(
