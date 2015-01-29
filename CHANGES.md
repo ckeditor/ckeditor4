@@ -21,6 +21,7 @@ New Features:
 * [#12126](http://dev.ckeditor.com/ticket/12126): Introduced [`image_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image_prefillDimensions) and [`image2_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_prefillDimensions) to make pre-filling 'width' and 'height' configurable.
 * [#11580](http://dev.ckeditor.com/ticket/11580): Introduced the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
 * [#11461](http://dev.ckeditor.com/ticket/11461): Introduced support for uploading pasted and dropped images with architecture for handling other types.
+* [#12810](http://dev.ckeditor.com/ticket/12810): Introduced [notifications aggregator](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) for the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
 
 Fixed Issues:
 
