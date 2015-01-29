@@ -9,22 +9,20 @@
  */
 
 ( function() {
-
 	'use strict';
 
 	CKEDITOR.plugins.add( 'notificationaggregator', {
-		requires: 'notification',
-		lang: 'en'
+		requires: 'notification'
 	} );
 
 	/**
 	 * This type helps to create a notification which tracks the progress of a multiple entities.
 	 *
-	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are closed, it
+	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are done, it
 	 * means that the whole process is finished.
 	 *
 	 * Once finished the aggregator state will be reset. You can customize that behavior by
-	 * extending the type and overriding {@link #finished} method.
+	 * extending the type and overriding the {@link #finished} method.
 	 *
 	 * Simple usage example:
 	 *
@@ -57,19 +55,18 @@
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a notification aggregator instance.
 	 * @param {CKEDITOR.editor} editor
-	 * @param {String} message A template for message to be displayed in notification, for template parameters
-	 * see {@link #_message}.
-	 * @param {String/null} [singularMessage=null] An optional template for message to be displayed in notification when there's only
-	 * one task remaining. See {@link #_singularMessage}.
+	 * @param {String} message A template for message to be displayed in notification. The template can use the
+	 * the following variables:
 	 *
-	 * If `null` the `message` template will be used.
-	 * @param {String/null} [counter=null] An optional template for counter.
+	 * * `{current}` - Number of completed tasks.
+	 * * `{max}` - Number of tasks.
+	 * * `{percentage}` - The progress (number 0-100).
 	 *
-	 * eg. `({current} of {max})`
-	 *
-	 * If `null` it will use default counter from the lang file.
+	 * @param {String/null} [singularMessage=null] An optional template for message to be displayed in notification
+	 * when there is only one task remaining.  This template can use the same variables as the `message` template.
+	 * If `null`, then the `message` template will be used.
 	 */
-	function Aggregator( editor, message, singularMessage, counter ) {
+	function Aggregator( editor, message, singularMessage ) {
 		/**
 		 * @readonly
 		 * @property {CKEDITOR.editor} editor
@@ -97,12 +94,11 @@
 		/**
 		 * A template for the notification message.
 		 *
-		 * Template can use following variables:
+		 * Template can use the following variables:
 		 *
-		 * * **current** - A count of completed tasks.
-		 * * **max** - The maximal count of tasks.
-		 * * **percentage** - Percentage count.
-		 * * **counter** - A counter with remaining task count, eg. "(1 of 3)".
+		 * * `{current}` - Number of completed tasks.
+		 * * `{max}` - Number of tasks.
+		 * * `{percentage}` - The progress (number 0-100).
 		 *
 		 * @private
 		 * @property {CKEDITOR.template}
@@ -115,9 +111,9 @@
 		 * Sometimes there might be a need to specify special message when there
 		 * is only one task loading, and the standard messages in other cases.
 		 *
-		 * Eg. you might want show a message "Translating a widget" rather than
+		 * For example, you might want to show a message "Translating a widget" rather than
 		 * "Translating widgets (1 of 1)", but still you would want to have a message
-		 * "Translating widgets (2 of 3)" if more widgets are translated at the same
+		 * "Translating widgets (2 of 3)" if more widgets are being translated at the same
 		 * time.
 		 *
 		 * Template variables are the same as in {@link #_message}.
@@ -126,19 +122,6 @@
 		 * @property {CKEDITOR.template/null}
 		 */
 		this._singularMessage = singularMessage ? new CKEDITOR.template( singularMessage ) : null;
-
-		/**
-		 * A template for counter in notifications.
-		 *
-		 * Template can use following variables:
-		 *
-		 * * **current** - A count of completed tasks.
-		 * * **max** - The maximal count of tasks.
-		 *
-		 * @private
-		 * @property {CKEDITOR.template}
-		 */
-		this._counter = new CKEDITOR.template( counter || editor.lang.notificationaggregator.counter );
 
 		/**
 		 * Stores the sum of declared weights for all the contained tasks.
@@ -288,20 +271,15 @@
 			var tasksCount = this.getTasksCount(),
 				doneTasks = this.getDoneTasksCount(),
 				remainingTasks = tasksCount - doneTasks,
-				// Template params common for _counter and _message
 				templateParams = {
 					current: doneTasks,
-					max: tasksCount
+					max: tasksCount,
+					percentage: Math.round( this.getPercentage() * 100 )
 				},
 				template;
 
-			// Expand template params with props needed by _message.
-			templateParams.counter = this._counter.output( templateParams );
-			templateParams.percentage = Math.round( this.getPercentage() * 100 );
-
-			// If there's only one remaining task and we have a singular message,
-			// we should use it.
-			if ( remainingTasks === 1 && this._singularMessage ) {
+			// If there's only one remaining task and we have a singular message, we should use it.
+			if ( remainingTasks == 1 && this._singularMessage ) {
 				template = this._singularMessage;
 			} else {
 				template = this._message;
