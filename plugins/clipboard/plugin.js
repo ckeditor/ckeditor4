@@ -1158,7 +1158,7 @@
 	var filtersFactory = ( function() {
 		var filters = {};
 
-		function createSemanticContentFilter() {
+		function setUpTags() {
 			var tags = [];
 
 			for ( var tag in CKEDITOR.dtd ) {
@@ -1167,7 +1167,23 @@
 				}
 			}
 
-			return new CKEDITOR.filter( tags.join( ' ' ) );
+			return tags.join( ' ' );
+		}
+
+		function createSemanticContentFilter() {
+			var filter = new CKEDITOR.filter();
+
+			filter.allow( {
+				$1: {
+					elements: setUpTags(),
+					attributes: true,
+					styles: false,
+					classes: false
+				}
+			}, 'default', false );
+			filter.disallow( 'script; *[on*]', 'default', false );
+
+			return filter;
 		}
 
 		return {
