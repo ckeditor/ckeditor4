@@ -117,6 +117,10 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			if ( typeof editor.config.pasteFilter == 'string' ) {
+				editor.pasteFilter = filtersFactory.get( editor.config.pasteFilter );
+			}
+
 			initPasteClipboard( editor );
 			initDragDrop( editor );
 
