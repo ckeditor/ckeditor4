@@ -336,16 +336,16 @@
 		 * @param {CKEDITOR.plugins.notificationAggregator.task} task Task to be removed.
 		 */
 		_removeTask: function( task ) {
-			var key = CKEDITOR.tools.indexOf( this._tasks, task );
+			var index = CKEDITOR.tools.indexOf( this._tasks, task );
 
-			if ( key !== -1 ) {
+			if ( index !== -1 ) {
 				// If task was already updated with some weight, we need to remove
 				// this weight from our cache.
 				if ( task._doneWeight ) {
 					this._doneWeights -= task._doneWeight;
 				}
 
-				this._tasks.splice( key, 1 );
+				this._tasks.splice( index, 1 );
 				// And we also should inform the UI about this change.
 				this.update();
 			}
