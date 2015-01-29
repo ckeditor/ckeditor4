@@ -113,7 +113,7 @@
 			assert.areSame( 1, aggr.update.callCount, 'update call count' );
 		},
 
-		'test createTask return value': function() {
+		'test createTask returns value': function() {
 			var aggr = new Aggregator( this.editor, '' ),
 				taskMock = {
 					on: sinon.spy()
@@ -143,33 +143,6 @@
 
 			assert.areSame( 3, taskMock.on.callCount, 'Added listeners count' );
 			sinon.assert.calledWithExactly( taskMock.on, 'done', aggr._onTaskDone, aggr );
-		},
-
-		'test createTask inline cancelListener': function() {
-			// Ensure that task will get listeners in createTask.
-			var aggr = new Aggregator( this.editor, '' ),
-				taskMock = {
-					on: sinon.spy()
-				},
-				cancelListener,
-				ret;
-
-			aggr._addTask = sinon.stub().returns( taskMock );
-			aggr.update = sinon.spy();
-			aggr._removeTask = sinon.spy();
-			// Aggregator has some weight done.
-
-			ret = aggr.createTask();
-
-			// Calling the listener.
-			cancelListener = taskMock.on.args[ 2 ][ 1 ];
-			cancelListener.call( taskMock );
-
-			// Asserting.
-			assert.areSame( 1, aggr._removeTask.callCount, '_removeTask call count' );
-			sinon.assert.calledWithExactly( aggr._removeTask, taskMock );
-			// Ensure that the calll context is aggr object.
-			sinon.assert.calledOn( aggr._removeTask, aggr );
 		},
 
 		'test getPercentage empty': function() {
@@ -440,13 +413,12 @@
 
 		'test _onTaskUpdate': function() {
 			var instance = new Aggregator( this.editor, '' ),
-				taskMock = {},
 				updateEvent = {
 					data: 30
 				};
 
 			instance.update = sinon.spy();
-			instance._onTaskUpdate( taskMock, updateEvent );
+			instance._onTaskUpdate( updateEvent );
 
 			assert.areSame( 30, instance._doneWeights, '_doneWeights was modified' );
 			assert.areSame( 1, instance.update.callCount, 'instance.update called' );

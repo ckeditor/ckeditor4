@@ -32,25 +32,24 @@
 	 *		var aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading process, step {current} of {max}...' );
 	 *
 	 *		// Create 3 tasks.
-	 *		var tasks = [
-	 *			aggregator.createTask(),
-	 *			aggregator.createTask(),
-	 *			aggregator.createTask()
-	 *		];
+	 *		var taskA = aggregator.createTask(),
+	 *			taskB = aggregator.createTask(),
+	 *			taskC = aggregator.createTask();
+	 *
 	 *		// At this point notification has a message: "Loading process, step 0 of 3...".
 	 *
 	 *		// Let's close first one immediately.
-	 *		tasks[ 0 ].done(); // "Loading process, step 1 of 3...".
+	 *		tasksA.done(); // "Loading process, step 1 of 3...".
 	 *
 	 *		// One second later message will be "Loading process, step 2 of 3...".
-	 *		window.setTimeout( function() {}
-	 *			tasks[ 1 ].done();
+	 *		setTimeout( function() {
+	 *			tasksB.done();
 	 *		}, 1000 );
 	 *
 	 *		// Two seconds after the previous message last task will be completed, meaining that
 	 *		// notification will be closed.
-	 *		window.setTimeout( function() {}
-	 *			tasks[ 2 ].done();
+	 *		setTimeout( function() {
+	 *			tasksC.done();
 	 *		}, 3000 );
 	 *
 	 * @since 4.5.0
@@ -82,6 +81,7 @@
 		 *
 		 * Notification object is modified as aggregator tasks are being closed.
 		 *
+		 * @readonly
 		 * @property {CKEDITOR.plugins.notification/null}
 		 */
 		this.notification = null,
@@ -176,7 +176,6 @@
 			options = options || {};
 
 			var initialTask = !this.notification,
-				that = this,
 				task;
 
 			if ( initialTask ) {
@@ -186,15 +185,11 @@
 
 			task = this._addTask( options );
 
-			task.on( 'updated', function( evt ) {
-				that._onTaskUpdate( this, evt );
-			} );
-
+			task.on( 'updated', this._onTaskUpdate, this );
 			task.on( 'done', this._onTaskDone, this );
-
 			task.on( 'canceled', function() {
-				that._removeTask( this );
-			} );
+				this._removeTask( task );
+			}, this );
 
 			// Update the aggregator.
 			this.update();
@@ -329,7 +324,7 @@
 		 * on `options`, and adds it to the tasks list.
 		 *
 		 * @private
-		 * @param options Options object coming from {@link #createTask} method.
+		 * @param options Options object coming from the {@link #createTask} method.
 		 * @returns {CKEDITOR.plugins.notificationAggregator.task}
 		 */
 		_addTask: function( options ) {
@@ -340,7 +335,7 @@
 		},
 
 		/**
-		 * Resets the internal state of an aggregator.
+		 * Resets the internal state of the aggregator.
 		 *
 		 * @private
 		 */
@@ -374,28 +369,23 @@
 		},
 
 		/**
-		 * A listener called when {@link CKEDITOR.plugins.notificationAggregator.task#update}
-		 * event.
+		 * A listener called one the {@link CKEDITOR.plugins.notificationAggregator.task#update} event.
 		 *
 		 * @private
-		 * @param {CKEDITOR.plugins.notificationAggregator.task} task
-		 * @param evt Event object for {@link CKEDITOR.plugins.notificationAggregator.task#update}.
+		 * @param {CKEDITOR.eventInfo} evt Event object of the {@link CKEDITOR.plugins.notificationAggregator.task#update}.
 		 */
-		_onTaskUpdate: function( task, evt ) {
+		_onTaskUpdate: function( evt ) {
 			this._doneWeights += evt.data;
 			this.update();
 		},
 
 		/**
-		 * A listener called upon task `done` event.
-		 *
-		 * Note: function is executed with {@link CKEDITOR.plugins.notificationAggregator.task}
-		 * instance in a scope.
+		 * A listener called on the {@link CKEDITOR.plugins.notificationAggregator.task#done} event.
 		 *
 		 * @private
-		 * @param evt Event object of done event.
+		 * @param {CKEDITOR.eventInfo} evt Event object of the {@link CKEDITOR.plugins.notificationAggregator#done} event.
 		 */
-		_onTaskDone: function( evt ) {
+		_onTaskDone: function() {
 			this._doneTasks += 1;
 			this.update();
 		}
@@ -445,13 +435,14 @@
 		 * Done weight.
 		 *
 		 * @private
+		 * @property {Number}
 		 */
 		this._doneWeight = 0;
 	}
 
 	Task.prototype = {
 		/**
-		 * Marks task as done.
+		 * Marks the task as done.
 		 */
 		done: function() {
 			this.update( this._weight );
@@ -505,9 +496,9 @@
 	CKEDITOR.event.implementOn( Task.prototype );
 
 	/**
-	 * Fired when the loading is done.
+	 * Fired when all tasks are done.
 	 *
-	 * It can be canceled, in this case {@link #finished} won't be called.
+	 * It can be canceled, in this case the {@link #finished} won't be called.
 	 *
 	 * @event finished
 	 * @member CKEDITOR.plugins.notificationAggregator
@@ -519,8 +510,10 @@
 	 *		var myTask = new Task( 100 );
 	 *		myTask.update( 30 );
 	 *		// Fires updated event with evt.data = 30.
-	 *		myTask.update( 10 );
+	 *		myTask.update( 40 );
 	 *		// Fires updated event with evt.data = 10.
+	 *		myTask.update( 20 );
+	 *		// Fires updated event with evt.data = -20.
 	 *
 	 * @event updated
 	 * @param {Number} data The difference between new weight and the last one.
@@ -531,6 +524,13 @@
 	 * Fired when the task is done.
 	 *
 	 * @event done
+	 * @member CKEDITOR.plugins.notificationAggregator.task
+	 */
+
+	/**
+	 * Fired when the task is canceled.
+	 *
+	 * @event cancel
 	 * @member CKEDITOR.plugins.notificationAggregator.task
 	 */
 
