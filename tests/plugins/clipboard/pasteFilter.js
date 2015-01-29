@@ -93,7 +93,7 @@
 
 	createTest(
 		'test semantic remove styles and classes', 'editorSemantic', contents.classyAndStylish,
-		'<h1 contenteditable="true" >I am so classy and stylish :)</h1>'
+		'<h1 contenteditable="true">I am so classy and stylish :)</h1>'
 	);
 
 	bender.test( tests );
