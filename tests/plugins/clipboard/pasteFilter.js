@@ -71,6 +71,15 @@
 
 	var createTest = curryCreateTest( tests );
 
+	tests[ 'exposed pasteFilter in editor' ] = function() {
+		var bot = this.editorBots.editorPlain,
+			editor = bot.editor,
+			pasteFilter = editor.pasteFilter;
+
+		assert.isObject( pasteFilter );
+		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
+	};
+
 	createTest(
 		'test plain', 'editorPlain', contents.listWithSpan,
 		'<p>hefkdjfkdjllo</p><p>moto</p>'
