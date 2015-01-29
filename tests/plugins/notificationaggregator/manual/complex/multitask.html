@@ -1,0 +1,42 @@
+<div id="editor1">
+	<p>Foo foo foo</p>
+</div>
+<script>
+	var editor = CKEDITOR.replace( 'editor1' );
+
+	function createAggregator() {
+		// Init notification aggregator.
+		var aggregator = notification = new CKEDITOR.plugins.notificationAggregator( editor,
+				'Loading {current} of {max}... {percentage}%'
+			),
+			// Create 2 tasks.
+			tasks = [
+				aggregator.createTask( { weight: 10 } ),
+				aggregator.createTask( { weight: 40 } )
+			];
+
+		var newWeight = 0,
+			timer = window.setInterval( function() {
+				newWeight += 1;
+				if ( newWeight <= 10 ) {
+					// Until newWeight will not be bigger than 10 it will add to first task.
+					tasks[ 0 ].update( newWeight );
+				} else {
+					// Then we update only second task.
+					tasks[ 1 ].update( newWeight - 10 );
+				}
+
+				if ( aggregator._tasks.length === 1 ) {
+					foo = 1;
+				}
+
+				// When aggregator is finished remove the interval timer.
+				if ( aggregator.isFinished() ) {
+					window.clearInterval( timer );
+				}
+			}, 200 );
+	}
+</script>
+<p>
+	<input onclick="createAggregator();" type="button" value="Init aggregator">
+</p>
