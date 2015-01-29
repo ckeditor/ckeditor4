@@ -80,6 +80,16 @@
 		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
 	};
 
+	tests[ 'exposed proper pasteFilter in editor' ] = function() {
+		var bot = this.editorBots.editorPlain,
+			editor = bot.editor,
+			pasteFilter = editor.pasteFilter,
+			allowedElements = pasteFilter.allowedContent[ 0 ].elements;
+
+		assert.areSame( 1, Object.keys( allowedElements ).length, 'there is only one element' );
+		assert.isTrue( allowedElements.br );
+	};
+
 	createTest(
 		'test plain', 'editorPlain', contents.listWithSpan,
 		'<p>hefkdjfkdjllo</p><p>moto</p>'
