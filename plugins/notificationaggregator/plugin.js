@@ -16,12 +16,15 @@
 	} );
 
 	/**
-	 * This type helps to create a notification which tracks the progress of a multiple entities.
+	 * An aggregator of multiple tasks (progresses) which should be displayed using one
+	 * {@link CKEDITOR.plugins.notification notification}.
 	 *
-	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are done, it
-	 * means that the whole process is finished.
-	 *
+	 * Once all the tasks are done, it means that the whole process is finished.
 	 * Once finished the aggregator state will be reset and the {@link #finished} event will be fired.
+	 *
+	 * New tasks can be created after the previous set of tasks was finished. This will reopen the
+	 * notification with message describing only the tasks that are currently in progress.
+	 * Thanks to this a developer does not have to create multiple aggregator instances.
 	 *
 	 * Simple usage example:
 	 *
