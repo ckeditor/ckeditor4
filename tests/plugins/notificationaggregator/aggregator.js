@@ -138,16 +138,6 @@
 			assert.areSame( 1, instance.getPercentage(), 'Invalid return value' );
 		},
 
-		'test finished': function() {
-			var instance = new Aggregator( this.editor, '' ),
-				notif = new NotificationMock();
-			instance.notification = notif;
-
-			instance.finished();
-
-			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
-		},
-
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance.getDoneTasksCount = sinon.stub().returns( 2 );
@@ -200,12 +190,12 @@
 			var instance = new Aggregator( this.editor, '' );
 			instance.isFinished = sinon.stub().returns( false );
 			instance._updateNotification = sinon.spy();
-			instance._reset = sinon.spy();
+			instance._finish = sinon.spy();
 
 			instance.update();
 
 			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
-			assert.areSame( 0, instance._reset.callCount, '_reset was not called' );
+			assert.areSame( 0, instance._finish.callCount, '_finish was not called' );
 		},
 
 		'test update finished': function() {
@@ -213,18 +203,12 @@
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
 			instance._reset = sinon.spy();
-			instance.fire = sinon.spy();
-			instance.finished = sinon.spy();
+			instance._finish = sinon.spy();
 
 			instance.update();
 
 			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
-			assert.areSame( 1, instance._reset.callCount, '_reset was not called' );
-
-			// Ensure that event was called.
-			sinon.assert.calledWithExactly( instance.fire, 'finished', {}, this.editor );
-
-			assert.areSame( 1, instance.finished.callCount, 'finished call count' );
+			assert.areSame( 1, instance._finish.callCount, '_finish call count' );
 		},
 
 		'test update - cancel finished event': function() {
@@ -239,6 +223,22 @@
 
 			// Method finished should not be called.
 			assert.areSame( 0, instance.finished.callCount, 'finished call count' );
+		},
+
+		'test _finish': function() {
+			var instance = new Aggregator( this.editor, '' ),
+				notif = new NotificationMock(),
+				finishedSpy = sinon.spy();
+
+			instance.notification = notif;
+			instance.on( 'finished', finishedSpy );
+			instance._reset = sinon.spy();
+
+			instance._finish();
+
+			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
+			assert.areSame( 1, finishedSpy.callCount, 'finished event fire count' );
+			assert.areSame( 1, notif.hide.callCount, 'notification._reset call count' );
 		},
 
 		'test _updateNotification': function() {

@@ -21,8 +21,7 @@
 	 * Aggregator is supposed to work with multiple tasks. Once all the tasks are done, it
 	 * means that the whole process is finished.
 	 *
-	 * Once finished the aggregator state will be reset. You can customize that behavior by
-	 * extending the type and overriding the {@link #finished} method.
+	 * Once finished the aggregator state will be reset and the {@link #finished} event will be fired.
 	 *
 	 * Simple usage example:
 	 *
@@ -189,18 +188,13 @@
 		/**
 		 * Triggers an update on aggregator, meaning that its UI will be refreshed.
 		 *
-		 * If aggregator is finished, then `finished` event will be fired.
+		 * When all the tasks are done, the {@link #finished} event is fired.
 		 */
 		update: function() {
 			this._updateNotification();
 
 			if ( this.isFinished() ) {
-				// All tasks loaded, loading is finished.
-				this._reset();
-
-				if ( this.fire( 'finished', {}, this.editor ) !== false ) {
-					this.finished();
-				}
+				this._finish();
 			}
 		},
 
@@ -230,14 +224,6 @@
 		},
 
 		/**
-		 * Called when all tasks are done. The default implementation is to hide the notification.
-		 */
-		finished: function() {
-			this.notification.hide();
-			this.notification = null;
-		},
-
-		/**
 		 * @returns {Number} Returns a total tasks count.
 		 */
 		getTasksCount: function() {
@@ -249,6 +235,18 @@
 		 */
 		getDoneTasksCount: function() {
 			return this._doneTasks;
+		},
+
+		/**
+		 * Should be called when all tasks are done.
+		 */
+		_finish: function() {
+			this._reset();
+
+			if ( this.fire( 'finished' ) !== false ) {
+				this.notification.hide();
+				this.notification = null;
+			}
 		},
 
 		/**
@@ -407,7 +405,7 @@
 	 */
 	function Task( weight ) {
 		/**
-		 * Total weight for the task.
+		 * Total weight of the task.
 		 *
 		 * @private
 		 * @property {Number}
@@ -458,7 +456,7 @@
 		},
 
 		/**
-		 * Cancels the task.
+		 * Cancels the task (task will be removed from the aggregator).
 		 */
 		cancel: function() {
 			// We'll fire cancel event it's up to aggregator to listen for this event,
@@ -481,7 +479,7 @@
 	/**
 	 * Fired when all tasks are done.
 	 *
-	 * It can be canceled, in this case the {@link #finished} won't be called.
+	 * It can be canceled to customize how the notification should be closed.
 	 *
 	 * @event finished
 	 * @member CKEDITOR.plugins.notificationAggregator
