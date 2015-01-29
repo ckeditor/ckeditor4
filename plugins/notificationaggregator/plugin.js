@@ -447,7 +447,8 @@
 
 			this._doneWeight = newWeight;
 
-			// Fire updated event even if task, despite task being done with this update.
+			// Fire updated event even if task is done in order to correctly trigger updating the
+			// notification's message. If we wouldn't do this, then the last weight change would be ignored.
 			this.fire( 'updated', weightChange );
 
 			if ( this.isDone() ) {
