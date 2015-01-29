@@ -41,7 +41,8 @@
 
 	var contents = {
 		listWithSpan: '<ul><li>he<span>fkdjfkdj</span>llo</li><li>moto</li></ul>',
-		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>'
+		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>',
+		classyAndStylish: '<h1 contenteditable="true" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>'
 	};
 
 	var tests = {};
@@ -56,9 +57,14 @@
 				var bot = this.editorBots[ editorName ],
 					editor = bot.editor;
 
-				editor.execCommand( 'paste', pastedContent );
+				editor.setData( '', function() {
+					resume( function() {
+						editor.execCommand( 'paste', pastedContent );
+						assert.areSame( expectedContent, editor.getData() );
+					} );
+				} );
 
-				assert.areSame( expectedContent, editor.getData() );
+				wait();
 			};
 		};
 	}
@@ -83,6 +89,11 @@
 	createTest(
 		'test semantic papt', 'editorSemanticPAPT', contents.various,
 		'<p>Header 1</p><p>Header 3</p><p>Heeey</p>'
+	);
+
+	createTest(
+		'test semantic remove styles and classes', 'editorSemantic', contents.classyAndStylish,
+		'<h1 contenteditable="true" >I am so classy and stylish :)</h1>'
 	);
 
 	bender.test( tests );
