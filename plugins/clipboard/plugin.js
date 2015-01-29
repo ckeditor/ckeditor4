@@ -117,7 +117,9 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			if ( typeof editor.config.pasteFilter == 'string' ) {
+			if ( editor.config.forcePasteAsPlainText ) {
+				editor.pasteFilter = filtersFactory.get( 'plain-text' );
+			} else if ( typeof editor.config.pasteFilter == 'string' ) {
 				editor.pasteFilter = filtersFactory.get( editor.config.pasteFilter );
 			}
 
