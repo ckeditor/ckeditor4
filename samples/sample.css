@@ -7,3 +7,10 @@ body {
 	width: 960px;
 	margin: 0 auto;
 }
+
+/* Style editor using its id (and not .cke_editable), to avoid FOUC when editor
+is initialized with a small delay. */
+#editor {
+	padding: 20px;
+	border: 3px solid #CCC;
+}
