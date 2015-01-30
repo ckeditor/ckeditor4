@@ -117,11 +117,21 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
+			var defaultContentType = editor.config.clipboard_defaultContentType;
+
 			if ( editor.config.forcePasteAsPlainText ) {
-				editor.pasteFilter = filtersFactory.get( 'plain-text' );
+				editor.filterType = 'plain-text';
+			} else if ( typeof defaultContentType == 'string' ) {
+				defaultContentType = ( defaultContentType == 'text' ? 'plain-text' : 'semantic-content' );
+
+				editor.filterType = defaultContentType;
 			} else if ( typeof editor.config.pasteFilter == 'string' ) {
-				editor.pasteFilter = filtersFactory.get( editor.config.pasteFilter );
+				editor.filterType = editor.config.pasteFilter;
+			} else {
+				editor.filterType = 'semantic-content';
 			}
+
+			editor.pasteFilter = filtersFactory.get( editor.filterType );
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
@@ -262,9 +272,9 @@
 				// Forced plain text (dialog or forcePAPT).
 				if ( type == 'text' && trueType == 'html' ) {
 					// Init filter only if needed and cache it.
-					data = filterContent( editor, data, 'plain-text' );
+					data = filterContent( editor, data, true );
 				} else if ( !internal && editor.config.pasteFilter ) {
-					data = filterContent( editor, data, editor.config.pasteFilter );
+					data = filterContent( editor, data );
 				}
 
 				if ( dataObj.startsWithEOL ) {
@@ -1204,14 +1214,11 @@
 			}
 		};
 	}() );
-	function getTextificationFilter( type ) {
-		return filtersFactory.get( type );
-	}
 
-	function filterContent( editor, data, filterType ) {
+	function filterContent( editor, data, forcedText ) {
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter(),
-			filter = getTextificationFilter( filterType );
+			filter = ( forcedText ? filtersFactory.get( 'plain-text' ) : editor.pasteFilter );
 
 		writer.reset();
 

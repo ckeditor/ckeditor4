@@ -96,7 +96,7 @@
 	tests[ 'editor no configuration' ] = function() {
 		var bot = this.editorBots.editorNoConfiguration;
 
-		assert.isUndefined( bot.editor.pasteFilter );
+		assert.isObject( bot.editor.pasteFilter );
 	};
 
 	tests[ 'editor defined pasteFilter if forcePAPT' ] = function() {
