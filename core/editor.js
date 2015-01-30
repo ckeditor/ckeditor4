@@ -1552,6 +1552,19 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * Content filter which is used when external data is pasted into editor or there is forced paste as a plain text.
+ * This object might be used on fly to define rules for pasted external content.
+ * This object is available if {@link CKEDITOR.plugins.clipboard clipboard} plugin is present.
+ *
+ * Paste filter behaviour is based on following options: {@link CKEDITOR.config#forcePasteAsPlainText},
+ * {@link CKEDITOR.config#clipboard_defaultContentType}, {@link CKEDITOR.config#pasteFilter}.
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.filter} pasteFilter
+ */
+
+/**
  * The active filter instance which should be used in the current context (location selection).
  * This instance will be used to make a decision which commands, buttons and other
  * {@link CKEDITOR.feature features} can be enabled.

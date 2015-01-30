@@ -2337,15 +2337,18 @@
  */
 
 /**
- * Define filter which cut down pasted content. Possible options are:
+ * Define filter which cut down pasted an external content. Possible options are:
  *
- * * 'plain-text'
- * * 'semantic-content'
- * * 'h1 h2 p div' // Custom rules compatible with Advanced Content Filter.
+ * * `plain-text` - Content will be pasted as a plain text.
+ * * `semantic-content` - Semantic layer will be keept.
+ * * `h1 h2 p div` - Custom rules compatible with {@link CKEDITOR.filter}.
  *
  *		config.pasteFilter = 'plain-text';
  *
- * @since 4.X.X
+ * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to editor
+ * as a {@link CKEDITOR.editor#pasteFilter}.
+ *
+ * @since 4.5
  * @cfg {String} [pasteFilter='semantic-content']
  * @member CKEDITOR.config
  */
