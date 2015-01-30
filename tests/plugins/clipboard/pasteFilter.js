@@ -94,9 +94,12 @@
 	var createTest = curryCreateTest( tests );
 
 	tests[ 'editor no configuration' ] = function() {
-		var bot = this.editorBots.editorNoConfiguration;
+		var bot = this.editorBots.editorNoConfiguration,
+			disallowedElements = bot.editor.pasteFilter.disallowedContent[ 0 ].elements;
 
 		assert.isObject( bot.editor.pasteFilter );
+		assert.areSame( 1, Object.keys( disallowedElements ).length );
+		assert.areSame( true, disallowedElements.script );
 	};
 
 	tests[ 'editor defined pasteFilter if forcePAPT' ] = function() {
