@@ -238,7 +238,7 @@
 
 			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
 			assert.areSame( 1, finishedSpy.callCount, 'finished event fire count' );
-			assert.areSame( 1, notif.hide.callCount, 'notification._reset call count' );
+			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
 		},
 
 		'test _updateNotification': function() {
