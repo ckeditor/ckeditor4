@@ -261,19 +261,19 @@
 			 * @param {String} html HTML to replace the upload widget.
 			 */
 			replaceWith: function( html ) {
-				// TODO: Use insertHtmlIntoRange (#12448) and handle multiple elements.
-
 				if ( html.trim() === '' ) {
 					editor.widgets.del( this );
 					return;
 				}
 
-				var processedHtml = editor.dataProcessor.toHtml( html, { context: this.wrapper.getParent().getName() } ),
-					el = CKEDITOR.dom.element.createFromHtml( processedHtml ),
-					wasSelected = ( this == editor.widgets.focused ),
-					range;
+				var wasSelected = ( this == editor.widgets.focused ),
+					editable = editor.editable(),
+					range = editor.createRange();
 
-				el.replace( this.wrapper );
+				range.setStartBefore( this.wrapper );
+				range.setEndAfter( this.wrapper );
+
+				editable.insertHtmlIntoRange( html, range );
 
 				editor.widgets.checkWidgets( { initOnlyNew: true } );
 
@@ -282,8 +282,6 @@
 				editor.widgets.destroy( this, true );
 
 				if ( wasSelected ) {
-					range = editor.createRange();
-					range.setStartAt( el, CKEDITOR.POSITION_BEFORE_END );
 					range.select();
 				}
 			}
