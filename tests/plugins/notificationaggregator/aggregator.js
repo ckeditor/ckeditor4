@@ -241,6 +241,21 @@
 			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
 		},
 
+		'test _finish resets after finished event': function() {
+			// Ensure that _reset() is called **after** finished event was fired. (#12874)
+			var instance = new Aggregator( this.editor, '' );
+
+			instance.notification = new NotificationMock();
+			instance.fire = function() {
+				assert.areSame( 0, instance._reset.callCount, 'instance._reset should not be called before firing finished event' );
+			};
+			instance._reset = sinon.spy();
+
+			instance._finish();
+
+			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
+		},
+
 		'test _updateNotification': function() {
 			var instance = new Aggregator( this.editor, '' ),
 				expectedParams = {

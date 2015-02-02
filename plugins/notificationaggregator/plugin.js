@@ -244,12 +244,12 @@
 		 * Should be called when all tasks are done.
 		 */
 		_finish: function() {
-			this._reset();
-
 			if ( this.fire( 'finished' ) !== false ) {
 				this.notification.hide();
 				this.notification = null;
 			}
+
+			this._reset();
 		},
 
 		/**
