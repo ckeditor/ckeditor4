@@ -859,10 +859,16 @@
 		 *		if ( CKEDITOR.instances.editor1.getData() == '' )
 		 *			alert( 'There is no data available.' );
 		 *
+		 * @param {Boolean} internal If set to `true`, it will prevent firing the
+		 * {@link CKEDITOR.editor#beforeGetData} and {@link CKEDITOR.editor#event-getData} events, so
+		 * the real content of the editor will not be read and cached data will be returned. The method will work
+		 * much faster, but this may result in the editor returning the data that is not up to date. This parameter
+		 * should thus only be set to `true` when you are certain that the cached is up to date.
+		 *
 		 * @returns {String} The editor data.
 		 */
-		getData: function( noEvents ) {
-			!noEvents && this.fire( 'beforeGetData' );
+		getData: function( internal ) {
+			!internal && this.fire( 'beforeGetData' );
 
 			var eventData = this._.data;
 
@@ -877,7 +883,7 @@
 			eventData = { dataValue: eventData };
 
 			// Fire "getData" so data manipulation may happen.
-			!noEvents && this.fire( 'getData', eventData );
+			!internal && this.fire( 'getData', eventData );
 
 			return eventData.dataValue;
 		},
