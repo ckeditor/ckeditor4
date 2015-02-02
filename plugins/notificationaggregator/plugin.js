@@ -485,6 +485,12 @@
 	 *
 	 * It can be canceled to customize how the notification should be closed.
 	 *
+	 * This event might be used eg. to display a follow-up success message.
+	 *
+	 *		aggregator.on( 'finished', function() {
+	 *			editor.showNotification( 'Uploaded ' + this.getDoneTasksCount() + ' files.', 'success', 2000 );
+	 *		} );
+	 *
 	 * @event finished
 	 * @member CKEDITOR.plugins.notificationAggregator
 	 */
