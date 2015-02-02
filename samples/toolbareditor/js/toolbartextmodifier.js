@@ -11,15 +11,6 @@
 
 		this.codeContainer = null;
 		this.hintContainer = null;
-
-		this.toolbarButtons = [
-			{
-				text: 'Toggle editable',
-				group: 'edit',
-				position: 'left',
-				clickCallback: this._toggleEditable
-			}
-		];
 	}
 
 	// Expose the class.

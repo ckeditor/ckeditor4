@@ -21,14 +21,6 @@
 
 		this.toolbarButtons = [
 			{
-				text: 'Toggle editable',
-				group: 'edit',
-				position: 'left',
-				clickCallback: function() {
-					this._toggleEditable();
-				}
-			},
-			{
 				text: 'Toggle visibility empty elements',
 				group: 'edit',
 				position: 'left',
