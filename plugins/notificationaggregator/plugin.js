@@ -39,17 +39,17 @@
 	 *		// At this point notification has a message: "Loading process, step 0 of 3...".
 	 *
 	 *		// Let's close first one immediately.
-	 *		tasksA.done(); // "Loading process, step 1 of 3...".
+	 *		taskA.done(); // "Loading process, step 1 of 3...".
 	 *
 	 *		// One second later message will be "Loading process, step 2 of 3...".
 	 *		setTimeout( function() {
-	 *			tasksB.done();
+	 *			taskB.done();
 	 *		}, 1000 );
 	 *
 	 *		// Two seconds after the previous message last task will be completed, meaining that
 	 *		// notification will be closed.
 	 *		setTimeout( function() {
-	 *			tasksC.done();
+	 *			taskC.done();
 	 *		}, 3000 );
 	 *
 	 * @since 4.5.0
