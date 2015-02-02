@@ -859,6 +859,12 @@
 		 *		if ( CKEDITOR.instances.editor1.getData() == '' )
 		 *			alert( 'There is no data available.' );
 		 *
+		 * @param {Boolean} noEvents If set to `true`, it will prevent firing the
+		 * {@link CKEDITOR.editor#beforeGetData} and {@link CKEDITOR.editor#getData} events
+		 * (which are costly). This may result in the editor returning the data that is not up to date.
+		 * This parameter should thus only be set to `true` when you are certain that the data
+		 * returned by the editor is up to date.
+		 *
 		 * @returns {String} The editor data.
 		 */
 		getData: function( noEvents ) {
