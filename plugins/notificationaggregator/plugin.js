@@ -353,7 +353,7 @@
 		},
 
 		/**
-		 * A listener called one the {@link CKEDITOR.plugins.notificationAggregator.task#update} event.
+		 * A listener called on the {@link CKEDITOR.plugins.notificationAggregator.task#update} event.
 		 *
 		 * @private
 		 * @param {CKEDITOR.eventInfo} evt Event object of the {@link CKEDITOR.plugins.notificationAggregator.task#update}.
@@ -515,7 +515,7 @@
 	/**
 	 * Fired when the task is canceled.
 	 *
-	 * @event cancel
+	 * @event canceled
 	 * @member CKEDITOR.plugins.notificationAggregator.task
 	 */
 
