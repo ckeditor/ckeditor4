@@ -173,8 +173,6 @@ if ( !Object.keys ) {
 
 		this.lastEditableAreaHeight = area.getStyle( 'height' );
 		area.setStyle( 'height', '0' );
-
-		this._updateContainerHeight();
 	};
 
 	/**
@@ -186,8 +184,6 @@ if ( !Object.keys ) {
 		this.isEditableVisible = true;
 
 		this.getEditableArea().setStyle( 'height', this.lastEditableAreaHeight || 'auto' );
-
-		this._updateContainerHeight();
 	};
 
 	/**
@@ -200,16 +196,6 @@ if ( !Object.keys ) {
 			this._hideEditable();
 		else
 			this._showEditable();
-	};
-
-	/**
-	 * Update height of CKEditor instance DOM parent element
-	 *
-	 * @private
-	 */
-	AbstractToolbarModifier.prototype._updateContainerHeight = function() {
-		var newHeight = this.editorInstance.container.getComputedStyle( 'height' );
-		this.editorInstance.container.getAscendant( 'p' ).setStyle( 'height', newHeight );
 	};
 
 	/**
