@@ -67,8 +67,6 @@ bender.test( {
 		assert.isTrue( body.contains( originalEditableParent ), 'editable\'s parent was not removed from the body element' );
 		assert.areSame( originalEditableParent, originalEditable.getParent(), 'editable\'s parent did not change' );
 
-		// It is not necessarily the most expected result (I would expect both lists to be outdented),
-		// but this is how the algorithm works in an iframed editor at the moment.
 		assert.areSame( '<p>1</p>', editor.getData(), 'the first of the selected lists was outdented' );
 	}
 } );
