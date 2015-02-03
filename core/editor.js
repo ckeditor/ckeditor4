@@ -863,7 +863,7 @@
 		 * {@link CKEDITOR.editor#beforeGetData} and {@link CKEDITOR.editor#event-getData} events, so
 		 * the real content of the editor will not be read and cached data will be returned. The method will work
 		 * much faster, but this may result in the editor returning the data that is not up to date. This parameter
-		 * should thus only be set to `true` when you are certain that the cached is up to date.
+		 * should thus only be set to `true` when you are certain that the cached data is up to date.
 		 *
 		 * @returns {String} The editor data.
 		 */
