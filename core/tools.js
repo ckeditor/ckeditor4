@@ -1220,7 +1220,7 @@
 		 * @param {Boolean} [withAppend] Whether to append created elements to the `doc`.
 		 */
 		enableHtml5Elements: function( doc, withAppend ) {
-			var els = 'abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,video'.split( ',' ),
+			var els = 'abbr,article,aside,audio,bdi,canvas,data,datalist,details,figcaption,figure,footer,header,hgroup,main,mark,meter,nav,output,progress,section,summary,time,video'.split( ',' ),
 				i = els.length,
 				el;
 
