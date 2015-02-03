@@ -30,12 +30,14 @@ window.ToolbarEditor = {};
 	 * @public
 	 * @param {Function} callback
 	 */
-	FullToolbarEditor.prototype.init = function( callback ) {
+	FullToolbarEditor.prototype.init = function( callback, cfg ) {
 		var that = this;
 
 		document.body.appendChild( this.textarea.$ );
 
-		CKEDITOR.replace( FullToolbarEditor.instanceId );
+		CKEDITOR.replace( FullToolbarEditor.instanceId, {
+			extraPlugins: cfg.extraPlugins
+		} );
 
 		this.editorInstance = CKEDITOR.instances[ FullToolbarEditor.instanceId ];
 
@@ -53,6 +55,7 @@ window.ToolbarEditor = {};
 				that.buttonsByGroup = FullToolbarEditor.groupButtons( that.buttons );
 
 				that.buttonNamesByGroup = that.groupButtonNamesByGroup( that.buttons );
+
 				e.editor.container.hide();
 
 				if ( typeof callback === 'function' )

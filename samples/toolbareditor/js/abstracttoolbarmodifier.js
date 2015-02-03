@@ -100,18 +100,21 @@ if ( !Object.keys ) {
 
 		this.mainContainer = new CKEDITOR.dom.element( 'div' );
 
-		if ( this.fullToolbarEditor.editorInstance !== null )
+		if ( this.fullToolbarEditor.editorInstance !== null ) {
 			throw 'Only one instance of ToolbarModifier is allowed';
+		}
 
-		this.fullToolbarEditor.init( function() {
-			if ( that.editorInstance.status == 'unloaded' ) {
-				that.editorInstance.on( 'loaded', function() {
+		if ( this.editorInstance.status == 'unloaded' ) {
+			this.editorInstance.once( 'loaded', function() {
+				that.fullToolbarEditor.init( function() {
 					that._onInit( callback );
-				} );
-			} else {
+				}, that.editorInstance.config );
+			} );
+		} else {
+			this.fullToolbarEditor.init( function() {
 				that._onInit( callback );
-			}
-		} );
+			}, this.editorInstance.config );
+		}
 
 		return this.mainContainer;
 	};
