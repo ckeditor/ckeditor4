@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -9,71 +9,102 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<title>CKEditor Sample</title>
 	<script src="../ckeditor.js"></script>
 	<script src="sample.js"></script>
-	<link rel="stylesheet" href="sample.css">
+	<link rel="stylesheet" href="css/sample.css">
 </head>
 <body>
 
 <header>
-	<h1>Hello, World!</h1>
+	<div>
+		<h1>
+			<a href="index.html"><img src="img/logo.png" alt="CKEditor Sample"></a>
+		</h1>
+		<nav class="navigation main-navigation">
+			<ul>
+				<li><a href="index.html" class="active">Demo</a></li>
+				<li><a href="#">Toolbar configurator <span class="main-navigation-tip">Edit your toolbar now!</span></a></li>
+			</ul>
+		</nav>
+	</div>
+	<nav class="navigation top-navigation">
+		<div>
+			<ul>
+				<li><a href="http://ckeditor.com">Project Homepage</a></li>
+				<li><a href="http://dev.ckeditor.com/">I found a bug</a></li>
+				<li><a href="http://github.com/ckeditor/ckeditor-dev" class="fork">Fork CKEditor on GitHub</a></li>
+			</ul>
+			<ul class="right">
+				<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+			</ul>
+		</div>
+	</nav>
 </header>
 
 <main>
-	<section>
-		<h1>Let's Start!</h1>
-		<p>If you can see CKEditor below, it means that the installation succeeded. Congratulations!</p>
-		<p>You can now try out your new editor version, see its features, and when you are ready to move on, check some of the most useful resources recommended below.</p>
+	<section class="greet">
+		<div>
+			<h1>Congratulations!</h1>
+			<p>
+				If you can see CKEditor below, it means that the installation succeeded.
+				You can now try out your new editor version, see its features, and when you are ready to move on, check some of the <a href="#sample-customize">most useful resources</a> recommended below.
+			</p>
 
-		<div id="editor">
-			<p>This is <strong>your</strong> <a href="http://ckeditor.com">editor</a>.</p>
+			<div id="editor">
+				<h1>Hello world!</h1>
+				<p>I'm the instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+			</div>
 		</div>
 	</section>
 
-	<section>
-		<h1>Customize Your Editor</h1>
-		<p>Modular build and numerous configuration options give you nearly endless possibilities to customize CKEditor. Try to add the following code to your <code>config.js</code> file and refresh this page (remember about clearing browser cache)!</p>
-		<pre>some custom configuration code that will work for all presets...</pre>
+	<section id="sample-customize">
+		<h2>Customize Your Editor</h2>
+		<p>Modular build and <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">numerous configuration options</a> give you nearly endless possibilities to customize CKEditor. Try to add the following code to your <code><a href="../config.js">config.js</a></code> file and refresh this page!</p>
+<pre>
+config.language = 'es';
+config.uiColor = '#F7B42C';
+config.height = 300;
+config.toolbarCanCollapse = true;
+</pre>
 	</section>
 
 	<section>
-		<h1>Toolbar Configuration</h1>
-		<p>If you want to reorder toolbar buttons or remove some of them, check this tool!</p>
+		<h2>Toolbar Configuration</h2>
+		<p>If you want to reorder toolbar buttons or remove some of them, check <a href="#">this tool</a>!</p>
 	</section>
 
 	<section>
-		<h1>More Samples!</h1>
-		<p>Visit the CKEditor SDK for a huge collection of samples showcasing editor features, with source code readily available to copy and use in your own implementation.</p>
+		<h2>More Samples!</h2>
+		<p>Visit the <a href="http://sdk.ckeditor.com">CKEditor SDK</a> for a huge collection of samples showcasing editor features, with source code readily available to copy and use in your own implementation.</p>
 	</section>
 
 	<section>
-		<h1>Developer's Guide</h1>
-		<p>The most important resource for all developers working with CKEditor, integrating it with their websites and applications, and customizing to their needs. You can start from these:</p>
+		<h2>Developer's Guide</h2>
+		<p>The most important resource for all developers working with CKEditor, integrating it with their websites and applications, and customizing to their needs. You can start from here:</p>
 		<ul>
-			<li>Adding CKEditor - How to integrate the editor with your website or application using various available methods.</li>
-			<li>Advanced Content Filter - How CKEditor filters input data and adjusts your content to your configuration.</li>
-			<li>Advanced Installation Concepts - How to upgrade, install additional components (plugins, skins), or create a custom build.</li>
-			<li>Editor Configuration - How to configure the editor and where to add custom configuration code.</li>
-			<li>Saving editor data - How to work with editor input and output.</li>
+			<li><a href="http://docs.ckeditor.com/#!/guide/dev_installation">Getting Started</a> - Explains how to install.</li>
+			<li><a href="http://docs.ckeditor.com/#!/guide/dev_advanced_installation">Advanced Installation Concepts</a> - How to upgrade, install additional components (plugins, skins), or create a custom build.</li>
 		</ul>
-		<p>When you have the basics sorted out, feel free to browse some more advanced sections like:</p>
+			<p>When you have the basics sorted out, feel free to browse some more advanced sections like:</p>
 		<ul>
-			<li>Functionality Overview with descriptions and samples for various editor features.</li>
-			<li>Plugin SDK, Widget SDK, and Skin SDK - Useful when you want to create your own editor components.</li>
+			<li><a href="http://docs.ckeditor.com/#!/guide/dev_features">Functionality Overview</a> with descriptions and samples for various editor features.</li>
+			<li><a href="http://docs.ckeditor.com/#!/guide/dev_features">Plugin SDK</a>, <a href="http://docs.ckeditor.com/#!/guide/widget_sdk_intro">Widget SDK</a>, and <a href="http://docs.ckeditor.com/#!/guide/skin_sdk_intro">Skin SDK</a> - Useful when you want to create your own editor components.</li>
 		</ul>
 	</section>
 
 	<section>
-		<h1>CKEditor JavaScript API</h1>
-		<p>CKEditor boasts a rich JavaScript API that you can use to adjust the editor to your needs and integrate with your website or application.</p>
+		<h2>CKEditor JavaScript API</h2>
+		<p>CKEditor boasts a rich <a href="http://docs.ckeditor.com/#!/api">JavaScript API</a> that you can use to adjust the editor to your needs and integrate with your website or application.</p>
 	</section>
 </main>
 
 <footer>
-	<p>
-		CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-	</p>
-	<p id="copy">
-		Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
-	</p>
+	<div>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+		</p>
+	</div>
 </footer>
 
 <script>
