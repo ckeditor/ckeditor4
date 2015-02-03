@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in [dialogui](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent li elements.
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing getData parameter documentation.
 
