@@ -70,7 +70,8 @@ if ( !Object.keys ) {
 	 * @param {String} editorId An id of modified editor
 	 * @constructor
 	 */
-	function AbstractToolbarModifier( editorId ) {
+	function AbstractToolbarModifier( editorId, cfg ) {
+		this.cfg = cfg || {};
 		this.editorId = editorId;
 		this.editorInstance = CKEDITOR.instances[ editorId ];
 		this.fullToolbarEditor = fullToolbarEditor;

@@ -8,11 +8,12 @@
 	/**
 	 * @class ToolbarEditor.ToolbarModifier
 	 * @param {String} editorId An id of modified editor
+	 * @param {Object} cfg
 	 * @extends AbstractToolbarModifier
 	 * @constructor
 	 */
-	function ToolbarModifier( editorId ) {
-		AbstractToolbarModifier.call( this, editorId );
+	function ToolbarModifier( editorId, cfg ) {
+		AbstractToolbarModifier.call( this, editorId, cfg );
 
 		this.removedButtons = null;
 		this.originalConfig = null;
@@ -157,13 +158,46 @@
 	 * @private
 	 */
 	ToolbarModifier.prototype._showConfig = function() {
-		var actualConfig = this.getActualConfig(),
+		var that = this,
+			actualConfig = this.getActualConfig(),
 			cfg = {};
 
 		if ( actualConfig.toolbarGroups ) {
 			cfg.toolbarGroups = actualConfig.toolbarGroups;
-			cfg.toolbarGroups = ToolbarEditor.FullToolbarEditor.map( cfg.toolbarGroups, AbstractToolbarModifier.stringifyJSONintoOneLine );
-			cfg.toolbarGroups = '\n  ' + cfg.toolbarGroups.join( ',\n  ' );
+
+			var groups = prepareGroups( actualConfig.toolbarGroups, this.cfg.trimEmptyGroups );
+
+			cfg.toolbarGroups = '\n  ' + groups.join( ',\n  ' );
+		}
+
+		function prepareGroups( toolbarGroups, trimEmptyGroups ) {
+			var groups = [],
+				max = toolbarGroups.length;
+
+			for ( var i = 0; i < max; i++ ) {
+				var group = toolbarGroups[ i ],
+					max2 = group.groups.length;
+
+				if ( trimEmptyGroups ) {
+					while ( max2-- ) {
+						var subgroup = group.groups[ max2 ];
+
+						if ( ToolbarModifier.getTotalSubGroupButtonsNumber( subgroup, that.fullToolbarEditor ) === 0 ) {
+							group.groups.splice( max2, 1 );
+						}
+					}
+				}
+
+				if ( !( trimEmptyGroups && group.groups.length === 0 ) ) {
+					groups.push( mapToString( group ) );
+				}
+			}
+
+			return groups;
+		}
+
+		function mapToString( json ) {
+			return AbstractToolbarModifier.stringifyJSONintoOneLine( json, that.fullToolbarEditor, that.cfg.trimEmptyGroups );
 		}
 
 		if ( actualConfig.removeButtons )
