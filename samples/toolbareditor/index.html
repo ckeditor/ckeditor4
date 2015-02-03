@@ -10,16 +10,48 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script src="../../ckeditor.js"></script>
 	<link rel="stylesheet" href="css/toolbarmodifier.css">
 	<link rel="stylesheet" href="css/fontello.css">
+	<link rel="stylesheet" href="../css/sample.css">
 </head>
 <body>
 
 <header>
-	<h1>Toolbar Editor</h1>
+	<div>
+		<h1>
+			<a href="index.html"><img src="../img/logo.png" alt="CKEditor Sample"></a>
+		</h1>
+		<nav class="navigation main-navigation">
+			<ul>
+				<li><a href="../index.html">Demo</a></li>
+				<li><a href="toolbareditor/index.html" class="active">Toolbar configurator</a></li>
+			</ul>
+		</nav>
+	</div>
+	<nav class="navigation top-navigation">
+		<div>
+			<ul>
+				<li><a href="http://ckeditor.com">Project Homepage</a></li>
+				<li><a href="http://dev.ckeditor.com/">I found a bug</a></li>
+				<li><a href="http://github.com/ckeditor/ckeditor-dev" class="fork">Fork CKEditor on GitHub</a></li>
+			</ul>
+			<ul class="right">
+				<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+			</ul>
+		</div>
+	</nav>
 </header>
 
 <main>
-	<div id="editor"></div>
-	<div id="toolbarModifierWrapper"></div>
+	<section class="greet">
+		<div>
+			<h1>Configurator</h1>
+			<div id="editor"></div>
+		</div>
+	</section>
+	<section>
+		<div>
+			<div id="toolbarModifierWrapper"></div>
+		</div>
+	</section>
 
 	<script src="js/fulltoolbareditor.js"></script>
 	<script src="js/abstracttoolbarmodifier.js"></script>
@@ -37,12 +69,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 </main>
 
 <footer>
-	<p>
-		CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-	</p>
-	<p id="copy">
-		Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
-	</p>
+	<div>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+		</p>
+	</div>
 </footer>
 
 </body>
