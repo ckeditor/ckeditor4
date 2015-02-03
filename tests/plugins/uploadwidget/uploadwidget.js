@@ -200,9 +200,6 @@
 		},
 
 		'test replaceWith multiple elements': function() {
-			// replaceWith must use insertHtmlIntoRange to handle multiple elements.
-			assert.ignore();
-
 			var bot = this.editorBot,
 				editor = bot.editor,
 				uploads = editor.uploadsRepository,
@@ -574,7 +571,7 @@
 
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploaded{}x@</p>', bender.tools.selection.getWithHtml( editor ), 'After redo.' );
+				assert.isInnerHtmlMatching( '<p>xuploaded^x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
 
 				editor.execCommand( 'undo' );
 
@@ -582,7 +579,7 @@
 
 				editor.execCommand( 'redo' );
 
-				assert.isInnerHtmlMatching( '<p>xuploaded{}x@</p>', bender.tools.selection.getWithHtml( editor ), 'After redo.' );
+				assert.isInnerHtmlMatching( '<p>xuploaded^x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
 			} );
 		},
 
