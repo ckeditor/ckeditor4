@@ -5,7 +5,7 @@
 module.exports = function( grunt ) {
 	grunt.config.merge( {
 		less: {
-			'samples-dev': {
+			basicsample: {
 				files: {
 					'samples/css/sample.css': 'samples/less/sample.less',
 				},
@@ -18,28 +18,15 @@ module.exports = function( grunt ) {
 						' */'
 					].join( '\n' ),
 					paths: [ 'samples/' ],
-					sourceMap: true,
-					sourceMapFilename: 'samples/css/sample.css.map',
-					sourceMapURL: 'sample.css.map',
-					sourceMapRootpath: '/'
-				}
-			},
-
-			'samples-prod': {
-				files: '<%= less[ "samples-dev" ].files %>',
-
-				options: {
-					banner: '<%= less[ "samples-dev" ].options.banner %>',
-					paths: '<%= less[ "samples-dev" ].options.paths %>',
 					compress: true
 				}
 			}
 		},
 
 		watch: {
-			'less-samples-dev': {
-				files: '<%= less[ "samples-dev" ].options.paths[ 0 ] + "/**/*.less" %>',
-				tasks: [ 'less:samples-dev' ],
+			basicsample: {
+				files: '<%= less.basicsample.options.paths[ 0 ] + "/**/*.less" %>',
+				tasks: [ 'less:basicsample' ],
 				options: {
 					nospawn: true
 				}
