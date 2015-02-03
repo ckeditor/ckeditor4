@@ -11,7 +11,10 @@
 		"grunt-contrib-imagemin": "^0.8.1",
 		"grunt-jscs": "~1",
 		"grunt-contrib-jshint": "~0",
+		"grunt-contrib-less": "~1.0.0",
+		"grunt-contrib-watch": "~0.6.1",
 		"grunt-githooks": "~0",
+		"less": "~2.3.1",
 		"shelljs": "~0"
 	},
 	"scripts": {
