@@ -8,6 +8,10 @@
 if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 	CKEDITOR.tools.enableHtml5Elements( document );
 
+// The trick to keep the editor in the sample quite small
+// unless user specified own height.
+CKEDITOR.config.height = 150;
+
 var initSample = ( function() {
 	var wysiwygareaAvailable = isWysiwygareaAvailable(),
 		isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
