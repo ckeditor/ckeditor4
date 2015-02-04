@@ -129,6 +129,32 @@ if ( !Object.keys ) {
 		this.originalConfig = this.editorInstance.config;
 		this.actualConfig = JSON.parse( JSON.stringify( this.originalConfig ) );
 
+		if ( !this.actualConfig.toolbarGroups ) {
+			this.actualConfig.toolbarGroups = getDefaultToolbarGroups( this.editorInstance );
+		}
+
+		// Here we are going to keep only `name` and `groups` data from editor `toolbar` property.
+		function getDefaultToolbarGroups( editor ) {
+			var toolbarGroups = editor.toolbar,
+				copy = [];
+
+			var max = toolbarGroups.length;
+			for ( var i = 0; i < max; i++ ) {
+				var group = toolbarGroups[ i ];
+
+				if ( typeof group == 'string' ) {
+					copy.push( group ); // separator
+				} else {
+					copy.push( {
+						name: group.name,
+						groups: group.groups ? group.groups.slice() : []
+					} );
+				}
+			}
+
+			return copy;
+		}
+
 		// this lines prevent from showing bottom toolbar in modified editor
 		this.actualConfig.removePlugins = 'elementspath';
 		this.actualConfig.resize_enabled = false;

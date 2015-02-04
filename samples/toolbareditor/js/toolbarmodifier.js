@@ -175,10 +175,15 @@
 				max = toolbarGroups.length;
 
 			for ( var i = 0; i < max; i++ ) {
-				var group = toolbarGroups[ i ],
-					max2 = group.groups.length;
+				var group = toolbarGroups[ i ];
+
+				if ( group === '/' ) {
+					groups.push( '"/"' );
+					continue;
+				}
 
 				if ( trimEmptyGroups ) {
+					var max2 = group.groups.length;
 					while ( max2-- ) {
 						var subgroup = group.groups[ max2 ];
 
