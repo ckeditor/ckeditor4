@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1071,10 +1071,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Sets the direction marker and `dir` attribute of the input element.
+			 * Sets the text direction marker and the `dir` attribute of the input element.
 			 *
 			 * @since 4.5.0
-			 * @param {String} dir The direction. Pass `null` to reset.
+			 * @param {String} dir The text direction. Pass `null` to reset.
 			 */
 			setDirectionMarker: function( dir ) {
 				var inputElement = this.getInputElement();
@@ -1092,10 +1092,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 			},
 
 			/**
-			 * Gets the value of direction marker.
+			 * Gets the value of the text direction marker.
 			 *
 			 * @since 4.5.0
-			 * @returns {String} `'ltr'`, `'rtl'` or `null` if marker is not set.
+			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
 			 */
 			getDirectionMarker: function() {
 				return this.getInputElement().data( 'cke-dir-marker' );

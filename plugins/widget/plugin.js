@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -282,7 +282,7 @@
 		 * Checks if all widget instances are still present in the DOM.
 		 * Destroys those instances that are not present.
 		 * Reinitializes widgets on widget wrappers for which widget instances
-		 * cannot be found. Takes nested widgets into account too.
+		 * cannot be found. Takes nested widgets into account, too.
 		 *
 		 * This method triggers the {@link #event-checkWidgets} event whose listeners
 		 * can cancel the method's execution or modify its options.
@@ -346,8 +346,8 @@
 		 * @param {Boolean} [offline] Whether the widgets are offline (detached from the DOM tree) &mdash;
 		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
 		 * @param {CKEDITOR.dom.element} [container] Container within widgets will be destroyed.
-		 * This option will be ignored if `offline` flag was set to `true`, because in such case
-		 * it is not possible to find widgets within passed block.
+		 * This option will be ignored if the `offline` flag was set to `true`, because in such case
+		 * it is not possible to find widgets within the passed block.
 		 */
 		destroyAll: function( offline, container ) {
 			var widget,
@@ -1670,14 +1670,14 @@
 		 * and the {@link CKEDITOR.editor#filter}. This ensures that the data was filtered and prepared to be
 		 * edited like the {@link CKEDITOR.editor#method-setData editor data}.
 		 *
-		 * Before content is changed all nested widgets are destroyed. Afterwards, after new content is loaded
+		 * Before content is changed, all nested widgets are destroyed. Afterwards, after new content is loaded,
 		 * all nested widgets are initialized.
 		 *
 		 * @param {String} data
 		 */
 		setData: function( data ) {
-			// For performance reasons don't call destroyAll when initializing nested editable,
-			// because there are not widgets inside.
+			// For performance reasons don't call destroyAll when initializing a nested editable,
+			// because there are no widgets inside.
 			if ( !this._.initialSetData ) {
 				// Destroy all nested widgets before setting data.
 				this.editor.widgets.destroyAll( false, this );

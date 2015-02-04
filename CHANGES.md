@@ -5,9 +5,9 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#10986](http://dev.ckeditor.com/ticket/10986): Added support for changing dialog's input and textarea text directions by using *Shift+Alt+Home/End* keystrokes. The direction is stored in the value of the input by prepending [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) or [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) marker to it. Read more in the [documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.textInput-property-bidi). Thanks to [edithkk](https://github.com/edithkk)!
+* [#10986](http://dev.ckeditor.com/ticket/10986): Added support for changing dialog window's input and textarea text directions by using the *Shift+Alt+Home/End* keystrokes. The direction is stored in the value of the input by prepending the [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) or [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) marker to it. Read more in the [documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.textInput-property-bidi). Thanks to [edithkk](https://github.com/edithkk)!
 * [#12770](http://dev.ckeditor.com/ticket/12770): Added support for passing [widget](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget)'s startup data as a widget command's argument. Thanks to [Rebrov Boris](https://github.com/zipp3r) and [Tieme van Veen](https://github.com/tiemevanveen)!
-* [#10931](http://dev.ckeditor.com/ticket/10931): Introduce ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely since CKEditor 4.5 some widget buttons may become enabled.
+* [#10931](http://dev.ckeditor.com/ticket/10931): Introduce the ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely, since CKEditor 4.5 some widget buttons may become enabled.
 * [#11437](http://dev.ckeditor.com/ticket/11437): Drag and Drop support.
   * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
   * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
@@ -29,13 +29,13 @@ Fixed Issues:
 * [#12018](http://dev.ckeditor.com/ticket/12018): [Nested widgets] Fixed and reviewed: Nested widgets garbage collection.
 * [#12024](http://dev.ckeditor.com/ticket/12024): [Nested widgets][FF] Fixed: Outline is extended to the left by unpositioned drag handlers.
 * [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Fixed: Drag and drop of nested block widgets.
-* [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting single non-editable element using [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting widget with nested editable inside other widget's nested editable.
+* [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting a single non-editable element using the [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting a widget with a nested editable inside another widget's nested editable.
 * [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify passed array.
 
 Other Changes:
 
-* [#8024](http://dev.ckeditor.com/ticket/8024): Swapped behavior of the Split Table Cell Vertically and Horizontally features to be more intuitive. Thanks to [kevinisagit](https://github.com/kevinisagit)!
-* [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for [`addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
+* [#8024](http://dev.ckeditor.com/ticket/8024): Swapped behavior of the Split Cell Vertically and Horizontally features to be more intuitive. Thanks to [kevinisagit](https://github.com/kevinisagit)!
+* [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for the [`dom.element.addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`dom.element.removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`dom.element.hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
 * [#11856](http://dev.ckeditor.com/ticket/11856): jQuery adapter throw an meaningful error if CKEditor or jQuery is not loaded.
 * [#12150](http://dev.ckeditor.com/ticket/12150): Expose [`getNestedEditable`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-static-method-getNestedEditable) and `is*` [widget helper](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget) functions.
 
