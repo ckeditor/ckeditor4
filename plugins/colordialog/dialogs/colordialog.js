@@ -240,9 +240,11 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			appendColorCell( oRow.$, '#' + aColors[ n ] + aColors[ n ] + aColors[ n ] );
 		}
 
-		// Fill the row with black cells.
-		for ( var i = 0; i < 12; i++ ) {
-			appendColorCell( oRow.$, '#000000' );
+		// Fill the row with gray cells.
+		var n = aColors.length * 2 + 1,step = Math.ceil(256/n),cc = '';
+		for ( var i = 1,cc = ''; i < n; i++ ){
+			cc = (i * step ).toString(16);
+			appendColorCell( oRow.$, '#'+cc+cc+cc);
 		}
 	}
 
