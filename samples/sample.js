@@ -11,6 +11,7 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 // The trick to keep the editor in the sample quite small
 // unless user specified own height.
 CKEDITOR.config.height = 150;
+CKEDITOR.config.width = 'auto';
 
 var initSample = ( function() {
 	var wysiwygareaAvailable = isWysiwygareaAvailable(),
