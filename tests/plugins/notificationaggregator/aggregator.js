@@ -63,8 +63,8 @@
 			assert.areSame( 0, instance2._tasks.length, 'instance2 _tasks remains empty' );
 		},
 
+		// If aggregate has no tasks, it should create notification object in createTask method.
 		'test createTask creates a notification': function() {
-			// If aggregate has no tasks, it should create notification object in createTask method.
 			var aggr = new Aggregator( this.editor, '' ),
 				notification = {
 					show: sinon.spy()
@@ -83,8 +83,8 @@
 			assert.areSame( 1, aggr.update.callCount, 'update call count' );
 		},
 
+		// If there is already at least one task, we need to reuse notification.
 		'test createTask reuses a notification when have tasks': function() {
-			// If there is already at least one task, we need to reuse notification.
 			var aggr = new Aggregator( this.editor, '' );
 			aggr._tasks = [ 0 ];
 			// Create a dummy notification, so aggregate will think it have one.
@@ -113,8 +113,8 @@
 			sinon.assert.calledOnce( aggr._addTask );
 		},
 
+		// Ensure that task will get listeners in createTask.
 		'test createTask adds listeners': function() {
-			// Ensure that task will get listeners in createTask.
 			var aggr = new Aggregator( this.editor, '' ),
 				taskMock = {
 					on: sinon.spy()
@@ -129,8 +129,8 @@
 			sinon.assert.calledWithExactly( taskMock.on, 'done', aggr._onTaskDone, aggr );
 		},
 
+		// Ensure that nothing bad happens if htere are no weights at all.
 		'test getPercentage empty': function() {
-			// Ensure that nothing bad happens if htere are no weights at all.
 			var instance = new Aggregator( this.editor, '' );
 
 			instance.getTasksCount = sinon.stub().returns( 0 );
@@ -176,9 +176,9 @@
 			assert.areSame( 20, ret._weight );
 		},
 
+		// Ensure that aggregator weight cache (_totalWeights) is increased by the
+		// addTask call.
 		'test _addTask increases weight': function() {
-			// Ensure that aggregator weight cache (_totalWeights) is increased by the
-			// addTask call.
 			var instance = new Aggregator( this.editor, '' );
 
 			instance._addTask( { weight: 20 } );
@@ -241,6 +241,23 @@
 			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
 		},
 
+		// Ensure that _reset() is called **after** finished event was fired. (#12874)
+		'test _finish resets after finished event': function() {
+			var instance = new Aggregator( this.editor, '' );
+
+			instance.notification = new NotificationMock();
+			instance.fire = function() {
+				assert.areSame( 0, instance._reset.callCount, 'instance._reset should not be called before firing finished event' );
+				assert.areSame( 1, instance.getDoneTasksCount(), 'instance.getDoneTasksCount() should returns number of done tasks' );
+			};
+			instance._reset = sinon.spy();
+
+			instance._doneTasks = 1;
+			instance._finish();
+
+			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
+		},
+
 		'test _updateNotification': function() {
 			var instance = new Aggregator( this.editor, '' ),
 				expectedParams = {
@@ -290,9 +307,9 @@
 			assert.areSame( 1, instance.update.callCount, 'instance.update call count' );
 		},
 
+		// If aggregator has some _doneWeights already added, and removed task
+		// has non-zero _doneWeight then it should be subtracted from the aggregator.
 		'test _removeTask subtracts doneWeight': function() {
-			// If aggregator has some _doneWeights already added, and removed task
-			// has non-zero _doneWeight then it should be subtracted from the aggregator.
 			var instance = new Aggregator( this.editor, '' ),
 				taskMock = {
 					_doneWeight: 10
@@ -307,8 +324,8 @@
 			assert.areSame( 20, instance._doneWeights, 'instance._doneWeights reduced' );
 		},
 
+		// Ensure that subsequent remove attempt for the same task won't result with an error.
 		'test _removeTask subsequent': function() {
-			// Ensure that subsequent remove attempt for the same task won't result with an error.
 			var instance = new Aggregator( this.editor, '' );
 
 			instance.update = sinon.spy();
@@ -347,9 +364,9 @@
 			} );
 		},
 
+		// When only single task is remaining and special message was defined,
+		// we should use special singular message.
 		'test _getNotificationMessage single': function() {
-			// When only single task is remaining and special message was defined,
-			// we should use special singular message.
 			var instance = new Aggregator( this.editor, '' );
 			instance._singularMessage = {
 				output: sinon.stub().returns( 'bar' )
@@ -366,9 +383,9 @@
 			} );
 		},
 
+		// Ensure that if only one task is remaining, BUT NO SPECIAL MESSAGE was
+		// defined for singular case, the standard message is used.
 		'test _getNotificationMessage missing singular': function() {
-			// Ensure that if only one task is remaining, BUT NO SPECIAL MESSAGE was
-			// defined for singular case, the standard message is used.
 			var instance = new Aggregator( this.editor, '' );
 			instance._message = {
 				output: sinon.stub().returns( 'bar' )

@@ -244,12 +244,12 @@
 		 * Should be called when all tasks are done.
 		 */
 		_finish: function() {
-			this._reset();
-
 			if ( this.fire( 'finished' ) !== false ) {
 				this.notification.hide();
 				this.notification = null;
 			}
+
+			this._reset();
 		},
 
 		/**
@@ -484,6 +484,12 @@
 	 * Fired when all tasks are done.
 	 *
 	 * It can be canceled to customize how the notification should be closed.
+	 *
+	 * This event might be used eg. to display a follow-up success message.
+	 *
+	 *		aggregator.on( 'finished', function() {
+	 *			editor.showNotification( 'Uploaded ' + this.getDoneTasksCount() + ' files.', 'success', 2000 );
+	 *		} );
 	 *
 	 * @event finished
 	 * @member CKEDITOR.plugins.notificationAggregator
