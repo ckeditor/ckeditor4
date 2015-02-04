@@ -273,7 +273,6 @@
 		_getNotificationMessage: function() {
 			var tasksCount = this.getTasksCount(),
 				doneTasks = this.getDoneTasksCount(),
-				remainingTasks = tasksCount - doneTasks,
 				templateParams = {
 					current: doneTasks,
 					max: tasksCount,
@@ -282,7 +281,7 @@
 				template;
 
 			// If there's only one remaining task and we have a singular message, we should use it.
-			if ( remainingTasks == 1 && this._singularMessage ) {
+			if ( tasksCount == 1 && this._singularMessage ) {
 				template = this._singularMessage;
 			} else {
 				template = this._message;

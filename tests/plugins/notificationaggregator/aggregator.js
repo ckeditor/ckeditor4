@@ -369,23 +369,34 @@
 			} );
 		},
 
-		// When only single task is remaining and special message was defined,
+		// When there is only one task and special message was defined,
 		// we should use special singular message.
 		'test _getNotificationMessage single': function() {
-			var instance = new Aggregator( this.editor, '' );
+			var instance = new Aggregator( this.editor, 'foo' );
 			instance._singularMessage = {
 				output: sinon.stub().returns( 'bar' )
 			};
-			instance.getTasksCount = sinon.stub().returns( 2 );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getPercentage = sinon.stub().returns( 0.5 );
+			instance.getTasksCount = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 0 );
+			instance.getPercentage = sinon.stub().returns( 0.2 );
 
 			assert.areSame( 'bar', instance._getNotificationMessage() );
 			sinon.assert.calledWithExactly( instance._singularMessage.output, {
-				current: 1,
-				max: 2,
-				percentage: 50
+				current: 0,
+				max: 1,
+				percentage: 20
 			} );
+		},
+
+		// When only single task is remaining and special message was defined,
+		// we should still use plural message.
+		'test _getNotificationMessage plural message event if single message defined': function() {
+			var instance = new Aggregator( this.editor, 'foo', 'bar' );
+
+			instance.getTasksCount = sinon.stub().returns( 2 );
+			instance.getDoneTasksCount = sinon.stub().returns( 1 );
+
+			assert.areSame( 'foo', instance._getNotificationMessage() );
 		},
 
 		// Ensure that if only one task is remaining, BUT NO SPECIAL MESSAGE was
