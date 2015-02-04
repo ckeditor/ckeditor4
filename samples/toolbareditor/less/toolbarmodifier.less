@@ -1,0 +1,386 @@
+/*
+This file is a copyrighted work of CKSource and is protected under Poland and worldwide copyright laws and treaty provisions.
+CKSource grants you permission to distribute this file exclusively as part of the CKEditor SDK.
+It is forbidden to copy and distribute this file in its original or modified form in any other way than together with the CKEditor SDK that this file constitutes an integral part of.
+*/
+
+@import "../../less/lesshat.less";
+@import "../../less/base.less";
+
+.cke_toolbar.active {
+    position: relative;
+
+	&:after {
+	    content: '';
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    right: 6px;
+	    bottom: 5px;
+	    left: 0;
+	    background-color: #8B96DD;
+
+	    .border-radius( 3px );
+	    .box-shadow( 0 0 10px #2a40e1 );
+	    outline: 2px solid #8B96DD\9; /* IE8 and below */
+	}
+
+	.cke_combo,
+	.cke_toolgroup {
+	    position: relative;
+	    z-index: 2;
+	}
+
+	.cke_combo_button {
+	    .box-shadow( none );
+	}
+}
+
+.unselectable {
+    .user-select( none );
+}
+
+.toolbar {
+    width: 100%;
+    padding: @sample-standard-vgap 0;
+    overflow: hidden;
+    border: 1px solid transparent;
+
+    button {
+		&.cke_button {
+		    cursor: pointer;
+
+		    display: inline-block;
+		    padding: 4px 6px;
+		    outline: 0;
+		    border: 1px solid #a6a6a6;
+		}
+
+		&.hidden {
+		    display: none;
+		}
+
+		&.left {
+		    float: left;
+		}
+
+		&.right {
+		    float: right;
+		    margin: 0 0 5px 6px;
+		}
+    }
+}
+
+.configContainer.hidden,
+.toolbarModifier.hidden {
+    display: none;
+}
+
+.toolbarModifier :focus,
+.toolbar button:focus,
+.configContainer > textarea:focus {
+    outline: none;    
+}
+
+.toolbarModifier {
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+
+    height: 500px;
+    overflow-y: auto;
+
+	::-moz-focus-inner {
+	    border: 0;
+	}
+
+	.empty {
+	    display: none;
+	}
+
+	&.empty-visible .empty {
+	    display: list-item;
+	    .opacity( 0.6 );
+	}
+
+	& > ul {
+	    padding: 0;
+	    margin: 0;
+	    border: 1px solid #cacaca;;
+	}
+
+	& > ul ul {
+	    padding-left: 0;
+	}
+
+	& > ul ul ul {
+	    padding: 2px 0;
+	}
+
+	li > p {
+	    padding: 0;
+	}
+
+	ul li > p {
+	    color: #3f0031;
+	}
+
+	ul ul li > p {
+	    color: #3d3d3d;
+	}
+
+	li > p > span > button {
+	    font-family: 'fontello';
+	    color: #000;
+	    background-color: #e5e5e5;
+	    display: inline-block;
+	    text-decoration: none;
+	    text-align: center;
+	    font-weight: bold;
+	    cursor: pointer;
+	    padding: 0;
+	    border: none;
+	    margin: 0 .5em 0 0;
+	    width: 18px;
+	    height: 18px;
+
+	    .border-radius( 1em );
+	    .transition( color 200ms, background-color 200ms );
+	}
+
+	li > p > span > button:not(.disabled):hover {
+	    color: #e5e5e5;
+	    background-color: #000;
+	}
+
+	li > p > span > button.move.disabled {
+	    cursor: default;
+	    .opacity( 0.2 );
+	}
+
+	li {
+	    list-style-type: none;
+	}
+
+	li[data-type="group"].active,
+	li[data-type="group"]:hover,
+	li[data-type="separator"].active,
+	li[data-type="separator"]:hover {
+	    overflow: hidden;
+	    z-index: 2;
+	}
+
+	li[data-type="group"].active,
+	li[data-type="separator"].active,
+	li[data-type="group"].active:hover,
+	li[data-type="separator"].active:hover {
+	    outline: 1px solid #9fe1a9;
+	    background: #e7ffec;
+	}
+
+	li[data-type="group"]:hover,
+	li[data-type="separator"]:hover {
+	    outline: 1px solid #4169e1;
+	    background: #eff3ff;
+	}
+
+	li {
+	    .transition( background 1000ms, outline 1000ms );
+	}
+
+	p {
+	    margin: 0;
+	}
+
+	li[data-type="group"]:after,
+	li[data-type="separator"]:after {
+	    content: '';
+	    bottom: -1px;
+	    left: 0;
+	    right: 0;
+	    height: 1px;
+	    background-color: #cacaca;
+	    position: absolute;
+	}
+
+	li[data-type="subgroup"] {
+	    position: relative;
+	}
+	li[data-type="subgroup"]:after {
+	    content: '';
+	    bottom: -1px;
+	    left: 0;
+	    right: 0;
+	    height: 1px;
+	    background-color: #cacaca;
+	    position: absolute;
+	}
+
+	li[data-type="subgroup"]:last-of-type {
+	    border-bottom: none;
+	}
+
+	li[data-type="separator"],
+	li[data-type="group"],
+	li[data-type="subgroup"] {
+	    position: relative;
+	}
+
+	li[data-type="separator"] > p,
+	li[data-type="group"] > p {
+	    border-right: 1px solid #cacaca;
+	}
+
+	li[data-type="separator"] > p {
+	    width: 100%;
+	    padding-left: 7px;
+	}
+	li[data-type="group"] > p,
+	li[data-type="subgroup"] > p {
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    width: 123px;
+	    padding-left: 7px;
+	}
+
+	li[data-type="separator"] > p > span,
+	li[data-type="group"] > p > span,
+	li[data-type="subgroup"] > p > span {
+	    position: absolute;
+	    top: 50%;
+	    margin-top: -10px;
+	}
+
+	li[data-type="group"] > ul,
+	li[data-type="subgroup"] > ul {
+	    margin-left: 130px;
+	    margin-top: 0;
+	    margin-bottom: 0;
+	}
+
+	li[data-type="separator"],
+	li[data-type="subgroup"] {
+	    min-height: 32px;
+	}
+
+	li[data-type="button"] {
+	    cursor: pointer;
+	    background-color: #fff;
+	    display: inline-block;
+	    margin-right: 5px;
+	    .border-radius( 3px );
+	}
+
+	li[data-type="button"] > button,
+	li[data-type="button"] > label {
+	    margin: 0;
+	}
+
+	li[data-type="button"] > label {
+	    display: inline-block;
+	    padding: 1px 3px;
+	}
+
+	li[data-type="button"] > label > *  {
+	    vertical-align: middle;
+	}
+
+	li[data-type="button"] .cke_combo_text {
+	    white-space: nowrap;
+	}
+	li[data-type="button"] .cke_toolgroup,
+	li[data-type="button"] .cke_combo_button {
+	    margin-top: 0;
+	    margin-bottom: 0;
+	}
+
+	& > .codemirror-wrapper {
+	    overflow-y: auto;
+	}
+
+	& > div.hint {
+	    float: right;
+	    width: 135px;
+	    overflow-y: auto;
+
+	    padding: 0 20px;
+	    font-size: 1.4em;
+	}
+
+	& > div.hint.hidden {
+	    width: 0;
+	    padding: 0;
+	}
+
+	& > div.hint > ul {
+	    padding-left: 0;
+	    text-transform: uppercase;
+	    font-weight: bold;
+	    font-size: 12px;
+	}
+
+	& > div.hint > ul > li > ul {
+	    padding-left: 5px;
+	    text-transform: none;
+	    font-weight: normal;
+	    font-family: monospace;
+	   .user-select( auto );
+	}
+
+	& > div.hint > h3 {
+	    margin-top: 0;
+	    font-size: 13px;
+	}
+
+	& > div.hint .cke_toolgroup {
+	    padding: 2px;
+	}
+}
+
+.configContainer > textarea {
+    font-family: monospace;
+    font-size: 12px;
+    resize: none;
+    width: 100%;
+    height: 600px;
+    outline: 1px solid #cacaca;
+    padding: 0;
+    border: 0 solid transparent;
+    outline: 1px solid #cacaca;
+}
+
+/* Text modifier */
+#toolbarModifierWrapper .invalid .CodeMirror {
+    background: #fff8f8;
+}
+
+.mode-switch {
+	position: absolute;
+	right: 0;
+	top: 10px;
+	.border-radius( 200px );
+	background: lighten( @sample-header-background, 10% );
+	border-bottom: 4px solid rgba( 0,0,0,.25 );	
+	padding: 5px 7px 9px;
+
+	.fancy-button {
+		float: left;
+
+		&:first-child {
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+			border-right: 1px solid @sample-fancy-shadow-1-color;
+		}
+
+		&:last-child {
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+
+		& + .fancy-button {
+			margin: 0;
+		}
+	}
+}
