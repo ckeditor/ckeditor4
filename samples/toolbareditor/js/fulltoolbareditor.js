@@ -12,10 +12,11 @@ window.ToolbarEditor = {};
 	 * @constructor
 	 */
 	function FullToolbarEditor() {
+		this.instanceid = 'fte' + CKEDITOR.tools.getNextId();
 		this.textarea = new CKEDITOR.dom.element( 'textarea' );
 		this.textarea.setAttributes( {
-			id: FullToolbarEditor.instanceId,
-			name: FullToolbarEditor.instanceId,
+			id: this.instanceid,
+			name: this.instanceid,
 			contentEditable: true
 		} );
 
@@ -35,11 +36,11 @@ window.ToolbarEditor = {};
 
 		document.body.appendChild( this.textarea.$ );
 
-		CKEDITOR.replace( FullToolbarEditor.instanceId, {
+		CKEDITOR.replace( this.instanceid, {
 			extraPlugins: cfg.extraPlugins
 		} );
 
-		this.editorInstance = CKEDITOR.instances[ FullToolbarEditor.instanceId ];
+		this.editorInstance = CKEDITOR.instances[ this.instanceid ];
 
 		this.editorInstance.once( 'configLoaded', function( e ) {
 			var cfg = e.editor.config;
@@ -337,13 +338,5 @@ window.ToolbarEditor = {};
 
 		return buttons;
 	};
-
-	/**
-	 * @public
-	 * @readonly
-	 * @static
-	 * @property {String} instanceId
-	 */
-	FullToolbarEditor.instanceId = 'someid';
 
 } )();

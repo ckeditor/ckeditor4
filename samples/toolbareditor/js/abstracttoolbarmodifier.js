@@ -63,8 +63,6 @@ if ( !Object.keys ) {
 }
 
 ( function() {
-	var fullToolbarEditor = new ToolbarEditor.FullToolbarEditor();
-
 	/**
 	 * @class ToolbarEditor.AbstractToolbarModifier
 	 * @param {String} editorId An id of modified editor
@@ -74,7 +72,7 @@ if ( !Object.keys ) {
 		this.cfg = cfg || {};
 		this.editorId = editorId;
 		this.editorInstance = CKEDITOR.instances[ editorId ];
-		this.fullToolbarEditor = fullToolbarEditor;
+		this.fullToolbarEditor = new ToolbarEditor.FullToolbarEditor();
 
 		this.mainContainer = null;
 
