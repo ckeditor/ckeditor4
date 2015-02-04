@@ -4,43 +4,9 @@ CKSource grants you permission to distribute this file exclusively as part of th
 It is forbidden to copy and distribute this file in its original or modified form in any other way than together with the CKEditor SDK that this file constitutes an integral part of.
 */
 
-
 @import "lesshat.less";
+@import "base.less";
 @import "fonts.less";
-
-@base-font-size: 				16px;
-@base-line-height: 				24px;
-@base-line-ratio:				1.8;
-
-@sample-font-stack:				Arial, Helvetica, sans-serif;
-@sample-font-stack-serif:		Georgia, Times, "Times New Roman", serif;
-@sample-font-stack-monospace:	Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
-@sample-font-maven:				"Maven Pro";
-@sample-font-indie:				"Indie Flower";
-@sample-text-color:				#575757;
-
-@sample-link-color:				#cf5d4e;
-@sample-link-color-hover:		lighten( @sample-link-color, -10% );
-
-@sample-box-background-color:	#f5f5f5;
-@sample-box-border-color:		#ddd;
-
-@sample-header-background:		#cceaee;
-
-@sample-standard-vgap: 			1.2em;
-
-.font-size( @remSize ) {
-	@pxSize: round( @remSize * @base-font-size, 2 );
-
-	@remHeight: round( @remSize * @base-line-ratio, 2 );
-	@pxHeight: round( @pxSize * @base-line-ratio, 2 );
-
-	font-size: ~"@{pxSize}";
-	font-size: ~"@{remSize}rem";
-
-	line-height: ~"@{pxHeight}";
-	line-height: ~"@{remHeight}rem";
-}
 
 /* Global */
 
@@ -57,15 +23,21 @@ body, html {
 }
 
 .centered-page-content() {
-	width: 960px;
+	max-width: 960px;
 	margin: 0 auto;
+}
+
+
+header, main > section, footer {
+	padding-left: @sample-standard-hgap;
+	padding-right: @sample-standard-hgap;
 }
 
 header > div,
 main > section,
 footer > div,
 .top-navigation > div {
-	.centered-page-content();
+	.centered-page-content();	
 }
 
 /* Header */
@@ -73,7 +45,6 @@ footer > div,
 header {
 	height: 130px;
 	background: @sample-header-background;
-	//overflow: hidden;
 
 	& > div {
 		position: relative;
@@ -123,7 +94,7 @@ header {
 	left: 0;
 	right: 0;
 	top: 0;
-	padding: 0 40px;
+	padding: 0 @sample-standard-hgap;
 
 	ul, li, a {
 		height: 26px;
@@ -182,17 +153,30 @@ header {
 			display: block;
 			position: absolute;
 			top: 30px;
-			right: -110px;
+			
 			width: 212px;
 			height: 54px;
 			opacity: .5;
-			background: url( ../img/navigation-tip.png ) top left no-repeat;
-			color: #fff;
-			padding-left: 53px;
-			padding-top: 25px;
+			padding-top: 25px;			
+			background: url( ../img/navigation-tip.png );
+			background-repeat: no-repeat;
 			.box-sizing( border-box );
-			font-family: @sample-font-indie;
+
+			color: #fff;
+			font-family: @sample-font-indie;			
 			.font-size( 0.95 );
+							
+			// Standard setup
+			background-position: left bottom;
+			right: 90px;	
+			padding-left: 23px;				
+
+			// Wide setup. It works in IE9+ only though.
+			@media screen and (min-width: 1210px) {
+				background-position: left top;
+				right: -110px;	
+				padding-left: 53px;
+			}
 		}
 
 		a {
@@ -223,25 +207,27 @@ header {
 /* Main */
 
 main {
-	.font-size( .875 );
-
+	.font-size( .875 );	
 	padding-bottom: @sample-standard-vgap;
 
 	section.greet {
-		padding: @sample-standard-vgap 0;
+		padding: @sample-standard-vgap @sample-standard-hgap;
 		background: @sample-header-background;
-		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
 
 		.background-image(linear-gradient(to top, darken( @sample-header-background, 5% ) 0%, @sample-header-background 100%));
 		border-bottom: 6px solid #fafafa;
-		box-shadow: 0 2px 3px rgba( 0,0,0,.15 );
+		box-shadow: 0 2px 3px rgba( 0,0,0,.15 );		
+		.box-sizing( border-box );
 
 		& > div {
 			.centered-page-content();
+			position: relative;
 		}
 
 		#editor {
-			padding: 20px;
+			padding: @sample-standard-hgap;
 			border: 3px solid #CCC;
 		}
 
@@ -340,7 +326,7 @@ footer {
 	.font-size( .8125 );
 	overflow: hidden;
 	border-top: 1px solid @sample-box-border-color;
-	padding: 20px;
+	padding: @sample-standard-vgap @sample-standard-hgap;
 	color: #888;
 
 	p {
@@ -356,4 +342,43 @@ footer {
 		color: @sample-link-color;
 		text-decoration: none;
 	}
+}
+
+/* Buttons */
+
+.fancy-button {
+	.border-radius( 200px );
+	.font-size( .813 );
+	border: 0;
+	display: inline-block;
+	.background-image(linear-gradient(to bottom, @sample-fancy-color-1, @sample-fancy-color-2 ) );
+
+	cursor: pointer;
+	text-decoration: none;
+	padding: @sample-fancy-padding-v 13px @sample-fancy-padding-v - 2;	
+	color: #fff;
+	.user-select( none );
+	.box-shadow( 
+		0 0 1px rgba( 255,255,255,.3 ) inset, 
+		0 1px 0 @sample-fancy-shadow-1-color, 
+		0 3px 0 @sample-fancy-shadow-2-color 
+	);
+	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;
+	position: relative;
+	top: 0;
+	.transition( all 75ms );
+
+	&:hover, &:active, &:focus, &-active {
+		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
+		.box-shadow( 
+			0 1px 0 @sample-fancy-shadow-1-color, 
+			0 1px 0 @sample-fancy-shadow-2-color,
+		);
+		top: 2px;		
+		outline: none;		
+	}
+}
+
+.fancy-button + .fancy-button {
+	margin-left: @sample-standard-hgap;
 }
