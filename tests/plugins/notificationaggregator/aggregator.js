@@ -248,9 +248,11 @@
 			instance.notification = new NotificationMock();
 			instance.fire = function() {
 				assert.areSame( 0, instance._reset.callCount, 'instance._reset should not be called before firing finished event' );
+				assert.areSame( 1, instance.getDoneTasksCount(), 'instance.getDoneTasksCount() should returns number of done tasks' );
 			};
 			instance._reset = sinon.spy();
 
+			instance._doneTasks = 1;
 			instance._finish();
 
 			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
