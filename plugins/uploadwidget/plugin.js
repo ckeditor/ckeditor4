@@ -3,20 +3,30 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-// TODO: remove it when upload widgets will use notifications.
-/* global console */
-
 'use strict';
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		requires: 'widget,clipboard,filetools',
+		lang: 'en', // %REMOVE_LINE_CORE%
+		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {
 			// Images which should be changed into upload widget needs to be marked with `data-widget` on paste,
 			// because otherwise wrong widget may handle upload placeholder element (e.g. image2 plugin would handle image).
 			// `data-widget` attribute is allowed only in the elements which has also `data-cke-upload-id` attribute.
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
+
+			var aggregator = editor._.uploadWidgetNotificaionAggregator =
+				new CKEDITOR.plugins.notificationAggregator(
+					editor,
+					editor.lang.uploadwidget.uploadMany,
+					editor.lang.uploadwidget.uploadOne );
+
+			aggregator.on( 'finished', function() {
+				if ( aggregator.getTasksCount() > 0 ) {
+					editor.showNotification( editor.lang.uploadwidget.done, 'success' );
+				}
+			} );
 		}
 	} );
 
@@ -105,6 +115,8 @@
 	 *
 	 *				fileTools.markElement( el, 'filereader', loader.id );
 	 *
+	 *				fileTools.bindNotifications( editor, loader );
+	 *
 	 *				evt.data.dataValue += el.getOuterHtml();
 	 *			}
 	 *		}
@@ -145,6 +157,8 @@
 							loader[ loadMethod ]( def.uploadUrl );
 
 							markElement( el, name, loader.id );
+
+							bindNotifications( editor, loader );
 
 							data.dataValue += el.getOuterHtml();
 						}
@@ -206,8 +220,6 @@
 
 					editor.fire( 'lockSnapshot' );
 
-					console.log( loader.status );
-
 					var methodName = 'on' + capitalize( loader.status );
 
 					if ( typeof widget[ methodName ] === 'function' ) {
@@ -218,7 +230,6 @@
 					}
 
 					if ( loader.status == 'error' || loader.status == 'abort' ) {
-						console.log( loader.message );
 						editor.widgets.del( widget );
 					}
 
@@ -375,6 +386,43 @@
 		} );
 	}
 
+	/**
+	 * [bindNotifications description]
+	 *
+	 * @param {[type]} loader [description]
+	 * @returns {[type]} [description]
+	 */
+	function bindNotifications( editor, loader ) {
+		var aggregator = editor._.uploadWidgetNotificaionAggregator,
+			task;
+
+		task = aggregator.createTask( { weight: loader.total } );
+
+		loader.on( 'update', function() {
+			if ( loader.status == 'uploading' ) {
+				task.update( loader.uploaded );
+			}
+		} );
+
+		loader.on( 'uploaded', function() {
+			task.done();
+		} );
+
+		loader.on( 'loaded', function() {
+			task.done();
+		} );
+
+		loader.on( 'error', function() {
+			task.cancel();
+			editor.showNotification( loader.message, 'warning' );
+		} );
+
+		loader.on( 'abort', function() {
+			task.cancel();
+			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
+		} );
+	}
+
 	// Two plugins extends this object.
 	if ( !CKEDITOR.fileTools ) {
 		CKEDITOR.fileTools = {};
@@ -382,6 +430,7 @@
 
 	CKEDITOR.tools.extend( CKEDITOR.fileTools, {
 		addUploadWidget: addUploadWidget,
-		markElement: markElement
+		markElement: markElement,
+		bindNotifications: bindNotifications
 	} );
 } )();

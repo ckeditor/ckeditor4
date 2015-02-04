@@ -19,17 +19,28 @@
 
 		this.onload = function( evt ) {
 			// Total file size.
-			var total = 1000 * 10,
-				loaded = 0;
+			var total = 1163,
+				step = Math.round( total / 10 ),
+				loaded = 0,
+				xhr = this;
 
 			function progress() {
 				setTimeout( function() {
-					// Load 1000 bytes every 300 milliseconds.
-					loaded += 1000;
+					if ( xhr.aborted ) {
+						return;
+					}
 
-					if ( loaded < total ) {
+					loaded += step;
+					if ( loaded > total ) {
+						loaded = total;
+					}
+
+					if ( loaded > step * 4 && xhr.responseText.indexOf( 'incorrectFile' ) > 0 ) {
+						xhr.aborted = true;
+						xhr.onerror();
+					} else if ( loaded < total ) {
 						evt.loaded = loaded;
-						baseOnProgress( evt );
+						baseOnProgress( { loaded: loaded } );
 						progress();
 					} else {
 						baseOnLoad( evt );
@@ -38,6 +49,11 @@
 			}
 
 			progress();
+		};
+
+		this.abort = function() {
+			this.aborted = true;
+			this.onabort();
 		};
 
 		this.baseSend( data );
