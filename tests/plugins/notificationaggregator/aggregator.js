@@ -166,6 +166,13 @@
 			assert.areSame( 2, instance.getTasksCount() );
 		},
 
+		'test getDoneTasksCount': function() {
+			var instance = new Aggregator( this.editor, '' );
+			instance._doneTasks = 3;
+
+			assert.areSame( 3, instance.getDoneTasksCount() );
+		},
+
 		'test _addTask': function() {
 			var instance = new Aggregator( this.editor, '' ),
 				ret = instance._addTask( { weight: 20 } );
