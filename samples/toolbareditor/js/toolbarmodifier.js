@@ -22,7 +22,7 @@
 
 		this.toolbarButtons = [
 			{
-				text: 'Toggle visibility empty elements',
+				text: 'Toggle visibility of empty elements',
 				group: 'edit',
 				position: 'left',
 				clickCallback: function() {
@@ -30,7 +30,7 @@
 				}
 			},
 			{
-				text: 'Add separator',
+				text: 'Add row separator',
 				group: 'edit',
 				position: 'left',
 				clickCallback: function() {
@@ -55,7 +55,7 @@
 				}
 			},
 			{
-				text: 'Get config',
+				text: 'Get toolbar config!',
 				group: 'edit',
 				position: 'right',
 				clickCallback: function() {
