@@ -77,7 +77,7 @@ CKEDITOR.plugins.add( 'notification', {
 			var message = new CKEDITOR.dom.element( 'div' );
 			message.setStyles( {
 				position: 'fixed',
-				'margin-left': '-9999'
+				'margin-left': '-9999px'
 			} );
 			message.setAttributes( {
 				'aria-live': 'assertive',
