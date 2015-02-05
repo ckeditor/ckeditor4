@@ -157,9 +157,9 @@
 						if ( el ) {
 							loader[ loadMethod ]( def.uploadUrl );
 
-							markElement( el, name, loader.id );
+							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
-							bindNotifications( editor, loader );
+							CKEDITOR.fileTools.bindNotifications( editor, loader );
 
 							data.dataValue += el.getOuterHtml();
 						}

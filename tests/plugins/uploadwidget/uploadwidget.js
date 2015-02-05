@@ -83,6 +83,10 @@
 	}
 
 	bender.test( {
+		init: function() {
+			CKEDITOR.fileTools.bindNotifications = sinon.spy();
+		},
+
 		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
@@ -108,6 +112,8 @@
 			loadAndUploadCount = 0;
 			loadCount = 0;
 			uploadCount = 0;
+
+			CKEDITOR.fileTools.bindNotifications.reset();
 		},
 
 		tearDown: function() {
@@ -522,6 +528,23 @@
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				assert.areSame( '', evt.data.dataValue );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+			wait();
+		},
+
+		'test bindNotifications on paste': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'bindNotificationsWidget' );
+
+			resumeAfter( editor, 'paste', function() {
+				var spy = CKEDITOR.fileTools.bindNotifications;
+				assert.areSame( 1, spy.callCount );
+				assert.isTrue( spy.calledWith( editor ) );
+				assert.areSame( bender.tools.getTestPngFile().name, spy.firstCall.args[ 1 ].fileName );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
