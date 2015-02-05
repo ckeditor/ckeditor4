@@ -37,7 +37,7 @@ header > div,
 main > section,
 footer > div,
 .top-navigation > div {
-	.centered-page-content();	
+	.centered-page-content();
 }
 
 /* Header */
@@ -89,7 +89,7 @@ header {
 
 .top-navigation {
 	height: 26px;
-	background: #454545;
+	background: @sample-top-navigation-background;
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -153,28 +153,28 @@ header {
 			display: block;
 			position: absolute;
 			top: 30px;
-			
+
 			width: 212px;
 			height: 54px;
 			opacity: .5;
-			padding-top: 25px;			
+			padding-top: 25px;
 			background: url( ../img/navigation-tip.png );
 			background-repeat: no-repeat;
 			.box-sizing( border-box );
 
 			color: #fff;
-			font-family: @sample-font-indie;			
+			font-family: @sample-font-indie;
 			.font-size( 0.95 );
-							
+
 			// Standard setup
 			background-position: left bottom;
-			right: 90px;	
-			padding-left: 23px;				
+			right: 90px;
+			padding-left: 23px;
 
 			// Wide setup. It works in IE9+ only though.
 			@media screen and (min-width: 1210px) {
 				background-position: left top;
-				right: -110px;	
+				right: -110px;
 				padding-left: 53px;
 			}
 		}
@@ -207,7 +207,7 @@ header {
 /* Main */
 
 main {
-	.font-size( .875 );	
+	.font-size( .875 );
 	padding-bottom: @sample-standard-vgap;
 
 	section.greet {
@@ -218,7 +218,7 @@ main {
 
 		.background-image(linear-gradient(to top, darken( @sample-header-background, 5% ) 0%, @sample-header-background 100%));
 		border-bottom: 6px solid #fafafa;
-		box-shadow: 0 2px 3px rgba( 0,0,0,.15 );		
+		box-shadow: 0 2px 3px rgba( 0,0,0,.15 );
 		.box-sizing( border-box );
 
 		& > div {
@@ -347,6 +347,7 @@ footer {
 /* Buttons */
 
 .fancy-button {
+	.user-select( none );
 	.border-radius( 200px );
 	.font-size( .813 );
 	border: 0;
@@ -355,30 +356,41 @@ footer {
 
 	cursor: pointer;
 	text-decoration: none;
-	padding: @sample-fancy-padding-v 13px @sample-fancy-padding-v - 2;	
+	padding: @sample-fancy-padding-v 13px @sample-fancy-padding-v - 2;
 	color: #fff;
 	.user-select( none );
-	.box-shadow( 
-		0 0 1px rgba( 255,255,255,.3 ) inset, 
-		0 1px 0 @sample-fancy-shadow-1-color, 
-		0 3px 0 @sample-fancy-shadow-2-color 
+	.box-shadow(
+		0 0 1px rgba( 255,255,255,.3 ) inset,
+		0 1px 0 @sample-fancy-shadow-1-color,
+		0 3px 0 @sample-fancy-shadow-2-color
 	);
 	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;
 	position: relative;
 	top: 0;
-	.transition( all 75ms );
+	.transition( all 100ms );
 
-	&:hover, &:active, &:focus, &-active {
+	&:hover, &:focus {
 		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
-		.box-shadow( 
-			0 1px 0 @sample-fancy-shadow-1-color, 
+		.box-shadow(
+			0 1px 0 @sample-fancy-shadow-1-color,
 			0 1px 0 @sample-fancy-shadow-2-color,
 		);
-		top: 2px;		
-		outline: none;		
+		top: 2px;
+		outline: none;
+	}
+
+	&:active, &-active,
+	&:active:hover, &-active:hover {
+		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
+		top: 3px;
+		outline: none;
+		.box-shadow(
+			0 1px 0 @sample-fancy-shadow-2-color inset,
+			0 3px 0 @sample-fancy-shadow-1-color inset
+		);
 	}
 }
 
-.fancy-button + .fancy-button {
+.fancy-button:not( .hidden ) + .fancy-button {
 	margin-left: @sample-standard-hgap;
 }

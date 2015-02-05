@@ -8,8 +8,26 @@ This file is a copyrighted work of CKSource and is protected under Poland and wo
 CKSource grants you permission to distribute this file exclusively as part of the CKEditor SDK.
 It is forbidden to copy and distribute this file in its original or modified form in any other way than together with the CKEditor SDK that this file constitutes an integral part of.
 */
+.cke_toolbar {
+  zoom: 1;
+  filter: alpha(opacity=70);
+  -webkit-opacity: 0.7;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
 .cke_toolbar.active {
   position: relative;
+  zoom: 1;
+  filter: alpha(opacity=100);
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
 }
 .cke_toolbar.active:after {
   content: '';
@@ -26,11 +44,15 @@ It is forbidden to copy and distribute this file in its original or modified for
   -moz-background-clip: padding;
   border-radius: 3px;
   background-clip: padding-box;
-  -webkit-box-shadow: 0 0 10px #2a40e1;
-  -moz-box-shadow: 0 0 10px #2a40e1;
-  box-shadow: 0 0 10px #2a40e1;
-  outline: 2px solid #8B96DD\9;
-  /* IE8 and below */
+  -webkit-box-shadow: 0px 0px 1px 2px #7ec7d0;
+  -moz-box-shadow: 0px 0px 1px 2px #7ec7d0;
+  box-shadow: 0px 0px 1px 2px #7ec7d0;
+}
+.cke_toolbar.active .cke_toolgroup {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: #3e9eaa;
 }
 .cke_toolbar.active .cke_combo,
 .cke_toolbar.active .cke_toolgroup {
@@ -50,9 +72,10 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbar {
   width: 100%;
-  padding: 1.2em 0;
+  padding: 2.4em 0;
   overflow: hidden;
   border: 1px solid transparent;
+  text-align: center;
 }
 .toolbar button.cke_button {
   cursor: pointer;
@@ -69,7 +92,6 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbar button.right {
   float: right;
-  margin: 0 0 5px 6px;
 }
 .configContainer.hidden,
 .toolbarModifier.hidden {
@@ -85,7 +107,6 @@ It is forbidden to copy and distribute this file in its original or modified for
   overflow: hidden;
   width: 100%;
   position: relative;
-  height: 500px;
   overflow-y: auto;
 }
 .toolbarModifier ::-moz-focus-inner {
@@ -95,7 +116,7 @@ It is forbidden to copy and distribute this file in its original or modified for
   display: none;
 }
 .toolbarModifier.empty-visible .empty {
-  display: list-item;
+  display: table-row;
   zoom: 1;
   filter: alpha(opacity=60);
   -webkit-opacity: 0.6;
@@ -105,53 +126,77 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > ul {
   padding: 0;
   margin: 0;
-  border: 1px solid #cacaca;
+  border-top: 1px solid #cccccc;
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
 }
-.toolbarModifier > ul ul {
-  padding-left: 0;
+.toolbarModifier > ul > li {
+  display: table-row;
 }
-.toolbarModifier > ul ul ul {
-  padding: 2px 0;
+.toolbarModifier > ul > li[data-type="group"],
+.toolbarModifier > ul > li[data-type="separator"] {
+  border-bottom: 1px solid #cccccc;
 }
-.toolbarModifier li > p {
-  padding: 0;
+.toolbarModifier > ul > li[data-type="subgroup"] {
+  border-top: 1px solid #eee;
 }
-.toolbarModifier ul li > p {
-  color: #3f0031;
+.toolbarModifier > ul > li[data-type="subgroup"]:first-child {
+  border-top: none;
 }
-.toolbarModifier ul ul li > p {
-  color: #3d3d3d;
+.toolbarModifier > ul > li[data-type="group"].active,
+.toolbarModifier > ul > li[data-type="group"]:hover,
+.toolbarModifier > ul > li[data-type="separator"].active,
+.toolbarModifier > ul > li[data-type="separator"]:hover {
+  overflow: hidden;
+  z-index: 2;
 }
-.toolbarModifier li > p > span > button {
-  font-family: 'fontello';
-  color: #000;
-  background-color: #e5e5e5;
-  display: inline-block;
-  text-decoration: none;
-  text-align: center;
-  font-weight: bold;
+.toolbarModifier > ul > li[data-type="group"].active,
+.toolbarModifier > ul > li[data-type="separator"].active,
+.toolbarModifier > ul > li[data-type="group"].active:hover,
+.toolbarModifier > ul > li[data-type="separator"].active:hover {
+  background: #fffbe3;
+}
+.toolbarModifier > ul > li[data-type="group"]:hover,
+.toolbarModifier > ul > li[data-type="separator"]:hover {
+  background: #f0fafb;
+}
+.toolbarModifier > ul > li[data-type="separator"]:after {
+  content: '';
+  width: 100%;
+}
+.toolbarModifier > ul > li[data-type="separator"] > p {
+  padding: 3px 0;
+}
+.toolbarModifier > ul > li > p,
+.toolbarModifier > ul > li > ul {
+  display: table-cell;
+  vertical-align: middle;
+}
+.toolbarModifier > ul > li p {
+  min-width: 200px;
+}
+.toolbarModifier > ul > li p span {
+  white-space: nowrap;
+}
+.toolbarModifier > ul > li p span button {
+  margin-right: 5px;
   cursor: pointer;
-  padding: 0;
-  border: none;
-  margin: 0 .5em 0 0;
-  width: 18px;
-  height: 18px;
-  -webkit-border-radius: 1em;
+  background: #fff;
+  -webkit-border-radius: 5px;
   -webkit-background-clip: padding-box;
-  -moz-border-radius: 1em;
+  -moz-border-radius: 5px;
   -moz-background-clip: padding;
-  border-radius: 1em;
+  border-radius: 5px;
   background-clip: padding-box;
-  -webkit-transition: color 200ms, background-color 200ms;
-  -moz-transition: color 200ms, background-color 200ms;
-  -o-transition: color 200ms, background-color 200ms;
-  transition: color 200ms, background-color 200ms;
+  border: 1px solid #bbb;
 }
-.toolbarModifier li > p > span > button:not(.disabled):hover {
-  color: #e5e5e5;
-  background-color: #000;
+.toolbarModifier > ul > li p span button:not(.disabled):hover {
+  color: #fff;
+  background-color: #454545;
+  border-color: transparent;
 }
-.toolbarModifier li > p > span > button.move.disabled {
+.toolbarModifier > ul > li p span button.move.disabled {
   cursor: default;
   zoom: 1;
   filter: alpha(opacity=20);
@@ -159,130 +204,51 @@ It is forbidden to copy and distribute this file in its original or modified for
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.toolbarModifier li {
+.toolbarModifier > ul > li ul {
+  border-collapse: collapse;
+  padding-left: 0;
+  width: 100%;
+}
+.toolbarModifier > ul > li ul li {
+  display: table-row;
   list-style-type: none;
 }
-.toolbarModifier li[data-type="group"].active,
-.toolbarModifier li[data-type="group"]:hover,
-.toolbarModifier li[data-type="separator"].active,
-.toolbarModifier li[data-type="separator"]:hover {
-  overflow: hidden;
-  z-index: 2;
+.toolbarModifier > ul > li ul li[data-type="subgroup"] {
+  border-top: 1px solid #dddddd;
 }
-.toolbarModifier li[data-type="group"].active,
-.toolbarModifier li[data-type="separator"].active,
-.toolbarModifier li[data-type="group"].active:hover,
-.toolbarModifier li[data-type="separator"].active:hover {
-  outline: 1px solid #9fe1a9;
-  background: #e7ffec;
+.toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
+  border-top: 0;
 }
-.toolbarModifier li[data-type="group"]:hover,
-.toolbarModifier li[data-type="separator"]:hover {
-  outline: 1px solid #4169e1;
-  background: #eff3ff;
-}
-.toolbarModifier li {
-  -webkit-transition: background 1000ms, outline 1000ms;
-  -moz-transition: background 1000ms, outline 1000ms;
-  -o-transition: background 1000ms, outline 1000ms;
-  transition: background 1000ms, outline 1000ms;
-}
-.toolbarModifier p {
-  margin: 0;
-}
-.toolbarModifier li[data-type="group"]:after,
-.toolbarModifier li[data-type="separator"]:after {
-  content: '';
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: #cacaca;
-  position: absolute;
-}
-.toolbarModifier li[data-type="subgroup"] {
-  position: relative;
-}
-.toolbarModifier li[data-type="subgroup"]:after {
-  content: '';
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: #cacaca;
-  position: absolute;
-}
-.toolbarModifier li[data-type="subgroup"]:last-of-type {
-  border-bottom: none;
-}
-.toolbarModifier li[data-type="separator"],
-.toolbarModifier li[data-type="group"],
-.toolbarModifier li[data-type="subgroup"] {
-  position: relative;
-}
-.toolbarModifier li[data-type="separator"] > p,
-.toolbarModifier li[data-type="group"] > p {
-  border-right: 1px solid #cacaca;
-}
-.toolbarModifier li[data-type="separator"] > p {
-  width: 100%;
-  padding-left: 7px;
-}
-.toolbarModifier li[data-type="group"] > p,
-.toolbarModifier li[data-type="subgroup"] > p {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 123px;
-  padding-left: 7px;
-}
-.toolbarModifier li[data-type="separator"] > p > span,
-.toolbarModifier li[data-type="group"] > p > span,
-.toolbarModifier li[data-type="subgroup"] > p > span {
-  position: absolute;
-  top: 50%;
-  margin-top: -10px;
-}
-.toolbarModifier li[data-type="group"] > ul,
-.toolbarModifier li[data-type="subgroup"] > ul {
-  margin-left: 130px;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.toolbarModifier li[data-type="separator"],
-.toolbarModifier li[data-type="subgroup"] {
-  min-height: 32px;
-}
-.toolbarModifier li[data-type="button"] {
-  cursor: pointer;
-  background-color: #fff;
-  display: inline-block;
-  margin-right: 5px;
-  -webkit-border-radius: 3px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 3px;
-  -moz-background-clip: padding;
-  border-radius: 3px;
-  background-clip: padding-box;
-}
-.toolbarModifier li[data-type="button"] > button,
-.toolbarModifier li[data-type="button"] > label {
-  margin: 0;
-}
-.toolbarModifier li[data-type="button"] > label {
-  display: inline-block;
-  padding: 1px 3px;
-}
-.toolbarModifier li[data-type="button"] > label > * {
+.toolbarModifier > ul > li ul li > p,
+.toolbarModifier > ul > li ul li > ul {
+  display: table-cell;
   vertical-align: middle;
 }
-.toolbarModifier li[data-type="button"] .cke_combo_text {
+.toolbarModifier > ul > li ul li p {
+  padding: 3px 0;
+}
+.toolbarModifier > ul > li ul li ul li {
+  padding: 3px 0;
+  display: inline-block;
+  cursor: pointer;
+}
+.toolbarModifier > ul > li ul li ul li + li {
+  margin-left: 5px;
+}
+.toolbarModifier > ul > li ul li ul li .cke_combo_text {
+  cursor: pointer;
   white-space: nowrap;
 }
-.toolbarModifier li[data-type="button"] .cke_toolgroup,
-.toolbarModifier li[data-type="button"] .cke_combo_button {
-  margin-top: 0;
-  margin-bottom: 0;
+.toolbarModifier > ul > li ul li ul li .cke_toolgroup,
+.toolbarModifier > ul > li ul li ul li .cke_combo_button {
+  cursor: pointer;
+  margin: 0;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  font-size: 11.41px;
+  font-size: 0.713rem;
+  line-height: 20.54px;
+  line-height: 1.28rem;
 }
 .toolbarModifier > .codemirror-wrapper {
   overflow-y: auto;
@@ -322,23 +288,39 @@ It is forbidden to copy and distribute this file in its original or modified for
   padding: 2px;
 }
 .configContainer > textarea {
-  font-family: monospace;
-  font-size: 12px;
-  resize: none;
+  font-size: 13.01px;
+  font-size: 0.813rem;
+  line-height: 23.42px;
+  line-height: 1.46rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #575757;
+  padding: 10px;
   width: 100%;
-  height: 600px;
-  padding: 0;
-  border: 0 solid transparent;
-  outline: 1px solid #cacaca;
+  min-height: 450px;
+  margin: 0;
+  resize: none;
+  outline: none;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  white-space: pre;
+  word-wrap: normal;
+  overflow: auto;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 /* Text modifier */
+#toolbarModifierWrapper {
+  margin-bottom: 1.2em;
+}
 #toolbarModifierWrapper .invalid .CodeMirror {
   background: #fff8f8;
 }
 .mode-switch {
   position: absolute;
   right: 0;
-  top: 10px;
+  top: 0;
   -webkit-border-radius: 200px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 200px;
@@ -361,7 +343,7 @@ It is forbidden to copy and distribute this file in its original or modified for
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.mode-switch .fancy-button + .fancy-button {
+.mode-switch .fancy-button:not( .hidden ) + .fancy-button {
   margin: 0;
 }
 /*# sourceMappingURL=toolbarmodifier.css.map */
