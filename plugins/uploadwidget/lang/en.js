@@ -6,6 +6,6 @@
 CKEDITOR.plugins.setLang( 'uploadwidget', 'en', {
 	abort: 'Upload aborted by user.',
 	done: 'Uploading done.',
-	uploadOne: 'Uploading file...',
-	uploadMany: 'Uploading files {current}/{max}...'
+	uploadOne: 'Uploading file ({percentage}%)...',
+	uploadMany: 'Uploading files, {current} of {max} done ({percentage}%)...'
 } );
