@@ -319,6 +319,10 @@ dl.samples > dd
 	margin: 10px 0;
 }
 
+.warning.deprecated {
+	font-size: 1.3em;
+}
+
 /* Used on inline samples */
 
 blockquote
