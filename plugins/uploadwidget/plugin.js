@@ -16,6 +16,7 @@
 			// `data-widget` attribute is allowed only in the elements which has also `data-cke-upload-id` attribute.
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
 
+			// Create one notification agregator for all types of upload widgets for editor.
 			var aggregator = editor._.uploadWidgetNotificaionAggregator =
 				new CKEDITOR.plugins.notificationAggregator(
 					editor,
@@ -387,10 +388,12 @@
 	}
 
 	/**
-	 * [bindNotifications description]
+	 * Bind notification to the file loader so the upload widget will use notification to show the status and progress.
+	 * This function use {@link CKEDITOR.plugins.notificationAggregator}, so even if multiple files will be be uploading
+	 * only one notification will be shown. The exception are warnings, they are shown in the separate notifications.
 	 *
-	 * @param {[type]} loader [description]
-	 * @returns {[type]} [description]
+	 * @param {CKEDITOR.editor} editor The editor instance.
+	 * @param {CKEDITOR.fileTools.fileLoader} loader The fileLoader instance.
 	 */
 	function bindNotifications( editor, loader ) {
 		var aggregator = editor._.uploadWidgetNotificaionAggregator,
