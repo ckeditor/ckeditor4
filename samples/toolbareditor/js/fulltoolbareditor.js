@@ -87,6 +87,69 @@ window.ToolbarEditor = {};
 	};
 
 	/**
+	 * Returns group literal.
+	 *
+	 * @param {String} name
+	 * @returns {Object}
+	 */
+	FullToolbarEditor.prototype.getGroupByName = function( name ) {
+		var groups = this.editorInstance.config.toolbarGroups || this.getFullToolbarGroupsConfig();
+
+		var max = groups.length;
+		for ( var i = 0; i < max; i += 1 ) {
+			if ( groups[ i ].name === name )
+				return groups[ i ];
+		}
+
+		return null;
+	};
+
+	/**
+	 * @param name
+	 * @returns {*}
+	 */
+	FullToolbarEditor.prototype.getCamelCasedButtonName = function( name ) {
+		var items = this.editorInstance.ui.items;
+
+		for ( var key in items ) {
+			if ( items[ key ].name == name )
+				return key;
+		}
+
+		return null;
+	};
+
+	/**
+	 * Returns full toolbarGroups config value which is used when
+	 * there is no toolbarGroups field in config.
+	 *
+	 * @returns {Array}
+	 */
+	FullToolbarEditor.prototype.getFullToolbarGroupsConfig = function() {
+		var result = [],
+			toolbarGroups = this.editorInstance.toolbar;
+
+		var max = toolbarGroups.length;
+		for ( var i = 0; i < max; i += 1 ) {
+			var currentGroup = toolbarGroups[ i ],
+				copiedGroup = {};
+
+			if ( typeof currentGroup.name != 'string' ) {
+				// this is not a group
+				continue;
+			}
+
+			copiedGroup.name = currentGroup.name;
+			if ( currentGroup.groups )
+				copiedGroup.groups = Array.prototype.slice.call( currentGroup.groups );
+
+			result.push( copiedGroup );
+		}
+
+		return result;
+	};
+
+	/**
 	 * Filters array items based on checker provided in second argument.
 	 * Returns new array.
 	 *
@@ -250,69 +313,6 @@ window.ToolbarEditor = {};
 		$button.setText( text );
 
 		return $button;
-	};
-
-	/**
-	 * Returns group literal.
-	 *
-	 * @param {String} name
-	 * @returns {Object}
-	 */
-	FullToolbarEditor.prototype.getGroupByName = function( name ) {
-		var groups = this.editorInstance.config.toolbarGroups || this.getFullToolbarGroupsConfig();
-
-		var max = groups.length;
-		for ( var i = 0; i < max; i += 1 ) {
-			if ( groups[ i ].name === name )
-				return groups[ i ];
-		}
-
-		return null;
-	};
-
-	/**
-	 * @param name
-	 * @returns {*}
-	 */
-	FullToolbarEditor.prototype.getCamelCasedButtonName = function( name ) {
-		var items = this.editorInstance.ui.items;
-
-		for ( var key in items ) {
-			if ( items[ key ].name == name )
-				return key;
-		}
-
-		return null;
-	};
-
-	/**
-	 * Returns full toolbarGroups config value which is used when
-	 * there is no toolbarGroups field in config.
-	 *
-	 * @returns {Array}
-	 */
-	FullToolbarEditor.prototype.getFullToolbarGroupsConfig = function() {
-		var result = [],
-			toolbarGroups = this.editorInstance.toolbar;
-
-		var max = toolbarGroups.length;
-		for ( var i = 0; i < max; i += 1 ) {
-			var currentGroup = toolbarGroups[ i ],
-				copiedGroup = {};
-
-			if ( typeof currentGroup.name != 'string' ) {
-				// this is not a group
-				continue;
-			}
-
-			copiedGroup.name = currentGroup.name;
-			if ( currentGroup.groups )
-				copiedGroup.groups = Array.prototype.slice.call( currentGroup.groups );
-
-			result.push( copiedGroup );
-		}
-
-		return result;
 	};
 
 	/**
