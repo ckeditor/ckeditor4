@@ -413,6 +413,9 @@
 
 		if ( currentActive )
 			currentActive.removeClass( 'active' );
+
+		// @see ToolbarModifier.prototype._highlightGroup.
+		this.editorInstance.container.removeClass( 'some-toolbar-active' );
 	};
 
 	/**
@@ -428,6 +431,9 @@
 			foundBtn = this.editorInstance.container.findOne( '.cke_button__' + foundBtnName + ', .cke_combo__' + foundBtnName );
 
 		this._dehighlightActiveToolGroup();
+
+		// Helpful to dim other toolbar groups if one is highlighted.
+		this.editorInstance.container.addClass( 'some-toolbar-active' );
 
 		if ( foundBtn ) {
 			var btnToolbar = ToolbarModifier.getFirstAncestor( foundBtn, function( ancestor ) {

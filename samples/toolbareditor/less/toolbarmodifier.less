@@ -7,24 +7,31 @@ It is forbidden to copy and distribute this file in its original or modified for
 @import "../../less/lesshat.less";
 @import "../../less/base.less";
 
-@modifier-active-toolbar-color:	#7EC7D0;
 
-@modifier-group-hover-color: #f0fafb;
-@modifier-group-active-color: #fffbe3;
+@modifier-group-hover-color: #fffbe3;
+@modifier-group-active-color: #f0fafb;
+
+@modifier-active-toolbar-color: darken( @modifier-group-hover-color, 10% );
 
 @modifier-toolbar-border-color: #ccc;
 @modifier-toolbar-group-border-color: #ddd;
 @modifier-toolbar-group-vpadding: 3px;
 
 .cke_toolbar {
-	.opacity( .7 );
 	pointer-events: none;
 	.user-select( none );
 	cursor: default;
 }
 
+// Dim all but active toolbars if some is active.
+.some-toolbar-active .cke_toolbar {
+	.opacity( .5 );
+}
+
 .cke_toolbar.active {
 	position: relative;
+
+	// Active toolbar is always highlighted.
 	.opacity( 1 );
 
 	&:after {
@@ -35,16 +42,13 @@ It is forbidden to copy and distribute this file in its original or modified for
 		right: 6px;
 		bottom: 5px;
 		left: 0;
-		background-color: #8B96DD;
-
-		.border-radius( 3px );
-		.box-shadow( 0px 0px 1px 2px @modifier-active-toolbar-color );
-
+		.border-radius( 5px );
+		.box-shadow( 0px 0px 15px 3px @modifier-active-toolbar-color );		
 	}
 
 	.cke_toolgroup {
 		.box-shadow( none );
-		border-color: darken( @modifier-active-toolbar-color, 20% );
+		border-color: darken( @modifier-active-toolbar-color, 40% );
 	}
 
 	.cke_combo,
