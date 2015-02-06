@@ -69,10 +69,15 @@ It is forbidden to copy and distribute this file in its original or modified for
 
 .toolbar {
 	width: 100%;
-	padding: 2 * @sample-standard-vgap 0;
+	margin-bottom: 2 * @sample-standard-vgap;
+	padding-bottom: 3px;
 	overflow: hidden;
 	border: 1px solid transparent;
 	text-align: center;
+
+	&:empty {
+		display: none;
+	}
 
 	button {
 		&.cke_button {
@@ -330,9 +335,22 @@ It is forbidden to copy and distribute this file in its original or modified for
 	}
 }
 
-.configContainer > textarea {
+.configContainer > textarea,
+.CodeMirror {
+	border: 1px solid #ccc;		
 	.font-size( .813 );
+}
+
+.configContainer > textarea,
+.CodeMirror pre,
+.CodeMirror-linenumber {
+	.font-size( .813 );	
+	font-family: @sample-font-stack-monospace;
+}
+
+.configContainer > textarea {
 	.box-sizing( border-box );
+	
 	color: @sample-text-color;
 	padding: 10px;
 	width: 100%;
@@ -346,11 +364,15 @@ It is forbidden to copy and distribute this file in its original or modified for
 	white-space: pre;
 	word-wrap: normal;
 	overflow: auto;
-	font-family: @sample-font-stack-monospace;
+}
+
+.CodeMirror {
+	
 }
 
 /* Text modifier */
 #toolbarModifierWrapper {
+	margin-top: 2 * @sample-standard-vgap;
 	margin-bottom: @sample-standard-vgap;
 
 	.invalid .CodeMirror {

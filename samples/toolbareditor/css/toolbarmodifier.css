@@ -73,10 +73,14 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbar {
   width: 100%;
-  padding: 2.4em 0;
+  margin-bottom: 2.4em;
+  padding-bottom: 3px;
   overflow: hidden;
   border: 1px solid transparent;
   text-align: center;
+}
+.toolbar:empty {
+  display: none;
 }
 .toolbar button.cke_button {
   cursor: pointer;
@@ -292,11 +296,24 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > div.hint .cke_toolgroup {
   padding: 2px;
 }
-.configContainer > textarea {
+.configContainer > textarea,
+.CodeMirror {
+  border: 1px solid #ccc;
   font-size: 13.01px;
   font-size: 0.813rem;
   line-height: 23.42px;
   line-height: 1.46rem;
+}
+.configContainer > textarea,
+.CodeMirror pre,
+.CodeMirror-linenumber {
+  font-size: 13.01px;
+  font-size: 0.813rem;
+  line-height: 23.42px;
+  line-height: 1.46rem;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+.configContainer > textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -313,10 +330,10 @@ It is forbidden to copy and distribute this file in its original or modified for
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
-  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
 /* Text modifier */
 #toolbarModifierWrapper {
+  margin-top: 2.4em;
   margin-bottom: 1.2em;
 }
 #toolbarModifierWrapper .invalid .CodeMirror {
