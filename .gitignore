@@ -15,4 +15,6 @@ dev/builder/ckbuilder/**
 dev/langtool/po/**
 dev/langtool/cklangtool/**
 
+*.css.map
+
 bender-*.log
