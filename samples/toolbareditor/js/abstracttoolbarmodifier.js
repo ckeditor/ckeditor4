@@ -70,6 +70,7 @@ if ( !Object.keys ) {
 	 */
 	function AbstractToolbarModifier( editorId, cfg ) {
 		this.cfg = cfg || {};
+		this.hidden = false;
 		this.editorId = editorId;
 		this.editorInstance = CKEDITOR.instances[ editorId ];
 		this.fullToolbarEditor = new ToolbarEditor.FullToolbarEditor();
@@ -256,11 +257,19 @@ if ( !Object.keys ) {
 			that.editorInstance = CKEDITOR.replace( that.editorId, that.getActualConfig() );
 
 			that.editorInstance.once( 'loaded', function() {
-				if ( !that.isEditableVisible )
+				if ( !that.isEditableVisible ) {
 					that._hideEditable();
+				}
 
-				if ( that.currentActive && that.currentActive.name )
+				if ( that.currentActive && that.currentActive.name ) {
 					that._highlightGroup( that.currentActive.name );
+				}
+
+				if ( that.hidden ) {
+					that.hideUI();
+				} else {
+					that.showUI();
+				}
 			} );
 
 			that.waitForReady = false;
@@ -392,11 +401,13 @@ if ( !Object.keys ) {
 	};
 
 	AbstractToolbarModifier.prototype.hideUI = function() {
+		this.hidden = true;
 		this.mainContainer.hide();
 		this.editorInstance.container.hide();
 	};
 
 	AbstractToolbarModifier.prototype.showUI = function() {
+		this.hidden = false;
 		this.mainContainer.show();
 		this.editorInstance.container.show();
 	};

@@ -89,7 +89,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			CKEDITOR.replace( 'editor-advanced' );
 
 			var toolbarTextModifier = new ToolbarEditor.ToolbarTextModifier( 'editor-advanced' ),
-				toolbarTextModifierContainer = toolbarTextModifier.init();
+				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
+					toogleModeSwitch(
+						modeSwitchBasic,
+						modeSwitchAdvanced,
+						toolbarModifier,
+						toolbarTextModifier
+					);
+				} );
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifierContainer );
 
