@@ -415,7 +415,9 @@
 			currentActive.removeClass( 'active' );
 
 		// @see ToolbarModifier.prototype._highlightGroup.
-		this.editorInstance.container.removeClass( 'some-toolbar-active' );
+		if ( this.editorInstance.container ) {
+			this.editorInstance.container.removeClass( 'some-toolbar-active' );
+		}
 	};
 
 	/**
@@ -433,7 +435,9 @@
 		this._dehighlightActiveToolGroup();
 
 		// Helpful to dim other toolbar groups if one is highlighted.
-		this.editorInstance.container.addClass( 'some-toolbar-active' );
+		if ( this.editorInstance.container ) {
+			this.editorInstance.container.addClass( 'some-toolbar-active' );
+		}
 
 		if ( foundBtn ) {
 			var btnToolbar = ToolbarModifier.getFirstAncestor( foundBtn, function( ancestor ) {
