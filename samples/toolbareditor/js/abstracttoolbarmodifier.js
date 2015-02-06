@@ -390,4 +390,14 @@ if ( !Object.keys ) {
 
 		return stringJSON;
 	};
+
+	AbstractToolbarModifier.prototype.hideUI = function() {
+		this.mainContainer.hide();
+		this.editorInstance.container.hide();
+	};
+
+	AbstractToolbarModifier.prototype.showUI = function() {
+		this.mainContainer.show();
+		this.editorInstance.container.show();
+	};
 } )();

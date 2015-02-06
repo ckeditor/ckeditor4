@@ -13,6 +13,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			CKEDITOR.tools.enableHtml5Elements( document );
 	</script>
 	<link rel="stylesheet" href="css/toolbarmodifier.css">
+	<link rel="stylesheet" href="css/lib/codemirror.css">
+	<link rel="stylesheet" href="css/lib/show-hint.css">
 	<link rel="stylesheet" href="css/fontello.css">
 	<link rel="stylesheet" href="../css/sample.css">
 </head>
@@ -53,7 +55,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				<span id="mode-switch-advanced" class="fancy-button">Advanced</span>
 				<span class="fancy-tip">Select configurator mode</span>
 			</span>
-			<div id="editor"></div>
+			<div id="editor-basic"></div>
+			<div id="editor-advanced"></div>
 		</div>
 	</section>
 	<section>
@@ -62,33 +65,56 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		</div>
 	</section>
 
+	<script src="js/lib/codemirror/codemirror.js"></script>
+	<script src="js/lib/codemirror/javascript.js"></script>
+	<script src="js/lib/codemirror/show-hint.js"></script>
+
 	<script src="js/fulltoolbareditor.js"></script>
 	<script src="js/abstracttoolbarmodifier.js"></script>
 	<script src="js/toolbarmodifier.js"></script>
+
+	<script src="js/toolbartextmodifier.js"></script>
+
 	<script>
 		( function() {
-			CKEDITOR.replace( 'editor' );
+			// Basic, configurator.
+			CKEDITOR.replace( 'editor-basic' );
 
-			var toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor' ),
-				container = toolbarModifier.init();
+			var toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor-basic' ),
+				toolbarModifierContainer = toolbarModifier.init();
 
-			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( container );
+			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifierContainer );
 
-			function toogleModeSwitch( onElement, offElement ) {
-				onElement.addClass( 'fancy-button-active' );
-				offElement.removeClass( 'fancy-button-active' );
-			}
+			// Advanced configurator.
+			CKEDITOR.replace( 'editor-advanced' );
 
+			var toolbarTextModifier = new ToolbarEditor.ToolbarTextModifier( 'editor-advanced' ),
+				toolbarTextModifierContainer = toolbarTextModifier.init();
+
+			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifierContainer );
+
+			// Configurator mode switcher.
 			var modeSwitchBasic = CKEDITOR.document.getById( 'mode-switch-basic' ),
 				modeSwitchAdvanced = CKEDITOR.document.getById( 'mode-switch-advanced' );
 
-			modeSwitchBasic.on( 'click', function() {
-				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced );
-			} );
+			function toogleModeSwitch( onElement, offElement, onModifier, offModifier ) {
+				onElement.addClass( 'fancy-button-active' );
+				offElement.removeClass( 'fancy-button-active' );
 
-			modeSwitchAdvanced.on( 'click', function() {
-				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic );
-			} );
+				onModifier.showUI();
+				offModifier.hideUI();
+			}
+
+			function toggleModeBasic() {
+				toogleModeSwitch( this, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+			}
+
+			function toggleModeAdvanced() {
+				toogleModeSwitch( this, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+			}
+
+			modeSwitchBasic.on( 'click', toggleModeBasic );
+			modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
 		} )();
 	</script>
 </main>
