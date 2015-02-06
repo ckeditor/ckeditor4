@@ -262,7 +262,7 @@ main section.adjoined #editor {
 }
 main section.adjoined h1 {
   color: #fff;
-  background: url(../img/greet-bg.png ) left 3px no-repeat;
+  background: url(../img/main-header-bg.png ) left 3px no-repeat;
   padding-left: 15px;
 }
 main section.adjoined h1.long {
