@@ -262,8 +262,11 @@ main section.greet #editor {
 }
 main section.greet h1 {
   color: #fff;
-  background: url(../img/greet-bg.png ) left center no-repeat;
+  background: url(../img/greet-bg.png ) left 3px no-repeat;
   padding-left: 15px;
+}
+main section.greet h1.long {
+  background-position: left bottom;
 }
 main section.greet p {
   margin: 2.4em 0;

@@ -238,8 +238,12 @@ main {
 
 		h1 {
 			color: #fff;
-			background: url( ../img/greet-bg.png ) left center no-repeat;
+			background: url( ../img/greet-bg.png ) left 3px no-repeat;
 			padding-left: 15px;
+
+			&.long {
+				background-position: left bottom;
+			}
 		}
 
 		p {
