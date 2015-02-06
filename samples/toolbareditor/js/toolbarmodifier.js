@@ -938,7 +938,7 @@
 				'data-type="', separator.type , '" ',
 				'data-name="', separator.name , '"',
 			'>',
-				ToolbarModifier.getToolbarElementPreString( 'separator' ),
+				ToolbarModifier.getToolbarElementPreString( 'row separator' ),
 			'</li>'
 		].join( '' );
 	};
@@ -1099,7 +1099,7 @@
 				'<span>',
 					'<button data-direction="up" class="move icon-up-big"></button>',
 					'<button data-direction="down" class="move icon-down-big"></button>',
-					( name == 'separator' ? '<button class="remove icon-trash"></button>' : '' ),
+					( name == 'row separator' ? '<button class="remove icon-trash"></button>' : '' ),
 					name,
 				'</span>',
 			'</p>'
