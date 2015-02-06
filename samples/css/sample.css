@@ -235,7 +235,7 @@ main {
   line-height: 1.57rem;
   padding-bottom: 1.2em;
 }
-main section.greet {
+main section.adjoined {
   padding: 1.2em 1.5em;
   background: #cceaee;
   max-width: 100%;
@@ -251,27 +251,27 @@ main section.greet {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-main section.greet > div {
+main section.adjoined > div {
   max-width: 960px;
   margin: 0 auto;
   position: relative;
 }
-main section.greet #editor {
+main section.adjoined #editor {
   padding: 1.5em;
   border: 3px solid #CCC;
 }
-main section.greet h1 {
+main section.adjoined h1 {
   color: #fff;
   background: url(../img/greet-bg.png ) left 3px no-repeat;
   padding-left: 15px;
 }
-main section.greet h1.long {
+main section.adjoined h1.long {
   background-position: left bottom;
 }
-main section.greet p {
+main section.adjoined p {
   margin: 2.4em 0;
 }
-main section.greet .cke {
+main section.adjoined .cke {
   -webkit-box-shadow: 0px 5px 10px 0 #a6dae1;
   -moz-box-shadow: 0px 5px 10px 0 #a6dae1;
   box-shadow: 0px 5px 10px 0 #a6dae1;
