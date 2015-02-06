@@ -16,6 +16,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 @modifier-toolbar-border-color: #ccc;
 @modifier-toolbar-group-border-color: #ddd;
 @modifier-toolbar-group-vpadding: 3px;
+@modifier-toolbar-hgap: 5px;
 
 .cke_toolbar {
 	pointer-events: none;
@@ -184,7 +185,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 				}
 
 				& > p {
-					padding: @modifier-toolbar-group-vpadding 0;
+					padding: @modifier-toolbar-group-vpadding @modifier-toolbar-hgap;					
 				}
 			}
 
@@ -195,6 +196,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 
 			// Note: this also controls the list of toolbar groups.
 			p {
+				padding-left: @modifier-toolbar-hgap;
 				min-width: 200px;
 
 				span {
@@ -361,7 +363,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 	.border-radius( 200px );
 	background: lighten( @sample-header-background, 10% );
 	border-bottom: 4px solid rgba( 0,0,0,.25 );
-	padding: 5px 7px 9px;
+	padding: 5px 7px 9px;	
 
 	.fancy-button {
 		float: left;
@@ -370,15 +372,25 @@ It is forbidden to copy and distribute this file in its original or modified for
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
 			border-right: 1px solid @sample-fancy-shadow-1-color;
-		}
 
-		&:last-child {
+			&+.fancy-button {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
+			}
 		}
+
+		
 
 		&:not( .hidden ) + .fancy-button {
 			margin: 0;
 		}
+	}
+
+	.fancy-tip {
+		right: 155px;
+		top: -30px;
+		background-position: left -130px;
+		padding-left: 39px;
+		padding-top: 7px;
 	}
 }

@@ -133,6 +133,21 @@ header {
 	}
 }
 
+.fancy-tip {
+	display: block;
+	position: absolute;
+
+	width: 212px;
+	height: 60px;	
+	background: url( ../img/navigation-tip.png );
+	background-repeat: no-repeat;
+	.box-sizing( border-box );
+
+	color: #fff;
+	font-family: @sample-font-indie;
+	.font-size( 0.95 );	
+}
+
 .main-navigation {
 	.font-size( 1.063 );
 	position: absolute;
@@ -150,32 +165,22 @@ header {
 		}
 
 		.main-navigation-tip {
-			display: block;
-			position: absolute;
-			top: 30px;
-
-			width: 212px;
-			height: 54px;
-			opacity: .5;
-			padding-top: 25px;
-			background: url( ../img/navigation-tip.png );
-			background-repeat: no-repeat;
-			.box-sizing( border-box );
-
-			color: #fff;
-			font-family: @sample-font-indie;
-			.font-size( 0.95 );
-
 			// Standard setup
-			background-position: left bottom;
+			top: 30px;
 			right: 90px;
+			opacity: .5;
+
+			background-position: left bottom;
 			padding-left: 23px;
+			padding-top: 31px;
 
 			// Wide setup. It works in IE9+ only though.
 			@media screen and (min-width: 1210px) {
+				right: -110px;	
+
+				padding-top: 26px;
 				background-position: left top;
-				right: -110px;
-				padding-left: 53px;
+				padding-left: 53px;					
 			}
 		}
 
