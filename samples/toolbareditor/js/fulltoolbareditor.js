@@ -125,7 +125,9 @@ window.ToolbarEditor = {};
 	 *
 	 * @returns {Array}
 	 */
-	FullToolbarEditor.prototype.getFullToolbarGroupsConfig = function() {
+	FullToolbarEditor.prototype.getFullToolbarGroupsConfig = function( pickSeparators ) {
+		pickSeparators = ( pickSeparators === true ? true : false );
+
 		var result = [],
 			toolbarGroups = this.editorInstance.toolbar;
 
@@ -136,6 +138,9 @@ window.ToolbarEditor = {};
 
 			if ( typeof currentGroup.name != 'string' ) {
 				// this is not a group
+				if ( pickSeparators ) {
+					result.push( '/' );
+				}
 				continue;
 			}
 

@@ -323,7 +323,7 @@
 
 		// if toolbar group not present, we need to pick them from full toolbar instance
 		if ( !cfg.toolbarGroups )
-			cfg.toolbarGroups = this.fullToolbarEditor.getFullToolbarGroupsConfig();
+			cfg.toolbarGroups = this.fullToolbarEditor.getFullToolbarGroupsConfig( true );
 
 		this._fixGroups( cfg );
 
@@ -348,6 +348,11 @@
 		var i = toolbarGroups.length;
 		while ( i-- ) {
 			var mappedSubgroup = this._mapToolbarSubgroup( toolbarGroups[ i ], removedBtns );
+
+			if ( toolbarGroups[ i ].type === 'separator' ) {
+				toolbarGroups[ i ] = '/';
+				continue;
+			}
 
 			// don't want empty groups
 			if ( CKEDITOR.tools.isArray( mappedSubgroup ) && mappedSubgroup.length === 0 ) {
