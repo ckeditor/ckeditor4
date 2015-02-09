@@ -75,10 +75,6 @@ It is forbidden to copy and distribute this file in its original or modified for
 	border: 1px solid transparent;
 	text-align: center;
 
-	&:empty {
-		display: none;
-	}
-
 	button {
 		&.cke_button {
 			cursor: pointer;
@@ -214,7 +210,10 @@ It is forbidden to copy and distribute this file in its original or modified for
 						cursor: pointer;
 						background: #fff;
 						.border-radius( 5px );
-						border: 1px solid #bbb;
+						border: 1px solid #bbb;						
+						padding: 0 7px;
+						line-height: 12px;
+						height: 20px;
 
 						&:not(.disabled):hover {
 							color: #fff;
@@ -397,16 +396,11 @@ It is forbidden to copy and distribute this file in its original or modified for
 			border-bottom-right-radius: 0;
 			border-right: 1px solid @sample-fancy-shadow-1-color;
 
-			&+.fancy-button {
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
+			& + .fancy-button {
+				margin: 0;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
 			}
-		}
-
-		
-
-		&:not( .hidden ) + .fancy-button {
-			margin: 0;
 		}
 	}
 

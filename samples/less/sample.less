@@ -361,6 +361,8 @@ footer {
 	.font-size( .813 );
 	border: 0;
 	display: inline-block;
+
+	background-color: @sample-fancy-color-1;
 	.background-image(linear-gradient(to bottom, @sample-fancy-color-1, @sample-fancy-color-2 ) );
 
 	cursor: pointer;
@@ -372,13 +374,14 @@ footer {
 		0 0 1px rgba( 255,255,255,.3 ) inset,
 		0 1px 0 @sample-fancy-shadow-1-color,
 		0 3px 0 @sample-fancy-shadow-2-color
-	);
-	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;
+	);	
+	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;	
 	position: relative;
 	top: 0;
 	.transition( all 100ms );
 
 	&:hover, &:focus {
+		background-color: @sample-fancy-color-2;
 		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
 		.box-shadow(
 			0 1px 0 @sample-fancy-shadow-1-color,
@@ -400,6 +403,12 @@ footer {
 	}
 }
 
-.fancy-button:not( .hidden ) + .fancy-button {
+
+// IE8 does not support :not().
+.fancy-button + .fancy-button {
 	margin-left: @sample-standard-hgap;
+}
+
+.fancy-button.hidden + .fancy-button {
+	margin-left: 0;
 }

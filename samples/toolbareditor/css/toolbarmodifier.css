@@ -79,9 +79,6 @@ It is forbidden to copy and distribute this file in its original or modified for
   border: 1px solid transparent;
   text-align: center;
 }
-.toolbar:empty {
-  display: none;
-}
 .toolbar button.cke_button {
   cursor: pointer;
   display: inline-block;
@@ -199,6 +196,9 @@ It is forbidden to copy and distribute this file in its original or modified for
   border-radius: 5px;
   background-clip: padding-box;
   border: 1px solid #bbb;
+  padding: 0 7px;
+  line-height: 12px;
+  height: 20px;
 }
 .toolbarModifier > ul > li p span button:not(.disabled):hover {
   color: #fff;
@@ -362,11 +362,9 @@ It is forbidden to copy and distribute this file in its original or modified for
   border-right: 1px solid #b42f28;
 }
 .mode-switch .fancy-button:first-child + .fancy-button {
+  margin: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-}
-.mode-switch .fancy-button:not( .hidden ) + .fancy-button {
-  margin: 0;
 }
 .mode-switch .fancy-tip {
   right: 155px;
