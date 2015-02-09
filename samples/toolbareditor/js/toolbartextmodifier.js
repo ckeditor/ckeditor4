@@ -184,7 +184,7 @@
 		} );
 
 		this.hintContainer = new CKEDITOR.dom.element( 'div' );
-		this.hintContainer.addClass( 'hint' );
+		this.hintContainer.addClass( 'toolbarModifier-hints' );
 
 		this._fillHintByUnusedElements();
 		this.hintContainer.insertBefore( codeMirrorWrapper );
@@ -202,20 +202,25 @@
 
 		var unusedElements = FullToolbarEditor.map( unused, function( elem ) {
 			var buttonsList = FullToolbarEditor.map( elem.buttons, function( buttonName ) {
-				return '<li>' + buttonName + '</li>';
+				return '<code>' + buttonName + '</code> ';
 			} ).join( '' );
 
 			return [
-				'<li>',
-					'<p>', elem.name, '</p>',
-					'<ul>',
-						buttonsList,
-					'</ul>',
-				'</li>'
+				'<dt>',
+					'<code>', elem.name, '</code>',
+				'</dt>',
+				'<dd>',
+					buttonsList,
+				'</dd>'
 			].join( '' );
 		} ).join( ' ' );
 
-		var header = '<h3>Unused elements</h3>';
+		var listHeader = [
+			'<dt class="list-header">Toolbar group</dt>',
+			'<dd class="list-header">Unused items</dd>'
+		].join( '' );
+
+		var header = '<h3>Unused toolbar items</h3>';
 
 		if ( unused.length )
 			this.hintContainer.removeClass( 'hidden' );
@@ -224,7 +229,7 @@
 
 		this.codeContainer.refresh();
 
-		this.hintContainer.setHtml( header + '<ul>' + unusedElements + '</ul>' );
+		this.hintContainer.setHtml( header + '<dl>' + listHeader + unusedElements + '</dl>' );
 	};
 
 	/**

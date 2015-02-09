@@ -96,7 +96,8 @@ It is forbidden to copy and distribute this file in its original or modified for
   float: right;
 }
 .configContainer.hidden,
-.toolbarModifier.hidden {
+.toolbarModifier.hidden,
+.toolbarModifier-hints.hidden {
   display: none;
 }
 .toolbarModifier :focus,
@@ -262,42 +263,74 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > .codemirror-wrapper {
   overflow-y: auto;
 }
-.toolbarModifier > div.hint {
+.toolbarModifier-hints {
   float: right;
-  width: 135px;
+  width: 35%;
+  min-width: 150px;
   overflow-y: auto;
-  padding: 0 20px;
-  font-size: 1.4em;
+  margin-left: 1.5em;
 }
-.toolbarModifier > div.hint.hidden {
-  width: 0;
-  padding: 0;
+.toolbarModifier-hints h3 {
+  font-size: 18.08px;
+  font-size: 1.13rem;
+  line-height: 32.54px;
+  line-height: 2.03rem;
+  padding: 0.36em 1.5em;
+  background: #f5f5f5;
+  border-bottom: 1px solid #dddddd;
+  margin: 0 0 1.2em;
 }
-.toolbarModifier > div.hint > ul {
-  padding-left: 0;
-  text-transform: uppercase;
+.toolbarModifier-hints dl {
+  margin-bottom: 1.2em;
+  overflow: hidden;
+}
+.toolbarModifier-hints dl .list-header {
   font-weight: bold;
-  font-size: 12px;
+  border: 0;
+  padding-bottom: 0.6em;
 }
-.toolbarModifier > div.hint > ul > li > ul {
-  padding-left: 5px;
-  text-transform: none;
-  font-weight: normal;
-  font-family: monospace;
-  -webkit-user-select: auto;
-  -moz-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
+.toolbarModifier-hints dl dt {
+  float: left;
+  width: 9em;
+  clear: both;
+  text-align: right;
+  border-top: 1px solid #dddddd;
+  padding-left: 1.5em;
+  padding-right: .1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-.toolbarModifier > div.hint > h3 {
-  margin-top: 0;
-  font-size: 13px;
+.toolbarModifier-hints dl dt code {
+  background: none;
+  border: none;
+  vertical-align: middle;
 }
-.toolbarModifier > div.hint .cke_toolgroup {
-  padding: 2px;
+.toolbarModifier-hints dl dd {
+  margin-left: 10em;
+  clear: right;
+  padding-right: 1.5em;
 }
+.toolbarModifier-hints dl dd code {
+  line-height: 2.2em;
+}
+.toolbarModifier-hints dl dd:after {
+  content: '\00a0';
+  display: block;
+  clear: left;
+  float: right;
+  height: 0;
+  width: 0;
+}
+.toolbarModifier-hints,
 .configContainer > textarea,
 .CodeMirror {
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
   border: 1px solid #ccc;
   font-size: 13.01px;
   font-size: 0.813rem;

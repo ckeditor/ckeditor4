@@ -44,7 +44,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 		bottom: 5px;
 		left: 0;
 		.border-radius( 5px );
-		.box-shadow( 0px 0px 15px 3px @modifier-active-toolbar-color );		
+		.box-shadow( 0px 0px 15px 3px @modifier-active-toolbar-color );
 	}
 
 	.cke_toolgroup {
@@ -101,7 +101,8 @@ It is forbidden to copy and distribute this file in its original or modified for
 
 // Styles applied when configurator is hidden and code is being displayed (and vice-versa).
 .configContainer.hidden,
-.toolbarModifier.hidden {
+.toolbarModifier.hidden,
+.toolbarModifier-hints.hidden {
 	display: none;
 }
 
@@ -188,7 +189,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 				background: #f5f5f5;
 
 				& > p {
-					padding: @modifier-toolbar-group-vpadding @modifier-toolbar-hgap;					
+					padding: @modifier-toolbar-group-vpadding @modifier-toolbar-hgap;
 				}
 			}
 
@@ -210,7 +211,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 						cursor: pointer;
 						background: #fff;
 						.border-radius( 5px );
-						border: 1px solid #bbb;						
+						border: 1px solid #bbb;
 						padding: 0 7px;
 						line-height: 12px;
 						height: 20px;
@@ -295,61 +296,90 @@ It is forbidden to copy and distribute this file in its original or modified for
 		overflow-y: auto;
 	}
 
-	& > div.hint {
+	// Advanced configurator: list of unused elements.
+	&-hints {
 		float: right;
-		width: 135px;
+		width: 35%;
+		min-width: 150px;
 		overflow-y: auto;
+		margin-left: @sample-standard-hgap;
 
-		padding: 0 20px;
-		font-size: 1.4em;
-
-		&.hidden {
-			width: 0;
-			padding: 0;
+		h3 {
+			.font-size( 1.13 );
+			padding: .3*@sample-standard-vgap @sample-standard-hgap;
+			background: @sample-box-background-color;
+			border-bottom: 1px solid @sample-box-border-color;
+			margin: 0 0 @sample-standard-vgap;
 		}
 
-		& > ul {
-			padding-left: 0;
-			text-transform: uppercase;
-			font-weight: bold;
-			font-size: 12px;
-		}
+		dl {
+			//margin-top: 0;
+			margin-bottom: @sample-standard-vgap;
+			overflow: hidden;
 
-		& > ul > li > ul {
-			padding-left: 5px;
-			text-transform: none;
-			font-weight: normal;
-			font-family: monospace;
-		   .user-select( auto );
-		}
+			.list-header {
+				font-weight: bold;
+				border: 0;
+				padding-bottom: .5*@sample-standard-vgap;
+			}
 
-		& > h3 {
-			margin-top: 0;
-			font-size: 13px;
-		}
+			dt {
+				float: left;
+				width: 9em;
+				clear: both;
+				text-align: right;
+				border-top: 1px solid @sample-box-border-color;
+				padding-left: @sample-standard-hgap;
+				padding-right: .1em;
+				.box-sizing( border-box );
 
-		& .cke_toolgroup {
-			padding: 2px;
+				code {
+					background: none;
+					border: none;
+					vertical-align: middle;
+				}
+			}
+
+			dd {
+				margin-left: 10em;
+				clear: right;
+				padding-right: @sample-standard-hgap;
+
+				code {
+					line-height: 2.2em;
+				}
+
+				&:after {
+					content: '\00a0';
+					display: block;
+					clear: left;
+					float: right;
+					height: 0;
+					width: 0;
+				}
+			}
 		}
 	}
 }
 
+.toolbarModifier-hints,
 .configContainer > textarea,
 .CodeMirror {
-	border: 1px solid #ccc;		
+	.border-radius( 3px );
+	border: 1px solid #ccc;
 	.font-size( .813 );
 }
 
 .configContainer > textarea,
 .CodeMirror pre,
 .CodeMirror-linenumber {
-	.font-size( .813 );	
+	.font-size( .813 );
 	font-family: @sample-font-stack-monospace;
 }
 
 .configContainer > textarea {
 	.box-sizing( border-box );
-	
+
 	color: @sample-text-color;
 	padding: 10px;
 	width: 100%;
@@ -366,7 +396,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 
 .CodeMirror {
-	
+
 }
 
 /* Text modifier */
@@ -386,7 +416,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 	.border-radius( 200px );
 	background: lighten( @sample-header-background, 10% );
 	border-bottom: 4px solid rgba( 0,0,0,.25 );
-	padding: 5px 7px 9px;	
+	padding: 5px 7px 9px;
 
 	.fancy-button {
 		float: left;
