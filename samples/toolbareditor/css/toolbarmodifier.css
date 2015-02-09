@@ -110,7 +110,8 @@ It is forbidden to copy and distribute this file in its original or modified for
   overflow: hidden;
   width: 100%;
   position: relative;
-  overflow-y: auto;
+  display: table;
+  border-collapse: collapse;
 }
 .toolbarModifier ::-moz-focus-inner {
   border: 0;
@@ -131,8 +132,12 @@ It is forbidden to copy and distribute this file in its original or modified for
   margin: 0;
   border-top: 1px solid #cccccc;
   width: 100%;
-  display: table;
-  border-collapse: collapse;
+}
+.toolbarModifier > ul[data-type="table-header"] {
+  display: table-header-group;
+}
+.toolbarModifier > ul[data-type="table-body"] {
+  display: table-row-group;
 }
 .toolbarModifier > ul > li {
   display: table-row;
@@ -142,7 +147,6 @@ It is forbidden to copy and distribute this file in its original or modified for
   user-select: none;
   cursor: default;
 }
-.toolbarModifier > ul > li[data-type="header"],
 .toolbarModifier > ul > li[data-type="group"],
 .toolbarModifier > ul > li[data-type="separator"] {
   border-bottom: 1px solid #cccccc;

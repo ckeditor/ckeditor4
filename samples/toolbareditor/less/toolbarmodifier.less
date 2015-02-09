@@ -117,9 +117,8 @@ It is forbidden to copy and distribute this file in its original or modified for
 	overflow: hidden;
 	width: 100%;
 	position: relative;
-
-	//height: 500px;
-	overflow-y: auto;
+	display: table;
+	border-collapse: collapse;
 
 	::-moz-focus-inner {
 		border: 0;
@@ -139,9 +138,15 @@ It is forbidden to copy and distribute this file in its original or modified for
 		padding: 0;
 		margin: 0;
 		border-top: 1px solid @modifier-toolbar-border-color;
-		width: 100%;
-		display: table;
-		border-collapse: collapse;
+		width: 100%;	
+
+		&[data-type="table-header"] {
+			display: table-header-group;
+		}
+
+		&[data-type="table-body"] {
+			display: table-row-group;
+		}
 
 		// A single toolbar.
 		& > li {
@@ -153,7 +158,6 @@ It is forbidden to copy and distribute this file in its original or modified for
 				cursor: default;
 			}
 
-			&[data-type="header"],
 			&[data-type="group"],
 			&[data-type="separator"] {
 				border-bottom: 1px solid @modifier-toolbar-border-color;
