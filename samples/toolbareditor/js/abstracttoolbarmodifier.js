@@ -289,6 +289,10 @@ if ( !Object.keys ) {
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._createToolbar = function() {
+		if ( !this.toolbarButtons.length ) {
+			return;
+		}
+
 		this.toolbarContainer = new CKEDITOR.dom.element( 'div' );
 		this.toolbarContainer.addClass( 'toolbar' );
 

@@ -330,6 +330,10 @@
 	 * @param {String} groupName
 	 */
 	ToolbarModifier.prototype.showToolbarBtnsByGroupName = function( groupName ) {
+		if ( !this.toolbarContainer ) {
+			return;
+		}
+
 		var allButtons = this.toolbarContainer.find( 'button' );
 
 		var max = allButtons.count();

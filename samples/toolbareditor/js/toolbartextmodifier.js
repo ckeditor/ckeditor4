@@ -43,7 +43,10 @@
 		var that = this;
 
 		this._createToolbar();
-		this.mainContainer.append( this.toolbarContainer );
+
+		if ( this.toolbarContainer ) {
+			this.mainContainer.append( this.toolbarContainer );
+		}
 
 		AbstractToolbarModifier.prototype._createModifier.call( this );
 
