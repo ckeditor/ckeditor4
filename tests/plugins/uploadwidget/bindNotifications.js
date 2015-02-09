@@ -51,6 +51,8 @@ bender.test( {
 
 		bindNotifications( editor, loader );
 
+		loader.fire( 'uploading' );
+
 		loader.fire( 'uploaded' );
 
 		assert.areSame( 2, notificationShowStub.callCount );
@@ -67,10 +69,7 @@ bender.test( {
 
 		loader.fire( 'loaded' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
-		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
-			notificationShowStub.lastCall.args[ 0 ].data.notification );
+		assert.areSame( 0, notificationShowStub.callCount );
 	},
 
 	'test uploading': function() {
@@ -80,6 +79,8 @@ bender.test( {
 		loader.total = 4;
 
 		bindNotifications( editor, loader );
+
+		loader.fire( 'uploading' );
 
 		loader.status = 'uploading';
 		loader.uploaded = 1;
@@ -120,6 +121,8 @@ bender.test( {
 
 		bindNotifications( editor, loader );
 
+		loader.fire( 'uploading' );
+
 		loader.message = 'foo';
 		loader.fire( 'error' );
 
@@ -129,11 +132,28 @@ bender.test( {
 			notificationShowStub.secondCall.args[ 0 ].data.notification );
 	},
 
+	'test error before uploading': function() {
+		var editor = this.editor,
+			loader = new FileLoader( editor, file );
+
+		bindNotifications( editor, loader );
+
+		loader.message = 'foo';
+		loader.fire( 'error' );
+
+		assert.areSame( 1, notificationShowStub.callCount );
+		this.assertNotification(
+			{ message: 'foo', type: 'warning' },
+			notificationShowStub.firstCall.args[ 0 ].data.notification );
+	},
+
 	'test abort': function() {
 		var editor = this.editor,
 			loader = new FileLoader( editor, file );
 
 		bindNotifications( editor, loader );
+
+		loader.fire( 'uploading' );
 
 		loader.fire( 'abort' );
 
@@ -141,6 +161,21 @@ bender.test( {
 		this.assertNotification(
 			{ message: 'Upload aborted by user.', type: 'info' },
 			notificationShowStub.secondCall.args[ 0 ].data.notification,
+			'First notification: ' );
+	},
+
+	'test abort before uploading': function() {
+		var editor = this.editor,
+			loader = new FileLoader( editor, file );
+
+		bindNotifications( editor, loader );
+
+		loader.fire( 'abort' );
+
+		assert.areSame( 1, notificationShowStub.callCount );
+		this.assertNotification(
+			{ message: 'Upload aborted by user.', type: 'info' },
+			notificationShowStub.firstCall.args[ 0 ].data.notification,
 			'First notification: ' );
 	},
 
@@ -153,6 +188,10 @@ bender.test( {
 		bindNotifications( editor, loader1 );
 		bindNotifications( editor, loader2 );
 		bindNotifications( editor, loader3 );
+
+		loader1.fire( 'uploading' );
+		loader2.fire( 'uploading' );
+		loader3.fire( 'uploading' );
 
 		loader1.total = 10;
 		loader1.status = 'uploading';
@@ -200,6 +239,10 @@ bender.test( {
 		bindNotifications( editor, loader1 );
 		bindNotifications( editor, loader2 );
 		bindNotifications( editor, loader3 );
+
+		loader1.fire( 'uploading' );
+		loader2.fire( 'uploading' );
+		loader3.fire( 'uploading' );
 
 		loader1.total = 10;
 		loader1.status = 'uploading';

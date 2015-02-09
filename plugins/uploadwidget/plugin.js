@@ -399,29 +399,27 @@
 		var aggregator = editor._.uploadWidgetNotificaionAggregator,
 			task;
 
-		task = aggregator.createTask( { weight: loader.total } );
+		loader.on( 'uploading', function() {
+			task = aggregator.createTask( { weight: loader.total } );
+		} );
 
 		loader.on( 'update', function() {
-			if ( loader.status == 'uploading' ) {
+			if ( task && loader.status == 'uploading' ) {
 				task.update( loader.uploaded );
 			}
 		} );
 
 		loader.on( 'uploaded', function() {
-			task.done();
-		} );
-
-		loader.on( 'loaded', function() {
-			task.done();
+			task && task.done();
 		} );
 
 		loader.on( 'error', function() {
-			task.cancel();
+			task && task.cancel();
 			editor.showNotification( loader.message, 'warning' );
 		} );
 
 		loader.on( 'abort', function() {
-			task.cancel();
+			task && task.cancel();
 			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
 		} );
 	}
