@@ -119,8 +119,8 @@
 	 * @param {Function} callback
 	 * @private
 	 */
-	ToolbarModifier.prototype._onInit = function( callback ) {
-		AbstractToolbarModifier.prototype._onInit.call( this );
+	ToolbarModifier.prototype._onInit = function( callback, config ) {
+		AbstractToolbarModifier.prototype._onInit.call( this, undefined, config );
 
 		if ( !( 'removeButtons' in this.originalConfig ) ) {
 			this.originalConfig.removeButtons = '';
@@ -307,16 +307,20 @@
 				that.cachedActiveElement.focus();
 		} );
 
-		this.configContainer = new CKEDITOR.dom.element( 'div' );
-		this.configContainer.addClass( 'configContainer' );
-		this.configContainer.addClass( 'hidden' );
-
-		this._createToolbar();
+		if ( !this.toolbarContainer ) {
+			this._createToolbar();
+			this.toolbarContainer.insertBefore( this.mainContainer.getChildren().getItem( 0 ) );
+		}
 
 		this.showToolbarBtnsByGroupName( 'edit' );
 
-		this.toolbarContainer.insertBefore( this.mainContainer.getChildren().getItem( 0 ) );
-		this.mainContainer.append( this.configContainer );
+		if ( !this.configContainer ) {
+			this.configContainer = new CKEDITOR.dom.element( 'div' );
+			this.configContainer.addClass( 'configContainer' );
+			this.configContainer.addClass( 'hidden' );
+
+			this.mainContainer.append( this.configContainer );
+		}
 
 		return this.mainContainer;
 	};

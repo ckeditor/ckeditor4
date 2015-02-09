@@ -92,6 +92,14 @@ if ( !Object.keys ) {
 
 	/**
 	 * @public
+	 * @param {String} config
+	 */
+	AbstractToolbarModifier.prototype.setConfig = function( config ) {
+		this._onInit( undefined, config );
+	};
+
+	/**
+	 * @public
 	 * @param {Function} callback
 	 */
 	AbstractToolbarModifier.prototype.init = function( callback ) {
@@ -124,9 +132,14 @@ if ( !Object.keys ) {
 	 * @param {Function} callback
 	 * @private
 	 */
-	AbstractToolbarModifier.prototype._onInit = function( callback ) {
+	AbstractToolbarModifier.prototype._onInit = function( callback, actualConfig ) {
 		this.originalConfig = this.editorInstance.config;
-		this.actualConfig = JSON.parse( JSON.stringify( this.originalConfig ) );
+
+		if ( !actualConfig ) {
+			this.actualConfig = JSON.parse( JSON.stringify( this.originalConfig ) );
+		} else {
+			this.actualConfig = JSON.parse( actualConfig );
+		}
 
 		if ( !this.actualConfig.toolbarGroups ) {
 			this.actualConfig.toolbarGroups = getDefaultToolbarGroups( this.editorInstance );
@@ -170,6 +183,10 @@ if ( !Object.keys ) {
 	 */
 	AbstractToolbarModifier.prototype._createModifier = function() {
 		this.mainContainer.addClass( 'unselectable' );
+
+		if ( this.modifyContainer ) {
+			this.modifyContainer.remove();
+		}
 
 		this.modifyContainer = new CKEDITOR.dom.element( 'div' );
 		this.modifyContainer.addClass( 'toolbarModifier' );
