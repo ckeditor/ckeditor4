@@ -20,12 +20,13 @@
 
 	/**
 	 * @param {Function} callback
+	 * @param {String} config
 	 * @private
 	 */
-	ToolbarTextModifier.prototype._onInit = function( callback ) {
-		AbstractToolbarModifier.prototype._onInit.call( this );
+	ToolbarTextModifier.prototype._onInit = function( callback, config ) {
+		AbstractToolbarModifier.prototype._onInit.call( this, undefined, config );
 
-		this._createModifier();
+		this._createModifier( config ? this.actualConfig : undefined );
 
 		this._refreshEditor();
 
@@ -36,10 +37,11 @@
 	/**
 	 * Creates HTML main container of modifier.
 	 *
+	 * @param {String} cfg
 	 * @returns {CKEDITOR.dom.element}
 	 * @private
 	 */
-	ToolbarTextModifier.prototype._createModifier = function() {
+	ToolbarTextModifier.prototype._createModifier = function( cfg ) {
 		var that = this;
 
 		this._createToolbar();
@@ -50,9 +52,9 @@
 
 		AbstractToolbarModifier.prototype._createModifier.call( this );
 
-		this._setupActualConfig();
+		this._setupActualConfig( cfg );
 
-		var toolbarCfg = this.editorInstance.config.toolbar,
+		var toolbarCfg = this.actualConfig.toolbar,
 			cfgValue;
 
 		if ( CKEDITOR.tools.isArray( toolbarCfg ) ) {
@@ -322,8 +324,8 @@
 		return elements;
 	};
 
-	ToolbarTextModifier.prototype._setupActualConfig = function() {
-		var cfg = this.editorInstance.config;
+	ToolbarTextModifier.prototype._setupActualConfig = function( cfg ) {
+		cfg = cfg || this.editorInstance.config;
 
 		// if toolbar already exists in config, there is nothing to do
 		if ( CKEDITOR.tools.isArray( cfg.toolbar ) )

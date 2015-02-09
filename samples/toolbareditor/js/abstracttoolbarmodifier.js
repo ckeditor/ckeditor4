@@ -141,7 +141,7 @@ if ( !Object.keys ) {
 			this.actualConfig = JSON.parse( actualConfig );
 		}
 
-		if ( !this.actualConfig.toolbarGroups ) {
+		if ( !this.actualConfig.toolbarGroups && !this.actualConfig.toolbar ) {
 			this.actualConfig.toolbarGroups = getDefaultToolbarGroups( this.editorInstance );
 		}
 
