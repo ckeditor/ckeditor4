@@ -298,6 +298,9 @@ Notification.prototype = {
 		}
 
 		this.area.remove( this );
+
+		// Focus editor on close (#12865)
+		this.editor.focus();
 	},
 
 	/**
