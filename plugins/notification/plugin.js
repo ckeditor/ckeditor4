@@ -22,9 +22,10 @@ CKEDITOR.plugins.add( 'notification', {
 		 * @param {String} message Message displayed on the notification.
 		 * @param {String} [type='info'] Type of the notification. Can be `'info'`, `'warning'`, `'success'` or `'progress'`.
 		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from `0` to `1`
-		 * (defaults to `0`). Otherwise the the third parameter may be a notification duration: how many milliseconds after the
-		 * next change event notification should be closed automatically. `0` means that notification will not be closed
-		 * automatically, user needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
+		 * (defaults to `0`). Otherwise the the third parameter may be a notification duration: after how many milliseconds
+		 * notification should be closed automatically. `0` means that notification will not be closed automatically, user
+		 * needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
+		 * Note that `warning` notifications will not be closed automatically.
 		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
 		 */
 		editor.showNotification = function( message, type, progressOrDuration ) {
@@ -172,8 +173,7 @@ function Notification( editor, options ) {
  */
 
 /**
- * Notification duration. Determines how many milliseconds after the next {@link CKEDITOR.editor#change} event
- * the notification should be closed automatically.
+ * Notification duration. Determines after how many milliseconds notification should be closed automatically.
  * 0 means that notification will not be closed automatically, user needs to close it manually.
  * By default it is 0 for `warning` and `progress`. For `info` and `success` value it is the of
  * {@link CKEDITOR.config#notification_duration notification_duration} configuration option or 5000 if not set.
@@ -389,7 +389,7 @@ Notification.prototype = {
 	},
 
 	/**
-	 * Hides notification after the timeout after the first change event.
+	 * Hides notification after the timeout.
 	 *
 	 * @private
 	 */
@@ -410,11 +410,9 @@ Notification.prototype = {
 		}
 
 		if ( duration ) {
-			this.editor.once( 'change', function() {
-				notification._hideTimeoutId = setTimeout( function() {
-					notification.hide();
-				}, duration );
-			} );
+			notification._hideTimeoutId = setTimeout( function() {
+				notification.hide();
+			}, duration );
 		}
 	}
 };
@@ -846,7 +844,7 @@ Area.prototype = {
 CKEDITOR.plugins.notification = Notification;
 
 /**
- * How many milliseconds after the {@link CKEDITOR.editor#change} event notifications of the `info` and `success`
+ * After how many milliseconds the notification of the `info` and `success`
  * {@link CKEDITOR.plugins.notification#type type} should be closed automatically.
  * `0` means that notifications will not be closed automatically.
  * Note that `warning` and `progress` notifications will not be closed automatically.
