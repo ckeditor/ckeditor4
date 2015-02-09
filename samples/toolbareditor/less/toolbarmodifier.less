@@ -147,6 +147,13 @@ It is forbidden to copy and distribute this file in its original or modified for
 		& > li {
 			display: table-row;
 
+			&[data-type="header"] {
+				font-weight: bold;
+				user-select: none;
+				cursor: default;
+			}
+
+			&[data-type="header"],
 			&[data-type="group"],
 			&[data-type="separator"] {
 				border-bottom: 1px solid @modifier-toolbar-border-color;
@@ -205,6 +212,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 
 				span {
 					white-space: nowrap;
+					cursor: default;
 
 					button {
 						margin-right: 5px;
@@ -240,6 +248,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 				li {
 					display: table-row;
 					list-style-type: none;
+					vertical-align: middle;
 
 					&[data-type="subgroup"] {
 						border-top: 1px solid @modifier-toolbar-group-border-color;

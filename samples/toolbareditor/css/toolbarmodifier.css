@@ -137,6 +137,12 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > ul > li {
   display: table-row;
 }
+.toolbarModifier > ul > li[data-type="header"] {
+  font-weight: bold;
+  user-select: none;
+  cursor: default;
+}
+.toolbarModifier > ul > li[data-type="header"],
 .toolbarModifier > ul > li[data-type="group"],
 .toolbarModifier > ul > li[data-type="separator"] {
   border-bottom: 1px solid #cccccc;
@@ -185,6 +191,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbarModifier > ul > li p span {
   white-space: nowrap;
+  cursor: default;
 }
 .toolbarModifier > ul > li p span button {
   margin-right: 5px;
@@ -222,6 +229,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > ul > li ul li {
   display: table-row;
   list-style-type: none;
+  vertical-align: middle;
 }
 .toolbarModifier > ul > li ul li[data-type="subgroup"] {
   border-top: 1px solid #dddddd;
