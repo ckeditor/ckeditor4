@@ -350,9 +350,9 @@
 	 * @returns {Array}
 	 * @private
 	 */
-	ToolbarTextModifier.prototype._mapToolbarGroupsToToolbar = function( toolbarGroups ) {
-		var cfg = this.editorInstance.config,
-			removedBtns = typeof cfg.removeButtons == 'string' ? cfg.removeButtons.split( ',' ) : [] ;
+	ToolbarTextModifier.prototype._mapToolbarGroupsToToolbar = function( toolbarGroups, removedBtns ) {
+		removedBtns = removedBtns || this.editorInstance.config.removedBtns;
+		removedBtns = typeof removedBtns == 'string' ? removedBtns.split( ',' ) : [];
 
 		// from the end, because array indexes may change
 		var i = toolbarGroups.length;
@@ -393,7 +393,7 @@
 		for ( var i = 0; i < max; i += 1 ) {
 			var currSubgroup = group.groups[ i ];
 
-			var buttons = this.fullToolbarEditor.buttonsByGroup[ currSubgroup.name ] || [];
+			var buttons = this.fullToolbarEditor.buttonsByGroup[ typeof currSubgroup === 'string' ? currSubgroup : currSubgroup.name ] || [];
 			buttons = this._mapButtonsToButtonsNames( buttons, removedBtns );
 			var currTotalBtns = buttons.length;
 			totalBtns += currTotalBtns;
@@ -420,7 +420,13 @@
 		var i = buttons.length;
 		while ( i-- ) {
 			var currBtn = buttons[ i ],
+				camelCasedName;
+
+			if ( typeof currBtn === 'string' ) {
+				camelCasedName = currBtn;
+			} else {
 				camelCasedName = this.fullToolbarEditor.getCamelCasedButtonName( currBtn.name );
+			}
 
 			if ( CKEDITOR.tools.indexOf( removedBtns, camelCasedName ) !== -1 ) {
 				buttons.splice( i, 1 );
