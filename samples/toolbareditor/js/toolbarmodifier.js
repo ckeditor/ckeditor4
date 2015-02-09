@@ -387,7 +387,7 @@
 			return;
 		}
 
-		var liElem = this.mainContainer.findOne( 'li[data-type="' + type + '"][data-name="' + name + '"]' );
+		var liElem = this.mainContainer.findOne( 'ul[data-type=table-body] li[data-type="' + type + '"][data-name="' + name + '"]' );
 
 		liElem.addClass( 'active' );
 
@@ -596,8 +596,8 @@
 	 * so they are disabled.
 	 */
 	ToolbarModifier.prototype._refreshMoveBtnsAvalibility = function() {
-		var ulList = this.mainContainer.find( 'ul' ),
-			disabledBtns = this.mainContainer.find( 'li > p > span > button.move.disabled' );
+		var that = this,
+			disabledBtns = this.mainContainer.find( 'ul[data-type=table-body] li > p > span > button.move.disabled' );
 
 		// enabling all disabled buttons
 		var max = disabledBtns.count();
@@ -607,10 +607,19 @@
 			currentBtn.removeAttribute( 'tabindex' );
 		}
 
-		max = ulList.count();
-		for ( i = 0; i < max; i += 1 ) {
-			this._disableElementsInList( ulList.getItem( i ) );
+
+		function disableElementsInLists( ulList ) {
+			var max = ulList.count();
+			for ( i = 0; i < max; i += 1 ) {
+				that._disableElementsInList( ulList.getItem( i ) );
+			}
 		}
+
+		// Disable buttons in toolbars.
+		disableElementsInLists( this.mainContainer.find( 'ul[data-type=table-body]' ) );
+
+		// Disable buttons in toolbar groups.
+		disableElementsInLists( this.mainContainer.find( 'ul[data-type=table-body] > li > ul' ) );
 	};
 
 	/**
@@ -721,7 +730,7 @@
 
 		this.actualConfig.toolbarGroups.splice( separatorIndex, 0, separator );
 
-		domSeparator.insertBefore( this.modifyContainer.getChild( 0 ).getChild( separatorIndex ) );
+		domSeparator.insertBefore( this.modifyContainer.findOne( 'ul[data-type=table-body]' ).getChild( separatorIndex ) );
 
 		this._setActiveElement( 'separator', separator.name );
 		this._refreshEditor();
@@ -922,7 +931,7 @@
 	 */
 	ToolbarModifier.prototype._toolbarConfigToListString = function() {
 		var groups = this.actualConfig.toolbarGroups || [],
-			listString = '<ul>';
+			listString = '<ul data-type="table-body">';
 
 		var max = groups.length;
 		for ( var i = 0; i < max; i += 1 ) {
@@ -936,7 +945,9 @@
 
 		listString += '</ul>';
 
-		return listString;
+		var headerString = this._getToolbarHeaderString();
+
+		return headerString + listString;
 	};
 
 	/**
@@ -986,6 +997,24 @@
 		groupString += '</ul></li>';
 
 		return groupString;
+	};
+
+	/**
+	 * @returns {string}
+	 * @private
+	 */
+	ToolbarModifier.prototype._getToolbarHeaderString = function() {
+		return '<ul data-type="table-header">' +
+			'<li data-type="header">' +
+				'<p>Toolbars</p>' +
+				'<ul>' +
+					'<li>' +
+						'<p>Toolbar groups</p>' +
+						'<p>Toolbar group items</p>' +
+					'</li>' +
+				'</ul>' +
+			'</li>' +
+		'</ul>';
 	};
 
 	/**
