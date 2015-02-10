@@ -55,8 +55,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				<span id="mode-switch-advanced" class="fancy-button">Advanced</span>
 				<span class="fancy-tip">Select configurator type</span>
 			</span>
-			<div id="editor-basic"></div>
-			<div id="editor-advanced"></div>
+			<div class="editors-container">
+				<div id="editor-basic"></div>
+				<div id="editor-advanced"></div>
+			</div>
 		</div>
 	</section>
 	<section>
@@ -80,7 +82,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			// Basic, configurator.
 			CKEDITOR.replace( 'editor-basic' );
 
-			var toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor-basic' ),
+			var editorsContainer = CKEDITOR.document.findOne( '.editors-container' ),
+				toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor-basic' ),
 				toolbarModifierContainer = toolbarModifier.init();
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifierContainer );
@@ -96,6 +99,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 						toolbarModifier,
 						toolbarTextModifier
 					);
+
+					setTimeout( function() {
+						editorsContainer.addClass( 'active' );
+					}, 200 );
 				} );
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifierContainer );

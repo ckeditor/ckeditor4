@@ -221,6 +221,19 @@ main {
 		max-width: 100%;
 		overflow: hidden;
 
+		.editors-container {
+			overflow: hidden;
+			height: 0;
+			opacity: 0;
+			.transition( all 200ms );
+
+			&.active {
+				height: auto;
+				min-height: 180px;
+				opacity: 1;
+			}
+		}
+
 		.background-image(linear-gradient(to top, darken( @sample-header-background, 5% ) 0%, @sample-header-background 100%));
 		border-bottom: 6px solid #fafafa;
 		box-shadow: 0 2px 3px rgba( 0,0,0,.15 );
@@ -234,7 +247,7 @@ main {
 		#editor {
 			padding: @sample-standard-hgap;
 			border: 3px solid #CCC;
-		}		
+		}
 
 		h1 {
 			color: #fff;
@@ -374,8 +387,8 @@ footer {
 		0 0 1px rgba( 255,255,255,.3 ) inset,
 		0 1px 0 @sample-fancy-shadow-1-color,
 		0 3px 0 @sample-fancy-shadow-2-color
-	);	
-	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;	
+	);
+	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;
 	position: relative;
 	top: 0;
 	.transition( all 100ms );

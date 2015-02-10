@@ -251,6 +251,20 @@ main section.adjoined {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+main section.adjoined .editors-container {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  -webkit-transition: all 200ms;
+  -moz-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
+}
+main section.adjoined .editors-container.active {
+  height: auto;
+  min-height: 180px;
+  opacity: 1;
+}
 main section.adjoined > div {
   max-width: 960px;
   margin: 0 auto;
