@@ -120,7 +120,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				if ( mode === 'basic' ) {
 					var actualConfig = offModifier.getActualConfig();
 					var newCfg = offModifier.mapToolbarToToolbarGroups( actualConfig.toolbar );
-					onModifier.setConfig( JSON.stringify( { toolbarGroups: newCfg } ) );
+					onModifier.setConfig( JSON.stringify( newCfg ) );
 				}
 			}
 

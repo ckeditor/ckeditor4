@@ -486,11 +486,11 @@
 	};
 
 	ToolbarTextModifier.prototype.mapToolbarToToolbarGroups = function( toolbar ) {
-		var max = toolbar.length;
-		var usedItems = [];
-		var usedGroups = {};
-		var toolbarGroups = [];
+		var usedGroups = {},
+			removeButtons = [],
+			toolbarGroups = [];
 
+		var max = toolbar.length;
 		for ( var i = 0; i < max; i++ ) {
 			var items = toolbar[ i ].items;
 
@@ -506,22 +506,52 @@
 					continue;
 				}
 
-				usedItems.push( item );
 				var groupName = this.getToolbarGroupByButtonName( item );
 
 				toolbarGroup.groups.push( groupName );
 
-				if ( groupName in usedGroups ) {
-					throw new Error( 'Group ' + groupName + ' already used.' );
-				} else {
-					usedGroups[ groupName ] = 1;
-				}
+				usedGroups[ groupName ] = usedGroups[ groupName ] || {};
+
+				var buttons = ( usedGroups[ groupName ].buttons = usedGroups[ groupName ].buttons || {} );
+
+				buttons[ item ] = buttons[ item ] || { used: 0, origin: toolbarGroup.name };
+				buttons[ item ].used++;
 			}
 
 			toolbarGroups.push( toolbarGroup );
 		}
 
-		return toolbarGroups;
+		// Handling removed buttons
+		removeButtons = prepareRemovedButtons( usedGroups, this.fullToolbarEditor.buttonNamesByGroup );
+
+		function prepareRemovedButtons( usedGroups, buttonNames ) {
+			var removed = [];
+
+			for ( var groupName in usedGroups ) {
+				var group = usedGroups[ groupName ];
+				var allButtonsInGroup = buttonNames[ groupName ].slice();
+
+				removed = removed.concat( removeStuffFromArray( allButtonsInGroup, Object.keys( group.buttons ) ) );
+			}
+
+			return removed;
+		}
+
+		function removeStuffFromArray( array, stuff ) {
+			array = array.slice();
+			var i = stuff.length;
+
+			while ( i-- ) {
+				var atIndex = array.indexOf( stuff[ i ] );
+				if ( atIndex !== -1 ) {
+					array.splice( atIndex, 1 );
+				}
+			}
+
+			return array;
+		}
+
+		return { toolbarGroups: toolbarGroups, removeButtons: removeButtons.join( ',' ) };
 	};
 
 	return ToolbarTextModifier;
