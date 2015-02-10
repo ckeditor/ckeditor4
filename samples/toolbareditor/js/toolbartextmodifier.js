@@ -92,7 +92,6 @@
 			this.list = list;
 			this._handlers = [];
 		}
-		CodeMirror.eventMixin( HintData );
 
 		function completeIfNeeded( character ) {
 			return function completeIfNeeded( cm ) {
