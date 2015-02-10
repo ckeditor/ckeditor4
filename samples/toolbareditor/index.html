@@ -104,20 +104,32 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			var modeSwitchBasic = CKEDITOR.document.getById( 'mode-switch-basic' ),
 				modeSwitchAdvanced = CKEDITOR.document.getById( 'mode-switch-advanced' );
 
-			function toogleModeSwitch( onElement, offElement, onModifier, offModifier ) {
+			function toogleModeSwitch( onElement, offElement, onModifier, offModifier, mode ) {
 				onElement.addClass( 'fancy-button-active' );
 				offElement.removeClass( 'fancy-button-active' );
 
 				onModifier.showUI();
 				offModifier.hideUI();
+
+				if ( mode === 'advanced' ) {
+					var actualConfig = offModifier.getActualConfig();
+					var newCfg = onModifier._mapToolbarGroupsToToolbar( actualConfig.toolbarGroups, actualConfig.removeButtons );
+					onModifier.setConfig( JSON.stringify( { toolbar: newCfg } ) );
+				}
+
+				if ( mode === 'basic' ) {
+					var actualConfig = offModifier.getActualConfig();
+					var newCfg = offModifier.mapToolbarToToolbarGroups( actualConfig.toolbar );
+					onModifier.setConfig( JSON.stringify( { toolbarGroups: newCfg } ) );
+				}
 			}
 
 			function toggleModeBasic() {
-				toogleModeSwitch( this, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+				toogleModeSwitch( this, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier, 'basic' );
 			}
 
 			function toggleModeAdvanced() {
-				toogleModeSwitch( this, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+				toogleModeSwitch( this, modeSwitchBasic, toolbarTextModifier, toolbarModifier, 'advanced' );
 			}
 
 			modeSwitchBasic.on( 'click', toggleModeBasic );

@@ -234,6 +234,24 @@
 		this.hintContainer.setHtml( header + '<dl>' + listHeader + unusedElements + '</dl>' );
 	};
 
+	ToolbarTextModifier.prototype.getToolbarGroupByButtonName = function( buttonName ) {
+		var buttonNames = this.fullToolbarEditor.buttonNamesByGroup;
+
+		for ( var groupName in  buttonNames ) {
+			var buttons = buttonNames[ groupName ];
+
+			var i = buttons.length;
+			while ( i-- ) {
+				if ( buttonName === buttons[ i ] ) {
+					return groupName;
+				}
+			}
+
+		}
+
+		return null;
+	};
+
 	/**
 	 * Filter all available toolbar elements by array of elements provided in first argument.
 	 * Returns elements which are not used.
@@ -465,6 +483,45 @@
 		}
 
 		return parsed;
+	};
+
+	ToolbarTextModifier.prototype.mapToolbarToToolbarGroups = function( toolbar ) {
+		var max = toolbar.length;
+		var usedItems = [];
+		var usedGroups = {};
+		var toolbarGroups = [];
+
+		for ( var i = 0; i < max; i++ ) {
+			var items = toolbar[ i ].items;
+
+			var toolbarGroup = {};
+			toolbarGroup.name = toolbar[ i ].name;
+			toolbarGroup.groups = [];
+
+			var max2 = items.length;
+			for ( var j = 0; j < max2; j++ ) {
+				var item = items[ j ];
+
+				if ( item === '-' ) {
+					continue;
+				}
+
+				usedItems.push( item );
+				var groupName = this.getToolbarGroupByButtonName( item );
+
+				toolbarGroup.groups.push( groupName );
+
+				if ( groupName in usedGroups ) {
+					throw new Error( 'Group ' + groupName + ' already used.' );
+				} else {
+					usedGroups[ groupName ] = 1;
+				}
+			}
+
+			toolbarGroups.push( toolbarGroup );
+		}
+
+		return toolbarGroups;
 	};
 
 	return ToolbarTextModifier;
