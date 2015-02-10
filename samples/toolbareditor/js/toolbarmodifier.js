@@ -486,6 +486,10 @@
 			groupIndex = this.getGroupIndex( groupName ),
 			group = groups[ groupIndex ];
 
+		if ( groupIndex === -1 ) {
+			return null;
+		}
+
 		var max = group.groups ? group.groups.length : 0;
 		for ( var i = 0; i < max; i += 1 ) {
 			var currSubgroupName = group.groups[ i ].name,

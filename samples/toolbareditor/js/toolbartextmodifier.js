@@ -492,6 +492,11 @@
 
 		var max = toolbar.length;
 		for ( var i = 0; i < max; i++ ) {
+			if ( toolbar[ i ] === '/' ) {
+				toolbarGroups.push( '/' );
+				continue;
+			}
+
 			var items = toolbar[ i ].items;
 
 			var toolbarGroup = {};
@@ -508,7 +513,10 @@
 
 				var groupName = this.getToolbarGroupByButtonName( item );
 
-				toolbarGroup.groups.push( groupName );
+				var groupIndex = toolbarGroup.groups.indexOf( groupName );
+				if ( groupIndex === -1 ) {
+					toolbarGroup.groups.push( groupName );
+				}
 
 				usedGroups[ groupName ] = usedGroups[ groupName ] || {};
 
