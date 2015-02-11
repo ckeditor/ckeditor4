@@ -493,11 +493,11 @@
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
 					data = editor.dataProcessor.toDataFormat( data );
-
-					if ( xmlDeclaration )
-						data = xmlDeclaration + '\n' + data;
+					
 					if ( docType )
 						data = docType + '\n' + data;
+					if ( xmlDeclaration )
+						data = xmlDeclaration + '\n' + data;
 
 					return data;
 				}
