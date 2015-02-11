@@ -262,7 +262,6 @@ main section.adjoined .editors-container {
 }
 main section.adjoined .editors-container.active {
   height: auto;
-  min-height: 180px;
   opacity: 1;
 }
 main section.adjoined > div {

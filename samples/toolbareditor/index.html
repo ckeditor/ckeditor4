@@ -79,12 +79,41 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 	<script>
 		( function() {
+			var mode = 'basic',
+				ready = false;
+
 			// Basic, configurator.
 			CKEDITOR.replace( 'editor-basic' );
+
+			function onRefresh( modifier ) {
+				debugger;
+				modifier = modifier || this;
+
+				if ( mode === 'basic' && modifier instanceof ToolbarEditor.ToolbarTextModifier ) {
+					return;
+				}
+
+				var editorContainer = modifier.editorInstance.container;
+				var newHeight = editorContainer.getComputedStyle( 'height' ).replace( 'px', '' );
+				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
+
+				var newMarginTop = editorContainer.getComputedStyle( 'margin-top' ).replace( 'px', '' );
+				newMarginTop = ( isNaN( newMarginTop ) ? 0 : Number( newMarginTop ) );
+
+				var newMarginBottom = editorContainer.getComputedStyle( 'margin-bottom' ).replace( 'px', '' );
+				newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
+
+				var result = newHeight + newMarginTop + newMarginBottom;
+
+				console.log( 'height', result );
+				modifier.editorInstance.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
+			}
 
 			var editorsContainer = CKEDITOR.document.findOne( '.editors-container' ),
 				toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor-basic' ),
 				toolbarModifierContainer = toolbarModifier.init();
+
+			toolbarModifier.onRefresh = onRefresh;
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifierContainer );
 
@@ -93,6 +122,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			var toolbarTextModifier = new ToolbarEditor.ToolbarTextModifier( 'editor-advanced' ),
 				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
+					mode = 'basic';
 					toogleModeSwitch(
 						modeSwitchBasic,
 						modeSwitchAdvanced,
@@ -104,6 +134,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 						editorsContainer.addClass( 'active' );
 					}, 200 );
 				} );
+
+			toolbarTextModifier.onRefresh = onRefresh;
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifierContainer );
 
@@ -120,11 +152,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			}
 
 			function toggleModeBasic() {
+				mode = 'basic';
 				toogleModeSwitch( this, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+				onRefresh( toolbarModifier );
 			}
 
 			function toggleModeAdvanced() {
+				mode = 'advanced';
 				toogleModeSwitch( this, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+				onRefresh( toolbarTextModifier );
 			}
 
 			modeSwitchBasic.on( 'click', toggleModeBasic );

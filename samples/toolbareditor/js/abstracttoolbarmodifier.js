@@ -287,6 +287,10 @@ if ( !Object.keys ) {
 				} else {
 					that.showUI();
 				}
+
+				if ( typeof that.onRefresh === 'function' ) {
+					that.onRefresh();
+				}
 			} );
 
 			that.waitForReady = false;
