@@ -276,11 +276,34 @@ main section.adjoined #editor {
 }
 main section.adjoined h1 {
   color: #fff;
-  background: url(../img/main-header-bg.png ) left 3px no-repeat;
+  background: url(../img/header-bg.png ) left top no-repeat;
   padding-left: 15px;
+  display: inline-block;
+  position: relative;
+  z-index: 10;
 }
-main section.adjoined h1.long {
+main section.adjoined h1:after,
+main section.adjoined h1:before {
+  content: '';
+  background-image: url(../img/header-bg.png );
+  position: absolute;
+  z-index: -10;
+}
+main section.adjoined h1:after {
+  width: 113px;
+  height: 45px;
+  right: -20px;
+  top: 3px;
+  background-repeat: no-repeat;
   background-position: left bottom;
+}
+main section.adjoined h1:before {
+  right: 90px;
+  top: 0;
+  left: 91px;
+  height: 45px;
+  background-position: left center;
+  background-repeat: repeat-x;
 }
 main section.adjoined p {
   margin: 2.4em 0;

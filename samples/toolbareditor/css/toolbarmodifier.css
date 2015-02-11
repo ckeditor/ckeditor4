@@ -387,7 +387,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 .mode-switch {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 25px;
   -webkit-border-radius: 200px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 200px;

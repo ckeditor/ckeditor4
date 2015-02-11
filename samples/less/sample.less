@@ -251,11 +251,39 @@ main {
 
 		h1 {
 			color: #fff;
-			background: url( ../img/main-header-bg.png ) left 3px no-repeat;
+			background: url( ../img/header-bg.png ) left top no-repeat;
 			padding-left: 15px;
+			display: inline-block;
+			position: relative;
+			z-index: 10;
 
-			&.long {
+			// Tricky expandable background with :after and :before.
+			&:after,
+			&:before {
+				content: '';
+				background-image: url( ../img/header-bg.png );
+
+				position: absolute;
+				z-index: -10;
+			}
+
+			&:after {
+				width: 113px;
+				height: 45px;
+
+				right: -20px;
+				top: 3px;
+				background-repeat: no-repeat;
 				background-position: left bottom;
+			}
+
+			&:before {
+				right: 90px;
+				top: 0;
+				left: 91px;
+				height: 45px;
+				background-position: left center;
+				background-repeat: repeat-x;
 			}
 		}
 
@@ -392,7 +420,7 @@ footer {
 		0 3px 0px @sample-fancy-default-shadow-2-color,
 	);
 	text-shadow: 0 1px 0px rgba(255,255,255,1);
-	border: 1px solid #BFC0C0;	
+	border: 1px solid #BFC0C0;
 
 	// .fancy-button-red
 	&-red {
