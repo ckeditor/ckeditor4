@@ -737,6 +737,7 @@
 		domSeparator.insertBefore( this.modifyContainer.findOne( 'ul[data-type=table-body]' ).getChild( separatorIndex ) );
 
 		this._setActiveElement( 'separator', separator.name );
+		this._refreshMoveBtnsAvalibility();
 		this._refreshEditor();
 	};
 
