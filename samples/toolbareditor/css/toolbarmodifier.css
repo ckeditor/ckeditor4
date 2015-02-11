@@ -74,7 +74,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbar {
   width: 100%;
   margin-bottom: 2.4em;
-  padding-bottom: 3px;
+  padding-bottom: 5px;
   overflow: hidden;
   border: 1px solid transparent;
   text-align: center;
@@ -404,7 +404,6 @@ It is forbidden to copy and distribute this file in its original or modified for
 .mode-switch .fancy-button:first-child {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: 1px solid #b42f28;
 }
 .mode-switch .fancy-button:first-child + .fancy-button {
   margin: 0;

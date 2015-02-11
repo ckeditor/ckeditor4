@@ -370,50 +370,93 @@ footer {
 
 .fancy-button {
 	.user-select( none );
-	.border-radius( 200px );
+	.border-radius( 100px );
 	.font-size( .813 );
+	.user-select( none );
 	border: 0;
 	display: inline-block;
-
-	background-color: @sample-fancy-color-1;
-	.background-image(linear-gradient(to bottom, @sample-fancy-color-1, @sample-fancy-color-2 ) );
-
+	position: relative;
+	top: 0;
 	cursor: pointer;
 	text-decoration: none;
 	padding: @sample-fancy-padding-v 13px @sample-fancy-padding-v - 2;
-	color: #fff;
-	.user-select( none );
+
+	// Visuals.
+	background-color: @sample-fancy-default-color-1;
+	.background-image(linear-gradient(to bottom, @sample-fancy-default-color-1, @sample-fancy-default-color-2 ) );
+	color: @sample-fancy-default-color;
 	.box-shadow(
-		0 0 1px rgba( 255,255,255,.3 ) inset,
-		0 1px 0 @sample-fancy-shadow-1-color,
-		0 3px 0 @sample-fancy-shadow-2-color
+		0 1px 1px 0px rgba( 255,255,255,.7 ) inset,
+		0 -1px 0px 0px rgba( 255,255,255,.3 ) inset,
+		0 1px 0px @sample-fancy-default-shadow-1-color,
+		0 4px 0px @sample-fancy-default-shadow-2-color,
 	);
-	text-shadow: 0 -1px 0 @sample-fancy-shadow-1-color;
-	position: relative;
-	top: 0;
-	.transition( all 100ms );
+	text-shadow: 0 1px 0px rgba(255,255,255,1);
+	border: 1px solid #BFC0C0;
+
+	// .fancy-button-red
+	&-red {
+		// Visuals
+		background-color: @sample-fancy-red-color-1;
+		.background-image(linear-gradient(to bottom, @sample-fancy-red-color-1, @sample-fancy-red-color-2 ) );
+		color: #fff;
+		.box-shadow(
+			0 -1px 1px rgba( 255,255,255,.4 ) inset,
+			0 1px 0 @sample-fancy-red-shadow-1-color,
+			0 3px 0 @sample-fancy-red-shadow-2-color,
+			0 4px 2px rgba(0,0,0,.3)
+		);
+		text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+		border: 0;
+
+		.highlight {
+			color: #F9FFB1;
+		}
+	}
 
 	&:hover, &:focus {
-		background-color: @sample-fancy-color-2;
-		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
-		.box-shadow(
-			0 1px 0 @sample-fancy-shadow-1-color,
-			0 1px 0 @sample-fancy-shadow-2-color,
-		);
-		top: 2px;
+		top: 1px;
 		outline: none;
+
+		// Visuals
+		.box-shadow(
+			0 1px 1px 0px rgba( 255,255,255,.7 ) inset,
+			0 -1px 0px 0px rgba( 255,255,255,.3 ) inset,
+			0 1px 0px @sample-fancy-default-shadow-1-color,
+			0 3px 0px @sample-fancy-default-shadow-2-color
+		);
+
+		// .fancy-button-red
+		&.fancy-button-red {
+			.box-shadow(
+				0 -1px 1px rgba( 255,255,255,.4 ) inset,
+				0 2px 0 @sample-fancy-red-shadow-2-color,
+				0 3px 2px rgba(0,0,0,.3)
+			);
+		}
 	}
 
 	&:active, &-active,
 	&:active:hover, &-active:hover,
 	&:active:focus, &-active:focus {
-		.background-image(linear-gradient(to bottom, @sample-fancy-color-2, @sample-fancy-color-1 ) );
 		top: 3px;
 		outline: none;
+
+		// Visuals
+		.background-image(linear-gradient(to bottom, @sample-fancy-default-color-2, @sample-fancy-default-color-1 ) );
 		.box-shadow(
-			0 1px 0 @sample-fancy-shadow-2-color inset,
-			0 3px 0 @sample-fancy-shadow-1-color inset
+			//0 1px 2px @sample-fancy-default-shadow-2-color inset,
+			0 2px 2px @sample-fancy-default-shadow-2-color inset
 		);
+
+		// .fancy-button-red
+		&.fancy-button-red {
+			.background-image(linear-gradient(to bottom, @sample-fancy-red-color-2, @sample-fancy-red-color-1 ) );
+			.box-shadow(
+				0 1px 2px @sample-fancy-red-shadow-2-color inset,
+				0 3px 2px @sample-fancy-red-shadow-1-color inset
+			);
+		}
 	}
 }
 
