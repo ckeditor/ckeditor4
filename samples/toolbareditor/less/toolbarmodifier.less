@@ -228,10 +228,13 @@ It is forbidden to copy and distribute this file in its original or modified for
 						line-height: 12px;
 						height: 20px;
 
-						&:not(.disabled):hover {
-							color: #fff;
-							background-color: @sample-top-navigation-background;
-							border-color: transparent;
+						&:not(.disabled) {
+							&:hover,
+							&:focus {
+								color: #fff;
+								background-color: @sample-top-navigation-background;
+								border-color: transparent;
+							}
 						}
 
 						&.move.disabled {
@@ -259,6 +262,10 @@ It is forbidden to copy and distribute this file in its original or modified for
 
 						&:first-child {
 							border-top: 0;
+						}
+
+						[data-type="button"]:focus {
+							outline: 1px solid red;
 						}
 					}
 

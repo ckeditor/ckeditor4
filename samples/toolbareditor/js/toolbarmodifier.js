@@ -140,6 +140,7 @@
 
 		this._createModifier();
 		this._refreshMoveBtnsAvalibility();
+		this._refreshBtnTabIndexes();
 
 		this._refreshEditor();
 
@@ -271,6 +272,20 @@
 		function onGroupHover() {
 			that._highlightGroup( this.data( 'name' ) );
 		}
+
+		CKEDITOR.document.on( 'keypress', function( e ) {
+			var keyCode = e.data.$.keyCode,
+				spaceOrEnter = ( keyCode === 32 || keyCode === 13 ),
+				active = new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
+
+			if ( !spaceOrEnter ) {
+				return;
+			}
+
+			if ( active.data( 'type' ) === 'button' ) {
+				active.findOne( 'input' ).$.click();
+			}
+		} );
 
 		this.modifyContainer.on( 'click', function( e ) {
 			var origEvent = e.data.$,
@@ -592,6 +607,7 @@
 			relativeLi.insertAfter( relativeUl.getChild( newIndex ) );
 
 		this._refreshMoveBtnsAvalibility();
+		this._refreshBtnTabIndexes();
 
 		return {
 			action: 'move'
@@ -611,7 +627,6 @@
 		for ( var i = 0; i < max; i += 1 ) {
 			var currentBtn = disabledBtns.getItem( i );
 			currentBtn.removeClass( 'disabled' );
-			currentBtn.removeAttribute( 'tabindex' );
 		}
 
 
@@ -627,6 +642,18 @@
 
 		// Disable buttons in toolbar groups.
 		disableElementsInLists( this.mainContainer.find( 'ul[data-type=table-body] > li > ul' ) );
+	};
+
+	ToolbarModifier.prototype._refreshBtnTabIndexes = function() {
+		var tabindexed = this.mainContainer.find( '[data-tab="true"]' );
+
+		var max = tabindexed.count();
+		for ( var i = 0; i < max; i++ ) {
+			var item = tabindexed.getItem( i ),
+				disabled = item.hasClass( 'disabled' );
+
+			item.setAttribute( 'tabindex', disabled ? -1 : i );
+		}
 	};
 
 	/**
@@ -741,6 +768,7 @@
 
 		this._setActiveElement( 'separator', separator.name );
 		this._refreshMoveBtnsAvalibility();
+		this._refreshBtnTabIndexes();
 		this._refreshEditor();
 	};
 
@@ -756,6 +784,8 @@
 
 		this.actualConfig.toolbarGroups.splice( separatorIndex, 1 );
 
+		this._refreshMoveBtnsAvalibility();
+		this._refreshBtnTabIndexes();
 		this._refreshEditor();
 	};
 
@@ -816,6 +846,8 @@
 			groups = this.actualConfig.toolbarGroups,
 			newIndex = this._moveElement( groups, groupIndex, direction );
 
+		this._refreshMoveBtnsAvalibility();
+		this._refreshBtnTabIndexes();
 		this._refreshEditor();
 
 		return newIndex;
@@ -1120,9 +1152,10 @@
 		var checked = ( this.isButtonRemoved( button.name ) ? '' : 'checked="checked"' );
 
 		return [
-			'<li data-type="button" data-name="', this._getConfigButtonName( button.name ), '">',
+			'<li data-tab="true" data-type="button" data-name="', this._getConfigButtonName( button.name ), '">',
 				'<label title="', button.label, '" >',
 					'<input ',
+						'tabindex="-1"',
 						'type="checkbox"',
 						checked,
 					'/>',
@@ -1146,9 +1179,9 @@
 		return [
 			'<p>',
 				'<span>',
-					'<button data-direction="up" class="move icon-up-big"></button>',
-					'<button data-direction="down" class="move icon-down-big"></button>',
-					( name == 'row separator' ? '<button class="remove icon-trash"></button>' : '' ),
+					'<button data-tab="true" data-direction="up" class="move icon-up-big"></button>',
+					'<button data-tab="true" data-direction="down" class="move icon-down-big"></button>',
+					( name == 'row separator' ? '<button data-tab="true" class="remove icon-trash"></button>' : '' ),
 					name,
 				'</span>',
 			'</p>'

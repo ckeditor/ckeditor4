@@ -212,7 +212,8 @@ It is forbidden to copy and distribute this file in its original or modified for
   line-height: 12px;
   height: 20px;
 }
-.toolbarModifier > ul > li p span button:not(.disabled):hover {
+.toolbarModifier > ul > li p span button:not(.disabled):hover,
+.toolbarModifier > ul > li p span button:not(.disabled):focus {
   color: #fff;
   background-color: #454545;
   border-color: transparent;
@@ -240,6 +241,9 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
   border-top: 0;
+}
+.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"]:focus {
+  outline: 1px solid red;
 }
 .toolbarModifier > ul > li ul li > p,
 .toolbarModifier > ul > li ul li > ul {
