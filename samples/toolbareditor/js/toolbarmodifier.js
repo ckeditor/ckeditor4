@@ -25,7 +25,8 @@
 				text: 'Toggle visibility of empty elements',
 				group: 'edit',
 				position: 'left',
-				clickCallback: function() {
+				clickCallback: function( button ) {
+					button[ button.hasClass( 'fancy-button-active' ) ? 'removeClass' : 'addClass' ]( 'fancy-button-active' );
 					this._toggleVisibilityEmptyElements();
 				}
 			},
@@ -46,18 +47,20 @@
 				}
 			},
 			{
-				text: 'Back',
+				text: 'Back to configurator',
 				group: 'config',
 				position: 'right',
+				cssClass: 'fancy-button-red',
 				clickCallback: function() {
 					this._showConfigurationTool();
 					this.showToolbarBtnsByGroupName( 'edit' );
 				}
 			},
 			{
-				text: 'Get toolbar config!',
+				text: 'Get toolbar <span class="highlight">config</span>',
 				group: 'edit',
 				position: 'right',
+				cssClass: 'fancy-button-red',
 				clickCallback: function() {
 					this._showConfig();
 					this.showToolbarBtnsByGroupName( 'config' );

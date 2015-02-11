@@ -311,11 +311,16 @@ window.ToolbarEditor = {};
 	 * @param {String} text
 	 * @returns {CKEDITOR.dom.element}
 	 */
-	FullToolbarEditor.createButton = function( text ) {
+	FullToolbarEditor.createButton = function( text, cssClass ) {
 		var $button = new CKEDITOR.dom.element( 'button' );
 
 		$button.addClass( 'fancy-button' );
-		$button.setText( text );
+
+		if ( cssClass ) {
+			$button.addClass( cssClass );
+		}
+
+		$button.setHtml( text );
 
 		return $button;
 	};

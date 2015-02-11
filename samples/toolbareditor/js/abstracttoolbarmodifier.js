@@ -327,12 +327,14 @@ if ( !Object.keys ) {
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._createToolbarBtn = function( cfg ) {
-		var btn = ToolbarEditor.FullToolbarEditor.createButton( cfg.text );
+		var btn = ToolbarEditor.FullToolbarEditor.createButton( cfg.text, cfg.cssClass );
 
 		this.toolbarContainer.append( btn );
 		btn.data( 'group', cfg.group );
 		btn.addClass( cfg.position );
-		btn.on( 'click', cfg.clickCallback, this );
+		btn.on( 'click', function() {
+			cfg.clickCallback.call( this, btn );
+		}, this );
 
 		return btn;
 	};
