@@ -253,7 +253,7 @@ window.ToolbarEditor = {};
 	 */
 	FullToolbarEditor.createToolbarButton = function( button ) {
 		var $button = new CKEDITOR.dom.element( 'a' ),
-			icon = FullToolbarEditor.createIcon( button.name );
+			icon = FullToolbarEditor.createIcon( button.name, button.icon, button.command );
 
 		$button.setStyle( 'float', 'none' );
 
@@ -290,19 +290,27 @@ window.ToolbarEditor = {};
 	 * Create and return icon element.
 	 *
 	 * @param {String} name
+	 * @param {String} icon
+	 * @param {String} command
 	 * @static
 	 * @returns {CKEDITOR.dom.element}
 	 */
-	FullToolbarEditor.createIcon = function( name ) {
-		var iconStyle = CKEDITOR.skin.getIconStyle( name, ( CKEDITOR.lang.dir == 'rtl' ) ),
-			icon = new CKEDITOR.dom.element( 'span' );
+	FullToolbarEditor.createIcon = function( name, icon, command ) {
+		var iconStyle = iconStyle || CKEDITOR.skin.getIconStyle( name, ( CKEDITOR.lang.dir == 'rtl' ) );
 
-		icon.addClass( 'cke_button_icon' );
-		icon.addClass( 'cke_button__' + name + '_icon' );
-		icon.setAttribute( 'style', iconStyle );
-		icon.setStyle( 'float', 'none' );
+		// We don't know exactly how to get icon style. Especially for extra plugins,
+		// Which definition may vary.
+		iconStyle = CKEDITOR.skin.getIconStyle( icon, ( CKEDITOR.lang.dir == 'rtl' ) );
+		iconStyle = iconStyle || CKEDITOR.skin.getIconStyle( command, ( CKEDITOR.lang.dir == 'rtl' ) );
 
-		return icon;
+		var iconElement = new CKEDITOR.dom.element( 'span' );
+
+		iconElement.addClass( 'cke_button_icon' );
+		iconElement.addClass( 'cke_button__' + name + '_icon' );
+		iconElement.setAttribute( 'style', iconStyle );
+		iconElement.setStyle( 'float', 'none' );
+
+		return iconElement;
 	};
 
 	/**
