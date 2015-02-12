@@ -42,6 +42,12 @@ Other Changes:
 
 ## CKEditor 4.4.8
 
+Fixed Issues:
+
+* [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in [dialogui](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
+* [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent li elements.
+* [#12885](http://dev.ckeditor.com/ticket/12885): Added missing getData parameter documentation.
+
 Other Changes:
 
 * [#12844](http://dev.ckeditor.com/ticket/12844): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.*`.

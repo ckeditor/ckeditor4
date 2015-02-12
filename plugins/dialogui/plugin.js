@@ -170,7 +170,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 										' for="' + _.inputId + '"' +
 										( elementDefinition.labelStyle ? ' style="' + elementDefinition.labelStyle + '"' : '' ) + '>' +
 											CKEDITOR.tools.htmlEncode( elementDefinition.label ) +
-										'</span>'
+										'</label>'
 								},
 								{
 									type: 'html',
