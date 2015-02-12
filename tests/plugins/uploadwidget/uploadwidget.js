@@ -221,6 +221,64 @@
 			} );
 		},
 
+		'test replaceWith preserves selection placed before the widget': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onUploaded: function() {
+					// We're using strong to force editable.insertHtml to do some elements merging.
+					this.replaceWith( '<strong>uploaded</strong>' );
+				}
+			} );
+
+			bot.setData( '<p><strong>foo<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</strong></p>', function() {
+				var range = editor.createRange();
+				range.setStart( editor.editable().findOne( 'strong' ).getFirst(), 2 ); // fo^o
+				range.collapse( true );
+				editor.getSelection().selectRanges( [ range ] );
+
+				loader.changeStatus( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+
+				assert.isInnerHtmlMatching( '<p><strong>fo^ouploadedx</strong>@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+			} );
+		},
+
+		'test replaceWith preserves selection placed after the widget': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testReplaceWith1', {
+				onUploaded: function() {
+					// We're using strong to force editable.insertHtml to do some elements merging.
+					this.replaceWith( '<strong>uploaded</strong>' );
+				}
+			} );
+
+			bot.setData( '<p><strong>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>foo</strong></p>', function() {
+				var range = editor.createRange();
+				range.setStart( editor.editable().findOne( 'strong' ).getLast(), 2 ); // fo^o
+				range.collapse( true );
+				editor.getSelection().selectRanges( [ range ] );
+
+				loader.changeStatus( 'uploaded' );
+
+				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
+
+				assert.isInnerHtmlMatching( '<p><strong>xuploadedfo^o</strong>@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+			} );
+		},
+
 		'test custom event lister': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
