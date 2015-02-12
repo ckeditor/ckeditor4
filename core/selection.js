@@ -1701,12 +1701,9 @@
 					removeHiddenSelectionContainer( editor );
 				}
 				// jshint ignore:start
-				// TODO after #9786 use commented out lines instead of console.log.
 				else { // %REMOVE_LINE%
-					window.console && console.log( 'Wrong selection instance resets fake selection.' ); // %REMOVE_LINE%
+					window.console && console.log( '[CKEDITOR.dom.selection.reset] Wrong selection instance resets fake selection.' ); // %REMOVE_LINE%
 				} // %REMOVE_LINE%
-				// else // %REMOVE_LINE%
-				//	CKEDITOR.debug.error( 'Wrong selection instance resets fake selection.', CKEDITOR.DEBUG_CRITICAL ); // %REMOVE_LINE%
 				// jshint ignore:end
 			}
 
@@ -2101,7 +2098,7 @@
 				node = ranges[ 0 ].getEnclosedNode();
 				if ( node && node.type != CKEDITOR.NODE_ELEMENT ) {
 					// %REMOVE_START%
-					window.console && console.log( 'Selection is no longer fake.' ); // jshint ignore:line
+					window.console && console.log( '[CKEDITOR.dom.selection.selectBookmarks] Selection is no longer fake.' ); // jshint ignore:line
 					// %REMOVE_END%
 					bookmarks.isFake = 0;
 				}
