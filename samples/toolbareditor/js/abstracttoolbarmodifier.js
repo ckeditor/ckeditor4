@@ -416,13 +416,35 @@ if ( !Object.keys ) {
 	 * Same as JSON.stringify method but returned string is in one line
 	 *
 	 * @param {Object} json
+	 * @param {Boolean} addSpaces
 	 * @returns {JSON}
 	 */
-	AbstractToolbarModifier.stringifyJSONintoOneLine = function( json ) {
+	AbstractToolbarModifier.stringifyJSONintoOneLine = function( json, opts ) {
+		opts = opts || {};
 		var stringJSON = JSON.stringify( json, null, '' );
 
 		// IE8 make new line characters
 		stringJSON = stringJSON.replace( /\n/g, '' );
+
+		if ( opts.addSpaces ) {
+			stringJSON = stringJSON.replace( /(\{|:|,|\[|\])/g, function( sentence ) {
+				return sentence + ' ';
+			} );
+
+			stringJSON = stringJSON.replace( /(\])/g, function( sentence ) {
+				return ' ' + sentence;
+			} );
+		}
+
+		if ( opts.noQuotesOnKey ) {
+			stringJSON = stringJSON.replace( /"(\w*)":/g, function( sentence, word ) {
+				return word + ':';
+			} );
+		}
+
+		if ( opts.singleQuotes ) {
+			stringJSON = stringJSON.replace( /\"/g, '\'' );
+		}
 
 		return stringJSON;
 	};

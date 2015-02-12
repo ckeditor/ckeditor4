@@ -170,7 +170,7 @@
 
 			var groups = prepareGroups( actualConfig.toolbarGroups, this.cfg.trimEmptyGroups );
 
-			cfg.toolbarGroups = '\n  ' + groups.join( ',\n  ' );
+			cfg.toolbarGroups = '\n\t' + groups.join( ',\n\t' );
 		}
 
 		function prepareGroups( toolbarGroups, trimEmptyGroups ) {
@@ -181,7 +181,7 @@
 				var group = toolbarGroups[ i ];
 
 				if ( group === '/' ) {
-					groups.push( '"/"' );
+					groups.push( '\'/\'' );
 					continue;
 				}
 
@@ -197,15 +197,15 @@
 				}
 
 				if ( !( trimEmptyGroups && group.groups.length === 0 ) ) {
-					groups.push( mapToString( group ) );
+					groups.push( AbstractToolbarModifier.stringifyJSONintoOneLine( group, {
+						addSpaces: true,
+						noQuotesOnKey: true,
+						singleQuotes: true
+					} ) );
 				}
 			}
 
 			return groups;
-		}
-
-		function mapToString( json ) {
-			return AbstractToolbarModifier.stringifyJSONintoOneLine( json, that.fullToolbarEditor, that.cfg.trimEmptyGroups );
 		}
 
 		if ( actualConfig.removeButtons )
@@ -215,7 +215,7 @@
 			'<textarea readonly>',
 				( cfg.toolbarGroups ? 'config.toolbarGroups = [' + cfg.toolbarGroups + '\n];' : '' ),
 				( cfg.removeButtons ? '\n' : '' ),
-				( cfg.removeButtons ? 'config.removeButtons = "' + cfg.removeButtons + '";' : '' ),
+				( cfg.removeButtons ? 'config.removeButtons = \'' + cfg.removeButtons + '\';' : '' ),
 			'</textarea>'
 		].join( '' );
 
