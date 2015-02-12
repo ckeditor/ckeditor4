@@ -135,8 +135,11 @@
 
 			if ( permitted ) {
 				setTimeout( function() {
-					if ( !cm.state.completionActive )
-						CodeMirror.showHint( cm, hint );
+					if ( !cm.state.completionActive ) {
+						CodeMirror.showHint( cm, hint, {
+							hintsClass: 'toolbar-modifier'
+						} );
+					}
 
 				}, 100 );
 			}
@@ -149,9 +152,12 @@
 		this.modifyContainer.append( codeMirrorWrapper );
 		this.codeContainer = CodeMirror( codeMirrorWrapper.$, {
 			mode: { name: 'javascript', json: true },
-			lineNumbers: true,
+			lineNumbers: false,
 			lineWrapping: true,
+			viewportMargin: Infinity,
 			value: cfgValue,
+			smartIndent: false,
+			indentWithTabs: true,
 			extraKeys: {
 				'Ctrl-Space': complete,
 				"'''": completeIfNeeded( "'" ),
@@ -229,10 +235,9 @@
 
 		var header = '<h3>Unused toolbar items</h3>';
 
-		if ( unused.length )
-			this.hintContainer.removeClass( 'hidden' );
-		else
-			this.hintContainer.addClass( 'hidden' );
+		if ( !unused.length ) {
+			listHeader = '<p>All items are in use.</p>';
+		}
 
 		this.codeContainer.refresh();
 

@@ -179,7 +179,7 @@
     var widget = this, cm = completion.cm, options = completion.options;
 
     var hints = this.hints = document.createElement("ul");
-    hints.className = "CodeMirror-hints";
+    hints.className = "CodeMirror-hints" + ( options.hintsClass ? " " + options.hintsClass : "" );
     this.selectedHint = options.getDefaultSelection ? options.getDefaultSelection(cm,options,data) : 0;
 
     var completions = data.list;

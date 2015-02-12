@@ -336,6 +336,10 @@ It is forbidden to copy and distribute this file in its original or modified for
 				padding-bottom: .5*@sample-standard-vgap;
 			}
 
+			& > p {
+				text-align: center;
+			}
+
 			dt {
 				float: left;
 				width: 9em;
@@ -408,8 +412,21 @@ It is forbidden to copy and distribute this file in its original or modified for
 	overflow: auto;
 }
 
-.CodeMirror {
+.CodeMirror-hints.toolbar-modifier {
+	padding: 0;
+	color: @sample-text-color;
 
+	.CodeMirror-hint-active {
+		color: @sample-text-color;
+		background: @modifier-group-active-color;
+	}
+
+	.font-size( .875 );
+	font-family: @sample-font-stack-monospace;
+
+	& > li:hover {
+		background: @modifier-group-hover-color;
+	}
 }
 
 /* Text modifier */

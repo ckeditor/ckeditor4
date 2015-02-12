@@ -301,6 +301,9 @@ It is forbidden to copy and distribute this file in its original or modified for
   border: 0;
   padding-bottom: 0.6em;
 }
+.toolbarModifier-hints dl > p {
+  text-align: center;
+}
 .toolbarModifier-hints dl dt {
   float: left;
   width: 9em;
@@ -375,6 +378,22 @@ It is forbidden to copy and distribute this file in its original or modified for
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
+}
+.CodeMirror-hints.toolbar-modifier {
+  padding: 0;
+  color: #575757;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 25.2px;
+  line-height: 1.57rem;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+.CodeMirror-hints.toolbar-modifier .CodeMirror-hint-active {
+  color: #575757;
+  background: #f0fafb;
+}
+.CodeMirror-hints.toolbar-modifier > li:hover {
+  background: #fffbe3;
 }
 /* Text modifier */
 #toolbarModifierWrapper {
