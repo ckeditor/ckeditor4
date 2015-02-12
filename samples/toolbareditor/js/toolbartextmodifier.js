@@ -58,7 +58,13 @@
 			cfgValue;
 
 		if ( CKEDITOR.tools.isArray( toolbarCfg ) ) {
-			var stringifiedToolbar = '[\n  ' + FullToolbarEditor.map( toolbarCfg, AbstractToolbarModifier.stringifyJSONintoOneLine ).join( ',\n  ' ) + '\n]';
+			var stringifiedToolbar = '[\n\t' + FullToolbarEditor.map( toolbarCfg, function( json ) {
+					return AbstractToolbarModifier.stringifyJSONintoOneLine( json, {
+						addSpaces: true,
+						noQuotesOnKey: true,
+						singleQuotes: true
+					} );
+				} ).join( ',\n\t' ) + '\n]';
 
 			cfgValue = 'config.toolbar = ' + stringifiedToolbar + ';';
 		} else {
