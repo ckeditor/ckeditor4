@@ -129,7 +129,7 @@ bender.test( {
 		assert.isFalse( notification.isVisible(), 'After hide' );
 	},
 
-	'test close after change - info': function() {
+	'test close after timeout - info': function() {
 		var editor = this.editor,
 			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo', type: 'info', duration: 100 } );
 
@@ -143,16 +143,10 @@ bender.test( {
 
 		this.clock.tick( 110 );
 
-		assertNotifications( editor, [ { message: 'Foo', type: 'info', duration: 100 } ] );
-
-		editor.fire( 'change' );
-
-		this.clock.tick( 110 );
-
 		assertNotifications( editor, [] );
 	},
 
-	'test close after change - warning': function() {
+	'test close after timeout - warning': function() {
 		var editor = this.editor,
 			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo', type: 'warning' } );
 
@@ -167,15 +161,9 @@ bender.test( {
 		this.clock.tick( 110 );
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
-
-		editor.fire( 'change' );
-
-		this.clock.tick( 110 );
-
-		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 	},
 
-	'test close after change - default value': function() {
+	'test close after timeout - default value': function() {
 		var tc = this;
 
 		bender.editorBot.create( {
@@ -192,8 +180,6 @@ bender.test( {
 			tc.clock = sinon.useFakeTimers();
 
 			notification.show();
-
-			editor.fire( 'change' );
 
 			assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: true } ] );
 
@@ -214,8 +200,6 @@ bender.test( {
 		this.clock = sinon.useFakeTimers();
 
 		notification.show();
-
-		editor.fire( 'change' );
 
 		notification.update( { type: 'warning' } );
 
@@ -249,7 +233,7 @@ bender.test( {
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 
-		editor.fire( 'key', { keyCode: 27 /* ESC */ } );
+		editor.fire( 'key', { keyCode: 27 } ); /* ESC */
 
 		assertNotifications( editor, [] );
 
