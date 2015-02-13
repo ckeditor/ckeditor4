@@ -6,7 +6,7 @@
 
 	CKEDITOR.disableAutoInline = true;
 
-	var mathJaxLib = 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
+	var mathJaxLib = bender.config.mathJaxLibPath || 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
 
 	var editor;
 
