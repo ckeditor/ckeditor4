@@ -242,8 +242,17 @@ It is forbidden to copy and distribute this file in its original or modified for
 .toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
   border-top: 0;
 }
+.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"] {
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  padding: 0 2px;
+}
 .toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"]:focus {
-  outline: 1px solid red;
+  background: rgba(0, 0, 0, 0.04);
 }
 .toolbarModifier > ul > li ul li > p,
 .toolbarModifier > ul > li ul li > ul {
