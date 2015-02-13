@@ -15,8 +15,8 @@ dev/builder/ckbuilder/**
 dev/langtool/po/**
 dev/langtool/cklangtool/**
 
-samples/toolbareditor/.bender/**
-samples/toolbareditor/node_modules/**
+samples/toolbarconfigurator/.bender/**
+samples/toolbarconfigurator/node_modules/**
 
 *.css.map
 

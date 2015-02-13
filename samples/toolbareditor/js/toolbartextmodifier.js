@@ -1,10 +1,10 @@
-/* global CodeMirror, ToolbarEditor */
+/* global CodeMirror, ToolbarConfigurator */
 
 'use strict';
 
 ( function() {
-	var AbstractToolbarModifier = ToolbarEditor.AbstractToolbarModifier,
-		FullToolbarEditor = ToolbarEditor.FullToolbarEditor;
+	var AbstractToolbarModifier = ToolbarConfigurator.AbstractToolbarModifier,
+		FullToolbarEditor = ToolbarConfigurator.FullToolbarEditor;
 
 	function ToolbarTextModifier( editorId ) {
 		AbstractToolbarModifier.call( this, editorId );
@@ -14,7 +14,7 @@
 	}
 
 	// Expose the class.
-	ToolbarEditor.ToolbarTextModifier = ToolbarTextModifier;
+	ToolbarConfigurator.ToolbarTextModifier = ToolbarTextModifier;
 
 	ToolbarTextModifier.prototype = Object.create( AbstractToolbarModifier.prototype );
 

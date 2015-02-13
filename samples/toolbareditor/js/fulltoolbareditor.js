@@ -1,13 +1,13 @@
-/* exported ToolbarEditor */
-/* global ToolbarEditor */
+/* exported ToolbarConfigurator */
+/* global ToolbarConfigurator */
 
 'use strict';
 
-window.ToolbarEditor = {};
+window.ToolbarConfigurator = {};
 
 ( function() {
 	/**
-	 * @class ToolbarEditor.FullToolbarEditor
+	 * @class ToolbarConfigurator.FullToolbarEditor
 	 * @private
 	 * @constructor
 	 */
@@ -25,7 +25,7 @@ window.ToolbarEditor = {};
 	}
 
 	// Expose the class.
-	ToolbarEditor.FullToolbarEditor = FullToolbarEditor;
+	ToolbarConfigurator.FullToolbarEditor = FullToolbarEditor;
 
 	/**
 	 * @public

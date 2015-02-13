@@ -30,19 +30,19 @@ module.exports = function( grunt ) {
 				}
 			},
 
-			toolbareditor: {
+			toolbarconfigurator: {
 				files: [
 					{
-						src: 'samples/toolbareditor/less/toolbarmodifier.less',
-						dest: 'samples/toolbareditor/css/toolbarmodifier.css'
+						src: 'samples/toolbarconfigurator/less/toolbarmodifier.less',
+						dest: 'samples/toolbarconfigurator/css/toolbarmodifier.css'
 					}
 				],
 
 				options: {
-					paths: [ 'samples/toolbareditor' ],
+					paths: [ 'samples/toolbarconfigurator' ],
 
 					sourceMap: true,
-					sourceMapFilename: 'samples/toolbareditor/css/toolbarmodifier.css.map',
+					sourceMapFilename: 'samples/toolbarconfigurator/css/toolbarmodifier.css.map',
 					sourceMapURL: 'toolbarmodifier.css.map',
 					sourceMapRootpath: '/'
 				}
@@ -51,7 +51,7 @@ module.exports = function( grunt ) {
 			'samples-production': {
 				files: [
 					'<%= less.basicsample.files %>',
-					'<%= less.toolbareditor.files %>'
+					'<%= less.toolbarconfigurator.files %>'
 				],
 				options: {
 					banner: cssBanner,
@@ -69,9 +69,9 @@ module.exports = function( grunt ) {
 				}
 			},
 
-			toolbareditor: {
-				files: '<%= less.toolbareditor.options.paths[ 0 ] + "/**/*.less" %>',
-				tasks: [ 'less:toolbareditor' ],
+			toolbarconfigurator: {
+				files: '<%= less.toolbarconfigurator.options.paths[ 0 ] + "/**/*.less" %>',
+				tasks: [ 'less:toolbarconfigurator' ],
 				options: {
 					nospawn: true
 				}

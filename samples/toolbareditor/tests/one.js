@@ -1,7 +1,7 @@
-/* global describe, it, expect, ToolbarEditor */
+/* global describe, it, expect, ToolbarConfigurator */
 
 describe( 'Full toolbar editor', function() {
-	var FTE = ToolbarEditor.FullToolbarEditor;
+	var FTE = ToolbarConfigurator.FullToolbarEditor;
 
 	it( 'exists', function() {
 		expect( FTE ).to.be.a( 'function' );

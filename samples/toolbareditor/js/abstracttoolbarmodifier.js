@@ -1,4 +1,4 @@
-/* global ToolbarEditor */
+/* global ToolbarConfigurator */
 
 'use strict';
 
@@ -64,7 +64,7 @@ if ( !Object.keys ) {
 
 ( function() {
 	/**
-	 * @class ToolbarEditor.AbstractToolbarModifier
+	 * @class ToolbarConfigurator.AbstractToolbarModifier
 	 * @param {String} editorId An id of modified editor
 	 * @constructor
 	 */
@@ -73,7 +73,7 @@ if ( !Object.keys ) {
 		this.hidden = false;
 		this.editorId = editorId;
 		this.editorInstance = CKEDITOR.instances[ editorId ];
-		this.fullToolbarEditor = new ToolbarEditor.FullToolbarEditor();
+		this.fullToolbarEditor = new ToolbarConfigurator.FullToolbarEditor();
 
 		this.mainContainer = null;
 
@@ -88,7 +88,7 @@ if ( !Object.keys ) {
 	}
 
 	// Expose the class.
-	ToolbarEditor.AbstractToolbarModifier = AbstractToolbarModifier;
+	ToolbarConfigurator.AbstractToolbarModifier = AbstractToolbarModifier;
 
 	/**
 	 * @public
@@ -331,7 +331,7 @@ if ( !Object.keys ) {
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._createToolbarBtn = function( cfg ) {
-		var btn = ToolbarEditor.FullToolbarEditor.createButton( cfg.text, cfg.cssClass );
+		var btn = ToolbarConfigurator.FullToolbarEditor.createButton( cfg.text, cfg.cssClass );
 
 		this.toolbarContainer.append( btn );
 		btn.data( 'group', cfg.group );
@@ -407,7 +407,7 @@ if ( !Object.keys ) {
 
 			subGroups[ i ] = {
 				name: subgroupName,
-				totalBtns: ToolbarEditor.ToolbarModifier.getTotalSubGroupButtonsNumber( subgroupName, this.fullToolbarEditor )
+				totalBtns: ToolbarConfigurator.ToolbarModifier.getTotalSubGroupButtonsNumber( subgroupName, this.fullToolbarEditor )
 			};
 		}
 	};

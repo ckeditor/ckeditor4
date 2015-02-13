@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd ../../
-bender server run -c ./samples/toolbareditor/bender.js

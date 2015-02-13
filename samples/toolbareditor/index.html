@@ -92,7 +92,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			function onRefresh( modifier ) {
 				modifier = modifier || this;
 
-				if ( mode === 'basic' && modifier instanceof ToolbarEditor.ToolbarTextModifier ) {
+				if ( mode === 'basic' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
 					return;
 				}
 
@@ -112,7 +112,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			}
 
 			var editorsContainer = CKEDITOR.document.findOne( '.editors-container' ),
-				toolbarModifier = new ToolbarEditor.ToolbarModifier( 'editor-basic' ),
+				toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' ),
 				toolbarModifierContainer = toolbarModifier.init();
 
 			toolbarModifier.onRefresh = onRefresh;
@@ -122,7 +122,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			// Advanced configurator.
 			CKEDITOR.replace( 'editor-advanced' );
 
-			var toolbarTextModifier = new ToolbarEditor.ToolbarTextModifier( 'editor-advanced' ),
+			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' ),
 				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
 					mode = 'basic';
 					toogleModeSwitch(

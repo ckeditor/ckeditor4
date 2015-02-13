@@ -1,12 +1,12 @@
-/* global ToolbarEditor */
+/* global ToolbarConfigurator */
 
 'use strict';
 
 ( function() {
-	var AbstractToolbarModifier = ToolbarEditor.AbstractToolbarModifier;
+	var AbstractToolbarModifier = ToolbarConfigurator.AbstractToolbarModifier;
 
 	/**
-	 * @class ToolbarEditor.ToolbarModifier
+	 * @class ToolbarConfigurator.ToolbarModifier
 	 * @param {String} editorId An id of modified editor
 	 * @param {Object} cfg
 	 * @extends AbstractToolbarModifier
@@ -72,9 +72,9 @@
 	}
 
 	// Expose the class.
-	ToolbarEditor.ToolbarModifier = ToolbarModifier;
+	ToolbarConfigurator.ToolbarModifier = ToolbarModifier;
 
-	ToolbarModifier.prototype = Object.create( ToolbarEditor.AbstractToolbarModifier.prototype );
+	ToolbarModifier.prototype = Object.create( ToolbarConfigurator.AbstractToolbarModifier.prototype );
 
 	/**
 	 * @returns {Object}

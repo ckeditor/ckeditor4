@@ -34,7 +34,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		( function() {
 			CKEDITOR.replace( 'editor' );
 
-			var toolbarModifier = new ToolbarEditor.ToolbarTextModifier( 'editor' ),
+			var toolbarModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor' ),
 				container = toolbarModifier.init();
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( container );
