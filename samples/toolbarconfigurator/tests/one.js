@@ -1,6 +1,6 @@
 /* global describe, it, expect, ToolbarConfigurator */
 
-describe( 'Full toolbar editor', function() {
+describe( 'Full toolbar configurator', function() {
 	var FTE = ToolbarConfigurator.FullToolbarEditor;
 
 	it( 'exists', function() {
