@@ -208,7 +208,8 @@
 				var widget = this,
 					id = this.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ),
 					loader = uploads.get( id ),
-					capitalize = CKEDITOR.tools.capitalize;
+					capitalize = CKEDITOR.tools.capitalize,
+					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
@@ -228,6 +229,14 @@
 							editor.fire( 'unlockSnapshot' );
 							return;
 						}
+					}
+
+					// Set style to the wrapper if it still exists.
+					newStyle = 'cke_upload_' + loader.status;
+					if ( widget.wrapper && newStyle != oldStyle ) {
+						oldStyle && widget.wrapper.removeClass( oldStyle );
+						widget.wrapper.addClass( newStyle );
+						oldStyle = newStyle;
 					}
 
 					if ( loader.status == 'error' || loader.status == 'abort' ) {
