@@ -606,6 +606,15 @@
 		if ( direction === 'down' )
 			relativeLi.insertAfter( relativeUl.getChild( newIndex ) );
 
+		// Should know whether there is next li element after modifications.
+		var nextLi = ( direction === 'up' ? relativeLi.getPrevious() : relativeLi.getNext() );
+
+		// Reached end?
+		if ( !nextLi ) {
+			// Shifting direction.
+			this.cachedActiveElement = anchorDOM.getParent().findOne( '[data-direction="' + ( direction === 'up' ? 'down' : 'up' ) + '"]' );
+		}
+
 		this._refreshMoveBtnsAvalibility();
 		this._refreshBtnTabIndexes();
 
