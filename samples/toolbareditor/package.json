@@ -1,18 +1,12 @@
 {
-  "name": "toolbareditor",
+  "name": "ckeditor-toolbarconfigurator",
   "version": "0.0.0",
   "description": "",
-  "main": "bender.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "sh bin/test"
-  },
   "author": "CKSource (http://cksource.com/)",
   "license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
-  "dependencies": {
-    "benderjs-chai": "^0.2.0",
-    "benderjs-mocha": "^0.1.2"
+  "devDependencies": {
+    "benderjs": "~0.2.1",
+    "benderjs-chai": "~0.2.0",
+    "benderjs-mocha": "~0.1.2"
   }
 }

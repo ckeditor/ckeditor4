@@ -4,7 +4,7 @@
 #
 # Be sure to append /** to folders to have everything inside them ignored.
 
-# All "dot directoties".
+# All "dot directories".
 .*/**
 
 node_modules/**
@@ -14,6 +14,9 @@ dev/builder/release/**
 dev/builder/ckbuilder/**
 dev/langtool/po/**
 dev/langtool/cklangtool/**
+
+samples/toolbareditor/.bender/**
+samples/toolbareditor/node_modules/**
 
 *.css.map
 

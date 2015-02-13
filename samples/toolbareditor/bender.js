@@ -6,21 +6,21 @@ var config = {
 
 	applications: {
 		ckeditor: {
-			path: '.',
+			path: '../../',
 			files: [
 				'ckeditor.js'
 			]
 		},
 
 		codemirror: {
-			path: './samples/toolbareditor/',
+			path: '.',
 			files: [
 				'js/lib/codemirror/codemirror.js'
 			]
 		},
 
 		toolbartool: {
-			path: './samples/toolbareditor/',
+			path: '.',
 			files: [
 				'js/fulltoolbareditor.js',
 				'js/abstracttoolbarmodifier.js',
@@ -31,8 +31,8 @@ var config = {
 	},
 
 	plugins: [
-		'samples/toolbareditor/node_modules/benderjs-mocha',
-		'samples/toolbareditor/node_modules/benderjs-chai'
+		'node_modules/benderjs-mocha',
+		'node_modules/benderjs-chai'
 	],
 
 	framework: 'mocha',
@@ -40,7 +40,7 @@ var config = {
 	tests: {
 		'main': {
 			applications: [ 'ckeditor', 'codemirror', 'toolbartool' ],
-			basePath: 'samples/toolbareditor/tests/',
+			basePath: 'tests/',
 			paths: [
 				'**',
 				'!**/_*/**'
