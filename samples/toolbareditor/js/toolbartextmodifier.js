@@ -137,7 +137,8 @@
 				setTimeout( function() {
 					if ( !cm.state.completionActive ) {
 						CodeMirror.showHint( cm, hint, {
-							hintsClass: 'toolbar-modifier'
+							hintsClass: 'toolbar-modifier',
+							completeSingle: false
 						} );
 					}
 
@@ -176,7 +177,6 @@
 				return;
 
 			cm.replaceSelection( data.closestSpecialChar );
-			cm.execCommand( 'goCharRight' );
 		} );
 
 		this.codeContainer.on( 'change', function() {
