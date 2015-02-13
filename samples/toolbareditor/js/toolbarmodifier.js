@@ -599,7 +599,7 @@
 			newIndex = this._moveSubgroup( direction, groupName, subgroupName );
 		}
 
-		// visual effect
+		// Visual effect
 		if ( direction === 'up' )
 			relativeLi.insertBefore( relativeUl.getChild( newIndex ) );
 
@@ -607,12 +607,25 @@
 			relativeLi.insertAfter( relativeUl.getChild( newIndex ) );
 
 		// Should know whether there is next li element after modifications.
-		var nextLi = ( direction === 'up' ? relativeLi.getPrevious() : relativeLi.getNext() );
+		var nextLi = relativeLi;
 
-		// Reached end?
-		if ( !nextLi ) {
+		// We are looking for next li element in list (to check whether current one is the last one)
+		var found;
+		while ( nextLi = ( direction === 'up' ? nextLi.getPrevious() : nextLi.getNext() ) ) {
+			if ( !this.emptyVisible && nextLi.hasClass( 'empty' ) ) {
+				continue;
+			}
+
+			found = nextLi;
+			break;
+		}
+
+		// If not found, it means that we reached end.
+		if ( !found ) {
+			var selector = ( '[data-direction="' + ( direction === 'up' ? 'down' : 'up' ) + '"]' );
+
 			// Shifting direction.
-			this.cachedActiveElement = anchorDOM.getParent().findOne( '[data-direction="' + ( direction === 'up' ? 'down' : 'up' ) + '"]' );
+			this.cachedActiveElement = anchorDOM.getParent().findOne( selector );
 		}
 
 		this._refreshMoveBtnsAvalibility();
