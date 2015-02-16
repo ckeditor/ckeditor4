@@ -258,10 +258,11 @@
 			 * in common case in the {@link #onUploaded} callback.
 			 *
 			 * @property {Function}
-			 * @param {String} html HTML to replace the upload widget.
+			 * @param {String} data HTML to replace the upload widget.
+			 * @param {String} [mode='html'] {@link CKEDITOR.editable#method-insertHtmlIntoRange}
 			 */
-			replaceWith: function( html ) {
-				if ( html.trim() === '' ) {
+			replaceWith: function( data, mode ) {
+				if ( data.trim() === '' ) {
 					editor.widgets.del( this );
 					return;
 				}
@@ -278,7 +279,7 @@
 				range.setStartBefore( this.wrapper );
 				range.setEndAfter( this.wrapper );
 
-				editable.insertHtmlIntoRange( html, range );
+				editable.insertHtmlIntoRange( data, range, mode );
 
 				editor.widgets.checkWidgets( { initOnlyNew: true } );
 
