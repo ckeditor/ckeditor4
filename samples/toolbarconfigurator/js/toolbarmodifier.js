@@ -1206,9 +1206,9 @@
 		return [
 			'<p>',
 				'<span>',
-					'<button data-tab="true" data-direction="up" class="move icon-up-big"></button>',
-					'<button data-tab="true" data-direction="down" class="move icon-down-big"></button>',
-					( name == 'row separator' ? '<button data-tab="true" class="remove icon-trash"></button>' : '' ),
+					'<button title="Move element upward" data-tab="true" data-direction="up" class="move icon-up-big"></button>',
+					'<button title="Move element downward" data-tab="true" data-direction="down" class="move icon-down-big"></button>',
+					( name == 'row separator' ? '<button title="Remove element" data-tab="true" class="remove icon-trash"></button>' : '' ),
 					name,
 				'</span>',
 			'</p>'
