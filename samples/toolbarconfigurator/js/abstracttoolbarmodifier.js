@@ -95,7 +95,7 @@ if ( !Object.keys ) {
 	 * @param {String} config
 	 */
 	AbstractToolbarModifier.prototype.setConfig = function( config ) {
-		this._onInit( undefined, config );
+		this._onInit( undefined, config, true );
 	};
 
 	/**

@@ -1,4 +1,4 @@
-/* global ToolbarConfigurator */
+/* global ToolbarConfigurator, alert */
 
 'use strict';
 
@@ -20,6 +20,9 @@
 		this.actualConfig = null;
 		this.emptyVisible = false;
 
+		// edit, paste, config
+		this.state = 'edit';
+
 		this.toolbarButtons = [
 			{
 				text: 'Toggle visibility of empty elements',
@@ -39,6 +42,19 @@
 				}
 			},
 			{
+				text: 'Paste config',
+				group: 'edit',
+				position: 'left',
+				clickCallback: function() {
+					this.state = 'paste';
+
+					this.modifyContainer.addClass( 'hidden' );
+					this.configContainer.removeClass( 'hidden' );
+					this.configContainer.setHtml( '<textarea></textarea>' );
+					this.showToolbarBtnsByGroupName( 'config' );
+				}
+			},
+			{
 				text: 'Select config',
 				group: 'config',
 				position: 'left',
@@ -52,8 +68,20 @@
 				position: 'right',
 				cssClass: 'fancy-button-red',
 				clickCallback: function() {
+					if ( this.state === 'paste' ) {
+						var cfg = this.configContainer.findOne( 'textarea' ).getValue();
+						cfg = ToolbarModifier.evaluateToolbarGroupsConfig( cfg );
+
+						if ( cfg ) {
+							this.setConfig( cfg );
+						} else {
+							alert( 'Your pasted config is wrong.' );
+						}
+					}
+
+					this.state = 'edit';
 					this._showConfigurationTool();
-					this.showToolbarBtnsByGroupName( 'edit' );
+					this.showToolbarBtnsByGroupName( this.state );
 				}
 			},
 			{
@@ -62,8 +90,9 @@
 				position: 'right',
 				cssClass: 'fancy-button-red',
 				clickCallback: function() {
+					this.state = 'config';
 					this._showConfig();
-					this.showToolbarBtnsByGroupName( 'config' );
+					this.showToolbarBtnsByGroupName( this.state );
 				}
 			}
 		];
@@ -120,16 +149,29 @@
 
 	/**
 	 * @param {Function} callback
+	 * @param {[String]} config
+	 * @param {Boolean=false} forceKeepRemoveButtons
 	 * @private
 	 */
-	ToolbarModifier.prototype._onInit = function( callback, config ) {
+	ToolbarModifier.prototype._onInit = function( callback, config, forceKeepRemoveButtons ) {
+		forceKeepRemoveButtons = ( forceKeepRemoveButtons === true );
 		AbstractToolbarModifier.prototype._onInit.call( this, undefined, config );
 
-		if ( !( 'removeButtons' in this.originalConfig ) ) {
-			this.originalConfig.removeButtons = '';
-			this.removedButtons = [];
+		this.removedButtons = [];
+
+		if ( forceKeepRemoveButtons ) {
+			if ( this.actualConfig.removeButtons ) {
+				this.removedButtons = this.actualConfig.removeButtons.split( ',' );
+			} else {
+				this.removedButtons = [];
+			}
 		} else {
-			this.removedButtons = this.originalConfig.removeButtons.split( ',' );
+			if ( !( 'removeButtons' in this.originalConfig ) ) {
+				this.originalConfig.removeButtons = '';
+				this.removedButtons = [];
+			} else {
+				this.removedButtons = this.originalConfig.removeButtons.split( ',' );
+			}
 		}
 
 		if ( !this.actualConfig.toolbarGroups )
@@ -1213,6 +1255,37 @@
 				'</span>',
 			'</p>'
 		].join( '' );
+	};
+
+	ToolbarModifier.evaluateToolbarGroupsConfig = function( cfg ) {
+		cfg = ( function( cfg ) {
+			var config = {}, result;
+
+			/*jshint -W002 */
+			try {
+				result = eval( '(' + cfg + ')' );
+			} catch ( e ) {
+				try {
+					result = eval( cfg );
+				} catch ( e ) {
+					return null;
+				}
+			}
+			/*jshint +W002 */
+
+			if ( config.toolbarGroups && typeof config.toolbarGroups.length === 'number' ) {
+				return JSON.stringify( config );
+			} else if ( result && typeof result.length === 'number' ) {
+				return JSON.stringify( { toolbarGroups: result } );
+			} else if ( result && result.toolbarGroups ) {
+				return JSON.stringify( result );
+			} else {
+				return null;
+			}
+
+		}( cfg ) );
+
+		return cfg;
 	};
 
 	return ToolbarModifier;
