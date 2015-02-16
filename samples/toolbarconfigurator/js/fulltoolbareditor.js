@@ -49,6 +49,7 @@ window.ToolbarConfigurator = {};
 			// we need whole toolbar with all groups, subgroups and buttons
 			delete cfg.removeButtons;
 			delete cfg.toolbarGroups;
+			delete cfg.toolbar;
 
 			e.editor.once( 'loaded', function() {
 				that.buttons = FullToolbarEditor.toolbarToButtons( that.editorInstance.toolbar );

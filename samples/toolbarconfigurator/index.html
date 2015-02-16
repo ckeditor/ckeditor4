@@ -80,10 +80,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script>
 		( function() {
 			var mode = 'basic',
-				ready = false;
+				resetConfig = {
+					removeButtons: '',
+					toolbarGroups: null,
+					toolbar: null
+				};
 
 			// Basic, configurator.
-			CKEDITOR.replace( 'editor-basic' );
+			CKEDITOR.replace( 'editor-basic', resetConfig );
 
 			function onRefresh( modifier ) {
 				modifier = modifier || this;
@@ -121,7 +125,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifierContainer );
 
 			// Advanced configurator.
-			CKEDITOR.replace( 'editor-advanced' );
+			CKEDITOR.replace( 'editor-advanced', resetConfig );
 
 			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' ),
 				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
