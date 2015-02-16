@@ -274,11 +274,16 @@
 		}
 
 		CKEDITOR.document.on( 'keypress', function( e ) {
-			var keyCode = e.data.$.keyCode,
+			var nativeEvent = e.data.$,
+				keyCode = nativeEvent.keyCode,
 				spaceOrEnter = ( keyCode === 32 || keyCode === 13 ),
 				active = new CKEDITOR.dom.element( CKEDITOR.document.$.activeElement );
 
-			if ( !spaceOrEnter ) {
+			var mainContainer = active.getAscendant( function( node ) {
+				return node.$ === that.mainContainer.$;
+			} );
+
+			if ( !mainContainer || !spaceOrEnter ) {
 				return;
 			}
 
@@ -1212,3 +1217,4 @@
 
 	return ToolbarModifier;
 } )();
+

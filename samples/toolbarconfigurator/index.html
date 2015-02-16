@@ -85,10 +85,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			// Basic, configurator.
 			CKEDITOR.replace( 'editor-basic' );
 
-			window.onkeydown = function( e ) {
-				return !( e.keyCode == 32 );
-			};
-
 			function onRefresh( modifier ) {
 				modifier = modifier || this;
 
