@@ -92,6 +92,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					return;
 				}
 
+				// CodeMirror container becomes visible, so we need to refresh and to avoid rendering problems.
+				if ( mode === 'advanced' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
+					modifier.codeContainer.refresh();
+				}
+
 				var editorContainer = modifier.editorInstance.container;
 				var newHeight = editorContainer.getComputedStyle( 'height' ).replace( 'px', '' );
 				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
