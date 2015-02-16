@@ -397,7 +397,7 @@
 
 		if ( bender.plugins ) {
 			toLoad++;
-			bender.deferred = true;
+			defer();
 
 			CKEDITOR.plugins.load( config.plugins, onLoad );
 		}
@@ -408,7 +408,7 @@
 			}
 
 			toLoad++;
-			bender.deferred = true;
+			defer();
 
 			CKEDITOR.scriptLoader.load( config.adapters, onLoad );
 		}
@@ -419,36 +419,40 @@
 			}
 
 			if ( !toLoad ) {
-				if ( bender.deferred ) {
-					delete bender.deferred;
-				}
-
-				bender.startRunner();
+				startRunner();
 			}
 		}
 	};
 
-	// keep reference to adapter's test function
-	bender.orgTest = bender.test;
+	var unlock, deferredTests;
+
+	// defers Bender's startup
+	function defer() {
+		if ( !unlock ) {
+			unlock = bender.defer();
+		}
+	}
+
+	// keep a reference to the original bender.test function
+	var orgTest = bender.test;
+
+	// flag saying if we need to restart the tests, e.g. when bender.test was executed asynchronously
+	var restart = false;
 
 	bender.test = function( tests ) {
-		if ( bender.deferred ) {
-			delete bender.deferred;
-
-			bender.deferredTests = tests;
+		if ( unlock && !restart ) {
+			deferredTests = tests;
 		} else {
-			bender.startRunner( tests );
+			startRunner( tests );
 		}
 	};
 
-	bender.startRunner = function( tests ) {
-		tests = tests || bender.deferredTests;
+	function startRunner( tests ) {
+		tests = tests || deferredTests;
 
-		if ( bender.deferredTests ) {
-			delete bender.deferredTests;
-		}
-
+		// startRunner was executed but there were no tests available yet
 		if ( !tests ) {
+			restart = true;
 			return;
 		}
 
@@ -477,7 +481,13 @@
 				}
 			}
 
-			bender.orgTest( tests );
+			// run the original bender.test function
+			orgTest( tests );
+
+			// unlock Bender startup
+			if ( unlock ) {
+				unlock();
+			}
 
 			// async:init stage 1: set up bender.editor
 			function setUpEditor() {
@@ -565,7 +575,7 @@
 				}
 			}
 		}
-	};
+	}
 
 	function onDocumentReady( callback ) {
 		function complete() {
