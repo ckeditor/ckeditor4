@@ -268,7 +268,12 @@
 
 				var wasSelected = ( this == editor.widgets.focused ),
 					editable = editor.editable(),
-					range = editor.createRange();
+					range = editor.createRange(),
+					bookmarks;
+
+				if ( !wasSelected ) {
+					bookmarks = editor.getSelection().createBookmarks();
+				}
 
 				range.setStartBefore( this.wrapper );
 				range.setEndAfter( this.wrapper );
@@ -283,7 +288,10 @@
 
 				if ( wasSelected ) {
 					range.select();
+				} else {
+					editor.getSelection().selectBookmarks( bookmarks );
 				}
+
 			}
 
 			/**
