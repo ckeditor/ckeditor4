@@ -878,6 +878,36 @@
 					assert.areSame( 'abort', loader.status );
 				} );
 			} );
+		},
+
+		'test set Class during upload': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() ),
+				wrapper;
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testClass' );
+
+			bot.setData( '', function() {
+				bot.setHtmlWithSelection( '<p>x^x</p>' );
+
+				editor.insertHtml( '<span data-cke-upload-id="' + loader.id + '" data-widget="testClass">...</span>' );
+
+				wrapper = editor.editable().findOne( 'span[data-cke-widget-wrapper="1"]' );
+
+				loader.changeStatus( 'loading' );
+
+				assert.isTrue( wrapper.hasClass( 'cke_upload_loading' ), 'Has class loading.' );
+				assert.isFalse( wrapper.hasClass( 'cke_upload_uploading' ), 'Has NOT class uploading.' );
+
+				loader.changeStatus( 'uploading' );
+
+				assert.isFalse( wrapper.hasClass( 'cke_upload_loading' ), 'Has NOT class loading.' );
+				assert.isTrue( wrapper.hasClass( 'cke_upload_uploading' ), 'Has class uploading.' );
+			} );
 		}
 	} );
 } )();
