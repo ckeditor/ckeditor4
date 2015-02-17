@@ -55,7 +55,7 @@ module.exports = function( grunt ) {
 				],
 				options: {
 					banner: cssBanner,
-					compress: true,
+					compress: true
 				}
 			}
 		},

@@ -290,7 +290,7 @@ It is forbidden to copy and distribute this file in its original or modified for
 }
 .toolbarModifier-hints {
   float: right;
-  width: 35%;
+  width: 350px;
   min-width: 150px;
   overflow-y: auto;
   margin-left: 1.5em;

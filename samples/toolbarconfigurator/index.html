@@ -62,7 +62,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			</div>
 		</div>
 	</section>
-	<section>
+	<section class="configurator">
 		<div>
 			<div id="toolbarModifierWrapper"></div>
 		</div>
@@ -85,7 +85,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					removeButtons: '',
 					toolbarGroups: null,
 					toolbar: null
-				};
+				},
+				configuratorSection = CKEDITOR.document.findOne( 'section.configurator' );
 
 			// Basic, configurator.
 			CKEDITOR.replace( 'editor-basic', resetConfig );
@@ -162,6 +163,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				mode = 'basic';
 				window.location.hash = '#basic';
 				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+
+				configuratorSection.removeClass( 'width-freed' );
+
 				callOnRefresh && onRefresh( toolbarModifier );
 			}
 
@@ -170,6 +174,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				mode = 'advanced';
 				window.location.hash = '#advanced';
 				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+
+				configuratorSection.addClass( 'width-freed' );
+
 				callOnRefresh && onRefresh( toolbarTextModifier );
 			}
 

@@ -235,6 +235,9 @@ main {
   line-height: 1.57rem;
   padding-bottom: 1.2em;
 }
+main section.width-freed {
+  max-width: 100%;
+}
 main section.adjoined {
   padding: 1.2em 1.5em;
   background: #cceaee;
