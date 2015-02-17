@@ -38,16 +38,15 @@ window.XMLHttpRequest = function() {
 				else {
 					clearInterval( interval );
 					xhr.status = 200;
-					xhr.responseText =
-						'{' +
-							'"fileName":"smallmoon (another copy)(20).JPG",' +
-							'"uploaded":1,' +
-							'"url":"\/' + basePath + '_assets\/lena.jpg",' +
-							'"error":{' +
-								'"number":201,' +
-								'"message":""' +
-							'}' +
-						'}';
+					xhr.responseText = JSON.stringify( {
+						fileName: 'smallmoon (another copy)(20).JPG',
+						uploaded: 1,
+						url: '\/' + basePath + '_assets\/lena.jpg',
+						error: {
+							number: 201,
+							message: ''
+						}
+					} );
 					onload();
 				}
 			}, 400 );
