@@ -524,26 +524,6 @@
 	};
 
 	/**
-	 * Find and return first ancestor of element provided in first argument
-	 * which match the criteria checked in function provided in second argument.
-	 *
-	 * @param {CKEDITOR.dom.element} element
-	 * @param {Function} checker
-	 * @returns {CKEDITOR.dom.element|null}
-	 */
-	ToolbarModifier.getFirstAncestor = function( element, checker ) {
-		var ancestors = element.getParents(),
-			i = ancestors.length;
-
-		while ( i-- ) {
-			if ( checker( ancestors[ i ] ) )
-				return ancestors[ i ];
-		}
-
-		return null;
-	};
-
-	/**
 	 * @param {String} groupName
 	 * @return {String|null}
 	 */
@@ -787,42 +767,6 @@
 	};
 
 	/**
-	 * Looking through array elements start from index provided in second argument
-	 * and go 'up' or 'down' in array
-	 * last argument is condition checker which should return Boolean value
-	 *
-	 * User cases:
-	 *
-	 * ToolbarModifier.getFirstElementIndexWith( [3, 4, 8, 1, 4], 2, 'down', function( elem ) { return elem == 4; } ); // 4
-	 * ToolbarModifier.getFirstElementIndexWith( [3, 4, 8, 1, 4], 2, 'up', function( elem ) { return elem == 4; } ); // 1
-	 *
-	 * @param {Array} array
-	 * @param {Number} i
-	 * @param {String} direction 'up' or 'down'
-	 * @param {Function} conditionChecker
-	 * @returns {Number} index of found element
-	 */
-	ToolbarModifier.getFirstElementIndexWith = function( array, i, direction, conditionChecker ) {
-		function whileChecker() {
-			var result;
-			if ( direction === 'up' )
-				result = i--;
-			else
-				result = ( ++i < array.length );
-
-			return result;
-		}
-
-		while ( whileChecker() ) {
-			if ( conditionChecker( array[ i ] ) )
-				return i;
-
-		}
-
-		return -1;
-	};
-
-	/**
 	 * Handle adding separator.
 	 *
 	 * @private
@@ -967,27 +911,6 @@
 	};
 
 	/**
-	 * Moves array element at index level up or down.
-	 *
-	 * @static
-	 * @param {String} direction
-	 * @param {Array} array
-	 * @param {Number} index
-	 */
-	ToolbarModifier.moveTo = function( offset, array, index ) {
-		var element, newIndex;
-
-		if ( index !== -1 )
-			element = array.splice( index, 1 )[ 0 ];
-
-		newIndex = index + offset;
-
-		array.splice( newIndex, 0, element );
-
-		return newIndex;
-	};
-
-	/**
 	 * Add button to removeButtons field in config and refresh editor.
 	 *
 	 * @param {String} buttonName
@@ -1125,6 +1048,83 @@
 				'</ul>' +
 			'</li>' +
 		'</ul>';
+	};
+
+	/**
+	 * Find and return first ancestor of element provided in first argument
+	 * which match the criteria checked in function provided in second argument.
+	 *
+	 * @param {CKEDITOR.dom.element} element
+	 * @param {Function} checker
+	 * @returns {CKEDITOR.dom.element|null}
+	 */
+	ToolbarModifier.getFirstAncestor = function( element, checker ) {
+		var ancestors = element.getParents(),
+			i = ancestors.length;
+
+		while ( i-- ) {
+			if ( checker( ancestors[ i ] ) )
+				return ancestors[ i ];
+		}
+
+		return null;
+	};
+
+	/**
+	 * Looking through array elements start from index provided in second argument
+	 * and go 'up' or 'down' in array
+	 * last argument is condition checker which should return Boolean value
+	 *
+	 * User cases:
+	 *
+	 * ToolbarModifier.getFirstElementIndexWith( [3, 4, 8, 1, 4], 2, 'down', function( elem ) { return elem == 4; } ); // 4
+	 * ToolbarModifier.getFirstElementIndexWith( [3, 4, 8, 1, 4], 2, 'up', function( elem ) { return elem == 4; } ); // 1
+	 *
+	 * @param {Array} array
+	 * @param {Number} i
+	 * @param {String} direction 'up' or 'down'
+	 * @param {Function} conditionChecker
+	 * @returns {Number} index of found element
+	 */
+	ToolbarModifier.getFirstElementIndexWith = function( array, i, direction, conditionChecker ) {
+		function whileChecker() {
+			var result;
+			if ( direction === 'up' )
+				result = i--;
+			else
+				result = ( ++i < array.length );
+
+			return result;
+		}
+
+		while ( whileChecker() ) {
+			if ( conditionChecker( array[ i ] ) )
+				return i;
+
+		}
+
+		return -1;
+	};
+
+	/**
+	 * Moves array element at index level up or down.
+	 *
+	 * @static
+	 * @param {String} direction
+	 * @param {Array} array
+	 * @param {Number} index
+	 */
+	ToolbarModifier.moveTo = function( offset, array, index ) {
+		var element, newIndex;
+
+		if ( index !== -1 )
+			element = array.splice( index, 1 )[ 0 ];
+
+		newIndex = index + offset;
+
+		array.splice( newIndex, 0, element );
+
+		return newIndex;
 	};
 
 	/**
