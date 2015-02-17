@@ -41,7 +41,7 @@
 					this._addSeparator();
 				}
 			},
-			{
+			/*{
 				text: 'Paste config',
 				group: 'edit',
 				position: 'left',
@@ -53,7 +53,7 @@
 					this.configContainer.setHtml( '<textarea></textarea>' );
 					this.showToolbarBtnsByGroupName( 'config' );
 				}
-			},
+			},*/
 			{
 				text: 'Select config',
 				group: 'config',
