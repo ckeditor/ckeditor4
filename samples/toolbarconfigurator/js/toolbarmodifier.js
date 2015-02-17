@@ -978,7 +978,7 @@
 
 		listString += '</ul>';
 
-		var headerString = this._getToolbarHeaderString();
+		var headerString = ToolbarModifier.getToolbarHeaderString();
 
 		return headerString + listString;
 	};
@@ -1034,9 +1034,8 @@
 
 	/**
 	 * @returns {string}
-	 * @private
 	 */
-	ToolbarModifier.prototype._getToolbarHeaderString = function() {
+	ToolbarModifier.getToolbarHeaderString = function() {
 		return '<ul data-type="table-header">' +
 			'<li data-type="header">' +
 				'<p>Toolbars</p>' +
