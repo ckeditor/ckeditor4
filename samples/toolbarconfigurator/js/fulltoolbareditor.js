@@ -297,11 +297,11 @@ window.ToolbarConfigurator = {};
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	FullToolbarEditor.createIcon = function( name, icon, command ) {
-		var iconStyle = iconStyle || CKEDITOR.skin.getIconStyle( name, ( CKEDITOR.lang.dir == 'rtl' ) );
+		var iconStyle = CKEDITOR.skin.getIconStyle( name, ( CKEDITOR.lang.dir == 'rtl' ) );
 
 		// We don't know exactly how to get icon style. Especially for extra plugins,
 		// Which definition may vary.
-		iconStyle = CKEDITOR.skin.getIconStyle( icon, ( CKEDITOR.lang.dir == 'rtl' ) );
+		iconStyle = iconStyle || CKEDITOR.skin.getIconStyle( icon, ( CKEDITOR.lang.dir == 'rtl' ) );
 		iconStyle = iconStyle || CKEDITOR.skin.getIconStyle( command, ( CKEDITOR.lang.dir == 'rtl' ) );
 
 		var iconElement = new CKEDITOR.dom.element( 'span' );
