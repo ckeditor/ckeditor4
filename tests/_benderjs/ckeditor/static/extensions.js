@@ -10,13 +10,13 @@
 		YTest = bender.Y.Test,
 		i;
 
-	// override and extend assertions
+	// Override and extend assertions.
 	window.assert = bender.assert;
 	window.arrayAssert = bender.arrayAssert;
 	window.objectAssert = bender.objectAssert;
 
-	// clean-up data from previous tests if available
-	// TODO check if this could be deleted after separating test context from parent
+	// Clean-up data from previous tests if available.
+	// TODO check if this could be deleted after separating test context from parent.
 	if ( bender.editor ) {
 		delete bender.editor;
 	}
@@ -109,7 +109,8 @@
 	};
 
 	/**
-	 * Asserts that HTML data are the same. Use {@link bender.tools.compatHtml} to sort attributes, fix styles and encode Nbsp.
+	 * Asserts that HTML data are the same. Use {@link bender.tools.compatHtml} to sort attributes,
+	 * fix styles and encode `nbsp`.
 	 *
 	 * @param {String} expected
 	 * @param {String} actual
@@ -119,7 +120,7 @@
 		assert.areSame( expected, bender.tools.compatHtml( actual, false, true, false, true, true ), message );
 	};
 
-	// add support test ignore
+	// Add support test ignore.
 	YUITest.Ignore = function() {};
 
 	bender.assert.ignore = function() {
@@ -153,7 +154,7 @@
 
 		if ( typeof test == 'string' ) {
 			updateResult( node.parent, test );
-			// Ignore all tests in this whole test case
+			// Ignore all tests in this whole test case.
 		} else {
 			for ( name in test ) {
 				if ( typeof test[ name ] == 'function' && name.match( /^test/ ) ) {
@@ -165,17 +166,17 @@
 	};
 
 	YTest.Runner._resumeTest = function( segment ) {
-		//get relevant information
+		// Get relevant information.
 		var node = this._cur,
 			failed = false,
 			ignored = false,
 			error = null,
 			testName, testCase, shouldFail, shouldError;
 
-		//we know there's no more waiting now
+		// We know there's no more waiting now.
 		this._waiting = false;
 
-		//if there's no node, it probably means a wait() was called after resume()
+		// If there's no node, it probably means a wait() was called after resume().
 		if ( !node ) {
 			return;
 		}
@@ -183,13 +184,13 @@
 		testName = node.testObject;
 		testCase = node.parent.testObject;
 
-		//cancel other waits if available
+		// Cancel other waits if available.
 		if ( testCase.__yui_wait ) {
 			clearTimeout( testCase.__yui_wait );
 			delete testCase.__yui_wait;
 		}
 
-		//get the "should" test cases
+		// Get the "should" test cases.
 		shouldFail = testName.indexOf( 'fail:' ) === 0 ||
 			( testCase._should.fail || {} )[ testName ];
 
@@ -197,15 +198,15 @@
 
 		this._inTest = true;
 
-		//try the test
+		// Try the test.
 		try {
-			//run the test
+			// Run the test.
 			segment.call( testCase, this._context );
 
-			//if the test hasn't already failed and doesn't have any asserts...
+			// If the test hasn't already failed and doesn't have any asserts...
 			if ( !YUITest.Assert._getCount() && !this._ignoreEmpty ) {
 				throw new YUITest.AssertionError( 'Test has no asserts.' );
-				//if it should fail, and it got here, then it's a fail because it didn't
+				// If it should fail, and it got here, then it's a fail because it didn't.
 			} else if ( shouldFail ) {
 				error = new YUITest.ShouldFail();
 				failed = true;
@@ -214,7 +215,7 @@
 				failed = true;
 			}
 		} catch ( thrown ) {
-			//cancel any pending waits, the test already failed
+			// Cancel any pending waits, the test already failed.
 			if ( testCase.__yui_wait ) {
 				clearTimeout( testCase.__yui_wait );
 				delete testCase.__yui_wait;
@@ -231,7 +232,7 @@
 			} else if ( thrown instanceof YUITest.Wait ) {
 				if ( typeof thrown.segment == 'function' ) {
 					if ( typeof thrown.delay == 'number' ) {
-						//some environments don't support setTimeout
+						// Some environments don't support setTimeout.
 						if ( typeof setTimeout != 'undefined' ) {
 							testCase.__yui_wait = setTimeout( function() {
 								YUITest.TestRunner._resumeTest( thrown.segment );
@@ -246,7 +247,7 @@
 
 				return;
 			} else {
-				//first check to see if it should error
+				// First check to see if it should error.
 				if ( !shouldError ) {
 					error = new YUITest.UnexpectedError( thrown );
 					failed = true;
@@ -270,7 +271,7 @@
 		this._inTest = false;
 
 		if ( !ignored ) {
-			//fire appropriate event
+			// Fire appropriate event.
 			this.fire( {
 				type: failed ? this.TEST_FAIL_EVENT : this.TEST_PASS_EVENT,
 				testCase: testCase,
@@ -278,13 +279,13 @@
 				error: failed ? error : undefined
 			} );
 
-			//run the tear down
+			// Run the tear down.
 			this._execNonTestMethod( node.parent, 'tearDown', false );
 
-			//reset the assert count
+			// Reset the assert count.
 			YUITest.Assert._reset();
 
-			//update results
+			// Update results.
 			node.parent.results[ testName ] = {
 				result: failed ? 'fail' : 'pass',
 				message: error ? error.getMessage() : 'Test passed',
@@ -302,7 +303,7 @@
 			node.parent.results.total++;
 		}
 
-		//set timeout not supported in all environments
+		// Set timeout not supported in all environments.
 		if ( typeof setTimeout != 'undefined' ) {
 			setTimeout( function() {
 				YUITest.TestRunner._run();
@@ -426,17 +427,17 @@
 
 	var unlock, deferredTests;
 
-	// defers Bender's startup
+	// Defers Bender's startup.
 	function defer() {
 		if ( !unlock ) {
 			unlock = bender.defer();
 		}
 	}
 
-	// keep a reference to the original bender.test function
+	// Keep a reference to the original bender.test function.
 	var orgTest = bender.test;
 
-	// flag saying if we need to restart the tests, e.g. when bender.test was executed asynchronously
+	// Flag saying if we need to restart the tests, e.g. when bender.test was executed asynchronously.
 	var restart = false;
 
 	bender.test = function( tests ) {
@@ -450,7 +451,7 @@
 	function startRunner( tests ) {
 		tests = tests || deferredTests;
 
-		// startRunner was executed but there were no tests available yet
+		// startRunner was executed but there were no tests available yet.
 		if ( !tests ) {
 			restart = true;
 			return;
@@ -481,15 +482,15 @@
 				}
 			}
 
-			// run the original bender.test function
+			// Run the original bender.test function.
 			orgTest( tests );
 
-			// unlock Bender startup
+			// Unlock Bender startup.
 			if ( unlock ) {
 				unlock();
 			}
 
-			// async:init stage 1: set up bender.editor
+			// async:init stage 1: set up bender.editor.
 			function setUpEditor() {
 				if ( !bender.editor ) {
 					// If there is no bender.editor jump to stage 2.
@@ -504,7 +505,7 @@
 				} );
 			}
 
-			// async:init stage 2: set up bender.editors
+			// async:init stage 2: set up bender.editors.
 			function setUpEditors() {
 				if ( !bender.editors ) {
 					// If there is no bender.editor jump to stage 3.
@@ -554,7 +555,7 @@
 				}
 			}
 
-			// async:init  stage 3: call original async/async:init and finish async:init (testCase.callback).
+			// async:init stage 3: call original async/async:init and finish async:init (testCase.callback).
 			function callback() {
 				if ( bender._init ) {
 					var init = bender._init;
@@ -630,7 +631,7 @@
 	};
 } )( this, bender );
 
-// workaround for IE8 - window.resume / window.wait won't work in this environment...
+// Workaround for IE8 - window.resume / window.wait won't work in this environment...
 var resume = bender.Y.Test.Case.prototype.resume = ( function() { // jshint ignore:line
 		var org = bender.Y.Test.Case.prototype.resume;
 
