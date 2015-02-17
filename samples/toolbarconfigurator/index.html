@@ -79,7 +79,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 	<script>
 		( function() {
-			var mode = 'basic',
+			var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
 				resetConfig = {
 					removeButtons: '',
 					toolbarGroups: null,
@@ -129,13 +129,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' ),
 				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
-					mode = 'basic';
-					toogleModeSwitch(
-						modeSwitchBasic,
-						modeSwitchAdvanced,
-						toolbarModifier,
-						toolbarTextModifier
-					);
+					if ( mode === 'basic' ) {
+						toggleModeBasic( false );
+					} else {
+						toggleModeAdvanced( false );
+					}
 
 					setTimeout( function() {
 						editorsContainer.addClass( 'active' );
@@ -158,16 +156,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				offModifier.hideUI();
 			}
 
-			function toggleModeBasic() {
+			function toggleModeBasic( callOnRefresh ) {
+				callOnRefresh = ( callOnRefresh !== false );
 				mode = 'basic';
-				toogleModeSwitch( this, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
-				onRefresh( toolbarModifier );
+				window.location.hash = '#basic';
+				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+				callOnRefresh && onRefresh( toolbarModifier );
 			}
 
-			function toggleModeAdvanced() {
+			function toggleModeAdvanced( callOnRefresh ) {
+				callOnRefresh = ( callOnRefresh !== false );
 				mode = 'advanced';
-				toogleModeSwitch( this, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
-				onRefresh( toolbarTextModifier );
+				window.location.hash = '#advanced';
+				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+				callOnRefresh && onRefresh( toolbarTextModifier );
 			}
 
 			modeSwitchBasic.on( 'click', toggleModeBasic );
