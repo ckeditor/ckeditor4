@@ -44,8 +44,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
  * Success and info notifications have the same structure as warning, but use
  * `cke_notification_success` and `cke_notification_info` instead of `cke_notification_warning`.
  */
+.cke_notifications_area
+{
+	/* Prevent notifications margin capture clicking. */
+	pointer-events: none;
+}
 .cke_notification
 {
+	pointer-events: auto;
 	position: relative;
 	margin: 10px;
 	width: 300px;
