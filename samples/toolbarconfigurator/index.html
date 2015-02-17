@@ -126,33 +126,31 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				editor.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
 			}
 
-			var editorsContainer = CKEDITOR.document.findOne( '.editors-container' ),
-				toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' ),
-				toolbarModifierContainer = toolbarModifier.init();
-
+			var toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' );
+			toolbarModifier.init();
 			toolbarModifier.onRefresh = onRefresh;
 
-			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifierContainer );
+			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifier.mainContainer );
 
 			// Advanced configurator.
 			CKEDITOR.replace( 'editor-advanced', resetConfig );
 
-			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' ),
-				toolbarTextModifierContainer = toolbarTextModifier.init( function() {
-					if ( mode === 'basic' ) {
-						toggleModeBasic( false );
-					} else {
-						toggleModeAdvanced( false );
-					}
+			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' );
+			toolbarTextModifier.init( function() {
+				if ( mode === 'basic' ) {
+					toggleModeBasic( false );
+				} else {
+					toggleModeAdvanced( false );
+				}
 
-					setTimeout( function() {
-						editorsContainer.addClass( 'active' );
-					}, 200 );
-				} );
+				setTimeout( function() {
+					CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
+				}, 200 );
+			} );
 
 			toolbarTextModifier.onRefresh = onRefresh;
 
-			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifierContainer );
+			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifier.mainContainer );
 
 			// Configurator mode switcher.
 			var modeSwitchBasic = CKEDITOR.document.getById( 'mode-switch-basic' ),
