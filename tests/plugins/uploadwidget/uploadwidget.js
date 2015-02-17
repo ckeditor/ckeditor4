@@ -165,15 +165,19 @@
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
 				onUploaded: function() {
+					// We're using strong to force editable.insertHtml to do some elements merging.
 					this.replaceWith( '<strong>uploaded</strong>' );
 				}
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				editor.widgets.getByElement( editor.editable().findOne( 'span[data-widget="testReplaceWith1"]' ) ).focus(); // focus widget
+
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.areSame( '<p>x<strong>uploaded</strong>x</p>', editor.getData() );
+
+				assert.isInnerHtmlMatching( '<p>x[<strong>uploaded</strong>]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
@@ -192,10 +196,13 @@
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				editor.widgets.getByElement( editor.editable().findOne( 'span[data-widget="testReplaceWith1"]' ) ).focus(); // focus widget
+
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.areSame( '<p>xx</p>', editor.getData() );
+
+				assert.isInnerHtmlMatching( '<p>x^x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
@@ -214,10 +221,13 @@
 			} );
 
 			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testReplaceWith1">uploading...</span>x</p>', function() {
+				editor.widgets.getByElement( editor.editable().findOne( 'span[data-widget="testReplaceWith1"]' ) ).focus(); // focus widget
+
 				loader.changeStatus( 'uploaded' );
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
-				assert.areSame( '<p>x<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>x</p>', editor.getData() );
+
+				assert.isInnerHtmlMatching( '<p>x[<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
@@ -629,7 +639,7 @@
 
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploaded^x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
+				assert.isInnerHtmlMatching( '<p>x[uploaded]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
 
 				editor.execCommand( 'undo' );
 
@@ -637,7 +647,7 @@
 
 				editor.execCommand( 'redo' );
 
-				assert.isInnerHtmlMatching( '<p>xuploaded^x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
+				assert.isInnerHtmlMatching( '<p>x[uploaded]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts, 'After redo.' );
 			} );
 		},
 
@@ -882,7 +892,7 @@
 
 				loader.changeStatus( 'uploaded' );
 
-				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>uploaded^@</p>',
+				assert.isInnerHtmlMatching( '<p>xuploadedx@</p><p>[uploaded]@</p>',
 					bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 
 				editor.execCommand( 'undo' );

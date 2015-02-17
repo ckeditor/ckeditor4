@@ -270,7 +270,7 @@
 				var wasSelected = ( this == editor.widgets.focused ),
 					editable = editor.editable(),
 					range = editor.createRange(),
-					bookmarks;
+					bookmark, bookmarks;
 
 				if ( !wasSelected ) {
 					bookmarks = editor.getSelection().createBookmarks();
@@ -278,6 +278,10 @@
 
 				range.setStartBefore( this.wrapper );
 				range.setEndAfter( this.wrapper );
+
+				if ( wasSelected ) {
+					bookmark = range.createBookmark();
+				}
 
 				editable.insertHtmlIntoRange( data, range, mode );
 
@@ -288,6 +292,7 @@
 				editor.widgets.destroy( this, true );
 
 				if ( wasSelected ) {
+					range.moveToBookmark( bookmark );
 					range.select();
 				} else {
 					editor.getSelection().selectBookmarks( bookmarks );
