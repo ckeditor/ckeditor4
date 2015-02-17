@@ -973,6 +973,27 @@
 				assert.isFalse( wrapper.hasClass( 'cke_upload_loading' ), 'Has NOT class loading.' );
 				assert.isTrue( wrapper.hasClass( 'cke_upload_uploading' ), 'Has class uploading.' );
 			} );
+		},
+
+		'test text mode': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadsRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			loader.loadAndUpload( 'uploadUrl' );
+
+			addTestUploadWidget( editor, 'testTextMode', {
+				onUploaded: function() {
+					this.replaceWith( '<p>x</p>', 'text' );
+				}
+			} );
+
+			bot.setData( '<p><u>x<span data-cke-upload-id="' + loader.id + '" data-widget="testTextMode">uploading...</span>x</u></p>', function() {
+				loader.changeStatus( 'uploaded' );
+
+				assert.areSame( '<p><u>xxx</u></p>', editor.getData() );
+			} );
 		}
 	} );
 } )();
