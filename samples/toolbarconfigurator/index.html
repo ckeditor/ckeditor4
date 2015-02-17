@@ -88,6 +88,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				},
 				configuratorSection = CKEDITOR.document.findOne( 'section.configurator' );
 
+			CKEDITOR.document.getWindow().on( 'resize', function() {
+				updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
+			} );
+
 			// Basic, configurator.
 			CKEDITOR.replace( 'editor-basic', resetConfig );
 
@@ -103,7 +107,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					modifier.codeContainer.refresh();
 				}
 
-				var editorContainer = modifier.editorInstance.container;
+				updateToolbar( modifier.editorInstance );
+			}
+
+			function updateToolbar( editor ) {
+				var editorContainer = editor.container;
 				var newHeight = editorContainer.getComputedStyle( 'height' ).replace( 'px', '' );
 				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
 
@@ -115,7 +123,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 				var result = newHeight + newMarginTop + newMarginBottom;
 
-				modifier.editorInstance.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
+				editor.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
 			}
 
 			var editorsContainer = CKEDITOR.document.findOne( '.editors-container' ),
