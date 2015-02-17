@@ -117,34 +117,12 @@
 			for ( var i = 0; i < max; i += 1 ) {
 				var currentGroup = copy.toolbarGroups[ i ];
 
-				copy.toolbarGroups[ i ] = this._parseGroupToConfigValue( currentGroup );
+				copy.toolbarGroups[ i ] = ToolbarModifier.parseGroupToConfigValue( currentGroup );
 			}
 
 		}
 
 		return copy;
-	};
-
-	/**
-	 * Parse group "model" to configuration value
-	 *
-	 * @param {Object} group
-	 * @returns {Object}
-	 * @private
-	 */
-	ToolbarModifier.prototype._parseGroupToConfigValue = function( group ) {
-		if ( group.type == 'separator' )
-			return '/';
-		else {
-			var groups = group.groups,
-				max = groups.length;
-
-			delete group.totalBtns;
-			for ( var i = 0; i < max; i += 1 ) {
-				groups[ i ] = groups[ i ].name;
-			}
-			return group;
-		}
 	};
 
 	/**
@@ -415,6 +393,29 @@
 				currentBtn.addClass( 'hidden' );
 
 		}
+	};
+
+	/**
+	 * Parse group "model" to configuration value
+	 *
+	 * @param {Object} group
+	 * @returns {Object}
+	 * @private
+	 */
+	ToolbarModifier.parseGroupToConfigValue = function( group ) {
+		if ( group.type == 'separator' ) {
+			return '/';
+		}
+
+		var groups = group.groups,
+			max = groups.length;
+
+		delete group.totalBtns;
+		for ( var i = 0; i < max; i += 1 ) {
+			groups[ i ] = groups[ i ].name;
+		}
+
+		return group;
 	};
 
 	/**
