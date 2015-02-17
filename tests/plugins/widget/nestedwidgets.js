@@ -36,40 +36,34 @@
 		assert.areSame( elementName, widget.element.getName(), msg + ' - element name' );
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'inline', // Speed.
+			config: {
+				allowedContent: true
+			}
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
+		'init': function() {
+			var editor, name;
 
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'inline', // Speed.
-					config: {
-						allowedContent: true
+			for ( name in this.editors ) {
+				editor = this.editors[ name ];
+				editor.dataProcessor.writer.sortAttributes = 1;
+				editor.widgets.add( 'testcontainer', {
+					editables: {
+						ned: '.ned'
 					}
-				}
-			}, function( editors, bots ) {
-				var name, editor;
-
-				for ( name in editors ) {
-					editor = editors[ name ];
-					editor.dataProcessor.writer.sortAttributes = 1;
-					editor.widgets.add( 'testcontainer', {
-						editables: {
-							ned: '.ned'
-						}
-					} );
-					editor.widgets.add( 'test1', {
-						upcast: function( el ) {
-							return el.hasClass( 'test1' );
-						}
-					} );
-				}
-
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+				} );
+				editor.widgets.add( 'test1', {
+					upcast: function( el ) {
+						return el.hasClass( 'test1' );
+					}
+				} );
+			}
 		},
 
 		'test init nested widgets on editor.setData': function() {
@@ -257,6 +251,92 @@
 				assert.areSame( w1.wrapper, w1.dragHandlerContainer.getParent(), 'main widget\'s drag handler is directly in the wrapper' );
 				assert.areSame( wn1.wrapper, wn1.dragHandlerContainer.getParent(), '1st nested widget\'s drag handler is directly in the wrapper' );
 				assert.areSame( wn2.wrapper, wn2.dragHandlerContainer.getParent(), '2nd nested widget\'s drag handler is directly in the wrapper' );
+			} );
+		},
+
+		'test all widgets are destroyed once when setting editor data': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor,
+				destroyed = [];
+
+			bot.setData( generateWidgetsData( 1 ), function() {
+				for ( var id in editor.widgets.instances )
+					editor.widgets.instances[ id ].on( 'destroy', log );
+
+				bot.setData( '', function() {
+					assert.areSame( 'wn-0-0,wn-0-1,wp-0', destroyed.sort().join( ',' ), 'all widgets were destroyed' );
+				} );
+			} );
+
+			function log() {
+				destroyed.push( this.element.$.id );
+			}
+		},
+
+		'test all nested widgets are destroyed when setting nested editable data': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor,
+				destroyed = [];
+
+			bot.setData( generateWidgetsData( 2 ), function() {
+				var w1 = getWidgetById( editor, 'wp-0' );
+
+				for ( var id in editor.widgets.instances )
+					editor.widgets.instances[ id ].on( 'destroy', log );
+
+				w1.editables.ned.setData( '<p>foo</p>' );
+				assert.areSame( 'wn-0-0,wn-0-1', destroyed.sort().join( ',' ), 'all widgets were destroyed' );
+
+				// Clean up widgets in this test, so next won't fire listeners added above.
+				editor.widgets.destroyAll();
+			} );
+
+			function log() {
+				destroyed.push( this.element.$.id );
+			}
+		},
+
+		// #12008
+		'test pasting widget with nested editable into nested editable': function() {
+			var editor = this.editors.editor,
+				bot = this.editorBots.editor;
+
+			editor.widgets.add( 'testpaste1', {
+				editables: {
+					ned2: '.ned2' // The name has to be different
+				}
+			} );
+
+			var widget2Data =
+				'<div data-widget="testpaste1" id="wp-1">' +
+					'<p class="ned2">foo</p>' +
+				'</div>';
+
+			bot.setData( generateWidgetsData( 1 ) + '<p>xxx</p>' + widget2Data, function() {
+				var w1 = getWidgetById( editor, 'wp-0' ),
+					w2 = getWidgetById( editor, 'wp-1' ),
+					html = w2.wrapper.getOuterHtml();
+
+				w2.wrapper.remove();
+				editor.widgets.checkWidgets();
+
+				w1.editables.ned.focus();
+				var range = editor.createRange();
+				range.moveToPosition( editor.document.getById( 'p-0' ), CKEDITOR.POSITION_AFTER_START );
+				editor.getSelection().selectRanges( [ range ] );
+
+				editor.on( 'afterPaste', function() {
+					resume( function() {
+						w2 = getWidgetById( editor, 'wp-1', true );
+
+						assert.isNotNull( w2, 'widget was pasted' );
+						assert.areSame( w2, editor.widgets.focused, 'pasted widget is focused' );
+					} );
+				} );
+
+				wait( function() {
+					editor.execCommand( 'paste', html );
+				} );
 			} );
 		}
 	} );

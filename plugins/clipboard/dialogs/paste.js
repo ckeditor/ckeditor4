@@ -55,7 +55,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	// Do not use editor#paste, because it would start from beforePaste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
 		if ( evt.data )
-			editor.fire( 'paste', { type: 'auto', dataValue: evt.data } );
+			editor.fire( 'paste', {
+				type: 'auto',
+				dataValue: evt.data,
+				method: 'paste',
+				dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
+			} );
 	}, null, null, 1000 );
 
 	return {

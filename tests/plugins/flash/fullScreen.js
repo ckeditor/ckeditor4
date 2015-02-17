@@ -4,23 +4,15 @@
 ( function() {
 	'use strict';
 
-	var editorBots,
-		FLASH_URL = '%BASE_PATH%_assets/sample.swf';
+	var FLASH_URL = '%BASE_PATH%_assets/sample.swf';
+
+	bender.editors = {
+		one: {
+			name: 'one'
+		}
+	};
 
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				one: {
-					name: 'one'
-				}
-			}, function( editors, bots ) {
-				editorBots = bots;
-				that.callback( editors );
-			} );
-		},
-
 		tearDown: function() {
 			var currentDialog = CKEDITOR.dialog.getCurrent();
 
@@ -30,7 +22,7 @@
 
 		// true is default value for allowFullScreen property
 		'test param allowFullScreen present in code with true value': function() {
-			var bot = editorBots.one;
+			var bot = this.editorBots.one;
 
 			bot.setData( '', function() {
 				bot.dialog( 'flash', function( dialog ) {
@@ -59,7 +51,7 @@
 		},
 
 		'test param allowFullScreen present in code with false value': function() {
-			var bot = editorBots.one;
+			var bot = this.editorBots.one;
 
 			bot.setData( '', function() {
 				bot.dialog( 'flash', function( dialog ) {

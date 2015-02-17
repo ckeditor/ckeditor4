@@ -41,7 +41,7 @@
  * The editor selection may be retrieved using the {@link CKEDITOR.editor#getSelection} method:
  *
  *		var sel = editor.getSelection(),
- *			ranges = sel.getRange(); // CKEDITOR.dom.rangeList instance.
+ *			ranges = sel.getRanges(); // CKEDITOR.dom.rangeList instance.
  *
  *		var range = ranges[ 0 ];
  *		range.root; // -> editor's editable element.
@@ -2329,7 +2329,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Moves the range boundaries to the closest editing point after/before an
-		 * element.
+		 * element or the current range position (depends on whether the element was specified).
 		 *
 		 * For example, if the start element has `id="start"`,
 		 * `<p><b>foo</b><span id="start">start</start></p>`, the closest previous editing point is
@@ -2338,38 +2338,52 @@ CKEDITOR.dom.range = function( root ) {
 		 * See also: {@link #moveToElementEditablePosition}.
 		 *
 		 * @since 4.3
-		 * @param {CKEDITOR.dom.element} element The starting element.
-		 * @param {Boolean} isMoveToEnd Whether move to the end of editable. Otherwise, look back.
+		 * @param {CKEDITOR.dom.element} [element] The starting element. If not specified the current range
+		 * position will be used.
+		 * @param {Boolean} [isMoveForward] Whether move to the end of editable. Otherwise, look back.
 		 * @returns {Boolean} Whether the range was moved.
 		 */
-		moveToClosestEditablePosition: function( element, isMoveToEnd ) {
+		moveToClosestEditablePosition: function( element, isMoveForward ) {
 			// We don't want to modify original range if there's no editable position.
-			var range = new CKEDITOR.dom.range( this.root ),
+			var range,
 				found = 0,
 				sibling,
+				isElement,
 				positions = [ CKEDITOR.POSITION_AFTER_END, CKEDITOR.POSITION_BEFORE_START ];
 
-			// Set collapsed range at one of ends of element.
-			range.moveToPosition( element, positions[ isMoveToEnd ? 0 : 1 ] );
+			if ( element ) {
+				// Set collapsed range at one of ends of element.
+				// Can't clone this range, because this range might not be yet positioned (no containers => errors).
+				range = new CKEDITOR.dom.range( this.root );
+				range.moveToPosition( element, positions[ isMoveForward ? 0 : 1 ] );
+			} else {
+				range = this.clone();
+			}
 
 			// Start element isn't a block, so we can automatically place range
 			// next to it.
-			if ( !element.is( CKEDITOR.dtd.$block ) )
+			if ( element && !element.is( CKEDITOR.dtd.$block ) )
 				found = 1;
 			else {
 				// Look for first node that fulfills eval function and place range next to it.
-				sibling = range[ isMoveToEnd ? 'getNextEditableNode' : 'getPreviousEditableNode' ]();
+				sibling = range[ isMoveForward ? 'getNextEditableNode' : 'getPreviousEditableNode' ]();
 				if ( sibling ) {
 					found = 1;
+					isElement = sibling.type == CKEDITOR.NODE_ELEMENT;
 
 					// Special case - eval accepts block element only if it's a non-editable block,
 					// which we want to select, not place collapsed selection next to it (which browsers
 					// can't handle).
-					if ( sibling.type == CKEDITOR.NODE_ELEMENT && sibling.is( CKEDITOR.dtd.$block ) && sibling.getAttribute( 'contenteditable' ) == 'false' ) {
+					if ( isElement && sibling.is( CKEDITOR.dtd.$block ) && sibling.getAttribute( 'contenteditable' ) == 'false' ) {
 						range.setStartAt( sibling, CKEDITOR.POSITION_BEFORE_START );
 						range.setEndAt( sibling, CKEDITOR.POSITION_AFTER_END );
+					}
+					// Handle empty blocks which can be selection containers on old IEs.
+					else if ( !CKEDITOR.env.needsBrFiller && isElement && sibling.is( CKEDITOR.dom.walker.validEmptyBlockContainers ) ) {
+						range.setEnd( sibling, 0 );
+						range.collapse();
 					} else {
-						range.moveToPosition( sibling, positions[ isMoveToEnd ? 1 : 0 ] );
+						range.moveToPosition( sibling, positions[ isMoveForward ? 1 : 0 ] );
 					}
 				}
 			}
@@ -2532,7 +2546,9 @@ CKEDITOR.dom.range = function( root ) {
 			var isRootAscendantOrSelf = this.root.equals( startContainer ) || this.root.contains( startContainer );
 
 			if ( !isRootAscendantOrSelf ) {
-				window.console && console.log && console.log( 'Element', startContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+				window.console && console.log && console.log( // jshint ignore:line
+					'[CKEDITOR.dom.range.setStart] Element', startContainer, 'is not a descendant of root', this.root
+				);
 			}
 			// %REMOVE_END%
 			this.startContainer = startContainer;
@@ -2550,7 +2566,9 @@ CKEDITOR.dom.range = function( root ) {
 			var isRootAscendantOrSelf = this.root.equals( endContainer ) || this.root.contains( endContainer );
 
 			if ( !isRootAscendantOrSelf ) {
-				window.console && console.log && console.log( 'Element', endContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+				window.console && console.log && console.log( // jshint ignore:line
+					'[CKEDITOR.dom.range.setEnd] Element', endContainer, 'is not a descendant of root', this.root
+				);
 			}
 			// %REMOVE_END%
 			this.endContainer = endContainer;

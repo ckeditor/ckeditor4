@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 	return {
 		title: editor.lang.forms.checkboxAndRadio.checkboxTitle,
@@ -120,6 +121,24 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 						else
 							element.removeAttribute( 'checked' );
 					}
+				}
+			},
+			{
+				id: 'required',
+				type: 'checkbox',
+				label: editor.lang.forms.checkboxAndRadio.required,
+				'default': '',
+				accessKey: 'Q',
+				value: 'required',
+				setup: function( element ) {
+					this.setValue( element.getAttribute( 'required' ) );
+				},
+				commit: function( data ) {
+					var element = data.element;
+					if ( this.getValue() )
+						element.setAttribute( 'required', 'required' );
+					else
+						element.removeAttribute( 'required' );
 				}
 			} ]
 		} ]

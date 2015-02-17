@@ -116,6 +116,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 ( function() {
+	var testElement = document.createElement( 'span' ),
+		supportsClassLists = !!testElement.classList,
+		rclass = /[\n\t\r]/g;
+
+	function hasClass( classNames, className ) {
+		// Source: jQuery.
+		return ( ' ' + classNames + ' ' ).replace( rclass, ' ' ).indexOf( ' ' + className + ' ' ) > -1;
+	}
+
 	CKEDITOR.tools.extend( CKEDITOR.dom.element.prototype, {
 		/**
 		 * The node type. This is a constant value set to {@link CKEDITOR#NODE_ELEMENT}.
@@ -134,20 +143,29 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		element.addClass( 'classB' ); // <div class="classA classB">
 		 *		element.addClass( 'classA' ); // <div class="classA classB">
 		 *
+		 * **Note:** Since CKEditor 4.5 this method cannot be used with multiple classes (`'classA classB'`).
+		 *
 		 * @chainable
+		 * @method addClass
 		 * @param {String} className The name of the class to be added.
 		 */
-		addClass: function( className ) {
-			var c = this.$.className;
-			if ( c ) {
-				var regex = new RegExp( '(?:^|\\s)' + className + '(?:\\s|$)', '' );
-				if ( !regex.test( c ) )
-					c += ' ' + className;
-			}
-			this.$.className = c || className;
+		addClass: supportsClassLists ?
+			function( className ) {
+				this.$.classList.add( className );
 
-			return this;
-		},
+				return this;
+			}
+		:
+			function( className ) {
+				var c = this.$.className;
+				if ( c ) {
+					if ( !hasClass( c, className ) )
+						c += ' ' + className;
+				}
+				this.$.className = c || className;
+
+				return this;
+			},
 
 		/**
 		 * Removes a CSS class name from the elements classes. Other classes
@@ -160,24 +178,35 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		element.removeClass( 'classB' );	// <div>
 		 *
 		 * @chainable
+		 * @method removeClass
 		 * @param {String} className The name of the class to remove.
 		 */
-		removeClass: function( className ) {
-			var c = this.getAttribute( 'class' );
-			if ( c ) {
-				var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', 'i' );
-				if ( regex.test( c ) ) {
-					c = c.replace( regex, '' ).replace( /^\s+/, '' );
+		removeClass: supportsClassLists ?
+			function( className ) {
+				var $ = this.$;
+				$.classList.remove( className );
+
+				if ( !$.className )
+					$.removeAttribute( 'class' );
+
+				return this;
+			}
+		:
+			function( className ) {
+				var c = this.getAttribute( 'class' );
+				if ( c && hasClass( c, className ) ) {
+					c = c
+						.replace( new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)' ), '' )
+						.replace( /^\s+/, '' );
 
 					if ( c )
 						this.setAttribute( 'class', c );
 					else
 						this.removeAttribute( 'class' );
 				}
-			}
 
-			return this;
-		},
+				return this;
+			},
 
 		/**
 		 * Checks if element has class name.
@@ -186,8 +215,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Boolean}
 		 */
 		hasClass: function( className ) {
-			var regex = new RegExp( '(?:^|\\s+)' + className + '(?=\\s|$)', '' );
-			return regex.test( this.getAttribute( 'class' ) );
+			return hasClass( this.$.className, className );
 		},
 
 		/**
@@ -1782,6 +1810,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				if ( !indices.slice )
 					rawNode = getChild( rawNode, indices );
 				else {
+					indices = indices.slice();
 					while ( indices.length > 0 && rawNode )
 						rawNode = getChild( rawNode, indices.shift() );
 				}

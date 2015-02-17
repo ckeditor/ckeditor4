@@ -17,36 +17,28 @@
 
 	var getWidgetById = widgetTestsTools.getWidgetById;
 
+	CKEDITOR.plugins.add( 'testWidget', {
+		init: function( editor ) {
+			editor.widgets.add( 'testWidget', {
+				editables: {
+					foo: '.editable'
+				}
+			} );
+		}
+	} );
+
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'inline', // For faster setData.
+			config: {
+				extraPlugins: 'testWidget',
+				allowedContent: true
+			}
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			CKEDITOR.plugins.add( 'testWidget', {
-				init: function( editor ) {
-					editor.widgets.add( 'testWidget', {
-						editables: {
-							foo: '.editable'
-						}
-					} );
-				}
-			} );
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'inline', // For faster setData.
-					config: {
-						extraPlugins: 'testWidget',
-						allowedContent: true
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
-		},
-
 		// Make sure that custom widget styles will gracefully work with pre-4.4 way of
 		// calling style's methods.
 		'test custom style methods return false when editor not specified': function() {

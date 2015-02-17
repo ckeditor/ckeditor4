@@ -2,25 +2,17 @@
 
 'use strict';
 
+bender.editors = {
+	editor: {
+		name: 'editor1',
+		creator: 'inline',
+		config: {
+			allowedContent: true
+		}
+	}
+};
+
 bender.test( {
-	'async:init': function() {
-		var that = this;
-
-		bender.tools.setUpEditors( {
-			editor: {
-				name: 'editor1',
-				creator: 'inline',
-				config: {
-					allowedContent: true
-				}
-			}
-		}, function( editors, bots ) {
-			that.editorBots = bots;
-			that.editors = editors;
-			that.callback();
-		} );
-	},
-
 	// #3448.
 	'test click on image selects it': function() {
 		// This is Gecko/Webkit/Blink fix.

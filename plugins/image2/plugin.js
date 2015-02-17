@@ -789,7 +789,7 @@
 				// 		</p>
 				// 	</div>
 				if ( hasCaption ) {
-					wrapper.addClass( alignClasses[1] );
+					wrapper.addClass( alignClasses[ 1 ] );
 				}
 			} else if ( align != 'none' ) {
 				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
@@ -871,7 +871,7 @@
 
 				// Upcast linked image like <a><img/></a>.
 			} else if ( isLinkedOrStandaloneImage( el ) ) {
-				image = el.name == 'a' ? el.children[0] : el;
+				image = el.name == 'a' ? el.children[ 0 ] : el;
 			}
 
 			if ( !image )
@@ -1535,6 +1535,14 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.image2_captionedClass = 'image';
+
+/**
+ * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
+ *
+ * @since 4.5.0
+ * @cfg {Boolean} [image2_prefillDimensions=true]
+ * @member CKEDITOR.config
+ */
 
 /**
  * CSS classes applied to aligned images. Useful to take control over the way

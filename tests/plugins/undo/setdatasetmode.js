@@ -4,7 +4,7 @@
 ( function() {
 	'use strict';
 
-	var editorsDefinitions = {
+	bender.editors = {
 		framed: {
 			name: 'framed',
 			config: {
@@ -37,10 +37,6 @@
 	};
 
 	CKEDITOR.disableAutoInline = true;
-
-	bender.tools.setUpEditors( editorsDefinitions, function( editors ) {
-		bender.test( bender.tools.createTestsForEditors( editors, tests ) );
-	} );
 
 	function onInstanceReady() {
 		this.dataProcessor.dataFilter.addRules( {
@@ -331,4 +327,6 @@
 			} );
 		}
 	}
+
+	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 } )();
