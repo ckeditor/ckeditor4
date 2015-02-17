@@ -159,6 +159,7 @@
 			value: cfgValue,
 			smartIndent: false,
 			indentWithTabs: true,
+			theme: 'neo',
 			extraKeys: {
 				'Ctrl-Space': complete,
 				"'''": completeIfNeeded( "'" ),

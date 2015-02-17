@@ -10,6 +10,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script src="../ckeditor.js"></script>
 	<script src="sample.js"></script>
 	<link rel="stylesheet" href="css/sample.css">
+	<link rel="stylesheet" href="toolbarconfigurator/css/lib/neo.css">
 </head>
 <body>
 
@@ -58,11 +59,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<section id="sample-customize">
 		<h2>Customize Your Editor</h2>
 		<p>Modular build and <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">numerous configuration options</a> give you nearly endless possibilities to customize CKEditor. Try to add the following code to your <code><a href="../config.js">config.js</a></code> file and refresh this page!</p>
-<pre>
-config.language = 'es';
-config.uiColor = '#F7B42C';
-config.height = 300;
-config.toolbarCanCollapse = true;
+<pre class="cm-s-neo CodeMirror">
+<span style="padding-right: 0.1px;"><span class="cm-variable">CKEDITOR</span>.<span class="cm-property">editorConfig</span> <span class="cm-operator">=</span> <span class="cm-keyword">function</span>( <span class="cm-def">config</span> ) {</span>
+<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">language</span> <span class="cm-operator">=</span> <span class="cm-string">'es'</span>;</span>
+<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">uiColor</span> <span class="cm-operator">=</span> <span class="cm-string">'#F7B42C'</span>;</span>
+<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">height</span> <span class="cm-operator">=</span> <span class="cm-number">300</span>;</span>
+<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">toolbarCanCollapse</span> <span class="cm-operator">=</span> <span class="cm-atom">true</span>;</span>
+<span style="padding-right: 0.1px;">};</span>
 </pre>
 	</section>
 
