@@ -23,6 +23,7 @@ module.exports = function( grunt ) {
 				options: {
 					paths: [ 'samples/' ],
 
+					banner: cssBanner,
 					sourceMap: true,
 					sourceMapFilename: 'samples/css/sample.css.map',
 					sourceMapURL: 'sample.css.map',
@@ -41,6 +42,7 @@ module.exports = function( grunt ) {
 				options: {
 					paths: [ 'samples/toolbarconfigurator' ],
 
+					banner: cssBanner,
 					sourceMap: true,
 					sourceMapFilename: 'samples/toolbarconfigurator/css/toolbarmodifier.css.map',
 					sourceMapURL: 'toolbarmodifier.css.map',
