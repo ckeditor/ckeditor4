@@ -242,6 +242,8 @@ Notification.prototype = {
 			// The idea of cancelable event is to let user create his own way of displaying notification, so if
 			// `notificationUpdate` event will be canceled there will be no interaction with notification area, but on
 			// the other hand the logic should work anyway so object will be updated (including `element` property).
+			// Note: we can safely update the element's attributes below, because this element is created inside
+			// the constructor. If the notificatinShow event was canceled as well, the element is detached from DOM.
 			show = false;
 		}
 
@@ -876,8 +878,9 @@ CKEDITOR.plugins.notification = Notification;
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#update} method is called, before the
- * notification is updated. If this event will be canceled, notification will not be shown even if update was important,
- * but object will be updated anyway.
+ * notification is updated. If this event is canceled, notification will not be shown even if update was important,
+ * but object will be updated anyway. Note that canceling this event does not prevent updating {@link #element}'s
+ * attributes, but if {@link #notificationShow} was canceled as well this element is detached from the DOM.
  *
  * Using this event allows to fully customize how a notification will be updated. It may be used to integrate
  * the CKEditor notifications system with the web page's notifications.

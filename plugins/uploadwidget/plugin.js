@@ -388,9 +388,10 @@
 	}
 
 	/**
-	 * Bind notification to the file loader so the upload widget will use notification to show the status and progress.
-	 * This function use {@link CKEDITOR.plugins.notificationAggregator}, so even if multiple files will be be uploading
-	 * only one notification will be shown. The exception are warnings, they are shown in the separate notifications.
+	 * Binds notification to the {@link CKEDITOR.fileTools.fileLoader file loader} so the upload widget will use
+	 * notification to show the status and progress.
+	 * This function uses {@link CKEDITOR.plugins.notificationAggregator}, so even if multiple files are uploading
+	 * only one notification is shown. The exception are warnings, because they are shown in the separate notifications.
 	 *
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 * @param {CKEDITOR.fileTools.fileLoader} loader The fileLoader instance.
