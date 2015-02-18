@@ -780,7 +780,7 @@
 	ToolbarModifier.prototype._addSeparator = function() {
 		var separatorIndex = this._determineSeparatorToAddIndex(),
 			separator = ToolbarModifier.createSeparatorLiteral(),
-			domSeparator = CKEDITOR.dom.element.createFromHtml( this._getToolbarSeparatorString( separator ) );
+			domSeparator = CKEDITOR.dom.element.createFromHtml( ToolbarModifier.getToolbarSeparatorString( separator ) );
 
 		this.actualConfig.toolbarGroups.splice( separatorIndex, 0, separator );
 
@@ -1021,7 +1021,7 @@
 			var currentGroup = groups[ i ];
 
 			if ( currentGroup.type === 'separator' )
-				listString += this._getToolbarSeparatorString( currentGroup );
+				listString += ToolbarModifier.getToolbarSeparatorString( currentGroup );
 			else
 				listString += this._getToolbarGroupString( currentGroup );
 		}
@@ -1031,22 +1031,6 @@
 		var headerString = ToolbarModifier.getToolbarHeaderString();
 
 		return headerString + listString;
-	};
-
-	/**
-	 * @param {Object} separator
-	 * @returns {string}
-	 * @private
-	 */
-	ToolbarModifier.prototype._getToolbarSeparatorString = function( separator ) {
-		return [
-			'<li ',
-				'data-type="', separator.type , '" ',
-				'data-name="', separator.name , '"',
-			'>',
-				ToolbarModifier.getToolbarElementPreString( 'row separator' ),
-			'</li>'
-		].join( '' );
 	};
 
 	/**
@@ -1080,6 +1064,22 @@
 		groupString += '</ul></li>';
 
 		return groupString;
+	};
+
+	/**
+	 * @param {Object} separator
+	 * @returns {String}
+	 * @static
+	 */
+	ToolbarModifier.getToolbarSeparatorString = function( separator ) {
+		return [
+			'<li ',
+			'data-type="', separator.type , '" ',
+			'data-name="', separator.name , '"',
+			'>',
+			ToolbarModifier.getToolbarElementPreString( 'row separator' ),
+			'</li>'
+		].join( '' );
 	};
 
 	/**
