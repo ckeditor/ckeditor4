@@ -27,6 +27,10 @@ bender.test( {
 	},
 
 	init: function() {
+		if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			return;
+		}
+
 		var editor = this.editor;
 
 		bindNotifications = CKEDITOR.fileTools.bindNotifications,
@@ -41,6 +45,10 @@ bender.test( {
 	},
 
 	setUp: function() {
+		if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
+			assert.ignore();
+		}
+
 		notificationShowStub.reset();
 		notificationUpdateStub.reset();
 	},
