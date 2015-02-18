@@ -51,7 +51,7 @@ CKEDITOR.plugins.add( 'notification', {
 
 		// Close the last notification on ESC.
 		editor.on( 'key', function( evt ) {
-			if ( evt.data.keyCode == 27 ) {  /* ESC */
+			if ( evt.data.keyCode == 27 ) { /* ESC */
 				var notifications = editor._.notificationArea.notifications;
 
 				if ( !notifications.length ) {
