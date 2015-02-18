@@ -164,6 +164,8 @@
 				'Ctrl-Space': complete,
 				"'''": completeIfNeeded( "'" ),
 				"'\"'": completeIfNeeded( '"' ),
+				"Backspace": completeIfNeeded( '"' ),
+				"Delete": completeIfNeeded( '"' ),
 				'Tab': false,
 				'Shift-Tab': false
 			}
