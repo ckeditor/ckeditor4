@@ -209,7 +209,7 @@
 			var instance = new Aggregator( this.editor, '' );
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance._reset = sinon.spy();
+			instance.reset = sinon.spy();
 			instance._finish = sinon.spy();
 
 			instance.update();
@@ -222,7 +222,7 @@
 			var instance = new Aggregator( this.editor, '' );
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance._reset = sinon.spy();
+			instance.reset = sinon.spy();
 			instance.fire = sinon.stub().returns( false );
 			instance.finished = sinon.spy();
 
@@ -239,28 +239,28 @@
 
 			instance.notification = notif;
 			instance.on( 'finished', finishedSpy );
-			instance._reset = sinon.spy();
+			instance.reset = sinon.spy();
 
 			instance._finish();
 
 			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
 			assert.areSame( 1, finishedSpy.callCount, 'finished event fire count' );
-			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
+			assert.areSame( 1, instance.reset.callCount, 'instance.reset call count' );
 		},
 
-		// Ensure that _reset() is called **after** finished event was fired. (#12874)
+		// Ensure that reset() is called **after** finished event was fired. (#12874)
 		'test _finish resets after finished event': function() {
 			var instance = new Aggregator( this.editor, '' );
 
 			instance.notification = new NotificationMock();
 			instance.fire = function() {
-				assert.areSame( 0, instance._reset.callCount, 'instance._reset should not be called before firing finished event' );
+				assert.areSame( 0, instance.reset.callCount, 'instance.reset should not be called before firing finished event' );
 			};
-			instance._reset = sinon.spy();
+			instance.reset = sinon.spy();
 
 			instance._finish();
 
-			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
+			assert.areSame( 1, instance.reset.callCount, 'instance.reset call count' );
 		},
 
 		'test _updateNotification': function() {
@@ -343,11 +343,11 @@
 			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
 		},
 
-		'test _reset': function() {
+		'test reset': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance._tasks = [ 1, 2 ];
 
-			instance._reset();
+			instance.reset();
 
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
 		},
