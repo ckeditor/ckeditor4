@@ -248,6 +248,7 @@
 			this._totalWeights = 0;
 			this._doneWeights = 0;
 			this._doneTasks = 0;
+			this.notification = null;
 		},
 
 		/**

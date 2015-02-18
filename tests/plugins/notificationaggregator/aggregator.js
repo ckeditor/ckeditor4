@@ -322,6 +322,10 @@
 			instance.reset();
 
 			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
+			assert.areSame( 0, instance._totalWeights, 'instance._totalWeights cleared' );
+			assert.areSame( 0, instance._doneWeights, 'instance._doneWeights cleared' );
+			assert.areSame( 0, instance._doneTasks, 'instance._doneTasks cleared' );
+			assert.isNull( instance.notification, 'notification cleared' );
 		},
 
 		'test _getNotificationMessage': function() {
