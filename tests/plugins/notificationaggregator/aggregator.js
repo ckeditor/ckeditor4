@@ -206,16 +206,19 @@
 		},
 
 		'test update finished': function() {
-			var instance = new Aggregator( this.editor, '' );
+			var instance = new Aggregator( this.editor, '' ),
+				finishSpy = sinon.spy();
+
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
 			instance.reset = sinon.spy();
-			instance._finish = sinon.spy();
+
+			instance.on( 'finished', finishSpy );
 
 			instance.update();
 
 			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
-			assert.areSame( 1, instance._finish.callCount, '_finish call count' );
+			assert.areSame( 1, finishSpy.callCount, 'finished events count' );
 		},
 
 		'test update - cancel finished event': function() {
@@ -230,37 +233,6 @@
 
 			// Method finished should not be called.
 			assert.areSame( 0, instance.finished.callCount, 'finished call count' );
-		},
-
-		'test _finish': function() {
-			var instance = new Aggregator( this.editor, '' ),
-				notif = new NotificationMock(),
-				finishedSpy = sinon.spy();
-
-			instance.notification = notif;
-			instance.on( 'finished', finishedSpy );
-			instance.reset = sinon.spy();
-
-			instance._finish();
-
-			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
-			assert.areSame( 1, finishedSpy.callCount, 'finished event fire count' );
-			assert.areSame( 1, instance.reset.callCount, 'instance.reset call count' );
-		},
-
-		// Ensure that reset() is called **after** finished event was fired. (#12874)
-		'test _finish resets after finished event': function() {
-			var instance = new Aggregator( this.editor, '' );
-
-			instance.notification = new NotificationMock();
-			instance.fire = function() {
-				assert.areSame( 0, instance.reset.callCount, 'instance.reset should not be called before firing finished event' );
-			};
-			instance.reset = sinon.spy();
-
-			instance._finish();
-
-			assert.areSame( 1, instance.reset.callCount, 'instance.reset call count' );
 		},
 
 		'test _updateNotification': function() {

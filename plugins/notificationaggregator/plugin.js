@@ -197,7 +197,7 @@
 			this._updateNotification();
 
 			if ( this.isFinished() ) {
-				this._finish();
+				this.fire( 'finished' );
 			}
 		},
 
@@ -248,18 +248,6 @@
 			this._totalWeights = 0;
 			this._doneWeights = 0;
 			this._doneTasks = 0;
-		},
-
-		/**
-		 * Should be called when all tasks are done.
-		 */
-		_finish: function() {
-			if ( this.fire( 'finished' ) !== false ) {
-				this.notification.hide();
-				this.notification = null;
-			}
-
-			this.reset();
 		},
 
 		/**
