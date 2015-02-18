@@ -369,8 +369,8 @@
 			} );
 		},
 
-		// When there is only one task and special message was defined,
-		// we should use special singular message.
+		// When there is only one task and singular message was defined,
+		// we should use the singular message.
 		'test _getNotificationMessage single': function() {
 			var instance = new Aggregator( this.editor, 'foo' );
 			instance._singularMessage = {
@@ -388,9 +388,9 @@
 			} );
 		},
 
-		// When only single task is remaining and special message was defined,
-		// we should still use plural message.
-		'test _getNotificationMessage plural message event if single message defined': function() {
+		// When only a single task remained and singular message was defined,
+		// we should still use the plural message.
+		'test _getNotificationMessage plural message even if single message defined': function() {
 			var instance = new Aggregator( this.editor, 'foo', 'bar' );
 
 			instance.getTasksCount = sinon.stub().returns( 2 );
@@ -399,18 +399,14 @@
 			assert.areSame( 'foo', instance._getNotificationMessage() );
 		},
 
-		// Ensure that if only one task is remaining, BUT NO SPECIAL MESSAGE was
-		// defined for singular case, the standard message is used.
+		// When there is only one task, BUT NO SINGULAR MESSAGE was
+		// defined, the standard message is used.
 		'test _getNotificationMessage missing singular': function() {
-			var instance = new Aggregator( this.editor, '' );
-			instance._message = {
-				output: sinon.stub().returns( 'bar' )
-			};
-			instance.getTasksCount = sinon.stub().returns( 2 );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getPercentage = sinon.stub().returns( 50 );
+			var instance = new Aggregator( this.editor, 'foo' );
+			instance.getTasksCount = sinon.stub().returns( 1 );
+			instance.getDoneTasksCount = sinon.stub().returns( 0 );
 
-			assert.areSame( 'bar', instance._getNotificationMessage() );
+			assert.areSame( 'foo', instance._getNotificationMessage() );
 		},
 
 		'test _createNotification': function() {
