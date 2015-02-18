@@ -6,7 +6,7 @@
 
 	CKEDITOR.disableAutoInline = true;
 
-	var mathJaxLib = bender.config.mathJaxLibPath || 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
+	var mathJaxLib = bender.config.mathJaxLibPath;
 
 	var editor;
 
@@ -47,8 +47,12 @@
 		},
 
 		'async:init': function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
+			}
+
+			assert.isString( mathJaxLib,
+				'bender.config.mathJaxLibPath should be defined with the path to MathJax lib used for testing.' );
 
 			var tc = this;
 
