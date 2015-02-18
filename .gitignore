@@ -17,6 +17,7 @@ dev/langtool/cklangtool/**
 
 samples/toolbarconfigurator/.bender/**
 samples/toolbarconfigurator/node_modules/**
+samples/toolbarconfigurator/docs/**
 
 *.css.map
 

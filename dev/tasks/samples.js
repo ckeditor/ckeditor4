@@ -76,9 +76,19 @@ module.exports = function( grunt ) {
 					nospawn: true
 				}
 			}
+		},
+
+		jsduck: {
+			toolbarconfigurator: {
+				src: [
+					'samples/toolbarconfigurator/js'
+				],
+				dest: 'samples/toolbarconfigurator/docs'
+			}
 		}
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-less' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-jsduck' );
 };
