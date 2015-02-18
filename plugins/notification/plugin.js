@@ -51,7 +51,7 @@ CKEDITOR.plugins.add( 'notification', {
 
 		// Close the last notification on ESC.
 		editor.on( 'key', function( evt ) {
-			if ( evt.data.keyCode == 27 /* ESC */ ) {
+			if ( evt.data.keyCode == 27 ) { /* ESC */
 				var notifications = editor._.notificationArea.notifications;
 
 				if ( !notifications.length ) {
@@ -77,7 +77,7 @@ CKEDITOR.plugins.add( 'notification', {
 			var message = new CKEDITOR.dom.element( 'div' );
 			message.setStyles( {
 				position: 'fixed',
-				'margin-left': '-9999'
+				'margin-left': '-9999px'
 			} );
 			message.setAttributes( {
 				'aria-live': 'assertive',
@@ -236,8 +236,15 @@ Notification.prototype = {
 	 * if it was hidden and read by screen readers.
 	 */
 	update: function( options ) {
+		var show = true;
+
 		if ( this.editor.fire( 'notificationUpdate', { notification: this, options: options } ) === false ) {
-			return;
+			// The idea of cancelable event is to let user create his own way of displaying notification, so if
+			// `notificationUpdate` event will be canceled there will be no interaction with notification area, but on
+			// the other hand the logic should work anyway so object will be updated (including `element` property).
+			// Note: we can safely update the element's attributes below, because this element is created inside
+			// the constructor. If the notificatinShow event was canceled as well, the element is detached from DOM.
+			show = false;
 		}
 
 		var element = this.element,
@@ -276,7 +283,7 @@ Notification.prototype = {
 			}
 		}
 
-		if ( options.important ) {
+		if ( show && options.important ) {
 			element.setAttribute( 'role', 'alert' );
 
 			if ( !this.isVisible() ) {
@@ -871,7 +878,9 @@ CKEDITOR.plugins.notification = Notification;
 
 /**
  * This event is fired when the {@link CKEDITOR.plugins.notification#update} method is called, before the
- * notification is updated. If this event will be canceled, notification will be not updated.
+ * notification is updated. If this event is canceled, notification will not be shown even if update was important,
+ * but object will be updated anyway. Note that canceling this event does not prevent updating {@link #element}'s
+ * attributes, but if {@link #notificationShow} was canceled as well this element is detached from the DOM.
  *
  * Using this event allows to fully customize how a notification will be updated. It may be used to integrate
  * the CKEditor notifications system with the web page's notifications.

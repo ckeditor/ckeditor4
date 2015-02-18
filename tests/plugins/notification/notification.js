@@ -411,8 +411,22 @@ bender.test( {
 
 		assert.isTrue( listener.calledOnce );
 
-		assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: true } ] );
+		assertNotifications( editor, [ { message: 'Foo', type: 'warning', alert: false } ] );
+	},
 
+	'test notificationUpdate event do not show if event canceled': function() {
+		var editor = this.editor,
+			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
+
+		listener = sinon.stub().returns( false );
+
+		this.editor.on( 'notificationUpdate', listener );
+
+		notification.update( { important: true } );
+
+		assert.isTrue( listener.calledOnce );
+
+		assertNotifications( editor, [] );
 	},
 
 	'test notificationHide event': function() {

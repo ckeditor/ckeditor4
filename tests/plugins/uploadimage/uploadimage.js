@@ -75,6 +75,10 @@
 				// Clear uploads repository.
 				this.editors[ editorName ].uploadsRepository._.loaders = [];
 			}
+
+			if ( CKEDITOR.fileTools.bindNotifications.reset ) {
+				CKEDITOR.fileTools.bindNotifications.reset();
+			}
 		},
 
 		'test classic with image1 (integration test)': function() {
@@ -404,6 +408,26 @@
 									'<img src="' + bender.tools.pngBase64 + '">' +
 								'</div>' +
 							'</div>'
+			} );
+
+			wait();
+		},
+
+		'test bindNotifications when paste image': function() {
+			var editor = this.editors.classic;
+
+			CKEDITOR.fileTools.bindNotifications = sinon.spy();
+
+			resumeAfter( editor, 'paste', function() {
+				var spy = CKEDITOR.fileTools.bindNotifications;
+				assert.areSame( 1, spy.callCount );
+				assert.isTrue( spy.calledWith( editor ) );
+				assert.areSame( bender.tools.pngBase64, spy.firstCall.args[ 1 ].data );
+			} );
+
+			editor.fire( 'paste', {
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
+				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
 			} );
 
 			wait();

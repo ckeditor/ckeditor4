@@ -7,14 +7,30 @@
 
 // Mock the real XMLHttpRequest so the upload test may work locally.
 
+window.FormData = function() {
+	var total, filename;
+	return {
+		append: function( name, file, filename ) {
+			total = file.size;
+			filename = filename;
+		},
+		getTotal: function() {
+			return total;
+		},
+		getFileName: function() {
+			return filename;
+		}
+	};
+};
+
 window.XMLHttpRequest = function() {
 	var basePath = bender.config.tests[ bender.testData.group ].basePath;
 
 	return {
 		open: function() {},
 
-		send: function() {
-			var total = 10259,
+		send: function( formData ) {
+			var total = formData.getTotal(),
 				loaded = 0,
 				step = Math.round( total / 10 ),
 				xhr = this,
@@ -39,7 +55,7 @@ window.XMLHttpRequest = function() {
 					clearInterval( interval );
 					xhr.status = 200;
 					xhr.responseText = JSON.stringify( {
-						fileName: 'smallmoon (another copy)(20).JPG',
+						fileName: formData.getFileName(),
 						uploaded: 1,
 						url: '\/' + basePath + '_assets\/lena.jpg',
 						error: {

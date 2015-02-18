@@ -44,6 +44,8 @@
 
 						fileTools.markElement( el, 'filereader', loader.id );
 
+						fileTools.bindNotifications( editor, loader );
+
 						data.dataValue += el.getOuterHtml();
 					}
 				}

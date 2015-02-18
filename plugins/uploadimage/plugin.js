@@ -80,6 +80,8 @@
 						loader.upload( uploadUrl );
 
 						fileTools.markElement( img, 'uploadimage', loader.id );
+
+						fileTools.bindNotifications( editor, loader );
 					}
 				}
 
