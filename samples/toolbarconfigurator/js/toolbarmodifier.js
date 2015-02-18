@@ -127,8 +127,8 @@
 
 	/**
 	 * @param {Function} callback
-	 * @param {[String]} config
-	 * @param {Boolean=false} forceKeepRemoveButtons
+	 * @param {String} [config]
+	 * @param {Boolean} [forceKeepRemoveButtons=false]
 	 * @private
 	 */
 	ToolbarModifier.prototype._onInit = function( callback, config, forceKeepRemoveButtons ) {
@@ -249,7 +249,7 @@
 	};
 
 	/**
-	 * Toggle empty groups and subgroups visibility
+	 * Toggle empty groups and subgroups visibility.
 	 *
 	 * @private
 	 */
@@ -482,6 +482,9 @@
 			return null;
 	};
 
+	/**
+	 * @private
+	 */
 	ToolbarModifier.prototype._dehighlightActiveToolGroup = function() {
 		var currentActive = this.getActiveToolGroup();
 
@@ -694,6 +697,9 @@
 		disableElementsInLists( this.mainContainer.find( 'ul[data-type=table-body] > li > ul' ) );
 	};
 
+	/**
+	 * @private
+	 */
 	ToolbarModifier.prototype._refreshBtnTabIndexes = function() {
 		var tabindexed = this.mainContainer.find( '[data-tab="true"]' );
 
@@ -853,7 +859,7 @@
 	 *
 	 * @param {String} direction
 	 * @param {String} groupName
-	 * @param groupName
+	 * @returns {Number}
 	 */
 	ToolbarModifier.prototype._moveGroup = function( direction, groupName ) {
 		var groupIndex = this.getGroupIndex( groupName ),
@@ -890,6 +896,8 @@
 	};
 
 	/**
+	 * Set `totalBtns` property in `actualConfig.toolbarGroups` elements.
+	 *
 	 * @private
 	 */
 	ToolbarModifier.prototype._calculateTotalBtns = function() {
@@ -943,6 +951,48 @@
 	};
 
 	/**
+	 * Parse group "model" to configuration value
+	 *
+	 * @param {Object} group
+	 * @returns {Object}
+	 * @static
+	 */
+	ToolbarModifier.parseGroupToConfigValue = function( group ) {
+		if ( group.type == 'separator' ) {
+			return '/';
+		}
+
+		var groups = group.groups,
+			max = groups.length;
+
+		delete group.totalBtns;
+		for ( var i = 0; i < max; i += 1 ) {
+			groups[ i ] = groups[ i ].name;
+		}
+
+		return group;
+	};
+
+	/**
+	 * Find closest Li ancestor in DOM tree which is group or separator element
+	 *
+	 * @param {CKEDITOR.dom.element} element
+	 * @returns {CKEDITOR.dom.element}
+	 * @static
+	 */
+	ToolbarModifier.getGroupOrSeparatorLiAncestor = function( element ) {
+		if ( element.$ instanceof HTMLLIElement && element.data( 'type' ) == 'group' )
+			return element;
+		else {
+			return ToolbarModifier.getFirstAncestor( element, function( ancestor ) {
+				var type = ancestor.data( 'type' );
+
+				return ( type == 'group' || type == 'separator' );
+			} );
+		}
+	};
+
+	/**
 	 * Create separator literal with unique id.
 	 *
 	 * @public
@@ -960,7 +1010,7 @@
 	 * Creates HTML unordered list string based on toolbarGroups field in config.
 	 *
 	 * @returns {String}
-	 * @private
+	 * @static
 	 */
 	ToolbarModifier.prototype._toolbarConfigToListString = function() {
 		var groups = this.actualConfig.toolbarGroups || [],
@@ -1083,6 +1133,7 @@
 	 * @param {Number} i
 	 * @param {String} direction 'up' or 'down'
 	 * @param {Function} conditionChecker
+	 * @static
 	 * @returns {Number} index of found element
 	 */
 	ToolbarModifier.getFirstElementIndexWith = function( array, i, direction, conditionChecker ) {
@@ -1112,6 +1163,7 @@
 	 * @param {String} direction
 	 * @param {Array} array
 	 * @param {Number} index
+	 * @returns {Number}
 	 */
 	ToolbarModifier.moveTo = function( offset, array, index ) {
 		var element, newIndex;
@@ -1142,6 +1194,7 @@
 	 * Returns all buttons number in group which are nested in subgroups also.
 	 *
 	 * @param {Object} group
+	 * @param {ToolbarModifier.FullToolbarEditor}
 	 * @static
 	 * @returns {Number}
 	 */
@@ -1160,6 +1213,7 @@
 	 * Creates HTML subgroup list element based on subgroup field in config.
 	 *
 	 * @param {Object} subgroup
+	 * @param {Array} groupBtns
 	 * @returns {String}
 	 * @private
 	 */
@@ -1188,8 +1242,8 @@
 	};
 
 	/**
-	 * @param buttonName
-	 * @returns {String/null}
+	 * @param {String} buttonName
+	 * @returns {String|null}
 	 * @private
 	 */
 	ToolbarModifier.prototype._getConfigButtonName = function( buttonName ) {
@@ -1237,10 +1291,9 @@
 	/**
 	 * Creates group header string.
 	 *
-	 * @param {Object/String} group
+	 * @param {Object|String} group
 	 * @returns {String}
 	 * @static
-	 * @public
 	 */
 	ToolbarModifier.getToolbarElementPreString = function( group ) {
 		var name = ( group.name ? group.name : group );
@@ -1257,6 +1310,11 @@
 		].join( '' );
 	};
 
+	/**
+	 * @static
+	 * @param {String} cfg
+	 * @returns {String}
+	 */
 	ToolbarModifier.evaluateToolbarGroupsConfig = function( cfg ) {
 		cfg = ( function( cfg ) {
 			var config = {}, result;

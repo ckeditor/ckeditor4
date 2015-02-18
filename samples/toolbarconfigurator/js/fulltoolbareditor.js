@@ -8,7 +8,6 @@ window.ToolbarConfigurator = {};
 ( function() {
 	/**
 	 * @class ToolbarConfigurator.FullToolbarEditor
-	 * @private
 	 * @constructor
 	 */
 	function FullToolbarEditor() {
@@ -28,8 +27,8 @@ window.ToolbarConfigurator = {};
 	ToolbarConfigurator.FullToolbarEditor = FullToolbarEditor;
 
 	/**
-	 * @public
 	 * @param {Function} callback
+	 * @param {Object} cfg
 	 */
 	FullToolbarEditor.prototype.init = function( callback, cfg ) {
 		var that = this;
@@ -67,7 +66,7 @@ window.ToolbarConfigurator = {};
 	};
 
 	/**
-	 * Group array of button names by their group parents
+	 * Group array of button names by their group parents.
 	 *
 	 * @param {Array} buttons
 	 * @returns {Object}
@@ -106,8 +105,8 @@ window.ToolbarConfigurator = {};
 	};
 
 	/**
-	 * @param name
-	 * @returns {*}
+	 * @param {String} name
+	 * @returns {String | null}
 	 */
 	FullToolbarEditor.prototype.getCamelCasedButtonName = function( name ) {
 		var items = this.editorInstance.ui.items;
@@ -124,6 +123,7 @@ window.ToolbarConfigurator = {};
 	 * Returns full toolbarGroups config value which is used when
 	 * there is no toolbarGroups field in config.
 	 *
+	 * @param {Boolean} [pickSeparators=false]
 	 * @returns {Array}
 	 */
 	FullToolbarEditor.prototype.getFullToolbarGroupsConfig = function( pickSeparators ) {
@@ -228,7 +228,7 @@ window.ToolbarConfigurator = {};
 	 * Pick all buttons from toolbar.
 	 *
 	 * @static
-	 * @param groups
+	 * @param {Array} groups
 	 * @returns {Array}
 	 */
 	FullToolbarEditor.toolbarToButtons = function( groups ) {
@@ -249,7 +249,7 @@ window.ToolbarConfigurator = {};
 	 * Creates HTML button representation for view.
 	 *
 	 * @static
-	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} button
+	 * @param {CKEDITOR.ui.button | CKEDITOR.ui.richCombo} button
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	FullToolbarEditor.createToolbarButton = function( button ) {
@@ -318,6 +318,7 @@ window.ToolbarConfigurator = {};
 	 * Create and return button element
 	 *
 	 * @param {String} text
+	 * @param {String} cssClass
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	FullToolbarEditor.createButton = function( text, cssClass ) {

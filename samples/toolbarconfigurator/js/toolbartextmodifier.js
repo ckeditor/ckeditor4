@@ -6,6 +6,12 @@
 	var AbstractToolbarModifier = ToolbarConfigurator.AbstractToolbarModifier,
 		FullToolbarEditor = ToolbarConfigurator.FullToolbarEditor;
 
+	/**
+	 * @class ToolbarConfigurator.ToolbarTextModifier
+	 * @param {String} editorId An id of modified editor
+	 * @extends AbstractToolbarModifier
+	 * @constructor
+	 */
 	function ToolbarTextModifier( editorId ) {
 		AbstractToolbarModifier.call( this, editorId );
 
@@ -20,7 +26,7 @@
 
 	/**
 	 * @param {Function} callback
-	 * @param {String} config
+	 * @param {String} [config]
 	 * @private
 	 */
 	ToolbarTextModifier.prototype._onInit = function( callback, config ) {
@@ -208,7 +214,7 @@
 
 	/**
 	 * Create DOM string and set to hint container,
-	 * hide container when no usuned element left.
+	 * show proper information when no unused element left.
 	 *
 	 * @private
 	 */
@@ -247,6 +253,10 @@
 		this.hintContainer.setHtml( header + '<dl>' + listHeader + unusedElements + '</dl>' );
 	};
 
+	/**
+	 * @param {String} buttonName
+	 * @returns {String}
+	 */
 	ToolbarTextModifier.prototype.getToolbarGroupByButtonName = function( buttonName ) {
 		var buttonNames = this.fullToolbarEditor.buttonNamesByGroup;
 
@@ -270,6 +280,8 @@
 	 * Returns elements which are not used.
 	 *
 	 * @param {Object} toolbar
+	 * @param {Boolean} [sorted=false]
+	 * @param {String} prefix
 	 * @returns {Array}
 	 */
 	ToolbarTextModifier.prototype.getUnusedButtonsArray = function( toolbar, sorted, prefix ) {
@@ -355,6 +367,10 @@
 		return elements;
 	};
 
+	/**
+	 * @param {String} cfg
+	 * @private
+	 */
 	ToolbarTextModifier.prototype._setupActualConfig = function( cfg ) {
 		cfg = cfg || this.editorInstance.config;
 
@@ -375,7 +391,7 @@
 	};
 
 	/**
-	 * Please note: This method modify element provided in first argument.
+	 * **Please note:** This method modify element provided in first argument.
 	 *
 	 * @param {Array} toolbarGroups
 	 * @returns {Array}
@@ -414,6 +430,13 @@
 		return toolbarGroups;
 	};
 
+	/**
+	 *
+	 * @param {String|Object} group
+	 * @param {Array} removedBtns
+	 * @returns {Array}
+	 * @private
+	 */
 	ToolbarTextModifier.prototype._mapToolbarSubgroup = function( group, removedBtns ) {
 		var totalBtns = 0;
 		if ( typeof group == 'string' )
@@ -498,6 +521,10 @@
 		return parsed;
 	};
 
+	/**
+	 * @param {Array} toolbar
+	 * @returns {{toolbarGroups: Array, removeButtons: string}}
+	 */
 	ToolbarTextModifier.prototype.mapToolbarToToolbarGroups = function( toolbar ) {
 		var usedGroups = {},
 			removeButtons = [],

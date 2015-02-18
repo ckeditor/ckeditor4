@@ -91,7 +91,6 @@ if ( !Object.keys ) {
 	ToolbarConfigurator.AbstractToolbarModifier = AbstractToolbarModifier;
 
 	/**
-	 * @public
 	 * @param {String} config
 	 */
 	AbstractToolbarModifier.prototype.setConfig = function( config ) {
@@ -99,8 +98,7 @@ if ( !Object.keys ) {
 	};
 
 	/**
-	 * @public
-	 * @param {Function} callback
+	 * @param {Function} [callback]
 	 */
 	AbstractToolbarModifier.prototype.init = function( callback ) {
 		var that = this;
@@ -130,6 +128,7 @@ if ( !Object.keys ) {
 	 * Called editor initialization finished.
 	 *
 	 * @param {Function} callback
+	 * @param {String} [actualConfig]
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._onInit = function( callback, actualConfig ) {
@@ -298,6 +297,8 @@ if ( !Object.keys ) {
 	};
 
 	/**
+	 * Always returns copy of config.
+	 *
 	 * @returns {Object}
 	 */
 	AbstractToolbarModifier.prototype.getActualConfig = function() {
@@ -305,7 +306,7 @@ if ( !Object.keys ) {
 	};
 
 	/**
-	 * Create toolbar in tool
+	 * Creates toolbar in tool.
 	 *
 	 * @private
 	 */
@@ -326,7 +327,7 @@ if ( !Object.keys ) {
 	/**
 	 * Create toolbar button and add it to toolbar container
 	 *
-	 * @param cfg
+	 * @param {Object} cfg
 	 * @returns {CKEDITOR.dom.element}
 	 * @private
 	 */
@@ -416,8 +417,11 @@ if ( !Object.keys ) {
 	 * Same as JSON.stringify method but returned string is in one line
 	 *
 	 * @param {Object} json
-	 * @param {Boolean} addSpaces
-	 * @returns {JSON}
+	 * @param {Object} opts
+	 * @param {Boolean} opts.addSpaces
+	 * @param {Boolean} opts.noQuotesOnKey
+	 * @param {Boolean} opts.singleQuotes
+	 * @returns {Object}
 	 */
 	AbstractToolbarModifier.stringifyJSONintoOneLine = function( json, opts ) {
 		opts = opts || {};
@@ -449,12 +453,18 @@ if ( !Object.keys ) {
 		return stringJSON;
 	};
 
+	/**
+	 * Hide toolbar configurator
+	 */
 	AbstractToolbarModifier.prototype.hideUI = function() {
 		this.hidden = true;
 		this.mainContainer.hide();
 		this.editorInstance.container.hide();
 	};
 
+	/**
+	 * Show toolbar configurator
+	 */
 	AbstractToolbarModifier.prototype.showUI = function() {
 		this.hidden = false;
 		this.mainContainer.show();
