@@ -7,7 +7,13 @@
 		doc = CKEDITOR.document,
 		html1 = document.getElementById( 'playground' ).innerHTML;
 
-	var tests = {
+	bender.editors = {
+		classic: {
+			name: 'classic'
+		}
+	};
+
+	bender.test( {
 		setUp: function() {
 			document.getElementById( 'playground' ).innerHTML = html1;
 		},
@@ -218,8 +224,48 @@
 			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 3, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
-		}
-	};
+		},
 
-	bender.test( tests );
+		// #11586
+		'test cloneContents does not split text nodes': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>' );
+
+			var startContainer = root.getFirst(),
+				endContainer = root.getLast().getFirst();
+
+			range.setStart( startContainer, 2 ); // fo[o
+			range.setEnd( endContainer, 1 ); // b]ar
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'foo', root.getFirst().getText(), 'startContainer was not split' );
+			assert.areSame( 'bar', root.getLast().getFirst().getText(), 'endContainer was not split' );
+			assert.areSame( startContainer.$, range.startContainer.$, 'startContainer reference' );
+			assert.areSame( endContainer.$, range.endContainer.$, 'endContainer reference' );
+			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
+		},
+
+		// #11586
+		'test cloneContents does not affect selection': function() {
+			var editor = bender.editors.classic,
+				range = editor.createRange(),
+				editable = editor.editable();
+
+			editable.setHtml( '<p>foo<b>bar</b></p>' );
+
+			range.setStart( editable.getFirst().getFirst(), 2 ); // fo[o
+			range.setEnd( editable.getFirst().getLast().getFirst(), 1 ); // b]ar
+
+			var sel = editor.getSelection();
+			sel.selectRanges( [ range ] );
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<p>fo{o<b>b}ar</b>@</p>', bender.tools.selection.getWithHtml( editor ) );
+			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
+		}
+	} );
 } )();
