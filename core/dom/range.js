@@ -164,6 +164,14 @@ CKEDITOR.dom.range = function( root ) {
 			var removeStartNode;
 			var removeEndNode;
 
+			// Handle here an edge case where we clone a range which is located in one text node.
+			// This allows us to not think about startNode == endNode case later on.
+			if ( action == 2 && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
+				startNode = range.document.createText( startNode.substring( startOffset, endOffset ) );
+				docFrag.append( startNode );
+				return;
+			}
+
 			// For text containers, we must simply split the node and point to the
 			// second part. The removal will be handled by the rest of the code .
 			if ( endNode.type == CKEDITOR.NODE_TEXT ) {
