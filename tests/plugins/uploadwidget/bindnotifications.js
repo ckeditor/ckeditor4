@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,widget,filetools */
+/* bender-tags: editor,unit,clipboard,widget,notification,filetools */
 /* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
 
 'use strict';
@@ -65,7 +65,7 @@ bender.test( {
 
 		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'File successfully uploaded.', type: 'success' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	},
 
@@ -103,7 +103,7 @@ bender.test( {
 
 		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'File successfully uploaded.', type: 'success' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'Done: ' );
 	},
@@ -219,7 +219,7 @@ bender.test( {
 
 		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'Successfully uploaded 3 files.', type: 'success' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	},
 
@@ -274,7 +274,7 @@ bender.test( {
 
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'Successfully uploaded 2 files.', type: 'success' },
 			notificationShowStub.firstCall.args[ 0 ].data.notification );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },

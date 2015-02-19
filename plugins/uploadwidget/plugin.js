@@ -448,10 +448,20 @@
 				editor, editor.lang.uploadwidget.uploadMany, editor.lang.uploadwidget.uploadOne );
 
 			aggregator.once( 'finished', function() {
-				if ( aggregator.getTasksCount() > 0 ) {
-					aggregator.notification.update( { message: editor.lang.uploadwidget.done, type: 'success' } );
-				} else {
+				var tasks = aggregator.getTasksCount();
+
+				if ( tasks === 0 ) {
 					aggregator.notification.hide();
+				} else if ( tasks === 1 ) {
+					aggregator.notification.update( {
+						message: editor.lang.uploadwidget.doneOne,
+						type: 'success'
+					} );
+				} else {
+					aggregator.notification.update( {
+						message: editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
+						type: 'success'
+					} );
 				}
 			} );
 		}
