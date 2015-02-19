@@ -320,6 +320,81 @@
 			var clone = range.cloneContents();
 
 			assert.areSame( '<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - startOffset == 0, startContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b>bom</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 0 ); // [<b>
+			range.setEnd( root.getFirst().getLast(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<b>bar</b>bo', clone.getHtml() );
+		},
+
+		'test cloneContents - startOffset == childCount, startContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b></p><p>foo</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // </b>[
+			range.setEnd( root.getLast().getFirst(), 2 ); // fo}o
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<p></p><p>fo</p>', clone.getHtml() );
+		},
+
+		'test cloneContents - endOffset == 0, endContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo</p><p><b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getLast(), 0 ); // ]<b>
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<p>oo</p><p></p>', clone.getHtml() );
+		},
+
+		'test cloneContents - endOffset == childCount, endContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo<b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst(), 2 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'oo<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - offsets = ( 0, childCount ), containers are elements': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 0 ); // [<b>
+			range.setEnd( root.getFirst(), 1 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<b>bar</b>', clone.getHtml() );
 		}
 	} );
 } )();
