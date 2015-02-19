@@ -9,7 +9,4 @@
 
 **Expected:**
 
-As loading is done:
-
-* Progress notification dissapears.
-* New successs notification is shown.
+As loading is done progress notification change its type to success.

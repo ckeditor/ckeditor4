@@ -12,7 +12,7 @@
 			curTask;
 
 		notification.on( 'finished', function() {
-			editor.showNotification( 'Everything is working just fine.', 'success', 2000 );
+			notification.notification.update( { message: 'Everything is working just fine.', type: 'success' } );
 		} );
 
 		for ( var i = 0; i < 20; i++ ) {

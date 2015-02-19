@@ -13,6 +13,10 @@
 		// Init notification aggregator.
 		aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading {current} of {max}... {percentage}%' );
 
+		aggregator.on( 'finished', function() {
+			aggregator.notification.hide();
+		} );
+
 		// Create 3 tasks.
 		tasks = [
 			aggregator.createTask( { weight: 10 } ),
