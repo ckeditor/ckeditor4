@@ -148,7 +148,7 @@
 				this.originalConfig.removeButtons = '';
 				this.removedButtons = [];
 			} else {
-				this.removedButtons = this.originalConfig.removeButtons.split( ',' );
+				this.removedButtons = this.originalConfig.removeButtons ? this.originalConfig.removeButtons.split( ',' ) : [];
 			}
 		}
 
@@ -185,13 +185,12 @@
 		var that = this,
 			actualConfig = this.getActualConfig(),
 			cfg = {};
-
 		if ( actualConfig.toolbarGroups ) {
 			cfg.toolbarGroups = actualConfig.toolbarGroups;
 
 			var groups = prepareGroups( actualConfig.toolbarGroups, this.cfg.trimEmptyGroups );
 
-			cfg.toolbarGroups = '\n\t' + groups.join( ',\n\t' );
+			cfg.toolbarGroups = '\n\t\t' + groups.join( ',\n\t\t' );
 		}
 
 		function prepareGroups( toolbarGroups, trimEmptyGroups ) {
@@ -229,14 +228,17 @@
 			return groups;
 		}
 
-		if ( actualConfig.removeButtons )
+		if ( actualConfig.removeButtons ) {
 			cfg.removeButtons = actualConfig.removeButtons;
+		}
 
 		var content = [
 			'<textarea readonly>',
-				( cfg.toolbarGroups ? 'config.toolbarGroups = [' + cfg.toolbarGroups + '\n];' : '' ),
-				( cfg.removeButtons ? '\n' : '' ),
-				( cfg.removeButtons ? 'config.removeButtons = \'' + cfg.removeButtons + '\';' : '' ),
+			'CKEDITOR.editorConfig = function( config ) {\n',
+			( cfg.toolbarGroups ? '\tconfig.toolbarGroups = [' + cfg.toolbarGroups + '\n\t];' : '' ),
+			( cfg.removeButtons ? '\n\n' : '' ),
+			( cfg.removeButtons ? '\tconfig.removeButtons = \'' + cfg.removeButtons + '\';' : '' ),
+			'\n};',
 			'</textarea>'
 		].join( '' );
 
