@@ -166,8 +166,15 @@ if ( !Object.keys ) {
 			return copy;
 		}
 
+		if ( this.actualConfig.removePlugins ) {
+			this.actualConfig.removePlugins = this.actualConfig.removePlugins.split( ',' );
+		} else {
+			this.actualConfig.removePlugins = [];
+		}
+
 		// this lines prevent from showing bottom toolbar in modified editor
-		this.actualConfig.removePlugins = 'elementspath';
+		this.actualConfig.removePlugins.push( 'elementspath' );
+		this.actualConfig.removePlugins = this.actualConfig.removePlugins.join( ',' );
 		this.actualConfig.resize_enabled = false;
 
 		if ( typeof callback === 'function' )
