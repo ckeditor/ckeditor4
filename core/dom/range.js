@@ -166,9 +166,9 @@ CKEDITOR.dom.range = function( root ) {
 
 			// For text containers, we must simply split the node and point to the
 			// second part. The removal will be handled by the rest of the code .
-			if ( endNode.type == CKEDITOR.NODE_TEXT )
+			if ( endNode.type == CKEDITOR.NODE_TEXT ) {
 				endNode = endNode.split( endOffset );
-			else {
+			} else {
 				// If the end container has children and the offset is pointing
 				// to a child, then we should start from it.
 				if ( endNode.getChildCount() > 0 ) {
@@ -191,8 +191,9 @@ CKEDITOR.dom.range = function( root ) {
 				// In cases the end node is the same as the start node, the above
 				// splitting will also split the end, so me must move the end to
 				// the second part of the split.
-				if ( startNode.equals( endNode ) )
+				if ( startNode.equals( endNode ) ) {
 					endNode = startNode.getNext();
+				}
 			} else {
 				// If the start container has children and the offset is pointing
 				// to a child, then we should start from its previous sibling.
@@ -227,8 +228,9 @@ CKEDITOR.dom.range = function( root ) {
 				// siblings (different nodes that have the same parent).
 				// "i" will hold the index in the parents array for the top
 				// most element.
-				if ( !topStart.equals( topEnd ) )
+				if ( !topStart.equals( topEnd ) ) {
 					break;
+				}
 			}
 
 			var clone = docFrag,
@@ -240,30 +242,33 @@ CKEDITOR.dom.range = function( root ) {
 				levelStartNode = startParents[ j ];
 
 				// For Extract and Clone, we must clone this level.
-				if ( clone && !levelStartNode.equals( startNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone() );
+				if ( clone && !levelStartNode.equals( startNode ) ) { // action = 0 = Delete
+					levelClone = clone.append( levelStartNode.clone() );
+				}
 
 				currentNode = levelStartNode.getNext();
 
 				while ( currentNode ) {
 					// Stop processing when the current node matches a node in the
 					// endParents tree or if it is the endNode.
-					if ( currentNode.equals( endParents[ j ] ) || currentNode.equals( endNode ) )
+					if ( currentNode.equals( endParents[ j ] ) || currentNode.equals( endNode ) ) {
 						break;
+					}
 
 					// Cache the next sibling.
 					currentSibling = currentNode.getNext();
 
 					// If cloning, just clone it.
-					if ( action == 2 ) // 2 = Clone
-					clone.append( currentNode.clone( true ) );
-					else {
+					if ( action == 2 ) { // 2 = Clone
+						clone.append( currentNode.clone( true ) );
+					} else {
 						// Both Delete and Extract will remove the node.
 						currentNode.remove();
 
 						// When Extracting, move the removed node to the docFrag.
-						if ( action == 1 ) // 1 = Extract
-						clone.append( currentNode );
+						if ( action == 1 ) { // 1 = Extract
+							clone.append( currentNode );
+						}
 					}
 
 					currentNode = currentSibling;
@@ -298,23 +303,25 @@ CKEDITOR.dom.range = function( root ) {
 						currentSibling = currentNode.getPrevious();
 
 						// If cloning, just clone it.
-						if ( action == 2 ) // 2 = Clone
-						clone.$.insertBefore( currentNode.$.cloneNode( true ), clone.$.firstChild );
-						else {
+						if ( action == 2 ) { // 2 = Clone
+							clone.$.insertBefore( currentNode.$.cloneNode( true ), clone.$.firstChild );
+						} else {
 							// Both Delete and Extract will remove the node.
 							currentNode.remove();
 
 							// When Extracting, mode the removed node to the docFrag.
-							if ( action == 1 ) // 1 = Extract
-							clone.$.insertBefore( currentNode.$, clone.$.firstChild );
+							if ( action == 1 ) { // 1 = Extract
+								clone.$.insertBefore( currentNode.$, clone.$.firstChild );
+							}
 						}
 
 						currentNode = currentSibling;
 					}
 				}
 
-				if ( clone )
+				if ( clone ) {
 					clone = levelClone;
+				}
 			}
 
 			// 2 = Clone.
@@ -362,11 +369,13 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			// Cleanup any marked node.
-			if ( removeStartNode )
+			if ( removeStartNode ) {
 				startNode.remove();
+			}
 
-			if ( removeEndNode && endNode.$.parentNode )
+			if ( removeEndNode && endNode.$.parentNode ) {
 				endNode.remove();
+			}
 		};
 
 	var inlineChildReqElements = {
