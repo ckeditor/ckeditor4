@@ -232,6 +232,7 @@
 				range = new CKEDITOR.dom.range( doc );
 
 			root.setHtml( 'foo<b>bar</b>' );
+			doc.getBody().append( root );
 
 			var startContainer = root.getFirst(),
 				endContainer = root.getLast().getFirst();
@@ -266,6 +267,44 @@
 
 			assert.isInnerHtmlMatching( '<p>fo{o<b>b}ar</b>@</p>', bender.tools.selection.getWithHtml( editor ) );
 			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - empty text node is returned if range is at a text boundary': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>bom' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 3 ); // foo[
+			range.setEnd( root.getLast(), 0 ); // ]bom
+
+			var clone = range.cloneContents(),
+				firstChild = clone.getFirst(),
+				lastChild = clone.getLast();
+
+			assert.areSame( CKEDITOR.NODE_TEXT, firstChild.type, 'start is a text node' );
+			assert.areSame( '', firstChild.getText(), 'start text node is empty' );
+
+			assert.areSame( CKEDITOR.NODE_TEXT, lastChild.type, 'end is a text node' );
+			assert.areSame( '', lastChild.getText(), 'end text node is empty' );
+		},
+
+		'test cloneContents - range inside a single text node': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'bar' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // b[ar
+			range.setEnd( root.getFirst(), 2 ); // ba]r
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'bar', root.getFirst().getText(), 'startContainer was not split' );
+			assert.areSame( 1, root.getChildCount(), '1 child left' );
+			assert.areSame( 'a', clone.getHtml() );
 		}
 	} );
 } )();
