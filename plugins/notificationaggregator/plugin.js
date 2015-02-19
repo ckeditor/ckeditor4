@@ -19,17 +19,29 @@
 	 * An aggregator of multiple tasks (progresses) which should be displayed using one
 	 * {@link CKEDITOR.plugins.notification notification}.
 	 *
-	 * Once all the tasks are done, it means that the whole process is finished.
-	 * Once finished the aggregator state will be reset and the {@link #finished} event will be fired.
+	 * Once all the tasks are done, it means that the whole process is finished and the {@link #finished}
+	 * event will be fired.
 	 *
-	 * New tasks can be created after the previous set of tasks was finished. This will reopen the
-	 * notification with message describing only the tasks that are currently in progress.
-	 * Thanks to this a developer does not have to create multiple aggregator instances.
+	 * New tasks can be created after the previous set of tasks was finished. This will continue the process and
+	 * fire {@link #finished} again when it is done.
 	 *
 	 * Simple usage example:
 	 *
-	 *		// Create a new notification aggregator instance.
-	 *		var aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading process, step {current} of {max}...' );
+	 *		// Declare one aggregator will be used for all tasks.
+	 *		var aggregator;
+	 *
+	 *		// ...
+	 *
+	 *		// Create a new aggregator if the previous one fihished all tasks.
+	 *		if ( !aggregator || aggregator.isFinished() ) {
+	 *			// Create a new notification aggregator instance.
+	 *			aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading process, step {current} of {max}...' );
+	 *
+	 *			// Change the notification type to success on finish.
+	 *			aggregator.on( 'finished', function() {
+	 *				aggregator.notification.update( { message: 'Done', type: 'success' } );
+	 *			} );
+	 *		}
 	 *
 	 *		// Create 3 tasks.
 	 *		var taskA = aggregator.createTask(),
@@ -467,14 +479,14 @@
 	CKEDITOR.event.implementOn( Task.prototype );
 
 	/**
-	 * Fired when all tasks are done.
-	 *
-	 * It can be canceled to customize how the notification should be closed.
-	 *
-	 * This event might be used eg. to display a follow-up success message.
+	 * Fired when all tasks are done. On this event notification may change type to success or be hidden:
 	 *
 	 *		aggregator.on( 'finished', function() {
-	 *			editor.showNotification( 'Uploaded ' + this.getDoneTasksCount() + ' files.', 'success', 2000 );
+	 *			if ( aggregator.getTasksCount() == 0 ) {
+	 *				aggregator.notification.hide();
+	 *			} else {
+	 *				aggregator.notification.update( { message: 'Done', type: 'success' } );
+	 *			}
 	 *		} );
 	 *
 	 * @event finished
