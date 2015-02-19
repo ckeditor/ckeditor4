@@ -299,6 +299,27 @@
 			assert.areSame( 20, instance._doneWeights, 'instance._doneWeights reduced' );
 		},
 
+		// If aggregator has some _doneWeights already added, and removed task
+		// has non-zero _doneWeight then it should be subtracted from the aggregator.
+		'test _removeTask subtracts totalWeight': function() {
+			var aggregator = new Aggregator( this.editor, '' ),
+				task1 = aggregator.createTask( { weight: 10 } ),
+				task2 = aggregator.createTask( { weight: 10 } );
+
+			aggregator.createTask( { weight: 10 } ); // task 3
+			aggregator.createTask( { weight: 10 } ); // task 4
+
+			assert.areSame( 0, aggregator.getPercentage() );
+
+			task1.done();
+
+			assert.areSame( 25, Math.round( aggregator.getPercentage() * 100 ) );
+
+			task2.cancel();
+
+			assert.areSame( 33, Math.round( aggregator.getPercentage() * 100 ) );
+		},
+
 		// Ensure that subsequent remove attempt for the same task won't result with an error.
 		'test _removeTask subsequent': function() {
 			var instance = new Aggregator( this.editor, '' );
