@@ -376,6 +376,7 @@ main code {
   line-height: 23.42px;
   line-height: 1.46rem;
   font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  tab-size: 4;
 }
 main kbd {
   font-size: 12px;
