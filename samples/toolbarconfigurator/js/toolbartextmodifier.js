@@ -64,18 +64,24 @@
 			cfgValue;
 
 		if ( CKEDITOR.tools.isArray( toolbarCfg ) ) {
-			var stringifiedToolbar = '[\n\t' + FullToolbarEditor.map( toolbarCfg, function( json ) {
+			var stringifiedToolbar = '[\n\t\t' + FullToolbarEditor.map( toolbarCfg, function( json ) {
 					return AbstractToolbarModifier.stringifyJSONintoOneLine( json, {
 						addSpaces: true,
 						noQuotesOnKey: true,
 						singleQuotes: true
 					} );
-				} ).join( ',\n\t' ) + '\n]';
+				} ).join( ',\n\t\t' ) + '\n\t]';
 
-			cfgValue = 'config.toolbar = ' + stringifiedToolbar + ';';
+			cfgValue = '\tconfig.toolbar = ' + stringifiedToolbar + ';';
 		} else {
 			cfgValue = 'config.toolbar = [];';
 		}
+
+		cfgValue = [
+			'CKEDITOR.editorConfig = function( config ) {\n',
+				cfgValue,
+			'\n};'
+		].join( '' );
 
 		function hint( cm ) {
 			var data = setupData( cm ),
@@ -504,7 +510,10 @@
 		try {
 			var config = {};
 			( function() {
+				var CKEDITOR = {};
+
 				eval( val );
+				CKEDITOR.editorConfig( config );
 				parsed = config;
 			} )();
 
