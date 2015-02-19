@@ -164,6 +164,9 @@ CKEDITOR.dom.range = function( root ) {
 			var removeStartNode;
 			var removeEndNode;
 
+			var cloneStartText;
+			var cloneEndText;
+
 			// Handle here an edge case where we clone a range which is located in one text node.
 			// This allows us to not think about startNode == endNode case later on.
 			if ( action == 2 && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
@@ -175,7 +178,14 @@ CKEDITOR.dom.range = function( root ) {
 			// For text containers, we must simply split the node and point to the
 			// second part. The removal will be handled by the rest of the code .
 			if ( endNode.type == CKEDITOR.NODE_TEXT ) {
-				endNode = endNode.split( endOffset );
+				// If Extract or Delete we can split the text node,
+				// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
+				// the text node for cloning.
+				if ( action != 2 ) {
+					endNode = endNode.split( endOffset );
+				} else {
+					cloneEndText = true;
+				}
 			} else {
 				// If the end container has children and the offset is pointing
 				// to a child, then we should start from it.
@@ -194,13 +204,20 @@ CKEDITOR.dom.range = function( root ) {
 			// For text containers, we must simply split the node. The removal will
 			// be handled by the rest of the code .
 			if ( startNode.type == CKEDITOR.NODE_TEXT ) {
-				startNode.split( startOffset );
+				// If Extract or Delete we can split the text node,
+				// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
+				// the text node for cloning.
+				if ( action != 2 ) {
+					startNode.split( startOffset );
 
-				// In cases the end node is the same as the start node, the above
-				// splitting will also split the end, so me must move the end to
-				// the second part of the split.
-				if ( startNode.equals( endNode ) ) {
-					endNode = startNode.getNext();
+					// In cases the end node is the same as the start node, the above
+					// splitting will also split the end, so me must move the end to
+					// the second part of the split.
+					if ( startNode.equals( endNode ) ) {
+						endNode = startNode.getNext();
+					}
+				} else {
+					cloneStartText = true;
 				}
 			} else {
 				// If the start container has children and the offset is pointing
@@ -244,21 +261,29 @@ CKEDITOR.dom.range = function( root ) {
 			var clone = docFrag,
 				levelStartNode, levelClone, currentNode, currentSibling;
 
-			// Remove all successive sibling nodes for every node in the
-			// startParents tree.
+			// Copy a subtree:
+			// * starting from common parent of start and end nodes,
+			// * down to the tree leaves,
+			// * limited by the endNode and its parents (the right boundary).
 			for ( var j = i; j < startParents.length; j++ ) {
 				levelStartNode = startParents[ j ];
 
-				// For Extract and Clone, we must clone this level.
-				if ( clone && !levelStartNode.equals( startNode ) ) { // action = 0 = Delete
-					levelClone = clone.append( levelStartNode.clone() );
+				// Handle the left boundary.
+				// Clone this level (or part of it in case of a marked text nodes).
+				if ( clone ) {
+					if ( !levelStartNode.equals( startNode ) ) {
+						levelClone = clone.append( levelStartNode.clone() );
+					} else if ( cloneStartText ) {
+						levelClone = clone.append( range.document.createText( startNode.substring( startOffset ) ) );
+					}
 				}
 
 				currentNode = levelStartNode.getNext();
 
 				while ( currentNode ) {
-					// Stop processing when the current node matches a node in the
-					// endParents tree or if it is the endNode.
+					// Stop before the right boundary.
+					// Stop processing when current node matches one of endNode parents or endNode.
+					// This part of tree will be handled in loop over endParents array.
 					if ( currentNode.equals( endParents[ j ] ) || currentNode.equals( endNode ) ) {
 						break;
 					}
@@ -288,14 +313,20 @@ CKEDITOR.dom.range = function( root ) {
 
 			clone = docFrag;
 
-			// Remove all previous sibling nodes for every node in the
-			// endParents tree.
+			// Add parts of the tree which are located in the endNode parents and which are not
+			// already handled.
 			for ( var k = i; k < endParents.length; k++ ) {
 				levelStartNode = endParents[ k ];
 
-				// For Extract and Clone, we must clone this level.
-				if ( action > 0 && !levelStartNode.equals( endNode ) ) // action = 0 = Delete
-				levelClone = clone.append( levelStartNode.clone() );
+				// Handle the right boundary.
+				// Clone this level (or part of it in case of a marked text nodes).
+				if ( clone ) {
+					if ( !levelStartNode.equals( endNode ) ) {
+						levelClone = clone.append( levelStartNode.clone() );
+					} else if ( cloneEndText ) {
+						levelClone = clone.append( range.document.createText( endNode.substring( 0, endOffset ) ) );
+					}
+				}
 
 				// The processing of siblings may have already been done by the parent.
 				if ( !startParents[ k ] || levelStartNode.$.parentNode != startParents[ k ].$.parentNode ) {
@@ -332,22 +363,8 @@ CKEDITOR.dom.range = function( root ) {
 				}
 			}
 
-			// 2 = Clone.
-			if ( action == 2 ) {
-				// No changes in the DOM should be done, so fix the split text (if any).
-
-				var startTextNode = range.startContainer;
-				if ( startTextNode.type == CKEDITOR.NODE_TEXT ) {
-					startTextNode.$.data += startTextNode.$.nextSibling.data;
-					startTextNode.$.parentNode.removeChild( startTextNode.$.nextSibling );
-				}
-
-				var endTextNode = range.endContainer;
-				if ( endTextNode.type == CKEDITOR.NODE_TEXT && endTextNode.$.nextSibling ) {
-					endTextNode.$.data += endTextNode.$.nextSibling.data;
-					endTextNode.$.parentNode.removeChild( endTextNode.$.nextSibling );
-				}
-			} else {
+			// !2 = Detete or Extract.
+			if ( action != 2 ) {
 				// Collapse the range.
 
 				// If a node has been partially selected, collapse the range between

@@ -305,6 +305,21 @@
 			assert.areSame( 'bar', root.getFirst().getText(), 'startContainer was not split' );
 			assert.areSame( 1, root.getChildCount(), '1 child left' );
 			assert.areSame( 'a', clone.getHtml() );
+		},
+
+		'test cloneContents - element selection preceded by a text node': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>bom' );
+			doc.getBody().append( root );
+
+			range.setStart( root, 1 ); // [<b>
+			range.setEnd( root, 2 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<b>bar</b>', clone.getHtml() );
 		}
 	} );
 } )();
