@@ -211,7 +211,6 @@
 
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance.reset = sinon.spy();
 
 			instance.on( 'finished', finishSpy );
 
@@ -225,7 +224,6 @@
 			var instance = new Aggregator( this.editor, '' );
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance.reset = sinon.spy();
 			instance.fire = sinon.stub().returns( false );
 			instance.finished = sinon.spy();
 
@@ -313,19 +311,6 @@
 			instance._removeTask( 1 );
 
 			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
-		},
-
-		'test reset': function() {
-			var instance = new Aggregator( this.editor, '' );
-			instance._tasks = [ 1, 2 ];
-
-			instance.reset();
-
-			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
-			assert.areSame( 0, instance._totalWeights, 'instance._totalWeights cleared' );
-			assert.areSame( 0, instance._doneWeights, 'instance._doneWeights cleared' );
-			assert.areSame( 0, instance._doneTasks, 'instance._doneTasks cleared' );
-			assert.isNull( instance.notification, 'notification cleared' );
 		},
 
 		'test _getNotificationMessage': function() {

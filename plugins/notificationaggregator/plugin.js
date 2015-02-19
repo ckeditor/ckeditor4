@@ -130,7 +130,10 @@
 		this._singularMessage = singularMessage ? new CKEDITOR.template( singularMessage ) : null;
 
 		// Set the _tasks, _totalWeights, _doneWeights, _doneTasks properties.
-		this.reset();
+		this._tasks = [];
+		this._totalWeights = 0;
+		this._doneWeights = 0;
+		this._doneTasks = 0;
 
 		/**
 		 * Array of tasks tracked by the aggregator.
@@ -250,17 +253,6 @@
 		 */
 		getDoneTasksCount: function() {
 			return this._doneTasks;
-		},
-
-		/**
-		 * Resets the state of the aggregator.
-		 */
-		reset: function() {
-			this._tasks = [];
-			this._totalWeights = 0;
-			this._doneWeights = 0;
-			this._doneTasks = 0;
-			this.notification = null;
 		},
 
 		/**
