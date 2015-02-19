@@ -111,7 +111,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			}
 
 			function updateToolbar( editor ) {
-				var editorContainer = editor.container;
+				var editorContainer = editor.container,
+					displayStyle = editorContainer.getStyle( 'display' );
+
+				editorContainer.setStyle( 'display', 'block' );
+
 				var newHeight = editorContainer.getComputedStyle( 'height' ).replace( 'px', '' );
 				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
 
@@ -123,11 +127,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 				var result = newHeight + newMarginTop + newMarginBottom;
 
+				editorContainer.setStyle( 'display', displayStyle );
+
 				editor.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
 			}
 
 			var toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' );
-			toolbarModifier.init();
+
+			var done = 0;
+			toolbarModifier.init( onToolbarInit );
 			toolbarModifier.onRefresh = onRefresh;
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifier.mainContainer );
@@ -136,7 +144,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			CKEDITOR.replace( 'editor-advanced', resetConfig );
 
 			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' );
-			toolbarTextModifier.init( function() {
+			toolbarTextModifier.init( onToolbarInit );
+			toolbarTextModifier.onRefresh = onRefresh;
+
+			function onToolbarInit() {
+				if ( ++done === 2 ) {
+					onToolbarsDone()
+				}
+			}
+
+			function onToolbarsDone() {
 				if ( mode === 'basic' ) {
 					toggleModeBasic( false );
 				} else {
@@ -146,9 +163,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				setTimeout( function() {
 					CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
 				}, 200 );
-			} );
-
-			toolbarTextModifier.onRefresh = onRefresh;
+			}
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifier.mainContainer );
 

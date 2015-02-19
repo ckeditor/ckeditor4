@@ -466,7 +466,9 @@ if ( !Object.keys ) {
 	AbstractToolbarModifier.prototype.hideUI = function() {
 		this.hidden = true;
 		this.mainContainer.hide();
-		this.editorInstance.container.hide();
+		if ( this.editorInstance.container ) {
+			this.editorInstance.container.hide();
+		}
 	};
 
 	/**
@@ -475,6 +477,8 @@ if ( !Object.keys ) {
 	AbstractToolbarModifier.prototype.showUI = function() {
 		this.hidden = false;
 		this.mainContainer.show();
-		this.editorInstance.container.show();
+		if ( this.editorInstance.container ) {
+			this.editorInstance.container.show();
+		}
 	};
 } )();
