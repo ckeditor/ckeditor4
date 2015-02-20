@@ -4,10 +4,10 @@
 
 module.exports = function( grunt ) {
 	var cssBanner = [
-		'/**',
-		' Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
-		' For licensing, see LICENSE.html or http://cksource.com/ckeditor/license',
-		' */'
+		'/*',
+		'Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
+		'For licensing, see LICENSE.html or http://cksource.com/ckeditor/license',
+		'*/'
 	].join( '\n' );
 
 	grunt.config.merge( {
