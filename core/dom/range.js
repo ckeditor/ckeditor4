@@ -149,8 +149,7 @@ CKEDITOR.dom.range = function( root ) {
 		range.collapsed = ( range.startContainer && range.endContainer && range.startContainer.equals( range.endContainer ) && range.startOffset == range.endOffset );
 	}
 
-	// This is a shared function used to delete, extract and clone the range
-	// contents.
+	// This is a shared function used to delete, extract and clone the range contents.
 	function execContentsAction( range, action, docFrag, mergeThen ) {
 		range.optimizeBookmark();
 
@@ -290,18 +289,7 @@ CKEDITOR.dom.range = function( root ) {
 				// Cache the next sibling.
 				currentSibling = currentNode.getNext();
 
-				// If cloning, just clone it.
-				if ( action == 2 ) { // 2 = Clone
-					clone.append( currentNode.clone( true ) );
-				} else {
-					// Both Delete and Extract will remove the node.
-					currentNode.remove();
-
-					// When Extracting, move the removed node to the docFrag.
-					if ( action == 1 ) { // 1 = Extract
-						clone.append( currentNode );
-					}
-				}
+				consume( currentNode, clone );
 
 				currentNode = currentSibling;
 			}
@@ -340,18 +328,7 @@ CKEDITOR.dom.range = function( root ) {
 					// Cache the next sibling.
 					currentSibling = currentNode.getPrevious();
 
-					// If cloning, just clone it.
-					if ( action == 2 ) { // 2 = Clone
-						clone.$.insertBefore( currentNode.$.cloneNode( true ), clone.$.firstChild );
-					} else {
-						// Both Delete and Extract will remove the node.
-						currentNode.remove();
-
-						// When Extracting, mode the removed node to the docFrag.
-						if ( action == 1 ) { // 1 = Extract
-							clone.$.insertBefore( currentNode.$, clone.$.firstChild );
-						}
-					}
+					consume( currentNode, clone, true );
 
 					currentNode = currentSibling;
 				}
@@ -399,6 +376,25 @@ CKEDITOR.dom.range = function( root ) {
 
 		if ( removeEndNode && endNode.$.parentNode ) {
 			endNode.remove();
+		}
+
+		// Depending on an action:
+		// * clones node and adds to new parent,
+		// * removes node,
+		// * moves node to the new parent.
+		function consume( node, newParent, toStart ) {
+			// If cloning, just clone it.
+			if ( action == 2 ) { // 2 = Clone
+				newParent.append( node.clone( true ), toStart );
+			} else {
+				// Both Delete and Extract will remove the node.
+				node.remove();
+
+				// When Extracting, move the removed node to the docFrag.
+				if ( action == 1 ) { // 1 = Extract
+					clone.append( node );
+				}
+			}
 		}
 	}
 
