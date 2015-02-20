@@ -63,6 +63,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		</div>
 	</section>
 	<section class="configurator">
+		<div class="instructions-container">
+			<div class="basic">BASIC</div>
+			<div class="advanced" style="display: none;">ADV</div>
+		</div>
 		<div>
 			<div id="toolbarModifierWrapper"></div>
 		</div>
@@ -85,7 +89,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					toolbarGroups: null,
 					toolbar: null
 				},
-				configuratorSection = CKEDITOR.document.findOne( 'section.configurator' );
+				configuratorSection = CKEDITOR.document.findOne( 'section.configurator' ),
+				basicInstruction = CKEDITOR.document.findOne( '.instructions-container > .basic' ),
+				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' );
 
 			CKEDITOR.document.getWindow().on( 'resize', function() {
 				updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
@@ -185,6 +191,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
 
 				configuratorSection.removeClass( 'width-freed' );
+				basicInstruction.show();
+				advancedInstruction.hide();
 
 				callOnRefresh && onRefresh( toolbarModifier );
 			}
@@ -196,6 +204,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
 
 				configuratorSection.addClass( 'width-freed' );
+				advancedInstruction.show();
+				basicInstruction.hide();
 
 				callOnRefresh && onRefresh( toolbarTextModifier );
 			}
