@@ -13,6 +13,7 @@ var CKBUILDER_CONFIG = {
 		'bender-err.log',
 		'bender-out.log',
 		'dev',
+		'docs',
 		'.DS_Store',
 		'.editorconfig',
 		'.gitignore',
