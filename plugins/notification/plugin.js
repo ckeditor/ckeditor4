@@ -11,23 +11,7 @@ CKEDITOR.plugins.add( 'notification', {
 	init: function( editor ) {
 		editor._.notificationArea = new Area( editor );
 
-		/**
-		 * Creates and shows a new notification. By default the notification is shown over the editors contents, in the
-		 * viewport if it is possible.
-		 *
-		 * See {@link CKEDITOR.plugins.notification}.
-		 *
-		 * @since 4.5
-		 * @member CKEDITOR.editor
-		 * @param {String} message Message displayed on the notification.
-		 * @param {String} [type='info'] Type of the notification. Can be `'info'`, `'warning'`, `'success'` or `'progress'`.
-		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from `0` to `1`
-		 * (defaults to `0`). Otherwise the the third parameter may be a notification duration: after how many milliseconds
-		 * notification should be closed automatically. `0` means that notification will not be closed automatically, user
-		 * needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
-		 * Note that `warning` notifications will not be closed automatically.
-		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
-		 */
+		// Overwrites default `editor.showNotification`.
 		editor.showNotification = function( message, type, progressOrDuration ) {
 			var progress, duration;
 
