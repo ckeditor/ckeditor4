@@ -150,8 +150,14 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 	// This is a shared function used to delete, extract and clone the range contents.
-	function execContentsAction( range, action, docFrag, mergeThen ) {
+	function execContentsAction( range, action, docFrag ) {
+		'use strict';
+
 		range.optimizeBookmark();
+
+		var isExtract = action == 1;
+		var isClone = action == 2;
+		var doClone = isClone || isExtract;
 
 		var startNode = range.startContainer;
 		var endNode = range.endContainer;
@@ -159,15 +165,15 @@ CKEDITOR.dom.range = function( root ) {
 		var startOffset = range.startOffset;
 		var endOffset = range.endOffset;
 
-		var removeStartNode;
-		var removeEndNode;
+		var cloneStartNode;
+		var cloneEndNode;
 
 		var cloneStartText;
 		var cloneEndText;
 
 		// Handle here an edge case where we clone a range which is located in one text node.
 		// This allows us to not think about startNode == endNode case later on.
-		if ( action == 2 && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
+		if ( isClone && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
 			startNode = range.document.createText( startNode.substring( startOffset, endOffset ) );
 			docFrag.append( startNode );
 			return;
@@ -179,7 +185,7 @@ CKEDITOR.dom.range = function( root ) {
 			// If Extract or Delete we can split the text node,
 			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
 			// the text node for cloning.
-			if ( action != 2 ) {
+			if ( !isClone ) {
 				endNode = endNode.split( endOffset );
 			} else {
 				cloneEndText = true;
@@ -190,9 +196,8 @@ CKEDITOR.dom.range = function( root ) {
 			if ( endNode.getChildCount() > 0 ) {
 				// If the offset points after the last node.
 				if ( endOffset >= endNode.getChildCount() ) {
-					// Let's create a temporary node and mark it for removal.
-					endNode = endNode.append( range.document.createText( '' ) );
-					removeEndNode = true;
+					endNode = endNode.getChild( endOffset - 1 );
+					cloneEndNode = true;
 				} else {
 					endNode = endNode.getChild( endOffset );
 				}
@@ -205,177 +210,133 @@ CKEDITOR.dom.range = function( root ) {
 			// If Extract or Delete we can split the text node,
 			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
 			// the text node for cloning.
-			if ( action != 2 ) {
+			if ( !isClone ) {
 				startNode.split( startOffset );
-
-				// In cases the end node is the same as the start node, the above
-				// splitting will also split the end, so me must move the end to
-				// the second part of the split.
-				if ( startNode.equals( endNode ) ) {
-					endNode = startNode.getNext();
-				}
 			} else {
 				cloneStartText = true;
 			}
 		} else {
-			// If the start container has children and the offset is pointing
-			// to a child, then we should start from its previous sibling.
-
-			// If the offset points to the first node, we don't have a
-			// sibling, so let's use the first one, but mark it for removal.
-			if ( !startOffset ) {
-				// Let's create a temporary node and mark it for removal.
-				startNode = startNode.append( range.document.createText( '' ), 1 );
-				removeStartNode = true;
-			} else if ( startOffset >= startNode.getChildCount() ) {
-				// Let's create a temporary node and mark it for removal.
-				startNode = startNode.append( range.document.createText( '' ) );
-				removeStartNode = true;
-			} else {
-				startNode = startNode.getChild( startOffset ).getPrevious();
+			if ( startNode.getChildCount() > 0 ) {
+				if ( startOffset === 0 ) {
+					startNode = startNode.getChild( startOffset );
+					cloneStartNode = true;
+				} else {
+					startNode = startNode.getChild( startOffset - 1 );
+				}
 			}
 		}
 
 		// Get the parent nodes tree for the start and end boundaries.
-		var startParents = startNode.getParents();
-		var endParents = endNode.getParents();
+		var startParents = startNode.getParents(),
+			endParents = endNode.getParents(),
+			minLevel = findMinLevel(),
+			maxLevelLeft = startParents.length - 1,
+			maxLevelRight = endParents.length - 1,
+			levelParent = docFrag,
+			nextLevelParent,
+			leftNode,
+			rightNode,
+			nextSibling,
+			// Keeps track of the last connected level (on which left and right branches are connected)
+			// Usually this is minLevel, but not always.
+			lastConnectedLevel = -1;
 
-		// Compare them, to find the top most siblings.
-		var i, topStart, topEnd;
+		// THE LEFT BRANCH.
+		for ( var level = minLevel; level <= maxLevelLeft; level++ ) {
+			leftNode = startParents[ level ];
+			nextSibling = leftNode.getNext();
 
-		for ( i = 0; i < startParents.length; i++ ) {
-			topStart = startParents[ i ];
-			topEnd = endParents[ i ];
+			// 1.
+			// The first step is to handle partial selection of the left branch.
 
-			// The compared nodes will match until we find the top most
-			// siblings (different nodes that have the same parent).
-			// "i" will hold the index in the parents array for the top
-			// most element.
-			if ( !topStart.equals( topEnd ) ) {
-				break;
-			}
-		}
-
-		var clone = docFrag,
-			levelStartNode, levelClone, currentNode, currentSibling;
-
-		// Copy a subtree:
-		// * starting from common parent of start and end nodes,
-		// * down to the tree leaves,
-		// * limited by the endNode and its parents (the right boundary).
-		for ( var j = i; j < startParents.length; j++ ) {
-			levelStartNode = startParents[ j ];
-
-			// Handle the left boundary.
-			// Clone this level (or part of it in case of a marked text nodes).
-			if ( clone ) {
-				if ( !levelStartNode.equals( startNode ) ) {
-					levelClone = clone.append( levelStartNode.clone() );
+			// Max depth of the left branch. It means that ( leftSibling == endNode ).
+			// We also check if the leftNode isn't only partially selected, because in this case
+			// we want to make a shallow clone of it (the else part).
+			if ( level == maxLevelLeft && !( leftNode.equals( endParents[ level ] ) && maxLevelLeft < maxLevelRight ) ) {
+				if ( cloneStartNode ) {
+					consume( leftNode, levelParent );
 				} else if ( cloneStartText ) {
-					levelClone = clone.append( range.document.createText( startNode.substring( startOffset ) ) );
+					levelParent.append( range.document.createText( leftNode.substring( startOffset ) ) );
 				}
+			} else if ( doClone ) {
+				nextLevelParent = levelParent.append( leftNode.clone() );
 			}
 
-			currentNode = levelStartNode.getNext();
+			// 2.
+			// The second step is to handle full selection of the content between the left branch and the right branch.
 
-			while ( currentNode ) {
-				// Stop before the right boundary.
-				// Stop processing when current node matches one of endNode parents or endNode.
-				// This part of tree will be handled in loop over endParents array.
-				if ( currentNode.equals( endParents[ j ] ) || currentNode.equals( endNode ) ) {
+			while ( nextSibling ) {
+				// TODO this case and the below are exactly the same because endNode is part of endParents.
+				// The start and end nodes are on the same level. Handle this case fully here, because it's simple.
+				if ( nextSibling.equals( endNode ) ) {
+					lastConnectedLevel = level;
 					break;
 				}
 
-				// Cache the next sibling.
-				currentSibling = currentNode.getNext();
-
-				consume( currentNode, clone );
-
-				currentNode = currentSibling;
-			}
-
-			if ( clone )
-				clone = levelClone;
-		}
-
-		clone = docFrag;
-
-		// Add parts of the tree which are located in the endNode parents and which are not
-		// already handled.
-		for ( var k = i; k < endParents.length; k++ ) {
-			levelStartNode = endParents[ k ];
-
-			// Handle the right boundary.
-			// Clone this level (or part of it in case of a marked text nodes).
-			if ( clone ) {
-				if ( !levelStartNode.equals( endNode ) ) {
-					levelClone = clone.append( levelStartNode.clone() );
-				} else if ( cloneEndText ) {
-					levelClone = clone.append( range.document.createText( endNode.substring( 0, endOffset ) ) );
+				// We can't clone entire endParent just like we can't clone entire startParent -
+				// - they are not fully selected with the range. Partial endParent selection
+				// will be cloned in the next loop.
+				if ( nextSibling.equals( endParents[ level ] ) ) {
+					lastConnectedLevel = level;
+					break;
 				}
+
+				nextSibling = consume( nextSibling, levelParent );
 			}
 
-			// The processing of siblings may have already been done by the parent.
-			if ( !startParents[ k ] || levelStartNode.$.parentNode != startParents[ k ].$.parentNode ) {
-				currentNode = levelStartNode.getPrevious();
+			levelParent = nextLevelParent;
+		}
 
-				while ( currentNode ) {
-					// Stop processing when the current node matches a node in the
-					// startParents tree or if it is the startNode.
-					if ( currentNode.equals( startParents[ k ] ) || currentNode.equals( startNode ) )
-						break;
+		// Reset levelParent, because we reset the level.
+		levelParent = docFrag;
 
-					// Cache the next sibling.
-					currentSibling = currentNode.getPrevious();
+		// THE RIGHT BRANCH.
+		for ( level = minLevel; level <= maxLevelRight; level++ ) {
+			rightNode = endParents[ level ];
+			nextSibling = rightNode.getPrevious();
 
-					consume( currentNode, clone, true );
+			// Do not process this node if it is shared with the left branch
+			// because it was already processed.
+			//
+			// Note: Don't worry about text nodes selection - if the entire range was placed in a single text node
+			// it was handled as a special case at the beginning. In other cases when startNode == endNode
+			// or when on this level leftNode == rightNode (so rightNode.equals( startParents[ level ] ))
+			// this node was handled by the previous loop.
+			if ( !rightNode.equals( startParents[ level ] ) ) {
+				// 1.
+				// The first step is to handle partial selection of the right branch.
 
-					currentNode = currentSibling;
+				// Max depth of the right branch. It means that ( rightNode == endNode ).
+				// We also check if the rightNode isn't only partially selected, because in this case
+				// we want to make a shallow clone of it (the else part).
+				if ( level == maxLevelRight && !( rightNode.equals( startParents[ level ] ) && maxLevelRight < maxLevelLeft ) ) {
+					if ( cloneEndNode ) {
+						consume( rightNode, levelParent );
+					} else if ( cloneEndText ) {
+						levelParent.append( range.document.createText( rightNode.substring( 0, endOffset ) ) );
+					}
+				} else if ( doClone ) {
+					nextLevelParent = levelParent.append( rightNode.clone() );
 				}
-			}
 
-			if ( clone ) {
-				clone = levelClone;
-			}
-		}
-
-		// !2 = Detete or Extract.
-		if ( action != 2 ) {
-			// Collapse the range.
-
-			// If a node has been partially selected, collapse the range between
-			// topStart and topEnd. Otherwise, simply collapse it to the start. (W3C specs).
-			if ( topStart && topEnd && ( startNode.$.parentNode != topStart.$.parentNode || endNode.$.parentNode != topEnd.$.parentNode ) ) {
-				var endIndex = topEnd.getIndex();
-
-				// If the start node is to be removed, we must correct the
-				// index to reflect the removal.
-				if ( removeStartNode && topEnd.$.parentNode == startNode.$.parentNode )
-					endIndex--;
-
-				// Merge splitted parents.
-				if ( mergeThen && topStart.type == CKEDITOR.NODE_ELEMENT ) {
-					var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
-						'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
-					span.insertAfter( topStart );
-					topStart.mergeSiblings( false );
-					range.moveToBookmark( { startNode: span } );
-				} else {
-					range.setStart( topEnd.getParent(), endIndex );
+				// 2.
+				// The second step is to handle all left (selected) siblings of the rightNode which
+				// have not yet been handled. If the level branches were connected, the previous loop
+				// already copied all siblings (except the current rightNode).
+				if ( level > lastConnectedLevel ) {
+					while ( nextSibling ) {
+						nextSibling = consume( nextSibling, levelParent, true );
+					}
 				}
+
+				levelParent = nextLevelParent;
 			}
-
-			// Collapse it to the start.
-			range.collapse( true );
 		}
 
-		// Cleanup any marked node.
-		if ( removeStartNode ) {
-			startNode.remove();
-		}
-
-		if ( removeEndNode && endNode.$.parentNode ) {
-			endNode.remove();
+		// Detete or Extract.
+		// We need to update the range and if mergeThen was passed do it.
+		if ( !isClone ) {
+			mergeAndUpdate();
 		}
 
 		// Depending on an action:
@@ -383,17 +344,99 @@ CKEDITOR.dom.range = function( root ) {
 		// * removes node,
 		// * moves node to the new parent.
 		function consume( node, newParent, toStart ) {
+			var nextSibling = toStart ? node.getPrevious() : node.getNext();
+
 			// If cloning, just clone it.
-			if ( action == 2 ) { // 2 = Clone
+			if ( isClone ) {
 				newParent.append( node.clone( true ), toStart );
 			} else {
 				// Both Delete and Extract will remove the node.
 				node.remove();
 
 				// When Extracting, move the removed node to the docFrag.
-				if ( action == 1 ) { // 1 = Extract
-					clone.append( node );
+				if ( isExtract ) {
+					newParent.append( node );
 				}
+			}
+
+			return nextSibling;
+		}
+
+		// Finds a level number on which both branches starts diverging.
+		// If such level does not exist, return the last on which both branches have nodes.
+		function findMinLevel() {
+			// Compare them, to find the top most siblings.
+			var i, topStart, topEnd,
+				maxLevel = Math.min( startParents.length, endParents.length );
+
+			for ( i = 0; i < maxLevel; i++ ) {
+				topStart = startParents[ i ];
+				topEnd = endParents[ i ];
+
+				// The compared nodes will match until we find the top most siblings (different nodes that have the same parent).
+				// "i" will hold the index in the parents array for the top most element.
+				if ( !topStart.equals( topEnd ) ) {
+					return i;
+				}
+			}
+
+			// When startNode == endNode.
+			return i - 1;
+		}
+
+		// Executed only when deleting or extracting to update range position
+		// and perform the merge operation.
+		function mergeAndUpdate() {
+			var commonLevel = minLevel - 1;
+
+			// If a node has been partially selected, collapse the range between
+			// startParents[ minLevel + 1 ] and endParents[ minLevel + 1 ] (the first diverged elements).
+			// Otherwise, simply collapse it to the start. (W3C specs).
+			//
+			// All clear, right?
+			//
+			// It took me few hours to truly understand a previous version of this condition.
+			// Mine seems to be more straightforward (even if it doesn't look so) and I could leave you here
+			// without additional comments, but I'm not that mean so here goes the explanation.
+			//
+			// We want to know if both ends of the range are anchored in the same element. Really. It's this simple.
+			// But why? Because we need to differentiate situations like:
+			//
+			// <p>foo[<b>x</b>bar]y</p>		(commonLevel = p, maxLL = "foo", maxLR = "y")
+			// from:
+			// <p>foo<b>x[</b>bar]y</p>		(commonLevel = p, maxLL = "x", maxLR = "y")
+			//
+			// In the first case we can collapse the range to the left, because simply everything between range's
+			// boundaries was removed.
+			// In the second case we must place the range after </b>, because <b> was only **partially selected**.
+			//
+			// * <b> is our startParents[ commonLevel + 1 ]
+			// * "y" is our endParents[ commonLevel + 1 ].
+			//
+			// By now "bar" is removed from the DOM so <b> is a direct sibling of "y":
+			// <p>foo<b>x</b>y</p>
+			//
+			// Therefore it's enough to place the range between <b> and "y".
+			//
+			// Now, what does the comparison mean? Why not just taking startNode and endNode and checking
+			// their parents? Because the tree is already changed and they may be gone. Plus, thanks to
+			// cloneStartNode and cloneEndNode, that would be reaaaaly tricky.
+			//
+			// So we play with levels which can give us the same information:
+			// * commonLevel - the level of common ancestor,
+			// * maxLevel - 1 - the level of range boundary parent (range boundary is here like a bookmark span).
+			// * commonLevel < maxLevel - 1 - whether the range boundary is not a child of common ancestor.
+			if ( commonLevel < ( maxLevelLeft - 1 ) || commonLevel < ( maxLevelRight - 1 ) ) {
+				if ( ( maxLevelRight == commonLevel + 1 ) && cloneEndNode ) {
+					// The maxLevelRight + 1 element could be already removed so we use the fact that
+					// we know that it was the last element in its parent.
+					range.moveToPosition( endParents[ commonLevel ], CKEDITOR.POSITION_BEFORE_END );
+				} else {
+					range.moveToPosition( endParents[ commonLevel + 1 ], CKEDITOR.POSITION_BEFORE_START );
+				}
+			} else {
+				// Collapse it to the start.
+				range.collapse( true );
 			}
 		}
 	}

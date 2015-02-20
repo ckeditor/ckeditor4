@@ -395,6 +395,51 @@
 			var clone = range.cloneContents();
 
 			assert.areSame( '<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - right branch much longer': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<u>x<b>bar<i>bom</i>y</b>z</u>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // f{oo
+			range.setEnd( root.findOne( 'i' ).getFirst(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'oo<u>x<b>bar<i>bo</i></b></u>', clone.getHtml() );
+		},
+
+		'test cloneContents - left branch much longer': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<u>x<b>y<i>bom</i>bar</b>z</u>foo' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'i' ).getFirst(), 1 ); // b{om
+			range.setEnd( root.getLast(), 2 ); // fo}o
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<u><b><i>om</i>bar</b>z</u>fo', clone.getHtml() );
+		},
+
+		'test cloneContents - finding levelClone in the right branch': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo<br>bar</b><i><u>x</u><s>bom</s></i></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'b' ).getFirst(), 1 ); // f{oo
+			range.setEnd( root.findOne( 's' ).getFirst(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.areSame( '<b>oo<br>bar</b><i><u>x</u><s>bo</s></i>', clone.getHtml() );
 		}
 	} );
 } )();
