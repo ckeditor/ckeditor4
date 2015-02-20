@@ -637,7 +637,7 @@
 
 					if ( !success ) {
 						// Show cutError or copyError.
-						alert( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
+						editor.showNotification( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
 					}
 
 					return success;
