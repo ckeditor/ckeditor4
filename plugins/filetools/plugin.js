@@ -118,34 +118,34 @@
 	 * be called so the progress will be refreshed.
 	 *
 	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request
-	 * or response handling you need to overwrite {@link #sendRequest sendRequest} or {@link #handleResponse handleResponse}
+	 * or response handling you need to overwrite custom behaviour using {@link CKEDITOR#fileLoaderPreSendRequest} or {@link #handleResponse handleResponse}
 	 * method.
 	 *
 	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
 	 *
 	 * Here is a simple usage of `FileLoader`:
 	 *
-	 *	editor.on( 'paste', function( evt ) {
-	 *		for ( var i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
-	 *			var file = evt.data.dataTransfer.getFile( i );
+	 *		editor.on( 'paste', function( evt ) {
+	 *			for ( var i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *				var file = evt.data.dataTransfer.getFile( i );
 	 *
-	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
-	 *				var loader = editor.uploadsRepository.create( file );
+	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
+	 *					var loader = editor.uploadsRepository.create( file );
 	 *
-	 *				loader.on( 'update', function () {
-	 *					document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
+	 *					loader.on( 'update', function () {
+	 *						document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
+	 *					} );
+	 *
+	 *					loader.on( 'error', function () {
+	 *						alert( 'Error!' );
 	 *				} );
 	 *
-	 *				loader.on( 'error', function () {
-	 *					alert( 'Error!' );
-	 *				} );
+	 *					loader.loadAndUpload( 'http://upload.url/' );
 	 *
-	 *				loader.loadAndUpload( 'http://upload.url/' );
-	 *
-	 *				evt.data.dataValue += 'loading...'
+	 *					evt.data.dataValue += 'loading...'
+	 *				}
 	 *			}
-	 *		}
-	 *	} );
+	 *		} );
 	 *
 	 * Note that `FileLoader` use file API which is support since Internet Explorer 10.
 	 *
@@ -161,6 +161,7 @@
 	 * the MIME type by replacing '/' with '.', for example for `image/png` the file name will be `image.png`.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
+		this.editor = editor;
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
@@ -401,6 +402,11 @@
 				this.changeStatus( 'error' );
 			} else {
 				this.xhr = new XMLHttpRequest();
+				this.xhr.open( 'POST', this.uploadUrl, true );
+
+				CKEDITOR.fire( 'fileLoaderPreSendRequest', {
+					fileLoader: this
+				}, this.editor );
 
 				this.uploadUrl = url;
 
@@ -408,7 +414,7 @@
 
 				this.attachRequestListeners();
 
-				this.sendRequest();
+				sendRequest( this );
 			}
 		},
 
@@ -453,33 +459,6 @@
 					loader.handleResponse( xhr );
 				}
 			};
-		},
-
-		/**
-		 * Send asynchronous request. Overwrite this method for a custom request.
-		 *
-		 * For example to send data directly (without a form):
-		 *
-		 * 		CKEDITOR.fileTools.fileLoader.prototype.sendRequest = function() {
-		 * 			var xhr = this.xhr;
-		 *
-		 * 			xhr.open( 'POST', this.uploadUrl, true );
-		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
-		 * 			xhr.setRequestHeader( 'X-File-Name', this.fileName );
-		 * 			xhr.setRequestHeader( 'X-File-Size', this.total );
-		 * 			xhr.send( this.file );
-		 * 		};
-		 *
-		 * @private
-		 * @param {XMLHttpRequest} xhr XML HTTP Request object with attached listeners.
-		 */
-		sendRequest: function() {
-			var formData = new FormData(),
-				xhr = this.xhr;
-
-			formData.append( 'upload', this.file, this.fileName );
-			xhr.open( 'POST', this.uploadUrl, true );
-			xhr.send( formData );
 		},
 
 		/**
@@ -594,7 +573,33 @@
 		 *
 		 * @event update
 		 */
+
+		/**
+		 * Below example shows how to modify file loader request object just before sending it to the server.
+		 * It allows to add custom request headers or set flags. This is especially useful for enabling Cross-Origin requests.
+		 * For more information about Cross-Origin Resource Sharing see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
+		 * For more information about XMLHttpRequest object see [here](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
+		 *
+		 * 		CKEDITOR.on( 'fileLoaderPreSendRequest', function( e ) {
+		 * 			var xhr = e.data.fileLoader.xhr;
+		 *
+		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
+		 * 			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
+		 * 			xhr.withCredentials = true;
+		 * 		} );
+		 *
+		 * @event fileLoaderPreSendRequest
+		 * @member CKEDITOR
+		 * @param {CKEDITOR.fileTools.fileLoader} fileLoader
+		 */
 	};
+
+	function sendRequest( fileLoader ) {
+		var formData = new FormData();
+
+		formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+		fileLoader.xhr.send( formData );
+	}
 
 	CKEDITOR.event.implementOn( UploadsRepository.prototype );
 	CKEDITOR.event.implementOn( FileLoader.prototype );
