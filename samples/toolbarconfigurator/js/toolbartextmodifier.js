@@ -165,7 +165,9 @@
 		this.modifyContainer.append( codeMirrorWrapper );
 		this.codeContainer = CodeMirror( codeMirrorWrapper.$, {
 			mode: { name: 'javascript', json: true },
-			lineNumbers: true,
+			// For some reason (most likely CM's bug) gutter breaks CM's height.
+			// Refreshing CM does not help.
+			lineNumbers: false,
 			lineWrapping: true,
 			// Trick to make CM autogrow. http://codemirror.net/demo/resize.html
 			viewportMargin: Infinity,

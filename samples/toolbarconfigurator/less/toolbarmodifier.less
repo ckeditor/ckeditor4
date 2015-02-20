@@ -396,10 +396,6 @@
 	.font-size( .813 );
 }
 
-.CodeMirror {
-	height: auto;
-}
-
 .configContainer > textarea,
 .CodeMirror pre,
 .CodeMirror-linenumber {
@@ -449,6 +445,14 @@
 
 	.invalid .CodeMirror {
 		background: #fff8f8;
+	}
+
+	.CodeMirror {
+		// Autogrow. http://codemirror.net/demo/resize.html
+		height: auto;
+		// Complementory with std's CodeMirror-lines vertical padding.
+		// Not needed when we use lines number, but we can't due to a bug in CM.
+		padding: 0 @sample-standard-vgap/2;
 	}
 }
 
