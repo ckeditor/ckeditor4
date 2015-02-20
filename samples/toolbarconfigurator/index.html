@@ -115,13 +115,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 				editorContainer.setStyle( 'display', 'block' );
 
-				var newHeight = editorContainer.getComputedStyle( 'height' ).replace( 'px', '' );
+				var newHeight = parseInt( editorContainer.getComputedStyle( 'height' ), 10 );
 				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
 
-				var newMarginTop = editorContainer.getComputedStyle( 'margin-top' ).replace( 'px', '' );
+				var newMarginTop = parseInt( editorContainer.getComputedStyle( 'margin-top' ), 10 );
 				newMarginTop = ( isNaN( newMarginTop ) ? 0 : Number( newMarginTop ) );
 
-				var newMarginBottom = editorContainer.getComputedStyle( 'margin-bottom' ).replace( 'px', '' );
+				var newMarginBottom = parseInt( editorContainer.getComputedStyle( 'margin-bottom' ), 10 );
 				newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
 
 				var result = newHeight + newMarginTop + newMarginBottom;
@@ -148,7 +148,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			function onToolbarInit() {
 				if ( ++done === 2 ) {
-					onToolbarsDone()
+					onToolbarsDone();
 				}
 			}
 
