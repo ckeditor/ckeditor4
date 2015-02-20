@@ -46,3 +46,5 @@ var initSample = ( function() {
 		return !!CKEDITOR.plugins.get( 'wysiwygarea' );
 	}
 } )();
+
+// %LEAVE_UNMINIFIED% %REMOVE_LINE%
