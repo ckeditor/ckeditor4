@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
 					sourceMap: true,
 					sourceMapFilename: 'samples/css/sample.css.map',
 					sourceMapURL: 'sample.css.map',
-					sourceMapRootpath: '/'
+					sourceMapRootpath: '../../'
 				}
 			},
 
@@ -46,7 +46,7 @@ module.exports = function( grunt ) {
 					sourceMap: true,
 					sourceMapFilename: 'samples/toolbarconfigurator/css/toolbarmodifier.css.map',
 					sourceMapURL: 'toolbarmodifier.css.map',
-					sourceMapRootpath: '/'
+					sourceMapRootpath: '../../'
 				}
 			}
 		},
