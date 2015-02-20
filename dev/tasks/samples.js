@@ -48,17 +48,6 @@ module.exports = function( grunt ) {
 					sourceMapURL: 'toolbarmodifier.css.map',
 					sourceMapRootpath: '/'
 				}
-			},
-
-			'samples-production': {
-				files: [
-					'<%= less.basicsample.files %>',
-					'<%= less.toolbarconfigurator.files %>'
-				],
-				options: {
-					banner: cssBanner,
-					compress: true
-				}
 			}
 		},
 
