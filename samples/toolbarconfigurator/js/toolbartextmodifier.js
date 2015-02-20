@@ -165,8 +165,9 @@
 		this.modifyContainer.append( codeMirrorWrapper );
 		this.codeContainer = CodeMirror( codeMirrorWrapper.$, {
 			mode: { name: 'javascript', json: true },
-			lineNumbers: false,
+			lineNumbers: true,
 			lineWrapping: true,
+			// Trick to make CM autogrow. http://codemirror.net/demo/resize.html
 			viewportMargin: Infinity,
 			value: cfgValue,
 			smartIndent: false,
@@ -176,9 +177,9 @@
 				'Ctrl-Space': complete,
 				"'''": completeIfNeeded( "'" ),
 				"'\"'": completeIfNeeded( '"' ),
-				"Backspace": completeIfNeeded( '"' ),
-				"Delete": completeIfNeeded( '"' ),
-				'Tab': false,
+				Backspace: completeIfNeeded( '"' ),
+				Delete: completeIfNeeded( '"' ),
+				Tab: false,
 				'Shift-Tab': false
 			}
 		} );

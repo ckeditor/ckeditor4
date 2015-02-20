@@ -359,6 +359,9 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   line-height: 23.42px;
   line-height: 1.46rem;
 }
+.CodeMirror {
+  height: auto;
+}
 .configContainer > textarea,
 .CodeMirror pre,
 .CodeMirror-linenumber {
