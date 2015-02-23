@@ -10,16 +10,12 @@
 	CKEDITOR.on( 'fileUploadRequest', function( e ) {
 		var fileLoader = e.data.fileLoader;
 
-		fileLoader.xhr = new XMLHttpRequest();
 		fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
 	}, null, null, 5 );
 
 	CKEDITOR.on( 'fileUploadRequest', function( e ) {
 		var fileLoader = e.data.fileLoader,
 			formData = new FormData();
-
-		fileLoader.changeStatus( 'uploading' );
-		fileLoader.attachRequestListeners();
 
 		formData.append( 'upload', fileLoader.file, fileLoader.fileName );
 		fileLoader.xhr.send( formData );
@@ -448,9 +444,14 @@
 			} else {
 				this.uploadUrl = url;
 
+				this.xhr = new XMLHttpRequest();
+				this.attachRequestListeners();
+
 				CKEDITOR.fire( 'fileUploadRequest', {
 					fileLoader: this
 				}, this.editor );
+
+				this.changeStatus( 'uploading' );
 			}
 		},
 
