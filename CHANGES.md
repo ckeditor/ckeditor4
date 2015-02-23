@@ -23,6 +23,7 @@ New Features:
 * [#11461](http://dev.ckeditor.com/ticket/11461): Introduced support for uploading pasted and dropped images with architecture for handling other types.
 * [#12810](http://dev.ckeditor.com/ticket/12810): Introduced [notifications aggregator](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) for the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
 * [#11636](http://dev.ckeditor.com/ticket/11636): Introduce new, focused on UX, methods for getting selected HTML and deleting it.
+* [#12746](http://dev.ckeditor.com/ticket/12746): Config option to hide [Enhanced Image](http://ckeditor.com/addon/image2) resizer.
 
 Fixed Issues:
 
