@@ -9,7 +9,9 @@
 			result = CKEDITOR.document.getById( 'result' );
 
 		editor.on( 'change', function() {
-			result.setText( editor.editable().getHtml() );
+			setTimeout( function() {
+				result.setText( CKEDITOR.instances.editor.editable().getHtml() );
+			}, 10 );
 		} );
 	}() );
 </script>
