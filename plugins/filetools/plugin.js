@@ -25,6 +25,32 @@
 		fileLoader.xhr.send( formData );
 	}, null, null, 1000 );
 
+	CKEDITOR.on( 'fileUploadResponse', function( e ) {
+		var fileLoader = e.data.fileLoader,
+			xhr = fileLoader.xhr,
+			data = e.data;
+
+		try {
+			var response = JSON.parse( xhr.responseText );
+		} catch ( err ) {
+			data.message = fileLoader.lang.filetools.responseError.replace( '%1', xhr.responseText );
+			data.error = true;
+			return;
+		}
+
+		if ( response.error ) {
+			data.message = response.error.message;
+		}
+
+		data.uploaded = !!response.uploaded;
+		if ( !response.uploaded ) {
+			return;
+		}
+
+		data.fileName = response.fileName;
+		data.url = encodeURI( response.url );
+	}, null, null, 1000 );
+
 	CKEDITOR.plugins.add( 'filetools', {
 		lang: 'en', // %REMOVE_LINE_CORE%
 
@@ -466,16 +492,27 @@
 					}
 					loader.changeStatus( 'error' );
 				} else {
-					//var data = {
-					//	fileLoader: loader,
-					//	data: {}
-					//};
-					//CKEDITOR.fire( 'fileLoaderRequestDone', data, loader.editor );
-					//
-					//if (data.data.message) {
-					//	this.meesage = data.data.message;
-					//}
-					loader.handleResponse( xhr );
+					var data = {
+						fileLoader: loader
+					};
+					CKEDITOR.fire( 'fileUploadResponse', data, loader.editor );
+
+					// Setting allowed values to FileLoader.
+					var allowed = [ 'message', 'fileName', 'url' ],
+						max = allowed.length;
+
+					for ( var i = 0; i < max; i++ ) {
+						var key = allowed[ i ];
+						if ( typeof data[ key ] === 'string' ) {
+							loader[ key ] = data[ key ];
+						}
+					}
+
+					if ( data.error || !data.uploaded ) {
+						loader.changeStatus( 'error' );
+					} else {
+						loader.changeStatus( 'uploaded' );
+					}
 				}
 			};
 		},
@@ -500,25 +537,26 @@
 		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
 		 */
 		handleResponse: function() {
-			try {
-				var response = JSON.parse( this.xhr.responseText );
-			} catch ( e ) {
-				this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
-				this.changeStatus( 'error' );
-				return;
-			}
-
-			if ( response.error ) {
-				this.message = response.error.message;
-			}
-
-			if ( !response.uploaded ) {
-				this.changeStatus( 'error' );
-			} else {
-				this.fileName = response.fileName;
-				this.url = encodeURI( response.url );
-				this.changeStatus( 'uploaded' );
-			}
+			//try {
+			//	var response = JSON.parse( this.xhr.responseText );
+			//} catch ( e ) {
+			//	this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
+			//	this.changeStatus( 'error' );
+			//	return;
+			//}
+			//
+			//if ( response.error ) {
+			//	this.message = response.error.message;
+			//}
+			//
+			//if ( !response.uploaded ) {
+			//	this.changeStatus( 'error' );
+			//} else {
+			//	this.fileName = response.fileName;
+			//	this.url = encodeURI( response.url );
+			//	console.log( 'Uploaded url', this.url );
+			//	this.changeStatus( 'uploaded' );
+			//}
 		},
 
 		/**
