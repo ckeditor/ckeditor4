@@ -1,0 +1,17 @@
+<div id="editor">
+	<h1>Apollo 11</h1><p><small>Source</small></p>
+</div>
+<p style="font-family: monospace;"><strong>Result:</strong><span id="result"></span></p>
+
+<script>
+	( function() {
+		var editor = CKEDITOR.replace( 'editor' ),
+			result = CKEDITOR.document.getById( 'result' );
+
+		editor.on( 'change', function() {
+			setTimeout( function() {
+				result.setText( CKEDITOR.instances.editor.editable().getHtml() );
+			}, 10 );
+		} );
+	}() );
+</script>

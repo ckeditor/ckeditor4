@@ -32,6 +32,7 @@ Fixed Issues:
 * [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting a single non-editable element using the [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting a widget with a nested editable inside another widget's nested editable.
 * [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify passed array.
 * [#12874](http://dev.ckeditor.com/ticket/12874): Fixed: Information about aggregated tasks should be somehow accessible in [aggregated#finished](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator-event-finished).
+* [#12503](http://dev.ckeditor.com/ticket/12503): [Blink/Webkit] Fixed: Incorrect result of select all, backspace/delete.
 
 Other Changes:
 
