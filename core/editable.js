@@ -2400,6 +2400,7 @@
 		if ( ( bogus = startBlock.getBogus() ) )
 			bogus.remove();
 
+		// Changing end container to element from text node (#12503).
 		range.enlarge( CKEDITOR.ENLARGE_INLINE );
 
 		// Delete range contents. Do NOT merge. Merging is weird.
@@ -2422,6 +2423,7 @@
 		range = editor.getSelection().getRanges()[ 0 ];
 		range.collapse( 1 );
 
+		// Optimizing range containers from text nodes to elements (#12503).
 		range.optimize();
 		if ( range.startContainer.getHtml() === '' ) {
 			range.startContainer.appendBogus();
