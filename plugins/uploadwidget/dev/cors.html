@@ -29,12 +29,19 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		 * For more information about Cross-Origin Resource Sharing see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 		 * For more information about XMLHttpRequest object see [here](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
 		 */
-		CKEDITOR.on( 'fileLoaderPreSendRequest', function( e ) {
+		CKEDITOR.on( 'sendRequest', function( e ) {
 			var xhr = e.data.fileLoader.xhr;
 
-			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
 			xhr.withCredentials = true;
+			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
 		} );
+
+		/*CKEDITOR.on( 'handleResponse', function( e ) {
+
+			e.data.message = 'ddd';
+			e.stopPropagation();
+			e.cancel();
+		} );*/
 
 	</script>
 </body>

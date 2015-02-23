@@ -6,6 +6,25 @@
 'use strict';
 
 ( function() {
+
+	CKEDITOR.on( 'fileUploadRequest', function( e ) {
+		var fileLoader = e.data.fileLoader;
+
+		fileLoader.xhr = new XMLHttpRequest();
+		fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
+	}, null, null, 5 );
+
+	CKEDITOR.on( 'fileUploadRequest', function( e ) {
+		var fileLoader = e.data.fileLoader,
+			formData = new FormData();
+
+		fileLoader.changeStatus( 'uploading' );
+		fileLoader.attachRequestListeners();
+
+		formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+		fileLoader.xhr.send( formData );
+	}, null, null, 1000 );
+
 	CKEDITOR.plugins.add( 'filetools', {
 		lang: 'en', // %REMOVE_LINE_CORE%
 
@@ -401,20 +420,11 @@
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatus( 'error' );
 			} else {
-				this.xhr = new XMLHttpRequest();
-				this.xhr.open( 'POST', this.uploadUrl, true );
-
-				CKEDITOR.fire( 'fileLoaderPreSendRequest', {
-					fileLoader: this
-				}, this.editor );
-
 				this.uploadUrl = url;
 
-				this.changeStatus( 'uploading' );
-
-				this.attachRequestListeners();
-
-				sendRequest( this );
+				CKEDITOR.fire( 'fileUploadRequest', {
+					fileLoader: this
+				}, this.editor );
 			}
 		},
 
@@ -456,6 +466,15 @@
 					}
 					loader.changeStatus( 'error' );
 				} else {
+					//var data = {
+					//	fileLoader: loader,
+					//	data: {}
+					//};
+					//CKEDITOR.fire( 'fileLoaderRequestDone', data, loader.editor );
+					//
+					//if (data.data.message) {
+					//	this.meesage = data.data.message;
+					//}
 					loader.handleResponse( xhr );
 				}
 			};
@@ -593,13 +612,6 @@
 		 * @param {CKEDITOR.fileTools.fileLoader} fileLoader
 		 */
 	};
-
-	function sendRequest( fileLoader ) {
-		var formData = new FormData();
-
-		formData.append( 'upload', fileLoader.file, fileLoader.fileName );
-		fileLoader.xhr.send( formData );
-	}
 
 	CKEDITOR.event.implementOn( UploadsRepository.prototype );
 	CKEDITOR.event.implementOn( FileLoader.prototype );
