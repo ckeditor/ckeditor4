@@ -144,6 +144,36 @@
 			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		'test extractContents - mergeThen': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			range.deleteContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f[]r</b></p>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test extractContents - mergeThen (nothing to merge)': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<u>bar</u></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			range.deleteContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f</b>[]<u>r</u></p>', bender.tools.range.getWithHtml( root, range ) );
 		}
 	};
 

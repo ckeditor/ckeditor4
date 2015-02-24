@@ -223,6 +223,38 @@
 			assert.areSame( document.getElementById( 'playground' ).firstChild, range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		'test extractContents - mergeThen': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			var clone = range.extractContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f[]r</b></p>', bender.tools.range.getWithHtml( root, range ) );
+			assert.isInnerHtmlMatching( '<b>oo</b>xxx<b>ba</b>', clone.getHtml() );
+		},
+
+		'test extractContents - mergeThen (nothing to merge)': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<u>bar</u></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			var clone = range.extractContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f</b>[]<u>r</u></p>', bender.tools.range.getWithHtml( root, range ) );
+			assert.isInnerHtmlMatching( '<b>oo</b>xxx<u>ba</u>', clone.getHtml() );
 		}
 	};
 
