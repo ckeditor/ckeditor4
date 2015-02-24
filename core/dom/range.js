@@ -150,6 +150,27 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 	// This is a shared function used to delete, extract and clone the range contents.
+	//
+	// The outline of the algorithm:
+	//
+	// 1. Normalization. We handle special cases, split text nodes if we can, find boundary nodes (startNode and endNode).
+	// 2. Gathering data.
+	//   * We start by creating two arrays of boundary nodes parents. You can imagine these arrays as lines limiting
+	//   the tree from the left and right and thus marking the part which is selected by the range. The both lines
+	//   start in the same node which is the range.root and end in startNode and endNode.
+	//   * Then we find min level and max levels. Level represents all nodes which are equally far from the range.root.
+	//   Min level is the level at which the left and right boundaries diverged (the first diverged level). And max levels
+	//   are how deep the start and end nodes are nested.
+	// 3. Cloning/extraction.
+	//   * We start iterating over start node parents from min level and clone the parent (usually shallow clone, because
+	//   we know that it's not fully selected) and its right siblings (deep clone, because they are fully selected).
+	//   We iterate over siblings up to meeting end node parent or end of the siblings chain.
+	//   * We clone level after level down to the startNode.
+	//   * Then we do the same with end node parents, but things are more complicated here because we have to
+	//   watch out for nodes that were already cloned.
+	// 4. Clean up.
+	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen" param.
+	//   See comments in mergeAndUpdate because this is lots of fun too.
 	function execContentsAction( range, action, docFrag, mergeThen ) {
 		'use strict';
 
@@ -173,6 +194,8 @@ CKEDITOR.dom.range = function( root ) {
 
 		// Handle here an edge case where we clone a range which is located in one text node.
 		// This allows us to not think about startNode == endNode case later on.
+		// We do that only when cloning, because in other cases we can safely split this text node
+		// and hence we can easily handle this case as many others.
 		if ( isClone && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
 			startNode = range.document.createText( startNode.substring( startOffset, endOffset ) );
 			docFrag.append( startNode );
@@ -180,19 +203,18 @@ CKEDITOR.dom.range = function( root ) {
 		}
 
 		// For text containers, we must simply split the node and point to the
-		// second part. The removal will be handled by the rest of the code .
+		// second part. The removal will be handled by the rest of the code.
 		if ( endNode.type == CKEDITOR.NODE_TEXT ) {
 			// If Extract or Delete we can split the text node,
-			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
-			// the text node for cloning.
+			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark the text node for cloning.
 			if ( !isClone ) {
 				endNode = endNode.split( endOffset );
 			} else {
 				cloneEndText = true;
 			}
 		} else {
-			// If the end container has children and the offset is pointing
-			// to a child, then we should start from it.
+			// If there's no node after the range boundary we set endNode to the previous node
+			// and mark it to be cloned.
 			if ( endNode.getChildCount() > 0 ) {
 				// If the offset points after the last node.
 				if ( endOffset >= endNode.getChildCount() ) {
@@ -216,6 +238,8 @@ CKEDITOR.dom.range = function( root ) {
 				cloneStartText = true;
 			}
 		} else {
+			// If there's no node before the range boundary we set startNode to the next node
+			// and mark it to be cloned.
 			if ( startNode.getChildCount() > 0 ) {
 				if ( startOffset === 0 ) {
 					startNode = startNode.getChild( startOffset );
@@ -226,12 +250,14 @@ CKEDITOR.dom.range = function( root ) {
 			}
 		}
 
-		// Get the parent nodes tree for the start and end boundaries.
+			// Get the parent nodes tree for the start and end boundaries.
 		var startParents = startNode.getParents(),
 			endParents = endNode.getParents(),
+			// Level at which start and end boundaries diverged.
 			minLevel = findMinLevel(),
 			maxLevelLeft = startParents.length - 1,
 			maxLevelRight = endParents.length - 1,
+			// Keeps the frag/element which is parent of the level that we are currently cloning.
 			levelParent = docFrag,
 			nextLevelParent,
 			leftNode,
