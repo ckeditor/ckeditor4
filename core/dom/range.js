@@ -150,7 +150,7 @@ CKEDITOR.dom.range = function( root ) {
 	}
 
 	// This is a shared function used to delete, extract and clone the range contents.
-	function execContentsAction( range, action, docFrag ) {
+	function execContentsAction( range, action, docFrag, mergeThen ) {
 		'use strict';
 
 		range.optimizeBookmark();
@@ -433,6 +433,23 @@ CKEDITOR.dom.range = function( root ) {
 					range.moveToPosition( endParents[ commonLevel ], CKEDITOR.POSITION_BEFORE_END );
 				} else {
 					range.moveToPosition( endParents[ commonLevel + 1 ], CKEDITOR.POSITION_BEFORE_START );
+				}
+
+				// Merge split parents.
+				if ( mergeThen ) {
+					// Find the first diverged node in the left branch.
+					var topLeft = startParents[ commonLevel + 1 ];
+
+					// If cloneStartNode is true, then we are at the beginning of an element: <p>[<b>...
+					// so nothing to merge.
+					// TopLeft may simply not exist if commonLevel == maxLevel.
+					if ( !cloneStartNode && topLeft ) {
+						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
+							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
+						span.insertAfter( topLeft );
+						topLeft.mergeSiblings( false );
+						range.moveToBookmark( { startNode: span } );
+					}
 				}
 			} else {
 				// Collapse it to the start.
