@@ -159,8 +159,8 @@
 	 * be called so the progress will be refreshed.
 	 *
 	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request
-	 * or response handling you need to overwrite custom behaviour using {@link CKEDITOR#fileLoaderPreSendRequest} or {@link #handleResponse handleResponse}
-	 * method.
+	 * or response handling you need to overwrite custom behaviour using {@link CKEDITOR#fileUploadRequest} and {@link CKEDITOR#fileUploadResponse}
+	 * event. For more information see its documentation.
 	 *
 	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
 	 *
@@ -509,55 +509,13 @@
 						}
 					}
 
-					if ( data.error || !data.uploaded ) {
+					if ( data.error || data.uploaded === false ) {
 						loader.changeStatus( 'error' );
 					} else {
 						loader.changeStatus( 'uploaded' );
 					}
 				}
 			};
-		},
-
-		/**
-		 * Handle response from the server. Overwrite this method for custom response handling.
-		 *
-		 * For example if the response is 'fileUrl|errorMessage':
-		 *
-		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function() {
-		 * 			var repsonse = this.xhr.responseText.split( '|' );
-		 * 			if ( repsonse[ 1 ] ) {
-		 * 				this.message = repsonse[ 1 ];
-		 * 				this.changeStatus( 'error' );
-		 * 			} else {
-		 * 				this.url = response[ 0 ];
-		 * 				this.changeStatus( 'uploaded' );
-		 * 			}
-		 * 		};
-		 *
-		 * @private
-		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
-		 */
-		handleResponse: function() {
-			//try {
-			//	var response = JSON.parse( this.xhr.responseText );
-			//} catch ( e ) {
-			//	this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
-			//	this.changeStatus( 'error' );
-			//	return;
-			//}
-			//
-			//if ( response.error ) {
-			//	this.message = response.error.message;
-			//}
-			//
-			//if ( !response.uploaded ) {
-			//	this.changeStatus( 'error' );
-			//} else {
-			//	this.fileName = response.fileName;
-			//	this.url = encodeURI( response.url );
-			//	console.log( 'Uploaded url', this.url );
-			//	this.changeStatus( 'uploaded' );
-			//}
 		},
 
 		/**
@@ -638,7 +596,7 @@
 		 * For more information about Cross-Origin Resource Sharing see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 		 * For more information about XMLHttpRequest object see [here](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
 		 *
-		 * 		CKEDITOR.on( 'fileLoaderPreSendRequest', function( e ) {
+		 * 		CKEDITOR.on( 'fileUploadRequest', function( e ) {
 		 * 			var xhr = e.data.fileLoader.xhr;
 		 *
 		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
@@ -646,7 +604,63 @@
 		 * 			xhr.withCredentials = true;
 		 * 		} );
 		 *
-		 * @event fileLoaderPreSendRequest
+		 * If you want to overwrite whole request logic you can do it by listen to this event with higher priority than 5
+		 * and call `stop` method on event object. Just to prevent default request handling.
+		 *
+		 * 		CKEDITOR.ON( 'fileUploadRequest', function( e ) {
+		 * 			var fileLoader = e.data.fileLoader,
+		 * 				xhr = fileLoader.xhr;
+		 *
+		 * 			// Custom request.
+		 * 			xhr.open( 'POST', fileLoader.uploadUrl, true );
+		 * 			xhr.send( fileLoader.file );
+		 *
+		 * 			// Prevented default behaviour.
+		 * 			e.stop();
+		 * 		}, null, null, 5 );
+		 *
+		 * @since 4.5
+		 * @event fileUploadRequest
+		 * @member CKEDITOR
+		 * @param {CKEDITOR.fileTools.fileLoader} fileLoader
+		 */
+
+		/**
+		 * Handle response from the server. Use this event for custom response handling.
+		 *
+		 * For example if the response is 'fileUrl|errorMessage':
+		 *
+		 * 		CKEDITOR.on( 'fileUploadResponse', function( e ) {
+		 * 			// You can access XHR object by calling.
+		 * 			var xhr = e.data.fileLoader.xhr;
+		 *
+		 * 			// Do stuff with XHR object.
+		 *
+		 * 			// After your custom response handling you should set response data for fileLoader.
+		 * 			e.message = '';
+		 * 			e.error = false;
+		 * 			e.uploaded = true;
+		 * 			e.fileName;
+		 * 			e.url;
+		 *
+		 * 			// And call stop function to prevent execution of plugin response handling.
+		 * 			e.stop();
+		 * 		} );
+		 *
+		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function() {
+		 * 			var response = this.xhr.responseText.split( '|' );
+		 *
+		 * 			if ( response[ 1 ] ) {
+		 * 				this.message = response[ 1 ];
+		 * 				this.changeStatus( 'error' );
+		 * 			} else {
+		 * 				this.url = response[ 0 ];
+		 * 				this.changeStatus( 'uploaded' );
+		 * 			}
+		 * 		};
+		 *
+		 * @since 4.5
+		 * @event fileUploadResponse
 		 * @member CKEDITOR
 		 * @param {CKEDITOR.fileTools.fileLoader} fileLoader
 		 */
