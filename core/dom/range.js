@@ -442,8 +442,8 @@ CKEDITOR.dom.range = function( root ) {
 
 					// If cloneStartNode is true, then we are at the beginning of an element: <p>[<b>...
 					// so nothing to merge.
-					// TopLeft may simply not exist if commonLevel == maxLevel.
-					if ( !cloneStartNode && topLeft ) {
+					// TopLeft may simply not exist if commonLevel == maxLevel or may be a text node.
+					if ( !cloneStartNode && topLeft && topLeft.type == CKEDITOR.NODE_ELEMENT ) {
 						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
 							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
 						span.insertAfter( topLeft );
