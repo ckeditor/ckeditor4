@@ -247,6 +247,7 @@
 		'test shift+enter key - end of block':			se( 'editor', '<p>foobar{}</p>', '<p>foobar<br />^@</p>' ),
 		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
 		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
+
 		// #11947
 		'test shift+enter key - end of block, inside inline element followed by bogus br':
 			se( 'editor', '<p><em>foo{}</em><br /></p>', '<p><em>foo<br />^</em><br /></p>' ),

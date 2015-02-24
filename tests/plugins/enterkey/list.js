@@ -581,6 +581,51 @@
 				'</div>',
 
 				true, 'Dir change forces block.', true );
+		},
+		// #11982
+		'test enterkey: nested empty list': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<ul>' +
+							'<li>^</li>' +
+						'</ul>' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>foo</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
+		},
+
+		// #11982
+		'test enterkey: nested list with empty item': function() {
+			assertEnter( 'enterP',
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<ul>' +
+							'<li>bar</li>' +
+							'<li>^</li>' +
+						'</ul>' +
+					'</li>' +
+				'</ul>',
+
+				'<ul>' +
+					'<li>' +
+						'foo' +
+						'<ul>' +
+							'<li>bar</li>' +
+						'</ul>' +
+					'</li>' +
+					'<li>^&nbsp;</li>' +
+				'</ul>',
+
+				true, 'New item should be added to the list.', true );
 		}
 	} );
 } )();
