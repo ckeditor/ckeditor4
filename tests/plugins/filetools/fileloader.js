@@ -736,7 +736,8 @@
 		},
 
 		'test replace sendRequest and handleResponse': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var editor = { lang: { filetools: { responseError: 'err' } } },
+				loader = new FileLoader( editor, testFile ),
 				observer = observeEvents( loader ),
 				sendRequestBackup = FileLoader.prototype.sendRequest,
 				handleResponseBackup = FileLoader.prototype.handleResponse,
@@ -747,17 +748,23 @@
 				sendRequestCounter++;
 				this.xhr.send( 'custom form' );
 			};
+			CKEDITOR.on( 'fileUploadRequest', function( e ) {
+				sendRequestCounter++;
 
-			FileLoader.prototype.handleResponse = function() {
+				e.data.fileLoader.xhr.send( 'custom form' );
+				e.stop();
+			} );
+
+			CKEDITOR.on( 'fileUploadResponse', function( e ) {
 				handleResponseCounter++;
 
-				var response = this.xhr.responseText.split( '|' );
+				var response = e.data.fileLoader.xhr.responseText.split( '|' );
 
-				this.fileName = response[ 0 ];
-				this.url = response[ 1 ];
-				this.message = response[ 2 ];
-				this.changeStatus( 'uploaded' );
-			};
+				e.data.fileName = response[ 0 ];
+				e.data.url = response[ 1 ];
+				e.data.message = response[ 2 ];
+				e.stop();
+			} );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
 				{ responseText: 'customName.png|customUrl|customMessage' } );
