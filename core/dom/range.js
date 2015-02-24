@@ -169,7 +169,8 @@ CKEDITOR.dom.range = function( root ) {
 	//   * Then we do the same with end node parents, but things are more complicated here because we have to
 	//   watch out for nodes that were already cloned.
 	// 4. Clean up.
-	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen" param.
+	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen"
+	//   param (see range.deleteContents or range.extractContents).
 	//   See comments in mergeAndUpdate because this is lots of fun too.
 	function execContentsAction( range, action, docFrag, mergeThen ) {
 		'use strict';
@@ -2687,6 +2688,8 @@ CKEDITOR.dom.range = function( root ) {
 			this.endContainer = endContainer;
 		}
 	};
+
+
 } )();
 
 /**
