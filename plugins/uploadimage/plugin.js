@@ -9,6 +9,14 @@
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
 
+		onLoad: function() {
+			CKEDITOR.addCss(
+				'.cke_upload_uploading img{' +
+					'opacity: 0.3' +
+				'}'
+			);
+		},
+
 		init: function( editor ) {
 			// Do not execute this paste lister if it will not be possible to upload file.
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
