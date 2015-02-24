@@ -212,6 +212,7 @@
 					oldStyle, newStyle;
 
 				loader.on( 'update', function( evt ) {
+					// Abort if widget was removed.
 					if ( !widget.wrapper || !widget.wrapper.getParent() ) {
 						if ( !editor.editable().find( '[data-cke-upload-id="' + id + '"]' ).count() ) {
 							loader.abort();
@@ -222,6 +223,8 @@
 
 					editor.fire( 'lockSnapshot' );
 
+					// Call users method, eg. if the status is `uploaded` then
+					// `onUploaded` method will be called, if exists.
 					var methodName = 'on' + capitalize( loader.status );
 
 					if ( typeof widget[ methodName ] === 'function' ) {
@@ -239,6 +242,7 @@
 						oldStyle = newStyle;
 					}
 
+					// Remove widget on error or abort.
 					if ( loader.status == 'error' || loader.status == 'abort' ) {
 						editor.widgets.del( widget );
 					}
