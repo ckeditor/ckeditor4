@@ -319,7 +319,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<b>bar</b>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<b>bar</b>', clone.getHtml() );
 		},
 
 		'test cloneContents - startOffset == 0, startContainer is element': function() {
@@ -334,7 +334,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<b>bar</b>bo', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<b>bar</b>bo', clone.getHtml() );
 		},
 
 		'test cloneContents - startOffset == childCount, startContainer is element': function() {
@@ -349,7 +349,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<p></p><p>fo</p>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<p></p><p>fo</p>', clone.getHtml() );
 		},
 
 		'test cloneContents - endOffset == 0, endContainer is element': function() {
@@ -364,7 +364,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<p>oo</p><p></p>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<p>oo</p><p></p>', clone.getHtml() );
 		},
 
 		'test cloneContents - endOffset == childCount, endContainer is element': function() {
@@ -379,7 +379,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( 'oo<b>bar</b>', clone.getHtml() );
+			assert.isInnerHtmlMatching( 'oo<b>bar</b>', clone.getHtml() );
 		},
 
 		'test cloneContents - offsets = ( 0, childCount ), containers are elements': function() {
@@ -394,7 +394,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<b>bar</b>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<b>bar</b>', clone.getHtml() );
 		},
 
 		'test cloneContents - right branch much longer': function() {
@@ -409,7 +409,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( 'oo<u>x<b>bar<i>bo</i></b></u>', clone.getHtml() );
+			assert.isInnerHtmlMatching( 'oo<u>x<b>bar<i>bo</i></b></u>', clone.getHtml() );
 		},
 
 		'test cloneContents - left branch much longer': function() {
@@ -424,7 +424,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<u><b><i>om</i>bar</b>z</u>fo', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<u><b><i>om</i>bar</b>z</u>fo', clone.getHtml() );
 		},
 
 		'test cloneContents - finding levelClone in the right branch': function() {
@@ -439,7 +439,7 @@
 
 			var clone = range.cloneContents();
 
-			assert.areSame( '<b>oo<br>bar</b><i><u>x</u><s>bo</s></i>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<b>oo<br />bar</b><i><u>x</u><s>bo</s></i>', clone.getHtml() );
 		}
 	} );
 } )();
