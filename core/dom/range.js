@@ -605,8 +605,6 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * The content nodes of the range are cloned and added to a document fragment, which is returned.
 		 *
-		 * **Note:** Text selection may lost after invoking this method (caused by text node splitting).
-		 *
 		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing clone of range's content.
 		 */
 		cloneContents: function() {
