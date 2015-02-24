@@ -97,7 +97,7 @@
 	 *		} );
 	 *
 	 * Note that if you need a custom `paste` handling you need to mark pasted element to be changed into upload widget
-	 * using {@link CKEDITOR.fileTools.markElement markElement}. For example, instead of `fileToElement` helper from the
+	 * using {@link CKEDITOR.fileTools#markElement markElement}. For example, instead of `fileToElement` helper from the
 	 * example above, `paste` listener can be created manually:
 	 *
 	 *	editor.on( 'paste', function( evt ) {

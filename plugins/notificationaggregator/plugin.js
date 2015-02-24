@@ -363,10 +363,10 @@
 		},
 
 		/**
-		 * A listener called on the {@link CKEDITOR.plugins.notificationAggregator.task#done} event.
+		 * A listener called on the {@link CKEDITOR.plugins.notificationAggregator.task#event-done} event.
 		 *
 		 * @private
-		 * @param {CKEDITOR.eventInfo} evt Event object of the {@link CKEDITOR.plugins.notificationAggregator#done} event.
+		 * @param {CKEDITOR.eventInfo} evt Event object of the {@link CKEDITOR.plugins.notificationAggregator.task#event-done} event.
 		 */
 		_onTaskDone: function() {
 			this._doneTasks += 1;
