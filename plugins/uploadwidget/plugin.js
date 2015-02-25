@@ -259,7 +259,7 @@
 			 *
 			 * @property {Function}
 			 * @param {String} data HTML to replace the upload widget.
-			 * @param {String} [mode='html'] {@link CKEDITOR.editable#method-insertHtmlIntoRange}
+			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s modes.
 			 */
 			replaceWith: function( data, mode ) {
 				if ( data.trim() === '' ) {
