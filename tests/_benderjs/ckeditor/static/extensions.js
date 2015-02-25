@@ -425,12 +425,20 @@
 		}
 	};
 
-	var unlock, deferredTests;
+	var unlockDeferment, deferredTests;
 
 	// Defers Bender's startup.
 	function defer() {
-		if ( !unlock ) {
-			unlock = bender.defer();
+		if ( !unlockDeferment ) {
+			unlockDeferment = bender.defer();
+		}
+	}
+
+	// Unlock the created Bender deferment.
+	function unlock() {
+		if ( unlockDeferment ) {
+			unlockDeferment();
+			unlockDeferment = null;
 		}
 	}
 
@@ -441,7 +449,7 @@
 	var restart = false;
 
 	bender.test = function( tests ) {
-		if ( unlock && !restart ) {
+		if ( unlockDeferment && !restart ) {
 			deferredTests = tests;
 		} else {
 			startRunner( tests );
@@ -454,6 +462,8 @@
 		// startRunner was executed but there were no tests available yet.
 		if ( !tests ) {
 			restart = true;
+			// Unlock Bender startup.
+			unlock();
 			return;
 		}
 
@@ -486,9 +496,7 @@
 			orgTest( tests );
 
 			// Unlock Bender startup.
-			if ( unlock ) {
-				unlock();
-			}
+			unlock();
 
 			// async:init stage 1: set up bender.editor.
 			function setUpEditor() {
