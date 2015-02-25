@@ -285,6 +285,9 @@
 	}
 
 	function initConfig( editor, instanceConfig ) {
+    if( editor.status === 'destroyed' ) {
+      return;
+    }
 		// Setup the lister for the "customConfigLoaded" event.
 		editor.on( 'customConfigLoaded', function() {
 			if ( instanceConfig ) {
@@ -758,7 +761,9 @@
 
 			this.editable( null );
 
-			this.filter.destroy();
+      if( this.filter ) {
+        this.filter.destroy();
+      }
 			delete this.filter;
 			delete this.activeFilter;
 
