@@ -310,6 +310,11 @@
 		},
 
 		'test extractContents - empty containers with mergeThen': function() {
+			// IE8 has problems with empty inline nodes as usual.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
 			var root = doc.createElement( 'div' ),
 				range = new CKEDITOR.dom.range( doc );
 
