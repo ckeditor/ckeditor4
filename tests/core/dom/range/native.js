@@ -59,7 +59,7 @@
 			assert.areSame( 2, range.startOffset, 'startOffset' );
 			assert.areSame( endContainer, range.endContainer, 'endContainer' );
 			assert.areSame( 1, range.endOffset, 'endOffset' );
-		}
+		},
 
 		// Turns out that FF and Chrome clone the 0-length text node and IE does not.
 		// 'test range.cloneContents - text boundary': function() {
@@ -84,5 +84,51 @@
 		// 	assert.areSame( CKEDITOR.NODE_TEXT, firstChild.nodeType, 'is text node' );
 		// 	assert.areSame( '', firstChild.nodeValue, 'text node is empty' );
 		// },
+
+		'test range.cloneContents clone empty boundary nodes': function() {
+			if ( typeof document.createRange != 'function' ) {
+				assert.ignore();
+			}
+
+			var root = document.createElement( 'div' ),
+				range = document.createRange();
+
+			root.innerHTML = 'x<h1></h1><p>foo</p><h2></h2>y';
+
+			range.setStart( root.childNodes[ 1 ], 0 ); // <h1>[</h1>
+			range.setEnd( root.childNodes[ 3 ], 0 ); // <h2>]</h2>
+
+			var clone = range.cloneContents(),
+				tmp = document.createElement( 'div' );
+
+			tmp.appendChild( clone );
+
+			assert.areSame( '<h1></h1><p>foo</p><h2></h2>', tmp.innerHTML );
+		},
+
+		'test range.extractContents clone empty boundary nodes': function() {
+			if ( typeof document.createRange != 'function' ) {
+				assert.ignore();
+			}
+
+			var root = document.createElement( 'div' ),
+				range = document.createRange();
+
+			root.innerHTML = 'x<h1></h1><p>foo</p><h2></h2>y';
+
+			range.setStart( root.childNodes[ 1 ], 0 ); // <h1>[</h1>
+			range.setEnd( root.childNodes[ 3 ], 0 ); // <h2>]</h2>
+
+			var clone = range.extractContents(),
+				tmp = document.createElement( 'div' );
+
+			tmp.appendChild( clone );
+
+			assert.areSame( '<h1></h1><p>foo</p><h2></h2>', tmp.innerHTML, 'extracted fragment' );
+			assert.areSame( 'x<h1></h1><h2></h2>y', root.innerHTML, 'after extraction' );
+			// <h1></h1>[]<h2></h2>
+			assert.areSame( root, range.startContainer, 'startContainer' );
+			assert.areSame( 2, range.startOffset, 'startOffset' );
+		}
 	} );
 } )();

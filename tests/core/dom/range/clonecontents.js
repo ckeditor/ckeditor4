@@ -460,6 +460,21 @@
 			assert.areSame( root.findOne( 'p' ).getFirst(), range.startContainer, 'range.startContainer' );
 			assert.areSame( 1, range.startOffset, 'range.startOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		'test cloneContents - empty containers': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'x<h1></h1><p>foo</p><h2></h2>y' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]</h2>
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1><p>foo</p><h2></h2>', clone.getHtml() );
 		}
 	} );
 } )();

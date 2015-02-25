@@ -191,6 +191,9 @@ CKEDITOR.dom.range = function( root ) {
 		var cloneStartNode;
 		var cloneEndNode;
 
+		var doNotRemoveStartNode;
+		var doNotRemoveEndNode;
+
 		var cloneStartText;
 		var cloneEndText;
 
@@ -226,6 +229,11 @@ CKEDITOR.dom.range = function( root ) {
 					endNode = endNode.getChild( endOffset );
 				}
 			}
+			// The end container is empty (<h1>]</h1>), but we want to clone it, although not remove.
+			else {
+				cloneEndNode = true;
+				doNotRemoveEndNode = true;
+			}
 		}
 
 		// For text containers, we must simply split the node. The removal will
@@ -249,6 +257,11 @@ CKEDITOR.dom.range = function( root ) {
 				} else {
 					startNode = startNode.getChild( startOffset - 1 );
 				}
+			}
+			// The start container is empty (<h1>[</h1>), but we want to clone it, although not remove.
+			else {
+				cloneStartNode = true;
+				doNotRemoveStartNode = true;
 			}
 		}
 
@@ -282,7 +295,7 @@ CKEDITOR.dom.range = function( root ) {
 			// we want to make a shallow clone of it (the else part).
 			if ( level == maxLevelLeft && !( leftNode.equals( endParents[ level ] ) && maxLevelLeft < maxLevelRight ) ) {
 				if ( cloneStartNode ) {
-					consume( leftNode, levelParent );
+					consume( leftNode, levelParent, false, doNotRemoveStartNode );
 				} else if ( cloneStartText ) {
 					levelParent.append( range.document.createText( leftNode.substring( startOffset ) ) );
 				}
@@ -339,7 +352,7 @@ CKEDITOR.dom.range = function( root ) {
 				// we want to make a shallow clone of it (the else part).
 				if ( level == maxLevelRight && !( rightNode.equals( startParents[ level ] ) && maxLevelRight < maxLevelLeft ) ) {
 					if ( cloneEndNode ) {
-						consume( rightNode, levelParent );
+						consume( rightNode, levelParent, false, doNotRemoveEndNode );
 					} else if ( cloneEndText ) {
 						levelParent.append( range.document.createText( rightNode.substring( 0, endOffset ) ) );
 					}
@@ -371,11 +384,11 @@ CKEDITOR.dom.range = function( root ) {
 		// * clones node and adds to new parent,
 		// * removes node,
 		// * moves node to the new parent.
-		function consume( node, newParent, toStart ) {
+		function consume( node, newParent, toStart, forceClone ) {
 			var nextSibling = toStart ? node.getPrevious() : node.getNext();
 
 			// If cloning, just clone it.
-			if ( isClone ) {
+			if ( isClone || forceClone ) {
 				newParent.append( node.clone( true ), toStart );
 			} else {
 				// Both Delete and Extract will remove the node.
@@ -415,7 +428,8 @@ CKEDITOR.dom.range = function( root ) {
 		// Executed only when deleting or extracting to update range position
 		// and perform the merge operation.
 		function mergeAndUpdate() {
-			var commonLevel = minLevel - 1;
+			var commonLevel = minLevel - 1,
+				boundariesInEmptyNode = doNotRemoveStartNode && doNotRemoveEndNode && !startNode.equals( endNode );
 
 			// If a node has been partially selected, collapse the range between
 			// startParents[ minLevel + 1 ] and endParents[ minLevel + 1 ] (the first diverged elements).
@@ -454,8 +468,15 @@ CKEDITOR.dom.range = function( root ) {
 			// * commonLevel - the level of common ancestor,
 			// * maxLevel - 1 - the level of range boundary parent (range boundary is here like a bookmark span).
 			// * commonLevel < maxLevel - 1 - whether the range boundary is not a child of common ancestor.
-			if ( commonLevel < ( maxLevelLeft - 1 ) || commonLevel < ( maxLevelRight - 1 ) ) {
-				if ( ( maxLevelRight == commonLevel + 1 ) && cloneEndNode ) {
+			//
+			// There's also an edge case in which both range boundaries were placed in empty nodes like:
+			// <p>[</p><p>]</p>
+			// Those boundaries were not removed, but in this case start and end nodes are child of the common ancestor.
+			// We handle this edge case separately.
+			if ( commonLevel < ( maxLevelLeft - 1 ) || commonLevel < ( maxLevelRight - 1 ) || boundariesInEmptyNode ) {
+				if ( boundariesInEmptyNode ) {
+					range.moveToPosition( endNode, CKEDITOR.POSITION_BEFORE_START );
+				} else if ( ( maxLevelRight == commonLevel + 1 ) && cloneEndNode ) {
 					// The maxLevelRight + 1 element could be already removed so we use the fact that
 					// we know that it was the last element in its parent.
 					range.moveToPosition( endParents[ commonLevel ], CKEDITOR.POSITION_BEFORE_END );
@@ -468,10 +489,8 @@ CKEDITOR.dom.range = function( root ) {
 					// Find the first diverged node in the left branch.
 					var topLeft = startParents[ commonLevel + 1 ];
 
-					// If cloneStartNode is true, then we are at the beginning of an element: <p>[<b>...
-					// so nothing to merge.
 					// TopLeft may simply not exist if commonLevel == maxLevel or may be a text node.
-					if ( !cloneStartNode && topLeft && topLeft.type == CKEDITOR.NODE_ELEMENT ) {
+					if ( topLeft && topLeft.type == CKEDITOR.NODE_ELEMENT ) {
 						var span = CKEDITOR.dom.element.createFromHtml( '<span ' +
 							'data-cke-bookmark="1" style="display:none">&nbsp;</span>', range.document );
 						span.insertAfter( topLeft );
