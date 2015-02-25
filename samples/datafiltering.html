@@ -395,11 +395,11 @@ CKEDITOR.replace( 'editor4', {
 		</label>
 		<div class="description">
 			<p>
-				This editor is using a custom configuration for
-				<abbr title="Advanced Content Filter">ACF</abbr>.
+				This editor is using a custom configuration for <abbr title="Advanced Content Filter">ACF</abbr>.
 				It's using the <a href="http://docs.ckeditor.com/#!/guide/dev_disallowed_content" target="_blank">
-				Disallowed Content</a> property of the filter to eliminate all <code>title</code> attributes
+				Disallowed Content</a> property of the filter to eliminate all <code>title</code> attributes.
 			</p>
+
 <pre class="samples">
 CKEDITOR.replace( 'editor6', {
 	allowedContent: {
@@ -450,16 +450,15 @@ CKEDITOR.replace( 'editor6', {
 		</label>
 		<div class="description">
 			<p>
-				This editor is using a custom configuration for
-				<abbr title="Advanced Content Filter">ACF</abbr>.
+				This editor is using a custom configuration for <abbr title="Advanced Content Filter">ACF</abbr>.
 				It's using the <a href="http://docs.ckeditor.com/#!/guide/dev_disallowed_content" target="_blank">
-				Disallowed Content</a> property of the filter to
-				eliminate all <code>a</code> and <code>img</code> tags.
+				Disallowed Content</a> property of the filter to eliminate all <code>a</code> and <code>img</code> tags,
+				while allowing all other tags.
 			</p>
 <pre class="samples">
 CKEDITOR.replace( 'editor7', {
 	allowedContent: {
-		// allow all content
+		// Allow all content.
 		$1: {
 			elements: CKEDITOR.dtd,
 			attributes: true,
@@ -467,7 +466,7 @@ CKEDITOR.replace( 'editor7', {
 			classes: true
 		}
 	},
-	disallowedContent: 'img table'
+	disallowedContent: 'img a'
 } );
 </pre>
 		</div>
