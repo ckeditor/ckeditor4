@@ -57,10 +57,7 @@ var config = {
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #9': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #3': 'env.safari',
-				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #8': 'env.safari',
-
-				// IE8-10 (#12964)
-				'tests/core/editable/getextractselectedhtml#test extractHtmlFromRange: tables #20': 'env.ie && env.version < 11'
+				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace, merge #8': 'env.safari'
 			}
 		},
 
