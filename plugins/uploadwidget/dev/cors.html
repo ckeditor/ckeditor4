@@ -20,27 +20,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script>
 		var editor = CKEDITOR.replace( 'editor1', {
 			extraPlugins: 'uploadimage,filetools',
-			imageUploadUrl: 'http://localhost/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
+			imageUploadUrl: 'http://192.168.20.107/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
 		} );
 
-		/*
-		 * Below example shows how to modify file loader request object just before sending it to the server.
-		 * It allows to add custom request headers or set flags. This is especially useful for enabling Cross-Origin requests.
-		 * For more information about Cross-Origin Resource Sharing see [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
-		 * For more information about XMLHttpRequest object see [here](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
-		 */
-		CKEDITOR.on( 'sendRequest', function( e ) {
+		CKEDITOR.on( 'fileUploadRequest', function( e ) {
 			var xhr = e.data.fileLoader.xhr;
 
 			xhr.withCredentials = true;
-			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
 		} );
-
-//		CKEDITOR.on( 'fileUploadResponse', function( e ) {
-//			debugger;
-//
-//			e.stop();
-//		} );
 
 	</script>
 </body>
