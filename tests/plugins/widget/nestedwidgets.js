@@ -298,6 +298,11 @@
 
 		// #12008
 		'test pasting widget with nested editable into nested editable': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+				return;
+			}
+
 			var editor = this.editors.editor,
 				bot = this.editorBots.editor;
 
