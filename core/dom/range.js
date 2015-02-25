@@ -162,11 +162,12 @@ CKEDITOR.dom.range = function( root ) {
 	//   Min level is the level at which the left and right boundaries diverged (the first diverged level). And max levels
 	//   are how deep the start and end nodes are nested.
 	// 3. Cloning/extraction.
-	//   * We start iterating over start node parents from min level and clone the parent (usually shallow clone, because
-	//   we know that it's not fully selected) and its right siblings (deep clone, because they are fully selected).
+	//   * We start iterating over start node parents (left branch) from min level and clone the parent (usually shallow clone,
+	//   because we know that it's not fully selected) and its right siblings (deep clone, because they are fully selected).
 	//   We iterate over siblings up to meeting end node parent or end of the siblings chain.
 	//   * We clone level after level down to the startNode.
-	//   * Then we do the same with end node parents, but things are more complicated here because we have to
+	//   * Then we do the same with end node parents (right branch), because it may contains notes we omit during the previous
+	//   step, for example if the right branch is deeper then left branch. Things are more complicated here because we have to
 	//   watch out for nodes that were already cloned.
 	// 4. Clean up.
 	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen"
