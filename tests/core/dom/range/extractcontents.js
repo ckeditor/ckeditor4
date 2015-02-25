@@ -255,6 +255,26 @@
 
 			assert.isInnerHtmlMatching( '<p><b>f</b>[]<u>r</u></p>', bender.tools.range.getWithHtml( root, range ) );
 			assert.isInnerHtmlMatching( '<b>oo</b>xxx<u>ba</u>', clone.getHtml() );
+		},
+
+		'test extractContents - collapsed range': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'p' ).getFirst(), 1 ); // f^oo
+			range.collapse( true );
+
+			var clone = range.extractContents();
+
+			// Nothing should happens when range is collapsed.
+			assert.areSame( '', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<p>foo</p>', root.getHtml() );
+			assert.areSame( root.findOne( 'p' ).getFirst(), range.startContainer, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	};
 

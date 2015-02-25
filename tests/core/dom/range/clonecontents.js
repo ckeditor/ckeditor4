@@ -440,6 +440,26 @@
 			var clone = range.cloneContents();
 
 			assert.isInnerHtmlMatching( '<b>oo<br />bar</b><i><u>x</u><s>bo</s></i>', clone.getHtml() );
+		},
+
+		'test cloneContents - collapsed range': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'p' ).getFirst(), 1 ); // f^oo
+			range.collapse( true );
+
+			var clone = range.cloneContents();
+
+			// Nothing should happens when range is collapsed.
+			assert.areSame( '', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<p>foo</p>', root.getHtml() );
+			assert.areSame( root.findOne( 'p' ).getFirst(), range.startContainer, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	} );
 } )();
