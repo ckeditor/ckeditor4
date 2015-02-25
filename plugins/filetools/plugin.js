@@ -7,24 +7,24 @@
 
 ( function() {
 
-	CKEDITOR.on( 'fileUploadRequest', function( e ) {
-		var fileLoader = e.data.fileLoader;
+	CKEDITOR.on( 'fileUploadRequest', function( evt ) {
+		var fileLoader = evt.data.fileLoader;
 
 		fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
 	}, null, null, 5 );
 
-	CKEDITOR.on( 'fileUploadRequest', function( e ) {
-		var fileLoader = e.data.fileLoader,
+	CKEDITOR.on( 'fileUploadRequest', function( evt ) {
+		var fileLoader = evt.data.fileLoader,
 			formData = new FormData();
 
 		formData.append( 'upload', fileLoader.file, fileLoader.fileName );
 		fileLoader.xhr.send( formData );
-	}, null, null, 1000 );
+	}, null, null, 999 );
 
-	CKEDITOR.on( 'fileUploadResponse', function( e ) {
-		var fileLoader = e.data.fileLoader,
+	CKEDITOR.on( 'fileUploadResponse', function( evt ) {
+		var fileLoader = evt.data.fileLoader,
 			xhr = fileLoader.xhr,
-			data = e.data;
+			data = evt.data;
 
 		try {
 			var response = JSON.parse( xhr.responseText );
@@ -45,7 +45,7 @@
 
 		data.fileName = response.fileName;
 		data.url = encodeURI( response.url );
-	}, null, null, 1000 );
+	}, null, null, 999 );
 
 	CKEDITOR.plugins.add( 'filetools', {
 		lang: 'en', // %REMOVE_LINE_CORE%
