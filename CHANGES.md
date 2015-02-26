@@ -27,6 +27,7 @@ New Features:
 
 Fixed Issues:
 
+* [#11586](http://dev.ckeditor.com/ticket/11586): Fixed: [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) changes DOM and selection.
 * [#12018](http://dev.ckeditor.com/ticket/12018): [Nested widgets] Fixed and reviewed: Nested widgets garbage collection.
 * [#12024](http://dev.ckeditor.com/ticket/12024): [Nested widgets][FF] Fixed: Outline is extended to the left by unpositioned drag handlers.
 * [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Fixed: Drag and drop of nested block widgets.
