@@ -224,11 +224,12 @@
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
 		 * will be still applied).
 		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
+		 * @param {Boolean} [options.wrappedForWhitespaces] When element has been wrapped in span to preserve whitespaces.
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
 			var editor = this.editor,
-				context, filter, enterMode;
+				context, filter, enterMode, wrappedForWhitespaces;
 
 			// Typeof null == 'object', so check truthiness of options too.
 			if ( options && typeof options == 'object' ) {
@@ -237,6 +238,7 @@
 				dontFilter = options.dontFilter;
 				filter = options.filter;
 				enterMode = options.enterMode;
+				wrappedForWhitespaces = options.wrappedForWhitespaces;
 			}
 			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
 			else {
@@ -253,7 +255,8 @@
 				fixForBody: fixForBody,
 				dontFilter: dontFilter,
 				filter: filter || editor.filter,
-				enterMode: enterMode || editor.enterMode
+				enterMode: enterMode || editor.enterMode,
+				wrappedForWhitespaces: wrappedForWhitespaces
 			} ).dataValue;
 		},
 

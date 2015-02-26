@@ -2662,8 +2662,13 @@
 			}
 
 			// Used to determine whether only widget was pasted.
-			processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
-				Widget.isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+			if ( evt.data.wrappedForWhitespaces ) {
+				processedWidgetOnly = evt.data.dataValue.children.length == 3 &&
+					Widget.isParserWidgetWrapper( evt.data.dataValue.children[ 1 ] );
+			} else {
+				processedWidgetOnly = evt.data.dataValue.children.length == 1 &&
+					Widget.isParserWidgetWrapper( evt.data.dataValue.children[ 0 ] );
+			}
 		}, null, null, 8 );
 
 		editor.on( 'dataReady', function() {
