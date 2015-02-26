@@ -24,15 +24,6 @@
 		getWithHtml = bender.tools.range.getWithHtml,
 		img_src = '%BASE_PATH%_assets/img.gif';
 
-	var tests = {
-		init: function() {
-			this.editables = {};
-
-			for ( var e in this.editors )
-				this.editables[ e ] = this.editors[ e ].editable();
-		}
-	};
-
 	// <DEV>
 	// var playground = CKEDITOR.document.createElement( 'dl' );
 	// playground.on( 'paste', function( e ) {
@@ -109,6 +100,28 @@
 // ------------------------------------------------------------------------------------------------------------
 // output HTML	|	@	|	like compareInnerHtml (accept)	|	like compareInnerHtml		(we use it for uncertain cases)
 //				|	@!	|	like compareInnerHtml (expect)	|	like compareInnerHtml		(we use it for empty blocks)
+
+	var tests = {
+		init: function() {
+			this.editables = {};
+
+			for ( var e in this.editors )
+				this.editables[ e ] = this.editors[ e ].editable();
+		},
+
+		'test node markers are cleared': function() {
+			var html = decodeInputFillers( '<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>' ),
+				expected = '<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
+				editable = this.editables.inline,
+				range = setWithHtml( editable, html );
+
+			var docFragment = editable.extractHtmlFromRange( range );
+
+			assert.isInnerHtmlMatching( expected, docFragment.getHtml(), compareInnerHtmlOptions, 'Selected HTML' );
+			assert.isNull( editable.findOne( 'tr' ).getChild( 0 ).getCustomData( 'visited_out' ), '1st cell should not have a marker' );
+			assert.isNull( editable.findOne( 'tr' ).getChild( 1 ).getCustomData( 'visited_in' ), '2nd cell should not have a marker' );
+		}
+	};
 
 	addTests( {
 		'block': [
