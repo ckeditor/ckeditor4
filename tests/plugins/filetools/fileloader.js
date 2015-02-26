@@ -744,10 +744,6 @@
 				sendRequestCounter = 0,
 				handleResponseCounter = 0;
 
-			FileLoader.prototype.sendRequest = function() {
-				sendRequestCounter++;
-				this.xhr.send( 'custom form' );
-			};
 			CKEDITOR.on( 'fileUploadRequest', function( e ) {
 				sendRequestCounter++;
 
