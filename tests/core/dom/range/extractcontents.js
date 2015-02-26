@@ -329,6 +329,22 @@
 			// We would lost empty inline elements so we add "*".
 			assert.isInnerHtmlMatching( '<b>*</b><p>foo</p><b>*</b>', clone.getHtml().replace( /<b><\/b>/g, '<b>*</b>' ) );
 			assert.isInnerHtmlMatching( 'x<b>[]a</b>y', bender.tools.range.getWithHtml( root, range ).replace( /<b><\/b>/g, '<b>*</b>' ) );
+		},
+
+		'test extractContents - empty container, non-empty container': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<h1></h1><h2><br /></h2>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]<br /></h2>
+
+			var clone = range.extractContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1><h2></h2>', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
 		}
 	};
 

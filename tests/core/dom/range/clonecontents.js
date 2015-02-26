@@ -475,6 +475,21 @@
 			var clone = range.cloneContents();
 
 			assert.isInnerHtmlMatching( '<h1></h1><p>foo</p><h2></h2>', clone.getHtml() );
+		},
+
+		'test cloneContents - empty container, non-empty container': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<h1></h1><h2><br /></h2>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]<br /></h2>
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1><h2></h2>', clone.getHtml() );
 		}
 	} );
 } )();
