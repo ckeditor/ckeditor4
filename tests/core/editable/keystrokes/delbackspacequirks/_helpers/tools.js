@@ -11,9 +11,7 @@ var quirksTools = ( function() {
 			8: 'BACKSPACE'
 		};
 
-	function assertKeystroke( key, keyModifiers, handled, html, expected, normalizeSelection ) {
-		normalizeSelection = ( normalizeSelection === false ) ? false : true;
-
+	function assertKeystroke( key, keyModifiers, handled, html, expected ) {
 		function decodeBoguses( html ) {
 			return html.replace( /@/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' );
 		}
@@ -43,7 +41,7 @@ var quirksTools = ( function() {
 			assert.isInnerHtmlMatching(
 				expected,
 				htmlWithSelection,
-				{ compareSelection: true, normalizeSelection: normalizeSelection },
+				{ compareSelection: true, normalizeSelection: true },
 				message
 			);
 
@@ -61,12 +59,22 @@ var quirksTools = ( function() {
 		return assertKeystroke.apply( this, [ BACKSPACE, 0, 0 ].concat( [].slice.call( arguments ) ) );
 	}
 
-	function bf( html ) {
-		return assertKeystroke.apply( this, [ BACKSPACE, 0, 1, html, html, false ] );
+	// We need expected param, because in some cases selection normalization will change the input
+	// selection markers. Therefore, in some cases we can't compare the result after with the input HTML.
+	function bf( html, expected ) {
+		if ( !expected ) {
+			expected = html;
+		}
+
+		return assertKeystroke.apply( this, [ BACKSPACE, 0, 1, html, expected ] );
 	}
 
-	function df( html ) {
-		return assertKeystroke.apply( this, [ DEL, 0, 1, html, html, false ] );
+	function df( html, expected ) {
+		if ( !expected ) {
+			expected = html;
+		}
+
+		return assertKeystroke.apply( this, [ DEL, 0, 1, html, expected ] );
 	}
 
 	return {

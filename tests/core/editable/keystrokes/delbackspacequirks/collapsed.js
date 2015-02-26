@@ -111,13 +111,14 @@
 		'test backspace, bogus #4':		b( '<p><br>@</p><p>[]@</p>',										'<p><br />^@!</p>' ),
 
 		// False positives. Some of them are buggy, but it's a different case e.g. not merging blocks.
-		'test backspace, no action #1':	bf( '<p>x</p><p>y{}y</p>' ),
-		'test backspace, no action #2':	bf( '<span>x</span><p>{}y</p>' ),
-		'test backspace, no action #3':	bf( '<p>x</p><p><strong>y{}y</strong></p>' ),
-		'test backspace, no action #4':	bf( '<p>x</p><blockquote><p>y{}y</p></blockquote>' ),
-		'test backspace, no action #5':	bf( '<p>x</p><blockquote>z<p>{}y</p></blockquote>' ),
-		'test backspace, no action #6':	bf( 'x<p>{}y</p>' ),
-		'test backspace, no action #7':	bf( '<p>x</p>z<p>{}y</p>' ),
+		// Note: The second pattern is just the first but after a selection normalization.
+		'test backspace, no action #1':	bf( '<p>x</p><p>y{}y</p>', '<p>x</p><p>y^y</p>' ),
+		'test backspace, no action #2':	bf( '<span>x</span><p>{}y</p>', '<span>x</span><p>^y</p>' ),
+		'test backspace, no action #3':	bf( '<p>x</p><p><strong>y{}y</strong></p>', '<p>x</p><p><strong>y^y</strong></p>' ),
+		'test backspace, no action #4':	bf( '<p>x</p><blockquote><p>y{}y</p></blockquote>', '<p>x</p><blockquote><p>y^y</p></blockquote>' ),
+		'test backspace, no action #5':	bf( '<p>x</p><blockquote>z<p>{}y</p></blockquote>', '<p>x</p><blockquote>z<p>^y</p></blockquote>' ),
+		'test backspace, no action #6':	bf( 'x<p>{}y</p>', 'x<p>^y</p>' ),
+		'test backspace, no action #7':	bf( '<p>x</p>z<p>{}y</p>', '<p>x</p>z<p>^y</p>' ),
 
 		// Handled by list or table plugin or editable, but not related to #9998.
 		// This is just to control whether the fix for #9998 does not break some case which it should not handle at all.
@@ -162,13 +163,14 @@
 		'test delete, bogus #4':			d( '<p>[]@</p><p><br>@</p>',											'<p>^<br />@!</p>' ),
 
 		// False positives. Some of them are buggy, but it's a different case e.g. not merging blocks.
-		'test delete, no action #1':		df( '<p>x{}x</p><p>y</p>' ),
-		'test delete, no action #2':		df( '<p>x{}</p><span>y</span>' ),
-		'test delete, no action #3':		df( '<p><strong>x{}x</strong></p><p>y</p>' ),
-		'test delete, no action #4':		df( '<blockquote><p>x{}x</p></blockquote><p>y</p>' ),
-		'test delete, no action #5':		df( '<blockquote><p>x{}</p>x</blockquote><p>y</p>' ),
-		'test delete, no action #6':		df( '<p>x{}</p>y' ),
-		'test delete, no action #7':		df( '<p>y{}</p>y<p>z</p>' ),
+		// Note: The second pattern is just the first but after a selection normalization.
+		'test delete, no action #1':		df( '<p>x{}x</p><p>y</p>', '<p>x^x</p><p>y</p>' ),
+		'test delete, no action #2':		df( '<p>x{}</p><span>y</span>', '<p>x^</p><span>y</span>' ),
+		'test delete, no action #3':		df( '<p><strong>x{}x</strong></p><p>y</p>', '<p><strong>x^x</strong></p><p>y</p>' ),
+		'test delete, no action #4':		df( '<blockquote><p>x{}x</p></blockquote><p>y</p>', '<blockquote><p>x^x</p></blockquote><p>y</p>' ),
+		'test delete, no action #5':		df( '<blockquote><p>x{}</p>x</blockquote><p>y</p>', '<blockquote><p>x^</p>x</blockquote><p>y</p>' ),
+		'test delete, no action #6':		df( '<p>x{}</p>y', '<p>x^</p>y' ),
+		'test delete, no action #7':		df( '<p>y{}</p>y<p>z</p>', '<p>y^</p>y<p>z</p>' ),
 
 		// Handled by list or table plugin or editable, but not related to #9998.
 		// This is just to control whether the fix for #9998 does not break some case which it should not handle at all.
