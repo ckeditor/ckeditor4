@@ -1261,6 +1261,11 @@
 				fixZWS = ( 'fixZWS' in options ) ? options.fixZWS : true,
 				fixNbsp = ( 'fixNbsp' in options ) ? options.fixNbsp : true;
 
+			// On IE8- we need to get rid of expando attributes.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				innerHtml = innerHtml.replace( / data-cke-expando="[^"]*"/g, '' );
+			}
+
 			if ( options.compareSelection ) {
 				innerHtml = innerHtml.replace( selectionMarkers, '<!--cke-range-marker-$1-->' );
 			}
