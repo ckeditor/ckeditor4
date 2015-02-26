@@ -1598,6 +1598,38 @@
 		},
 
 		/**
+		 * Retrieves the HTML contained within the range. If selection
+		 *  contains multiple ranges method will return concatenation of HTMLs from ranges.
+		 *
+		 *		var text = editor.getSelection().getSelectedText();
+		 *		alert( text );
+		 *
+		 * @since 4.4
+		 * @returns {String} A string of HTML within the current selection.
+		 */
+		getSelectedHtml: function() {
+			var nativeSel = this.getNative();
+
+			if ( this.isFake ) {
+				return this.getSelectedElement().getHtml();
+			}
+
+			if ( nativeSel && nativeSel.createRange )
+				return nativeSel.createRange().htmlText;
+
+			if ( nativeSel.rangeCount > 0 ) {
+				var div = document.createElement( 'div' );
+
+				for ( var i = 0; i < nativeSel.rangeCount; i++ ) {
+					div.appendChild( nativeSel.getRangeAt( i ).cloneContents() );
+				}
+				return div.innerHTML;
+			}
+
+			return '';
+		},
+
+		/**
 		 * Locks the selection made in the editor in order to make it possible to
 		 * manipulate it without browser interference. A locked selection is
 		 * cached and remains unchanged until it is released with the {@link #unlock} method.
