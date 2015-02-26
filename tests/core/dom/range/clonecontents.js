@@ -7,7 +7,13 @@
 		doc = CKEDITOR.document,
 		html1 = document.getElementById( 'playground' ).innerHTML;
 
-	var tests = {
+	bender.editors = {
+		classic: {
+			name: 'classic'
+		}
+	};
+
+	bender.test( {
 		setUp: function() {
 			document.getElementById( 'playground' ).innerHTML = html1;
 		},
@@ -218,8 +224,257 @@
 			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 3, range.endOffset, 'range.endOffset' );
 			assert.isFalse( range.collapsed, 'range.collapsed' );
-		}
-	};
+		},
 
-	bender.test( tests );
+		// #11586
+		'test cloneContents does not split text nodes': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>' );
+			doc.getBody().append( root );
+
+			var startContainer = root.getFirst(),
+				endContainer = root.getLast().getFirst();
+
+			range.setStart( startContainer, 2 ); // fo[o
+			range.setEnd( endContainer, 1 ); // b]ar
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'foo', root.getFirst().getText(), 'startContainer was not split' );
+			assert.areSame( 'bar', root.getLast().getFirst().getText(), 'endContainer was not split' );
+			assert.areSame( startContainer.$, range.startContainer.$, 'startContainer reference' );
+			assert.areSame( endContainer.$, range.endContainer.$, 'endContainer reference' );
+			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
+		},
+
+		// #11586
+		'test cloneContents does not affect selection': function() {
+			var editor = bender.editors.classic,
+				range = editor.createRange(),
+				editable = editor.editable();
+
+			editable.setHtml( '<p>foo<b>bar</b></p>' );
+
+			range.setStart( editable.getFirst().getFirst(), 2 ); // fo[o
+			range.setEnd( editable.getFirst().getLast().getFirst(), 1 ); // b]ar
+
+			var sel = editor.getSelection();
+			sel.selectRanges( [ range ] );
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<p>fo{o<b>b}ar</b>@</p>', bender.tools.selection.getWithHtml( editor ) );
+			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - empty text node is returned if range is at a text boundary': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>bom' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 3 ); // foo[
+			range.setEnd( root.getLast(), 0 ); // ]bom
+
+			var clone = range.cloneContents(),
+				firstChild = clone.getFirst(),
+				lastChild = clone.getLast();
+
+			assert.areSame( CKEDITOR.NODE_TEXT, firstChild.type, 'start is a text node' );
+			assert.areSame( '', firstChild.getText(), 'start text node is empty' );
+
+			assert.areSame( CKEDITOR.NODE_TEXT, lastChild.type, 'end is a text node' );
+			assert.areSame( '', lastChild.getText(), 'end text node is empty' );
+		},
+
+		'test cloneContents - range inside a single text node': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'bar' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // b[ar
+			range.setEnd( root.getFirst(), 2 ); // ba]r
+
+			var clone = range.cloneContents();
+
+			assert.areSame( 'bar', root.getFirst().getText(), 'startContainer was not split' );
+			assert.areSame( 1, root.getChildCount(), '1 child left' );
+			assert.areSame( 'a', clone.getHtml() );
+		},
+
+		'test cloneContents - element selection preceded by a text node': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<b>bar</b>bom' );
+			doc.getBody().append( root );
+
+			range.setStart( root, 1 ); // [<b>
+			range.setEnd( root, 2 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - startOffset == 0, startContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b>bom</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 0 ); // [<b>
+			range.setEnd( root.getFirst().getLast(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<b>bar</b>bo', clone.getHtml() );
+		},
+
+		'test cloneContents - startOffset == childCount, startContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b></p><p>foo</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // </b>[
+			range.setEnd( root.getLast().getFirst(), 2 ); // fo}o
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<p></p><p>fo</p>', clone.getHtml() );
+		},
+
+		'test cloneContents - endOffset == 0, endContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo</p><p><b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getLast(), 0 ); // ]<b>
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<p>oo</p><p></p>', clone.getHtml() );
+		},
+
+		'test cloneContents - endOffset == childCount, endContainer is element': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo<b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst(), 2 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( 'oo<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - offsets = ( 0, childCount ), containers are elements': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 0 ); // [<b>
+			range.setEnd( root.getFirst(), 1 ); // </b>]
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<b>bar</b>', clone.getHtml() );
+		},
+
+		'test cloneContents - right branch much longer': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'foo<u>x<b>bar<i>bom</i>y</b>z</u>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst(), 1 ); // f{oo
+			range.setEnd( root.findOne( 'i' ).getFirst(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( 'oo<u>x<b>bar<i>bo</i></b></u>', clone.getHtml() );
+		},
+
+		'test cloneContents - left branch much longer': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<u>x<b>y<i>bom</i>bar</b>z</u>foo' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'i' ).getFirst(), 1 ); // b{om
+			range.setEnd( root.getLast(), 2 ); // fo}o
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<u><b><i>om</i>bar</b>z</u>fo', clone.getHtml() );
+		},
+
+		'test cloneContents - finding levelClone in the right branch': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo<br>bar</b><i><u>x</u><s>bom</s></i></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'b' ).getFirst(), 1 ); // f{oo
+			range.setEnd( root.findOne( 's' ).getFirst(), 2 ); // bo}m
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<b>oo<br />bar</b><i><u>x</u><s>bo</s></i>', clone.getHtml() );
+		},
+
+		'test cloneContents - collapsed range': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p>foo</p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'p' ).getFirst(), 1 ); // f^oo
+			range.collapse( true );
+
+			var clone = range.cloneContents();
+
+			// Nothing should happens when range is collapsed.
+			assert.areSame( '', clone.getHtml() );
+			assert.isInnerHtmlMatching( '<p>foo</p>', root.getHtml() );
+			assert.areSame( root.findOne( 'p' ).getFirst(), range.startContainer, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		'test cloneContents - empty containers': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'x<h1></h1><p>foo</p><h2></h2>y' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]</h2>
+
+			var clone = range.cloneContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1><p>foo</p><h2></h2>', clone.getHtml() );
+		}
+	} );
 } )();
