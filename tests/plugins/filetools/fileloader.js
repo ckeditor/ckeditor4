@@ -744,22 +744,22 @@
 				sendRequestCounter = 0,
 				handleResponseCounter = 0;
 
-			CKEDITOR.on( 'fileUploadRequest', function( e ) {
+			CKEDITOR.on( 'fileUploadRequest', function( evt ) {
 				sendRequestCounter++;
 
-				e.data.fileLoader.xhr.send( 'custom form' );
-				e.stop();
+				evt.data.fileLoader.xhr.send( 'custom form' );
+				evt.stop();
 			} );
 
-			CKEDITOR.on( 'fileUploadResponse', function( e ) {
+			CKEDITOR.on( 'fileUploadResponse', function( evt ) {
 				handleResponseCounter++;
 
-				var response = e.data.fileLoader.xhr.responseText.split( '|' );
+				var response = evt.data.fileLoader.xhr.responseText.split( '|' );
 
-				e.data.fileName = response[ 0 ];
-				e.data.url = response[ 1 ];
-				e.data.message = response[ 2 ];
-				e.stop();
+				evt.data.fileName = response[ 0 ];
+				evt.data.url = response[ 1 ];
+				evt.data.message = response[ 2 ];
+				evt.stop();
 			} );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
