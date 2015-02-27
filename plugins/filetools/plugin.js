@@ -406,11 +406,9 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				CKEDITOR.fire( 'fileUploadRequest', {
-					fileLoader: this
-				}, this.editor );
-
-				this.changeStatus( 'uploading' );
+				if ( CKEDITOR.fire( 'fileUploadRequest', { fileLoader: this }, this.editor ) ) {
+					this.changeStatus( 'uploading' );
+				}
 			}
 		},
 
@@ -453,22 +451,20 @@
 					loader.changeStatus( 'error' );
 				} else {
 					var data = {
-						fileLoader: loader
-					};
-					CKEDITOR.fire( 'fileUploadResponse', data, loader.editor );
+							fileLoader: loader
+						},
+						// Values to copy from event to FileLoader.
+						valuesToCopy = [ 'message', 'fileName', 'url' ],
+						success = CKEDITOR.fire( 'fileUploadResponse', data, loader.editor );
 
-					// Setting allowed values to FileLoader.
-					var allowed = [ 'message', 'fileName', 'url' ],
-						max = allowed.length;
-
-					for ( var i = 0; i < max; i++ ) {
-						var key = allowed[ i ];
+					for ( var i = 0; i < valuesToCopy.length; i++ ) {
+						var key = valuesToCopy[ i ];
 						if ( typeof data[ key ] === 'string' ) {
 							loader[ key ] = data[ key ];
 						}
 					}
 
-					if ( data.error || data.uploaded === false ) {
+					if ( success === false ) {
 						loader.changeStatus( 'error' );
 					} else {
 						loader.changeStatus( 'uploaded' );
@@ -653,17 +649,15 @@
 			var response = JSON.parse( xhr.responseText );
 		} catch ( err ) {
 			data.message = fileLoader.lang.filetools.responseError.replace( '%1', xhr.responseText );
-			data.error = true;
-			return;
+			return false;
 		}
 
 		if ( response.error ) {
 			data.message = response.error.message;
 		}
 
-		data.uploaded = !!response.uploaded;
 		if ( !response.uploaded ) {
-			return;
+			return false;
 		}
 
 		data.fileName = response.fileName;
