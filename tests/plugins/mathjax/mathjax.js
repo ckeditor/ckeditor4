@@ -52,7 +52,7 @@
 			}
 
 			assert.isString( mathJaxLib,
-				'bender.config.mathJaxLibPath should be defined with the path to MathJax lib used for testing.' );
+				'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
 
 			var tc = this;
 
