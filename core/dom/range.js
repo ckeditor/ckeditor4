@@ -178,6 +178,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		range.optimizeBookmark();
 
+		var isDelete = action === 0;
 		var isExtract = action == 1;
 		var isClone = action == 2;
 		var doClone = isClone || isExtract;
@@ -386,6 +387,11 @@ CKEDITOR.dom.range = function( root ) {
 		// * moves node to the new parent.
 		function consume( node, newParent, toStart, forceClone ) {
 			var nextSibling = toStart ? node.getPrevious() : node.getNext();
+
+			// We do not clone if we are only deleting, so do nothing.
+			if ( forceClone && isDelete ) {
+				return nextSibling;
+			}
 
 			// If cloning, just clone it.
 			if ( isClone || forceClone ) {

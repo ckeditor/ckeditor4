@@ -146,7 +146,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		'test extractContents - mergeThen': function() {
+		'test deleteContents - mergeThen': function() {
 			var root = doc.createElement( 'div' ),
 				range = new CKEDITOR.dom.range( doc );
 
@@ -161,7 +161,7 @@
 			assert.isInnerHtmlMatching( '<p><b>f[]r</b></p>', bender.tools.range.getWithHtml( root, range ) );
 		},
 
-		'test extractContents - mergeThen (nothing to merge)': function() {
+		'test deleteContents - mergeThen (nothing to merge)': function() {
 			var root = doc.createElement( 'div' ),
 				range = new CKEDITOR.dom.range( doc );
 
@@ -174,6 +174,36 @@
 			range.deleteContents( true );
 
 			assert.isInnerHtmlMatching( '<p><b>f</b>[]<u>r</u></p>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test deleteContents - empty containers': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'x<h1></h1><p>foo</p><h2></h2>y' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]</h2>
+
+			range.deleteContents();
+
+			assert.isInnerHtmlMatching( 'x<h1></h1>[]<h2></h2>y', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test deleteContents - empty container, non-empty container': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<h1></h1><h2><br /></h2>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]<br /></h2>
+
+			range.deleteContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
 		}
 	};
 
