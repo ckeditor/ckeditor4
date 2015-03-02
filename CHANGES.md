@@ -13,6 +13,7 @@ Fixed Issues:
 Other Changes:
 
 * [#12844](http://dev.ckeditor.com/ticket/12844): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.*`.
+* [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed truncated-mathjax from the test directory, now `bender.config.mathJaxLibPath` need to be configured manually.
 
 ## CKEditor 4.4.7
 
