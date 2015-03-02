@@ -479,9 +479,9 @@ var testsForMultipleEditor = {
 				offset: 0,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'drag1',
-				expectedHtml: 'drag1',
+				expectedHtml: '<b id="drag1">drag1</b>',
 				expectedDataType: 'html',
-				expectedDataValue: 'drag1'
+				expectedDataValue: '<b id="drag1">drag1</b>'
 			}, function( evt ) {
 				if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) && !CKEDITOR.env.safari ) {
 					assert.areSame( editor.document.getById( 'drag1' ), evt.data.dragRange.startContainer, 'dropRange.startContainer' );
@@ -492,7 +492,7 @@ var testsForMultipleEditor = {
 				evt.data.dropRange.setStart( editor.document.getById( 'drop2' ), 4 );
 				evt.data.dropRange.collapse( true );
 			}, function() {
-				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>xx<b id="drop1">drop1</b>x<b id="drop2">drop2</b>drag1^x</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>xx<b id="drop1">drop1</b>x<b id="drop2">drop2</b><b id="drag1">drag1^</b>x</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
