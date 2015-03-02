@@ -2735,9 +2735,21 @@
 					editableRange,
 					walker = new CKEDITOR.dom.walker( range ),
 					startCell = range.startPath().contains( tableEditable ),
-					endCell = range.endPath().contains( tableEditable );
+					endCell = range.endPath().contains( tableEditable ),
+					database = {};
 
 				walker.guard = function( node, leaving ) {
+					// Guard may be executed on some node boundaries multiple times,
+					// what results in creating more than one range for each selected cell. (#12964)
+					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+						var key = 'visited_' + ( leaving ? 'out' : 'in' );
+						if ( node.getCustomData( key ) ) {
+							return;
+						}
+
+						CKEDITOR.dom.element.setMarker( database, node, key, 1 );
+					}
+
 					// Handle partial selection in a cell in which the range starts:
 					// <td><p>x{xx</p></td>...
 					// will store:
@@ -2770,6 +2782,9 @@
 				};
 
 				walker.lastForward();
+
+				// Clear all markers so next extraction will not be affected by this one.
+				CKEDITOR.dom.element.clearAllMarkers( database );
 
 				return contentsRanges;
 
