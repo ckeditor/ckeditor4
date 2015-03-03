@@ -4,11 +4,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'ko', {
 	fontSize: {
-		label: '글자 크기',
-		voiceLabel: 'Font Size',
+		label: '크기',
+		voiceLabel: '글자 크기',
 		panelTitle: '글자 크기'
 	},
-	label: '폰트',
-	panelTitle: '폰트',
-	voiceLabel: '폰트'
+	label: '글꼴',
+	panelTitle: '글꼴',
+	voiceLabel: '글꼴'
 } );

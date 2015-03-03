@@ -3,6 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'magicline', 'ko', {
-	title: '여기에 단락 삽입'
+CKEDITOR.plugins.setLang( 'button', 'ko', {
+	selectedLabel: '%1 (선택됨)'
 } );

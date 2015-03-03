@@ -3,6 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.plugins.setLang( 'magicline', 'ko', {
-	title: '여기에 단락 삽입'
+CKEDITOR.plugins.setLang( 'language', 'ko', {
+	button: '언어 설정',
+	remove: '언어 설정 제거'
 } );
