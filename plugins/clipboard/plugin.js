@@ -1310,6 +1310,16 @@
 			var editable = editor.editable(),
 				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
 
+			// Not allowing dragging on container (#12613).
+			editor.container.on( 'dragover', function( evt ) {
+				evt.data.preventDefault();
+				evt.data.$.dataTransfer.dropEffect = 'none';
+			} );
+
+			editor.container.on( 'drop', function( evt ) {
+				evt.data.preventDefault();
+			} );
+
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
 			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
