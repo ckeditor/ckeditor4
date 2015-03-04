@@ -336,6 +336,8 @@
 					this._doneWeights -= task._doneWeight;
 				}
 
+				this._totalWeights -= task._weight;
+
 				this._tasks.splice( index, 1 );
 				// And we also should inform the UI about this change.
 				this.update();
