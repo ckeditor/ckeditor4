@@ -344,6 +344,32 @@ var testsForMultipleEditor = {
 			} );
 		},
 
+		// Integration test (#12806).
+		'test drop part of the link': function( editor ) {
+			var bot = bender.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px"><a href="foo">Lorem [ipsum] dolor</a> sit amet.</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				element: editor.document.getById( 'p' ).getChild( 1 ),
+				offset: 4,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedText: 'ipsum',
+				expectedHtml: '<a href="foo">ipsum</a>',
+				expectedDataType: 'html',
+				expectedDataValue: '<a href="foo">ipsum</a>'
+			}, null, function() {
+				assert.isInnerHtmlMatching(
+					'<p id="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">' +
+					'ipsum' + ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? '</a>^' : '^</a>' ) + ' amet.@</p>',
+					getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+			} );
+		},
+
 		'test drop text from external source': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
