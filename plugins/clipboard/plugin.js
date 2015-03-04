@@ -1334,6 +1334,13 @@
 			// We need to call preventDefault on dragover because otherwise if
 			// we drop image it will overwrite document.
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				var target = evt.data.getTarget();
+
+				// Prevent reloading page when dragging image on empty document (#12619).
+				if ( target && target.is && target.is( 'html' ) ) {
+					evt.data.preventDefault();
+					return;
+				}
 
 				// If we do not prevent default dragover on IE the file path
 				// will be loaded and we will lose content. On the other hand
