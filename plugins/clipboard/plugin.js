@@ -1308,17 +1308,18 @@
 
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable(),
-				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				top = editor.ui.space( 'top' ),
+				bottom = editor.ui.space( 'bottom' );
 
-			// Not allowing dragging on container (#12613).
-			editor.container.on( 'dragover', function( evt ) {
+			function preventDefaultSetDropEffectToNone( evt ) {
 				evt.data.preventDefault();
 				evt.data.$.dataTransfer.dropEffect = 'none';
-			} );
+			}
 
-			editor.container.on( 'drop', function( evt ) {
-				evt.data.preventDefault();
-			} );
+			// Not allowing dragging on toolbar and bottom (#12613).
+			top && top.on( 'dragover', preventDefaultSetDropEffectToNone );
+			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
 
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
