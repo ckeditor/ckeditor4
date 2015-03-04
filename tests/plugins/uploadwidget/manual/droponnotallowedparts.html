@@ -1,0 +1,30 @@
+<textarea id="editor1"></textarea>
+<div id="editor2" contenteditable="true" >
+	The true<br/>
+	mark of maturity<br/>
+	is when<br/>
+	somebody hurts<br/>
+	you and you try<br/>
+	to understand<br/>
+	their situation<br/>
+	instead of trying<br/>
+	to hurt them<br/>
+	back<br/>
+
+</div>
+<textarea id="editor3"></textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/'
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/'
+	} );
+
+	CKEDITOR.replace( 'editor3', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/',
+		extraPlugins: 'divarea'
+	} );
+</script>
