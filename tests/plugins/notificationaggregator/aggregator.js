@@ -320,6 +320,20 @@
 			assert.areSame( 33, Math.round( aggregator.getPercentage() * 100 ) );
 		},
 
+		'test cancel done task substract doneTasks': function() {
+			var aggregator = new Aggregator( this.editor, '' ),
+				task1 = aggregator.createTask( { weight: 10 } ),
+				task2 = aggregator.createTask( { weight: 10 } );
+
+			task1.done();
+
+			assert.areSame( 1, aggregator.getDoneTasksCount() );
+
+			task2.cancel();
+
+			assert.areSame( 0, aggregator.getDoneTasksCount() );
+		},
+
 		// Ensure that subsequent remove attempt for the same task won't result with an error.
 		'test _removeTask subsequent': function() {
 			var instance = new Aggregator( this.editor, '' );
