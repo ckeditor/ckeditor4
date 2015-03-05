@@ -499,7 +499,7 @@
 
 				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function() {
-					editor.getSelection().getRanges()[ 0 ].deleteContents(); // @todo replace with the new delete content function
+					editor.extractSelectedHtml();
 				}, null, null, 999 );
 			}
 
@@ -1421,7 +1421,7 @@
 					// No we can safely delete content for the drag range...
 					dragRange = editor.createRange();
 					dragRange.moveToBookmark( dragBookmark );
-					dragRange.deleteContents(); // @todo replace with the new delete content function
+					editable.extractHtmlFromRange( dragRange );
 
 					// ...and paste content into the drop position.
 					dropRange = editor.createRange();
@@ -1445,7 +1445,7 @@
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 
-				dragRange.deleteContents(); // @todo replace with the new delete content function
+				editable.extractHtmlFromRange( dragRange );
 
 				dataTransfer.sourceEditor.getSelection().reset();
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
@@ -1944,8 +1944,7 @@
 		if ( editor ) {
 			this.sourceEditor = editor;
 
-			// @todo replace with the new function
-			this.setData( 'text/html', editor.getSelection().getSelectedHtml() );
+			this.setData( 'text/html', editor.getSelectedHtml( 1 ) );
 
 			// Without setData( 'text', ... ) on dragstart there is no drop event in Safari.
 			// Also 'text' data is empty as drop to the textarea does not work if we do not put there text.

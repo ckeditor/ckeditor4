@@ -1109,13 +1109,14 @@
 		 * @returns {CKEDITOR.dom.documentFragment/String}
 		 */
 		getSelectedHtml: function( toString ) {
-			var editable = this.editable();
+			var editable = this.editable(),
+				ranges = this.getSelection().getRanges();
 
-			if ( !editable ) {
+			if ( !editable || ranges.length === 0 ) {
 				return null;
 			}
 
-			var docFragment = editable.getHtmlFromRange( this.getSelection().getRanges()[ 0 ] );
+			var docFragment = editable.getHtmlFromRange( ranges[ 0 ] );
 
 			return toString ? docFragment.getHtml() : docFragment;
 		},
@@ -1135,13 +1136,14 @@
 		 * @returns {CKEDITOR.dom.documentFragment/String}
 		 */
 		extractSelectedHtml: function( toString ) {
-			var editable = this.editable();
+			var editable = this.editable(),
+				ranges = this.getSelection().getRanges();
 
-			if ( !editable ) {
+			if ( !editable || ranges.length === 0 ) {
 				return null;
 			}
 
-			var range = this.getSelection().getRanges()[ 0 ],
+			var range = ranges[ 0 ],
 				docFragment = editable.extractHtmlFromRange( range );
 
 			this.getSelection().selectRanges( [ range ] );

@@ -9,7 +9,17 @@ bender.editor = {
 	}
 };
 
+var stubs = [];
+
 bender.test( {
+	'tearDown': function() {
+		var stub;
+
+		while ( stub = stubs.pop() ) {
+			stub.restore();
+		}
+	},
+
 	'test getSelectedHtml': function() {
 		var editor = this.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
@@ -25,6 +35,21 @@ bender.test( {
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
 
 		assert.areSame( 'ob', editor.getSelectedHtml( true ) );
+	},
+
+	'test getSelectedHtml with no ranges': function() {
+		// Only on Firefox it may happens that selection has no ranges.
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
+		stubs.push( CKEDITOR.dom.selection.prototype.getRanges );
+
+		var editor = this.editor,
+			selectedHtml = editor.getSelectedHtml();
+
+		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
 	'test extractSelectedHtml': function() {
@@ -54,5 +79,15 @@ bender.test( {
 		assert.areSame( 'ob', editor.extractSelectedHtml( true ) );
 		assert.isInnerHtmlMatching( '<p>fo^ar@</p>', bender.tools.selection.getWithHtml( editor ),
 			{ compareSelection: true, normalizeSelection: true }, 'contents of the editor' );
+	},
+
+	'test extractSelectedHtml with no ranges': function() {
+		sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
+		stubs.push( CKEDITOR.dom.selection.prototype.getRanges );
+
+		var editor = this.editor,
+			selectedHtml = editor.getSelectedHtml();
+
+		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	}
 } );
