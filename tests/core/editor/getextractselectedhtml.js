@@ -82,11 +82,6 @@ bender.test( {
 	},
 
 	'test extractSelectedHtml with no ranges': function() {
-		// Only on Firefox it may happens that selection has no ranges.
-		if ( !CKEDITOR.env.gecko ) {
-			assert.ignore();
-		}
-
 		sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
 		stubs.push( CKEDITOR.dom.selection.prototype.getRanges );
 
