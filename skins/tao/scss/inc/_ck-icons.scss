@@ -1,0 +1,70 @@
+
+                                     /*
+                                    /  \
+                                   |    |
+                                 --:'''':--
+   THIS CODE IS GENERATED          :*_* :
+                                   _:"":\___
+   AUTOMAGICALLY    * *      ____.' :::     '._
+                   * *=====<<=)           \    :
+   DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                     \====:_ ""
+                                    .'     \\
+                                   :       :
+                                  /   :    \
+                                 :   .      '.
+                                 :  : :      :
+                                 :__:-:__.;--'
+                                <*_/   <*/
+                                 
+@import "inc/bootstrap";
+.cke_button_icon, .cke_button { @extend %tao-icon-setup;}
+.cke_button__anchor_icon:before { @extend %icon-anchor;}
+.cke_button__bgcolor_icon:before { @extend %icon-background-color;}
+.cke_button__bidiltr_icon:before { @extend %icon-left-right;}
+.cke_button__bidirtl_icon:before { @extend %icon-right-left;}
+.cke_button__blockquote_icon:before { @extend %icon-block-quote;}
+.cke_button__bold_icon:before { @extend %icon-bold;}
+.cke_button__bulletedlist_icon:before { @extend %icon-ul;}
+.cke_button__copy_icon:before { @extend %icon-copy;}
+.cke_button__creatediv_icon:before { @extend %icon-div-container;}
+.cke_button__cut_icon:before { @extend %icon-cut;}
+.cke_button__find_icon:before { @extend %icon-find;}
+.cke_button__horizontalrule_icon:before { @extend %icon-insert-horizontal-line;}
+.cke_button__image_icon:before { @extend %icon-image;}
+.cke_button__indent_icon:before { @extend %icon-increase-indent;}
+.cke_button__italic_icon:before { @extend %icon-italic;}
+.cke_button__justifyblock_icon:before { @extend %icon-justify;}
+.cke_button__justifycenter_icon:before { @extend %icon-center;}
+.cke_button__justifyleft_icon:before { @extend %icon-align-left;}
+.cke_button__justifyright_icon:before { @extend %icon-align-right;}
+.cke_button__link_icon:before { @extend %icon-link;}
+.cke_button__newpage_icon:before { @extend %icon-new-page;}
+.cke_button__numberedlist_icon:before { @extend %icon-ol;}
+.cke_button__outdent_icon:before { @extend %icon-decrease-indent;}
+.cke_button__paste_icon:before { @extend %icon-paste;}
+.cke_button__pastefromword_icon:before { @extend %icon-paste-word;}
+.cke_button__pastetext_icon:before { @extend %icon-paste-text;}
+.cke_button__radio_icon:before { @extend %icon-radio-checked;}
+.cke_button__redo_icon:before { @extend %icon-redo;}
+.cke_button__replace_icon:before { @extend %icon-replace;}
+.cke_button__scayt_icon:before { @extend %icon-spell-check;}
+.cke_button__selectall_icon:before { @extend %icon-select-all;}
+.cke_button__sourcedialog_icon:before { @extend %icon-source;}
+.cke_button__specialchar_icon:before { @extend %icon-special-character;}
+.cke_button__strike_icon:before { @extend %icon-strike-through;}
+.cke_button__subscript_icon:before { @extend %icon-subscript;}
+.cke_button__superscript_icon:before { @extend %icon-superscript;}
+.cke_button__table_icon:before { @extend %icon-table;}
+.cke_button__templates_icon:before { @extend %icon-templates;}
+.cke_button__textcolor_icon:before { @extend %icon-text-color;}
+.cke_button__underline_icon:before { @extend %icon-underline;}
+.cke_button__taounderline_icon:before { @extend %icon-underline;}
+.cke_button__undo_icon:before { @extend %icon-undo;}
+.cke_button__unlink_icon:before { @extend %icon-unlink;}
+.cke_button__taomediamanager_icon:before { @extend %icon-media;}
+.cke_button__taoqtiimage_icon:before { @extend %icon-image;}
+.cke_button__taoqtimaths_icon:before { @extend %icon-maths;}
+.cke_button__taoqtimedia_icon:before { @extend %icon-media;}
+.cke_combo_arrow:before { @extend %icon-down;}
+.cke_button_arrow:before { @extend %icon-down;}

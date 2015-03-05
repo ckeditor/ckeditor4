@@ -1,0 +1,72 @@
+@import "inc/bootstrap";
+
+[class^="icon-"], [class*=" icon-"] {
+    text-shadow: 0 1px 0 white(.5);
+}
+
+.cke_button {
+    min-width: 14px;
+    text-decoration: none !important;
+    text-align: center;
+}
+
+.cke_top,
+.cke_top:before,
+.cke_top:after,
+.cke_top *,
+.cke_top *:before,
+.cke_top *:after {
+    -moz-box-sizing: content-box !important;
+    -webkit-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+.cke_button_icon, .cke_button {
+    padding-top: 1px;
+    line-height: 0.9;
+    font-size: 16px;
+}
+
+.cke_nose {
+    position: absolute;
+    bottom: -6px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    border: 1px $uiClickableDefaultBg solid;
+    border-left: none;
+    border-top: none;
+    width: 12px;
+    height: 12px;
+    background: $uiClickableDefaultBg;
+    -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    &.float-space-left {
+        opacity: 1;
+        transition: opacity .1s ease-in-out;
+        -moz-transition: opacity .1s ease-in-out;
+        -webkit-transition: opacity .1s ease-in-out;
+        right: auto;
+        left: 5px;
+    }
+    &.float-space-right {
+        opacity: 1;
+        transition: opacity .1s ease-in-out;
+        -moz-transition: opacity .1s ease-in-out;
+        -webkit-transition: opacity .1s ease-in-out;
+        right: 5px;
+        left: auto;
+    }
+    &.float-space-bottom {
+        top: -6px;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+    &.float-space-top {
+        bottom: -6px;
+    }
+}

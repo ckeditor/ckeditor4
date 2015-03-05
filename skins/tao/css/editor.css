@@ -1,0 +1,2721 @@
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+editor.css
+============
+
+
+This is he heart of the skin system. This is the file loaded by the editor to
+style all elements inside its main interface.
+
+To make it easier to maintain, instead of including all styles here, we import
+other files.
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+reset.css (part of editor.css)
+================================
+
+This file holds the "reset" requirements of CKEditor, as well as define the
+default interface styles.
+
+CKEditor includes two main "reset" class names in the DOM structure created for
+editors:
+
+	* .cke_reset: Intended to reset a specific element, but not its children.
+	  Because of this, only styles that will not be inherited can be defined.
+
+	* .cke_reset_all: Intended to reset not only the element holding it, but
+	   also its child elements.
+
+To understand why "reset" is needed, check the CKEditor Skin SDK:
+http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* Reset for single elements, not their children. */
+.cke_reset {
+  /* Do not include inheritable rules here. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  position: static;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  transition: none; }
+
+/* Reset for elements and their children. */
+.cke_reset_all, .cke_reset_all * {
+  /* The following must be identical to .cke_reset. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  transition: none;
+  /* These are rule inherited by all children elements. */
+  border-collapse: collapse;
+  font-family: "Franklin Gothic", "Franklin Gothic Medium", "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.4rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: auto; }
+
+.cke_reset_all .cke_rtl * {
+  text-align: right; }
+
+/* Defaults for some elements. */
+.cke_reset_all iframe {
+  vertical-align: inherit;
+  /** For IE */ }
+
+.cke_reset_all textarea {
+  white-space: pre; }
+
+.cke_reset_all textarea,
+.cke_reset_all input[type="text"],
+.cke_reset_all input[type="password"] {
+  cursor: text; }
+
+.cke_reset_all textarea[disabled],
+.cke_reset_all input[type="text"][disabled],
+.cke_reset_all input[type="password"][disabled] {
+  cursor: default; }
+
+.cke_reset_all fieldset {
+  padding: 10px;
+  border: 2px groove #E0DFE3; }
+
+.cke_reset_all select {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* Styles the main interface structure (holding box). */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+mainui.css (part of editor.css)
+=================================
+
+This file styles the basic structure of the CKEditor user interface - the box
+that holds everything.
+
+CKEditor offers two main editing modes. The main UI blocks that compose these
+modes are:
+
+	For "Theme UI" mode, the one most generally used:
+
+	+-- .cke_chrome ----------------------+
+	|+-- .cke_inner ---------------------+|
+	|| +-- .cke_top -------------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|| +-- .cke_contents --------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|| +-- .cke_bottom ----------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|+-----------------------------------+|
+	+-------------------------------------+
+
+	For "Inline Editing" mode:
+
+	+-- .cke_chrome .cke_float------------+
+	|+-- .cke_inner ---------------------+|
+	|| +-- .cke_top -------------------+ ||
+	|| |                               | ||
+	|| +-------------------------------+ ||
+	|+-----------------------------------+|
+	+-------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+
+*/
+/* The outer boundary of the interface. */
+.cke_chrome {
+  /* This is <span>, so transform it into a block.*/
+  display: block;
+  padding: 0; }
+
+/* The inner boundary of the interface. */
+.cke_inner {
+  /* This is <span>, so transform it into a block.*/
+  display: block;
+  -webkit-touch-callout: none;
+  padding: 0;
+  position: relative;
+  z-index: 10001; }
+
+/* Added to the outer boundary of the UI when in inline editing,
+   when the UI is floating. */
+.cke_float {
+  /* Make white the space between the outer and the inner borders. */
+  border: none; }
+
+.cke_float .cke_inner {
+  /* As we don't have blocks following top (toolbar) we suppress the padding
+     as the toolbar defines its own margin. */
+  padding-bottom: 0; }
+
+/* Make the main spaces enlarge to hold potentially floated content. */
+.cke_top,
+.cke_contents,
+.cke_bottom {
+  /* These are <span>s, so transform them into blocks.*/
+  /* Ideally this should be "auto", but it shows scrollbars in IE7. */
+  overflow: hidden; }
+
+.cke_top {
+  /*border: 1px solid #b2b2b2;*/
+  /* Allow breaking toolbars when in a narrow editor. (#9947) */
+  white-space: normal;
+  padding: 4px 3px 0px 4px;
+  background: #f3f1ef;
+  border: 1px solid #f3f1ef;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -webkit-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2); }
+
+.cke_float .cke_top {
+  border: 3px solid #f3f1ef; }
+
+.cke_bottom {
+  padding: 1px;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  /*
+    border-top: 1px solid #bfbfbf;
+
+    -moz-box-shadow: 0 1px 0 #fff inset;
+    -webkit-box-shadow: 0 1px 0 #fff inset;
+    box-shadow: 0 1px 0 #fff inset;
+
+    background: #cfd1cf;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
+    background-image: -moz-linear-gradient(top, #ebebeb, #cfd1cf);
+    background-image: -webkit-linear-gradient(top, #ebebeb, #cfd1cf);
+    background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
+    background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
+    background-image: linear-gradient(top, #ebebeb, #cfd1cf);
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');*/ }
+
+/* On iOS we need to manually enable scrolling in the contents block. (#9945) */
+.cke_browser_ios .cke_contents {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; }
+
+/* The resizer is the small UI element that is rendered at the bottom right
+   part of the editor. It makes is possible to resize the editor UI. */
+.cke_resizer {
+  /* To avoid using images for the resizer, we create a small triangle,
+     using some CSS magic. */
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border-width: 10px 10px 0 0;
+  border-color: transparent #666 transparent transparent;
+  border-style: dashed solid dashed dashed;
+  font-size: 0;
+  vertical-align: bottom;
+  margin-top: 6px;
+  /* 	A margin in case of no other element in the same container
+    to keep a distance to the bottom edge. */
+  margin-bottom: 2px;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
+
+.cke_hc .cke_resizer {
+  font-size: 15px;
+  width: auto;
+  height: auto;
+  border-width: 0; }
+
+.cke_resizer_ltr {
+  cursor: se-resize;
+  float: right;
+  margin-right: -4px; }
+
+/* This class is added in RTL mode. This is a special case for the resizer
+   (usually the .cke_rtl class is used), because it may not necessarily be in
+   RTL mode if the main UI is RTL. It depends instead on the context where the
+   editor is inserted on. */
+.cke_resizer_rtl {
+  border-width: 10px 0 0 10px;
+  border-color: transparent transparent transparent #A5A5A5;
+  border-style: dashed dashed dashed solid;
+  cursor: sw-resize;
+  float: left;
+  margin-left: -4px;
+  right: auto; }
+
+/* The editing area (where users type) can be rendered as an editable <div>
+   element (e.g. divarea plugin). In that case, this is the class applied to
+   that element. */
+.cke_wysiwyg_div {
+  display: block;
+  height: 100%;
+  overflow: auto;
+  padding: 0 8px;
+  outline-style: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* Styles all "panels", which are the floating elements that appear when
+   opening toolbar combos, menu buttons, context menus, etc. */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+panel.css (part of editor.css)
+================================
+
+Panels are floating elements that can hold different types of contents.
+The following are common uses of it:
+
+	- The element that toolbar combos display when opening them.
+	- The context menu.
+	- The list of items displayed by "menu buttons" (e.g. scayt).
+	- The panel shown when opening "panel buttons" (e.g. color buttons).
+
+Panel contents are wrapped into an iframe, so it is possible to have additional
+CSS loaded inside them (e.g. to have more accurate preview on the styles combo).
+
+The following is a visual representation of the outer elements of a panel:
+
++-- .cke_panel(*) ---------------------+
+| +-- IFRAME.cke_panel_frame --------+ |
+| | +-- HTML.cke_panel_container --+ | |
+| | | +-- .cke_panel_block ------+ | | |
+| | | |                          | | | |
+| | | |     (contents here)      | | | |
+| | | |                          | | | |
+| | | +--------------------------+ | | |
+| | +------------------------------+ | |
+| +----------------------------------+ |
++--------------------------------------+
+
+(*) All kinds of panel share the above structure. Menu panels adds the
+    .cke_menu_panel class to the outer element, while toolbar combos add the
+	.cke_combopanel class.
+
+This file also defines styles for panel lists (used by combos). For menu-like
+panel contents and color panels check menu.css and colorpanel.css.
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* The box that holds an IFRAME. It's inserted into a host document and positioned
+   absolutely by the application. It floats above the host document/editor. */
+.cke_panel {
+  /* Restore the loading hide */
+  visibility: visible;
+  width: 120px;
+  height: 100px;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid #b6b6b6;
+  border-bottom-color: #999;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15); }
+
+/* This class represents panels which are used as context menus. */
+.cke_menu_panel {
+  padding: 0;
+  margin: 0;
+  visibility: hidden; }
+
+/* This class represents panels which are used by rich combos. */
+.cke_combopanel {
+  width: 150px;
+  height: 170px; }
+
+/* The IFRAME the panel is wrapped into. */
+.cke_panel_frame {
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  overflow: auto;
+  overflow-x: hidden; }
+
+/* The HTML document which is a direct descendant of the IFRAME */
+.cke_panel_container {
+  overflow: hidden; }
+
+/*
+Here we start the definition of panel lists (e.g. combo panels). The following
+is its visual representation:
+
++-- .cke_panel_block -----------------+
+| +-- .cke_panel_grouptitle --------+ |
+| |                                 | |
+| +---------------------------------+ |
+| +-- .cke_panel_list --------------+ |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | |
+| | | +-------------------------+ | | |
+| | +-----------------------------+ | |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | |
+| | | +-------------------------+ | | |
+| | +-----------------------------+ | |
+| | ...                             | |
+| +---------------------------------+ |
++-------------------------------------+
+*/
+/* The list of panel items. */
+.cke_panel_list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow-y: auto;
+  height: 170px; }
+
+/* The item of .cke_panel_list */
+.cke_panel_listItem {
+  margin: 0;
+  padding-bottom: 1px; }
+
+/* The child of .cke_panel_listItem. These elements contain spans which are
+   to display a real name of the property which is visible for an end-user. */
+.cke_panel_listItem a {
+  padding: 3px 4px;
+  display: block;
+  border: 1px solid #fff;
+  color: inherit !important;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px; }
+
+/* IE6 */
+* html .cke_panel_listItem a {
+  width: 100%;
+  /* IE is not able to inherit the color, so we must force it to black */
+  color: #000; }
+
+/* IE7 */
+*:first-child + html .cke_panel_listItem a {
+  /* IE is not able to inherit the color, so we must force it to black */
+  color: #000; }
+
+.cke_panel_listItem.cke_selected a {
+  background-color: #cedee9; }
+
+.cke_panel_listItem a:hover,
+.cke_panel_listItem a:focus,
+.cke_panel_listItem a:active {
+  background-color: #3e7da7; }
+
+.cke_hc .cke_panel_listItem a {
+  border-style: none; }
+
+.cke_hc .cke_panel_listItem a:hover,
+.cke_hc .cke_panel_listItem a:focus,
+.cke_hc .cke_panel_listItem a:active {
+  border: 2px solid;
+  padding: 1px 2px; }
+
+/* The title of the entire panel which is visible on top of the list. */
+.cke_panel_grouptitle {
+  display: none; }
+
+/* The following styles set defaults of the elements used by the Paragraph
+   Format panel. */
+.cke_panel_listItem p,
+.cke_panel_listItem h1,
+.cke_panel_listItem h2,
+.cke_panel_listItem h3,
+.cke_panel_listItem h4,
+.cke_panel_listItem h5,
+.cke_panel_listItem h6,
+.cke_panel_listItem pre {
+  margin-top: 0px;
+  margin-bottom: 0px; }
+
+/* Styles the color panel displayed by the color buttons. */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+colorpanel.css (part of editor.css)
+=====================================
+
+The color panel is related to the contents part of the panels that are
+displayed when clicking the color buttons of the toolbar. See panels.css for
+styles related to the outer part of panels.
+
+The following is the visual representation of the color panel contents:
+
++-- .cke_panel_block.cke_colorblock --+
+| +-- a.cke_colorauto --------------+ |
+| |                                 | |
+| |         AUTOMATIC COLOR         | |
+| |                                 | |
+| +---------------------------------+ |
+| +-- table ------------------------+ |
+| |                                 | |
+| |          COLOR PALETTE          | |
+| |                                 | |
+| |---------------------------------| |
+| |          "More Colors"          | |
+| +---------------------------------+ |
++-------------------------------------+
+
+The AUTOMATIC COLOR section is an <a> containing a table with two cells with
+the following contents:
+
++-- TD -----------------+ +-- TD -----------------+
+| +-- .cke_colorbox --+ | |                       |
+| |                   | | |      "Automatic"      |
+| +-------------------+ | |                       |
++-----------------------+ +-----------------------+
+
+The COLOR PALETTE section instead is a table with a variable number of cells
+(by default 8). Each cell represents a color box, with the following structure:
+
++-- A.cke_colorbox ---------+
+| +-- SPAN.cke_colorbox --+ |
+| |                       | |
+| +-----------------------+ |
++---------------------------+
+*/
+/* The container of the color palette. */
+.cke_colorblock {
+  padding: 3px;
+  font-size: 11px;
+  font-family: 'Microsoft Sans Serif', Tahoma, Arial, Verdana, Sans-Serif; }
+
+.cke_colorblock,
+.cke_colorblock a {
+  text-decoration: none;
+  color: #000; }
+
+/* The box which is to represent a single color on the color palette.
+   It is a small, square-shaped element which can be selected from the palette. */
+span.cke_colorbox {
+  width: 10px;
+  height: 10px;
+  border: #808080 1px solid;
+  float: left; }
+
+.cke_rtl span.cke_colorbox {
+  float: right; }
+
+/* The wrapper of the span.cke_colorbox. It provides an extra border and padding. */
+a.cke_colorbox {
+  border: #fff 1px solid;
+  padding: 2px;
+  float: left;
+  width: 12px;
+  height: 12px; }
+
+.cke_rtl a.cke_colorbox {
+  float: right; }
+
+/* Different states of the a.cke_colorbox wrapper. */
+a:hover.cke_colorbox,
+a:focus.cke_colorbox,
+a:active.cke_colorbox {
+  border: #b6b6b6 1px solid;
+  background-color: #e5e5e5; }
+
+/* Buttons which are visible at the top/bottom of the color palette:
+   - cke_colorauto (TOP) applies the automatic color.
+   - cke_colormore (BOTTOM) executes the color dialog.
+*/
+a.cke_colorauto,
+a.cke_colormore {
+  border: #fff 1px solid;
+  padding: 2px;
+  display: block;
+  cursor: pointer; }
+
+/* Different states of cke_colorauto/cke_colormore buttons. */
+a:hover.cke_colorauto,
+a:hover.cke_colormore,
+a:focus.cke_colorauto,
+a:focus.cke_colormore,
+a:active.cke_colorauto,
+a:active.cke_colormore {
+  border: #b6b6b6 1px solid;
+  background-color: #e5e5e5; }
+
+/* Styles to toolbar. */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+toolbar.css (part of editor.css)
+==================================
+
+This files styles the CKEditor toolbar and its buttons. For toolbar combo
+styles, check richcombo.css.
+
+The toolbar is rendered as a big container (called toolbox), which contains
+smaller "toolbars". Each toolbar represents a group of items that cannot be
+separated. The following is the visual representation of the toolbox.
+
++-- .cke_toolbox ----------------------------------------------------------+
+| +-- .cke_toolbar --+ +-- .cke_toolbar --+ ... +-- .cke_toolbar_break --+ |
+| |                  | |                  |     |                        | |
+| +------------------+ +------------------+     +------------------------+ |
+| +-- .cke_toolbar --+ +-- .cke_toolbar --+ ...                            |
+| |                  | |                  |                                |
+| +------------------+ +------------------+                                |
++--------------------------------------------------------------------------+
+
+The following instead is the visual representation of a single toolbar:
+
++-- .cke_toolbar ----------------------------------------------------------------+
+| +-- .cke_toolbar_start --+ +-- .cke_toolgroup (*) --+ +-- .cke_toolbar_end --+ |
+| |                        | |                        | |                      | |
+| +------------------------+ +------------------------+ +----------------------+ |
++--------------------------------------------------------------------------------+
+(*) .cke_toolgroup is available only when the toolbar items can be grouped
+    (buttons). If the items can't be group (combos), this box is not available
+	and the items are rendered straight in that place.
+
+This file also styles toolbar buttons, which are rendered inside the above
+.cke_toolgroup containers. This is the visual representation of a button:
+
++-- .cke_button -------------------------------------+
+| +-- .cke_button_icon --+ +-- .cke_button_label --+ |
+| |                      | |                       | |
+| +----------------------+ +-----------------------+ |
++----------------------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+	.cke_rtl: Available when the editor UI is on RTL.
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* The box that holds each toolbar. */
+.cke_toolbar {
+  float: left;
+  position: relative;
+  z-index: 10005; }
+
+.cke_rtl .cke_toolbar {
+  float: right; }
+
+/* The box that holds buttons. */
+.cke_toolgroup {
+  float: left;
+  margin: 0 2px 2px 0;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  background: white; }
+
+.cke_hc .cke_toolgroup {
+  border: 0;
+  margin-right: 10px;
+  margin-bottom: 10px; }
+
+.cke_rtl .cke_toolgroup {
+  float: right;
+  margin-left: 6px;
+  margin-right: 0; }
+
+/* A toolbar button . */
+.cke .cke_toolbar .cke_button {
+  display: inline-block;
+  height: 18px;
+  padding: 4px 6px;
+  outline: none;
+  cursor: pointer;
+  float: left;
+  border: 0;
+  color: #222; }
+
+.cke .cke_toolbar .cke_button:hover {
+  background: #3e7da7 !important;
+  color: white !important; }
+
+.cke_reset_all, .cke_reset_all *
+.cke .cke_top .cke_toolbar .cke_button_disabled:hover {
+  background: white !important;
+  cursor: default !important; }
+
+.cke_rtl .cke_button {
+  float: right; }
+
+.cke_hc .cke_button {
+  border: 1px solid black;
+  /* Compensate the added border */
+  padding: 3px 5px;
+  margin: -2px 4px 0 -2px; }
+
+/* This class is applied to the button when it is "active" (pushed).
+   This style indicates that the feature associated with the button is active
+   i.e. currently writing in bold or when spell checking is enabled. */
+a.cke_button_on {
+  background-color: #0e5d91;
+  color: white !important; }
+
+.cke_hc .cke_button_on,
+.cke_hc a.cke_button_off:hover,
+.cke_hc a.cke_button_off:focus,
+.cke_hc a.cke_button_off:active,
+.cke_hc a.cke_button_disabled:hover,
+.cke_hc a.cke_button_disabled:focus,
+.cke_hc a.cke_button_disabled:active {
+  /* Compensate the border change */ }
+
+/* This class is applied to the button when the feature associated with the
+   button cannot be used (grayed-out).
+   i.e. paste button remains disabled when there is nothing in the clipboard to
+   be pasted. */
+.cke_button_disabled span {
+  opacity: 0.4 !important; }
+
+a.cke_button_on:hover,
+a.cke_button_on:focus,
+a.cke_button_on:active {
+  cursor: pointer; }
+
+a.cke_button_off:hover,
+a.cke_button_off:focus,
+a.cke_button_off:active,
+a.cke_button_disabled:hover,
+a.cke_button_disabled:focus,
+a.cke_button_disabled:active {
+  background-color: #a3a9b1;
+  cursor: default;
+  text-shadow: none; }
+
+/* The icon which is a visual representation of the button. */
+.cke_button_icon {
+  cursor: inherit;
+  background-repeat: no-repeat;
+  margin-top: 1px;
+  width: 16px;
+  height: 16px;
+  float: left; }
+
+.cke_rtl .cke_button_icon {
+  float: right; }
+
+.cke_hc .cke_button_icon {
+  display: none; }
+
+/* The label of the button that stores the name of the feature. By default,
+   labels are invisible. They can be revealed on demand though. */
+.cke_button_label {
+  display: none;
+  padding-left: 3px;
+  margin-top: 1px;
+  line-height: 17px;
+  vertical-align: middle;
+  float: left;
+  cursor: default;
+  color: #474747;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+
+.cke_rtl .cke_button_label {
+  padding-right: 3px;
+  padding-left: 0;
+  float: right; }
+
+.cke_hc .cke_button_label {
+  padding: 0;
+  display: inline-block;
+  font-size: 12px; }
+
+.cke_rtl .cke_button_arrow {
+  margin-right: 5px;
+  margin-left: 0; }
+
+.cke_hc .cke_button_arrow {
+  font-size: 10px;
+  margin: 3px -2px 0 3px;
+  width: auto;
+  border: 0; }
+
+.cke_button_arrow {
+  padding: 0 8px 5px 0;
+  position: relative;
+  top: -4px;
+  opacity: 0.8; }
+
+/* The vertical separator which is used within a single toolbar to split
+   buttons into sub-groups. */
+.cke_toolbar_separator {
+  float: left;
+  background-color: #c0c0c0;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 5px 2px 0;
+  height: 18px;
+  width: 1px; }
+
+.cke_rtl .cke_toolbar_separator {
+  float: right; }
+
+.cke_hc .cke_toolbar_separator {
+  width: 0;
+  border-left: 1px solid;
+  margin: 1px 5px 0 0px; }
+
+/* The dummy element that breaks toolbars.
+   Once it is placed, the very next toolbar is moved to the new row. */
+.cke_toolbar_break {
+  display: block;
+  clear: left; }
+
+.cke_rtl .cke_toolbar_break {
+  clear: right; }
+
+/* The button, which when clicked hides (collapses) all the toolbars. */
+.cke_toolbox_collapser {
+  width: 12px;
+  height: 11px;
+  float: right;
+  margin: 11px 0 0;
+  font-size: 0;
+  cursor: default;
+  text-align: center;
+  border: 1px solid #a6a6a6;
+  border-bottom-color: #979797;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: #fff; }
+
+.cke_toolbox_collapser.cke_toolbox_collapser_min {
+  margin: 0 2px 4px; }
+
+.cke_rtl .cke_toolbox_collapser {
+  float: left; }
+
+/* The CSS arrow, which belongs to the toolbar collapser. */
+.cke_toolbox_collapser .cke_arrow {
+  display: inline-block;
+  height: 0;
+  width: 0;
+  font-size: 0;
+  margin-top: 1px;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid #474747;
+  border-top: 3px solid transparent; }
+
+.cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow {
+  margin-top: 4px;
+  border-bottom-color: transparent;
+  border-top-color: #474747; }
+
+.cke_hc .cke_toolbox_collapser .cke_arrow {
+  font-size: 8px;
+  width: auto;
+  border: 0;
+  margin-top: 0;
+  margin-right: 2px; }
+
+/* Styles menus, which are lists of selectable items (context menu, menu button). */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+menu.css (part of editor.css)
+===============================
+
+This file styles menus used in the editor UI. These menus are the list of
+options available inside some "floating panels", like menu buttons of the
+toolbar or the context menu.
+
+Note that the menu itself doesn't include the floating element that holds it.
+That element is styles in the panel.css file.
+
+The following is a visual representation of the main elements of a menu:
+
++-- .cke_menu -----------------+
+| +-- .cke_menuitem  --------+ |
+| | +-- .cke_menubutton ---+ | |
+| | |                      | | |
+| | +----------------------+ | |
+| +--------------------------+ |
+| +-- .cke_menuseparator ----+ |
+| ...                          |
++------------------------------+
+
+This is the .cke_menubutton structure:
+(Note that the menu button icon shares with toolbar button the common class .cke_button_icon to achieve the same outlook.)
+
++-- .cke_menubutton -------------------------------------------------------------------------+
+| +-- .cke_menubutton_inner ---------------------------------------------------------------+ |
+| | +-- .cke_menubutton_icon ---+ +-- .cke_menubutton_label --+ +-- .cke_cke_menuarrow --+ | |
+| | | +-- .cke_button_icon ---+ | |                           | |                        | | |
+| | | |                       | | |                           | |                        | | |
+| | | +-----------------------+ | |                           | |                        | | |
+| | +---------------------------+ +---------------------------+ +------------------------+ | |
+| +----------------------------------------------------------------------------------------+ |
++--------------------------------------------------------------------------------------------+
+
+Special outer level classes used in this file:
+
+	.cke_hc: Available when the editor is rendered on "High Contrast".
+	.cke_rtl: Available when the editor UI is on RTL.
+*/
+/* .cke_menuitem is the element that holds the entire structure of each of the
+   menu items. */
+.cke_menubutton {
+  /* The "button" inside a menu item is a <a> element.
+     Transforms it into a block. */
+  display: block; }
+
+.cke_menuitem span {
+  /* Avoid the text selection cursor inside menu items. */
+  cursor: default;
+  font-size: 12px; }
+
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active {
+  background-color: #D3D3D3;
+  display: block; }
+
+.cke_hc .cke_menubutton {
+  padding: 2px; }
+
+.cke_hc .cke_menubutton:hover,
+.cke_hc .cke_menubutton:focus,
+.cke_hc .cke_menubutton:active {
+  border: 2px solid;
+  padding: 0; }
+
+.cke_menubutton_inner {
+  display: table-row; }
+
+.cke_menubutton_icon,
+.cke_menubutton_label,
+.cke_menuarrow {
+  display: table-cell; }
+
+/* The menu item icon. */
+.cke_menubutton_icon {
+  background-color: #D7D8D7;
+  opacity: 0.70;
+  /* Safari, Opera and Mozilla */
+  filter: alpha(opacity=70);
+  /* IE */
+  padding: 4px; }
+
+.cke_hc .cke_menubutton_icon {
+  height: 16px;
+  width: 0;
+  padding: 4px 0; }
+
+.cke_menubutton:hover .cke_menubutton_icon,
+.cke_menubutton:focus .cke_menubutton_icon,
+.cke_menubutton:active .cke_menubutton_icon {
+  background-color: #D0D2D0; }
+
+.cke_menubutton_disabled:hover .cke_menubutton_icon,
+.cke_menubutton_disabled:focus .cke_menubutton_icon,
+.cke_menubutton_disabled:active .cke_menubutton_icon {
+  /* The icon will get opacity as well when hovered. */
+  opacity: 0.3;
+  filter: alpha(opacity=30); }
+
+/* The textual part of each menu item. */
+.cke_menubutton_label {
+  padding: 0 5px;
+  background-color: transparent;
+  width: 100%;
+  vertical-align: middle; }
+
+.cke_menubutton_disabled .cke_menubutton_label {
+  /* Greyed label text indicates a disabled menu item. */
+  opacity: 0.3;
+  filter: alpha(opacity=30); }
+
+.cke_menubutton_on {
+  border: 1px solid #dedede;
+  background-color: #f2f2f2;
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset; }
+
+.cke_menubutton_on .cke_menubutton_icon {
+  padding-right: 3px; }
+
+.cke_menubutton:hover,
+.cke_menubutton:focus,
+.cke_menubutton:active {
+  background-color: #EFF0EF; }
+
+.cke_panel_frame .cke_menubutton_label {
+  display: none; }
+
+/* The separator used to separate menu item groups. */
+.cke_menuseparator {
+  background-color: #D3D3D3;
+  height: 1px;
+  filter: alpha(opacity=70);
+  /* IE */
+  opacity: 0.70;
+  /* Safari, Opera and Mozilla */ }
+
+/* The small arrow shown for item with sub-menus. */
+.cke_menuarrow {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAeCAYAAAAPSW++AAAAWUlEQVR42mNgAAJLS8v5QMzJgA6Agv+B+AYQa2GTAOFvQJyMSyINm1G66EYtAmIehlEwXAEobYHSGLqgFjRB/EcWTIYmnf/oEmlYJaCSuhhGIUnygNIYiA0Ab4wwJXKzD74AAAAASUVORK5CYII=);
+  background-position: 0 10px;
+  background-repeat: no-repeat;
+  padding: 0 5px; }
+
+.cke_rtl .cke_menuarrow {
+  background-position: 5px -13px;
+  background-repeat: no-repeat; }
+
+.cke_menuarrow span {
+  display: none; }
+
+.cke_hc .cke_menuarrow span {
+  vertical-align: middle;
+  display: inline; }
+
+/* Styles toolbar combos. */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+richcombo.css (part of editor.css)
+=================================
+
+This file holds the style set of the "Rich Combo" widget which is commonly used
+in the toolbar. It doesn't, however, styles the panel that is displayed when
+clicking on the combo, which is instead styled by panel.css.
+
+The visual representation of a rich combo widget looks as follows:
+
++-- .cke_combo----------------------------------------------------------------------+
+| +-- .cke_combo_label --+ +-- .cke_combo_button ---------------------------------+ |
+| |                      | | +-- .cke_combo_text --+ +-- .cke_combo_open -------+ | |
+| |                      | | |                     | | +-- .cke_combo_arrow --+ | | |
+| |                      | | |                     | | |                      | | | |
+| |                      | | |                     | | +----------------------+ | | |
+| |                      | | +---------------------+ +--------------------------+ | |
+| +----------------------+ +------------------------------------------------------+ |
++-----------------------------------------------------------------------------------+
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* The box that hold the entire combo widget */
+.cke_combo {
+  display: inline-block;
+  float: left; }
+
+.cke_rtl .cke_combo {
+  float: right; }
+
+.cke_hc .cke_combo {
+  margin-top: -2px; }
+
+/* The label of the combo widget. It is invisible by default, yet
+   it's important for semantics and accessibility. */
+.cke_combo_label {
+  display: none;
+  float: left;
+  line-height: 26px;
+  vertical-align: top;
+  margin-right: 5px; }
+
+.cke_rtl .cke_combo_label {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0; }
+
+/* The container for combo text and arrow. */
+.cke_combo_button {
+  display: inline-block;
+  margin: 0 2px 0 0;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background: white;
+  max-height: 26px;
+  white-space: nowrap; }
+
+/* Different states of the container. */
+.cke_combo_off a.cke_combo_button:hover,
+.cke_combo_off a.cke_combo_button:focus {
+  outline: none; }
+
+.cke_rtl .cke_combo_button {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0; }
+
+.cke_hc a.cke_combo_button {
+  padding: 3px; }
+
+.cke_hc .cke_combo_on a.cke_combo_button,
+.cke_hc .cke_combo_off a.cke_combo_button:hover,
+.cke_hc .cke_combo_off a.cke_combo_button:focus,
+.cke_hc .cke_combo_off a.cke_combo_button:active {
+  border-width: 3px;
+  padding: 1px; }
+
+/* The label that shows the current value of the rich combo.
+   By default, it holds the name of the property.
+   See: .cke_combo_inlinelabel */
+.cke_combo_text {
+  line-height: 26px;
+  padding-left: 10px;
+  padding-top: 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left;
+  cursor: default;
+  color: #474747;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  width: 60px; }
+
+.cke_rtl .cke_combo_text {
+  float: right;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 10px; }
+
+.cke_hc .cke_combo_text {
+  line-height: 18px;
+  font-size: 12px; }
+
+/* The handler which opens the panel of rich combo properties.
+   It holds an arrow as a visual indicator. */
+.cke_combo_open {
+  display: inline-block;
+  font-size: 0;
+  height: 26px;
+  line-height: 17px;
+  margin: 0;
+  text-align: center;
+  width: 20px;
+  cursor: pointer; }
+  .cke_combo_open:hover {
+    color: white;
+    background: #3e7da7; }
+
+.cke_hc .cke_combo_open {
+  cursor: default;
+  display: inline-block;
+  font-size: 0;
+  height: 26px;
+  line-height: 17px;
+  margin: 0;
+  text-align: center;
+  width: 20px; }
+
+/* The arrow which is displayed inside of the .cke_combo_open handler. */
+.cke_combo_arrow, .cke_button_arrow {
+  margin: 8px 0 0;
+  float: left;
+  left: 7px;
+  position: relative;
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+  font-size: 1rem; }
+
+.cke_hc .cke_combo_arrow {
+  font-size: 10px;
+  width: auto;
+  border: 0;
+  margin-top: 3px; }
+
+/* Disabled combo button styles. */
+.cke_combo_disabled .cke_combo_inlinelabel,
+.cke_combo_disabled .cke_combo_open {
+  opacity: 0.3; }
+
+/* Styles the elements path bar, available at the bottom of the editor UI.*/
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+/*
+elementspath.css (part of editor.css)
+=======================================
+
+This file styles the "Elements Path", whith is the list of element names
+present at the the bottom bar of the CKEditor interface.
+
+The following is a visual representation of its main elements:
+
++-- .cke_path ---------------------------------------------------------------+
+| +-- .cke_path_item ----+ +-- .cke_path_item ----+ +-- .cke_path_empty ---+ |
+| |                      | |                      | |                      | |
+| +----------------------+ +----------------------+ +----------------------+ |
++----------------------------------------------------------------------------+
+*/
+/* The box that holds the entire elements path. */
+.cke_path {
+  float: left;
+  margin: -2px 0 2px; }
+
+/* Each item of the elements path. */
+.cke_path_item,
+.cke_path_empty {
+  display: inline-block;
+  float: left;
+  padding: 3px 4px;
+  margin-right: 2px;
+  cursor: default;
+  text-decoration: none;
+  outline: 0;
+  border: 0;
+  color: #4c4c4c;
+  text-shadow: 0 1px 0 #fff;
+  font-weight: bold;
+  font-size: 11px; }
+
+.cke_rtl .cke_path,
+.cke_rtl .cke_path_item,
+.cke_rtl .cke_path_empty {
+  float: right; }
+
+/* The items are <a> elements, so we define its hover states here. */
+a.cke_path_item:hover,
+a.cke_path_item:focus,
+a.cke_path_item:active {
+  background-color: #bfbfbf;
+  color: #333;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgba(255, 255, 255, 0.5); }
+
+.cke_hc a.cke_path_item:hover,
+.cke_hc a.cke_path_item:focus,
+.cke_hc a.cke_path_item:active {
+  border: 2px solid;
+  padding: 1px 2px; }
+
+/* Contains hard-coded presets for "configurable-like" options of the UI
+   (e.g. display labels on specific buttons) */
+/*
+Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* "Source" button label */
+.cke_button__source_label,
+.cke_button__sourcedialog_label {
+  display: inline; }
+
+/* "Font Size" combo width */
+.cke_combo__fontsize .cke_combo_text {
+  width: 30px; }
+
+/* "Font Size" panel size */
+.cke_combopanel__fontsize {
+  width: 120px; }
+
+/* Editable regions */
+.cke_source {
+  font-family: 'Courier New', Monospace;
+  font-size: small;
+  background-color: #fff;
+  white-space: pre; }
+
+.cke_wysiwyg_frame, .cke_wysiwyg_div {
+  background-color: #fff; }
+
+/* Tao specific stuff */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+[class^="icon-"], [class*=" icon-"] {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+
+.cke_button {
+  min-width: 14px;
+  text-decoration: none !important;
+  text-align: center; }
+
+.cke_top,
+.cke_top:before,
+.cke_top:after,
+.cke_top *,
+.cke_top *:before,
+.cke_top *:after {
+  -moz-box-sizing: content-box !important;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important; }
+
+.cke_button_icon, .cke_button {
+  padding-top: 1px;
+  line-height: 0.9;
+  font-size: 16px; }
+
+.cke_nose {
+  position: absolute;
+  bottom: -6px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  border: 1px #f3f1ef solid;
+  border-left: none;
+  border-top: none;
+  width: 12px;
+  height: 12px;
+  background: #f3f1ef;
+  -webkit-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  opacity: 0; }
+  .cke_nose.float-space-left {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+    right: auto;
+    left: 5px; }
+  .cke_nose.float-space-right {
+    opacity: 1;
+    transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -webkit-transition: opacity .1s ease-in-out;
+    right: 5px;
+    left: auto; }
+  .cke_nose.float-space-bottom {
+    top: -6px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .cke_nose.float-space-top {
+    bottom: -6px; }
+
+/* Icon set */
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+                                  /*
+                                 /  \
+                                |    |
+                              --:'''':--
+THIS CODE IS GENERATED          :*_* :
+                                _:"":\___
+AUTOMAGICALLY    * *      ____.' :::     '._
+                * *=====<<=)           \    :
+DO NOT EDIT!     * *      '-'-'\_      /'._.'
+                                  \====:_ ""
+                                 .'     \
+                                :       :
+                               /   :    \
+                              :   .      '.
+                              :  : :      :
+                              :__:-:__.;--'
+                             <*_/   <*/
+.cke_button_icon, .cke_button {
+  font-family: 'tao';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.cke_combo_arrow, .cke_button_arrow, .cke_combo_arrow:before, .cke_button_arrow:before {
+  content: "\e611"; }
+
+.cke_button__undo_icon:before {
+  content: "\e612"; }
+
+.cke_button__redo_icon:before {
+  content: "\e613"; }
+
+.cke_button__find_icon:before {
+  content: "\e61f"; }
+
+.cke_button__image_icon:before, .cke_button__taoqtiimage_icon:before {
+  content: "\e620"; }
+
+.cke_button__bulletedlist_icon:before {
+  content: "\e62a"; }
+
+.cke_button__numberedlist_icon:before {
+  content: "\e62b"; }
+
+.cke_button__horizontalrule_icon:before {
+  content: "\e64c"; }
+
+.cke_button__table_icon:before {
+  content: "\e64d"; }
+
+.cke_button__anchor_icon:before {
+  content: "\e64e"; }
+
+.cke_button__unlink_icon:before {
+  content: "\e64f"; }
+
+.cke_button__link_icon:before {
+  content: "\e650"; }
+
+.cke_button__bidirtl_icon:before {
+  content: "\e651"; }
+
+.cke_button__bidiltr_icon:before {
+  content: "\e652"; }
+
+.cke_button__specialchar_icon:before {
+  content: "\e653"; }
+
+.cke_button__sourcedialog_icon:before {
+  content: "\e654"; }
+
+.cke_button__newpage_icon:before {
+  content: "\e655"; }
+
+.cke_button__templates_icon:before {
+  content: "\e656"; }
+
+.cke_button__cut_icon:before {
+  content: "\e657"; }
+
+.cke_button__replace_icon:before {
+  content: "\e658"; }
+
+.cke_button__copy_icon:before {
+  content: "\e659"; }
+
+.cke_button__paste_icon:before {
+  content: "\e65a"; }
+
+.cke_button__selectall_icon:before {
+  content: "\e65b"; }
+
+.cke_button__pastetext_icon:before {
+  content: "\e65c"; }
+
+.cke_button__pastefromword_icon:before {
+  content: "\e65d"; }
+
+.cke_button__bold_icon:before {
+  content: "\e65e"; }
+
+.cke_button__italic_icon:before {
+  content: "\e65f"; }
+
+.cke_button__underline_icon:before, .cke_button__taounderline_icon:before {
+  content: "\e660"; }
+
+.cke_button__subscript_icon:before {
+  content: "\e661"; }
+
+.cke_button__superscript_icon:before {
+  content: "\e662"; }
+
+.cke_button__strike_icon:before {
+  content: "\e663"; }
+
+.cke_button__outdent_icon:before {
+  content: "\e664"; }
+
+.cke_button__indent_icon:before {
+  content: "\e665"; }
+
+.cke_button__blockquote_icon:before {
+  content: "\e666"; }
+
+.cke_button__creatediv_icon:before {
+  content: "\e667"; }
+
+.cke_button__justifyleft_icon:before {
+  content: "\e668"; }
+
+.cke_button__justifycenter_icon:before {
+  content: "\e669"; }
+
+.cke_button__justifyright_icon:before {
+  content: "\e66a"; }
+
+.cke_button__justifyblock_icon:before {
+  content: "\e66b"; }
+
+.cke_button__taomediamanager_icon:before, .cke_button__taoqtimedia_icon:before {
+  content: "\e670"; }
+
+.cke_button__textcolor_icon:before {
+  content: "\e682"; }
+
+.cke_button__bgcolor_icon:before {
+  content: "\e683"; }
+
+.cke_button__scayt_icon:before {
+  content: "\e684"; }
+
+.cke_button__radio_icon:before {
+  content: "\e69a"; }
+
+.cke_button__taoqtimaths_icon:before {
+  content: "\e6ac"; }
+
+/* Important!
+   To avoid showing the editor UI while its styles are still not available, the
+   editor creates it with visibility:hidden. Here, we restore the UI visibility. */
+.cke_chrome {
+  visibility: inherit; }
+
+/* For accessibility purposes, several "voice labels" are present in the UI.
+   These are usually <span> elements that show not be visible, but that are
+   used by screen-readers to announce other elements. Here, we hide these
+   <spans>, in fact. */
+.cke_voice_label {
+  display: none; }
+
+legend.cke_voice_label {
+  display: none; }
+
+/*
+.cke:before,
+.cke:after {
+  content: " ";
+  display: table;
+}
+
+.cke:after {
+  clear: both;
+}
+
+.cke {
+  *zoom: 1;
+}
+*/
+.cke_top {
+  display: table; }
+
+/*# sourceMappingURL=editor.css.map */

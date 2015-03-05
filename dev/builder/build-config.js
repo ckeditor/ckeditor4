@@ -6,7 +6,7 @@
 /* exported CKBUILDER_CONFIG */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moono',
+	skin: 'tao',
 	ignore: [
 		'bender.js',
 		'.bender',
@@ -24,6 +24,7 @@ var CKBUILDER_CONFIG = {
 		'.jshintrc',
 		'.mailmap',
 		'node_modules',
+        'nbproject',
 		'package.json',
 		'README.md',
 		'tests'
@@ -40,7 +41,7 @@ var CKBUILDER_CONFIG = {
 		contextmenu: 1,
 		dialogadvtab: 1,
 		div: 1,
-		elementspath: 1,
+		elementspath: 0,
 		enterkey: 1,
 		entities: 1,
 		filebrowser: 1,
@@ -53,6 +54,7 @@ var CKBUILDER_CONFIG = {
 		horizontalrule: 1,
 		htmlwriter: 1,
 		iframe: 1,
+        image : 0,
 		indentlist: 1,
 		indentblock: 1,
 		justify: 1,
@@ -78,6 +80,8 @@ var CKBUILDER_CONFIG = {
 		specialchar: 1,
 		stylescombo: 1,
 		tab: 1,
+        table : 0,
+        tabletools : 0,
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
