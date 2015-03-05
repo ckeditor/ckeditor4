@@ -183,6 +183,13 @@ Special outer level classes used in this file:
 	background-repeat: no-repeat;
 	padding: 0 5px;
 }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
+	.cke_menuarrow
+	{
+		background-image: url(images/hidpi/sprites.png);
+		background-size: 20px;
+	}
+}
 
 .cke_rtl .cke_menuarrow
 {
@@ -190,6 +197,13 @@ Special outer level classes used in this file:
 	background-image: url(images/sprites.png);
 	background-position: 7px -1380px;
 	background-repeat: no-repeat;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
+	.cke_rtl .cke_menuarrow
+	{
+		background-image: url(images/hidpi/sprites.png);
+		background-size: 20px;
+	}
 }
 
 .cke_menuarrow span

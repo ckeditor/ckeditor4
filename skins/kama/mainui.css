@@ -91,6 +91,13 @@ Special outer level classes used in this file:
 	/* Spacing with the inner blocks. */
 	padding: 5px;
 }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
+	.cke_inner
+	{
+		background-image: url(images/hidpi/sprites.png);
+		background-size: 20px;
+	}
+}
 
 /* Added to the outer boundary of the UI when in inline editing,
    when the UI is floating. */

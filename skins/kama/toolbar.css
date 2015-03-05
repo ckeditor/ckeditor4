@@ -78,6 +78,13 @@ Special outer level classes used in this file:
 	background: -ms-linear-gradient(top, #fff, #d3d3d3 100px); /* IE10+ */
 	background: linear-gradient(top, #fff, #d3d3d3 100px); /* W3C */
 }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
+	.cke_toolgroup
+	{
+		background: url(images/hidpi/sprites.png);
+		background-size: 20px;
+	}
+}
 
 .cke_hc .cke_toolgroup
 {

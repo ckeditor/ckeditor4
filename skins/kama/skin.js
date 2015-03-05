@@ -250,7 +250,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
 		'textcolor,textfield,underline,undo-rtl,undo,unlink' ).split( ',' );
 
-	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) );
 
 	for ( var i = 0; i < icons.length; i++ ) {
 		CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
