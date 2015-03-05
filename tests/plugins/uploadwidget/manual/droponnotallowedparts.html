@@ -1,22 +1,24 @@
-<textarea id="editor1"></textarea>
+<textarea id="editor1">
+	The true&lt;br/&gt;
+	mark of maturity&lt;br/&gt;
+	is when&lt;br/&gt;
+	somebody hurts&lt;br/&gt;
+</textarea>
 <div id="editor2" contenteditable="true" >
-	The true<br/>
-	mark of maturity<br/>
-	is when<br/>
-	somebody hurts<br/>
 	you and you try<br/>
 	to understand<br/>
 	their situation<br/>
-	instead of trying<br/>
-	to hurt them<br/>
-	back<br/>
-
 </div>
-<textarea id="editor3"></textarea>
+<textarea id="editor3">
+	instead of trying&lt;br/&gt;
+	to hurt them&lt;br/&gt;
+	back&lt;br/&gt;
+</textarea>
 
 <script>
 	CKEDITOR.replace( 'editor1', {
-		imageUploadUrl: 'http://sub.ckeditor.dev/'
+		imageUploadUrl: 'http://sub.ckeditor.dev/',
+		extraPlugins: 'elementspath'
 	} );
 
 	CKEDITOR.inline( 'editor2', {
