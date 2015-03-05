@@ -16,3 +16,4 @@ dev/langtool/po/**
 dev/langtool/cklangtool/**
 
 bender-*.log
+nbproject/
