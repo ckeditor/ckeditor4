@@ -12,6 +12,7 @@ New Features:
   * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
   * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
   * [#12169](http://dev.ckeditor.com/ticket/12169): Introduce [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`editor.dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart) and [`editor.dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend) events.
+  * [#12613](http://dev.ckeditor.com/ticket/12613): Show user that he can not drop on toolbar/ui on dragover.
 * [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
 * [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
 * [#12416](http://dev.ckeditor.com/ticket/12416): Added [`widget.definition.upcastPriority`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.definition-property-upcastPriority) property which gives more control over widgets upcasting order to the widget author.
