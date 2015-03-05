@@ -17,7 +17,7 @@
 				doc = iFrame.getFrameDocument(),
 				fakeEditor = {
 					config: {
-						mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML'
+						mathJaxLib: ''
 					},
 					fire: function() {
 						//mock

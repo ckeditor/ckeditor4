@@ -84,7 +84,7 @@
  *		someObject.on( 'someEvent', function( event ) {
  *			// This one will not be called.
  *		} );
- *		alert( someObject.fire( 'someEvent' ) ); // false
+ *		alert( someObject.fire( 'someEvent' ) ); // true
  *
  * @method stop
  */
@@ -98,7 +98,7 @@
  *		someObject.on( 'someEvent', function( event ) {
  *			// This one will not be called.
  *		} );
- *		alert( someObject.fire( 'someEvent' ) ); // true
+ *		alert( someObject.fire( 'someEvent' ) ); // false
  *
  * @method cancel
  */
