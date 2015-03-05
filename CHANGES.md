@@ -8,10 +8,12 @@ Fixed Issues:
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in [dialogui](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent li elements.
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing getData parameter documentation.
+* [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after *enter* key pressed in nested list.
 
 Other Changes:
 
 * [#12844](http://dev.ckeditor.com/ticket/12844): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.*`.
+* [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed truncated-mathjax from the test directory, now `bender.config.mathJaxLibPath` need to be configured manually.
 
 ## CKEditor 4.4.7
 
