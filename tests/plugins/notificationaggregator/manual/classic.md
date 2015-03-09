@@ -9,4 +9,4 @@
 
 **Expected:**
 
-As loading is done progress notification change its type to success.
+As loading is done progress notification change its type to success. Success notification should be hidden after 5s.
