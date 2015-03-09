@@ -8,7 +8,8 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
-		testFile, lastFormData;
+		testFile, lastFormData,
+		listeners = [];
 
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
@@ -150,6 +151,16 @@
 		return observer;
 	}
 
+	function attachListener( obj, evt, listener ) {
+		listeners.push( {
+			obj: obj,
+			evt: evt,
+			listener: listener
+		} );
+
+		obj.on( evt, listener );
+	}
+
 	// For unknown reason plugin is not loaded if the code coverage is enabled
 	// and there is no editor instance.
 	bender.editor = {
@@ -170,8 +181,14 @@
 		},
 
 		tearDown: function() {
+			var data;
+
 			window.FileReader = FileReaderBackup;
 			window.XMLHttpRequest = XMLHttpRequestBackup;
+
+			while ( data = listeners.pop() ) {
+				data.obj.removeListener( data.evt, data.listener );
+			}
 		},
 
 		'test constructor string, no name': function() {
@@ -735,23 +752,21 @@
 			wait();
 		},
 
-		'test replace sendRequest and handleResponse': function() {
+		'test custom fileUploadRequest and fileUploadResponse': function() {
 			var editor = { lang: { filetools: { responseError: 'err' } } },
 				loader = new FileLoader( editor, testFile ),
 				observer = observeEvents( loader ),
-				sendRequestBackup = FileLoader.prototype.sendRequest,
-				handleResponseBackup = FileLoader.prototype.handleResponse,
 				sendRequestCounter = 0,
 				handleResponseCounter = 0;
 
-			CKEDITOR.on( 'fileUploadRequest', function( evt ) {
+			attachListener( CKEDITOR, 'fileUploadRequest', function( evt ) {
 				sendRequestCounter++;
 
 				evt.data.fileLoader.xhr.send( 'custom form' );
 				evt.stop();
 			} );
 
-			CKEDITOR.on( 'fileUploadResponse', function( evt ) {
+			attachListener( CKEDITOR, 'fileUploadResponse', function( evt ) {
 				handleResponseCounter++;
 
 				var response = evt.data.fileLoader.xhr.responseText.split( '|' );
@@ -766,9 +781,6 @@
 				{ responseText: 'customName.png|customUrl|customMessage' } );
 
 			resumeAfter( loader, 'uploaded', function() {
-				FileLoader.prototype.sendRequest = sendRequestBackup;
-				FileLoader.prototype.handleResponse = handleResponseBackup;
-
 				assert.areSame( 1, sendRequestCounter, 'sendRequestCounter' );
 				assert.areSame( 1, handleResponseCounter, 'handleResponseCounter' );
 				assert.areSame( 'custom form', lastFormData );
@@ -779,6 +791,46 @@
 					'update[uploading,name.png,41/0/82,-,-,-]',
 					'uploaded[uploaded,customName.png,82/0/82,customMessage,-,customUrl]',
 					'update[uploaded,customName.png,82/0/82,customMessage,-,customUrl]' ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test cancel fileUploadRequest': function() {
+			var editor = { lang: { filetools: { responseError: 'err' } } },
+				loader = new FileLoader( editor, testFile ),
+				observer = observeEvents( loader );
+
+			attachListener( CKEDITOR, 'fileUploadRequest', function( evt ) {
+				evt.cancel();
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			observer.assert( [] );
+		},
+
+
+		'test cancel fileUploadResponse': function() {
+			var editor = { lang: { filetools: { responseError: 'err' } } },
+				loader = new FileLoader( editor, testFile ),
+				observer = observeEvents( loader );
+
+			attachListener( CKEDITOR, 'fileUploadResponse', function( evt ) {
+				evt.cancel();
+			} );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,-,-,-]',
+					'update[error,name.png,82/0/82,-,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
