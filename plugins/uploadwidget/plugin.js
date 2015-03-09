@@ -452,14 +452,11 @@
 
 				if ( tasks === 0 ) {
 					aggregator.notification.hide();
-				} else if ( tasks === 1 ) {
-					aggregator.notification.update( {
-						message: editor.lang.uploadwidget.doneOne,
-						type: 'success'
-					} );
 				} else {
 					aggregator.notification.update( {
-						message: editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
+						message: tasks == 1 ?
+							editor.lang.uploadwidget.doneOne :
+							editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
 						type: 'success'
 					} );
 				}
