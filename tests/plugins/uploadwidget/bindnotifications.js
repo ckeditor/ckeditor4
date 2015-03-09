@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,widget,filetools */
+/* bender-tags: editor,unit,clipboard,widget,notification,filetools */
 /* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
 
 'use strict';
@@ -63,21 +63,10 @@ bender.test( {
 
 		loader.fire( 'uploaded' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
+		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'File successfully uploaded.', type: 'success' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
-	},
-
-	'test loaded': function() {
-		var editor = this.editor,
-			loader = new FileLoader( editor, file );
-
-		bindNotifications( editor, loader );
-
-		loader.fire( 'loaded' );
-
-		assert.areSame( 0, notificationShowStub.callCount );
 	},
 
 	'test uploading': function() {
@@ -112,14 +101,10 @@ bender.test( {
 
 		loader.fire( 'uploaded' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
+		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading file (100%)...', progress: 1, type: 'progress' },
-			notificationUpdateStub.lastCall.args[ 0 ].data.notification,
-			'4/4: ' );
-		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
-			notificationShowStub.secondCall.args[ 0 ].data.notification,
+			{ message: 'File successfully uploaded.', type: 'success' },
+			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'Done: ' );
 	},
 
@@ -137,7 +122,7 @@ bender.test( {
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },
-			notificationShowStub.secondCall.args[ 0 ].data.notification );
+			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	},
 
 	'test error before uploading': function() {
@@ -149,10 +134,10 @@ bender.test( {
 		loader.message = 'foo';
 		loader.fire( 'error' );
 
-		assert.areSame( 1, notificationShowStub.callCount );
+		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },
-			notificationShowStub.firstCall.args[ 0 ].data.notification );
+			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	},
 
 	'test abort': function() {
@@ -168,7 +153,7 @@ bender.test( {
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'Upload aborted by user.', type: 'info' },
-			notificationShowStub.secondCall.args[ 0 ].data.notification,
+			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'First notification: ' );
 	},
 
@@ -180,10 +165,10 @@ bender.test( {
 
 		loader.fire( 'abort' );
 
-		assert.areSame( 1, notificationShowStub.callCount );
+		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'Upload aborted by user.', type: 'info' },
-			notificationShowStub.firstCall.args[ 0 ].data.notification,
+			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'First notification: ' );
 	},
 
@@ -232,9 +217,9 @@ bender.test( {
 
 		loader3.fire( 'uploaded' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
+		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'Successfully uploaded 3 files.', type: 'success' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	},
 
@@ -287,9 +272,12 @@ bender.test( {
 
 		loader3.fire( 'uploaded' );
 
-		assert.areSame( 3, notificationShowStub.callCount );
+		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading done.', type: 'success' },
+			{ message: 'Successfully uploaded 2 files.', type: 'success' },
+			notificationShowStub.firstCall.args[ 0 ].data.notification );
+		this.assertNotification(
+			{ message: 'foo', type: 'warning' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 	}
 } );

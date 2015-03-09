@@ -15,19 +15,6 @@
 			// because otherwise wrong widget may handle upload placeholder element (e.g. image2 plugin would handle image).
 			// `data-widget` attribute is allowed only in the elements which has also `data-cke-upload-id` attribute.
 			editor.filter.allow( '*[!data-widget,!data-cke-upload-id]' );
-
-			// Create one notification agregator for all types of upload widgets for editor.
-			var aggregator = editor._.uploadWidgetNotificaionAggregator =
-				new CKEDITOR.plugins.notificationAggregator(
-					editor,
-					editor.lang.uploadwidget.uploadMany,
-					editor.lang.uploadwidget.uploadOne );
-
-			aggregator.on( 'finished', function() {
-				if ( aggregator.getTasksCount() > 0 ) {
-					editor.showNotification( editor.lang.uploadwidget.done, 'success' );
-				}
-			} );
 		}
 	} );
 
@@ -116,6 +103,32 @@
 	 *
 	 *				fileTools.markElement( el, 'filereader', loader.id );
 	 *
+	 *				evt.data.dataValue += el.getOuterHtml();
+	 *			}
+	 *		}
+	 *	} );
+	 *
+	 * Note that you can bind notifications to the upload widget on paste using
+	 * {@link CKEDITOR.fileTools.bindNotifications bindNotifications} method, so notifications will automatically
+	 * show the progress of the upload. Because this method show notification about upload do not use it if you only
+	 * {@link CKEDITOR.fileTools.fileLoader#load load} (not upload) file.
+	 *
+	 *	editor.on( 'paste', function( evt ) {
+	 *		var file, i, el, loader;
+	 *
+	 *		for ( i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *			file = evt.data.dataTransfer.getFile( i );
+	 *
+	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/pdf/ ) ) {
+	 *				el = new CKEDITOR.dom.element( 'span' ),
+	 *				loader = editor.uploadsRepository.create( file );
+	 *
+	 *				el.setText( '...' );
+	 *
+	 *				loader.upload();
+	 *
+	 *				fileTools.markElement( el, 'pdfuploader', loader.id );
+	 *
 	 *				fileTools.bindNotifications( editor, loader );
 	 *
 	 *				evt.data.dataValue += el.getOuterHtml();
@@ -159,7 +172,9 @@
 
 							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
-							CKEDITOR.fileTools.bindNotifications( editor, loader );
+							if ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) {
+								CKEDITOR.fileTools.bindNotifications( editor, loader );
+							}
 
 							data.dataValue += el.getOuterHtml();
 						}
@@ -417,17 +432,38 @@
 	 * notification to show the status and progress.
 	 * This function uses {@link CKEDITOR.plugins.notificationAggregator}, so even if multiple files are uploading
 	 * only one notification is shown. The exception are warnings, because they are shown in the separate notifications.
+	 * This notification show only progress of the upload so this method should not be used if
+	 * {@link CKEDITOR.fileTools.fileLoader#load loader.load} method was called, it works with
+	 * {@link CKEDITOR.fileTools.fileLoader#upload upload} and {@link CKEDITOR.fileTools.fileLoader#loadAndUpload loadAndUpload}.
 	 *
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 * @param {CKEDITOR.fileTools.fileLoader} loader The fileLoader instance.
 	 */
 	function bindNotifications( editor, loader ) {
-		var aggregator = editor._.uploadWidgetNotificaionAggregator,
-			task;
+		var aggregator = editor._.uploadWidgetNotificaionAggregator;
 
-		loader.on( 'uploading', function() {
-			task = aggregator.createTask( { weight: loader.total } );
-		} );
+		// Create one notification agregator for all types of upload widgets for editor.
+		if ( !aggregator || aggregator.isFinished() ) {
+			aggregator = editor._.uploadWidgetNotificaionAggregator = new CKEDITOR.plugins.notificationAggregator(
+				editor, editor.lang.uploadwidget.uploadMany, editor.lang.uploadwidget.uploadOne );
+
+			aggregator.once( 'finished', function() {
+				var tasks = aggregator.getTasksCount();
+
+				if ( tasks === 0 ) {
+					aggregator.notification.hide();
+				} else {
+					aggregator.notification.update( {
+						message: tasks == 1 ?
+							editor.lang.uploadwidget.doneOne :
+							editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
+						type: 'success'
+					} );
+				}
+			} );
+		}
+
+		var task = aggregator.createTask( { weight: loader.total } );
 
 		loader.on( 'update', function() {
 			if ( task && loader.status == 'uploading' ) {

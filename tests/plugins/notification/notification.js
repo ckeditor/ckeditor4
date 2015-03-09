@@ -365,19 +365,15 @@ bender.test( {
 		assertNotifications( editor, [ { message: 'Foo', type: 'success', alert: false } ] );
 	},
 
-	'test update progress when type is not progress': function() {
+	'test notification change type if progress is set': function() {
 		var editor = this.editor,
-			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo' } );
+			notification = new CKEDITOR.plugins.notification( editor, { message: 'Foo', type: 'warning' } );
 
 		notification.show();
 
-		assertNotifications( editor, [ { message: 'Foo', type: 'info' } ] );
+		assertNotifications( editor, [ { message: 'Foo', type: 'warning', alert: true } ] );
 
-		notification.update( { progress: 0.5 } ); // There should be no error!
-
-		assertNotifications( editor, [ { message: 'Foo', type: 'info', alert: false } ] );
-
-		notification.update( { type: 'progress' } );
+		notification.update( { progress: 0.5 } );
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'progress', progress: 0.5, alert: false } ] );
 	},

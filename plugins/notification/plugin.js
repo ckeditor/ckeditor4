@@ -249,15 +249,21 @@ Notification.prototype = {
 
 		var element = this.element,
 			messageElement = element.findOne( '.cke_notification_message' ),
-			progressElement = element.findOne( '.cke_notification_progress' );
+			progressElement = element.findOne( '.cke_notification_progress' ),
+			type = options.type;
 
 		element.removeAttribute( 'role' );
 
-		if ( options.type ) {
+		// Change type to progress if `options.progress` is set.
+		if ( options.progress && this.type != 'progress' ) {
+			type = 'progress';
+		}
+
+		if ( type ) {
 			element.removeClass( this._getClass() );
 			element.removeAttribute( 'aria-label' );
 
-			this.type = options.type;
+			this.type = type;
 
 			element.addClass( this._getClass() );
 			element.setAttribute( 'aria-label', this.type );

@@ -206,23 +206,24 @@
 		},
 
 		'test update finished': function() {
-			var instance = new Aggregator( this.editor, '' );
+			var instance = new Aggregator( this.editor, '' ),
+				finishSpy = sinon.spy();
+
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance._reset = sinon.spy();
-			instance._finish = sinon.spy();
+
+			instance.on( 'finished', finishSpy );
 
 			instance.update();
 
 			assert.areSame( 1, instance._updateNotification.callCount, '_updateNotification call count' );
-			assert.areSame( 1, instance._finish.callCount, '_finish call count' );
+			assert.areSame( 1, finishSpy.callCount, 'finished events count' );
 		},
 
 		'test update - cancel finished event': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance.isFinished = sinon.stub().returns( true );
 			instance._updateNotification = sinon.spy();
-			instance._reset = sinon.spy();
 			instance.fire = sinon.stub().returns( false );
 			instance.finished = sinon.spy();
 
@@ -230,37 +231,6 @@
 
 			// Method finished should not be called.
 			assert.areSame( 0, instance.finished.callCount, 'finished call count' );
-		},
-
-		'test _finish': function() {
-			var instance = new Aggregator( this.editor, '' ),
-				notif = new NotificationMock(),
-				finishedSpy = sinon.spy();
-
-			instance.notification = notif;
-			instance.on( 'finished', finishedSpy );
-			instance._reset = sinon.spy();
-
-			instance._finish();
-
-			assert.areSame( 1, notif.hide.callCount, 'notification.hide call count' );
-			assert.areSame( 1, finishedSpy.callCount, 'finished event fire count' );
-			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
-		},
-
-		// Ensure that _reset() is called **after** finished event was fired. (#12874)
-		'test _finish resets after finished event': function() {
-			var instance = new Aggregator( this.editor, '' );
-
-			instance.notification = new NotificationMock();
-			instance.fire = function() {
-				assert.areSame( 0, instance._reset.callCount, 'instance._reset should not be called before firing finished event' );
-			};
-			instance._reset = sinon.spy();
-
-			instance._finish();
-
-			assert.areSame( 1, instance._reset.callCount, 'instance._reset call count' );
 		},
 
 		'test _updateNotification': function() {
@@ -341,15 +311,6 @@
 			instance._removeTask( 1 );
 
 			assert.areSame( 1, instance._tasks.length, 'instance._tasks length' );
-		},
-
-		'test _reset': function() {
-			var instance = new Aggregator( this.editor, '' );
-			instance._tasks = [ 1, 2 ];
-
-			instance._reset();
-
-			assert.areSame( 0, instance._tasks.length, 'instance._tasks cleared' );
 		},
 
 		'test _getNotificationMessage': function() {
