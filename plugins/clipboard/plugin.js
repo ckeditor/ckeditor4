@@ -2130,7 +2130,7 @@
 			}
 
 			var that = this,
-				i;
+				i, file;
 
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
@@ -2154,11 +2154,16 @@
 			}
 
 			// Copy files references.
-			if ( this.$ && this.$.files ) {
+			file = this._getNativeChromeFile();
+			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
 				for ( i = 0; i < this.$.files.length; i++ ) {
 					this._.files.push( this.$.files[ i ] );
+				}
+
+				if ( file ) {
+					this._.files.push( file );
 				}
 			}
 		},
@@ -2177,7 +2182,7 @@
 				return this.$.files.length;
 			}
 
-			return 0;
+			return this._getNativeChromeFile() ? 1 : 0;
 		},
 
 		/**
@@ -2195,7 +2200,8 @@
 				return this.$.files[ i ];
 			}
 
-			return null;
+			// File or null if file was not founded.
+			return i === 0 ? this._getNativeChromeFile() : null;
 		},
 
 		/**
@@ -2243,6 +2249,30 @@
 			}
 
 			return true;
+		},
+
+		/**
+		 * When the file is pasted on Chrome the clipboard date object has empty `files` property,
+		 * but it is possible to get file as items[0].getAsFile();
+		 *
+		 * @private
+		 * @returns {File} File instance or null if not found.
+		 */
+		_getNativeChromeFile: function() {
+			var file;
+
+			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
+				try {
+					file = this.$.items[ 0 ].getAsFile();
+					if ( file && file.type ) {
+						return file;
+					}
+				} catch ( err ) {
+					// noop
+				}
+			}
+
+			return null;
 		}
 	};
 } )();
