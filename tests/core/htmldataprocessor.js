@@ -1010,6 +1010,16 @@
 			} ), 'br mode' );
 		},
 
+		'test toHtml options.protectedWhitespaces defaults falsy': function() {
+			var editor = this.editor;
+
+			editor.once( 'toHtml', function( evt ) {
+				assert.isUndefined( evt.data.protectedWhitespaces );
+			} );
+
+			editor.dataProcessor.toHtml( 'foo', {} );
+		},
+
 		'test leading br is removed by toDataFormat in ENTER_P and ENTER_DIV': function() {
 			var htmlDP = this.editor.dataProcessor,
 				opts = { enterMode: CKEDITOR.ENTER_P };

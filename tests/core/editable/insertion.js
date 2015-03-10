@@ -134,6 +134,16 @@
 
 				assert.areSame( '<p>bar</p>', bot.editor.getData(), 'text was inserted' );
 			} );
+		},
+
+		'test insertHtml sets options.protectedWhitespaces of dP.toHtml': function() {
+			var editor = this.editor;
+
+			editor.once( 'toHtml', function( evt ) {
+				assert.isTrue( evt.data.protectedWhitespaces );
+			} );
+
+			editor.insertHtml( '  foo  ' );
 		}
 	} );
 } )();

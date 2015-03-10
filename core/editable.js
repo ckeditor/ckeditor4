@@ -1619,7 +1619,7 @@
 
 			var context = that.blockLimit.getName();
 
-			// Wrap data to be inserted, to avoid loosing leading whitespaces
+			// Wrap data to be inserted, to avoid losing leading whitespaces
 			// when going through the below procedure.
 			if ( /^\s+|\s+$/.test( data ) && 'span' in CKEDITOR.dtd[ context ] ) {
 				var protect = '<span data-cke-marker="1">&nbsp;</span>';
@@ -1632,6 +1632,7 @@
 			data = that.editor.dataProcessor.toHtml( data, {
 				context: null,
 				fixForBody: false,
+				protectedWhitespaces: !!protect,
 				dontFilter: that.dontFilter,
 				// Use the current, contextual settings.
 				filter: that.editor.activeFilter,
