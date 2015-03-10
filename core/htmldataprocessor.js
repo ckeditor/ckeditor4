@@ -224,12 +224,13 @@
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
 		 * will be still applied).
 		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
-		 * @param {Boolean} [options.wrappedForWhitespaces] When element has been wrapped in span to preserve whitespaces.
+		 * @param {Boolean} [options.protectedWhitespaces] Indicates that content has been wrapped with `span` elements to preserve
+		 * leading and trailing whitespaces. Option used by the {@link CKEDITOR.editor#insertHtml} method.
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
 			var editor = this.editor,
-				context, filter, enterMode, wrappedForWhitespaces;
+				context, filter, enterMode, protectedWhitespaces;
 
 			// Typeof null == 'object', so check truthiness of options too.
 			if ( options && typeof options == 'object' ) {
@@ -238,7 +239,7 @@
 				dontFilter = options.dontFilter;
 				filter = options.filter;
 				enterMode = options.enterMode;
-				wrappedForWhitespaces = options.wrappedForWhitespaces;
+				protectedWhitespaces = options.protectedWhitespaces;
 			}
 			// Backward compatibility. Since CKEDITOR 4.3 every option was a separate argument.
 			else {
@@ -256,7 +257,7 @@
 				dontFilter: dontFilter,
 				filter: filter || editor.filter,
 				enterMode: enterMode || editor.enterMode,
-				wrappedForWhitespaces: wrappedForWhitespaces
+				protectedWhitespaces: protectedWhitespaces
 			} ).dataValue;
 		},
 
@@ -992,6 +993,7 @@
  * @param {Boolean} data.dontFilter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `dontFilter` argument.
  * @param {Boolean} data.filter See {@link CKEDITOR.htmlDataProcessor#toHtml} The `filter` argument.
  * @param {Boolean} data.enterMode See {@link CKEDITOR.htmlDataProcessor#toHtml} The `enterMode` argument.
+ * @param {Boolean} [data.protectedWhitespaces] See {@link CKEDITOR.htmlDataProcessor#toHtml} The `protectedWhitespaces` argument.
  */
 
 /**
