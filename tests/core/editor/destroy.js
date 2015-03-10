@@ -32,6 +32,8 @@ bender.test(
         element,
         editor;
 
+    this.editor.destroy();
+
     element = CKEDITOR.document.getById( name );
 
     editor = CKEDITOR.replace( element );
