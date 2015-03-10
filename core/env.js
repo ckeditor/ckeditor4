@@ -16,7 +16,10 @@ if ( !CKEDITOR.env ) {
 	 * @singleton
 	 */
 	CKEDITOR.env = ( function() {
-		var agent = navigator.userAgent.toLowerCase();
+		var agent = navigator.userAgent.toLowerCase(),
+			spartan = ( /edge[ \/]\d+.?\d*/ ).test( agent ),
+			trident = agent.indexOf( 'trident/' ) > -1,
+			ie = spartan || trident;
 
 		var env = {
 			/**
@@ -27,7 +30,7 @@ if ( !CKEDITOR.env ) {
 			 *
 			 * @property {Boolean}
 			 */
-			ie: ( agent.indexOf( 'trident/' ) > -1 ),
+			ie: ie,
 
 			/**
 			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari.
@@ -37,7 +40,7 @@ if ( !CKEDITOR.env ) {
 			 *
 			 * @property {Boolean}
 			 */
-			webkit: ( agent.indexOf( ' applewebkit/' ) > -1 ),
+			webkit: !ie && ( agent.indexOf( ' applewebkit/' ) > -1 ),
 
 			/**
 			 * Indicates that CKEditor is running in Adobe AIR.
@@ -169,10 +172,16 @@ if ( !CKEDITOR.env ) {
 		// Internet Explorer 6.0+
 		if ( env.ie ) {
 			// We use env.version for feature detection, so set it properly.
-			if ( env.quirks || !document.documentMode )
+			if ( spartan ) {
+				version = agent.match( /edge\/(\d+)/ );
+				// In future version `match` function might return null,
+				// which might cause everything fails.
+				version = version ? parseFloat( version[ 1 ] ) : undefined;
+			} else if ( env.quirks || !document.documentMode ) {
 				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
-			else
+			} else {
 				version = document.documentMode;
+			}
 
 			// Deprecated features available just for backwards compatibility.
 			env.ie9Compat = version == 9;
