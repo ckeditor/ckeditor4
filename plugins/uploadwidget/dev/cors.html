@@ -23,7 +23,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			imageUploadUrl: 'http://sub.ckeditor.dev/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
 		} );
 
-		CKEDITOR.on( 'fileUploadRequest', function( e ) {
+		editor.on( 'fileUploadRequest', function( e ) {
 			var xhr = e.data.fileLoader.xhr;
 
 			xhr.withCredentials = true;
