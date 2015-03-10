@@ -43,7 +43,11 @@ bender.test(
 			element,
 			editor;
 
+
+		this.editor.destroy();
+
 		element = CKEDITOR.document.getById( name );
+
 
 		editor = CKEDITOR.replace( element );
 		assert.isMatching( editor.status, 'unloaded', 'The editor is not initialized' );
