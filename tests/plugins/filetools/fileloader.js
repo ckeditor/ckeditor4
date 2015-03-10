@@ -8,7 +8,9 @@
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
-		testFile, lastFormData;
+		testFile, lastFormData,
+		listeners = [],
+		editorMock = {};
 
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
@@ -150,6 +152,16 @@
 		return observer;
 	}
 
+	function attachListener( obj, evt, listener ) {
+		listeners.push( {
+			obj: obj,
+			evt: evt,
+			listener: listener
+		} );
+
+		obj.on( evt, listener );
+	}
+
 	// For unknown reason plugin is not loaded if the code coverage is enabled
 	// and there is no editor instance.
 	bender.editor = {
@@ -159,6 +171,11 @@
 	};
 
 	bender.test( {
+		init: function() {
+			CKEDITOR.event.implementOn( editorMock );
+			CKEDITOR.plugins.get( 'filetools' ).beforeInit( editorMock );
+		},
+
 		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
@@ -170,8 +187,16 @@
 		},
 
 		tearDown: function() {
+			var data;
+
 			window.FileReader = FileReaderBackup;
 			window.XMLHttpRequest = XMLHttpRequestBackup;
+
+			while ( data = listeners.pop() ) {
+				data.obj.removeListener( data.evt, data.listener );
+			}
+
+			editorMock.lang = {};
 		},
 
 		'test constructor string, no name': function() {
@@ -223,7 +248,7 @@
 		},
 
 		'test load': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -243,7 +268,7 @@
 		},
 
 		'test upload': function() {
-			var loader = new FileLoader( {}, pngBase64, 'name.png' ),
+			var loader = new FileLoader( editorMock, pngBase64, 'name.png' ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ] );
@@ -265,7 +290,7 @@
 		},
 
 		'test loadAndUpload': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -289,7 +314,7 @@
 		},
 
 		'test abort on create': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			resumeAfter( loader, 'abort', function() {
@@ -304,7 +329,7 @@
 		},
 
 		'test abort on loading': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -326,7 +351,7 @@
 		},
 
 		'test abort on loading2': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -349,7 +374,7 @@
 		},
 
 		'test abort on loaded': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -372,7 +397,7 @@
 		},
 
 		'test abort on uploading': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -398,7 +423,7 @@
 		},
 
 		'test abort on uploading 2': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -425,7 +450,7 @@
 		},
 
 		'test abort on uploaded': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -452,8 +477,9 @@
 		},
 
 		'test abort on error': function() {
-			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { loadError: 'errorMsg' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -476,8 +502,9 @@
 		},
 
 		'test abort on abort (abort twice)': function() {
-			var editorMock = { lang: { filetools: { loadError: 'errorMsg' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { loadError: 'errorMsg' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				abort = function() {
 					loader.abort();
@@ -500,8 +527,9 @@
 		},
 
 		'test error on load': function() {
-			var editorMock = { lang: { filetools: { loadError: 'loadError' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { loadError: 'loadError' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'error' ] );
@@ -521,8 +549,9 @@
 		},
 
 		'test error on upload': function() {
-			var editorMock = { lang: { filetools: { networkError: 'networkError' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { networkError: 'networkError' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -546,8 +575,9 @@
 		},
 
 		'test error no url': function() {
-			var editorMock = { lang: { filetools: { noUrlError: 'noUrlError' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { noUrlError: 'noUrlError' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -568,8 +598,9 @@
 		},
 
 		'test error incorrect response': function() {
-			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { responseError: 'responseError %1' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseText: 'incorrect' } );
@@ -589,8 +620,9 @@
 		},
 
 		'test error in response': function() {
-			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { responseError: 'responseError %1' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
@@ -618,8 +650,9 @@
 		},
 
 		'test response with message': function() {
-			var editorMock = { lang: { filetools: { responseError: 'responseError %1' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { responseError: 'responseError %1' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
@@ -647,8 +680,9 @@
 		},
 
 		'test error 404 with message': function() {
-			var editorMock = { lang: { filetools: { httpError404: 'httpError404' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { httpError404: 'httpError404' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
@@ -668,8 +702,9 @@
 		},
 
 		'test error 404 general message': function() {
-			var editorMock = { lang: { filetools: { httpError: 'httpError %1' } } },
-				loader = new FileLoader( editorMock, testFile ),
+			editorMock.lang = { filetools: { httpError: 'httpError %1' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 404 } );
@@ -689,7 +724,7 @@
 		},
 
 		'test upload ok on status 202': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ], { responseStatus: 202 } );
@@ -709,7 +744,7 @@
 		},
 
 		'test update': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
 				update = function() {
 					loader.update();
@@ -735,37 +770,36 @@
 			wait();
 		},
 
-		'test replace sendRequest and handleResponse': function() {
-			var loader = new FileLoader( {}, testFile ),
+		'test custom fileUploadRequest and fileUploadResponse': function() {
+			editorMock.lang = { filetools: { responseError: 'err' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader ),
-				sendRequestBackup = FileLoader.prototype.sendRequest,
-				handleResponseBackup = FileLoader.prototype.handleResponse,
 				sendRequestCounter = 0,
 				handleResponseCounter = 0;
 
-			FileLoader.prototype.sendRequest = function() {
+			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
 				sendRequestCounter++;
-				this.xhr.send( 'custom form' );
-			};
 
-			FileLoader.prototype.handleResponse = function() {
+				evt.data.fileLoader.xhr.send( 'custom form' );
+				evt.stop();
+			} );
+
+			attachListener( editorMock, 'fileUploadResponse', function( evt ) {
 				handleResponseCounter++;
 
-				var response = this.xhr.responseText.split( '|' );
+				var response = evt.data.fileLoader.xhr.responseText.split( '|' );
 
-				this.fileName = response[ 0 ];
-				this.url = response[ 1 ];
-				this.message = response[ 2 ];
-				this.changeStatus( 'uploaded' );
-			};
+				evt.data.fileName = response[ 0 ];
+				evt.data.url = response[ 1 ];
+				evt.data.message = response[ 2 ];
+				evt.stop();
+			} );
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
 				{ responseText: 'customName.png|customUrl|customMessage' } );
 
 			resumeAfter( loader, 'uploaded', function() {
-				FileLoader.prototype.sendRequest = sendRequestBackup;
-				FileLoader.prototype.handleResponse = handleResponseBackup;
-
 				assert.areSame( 1, sendRequestCounter, 'sendRequestCounter' );
 				assert.areSame( 1, handleResponseCounter, 'handleResponseCounter' );
 				assert.areSame( 'custom form', lastFormData );
@@ -783,8 +817,50 @@
 			wait();
 		},
 
+		'test cancel fileUploadRequest': function() {
+			editorMock.lang = { filetools: { responseError: 'err' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
+				evt.cancel();
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			observer.assert( [] );
+		},
+
+
+		'test cancel fileUploadResponse': function() {
+			editorMock.lang = { filetools: { responseError: 'err' } };
+
+			var loader = new FileLoader( editorMock, testFile ),
+				observer = observeEvents( loader );
+
+			attachListener( editorMock, 'fileUploadResponse', function( evt ) {
+				evt.cancel();
+			} );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
+			resumeAfter( loader, 'error', function() {
+				observer.assert( [
+					'uploading[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,0/0/82,-,-,-]',
+					'update[uploading,name.png,41/0/82,-,-,-]',
+					'error[error,name.png,82/0/82,-,-,-]',
+					'update[error,name.png,82/0/82,-,-,-]' ] );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
 		'test xhr property': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				report = '';
 
 			createFileReaderMock( [ 'progress', 'load' ] );
@@ -813,7 +889,7 @@
 		},
 
 		'test reader property': function() {
-			var loader = new FileLoader( {}, testFile ),
+			var loader = new FileLoader( editorMock, testFile ),
 				report = '';
 
 			createFileReaderMock( [ 'progress', 'load' ] );

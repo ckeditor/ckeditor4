@@ -23,6 +23,165 @@
 			 * @member CKEDITOR.editor
 			 */
 			editor.uploadsRepository = new UploadsRepository( editor );
+
+			/**
+			 * This event if fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} should send XHR. If event will not be
+			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, then the default request
+			 * will be sent (file as a form data with a field `'upload'`).
+			 *
+			 * If you want to change that behavior you can add custom listener with the default priority and
+			 * {@link CKEDITOR.eventInfo#stop stop} the event, what will prevent the default behavior. For example to send
+			 * data directly (without a form):
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			var xhr = evt.data.fileLoader.xhr;
+			 *
+			 *			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
+			 *			xhr.setRequestHeader( 'X-File-Name', this.fileName );
+			 *			xhr.setRequestHeader( 'X-File-Size', this.total );
+			 *			xhr.send( this.file );
+			 *
+			 *			// Prevented default behavior.
+			 *			evt.stop();
+			 *		} );
+			 *
+			 *
+			 * You can also add custom request headers or set flags for the default request. This is especially useful for
+			 * enabling Cross-Origin requests. For more information about Cross-Origin Resource Sharing see
+			 * [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS):
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			var xhr = evt.data.fileLoader.xhr;
+			 *
+			 *			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
+			 *			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
+			 *			xhr.withCredentials = true;
+			 *		} );
+			 *
+			 * When you listen on `fileUploadRequest` event with the default priority you will get XHR object which is opened as
+			 * `POST` asynchronous request. This happens in a listener with the priority `5`, so if you want to overwrite also
+			 * request open you need to listen with the lower priority. For example to send a `PUT` request:
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			var fileLoader = evt.data.fileLoader,
+			 *				formData = new FormData(),
+			 *				xhr = fileLoader.xhr;
+			 *
+			 *			xhr.open( 'PUT', fileLoader.uploadUrl, true );
+			 *			formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+			 *			fileLoader.xhr.send( formData );
+			 *
+			 *			// Prevented default behavior.
+			 *			evt.stop();
+			 *		}, null, null, 4 ); // Listener with priority 4 will be executed before priority 5.
+			 *
+			 * Finally, you can also tell the {@link CKEDITOR.fileTools.fileLoader file loader} that request was not send, so it will not
+			 * change its {@link CKEDITOR.fileTools.fileLoader#status status}. To do it you need to
+			 * {@link CKEDITOR.eventInfo#cancel canceled} event:
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			// ...
+			 *
+			 *			// Cancel event so file loader will not change its status.
+			 *			evt.cancel();
+			 *		} );
+			 *
+			 * @since 4.5
+			 * @event fileUploadRequest
+			 * @member CKEDITOR.editor
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
+			 */
+			editor.on( 'fileUploadRequest', function( evt ) {
+				var fileLoader = evt.data.fileLoader;
+
+				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
+			}, null, null, 5 );
+
+			editor.on( 'fileUploadRequest', function( evt ) {
+				var fileLoader = evt.data.fileLoader,
+					formData = new FormData();
+
+				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+				fileLoader.xhr.send( formData );
+			}, null, null, 999 );
+
+			/**
+			 * This event is fired when {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
+			 * If event will not be {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, then
+			 * the default response handler will be used, which expects the response to be JSON data with the following structure:
+			 *
+			 *		{
+			 *			fileName: <String>		// The name of the file on the server.
+			 *			url: <String>			// The URL to the file.
+			 *			uploaded: <Boolean>		// True if uploading finished with success.
+			 *			error: {
+			 *				message: <String>	// Optional message.
+			 *			}
+			 *		}
+			 *
+			 * If you want to handle a response manually you need to add a listener to this event and call {@link CKEDITOR.eventInfo#stop stop}
+			 * to prevent the default behavior. Listener should set URL to the file on the server and the file name and can set additionally
+			 * message from the server. If the response is to the error message, so the upload failed, then the event should be
+			 * {@link CKEDITOR.eventInfo#cancel canceled}, so file loader will change {@link CKEDITOR.fileTools.fileLoader#status its status}
+			 * to `error`.
+			 *
+			 * For example if the response is 'fileUrl|optionalErrorMessage':
+			 *
+			 *		editor.on( 'fileUploadResponse', function( evt ) {
+			 *			// Prevent the default response handler.
+			 *			evt.stop();
+			 *
+			 * 			// Ger XHR and response.
+			 * 			var data = evt.data,
+			 * 				xhr = data.fileLoader.xhr,
+			 * 				response = xhr.responseText.split( '|' );
+			 *
+			 * 			if ( response[ 1 ] ) {
+			 * 				// Error occurred during upload.
+			 * 				data.message = response[ 1 ];
+			 * 				evt.cancel();
+			 * 			} else {
+			 * 				data.url = response[ 0 ];
+			 * 			}
+			 * 		} );
+			 *
+			 * @since 4.5
+			 * @event fileUploadResponse
+			 * @member CKEDITOR.editor
+			 * @param data
+			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader file loader instance.
+			 * @param {String} data.message Message form server, needs to be set in the listener, see example.
+			 * @param {String} data.fileName File name on server, needs to be set in the listener, see example.
+			 * @param {String} data.url URL to the uploaded file, needs to be set in the listener, see example.
+			 */
+			editor.on( 'fileUploadResponse', function( evt ) {
+				var fileLoader = evt.data.fileLoader,
+					xhr = fileLoader.xhr,
+					data = evt.data;
+
+				try {
+					var response = JSON.parse( xhr.responseText );
+
+					// Error message does not need to mean that upload finished unsuccessfully.
+					// It could mean that ex. file name was changes during upload due to naming collision.
+					if ( response.error && response.error.message ) {
+						data.message = response.error.message;
+					}
+
+					// But !uploaded means error.
+					if ( !response.uploaded ) {
+						evt.cancel();
+					} else {
+						data.fileName = response.fileName;
+						data.url = encodeURI( response.url );
+					}
+				} catch ( err ) {
+					// Response parsing error.
+					data.message = fileLoader.lang.filetools.responseError.replace( '%1', xhr.responseText );
+					evt.cancel();
+				}
+			}, null, null, 999 );
 		}
 	} );
 
@@ -118,34 +277,34 @@
 	 * be called so the progress will be refreshed.
 	 *
 	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request
-	 * or response handling you need to overwrite {@link #sendRequest sendRequest} or {@link #handleResponse handleResponse}
-	 * method.
+	 * or response handling you need to overwrite default behavior using the {@link CKEDITOR.editor#fileUploadRequest} and
+	 * {@link CKEDITOR.editor#fileUploadResponse} events. For more information see their documentation.
 	 *
 	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
 	 *
 	 * Here is a simple usage of `FileLoader`:
 	 *
-	 *	editor.on( 'paste', function( evt ) {
-	 *		for ( var i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
-	 *			var file = evt.data.dataTransfer.getFile( i );
+	 *		editor.on( 'paste', function( evt ) {
+	 *			for ( var i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *				var file = evt.data.dataTransfer.getFile( i );
 	 *
-	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
-	 *				var loader = editor.uploadsRepository.create( file );
+	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
+	 *					var loader = editor.uploadsRepository.create( file );
 	 *
-	 *				loader.on( 'update', function () {
-	 *					document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
+	 *					loader.on( 'update', function () {
+	 *						document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
+	 *					} );
+	 *
+	 *					loader.on( 'error', function () {
+	 *						alert( 'Error!' );
 	 *				} );
 	 *
-	 *				loader.on( 'error', function () {
-	 *					alert( 'Error!' );
-	 *				} );
+	 *					loader.loadAndUpload( 'http://upload.url/' );
 	 *
-	 *				loader.loadAndUpload( 'http://upload.url/' );
-	 *
-	 *				evt.data.dataValue += 'loading...'
+	 *					evt.data.dataValue += 'loading...'
+	 *				}
 	 *			}
-	 *		}
-	 *	} );
+	 *		} );
 	 *
 	 * Note that `FileLoader` use file API which is support since Internet Explorer 10.
 	 *
@@ -161,6 +320,7 @@
 	 * the MIME type by replacing '/' with '.', for example for `image/png` the file name will be `image.png`.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
+		this.editor = editor;
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
@@ -400,15 +560,14 @@
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatus( 'error' );
 			} else {
-				this.xhr = new XMLHttpRequest();
-
 				this.uploadUrl = url;
 
-				this.changeStatus( 'uploading' );
-
+				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				this.sendRequest();
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this } ) ) {
+					this.changeStatus( 'uploading' );
+				}
 			}
 		},
 
@@ -450,77 +609,27 @@
 					}
 					loader.changeStatus( 'error' );
 				} else {
-					loader.handleResponse( xhr );
+					var data = {
+							fileLoader: loader
+						},
+						// Values to copy from event to FileLoader.
+						valuesToCopy = [ 'message', 'fileName', 'url' ],
+						success = loader.editor.fire( 'fileUploadResponse', data );
+
+					for ( var i = 0; i < valuesToCopy.length; i++ ) {
+						var key = valuesToCopy[ i ];
+						if ( typeof data[ key ] === 'string' ) {
+							loader[ key ] = data[ key ];
+						}
+					}
+
+					if ( success === false ) {
+						loader.changeStatus( 'error' );
+					} else {
+						loader.changeStatus( 'uploaded' );
+					}
 				}
 			};
-		},
-
-		/**
-		 * Send asynchronous request. Overwrite this method for a custom request.
-		 *
-		 * For example to send data directly (without a form):
-		 *
-		 * 		CKEDITOR.fileTools.fileLoader.prototype.sendRequest = function() {
-		 * 			var xhr = this.xhr;
-		 *
-		 * 			xhr.open( 'POST', this.uploadUrl, true );
-		 * 			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
-		 * 			xhr.setRequestHeader( 'X-File-Name', this.fileName );
-		 * 			xhr.setRequestHeader( 'X-File-Size', this.total );
-		 * 			xhr.send( this.file );
-		 * 		};
-		 *
-		 * @private
-		 * @param {XMLHttpRequest} xhr XML HTTP Request object with attached listeners.
-		 */
-		sendRequest: function() {
-			var formData = new FormData(),
-				xhr = this.xhr;
-
-			formData.append( 'upload', this.file, this.fileName );
-			xhr.open( 'POST', this.uploadUrl, true );
-			xhr.send( formData );
-		},
-
-		/**
-		 * Handle response from the server. Overwrite this method for custom response handling.
-		 *
-		 * For example if the response is 'fileUrl|errorMessage':
-		 *
-		 * 		CKEDITOR.fileTools.fileLoader.prototype.handleResponse = function() {
-		 * 			var repsonse = this.xhr.responseText.split( '|' );
-		 * 			if ( repsonse[ 1 ] ) {
-		 * 				this.message = repsonse[ 1 ];
-		 * 				this.changeStatus( 'error' );
-		 * 			} else {
-		 * 				this.url = response[ 0 ];
-		 * 				this.changeStatus( 'uploaded' );
-		 * 			}
-		 * 		};
-		 *
-		 * @private
-		 * @param {XMLHttpRequest} xhr XML HTTP Request object with response.
-		 */
-		handleResponse: function() {
-			try {
-				var response = JSON.parse( this.xhr.responseText );
-			} catch ( e ) {
-				this.message = this.lang.filetools.responseError.replace( '%1', this.xhr.responseText );
-				this.changeStatus( 'error' );
-				return;
-			}
-
-			if ( response.error ) {
-				this.message = response.error.message;
-			}
-
-			if ( !response.uploaded ) {
-				this.changeStatus( 'error' );
-			} else {
-				this.fileName = response.fileName;
-				this.url = encodeURI( response.url );
-				this.changeStatus( 'uploaded' );
-			}
 		},
 
 		/**
@@ -598,10 +707,6 @@
 
 	CKEDITOR.event.implementOn( UploadsRepository.prototype );
 	CKEDITOR.event.implementOn( FileLoader.prototype );
-
-	//
-	// HELPERS ----------------------------------------------------------------
-	//
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
 

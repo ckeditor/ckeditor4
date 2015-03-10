@@ -143,7 +143,7 @@
 			var loader = repository.create( { name: 'foo' } );
 
 			assert.isTrue( listener.calledOnce, 'Should be called once.' );
-			assert.isTrue( listener.calledWithMatch( { data: loader } ), 'Should be called with loader.' );
+			assert.areSame( loader, listener.firstCall.args[ 0 ].data, 'Should be called with loader.' );
 		}
 	} );
 } )();
