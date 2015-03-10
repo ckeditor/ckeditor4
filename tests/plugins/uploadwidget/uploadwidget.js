@@ -177,7 +177,9 @@
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 
-				assert.isInnerHtmlMatching( '<p>x[<strong>uploaded</strong>]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+				// On Safari selection will be normalised to the inside of the <strong> tags.
+				assert.isMatching( /^<p>x(\[<strong>|<strong>\[)uploaded(\]<\/strong>|<\/strong>\])x(<br \/>)?<\/p>$/,
+					bender.tools.html.prepareInnerHtmlForComparison( bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts ) );
 			} );
 		},
 
@@ -216,7 +218,7 @@
 
 			addTestUploadWidget( editor, 'testReplaceWith1', {
 				onUploaded: function() {
-					this.replaceWith( '<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>' );
+					this.replaceWith( 'y<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>y' );
 				}
 			} );
 
@@ -227,7 +229,7 @@
 
 				assertUploadingWidgets( editor, 'testReplaceWith1', 0 );
 
-				assert.isInnerHtmlMatching( '<p>x[<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
+				assert.isInnerHtmlMatching( '<p>x[y<strong>uploaded1</strong><em>upl<u>oad</u>ed2</em>y]x@</p>', bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts );
 			} );
 		},
 
