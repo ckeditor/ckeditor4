@@ -118,8 +118,8 @@
 	 * be called so the progress will be refreshed.
 	 *
 	 * Default requests and responses formats will work with CKFinder 2.4.3 and above. If you need a custom request
-	 * or response handling you need to overwrite default behavior using {@link CKEDITOR#fileUploadRequest} and
-	 * {@link CKEDITOR#fileUploadResponse} event. For more information see its documentation.
+	 * or response handling you need to overwrite default behavior using the {@link CKEDITOR#fileUploadRequest} and
+	 * {@link CKEDITOR#fileUploadResponse} events. For more information see their documentation.
 	 *
 	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
 	 *
@@ -555,9 +555,8 @@
 
 	/**
 	 * This event if fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} should send XHR. If event will not be
-	 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled} then the default request
-	 * will be fired (file as a form data with field `upload`). Default requests formats will work with CKFinder 2.4.3
-	 * and above.
+	 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, then the default request
+	 * will be sent (file as a form data with a field `'upload'`).
 	 *
 	 * If you want to change that behavior you can add custom listener with the default priority and
 	 * {@link CKEDITOR.eventInfo#stop stop} the event, what will prevent the default behavior. For example to send
@@ -576,7 +575,7 @@
 	 *		} );
 	 *
 	 *
-	 * You can also add custom request headers or set flags to the default request. This is especially useful for
+	 * You can also add custom request headers or set flags for the default request. This is especially useful for
 	 * enabling Cross-Origin requests. For more information about Cross-Origin Resource Sharing see
 	 * [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS):
 	 *
@@ -589,8 +588,8 @@
 	 *		} );
 	 *
 	 * When you listen on `fileUploadRequest` event with the default priority you will get XHR object which is opened as
-	 * `POST` asynchronous request. This happens on the priority 5, so if you want to overwrite also request open you need to
-	 * listen with the lower priority. For example to send `PUT` request:
+	 * `POST` asynchronous request. This happens in a listener with the priority `5`, so if you want to overwrite also
+	 * request open you need to listen with the lower priority. For example to send a `PUT` request:
 	 *
 	 * 		CKEDITOR.on( 'fileUploadRequest', function( evt ) {
 	 *			var fileLoader = evt.data.fileLoader,
@@ -603,10 +602,10 @@
 	 *
 	 *			// Prevented default behavior.
 	 *			evt.stop();
-	 *		}, null, null, 4 ); // Priority 4 will be executed before priority 5.
+	 *		}, null, null, 4 ); // Listener with priority 4 will be executed before priority 5.
 	 *
-	 * Finally you can also tell {@link CKEDITOR.fileTools.fileLoader file loader} that request was not send, so it will not
-	 * change its {@link  CKEDITOR.fileTools.fileLoader#status status}. To do it you need to
+	 * Finally, you can also tell the {@link CKEDITOR.fileTools.fileLoader file loader} that request was not send, so it will not
+	 * change its {@link CKEDITOR.fileTools.fileLoader#status status}. To do it you need to
 	 * {@link CKEDITOR.eventInfo#cancel canceled} event:
 	 *
 	 *		CKEDITOR.on( 'fileUploadRequest', function( evt ) {
@@ -620,7 +619,8 @@
 	 * @event fileUploadRequest
 	 * @member CKEDITOR
 	 * @param data
-	 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader file loader instance.
+	 * @param {CKEDITOR.editor} data.editor The editor instance.
+	 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
 	 */
 	CKEDITOR.on( 'fileUploadRequest', function( evt ) {
 		var fileLoader = evt.data.fileLoader;
@@ -638,23 +638,21 @@
 
 	/**
 	 * This event is fired when {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
-	 * If event will not be {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled} then
-	 * the default response handler will be used, which expect response to be JSON data with the following structure:
+	 * If event will not be {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, then
+	 * the default response handler will be used, which expects the response to be JSON data with the following structure:
 	 *
 	 *		{
-	 *			fileName: <String> // The name of the file on the server.
-	 *			url: <String> // The URL to the file.
-	 *			uploaded: <Boolean> // True if uploading finished with success.
+	 *			fileName: <String>		// The name of the file on the server.
+	 *			url: <String>			// The URL to the file.
+	 *			uploaded: <Boolean>		// True if uploading finished with success.
 	 *			error: {
-	 *				message: <String> // Optional message.
+	 *				message: <String>	// Optional message.
 	 *			}
 	 *		}
 	 *
-	 * Default responses formats will work with CKFinder 2.4.3 and above.
-	 *
-	 * If you want to handle response manually you need to add listener to this event and call {@link CKEDITOR.eventInfo#stop stop}
-	 * to prevent default behavior. Listener should set URL to the file on server and the file name and can set additionally
-	 * message from the server. If the response is the error message, so the upload failed, then the the event should be canceled
+	 * If you want to handle a response manually you need to add a listener to this event and call {@link CKEDITOR.eventInfo#stop stop}
+	 * to prevent the default behavior. Listener should set URL to the file on the server and the file name and can set additionally
+	 * message from the server. If the response is to the error message, so the upload failed, then the event should be
 	 * {@link CKEDITOR.eventInfo#cancel canceled}, so file loader will change {@link CKEDITOR.fileTools.fileLoader#status its status}
 	 * to `error`.
 	 *
@@ -682,6 +680,7 @@
 	 * @event fileUploadResponse
 	 * @member CKEDITOR
 	 * @param data
+	 * @param {CKEDITOR.editor} data.editor The editor instance.
 	 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader file loader instance.
 	 * @param {String} data.message Message form server, needs to be set in the listener, see example.
 	 * @param {String} data.fileName File name on server, needs to be set in the listener, see example.
