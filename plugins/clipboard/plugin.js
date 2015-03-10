@@ -2154,7 +2154,7 @@
 			}
 
 			// Copy files references.
-			file = this._getNativeChromeFile();
+			file = this._getImageFromClipboard();
 			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
@@ -2182,7 +2182,7 @@
 				return this.$.files.length;
 			}
 
-			return this._getNativeChromeFile() ? 1 : 0;
+			return this._getImageFromClipboard() ? 1 : 0;
 		},
 
 		/**
@@ -2201,7 +2201,7 @@
 			}
 
 			// File or null if file was not founded.
-			return i === 0 ? this._getNativeChromeFile() : null;
+			return i === 0 ? this._getImageFromClipboard() : null;
 		},
 
 		/**
@@ -2252,18 +2252,19 @@
 		},
 
 		/**
-		 * When the file is pasted on Chrome the clipboard date object has empty `files` property,
-		 * but it is possible to get file as items[0].getAsFile();
+		 * When the contents of the clipboard is pasted on Chrome the clipboard date object has empty `files` property,
+		 * but it is possible to get file as items[0].getAsFile(); (#12961).
 		 *
 		 * @private
 		 * @returns {File} File instance or null if not found.
 		 */
-		_getNativeChromeFile: function() {
+		_getImageFromClipboard: function() {
 			var file;
 
 			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
 				try {
 					file = this.$.items[ 0 ].getAsFile();
+					// Duck typing
 					if ( file && file.type ) {
 						return file;
 					}
