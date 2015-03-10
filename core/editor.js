@@ -1351,10 +1351,13 @@
 		},
 
 		/**
-		 * If `notification` plugin is not loaded this function show alert with the given `message`.
-		 * `type` and `progressOrDuration` parameters are not used.
+		 * Shows a notification to the user.
 		 *
-		 * If `notification` plugin is not loaded, then this method creates and shows a new notification.
+		 * If the [notification](http://ckeditor.com/addons/notification) plugin is not enabled this function shows
+		 * a normal alert with the given `message`. The `type` and `progressOrDuration` parameters are supported
+		 * only by the [notification](http://ckeditor.com/addons/notification) plugin.
+		 *
+		 * If `notification` plugin is enabled, then this method creates and shows a new notification.
 		 * By default the notification is shown over the editors contents, in the viewport if it is possible.
 		 *
 		 * See {@link CKEDITOR.plugins.notification}.
