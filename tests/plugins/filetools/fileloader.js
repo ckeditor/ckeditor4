@@ -247,6 +247,21 @@
 			assert.areSame( 'created', loader.status );
 		},
 
+		'test constructor file, no filename in file': function() {
+			var testFileWithoutName = bender.tools.getTestPngFile();
+			testFileWithoutName.name = undefined;
+
+			var loader = new FileLoader( {}, testFileWithoutName );
+
+			assert.areSame( 'image.png', loader.fileName );
+			assert.isNull( loader.data );
+			assert.isObject( loader.file );
+			assert.areSame( 82, loader.total );
+			assert.areSame( 0, loader.loaded );
+			assert.areSame( 0, loader.uploaded );
+			assert.areSame( 'created', loader.status );
+		},
+
 		'test load': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
