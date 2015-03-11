@@ -2201,7 +2201,7 @@
 			}
 
 			// File or null if file was not founded.
-			return i === 0 ? this._getImageFromClipboard() : null;
+			return i === 0 ? this._getImageFromClipboard() : undefined;
 		},
 
 		/**
@@ -2273,7 +2273,7 @@
 				}
 			}
 
-			return null;
+			return undefined;
 		}
 	};
 } )();
