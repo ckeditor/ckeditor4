@@ -2162,7 +2162,7 @@
 					this._.files.push( this.$.files[ i ] );
 				}
 
-				if ( file ) {
+				if ( this._.files.length === 0 && file ) {
 					this._.files.push( file );
 				}
 			}
