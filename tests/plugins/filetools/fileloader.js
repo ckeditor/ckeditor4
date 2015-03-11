@@ -768,15 +768,18 @@
 			createXMLHttpRequestMock( [ 'progress', update, 'load', update ] );
 
 			resumeAfter( loader, 'uploaded', function() {
-				observer.assert( [
-					'update[created,name.png,0/0/82,-,-,-]',
-					'uploading[uploading,name.png,0/0/82,-,-,-]',
-					'update[uploading,name.png,0/0/82,-,-,-]',
-					'update[uploading,name.png,41/0/82,-,-,-]',
-					'update[uploading,name.png,41/0/82,-,-,-]',
-					'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
-					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
-					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+				// Wait for all update events.
+				wait( function() {
+					observer.assert( [
+						'update[created,name.png,0/0/82,-,-,-]',
+						'uploading[uploading,name.png,0/0/82,-,-,-]',
+						'update[uploading,name.png,0/0/82,-,-,-]',
+						'update[uploading,name.png,41/0/82,-,-,-]',
+						'update[uploading,name.png,41/0/82,-,-,-]',
+						'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+						'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+						'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+				}, 5 );
 			} );
 
 			loader.update();
