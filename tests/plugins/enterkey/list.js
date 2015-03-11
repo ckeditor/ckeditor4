@@ -383,6 +383,7 @@
 
 		'test enterkey in middle empty &lt;li&gt;, block, split list (ENTER_BR)': function() {
 			var match = new RegExp( oldIE ?
+				(
 					'<ul class="c" id="i" style="color:red;">' +
 						'<li>x</li>' +
 					'</ul>' +
@@ -390,7 +391,7 @@
 					'<ul class="c" style="color:red;">' +
 						'<li>y</li>' +
 					'</ul>'
-				:
+				) : (
 					'<ul class="c" id="i" style="color:red;">' +
 						'<li>x</li>' +
 					'</ul>' +
@@ -398,7 +399,7 @@
 					'<ul class="c" style="color:red;">' +
 						'<li>y</li>' +
 					'</ul>'
-				);
+				) );
 
 			assertEnter( 'enterBR',
 				'<ul class="c" id="i" style="color:red;">' +

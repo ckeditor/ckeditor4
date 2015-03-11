@@ -21,10 +21,7 @@
 		var pageOffset = side == 'left' ? 'pageXOffset' : 'pageYOffset',
 			docScrollOffset = side == 'left' ? 'scrollLeft' : 'scrollTop';
 
-		return ( pageOffset in win.$ ) ?
-				win.$[ pageOffset ]
-			:
-				CKEDITOR.document.$.documentElement[ docScrollOffset ];
+		return ( pageOffset in win.$ ) ? win.$[ pageOffset ] : CKEDITOR.document.$.documentElement[ docScrollOffset ];
 	}
 
 	function attach( editor ) {
@@ -262,10 +259,7 @@
 
 					// Pin mode is fixed, so don't include scroll-x.
 					// (#9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
-					var scroll = mode == 'pin' ?
-							0
-						:
-							alignSide == 'left' ? pageScrollX : -pageScrollX;
+					var scroll = mode == 'pin' ? 0 : alignSide == 'left' ? pageScrollX : -pageScrollX;
 
 					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + scroll ) );
 				};

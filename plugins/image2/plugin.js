@@ -1332,16 +1332,13 @@
 				if ( !enabled )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				else {
-					// jscs:disable
 					this.setState(
-						( widget.data.align == value ) ?
-								CKEDITOR.TRISTATE_ON
-							:
-								( value in allowed ) ?
-										CKEDITOR.TRISTATE_OFF
-									:
-										CKEDITOR.TRISTATE_DISABLED );
-					// jscs:enable
+						( widget.data.align == value ) ? (
+							CKEDITOR.TRISTATE_ON
+						) : (
+							( value in allowed ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
+						)
+					);
 				}
 
 				evt.cancel();
