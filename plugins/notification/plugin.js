@@ -298,9 +298,6 @@ Notification.prototype = {
 		}
 
 		this.area.remove( this );
-
-		// Focus editor on close (#12865)
-		this.editor.focus();
 	},
 
 	/**
@@ -347,6 +344,9 @@ Notification.prototype = {
 		notificationElement.append( notificationCloseElement );
 
 		notificationCloseElement.on( 'click', function() {
+			// Focus editor on close (#12865)
+			notification.editor.focus();
+
 			notification.hide();
 		} );
 
