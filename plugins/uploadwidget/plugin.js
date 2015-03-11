@@ -458,7 +458,8 @@
 						message: tasks == 1 ?
 							editor.lang.uploadwidget.doneOne :
 							editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
-						type: 'success'
+						type: 'success',
+						important: 1
 					} );
 				}
 			} );
