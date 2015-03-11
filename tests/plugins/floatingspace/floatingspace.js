@@ -19,16 +19,16 @@ bender.test( {
 	'test floatingSpaceLayout event': function() {
 		var editor = this.editor;
 
-			this.clock = sinon.useFakeTimers();
-			this.listener = sinon.stub();
+		this.clock = sinon.useFakeTimers();
+		this.listener = sinon.stub();
 
-			this.editor.once( 'floatingSpaceLayout', this.listener );
+		this.editor.once( 'floatingSpaceLayout', this.listener );
 
-			editor.focus();
-			editor.fire( 'change' );
+		editor.focus();
+		editor.fire( 'change' );
 
-			this.clock.tick( 2000 );
+		this.clock.tick( 2000 );
 
-			assert.isTrue( this.listener.called );
+		assert.isTrue( this.listener.called );
 	}
 } );
