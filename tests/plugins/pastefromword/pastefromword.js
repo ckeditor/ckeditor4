@@ -7,6 +7,12 @@
 	bender.editor = true;
 
 	bender.test( {
+		'tearDown': function() {
+			if ( this.editor.showNotification.restore ) {
+				this.editor.showNotification.restore();
+			}
+		},
+
 		'test whether default filter is loaded': function() {
 			var editor = this.editor;
 
@@ -64,6 +70,36 @@
 				editor.execCommand( 'pastefromword' );
 			} );
 			this.wait();
+		},
+
+		'test showNotification in case of exception': function() {
+			var editor = this.editor;
+
+			editor.once( 'beforeCleanWord', function( evt ) {
+				evt.data.filter.addRules( {
+					elements: {
+						'^': function() {
+							throw 'foo';
+						}
+					}
+				} );
+			} );
+
+			sinon.stub( editor, 'showNotification', function() {
+				resume( function() {
+					assert.isTrue( true );
+				} );
+			} );
+
+			editor.fire( 'paste', {
+				type: 'auto',
+				// This data will be recognized as pasted from Word.
+				dataValue: '<p>text <strong class="MsoNormal">text</strong></p>',
+				method: 'paste',
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer()
+			} );
+
+			wait();
 		}
 	} );
 
