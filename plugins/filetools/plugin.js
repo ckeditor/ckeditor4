@@ -342,7 +342,7 @@
 			this.fileName = this.file.name;
 		} else {
 			// If file has no name create a name based on the mime type.
-			this.fileName = this.file.name = this.file.type.replace( '/', '.' );
+			this.fileName = this.file.type.replace( '/', '.' );
 		}
 
 		this.uploaded = 0;
