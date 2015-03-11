@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 
 bender.editor = {
-	creator: 'inline',
+	creator: 'inline'
 };
 
 'use strict';

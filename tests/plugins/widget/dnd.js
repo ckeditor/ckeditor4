@@ -232,7 +232,7 @@
 
 				dragstart( editor, evt );
 
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt  } ),
+				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } ),
 					id = dataTransfer.getData( 'cke/widget-id' );
 
 				assert.isNumber( id, 'Id should be a number.' );
