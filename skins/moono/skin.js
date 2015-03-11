@@ -87,11 +87,13 @@ CKEDITOR.skin.chameleon = ( function() {
 	// where -1 is black, 1 is white and 0 is the original colour.
 	var colorBrightness = ( function() {
 		function channelBrightness( channel, ratio ) {
-			return ( '0' + ( ratio < 0 ?
+			var brighten = ratio < 0 ? (
 					0 | channel * ( 1 + ratio )
-				:
-					0 | channel + ( 255 - channel ) * ratio ).toString( 16 )
-				).slice( -2 );
+				) : (
+					0 | channel + ( 255 - channel ) * ratio
+				);
+
+			return ( '0' + brighten.toString( 16 ) ).slice( -2 );
 		}
 
 		return function( hexColor, ratio ) {

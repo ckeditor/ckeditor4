@@ -331,16 +331,19 @@
 		 */
 		editor.readOnly = !!(
 			config.readOnly || (
-				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ?
-						editor.element.is( 'textarea' ) ?
+				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? (
+						editor.element.is( 'textarea' ) ? (
 								editor.element.hasAttribute( 'disabled' )
-							:
+							) : (
 								editor.element.isReadOnly()
-					:
-						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ?
+							)
+					) : (
+						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? (
 								editor.element.hasAttribute( 'disabled' )
-							:
+							) : (
 								false
+							)
+					)
 			)
 		);
 
