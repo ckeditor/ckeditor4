@@ -10,5 +10,3 @@
  3. Repeat with the second editor.
 
 ***Expected result:*** you should see error in dialog.
-
-Because Bender does not allows to show alerts in manual tests, message should be displayed in console.
