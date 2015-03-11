@@ -2047,9 +2047,21 @@ CKEDITOR.dom.range = function( root ) {
 			this.extractContents().appendTo( fixedBlock );
 			fixedBlock.trim();
 
-			fixedBlock.appendBogus();
-
 			this.insertNode( fixedBlock );
+
+			// Bogus <br> could already exist in the range's container before fixBlock() was called. In such case it was
+			// extracted and appended to the fixBlock. However, we are not sure that it's at the end of
+			// the fixedBlock, because of FF's terrible bug. When creating a bookmark in an empty editable
+			// FF moves the bogus <br> before that bookmark (<editable><br /><bm />[]</editable>).
+			// So even if the initial range was placed before the bogus <br>, after creating the bookmark it
+			// is placed before the bookmark.
+			// Fortunately, getBogus() is able to skip the bookmark so it finds the bogus <br> in this case.
+			// We remove incorrectly placed one and add a brand new one. (#13001)
+			var bogus = fixedBlock.getBogus();
+			if ( bogus ) {
+				bogus.remove();
+			}
+			fixedBlock.appendBogus();
 
 			this.moveToBookmark( bookmark );
 
