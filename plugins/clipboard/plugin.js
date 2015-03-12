@@ -117,21 +117,22 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var defaultContentType = editor.config.clipboard_defaultContentType;
+			var defaultContentType = editor.config.clipboard_defaultContentType,
+				filterType;
 
 			if ( editor.config.forcePasteAsPlainText ) {
-				editor.filterType = 'plain-text';
+				filterType = 'plain-text';
 			} else if ( typeof defaultContentType == 'string' ) {
 				defaultContentType = ( defaultContentType == 'text' ? 'plain-text' : 'semantic-content' );
 
-				editor.filterType = defaultContentType;
+				filterType = defaultContentType;
 			} else if ( typeof editor.config.pasteFilter == 'string' ) {
-				editor.filterType = editor.config.pasteFilter;
+				filterType = editor.config.pasteFilter;
 			} else {
-				editor.filterType = 'semantic-content';
+				filterType = 'semantic-content';
 			}
 
-			editor.pasteFilter = filtersFactory.get( editor.filterType );
+			editor.pasteFilter = filtersFactory.get( filterType );
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
