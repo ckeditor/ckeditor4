@@ -473,6 +473,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				// Alt-F10 puts focus into the current tab item in the tab bar.
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
+				me._.currentFocusIndex = -1;
 				processed = 1;
 			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
 				// Arrow keys - used for changing tabs.
@@ -560,6 +561,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( editor.config.dialog_startupFocusTab && me._.pageCount > 1 ) {
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
+				me._.currentFocusIndex = -1;
 			} else if ( !this._.hasFocus ) {
 				this._.currentFocusIndex = -1;
 
