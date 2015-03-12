@@ -63,6 +63,21 @@ function addBookmarkTCs( readyTCs, tcs, tcsGroupName ) {
 	}
 }
 
+function createBookmarkTC( tc ) {
+	return function() {
+		var playground = createPlayground( tc[ 0 ] ),
+			range = createRange( playground, tc[ 1 ] );
+
+		var bm = range.createBookmark();
+
+		compareRangeWithPattern( playground, range, tc[ 2 ], 'initial range after creating a bookmark' );
+
+		var range2 = new CKEDITOR.dom.range( playground );
+		range2.moveToBookmark( bm );
+		compareRangeWithPattern( playground, range2, tc[ 3 ] || tc[ 1 ], 'restored range' );
+	};
+}
+
 function addBookmark2TCs( readyTCs, tcs, tcsGroupName ) {
 	var tc, tcName;
 
@@ -97,21 +112,6 @@ function createBookmark2TC( tc, normalize ) {
 		} else {
 			compareRanges( range2, range );
 		}
-	};
-}
-
-function createBookmarkTC( tc ) {
-	return function() {
-		var playground = createPlayground( tc[ 0 ] ),
-			range = createRange( playground, tc[ 1 ] );
-
-		var bm = range.createBookmark();
-
-		compareRangeWithPattern( playground, range, tc[ 2 ], 'initial range after creating a bookmark' );
-
-		var range2 = new CKEDITOR.dom.range( playground );
-		range2.moveToBookmark( bm );
-		compareRangeWithPattern( playground, range2, tc[ 3 ] || tc[ 1 ], 'restored range' );
 	};
 }
 
