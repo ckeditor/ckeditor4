@@ -344,6 +344,9 @@ Notification.prototype = {
 		notificationElement.append( notificationCloseElement );
 
 		notificationCloseElement.on( 'click', function() {
+			// Focus editor on close (#12865)
+			notification.editor.focus();
+
 			notification.hide();
 		} );
 
