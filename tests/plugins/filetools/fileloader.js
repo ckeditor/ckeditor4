@@ -845,6 +845,8 @@
 				evt.cancel();
 			} );
 
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
+
 			loader.upload( 'http:\/\/url\/' );
 
 			observer.assert( [] );
