@@ -17,9 +17,9 @@ if ( !CKEDITOR.env ) {
 	 */
 	CKEDITOR.env = ( function() {
 		var agent = navigator.userAgent.toLowerCase(),
-			spartan = ( /edge[ \/]\d+.?\d*/ ).test( agent ),
+			spartan = agent.match( /edge[ \/](\d+.?\d*)/ ),
 			trident = agent.indexOf( 'trident/' ) > -1,
-			ie = spartan || trident;
+			ie = !!( spartan || trident );
 
 		var env = {
 			/**
@@ -173,10 +173,7 @@ if ( !CKEDITOR.env ) {
 		if ( env.ie ) {
 			// We use env.version for feature detection, so set it properly.
 			if ( spartan ) {
-				version = agent.match( /edge\/(\d+)/ );
-				// In future version `match` function might return null,
-				// which might cause everything fails.
-				version = version ? parseFloat( version[ 1 ] ) : undefined;
+				version = parseFloat( spartan[ 1 ] );
 			} else if ( env.quirks || !document.documentMode ) {
 				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 			} else {
