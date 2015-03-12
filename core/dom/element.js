@@ -590,7 +590,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {String} propertyName The style property name.
 		 * @returns {String} The property value.
 		 */
-		getComputedStyle: ( typeof document.defaultView.getComputedStyle === 'function' ) ?
+		getComputedStyle: ( document.defaultView && document.defaultView.getComputedStyle ) ?
 				function( propertyName ) {
 					var style = this.getWindow().$.getComputedStyle( this.$, null );
 
