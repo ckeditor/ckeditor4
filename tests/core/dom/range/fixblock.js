@@ -149,6 +149,22 @@
 			range.moveToPosition( editable.findOne( 'p' ), CKEDITOR.POSITION_AFTER_END );
 
 			this.assertFixBlock( this.editor, range, true, 'p', 'x<table><tbody><tr><td><p contenteditable="false">foo</p><p>&nbsp;</p></td></tr></tbody></table>x' );
+		},
+
+		// #13001
+		// See comments in the fixBlock() method.
+		'test fixing empty, focused editable': function() {
+			var editable = this.editor.editable(),
+				range = this.editor.createRange();
+
+			editable.setHtml( '' );
+			this.editor.focus();
+
+			range.moveToPosition( editable, CKEDITOR.POSITION_AFTER_START );
+
+			range.fixBlock( true, 'p' );
+
+			assert.isInnerHtmlMatching( '<p>[]@!</p>', bender.tools.range.getWithHtml( editable, range ) );
 		}
 
 	} );

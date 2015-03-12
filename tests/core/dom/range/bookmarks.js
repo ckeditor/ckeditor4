@@ -49,6 +49,35 @@ function createPlayground( html ) {
 	return playground;
 }
 
+function addBookmarkTCs( readyTCs, tcs, tcsGroupName ) {
+	var tc, tcName;
+
+	for ( tcName in tcs ) {
+		tc = tcs[ tcName ];
+		if ( !CKEDITOR.tools.isArray( tc ) )
+			addBookmarkTCs( readyTCs, tc, tcName );
+		else {
+			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark' ] =
+				createBookmarkTC( tc );
+		}
+	}
+}
+
+function createBookmarkTC( tc ) {
+	return function() {
+		var playground = createPlayground( tc[ 0 ] ),
+			range = createRange( playground, tc[ 1 ] );
+
+		var bm = range.createBookmark();
+
+		compareRangeWithPattern( playground, range, tc[ 2 ], 'initial range after creating a bookmark' );
+
+		var range2 = new CKEDITOR.dom.range( playground );
+		range2.moveToBookmark( bm );
+		compareRangeWithPattern( playground, range2, tc[ 3 ] || tc[ 1 ], 'restored range' );
+	};
+}
+
 function addBookmark2TCs( readyTCs, tcs, tcsGroupName ) {
 	var tc, tcName;
 
@@ -57,9 +86,9 @@ function addBookmark2TCs( readyTCs, tcs, tcsGroupName ) {
 		if ( !CKEDITOR.tools.isArray( tc ) )
 			addBookmark2TCs( readyTCs, tc, tcName );
 		else {
-			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName ] =
+			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark2' ] =
 				createBookmark2TC( tc );
-			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - normalized' ] =
+			readyTCs[ 'test ' + ( tcsGroupName ? tcsGroupName + ' - ' : '' ) + tcName + ' - createBookmark2, normalized' ] =
 				createBookmark2TC( tc, true );
 		}
 	}
@@ -79,21 +108,28 @@ function createBookmark2TC( tc, normalize ) {
 		range2.moveToBookmark( bm );
 
 		if ( normalize ) {
-			assert.areSame( findNode( playground, tc[ 2 ].sc ), range2.startContainer, 'startContainer' );
-			assert.areSame( tc[ 2 ].so, range2.startOffset, 'startOffset' );
-			assert.areSame( range.collapsed, range2.collapsed, 'collapsed' );
-			if ( !range.collapsed ) {
-				assert.areSame( findNode( playground, tc[ 2 ].ec ), range2.endContainer, 'endContainer' );
-				assert.areSame( tc[ 2 ].eo, range2.endOffset, 'endOffset' );
-			}
+			compareRangeWithPattern( playground, range2, tc[ 2 ], 'restored range' );
 		} else {
-			assert.areSame( range.startContainer, range2.startContainer, 'startContainer' );
-			assert.areSame( range.endContainer, range2.endContainer, 'endContainer' );
-			assert.areSame( range.startOffset, range2.startOffset, 'startOffset' );
-			assert.areSame( range.endOffset, range2.endOffset, 'endOffset' );
-			assert.areSame( range.collapsed, range2.collapsed, 'collapsed' );
+			compareRanges( range2, range );
 		}
 	};
+}
+
+function compareRanges( range, expected ) {
+	assert.areSame( expected.startContainer, range.startContainer, 'startContainer' );
+	assert.areSame( expected.endContainer, range.endContainer, 'endContainer' );
+	assert.areSame( expected.startOffset, range.startOffset, 'startOffset' );
+	assert.areSame( expected.endOffset, range.endOffset, 'endOffset' );
+	assert.areSame( expected.collapsed, range.collapsed, 'collapsed' );
+}
+
+function compareRangeWithPattern( playground, range, pattern, msg ) {
+	assert.areSame( findNode( playground, pattern.sc ), range.startContainer, msg + ' - startContainer' );
+	assert.areSame( pattern.so, range.startOffset, msg + ' - startOffset' );
+	if ( pattern.ec ) {
+		assert.areSame( findNode( playground, pattern.ec ), range.endContainer, msg + ' - endContainer' );
+		assert.areSame( pattern.eo, range.endOffset, msg + ' - endOffset' );
+	}
 }
 
 function createRange( root, position ) {
@@ -155,6 +191,53 @@ var tcs = {
 		assert.areSame( container, findNode( container, 'root' ) );
 	}
 };
+
+// TC format:
+// 0 - HTML to be tested.
+// 1 - Input range - 'sc' means startContainer and it's passed through findNode(), 'so' means startOffset.
+//		If 'ec' and 'eo' are not passed range is collapsed to start.
+// 2 - Range after creating bookmark (note that range must be moved when bookmark spans are inserted).
+// 3 - Output range (the same format as input). If not passed, the input range will be used.
+addBookmarkTCs( tcs, {
+	'collapsed in text': {
+		'ab offset 0': [ 'ab', { sc: '#ab', so: 0 }, { sc: 'root', so: 1 }, { sc: 'root', so: 0 } ],
+		'ab offset 1': [ 'ab', { sc: '#ab', so: 1 }, { sc: 'root', so: 2 }, { sc: 'root', so: 1 } ],
+		'ab offset 2': [ 'ab', { sc: '#ab', so: 2 }, { sc: 'root', so: 2 }, { sc: 'root', so: 1 } ]
+	},
+
+	'collapsed in element': {
+		'a root offset 0': [ 'a', { sc: 'root', so: 0 }, { sc: 'root', so: 1 } ],
+		'a root offset 1': [ 'a', { sc: 'root', so: 1 }, { sc: 'root', so: 2 } ],
+
+		'bcde offset 0': [ 'b.cd.e', { sc: 'root', so: 0 }, { sc: 'root', so: 1 } ],
+		'bcde offset 1': [ 'b.cd.e', { sc: 'root', so: 1 }, { sc: 'root', so: 2 } ],
+		'bcde offset 3': [ 'b.cd.e', { sc: 'root', so: 3 }, { sc: 'root', so: 4 } ],
+
+		'tu offset 1': [ '<i>t</i><i>u</i>', { sc: 'root', so: 1 }, { sc: 'root', so: 2 } ],
+		'tu offset 2': [ '<i>t</i><i>u</i>', { sc: 'root', so: 2 }, { sc: 'root', so: 3 } ],
+
+		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 1 }, { sc: 'root', so: 0 } ]
+	},
+
+	'element selection': {
+		'a': [ '<i>a</i>', { sc: 'root', so: 0, ec: 'root', eo: 1 }, { sc: 'root', so: 1, ec: 'root', eo: 2 } ],
+
+		'b': [ 'x<i>b</i>y', { sc: 'root', so: 1, ec: 'root', eo: 2 }, { sc: 'root', so: 2, ec: 'root', eo: 3 } ],
+		'b 2': [ 'x.y<i>b</i>z', { sc: '#y', so: 1, ec: '#z', eo: 0 }, { sc: 'root', so: 3, ec: 'root', eo: 4 }, { sc: 'root', so: 2, ec: 'root', eo: 3 } ],
+
+		'c': [ '<u><i>c</i></u>', { sc: 'u', so: 0, ec: 'u', eo: 1 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ],
+
+		'd': [ '<u>x<i>d</i><b>y</b></u>', { sc: '#x', so: 1, ec: 'u', eo: 2 }, { sc: 'u', so: 2, ec: 'u', eo: 3 }, { sc: 'u', so: 1, ec: 'u', eo: 2 } ]
+	},
+
+	'text selection': {
+		'ab 1': [ '<i>a</i><u>b</u>', { sc: 'i', so: 0, ec: 'u', eo: 1 }, { sc: 'i', so: 1, ec: 'u', eo: 1 } ],
+		'ab 2': [ '<i>a</i><u>b</u>', { sc: '#a', so: 1, ec: '#b', eo: 0 }, { sc: 'i', so: 2, ec: 'u', eo: 0 }, { sc: 'i', so: 1, ec: 'u', eo: 0 } ],
+
+		'#10301 1': [ '<p>a.b<i>c</i>d.e</p>', { sc: '#e', so: 0, ec: '#e', eo: 1 }, { sc: 'p', so: 5, ec: 'p', eo: 6 }, { sc: 'p', so: 4, ec: 'p', eo: 5 } ],
+		'#10301 2': [ '<p>a.b<i>c</i>d.e</p>', { sc: 'p', so: 4, ec: 'p', eo: 5 }, { sc: 'p', so: 5, ec: 'p', eo: 6 } ]
+	}
+} );
 
 // TC format:
 // 0 - HTML to be tested.
@@ -228,7 +311,9 @@ addBookmark2TCs( tcs, {
 		'wxyz offset 0': [ '<i>w</i>xy.z', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ],
 		'wxyz offset 1': [ '<i>w</i>xy.z', { sc: 'root', so: 1 }, { sc: 'root', so: 1 } ],
 		'wxyz offset 2': [ '<i>w</i>xy.z', { sc: 'root', so: 2 }, { sc: '#xyz', so: 2 } ],
-		'wxyz offset 3': [ '<i>w</i>xy.z', { sc: 'root', so: 3 }, { sc: 'root', so: 2 } ]
+		'wxyz offset 3': [ '<i>w</i>xy.z', { sc: 'root', so: 3 }, { sc: 'root', so: 2 } ],
+
+		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ]
 	},
 
 	'element selection': {
