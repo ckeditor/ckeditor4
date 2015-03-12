@@ -406,22 +406,21 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			if ( focusList.length < 1 )
 				return;
 
-			var current = me._.currentFocusIndex;
+			var startIndex = me._.currentFocusIndex;
 
 			if ( me._.tabBarMode && offset < 0 ) {
 				// If we are in tab mode, we need to mimic that we started tabbing back from the first
 				// focusList (so it will go to the last one).
-				current = 0;
+				startIndex = 0;
 			}
 
 			// Trigger the 'blur' event of  any input element before anything,
 			// since certain UI updates may depend on it.
 			try {
-				focusList[ current ].getInputElement().$.blur();
+				focusList[ startIndex ].getInputElement().$.blur();
 			} catch ( e ) {}
 
-			var startIndex = current,
-				currentIndex = current,
+			var currentIndex = startIndex,
 				hasTabs = me._.pageCount > 1;
 
 			do {
