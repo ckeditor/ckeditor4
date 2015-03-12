@@ -398,6 +398,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				focusList[ i ].focusIndex = i;
 		}
 
+		// Expects 1 or -1 as an offset, meaning direction of the offset change.
 		function changeFocus( offset ) {
 			var focusList = me._.focusList;
 			offset = offset || 0;
@@ -407,19 +408,41 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var current = me._.currentFocusIndex;
 
+			if ( me._.tabBarMode && offset < 0 ) {
+				// If we are in tab mode, we need to mimic that we started tabbing back from the first
+				// focusList (so it will go to the last one).
+				current = 0;
+			}
+
 			// Trigger the 'blur' event of  any input element before anything,
 			// since certain UI updates may depend on it.
 			try {
 				focusList[ current ].getInputElement().$.blur();
 			} catch ( e ) {}
 
-			var startIndex = ( current + offset + focusList.length ) % focusList.length,
-				currentIndex = startIndex;
-			while ( offset && !focusList[ currentIndex ].isFocusable() ) {
-				currentIndex = ( currentIndex + offset + focusList.length ) % focusList.length;
-				if ( currentIndex == startIndex )
+			var startIndex = current,
+				currentIndex = current,
+				hasTabs = me._.pageCount > 1;
+
+			do {
+				currentIndex = currentIndex + offset;
+
+				if ( hasTabs && !me._.tabBarMode && ( currentIndex === focusList.length || currentIndex === -1 ) ) {
+					// If the dialog was not in tab mode, then focus the first tab (#13027).
+					me._.tabBarMode = true;
+					me._.tabs[ me._.currentTabId ][ 0 ].focus();
+					me._.currentFocusIndex = -1;
+
+					// Early return, in order to avoid accessing focusList[ -1 ].
+					return;
+				}
+
+				currentIndex = ( currentIndex + focusList.length ) % focusList.length;
+
+				if ( currentIndex == startIndex ) {
 					break;
-			}
+				}
+			} while ( offset && !focusList[ currentIndex ].isFocusable() );
 
 			focusList[ currentIndex ].focus();
 
@@ -444,18 +467,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			if ( keystroke == 9 || keystroke == CKEDITOR.SHIFT + 9 ) {
 				var shiftPressed = ( keystroke == CKEDITOR.SHIFT + 9 );
-
-				// Handling Tab and Shift-Tab.
-				if ( me._.tabBarMode ) {
-					// Change tabs.
-					var nextId = shiftPressed ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
-					me.selectPage( nextId );
-					me._.tabs[ nextId ][ 0 ].focus();
-				} else {
-					// Change the focus of inputs.
-					changeFocus( shiftPressed ? -1 : 1 );
-				}
-
+				changeFocus( shiftPressed ? -1 : 1 );
 				processed = 1;
 			} else if ( keystroke == CKEDITOR.ALT + 121 && !me._.tabBarMode && me.getPageCount() > 1 ) {
 				// Alt-F10 puts focus into the current tab item in the tab bar.
