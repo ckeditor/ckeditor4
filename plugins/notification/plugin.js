@@ -622,7 +622,8 @@ Area.prototype = {
 			win = CKEDITOR.document.getWindow(),
 			scrollPos = win.getScrollPosition(),
 			viewRect = win.getViewPaneSize(),
-			bodyPos = CKEDITOR.document.getBody().getDocumentPosition(),
+			body = CKEDITOR.document.getBody(),
+			bodyPos = body.getDocumentPosition(),
 			cssLength = CKEDITOR.tools.cssLength;
 
 		// Cache for optimization
@@ -729,7 +730,9 @@ Area.prototype = {
 
 		// ---------------------------------------- Vertical layout -----------------------------------------
 
-		var leftBase = area.getStyle( 'position' ) == 'fixed' ? contentsRect.left : contentsPos.x - bodyPos.x;
+		var leftBase = area.getStyle( 'position' ) == 'fixed' ?
+			contentsRect.left :
+			body.getComputedStyle( 'position' ) != 'static' ? contentsPos.x - bodyPos.x : contentsPos.x;
 
 		// Content is narrower than notification
 		if ( contentsRect.width < notificationWidth + notificationMargin ) {
