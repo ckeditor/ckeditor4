@@ -19,6 +19,8 @@ samples/toolbarconfigurator/.bender/**
 samples/toolbarconfigurator/node_modules/**
 samples/toolbarconfigurator/docs/**
 
+tests/plugins/mathjax/_assets/truncated-mathjax
+
 *.css.map
 
 bender-*.log
