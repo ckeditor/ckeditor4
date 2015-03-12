@@ -2130,7 +2130,7 @@
 			}
 
 			var that = this,
-				i;
+				i, file;
 
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
@@ -2154,11 +2154,18 @@
 			}
 
 			// Copy files references.
-			if ( this.$ && this.$.files ) {
+			file = this._getImageFromClipboard();
+			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
 				for ( i = 0; i < this.$.files.length; i++ ) {
 					this._.files.push( this.$.files[ i ] );
+				}
+
+				// Don't include $.items if both $.files and $.items contains files, because,
+				// according to spec and browsers behavior, they contain the same files.
+				if ( this._.files.length === 0 && file ) {
+					this._.files.push( file );
 				}
 			}
 		},
@@ -2177,7 +2184,7 @@
 				return this.$.files.length;
 			}
 
-			return 0;
+			return this._getImageFromClipboard() ? 1 : 0;
 		},
 
 		/**
@@ -2195,7 +2202,8 @@
 				return this.$.files[ i ];
 			}
 
-			return null;
+			// File or null if file was not founded.
+			return i === 0 ? this._getImageFromClipboard() : undefined;
 		},
 
 		/**
@@ -2243,6 +2251,31 @@
 			}
 
 			return true;
+		},
+
+		/**
+		 * When the contents of the clipboard is pasted on Chrome the clipboard date object has empty `files` property,
+		 * but it is possible to get file as items[0].getAsFile(); (#12961).
+		 *
+		 * @private
+		 * @returns {File} File instance or null if not found.
+		 */
+		_getImageFromClipboard: function() {
+			var file;
+
+			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
+				try {
+					file = this.$.items[ 0 ].getAsFile();
+					// Duck typing
+					if ( file && file.type ) {
+						return file;
+					}
+				} catch ( err ) {
+					// noop
+				}
+			}
+
+			return undefined;
 		}
 	};
 } )();

@@ -338,8 +338,11 @@
 
 		if ( fileName ) {
 			this.fileName = fileName;
-		} else {
+		} else if ( this.file.name ) {
 			this.fileName = this.file.name;
+		} else {
+			// If file has no name create a name based on the mime type.
+			this.fileName = this.file.type.replace( '/', '.' );
 		}
 
 		this.uploaded = 0;
@@ -736,9 +739,7 @@
 			byteArrays.push( byteArray );
 		}
 
-		var file =  new Blob( byteArrays, { type: contentType } );
-		file.name = contentType.replace( '/', '.' );
-		return file;
+		return new Blob( byteArrays, { type: contentType } );
 	}
 
 	//

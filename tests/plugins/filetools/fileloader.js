@@ -247,6 +247,21 @@
 			assert.areSame( 'created', loader.status );
 		},
 
+		'test constructor file, no filename in file': function() {
+			var testFileWithoutName = bender.tools.getTestPngFile();
+			testFileWithoutName.name = undefined;
+
+			var loader = new FileLoader( {}, testFileWithoutName );
+
+			assert.areSame( 'image.png', loader.fileName );
+			assert.isNull( loader.data );
+			assert.isObject( loader.file );
+			assert.areSame( 82, loader.total );
+			assert.areSame( 0, loader.loaded );
+			assert.areSame( 0, loader.uploaded );
+			assert.areSame( 'created', loader.status );
+		},
+
 		'test load': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
@@ -753,15 +768,18 @@
 			createXMLHttpRequestMock( [ 'progress', update, 'load', update ] );
 
 			resumeAfter( loader, 'uploaded', function() {
-				observer.assert( [
-					'update[created,name.png,0/0/82,-,-,-]',
-					'uploading[uploading,name.png,0/0/82,-,-,-]',
-					'update[uploading,name.png,0/0/82,-,-,-]',
-					'update[uploading,name.png,41/0/82,-,-,-]',
-					'update[uploading,name.png,41/0/82,-,-,-]',
-					'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
-					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
-					'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+				// Wait for all update events.
+				wait( function() {
+					observer.assert( [
+						'update[created,name.png,0/0/82,-,-,-]',
+						'uploading[uploading,name.png,0/0/82,-,-,-]',
+						'update[uploading,name.png,0/0/82,-,-,-]',
+						'update[uploading,name.png,41/0/82,-,-,-]',
+						'update[uploading,name.png,41/0/82,-,-,-]',
+						'uploaded[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+						'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]',
+						'update[uploaded,name2.png,82/0/82,-,-,http://url/name2.png]' ] );
+				}, 5 );
 			} );
 
 			loader.update();
@@ -826,6 +844,8 @@
 			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
 				evt.cancel();
 			} );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ] );
 
 			loader.upload( 'http:\/\/url\/' );
 

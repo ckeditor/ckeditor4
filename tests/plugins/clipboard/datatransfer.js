@@ -383,6 +383,70 @@ bender.test( {
 		assert.areSame( 2, dataTransfer.getFilesCount() );
 		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
 		assert.areSame( 'bar', dataTransfer.getFile( 1 ) );
+		assert.isUndefined( dataTransfer.getFile( 2 ) );
+	},
+
+	// #12961
+	'test file in items': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			file = { type: 'type' };
+
+		nativeData.items = [ {
+			getAsFile: function() {
+				return file;
+			}
+		} ];
+
+		assert.areSame( 1, dataTransfer.getFilesCount() );
+		assert.areSame( file, dataTransfer.getFile( 0 ) );
+		assert.isUndefined( dataTransfer.getFile( 1 ) );
+	},
+
+	// #12961
+	'test file in items with error': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.items = [ {
+			getAsFile: function() {
+				return {}; // no 'type', so not file.
+			}
+		} ];
+
+		assert.areSame( 0, dataTransfer.getFilesCount() );
+		assert.isUndefined( dataTransfer.getFile( 0 ) );
+	},
+
+	// #12961
+	'test file in items and files': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			file = { type: 'type' };
+
+		nativeData.items = [ {
+			getAsFile: function() {
+				return file;
+			}
+		} ];
+
+		nativeData.files.push( 'foo' );
+
+		assert.areSame( 1, dataTransfer.getFilesCount() );
+		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
+		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
 	'test files with cache': function() {
@@ -409,6 +473,62 @@ bender.test( {
 		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
 		assert.areSame( 'bar', dataTransfer.getFile( 1 ) );
 		assert.isFalse( !!dataTransfer.getFile( 2 ) );
+	},
+
+	// #12961
+	'test file in items with cache': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			file = { type: 'type' };
+
+		nativeData.items = [ {
+			getAsFile: function() {
+				return file;
+			}
+		} ];
+
+		dataTransfer.cacheData();
+
+		assert.areSame( 1, dataTransfer.getFilesCount() );
+		assert.areSame( file, dataTransfer.getFile( 0 ) );
+		assert.isUndefined( dataTransfer.getFile( 1 ) );
+
+		nativeData.files = [];
+		nativeData.items = [];
+
+		assert.areSame( 1, dataTransfer.getFilesCount() );
+		assert.areSame( file, dataTransfer.getFile( 0 ) );
+		assert.isUndefined( dataTransfer.getFile( 1 ) );
+	},
+
+	// #12961
+	'test file in items and files with cache': function() {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			file = { type: 'type' };
+
+		nativeData.items = [ {
+			getAsFile: function() {
+				return file;
+			}
+		} ];
+
+		nativeData.files.push( 'foo' );
+
+		// debugger;
+		dataTransfer.cacheData();
+
+		assert.areSame( 1, dataTransfer.getFilesCount() );
+		assert.areSame( 'foo', dataTransfer.getFile( 0 ) );
+		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
 	'test isEmpty 1': function() {
