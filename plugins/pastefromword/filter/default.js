@@ -1159,7 +1159,7 @@
 		try {
 			data = dataProcessor.toHtml( data );
 		} catch ( e ) {
-			alert( editor.lang.pastefromword.error ); // jshint ignore:line
+			editor.showNotification( editor.lang.pastefromword.error );
 		}
 
 		// Below post processing those things that are unable to delivered by filter rules.

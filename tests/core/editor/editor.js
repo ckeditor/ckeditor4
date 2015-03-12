@@ -4,6 +4,12 @@ CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;
 
 bender.test( {
+	tearDown: function() {
+		if ( typeof window.alert.restore === 'function' ) {
+			window.alert.restore();
+		}
+	},
+
 	test_name: function() {
 		assert.areSame( 'editor1', CKEDITOR.instances.editor1.name );
 	},
@@ -334,6 +340,23 @@ bender.test( {
 			assert.areSame( CKEDITOR.ENTER_BR, editor.activeEnterMode, '2nd activeEnterMode' );
 			assert.areSame( CKEDITOR.ENTER_BR, editor.activeShiftEnterMode, '2nd activeShiftEnterMode' );
 		} );
-	}
+	},
 
+	'test showNotification': function() {
+		bender.editorBot.create( {
+			name: 'no_notification',
+			creator: 'inline',
+			config: {
+				removePlugins: 'notification'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				alert = sinon.stub( window, 'alert' );
+
+			editor.showNotification( 'foo' );
+
+			assert.areSame( 1, alert.callCount );
+			assert.isTrue( alert.calledWith( 'foo' ) );
+		} );
+	}
 } );
