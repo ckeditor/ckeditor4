@@ -427,7 +427,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			do {
 				currentIndex = currentIndex + offset;
 
-				if ( hasTabs && !me._.tabBarMode && ( currentIndex === focusList.length || currentIndex === -1 ) ) {
+				if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
 					// If the dialog was not in tab mode, then focus the first tab (#13027).
 					me._.tabBarMode = true;
 					me._.tabs[ me._.currentTabId ][ 0 ].focus();
