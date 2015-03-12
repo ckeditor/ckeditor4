@@ -2031,7 +2031,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *		// will be:
 		 *		// ba[r<p>foo</p><p>bo]m</p>
 		 *
-		 * @param {Boolean} [isStart=false] Whether the start or end boundary of a range should be checked.
+		 * @param {Boolean} isStart Whether the start or end boundary of a range should be checked.
 		 * @param {String} blockTag The name of a block element in which content will be wrapped.
 		 * For example: `'p'`.
 		 * @returns {CKEDITOR.dom.element} Created block wrapper.
