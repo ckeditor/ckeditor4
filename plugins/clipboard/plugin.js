@@ -2337,18 +2337,56 @@
  */
 
 /**
- * Define filter which cut down pasted an external content. Possible options are:
+ * Defines filter which is applied to external data pasted or dropped into editor. Possible options are:
  *
- * * `plain-text` - Content will be pasted as a plain text.
- * * `semantic-content` - Semantic layer will be keept.
- * * `h1 h2 p div` - Custom rules compatible with {@link CKEDITOR.filter}.
+ * * `plain-text` &ndash; Content will be pasted as a plain text.
+ * * `semantic-content` &ndash; Known tags with all attributes except `style` will be kept.
+ * * `h1 h2 p div` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
+ *
+ * Example:
  *
  *		config.pasteFilter = 'plain-text';
  *
  * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to editor
  * as a {@link CKEDITOR.editor#pasteFilter}.
  *
+ * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ *
+ * * copied and pasted in the same editor (internal),
+ * * copied from one editor and pasted into another (cross-editor),
+ * * coming from all other sources like websites, MS Word, etc. (external).
+ *
+ * If the {@link CKEDITOR.config#allowedContent Allowed Content Filter} is not disabled, then
+ * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
+ * external data which often need to be handled differently than content produced by the editor.
+ *
  * @since 4.5
  * @cfg {String} [pasteFilter='semantic-content']
  * @member CKEDITOR.config
+ */
+
+/**
+ * {@link CKEDITOR.filter Content filter} which is used when external data is pasted or dropped into editor or there
+ * is forced paste as a plain text.
+ *
+ * This object might be used on the fly to define rules for pasted external content.
+ * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is present.
+ *
+ * Paste filter behavior is based on the following options: {@link CKEDITOR.config#forcePasteAsPlainText},
+ * {@link CKEDITOR.config#clipboard_defaultContentType}, {@link CKEDITOR.config#pasteFilter}.
+ *
+ * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ *
+ * * copied and pasted in the same editor (internal),
+ * * copied from one editor and pasted into another (cross-editor),
+ * * coming from all other sources like websites, MS Word, etc. (external).
+ *
+ * If the {@link CKEDITOR.config#allowedContent Allowed Content Filter} is not disabled, then
+ * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
+ * external data which often need to be handled differently than content produced by the editor.
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.filter} pasteFilter
+ * @member CKEDITOR.editor
  */
