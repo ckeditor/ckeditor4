@@ -2162,6 +2162,8 @@
 					this._.files.push( this.$.files[ i ] );
 				}
 
+				// Don't include $.items if both $.files and $.items contains files, because,
+				// according to spec and browsers behavior, they contain the same files.
 				if ( this._.files.length === 0 && file ) {
 					this._.files.push( file );
 				}
