@@ -133,44 +133,44 @@
 		'test getPercentage empty': function() {
 			var instance = new Aggregator( this.editor, '' );
 
-			instance.getTasksCount = sinon.stub().returns( 0 );
+			instance.getTaskCount = sinon.stub().returns( 0 );
 
 			assert.areSame( 1, instance.getPercentage(), 'Invalid return value' );
 		},
 
 		'test isFinished': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasksCount = sinon.stub().returns( 2 );
-			instance.getTasksCount = sinon.stub().returns( 2 );
+			instance.getDoneTaskCount = sinon.stub().returns( 2 );
+			instance.getTaskCount = sinon.stub().returns( 2 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished falsy': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getTasksCount = sinon.stub().returns( 2 );
+			instance.getDoneTaskCount = sinon.stub().returns( 1 );
+			instance.getTaskCount = sinon.stub().returns( 2 );
 			assert.isFalse( instance.isFinished(), 'Return value' );
 		},
 
 		'test isFinished empty': function() {
 			var instance = new Aggregator( this.editor, '' );
-			instance.getDoneTasksCount = sinon.stub().returns( 0 );
-			instance.getTasksCount = sinon.stub().returns( 0 );
+			instance.getDoneTaskCount = sinon.stub().returns( 0 );
+			instance.getTaskCount = sinon.stub().returns( 0 );
 			assert.isTrue( instance.isFinished(), 'Return value' );
 		},
 
-		'test getTasksCount': function() {
+		'test getTaskCount': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance._tasks = [ 0, 0 ];
 
-			assert.areSame( 2, instance.getTasksCount() );
+			assert.areSame( 2, instance.getTaskCount() );
 		},
 
-		'test getDoneTasksCount': function() {
+		'test getDoneTaskCount': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance._doneTasks = 3;
 
-			assert.areSame( 3, instance.getDoneTasksCount() );
+			assert.areSame( 3, instance.getDoneTaskCount() );
 		},
 
 		'test _addTask': function() {
@@ -254,8 +254,8 @@
 		'test _updateNotification notification call': function() {
 			var instance = new Aggregator( this.editor, '' );
 			instance._message.output = sinon.stub().returns( 'foo' );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
-			instance.getTasksCount = sinon.stub().returns( 4 );
+			instance.getDoneTaskCount = sinon.stub().returns( 1 );
+			instance.getTaskCount = sinon.stub().returns( 4 );
 			instance.getPercentage = sinon.stub().returns( 0.25 );
 			instance.notification = new NotificationMock();
 
@@ -318,8 +318,8 @@
 			instance._message = {
 				output: sinon.stub().returns( 'foo' )
 			};
-			instance.getTasksCount = sinon.stub().returns( 4 );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
+			instance.getTaskCount = sinon.stub().returns( 4 );
+			instance.getDoneTaskCount = sinon.stub().returns( 1 );
 			instance.getPercentage = sinon.stub().returns( 0.25 );
 
 			assert.areSame( 'foo', instance._getNotificationMessage() );
@@ -337,8 +337,8 @@
 			instance._singularMessage = {
 				output: sinon.stub().returns( 'bar' )
 			};
-			instance.getTasksCount = sinon.stub().returns( 1 );
-			instance.getDoneTasksCount = sinon.stub().returns( 0 );
+			instance.getTaskCount = sinon.stub().returns( 1 );
+			instance.getDoneTaskCount = sinon.stub().returns( 0 );
 			instance.getPercentage = sinon.stub().returns( 0.2 );
 
 			assert.areSame( 'bar', instance._getNotificationMessage() );
@@ -354,8 +354,8 @@
 		'test _getNotificationMessage plural message even if single message defined': function() {
 			var instance = new Aggregator( this.editor, 'foo', 'bar' );
 
-			instance.getTasksCount = sinon.stub().returns( 2 );
-			instance.getDoneTasksCount = sinon.stub().returns( 1 );
+			instance.getTaskCount = sinon.stub().returns( 2 );
+			instance.getDoneTaskCount = sinon.stub().returns( 1 );
 
 			assert.areSame( 'foo', instance._getNotificationMessage() );
 		},
@@ -364,8 +364,8 @@
 		// defined, the standard message is used.
 		'test _getNotificationMessage missing singular': function() {
 			var instance = new Aggregator( this.editor, 'foo' );
-			instance.getTasksCount = sinon.stub().returns( 1 );
-			instance.getDoneTasksCount = sinon.stub().returns( 0 );
+			instance.getTaskCount = sinon.stub().returns( 1 );
+			instance.getDoneTaskCount = sinon.stub().returns( 0 );
 
 			assert.areSame( 'foo', instance._getNotificationMessage() );
 		},

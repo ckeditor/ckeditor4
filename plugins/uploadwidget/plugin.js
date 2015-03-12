@@ -448,7 +448,7 @@
 				editor, editor.lang.uploadwidget.uploadMany, editor.lang.uploadwidget.uploadOne );
 
 			aggregator.once( 'finished', function() {
-				var tasks = aggregator.getTasksCount();
+				var tasks = aggregator.getTaskCount();
 
 				if ( tasks === 0 ) {
 					aggregator.notification.hide();

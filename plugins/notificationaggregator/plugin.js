@@ -226,7 +226,7 @@
 		 */
 		getPercentage: function() {
 			// In case there are no weights at all we'll return 1.
-			if ( this.getTasksCount() === 0 ) {
+			if ( this.getTaskCount() === 0 ) {
 				return 1;
 			}
 
@@ -238,20 +238,20 @@
 		 * (or there are no tasks at all).
 		 */
 		isFinished: function() {
-			return this.getDoneTasksCount() === this.getTasksCount();
+			return this.getDoneTaskCount() === this.getTaskCount();
 		},
 
 		/**
 		 * @returns {Number} Returns a total tasks count.
 		 */
-		getTasksCount: function() {
+		getTaskCount: function() {
 			return this._tasks.length;
 		},
 
 		/**
 		 * @returns {Number} Returns the number of done tasks.
 		 */
-		getDoneTasksCount: function() {
+		getDoneTaskCount: function() {
 			return this._doneTasks;
 		},
 
@@ -274,8 +274,8 @@
 		 * @returns {String}
 		 */
 		_getNotificationMessage: function() {
-			var tasksCount = this.getTasksCount(),
-				doneTasks = this.getDoneTasksCount(),
+			var tasksCount = this.getTaskCount(),
+				doneTasks = this.getDoneTaskCount(),
 				templateParams = {
 					current: doneTasks,
 					max: tasksCount,
@@ -474,7 +474,7 @@
 	 * Fired when all tasks are done. On this event notification may change type to success or be hidden:
 	 *
 	 *		aggregator.on( 'finished', function() {
-	 *			if ( aggregator.getTasksCount() == 0 ) {
+	 *			if ( aggregator.getTaskCount() == 0 ) {
 	 *				aggregator.notification.hide();
 	 *			} else {
 	 *				aggregator.notification.update( { message: 'Done', type: 'success' } );
