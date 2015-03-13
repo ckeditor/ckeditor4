@@ -3015,11 +3015,7 @@
 			widget.on( 'data', widget.updateDragHandlerPosition, widget );
 		}, 50 );
 
-		if ( widget.inline ) {
-			img.on( 'dragstart', function( evt ) {
-				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
-			} );
-		} else {
+		if ( !widget.inline ) {
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
 		}
 
