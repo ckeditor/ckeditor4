@@ -3090,7 +3090,9 @@
 
 		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 			// Retrieve range for the closest location.
-			var range = finder.getRange( sorted[ 0 ] );
+			var dropRange = finder.getRange( sorted[ 0 ] ),
+				dragRange = editor.createRange(),
+				dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
@@ -3105,11 +3107,26 @@
 			// an error thrown e.g. by saveSnapshot or stateUpdater.
 			editor.getSelection().reset();
 
-			// Attach widget at the place determined by range.
-			editable.insertElementIntoRange( this.wrapper, range );
+			// Get widget HTML.
+			dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
+
+			// Remove drag widget.
+			dragRange.setStartBefore( this.wrapper );
+			dragRange.setEndAfter( this.wrapper );
+			editable.extractHtmlFromRange( dragRange );
+
+			editor.widgets.destroy( this, true );
+
+			// Paste widget html.
+			editor.fire( 'paste', {
+				dataTransfer: dataTransfer,
+				dataValue: '',
+				range: dropRange
+			} );
 
 			// Focus again the dropped widget.
-			this.focus();
+			// TODO
+			// this.focus();
 
 			// Unlock snapshot and save new one, which will contain all changes done
 			// in this method.

@@ -799,7 +799,7 @@
 				}, this );
 
 				this.attachListener( editor, 'insertHtml', function( evt ) {
-					this.insertHtml( evt.data.dataValue, evt.data.mode );
+					this.insertHtml( evt.data.dataValue, evt.data.mode, evt.data.range );
 				}, this );
 				this.attachListener( editor, 'insertElement', function( evt ) {
 					this.insertElement( evt.data );

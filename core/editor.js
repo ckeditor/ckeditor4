@@ -1044,9 +1044,11 @@
 		 *    the selected position. This mode should be used when inserting "htmlified" plain text
 		 *    (HTML without inline styles and styling elements like
 		 *    `<b/>`, `<strong/>`, `<span style="..."/>`).
+		 *
+		 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
 		 */
-		insertHtml: function( html, mode ) {
-			this.fire( 'insertHtml', { dataValue: html, mode: mode } );
+		insertHtml: function( html, mode, range ) {
+			this.fire( 'insertHtml', { dataValue: html, mode: mode, range: range } );
 		},
 
 		/**

@@ -298,7 +298,7 @@
 				var data = evt.data;
 
 				if ( data.dataValue ) {
-					editor.insertHtml( data.dataValue, data.type );
+					editor.insertHtml( data.dataValue, data.type, data.range );
 
 					// Deffer 'afterPaste' so all other listeners for 'paste' will be fired first.
 					// Fire afterPaste only if paste inserted some HTML.
