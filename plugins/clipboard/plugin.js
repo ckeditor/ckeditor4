@@ -1200,6 +1200,17 @@
 		return {
 			get: function( type ) {
 				if ( type == 'plain-text' ) {
+					// Does this look confusing to you? Did we forget about enter mode?
+					// It is a trick that let's us creating one filter for all editors, regardless of their
+					// activeEnterMode (which as the name indicates can change during runtime).
+					//
+					// How does it work?
+					// The active enter mode is passed to the filter.applyTo method.
+					// The filter first marks all elements except <br> as disallowed and then tries to remove
+					// them. However, it cannot remove e.g. a <p> element completely, because it's a basic structural element,
+					// so it tries to replace it with an element created based on the active enter mode, eventually doing nothing.
+					//
+					// Now you can sleep well.
 					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
 				} else if ( type == 'semantic-content' ) {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
