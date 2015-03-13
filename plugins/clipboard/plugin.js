@@ -1171,15 +1171,15 @@
 		var filters = {};
 
 		function setUpTags() {
-			var tags = [];
+			var tags = {};
 
 			for ( var tag in CKEDITOR.dtd ) {
 				if ( tag.charAt( 0 ) != '$' && tag != 'div' && tag != 'span' ) {
-					tags.push( tag );
+					tags[ tag ] = 1;
 				}
 			}
 
-			return tags.join( ' ' );
+			return tags;
 		}
 
 		function createSemanticContentFilter() {
