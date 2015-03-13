@@ -460,6 +460,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 			var keystroke = evt.data.getKeystroke(),
 				rtl = editor.lang.dir == 'rtl',
+				arrowKeys = [ 37, 38, 39, 40 ],
 				button;
 
 			processed = stopPropagation = 0;
@@ -474,9 +475,16 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
 				me._.currentFocusIndex = -1;
 				processed = 1;
-			} else if ( ( keystroke == 37 || keystroke == 39 ) && me._.tabBarMode ) {
-				// Arrow keys - used for changing tabs.
-				var nextId = ( keystroke == ( rtl ? 39 : 37 ) ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me ) );
+			} else if ( CKEDITOR.tools.indexOf( arrowKeys, keystroke ) != -1 && me._.tabBarMode ) {
+				// Array with key codes that activate previous tab.
+				var prevKeyCodes = [
+						// Depending on the lang dir: right or left key
+						rtl ? 39 : 37,
+						// Top/bot arrow: actually for both cases it's the same.
+						38
+					],
+					nextId = CKEDITOR.tools.indexOf( prevKeyCodes, keystroke ) != -1 ? getPreviousVisibleTab.call( me ) : getNextVisibleTab.call( me );
+
 				me.selectPage( nextId );
 				me._.tabs[ nextId ][ 0 ].focus();
 				processed = 1;
