@@ -10,9 +10,6 @@
 'use strict';
 
 ( function() {
-
-	var cdn = 'http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML';
-
 	CKEDITOR.plugins.add( 'mathjax', {
 		lang: 'af,ar,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hr,hu,it,ja,km,ku,lt,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,dialog',
@@ -20,7 +17,12 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex';
+			var cls = editor.config.mathJaxClass || 'math-tex',
+				docsUrl = 'http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib';
+
+			if ( !( editor.config && editor.config.mathJaxLib ) && ( window.console && window.console.log ) ) {
+				window.console.log( '"mathJaxLib" config property is not set. For more information visit: ', docsUrl );
+			}
 
 			editor.widgets.add( 'mathjax', {
 				inline: true,
@@ -127,8 +129,10 @@
 
 			// Add MathJax script to page preview.
 			editor.on( 'contentPreview', function( evt ) {
-				evt.data.dataValue = evt.data.dataValue.replace( /<\/head>/,
-					'<script src="' + ( editor.config.mathJaxLib ? CKEDITOR.getUrl( editor.config.mathJaxLib ) : cdn ) + '"><\/script><\/head>' );
+				evt.data.dataValue = evt.data.dataValue.replace(
+					/<\/head>/,
+					'<script src="' + CKEDITOR.getUrl( editor.config.mathJaxLib ) + '"><\/script><\/head>'
+				);
 			} );
 
 			editor.on( 'paste', function( evt ) {
@@ -337,7 +341,7 @@
 								'</script>' +
 
 								// Load MathJax lib.
-								'<script src="' + ( editor.config.mathJaxLib || cdn ) + '"></script>' +
+								'<script src="' + ( editor.config.mathJaxLib ) + '"></script>' +
 							'</head>' +
 							'<body style="padding:0;margin:0;background:transparent;overflow:hidden">' +
 								'<span id="preview"></span>' +
@@ -436,9 +440,10 @@
  *
  * Please note that this must be a full or absolute path.
  *
- *		config.mathJaxLib = 'http:\/\/example.com\/libs\/MathJax.js';
+ *		config.mathJaxLib = 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
  *
- * @cfg {String} [mathJaxLib='http:\/\/cdn.mathjax.org\/mathjax\/2.2-latest\/MathJax.js?config=TeX-AMS_HTML']
+ * @since 4.5
+ * @cfg {String} mathJaxLib
  * @member CKEDITOR.config
  */
 
