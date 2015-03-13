@@ -1045,23 +1045,28 @@
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
 		 */
 		destroyEditable: function( editableName, offline ) {
-			var editable = this.editables[ editableName ];
+			var editables = this.editables[ editableName ];
+			if (editables) {
+				for (var editable, i = 0; i < editables.length; i++) {
+					editable = editables[i];
+					editable.removeListener('focus', onEditableFocus);
+					editable.removeListener('blur', onEditableBlur);
+					this.editor.focusManager.remove(editable);
 
-			for ( var i = 0; i < editables.length; i++) {
-				editable = editables[i];
-				editable.removeListener( 'focus', onEditableFocus );
-				editable.removeListener( 'blur', onEditableBlur );
-				this.editor.focusManager.remove( editable );
-
-				if ( !offline ) {
-					this.repository.destroyAll( false, editable );
-					editable.removeClass( 'cke_widget_editable' );
-					editable.removeClass( 'cke_widget_editable_focused' );
-					editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-widget-editable-id', 'data-cke-enter-mode' ] );
+					if (!offline) {
+						this.repository.destroyAll(false, editable);
+						editable.removeClass('cke_widget_editable');
+						editable.removeClass('cke_widget_editable_focused');
+						editable.removeAttributes(['contenteditable', 'data-cke-widget-editable', 'data-cke-widget-editable-id', 'data-cke-enter-mode']);
+					}
 				}
-			}
 
-			delete this.editables[ editableName ];
+				delete this.editables[editableName];
+			}
+		},
+
+		getEditableId: function (editable) {
+			return editable.getAttribute('data-cke-widget-editable-id');
 		},
 
 		/**
@@ -1717,9 +1722,6 @@
 				filter: this.filter,
 				enterMode: this.enterMode
 			} );
-		},
-		getEditableId: function () {
-			return this.getAttribute('data-cke-widget-editable-id');
 		}
 	} );
 
