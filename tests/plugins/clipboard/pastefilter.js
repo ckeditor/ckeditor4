@@ -105,6 +105,14 @@
 		};
 	}
 
+	function mockDataTransfer( type ) {
+		return {
+			getTransferType: function() {
+				return type;
+			}
+		};
+	}
+
 	var createTest = curryCreateTest( tests );
 
 	tests[ 'editor no configuration' ] = function() {
@@ -188,6 +196,27 @@
 		} finally {
 			delete editor.pasteFilter; // Tear down properly.
 		}
+	};
+
+	tests[ 'internal paste is not filtered' ] = function() {
+		var editor = this.editors.editorPlain;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_INTERNAL ) },
+			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' } );
+	};
+
+	tests[ 'cross-editors paste is not filtered' ] = function() {
+		var editor = this.editors.editorPlain;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) },
+			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' } );
+	};
+
+	tests[ 'external paste is filtered' ] = function() {
+		var editor = this.editors.editorPlain;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dataTransfer: mockDataTransfer( CKEDITOR.DATA_TRANSFER_EXTERNAL ) },
+			{ dataValue: '<p>Foo bar</p>' } );
 	};
 
 	createTest(

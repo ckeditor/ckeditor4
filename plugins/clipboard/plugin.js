@@ -247,13 +247,9 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					internal;
-
-				if ( dataObj.dataTransfer ) {
-					internal = dataObj.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL;
-				} else {
-					internal = false;
-				}
+					transferType = dataObj.dataTransfer && dataObj.dataTransfer.getTransferType( editor ),
+					// Treat pasting without dataTransfer as external.
+					external = !transferType || ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL );
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -271,7 +267,9 @@
 				// Forced plain text (dialog or forcePAPT).
 				if ( type == 'text' && trueType == 'html' ) {
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
-				} else if ( !internal && editor.pasteFilter ) {
+				}
+				// External paste and pasteFilter exists.
+				else if ( external && editor.pasteFilter ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
