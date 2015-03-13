@@ -2305,7 +2305,7 @@
 			dragRange.setEndAfter( sourceWidget.wrapper );
 			evt.data.dragRange = dragRange;
 
-			evt.data.dataTransfer.setData( 'text/html', sourceWidget.wrapper.getOuterHtml() );
+			evt.data.dataTransfer.setData( 'text/html', editor.editable().getHtmlFromRange( dragRange ).getHtml() );
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
