@@ -1443,7 +1443,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						scrollRelativeTop;
 
 					// See #12758 to know more about document.(documentElement|body).scroll(Left|Top) in Webkit.
-					if ( CKEDITOR.env.webkit ) {
+					if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version >= 12 ) ) {
 						scrollRelativeLeft = body.$.scrollLeft || $docElem.scrollLeft;
 						scrollRelativeTop = body.$.scrollTop || $docElem.scrollTop;
 					} else {
