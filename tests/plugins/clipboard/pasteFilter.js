@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: toolbar,clipboard,pastetext */
+/* bender-include: _helpers/pasting.js */
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -12,8 +14,8 @@
 			}
 		},
 
-		editorForcedPAPT: {
-			name: 'editorForcedPAPT',
+		editorForcePAPT: {
+			name: 'editorForcePAPT',
 			config: {
 				forcePasteAsPlainText: true
 			}
@@ -43,6 +45,17 @@
 			}
 		},
 
+		editorCustomObject: {
+			name: 'editorCustomObject',
+			config: {
+				pasteFilter: {
+					p: true,
+					h3: true
+				},
+				allowedContent: true
+			}
+		},
+
 		editorSemanticPAPT: {
 			name: 'editorSemanticPAPT',
 			config: {
@@ -64,7 +77,7 @@
 	var contents = {
 		listWithSpan: '<ul><li>he<span>fkdjfkdj</span>llo</li><li>moto</li></ul>',
 		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>',
-		classyAndStylish: '<h1 contenteditable="true" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>'
+		classyAndStylish: '<h1 id="foo" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>'
 	};
 
 	var tests = {};
@@ -76,17 +89,10 @@
 	function curryCreateTest( tests ) {
 		return function( testName, editorName, pastedContent, expectedContent ) {
 			tests[ testName ] = function() {
-				var bot = this.editorBots[ editorName ],
-					editor = bot.editor;
+				var editor = this.editors[ editorName ];
 
-				editor.setData( '', function() {
-					resume( function() {
-						editor.execCommand( 'paste', pastedContent );
-						assert.areSame( expectedContent, editor.getData() );
-					} );
-				} );
-
-				wait();
+				assertPasteEvent( editor, { dataValue: pastedContent },
+					{ dataValue: expectedContent }, 'filtered data' );
 			};
 		};
 	}
@@ -94,59 +100,60 @@
 	var createTest = curryCreateTest( tests );
 
 	tests[ 'editor no configuration' ] = function() {
-		var bot = this.editorBots.editorNoConfiguration,
-			disallowedElements = bot.editor.pasteFilter.disallowedContent[ 0 ].elements;
+		var editor = this.editors.editorNoConfiguration;
 
-		assert.isObject( bot.editor.pasteFilter );
-		assert.areSame( 1, Object.keys( disallowedElements ).length );
-		assert.areSame( true, disallowedElements.script );
+		if ( CKEDITOR.env.webkit ) {
+			assert.isInstanceOf( CKEDITOR.filter, editor.pasteFilter );
+			// Besides checking if semantic filter was created,
+			// we also check here wheter the filters factory caches filters well.
+			assert.areSame( this.editors.editorSemantic.pasteFilter, editor.pasteFilter );
+		} else {
+			assert.isNull( editor.pasteFilter );
+		}
 	};
 
-	tests[ 'editor defined pasteFilter if forcePAPT' ] = function() {
-		var bot = this.editorBots.editorForcedPAPT,
-			editor = bot.editor,
+	tests[ 'editor has pasteFilter defined if forcePasteAsPlainText is set to true' ] = function() {
+		var editor = this.editors.editorForcePAPT,
 			pasteFilter = editor.pasteFilter;
 
-		assert.isObject( pasteFilter );
+		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
+		// Besides checking if plain text filter was created,
+		// we also check here wheter the filters factory caches filters well.
+		assert.areSame( this.editors.editorPlain.pasteFilter, pasteFilter );
 	};
 
-	tests[ 'exposed pasteFilter in editor' ] = function() {
-		var bot = this.editorBots.editorPlain,
-			editor = bot.editor,
+	tests[ 'editor has pasteFilter defined if pasteFilter is set to plain-text' ] = function() {
+		var editor = this.editors.editorPlain,
 			pasteFilter = editor.pasteFilter;
 
-		assert.isObject( pasteFilter );
 		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
 	};
 
-	tests[ 'exposed proper pasteFilter in editor' ] = function() {
-		var bot = this.editorBots.editorPlain,
-			editor = bot.editor,
-			pasteFilter = editor.pasteFilter,
-			allowedElements = pasteFilter.allowedContent[ 0 ].elements;
-
-		assert.areSame( 1, Object.keys( allowedElements ).length, 'there is only one element' );
-		assert.isTrue( allowedElements.br );
-	};
-
-	tests[ 'allow to modify pasteFilter in editor' ] = function() {
-		var bot = this.editorBots.editorModifyInstance,
-			editor = bot.editor,
+	tests[ 'allow to modify editor.pasteFilter on the fly' ] = function() {
+		var editor = this.editors.editorModifyInstance,
 			pasteFilter = editor.pasteFilter;
 
-		editor.execCommand( 'paste', '<h2>Second head</h2>' );
-		assert.areSame( '<h2>Second head</h2>', editor.getData() );
+		assertPasteEvent( editor, { dataValue: '<h2>Foo</h2>' },
+			{ dataValue: '<h2>Foo</h2>' }, 'initial fitler' );
 
 		pasteFilter.disallow( 'h2' );
 
-		editor.setData( '', function() {
-			resume( function() {
-				editor.execCommand( 'paste', '<h2>Second head</h2>' );
-				assert.areSame( '<p>Second head</p>', editor.getData() );
-			} );
-		} );
+		assertPasteEvent( editor, { dataValue: '<h2>Foo</h2>' },
+			{ dataValue: '<p>Foo</p>' }, 'modified fitler' );
+	};
 
-		wait();
+	tests[ 'allow to remove and create editor.pasteFilter on the fly' ] = function() {
+		var editor = this.editors.editorModifyInstance;
+
+		delete editor.pasteFilter;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
+			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' }, 'no fitler' );
+
+		editor.pasteFilter = new CKEDITOR.filter( 'p strong' );
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
+			{ dataValue: '<p>Foo <strong>bar</strong></p>' }, 'new fitler' );
 	};
 
 	createTest(
@@ -165,13 +172,24 @@
 	);
 
 	createTest(
-		'test semantic papt', 'editorSemanticPAPT', contents.various,
+		'test custom object', 'editorCustomObject', contents.various,
+		'<p>Header 1</p><h3>Header 3</h3><p>Heeey</p>'
+	);
+
+	createTest(
+		'test semantic with forcePasteAsPlainText (forcePAPT has precedence)', 'editorSemanticPAPT', contents.various,
 		'<p>Header 1</p><p>Header 3</p><p>Heeey</p>'
 	);
 
 	createTest(
-		'test semantic remove styles and classes', 'editorSemantic', contents.classyAndStylish,
-		'<h1 contenteditable="true">I am so classy and stylish :)</h1>'
+		'test semantic removes styles and classes but keeps attrs', 'editorSemantic', contents.classyAndStylish,
+		'<h1 id="foo">I am so classy and stylish :)</h1>'
+	);
+
+	createTest(
+		'test semantic removes divs, spans', 'editorSemantic',
+		'<div>x<span>y</span>z</div>',
+		'<p>xyz</p>'
 	);
 
 	bender.test( tests );

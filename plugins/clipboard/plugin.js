@@ -117,18 +117,16 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var defaultContentType = editor.config.clipboard_defaultContentType,
-				filterType;
+			var filterType;
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
-			} else if ( typeof defaultContentType == 'string' ) {
-				defaultContentType = ( defaultContentType == 'text' ? 'plain-text' : 'semantic-content' );
-
-				filterType = defaultContentType;
-			} else if ( typeof editor.config.pasteFilter == 'string' ) {
+			} else if ( editor.config.pasteFilter ) {
 				filterType = editor.config.pasteFilter;
-			} else {
+			}
+			// On Webkit the pasteFilter defaults 'semantic-content' because pasted data is so terrible
+			// that it must be filtered.
+			else if ( CKEDITOR.env.webkit ) {
 				filterType = 'semantic-content';
 			}
 
@@ -1179,7 +1177,7 @@
 			var tags = [];
 
 			for ( var tag in CKEDITOR.dtd ) {
-				if ( tag.charAt( 0 ) !== '$' && tag !== 'div' && tag !== 'span' ) {
+				if ( tag.charAt( 0 ) != '$' && tag != 'div' && tag != 'span' ) {
 					tags.push( tag );
 				}
 			}
@@ -1197,8 +1195,7 @@
 					styles: false,
 					classes: false
 				}
-			}, 'default', false );
-			filter.disallow( 'script; *[on*]', 'default', false );
+			} );
 
 			return filter;
 		}
@@ -1209,19 +1206,26 @@
 					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
 				} else if ( type == 'semantic-content' ) {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
-				} else {
-					return new CKEDITOR.filter( type || 'br' );
+				} else if ( type ) {
+					// Create filter based on rules (string or object).
+					return new CKEDITOR.filter( type );
 				}
+
+				return null;
 			}
 		};
 	}() );
 
 	function filterContent( editor, data, forcedText ) {
-		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
-			writer = new CKEDITOR.htmlParser.basicWriter(),
-			filter = ( forcedText ? filtersFactory.get( 'plain-text' ) : editor.pasteFilter );
+		var filter = ( forcedText ? filtersFactory.get( 'plain-text' ) : editor.pasteFilter );
 
-		writer.reset();
+		// If config.pasteFilter and config.forcePAPT are not defined, then there's no filter.
+		if ( !filter ) {
+			return data;
+		}
+
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
+			writer = new CKEDITOR.htmlParser.basicWriter();
 
 		filter.applyTo( fragment, true, false, editor.activeEnterMode );
 		fragment.writeHtml( writer );
@@ -2341,7 +2345,8 @@
  * Defines filter which is applied to external data pasted or dropped into editor. Possible options are:
  *
  * * `plain-text` &ndash; Content will be pasted as a plain text.
- * * `semantic-content` &ndash; Known tags with all attributes except `style` will be kept.
+ * * `semantic-content` &ndash; Known tags (except `div`, `span`) with all attributes except
+ * `style` and `class` will be kept.
  * * `h1 h2 p div` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  *
  * Example:
@@ -2371,10 +2376,8 @@
  * is forced paste as a plain text.
  *
  * This object might be used on the fly to define rules for pasted external content.
- * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is present.
- *
- * Paste filter behavior is based on the following options: {@link CKEDITOR.config#forcePasteAsPlainText},
- * {@link CKEDITOR.config#clipboard_defaultContentType}, {@link CKEDITOR.config#pasteFilter}.
+ * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is present and
+ * {@link CKEDITOR.config#forcePasteAsPlainText} or {@link CKEDITOR.config.pasteFilter} was defined.
  *
  * Note that the paste filter is applied only to an **external** data. There are three data sources:
  *
@@ -2388,6 +2391,6 @@
  *
  * @since 4.5
  * @readonly
- * @property {CKEDITOR.filter} pasteFilter
+ * @property {CKEDITOR.filter} [pasteFilter]
  * @member CKEDITOR.editor
  */
