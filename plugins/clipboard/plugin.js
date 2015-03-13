@@ -2332,19 +2332,37 @@
  */
 
 /**
- * Defines filter which is applied to external data pasted or dropped into editor. Possible options are:
+ * Defines filter which is applied to external data pasted or dropped into editor. Possible values are:
  *
- * * `plain-text` &ndash; Content will be pasted as a plain text.
- * * `semantic-content` &ndash; Known tags (except `div`, `span`) with all attributes except
- * `style` and `class` will be kept.
- * * `h1 h2 p div` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
+ * * `'plain-text'` &ndash; Content will be pasted as a plain text.
+ * * `'semantic-content'` &ndash; Known tags (except `div`, `span`) with all attributes (except
+ * `style` and `class`) will be kept.
+ * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
+ * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
+ * by the [Advanvced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * disable the paste filter on Chrome and Safari, on which the option defaults to `'semantic-content'`.
  *
  * Example:
  *
  *		config.pasteFilter = 'plain-text';
  *
- * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to editor
- * as a {@link CKEDITOR.editor#pasteFilter}.
+ * Custom setting:
+ *
+ *		config.pasteFilter = 'h1 h2 p ul ol li; img[!src, alt]; a[!href]';
+ *
+ * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to the editor
+ * as a {@link CKEDITOR.editor#pasteFilter}. You can tweak paste filter's settings on the fly on this object
+ * as well as delete or replace it.
+ *
+ *		var editor = CKEDITOR.replace( 'editor', {
+ *			pasteFilter: 'semantic-content'
+ *		} );
+ *
+ *		editor.on( 'instanceReady', function() {
+ *			// The result of this will be that all semantic content will be preserved
+ *			// except tables.
+ *			editor.pasteFilter.disallow( 'table' );
+ *		} );
  *
  * Note that the paste filter is applied only to an **external** data. There are three data sources:
  *
@@ -2352,12 +2370,15 @@
  * * copied from one editor and pasted into another (cross-editor),
  * * coming from all other sources like websites, MS Word, etc. (external).
  *
- * If the {@link CKEDITOR.config#allowedContent Allowed Content Filter} is not disabled, then
+ * If the {@link CKEDITOR.config#allowedContent Advanced Content Filter} is not disabled, then
  * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
  * external data which often need to be handled differently than content produced by the editor.
  *
+ * This setting defaults `'semantic-content'` on Chrome and Safari due to messy HTML which these browsers
+ * keep in the clipboard. On other browsers its defaults `null`.
+ *
  * @since 4.5
- * @cfg {String} [pasteFilter='semantic-content']
+ * @cfg {String} [pasteFilter='semantic-content' on Chrome and Safari and null on other browsers]
  * @member CKEDITOR.config
  */
 
@@ -2366,8 +2387,18 @@
  * is forced paste as a plain text.
  *
  * This object might be used on the fly to define rules for pasted external content.
- * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is present and
- * {@link CKEDITOR.config#forcePasteAsPlainText} or {@link CKEDITOR.config.pasteFilter} was defined.
+ * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is enabled and
+ * {@link CKEDITOR.config#pasteFilter} or {@link CKEDITOR.config#forcePasteAsPlainText} was defined.
+ *
+ * To enable the filter:
+ *
+ *		var editor = CKEDITOR.replace( 'editor', {
+ *			pasteFilter: 'plain-text'
+ *		} );
+ *
+ * You can also modify the filter on the fly later on:
+ *
+ *		editor.pasteFilter = new CKEDITOR.filter( 'p h1 h2; a[!href]' );
  *
  * Note that the paste filter is applied only to an **external** data. There are three data sources:
  *
