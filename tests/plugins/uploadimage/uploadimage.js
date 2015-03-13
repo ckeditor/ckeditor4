@@ -18,7 +18,9 @@
 			config: {
 				extraPlugins: 'uploadimage,image',
 				removePlugins: 'image2',
-				imageUploadUrl: 'http://foo/upload'
+				imageUploadUrl: 'http://foo/upload',
+				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+				pasteFilter: null
 			}
 		},
 		inline: {
@@ -26,7 +28,9 @@
 			creator: 'inline',
 			config: {
 				extraPlugins: 'uploadimage,image2',
-				filebrowserImageUploadUrl: 'http://foo/upload?type=Images'
+				filebrowserImageUploadUrl: 'http://foo/upload?type=Images',
+				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+				pasteFilter: null
 			}
 		}
 	};

@@ -145,14 +145,18 @@ bender.editors = {
 		name: 'framed',
 		creator: 'replace',
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	},
 	inline: {
 		name: 'inline',
 		creator: 'inline',
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	},
 	divarea: {
@@ -160,14 +164,18 @@ bender.editors = {
 		creator: 'replace',
 		config: {
 			extraPlugins: 'divarea',
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	},
 	cross: {
 		name: 'cross',
 		creator: 'replace',
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	}
 };

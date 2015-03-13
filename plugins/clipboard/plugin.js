@@ -126,7 +126,7 @@
 			}
 			// On Webkit the pasteFilter defaults 'semantic-content' because pasted data is so terrible
 			// that it must be filtered.
-			else if ( CKEDITOR.env.webkit ) {
+			else if ( CKEDITOR.env.webkit && !( 'pasteFilter' in editor.config ) ) {
 				filterType = 'semantic-content';
 			}
 
@@ -270,10 +270,9 @@
 				// Strip presentional markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
 				if ( type == 'text' && trueType == 'html' ) {
-					// Init filter only if needed and cache it.
-					data = filterContent( editor, data, true );
-				} else if ( !internal && editor.config.pasteFilter ) {
-					data = filterContent( editor, data );
+					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
+				} else if ( !internal && editor.pasteFilter ) {
+					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
 				if ( dataObj.startsWithEOL ) {
@@ -1216,14 +1215,7 @@
 		};
 	}() );
 
-	function filterContent( editor, data, forcedText ) {
-		var filter = ( forcedText ? filtersFactory.get( 'plain-text' ) : editor.pasteFilter );
-
-		// If config.pasteFilter and config.forcePAPT are not defined, then there's no filter.
-		if ( !filter ) {
-			return data;
-		}
-
+	function filterContent( editor, data, filter ) {
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 

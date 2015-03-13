@@ -5,7 +5,12 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
+		}
+	};
 
 	var compat = bender.tools.compatHtml,
 		engineName = CKEDITOR.env.webkit ? 'webkit' :

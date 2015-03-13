@@ -71,6 +71,14 @@
 				pasteFilter: 'h2',
 				allowedContent: true
 			}
+		},
+
+		editorDisabledFilter: {
+			name: 'editorDisabledFilter',
+			config: {
+				allowedContent: true,
+				pasteFilter: null
+			}
 		}
 	};
 
@@ -110,6 +118,15 @@
 		} else {
 			assert.isNull( editor.pasteFilter );
 		}
+	};
+
+	tests[ 'editor pasteFilter set to null' ] = function() {
+		var editor = this.editors.editorDisabledFilter;
+
+		assert.isNull( editor.pasteFilter );
+
+		assertPasteEvent( editor, { dataValue: '<h2 style="color: red">Foo</h2>' },
+			{ dataValue: '<h2 style="color: red">Foo</h2>' } );
 	};
 
 	tests[ 'editor has pasteFilter defined if forcePasteAsPlainText is set to true' ] = function() {
@@ -154,6 +171,23 @@
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
 			{ dataValue: '<p>Foo <strong>bar</strong></p>' }, 'new fitler' );
+	};
+
+	tests[ 'test content is filtered even if config.pasteFilter is undefined' ] = function() {
+		var editor = this.editors.editorNoConfiguration;
+
+		assert.isFalse( !!editor.config.pasteFilter, 'config was not set' );
+
+		editor.pasteFilter = new CKEDITOR.filter( 'p h2' );
+
+		try {
+			assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
+				{ dataValue: '<h2>Foo bar</h2>' }, 'new fitler' );
+		} catch ( e ) {
+			throw e;
+		} finally {
+			delete editor.pasteFilter; // Tear down properly.
+		}
 	};
 
 	createTest(

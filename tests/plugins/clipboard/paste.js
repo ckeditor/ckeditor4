@@ -15,11 +15,16 @@
 	bender.editor = {
 		config: {
 			clipboard_defaultContentType: 'text',
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	};
 
 	function testEditor( tc, config, callback ) {
+		// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+		config.pasteFilter = null;
+
 		var editor = new CKEDITOR.editor( config );
 
 		editor.on( 'loaded', function() {

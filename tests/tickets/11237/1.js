@@ -7,7 +7,9 @@
 
 	bender.editor = {
 		config: {
-			allowedContent: true
+			allowedContent: true,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	};
 
