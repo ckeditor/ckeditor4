@@ -15,4 +15,6 @@ dev/builder/ckbuilder/**
 dev/langtool/po/**
 dev/langtool/cklangtool/**
 
+tests/plugins/mathjax/_assets/truncated-mathjax/**
+
 bender-*.log

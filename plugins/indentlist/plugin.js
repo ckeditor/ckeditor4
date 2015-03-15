@@ -77,24 +77,22 @@
 
 				this.jobs[ this.isIndent ? 10 : 30 ] = {
 					refresh: this.isIndent ?
-							function( editor, path ) {
-								var list = this.getContext( path ),
-									inFirstListItem = CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list );
+						function( editor, path ) {
+							var list = this.getContext( path ),
+								inFirstListItem = CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list );
 
-								if ( !list || !this.isIndent || inFirstListItem )
-									return TRISTATE_DISABLED;
+							if ( !list || !this.isIndent || inFirstListItem )
+								return TRISTATE_DISABLED;
 
-								return TRISTATE_OFF;
-							}
-						:
-							function( editor, path ) {
-								var list = this.getContext( path );
+							return TRISTATE_OFF;
+						} : function( editor, path ) {
+							var list = this.getContext( path );
 
-								if ( !list || this.isIndent )
-									return TRISTATE_DISABLED;
+							if ( !list || this.isIndent )
+								return TRISTATE_DISABLED;
 
-								return TRISTATE_OFF;
-							},
+							return TRISTATE_OFF;
+						},
 
 					exec: CKEDITOR.tools.bind( indentList, this )
 				};
@@ -232,11 +230,16 @@
 			range;
 
 		while ( ( range = iterator.getNextRange() ) ) {
-			var rangeRoot = range.getCommonAncestor(),
-				nearestListBlock = rangeRoot;
+			var nearestListBlock = range.getCommonAncestor();
 
-			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) )
+			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) ) {
+				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (#12796)
+				if ( editor.editable().equals( nearestListBlock ) ) {
+					nearestListBlock = false;
+					break;
+				}
 				nearestListBlock = nearestListBlock.getParent();
+			}
 
 			// Avoid having selection boundaries out of the list.
 			// <ul><li>[...</li></ul><p>...]</p> => <ul><li>[...]</li></ul><p>...</p>
