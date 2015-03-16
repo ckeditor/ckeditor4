@@ -7,6 +7,12 @@
 
 	CKEDITOR.disableAutoInline = true;
 
+	var mathJaxLib = CKEDITOR.config.mathJaxLib = bender.config.mathJaxLibPath;
+
+	if ( !mathJaxLib ) {
+		throw new Error( 'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
+	}
+
 	bender.editors = {
 		classic: {
 			name: 'classic'

@@ -4,6 +4,12 @@
 ( function() {
 	'use strict';
 
+	var mathJaxLib = bender.config.mathJaxLibPath;
+
+	if ( !mathJaxLib ) {
+		throw new Error( 'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
+	}
+
 	bender.test( {
 		checkIFrame: function( config ) {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
@@ -17,7 +23,7 @@
 				doc = iFrame.getFrameDocument(),
 				fakeEditor = {
 					config: {
-						mathJaxLib: ''
+						mathJaxLib: mathJaxLib
 					},
 					fire: function() {
 						//mock
