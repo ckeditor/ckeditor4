@@ -19,7 +19,10 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 		eventData.type = 'auto';
 
 	eventData.method = 'paste';
-	eventData.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+	// Allow passing a dataTransfer mock.
+	if ( !eventData.dataTransfer ) {
+		eventData.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+	}
 
 	editor.once( 'paste', onPaste, null, null, priority );
 	editor.fire( 'paste', eventData );

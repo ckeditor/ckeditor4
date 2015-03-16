@@ -117,7 +117,21 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var textificationFilter;
+			var filterType,
+				filtersFactory = filtersFactoryFactory();
+
+			if ( editor.config.forcePasteAsPlainText ) {
+				filterType = 'plain-text';
+			} else if ( editor.config.pasteFilter ) {
+				filterType = editor.config.pasteFilter;
+			}
+			// On Webkit the pasteFilter defaults 'semantic-content' because pasted data is so terrible
+			// that it must be always filtered.
+			else if ( CKEDITOR.env.webkit && !( 'pasteFilter' in editor.config ) ) {
+				filterType = 'semantic-content';
+			}
+
+			editor.pasteFilter = filtersFactory.get( filterType );
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
@@ -233,30 +247,43 @@
 					data = dataObj.dataValue,
 					trueType,
 					// Default is 'html'.
-					defaultType = editor.config.clipboard_defaultContentType || 'html';
+					defaultType = editor.config.clipboard_defaultContentType || 'html',
+					transferType = dataObj.dataTransfer && dataObj.dataTransfer.getTransferType( editor ),
+					// Treat pasting without dataTransfer as external.
+					external = !transferType || ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL );
 
 				// If forced type is 'html' we don't need to know true data type.
-				if ( type == 'html' || dataObj.preSniffing == 'html' )
+				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
 					trueType = 'html';
-				else
+				} else {
 					trueType = recogniseContentType( data );
-
-				// Unify text markup.
-				if ( trueType == 'htmlifiedtext' )
-					data = htmlifiedTextHtmlification( editor.config, data );
-				// Strip presentional markup & unify text markup.
-				else if ( type == 'text' && trueType == 'html' ) {
-					// Init filter only if needed and cache it.
-					data = htmlTextification( editor.config, data, textificationFilter || ( textificationFilter = getTextificationFilter() ) );
 				}
 
-				if ( dataObj.startsWithEOL )
-					data = '<br data-cke-eol="1">' + data;
-				if ( dataObj.endsWithEOL )
-					data += '<br data-cke-eol="1">';
+				// Unify text markup.
+				if ( trueType == 'htmlifiedtext' ) {
+					data = htmlifiedTextHtmlification( editor.config, data );
+				}
 
-				if ( type == 'auto' )
+				// Strip presentional markup & unify text markup.
+				// Forced plain text (dialog or forcePAPT).
+				if ( type == 'text' && trueType == 'html' ) {
+					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
+				}
+				// External paste and pasteFilter exists.
+				else if ( external && editor.pasteFilter ) {
+					data = filterContent( editor, data, editor.pasteFilter );
+				}
+
+				if ( dataObj.startsWithEOL ) {
+					data = '<br data-cke-eol="1">' + data;
+				}
+				if ( dataObj.endsWithEOL ) {
+					data += '<br data-cke-eol="1">';
+				}
+
+				if ( type == 'auto' ) {
 					type = ( trueType == 'html' || defaultType == 'html' ) ? 'html' : 'text';
+				}
 
 				dataObj.type = type;
 				dataObj.dataValue = data;
@@ -1141,154 +1168,71 @@
 		return switchEnterMode( config, data );
 	}
 
-	function getTextificationFilter() {
-		var filter = new CKEDITOR.htmlParser.filter();
+	function filtersFactoryFactory() {
+		var filters = {};
 
-		// Elements which creates vertical breaks (have vert margins) - took from HTML5 spec.
-		// http://dev.w3.org/html5/markup/Overview.html#toc
-		var replaceWithParaIf = { blockquote: 1, dl: 1, fieldset: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, ol: 1, p: 1, table: 1, ul: 1 },
+		function setUpTags() {
+			var tags = {};
 
-			// All names except of <br>.
-			stripInlineIf = CKEDITOR.tools.extend( { br: 0 }, CKEDITOR.dtd.$inline ),
-
-			// What's finally allowed (cke:br will be removed later).
-			allowedIf = { p: 1, br: 1, 'cke:br': 1 },
-
-			knownIf = CKEDITOR.dtd,
-
-			// All names that will be removed (with content).
-			removeIf = CKEDITOR.tools.extend( { area: 1, basefont: 1, embed: 1, iframe: 1, map: 1, object: 1, param: 1 }, CKEDITOR.dtd.$nonBodyContent, CKEDITOR.dtd.$cdata );
-
-		var flattenTableCell = function( element ) {
-				delete element.name;
-				element.add( new CKEDITOR.htmlParser.text( ' ' ) );
-			},
-			// Squash adjacent headers into one. <h1>A</h1><h2>B</h2> -> <h1>A<br>B</h1><h2></h2>
-			// Empty ones will be removed later.
-			squashHeader = function( element ) {
-				var next = element,
-					br, el;
-
-				while ( ( next = next.next ) && next.name && next.name.match( /^h\d$/ ) ) {
-					// TODO shitty code - waitin' for htmlParse.element fix.
-					br = new CKEDITOR.htmlParser.element( 'cke:br' );
-					br.isEmpty = true;
-					element.add( br );
-					while ( ( el = next.children.shift() ) )
-						element.add( el );
-				}
-			};
-
-		filter.addRules( {
-			elements: {
-				h1: squashHeader,
-				h2: squashHeader,
-				h3: squashHeader,
-				h4: squashHeader,
-				h5: squashHeader,
-				h6: squashHeader,
-
-				img: function( element ) {
-					var alt = CKEDITOR.tools.trim( element.attributes.alt || '' ),
-						txt = ' ';
-
-					// Replace image with its alt if it doesn't look like an url or is empty.
-					if ( alt && !alt.match( /(^http|\.(jpe?g|gif|png))/i ) )
-						txt = ' [' + alt + '] ';
-
-					return new CKEDITOR.htmlParser.text( txt );
-				},
-
-				td: flattenTableCell,
-				th: flattenTableCell,
-
-				$: function( element ) {
-					var initialName = element.name,
-						br;
-
-					// Remove entirely.
-					if ( removeIf[ initialName ] )
-						return false;
-
-					// Remove all attributes.
-					element.attributes = {};
-
-					// Pass brs.
-					if ( initialName == 'br' )
-						return element;
-
-					// Elements that we want to replace with paragraphs.
-					if ( replaceWithParaIf[ initialName ] )
-						element.name = 'p';
-
-					// Elements that we want to strip (tags only, without the content).
-					else if ( stripInlineIf[ initialName ] )
-						delete element.name;
-
-					// Surround other known element with <brs> and strip tags.
-					else if ( knownIf[ initialName ] ) {
-						// TODO shitty code - waitin' for htmlParse.element fix.
-						br = new CKEDITOR.htmlParser.element( 'cke:br' );
-						br.isEmpty = true;
-
-						// Replace hrs (maybe sth else too?) with only one br.
-						if ( CKEDITOR.dtd.$empty[ initialName ] )
-							return br;
-
-						element.add( br, 0 );
-						br = br.clone();
-						br.isEmpty = true;
-						element.add( br );
-						delete element.name;
-					}
-
-					// Final cleanup - if we can still find some not allowed elements then strip their names.
-					if ( !allowedIf[ element.name ] )
-						delete element.name;
-
-					return element;
+			for ( var tag in CKEDITOR.dtd ) {
+				if ( tag.charAt( 0 ) != '$' && tag != 'div' && tag != 'span' ) {
+					tags[ tag ] = 1;
 				}
 			}
-		}, {
-			// Apply this filter to every element.
-			applyToAll: true
-		} );
 
-		return filter;
+			return tags;
+		}
+
+		function createSemanticContentFilter() {
+			var filter = new CKEDITOR.filter();
+
+			filter.allow( {
+				$1: {
+					elements: setUpTags(),
+					attributes: true,
+					styles: false,
+					classes: false
+				}
+			} );
+
+			return filter;
+		}
+
+		return {
+			get: function( type ) {
+				if ( type == 'plain-text' ) {
+					// Does this look confusing to you? Did we forget about enter mode?
+					// It is a trick that let's us creating one filter for edidtor, regardless of its
+					// activeEnterMode (which as the name indicates can change during runtime).
+					//
+					// How does it work?
+					// The active enter mode is passed to the filter.applyTo method.
+					// The filter first marks all elements except <br> as disallowed and then tries to remove
+					// them. However, it cannot remove e.g. a <p> element completely, because it's a basic structural element,
+					// so it tries to replace it with an element created based on the active enter mode, eventually doing nothing.
+					//
+					// Now you can sleep well.
+					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
+				} else if ( type == 'semantic-content' ) {
+					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
+				} else if ( type ) {
+					// Create filter based on rules (string or object).
+					return new CKEDITOR.filter( type );
+				}
+
+				return null;
+			}
+		};
 	}
 
-	function htmlTextification( config, data, filter ) {
-		var fragment = new CKEDITOR.htmlParser.fragment.fromHtml( data ),
+	function filterContent( editor, data, filter ) {
+		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
 			writer = new CKEDITOR.htmlParser.basicWriter();
 
-		fragment.writeHtml( writer, filter );
-		data = writer.getHtml();
+		filter.applyTo( fragment, true, false, editor.activeEnterMode );
+		fragment.writeHtml( writer );
 
-		// Cleanup cke:brs.
-		data = data.replace( /\s*(<\/?[a-z:]+ ?\/?>)\s*/g, '$1' )	// Remove spaces around tags.
-			.replace( /(<cke:br \/>){2,}/g, '<cke:br />' )			// Join multiple adjacent cke:brs
-			.replace( /(<cke:br \/>)(<\/?p>|<br \/>)/g, '$2' )		// Strip cke:brs adjacent to original brs or ps.
-			.replace( /(<\/?p>|<br \/>)(<cke:br \/>)/g, '$1' )
-			.replace( /<(cke:)?br( \/)?>/g, '<br>' )				// Finally - rename cke:brs to brs and fix <br /> to <br>.
-			.replace( /<p><\/p>/g, '' );							// Remove empty paragraphs.
-
-		// Fix nested ps. E.g.:
-		// <p>A<p>B<p>C</p>D<p>E</p>F</p>G
-		// <p>A</p><p>B</p><p>C</p><p>D</p><p>E</p><p>F</p>G
-		var nested = 0;
-		data = data.replace( /<\/?p>/g, function( match ) {
-			if ( match == '<p>' ) {
-				if ( ++nested > 1 )
-					return '</p><p>';
-			} else {
-				if ( --nested > 0 )
-					return '</p><p>';
-			}
-
-			return match;
-		} ).replace( /<p><\/p>/g, '' ); // Step before: </p></p> -> </p><p></p><p>. Fix this here.
-
-		return switchEnterMode( config, data );
+		return writer.getHtml();
 	}
 
 	function switchEnterMode( config, data ) {
@@ -2397,4 +2341,89 @@
  * @param {Object} data.nativeEvent Native dragend event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
+ */
+
+/**
+ * Defines filter which is applied to external data pasted or dropped into editor. Possible values are:
+ *
+ * * `'plain-text'` &ndash; Content will be pasted as a plain text.
+ * * `'semantic-content'` &ndash; Known tags (except `div`, `span`) with all attributes (except
+ * `style` and `class`) will be kept.
+ * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
+ * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
+ * by the [Advanvced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * disable the paste filter on Chrome and Safari, on which the option defaults to `'semantic-content'`.
+ *
+ * Example:
+ *
+ *		config.pasteFilter = 'plain-text';
+ *
+ * Custom setting:
+ *
+ *		config.pasteFilter = 'h1 h2 p ul ol li; img[!src, alt]; a[!href]';
+ *
+ * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to the editor
+ * as a {@link CKEDITOR.editor#pasteFilter}. You can tweak paste filter's settings on the fly on this object
+ * as well as delete or replace it.
+ *
+ *		var editor = CKEDITOR.replace( 'editor', {
+ *			pasteFilter: 'semantic-content'
+ *		} );
+ *
+ *		editor.on( 'instanceReady', function() {
+ *			// The result of this will be that all semantic content will be preserved
+ *			// except tables.
+ *			editor.pasteFilter.disallow( 'table' );
+ *		} );
+ *
+ * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ *
+ * * copied and pasted in the same editor (internal),
+ * * copied from one editor and pasted into another (cross-editor),
+ * * coming from all other sources like websites, MS Word, etc. (external).
+ *
+ * If the {@link CKEDITOR.config#allowedContent Advanced Content Filter} is not disabled, then
+ * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
+ * external data which often need to be handled differently than content produced by the editor.
+ *
+ * This setting defaults `'semantic-content'` on Chrome and Safari due to messy HTML which these browsers
+ * keep in the clipboard. On other browsers its defaults `null`.
+ *
+ * @since 4.5
+ * @cfg {String} [pasteFilter='semantic-content' on Chrome and Safari and null on other browsers]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * {@link CKEDITOR.filter Content filter} which is used when external data is pasted or dropped into editor or there
+ * is forced paste as a plain text.
+ *
+ * This object might be used on the fly to define rules for pasted external content.
+ * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is enabled and
+ * {@link CKEDITOR.config#pasteFilter} or {@link CKEDITOR.config#forcePasteAsPlainText} was defined.
+ *
+ * To enable the filter:
+ *
+ *		var editor = CKEDITOR.replace( 'editor', {
+ *			pasteFilter: 'plain-text'
+ *		} );
+ *
+ * You can also modify the filter on the fly later on:
+ *
+ *		editor.pasteFilter = new CKEDITOR.filter( 'p h1 h2; a[!href]' );
+ *
+ * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ *
+ * * copied and pasted in the same editor (internal),
+ * * copied from one editor and pasted into another (cross-editor),
+ * * coming from all other sources like websites, MS Word, etc. (external).
+ *
+ * If the {@link CKEDITOR.config#allowedContent Allowed Content Filter} is not disabled, then
+ * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
+ * external data which often need to be handled differently than content produced by the editor.
+ *
+ * @since 4.5
+ * @readonly
+ * @property {CKEDITOR.filter} [pasteFilter]
+ * @member CKEDITOR.editor
  */

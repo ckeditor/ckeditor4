@@ -8,7 +8,9 @@
 	bender.editor = {
 		config: {
 			pasteFromWordRemoveStyles: false,
-			pasteFromWordRemoveFontStyles: false
+			pasteFromWordRemoveFontStyles: false,
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
 		}
 	};
 
