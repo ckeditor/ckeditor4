@@ -10,6 +10,7 @@
 'use strict';
 
 ( function() {
+	var blockWidgetDataTransfer;
 
 	var DRAG_HANDLER_SIZE = 15;
 
@@ -3022,7 +3023,7 @@
 		widget.dragHandlerContainer = container;
 	}
 
-	function onBlockWidgetDrag() {
+	function onBlockWidgetDrag( evt ) {
 		var finder = this.repository.finder,
 			locator = this.repository.locator,
 			liner = this.repository.liner,
@@ -3061,6 +3062,12 @@
 			buffer.input();
 		} ) );
 
+		blockWidgetDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
+		editor.fire( 'dragstart', {
+			dataTransfer: blockWidgetDataTransfer,
+			target: evt.sender
+		} );
+
 		function onMouseUp() {
 			var l;
 
@@ -3086,29 +3093,24 @@
 		var finder = this.repository.finder,
 			liner = this.repository.liner,
 			editor = this.editor,
-			editable = this.editor.editable();
+			editable = this.editor.editable(),
+			dataTransfer = blockWidgetDataTransfer;
 
 		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 			// Retrieve range for the closest location.
-			var dropRange = finder.getRange( sorted[ 0 ] ),
-				dragRange = editor.createRange(),
-				dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
+			var dropRange = finder.getRange( sorted[ 0 ] );
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
-			this.focus();
-
-			// Remove drag widget.
-			dragRange.setStartBefore( this.wrapper );
-			dragRange.setEndAfter( this.wrapper );
+			// this.focus();
 
 			// Get widget HTML.
 			dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
 
+			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {
 				dataTransfer: dataTransfer,
 				dataValue: '',
-				dragRange: dragRange,
 				dropRange: dropRange
 			} );
 
@@ -3130,6 +3132,11 @@
 
 		// Clean-up all remaining lines.
 		liner.hideVisible();
+
+		// Clean-up drag & drop.
+		if ( editor.fire( 'dragend', null, { dataTransfer: dataTransfer } ) !== false ) {
+			blockWidgetDataTransfer = null;
+		}
 	}
 
 	function setupEditables( widget ) {
