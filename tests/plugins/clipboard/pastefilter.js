@@ -121,8 +121,8 @@
 		if ( CKEDITOR.env.webkit ) {
 			assert.isInstanceOf( CKEDITOR.filter, editor.pasteFilter );
 			// Besides checking if semantic filter was created,
-			// we also check here wheter the filters factory caches filters well.
-			assert.areSame( this.editors.editorSemantic.pasteFilter, editor.pasteFilter );
+			// we also check here whether the filters factory don't caches filters well.
+			assert.areNotSame( this.editors.editorSemantic.pasteFilter, editor.pasteFilter );
 		} else {
 			assert.isNull( editor.pasteFilter );
 		}
@@ -142,9 +142,6 @@
 			pasteFilter = editor.pasteFilter;
 
 		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
-		// Besides checking if plain text filter was created,
-		// we also check here wheter the filters factory caches filters well.
-		assert.areSame( this.editors.editorPlain.pasteFilter, pasteFilter );
 	};
 
 	tests[ 'editor has pasteFilter defined if pasteFilter is set to plain-text' ] = function() {
@@ -154,17 +151,24 @@
 		assert.isInstanceOf( CKEDITOR.filter, pasteFilter );
 	};
 
+	tests[ 'unique content filter is created for each editor instance' ] = function() {
+		var forcePAPTFilter = this.editors.editorForcePAPT.pasteFilter,
+			plainFilter = this.editors.editorPlain.pasteFilter;
+
+		assert.areNotSame( forcePAPTFilter, plainFilter );
+	};
+
 	tests[ 'allow to modify editor.pasteFilter on the fly' ] = function() {
 		var editor = this.editors.editorModifyInstance,
 			pasteFilter = editor.pasteFilter;
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo</h2>' },
-			{ dataValue: '<h2>Foo</h2>' }, 'initial fitler' );
+			{ dataValue: '<h2>Foo</h2>' }, 'initial filter' );
 
 		pasteFilter.disallow( 'h2' );
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo</h2>' },
-			{ dataValue: '<p>Foo</p>' }, 'modified fitler' );
+			{ dataValue: '<p>Foo</p>' }, 'modified filter' );
 	};
 
 	tests[ 'allow to remove and create editor.pasteFilter on the fly' ] = function() {
@@ -173,12 +177,12 @@
 		delete editor.pasteFilter;
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
-			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' }, 'no fitler' );
+			{ dataValue: '<h2>Foo <strong>bar</strong></h2>' }, 'no filter' );
 
 		editor.pasteFilter = new CKEDITOR.filter( 'p strong' );
 
 		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
-			{ dataValue: '<p>Foo <strong>bar</strong></p>' }, 'new fitler' );
+			{ dataValue: '<p>Foo <strong>bar</strong></p>' }, 'new filter' );
 	};
 
 	tests[ 'test content is filtered even if config.pasteFilter is undefined' ] = function() {
@@ -190,7 +194,7 @@
 
 		try {
 			assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>' },
-				{ dataValue: '<h2>Foo bar</h2>' }, 'new fitler' );
+				{ dataValue: '<h2>Foo bar</h2>' }, 'new filter' );
 		} catch ( e ) {
 			throw e;
 		} finally {
@@ -219,15 +223,13 @@
 			{ dataValue: '<p>Foo bar</p>' } );
 	};
 
-	tests[ 'unique content filter is created for each editor instance' ] = function() {
-		var forcePAPTFilter = this.editors.editorForcePAPT.pasteFilter,
-			plainFilter = this.editors.editorPlain.pasteFilter;
-
-		assert.areNotSame( forcePAPTFilter, plainFilter );
-	};
-
 	createTest(
 		'test plain', 'editorPlain', contents.listWithSpan,
+		'<p>hefkdjfkdjllo</p><p>moto</p>'
+	);
+
+	createTest(
+		'test forcePasteAsPlainText', 'editorForcePAPT', contents.listWithSpan,
 		'<p>hefkdjfkdjllo</p><p>moto</p>'
 	);
 

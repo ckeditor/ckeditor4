@@ -117,7 +117,8 @@
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var filterType;
+			var filterType,
+				filtersFactory = filtersFactoryFactory();
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
@@ -125,7 +126,7 @@
 				filterType = editor.config.pasteFilter;
 			}
 			// On Webkit the pasteFilter defaults 'semantic-content' because pasted data is so terrible
-			// that it must be filtered.
+			// that it must be always filtered.
 			else if ( CKEDITOR.env.webkit && !( 'pasteFilter' in editor.config ) ) {
 				filterType = 'semantic-content';
 			}
@@ -1167,7 +1168,7 @@
 		return switchEnterMode( config, data );
 	}
 
-	var filtersFactory = ( function() {
+	function filtersFactoryFactory() {
 		var filters = {};
 
 		function setUpTags() {
@@ -1201,7 +1202,7 @@
 			get: function( type ) {
 				if ( type == 'plain-text' ) {
 					// Does this look confusing to you? Did we forget about enter mode?
-					// It is a trick that let's us creating one filter for all editors, regardless of their
+					// It is a trick that let's us creating one filter for edidtor, regardless of its
 					// activeEnterMode (which as the name indicates can change during runtime).
 					//
 					// How does it work?
@@ -1222,7 +1223,7 @@
 				return null;
 			}
 		};
-	}() );
+	}
 
 	function filterContent( editor, data, filter ) {
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( data ),
