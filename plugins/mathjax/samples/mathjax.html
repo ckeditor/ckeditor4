@@ -24,60 +24,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<div class="warning deprecated">
 		This sample is not maintained anymore. Check out its <a href="http://sdk.ckeditor.com/samples/mathjax.html">brand new version in CKEditor SDK</a>.
 	</div>
-
-	<div class="description">
-		<p>
-			This sample shows the usage of the CKEditor mathematical plugin that introduces a MathJax widget. You can now use it to create or modify equations using TeX.
-		</p>
-		<p>
-			TeX content will be automatically replaced by a widget when you put it in a <code>&lt;span class="math-tex"&gt;</code> element. You can also add new equations by using the <strong>Math</strong> toolbar button and entering TeX content in the plugin dialog window. After you click <strong>OK</strong>, a widget will be inserted into the editor content.
-		</p>
-		<p>
-			The output of the editor will be plain TeX with <a href="http://www.mathjax.org/">MathJax</a> delimiters: <code>\(</code> and <code>\)</code>, as in the code below:
-		</p>
-<pre class="samples">
-&lt;span class="math-tex"&gt;\( \sqrt{1} + (1)^2 = 2 \)&lt;/span&gt;
-</pre>
-		<p>
-			To transform TeX into a visual equation, a page must include the <a href="http://docs.mathjax.org/en/latest/start.html">MathJax script</a>.
-		</p>
-		<p>
-			In order to use the new plugin, include it in the <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-extraPlugins">config.extraPlugins</a></code> and <code><a class="samples" href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib">config.mathJaxLib</a></code>configuration settings.
-		</p>
-<pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>', {
-	<strong>extraPlugins: 'mathjax',
-	mathJaxLib: 'http://example.com/MathJax.js'</strong>
-} );
-</pre>
-		<p id="ie8-warning">
-			Please note that this plugin is not compatible with Internet Explorer 8.
-		</p>
-	</div>
-
-	<textarea id="editor1" cols="10" rows="10">
-
-		&lt;p&gt;The following equations are represented in the HTML source code as LaTeX expressions.&lt;/p&gt;&lt;h1&gt;The Cauchy-Schwarz Inequality&lt;/h1&gt;&lt;p&gt;&lt;span class=&quot;math-tex&quot;&gt;\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)&lt;/span&gt;&lt;/p&gt;&lt;h1&gt;The probability of getting &lt;span class=&quot;math-tex&quot;&gt;\(k\)&lt;/span&gt; heads when flipping &lt;span class=&quot;math-tex&quot;&gt;\(n\)&lt;/span&gt; coins is&lt;/h1&gt;&lt;p&gt;&lt;span class=&quot;math-tex&quot;&gt;\(P(E) = {n \choose k} p^k (1-p)^{ n-k} \)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Finally, while displaying equations is useful for demonstration purposes, the ability to mix math and text in a paragraph is also important. This expression &lt;span class=&quot;math-tex&quot;&gt;\(\sqrt{3x-1}+(1+x)^2\)&lt;/span&gt; is an example of an inline equation.  As you see, MathJax equations can be used this way as well, without disturbing the spacing between the lines.&lt;/p&gt;
-
-	</textarea>
-	<script>
-		var cfg = {
-			extraPlugins: 'mathjax',
-			/*mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',*/
-			height: 350
-		};
-
-		if ( !( 'mathJaxLib' in cfg ) ) {
-			alert( 'To make this sample work, please provide a mathJax library address in config. If you have rights to use this library - simply uncomment line 65 of this file. For more information visit: http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib ' );
-		}
-
-		CKEDITOR.replace( 'editor1', cfg );
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
-			document.getElementById( 'ie8-warning' ).className = 'warning';
-
-	</script>
-
 	<div id="footer">
 		<hr>
 		<p>

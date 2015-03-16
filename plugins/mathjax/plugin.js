@@ -20,8 +20,8 @@
 			var cls = editor.config.mathJaxClass || 'math-tex',
 				docsUrl = 'http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib';
 
-			if ( !( editor.config && editor.config.mathJaxLib ) && ( window.console && window.console.log ) ) {
-				window.console.log( '"mathJaxLib" config property is not set. For more information visit: ', docsUrl );
+			if ( !editor.config.mathJaxLib && ( window.console && window.console.log ) ) {
+				window.console.log( 'Error: config.mathJaxLib property is not set. For more information visit: ', docsUrl );
 			}
 
 			editor.widgets.add( 'mathjax', {
@@ -435,14 +435,16 @@
 } )();
 
 /**
- * Sets the path to the MathJax library. It can be both a local
- * resource and a location different than the default CDN.
+ * Sets the path to the MathJax library. It can be both a local resource and a location different than the default CDN.
  *
  * Please note that this must be a full or absolute path.
  *
  *		config.mathJaxLib = 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
  *
- * @since 4.5
+ * **Note:** Since CKEditor 4.5.0 this option does not have a default value, so it must
+ * be set in order to enable the MathJax plugin.
+ *
+ * @since 4.3
  * @cfg {String} mathJaxLib
  * @member CKEDITOR.config
  */
