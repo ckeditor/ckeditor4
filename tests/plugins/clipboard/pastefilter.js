@@ -219,6 +219,13 @@
 			{ dataValue: '<p>Foo bar</p>' } );
 	};
 
+	tests[ 'unique content filter is created for each editor instance' ] = function() {
+		var forcePAPTFilter = this.editors.editorForcePAPT.pasteFilter,
+			plainFilter = this.editors.editorPlain.pasteFilter;
+
+		assert.areNotSame( forcePAPTFilter, plainFilter );
+	};
+
 	createTest(
 		'test plain', 'editorPlain', contents.listWithSpan,
 		'<p>hefkdjfkdjllo</p><p>moto</p>'
