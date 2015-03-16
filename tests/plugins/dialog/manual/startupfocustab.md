@@ -6,4 +6,4 @@
 
 **Expected:**
 
-Tab list is focused.
+Tab list is focused (you can check this by using left/right arrows - tabs should change).
