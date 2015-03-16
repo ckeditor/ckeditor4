@@ -9,6 +9,7 @@ Fixed Issues:
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent li elements.
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing getData parameter documentation.
 * [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after *enter* key pressed in nested list.
+* [#13027](http://dev.ckeditor.com/ticket/13027): Fixed: Keyboard Navigation in dialogs with multiple tabs not following CI 162 instructions or [ARIA Authoring practices](http://www.w3.org/TR/2013/WD-wai-aria-practices-20130307/#tabpanel).
 
 Other Changes:
 
