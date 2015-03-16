@@ -3092,46 +3092,37 @@
 			// Retrieve range for the closest location.
 			var dropRange = finder.getRange( sorted[ 0 ] ),
 				dragRange = editor.createRange(),
-				dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+				dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
 			this.focus();
-			editor.fire( 'saveSnapshot' );
-			// Group all following operations in one snapshot.
-			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
-
-			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
-			// This avoids a situation when getSelection() still returns a fake selection made
-			// on widget which in the meantime has been moved to other place. That could cause
-			// an error thrown e.g. by saveSnapshot or stateUpdater.
-			editor.getSelection().reset();
-
-			// Get widget HTML.
-			dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
 
 			// Remove drag widget.
 			dragRange.setStartBefore( this.wrapper );
 			dragRange.setEndAfter( this.wrapper );
-			editable.extractHtmlFromRange( dragRange );
 
-			editor.widgets.destroy( this, true );
+			// Get widget HTML.
+			dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
 
-			// Paste widget html.
-			editor.fire( 'paste', {
+			editor.fire( 'drop', {
 				dataTransfer: dataTransfer,
 				dataValue: '',
-				range: dropRange
+				dragRange: dragRange,
+				dropRange: dropRange
 			} );
 
-			// Focus again the dropped widget.
 			// TODO
-			// this.focus();
+			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
+			// This avoids a situation when getSelection() still returns a fake selection made
+			// on widget which in the meantime has been moved to other place. That could cause
+			// an error thrown e.g. by saveSnapshot or stateUpdater.
+			// editor.getSelection().reset();
 
-			// Unlock snapshot and save new one, which will contain all changes done
-			// in this method.
-			editor.fire( 'unlockSnapshot' );
-			editor.fire( 'saveSnapshot' );
+			// editor.widgets.destroy( this, true );
+
+			// Focus again the dropped widget.
+			// this.focus();
 		}
 
 		// Clean-up custom cursor for editable.

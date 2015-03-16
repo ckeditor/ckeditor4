@@ -1321,18 +1321,25 @@
 					dragRange = clipboard.dragRange;
 
 				// Do nothing if it was not possible to get drop range.
-				if ( !dropRange )
+				if ( !dropRange ) {
 					return;
+				}
 
 				// Fire drop.
-				var data = fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  );
+				fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  );
+			} );
+
+			editor.on( 'drop', function( evt ) {
+				var data = evt.data;
+
 				if ( !data ) {
 					return;
 				}
 
 				// Let user modify drag and drop range.
-				dropRange = data.dropRange;
-				dragRange = data.dragRange;
+				var dropRange = data.dropRange,
+					dragRange = data.dragRange,
+					dataTransfer = data.dataTransfer;
 
 				if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 					internalDrop( dragRange, dropRange, dataTransfer );
@@ -1341,7 +1348,7 @@
 				} else {
 					externalDrop( dropRange, dataTransfer );
 				}
-			} );
+			}, null, null, 9999 );
 
 			// Internal drag and drop (drag and drop in the same Editor).
 			function internalDrop( dragRange, dropRange, dataTransfer ) {
