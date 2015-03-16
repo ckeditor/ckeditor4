@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'find', 'de', {
 	notFoundMsg: 'Der gesuchte Text wurde nicht gefunden.',
 	replace: 'Ersetzen',
 	replaceAll: 'Alle ersetzen',
-	replaceSuccessMsg: '%1 vorkommen ersetzt.',
+	replaceSuccessMsg: '%1 Vorkommen ersetzt.',
 	replaceWith: 'Ersetze mit:',
 	title: 'Suchen und Ersetzen'
 } );
