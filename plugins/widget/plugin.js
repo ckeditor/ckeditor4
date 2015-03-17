@@ -3095,27 +3095,18 @@
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
-			// this.focus();
+			this.focus();
 
-			// Get widget HTML.
-			// dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
+			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
+			// This avoids a situation when getSelection() still returns a fake selection made
+			// on widget which in the meantime has been moved to other place. That could cause
+			// an error thrown e.g. by saveSnapshot or stateUpdater.
+			editor.getSelection().reset();
 
 			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {
 				dropRange: dropRange
 			} );
-
-			// TODO
-			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
-			// This avoids a situation when getSelection() still returns a fake selection made
-			// on widget which in the meantime has been moved to other place. That could cause
-			// an error thrown e.g. by saveSnapshot or stateUpdater.
-			// editor.getSelection().reset();
-
-			// editor.widgets.destroy( this, true );
-
-			// Focus again the dropped widget.
-			// this.focus();
 		}
 
 		// Clean-up custom cursor for editable.
