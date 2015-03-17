@@ -1,0 +1,57 @@
+<p>Test URLs</p>
+
+<ul>
+	<li>https://twitter.com/reinmarpl/status/573118615274315776</li>
+	<li>https://www.youtube.com/watch?v=GUl9_5kK9ts</li>
+	<li>https://instagram.com/p/wZB11CIfqX/</li>
+	<li>https://www.google.dk/maps/place/Zygmunta+S%C5%82omi%C5%84skiego+15,+Warszawa</li>
+	<li>http://tellto.tumblr.com/post/112160646328</li>
+	<li>https://www.flickr.com/photos/polandmfa/7005560084/</li>
+	<li>http://i.imgur.com/Z3ilPBI.jpg</li>
+	<li>https://open.spotify.com/track/2XsTC2dPbmWREu5RQ1mQC0</li>
+</ul>
+
+<p>Empty editor</p>
+
+<div id="editor1">
+	<p>Foo bar.</p>
+</div>
+
+<p>Dat rich editor</p>
+
+<div id="editor2">
+	<p>Foo bar</p>
+
+	<div data-oembed-url="https://twitter.com/reinmarpl/status/573118615274315776">
+	<blockquote class="twitter-tweet">
+	<p>Coding session with <a href="https://twitter.com/fredck">@fredck</a>, <a href="https://twitter.com/anowodzinski">@anowodzinski</a> and Mr Carrot. <a href="http://t.co/FLV5UXpfaT">pic.twitter.com/FLV5UXpfaT</a></p>
+	&mdash; Piotrek Koszuliński (@reinmarpl) <a href="https://twitter.com/reinmarpl/status/573118615274315776">March 4, 2015</a></blockquote>
+	<script async="" charset="utf-8" src="//platform.twitter.com/widgets.js"></script>
+	</div>
+
+	<p>Foo bar.</p>
+
+	<div data-oembed-url="http://i.imgur.com/Z3ilPBI.jpg"><img alt="Imgur" src="//i.imgur.com/Z3ilPBI.jpg" style="max-width:100%" /></div>
+
+	<p>Foo bar.</p>
+
+	<div data-oembed-url="https://www.google.dk/maps/place/Zygmunta+S%C5%82omi%C5%84skiego+15,+Warszawa">
+	<div style="min-width: 100px;">
+	<div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 75%;"><iframe allowfullscreen="true" frameborder="0" mozallowfullscreen="true" src="https://maps.google.com/maps?q=Zygmunta%20S%C5%82omi%C5%84skiego%2015%2C%20Warszawa&amp;dg=ntvb&amp;ie=UTF8&amp;output=embed" style="top: 0px; left: 0px; width: 100%; height: 100%; position: absolute;" webkitallowfullscreen="true"></iframe></div>
+	</div>
+	</div>
+
+</div>
+
+<script>
+	( function() {
+		var cfg = {
+			extraPlugins: 'wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,image2,embed',
+			height: 500,
+			// Make them narrow so images don't take too much space.
+			width: 600
+		};
+		CKEDITOR.replace( 'editor1', cfg );
+		CKEDITOR.replace( 'editor2', cfg );
+	} )();
+</script>
