@@ -8,6 +8,10 @@
 
 	var mathJaxLib = bender.config.mathJaxLibPath;
 
+	if ( !mathJaxLib ) {
+		throw new Error( 'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
+	}
+
 	var editor;
 
 	function assertIFrame( iFrame ) {
@@ -50,9 +54,6 @@
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
-
-			assert.isString( mathJaxLib,
-				'bender.config.mathJaxLibPath should be defined with the path to MathJax lib (MathJax.js?config=TeX-AMS_HTML).' );
 
 			var tc = this;
 

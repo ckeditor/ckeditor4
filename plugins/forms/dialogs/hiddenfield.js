@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'hiddenfield', function( editor ) {
 	return {
 		title: editor.lang.forms.hidden.title,

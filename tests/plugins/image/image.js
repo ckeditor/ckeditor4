@@ -10,7 +10,12 @@
 		}
 	};
 
-	var SRC = '%BASE_PATH%_assets/logo.png';
+	var SRC = '%BASE_PATH%_assets/logo.png',
+		imgs = [
+			{ url: '%BASE_PATH%_assets/logo.png', width: '163', height: '61' },
+			{ url: '%BASE_PATH%_assets/large.jpg', width: '1008', height: '550' }
+		],
+		downloadImage = bender.tools.downloadImage;
 
 	bender.test( {
 		'test read image (inline styles)': function() {
@@ -348,6 +353,103 @@
 			} );
 		},
 
+		/**
+		 * #12126
+		 *
+		 * 1. Open image dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Dimensions inputs should be empty.
+		 * 4. Set another proper image url and focus out.
+		 * 5. Again dimensions inputs should be empty.
+		 */
+		'test dimensions not set automatically when disbled in option': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions',
+				creator: 'inline',
+				config: {
+					image_prefillDimensions: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+						heightInput = dialog.getContentElement( 'info', 'txtHeight' ),
+						widthInput = dialog.getContentElement( 'info', 'txtWidth' );
+
+					dialog.setValueOf( 'info', 'txtUrl', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						dialog.getContentElement( 'info', 'txtHeight' ).getValue();
+						assert.areSame( '', widthInput.getValue() );
+						assert.areSame( '', heightInput.getValue() );
+
+						if ( i === 0 ) {
+							dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
+							downloadImage( imgs[ i ].url, onDownload );
+							wait();
+						}
+					}
+
+					wait();
+				} );
+			} );
+		},
+
+		/**
+		 * #12126
+		 *
+		 * 1. Open image dialog.
+		 * 2. Set some proper image url and focus out.
+		 * 3. Click button "Reset Size".
+		 * 4. Set some proper image url and focus out.
+		 * 5. Dimensions inputs should be empty.
+		 */
+		'test dimension should be empty after resetting size and loading image': function() {
+			bender.editorBot.create( {
+				name: 'editor_disabled_autodimensions2',
+				creator: 'inline',
+				config: {
+					image_prefillDimensions: false
+				}
+			},
+			function( bot ) {
+				bot.dialog( 'image', function( dialog ) {
+					var i = 0,
+						resetBtn = bot.editor.document.getById( dialog.getContentElement( 'info', 'ratioLock' ).domId ).find( '.cke_btn_reset' ).getItem( 0 );
+
+					dialog.setValueOf( 'info', 'txtUrl', imgs[ i ].url );
+					downloadImage( imgs[ i ].url, onDownload );
+
+					function onDownload() {
+						resume( onResume );
+					}
+
+					function onResume() {
+						resetBtn.fire( 'click' );
+						assert.areSame( imgs[ i ].width, dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+						assert.areSame( imgs[ i ].height, dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
+
+						dialog.setValueOf( 'info', 'txtUrl', imgs[ ++i ].url );
+						downloadImage( imgs[ i ].url, function() {
+							resume( function() {
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtWidth' ).getValue() );
+								assert.areSame( '', dialog.getContentElement( 'info', 'txtHeight' ).getValue() );
+							} );
+						} );
+
+						wait();
+					}
+
+					wait();
+				} );
+			} );
+		},
+
 		// This TC verifies also the above test's correctness.
 		'test width and height are automatically set': function() {
 			var bot = this.editorBot,
@@ -374,19 +476,5 @@
 			} );
 		}
 	} );
-
-	function downloadImage( src, cb ) {
-		var img = new CKEDITOR.dom.element( 'img' );
-
-		img.once( 'load', onDone );
-		img.once( 'error', onDone );
-
-		function onDone() {
-			setTimeout( cb, 0 );
-		}
-
-		img.setAttribute( 'src', src );
-	}
-
 } )();
 //]]>

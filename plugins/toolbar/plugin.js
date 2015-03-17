@@ -353,7 +353,11 @@
 							var dy = toolboxContainer.$.offsetHeight - previousHeight;
 							contents.setStyle( 'height', ( contentHeight - dy ) + 'px' );
 
-							editor.fire( 'resize' );
+							editor.fire( 'resize', {
+								outerHeight: editor.container.$.offsetHeight,
+								contentsHeight: contents.$.offsetHeight,
+								outerWidth: editor.container.$.offsetWidth
+							} );
 						},
 
 						modes: { wysiwyg: 1, source: 1 }

@@ -527,16 +527,31 @@
 
 	var isIgnored = CKEDITOR.dom.walker.ignored();
 
-	function isEmpty( node ) {
-		var i = 0,
-			l = node.getChildCount();
+	/**
+	 * Returns a function which checks whether node is empty.
+	 *
+	 * @since 4.5
+	 * @static
+	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * ignored element instead of `true` (default).
+	 * @returns {Function}
+	 */
+	CKEDITOR.dom.walker.empty = function( isReject ) {
+		return function( node ) {
+			var i = 0,
+				l = node.getChildCount();
 
-		for ( ; i < l; ++i ) {
-			if ( !isIgnored( node.getChild( i ) ) )
-				return false;
-		}
-		return true;
-	}
+			for ( ; i < l; ++i ) {
+				if ( !isIgnored( node.getChild( i ) ) ) {
+					return !!isReject;
+				}
+			}
+
+			return !isReject;
+		};
+	};
+
+	var isEmpty = CKEDITOR.dom.walker.empty();
 
 	function filterTextContainers( dtd ) {
 		var hash = {},
@@ -549,8 +564,18 @@
 		return hash;
 	}
 
-	// Block elements which can contain text nodes (without ul, ol, dl, etc.).
-	var dtdTextBlock = filterTextContainers( CKEDITOR.dtd.$block );
+	/**
+	 * A hash of element names which on browsers which {@link CKEDITOR.env#needsBrFiller do not need `<br>` fillers}
+	 * can be selection containers despite being empty.
+	 *
+	 * @since 4.5
+	 * @static
+	 * @property {Object} validEmptyBlockContainers
+	 */
+	var validEmptyBlocks = CKEDITOR.dom.walker.validEmptyBlockContainers = CKEDITOR.tools.extend(
+		filterTextContainers( CKEDITOR.dtd.$block ),
+		{ caption: 1, td: 1, th: 1 }
+	);
 
 	function isEditable( node ) {
 		// Skip temporary elements, bookmarks and whitespaces.
@@ -569,7 +594,7 @@
 				return true;
 
 			// Empty blocks are editable on IE.
-			if ( !CKEDITOR.env.needsBrFiller && node.is( dtdTextBlock ) && isEmpty( node ) )
+			if ( !CKEDITOR.env.needsBrFiller && node.is( validEmptyBlocks ) && isEmpty( node ) )
 				return true;
 		}
 
@@ -589,7 +614,8 @@
 	 * it's only `<hr>`),
 	 * * non-editable blocks (special case - such blocks cannot be containers nor
 	 * siblings, they need to be selected entirely),
-	 * * empty blocks which can contain text (IE only).
+	 * * empty {@link #validEmptyBlockContainers blocks} which can contain text
+	 * ({@link CKEDITOR.env#needsBrFiller old IEs only}).
 	 *
 	 * @since 4.3
 	 * @static

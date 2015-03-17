@@ -88,32 +88,32 @@
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s">ab<span data-cke-bookmark="1"></span></p><p>cd</p>', 0, 2 ) );
 		},
 
-		'test getNextEditableNode - 13 - IE': function() {
-			if ( !CKEDITOR.env.ie )
+		'test getNextEditableNode - 13': function() {
+			if ( CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^</p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13a - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13a': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^<br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><br></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13b - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13b': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^<bookmark><br></p>
 			assert.areSame( 'cd', this.rangeGetNextEditableNode( '<p id="s"><span data-cke-bookmark="1"></span><br></p><p>cd</p>', false, 0 ) );
 		},
 
-		'test getNextEditableNode - 13c - FF': function() {
-			if ( !CKEDITOR.env.gecko )
+		'test getNextEditableNode - 13c': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();
 
 			// <p>^ <br></p>
@@ -133,6 +133,27 @@
 		'test getNextEditableNode - 16': function() {
 			// ab^
 			assert.areSame( null, this.rangeGetNextEditableNode( '<p id="s">ab</p>', 0, 2 ) );
+		},
+
+		'test getNextEditableNode - 17a': function() {
+			// <table>^<tr>
+			assert.areSame( 'ab', this.rangeGetNextEditableNode( '<table id="s"><tr><td>ab</td></tr></table>', false, 0 ) );
+		},
+
+		'test getNextEditableNode - 17b': function() {
+			if ( !CKEDITOR.env.needsBrFiller )
+				assert.ignore();
+
+			// <table>^<tr>
+			assert.areSame( 'br', this.rangeGetNextEditableNode( '<table id="s"><tr><td><br></td><td>ab</td></tr></table>', false, 0 ) );
+		},
+
+		// Similarly to tests 14 and 15.
+		'test getNextEditableNode - 17c': function() {
+			var expected = CKEDITOR.env.needsBrFiller ? 'ab' : 'td';
+
+			// <table>^<tr>
+			assert.areSame( expected, this.rangeGetNextEditableNode( '<table id="s"><tr><td></td><th>ab</th></tr></table>', false, 0 ) );
 		},
 
 		'test getPreviousEditableNode - 1': function() {

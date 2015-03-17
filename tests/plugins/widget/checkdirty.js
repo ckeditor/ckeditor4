@@ -9,31 +9,22 @@
 	var data = '<p id="p1">bar<b id="w1" data-widget="testwidget">foo</b></p>',
 		getWidgetById = widgetTestsTools.getWidgetById;
 
-	bender.test( {
-		'async:init': function() {
-			var tc = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					creator: 'inline',
-					config: {
-						allowedContent: true,
-						on: {
-							pluginsLoaded: function( evt ) {
-								evt.editor.widgets.add( 'testwidget', {} );
-							}
-						}
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			creator: 'inline',
+			config: {
+				allowedContent: true,
+				on: {
+					pluginsLoaded: function( evt ) {
+						evt.editor.widgets.add( 'testwidget', {} );
 					}
 				}
-			}, function( editors, bots ) {
-				tc.editors = editors;
-				tc.editorBots = bots;
+			}
+		}
+	};
 
-				tc.callback();
-			} );
-		},
-
+	bender.test( {
 		'test check dirty is false after widget focus': function() {
 			var editor = this.editors.editor;
 

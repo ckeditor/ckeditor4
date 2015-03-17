@@ -1,4 +1,3 @@
-/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,enterkey */
 
 ( function() {
@@ -36,37 +35,29 @@
 		};
 	}
 
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			config: {
+				enterMode: CKEDITOR.ENTER_P,
+				allowedContent: true
+			}
+		},
+
+		editorNoAutoParagraph: {
+			name: 'editor2',
+			config: {
+				autoParagraph: false
+			}
+		}
+	};
+
 	bender.test( {
 		_should: {
 			ignore: {
 				'test shift+enter key - end of block, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller,
 				'test shift+enter key - end of list item, inside inline element followed by bogus br': !CKEDITOR.env.needsBrFiller
 			}
-		},
-
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					config: {
-						enterMode: CKEDITOR.ENTER_P,
-						allowedContent: true
-					}
-				},
-
-				editorNoAutoParagraph: {
-					name: 'editor2',
-					config: {
-						autoParagraph: false
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
 		},
 
 		// #7912
@@ -207,7 +198,7 @@
 				'<div contenteditable="false">' +
 					'<div contenteditable="true">' +
 						'<p>hell@</p>' +
-						'<p>@</p>' +
+						'<p>@@</p>' +
 					'</div>' +
 				'</div>';
 
@@ -246,7 +237,7 @@
 		},
 		*/
 
-		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@</p><p>^foo@</p>' ),
+		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@@</p><p>^foo@</p>' ),
 		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
 		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
 

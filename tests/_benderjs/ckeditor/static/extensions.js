@@ -10,13 +10,13 @@
 		YTest = bender.Y.Test,
 		i;
 
-	// override and extend assertions
+	// Override and extend assertions.
 	window.assert = bender.assert;
 	window.arrayAssert = bender.arrayAssert;
 	window.objectAssert = bender.objectAssert;
 
-	// clean-up data from previous tests if available
-	// TODO check if this could be deleted after separating test context from parent
+	// Clean-up data from previous tests if available.
+	// TODO check if this could be deleted after separating test context from parent.
 	if ( bender.editor ) {
 		delete bender.editor;
 	}
@@ -108,7 +108,19 @@
 		}
 	};
 
-	// add support test ignore
+	/**
+	 * Asserts that HTML data are the same. Use {@link bender.tools.compatHtml} to sort attributes,
+	 * fix styles and encode `nbsp`.
+	 *
+	 * @param {String} expected
+	 * @param {String} actual
+	 * @param {String} [message]
+	 */
+	bender.assert.sameData = function( expected, actual, message ) {
+		assert.areSame( expected, bender.tools.compatHtml( actual, false, true, false, true, true ), message );
+	};
+
+	// Add support test ignore.
 	YUITest.Ignore = function() {};
 
 	bender.assert.ignore = function() {
@@ -142,7 +154,7 @@
 
 		if ( typeof test == 'string' ) {
 			updateResult( node.parent, test );
-			// Ignore all tests in this whole test case
+			// Ignore all tests in this whole test case.
 		} else {
 			for ( name in test ) {
 				if ( typeof test[ name ] == 'function' && name.match( /^test/ ) ) {
@@ -154,17 +166,17 @@
 	};
 
 	YTest.Runner._resumeTest = function( segment ) {
-		//get relevant information
+		// Get relevant information.
 		var node = this._cur,
 			failed = false,
 			ignored = false,
 			error = null,
 			testName, testCase, shouldFail, shouldError;
 
-		//we know there's no more waiting now
+		// We know there's no more waiting now.
 		this._waiting = false;
 
-		//if there's no node, it probably means a wait() was called after resume()
+		// If there's no node, it probably means a wait() was called after resume().
 		if ( !node ) {
 			return;
 		}
@@ -172,13 +184,13 @@
 		testName = node.testObject;
 		testCase = node.parent.testObject;
 
-		//cancel other waits if available
+		// Cancel other waits if available.
 		if ( testCase.__yui_wait ) {
 			clearTimeout( testCase.__yui_wait );
 			delete testCase.__yui_wait;
 		}
 
-		//get the "should" test cases
+		// Get the "should" test cases.
 		shouldFail = testName.indexOf( 'fail:' ) === 0 ||
 			( testCase._should.fail || {} )[ testName ];
 
@@ -186,15 +198,15 @@
 
 		this._inTest = true;
 
-		//try the test
+		// Try the test.
 		try {
-			//run the test
+			// Run the test.
 			segment.call( testCase, this._context );
 
-			//if the test hasn't already failed and doesn't have any asserts...
+			// If the test hasn't already failed and doesn't have any asserts...
 			if ( !YUITest.Assert._getCount() && !this._ignoreEmpty ) {
 				throw new YUITest.AssertionError( 'Test has no asserts.' );
-				//if it should fail, and it got here, then it's a fail because it didn't
+				// If it should fail, and it got here, then it's a fail because it didn't.
 			} else if ( shouldFail ) {
 				error = new YUITest.ShouldFail();
 				failed = true;
@@ -203,7 +215,7 @@
 				failed = true;
 			}
 		} catch ( thrown ) {
-			//cancel any pending waits, the test already failed
+			// Cancel any pending waits, the test already failed.
 			if ( testCase.__yui_wait ) {
 				clearTimeout( testCase.__yui_wait );
 				delete testCase.__yui_wait;
@@ -220,7 +232,7 @@
 			} else if ( thrown instanceof YUITest.Wait ) {
 				if ( typeof thrown.segment == 'function' ) {
 					if ( typeof thrown.delay == 'number' ) {
-						//some environments don't support setTimeout
+						// Some environments don't support setTimeout.
 						if ( typeof setTimeout != 'undefined' ) {
 							testCase.__yui_wait = setTimeout( function() {
 								YUITest.TestRunner._resumeTest( thrown.segment );
@@ -235,7 +247,7 @@
 
 				return;
 			} else {
-				//first check to see if it should error
+				// First check to see if it should error.
 				if ( !shouldError ) {
 					error = new YUITest.UnexpectedError( thrown );
 					failed = true;
@@ -259,7 +271,7 @@
 		this._inTest = false;
 
 		if ( !ignored ) {
-			//fire appropriate event
+			// Fire appropriate event.
 			this.fire( {
 				type: failed ? this.TEST_FAIL_EVENT : this.TEST_PASS_EVENT,
 				testCase: testCase,
@@ -267,13 +279,13 @@
 				error: failed ? error : undefined
 			} );
 
-			//run the tear down
+			// Run the tear down.
 			this._execNonTestMethod( node.parent, 'tearDown', false );
 
-			//reset the assert count
+			// Reset the assert count.
 			YUITest.Assert._reset();
 
-			//update results
+			// Update results.
 			node.parent.results[ testName ] = {
 				result: failed ? 'fail' : 'pass',
 				message: error ? error.getMessage() : 'Test passed',
@@ -291,7 +303,7 @@
 			node.parent.results.total++;
 		}
 
-		//set timeout not supported in all environments
+		// Set timeout not supported in all environments.
 		if ( typeof setTimeout != 'undefined' ) {
 			setTimeout( function() {
 				YUITest.TestRunner._run();
@@ -386,7 +398,7 @@
 
 		if ( bender.plugins ) {
 			toLoad++;
-			bender.deferred = true;
+			defer();
 
 			CKEDITOR.plugins.load( config.plugins, onLoad );
 		}
@@ -397,7 +409,7 @@
 			}
 
 			toLoad++;
-			bender.deferred = true;
+			defer();
 
 			CKEDITOR.scriptLoader.load( config.adapters, onLoad );
 		}
@@ -408,31 +420,173 @@
 			}
 
 			if ( !toLoad ) {
-				if ( bender.deferred ) {
-					delete bender.deferred;
-				}
-
-				bender.startRunner();
+				startRunner();
 			}
 		}
 	};
 
-	// keep reference to adapter's test function
-	bender.oldTest = bender.test;
+	var unlockDeferment, deferredTests;
+
+	// Defers Bender's startup.
+	function defer() {
+		if ( !unlockDeferment ) {
+			unlockDeferment = bender.defer();
+		}
+	}
+
+	// Unlock the created Bender deferment.
+	function unlock() {
+		if ( unlockDeferment ) {
+			unlockDeferment();
+			unlockDeferment = null;
+		}
+	}
+
+	// Keep a reference to the original bender.test function.
+	var orgTest = bender.test;
+
+	// Flag saying if we need to restart the tests, e.g. when bender.test was executed asynchronously.
+	var restart = false;
 
 	bender.test = function( tests ) {
-		if ( bender.deferred ) {
-			if ( bender.deferred ) {
-				delete bender.deferred;
-			}
-
-			bender.deferredTests = tests;
+		if ( unlockDeferment && !restart ) {
+			deferredTests = tests;
 		} else {
-			bender.startRunner( tests );
+			startRunner( tests );
 		}
 	};
 
-	function onReady( callback ) {
+	function startRunner( tests ) {
+		tests = tests || deferredTests;
+
+		// startRunner was executed but there were no tests available yet.
+		if ( !tests ) {
+			restart = true;
+			// Unlock Bender startup.
+			unlock();
+			return;
+		}
+
+		if ( !tests.name ) {
+			tests.name = bender.testData.id;
+		}
+
+		onDocumentReady( start );
+
+		function start() {
+			if ( bender.editor || bender.editors ) {
+				bender._init = tests.init;
+				bender._asyncInit = tests[ 'async:init' ];
+
+				tests[ 'async:init' ] = setUpEditor;
+
+				if ( bender.runner._running ) {
+					wait();
+				}
+			}
+
+			if ( bender.regressions ) {
+				for ( var name in bender.regressions ) {
+					bender.regressions[ name ] = bender.regressions[ name ]
+						.replace( /env/g, 'CKEDITOR.env' );
+				}
+			}
+
+			// Run the original bender.test function.
+			orgTest( tests );
+
+			// Unlock Bender startup.
+			unlock();
+
+			// async:init stage 1: set up bender.editor.
+			function setUpEditor() {
+				if ( !bender.editor ) {
+					// If there is no bender.editor jump to stage 2.
+					setUpEditors();
+					return;
+				}
+
+				bender.editorBot.create( bender.editor, function( bot ) {
+					bender.editor = bender.testCase.editor = bot.editor;
+					bender.testCase.editorBot = bot;
+					setUpEditors();
+				} );
+			}
+
+			// async:init stage 2: set up bender.editors.
+			function setUpEditors() {
+				if ( !bender.editors ) {
+					// If there is no bender.editor jump to stage 3.
+					callback();
+					return;
+				}
+
+				var editorsDefinitions = bender.editors,
+					names = [],
+					editors = {},
+					bots = {},
+					i = 0;
+
+				// The funniest for-in loop I've ever seen.
+				for ( names[ i++ ] in editorsDefinitions ); // jshint ignore:line
+
+				next();
+
+				function next() {
+					var name = names.shift(),
+						definition = editorsDefinitions[ name ];
+
+					if ( !name ) {
+						bender.editors = bender.testCase.editors = editors;
+						bender.editorBots = bender.testCase.editorBots = bots;
+						callback();
+						return;
+					}
+
+					if ( !definition.name ) {
+						definition.name = name;
+					}
+
+					if ( bender.editorsConfig ) {
+						if ( !definition.config ) {
+							definition.config = {};
+						}
+
+						CKEDITOR.tools.extend( definition.config, bender.editorsConfig );
+					}
+
+					bender.editorBot.create( definition, function( bot ) {
+						bots[ name ] = bot;
+						editors[ name ] = bot.editor;
+						next();
+					} );
+				}
+			}
+
+			// async:init stage 3: call original async/async:init and finish async:init (testCase.callback).
+			function callback() {
+				if ( bender._init ) {
+					var init = bender._init;
+
+					delete bender._init;
+
+					init.call( bender.testCase );
+				}
+
+				if ( bender._asyncInit ) {
+					var asyncInit = bender._asyncInit;
+
+					delete bender._asyncInit;
+
+					asyncInit.call( bender.testCase );
+				} else {
+					bender.testCase.callback();
+				}
+			}
+		}
+	}
+
+	function onDocumentReady( callback ) {
 		function complete() {
 			if ( document.addEventListener ||
 				event.type === 'load' ||
@@ -461,55 +615,6 @@
 		}
 	}
 
-	bender.startRunner = function( tests ) {
-		tests = tests || bender.deferredTests;
-
-		if ( bender.deferredTests ) {
-			delete bender.deferredTests;
-		}
-
-		if ( !tests ) {
-			return;
-		}
-
-		if ( !tests.name ) {
-			tests.name = bender.testData.id;
-		}
-
-		function startRunner() {
-			// catch exceptions
-			if ( bender.editor ) {
-				if ( tests[ 'async:init' ] || tests.init ) {
-					throw 'The "init/async:init" is not supported in conjunction' +
-						' with bender.editor, use "setUp" instead.';
-				}
-
-				tests[ 'async:init' ] = function() {
-					bender.editorBot.create( bender.editor, function( bot ) {
-						bender.editor = bender.testCase.editor = bot.editor;
-						bender.testCase.editorBot = bot;
-						bender.testCase.callback();
-					} );
-				};
-
-				if ( bender.runner._running ) {
-					wait();
-				}
-			}
-
-			if ( bender.regressions ) {
-				for ( var name in bender.regressions ) {
-					bender.regressions[ name ] = bender.regressions[ name ]
-						.replace( /env/g, 'CKEDITOR.env' );
-				}
-			}
-
-			bender.oldTest( tests );
-		}
-
-		onReady( startRunner );
-	};
-
 	bender.getAbsolutePath = function( path ) {
 		var suffixIndex, suffix, temp;
 
@@ -534,7 +639,7 @@
 	};
 } )( this, bender );
 
-// workaround for IE8 - window.resume / window.wait won't work in this environment...
+// Workaround for IE8 - window.resume / window.wait won't work in this environment...
 var resume = bender.Y.Test.Case.prototype.resume = ( function() { // jshint ignore:line
 		var org = bender.Y.Test.Case.prototype.resume;
 

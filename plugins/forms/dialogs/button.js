@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'button', function( editor ) {
 	function commitAttributes( element ) {
 		var val = this.getValue();
@@ -58,6 +59,7 @@ CKEDITOR.dialog.add( 'button', function( editor ) {
 				{
 					id: 'name',
 					type: 'text',
+					bidi: true,
 					label: editor.lang.common.name,
 					'default': '',
 					setup: function( element ) {

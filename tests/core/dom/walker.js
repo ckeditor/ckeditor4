@@ -445,6 +445,44 @@
 			assert.isTrue( isNotIgnored( node5 ) );
 		},
 
+		'test walker.empty': function() {
+			var isEmpty = CKEDITOR.dom.walker.empty(),
+				isNotEmpty = CKEDITOR.dom.walker.empty( true );
+
+			var node1 = CKEDITOR.dom.element.createFromHtml( '<img>' ),
+				node2 = CKEDITOR.dom.element.createFromHtml( '<div><div data-cke-temp="1">foo</div></div>' ),
+				node3 = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp="1">foo</div>' ),
+				node4 = CKEDITOR.dom.element.createFromHtml( '<p><span data-cke-bookmark="1">&nbsp;</span></p>' ),
+				node5 = CKEDITOR.dom.element.createFromHtml( '<span data-cke-bookmark="1">&nbsp;</span>' ),
+				node6 = CKEDITOR.dom.element.createFromHtml( '<p>foo</p>' ),
+				node7 = CKEDITOR.dom.element.createFromHtml( '<p><b></b></p>' ),
+				node8 = CKEDITOR.dom.element.createFromHtml( '<p><br></p>' ),
+				node9 = CKEDITOR.dom.element.createFromHtml( '<p><b>x</b></p>' ),
+				node10 = CKEDITOR.dom.element.createFromHtml( '<p> </p>' );
+
+			assert.isTrue( isEmpty( node1 ) );
+			assert.isTrue( isEmpty( node2 ) );
+			assert.isTrue( isEmpty( node3 ) );
+			assert.isTrue( isEmpty( node4 ) );
+			assert.isTrue( isEmpty( node5 ) );
+			assert.isFalse( isEmpty( node6 ) );
+			assert.isFalse( isEmpty( node7 ) );
+			assert.isFalse( isEmpty( node8 ) );
+			assert.isFalse( isEmpty( node9 ) );
+			assert.isTrue( isEmpty( node10 ) );
+
+			assert.isFalse( isNotEmpty( node1 ) );
+			assert.isFalse( isNotEmpty( node2 ) );
+			assert.isFalse( isNotEmpty( node3 ) );
+			assert.isFalse( isNotEmpty( node4 ) );
+			assert.isFalse( isNotEmpty( node5 ) );
+			assert.isTrue( isNotEmpty( node6 ) );
+			assert.isTrue( isNotEmpty( node7 ) );
+			assert.isTrue( isNotEmpty( node8 ) );
+			assert.isTrue( isNotEmpty( node9 ) );
+			assert.isFalse( isNotEmpty( node10 ) );
+		},
+
 		'test walker.editable': function() {
 			var isEditable = CKEDITOR.dom.walker.editable(),
 				isNotEditable = CKEDITOR.dom.walker.editable( true );
@@ -460,6 +498,8 @@
 				node8 = CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' ),
 				node9a = CKEDITOR.dom.element.createFromHtml( '<li></li>' ),
 				node9b = CKEDITOR.dom.element.createFromHtml( '<p></p>' ),
+				node9c = CKEDITOR.dom.element.createFromHtml( '<table><tr><td></td></tr></table>' ).findOne( 'td' ),
+				node9d = CKEDITOR.dom.element.createFromHtml( '<table><tr><caption></caption></tr></table>' ).findOne( 'caption' ),
 				node10 = CKEDITOR.dom.element.createFromHtml( '<hr />' );
 
 			assert.isTrue( isEditable( node1 ), 'text' );
@@ -475,6 +515,8 @@
 			// Empty blocks can be editable if br filler is not needed.
 			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9a ), 'empty li' );
 			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9b ), 'empty p' );
+			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9c ), 'empty td' );
+			assert.areSame( !CKEDITOR.env.needsBrFiller, isEditable( node9d ), 'empty caption' );
 
 			assert.isFalse( isNotEditable( node1 ) );
 			assert.isTrue( isNotEditable( node2 ) );

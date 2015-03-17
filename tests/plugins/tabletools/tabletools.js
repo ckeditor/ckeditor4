@@ -87,51 +87,51 @@
 		},
 
 		'test split cells': function() {
-			this.doTest( 'split-cells', 'cellVerticalSplit' );
+			this.doTest( 'split-cells', 'cellHorizontalSplit' );
 		},
 
 		'test split cells (2)': function() {
-			this.doTest( 'split-cells-2', 'cellVerticalSplit' );
+			this.doTest( 'split-cells-2', 'cellHorizontalSplit' );
 		},
 
 		'test split cells (3)': function() {
-			this.doTest( 'split-cells-3', 'cellVerticalSplit' );
+			this.doTest( 'split-cells-3', 'cellHorizontalSplit' );
 		},
 
 		'test split cells (4)': function() {
-			this.doTest( 'split-cells-4', 'cellHorizontalSplit' );
+			this.doTest( 'split-cells-4', 'cellVerticalSplit' );
 		},
 
 		'test split cells (5)': function() {
-			this.doTest( 'split-cells-5', 'cellHorizontalSplit' );
+			this.doTest( 'split-cells-5', 'cellVerticalSplit' );
 		},
 
 		'test split cells (6)': function() {
-			this.doTest( 'split-cells-6', 'cellHorizontalSplit' );
+			this.doTest( 'split-cells-6', 'cellVerticalSplit' );
 		},
 
 		'test split cells (7)': function() {
 			var bot = this.editorBot;
 			bender.tools.testInputOut( 'split-cells-7', function( source, expected ) {
 				bot.setHtmlWithSelection( source );
-				bot.execCommand( 'cellVerticalSplit' );
+				bot.execCommand( 'cellHorizontalSplit' );
 
 				var range = new CKEDITOR.dom.range( bot.editor.document );
 				range.moveToPosition( bot.editor.document.getById( 'cursor' ), CKEDITOR.POSITION_AFTER_START );
 				range.select();
 
-				bot.execCommand( 'cellHorizontalSplit' );
+				bot.execCommand( 'cellVerticalSplit' );
 				assert.areSame( bender.tools.compatHtml( expected ), bot.getData( true ) );
 			} );
 		},
 
 		// (#11438)
 		'test split cells (8)': function() {
-			this.doTest( 'split-cells-8', 'cellVerticalSplit' );
+			this.doTest( 'split-cells-8', 'cellHorizontalSplit' );
 		},
 
 		'test split cells (9)': function() {
-			this.doTest( 'split-cells-9', 'cellVerticalSplit' );
+			this.doTest( 'split-cells-9', 'cellHorizontalSplit' );
 		},
 
 		// (#6111)

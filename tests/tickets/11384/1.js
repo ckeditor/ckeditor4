@@ -4,23 +4,14 @@
 ( function() {
 	'use strict';
 
+	bender.editors = {
+		inline: {
+			name: 'inline',
+			creator: 'inline'
+		}
+	};
+
 	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				inline: {
-					name: 'inline',
-					creator: 'inline'
-				}
-			}, function( editors, bots ) {
-				that.editors = editors;
-				that.editorBots = bots;
-
-				that.callback();
-			} );
-		},
-
 		'test paste into a non-empty range': function() {
 			var editor = this.editors.inline;
 

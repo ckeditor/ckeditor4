@@ -1,0 +1,450 @@
+/*
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
+*/
+.cke_toolbar {
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.some-toolbar-active .cke_toolbar {
+  zoom: 1;
+  filter: alpha(opacity=50);
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+.cke_toolbar.active {
+  position: relative;
+  zoom: 1;
+  filter: alpha(opacity=100);
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.cke_toolbar.active:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 6px;
+  bottom: 5px;
+  left: 0;
+  -webkit-border-radius: 5px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 5px;
+  -moz-background-clip: padding;
+  border-radius: 5px;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0px 0px 15px 3px #fff4b0;
+  -moz-box-shadow: 0px 0px 15px 3px #fff4b0;
+  box-shadow: 0px 0px 15px 3px #fff4b0;
+}
+.cke_toolbar.active .cke_toolgroup {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: #e3c300;
+}
+.cke_toolbar.active .cke_combo,
+.cke_toolbar.active .cke_toolgroup {
+  position: relative;
+  z-index: 2;
+}
+.cke_toolbar.active .cke_combo_button {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.toolbar {
+  width: 100%;
+  margin-bottom: 2.4em;
+  padding-bottom: 5px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  text-align: center;
+}
+.toolbar button.cke_button {
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 6px;
+  outline: 0;
+  border: 1px solid #a6a6a6;
+}
+.toolbar button.hidden {
+  display: none;
+}
+.toolbar button.left {
+  float: left;
+}
+.toolbar button.right {
+  float: right;
+}
+.configContainer.hidden,
+.toolbarModifier.hidden,
+.toolbarModifier-hints.hidden {
+  display: none;
+}
+.toolbarModifier :focus,
+.toolbar button:focus,
+.configContainer > textarea:focus {
+  outline: none;
+}
+.toolbarModifier {
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  display: table;
+  border-collapse: collapse;
+}
+.toolbarModifier ::-moz-focus-inner {
+  border: 0;
+}
+.toolbarModifier .empty {
+  display: none;
+}
+.toolbarModifier.empty-visible .empty {
+  display: table-row;
+  zoom: 1;
+  filter: alpha(opacity=60);
+  -webkit-opacity: 0.6;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+}
+.toolbarModifier > ul {
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #cccccc;
+  width: 100%;
+}
+.toolbarModifier > ul[data-type="table-header"] {
+  display: table-header-group;
+}
+.toolbarModifier > ul[data-type="table-body"] {
+  display: table-row-group;
+}
+.toolbarModifier > ul > li {
+  display: table-row;
+}
+.toolbarModifier > ul > li[data-type="header"] {
+  font-weight: bold;
+  user-select: none;
+  cursor: default;
+}
+.toolbarModifier > ul > li[data-type="group"],
+.toolbarModifier > ul > li[data-type="separator"] {
+  border-bottom: 1px solid #cccccc;
+}
+.toolbarModifier > ul > li[data-type="subgroup"] {
+  border-top: 1px solid #eee;
+}
+.toolbarModifier > ul > li[data-type="subgroup"]:first-child {
+  border-top: none;
+}
+.toolbarModifier > ul > li[data-type="group"].active,
+.toolbarModifier > ul > li[data-type="group"]:hover,
+.toolbarModifier > ul > li[data-type="separator"].active,
+.toolbarModifier > ul > li[data-type="separator"]:hover {
+  overflow: hidden;
+  z-index: 2;
+}
+.toolbarModifier > ul > li[data-type="group"].active,
+.toolbarModifier > ul > li[data-type="separator"].active,
+.toolbarModifier > ul > li[data-type="group"].active:hover,
+.toolbarModifier > ul > li[data-type="separator"].active:hover {
+  background: #f0fafb;
+}
+.toolbarModifier > ul > li[data-type="group"]:hover,
+.toolbarModifier > ul > li[data-type="separator"]:hover {
+  background: #fffbe3;
+}
+.toolbarModifier > ul > li[data-type="separator"] {
+  background: #f5f5f5;
+}
+.toolbarModifier > ul > li[data-type="separator"]:after {
+  content: '';
+  width: 100%;
+}
+.toolbarModifier > ul > li[data-type="separator"] > p {
+  padding: 3px 5px;
+}
+.toolbarModifier > ul > li > p,
+.toolbarModifier > ul > li > ul {
+  display: table-cell;
+  vertical-align: middle;
+}
+.toolbarModifier > ul > li p {
+  padding-left: 5px;
+  min-width: 200px;
+}
+.toolbarModifier > ul > li p span {
+  white-space: nowrap;
+  cursor: default;
+}
+.toolbarModifier > ul > li p span button {
+  margin-right: 5px;
+  cursor: pointer;
+  background: #fff;
+  -webkit-border-radius: 5px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 5px;
+  -moz-background-clip: padding;
+  border-radius: 5px;
+  background-clip: padding-box;
+  border: 1px solid #bbb;
+  padding: 0 7px;
+  line-height: 12px;
+  height: 20px;
+}
+.toolbarModifier > ul > li p span button:not(.disabled):hover,
+.toolbarModifier > ul > li p span button:not(.disabled):focus {
+  color: #fff;
+  background-color: #454545;
+  border-color: transparent;
+}
+.toolbarModifier > ul > li p span button.move.disabled {
+  cursor: default;
+  zoom: 1;
+  filter: alpha(opacity=20);
+  -webkit-opacity: 0.2;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
+}
+.toolbarModifier > ul > li ul {
+  border-collapse: collapse;
+  padding-left: 0;
+  width: 100%;
+}
+.toolbarModifier > ul > li ul li {
+  display: table-row;
+  list-style-type: none;
+  vertical-align: middle;
+}
+.toolbarModifier > ul > li ul li[data-type="subgroup"] {
+  border-top: 1px solid #dddddd;
+}
+.toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
+  border-top: 0;
+}
+.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"] {
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  padding: 0 2px;
+}
+.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"]:focus {
+  background: rgba(0, 0, 0, 0.04);
+}
+.toolbarModifier > ul > li ul li > p,
+.toolbarModifier > ul > li ul li > ul {
+  display: table-cell;
+  vertical-align: middle;
+}
+.toolbarModifier > ul > li ul li p {
+  padding: 3px 0;
+}
+.toolbarModifier > ul > li ul li ul li {
+  padding: 3px 0;
+  display: inline-block;
+  cursor: pointer;
+}
+.toolbarModifier > ul > li ul li ul li + li {
+  margin-left: 5px;
+}
+.toolbarModifier > ul > li ul li ul li .cke_combo_text {
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toolbarModifier > ul > li ul li ul li .cke_toolgroup,
+.toolbarModifier > ul > li ul li ul li .cke_combo_button {
+  cursor: pointer;
+  margin: 0;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  font-size: 11.41px;
+  font-size: 0.713rem;
+  line-height: 20.54px;
+  line-height: 1.28rem;
+}
+.toolbarModifier > .codemirror-wrapper {
+  overflow-y: auto;
+}
+.toolbarModifier-hints {
+  float: right;
+  width: 350px;
+  min-width: 150px;
+  overflow-y: auto;
+  margin-left: 1.5em;
+}
+.toolbarModifier-hints h3 {
+  font-size: 18.08px;
+  font-size: 1.13rem;
+  line-height: 32.54px;
+  line-height: 2.03rem;
+  padding: 0.36em 1.5em;
+  background: #f5f5f5;
+  border-bottom: 1px solid #dddddd;
+  margin: 0 0 1.2em;
+}
+.toolbarModifier-hints dl {
+  margin-bottom: 1.2em;
+  overflow: hidden;
+}
+.toolbarModifier-hints dl .list-header {
+  font-weight: bold;
+  border: 0;
+  padding-bottom: 0.6em;
+}
+.toolbarModifier-hints dl > p {
+  text-align: center;
+}
+.toolbarModifier-hints dl dt {
+  float: left;
+  width: 9em;
+  clear: both;
+  text-align: right;
+  border-top: 1px solid #dddddd;
+  padding-left: 1.5em;
+  padding-right: .1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.toolbarModifier-hints dl dt code {
+  background: none;
+  border: none;
+  vertical-align: middle;
+}
+.toolbarModifier-hints dl dd {
+  margin-left: 10em;
+  clear: right;
+  padding-right: 1.5em;
+}
+.toolbarModifier-hints dl dd code {
+  line-height: 2.2em;
+}
+.toolbarModifier-hints dl dd:after {
+  content: '\00a0';
+  display: block;
+  clear: left;
+  float: right;
+  height: 0;
+  width: 0;
+}
+.toolbarModifier-hints,
+.configContainer > textarea,
+.CodeMirror {
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  font-size: 13.01px;
+  font-size: 0.813rem;
+  line-height: 23.42px;
+  line-height: 1.46rem;
+}
+.configContainer > textarea,
+.CodeMirror pre,
+.CodeMirror-linenumber {
+  font-size: 13.01px;
+  font-size: 0.813rem;
+  line-height: 23.42px;
+  line-height: 1.46rem;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+.configContainer > textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #575757;
+  padding: 10px;
+  width: 100%;
+  min-height: 450px;
+  margin: 0;
+  resize: none;
+  outline: none;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  white-space: pre;
+  word-wrap: normal;
+  overflow: auto;
+}
+.CodeMirror-hints.toolbar-modifier {
+  padding: 0;
+  color: #575757;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 25.2px;
+  line-height: 1.57rem;
+  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+.CodeMirror-hints.toolbar-modifier .CodeMirror-hint-active {
+  color: #575757;
+  background: #f0fafb;
+}
+.CodeMirror-hints.toolbar-modifier > li:hover {
+  background: #fffbe3;
+}
+/* Text modifier */
+#toolbarModifierWrapper {
+  margin-top: 2.4em;
+  margin-bottom: 1.2em;
+}
+#toolbarModifierWrapper .invalid .CodeMirror {
+  background: #fff8f8;
+}
+#toolbarModifierWrapper .CodeMirror {
+  height: auto;
+  padding: 0 0.6em;
+}
+.mode-switch {
+  position: absolute;
+  right: 0;
+  top: 25px;
+  -webkit-border-radius: 200px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 200px;
+  -moz-background-clip: padding;
+  border-radius: 200px;
+  background-clip: padding-box;
+  background: #f2fafb;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.25);
+  padding: 5px 7px 9px;
+}
+.mode-switch .fancy-button {
+  float: left;
+}
+.mode-switch .fancy-button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.mode-switch .fancy-button:first-child + .fancy-button {
+  margin: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.mode-switch .fancy-tip {
+  right: 155px;
+  top: -30px;
+  background-position: left -130px;
+  padding-left: 39px;
+  padding-top: 7px;
+}
+/*# sourceMappingURL=toolbarmodifier.css.map */

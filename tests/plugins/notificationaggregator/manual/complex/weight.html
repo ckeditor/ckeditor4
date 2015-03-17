@@ -1,0 +1,43 @@
+<div id="editor1">
+	<p>Foo foo foo</p>
+</div>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'notificationaggregator',
+			toolbar: [ [ 'Undo', 'Redo' ], [ 'Bold', 'Italic', 'Underline' ] ]
+		} ),
+		aggregator,
+		tasks;
+
+	function createAggregator() {
+		// Init notification aggregator.
+		aggregator = new CKEDITOR.plugins.notificationAggregator( editor, 'Loading {current} of {max}... {percentage}%' );
+
+		aggregator.on( 'finished', function() {
+			aggregator.notification.hide();
+		} );
+
+		// Create 3 tasks.
+		tasks = [
+			aggregator.createTask( { weight: 10 } ),
+			aggregator.createTask( { weight: 30 } ),
+			aggregator.createTask( { weight: 60 } )
+		];
+	}
+
+	function closeTask( taskIndex ) {
+		if ( !tasks ) {
+			// If tasks are not inited it means createAggregator was not called.
+			createAggregator();
+		}
+
+		tasks[ taskIndex ].done();
+	}
+</script>
+<p>
+	<input onclick="createAggregator();" type="button" value="Init aggregator">
+	<br>
+	<input onclick="closeTask( 0 );" type="button" value="Finish task 1 (10% of total weight)">
+	<input onclick="closeTask( 1 );" type="button" value="Finish task 2 (30% of total weight)">
+	<input onclick="closeTask( 2 );" type="button" value="Finish task 3 (60% of total weight)">
+</p>

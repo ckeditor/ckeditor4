@@ -108,6 +108,42 @@
 				// Just to be sure that test is correct.
 				assert.areSame( 2, toHtml, 'toHtml was fired twice' );
 			} );
+		},
+
+		'test insertHtml without focus': function() {
+			bender.editorBot.create( {
+				name: 'test_inserthtml_no_focus',
+				config: {
+					allowedContent: true
+				}
+			}, function( bot ) {
+				bot.editor.insertHtml( '<p>foo</p>' );
+
+				assert.areSame( '<p>foo</p>', bot.editor.getData(), 'HTML was inserted' );
+			} );
+		},
+
+		'test insertText without focus': function() {
+			bender.editorBot.create( {
+				name: 'test_inserttext_no_focus',
+				config: {
+					allowedContent: true
+				}
+			}, function( bot ) {
+				bot.editor.insertText( 'bar' );
+
+				assert.areSame( '<p>bar</p>', bot.editor.getData(), 'text was inserted' );
+			} );
+		},
+
+		'test insertHtml sets options.protectedWhitespaces of dP.toHtml': function() {
+			var editor = this.editor;
+
+			editor.once( 'toHtml', function( evt ) {
+				assert.isTrue( evt.data.protectedWhitespaces );
+			} );
+
+			editor.insertHtml( '  foo  ' );
 		}
 	} );
 } )();

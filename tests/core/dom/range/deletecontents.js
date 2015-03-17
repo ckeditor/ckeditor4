@@ -144,6 +144,66 @@
 			assert.areSame( document.getElementById( '_Para' ), range.endContainer.$, 'range.endContainer' );
 			assert.areSame( 0, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		'test deleteContents - mergeThen': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<b>bar</b></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			range.deleteContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f[]r</b></p>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test deleteContents - mergeThen (nothing to merge)': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<p><b>foo</b>xxx<u>bar</u></p>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.getFirst().getFirst().getFirst(), 1 ); // f[oo
+			range.setEnd( root.getFirst().getLast().getFirst(), 2 ); // ba}r
+
+			range.deleteContents( true );
+
+			assert.isInnerHtmlMatching( '<p><b>f</b>[]<u>r</u></p>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test deleteContents - empty containers': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( 'x<h1></h1><p>foo</p><h2></h2>y' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]</h2>
+
+			range.deleteContents();
+
+			assert.isInnerHtmlMatching( 'x<h1></h1>[]<h2></h2>y', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test deleteContents - empty container, non-empty container': function() {
+			var root = doc.createElement( 'div' ),
+				range = new CKEDITOR.dom.range( doc );
+
+			root.setHtml( '<h1></h1><h2><br /></h2>' );
+			doc.getBody().append( root );
+
+			range.setStart( root.findOne( 'h1' ), 0 ); // <h1>[</h1>
+			range.setEnd( root.findOne( 'h2' ), 0 ); // <h2>]<br /></h2>
+
+			range.deleteContents();
+
+			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
 		}
 	};
 

@@ -154,6 +154,14 @@
 } )();
 
 /**
+ * Determine whether dimensions inputs should be automatically filled when image src changes in image dialog.
+ *
+ * @since 4.5.0
+ * @cfg {Boolean} [image_prefillDimensions=true]
+ * @member CKEDITOR.config
+ */
+
+/**
  * Whether to remove links when emptying the link URL field in the image dialog.
  *
  *		config.image_removeLinkByEmptyURL = false;

@@ -21,59 +21,51 @@
 			}
 		};
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				editor: {
-					name: 'editor1',
-					config: {
-						extraAllowedContent: 'img figure[id]',
-						autoParagraph: false,
-						language: 'en',
-						image2_alignClasses: [ 'al', 'ac', 'ar' ],
-						image2_captionedClass: 'cap'
-					}
-				},
-
-				editorACFStyles: {
-					name: 'editor2',
-					config: {
-						extraAllowedContent: 'img figure[id]',
-						autoParagraph: false,
-						language: 'en',
-						image2_captionedClass: 'cap',
-						on: {
-							loaded: function() {
-								this.filter.allow( new CKEDITOR.style( styleDef ) );
-							}
-						}
-					}
-				},
-
-				editorACFClasses: {
-					name: 'editor3',
-					config: {
-						extraAllowedContent: 'img figure[id]',
-						autoParagraph: false,
-						language: 'en',
-						image2_alignClasses: [ 'al', 'ac', 'ar' ],
-						image2_captionedClass: 'cap',
-						on: {
-							loaded: function() {
-								this.filter.allow( new CKEDITOR.style( styleDef ) );
-							}
-						}
-					}
-				}
-			}, function( editors, bots ) {
-				that.editorBots = bots;
-				that.editors = editors;
-				that.callback();
-			} );
+	bender.editors = {
+		editor: {
+			name: 'editor1',
+			config: {
+				extraAllowedContent: 'img figure[id]',
+				autoParagraph: false,
+				language: 'en',
+				image2_alignClasses: [ 'al', 'ac', 'ar' ],
+				image2_captionedClass: 'cap'
+			}
 		},
 
+		editorACFStyles: {
+			name: 'editor2',
+			config: {
+				extraAllowedContent: 'img figure[id]',
+				autoParagraph: false,
+				language: 'en',
+				image2_captionedClass: 'cap',
+				on: {
+					loaded: function() {
+						this.filter.allow( new CKEDITOR.style( styleDef ) );
+					}
+				}
+			}
+		},
+
+		editorACFClasses: {
+			name: 'editor3',
+			config: {
+				extraAllowedContent: 'img figure[id]',
+				autoParagraph: false,
+				language: 'en',
+				image2_alignClasses: [ 'al', 'ac', 'ar' ],
+				image2_captionedClass: 'cap',
+				on: {
+					loaded: function() {
+						this.filter.allow( new CKEDITOR.style( styleDef ) );
+					}
+				}
+			}
+		}
+	};
+
+	bender.test( {
 		'test style non-captioned, right-aligned widget': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor,

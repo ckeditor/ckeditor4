@@ -1,0 +1,40 @@
+<textarea id="editor1">&lt;p&gt;The more a thing tends to be permanent, the more it tends to be lifeless.&lt;/p&gt;</textarea>
+<button id="destroy"><span>Destroy editor</span></button>
+<button id="create"><span>Create editor</span></button>
+<script>
+	( function() {
+		var destroyBtn = CKEDITOR.document.getById( 'destroy' ),
+			createBtn = CKEDITOR.document.getById( 'create' ),
+			editor1 = null,
+			storage;
+
+		function destroyEditor() {
+			editor1.destroy();
+			editor1 = null;
+
+			createBtn.on( 'click', createEditor );
+			destroyBtn.removeListener( 'click', destroyEditor );
+		}
+
+		function createEditor() {
+			editor1 = CKEDITOR.replace( 'editor1', {
+				resize_dir: 'both'
+			} );
+
+			editor1.on( 'instanceReady', function() {
+				editor1.on( 'resize', function( e ) {
+					storage = e.data;
+				} );
+
+				destroyBtn.on( 'click', destroyEditor );
+				createBtn.removeListener( 'click', createEditor );
+
+				if ( storage ) {
+					editor1.resize( storage.outerWidth, storage.outerHeight );
+				}
+			} );
+		}
+
+		createEditor();
+	}() );
+</script>

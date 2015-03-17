@@ -4,7 +4,7 @@
 ( function() {
 	'use strict';
 
-	var editorsDefinitions = {
+	bender.editors = {
 		framed: {
 			name: 'framed'
 		},
@@ -21,10 +21,6 @@
 	};
 
 	CKEDITOR.disableAutoInline = true;
-
-	bender.tools.setUpEditors( editorsDefinitions, function( editors ) {
-		bender.test( bender.tools.createTestsForEditors( editors, tests ) );
-	} );
 
 	var tests = {
 		// We could test this more precisely (status right after contentDom/instanceReady),
@@ -148,5 +144,7 @@
 			assert.areSame( 'detached', editable.status, 'status after destroy' );
 		}
 	};
+
+	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
 
 } )();

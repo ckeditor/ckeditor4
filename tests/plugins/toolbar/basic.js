@@ -92,5 +92,33 @@ bender.test( {
 			},
 			testToolbarExpanded
 		);
+	},
+
+	'test toolbar collapse/expand fire resize event': function() {
+		bender.editorBot.create( {
+				name: 'editor4',
+				config: {
+					toolbarCanCollapse: true
+				}
+			},
+			function( bot ) {
+				var resizeData = [],
+					editor = bot.editor;
+
+				editor.on( 'resize', function( e ) {
+					resizeData.push( e.data );
+				} );
+
+				editor.resize( 200, 400 );
+				assert.areEqual( 200, resizeData[ 0 ].outerWidth, 'Width should be set properly.' );
+				assert.areEqual( 400, resizeData[ 0 ].outerHeight, 'Height should be set properly.' );
+
+				editor.execCommand( 'toolbarCollapse' );
+				assert.isTrue( resizeData[ 1 ].outerHeight < resizeData[ 0 ].outerHeight, 'Height after collapse should be less.' );
+
+				editor.execCommand( 'toolbarCollapse' );
+				assert.areSame( resizeData[ 0 ].outerHeight, resizeData[ 2 ].outerHeight, 'Height should properly restore to same value.' );
+			}
+		);
 	}
 } );

@@ -424,7 +424,7 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (#11004).
-				if ( editor.filter.checkFeature( this.features.dimension ) )
+				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true )
 					setupResizer( this );
 
 				this.shiftState = helpers.stateShifter( this.editor );
@@ -789,7 +789,7 @@
 				// 		</p>
 				// 	</div>
 				if ( hasCaption ) {
-					wrapper.addClass( alignClasses[1] );
+					wrapper.addClass( alignClasses[ 1 ] );
 				}
 			} else if ( align != 'none' ) {
 				wrapper.addClass( alignClasses[ alignmentsObj[ align ] ] );
@@ -871,7 +871,7 @@
 
 				// Upcast linked image like <a><img/></a>.
 			} else if ( isLinkedOrStandaloneImage( el ) ) {
-				image = el.name == 'a' ? el.children[0] : el;
+				image = el.name == 'a' ? el.children[ 0 ] : el;
 			}
 
 			if ( !image )
@@ -1334,10 +1334,11 @@
 				else {
 					this.setState(
 						( widget.data.align == value ) ? (
-								CKEDITOR.TRISTATE_ON
-							) : (
-								( value in allowed ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED )
-							);
+							CKEDITOR.TRISTATE_ON
+						) : (
+							( value in allowed ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
+						)
+					);
 				}
 
 				evt.cancel();
@@ -1533,6 +1534,22 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.image2_captionedClass = 'image';
+
+/**
+ * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
+ *
+ * @since 4.5.0
+ * @cfg {Boolean} [image2_prefillDimensions=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Disables the image resizer. By default the resizer is enabled.
+ *
+ * @since 4.5.0
+ * @cfg {Boolean} [image2_disableResizer=false]
+ * @member CKEDITOR.config
+ */
 
 /**
  * CSS classes applied to aligned images. Useful to take control over the way

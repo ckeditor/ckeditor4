@@ -4,30 +4,22 @@
 ( function() {
 	'use strict';
 
-	var editorBots,
-		jsContent = 'javascript:someFunction();', // jshint ignore:line
+	var jsContent = 'javascript:someFunction();', // jshint ignore:line
 		linkContent = 'http://ckeditor.com';
 
-	bender.test( {
-		'async:init': function() {
-			var that = this;
-
-			bender.tools.setUpEditors( {
-				allowedJS: {
-					name: 'allowedJS',
-					config: {
-						linkJavaScriptLinksAllowed: true
-					}
-				},
-				notAllowedJS: {
-					name: 'notAllowedJS'
-				}
-			}, function( editors, bots ) {
-				editorBots = bots;
-				that.callback( editors );
-			} );
+	bender.editors = {
+		allowedJS: {
+			name: 'allowedJS',
+			config: {
+				linkJavaScriptLinksAllowed: true
+			}
 		},
+		notAllowedJS: {
+			name: 'notAllowedJS'
+		}
+	};
 
+	bender.test( {
 		tearDown: function() {
 			var currentDialog = CKEDITOR.dialog.getCurrent();
 
@@ -36,7 +28,7 @@
 		},
 
 		'test blocked JavaScript content in href attribute': function() {
-			var bot = editorBots.notAllowedJS;
+			var bot = this.editorBots.notAllowedJS;
 
 			bot.setData( '', function() {
 				bot.editor.focus();
@@ -58,7 +50,7 @@
 		},
 
 		'test not blocked JavaScript content in href attribute': function() {
-			var bot = editorBots.allowedJS;
+			var bot = this.editorBots.allowedJS;
 
 			bot.setData( '', function() {
 				bot.editor.focus();

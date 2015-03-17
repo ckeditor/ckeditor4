@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -93,6 +93,19 @@ CKEDITOR.plugins.add( 'dialogui', {
 						delete def[ i ];
 				}
 				return def;
+			},
+			// @context {CKEDITOR.dialog.uiElement} UI element (textarea or textInput)
+			// @param {CKEDITOR.dom.event} evt
+			toggleBidiKeyUpHandler = function( evt ) {
+				var keystroke = evt.data.getKeystroke();
+
+				// ALT + SHIFT + Home for LTR direction.
+				if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 36 )
+					this.setDirectionMarker( 'ltr' );
+
+				// ALT + SHIFT + End for RTL direction.
+				else if ( keystroke == CKEDITOR.SHIFT + CKEDITOR.ALT + 35 )
+					this.setDirectionMarker( 'rtl' );
 			};
 
 		CKEDITOR.tools.extend( CKEDITOR.ui.dialog, {
@@ -235,6 +248,9 @@ CKEDITOR.plugins.add( 'dialogui', {
 							}, 0 );
 							keyPressedOnMe = false;
 						}
+
+						if ( me.bidi )
+							toggleBidiKeyUpHandler.call( me, evt );
 					}, null, null, 1000 );
 				} );
 
@@ -301,6 +317,12 @@ CKEDITOR.plugins.add( 'dialogui', {
 
 				if ( elementDefinition.dir )
 					attributes.dir = elementDefinition.dir;
+
+				if ( me.bidi ) {
+					dialog.on( 'load', function() {
+						me.getInputElement().on( 'keyup', toggleBidiKeyUpHandler );
+					}, me );
+				}
 
 				var innerHTML = function() {
 						attributes[ 'aria-labelledby' ] = this._.labelId;
@@ -1011,8 +1033,72 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 * @returns {CKEDITOR.ui.dialog.textInput} The current UI element.
 			 */
 			setValue: function( value ) {
-				!value && ( value = '' );
+				if ( this.bidi ) {
+					var marker = value && value.charAt( 0 ),
+						dir = ( marker == '\u202A' ? 'ltr' : marker == '\u202B' ? 'rtl' : null );
+
+					if ( dir ) {
+						value = value.slice( 1 );
+					}
+
+					// Set the marker or reset it (if dir==null).
+					this.setDirectionMarker( dir );
+				}
+
+				if ( !value ) {
+					value = '';
+				}
+
 				return CKEDITOR.ui.dialog.uiElement.prototype.setValue.apply( this, arguments );
+			},
+
+			/**
+			 * Gets the value of this text input object.
+			 *
+			 * @returns {String} The value.
+			 */
+			getValue: function() {
+				var value = CKEDITOR.ui.dialog.uiElement.prototype.getValue.call( this );
+
+				if ( this.bidi && value ) {
+					var dir = this.getDirectionMarker();
+					if ( dir ) {
+						value = ( dir == 'ltr' ? '\u202A' : '\u202B' ) + value;
+					}
+				}
+
+				return value;
+			},
+
+			/**
+			 * Sets the text direction marker and the `dir` attribute of the input element.
+			 *
+			 * @since 4.5.0
+			 * @param {String} dir The text direction. Pass `null` to reset.
+			 */
+			setDirectionMarker: function( dir ) {
+				var inputElement = this.getInputElement();
+
+				if ( dir ) {
+					inputElement.setAttributes( {
+						dir: dir,
+						'data-cke-dir-marker': dir
+					} );
+				// Don't remove the dir attribute if this field hasn't got the marker,
+				// because the dir attribute could be set independently.
+				} else if ( this.getDirectionMarker() ) {
+					inputElement.removeAttributes( [ 'dir', 'data-cke-dir-marker' ] );
+				}
+			},
+
+			/**
+			 * Gets the value of the text direction marker.
+			 *
+			 * @since 4.5.0
+			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
+			 */
+			getDirectionMarker: function() {
+				return this.getInputElement().data( 'cke-dir-marker' );
 			},
 
 			keyboardFocusable: true

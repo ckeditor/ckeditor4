@@ -41,7 +41,7 @@
 				// regardless of editor language (#10105).
 				textarea.setAttribute( 'dir', 'ltr' );
 
-				textarea.addClass( 'cke_source cke_reset cke_enable_context_menu' );
+				textarea.addClass( 'cke_source' ).addClass( 'cke_reset' ).addClass( 'cke_enable_context_menu' );
 
 				editor.ui.space( 'contents' ).append( textarea );
 

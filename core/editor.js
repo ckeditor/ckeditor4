@@ -329,23 +329,25 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		editor.readOnly = !!(
-			config.readOnly || (
-				editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ? (
-						editor.element.is( 'textarea' ) ? (
-								editor.element.hasAttribute( 'disabled' )
-							) : (
-								editor.element.isReadOnly()
-							)
-					) : (
-						editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ? (
-								editor.element.hasAttribute( 'disabled' )
-							) : (
-								false
-							)
-					)
-			)
-		);
+		editor.readOnly = isEditorReadOnly();
+
+		function isEditorReadOnly() {
+			if ( config.readOnly ) {
+				return true;
+			}
+
+			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+				if ( editor.element.is( 'textarea' ) ) {
+					return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
+				} else {
+					return editor.element.isReadOnly();
+				}
+			} else if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
+				return editor.element.hasAttribute( 'disabled' ) || editor.element.hasAttribute( 'readonly' );
+			}
+
+			return false;
+		}
 
 		/**
 		 * Indicates that the editor is running in an environment where
@@ -1028,6 +1030,10 @@
 		 *
 		 *		CKEDITOR.instances.editor1.insertHtml( '<p>This is a new paragraph.</p>' );
 		 *
+		 * Fires the {@link #event-insertHtml} and {@link #event-afterInsertHtml} events. The HTML is inserted
+		 * in {@link #event-insertHtml} event's listener with a default priority (10) so you can add listeners with
+		 * lower or higher priorities in order to execute some code before or after the HTML is inserted.
+		 *
 		 * @param {String} html HTML code to be inserted into the editor.
 		 * @param {String} [mode='html'] The mode in which the HTML code will be inserted. One of the following:
 		 *
@@ -1050,6 +1056,10 @@
 		 *
 		 *		CKEDITOR.instances.editor1.insertText( ' line1 \n\n line2' );
 		 *
+		 * Fires the {@link #event-insertText} and {@link #event-afterInsertHtml} events. The text is inserted
+		 * in {@link #event-insertText} event's listener with a default priority (10) so you can add listeners with
+		 * lower or higher priorities in order to execute some code before or after the text is inserted.
+		 *
 		 * @since 3.5
 		 * @param {String} text Text to be inserted into the editor.
 		 */
@@ -1064,11 +1074,81 @@
 		 *		var element = CKEDITOR.dom.element.createFromHtml( '<img src="hello.png" border="0" title="Hello" />' );
 		 *		CKEDITOR.instances.editor1.insertElement( element );
 		 *
+		 * Fires the {@link #event-insertElement} event. The element is inserted in listener with a default priority (10)
+		 * so you can add listeners with lower or higher priorities in order to execute some code before or after
+		 * the element is inserted.
+		 *
 		 * @param {CKEDITOR.dom.element} element The element to be inserted
 		 * into the editor.
 		 */
 		insertElement: function( element ) {
 			this.fire( 'insertElement', element );
+		},
+
+		/**
+		 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
+		 * or a string). This method is designed to work as a user would expect the copy functionality to work.
+		 * For instance, if the following selection has been made:
+		 *
+		 *		<p>a<b>b{c}d</b>e</p>
+		 *
+		 * The following HTML will be returned:
+		 *
+		 *		<b>c</b>
+		 *
+		 * As you can see, the information about the bold has been preserved, even though the selection was
+		 * anchored inside the `<b>` element.
+		 *
+		 * See also:
+		 *
+		 * * the {@link #extractSelectedHtml} method,
+		 * * the {@link CKEDITOR.editable#getHtmlFromRange} method.
+		 *
+		 * @since 4.5
+		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+		 * @returns {CKEDITOR.dom.documentFragment/String}
+		 */
+		getSelectedHtml: function( toString ) {
+			var editable = this.editable(),
+				ranges = this.getSelection().getRanges();
+
+			if ( !editable || ranges.length === 0 ) {
+				return null;
+			}
+
+			var docFragment = editable.getHtmlFromRange( ranges[ 0 ] );
+
+			return toString ? docFragment.getHtml() : docFragment;
+		},
+
+		/**
+		 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
+		 * or a string) and removes the selected part of the DOM. This method is designed to work as user would
+		 * expect the cut and delete functionalities to work.
+		 *
+		 * See also:
+		 *
+		 * * the {@link #getSelectedHtml} method,
+		 * * the {@link CKEDITOR.editable#extractHtmlFromRange} method.
+		 *
+		 * @since 4.5
+		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+		 * @returns {CKEDITOR.dom.documentFragment/String}
+		 */
+		extractSelectedHtml: function( toString ) {
+			var editable = this.editable(),
+				ranges = this.getSelection().getRanges();
+
+			if ( !editable || ranges.length === 0 ) {
+				return null;
+			}
+
+			var range = ranges[ 0 ],
+				docFragment = editable.extractHtmlFromRange( range );
+
+			this.getSelection().selectRanges( [ range ] );
+
+			return toString ? docFragment.getHtml() : docFragment;
 		},
 
 		/**
@@ -1268,6 +1348,33 @@
 				this.activeShiftEnterMode = shiftEnterMode;
 				this.fire( 'activeEnterModeChange' );
 			}
+		},
+
+		/**
+		 * Shows a notification to the user.
+		 *
+		 * If the [notification](http://ckeditor.com/addons/notification) plugin is not enabled this function shows
+		 * a normal alert with the given `message`. The `type` and `progressOrDuration` parameters are supported
+		 * only by the [notification](http://ckeditor.com/addons/notification) plugin.
+		 *
+		 * If `notification` plugin is enabled, then this method creates and shows a new notification.
+		 * By default the notification is shown over the editors contents, in the viewport if it is possible.
+		 *
+		 * See {@link CKEDITOR.plugins.notification}.
+		 *
+		 * @since 4.5
+		 * @member CKEDITOR.editor
+		 * @param {String} message Message displayed on the notification.
+		 * @param {String} [type='info'] Type of the notification. Can be `'info'`, `'warning'`, `'success'` or `'progress'`.
+		 * @param {Number} [progressOrDuration] If the type is `progress` the third parameter may be a progress from `0` to `1`
+		 * (defaults to `0`). Otherwise the the third parameter may be a notification duration: after how many milliseconds
+		 * notification should be closed automatically. `0` means that notification will not be closed automatically, user
+		 * needs to close it manually. See {@link CKEDITOR.plugins.notification#duration}.
+		 * Note that `warning` notifications will not be closed automatically.
+		 * @returns {CKEDITOR.plugins.notification} Created and shown notification.
+		 */
+		showNotification: function( message ) {
+			alert( message ); // jshint ignore:line
 		}
 	} );
 } )();
@@ -1710,7 +1817,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the {@link #method-insertHtml} call.
+ * Fired by the {@link #method-insertHtml} method. See the method documentation for more information
+ * on how this event can be used.
  *
  * @event insertHtml
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1720,7 +1828,8 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the {@link #method-insertText} call.
+ * Fired by the {@link #method-insertText} method. See the method documentation for more information
+ * on how this event can be used.
  *
  * @event insertText
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1728,11 +1837,23 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Internal event to perform the {@link #method-insertElement} call.
+ * Fired by the {@link #method-insertElement} method. See the method documentation for more information
+ * on how this event can be used.
  *
  * @event insertElement
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {CKEDITOR.dom.element} data The element to insert.
+ */
+
+/**
+ * Event fired after data insertion using insertHtml or insertHtmlIntoRange methods.
+ *
+ * @since 4.5
+ * @event afterInsertHtml
+ * @param data
+ * @param  {CKEDITOR.dom.range} [data.intoRange] If set the HTML was inserted into the range
+ * instead of into the selection. See the {@link CKEDITOR.editable#insertHtml} method which accepts range
+ * as a parameter.
  */
 
 /**

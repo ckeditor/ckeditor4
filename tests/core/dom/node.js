@@ -186,23 +186,72 @@
 			} ) );
 		},
 
-		// element::isReadOnly tests.
-		test_isReadOnly: function() {
-			var target = $( 'editable' ), body = target.getParent();
+		'test isReadOnly - body is isReadOnly': function() {
+			var target = $( 'editable' ),
+			body = target.getParent();
+
 			assert.isTrue( body.isReadOnly(), 'Body is not editable' );
+		},
+
+		'test isReadOnly - editable is not isReadOnly': function() {
+			var target = $( 'editable' );
+
 			assert.isFalse( target.isReadOnly(), 'Element specify itself as editable.' );
+		},
 
+		'test isReadOnly - contenteditable="false" is isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false">foo</div>' );
+
 			assert.isTrue( target.getFirst().isReadOnly(), 'Element specify itself as non-editable.' );
+		},
 
+		'test isReadOnly - contenteditable="false" child is isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false"><p>foo</p></div>' );
+
 			assert.isTrue( target.getChild( [ 0, 0 ] ).isReadOnly(), 'Element inheirit non-editable property from parent.' );
+		},
 
+		'test isReadOnly - nested editable is not isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<div contenteditable="false"><p contenteditable="true"><span>foo</span></p></div>' );
-			assert.isFalse( target.getChild( [ 0, 0, 0 ] ).isReadOnly(), 'Element inheirit editable property from parent.' );
 
+			assert.isFalse( target.getChild( [ 0, 0, 0 ] ).isReadOnly(), 'Element inheirit editable property from parent.' );
+		},
+
+		'test isReadOnly - contenteditable="false" data-cke-editable="1" is not isReadOnly': function() {
+			var target = $( 'editable' );
 			target.setHtml( '<input type="text" contenteditable="false" data-cke-editable="1" />' );
+
 			assert.isFalse( target.getFirst().isReadOnly(), 'Element marked as "cke-editable" is not ready-only.' );
+		},
+
+		'test isReadOnly - div is isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			assert.isTrue( el.isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div with data-cke-editable is not isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+			el.data( 'cke-editable', 1 );
+
+			assert.isFalse( el.isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div contenteditable="false" child is isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			el.setHtml( '<div contenteditable="false"><p>foo</p></div>' );
+			assert.isTrue( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
+		},
+
+		'test isReadOnly - div contenteditable="true" child is not isReadOnly (attrs check)': function() {
+			var el = newElement( 'div' );
+
+			el.setHtml( '<div contenteditable="true"><p>foo</p></div>' );
+			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
 		},
 
 		test_appendTo: function() {

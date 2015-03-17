@@ -17,21 +17,13 @@ function fakeHtml( editor, elHtml, className, type ) {
 	return fake( editor, elHtml, className, type ).getOuterHtml();
 }
 
+bender.editors = {
+	editor: {
+		name: 'editor1'
+	}
+};
+
 bender.test( {
-	'async:init': function() {
-		var that = this;
-
-		bender.tools.setUpEditors( {
-			editor: {
-				name: 'editor1'
-			}
-		}, function( editors, bots ) {
-			that.editorBots = bots;
-			that.editors = editors;
-			that.callback();
-		} );
-	},
-
 	'test downcasting': function() {
 		var editor = this.editors.editor;
 

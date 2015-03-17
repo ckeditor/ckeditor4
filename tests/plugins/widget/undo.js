@@ -25,20 +25,6 @@
 		},
 		widgetData2 = '<p id="p1">X</p><div data-widget="test2" id="w1">Y</div>';
 
-	function dropEvent( data, range ) {
-		var evt = new CKEDITOR.dom.event( {
-			dataTransfer: {
-				getData: function() {
-					return data;
-				}
-			}
-		} );
-
-		evt.testRange = range;
-
-		return evt;
-	}
-
 	bender.editor = {
 		config: {
 			allowedContent: true,
@@ -356,11 +342,17 @@
 
 				// Ensure async.
 				wait( function() {
-					var dropContainer = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
-					dropContainer.fire( 'drop', dropEvent(
-						JSON.stringify( { type: 'cke-widget', editor: editor.name, id: getWidgetById( editor, 'w1' ).id } ),
-						range
-					) );
+					var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+						evt = bender.tools.mockDropEvent();
+
+					evt.testRange = range;
+
+					dropTarget.fire( 'dragstart', evt );
+
+					var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
+					dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+					dropTarget.fire( 'drop', evt );
 				} );
 			} );
 		},
