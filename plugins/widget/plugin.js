@@ -3071,7 +3071,7 @@
 			while ( ( l = listeners.pop() ) )
 				l.removeListener();
 
-			onBlockWidgetDrop.call( this, sorted );
+			onBlockWidgetDrop.call( this, sorted, evt.sender );
 		}
 
 		// Mouseup means "drop". This is when the widget is being detached
@@ -3083,7 +3083,7 @@
 		listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
 	}
 
-	function onBlockWidgetDrop( sorted ) {
+	function onBlockWidgetDrop( sorted, dragTarget ) {
 		var finder = this.repository.finder,
 			liner = this.repository.liner,
 			editor = this.editor,
@@ -3105,7 +3105,8 @@
 
 			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {
-				dropRange: dropRange
+				dropRange: dropRange,
+				target: dropRange.startContainer
 			} );
 		}
 
@@ -3116,7 +3117,7 @@
 		liner.hideVisible();
 
 		// Clean-up drag & drop.
-		editor.fire( 'dragend', {} );
+		editor.fire( 'dragend', { target: dragTarget } );
 	}
 
 	function setupEditables( widget ) {
