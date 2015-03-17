@@ -10,8 +10,6 @@
 'use strict';
 
 ( function() {
-	var blockWidgetDataTransfer;
-
 	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
@@ -3062,11 +3060,7 @@
 			buffer.input();
 		} ) );
 
-		blockWidgetDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( null, editor );
-		editor.fire( 'dragstart', {
-			dataTransfer: blockWidgetDataTransfer,
-			target: evt.sender
-		} );
+		editor.fire( 'dragstart', { target: evt.sender } );
 
 		function onMouseUp() {
 			var l;
@@ -3093,8 +3087,7 @@
 		var finder = this.repository.finder,
 			liner = this.repository.liner,
 			editor = this.editor,
-			editable = this.editor.editable(),
-			dataTransfer = blockWidgetDataTransfer;
+			editable = this.editor.editable();
 
 		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 			// Retrieve range for the closest location.
@@ -3105,12 +3098,10 @@
 			// this.focus();
 
 			// Get widget HTML.
-			dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
+			// dataTransfer.setData( 'text/html', this.wrapper.getOuterHtml() );
 
 			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {
-				dataTransfer: dataTransfer,
-				dataValue: '',
 				dropRange: dropRange
 			} );
 
@@ -3134,9 +3125,7 @@
 		liner.hideVisible();
 
 		// Clean-up drag & drop.
-		if ( editor.fire( 'dragend', null, { dataTransfer: dataTransfer } ) !== false ) {
-			blockWidgetDataTransfer = null;
-		}
+		editor.fire( 'dragend', {} );
 	}
 
 	function setupEditables( widget ) {

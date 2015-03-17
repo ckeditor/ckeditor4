@@ -1256,6 +1256,8 @@
 				top = editor.ui.space( 'top' ),
 				bottom = editor.ui.space( 'bottom' );
 
+			// -------------- DRAG OVER --------------
+
 			function preventDefaultSetDropEffectToNone( evt ) {
 				evt.data.preventDefault();
 				evt.data.$.dataTransfer.dropEffect = 'none';
@@ -1265,26 +1267,32 @@
 			top && top.on( 'dragover', preventDefaultSetDropEffectToNone );
 			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
 
+			// -------------- DRAGSTART --------------
+
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
-			editable.attachListener( dropTarget, 'dragstart', function( evt ) {
-				// Create a dataTransfer object and save it globally.
-				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+			editable.attachListener( dropTarget, 'dragstart', fireDragEvent );
 
-				fireDragEvent( 'dragstart', evt, dataTransfer );
-			} );
+			// Make sure to reset data transfer (in case dragend was not called or was canceled).
+			editor.on( 'dragstart', clipboard.resetDragDataTransfer, clipboard, null, 1 );
+
+			// Create a dataTransfer object and save it globally.
+			editor.on( 'dragstart', function( evt ) {
+				clipboard.initDragDataTransfer( evt, editor );
+			}, null, null, 2 );
+
+			// -------------- DRAGEND --------------
 
 			// Clean up on dragend.
-			editable.attachListener( dropTarget, 'dragend', function( evt ) {
-				var dataTransfer = clipboard.initDragDataTransfer( evt, editor );
+			editable.attachListener( dropTarget, 'dragend', fireDragEvent );
 
-				// Fire dragend
-				if ( fireDragEvent( 'dragend', evt, dataTransfer ) ) {
-					// When drag & drop is done we need to reset dataTransfer so the future
-					// external drop will be not recognize as internal.
-					clipboard.resetDragDataTransfer();
-				}
-			} );
+			editor.on( 'dragend', clipboard.initDragDataTransfer, clipboard, null, 1 );
+
+			// When drag & drop is done we need to reset dataTransfer so the future
+			// external drop will be not recognize as internal.
+			editor.on( 'dragend', clipboard.resetDragDataTransfer, clipboard, null, 100 );
+
+			// -------------- DRAGOVER --------------
 
 			// We need to call preventDefault on dragover because otherwise if
 			// we drop image it will overwrite document.
@@ -1309,12 +1317,11 @@
 				}
 			} );
 
+			// -------------- DROP --------------
+
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
 				// Cancel native drop.
 				evt.data.preventDefault();
-
-				// Create dataTransfer of get it, if it was created before.
-				var dataTransfer = clipboard.initDragDataTransfer( evt );
 
 				// Getting drop position is one of the most complex part.
 				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
@@ -1326,8 +1333,11 @@
 				}
 
 				// Fire drop.
-				fireDragEvent( 'drop', evt, dataTransfer, dragRange, dropRange  );
+				fireDragEvent( evt, dragRange, dropRange  );
 			} );
+
+			// Create dataTransfer of get it, if it was created before.
+			editor.on( 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
 
 			editor.on( 'drop', function( evt ) {
 				var data = evt.data;
@@ -1427,11 +1437,10 @@
 			}
 
 			// Fire drag/drop events (dragstart, dragend, drop).
-			function fireDragEvent( name, evt, dataTransfer, dragRange, dropRange ) {
+			function fireDragEvent( evt, dragRange, dropRange ) {
 				var eventData = {
 						nativeEvent: evt.data.$,
-						target: evt.data.getTarget(),
-						dataTransfer: dataTransfer
+						target: evt.data.getTarget()
 					};
 
 				if ( dragRange ) {
@@ -1441,12 +1450,9 @@
 					eventData.dropRange = dropRange;
 				}
 
-				if ( editor.fire( name, eventData ) === false ) {
+				if ( editor.fire( evt.name, eventData ) === false ) {
 					evt.data.preventDefault();
-					return false;
 				}
-
-				return eventData;
 			}
 		} );
 	}
@@ -1754,24 +1760,32 @@
 			// Create a new dataTransfer object based on the drop event.
 			// If this event was used on dragstart to create dataTransfer
 			// both dataTransfer objects will have the same id.
-			var nativeDataTransfer = evt ? evt.data.$.dataTransfer : null,
+			var nativeDataTransfer = evt.data.nativeEvent ? evt.data.nativeEvent.dataTransfer : null,
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
-			// If there is the same id we will replace dataTransfer with the one
-			// created on drag, because it contains drag editor, drag content and so on.
-			// Otherwise (in case of drag from external source) we save new object to
-			// the global clipboard.dragData.
-			if ( this.dragData && dataTransfer.id == this.dragData.id ) {
-				dataTransfer = this.dragData;
+			if ( !nativeDataTransfer ) {
+				if ( this.dragData ) {
+					dataTransfer = this.dragData;
+				} else {
+					this.dragData = dataTransfer;
+				}
 			} else {
-				this.dragData = dataTransfer;
+				// If there is the same id we will replace dataTransfer with the one
+				// created on drag, because it contains drag editor, drag content and so on.
+				// Otherwise (in case of drag from external source) we save new object to
+				// the global clipboard.dragData.
+				if ( this.dragData && dataTransfer.id == this.dragData.id ) {
+					dataTransfer = this.dragData;
+				} else {
+					this.dragData = dataTransfer;
+				}
+
+				if ( sourceEditor ) {
+					this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
+				}
 			}
 
-			if ( sourceEditor ) {
-				this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
-			}
-
-			return dataTransfer;
+			evt.data.dataTransfer = dataTransfer;
 		},
 
 		/**
