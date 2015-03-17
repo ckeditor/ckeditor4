@@ -2308,6 +2308,10 @@
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
+		editor.on( 'paste', function() {
+			editor.getSelection().reset();
+		}, null, null, 1001 );
+
 		editor.on( 'contentDom', function() {
 			var editable = editor.editable();
 
