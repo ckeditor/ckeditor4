@@ -15,19 +15,22 @@ module.exports = function( grunt ) {
 			basicsample: {
 				files: [
 					{
-						src: 'samples/less/sample.less',
-						dest: 'samples/css/sample.css'
+						src: 'samples/less/samples.less',
+						dest: 'samples/css/samples.css'
 					}
 				],
 
 				options: {
-					paths: [ 'samples/' ],
+					ieCompat: true,
+					paths: [ 'samples/' ], /* ? */
+					relativeUrls: true,
 
-					banner: cssBanner,
+					/*banner: cssBanner,*/
 					sourceMap: true,
-					sourceMapFilename: 'samples/css/sample.css.map',
-					sourceMapURL: 'sample.css.map',
-					sourceMapRootpath: '../../'
+					sourceMapFileInline: true,
+					sourceMapFilename: 'samples/css/samples.css.map',
+					sourceMapURL: 'samples.css.map',
+					sourceMapRootpath: '../../' /* ? */
 				}
 			},
 

@@ -17,69 +17,81 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<link rel="stylesheet" href="lib/codemirror/neo.css">
 	<link rel="stylesheet" href="css/fontello.css">
 	<link rel="stylesheet" href="css/toolbarmodifier.css">
-	<link rel="stylesheet" href="../css/sample.css">
+	<link rel="stylesheet" href="../css/samples.css">
 </head>
-<body>
+<body id="toolbar">
 
-<header>
-	<div>
-		<h1>
-			<a href="index.html"><img src="../img/logo.png" alt="CKEditor Sample"></a>
+<nav class="navigation-a">
+	<div class="grid-container">
+		<ul>
+			<li><a href="http://ckeditor.com">Project Homepage</a></li>
+			<li><a href="http://dev.ckeditor.com/">I found a bug</a></li>
+			<li><a href="http://github.com/ckeditor/ckeditor-dev" class="icon-pos-right icon-navigation-a-github">Fork CKEditor on GitHub</a></li>
+		</ul>
+		<ul class="right">
+			<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+		</ul>
+	</div>
+</nav>
+
+<header class="header-a">
+	<div class="grid-container">
+		<h1 class="header-a-logo grid-width-30">
+			<a href="index.html"><img src="../img/logo.png" alt="CKEditor Logo"></a>
 		</h1>
-		<nav class="navigation main-navigation">
+		<nav class="navigation-b grid-width-70">
 			<ul>
-				<li><a href="../index.html">Start</a></li>
-				<li><a href="index.html" class="active">Toolbar configurator</a></li>
+				<li><a href="../index.html"  class="button-a">Start</a></li>
+				<li><a href="index.html"  class="button-a button-a-background">Toolbar configurator</a></li>
 			</ul>
 		</nav>
 	</div>
-	<nav class="navigation top-navigation">
-		<div>
-			<ul>
-				<li><a href="http://ckeditor.com">Project Homepage</a></li>
-				<li><a href="http://dev.ckeditor.com/">I found a bug</a></li>
-				<li><a href="http://github.com/ckeditor/ckeditor-dev" class="fork">Fork CKEditor on GitHub</a></li>
-			</ul>
-			<ul class="right">
-				<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
-			</ul>
-		</div>
-	</nav>
 </header>
 
 <main>
-	<section class="adjoined">
-		<div>
-			<h1>Toolbar configurator</h1>
-			<span class="mode-switch">
-				<span id="mode-switch-basic" class="fancy-button fancy-button-red fancy-button-active">Basic</span>
-				<span id="mode-switch-advanced" class="fancy-button fancy-button-red">Advanced</span>
-				<span class="fancy-tip">Select configurator type</span>
-			</span>
-			<div class="editors-container">
-				<div id="editor-basic"></div>
-				<div id="editor-advanced"></div>
+	<div class="adjoined-top">
+		<div class="grid-container">
+			<div class="content grid-width-100">
+				<h1>Toolbar configurator</h1>
+
+				<span class="mode-switch">
+					<span id="mode-switch-basic" class="fancy-button fancy-button-red fancy-button-active">Basic</span>
+					<span id="mode-switch-advanced" class="fancy-button fancy-button-red">Advanced</span>
+					<!--<span class="fancy-tip">Select configurator type</span>-->
+				</span>
+
+				<div class="editors-container">
+					<div id="editor-basic"></div>
+					<div id="editor-advanced"></div>
+				</div>
 			</div>
 		</div>
-	</section>
-	<section class="configurator">
-		<div class="instructions-container">
-			<div class="basic" style="display: none;">
-				<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
-				<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
-				<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
-				<p>Arranging toolbar groups is the recommended way of configuring toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
-			</div>
-			<div class="advanced" style="display: none;">
-				<p>With this code editor you can edit live your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a>.</p>
-				<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
-				<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
-			</div>
+	</div>
+
+	<div class="grid-container">
+		<div class="content grid-width-100">
+
+			<section class="configurator">
+				<h2>What am I doing here?</h2>
+				<div class="instructions-container">
+					<div class="basic grid-container" style="display: none;">
+						<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
+						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+						<p>Arranging toolbar groups is the recommended way of configuring toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
+					</div>
+					<div class="advanced grid-container" style="display: none;">
+						<p>With this code editor you can edit live your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a>.</p>
+						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+					</div>
+				</div>
+				<div>
+					<div id="toolbarModifierWrapper"></div>
+				</div>
+			</section>
 		</div>
-		<div>
-			<div id="toolbarModifierWrapper"></div>
-		</div>
-	</section>
+	</div>
 
 	<script src="lib/codemirror/codemirror.js"></script>
 	<script src="lib/codemirror/javascript.js"></script>
@@ -98,7 +110,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					toolbarGroups: null,
 					toolbar: null
 				},
-				configuratorSection = CKEDITOR.document.findOne( 'section.configurator' ),
+				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container' ),
 				basicInstruction = CKEDITOR.document.findOne( '.instructions-container > .basic' ),
 				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' );
 
@@ -199,7 +211,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				window.location.hash = '#basic';
 				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
 
-				configuratorSection.removeClass( 'width-freed' );
+				configuratorSection.removeClass( 'freed-width' );
 				basicInstruction.show();
 				advancedInstruction.hide();
 
@@ -212,7 +224,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				window.location.hash = '#advanced';
 				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
 
-				configuratorSection.addClass( 'width-freed' );
+				configuratorSection.addClass( 'freed-width' );
 				advancedInstruction.show();
 				basicInstruction.hide();
 
@@ -225,15 +237,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</script>
 </main>
 
-<footer>
-	<div>
-		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-		</p>
-		<p id="copy">
-			Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
-		</p>
-	</div>
+<footer class="footer-a grid-container">
+	<p class="grid-width-100">
+		CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+	</p>
+	<p class="grid-width-100" id="copy">
+		Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
+	</p>
 </footer>
 
 </body>

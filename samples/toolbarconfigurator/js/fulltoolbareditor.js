@@ -324,7 +324,7 @@ window.ToolbarConfigurator = {};
 	FullToolbarEditor.createButton = function( text, cssClass ) {
 		var $button = new CKEDITOR.dom.element( 'button' );
 
-		$button.addClass( 'fancy-button' );
+		$button.addClass( 'button-a' );
 
 		if ( cssClass ) {
 			$button.addClass( cssClass );

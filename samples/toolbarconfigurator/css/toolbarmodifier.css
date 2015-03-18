@@ -192,6 +192,7 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   cursor: default;
 }
 .toolbarModifier > ul > li p span button {
+  font-size: 12.666px;
   margin-right: 5px;
   cursor: pointer;
   background: #fff;
