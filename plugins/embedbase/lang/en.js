@@ -7,6 +7,7 @@ CKEDITOR.plugins.setLang( 'embedbase', 'en', {
 	title: 'Media Embed',
 	url: 'URL',
 	button: 'Insert Media Embed',
+	invalidUrl: 'Given URL is not supported by Media Embed.',
 	fetchingGivenFailed: 'Failed to fetch content for a given URL.',
 	fetchingSpecificFailed: 'Failed to fetch content for {url}.',
 	fetchingOne: 'Fetching oEmbed response...',

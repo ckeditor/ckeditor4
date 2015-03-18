@@ -29,6 +29,7 @@
 			pathName: lang.pathName,
 			// This cache object will be shared between all instances of this widget.
 			_cache: {},
+			urlRegExp: /^(?:(https?|ftp):\/\/|www\.)[^\s\/$.?#].[^\s]*$/i,
 
 			init: function() {
 				this.on( 'sendRequest', function( evt ) {
@@ -168,6 +169,10 @@
 				}
 
 				return aggregator.createTask();
+			},
+
+			isUrlValid: function( url ) {
+				return this.urlRegExp.test( url ) && ( this.fire( 'validateUrl', url ) !== false );
 			}
 		};
 	}

@@ -66,10 +66,9 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						},
 
 						validate: function() {
-							// TODO
-							// if ( !plugin.validateUrl( this.getValue() ) ) {
-							// 	return lang.invalidUrl;
-							// }
+							if ( !this.getDialog().widget.isUrlValid( this.getValue() ) ) {
+								return lang.invalidUrl;
+							}
 
 							return true;
 						}
