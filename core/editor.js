@@ -1137,7 +1137,7 @@
 		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
 		 * @returns {CKEDITOR.dom.documentFragment/String}
 		 */
-		extractSelectedHtml: function( toString ) {
+		extractSelectedHtml: function( toString, removeEmptyBlock ) {
 			var editable = this.editable(),
 				ranges = this.getSelection().getRanges();
 
@@ -1146,7 +1146,7 @@
 			}
 
 			var range = ranges[ 0 ],
-				docFragment = editable.extractHtmlFromRange( range );
+				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
 
 			this.getSelection().selectRanges( [ range ] );
 

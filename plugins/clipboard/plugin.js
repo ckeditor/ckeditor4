@@ -1393,7 +1393,7 @@
 					// No we can safely delete content for the drag range...
 					dragRange = editor.createRange();
 					dragRange.moveToBookmark( dragBookmark );
-					editable.extractHtmlFromRange( dragRange );
+					editable.extractHtmlFromRange( dragRange, 1 );
 
 					// ...and paste content into the drop position.
 					dropRange = editor.createRange();

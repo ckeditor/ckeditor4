@@ -35,7 +35,7 @@
 		return html.replace( /@/g, CKEDITOR.env.needsBrFiller ? '<br />' : '' );
 	}
 
-	function addTests( cases, editor ) {
+	function addTests( cases, editor, removeEmptyBlock ) {
 		var testsGet = {},
 			testsExtract = {},
 
@@ -45,14 +45,19 @@
 			for ( i = 0; i < cases[ group ].length; i++ ) {
 				tc = cases[ group ][ i ];
 				name = group + ' #' + ( i + 1 );
+				if ( removeEmptyBlock ) {
+					name += ' (removeEmptyBlock)';
+				}
 
 				// <DEV>
 				// CKEDITOR.dom.element.createFromHtml( '<dt>' + name + ':</dt>' ).appendTo( playground );
 				// CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
-				testsGet[ 'test getHtmlFromRange: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
-				testsExtract[ 'test extractHtmlFromRange: ' + name ] = assertExtractHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ] );
+				if ( !removeEmptyBlock ) {
+					testsGet[ 'test getHtmlFromRange: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
+				}
+				testsExtract[ 'test extractHtmlFromRange: ' + name ] = assertExtractHtmlFromRange( editor, tc[ 0 ], tc[ 1 ], tc[ 2 ], removeEmptyBlock );
 			}
 		}
 
@@ -79,16 +84,22 @@
 		};
 	}
 
-	function assertExtractHtmlFromRange( editor, html, htmlGet, htmlWithSelection ) {
+	function assertExtractHtmlFromRange( editor, html, htmlGet, htmlWithSelection, removeEmptyBlock ) {
 		return function() {
 			html = decodeInputFillers( html );
 
 			var editable = this.editables[ editor ],
 				range = setWithHtml( editable, html ),
-				docFragment = editable.extractHtmlFromRange( range );
+				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
 
 			assert.isInnerHtmlMatching( htmlGet, docFragment.getHtml(), compareInnerHtmlOptions, 'HTML which has been extracted' );
-			assert.isInnerHtmlMatching( htmlWithSelection, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, once extracted' );
+
+			if ( removeEmptyBlock ) {
+				// If we remove empty ranges we do not care about selection.
+				assert.areSame( htmlWithSelection, editable.getHtml(), 'HTML of editable, once extracted' );
+			} else {
+				assert.isInnerHtmlMatching( htmlWithSelection, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, once extracted' );
+			}
 		};
 	}
 
@@ -337,6 +348,22 @@
 			[ '{}a',																'',																'[]a' ]
 		]
 	}, 'header' );
+
+	addTests( {
+		'block': [
+			[ '<p>a</p>[<p>b</p>]<p>c</p>',											'<p>b</p>',														'<p>a</p><p>c</p>' ],
+			[ '<p>a</p><p>[b]</p><p>c</p>',											'b',															'<p>a</p><p>c</p>' ],
+			[ '<p>a</p>[<p>b</p>]',													'<p>b</p>',														'<p>a</p>' ],
+			[ '[<p>b</p>]<p>c</p>',													'<p>b</p>',														'<p>c</p>' ],
+			[ '[<p>b</p>]',															'<p>b</p>',														'' ],
+			[ '<p>{b}</p>',															'b',															'' ],
+			[ '<p>a</p><p>[b]</p><p>c</p>',											'b',															'<p>a</p><p>c</p>' ],
+			[ '<p>a</p><p>[<b>b</b>]</p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
+			[ '<p>a</p><p><b>[b]</b></p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
+			[ '<p>a[b]c</p>',														'b',															'<p>ac</p>' ],
+			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ]
+		]
+	}, 'inline', 1 );
 
 	bender.test( tests );
 

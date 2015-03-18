@@ -89,5 +89,14 @@ bender.test( {
 			selectedHtml = editor.getSelectedHtml();
 
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
+	},
+
+	'test extractSelectedHtml with removeEmptyBlock': function() {
+		var editor = this.editor;
+		bender.tools.selection.setWithHtml( editor, '<p>{foo}</p><p>bar</p>' );
+
+		assert.areSame( 'foo', editor.extractSelectedHtml( true, true ) );
+		assert.isInnerHtmlMatching( '^<p>bar@</p>', bender.tools.selection.getWithHtml( editor ),
+			{ compareSelection: true, normalizeSelection: true }, 'contents of the editor' );
 	}
 } );

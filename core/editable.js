@@ -661,7 +661,7 @@
 			 * @param {CKEDITOR.dom.range} range
 			 * @returns {CKEDITOR.dom.documentFragment}
 			 */
-			extractHtmlFromRange: function( range ) {
+			extractHtmlFromRange: function( range, removeEmptyBlock ) {
 				var helpers = extractHtmlFromRangeHelpers,
 					that = {
 						range: range,
@@ -736,15 +736,24 @@
 				helpers.table.purge( that, this );
 				helpers.block.merge( that, this );
 
-				// Auto paragraph, if needed.
-				helpers.autoParagraph( this.editor, range );
+				if ( removeEmptyBlock ) {
+					var path = range.startPath();
 
-				// Let's have a bogus next to the caret, if needed.
-				if ( isEmpty( range.startContainer ) )
-					range.startContainer.appendBogus();
+					if ( range.checkStartOfBlock() && range.checkEndOfBlock() && path.block && !range.root.equals( path.block ) ) {
+						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
+						path.block.remove();
+					}
+				} else {
+					// Auto paragraph, if needed.
+					helpers.autoParagraph( this.editor, range );
+
+					// Let's have a bogus next to the caret, if needed.
+					if ( isEmpty( range.startContainer ) )
+						range.startContainer.appendBogus();
+				}
 
 				// Merge inline siblings if any around the caret.
-				range.startContainer.mergeSiblings( 1 );
+				range.startContainer.mergeSiblings();
 
 				return extractedFragment;
 			},
