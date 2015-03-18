@@ -2863,7 +2863,14 @@
 
 		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
 
-		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
+		var range = editor.createRange();
+		range.setStartBefore( widget.wrapper );
+		range.setEndAfter( widget.wrapper );
+
+		copybin.setHtml(
+			'<span data-cke-copybin-start="1">\u200b</span>' +
+			editor.editable().getHtmlFromRange( range ).getHtml() +
+			'<span data-cke-copybin-end="1">\u200b</span>' );
 
 		// Save snapshot with the current state.
 		editor.fire( 'saveSnapshot' );
@@ -2885,7 +2892,7 @@
 		// Once the clone of the widget is inside of copybin, select
 		// the entire contents. This selection will be copied by the
 		// native browser's clipboard system.
-		var range = editor.createRange();
+		range = editor.createRange();
 		range.selectNodeContents( copybin );
 		range.select();
 
