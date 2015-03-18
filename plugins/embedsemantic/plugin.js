@@ -16,7 +16,7 @@
 		},
 
 		init: function( editor ) {
-			var widgetDefinition = CKEDITOR.plugins.embed.createWidgetBaseDefinition( editor ),
+			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor ),
 				origInit = widgetDefinition.init;
 
 			CKEDITOR.tools.extend( widgetDefinition, {

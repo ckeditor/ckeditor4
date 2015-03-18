@@ -12,7 +12,7 @@
 		requires: 'embedbase',
 
 		init: function( editor ) {
-			var widgetDefinition = CKEDITOR.plugins.embed.createWidgetBaseDefinition( editor );
+			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 
 			CKEDITOR.tools.extend( widgetDefinition, {
 				dialog: 'embedBase',

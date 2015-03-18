@@ -20,11 +20,14 @@
 	} );
 
 	function createWidgetBaseDefinition( editor ) {
+		var aggregator,
+			lang = editor.lang.embedbase;
+
 		return {
 			mask: true,
 			template: '<div></div>',
-			pathName: editor.lang.embedbase.pathName,
-			// This cache object will be used between all instances of this widget.
+			pathName: lang.pathName,
+			// This cache object will be shared between all instances of this widget.
 			_cache: {},
 
 			init: function() {
@@ -54,27 +57,46 @@
 
 			// We can't load content on #data, because that would make it rather impossible
 			// to listen to load success and error.
-			loadContent: function( url, callback, errorCallback ) {
+			loadContent: function( url, opts ) {
+				opts = opts || {};
+
 				var cached = this.getCachedResponse( url ),
-					that = this;
+					that = this,
+					task;
 
 				if ( cached ) {
 					that.handleResponse( url, cached );
-					callback && callback();
+					opts.callback && opts.callback();
 					return;
+				}
+
+				if ( !opts.noNotifications ) {
+					task = this.createTask();
 				}
 
 				this.fire( 'sendRequest', {
 					url: url,
 
 					callback: function( response ) {
+						// TODO move task.done() to handleResponse() and make task part of the "request" object.
+						task && task.done();
+
 						that.cacheResponse( url, response );
 						that.handleResponse( url, response );
-						callback && callback();
+
+						opts.callback && opts.callback();
 					},
 
 					errorCallback: function() {
-						errorCallback && errorCallback();
+						// TODO create handleError().
+						if ( task ) {
+							task.cancel();
+
+							var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output( { url: url.slice( 0, 40 ) + '...' } );
+							editor.showNotification( warningMsg, 'warning' );
+						}
+
+						opts.errorCallback && opts.errorCallback();
 					}
 				} );
 			},
@@ -124,6 +146,18 @@
 			setContent: function( url, content ) {
 				this.setData( 'url', url );
 				this.element.setHtml( content );
+			},
+
+			createTask: function() {
+				if ( !aggregator || aggregator.isFinished() ) {
+					aggregator = new CKEDITOR.plugins.notificationAggregator( editor, lang.fetchingMany, lang.fetchingOne );
+
+					aggregator.on( 'finished', function() {
+						aggregator.notification.hide();
+					} );
+				}
+
+				return aggregator.createTask();
 			}
 		};
 	}
@@ -173,8 +207,9 @@
 		}
 	};
 
-	CKEDITOR.plugins.embed = {
-		createWidgetBaseDefinition: createWidgetBaseDefinition
+	CKEDITOR.plugins.embedBase = {
+		createWidgetBaseDefinition: createWidgetBaseDefinition,
+		_jsonp: Jsonp
 	};
 
 } )();

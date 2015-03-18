@@ -20,23 +20,25 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				okButton = that.getButton( 'ok' );
 
 			this.on( 'ok', function( evt ) {
-				that.widget.loadContent(
-					that.getValueOf( 'info', 'url' ),
-					function() {
+				that.widget.loadContent( that.getValueOf( 'info', 'url' ), {
+					noNotifications: true,
+
+					callback: function() {
 						editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
 
 						that.hide();
 						okButton.enable();
 					},
-					function() {
+
+					errorCallback: function() {
 						that.getContentElement( 'info', 'url' ).select();
 
 						// We need to enable the OK button so user can fix the URL.
 						okButton.enable();
 
-						alert( lang.fetchingFailed );
+						alert( lang.fetchingGivenFailed );
 					}
-				);
+				} );
 
 				// We're going to hide it manually, after remote response is fetched.
 				evt.data.hide = false;
