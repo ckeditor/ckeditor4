@@ -70,22 +70,27 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 	<div class="grid-container">
 		<div class="content grid-width-100">
+			<h2>What am I doing here?</h2>
+			<div class="instructions-container">
+				<div class="basic grid-container" style="display: none;">
+					<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
+					<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+					<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+					<p>Arranging toolbar groups is the recommended way of configuring toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
+				</div>
+				<div class="advanced grid-container" style="display: none;">
+					<p>With this code editor you can edit live your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a>.</p>
+					<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+					<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-container configurator">
+		<div class="content grid-width-100">
 
 			<section class="configurator">
-				<h2>What am I doing here?</h2>
-				<div class="instructions-container">
-					<div class="basic grid-container" style="display: none;">
-						<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
-						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
-						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
-						<p>Arranging toolbar groups is the recommended way of configuring toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
-					</div>
-					<div class="advanced grid-container" style="display: none;">
-						<p>With this code editor you can edit live your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a>.</p>
-						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
-						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
-					</div>
-				</div>
 				<div>
 					<div id="toolbarModifierWrapper"></div>
 				</div>
@@ -110,7 +115,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					toolbarGroups: null,
 					toolbar: null
 				},
-				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container' ),
+				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
 				basicInstruction = CKEDITOR.document.findOne( '.instructions-container > .basic' ),
 				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' );
 
