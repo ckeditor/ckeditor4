@@ -20,14 +20,23 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				okButton = that.getButton( 'ok' );
 
 			this.on( 'ok', function( evt ) {
+				// We're going to hide it manually, after remote response is fetched.
+				evt.data.hide = false;
+
+				// Disable the OK button for the time of loading, so user can't trigger multiple inserts.
+				okButton.disable();
+
+				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
+				evt.stop();
+
 				that.widget.loadContent( that.getValueOf( 'info', 'url' ), {
 					noNotifications: true,
 
 					callback: function() {
 						editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
 
-						that.hide();
 						okButton.enable();
+						that.hide();
 					},
 
 					errorCallback: function() {
@@ -39,15 +48,6 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						alert( lang.fetchingGivenFailed );
 					}
 				} );
-
-				// We're going to hide it manually, after remote response is fetched.
-				evt.data.hide = false;
-
-				// Disable the OK button for the time of loading, so user can't trigger multiple inserts.
-				okButton.disable();
-
-				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
-				evt.stop();
 			}, null, null, 15 );
 		},
 

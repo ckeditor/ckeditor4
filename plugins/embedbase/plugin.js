@@ -60,67 +60,77 @@
 			loadContent: function( url, opts ) {
 				opts = opts || {};
 
-				var cached = this.getCachedResponse( url ),
-					that = this,
-					task;
+				var that = this,
+					cachedResponse = this.getCachedResponse( url ),
+					request = {
+						url: url,
+						callback: finishLoading,
+						errorCallback: function() {
+							that.handleError( request );
+							opts.errorCallback && opts.errorCallback();
+						}
+					};
 
-				if ( cached ) {
-					that.handleResponse( url, cached );
-					opts.callback && opts.callback();
+				if ( cachedResponse ) {
+					// Keep the async nature (it caused a bug the very first day when the loadContent()
+					// was synchronous when cache was hit :D).
+					setTimeout( function() {
+						finishLoading( cachedResponse );
+					} );
 					return;
 				}
 
 				if ( !opts.noNotifications ) {
-					task = this.createTask();
+					request.task = this.createTask();
 				}
 
-				this.fire( 'sendRequest', {
-					url: url,
+				// The execution will be followed by #sendRequest's listener.
+				this.fire( 'sendRequest', request );
 
-					callback: function( response ) {
-						// TODO move task.done() to handleResponse() and make task part of the "request" object.
-						task && task.done();
+				function finishLoading( response ) {
+					that.cacheResponse( url, response );
+					request.response = response;
 
-						that.cacheResponse( url, response );
-						that.handleResponse( url, response );
-
-						opts.callback && opts.callback();
-					},
-
-					errorCallback: function() {
-						// TODO create handleError().
-						if ( task ) {
-							task.cancel();
-
-							var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output( { url: url.slice( 0, 40 ) + '...' } );
-							editor.showNotification( warningMsg, 'warning' );
-						}
-
-						opts.errorCallback && opts.errorCallback();
-					}
-				} );
+					that.handleResponse( request );
+					opts.callback && opts.callback();
+				}
 			},
 
-			sendRequest: function( opts ) {
+			sendRequest: function( request ) {
 				Jsonp.sendRequest(
 					this.providerUrl,
 					{
-						url: encodeURIComponent( opts.url )
+						url: encodeURIComponent( request.url )
 					},
-					opts.callback,
-					opts.errorCallback
+					request.callback,
+					request.errorCallback
 				);
 			},
 
-			handleResponse: function( url, response ) {
+			handleResponse: function( request ) {
+				if ( request.task ) {
+					request.task.done();
+				}
+
 				var evtData = {
-					url: url,
+					url: request.url,
 					html: '',
-					response: response
+					response: request.response
 				};
 
 				if ( this.fire( 'handleResponse', evtData ) !== false ) {
-					this.setContent( url, evtData.html );
+					this.setContent( request.url, evtData.html );
+				}
+			},
+
+			handleError: function( request ) {
+				if ( request.task ) {
+					request.task.cancel();
+
+					var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output(
+						{ url: request.url.slice( 0, 40 ) + '...' }
+					);
+					editor.showNotification( warningMsg, 'warning' );
 				}
 			},
 
