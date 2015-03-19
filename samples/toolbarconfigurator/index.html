@@ -52,14 +52,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<div class="adjoined-top">
 		<div class="grid-container">
 			<div class="content grid-width-100">
-				<h1>Toolbar configurator</h1>
+				<h1 class="grid-width-70">Toolbar configurator</h1>
 
-				<span class="mode-switch">
-					<span id="mode-switch-basic" class="fancy-button fancy-button-red fancy-button-active">Basic</span>
-					<span id="mode-switch-advanced" class="fancy-button fancy-button-red">Advanced</span>
-					<!--<span class="fancy-tip">Select configurator type</span>-->
-				</span>
+				<div class="grid-width-30 grid-switch-magic">
 
+					<div class="switch">
+						<input type="radio" name="radio" data-num="1" id="radio-advanced" />
+						<input type="radio" name="radio" data-num="2" id="radio-basic" />
+						<label data-for="1" for="radio-advanced">Advanced</label>
+						<span class="switch-inner">
+							<span class="handler"></span>
+						</span>
+						<label data-for="2" for="radio-basic">Basic</label>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="grid-width-100">
 				<div class="editors-container">
 					<div id="editor-basic"></div>
 					<div id="editor-advanced"></div>
@@ -117,7 +127,18 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				},
 				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
 				basicInstruction = CKEDITOR.document.findOne( '.instructions-container > .basic' ),
-				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' );
+				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' ),
+
+				// Configurator mode switcher.
+				modeSwitchBasic = CKEDITOR.document.getById( 'radio-basic' ),
+				modeSwitchAdvanced = CKEDITOR.document.getById( 'radio-advanced' );
+
+			// Initial setup
+			if ( mode === 'advanced' ) {
+				modeSwitchAdvanced.setAttribute( 'checked' );
+			} else {
+				modeSwitchBasic.setAttribute( 'checked' );
+			}
 
 			CKEDITOR.document.getWindow().on( 'resize', function() {
 				updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
@@ -197,10 +218,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			}
 
 			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifier.mainContainer );
-
-			// Configurator mode switcher.
-			var modeSwitchBasic = CKEDITOR.document.getById( 'mode-switch-basic' ),
-				modeSwitchAdvanced = CKEDITOR.document.getById( 'mode-switch-advanced' );
 
 			function toogleModeSwitch( onElement, offElement, onModifier, offModifier ) {
 				onElement.addClass( 'fancy-button-active' );
