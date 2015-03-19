@@ -1,0 +1,34 @@
+#toolbar {
+	.adjoined {
+		&-top {
+			position: relative;
+			background-color: transparent;
+
+			& > .grid-container {
+				position: relative;
+			}
+
+			&:before {
+				content: '';
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 226px;
+				background: @global-link-font-color;
+				position: absolute;
+			}
+		}
+	}
+}
+
+.CodeMirror pre {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.content {
+	.grid-switch-magic {
+		margin: 2.75*@global-flow-vgap 0 0;
+	}
+}
