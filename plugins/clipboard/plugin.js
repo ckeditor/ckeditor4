@@ -1398,9 +1398,8 @@
 					// ...and paste content into the drop position.
 					dropRange = editor.createRange();
 					dropRange.moveToBookmark( dropBookmark );
-					dropRange.select();
 
-					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop' }, 1 );
+					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
 
 					editor.fire( 'unlockSnapshot' );
 				}, 0 );
