@@ -29,11 +29,11 @@
 			pathName: lang.pathName,
 			// This cache object will be shared between all instances of this widget.
 			_cache: {},
-			urlRegExp: /^(?:(https?|ftp):\/\/|www\.)[^\s\/$.?#].[^\s]*$/i,
+			urlRegExp: /^(?:(https?:|ftp:)?\/\/|www\.)[^\s\/$.?#].[^\s]*$/i,
 
 			init: function() {
 				this.on( 'sendRequest', function( evt ) {
-					this.sendRequest( evt.data );
+					this._sendRequest( evt.data );
 				}, this, null, 999 );
 
 				// Expose the widget in the dialog - needed to trigger loadContent() and do error handling.
@@ -43,17 +43,9 @@
 
 				this.on( 'handleResponse', function( evt ) {
 					if ( !evt.data.html ) {
-						evt.data.html = this.responseToHtml( evt.data.url, evt.data.response );
+						evt.data.html = this._responseToHtml( evt.data.url, evt.data.response );
 					}
 				}, this );
-			},
-
-			cacheResponse: function( url, response ) {
-				this._cache[ url ] = response;
-			},
-
-			getCachedResponse: function( url ) {
-				return this._cache[ url ];
 			},
 
 			// We can't load content on #data, because that would make it rather impossible
@@ -62,12 +54,12 @@
 				opts = opts || {};
 
 				var that = this,
-					cachedResponse = this.getCachedResponse( url ),
+					cachedResponse = this._getCachedResponse( url ),
 					request = {
 						url: url,
 						callback: finishLoading,
 						errorCallback: function() {
-							that.handleError( request );
+							that._handleError( request );
 							opts.errorCallback && opts.errorCallback();
 						}
 					};
@@ -82,22 +74,26 @@
 				}
 
 				if ( !opts.noNotifications ) {
-					request.task = this.createTask();
+					request.task = this._createTask();
 				}
 
 				// The execution will be followed by #sendRequest's listener.
 				this.fire( 'sendRequest', request );
 
 				function finishLoading( response ) {
-					that.cacheResponse( url, response );
+					that._cacheResponse( url, response );
 					request.response = response;
 
-					that.handleResponse( request );
+					that._handleResponse( request );
 					opts.callback && opts.callback();
 				}
 			},
 
-			sendRequest: function( request ) {
+			isUrlValid: function( url ) {
+				return this.urlRegExp.test( url ) && ( this.fire( 'validateUrl', url ) !== false );
+			},
+
+			_sendRequest: function( request ) {
 				Jsonp.sendRequest(
 					this.providerUrl,
 					{
@@ -108,7 +104,7 @@
 				);
 			},
 
-			handleResponse: function( request ) {
+			_handleResponse: function( request ) {
 				if ( request.task ) {
 					request.task.done();
 				}
@@ -120,31 +116,32 @@
 				};
 
 				if ( this.fire( 'handleResponse', evtData ) !== false ) {
-					this.setContent( request.url, evtData.html );
+					this._setContent( request.url, evtData.html );
 				}
 			},
 
-			handleError: function( request ) {
+			_handleError: function( request ) {
 				if ( request.task ) {
 					request.task.cancel();
 
 					var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output(
+						// TODO improve this.
 						{ url: request.url.slice( 0, 40 ) + '...' }
 					);
 					editor.showNotification( warningMsg, 'warning' );
 				}
 			},
 
-			responseToHtml: function( url, response ) {
+			_responseToHtml: function( url, response ) {
 				if ( response.type == 'photo' ) {
 					return '<img src="' + CKEDITOR.tools.htmlEncodeAttr( response.url ) + '" ' +
 						'alt="' + CKEDITOR.tools.htmlEncodeAttr( response.title || '' ) + '" style="max-width:100%;height:auto" />';
 				} else if ( response.type == 'link' ) {
 					var title = CKEDITOR.tools.htmlEncodeAttr( response.title || '' ),
 						// In case of the link type response may not contain url.
-						linkUrl = CKEDITOR.tools.htmlEncodeAttr( response.url || url );
+						linkUrl = response.url || url;
 
-					return '<a href="' + linkUrl + '"' +
+					return '<a href="' + CKEDITOR.tools.htmlEncodeAttr( linkUrl ) + '"' +
 						// If title is available lets add it as an attribute.
 						( title ? ' title="' + title + '"' : '' ) +
 						'>' + CKEDITOR.tools.htmlEncode( linkUrl ) + '</a>';
@@ -154,12 +151,12 @@
 				return response.html;
 			},
 
-			setContent: function( url, content ) {
+			_setContent: function( url, content ) {
 				this.setData( 'url', url );
 				this.element.setHtml( content );
 			},
 
-			createTask: function() {
+			_createTask: function() {
 				if ( !aggregator || aggregator.isFinished() ) {
 					aggregator = new CKEDITOR.plugins.notificationAggregator( editor, lang.fetchingMany, lang.fetchingOne );
 
@@ -171,8 +168,12 @@
 				return aggregator.createTask();
 			},
 
-			isUrlValid: function( url ) {
-				return this.urlRegExp.test( url ) && ( this.fire( 'validateUrl', url ) !== false );
+			_cacheResponse: function( url, response ) {
+				this._cache[ url ] = response;
+			},
+
+			_getCachedResponse: function( url ) {
+				return this._cache[ url ];
 			}
 		};
 	}
