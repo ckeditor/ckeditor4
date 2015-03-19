@@ -101,7 +101,7 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
 .configContainer > textarea:focus {
   outline: none;
 }
-.toolbarModifier {
+div.toolbarModifier {
   padding: 0;
   overflow: hidden;
   width: 100%;
@@ -109,13 +109,13 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   display: table;
   border-collapse: collapse;
 }
-.toolbarModifier ::-moz-focus-inner {
+div.toolbarModifier ::-moz-focus-inner {
   border: 0;
 }
-.toolbarModifier .empty {
+div.toolbarModifier .empty {
   display: none;
 }
-.toolbarModifier.empty-visible .empty {
+div.toolbarModifier.empty-visible .empty {
   display: table-row;
   zoom: 1;
   filter: alpha(opacity=60);
@@ -123,77 +123,77 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   -moz-opacity: 0.6;
   opacity: 0.6;
 }
-.toolbarModifier > ul {
+div.toolbarModifier > ul {
   padding: 0;
   margin: 0;
   border-top: 1px solid #cccccc;
   width: 100%;
 }
-.toolbarModifier > ul[data-type="table-header"] {
+div.toolbarModifier > ul[data-type="table-header"] {
   display: table-header-group;
 }
-.toolbarModifier > ul[data-type="table-body"] {
+div.toolbarModifier > ul[data-type="table-body"] {
   display: table-row-group;
 }
-.toolbarModifier > ul > li {
+div.toolbarModifier > ul > li {
   display: table-row;
 }
-.toolbarModifier > ul > li[data-type="header"] {
+div.toolbarModifier > ul > li[data-type="header"] {
   font-weight: bold;
   user-select: none;
   cursor: default;
 }
-.toolbarModifier > ul > li[data-type="group"],
-.toolbarModifier > ul > li[data-type="separator"] {
+div.toolbarModifier > ul > li[data-type="group"],
+div.toolbarModifier > ul > li[data-type="separator"] {
   border-bottom: 1px solid #cccccc;
 }
-.toolbarModifier > ul > li[data-type="subgroup"] {
+div.toolbarModifier > ul > li[data-type="subgroup"] {
   border-top: 1px solid #eee;
 }
-.toolbarModifier > ul > li[data-type="subgroup"]:first-child {
+div.toolbarModifier > ul > li[data-type="subgroup"]:first-child {
   border-top: none;
 }
-.toolbarModifier > ul > li[data-type="group"].active,
-.toolbarModifier > ul > li[data-type="group"]:hover,
-.toolbarModifier > ul > li[data-type="separator"].active,
-.toolbarModifier > ul > li[data-type="separator"]:hover {
+div.toolbarModifier > ul > li[data-type="group"].active,
+div.toolbarModifier > ul > li[data-type="group"]:hover,
+div.toolbarModifier > ul > li[data-type="separator"].active,
+div.toolbarModifier > ul > li[data-type="separator"]:hover {
   overflow: hidden;
   z-index: 2;
 }
-.toolbarModifier > ul > li[data-type="group"].active,
-.toolbarModifier > ul > li[data-type="separator"].active,
-.toolbarModifier > ul > li[data-type="group"].active:hover,
-.toolbarModifier > ul > li[data-type="separator"].active:hover {
+div.toolbarModifier > ul > li[data-type="group"].active,
+div.toolbarModifier > ul > li[data-type="separator"].active,
+div.toolbarModifier > ul > li[data-type="group"].active:hover,
+div.toolbarModifier > ul > li[data-type="separator"].active:hover {
   background: #f0fafb;
 }
-.toolbarModifier > ul > li[data-type="group"]:hover,
-.toolbarModifier > ul > li[data-type="separator"]:hover {
+div.toolbarModifier > ul > li[data-type="group"]:hover,
+div.toolbarModifier > ul > li[data-type="separator"]:hover {
   background: #fffbe3;
 }
-.toolbarModifier > ul > li[data-type="separator"] {
+div.toolbarModifier > ul > li[data-type="separator"] {
   background: #f5f5f5;
 }
-.toolbarModifier > ul > li[data-type="separator"]:after {
+div.toolbarModifier > ul > li[data-type="separator"]:after {
   content: '';
   width: 100%;
 }
-.toolbarModifier > ul > li[data-type="separator"] > p {
+div.toolbarModifier > ul > li[data-type="separator"] > p {
   padding: 3px 5px;
 }
-.toolbarModifier > ul > li > p,
-.toolbarModifier > ul > li > ul {
+div.toolbarModifier > ul > li > p,
+div.toolbarModifier > ul > li > ul {
   display: table-cell;
   vertical-align: middle;
 }
-.toolbarModifier > ul > li p {
+div.toolbarModifier > ul > li p {
   padding-left: 5px;
   min-width: 200px;
 }
-.toolbarModifier > ul > li p span {
+div.toolbarModifier > ul > li p span {
   white-space: nowrap;
   cursor: default;
 }
-.toolbarModifier > ul > li p span button {
+div.toolbarModifier > ul > li p span button {
   font-size: 12.666px;
   margin-right: 5px;
   cursor: pointer;
@@ -209,13 +209,13 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   line-height: 12px;
   height: 20px;
 }
-.toolbarModifier > ul > li p span button:not(.disabled):hover,
-.toolbarModifier > ul > li p span button:not(.disabled):focus {
+div.toolbarModifier > ul > li p span button:not(.disabled):hover,
+div.toolbarModifier > ul > li p span button:not(.disabled):focus {
   color: #fff;
   background-color: #454545;
   border-color: transparent;
 }
-.toolbarModifier > ul > li p span button.move.disabled {
+div.toolbarModifier > ul > li p span button.move.disabled {
   cursor: default;
   zoom: 1;
   filter: alpha(opacity=20);
@@ -223,23 +223,23 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.toolbarModifier > ul > li ul {
+div.toolbarModifier > ul > li ul {
   border-collapse: collapse;
   padding-left: 0;
   width: 100%;
 }
-.toolbarModifier > ul > li ul li {
+div.toolbarModifier > ul > li ul li {
   display: table-row;
   list-style-type: none;
   vertical-align: middle;
 }
-.toolbarModifier > ul > li ul li[data-type="subgroup"] {
+div.toolbarModifier > ul > li ul li[data-type="subgroup"] {
   border-top: 1px solid #dddddd;
 }
-.toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
+div.toolbarModifier > ul > li ul li[data-type="subgroup"]:first-child {
   border-top: 0;
 }
-.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"] {
+div.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"] {
   -webkit-border-radius: 3px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 3px;
@@ -248,31 +248,31 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   background-clip: padding-box;
   padding: 0 2px;
 }
-.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"]:focus {
+div.toolbarModifier > ul > li ul li[data-type="subgroup"] [data-type="button"]:focus {
   background: rgba(0, 0, 0, 0.04);
 }
-.toolbarModifier > ul > li ul li > p,
-.toolbarModifier > ul > li ul li > ul {
+div.toolbarModifier > ul > li ul li > p,
+div.toolbarModifier > ul > li ul li > ul {
   display: table-cell;
   vertical-align: middle;
 }
-.toolbarModifier > ul > li ul li p {
+div.toolbarModifier > ul > li ul li p {
   padding: 3px 0;
 }
-.toolbarModifier > ul > li ul li ul li {
+div.toolbarModifier > ul > li ul li ul li {
   padding: 3px 0;
   display: inline-block;
   cursor: pointer;
 }
-.toolbarModifier > ul > li ul li ul li + li {
+div.toolbarModifier > ul > li ul li ul li + li {
   margin-left: 5px;
 }
-.toolbarModifier > ul > li ul li ul li .cke_combo_text {
+div.toolbarModifier > ul > li ul li ul li .cke_combo_text {
   cursor: pointer;
   white-space: nowrap;
 }
-.toolbarModifier > ul > li ul li ul li .cke_toolgroup,
-.toolbarModifier > ul > li ul li ul li .cke_combo_button {
+div.toolbarModifier > ul > li ul li ul li .cke_toolgroup,
+div.toolbarModifier > ul > li ul li ul li .cke_combo_button {
   cursor: pointer;
   margin: 0;
   vertical-align: middle;
@@ -282,17 +282,17 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   line-height: 20.54px;
   line-height: 1.28rem;
 }
-.toolbarModifier > .codemirror-wrapper {
+div.toolbarModifier > .codemirror-wrapper {
   overflow-y: auto;
 }
-.toolbarModifier-hints {
+div.toolbarModifier-hints {
   float: right;
   width: 350px;
   min-width: 150px;
   overflow-y: auto;
   margin-left: 1.5em;
 }
-.toolbarModifier-hints h3 {
+div.toolbarModifier-hints h3 {
   font-size: 18.08px;
   font-size: 1.13rem;
   line-height: 32.54px;
@@ -300,21 +300,22 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   padding: 0.36em 1.5em;
   background: #f5f5f5;
   border-bottom: 1px solid #dddddd;
-  margin: 0 0 1.2em;
+  margin-top: 0;
+  margin-bottom: 1.2em;
 }
-.toolbarModifier-hints dl {
+div.toolbarModifier-hints dl {
   margin-bottom: 1.2em;
   overflow: hidden;
 }
-.toolbarModifier-hints dl .list-header {
+div.toolbarModifier-hints dl .list-header {
   font-weight: bold;
   border: 0;
   padding-bottom: 0.6em;
 }
-.toolbarModifier-hints dl > p {
+div.toolbarModifier-hints dl > p {
   text-align: center;
 }
-.toolbarModifier-hints dl dt {
+div.toolbarModifier-hints dl dt {
   float: left;
   width: 9em;
   clear: both;
@@ -326,20 +327,20 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.toolbarModifier-hints dl dt code {
+div.toolbarModifier-hints dl dt code {
   background: none;
   border: none;
   vertical-align: middle;
 }
-.toolbarModifier-hints dl dd {
+div.toolbarModifier-hints dl dd {
   margin-left: 10em;
   clear: right;
   padding-right: 1.5em;
 }
-.toolbarModifier-hints dl dd code {
+div.toolbarModifier-hints dl dd code {
   line-height: 2.2em;
 }
-.toolbarModifier-hints dl dd:after {
+div.toolbarModifier-hints dl dd:after {
   content: '\00a0';
   display: block;
   clear: left;

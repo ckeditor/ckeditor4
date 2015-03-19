@@ -1,3 +1,4 @@
+#main,
 #toolbar {
 	.adjoined {
 		&-top {
@@ -13,12 +14,19 @@
 				top: 0;
 				left: 0;
 				right: 0;
-				height: 226px;
 				background: @global-link-font-color;
 				position: absolute;
 			}
 		}
 	}
+}
+
+#main .adjoined-top:before {
+	height: 335px;
+}
+
+#toolbar .adjoined-top:before {
+	height: 219px;
 }
 
 .CodeMirror pre {
