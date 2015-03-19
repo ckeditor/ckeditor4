@@ -219,13 +219,11 @@
 		 */
 		pixelSearch: ( function() {
 			var contains = CKEDITOR.env.ie || CKEDITOR.env.webkit ?
-					function( el, found ) {
-						return el.contains( found );
-					}
-				:
-					function( el, found ) {
-						return !!( el.compareDocumentPosition( found ) & 16 );
-					};
+				function( el, found ) {
+					return el.contains( found );
+				} : function( el, found ) {
+					return !!( el.compareDocumentPosition( found ) & 16 );
+				};
 
 			// Iterates pixel-by-pixel from starting coordinates, moving by defined
 			// step and getting elementFromPoint in every iteration. Iteration stops when:

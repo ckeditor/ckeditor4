@@ -17,8 +17,7 @@ module.exports = function( grunt ) {
 		'plugins/htmlwriter/samples/assets/outputforflash/**',
 		'tests/adapters/jquery/_assets/**',
 		'tests/core/dom/_assets/**',
-		'tests/core/selection/_helpers/rangy.js',
-		'tests/plugins/mathjax/_assets/truncated-mathjax/**'
+		'tests/core/selection/_helpers/rangy.js'
 	];
 
 	// Basic configuration which will be overloaded by the tasks.

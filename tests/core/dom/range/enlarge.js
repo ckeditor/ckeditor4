@@ -750,8 +750,7 @@
 	};
 
 	// IE only tests.
-	CKEDITOR.env.ie && YUITest.Util.mix( tests,
-	{
+	CKEDITOR.env.ie && YUITest.Util.mix( tests, {
 		test_enlarge_element1: CKEDITOR.env.version > 8 ?
 			function() {
 				// <p> Test <b> <i>  [Enlarge]</i> this</b>   </p>
@@ -768,9 +767,7 @@
 				assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
 				assert.areSame( 2, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}
-				:
-			function() {
+			} : function() {
 				// <p>Test <b><i>[Enlarge]</i> this</b></p>
 				// <p>Test <b>[<i>Enlarge</i>] this</b></p>
 
@@ -803,9 +800,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP' ), range.endContainer.$, 'range.endContainer' );
 				assert.areSame( 2, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}
-				:
-			function() {
+			} : function() {
 				// <p>Test <b><i>[Enlarge</i> this]</b></p>
 				// <p>Test [<b><i>Enlarge</i> this</b>]</p>
 
@@ -838,8 +833,7 @@
 				assert.areSame( document.getElementById( '_EnlargeB' ), range.endContainer.$, 'range.endContainer' );
 				assert.areSame( 2, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			} :
-			function() {
+			} : function() {
 				// <p>[Test <b><i>Enlarge]</i> this</b></p>
 				// <p>[Test <b><i>Enlarge</i>] this</b></p>
 
@@ -872,8 +866,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP' ).parentNode, range.endContainer.$, 'range.endContainer' );
 				assert.areSame( doc.getById( '_EnlargeP' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			} :
-			function() {
+			} : function() {
 				// <p>[Test <b><i>Enlarge</i> this]</b></p>
 				// [<p>Test <b><i>Enlarge</i> this</b></p>]
 
@@ -923,9 +916,7 @@
 				assert.areSame( document.getElementById( '_EnlargeB2' ), range.endContainer.$, 'range.endContainer' );
 				assert.areSame( 2, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}
-			:
-			function() {
+			} : function() {
 				// <p><b><i>[Enlarge</i>] this</b></p>
 				// <p><b>[<i>Enlarge</i>] this</b></p>
 
@@ -958,9 +949,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
 				assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			}
-			:
-			function() {
+			} : function() {
 				// <p><b><i>[Enlarge</i> this]</b></p>
 				// [<p><b><i>Enlarge</i> this</b></p>]
 
@@ -993,8 +982,7 @@
 				assert.areSame( document.getElementById( '_EnlargeP2' ).parentNode, range.endContainer.$, 'range.endContainer' );
 				assert.areSame( doc.getById( '_EnlargeP2' ).getIndex() + 1, range.endOffset, 'range.endOffset' );
 				assert.isFalse( range.collapsed, 'range.collapsed' );
-			} :
-			function() {
+			} : function() {
 				// <p>Test <b><i>[Enlarge</i> this</b></p><p><b><i>Enlarge</i> this]</b></p>
 				// <p>Test [<b><i>Enlarge</i> this</b></p><p><b><i>Enlarge</i> this</b></p>]
 

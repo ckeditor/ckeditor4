@@ -435,10 +435,7 @@
 			for ( var s in evt.data.states )
 				states.push( evt.data.states[ s ] );
 
-			this.setState( CKEDITOR.tools.search( states, TRISTATE_OFF ) ?
-					TRISTATE_OFF
-				:
-					TRISTATE_DISABLED );
+			this.setState( CKEDITOR.tools.search( states, TRISTATE_OFF ) ? TRISTATE_OFF : TRISTATE_DISABLED );
 		}, command, null, 100 );
 
 		// Initialization. Save bookmarks and mark event as not handled

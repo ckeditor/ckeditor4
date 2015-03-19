@@ -206,13 +206,11 @@
 			// FF inserts bogus before a widget so these tests
 			// are broken and make no sense.
 			ignore: CKEDITOR.env.gecko ?
-					{
-						'test block, editable[top] - widget as first child': true,
-						'test block, edge[top] - widget as first child': true,
-						'test non-editable, edge[top] - first child': true
-					}
-				:
-					null
+				{
+					'test block, editable[top] - widget as first child': true,
+					'test block, edge[top] - widget as first child': true,
+					'test non-editable, edge[top] - first child': true
+				} : null
 		},
 
 		'test block, editable[top] - widget as first child': t( blockTpl.output( { id: 'x' } ), {

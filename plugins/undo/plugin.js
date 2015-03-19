@@ -11,7 +11,11 @@
 'use strict';
 
 ( function() {
-	var keystrokes = [ CKEDITOR.CTRL + 90 /*Z*/, CKEDITOR.CTRL + 89 /*Y*/, CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/ ],
+	var keystrokes = [
+			CKEDITOR.CTRL + 90 /*Z*/,
+			CKEDITOR.CTRL + 89 /*Y*/,
+			CKEDITOR.CTRL + CKEDITOR.SHIFT + 90 /*Z*/
+		],
 		backspaceOrDelete = { 8: 1, 46: 1 };
 
 	CKEDITOR.plugins.add( 'undo', {

@@ -21,5 +21,5 @@
 	"loopfunc": true,
 	"validthis": true,
 
-	"predef": [ "CKEDITOR", "assert", "arrayAssert", "bender", "sinon", "objectAssert", "resume", "wait", "YUITest" ]
+	"predef": [ "CKEDITOR", "assert", "arrayAssert", "bender", "JSON", "objectAssert", "resume", "sinon", "wait", "YUITest" ]
 }
