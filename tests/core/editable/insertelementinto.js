@@ -109,7 +109,8 @@
 
 				editable.insertElement( element, range );
 
-				assert.areSame( '<p>foo</p><div>hi!</div><p>bar</p>', bot.getData( true, true ) );
+				assert.isInnerHtmlMatching( '<p>foo@</p><div>hi!</div><p>^bar@</p>', bender.tools.selection.getWithHtml( editor ),
+					{ compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			} );
 		}
 	} );
