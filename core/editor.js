@@ -1851,9 +1851,12 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @since 4.5
  * @event afterInsertHtml
  * @param data
- * @param  {CKEDITOR.dom.range} [data.intoRange] If set the HTML was inserted into the range
- * instead of into the selection. See the {@link CKEDITOR.editable#insertHtml} method which accepts range
- * as a parameter.
+ * @param  {CKEDITOR.dom.range} [data.intoRange] If set the HTML was not inserted into the current selection, but in
+ * the given range. If this parameter is set, it means that the inserted HTML may be outside the current selection and
+ * viewport (due to some asynchronous operation) and the selection and the scroll position should not be changed,
+ * so user will not be moved from the part of the document he is working on. This flag will be added if
+ * {@link CKEDITOR.editable#insertHtmlIntoRange} method was used, but not if {@link CKEDITOR.editable#insertHtml} which
+ * will automatically select inserted HTML.
  */
 
 /**

@@ -123,7 +123,7 @@
 
 			assert.isInnerHtmlMatching( '<p>fo<b>b</b>ar@</p>', editable.getHtml(), 'Editor content.' );
 			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
-			assert.areSame( range, afterInsertData.intoRange, 'intoRange should contain range' );
+			assert.areSame( undefined, afterInsertData.intoRange, 'intoRange should be null if insertHtml was used.' );
 		},
 
 		'test insertHtmlIntoSelection': function() {
