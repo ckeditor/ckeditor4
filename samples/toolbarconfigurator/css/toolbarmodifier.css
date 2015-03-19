@@ -85,9 +85,11 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
 }
 .toolbar button.left {
   float: left;
+  margin-right: 8px;
 }
 .toolbar button.right {
   float: right;
+  margin-left: 8px;
 }
 .configContainer.hidden,
 .toolbarModifier.hidden,
