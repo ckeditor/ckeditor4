@@ -359,7 +359,7 @@
 		 *
 		 * * inserting widget element into editor,
 		 * * marking widget instance as ready (see {@link CKEDITOR.plugins.widget#event-ready}),
-		 * * focusing widget instance.
+		 * * focusing widget instance if focusOnCreate is set (default)
 		 *
 		 * This method is used by the default widget's command and is called
 		 * after widget's dialog (if set) is closed. It may also be used in a
@@ -398,7 +398,9 @@
 				// Fire postponed #ready event.
 				widget.ready = true;
 				widget.fire( 'ready' );
-				widget.focus();
+				if ( widget.focusOnCreate ) {
+					widget.focus();
+				}
 			}
 		},
 
@@ -850,6 +852,11 @@
 			repository: widgetsRepo,
 
 			draggable: widgetDef.draggable !== false,
+
+			/**
+			 * Whether a widget should automatically be focused when it is created.
+			 */
+			focusOnCreate: widgetDef.focusOnCreate !== false,
 
 			// WAAARNING: Overwrite widgetDef's priv object, because otherwise violent unicorn's gonna visit you.
 			_: {
@@ -3627,6 +3634,13 @@
  * If set to `false` drag handler will not be displayed when hovering widget.
  *
  * @property {Boolean} draggable
+ */
+
+/**
+ * Whether widget should be focused on creation. Defaults to `true`.
+ * If set to `false` the widget won't have focus immediately after creation.
+ *
+ * @property {Boolean} focusOnCreate
  */
 
 /**
