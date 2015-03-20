@@ -1,4 +1,6 @@
-CKEDITOR._.mediaEmbedCallbacks[0] && CKEDITOR._.mediaEmbedCallbacks[0]({
+/* jscs:disable */
+
+CKEDITOR._.jsonpCallbacks[0] && CKEDITOR._.jsonpCallbacks[0]({
     "id": "ScpVxg",
     "url": "https://twitter.com/cksource/status/482534262814810112",
     "meta": {

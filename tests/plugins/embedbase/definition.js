@@ -1,11 +1,13 @@
-/* bender-ckeditor-plugins: embedbase,toolbar */
+/* bender-ckeditor-plugins: embedbase,embed,toolbar,htmlwriter */
+/* bender-include: ../widget/_helpers/tools.js, _helpers/tools.js */
+/* global widgetTestsTools, embedTools */
 
 'use strict';
 
 bender.editors = {
-	classic: {
-		name: 'editor_classic',
-		creator: 'replace'
+	inline: {
+		name: 'editor_inline',
+		creator: 'inline'
 	}
 };
 
@@ -13,8 +15,29 @@ function createDef( editor ) {
 	return CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 }
 
+function echoJsonpCallback( urlTemplate, urlParams, callback ) {
+	callback( {
+		type: 'rich',
+		html: '<p>url:' + urlParams.url + '</p>'
+	} );
+}
+
+var dataWithWidget = '<p>x</p><div data-oembed-url="foo" id="w1">foo</div><p>x</p>',
+	dataWith2Widgets = '<p>x</p><div data-oembed-url="foo" id="w1">foo</div><div data-oembed-url="foo" id="w2">foo</div><p>x</p>',
+	getWidgetById = widgetTestsTools.getWidgetById,
+	jsonpCallback;
+
+embedTools.mockJsonp( function() {
+	jsonpCallback.apply( this, arguments );
+} );
+
 bender.test( {
 	spies: [],
+	listeners: [],
+
+	init: function() {
+		this.editors.inline.dataProcessor.writer.sortAttributes = true;
+	},
 
 	tearDown: function() {
 		var spy;
@@ -22,11 +45,17 @@ bender.test( {
 		while ( spy = this.spies.pop() ) {
 			spy.restore();
 		}
+
+		var listener;
+
+		while ( listener = this.listeners.pop() ) {
+			listener.removeListener();
+		}
 	},
 
 	'test def._cacheResponse, def._getCachedResponse': function() {
-		var def1 = createDef( this.editors.classic ),
-			def2 = createDef( this.editors.classic );
+		var def1 = createDef( this.editors.inline ),
+			def2 = createDef( this.editors.inline );
 
 		def1._cacheResponse( 'a', 1 );
 		assert.areSame( 1, def1._getCachedResponse( 'a' ), 'def1.get a' );
@@ -34,8 +63,8 @@ bender.test( {
 	},
 
 	'test def._createTask returned value': function() {
-		var def1 = createDef( this.editors.classic ),
-			def2 = createDef( this.editors.classic ),
+		var def1 = createDef( this.editors.inline ),
+			def2 = createDef( this.editors.inline ),
 			ret = 1;
 
 		this.spies.push( sinon.stub( CKEDITOR.plugins.notificationAggregator.prototype, 'createTask', function() {
@@ -48,8 +77,8 @@ bender.test( {
 
 	'test def._createTask creates new aggregator once all tasks are finished': function() {
 		var origCreateTask = CKEDITOR.plugins.notificationAggregator.prototype.createTask,
-			def1 = createDef( this.editors.classic ),
-			def2 = createDef( this.editors.classic ),
+			def1 = createDef( this.editors.inline ),
+			def2 = createDef( this.editors.inline ),
 			aggregators = [];
 
 		this.spies.push( sinon.stub( CKEDITOR.plugins.notificationAggregator.prototype, 'createTask', function() {
@@ -68,14 +97,14 @@ bender.test( {
 	},
 
 	'test def._responseToHtml - rich, video': function() {
-		var def = createDef( this.editors.classic );
+		var def = createDef( this.editors.inline );
 
 		assert.areSame( 'a', def._responseToHtml( 'http://foo', { type: 'rich', html: 'a' } ), 'rich' );
 		assert.areSame( 'b', def._responseToHtml( 'http://foo', { type: 'video', html: 'b' } ), 'video' );
 	},
 
 	'test def._responseToHtml - photo': function() {
-		var def = createDef( this.editors.classic );
+		var def = createDef( this.editors.inline );
 
 		assert.areSame( '<img src="a&quot;b" alt="" style="max-width:100%;height:auto" />',
 			def._responseToHtml( 'http://foo', { type: 'photo', url: 'a"b' } ), 'no title' );
@@ -85,7 +114,7 @@ bender.test( {
 	},
 
 	'test def._responseToHtml - link': function() {
-		var def = createDef( this.editors.classic );
+		var def = createDef( this.editors.inline );
 
 		assert.areSame( '<a href="http://foo&quot;&lt;bar">http://foo"&lt;bar</a>',
 			def._responseToHtml( 'http://foo"<bar', { type: 'link' } ), 'no url, no title' );
@@ -98,7 +127,7 @@ bender.test( {
 	},
 
 	'test def._sendRequest': function() {
-		var def = createDef( this.editors.classic ),
+		var def = createDef( this.editors.inline ),
 			stub = sinon.stub( CKEDITOR.plugins.embedBase._jsonp, 'sendRequest' ),
 			request = {
 				url: 'http://f&y=',
@@ -120,7 +149,7 @@ bender.test( {
 	},
 
 	'test def.isUrlValid': function() {
-		var def = createDef( this.editors.classic );
+		var def = createDef( this.editors.inline );
 		CKEDITOR.event.implementOn( def );
 
 		assert.isTrue( def.isUrlValid( 'http://xxx' ), '1' );
@@ -130,7 +159,7 @@ bender.test( {
 	},
 
 	'test def.isUrlValid fires validateUrl': function() {
-		var def = createDef( this.editors.classic );
+		var def = createDef( this.editors.inline );
 		CKEDITOR.event.implementOn( def );
 
 		def.once( 'validateUrl', function( evt ) {
@@ -143,5 +172,88 @@ bender.test( {
 			evt.cancel();
 		} );
 		assert.isFalse( def.isUrlValid( 'http://xxx' ) );
+	},
+
+	'test def.loadContent fires sendRequest event': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			that = this;
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				spy = sinon.stub( widget, '_sendRequest' ),
+				eventsCount = 0;
+
+			that.spies.push( spy );
+
+			that.listeners.push( widget.on( 'sendRequest', function( evt ) {
+				eventsCount += 1;
+
+				assert.areSame( 1, eventsCount, 'event is fired only once' );
+				assert.areSame( '//fires/sendrequest/event', evt.data.url, 'url' );
+				assert.isFunction( evt.data.callback, 'callback' );
+				assert.isFunction( evt.data.errorCallback, 'errorCallback' );
+				assert.isInstanceOf( CKEDITOR.plugins.notificationAggregator.task, evt.data.task, 'task' );
+
+				evt.data.task.done();
+				evt.cancel();
+			} ) );
+
+			widget.loadContent( '//fires/sendrequest/event' );
+
+			assert.areSame( 1, eventsCount, 'event is fired synchronously' );
+			assert.isFalse( spy.called, 'canceling event stops executing _sendRequest' );
+		} );
+	},
+
+	'test def.loadContent caches responses': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			that = this;
+
+		bot.setData( dataWith2Widgets, function() {
+			var widget1 = getWidgetById( editor, 'w1' ),
+				widget2 = getWidgetById( editor, 'w2' ),
+				data1;
+
+			jsonpCallback = echoJsonpCallback;
+
+			widget1.loadContent( '//caches/responses', {
+				callback: function() {
+					data1 = editor.getData();
+
+					that.listeners.push( widget2.on( 'sendRequest', sinon.stub().throws() ) );
+					var spy = sinon.spy( widget2, '_createTask' );
+					that.spies.push( spy );
+
+					var isAsync = false,
+						wasAsync;
+
+					widget2.loadContent( '//caches/responses', {
+						callback: function() {
+							// resume() is useles because it is asynchronous itself...
+							// so if we want to check if loadContent is really async, we need to copy the value now ;/.
+							wasAsync = isAsync;
+							resume( function() {
+								assert.isTrue( wasAsync, 'loadContent using cache is still async' );
+								assert.areSame( '<p>x</p><div data-oembed-url="//caches/responses" id="w1"><p>url:%2F%2Fcaches%2Fresponses</p></div>' +
+									'<div data-oembed-url="foo" id="w2">foo</div><p>x</p>',
+									data1, 'data after first loadContent' );
+
+								assert.areSame( '<p>x</p><div data-oembed-url="//caches/responses" id="w1"><p>url:%2F%2Fcaches%2Fresponses</p></div>' +
+									'<div data-oembed-url="//caches/responses" id="w2"><p>url:%2F%2Fcaches%2Fresponses</p></div><p>x</p>',
+									editor.getData(), 'data after second loadContent' );
+
+								assert.isFalse( spy.called, 'when cache is hit, task is not created' );
+							} );
+						}
+					} );
+
+					isAsync = true;
+				}
+			} );
+
+			wait();
+		} );
 	}
 } );

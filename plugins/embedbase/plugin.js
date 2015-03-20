@@ -184,13 +184,7 @@
 			// with given URL is added only once.
 			var script = new CKEDITOR.dom.element( 'script' );
 			script.setAttribute( 'src', url );
-
-			if ( errorCallback ) {
-				script.on( 'error', function( evt ) {
-					script.remove();
-					errorCallback( evt.data );
-				} );
-			}
+			script.on( 'error', errorCallback );
 
 			CKEDITOR.document.getBody().append( script );
 
@@ -206,18 +200,22 @@
 			urlParams.callback = 'CKEDITOR._.jsonpCallbacks[' + callbackKey + ']';
 
 			CKEDITOR._.jsonpCallbacks[ callbackKey ] = function( response ) {
-				removeListener();
-				scriptElement.remove();
-				callback( response );
+				// On IEs scripts are sometimes loaded synchronously. It is bad for two reasons:
+				// * nature of sendRequest() is unstable,
+				// * scriptElement does not exist yet.
+				setTimeout( function() {
+					cleanUp();
+					callback( response );
+				} );
 			};
 
 			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function( data ) {
-				// removeListener() does not remove the element, because scriptElement may not exist at this point yet.
-				removeListener();
+				cleanUp();
 				errorCallback( data );
 			} );
 
-			function removeListener() {
+			function cleanUp() {
+				scriptElement.remove();
 				delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
 			}
 		}

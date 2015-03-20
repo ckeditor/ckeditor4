@@ -1,1 +1,0 @@
-CKEDITOR._.mediaEmbedCallbacks[ 0 ] && CKEDITOR._.mediaEmbedCallbacks[ 0 ]( {} );
