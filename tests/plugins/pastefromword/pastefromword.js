@@ -40,10 +40,11 @@
 				var editor = bot.editor;
 
 				editor.once( 'paste', function( evt ) {
+					var dataValue = evt.data.dataValue;
 					resume( function() {
-						assert.areSame( '<p>Foo <span class="customboldclass">bar</span> bom</p>', evt.data.dataValue );
+						assert.areSame( '<p>Foo <span class="customboldclass">bar</span> bom</p>', dataValue );
 					} );
-				}, null, null, 999 );
+				}, null, null, 5 ); // Test PFW only.
 
 				editor.fire( 'paste', {
 					type: 'auto',
