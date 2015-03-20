@@ -11,7 +11,7 @@ var BACKSPACE = 8,
 	DEL = 46;
 
 var tests = {
-	assertBackspace: function( name, key, keyModifiers ) {
+	assertBackspace: function( name, key, keyModifiers, assertFn ) {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( name, function( source, expected ) {
 			bot.setHtmlWithSelection( source );
@@ -27,7 +27,11 @@ var tests = {
 			// versions of the tests, replace non-breaking-space char with &nbsp;
 			output = output.replace( /\u00a0/g, '&nbsp;' );
 
-			assert.areSame( bender.tools.compatHtml( expected ), output, name );
+			if ( typeof assertFn === 'function' ) {
+				assertFn( bot.editor );
+			} else {
+				assert.areSame( bender.tools.compatHtml( expected ), output, name );
+			}
 		} );
 	}
 };
@@ -44,6 +48,9 @@ addTests( 'test backspace join list items', 'join_list8', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list9', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list10', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list11', BACKSPACE );
+addTests( 'test backspace join list items', 'join_list15', BACKSPACE, undefined, function( editor ) {
+	assert.isNull( editor.editable().findOne( 'a' ).findOne( 'a' ) );
+} );
 
 addTests( 'test backspace outdent list item', 'outdent_list', BACKSPACE );
 addTests( 'test backspace outdent list item', 'outdent_list2', BACKSPACE );
@@ -88,9 +95,9 @@ addTests( 'test backspace outdent list item - SHIFT', 'outdent_list', BACKSPACE,
 addTests( 'test del join list items - CTRL', 'join_list1_del', DEL, CKEDITOR.CTRL );
 addTests( 'test del join with next list item - SHIFT', 'merge_next_list', DEL, CKEDITOR.SHIFT );
 
-function addTests( title, source, key, keyModifiers ) {
+function addTests( title, source, key, keyModifiers, assertFn ) {
 	tests[ title + ' (' + source + ')' ] = function() {
-		this.assertBackspace( source, key, keyModifiers );
+		this.assertBackspace( source, key, keyModifiers, assertFn );
 	};
 }
 
