@@ -45,7 +45,7 @@
 					if ( !evt.data.html ) {
 						evt.data.html = this._responseToHtml( evt.data.url, evt.data.response );
 					}
-				}, this );
+				}, this, null, 999 );
 			},
 
 			// We can't load content on #data, because that would make it rather impossible
@@ -209,9 +209,9 @@
 				} );
 			};
 
-			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function( data ) {
+			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function() {
 				cleanUp();
-				errorCallback( data );
+				errorCallback();
 			} );
 
 			function cleanUp() {

@@ -223,8 +223,10 @@ bender.test( {
 					data1 = editor.getData();
 
 					that.listeners.push( widget2.on( 'sendRequest', sinon.stub().throws() ) );
-					var spy = sinon.spy( widget2, '_createTask' );
-					that.spies.push( spy );
+					var handleResponseSpy = sinon.spy();
+					that.listeners.push( widget2.on( 'handleResponse', handleResponseSpy ) );
+					var createTaskSpy = sinon.spy( widget2, '_createTask' );
+					that.spies.push( createTaskSpy );
 
 					var isAsync = false,
 						wasAsync;
@@ -244,13 +246,130 @@ bender.test( {
 									'<div data-oembed-url="//caches/responses" id="w2"><p>url:%2F%2Fcaches%2Fresponses</p></div><p>x</p>',
 									editor.getData(), 'data after second loadContent' );
 
-								assert.isFalse( spy.called, 'when cache is hit, task is not created' );
+								assert.isFalse( createTaskSpy.called, 'when cache is hit, task is not created' );
+								assert.isTrue( handleResponseSpy.calledOnce, 'handleResponse is fired' );
 							} );
 						}
 					} );
 
 					isAsync = true;
 				}
+			} );
+
+			wait();
+		} );
+	},
+
+	'test def.loadContent response handling': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			that = this;
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				handleResponseSpy = sinon.spy( widget, '_handleResponse' ),
+				eventsCount = 0;
+
+			that.spies.push( handleResponseSpy );
+
+			that.listeners.push( widget.on( 'handleResponse', function( evt ) {
+				eventsCount += 1;
+
+				evt.data.html = evt.data.response.html + '<p>customized</p>';
+			}, null, null, 9 ) );
+			// We want to check if our customization won't be overwritten
+			// if someone for some reason changed the default liteners priority to 10 (it should be 999).
+			// The idea is that someone may add listeners on widgetRepo#instanceCreated and that listeners
+			// would be added before the deault ones.
+
+			jsonpCallback = echoJsonpCallback;
+
+			widget.loadContent( '//response/handling', {
+				callback: function() {
+					resume( function() {
+						assert.areSame( 1, eventsCount, 'handleResponse event is fired once' );
+						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse is called once' );
+						assert.isTrue( handleResponseSpy.args[ 0 ][ 0 ].task.isDone(), 'task was done' );
+						assert.areSame( '<p>x</p><div data-oembed-url="//response/handling" id="w1">' +
+							'<p>url:%2F%2Fresponse%2Fhandling</p><p>customized</p></div><p>x</p>',
+							editor.getData(), 'response was customized' );
+						assert.areSame( '//response/handling', widget.data.url, 'widget\'s url has been changed' );
+					} );
+				}
+			} );
+
+			wait();
+		} );
+	},
+
+	'test def.loadContent error handling': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			that = this;
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				handleErrorSpy = sinon.spy( widget, '_handleError' ),
+				origSendRequest = widget._sendRequest,
+				canceledSpy = sinon.spy(),
+				showNotificationSpy = sinon.stub( editor, 'showNotification' );
+
+			that.spies.push( sinon.stub( widget, '_handleResponse' ).throws() );
+			that.spies.push( handleErrorSpy );
+			that.spies.push( sinon.stub( widget, '_sendRequest', function( request ) {
+				request.task.on( 'canceled', canceledSpy );
+				origSendRequest.apply( this, arguments );
+			} ) );
+			that.spies.push( showNotificationSpy );
+
+			jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
+				errorCallback();
+			};
+
+			widget.loadContent( '//error/handling', {
+				callback: sinon.stub().throws(),
+				errorCallback: function() {
+					resume( function() {
+						assert.isTrue( handleErrorSpy.calledOnce, '_handleError was called' );
+						assert.isTrue( canceledSpy.calledOnce, 'task was canceled' );
+						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
+						assert.isTrue( showNotificationSpy.calledOnce, 'showNotification was called' );
+					} );
+				}
+			} );
+
+			wait();
+		} );
+	},
+
+	'test canceling handleResponse': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor;
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				task;
+
+			widget.on( 'sendRequest', function( evt ) {
+				task = evt.data.task;
+			} );
+
+			widget.on( 'handleResponse', function( evt ) {
+				evt.cancel();
+			} );
+
+			jsonpCallback = echoJsonpCallback;
+
+			widget.loadContent( '//canceling/handleresponse', {
+				callback: function() {
+					resume( function() {
+						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
+						assert.isTrue( task.isDone(), 'task is done' );
+						assert.areSame( dataWithWidget, editor.getData() );
+					} );
+				},
+
+				errorCallback: sinon.stub().throws()
 			} );
 
 			wait();
