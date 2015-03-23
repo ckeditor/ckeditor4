@@ -144,11 +144,24 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				modeSwitchAdvanced = CKEDITOR.document.getById( 'radio-advanced' );
 
 			// Initial setup
-			if ( mode === 'advanced' ) {
-				modeSwitchAdvanced.setAttribute( 'checked' );
-			} else {
-				modeSwitchBasic.setAttribute( 'checked' );
+			function updateSwitcher() {
+				if ( mode === 'advanced' ) {
+					modeSwitchAdvanced.$.checked = true;
+				} else {
+					modeSwitchBasic.$.checked = true;
+				}
 			}
+
+			updateSwitcher();
+
+			CKEDITOR.document.getWindow().on( 'hashchange', function( e ) {
+				var hash = window.location.hash.substr( 1 );
+				if ( !( hash === 'advanced' || hash === 'basic' ) ) {
+					return;
+				}
+				mode = hash;
+				onToolbarsDone( mode );
+			} );
 
 			CKEDITOR.document.getWindow().on( 'resize', function() {
 				updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
@@ -221,6 +234,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				} else {
 					toggleModeAdvanced( false );
 				}
+
+				updateSwitcher();
 
 				setTimeout( function() {
 					CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
