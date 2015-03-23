@@ -31,6 +31,8 @@
 				),
 
 				init: function() {
+					var that = this;
+
 					origInit.call( this );
 
 					// Need to wait for #ready with the initial content loading, because on #init there's no data yet.
@@ -38,7 +40,16 @@
 						// When widget is created using dialog, the dialog's code will handle loading the content
 						// (because it handles success and error), so do load the content only when loading data.
 						if ( this.data.loadOnReady ) {
-							this.loadContent( this.data.url );
+							this.loadContent( this.data.url, {
+								callback: function() {
+									// Do not load content again on widget next initialization (e.g. after undo or paste).
+									// Plus, this is a small trick that we change loadOnReady now, inside the callback.
+									// It guarantees that if content was not loaded (error or someone undid/copied sth to fast)
+									// the content will be loaded on the following initialization.
+									that.setData( 'loadOnReady', false );
+									editor.fire( 'updateSnapshot' );
+								}
+							} );
 						}
 					} );
 				},
