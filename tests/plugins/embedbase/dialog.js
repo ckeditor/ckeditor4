@@ -12,6 +12,64 @@ bender.editors = {
 	}
 };
 
+function createSuccessfulCommittingTest( isCreation ) {
+	return function() {
+		var editor = this.editors.classic,
+			dialog,
+			finalizeSpy = sinon.stub( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' ),
+			widget = {
+				wrapper: {
+					getParent: function() {
+						return 1;
+					}
+				},
+
+				data: {
+					url: 'foo'
+				},
+
+				isUrlValid: function() {
+					return true;
+				},
+
+				isReady: function() {
+					return !isCreation;
+				},
+
+				loadContent: function( url, opts ) {
+					assert.areSame( 'bar', url, 'url' );
+					assert.isTrue( opts.noNotifications, 'no notifications' );
+					assert.isFalse( dialog.getButton( 'ok' ).isEnabled(), 'ok button is disabled' );
+					assert.isTrue( dialog.parts.dialog.isVisible(), 'dialog is open' );
+
+					// loadContent() is always async.
+					wait( function() {
+						opts.callback();
+
+						assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'ok button is enabled' );
+						assert.isFalse( dialog.parts.dialog.isVisible(), 'dialog is hidden' );
+
+						// Widget's creation must be finalised only if it's being created...
+						if ( isCreation ) {
+							assert.isTrue( finalizeSpy.calledOnce, 'widgetsRepo.finalizeCreation was called once' );
+							assert.areSame( 1, finalizeSpy.args[ 0 ][ 0 ] );
+						} else {
+							assert.isFalse( finalizeSpy.called, 'widgetsRepo.finalizeCreation was not called' );
+						}
+					}, 50 );
+				}
+			};
+
+		this.spies.push( finalizeSpy );
+
+		this.openDialog( editor, widget, function( d ) {
+			dialog = d;
+			dialog.setValueOf( 'info', 'url', 'bar' );
+			dialog.getButton( 'ok' ).click();
+		} );
+	};
+}
+
 bender.test( {
 	spies: [],
 
@@ -80,52 +138,9 @@ bender.test( {
 		} );
 	},
 
-	'test successful committing': function() {
-		var editor = this.editors.classic,
-			dialog,
-			finalizeSpy = sinon.stub( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' ),
-			widget = {
-				wrapper: {
-					getParent: function() {
-						return 1;
-					}
-				},
+	'test successful committing (new widget)': createSuccessfulCommittingTest( true ),
 
-				data: {
-					url: 'foo'
-				},
-
-				isUrlValid: function() {
-					return true;
-				},
-
-				loadContent: function( url, opts ) {
-					assert.areSame( 'bar', url, 'url' );
-					assert.isTrue( opts.noNotifications, 'no notifications' );
-					assert.isFalse( dialog.getButton( 'ok' ).isEnabled(), 'ok button is disabled' );
-					assert.isTrue( dialog.parts.dialog.isVisible(), 'dialog is open' );
-
-					// loadContent() is always async.
-					wait( function() {
-						opts.callback();
-
-						assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'ok button is enabled' );
-						assert.isFalse( dialog.parts.dialog.isVisible(), 'dialog is hidden' );
-
-						assert.isTrue( finalizeSpy.calledOnce );
-						assert.areSame( 1, finalizeSpy.args[ 0 ][ 0 ] );
-					}, 50 );
-				}
-			};
-
-		this.spies.push( finalizeSpy );
-
-		this.openDialog( editor, widget, function( d ) {
-			dialog = d;
-			dialog.setValueOf( 'info', 'url', 'bar' );
-			dialog.getButton( 'ok' ).click();
-		} );
-	},
+	'test successful committing (editing widget)': createSuccessfulCommittingTest( false ),
 
 	'test unsuccessful committing': function() {
 		var editor = this.editors.classic,

@@ -33,7 +33,9 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 					noNotifications: true,
 
 					callback: function() {
-						editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
+						if ( !that.widget.isReady() ) {
+							editor.widgets.finalizeCreation( that.widget.wrapper.getParent( true ) );
+						}
 
 						editor.fire( 'saveSnapshot' );
 
