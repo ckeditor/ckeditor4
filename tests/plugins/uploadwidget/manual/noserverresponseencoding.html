@@ -1,0 +1,13 @@
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/'
+	} );
+
+	// We are going to overwrite server response to have encoded one.
+	var basePath = bender.config.tests[ bender.testData.group ].basePath;
+	XMLHttpRequest.responseData = {
+		url: '\/' + basePath + '_assets\/le%20na.jpg'
+	};
+</script>
