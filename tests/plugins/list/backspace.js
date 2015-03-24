@@ -27,10 +27,10 @@ var tests = {
 			// versions of the tests, replace non-breaking-space char with &nbsp;
 			output = output.replace( /\u00a0/g, '&nbsp;' );
 
+			assert.areSame( bender.tools.compatHtml( expected ), output, name );
+
 			if ( typeof assertFn === 'function' ) {
 				assertFn( bot.editor );
-			} else {
-				assert.areSame( bender.tools.compatHtml( expected ), output, name );
 			}
 		} );
 	}
