@@ -907,6 +907,8 @@
 								joinWith = previous;
 								// Place cursor at the end of previous block.
 								cursor.moveToElementEditEnd( joinWith );
+								// And then just before end of closest block element (#12729).
+								cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 							}
 						}
 
