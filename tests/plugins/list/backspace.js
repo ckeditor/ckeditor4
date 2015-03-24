@@ -48,9 +48,12 @@ addTests( 'test backspace join list items', 'join_list8', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list9', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list10', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list11', BACKSPACE );
-addTests( 'test backspace join list items', 'join_list15', BACKSPACE, undefined, function( editor ) {
+addTests( 'test backspace join list items', 'join_list15', BACKSPACE, undefined, assertNotNestedAnchors );
+addTests( 'test backspace join list items', 'join_list16', BACKSPACE, undefined, assertNotNestedAnchors );
+
+function assertNotNestedAnchors( editor ) {
 	assert.isNull( editor.editable().findOne( 'a' ).findOne( 'a' ) );
-} );
+}
 
 addTests( 'test backspace outdent list item', 'outdent_list', BACKSPACE );
 addTests( 'test backspace outdent list item', 'outdent_list2', BACKSPACE );
