@@ -11,6 +11,7 @@ Fixed Issues:
 * [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after *enter* key pressed in nested list.
 * [#13027](http://dev.ckeditor.com/ticket/13027): Fixed: Keyboard Navigation in dialogs with multiple tabs not following CI 162 instructions or [ARIA Authoring practices](http://www.w3.org/TR/2013/WD-wai-aria-practices-20130307/#tabpanel).
 * [#12256](http://dev.ckeditor.com/ticket/12256): Fixed: Basic styles' classes are lost when pasting from MS Word if [basics styles](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-coreStyles_bold) were configured to use classes.
+* [#12729](http://dev.ckeditor.com/ticket/12729): Incorrect structure created when merging block into list item on *Backspace* and *Delete*.
 
 Other Changes:
 
