@@ -124,10 +124,7 @@
 				if ( request.task ) {
 					request.task.cancel();
 
-					var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output(
-						// TODO improve this.
-						{ url: request.url.slice( 0, 40 ) + '...' }
-					);
+					var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output( { url: request.url } );
 					editor.showNotification( warningMsg, 'warning' );
 				}
 			},
