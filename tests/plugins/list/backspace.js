@@ -51,6 +51,7 @@ addTests( 'test backspace join list items', 'join_list11', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list15', BACKSPACE, undefined, assertNotNestedAnchors );
 addTests( 'test backspace join list items', 'join_list16', BACKSPACE, undefined, assertNotNestedAnchors );
 addTests( 'test backspace join list items', 'join_list17', BACKSPACE );
+addTests( 'test backspace join list items', 'join_list18', BACKSPACE );
 
 function assertNotNestedAnchors( editor ) {
 	assert.isNull( editor.editable().findOne( 'a' ).findOne( 'a' ) );
