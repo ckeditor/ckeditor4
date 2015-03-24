@@ -367,6 +367,26 @@
 		<li><a href="#one"><span>one</span></a><a href="#two">two</a></li>
 	</ul>
 </textarea>
+<textarea id="join_list17">
+	<ol>
+		<li>
+			<a href="#one">one</a>
+			<ol>
+				<li><a href="#two">^two</a></li>
+				<li><a href="#three">three</a></li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>
+			<a href="#one">one</a><a href="#two">two</a>
+			<ol>
+				<li><a href="#three">three</a></li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
 <textarea id="outdent_list3">
 	<table><tbody><tr><td>cell</td></tr></tbody></table>
 	<ol>
@@ -484,6 +504,18 @@
 	</ol>
 	=>
 	<div><p>foobar</p></div>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list5">
+	<a href="#foo">foo^</a>
+	<ol>
+		<li><a href="#bar">bar</a></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p><a href="#foo">foo</a><a href="#bar">bar</a></p>
 	<ol>
 		<li>baz</li>
 	</ol>
