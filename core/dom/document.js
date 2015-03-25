@@ -175,6 +175,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 				if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 )
 					continue;
 
+				// Fixes https://dev.ckeditor.com/ticket/13089
+				// Also see core/dom/node.js in getIndex - it skips over empty
+				// nodes, So we need to skip them here as well.
+				if ( normalized === true && candidate.nodeType == 3 && !candidate.nodeValue)
+					continue;
+
 				currentIndex++;
 
 				if ( currentIndex == target ) {
