@@ -263,37 +263,29 @@
 			 * See the {@link CKEDITOR.editor#method-insertHtml} method which is the editor-level API
 			 * for this purpose.
 			 *
-			 * @param {String} data The HTML to be inserted.
-			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
-			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-			 * instead of into the selection.
-			 */
-			insertHtml: function( data, mode, range ) {
-				if ( !range )
-					this.insertHtmlIntoSelection( data, mode );
-				else
-					this.insertHtmlIntoRange( data, range, mode );
-			},
-
-			/**
-			 * Inserts HTML into the selection. See also the {@link #insertHtml} method.
+			 * This method will insert HTML into the current selection or a given range. It also creates an undo snapshot,
+			 * scroll the viewport to the insertion and select range next to the inserted content.
+			 * If you want to insert HTML without additional operations use {@link #method-insertHtmlIntoRange}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
-			 * @since 4.5
 			 * @param {String} data The HTML to be inserted.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
+			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
+			 * instead of into the selection. Introduced in CKEditor 4.5.
 			 */
-			insertHtmlIntoSelection: function( data, mode ) {
+			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
 
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				// HTML insertion only considers the first range.
-				// Note: getRanges will be overwritten for tests since we want to test
-				// custom ranges and bypass native selections.
-				var range = editor.getSelection().getRanges()[ 0 ];
+				if ( !range ) {
+					// HTML insertion only considers the first range.
+					// Note: getRanges will be overwritten for tests since we want to test
+					// custom ranges and bypass native selections.
+					range = editor.getSelection().getRanges()[ 0 ];
+				}
 
 				// Default mode is 'html'.
 				insert( this, mode || 'html', data, range );
@@ -309,9 +301,10 @@
 			/**
 			 * Inserts HTML into the position in the editor determined by the range.
 			 *
-			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
+			 * HTML. If you want to do it use {@link #method-insertHtml}.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots}.
+			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
 			 * @since 4.5
 			 * @param {String} data HTML code to be inserted into the editor.
@@ -331,21 +324,79 @@
 			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
 			 * for this purpose.
 			 *
+			 * This method will insert element into the current selection or a given range. It also creates an undo
+			 * snapshot, scroll the viewport to the insertion and select range next to the inserted content.
+			 * If you want to insert element without additional operations use {@link #method-insertElementIntoRange}.
+			 *
 			 * @param {CKEDITOR.dom.element} element The element to insert.
 			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
 			 * instead of into the selection.
 			 */
 			insertElement: function( element, range ) {
-				if ( !range )
-					this.insertElementIntoSelection( element );
-				else
-					this.insertElementIntoRange( element, range );
+				var editor = this.editor;
+
+				// Prepare for the insertion. For example - focus editor (#11848).
+				editor.focus();
+				editor.fire( 'saveSnapshot' );
+
+				var enterMode = editor.activeEnterMode,
+					selection = editor.getSelection(),
+					elementName = element.getName(),
+					isBlock = CKEDITOR.dtd.$block[ elementName ];
+
+				if ( !range ) {
+					range = selection.getRanges()[ 0 ];
+				}
+
+				// Insert element into first range only and ignore the rest (#11183).
+				if ( this.insertElementIntoRange( element, range ) ) {
+					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
+
+					// If we're inserting a block element, the new cursor position must be
+					// optimized. (#3100,#5436,#8950)
+					if ( isBlock ) {
+						// Find next, meaningful element.
+						var next = element.getNext( function( node ) {
+							return isNotEmpty( node ) && !isBogus( node );
+						} );
+
+						if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.is( CKEDITOR.dtd.$block ) ) {
+							// If the next one is a text block, move cursor to the start of it's content.
+							if ( next.getDtd()[ '#' ] )
+								range.moveToElementEditStart( next );
+							// Otherwise move cursor to the before end of the last element.
+							else
+								range.moveToElementEditEnd( element );
+						}
+						// Open a new line if the block is inserted at the end of parent.
+						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
+							next = range.fixBlock( true, enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
+							range.moveToElementEditStart( next );
+						}
+					}
+				}
+
+				// Set up the correct selection.
+				selection.selectRanges( [ range ] );
+
+				afterInsert( this );
+			},
+
+			/**
+			 * Alias to {@link #insertElement}.
+			 *
+			 * @deprecated
+			 * @param {CKEDITOR.dom.element} element The element to be inserted.
+			 */
+			insertElementIntoSelection: function( element ) {
+				this.insertElement( element );
 			},
 
 			/**
 			 * Inserts an element into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots}.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
+			 * element. If you want to do it use the {@link #method-insertElement} method.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
@@ -399,58 +450,6 @@
 
 				// Return true if insertion was successful.
 				return true;
-			},
-
-			/**
-			 * Inserts an element into the selection.
-			 *
-			 * @param {CKEDITOR.dom.element} element The element to be inserted.
-			 */
-			insertElementIntoSelection: function( element ) {
-				var editor = this.editor;
-
-				// Prepare for the insertion. For example - focus editor (#11848).
-				editor.focus();
-				editor.fire( 'saveSnapshot' );
-
-				var enterMode = editor.activeEnterMode,
-					selection = editor.getSelection(),
-					range = selection.getRanges()[ 0 ],
-					elementName = element.getName(),
-					isBlock = CKEDITOR.dtd.$block[ elementName ];
-
-				// Insert element into first range only and ignore the rest (#11183).
-				if ( this.insertElementIntoRange( element, range ) ) {
-					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
-
-					// If we're inserting a block element, the new cursor position must be
-					// optimized. (#3100,#5436,#8950)
-					if ( isBlock ) {
-						// Find next, meaningful element.
-						var next = element.getNext( function( node ) {
-							return isNotEmpty( node ) && !isBogus( node );
-						} );
-
-						if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.is( CKEDITOR.dtd.$block ) ) {
-							// If the next one is a text block, move cursor to the start of it's content.
-							if ( next.getDtd()[ '#' ] )
-								range.moveToElementEditStart( next );
-							// Otherwise move cursor to the before end of the last element.
-							else
-								range.moveToElementEditEnd( element );
-						}
-						// Open a new line if the block is inserted at the end of parent.
-						else if ( !next && enterMode != CKEDITOR.ENTER_BR ) {
-							next = range.fixBlock( true, enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p' );
-							range.moveToElementEditStart( next );
-						}
-					}
-				}
-
-				// Set up the correct selection.
-				selection.selectRanges( [ range ] );
-
-				afterInsert( this );
 			},
 
 			/**

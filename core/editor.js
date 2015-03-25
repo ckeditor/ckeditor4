@@ -1846,14 +1846,15 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired after data insertion using insertHtml or insertHtmlIntoRange methods.
+ * Event fired after data insertion using {@link #method-insertHtml}, {@link CKEDITOR.editable#insertHtml},
+ * or {@link CKEDITOR.editable#insertHtmlIntoRange} methods.
  *
  * @since 4.5
  * @event afterInsertHtml
  * @param data
- * @param  {CKEDITOR.dom.range} [data.intoRange] If set the HTML was inserted into the range
- * instead of into the selection. See the {@link CKEDITOR.editable#insertHtml} method which accepts range
- * as a parameter.
+ * @param {CKEDITOR.dom.range} [data.intoRange] If set the HTML was not inserted into the current selection, but into
+ * the specified range. This property is set if the {@link CKEDITOR.editable#insertHtmlIntoRange} method was used,
+ * but not if the {@link CKEDITOR.editable#insertHtml} method.
  */
 
 /**
