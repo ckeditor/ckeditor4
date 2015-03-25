@@ -706,7 +706,7 @@
 	}
 
 	// Join visually two block lines.
-	function joinNextLineToCursor( editor, cursor, nextCursor ) {
+	function joinNextLineToCursor( editor, cursor, nextCursor, bm ) {
 		editor.fire( 'saveSnapshot' );
 
 		// Merge with previous block's content.
@@ -714,7 +714,7 @@
 		var frag = nextCursor.extractContents();
 
 		cursor.trim( false, true );
-		var bm = cursor.createBookmark();
+		bm = bm || cursor.createBookmark();
 
 		// Kill original bogus;
 		var currentPath = new CKEDITOR.dom.elementPath( cursor.startContainer ),
@@ -866,7 +866,8 @@
 						return !( isOut && node.type == CKEDITOR.NODE_ELEMENT && node.is( 'table' ) );
 					};
 
-					var cursor = range.clone();
+					var cursor = range.clone(),
+						bookmark;
 
 					if ( isBackspace ) {
 						var previous, joinWith;
@@ -907,13 +908,15 @@
 								joinWith = previous;
 								// Place cursor at the end of previous block.
 								cursor.moveToElementEditEnd( joinWith );
+
+								bookmark = cursor.createBookmark();
 								// And then just before end of closest block element (#12729).
 								cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 							}
 						}
 
 						if ( joinWith ) {
-							joinNextLineToCursor( editor, cursor, range );
+							joinNextLineToCursor( editor, cursor, range, bookmark );
 							evt.cancel();
 						}
 						else {
@@ -982,13 +985,14 @@
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
 
+								bookmark = cursor.createBookmark();
 								// Moving `cursor` and `next line` only when at the end literally (#12729).
 								if ( isAtEnd == 2 ) {
 									cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 									nextLine.moveToPosition( nextLine.endPath().block, CKEDITOR.POSITION_AFTER_START );
 								}
 
-								joinNextLineToCursor( editor, cursor, nextLine );
+								joinNextLineToCursor( editor, cursor, nextLine, bookmark );
 								evt.cancel();
 							}
 						} else {
