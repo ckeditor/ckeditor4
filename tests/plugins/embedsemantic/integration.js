@@ -1,3 +1,4 @@
+/* bender-tags: widget */
 /* bender-ckeditor-plugins: embedsemantic,toolbar,undo,basicstyles */
 /* bender-include: ../widget/_helpers/tools.js, ../embedbase/_helpers/tools.js */
 /* global embedTools, widgetTestsTools */
