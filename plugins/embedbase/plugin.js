@@ -29,7 +29,8 @@
 			pathName: lang.pathName,
 			// This cache object will be shared between all instances of this widget.
 			_cache: {},
-			urlRegExp: /^(?:(https?:|ftp:)?\/\/|www\.)[^\s\/$.?#].[^\s]*$/i,
+			// https://iframely.com/docs/providers
+			urlRegExp: /^((https?:)?\/\/|www\.)/i,
 
 			init: function() {
 				this.on( 'sendRequest', function( evt ) {

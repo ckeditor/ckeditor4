@@ -158,6 +158,7 @@ bender.test( {
 		assert.isTrue( def.isUrlValid( 'https://ąść.mobifoo/*&^%$#?&^%$.xx' ), '2' );
 		assert.isTrue( def.isUrlValid( '//xxx.pl/foo' ), '3' );
 		assert.isFalse( def.isUrlValid( 'x' ), '4' );
+		assert.isFalse( def.isUrlValid( 'ftp://foo.bar' ), '5' );
 	},
 
 	'test def.isUrlValid fires validateUrl': function() {
