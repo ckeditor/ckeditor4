@@ -43,13 +43,13 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						that.hide();
 					},
 
-					errorCallback: function() {
+					errorCallback: function( messageTypeOrMessage ) {
 						that.getContentElement( 'info', 'url' ).select();
 
 						// We need to enable the OK button so user can fix the URL.
 						okButton.enable();
 
-						alert( lang.fetchingGivenFailed );
+						alert( that.widget.getErrorMessage( messageTypeOrMessage, 'Given' ) );
 					}
 				} );
 			}, null, null, 15 );
@@ -71,7 +71,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 						validate: function() {
 							if ( !this.getDialog().widget.isUrlValid( this.getValue() ) ) {
-								return lang.invalidUrl;
+								return lang.unsupportedUrlGiven;
 							}
 
 							return true;

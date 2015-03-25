@@ -42,8 +42,17 @@
 				}, this );
 
 				this.on( 'handleResponse', function( evt ) {
-					if ( !evt.data.html ) {
-						evt.data.html = this._responseToHtml( evt.data.url, evt.data.response );
+					if ( evt.data.html ) {
+						return;
+					}
+
+					var retHtml = this._responseToHtml( evt.data.url, evt.data.response );
+
+					if ( retHtml !== null ) {
+						evt.data.html = retHtml;
+					} else {
+						evt.data.errorMessage = 'unsupportedUrl';
+						evt.cancel();
 					}
 				}, this, null, 999 );
 			},
@@ -58,9 +67,9 @@
 					request = {
 						url: url,
 						callback: finishLoading,
-						errorCallback: function() {
-							that._handleError( request );
-							opts.errorCallback && opts.errorCallback();
+						errorCallback: function( msg ) {
+							that._handleError( request, msg );
+							opts.errorCallback && opts.errorCallback( msg );
 						}
 					};
 
@@ -81,16 +90,26 @@
 				this.fire( 'sendRequest', request );
 
 				function finishLoading( response ) {
-					that._cacheResponse( url, response );
 					request.response = response;
 
-					that._handleResponse( request );
-					opts.callback && opts.callback();
+					if ( that._handleResponse( request ) ) {
+						that._cacheResponse( url, response );
+						opts.callback && opts.callback();
+					}
 				}
 			},
 
 			isUrlValid: function( url ) {
 				return this.urlRegExp.test( url ) && ( this.fire( 'validateUrl', url ) !== false );
+			},
+
+			getErrorMessage: function( messageTypeOrMessage, suffix, url ) {
+				var message = editor.lang.embedbase[ messageTypeOrMessage + ( suffix || '' ) ];
+				if ( !message ) {
+					message = messageTypeOrMessage;
+				}
+
+				return new CKEDITOR.template( message ).output( { url: url } );
 			},
 
 			_sendRequest: function( request ) {
@@ -100,7 +119,9 @@
 						url: encodeURIComponent( request.url )
 					},
 					request.callback,
-					request.errorCallback
+					function() {
+						request.errorCallback( 'fetchingFailed' );
+					}
 				);
 			},
 
@@ -117,15 +138,18 @@
 
 				if ( this.fire( 'handleResponse', evtData ) !== false ) {
 					this._setContent( request.url, evtData.html );
+					return true;
+				} else {
+					request.errorCallback( evtData.errorMessage );
+					return false;
 				}
 			},
 
-			_handleError: function( request ) {
+			_handleError: function( request, messageTypeOrMessage ) {
 				if ( request.task ) {
 					request.task.cancel();
 
-					var warningMsg = new CKEDITOR.template( lang.fetchingSpecificFailed ).output( { url: request.url } );
-					editor.showNotification( warningMsg, 'warning' );
+					editor.showNotification( this.getErrorMessage( messageTypeOrMessage, '', request.url ), 'warning' );
 				}
 			},
 

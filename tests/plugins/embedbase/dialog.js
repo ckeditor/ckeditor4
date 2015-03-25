@@ -132,7 +132,7 @@ bender.test( {
 			dialog.getButton( 'ok' ).click();
 
 			assert.isTrue( spy.calledOnce );
-			assert.areSame( editor.lang.embedbase.invalidUrl, spy.args[ 0 ][ 0 ] );
+			assert.areSame( editor.lang.embedbase.unsupportedUrlGiven, spy.args[ 0 ][ 0 ] );
 
 			dialog.getButton( 'cancel' ).click();
 		} );
@@ -155,16 +155,20 @@ bender.test( {
 					return true;
 				},
 
+				getErrorMessage: function( msg, suffix ) {
+					return msg + '-' + suffix;
+				},
+
 				loadContent: function( url, opts ) {
 					// loadContent() is always async.
 					wait( function() {
-						opts.errorCallback();
+						opts.errorCallback( 'fetchingFailed' );
 
 						assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'ok button is enabled' );
 						assert.isTrue( dialog.parts.dialog.isVisible(), 'dialog is open' );
 
 						assert.isTrue( spy.calledOnce );
-						assert.areSame( editor.lang.embedbase.fetchingGivenFailed, spy.args[ 0 ][ 0 ] );
+						assert.areSame( 'fetchingFailed-Given', spy.args[ 0 ][ 0 ] );
 
 						dialog.getButton( 'cancel' ).click();
 					}, 50 );

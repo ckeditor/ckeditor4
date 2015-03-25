@@ -128,10 +128,11 @@ bender.test( {
 	'test def._sendRequest': function() {
 		var def = createDef( this.editors.inline ),
 			stub = sinon.stub( CKEDITOR.plugins.embedBase._jsonp, 'sendRequest' ),
+			errorCallbackSpy = sinon.spy(),
 			request = {
 				url: 'http://f&y=',
 				callback: 1,
-				errorCallback: 2
+				errorCallback: errorCallbackSpy
 			};
 
 		this.spies.push( stub );
@@ -144,7 +145,9 @@ bender.test( {
 		assert.areSame( def.providerUrl, args[ 0 ], 'url pattern' );
 		assert.areSame( 'http%3A%2F%2Ff%26y%3D', args[ 1 ].url, 'url param url' );
 		assert.areSame( request.callback, args[ 2 ], 'callback' );
-		assert.areSame( request.errorCallback, args[ 3 ], 'errorCallback' );
+
+		request.errorCallback( 'foo error' );
+		assert.isTrue( errorCallbackSpy.calledOnce, 'errorCallback' );
 	},
 
 	'test def.isUrlValid': function() {
@@ -171,6 +174,28 @@ bender.test( {
 			evt.cancel();
 		} );
 		assert.isFalse( def.isUrlValid( 'http://xxx' ) );
+	},
+
+	'test getErrorMessage - with custom message': function() {
+		var def = createDef( this.editors.inline );
+
+		assert.areSame( 'foo //bar.bom', def.getErrorMessage( 'foo {url}', '', '//bar.bom' ) );
+		assert.areSame( 'foo //bar.bom2', def.getErrorMessage( 'foo {url}', 'ignore me', '//bar.bom2' ) );
+		assert.areSame( 'foo', def.getErrorMessage( 'foo' ) );
+	},
+
+	'test getErrorMessage - with translation string': function() {
+		var def = createDef( this.editors.inline ),
+			lang = this.editors.inline.lang.embedbase;
+
+		lang.getErrorMessage = 'foo';
+		lang.getErrorMessage2 = 'bar {url}';
+		lang.getErrorMessageSuff = 'bom {url}';
+
+		assert.areSame( 'foo', def.getErrorMessage( 'getErrorMessage' ) );
+		assert.areSame( 'foo', def.getErrorMessage( 'getErrorMessage', '', '//foo.foo' ) );
+		assert.areSame( 'bar //bar.bom', def.getErrorMessage( 'getErrorMessage2', '', '//bar.bom' ) );
+		assert.areSame( 'bom //bar.bom', def.getErrorMessage( 'getErrorMessage', 'Suff', '//bar.bom' ) );
 	},
 
 	'test def.loadContent fires sendRequest event': function() {
@@ -289,6 +314,7 @@ bender.test( {
 						assert.areSame( 1, eventsCount, 'handleResponse event is fired once' );
 						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse is called once' );
 						assert.isTrue( handleResponseSpy.args[ 0 ][ 0 ].task.isDone(), 'task was done' );
+						assert.isTrue( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned true' );
 						assert.areSame( '<p>x</p><div data-oembed-url="//response/handling" id="w1">' +
 							'<p>url:%2F%2Fresponse%2Fhandling</p><p>customized</p></div><p>x</p>',
 							editor.getData(), 'response was customized' );
@@ -301,7 +327,7 @@ bender.test( {
 		} );
 	},
 
-	'test def.loadContent error handling': function() {
+	'test def.loadContent request error handling': function() {
 		var bot = this.editorBots.inline,
 			editor = bot.editor,
 			that = this;
@@ -332,7 +358,64 @@ bender.test( {
 						assert.isTrue( handleErrorSpy.calledOnce, '_handleError was called' );
 						assert.isTrue( canceledSpy.calledOnce, 'task was canceled' );
 						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
+
 						assert.isTrue( showNotificationSpy.calledOnce, 'showNotification was called' );
+						assert.areSame( editor.lang.embedbase.fetchingFailed.replace( /{url}/, '//error/handling' ),
+							showNotificationSpy.args[ 0 ][ 0 ], 'notification message' );
+
+						assert.isUndefined( widget._getCachedResponse( '//error/handling' ), 'response was not cached' );
+					} );
+				}
+			} );
+
+			wait();
+		} );
+	},
+
+	'test def.loadContent unsupported response error handling': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			that = this;
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				handleErrorSpy = sinon.spy( widget, '_handleError' ),
+				handleResponseSpy = sinon.spy( widget, '_handleResponse' ),
+				origSendRequest = widget._sendRequest,
+				canceledSpy = sinon.spy(),
+				showNotificationSpy = sinon.stub( editor, 'showNotification' ),
+				url = '//unsupported/response/handling';
+
+			that.spies.push( handleErrorSpy );
+			that.spies.push( handleResponseSpy );
+			that.spies.push( sinon.stub( widget, '_sendRequest', function( request ) {
+				request.task.on( 'canceled', canceledSpy );
+				origSendRequest.apply( this, arguments );
+			} ) );
+			that.spies.push( showNotificationSpy );
+
+			jsonpCallback = function( urlTemplate, urlParams, callback ) {
+				callback( {
+					type: 'unsupported'
+				} );
+			};
+
+			widget.loadContent( url, {
+				callback: sinon.stub().throws(),
+				errorCallback: function() {
+					resume( function() {
+						assert.isTrue( handleErrorSpy.calledOnce, '_handleError was called' );
+						assert.isTrue( canceledSpy.calledOnce, 'task was canceled' );
+						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
+
+						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse was called once' );
+						assert.isFalse( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned false' );
+
+						assert.isTrue( showNotificationSpy.calledOnce, 'showNotification was called' );
+						assert.areSame( editor.lang.embedbase.unsupportedUrl.replace( /{url}/, url ),
+							showNotificationSpy.args[ 0 ][ 0 ], 'notification message' );
+
+						assert.isUndefined( widget._getCachedResponse( url ), 'response was not cached' );
 					} );
 				}
 			} );
@@ -343,32 +426,48 @@ bender.test( {
 
 	'test canceling handleResponse': function() {
 		var bot = this.editorBots.inline,
-			editor = bot.editor;
+			editor = bot.editor,
+			that = this;
 
 		bot.setData( dataWithWidget, function() {
 			var widget = getWidgetById( editor, 'w1' ),
-				task;
+				task,
+				handleResponseSpy = sinon.spy( widget, '_handleResponse' ),
+				showNotificationSpy = sinon.stub( editor, 'showNotification' );
 
 			widget.on( 'sendRequest', function( evt ) {
 				task = evt.data.task;
 			} );
 
 			widget.on( 'handleResponse', function( evt ) {
+				evt.data.errorMessage = 'foo error {url}';
 				evt.cancel();
 			} );
+
+			that.spies.push( handleResponseSpy );
+			that.spies.push( showNotificationSpy );
 
 			jsonpCallback = echoJsonpCallback;
 
 			widget.loadContent( '//canceling/handleresponse', {
-				callback: function() {
+				callback: sinon.stub().throws(),
+
+				errorCallback: function() {
 					resume( function() {
 						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
-						assert.isTrue( task.isDone(), 'task is done' );
 						assert.areSame( dataWithWidget, editor.getData() );
-					} );
-				},
 
-				errorCallback: sinon.stub().throws()
+						assert.isTrue( task.isDone(), 'task is done' );
+
+						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse was called once' );
+						assert.isFalse( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned false' );
+
+						assert.isTrue( showNotificationSpy.calledOnce, 'showNotification was called once' );
+						assert.areSame( 'foo error //canceling/handleresponse', showNotificationSpy.args[ 0 ][ 0 ], 'notification message' );
+
+						assert.isUndefined( widget._getCachedResponse( '//canceling/handleresponse' ), 'response was not cached' );
+					} );
+				}
 			} );
 
 			wait();
