@@ -2412,7 +2412,8 @@
 			// Note: mouseup won't be fired at all if widget was dragged and dropped, so
 			// this code will be executed only when drag handler was clicked.
 			editable.attachListener( evtRoot, 'mouseup', function() {
-				if ( widget && mouseDownOnDragHandler ) {
+				// Check if widget is not destroyed (if widget is destroyed the wrapper will be null).
+				if ( mouseDownOnDragHandler && widget && widget.wrapper ) {
 					mouseDownOnDragHandler = 0;
 					widget.focus();
 				}
@@ -2425,12 +2426,14 @@
 			// so we force fake selection after everything happened.
 			if ( CKEDITOR.env.ie ) {
 				editable.attachListener( evtRoot, 'mouseup', function() {
-					if ( widget ) {
-						setTimeout( function() {
+					setTimeout( function() {
+						// Check if widget is not destroyed (if widget is destroyed the wrapper will be null) and
+						// in editable contains widget (it could be dragged and removed).
+						if ( widget && widget.wrapper && editable.contains( widget.wrapper ) ) {
 							widget.focus();
 							widget = null;
-						} );
-					}
+						}
+					} );
 				} );
 			}
 		} );
@@ -2707,7 +2710,6 @@
 				widgetsRepo.checkWidgets( { initOnlyNew: true } );
 			} else {
 				editor.fire( 'lockSnapshot' );
-
 				// Init only new for performance reason.
 				// Focus inited if only widget was processed.
 				widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
