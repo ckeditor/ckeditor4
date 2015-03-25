@@ -596,6 +596,10 @@
 					element.name = styleDef.element;
 					CKEDITOR.tools.extend( element.attributes, CKEDITOR.tools.clone( styleDef.attributes ) );
 					element.addStyle( CKEDITOR.style.getStyleText( styleDef ) );
+					// Mark style classes as allowed so they will not be filtered out (#12256).
+					if ( styleDef.attributes && styleDef.attributes[ 'class' ] ) {
+						element.classWhiteList = ' ' + styleDef.attributes[ 'class' ] + ' ';
+					}
 				} : function() {};
 			},
 
@@ -1058,7 +1062,13 @@
 					// Only Firefox carry style sheet from MS-Word, which
 					// will be applied by us manually. For other browsers
 					// the css className is useless.
-					'class': falsyFilter,
+					// We need to keep classes added as a style (#12256).
+					'class': function( value, element ) {
+						if ( element.classWhiteList && element.classWhiteList.indexOf( ' ' + value + ' ' ) != -1 ) {
+							return value;
+						}
+						return false;
+					},
 
 					// MS-Word always generate 'background-color' along with 'bgcolor',
 					// simply drop the deprecated attributes.

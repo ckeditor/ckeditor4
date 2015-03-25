@@ -10,11 +10,12 @@ Fixed Issues:
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing getData parameter documentation.
 * [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after *enter* key pressed in nested list.
 * [#13027](http://dev.ckeditor.com/ticket/13027): Fixed: Keyboard Navigation in dialogs with multiple tabs not following CI 162 instructions or [ARIA Authoring practices](http://www.w3.org/TR/2013/WD-wai-aria-practices-20130307/#tabpanel).
+* [#12256](http://dev.ckeditor.com/ticket/12256): Fixed: Basic styles' classes are lost when pasting from MS Word if [basics styles](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-coreStyles_bold) were configured to use classes.
 
 Other Changes:
 
 * [#12844](http://dev.ckeditor.com/ticket/12844): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.*`.
-* [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed truncated-mathjax from the test directory, now `bender.config.mathJaxLibPath` need to be configured manually.
+* [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed `truncated-mathjax/` from the `tests/` directory. Now `bender.config.mathJaxLibPath` must be configured manually in order to run MathJax plugin's tests.
 
 ## CKEditor 4.4.7
 

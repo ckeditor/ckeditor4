@@ -23,6 +23,36 @@
 			} );
 
 			wait();
+		},
+
+		'test keep custom class': function() {
+			bender.editorBot.create( {
+				name: 'keep_custom_class',
+				config: {
+					coreStyles_bold: {
+						element: 'span',
+						attributes: { 'class': 'customboldclass' },
+						overrides: [ 'strong', 'b' ]
+					},
+					allowedContent: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.once( 'paste', function( evt ) {
+					var dataValue = evt.data.dataValue;
+					resume( function() {
+						assert.areSame( '<p>Foo <span class="customboldclass">bar</span> bom</p>', dataValue );
+					} );
+				}, null, null, 5 ); // Test PFW only.
+
+				editor.fire( 'paste', {
+					type: 'auto',
+					dataValue: '<p style="margin: 0cm 0cm 8pt;"><font face="Calibri">Foo <b style="mso-bidi-font-weight: normal;">bar</b> bom</font></p>'
+				} );
+
+				wait();
+			} );
 		}
 	} );
 
