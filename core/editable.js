@@ -272,7 +272,7 @@
 			 * @param {String} data The HTML to be inserted.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-			 * instead of into the selection.
+			 * instead of into the selection. Introduced in CKEditor 4.5.
 			 */
 			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
@@ -383,7 +383,7 @@
 			},
 
 			/**
-			 * Alias to {@link CKEDITOR.editor#insertElement}.
+			 * Alias to {@link #insertElement}.
 			 *
 			 * @deprecated
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
@@ -396,7 +396,7 @@
 			 * Inserts an element into the position in the editor determined by the range.
 			 *
 			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
-			 * element. If you want to do it use {@link #method-insertElement}.
+			 * element. If you want to do it use the {@link #method-insertElement} method.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.

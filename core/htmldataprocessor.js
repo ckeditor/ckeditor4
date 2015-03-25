@@ -225,7 +225,7 @@
 		 * will be still applied).
 		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
 		 * @param {Boolean} [options.protectedWhitespaces] Indicates that content has been wrapped with `span` elements to preserve
-		 * leading and trailing whitespaces. Option used by the {@link CKEDITOR.editor#insertHtml} method.
+		 * leading and trailing whitespaces. Option used by the {@link CKEDITOR.editor#method-insertHtml} method.
 		 * @returns {String}
 		 */
 		toHtml: function( data, options, fixForBody, dontFilter ) {
