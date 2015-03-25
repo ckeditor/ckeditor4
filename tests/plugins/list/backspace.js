@@ -81,6 +81,8 @@ addTests( 'test del join list items', 'join_list11_del', DEL );
 addTests( 'test del join list items', 'join_list12_del', DEL );
 addTests( 'test del join list items', 'join_list13_del', DEL );
 addTests( 'test del join list items', 'join_list14_del', DEL );
+addTests( 'test del join list items', 'join_list15_del', DEL, undefined, assertNotNestedAnchors );
+addTests( 'test del join list items', 'join_list16_del', DEL, undefined, assertNotNestedAnchors );
 
 addTests( 'test del join with next list item', 'merge_next_list', DEL );
 addTests( 'test del join with next list item', 'merge_next_list2', DEL );
