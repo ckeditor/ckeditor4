@@ -133,19 +133,11 @@
 				if ( response.type == 'photo' ) {
 					return '<img src="' + CKEDITOR.tools.htmlEncodeAttr( response.url ) + '" ' +
 						'alt="' + CKEDITOR.tools.htmlEncodeAttr( response.title || '' ) + '" style="max-width:100%;height:auto" />';
-				} else if ( response.type == 'link' ) {
-					var title = CKEDITOR.tools.htmlEncodeAttr( response.title || '' ),
-						// In case of the link type response may not contain url.
-						linkUrl = response.url || url;
-
-					return '<a href="' + CKEDITOR.tools.htmlEncodeAttr( linkUrl ) + '"' +
-						// If title is available lets add it as an attribute.
-						( title ? ' title="' + title + '"' : '' ) +
-						'>' + CKEDITOR.tools.htmlEncode( linkUrl ) + '</a>';
+				} else if ( response.type == 'video' || response.type == 'rich' ) {
+					return response.html;
 				}
 
-				// Types: video, rich.
-				return response.html;
+				return null;
 			},
 
 			_setContent: function( url, content ) {

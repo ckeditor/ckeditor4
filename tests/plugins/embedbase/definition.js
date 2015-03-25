@@ -116,14 +116,13 @@ bender.test( {
 	'test def._responseToHtml - link': function() {
 		var def = createDef( this.editors.inline );
 
-		assert.areSame( '<a href="http://foo&quot;&lt;bar">http://foo"&lt;bar</a>',
-			def._responseToHtml( 'http://foo"<bar', { type: 'link' } ), 'no url, no title' );
+		assert.isNull( def._responseToHtml( 'http://foo', { type: 'link' } ) );
+	},
 
-		assert.areSame( '<a href="http://foo&quot;&lt;bar">http://foo"&lt;bar</a>',
-			def._responseToHtml( 'http://foo', { type: 'link', url: 'http://foo"<bar' } ), 'with url' );
+	'test def._responseToHtml - unknown': function() {
+		var def = createDef( this.editors.inline );
 
-		assert.areSame( '<a href="http://foo" title="a&quot;b">http://foo</a>',
-			def._responseToHtml( 'http://foo', { type: 'link', title: 'a"b' } ), 'with title' );
+		assert.isNull( def._responseToHtml( 'http://foo', { type: 'foo', html: 'ignore me' } ) );
 	},
 
 	'test def._sendRequest': function() {
