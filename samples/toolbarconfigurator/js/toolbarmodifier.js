@@ -66,7 +66,7 @@
 				text: 'Back to configurator',
 				group: 'config',
 				position: 'right',
-				cssClass: 'fancy',
+				cssClass: 'button-a-background',
 				clickCallback: function() {
 					if ( this.state === 'paste' ) {
 						var cfg = this.configContainer.findOne( 'textarea' ).getValue();
