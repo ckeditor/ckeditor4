@@ -22,17 +22,15 @@ var tests = {
 				shiftKey: keyModifiers & CKEDITOR.SHIFT
 			} ) );
 
-			var output = bot.getData( true );
-			// For easier tests redability and to align development and release
-			// versions of the tests, replace non-breaking-space char with &nbsp;
-			output = output.replace( /\u00a0/g, '&nbsp;' );
-
-			assert.areSame( bender.tools.compatHtml( expected ), output, name );
+			assert.isInnerHtmlMatching( bender.tools.compatHtml( expected ), bender.tools.selection.getWithHtml( bot.editor ), {
+				compareSelection: true,
+				normalizeSelection: true
+			}, name );
 
 			if ( typeof assertFn === 'function' ) {
 				assertFn( bot.editor );
 			}
-		} );
+		}, false );
 	}
 };
 

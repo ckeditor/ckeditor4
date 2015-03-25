@@ -329,10 +329,12 @@
 		 * // Then test will look like:
 		 * bender.testInputOut( 'sample1', function( input, output ){ ...test and assertion... });
 		 */
-		testInputOut: function( playground, fn ) {
+		testInputOut: function( playground, fn, trimSelection ) {
+			trimSelection = ( trimSelection === false ? false : true );
+
 			var source = bender.tools.getValueAsHtml( playground ).split( '=>' ),
 				input = source[ 0 ],
-				output = /\(no change\)/.test( source[ 1 ] ) ? input.replace( /\^|\[|\]/g, '' ) : source[ 1 ];
+				output = /\(no change\)/.test( source[ 1 ] ) ? ( trimSelection ? input.replace( /\^|\[|\]/g, '' ) : input ) : source[ 1 ];
 
 			fn( input, output );
 		},
