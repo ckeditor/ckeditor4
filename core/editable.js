@@ -263,9 +263,9 @@
 			 * See the {@link CKEDITOR.editor#method-insertHtml} method which is the editor-level API
 			 * for this purpose.
 			 *
-			 * This method will insert HTML into the current selection or given range. It also creates the undo snapshot,
-			 * scroll the viewport to the insertion and select inserted contents. If you want to insert HTML without
-			 * additional operations use {@link #method-insertHtmlIntoRange}.
+			 * This method will insert HTML into the current selection or a given range. It also creates an undo snapshot,
+			 * scroll the viewport to the insertion and select range next to the inserted content.
+			 * If you want to insert HTML without additional operations use {@link #method-insertHtmlIntoRange}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
@@ -299,15 +299,6 @@
 			},
 
 			/**
-			 * Alias to {@link CKEDITOR.editor#insertHtml}
-			 *
-			 * @since 4.5
-			 */
-			insertHtmlIntoSelection: function( data, mode ) {
-				this.insertHtml( data, mode );
-			},
-
-			/**
 			 * Inserts HTML into the position in the editor determined by the range.
 			 *
 			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
@@ -333,9 +324,9 @@
 			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
 			 * for this purpose.
 			 *
-			 * This method will insert element into the current selection or given range. It also creates the undo
-			 * snapshot, scroll the viewport to the insertion and select inserted contents. If you want to insert
-			 * element without additional operations use {@link #method-insertElementIntoRange}.
+			 * This method will insert element into the current selection or a given range. It also creates an undo
+			 * snapshot, scroll the viewport to the insertion and select range next to the inserted content.
+			 * If you want to insert element without additional operations use {@link #method-insertElementIntoRange}.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to insert.
 			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
@@ -392,8 +383,9 @@
 			},
 
 			/**
-			 * Alias to {@link CKEDITOR.editor#insertElement}
+			 * Alias to {@link CKEDITOR.editor#insertElement}.
 			 *
+			 * @deprecated
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 */
 			insertElementIntoSelection: function( element ) {

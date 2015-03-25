@@ -125,27 +125,6 @@
 				{ compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
 			assert.areSame( undefined, afterInsertData.intoRange, 'intoRange should be null if insertHtml was used.' );
-		},
-
-		'test insertHtmlIntoSelection': function() {
-			bender.tools.selection.setWithHtml( this.editor, '<p>fo{ob}ar</p>' );
-
-			var bot = this.editorBot,
-				editor = bot.editor,
-				editable = editor.editable(),
-				afterInsertCount = 0, afterInsertData;
-
-			editor.on( 'afterInsertHtml', function( evt ) {
-				afterInsertCount++;
-				afterInsertData = evt.data;
-			} );
-
-			editable.insertHtmlIntoSelection( '<b>b</b>' );
-
-			assert.isInnerHtmlMatching( '<p>fo<b>b^</b>ar@</p>', bender.tools.selection.getWithHtml( editor ),
-				{ compareSelection: true, normalizeSelection: true }, 'Editor content' );
-			assert.areSame( 1, afterInsertCount, 'afterInsertHtml should be fired once.' );
-			assert.isUndefined( afterInsertData.intoRange, 'intoRange should be undefined' );
 		}
 	} );
 
