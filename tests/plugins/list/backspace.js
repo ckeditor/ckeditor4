@@ -86,6 +86,7 @@ addTests( 'test del join with next list item', 'merge_next_list', DEL );
 addTests( 'test del join with next list item', 'merge_next_list2', DEL );
 addTests( 'test del join with next list item', 'merge_next_list3', DEL );
 addTests( 'test del join with next list item', 'merge_next_list4', DEL );
+// This test fail since selection is checked (#12729).
 addTests( 'test del join with next list item', 'merge_next_list5', DEL );
 
 addTests( 'test del remove empty block', 'remove_empty_block', DEL );

@@ -199,7 +199,7 @@
 	</ol>
 	=>
 	<ol>
-		<li>1^1.1
+		<li>1^1.1@
 			<ol>
 				<li>1.1.1</li>
 				<li>1.2</li>
@@ -403,7 +403,7 @@
 	=>
 	<ol>
 		<li>
-			<a href="#one">one</a><a href="#two">two</a>
+			<a href="#one">one</a><a href="#two">^two</a>
 			<ol>
 				<li><a href="#three">three</a></li>
 			</ol>
@@ -490,7 +490,15 @@
 		<li>2</li>
 	</ol>
 	=>
-	(no change)
+	<p>foo^</p>
+	<ol>
+		<li>1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
 </textarea>
 
 <textarea id="merge_next_list">
@@ -599,7 +607,17 @@
 		<li>baz</li>
 	</ol>
 	=>
-	(no change)
+	<table>
+		<tbody>
+		<tr>
+			<td>foo</td>
+		</tr>
+		</tbody>
+	</table>
+	<ol>
+		<li><p>^bar</p></li>
+		<li>baz</li>
+	</ol>
 </textarea>
 <textarea id="del_no_action2">
 	<p>foo^</p>
@@ -611,5 +629,12 @@
 		</li>
 	</ol>
 	=>
-	(no change)
+	<p>foo</p>
+	<ol>
+		<li>^bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
 </textarea>
