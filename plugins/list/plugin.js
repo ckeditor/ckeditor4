@@ -973,7 +973,7 @@
 							}
 							// Right at the end of list item.
 							else if ( range.checkBoundaryOfElement( block, CKEDITOR.END ) ) {
-								isAtEnd = 1;
+								isAtEnd = 2;
 							}
 
 
@@ -981,6 +981,12 @@
 								// Put cursor range there.
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
+
+								// Moving `cursor` and `next line` only when at the end literally (#12729).
+								if ( isAtEnd == 2 ) {
+									cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
+									nextLine.moveToPosition( nextLine.endPath().block, CKEDITOR.POSITION_AFTER_START );
+								}
 
 								joinNextLineToCursor( editor, cursor, nextLine );
 								evt.cancel();
