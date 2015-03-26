@@ -986,7 +986,11 @@
 								// Moving `cursor` and `next line` only when at the end literally (#12729).
 								if ( isAtEnd == 2 ) {
 									cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
-									nextLine.moveToPosition( nextLine.endPath().block, CKEDITOR.POSITION_AFTER_START );
+
+									// Next line might be text node not wrapped in block element.
+									if ( nextLine.endPath().block ) {
+										nextLine.moveToPosition( nextLine.endPath().block, CKEDITOR.POSITION_AFTER_START );
+									}
 								}
 
 								joinNextLineToCursor( editor, cursor, nextLine );
