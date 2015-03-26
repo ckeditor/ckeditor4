@@ -20,6 +20,7 @@
 				origInit = widgetDefinition.init;
 
 			CKEDITOR.tools.extend( widgetDefinition, {
+				// Use a dialog exposed by the embedbase plugin.
 				dialog: 'embedBase',
 				button: editor.lang.embedbase.button,
 				allowedContent: 'oembed',
@@ -42,10 +43,10 @@
 						if ( this.data.loadOnReady ) {
 							this.loadContent( this.data.url, {
 								callback: function() {
-									// Do not load content again on widget next initialization (e.g. after undo or paste).
+									// Do not load the content again on widget's next initialization (e.g. after undo or paste).
 									// Plus, this is a small trick that we change loadOnReady now, inside the callback.
-									// It guarantees that if content was not loaded (error or someone undid/copied sth to fast)
-									// the content will be loaded on the following initialization.
+									// It guarantees that if the content was not loaded (an error occurred or someone
+									// undid/copied sth to fast) the content will be loaded on the next initialization.
 									that.setData( 'loadOnReady', false );
 									editor.fire( 'updateSnapshot' );
 								}
@@ -82,6 +83,7 @@
 			editor.widgets.add( 'embedSemantic', widgetDefinition );
 		},
 
+		// Extends CKEDITOR.dtd so editor accepts <oembed> tag.
 		registerOembedTag: function() {
 			var dtd = CKEDITOR.dtd,
 				name;

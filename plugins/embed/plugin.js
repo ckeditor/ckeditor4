@@ -14,7 +14,9 @@
 		init: function( editor ) {
 			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 
+			// Extend the base definition with additional properties.
 			CKEDITOR.tools.extend( widgetDefinition, {
+				// Use a dialog exposed by the embedbase plugin.
 				dialog: 'embedBase',
 				button: editor.lang.embedbase.button,
 				allowedContent: 'div[!data-oembed-url]',
@@ -37,6 +39,7 @@
 				}
 			}, true );
 
+			// Register the definition as 'embed' widget.
 			editor.widgets.add( 'embed', widgetDefinition );
 
 			// Do not filter contents of the div[data-oembed-url] at all.
