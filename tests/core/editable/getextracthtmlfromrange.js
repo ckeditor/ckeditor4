@@ -186,6 +186,12 @@
 			[ '<div>b<p>{a@]</p>b</div>',											'a',															'<div>b<p>[]@!</p>b</div>' ]
 		],
 
+		// #13101
+		'html5': [
+			[ '<div>[<figure>img</figure>]</div>',											'<figure>img</figure>',											'<div>[]@!</div>' ],
+			[ '<div>[<div><figure>img<figcaption>cap</figcaption></figure></div>]</div>',	'<div><figure>img<figcaption>cap</figcaption></figure></div>',	'<div>[]@!</div>' ]
+		],
+
 		'tables': [
 			// #1
 			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
