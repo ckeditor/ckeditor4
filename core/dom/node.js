@@ -128,6 +128,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
 					return;
+
 				if ( !cloneId )
 					node.removeAttribute( 'id', false );
 
@@ -141,7 +142,28 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		// The "id" attribute should never be cloned to avoid duplication.
 		removeIds( $clone );
 
-		return new CKEDITOR.dom.node( $clone );
+		var node = new CKEDITOR.dom.node( $clone );
+
+		function renameNodes( node ) {
+			if ( node.type != CKEDITOR.NODE_ELEMENT )
+				return;
+
+			var name = node.getName();
+			if ( name[ 0 ] == ':' ) {
+				node.renameNode( name.substring( 1 ) );
+			}
+
+			if ( includeChildren ) {
+				for ( var i = 0; i < node.getChildCount(); i++ )
+					renameNodes( node.getChild( i ) );
+			}
+		}
+
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.$.nodeType == CKEDITOR.NODE_ELEMENT ) {
+			renameNodes( node );
+		}
+
+		return node;
 	},
 
 	/**
