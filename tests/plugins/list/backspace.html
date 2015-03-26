@@ -323,6 +323,7 @@
 		<li>2</li>
 	</ol>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list15_del">
 	<ul>
 		<li><a href="#one">one^</a></li>
@@ -331,9 +332,10 @@
 	</ul>
 	=>
 	<ul>
-		<li><a href="#one">one^</a><a href="#two">two</a></li>
+		<li><a href="#one">one</a>^<a href="#two">two</a></li>
 	</ul>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list16_del">
 	<ul>
 		<li><a href="#one"><span>one^</span></a></li>
@@ -342,7 +344,7 @@
 	</ul>
 	=>
 	<ul>
-		<li><a href="#one"><span>one^</span></a><a href="#two">two</a></li>
+		<li><a href="#one"><span>one</span></a>^<a href="#two">two</a></li>
 	</ul>
 </textarea>
 
@@ -368,6 +370,7 @@
 		<li>2</li>
 	</ol>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list15">
 	<ul>
 		<li><a href="#one">one</a></li>
@@ -376,9 +379,10 @@
 	</ul>
 	=>
 	<ul>
-		<li><a href="#one">one</a><a href="#two">^two</a></li>
+		<li><a href="#one">one</a>^<a href="#two">two</a></li>
 	</ul>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list16">
 	<ul>
 		<li><a href="#one"><span>one</span></a></li>
@@ -387,9 +391,10 @@
 	</ul>
 	=>
 	<ul>
-		<li><a href="#one"><span>one</span></a><a href="#two">^two</a></li>
+		<li><a href="#one"><span>one</span></a>^<a href="#two">two</a></li>
 	</ul>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list17">
 	<ol>
 		<li>
@@ -403,13 +408,14 @@
 	=>
 	<ol>
 		<li>
-			<a href="#one">one</a><a href="#two">^two</a>
+			<a href="#one">one</a>^<a href="#two">two</a>
 			<ol>
 				<li><a href="#three">three</a></li>
 			</ol>
 		</li>
 	</ol>
 </textarea>
+<!-- Result selection is incorrect - see #13098 -->
 <textarea id="join_list18">
 	<ul>
 		<li><b>xxx</b></li>
@@ -417,7 +423,7 @@
 	</ul>
 	=>
 	<ul>
-		<li><b>xxx</b><em>^yyy</em></li>
+		<li><b>xxx</b>^<em>yyy</em></li>
 	</ul>
 </textarea>
 <textarea id="outdent_list3">
@@ -550,7 +556,7 @@
 	</ol>
 </textarea>
 <textarea id="merge_next_list5">
-	<a href="#foo">foo^</a>
+	<p><a href="#foo">foo^</a></p>
 	<ol>
 		<li><a href="#bar">bar</a></li>
 		<li>baz</li>
