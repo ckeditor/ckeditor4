@@ -648,18 +648,35 @@ bender.test( {
 	'test initDragDataTransfer binding': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1 = { data: { $: { dataTransfer: nativeData1 } } },
-			evt2 = { data: { $: { dataTransfer: nativeData2 } } },
-			dataTransferA = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 ),
-			dataTransferB = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1 );
+			evt1a = { data: { nativeEvent: { dataTransfer: nativeData1 } } },
+			evt1b = { data: { nativeEvent: { dataTransfer: nativeData1 } } },
+			evt2 = { data: { nativeEvent: { dataTransfer: nativeData2 } } };
 
-		assert.areSame( dataTransferA, dataTransferB, 'If we init dataTransfer object twice on the same event this should be the same object.' );
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
+
+		assert.areSame( evt1a.data.dataTransfer, evt1b.data.dataTransfer, 'If we init dataTransfer object twice on the same event this should be the same object.' );
+
+		assert.areNotSame( evt1a.data.dataTransfer, evt2.data.dataTransfer, 'If we init dataTransfer object twice on different events these should be different objects.' );
+	},
+
+	'test initDragDataTransfer binding no native event': function() {
+		var evt1a = { data: {} },
+			evt1b = { data: {} },
+			evt2 = { data: {} };
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
 
 		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
 
-		dataTransferB = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
 
-		assert.areNotSame( dataTransferA, dataTransferB, 'If we init dataTransfer object twice on different events these should be different objects.' );
+		assert.areSame( evt1a.data.dataTransfer, evt1b.data.dataTransfer, 'Without native event events should be the same.' );
+
+		assert.areNotSame( evt1a.data.dataTransfer, evt2.data.dataTransfer, 'After reset events should be different.' );
 	},
 
 	'test initDragDataTransfer constructor': function() {
@@ -670,8 +687,9 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			evt = { data: { $: { dataTransfer: nativeData } } },
-			dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
+			evt = { data: { nativeEvent: { dataTransfer: nativeData } } };
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -679,17 +697,18 @@ bender.test( {
 				targetEditor: editor,
 				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x' },
-			dataTransfer );
+			evt.data.dataTransfer );
 	},
 
-	'test initDragDataTransfer constructor, no event': function() {
+	'test initDragDataTransfer constructor, no native event': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			bot = this.editorBots.editor1,
+			evt = { data: {} },
 			editor = this.editors.editor1;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
-		var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( null, editor );
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 
 		this.assertDataTransfer( {
 				transferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -697,7 +716,7 @@ bender.test( {
 				targetEditor: editor,
 				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x'	},
-		dataTransfer );
+		evt.data.dataTransfer );
 	},
 
 	'test initPasteDataTransfer binding': function() {
