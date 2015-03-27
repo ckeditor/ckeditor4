@@ -8,6 +8,9 @@
 			CKEDITOR.env.ie ? '-ms-' :
 			'';
 
+	var htmlEncode = CKEDITOR.tools.htmlEncode,
+		htmlDecode = CKEDITOR.tools.htmlDecode;
+	
 	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
@@ -15,7 +18,8 @@
 		},
 
 		test_extend: function() {
-			var fakeFn = function() {};
+			function fakeFn() {}
+
 			var fakeObj = { fake1: 1, fake2: 2 };
 			var fakeArray = [ 'Test', 10, fakeFn, fakeObj ];
 
@@ -77,24 +81,35 @@
 		},
 
 		test_htmlEncode1: function() {
-			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', CKEDITOR.tools.htmlEncode( '<b>Test</b>' ) );
+			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', htmlEncode( '<b>Test</b>' ) );
 		},
-
+	
 		test_htmlEncode2: function() {
-			assert.areSame( 'Test\'s &amp; "quote"', CKEDITOR.tools.htmlEncode( 'Test\'s & "quote"' ) );
+			assert.areSame( 'Test\'s &amp; "quote"', htmlEncode( 'Test\'s & "quote"' ) );
 		},
-
+	
 		test_htmlEncode3: function() {
-			assert.areSame( 'A   B   \n\n\t\tC\n \t D', CKEDITOR.tools.htmlEncode( 'A   B   \n\n\t\tC\n \t D' ), 'Tab should not be touched.' );
+			assert.areSame( 'A   B   \n\n\t\tC\n \t D', htmlEncode( 'A   B   \n\n\t\tC\n \t D' ), 'Tab should not be touched.' );
 		},
-
+	
 		test_htmlDecode: function() {
-			assert.areSame( '<a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
-			assert.areSame( '<a & b ><a & b >', CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ), 'Invalid result for htmlDecode' );
+			assert.areSame( '<a & b >', htmlDecode( '&lt;a &amp; b &gt;' ) );
 		},
-
+	
+		test_htmlDecode2: function() {
+			assert.areSame( '<a & b ><a & b >', htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ) );
+		},
+	
+		test_htmlDecode3: function() {
+			assert.areSame( '&lt; &amp; &gt;', htmlDecode( '&amp;lt; &amp;amp; &amp;gt;' ) );
+		},
+	
+		test_htmlDecode4: function() {
+			assert.areSame( '&amp;lt; &amp;amp; &amp;gt;', htmlDecode( '&amp;amp;lt; &amp;amp;amp; &amp;amp;gt;' ) );
+		},
+	
 		test_htmlEncode_3874: function() {
-			assert.areSame( 'line1\nline2', CKEDITOR.tools.htmlEncode( 'line1\nline2' ) );
+			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
 		test_htmlEncodeAttr: function() {
@@ -598,5 +613,4 @@
 			assert.areSame( 33, uuid.length, 'UUID.length' );
 		}
 	} );
-
 } )();
