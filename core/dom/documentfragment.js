@@ -55,7 +55,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 		// Note node.clone( 1 ) would purge ids.
 		new CKEDITOR.dom.documentFragment( this.$.cloneNode( 1 ) ).appendTo( container );
 
-		return container.getHtml();
+		return container.getHtml().replace( /<\:([a-zA-Z])/g, '<$1' ).replace( /<\/\:([a-zA-Z])/g, '</$1' );
 	}
 }, true, {
 	'append': 1, 'appendBogus': 1, 'getFirst': 1, 'getHtml': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,

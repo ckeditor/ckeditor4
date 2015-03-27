@@ -226,6 +226,19 @@
 			CKEDITOR.dom.element.createFromHtml( '<i>bar</i>' ).appendTo( frag );
 
 			assert.areSame( '<b>foo</b><i>bar</i>', bender.tools.fixHtml( frag.getHtml(), 1, 1 ), 'HTML of documentFragment' );
+		},
+
+		// #13101
+		'test getHtml with html5': function() {
+			// IE8 only.
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 )
+				assert.ignore();
+
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<figure>foo</figure>' ).appendTo( frag );
+
+			assert.areSame( '<figure>foo</figure>', frag.getHtml() );
 		}
 	} );
 } )();
