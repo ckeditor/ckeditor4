@@ -126,6 +126,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		var node = new CKEDITOR.dom.node( $clone );
 
+		// On IE8 we need to fixed HTML5 node name, see details below.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.$.nodeType == CKEDITOR.NODE_ELEMENT ) {
 			renameNodes( node );
 		}
@@ -150,6 +151,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			}
 		}
 
+		// IE8 rename HTML5 nodes by adding `:` at the begging of the tag name when the node is cloned,
+		// so `<figure>` will be `<:figure>` after 'cloneNode'. We need to fix it (#13101).
 		function renameNodes( node ) {
 			if ( node.type != CKEDITOR.NODE_ELEMENT )
 				return;
