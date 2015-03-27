@@ -50,3 +50,24 @@ div.cke .cke_combo_button {
 		margin: 2.75*@global-flow-vgap 0 0;
 	}
 }
+
+#info-box {
+	padding-bottom: 0;
+
+	> div {
+		width: 100%;
+
+		.toggler {
+			padding-right: 0;
+		}
+
+		&:not(#instructions-container) {
+			text-align: right;
+
+			h2 {
+				float: left;
+				margin-top: 0;
+			}
+		}
+	}
+}

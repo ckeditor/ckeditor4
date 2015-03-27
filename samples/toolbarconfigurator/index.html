@@ -81,10 +81,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</div>
 
 	<div class="grid-container">
-		<div class="content grid-width-100">
-			<h2>What am I doing here?</h2>
-			<div class="instructions-container">
-				<div class="basic grid-container-nested" style="display: none;">
+		<div id="info-box" class="content grid-width-100">
+			<div>
+				<h2>What am I doing here?</h2>
+				<button data-for="instructions-container" class="content toggler expanded icon-pos-right icon-toggler-expanded button-a">
+					<label data-collapse>Collapse this box</label>
+					<label data-expand>Expand this box</label>
+				</button>
+			</div>
+			<div id="instructions-container" class="toggler-container grid-container-nested">
+				<div class="basic" style="display: none;">
 					<div class="content grid-width-50">
 						<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
 						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
@@ -136,8 +142,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					toolbar: null
 				},
 				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
-				basicInstruction = CKEDITOR.document.findOne( '.instructions-container > .basic' ),
-				advancedInstruction = CKEDITOR.document.findOne( '.instructions-container > .advanced' ),
+				basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
+				advancedInstruction = CKEDITOR.document.findOne( '#instructions-container > .advanced' ),
 
 				// Configurator mode switcher.
 				modeSwitchBasic = CKEDITOR.document.getById( 'radio-basic' ),
@@ -293,5 +299,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</p>
 </footer>
 
+<script src="../../node_modules/cksource-samples-framework/js/sf.js"></script>
+<script src="../../node_modules/cksource-samples-framework/components/toggler/js/toggler.js"></script>
 </body>
 </html>
