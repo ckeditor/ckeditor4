@@ -41,7 +41,8 @@
 			name: 'editor1',
 			creator: 'inline', // Speed.
 			config: {
-				allowedContent: true
+				allowedContent: true,
+				pasteFilter: null
 			}
 		}
 	};

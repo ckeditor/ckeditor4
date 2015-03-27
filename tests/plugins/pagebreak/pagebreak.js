@@ -5,7 +5,10 @@
 	'use strict';
 
 	bender.editor = {
-		creator: 'inline' // Speeeeeed...
+		creator: 'inline', // Speeeeeed...
+		config: {
+			pasteFilter: null
+		}
 	};
 
 	bender.test( {

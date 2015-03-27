@@ -38,7 +38,8 @@
 				creator: 'inline',
 				startupData: '<p><iframe frameborder="0" scrolling="no" src="error404"></iframe></p>',
 				config: {
-					plugins: 'toolbar,floatingspace,clipboard,iframe'
+					plugins: 'toolbar,floatingspace,clipboard,iframe',
+					pasteFilter: false
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
