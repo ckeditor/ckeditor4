@@ -62,24 +62,6 @@
 			assert.isFalse( CKEDITOR.tools.isArray( window.x ) );
 		},
 
-		'test getIndex - not found': function() {
-			assert.areSame( -1, CKEDITOR.tools.getIndex( [ 1, 2, 3 ], function( el ) {
-				return el == 4;
-			} ) );
-		},
-
-		'test getIndex - found first': function() {
-			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2, 2, 2, 3, 2, 2 ], function( el ) {
-				return el == 2;
-			} ) );
-		},
-
-		'test getIndex - found on last position': function() {
-			assert.areSame( 2, CKEDITOR.tools.getIndex( [ 0, 1, 2 ], function( el ) {
-				return el == 2;
-			} ) );
-		},
-
 		test_htmlEncode1: function() {
 			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', htmlEncode( '<b>Test</b>' ) );
 		},
@@ -111,9 +93,17 @@
 		test_htmlEncode_3874: function() {
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
-
+	
 		test_htmlEncodeAttr: function() {
 			assert.areSame( '&lt;a b=&quot;c&quot;/&gt;', CKEDITOR.tools.htmlEncodeAttr( '<a b="c"/>' ) );
+		},
+	
+		test_htmlDecodeAttr: function() {
+			assert.areSame( '< " > &amp;', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp;' ) );
+		},
+	
+		test_htmlDecodeAttr2: function() {
+			assert.areSame( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;', CKEDITOR.tools.htmlDecodeAttr( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;' ) );
 		},
 
 		test_cssStyleToDomStyle1: function() {
