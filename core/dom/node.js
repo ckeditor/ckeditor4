@@ -121,28 +121,34 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
-		var removeIds = function( node ) {
-				// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
-				if ( node[ 'data-cke-expando' ] )
-					node[ 'data-cke-expando' ] = false;
-
-				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
-					return;
-
-				if ( !cloneId )
-					node.removeAttribute( 'id', false );
-
-				if ( includeChildren ) {
-					var childs = node.childNodes;
-					for ( var i = 0; i < childs.length; i++ )
-						removeIds( childs[ i ] );
-				}
-			};
-
 		// The "id" attribute should never be cloned to avoid duplication.
 		removeIds( $clone );
 
 		var node = new CKEDITOR.dom.node( $clone );
+
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.$.nodeType == CKEDITOR.NODE_ELEMENT ) {
+			renameNodes( node );
+		}
+
+		return node;
+
+		function removeIds( node ) {
+			// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
+			if ( node[ 'data-cke-expando' ] )
+				node[ 'data-cke-expando' ] = false;
+
+			if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
+				return;
+
+			if ( !cloneId )
+				node.removeAttribute( 'id', false );
+
+			if ( includeChildren ) {
+				var childs = node.childNodes;
+				for ( var i = 0; i < childs.length; i++ )
+					removeIds( childs[ i ] );
+			}
+		}
 
 		function renameNodes( node ) {
 			if ( node.type != CKEDITOR.NODE_ELEMENT )
@@ -158,12 +164,6 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 					renameNodes( node.getChild( i ) );
 			}
 		}
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && this.$.nodeType == CKEDITOR.NODE_ELEMENT ) {
-			renameNodes( node );
-		}
-
-		return node;
 	},
 
 	/**
