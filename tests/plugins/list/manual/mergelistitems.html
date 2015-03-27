@@ -1,0 +1,39 @@
+<p>Enter mode P:</p>
+<div id="editor">
+	<p>foo</p>
+	<ul>
+		<li>
+			<a href="#foo">foo</a>
+			<ol>
+				<li><em>foo</em></li>
+			</ol>
+		</li>
+		<li><p><u>bar</u></p></li>
+		<li><a href="#bar">bar</a></li>
+	</ul>
+	<p><strong>bar</strong></p>
+</div>
+
+<p>Enter mode BR:</p>
+<div id="editor2">
+	foo
+	<ul>
+		<li>
+			<a href="#foo">foo</a>
+			<ol>
+				<li><em>foo</em></li>
+			</ol>
+		</li>
+		<li><u>bar</u></li>
+		<li><a href="#bar">bar</a></li>
+	</ul>
+	<strong>bar</strong>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', { height: 200 } );
+	CKEDITOR.replace( 'editor2', {
+		height: 200,
+		enterMode: CKEDITOR.ENTER_BR
+	} );
+</script>

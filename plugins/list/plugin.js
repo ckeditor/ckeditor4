@@ -907,6 +907,9 @@
 								joinWith = previous;
 								// Place cursor at the end of previous block.
 								cursor.moveToElementEditEnd( joinWith );
+
+								// And then just before end of closest block element (#12729).
+								cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
 							}
 						}
 
@@ -971,7 +974,7 @@
 							}
 							// Right at the end of list item.
 							else if ( range.checkBoundaryOfElement( block, CKEDITOR.END ) ) {
-								isAtEnd = 1;
+								isAtEnd = 2;
 							}
 
 
@@ -979,6 +982,16 @@
 								// Put cursor range there.
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
+
+								// Moving `cursor` and `next line` only when at the end literally (#12729).
+								if ( isAtEnd == 2 ) {
+									cursor.moveToPosition( cursor.endPath().block, CKEDITOR.POSITION_BEFORE_END );
+
+									// Next line might be text node not wrapped in block element.
+									if ( nextLine.endPath().block ) {
+										nextLine.moveToPosition( nextLine.endPath().block, CKEDITOR.POSITION_AFTER_START );
+									}
+								}
 
 								joinNextLineToCursor( editor, cursor, nextLine );
 								evt.cancel();
