@@ -64,13 +64,6 @@
 }
 
 .toolbar {
-	width: 100%;
-	margin-bottom: 2 * @sample-standard-vgap;
-	padding-bottom: 5px;
-	overflow: hidden;
-	border: 1px solid transparent;
-	text-align: center;
-
 	button {
 		&.cke_button {
 			cursor: pointer;
@@ -456,38 +449,5 @@ div.toolbarModifier {
 		// Complementory with std's CodeMirror-lines vertical padding.
 		// Not needed when we use lines number, but we can't due to a bug in CM.
 		padding: 0 @sample-standard-vgap/2;
-	}
-}
-
-.mode-switch {
-	position: absolute;
-	right: 0;
-	top: 25px;
-	.border-radius( 200px );
-	background: lighten( @sample-header-background, 10% );
-	border-bottom: 4px solid rgba( 0,0,0,.25 );
-	padding: 5px 7px 9px;
-
-	.fancy-button {
-		float: left;
-
-		&:first-child {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-
-			& + .fancy-button {
-				margin: 0;
-				border-top-left-radius: 0;
-				border-bottom-left-radius: 0;
-			}
-		}
-	}
-
-	.fancy-tip {
-		right: 155px;
-		top: -30px;
-		background-position: left -130px;
-		padding-left: 39px;
-		padding-top: 7px;
 	}
 }

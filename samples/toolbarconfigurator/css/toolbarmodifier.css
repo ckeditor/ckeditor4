@@ -65,14 +65,6 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   -ms-user-select: none;
   user-select: none;
 }
-.toolbar {
-  width: 100%;
-  margin-bottom: 2.4em;
-  padding-bottom: 5px;
-  overflow: hidden;
-  border: 1px solid transparent;
-  text-align: center;
-}
 .toolbar button.cke_button {
   cursor: pointer;
   display: inline-block;
@@ -417,38 +409,5 @@ div.toolbarModifier-hints dl dd:after {
 #toolbarModifierWrapper .CodeMirror {
   height: auto;
   padding: 0 0.6em;
-}
-.mode-switch {
-  position: absolute;
-  right: 0;
-  top: 25px;
-  -webkit-border-radius: 200px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 200px;
-  -moz-background-clip: padding;
-  border-radius: 200px;
-  background-clip: padding-box;
-  background: #f2fafb;
-  border-bottom: 4px solid rgba(0, 0, 0, 0.25);
-  padding: 5px 7px 9px;
-}
-.mode-switch .fancy-button {
-  float: left;
-}
-.mode-switch .fancy-button:first-child {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.mode-switch .fancy-button:first-child + .fancy-button {
-  margin: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.mode-switch .fancy-tip {
-  right: 155px;
-  top: -30px;
-  background-position: left -130px;
-  padding-left: 39px;
-  padding-top: 7px;
 }
 /*# sourceMappingURL=toolbarmodifier.css.map */
