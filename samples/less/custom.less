@@ -1,21 +1,32 @@
 #main,
 #toolbar {
-	.adjoined {
-		&-top {
+	.adjoined-top {
+		min-height: 226px;
+		position: relative;
+		background-color: transparent;
+
+		& > .grid-container {
 			position: relative;
-			background-color: transparent;
+		}
 
-			& > .grid-container {
-				position: relative;
-			}
+		&:before {
+			content: '';
+			top: 0;
+			left: 0;
+			right: 0;
+			background: @global-link-font-color;
+			position: absolute;
+		}
 
-			&:before {
-				content: '';
-				top: 0;
-				left: 0;
-				right: 0;
-				background: @global-link-font-color;
-				position: absolute;
+		.editors-container {
+			overflow: hidden;
+			height: 0;
+			opacity: 0;
+			transition: height 200ms;
+
+			&.active {
+				height: auto;
+				opacity: 1;
 			}
 		}
 	}
@@ -69,5 +80,17 @@ div.cke .cke_combo_button {
 				margin-top: 0;
 			}
 		}
+	}
+}
+
+#toolbarModifierWrapper {
+	overflow: hidden;
+	height: 0;
+	opacity: 0;
+	transition: height 200ms;
+
+	&.active {
+		height: auto;
+		opacity: 1;
 	}
 }

@@ -90,7 +90,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				</button>
 			</div>
 			<div id="instructions-container" class="toggler-container grid-container-nested">
-				<div class="basic" style="display: none;">
+				<div class="basic">
 					<div class="content grid-width-50">
 						<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
 						<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
@@ -245,6 +245,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 				setTimeout( function() {
 					CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
+					CKEDITOR.document.findOne( '#toolbarModifierWrapper' ).addClass( 'active' );
 				}, 200 );
 			}
 
