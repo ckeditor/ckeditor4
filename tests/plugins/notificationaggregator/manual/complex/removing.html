@@ -24,24 +24,19 @@
 				}
 		];
 
-		execute( testActions, 1000 );
+		execute( testActions );
 	}
 
-	function execute( actions, interval ) {
-		if ( !actions.length ) {
-			// Nothing to do, an empty array.
-			return;
-		}
+	function execute( actions ) {
+		var action = actions.shift();
 
-		// Don't want to modify original array.
-		actions = actions.slice();
+		if ( !action )
+			return;
 
 		setTimeout( function() {
-			// Removing and executing first item in an array.
-			actions.shift()();
-
-			execute( actions, interval );
-		}, interval );
+			action();
+			execute( actions );
+		}, 2000 );
 	}
 </script>
 <p>

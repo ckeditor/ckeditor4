@@ -1,4 +1,4 @@
-@bender-tags: notification
+@bender-tags: notification, tc, 4.5.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, notificationaggregator
 
