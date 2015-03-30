@@ -322,7 +322,7 @@
 				range.collapse( true );
 				range.select();
 
-				editor.on( 'afterPaste', function() {
+				editor.once( 'afterPaste', function() {
 					resume( function() {
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
 						assert.areSame( '<p id="p1"><span data-widget="test1">Y</span>xx</p>', editor.getData() );
@@ -376,35 +376,42 @@
 				editor.resetUndo();
 				editor.focus();
 
-				try {
-					// Simulate widget drag.
-					img.fire( 'mousedown' );
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
+						assert.areSame( '<div data-widget="test1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assertCommands( editor, true, false, 'after d&d' );
 
-					// Create dummy line and pretend it's visible to cheat drop listener
-					// making if feel that there's a place for the widget to be dropped.
-					editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
+						editor.execCommand( 'undo' );
+						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
+						assert.areSame( '<p id="a">x</p><div data-widget="test1" id="w1">Y<p class="e">Z</p></div>', editor.getData() );
+						assertCommands( editor, false, true, 'after undo' );
 
-					// Simulate widget drop.
-					editor.document.fire( 'mouseup' );
-				} catch ( e ) {
-					throw e;
-				} finally {
-					revert();
-				}
+						editor.execCommand( 'redo' );
+						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
+						assert.areSame( '<div data-widget="test1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assertCommands( editor, true, false, 'after redo' );
+					} );
+				} );
 
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
-				assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
-				assertCommands( editor, true, false, 'after d&d' );
+				// Ensure async.
+				wait( function() {
+					try {
+						// Simulate widget drag.
+						img.fire( 'mousedown' );
 
-				editor.execCommand( 'undo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widget after undo' );
-				assert.areSame( '<p id="a">x</p><div data-widget="test1" id="w1">Y<p class="e">Z</p></div>', editor.getData() );
-				assertCommands( editor, false, true, 'after undo' );
+						// Create dummy line and pretend it's visible to cheat drop listener
+						// making if feel that there's a place for the widget to be dropped.
+						editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
 
-				editor.execCommand( 'redo' );
-				assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
-				assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
-				assertCommands( editor, true, false, 'after redo' );
+						// Simulate widget drop.
+						editor.document.fire( 'mouseup' );
+					} catch ( e ) {
+						throw e;
+					} finally {
+						revert();
+					}
+				} );
 			} );
 		},
 
