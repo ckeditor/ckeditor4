@@ -46,7 +46,8 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 }
 
 /* Reset for elements and their children. */
-.cke_reset_all, .cke_reset_all *
+.cke_reset_all, .cke_reset_all *,
+.cke_reset_all a, .cke_reset_all textarea
 {
 	/* The following must be identical to .cke_reset. */
 	margin: 0;
