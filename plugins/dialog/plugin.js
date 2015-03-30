@@ -565,12 +565,15 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			// to allow dynamic tab order happen in dialog definition.
 			setupFocus();
 
-			if ( editor.config.dialog_startupFocusTab && me._.pageCount > 1 ) {
+			var hasTabs = me._.pageCount > 1;
+
+			if ( editor.config.dialog_startupFocusTab && hasTabs ) {
 				me._.tabBarMode = true;
 				me._.tabs[ me._.currentTabId ][ 0 ].focus();
 				me._.currentFocusIndex = -1;
 			} else if ( !this._.hasFocus ) {
-				this._.currentFocusIndex = -1;
+				// http://dev.ckeditor.com/ticket/13114#comment:4.
+				this._.currentFocusIndex = hasTabs ? -1 : this._.focusList.length - 1;
 
 				// Decide where to put the initial focus.
 				if ( definition.onFocus ) {
