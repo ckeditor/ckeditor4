@@ -299,6 +299,65 @@
 			assert.areSame( 20, instance._doneWeights, 'instance._doneWeights reduced' );
 		},
 
+		'test cancel() subtracts from totalWeight': function() {
+			var aggregator = new Aggregator( this.editor, '' ),
+				task1 = aggregator.createTask( { weight: 10 } ),
+				task2 = aggregator.createTask( { weight: 10 } );
+
+			aggregator.createTask( { weight: 10 } ); // task 3
+			aggregator.createTask( { weight: 10 } ); // task 4
+
+			task1.done();
+
+			assert.areSame( 25, Math.round( aggregator.getPercentage() * 100 ) );
+
+			task2.cancel();
+
+			assert.areSame( 33, Math.round( aggregator.getPercentage() * 100 ) );
+		},
+
+		'test cancel() subtracts from totalWeight and doneWeight': function() {
+			var aggregator = new Aggregator( this.editor, '' ),
+				task1 = aggregator.createTask( { weight: 10 } ),
+				task2 = aggregator.createTask( { weight: 10 } );
+
+			aggregator.createTask( { weight: 10 } ); // task 3
+			aggregator.createTask( { weight: 10 } ); // task 4
+
+			task1.done();
+			task2.update( 6 );
+
+			// 16 / 40
+			assert.areSame( 40, Math.round( aggregator.getPercentage() * 100 ) );
+
+			task2.cancel();
+
+			// 10 / 30
+			assert.areSame( 33, Math.round( aggregator.getPercentage() * 100 ) );
+		},
+
+		'test canceling the last task finishes aggregator': function() {
+			var aggregator = new Aggregator( this.editor, '' ),
+				task1 = aggregator.createTask( { weight: 10 } ),
+				task2 = aggregator.createTask( { weight: 10 } ),
+				finishedSpy = sinon.spy();
+
+			aggregator.on( 'finished', finishedSpy );
+
+			task1.done();
+			task2.update( 5 );
+
+			// 15 / 20
+			assert.areSame( 75, Math.round( aggregator.getPercentage() * 100 ) );
+
+			task2.cancel();
+
+			// 10 / 10
+			assert.areSame( 100, Math.round( aggregator.getPercentage() * 100 ) );
+			assert.isTrue( aggregator.isFinished(), 'isFinished()' );
+			assert.isTrue( finishedSpy.calledOnce, 'finished was fired' );
+		},
+
 		// Ensure that subsequent remove attempt for the same task won't result with an error.
 		'test _removeTask subsequent': function() {
 			var instance = new Aggregator( this.editor, '' );
