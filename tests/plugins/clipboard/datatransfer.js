@@ -655,9 +655,10 @@ bender.test( {
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
 
-		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
-
 		assert.areSame( evt1a.data.dataTransfer, evt1b.data.dataTransfer, 'If we init dataTransfer object twice on the same event this should be the same object.' );
+
+		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
 
 		assert.areNotSame( evt1a.data.dataTransfer, evt2.data.dataTransfer, 'If we init dataTransfer object twice on different events these should be different objects.' );
 	},

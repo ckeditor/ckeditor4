@@ -346,6 +346,7 @@
 						evt = bender.tools.mockDropEvent();
 
 					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
+					evt.testRange = range;
 
 					dropTarget.fire( 'dragstart', evt );
 
