@@ -325,7 +325,7 @@
 				editor.on( 'afterPaste', function() {
 					resume( function() {
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
-						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
+						assert.areSame( '<p id="p1"><span data-widget="test1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after d&d' );
 
 						editor.execCommand( 'undo' );
@@ -335,7 +335,7 @@
 
 						editor.execCommand( 'redo' );
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
-						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
+						assert.areSame( '<p id="p1"><span data-widget="test1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
 				} );
@@ -345,14 +345,13 @@
 					var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
 						evt = bender.tools.mockDropEvent();
 
-					evt.testRange = range;
+					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
 
 					dropTarget.fire( 'dragstart', evt );
 
-					var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
-					dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
-
 					dropTarget.fire( 'drop', evt );
+
+					dropTarget.fire( 'dragend', evt );
 				} );
 			} );
 		},

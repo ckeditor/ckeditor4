@@ -1256,7 +1256,7 @@
 				top = editor.ui.space( 'top' ),
 				bottom = editor.ui.space( 'bottom' );
 
-			// -------------- DRAG OVER --------------
+			// -------------- DRAGOVER TOP & BOTTOM --------------
 
 			function preventDefaultSetDropEffectToNone( evt ) {
 				evt.data.preventDefault();
@@ -1274,10 +1274,10 @@
 			editable.attachListener( dropTarget, 'dragstart', fireDragEvent );
 
 			// Make sure to reset data transfer (in case dragend was not called or was canceled).
-			editor.on( 'dragstart', clipboard.resetDragDataTransfer, clipboard, null, 1 );
+			editable.attachListener( editor, 'dragstart', clipboard.resetDragDataTransfer, clipboard, null, 1 );
 
 			// Create a dataTransfer object and save it globally.
-			editor.on( 'dragstart', function( evt ) {
+			editable.attachListener( editor, 'dragstart', function( evt ) {
 				clipboard.initDragDataTransfer( evt, editor );
 			}, null, null, 2 );
 
@@ -1286,11 +1286,11 @@
 			// Clean up on dragend.
 			editable.attachListener( dropTarget, 'dragend', fireDragEvent );
 
-			editor.on( 'dragend', clipboard.initDragDataTransfer, clipboard, null, 1 );
+			editable.attachListener( editor, 'dragend', clipboard.initDragDataTransfer, clipboard, null, 1 );
 
 			// When drag & drop is done we need to reset dataTransfer so the future
 			// external drop will be not recognize as internal.
-			editor.on( 'dragend', clipboard.resetDragDataTransfer, clipboard, null, 100 );
+			editable.attachListener( editor, 'dragend', clipboard.resetDragDataTransfer, clipboard, null, 100 );
 
 			// -------------- DRAGOVER --------------
 
@@ -1337,9 +1337,9 @@
 			} );
 
 			// Create dataTransfer of get it, if it was created before.
-			editor.on( 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
+			editable.attachListener( editor, 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
 
-			editor.on( 'drop', function( evt ) {
+			editable.attachListener( editor, 'drop', function( evt ) {
 				var data = evt.data;
 
 				if ( !data ) {
