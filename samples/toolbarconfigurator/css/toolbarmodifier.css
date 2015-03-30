@@ -65,6 +65,10 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   -ms-user-select: none;
   user-select: none;
 }
+.toolbar {
+  margin-bottom: 2.4em;
+  overflow: hidden;
+}
 .toolbar button.cke_button {
   cursor: pointer;
   display: inline-block;
