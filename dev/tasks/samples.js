@@ -10,11 +10,15 @@ module.exports = function( grunt ) {
 			' */',
 		],
 		jsBanner = banner.concat( [ '', '// jscs: disable', '// jshint ignore: start', '' ] ),
-		samplesFrameworkDir = 'node_modules/cksource-samples-framework';
+		samplesFrameworkDir = 'node_modules/cksource-samples-framework',
+		samplesFrameworkJsFiles = [
+			samplesFrameworkDir + '/js/sf.js',
+			samplesFrameworkDir + '/components/**/*.js'
+		];
 
 	grunt.config.merge( {
 		less: {
-			basicsample: {
+			samples: {
 				files: [
 					{
 						src: 'samples/less/samples.less',
@@ -38,22 +42,20 @@ module.exports = function( grunt ) {
 		},
 
 		watch: {
-			basicsample: {
+			'samples-less': {
 				files: [
-					'<%= less.basicsample.options.paths[ 0 ] + "/**/*.less" %>',
+					'<%= less.samples.options.paths[ 0 ] + "/**/*.less" %>',
 					samplesFrameworkDir + '/components/**/*.less'
 				],
-				tasks: [ 'less:basicsample' ],
+				tasks: [ 'less:samples' ],
 				options: {
 					nospawn: true
 				}
 			},
 
-			concat: {
-				files: [
-					'<%= concat.dist.src %>'
-				],
-				tasks: [ 'concat' ]
+			'samples-js': {
+				files: samplesFrameworkJsFiles,
+				tasks: [ 'concat:samples' ]
 			}
 		},
 
@@ -67,15 +69,12 @@ module.exports = function( grunt ) {
 		},
 
 		concat: {
-			options: {
-				stripBanners: true,
-				banner: jsBanner.join( '\n' )
-			},
-			dist: {
-				src: [
-					samplesFrameworkDir + '/js/sf.js',
-					samplesFrameworkDir + '/components/**/*.js'
-				],
+			samples: {
+				options: {
+					stripBanners: true,
+					banner: jsBanner.join( '\n' )
+				},
+				src: samplesFrameworkJsFiles,
 				dest: 'samples/js/sf.js'
 			}
 		}
