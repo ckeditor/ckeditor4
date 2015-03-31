@@ -561,6 +561,42 @@ var testsForMultipleEditor = {
 			}
 		},
 
+		'editable drop fires editor drop': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false );
+
+			editor.once( 'drop', listener, null, null, -1 );
+
+			dropTarget.fire( 'drop', bender.tools.mockDropEvent() );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
+		'editable dragstart fires editor dragstart': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false );
+
+			editor.once( 'dragstart', listener, null, null, -1 );
+
+			dropTarget.fire( 'dragstart', bender.tools.mockDropEvent() );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
+		'editable dragend fires editor dragend': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false );
+
+			editor.once( 'dragend', listener, null, null, -1 );
+
+			dropTarget.fire( 'dragend', bender.tools.mockDropEvent() );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
 		'test fixIESplittedNodes': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
