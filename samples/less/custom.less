@@ -14,37 +14,13 @@ footer > div {
 	}
 }
 
-#main,
-#toolbar {
-	.adjoined-top {
-		min-height: 226px;
-		position: relative;
-		background-color: transparent;
+#toolbar .editors-container {
+	overflow: hidden;
+	height: 0;
+	transition: height 200ms;
 
-		& > .grid-container {
-			position: relative;
-		}
-
-		&:before {
-			content: '';
-			top: 0;
-			left: 0;
-			right: 0;
-			background: @global-link-font-color;
-			position: absolute;
-		}
-
-		.editors-container {
-			overflow: hidden;
-			height: 0;
-			opacity: 0;
-			transition: height 200ms;
-
-			&.active {
-				height: auto;
-				opacity: 1;
-			}
-		}
+	&.active {
+		height: auto;
 	}
 }
 
