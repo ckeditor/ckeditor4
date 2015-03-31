@@ -10,7 +10,7 @@
 
 @modifier-toolbar-border-color: #ccc;
 @modifier-toolbar-group-border-color: #ddd;
-@modifier-toolbar-group-vpadding: 1px;
+@modifier-toolbar-group-vpadding: 2px;
 @modifier-toolbar-hgap: 5px;
 
 @modifier-toolbar-button-color: #e7e7e7;
@@ -137,7 +137,7 @@ div.toolbarModifier {
 		.opacity( 0.6 );
 	}
 
-	// List of toolbars
+	// List of toolbars.
 	& > ul {
 		padding: 0;
 		margin: 0;
@@ -150,6 +150,12 @@ div.toolbarModifier {
 
 		&[data-type="table-body"] {
 			display: table-row-group;
+		}
+
+		// Override global margins and paddings.
+		p {
+			padding: 0;
+			margin: 0;
 		}
 
 		// A single toolbar.
@@ -250,17 +256,19 @@ div.toolbarModifier {
 				}
 			}
 
-			// List of toolbar groups
+			// List of toolbar groups.
 			ul {
 				border-collapse: collapse;
-				padding-left: 0;
+				padding: 0;
 				width: 100%;
 
 				// A single toolbar group.
 				li {
 					display: table-row;
 					list-style-type: none;
-					vertical-align: middle;
+					// Resets slightly increased lists' lh which is bigger than button's height
+					// so it stretches columns.
+					line-height: 1;
 
 					&[data-type="subgroup"] {
 						border-top: 1px solid @modifier-toolbar-group-border-color;
@@ -288,21 +296,16 @@ div.toolbarModifier {
 						vertical-align: middle;
 					}
 
-					p {
-						padding: @modifier-toolbar-group-vpadding 0;
-					}
-
-					// List of buttons in a group
+					// List of buttons in a group.
 					ul {
+						padding: 0;
+
 						// A single button in a group.
 						li {
-							padding: @modifier-toolbar-group-vpadding 0;
+							padding: 0;
 							display: inline-block;
 							cursor: pointer;
-
-							& + li {
-								margin-left: 5px;
-							}
+							margin: @modifier-toolbar-group-vpadding 5px @modifier-toolbar-group-vpadding 0;
 
 							// Enforce styles to save space.
 							.cke_combo_text {
@@ -317,7 +320,6 @@ div.toolbarModifier {
 								vertical-align: middle;
 								border: 1px solid #ddd;
 								.font-size( .713 );
-
 							}
 						}
 					}
