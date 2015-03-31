@@ -70,8 +70,18 @@
 	button.button-a {
 		background-color: @modifier-toolbar-button-color;
 
+		&:active,
+		&:hover {
+			background-color: darken( @modifier-toolbar-button-color, 10% );
+		}
+
 		&.button-a-background {
 			background-color: @global-link-font-color;
+
+			&:active,
+			&:hover {
+				background-color: darken( @global-link-font-color, 10% );
+			}
 		}
 
 		&.cke_button {
