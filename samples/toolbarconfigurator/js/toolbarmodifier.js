@@ -88,7 +88,7 @@
 				text: 'Get toolbar <span class="highlight">config</span>',
 				group: 'edit',
 				position: 'right',
-				cssClass: 'button-a-background',
+				cssClass: 'button-a-background icon-pos-left icon-download',
 				clickCallback: function() {
 					this.state = 'config';
 					this._showConfig();

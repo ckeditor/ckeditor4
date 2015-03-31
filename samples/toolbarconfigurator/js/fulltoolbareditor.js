@@ -318,16 +318,21 @@ window.ToolbarConfigurator = {};
 	 * Create and return button element
 	 *
 	 * @param {String} text
-	 * @param {String} cssClass
+	 * @param {String} cssClasses
 	 * @returns {CKEDITOR.dom.element}
 	 */
-	FullToolbarEditor.createButton = function( text, cssClass ) {
+	FullToolbarEditor.createButton = function( text, cssClasses ) {
 		var $button = new CKEDITOR.dom.element( 'button' );
 
 		$button.addClass( 'button-a' );
 
-		if ( cssClass ) {
-			$button.addClass( cssClass );
+		if ( typeof cssClasses == 'string' ) {
+			cssClasses = cssClasses.split( ' ' );
+
+			var i = cssClasses.length;
+			while ( i-- ) {
+				$button.addClass( cssClasses[ i ] );
+			}
 		}
 
 		$button.setHtml( text );
