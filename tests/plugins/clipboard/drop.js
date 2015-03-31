@@ -564,11 +564,15 @@ var testsForMultipleEditor = {
 		'editable drop fires editor drop': function() {
 			var editor = this.editors.framed,
 				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
-				listener = sinon.stub().returns( false );
+				listener = sinon.stub().returns( false ),
+				evt = bender.tools.mockDropEvent();
 
 			editor.once( 'drop', listener, null, null, -1 );
 
-			dropTarget.fire( 'drop', bender.tools.mockDropEvent() );
+			// dropRange must be not null.
+			evt.testRange = {};
+
+			dropTarget.fire( 'drop', evt );
 
 			assert.isTrue( listener.calledOnce );
 		},
