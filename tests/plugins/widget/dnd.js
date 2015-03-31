@@ -386,15 +386,11 @@
 				try {
 					img.fire( 'mousedown' );
 
-					// assert.isFalse( !!editor.getSelection().isFake, 'widget was not focused on mousedown' );
-
 					// Create dummy line and pretend it's visible to cheat drop listener
 					// making if feel that there's a place for the widget to be dropped.
 					editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
 
 					editor.document.fire( 'mouseup' );
-
-					// assert.isTrue( !!editor.getSelection().isFake, 'widget was focused on mouseup' );
 
 					bender.tools.resumeAfter( editor, 'afterPaste', function() {
 						assert.areSame( '<div data-widget="testwidget">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
