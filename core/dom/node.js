@@ -139,10 +139,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			if ( node[ 'data-cke-expando' ] )
 				node[ 'data-cke-expando' ] = false;
 
-			if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
+			if ( node.nodeType != CKEDITOR.NODE_ELEMENT && node.nodeType != CKEDITOR.NODE_DOCUMENT_FRAGMENT  )
 				return;
 
-			if ( !cloneId )
+			if ( !cloneId && node.nodeType == CKEDITOR.NODE_ELEMENT )
 				node.removeAttribute( 'id', false );
 
 			if ( includeChildren ) {
