@@ -122,172 +122,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			</section>
 		</div>
 	</div>
-
-	<script src="lib/codemirror/codemirror.js"></script>
-	<script src="lib/codemirror/javascript.js"></script>
-	<script src="lib/codemirror/show-hint.js"></script>
-
-	<script src="js/fulltoolbareditor.js"></script>
-	<script src="js/abstracttoolbarmodifier.js"></script>
-	<script src="js/toolbarmodifier.js"></script>
-	<script src="js/toolbartextmodifier.js"></script>
-
-	<script>
-		( function() {
-			var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
-				resetConfig = {
-					removeButtons: '',
-					toolbarGroups: null,
-					toolbar: null
-				},
-				configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
-				basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
-				advancedInstruction = CKEDITOR.document.findOne( '#instructions-container > .advanced' ),
-
-				// Configurator mode switcher.
-				modeSwitchBasic = CKEDITOR.document.getById( 'radio-basic' ),
-				modeSwitchAdvanced = CKEDITOR.document.getById( 'radio-advanced' );
-
-			// Initial setup
-			function updateSwitcher() {
-				if ( mode === 'advanced' ) {
-					modeSwitchAdvanced.$.checked = true;
-				} else {
-					modeSwitchBasic.$.checked = true;
-				}
-			}
-
-			updateSwitcher();
-
-			CKEDITOR.document.getWindow().on( 'hashchange', function( e ) {
-				var hash = window.location.hash.substr( 1 );
-				if ( !( hash === 'advanced' || hash === 'basic' ) ) {
-					return;
-				}
-				mode = hash;
-				onToolbarsDone( mode );
-			} );
-
-			CKEDITOR.document.getWindow().on( 'resize', function() {
-				updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
-			} );
-
-			// Basic, configurator.
-			CKEDITOR.replace( 'editor-basic', resetConfig );
-
-			function onRefresh( modifier ) {
-				modifier = modifier || this;
-
-				if ( mode === 'basic' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
-					return;
-				}
-
-				// CodeMirror container becomes visible, so we need to refresh and to avoid rendering problems.
-				if ( mode === 'advanced' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
-					modifier.codeContainer.refresh();
-				}
-
-				updateToolbar( modifier.editorInstance );
-			}
-
-			function updateToolbar( editor ) {
-				var editorContainer = editor.container,
-					displayStyle = editorContainer.getStyle( 'display' );
-
-				editorContainer.setStyle( 'display', 'block' );
-
-				var newHeight = parseInt( editorContainer.getComputedStyle( 'height' ), 10 );
-				newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
-
-				var newMarginTop = parseInt( editorContainer.getComputedStyle( 'margin-top' ), 10 );
-				newMarginTop = ( isNaN( newMarginTop ) ? 0 : Number( newMarginTop ) );
-
-				var newMarginBottom = parseInt( editorContainer.getComputedStyle( 'margin-bottom' ), 10 );
-				newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
-
-				var result = newHeight + newMarginTop + newMarginBottom + 4 /* border and shadow */;
-
-				editorContainer.setStyle( 'display', displayStyle );
-
-				editor.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
-			}
-
-			var toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' );
-
-			var done = 0;
-			toolbarModifier.init( onToolbarInit );
-			toolbarModifier.onRefresh = onRefresh;
-
-			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifier.mainContainer );
-
-			// Advanced configurator.
-			CKEDITOR.replace( 'editor-advanced', resetConfig );
-
-			var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' );
-			toolbarTextModifier.init( onToolbarInit );
-			toolbarTextModifier.onRefresh = onRefresh;
-
-			function onToolbarInit() {
-				if ( ++done === 2 ) {
-					onToolbarsDone();
-				}
-			}
-
-			function onToolbarsDone() {
-				if ( mode === 'basic' ) {
-					toggleModeBasic( false );
-				} else {
-					toggleModeAdvanced( false );
-				}
-
-				updateSwitcher();
-
-				setTimeout( function() {
-					CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
-					CKEDITOR.document.findOne( '#toolbarModifierWrapper' ).addClass( 'active' );
-				}, 200 );
-			}
-
-			CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifier.mainContainer );
-
-			function toogleModeSwitch( onElement, offElement, onModifier, offModifier ) {
-				onElement.addClass( 'fancy-button-active' );
-				offElement.removeClass( 'fancy-button-active' );
-
-				onModifier.showUI();
-				offModifier.hideUI();
-			}
-
-			function toggleModeBasic( callOnRefresh ) {
-				callOnRefresh = ( callOnRefresh !== false );
-				mode = 'basic';
-				window.location.hash = '#basic';
-				toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
-
-				configuratorSection.removeClass( 'freed-width' );
-				basicInstruction.show();
-				advancedInstruction.hide();
-
-				callOnRefresh && onRefresh( toolbarModifier );
-			}
-
-			function toggleModeAdvanced( callOnRefresh ) {
-				callOnRefresh = ( callOnRefresh !== false );
-				mode = 'advanced';
-				window.location.hash = '#advanced';
-				toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
-
-				configuratorSection.addClass( 'freed-width' );
-				advancedInstruction.show();
-				basicInstruction.hide();
-
-				callOnRefresh && onRefresh( toolbarTextModifier );
-			}
-
-			modeSwitchBasic.on( 'click', toggleModeBasic );
-			modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
-		} )();
-	</script>
 </main>
 
 <footer class="footer-a grid-container">
@@ -298,6 +132,172 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		Copyright &copy; 2003-2015, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico Knabben. All rights reserved.
 	</p>
 </footer>
+
+<script src="lib/codemirror/codemirror.js"></script>
+<script src="lib/codemirror/javascript.js"></script>
+<script src="lib/codemirror/show-hint.js"></script>
+
+<script src="js/fulltoolbareditor.js"></script>
+<script src="js/abstracttoolbarmodifier.js"></script>
+<script src="js/toolbarmodifier.js"></script>
+<script src="js/toolbartextmodifier.js"></script>
 <script src="../js/sf.js"></script>
+
+<script>
+	( function() {
+		var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
+			resetConfig = {
+				removeButtons: '',
+				toolbarGroups: null,
+				toolbar: null
+			},
+			configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
+			basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
+			advancedInstruction = CKEDITOR.document.findOne( '#instructions-container > .advanced' ),
+
+			// Configurator mode switcher.
+			modeSwitchBasic = CKEDITOR.document.getById( 'radio-basic' ),
+			modeSwitchAdvanced = CKEDITOR.document.getById( 'radio-advanced' );
+
+		// Initial setup
+		function updateSwitcher() {
+			if ( mode === 'advanced' ) {
+				modeSwitchAdvanced.$.checked = true;
+			} else {
+				modeSwitchBasic.$.checked = true;
+			}
+		}
+
+		updateSwitcher();
+
+		CKEDITOR.document.getWindow().on( 'hashchange', function( e ) {
+			var hash = window.location.hash.substr( 1 );
+			if ( !( hash === 'advanced' || hash === 'basic' ) ) {
+				return;
+			}
+			mode = hash;
+			onToolbarsDone( mode );
+		} );
+
+		CKEDITOR.document.getWindow().on( 'resize', function() {
+			updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
+		} );
+
+		// Basic, configurator.
+		CKEDITOR.replace( 'editor-basic', resetConfig );
+
+		function onRefresh( modifier ) {
+			modifier = modifier || this;
+
+			if ( mode === 'basic' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
+				return;
+			}
+
+			// CodeMirror container becomes visible, so we need to refresh and to avoid rendering problems.
+			if ( mode === 'advanced' && modifier instanceof ToolbarConfigurator.ToolbarTextModifier ) {
+				modifier.codeContainer.refresh();
+			}
+
+			updateToolbar( modifier.editorInstance );
+		}
+
+		function updateToolbar( editor ) {
+			var editorContainer = editor.container,
+				displayStyle = editorContainer.getStyle( 'display' );
+
+			editorContainer.setStyle( 'display', 'block' );
+
+			var newHeight = parseInt( editorContainer.getComputedStyle( 'height' ), 10 );
+			newHeight = ( isNaN( newHeight ) ? 0 : Number( newHeight ) );
+
+			var newMarginTop = parseInt( editorContainer.getComputedStyle( 'margin-top' ), 10 );
+			newMarginTop = ( isNaN( newMarginTop ) ? 0 : Number( newMarginTop ) );
+
+			var newMarginBottom = parseInt( editorContainer.getComputedStyle( 'margin-bottom' ), 10 );
+			newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
+
+			var result = newHeight + newMarginTop + newMarginBottom + 4 /* border and shadow */;
+
+			editorContainer.setStyle( 'display', displayStyle );
+
+			editor.container.getAscendant( 'div' ).setStyle( 'height', result + 'px' );
+		}
+
+		var toolbarModifier = new ToolbarConfigurator.ToolbarModifier( 'editor-basic' );
+
+		var done = 0;
+		toolbarModifier.init( onToolbarInit );
+		toolbarModifier.onRefresh = onRefresh;
+
+		CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifier.mainContainer );
+
+		// Advanced configurator.
+		CKEDITOR.replace( 'editor-advanced', resetConfig );
+
+		var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' );
+		toolbarTextModifier.init( onToolbarInit );
+		toolbarTextModifier.onRefresh = onRefresh;
+
+		function onToolbarInit() {
+			if ( ++done === 2 ) {
+				onToolbarsDone();
+			}
+		}
+
+		function onToolbarsDone() {
+			if ( mode === 'basic' ) {
+				toggleModeBasic( false );
+			} else {
+				toggleModeAdvanced( false );
+			}
+
+			updateSwitcher();
+
+			setTimeout( function() {
+				CKEDITOR.document.findOne( '.editors-container' ).addClass( 'active' );
+				CKEDITOR.document.findOne( '#toolbarModifierWrapper' ).addClass( 'active' );
+			}, 200 );
+		}
+
+		CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarTextModifier.mainContainer );
+
+		function toogleModeSwitch( onElement, offElement, onModifier, offModifier ) {
+			onElement.addClass( 'fancy-button-active' );
+			offElement.removeClass( 'fancy-button-active' );
+
+			onModifier.showUI();
+			offModifier.hideUI();
+		}
+
+		function toggleModeBasic( callOnRefresh ) {
+			callOnRefresh = ( callOnRefresh !== false );
+			mode = 'basic';
+			window.location.hash = '#basic';
+			toogleModeSwitch( modeSwitchBasic, modeSwitchAdvanced, toolbarModifier, toolbarTextModifier );
+
+			configuratorSection.removeClass( 'freed-width' );
+			basicInstruction.show();
+			advancedInstruction.hide();
+
+			callOnRefresh && onRefresh( toolbarModifier );
+		}
+
+		function toggleModeAdvanced( callOnRefresh ) {
+			callOnRefresh = ( callOnRefresh !== false );
+			mode = 'advanced';
+			window.location.hash = '#advanced';
+			toogleModeSwitch( modeSwitchAdvanced, modeSwitchBasic, toolbarTextModifier, toolbarModifier );
+
+			configuratorSection.addClass( 'freed-width' );
+			advancedInstruction.show();
+			basicInstruction.hide();
+
+			callOnRefresh && onRefresh( toolbarTextModifier );
+		}
+
+		modeSwitchBasic.on( 'click', toggleModeBasic );
+		modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
+	} )();
+</script>
 </body>
 </html>
