@@ -375,6 +375,37 @@
 			} );
 		},
 
+		'test drop widget with formating': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p class="x">foo</p><p><b>x<span data-widget="testwidget" id="w1">foo</span>x</b></p>', function() {
+				var evt = { data: bender.tools.mockDropEvent() },
+					range = editor.createRange();
+
+				editor.focus();
+
+				bender.tools.resumeAfter( editor, 'afterPaste', function() {
+					assert.areSame( '<p class="x">f<b><span data-widget="testwidget">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
+				} );
+
+				// Ensure async.
+				wait( function() {
+					dragstart( editor, evt.data );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
+					range.collapse( true );
+					evt.data.testRange = range;
+
+					drop( editor, evt.data );
+
+					dragend( editor, evt.data );
+				} );
+			} );
+		},
+
 		'test drag and drop - block widget': function() {
 			var editor = this.editor,
 				pasteCounter = sinon.spy(),
