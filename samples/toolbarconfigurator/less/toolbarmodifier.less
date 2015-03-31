@@ -1,7 +1,6 @@
 // Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 // For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
 
-@import "lesshat.less";
 @import "base.less";
 
 @modifier-group-hover-color: #fffbe3;
@@ -11,8 +10,10 @@
 
 @modifier-toolbar-border-color: #ccc;
 @modifier-toolbar-group-border-color: #ddd;
-@modifier-toolbar-group-vpadding: 3px;
+@modifier-toolbar-group-vpadding: 1px;
 @modifier-toolbar-hgap: 5px;
+
+@modifier-toolbar-button-color: #e7e7e7;
 
 .cke_toolbar {
 	pointer-events: none;
@@ -62,12 +63,17 @@
 .unselectable {
 	.user-select( none );
 }
-
 .toolbar {
 	margin-bottom: 2 * @sample-standard-vgap;
 	overflow: hidden;
 
-	button {
+	button.button-a {
+		background-color: @modifier-toolbar-button-color;
+
+		&.button-a-background {
+			background-color: @global-link-font-color;
+		}
+
 		&.cke_button {
 			cursor: pointer;
 
@@ -265,6 +271,10 @@ div.toolbarModifier {
 
 							&:focus {
 								background: rgba(0, 0, 0, 0.04);
+							}
+
+							input {
+								vertical-align: middle;
 							}
 						}
 					}

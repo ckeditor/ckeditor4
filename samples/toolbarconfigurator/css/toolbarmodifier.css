@@ -69,21 +69,27 @@ For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
   margin-bottom: 2.4em;
   overflow: hidden;
 }
-.toolbar button.cke_button {
+.toolbar button.button-a {
+  background-color: #e7e7e7;
+}
+.toolbar button.button-a.button-a-background {
+  background-color: red;
+}
+.toolbar button.button-a.cke_button {
   cursor: pointer;
   display: inline-block;
   padding: 4px 6px;
   outline: 0;
   border: 1px solid #a6a6a6;
 }
-.toolbar button.hidden {
+.toolbar button.button-a.hidden {
   display: none;
 }
-.toolbar button.left {
+.toolbar button.button-a.left {
   float: left;
   margin-right: 8px;
 }
-.toolbar button.right {
+.toolbar button.button-a.right {
   float: right;
   margin-left: 8px;
 }
@@ -174,7 +180,7 @@ div.toolbarModifier > ul > li[data-type="separator"]:after {
   width: 100%;
 }
 div.toolbarModifier > ul > li[data-type="separator"] > p {
-  padding: 3px 5px;
+  padding: 1px 5px;
 }
 div.toolbarModifier > ul > li > p,
 div.toolbarModifier > ul > li > ul {
@@ -253,10 +259,10 @@ div.toolbarModifier > ul > li ul li > ul {
   vertical-align: middle;
 }
 div.toolbarModifier > ul > li ul li p {
-  padding: 3px 0;
+  padding: 1px 0;
 }
 div.toolbarModifier > ul > li ul li ul li {
-  padding: 3px 0;
+  padding: 1px 0;
   display: inline-block;
   cursor: pointer;
 }
