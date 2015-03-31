@@ -37,15 +37,15 @@ CKEDITOR.plugins.add( 'forms', {
 			order = 0,
 			textfieldTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 },
 			allowedContent = {
-				checkbox: 'input[type,name,checked]',
-				radio: 'input[type,name,checked]',
-				textfield: 'input[type,name,value,size,maxlength]',
-				textarea: 'textarea[cols,rows,name]',
-				select: 'select[name,size,multiple]; option[value,selected]',
-				button: 'input[type,name,value]',
-				form: 'form[action,name,id,enctype,target,method]',
-				hiddenfield: 'input[type,name,value]',
-				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}'
+				checkbox: 'input[type,name,checked'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('checkbox') : '' ) +']',
+				radio: 'input[type,name,checked'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('radio') : '' ) +']',
+				textfield: 'input[type,name,value,size,maxlength'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('textfield') : '' ) +']',
+				textarea: 'textarea[cols,rows,name'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('textarea') : '' ) +']',
+				select: 'select[name,size,multiple]; option[value,selected'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('select') : '' ) +']',
+				button: 'input[type,name,value'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('button') : '' ) +']',
+				form: 'form[action,name,id,enctype,target,method'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('form') : '' ) +']',
+				hiddenfield: 'input[type,name,value'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('hiddenfield') : '' ) +']',
+				imagebutton: 'input[type,alt,src'+ ( editor.plugins.html5validation ? editor.plugins.html5validation.allowedContent('imagebutton') : '' ) +']{width,height,border,border-width,border-style,margin,float}'
 			},
 			requiredContent = {
 				checkbox: 'input',
