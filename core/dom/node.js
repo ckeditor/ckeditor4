@@ -127,7 +127,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		var node = new CKEDITOR.dom.node( $clone );
 
 		// On IE8 we need to fixed HTML5 node name, see details below.
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && ( this.type == CKEDITOR.NODE_ELEMENT || this.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 &&
+			( this.type == CKEDITOR.NODE_ELEMENT || this.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) ) {
 			renameNodes( node );
 		}
 
