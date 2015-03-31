@@ -329,19 +329,30 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					evt = { data: bender.tools.mockDropEvent() },
 					range = editor.createRange(),
-					widgetWasDestroyed = 0,
-					widgetCreatedCounter = sinon.spy();
+					widgetWasDestroyedCounter = sinon.spy(),
+					widgetCreatedCounter = sinon.spy(),
+					pasteCounter = sinon.spy(),
+					dragstartCounter = sinon.spy(),
+					dragendCounter = sinon.spy(),
+					dropCounter = sinon.spy();
 
-				widget.on( 'destroy', function() {
-					widgetWasDestroyed += 1;
-				} );
+				widget.on( 'destroy', widgetWasDestroyedCounter );
 
 				editor.focus();
 
 				editor.widgets.on( 'instanceCreated', widgetCreatedCounter );
 
+				editor.on( 'paste', pasteCounter );
+				editor.on( 'dragstart', dragstartCounter );
+				editor.on( 'dragend', dragendCounter );
+				editor.on( 'drop', dropCounter );
+
 				bender.tools.resumeAfter( editor, 'afterPaste', function() {
-					assert.areSame( 1, widgetWasDestroyed, 'original widget was destroyed' );
+					assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
+					assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
+					assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
+					assert.isTrue( dropCounter.calledOnce, 'drop called once' );
+					assert.isTrue( widgetWasDestroyedCounter.calledOnce, 'original widget was destroyed' );
 					assert.areSame( '<p class="x">f<span data-widget="testwidget">foo</span>oo</p><p>xx</p>', editor.getData() );
 					assert.isTrue( widgetCreatedCounter.calledOnce, 'new widget was created' );
 				} );
@@ -365,7 +376,16 @@
 		},
 
 		'test drag and drop - block widget': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				pasteCounter = sinon.spy(),
+				dragstartCounter = sinon.spy(),
+				dragendCounter = sinon.spy(),
+				dropCounter = sinon.spy();
+
+			editor.on( 'paste', pasteCounter );
+			editor.on( 'dragstart', dragstartCounter );
+			editor.on( 'dragend', dragendCounter );
+			editor.on( 'drop', dropCounter );
 
 			// Override Finder's getRange to force a place for the
 			// widget to be dropped.
@@ -393,6 +413,10 @@
 					editor.document.fire( 'mouseup' );
 
 					bender.tools.resumeAfter( editor, 'afterPaste', function() {
+						assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
+						assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
+						assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
+						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
 						assert.areSame( '<div data-widget="testwidget">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
 					} );
 
