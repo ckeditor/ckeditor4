@@ -54,7 +54,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 
 		this.clone( 1, 1 ).appendTo( container );
 
-		return container.getHtml();
+		return container.getHtml().replace( /\s*data-cke-expando=".*?"/g, '' );
 	}
 }, true, {
 	'append': 1, 'appendBogus': 1, 'clone': 1, 'getFirst': 1, 'getHtml': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,
