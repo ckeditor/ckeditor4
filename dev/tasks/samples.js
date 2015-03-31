@@ -37,7 +37,10 @@ module.exports = function( grunt ) {
 
 		watch: {
 			basicsample: {
-				files: '<%= less.basicsample.options.paths[ 0 ] + "/**/*.less" %>',
+				files: [
+					'<%= less.basicsample.options.paths[ 0 ] + "/**/*.less" %>',
+					'node_modules/cksource-samples-framework/components/**/*.less'
+				],
 				tasks: [ 'less:basicsample' ],
 				options: {
 					nospawn: true
