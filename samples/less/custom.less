@@ -5,6 +5,15 @@ footer > div {
 	max-width: 1044px + 2 * @grid-gutter-width;
 }
 
+.switch {
+	background: @global-link-font-color-hover;
+	float: right;
+
+	.switch-inner > .handler {
+		background: @global-link-font-color-hover;
+	}
+}
+
 #main,
 #toolbar {
 	.adjoined-top {
@@ -53,19 +62,19 @@ div.cke .cke_combo_button {
 	height: 335px;
 }
 
-#toolbar .adjoined-top:before {
-	height: 219px;
-}
+#toolbar .adjoined-top {
+	&:before {
+		height: 219px;
+	}
 
-.CodeMirror pre {
-	border: none;
-	padding: 0;
-	margin: 0;
+	.grid-container-nested {
+		height: 147px;
+	}
 }
 
 .content {
 	.grid-switch-magic {
-		margin: 2.75*@global-flow-vgap 0 0;
+		margin: 3.5em 0 0;
 	}
 }
 
