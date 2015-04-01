@@ -147,6 +147,12 @@ div.toolbarModifier {
 		.opacity( 0.6 );
 	}
 
+	// Give empty toolbar groups height similar to height of non empty groups.
+	// Non empty groups are stretched by contained toolbar buttons.
+	.empty > p {
+		line-height: 31px;
+	}
+
 	// List of toolbars.
 	& > ul {
 		padding: 0;
