@@ -1774,7 +1774,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			this.moveChildren( newNode );
 
 			// Replace the node.
-			this.getParent() && this.$.parentNode.replaceChild( newNode.$, this.$ );
+			this.getParent( true ) && this.$.parentNode.replaceChild( newNode.$, this.$ );
 			newNode.$[ 'data-cke-expando' ] = this.$[ 'data-cke-expando' ];
 			this.$ = newNode.$;
 			// Bust getName's cache. (#8663)

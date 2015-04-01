@@ -121,27 +121,55 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	clone: function( includeChildren, cloneId ) {
 		var $clone = this.$.cloneNode( includeChildren );
 
-		var removeIds = function( node ) {
-				// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
-				if ( node[ 'data-cke-expando' ] )
-					node[ 'data-cke-expando' ] = false;
-
-				if ( node.nodeType != CKEDITOR.NODE_ELEMENT )
-					return;
-				if ( !cloneId )
-					node.removeAttribute( 'id', false );
-
-				if ( includeChildren ) {
-					var childs = node.childNodes;
-					for ( var i = 0; i < childs.length; i++ )
-						removeIds( childs[ i ] );
-				}
-			};
-
 		// The "id" attribute should never be cloned to avoid duplication.
 		removeIds( $clone );
 
-		return new CKEDITOR.dom.node( $clone );
+		var node = new CKEDITOR.dom.node( $clone );
+
+		// On IE8 we need to fixed HTML5 node name, see details below.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 &&
+			( this.type == CKEDITOR.NODE_ELEMENT || this.type == CKEDITOR.NODE_DOCUMENT_FRAGMENT ) ) {
+			renameNodes( node );
+		}
+
+		return node;
+
+		function removeIds( node ) {
+			// Reset data-cke-expando only when has been cloned (IE and only for some types of objects).
+			if ( node[ 'data-cke-expando' ] )
+				node[ 'data-cke-expando' ] = false;
+
+			if ( node.nodeType != CKEDITOR.NODE_ELEMENT && node.nodeType != CKEDITOR.NODE_DOCUMENT_FRAGMENT  )
+				return;
+
+			if ( !cloneId && node.nodeType == CKEDITOR.NODE_ELEMENT )
+				node.removeAttribute( 'id', false );
+
+			if ( includeChildren ) {
+				var childs = node.childNodes;
+				for ( var i = 0; i < childs.length; i++ )
+					removeIds( childs[ i ] );
+			}
+		}
+
+		// IE8 rename HTML5 nodes by adding `:` at the begging of the tag name when the node is cloned,
+		// so `<figure>` will be `<:figure>` after 'cloneNode'. We need to fix it (#13101).
+		function renameNodes( node ) {
+			if ( node.type != CKEDITOR.NODE_ELEMENT && node.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT )
+				return;
+
+			if ( node.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
+				var name = node.getName();
+				if ( name[ 0 ] == ':' ) {
+					node.renameNode( name.substring( 1 ) );
+				}
+			}
+
+			if ( includeChildren ) {
+				for ( var i = 0; i < node.getChildCount(); i++ )
+					renameNodes( node.getChild( i ) );
+			}
+		}
 	},
 
 	/**

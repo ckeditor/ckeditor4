@@ -226,6 +226,66 @@
 			CKEDITOR.dom.element.createFromHtml( '<i>bar</i>' ).appendTo( frag );
 
 			assert.areSame( '<b>foo</b><i>bar</i>', bender.tools.fixHtml( frag.getHtml(), 1, 1 ), 'HTML of documentFragment' );
+		},
+
+		// #13101
+		'test getHtml with html5': function() {
+			// IE8 only.
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 )
+				assert.ignore();
+
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<figure>foo</figure>' ).appendTo( frag );
+
+			assert.areSame( '<figure>foo</figure>', frag.getHtml() );
+		},
+
+		'test clone': function() {
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' ).appendTo( frag );
+			CKEDITOR.dom.element.createFromHtml( '<i>bar</i>' ).appendTo( frag );
+
+			var clone = frag.clone();
+
+			assert.areSame( CKEDITOR.NODE_DOCUMENT_FRAGMENT, clone.type );
+			assert.areSame( 0, clone.getChildCount() );
+		},
+
+		'test clone with children': function() {
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<b>foo</b>' ).appendTo( frag );
+			CKEDITOR.dom.element.createFromHtml( '<i id="bar">bar</i>' ).appendTo( frag );
+
+			var clone = frag.clone( 1 );
+
+			assert.areSame( 2, clone.getChildCount() );
+			assert.areSame( '<b>foo</b>', bender.tools.fixHtml( clone.getChild( 0 ).getOuterHtml() ) );
+			assert.areSame( '<i>bar</i>', bender.tools.fixHtml( clone.getChild( 1 ).getOuterHtml() ) );
+		},
+
+		'test clone with children and ids': function() {
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<b id="foo">foo</b>' ).appendTo( frag );
+
+			var clone = frag.clone( 1, 1 );
+
+			assert.areSame( 1, clone.getChildCount() );
+			assert.areSame( '<b id="foo">foo</b>', bender.tools.fixHtml( clone.getChild( 0 ).getOuterHtml() ) );
+		},
+
+		'test clone with html5': function() {
+			var frag = new CKEDITOR.dom.documentFragment( CKEDITOR.document );
+
+			CKEDITOR.dom.element.createFromHtml( '<figure>foo</figure>' ).appendTo( frag );
+
+			var clone = frag.clone( 1 );
+
+			assert.areSame( 1, clone.getChildCount() );
+			assert.areSame( '<figure>foo</figure>', bender.tools.fixHtml( clone.getChild( 0 ).getOuterHtml() ) );
 		}
 	} );
 } )();
