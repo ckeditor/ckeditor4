@@ -24,7 +24,16 @@ main .grid-container.freed-width {
 	}
 }
 
-/* There were some inherited styles for links. */
+// Style the inline editor which is enabled when wysiwygarea is not available.
+#main #editor {
+	background: #FFF;
+	padding: @grid-gutter-width / 2 @grid-gutter-width;
+	border: solid 3px @global-link-font-color-hover;
+	border-radius: @global-border-radius;
+	box-shadow: 0 0 3px rgba(0,0,0,0.15); // Similar to Moono's shadow.
+}
+
+// There were some inherited styles for links.
 div.cke a.cke_button,
 div.cke .cke_combo_button {
 	border-bottom: none;
