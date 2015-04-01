@@ -96,7 +96,7 @@ bender.test( {
 		bender.tools.selection.setWithHtml( editor, '<p>{foo}</p><p>bar</p>' );
 
 		assert.areSame( 'foo', editor.extractSelectedHtml( true, true ) );
-		assert.isInnerHtmlMatching( '^<p>bar@</p>', bender.tools.selection.getWithHtml( editor ),
+		assert.isInnerHtmlMatching( [ '^<p>bar@</p>', '<p>^bar@</p>' ], bender.tools.selection.getWithHtml( editor ),
 			{ compareSelection: true, normalizeSelection: true }, 'contents of the editor' );
 	}
 } );

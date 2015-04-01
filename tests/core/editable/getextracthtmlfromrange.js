@@ -96,7 +96,7 @@
 
 			if ( removeEmptyBlock ) {
 				// If we remove empty ranges we do not care about selection.
-				assert.areSame( htmlWithSelection, editable.getHtml(), 'HTML of editable, once extracted' );
+				assert.areSame( htmlWithSelection, bender.tools.fixHtml( editable.getHtml() ), 'HTML of editable, once extracted' );
 			} else {
 				assert.isInnerHtmlMatching( htmlWithSelection, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, once extracted' );
 			}
