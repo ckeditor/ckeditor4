@@ -1279,6 +1279,9 @@
 			// Create a dataTransfer object and save it globally.
 			editable.attachListener( editor, 'dragstart', function( evt ) {
 				clipboard.initDragDataTransfer( evt, editor );
+
+				// Save drag range globally for cross editor D&D.
+				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 			}, null, null, 2 );
 
 			// -------------- DRAGEND --------------
@@ -1790,10 +1793,6 @@
 					dataTransfer = this.dragData;
 				} else {
 					this.dragData = dataTransfer;
-				}
-
-				if ( sourceEditor ) {
-					this.dragRange = sourceEditor.getSelection().getRanges()[ 0 ];
 				}
 			}
 
