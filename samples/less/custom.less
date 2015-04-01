@@ -59,6 +59,7 @@ div.cke .cke_combo_button {
 
 	> div {
 		width: 100%;
+		text-align: right;
 
 		.toggler {
 			padding-right: 0;
@@ -73,13 +74,13 @@ div.cke .cke_combo_button {
 			}
 		}
 
-		&:not(#instructions-container) {
-			text-align: right;
+		h2 {
+			float: left;
+			margin-top: 0;
+		}
 
-			h2 {
-				float: left;
-				margin-top: 0;
-			}
+		&#instructions-container {
+			text-align: left;
 		}
 	}
 }
