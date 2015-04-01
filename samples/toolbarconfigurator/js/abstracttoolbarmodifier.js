@@ -274,12 +274,21 @@ if ( !Object.keys ) {
 			refresh();
 		}
 
+		function empty() {}
+
 		function refresh() {
 			that.editorInstance.destroy();
 
 			that.editorInstance = CKEDITOR.replace( that.editorId, that.getActualConfig() );
 
 			that.editorInstance.once( 'loaded', function() {
+				var btns = that.editorInstance.ui.instances;
+
+				for ( var i in btns ) {
+					btns[ i ].click = empty;
+					btns[ i ].onClick = empty;
+				}
+
 				if ( !that.isEditableVisible ) {
 					that._hideEditable();
 				}

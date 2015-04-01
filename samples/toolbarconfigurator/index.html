@@ -202,8 +202,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		}
 
 		function updateToolbar( editor ) {
-			var editorContainer = editor.container,
-				displayStyle = editorContainer.getStyle( 'display' );
+			var editorContainer = editor.container;
+
+			// Not always editor is loaded.
+			if ( !editorContainer ) {
+				return;
+			}
+
+			var displayStyle = editorContainer.getStyle( 'display' );
 
 			editorContainer.setStyle( 'display', 'block' );
 
