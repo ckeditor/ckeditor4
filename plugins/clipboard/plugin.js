@@ -1268,9 +1268,9 @@
 			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
 
 			// -------------- DRAGSTART --------------
-
 			// Listed on dragstart to mark internal and cross-editor drag & drop
 			// and save range and selected HTML.
+
 			editable.attachListener( dropTarget, 'dragstart', fireDragEvent );
 
 			// Make sure to reset data transfer (in case dragend was not called or was canceled).
@@ -1282,10 +1282,11 @@
 			}, null, null, 2 );
 
 			// -------------- DRAGEND --------------
-
 			// Clean up on dragend.
+
 			editable.attachListener( dropTarget, 'dragend', fireDragEvent );
 
+			// Init data transfer if someone wants to use it in dragend.
 			editable.attachListener( editor, 'dragend', clipboard.initDragDataTransfer, clipboard, null, 1 );
 
 			// When drag & drop is done we need to reset dataTransfer so the future
@@ -1293,9 +1294,9 @@
 			editable.attachListener( editor, 'dragend', clipboard.resetDragDataTransfer, clipboard, null, 100 );
 
 			// -------------- DRAGOVER --------------
-
 			// We need to call preventDefault on dragover because otherwise if
 			// we drop image it will overwrite document.
+
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
 				var target = evt.data.getTarget();
 
@@ -1336,9 +1337,10 @@
 				fireDragEvent( evt, dragRange, dropRange  );
 			} );
 
-			// Create dataTransfer of get it, if it was created before.
+			// Create dataTransfer or get it, if it was created before.
 			editable.attachListener( editor, 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
 
+			// Execute drop action, fire paste.
 			editable.attachListener( editor, 'drop', function( evt ) {
 				var data = evt.data;
 
@@ -1360,7 +1362,7 @@
 				}
 			}, null, null, 9999 );
 
-			// Internal drag and drop (drag and drop in the same Editor).
+			// Internal drag and drop (drag and drop in the same editor).
 			function internalDrop( dragRange, dropRange, dataTransfer ) {
 				// Execute drop with a timeout because otherwise selection, after drop,
 				// on IE is in the drag position, instead of drop position.
@@ -1399,6 +1401,8 @@
 					dropRange = editor.createRange();
 					dropRange.moveToBookmark( dropBookmark );
 
+					// We do not select drop range, because of may be in the place we can not set the selection
+					// (ex. between blocks, in case of block widget D&D). We put range to the paste event instead.
 					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
 
 					editor.fire( 'unlockSnapshot' );
@@ -1746,12 +1750,20 @@
 		},
 
 		/**
-		 * Initialize dataTransfer object based on the drop event. If data
-		 * transfer object was already initialized on this event then function will
-		 * return that object.
+		 * This function link {@link #dataTransfer} objects for `{@link editor#dragstart}`, {@link editor#dragend} and
+		 * {@link editor#drop} events. It behave differently if the native event was pass or not.
+		 *
+		 * Without native event function will create a new {@link #dataTransfer} if there is nothing saved
+		 * (`{@link #resetDragDataTransfer}` was called) or the saved object if it exists. It means that the function
+		 * will return the same object since the last reset. This is because, if the function was called without native
+		 * event it means that drag and drop is handled manually and that code is responsible for reseting.
+		 *
+		 * With native event this function link object based on the same native event. If data
+		 * transfer object was already initialized on this event, and {@link #resetDragDataTransfer}` was not called
+		 * in the meantime, then function will return the same object.
 		 *
 		 * @since 4.5
-		 * @param {CKEDITOR.dom.event} evt A drop event object.
+		 * @param {CKEDITOR.dom.event} [evt] A drop event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
@@ -1763,13 +1775,14 @@
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
 			if ( !nativeDataTransfer ) {
+				// No native event.
 				if ( this.dragData ) {
 					dataTransfer = this.dragData;
 				} else {
 					this.dragData = dataTransfer;
 				}
 			} else {
-				// If there is the same id we will replace dataTransfer with the one
+				// Native event. If there is the same id we will replace dataTransfer with the one
 				// created on drag, because it contains drag editor, drag content and so on.
 				// Otherwise (in case of drag from external source) we save new object to
 				// the global clipboard.dragData.
@@ -1788,7 +1801,35 @@
 		},
 
 		/**
-		 * Initialize dataTransfer object based on the paste event. If data
+		 * Removes global dataTransfer object so the new dataTransfer
+		 * will be not linked with the old one.
+		 *
+		 * @since 4.5
+		 */
+		resetDragDataTransfer: function() {
+			this.dragData = null;
+		},
+
+		/**
+		 * Global object to save data for drag and drop. Object must be global to handle
+		 * drag and drop from one CKEditor to the other. Do not use it directly, use
+		 * `{@link #initDragDataTransfer}` and `{@link #resetDragDataTransfer}`.
+		 *
+		 * @since 4.5
+		 * @private
+		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} dragData
+		 */
+
+		/**
+		 * Range object to save drag range and remove it after drop.
+		 *
+		 * @since 4.5
+		 * @private
+		 * @property {CKEDITOR.dom.range} dragRange
+		 */
+
+		/**
+		 * Initialize and link dataTransfer objects based on the paste event. If data
 		 * transfer object was already initialized on this event then function will
 		 * return that object. On IE it is not possible to link copy/cut and paste event
 		 * so the method returns always a new object. The same if there is no paste event
@@ -1816,34 +1857,7 @@
 			} else {
 				return new this.dataTransfer( null, sourceEditor );
 			}
-		},
-
-		/*
-		 * Removes global dataTransfer object so the new dataTransfer
-		 * will be not linked with the old one.
-		 *
-		 * @since 4.5
-		 */
-		resetDragDataTransfer: function() {
-			this.dragData = null;
 		}
-
-		/**
-		 * Global object to save data for drag and drop. Object must be global to handle
-		 * drag and drop from one CKEditor to the other.
-		 *
-		 * @since 4.5
-		 * @private
-		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} dragData
-		 */
-
-		/**
-		 * Range object to save drag range and remove it after drop.
-		 *
-		 * @since 4.5
-		 * @private
-		 * @property {CKEDITOR.dom.range} dragRange
-		 */
 	};
 
 	// Data type used to link drag and drop events.

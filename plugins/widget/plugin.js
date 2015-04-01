@@ -3069,6 +3069,7 @@
 			buffer.input();
 		} ) );
 
+		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
 
 		function onMouseUp() {
