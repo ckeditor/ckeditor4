@@ -4,7 +4,7 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <!--[if IE 8]><html class="ie8"><![endif]-->
-<!--[if gt IE 8]><!--><html><!--<![endif]-->
+<!--[if gt IE 8]><html><![endif]-->
 <!--[if !IE]><!--><html><!--<![endif]-->
 <head>
 	<meta charset="utf-8">
@@ -148,11 +148,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <script>
 	( function() {
 		var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
-			resetConfig = {
-				removeButtons: '',
-				toolbarGroups: null,
-				toolbar: null
-			},
 			configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
 			basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
 			advancedInstruction = CKEDITOR.document.findOne( '#instructions-container > .advanced' ),
@@ -184,9 +179,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		CKEDITOR.document.getWindow().on( 'resize', function() {
 			updateToolbar( ( mode === 'basic' ? toolbarModifier : toolbarTextModifier )[ 'editorInstance' ] );
 		} );
-
-		// Basic, configurator.
-		CKEDITOR.replace( 'editor-basic', resetConfig );
 
 		function onRefresh( modifier ) {
 			modifier = modifier || this;
@@ -237,9 +229,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		toolbarModifier.onRefresh = onRefresh;
 
 		CKEDITOR.document.getById( 'toolbarModifierWrapper' ).append( toolbarModifier.mainContainer );
-
-		// Advanced configurator.
-		CKEDITOR.replace( 'editor-advanced', resetConfig );
 
 		var toolbarTextModifier = new ToolbarConfigurator.ToolbarTextModifier( 'editor-advanced' );
 		toolbarTextModifier.init( onToolbarInit );

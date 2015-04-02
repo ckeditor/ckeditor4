@@ -110,7 +110,6 @@ if ( !Object.keys ) {
 		this.cfg = cfg || {};
 		this.hidden = false;
 		this.editorId = editorId;
-		this.editorInstance = CKEDITOR.instances[ editorId ];
 		this.fullToolbarEditor = new ToolbarConfigurator.FullToolbarEditor();
 
 		this.mainContainer = null;
@@ -147,17 +146,20 @@ if ( !Object.keys ) {
 			throw 'Only one instance of ToolbarModifier is allowed';
 		}
 
-		if ( this.editorInstance.status == 'unloaded' ) {
-			this.editorInstance.once( 'loaded', function() {
-				that.fullToolbarEditor.init( function() {
-					that._onInit( callback );
-				}, that.editorInstance.config );
-			} );
-		} else {
-			this.fullToolbarEditor.init( function() {
-				that._onInit( callback );
-			}, this.editorInstance.config );
+		if ( !this.editorInstance ) {
+			// Do not refresh yet, let's wait for the full toolbar editor (see below).
+			this._createEditor( false );
 		}
+
+		this.editorInstance.once( 'loaded', function() {
+			that.fullToolbarEditor.init( function() {
+				that._onInit( callback );
+
+				if ( typeof that.onRefresh == 'function' ) {
+					that.onRefresh();
+				}
+			}, that.editorInstance.config );
+		} );
 
 		return this.mainContainer;
 	};
@@ -182,6 +184,9 @@ if ( !Object.keys ) {
 			this.actualConfig.toolbarGroups = getDefaultToolbarGroups( this.editorInstance );
 		}
 
+		if ( typeof callback === 'function' )
+			callback( this.mainContainer );
+
 		// Here we are going to keep only `name` and `groups` data from editor `toolbar` property.
 		function getDefaultToolbarGroups( editor ) {
 			var toolbarGroups = editor.toolbar,
@@ -203,18 +208,6 @@ if ( !Object.keys ) {
 
 			return copy;
 		}
-
-		var extraPlugins = this.actualConfig.extraPlugins,
-			removePlugins = this.actualConfig.removePlugins;
-
-		// Enable the special, lightweight area to replace wysiwygarea.
-		this.actualConfig.extraPlugins = ( extraPlugins ? extraPlugins + ',' : '' ) + 'toolbarconfiguratorarea';
-		// Disable plugins which do not affect toolbar buttons, to make the editor more lightweight.
-		this.actualConfig.removePlugins = ( removePlugins ? removePlugins + ',' : '' ) +
-			'autogrow,dialogadvtab,elementspath,enterkey,floatingspace,htmlwriter,magicline,resize,sharedspace,tab,wysiwygarea';
-
-		if ( typeof callback === 'function' )
-			callback( this.mainContainer );
 	};
 
 	/**
@@ -295,64 +288,84 @@ if ( !Object.keys ) {
 		var that = this,
 			status = this.editorInstance.status;
 
+		// Wait for ready only once.
 		if ( this.waitForReady )
 			return;
 
-		// not ready
+		// Not ready.
 		if ( status == 'unloaded' || status == 'loaded' ) {
 			this.waitForReady = true;
 
 			this.editorInstance.once( 'instanceReady', function() {
 				refresh();
 			}, this );
-			// ready or destroyed
+			// Ready or destroyed.
 		} else {
 			refresh();
 		}
 
-		function empty() {}
-
 		function refresh() {
 			that.editorInstance.destroy();
-
-			that.editorInstance = CKEDITOR.replace( that.editorId, that.getActualConfig() );
-
-			// Prevent creating any other space than the top one.
-			that.editorInstance.on( 'uiSpace', function( evt ) {
-				if ( evt.data.space != 'top' ) {
-					evt.stop();
-				}
-			}, null, null, -999 );
-
-			that.editorInstance.once( 'loaded', function() {
-				var btns = that.editorInstance.ui.instances;
-
-				for ( var i in btns ) {
-					btns[ i ].click = empty;
-					btns[ i ].onClick = empty;
-				}
-
-				if ( !that.isEditableVisible ) {
-					that._hideEditable();
-				}
-
-				if ( that.currentActive && that.currentActive.name ) {
-					that._highlightGroup( that.currentActive.name );
-				}
-
-				if ( that.hidden ) {
-					that.hideUI();
-				} else {
-					that.showUI();
-				}
-
-				if ( typeof that.onRefresh === 'function' ) {
-					that.onRefresh();
-				}
-			} );
-
+			that._createEditor( true, that.getActualConfig() );
 			that.waitForReady = false;
 		}
+	};
+
+	/**
+	 * Creates editor that can be used to present the toolbar configuration.
+	 *
+	 * @private
+	 */
+	AbstractToolbarModifier.prototype._createEditor = function( doRefresh, configOverrides ) {
+		var that = this;
+
+		this.editorInstance = CKEDITOR.replace( this.editorId );
+
+		this.editorInstance.on( 'configLoaded', function() {
+			var config = that.editorInstance.config;
+
+			if ( configOverrides ) {
+				CKEDITOR.tools.extend( config, configOverrides, true );
+			}
+
+			AbstractToolbarModifier.extendPluginsConfig( config );
+		} );
+
+		// Prevent creating any other space than the top one.
+		this.editorInstance.on( 'uiSpace', function( evt ) {
+			if ( evt.data.space != 'top' ) {
+				evt.stop();
+			}
+		}, null, null, -999 );
+
+		this.editorInstance.once( 'loaded', function() {
+			var btns = that.editorInstance.ui.instances;
+
+			for ( var i in btns ) {
+				btns[ i ].click = empty;
+				btns[ i ].onClick = empty;
+			}
+
+			if ( !that.isEditableVisible ) {
+				that._hideEditable();
+			}
+
+			if ( that.currentActive && that.currentActive.name ) {
+				that._highlightGroup( that.currentActive.name );
+			}
+
+			if ( that.hidden ) {
+				that.hideUI();
+			} else {
+				that.showUI();
+			}
+
+			if ( doRefresh && ( typeof that.onRefresh === 'function' ) ) {
+				that.onRefresh();
+			}
+		} );
+
+		function empty() {}
 	};
 
 	/**
@@ -532,5 +545,23 @@ if ( !Object.keys ) {
 		if ( this.editorInstance.container ) {
 			this.editorInstance.container.show();
 		}
+	};
+
+
+	/**
+	 * Extends plugins setttings in the specified config with settings useful for
+	 * the toolbar configurator.
+	 *
+	 * @static
+	 */
+	AbstractToolbarModifier.extendPluginsConfig = function( config ) {
+		var extraPlugins = config.extraPlugins,
+			removePlugins = config.removePlugins;
+
+		// Enable the special, lightweight area to replace wysiwygarea.
+		config.extraPlugins = ( extraPlugins ? extraPlugins + ',' : '' ) + 'toolbarconfiguratorarea';
+		// Disable plugins which do not affect toolbar buttons, to make the editor more lightweight.
+		config.removePlugins = ( removePlugins ? removePlugins + ',' : '' ) +
+			'autogrow,dialogadvtab,elementspath,enterkey,floatingspace,htmlwriter,magicline,resize,sharedspace,tab,wysiwygarea';
 	};
 } )();

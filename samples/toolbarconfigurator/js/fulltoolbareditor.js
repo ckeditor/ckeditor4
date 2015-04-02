@@ -30,25 +30,23 @@ window.ToolbarConfigurator = {};
 	 * @param {Function} callback
 	 * @param {Object} cfg
 	 */
-	FullToolbarEditor.prototype.init = function( callback, cfg ) {
+	FullToolbarEditor.prototype.init = function( callback ) {
 		var that = this;
 
 		document.body.appendChild( this.textarea.$ );
 
-		CKEDITOR.replace( this.instanceid, {
-			extraPlugins: cfg.extraPlugins
-		} );
+		CKEDITOR.replace( this.instanceid );
 
 		this.editorInstance = CKEDITOR.instances[ this.instanceid ];
 
 		this.editorInstance.once( 'configLoaded', function( e ) {
 			var cfg = e.editor.config;
 
-			// to be sure that toolbarGroups and removeButtons field is not defined because
-			// we need whole toolbar with all groups, subgroups and buttons
+			// We want all the buttons.
 			delete cfg.removeButtons;
 			delete cfg.toolbarGroups;
 			delete cfg.toolbar;
+			ToolbarConfigurator.AbstractToolbarModifier.extendPluginsConfig( cfg );
 
 			e.editor.once( 'loaded', function() {
 				that.buttons = FullToolbarEditor.toolbarToButtons( that.editorInstance.toolbar );
