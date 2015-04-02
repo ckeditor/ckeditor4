@@ -107,8 +107,10 @@
 							} );
 						}
 
-						// Note: This will work for framed editor only.
-						editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
+						// Method is available only if wysiwygarea exists.
+						if ( editor.addContentsCss ) {
+							editor.addContentsCss( path + 'lib/highlight/styles/' + editor.config.codeSnippet_theme + '.css' );
+						}
 					},
 
 					highlighter: function( code, language, callback ) {

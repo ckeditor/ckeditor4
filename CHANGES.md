@@ -57,6 +57,7 @@ Fixed Issues:
 * [#12256](http://dev.ckeditor.com/ticket/12256): Fixed: Basic styles' classes are lost when pasting from MS Word if [basics styles](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-coreStyles_bold) were configured to use classes.
 * [#12729](http://dev.ckeditor.com/ticket/12729): Incorrect structure created when merging block into list item on *Backspace* and *Delete*.
 * [#13031](http://dev.ckeditor.com/ticket/13031): [Firefox] Fixed: No more line breaks in source view since Firefox 36.
+* [#13131](http://dev.ckeditor.com/ticket/13131): Fixed: The [Code Snippet](http://ckeditor.com/addon/codesnippet) plugin cannot be used without the `wysiwygarea` plugin.
 
 Other Changes:
 
