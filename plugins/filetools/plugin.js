@@ -210,7 +210,7 @@
 	UploadsRepository.prototype = {
 		/**
 		 * Creates a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a unique id.
-		 * The instance can be later retrieved from the repository using the {@link #get} method.
+		 * The instance can be later retrieved from the repository using the {@link #loaders} array.
 		 *
 		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#instanceCreated instanceCreated} event.
 		 *
