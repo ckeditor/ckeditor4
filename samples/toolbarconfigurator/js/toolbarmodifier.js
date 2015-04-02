@@ -29,7 +29,9 @@
 				group: 'edit',
 				position: 'left',
 				clickCallback: function( button ) {
-					button[ button.hasClass( 'fancy-button-active' ) ? 'removeClass' : 'addClass' ]( 'fancy-button-active' );
+					var className = 'button-a-background';
+
+					button[ button.hasClass( className ) ? 'removeClass' : 'addClass' ]( className );
 					this._toggleVisibilityEmptyElements();
 				}
 			},
