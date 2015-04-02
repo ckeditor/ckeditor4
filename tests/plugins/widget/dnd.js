@@ -385,7 +385,7 @@
 				editor.focus();
 
 				bender.tools.resumeAfter( editor, 'afterPaste', function() {
-					assert.areSame( '<p class="x">f<b><span data-widget="testwidget">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
+					assert.areSame( '<p class="x">f<b><span data-widget="testwidget" id="w1">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
 				} );
 
 				// Ensure async.
@@ -448,7 +448,7 @@
 						assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
 						assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
 						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
-						assert.areSame( '<div data-widget="testwidget">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
+						assert.areSame( '<div data-widget="testwidget" id="w1">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
 					} );
 
 					wait();
