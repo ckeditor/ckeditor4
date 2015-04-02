@@ -77,7 +77,7 @@
 
 			for ( editorName in this.editors ) {
 				// Clear uploads repository.
-				this.editors[ editorName ].uploadsRepository._.loaders = [];
+				this.editors[ editorName ].uploadsRepository.loaders = [];
 			}
 
 			if ( CKEDITOR.fileTools.bindNotifications.reset ) {
@@ -93,7 +93,7 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.get( 0 );
+			var loader = editor.uploadsRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatus( 'uploading' );
@@ -123,7 +123,7 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.get( 0 );
+			var loader = editor.uploadsRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatus( 'uploading' );
@@ -155,7 +155,7 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on loading.' );
 
-				var loader = editor.uploadsRepository.get( 0 );
+				var loader = editor.uploadsRepository.loaders[ 0 ];
 
 				loader.data = bender.tools.pngBase64;
 				loader.changeStatus( 'uploading' );

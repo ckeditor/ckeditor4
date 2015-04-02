@@ -204,9 +204,7 @@
 	function UploadsRepository( editor ) {
 		this.editor = editor;
 
-		this._ = {
-			loaders: []
-		};
+		this.loaders = [];
 	}
 
 	UploadsRepository.prototype = {
@@ -221,11 +219,11 @@
 		 * @returns {CKEDITOR.fileTools.fileLoader} The created file loader instance.
 		 */
 		create: function( fileOrData, fileName ) {
-			var id = this._.loaders.length,
+			var id = this.loaders.length,
 				loader = new FileLoader( this.editor, fileOrData, fileName );
 
 			loader.id = id;
-			this._.loaders[ id ] = loader;
+			this.loaders[ id ] = loader;
 
 			this.fire( 'instanceCreated', loader );
 
@@ -233,14 +231,27 @@
 		},
 
 		/**
-		 * Gets a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a given id.
+		 * Returns `true` if all loaders finished their job.
 		 *
-		 * @param {Number} id File loader id.
-		 * @returns {CKEDITOR.fileTools.fileLoader} File loader instance with a given id.
+		 * @returns {Boolean} `true` if all loaders finished their job, `false` otherwise.
 		 */
-		get: function( id ) {
-			return this._.loaders[ id ];
+		isFinished: function() {
+			for ( var id in this.loaders ) {
+				if ( !this.loaders[ id ].isFinished() ) {
+					return false;
+				}
+			}
+
+			return true;
 		}
+
+		/**
+		 * Map of the loaders created by the {@link #create create} method. Loaders {@link CKEDITOR.fileTools.fileLoader#id id}
+		 * is key, {@link CKEDITOR.fileTools.fileLoader loader instance} is a value.
+		 *
+		 * @readonly
+		 * @property {String} loaders
+		 */
 
 		/**
 		 * Event fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} is created.
@@ -661,6 +672,16 @@
 		 */
 		update: function() {
 			this.fire( 'update' );
+		},
+
+		/**
+		 * Returns `true` if the loading and uploading finished (successfully or not), so the {@link #status} is
+		 * `loaded`, `uploaded`, `error` or `abort`.
+		 *
+		 * @returns {Boolean} `true` if the loading and uploading finished.
+		 */
+		isFinished: function() {
+			return this.status == 'loaded' || this.status == 'uploaded' || this.status == 'error' || this.status == 'abort';
 		}
 
 		/**

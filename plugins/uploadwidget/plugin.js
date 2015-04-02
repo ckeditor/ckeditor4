@@ -222,7 +222,7 @@
 			init: function() {
 				var widget = this,
 					id = this.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ),
-					loader = uploads.get( id ),
+					loader = uploads.loaders[ id ],
 					capitalize = CKEDITOR.tools.capitalize,
 					oldStyle, newStyle;
 
