@@ -26,7 +26,7 @@
 	 *
 	 * By default an embed widget is set up to work with [oEmbed providers](http://www.oembed.com/) using JSONP
 	 * requests, such as [Iframely](https://iframely.com/) or [Noembed](https://noembed.com/). It can be,
-	 * however, easily reconfigured to use other providers and means of communication, including custom systems
+	 * however, easily reconfigured to use other providers and communication methods, including custom systems
 	 * or embed local databases.
 	 *
 	 * See example usage of this method in:
