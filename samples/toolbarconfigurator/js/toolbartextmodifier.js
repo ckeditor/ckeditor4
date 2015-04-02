@@ -34,8 +34,6 @@
 
 		this._createModifier( config ? this.actualConfig : undefined );
 
-		this._refreshEditor();
-
 		if ( typeof callback === 'function' )
 			callback( this.mainContainer );
 	};

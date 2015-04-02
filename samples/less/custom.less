@@ -1,0 +1,105 @@
+main .grid-container,
+header .grid-container,
+.navigation-a > div,
+footer > div {
+	max-width: 1044px + 2 * @grid-gutter-width;
+}
+
+main .grid-container.freed-width {
+	max-width: none;
+}
+
+.switch {
+	background: darken( @global-link-font-color, 3% );
+	float: right;
+}
+
+#toolbar .editors-container {
+	overflow: hidden;
+	height: 0;
+	transition: height 200ms;
+
+	&.active {
+		height: auto;
+	}
+}
+
+// Style the inline editor which is enabled when wysiwygarea is not available.
+#main #editor {
+	background: #FFF;
+	padding: @grid-gutter-width / 2 @grid-gutter-width;
+	border: dashed 5px @global-link-font-color;
+}
+
+// There were some inherited styles for links.
+div.cke a.cke_button,
+div.cke .cke_combo_button {
+	border-bottom: none;
+
+	&.cke_combo_button {
+		border-bottom: 1px solid #a6a6a6;
+	}
+}
+
+#main .adjoined-top:before {
+	height: 335px;
+}
+
+#toolbar .adjoined-top {
+	&:before {
+		height: 219px;
+	}
+
+	.grid-container-nested {
+		height: 147px;
+	}
+}
+
+.content {
+	.grid-switch-magic {
+		margin: 3.5em 0 0;
+	}
+}
+
+#info-box {
+	padding-bottom: 0;
+
+	> div {
+		width: 100%;
+		text-align: right;
+
+		.toggler {
+			padding-right: 0;
+
+			&:hover {
+				background: transparent;
+				color: #000;
+
+				> label {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		h2 {
+			float: left;
+			margin-top: 0;
+		}
+
+		&#instructions-container {
+			text-align: left;
+		}
+	}
+}
+
+#toolbarModifierWrapper {
+	overflow: hidden;
+	height: 0;
+	opacity: 0;
+	transition: height 200ms;
+
+	&.active {
+		height: auto;
+		opacity: 1;
+	}
+}

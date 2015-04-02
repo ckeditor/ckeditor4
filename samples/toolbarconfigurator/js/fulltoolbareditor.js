@@ -30,25 +30,23 @@ window.ToolbarConfigurator = {};
 	 * @param {Function} callback
 	 * @param {Object} cfg
 	 */
-	FullToolbarEditor.prototype.init = function( callback, cfg ) {
+	FullToolbarEditor.prototype.init = function( callback ) {
 		var that = this;
 
 		document.body.appendChild( this.textarea.$ );
 
-		CKEDITOR.replace( this.instanceid, {
-			extraPlugins: cfg.extraPlugins
-		} );
+		CKEDITOR.replace( this.instanceid );
 
 		this.editorInstance = CKEDITOR.instances[ this.instanceid ];
 
 		this.editorInstance.once( 'configLoaded', function( e ) {
 			var cfg = e.editor.config;
 
-			// to be sure that toolbarGroups and removeButtons field is not defined because
-			// we need whole toolbar with all groups, subgroups and buttons
+			// We want all the buttons.
 			delete cfg.removeButtons;
 			delete cfg.toolbarGroups;
 			delete cfg.toolbar;
+			ToolbarConfigurator.AbstractToolbarModifier.extendPluginsConfig( cfg );
 
 			e.editor.once( 'loaded', function() {
 				that.buttons = FullToolbarEditor.toolbarToButtons( that.editorInstance.toolbar );
@@ -318,16 +316,21 @@ window.ToolbarConfigurator = {};
 	 * Create and return button element
 	 *
 	 * @param {String} text
-	 * @param {String} cssClass
+	 * @param {String} cssClasses
 	 * @returns {CKEDITOR.dom.element}
 	 */
-	FullToolbarEditor.createButton = function( text, cssClass ) {
+	FullToolbarEditor.createButton = function( text, cssClasses ) {
 		var $button = new CKEDITOR.dom.element( 'button' );
 
-		$button.addClass( 'fancy-button' );
+		$button.addClass( 'button-a' );
 
-		if ( cssClass ) {
-			$button.addClass( cssClass );
+		if ( typeof cssClasses == 'string' ) {
+			cssClasses = cssClasses.split( ' ' );
+
+			var i = cssClasses.length;
+			while ( i-- ) {
+				$button.addClass( cssClasses[ i ] );
+			}
 		}
 
 		$button.setHtml( text );
