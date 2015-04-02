@@ -154,7 +154,7 @@
 			 *												// once the content is successfully loaded.
 			 *			},
 			 *
-			 *			errrorCallback: function( message ) {
+			 *			errorCallback: function( message ) {
 			 *				editor.showNotification( widget.getErrorMessage( message, '', url ), 'warning' );
 			 *			}
 			 *		} );
