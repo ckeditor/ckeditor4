@@ -223,7 +223,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			var newMarginBottom = parseInt( editorContainer.getComputedStyle( 'margin-bottom' ), 10 );
 			newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
 
-			var result = newHeight + newMarginTop + newMarginBottom + 4 /* border and shadow */;
+			var result = newHeight + newMarginTop + newMarginBottom;
 
 			editorContainer.setStyle( 'display', displayStyle );
 

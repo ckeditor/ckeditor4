@@ -22,6 +22,44 @@ if ( typeof Object.create != 'function' ) {
 	} )();
 }
 
+// Copy of the divarea plugin (with some enhancements), so we always have some editable mode, regardless of the build's config.
+CKEDITOR.plugins.add( 'toolbarconfiguratorarea', {
+	// Use afterInit to override wysiwygarea's mode. May still fail to override divarea, but divarea is nice.
+	afterInit: function( editor ) {
+		editor.addMode( 'wysiwyg', function( callback ) {
+			var editingBlock = CKEDITOR.dom.element.createFromHtml( '<div class="cke_wysiwyg_div cke_reset" hidefocus="true"></div>' );
+
+			var contentSpace = editor.ui.space( 'contents' );
+			contentSpace.append( editingBlock );
+
+			editingBlock = editor.editable( editingBlock );
+
+			editingBlock.detach = CKEDITOR.tools.override( editingBlock.detach,
+				function( org ) {
+					return function() {
+						org.apply( this, arguments );
+						this.remove();
+					};
+				} );
+
+			editor.setData( editor.getData( 1 ), callback );
+			editor.fire( 'contentDom' );
+		} );
+
+		// Additions to the divarea.
+
+		// Speed up data processing.
+		editor.dataProcessor.toHtml = function( html ) {
+			return html;
+		};
+		editor.dataProcessor.toDataFormat = function( html ) {
+			return html;
+		};
+
+		// End of the additions.
+	}
+} );
+
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 if ( !Object.keys ) {
 	Object.keys = ( function() {
@@ -166,16 +204,14 @@ if ( !Object.keys ) {
 			return copy;
 		}
 
-		if ( this.actualConfig.removePlugins ) {
-			this.actualConfig.removePlugins = this.actualConfig.removePlugins.split( ',' );
-		} else {
-			this.actualConfig.removePlugins = [];
-		}
+		var extraPlugins = this.actualConfig.extraPlugins,
+			removePlugins = this.actualConfig.removePlugins;
 
-		// this lines prevent from showing bottom toolbar in modified editor
-		this.actualConfig.removePlugins.push( 'elementspath' );
-		this.actualConfig.removePlugins = this.actualConfig.removePlugins.join( ',' );
-		this.actualConfig.resize_enabled = false;
+		// Enable the special, lightweight area to replace wysiwygarea.
+		this.actualConfig.extraPlugins = ( extraPlugins ? extraPlugins + ',' : '' ) + 'toolbarconfiguratorarea';
+		// Disable plugins which do not affect toolbar buttons, to make the editor more lightweight.
+		this.actualConfig.removePlugins = ( removePlugins ? removePlugins + ',' : '' ) +
+			'autogrow,dialogadvtab,elementspath,enterkey,floatingspace,htmlwriter,magicline,resize,sharedspace,tab,wysiwygarea';
 
 		if ( typeof callback === 'function' )
 			callback( this.mainContainer );
@@ -280,6 +316,13 @@ if ( !Object.keys ) {
 			that.editorInstance.destroy();
 
 			that.editorInstance = CKEDITOR.replace( that.editorId, that.getActualConfig() );
+
+			// Prevent creating any other space than the top one.
+			that.editorInstance.on( 'uiSpace', function( evt ) {
+				if ( evt.data.space != 'top' ) {
+					evt.stop();
+				}
+			}, null, null, -999 );
 
 			that.editorInstance.once( 'loaded', function() {
 				var btns = that.editorInstance.ui.instances;
