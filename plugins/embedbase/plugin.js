@@ -78,7 +78,7 @@
 			 *
 			 * See:
 			 *
-			 * * https://iframely.com/docs/providers
+			 * * [https://iframely.com/docs/providers](https://iframely.com/docs/providers)
 			 * * {@link #isUrlValid}
 			 */
 			urlRegExp: /^((https?:)?\/\/|www\.)/i,
