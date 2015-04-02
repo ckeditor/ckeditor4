@@ -216,8 +216,12 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			editorContainer.setStyle( 'display', 'block' );
 
 			var newHeight = editorContainer.getSize( 'height' );
-			var newMarginTop = editorContainer.getSize( 'margin-top' );
-			var newMarginBottom = editorContainer.getSize( 'margin-bottom' );
+
+			var newMarginTop = parseInt( editorContainer.getComputedStyle( 'margin-top' ), 10 );
+			newMarginTop = ( isNaN( newMarginTop ) ? 0 : Number( newMarginTop ) );
+
+			var newMarginBottom = parseInt( editorContainer.getComputedStyle( 'margin-bottom' ), 10 );
+			newMarginBottom = ( isNaN( newMarginBottom ) ? 0 : Number( newMarginBottom ) );
 
 			var result = newHeight + newMarginTop + newMarginBottom + 4 /* border and shadow */;
 
