@@ -5,10 +5,6 @@
 
 1. Drag and drop some image into editable.
 
-**Expected result:** Image should be uploaded.
+**Expected result:** Image should be uploaded and you should see *Lena* **upside down**.
 
-**Unexpected result:** Page shouldn't be reloaded.
-
-**Note:** This test use upload mock which will show you *Lena* instead of the real uploaded image.
-
-**Note:** This test overwrite server response. For more information check [#13030](http://dev.ckeditor.com/ticket/13030).
+**Unexpected result:** After upload no *Lena* is shown.

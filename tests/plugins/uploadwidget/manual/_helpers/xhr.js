@@ -61,7 +61,7 @@ window.XMLHttpRequest = function() {
 							message: ''
 						}
 					};
-					CKEDITOR.tools.extend( responseData, XMLHttpRequest.responseData );
+					CKEDITOR.tools.extend( responseData, XMLHttpRequest.responseData, true );
 
 					clearInterval( interval );
 					xhr.status = 200;
