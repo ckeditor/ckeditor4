@@ -101,9 +101,11 @@ bender.test( {
 		assert.isInnerHtmlMatching( '<p>bar@</p>', editor.editable().getHtml(), 'contents of the editor' );
 	},
 
-	'test extractSelectedHtml returns null if editor is blured': function() {
+	'test extractSelectedHtml should not fail when editor is blurred': function() {
 		bender.editorBot.create( { name: 'nofocus' }, function( bot ) {
-			assert.areSame( null, bot.editor.extractSelectedHtml() );
+			var html = bot.editor.extractSelectedHtml( true );
+
+			assert.isTrue( html == null || html === '', 'returned value should be null if selection does not exist or should be an empty string' );
 		} );
 	}
 } );
